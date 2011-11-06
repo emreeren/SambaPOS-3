@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="Samba.Modules.SettingsModule.SettingsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:Common="clr-namespace:Samba.Presentation.Common;assembly=Samba.Presentation.Common"
+     mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+    <ScrollViewer Common:KineticBehaviour.HandleKineticScrolling="True" VerticalScrollBarVisibility="Auto">
+        <Grid>
+            <StackPanel>
+                <Label>
+                    <LocText ResourceIdentifierKey="TerminalName" Suffix=":"/>
+                </Label>
+                <ComboBox HorizontalAlignment="Left" Width="200" ItemsSource="{Binding TerminalNames}"
+                     Text="{Binding TerminalName}" />
+                <GroupBox HorizontalAlignment="Left" Margin="3">
+                    <GroupBox.Header>
+                        <LocText ResourceIdentifierKey="ProgramLanguage"/>
+                    </GroupBox.Header>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,5">
+                            <Label>
+                                <LocText ResourceIdentifierKey="UiLanguage" Suffix=":"/>
+                            </Label>
+                            <ComboBox HorizontalAlignment="Left" Width="100" SelectedValue="{Binding Language}"
+                     DisplayMemberPath="NativeName" SelectedValuePath="Name" ItemsSource="{Binding SupportedLanguages}" />
+                        </StackPanel>
+                        <CheckBox Margin="0" IsEnabled="{Binding OverrideLanguage}" IsChecked="{Binding OverrideWindowsRegionalSettings}">
+                            <LocText ResourceIdentifierKey="OverrideWindowsRegionalSettings"/>
+                        </CheckBox>
+                    </StackPanel>
+                </GroupBox>
+                <Label>
+                    <LocText ResourceIdentifierKey="DataConnection" Suffix=":"/>
+                </Label>
+                <TextBox HorizontalAlignment="Left" MinWidth="300" Text="{Binding ConnectionString}" />
+                <Label>
+                    <LocText ResourceIdentifierKey="MessageServerName" Suffix=":"/>
+                </Label>
+                <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding MessagingServerName}" />
+                <Label>
+                    <LocText ResourceIdentifierKey="MessageServerPort" Suffix=":"/>
+                </Label>
+                <TextBox HorizontalAlignment="Left" MinWidth="100" Text="{Binding MessagingServerPort}" />
+                <CheckBox Margin="0,5" IsChecked="{Binding StartMessagingClient}" Content="{LocText AutoStartMessageClient}" />
+                <Button HorizontalAlignment="Left" Margin="0,10" Content="{Binding StartMessagingServerCommand.Caption}"
+                     Command="{Binding StartMessagingServerCommand}" />
+                <StackPanel Orientation="Horizontal">
+                    <Button HorizontalAlignment="Left" Margin="0,10,20,10" Width="60" Content="{Binding SaveSettingsCommand.Caption}"
+                     Command="{Binding SaveSettingsCommand}" />
+                    <Button HorizontalAlignment="Left" Margin="2,10" Content="{Binding DisplayCommonAppPathCommand.Caption}"
+                     Command="{Binding DisplayCommonAppPathCommand}" />
+                    <Button HorizontalAlignment="Left" Margin="2,10" Content="{Binding DisplayUserAppPathCommand.Caption}"
+                     Command="{Binding DisplayUserAppPathCommand}" />
+                </StackPanel>
+
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

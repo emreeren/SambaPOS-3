@@ -1,0 +1,102 @@
+﻿<UserControl x:Class="Samba.Presentation.Terminal.TableScreenView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:FxButton="clr-namespace:FlexButton;assembly=FlexButton" mc:Ignorable="d" 
+             d:DesignHeight="320" d:DesignWidth="240">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="{Binding NavigatorHeight,TargetNullValue='50*'}"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <ItemsControl Grid.Row="0" ItemsSource="{Binding Tables}" Visibility="{Binding IsTablesVisible,Converter={StaticResource VisibilityConverter}}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid VerticalAlignment="{Binding TableScreenAlignment}" Columns="{Binding SelectedTableScreen.ColumnCount}"></UniformGrid>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <!--<FxButton:FlexButton 
+                        Command="{Binding DataContext.SelectTableCommand,RelativeSource={RelativeSource AncestorType=ItemsControl,Mode=FindAncestor}}"
+                        CommandParameter ="{Binding Model}"
+                        ButtonColor="{Binding ButtonColor}"
+                        IsEnabled="{Binding IsEnabled}"
+                        Content="{Binding Name}" 
+                        Height="{Binding ButtonHeight}"/>-->
+                    <Button 
+                        Focusable="False"
+                        Command="{Binding DataContext.SelectTableCommand,RelativeSource={RelativeSource AncestorType=ItemsControl,Mode=FindAncestor}}"
+                        CommandParameter ="{Binding Model}"
+                        IsEnabled="{Binding IsEnabled}"
+                        Content="{Binding Name}" 
+                        Height="{Binding ButtonHeight}">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border Margin="1" BorderThickness="1"  Background="{Binding ButtonColor}" BorderBrush="Silver">
+                                    <Viewbox>
+                                        <TextBlock VerticalAlignment="Center"  Margin="2,0"
+                                                       FontWeight="Bold" Text="{Binding Name}" TextAlignment="Center"/>
+                                    </Viewbox>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="Button.IsPressed" Value="True">
+                                        <Setter Property="Margin" Value="2"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>      
+                        </Button.Template>
+                    </Button>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <UniformGrid Grid.Row="1" Columns="2" Rows="1">
+            <FxButton:FlexButton Command="{Binding DecPageNumberCommand}" Content="{Binding DecPageNumberCommand.Caption}"/>
+            <FxButton:FlexButton Command="{Binding IncPageNumberCommand}" Content="{Binding IncPageNumberCommand.Caption}"/>
+        </UniformGrid>
+
+        <Grid Grid.Row="2" Height="{Binding NumeratorHeight}" MaxHeight="250">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20*" Name="AlphaButtonsColumn"/>
+                <ColumnDefinition Width="65*"/>
+            </Grid.ColumnDefinitions>
+            <TextBox IsReadOnly="True" Focusable="True" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" FontWeight="Bold" Text="{Binding NumeratorValue,Mode=TwoWay}" PreviewMouseLeftButtonDown="TextBox_PreviewMouseLeftButtonDown" />
+            <UniformGrid Grid.Column="1" Grid.Row="1" Rows="4" Columns="3">
+                <FxButton:FlexButton Content="1" Command="{Binding TypeValueCommand}" CommandParameter="1" Margin="0,0,2,2" Focusable="False" />
+                <FxButton:FlexButton Content="2" Command="{Binding TypeValueCommand}" CommandParameter="2" Margin="0,0,2,2" Focusable="False" />
+                <FxButton:FlexButton Content="3" Command="{Binding TypeValueCommand}" CommandParameter="3" Margin="0,0,2,2" Focusable="False" />
+                <FxButton:FlexButton Content="4" Command="{Binding TypeValueCommand}" CommandParameter="4" Margin="0,0,2,2" Focusable="False" />
+                <FxButton:FlexButton Content="5" Command="{Binding TypeValueCommand}" CommandParameter="5" Margin="0,0,2,2" Focusable="False" />
+                <FxButton:FlexButton Content="6" Command="{Binding TypeValueCommand}" CommandParameter="6" Margin="0,0,2,2" Focusable="False" />
+                <FxButton:FlexButton Content="7" Command="{Binding TypeValueCommand}" CommandParameter="7" Margin="0,0,2,2" Focusable="False" />
+                <FxButton:FlexButton Content="8" Command="{Binding TypeValueCommand}" CommandParameter="8" Margin="0,0,2,2" Focusable="False" />
+                <FxButton:FlexButton Content="9" Command="{Binding TypeValueCommand}" CommandParameter="9" Margin="0,0,2,2" Focusable="False" />
+                <FxButton:FlexButton Content="C" Command="{Binding TypeValueCommand}" CommandParameter="clear" Margin="0,0,2,2" Focusable="False" ButtonColor="Black"/>
+                <FxButton:FlexButton Content="0" Command="{Binding TypeValueCommand}" CommandParameter="0" Margin="0,0,2,2" Focusable="False" />
+                <FxButton:FlexButton Margin="0,0,2,2" Command="{Binding FindTableCommand}" Focusable="False" ButtonColor="Green">Masa</FxButton:FlexButton>
+            </UniformGrid>
+            <ItemsControl Grid.Row="1" Grid.Column="0" ItemsSource="{Binding AlphaButtonValues}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="1"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <FxButton:FlexButton Focusable="False" Margin="0,0,2,2" Content="{Binding}" CommandParameter="{Binding}"
+                                                   Command="{Binding DataContext.TypeValueCommand,RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}, Mode=FindAncestor}}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+
+
+    </Grid>
+</UserControl>

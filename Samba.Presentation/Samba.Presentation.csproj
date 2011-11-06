@@ -1,0 +1,348 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B58CBF09-52EA-4466-B5D2-2664018E7561}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Samba.Presentation</RootNamespace>
+    <AssemblyName>Samba.Presentation</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <Utf8Output>true</Utf8Output>
+    <ExpressionBlendVersion>4.0.20525.0</ExpressionBlendVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <PublishUrl>ftp://ftp.sambapos.com/public_html/sambaapp/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Background</UpdateMode>
+    <UpdateInterval>2</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>true</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>http://www.sambapos.com/sambaapp/</InstallUrl>
+    <TargetCulture>tr</TargetCulture>
+    <ProductName>Samba Pos</ProductName>
+    <PublisherName>Ozgu Technology</PublisherName>
+    <SuiteName>Samba</SuiteName>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>publish.htm</WebPage>
+    <ApplicationRevision>13</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>apple.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>D6005C72CA1B30E38C740D138C6CE1EAEFBF8EFE</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>Samba.Presentation_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GongSolutions.Wpf.DragDrop">
+      <HintPath>..\Lib\DragDrop\GongSolutions.Wpf.DragDrop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism">
+      <HintPath>..\Lib\Microsoft.Practices.Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism.Interactivity">
+      <HintPath>..\Lib\Microsoft.Practices.Prism.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism.MefExtensions">
+      <HintPath>..\Lib\Microsoft.Practices.Prism.MefExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\Lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MessageClientStatusView.xaml.cs">
+      <DependentUpon>MessageClientStatusView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Shell.xaml.cs">
+      <DependentUpon>Shell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VisibilityConverter.cs" />
+    <Compile Include="WorkPeriodStatusView.xaml.cs">
+      <DependentUpon>WorkPeriodStatusView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\app.manifest" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+    <None Include="Samba.Presentation_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Common.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MessageClientStatusView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\MainExpanderResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WorkPeriodStatusView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lib\DataGridFilterLibrary\DataGridFilterLibrary.csproj">
+      <Project>{512FD53F-9AD1-46A1-A961-9FABDFAD50C5}</Project>
+      <Name>DataGridFilterLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lib\UIControls\UIControls.csproj">
+      <Project>{A3082956-9EE4-4B35-9B4E-B07D0C4C8B56}</Project>
+      <Name>UIControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Localization\Samba.Localization.csproj">
+      <Project>{406B96A6-C886-4149-AD88-A2402EDB2B90}</Project>
+      <Name>Samba.Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.AccountModule\Samba.Modules.AccountModule.csproj">
+      <Project>{EDEF0022-075C-4DEC-853F-6558F9E8438A}</Project>
+      <Name>Samba.Modules.AccountModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.CashModule\Samba.Modules.CashModule.csproj">
+      <Project>{AE519041-8D61-4B85-9770-69743DB051F7}</Project>
+      <Name>Samba.Modules.CashModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.CidMonitor\Samba.Modules.CidMonitor.csproj">
+      <Project>{629A2D7C-9014-4A85-A1E9-26161D5B3043}</Project>
+      <Name>Samba.Modules.CidMonitor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.InventoryModule\Samba.Modules.InventoryModule.csproj">
+      <Project>{E93B6838-9B18-4718-AB7B-2EA5232518C3}</Project>
+      <Name>Samba.Modules.InventoryModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.NavigationModule\Samba.Modules.NavigationModule.csproj">
+      <Project>{9497C48E-B9B5-4869-820E-09ECE4347632}</Project>
+      <Name>Samba.Modules.NavigationModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.UserModule\Samba.Modules.UserModule.csproj">
+      <Project>{1AE61C89-EBFD-498D-9F53-6319B302CDBF}</Project>
+      <Name>Samba.Modules.UserModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">
+      <Project>{2386F6A0-91B2-4D1A-8DBC-92109924AFFE}</Project>
+      <Name>Samba.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Infrastructure.Data\Samba.Infrastructure.Data.csproj">
+      <Project>{2D64F506-D566-4CA5-A19C-BCB5F9A2E7F4}</Project>
+      <Name>Samba.Infrastructure.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Infrastructure\Samba.Infrastructure.csproj">
+      <Project>{B184E8F8-A507-4C3D-B580-184E3776A95C}</Project>
+      <Name>Samba.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.LoginModule\Samba.LoginModule.csproj">
+      <Project>{6A64EA38-3CED-4810-BB79-0EBA0A70B38E}</Project>
+      <Name>Samba.LoginModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.DashboardModule\Samba.Modules.DashboardModule.csproj">
+      <Project>{1544262A-3EC9-413F-9165-7CF69A15B4CF}</Project>
+      <Name>Samba.Modules.DashboardModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.MenuModule\Samba.Modules.MenuModule.csproj">
+      <Project>{8DA03815-ED56-40C5-83CA-6DFBB1F19C4F}</Project>
+      <Name>Samba.Modules.MenuModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.SettingsModule\Samba.Modules.SettingsModule.csproj">
+      <Project>{3B7CF671-E246-4284-9DEB-F7F8CD784ED1}</Project>
+      <Name>Samba.Modules.SettingsModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.TableModule\Samba.Modules.TableModule.csproj">
+      <Project>{8E5E6C3E-91C8-47D7-9ABF-C0F2B95CEB21}</Project>
+      <Name>Samba.Modules.TableModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.TicketModule\Samba.Modules.TicketModule.csproj">
+      <Project>{9E6FF3D9-BAE7-4E48-B144-0859BE28C570}</Project>
+      <Name>Samba.Modules.TicketModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Persistance.DBMigration\Samba.Persistance.DBMigration.csproj">
+      <Project>{3AED3A4C-F3D7-4D29-BF58-85743E4F7AFD}</Project>
+      <Name>Samba.Persistance.DBMigration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Presentation.Common\Samba.Presentation.Common.csproj">
+      <Project>{FE1A894E-D55E-4CEA-980A-1C678A2453FC}</Project>
+      <Name>Samba.Presentation.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Presentation.ViewModels\Samba.Presentation.ViewModels.csproj">
+      <Project>{04ED7BE0-8768-4A8D-B1ED-C92CB60789EF}</Project>
+      <Name>Samba.Presentation.ViewModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Services\Samba.Services.csproj">
+      <Project>{413B698C-0D7D-4FCD-9F16-AF51AED4E647}</Project>
+      <Name>Samba.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.BasicReports\Samba.Modules.BasicReports.csproj">
+      <Project>{4F2C080C-FF9C-4604-8DAF-C5732BC17A05}</Project>
+      <Name>Samba.Modules.BasicReports</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\apple-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="apple.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\empty.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Imports\menu.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Imports\table.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="migrate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>IF NOT "$(ConfigurationName)"=="Release" GOTO End
+
+copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)SambaSetup\src"
+copy "$(TargetDir)$(TargetFileName).manifest" "$(SolutionDir)SambaSetup\src"
+copy "$(TargetDir)$(TargetFileName).config" "$(SolutionDir)SambaSetup\src"
+copy "$(TargetDir)Microsoft.Practices.Prism.Interactivity.dll" "$(SolutionDir)SambaSetup\src"
+copy "$(TargetDir)Microsoft.Practices.Prism.MefExtensions.dll" "$(SolutionDir)SambaSetup\src"
+
+:End</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

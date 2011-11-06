@@ -1,0 +1,21 @@
+﻿<Window x:Class="Samba.Presentation.Common.Interaction.ListSorterForm" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
+     Title="ListSorterForm" Height="325" Width="300" WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen"
+     Closing="Window_Closing">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Name="DescriptionLabel" TextWrapping="Wrap" Margin="3" />
+        <ListBox Grid.Row="1" Margin="5" Name="MainListBox" dd:DragDrop.IsDragSource="True"
+             dd:DragDrop.IsDropTarget="True" DisplayMemberPath="Name" />
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+            <Button Content="{LocText OK}" MinWidth="70"
+                 Margin="3" Click="ButtonClick1" />
+            <Button Content="{LocText Cancel}" MinWidth="70"
+                 Margin="3" Click="ButtonClick" />
+        </StackPanel>
+    </Grid>
+</Window>

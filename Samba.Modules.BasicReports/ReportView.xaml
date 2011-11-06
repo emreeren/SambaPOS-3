@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="Samba.Modules.BasicReports.ReportView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" d:DesignHeight="300"
+     d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0" Grid.Column="0" IsEnabled="{Binding CanUserChangeDates}">
+            <ItemsControl ItemsSource="{Binding FilterGroups}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <ComboBox FontSize="16" Margin="3" ItemsSource="{Binding Values}" SelectedItem="{Binding SelectedValue,Mode=TwoWay}">
+                        </ComboBox>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" IsEnabled="{Binding CanUserChangeDates}">
+            <TextBox Margin="3" FontSize="16" MinWidth="60" Text="{Binding StartDateString,Mode=TwoWay,UpdateSourceTrigger=LostFocus}" />
+            <TextBox Margin="3" FontSize="16" MinWidth="60" Text="{Binding EndDateString,Mode=TwoWay,UpdateSourceTrigger=LostFocus}" />
+        </StackPanel>
+        <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
+            <Button Margin="3" FontSize="16" MinWidth="60" Content="{LocText Refresh}"
+                 Command="{Binding RefreshFiltersCommand}" />
+            <Button Margin="3" FontSize="16" MinWidth="60" Command="{Binding PrintDocumentCommand}"
+                 Content="{LocText Print}" />
+            <Button Margin="3" FontSize="16" MinWidth="60" Command="{Binding SaveDocumentCommand}"
+                 Content="{Binding SaveDocumentCommand.Caption}" />
+        </StackPanel>
+        <FlowDocumentScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Document="{Binding Document}"/>
+        
+    </Grid>
+</UserControl>

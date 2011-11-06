@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="Samba.Presentation.Terminal.LoggedInUserView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:FlexButton="clr-namespace:FlexButton;assembly=FlexButton" mc:Ignorable="d" 
+             d:DesignHeight="30" d:DesignWidth="300">
+    <Grid Background="{StaticResource {x:Static SystemColors.ControlLightBrushKey}}" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock TextTrimming="CharacterEllipsis" VerticalAlignment="Center" Margin="3,0" FontWeight="Bold" FontSize="12" Text="{Binding LoggedInUserName}"/>
+        <FlexButton:FlexButton ButtonColor="Red" Command="{Binding CloseScreenCommand}" Grid.Column="1" Content=" X " Width="50" Height="25"/>
+    </Grid>
+</UserControl>

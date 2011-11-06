@@ -1,0 +1,56 @@
+﻿#Çorbalar
+Şırdan Tuzlama 8
+İşkembe 6.50
+İşkembe Tuzlama 8
+Ayak Paça 8
+Kelle Paça 9
+#Specialler
+Mumbar Dolma 9
+İşkembe Güveç 9
+Tereyağında Tuzlama 7
+Kuzu Kelle 8
+Beyin Tava 8
+#Döner
+Ankara Döneri 8
+Dürüm Döner 8
+İskender 9
+Kapalı Döner 9
+#Pideler
+Kıymalı Pide 6
+Kuşbaşılı Pide 7
+Kaşarlı Pide 7
+Karışık Pide 8
+Sucuklu Pide 8
+Lahmacun 3
+#Et Yemekleri
+Tas Kebap 10
+Püreli Kebap 10
+Beğendili Kebap 10
+Dana Rosto 10
+Orman Kebabı 10
+Çiftlik Kebabı 10
+#Kebaplar
+İnegöl Köfte 7
+Kaşarlı Köfte 8
+Adana Kebap 7.50
+Beyti Kebap 9
+Patlıcan Kebap 10
+Domatesli Kebap 8
+#Salatalar
+Mevsim Salata 4
+Çoban Salata 4
+Beyin Salata 7
+Cacık 4
+#Tatlılar
+Kaymaklı Ekmek Kadayıfı 5
+Sütlü Kadayıf 4
+Şekerpare 4
+Fırında Sütlaç 4
+#İçecekler
+Kola 2
+Fanta 2
+Meyve Suyu 2
+Ayran 1.50
+Soda 1
+Su 1
+Çay 0.50

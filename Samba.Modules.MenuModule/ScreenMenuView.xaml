@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="Samba.Modules.MenuModule.ScreenMenuView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:Common="clr-namespace:Samba.Presentation.Common;assembly=Samba.Presentation.Common"
+     mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+    <ScrollViewer Common:KineticBehaviour.HandleKineticScrolling="True" VerticalScrollBarVisibility="Auto">
+        <Grid>
+            <StackPanel>
+                <Label HorizontalAlignment="Left" Content="{LocText MenuName,Suffix=':'}" />
+                <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
+                <StackPanel Orientation="Horizontal">
+                    <DataGrid ItemsSource="{Binding Categories}" SelectedItem="{Binding Path=SelectedCategory, Mode=TwoWay}"
+                         HorizontalAlignment="Left" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,10"
+                         AutoGenerateColumns="False" CanUserSortColumns="False" SelectionMode="Single" CanUserResizeRows="False"
+                         CanUserReorderColumns="False" IsReadOnly="True" MouseDoubleClick="DataGrid_MouseDoubleClick"
+                         Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="{LocText MenuCategories}"
+                                 MinWidth="100" Binding="{Binding CategoryListDisplay}" />
+                        </DataGrid.Columns>
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="{Binding AddCategoryCommand.Caption}" Command="{Binding AddCategoryCommand}" />
+                                <MenuItem Header="{Binding EditCategoryCommand.Caption}" Command="{Binding EditCategoryCommand}" />
+                                <MenuItem Header="{Binding DeleteCategoryCommand.Caption}" Command="{Binding DeleteCategoryCommand}" />
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                    </DataGrid>
+                    <StackPanel Margin="10">
+                        <TextBlock Margin="2,3">
+                            <Hyperlink Command="{Binding AddCategoryCommand}">
+                                <TextBlock Text="{Binding Path=AddCategoryCommand.Caption}" />
+                            </Hyperlink>
+                        </TextBlock>
+                        <TextBlock Margin="2,3">
+                            <Hyperlink Command="{Binding EditCategoryCommand}">
+                                <TextBlock Text="{Binding Path=EditCategoryCommand.Caption}" />
+                            </Hyperlink>
+                        </TextBlock>
+                        <TextBlock Margin="2,3">
+                            <Hyperlink Command="{Binding EditAllCategoriesCommand}">
+                                <TextBlock Text="{Binding Path=EditAllCategoriesCommand.Caption}" />
+                            </Hyperlink>
+                        </TextBlock>
+                        <TextBlock Margin="2,3">
+                            <Hyperlink Command="{Binding DeleteCategoryCommand}">
+                                <TextBlock Text="{Binding Path=DeleteCategoryCommand.Caption}" />
+                            </Hyperlink>
+                        </TextBlock>
+                        <TextBlock Margin="2,3">
+                            <Hyperlink Command="{Binding EditCategoryItemsCommand}">
+                                <TextBlock Text="{Binding Path=EditCategoryItemsCommand.Caption}" />
+                            </Hyperlink>
+                        </TextBlock>
+                        <TextBlock Margin="2,3">
+                            <Hyperlink Command="{Binding SortCategoryItemsCommand}">
+                                <TextBlock Text="{Binding Path=SortCategoryItemsCommand.Caption}" />
+                            </Hyperlink>
+                        </TextBlock>
+                        <TextBlock Margin="2,3">
+                            <Hyperlink Command="{Binding SortCategoriesCommand}">
+                                <TextBlock Text="{Binding Path=SortCategoriesCommand.Caption}" />
+                            </Hyperlink>
+                        </TextBlock>
+                        <TextBlock Margin="2,3">
+                            <Hyperlink Command="{Binding EditCategoryItemPropertiesCommand}">
+                                <TextBlock Text="{Binding Path=EditCategoryItemPropertiesCommand.Caption}" />
+                            </Hyperlink>
+                        </TextBlock>
+                    </StackPanel>
+                </StackPanel>
+                <Button HorizontalAlignment="Left" Margin="0,10,3,0" MinWidth="70" Content="{Binding SaveCommand.Caption}"
+                     Command="{Binding SaveCommand}" />
+                <Label Content="{Binding Error}" Foreground="Red" />
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

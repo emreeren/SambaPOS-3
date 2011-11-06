@@ -1,0 +1,365 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FE1A894E-D55E-4CEA-980A-1C678A2453FC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Samba.Presentation.Common</RootNamespace>
+    <AssemblyName>Samba.Presentation.Common</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <CodeContractsAssemblyMode>0</CodeContractsAssemblyMode>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeContractsEnableRuntimeChecking>False</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>True</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>True</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
+    <CodeContractsContainerAnalysis>False</CodeContractsContainerAnalysis>
+    <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>False</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>False</CodeContractsCacheAnalysisResults>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FluentValidation">
+      <HintPath>..\Lib\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="GongSolutions.Wpf.DragDrop">
+      <HintPath>..\Lib\DragDrop\GongSolutions.Wpf.DragDrop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism">
+      <HintPath>..\Lib\Microsoft.Practices.Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\Lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity">
+      <HintPath>..\Lib\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Behaviors\DialogActivationBehavior.cs" />
+    <Compile Include="Behaviors\IWindow.cs" />
+    <Compile Include="Behaviors\RegionPopupBehaviors.cs" />
+    <Compile Include="Behaviors\WindowDialogActivationBehavior.cs" />
+    <Compile Include="Behaviors\WindowWrapper.Desktop.cs" />
+    <Compile Include="Browser\BrowserControl.xaml.cs">
+      <DependentUpon>BrowserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Browser\BrowserExtendedNavigatingEventArgs.cs" />
+    <Compile Include="Browser\ExtendedWebBrowser.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Browser\NativeMethods.cs" />
+    <Compile Include="Browser\UnsafeNativeMethods.cs" />
+    <Compile Include="Browser\UrlContext.cs" />
+    <Compile Include="Browser\Win32API.cs" />
+    <Compile Include="Browser\WinInetAPI.cs" />
+    <Compile Include="CaptionCommand.cs" />
+    <Compile Include="CategoryCommand.cs" />
+    <Compile Include="CommandCategory.cs" />
+    <Compile Include="CommonEventPublisher.cs" />
+    <Compile Include="DataContextGrid.cs" />
+    <Compile Include="DiagramCanvas.cs" />
+    <Compile Include="DialogCloser.cs" />
+    <Compile Include="ErrorReport\ErrorReportView.xaml.cs">
+      <DependentUpon>ErrorReportView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ErrorReport\ErrorReportViewModel.cs" />
+    <Compile Include="ErrorReport\ExceptionReporter.cs" />
+    <Compile Include="EventServiceFactory.cs" />
+    <Compile Include="EventTopicNames.cs" />
+    <Compile Include="ExtensionServices.cs" />
+    <Compile Include="FilteredTextBox.cs" />
+    <Compile Include="GenericEvent.cs" />
+    <Compile Include="Helpers.cs" />
+    <Compile Include="IDiagram.cs" />
+    <Compile Include="IModuleInitializationService.cs" />
+    <Compile Include="Interaction\GridEditorForm.xaml.cs">
+      <DependentUpon>GridEditorForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Services\InteractionService.cs" />
+    <Compile Include="ICaptionCommand.cs" />
+    <Compile Include="ICategoryCommand.cs" />
+    <Compile Include="Interaction\FeedbackWindow.xaml.cs">
+      <DependentUpon>FeedbackWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interaction\KeyboardWindow.xaml.cs">
+      <DependentUpon>KeyboardWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interaction\ListSorterForm.xaml.cs">
+      <DependentUpon>ListSorterForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interaction\PopupWindow.xaml.cs">
+      <DependentUpon>PopupWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interaction\PropertyEditorForm.xaml.cs">
+      <DependentUpon>PropertyEditorForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interaction\SplashScreenForm.xaml.cs">
+      <DependentUpon>SplashScreenForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interaction\StringGetterForm.xaml.cs">
+      <DependentUpon>StringGetterForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interaction\UserInteraction.cs" />
+    <Compile Include="Interaction\ValueChooserForm.xaml.cs">
+      <DependentUpon>ValueChooserForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="IUserInteraction.cs" />
+    <Compile Include="KineticBehaviour.cs" />
+    <Compile Include="ListViewEx\BackgroundConverter.cs" />
+    <Compile Include="ListViewEx\ListViewCustomComparer.cs" />
+    <Compile Include="ListViewEx\ListViewSorter.cs" />
+    <Compile Include="ListViewLM\ConverterGridViewColumn.cs" />
+    <Compile Include="ListViewLM\FixedColumn.cs" />
+    <Compile Include="ListViewLM\ImageGridViewColumn.cs" />
+    <Compile Include="ListViewLM\LayoutColumn.cs" />
+    <Compile Include="ListViewLM\ListViewLayoutManager.cs" />
+    <Compile Include="ListViewLM\ProportionalColumn.cs" />
+    <Compile Include="ListViewLM\RangeColumn.cs" />
+    <Compile Include="MaskedTextBox.cs" />
+    <Compile Include="MessageListener.cs" />
+    <Compile Include="MessageProcessor.cs" />
+    <Compile Include="ModelBase\AbstractEntityCollectionViewModelBase.cs" />
+    <Compile Include="ModelBase\EntityCollectionBaseView.xaml.cs">
+      <DependentUpon>EntityCollectionBaseView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ModelBase\EntityCollectionViewModelBase.cs" />
+    <Compile Include="ModelBase\EntityViewModelBase.cs" />
+    <Compile Include="ModelBase\ICountable.cs" />
+    <Compile Include="ModelBase\ModelListViewModelBase.cs" />
+    <Compile Include="ModelBase\ViewModelBase.cs" />
+    <Compile Include="ModelBase\VisibleViewModelBase.cs" />
+    <Compile Include="ModuleBase.cs" />
+    <Compile Include="NativeWin32.cs" />
+    <Compile Include="ObservableObject.cs" />
+    <Compile Include="Services\PresentationServices.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="RegionNames.cs" />
+    <Compile Include="RuleExecutor.cs" />
+    <Compile Include="TextBoxInputMaskBehavior.cs" />
+    <Compile Include="Services\TriggerService.cs" />
+    <Compile Include="VirtualKeyboard\KeyboardView2.xaml.cs">
+      <DependentUpon>KeyboardView2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VirtualKeyboard\VKey.cs" />
+    <Compile Include="VirtualKeyboard\VKeyboard.cs" />
+    <Compile Include="VirtualKeyboard\KeyboardView.xaml.cs">
+      <DependentUpon>KeyboardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VirtualKeyboard\KeyboardViewModel.cs" />
+    <Compile Include="VisibleModuleBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lib\DataGridFilterLibrary\DataGridFilterLibrary.csproj">
+      <Project>{512FD53F-9AD1-46A1-A961-9FABDFAD50C5}</Project>
+      <Name>DataGridFilterLibrary</Name>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Lib\FlexButton\FlexButton.csproj">
+      <Project>{434D497A-D439-44C8-84A5-5301B572708F}</Project>
+      <Name>FlexButton</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lib\PropertyTools.Wpf\PropertyTools.Wpf.csproj">
+      <Project>{7168F82F-288A-42C4-9EB1-FBBE5112F211}</Project>
+      <Name>PropertyTools.Wpf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lib\UIControls\UIControls.csproj">
+      <Project>{A3082956-9EE4-4B35-9B4E-B07D0C4C8B56}</Project>
+      <Name>UIControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">
+      <Project>{2386F6A0-91B2-4D1A-8DBC-92109924AFFE}</Project>
+      <Name>Samba.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Infrastructure.Data\Samba.Infrastructure.Data.csproj">
+      <Project>{2D64F506-D566-4CA5-A19C-BCB5F9A2E7F4}</Project>
+      <Name>Samba.Infrastructure.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Infrastructure.ExceptionReporter\Samba.Infrastructure.ExceptionReporter.csproj">
+      <Project>{A3CCA406-C125-4261-8B6B-FD3DAF423050}</Project>
+      <Name>Samba.Infrastructure.ExceptionReporter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Infrastructure\Samba.Infrastructure.csproj">
+      <Project>{B184E8F8-A507-4C3D-B580-184E3776A95C}</Project>
+      <Name>Samba.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Localization\Samba.Localization.csproj">
+      <Project>{406B96A6-C886-4149-AD88-A2402EDB2B90}</Project>
+      <Name>Samba.Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Persistance.Data\Samba.Persistance.Data.csproj">
+      <Project>{FEDA2199-91CD-4AF1-B571-4AA2E8371A18}</Project>
+      <Name>Samba.Persistance.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Services\Samba.Services.csproj">
+      <Project>{413B698C-0D7D-4FCD-9F16-AF51AED4E647}</Project>
+      <Name>Samba.Services</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Browser\BrowserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ErrorReport\ErrorReportView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interaction\GridEditorForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interaction\PopupWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interaction\SplashScreenForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interaction\ValueChooserForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interaction\StringGetterForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interaction\PropertyEditorForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interaction\ListSorterForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interaction\FeedbackWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interaction\KeyboardWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ModelBase\EntityCollectionBaseView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="VirtualKeyboard\KeyboardView2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="VirtualKeyboard\KeyboardView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Browser\Images\103.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Browser\Images\104.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Browser\Images\105.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Browser\Images\106.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Interaction\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ErrorReport\Images\warning.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>IF NOT "$(ConfigurationName)"=="Release" GOTO End
+
+copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)SambaSetup\src"
+copy "$(TargetDir)Microsoft.Practices.Prism.dll" "$(SolutionDir)SambaSetup\src"
+copy "$(TargetDir)Microsoft.Practices.ServiceLocation.dll" "$(SolutionDir)SambaSetup\src"
+copy "$(TargetDir)FlexButton.dll" "$(SolutionDir)SambaSetup\src"
+copy "$(TargetDir)PropertyTools.Wpf.dll" "$(SolutionDir)SambaSetup\src"
+copy "$(TargetDir)UIControls.dll" "$(SolutionDir)SambaSetup\src"
+copy "$(TargetDir)GongSolutions.Wpf.DragDrop.dll" "$(SolutionDir)SambaSetup\src"
+copy "$(TargetDir)DataGridFilterLibrary.dll" "$(SolutionDir)SambaSetup\src"
+copy "$(TargetDir)System.Windows.Interactivity.dll" "$(SolutionDir)SambaSetup\src"
+copy "$(TargetDir)FluentValidation.dll" "$(SolutionDir)SambaSetup\src"
+
+:End</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

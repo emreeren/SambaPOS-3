@@ -1,0 +1,205 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:Samba.Modules.DashboardModule" xmlns:Common="clr-namespace:Samba.Presentation.Common;assembly=Samba.Presentation.Common" xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="Samba.Modules.DashboardModule.g__projeler_restoran_samba_modules_dashboardmodule_resources_xaml">
+
+    <DataTemplate x:Key="ClosableTabItemTemplate">
+        <DockPanel Width="150" >
+            <Button 
+                Command="{Binding Path=CloseCommand}"
+                Content="X"
+                Cursor="Hand"
+                DockPanel.Dock="Right"
+                FontFamily="Courier" 
+                FontSize="9"
+                FontWeight="Bold"  
+                Margin="0,1,0,0"
+                Padding="0"
+                VerticalContentAlignment="Bottom"
+                Width="16" Height="16" 
+                />
+            <ContentPresenter 
+                Content="{Binding Path=HeaderInfo}"
+                ToolTip="{Binding}"
+                Focusable="False"
+                VerticalAlignment="Center" 
+                />
+        </DockPanel>
+    </DataTemplate>
+
+    <local:ViewSelector x:Key="ViewSelector" />
+
+    <DataTemplate x:Key="ViewsTemplate">
+        <local:TabControlEx 
+            IsSynchronizedWithCurrentItem="True" 
+            ItemsSource="{Binding}" 
+            Margin="3"
+            ContentTemplateSelector="{StaticResource ViewSelector}"
+            ItemTemplate="{StaticResource ClosableTabItemTemplate}">
+            <TabControl.Template>
+                <ControlTemplate TargetType="TabControl">
+                    <Grid KeyboardNavigation.TabNavigation="Local">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TabPanel 
+                            Grid.Row="0"
+                            Panel.ZIndex="1" 
+                            Margin="0,0,4,0" 
+                            IsItemsHost="True"
+                            KeyboardNavigation.TabIndex="1"
+                            Background="Transparent" />
+                        <Border 
+                            Padding="6"
+                            Margin="-2 0 0 0"
+                            Grid.Row="1" 
+                            BorderBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+                            BorderThickness="1" 
+                            SnapsToDevicePixels="True"
+                            KeyboardNavigation.TabNavigation="Local"
+                            KeyboardNavigation.DirectionalNavigation="Contained"
+                            KeyboardNavigation.TabIndex="2">
+                            <!--<ScrollViewer VerticalScrollBarVisibility="Auto">-->
+                            <Grid x:Name="PART_ItemsHolder" VerticalAlignment="Stretch"/>
+                            <!--</ScrollViewer>-->
+                        </Border>
+                    </Grid>
+                    <!-- no content presenter -->
+                </ControlTemplate>
+            </TabControl.Template>
+        </local:TabControlEx>
+    </DataTemplate>
+
+    <DataTemplate x:Key="CommandsTemplate">
+        <DataTemplate.Resources>
+            <ControlTemplate x:Key="OutlookTab" TargetType="{x:Type TabControl}">
+                <ControlTemplate.Resources>
+                    <!-- To change the colour scheme of the Outlook Bar, change the colors of these brushes -->
+                    <SolidColorBrush x:Key="LabelHighlightBrush" Color= "#FFFFFF" />
+                    <SolidColorBrush x:Key="CaptionBrush" Color= "#15428B" />
+                    <SolidColorBrush x:Key="BorderBrush" Color="#6593CF" />
+                    <LinearGradientBrush x:Key="LabelBrush" StartPoint="0, 0" EndPoint="0,1">
+                        <GradientStop Color="#E3EFFF" Offset="0" />
+                        <GradientStop Color="#AFD2FF" Offset="1" />
+                    </LinearGradientBrush>
+                    <LinearGradientBrush x:Key="ButtonNormalBrush" StartPoint="0, 0" EndPoint="0,1">
+                        <GradientStop Color="#E3EFFF" Offset="0" />
+                        <GradientStop Color="#C4DDFF" Offset="0.40625" />
+                        <GradientStop Color="#ADD1FF" Offset="0.40625" />
+                        <GradientStop Color="#C0DBFF" Offset="1" />
+                    </LinearGradientBrush>
+                    <LinearGradientBrush x:Key="ButtonSelectedBrush" StartPoint="0, 0" EndPoint="0,1">
+                        <GradientStop Color="#FFD9AA" Offset="0" />
+                        <GradientStop Color="#FFBB6E" Offset="0.40625" />
+                        <GradientStop Color="#FFAB3F" Offset="0.40625" />
+                        <GradientStop Color="#FEE17A" Offset="1" />
+                    </LinearGradientBrush>
+                    <LinearGradientBrush x:Key="ButtonPressedBrush" StartPoint="0, 0" EndPoint="0,1">
+                        <GradientStop Color="#FFBD69" Offset="0" />
+                        <GradientStop Color="#FFAC42" Offset="0.40625" />
+                        <GradientStop Color="#FB8C3C" Offset="0.40625" />
+                        <GradientStop Color="#FED364" Offset="1" />
+                    </LinearGradientBrush>
+                    <LinearGradientBrush x:Key="ButtonHoverBrush" StartPoint="0, 0" EndPoint="0,1">
+                        <GradientStop Color="#FFFEE4" Offset="0" />
+                        <GradientStop Color="#FFE8A7" Offset="0.40625" />
+                        <GradientStop Color="#FFD767" Offset="0.40625" />
+                        <GradientStop Color="#FFE69E" Offset="1" />
+                    </LinearGradientBrush>
+                    <!-- This style sets the default template for a TabItem -->
+                    <Style TargetType="{x:Type TabItem}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type TabItem}">
+                                    <!-- These triggers control the background and text colour of the Outlook bar buttons when the are selected and/or hovered over -->
+                                    <ControlTemplate.Triggers>
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsSelected" Value="False" />
+                                                <Condition Property="IsMouseOver" Value="False" />
+                                            </MultiTrigger.Conditions>
+                                            <MultiTrigger.Setters>
+                                                <Setter Property="Background" Value="{StaticResource ButtonNormalBrush}" />
+                                            </MultiTrigger.Setters>
+                                        </MultiTrigger>
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsSelected" Value="False" />
+                                                <Condition Property="IsMouseOver" Value="True" />
+                                            </MultiTrigger.Conditions>
+                                            <MultiTrigger.Setters>
+                                                <Setter Property="Background" Value="{StaticResource ButtonHoverBrush}" />
+                                            </MultiTrigger.Setters>
+                                        </MultiTrigger>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="TextElement.Foreground" Value="Black" />
+                                            <Setter Property="Background" Value="{StaticResource ButtonSelectedBrush}" />
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="False">
+                                            <Setter Property="TextElement.Foreground" Value="{StaticResource CaptionBrush}" />
+                                        </Trigger>
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsSelected" Value="True" />
+                                                <Condition Property="IsMouseOver" Value="True" />
+                                            </MultiTrigger.Conditions>
+                                            <MultiTrigger.Setters>
+                                                <Setter Property="Background" Value="{StaticResource ButtonPressedBrush}" />
+                                            </MultiTrigger.Setters>
+                                        </MultiTrigger>
+                                    </ControlTemplate.Triggers>
+                                    <!-- This defines the look of the individual TabItems -->
+                                    <Grid Background="{TemplateBinding Background}" MinHeight="32" SnapsToDevicePixels="True">
+                                        <Line Stroke="{StaticResource BorderBrush}" VerticalAlignment="Top" Stretch="Fill" X2="1" SnapsToDevicePixels="True" />
+                                        <ContentPresenter Margin="5,0,5,0" TextBlock.FontFamily="Tahoma" TextBlock.FontSize="8pt" TextBlock.FontWeight="Bold" TextBlock.Foreground="{StaticResource CaptionBrush}" Content="{Binding Category}" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ControlTemplate.Resources>
+                <!-- This is the template for the TabControl itself -->
+                <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" SnapsToDevicePixels="True" >
+                    <DockPanel>
+                        <!-- This is the host panel that contains the tab items -->
+                        <StackPanel DockPanel.Dock="Bottom" IsItemsHost="True" />
+                        <!-- This is the label that appears at the top of the TabControl -->
+                        <Grid DockPanel.Dock="Top" MinHeight="28" Background="{StaticResource ButtonNormalBrush}"  SnapsToDevicePixels="True">
+                            <TextBlock FontFamily="Tahoma" 
+                                Foreground="{StaticResource CaptionBrush}" VerticalAlignment="Center" 
+                                Margin="5,0" FontSize="18" FontWeight="Bold"
+                                Text="{Binding SelectedValue.Category, 
+                                RelativeSource={RelativeSource AncestorType=TabControl,Mode=FindAncestor}}"></TextBlock>
+                            <Line Stroke="{StaticResource BorderBrush}" VerticalAlignment="Bottom" X2="1" Stretch="Fill"/>
+                        </Grid>
+                        <!-- This is the selected content pane that appears in the Outlook Bar -->
+                        <ContentPresenter Content="{TemplateBinding SelectedContent}">
+                            <ContentPresenter.ContentTemplate>
+                                <DataTemplate>
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                        <ItemsControl ItemsSource="{Binding Commands}" BorderThickness="0">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Margin="2,6" FontSize="14">
+                                                    <Hyperlink Command="{Binding}">
+                                                        <TextBlock Text="{Binding Path=Caption}" />
+                                                    </Hyperlink>
+                                                </TextBlock>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </ScrollViewer>
+                                </DataTemplate>
+                            </ContentPresenter.ContentTemplate>
+                        </ContentPresenter>
+                    </DockPanel>
+                </Border>
+            </ControlTemplate>
+        </DataTemplate.Resources>
+
+        <TabControl Margin="0,1,4,4" MinWidth="150" ItemsSource="{Binding}" DisplayMemberPath="Category" Template="{StaticResource ResourceKey=OutlookTab}">
+
+        </TabControl>
+
+    </DataTemplate>
+
+</ResourceDictionary>

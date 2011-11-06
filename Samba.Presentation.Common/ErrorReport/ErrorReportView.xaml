@@ -1,0 +1,63 @@
+﻿<Window x:Class="Samba.Presentation.Common.ErrorReport.ErrorReportView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:Common="clr-namespace:Samba.Presentation.Common"
+     mc:Ignorable="d" Title="{LocText SambaPOSReporter}"
+     Common:DialogCloser.DialogResult="{Binding DialogResult}" WindowStartupLocation="CenterScreen"
+     WindowStyle="SingleBorderWindow" Height="300" Width="400" ShowInTaskbar="False">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <TabControl Grid.Row="0" Margin="5">
+            <TabItem Header="{LocText ErrorMessage}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Image Margin="0,5,10,0" Source="Images/warning.png">
+                    </Image>
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding ErrorMessage}" Margin="5" FontWeight="Bold"
+                         FontSize="16" TextWrapping="Wrap" />
+                    <Border Grid.Row="1" Grid.ColumnSpan="2" Margin="0,5,0,0" BorderThickness="0,1,0,0"
+                         BorderBrush="Silver">
+                        <TextBlock Text="{LocText PleaseEnterABriefExplanationOf,Suffix=':'}"
+                             Margin="5,1" FontSize="14" TextWrapping="Wrap" />
+                    </Border>
+                    <TextBox Text="{Binding UserMessage}" Grid.Row="2" Grid.ColumnSpan="2" Margin="5"
+                         FontSize="14" AcceptsReturn="True" AcceptsTab="True" Background="{StaticResource {x:Static SystemColors.InfoBrushKey}}">
+                    </TextBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="{LocText DetailedReport}">
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0">
+                        <TextBlock Text="{Binding ErrorMessage}" Margin="5" FontWeight="Bold" TextWrapping="Wrap" />
+                    </StackPanel>
+                    <TextBox FontFamily="Lucida Console" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Row="1" Text="{Binding ErrorReportAsText}"
+                         IsReadOnly="True" AcceptsReturn="True">
+                    </TextBox>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" MinHeight="30"
+             Margin="0,0,3,5">
+            <Button Margin="2" MinWidth="70" Command="{Binding CopyCommand}" Content="{Binding CopyCommand.Caption}" />
+            <Button Margin="2" MinWidth="70" Command="{Binding SaveCommand}" Content="{Binding SaveCommand.Caption}" />
+            <Button Margin="2" MinWidth="70" Command="{Binding SubmitCommand}" Content="{Binding SubmitCommand.Caption}" />
+            <Button Margin="2" MinWidth="70" Content="{LocText Close}"
+                 Click="Button_Click" />
+        </StackPanel>
+    </Grid>
+</Window>

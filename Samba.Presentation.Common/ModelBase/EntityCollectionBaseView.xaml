@@ -1,0 +1,129 @@
+﻿<UserControl x:Class="Samba.Presentation.Common.ModelBase.EntityCollectionBaseView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:DataGridFilterLibrary="clr-namespace:DataGridFilterLibrary;assembly=DataGridFilterLibrary" mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" DataContextChanged="UserControl_DataContextChanged">
+    <UserControl.Resources>
+        <CollectionViewSource x:Key='viewSource' Source="{Binding Items}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="GroupValue" />
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+
+        <Style x:Key="GroupLabelStyle" TargetType="TextBlock">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Name}" Value="{x:Null}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <ItemsControl Grid.Column="1" BorderThickness="1,0,0,0" BorderBrush="Silver" ItemsSource="{Binding AllCommands}" Background="GhostWhite" Margin="5,0,0,0">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Margin="5">
+                        <Hyperlink Command="{Binding}">
+                            <TextBlock Text="{Binding Caption}" />
+                        </Hyperlink>
+                    </TextBlock>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate> 
+        </ItemsControl>
+
+        <DataGrid AutoGenerateColumns="False" Name="MainGrid" ItemsSource='{Binding Source={StaticResource viewSource}}'
+                 SelectedItem="{Binding Path=SelectedItem, Mode=TwoWay}" HeadersVisibility="Column" GridLinesVisibility="None" 
+                  Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" SelectionUnit="FullRow" 
+                  IsReadOnly="True" ColumnHeaderHeight="30"
+                  ColumnHeaderStyle="{StaticResource {ComponentResourceKey 
+                  TypeInTargetAssembly={x:Type DataGridFilterLibrary:DataGridHeaderFilterControl}, 
+                  ResourceId=DataGridHeaderFilterControlStyle}}"
+                  MouseDoubleClick="MainGrid_MouseDoubleClick" DataContextChanged="MainGrid_DataContextChanged" PreviewKeyDown="MainGrid_PreviewKeyDown">
+            <DataGrid.BorderBrush>
+                <SolidColorBrush />
+            </DataGrid.BorderBrush>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header=""
+                     IsReadOnly="True" Width="*" Binding="{Binding Name}" MinWidth="300"/>
+            </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu Name="CM">
+                    <MenuItem Header="{Binding AddItemCommand.Caption}" Command="{Binding AddItemCommand}"/>
+                    <MenuItem Header="{Binding EditItemCommand.Caption}" Command="{Binding EditItemCommand}"/>
+                    <MenuItem Header="{Binding DeleteItemCommand.Caption}" Command="{Binding DeleteItemCommand}"/>
+                    <MenuItem Header="{Binding DuplicateItemCommand.Caption}" Command="{Binding DuplicateItemCommand}"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            <DataGrid.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Margin" Value="0,0,0,5"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Grid.Row="0" Text="{Binding Name}" FontWeight="Bold" Style="{StaticResource GroupLabelStyle}"/>
+                                            <ItemsPresenter Grid.Row="1"/>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </DataGrid.GroupStyle>
+        </DataGrid>
+        <!--<ListBox Name="MainListBox" BorderThickness="0" FontSize="14"
+                 Common:KineticBehaviour.HandleKineticScrolling="True"
+                 ItemsSource='{Binding Source={StaticResource viewSource}}'
+                 SelectedItem="{Binding Path=SelectedItem, Mode=TwoWay}" 
+                 MouseDoubleClick="ListBox_MouseDoubleClick" KeyDown="MainListBox_KeyDown">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Margin" Value="0,0,0,5"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Grid.Row="0" Text="{Binding Name}" FontWeight="Bold" Style="{StaticResource GroupLabelStyle}"/>
+                                            <ItemsPresenter Grid.Row="1"/>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </ListBox.GroupStyle>
+            <ListBox.ContextMenu>
+                <ContextMenu Name="CM">
+                    <MenuItem Header="{Binding AddItemCommand.Caption}" Command="{Binding AddItemCommand}"/>
+                    <MenuItem Header="{Binding EditItemCommand.Caption}" Command="{Binding EditItemCommand}"/>
+                    <MenuItem Header="{Binding DeleteItemCommand.Caption}" Command="{Binding DeleteItemCommand}"/>
+                    <MenuItem Header="{Binding DuplicateItemCommand.Caption}" Command="{Binding DuplicateItemCommand}"/>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+        </ListBox>-->
+    </Grid>
+</UserControl>

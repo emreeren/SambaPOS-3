@@ -1,0 +1,194 @@
+﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+     xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" 
+             x:Class="Samba.Login.LoginPadControl"
+     mc:Ignorable="d" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <Style x:Key="ButtonFocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
+                             StrokeThickness="1" StrokeDashArray="1 2" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <LinearGradientBrush x:Key="ButtonNormalBackground" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#FFB9EFA9" Offset="0" />
+            <GradientStop Color="#FF288D09" Offset="1" />
+        </LinearGradientBrush>
+        <SolidColorBrush Color="#B7707070" x:Key="ButtonNormalBorder" />
+        <Style x:Key="GreenButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisual}" />
+            <Setter Property="Background" Value="{DynamicResource ButtonNormalBackground}" />
+            <Setter Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Padding" Value="1" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Microsoft_Windows_Themes:ButtonChrome x:Name="Chrome" BorderBrush="{TemplateBinding BorderBrush}"
+                             RenderMouseOver="{TemplateBinding IsMouseOver}" RenderPressed="{TemplateBinding IsPressed}"
+                             RenderDefaulted="{TemplateBinding IsDefaulted}" SnapsToDevicePixels="true" OpacityMask="{x:Null}"
+                             Background="{TemplateBinding Background}">
+                            <Microsoft_Windows_Themes:ButtonChrome.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform />
+                                    <SkewTransform />
+                                    <RotateTransform />
+                                    <TranslateTransform />
+                                </TransformGroup>
+                            </Microsoft_Windows_Themes:ButtonChrome.RenderTransform>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver" />
+                                    <VisualState x:Name="Pressed" />
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Unfocused" />
+                                    <VisualState x:Name="Focused" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                 Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}" OpacityMask="{x:Null}" />
+                        </Microsoft_Windows_Themes:ButtonChrome>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="ToggleButton.IsChecked" Value="true">
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                            <GradientStop Color="#FFB9EFA9" Offset="0" />
+                                            <GradientStop Color="#FFB87A63" Offset="1" />
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="#ADADAD" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="OpacityMask" Value="{x:Null}" />
+        </Style>
+        <Style x:Key="SubmitButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisual}" />
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFFBE0A3" Offset="0" />
+                        <GradientStop Color="#FFD24D00" Offset="1" />
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Padding" Value="1" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Microsoft_Windows_Themes:ButtonChrome x:Name="Chrome" BorderBrush="{TemplateBinding BorderBrush}"
+                             RenderMouseOver="{TemplateBinding IsMouseOver}" RenderPressed="{TemplateBinding IsPressed}"
+                             RenderDefaulted="{TemplateBinding IsDefaulted}" SnapsToDevicePixels="true" OpacityMask="{x:Null}"
+                             Background="{TemplateBinding Background}">
+                            <Microsoft_Windows_Themes:ButtonChrome.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform />
+                                    <SkewTransform />
+                                    <RotateTransform />
+                                    <TranslateTransform />
+                                </TransformGroup>
+                            </Microsoft_Windows_Themes:ButtonChrome.RenderTransform>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver" />
+                                    <VisualState x:Name="Pressed" />
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Unfocused" />
+                                    <VisualState x:Name="Focused" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                 Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}" OpacityMask="{x:Null}" />
+                        </Microsoft_Windows_Themes:ButtonChrome>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="ToggleButton.IsChecked" Value="true">
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                            <GradientStop Color="#FFB9EFA9" Offset="0" />
+                                            <GradientStop Color="#FFB87A63" Offset="1" />
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="#ADADAD" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="OpacityMask" Value="{x:Null}" />
+        </Style>
+    </UserControl.Resources>
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBox Text="{LocText EnterPin}" Grid.ColumnSpan="3"
+             FontWeight="Bold" FontSize="32" Margin="5" Name="PinTextBox" IsReadOnly="True" />
+        <Button Content="1" Grid.Row="1" Grid.Column="0" Margin="3" Style="{DynamicResource GreenButtonStyle}"
+             Click="Button_Click_1" />
+        <Button Content="2" Grid.Row="1" Grid.Column="1" Margin="3" Style="{DynamicResource GreenButtonStyle}"
+             Click="Button_Click_2" />
+        <Button Content="3" Grid.Row="1" Grid.Column="2" Margin="3" Style="{DynamicResource GreenButtonStyle}"
+             Click="Button_Click_3" />
+        <Button Content="4" Grid.Row="2" Grid.Column="0" Margin="3" Style="{DynamicResource GreenButtonStyle}"
+             Click="Button_Click_4" />
+        <Button Content="5" Grid.Row="2" Grid.Column="1" Margin="3" Style="{DynamicResource GreenButtonStyle}"
+             Click="Button_Click_5" />
+        <Button Content="6" Grid.Row="2" Grid.Column="2" Margin="3" Style="{DynamicResource GreenButtonStyle}"
+             Click="Button_Click_6" />
+        <Button Content="7" Grid.Row="3" Grid.Column="0" Margin="3" Style="{DynamicResource GreenButtonStyle}"
+             Click="Button_Click_7" />
+        <Button Content="8" Grid.Row="3" Grid.Column="1" Margin="3" Style="{DynamicResource GreenButtonStyle}"
+             Click="Button_Click_8" />
+        <Button Content="9" Grid.Row="3" Grid.Column="2" Margin="3" Style="{DynamicResource GreenButtonStyle}"
+             Click="Button_Click_9" />
+        <Button Content="{LocText Clear}" Grid.Row="4"
+             Grid.Column="0" Margin="3" Style="{DynamicResource GreenButtonStyle}" Click="Button_Click_11" />
+        <Button Content="0" Grid.Row="4" Grid.Column="1" Margin="3" Style="{DynamicResource GreenButtonStyle}"
+             Click="Button_Click_10" />
+        <Button Content="{LocText Login}" Grid.Row="4"
+             Grid.Column="2" Margin="3" Style="{DynamicResource SubmitButtonStyle}" Click="Button_Click" />
+    </Grid>
+</UserControl>

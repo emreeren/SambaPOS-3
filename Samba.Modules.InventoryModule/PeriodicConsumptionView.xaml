@@ -1,0 +1,183 @@
+﻿<UserControl x:Class="Samba.Modules.InventoryModule.PeriodicConsumptionView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:Common="clr-namespace:Samba.Presentation.Common;assembly=Samba.Presentation.Common"
+     xmlns:System="clr-namespace:System;assembly=mscorlib" mc:Ignorable="d" d:DesignHeight="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Margin="0,5,0,10" Text="{Binding Name,StringFormat='Dönem: {0}'}" />
+        <TabControl Grid.Row="1" SelectionChanged="TabControl_SelectionChanged">
+            <TabItem Header="{LocText InventoryItems}">
+                <DataGrid ItemsSource="{Binding PeriodicConsumptionItems}" SelectedItem="{Binding SelectedPeriodicConsumptionItem, Mode=TwoWay}"
+                     HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
+                     AutoGenerateColumns="False" CanUserSortColumns="False" CanUserDeleteRows="False" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}"
+                     PreviewKeyDown="DataGrid_PreviewKeyDown" PreviewTextInput="DataGrid_PreviewTextInput"
+                     PreparingCellForEdit="DataGrid_PreparingCellForEdit">
+                    <DataGrid.Resources>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="HorizontalContentAlignment" Value="Center">
+                            </Setter>
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock TextWrapping="Wrap" Text="{Binding}">
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="{LocText InventoryItemName}"
+                             IsReadOnly="True" MinWidth="100" CellStyle="{StaticResource LeftAlignedGridCell}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Margin="3" Text="{Binding ItemName}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="{LocText Unit}"
+                             CellStyle="{StaticResource LeftAlignedGridCell}">
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <ComboBox ItemsSource="{Binding UnitNames}" SelectedItem="{Binding UnitName}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Margin="3" Text="{Binding UnitName}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="{LocText InStock}"
+                             Width="60" IsReadOnly="True" CellStyle="{StaticResource RightAlignedGridCell}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Margin="3" Text="{Binding Path=InStock,StringFormat='#,#0.##;-#,#0.##;-'}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="{LocText Purchase}"
+                             Width="60" IsReadOnly="True" CellStyle="{StaticResource RightAlignedGridCell}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Margin="3" Text="{Binding Path=Purchase,StringFormat='#,#0.##;-#,#0.##;-'}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="{LocText Cost}"
+                             Width="60" IsReadOnly="True" CellStyle="{StaticResource RightAlignedGridCell}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Margin="3" Text="{Binding Path=Cost,StringFormat='#,#0.00'}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="{LocText InventoryConsumption}"
+                             Width="60" IsReadOnly="True" CellStyle="{StaticResource RightAlignedGridCell}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Margin="3" Text="{Binding Path=Consumption,StringFormat='#,#0.##;-#,#0.##;-'}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="{LocText PredictedInventory}"
+                             Width="60" IsReadOnly="True" CellStyle="{StaticResource RightAlignedGridCell}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Margin="3" Text="{Binding Path=InventoryPrediction,StringFormat='#,#0.##'}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="{LocText CurrentInventory}"
+                             Width="60" CellStyle="{StaticResource RightAlignedGridCell}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Margin="3" Text="{Binding Path=PhysicalInventory,StringFormat='#,#0.##'}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <Grid FocusManager.FocusedElement="{Binding ElementName=tb1}">
+                                        <Common:FilteredTextBox Type="Number" Text="{Binding Path=PhysicalInventory,StringFormat='#,#0.##',TargetNullValue={x:Static System:String.Empty}}"
+                                             Name="tb1" />
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="{LocText Costs}">
+                <DataGrid ItemsSource="{Binding CostItems}" HorizontalAlignment="Stretch" GridLinesVisibility="None"
+                     RowHeaderWidth="0" Margin="0,3" AutoGenerateColumns="False" CanUserSortColumns="False"
+                     CanUserDeleteRows="False" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
+                    <DataGrid.Resources>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="HorizontalContentAlignment" Value="Center">
+                            </Setter>
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock TextWrapping="Wrap" Text="{Binding}">
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="{LocText ProductName}"
+                             IsReadOnly="True" MinWidth="100" CellStyle="{StaticResource LeftAlignedGridCell}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Margin="3" Text="{Binding MenuItemName}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="{LocText Portion}"
+                             IsReadOnly="True" CellStyle="{StaticResource LeftAlignedGridCell}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Margin="3" Text="{Binding PortionName}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="{LocText SellAmount}"
+                             Width="60" IsReadOnly="True" CellStyle="{StaticResource RightAlignedGridCell}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Margin="3" Text="{Binding Path=Quantity,StringFormat='#,#0.##;-#,#0.##;-'}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="{LocText CostPrediction}"
+                             Width="60" IsReadOnly="True" CellStyle="{StaticResource RightAlignedGridCell}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Margin="3" Text="{Binding Path=CostPrediction,StringFormat='#,#0.00'}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="{LocText CurrentCost}"
+                             Width="60" IsReadOnly="True" CellStyle="{StaticResource RightAlignedGridCell}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Margin="3" Text="{Binding Path=Cost,StringFormat='#,#0.00'}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+        </TabControl>
+        <StackPanel Grid.Row="2">
+            <Button HorizontalAlignment="Left" Margin="0,10" Width="60" Content="{Binding SaveCommand.Caption}"
+                 Command="{Binding SaveCommand}" />
+            <Label Content="{Binding Error}" Foreground="Red" />
+        </StackPanel>
+    </Grid>
+</UserControl>

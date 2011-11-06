@@ -1,0 +1,9 @@
+/bin/
+/obj/
+_ReSharper
+SambaSetup/src/
+SambaSetup/bin/
+.suo
+.user
+.trx
+/Out/

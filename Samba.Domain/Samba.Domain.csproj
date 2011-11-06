@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2386F6A0-91B2-4D1A-8DBC-92109924AFFE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Samba.Domain</RootNamespace>
+    <AssemblyName>Samba.Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <CodeContractsAssemblyMode>0</CodeContractsAssemblyMode>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeContractsEnableRuntimeChecking>False</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>False</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>False</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
+    <CodeContractsContainerAnalysis>False</CodeContractsContainerAnalysis>
+    <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>False</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>False</CodeContractsCacheAnalysisResults>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Foundation\DocumentDate.cs" />
+    <Compile Include="Models\Actions\ActionContainer.cs" />
+    <Compile Include="Models\Actions\AppRule.cs" />
+    <Compile Include="Models\Actions\AppAction.cs" />
+    <Compile Include="Models\Tickets\Service.cs" />
+    <Compile Include="Models\Menus\ServiceTemplate.cs" />
+    <Compile Include="Models\Menus\TaxTemplate.cs" />
+    <Compile Include="Models\Tickets\TicketTagValue.cs" />
+    <Compile Include="Models\Transactions\AccountTransaction.cs" />
+    <Compile Include="Models\Transactions\CashTransaction.cs" />
+    <Compile Include="Models\Inventories\CostItem.cs" />
+    <Compile Include="Models\Inventories\InventoryItem.cs" />
+    <Compile Include="Models\Inventories\Recipe.cs" />
+    <Compile Include="Models\Inventories\RecipeItem.cs" />
+    <Compile Include="Models\Inventories\PeriodicConsumption.cs" />
+    <Compile Include="Models\Inventories\PeriodicConsumptionItem.cs" />
+    <Compile Include="Models\Inventories\InventoryTransaction.cs" />
+    <Compile Include="Models\Inventories\InventoryTransactionItem.cs" />
+    <Compile Include="Models\Menus\MenuItemPrice.cs" />
+    <Compile Include="Models\Menus\MenuItemPriceDefinitions.cs" />
+    <Compile Include="Models\Settings\PrintJob.cs" />
+    <Compile Include="Models\Settings\Trigger.cs" />
+    <Compile Include="Models\Tickets\TicketTag.cs" />
+    <Compile Include="Models\Tickets\TicketTagGroup.cs" />
+    <Compile Include="TransactionType.cs" />
+    <Compile Include="Models\Accounts\Account.cs" />
+    <Compile Include="Models\Tickets\Department.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Tickets\Discount.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Tickets\PaidItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PaymentType.cs" />
+    <Compile Include="Models\Users\Permission.cs" />
+    <Compile Include="Models\Settings\WorkPeriod.cs" />
+    <Compile Include="Models\Settings\Numerator.cs" />
+    <Compile Include="Models\Settings\Printer.cs" />
+    <Compile Include="Models\Settings\PrinterMap.cs" />
+    <Compile Include="Models\Settings\PrinterTemplate.cs" />
+    <Compile Include="Models\Settings\ProgramSetting.cs" />
+    <Compile Include="Models\Menus\MenuItem.cs" />
+    <Compile Include="Models\Menus\MenuItemPortion.cs" />
+    <Compile Include="Foundation\Price.cs" />
+    <Compile Include="Models\Menus\MenuItemProperty.cs" />
+    <Compile Include="Models\Menus\MenuItemPropertyGroup.cs" />
+    <Compile Include="Models\Menus\ScreenMenuItem.cs" />
+    <Compile Include="Models\Tables\Table.cs" />
+    <Compile Include="Models\Settings\Terminal.cs" />
+    <Compile Include="Models\Tables\TableScreen.cs" />
+    <Compile Include="Models\Tickets\Payment.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Tickets\Reason.cs" />
+    <Compile Include="Models\Tickets\Ticket.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Tickets\TicketItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Tickets\TicketItemProperty.cs" />
+    <Compile Include="Models\Users\LoginStatus.cs" />
+    <Compile Include="Models\Users\User.cs" />
+    <Compile Include="Models\Users\UserRole.cs" />
+    <Compile Include="Models\Menus\ScreenMenu.cs" />
+    <Compile Include="Models\Menus\ScreenMenuCategory.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingGetter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Samba.Infrastructure.Data\Samba.Infrastructure.Data.csproj">
+      <Project>{2D64F506-D566-4CA5-A19C-BCB5F9A2E7F4}</Project>
+      <Name>Samba.Infrastructure.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Infrastructure\Samba.Infrastructure.csproj">
+      <Project>{B184E8F8-A507-4C3D-B580-184E3776A95C}</Project>
+      <Name>Samba.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>IF NOT "$(ConfigurationName)"=="Release" GOTO End
+
+copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)SambaSetup\src"
+
+:End</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,40 @@
+﻿<Window x:Class="Samba.Presentation.Common.Interaction.PropertyEditorForm" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Collections="clr-namespace:System.Collections;assembly=mscorlib" xmlns:PropertyEditorLibrary="clr-namespace:PropertyTools.Wpf;assembly=PropertyTools.Wpf" Title="{LocText PropertyEditor}" Height="343"
+     Width="368" WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
+    <Window.Resources>
+        <DataTemplate x:Key="DatagridEditor">
+            <DataGrid Name="PropertyGrid" AutoGenerateColumns="True" ItemsSource="{Binding Value}"
+                 AutoGeneratingColumn="PropertyGrid_AutoGeneratingColumn" VerticalGridLinesBrush="{StaticResource {x:Static SystemColors.ControlDarkBrushKey}}"
+                 HorizontalGridLinesBrush="{StaticResource {x:Static SystemColors.ControlDarkBrushKey}}"
+                 CanUserAddRows="False" CanUserDeleteRows="False" RowHeaderWidth="0" MouseDoubleClick="PropertyGrid_MouseDoubleClick"
+                 PreviewKeyDown="PropertyGrid_PreviewKeyDown" CellEditEnding="PropertyGrid_CellEditEnding">
+            </DataGrid>
+        </DataTemplate>
+        <DataTemplate x:Key="SimpleGridEditor">
+            <PropertyEditorLibrary:SimpleGrid Content="{Binding Value}" SourceUpdated="SimpleGrid_SourceUpdated" 
+                                              PreviewMouseDoubleClick="SimpleGrid_PreviewMouseDoubleClick" />
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+     
+        <PropertyEditorLibrary:PropertyEditor Margin="3" Grid.Row="0" Name="PropertyEditorControl"
+             ShowTabs="False" DefaultCategoryName="Özellikler" LabelWidth="150">
+            <PropertyEditorLibrary:PropertyEditor.Editors>
+                <PropertyEditorLibrary:TypeEditor EditedType="{x:Type Collections:IList}" EditorTemplate="{StaticResource SimpleGridEditor}" />
+            </PropertyEditorLibrary:PropertyEditor.Editors>
+        </PropertyEditorLibrary:PropertyEditor>
+        
+        <StackPanel Name="SPanel" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Width="70" Margin="3" Click="Button_Click_1" Name="btnDetails">
+                <LocText ResourceIdentifierKey="Details" />
+            </Button>
+            <Button Width="70" Margin="3" Click="Button_Click">
+                <LocText ResourceIdentifierKey="OK" />
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="Samba.Modules.SettingsModule.TerminalView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:Common="clr-namespace:Samba.Presentation.Common;assembly=Samba.Presentation.Common"
+     mc:Ignorable="d">
+    <ScrollViewer Common:KineticBehaviour.HandleKineticScrolling="True" VerticalScrollBarVisibility="Auto">
+        <Grid>
+            <StackPanel>
+                <Label>
+                    <LocText ResourceIdentifierKey="TerminalName" Suffix=":"/>
+                </Label>
+                <TextBox HorizontalAlignment="Left" Width="250" Text="{Binding Name}" />
+                <CheckBox Margin="0,5" IsChecked="{Binding IsDefault, Mode=TwoWay}">
+                    <LocText ResourceIdentifierKey="DefaultTerminal"/>
+                </CheckBox>
+                <CheckBox Margin="0,5" IsChecked="{Binding AutoLogout, Mode=TwoWay}">
+                    <LocText ResourceIdentifierKey="AutoLogout"/>
+                </CheckBox>
+                <GroupBox Header="{LocText PrinterOptions}"
+                     MaxWidth="500" HorizontalAlignment="Left">
+                    <UniformGrid Columns="2">
+                        <UniformGrid.Resources>
+                            <Style TargetType="ComboBox">
+                                <Setter Property="Margin" Value="3" />
+                            </Style>
+                        </UniformGrid.Resources>
+                        <Label>
+                            <LocText ResourceIdentifierKey="SlipReportPrinter" Suffix=":"/>
+                        </Label>
+                        <ComboBox HorizontalAlignment="Left" MinWidth="200" IsEditable="True" SelectedItem="{Binding SlipReportPrinter}"
+                             ItemsSource="{Binding Printers}" DisplayMemberPath="Name" />
+                        <Label>
+                            <LocText ResourceIdentifierKey="ReportPrinter" Suffix=":"/>
+                        </Label>
+                        <ComboBox HorizontalAlignment="Left" MinWidth="200" IsEditable="True" SelectedItem="{Binding ReportPrinter}"
+                             ItemsSource="{Binding Printers}" DisplayMemberPath="Name" />
+                    </UniformGrid>
+                </GroupBox>
+                <StackPanel Orientation="Horizontal">
+                    <Label>
+                        <LocText ResourceIdentifierKey="PrintJobs" Suffix=":"/>
+                    </Label>
+                    <TextBlock Margin="5">
+                        <Hyperlink Command="{Binding SelectPrintJobsCommand}">
+                            <TextBlock Text="{Binding Path=SelectPrintJobsCommand.Caption}" />
+                        </Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+                <Border VerticalAlignment="Stretch" BorderBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+                     BorderThickness="1" MinWidth="150" HorizontalAlignment="Left">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ListBox ItemsSource="{Binding PrintJobs}" DisplayMemberPath="Name" MinHeight="150" BorderThickness="0" />
+                    </ScrollViewer>
+                </Border>
+                <Button HorizontalAlignment="Left" Margin="0,10" Width="60" Content="{Binding SaveCommand.Caption}"
+                     Command="{Binding SaveCommand}" />
+                <Label Content="{Binding Error}" Foreground="Red" />
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

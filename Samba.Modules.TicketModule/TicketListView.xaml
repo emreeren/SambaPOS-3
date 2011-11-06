@@ -1,0 +1,417 @@
+﻿<UserControl x:Class="Samba.Modules.TicketModule.TicketListView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:cmn="clr-namespace:Samba.Presentation.Common;assembly=Samba.Presentation.Common"
+     xmlns:FxButton="clr-namespace:FlexButton;assembly=FlexButton" xmlns:sys="clr-namespace:System;assembly=mscorlib"
+     mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style x:Key="GroupLabelStyle" TargetType="TextBlock">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Name}" Value="{x:Null}">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TabControl Background="Transparent" Margin="0" Padding="0" Grid.Row="1" SelectedIndex="{Binding SelectedTicketView, Mode=TwoWay}"
+             BorderThickness="0">
+            <TabControl.ItemContainerStyle>
+                <Style TargetType="{x:Type TabItem}">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </Style>
+            </TabControl.ItemContainerStyle>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <ItemsControl ItemsSource="{Binding OpenTicketTags}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <FxButton:FlexButton ButtonColor="{Binding ButtonColor}" Focusable="False" Command="{Binding DataContext.FilterOpenTicketsCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
+                                 CommandParameter="{Binding}" Height="50" Width="70" Margin="0,0,3,3">
+                                <TextBlock FontSize="14" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
+                                     Text="{Binding ButtonDisplay}" />
+                            </FxButton:FlexButton>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel>
+                            </WrapPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+                <ScrollViewer Grid.Row="1" cmn:KineticBehaviour.HandleKineticScrolling="True" BorderThickness="1"
+                     BorderBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" VerticalScrollBarVisibility="Auto">
+                    <ItemsControl Grid.IsSharedSizeScope="True" BorderThickness="0" ItemsSource="{Binding OpenTickets}"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="{Binding OpenTicketListViewColumnCount}" VerticalAlignment="Top" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <FxButton:FlexButton ButtonColor="Silver" Margin="0,0,0,0" Padding="2" Focusable="False"
+                                     Height="90" Command="{Binding DataContext.OpenTicketCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
+                                     CommandParameter="{Binding Id}" HorizontalContentAlignment="Left" VerticalContentAlignment="Stretch">
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="auto" />
+                                        </Grid.RowDefinitions>
+                                        <Viewbox Grid.Row="0" MaxHeight="50" HorizontalAlignment="Left">
+                                            <TextBlock TextAlignment="Left" Text="{Binding Title}" Foreground="{Binding TitleTextColor}" />
+                                        </Viewbox>
+                                        <Viewbox Grid.Row="1" MaxHeight="40">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*" />
+                                                    <RowDefinition Height="*" />
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Grid.Row="0" Text="{Binding TicketTime}" />
+                                                <TextBlock Grid.Row="1" MinWidth="55" Text="{Binding Total}" />
+                                            </Grid>
+                                        </Viewbox>
+                                    </Grid>
+                                </FxButton:FlexButton>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Name="TitleLabel" Grid.Row="0" Grid.Column="1" Content="{Binding SelectedTicketTitle}"
+                     FontWeight="Bold" FontSize="18" Background="DarkGray" Foreground="WhiteSmoke" BorderThickness="0">
+                </Label>
+                <Border BorderThickness="1" Grid.Row="1" Grid.Column="1" BorderBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}">
+                    <ScrollViewer Name="Scroller" cmn:KineticBehaviour.HandleKineticScrolling="True" VerticalScrollBarVisibility="Auto">
+                        <ItemsControl Name="TicketItemsControl" BorderThickness="0" Background="{Binding TicketBackground}"
+                             ItemsSource="{Binding SelectedTicket.ItemsViewSource.View}" HorizontalContentAlignment="Stretch">
+                            <ItemsControl.GroupStyle>
+                                <GroupStyle>
+                                    <GroupStyle.ContainerStyle>
+                                        <Style TargetType="{x:Type GroupItem}">
+                                            <Setter Property="Margin" Value="0,0,0,5" />
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                        <Grid>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="auto" />
+                                                                <RowDefinition Height="*" />
+                                                            </Grid.RowDefinitions>
+                                                            <Border BorderThickness="0,0,0,1" BorderBrush="Silver">
+                                                                <Grid Grid.Row="0">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="auto"/>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <TextBlock Margin="15,0,0,0" Grid.Column="0" Text="{Binding Name.OrderNumber}" FontWeight="Bold"
+                                                                        Foreground="Gray" Style="{StaticResource GroupLabelStyle}" />
+                                                                    <TextBlock Margin="5,0,0,0" Grid.Column="1" Text="{Binding Name.Time}" FontWeight="Bold"
+                                                                        Foreground="Gray" Style="{StaticResource GroupLabelStyle}" />
+                                                                </Grid>
+                                                            </Border>
+                                                            <ItemsPresenter Grid.Row="1" />
+                                                        </Grid>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </GroupStyle.ContainerStyle>
+                                </GroupStyle>
+                            </ItemsControl.GroupStyle>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Style="{StaticResource ItemsControlButtonStyle}" Command="{Binding ItemSelectedCommand}"
+                                         CommandParameter="{Binding}">
+                                        <Grid>
+                                            <StackPanel>
+                                                <Grid Margin="-1" Background="{Binding Background}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="auto" />
+                                                        <ColumnDefinition Width="auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock FontWeight="{Binding FontWeight}" TextDecorations="{Binding TextDecoration}"
+                                                         Padding="1" Foreground="{Binding Foreground}" FontSize="18" Grid.Column="0" Text="{Binding Quantity,StringFormat='0.##'}"
+                                                         Margin="5,5,6,5" />
+                                                    <TextBlock FontWeight="{Binding FontWeight}" TextDecorations="{Binding TextDecoration}"
+                                                         Padding="1" Foreground="{Binding Foreground}" FontSize="18" Grid.Column="1" Text="{Binding Description}"
+                                                         TextTrimming="CharacterEllipsis" Margin="5" />
+                                                    <TextBlock TextDecorations="{Binding TextDecoration}"
+                                                         Padding="1" Foreground="Gray" FontSize="10" Grid.Column="2" Text="{Binding PriceTag}"
+                                                         HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <TextBlock FontWeight="{Binding FontWeight}" TextDecorations="{Binding TextDecoration}"
+                                                         Padding="1" Foreground="{Binding Foreground}" FontSize="18" Grid.Column="3" Text="{Binding TotalPrice, StringFormat='#,#0.00'}"
+                                                         Margin="5" HorizontalAlignment="Right" />
+                                                    <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Text="{Binding Reason}"
+                                                         Margin="0,-7,3,0" Foreground="{Binding Foreground}" HorizontalAlignment="Right">
+                                                        <TextBlock.Style>
+                                                            <Style TargetType="TextBlock">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Value="" Binding="{Binding RelativeSource={x:Static RelativeSource.Self},Path=Text}">
+                                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBlock.Style>
+                                                    </TextBlock>
+                                                </Grid>
+                                                <ItemsControl ItemsSource="{Binding Properties}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="auto" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <TextBlock Grid.Column="0" Foreground="DarkBlue" FontSize="14" FontWeight="Bold" Text="{Binding DisplayString}"
+                                                                     Margin="30,0,0,0" />
+                                                                <TextBlock Grid.Column="1" Foreground="DarkBlue" FontSize="14" FontWeight="Bold" Text="{Binding PriceString}"
+                                                                     Padding="1" Margin="0,0,5,0" HorizontalAlignment="Right" />
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </StackPanel>
+                                            <Rectangle Margin="1,1,2,1" x:Name="Rectangle" Fill="Transparent" Stroke="{StaticResource {x:Static SystemColors.HotTrackBrushKey}}"
+                                                 StrokeDashCap="Square" StrokeThickness="{Binding BorderThickness}" SnapsToDevicePixels="True">
+                                                <Rectangle.StrokeDashArray>
+                                                    <sys:Double>5</sys:Double>
+                                                </Rectangle.StrokeDashArray>
+                                            </Rectangle>
+                                        </Grid>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Border>
+                <StackPanel Grid.Row="2" Grid.Column="1">
+                    <Border Background="{StaticResource {x:Static SystemColors.InfoBrushKey}}" BorderBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+                         BorderThickness="1,0,1,1" Visibility="{Binding SelectedTicket.IsTagged,Converter={StaticResource VisibilityConverter},FallbackValue=Collapsed}">
+                        <TextBlock Margin="3" TextTrimming="WordEllipsis" Text="{Binding SelectedTicket.TagDisplay}" />
+                    </Border>
+                    <Border Background="{StaticResource {x:Static SystemColors.InfoBrushKey}}" BorderBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+                         BorderThickness="1,0,1,1" Visibility="{Binding SelectedTicket.IsTicketNoteVisible,Converter={StaticResource VisibilityConverter},FallbackValue=Collapsed}">
+                        <TextBlock Margin="3" TextTrimming="WordEllipsis" Text="{Binding SelectedTicket.Note}" />
+                    </Border>
+                </StackPanel>
+                <Border Grid.Row="3" Grid.Column="1" BorderBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+                     BorderThickness="1,0,1,1" Visibility="{Binding SelectedTicket.IsTicketTimeVisible,Converter={StaticResource VisibilityConverter},FallbackValue=Collapsed}">
+                    <Grid Margin="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Margin="1,1,10,1" Grid.Column="0" Grid.Row="0" Text="{LocText TicketOpeningTime,Suffix=':'}">
+                        </TextBlock>
+                        <TextBlock Margin="1" Grid.Column="1" Grid.Row="0" Text="{Binding SelectedTicket.TicketCreationDate}" />
+                        <TextBlock Margin="1,1,10,1" Grid.Column="0" Grid.Row="1" Visibility="{Binding SelectedTicket.IsLastOrderDateVisible,Converter={StaticResource VisibilityConverter}}"
+                             Text="{LocText LastOrderTime,Suffix=':'}">
+                        </TextBlock>
+                        <TextBlock Margin="1" Grid.Column="1" Grid.Row="1" Visibility="{Binding SelectedTicket.IsLastOrderDateVisible,Converter={StaticResource VisibilityConverter}}"
+                             Text="{Binding SelectedTicket.TicketLastOrderDate}" />
+                        <TextBlock Margin="1,1,10,1" Grid.Column="0" Grid.Row="2" Visibility="{Binding SelectedTicket.IsLastPaymentDateVisible,Converter={StaticResource VisibilityConverter}}"
+                             Text="{LocText LastPaymentTime,Suffix=':'}">
+                        </TextBlock>
+                        <TextBlock Margin="1" Grid.Column="1" Grid.Row="2" Visibility="{Binding SelectedTicket.IsLastPaymentDateVisible,Converter={StaticResource VisibilityConverter}}"
+                             Text="{Binding SelectedTicket.TicketLastPaymentDate}" />
+                    </Grid>
+                </Border>
+                <UniformGrid Columns="2" Grid.Row="4" Grid.Column="1" Margin="5">
+                    <UniformGrid.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontSize" Value="16" />
+                        </Style>
+                    </UniformGrid.Resources>
+
+                    <TextBlock Text="{LocText TicketTotal,Suffix=':'}" Visibility="{Binding IsPlainTotalVisible,Converter={StaticResource VisibilityConverter}}" />
+                    <TextBlock TextAlignment="Right" Text="{Binding SelectedTicket.TicketPlainTotalLabel}"
+                         Visibility="{Binding IsPlainTotalVisible,Converter={StaticResource VisibilityConverter}}" />
+
+                    <TextBlock Text="{LocText DiscountTotal,Suffix=':'}"
+                         Foreground="DarkRed" FontWeight="Bold" Visibility="{Binding IsTicketDiscountVisible,Converter={StaticResource VisibilityConverter}}" />
+                    <TextBlock TextAlignment="Right" Foreground="DarkRed" FontWeight="Bold" Text="{Binding SelectedTicket.TicketDiscountLabel}"
+                         Visibility="{Binding IsTicketDiscountVisible,Converter={StaticResource VisibilityConverter}}" />
+
+                    <TextBlock Text="{LocText ServiceTotal,Suffix=':'}"
+                         Foreground="DarkRed" FontWeight="Bold" Visibility="{Binding IsTicketServiceVisible,Converter={StaticResource VisibilityConverter}}" />
+                    <TextBlock TextAlignment="Right" Foreground="DarkRed" FontWeight="Bold" Text="{Binding SelectedTicket.TicketServiceLabel}"
+                         Visibility="{Binding IsTicketServiceVisible,Converter={StaticResource VisibilityConverter}}" />
+
+                    <TextBlock Text="{LocText TaxTotal,Suffix=':'}"
+                         Foreground="DarkRed" FontWeight="Bold" Visibility="{Binding IsTicketTaxTotalVisible,Converter={StaticResource VisibilityConverter}}" />
+                    <TextBlock TextAlignment="Right" Foreground="DarkRed" FontWeight="Bold" Text="{Binding SelectedTicket.TicketTaxLabel}"
+                         Visibility="{Binding IsTicketTaxTotalVisible,Converter={StaticResource VisibilityConverter}}" />
+
+                    <TextBlock Text="{LocText RoundingTotal,Suffix=':'}"
+                         Foreground="DarkRed" FontWeight="Bold" Visibility="{Binding IsTicketRoundingVisible,Converter={StaticResource VisibilityConverter}}" />
+                    <TextBlock TextAlignment="Right" Foreground="DarkRed" FontWeight="Bold" Text="{Binding SelectedTicket.TicketRoundingLabel}"
+                         Visibility="{Binding IsTicketRoundingVisible,Converter={StaticResource VisibilityConverter}}" />
+
+                    <TextBlock Text="{LocText GrandTotal,Suffix=':'}" Visibility="{Binding IsTicketTotalVisible,Converter={StaticResource VisibilityConverter}}" />
+                    <TextBlock TextAlignment="Right" Text="{Binding SelectedTicket.TicketTotalLabel}"
+                         Visibility="{Binding IsTicketTotalVisible,Converter={StaticResource VisibilityConverter}}" />
+                    <TextBlock Text="{LocText ChargedAmount,Suffix=':'}"
+                         Visibility="{Binding IsTicketPaymentVisible,Converter={StaticResource VisibilityConverter}}" />
+                    <TextBlock TextAlignment="Right" Text="{Binding SelectedTicket.TicketPaymentLabel}"
+                         Visibility="{Binding IsTicketPaymentVisible,Converter={StaticResource VisibilityConverter}}" />
+                    <TextBlock FontSize="18" FontWeight="Bold" Foreground="Red" Text="{LocText Balance,Suffix=':'}"
+                         Visibility="{Binding IsTicketRemainingVisible,Converter={StaticResource VisibilityConverter}}" />
+                    <TextBlock FontSize="18" FontWeight="Bold" Foreground="Red" TextAlignment="Right"
+                         Text="{Binding SelectedTicket.TicketRemainingLabel}" Visibility="{Binding IsTicketRemainingVisible,Converter={StaticResource VisibilityConverter}}" />
+                </UniformGrid>
+                <Grid Grid.Column="1" Grid.Row="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <UniformGrid Rows="1" Grid.Column="0">
+                        <FxButton:FlexButton Height="60" Margin="0,0,3,3" Command="{Binding MakePaymentCommand}"
+                             Content="{Binding MakePaymentCommand.Caption}" />
+                        <FxButton:FlexButton Height="60" Margin="0,0,3,3" Command="{Binding MakeCashPaymentCommand}"
+                             Content="{Binding MakeCashPaymentCommand.Caption}" Visibility="{Binding IsFastPaymentButtonsVisible,Converter={StaticResource VisibilityConverter}}" />
+                        <FxButton:FlexButton Height="60" Margin="0,0,3,3" Command="{Binding MakeCreditCardPaymentCommand}"
+                             Content="{Binding MakeCreditCardPaymentCommand.Caption}" Visibility="{Binding IsFastPaymentButtonsVisible,Converter={StaticResource VisibilityConverter}}" />
+                        <FxButton:FlexButton Height="60" Margin="0,0,3,3" Command="{Binding MakeTicketPaymentCommand}"
+                             Content="{Binding MakeTicketPaymentCommand.Caption}" Visibility="{Binding IsFastPaymentButtonsVisible,Converter={StaticResource VisibilityConverter}}" />
+                    </UniformGrid>
+                    <FxButton:FlexButton ButtonColor="Red" Grid.Column="1" Width="80" Height="60" Margin="0,0,0,3"
+                         Command="{Binding CloseTicketCommand}" Content="{Binding CloseTicketCommand.Caption}"
+                         Visibility="{Binding IsCloseButtonVisible,Converter={StaticResource VisibilityConverter}}" />
+                </Grid>
+                <StackPanel Grid.Column="0" Grid.RowSpan="5" Grid.Row="0" VerticalAlignment="Top"
+                     Width="80">
+                    <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding SelectTableCommand}"
+                         Visibility="{Binding IsTableButtonVisible,Converter={StaticResource VisibilityConverter}}">
+                        <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
+                             Text="{Binding SelectTableButtonCaption}" />
+                    </FxButton:FlexButton>
+                    <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding SelectAccountCommand}"
+                         Visibility="{Binding IsAccountButtonVisible,Converter={StaticResource VisibilityConverter}}">
+                        <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
+                             Text="{Binding SelectAccountButtonCaption}" />
+                    </FxButton:FlexButton>
+                    <ItemsControl ItemsSource="{Binding TicketTagButtons,NotifyOnTargetUpdated=True}"
+                         HorizontalAlignment="Stretch" Visibility="{Binding IsNothingSelected,Converter={StaticResource VisibilityConverter}}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel VerticalAlignment="Top" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <FxButton:FlexButton Focusable="False" Command="{Binding DataContext.ShowTicketTagsCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
+                                     CommandParameter="{Binding Model}" ButtonColor="{Binding ButtonColor}" Height="50"
+                                     Margin="0,0,3,3">
+                                    <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
+                                         Text="{Binding Caption}" />
+                                </FxButton:FlexButton>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <ItemsControl ItemsSource="{Binding PrintJobButtons,NotifyOnTargetUpdated=True}" HorizontalAlignment="Stretch"
+                         Visibility="{Binding IsNothingSelected,Converter={StaticResource VisibilityConverter}}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel VerticalAlignment="Top" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <FxButton:FlexButton Focusable="False" Command="{Binding DataContext.PrintJobCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
+                                     CommandParameter="{Binding Model}" Height="50" Margin="0,0,3,3">
+                                    <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
+                                         Text="{Binding Caption}" />
+                                </FxButton:FlexButton>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding ShowAllOpenTickets}"
+                         Visibility="{Binding CanChangeDepartment,Converter={StaticResource VisibilityConverter}}">
+                        <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
+                             Text="{Binding ShowAllOpenTickets.Caption}" />
+                    </FxButton:FlexButton>
+                    <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding EditTicketNoteCommand}"
+                         Visibility="{Binding IsTicketSelected,Converter={StaticResource VisibilityConverter}}">
+                        <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
+                             Text="{Binding EditTicketNoteCommand.Caption}" />
+                    </FxButton:FlexButton>
+                    <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding RemoveTicketLockCommand}"
+                         Visibility="{Binding IsNothingSelectedAndTicketLocked,Converter={StaticResource VisibilityConverter}}">
+                        <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
+                             Text="{Binding RemoveTicketLockCommand.Caption}" />
+                    </FxButton:FlexButton>
+                    <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding IncQuantityCommand}"
+                         Content="{Binding IncQuantityCommand.Caption}" Visibility="{Binding IsItemsSelectedAndUnlocked,Converter={StaticResource VisibilityConverter}}" />
+                    <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding DecQuantityCommand}"
+                         Content="{Binding DecQuantityCommand.Caption}" Visibility="{Binding IsItemsSelectedAndUnlocked,Converter={StaticResource VisibilityConverter}}" />
+                    <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding IncSelectionQuantityCommand}"
+                         Content="{Binding IncSelectionQuantityCommand.Caption}" Visibility="{Binding IsItemsSelectedAndLocked,Converter={StaticResource VisibilityConverter}}" />
+                    <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding DecSelectionQuantityCommand}"
+                         Content="{Binding DecSelectionQuantityCommand.Caption}" Visibility="{Binding IsItemsSelectedAndLocked,Converter={StaticResource VisibilityConverter}}" />
+                    <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding ShowGiftReasonsCommand}"
+                         Visibility="{Binding IsItemsSelected,Converter={StaticResource VisibilityConverter}}">
+                        <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
+                             Text="{Binding ShowGiftReasonsCommand.Caption}" />
+                    </FxButton:FlexButton>
+                    <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding ShowVoidReasonsCommand}"
+                         Visibility="{Binding IsItemsSelected,Converter={StaticResource VisibilityConverter}}">
+                        <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
+                             Text="{Binding ShowVoidReasonsCommand.Caption}" />
+                    </FxButton:FlexButton>
+                    <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding CancelItemCommand}"
+                         Visibility="{Binding IsItemsSelected,Converter={StaticResource VisibilityConverter}}">
+                        <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
+                             Text="{Binding CancelItemCommand.Caption}" />
+                    </FxButton:FlexButton>
+                    <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding MoveTicketItemsCommand}"
+                         Visibility="{Binding IsItemsSelected,Converter={StaticResource VisibilityConverter}}">
+                        <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
+                             Text="{Binding MoveTicketItemsCommand.Caption}" />
+                    </FxButton:FlexButton>
+                    <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding ShowExtraPropertyEditorCommand}"
+                         Visibility="{Binding IsItemsSelectedAndUnlocked,Converter={StaticResource VisibilityConverter}}">
+                        <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
+                             Text="{Binding ShowExtraPropertyEditorCommand.Caption}" />
+                    </FxButton:FlexButton>
+                    <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding ChangePriceCommand}"
+                         Visibility="{Binding IsItemsSelected,Converter={StaticResource VisibilityConverter}}">
+                        <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
+                             Text="{Binding ChangePriceCommand.Caption}" />
+                    </FxButton:FlexButton>
+                </StackPanel>
+            </Grid>
+        </TabControl>
+    </Grid>
+</UserControl>
