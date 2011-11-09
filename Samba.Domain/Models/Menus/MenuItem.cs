@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Samba.Domain.Foundation;
 using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Settings;
 
@@ -52,7 +51,7 @@ namespace Samba.Domain.Models.Menus
             var mip = new MenuItemPortion
             {
                 Name = portionName,
-                Price = new Price(price, currencyCode),
+                Price = price,
                 MenuItemId = Id
             };
             Portions.Add(mip);

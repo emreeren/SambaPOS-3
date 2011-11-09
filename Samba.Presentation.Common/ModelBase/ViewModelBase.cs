@@ -26,15 +26,6 @@ namespace Samba.Presentation.Common.ModelBase
             return collectionView.CurrentItem as VisibleViewModelBase;
         }
 
-        public void Dispose()
-        {
-            OnDispose();
-        }
-
-        protected virtual void OnDispose()
-        {
-        }
-
 #if DEBUG
         /// <summary>
         /// Useful for ensuring that ViewModel objects are properly garbage collected.

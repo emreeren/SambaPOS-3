@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Samba.Domain.Foundation;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Menus
@@ -9,7 +8,7 @@ namespace Samba.Domain.Models.Menus
         public int Id { get; set; }
         public int MenuItemId { get; set; }
         public string Name { get; set; }
-        public Price Price { get; set; }
+        public decimal Price { get; set; }
         public int Multiplier { get; set; }
 
         private IList<MenuItemPrice> _prices;

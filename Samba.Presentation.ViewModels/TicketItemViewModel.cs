@@ -20,7 +20,6 @@ namespace Samba.Presentation.ViewModels
             _model = model;
             ResetSelectedQuantity();
             ItemSelectedCommand = new DelegateCommand<TicketItemViewModel>(OnItemSelected);
-            Properties = new ObservableCollection<TicketItemPropertyViewModel>(model.Properties.Select(x => new TicketItemPropertyViewModel(x)));
             UpdateItemColor();
         }
 
@@ -151,7 +150,7 @@ namespace Samba.Presentation.ViewModels
                 var prop = Model.GetCustomProperty();
                 if (prop != null)
                 {
-                    return Model.TaxIncluded ? prop.PropertyPrice.Amount + prop.TaxAmount : prop.PropertyPrice.Amount;
+                    return Model.TaxIncluded ? prop.Price + prop.TaxAmount : prop.Price;
                 }
                 return 0;
             }
@@ -192,7 +191,11 @@ namespace Samba.Presentation.ViewModels
 
         public string PriceTag { get { return Model.PriceTag; } }
 
-        public ObservableCollection<TicketItemPropertyViewModel> Properties { get; private set; }
+        private ObservableCollection<TicketItemPropertyViewModel> _properties;
+        public ObservableCollection<TicketItemPropertyViewModel> Properties
+        {
+            get { return _properties ?? (_properties = new ObservableCollection<TicketItemPropertyViewModel>(Model.Properties.Select(x => new TicketItemPropertyViewModel(x)))); }
+        }
 
         public bool IsGifted { get { return Model.Gifted; } }
         public bool IsVoided { get { return Model.Voided; } }

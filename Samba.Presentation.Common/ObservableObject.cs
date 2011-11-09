@@ -2,27 +2,21 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq.Expressions;
+using System.Runtime.InteropServices;
 
 namespace Samba.Presentation.Common
 {
-    public abstract class ObservableObject : INotifyPropertyChanged
+    public abstract class ObservableObject : INotifyPropertyChanged, IDisposable
     {
-        //protected void RaisePropertyChanged(string propertyName)
-        //{
-        //    VerifyPropertyName(propertyName);
-
-        //    var handler = PropertyChanged;
-
-        //    if (handler == null) return;
-
-        //    var e = new PropertyChangedEventArgs(propertyName);
-        //    handler(this, e);
-        //}
-
         private void RaisePropertyChanged(string property)
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(property));
+        }
+
+        ~ObservableObject()
+        {
+            Dispose(false);
         }
 
         protected void RaisePropertyChanged<T>(Expression<Func<T>> propertyExpression)
@@ -35,24 +29,17 @@ namespace Samba.Presentation.Common
             }
         }
 
-        //[Conditional("DEBUG")]
-        //[DebuggerStepThrough]
-        //public void VerifyPropertyName(string propertyName)
-        //{
-        //    if (string.IsNullOrEmpty(propertyName))
-        //        return;
-
-        //    if (TypeDescriptor.GetProperties(this)[propertyName] != null) return;
-
-        //    var msg = "Invalid property name: " + propertyName;
-
-        //    if (ThrowOnInvalidPropertyName)
-        //        throw new ArgumentException(msg);
-        //    Debug.Fail(msg);
-        //}
-
-        //protected virtual bool ThrowOnInvalidPropertyName { get; private set; }
-
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            //
+        }
     }
 }

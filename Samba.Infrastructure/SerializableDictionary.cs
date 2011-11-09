@@ -1,15 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Xml.Serialization;
 
 namespace Samba.Infrastructure
 {
     [XmlRoot("dictionary")]
+    [Serializable]
     public class SerializableDictionary<TKey, TValue>
         : Dictionary<TKey, TValue>, IXmlSerializable
     {
+        public SerializableDictionary()
+        {
+
+        }
+
+        protected SerializableDictionary(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+
+        }
+
         public System.Xml.Schema.XmlSchema GetSchema()
         {
             return null;

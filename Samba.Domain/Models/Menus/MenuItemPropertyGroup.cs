@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Samba.Domain.Foundation;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Menus
@@ -32,7 +31,7 @@ namespace Samba.Domain.Models.Menus
             get { return _properties; }
             set { _properties = value; }
         }
-        
+
         public MenuItemPropertyGroup()
         {
             _properties = new List<MenuItemProperty>();
@@ -44,7 +43,7 @@ namespace Samba.Domain.Models.Menus
 
         public MenuItemProperty AddProperty(string name, decimal price, string defaultCurrency)
         {
-            var prp = new MenuItemProperty { Name = name, Price = new Price(price, defaultCurrency) };
+            var prp = new MenuItemProperty { Name = name, Price = price };
             Properties.Add(prp);
             return prp;
         }

@@ -1,5 +1,4 @@
-﻿using Samba.Domain.Foundation;
-using Samba.Domain.Models.Menus;
+﻿using Samba.Domain.Models.Menus;
 using Samba.Presentation.Common;
 
 namespace Samba.Presentation.ViewModels
@@ -19,7 +18,7 @@ namespace Samba.Presentation.ViewModels
             set { Model.Name = value; }
         }
 
-        public Price Price
+        public decimal Price
         {
             get { return Model.Price; }
             set { Model.Price = value; }

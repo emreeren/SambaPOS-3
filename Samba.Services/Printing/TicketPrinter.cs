@@ -6,7 +6,6 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Threading;
 using Samba.Domain;
-using Samba.Domain.Foundation;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;

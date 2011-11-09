@@ -3,9 +3,14 @@ using System.Threading;
 
 namespace Samba.Infrastructure.Cron
 {
-    public class CronObject
+    public class CronEventArgs : EventArgs
     {
-        public delegate void CronEvent(CronObject cronObject);
+        public CronObject CronObject { get; set; }
+    }
+
+    public sealed class CronObject : IDisposable
+    {
+        public delegate void CronEvent(object sender, CronEventArgs e);
         public event CronEvent OnCronTrigger;
         public event CronEvent OnStarted;
         public event CronEvent OnStopped;
@@ -73,7 +78,7 @@ namespace Samba.Infrastructure.Cron
             //
             if (OnStarted != null)
             {
-                OnStarted(this);
+                OnStarted(this, new CronEventArgs { CronObject = this });
             }
 
             return true;
@@ -110,7 +115,7 @@ namespace Samba.Infrastructure.Cron
                     //
                     if (OnThreadAbort != null)
                     {
-                        OnThreadAbort(this);
+                        OnThreadAbort(this, new CronEventArgs { CronObject = this });
                     }
                 }
             }
@@ -119,7 +124,7 @@ namespace Samba.Infrastructure.Cron
             //
             if (OnStopped != null)
             {
-                OnStopped(this);
+                OnStopped(this, new CronEventArgs { CronObject = this });
             }
             return true;
         }
@@ -154,7 +159,7 @@ namespace Samba.Infrastructure.Cron
                     //
                     if (OnCronTrigger != null)
                     {
-                        OnCronTrigger(this);
+                        OnCronTrigger(this, new CronEventArgs { CronObject = this });
                     }
 
                     // Update the last trigger time.
@@ -182,6 +187,12 @@ namespace Samba.Infrastructure.Cron
                     }
                 }
             }
+        }
+
+        public void Dispose()
+        {
+            if (_wh != null)
+                _wh.Dispose();
         }
     }
 }

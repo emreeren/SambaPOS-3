@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Serialization
+namespace Samba.Infrastructure.Data.BinarySerializer
 {
     public abstract class GetSet
     {

@@ -7,6 +7,16 @@ namespace Samba.Infrastructure.Cron
 	{
 		public object Object { get; set; }
 		public DateTime LastTrigger { get; set; }
-		public List<CronSchedule> CronSchedules { get; set; }
+
+        private readonly List<CronSchedule> _cronSchedules;
+        public List<CronSchedule> CronSchedules
+        {
+            get { return _cronSchedules; }
+        }
+
+	    public CronObjectDataContext(List<CronSchedule> cronSchedules)
+	    {
+	        _cronSchedules = cronSchedules;
+	    }
 	}
 }

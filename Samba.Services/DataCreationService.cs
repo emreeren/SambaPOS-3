@@ -4,7 +4,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Samba.Domain.Foundation;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tables;
@@ -253,7 +252,7 @@ namespace Samba.Services
                         var itemName = string.Join(" ", parts.ToArray());
                         var mi = MenuItem.Create();
                         mi.Name = itemName;
-                        mi.Portions[0].Price.Amount = price;
+                        mi.Portions[0].Price= price;
                         mi.GroupCode = currentCategory;
                         workspace.Add(mi);
                         workspace.Add(mi.Portions[0]);

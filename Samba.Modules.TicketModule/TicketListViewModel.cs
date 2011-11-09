@@ -22,7 +22,6 @@ using Samba.Presentation.Common.Services;
 using Samba.Presentation.ViewModels;
 using Samba.Services;
 
-
 namespace Samba.Modules.TicketModule
 {
     public class TicketListViewModel : ObservableObject
@@ -1028,6 +1027,15 @@ namespace Samba.Modules.TicketModule
             SelectedDepartment = departmentId > 0
                 ? Departments.SingleOrDefault(x => x.Id == departmentId)
                 : null;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_timer != null) _timer.Dispose();
+                if (_selectedTicket != null) _selectedTicket.Dispose();
+            }
         }
     }
 }

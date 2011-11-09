@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Sockets;
 
 namespace Samba.Infrastructure
@@ -16,7 +17,7 @@ namespace Samba.Infrastructure
 
         public void Attach(IObserver client)
         {
-            Console.WriteLine("observer bağlandı.");
+            Debug.WriteLine("observer bağlandı.");
             _clients.Add(client);
         }
 
