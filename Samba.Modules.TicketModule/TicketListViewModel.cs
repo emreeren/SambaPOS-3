@@ -195,18 +195,18 @@ namespace Samba.Modules.TicketModule
         public int OpenTicketListViewColumnCount { get { return SelectedDepartment != null ? SelectedDepartment.OpenTicketViewColumnCount : 5; } }
         public TicketItemViewModel LastSelectedTicketItem { get; set; }
 
-        //public IEnumerable<TicketTagButton> TicketTagButtons
-        //{
-        //    get
-        //    {
-        //        return AppServices.MainDataContext.SelectedDepartment != null
-        //            ? AppServices.MainDataContext.SelectedDepartment.TicketTagGroups
-        //            .Where(x => x.ActiveOnPosClient)
-        //            .OrderBy(x => x.Order)
-        //            .Select(x => new TicketTagButton(x, SelectedTicket))
-        //            : null;
-        //    }
-        //}
+        public IEnumerable<TicketTagButton> TicketTagButtons
+        {
+            get
+            {
+                return AppServices.MainDataContext.SelectedDepartment != null
+                    ? AppServices.MainDataContext.SelectedDepartment.TicketTagGroups
+                    .Where(x => x.ActiveOnPosClient)
+                    .OrderBy(x => x.Order)
+                    .Select(x => new TicketTagButton(x, SelectedTicket))
+                    : null;
+            }
+        }
 
         public TicketListViewModel()
         {
@@ -973,6 +973,7 @@ namespace Samba.Modules.TicketModule
             RaisePropertyChanged(() => IsNothingSelectedAndTicketTagged);
             RaisePropertyChanged(() => IsTicketSelected);
             RaisePropertyChanged(() => PrintJobButtons);
+            RaisePropertyChanged(() => TicketTagButtons);
 
             if (SelectedTicketView == OpenTicketListView)
                 RaisePropertyChanged(() => OpenTickets);

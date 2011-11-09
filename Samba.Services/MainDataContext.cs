@@ -135,6 +135,11 @@ namespace Samba.Services
                 services.ToList().ForEach(x => _workspace.Delete(x));
             }
 
+            public void RemoveUnusedTags(IEnumerable<TicketTagValue> tags)
+            {
+                tags.Where(x => string.IsNullOrEmpty(x.TagValue)).ToList().ForEach(x => _workspace.Delete(x));
+            }
+
             public void AddItemToSelectedTicket(TicketItem model)
             {
                 _workspace.Add(model);
@@ -471,6 +476,7 @@ namespace Samba.Services
             {
                 _ticketWorkspace.RemoveTicketItems(SelectedTicket.PopRemovedTicketItems());
                 _ticketWorkspace.RemoveServices(SelectedTicket.PopRemovedServices());
+                _ticketWorkspace.RemoveUnusedTags(SelectedTicket.Tags);
                 Recalculate(SelectedTicket);
                 SelectedTicket.IsPaid = SelectedTicket.RemainingAmount == 0;
 

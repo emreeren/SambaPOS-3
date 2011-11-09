@@ -26,27 +26,10 @@
             </TabControl.ItemContainerStyle>
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <ItemsControl ItemsSource="{Binding OpenTicketTags}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <FxButton:FlexButton ButtonColor="{Binding ButtonColor}" Focusable="False" Command="{Binding DataContext.FilterOpenTicketsCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
-                                 CommandParameter="{Binding}" Height="50" Width="70" Margin="0,0,3,3">
-                                <TextBlock FontSize="14" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
-                                     Text="{Binding ButtonDisplay}" />
-                            </FxButton:FlexButton>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel>
-                            </WrapPanel>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-                <ScrollViewer Grid.Row="1" cmn:KineticBehaviour.HandleKineticScrolling="True" BorderThickness="1"
+                
+                <ScrollViewer cmn:KineticBehaviour.HandleKineticScrolling="True" BorderThickness="1"
                      BorderBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" VerticalScrollBarVisibility="Auto">
                     <ItemsControl Grid.IsSharedSizeScope="True" BorderThickness="0" ItemsSource="{Binding OpenTickets}"
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled">
@@ -119,16 +102,18 @@
                                                                 <RowDefinition Height="*" />
                                                             </Grid.RowDefinitions>
                                                             <Border BorderThickness="0,0,0,1" BorderBrush="Silver">
-                                                                <Grid Grid.Row="0">
-                                                                    <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition Width="auto"/>
-                                                                        <ColumnDefinition Width="*"/>
-                                                                    </Grid.ColumnDefinitions>
-                                                                    <TextBlock Margin="15,0,0,0" Grid.Column="0" Text="{Binding Name.OrderNumber}" FontWeight="Bold"
+                                                                <Button Style="{StaticResource ItemsControlButtonStyle}" Command="{Binding DataContext.SelectedTicket.SelectAllItemsCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding Name.OrderNumber}">
+                                                                    <Grid Grid.Row="0">
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="auto"/>
+                                                                            <ColumnDefinition Width="*"/>
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <TextBlock Margin="15,0,0,0" Grid.Column="0" Text="{Binding Name.OrderNumber}" FontWeight="Bold"
                                                                         Foreground="Gray" Style="{StaticResource GroupLabelStyle}" />
-                                                                    <TextBlock Margin="5,0,0,0" Grid.Column="1" Text="{Binding Name.Time}" FontWeight="Bold"
+                                                                        <TextBlock Margin="5,0,0,0" Grid.Column="1" Text="{Binding Name.Time}" FontWeight="Bold"
                                                                         Foreground="Gray" Style="{StaticResource GroupLabelStyle}" />
-                                                                </Grid>
+                                                                    </Grid>
+                                                                </Button>
                                                             </Border>
                                                             <ItemsPresenter Grid.Row="1" />
                                                         </Grid>

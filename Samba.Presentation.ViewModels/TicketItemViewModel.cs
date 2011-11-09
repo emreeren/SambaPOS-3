@@ -210,6 +210,11 @@ namespace Samba.Presentation.ViewModels
 
         private void OnItemSelected(TicketItemViewModel obj)
         {
+            ToggleSelection();
+        }
+
+        public void ToggleSelection()
+        {
             Selected = !Selected;
             if (!Selected) ResetSelectedQuantity();
             this.PublishEvent(EventTopicNames.SelectedItemsChanged);
