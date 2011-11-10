@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Serialization
+namespace Samba.Infrastructure.Data.BinarySerializer
 {
     public class GetSetGeneric<T, TR> : GetSet
     {
@@ -13,21 +12,17 @@ namespace Serialization
 
         public GetSetGeneric(PropertyInfo info)
         {
-            MethodInfo getMethod;
-            MethodInfo setMethod = null;
             Name = info.Name;
             Info = info;
             CollectionType = Info.PropertyType.GetInterface("IEnumerable", true) != null;
-            getMethod = info.GetGetMethod();
-            setMethod = info.GetSetMethod();
+            var getMethod = info.GetGetMethod();
+            var setMethod = info.GetSetMethod();
             _get = (GetValue)Delegate.CreateDelegate(typeof(GetValue), getMethod);
             if (setMethod != null) _set = (SetValue)Delegate.CreateDelegate(typeof(SetValue), setMethod);
         }
 
         public GetSetGeneric(FieldInfo info)
         {
-            MethodInfo getMethod;
-            MethodInfo setMethod = null;
             Name = info.Name;
             FieldInfo = info;
             _get = new GetValue(GetFieldValue);
@@ -40,8 +35,6 @@ namespace Serialization
         public GetSetGeneric(string name)
         {
             Name = name;
-            MethodInfo getMethod;
-            MethodInfo setMethod= null;
             var t = typeof(T);
             var p = t.GetProperty(name);
             if (p == null)
@@ -54,10 +47,10 @@ namespace Serialization
             }
             Info = p;
             CollectionType = Info.PropertyType.GetInterface("IEnumerable", true) != null;
-            getMethod = p.GetGetMethod();
-            setMethod = p.GetSetMethod();
+            var getMethod = p.GetGetMethod();
+            var setMethod = p.GetSetMethod();
             _get = (GetValue)Delegate.CreateDelegate(typeof(GetValue), getMethod);
-            if(setMethod != null) _set = (SetValue)Delegate.CreateDelegate(typeof(SetValue), setMethod);
+            if (setMethod != null) _set = (SetValue)Delegate.CreateDelegate(typeof(SetValue), setMethod);
         }
 
         private TR GetFieldValue(T obj)

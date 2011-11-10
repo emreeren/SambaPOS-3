@@ -21,11 +21,16 @@ namespace Samba.Infrastructure.Settings
         public string CurrentLanguage { get; set; }
         public bool OverrideLanguage { get; set; }
         public bool OverrideWindowsRegionalSettings { get; set; }
-        public SerializableDictionary<string, string> CustomSettings { get; set; }
+
+        private readonly SerializableDictionary<string, string> _customSettings;
+        public SerializableDictionary<string, string> CustomSettings
+        {
+            get { return _customSettings; }
+        }
 
         public SettingsObject()
         {
-            CustomSettings = new SerializableDictionary<string, string>();
+            _customSettings = new SerializableDictionary<string, string>();
             MessagingServerPort = 8080;
             ConnectionString = "";
             DefaultHtmlReportHeader =

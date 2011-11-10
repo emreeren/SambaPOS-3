@@ -65,7 +65,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Foundation\DocumentDate.cs" />
     <Compile Include="Models\Actions\ActionContainer.cs" />
     <Compile Include="Models\Actions\AppRule.cs" />
     <Compile Include="Models\Actions\AppAction.cs" />
@@ -110,7 +109,6 @@
     <Compile Include="Models\Settings\ProgramSetting.cs" />
     <Compile Include="Models\Menus\MenuItem.cs" />
     <Compile Include="Models\Menus\MenuItemPortion.cs" />
-    <Compile Include="Foundation\Price.cs" />
     <Compile Include="Models\Menus\MenuItemProperty.cs" />
     <Compile Include="Models\Menus\MenuItemPropertyGroup.cs" />
     <Compile Include="Models\Menus\ScreenMenuItem.cs" />

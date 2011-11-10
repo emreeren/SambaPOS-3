@@ -14,12 +14,12 @@ namespace Samba.Modules.MenuModule
         public string PortionName { get { return Model.Name; } }
         public decimal Price
         {
-            get { return Model.Price.Amount; }
+            get { return Model.Price; }
             set
             {
-                if (value != Model.Price.Amount)
+                if (value != Model.Price)
                 {
-                    Model.Price.Amount = value;
+                    Model.Price = value;
                     IsChanged = true;
                 }
                 RaisePropertyChanged(() => Price);

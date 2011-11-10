@@ -53,27 +53,27 @@ namespace Samba.Infrastructure.Printing
 
         public void Beep(char times = '\x2', char duration = '\x5')
         {
-            WriteData((char)0x1B + "B" + times + duration);
+            WriteData(AsciiControlChars.Escape + "B" + times + duration);
         }
 
         public void EnableBold()
         {
-            WriteData((char)0x1B + "G" + (char)1);
+            WriteData(AsciiControlChars.Escape + "G" + (char)1);
         }
 
         public void DisableBold()
         {
-            WriteData((char)0x1B + "G" + (char)0);
+            WriteData(AsciiControlChars.Escape + "G" + (char)0);
         }
 
         public void SelectTurkishCodePage()
         {
-            WriteData((char)0x1B + (char)0x1D + "t" + (char)12);
+            WriteData(AsciiControlChars.Escape + (char)0x1D + "t" + (char)12);
         }
 
         public void Cut()
         {
-            WriteData((char)0x1B + "d" + (char)1);
+            WriteData(AsciiControlChars.Escape + "d" + (char)1);
             WriteData((char)0x1D + "V" + (char)66 + (char)0);
         }
 
@@ -188,7 +188,7 @@ namespace Samba.Infrastructure.Printing
             if (_hprinter != IntPtr.Zero)
             {
                 int dwWritten;
-                if (!PrinterHelper.WritePrinter(_hprinter, data, data.Length, out dwWritten)) BombWin32();
+                if (!NativeMethods.WritePrinter(_hprinter, data, data.Length, out dwWritten)) BombWin32();
             }
         }
 
@@ -267,31 +267,26 @@ namespace Samba.Infrastructure.Printing
                 bw.Write(width[0]);  // width low byte
                 bw.Write(width[1]);  // width high byte
 
-                for (int x = 0; x < data.Width; ++x)
+                for (var x = 0; x < data.Width; ++x)
                 {
-                    for (int k = 0; k < 3; ++k)
+                    for (var k = 0; k < 3; ++k)
                     {
                         byte slice = 0;
 
-                        for (int b = 0; b < 8; ++b)
+                        for (var b = 0; b < 8; ++b)
                         {
-                            int y = (((offset / 8) + k) * 8) + b;
+                            var y = (((offset / 8) + k) * 8) + b;
+                            var i = (y * data.Width) + x;
+                            var v = false;
 
-                            int i = (y * data.Width) + x;
-
-                            bool v = false;
                             if (i < dots.Length)
-                            {
                                 v = dots[i];
-                            }
 
                             slice |= (byte)((v ? 1 : 0) << (7 - b));
                         }
-
                         bw.Write(slice);
                     }
                 }
-
                 offset += 24;
                 bw.Write(AsciiControlChars.Newline);
             }
@@ -303,17 +298,24 @@ namespace Samba.Infrastructure.Printing
 
         private static byte[] GetDocument(string fileName)
         {
-            using (var ms = new MemoryStream())
-            using (var bw = new BinaryWriter(ms))
+            MemoryStream ms = null;
+            try
             {
-                bw.Write(AsciiControlChars.Escape);
-                bw.Write('@');
-
-                RenderLogo(bw, fileName);
-
-                bw.Flush();
-
-                return ms.ToArray();
+                ms = new MemoryStream();
+                using (var bw = new BinaryWriter(ms))
+                {
+                    ms = null;
+                    bw.Write(AsciiControlChars.Escape);
+                    bw.Write('@');
+                    RenderLogo(bw, fileName);
+                    bw.Flush();
+                    return ((MemoryStream)bw.BaseStream).ToArray();
+                }
+            }
+            finally
+            {
+                if (ms != null)
+                    ms.Dispose();
             }
         }
 

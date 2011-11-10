@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Reflection;
 
-namespace Serialization
+namespace Samba.Infrastructure.Data.BinarySerializer
 {
     public interface IStorage
     {

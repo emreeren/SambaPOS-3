@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Globalization;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Samba.Domain.Foundation;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
@@ -29,11 +27,11 @@ namespace Samba.Services.Test
 
             var menuItem1 = MenuItem.Create();
             menuItem1.Name = "Kurufasülye";
-            menuItem1.Portions[0].Price.Amount = 5;
+            menuItem1.Portions[0].Price = 5;
 
             var menuItem2 = MenuItem.Create();
             menuItem2.Name = "Pilav";
-            menuItem2.Portions[0].Price.Amount = 3;
+            menuItem2.Portions[0].Price = 3;
 
             menuItem2.AddPortion("Az", 1, "TL");
 
@@ -116,7 +114,7 @@ Toplam: 34,00";
             Assert.IsTrue(result == expectedResult);
 
             l2.Gifted = true;
-            template.GiftLineTemplate="{MİKTAR} {ÜRÜN} İKRAM";
+            template.GiftLineTemplate = "{MİKTAR} {ÜRÜN} İKRAM";
 
             expectedResult = @"SAMBA
 Adisyon Tarihi:01.01.2010

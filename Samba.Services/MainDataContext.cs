@@ -46,7 +46,8 @@ namespace Samba.Services
                 Debug.Assert(_workspace == null);
                 Debug.Assert(Ticket == null);
                 _workspace = WorkspaceFactory.Create();
-                Ticket = _workspace.Single<Ticket>(ticket => ticket.Id == ticketId);
+
+                Ticket = _workspace.Single<Ticket>(ticket => ticket.Id == ticketId, x => x.TicketItems.Select(y => y.Properties));
             }
 
             public void CommitChanges()
@@ -133,6 +134,11 @@ namespace Samba.Services
             public void RemoveServices(IEnumerable<Service> services)
             {
                 services.ToList().ForEach(x => _workspace.Delete(x));
+            }
+
+            public void RemoveUnusedTags(IEnumerable<TicketTagValue> tags)
+            {
+                tags.Where(x => string.IsNullOrEmpty(x.TagValue)).ToList().ForEach(x => _workspace.Delete(x));
             }
 
             public void AddItemToSelectedTicket(TicketItem model)
@@ -471,6 +477,7 @@ namespace Samba.Services
             {
                 _ticketWorkspace.RemoveTicketItems(SelectedTicket.PopRemovedTicketItems());
                 _ticketWorkspace.RemoveServices(SelectedTicket.PopRemovedServices());
+                _ticketWorkspace.RemoveUnusedTags(SelectedTicket.Tags);
                 Recalculate(SelectedTicket);
                 SelectedTicket.IsPaid = SelectedTicket.RemainingAmount == 0;
 

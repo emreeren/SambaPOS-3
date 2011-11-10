@@ -11,17 +11,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 #endregion
 
 
-namespace Serialization
+namespace Samba.Infrastructure.Data.BinarySerializer
 {
     /// <summary>
     ///   Indicates that a property or field should not be serialized

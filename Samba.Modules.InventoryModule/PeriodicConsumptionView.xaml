@@ -39,13 +39,8 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="{LocText Unit}"
+                        <DataGridTemplateColumn Header="{LocText Unit}" IsReadOnly="True"
                              CellStyle="{StaticResource LeftAlignedGridCell}">
-                            <DataGridTemplateColumn.CellEditingTemplate>
-                                <DataTemplate>
-                                    <ComboBox ItemsSource="{Binding UnitNames}" SelectedItem="{Binding UnitName}" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellEditingTemplate>
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Margin="3" Text="{Binding UnitName}" />

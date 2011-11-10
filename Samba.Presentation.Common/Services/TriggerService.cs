@@ -18,12 +18,12 @@ namespace Samba.Presentation.Common.Services
             var triggers = Dao.Query<Trigger>();
             foreach (var trigger in triggers)
             {
-                var dataContext = new CronObjectDataContext
+                var dataContext = new CronObjectDataContext(new List<CronSchedule> { CronSchedule.Parse(trigger.Expression) })
                     {
                         Object = trigger,
-                        LastTrigger = trigger.LastTrigger,
-                        CronSchedules = new List<CronSchedule> { CronSchedule.Parse(trigger.Expression) }
+                        LastTrigger = trigger.LastTrigger
                     };
+
                 var cronObject = new CronObject(dataContext);
                 cronObject.OnCronTrigger += OnCronTrigger;
                 CronObjects.Add(cronObject);
@@ -41,11 +41,11 @@ namespace Samba.Presentation.Common.Services
             CronObjects.Clear();
         }
 
-        private static void OnCronTrigger(CronObject cronobject)
+        private static void OnCronTrigger(object sender, CronEventArgs e)
         {
             using (var workspace = WorkspaceFactory.Create())
             {
-                var trigger = workspace.Single<Trigger>(x => x.Id == ((Trigger)cronobject.Object).Id);
+                var trigger = workspace.Single<Trigger>(x => x.Id == ((Trigger)e.CronObject.Object).Id);
                 if (trigger != null)
                 {
                     trigger.LastTrigger = DateTime.Now;
@@ -53,7 +53,7 @@ namespace Samba.Presentation.Common.Services
                     if (AppServices.ActiveAppScreen != AppScreens.Dashboard)
                         RuleExecutor.NotifyEvent(RuleEventNames.TriggerExecuted, new { TriggerName = trigger.Name });
                 }
-                else cronobject.Stop();
+                else e.CronObject.Stop();
             }
         }
     }

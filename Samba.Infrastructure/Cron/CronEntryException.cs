@@ -2,7 +2,8 @@ using System;
 
 namespace Samba.Infrastructure.Cron
 {
-	public class CronEntryException : Exception
+    [Serializable]
+    public class CronEntryException : Exception
 	{
 		public CronEntryException(string message)
 			: base(message)

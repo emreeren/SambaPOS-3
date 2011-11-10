@@ -7,9 +7,8 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading;
-using Samba.Infrastructure.Data.Serializer;
+using Samba.Infrastructure.Data.BinarySerializer;
 using Samba.Infrastructure.Settings;
-using Serialization;
 
 namespace Samba.Infrastructure.Data.Text
 {

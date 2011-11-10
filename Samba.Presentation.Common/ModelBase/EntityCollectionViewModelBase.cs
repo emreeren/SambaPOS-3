@@ -95,7 +95,7 @@ namespace Samba.Presentation.Common.ModelBase
             set
             {
                 _selectedItem = value;
-                RaisePropertyChanged(()=>SelectedItem);
+                RaisePropertyChanged(() => SelectedItem);
             }
         }
 
@@ -192,12 +192,15 @@ namespace Samba.Presentation.Common.ModelBase
             return result;
         }
 
-        protected override void OnDispose()
+        protected override void Dispose(bool disposing)
         {
+            if (disposing)
+            {
+                if (_workspace != null)
+                    _workspace.Dispose();
+            }
             EventServiceFactory.EventService.GetEvent<GenericEvent<EntityViewModelBase<TModel>>>().Unsubscribe(_token);
             EventServiceFactory.EventService.GetEvent<GenericEvent<VisibleViewModelBase>>().Unsubscribe(_token2);
-            base.OnDispose();
-            _workspace.Dispose();
         }
 
         public int GetCount()

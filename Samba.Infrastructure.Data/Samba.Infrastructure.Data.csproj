@@ -73,7 +73,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BinarySerializer\Entry.cs" />
     <Compile Include="BinarySerializer\GetSet.cs" />
     <Compile Include="BinarySerializer\GetSetGeneric.cs" />
     <Compile Include="BinarySerializer\GetWritableAttributes.cs" />

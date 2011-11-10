@@ -452,8 +452,18 @@ namespace Samba.Modules.TicketModule
             var mitem = MergedItems.SingleOrDefault(x => x.MenuItemId == item.MenuItemId && x.Price == price);
             if (mitem == null)
             {
-                mitem = new MergedItem { Description = item.MenuItemName + item.GetPortionDesc(), Price = price, MenuItemId = item.MenuItemId };
-                MergedItems.Add(mitem);
+                mitem = new MergedItem();
+                try
+                {
+                    mitem.Description = item.MenuItemName + item.GetPortionDesc();
+                    mitem.Price = price;
+                    mitem.MenuItemId = item.MenuItemId;
+                    MergedItems.Add(mitem);
+                }
+                finally
+                {
+                    mitem.Dispose();
+                }
             }
             mitem.Quantity += item.Quantity;
         }
@@ -515,6 +525,7 @@ namespace Samba.Modules.TicketModule
             LastTenderedAmount = PaymentAmount;
             CreateButtons();
         }
+
     }
 
     public class MergedItem : ObservableObject

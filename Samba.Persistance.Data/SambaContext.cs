@@ -1,5 +1,4 @@
 ﻿using System.Data.Entity;
-using Samba.Domain.Foundation;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Actions;
 using Samba.Domain.Models.Inventories;
@@ -74,10 +73,6 @@ namespace Samba.Persistance.Data
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.ComplexType<Price>();
-
-            modelBuilder.ComplexType<DocumentDate>();
-
             modelBuilder.Entity<MenuItem>().HasMany(p => p.PropertyGroups).WithMany();
             modelBuilder.Entity<Department>().HasMany(p => p.TicketTagGroups).WithMany();
             modelBuilder.Entity<Department>().HasMany(p => p.ServiceTemplates).WithMany();
@@ -87,23 +82,24 @@ namespace Samba.Persistance.Data
             const int scale = 2;
             const int precision = 16;
 
-            modelBuilder.ComplexType<Price>().Property(x => x.Amount).HasPrecision(precision, scale);
-
             //ServiceTemplate
-
             modelBuilder.Entity<ServiceTemplate>().Property(x => x.Amount).HasPrecision(precision, scale);
 
             //Service
-
             modelBuilder.Entity<Service>().Property(x => x.Amount).HasPrecision(precision, scale);
             modelBuilder.Entity<Service>().Property(x => x.CalculationAmount).HasPrecision(precision, scale);
 
             //TaxTemplate
-
             modelBuilder.Entity<TaxTemplate>().Property(x => x.Rate).HasPrecision(precision, scale);
 
             //MenuItemPrice
             modelBuilder.Entity<MenuItemPrice>().Property(x => x.Price).HasPrecision(precision, scale);
+
+            //MenuItemPortion
+            modelBuilder.Entity<MenuItemPortion>().Property(x => x.Price).HasPrecision(precision, scale);
+
+            //MenuItemProperty
+            modelBuilder.Entity<MenuItemProperty>().Property(x => x.Price).HasPrecision(precision, scale);
 
             //Recipe
             modelBuilder.Entity<Recipe>().Property(x => x.FixedCost).HasPrecision(precision, scale);
@@ -144,6 +140,7 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<PaidItem>().Property(x => x.Price).HasPrecision(precision, scale);
 
             //TicketItemProperty
+            modelBuilder.Entity<TicketItemProperty>().Property(x => x.Price).HasPrecision(precision, scale);
             modelBuilder.Entity<TicketItemProperty>().Property(x => x.Quantity).HasPrecision(precision, scale);
             modelBuilder.Entity<TicketItemProperty>().Property(x => x.TaxAmount).HasPrecision(precision, scale);
 

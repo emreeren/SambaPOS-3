@@ -154,7 +154,25 @@ namespace Samba.Modules.TicketModule
 
         public void ResetFilters()
         {
-            Filters = new List<TicketExplorerFilter> { new TicketExplorerFilter { FilterType = FilterType.OpenTickets } };
+            var item = new TicketExplorerFilter();
+            try
+            {
+                item.FilterType = FilterType.OpenTickets;
+                Filters = new List<TicketExplorerFilter> { item };
+            }
+            finally
+            {
+                item.Dispose();
+            }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_timer != null)
+                    _timer.Dispose();
+            }
         }
     }
 }

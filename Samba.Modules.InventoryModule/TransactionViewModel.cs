@@ -52,7 +52,7 @@ namespace Samba.Modules.InventoryModule
             set
             {
                 _selectedTransactionItem = value;
-                RaisePropertyChanged(()=>SelectedTransactionItem);
+                RaisePropertyChanged(() => SelectedTransactionItem);
             }
         }
 
@@ -71,7 +71,7 @@ namespace Samba.Modules.InventoryModule
 
         private bool CanAddTransactionItem(string arg)
         {
-            return CanSave(arg);
+            return TransactionItems.Count() == 0 || CanSave(arg);
         }
 
         protected override bool CanSave(string arg)
@@ -132,7 +132,7 @@ namespace Samba.Modules.InventoryModule
             RuleFor(x => x.TransactionItems).Must(x => x.Count > 0).WithMessage(Resources.TransactionsEmptyError)
             .Must(x => x.Count(y => y.Quantity == 0) == 0).WithMessage(Resources.TranactionsZeroQuantityError)
             .Must(x => x.Count(y => y.Multiplier == 0) == 0).WithMessage(Resources.TransactionMultiplierError)
-            .Must(x => x.Count(y => string.IsNullOrEmpty(y.Unit)) == 0).WithMessage(Resources.TransactionUnitError);       
+            .Must(x => x.Count(y => string.IsNullOrEmpty(y.Unit)) == 0).WithMessage(Resources.TransactionUnitError);
         }
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Diagnostics;
-using Samba.Domain.Foundation;
 using Samba.Domain.Models.Menus;
 using Samba.Infrastructure.Settings;
 
@@ -109,7 +108,7 @@ namespace Samba.Domain.Models.Tickets
 
             if (string.IsNullOrEmpty(priceTag))
             {
-                UpdatePrice(portion.Price.Amount, "");
+                UpdatePrice(portion.Price, "");
             }
 
             CurrencyCode = LocalSettings.CurrencySymbol;
@@ -121,7 +120,7 @@ namespace Samba.Domain.Models.Tickets
 
         public void ToggleProperty(MenuItemPropertyGroup group, MenuItemProperty property)
         {
-            if (group.MultipleSelection && property.Price.Amount == 0)
+            if (group.MultipleSelection && property.Price == 0)
             {
                 var groupItems = Properties.Where(x => x.PropertyGroupId == group.Id).ToList();
                 foreach (var tip in groupItems) Properties.Remove(tip);
@@ -135,7 +134,7 @@ namespace Samba.Domain.Models.Tickets
                 ti = new TicketItemProperty
                         {
                             Name = property.Name,
-                            PropertyPrice = new Price { Amount = property.Price.Amount, CurrencyCode = property.Price.CurrencyCode },
+                            Price = property.Price,
                             PropertyGroupId = group.Id,
                             MenuItemId = property.MenuItemId,
                             CalculateWithParentPrice = group.CalculateWithParentPrice,
@@ -145,11 +144,11 @@ namespace Samba.Domain.Models.Tickets
 
                 if (TaxIncluded && TaxRate > 0)
                 {
-                    ti.PropertyPrice.Amount = ti.PropertyPrice.Amount / ((100 + TaxRate) / 100);
-                    ti.PropertyPrice.Amount = decimal.Round(ti.PropertyPrice.Amount, 2);
-                    ti.TaxAmount = property.Price.Amount - ti.PropertyPrice.Amount;
+                    ti.Price = ti.Price / ((100 + TaxRate) / 100);
+                    ti.Price = decimal.Round(ti.Price, 2);
+                    ti.TaxAmount = property.Price - ti.Price;
                 }
-                else if (TaxRate > 0) ti.TaxAmount = (property.Price.Amount * TaxRate) / 100;
+                else if (TaxRate > 0) ti.TaxAmount = (property.Price * TaxRate) / 100;
                 else ti.TaxAmount = 0;
             }
             if (group.SingleSelection)
@@ -187,7 +186,7 @@ namespace Samba.Domain.Models.Tickets
                 tip = new TicketItemProperty
                           {
                               Name = "",
-                              PropertyPrice = new Price(0, LocalSettings.CurrencySymbol),
+                              Price = 0,
                               PropertyGroupId = 0,
                               MenuItemId = 0,
                               Quantity = 0
@@ -207,12 +206,12 @@ namespace Samba.Domain.Models.Tickets
             else
             {
                 tip.Name = text;
-                tip.PropertyPrice = new Price(price, LocalSettings.CurrencySymbol);
+                tip.Price = price;
                 if (TaxIncluded && TaxRate > 0)
                 {
-                    tip.PropertyPrice.Amount = tip.PropertyPrice.Amount / ((100 + TaxRate) / 100);
-                    tip.PropertyPrice.Amount = decimal.Round(tip.PropertyPrice.Amount, 2);
-                    tip.TaxAmount = price - tip.PropertyPrice.Amount;
+                    tip.Price = tip.Price / ((100 + TaxRate) / 100);
+                    tip.Price = decimal.Round(tip.Price, 2);
+                    tip.TaxAmount = price - tip.Price;
                 }
                 else if (TaxRate > 0) tip.TaxAmount = (price * TaxRate) / 100;
                 else TaxAmount = 0;
@@ -265,7 +264,7 @@ namespace Samba.Domain.Models.Tickets
 
         private static decimal GetPropertySum(IEnumerable<TicketItemProperty> properties, bool vatIncluded)
         {
-            return properties.Sum(property => (property.PropertyPrice.Amount + (vatIncluded ? property.TaxAmount : 0)) * property.Quantity);
+            return properties.Sum(property => (property.Price + (vatIncluded ? property.TaxAmount : 0)) * property.Quantity);
         }
 
         public void IncSelectedQuantity()

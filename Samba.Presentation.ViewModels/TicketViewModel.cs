@@ -29,6 +29,8 @@ namespace Samba.Presentation.ViewModels
             _itemsViewSource = new CollectionViewSource { Source = _items };
             _itemsViewSource.GroupDescriptions.Add(new PropertyGroupDescription("GroupObject"));
 
+            SelectAllItemsCommand = new CaptionCommand<string>("", OnSelectAllItemsExecute);
+
             PrintJobButtons = AppServices.CurrentTerminal.PrintJobs
                 .Where(x => (!string.IsNullOrEmpty(x.ButtonText))
                     && (x.PrinterMaps.Count(y => y.Department == null || y.Department.Id == AppServices.MainDataContext.SelectedDepartment.Id) > 0))
@@ -41,6 +43,17 @@ namespace Samba.Presentation.ViewModels
                     ? PrintJobButtons.Where(x => x.Model.UseForPaidTickets)
                     : PrintJobButtons.Where(x => !x.Model.UseForPaidTickets);
             }
+        }
+
+        private void OnSelectAllItemsExecute(string obj)
+        {
+            foreach (var item in Items.Where(x => x.OrderNumber == obj))
+                item.ToggleSelection();
+
+            RefreshVisuals();
+
+            this.PublishEvent(EventTopicNames.SelectedItemsChanged);
+
         }
 
         public Ticket Model
@@ -79,6 +92,8 @@ namespace Samba.Presentation.ViewModels
         }
 
         public IEnumerable<PrintJobButton> PrintJobButtons { get; set; }
+
+        public ICaptionCommand SelectAllItemsCommand { get; set; }
 
         public DateTime Date
         {
