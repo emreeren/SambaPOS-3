@@ -98,11 +98,14 @@ namespace Samba.Modules.BasicReports
 
         internal string AskFileName(string defaultName, string extenstion)
         {
+            var filterDesc = extenstion.Trim('.', ' ').ToUpper();
+
             var saveFileDialog = new SaveFileDialog
-            {
-                FileName = defaultName,
-                DefaultExt = extenstion
-            };
+                                     {
+                                         FileName = defaultName,
+                                         DefaultExt = extenstion,
+                                         Filter = string.Format("{0} File (*{1})|*{1}", filterDesc, extenstion)
+                                     };
 
             var result = saveFileDialog.ShowDialog();
             return result.GetValueOrDefault(false) ? saveFileDialog.FileName : "";
