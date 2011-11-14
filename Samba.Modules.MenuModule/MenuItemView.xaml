@@ -57,8 +57,6 @@
                                          Binding="{Binding Path=Multiplier,StringFormat='#,##.##'}" />
                                 <DataGridTextColumn Header="{LocText Price}"
                                          Binding="{Binding Path=Price,StringFormat='#,#0.00'}" CellStyle="{StaticResource RightAlignedCellStyle}" />
-                                <DataGridTextColumn Header="{LocText PB}" MinWidth="10"
-                                         Binding="{Binding CurrencyCode}" />
                             </DataGrid.Columns>
                             <DataGrid.ContextMenu>
                                 <ContextMenu>
