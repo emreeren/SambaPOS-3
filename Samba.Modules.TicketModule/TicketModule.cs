@@ -30,6 +30,9 @@ namespace Samba.Modules.TicketModule
             _regionManager = regionManager;
             _ticketEditorView = ticketEditorView;
 
+            AddDashboardCommand<OrderTagGroupListViewModel>(Resources.OrderTags, Resources.Settings);
+            AddDashboardCommand<TicketTagGroupListViewModel>(Resources.TicketTags, Resources.Settings, 10);
+
             PermissionRegistry.RegisterPermission(PermissionNames.AddItemsToLockedTickets, PermissionCategories.Ticket, Resources.CanReleaseTicketLock);
             PermissionRegistry.RegisterPermission(PermissionNames.RemoveTicketTag, PermissionCategories.Ticket, Resources.CanRemoveTicketTag);
             PermissionRegistry.RegisterPermission(PermissionNames.GiftItems, PermissionCategories.Ticket, Resources.CanGiftItems);
@@ -76,7 +79,7 @@ namespace Samba.Modules.TicketModule
                                 AppServices.ResetCache();
                                 var endDate = AppServices.MainDataContext.LastTwoWorkPeriods.Last().EndDate;
                                 var startDate = endDate.AddDays(-7);
-                                vr.Queryable<TicketItem>()
+                                vr.Queryable<Order>()
                                     .Where(y => y.CreatedDateTime >= startDate && y.CreatedDateTime < endDate)
                                     .GroupBy(y => y.MenuItemId)
                                     .ToList().ForEach(

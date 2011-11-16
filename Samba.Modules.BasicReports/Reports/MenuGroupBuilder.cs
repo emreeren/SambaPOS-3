@@ -10,7 +10,7 @@ namespace Samba.Modules.BasicReports.Reports
         public static IEnumerable<MenuItemGroupInfo> CalculateMenuGroups(IEnumerable<Ticket> tickets, IEnumerable<MenuItem> menuItems)
         {
             var menuItemInfoGroups =
-                from c in tickets.SelectMany(x => x.TicketItems.Select(y => new { Ticket = x, TicketItem = y }))
+                from c in tickets.SelectMany(x => x.Orders.Select(y => new { Ticket = x, TicketItem = y }))
                 join menuItem in menuItems on c.TicketItem.MenuItemId equals menuItem.Id
                 group c by menuItem.GroupCode into grp
                 select new MenuItemGroupInfo
@@ -47,7 +47,7 @@ namespace Samba.Modules.BasicReports.Reports
         public static IEnumerable<MenuItemSellInfo> CalculateMenuItems(IEnumerable<Ticket> tickets, IEnumerable<MenuItem> menuItems)
         {
             var menuItemSellInfos =
-                from c in tickets.SelectMany(x => x.TicketItems.Where(y => !y.Voided).Select(y => new { Ticket = x, TicketItem = y }))
+                from c in tickets.SelectMany(x => x.Orders.Where(y => !y.Voided).Select(y => new { Ticket = x, TicketItem = y }))
                 join menuItem in menuItems on c.TicketItem.MenuItemId equals menuItem.Id
                 group c by menuItem.Name into grp
                 select new MenuItemSellInfo { Name = grp.Key, Quantity = grp.Sum(y => y.TicketItem.Quantity), Amount = grp.Sum(y => CalculateTicketItemTotal(y.Ticket, y.TicketItem)) };
@@ -58,7 +58,7 @@ namespace Samba.Modules.BasicReports.Reports
         }
 
 
-        public static decimal CalculateTicketItemTotal(Ticket ticket, TicketItem ticketItem)
+        public static decimal CalculateTicketItemTotal(Ticket ticket, Order ticketItem)
         {
             var discount = ticket.GetDiscountAndRoundingTotal();
             if (discount != 0)

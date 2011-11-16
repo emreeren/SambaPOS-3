@@ -1807,15 +1807,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can&apos;t delete because this Product Property assigned to a Product.
-        /// </summary>
-        public static string DeleteErrorProductPropertyUsedInProduct {
-            get {
-                return ResourceManager.GetString("DeleteErrorProductPropertyUsedInProduct", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Can&apos;t delete because this Product assigned to a Menu.
         /// </summary>
         public static string DeleteErrorProductUsedInMenu {
@@ -4428,6 +4419,33 @@ namespace Samba.Localization.Properties {
         public static string OrderNumerator {
             get {
                 return ResourceManager.GetString("OrderNumerator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order Tag Group Name.
+        /// </summary>
+        public static string OrderTagGroupName {
+            get {
+                return ResourceManager.GetString("OrderTagGroupName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order Tag Mapping.
+        /// </summary>
+        public static string OrderTagMapping {
+            get {
+                return ResourceManager.GetString("OrderTagMapping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order Tags.
+        /// </summary>
+        public static string OrderTags {
+            get {
+                return ResourceManager.GetString("OrderTags", resourceCulture);
             }
         }
         

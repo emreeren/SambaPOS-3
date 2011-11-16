@@ -55,7 +55,7 @@ namespace Samba.Modules.SettingsModule
 
         protected override string CanDeleteItem(Reason model)
         {
-            var gifts = Dao.Count<TicketItem>(x => x.Gifted && x.ReasonId == model.Id);
+            var gifts = Dao.Count<Order>(x => x.Gifted && x.ReasonId == model.Id);
             return gifts > 0 ? Resources.DeleteErrorGiftReasonInUse : "";
         }
     }

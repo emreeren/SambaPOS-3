@@ -7,6 +7,7 @@ using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common;
+using Samba.Services;
 
 namespace Samba.Modules.SettingsModule
 {

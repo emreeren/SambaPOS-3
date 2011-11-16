@@ -33,9 +33,9 @@ namespace Samba.Domain.Models.Tickets
             LocationName = locationName;
             PrintJobData = "";
 
-            _removedTicketItems = new List<TicketItem>();
+            _removedOrders = new List<Order>();
             _removedServices = new List<Service>();
-            _ticketItems = new List<TicketItem>();
+            _orders = new List<Order>();
             _payments = new List<Payment>();
             _discounts = new List<Discount>();
             _paidItems = new List<PaidItem>();
@@ -45,7 +45,7 @@ namespace Samba.Domain.Models.Tickets
 
         private bool _shouldLock;
         private Dictionary<int, int> _printCounts;
-        private readonly List<TicketItem> _removedTicketItems;
+        private readonly List<Order> _removedOrders;
         private readonly List<Service> _removedServices;
 
         public int Id { get; set; }
@@ -66,11 +66,11 @@ namespace Samba.Domain.Models.Tickets
         public string Note { get; set; }
         public bool Locked { get; set; }
 
-        private IList<TicketItem> _ticketItems;
-        public virtual IList<TicketItem> TicketItems
+        private IList<Order> _orders;
+        public virtual IList<Order> Orders
         {
-            get { return _ticketItems; }
-            set { _ticketItems = value; }
+            get { return _orders; }
+            set { _orders = value; }
         }
 
         private IList<Payment> _payments;
@@ -108,18 +108,18 @@ namespace Samba.Domain.Models.Tickets
             set { _paidItems = value; }
         }
 
-        public TicketItem AddTicketItem(int userId, MenuItem menuItem, string portionName)
+        public Order AddOrder(int userId, MenuItem menuItem, string portionName)
         {
             // Only for tests
-            return AddTicketItem(userId, menuItem, portionName, "", "");
+            return AddOrder(userId, menuItem, portionName, "");
         }
 
-        public TicketItem AddTicketItem(int userId, MenuItem menuItem, string portionName, string priceTag, string defaultProperties)
+        public Order AddOrder(int userId, MenuItem menuItem, string portionName, string priceTag)
         {
             Locked = false;
-            var tif = new TicketItem();
-            tif.UpdateMenuItem(userId, menuItem, portionName, priceTag, 1, defaultProperties);
-            TicketItems.Add(tif);
+            var tif = new Order();
+            tif.UpdateMenuItem(userId, menuItem, portionName, priceTag, 1);
+            Orders.Add(tif);
             return tif;
         }
 
@@ -136,16 +136,16 @@ namespace Samba.Domain.Models.Tickets
             return result;
         }
 
-        public void RemoveTicketItem(TicketItem ti)
+        public void RemoveOrder(Order ti)
         {
-            TicketItems.Remove(ti);
-            if (ti.Id > 0) _removedTicketItems.Add(ti);
+            Orders.Remove(ti);
+            if (ti.Id > 0) _removedOrders.Add(ti);
         }
 
-        public IEnumerable<TicketItem> PopRemovedTicketItems()
+        public IEnumerable<Order> PopRemovedOrders()
         {
-            var result = _removedTicketItems.ToArray();
-            _removedTicketItems.Clear();
+            var result = _removedOrders.ToArray();
+            _removedOrders.Clear();
             return result;
         }
 
@@ -158,7 +158,7 @@ namespace Samba.Domain.Models.Tickets
 
         public int GetItemCount()
         {
-            return TicketItems.Count();
+            return Orders.Count();
         }
 
         public decimal GetSumWithoutTax()
@@ -184,7 +184,7 @@ namespace Samba.Domain.Models.Tickets
 
         private decimal CalculateTax(decimal plainSum, decimal discount)
         {
-            var result = TicketItems.Where(x => !x.TaxIncluded && !x.Voided && !x.Gifted).Sum(x => (x.TaxAmount + x.Properties.Sum(y => y.TaxAmount)) * x.Quantity);
+            var result = Orders.Where(x => !x.TaxIncluded && !x.Voided && !x.Gifted).Sum(x => (x.TaxAmount + x.OrderTagValues.Sum(y => y.TaxAmount)) * x.Quantity);
             if (discount > 0)
                 result -= (result * discount) / plainSum;
             return result;
@@ -251,14 +251,14 @@ namespace Samba.Domain.Models.Tickets
             {
                 if (discount.DiscountType == (int)DiscountType.Percent)
                 {
-                    if (discount.TicketItemId == 0)
+                    if (discount.OrderId == 0)
                         discount.DiscountAmount = discount.Amount > 0
                             ? (sum * discount.Amount) / 100 : 0;
                     else
                     {
                         var d = discount;
                         discount.DiscountAmount = discount.Amount > 0
-                            ? (TicketItems.Single(x => x.Id == d.TicketItemId).GetTotal() * discount.Amount) / 100 : 0;
+                            ? (Orders.Single(x => x.Id == d.OrderId).GetTotal() * discount.Amount) / 100 : 0;
                     }
                 }
                 else discount.DiscountAmount = discount.Amount;
@@ -306,12 +306,12 @@ namespace Samba.Domain.Models.Tickets
 
         public decimal GetPlainSum()
         {
-            return TicketItems.Sum(item => item.GetTotal());
+            return Orders.Sum(item => item.GetTotal());
         }
 
         public decimal GetTotalGiftAmount()
         {
-            return TicketItems.Where(x => x.Gifted && !x.Voided).Sum(item => item.GetItemValue());
+            return Orders.Where(x => x.Gifted && !x.Voided).Sum(item => item.GetItemValue());
         }
 
         public decimal GetPaymentAmount()
@@ -351,7 +351,7 @@ namespace Samba.Domain.Models.Tickets
             get { return Tags.Where(x => !string.IsNullOrEmpty(x.TagValue)).Count() > 0; }
         }
 
-        public void VoidItem(TicketItem item, int reasonId, int userId)
+        public void VoidOrder(Order item, int reasonId, int userId)
         {
             Locked = false;
             if (item.Locked && !item.Voided && !item.Gifted)
@@ -373,13 +373,13 @@ namespace Samba.Domain.Models.Tickets
                 item.ReasonId = 0;
                 item.Gifted = false;
                 if (!item.Locked)
-                    RemoveTicketItem(item);
+                    RemoveOrder(item);
             }
             else if (!item.Locked)
-                RemoveTicketItem(item);
+                RemoveOrder(item);
         }
 
-        public void CancelItem(TicketItem item)
+        public void CancelOrder(Order item)
         {
             Locked = false;
             if (item.Voided && !item.Locked)
@@ -395,10 +395,10 @@ namespace Samba.Domain.Models.Tickets
                 item.Locked = true;
             }
             else if (!item.Locked)
-                RemoveTicketItem(item);
+                RemoveOrder(item);
         }
 
-        public void GiftItem(TicketItem item, int reasonId, int userId)
+        public void GiftOrder(Order item, int reasonId, int userId)
         {
             Locked = false;
             item.Gifted = true;
@@ -407,17 +407,17 @@ namespace Samba.Domain.Models.Tickets
             item.ReasonId = reasonId;
         }
 
-        public bool CanRemoveSelectedItems(IEnumerable<TicketItem> items)
+        public bool CanRemoveSelectedOrders(IEnumerable<Order> items)
         {
             return (items.Sum(x => x.GetSelectedValue()) <= GetRemainingAmount());
         }
 
-        public bool CanVoidSelectedItems(IEnumerable<TicketItem> items)
+        public bool CanVoidSelectedOrders(IEnumerable<Order> items)
         {
-            if (!CanRemoveSelectedItems(items)) return false;
+            if (!CanRemoveSelectedOrders(items)) return false;
             foreach (var item in items)
             {
-                if (!TicketItems.Contains(item)) return false;
+                if (!Orders.Contains(item)) return false;
                 if (item.Voided) return false;
                 if (item.Gifted) return false;
                 if (!item.Locked) return false;
@@ -425,67 +425,67 @@ namespace Samba.Domain.Models.Tickets
             return true;
         }
 
-        public bool CanGiftSelectedItems(IEnumerable<TicketItem> items)
+        public bool CanGiftSelectedOrders(IEnumerable<Order> items)
         {
-            if (!CanRemoveSelectedItems(items)) return false;
+            if (!CanRemoveSelectedOrders(items)) return false;
             foreach (var item in items)
             {
-                if (!TicketItems.Contains(item)) return false;
+                if (!Orders.Contains(item)) return false;
                 if (item.Voided) return false;
                 if (item.Gifted) return false;
             }
             return true;
         }
 
-        public bool CanCancelSelectedItems(IEnumerable<TicketItem> items)
+        public bool CanCancelSelectedOrders(IEnumerable<Order> items)
         {
             if (items.Count() == 0) return false;
             foreach (var item in items)
             {
-                if (!TicketItems.Contains(item)) return false;
+                if (!Orders.Contains(item)) return false;
                 if (item.Locked && !item.Gifted) return false;
             }
             return true;
         }
 
-        public IEnumerable<TicketItem> GetUnlockedLines()
+        public IEnumerable<Order> GetUnlockedOrders()
         {
-            return TicketItems.Where(x => !x.Locked).OrderBy(x => x.Id).ToList();
+            return Orders.Where(x => !x.Locked).OrderBy(x => x.Id).ToList();
         }
 
-        public void MergeLinesAndUpdateOrderNumbers(int orderNumber)
+        public void MergeOrdersAndUpdateOrderNumbers(int orderNumber)
         {
             LastOrderDate = DateTime.Now;
-            IList<TicketItem> newLines = TicketItems.Where(x => !x.Locked && x.Id == 0).ToList();
+            IList<Order> newOrders = Orders.Where(x => !x.Locked && x.Id == 0).ToList();
 
             //sadece quantity = 1 olan satırlar birleştirilecek.
-            var mergedLines = newLines.Where(x => x.Quantity != 1).ToList();
-            var ids = mergedLines.Select(x => x.MenuItemId).Distinct().ToArray();
-            mergedLines.AddRange(newLines.Where(x => ids.Contains(x.MenuItemId) && x.Quantity == 1));
-            foreach (var ticketItem in newLines.Where(x => x.Quantity == 1 && !ids.Contains(x.MenuItemId)))
+            var mergedOrders = newOrders.Where(x => x.Quantity != 1).ToList();
+            var ids = mergedOrders.Select(x => x.MenuItemId).Distinct().ToArray();
+            mergedOrders.AddRange(newOrders.Where(x => ids.Contains(x.MenuItemId) && x.Quantity == 1));
+            foreach (var order in newOrders.Where(x => x.Quantity == 1 && !ids.Contains(x.MenuItemId)))
             {
-                var ti = ticketItem;
-                if (ticketItem.Properties.Count > 0)
+                var ti = order;
+                if (order.OrderTagValues.Count > 0)
                 {
-                    mergedLines.Add(ticketItem);
+                    mergedOrders.Add(order);
                     continue;
                 }
 
                 var item =
-                    mergedLines.SingleOrDefault(
+                    mergedOrders.SingleOrDefault(
                         x =>
-                        x.Properties.Count == 0 && x.MenuItemId == ti.MenuItemId &&
+                        x.OrderTagValues.Count == 0 && x.MenuItemId == ti.MenuItemId &&
                         x.PortionName == ti.PortionName && x.Gifted == ti.Gifted);
-                if (item == null) mergedLines.Add(ticketItem);
-                else item.Quantity += ticketItem.Quantity;
+                if (item == null) mergedOrders.Add(order);
+                else item.Quantity += order.Quantity;
             }
 
-            foreach (var ticketItem in newLines.Where(ticketItem => !mergedLines.Contains(ticketItem)))
+            foreach (var order in newOrders.Where(order => !mergedOrders.Contains(order)))
             {
-                RemoveTicketItem(ticketItem);
+                RemoveOrder(order);
             }
 
-            foreach (var item in TicketItems.Where(x => !x.Locked).Where(item => item.OrderNumber == 0))
+            foreach (var item in Orders.Where(x => !x.Locked).Where(order => order.OrderNumber == 0))
             {
                 item.OrderNumber = orderNumber;
             }
@@ -498,9 +498,9 @@ namespace Samba.Domain.Models.Tickets
 
         public void LockTicket()
         {
-            foreach (var item in TicketItems.Where(x => !x.Locked))
+            foreach (var order in Orders.Where(x => !x.Locked))
             {
-                item.Locked = true;
+                order.Locked = true;
             }
             if (_shouldLock) Locked = true;
             _shouldLock = false;
@@ -516,12 +516,12 @@ namespace Samba.Domain.Models.Tickets
             return ticket;
         }
 
-        public TicketItem CloneItem(TicketItem item)
+        public Order CloneOrder(Order item)
         {
-            Debug.Assert(_ticketItems.Contains(item));
+            Debug.Assert(_orders.Contains(item));
             var result = ObjectCloner.Clone(item);
             result.Quantity = 0;
-            _ticketItems.Add(result);
+            _orders.Add(result);
             return result;
         }
 
@@ -626,18 +626,18 @@ namespace Samba.Domain.Models.Tickets
             TotalAmount = GetSum();
         }
 
-        public IEnumerable<TicketItem> ExtractSelectedTicketItems(IEnumerable<TicketItem> selectedItems)
+        public IEnumerable<Order> ExtractSelectedOrders(IEnumerable<Order> selectedOrders)
         {
-            var newItems = new List<TicketItem>();
+            var newItems = new List<Order>();
 
-            foreach (var selectedTicketItem in selectedItems)
+            foreach (var order in selectedOrders)
             {
-                Debug.Assert(selectedTicketItem.SelectedQuantity > 0);
-                Debug.Assert(TicketItems.Contains(selectedTicketItem));
-                if (selectedTicketItem.SelectedQuantity >= selectedTicketItem.Quantity) continue;
-                var newItem = CloneItem(selectedTicketItem);
-                newItem.Quantity = selectedTicketItem.SelectedQuantity;
-                selectedTicketItem.Quantity -= selectedTicketItem.SelectedQuantity;
+                Debug.Assert(order.SelectedQuantity > 0);
+                Debug.Assert(Orders.Contains(order));
+                if (order.SelectedQuantity >= order.Quantity) continue;
+                var newItem = CloneOrder(order);
+                newItem.Quantity = order.SelectedQuantity;
+                order.Quantity -= order.SelectedQuantity;
                 newItems.Add(newItem);
             }
 
@@ -646,13 +646,7 @@ namespace Samba.Domain.Models.Tickets
 
         public void UpdateTax(TaxTemplate taxTemplate)
         {
-            foreach (var ticketItem in TicketItems)
-            {
-                ticketItem.TaxRate = taxTemplate.Rate;
-                ticketItem.TaxTemplateId = taxTemplate.Id;
-                ticketItem.TaxIncluded = taxTemplate.TaxIncluded;
-                ticketItem.UpdatePrice(ticketItem.Price, ticketItem.PriceTag);
-            }
+            Orders.ToList().ForEach(x => x.UpdateTaxTemplate(taxTemplate));
         }
     }
 }

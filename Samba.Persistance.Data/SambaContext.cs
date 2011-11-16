@@ -24,15 +24,16 @@ namespace Samba.Persistance.Data
 
         public DbSet<MenuItem> MenuItems { get; set; }
         public DbSet<MenuItemPortion> MenuItemPortions { get; set; }
-        public DbSet<MenuItemProperty> MenuItemProperties { get; set; }
-        public DbSet<MenuItemPropertyGroup> MenuItemPropertyGroups { get; set; }
+        public DbSet<OrderTag> OrderTags { get; set; }
+        public DbSet<OrderTagGroup> OrderTagGroups { get; set; }
+        public DbSet<OrderTagMap> OrderTagMaps { get; set; }
         public DbSet<ScreenMenu> ScreenMenus { get; set; }
         public DbSet<ScreenMenuCategory> ScreenMenuCategories { get; set; }
         public DbSet<ScreenMenuItem> ScreenMenuItems { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
-        public DbSet<TicketItem> TicketItems { get; set; }
-        public DbSet<TicketItemProperty> TicketItemProperties { get; set; }
+        public DbSet<Order> TicketItems { get; set; }
+        public DbSet<OrderTagValue> TicketItemProperties { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
@@ -73,7 +74,6 @@ namespace Samba.Persistance.Data
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<MenuItem>().HasMany(p => p.PropertyGroups).WithMany();
             modelBuilder.Entity<Department>().HasMany(p => p.TicketTagGroups).WithMany();
             modelBuilder.Entity<Department>().HasMany(p => p.ServiceTemplates).WithMany();
             modelBuilder.Entity<TableScreen>().HasMany(p => p.Tables).WithMany();
@@ -99,7 +99,7 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<MenuItemPortion>().Property(x => x.Price).HasPrecision(precision, scale);
 
             //MenuItemProperty
-            modelBuilder.Entity<MenuItemProperty>().Property(x => x.Price).HasPrecision(precision, scale);
+            modelBuilder.Entity<OrderTag>().Property(x => x.Price).HasPrecision(precision, scale);
 
             //Recipe
             modelBuilder.Entity<Recipe>().Property(x => x.FixedCost).HasPrecision(precision, scale);
@@ -140,15 +140,15 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<PaidItem>().Property(x => x.Price).HasPrecision(precision, scale);
 
             //TicketItemProperty
-            modelBuilder.Entity<TicketItemProperty>().Property(x => x.Price).HasPrecision(precision, scale);
-            modelBuilder.Entity<TicketItemProperty>().Property(x => x.Quantity).HasPrecision(precision, scale);
-            modelBuilder.Entity<TicketItemProperty>().Property(x => x.TaxAmount).HasPrecision(precision, scale);
+            modelBuilder.Entity<OrderTagValue>().Property(x => x.Price).HasPrecision(precision, scale);
+            modelBuilder.Entity<OrderTagValue>().Property(x => x.Quantity).HasPrecision(precision, scale);
+            modelBuilder.Entity<OrderTagValue>().Property(x => x.TaxAmount).HasPrecision(precision, scale);
 
             //TicketItem
-            modelBuilder.Entity<TicketItem>().Property(x => x.Quantity).HasPrecision(precision, scale);
-            modelBuilder.Entity<TicketItem>().Property(x => x.Price).HasPrecision(precision, scale);
-            modelBuilder.Entity<TicketItem>().Property(x => x.TaxRate).HasPrecision(precision, scale);
-            modelBuilder.Entity<TicketItem>().Property(x => x.TaxAmount).HasPrecision(precision, scale);
+            modelBuilder.Entity<Order>().Property(x => x.Quantity).HasPrecision(precision, scale);
+            modelBuilder.Entity<Order>().Property(x => x.Price).HasPrecision(precision, scale);
+            modelBuilder.Entity<Order>().Property(x => x.TaxRate).HasPrecision(precision, scale);
+            modelBuilder.Entity<Order>().Property(x => x.TaxAmount).HasPrecision(precision, scale);
 
             //Ticket
             modelBuilder.Entity<Ticket>().Property(x => x.RemainingAmount).HasPrecision(precision, scale);

@@ -89,7 +89,7 @@ namespace Samba.Services.Printing
 
     public static class TicketFormatter
     {
-        public static string[] GetFormattedTicket(Ticket ticket, IEnumerable<TicketItem> lines, PrinterTemplate template)
+        public static string[] GetFormattedTicket(Ticket ticket, IEnumerable<Order> lines, PrinterTemplate template)
         {
             if (template.MergeLines) lines = MergeLines(lines);
             var orderNo = lines.Count() > 0 ? lines.ElementAt(0).OrderNumber : 0;
@@ -105,9 +105,9 @@ namespace Samba.Services.Printing
             return result.ToArray();
         }
 
-        private static IEnumerable<TicketItem> MergeLines(IEnumerable<TicketItem> lines)
+        private static IEnumerable<Order> MergeLines(IEnumerable<Order> lines)
         {
-            var group = lines.Where(x => x.Properties.Count == 0).GroupBy(x => new
+            var group = lines.Where(x => x.OrderTagValues.Count == 0).GroupBy(x => new
                                                 {
                                                     x.MenuItemId,
                                                     x.MenuItemName,
@@ -119,11 +119,10 @@ namespace Samba.Services.Printing
                                                     x.TaxIncluded,
                                                     x.PortionName,
                                                     x.PortionCount,
-                                                    x.ReasonId,
-                                                    x.CurrencyCode
+                                                    x.ReasonId
                                                 });
 
-            var result = group.Select(x => new TicketItem
+            var result = group.Select(x => new Order
                                     {
                                         MenuItemId = x.Key.MenuItemId,
                                         MenuItemName = x.Key.MenuItemName,
@@ -140,11 +139,10 @@ namespace Samba.Services.Printing
                                         TicketId = x.Last().TicketId,
                                         PortionName = x.Key.PortionName,
                                         PortionCount = x.Key.PortionCount,
-                                        CurrencyCode = x.Key.CurrencyCode,
                                         Quantity = x.Sum(y => y.Quantity)
                                     });
 
-            result = result.Union(lines.Where(x => x.Properties.Count > 0)).OrderBy(x => x.CreatedDateTime);
+            result = result.Union(lines.Where(x => x.OrderTagValues.Count > 0)).OrderBy(x => x.CreatedDateTime);
 
             return result;
         }
@@ -219,7 +217,7 @@ namespace Samba.Services.Printing
             result = FormatDataIf(discount > 0, result, "{DISCOUNT TOTAL}", () => discount.ToString("#,#0.00"));
             result = FormatDataIf(taxAmount > 0, result, "{TAX TOTAL}", () => taxAmount.ToString("#,#0.00"));
             result = FormatDataIf(taxAmount > 0, result, "{SERVICE TOTAL}", () => servicesTotal.ToString("#,#0.00"));
-            result = FormatDataIf(taxAmount > 0, result, "{TAX DETAILS}", () => GetTaxDetails(ticket.TicketItems, plainTotal, discount));
+            result = FormatDataIf(taxAmount > 0, result, "{TAX DETAILS}", () => GetTaxDetails(ticket.Orders, plainTotal, discount));
             result = FormatDataIf(servicesTotal > 0, result, "{SERVICE DETAILS}", () => GetServiceDetails(ticket));
 
             result = FormatDataIf(payment > 0, result, Resources.TF_RemainingAmountIfPaid,
@@ -260,7 +258,7 @@ namespace Samba.Services.Printing
             return string.Join("\r", sb);
         }
 
-        private static string GetTaxDetails(IEnumerable<TicketItem> ticketItems, decimal plainSum, decimal discount)
+        private static string GetTaxDetails(IEnumerable<Order> ticketItems, decimal plainSum, decimal discount)
         {
             var sb = new StringBuilder();
             var groups = ticketItems.Where(x => x.TaxTemplateId > 0).GroupBy(x => x.TaxTemplateId);
@@ -304,7 +302,7 @@ namespace Samba.Services.Printing
             return data.Replace(tagData.DataString, "");
         }
 
-        private static string FormatLines(PrinterTemplate template, TicketItem ticketItem)
+        private static string FormatLines(PrinterTemplate template, Order ticketItem)
         {
             if (ticketItem.Gifted)
             {
@@ -332,7 +330,7 @@ namespace Samba.Services.Printing
             return "";
         }
 
-        private static string ReplaceLineVars(string line, TicketItem ticketItem)
+        private static string ReplaceLineVars(string line, Order ticketItem)
         {
             string result = line;
 
@@ -351,10 +349,10 @@ namespace Samba.Services.Printing
                 if (result.Contains(Resources.TF_LineItemDetails.Substring(0, Resources.TF_LineItemDetails.Length - 1)))
                 {
                     string lineFormat = result;
-                    if (ticketItem.Properties.Count > 0)
+                    if (ticketItem.OrderTagValues.Count > 0)
                     {
                         string label = "";
-                        foreach (var property in ticketItem.Properties)
+                        foreach (var property in ticketItem.OrderTagValues)
                         {
                             var itemProperty = property;
                             var lineValue = FormatData(lineFormat, Resources.TF_LineItemDetails, () => itemProperty.Name);

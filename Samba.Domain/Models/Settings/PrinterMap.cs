@@ -9,7 +9,6 @@ namespace Samba.Domain.Models.Settings
         public int Id { get; set; }
         public string Name { get; set; }
         public int PrintJobId { get; set; }
-        public byte[] LastUpdateTime { get; set; }
         public virtual Department Department { get; set; }
         public string MenuItemGroupCode { get; set; }
         public string TicketTag { get; set; }

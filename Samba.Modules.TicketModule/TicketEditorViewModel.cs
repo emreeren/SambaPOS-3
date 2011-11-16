@@ -19,7 +19,7 @@ namespace Samba.Modules.TicketModule
             TicketListViewModel = new TicketListViewModel();
             MenuItemSelectorViewModel = new MenuItemSelectorViewModel(TicketListViewModel.AddMenuItemCommand);
             PaymentViewModel = new PaymentEditorViewModel();
-            SelectedTicketItemsViewModel = new SelectedTicketItemsViewModel();
+            SelectedOrdersViewModel = new SelectedOrdersViewModel();
             TicketExplorerViewModel = new TicketExplorerViewModel();
             DisplayCategoriesScreen();
 
@@ -43,7 +43,7 @@ namespace Samba.Modules.TicketModule
         public MenuItemSelectorViewModel MenuItemSelectorViewModel { get; set; }
         public TicketListViewModel TicketListViewModel { get; set; }
         public PaymentEditorViewModel PaymentViewModel { get; set; }
-        public SelectedTicketItemsViewModel SelectedTicketItemsViewModel { get; set; }
+        public SelectedOrdersViewModel SelectedOrdersViewModel { get; set; }
         public TicketExplorerViewModel TicketExplorerViewModel { get; set; }
 
         private int _selectedView;
@@ -87,7 +87,7 @@ namespace Samba.Modules.TicketModule
         {
             if (obj.Topic == EventTopicNames.SelectedItemsChanged)
             {
-                if (SelectedTicketItemsViewModel.ShouldDisplay(obj.Value))
+                if (SelectedOrdersViewModel.ShouldDisplay(obj.Value))
                     DisplayTicketDetailsScreen();
                 else DisplayCategoriesScreen();
             }

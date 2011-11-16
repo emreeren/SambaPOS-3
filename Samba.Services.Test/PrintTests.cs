@@ -41,8 +41,8 @@ namespace Samba.Services.Test
             var d = new Department();
             var ticket = Ticket.Create(d);
 
-            ticket.AddTicketItem(user.Id, menuItem1, "Normal");
-            ticket.AddTicketItem(user.Id, menuItem2, "Normal");
+            ticket.AddOrder(user.Id, menuItem1, "Normal");
+            ticket.AddOrder(user.Id, menuItem2, "Normal");
             ticket.Date = new DateTime(2010, 1, 1);
             ticket.AddTicketDiscount(DiscountType.Amount, 1, user.Id);
 
@@ -57,7 +57,7 @@ Adisyon Tarihi:{ADİSYON TARİH}
 [<C>İkram: {TOPLAM İKRAM}, teşekkürler]
 [Toplam: {TOPLAM BAKİYE}]";
 
-            var formatResult = TicketFormatter.GetFormattedTicket(ticket, ticket.GetUnlockedLines(), template);
+            var formatResult = TicketFormatter.GetFormattedTicket(ticket, ticket.GetUnlockedOrders(), template);
 
             var expectedResult = @"SAMBA
 Adisyon Tarihi:01.01.2010
@@ -72,14 +72,14 @@ Toplam: 7,00";
             Assert.IsTrue(result == expectedResult);
 
             template.MergeLines = true;
-            formatResult = TicketFormatter.GetFormattedTicket(ticket, ticket.GetUnlockedLines(), template);
+            formatResult = TicketFormatter.GetFormattedTicket(ticket, ticket.GetUnlockedOrders(), template);
             result = string.Join("\r\n", formatResult);
             Assert.AreEqual(expectedResult, result);
 
-            var l1 = ticket.AddTicketItem(user.Id, menuItem1, "Normal");
+            var l1 = ticket.AddOrder(user.Id, menuItem1, "Normal");
             l1.Quantity = 5;
-            var l2 = ticket.AddTicketItem(user.Id, menuItem2, "Az");
-            formatResult = TicketFormatter.GetFormattedTicket(ticket, ticket.GetUnlockedLines(), template);
+            var l2 = ticket.AddOrder(user.Id, menuItem2, "Az");
+            formatResult = TicketFormatter.GetFormattedTicket(ticket, ticket.GetUnlockedOrders(), template);
             result = string.Join("\r\n", formatResult);
             expectedResult = @"SAMBA
 Adisyon Tarihi:01.01.2010
@@ -99,7 +99,7 @@ Toplam: 33,00";
             ticket.AccountName = c.Name;
 
             ticket.AddTicketDiscount(DiscountType.Amount, 0, user.Id);
-            formatResult = TicketFormatter.GetFormattedTicket(ticket, ticket.GetUnlockedLines(), template);
+            formatResult = TicketFormatter.GetFormattedTicket(ticket, ticket.GetUnlockedOrders(), template);
 
             expectedResult = @"SAMBA
 Adisyon Tarihi:01.01.2010
@@ -126,7 +126,7 @@ Emre EREN
 <C>İkram: 1,00, teşekkürler
 Toplam: 33,00";
 
-            formatResult = TicketFormatter.GetFormattedTicket(ticket, ticket.GetUnlockedLines(), template);
+            formatResult = TicketFormatter.GetFormattedTicket(ticket, ticket.GetUnlockedOrders(), template);
             result = string.Join("\r\n", formatResult);
             Assert.IsTrue(result == expectedResult);
         }

@@ -9,7 +9,7 @@ using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.ViewModels;
 
-namespace Samba.Modules.MenuModule
+namespace Samba.Modules.TicketModule
 {
     public class TicketTagGroupViewModel : EntityViewModelBase<TicketTagGroup>
     {

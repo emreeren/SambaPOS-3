@@ -433,7 +433,7 @@ namespace Samba.Modules.TicketModule
 
             if (sum == 0) return;
 
-            SelectedTicket.Model.TicketItems.Where(x => !x.Voided && !x.Gifted).ToList().ForEach(x => CreateMergedItem(sum, x, serviceAmount));
+            SelectedTicket.Model.Orders.Where(x => !x.Voided && !x.Gifted).ToList().ForEach(x => CreateMergedItem(sum, x, serviceAmount));
 
             foreach (var paidItem in SelectedTicket.Model.PaidItems)
             {
@@ -444,7 +444,7 @@ namespace Samba.Modules.TicketModule
             }
         }
 
-        private void CreateMergedItem(decimal sum, TicketItem item, decimal serviceAmount)
+        private void CreateMergedItem(decimal sum, Order item, decimal serviceAmount)
         {
             var price = item.GetItemPrice();
             price += (price * serviceAmount) / sum;

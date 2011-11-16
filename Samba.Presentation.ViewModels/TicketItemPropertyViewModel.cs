@@ -5,9 +5,9 @@ namespace Samba.Presentation.ViewModels
 {
     public class TicketItemPropertyViewModel : ObservableObject
     {
-        public TicketItemProperty Model { get; set; }
+        public OrderTagValue Model { get; set; }
 
-        public TicketItemPropertyViewModel(TicketItemProperty model)
+        public TicketItemPropertyViewModel(OrderTagValue model)
         {
             Model = model;
         }

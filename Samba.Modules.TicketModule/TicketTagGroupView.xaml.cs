@@ -1,13 +1,13 @@
 ﻿using System.Windows.Controls;
 
-namespace Samba.Modules.MenuModule
+namespace Samba.Modules.TicketModule
 {
     /// <summary>
-    /// Interaction logic for MenuItemPropertyGroupView.xaml
+    /// Interaction logic for TicketTagGroupView.xaml
     /// </summary>
-    public partial class MenuItemPropertyGroupView : UserControl
+    public partial class TicketTagGroupView : UserControl
     {
-        public MenuItemPropertyGroupView()
+        public TicketTagGroupView()
         {
             InitializeComponent();
         }

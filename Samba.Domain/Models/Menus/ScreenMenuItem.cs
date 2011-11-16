@@ -27,7 +27,6 @@ namespace Samba.Domain.Models.Menus
         public int Quantity { get; set; }
         public bool Gift { get; set; }
         public string ImagePath { get; set; }
-        public string DefaultProperties{ get; set; }
         public string Tag { get; set; }
         public string ItemPortion { get; set; }
         public int UsageCount { get; set; }

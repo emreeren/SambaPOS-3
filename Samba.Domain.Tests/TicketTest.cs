@@ -20,8 +20,8 @@ namespace Samba.Domain.Tests
             mi2.AddPortion("Test", 15, "TL");
 
             var ticket = new Ticket();
-            ticket.AddTicketItem(0, mi, "Test");
-            ticket.AddTicketItem(0, mi2, "Test");
+            ticket.AddOrder(0, mi, "Test");
+            ticket.AddOrder(0, mi2, "Test");
 
             Assert.IsTrue(ticket.GetSum() == 25);
 
@@ -57,14 +57,14 @@ namespace Samba.Domain.Tests
             Assert.IsTrue(ticket.Discounts.Count == 0);
             Assert.IsTrue(ticket.GetSum() == 25);
 
-            ticket.TicketItems[0].Gifted = true;
+            ticket.Orders[0].Gifted = true;
             Assert.IsTrue(ticket.GetSum() == 15);
 
             ticket.AddTicketDiscount(DiscountType.Percent, 10, 0);
             Assert.IsTrue(ticket.GetSum() == 13.5m);
             Assert.IsTrue(ticket.GetDiscountAndRoundingTotal() == 1.5m);
 
-            ticket.TicketItems[0].Voided = true;
+            ticket.Orders[0].Voided = true;
             Assert.IsTrue(ticket.GetSum() == 13.5m);
 
             ticket.AddTicketDiscount(DiscountType.Percent, 10, 0);
@@ -80,7 +80,7 @@ namespace Samba.Domain.Tests
 
             var mix = new MenuItem("TestItem2") { TaxTemplate = t };
             mix.AddPortion("Adet", 10, "TL");
-            ticket.AddTicketItem(0, mix, "Adet");
+            ticket.AddOrder(0, mix, "Adet");
 
             Assert.AreEqual(26m, ticket.GetSum());
 

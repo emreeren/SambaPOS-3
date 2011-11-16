@@ -22,7 +22,7 @@ namespace Samba.Presentation.ViewModels
         {
             _forcePayment = forcePayment;
             _model = model;
-            _items = new ObservableCollection<TicketItemViewModel>(model.TicketItems.Select(x => new TicketItemViewModel(x)).OrderBy(x => x.Model.CreatedDateTime));
+            _items = new ObservableCollection<TicketItemViewModel>(model.Orders.Select(x => new TicketItemViewModel(x)).OrderBy(x => x.Model.CreatedDateTime));
             _payments = new ObservableCollection<PaymentViewModel>(model.Payments.Select(x => new PaymentViewModel(x)));
             _discounts = new ObservableCollection<DiscountViewModel>(model.Discounts.Select(x => new DiscountViewModel(x)));
 
@@ -241,8 +241,8 @@ namespace Samba.Presentation.ViewModels
         {
             get
             {
-                return Model.TicketItems.Count > 1 && Model.TicketItems[Model.TicketItems.Count - 1].OrderNumber != 0 &&
-                    Model.TicketItems[0].OrderNumber != Model.TicketItems[Model.TicketItems.Count - 1].OrderNumber;
+                return Model.Orders.Count > 1 && Model.Orders[Model.Orders.Count - 1].OrderNumber != 0 &&
+                    Model.Orders[0].OrderNumber != Model.Orders[Model.Orders.Count - 1].OrderNumber;
             }
         }
 
@@ -258,7 +258,7 @@ namespace Samba.Presentation.ViewModels
             this.PublishEvent(EventTopicNames.SelectedItemsChanged);
         }
 
-        public TicketItemViewModel AddNewItem(int menuItemId, decimal quantity, bool gift, string defaultProperties, string portionName)
+        public TicketItemViewModel AddNewItem(int menuItemId, decimal quantity, bool gift, string portionName)
         {
             if (!Model.CanSubmit) return null;
             ClearSelectedItems();
@@ -272,7 +272,7 @@ namespace Samba.Presentation.ViewModels
                 portion = menuItem.Portions.First(x => x.Name == portionName);
             }
 
-            var ti = Model.AddTicketItem(AppServices.CurrentLoggedInUser.Id, menuItem, portion.Name, AppServices.MainDataContext.SelectedDepartment.PriceTag, defaultProperties);
+            var ti = Model.AddOrder(AppServices.CurrentLoggedInUser.Id, menuItem, portion.Name, AppServices.MainDataContext.SelectedDepartment.PriceTag);
             ti.Quantity = quantity > 9 ? decimal.Round(quantity / portion.Multiplier, LocalSettings.Decimals) : quantity;
             ti.Gifted = gift;
             var ticketItemViewModel = new TicketItemViewModel(ti);
@@ -285,7 +285,7 @@ namespace Samba.Presentation.ViewModels
         private void RegenerateItemViewModels()
         {
             _items.Clear();
-            _items.AddRange(Model.TicketItems.Select(x => new TicketItemViewModel(x)));
+            _items.AddRange(Model.Orders.Select(x => new TicketItemViewModel(x)));
             RecalculateTicket();
             ClearSelectedItems();
         }
@@ -311,13 +311,13 @@ namespace Samba.Presentation.ViewModels
 
         private void VoidItems(IEnumerable<TicketItemViewModel> ticketItems, int reasonId, int userId)
         {
-            ticketItems.ToList().ForEach(x => Model.VoidItem(x.Model, reasonId, userId));
+            ticketItems.ToList().ForEach(x => Model.VoidOrder(x.Model, reasonId, userId));
             RegenerateItemViewModels();
         }
 
         private void GiftItems(IEnumerable<TicketItemViewModel> ticketItems, int reasonId, int userId)
         {
-            ticketItems.ToList().ForEach(x => Model.GiftItem(x.Model, reasonId, userId));
+            ticketItems.ToList().ForEach(x => Model.GiftOrder(x.Model, reasonId, userId));
             RegenerateItemViewModels();
         }
 
@@ -345,17 +345,17 @@ namespace Samba.Presentation.ViewModels
 
         public bool CanVoidSelectedItems()
         {
-            return Model.CanVoidSelectedItems(SelectedItems.Select(x => x.Model));
+            return Model.CanVoidSelectedOrders(SelectedItems.Select(x => x.Model));
         }
 
         public bool CanGiftSelectedItems()
         {
-            return Model.CanGiftSelectedItems(SelectedItems.Select(x => x.Model));
+            return Model.CanGiftSelectedOrders(SelectedItems.Select(x => x.Model));
         }
 
         public bool CanCancelSelectedItems()
         {
-            return Model.CanCancelSelectedItems(SelectedItems.Select(x => x.Model));
+            return Model.CanCancelSelectedOrders(SelectedItems.Select(x => x.Model));
         }
 
         public bool CanCloseTicket()
@@ -436,7 +436,7 @@ namespace Samba.Presentation.ViewModels
         public void FixSelectedItems()
         {
             var selectedItems = SelectedItems.Where(x => x.SelectedQuantity > 0 && x.SelectedQuantity < x.Quantity).ToList();
-            var newItems = Model.ExtractSelectedTicketItems(selectedItems.Select(x => x.Model));
+            var newItems = Model.ExtractSelectedOrders(selectedItems.Select(x => x.Model));
             foreach (var newItem in newItems)
             {
                 AppServices.MainDataContext.AddItemToSelectedTicket(newItem);
@@ -475,15 +475,15 @@ namespace Samba.Presentation.ViewModels
 
         public void MergeLines()
         {
-            Model.MergeLinesAndUpdateOrderNumbers(0);
+            Model.MergeOrdersAndUpdateOrderNumbers(0);
             _items.Clear();
-            _items.AddRange(Model.TicketItems.Select(x => new TicketItemViewModel(x)));
+            _items.AddRange(Model.Orders.Select(x => new TicketItemViewModel(x)));
         }
 
         public bool CanMoveSelectedItems()
         {
             if (IsLocked) return false;
-            if (!Model.CanRemoveSelectedItems(SelectedItems.Select(x => x.Model))) return false;
+            if (!Model.CanRemoveSelectedOrders(SelectedItems.Select(x => x.Model))) return false;
             if (SelectedItems.Where(x => x.Model.Id == 0).Count() > 0) return false;
             if (SelectedItems.Where(x => x.IsLocked).Count() == 0
                 && AppServices.IsUserPermittedFor(PermissionNames.MoveUnlockedTicketItems))
@@ -584,7 +584,7 @@ namespace Samba.Presentation.ViewModels
 
         public static void RegenerateTaxRates(Ticket ticket)
         {
-            foreach (var ticketItem in ticket.TicketItems)
+            foreach (var ticketItem in ticket.Orders)
             {
                 var mi = AppServices.DataAccessService.GetMenuItem(ticketItem.MenuItemId);
                 if (mi == null) continue;

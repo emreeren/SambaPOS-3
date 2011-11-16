@@ -26,7 +26,7 @@ namespace Samba.Services.Printing
     internal class TicketData
     {
         public Ticket Ticket { get; set; }
-        public IEnumerable<TicketItem> TicketItems { get; set; }
+        public IEnumerable<Order> TicketItems { get; set; }
         public PrintJob PrintJob { get; set; }
     }
 
@@ -86,7 +86,7 @@ namespace Samba.Services.Printing
                 if (customPrinter.AutoPrintIfCreditCard && ticket.Payments.Count(x => x.PaymentType == (int)PaymentType.CreditCard) > 0) return true;
                 if (customPrinter.AutoPrintIfTicket && ticket.Payments.Count(x => x.PaymentType == (int)PaymentType.Ticket) > 0) return true;
             }
-            if (customPrinter.WhenToPrint == (int)WhenToPrintTypes.NewLinesAdded && ticket.GetUnlockedLines().Count() > 0) return true;
+            if (customPrinter.WhenToPrint == (int)WhenToPrintTypes.NewLinesAdded && ticket.GetUnlockedOrders().Count() > 0) return true;
             return false;
         }
 
@@ -95,14 +95,14 @@ namespace Samba.Services.Printing
             if (printJob.ExcludeTax)
             {
                 ticket = ObjectCloner.Clone(ticket);
-                ticket.TicketItems.ToList().ForEach(x => x.TaxIncluded = false);
+                ticket.Orders.ToList().ForEach(x => x.TaxIncluded = false);
             }
 
-            IEnumerable<TicketItem> ti;
+            IEnumerable<Order> ti;
             switch (printJob.WhatToPrint)
             {
                 case (int)WhatToPrintTypes.NewLines:
-                    ti = ticket.GetUnlockedLines();
+                    ti = ticket.GetUnlockedOrders();
                     break;
                 case (int)WhatToPrintTypes.GroupedByBarcode:
                     ti = GroupLinesByValue(ticket, x => x.Barcode ?? "", "1", true);
@@ -114,7 +114,7 @@ namespace Samba.Services.Printing
                     ti = GroupLinesByValue(ticket, x => x.Tag ?? "", Resources.UndefinedWithBrackets);
                     break;
                 default:
-                    ti = ticket.TicketItems.OrderBy(x => x.Id).ToList();
+                    ti = ticket.Orders.OrderBy(x => x.Id).ToList();
                     break;
             }
 
@@ -133,12 +133,12 @@ namespace Samba.Services.Printing
                     }));
         }
 
-        private static IEnumerable<TicketItem> GroupLinesByValue(Ticket ticket, Func<MenuItem, object> selector, string defaultValue, bool calcDiscounts = false)
+        private static IEnumerable<Order> GroupLinesByValue(Ticket ticket, Func<MenuItem, object> selector, string defaultValue, bool calcDiscounts = false)
         {
             var discounts = calcDiscounts ? ticket.GetDiscountAndRoundingTotal() : 0;
             var di = discounts > 0 ? discounts / ticket.GetPlainSum() : 0;
             var cache = new Dictionary<string, decimal>();
-            foreach (var ticketItem in ticket.TicketItems.OrderBy(x => x.Id).ToList())
+            foreach (var ticketItem in ticket.Orders.OrderBy(x => x.Id).ToList())
             {
                 var item = ticketItem;
                 var value = selector(AppServices.DataAccessService.GetMenuItem(item.MenuItemId)).ToString();
@@ -148,17 +148,16 @@ namespace Samba.Services.Printing
                 var total = (item.GetTotal());
                 cache[value] += Decimal.Round(total - (total * di), 2);
             }
-            return cache.Select(x => new TicketItem
+            return cache.Select(x => new Order
                                          {
                                              MenuItemName = x.Key,
                                              Price = x.Value,
                                              Quantity = 1,
-                                             PortionCount = 1,
-                                             CurrencyCode = LocalSettings.CurrencySymbol
+                                             PortionCount = 1
                                          });
         }
 
-        private static void InternalPrintOrders(PrintJob printJob, Ticket ticket, IEnumerable<TicketItem> ticketItems)
+        private static void InternalPrintOrders(PrintJob printJob, Ticket ticket, IEnumerable<Order> ticketItems)
         {
             if (printJob.PrinterMaps.Count == 1
                 && printJob.PrinterMaps[0].TicketTag == null
@@ -170,7 +169,7 @@ namespace Samba.Services.Printing
                 return;
             }
 
-            var ordersCache = new Dictionary<PrinterMap, IList<TicketItem>>();
+            var ordersCache = new Dictionary<PrinterMap, IList<Order>>();
 
             foreach (var item in ticketItems)
             {
@@ -181,7 +180,7 @@ namespace Samba.Services.Printing
                     var pmap = ordersCache.SingleOrDefault(
                             x => x.Key.Printer == lmap.Printer && x.Key.PrinterTemplate == lmap.PrinterTemplate).Key;
                     if (pmap == null)
-                        ordersCache.Add(p, new List<TicketItem>());
+                        ordersCache.Add(p, new List<Order>());
                     else p = pmap;
                     ordersCache[p].Add(item);
                 }
@@ -193,7 +192,7 @@ namespace Samba.Services.Printing
             }
         }
 
-        private static void PrintOrderLines(Ticket ticket, IEnumerable<TicketItem> lines, PrinterMap p)
+        private static void PrintOrderLines(Ticket ticket, IEnumerable<Order> lines, PrinterMap p)
         {
             if (lines.Count() <= 0) return;
             if (p == null)

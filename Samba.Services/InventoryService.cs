@@ -29,13 +29,13 @@ namespace Samba.Services
                 .SelectMany(x => x.TransactionItems);
         }
 
-        private static IEnumerable<TicketItem> GetTicketItemsFromRecipes(WorkPeriod workPeriod)
+        private static IEnumerable<Order> GetTicketItemsFromRecipes(WorkPeriod workPeriod)
         {
             var recipeItemIds = Dao.Select<Recipe, int>(x => x.Portion.MenuItemId, x => x.Portion != null).Distinct();
             var tickets = Dao.Query<Ticket>(x => x.Date > workPeriod.StartDate,
-                                            x => x.TicketItems,
-                                            x => x.TicketItems.Select(y => y.Properties));
-            return tickets.SelectMany(x => x.TicketItems)
+                                            x => x.Orders,
+                                            x => x.Orders.Select(y => y.OrderTagValues));
+            return tickets.SelectMany(x => x.Orders)
                     .Where(x => !x.Voided && recipeItemIds.Contains(x.MenuItemId));
         }
 
@@ -45,7 +45,7 @@ namespace Samba.Services
             var salesData = ticketItems.GroupBy(x => new { x.MenuItemName, x.MenuItemId, x.PortionName })
                     .Select(x => new SalesData { MenuItemName = x.Key.MenuItemName, MenuItemId = x.Key.MenuItemId, PortionName = x.Key.PortionName, Total = x.Sum(y => y.Quantity) }).ToList();
 
-            var properties = ticketItems.SelectMany(x => x.Properties, (ti, pr) => new { Properties = pr, ti.Quantity })
+            var properties = ticketItems.SelectMany(x => x.OrderTagValues, (ti, pr) => new { Properties = pr, ti.Quantity })
                     .Where(x => x.Properties.MenuItemId > 0)
                     .GroupBy(x => new { x.Properties.MenuItemId, x.Properties.PortionName });
 

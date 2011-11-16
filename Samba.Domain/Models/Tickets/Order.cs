@@ -8,14 +8,14 @@ using Samba.Infrastructure.Settings;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class TicketItem
+    public class Order
     {
-        public TicketItem()
+        public Order()
         {
-            _properties = new List<TicketItemProperty>();
+            _orderTagValues = new List<OrderTagValue>();
             CreatedDateTime = DateTime.Now;
             ModifiedDateTime = DateTime.Now;
-            _selectedQuantity = 0;
+            SelectedQuantity = 0;
         }
 
         public int Id { get; set; }
@@ -24,7 +24,6 @@ namespace Samba.Domain.Models.Tickets
         public string MenuItemName { get; set; }
         public string PortionName { get; set; }
         public decimal Price { get; set; }
-        public string CurrencyCode { get; set; }
         public decimal Quantity { get; set; }
         public int PortionCount { get; set; }
         public bool Locked { get; set; }
@@ -45,17 +44,16 @@ namespace Samba.Domain.Models.Tickets
         public int TaxTemplateId { get; set; }
         public bool TaxIncluded { get; set; }
 
-        private IList<TicketItemProperty> _properties;
-        public virtual IList<TicketItemProperty> Properties
+        private IList<OrderTagValue> _orderTagValues;
+        public virtual IList<OrderTagValue> OrderTagValues
         {
-            get { return _properties; }
-            set { _properties = value; }
+            get { return _orderTagValues; }
+            set { _orderTagValues = value; }
         }
 
-        decimal _selectedQuantity;
-        public decimal SelectedQuantity { get { return _selectedQuantity; } }
+        public decimal SelectedQuantity { get; private set; }
 
-        public void UpdateMenuItem(int userId, MenuItem menuItem, string portionName, string priceTag, int quantity, string defaultProperties)
+        public void UpdateMenuItem(int userId, MenuItem menuItem, string portionName, string priceTag, int quantity)
         {
             MenuItemId = menuItem.Id;
             MenuItemName = menuItem.Name;
@@ -63,25 +61,10 @@ namespace Samba.Domain.Models.Tickets
             Debug.Assert(portion != null);
             UpdatePortion(portion, priceTag, menuItem.TaxTemplate);
             Quantity = quantity;
-            _selectedQuantity = quantity;
+            SelectedQuantity = quantity;
             PortionCount = menuItem.Portions.Count;
             CreatingUserId = userId;
             CreatedDateTime = DateTime.Now;
-
-            if (!string.IsNullOrEmpty(defaultProperties))
-            {
-                foreach (var menuItemPropertyGroup in menuItem.PropertyGroups)
-                {
-                    var properties = defaultProperties.Split(',');
-                    foreach (var defaultProperty in properties)
-                    {
-                        var property = defaultProperty.Trim();
-                        var defaultValue = menuItemPropertyGroup.Properties.FirstOrDefault(x => x.Name == property);
-                        if (defaultValue != null)
-                            ToggleProperty(menuItemPropertyGroup, defaultValue);
-                    }
-                }
-            }
         }
 
         public void UpdatePortion(MenuItemPortion portion, string priceTag, TaxTemplate taxTemplate)
@@ -111,97 +94,96 @@ namespace Samba.Domain.Models.Tickets
                 UpdatePrice(portion.Price, "");
             }
 
-            CurrencyCode = LocalSettings.CurrencySymbol;
-            foreach (var ticketItemProperty in Properties)
+            foreach (var orderTagValue in OrderTagValues)
             {
-                ticketItemProperty.PortionName = portion.Name;
+                orderTagValue.PortionName = portion.Name;
             }
         }
 
-        public void ToggleProperty(MenuItemPropertyGroup group, MenuItemProperty property)
+        public void ToggleOrderTag(OrderTagGroup tagGroup, OrderTag orderTag)
         {
-            if (group.MultipleSelection && property.Price == 0)
+            if (tagGroup.MultipleSelection && orderTag.Price == 0)
             {
-                var groupItems = Properties.Where(x => x.PropertyGroupId == group.Id).ToList();
-                foreach (var tip in groupItems) Properties.Remove(tip);
+                var groupItems = OrderTagValues.Where(x => x.OrderTagGroupId == tagGroup.Id).ToList();
+                foreach (var tip in groupItems) OrderTagValues.Remove(tip);
                 Quantity = 1;
                 return;
             }
 
-            var ti = FindProperty(property.Name);
+            var ti = FindOrderTag(orderTag.Name);
             if (ti == null)
             {
-                ti = new TicketItemProperty
+                ti = new OrderTagValue
                         {
-                            Name = property.Name,
-                            Price = property.Price,
-                            PropertyGroupId = group.Id,
-                            MenuItemId = property.MenuItemId,
-                            CalculateWithParentPrice = group.CalculateWithParentPrice,
+                            Name = orderTag.Name,
+                            Price = orderTag.Price,
+                            OrderTagGroupId = tagGroup.Id,
+                            MenuItemId = orderTag.MenuItemId,
+                            CalculateWithParentPrice = tagGroup.CalculateWithParentPrice,
                             PortionName = PortionName,
-                            Quantity = group.MultipleSelection ? 0 : 1
+                            Quantity = tagGroup.MultipleSelection ? 0 : 1
                         };
 
                 if (TaxIncluded && TaxRate > 0)
                 {
                     ti.Price = ti.Price / ((100 + TaxRate) / 100);
                     ti.Price = decimal.Round(ti.Price, 2);
-                    ti.TaxAmount = property.Price - ti.Price;
+                    ti.TaxAmount = orderTag.Price - ti.Price;
                 }
-                else if (TaxRate > 0) ti.TaxAmount = (property.Price * TaxRate) / 100;
+                else if (TaxRate > 0) ti.TaxAmount = (orderTag.Price * TaxRate) / 100;
                 else ti.TaxAmount = 0;
             }
-            if (group.SingleSelection)
+            if (tagGroup.SingleSelection)
             {
-                var tip = Properties.FirstOrDefault(x => x.PropertyGroupId == group.Id);
+                var tip = OrderTagValues.FirstOrDefault(x => x.OrderTagGroupId == tagGroup.Id);
                 if (tip != null)
                 {
-                    Properties.Insert(Properties.IndexOf(tip), ti);
-                    Properties.Remove(tip);
+                    OrderTagValues.Insert(OrderTagValues.IndexOf(tip), ti);
+                    OrderTagValues.Remove(tip);
                 }
             }
-            else if (group.MultipleSelection)
+            else if (tagGroup.MultipleSelection)
             {
                 ti.Quantity++;
             }
-            else if (!group.MultipleSelection && Properties.Contains(ti))
+            else if (!tagGroup.MultipleSelection && OrderTagValues.Contains(ti))
             {
-                Properties.Remove(ti);
+                OrderTagValues.Remove(ti);
                 return;
             }
 
-            if (!Properties.Contains(ti)) Properties.Add(ti);
+            if (!OrderTagValues.Contains(ti)) OrderTagValues.Add(ti);
         }
 
-        public TicketItemProperty GetCustomProperty()
+        public OrderTagValue GetCustomOrderTag()
         {
-            return Properties.FirstOrDefault(x => x.PropertyGroupId == 0);
+            return OrderTagValues.FirstOrDefault(x => x.OrderTagGroupId == 0);
         }
 
-        public TicketItemProperty GetOrCreateCustomProperty()
+        public OrderTagValue GetOrCreateCustomProperty()
         {
-            var tip = GetCustomProperty();
+            var tip = GetCustomOrderTag();
             if (tip == null)
             {
-                tip = new TicketItemProperty
+                tip = new OrderTagValue
                           {
                               Name = "",
                               Price = 0,
-                              PropertyGroupId = 0,
+                              OrderTagGroupId = 0,
                               MenuItemId = 0,
                               Quantity = 0
                           };
-                Properties.Add(tip);
+                OrderTagValues.Add(tip);
             }
             return tip;
         }
 
-        public void UpdateCustomProperty(string text, decimal price, decimal quantity)
+        public void UpdateCustomOrderTag(string text, decimal price, decimal quantity)
         {
             var tip = GetOrCreateCustomProperty();
             if (string.IsNullOrEmpty(text))
             {
-                Properties.Remove(tip);
+                OrderTagValues.Remove(tip);
             }
             else
             {
@@ -220,9 +202,9 @@ namespace Samba.Domain.Models.Tickets
             }
         }
 
-        private TicketItemProperty FindProperty(string propertyName)
+        private OrderTagValue FindOrderTag(string orderTagName)
         {
-            return Properties.FirstOrDefault(x => x.Name == propertyName);
+            return OrderTagValues.FirstOrDefault(x => x.Name == orderTagName);
         }
 
         public decimal GetTotal()
@@ -242,46 +224,46 @@ namespace Samba.Domain.Models.Tickets
 
         public decimal GetItemPrice()
         {
-            var result = Price + GetTotalPropertyPrice();
+            var result = Price + GetTotalOrderTagPrice();
             if (TaxIncluded) result += TaxAmount;
             return result;
         }
 
-        public decimal GetTotalPropertyPrice()
+        public decimal GetTotalOrderTagPrice()
         {
-            return GetPropertySum(Properties, TaxIncluded);
+            return GetOrderTagSum(OrderTagValues, TaxIncluded);
         }
 
-        public decimal GetPropertyPrice()
+        public decimal GetOrderTagPrice()
         {
-            return GetPropertySum(Properties.Where(x => !x.CalculateWithParentPrice), TaxIncluded);
+            return GetOrderTagSum(OrderTagValues.Where(x => !x.CalculateWithParentPrice), TaxIncluded);
         }
 
-        public decimal GetMenuItemPropertyPrice()
+        public decimal GetMenuItemOrderTagPrice()
         {
-            return GetPropertySum(Properties.Where(x => x.CalculateWithParentPrice), TaxIncluded);
+            return GetOrderTagSum(OrderTagValues.Where(x => x.CalculateWithParentPrice), TaxIncluded);
         }
 
-        private static decimal GetPropertySum(IEnumerable<TicketItemProperty> properties, bool vatIncluded)
+        private static decimal GetOrderTagSum(IEnumerable<OrderTagValue> orderTags, bool vatIncluded)
         {
-            return properties.Sum(property => (property.Price + (vatIncluded ? property.TaxAmount : 0)) * property.Quantity);
+            return orderTags.Sum(orderTag => (orderTag.Price + (vatIncluded ? orderTag.TaxAmount : 0)) * orderTag.Quantity);
         }
 
         public void IncSelectedQuantity()
         {
-            _selectedQuantity++;
-            if (_selectedQuantity > Quantity) _selectedQuantity = 1;
+            SelectedQuantity++;
+            if (SelectedQuantity > Quantity) SelectedQuantity = 1;
         }
 
         public void DecSelectedQuantity()
         {
-            _selectedQuantity--;
-            if (_selectedQuantity < 1) _selectedQuantity = 1;
+            SelectedQuantity--;
+            if (SelectedQuantity < 1) SelectedQuantity = 1;
         }
 
         public void ResetSelectedQuantity()
         {
-            _selectedQuantity = Quantity;
+            SelectedQuantity = Quantity;
         }
 
         public string GetPortionDesc()
@@ -306,6 +288,14 @@ namespace Samba.Domain.Models.Tickets
             }
             else if (TaxRate > 0) TaxAmount = (Price * TaxRate) / 100;
             else TaxAmount = 0;
+        }
+
+        public void UpdateTaxTemplate(TaxTemplate taxTemplate)
+        {
+            TaxRate = taxTemplate.Rate;
+            TaxTemplateId = taxTemplate.Id;
+            TaxIncluded = taxTemplate.TaxIncluded;
+            UpdatePrice(Price, PriceTag);
         }
     }
 }

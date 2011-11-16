@@ -86,11 +86,11 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
             //---------------
 
             var propertySum = ReportContext.Tickets
-                .SelectMany(x => x.TicketItems)
-                .Sum(x => x.GetPropertyPrice() * x.Quantity);
+                .SelectMany(x => x.Orders)
+                .Sum(x => x.GetOrderTagPrice() * x.Quantity);
 
             var voids = ReportContext.Tickets
-                .SelectMany(x => x.TicketItems)
+                .SelectMany(x => x.Orders)
                 .Where(x => x.Voided)
                 .Sum(x => x.GetItemValue());
 
@@ -99,7 +99,7 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
                 .Sum(x => x.DiscountAmount);
 
             var gifts = ReportContext.Tickets
-                .SelectMany(x => x.TicketItems)
+                .SelectMany(x => x.Orders)
                 .Where(x => x.Gifted)
                 .Sum(x => x.GetItemValue());
 
@@ -147,7 +147,7 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 
                     var dvoids = ReportContext.Tickets
                         .Where(x => x.DepartmentId == dinfo.DepartmentId)
-                        .SelectMany(x => x.TicketItems)
+                        .SelectMany(x => x.Orders)
                         .Where(x => x.Voided)
                         .Sum(x => x.GetItemValue());
 
@@ -158,7 +158,7 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 
                     var dgifts = ReportContext.Tickets
                         .Where(x => x.DepartmentId == dinfo.DepartmentId)
-                        .SelectMany(x => x.TicketItems)
+                        .SelectMany(x => x.Orders)
                         .Where(x => x.Gifted)
                         .Sum(x => x.GetItemValue());
 
@@ -252,7 +252,7 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 
             //----
 
-            var owners = ReportContext.Tickets.SelectMany(ticket => ticket.TicketItems.Select(ticketItem => new { Ticket = ticket, TicketItem = ticketItem }))
+            var owners = ReportContext.Tickets.SelectMany(ticket => ticket.Orders.Select(ticketItem => new { Ticket = ticket, TicketItem = ticketItem }))
                 .GroupBy(x => new { x.TicketItem.CreatingUserId })
                 .Select(x => new UserInfo { UserId = x.Key.CreatingUserId, Amount = x.Sum(y => MenuGroupBuilder.CalculateTicketItemTotal(y.Ticket, y.TicketItem)) });
 

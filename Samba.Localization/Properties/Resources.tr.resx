@@ -594,9 +594,6 @@ Yap</value>
   <data name="DeleteErrorProductUsedInReceipt" xml:space="preserve">
     <value>Bu ürün bir reçetede kullanılmakta olduğu için silinemez.</value>
   </data>
-  <data name="DeleteErrorProductPropertyUsedInProduct" xml:space="preserve">
-    <value>Bu özellik grubu bir üründe kullanılmakta olduğu için silinemez.</value>
-  </data>
   <data name="PropertyGroupName" xml:space="preserve">
     <value>Özellik Grubu Adı</value>
     <comment>Label content</comment>

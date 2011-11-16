@@ -24,12 +24,12 @@ namespace Samba.Presentation.Terminal
         }
 
         public DelegateCommand<MenuItemPortionViewModel> PortionSelectedCommand { get; set; }
-        public DelegateCommand<MenuItemPropertyViewModel> PropertySelectedCommand { get; set; }
+        public DelegateCommand<OrderTagViewModel> PropertySelectedCommand { get; set; }
         public DelegateCommand<TicketTagViewModel> TicketTagSelectedCommand { get; set; }
         public ICaptionCommand AddTicketTagCommand { get; set; }
 
         public ObservableCollection<MenuItemPortionViewModel> SelectedItemPortions { get; set; }
-        public ObservableCollection<MenuItemPropertyGroupViewModel> SelectedItemPropertyGroups { get; set; }
+        public ObservableCollection<OrderTagGroupViewModel> SelectedItemPropertyGroups { get; set; }
         public ObservableCollection<TicketTagViewModel> TicketTags { get; set; }
 
         private string _customTag;
@@ -48,11 +48,11 @@ namespace Samba.Presentation.Terminal
         public SelectedTicketItemEditorViewModel()
         {
             SelectedItemPortions = new ObservableCollection<MenuItemPortionViewModel>();
-            SelectedItemPropertyGroups = new ObservableCollection<MenuItemPropertyGroupViewModel>();
+            SelectedItemPropertyGroups = new ObservableCollection<OrderTagGroupViewModel>();
             TicketTags = new ObservableCollection<TicketTagViewModel>();
 
             PortionSelectedCommand = new DelegateCommand<MenuItemPortionViewModel>(OnPortionSelected);
-            PropertySelectedCommand = new DelegateCommand<MenuItemPropertyViewModel>(OnPropertySelected);
+            PropertySelectedCommand = new DelegateCommand<OrderTagViewModel>(OnPropertySelected);
             TicketTagSelectedCommand = new DelegateCommand<TicketTagViewModel>(OnTicketTagSelected);
             AddTicketTagCommand = new CaptionCommand<string>(Resources.AddTag, OnTicketTagAdded, CanAddTicketTag);
         }
@@ -83,7 +83,7 @@ namespace Samba.Presentation.Terminal
                     var tag = tt.TicketTags.SingleOrDefault(x => x.Name.ToLower() == CustomTag.ToLower());
                     if (tag == null)
                     {
-                        tag = new TicketTag() { Name = CustomTag };
+                        tag = new TicketTag { Name = CustomTag };
                         tt.TicketTags.Add(tag);
                         workspace.Add(tag);
                         workspace.CommitChanges();
@@ -155,7 +155,8 @@ namespace Samba.Presentation.Terminal
             {
                 var mi = AppServices.DataAccessService.GetMenuItem(ticketItem.Model.MenuItemId);
                 if (mi.Portions.Count > 1) SelectedItemPortions.AddRange(mi.Portions.Select(x => new MenuItemPortionViewModel(x)));
-                SelectedItemPropertyGroups.AddRange(mi.PropertyGroups.Select(x => new MenuItemPropertyGroupViewModel(x)));
+                SelectedItemPropertyGroups.AddRange(
+                    AppServices.MainDataContext.GetOrderTagGroupsForItem(AppServices.MainDataContext.SelectedDepartment.Id, mi).Select(x => new OrderTagGroupViewModel(x)));
             }
             else
             {
@@ -207,9 +208,9 @@ namespace Samba.Presentation.Terminal
             }
         }
 
-        private void OnPropertySelected(MenuItemPropertyViewModel obj)
+        private void OnPropertySelected(OrderTagViewModel obj)
         {
-            var mig = SelectedItemPropertyGroups.FirstOrDefault(propertyGroup => propertyGroup.Properties.Contains(obj));
+            var mig = SelectedItemPropertyGroups.FirstOrDefault(propertyGroup => propertyGroup.OrderTags.Contains(obj));
             Debug.Assert(mig != null);
             SelectedItem.ToggleProperty(mig.Model, obj.Model);
 

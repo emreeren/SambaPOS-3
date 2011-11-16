@@ -1,13 +1,13 @@
-﻿using Samba.Domain.Models.Menus;
+﻿using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Common;
 
 namespace Samba.Presentation.ViewModels
 {
-    public class MenuItemPropertyViewModel : ObservableObject
+    public class OrderTagViewModel : ObservableObject
     {
-        public MenuItemProperty Model { get; set; }
+        public OrderTag Model { get; set; }
 
-        public MenuItemPropertyViewModel(MenuItemProperty model)
+        public OrderTagViewModel(OrderTag model)
         {
             Model = model;
         }

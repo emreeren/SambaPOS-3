@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Settings;
 
@@ -17,7 +18,6 @@ namespace Samba.Domain.Models.Menus
         {
             Name = name;
             _portions = new List<MenuItemPortion>();
-            _propertyGroups = new List<MenuItemPropertyGroup>();
         }
 
         public int Id { get; set; }
@@ -34,13 +34,6 @@ namespace Samba.Domain.Models.Menus
         {
             get { return _portions; }
             set { _portions = value; }
-        }
-
-        private IList<MenuItemPropertyGroup> _propertyGroups;
-        public virtual IList<MenuItemPropertyGroup> PropertyGroups
-        {
-            get { return _propertyGroups; }
-            set { _propertyGroups = value; }
         }
 
         private static MenuItem _all;
@@ -79,9 +72,9 @@ namespace Samba.Domain.Models.Menus
             return item.AddPortion("Normal", 0, LocalSettings.CurrencySymbol);
         }
 
-        public static MenuItemProperty AddDefaultMenuItemProperty(MenuItemPropertyGroup item)
+        public static OrderTag AddDefaultMenuItemProperty(OrderTagGroup item)
         {
-            return item.AddProperty("", 0, LocalSettings.CurrencySymbol);
+            return item.AddOrderTag("", 0);
         }
 
         public static MenuItem Create()

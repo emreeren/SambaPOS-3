@@ -6,11 +6,11 @@ using Samba.Services;
 namespace Samba.Modules.TicketModule
 {
     /// <summary>
-    /// Interaction logic for SelectedTicketItemsView.xaml
+    /// Interaction logic for SelectedOrdersView.xaml
     /// </summary>
-    public partial class SelectedTicketItemsView : UserControl
+    public partial class SelectedOrdersView : UserControl
     {
-        public SelectedTicketItemsView()
+        public SelectedOrdersView()
         {
             InitializeComponent();
         }

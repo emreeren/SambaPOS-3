@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Samba.Domain.Models.Menus;
+using Samba.Domain.Models.Tickets;
 
 namespace Samba.Presentation.ViewModels
 {
-    public class MenuItemPropertyGroupViewModel
+    public class OrderTagGroupViewModel
     {
-        public MenuItemPropertyGroup Model { get; set; }
+        public OrderTagGroup Model { get; set; }
 
-        public MenuItemPropertyGroupViewModel(MenuItemPropertyGroup model)
+        public OrderTagGroupViewModel(OrderTagGroup model)
         {
             Model = model;
-            Properties = new List<MenuItemPropertyViewModel>(model.Properties.Select(x => new MenuItemPropertyViewModel(x)));
+            OrderTags = new List<OrderTagViewModel>(model.OrderTags.Select(x => new OrderTagViewModel(x)));
         }
 
         public string Name { get { return Model.Name; } set { Model.Name = value; } }
@@ -22,11 +22,11 @@ namespace Samba.Presentation.ViewModels
         public int TerminalButtonHeight { get { return Model.TerminalButtonHeight; } set { Model.TerminalButtonHeight = value; } }
         public int TerminalColumnCount { get { return Model.TerminalColumnCount; } set { Model.TerminalColumnCount = value; } }
 
-        public IList<MenuItemPropertyViewModel> Properties { get; set; }
+        public IList<OrderTagViewModel> OrderTags { get; set; }
 
         public void Refresh()
         {
-            foreach (var model in Properties)
+            foreach (var model in OrderTags)
             {
                 model.Refresh();
             }

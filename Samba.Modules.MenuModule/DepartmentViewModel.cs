@@ -9,6 +9,7 @@ using Samba.Domain.Models.Tables;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
+using Samba.Modules.TicketModule;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;

@@ -86,7 +86,7 @@
                 </Label>
                 <Border BorderThickness="1" Grid.Row="1" Grid.Column="1" BorderBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}">
                     <ScrollViewer Name="Scroller" cmn:KineticBehaviour.HandleKineticScrolling="True" VerticalScrollBarVisibility="Auto">
-                        <ItemsControl Name="TicketItemsControl" BorderThickness="0" Background="{Binding TicketBackground}"
+                        <ItemsControl BorderThickness="0" Background="{Binding TicketBackground}"
                              ItemsSource="{Binding SelectedTicket.ItemsViewSource.View}" HorizontalContentAlignment="Stretch">
                             <ItemsControl.GroupStyle>
                                 <GroupStyle>

@@ -58,9 +58,9 @@ namespace Samba.Services.Test
 
             var ticket = new Ticket();
             workspace.Add(ticket);
-            ticket.AddTicketItem(0, iskender, iskender.Portions[0].Name);
-            ticket.AddTicketItem(0, iskender, iskender.Portions[0].Name);
-            ticket.AddTicketItem(0, iskender, iskender.Portions[0].Name);
+            ticket.AddOrder(0, iskender, iskender.Portions[0].Name);
+            ticket.AddOrder(0, iskender, iskender.Portions[0].Name);
+            ticket.AddOrder(0, iskender, iskender.Portions[0].Name);
 
             var pc = InventoryService.GetCurrentPeriodicConsumption(workspace);
             workspace.Add(pc);
@@ -134,8 +134,8 @@ namespace Samba.Services.Test
 
             var ticket = new Ticket();
             workspace.Add(ticket);
-            ticket.AddTicketItem(0, iskender, iskender.Portions[0].Name);
-            ticket.AddTicketItem(0, iskender, iskender.Portions[0].Name);
+            ticket.AddOrder(0, iskender, iskender.Portions[0].Name);
+            ticket.AddOrder(0, iskender, iskender.Portions[0].Name);
 
             var transaction2 = new InventoryTransaction { Date = DateTime.Now, Name = "1" };
             workspace.Add(transaction2);
@@ -178,8 +178,8 @@ namespace Samba.Services.Test
 
             ticket = new Ticket();
             workspace.Add(ticket);
-            ticket.AddTicketItem(0, iskender, iskender.Portions[0].Name);
-            ticket.AddTicketItem(0, iskender, iskender.Portions[0].Name);
+            ticket.AddOrder(0, iskender, iskender.Portions[0].Name);
+            ticket.AddOrder(0, iskender, iskender.Portions[0].Name);
 
             pc = InventoryService.GetCurrentPeriodicConsumption(workspace);
             workspace.Add(pc);
@@ -205,8 +205,8 @@ namespace Samba.Services.Test
 
             ticket = new Ticket();
             workspace.Add(ticket);
-            ticket.AddTicketItem(0, iskender, iskender.Portions[0].Name);
-            ticket.AddTicketItem(0, iskender, iskender.Portions[0].Name);
+            ticket.AddOrder(0, iskender, iskender.Portions[0].Name);
+            ticket.AddOrder(0, iskender, iskender.Portions[0].Name);
 
             pc = InventoryService.GetCurrentPeriodicConsumption(workspace);
             workspace.Add(pc);

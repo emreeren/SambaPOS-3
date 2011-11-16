@@ -15,7 +15,7 @@ namespace Samba.Presentation.ViewModels
     {
         public bool IsSelectedQuantityModified { get; set; }
 
-        public TicketItemViewModel(TicketItem model)
+        public TicketItemViewModel(Order model)
         {
             _model = model;
             ResetSelectedQuantity();
@@ -40,8 +40,8 @@ namespace Samba.Presentation.ViewModels
             }
         }
 
-        private readonly TicketItem _model;
-        public TicketItem Model { get { return _model; } }
+        private readonly Order _model;
+        public Order Model { get { return _model; } }
 
         public decimal Quantity
         {
@@ -135,10 +135,10 @@ namespace Samba.Presentation.ViewModels
 
         public string CustomPropertyName
         {
-            get { return Model.GetCustomProperty() != null ? Model.GetCustomProperty().Name : ""; }
+            get { return Model.GetCustomOrderTag() != null ? Model.GetCustomOrderTag().Name : ""; }
             set
             {
-                Model.UpdateCustomProperty(value, CustomPropertyPrice, CustomPropertyQuantity);
+                Model.UpdateCustomOrderTag(value, CustomPropertyPrice, CustomPropertyQuantity);
                 RefreshProperties();
             }
         }
@@ -147,7 +147,7 @@ namespace Samba.Presentation.ViewModels
         {
             get
             {
-                var prop = Model.GetCustomProperty();
+                var prop = Model.GetCustomOrderTag();
                 if (prop != null)
                 {
                     return Model.TaxIncluded ? prop.Price + prop.TaxAmount : prop.Price;
@@ -156,17 +156,17 @@ namespace Samba.Presentation.ViewModels
             }
             set
             {
-                Model.UpdateCustomProperty(CustomPropertyName, value, CustomPropertyQuantity);
+                Model.UpdateCustomOrderTag(CustomPropertyName, value, CustomPropertyQuantity);
                 RefreshProperties();
             }
         }
 
         public decimal CustomPropertyQuantity
         {
-            get { return Model.GetCustomProperty() != null ? Model.GetCustomProperty().Quantity : 1; }
+            get { return Model.GetCustomOrderTag() != null ? Model.GetCustomOrderTag().Quantity : 1; }
             set
             {
-                Model.UpdateCustomProperty(CustomPropertyName, CustomPropertyPrice, value);
+                Model.UpdateCustomOrderTag(CustomPropertyName, CustomPropertyPrice, value);
                 RefreshProperties();
             }
         }
@@ -194,7 +194,7 @@ namespace Samba.Presentation.ViewModels
         private ObservableCollection<TicketItemPropertyViewModel> _properties;
         public ObservableCollection<TicketItemPropertyViewModel> Properties
         {
-            get { return _properties ?? (_properties = new ObservableCollection<TicketItemPropertyViewModel>(Model.Properties.Select(x => new TicketItemPropertyViewModel(x)))); }
+            get { return _properties ?? (_properties = new ObservableCollection<TicketItemPropertyViewModel>(Model.OrderTagValues.Select(x => new TicketItemPropertyViewModel(x)))); }
         }
 
         public bool IsGifted { get { return Model.Gifted; } }
@@ -261,9 +261,9 @@ namespace Samba.Presentation.ViewModels
             RaisePropertyChanged(() => TotalPrice);
         }
 
-        public void ToggleProperty(MenuItemPropertyGroup group, MenuItemProperty menuItemProperty)
+        public void ToggleProperty(OrderTagGroup group, OrderTag menuItemProperty)
         {
-            _model.ToggleProperty(group, menuItemProperty);
+            _model.ToggleOrderTag(group, menuItemProperty);
             RefreshProperties();
             RaisePropertyChanged(() => TotalPrice);
             RaisePropertyChanged(() => Quantity);
@@ -272,7 +272,7 @@ namespace Samba.Presentation.ViewModels
         private void RefreshProperties()
         {
             Properties.Clear();
-            Properties.AddRange(Model.Properties.Select(x => new TicketItemPropertyViewModel(x)));
+            Properties.AddRange(Model.OrderTagValues.Select(x => new TicketItemPropertyViewModel(x)));
         }
 
         public void UpdatePrice(decimal value)

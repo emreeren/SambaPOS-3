@@ -117,8 +117,8 @@ namespace Samba.Modules.BasicReports.Reports.ProductReport
             //----------------------
 
             var properties = ReportContext.Tickets
-                .SelectMany(x => x.TicketItems.Where(y => y.Properties.Count > 0))
-                .SelectMany(x => x.Properties.Where(y => y.MenuItemId == 0).Select(y => new { y.Name, x.Quantity }))
+                .SelectMany(x => x.Orders.Where(y => y.OrderTagValues.Count > 0))
+                .SelectMany(x => x.OrderTagValues.Where(y => y.MenuItemId == 0).Select(y => new { y.Name, x.Quantity }))
                 .GroupBy(x => new { x.Name })
                 .Select(x => new { x.Key.Name, Quantity = x.Sum(y => y.Quantity) });
 
@@ -137,10 +137,10 @@ namespace Samba.Modules.BasicReports.Reports.ProductReport
             return report.Document;
         }
 
-        private static void PrepareModificationTable(SimpleReport report, Func<TicketItem, bool> predicate, string title)
+        private static void PrepareModificationTable(SimpleReport report, Func<Order, bool> predicate, string title)
         {
             var modifiedItems = ReportContext.Tickets
-                .SelectMany(x => x.TicketItems.Where(predicate).Select(y => new { Ticket = x, UserId = y.ModifiedUserId, MenuItem = y.MenuItemName, y.Quantity, y.ReasonId, y.ModifiedDateTime, Amount = y.GetItemValue() }));
+                .SelectMany(x => x.Orders.Where(predicate).Select(y => new { Ticket = x, UserId = y.ModifiedUserId, MenuItem = y.MenuItemName, y.Quantity, y.ReasonId, y.ModifiedDateTime, Amount = y.GetItemValue() }));
 
             if (modifiedItems.Count() == 0) return;
 

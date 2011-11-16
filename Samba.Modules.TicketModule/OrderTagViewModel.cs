@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
 using Samba.Domain.Models.Menus;
+using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common;
 
-namespace Samba.Modules.MenuModule
+namespace Samba.Modules.TicketModule
 {
-    public class MenuItemPropertyViewModel : ObservableObject
+    public class OrderTagViewModel : ObservableObject
     {
-        public MenuItemProperty Model { get; set; }
+        public OrderTag Model { get; set; }
 
-        public MenuItemPropertyViewModel(MenuItemProperty model)
+        public OrderTagViewModel(OrderTag model)
         {
             Model = model;
             if (string.IsNullOrEmpty(model.Name))
@@ -56,7 +57,7 @@ namespace Samba.Modules.MenuModule
             if (value > 0)
             {
                 if (MenuItem == null || MenuItem.Id != value)
-                    MenuItem = Dao.Single<MenuItem>(x => x.Id == value, x => x.PropertyGroups, x => x.Portions);
+                    MenuItem = Dao.Single<MenuItem>(x => x.Id == value, x => x.Portions);
             }
         }
 

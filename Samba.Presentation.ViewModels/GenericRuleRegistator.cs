@@ -225,8 +225,8 @@ namespace Samba.Presentation.ViewModels
                         var gifted = x.Value.GetAsBoolean("Gift");
                         var tag = x.Value.GetAsString("Tag");
 
-                        var ti = ticket.AddTicketItem(AppServices.CurrentLoggedInUser.Id, menuItem, portionName,
-                                 AppServices.MainDataContext.SelectedDepartment.PriceTag, "");
+                        var ti = ticket.AddOrder(AppServices.CurrentLoggedInUser.Id, menuItem, portionName,
+                                 AppServices.MainDataContext.SelectedDepartment.PriceTag);
 
                         ti.Quantity = quantity;
                         ti.Gifted = gifted;
@@ -247,10 +247,10 @@ namespace Samba.Presentation.ViewModels
                         var tag = x.Value.GetAsString("Tag");
                         if (!string.IsNullOrEmpty(menuItemName) && !string.IsNullOrEmpty(tag))
                         {
-                            var lines = ticket.TicketItems.Where(y => !y.Voided &&
+                            var lines = ticket.Orders.Where(y => !y.Voided &&
                                 (string.IsNullOrEmpty(menuItemName) || y.MenuItemName.Contains(menuItemName)) &&
                                 (y.Tag.Contains(tag) || string.IsNullOrEmpty(tag))).ToList();
-                            lines.ForEach(y => ticket.VoidItem(y, 0, AppServices.CurrentLoggedInUser.Id));
+                            lines.ForEach(y => ticket.VoidOrder(y, 0, AppServices.CurrentLoggedInUser.Id));
                             TicketViewModel.RecalculateTicket(ticket);
                             EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
                         }

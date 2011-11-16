@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Collections.ObjectModel;
 using Samba.Domain.Models.Menus;
-using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
-using Samba.Presentation.Common.Services;
 
 namespace Samba.Modules.MenuModule
 {
@@ -26,12 +24,6 @@ namespace Samba.Modules.MenuModule
             get { return _portions ?? (_portions = new ObservableCollection<PortionViewModel>(GetPortions(Model))); }
         }
 
-        private ObservableCollection<MenuItemPropertyGroupViewModel> _propertyGroups;
-        public ObservableCollection<MenuItemPropertyGroupViewModel> PropertyGroups
-        {
-            get { return _propertyGroups ?? (_propertyGroups = new ObservableCollection<MenuItemPropertyGroupViewModel>(GetProperties(Model))); }
-        }
-
         private IEnumerable<TaxTemplateViewModel> _taxTemplates;
         public IEnumerable<TaxTemplateViewModel> TaxTemplates
         {
@@ -44,11 +36,6 @@ namespace Samba.Modules.MenuModule
 
         public ICaptionCommand AddPortionCommand { get; set; }
         public ICaptionCommand DeletePortionCommand { get; set; }
-
-        public MenuItemPropertyGroupViewModel SelectedProperty { get; set; }
-
-        public ICaptionCommand AddPropertyGroupCommand { get; set; }
-        public ICaptionCommand DeletePropertyGroupCommand { get; set; }
 
         public string GroupCode
         {
@@ -73,40 +60,7 @@ namespace Samba.Modules.MenuModule
         {
             AddPortionCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.Portion), OnAddPortion);
             DeletePortionCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.Portion), OnDeletePortion, CanDeletePortion);
-
-            AddPropertyGroupCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.PropertyGroup), OnAddPropertyGroup);
-            DeletePropertyGroupCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.PropertyGroup), OnDeletePropertyGroup, CanDeletePropertyGroup);
         }
-
-        private bool CanDeletePropertyGroup(string arg)
-        {
-            return SelectedProperty != null;
-        }
-
-        private void OnDeletePropertyGroup(string obj)
-        {
-            Model.PropertyGroups.Remove(SelectedProperty.Model);
-            PropertyGroups.Remove(SelectedProperty);
-        }
-
-        private void OnAddPropertyGroup(string obj)
-        {
-            var selectedValues =
-                InteractionService.UserIntraction.ChooseValuesFrom(Workspace.All<MenuItemPropertyGroup>().ToList<IOrderable>(),
-                Model.PropertyGroups.ToList<IOrderable>(), Resources.PropertyGroups, string.Format(Resources.SelectPropertyGroupsHint_f, Model.Name),
-                Resources.PropertyGroup, Resources.PropertyGroups);
-
-            foreach (MenuItemPropertyGroup selectedValue in selectedValues)
-            {
-                if (!Model.PropertyGroups.Contains(selectedValue))
-                    Model.PropertyGroups.Add(selectedValue);
-            }
-
-            _propertyGroups = new ObservableCollection<MenuItemPropertyGroupViewModel>(GetProperties(Model));
-
-            RaisePropertyChanged(()=>PropertyGroups);
-        }
-
 
         public string GroupValue { get { return Model.GroupCode; } }
 
@@ -145,11 +99,6 @@ namespace Samba.Modules.MenuModule
         private static IEnumerable<PortionViewModel> GetPortions(MenuItem baseModel)
         {
             return baseModel.Portions.Select(item => new PortionViewModel(item));
-        }
-
-        private static IEnumerable<MenuItemPropertyGroupViewModel> GetProperties(MenuItem model)
-        {
-            return model.PropertyGroups.Select(item => new MenuItemPropertyGroupViewModel(item));
         }
     }
 }

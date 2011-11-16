@@ -595,9 +595,6 @@ Payment</value>
   <data name="DeleteErrorProductUsedInReceipt" xml:space="preserve">
     <value>Can't delete because this Product assigned to a Receipt.</value>
   </data>
-  <data name="DeleteErrorProductPropertyUsedInProduct" xml:space="preserve">
-    <value>Can't delete because this Product Property assigned to a Product</value>
-  </data>
   <data name="PropertyGroupName" xml:space="preserve">
     <value>Property Group Name</value>
     <comment>Label content</comment>
@@ -3016,25 +3013,37 @@ Continue without adding details?</value>
   <data name="Modifiers" xml:space="preserve">
     <value>Modifiers</value>
   </data>
-	<data name="APortionShouldSelected">
-		<value xml:space="preserve">A portion should selected</value>
-	</data>
-	<data name="ThereIsAnotherRecipeFor_f">
-		<value xml:space="preserve">There is another recipe for {0}</value>
-	</data>
-	<data name="DeleteErrorPrinterAssignedToTerminal">
-		<value><![CDATA[Can't delete because this Printer assigned to a Terminal]]></value>
-	</data>
-	<data name="DeleteErrorPrinterAssignedToPrinterMap">
-		<value><![CDATA[Can't delete because this Printer assigned to a Print Job]]></value>
-	</data>
-	<data name="Alphanumeric">
-		<value xml:space="preserve">Alphanumeric</value>
-	</data>
-	<data name="Numeric">
-		<value xml:space="preserve">Numeric</value>
-	</data>
-	<data name="TaggingType">
-		<value xml:space="preserve">Tagging Type</value>
-	</data>
+  <data name="APortionShouldSelected" xml:space="preserve">
+    <value>A portion should selected</value>
+  </data>
+  <data name="ThereIsAnotherRecipeFor_f" xml:space="preserve">
+    <value>There is another recipe for {0}</value>
+  </data>
+  <data name="DeleteErrorPrinterAssignedToTerminal" xml:space="preserve">
+    <value>Can't delete because this Printer assigned to a Terminal</value>
+  </data>
+  <data name="DeleteErrorPrinterAssignedToPrinterMap" xml:space="preserve">
+    <value>Can't delete because this Printer assigned to a Print Job</value>
+  </data>
+  <data name="Alphanumeric" xml:space="preserve">
+    <value>Alphanumeric</value>
+  </data>
+  <data name="Numeric" xml:space="preserve">
+    <value>Numeric</value>
+  </data>
+  <data name="TaggingType" xml:space="preserve">
+    <value>Tagging Type</value>
+  </data>
+  <data name="OrderTagGroupName" xml:space="preserve">
+    <value>Order Tag Group Name</value>
+    <comment>Label content</comment>
+  </data>
+  <data name="OrderTagMapping" xml:space="preserve">
+    <value>Order Tag Mapping</value>
+    <comment>Label content</comment>
+  </data>
+  <data name="OrderTags" xml:space="preserve">
+    <value>Order Tags</value>
+    <comment>Label content</comment>
+  </data>
 </root>

@@ -46,7 +46,7 @@ namespace Samba.Modules.BasicReports.Reports.CSVBuilder
 
             if (string.IsNullOrEmpty(fileName)) return;
 
-            var lines = ReportContext.Tickets.SelectMany(x => x.TicketItems, (t, ti) => new { Ticket = t, TicketItem = ti });
+            var lines = ReportContext.Tickets.SelectMany(x => x.Orders, (t, ti) => new { Ticket = t, TicketItem = ti });
             var data = lines.Select(x =>
                 new
                     {

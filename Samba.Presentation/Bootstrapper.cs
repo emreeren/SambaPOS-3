@@ -49,8 +49,7 @@ namespace Samba.Presentation
             if (!_mutex.WaitOne(TimeSpan.Zero, true))
             {
                 NativeMethods.PostMessage((IntPtr)NativeMethods.HWND_BROADCAST, NativeMethods.WM_SHOWSAMBAPOS, IntPtr.Zero, IntPtr.Zero);
-                Application.Current.Shutdown();
-                return;
+                Environment.Exit(1);
             }
 
             LocalizeDictionary.ChangeLanguage(LocalSettings.CurrentLanguage);

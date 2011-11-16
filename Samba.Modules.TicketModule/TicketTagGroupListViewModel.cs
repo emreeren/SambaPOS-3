@@ -4,7 +4,7 @@ using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common.ModelBase;
 
-namespace Samba.Modules.MenuModule
+namespace Samba.Modules.TicketModule
 {
     public class TicketTagGroupListViewModel : EntityCollectionViewModelBase<TicketTagGroupViewModel, TicketTagGroup>
     {

@@ -1,8 +1,8 @@
 ﻿using Samba.Infrastructure.Data;
 
-namespace Samba.Domain.Models.Menus
+namespace Samba.Domain.Models.Tickets
 {
-    public class MenuItemProperty : IOrderable
+    public class OrderTag : IOrderable
     {
         public int Id { get; set; }
         public string Name { get; set; }
