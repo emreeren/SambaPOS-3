@@ -6,6 +6,7 @@ using System.ComponentModel.Composition;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Markup;
 using System.Windows.Threading;
 using Samba.Domain.Models.Users;
@@ -132,6 +133,29 @@ namespace Samba.Presentation
                 Title += " [DB: " + LocalSettings.DbVersion + "-" + LocalSettings.CurrentDbVersion + "]";
             _timer.Interval = TimeSpan.FromSeconds(1);
             _timer.Start();
+
+            var source = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
+            if (source != null) source.AddHook(WndProc);
+        }
+
+        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            if (msg == NativeMethods.WM_SHOWSAMBAPOS)
+            {
+                ShowMe();
+            }
+            return IntPtr.Zero;
+        }
+
+        private void ShowMe()
+        {
+            if (WindowState == WindowState.Minimized)
+            {
+                WindowState = WindowState.Normal;
+            }
+            var top = Topmost;
+            Topmost = true;
+            Topmost = top;
         }
     }
 }

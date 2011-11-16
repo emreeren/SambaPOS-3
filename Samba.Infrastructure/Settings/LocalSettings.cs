@@ -180,6 +180,10 @@ html
                     SaveSettings();
                 }
             }
+            catch(IOException)
+            {
+                return;
+            }
         }
 
         public static void LoadSettings()

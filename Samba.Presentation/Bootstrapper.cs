@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition.Hosting;
+using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows;
 using Microsoft.Practices.Prism.MefExtensions;
 using Microsoft.Practices.ServiceLocation;
@@ -14,6 +16,8 @@ namespace Samba.Presentation
 {
     public class Bootstrapper : MefBootstrapper
     {
+        static Mutex _mutex = new Mutex(true, "{aa77c8c4-b8c1-4e61-908f-48c6fb65227d}");
+
         protected override DependencyObject CreateShell()
         {
             return Container.GetExportedValue<Shell>();
@@ -42,6 +46,13 @@ namespace Samba.Presentation
 
         protected override void InitializeShell()
         {
+            if (!_mutex.WaitOne(TimeSpan.Zero, true))
+            {
+                NativeMethods.PostMessage((IntPtr)NativeMethods.HWND_BROADCAST, NativeMethods.WM_SHOWSAMBAPOS, IntPtr.Zero, IntPtr.Zero);
+                Application.Current.Shutdown();
+                return;
+            }
+
             LocalizeDictionary.ChangeLanguage(LocalSettings.CurrentLanguage);
 
             InteractionService.UserIntraction = ServiceLocator.Current.GetInstance<IUserInteraction>();
@@ -98,5 +109,14 @@ namespace Samba.Presentation
             InteractionService.UserIntraction.ToggleSplashScreen();
             TriggerService.UpdateCronObjects();
         }
+    }
+    internal class NativeMethods
+    {
+        public const int HWND_BROADCAST = 0xffff;
+        public static readonly int WM_SHOWSAMBAPOS = RegisterWindowMessage("WM_SHOWSAMBAPOS");
+        [DllImport("user32")]
+        public static extern bool PostMessage(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam);
+        [DllImport("user32")]
+        public static extern int RegisterWindowMessage(string message);
     }
 }
