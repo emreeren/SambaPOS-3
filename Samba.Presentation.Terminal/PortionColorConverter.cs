@@ -28,8 +28,8 @@ namespace Samba.Presentation.Terminal
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (DataContext.SelectedTicketItem != null)
-                if (DataContext.SelectedTicketItem.Description.EndsWith(value.ToString()))
+            if (DataContext.SelectedOrder != null)
+                if (DataContext.SelectedOrder.Description.EndsWith(value.ToString()))
                     return Brushes.Red;
             return Brushes.Transparent;
         }
@@ -44,8 +44,8 @@ namespace Samba.Presentation.Terminal
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (DataContext.SelectedTicketItem != null)
-                if (DataContext.SelectedTicketItem.Properties.SingleOrDefault(x => x.DisplayString == value.ToString()) != null)
+            if (DataContext.SelectedOrder != null)
+                if (DataContext.SelectedOrder.OrderTagValues.SingleOrDefault(x => x.DisplayString == value.ToString()) != null)
                     return Brushes.Red;
             return Brushes.Transparent;
         }

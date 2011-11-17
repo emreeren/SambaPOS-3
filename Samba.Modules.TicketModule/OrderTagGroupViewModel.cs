@@ -12,15 +12,14 @@ namespace Samba.Modules.TicketModule
 {
     public class OrderTagGroupViewModel : EntityViewModelBase<OrderTagGroup>
     {
-        private ObservableCollection<OrderTagViewModel> _properties;
-        public ObservableCollection<OrderTagViewModel> Properties { get { return _properties ?? (_properties = new ObservableCollection<OrderTagViewModel>(GetProperties(Model))); } }
+        private ObservableCollection<OrderTagViewModel> _orderTags;
+        public ObservableCollection<OrderTagViewModel> OrderTags { get { return _orderTags ?? (_orderTags = new ObservableCollection<OrderTagViewModel>(GetOrderTags(Model))); } }
 
         private ObservableCollection<OrderTagMapViewModel> _orderTagMaps;
         public ObservableCollection<OrderTagMapViewModel> OrderTagMaps { get { return _orderTagMaps ?? (_orderTagMaps = new ObservableCollection<OrderTagMapViewModel>(GetOrderTagMaps(Model))); } }
 
-        public OrderTagViewModel SelectedProperty { get; set; }
-        public ICaptionCommand AddPropertyCommand { get; set; }
-        public ICaptionCommand DeletePropertyCommand { get; set; }
+        public ICaptionCommand AddOrderTagCommand { get; set; }
+        public ICaptionCommand DeleteOrderTagCommand { get; set; }
         public ICaptionCommand AddOrderTagMapCommand { get; set; }
         public ICaptionCommand DeleteOrderTagMapCommand { get; set; }
 
@@ -32,13 +31,14 @@ namespace Samba.Modules.TicketModule
         public int TerminalButtonHeight { get { return Model.TerminalButtonHeight; } set { Model.TerminalButtonHeight = value; } }
         public int TerminalColumnCount { get { return Model.TerminalColumnCount; } set { Model.TerminalColumnCount = value; } }
 
+        public OrderTagViewModel SelectedOrderTag { get; set; }
         public OrderTagMapViewModel SelectedOrderTagMap { get; set; }
 
         public OrderTagGroupViewModel(OrderTagGroup model)
             : base(model)
         {
-            AddPropertyCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.Modifier), OnAddPropertyExecuted);
-            DeletePropertyCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.Modifier), OnDeletePropertyExecuted, CanDeleteProperty);
+            AddOrderTagCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.OrderTag), OnAddPropertyExecuted);
+            DeleteOrderTagCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.OrderTag), OnDeletePropertyExecuted, CanDeleteProperty);
             AddOrderTagMapCommand = new CaptionCommand<string>(Resources.Add, OnAddOrderTagMap);
             DeleteOrderTagMapCommand = new CaptionCommand<string>(Resources.Delete, OnDeleteOrderTagMap, CanDeleteOrderTagMap);
         }
@@ -63,24 +63,24 @@ namespace Samba.Modules.TicketModule
 
         private void OnDeletePropertyExecuted(string obj)
         {
-            if (SelectedProperty == null) return;
-            if (SelectedProperty.Model.Id > 0)
-                Workspace.Delete(SelectedProperty.Model);
-            Model.OrderTags.Remove(SelectedProperty.Model);
-            Properties.Remove(SelectedProperty);
+            if (SelectedOrderTag == null) return;
+            if (SelectedOrderTag.Model.Id > 0)
+                Workspace.Delete(SelectedOrderTag.Model);
+            Model.OrderTags.Remove(SelectedOrderTag.Model);
+            OrderTags.Remove(SelectedOrderTag);
         }
 
         private bool CanDeleteProperty(string arg)
         {
-            return SelectedProperty != null;
+            return SelectedOrderTag != null;
         }
 
         private void OnAddPropertyExecuted(string obj)
         {
-            Properties.Add(new OrderTagViewModel(MenuItem.AddDefaultMenuItemProperty(Model)));
+            OrderTags.Add(new OrderTagViewModel(MenuItem.AddDefaultMenuItemProperty(Model)));
         }
 
-        private static IEnumerable<OrderTagViewModel> GetProperties(OrderTagGroup baseModel)
+        private static IEnumerable<OrderTagViewModel> GetOrderTags(OrderTagGroup baseModel)
         {
             return baseModel.OrderTags.Select(item => new OrderTagViewModel(item));
         }
@@ -92,7 +92,7 @@ namespace Samba.Modules.TicketModule
 
         public override string GetModelTypeString()
         {
-            return Resources.ModifierGroup;
+            return Resources.OrderTagGroup;
         }
 
         public override Type GetViewType()

@@ -24,10 +24,10 @@ namespace Samba.Presentation.Terminal
         public MenuItemSelectorView()
         {
             InitializeComponent();
-            EventServiceFactory.EventService.GetEvent<GenericEvent<TicketItemViewModel>>().Subscribe(
+            EventServiceFactory.EventService.GetEvent<GenericEvent<OrderViewModel>>().Subscribe(
                 x =>
                 {
-                    if (x.Topic == EventTopicNames.TicketItemAdded)
+                    if (x.Topic == EventTopicNames.OrderAdded)
                         Scroller.ScrollToEnd();
                 });
         }

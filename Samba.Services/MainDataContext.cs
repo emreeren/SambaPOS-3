@@ -125,10 +125,10 @@ namespace Samba.Services
                 _workspace.All<Table>(x => x.TicketId == ticket.Id).ToList().ForEach(x => x.Reset());
             }
 
-            public void RemoveTicketItems(IEnumerable<Order> selectedItems)
+            public void RemoveOrders(IEnumerable<Order> selectedOrders)
             {
-                selectedItems.ToList().ForEach(x => Ticket.Orders.Remove(x));
-                selectedItems.Where(x => x.Id > 0).ToList().ForEach(x => _workspace.Delete(x));
+                selectedOrders.ToList().ForEach(x => Ticket.Orders.Remove(x));
+                selectedOrders.Where(x => x.Id > 0).ToList().ForEach(x => _workspace.Delete(x));
             }
 
             public void RemoveServices(IEnumerable<Service> services)
@@ -399,7 +399,7 @@ namespace Samba.Services
 
             if (table.TicketId > 0 && table.TicketId != SelectedTicket.Id)
             {
-                MoveTicketItems(SelectedTicket.Orders.ToList(), table.TicketId);
+                MoveOrders(SelectedTicket.Orders.ToList(), table.TicketId);
                 OpenTicket(table.TicketId);
             }
 
@@ -481,7 +481,7 @@ namespace Samba.Services
 
             if (canSumbitTicket)
             {
-                _ticketWorkspace.RemoveTicketItems(SelectedTicket.PopRemovedOrders());
+                _ticketWorkspace.RemoveOrders(SelectedTicket.PopRemovedOrders());
                 _ticketWorkspace.RemoveServices(SelectedTicket.PopRemovedServices());
                 _ticketWorkspace.RemoveUnusedTags(SelectedTicket.Tags);
                 Recalculate(SelectedTicket);
@@ -622,11 +622,11 @@ namespace Samba.Services
             _ticketWorkspace.CreateTicket(SelectedDepartment);
         }
 
-        public TicketCommitResult MoveTicketItems(IEnumerable<Order> selectedItems, int targetTicketId)
+        public TicketCommitResult MoveOrders(IEnumerable<Order> selectedOrders, int targetTicketId)
         {
-            var clonedItems = selectedItems.Select(ObjectCloner.Clone).ToList();
+            var clonedOrders = selectedOrders.Select(ObjectCloner.Clone).ToList();
 
-            _ticketWorkspace.RemoveTicketItems(selectedItems);
+            _ticketWorkspace.RemoveOrders(selectedOrders);
 
             if (SelectedTicket.Orders.Count == 0)
             {
@@ -646,9 +646,9 @@ namespace Samba.Services
                 CreateNewTicket();
             else OpenTicket(targetTicketId);
 
-            foreach (var ticketItem in clonedItems)
+            foreach (var clonedOrder in clonedOrders)
             {
-                SelectedTicket.Orders.Add(ticketItem);
+                SelectedTicket.Orders.Add(clonedOrder);
             }
 
             SelectedTicket.LastOrderDate = DateTime.Now;

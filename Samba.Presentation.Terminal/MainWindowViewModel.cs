@@ -50,16 +50,16 @@ namespace Samba.Presentation.Terminal
             TicketEditorViewModel.OnTicketTagEditorRequested += TicketEditorViewModel_OnTicketTagEditorRequested;
 
             MenuItemSelectorViewModel = new MenuItemSelectorViewModel();
-            MenuItemSelectorViewModel.OnTicketItemSelected += MenuItemSelectorViewModel_OnTicketItemSelected;
+            MenuItemSelectorViewModel.OnOrderSelected += MenuItemSelectorViewModel_OnOrderSelected;
 
-            SelectedTicketItemEditorViewModel = new SelectedTicketItemEditorViewModel();
-            SelectedTicketItemEditorViewModel.TagUpdated += SelectedTicketItemEditorViewModelTagUpdated;
+            SelectedOrderEditorViewModel = new SelectedOrderEditorViewModel();
+            SelectedOrderEditorViewModel.TagUpdated += SelectedOrderEditorViewModelTagUpdated;
 
             PermissionRegistry.RegisterPermission(PermissionNames.AddItemsToLockedTickets, PermissionCategories.Ticket, "Kilitli adisyona ekleme yapabilir");
             PermissionRegistry.RegisterPermission(PermissionNames.GiftItems, PermissionCategories.Ticket, "İkram yapabilir");
             PermissionRegistry.RegisterPermission(PermissionNames.VoidItems, PermissionCategories.Ticket, "İade alabilir");
-            PermissionRegistry.RegisterPermission(PermissionNames.MoveTicketItems, PermissionCategories.Ticket, "Adisyon satırlarını taşıyabilir");
-            PermissionRegistry.RegisterPermission(PermissionNames.MoveUnlockedTicketItems, PermissionCategories.Ticket, "Kilitlenmemiş adisyon satırlarını taşıyabilir");
+            PermissionRegistry.RegisterPermission(PermissionNames.MoveOrders, PermissionCategories.Ticket, "Siparişleri taşıyabilir");
+            PermissionRegistry.RegisterPermission(PermissionNames.MoveUnlockedOrders, PermissionCategories.Ticket, "Kilitlenmemiş siparişleri taşıyabilir");
             PermissionRegistry.RegisterPermission(PermissionNames.ChangeExtraProperty, PermissionCategories.Ticket, "Ekstra özellik girebilir");
 
             AppServices.MessagingService.RegisterMessageListener(new MessageListener());
@@ -77,10 +77,10 @@ namespace Samba.Presentation.Terminal
                 });
         }
 
-        void SelectedTicketItemEditorViewModelTagUpdated(TicketTagGroup item)
+        void SelectedOrderEditorViewModelTagUpdated(TicketTagGroup item)
         {
             Debug.Assert(DataContext.SelectedTicket != null);
-            if (DataContext.SelectedTicket.Items.Count == 0)
+            if (DataContext.SelectedTicket.Orders.Count == 0)
             {
                 ActivateMenuItemSelector();
             }
@@ -133,7 +133,7 @@ namespace Samba.Presentation.Terminal
         public DepartmentSelectorViewModel DepartmentSelectorViewModel { get; set; }
         public TicketEditorViewModel TicketEditorViewModel { get; set; }
         public MenuItemSelectorViewModel MenuItemSelectorViewModel { get; set; }
-        public SelectedTicketItemEditorViewModel SelectedTicketItemEditorViewModel { get; set; }
+        public SelectedOrderEditorViewModel SelectedOrderEditorViewModel { get; set; }
 
         void LoginViewModelPinSubmitted(object sender, string pinValue)
         {
@@ -194,7 +194,7 @@ namespace Samba.Presentation.Terminal
 
             if (DataContext.SelectedTicket != null)
             {
-                if (DataContext.SelectedTicket.SelectedItems.Count == 0)
+                if (DataContext.SelectedTicket.SelectedOrders.Count == 0)
                 {
                     TicketViewModel.AssignLocationToSelectedTicket(selectedTable.Id);
                     //AppServices.MainDataContext.AssignTableToSelectedTicket(selectedTable.Id);
@@ -215,7 +215,7 @@ namespace Samba.Presentation.Terminal
         {
             if (SelectedIndex == 5)
             {
-                if (SelectedTicketItemEditorViewModel.SelectedTicketTag != null && DataContext.SelectedTicket.Items.Count == 0)
+                if (SelectedOrderEditorViewModel.SelectedTicketTag != null && DataContext.SelectedTicket.Orders.Count == 0)
                 {
                     DataContext.CloseSelectedTicket();
                     ActivateTableView();
@@ -225,11 +225,11 @@ namespace Samba.Presentation.Terminal
                 else
                     ActivateTicketView(null);
 
-                SelectedTicketItemEditorViewModel.CloseView();
+                SelectedOrderEditorViewModel.CloseView();
             }
             else if (SelectedIndex == 4)
             {
-                if (DataContext.SelectedTicket.Items.Count > 0)
+                if (DataContext.SelectedTicket.Orders.Count > 0)
                 {
                     DataContext.SelectedTicket.MergeLines();
                     MenuItemSelectorViewModel.CloseView();
@@ -274,12 +274,12 @@ namespace Samba.Presentation.Terminal
 
         void TicketEditorViewModel_OnTicketTagEditorRequested(object sender, EventArgs e)
         {
-            ActivateSelectedTicketItemEditorView(null, sender as TicketTagGroup);
+            ActivateSelectedOrderEditorView(null, sender as TicketTagGroup);
         }
 
         void TicketEditorViewModel_OnTicketNoteEditorRequested(object sender, EventArgs e)
         {
-            ActivateSelectedTicketItemEditorView(null, null);
+            ActivateSelectedOrderEditorView(null, null);
         }
 
         void TicketEditorViewModel_OnSelectTableRequested(object sender, EventArgs e)
@@ -306,15 +306,15 @@ namespace Samba.Presentation.Terminal
             ActivateMenuItemSelector();
         }
 
-        void MenuItemSelectorViewModel_OnTicketItemSelected(TicketItemViewModel item)
+        void MenuItemSelectorViewModel_OnOrderSelected(OrderViewModel item)
         {
-            ActivateSelectedTicketItemEditorView(item, null);
+            ActivateSelectedOrderEditorView(item, null);
         }
 
-        private void ActivateSelectedTicketItemEditorView(TicketItemViewModel item, TicketTagGroup selectedTicketTag)
+        private void ActivateSelectedOrderEditorView(OrderViewModel item, TicketTagGroup selectedTicketTag)
         {
             SelectedIndex = 5;
-            SelectedTicketItemEditorViewModel.Refresh(item, selectedTicketTag);
+            SelectedOrderEditorViewModel.Refresh(item, selectedTicketTag);
         }
 
         private void ActivateLoginView()
@@ -334,7 +334,7 @@ namespace Samba.Presentation.Terminal
             {
                 if (DataContext.SelectedTicket != null)
                 {
-                    if (DataContext.SelectedTicket.SelectedItems.Count > 0)
+                    if (DataContext.SelectedTicket.SelectedOrders.Count > 0)
                     {
                         MoveSelectedItems(0);
                     }
@@ -398,9 +398,9 @@ namespace Samba.Presentation.Terminal
         private static void MoveSelectedItems(int tableId)
         {
             Debug.Assert(DataContext.SelectedTicket != null);
-            Debug.Assert(DataContext.SelectedTicket.SelectedItems.Count > 0);
+            Debug.Assert(DataContext.SelectedTicket.SelectedOrders.Count > 0);
             DataContext.SelectedTicket.FixSelectedItems();
-            var newTicketId = DataContext.MoveSelectedTicketItemsToNewTicket();
+            var newTicketId = DataContext.MoveSelectedOrdersToNewTicket();
             DataContext.OpenTicket(newTicketId);
             if (tableId > 0)
                 TicketViewModel.AssignLocationToSelectedTicket(tableId);

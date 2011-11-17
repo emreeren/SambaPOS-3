@@ -46,28 +46,28 @@ namespace Samba.Modules.BasicReports.Reports.CSVBuilder
 
             if (string.IsNullOrEmpty(fileName)) return;
 
-            var lines = ReportContext.Tickets.SelectMany(x => x.Orders, (t, ti) => new { Ticket = t, TicketItem = ti });
+            var lines = ReportContext.Tickets.SelectMany(x => x.Orders, (t, ti) => new { Ticket = t, Order = ti });
             var data = lines.Select(x =>
                 new
                     {
-                        DateTime = x.TicketItem.CreatedDateTime,
-                        Date = x.TicketItem.CreatedDateTime.ToShortDateString(),
-                        Time = x.TicketItem.CreatedDateTime.ToShortTimeString(),
+                        DateTime = x.Order.CreatedDateTime,
+                        Date = x.Order.CreatedDateTime.ToShortDateString(),
+                        Time = x.Order.CreatedDateTime.ToShortTimeString(),
                         x.Ticket.TicketNumber,
-                        UserName = ReportContext.GetUserName(x.TicketItem.CreatingUserId),
+                        UserName = ReportContext.GetUserName(x.Order.CreatingUserId),
                         Account = x.Ticket.AccountName,
                         Location = x.Ticket.LocationName,
-                        x.TicketItem.OrderNumber,
-                        x.TicketItem.Voided,
-                        x.TicketItem.Gifted,
-                        Name = x.TicketItem.MenuItemName,
-                        Portion = x.TicketItem.PortionName,
-                        x.TicketItem.Quantity,
-                        Price = x.TicketItem.GetItemPrice(),
-                        Value = x.TicketItem.GetItemValue(),
+                        x.Order.OrderNumber,
+                        x.Order.Voided,
+                        x.Order.Gifted,
+                        Name = x.Order.MenuItemName,
+                        Portion = x.Order.PortionName,
+                        x.Order.Quantity,
+                        Price = x.Order.GetItemPrice(),
+                        Value = x.Order.GetItemValue(),
                         Discount = x.Ticket.GetPlainSum() > 0 ? x.Ticket.GetDiscountTotal() / x.Ticket.GetPlainSum() : 0,
                         Rounding = x.Ticket.GetRoundingTotal(),
-                        Total = MenuGroupBuilder.CalculateTicketItemTotal(x.Ticket, x.TicketItem),
+                        Total = MenuGroupBuilder.CalculateOrderTotal(x.Ticket, x.Order),
                     }
                 );
             var csv = data.AsCsv();

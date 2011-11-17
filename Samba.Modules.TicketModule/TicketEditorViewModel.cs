@@ -85,7 +85,7 @@ namespace Samba.Modules.TicketModule
 
         private void OnTicketViewModelEvent(EventParameters<TicketViewModel> obj)
         {
-            if (obj.Topic == EventTopicNames.SelectedItemsChanged)
+            if (obj.Topic == EventTopicNames.SelectedOrdersChanged)
             {
                 if (SelectedOrdersViewModel.ShouldDisplay(obj.Value))
                     DisplayTicketDetailsScreen();
@@ -120,7 +120,7 @@ namespace Samba.Modules.TicketModule
 
         private void DisplayCategoriesScreen()
         {
-            DisplayTicketItemsScreen();
+            DisplayOrdersScreen();
         }
 
         private void DisplayPaymentScreen()
@@ -128,7 +128,7 @@ namespace Samba.Modules.TicketModule
             SelectedView = 1;
         }
 
-        public void DisplayTicketItemsScreen()
+        public void DisplayOrdersScreen()
         {
             SelectedView = 0;
             SelectedSubView = 0;

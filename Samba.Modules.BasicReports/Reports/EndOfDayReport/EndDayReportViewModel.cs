@@ -194,7 +194,8 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 
                 foreach (var grp in tagGrp)
                 {
-                    var tag = ReportContext.TicketTagGroups.SingleOrDefault(x => x.Name == grp.Key);
+                    var grouping = grp;
+                    var tag = ReportContext.TicketTagGroups.SingleOrDefault(x => x.Name == grouping.Key);
                     if (tag == null) continue;
 
                     report.AddBoldRow("Etiket", grp.Key, "", "");
@@ -252,9 +253,9 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 
             //----
 
-            var owners = ReportContext.Tickets.SelectMany(ticket => ticket.Orders.Select(ticketItem => new { Ticket = ticket, TicketItem = ticketItem }))
-                .GroupBy(x => new { x.TicketItem.CreatingUserId })
-                .Select(x => new UserInfo { UserId = x.Key.CreatingUserId, Amount = x.Sum(y => MenuGroupBuilder.CalculateTicketItemTotal(y.Ticket, y.TicketItem)) });
+            var owners = ReportContext.Tickets.SelectMany(ticket => ticket.Orders.Select(order => new { Ticket = ticket, Order = order }))
+                .GroupBy(x => new { x.Order.CreatingUserId })
+                .Select(x => new UserInfo { UserId = x.Key.CreatingUserId, Amount = x.Sum(y => MenuGroupBuilder.CalculateOrderTotal(y.Ticket, y.Order)) });
 
             report.AddColumTextAlignment("Garson", TextAlignment.Left, TextAlignment.Right);
             report.AddColumnLength("Garson", "65*", "35*");

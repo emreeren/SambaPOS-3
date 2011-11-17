@@ -16,8 +16,8 @@ namespace Samba.Services
         public static string GiftItems = "GiftItems";
         public static string MakePayment = "MakePayment";
         public static string MakeFastPayment = "MakeFastPayment";
-        public static string MoveTicketItems = "MoveTicketItems";
-        public static string MoveUnlockedTicketItems = "MoveUnlockedTicketItems";
+        public static string MoveOrders = "MoveOrders";
+        public static string MoveUnlockedOrders = "MoveUnlockedOrders";
         public static string VoidItems = "VoidItems";
         public static string ChangeExtraProperty = "ChangeExtraProperty";
         public static string MakeDiscount = "MakeDiscount";

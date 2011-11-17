@@ -78,10 +78,10 @@
       <DependentUpon>MenuItemSelectorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MenuItemSelectorViewModel.cs" />
-    <Compile Include="SelectedTicketItemEditorView.xaml.cs">
-      <DependentUpon>SelectedTicketItemEditorView.xaml</DependentUpon>
+    <Compile Include="SelectedOrderEditorView.xaml.cs">
+      <DependentUpon>SelectedOrderEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SelectedTicketItemEditorViewModel.cs" />
+    <Compile Include="SelectedOrderEditorViewModel.cs" />
     <Compile Include="TableScreenView.xaml.cs">
       <DependentUpon>TableScreenView.xaml</DependentUpon>
     </Compile>
@@ -135,7 +135,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SelectedTicketItemEditorView.xaml">
+    <Page Include="SelectedOrderEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

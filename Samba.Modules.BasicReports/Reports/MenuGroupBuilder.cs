@@ -10,14 +10,14 @@ namespace Samba.Modules.BasicReports.Reports
         public static IEnumerable<MenuItemGroupInfo> CalculateMenuGroups(IEnumerable<Ticket> tickets, IEnumerable<MenuItem> menuItems)
         {
             var menuItemInfoGroups =
-                from c in tickets.SelectMany(x => x.Orders.Select(y => new { Ticket = x, TicketItem = y }))
-                join menuItem in menuItems on c.TicketItem.MenuItemId equals menuItem.Id
+                from c in tickets.SelectMany(x => x.Orders.Select(y => new { Ticket = x, Order = y }))
+                join menuItem in menuItems on c.Order.MenuItemId equals menuItem.Id
                 group c by menuItem.GroupCode into grp
                 select new MenuItemGroupInfo
                 {
                     GroupName = grp.Key,
-                    Quantity = grp.Sum(y => y.TicketItem.Quantity),
-                    Amount = grp.Sum(y => CalculateTicketItemTotal(y.Ticket, y.TicketItem))
+                    Quantity = grp.Sum(y => y.Order.Quantity),
+                    Amount = grp.Sum(y => CalculateOrderTotal(y.Ticket, y.Order))
                 };
 
             var result = menuItemInfoGroups.ToList().OrderByDescending(x => x.Amount);
@@ -47,10 +47,10 @@ namespace Samba.Modules.BasicReports.Reports
         public static IEnumerable<MenuItemSellInfo> CalculateMenuItems(IEnumerable<Ticket> tickets, IEnumerable<MenuItem> menuItems)
         {
             var menuItemSellInfos =
-                from c in tickets.SelectMany(x => x.Orders.Where(y => !y.Voided).Select(y => new { Ticket = x, TicketItem = y }))
-                join menuItem in menuItems on c.TicketItem.MenuItemId equals menuItem.Id
+                from c in tickets.SelectMany(x => x.Orders.Where(y => !y.Voided).Select(y => new { Ticket = x, Order = y }))
+                join menuItem in menuItems on c.Order.MenuItemId equals menuItem.Id
                 group c by menuItem.Name into grp
-                select new MenuItemSellInfo { Name = grp.Key, Quantity = grp.Sum(y => y.TicketItem.Quantity), Amount = grp.Sum(y => CalculateTicketItemTotal(y.Ticket, y.TicketItem)) };
+                select new MenuItemSellInfo { Name = grp.Key, Quantity = grp.Sum(y => y.Order.Quantity), Amount = grp.Sum(y => CalculateOrderTotal(y.Ticket, y.Order)) };
 
             var result = menuItemSellInfos.ToList().OrderByDescending(x => x.Quantity);
 
@@ -58,18 +58,18 @@ namespace Samba.Modules.BasicReports.Reports
         }
 
 
-        public static decimal CalculateTicketItemTotal(Ticket ticket, Order ticketItem)
+        public static decimal CalculateOrderTotal(Ticket ticket, Order order)
         {
             var discount = ticket.GetDiscountAndRoundingTotal();
             if (discount != 0)
             {
                 var tsum = ticket.GetSumWithoutTax() + discount;
                 var rate = tsum > 0 ? (discount * 100) / tsum : 100;
-                var tiTotal = ticketItem.GetTotal();
+                var tiTotal = order.GetTotal();
                 var itemDiscount = (tiTotal * rate) / 100;
                 return tiTotal - itemDiscount;
             }
-            return ticketItem.GetTotal();
+            return order.GetTotal();
         }
     }
 }

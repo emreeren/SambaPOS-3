@@ -10,7 +10,6 @@ using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data.Serializer;
-using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 
@@ -26,7 +25,7 @@ namespace Samba.Services.Printing
     internal class TicketData
     {
         public Ticket Ticket { get; set; }
-        public IEnumerable<Order> TicketItems { get; set; }
+        public IEnumerable<Order> Orders { get; set; }
         public PrintJob PrintJob { get; set; }
     }
 
@@ -138,9 +137,9 @@ namespace Samba.Services.Printing
             var discounts = calcDiscounts ? ticket.GetDiscountAndRoundingTotal() : 0;
             var di = discounts > 0 ? discounts / ticket.GetPlainSum() : 0;
             var cache = new Dictionary<string, decimal>();
-            foreach (var ticketItem in ticket.Orders.OrderBy(x => x.Id).ToList())
+            foreach (var order in ticket.Orders.OrderBy(x => x.Id).ToList())
             {
-                var item = ticketItem;
+                var item = order;
                 var value = selector(AppServices.DataAccessService.GetMenuItem(item.MenuItemId)).ToString();
                 if (string.IsNullOrEmpty(value)) value = defaultValue;
                 if (!cache.ContainsKey(value))
@@ -157,7 +156,7 @@ namespace Samba.Services.Printing
                                          });
         }
 
-        private static void InternalPrintOrders(PrintJob printJob, Ticket ticket, IEnumerable<Order> ticketItems)
+        private static void InternalPrintOrders(PrintJob printJob, Ticket ticket, IEnumerable<Order> orders)
         {
             if (printJob.PrinterMaps.Count == 1
                 && printJob.PrinterMaps[0].TicketTag == null
@@ -165,13 +164,13 @@ namespace Samba.Services.Printing
                 && printJob.PrinterMaps[0].MenuItemGroupCode == null
                 && printJob.PrinterMaps[0].Department == null)
             {
-                PrintOrderLines(ticket, ticketItems, printJob.PrinterMaps[0]);
+                PrintOrderLines(ticket, orders, printJob.PrinterMaps[0]);
                 return;
             }
 
             var ordersCache = new Dictionary<PrinterMap, IList<Order>>();
 
-            foreach (var item in ticketItems)
+            foreach (var item in orders)
             {
                 var p = GetPrinterMapForItem(printJob.PrinterMaps, ticket, item.MenuItemId);
                 if (p != null)

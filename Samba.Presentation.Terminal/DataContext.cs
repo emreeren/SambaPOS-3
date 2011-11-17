@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using Samba.Domain.Models.Tables;
 using Samba.Infrastructure;
-using Samba.Presentation.Common;
 using Samba.Presentation.ViewModels;
 using Samba.Services;
 
@@ -20,14 +16,13 @@ namespace Samba.Presentation.Terminal
             return new TicketViewModel(AppServices.MainDataContext.SelectedTicket, false);
         }
 
-        public static TicketItemViewModel SelectedTicketItem { get; set; }
+        public static OrderViewModel SelectedOrder { get; set; }
 
         public static void UpdateSelectedTicket(Table table)
         {
             Debug.Assert(SelectedTicket == null);
             if (table.TicketId == 0)
                 TicketViewModel.AssignLocationToSelectedTicket(table.Id);
-            //AppServices.MainDataContext.AssignTableToSelectedTicket(table.Id););
             else AppServices.MainDataContext.OpenTicket(table.TicketId);
             RefreshSelectedTicket();
         }
@@ -49,9 +44,9 @@ namespace Samba.Presentation.Terminal
             return result;
         }
 
-        internal static int MoveSelectedTicketItemsToNewTicket()
+        internal static int MoveSelectedOrdersToNewTicket()
         {
-            var result= AppServices.MainDataContext.MoveTicketItems(SelectedTicket.SelectedItems.Select(x => x.Model), 0).TicketId;
+            var result= AppServices.MainDataContext.MoveOrders(SelectedTicket.SelectedOrders.Select(x => x.Model), 0).TicketId;
             SelectedTicket = null;
             return result;
         }

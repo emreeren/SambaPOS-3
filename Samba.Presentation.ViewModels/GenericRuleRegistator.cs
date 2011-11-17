@@ -35,8 +35,8 @@ namespace Samba.Presentation.ViewModels
         {
             RuleActionTypeRegistry.RegisterActionType("SendEmail", Resources.SendEmail, new { SMTPServer = "", SMTPUser = "", SMTPPassword = "", SMTPPort = 0, ToEMailAddress = "", Subject = "", FromEMailAddress = "", EMailMessage = "", FileName = "", DeleteFile = false });
             RuleActionTypeRegistry.RegisterActionType("AddTicketDiscount", Resources.AddTicketDiscount, new { DiscountPercentage = 0m });
-            RuleActionTypeRegistry.RegisterActionType("AddTicketItem", Resources.AddTicketItem, new { MenuItemName = "", PortionName = "", Quantity = 0, Gift = false, Tag = "" });
-            RuleActionTypeRegistry.RegisterActionType("VoidTicketItems", Resources.VoidTicketItems, new { MenuItemName = "", Tag = "" });
+            RuleActionTypeRegistry.RegisterActionType("AddOrder", Resources.AddOrder, new { MenuItemName = "", PortionName = "", Quantity = 0, Gift = false, Tag = "" });
+            RuleActionTypeRegistry.RegisterActionType("VoidOrders", Resources.VoidOrders, new { MenuItemName = "", Tag = "" });
             RuleActionTypeRegistry.RegisterActionType("UpdateTicketTag", Resources.UpdateTicketTag, new { TagName = "", TagValue = "" });
             RuleActionTypeRegistry.RegisterActionType("UpdatePriceTag", Resources.UpdatePriceTag, new { DepartmentName = "", PriceTag = "" });
             RuleActionTypeRegistry.RegisterActionType("RefreshCache", Resources.RefreshCache);
@@ -212,7 +212,7 @@ namespace Samba.Presentation.ViewModels
                     }
                 }
 
-                if (x.Value.Action.ActionType == "AddTicketItem")
+                if (x.Value.Action.ActionType == "AddOrder")
                 {
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
 
@@ -238,7 +238,7 @@ namespace Samba.Presentation.ViewModels
                     }
                 }
 
-                if (x.Value.Action.ActionType == "VoidTicketItems")
+                if (x.Value.Action.ActionType == "VoidOrders")
                 {
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
                     if (ticket != null)

@@ -16,11 +16,11 @@ using Samba.Presentation.Common;
 namespace Samba.Presentation.Terminal
 {
     /// <summary>
-    /// Interaction logic for SelectedTicketItemEditorView.xaml
+    /// Interaction logic for SelectedOrderEditorView.xaml
     /// </summary>
-    public partial class SelectedTicketItemEditorView : UserControl
+    public partial class SelectedOrderEditorView : UserControl
     {
-        public SelectedTicketItemEditorView()
+        public SelectedOrderEditorView()
         {
             InitializeComponent();
         }
@@ -28,23 +28,23 @@ namespace Samba.Presentation.Terminal
         private void ExtraPropertyName_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             ExtraPropertyName.BackgroundSelectAll();
-            (DataContext as SelectedTicketItemEditorViewModel).ShowKeyboard();
+            (DataContext as SelectedOrderEditorViewModel).ShowKeyboard();
         }
 
         private void ExtraPropertyName_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            (DataContext as SelectedTicketItemEditorViewModel).HideKeyboard();
+            (DataContext as SelectedOrderEditorViewModel).HideKeyboard();
         }
 
         private void ExtraPropertyPrice_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             ExtraPropertyPrice.BackgroundSelectAll();
-            (DataContext as SelectedTicketItemEditorViewModel).ShowKeyboard();
+            (DataContext as SelectedOrderEditorViewModel).ShowKeyboard();
         }
 
         private void ExtraPropertyPrice_LostFocus(object sender, RoutedEventArgs e)
         {
-            (DataContext as SelectedTicketItemEditorViewModel).HideKeyboard();
+            (DataContext as SelectedOrderEditorViewModel).HideKeyboard();
         }
 
         private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
@@ -68,7 +68,7 @@ namespace Samba.Presentation.Terminal
 
         private void FreeTagEditor_GotFocus(object sender, RoutedEventArgs e)
         {
-            (DataContext as SelectedTicketItemEditorViewModel).IsKeyboardVisible = true;
+            (DataContext as SelectedOrderEditorViewModel).IsKeyboardVisible = true;
         }
     }
 }

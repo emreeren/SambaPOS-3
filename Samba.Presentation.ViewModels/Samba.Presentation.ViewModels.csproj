@@ -66,8 +66,8 @@
     <Compile Include="ScreenMenuItemButton.cs" />
     <Compile Include="ScreenSubCategoryButton.cs" />
     <Compile Include="TableScreenItemViewModel.cs" />
-    <Compile Include="TicketItemPropertyViewModel.cs" />
-    <Compile Include="TicketItemViewModel.cs" />
+    <Compile Include="OrderTagValueViewModel.cs" />
+    <Compile Include="OrderViewModel.cs" />
     <Compile Include="TicketTagButton.cs" />
     <Compile Include="TicketTagData.cs" />
     <Compile Include="TicketTagViewModel.cs" />

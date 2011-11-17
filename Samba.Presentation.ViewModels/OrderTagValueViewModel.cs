@@ -3,11 +3,11 @@ using Samba.Presentation.Common;
 
 namespace Samba.Presentation.ViewModels
 {
-    public class TicketItemPropertyViewModel : ObservableObject
+    public class OrderTagValueViewModel : ObservableObject
     {
         public OrderTagValue Model { get; set; }
 
-        public TicketItemPropertyViewModel(OrderTagValue model)
+        public OrderTagValueViewModel(OrderTagValue model)
         {
             Model = model;
         }

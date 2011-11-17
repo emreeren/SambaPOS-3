@@ -13,14 +13,14 @@ namespace Samba.Presentation.Terminal
 {
     public delegate void TagUpdatedEventHandler(TicketTagGroup item);
 
-    public class SelectedTicketItemEditorViewModel : ObservableObject
+    public class SelectedOrderEditorViewModel : ObservableObject
     {
         public event TagUpdatedEventHandler TagUpdated;
 
-        public TicketItemViewModel SelectedItem
+        public OrderViewModel SelectedItem
         {
-            get { return DataContext.SelectedTicketItem; }
-            private set { DataContext.SelectedTicketItem = value; }
+            get { return DataContext.SelectedOrder; }
+            private set { DataContext.SelectedOrder = value; }
         }
 
         public DelegateCommand<MenuItemPortionViewModel> PortionSelectedCommand { get; set; }
@@ -45,7 +45,7 @@ namespace Samba.Presentation.Terminal
 
         public int TagColumnCount { get { return TicketTags.Count % 7 == 0 ? TicketTags.Count / 7 : (TicketTags.Count / 7) + 1; } }
 
-        public SelectedTicketItemEditorViewModel()
+        public SelectedOrderEditorViewModel()
         {
             SelectedItemPortions = new ObservableCollection<MenuItemPortionViewModel>();
             SelectedItemPropertyGroups = new ObservableCollection<OrderTagGroupViewModel>();
@@ -141,7 +141,7 @@ namespace Samba.Presentation.Terminal
             IsKeyboardVisible = false;
         }
 
-        public void Refresh(TicketItemViewModel ticketItem, TicketTagGroup selectedTicketTag)
+        public void Refresh(OrderViewModel order, TicketTagGroup selectedTicketTag)
         {
             HideKeyboard();
             SelectedTicketTag = null;
@@ -149,11 +149,11 @@ namespace Samba.Presentation.Terminal
             SelectedItemPropertyGroups.Clear();
             TicketTags.Clear();
 
-            SelectedItem = ticketItem;
+            SelectedItem = order;
 
-            if (ticketItem != null)
+            if (order != null)
             {
-                var mi = AppServices.DataAccessService.GetMenuItem(ticketItem.Model.MenuItemId);
+                var mi = AppServices.DataAccessService.GetMenuItem(order.Model.MenuItemId);
                 if (mi.Portions.Count > 1) SelectedItemPortions.AddRange(mi.Portions.Select(x => new MenuItemPortionViewModel(x)));
                 SelectedItemPropertyGroups.AddRange(
                     AppServices.MainDataContext.GetOrderTagGroupsForItem(AppServices.MainDataContext.SelectedDepartment.Id, mi).Select(x => new OrderTagGroupViewModel(x)));
@@ -212,7 +212,7 @@ namespace Samba.Presentation.Terminal
         {
             var mig = SelectedItemPropertyGroups.FirstOrDefault(propertyGroup => propertyGroup.OrderTags.Contains(obj));
             Debug.Assert(mig != null);
-            SelectedItem.ToggleProperty(mig.Model, obj.Model);
+            SelectedItem.ToggleOrderTag(mig.Model, obj.Model);
 
             foreach (var model in SelectedItemPropertyGroups)
             {

@@ -113,7 +113,7 @@ namespace Samba.Modules.TicketModule
         }
 
         public TicketViewModel SelectedTicket { get; private set; }
-        public TicketItemViewModel SelectedItem { get; private set; }
+        public OrderViewModel SelectedItem { get; private set; }
 
         public ICaptionCommand CloseCommand { get; set; }
         public ICaptionCommand UpdateExtraPropertiesCommand { get; set; }
@@ -249,14 +249,14 @@ namespace Samba.Modules.TicketModule
         {
             var mig = OrderTagGroups.FirstOrDefault(propertyGroup => propertyGroup.OrderTags.Contains(orderTag));
             Debug.Assert(mig != null);
-            SelectedItem.ToggleProperty(mig, orderTag);
+            SelectedItem.ToggleOrderTag(mig, orderTag);
             SelectedTicket.RefreshVisuals();
         }
 
         private void SetSelectedTicket(TicketViewModel ticketViewModel)
         {
             SelectedTicket = ticketViewModel;
-            SelectedItem = SelectedTicket.SelectedItems.Count() == 1 ? SelectedTicket.SelectedItems[0] : null;
+            SelectedItem = SelectedTicket.SelectedOrders.Count() == 1 ? SelectedTicket.SelectedOrders[0] : null;
             RaisePropertyChanged(() => SelectedTicket);
             RaisePropertyChanged(() => SelectedItem);
             RaisePropertyChanged(() => IsTicketNoteEditorVisible);

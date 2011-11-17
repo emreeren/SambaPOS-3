@@ -2622,8 +2622,8 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="AddTicketDiscount" xml:space="preserve">
     <value>Add Ticket Discount</value>
   </data>
-  <data name="AddTicketItem" xml:space="preserve">
-    <value>Add Ticket Item</value>
+  <data name="AddOrder" xml:space="preserve">
+    <value>Add Order</value>
   </data>
   <data name="UpdateTicketTag" xml:space="preserve">
     <value>Update Ticket Tag</value>
@@ -2695,8 +2695,8 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="AddReceivable_r" xml:space="preserve">
     <value>Debit</value>
   </data>
-  <data name="VoidTicketItems" xml:space="preserve">
-    <value>Void Ticket Items</value>
+  <data name="VoidOrders" xml:space="preserve">
+    <value>Void Orders</value>
   </data>
   <data name="SaveErrorMultipleDefaultTerminals" xml:space="preserve">
     <value>Don't create more than one default terminal</value>
@@ -2998,20 +2998,20 @@ Continue without adding details?</value>
     <value>Detailed Report</value>
     <comment>TabItem.Header</comment>
   </data>
-  <data name="Modifier" xml:space="preserve">
-    <value>Modifier</value>
+  <data name="OrderTag" xml:space="preserve">
+    <value>Order Tag</value>
   </data>
-  <data name="ModifierGroup" xml:space="preserve">
-    <value>Modifier Group</value>
+  <data name="OrderTagGroup" xml:space="preserve">
+    <value>Order Tag Group</value>
   </data>
-  <data name="ModifierGroupName" xml:space="preserve">
-    <value>Modifier Group Name</value>
+  <data name="OrderTagGroupName" xml:space="preserve">
+    <value>Order Tag Group Name</value>
   </data>
-  <data name="ModifierGroups" xml:space="preserve">
-    <value>Modifier Groups</value>
+  <data name="OrderTagGroups" xml:space="preserve">
+    <value>Order Tag Groups</value>
   </data>
-  <data name="Modifiers" xml:space="preserve">
-    <value>Modifiers</value>
+  <data name="OrderTags" xml:space="preserve">
+    <value>Order Tags</value>
   </data>
   <data name="APortionShouldSelected" xml:space="preserve">
     <value>A portion should selected</value>
@@ -3034,16 +3034,8 @@ Continue without adding details?</value>
   <data name="TaggingType" xml:space="preserve">
     <value>Tagging Type</value>
   </data>
-  <data name="OrderTagGroupName" xml:space="preserve">
-    <value>Order Tag Group Name</value>
-    <comment>Label content</comment>
-  </data>
   <data name="OrderTagMapping" xml:space="preserve">
     <value>Order Tag Mapping</value>
-    <comment>Label content</comment>
-  </data>
-  <data name="OrderTags" xml:space="preserve">
-    <value>Order Tags</value>
     <comment>Label content</comment>
   </data>
 </root>

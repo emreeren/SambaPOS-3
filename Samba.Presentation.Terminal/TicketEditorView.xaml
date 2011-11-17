@@ -35,7 +35,6 @@
         <Border BorderThickness="1" Grid.Row="1" Grid.Column="0" BorderBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}">
             <ScrollViewer Name="Scroller" Common:KineticBehaviour.HandleKineticScrolling="True" VerticalScrollBarVisibility="Auto">
                 <ItemsControl 
-                            Name="TicketItemsControl"
                             BorderThickness="0"
                             Focusable="False"
                             Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}"
@@ -111,7 +110,7 @@
                                             </TextBlock>
                                         </Grid>
 
-                                        <ItemsControl ItemsSource="{Binding Properties}">
+                                        <ItemsControl ItemsSource="{Binding OrderTagValues}">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
                                                     <Grid>

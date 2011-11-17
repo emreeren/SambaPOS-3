@@ -11,19 +11,19 @@ using Samba.Services;
 
 namespace Samba.Presentation.ViewModels
 {
-    public class TicketItemViewModel : ObservableObject
+    public class OrderViewModel : ObservableObject
     {
         public bool IsSelectedQuantityModified { get; set; }
 
-        public TicketItemViewModel(Order model)
+        public OrderViewModel(Order model)
         {
             _model = model;
             ResetSelectedQuantity();
-            ItemSelectedCommand = new DelegateCommand<TicketItemViewModel>(OnItemSelected);
+            ItemSelectedCommand = new DelegateCommand<OrderViewModel>(OnItemSelected);
             UpdateItemColor();
         }
 
-        public DelegateCommand<TicketItemViewModel> ItemSelectedCommand { get; set; }
+        public DelegateCommand<OrderViewModel> ItemSelectedCommand { get; set; }
 
         public string Description
         {
@@ -191,10 +191,10 @@ namespace Samba.Presentation.ViewModels
 
         public string PriceTag { get { return Model.PriceTag; } }
 
-        private ObservableCollection<TicketItemPropertyViewModel> _properties;
-        public ObservableCollection<TicketItemPropertyViewModel> Properties
+        private ObservableCollection<OrderTagValueViewModel> _orderTagValues;
+        public ObservableCollection<OrderTagValueViewModel> OrderTagValues
         {
-            get { return _properties ?? (_properties = new ObservableCollection<TicketItemPropertyViewModel>(Model.OrderTagValues.Select(x => new TicketItemPropertyViewModel(x)))); }
+            get { return _orderTagValues ?? (_orderTagValues = new ObservableCollection<OrderTagValueViewModel>(Model.OrderTagValues.Select(x => new OrderTagValueViewModel(x)))); }
         }
 
         public bool IsGifted { get { return Model.Gifted; } }
@@ -211,7 +211,7 @@ namespace Samba.Presentation.ViewModels
             }
         }
 
-        private void OnItemSelected(TicketItemViewModel obj)
+        private void OnItemSelected(OrderViewModel obj)
         {
             ToggleSelection();
         }
@@ -220,7 +220,7 @@ namespace Samba.Presentation.ViewModels
         {
             Selected = !Selected;
             if (!Selected) ResetSelectedQuantity();
-            this.PublishEvent(EventTopicNames.SelectedItemsChanged);
+            this.PublishEvent(EventTopicNames.SelectedOrdersChanged);
         }
 
         private void UpdateItemColor()
@@ -261,9 +261,9 @@ namespace Samba.Presentation.ViewModels
             RaisePropertyChanged(() => TotalPrice);
         }
 
-        public void ToggleProperty(OrderTagGroup group, OrderTag menuItemProperty)
+        public void ToggleOrderTag(OrderTagGroup orderTagGroup, OrderTag orderTag)
         {
-            _model.ToggleOrderTag(group, menuItemProperty);
+            _model.ToggleOrderTag(orderTagGroup, orderTag);
             RefreshProperties();
             RaisePropertyChanged(() => TotalPrice);
             RaisePropertyChanged(() => Quantity);
@@ -271,8 +271,8 @@ namespace Samba.Presentation.ViewModels
 
         private void RefreshProperties()
         {
-            Properties.Clear();
-            Properties.AddRange(Model.OrderTagValues.Select(x => new TicketItemPropertyViewModel(x)));
+            OrderTagValues.Clear();
+            OrderTagValues.AddRange(Model.OrderTagValues.Select(x => new OrderTagValueViewModel(x)));
         }
 
         public void UpdatePrice(decimal value)

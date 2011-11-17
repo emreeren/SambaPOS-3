@@ -32,8 +32,8 @@ namespace Samba.Persistance.Data
         public DbSet<ScreenMenuItem> ScreenMenuItems { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
-        public DbSet<Order> TicketItems { get; set; }
-        public DbSet<OrderTagValue> TicketItemProperties { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderTagValue> OrderTagValues { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
@@ -139,12 +139,12 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<PaidItem>().Property(x => x.Quantity).HasPrecision(precision, scale);
             modelBuilder.Entity<PaidItem>().Property(x => x.Price).HasPrecision(precision, scale);
 
-            //TicketItemProperty
+            //OrderTagValue
             modelBuilder.Entity<OrderTagValue>().Property(x => x.Price).HasPrecision(precision, scale);
             modelBuilder.Entity<OrderTagValue>().Property(x => x.Quantity).HasPrecision(precision, scale);
             modelBuilder.Entity<OrderTagValue>().Property(x => x.TaxAmount).HasPrecision(precision, scale);
 
-            //TicketItem
+            //Order
             modelBuilder.Entity<Order>().Property(x => x.Quantity).HasPrecision(precision, scale);
             modelBuilder.Entity<Order>().Property(x => x.Price).HasPrecision(precision, scale);
             modelBuilder.Entity<Order>().Property(x => x.TaxRate).HasPrecision(precision, scale);
@@ -160,31 +160,6 @@ namespace Samba.Persistance.Data
             //Discount
             modelBuilder.Entity<Discount>().Property(x => x.Amount).HasPrecision(precision, scale);
             modelBuilder.Entity<Discount>().Property(x => x.DiscountAmount).HasPrecision(precision, scale);
-
-
-            //modelBuilder.Entity<MenuItem>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            ////modelBuilder.Entity<MenuItemPortion>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            ////modelBuilder.Entity<MenuItemProperty>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            //modelBuilder.Entity<MenuItemPropertyGroup>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            //modelBuilder.Entity<ScreenMenu>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            ////modelBuilder.Entity<ScreenMenuCategory>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            ////modelBuilder.Entity<ScreenMenuItem>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            ////modelBuilder.Entity<Payment>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            //modelBuilder.Entity<Ticket>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            ////modelBuilder.Entity<TicketItem>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            ////modelBuilder.Entity<TicketItemProperty>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            //modelBuilder.Entity<Department>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            //modelBuilder.Entity<User>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            //modelBuilder.Entity<UserRole>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            //modelBuilder.Entity<Table>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            //modelBuilder.Entity<Terminal>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            //modelBuilder.Entity<Printer>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            //modelBuilder.Entity<ProgramSetting>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            //modelBuilder.Entity<PrinterMap>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            //modelBuilder.Entity<PrinterTemplate>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            //modelBuilder.Entity<CurrencyContext>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            //modelBuilder.Entity<TableScreen>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            ////modelBuilder.Entity<TableScreenItem>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
 
             modelBuilder.Entity<Numerator>().Property(x => x.LastUpdateTime).IsConcurrencyToken().HasColumnType(
                 "timestamp");

@@ -28,7 +28,7 @@
             </TabControl>
             <Terminal:TicketEditorView DataContext="{Binding TicketEditorViewModel}"/>
             <Terminal:MenuItemSelectorView DataContext="{Binding MenuItemSelectorViewModel}"/>
-            <Terminal:SelectedTicketItemEditorView DataContext="{Binding SelectedTicketItemEditorViewModel}"/>
+            <Terminal:SelectedOrderEditorView DataContext="{Binding SelectedOrderEditorViewModel}"/>
         </TabControl>
     </Grid>
 </Window>

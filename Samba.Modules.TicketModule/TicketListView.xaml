@@ -166,7 +166,7 @@
                                                         </TextBlock.Style>
                                                     </TextBlock>
                                                 </Grid>
-                                                <ItemsControl ItemsSource="{Binding Properties}">
+                                                <ItemsControl ItemsSource="{Binding OrderTagValues}">
                                                     <ItemsControl.ItemTemplate>
                                                         <DataTemplate>
                                                             <Grid>
@@ -380,10 +380,10 @@
                         <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
                              Text="{Binding CancelItemCommand.Caption}" />
                     </FxButton:FlexButton>
-                    <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding MoveTicketItemsCommand}"
+                    <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding MoveOrdersCommand}"
                          Visibility="{Binding IsItemsSelected,Converter={StaticResource VisibilityConverter}}">
                         <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
-                             Text="{Binding MoveTicketItemsCommand.Caption}" />
+                             Text="{Binding MoveOrdersCommand.Caption}" />
                     </FxButton:FlexButton>
                     <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding ShowExtraPropertyEditorCommand}"
                          Visibility="{Binding IsItemsSelectedAndUnlocked,Converter={StaticResource VisibilityConverter}}">

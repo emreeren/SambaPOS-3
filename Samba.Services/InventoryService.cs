@@ -29,7 +29,7 @@ namespace Samba.Services
                 .SelectMany(x => x.TransactionItems);
         }
 
-        private static IEnumerable<Order> GetTicketItemsFromRecipes(WorkPeriod workPeriod)
+        private static IEnumerable<Order> GetOrdersFromRecipes(WorkPeriod workPeriod)
         {
             var recipeItemIds = Dao.Select<Recipe, int>(x => x.Portion.MenuItemId, x => x.Portion != null).Distinct();
             var tickets = Dao.Query<Ticket>(x => x.Date > workPeriod.StartDate,
@@ -41,24 +41,24 @@ namespace Samba.Services
 
         private static IEnumerable<SalesData> GetSales(WorkPeriod workPeriod)
         {
-            var ticketItems = GetTicketItemsFromRecipes(workPeriod);
-            var salesData = ticketItems.GroupBy(x => new { x.MenuItemName, x.MenuItemId, x.PortionName })
+            var orders = GetOrdersFromRecipes(workPeriod);
+            var salesData = orders.GroupBy(x => new { x.MenuItemName, x.MenuItemId, x.PortionName })
                     .Select(x => new SalesData { MenuItemName = x.Key.MenuItemName, MenuItemId = x.Key.MenuItemId, PortionName = x.Key.PortionName, Total = x.Sum(y => y.Quantity) }).ToList();
 
-            var properties = ticketItems.SelectMany(x => x.OrderTagValues, (ti, pr) => new { Properties = pr, ti.Quantity })
-                    .Where(x => x.Properties.MenuItemId > 0)
-                    .GroupBy(x => new { x.Properties.MenuItemId, x.Properties.PortionName });
+            var orderTagValues = orders.SelectMany(x => x.OrderTagValues, (ti, pr) => new { OrderTagValues = pr, ti.Quantity })
+                    .Where(x => x.OrderTagValues.MenuItemId > 0)
+                    .GroupBy(x => new { x.OrderTagValues.MenuItemId, x.OrderTagValues.PortionName });
 
-            foreach (var ticketItemProperty in properties)
+            foreach (var orderTagValue in orderTagValues)
             {
                 var sd = new SalesData();
-                var tip = ticketItemProperty;
+                var tip = orderTagValue;
                 var mi = AppServices.DataAccessService.GetMenuItem(tip.Key.MenuItemId);
                 var port = mi.Portions.FirstOrDefault(x => x.Name == tip.Key.PortionName) ?? mi.Portions[0];
                 sd.MenuItemId = mi.Id;
                 sd.MenuItemName = mi.Name;
                 sd.PortionName = port.Name;
-                sd.Total = tip.Sum(x => x.Properties.Quantity * x.Quantity);
+                sd.Total = tip.Sum(x => x.OrderTagValues.Quantity * x.Quantity);
                 salesData.Add(sd);
             }
 
