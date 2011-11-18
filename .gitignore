@@ -1,9 +1,10 @@
-bin/
-obj/
-_ReSharper*
-SambaSetup/src/
-SambaSetup/bin/
+*bin/
+*obj/
+*Out/
+*.dll*
+*.exe*
+*.pdb*
 *.suo
 *.user
 *.trx
-Out/
+_ReSharper*
