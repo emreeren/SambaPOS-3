@@ -249,7 +249,7 @@ namespace Samba.Modules.TicketModule
         {
             var mig = OrderTagGroups.FirstOrDefault(propertyGroup => propertyGroup.OrderTags.Contains(orderTag));
             Debug.Assert(mig != null);
-            SelectedItem.ToggleOrderTag(mig, orderTag);
+            SelectedItem.ToggleOrderTag(mig, orderTag, AppServices.CurrentLoggedInUser.Id);
             SelectedTicket.RefreshVisuals();
         }
 
@@ -273,9 +273,7 @@ namespace Samba.Modules.TicketModule
 
             if (SelectedTicket != null && !SelectedItem.Model.Voided && !SelectedItem.Model.Locked)
             {
-                var id = SelectedItem.Model.MenuItemId;
-
-                var mi = AppServices.DataAccessService.GetMenuItem(id);
+                var mi = AppServices.DataAccessService.GetMenuItem(SelectedItem.Model.MenuItemId);
                 if (SelectedItem.Model.PortionCount > 1) SelectedItemPortions.AddRange(mi.Portions);
                 OrderTagGroups.AddRange(AppServices.MainDataContext.GetOrderTagGroupsForItem(value.Model.DepartmentId, mi));
                 RaisePropertyChanged(() => IsPortionsVisible);

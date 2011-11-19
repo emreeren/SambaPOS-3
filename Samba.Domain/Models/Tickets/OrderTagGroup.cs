@@ -16,15 +16,21 @@ namespace Samba.Domain.Models.Tickets
         public int Id { get; set; }
         public string Name { get; set; }
         public byte[] LastUpdateTime { get; set; }
-        public bool SingleSelection { get; set; }
-        public bool MultipleSelection { get; set; }
+        public string ButtonHeader { get; set; }
 
         public int ColumnCount { get; set; }
         public int ButtonHeight { get; set; }
         public int TerminalColumnCount { get; set; }
         public int TerminalButtonHeight { get; set; }
+        public int TagAction { get; set; }
+        public int SelectionType { get; set; } // 0 multiple, 1 single, 2 quantity
+        public bool AddTagPriceToOrderPrice { get; set; }
 
-        public bool CalculateWithParentPrice { get; set; }
+        public bool GiftsOrder { get { return TagAction == 1; } }
+        public bool VoidsOrder { get { return TagAction == 2; } }
+        public bool IsMultipleSelection { get { return SelectionType == 0; } }
+        public bool IsSingleSelection { get { return SelectionType == 1; } }
+        public bool IsQuantitySelection { get { return SelectionType == 2; } }
 
         private IList<OrderTag> _orderTags;
         public virtual IList<OrderTag> OrderTags

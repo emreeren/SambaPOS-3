@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Diagnostics;
 using Samba.Domain.Models.Menus;
-using Samba.Infrastructure.Settings;
 
 namespace Samba.Domain.Models.Tickets
 {
@@ -100,67 +99,119 @@ namespace Samba.Domain.Models.Tickets
             }
         }
 
-        public void ToggleOrderTag(OrderTagGroup tagGroup, OrderTag orderTag)
+        private void TagOrder(OrderTagGroup orderTagGroup, OrderTag orderTag, int userId)
         {
-            if (tagGroup.MultipleSelection && orderTag.Price == 0)
-            {
-                var groupItems = OrderTagValues.Where(x => x.OrderTagGroupId == tagGroup.Id).ToList();
-                foreach (var tip in groupItems) OrderTagValues.Remove(tip);
-                Quantity = 1;
-                return;
-            }
+            var otag = new OrderTagValue
+                       {
+                           Name = orderTag.Name,
+                           OrderTagGroupId = orderTagGroup.Id,
+                           MenuItemId = orderTag.MenuItemId,
+                           AddTagPriceToOrderPrice = orderTagGroup.AddTagPriceToOrderPrice,
+                           PortionName = PortionName,
+                           TagAction = orderTagGroup.TagAction,
+                           Quantity = 1
+                       };
+            otag.UpdatePrice(TaxIncluded, TaxRate, orderTag.Price);
 
-            var ti = FindOrderTag(orderTag.Name);
-            if (ti == null)
-            {
-                ti = new OrderTagValue
-                        {
-                            Name = orderTag.Name,
-                            Price = orderTag.Price,
-                            OrderTagGroupId = tagGroup.Id,
-                            MenuItemId = orderTag.MenuItemId,
-                            CalculateWithParentPrice = tagGroup.CalculateWithParentPrice,
-                            PortionName = PortionName,
-                            Quantity = tagGroup.MultipleSelection ? 0 : 1
-                        };
+            OrderTagValues.Add(otag);
 
-                if (TaxIncluded && TaxRate > 0)
-                {
-                    ti.Price = ti.Price / ((100 + TaxRate) / 100);
-                    ti.Price = decimal.Round(ti.Price, 2);
-                    ti.TaxAmount = orderTag.Price - ti.Price;
-                }
-                else if (TaxRate > 0) ti.TaxAmount = (orderTag.Price * TaxRate) / 100;
-                else ti.TaxAmount = 0;
-            }
-            if (tagGroup.SingleSelection)
-            {
-                var tip = OrderTagValues.FirstOrDefault(x => x.OrderTagGroupId == tagGroup.Id);
-                if (tip != null)
-                {
-                    OrderTagValues.Insert(OrderTagValues.IndexOf(tip), ti);
-                    OrderTagValues.Remove(tip);
-                }
-            }
-            else if (tagGroup.MultipleSelection)
-            {
-                ti.Quantity++;
-            }
-            else if (!tagGroup.MultipleSelection && OrderTagValues.Contains(ti))
-            {
-                OrderTagValues.Remove(ti);
-                return;
-            }
-
-            if (!OrderTagValues.Contains(ti)) OrderTagValues.Add(ti);
+            if (orderTagGroup.VoidsOrder) Void(0, userId);
+            if (orderTagGroup.GiftsOrder) Gift(0, userId);
         }
+
+        private void UntagOrder(OrderTagGroup orderTagGroup, OrderTagValue orderTagValue)
+        {
+            OrderTagValues.Remove(orderTagValue);
+            if (orderTagGroup.GiftsOrder || orderTagGroup.VoidsOrder)
+            {
+                CancelGiftOrVoid();
+            }
+        }
+
+        public void ToggleOrderTag(OrderTagGroup orderTagGroup, OrderTag orderTag, int userId)
+        {
+            var otag = OrderTagValues.FirstOrDefault(x => x.Name == orderTag.Name);
+            if (otag == null)
+            {
+                if (orderTagGroup.IsSingleSelection)
+                    OrderTagValues.Where(x => x.OrderTagGroupId == orderTagGroup.Id).ToList().ForEach(x => OrderTagValues.Remove(x));
+                TagOrder(orderTagGroup, orderTag, userId);
+            }
+            else if (orderTagGroup.IsQuantitySelection)
+            {
+                otag.Quantity++;
+            }
+            else
+            {
+                UntagOrder(orderTagGroup, otag);
+            }
+        }
+
+        //public void ToggleOrderTag(OrderTagGroup tagGroup, OrderTag orderTag)
+        //{
+        //    if (tagGroup.VoidsOrder) Void(0, 0);
+        //    if (tagGroup.GiftsOrder) Gift(0, 0);
+
+        //    if (tagGroup.MultipleSelection && orderTag.Price == 0)
+        //    {
+        //        var groupItems = OrderTagValues.Where(x => x.OrderTagGroupId == tagGroup.Id).ToList();
+        //        foreach (var tip in groupItems) OrderTagValues.Remove(tip);
+        //        Quantity = 1;
+        //        return;
+        //    }
+
+        //    var ti = FindOrderTag(orderTag.Name);
+        //    if (ti == null)
+        //    {
+        //        ti = new OrderTagValue
+        //                {
+        //                    Name = orderTag.Name,
+        //                    Price = orderTag.Price,
+        //                    OrderTagGroupId = tagGroup.Id,
+        //                    MenuItemId = orderTag.MenuItemId,
+        //                    CalculateWithParentPrice = tagGroup.AddTagPriceToOrderPrice,
+        //                    PortionName = PortionName,
+        //                    TagAction = tagGroup.TagAction,
+        //                    Quantity = tagGroup.MultipleSelection ? 0 : 1
+        //                };
+
+        //        if (TaxIncluded && TaxRate > 0)
+        //        {
+        //            ti.Price = ti.Price / ((100 + TaxRate) / 100);
+        //            ti.Price = decimal.Round(ti.Price, 2);
+        //            ti.TaxAmount = orderTag.Price - ti.Price;
+        //        }
+        //        else if (TaxRate > 0) ti.TaxAmount = (orderTag.Price * TaxRate) / 100;
+        //        else ti.TaxAmount = 0;
+        //    }
+        //    if (tagGroup.SingleSelection)
+        //    {
+        //        var tip = OrderTagValues.FirstOrDefault(x => x.OrderTagGroupId == tagGroup.Id);
+        //        if (tip != null)
+        //        {
+        //            OrderTagValues.Insert(OrderTagValues.IndexOf(tip), ti);
+        //            OrderTagValues.Remove(tip);
+        //        }
+        //    }
+        //    else if (tagGroup.MultipleSelection)
+        //    {
+        //        ti.Quantity++;
+        //    }
+        //    else if (!tagGroup.MultipleSelection && OrderTagValues.Contains(ti))
+        //    {
+        //        OrderTagValues.Remove(ti);
+        //        return;
+        //    }
+
+        //    if (!OrderTagValues.Contains(ti)) OrderTagValues.Add(ti);
+        //}
 
         public OrderTagValue GetCustomOrderTag()
         {
             return OrderTagValues.FirstOrDefault(x => x.OrderTagGroupId == 0);
         }
 
-        public OrderTagValue GetOrCreateCustomProperty()
+        public OrderTagValue GetOrCreateCustomOrderTagValue()
         {
             var tip = GetCustomOrderTag();
             if (tip == null)
@@ -180,31 +231,25 @@ namespace Samba.Domain.Models.Tickets
 
         public void UpdateCustomOrderTag(string text, decimal price, decimal quantity)
         {
-            var tip = GetOrCreateCustomProperty();
+            var orderTag = GetOrCreateCustomOrderTagValue();
             if (string.IsNullOrEmpty(text))
             {
-                OrderTagValues.Remove(tip);
+                OrderTagValues.Remove(orderTag);
             }
             else
             {
-                tip.Name = text;
-                tip.Price = price;
+                orderTag.Name = text;
+                orderTag.Quantity = quantity;
+                orderTag.Price = price;
                 if (TaxIncluded && TaxRate > 0)
                 {
-                    tip.Price = tip.Price / ((100 + TaxRate) / 100);
-                    tip.Price = decimal.Round(tip.Price, 2);
-                    tip.TaxAmount = price - tip.Price;
+                    orderTag.Price = orderTag.Price / ((100 + TaxRate) / 100);
+                    orderTag.Price = decimal.Round(orderTag.Price, 2);
+                    orderTag.TaxAmount = price - orderTag.Price;
                 }
-                else if (TaxRate > 0) tip.TaxAmount = (price * TaxRate) / 100;
+                else if (TaxRate > 0) orderTag.TaxAmount = (price * TaxRate) / 100;
                 else TaxAmount = 0;
-
-                tip.Quantity = quantity;
             }
-        }
-
-        private OrderTagValue FindOrderTag(string orderTagName)
-        {
-            return OrderTagValues.FirstOrDefault(x => x.Name == orderTagName);
         }
 
         public decimal GetTotal()
@@ -224,7 +269,12 @@ namespace Samba.Domain.Models.Tickets
 
         public decimal GetItemPrice()
         {
-            var result = Price + GetTotalOrderTagPrice();
+            return GetPlainPrice() + GetTotalOrderTagPrice();
+        }
+
+        public decimal GetPlainPrice()
+        {
+            var result = Price;
             if (TaxIncluded) result += TaxAmount;
             return result;
         }
@@ -236,12 +286,12 @@ namespace Samba.Domain.Models.Tickets
 
         public decimal GetOrderTagPrice()
         {
-            return GetOrderTagSum(OrderTagValues.Where(x => !x.CalculateWithParentPrice), TaxIncluded);
+            return GetOrderTagSum(OrderTagValues.Where(x => !x.AddTagPriceToOrderPrice), TaxIncluded);
         }
 
         public decimal GetMenuItemOrderTagPrice()
         {
-            return GetOrderTagSum(OrderTagValues.Where(x => x.CalculateWithParentPrice), TaxIncluded);
+            return GetOrderTagSum(OrderTagValues.Where(x => x.AddTagPriceToOrderPrice), TaxIncluded);
         }
 
         private static decimal GetOrderTagSum(IEnumerable<OrderTagValue> orderTags, bool vatIncluded)
@@ -296,6 +346,42 @@ namespace Samba.Domain.Models.Tickets
             TaxTemplateId = taxTemplate.Id;
             TaxIncluded = taxTemplate.TaxIncluded;
             UpdatePrice(Price, PriceTag);
+        }
+
+        internal void Void(int reasonId, int userId)
+        {
+            if (Locked && !Voided && !Gifted)
+            {
+                Voided = true;
+                ModifiedUserId = userId;
+                ModifiedDateTime = DateTime.Now;
+                ReasonId = reasonId;
+                Locked = false;
+            }
+            else CancelGiftOrVoid();
+        }
+
+        public void Gift(int reasonId, int userId)
+        {
+            Gifted = true;
+            ModifiedUserId = userId;
+            ModifiedDateTime = DateTime.Now;
+            ReasonId = reasonId;
+        }
+
+        public void CancelGiftOrVoid()
+        {
+            if (Voided && !Locked)
+            {
+                ReasonId = 0;
+                Voided = false;
+                Locked = true;
+            }
+            else if (Gifted)
+            {
+                ReasonId = 0;
+                Gifted = false;
+            }
         }
     }
 }

@@ -30,7 +30,7 @@ namespace Samba.Modules.TicketModule
             _regionManager = regionManager;
             _ticketEditorView = ticketEditorView;
 
-            AddDashboardCommand<OrderTagGroupListViewModel>(Resources.OrderTags, Resources.Settings);
+            AddDashboardCommand<OrderTagGroupListViewModel>(Resources.OrderTags, Resources.Settings,10);
             AddDashboardCommand<TicketTagGroupListViewModel>(Resources.TicketTags, Resources.Settings, 10);
 
             PermissionRegistry.RegisterPermission(PermissionNames.AddItemsToLockedTickets, PermissionCategories.Ticket, Resources.CanReleaseTicketLock);

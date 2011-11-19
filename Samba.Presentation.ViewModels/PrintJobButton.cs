@@ -22,7 +22,7 @@ namespace Samba.Presentation.ViewModels
 
         public string GetCaption()
         {
-            var c = Model.ButtonText ?? Model.Name;
+            var c = Model.ButtonHeader ?? Model.Name;
             var i = Ticket.GetPrintCount(Model.Id);
             return i > 0 ? string.Format("{0}-{1}", c, i) : c;
         }

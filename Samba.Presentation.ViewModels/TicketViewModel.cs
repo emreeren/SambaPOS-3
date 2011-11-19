@@ -32,7 +32,7 @@ namespace Samba.Presentation.ViewModels
             SelectAllItemsCommand = new CaptionCommand<string>("", OnSelectAllItemsExecute);
 
             PrintJobButtons = AppServices.CurrentTerminal.PrintJobs
-                .Where(x => (!string.IsNullOrEmpty(x.ButtonText))
+                .Where(x => (!string.IsNullOrEmpty(x.ButtonHeader))
                     && (x.PrinterMaps.Count(y => y.Department == null || y.Department.Id == AppServices.MainDataContext.SelectedDepartment.Id) > 0))
                 .OrderBy(x => x.Order)
                 .Select(x => new PrintJobButton(x, Model));
@@ -323,7 +323,8 @@ namespace Samba.Presentation.ViewModels
 
         public void CancelItems(IEnumerable<OrderViewModel> orders, int userId)
         {
-            VoidItems(orders, 0, userId);
+            orders.ToList().ForEach(x => Model.CancelOrder(x.Model));
+            RegenerateItemViewModels();
         }
 
         public void CancelSelectedItems()

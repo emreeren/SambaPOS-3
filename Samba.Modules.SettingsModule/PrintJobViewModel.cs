@@ -41,7 +41,7 @@ namespace Samba.Modules.SettingsModule
 
         public PrinterMapViewModel SelectedPrinterMap { get; set; }
 
-        public string ButtonText { get { return Model.ButtonText; } set { Model.ButtonText = value; } }
+        public string ButtonHeader { get { return Model.ButtonHeader; } set { Model.ButtonHeader = value; } }
 
         public string WhenToPrint { get { return _whenToPrintTypes[Model.WhenToPrint]; } set { Model.WhenToPrint = _whenToPrintTypes.IndexOf(value); } }
         public string WhatToPrint { get { return _whatToPrintTypes[Model.WhatToPrint]; } set { Model.WhatToPrint = _whatToPrintTypes.IndexOf(value); } }

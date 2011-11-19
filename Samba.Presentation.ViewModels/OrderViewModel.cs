@@ -89,7 +89,7 @@ namespace Samba.Presentation.ViewModels
 
         public decimal Price
         {
-            get { return Model.GetItemPrice(); }
+            get { return Model.GetPlainPrice() + Model.GetMenuItemOrderTagPrice(); }
         }
 
         public decimal TotalPrice
@@ -261,12 +261,13 @@ namespace Samba.Presentation.ViewModels
             RaisePropertyChanged(() => TotalPrice);
         }
 
-        public void ToggleOrderTag(OrderTagGroup orderTagGroup, OrderTag orderTag)
+        public void ToggleOrderTag(OrderTagGroup orderTagGroup, OrderTag orderTag, int userId)
         {
-            _model.ToggleOrderTag(orderTagGroup, orderTag);
+            _model.ToggleOrderTag(orderTagGroup, orderTag, userId);
             RefreshProperties();
             RaisePropertyChanged(() => TotalPrice);
             RaisePropertyChanged(() => Quantity);
+            RaisePropertyChanged(() => Description);
         }
 
         private void RefreshProperties()

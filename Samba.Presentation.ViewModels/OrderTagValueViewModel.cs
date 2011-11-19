@@ -26,7 +26,7 @@ namespace Samba.Presentation.ViewModels
         {
             get
             {
-                return Model.Price != 0 && !Model.CalculateWithParentPrice ? ((Model.Price + Model.TaxAmount) * Model.Quantity).ToString("#,#0.00") : "";
+                return Model.Price != 0 && !Model.AddTagPriceToOrderPrice ? ((Model.Price + Model.TaxAmount) * Model.Quantity).ToString("#,#0.00") : "";
             }
         }
     }

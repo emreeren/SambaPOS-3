@@ -18,19 +18,26 @@ namespace Samba.Modules.TicketModule
         private ObservableCollection<OrderTagMapViewModel> _orderTagMaps;
         public ObservableCollection<OrderTagMapViewModel> OrderTagMaps { get { return _orderTagMaps ?? (_orderTagMaps = new ObservableCollection<OrderTagMapViewModel>(GetOrderTagMaps(Model))); } }
 
+        private readonly IList<string> _tagActions = new[] { "Nothing", "Gift Order", "Void Order" };
+        public IList<string> TagActions { get { return _tagActions; } }
+
+        private readonly IList<string> _selectionTypes = new[] { "Multiple Selection", "Single Selection", "Quantity Selection" };
+        public IList<string> SelectionTypes { get { return _selectionTypes; } }
+
         public ICaptionCommand AddOrderTagCommand { get; set; }
         public ICaptionCommand DeleteOrderTagCommand { get; set; }
         public ICaptionCommand AddOrderTagMapCommand { get; set; }
         public ICaptionCommand DeleteOrderTagMapCommand { get; set; }
 
-        public bool SingleSelection { get { return Model.SingleSelection; } set { Model.SingleSelection = value; } }
-        public bool MultipleSelection { get { return Model.MultipleSelection; } set { Model.MultipleSelection = value; } }
-        public bool CalculateWithParentPrice { get { return Model.CalculateWithParentPrice; } set { Model.CalculateWithParentPrice = value; } }
+        public string ButtonHeader { get { return Model.ButtonHeader; } set { Model.ButtonHeader = value; } }
+        public bool AddTagPriceToOrderPrice { get { return Model.AddTagPriceToOrderPrice; } set { Model.AddTagPriceToOrderPrice = value; } }
         public int ButtonHeight { get { return Model.ButtonHeight; } set { Model.ButtonHeight = value; } }
         public int ColumnCount { get { return Model.ColumnCount; } set { Model.ColumnCount = value; } }
         public int TerminalButtonHeight { get { return Model.TerminalButtonHeight; } set { Model.TerminalButtonHeight = value; } }
         public int TerminalColumnCount { get { return Model.TerminalColumnCount; } set { Model.TerminalColumnCount = value; } }
-
+        public string TagAction { get { return TagActions[Model.TagAction]; } set { Model.TagAction = TagActions.IndexOf(value); } }
+        public string SelectionType { get { return SelectionTypes[Model.SelectionType]; } set { Model.SelectionType = SelectionTypes.IndexOf(value); } }
+        
         public OrderTagViewModel SelectedOrderTag { get; set; }
         public OrderTagMapViewModel SelectedOrderTagMap { get; set; }
 

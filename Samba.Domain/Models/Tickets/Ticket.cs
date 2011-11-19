@@ -354,57 +354,21 @@ namespace Samba.Domain.Models.Tickets
         public void VoidOrder(Order item, int reasonId, int userId)
         {
             Locked = false;
-            if (item.Locked && !item.Voided && !item.Gifted)
-            {
-                item.Voided = true;
-                item.ModifiedUserId = userId;
-                item.ModifiedDateTime = DateTime.Now;
-                item.ReasonId = reasonId;
-                item.Locked = false;
-            }
-            else if (item.Voided && !item.Locked)
-            {
-                item.ReasonId = 0;
-                item.Voided = false;
-                item.Locked = true;
-            }
-            else if (item.Gifted)
-            {
-                item.ReasonId = 0;
-                item.Gifted = false;
-                if (!item.Locked)
-                    RemoveOrder(item);
-            }
-            else if (!item.Locked)
-                RemoveOrder(item);
-        }
-
-        public void CancelOrder(Order item)
-        {
-            Locked = false;
-            if (item.Voided && !item.Locked)
-            {
-                item.ReasonId = 0;
-                item.Voided = false;
-                item.Locked = true;
-            }
-            else if (item.Gifted && !item.Locked)
-            {
-                item.ReasonId = 0;
-                item.Gifted = false;
-                item.Locked = true;
-            }
-            else if (!item.Locked)
-                RemoveOrder(item);
+            item.Void(reasonId, userId);
         }
 
         public void GiftOrder(Order item, int reasonId, int userId)
         {
             Locked = false;
-            item.Gifted = true;
-            item.ModifiedUserId = userId;
-            item.ModifiedDateTime = DateTime.Now;
-            item.ReasonId = reasonId;
+            item.Gift(reasonId, userId);
+        }
+
+        public void CancelOrder(Order item)
+        {
+            Locked = false;
+            if (!item.Voided && !item.Gifted && !item.Locked)
+                RemoveOrder(item);
+            else item.CancelGiftOrVoid();
         }
 
         public bool CanRemoveSelectedOrders(IEnumerable<Order> items)

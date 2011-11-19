@@ -681,17 +681,10 @@ namespace Samba.Services
         {
             var maps = OrderTagGroups.SelectMany(x => x.OrderTagMaps);
 
-            maps = maps.Count(x => x.DepartmentId > 0 && x.DepartmentId == deparmentId) > 0
-                       ? maps.Where(x => x.DepartmentId == deparmentId)
-                       : maps.Where(x => x.DepartmentId == 0);
-
-            maps = maps.Count(x => x.MenuItemGroupCode == menuItem.GroupCode) > 0
-                       ? maps.Where(x => x.MenuItemGroupCode == menuItem.GroupCode)
-                       : maps.Where(x => x.MenuItemGroupCode == null);
-
-            maps = maps.Count(x => x.MenuItemId > 0 && x.MenuItemId == menuItem.Id) > 0
-                       ? maps.Where(x => x.MenuItemId == menuItem.Id)
-                       : maps.Where(x => x.MenuItemId == 0);
+            maps = maps
+                .Where(x => x.DepartmentId == deparmentId || x.DepartmentId == 0)
+                .Where(x => x.MenuItemGroupCode == menuItem.GroupCode || x.MenuItemGroupCode == null)
+                .Where(x => x.MenuItemId == menuItem.Id || x.MenuItemId == 0);
 
             return _orderTagGroups.Where(x => maps.Any(y => y.OrderTagGroupId == x.Id));
         }

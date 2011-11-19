@@ -212,7 +212,8 @@ namespace Samba.Presentation.Terminal
         {
             var mig = SelectedItemPropertyGroups.FirstOrDefault(propertyGroup => propertyGroup.OrderTags.Contains(obj));
             Debug.Assert(mig != null);
-            SelectedItem.ToggleOrderTag(mig.Model, obj.Model);
+
+            SelectedItem.ToggleOrderTag(mig.Model, obj.Model, AppServices.CurrentLoggedInUser.Id);
 
             foreach (var model in SelectedItemPropertyGroups)
             {

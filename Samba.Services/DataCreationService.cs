@@ -112,7 +112,7 @@ namespace Samba.Services
             var pj1 = new PrintJob
             {
                 Name = Resources.PrintBill,
-                ButtonText = Resources.PrintBill,
+                ButtonHeader = Resources.PrintBill,
                 LocksTicket = true,
                 Order = 0,
                 UseFromPaymentScreen = true,
@@ -130,7 +130,7 @@ namespace Samba.Services
             var pj2 = new PrintJob
             {
                 Name = Resources.PrintOrdersToKitchenPrinter,
-                ButtonText = "",
+                ButtonHeader = "",
                 Order = 1,
                 WhatToPrint = (int)WhatToPrintTypes.NewLines,
                 WhenToPrint = (int)WhenToPrintTypes.NewLinesAdded

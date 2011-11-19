@@ -27,7 +27,7 @@ namespace Samba.Domain.Models.Settings
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string ButtonText { get; set; }
+        public string ButtonHeader { get; set; }
         public int Order { get; set; }
         public string UserString { get { return Name; } }
 

@@ -21,7 +21,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>            
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0">
             <StackPanel x:Name="FirstColumn" Grid.Row="0">
@@ -29,9 +29,17 @@
                     <LocText ResourceIdentifierKey="OrderTagGroupName" Suffix=":"/>
                 </Label>
                 <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name,Mode=TwoWay}" />
-                <CheckBox Margin="5,5,0,0" Content="{LocText SingleSelection}" IsChecked="{Binding SingleSelection}" />
-                <CheckBox Margin="5,5,0,0" Content="{LocText MultipleSelection}" IsChecked="{Binding MultipleSelection}" />
-                <CheckBox Margin="5,5,0,0" Content="{LocText AddPropertyPriceToProductPrice}" IsChecked="{Binding CalculateWithParentPrice}" />
+                <Label>
+                    <LocText ResourceIdentifierKey="ButtonHeader" Suffix=":"/>
+                </Label>
+                <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding ButtonHeader,Mode=TwoWay}" />
+                <Label>SelectionType:</Label>
+                <ComboBox ItemsSource="{Binding SelectionTypes}" SelectedItem="{Binding SelectionType}"/>
+
+                <Label>Tag Action:</Label>
+                <ComboBox ItemsSource="{Binding TagActions}" SelectedItem="{Binding TagAction}"/>
+                <CheckBox Margin="5,5,0,0" Content="Add Tag Price To Order Price" IsChecked="{Binding AddTagPriceToOrderPrice}" />
+
                 <GroupBox Header="{LocText POSView}" Padding="5" HorizontalAlignment="Left" Margin="0,5,0,0">
                     <UniformGrid HorizontalAlignment="Left">
                         <Label>
@@ -139,7 +147,7 @@
             </TextBlock>
         </DockPanel>
         <ListView Grid.Row="2" ItemsSource="{Binding OrderTagMaps}" SelectedItem="{Binding SelectedOrderTagMap}"
-             HorizontalContentAlignment="Stretch" ListViewLM:ListViewLayoutManager.Enabled="True">
+             HorizontalAlignment="Left" MinWidth="500" ListViewLM:ListViewLayoutManager.Enabled="True">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="{LocText Department}" ListViewLM:ProportionalColumn.Width="1">

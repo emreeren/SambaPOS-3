@@ -15,8 +15,6 @@ namespace Samba.Presentation.ViewModels
         }
 
         public string Name { get { return Model.Name; } set { Model.Name = value; } }
-        public bool SingleSelection { get { return Model.SingleSelection; } set { Model.SingleSelection = value; } }
-        public bool MultipleSelection { get { return Model.MultipleSelection; } set { Model.MultipleSelection = value; } }
         public int ButtonHeight { get { return Model.ButtonHeight; } set { Model.ButtonHeight = value; } }
         public int ColumnCount { get { return Model.ColumnCount; } set { Model.ColumnCount = value; } }
         public int TerminalButtonHeight { get { return Model.TerminalButtonHeight; } set { Model.TerminalButtonHeight = value; } }
