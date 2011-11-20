@@ -78,6 +78,7 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<Department>().HasMany(p => p.ServiceTemplates).WithMany();
             modelBuilder.Entity<TableScreen>().HasMany(p => p.Tables).WithMany();
             modelBuilder.Entity<Terminal>().HasMany(p => p.PrintJobs).WithMany();
+            modelBuilder.Entity<OrderTagValue>().HasKey(p => new { p.Id, p.OrderId });
 
             const int scale = 2;
             const int precision = 16;

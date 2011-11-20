@@ -145,6 +145,7 @@ namespace Samba.Domain.Models.Tickets
             {
                 UntagOrder(orderTagGroup, otag);
             }
+            Locked = false;
         }
 
         //public void ToggleOrderTag(OrderTagGroup tagGroup, OrderTag orderTag)
@@ -376,11 +377,13 @@ namespace Samba.Domain.Models.Tickets
                 ReasonId = 0;
                 Voided = false;
                 Locked = true;
+                OrderTagValues.Where(x => x.VoidsOrder).ToList().ForEach(x => OrderTagValues.Remove(x));
             }
             else if (Gifted)
             {
                 ReasonId = 0;
                 Gifted = false;
+                OrderTagValues.Where(x => x.GiftsOrder).ToList().ForEach(x => OrderTagValues.Remove(x));
             }
         }
     }

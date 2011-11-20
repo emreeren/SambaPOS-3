@@ -29,10 +29,10 @@ namespace Samba.Presentation.ViewModels
         {
             get
             {
-                string desc = _model.MenuItemName + _model.GetPortionDesc();
+                var desc = _model.MenuItemName + _model.GetPortionDesc();
 
-                if (IsGifted) desc = Resources.Gift_ab + desc;
-                if (IsVoided) desc = Resources.Void_ab + desc;
+                //if (IsGifted) desc = Resources.Gift_ab + desc;
+                //if (IsVoided) desc = Resources.Void_ab + desc;
 
                 if (IsSelectedQuantityModified)
                     desc = string.Format("({0:#.##}) {1}", Model.SelectedQuantity, desc);
@@ -211,6 +211,12 @@ namespace Samba.Presentation.ViewModels
             }
         }
 
+        private MenuItem _menuItem;
+        public MenuItem MenuItem
+        {
+            get { return _menuItem ?? (_menuItem = AppServices.DataAccessService.GetMenuItem(Model.MenuItemId)); }
+        }
+
         private void OnItemSelected(OrderViewModel obj)
         {
             ToggleSelection();
@@ -268,6 +274,7 @@ namespace Samba.Presentation.ViewModels
             RaisePropertyChanged(() => TotalPrice);
             RaisePropertyChanged(() => Quantity);
             RaisePropertyChanged(() => Description);
+            RaisePropertyChanged(() => FontWeight);
         }
 
         private void RefreshProperties()

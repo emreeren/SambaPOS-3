@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="CommandButtonViewModel.cs" />
     <Compile Include="AccountViewModel.cs" />
+    <Compile Include="OrderTagButton.cs" />
     <Compile Include="DiscountViewModel.cs" />
     <Compile Include="GenericRuleRegistator.cs" />
     <Compile Include="LocationData.cs" />

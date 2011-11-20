@@ -35,11 +35,26 @@ namespace Samba.Modules.TicketModule
             OrderTagGroups = new ObservableCollection<OrderTagGroup>();
             Reasons = new ObservableCollection<Reason>();
             TicketTags = new ObservableCollection<TicketTag>();
+            OrderTags = new ObservableCollection<OrderTag>();
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketViewModel>>().Subscribe(OnTicketViewModelEvent);
         }
 
         private void OnTicketViewModelEvent(EventParameters<TicketViewModel> obj)
         {
+            if (obj.Topic == EventTopicNames.SelectOrderTag)
+            {
+                ResetValues(obj.Value);
+                SelectedOrderTagGroup = obj.Value.LastSelectedOrderTag;
+                OrderTags.AddRange(obj.Value.LastSelectedOrderTag.OrderTags);
+                if (OrderTags.Count == 1)
+                {
+                    SelectedItem.ToggleOrderTag(SelectedOrderTagGroup, OrderTags[0], AppServices.CurrentLoggedInUser.Id);
+                    if (SelectedOrderTagGroup.IsSingleSelection)
+                        obj.Value.ClearSelectedItems();
+                }
+                RaisePropertyChanged(() => OrderTagColumnCount);
+            }
+
             if (obj.Topic == EventTopicNames.SelectTicketTag)
             {
                 ResetValues(obj.Value);
@@ -102,10 +117,12 @@ namespace Samba.Modules.TicketModule
         {
             SelectedTicket = null;
             SelectedItem = null;
+
             SelectedItemPortions.Clear();
             OrderTagGroups.Clear();
             Reasons.Clear();
             TicketTags.Clear();
+            OrderTags.Clear();
             _showExtraPropertyEditor = false;
             _showTicketNoteEditor = false;
             _showFreeTagEditor = false;
@@ -114,6 +131,7 @@ namespace Samba.Modules.TicketModule
 
         public TicketViewModel SelectedTicket { get; private set; }
         public OrderViewModel SelectedItem { get; private set; }
+        public OrderTagGroup SelectedOrderTagGroup { get; set; }
 
         public ICaptionCommand CloseCommand { get; set; }
         public ICaptionCommand UpdateExtraPropertiesCommand { get; set; }
@@ -129,9 +147,11 @@ namespace Samba.Modules.TicketModule
 
         public ObservableCollection<Reason> Reasons { get; set; }
         public ObservableCollection<TicketTag> TicketTags { get; set; }
+        public ObservableCollection<OrderTag> OrderTags { get; set; }
 
         public int ReasonColumnCount { get { return Reasons.Count % 7 == 0 ? Reasons.Count / 7 : (Reasons.Count / 7) + 1; } }
         public int TagColumnCount { get { return TicketTags.Count % 7 == 0 ? TicketTags.Count / 7 : (TicketTags.Count / 7) + 1; } }
+        public int OrderTagColumnCount { get { return OrderTags.Count % 7 == 0 ? OrderTags.Count / 7 : (OrderTags.Count / 7) + 1; } }
 
         public FilteredTextBox.FilteredTextBoxType FilteredTextBoxType
         {
@@ -247,9 +267,10 @@ namespace Samba.Modules.TicketModule
 
         private void OnOrderTagSelected(OrderTag orderTag)
         {
-            var mig = OrderTagGroups.FirstOrDefault(propertyGroup => propertyGroup.OrderTags.Contains(orderTag));
+            var mig = SelectedOrderTagGroup ?? OrderTagGroups.FirstOrDefault(propertyGroup => propertyGroup.OrderTags.Contains(orderTag));
             Debug.Assert(mig != null);
             SelectedItem.ToggleOrderTag(mig, orderTag, AppServices.CurrentLoggedInUser.Id);
+            if (SelectedOrderTagGroup != null) SelectedTicket.ClearSelectedItems();
             SelectedTicket.RefreshVisuals();
         }
 
@@ -275,7 +296,9 @@ namespace Samba.Modules.TicketModule
             {
                 var mi = AppServices.DataAccessService.GetMenuItem(SelectedItem.Model.MenuItemId);
                 if (SelectedItem.Model.PortionCount > 1) SelectedItemPortions.AddRange(mi.Portions);
-                OrderTagGroups.AddRange(AppServices.MainDataContext.GetOrderTagGroupsForItem(value.Model.DepartmentId, mi));
+                OrderTagGroups.AddRange(
+                    AppServices.MainDataContext.GetOrderTagGroupsForItem(value.Model.DepartmentId, mi)
+                    .Where(x => string.IsNullOrEmpty(x.ButtonHeader)));
                 RaisePropertyChanged(() => IsPortionsVisible);
             }
 

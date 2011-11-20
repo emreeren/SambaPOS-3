@@ -96,6 +96,7 @@ namespace Samba.Modules.TicketModule
                 || obj.Topic == EventTopicNames.SelectGiftReason
                 || obj.Topic == EventTopicNames.SelectExtraProperty
                 || obj.Topic == EventTopicNames.SelectTicketTag
+                || obj.Topic == EventTopicNames.SelectOrderTag
                 || obj.Topic == EventTopicNames.EditTicketNote)
             {
                 DisplayTicketDetailsScreen();

@@ -53,6 +53,7 @@ namespace Samba.Modules.TicketModule
         public ICaptionCommand ShowVoidReasonsCommand { get; set; }
         public ICaptionCommand ShowGiftReasonsCommand { get; set; }
         public ICaptionCommand ShowTicketTagsCommand { get; set; }
+        public ICaptionCommand ShowOrderTagsCommand { get; set; }
         public ICaptionCommand CancelItemCommand { get; set; }
         public ICaptionCommand ShowExtraPropertyEditorCommand { get; set; }
         public ICaptionCommand EditTicketNoteCommand { get; set; }
@@ -192,7 +193,7 @@ namespace Samba.Modules.TicketModule
         public Brush TicketBackground { get { return SelectedTicket != null && (SelectedTicket.IsLocked || SelectedTicket.IsPaid) ? SystemColors.ControlLightBrush : SystemColors.WindowBrush; } }
 
         public int OpenTicketListViewColumnCount { get { return SelectedDepartment != null ? SelectedDepartment.OpenTicketViewColumnCount : 5; } }
-        
+
         public OrderViewModel LastSelectedOrder { get; set; }
 
         public IEnumerable<TicketTagButton> TicketTagButtons
@@ -205,6 +206,20 @@ namespace Samba.Modules.TicketModule
                     .OrderBy(x => x.Order)
                     .Select(x => new TicketTagButton(x, SelectedTicket))
                     : null;
+            }
+        }
+
+        public IEnumerable<OrderTagButton> OrderTagButtons
+        {
+            get
+            {
+                if (SelectedOrder != null)
+                {
+                    return AppServices.MainDataContext.GetOrderTagGroupsForItem(SelectedTicket.Model.DepartmentId, SelectedOrder.MenuItem)
+                        .Where(x => !string.IsNullOrEmpty(x.ButtonHeader))
+                        .Select(x => new OrderTagButton(x));
+                }
+                return null;
             }
         }
 
@@ -233,6 +248,7 @@ namespace Samba.Modules.TicketModule
             ShowVoidReasonsCommand = new CaptionCommand<string>(Resources.Void, OnShowVoidReasonsExecuted, CanVoidSelectedItems);
             ShowGiftReasonsCommand = new CaptionCommand<string>(Resources.Gift, OnShowGiftReasonsExecuted, CanGiftSelectedItems);
             ShowTicketTagsCommand = new CaptionCommand<TicketTagGroup>(Resources.Tag, OnShowTicketsTagExecute, CanExecuteShowTicketTags);
+            ShowOrderTagsCommand = new CaptionCommand<OrderTagGroup>(Resources.Tag, OnShowOrderTagsExecute, CanShowOrderTagsExecute);
             CancelItemCommand = new CaptionCommand<string>(Resources.Cancel, OnCancelItemCommand, CanCancelSelectedItems);
             MoveOrdersCommand = new CaptionCommand<string>(Resources.MoveTicketLine, OnMoveOrders, CanMoveOrders);
             ShowExtraPropertyEditorCommand = new CaptionCommand<string>(Resources.ExtraModifier, OnShowExtraProperty, CanShowExtraProperty);
@@ -342,6 +358,7 @@ namespace Samba.Modules.TicketModule
                         RaisePropertyChanged(() => IsItemsSelectedAndUnlocked);
                         RaisePropertyChanged(() => IsItemsSelectedAndLocked);
                         RaisePropertyChanged(() => IsTicketSelected);
+                        RaisePropertyChanged(() => OrderTagButtons);
                     }
                 });
 
@@ -357,7 +374,7 @@ namespace Samba.Modules.TicketModule
                             {
                                 Ticket = AppServices.MainDataContext.SelectedTicket,
                                 AccountName = x.Value.Name,
-                                PhoneNumber = x.Value.PhoneNumber,
+                                x.Value.PhoneNumber,
                                 AccountNote = x.Value.Note
                             });
 
@@ -485,6 +502,18 @@ namespace Samba.Modules.TicketModule
                 }
                 else InteractionService.UserIntraction.GiveFeedback(string.Format(Resources.NoTicketsFoundForTag, tagGroup.Name));
             }
+        }
+
+        private void OnShowOrderTagsExecute(OrderTagGroup orderTagGroup)
+        {
+            _selectedTicket.LastSelectedOrderTag = orderTagGroup;
+            _selectedTicket.PublishEvent(EventTopicNames.SelectOrderTag);
+        }
+
+        private bool CanShowOrderTagsExecute(OrderTagGroup arg)
+        {
+            if(SelectedOrder == null) return false;
+            return !(SelectedOrder.IsVoided && SelectedOrder.IsLocked);
         }
 
         private bool CanChangePrice(string arg)

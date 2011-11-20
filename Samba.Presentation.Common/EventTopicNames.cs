@@ -28,6 +28,7 @@ namespace Samba.Presentation.Common
         public const string DisplayTicketExplorer = "Display Ticket Explorer";
         public const string TagSelectedForSelectedTicket = "Tag Selected";
         public const string SelectTicketTag = "Select Ticket Tag";
+        public const string SelectOrderTag = "Select Order Tag";
         public const string LogData = "Log Data";
         public const string ResetNumerator = "Reset Numerator";
         public const string WorkPeriodStatusChanged = "WorkPeriod Status Changed";

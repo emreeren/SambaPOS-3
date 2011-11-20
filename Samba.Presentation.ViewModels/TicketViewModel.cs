@@ -249,6 +249,7 @@ namespace Samba.Presentation.ViewModels
         public void ClearSelectedItems()
         {
             LastSelectedTicketTag = null;
+            LastSelectedOrderTag = null;
 
             foreach (var item in Orders)
                 item.NotSelected();
@@ -473,6 +474,7 @@ namespace Samba.Presentation.ViewModels
         public string CustomPrintData { get { return Model.PrintJobData; } set { Model.PrintJobData = value; } }
 
         public TicketTagGroup LastSelectedTicketTag { get; set; }
+        public OrderTagGroup LastSelectedOrderTag { get; set; }
 
         public void MergeLines()
         {
