@@ -5,8 +5,9 @@ namespace Samba.Domain.Models.Tickets
     public class OrderTagValue
     {
         public int Id { get; set; }
-        public string Name { get; set; }
         public int OrderId { get; set; }
+        public int TicketId { get; set; }
+        public string Name { get; set; }
         public int UserId { get; set; }
         public decimal Price { get; set; }
         public decimal TaxAmount { get; set; }

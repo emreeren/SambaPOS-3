@@ -125,22 +125,6 @@ namespace Samba.Services
                 _workspace.All<Table>(x => x.TicketId == ticket.Id).ToList().ForEach(x => x.Reset());
             }
 
-            public void RemoveOrders(IEnumerable<Order> selectedOrders)
-            {
-                selectedOrders.ToList().ForEach(x => Ticket.Orders.Remove(x));
-                selectedOrders.Where(x => x.Id > 0).ToList().ForEach(x => _workspace.Delete(x));
-            }
-
-            public void RemoveServices(IEnumerable<Service> services)
-            {
-                services.ToList().ForEach(x => _workspace.Delete(x));
-            }
-
-            public void RemoveUnusedTags(IEnumerable<TicketTagValue> tags)
-            {
-                tags.Where(x => string.IsNullOrEmpty(x.TagValue)).ToList().ForEach(x => _workspace.Delete(x));
-            }
-
             public void AddItemToSelectedTicket(Order model)
             {
                 _workspace.Add(model);
@@ -481,9 +465,6 @@ namespace Samba.Services
 
             if (canSumbitTicket)
             {
-                _ticketWorkspace.RemoveOrders(SelectedTicket.PopRemovedOrders());
-                _ticketWorkspace.RemoveServices(SelectedTicket.PopRemovedServices());
-                _ticketWorkspace.RemoveUnusedTags(SelectedTicket.Tags);
                 Recalculate(SelectedTicket);
                 SelectedTicket.IsPaid = SelectedTicket.RemainingAmount == 0;
 
@@ -625,8 +606,7 @@ namespace Samba.Services
         public TicketCommitResult MoveOrders(IEnumerable<Order> selectedOrders, int targetTicketId)
         {
             var clonedOrders = selectedOrders.Select(ObjectCloner.Clone).ToList();
-
-            _ticketWorkspace.RemoveOrders(selectedOrders);
+            selectedOrders.ToList().ForEach(x => SelectedTicket.Orders.Remove(x));
 
             if (SelectedTicket.Orders.Count == 0)
             {
@@ -679,14 +659,24 @@ namespace Samba.Services
 
         public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(int deparmentId, MenuItem menuItem)
         {
-            var maps = OrderTagGroups.SelectMany(x => x.OrderTagMaps);
+            return GetOrderTagGroupsForItem(OrderTagGroups, deparmentId, menuItem);
+        }
+
+        public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItems(int deparmentId, IEnumerable<MenuItem> menuItems)
+        {
+            return menuItems.Aggregate(OrderTagGroups, (current, menuItem) => GetOrderTagGroupsForItem(current, deparmentId, menuItem));
+        }
+
+        private static IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(IEnumerable<OrderTagGroup> tagGroups, int deparmentId, MenuItem menuItem)
+        {
+            var maps = tagGroups.SelectMany(x => x.OrderTagMaps);
 
             maps = maps
                 .Where(x => x.DepartmentId == deparmentId || x.DepartmentId == 0)
                 .Where(x => x.MenuItemGroupCode == menuItem.GroupCode || x.MenuItemGroupCode == null)
                 .Where(x => x.MenuItemId == menuItem.Id || x.MenuItemId == 0);
 
-            return _orderTagGroups.Where(x => maps.Any(y => y.OrderTagGroupId == x.Id));
+            return tagGroups.Where(x => maps.Any(y => y.OrderTagGroupId == x.Id));
         }
     }
 }

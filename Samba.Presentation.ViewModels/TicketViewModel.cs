@@ -444,7 +444,7 @@ namespace Samba.Presentation.ViewModels
                 AppServices.MainDataContext.AddItemToSelectedTicket(newItem);
                 _orders.Add(new OrderViewModel(newItem) { Selected = true });
             }
-            selectedItems.ForEach(x => x.Selected = false);
+            selectedItems.ForEach(x => x.NotSelected());
         }
 
         public string Title

@@ -213,9 +213,9 @@ namespace Samba.Modules.TicketModule
         {
             get
             {
-                if (SelectedOrder != null)
+                if (_selectedOrders != null && _selectedOrders.Count > 0)
                 {
-                    return AppServices.MainDataContext.GetOrderTagGroupsForItem(SelectedTicket.Model.DepartmentId, SelectedOrder.MenuItem)
+                    return AppServices.MainDataContext.GetOrderTagGroupsForItems(SelectedTicket.Model.DepartmentId, _selectedOrders.Select(x => x.MenuItem))
                         .Where(x => !string.IsNullOrEmpty(x.ButtonHeader))
                         .Select(x => new OrderTagButton(x));
                 }
@@ -512,8 +512,9 @@ namespace Samba.Modules.TicketModule
 
         private bool CanShowOrderTagsExecute(OrderTagGroup arg)
         {
-            if(SelectedOrder == null) return false;
-            return !(SelectedOrder.IsVoided && SelectedOrder.IsLocked);
+            if (_selectedOrders.Count == 0) return false;
+            if (arg.VoidsOrder && !_selectedOrders.Any(x => x.IsLocked)) return false;
+            return !(_selectedOrders.Any(x => x.IsVoided && x.IsLocked));
         }
 
         private bool CanChangePrice(string arg)

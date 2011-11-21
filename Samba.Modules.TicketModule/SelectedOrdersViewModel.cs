@@ -48,7 +48,9 @@ namespace Samba.Modules.TicketModule
                 OrderTags.AddRange(obj.Value.LastSelectedOrderTag.OrderTags);
                 if (OrderTags.Count == 1)
                 {
-                    SelectedItem.ToggleOrderTag(SelectedOrderTagGroup, OrderTags[0], AppServices.CurrentLoggedInUser.Id);
+                    SelectedTicket.FixSelectedItems();
+                    SelectedTicket.SelectedOrders.ToList().ForEach(x =>
+                        x.ToggleOrderTag(SelectedOrderTagGroup, OrderTags[0], AppServices.CurrentLoggedInUser.Id));
                     if (SelectedOrderTagGroup.IsSingleSelection)
                         obj.Value.ClearSelectedItems();
                 }
@@ -269,7 +271,9 @@ namespace Samba.Modules.TicketModule
         {
             var mig = SelectedOrderTagGroup ?? OrderTagGroups.FirstOrDefault(propertyGroup => propertyGroup.OrderTags.Contains(orderTag));
             Debug.Assert(mig != null);
-            SelectedItem.ToggleOrderTag(mig, orderTag, AppServices.CurrentLoggedInUser.Id);
+            SelectedTicket.FixSelectedItems();
+            SelectedTicket.SelectedOrders.ToList().ForEach(x =>
+                x.ToggleOrderTag(mig, orderTag, AppServices.CurrentLoggedInUser.Id));
             if (SelectedOrderTagGroup != null) SelectedTicket.ClearSelectedItems();
             SelectedTicket.RefreshVisuals();
         }

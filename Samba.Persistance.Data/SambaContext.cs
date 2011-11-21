@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Actions;
 using Samba.Domain.Models.Inventories;
@@ -78,7 +79,22 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<Department>().HasMany(p => p.ServiceTemplates).WithMany();
             modelBuilder.Entity<TableScreen>().HasMany(p => p.Tables).WithMany();
             modelBuilder.Entity<Terminal>().HasMany(p => p.PrintJobs).WithMany();
+
+            modelBuilder.Entity<TicketTagValue>().HasKey(p => new { p.Id, p.TicketId });
+            modelBuilder.Entity<TicketTagValue>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<Ticket>().HasMany(p => p.Tags).WithRequired().HasForeignKey(x => x.TicketId);
+
+            modelBuilder.Entity<Service>().HasKey(p => new { p.Id, p.TicketId });
+            modelBuilder.Entity<Service>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<Ticket>().HasMany(p => p.Services).WithRequired().HasForeignKey(x => x.TicketId);
+
+            modelBuilder.Entity<Order>().HasKey(p => new { p.Id, p.TicketId });
+            modelBuilder.Entity<Order>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<Ticket>().HasMany(p => p.Orders).WithRequired().HasForeignKey(x => x.TicketId);
+
             modelBuilder.Entity<OrderTagValue>().HasKey(p => new { p.Id, p.OrderId });
+            modelBuilder.Entity<OrderTagValue>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<Order>().HasMany(p => p.OrderTagValues).WithRequired().HasForeignKey(x => new { x.OrderId, x.TicketId });
 
             const int scale = 2;
             const int precision = 16;

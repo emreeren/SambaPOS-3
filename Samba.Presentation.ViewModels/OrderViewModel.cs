@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
@@ -255,8 +256,9 @@ namespace Samba.Presentation.ViewModels
             if (_selected)
             {
                 _selected = false;
-                IsLastSelected = false;
+                ResetSelectedQuantity();
                 UpdateItemColor();
+                RaisePropertyChanged(() => Quantity);
             }
         }
 

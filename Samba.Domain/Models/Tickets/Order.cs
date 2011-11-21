@@ -14,7 +14,7 @@ namespace Samba.Domain.Models.Tickets
             _orderTagValues = new List<OrderTagValue>();
             CreatedDateTime = DateTime.Now;
             ModifiedDateTime = DateTime.Now;
-            SelectedQuantity = 0;
+            _selectedQuantity = 0;
         }
 
         public int Id { get; set; }
@@ -50,7 +50,11 @@ namespace Samba.Domain.Models.Tickets
             set { _orderTagValues = value; }
         }
 
-        public decimal SelectedQuantity { get; private set; }
+        private decimal _selectedQuantity;
+        public decimal SelectedQuantity
+        {
+            get { return _selectedQuantity; }
+        }
 
         public void UpdateMenuItem(int userId, MenuItem menuItem, string portionName, string priceTag, int quantity)
         {
@@ -60,7 +64,7 @@ namespace Samba.Domain.Models.Tickets
             Debug.Assert(portion != null);
             UpdatePortion(portion, priceTag, menuItem.TaxTemplate);
             Quantity = quantity;
-            SelectedQuantity = quantity;
+            _selectedQuantity = quantity;
             PortionCount = menuItem.Portions.Count;
             CreatingUserId = userId;
             CreatedDateTime = DateTime.Now;
@@ -302,19 +306,19 @@ namespace Samba.Domain.Models.Tickets
 
         public void IncSelectedQuantity()
         {
-            SelectedQuantity++;
-            if (SelectedQuantity > Quantity) SelectedQuantity = 1;
+            _selectedQuantity++;
+            if (SelectedQuantity > Quantity) _selectedQuantity = 1;
         }
 
         public void DecSelectedQuantity()
         {
-            SelectedQuantity--;
-            if (SelectedQuantity < 1) SelectedQuantity = 1;
+            _selectedQuantity--;
+            if (SelectedQuantity < 1) _selectedQuantity = 1;
         }
 
         public void ResetSelectedQuantity()
         {
-            SelectedQuantity = Quantity;
+            _selectedQuantity = Quantity;
         }
 
         public string GetPortionDesc()

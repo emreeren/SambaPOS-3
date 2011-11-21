@@ -1,4 +1,6 @@
-﻿namespace Samba.Domain.Models.Tickets
+﻿using System;
+
+namespace Samba.Domain.Models.Tickets
 {
     public enum DiscountType
     {

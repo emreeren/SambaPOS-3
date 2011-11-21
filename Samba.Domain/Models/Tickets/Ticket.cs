@@ -33,8 +33,6 @@ namespace Samba.Domain.Models.Tickets
             LocationName = locationName;
             PrintJobData = "";
 
-            _removedOrders = new List<Order>();
-            _removedServices = new List<Service>();
             _orders = new List<Order>();
             _payments = new List<Payment>();
             _discounts = new List<Discount>();
@@ -45,8 +43,6 @@ namespace Samba.Domain.Models.Tickets
 
         private bool _shouldLock;
         private Dictionary<int, int> _printCounts;
-        private readonly List<Order> _removedOrders;
-        private readonly List<Service> _removedServices;
 
         public int Id { get; set; }
         public string Name { get; set; }
@@ -139,21 +135,6 @@ namespace Samba.Domain.Models.Tickets
         public void RemoveOrder(Order ti)
         {
             Orders.Remove(ti);
-            if (ti.Id > 0) _removedOrders.Add(ti);
-        }
-
-        public IEnumerable<Order> PopRemovedOrders()
-        {
-            var result = _removedOrders.ToArray();
-            _removedOrders.Clear();
-            return result;
-        }
-
-        public IEnumerable<Service> PopRemovedServices()
-        {
-            var result = _removedServices.ToArray();
-            _removedServices.Clear();
-            return result;
         }
 
         public int GetItemCount()
@@ -297,10 +278,7 @@ namespace Samba.Domain.Models.Tickets
             }
 
             if (amount == 0)
-            {
-                if (t.Id > 0) _removedServices.Add(t);
                 Services.Remove(t);
-            }
             t.Amount = amount;
         }
 
