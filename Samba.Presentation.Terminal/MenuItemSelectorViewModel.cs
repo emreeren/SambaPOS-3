@@ -11,11 +11,11 @@ namespace Samba.Presentation.Terminal
 {
     public class MenuItemSelectorViewModel : ObservableObject
     {
-        public event TicketItemSelectedEventHandler OnTicketItemSelected;
-        public void InvokeOnTicketItemSelected(TicketItemViewModel ticketItem)
+        public event OrderSelectedEventHandler OnOrderSelected;
+        public void InvokeOnOrderSelected(OrderViewModel order)
         {
-            TicketItemSelectedEventHandler handler = OnTicketItemSelected;
-            if (handler != null) handler(ticketItem);
+            var handler = OnOrderSelected;
+            if (handler != null) handler(order);
         }
 
         public ScreenMenu CurrentScreenMenu { get; set; }
@@ -25,9 +25,9 @@ namespace Samba.Presentation.Terminal
         public ObservableCollection<ScreenMenuItemButton> MenuItems { get; set; }
         public DelegateCommand<ScreenMenuCategory> CategorySelectionCommand { get; set; }
         public DelegateCommand<ScreenMenuItem> MenuItemSelectionCommand { get; set; }
-        public DelegateCommand<TicketItemViewModel> ItemSelectedCommand { get; set; }
+        public DelegateCommand<OrderViewModel> ItemSelectedCommand { get; set; }
 
-        public ObservableCollection<TicketItemViewModel> AddedMenuItems { get; set; }
+        public ObservableCollection<OrderViewModel> AddedMenuItems { get; set; }
 
         private ScreenMenuCategory _selectedCategory;
         public ScreenMenuCategory SelectedCategory
@@ -70,11 +70,11 @@ namespace Samba.Presentation.Terminal
             MostUsedMenuItems = new ObservableCollection<ScreenMenuItemButton>();
             Categories = new ObservableCollection<ScreenCategoryButton>();
             MenuItems = new ObservableCollection<ScreenMenuItemButton>();
-            AddedMenuItems = new ObservableCollection<TicketItemViewModel>();
+            AddedMenuItems = new ObservableCollection<OrderViewModel>();
 
             CategorySelectionCommand = new DelegateCommand<ScreenMenuCategory>(OnCategorySelected);
             MenuItemSelectionCommand = new DelegateCommand<ScreenMenuItem>(OnMenuItemSelected);
-            ItemSelectedCommand = new DelegateCommand<TicketItemViewModel>(OnItemSelected);
+            ItemSelectedCommand = new DelegateCommand<OrderViewModel>(OnItemSelected);
             IncPageNumberCommand = new CaptionCommand<string>(Resources.Next + " >>", OnIncPageNumber, CanIncPageNumber);
             DecPageNumberCommand = new CaptionCommand<string>("<< " + Resources.Previous, OnDecPageNumber, CanDecPageNumber);
         }
@@ -101,9 +101,9 @@ namespace Samba.Presentation.Terminal
             UpdateMenuButtons(SelectedCategory);
         }
 
-        private void OnItemSelected(TicketItemViewModel obj)
+        private void OnItemSelected(OrderViewModel obj)
         {
-            InvokeOnTicketItemSelected(obj);
+            InvokeOnOrderSelected(obj);
         }
 
         private void OnMenuItemSelected(ScreenMenuItem obj)
@@ -123,11 +123,11 @@ namespace Samba.Presentation.Terminal
                     selectedMultiplier = obj.Quantity;
             }
 
-            var item = DataContext.SelectedTicket.AddNewItem(obj.MenuItemId, selectedMultiplier, obj.Gift, obj.DefaultProperties, obj.ItemPortion);
+            var item = DataContext.SelectedTicket.AddNewItem(obj.MenuItemId, selectedMultiplier, obj.ItemPortion);
             if (item != null)
                 AddedMenuItems.Add(item);
             if (obj.AutoSelect)
-                InvokeOnTicketItemSelected(item);
+                InvokeOnOrderSelected(item);
         }
 
         private void OnCategorySelected(ScreenMenuCategory obj)

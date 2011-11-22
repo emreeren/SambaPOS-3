@@ -33,7 +33,7 @@
             <Label>
                 <LocText ResourceIdentifierKey="ButtonHeader" Suffix=":" />
             </Label>
-            <TextBox HorizontalAlignment="Left" Width="250" Text="{Binding ButtonText}" />
+            <TextBox HorizontalAlignment="Left" Width="250" Text="{Binding ButtonHeader}" />
             <CheckBox IsChecked="{Binding LocksTicket}" Margin="0,5,0,2">
                 <LocText ResourceIdentifierKey="LockTicket" />
             </CheckBox>

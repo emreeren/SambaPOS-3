@@ -68,6 +68,7 @@
     <Compile Include="Models\Actions\ActionContainer.cs" />
     <Compile Include="Models\Actions\AppRule.cs" />
     <Compile Include="Models\Actions\AppAction.cs" />
+    <Compile Include="Models\Tickets\OrderTagMap.cs" />
     <Compile Include="Models\Tickets\Service.cs" />
     <Compile Include="Models\Menus\ServiceTemplate.cs" />
     <Compile Include="Models\Menus\TaxTemplate.cs" />
@@ -109,8 +110,8 @@
     <Compile Include="Models\Settings\ProgramSetting.cs" />
     <Compile Include="Models\Menus\MenuItem.cs" />
     <Compile Include="Models\Menus\MenuItemPortion.cs" />
-    <Compile Include="Models\Menus\MenuItemProperty.cs" />
-    <Compile Include="Models\Menus\MenuItemPropertyGroup.cs" />
+    <Compile Include="Models\Tickets\OrderTag.cs" />
+    <Compile Include="Models\Tickets\OrderTagGroup.cs" />
     <Compile Include="Models\Menus\ScreenMenuItem.cs" />
     <Compile Include="Models\Tables\Table.cs" />
     <Compile Include="Models\Settings\Terminal.cs" />
@@ -118,14 +119,13 @@
     <Compile Include="Models\Tickets\Payment.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Models\Tickets\Reason.cs" />
     <Compile Include="Models\Tickets\Ticket.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Models\Tickets\TicketItem.cs">
+    <Compile Include="Models\Tickets\Order.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Models\Tickets\TicketItemProperty.cs" />
+    <Compile Include="Models\Tickets\OrderTagValue.cs" />
     <Compile Include="Models\Users\LoginStatus.cs" />
     <Compile Include="Models\Users\User.cs" />
     <Compile Include="Models\Users\UserRole.cs" />

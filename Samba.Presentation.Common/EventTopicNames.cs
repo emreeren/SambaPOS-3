@@ -28,6 +28,7 @@ namespace Samba.Presentation.Common
         public const string DisplayTicketExplorer = "Display Ticket Explorer";
         public const string TagSelectedForSelectedTicket = "Tag Selected";
         public const string SelectTicketTag = "Select Ticket Tag";
+        public const string SelectOrderTag = "Select Order Tag";
         public const string LogData = "Log Data";
         public const string ResetNumerator = "Reset Numerator";
         public const string WorkPeriodStatusChanged = "WorkPeriod Status Changed";
@@ -35,15 +36,13 @@ namespace Samba.Presentation.Common
         public const string ActivateAccount = "Activate Account";
         public const string ActivateAccountView = "Activate Account View";
         public const string SelectExtraProperty = "Select Extra Property";
-        public const string SelectVoidReason = "Select Void Reason";
-        public const string SelectGiftReason = "Select Gift Reason";
         public const string ActivateNavigation = "Activate Navigation";
         public const string AccountSelectedForTicket = "Account Selected For Ticket";
         public const string SelectAccount = "Select Account";
         public const string NavigationCommandAdded = "Navigation Command Added";
         public const string DashboardCommandAdded = "Dashboard Command Added";
         public const string SelectedTicketChanged = "Selected Ticket Changed";
-        public const string TicketItemAdded = "Ticket Item Added";
+        public const string OrderAdded = "Order Added";
         public const string DashboardClosed = "Dashboard Closed";
         public const string MessageReceivedEvent = "Message Received";
         public const string ViewAdded = "View Added";
@@ -55,7 +54,7 @@ namespace Samba.Presentation.Common
         public const string ModelAddedOrDeleted = "Model Added or Deleted";
         public const string MakePayment = "Make Payment";
         public const string PaymentSubmitted = "Payment Submitted";
-        public const string SelectedItemsChanged = "Selected Items Changed";
+        public const string SelectedOrdersChanged = "Selected Orders Changed";
         public const string SelectedDepartmentChanged = "Selected Department Changed";
         public const string SelectTable = "Select Table";
         public const string FindTable = "Find Table";

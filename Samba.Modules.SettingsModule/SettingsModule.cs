@@ -34,8 +34,6 @@ namespace Samba.Modules.SettingsModule
             AddDashboardCommand<PrintJobListViewModel>(Resources.PrintJobs, Resources.Settings);
             AddDashboardCommand<PrinterTemplateCollectionViewModel>(Resources.PrinterTemplates, Resources.Settings);
             AddDashboardCommand<NumeratorListViewModel>(Resources.Numerators, Resources.Settings);
-            AddDashboardCommand<VoidReasonListViewModel>(Resources.VoidReasons, Resources.Products);
-            AddDashboardCommand<GiftReasonListViewModel>(Resources.GiftReasons, Resources.Products);
             AddDashboardCommand<ProgramSettingsViewModel>(Resources.ProgramSettings, Resources.Settings, 10);
             AddDashboardCommand<RuleActionListViewModel>(Resources.RuleActions, Resources.Settings);
             AddDashboardCommand<RuleListViewModel>(Resources.Rules, Resources.Settings);

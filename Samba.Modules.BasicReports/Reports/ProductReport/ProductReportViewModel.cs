@@ -70,8 +70,8 @@ namespace Samba.Modules.BasicReports.Reports.ProductReport
             //----------------------
 
 
-            PrepareModificationTable(report, x => x.Voided, Resources.Voids);
-            PrepareModificationTable(report, x => x.Gifted, Resources.Gifts);
+            //PrepareModificationTable(report, x => x.Voided, Resources.Voids);
+            //PrepareModificationTable(report, x => x.Gifted, Resources.Gifts);
 
             var discounts = ReportContext.Tickets
                 .SelectMany(x => x.Discounts.Select(y => new { x.TicketNumber, y.UserId, Amount = y.DiscountAmount }))
@@ -117,8 +117,8 @@ namespace Samba.Modules.BasicReports.Reports.ProductReport
             //----------------------
 
             var properties = ReportContext.Tickets
-                .SelectMany(x => x.TicketItems.Where(y => y.Properties.Count > 0))
-                .SelectMany(x => x.Properties.Where(y => y.MenuItemId == 0).Select(y => new { y.Name, x.Quantity }))
+                .SelectMany(x => x.Orders.Where(y => y.OrderTagValues.Count > 0))
+                .SelectMany(x => x.OrderTagValues.Where(y => y.MenuItemId == 0).Select(y => new { y.Name, x.Quantity }))
                 .GroupBy(x => new { x.Name })
                 .Select(x => new { x.Key.Name, Quantity = x.Sum(y => y.Quantity) });
 
@@ -137,41 +137,39 @@ namespace Samba.Modules.BasicReports.Reports.ProductReport
             return report.Document;
         }
 
-        private static void PrepareModificationTable(SimpleReport report, Func<TicketItem, bool> predicate, string title)
-        {
-            var modifiedItems = ReportContext.Tickets
-                .SelectMany(x => x.TicketItems.Where(predicate).Select(y => new { Ticket = x, UserId = y.ModifiedUserId, MenuItem = y.MenuItemName, y.Quantity, y.ReasonId, y.ModifiedDateTime, Amount = y.GetItemValue() }));
+        //private static void PrepareModificationTable(SimpleReport report, Func<Order, bool> predicate, string title)
+        //{
+        //    var modifiedItems = ReportContext.Tickets
+        //        .SelectMany(x => x.Orders.Where(predicate).Select(y => new { Ticket = x, UserId = y.ModifiedUserId, MenuItem = y.MenuItemName, y.Quantity, y.ModifiedDateTime, Amount = y.GetItemValue() }));
 
-            if (modifiedItems.Count() == 0) return;
+        //    if (modifiedItems.Count() == 0) return;
 
-            report.AddColumTextAlignment(title, TextAlignment.Left, TextAlignment.Left, TextAlignment.Left, TextAlignment.Left);
-            report.AddColumnLength(title, "14*", "45*", "28*", "13*");
-            report.AddTable(title, title, "", "", "");
+        //    report.AddColumTextAlignment(title, TextAlignment.Left, TextAlignment.Left, TextAlignment.Left, TextAlignment.Left);
+        //    report.AddColumnLength(title, "14*", "45*", "28*", "13*");
+        //    report.AddTable(title, title, "", "", "");
 
-            foreach (var voidItem in modifiedItems)
-            {
-                report.AddRow(title, voidItem.Ticket.TicketNumber, voidItem.Quantity.ToString("#.##") + " " + voidItem.MenuItem, ReportContext.GetUserName(voidItem.UserId), voidItem.ModifiedDateTime.ToShortTimeString());
-                if (voidItem.ReasonId > 0)
-                    report.AddRow(title, ReportContext.GetReasonName(voidItem.ReasonId), "", "", "");
-            }
+        //    foreach (var voidItem in modifiedItems)
+        //    {
+        //        report.AddRow(title, voidItem.Ticket.TicketNumber, voidItem.Quantity.ToString("#.##") + " " + voidItem.MenuItem, ReportContext.GetUserName(voidItem.UserId), voidItem.ModifiedDateTime.ToShortTimeString());
+        //    }
 
-            var voidGroups =
-                from c in modifiedItems
-                group c by c.UserId into grp
-                select new { UserId = grp.Key, Amount = grp.Sum(x => x.Amount) };
+        //    var voidGroups =
+        //        from c in modifiedItems
+        //        group c by c.UserId into grp
+        //        select new { UserId = grp.Key, Amount = grp.Sum(x => x.Amount) };
 
-            report.AddColumTextAlignment("Personel" + title, TextAlignment.Left, TextAlignment.Right);
-            report.AddColumnLength("Personel" + title, "60*", "40*");
-            report.AddTable("Personel" + title, string.Format(Resources.ByPersonnel_f, title), "");
+        //    report.AddColumTextAlignment("Personel" + title, TextAlignment.Left, TextAlignment.Right);
+        //    report.AddColumnLength("Personel" + title, "60*", "40*");
+        //    report.AddTable("Personel" + title, string.Format(Resources.ByPersonnel_f, title), "");
 
-            foreach (var voidItem in voidGroups.OrderByDescending(x => x.Amount))
-            {
-                report.AddRow("Personel" + title, ReportContext.GetUserName(voidItem.UserId), voidItem.Amount.ToString(ReportContext.CurrencyFormat));
-            }
+        //    foreach (var voidItem in voidGroups.OrderByDescending(x => x.Amount))
+        //    {
+        //        report.AddRow("Personel" + title, ReportContext.GetUserName(voidItem.UserId), voidItem.Amount.ToString(ReportContext.CurrencyFormat));
+        //    }
 
-            if (voidGroups.Count() > 1)
-                report.AddRow("Personel" + title, Resources.Total, voidGroups.Sum(x => x.Amount).ToString(ReportContext.CurrencyFormat));
-        }
+        //    if (voidGroups.Count() > 1)
+        //        report.AddRow("Personel" + title, Resources.Total, voidGroups.Sum(x => x.Amount).ToString(ReportContext.CurrencyFormat));
+        //}
 
         protected override void CreateFilterGroups()
         {

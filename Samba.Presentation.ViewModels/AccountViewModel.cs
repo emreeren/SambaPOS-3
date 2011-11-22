@@ -36,11 +36,11 @@ namespace Samba.Presentation.ViewModels
 
         public void UpdateDetailedInfo()
         {
-            LastTicket = Dao.Last<Ticket>(x => x.AccountId == Model.Id, x => x.TicketItems);
+            LastTicket = Dao.Last<Ticket>(x => x.AccountId == Model.Id, x => x.Orders);
             TotalTicketAmount = Dao.Sum<Ticket>(x => x.TotalAmount, x => x.AccountId == Model.Id);
         }
 
-        public IEnumerable<TicketItemViewModel> LastTicketLines { get { return LastTicket != null ? LastTicket.TicketItems.Where(x => !x.Gifted || !x.Voided).Select(x => new TicketItemViewModel(x)) : null; } }
+        public IEnumerable<OrderViewModel> LastTicketLines { get { return LastTicket != null ? LastTicket.Orders.Where(x => x.CalculatePrice).Select(x => new OrderViewModel(x)) : null; } }
         public decimal TicketTotal { get { return LastTicket != null ? LastTicket.GetSum() : 0; } }
         public string LastTicketStateString { get { return LastTicket != null ? (LastTicket.IsPaid ? Resources.Paid : Resources.Open) : ""; } }
         public decimal TotalTicketAmount { get; private set; }

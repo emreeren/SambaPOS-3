@@ -28,7 +28,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                
+
                 <ScrollViewer cmn:KineticBehaviour.HandleKineticScrolling="True" BorderThickness="1"
                      BorderBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" VerticalScrollBarVisibility="Auto">
                     <ItemsControl Grid.IsSharedSizeScope="True" BorderThickness="0" ItemsSource="{Binding OpenTickets}"
@@ -86,7 +86,7 @@
                 </Label>
                 <Border BorderThickness="1" Grid.Row="1" Grid.Column="1" BorderBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}">
                     <ScrollViewer Name="Scroller" cmn:KineticBehaviour.HandleKineticScrolling="True" VerticalScrollBarVisibility="Auto">
-                        <ItemsControl Name="TicketItemsControl" BorderThickness="0" Background="{Binding TicketBackground}"
+                        <ItemsControl BorderThickness="0" Background="{Binding TicketBackground}"
                              ItemsSource="{Binding SelectedTicket.ItemsViewSource.View}" HorizontalContentAlignment="Stretch">
                             <ItemsControl.GroupStyle>
                                 <GroupStyle>
@@ -153,20 +153,8 @@
                                                     <TextBlock FontWeight="{Binding FontWeight}" TextDecorations="{Binding TextDecoration}"
                                                          Padding="1" Foreground="{Binding Foreground}" FontSize="18" Grid.Column="3" Text="{Binding TotalPrice, StringFormat='#,#0.00'}"
                                                          Margin="5" HorizontalAlignment="Right" />
-                                                    <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Text="{Binding Reason}"
-                                                         Margin="0,-7,3,0" Foreground="{Binding Foreground}" HorizontalAlignment="Right">
-                                                        <TextBlock.Style>
-                                                            <Style TargetType="TextBlock">
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Value="" Binding="{Binding RelativeSource={x:Static RelativeSource.Self},Path=Text}">
-                                                                        <Setter Property="Visibility" Value="Collapsed" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </TextBlock.Style>
-                                                    </TextBlock>
                                                 </Grid>
-                                                <ItemsControl ItemsSource="{Binding Properties}">
+                                                <ItemsControl ItemsSource="{Binding OrderTagValues}">
                                                     <ItemsControl.ItemTemplate>
                                                         <DataTemplate>
                                                             <Grid>
@@ -365,26 +353,35 @@
                          Content="{Binding IncSelectionQuantityCommand.Caption}" Visibility="{Binding IsItemsSelectedAndLocked,Converter={StaticResource VisibilityConverter}}" />
                     <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding DecSelectionQuantityCommand}"
                          Content="{Binding DecSelectionQuantityCommand.Caption}" Visibility="{Binding IsItemsSelectedAndLocked,Converter={StaticResource VisibilityConverter}}" />
-                    <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding ShowGiftReasonsCommand}"
-                         Visibility="{Binding IsItemsSelected,Converter={StaticResource VisibilityConverter}}">
-                        <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
-                             Text="{Binding ShowGiftReasonsCommand.Caption}" />
-                    </FxButton:FlexButton>
-                    <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding ShowVoidReasonsCommand}"
-                         Visibility="{Binding IsItemsSelected,Converter={StaticResource VisibilityConverter}}">
-                        <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
-                             Text="{Binding ShowVoidReasonsCommand.Caption}" />
-                    </FxButton:FlexButton>
+                    <ItemsControl ItemsSource="{Binding OrderTagButtons,NotifyOnTargetUpdated=True}"
+                         HorizontalAlignment="Stretch" Visibility="{Binding IsItemsSelected,Converter={StaticResource VisibilityConverter}}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel VerticalAlignment="Top" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <FxButton:FlexButton Focusable="False" Command="{Binding DataContext.ShowOrderTagsCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
+                                     CommandParameter="{Binding Model}" Height="50"
+                                     Margin="0,0,3,3">
+                                    <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
+                                         Text="{Binding Caption}" />
+                                </FxButton:FlexButton>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                     <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding CancelItemCommand}"
                          Visibility="{Binding IsItemsSelected,Converter={StaticResource VisibilityConverter}}">
                         <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
                              Text="{Binding CancelItemCommand.Caption}" />
                     </FxButton:FlexButton>
-                    <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding MoveTicketItemsCommand}"
+                    <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding MoveOrdersCommand}"
                          Visibility="{Binding IsItemsSelected,Converter={StaticResource VisibilityConverter}}">
                         <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
-                             Text="{Binding MoveTicketItemsCommand.Caption}" />
+                             Text="{Binding MoveOrdersCommand.Caption}" />
                     </FxButton:FlexButton>
+
                     <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding ShowExtraPropertyEditorCommand}"
                          Visibility="{Binding IsItemsSelectedAndUnlocked,Converter={StaticResource VisibilityConverter}}">
                         <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"

@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace Samba.Presentation.Terminal
 {
-    public delegate void TicketItemSelectedEventHandler(TicketItemViewModel item);
+    public delegate void OrderSelectedEventHandler(OrderViewModel order);
 
     public class TicketEditorViewModel : ObservableObject
     {
@@ -113,7 +113,7 @@ namespace Samba.Presentation.Terminal
         }
         public bool IsTicketNoteVisible { get { return SelectedTicket != null && (SelectedTicket.IsTicketNoteVisible || SelectedTicket.IsTagged); } }
 
-        public TicketItemViewModel LastSelectedTicketItem { get; set; }
+        public OrderViewModel LastSelectedOrder { get; set; }
 
         public CaptionCommand<string> AddMenuItemsCommand { get; set; }
         public CaptionCommand<string> PrintTicketCommand { get; set; }
@@ -161,14 +161,14 @@ namespace Samba.Presentation.Terminal
             PrintJobCommand = new CaptionCommand<PrintJob>(Resources.Print_ab, OnPrintJobExecute, CanExecutePrintJob);
             TicketTagCommand = new CaptionCommand<TicketTagGroup>("Tag", OnTicketTagExecute, CanTicketTagExecute);
 
-            EventServiceFactory.EventService.GetEvent<GenericEvent<TicketItemViewModel>>().Subscribe(
+            EventServiceFactory.EventService.GetEvent<GenericEvent<OrderViewModel>>().Subscribe(
                 x =>
                 {
-                    if (SelectedTicket != null && x.Topic == EventTopicNames.SelectedItemsChanged)
+                    if (SelectedTicket != null && x.Topic == EventTopicNames.SelectedOrdersChanged)
                     {
-                        LastSelectedTicketItem = x.Value.Selected ? x.Value : null;
-                        foreach (var item in SelectedTicket.SelectedItems)
-                        { item.IsLastSelected = item == LastSelectedTicketItem; }
+                        LastSelectedOrder = x.Value.Selected ? x.Value : null;
+                        foreach (var item in SelectedTicket.SelectedOrders)
+                        { item.IsLastSelected = item == LastSelectedOrder; }
                     }
                 });
 
@@ -229,37 +229,33 @@ namespace Samba.Presentation.Terminal
 
         private bool CanMoveSelectedItems(string arg)
         {
-            return SelectedTicket != null && SelectedTicket.SelectedItems.Count > 0 && SelectedTicket.CanMoveSelectedItems();
+            return SelectedTicket != null && SelectedTicket.SelectedOrders.Count > 0 && SelectedTicket.CanMoveSelectedOrders();
         }
 
         private bool CanDecSelectedQuantity(string arg)
         {
-            return LastSelectedTicketItem != null &&
-                LastSelectedTicketItem.Quantity > 1 &&
-                !LastSelectedTicketItem.IsGifted &&
-                !LastSelectedTicketItem.IsVoided;
+            return LastSelectedOrder != null &&
+                   LastSelectedOrder.Quantity > 1;
         }
 
         private void OnDecSelectedQuantity(string obj)
         {
-            if (LastSelectedTicketItem.IsLocked)
-                LastSelectedTicketItem.DecSelectedQuantity();
-            else LastSelectedTicketItem.Quantity--;
+            if (LastSelectedOrder.IsLocked)
+                LastSelectedOrder.DecSelectedQuantity();
+            else LastSelectedOrder.Quantity--;
         }
 
         private bool CanIncSelectedQuantity(string arg)
         {
-            return LastSelectedTicketItem != null &&
-               (LastSelectedTicketItem.Quantity > 1 || !LastSelectedTicketItem.IsLocked) &&
-               !LastSelectedTicketItem.IsGifted &&
-               !LastSelectedTicketItem.IsVoided;
+            return LastSelectedOrder != null &&
+                   (LastSelectedOrder.Quantity > 1 || !LastSelectedOrder.IsLocked);
         }
 
         private void OnIncSelectedQuantity(string obj)
         {
-            if (LastSelectedTicketItem.IsLocked)
-                LastSelectedTicketItem.IncSelectedQuantity();
-            else LastSelectedTicketItem.Quantity++;
+            if (LastSelectedOrder.IsLocked)
+                LastSelectedOrder.IncSelectedQuantity();
+            else LastSelectedOrder.Quantity++;
         }
 
         private bool CanChangeTable(string arg)

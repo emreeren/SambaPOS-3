@@ -52,12 +52,13 @@
   <ItemGroup>
     <Compile Include="CommandButtonViewModel.cs" />
     <Compile Include="AccountViewModel.cs" />
+    <Compile Include="OrderTagButton.cs" />
     <Compile Include="DiscountViewModel.cs" />
     <Compile Include="GenericRuleRegistator.cs" />
     <Compile Include="LocationData.cs" />
     <Compile Include="MenuItemPortionViewModel.cs" />
-    <Compile Include="MenuItemPropertyGroupViewModel.cs" />
-    <Compile Include="MenuItemPropertyViewModel.cs" />
+    <Compile Include="OrderTagGroupViewModel.cs" />
+    <Compile Include="OrderTagViewModel.cs" />
     <Compile Include="OpenTicketViewModel.cs" />
     <Compile Include="PaymentViewModel.cs" />
     <Compile Include="PrintJobButton.cs" />
@@ -66,8 +67,8 @@
     <Compile Include="ScreenMenuItemButton.cs" />
     <Compile Include="ScreenSubCategoryButton.cs" />
     <Compile Include="TableScreenItemViewModel.cs" />
-    <Compile Include="TicketItemPropertyViewModel.cs" />
-    <Compile Include="TicketItemViewModel.cs" />
+    <Compile Include="OrderTagValueViewModel.cs" />
+    <Compile Include="OrderViewModel.cs" />
     <Compile Include="TicketTagButton.cs" />
     <Compile Include="TicketTagData.cs" />
     <Compile Include="TicketTagViewModel.cs" />

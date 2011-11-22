@@ -1,5 +1,6 @@
 ﻿using Samba.Domain.Models.Inventories;
 using Samba.Domain.Models.Menus;
+using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common;
@@ -58,7 +59,7 @@ namespace Samba.Modules.MenuModule
             if (count > 0) return Resources.DeleteErrorProductUsedInMenu;
             if (count == 0) count = Dao.Count<Recipe>(x => x.Portion.MenuItemId == model.Id);
             if (count > 0) return Resources.DeleteErrorProductUsedInReceipt;
-            count = Dao.Count<MenuItemProperty>(x => x.MenuItemId == model.Id);
+            count = Dao.Count<OrderTag>(x => x.MenuItemId == model.Id);
             if (count > 0) return Resources.DeleteErrorProductUsedInMenuItemProperty;
             return base.CanDeleteItem(model);
         }

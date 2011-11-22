@@ -15,8 +15,6 @@ namespace Samba.Modules.SettingsModule
 
         public string HeaderTemplate { get { return Model.HeaderTemplate; } set { Model.HeaderTemplate = value; } }
         public string LineTemplate { get { return Model.LineTemplate; } set { Model.LineTemplate = value; } }
-        public string VoidedLineTemplate { get { return Model.VoidedLineTemplate; } set { Model.VoidedLineTemplate = value; } }
-        public string GiftLineTemplate { get { return Model.GiftLineTemplate; } set { Model.GiftLineTemplate = value; } }
         public string FooterTemplate { get { return Model.FooterTemplate; } set { Model.FooterTemplate = value; } }
         public bool MergeLines { get { return Model.MergeLines; } set { Model.MergeLines = value; } }
 
@@ -67,7 +65,6 @@ namespace Samba.Modules.SettingsModule
             result.Add(Resources.TF_LineItemDetailQuantity, Resources.TF_LineItemDetailQuantity);
             result.Add(Resources.TF_LineOrderNumber, Resources.LineOrderNumber);
             result.Add("{PRICE TAG}", Resources.LinePriceTag);
-            result.Add(Resources.TF_LineGiftOrVoidReason, Resources.LineGiftOrVoidReason);
             result.Add(Resources.TF_TicketTotal, Resources.TicketTotal);
             result.Add(Resources.TF_TicketPaidTotal, Resources.TicketPaidTotal);
             result.Add("{PLAIN TOTAL}", Resources.TicketSubTotal);

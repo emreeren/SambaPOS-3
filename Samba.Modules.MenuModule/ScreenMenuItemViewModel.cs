@@ -81,20 +81,6 @@ namespace Samba.Modules.MenuModule
             set { Model.Quantity = value; RaisePropertyChanged(() => Quantity); }
         }
 
-        [LocalizedDisplayName(ResourceStrings.Gift)]
-        public bool Gift
-        {
-            get { return Model.Gift; }
-            set { Model.Gift = value; RaisePropertyChanged(() => Gift); }
-        }
-
-        [LocalizedDisplayName(ResourceStrings.DefaultProperties)]
-        public string DefaultProperties
-        {
-            get { return Model.DefaultProperties; }
-            set { Model.DefaultProperties = value; RaisePropertyChanged(() => DefaultProperties); }
-        }
-
         [LocalizedDisplayName(ResourceStrings.Tag)]
         public string Tag
         {

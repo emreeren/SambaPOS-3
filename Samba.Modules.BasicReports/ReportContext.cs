@@ -141,14 +141,14 @@ namespace Samba.Modules.BasicReports
             if (CurrentWorkPeriod.StartDate == CurrentWorkPeriod.EndDate)
                 return Dao.Query<Ticket>(x => x.LastPaymentDate >= CurrentWorkPeriod.StartDate,
                                          x => x.Payments, x => x.Services,
-                                         x => x.Discounts, x => x.TicketItems, x => x.Tags,
-                                         x => x.TicketItems.Select(y => y.Properties));
+                                         x => x.Discounts, x => x.Orders, x => x.Tags,
+                                         x => x.Orders.Select(y => y.OrderTagValues));
 
             return
                 Dao.Query<Ticket>(
                     x =>
                     x.LastPaymentDate >= CurrentWorkPeriod.StartDate && x.LastPaymentDate < CurrentWorkPeriod.EndDate,
-                    x => x.Payments, x => x.Services, x => x.Discounts, x => x.Tags, x => x.TicketItems.Select(y => y.Properties));
+                    x => x.Payments, x => x.Services, x => x.Discounts, x => x.Tags, x => x.Orders.Select(y => y.OrderTagValues));
 
         }
 
@@ -302,13 +302,6 @@ namespace Samba.Modules.BasicReports
         {
             var user = Users.SingleOrDefault(x => x.Id == userId);
             return user != null ? user.Name : Resources.UndefinedWithBrackets;
-        }
-
-        public static string GetReasonName(int reasonId)
-        {
-            if (AppServices.MainDataContext.Reasons.ContainsKey(reasonId))
-                return AppServices.MainDataContext.Reasons[reasonId].Name;
-            return Resources.UndefinedWithBrackets;
         }
 
         internal static string GetDepartmentName(int departmentId)

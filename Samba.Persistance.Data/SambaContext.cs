@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Actions;
 using Samba.Domain.Models.Inventories;
@@ -24,15 +25,16 @@ namespace Samba.Persistance.Data
 
         public DbSet<MenuItem> MenuItems { get; set; }
         public DbSet<MenuItemPortion> MenuItemPortions { get; set; }
-        public DbSet<MenuItemProperty> MenuItemProperties { get; set; }
-        public DbSet<MenuItemPropertyGroup> MenuItemPropertyGroups { get; set; }
+        public DbSet<OrderTag> OrderTags { get; set; }
+        public DbSet<OrderTagGroup> OrderTagGroups { get; set; }
+        public DbSet<OrderTagMap> OrderTagMaps { get; set; }
         public DbSet<ScreenMenu> ScreenMenus { get; set; }
         public DbSet<ScreenMenuCategory> ScreenMenuCategories { get; set; }
         public DbSet<ScreenMenuItem> ScreenMenuItems { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
-        public DbSet<TicketItem> TicketItems { get; set; }
-        public DbSet<TicketItemProperty> TicketItemProperties { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderTagValue> OrderTagValues { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
@@ -44,7 +46,6 @@ namespace Samba.Persistance.Data
         public DbSet<PrinterTemplate> PrinterTemplates { get; set; }
         public DbSet<TableScreen> TableScreens { get; set; }
         public DbSet<Numerator> Numerators { get; set; }
-        public DbSet<Reason> Reasons { get; set; }
         public DbSet<Discount> Discounts { get; set; }
         public DbSet<WorkPeriod> WorkPeriods { get; set; }
         public DbSet<PaidItem> PaidItems { get; set; }
@@ -73,11 +74,26 @@ namespace Samba.Persistance.Data
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<MenuItem>().HasMany(p => p.PropertyGroups).WithMany();
             modelBuilder.Entity<Department>().HasMany(p => p.TicketTagGroups).WithMany();
             modelBuilder.Entity<Department>().HasMany(p => p.ServiceTemplates).WithMany();
             modelBuilder.Entity<TableScreen>().HasMany(p => p.Tables).WithMany();
             modelBuilder.Entity<Terminal>().HasMany(p => p.PrintJobs).WithMany();
+
+            modelBuilder.Entity<TicketTagValue>().HasKey(p => new { p.Id, p.TicketId });
+            modelBuilder.Entity<TicketTagValue>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<Ticket>().HasMany(p => p.Tags).WithRequired().HasForeignKey(x => x.TicketId);
+
+            modelBuilder.Entity<Service>().HasKey(p => new { p.Id, p.TicketId });
+            modelBuilder.Entity<Service>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<Ticket>().HasMany(p => p.Services).WithRequired().HasForeignKey(x => x.TicketId);
+
+            modelBuilder.Entity<Order>().HasKey(p => new { p.Id, p.TicketId });
+            modelBuilder.Entity<Order>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<Ticket>().HasMany(p => p.Orders).WithRequired().HasForeignKey(x => x.TicketId);
+
+            modelBuilder.Entity<OrderTagValue>().HasKey(p => new { p.Id, p.OrderId, p.TicketId });
+            modelBuilder.Entity<OrderTagValue>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<Order>().HasMany(p => p.OrderTagValues).WithRequired().HasForeignKey(x => new { x.OrderId, x.TicketId });
 
             const int scale = 2;
             const int precision = 16;
@@ -99,7 +115,7 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<MenuItemPortion>().Property(x => x.Price).HasPrecision(precision, scale);
 
             //MenuItemProperty
-            modelBuilder.Entity<MenuItemProperty>().Property(x => x.Price).HasPrecision(precision, scale);
+            modelBuilder.Entity<OrderTag>().Property(x => x.Price).HasPrecision(precision, scale);
 
             //Recipe
             modelBuilder.Entity<Recipe>().Property(x => x.FixedCost).HasPrecision(precision, scale);
@@ -139,16 +155,16 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<PaidItem>().Property(x => x.Quantity).HasPrecision(precision, scale);
             modelBuilder.Entity<PaidItem>().Property(x => x.Price).HasPrecision(precision, scale);
 
-            //TicketItemProperty
-            modelBuilder.Entity<TicketItemProperty>().Property(x => x.Price).HasPrecision(precision, scale);
-            modelBuilder.Entity<TicketItemProperty>().Property(x => x.Quantity).HasPrecision(precision, scale);
-            modelBuilder.Entity<TicketItemProperty>().Property(x => x.TaxAmount).HasPrecision(precision, scale);
+            //OrderTagValue
+            modelBuilder.Entity<OrderTagValue>().Property(x => x.Price).HasPrecision(precision, scale);
+            modelBuilder.Entity<OrderTagValue>().Property(x => x.Quantity).HasPrecision(precision, scale);
+            modelBuilder.Entity<OrderTagValue>().Property(x => x.TaxAmount).HasPrecision(precision, scale);
 
-            //TicketItem
-            modelBuilder.Entity<TicketItem>().Property(x => x.Quantity).HasPrecision(precision, scale);
-            modelBuilder.Entity<TicketItem>().Property(x => x.Price).HasPrecision(precision, scale);
-            modelBuilder.Entity<TicketItem>().Property(x => x.TaxRate).HasPrecision(precision, scale);
-            modelBuilder.Entity<TicketItem>().Property(x => x.TaxAmount).HasPrecision(precision, scale);
+            //Order
+            modelBuilder.Entity<Order>().Property(x => x.Quantity).HasPrecision(precision, scale);
+            modelBuilder.Entity<Order>().Property(x => x.Price).HasPrecision(precision, scale);
+            modelBuilder.Entity<Order>().Property(x => x.TaxRate).HasPrecision(precision, scale);
+            modelBuilder.Entity<Order>().Property(x => x.TaxAmount).HasPrecision(precision, scale);
 
             //Ticket
             modelBuilder.Entity<Ticket>().Property(x => x.RemainingAmount).HasPrecision(precision, scale);
@@ -160,31 +176,6 @@ namespace Samba.Persistance.Data
             //Discount
             modelBuilder.Entity<Discount>().Property(x => x.Amount).HasPrecision(precision, scale);
             modelBuilder.Entity<Discount>().Property(x => x.DiscountAmount).HasPrecision(precision, scale);
-
-
-            //modelBuilder.Entity<MenuItem>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            ////modelBuilder.Entity<MenuItemPortion>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            ////modelBuilder.Entity<MenuItemProperty>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            //modelBuilder.Entity<MenuItemPropertyGroup>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            //modelBuilder.Entity<ScreenMenu>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            ////modelBuilder.Entity<ScreenMenuCategory>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            ////modelBuilder.Entity<ScreenMenuItem>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            ////modelBuilder.Entity<Payment>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            //modelBuilder.Entity<Ticket>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            ////modelBuilder.Entity<TicketItem>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            ////modelBuilder.Entity<TicketItemProperty>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            //modelBuilder.Entity<Department>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            //modelBuilder.Entity<User>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            //modelBuilder.Entity<UserRole>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            //modelBuilder.Entity<Table>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            //modelBuilder.Entity<Terminal>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            //modelBuilder.Entity<Printer>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            //modelBuilder.Entity<ProgramSetting>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            //modelBuilder.Entity<PrinterMap>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            //modelBuilder.Entity<PrinterTemplate>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            //modelBuilder.Entity<CurrencyContext>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            //modelBuilder.Entity<TableScreen>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
-            ////modelBuilder.Entity<TableScreenItem>().Property(x => x.LastUpdateTime).HasStoreType("timestamp").IsConcurrencyToken();
 
             modelBuilder.Entity<Numerator>().Property(x => x.LastUpdateTime).IsConcurrencyToken().HasColumnType(
                 "timestamp");

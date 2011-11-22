@@ -31,7 +31,7 @@
                     </Style>
                 </TabControl.ItemContainerStyle>
                 <TicketModule:MenuItemSelectorView DataContext="{Binding MenuItemSelectorViewModel}"/>
-                <TicketModule:SelectedTicketItemsView DataContext="{Binding SelectedTicketItemsViewModel}"/>
+                <TicketModule:SelectedOrdersView DataContext="{Binding SelectedOrdersViewModel}"/>
                 <TicketModule:TicketExplorerView DataContext="{Binding TicketExplorerViewModel}"/>
             </TabControl>
         </Grid>

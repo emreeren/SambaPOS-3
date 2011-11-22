@@ -86,30 +86,18 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
             //---------------
 
             var propertySum = ReportContext.Tickets
-                .SelectMany(x => x.TicketItems)
-                .Sum(x => x.GetPropertyPrice() * x.Quantity);
-
-            var voids = ReportContext.Tickets
-                .SelectMany(x => x.TicketItems)
-                .Where(x => x.Voided)
-                .Sum(x => x.GetItemValue());
+                .SelectMany(x => x.Orders)
+                .Sum(x => x.GetOrderTagPrice() * x.Quantity);
 
             var discounts = ReportContext.Tickets
                 .SelectMany(x => x.Discounts)
                 .Sum(x => x.DiscountAmount);
 
-            var gifts = ReportContext.Tickets
-                .SelectMany(x => x.TicketItems)
-                .Where(x => x.Gifted)
-                .Sum(x => x.GetItemValue());
-
             report.AddColumTextAlignment("Bilgi", TextAlignment.Left, TextAlignment.Right);
             report.AddColumnLength("Bilgi", "65*", "35*");
             report.AddTable("Bilgi", Resources.GeneralInformation, "");
             report.AddRow("Bilgi", Resources.ItemProperties, propertySum.ToString(ReportContext.CurrencyFormat));
-            report.AddRow("Bilgi", Resources.VoidsTotal, voids.ToString(ReportContext.CurrencyFormat));
             report.AddRow("Bilgi", Resources.DiscountsTotal, discounts.ToString(ReportContext.CurrencyFormat));
-            report.AddRow("Bilgi", Resources.GiftsTotal, gifts.ToString(ReportContext.CurrencyFormat));
 
             if (ticketGropus.Count() > 1)
                 foreach (var departmentInfo in ticketGropus)
@@ -145,26 +133,12 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
                     report.AddRow(departmentInfo.DepartmentName + Resources.Incomes, Resources.Voucher, GetPercent(2, dPayments), GetAmount(2, dPayments).ToString(ReportContext.CurrencyFormat));
                     report.AddRow(departmentInfo.DepartmentName + Resources.Incomes, Resources.TotalIncome, "", departmentInfo.Amount.ToString(ReportContext.CurrencyFormat));
 
-                    var dvoids = ReportContext.Tickets
-                        .Where(x => x.DepartmentId == dinfo.DepartmentId)
-                        .SelectMany(x => x.TicketItems)
-                        .Where(x => x.Voided)
-                        .Sum(x => x.GetItemValue());
-
                     var ddiscounts = ReportContext.Tickets
                         .Where(x => x.DepartmentId == dinfo.DepartmentId)
                         .SelectMany(x => x.Discounts)
                         .Sum(x => x.DiscountAmount);
 
-                    var dgifts = ReportContext.Tickets
-                        .Where(x => x.DepartmentId == dinfo.DepartmentId)
-                        .SelectMany(x => x.TicketItems)
-                        .Where(x => x.Gifted)
-                        .Sum(x => x.GetItemValue());
-
-                    report.AddRow(departmentInfo.DepartmentName + Resources.Incomes, Resources.VoidsTotal, "", dvoids.ToString(ReportContext.CurrencyFormat));
                     report.AddRow(departmentInfo.DepartmentName + Resources.Incomes, Resources.DiscountsTotal, "", ddiscounts.ToString(ReportContext.CurrencyFormat));
-                    report.AddRow(departmentInfo.DepartmentName + Resources.Incomes, Resources.GiftsTotal, "", dgifts.ToString(ReportContext.CurrencyFormat));
                 }
             }
 
@@ -194,7 +168,8 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 
                 foreach (var grp in tagGrp)
                 {
-                    var tag = ReportContext.TicketTagGroups.SingleOrDefault(x => x.Name == grp.Key);
+                    var grouping = grp;
+                    var tag = ReportContext.TicketTagGroups.SingleOrDefault(x => x.Name == grouping.Key);
                     if (tag == null) continue;
 
                     report.AddBoldRow("Etiket", grp.Key, "", "");
@@ -252,9 +227,9 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 
             //----
 
-            var owners = ReportContext.Tickets.SelectMany(ticket => ticket.TicketItems.Select(ticketItem => new { Ticket = ticket, TicketItem = ticketItem }))
-                .GroupBy(x => new { x.TicketItem.CreatingUserId })
-                .Select(x => new UserInfo { UserId = x.Key.CreatingUserId, Amount = x.Sum(y => MenuGroupBuilder.CalculateTicketItemTotal(y.Ticket, y.TicketItem)) });
+            var owners = ReportContext.Tickets.SelectMany(ticket => ticket.Orders.Select(order => new { Ticket = ticket, Order = order }))
+                .GroupBy(x => new { x.Order.CreatingUserId })
+                .Select(x => new UserInfo { UserId = x.Key.CreatingUserId, Amount = x.Sum(y => MenuGroupBuilder.CalculateOrderTotal(y.Ticket, y.Order)) });
 
             report.AddColumTextAlignment("Garson", TextAlignment.Left, TextAlignment.Right);
             report.AddColumnLength("Garson", "65*", "35*");

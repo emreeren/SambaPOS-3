@@ -47,14 +47,14 @@ namespace Samba.Services
                 Debug.Assert(Ticket == null);
                 _workspace = WorkspaceFactory.Create();
 
-                Ticket = _workspace.Single<Ticket>(ticket => ticket.Id == ticketId, x => x.TicketItems.Select(y => y.Properties));
+                Ticket = _workspace.Single<Ticket>(ticket => ticket.Id == ticketId, x => x.Orders.Select(y => y.OrderTagValues));
             }
 
             public void CommitChanges()
             {
                 Debug.Assert(_workspace != null);
                 Debug.Assert(Ticket != null);
-                Debug.Assert(Ticket.Id > 0 || Ticket.TicketItems.Count > 0);
+                Debug.Assert(Ticket.Id > 0 || Ticket.Orders.Count > 0);
                 if (Ticket.Id == 0 && Ticket.TicketNumber != null)
                     _workspace.Add(Ticket);
                 Ticket.LastUpdateTime = DateTime.Now;
@@ -125,23 +125,7 @@ namespace Samba.Services
                 _workspace.All<Table>(x => x.TicketId == ticket.Id).ToList().ForEach(x => x.Reset());
             }
 
-            public void RemoveTicketItems(IEnumerable<TicketItem> selectedItems)
-            {
-                selectedItems.ToList().ForEach(x => Ticket.TicketItems.Remove(x));
-                selectedItems.Where(x => x.Id > 0).ToList().ForEach(x => _workspace.Delete(x));
-            }
-
-            public void RemoveServices(IEnumerable<Service> services)
-            {
-                services.ToList().ForEach(x => _workspace.Delete(x));
-            }
-
-            public void RemoveUnusedTags(IEnumerable<TicketTagValue> tags)
-            {
-                tags.Where(x => string.IsNullOrEmpty(x.TagValue)).ToList().ForEach(x => _workspace.Delete(x));
-            }
-
-            public void AddItemToSelectedTicket(TicketItem model)
+            public void AddItemToSelectedTicket(Order model)
             {
                 _workspace.Add(model);
             }
@@ -185,9 +169,6 @@ namespace Samba.Services
             }
         }
 
-        private IDictionary<int, Reason> _reasons;
-        public IDictionary<int, Reason> Reasons { get { return _reasons ?? (_reasons = Dao.BuildDictionary<Reason>()); } }
-
         private IEnumerable<WorkPeriod> _lastTwoWorkPeriods;
         public IEnumerable<WorkPeriod> LastTwoWorkPeriods
         {
@@ -207,6 +188,12 @@ namespace Samba.Services
         public IEnumerable<ServiceTemplate> ServiceTemplates
         {
             get { return _serviceTemplates ?? (_serviceTemplates = Dao.Query<ServiceTemplate>()); }
+        }
+
+        private IEnumerable<OrderTagGroup> _orderTagGroups;
+        public IEnumerable<OrderTagGroup> OrderTagGroups
+        {
+            get { return _orderTagGroups ?? (_orderTagGroups = Dao.Query<OrderTagGroup>(x => x.OrderTagMaps, x => x.OrderTags)); }
         }
 
         public WorkPeriod CurrentWorkPeriod { get { return LastTwoWorkPeriods.LastOrDefault(); } }
@@ -304,18 +291,13 @@ namespace Samba.Services
             }
         }
 
-        public string GetReason(int reasonId)
-        {
-            return Reasons.ContainsKey(reasonId) ? Reasons[reasonId].Name : Resources.UndefinedWithBrackets;
-        }
-
         public void UpdateTicketTable(Ticket ticket)
         {
             if (string.IsNullOrEmpty(ticket.LocationName)) return;
             var table = _ticketWorkspace.LoadTable(ticket.LocationName);
             if (table != null)
             {
-                if (ticket.IsPaid || ticket.TicketItems.Count == 0)
+                if (ticket.IsPaid || ticket.Orders.Count == 0)
                 {
                     if (table.TicketId == ticket.Id)
                     {
@@ -393,7 +375,7 @@ namespace Samba.Services
 
             if (table.TicketId > 0 && table.TicketId != SelectedTicket.Id)
             {
-                MoveTicketItems(SelectedTicket.TicketItems.ToList(), table.TicketId);
+                MoveOrders(SelectedTicket.Orders.ToList(), table.TicketId);
                 OpenTicket(table.TicketId);
             }
 
@@ -427,7 +409,7 @@ namespace Samba.Services
                 var lup = Dao.Single<Ticket, DateTime>(SelectedTicket.Id, x => x.LastUpdateTime);
                 if (SelectedTicket.LastUpdateTime.CompareTo(lup) != 0)
                 {
-                    var currentTicket = Dao.Single<Ticket>(x => x.Id == SelectedTicket.Id, x => x.TicketItems, x => x.Payments);
+                    var currentTicket = Dao.Single<Ticket>(x => x.Id == SelectedTicket.Id, x => x.Orders, x => x.Payments);
                     if (currentTicket.LocationName != SelectedTicket.LocationName)
                     {
                         result.ErrorMessage = string.Format(Resources.TicketMovedRetryLastOperation_f, currentTicket.LocationName);
@@ -475,18 +457,15 @@ namespace Samba.Services
 
             if (canSumbitTicket)
             {
-                _ticketWorkspace.RemoveTicketItems(SelectedTicket.PopRemovedTicketItems());
-                _ticketWorkspace.RemoveServices(SelectedTicket.PopRemovedServices());
-                _ticketWorkspace.RemoveUnusedTags(SelectedTicket.Tags);
                 Recalculate(SelectedTicket);
                 SelectedTicket.IsPaid = SelectedTicket.RemainingAmount == 0;
 
-                if (SelectedTicket.TicketItems.Count > 0)
+                if (SelectedTicket.Orders.Count > 0)
                 {
-                    if (SelectedTicket.TicketItems.Where(x => !x.Locked).FirstOrDefault() != null)
+                    if (SelectedTicket.Orders.Where(x => !x.Locked).FirstOrDefault() != null)
                     {
-                        SelectedTicket.MergeLinesAndUpdateOrderNumbers(NumberGenerator.GetNextNumber(SelectedDepartment.OrderNumerator.Id));
-                        SelectedTicket.TicketItems.Where(x => x.Id == 0).ToList().ForEach(x => x.CreatedDateTime = DateTime.Now);
+                        SelectedTicket.MergeOrdersAndUpdateOrderNumbers(NumberGenerator.GetNextNumber(SelectedDepartment.OrderNumerator.Id));
+                        SelectedTicket.Orders.Where(x => x.Id == 0).ToList().ForEach(x => x.CreatedDateTime = DateTime.Now);
                     }
 
                     if (SelectedTicket.Id == 0)
@@ -507,7 +486,7 @@ namespace Samba.Services
                 UpdateTicketTable(SelectedTicket);
                 if (SelectedTicket.Id > 0)  // eğer adisyonda satır yoksa ID burada 0 olmalı.
                     _ticketWorkspace.CommitChanges();
-                Debug.Assert(SelectedTicket.TicketItems.Count(x => x.OrderNumber == 0) == 0);
+                Debug.Assert(SelectedTicket.Orders.Count(x => x.OrderNumber == 0) == 0);
             }
             result.TicketId = SelectedTicket.Id;
             _ticketWorkspace.Reset();
@@ -572,13 +551,13 @@ namespace Samba.Services
                 _tableScreens = null;
                 _departments = null;
                 _permittedDepartments = null;
-                _reasons = null;
                 _lastTwoWorkPeriods = null;
                 _users = null;
                 _rules = null;
                 _actions = null;
                 _taxTemplates = null;
                 _serviceTemplates = null;
+                _orderTagGroups = null;
 
                 if (selectedTableScreen > 0 && TableScreens.Count(x => x.Id == selectedTableScreen) > 0)
                     SelectedTableScreen = TableScreens.Single(x => x.Id == selectedTableScreen);
@@ -615,13 +594,12 @@ namespace Samba.Services
             _ticketWorkspace.CreateTicket(SelectedDepartment);
         }
 
-        public TicketCommitResult MoveTicketItems(IEnumerable<TicketItem> selectedItems, int targetTicketId)
+        public TicketCommitResult MoveOrders(IEnumerable<Order> selectedOrders, int targetTicketId)
         {
-            var clonedItems = selectedItems.Select(ObjectCloner.Clone).ToList();
+            var clonedOrders = selectedOrders.Select(ObjectCloner.Clone).ToList();
+            selectedOrders.ToList().ForEach(x => SelectedTicket.Orders.Remove(x));
 
-            _ticketWorkspace.RemoveTicketItems(selectedItems);
-
-            if (SelectedTicket.TicketItems.Count == 0)
+            if (SelectedTicket.Orders.Count == 0)
             {
                 var info = targetTicketId.ToString();
                 if (targetTicketId > 0)
@@ -639,9 +617,9 @@ namespace Samba.Services
                 CreateNewTicket();
             else OpenTicket(targetTicketId);
 
-            foreach (var ticketItem in clonedItems)
+            foreach (var clonedOrder in clonedOrders)
             {
-                SelectedTicket.TicketItems.Add(ticketItem);
+                SelectedTicket.Orders.Add(clonedOrder);
             }
 
             SelectedTicket.LastOrderDate = DateTime.Now;
@@ -655,7 +633,7 @@ namespace Samba.Services
             _ticketWorkspace.CommitChanges();
         }
 
-        public void AddItemToSelectedTicket(TicketItem model)
+        public void AddItemToSelectedTicket(Order model)
         {
             _ticketWorkspace.AddItemToSelectedTicket(model);
         }
@@ -668,6 +646,28 @@ namespace Samba.Services
         public TaxTemplate GetTaxTemplate(int menuItemId)
         {
             return AppServices.DataAccessService.GetMenuItem(menuItemId).TaxTemplate;
+        }
+
+        public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(int deparmentId, MenuItem menuItem)
+        {
+            return GetOrderTagGroupsForItem(OrderTagGroups, deparmentId, menuItem);
+        }
+
+        public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItems(int deparmentId, IEnumerable<MenuItem> menuItems)
+        {
+            return menuItems.Aggregate(OrderTagGroups, (current, menuItem) => GetOrderTagGroupsForItem(current, deparmentId, menuItem));
+        }
+
+        private static IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(IEnumerable<OrderTagGroup> tagGroups, int deparmentId, MenuItem menuItem)
+        {
+            var maps = tagGroups.SelectMany(x => x.OrderTagMaps);
+
+            maps = maps
+                .Where(x => x.DepartmentId == deparmentId || x.DepartmentId == 0)
+                .Where(x => x.MenuItemGroupCode == menuItem.GroupCode || x.MenuItemGroupCode == null)
+                .Where(x => x.MenuItemId == menuItem.Id || x.MenuItemId == 0);
+
+            return tagGroups.Where(x => maps.Any(y => y.OrderTagGroupId == x.Id));
         }
     }
 }

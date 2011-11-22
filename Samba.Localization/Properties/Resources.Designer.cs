@@ -325,6 +325,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Order.
+        /// </summary>
+        public static string AddOrder {
+            get {
+                return ResourceManager.GetString("AddOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select Products for {0} category.
         /// </summary>
         public static string AddProductsToCategoryHint_f {
@@ -375,15 +384,6 @@ namespace Samba.Localization.Properties {
         public static string AddTicketDiscount {
             get {
                 return ResourceManager.GetString("AddTicketDiscount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Add Ticket Item.
-        /// </summary>
-        public static string AddTicketItem {
-            get {
-                return ResourceManager.GetString("AddTicketItem", resourceCulture);
             }
         }
         
@@ -1807,15 +1807,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can&apos;t delete because this Product Property assigned to a Product.
-        /// </summary>
-        public static string DeleteErrorProductPropertyUsedInProduct {
-            get {
-                return ResourceManager.GetString("DeleteErrorProductPropertyUsedInProduct", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Can&apos;t delete because this Product assigned to a Menu.
         /// </summary>
         public static string DeleteErrorProductUsedInMenu {
@@ -2930,15 +2921,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Gift Reasons.
-        /// </summary>
-        public static string GiftReasons {
-            get {
-                return ResourceManager.GetString("GiftReasons", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Gifts.
         /// </summary>
         public static string Gifts {
@@ -3449,15 +3431,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to #Line: Gift or Void Reason.
-        /// </summary>
-        public static string LineGiftOrVoidReason {
-            get {
-                return ResourceManager.GetString("LineGiftOrVoidReason", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to #Line: Item Property Price.
         /// </summary>
         public static string LineItemDetailPrice {
@@ -3833,51 +3806,6 @@ namespace Samba.Localization.Properties {
         public static string Minute {
             get {
                 return ResourceManager.GetString("Minute", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Modifier.
-        /// </summary>
-        public static string Modifier {
-            get {
-                return ResourceManager.GetString("Modifier", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Modifier Group.
-        /// </summary>
-        public static string ModifierGroup {
-            get {
-                return ResourceManager.GetString("ModifierGroup", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Modifier Group Name.
-        /// </summary>
-        public static string ModifierGroupName {
-            get {
-                return ResourceManager.GetString("ModifierGroupName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Modifier Groups.
-        /// </summary>
-        public static string ModifierGroups {
-            get {
-                return ResourceManager.GetString("ModifierGroups", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Modifiers.
-        /// </summary>
-        public static string Modifiers {
-            get {
-                return ResourceManager.GetString("Modifiers", resourceCulture);
             }
         }
         
@@ -4428,6 +4356,60 @@ namespace Samba.Localization.Properties {
         public static string OrderNumerator {
             get {
                 return ResourceManager.GetString("OrderNumerator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order Tag.
+        /// </summary>
+        public static string OrderTag {
+            get {
+                return ResourceManager.GetString("OrderTag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order Tag Group.
+        /// </summary>
+        public static string OrderTagGroup {
+            get {
+                return ResourceManager.GetString("OrderTagGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order Tag Group Name.
+        /// </summary>
+        public static string OrderTagGroupName {
+            get {
+                return ResourceManager.GetString("OrderTagGroupName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order Tag Groups.
+        /// </summary>
+        public static string OrderTagGroups {
+            get {
+                return ResourceManager.GetString("OrderTagGroups", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order Tag Mapping.
+        /// </summary>
+        public static string OrderTagMapping {
+            get {
+                return ResourceManager.GetString("OrderTagMapping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order Tags.
+        /// </summary>
+        public static string OrderTags {
+            get {
+                return ResourceManager.GetString("OrderTags", resourceCulture);
             }
         }
         
@@ -6327,15 +6309,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {REASON}.
-        /// </summary>
-        public static string TF_LineGiftOrVoidReason {
-            get {
-                return ResourceManager.GetString("TF_LineGiftOrVoidReason", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {PROP PRICE}.
         /// </summary>
         public static string TF_LineItemDetailPrice {
@@ -7677,6 +7650,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Void Orders.
+        /// </summary>
+        public static string VoidOrders {
+            get {
+                return ResourceManager.GetString("VoidOrders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Void Reason.
         /// </summary>
         public static string VoidReason {
@@ -7695,15 +7677,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Void Reasons.
-        /// </summary>
-        public static string VoidReasons {
-            get {
-                return ResourceManager.GetString("VoidReasons", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Voids.
         /// </summary>
         public static string Voids {
@@ -7718,15 +7691,6 @@ namespace Samba.Localization.Properties {
         public static string VoidsTotal {
             get {
                 return ResourceManager.GetString("VoidsTotal", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Void Ticket Items.
-        /// </summary>
-        public static string VoidTicketItems {
-            get {
-                return ResourceManager.GetString("VoidTicketItems", resourceCulture);
             }
         }
         

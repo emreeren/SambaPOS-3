@@ -22,17 +22,17 @@ namespace Samba.Presentation.ViewModels
         {
             _forcePayment = forcePayment;
             _model = model;
-            _items = new ObservableCollection<TicketItemViewModel>(model.TicketItems.Select(x => new TicketItemViewModel(x)).OrderBy(x => x.Model.CreatedDateTime));
+            _orders = new ObservableCollection<OrderViewModel>(model.Orders.Select(x => new OrderViewModel(x)).OrderBy(x => x.Model.CreatedDateTime));
             _payments = new ObservableCollection<PaymentViewModel>(model.Payments.Select(x => new PaymentViewModel(x)));
             _discounts = new ObservableCollection<DiscountViewModel>(model.Discounts.Select(x => new DiscountViewModel(x)));
 
-            _itemsViewSource = new CollectionViewSource { Source = _items };
+            _itemsViewSource = new CollectionViewSource { Source = _orders };
             _itemsViewSource.GroupDescriptions.Add(new PropertyGroupDescription("GroupObject"));
 
             SelectAllItemsCommand = new CaptionCommand<string>("", OnSelectAllItemsExecute);
 
             PrintJobButtons = AppServices.CurrentTerminal.PrintJobs
-                .Where(x => (!string.IsNullOrEmpty(x.ButtonText))
+                .Where(x => (!string.IsNullOrEmpty(x.ButtonHeader))
                     && (x.PrinterMaps.Count(y => y.Department == null || y.Department.Id == AppServices.MainDataContext.SelectedDepartment.Id) > 0))
                 .OrderBy(x => x.Order)
                 .Select(x => new PrintJobButton(x, Model));
@@ -47,12 +47,12 @@ namespace Samba.Presentation.ViewModels
 
         private void OnSelectAllItemsExecute(string obj)
         {
-            foreach (var item in Items.Where(x => x.OrderNumber == obj))
-                item.ToggleSelection();
+            foreach (var order in Orders.Where(x => x.OrderNumber == obj))
+                order.ToggleSelection();
 
             RefreshVisuals();
 
-            this.PublishEvent(EventTopicNames.SelectedItemsChanged);
+            this.PublishEvent(EventTopicNames.SelectedOrdersChanged);
 
         }
 
@@ -61,10 +61,10 @@ namespace Samba.Presentation.ViewModels
             get { return _model; }
         }
 
-        private readonly ObservableCollection<TicketItemViewModel> _items;
-        public ObservableCollection<TicketItemViewModel> Items
+        private readonly ObservableCollection<OrderViewModel> _orders;
+        public ObservableCollection<OrderViewModel> Orders
         {
-            get { return _items; }
+            get { return _orders; }
         }
 
         private CollectionViewSource _itemsViewSource;
@@ -86,9 +86,9 @@ namespace Samba.Presentation.ViewModels
             get { return _discounts; }
         }
 
-        public ObservableCollection<TicketItemViewModel> SelectedItems
+        public ObservableCollection<OrderViewModel> SelectedOrders
         {
-            get { return new ObservableCollection<TicketItemViewModel>(Items.Where(x => x.Selected)); }
+            get { return new ObservableCollection<OrderViewModel>(Orders.Where(x => x.Selected)); }
         }
 
         public IEnumerable<PrintJobButton> PrintJobButtons { get; set; }
@@ -241,24 +241,25 @@ namespace Samba.Presentation.ViewModels
         {
             get
             {
-                return Model.TicketItems.Count > 1 && Model.TicketItems[Model.TicketItems.Count - 1].OrderNumber != 0 &&
-                    Model.TicketItems[0].OrderNumber != Model.TicketItems[Model.TicketItems.Count - 1].OrderNumber;
+                return Model.Orders.Count > 1 && Model.Orders[Model.Orders.Count - 1].OrderNumber != 0 &&
+                    Model.Orders[0].OrderNumber != Model.Orders[Model.Orders.Count - 1].OrderNumber;
             }
         }
 
         public void ClearSelectedItems()
         {
             LastSelectedTicketTag = null;
+            LastSelectedOrderTag = null;
 
-            foreach (var item in Items)
+            foreach (var item in Orders)
                 item.NotSelected();
 
             RefreshVisuals();
 
-            this.PublishEvent(EventTopicNames.SelectedItemsChanged);
+            this.PublishEvent(EventTopicNames.SelectedOrdersChanged);
         }
 
-        public TicketItemViewModel AddNewItem(int menuItemId, decimal quantity, bool gift, string defaultProperties, string portionName)
+        public OrderViewModel AddNewItem(int menuItemId, decimal quantity, string portionName)
         {
             if (!Model.CanSubmit) return null;
             ClearSelectedItems();
@@ -272,20 +273,19 @@ namespace Samba.Presentation.ViewModels
                 portion = menuItem.Portions.First(x => x.Name == portionName);
             }
 
-            var ti = Model.AddTicketItem(AppServices.CurrentLoggedInUser.Id, menuItem, portion.Name, AppServices.MainDataContext.SelectedDepartment.PriceTag, defaultProperties);
+            var ti = Model.AddOrder(AppServices.CurrentLoggedInUser.Id, menuItem, portion.Name, AppServices.MainDataContext.SelectedDepartment.PriceTag);
             ti.Quantity = quantity > 9 ? decimal.Round(quantity / portion.Multiplier, LocalSettings.Decimals) : quantity;
-            ti.Gifted = gift;
-            var ticketItemViewModel = new TicketItemViewModel(ti);
-            _items.Add(ticketItemViewModel);
+            var orderViewModel = new OrderViewModel(ti);
+            _orders.Add(orderViewModel);
             RecalculateTicket();
-            ticketItemViewModel.PublishEvent(EventTopicNames.TicketItemAdded);
-            return ticketItemViewModel;
+            orderViewModel.PublishEvent(EventTopicNames.OrderAdded);
+            return orderViewModel;
         }
 
         private void RegenerateItemViewModels()
         {
-            _items.Clear();
-            _items.AddRange(Model.TicketItems.Select(x => new TicketItemViewModel(x)));
+            _orders.Clear();
+            _orders.AddRange(Model.Orders.Select(x => new OrderViewModel(x)));
             RecalculateTicket();
             ClearSelectedItems();
         }
@@ -309,58 +309,25 @@ namespace Samba.Presentation.ViewModels
             RaisePropertyChanged(() => IsTagged);
         }
 
-        private void VoidItems(IEnumerable<TicketItemViewModel> ticketItems, int reasonId, int userId)
+        public void CancelItems(IEnumerable<OrderViewModel> orders, int userId)
         {
-            ticketItems.ToList().ForEach(x => Model.VoidItem(x.Model, reasonId, userId));
+            orders.ToList().ForEach(x => Model.CancelOrder(x.Model));
             RegenerateItemViewModels();
-        }
-
-        private void GiftItems(IEnumerable<TicketItemViewModel> ticketItems, int reasonId, int userId)
-        {
-            ticketItems.ToList().ForEach(x => Model.GiftItem(x.Model, reasonId, userId));
-            RegenerateItemViewModels();
-        }
-
-        public void CancelItems(IEnumerable<TicketItemViewModel> ticketItems, int userId)
-        {
-            VoidItems(ticketItems, 0, userId);
         }
 
         public void CancelSelectedItems()
         {
-            CancelItems(SelectedItems.ToArray(), AppServices.CurrentLoggedInUser.Id);
-        }
-
-        public void GiftSelectedItems(int reasonId)
-        {
-            FixSelectedItems();
-            GiftItems(SelectedItems.ToArray(), reasonId, AppServices.CurrentLoggedInUser.Id);
-        }
-
-        public void VoidSelectedItems(int reasonId)
-        {
-            FixSelectedItems();
-            VoidItems(SelectedItems.ToArray(), reasonId, AppServices.CurrentLoggedInUser.Id);
-        }
-
-        public bool CanVoidSelectedItems()
-        {
-            return Model.CanVoidSelectedItems(SelectedItems.Select(x => x.Model));
-        }
-
-        public bool CanGiftSelectedItems()
-        {
-            return Model.CanGiftSelectedItems(SelectedItems.Select(x => x.Model));
+            CancelItems(SelectedOrders.ToArray(), AppServices.CurrentLoggedInUser.Id);
         }
 
         public bool CanCancelSelectedItems()
         {
-            return Model.CanCancelSelectedItems(SelectedItems.Select(x => x.Model));
+            return Model.CanCancelSelectedOrders(SelectedOrders.Select(x => x.Model));
         }
 
         public bool CanCloseTicket()
         {
-            return !_forcePayment || Model.GetRemainingAmount() <= 0 || !string.IsNullOrEmpty(Location) || !string.IsNullOrEmpty(AccountName) || IsTagged || Items.Count == 0;
+            return !_forcePayment || Model.GetRemainingAmount() <= 0 || !string.IsNullOrEmpty(Location) || !string.IsNullOrEmpty(AccountName) || IsTagged || Orders.Count == 0;
         }
 
         public bool IsTicketTotalVisible
@@ -435,14 +402,14 @@ namespace Samba.Presentation.ViewModels
 
         public void FixSelectedItems()
         {
-            var selectedItems = SelectedItems.Where(x => x.SelectedQuantity > 0 && x.SelectedQuantity < x.Quantity).ToList();
-            var newItems = Model.ExtractSelectedTicketItems(selectedItems.Select(x => x.Model));
+            var selectedItems = SelectedOrders.Where(x => x.SelectedQuantity > 0 && x.SelectedQuantity < x.Quantity).ToList();
+            var newItems = Model.ExtractSelectedOrders(selectedItems.Select(x => x.Model));
             foreach (var newItem in newItems)
             {
                 AppServices.MainDataContext.AddItemToSelectedTicket(newItem);
-                _items.Add(new TicketItemViewModel(newItem) { Selected = true });
+                _orders.Add(new OrderViewModel(newItem) { Selected = true });
             }
-            selectedItems.ForEach(x => x.Selected = false);
+            selectedItems.ForEach(x => x.NotSelected());
         }
 
         public string Title
@@ -472,36 +439,37 @@ namespace Samba.Presentation.ViewModels
         public string CustomPrintData { get { return Model.PrintJobData; } set { Model.PrintJobData = value; } }
 
         public TicketTagGroup LastSelectedTicketTag { get; set; }
+        public OrderTagGroup LastSelectedOrderTag { get; set; }
 
         public void MergeLines()
         {
-            Model.MergeLinesAndUpdateOrderNumbers(0);
-            _items.Clear();
-            _items.AddRange(Model.TicketItems.Select(x => new TicketItemViewModel(x)));
+            Model.MergeOrdersAndUpdateOrderNumbers(0);
+            _orders.Clear();
+            _orders.AddRange(Model.Orders.Select(x => new OrderViewModel(x)));
         }
 
-        public bool CanMoveSelectedItems()
+        public bool CanMoveSelectedOrders()
         {
             if (IsLocked) return false;
-            if (!Model.CanRemoveSelectedItems(SelectedItems.Select(x => x.Model))) return false;
-            if (SelectedItems.Where(x => x.Model.Id == 0).Count() > 0) return false;
-            if (SelectedItems.Where(x => x.IsLocked).Count() == 0
-                && AppServices.IsUserPermittedFor(PermissionNames.MoveUnlockedTicketItems))
+            if (!Model.CanRemoveSelectedOrders(SelectedOrders.Select(x => x.Model))) return false;
+            if (SelectedOrders.Where(x => x.Model.Id == 0).Count() > 0) return false;
+            if (SelectedOrders.Where(x => x.IsLocked).Count() == 0
+                && AppServices.IsUserPermittedFor(PermissionNames.MoveUnlockedOrders))
                 return true;
-            return AppServices.IsUserPermittedFor(PermissionNames.MoveTicketItems);
+            return AppServices.IsUserPermittedFor(PermissionNames.MoveOrders);
         }
 
         public bool CanChangeTable()
         {
-            if (IsLocked || Items.Count == 0 || (Payments.Count > 0 && !string.IsNullOrEmpty(Location)) || !Model.CanSubmit) return false;
+            if (IsLocked || Orders.Count == 0 || (Payments.Count > 0 && !string.IsNullOrEmpty(Location)) || !Model.CanSubmit) return false;
             return string.IsNullOrEmpty(Location) || AppServices.IsUserPermittedFor(PermissionNames.ChangeTable);
         }
 
         public string GetPrintError()
         {
-            if (Items.Count(x => x.TotalPrice == 0 && !x.IsGifted && !x.IsVoided) > 0)
+            if (Orders.Count(x => x.TotalPrice == 0 && x.Model.CalculatePrice) > 0)
                 return Resources.CantCompleteOperationWhenThereIsZeroPricedProduct;
-            if (!IsPaid && Items.Count > 0)
+            if (!IsPaid && Orders.Count > 0)
             {
                 var tg = AppServices.MainDataContext.SelectedDepartment.TicketTagGroups.FirstOrDefault(
                         x => x.ForceValue && !IsTaggedWith(x.Name));
@@ -563,7 +531,6 @@ namespace Samba.Presentation.ViewModels
                         PreviousTotal = total,
                         TicketTotal = ticket.GetSum(),
                         DiscountTotal = ticket.GetDiscountAndRoundingTotal(),
-                        GiftTotal = ticket.GetTotalGiftAmount(),
                         PaymentTotal = ticket.GetPaymentAmount()
                     });
             }
@@ -584,13 +551,13 @@ namespace Samba.Presentation.ViewModels
 
         public static void RegenerateTaxRates(Ticket ticket)
         {
-            foreach (var ticketItem in ticket.TicketItems)
+            foreach (var order in ticket.Orders)
             {
-                var mi = AppServices.DataAccessService.GetMenuItem(ticketItem.MenuItemId);
+                var mi = AppServices.DataAccessService.GetMenuItem(order.MenuItemId);
                 if (mi == null) continue;
-                var item = ticketItem;
+                var item = order;
                 var portion = mi.Portions.FirstOrDefault(x => x.Name == item.PortionName);
-                if (portion != null) ticketItem.UpdatePortion(portion, ticketItem.PriceTag, mi.TaxTemplate);
+                if (portion != null) order.UpdatePortion(portion, order.PriceTag, mi.TaxTemplate);
             }
         }
     }

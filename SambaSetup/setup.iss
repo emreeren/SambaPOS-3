@@ -105,13 +105,7 @@ Source: src\EntityFramework.dll; DestDir: {app}
 Source: src\Microsoft.Practices.Prism.dll; DestDir: {app}
 Source: src\Microsoft.Practices.Prism.MefExtensions.dll; DestDir: {app}
 Source: src\Microsoft.Practices.Prism.Interactivity.dll; DestDir: {app}
-Source: src\Microsoft.Practices.EnterpriseLibrary.Common.dll; DestDir: {app}
-Source: src\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.dll; DestDir: {app}
-Source: src\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.Logging.dll; DestDir: {app}
-Source: src\Microsoft.Practices.EnterpriseLibrary.Logging.dll; DestDir: {app}
 Source: src\Microsoft.Practices.ServiceLocation.dll; DestDir: {app}
-Source: src\Microsoft.Practices.Unity.dll; DestDir: {app}
-Source: src\Microsoft.Practices.Unity.Interception.dll; DestDir: {app}
 Source: src\PropertyTools.Wpf.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Domain.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Infrastructure.Data.dll; DestDir: {app}; Flags: ignoreversion

@@ -35,8 +35,7 @@ namespace Samba.Presentation.ViewModels
         {
             RuleActionTypeRegistry.RegisterActionType("SendEmail", Resources.SendEmail, new { SMTPServer = "", SMTPUser = "", SMTPPassword = "", SMTPPort = 0, ToEMailAddress = "", Subject = "", FromEMailAddress = "", EMailMessage = "", FileName = "", DeleteFile = false });
             RuleActionTypeRegistry.RegisterActionType("AddTicketDiscount", Resources.AddTicketDiscount, new { DiscountPercentage = 0m });
-            RuleActionTypeRegistry.RegisterActionType("AddTicketItem", Resources.AddTicketItem, new { MenuItemName = "", PortionName = "", Quantity = 0, Gift = false, Tag = "" });
-            RuleActionTypeRegistry.RegisterActionType("VoidTicketItems", Resources.VoidTicketItems, new { MenuItemName = "", Tag = "" });
+            RuleActionTypeRegistry.RegisterActionType("AddOrder", Resources.AddOrder, new { MenuItemName = "", PortionName = "", Quantity = 0, Tag = "" });
             RuleActionTypeRegistry.RegisterActionType("UpdateTicketTag", Resources.UpdateTicketTag, new { TagName = "", TagValue = "" });
             RuleActionTypeRegistry.RegisterActionType("UpdatePriceTag", Resources.UpdatePriceTag, new { DepartmentName = "", PriceTag = "" });
             RuleActionTypeRegistry.RegisterActionType("RefreshCache", Resources.RefreshCache);
@@ -59,7 +58,7 @@ namespace Samba.Presentation.ViewModels
             RuleActionTypeRegistry.RegisterEvent(RuleEventNames.TicketLocationChanged, Resources.TicketLocationChanged, new { OldLocation = "", NewLocation = "" });
             RuleActionTypeRegistry.RegisterEvent(RuleEventNames.TicketTagSelected, Resources.TicketTagSelected, new { TagName = "", TagValue = "", NumericValue = 0, TicketTag = "" });
             RuleActionTypeRegistry.RegisterEvent(RuleEventNames.AccountSelectedForTicket, Resources.AccountSelectedForTicket, new { AccountName = "", PhoneNumber = "", AccountNote = "" });
-            RuleActionTypeRegistry.RegisterEvent(RuleEventNames.TicketTotalChanged, Resources.TicketTotalChanged, new { TicketTotal = 0m, PreviousTotal = 0m, DiscountTotal = 0m, GiftTotal = 0m, DiscountAmount = 0m, TipAmount = 0m });
+            RuleActionTypeRegistry.RegisterEvent(RuleEventNames.TicketTotalChanged, Resources.TicketTotalChanged, new { TicketTotal = 0m, PreviousTotal = 0m, DiscountTotal = 0m, DiscountAmount = 0m, TipAmount = 0m });
             RuleActionTypeRegistry.RegisterEvent(RuleEventNames.MessageReceived, Resources.MessageReceived, new { Command = "" });
         }
 
@@ -212,7 +211,7 @@ namespace Samba.Presentation.ViewModels
                     }
                 }
 
-                if (x.Value.Action.ActionType == "AddTicketItem")
+                if (x.Value.Action.ActionType == "AddOrder")
                 {
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
 
@@ -222,38 +221,17 @@ namespace Samba.Presentation.ViewModels
                         var menuItem = AppServices.DataAccessService.GetMenuItemByName(menuItemName);
                         var portionName = x.Value.GetAsString("PortionName");
                         var quantity = x.Value.GetAsDecimal("Quantity");
-                        var gifted = x.Value.GetAsBoolean("Gift");
                         var tag = x.Value.GetAsString("Tag");
 
-                        var ti = ticket.AddTicketItem(AppServices.CurrentLoggedInUser.Id, menuItem, portionName,
-                                 AppServices.MainDataContext.SelectedDepartment.PriceTag, "");
+                        var ti = ticket.AddOrder(AppServices.CurrentLoggedInUser.Id, menuItem, portionName,
+                                 AppServices.MainDataContext.SelectedDepartment.PriceTag);
 
                         ti.Quantity = quantity;
-                        ti.Gifted = gifted;
                         ti.Tag = tag;
 
                         TicketViewModel.RecalculateTicket(ticket);
 
                         EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
-                    }
-                }
-
-                if (x.Value.Action.ActionType == "VoidTicketItems")
-                {
-                    var ticket = x.Value.GetDataValue<Ticket>("Ticket");
-                    if (ticket != null)
-                    {
-                        var menuItemName = x.Value.GetAsString("MenuItemName");
-                        var tag = x.Value.GetAsString("Tag");
-                        if (!string.IsNullOrEmpty(menuItemName) && !string.IsNullOrEmpty(tag))
-                        {
-                            var lines = ticket.TicketItems.Where(y => !y.Voided &&
-                                (string.IsNullOrEmpty(menuItemName) || y.MenuItemName.Contains(menuItemName)) &&
-                                (y.Tag.Contains(tag) || string.IsNullOrEmpty(tag))).ToList();
-                            lines.ForEach(y => ticket.VoidItem(y, 0, AppServices.CurrentLoggedInUser.Id));
-                            TicketViewModel.RecalculateTicket(ticket);
-                            EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
-                        }
                     }
                 }
 

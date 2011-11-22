@@ -57,8 +57,6 @@
                                          Binding="{Binding Path=Multiplier,StringFormat='#,##.##'}" />
                                 <DataGridTextColumn Header="{LocText Price}"
                                          Binding="{Binding Path=Price,StringFormat='#,#0.00'}" CellStyle="{StaticResource RightAlignedCellStyle}" />
-                                <DataGridTextColumn Header="{LocText PB}" MinWidth="10"
-                                         Binding="{Binding CurrencyCode}" />
                             </DataGrid.Columns>
                             <DataGrid.ContextMenu>
                                 <ContextMenu>
@@ -76,37 +74,6 @@
                             <TextBlock Margin="2,3">
                                     <Hyperlink Command="{Binding DeletePortionCommand}">
                                         <TextBlock Text="{Binding Path=DeletePortionCommand.Caption}" />
-                                    </Hyperlink>
-                                </TextBlock>
-                        </StackPanel>
-                    </StackPanel>
-                </GroupBox>
-                <GroupBox Header="{LocText PropertyGroups}"
-                         Padding="5" Margin="5">
-                    <StackPanel Orientation="Horizontal">
-                        <DataGrid ItemsSource="{Binding PropertyGroups}" SelectedItem="{Binding SelectedProperty, Mode=TwoWay}"
-                                 HorizontalAlignment="Left" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
-                                 AutoGenerateColumns="False" CanUserSortColumns="False" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="{LocText PropertyGroup}"
-                                         MinWidth="100" Binding="{Binding Name}" />
-                            </DataGrid.Columns>
-                            <DataGrid.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Command="{Binding AddPropertyGroupCommand}" Header="{Binding AddPropertyGroupCommand.Caption}" />
-                                    <MenuItem Command="{Binding DeletePropertyGroupCommand}" Header="{Binding DeletePropertyGroupCommand.Caption}" />
-                                </ContextMenu>
-                            </DataGrid.ContextMenu>
-                        </DataGrid>
-                        <StackPanel Margin="10">
-                            <TextBlock Margin="2,3">
-                                    <Hyperlink Command="{Binding AddPropertyGroupCommand}">
-                                        <TextBlock Text="{Binding Path=AddPropertyGroupCommand.Caption}" />
-                                    </Hyperlink>
-                                </TextBlock>
-                            <TextBlock Margin="2,3">
-                                    <Hyperlink Command="{Binding DeletePropertyGroupCommand}">
-                                        <TextBlock Text="{Binding Path=DeletePropertyGroupCommand.Caption}" />
                                     </Hyperlink>
                                 </TextBlock>
                         </StackPanel>

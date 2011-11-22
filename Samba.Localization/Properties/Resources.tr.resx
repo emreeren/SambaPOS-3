@@ -594,9 +594,6 @@ Yap</value>
   <data name="DeleteErrorProductUsedInReceipt" xml:space="preserve">
     <value>Bu ürün bir reçetede kullanılmakta olduğu için silinemez.</value>
   </data>
-  <data name="DeleteErrorProductPropertyUsedInProduct" xml:space="preserve">
-    <value>Bu özellik grubu bir üründe kullanılmakta olduğu için silinemez.</value>
-  </data>
   <data name="PropertyGroupName" xml:space="preserve">
     <value>Özellik Grubu Adı</value>
     <comment>Label content</comment>
@@ -1040,10 +1037,6 @@ Yap</value>
     <value>#Satır: Sipariş Numarası</value>
     <comment>Paragraph content</comment>
   </data>
-  <data name="LineGiftOrVoidReason" xml:space="preserve">
-    <value>#Satır: İade veya İkram Nedeni</value>
-    <comment>Paragraph content</comment>
-  </data>
   <data name="TicketTotal" xml:space="preserve">
     <value>Belge Toplamı</value>
     <comment>Paragraph content</comment>
@@ -1238,12 +1231,6 @@ Yap</value>
   </data>
   <data name="PrinterTemplates" xml:space="preserve">
     <value>Yazıcı Şablonları</value>
-  </data>
-  <data name="VoidReasons" xml:space="preserve">
-    <value>İade Nedenleri</value>
-  </data>
-  <data name="GiftReasons" xml:space="preserve">
-    <value>İkram Nedenleri</value>
   </data>
   <data name="SambaPosWebsite" xml:space="preserve">
     <value>SambaPOS Websitesi</value>
@@ -2209,9 +2196,6 @@ Masa: {2}</value>
   <data name="TF_LineItemTotalWithoutGifts" xml:space="preserve">
     <value>{HAREKET TOPLAM}</value>
   </data>
-  <data name="TF_LineGiftOrVoidReason" xml:space="preserve">
-    <value>{NEDEN}</value>
-  </data>
   <data name="TF_LineItemPriceCents" xml:space="preserve">
     <value>{YKR}</value>
   </data>
@@ -2626,8 +2610,8 @@ Masa: {2}</value>
   <data name="AddTicketDiscount" xml:space="preserve">
     <value>Adisyona iskonto ekle</value>
   </data>
-  <data name="AddTicketItem" xml:space="preserve">
-    <value>Adisyona ürün ekle</value>
+  <data name="AddOrder" xml:space="preserve">
+    <value>Adisyona sipariş ekle</value>
   </data>
   <data name="UpdateTicketTag" xml:space="preserve">
     <value>Adisyon etiketini güncelle</value>
@@ -2701,8 +2685,8 @@ Alacaklandır</value>
     <value>Hesabı
 Borçlandır</value>
   </data>
-  <data name="VoidTicketItems" xml:space="preserve">
-    <value>Adisyon satırlarını iptal et</value>
+  <data name="VoidOrders" xml:space="preserve">
+    <value>Adisyon siparişlerini iptal et</value>
   </data>
   <data name="SaveErrorMultipleDefaultTerminals" xml:space="preserve">
     <value>Birden fazla varsayılan terminal tanımlamayınız.</value>
@@ -3006,20 +2990,20 @@ Bilgi eklemeden devam etmek istiyor musunuz?]]>
     <value>Lütfen, bu hataya neden olan işleminiz ile ilgili kısaca bilgi veriniz</value>
     <comment>TextBlock.Text</comment>
   </data>
-  <data name="Modifier" xml:space="preserve">
-    <value>Özellik</value>
+  <data name="OrderTag" xml:space="preserve">
+    <value>Sipariş Etiketi</value>
   </data>
-  <data name="ModifierGroup" xml:space="preserve">
-    <value>Özellik Grubu</value>
+  <data name="OrderTagGroup" xml:space="preserve">
+    <value>Sipariş Etiketi Grubu</value>
   </data>
-  <data name="ModifierGroupName" xml:space="preserve">
-    <value>Özellik Grubu Adı</value>
+  <data name="OrderTagGroupName" xml:space="preserve">
+    <value>Sipariş Etiketi Grubu Adı</value>
   </data>
-  <data name="ModifierGroups" xml:space="preserve">
-    <value>Özellik Grupları</value>
+  <data name="OrderTagGroups" xml:space="preserve">
+    <value>Sipariş Etiketi Grupları</value>
   </data>
-  <data name="Modifiers" xml:space="preserve">
-    <value>Özellikler</value>
+  <data name="OrderTags" xml:space="preserve">
+    <value>Sipariş Etiketleri</value>
   </data>
   <data name="APortionShouldSelected">
     <value xml:space="preserve">Bir porsiyon seçilmeli</value>
@@ -3041,5 +3025,9 @@ Bilgi eklemeden devam etmek istiyor musunuz?]]>
   </data>
   <data name="TaggingType">
     <value xml:space="preserve">Etiket Tipi</value>
+  </data>
+	<data name="OrderTagMapping" xml:space="preserve">
+    <value>Sipariş Etiketi Yönlendirmeleri</value>
+    <comment>Label content</comment>
   </data>
 </root>

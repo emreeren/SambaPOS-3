@@ -62,12 +62,6 @@
     </Compile>
     <Compile Include="MenuItemPriceDefinitionViewModel.cs" />
     <Compile Include="MenuItemPriceViewModel.cs" />
-    <Compile Include="MenuItemPropertyGroupListViewModel.cs" />
-    <Compile Include="MenuItemPropertyGroupView.xaml.cs">
-      <DependentUpon>MenuItemPropertyGroupView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MenuItemPropertyGroupViewModel.cs" />
-    <Compile Include="MenuItemPropertyViewModel.cs" />
     <Compile Include="MenuItemView.xaml.cs">
       <DependentUpon>MenuItemView.xaml</DependentUpon>
     </Compile>
@@ -102,11 +96,6 @@
       <DependentUpon>TaxTemplateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TaxTemplateViewModel.cs" />
-    <Compile Include="TicketTagGroupListViewModel.cs" />
-    <Compile Include="TicketTagGroupView.xaml.cs">
-      <DependentUpon>TicketTagGroupView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TicketTagGroupViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lib\DataGridFilterLibrary\DataGridFilterLibrary.csproj">
@@ -133,6 +122,10 @@
       <Project>{406B96A6-C886-4149-AD88-A2402EDB2B90}</Project>
       <Name>Samba.Localization</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.TicketModule\Samba.Modules.TicketModule.csproj">
+      <Project>{9E6FF3D9-BAE7-4E48-B144-0859BE28C570}</Project>
+      <Name>Samba.Modules.TicketModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samba.Persistance.Data\Samba.Persistance.Data.csproj">
       <Project>{FEDA2199-91CD-4AF1-B571-4AA2E8371A18}</Project>
       <Name>Samba.Persistance.Data</Name>
@@ -152,10 +145,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="MenuItemPriceDefinitionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MenuItemPropertyGroupView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -180,10 +169,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="TaxTemplateView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="TicketTagGroupView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

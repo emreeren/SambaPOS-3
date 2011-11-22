@@ -30,14 +30,17 @@ namespace Samba.Modules.TicketModule
             _regionManager = regionManager;
             _ticketEditorView = ticketEditorView;
 
+            AddDashboardCommand<OrderTagGroupListViewModel>(Resources.OrderTags, Resources.Settings,10);
+            AddDashboardCommand<TicketTagGroupListViewModel>(Resources.TicketTags, Resources.Settings, 10);
+
             PermissionRegistry.RegisterPermission(PermissionNames.AddItemsToLockedTickets, PermissionCategories.Ticket, Resources.CanReleaseTicketLock);
             PermissionRegistry.RegisterPermission(PermissionNames.RemoveTicketTag, PermissionCategories.Ticket, Resources.CanRemoveTicketTag);
             PermissionRegistry.RegisterPermission(PermissionNames.GiftItems, PermissionCategories.Ticket, Resources.CanGiftItems);
             PermissionRegistry.RegisterPermission(PermissionNames.VoidItems, PermissionCategories.Ticket, Resources.CanVoidItems);
-            PermissionRegistry.RegisterPermission(PermissionNames.MoveTicketItems, PermissionCategories.Ticket, Resources.CanMoveTicketLines);
+            PermissionRegistry.RegisterPermission(PermissionNames.MoveOrders, PermissionCategories.Ticket, Resources.CanMoveTicketLines);
             PermissionRegistry.RegisterPermission(PermissionNames.MergeTickets, PermissionCategories.Ticket, Resources.CanMergeTickets);
             PermissionRegistry.RegisterPermission(PermissionNames.DisplayOldTickets, PermissionCategories.Ticket, Resources.CanDisplayOldTickets);
-            PermissionRegistry.RegisterPermission(PermissionNames.MoveUnlockedTicketItems, PermissionCategories.Ticket, Resources.CanMoveUnlockedTicketLines);
+            PermissionRegistry.RegisterPermission(PermissionNames.MoveUnlockedOrders, PermissionCategories.Ticket, Resources.CanMoveUnlockedTicketLines);
             PermissionRegistry.RegisterPermission(PermissionNames.ChangeExtraProperty, PermissionCategories.Ticket, Resources.CanUpdateExtraModifiers);
 
             PermissionRegistry.RegisterPermission(PermissionNames.MakePayment, PermissionCategories.Payment, Resources.CanGetPayment);
@@ -76,7 +79,7 @@ namespace Samba.Modules.TicketModule
                                 AppServices.ResetCache();
                                 var endDate = AppServices.MainDataContext.LastTwoWorkPeriods.Last().EndDate;
                                 var startDate = endDate.AddDays(-7);
-                                vr.Queryable<TicketItem>()
+                                vr.Queryable<Order>()
                                     .Where(y => y.CreatedDateTime >= startDate && y.CreatedDateTime < endDate)
                                     .GroupBy(y => y.MenuItemId)
                                     .ToList().ForEach(

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Threading;
@@ -180,6 +179,10 @@ html
                     File.Create(UserSettingsFileName).Close();
                     SaveSettings();
                 }
+            }
+            catch(IOException)
+            {
+                return;
             }
         }
 

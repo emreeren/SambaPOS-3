@@ -89,7 +89,7 @@ namespace Samba.Services.Printing
 
     public static class TicketFormatter
     {
-        public static string[] GetFormattedTicket(Ticket ticket, IEnumerable<TicketItem> lines, PrinterTemplate template)
+        public static string[] GetFormattedTicket(Ticket ticket, IEnumerable<Order> lines, PrinterTemplate template)
         {
             if (template.MergeLines) lines = MergeLines(lines);
             var orderNo = lines.Count() > 0 ? lines.ElementAt(0).OrderNumber : 0;
@@ -105,31 +105,28 @@ namespace Samba.Services.Printing
             return result.ToArray();
         }
 
-        private static IEnumerable<TicketItem> MergeLines(IEnumerable<TicketItem> lines)
+        private static IEnumerable<Order> MergeLines(IEnumerable<Order> lines)
         {
-            var group = lines.Where(x => x.Properties.Count == 0).GroupBy(x => new
+            var group = lines.Where(x => x.OrderTagValues.Count == 0).GroupBy(x => new
                                                 {
                                                     x.MenuItemId,
                                                     x.MenuItemName,
-                                                    x.Voided,
-                                                    x.Gifted,
+                                                    x.CalculatePrice,
+                                                    DecreaseFromInventory = x.DecreaseInventory,
                                                     x.Price,
                                                     x.TaxAmount,
                                                     x.TaxTemplateId,
                                                     x.TaxIncluded,
                                                     x.PortionName,
-                                                    x.PortionCount,
-                                                    x.ReasonId,
-                                                    x.CurrencyCode
+                                                    x.PortionCount
                                                 });
 
-            var result = group.Select(x => new TicketItem
+            var result = group.Select(x => new Order
                                     {
                                         MenuItemId = x.Key.MenuItemId,
                                         MenuItemName = x.Key.MenuItemName,
-                                        ReasonId = x.Key.ReasonId,
-                                        Voided = x.Key.Voided,
-                                        Gifted = x.Key.Gifted,
+                                        CalculatePrice = x.Key.CalculatePrice,
+                                        DecreaseInventory = x.Key.DecreaseFromInventory,
                                         Price = x.Key.Price,
                                         TaxAmount = x.Key.TaxAmount,
                                         TaxTemplateId = x.Key.TaxTemplateId,
@@ -140,11 +137,10 @@ namespace Samba.Services.Printing
                                         TicketId = x.Last().TicketId,
                                         PortionName = x.Key.PortionName,
                                         PortionCount = x.Key.PortionCount,
-                                        CurrencyCode = x.Key.CurrencyCode,
                                         Quantity = x.Sum(y => y.Quantity)
                                     });
 
-            result = result.Union(lines.Where(x => x.Properties.Count > 0)).OrderBy(x => x.CreatedDateTime);
+            result = result.Union(lines.Where(x => x.OrderTagValues.Count > 0)).OrderBy(x => x.CreatedDateTime);
 
             return result;
         }
@@ -211,7 +207,6 @@ namespace Samba.Services.Printing
             var remaining = ticket.GetRemainingAmount();
             var discount = ticket.GetDiscountAndRoundingTotal();
             var plainTotal = ticket.GetPlainSum();
-            var giftAmount = ticket.GetTotalGiftAmount();
             var taxAmount = ticket.CalculateTax();
             var servicesTotal = ticket.GetServicesTotal();
 
@@ -219,7 +214,7 @@ namespace Samba.Services.Printing
             result = FormatDataIf(discount > 0, result, "{DISCOUNT TOTAL}", () => discount.ToString("#,#0.00"));
             result = FormatDataIf(taxAmount > 0, result, "{TAX TOTAL}", () => taxAmount.ToString("#,#0.00"));
             result = FormatDataIf(taxAmount > 0, result, "{SERVICE TOTAL}", () => servicesTotal.ToString("#,#0.00"));
-            result = FormatDataIf(taxAmount > 0, result, "{TAX DETAILS}", () => GetTaxDetails(ticket.TicketItems, plainTotal, discount));
+            result = FormatDataIf(taxAmount > 0, result, "{TAX DETAILS}", () => GetTaxDetails(ticket.Orders, plainTotal, discount));
             result = FormatDataIf(servicesTotal > 0, result, "{SERVICE DETAILS}", () => GetServiceDetails(ticket));
 
             result = FormatDataIf(payment > 0, result, Resources.TF_RemainingAmountIfPaid,
@@ -228,7 +223,6 @@ namespace Samba.Services.Printing
             result = FormatDataIf(discount > 0, result, Resources.TF_DiscountTotalAndTicketTotal,
                 () => string.Format(Resources.DiscountTotalAndTicketTotalValue_f, (plainTotal).ToString("#,#0.00"), discount.ToString("#,#0.00")));
 
-            result = FormatDataIf(giftAmount > 0, result, Resources.TF_GiftTotal, () => giftAmount.ToString("#,#0.00"));
             result = FormatDataIf(discount < 0, result, Resources.TF_IfFlatten, () => string.Format(Resources.IfNegativeDiscountValue_f, discount.ToString("#,#0.00")));
 
             result = FormatData(result, Resources.TF_TicketTotal, () => ticket.GetSum().ToString("#,#0.00"));
@@ -260,10 +254,10 @@ namespace Samba.Services.Printing
             return string.Join("\r", sb);
         }
 
-        private static string GetTaxDetails(IEnumerable<TicketItem> ticketItems, decimal plainSum, decimal discount)
+        private static string GetTaxDetails(IEnumerable<Order> orders, decimal plainSum, decimal discount)
         {
             var sb = new StringBuilder();
-            var groups = ticketItems.Where(x => x.TaxTemplateId > 0).GroupBy(x => x.TaxTemplateId);
+            var groups = orders.Where(x => x.TaxTemplateId > 0).GroupBy(x => x.TaxTemplateId);
             foreach (var @group in groups)
             {
                 var iGroup = @group;
@@ -304,62 +298,41 @@ namespace Samba.Services.Printing
             return data.Replace(tagData.DataString, "");
         }
 
-        private static string FormatLines(PrinterTemplate template, TicketItem ticketItem)
+        private static string FormatLines(PrinterTemplate template, Order order)
         {
-            if (ticketItem.Gifted)
-            {
-                if (!string.IsNullOrEmpty(template.GiftLineTemplate))
-                {
-                    return template.GiftLineTemplate.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
-                        .Aggregate("", (current, s) => current + ReplaceLineVars(s, ticketItem));
-                }
-                return "";
-            }
-
-            if (ticketItem.Voided)
-            {
-                if (!string.IsNullOrEmpty(template.VoidedLineTemplate))
-                {
-                    return template.VoidedLineTemplate.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
-                        .Aggregate("", (current, s) => current + ReplaceLineVars(s, ticketItem));
-                }
-                return "";
-            }
-
             if (!string.IsNullOrEmpty(template.LineTemplate))
                 return template.LineTemplate.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
-                    .Aggregate("", (current, s) => current + ReplaceLineVars(s, ticketItem));
+                    .Aggregate("", (current, s) => current + ReplaceLineVars(s, order));
             return "";
         }
 
-        private static string ReplaceLineVars(string line, TicketItem ticketItem)
+        private static string ReplaceLineVars(string line, Order order)
         {
             string result = line;
 
-            if (ticketItem != null)
+            if (order != null)
             {
-                result = FormatData(result, Resources.TF_LineItemQuantity, () => ticketItem.Quantity.ToString("#,#0.##"));
-                result = FormatData(result, Resources.TF_LineItemName, () => ticketItem.MenuItemName + ticketItem.GetPortionDesc());
-                result = FormatData(result, Resources.TF_LineItemPrice, () => ticketItem.Price.ToString("#,#0.00"));
-                result = FormatData(result, Resources.TF_LineItemTotal, () => ticketItem.GetItemPrice().ToString("#,#0.00"));
-                result = FormatData(result, Resources.TF_LineItemTotalAndQuantity, () => ticketItem.GetItemValue().ToString("#,#0.00"));
-                result = FormatData(result, Resources.TF_LineItemPriceCents, () => (ticketItem.Price * 100).ToString("#,##"));
-                result = FormatData(result, Resources.TF_LineItemTotalWithoutGifts, () => ticketItem.GetTotal().ToString("#,#0.00"));
-                result = FormatData(result, Resources.TF_LineOrderNumber, () => ticketItem.OrderNumber.ToString());
-                result = FormatData(result, Resources.TF_LineGiftOrVoidReason, () => AppServices.MainDataContext.GetReason(ticketItem.ReasonId));
-                result = FormatData(result, "{PRICE TAG}", () => ticketItem.PriceTag);
+                result = FormatData(result, Resources.TF_LineItemQuantity, () => order.Quantity.ToString("#,#0.##"));
+                result = FormatData(result, Resources.TF_LineItemName, () => order.MenuItemName + order.GetPortionDesc());
+                result = FormatData(result, Resources.TF_LineItemPrice, () => order.Price.ToString("#,#0.00"));
+                result = FormatData(result, Resources.TF_LineItemTotal, () => order.GetItemPrice().ToString("#,#0.00"));
+                result = FormatData(result, Resources.TF_LineItemTotalAndQuantity, () => order.GetItemValue().ToString("#,#0.00"));
+                result = FormatData(result, Resources.TF_LineItemPriceCents, () => (order.Price * 100).ToString("#,##"));
+                result = FormatData(result, Resources.TF_LineItemTotalWithoutGifts, () => order.GetTotal().ToString("#,#0.00"));
+                result = FormatData(result, Resources.TF_LineOrderNumber, () => order.OrderNumber.ToString());
+                result = FormatData(result, "{PRICE TAG}", () => order.PriceTag);
                 if (result.Contains(Resources.TF_LineItemDetails.Substring(0, Resources.TF_LineItemDetails.Length - 1)))
                 {
                     string lineFormat = result;
-                    if (ticketItem.Properties.Count > 0)
+                    if (order.OrderTagValues.Count > 0)
                     {
                         string label = "";
-                        foreach (var property in ticketItem.Properties)
+                        foreach (var property in order.OrderTagValues)
                         {
                             var itemProperty = property;
                             var lineValue = FormatData(lineFormat, Resources.TF_LineItemDetails, () => itemProperty.Name);
                             lineValue = FormatData(lineValue, Resources.TF_LineItemDetailQuantity, () => itemProperty.Quantity.ToString("#.##"));
-                            lineValue = FormatData(lineValue, Resources.TF_LineItemDetailPrice, () => itemProperty.CalculateWithParentPrice ? "" : itemProperty.Price.ToString("#,#0.00"));
+                            lineValue = FormatData(lineValue, Resources.TF_LineItemDetailPrice, () => itemProperty.AddTagPriceToOrderPrice ? "" : itemProperty.Price.ToString("#,#0.00"));
                             label += lineValue + "\r\n";
                         }
                         result = "\r\n" + label;

@@ -121,7 +121,7 @@ namespace Samba.Modules.TicketModule
             {
                 if (AppServices.MainDataContext.SelectedTicket != null)
                     AppServices.MainDataContext.CloseTicket();
-                AppServices.MainDataContext.OpenTicketFromTicketNumber(SelectedRow.TicketNumber);
+                AppServices.MainDataContext.OpenTicket(SelectedRow.Id);
                 if (AppServices.MainDataContext.SelectedTicket != null)
                     EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
                 CommandManager.InvalidateRequerySuggested();

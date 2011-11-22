@@ -19,7 +19,7 @@ namespace Samba.Modules.TicketModule
             TicketListViewModel = new TicketListViewModel();
             MenuItemSelectorViewModel = new MenuItemSelectorViewModel(TicketListViewModel.AddMenuItemCommand);
             PaymentViewModel = new PaymentEditorViewModel();
-            SelectedTicketItemsViewModel = new SelectedTicketItemsViewModel();
+            SelectedOrdersViewModel = new SelectedOrdersViewModel();
             TicketExplorerViewModel = new TicketExplorerViewModel();
             DisplayCategoriesScreen();
 
@@ -43,7 +43,7 @@ namespace Samba.Modules.TicketModule
         public MenuItemSelectorViewModel MenuItemSelectorViewModel { get; set; }
         public TicketListViewModel TicketListViewModel { get; set; }
         public PaymentEditorViewModel PaymentViewModel { get; set; }
-        public SelectedTicketItemsViewModel SelectedTicketItemsViewModel { get; set; }
+        public SelectedOrdersViewModel SelectedOrdersViewModel { get; set; }
         public TicketExplorerViewModel TicketExplorerViewModel { get; set; }
 
         private int _selectedView;
@@ -85,17 +85,16 @@ namespace Samba.Modules.TicketModule
 
         private void OnTicketViewModelEvent(EventParameters<TicketViewModel> obj)
         {
-            if (obj.Topic == EventTopicNames.SelectedItemsChanged)
+            if (obj.Topic == EventTopicNames.SelectedOrdersChanged)
             {
-                if (SelectedTicketItemsViewModel.ShouldDisplay(obj.Value))
+                if (SelectedOrdersViewModel.ShouldDisplay(obj.Value))
                     DisplayTicketDetailsScreen();
                 else DisplayCategoriesScreen();
             }
 
-            if (obj.Topic == EventTopicNames.SelectVoidReason
-                || obj.Topic == EventTopicNames.SelectGiftReason
-                || obj.Topic == EventTopicNames.SelectExtraProperty
+            if (obj.Topic == EventTopicNames.SelectExtraProperty
                 || obj.Topic == EventTopicNames.SelectTicketTag
+                || obj.Topic == EventTopicNames.SelectOrderTag
                 || obj.Topic == EventTopicNames.EditTicketNote)
             {
                 DisplayTicketDetailsScreen();
@@ -120,7 +119,7 @@ namespace Samba.Modules.TicketModule
 
         private void DisplayCategoriesScreen()
         {
-            DisplayTicketItemsScreen();
+            DisplayOrdersScreen();
         }
 
         private void DisplayPaymentScreen()
@@ -128,7 +127,7 @@ namespace Samba.Modules.TicketModule
             SelectedView = 1;
         }
 
-        public void DisplayTicketItemsScreen()
+        public void DisplayOrdersScreen()
         {
             SelectedView = 0;
             SelectedSubView = 0;

@@ -89,11 +89,6 @@
       <DependentUpon>WorkPeriodsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="WorkPeriods\WorkPeriodsViewModel.cs" />
-    <Compile Include="GiftReasonListViewModel.cs" />
-    <Compile Include="GiftReasonView.xaml.cs">
-      <DependentUpon>GiftReasonView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="GiftReasonViewModel.cs" />
     <Compile Include="NumeratorListViewModel.cs" />
     <Compile Include="NumeratorView.xaml.cs">
       <DependentUpon>NumeratorView.xaml</DependentUpon>
@@ -121,11 +116,6 @@
       <DependentUpon>TerminalView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TerminalViewModel.cs" />
-    <Compile Include="VoidReasonListViewModel.cs" />
-    <Compile Include="VoidReasonView.xaml.cs">
-      <DependentUpon>VoidReasonView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="VoidReasonViewModel.cs" />
     <Compile Include="WorkPeriods\WorkPeriodViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -195,10 +185,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GiftReasonView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="NumeratorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -218,10 +204,6 @@
     <Page Include="TerminalView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="VoidReasonView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

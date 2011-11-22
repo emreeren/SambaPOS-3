@@ -88,6 +88,13 @@
       <DependentUpon>MenuItemSelectorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MenuItemSelectorViewModel.cs" />
+    <Compile Include="OrderTagGroupListViewModel.cs" />
+    <Compile Include="OrderTagGroupView.xaml.cs">
+      <DependentUpon>OrderTagGroupView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OrderTagGroupViewModel.cs" />
+    <Compile Include="OrderTagMapViewModel.cs" />
+    <Compile Include="OrderTagViewModel.cs" />
     <Compile Include="PaymentEditorView.xaml.cs">
       <DependentUpon>PaymentEditorView.xaml</DependentUpon>
     </Compile>
@@ -95,10 +102,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScreenMenuItemData.cs" />
     <Compile Include="SearchData.cs" />
-    <Compile Include="SelectedTicketItemsView.xaml.cs">
-      <DependentUpon>SelectedTicketItemsView.xaml</DependentUpon>
+    <Compile Include="SelectedOrdersView.xaml.cs">
+      <DependentUpon>SelectedOrdersView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SelectedTicketItemsViewModel.cs" />
+    <Compile Include="SelectedOrdersViewModel.cs" />
     <Compile Include="TicketExplorerFilter.cs" />
     <Compile Include="TicketExplorerRowViewModel.cs" />
     <Compile Include="TicketExplorerView.xaml.cs">
@@ -114,6 +121,11 @@
       <DependentUpon>TicketEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TicketEditorViewModel.cs" />
+    <Compile Include="TicketTagGroupListViewModel.cs" />
+    <Compile Include="TicketTagGroupView.xaml.cs">
+      <DependentUpon>TicketTagGroupView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TicketTagGroupViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="DepartmentButtonView.xaml">
@@ -124,11 +136,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="OrderTagGroupView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="PaymentEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SelectedTicketItemsView.xaml">
+    <Page Include="SelectedOrdersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -144,11 +160,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="TicketTagGroupView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lib\FlexButton\FlexButton.csproj">
       <Project>{434D497A-D439-44C8-84A5-5301B572708F}</Project>
       <Name>FlexButton</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lib\PropertyTools.Wpf\PropertyTools.Wpf.csproj">
+      <Project>{7168F82F-288A-42C4-9EB1-FBBE5112F211}</Project>
+      <Name>PropertyTools.Wpf</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">
       <Project>{2386F6A0-91B2-4D1A-8DBC-92109924AFFE}</Project>

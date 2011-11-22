@@ -1,0 +1,37 @@
+﻿#snídaně
+bageta se salámem 20
+Bageta se sýrem a zeleninou 25
+Toast s marmeládou 15
+Vejce se slaninou sýrem 20
+#polévka
+Polévka porková 25
+Česneková polévka 25
+Francouzská polévka 28
+#předkrmy
+Carpaccio 60
+Mozarela s rajčatama 50
+#Sendviče
+Sendvič s vejcem 35
+Sendvič se slaninou 40
+#Saláty
+zahradní 80
+Kuřecí 85
+Caesar 90
+Řecký salát 95
+Těstovinový salát 89
+#dezerty
+vdolky 50
+Skořicové válečky 65
+Čajové pečivo 20
+Ovoce dánské 25
+Cookies 15
+Rýžový nákyp 40
+Karamelový pohár 39
+Čokoláda pohár 40
+#Nápoje
+káva 25
+čaj 15
+Bylinný čaj 18
+Limo 15
+Juice 25
+Ledový čaj 25

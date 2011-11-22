@@ -1,0 +1,180 @@
+﻿<UserControl x:Class="Samba.Modules.TicketModule.SelectedOrdersView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:FxButton="clr-namespace:FlexButton;assembly=FlexButton" xmlns:Common="clr-namespace:Samba.Presentation.Common;assembly=Samba.Presentation.Common" mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style TargetType="GroupBox">
+            <Style.Resources>
+                <ResourceDictionary />
+            </Style.Resources>
+            <Setter Property="Border.BorderBrush" Value="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" />
+            <Setter Property="Border.BorderThickness" Value="1" />
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="GroupBox">
+                        <Grid SnapsToDevicePixels="True">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="5" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="5" />
+                            </Grid.RowDefinitions>
+                            <Border CornerRadius="4,4,4,4" BorderBrush="Transparent" OpacityMask="{x:Null}" Grid.Row="1"
+                                 Grid.ColumnSpan="4" Grid.RowSpan="3">
+                                <Border BorderThickness="{TemplateBinding Border.BorderThickness}" CornerRadius="3,3,3,3"
+                                     BorderBrush="{TemplateBinding Border.BorderBrush}">
+                                    <Border BorderThickness="{TemplateBinding Border.BorderThickness}" CornerRadius="2,2,2,2"
+                                         BorderBrush="Transparent" />
+                                </Border>
+                            </Border>
+                            <Border Padding="3,1,3,0" x:Name="Header" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2"
+                                 Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" CornerRadius="2"
+                                 BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}">
+                                <ContentPresenter RecognizesAccessKey="True" Content="{TemplateBinding Header}" ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                     ContentStringFormat="{TemplateBinding HeaderStringFormat}" ContentSource="Header"
+                                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Margin="0,0,0,2" />
+                            </Border>
+                            <Border BorderThickness="{TemplateBinding Border.BorderThickness}" CornerRadius="4,4,4,4"
+                                 BorderBrush="#00FFFFFF" Background="{TemplateBinding Panel.Background}" Grid.Column="0"
+                                 Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="3" />
+                            <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"
+                                 ContentStringFormat="{TemplateBinding ContentStringFormat}" Margin="{TemplateBinding Padding}"
+                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Grid.Column="1" Grid.Row="2"
+                                 Grid.ColumnSpan="2" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <GroupBox Grid.Row="0" Margin="5" Header="{LocText Tag}"
+             Visibility="{Binding IsFreeTagEditorVisible,Converter={StaticResource VisibilityConverter}}"
+             IsVisibleChanged="GroupBox_IsVisibleChanged_2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <Common:FilteredTextBox Name="FreeTag" Type="{Binding FilteredTextBoxType}" FontSize="18" Text="{Binding FreeTag,UpdateSourceTrigger=PropertyChanged}"
+                     HorizontalAlignment="Stretch" />
+                <FxButton:FlexButton Grid.Column="1" Margin="5,0" Command="{Binding UpdateFreeTagCommand}"
+                     Content="{Binding UpdateFreeTagCommand.Caption}">
+                </FxButton:FlexButton>
+            </Grid>
+        </GroupBox>
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding TicketTags}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <FxButton:FlexButton MaxHeight="65" Margin="5" Content="{Binding Display}" CommandParameter="{Binding}"
+                         Command="{Binding DataContext.SelectTicketTagCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ItemsControl}}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="{Binding TagColumnCount}" VerticalAlignment="Top">
+                    </UniformGrid>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding OrderTags}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <FxButton:FlexButton MaxHeight="65" Margin="5" Content="{Binding Name}" CommandParameter="{Binding}"
+                         Command="{Binding DataContext.OrderTagSelectedCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ItemsControl}}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="{Binding OrderTagColumnCount}" VerticalAlignment="Top">
+                    </UniformGrid>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+        <GroupBox Grid.Row="0" Header="{LocText Portions}"
+             FontWeight="Bold" FontSize="14" Visibility="{Binding IsPortionsVisible,Converter={StaticResource VisibilityConverter}}">
+            <ItemsControl ItemsSource="{Binding SelectedItemPortions}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="5" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <FxButton:FlexButton Margin="0,5,5,0" Height="60" Command="{Binding DataContext.PortionSelectedCommand, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ItemsControl}}}"
+                             CommandParameter="{Binding}">
+                            <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="{Binding Name}" />
+                        </FxButton:FlexButton>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </GroupBox>
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding OrderTagGroups}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <GroupBox Header="{Binding Name}" Margin="5" FontWeight="Bold" FontSize="14">
+                        <ItemsControl ItemsSource="{Binding OrderTags}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="{Binding ColumnCount}" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <FxButton:FlexButton Margin="0,5,5,0" Height="{Binding DataContext.ButtonHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
+                                         Command="{Binding DataContext.OrderTagSelectedCommand, 
+                                         RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=2, AncestorType={x:Type ItemsControl}}}"
+                                         CommandParameter="{Binding}">
+                                        <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="{Binding Name}" />
+                                    </FxButton:FlexButton>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </GroupBox>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <GroupBox Grid.Row="0" Margin="5" Header="{LocText ExtraModifiers}"
+             FontSize="14" Visibility="{Binding IsExtraPropertyEditorVisible,Converter={StaticResource VisibilityConverter}}"
+             IsVisibleChanged="GroupBox_IsVisibleChanged">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel MinWidth="150" Margin="3">
+                    <TextBlock MinWidth="60" Text="{LocText Description, Suffix=':'}">
+                    </TextBlock>
+                    <TextBox FontSize="18" Name="ExtraPropertyName" Text="{Binding SelectedItem.CustomPropertyName}">
+                    </TextBox>
+                </StackPanel>
+                <StackPanel MinWidth="100" Margin="3">
+                    <TextBlock MinWidth="60" Text="{LocText Price,Suffix=':'}">
+                    </TextBlock>
+                    <TextBox FontSize="18" Text="{Binding SelectedItem.CustomPropertyPrice}">
+                    </TextBox>
+                </StackPanel>
+                <StackPanel MinWidth="50" Margin="3">
+                    <TextBlock MinWidth="60">
+                    </TextBlock>
+                    <FxButton:FlexButton FontSize="18" Content="{Binding UpdateExtraPropertiesCommand.Caption}"
+                         Command="{Binding UpdateExtraPropertiesCommand}" />
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Margin="5" Header="{LocText TicketNote}"
+             Visibility="{Binding IsTicketNoteEditorVisible,Converter={StaticResource VisibilityConverter}}"
+             IsVisibleChanged="GroupBox_IsVisibleChanged_1">
+            <TextBox Name="TicketNote" FontSize="18" MinHeight="60" AcceptsReturn="True" TextWrapping="Wrap"
+                 Text="{Binding SelectedTicket.Note}" />
+        </GroupBox>
+        <FxButton:FlexButton VerticalAlignment="Bottom" Grid.Row="2" Margin="3" Height="60"
+             Content="{Binding CloseCommand.Caption}" Command="{Binding CloseCommand}" ButtonColor="Red" />
+    </Grid>
+</UserControl>

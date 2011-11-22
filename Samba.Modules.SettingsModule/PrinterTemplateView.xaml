@@ -30,16 +30,6 @@
                 <TextBox Text="{Binding LineTemplate}" MinWidth="200" HorizontalAlignment="Left" AcceptsReturn="True"
                      FontFamily="Lucida Console" />
                 <Label>
-                    <LocText ResourceIdentifierKey="GiftLineTemplate" Suffix=":"/>
-                </Label>
-                <TextBox Text="{Binding GiftLineTemplate}" MinWidth="200" HorizontalAlignment="Left"
-                     AcceptsReturn="True" FontFamily="Lucida Console" />
-                <Label>
-                    <LocText ResourceIdentifierKey="VoidLineTemplate" Suffix=":"/>
-                </Label>
-                <TextBox Text="{Binding VoidedLineTemplate}" MinWidth="200" HorizontalAlignment="Left"
-                     AcceptsReturn="True" FontFamily="Lucida Console" />
-                <Label>
                     <LocText ResourceIdentifierKey="FooterTemplate" Suffix=":"/>
                 </Label>
                 <TextBox Text="{Binding FooterTemplate}" MinWidth="200" HorizontalAlignment="Left"
