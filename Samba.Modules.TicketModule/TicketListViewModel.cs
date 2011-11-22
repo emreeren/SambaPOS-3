@@ -509,8 +509,8 @@ namespace Samba.Modules.TicketModule
         private bool CanShowOrderTagsExecute(OrderTagGroup arg)
         {
             if (_selectedOrders.Count == 0) return false;
-            if (arg.VoidsOrder && !_selectedOrders.Any(x => x.IsLocked)) return false;
-            return !(_selectedOrders.Any(x => x.IsVoided && x.IsLocked));
+            if (_selectedOrders.Any(x => !x.Model.DecreaseInventory && !x.IsTaggedWith(arg))) return false;
+            return !arg.UnlocksOrder || !_selectedOrders.Any(x => x.IsLocked && x.OrderTagValues.Count(y => y.Model.OrderTagGroupId == arg.Id) > 0);
         }
 
         private bool CanChangePrice(string arg)
@@ -632,25 +632,22 @@ namespace Samba.Modules.TicketModule
         private bool CanDecQuantity(string arg)
         {
             return LastSelectedOrder != null &&
-                LastSelectedOrder.Quantity > 1 &&
-                !LastSelectedOrder.IsLocked &&
-                !LastSelectedOrder.IsVoided;
+                   LastSelectedOrder.Quantity > 1 &&
+                   !LastSelectedOrder.IsLocked;
         }
 
         private bool CanIncQuantity(string arg)
         {
             return LastSelectedOrder != null &&
-                !LastSelectedOrder.IsLocked &&
-                !LastSelectedOrder.IsVoided;
+                   !LastSelectedOrder.IsLocked;
+
         }
 
         private bool CanDecSelectionQuantity(string arg)
         {
             return LastSelectedOrder != null &&
                    LastSelectedOrder.Quantity > 1 &&
-                   LastSelectedOrder.IsLocked &&
-                   !LastSelectedOrder.IsGifted &&
-                   !LastSelectedOrder.IsVoided;
+                   LastSelectedOrder.IsLocked;
         }
 
         private void OnDecSelectionQuantityCommand(string obj)
@@ -662,23 +659,14 @@ namespace Samba.Modules.TicketModule
         private bool CanIncSelectionQuantity(string arg)
         {
             return LastSelectedOrder != null &&
-               LastSelectedOrder.Quantity > 1 &&
-               LastSelectedOrder.IsLocked &&
-               !LastSelectedOrder.IsGifted &&
-               !LastSelectedOrder.IsVoided;
+                   LastSelectedOrder.Quantity > 1 &&
+                   LastSelectedOrder.IsLocked;
         }
 
         private void OnIncSelectionQuantityCommand(string obj)
         {
             LastSelectedOrder.IncSelectedQuantity();
             _selectedTicket.RefreshVisuals();
-        }
-
-        private bool CanVoidSelectedItems(string arg)
-        {
-            if (_selectedTicket != null && !_selectedTicket.IsLocked && AppServices.IsUserPermittedFor(PermissionNames.VoidItems))
-                return _selectedTicket.CanVoidSelectedItems();
-            return false;
         }
 
         private bool CanCancelSelectedItems(string arg)
@@ -692,13 +680,6 @@ namespace Samba.Modules.TicketModule
         {
             _selectedTicket.CancelSelectedItems();
             RefreshSelectedTicket();
-        }
-
-        private bool CanGiftSelectedItems(string arg)
-        {
-            if (_selectedTicket != null && !_selectedTicket.IsLocked && AppServices.IsUserPermittedFor(PermissionNames.GiftItems))
-                return _selectedTicket.CanGiftSelectedItems();
-            return false;
         }
 
         private void OnTimer(object state)
@@ -1007,7 +988,7 @@ namespace Samba.Modules.TicketModule
 
             if (SelectedTicket.IsLocked && !AppServices.IsUserPermittedFor(PermissionNames.AddItemsToLockedTickets)) return;
 
-            var ti = SelectedTicket.AddNewItem(obj.ScreenMenuItem.MenuItemId, obj.Quantity, obj.ScreenMenuItem.Gift, obj.ScreenMenuItem.ItemPortion);
+            var ti = SelectedTicket.AddNewItem(obj.ScreenMenuItem.MenuItemId, obj.Quantity, obj.ScreenMenuItem.ItemPortion);
 
             if (obj.ScreenMenuItem.AutoSelect && ti != null)
             {

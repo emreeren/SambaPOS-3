@@ -57,14 +57,15 @@ namespace Samba.Domain.Tests
             Assert.IsTrue(ticket.Discounts.Count == 0);
             Assert.IsTrue(ticket.GetSum() == 25);
 
-            ticket.Orders[0].Gifted = true;
+            ticket.Orders[0].CalculatePrice = false;
             Assert.IsTrue(ticket.GetSum() == 15);
 
             ticket.AddTicketDiscount(DiscountType.Percent, 10, 0);
             Assert.IsTrue(ticket.GetSum() == 13.5m);
             Assert.IsTrue(ticket.GetDiscountAndRoundingTotal() == 1.5m);
 
-            ticket.Orders[0].Voided = true;
+            ticket.Orders[0].CalculatePrice = false;
+            ticket.Orders[0].DecreaseInventory = false;
             Assert.IsTrue(ticket.GetSum() == 13.5m);
 
             ticket.AddTicketDiscount(DiscountType.Percent, 10, 0);

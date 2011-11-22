@@ -81,13 +81,6 @@ namespace Samba.Modules.MenuModule
             set { Model.Quantity = value; RaisePropertyChanged(() => Quantity); }
         }
 
-        [LocalizedDisplayName(ResourceStrings.Gift)]
-        public bool Gift
-        {
-            get { return Model.Gift; }
-            set { Model.Gift = value; RaisePropertyChanged(() => Gift); }
-        }
-
         [LocalizedDisplayName(ResourceStrings.Tag)]
         public string Tag
         {

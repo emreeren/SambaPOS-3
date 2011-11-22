@@ -112,23 +112,6 @@ Toplam: 34,00";
 
             result = string.Join("\r\n", formatResult);
             Assert.IsTrue(result == expectedResult);
-
-            l2.Gifted = true;
-            template.GiftLineTemplate = "{MİKTAR} {ÜRÜN} İKRAM";
-
-            expectedResult = @"SAMBA
-Adisyon Tarihi:01.01.2010
-Müşteri Adı:
-Emre EREN
-1 Pilav 3,00
-6 Kurufasülye 5,00
-1 Pilav.Az İKRAM
-<C>İkram: 1,00, teşekkürler
-Toplam: 33,00";
-
-            formatResult = TicketFormatter.GetFormattedTicket(ticket, ticket.GetUnlockedOrders(), template);
-            result = string.Join("\r\n", formatResult);
-            Assert.IsTrue(result == expectedResult);
         }
 
         [TestMethod]

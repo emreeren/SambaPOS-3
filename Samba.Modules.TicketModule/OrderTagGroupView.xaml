@@ -42,8 +42,9 @@
                             <Label>SelectionType:</Label>
                             <ComboBox ItemsSource="{Binding SelectionTypes}" SelectedItem="{Binding SelectionType}"/>
 
-                            <Label>Tag Action:</Label>
-                            <ComboBox ItemsSource="{Binding TagActions}" SelectedItem="{Binding TagAction}"/>
+                            <CheckBox Margin="5,5,0,0" Content="Unlocks Order" IsChecked="{Binding UnlocksOrder}" />
+                            <CheckBox Margin="5,5,0,0" Content="Calculate Price" IsChecked="{Binding CalculateOrderPrice}" />
+                            <CheckBox Margin="5,5,0,0" Content="Decrease Inventory" IsChecked="{Binding DecreaseOrderInventory}" />
                             <CheckBox Margin="5,5,0,0" Content="Add Tag Price To Order Price" IsChecked="{Binding AddTagPriceToOrderPrice}" />
                         </StackPanel>
                         <Grid Margin="20,0" HorizontalAlignment="Left" Height="{Binding ElementName=FirstColumn, Path=ActualHeight}">

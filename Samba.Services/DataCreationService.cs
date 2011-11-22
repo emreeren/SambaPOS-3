@@ -67,7 +67,6 @@ namespace Samba.Services
             ticketTemplate.Name = Resources.TicketTemplate;
             ticketTemplate.HeaderTemplate = Resources.TicketTemplateHeaderValue;
             ticketTemplate.LineTemplate = Resources.TicketTempleteLineTemplateValue;
-            ticketTemplate.GiftLineTemplate = Resources.TicketTemplateGiftedLineTemplateValue;
             ticketTemplate.FooterTemplate = Resources.TicketTemplateFooterValue;
 
             var kitchenTemplate = new PrinterTemplate();
@@ -75,16 +74,12 @@ namespace Samba.Services
             kitchenTemplate.HeaderTemplate = Resources.KitchenTemplateHeaderValue;
 
             kitchenTemplate.LineTemplate = Resources.KitchenTemplateLineTemplateValue;
-            kitchenTemplate.GiftLineTemplate = Resources.KitchenTemplateLineTemplateValue;
-            kitchenTemplate.VoidedLineTemplate = Resources.KitchenTemplateVoidedLineTemplateValue;
-
             kitchenTemplate.FooterTemplate = "<F>-";
 
             var invoiceTemplate = new PrinterTemplate();
             invoiceTemplate.Name = Resources.InvoicePrinterTemplate;
             invoiceTemplate.HeaderTemplate = Resources.InvoiceTemplateHeaderValue;
             invoiceTemplate.LineTemplate = Resources.InvoiceTemplateLineTemplateValue;
-            invoiceTemplate.VoidedLineTemplate = "";
             invoiceTemplate.FooterTemplate = "<F>-";
 
             _workspace.Add(ticketTemplate);
@@ -143,12 +138,12 @@ namespace Samba.Services
             t.PrintJobs.Add(pj2);
             _workspace.Add(t);
 
-            var orderTag1 = new OrderTagGroup { Name = Resources.Gift, ButtonHeader = Resources.Gift, TagAction = 1, SelectionType = 1 };
+            var orderTag1 = new OrderTagGroup { Name = Resources.Gift, ButtonHeader = Resources.Gift, CalculateOrderPrice = false, DecreaseOrderInventory = true, SelectionType = 1 };
             orderTag1.OrderTags.Add(new OrderTag { Name = Resources.Gift });
             orderTag1.OrderTagMaps.Add(new OrderTagMap());
             _workspace.Add(orderTag1);
 
-            var orderTag2 = new OrderTagGroup { Name = Resources.Void, ButtonHeader = Resources.Void, TagAction = 2, SelectionType = 1 };
+            var orderTag2 = new OrderTagGroup { Name = Resources.Void, ButtonHeader = Resources.Void, CalculateOrderPrice = false, DecreaseOrderInventory = false, SelectionType = 1 };
             orderTag2.OrderTags.Add(new OrderTag { Name = Resources.Void });
             orderTag2.OrderTagMaps.Add(new OrderTagMap());
             orderTag2.UnlocksOrder = true;

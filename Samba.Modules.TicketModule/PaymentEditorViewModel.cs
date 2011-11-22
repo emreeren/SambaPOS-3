@@ -433,7 +433,7 @@ namespace Samba.Modules.TicketModule
 
             if (sum == 0) return;
 
-            SelectedTicket.Model.Orders.Where(x => !x.Voided && !x.Gifted).ToList().ForEach(x => CreateMergedItem(sum, x, serviceAmount));
+            SelectedTicket.Model.Orders.Where(x => x.CalculatePrice).ToList().ForEach(x => CreateMergedItem(sum, x, serviceAmount));
 
             foreach (var paidItem in SelectedTicket.Model.PaidItems)
             {

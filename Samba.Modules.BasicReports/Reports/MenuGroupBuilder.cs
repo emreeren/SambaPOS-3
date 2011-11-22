@@ -47,7 +47,7 @@ namespace Samba.Modules.BasicReports.Reports
         public static IEnumerable<MenuItemSellInfo> CalculateMenuItems(IEnumerable<Ticket> tickets, IEnumerable<MenuItem> menuItems)
         {
             var menuItemSellInfos =
-                from c in tickets.SelectMany(x => x.Orders.Where(y => !y.Voided).Select(y => new { Ticket = x, Order = y }))
+                from c in tickets.SelectMany(x => x.Orders.Where(y => y.DecreaseInventory).Select(y => new { Ticket = x, Order = y }))
                 join menuItem in menuItems on c.Order.MenuItemId equals menuItem.Id
                 group c by menuItem.Name into grp
                 select new MenuItemSellInfo { Name = grp.Key, Quantity = grp.Sum(y => y.Order.Quantity), Amount = grp.Sum(y => CalculateOrderTotal(y.Ticket, y.Order)) };

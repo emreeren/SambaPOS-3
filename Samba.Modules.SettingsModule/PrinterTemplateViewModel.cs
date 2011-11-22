@@ -15,8 +15,6 @@ namespace Samba.Modules.SettingsModule
 
         public string HeaderTemplate { get { return Model.HeaderTemplate; } set { Model.HeaderTemplate = value; } }
         public string LineTemplate { get { return Model.LineTemplate; } set { Model.LineTemplate = value; } }
-        public string VoidedLineTemplate { get { return Model.VoidedLineTemplate; } set { Model.VoidedLineTemplate = value; } }
-        public string GiftLineTemplate { get { return Model.GiftLineTemplate; } set { Model.GiftLineTemplate = value; } }
         public string FooterTemplate { get { return Model.FooterTemplate; } set { Model.FooterTemplate = value; } }
         public bool MergeLines { get { return Model.MergeLines; } set { Model.MergeLines = value; } }
 

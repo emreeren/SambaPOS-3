@@ -13,8 +13,9 @@ namespace Samba.Domain.Models.Tickets
         {
             _orderTagValues = new List<OrderTagValue>();
             CreatedDateTime = DateTime.Now;
-            ModifiedDateTime = DateTime.Now;
             _selectedQuantity = 0;
+            CalculatePrice = true;
+            DecreaseInventory = true;
         }
 
         public int Id { get; set; }
@@ -26,13 +27,12 @@ namespace Samba.Domain.Models.Tickets
         public decimal Quantity { get; set; }
         public int PortionCount { get; set; }
         public bool Locked { get; set; }
-        public bool Voided { get; set; }
-        public bool Gifted { get; set; }
+        public bool CalculatePrice { get; set; }
+        public bool DecreaseInventory { get; set; }
         public int OrderNumber { get; set; }
         public int CreatingUserId { get; set; }
         public DateTime CreatedDateTime { get; set; }
-        public int ModifiedUserId { get; set; }
-        public DateTime ModifiedDateTime { get; set; }
+
         [StringLength(10)]
         public string PriceTag { get; set; }
         public string Tag { get; set; }
@@ -111,24 +111,21 @@ namespace Samba.Domain.Models.Tickets
                            MenuItemId = orderTag.MenuItemId,
                            AddTagPriceToOrderPrice = orderTagGroup.AddTagPriceToOrderPrice,
                            PortionName = PortionName,
-                           TagAction = orderTagGroup.TagAction,
+                           UserId = userId,
                            Quantity = 1
                        };
             otag.UpdatePrice(TaxIncluded, TaxRate, orderTag.Price);
 
             OrderTagValues.Add(otag);
-
-            if (orderTagGroup.VoidsOrder) Void(userId);
-            if (orderTagGroup.GiftsOrder) Gift(userId);
+            CalculatePrice = orderTagGroup.CalculateOrderPrice;
+            DecreaseInventory = orderTagGroup.DecreaseOrderInventory;
         }
 
         private void UntagOrder(OrderTagGroup orderTagGroup, OrderTagValue orderTagValue)
         {
             OrderTagValues.Remove(orderTagValue);
-            if (orderTagGroup.GiftsOrder || orderTagGroup.VoidsOrder)
-            {
-                CancelGiftOrVoid();
-            }
+            if (!orderTagGroup.CalculateOrderPrice) CalculatePrice = true;
+            if (!orderTagGroup.DecreaseOrderInventory) DecreaseInventory = true;
         }
 
         public void ToggleOrderTag(OrderTagGroup orderTagGroup, OrderTag orderTag, int userId)
@@ -148,7 +145,7 @@ namespace Samba.Domain.Models.Tickets
             {
                 UntagOrder(orderTagGroup, otag);
             }
-            if (orderTagGroup.UnlocksOrder) 
+            if (orderTagGroup.UnlocksOrder)
                 Locked = false;
         }
 
@@ -200,7 +197,7 @@ namespace Samba.Domain.Models.Tickets
 
         public decimal GetTotal()
         {
-            return Voided || Gifted ? 0 : GetItemValue();
+            return CalculatePrice ? GetItemValue() : 0;
         }
 
         public decimal GetItemValue()
@@ -292,40 +289,6 @@ namespace Samba.Domain.Models.Tickets
             TaxTemplateId = taxTemplate.Id;
             TaxIncluded = taxTemplate.TaxIncluded;
             UpdatePrice(Price, PriceTag);
-        }
-
-        private void Void(int userId)
-        {
-            if (Locked && !Voided && !Gifted)
-            {
-                Voided = true;
-                ModifiedUserId = userId;
-                ModifiedDateTime = DateTime.Now;
-                Locked = false;
-            }
-            else CancelGiftOrVoid();
-        }
-
-        private void Gift(int userId)
-        {
-            Gifted = true;
-            ModifiedUserId = userId;
-            ModifiedDateTime = DateTime.Now;
-        }
-
-        public void CancelGiftOrVoid()
-        {
-            if (Voided && !Locked)
-            {
-                Voided = false;
-                OrderTagValues.Where(x => x.VoidsOrder).ToList().ForEach(x => OrderTagValues.Remove(x));
-            }
-            else if (Gifted)
-            {
-                Gifted = false;
-                OrderTagValues.Where(x => x.GiftsOrder).ToList().ForEach(x => OrderTagValues.Remove(x));
-            }
-            if (Id > 0) Locked = true;
         }
     }
 }

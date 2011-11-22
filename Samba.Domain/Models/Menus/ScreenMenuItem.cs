@@ -25,7 +25,6 @@ namespace Samba.Domain.Models.Menus
         public bool AutoSelect { get; set; }
         public string ButtonColor { get; set; }
         public int Quantity { get; set; }
-        public bool Gift { get; set; }
         public string ImagePath { get; set; }
         public string Tag { get; set; }
         public string ItemPortion { get; set; }

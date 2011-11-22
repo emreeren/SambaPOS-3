@@ -259,7 +259,7 @@ namespace Samba.Presentation.ViewModels
             this.PublishEvent(EventTopicNames.SelectedOrdersChanged);
         }
 
-        public OrderViewModel AddNewItem(int menuItemId, decimal quantity, bool gift, string portionName)
+        public OrderViewModel AddNewItem(int menuItemId, decimal quantity, string portionName)
         {
             if (!Model.CanSubmit) return null;
             ClearSelectedItems();
@@ -275,7 +275,6 @@ namespace Samba.Presentation.ViewModels
 
             var ti = Model.AddOrder(AppServices.CurrentLoggedInUser.Id, menuItem, portion.Name, AppServices.MainDataContext.SelectedDepartment.PriceTag);
             ti.Quantity = quantity > 9 ? decimal.Round(quantity / portion.Multiplier, LocalSettings.Decimals) : quantity;
-            ti.Gifted = gift;
             var orderViewModel = new OrderViewModel(ti);
             _orders.Add(orderViewModel);
             RecalculateTicket();
@@ -319,16 +318,6 @@ namespace Samba.Presentation.ViewModels
         public void CancelSelectedItems()
         {
             CancelItems(SelectedOrders.ToArray(), AppServices.CurrentLoggedInUser.Id);
-        }
-
-        public bool CanVoidSelectedItems()
-        {
-            return Model.CanVoidSelectedOrders(SelectedOrders.Select(x => x.Model));
-        }
-
-        public bool CanGiftSelectedItems()
-        {
-            return Model.CanGiftSelectedOrders(SelectedOrders.Select(x => x.Model));
         }
 
         public bool CanCancelSelectedItems()
@@ -478,7 +467,7 @@ namespace Samba.Presentation.ViewModels
 
         public string GetPrintError()
         {
-            if (Orders.Count(x => x.TotalPrice == 0 && !x.IsGifted && !x.IsVoided) > 0)
+            if (Orders.Count(x => x.TotalPrice == 0 && x.Model.CalculatePrice) > 0)
                 return Resources.CantCompleteOperationWhenThereIsZeroPricedProduct;
             if (!IsPaid && Orders.Count > 0)
             {
@@ -542,7 +531,6 @@ namespace Samba.Presentation.ViewModels
                         PreviousTotal = total,
                         TicketTotal = ticket.GetSum(),
                         DiscountTotal = ticket.GetDiscountAndRoundingTotal(),
-                        GiftTotal = ticket.GetTotalGiftAmount(),
                         PaymentTotal = ticket.GetPaymentAmount()
                     });
             }

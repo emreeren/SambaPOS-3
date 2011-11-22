@@ -22,7 +22,7 @@ namespace Samba.Modules.UserModule
         {
             if (model.UserRole.IsAdmin) return Resources.DeleteErrorAdminUser;
             if (Workspace.Count<User>() == 1) return Resources.DeleteErrorLastUser;
-            var ti = Dao.Count<Order>(x => x.CreatingUserId == model.Id || x.ModifiedUserId == model.Id);
+            var ti = Dao.Count<Order>(x => x.CreatingUserId == model.Id);
             if (ti > 0) return Resources.DeleteErrorUserDidTicketOperation;
             return base.CanDeleteItem(model);
         }

@@ -16,9 +16,6 @@ namespace Samba.Domain.Models.Tickets
         public int MenuItemId { get; set; }
         public bool AddTagPriceToOrderPrice { get; set; }
         public string PortionName { get; set; }
-        public int TagAction { get; set; }
-        public bool GiftsOrder { get { return TagAction == 1; } }
-        public bool VoidsOrder { get { return TagAction == 2; } }
 
         public void UpdatePrice(bool taxIncluded, decimal taxRate, decimal orderTagPrice)
         {

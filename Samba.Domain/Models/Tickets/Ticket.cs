@@ -165,7 +165,7 @@ namespace Samba.Domain.Models.Tickets
 
         private decimal CalculateTax(decimal plainSum, decimal discount)
         {
-            var result = Orders.Where(x => !x.TaxIncluded && !x.Voided && !x.Gifted).Sum(x => (x.TaxAmount + x.OrderTagValues.Sum(y => y.TaxAmount)) * x.Quantity);
+            var result = Orders.Where(x => !x.TaxIncluded && x.CalculatePrice).Sum(x => (x.TaxAmount + x.OrderTagValues.Sum(y => y.TaxAmount)) * x.Quantity);
             if (discount > 0)
                 result -= (result * discount) / plainSum;
             return result;
@@ -287,11 +287,6 @@ namespace Samba.Domain.Models.Tickets
             return Orders.Sum(item => item.GetTotal());
         }
 
-        public decimal GetTotalGiftAmount()
-        {
-            return Orders.Where(x => x.Gifted && !x.Voided).Sum(item => item.GetItemValue());
-        }
-
         public decimal GetPaymentAmount()
         {
             return Payments.Sum(item => item.Amount);
@@ -332,39 +327,12 @@ namespace Samba.Domain.Models.Tickets
         public void CancelOrder(Order item)
         {
             Locked = false;
-            if (!item.Voided && !item.Gifted && !item.Locked && item.Id == 0)
-                RemoveOrder(item);
-            else item.CancelGiftOrVoid();
+            if (item.Id == 0) RemoveOrder(item);
         }
 
         public bool CanRemoveSelectedOrders(IEnumerable<Order> items)
         {
             return (items.Sum(x => x.GetSelectedValue()) <= GetRemainingAmount());
-        }
-
-        public bool CanVoidSelectedOrders(IEnumerable<Order> items)
-        {
-            if (!CanRemoveSelectedOrders(items)) return false;
-            foreach (var item in items)
-            {
-                if (!Orders.Contains(item)) return false;
-                if (item.Voided) return false;
-                if (item.Gifted) return false;
-                if (!item.Locked) return false;
-            }
-            return true;
-        }
-
-        public bool CanGiftSelectedOrders(IEnumerable<Order> items)
-        {
-            if (!CanRemoveSelectedOrders(items)) return false;
-            foreach (var item in items)
-            {
-                if (!Orders.Contains(item)) return false;
-                if (item.Voided) return false;
-                if (item.Gifted) return false;
-            }
-            return true;
         }
 
         public bool CanCancelSelectedOrders(IEnumerable<Order> items)
@@ -373,7 +341,7 @@ namespace Samba.Domain.Models.Tickets
             foreach (var item in items)
             {
                 if (!Orders.Contains(item)) return false;
-                if (item.Locked && !item.Gifted) return false;
+                if (item.Id > 0) return false;
             }
             return true;
         }
@@ -405,7 +373,7 @@ namespace Samba.Domain.Models.Tickets
                     mergedOrders.SingleOrDefault(
                         x =>
                         x.OrderTagValues.Count == 0 && x.MenuItemId == ti.MenuItemId &&
-                        x.PortionName == ti.PortionName && x.Gifted == ti.Gifted);
+                        x.PortionName == ti.PortionName && x.CalculatePrice == ti.CalculatePrice);
                 if (item == null) mergedOrders.Add(order);
                 else item.Quantity += order.Quantity;
             }
@@ -450,6 +418,7 @@ namespace Samba.Domain.Models.Tickets
         {
             Debug.Assert(_orders.Contains(item));
             var result = ObjectCloner.Clone(item);
+            result.CreatedDateTime = DateTime.Now;
             result.Quantity = 0;
             _orders.Add(result);
             return result;

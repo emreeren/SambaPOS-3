@@ -101,7 +101,7 @@ namespace Samba.Modules.TicketModule
         {
             SelectedTicket = null;
             SelectedItem = null;
-
+            SelectedOrderTagGroup = null;
             SelectedItemPortions.Clear();
             OrderTagGroups.Clear();
             TicketTags.Clear();
@@ -164,7 +164,7 @@ namespace Samba.Modules.TicketModule
             get
             {
                 return SelectedItem != null
-                    && !SelectedItem.IsVoided
+                    && SelectedItem.Model.DecreaseInventory
                     && !SelectedItem.IsLocked
                     && SelectedItemPortions.Count > 0;
             }
@@ -263,7 +263,7 @@ namespace Samba.Modules.TicketModule
 
             if (SelectedItem == null || SelectedItem.Model.Locked) return false;
 
-            if (SelectedTicket != null && !SelectedItem.Model.Voided && !SelectedItem.Model.Locked)
+            if (SelectedTicket != null && SelectedItem.Model.DecreaseInventory && !SelectedItem.Model.Locked)
             {
                 var mi = AppServices.DataAccessService.GetMenuItem(SelectedItem.Model.MenuItemId);
                 if (SelectedItem.Model.PortionCount > 1) SelectedItemPortions.AddRange(mi.Portions);

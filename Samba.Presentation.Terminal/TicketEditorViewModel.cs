@@ -235,9 +235,7 @@ namespace Samba.Presentation.Terminal
         private bool CanDecSelectedQuantity(string arg)
         {
             return LastSelectedOrder != null &&
-                LastSelectedOrder.Quantity > 1 &&
-                !LastSelectedOrder.IsGifted &&
-                !LastSelectedOrder.IsVoided;
+                   LastSelectedOrder.Quantity > 1;
         }
 
         private void OnDecSelectedQuantity(string obj)
@@ -250,9 +248,7 @@ namespace Samba.Presentation.Terminal
         private bool CanIncSelectedQuantity(string arg)
         {
             return LastSelectedOrder != null &&
-               (LastSelectedOrder.Quantity > 1 || !LastSelectedOrder.IsLocked) &&
-               !LastSelectedOrder.IsGifted &&
-               !LastSelectedOrder.IsVoided;
+                   (LastSelectedOrder.Quantity > 1 || !LastSelectedOrder.IsLocked);
         }
 
         private void OnIncSelectedQuantity(string obj)

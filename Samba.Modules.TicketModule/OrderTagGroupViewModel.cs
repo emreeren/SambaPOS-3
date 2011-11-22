@@ -18,9 +18,6 @@ namespace Samba.Modules.TicketModule
         private ObservableCollection<OrderTagMapViewModel> _orderTagMaps;
         public ObservableCollection<OrderTagMapViewModel> OrderTagMaps { get { return _orderTagMaps ?? (_orderTagMaps = new ObservableCollection<OrderTagMapViewModel>(GetOrderTagMaps(Model))); } }
 
-        private readonly IList<string> _tagActions = new[] { "Nothing", "Gift Order", "Void Order" };
-        public IList<string> TagActions { get { return _tagActions; } }
-
         private readonly IList<string> _selectionTypes = new[] { "Multiple Selection", "Single Selection", "Quantity Selection" };
         public IList<string> SelectionTypes { get { return _selectionTypes; } }
 
@@ -35,9 +32,11 @@ namespace Samba.Modules.TicketModule
         public int ColumnCount { get { return Model.ColumnCount; } set { Model.ColumnCount = value; } }
         public int TerminalButtonHeight { get { return Model.TerminalButtonHeight; } set { Model.TerminalButtonHeight = value; } }
         public int TerminalColumnCount { get { return Model.TerminalColumnCount; } set { Model.TerminalColumnCount = value; } }
-        public string TagAction { get { return TagActions[Model.TagAction]; } set { Model.TagAction = TagActions.IndexOf(value); } }
         public string SelectionType { get { return SelectionTypes[Model.SelectionType]; } set { Model.SelectionType = SelectionTypes.IndexOf(value); } }
-        
+        public bool UnlocksOrder { get { return Model.UnlocksOrder; } set { Model.UnlocksOrder = value; } }
+        public bool CalculateOrderPrice { get { return Model.CalculateOrderPrice; } set { Model.CalculateOrderPrice = value; } }
+        public bool DecreaseOrderInventory { get { return Model.DecreaseOrderInventory; } set { Model.DecreaseOrderInventory = value; } }
+
         public OrderTagViewModel SelectedOrderTag { get; set; }
         public OrderTagMapViewModel SelectedOrderTagMap { get; set; }
 

@@ -115,7 +115,7 @@ namespace Samba.Presentation.Terminal
             get
             {
                 return SelectedItem != null
-                    && !SelectedItem.IsVoided
+                    && SelectedItem.Model.DecreaseInventory
                     && !SelectedItem.IsLocked
                     && SelectedItem.Model.PortionCount > 1;
             }

@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
@@ -171,7 +172,7 @@ namespace Samba.Presentation.ViewModels
         {
             get
             {
-                return Model.Voided ? TextDecorations.Strikethrough : null;
+                return !Model.DecreaseInventory ? TextDecorations.Strikethrough : null;
             }
         }
 
@@ -191,8 +192,6 @@ namespace Samba.Presentation.ViewModels
             get { return _orderTagValues ?? (_orderTagValues = new ObservableCollection<OrderTagValueViewModel>(Model.OrderTagValues.Select(x => new OrderTagValueViewModel(x)))); }
         }
 
-        public bool IsGifted { get { return Model.Gifted; } }
-        public bool IsVoided { get { return Model.Voided; } }
         public bool IsLocked { get { return Model.Locked; } }
         private bool _isLastSelected;
         public bool IsLastSelected
@@ -237,9 +236,9 @@ namespace Samba.Presentation.ViewModels
 
                 if (IsLocked)
                     Foreground = Brushes.DarkRed;
-                if (IsVoided)
+                if (!Model.DecreaseInventory)
                     Foreground = Brushes.Gray;
-                if (IsGifted)
+                if (!Model.CalculatePrice && Model.DecreaseInventory)
                     Foreground = Brushes.DarkBlue;
             }
         }
@@ -283,6 +282,11 @@ namespace Samba.Presentation.ViewModels
             Model.UpdatePrice(value, AppServices.MainDataContext.SelectedDepartment.PriceTag);
             RaisePropertyChanged(() => Price);
             RaisePropertyChanged(() => TotalPrice);
+        }
+
+        public bool IsTaggedWith(OrderTagGroup orderTagGroup)
+        {
+            return OrderTagValues.FirstOrDefault(x => x.Model.OrderTagGroupId == orderTagGroup.Id) != null;
         }
     }
 }

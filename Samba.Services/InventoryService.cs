@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Linq;
 using Samba.Domain.Models.Inventories;
-using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
@@ -36,7 +35,7 @@ namespace Samba.Services
                                             x => x.Orders,
                                             x => x.Orders.Select(y => y.OrderTagValues));
             return tickets.SelectMany(x => x.Orders)
-                    .Where(x => !x.Voided && recipeItemIds.Contains(x.MenuItemId));
+                    .Where(x => x.DecreaseInventory && recipeItemIds.Contains(x.MenuItemId));
         }
 
         private static IEnumerable<SalesData> GetSales(WorkPeriod workPeriod)

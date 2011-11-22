@@ -111,8 +111,8 @@ namespace Samba.Services.Printing
                                                 {
                                                     x.MenuItemId,
                                                     x.MenuItemName,
-                                                    x.Voided,
-                                                    x.Gifted,
+                                                    x.CalculatePrice,
+                                                    DecreaseFromInventory = x.DecreaseInventory,
                                                     x.Price,
                                                     x.TaxAmount,
                                                     x.TaxTemplateId,
@@ -125,8 +125,8 @@ namespace Samba.Services.Printing
                                     {
                                         MenuItemId = x.Key.MenuItemId,
                                         MenuItemName = x.Key.MenuItemName,
-                                        Voided = x.Key.Voided,
-                                        Gifted = x.Key.Gifted,
+                                        CalculatePrice = x.Key.CalculatePrice,
+                                        DecreaseInventory = x.Key.DecreaseFromInventory,
                                         Price = x.Key.Price,
                                         TaxAmount = x.Key.TaxAmount,
                                         TaxTemplateId = x.Key.TaxTemplateId,
@@ -207,7 +207,6 @@ namespace Samba.Services.Printing
             var remaining = ticket.GetRemainingAmount();
             var discount = ticket.GetDiscountAndRoundingTotal();
             var plainTotal = ticket.GetPlainSum();
-            var giftAmount = ticket.GetTotalGiftAmount();
             var taxAmount = ticket.CalculateTax();
             var servicesTotal = ticket.GetServicesTotal();
 
@@ -224,7 +223,6 @@ namespace Samba.Services.Printing
             result = FormatDataIf(discount > 0, result, Resources.TF_DiscountTotalAndTicketTotal,
                 () => string.Format(Resources.DiscountTotalAndTicketTotalValue_f, (plainTotal).ToString("#,#0.00"), discount.ToString("#,#0.00")));
 
-            result = FormatDataIf(giftAmount > 0, result, Resources.TF_GiftTotal, () => giftAmount.ToString("#,#0.00"));
             result = FormatDataIf(discount < 0, result, Resources.TF_IfFlatten, () => string.Format(Resources.IfNegativeDiscountValue_f, discount.ToString("#,#0.00")));
 
             result = FormatData(result, Resources.TF_TicketTotal, () => ticket.GetSum().ToString("#,#0.00"));
@@ -302,26 +300,6 @@ namespace Samba.Services.Printing
 
         private static string FormatLines(PrinterTemplate template, Order order)
         {
-            if (order.Gifted)
-            {
-                if (!string.IsNullOrEmpty(template.GiftLineTemplate))
-                {
-                    return template.GiftLineTemplate.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
-                        .Aggregate("", (current, s) => current + ReplaceLineVars(s, order));
-                }
-                return "";
-            }
-
-            if (order.Voided)
-            {
-                if (!string.IsNullOrEmpty(template.VoidedLineTemplate))
-                {
-                    return template.VoidedLineTemplate.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
-                        .Aggregate("", (current, s) => current + ReplaceLineVars(s, order));
-                }
-                return "";
-            }
-
             if (!string.IsNullOrEmpty(template.LineTemplate))
                 return template.LineTemplate.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
                     .Aggregate("", (current, s) => current + ReplaceLineVars(s, order));
