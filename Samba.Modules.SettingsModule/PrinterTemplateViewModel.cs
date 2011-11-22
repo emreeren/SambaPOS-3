@@ -67,7 +67,6 @@ namespace Samba.Modules.SettingsModule
             result.Add(Resources.TF_LineItemDetailQuantity, Resources.TF_LineItemDetailQuantity);
             result.Add(Resources.TF_LineOrderNumber, Resources.LineOrderNumber);
             result.Add("{PRICE TAG}", Resources.LinePriceTag);
-            result.Add(Resources.TF_LineGiftOrVoidReason, Resources.LineGiftOrVoidReason);
             result.Add(Resources.TF_TicketTotal, Resources.TicketTotal);
             result.Add(Resources.TF_TicketPaidTotal, Resources.TicketPaidTotal);
             result.Add("{PLAIN TOTAL}", Resources.TicketSubTotal);

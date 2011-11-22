@@ -304,13 +304,6 @@ namespace Samba.Modules.BasicReports
             return user != null ? user.Name : Resources.UndefinedWithBrackets;
         }
 
-        public static string GetReasonName(int reasonId)
-        {
-            if (AppServices.MainDataContext.Reasons.ContainsKey(reasonId))
-                return AppServices.MainDataContext.Reasons[reasonId].Name;
-            return Resources.UndefinedWithBrackets;
-        }
-
         internal static string GetDepartmentName(int departmentId)
         {
             var d = AppServices.MainDataContext.Departments.SingleOrDefault(x => x.Id == departmentId);

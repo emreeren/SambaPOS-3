@@ -15,7 +15,6 @@ namespace Samba.Domain.Models.Tickets
 
         public int Id { get; set; }
         public string Name { get; set; }
-        public byte[] LastUpdateTime { get; set; }
         public string ButtonHeader { get; set; }
 
         public int ColumnCount { get; set; }
@@ -31,6 +30,7 @@ namespace Samba.Domain.Models.Tickets
         public bool IsMultipleSelection { get { return SelectionType == 0; } }
         public bool IsSingleSelection { get { return SelectionType == 1; } }
         public bool IsQuantitySelection { get { return SelectionType == 2; } }
+        public bool UnlocksOrder { get; set; }
 
         private IList<OrderTag> _orderTags;
         public virtual IList<OrderTag> OrderTags

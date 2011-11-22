@@ -140,7 +140,7 @@ namespace Samba.Modules.BasicReports.Reports.ProductReport
         private static void PrepareModificationTable(SimpleReport report, Func<Order, bool> predicate, string title)
         {
             var modifiedItems = ReportContext.Tickets
-                .SelectMany(x => x.Orders.Where(predicate).Select(y => new { Ticket = x, UserId = y.ModifiedUserId, MenuItem = y.MenuItemName, y.Quantity, y.ReasonId, y.ModifiedDateTime, Amount = y.GetItemValue() }));
+                .SelectMany(x => x.Orders.Where(predicate).Select(y => new { Ticket = x, UserId = y.ModifiedUserId, MenuItem = y.MenuItemName, y.Quantity, y.ModifiedDateTime, Amount = y.GetItemValue() }));
 
             if (modifiedItems.Count() == 0) return;
 
@@ -151,8 +151,6 @@ namespace Samba.Modules.BasicReports.Reports.ProductReport
             foreach (var voidItem in modifiedItems)
             {
                 report.AddRow(title, voidItem.Ticket.TicketNumber, voidItem.Quantity.ToString("#.##") + " " + voidItem.MenuItem, ReportContext.GetUserName(voidItem.UserId), voidItem.ModifiedDateTime.ToShortTimeString());
-                if (voidItem.ReasonId > 0)
-                    report.AddRow(title, ReportContext.GetReasonName(voidItem.ReasonId), "", "", "");
             }
 
             var voidGroups =

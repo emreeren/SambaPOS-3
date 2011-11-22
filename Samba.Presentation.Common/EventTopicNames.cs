@@ -36,8 +36,6 @@ namespace Samba.Presentation.Common
         public const string ActivateAccount = "Activate Account";
         public const string ActivateAccountView = "Activate Account View";
         public const string SelectExtraProperty = "Select Extra Property";
-        public const string SelectVoidReason = "Select Void Reason";
-        public const string SelectGiftReason = "Select Gift Reason";
         public const string ActivateNavigation = "Activate Navigation";
         public const string AccountSelectedForTicket = "Account Selected For Ticket";
         public const string SelectAccount = "Select Account";

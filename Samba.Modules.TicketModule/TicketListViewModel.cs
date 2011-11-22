@@ -50,8 +50,6 @@ namespace Samba.Modules.TicketModule
         public ICaptionCommand DecQuantityCommand { get; set; }
         public ICaptionCommand IncSelectionQuantityCommand { get; set; }
         public ICaptionCommand DecSelectionQuantityCommand { get; set; }
-        public ICaptionCommand ShowVoidReasonsCommand { get; set; }
-        public ICaptionCommand ShowGiftReasonsCommand { get; set; }
         public ICaptionCommand ShowTicketTagsCommand { get; set; }
         public ICaptionCommand ShowOrderTagsCommand { get; set; }
         public ICaptionCommand CancelItemCommand { get; set; }
@@ -245,8 +243,6 @@ namespace Samba.Modules.TicketModule
             DecQuantityCommand = new CaptionCommand<string>("-", OnDecQuantityCommand, CanDecQuantity);
             IncSelectionQuantityCommand = new CaptionCommand<string>("(+)", OnIncSelectionQuantityCommand, CanIncSelectionQuantity);
             DecSelectionQuantityCommand = new CaptionCommand<string>("(-)", OnDecSelectionQuantityCommand, CanDecSelectionQuantity);
-            ShowVoidReasonsCommand = new CaptionCommand<string>(Resources.Void, OnShowVoidReasonsExecuted, CanVoidSelectedItems);
-            ShowGiftReasonsCommand = new CaptionCommand<string>(Resources.Gift, OnShowGiftReasonsExecuted, CanGiftSelectedItems);
             ShowTicketTagsCommand = new CaptionCommand<TicketTagGroup>(Resources.Tag, OnShowTicketsTagExecute, CanExecuteShowTicketTags);
             ShowOrderTagsCommand = new CaptionCommand<OrderTagGroup>(Resources.Tag, OnShowOrderTagsExecute, CanShowOrderTagsExecute);
             CancelItemCommand = new CaptionCommand<string>(Resources.Cancel, OnCancelItemCommand, CanCancelSelectedItems);
@@ -683,16 +679,6 @@ namespace Samba.Modules.TicketModule
             if (_selectedTicket != null && !_selectedTicket.IsLocked && AppServices.IsUserPermittedFor(PermissionNames.VoidItems))
                 return _selectedTicket.CanVoidSelectedItems();
             return false;
-        }
-
-        private void OnShowVoidReasonsExecuted(string obj)
-        {
-            _selectedTicket.PublishEvent(EventTopicNames.SelectVoidReason);
-        }
-
-        private void OnShowGiftReasonsExecuted(string obj)
-        {
-            _selectedTicket.PublishEvent(EventTopicNames.SelectGiftReason);
         }
 
         private bool CanCancelSelectedItems(string arg)

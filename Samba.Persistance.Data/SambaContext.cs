@@ -46,7 +46,6 @@ namespace Samba.Persistance.Data
         public DbSet<PrinterTemplate> PrinterTemplates { get; set; }
         public DbSet<TableScreen> TableScreens { get; set; }
         public DbSet<Numerator> Numerators { get; set; }
-        public DbSet<Reason> Reasons { get; set; }
         public DbSet<Discount> Discounts { get; set; }
         public DbSet<WorkPeriod> WorkPeriods { get; set; }
         public DbSet<PaidItem> PaidItems { get; set; }
@@ -92,7 +91,7 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<Order>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<Ticket>().HasMany(p => p.Orders).WithRequired().HasForeignKey(x => x.TicketId);
 
-            modelBuilder.Entity<OrderTagValue>().HasKey(p => new { p.Id, p.OrderId });
+            modelBuilder.Entity<OrderTagValue>().HasKey(p => new { p.Id, p.OrderId, p.TicketId });
             modelBuilder.Entity<OrderTagValue>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<Order>().HasMany(p => p.OrderTagValues).WithRequired().HasForeignKey(x => new { x.OrderId, x.TicketId });
 

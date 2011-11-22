@@ -101,20 +101,6 @@
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>
-        <ItemsControl Grid.Row="1" ItemsSource="{Binding Reasons}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <FxButton:FlexButton MaxHeight="65" Margin="5" Content="{Binding Name}" CommandParameter="{Binding Id}"
-                         Command="{Binding DataContext.SelectReasonCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ItemsControl}}" />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <UniformGrid Columns="{Binding ReasonColumnCount}" VerticalAlignment="Top">
-                    </UniformGrid>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>
         <GroupBox Grid.Row="0" Header="{LocText Portions}"
              FontWeight="Bold" FontSize="14" Visibility="{Binding IsPortionsVisible,Converter={StaticResource VisibilityConverter}}">
             <ItemsControl ItemsSource="{Binding SelectedItemPortions}">

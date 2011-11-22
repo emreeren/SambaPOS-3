@@ -1037,10 +1037,6 @@ Yap</value>
     <value>#Satır: Sipariş Numarası</value>
     <comment>Paragraph content</comment>
   </data>
-  <data name="LineGiftOrVoidReason" xml:space="preserve">
-    <value>#Satır: İade veya İkram Nedeni</value>
-    <comment>Paragraph content</comment>
-  </data>
   <data name="TicketTotal" xml:space="preserve">
     <value>Belge Toplamı</value>
     <comment>Paragraph content</comment>
@@ -1235,12 +1231,6 @@ Yap</value>
   </data>
   <data name="PrinterTemplates" xml:space="preserve">
     <value>Yazıcı Şablonları</value>
-  </data>
-  <data name="VoidReasons" xml:space="preserve">
-    <value>İade Nedenleri</value>
-  </data>
-  <data name="GiftReasons" xml:space="preserve">
-    <value>İkram Nedenleri</value>
   </data>
   <data name="SambaPosWebsite" xml:space="preserve">
     <value>SambaPOS Websitesi</value>
@@ -2205,9 +2195,6 @@ Masa: {2}</value>
   </data>
   <data name="TF_LineItemTotalWithoutGifts" xml:space="preserve">
     <value>{HAREKET TOPLAM}</value>
-  </data>
-  <data name="TF_LineGiftOrVoidReason" xml:space="preserve">
-    <value>{NEDEN}</value>
   </data>
   <data name="TF_LineItemPriceCents" xml:space="preserve">
     <value>{YKR}</value>

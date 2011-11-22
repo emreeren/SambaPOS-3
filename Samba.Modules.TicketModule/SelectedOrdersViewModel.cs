@@ -25,7 +25,6 @@ namespace Samba.Modules.TicketModule
         public SelectedOrdersViewModel()
         {
             CloseCommand = new CaptionCommand<string>(Resources.Close, OnCloseCommandExecuted);
-            SelectReasonCommand = new DelegateCommand<int?>(OnReasonSelected);
             SelectTicketTagCommand = new DelegateCommand<TicketTag>(OnTicketTagSelected);
             PortionSelectedCommand = new DelegateCommand<MenuItemPortion>(OnPortionSelected);
             OrderTagSelectedCommand = new DelegateCommand<OrderTag>(OnOrderTagSelected);
@@ -33,7 +32,6 @@ namespace Samba.Modules.TicketModule
             UpdateFreeTagCommand = new CaptionCommand<string>(Resources.AddAndSave, OnUpdateFreeTag, CanUpdateFreeTag);
             SelectedItemPortions = new ObservableCollection<MenuItemPortion>();
             OrderTagGroups = new ObservableCollection<OrderTagGroup>();
-            Reasons = new ObservableCollection<Reason>();
             TicketTags = new ObservableCollection<TicketTag>();
             OrderTags = new ObservableCollection<OrderTag>();
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketViewModel>>().Subscribe(OnTicketViewModelEvent);
@@ -83,22 +81,6 @@ namespace Samba.Modules.TicketModule
                 RaisePropertyChanged(() => FilteredTextBoxType);
             }
 
-            if (obj.Topic == EventTopicNames.SelectVoidReason)
-            {
-                ResetValues(obj.Value);
-                Reasons.AddRange(AppServices.MainDataContext.Reasons.Values.Where(x => x.ReasonType == 0));
-                if (Reasons.Count == 0) obj.Value.VoidSelectedItems(0);
-                RaisePropertyChanged(() => ReasonColumnCount);
-            }
-
-            if (obj.Topic == EventTopicNames.SelectGiftReason)
-            {
-                ResetValues(obj.Value);
-                Reasons.AddRange(AppServices.MainDataContext.Reasons.Values.Where(x => x.ReasonType == 1));
-                if (Reasons.Count == 0) obj.Value.GiftSelectedItems(0);
-                RaisePropertyChanged(() => ReasonColumnCount);
-            }
-
             if (obj.Topic == EventTopicNames.SelectExtraProperty)
             {
                 ResetValues(obj.Value);
@@ -122,7 +104,6 @@ namespace Samba.Modules.TicketModule
 
             SelectedItemPortions.Clear();
             OrderTagGroups.Clear();
-            Reasons.Clear();
             TicketTags.Clear();
             OrderTags.Clear();
             _showExtraPropertyEditor = false;
@@ -138,7 +119,6 @@ namespace Samba.Modules.TicketModule
         public ICaptionCommand CloseCommand { get; set; }
         public ICaptionCommand UpdateExtraPropertiesCommand { get; set; }
         public ICaptionCommand UpdateFreeTagCommand { get; set; }
-        public ICommand SelectReasonCommand { get; set; }
         public ICommand SelectTicketTagCommand { get; set; }
 
         public DelegateCommand<MenuItemPortion> PortionSelectedCommand { get; set; }
@@ -147,11 +127,9 @@ namespace Samba.Modules.TicketModule
         public DelegateCommand<OrderTag> OrderTagSelectedCommand { get; set; }
         public ObservableCollection<OrderTagGroup> OrderTagGroups { get; set; }
 
-        public ObservableCollection<Reason> Reasons { get; set; }
         public ObservableCollection<TicketTag> TicketTags { get; set; }
         public ObservableCollection<OrderTag> OrderTags { get; set; }
 
-        public int ReasonColumnCount { get { return Reasons.Count % 7 == 0 ? Reasons.Count / 7 : (Reasons.Count / 7) + 1; } }
         public int TagColumnCount { get { return TicketTags.Count % 7 == 0 ? TicketTags.Count / 7 : (TicketTags.Count / 7) + 1; } }
         public int OrderTagColumnCount { get { return OrderTags.Count % 7 == 0 ? OrderTags.Count / 7 : (OrderTags.Count / 7) + 1; } }
 
@@ -186,7 +164,6 @@ namespace Samba.Modules.TicketModule
             get
             {
                 return SelectedItem != null
-                    && Reasons.Count == 0
                     && !SelectedItem.IsVoided
                     && !SelectedItem.IsLocked
                     && SelectedItemPortions.Count > 0;
@@ -248,16 +225,6 @@ namespace Samba.Modules.TicketModule
         private void OnTicketTagSelected(TicketTag obj)
         {
             SelectedTicket.UpdateTag(SelectedTicket.LastSelectedTicketTag, obj);
-        }
-
-        private void OnReasonSelected(int? reasonId)
-        {
-            var rid = reasonId.GetValueOrDefault(0);
-            Reason r = AppServices.MainDataContext.Reasons[rid];
-            if (r.ReasonType == 0)
-                SelectedTicket.VoidSelectedItems(rid);
-            if (r.ReasonType == 1)
-                SelectedTicket.GiftSelectedItems(rid);
         }
 
         private void OnPortionSelected(MenuItemPortion obj)

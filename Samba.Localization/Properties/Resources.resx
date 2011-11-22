@@ -1038,10 +1038,6 @@ Payment</value>
     <value>#Line: Order Number</value>
     <comment>Paragraph content</comment>
   </data>
-  <data name="LineGiftOrVoidReason" xml:space="preserve">
-    <value>#Line: Gift or Void Reason</value>
-    <comment>Paragraph content</comment>
-  </data>
   <data name="TicketTotal" xml:space="preserve">
     <value>Ticket Total</value>
     <comment>Paragraph content</comment>
@@ -1236,12 +1232,6 @@ Payment</value>
   </data>
   <data name="PrinterTemplates" xml:space="preserve">
     <value>Printer Templates</value>
-  </data>
-  <data name="VoidReasons" xml:space="preserve">
-    <value>Void Reasons</value>
-  </data>
-  <data name="GiftReasons" xml:space="preserve">
-    <value>Gift Reasons</value>
   </data>
   <data name="SambaPosWebsite" xml:space="preserve">
     <value>SambaPOS Website</value>
@@ -2211,9 +2201,6 @@ Table: {2}</value>
   </data>
   <data name="TF_LineItemTotalWithoutGifts" xml:space="preserve">
     <value>{LINE AMOUNT}</value>
-  </data>
-  <data name="TF_LineGiftOrVoidReason" xml:space="preserve">
-    <value>{REASON}</value>
   </data>
   <data name="TF_LineItemPriceCents" xml:space="preserve">
     <value>{CENTS}</value>

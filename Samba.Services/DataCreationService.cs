@@ -143,6 +143,17 @@ namespace Samba.Services
             t.PrintJobs.Add(pj2);
             _workspace.Add(t);
 
+            var orderTag1 = new OrderTagGroup { Name = Resources.Gift, ButtonHeader = Resources.Gift, TagAction = 1, SelectionType = 1 };
+            orderTag1.OrderTags.Add(new OrderTag { Name = Resources.Gift });
+            orderTag1.OrderTagMaps.Add(new OrderTagMap());
+            _workspace.Add(orderTag1);
+
+            var orderTag2 = new OrderTagGroup { Name = Resources.Void, ButtonHeader = Resources.Void, TagAction = 2, SelectionType = 1 };
+            orderTag2.OrderTags.Add(new OrderTag { Name = Resources.Void });
+            orderTag2.OrderTagMaps.Add(new OrderTagMap());
+            orderTag2.UnlocksOrder = true;
+            _workspace.Add(orderTag2);
+
             ImportMenus(screen);
             ImportTables(department);
 
@@ -252,26 +263,12 @@ namespace Samba.Services
                         var itemName = string.Join(" ", parts.ToArray());
                         var mi = MenuItem.Create();
                         mi.Name = itemName;
-                        mi.Portions[0].Price= price;
+                        mi.Portions[0].Price = price;
                         mi.GroupCode = currentCategory;
                         workspace.Add(mi);
                         workspace.Add(mi.Portions[0]);
                         result.Add(mi);
                     }
-                }
-            }
-            return result;
-        }
-
-        public IEnumerable<Reason> BatchCreateReasons(string[] values, int reasonType, IWorkspace workspace)
-        {
-            IList<Reason> result = new List<Reason>();
-            if (values.Length > 0)
-            {
-                foreach (var reason in values.Select(value => new Reason { Name = value, ReasonType = reasonType }))
-                {
-                    workspace.Add(reason);
-                    result.Add(reason);
                 }
             }
             return result;

@@ -118,15 +118,13 @@ namespace Samba.Services.Printing
                                                     x.TaxTemplateId,
                                                     x.TaxIncluded,
                                                     x.PortionName,
-                                                    x.PortionCount,
-                                                    x.ReasonId
+                                                    x.PortionCount
                                                 });
 
             var result = group.Select(x => new Order
                                     {
                                         MenuItemId = x.Key.MenuItemId,
                                         MenuItemName = x.Key.MenuItemName,
-                                        ReasonId = x.Key.ReasonId,
                                         Voided = x.Key.Voided,
                                         Gifted = x.Key.Gifted,
                                         Price = x.Key.Price,
@@ -344,7 +342,6 @@ namespace Samba.Services.Printing
                 result = FormatData(result, Resources.TF_LineItemPriceCents, () => (order.Price * 100).ToString("#,##"));
                 result = FormatData(result, Resources.TF_LineItemTotalWithoutGifts, () => order.GetTotal().ToString("#,#0.00"));
                 result = FormatData(result, Resources.TF_LineOrderNumber, () => order.OrderNumber.ToString());
-                result = FormatData(result, Resources.TF_LineGiftOrVoidReason, () => AppServices.MainDataContext.GetReason(order.ReasonId));
                 result = FormatData(result, "{PRICE TAG}", () => order.PriceTag);
                 if (result.Contains(Resources.TF_LineItemDetails.Substring(0, Resources.TF_LineItemDetails.Length - 1)))
                 {

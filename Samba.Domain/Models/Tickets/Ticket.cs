@@ -329,22 +329,10 @@ namespace Samba.Domain.Models.Tickets
             get { return Tags.Where(x => !string.IsNullOrEmpty(x.TagValue)).Count() > 0; }
         }
 
-        public void VoidOrder(Order item, int reasonId, int userId)
-        {
-            Locked = false;
-            item.Void(reasonId, userId);
-        }
-
-        public void GiftOrder(Order item, int reasonId, int userId)
-        {
-            Locked = false;
-            item.Gift(reasonId, userId);
-        }
-
         public void CancelOrder(Order item)
         {
             Locked = false;
-            if (!item.Voided && !item.Gifted && !item.Locked)
+            if (!item.Voided && !item.Gifted && !item.Locked && item.Id == 0)
                 RemoveOrder(item);
             else item.CancelGiftOrVoid();
         }

@@ -2921,15 +2921,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Gift Reasons.
-        /// </summary>
-        public static string GiftReasons {
-            get {
-                return ResourceManager.GetString("GiftReasons", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Gifts.
         /// </summary>
         public static string Gifts {
@@ -3436,15 +3427,6 @@ namespace Samba.Localization.Properties {
         public static string LineCharacterCount {
             get {
                 return ResourceManager.GetString("LineCharacterCount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to #Line: Gift or Void Reason.
-        /// </summary>
-        public static string LineGiftOrVoidReason {
-            get {
-                return ResourceManager.GetString("LineGiftOrVoidReason", resourceCulture);
             }
         }
         
@@ -6327,15 +6309,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {REASON}.
-        /// </summary>
-        public static string TF_LineGiftOrVoidReason {
-            get {
-                return ResourceManager.GetString("TF_LineGiftOrVoidReason", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {PROP PRICE}.
         /// </summary>
         public static string TF_LineItemDetailPrice {
@@ -7700,15 +7673,6 @@ namespace Samba.Localization.Properties {
         public static string VoidReasonName {
             get {
                 return ResourceManager.GetString("VoidReasonName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Void Reasons.
-        /// </summary>
-        public static string VoidReasons {
-            get {
-                return ResourceManager.GetString("VoidReasons", resourceCulture);
             }
         }
         

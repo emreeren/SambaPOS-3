@@ -169,9 +169,6 @@ namespace Samba.Services
             }
         }
 
-        private IDictionary<int, Reason> _reasons;
-        public IDictionary<int, Reason> Reasons { get { return _reasons ?? (_reasons = Dao.BuildDictionary<Reason>()); } }
-
         private IEnumerable<WorkPeriod> _lastTwoWorkPeriods;
         public IEnumerable<WorkPeriod> LastTwoWorkPeriods
         {
@@ -292,11 +289,6 @@ namespace Samba.Services
                 }
                 _lastTwoWorkPeriods = null;
             }
-        }
-
-        public string GetReason(int reasonId)
-        {
-            return Reasons.ContainsKey(reasonId) ? Reasons[reasonId].Name : Resources.UndefinedWithBrackets;
         }
 
         public void UpdateTicketTable(Ticket ticket)
@@ -559,7 +551,6 @@ namespace Samba.Services
                 _tableScreens = null;
                 _departments = null;
                 _permittedDepartments = null;
-                _reasons = null;
                 _lastTwoWorkPeriods = null;
                 _users = null;
                 _rules = null;

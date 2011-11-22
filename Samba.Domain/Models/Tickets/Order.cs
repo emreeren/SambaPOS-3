@@ -27,7 +27,6 @@ namespace Samba.Domain.Models.Tickets
         public int PortionCount { get; set; }
         public bool Locked { get; set; }
         public bool Voided { get; set; }
-        public int ReasonId { get; set; }
         public bool Gifted { get; set; }
         public int OrderNumber { get; set; }
         public int CreatingUserId { get; set; }
@@ -119,8 +118,8 @@ namespace Samba.Domain.Models.Tickets
 
             OrderTagValues.Add(otag);
 
-            if (orderTagGroup.VoidsOrder) Void(0, userId);
-            if (orderTagGroup.GiftsOrder) Gift(0, userId);
+            if (orderTagGroup.VoidsOrder) Void(userId);
+            if (orderTagGroup.GiftsOrder) Gift(userId);
         }
 
         private void UntagOrder(OrderTagGroup orderTagGroup, OrderTagValue orderTagValue)
@@ -149,67 +148,9 @@ namespace Samba.Domain.Models.Tickets
             {
                 UntagOrder(orderTagGroup, otag);
             }
-            Locked = false;
+            if (orderTagGroup.UnlocksOrder) 
+                Locked = false;
         }
-
-        //public void ToggleOrderTag(OrderTagGroup tagGroup, OrderTag orderTag)
-        //{
-        //    if (tagGroup.VoidsOrder) Void(0, 0);
-        //    if (tagGroup.GiftsOrder) Gift(0, 0);
-
-        //    if (tagGroup.MultipleSelection && orderTag.Price == 0)
-        //    {
-        //        var groupItems = OrderTagValues.Where(x => x.OrderTagGroupId == tagGroup.Id).ToList();
-        //        foreach (var tip in groupItems) OrderTagValues.Remove(tip);
-        //        Quantity = 1;
-        //        return;
-        //    }
-
-        //    var ti = FindOrderTag(orderTag.Name);
-        //    if (ti == null)
-        //    {
-        //        ti = new OrderTagValue
-        //                {
-        //                    Name = orderTag.Name,
-        //                    Price = orderTag.Price,
-        //                    OrderTagGroupId = tagGroup.Id,
-        //                    MenuItemId = orderTag.MenuItemId,
-        //                    CalculateWithParentPrice = tagGroup.AddTagPriceToOrderPrice,
-        //                    PortionName = PortionName,
-        //                    TagAction = tagGroup.TagAction,
-        //                    Quantity = tagGroup.MultipleSelection ? 0 : 1
-        //                };
-
-        //        if (TaxIncluded && TaxRate > 0)
-        //        {
-        //            ti.Price = ti.Price / ((100 + TaxRate) / 100);
-        //            ti.Price = decimal.Round(ti.Price, 2);
-        //            ti.TaxAmount = orderTag.Price - ti.Price;
-        //        }
-        //        else if (TaxRate > 0) ti.TaxAmount = (orderTag.Price * TaxRate) / 100;
-        //        else ti.TaxAmount = 0;
-        //    }
-        //    if (tagGroup.SingleSelection)
-        //    {
-        //        var tip = OrderTagValues.FirstOrDefault(x => x.OrderTagGroupId == tagGroup.Id);
-        //        if (tip != null)
-        //        {
-        //            OrderTagValues.Insert(OrderTagValues.IndexOf(tip), ti);
-        //            OrderTagValues.Remove(tip);
-        //        }
-        //    }
-        //    else if (tagGroup.MultipleSelection)
-        //    {
-        //        ti.Quantity++;
-        //    }
-        //    else if (!tagGroup.MultipleSelection && OrderTagValues.Contains(ti))
-        //    {
-        //        OrderTagValues.Remove(ti);
-        //        return;
-        //    }
-
-        //    if (!OrderTagValues.Contains(ti)) OrderTagValues.Add(ti);
-        //}
 
         public OrderTagValue GetCustomOrderTag()
         {
@@ -353,42 +294,38 @@ namespace Samba.Domain.Models.Tickets
             UpdatePrice(Price, PriceTag);
         }
 
-        internal void Void(int reasonId, int userId)
+        private void Void(int userId)
         {
             if (Locked && !Voided && !Gifted)
             {
                 Voided = true;
                 ModifiedUserId = userId;
                 ModifiedDateTime = DateTime.Now;
-                ReasonId = reasonId;
                 Locked = false;
             }
             else CancelGiftOrVoid();
         }
 
-        public void Gift(int reasonId, int userId)
+        private void Gift(int userId)
         {
             Gifted = true;
             ModifiedUserId = userId;
             ModifiedDateTime = DateTime.Now;
-            ReasonId = reasonId;
         }
 
         public void CancelGiftOrVoid()
         {
             if (Voided && !Locked)
             {
-                ReasonId = 0;
                 Voided = false;
-                Locked = true;
                 OrderTagValues.Where(x => x.VoidsOrder).ToList().ForEach(x => OrderTagValues.Remove(x));
             }
             else if (Gifted)
             {
-                ReasonId = 0;
                 Gifted = false;
                 OrderTagValues.Where(x => x.GiftsOrder).ToList().ForEach(x => OrderTagValues.Remove(x));
             }
+            if (Id > 0) Locked = true;
         }
     }
 }

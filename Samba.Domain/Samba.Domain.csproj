@@ -119,7 +119,6 @@
     <Compile Include="Models\Tickets\Payment.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Models\Tickets\Reason.cs" />
     <Compile Include="Models\Tickets\Ticket.cs">
       <SubType>Code</SubType>
     </Compile>

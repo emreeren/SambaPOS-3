@@ -92,9 +92,7 @@ namespace Samba.Modules.TicketModule
                 else DisplayCategoriesScreen();
             }
 
-            if (obj.Topic == EventTopicNames.SelectVoidReason
-                || obj.Topic == EventTopicNames.SelectGiftReason
-                || obj.Topic == EventTopicNames.SelectExtraProperty
+            if (obj.Topic == EventTopicNames.SelectExtraProperty
                 || obj.Topic == EventTopicNames.SelectTicketTag
                 || obj.Topic == EventTopicNames.SelectOrderTag
                 || obj.Topic == EventTopicNames.EditTicketNote)

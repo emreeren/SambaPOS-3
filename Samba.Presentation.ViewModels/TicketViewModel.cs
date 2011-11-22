@@ -310,18 +310,6 @@ namespace Samba.Presentation.ViewModels
             RaisePropertyChanged(() => IsTagged);
         }
 
-        private void VoidItems(IEnumerable<OrderViewModel> orders, int reasonId, int userId)
-        {
-            orders.ToList().ForEach(x => Model.VoidOrder(x.Model, reasonId, userId));
-            RegenerateItemViewModels();
-        }
-
-        private void GiftItems(IEnumerable<OrderViewModel> orders, int reasonId, int userId)
-        {
-            orders.ToList().ForEach(x => Model.GiftOrder(x.Model, reasonId, userId));
-            RegenerateItemViewModels();
-        }
-
         public void CancelItems(IEnumerable<OrderViewModel> orders, int userId)
         {
             orders.ToList().ForEach(x => Model.CancelOrder(x.Model));
@@ -331,18 +319,6 @@ namespace Samba.Presentation.ViewModels
         public void CancelSelectedItems()
         {
             CancelItems(SelectedOrders.ToArray(), AppServices.CurrentLoggedInUser.Id);
-        }
-
-        public void GiftSelectedItems(int reasonId)
-        {
-            FixSelectedItems();
-            GiftItems(SelectedOrders.ToArray(), reasonId, AppServices.CurrentLoggedInUser.Id);
-        }
-
-        public void VoidSelectedItems(int reasonId)
-        {
-            FixSelectedItems();
-            VoidItems(SelectedOrders.ToArray(), reasonId, AppServices.CurrentLoggedInUser.Id);
         }
 
         public bool CanVoidSelectedItems()

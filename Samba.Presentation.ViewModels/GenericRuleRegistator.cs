@@ -36,7 +36,6 @@ namespace Samba.Presentation.ViewModels
             RuleActionTypeRegistry.RegisterActionType("SendEmail", Resources.SendEmail, new { SMTPServer = "", SMTPUser = "", SMTPPassword = "", SMTPPort = 0, ToEMailAddress = "", Subject = "", FromEMailAddress = "", EMailMessage = "", FileName = "", DeleteFile = false });
             RuleActionTypeRegistry.RegisterActionType("AddTicketDiscount", Resources.AddTicketDiscount, new { DiscountPercentage = 0m });
             RuleActionTypeRegistry.RegisterActionType("AddOrder", Resources.AddOrder, new { MenuItemName = "", PortionName = "", Quantity = 0, Gift = false, Tag = "" });
-            RuleActionTypeRegistry.RegisterActionType("VoidOrders", Resources.VoidOrders, new { MenuItemName = "", Tag = "" });
             RuleActionTypeRegistry.RegisterActionType("UpdateTicketTag", Resources.UpdateTicketTag, new { TagName = "", TagValue = "" });
             RuleActionTypeRegistry.RegisterActionType("UpdatePriceTag", Resources.UpdatePriceTag, new { DepartmentName = "", PriceTag = "" });
             RuleActionTypeRegistry.RegisterActionType("RefreshCache", Resources.RefreshCache);
@@ -235,25 +234,6 @@ namespace Samba.Presentation.ViewModels
                         TicketViewModel.RecalculateTicket(ticket);
 
                         EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
-                    }
-                }
-
-                if (x.Value.Action.ActionType == "VoidOrders")
-                {
-                    var ticket = x.Value.GetDataValue<Ticket>("Ticket");
-                    if (ticket != null)
-                    {
-                        var menuItemName = x.Value.GetAsString("MenuItemName");
-                        var tag = x.Value.GetAsString("Tag");
-                        if (!string.IsNullOrEmpty(menuItemName) && !string.IsNullOrEmpty(tag))
-                        {
-                            var lines = ticket.Orders.Where(y => !y.Voided &&
-                                (string.IsNullOrEmpty(menuItemName) || y.MenuItemName.Contains(menuItemName)) &&
-                                (y.Tag.Contains(tag) || string.IsNullOrEmpty(tag))).ToList();
-                            lines.ForEach(y => ticket.VoidOrder(y, 0, AppServices.CurrentLoggedInUser.Id));
-                            TicketViewModel.RecalculateTicket(ticket);
-                            EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
-                        }
                     }
                 }
 

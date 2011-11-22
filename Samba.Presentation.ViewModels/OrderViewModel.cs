@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
@@ -31,10 +30,6 @@ namespace Samba.Presentation.ViewModels
             get
             {
                 var desc = _model.MenuItemName + _model.GetPortionDesc();
-
-                //if (IsGifted) desc = Resources.Gift_ab + desc;
-                //if (IsVoided) desc = Resources.Void_ab + desc;
-
                 if (IsSelectedQuantityModified)
                     desc = string.Format("({0:#.##}) {1}", Model.SelectedQuantity, desc);
                 return desc;
@@ -187,8 +182,6 @@ namespace Samba.Presentation.ViewModels
                 return _model.Locked ? FontWeights.Bold : FontWeights.Normal;
             }
         }
-
-        public string Reason { get { return Model.ReasonId > 0 ? AppServices.MainDataContext.GetReason(Model.ReasonId) : ""; } }
 
         public string PriceTag { get { return Model.PriceTag; } }
 
