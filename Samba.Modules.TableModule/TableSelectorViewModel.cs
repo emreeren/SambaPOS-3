@@ -29,7 +29,7 @@ namespace Samba.Modules.TableModule
 
         public Ticket SelectedTicket { get { return AppServices.MainDataContext.SelectedTicket; } }
         public TableScreen SelectedTableScreen { get { return AppServices.MainDataContext.SelectedTableScreen; } }
-        public IEnumerable<TableScreen> TableScreens { get { return AppServices.MainDataContext.TableScreens.Where(x => x.DisplayMode < 2); } }
+        public IEnumerable<TableScreen> TableScreens { get { return AppServices.MainDataContext.SelectedDepartment != null ? AppServices.MainDataContext.SelectedDepartment.PosTableScreens : null; } }
 
         public bool IsNavigated { get; set; }
         public bool CanDesignTables { get { return AppServices.CurrentLoggedInUser.UserRole.IsAdmin; } }

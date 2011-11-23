@@ -168,7 +168,7 @@ namespace Samba.Modules.TicketModule
                         && AppServices.MainDataContext.SelectedDepartment.IsAlaCarte))
                         && IsNothingSelected) &&
                         ((AppServices.MainDataContext.SelectedDepartment != null &&
-                        AppServices.MainDataContext.SelectedDepartment.TableScreenId > 0));
+                        AppServices.MainDataContext.SelectedDepartment.PosTableScreens.Count > 0));
             }
         }
 
@@ -509,6 +509,7 @@ namespace Samba.Modules.TicketModule
         private bool CanShowOrderTagsExecute(OrderTagGroup arg)
         {
             if (_selectedOrders.Count == 0) return false;
+            if (!arg.DecreaseOrderInventory && _selectedOrders.Any(x => !x.IsLocked && !x.IsTaggedWith(arg))) return false;
             if (_selectedOrders.Any(x => !x.Model.DecreaseInventory && !x.IsTaggedWith(arg))) return false;
             return !arg.UnlocksOrder || !_selectedOrders.Any(x => x.IsLocked && x.OrderTagValues.Count(y => y.Model.OrderTagGroupId == arg.Id) > 0);
         }

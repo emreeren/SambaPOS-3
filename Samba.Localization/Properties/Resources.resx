@@ -3025,4 +3025,22 @@ Continue without adding details?</value>
     <value>Order Tag Mapping</value>
     <comment>Label content</comment>
   </data>
+	<data name="RemoveGiftTag">
+		<value xml:space="preserve">Remove Gift Tag</value>
+	</data>
+	<data name="RemoveGiftTagWhenVoided">
+		<value xml:space="preserve">Remove Gift Tag when Voided</value>
+	</data>
+	<data name="TableScreen">
+		<value xml:space="preserve">Table Screen</value>
+	</data>
+  <data name="TableScreens">
+    <value xml:space="preserve">Table Screens</value>
+  </data>
+  <data name="PosTableScreens">
+    <value xml:space="preserve">POS Table Screens</value>
+  </data>
+  <data name="TerminalTableScreens">
+    <value xml:space="preserve">Terminal Table Screens</value>
+  </data>
 </root>

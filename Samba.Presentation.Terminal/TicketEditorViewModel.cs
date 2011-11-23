@@ -91,7 +91,7 @@ namespace Samba.Presentation.Terminal
                 return _isTableButtonVisible ??
                        (_isTableButtonVisible =
                         AppServices.MainDataContext.SelectedDepartment != null &&
-                        AppServices.MainDataContext.SelectedDepartment.TerminalTableScreenId > 0);
+                        AppServices.MainDataContext.SelectedDepartment.TerminalTableScreens.Count > 0);
             }
         }
 

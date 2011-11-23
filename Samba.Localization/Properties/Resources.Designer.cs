@@ -4603,6 +4603,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to POS Table Screens.
+        /// </summary>
+        public static string PosTableScreens {
+            get {
+                return ResourceManager.GetString("PosTableScreens", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to POS Table View.
         /// </summary>
         public static string POSTableView {
@@ -5140,6 +5149,24 @@ namespace Samba.Localization.Properties {
         public static string RemainingAmountIfPaidValue_f {
             get {
                 return ResourceManager.GetString("RemainingAmountIfPaidValue_f", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove Gift Tag.
+        /// </summary>
+        public static string RemoveGiftTag {
+            get {
+                return ResourceManager.GetString("RemoveGiftTag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove Gift Tag when Voided.
+        /// </summary>
+        public static string RemoveGiftTagWhenVoided {
+            get {
+                return ResourceManager.GetString("RemoveGiftTagWhenVoided", resourceCulture);
             }
         }
         
@@ -5966,6 +5993,24 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Table Screen.
+        /// </summary>
+        public static string TableScreen {
+            get {
+                return ResourceManager.GetString("TableScreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Table Screens.
+        /// </summary>
+        public static string TableScreens {
+            get {
+                return ResourceManager.GetString("TableScreens", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} ticket
         ///merged with {1} table..
         /// </summary>
@@ -6197,6 +6242,15 @@ namespace Samba.Localization.Properties {
         public static string Terminals {
             get {
                 return ResourceManager.GetString("Terminals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Terminal Table Screens.
+        /// </summary>
+        public static string TerminalTableScreens {
+            get {
+                return ResourceManager.GetString("TerminalTableScreens", resourceCulture);
             }
         }
         

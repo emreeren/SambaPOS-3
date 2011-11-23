@@ -263,12 +263,22 @@ namespace Samba.Presentation.ViewModels
 
         public void ToggleOrderTag(OrderTagGroup orderTagGroup, OrderTag orderTag, int userId)
         {
-            _model.ToggleOrderTag(orderTagGroup, orderTag, userId);
+            var result = _model.ToggleOrderTag(orderTagGroup, orderTag, userId);
+            
+            RuleExecutor.NotifyEvent(result ? RuleEventNames.OrderTagged : RuleEventNames.OrderUntagged,
+            new
+            {
+                Order = Model,
+                OrderTagName = orderTagGroup.Name,
+                OrderTagValue = orderTag.Name
+            });
+
             RefreshProperties();
             RaisePropertyChanged(() => TotalPrice);
             RaisePropertyChanged(() => Quantity);
             RaisePropertyChanged(() => Description);
             RaisePropertyChanged(() => FontWeight);
+
         }
 
         private void RefreshProperties()

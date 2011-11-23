@@ -3030,4 +3030,22 @@ Bilgi eklemeden devam etmek istiyor musunuz?]]>
     <value>Sipariş Etiketi Yönlendirmeleri</value>
     <comment>Label content</comment>
   </data>
+	<data name="RemoveGiftTag">
+		<value xml:space="preserve">İkram Etiketini Kaldır</value>
+	</data>
+	<data name="RemoveGiftTagWhenVoided">
+		<value xml:space="preserve">İade yapıldığında İkram etiketini kaldır</value>
+	</data>
+	<data name="TableScreen">
+		<value xml:space="preserve">Masa Görünümü</value>
+	</data>
+	<data name="TableScreens">
+		<value xml:space="preserve">Masa Görünümleri</value>
+	</data>
+	<data name="PosTableScreens">
+		<value xml:space="preserve">POS Masa Görünümleri</value>
+	</data>
+	<data name="TerminalTableScreens">
+		<value xml:space="preserve">Terminal Masa Görünümleri</value>
+	</data>
 </root>

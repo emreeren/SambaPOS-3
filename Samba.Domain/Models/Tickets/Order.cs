@@ -102,6 +102,20 @@ namespace Samba.Domain.Models.Tickets
             }
         }
 
+        public void TagIfNotTagged(OrderTagGroup orderTagGroup, OrderTag orderTag, int userId)
+        {
+            if (OrderTagValues.FirstOrDefault(x => x.OrderTagGroupId == orderTagGroup.Id && x.Name == orderTag.Name) == null)
+            {
+                ToggleOrderTag(orderTagGroup, orderTag, userId);
+            }
+        }
+
+        public void UntagIfTagged(OrderTagGroup orderTagGroup, OrderTag orderTag, int userId)
+        {
+            var value = OrderTagValues.FirstOrDefault(x => x.OrderTagGroupId == orderTagGroup.Id && x.Name == orderTag.Name);
+            if (value != null) ToggleOrderTag(orderTagGroup, orderTag, userId);
+        }
+
         private void TagOrder(OrderTagGroup orderTagGroup, OrderTag orderTag, int userId)
         {
             var otag = new OrderTagValue
@@ -112,6 +126,8 @@ namespace Samba.Domain.Models.Tickets
                            AddTagPriceToOrderPrice = orderTagGroup.AddTagPriceToOrderPrice,
                            PortionName = PortionName,
                            UserId = userId,
+                           DecreaseInventory = orderTagGroup.DecreaseOrderInventory,
+                           CalculatePrice = orderTagGroup.CalculateOrderPrice,
                            Quantity = 1
                        };
             otag.UpdatePrice(TaxIncluded, TaxRate, orderTag.Price);
@@ -121,15 +137,16 @@ namespace Samba.Domain.Models.Tickets
             DecreaseInventory = orderTagGroup.DecreaseOrderInventory;
         }
 
-        private void UntagOrder(OrderTagGroup orderTagGroup, OrderTagValue orderTagValue)
+        private void UntagOrder(OrderTagValue orderTagValue)
         {
             OrderTagValues.Remove(orderTagValue);
-            if (!orderTagGroup.CalculateOrderPrice) CalculatePrice = true;
-            if (!orderTagGroup.DecreaseOrderInventory) DecreaseInventory = true;
+            CalculatePrice = OrderTagValues.FirstOrDefault(x => !x.CalculatePrice) == null;
+            DecreaseInventory = OrderTagValues.FirstOrDefault(x => !x.DecreaseInventory) == null;
         }
 
-        public void ToggleOrderTag(OrderTagGroup orderTagGroup, OrderTag orderTag, int userId)
+        public bool ToggleOrderTag(OrderTagGroup orderTagGroup, OrderTag orderTag, int userId)
         {
+            var result = true;
             var otag = OrderTagValues.FirstOrDefault(x => x.Name == orderTag.Name);
             if (otag == null)
             {
@@ -143,10 +160,12 @@ namespace Samba.Domain.Models.Tickets
             }
             else
             {
-                UntagOrder(orderTagGroup, otag);
+                UntagOrder(otag);
+                result = false;
             }
             if (orderTagGroup.UnlocksOrder)
                 Locked = false;
+            return result;
         }
 
         public OrderTagValue GetCustomOrderTag()

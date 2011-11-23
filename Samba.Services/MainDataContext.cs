@@ -145,16 +145,16 @@ namespace Samba.Services
         private IEnumerable<AppAction> _actions;
         public IEnumerable<AppAction> Actions { get { return _actions ?? (_actions = Dao.Query<AppAction>()); } }
 
-        private IEnumerable<TableScreen> _tableScreens;
-        public IEnumerable<TableScreen> TableScreens { get { return _tableScreens ?? (_tableScreens = Dao.Query<TableScreen>(x => x.Tables)); } }
-
         private IEnumerable<Department> _departments;
         public IEnumerable<Department> Departments
         {
             get
             {
                 return _departments ?? (_departments = Dao.Query<Department>(x => x.TicketNumerator, x => x.OrderNumerator,
-                    x => x.ServiceTemplates, x => x.TicketTagGroups.Select(y => y.Numerator), x => x.TicketTagGroups.Select(y => y.TicketTags)));
+                    x => x.ServiceTemplates, x => x.OrderTagGroups, x => x.OrderTagGroups.Select(y => y.OrderTags), x => x.OrderTagGroups.Select(y => y.OrderTagMaps),
+                    x => x.PosTableScreens, x => x.PosTableScreens.Select(y => y.Tables),
+                    x => x.TerminalTableScreens, x => x.TerminalTableScreens.Select(y => y.Tables),
+                    x => x.TicketTagGroups.Select(y => y.Numerator), x => x.TicketTagGroups.Select(y => y.TicketTags)));
             }
         }
 
@@ -210,7 +210,7 @@ namespace Samba.Services
             {
                 if (value != null && (_selectedDepartment == null || _selectedDepartment.Id != value.Id))
                 {
-                    SelectedTableScreen = TableScreens.FirstOrDefault(x => x.Id == value.TableScreenId);
+                    SelectedTableScreen = value.PosTableScreens.FirstOrDefault();
                 }
                 _selectedDepartment = value;
             }
@@ -389,7 +389,7 @@ namespace Samba.Services
             SelectedTableScreen = null;
             if (tableScreenId > 0)
             {
-                SelectedTableScreen = TableScreens.Single(x => x.Id == tableScreenId);
+                SelectedTableScreen = SelectedDepartment.PosTableScreens.Single(x => x.Id == tableScreenId);
                 AppServices.MainDataContext.UpdateTableData(SelectedTableScreen, pageNo);
             }
         }
@@ -532,7 +532,7 @@ namespace Samba.Services
             {
                 _tableWorkspace.CommitChanges();
                 _tableWorkspace = null;
-                _tableScreens = null;
+                _departments = null;
             }
         }
 
@@ -548,7 +548,6 @@ namespace Samba.Services
                 SelectedTableScreen = null;
                 SelectedDepartment = null;
 
-                _tableScreens = null;
                 _departments = null;
                 _permittedDepartments = null;
                 _lastTwoWorkPeriods = null;
@@ -559,10 +558,12 @@ namespace Samba.Services
                 _serviceTemplates = null;
                 _orderTagGroups = null;
 
-                if (selectedTableScreen > 0 && TableScreens.Count(x => x.Id == selectedTableScreen) > 0)
-                    SelectedTableScreen = TableScreens.Single(x => x.Id == selectedTableScreen);
                 if (selectedDepartment > 0 && Departments.Count(x => x.Id == selectedDepartment) > 0)
+                {
                     SelectedDepartment = Departments.Single(x => x.Id == selectedDepartment);
+                    if (selectedTableScreen > 0 && SelectedDepartment.PosTableScreens.Count(x => x.Id == selectedTableScreen) > 0)
+                        SelectedTableScreen = SelectedDepartment.PosTableScreens.Single(x => x.Id == selectedTableScreen);
+                }
             }
         }
 

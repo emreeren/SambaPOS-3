@@ -21,6 +21,20 @@
                             <LocText ResourceIdentifierKey="DepartmentName" Suffix=":"/>
                         </Label>
                         <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name,Mode=TwoWay}" />
+                        <GroupBox Header="{LocText DepartmentType}"
+                             Padding="5">
+                            <StackPanel>
+                                <CheckBox IsChecked="{Binding IsFastFood}" Margin="0,6">
+                                    <LocText ResourceIdentifierKey="FastFood"/>
+                                </CheckBox>
+                                <CheckBox IsChecked="{Binding IsAlaCarte}" Margin="0,6">
+                                    <LocText ResourceIdentifierKey="ALaCarte"/>
+                                </CheckBox>
+                                <CheckBox IsChecked="{Binding IsTakeAway}" Margin="0,6">
+                                    <LocText ResourceIdentifierKey="Delivery"/>
+                                </CheckBox>
+                            </StackPanel>
+                        </GroupBox>
                         <Label>
                             <LocText ResourceIdentifierKey="POSMenu" Suffix=":"/>
                         </Label>
@@ -31,16 +45,6 @@
                         </Label>
                         <ComboBox HorizontalAlignment="Left" MinWidth="150" ItemsSource="{Binding ScreenMenus}"
                              DisplayMemberPath="Name" SelectedValuePath="Id" SelectedValue="{Binding TerminalScreenMenuId}" />
-                        <Label>
-                            <LocText ResourceIdentifierKey="POSTableView" Suffix=":"/>
-                        </Label>
-                        <ComboBox HorizontalAlignment="Left" MinWidth="150" IsEditable="True" ItemsSource="{Binding TableScreens}"
-                             DisplayMemberPath="Name" SelectedValuePath="Id" SelectedValue="{Binding TableScreenId,Mode=TwoWay}" />
-                        <Label>
-                            <LocText ResourceIdentifierKey="TerminalTableView" Suffix=":"/>
-                        </Label>
-                        <ComboBox HorizontalAlignment="Left" MinWidth="150" IsEditable="True" ItemsSource="{Binding TableScreens}"
-                             DisplayMemberPath="Name" SelectedValuePath="Id" SelectedValue="{Binding TerminalTableScreenId}" />
                         <Label>
                             <LocText ResourceIdentifierKey="PriceTag" Suffix=":"/>
                         </Label>
@@ -57,20 +61,6 @@
                         </GroupBox>
                     </StackPanel>
                     <StackPanel Grid.Column="1" Margin="20,0" HorizontalAlignment="Left">
-                        <GroupBox Header="{LocText DepartmentType}"
-                             Padding="5">
-                            <StackPanel>
-                                <CheckBox IsChecked="{Binding IsFastFood}" Margin="0,6">
-                                    <LocText ResourceIdentifierKey="FastFood"/>
-                                </CheckBox>
-                                <CheckBox IsChecked="{Binding IsAlaCarte}" Margin="0,6">
-                                    <LocText ResourceIdentifierKey="ALaCarte"/>
-                                </CheckBox>
-                                <CheckBox IsChecked="{Binding IsTakeAway}" Margin="0,6">
-                                    <LocText ResourceIdentifierKey="Delivery"/>
-                                </CheckBox>
-                            </StackPanel>
-                        </GroupBox>
                         <GroupBox Header="{LocText Numerators}" HorizontalAlignment="Left"
                              Padding="5">
                             <UniformGrid>
@@ -86,66 +76,165 @@
                                      SelectedItem="{Binding OrderNumerator}" />
                             </UniformGrid>
                         </GroupBox>
-                        <GroupBox Header="{LocText TicketTags}" Padding="5">
-                            <StackPanel Orientation="Horizontal">
-                                <DataGrid ItemsSource="{Binding TicketTagGroups}" SelectedItem="{Binding SelectedTicketTag, Mode=TwoWay}"
+                        <TabControl Margin="0,5,0,0">
+                            <TabItem Header="{LocText TableScreens}" Padding="5">
+                                <StackPanel>
+                                    <Label>
+                                        <LocText ResourceIdentifierKey="PosTableScreens" Suffix=":"/>
+                                    </Label>
+                                    <StackPanel Orientation="Horizontal">
+                                        <DataGrid ItemsSource="{Binding PosTableScreens}" SelectedItem="{Binding SelectedPosTableScreen, Mode=TwoWay}"
                                      HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
                                      AutoGenerateColumns="False" CanUserSortColumns="False" IsReadOnly="True" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
-                                    <DataGrid.Columns>
-                                        <DataGridTextColumn Header="{LocText TagGroups}"
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="{LocText TableScreen}"
                                              MinWidth="100" Binding="{Binding Name}" />
-                                    </DataGrid.Columns>
-                                    <DataGrid.ContextMenu>
-                                        <ContextMenu>
-                                            <MenuItem Command="{Binding AddTicketTagGroupCommand}" Header="{Binding AddTicketTagGroupCommand.Caption}" />
-                                            <MenuItem Command="{Binding DeleteTicketTagGroupCommand}" Header="{Binding DeleteTicketTagGroupCommand.Caption}" />
-                                        </ContextMenu>
-                                    </DataGrid.ContextMenu>
-                                </DataGrid>
-                                <StackPanel Margin="10">
-                                    <TextBlock Margin="2,3">
+                                            </DataGrid.Columns>
+                                            <DataGrid.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Command="{Binding AddPosTableScreenCommand}" Header="{Binding AddPosTableScreenCommand.Caption}" />
+                                                    <MenuItem Command="{Binding DeletePosTableScreenCommand}" Header="{Binding DeletePosTableScreenCommand.Caption}" />
+                                                </ContextMenu>
+                                            </DataGrid.ContextMenu>
+                                        </DataGrid>
+                                        <StackPanel Margin="10">
+                                            <TextBlock Margin="2,3">
+                                        <Hyperlink Command="{Binding AddPosTableScreenCommand}">
+                                            <TextBlock Text="{Binding Path=AddPosTableScreenCommand.Caption}" />
+                                        </Hyperlink>
+                                    </TextBlock>
+                                            <TextBlock Margin="2,3">
+                                        <Hyperlink Command="{Binding DeletePosTableScreenCommand}">
+                                            <TextBlock Text="{Binding Path=DeletePosTableScreenCommand.Caption}" />
+                                        </Hyperlink>
+                                    </TextBlock>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <Label>
+                                        <LocText ResourceIdentifierKey="TerminalTableScreens" Suffix=":"/>
+                                    </Label>
+
+                                    <StackPanel Orientation="Horizontal">
+                                        <DataGrid ItemsSource="{Binding TerminalTableScreens}" SelectedItem="{Binding SelectedTerminalTableScreen, Mode=TwoWay}"
+                                             HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
+                                             AutoGenerateColumns="False" CanUserSortColumns="False" IsReadOnly="True" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="{LocText TableScreen}"
+                                             MinWidth="100" Binding="{Binding Name}" />
+                                            </DataGrid.Columns>
+                                            <DataGrid.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Command="{Binding AddTerminalTableScreenCommand}" Header="{Binding AddTerminalTableScreenCommand.Caption}" />
+                                                    <MenuItem Command="{Binding DeleteTerminalTableScreenCommand}" Header="{Binding DeleteTerminalTableScreenCommand.Caption}" />
+                                                </ContextMenu>
+                                            </DataGrid.ContextMenu>
+                                        </DataGrid>
+                                        <StackPanel Margin="10">
+                                            <TextBlock Margin="2,3">
+                                        <Hyperlink Command="{Binding AddTerminalTableScreenCommand}">
+                                            <TextBlock Text="{Binding Path=AddTerminalTableScreenCommand.Caption}" />
+                                        </Hyperlink>
+                                    </TextBlock>
+                                            <TextBlock Margin="2,3">
+                                        <Hyperlink Command="{Binding DeleteTerminalTableScreenCommand}">
+                                            <TextBlock Text="{Binding Path=DeleteTerminalTableScreenCommand.Caption}" />
+                                        </Hyperlink>
+                                    </TextBlock>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                            </TabItem>
+                            <TabItem Header="{LocText TicketTags}" Padding="5">
+                                <StackPanel Orientation="Horizontal">
+                                    <DataGrid ItemsSource="{Binding TicketTagGroups}" SelectedItem="{Binding SelectedTicketTag, Mode=TwoWay}"
+                                     HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
+                                     AutoGenerateColumns="False" CanUserSortColumns="False" IsReadOnly="True" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="{LocText TagGroups}"
+                                             MinWidth="100" Binding="{Binding Name}" />
+                                        </DataGrid.Columns>
+                                        <DataGrid.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Command="{Binding AddTicketTagGroupCommand}" Header="{Binding AddTicketTagGroupCommand.Caption}" />
+                                                <MenuItem Command="{Binding DeleteTicketTagGroupCommand}" Header="{Binding DeleteTicketTagGroupCommand.Caption}" />
+                                            </ContextMenu>
+                                        </DataGrid.ContextMenu>
+                                    </DataGrid>
+                                    <StackPanel Margin="10">
+                                        <TextBlock Margin="2,3">
                                         <Hyperlink Command="{Binding AddTicketTagGroupCommand}">
                                             <TextBlock Text="{Binding Path=AddTicketTagGroupCommand.Caption}" />
                                         </Hyperlink>
                                     </TextBlock>
-                                    <TextBlock Margin="2,3">
+                                        <TextBlock Margin="2,3">
                                         <Hyperlink Command="{Binding DeleteTicketTagGroupCommand}">
                                             <TextBlock Text="{Binding Path=DeleteTicketTagGroupCommand.Caption}" />
                                         </Hyperlink>
                                     </TextBlock>
+                                    </StackPanel>
                                 </StackPanel>
-                            </StackPanel>
-                        </GroupBox>
-                        <GroupBox Header="{LocText ServiceTemplates}" Padding="5">
-                            <StackPanel Orientation="Horizontal">
-                                <DataGrid ItemsSource="{Binding ServiceTemplates}" SelectedItem="{Binding SelectedServiceTemplate, Mode=TwoWay}"
+                            </TabItem>
+                            <TabItem Header="{LocText OrderTags}" Padding="5">
+                                <StackPanel Orientation="Horizontal">
+                                    <DataGrid ItemsSource="{Binding OrderTagGroups}" SelectedItem="{Binding SelectedOrderTagGroup, Mode=TwoWay}"
                                      HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
                                      AutoGenerateColumns="False" CanUserSortColumns="False" IsReadOnly="True" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
-                                    <DataGrid.Columns>
-                                        <DataGridTextColumn Header="{LocText ServiceTemplate}"
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="{LocText OrderTagGroup}"
                                              MinWidth="100" Binding="{Binding Name}" />
-                                    </DataGrid.Columns>
-                                    <DataGrid.ContextMenu>
-                                        <ContextMenu>
-                                            <MenuItem Command="{Binding AddServiceTemplateCommand}" Header="{Binding AddServiceTemplateCommand.Caption}" />
-                                            <MenuItem Command="{Binding DeleteServiceTemplateCommand}" Header="{Binding DeleteServiceTemplateCommand.Caption}" />
-                                        </ContextMenu>
-                                    </DataGrid.ContextMenu>
-                                </DataGrid>
-                                <StackPanel Margin="10">
-                                    <TextBlock Margin="2,3">
+                                        </DataGrid.Columns>
+                                        <DataGrid.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Command="{Binding AddOrderTagGroupCommand}" Header="{Binding AddOrderTagGroupCommand.Caption}" />
+                                                <MenuItem Command="{Binding DeleteOrderTagGroupCommand}" Header="{Binding DeleteOrderTagGroupCommand.Caption}" />
+                                            </ContextMenu>
+                                        </DataGrid.ContextMenu>
+                                    </DataGrid>
+                                    <StackPanel Margin="10">
+                                        <TextBlock Margin="2,3">
+                                        <Hyperlink Command="{Binding AddOrderTagGroupCommand}">
+                                            <TextBlock Text="{Binding Path=AddOrderTagGroupCommand.Caption}" />
+                                        </Hyperlink>
+                                    </TextBlock>
+                                        <TextBlock Margin="2,3">
+                                        <Hyperlink Command="{Binding DeleteOrderTagGroupCommand}">
+                                            <TextBlock Text="{Binding Path=DeleteOrderTagGroupCommand.Caption}" />
+                                        </Hyperlink>
+                                    </TextBlock>
+                                    </StackPanel>
+                                </StackPanel>
+                            </TabItem>
+                            <TabItem Header="{LocText ServiceTemplates}" Padding="5">
+                                <StackPanel Orientation="Horizontal">
+                                    <DataGrid ItemsSource="{Binding ServiceTemplates}" SelectedItem="{Binding SelectedServiceTemplate, Mode=TwoWay}"
+                                     HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
+                                     AutoGenerateColumns="False" CanUserSortColumns="False" IsReadOnly="True" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="{LocText ServiceTemplate}"
+                                             MinWidth="100" Binding="{Binding Name}" />
+                                        </DataGrid.Columns>
+                                        <DataGrid.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Command="{Binding AddServiceTemplateCommand}" Header="{Binding AddServiceTemplateCommand.Caption}" />
+                                                <MenuItem Command="{Binding DeleteServiceTemplateCommand}" Header="{Binding DeleteServiceTemplateCommand.Caption}" />
+                                            </ContextMenu>
+                                        </DataGrid.ContextMenu>
+                                    </DataGrid>
+                                    <StackPanel Margin="10">
+                                        <TextBlock Margin="2,3">
                                         <Hyperlink Command="{Binding AddServiceTemplateCommand}">
                                             <TextBlock Text="{Binding Path=AddServiceTemplateCommand.Caption}" />
                                         </Hyperlink>
                                     </TextBlock>
-                                    <TextBlock Margin="2,3">
+                                        <TextBlock Margin="2,3">
                                         <Hyperlink Command="{Binding DeleteServiceTemplateCommand}">
                                             <TextBlock Text="{Binding Path=DeleteServiceTemplateCommand.Caption}" />
                                         </Hyperlink>
                                     </TextBlock>
+                                    </StackPanel>
                                 </StackPanel>
-                            </StackPanel>
-                        </GroupBox>
+                            </TabItem>
+                        </TabControl>
                     </StackPanel>
                 </Grid>
             </StackPanel>

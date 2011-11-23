@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Samba.Domain.Models.Actions;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tables;
@@ -149,6 +150,22 @@ namespace Samba.Services
             orderTag2.UnlocksOrder = true;
             _workspace.Add(orderTag2);
 
+            var action = new AppAction { ActionType = "RemoveOrderTag", Name = Resources.RemoveGiftTag, Parameter = "OrderTagName=" + Resources.Gift };
+            _workspace.Add(action);
+            _workspace.CommitChanges();
+
+            var rule = new AppRule
+                           {
+                               Name = Resources.RemoveGiftTagWhenVoided,
+                               EventName = "OrderTagged",
+                               EventConstraints = "OrderTagName;=;" + Resources.Void
+                           };
+
+            var actionContainer = new ActionContainer(action) { ParameterValues = "" };
+            rule.Actions.Add(actionContainer);
+
+            _workspace.Add(rule);
+
             ImportMenus(screen);
             ImportTables(department);
 
@@ -177,7 +194,7 @@ namespace Samba.Services
 
             _workspace.CommitChanges();
 
-            department.TableScreenId = screen.Id;
+            department.PosTableScreens.Add(screen);
         }
 
         private void ImportMenus(ScreenMenu screenMenu)

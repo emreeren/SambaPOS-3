@@ -45,6 +45,24 @@ namespace Samba.Modules.MenuModule
             get { return _serviceTemplates ?? (_serviceTemplates = new ObservableCollection<ServiceTemplateViewModel>(GetServiceTemplates(Model))); }
         }
 
+        private ObservableCollection<TableScreen> _posTableScreens;
+        public ObservableCollection<TableScreen> PosTableScreens
+        {
+            get { return _posTableScreens ?? (_posTableScreens = new ObservableCollection<TableScreen>(Model.PosTableScreens.OrderBy(x => x.Order))); }
+        }
+
+        private ObservableCollection<TableScreen> _terminalTableScreens;
+        public ObservableCollection<TableScreen> TerminalTableScreens
+        {
+            get { return _terminalTableScreens ?? (_terminalTableScreens = new ObservableCollection<TableScreen>(Model.TerminalTableScreens.OrderBy(x => x.Order))); }
+        }
+
+        private ObservableCollection<OrderTagGroupViewModel> _orderTagGroups;
+        public ObservableCollection<OrderTagGroupViewModel> OrderTagGroups
+        {
+            get { return _orderTagGroups ?? (_orderTagGroups = new ObservableCollection<OrderTagGroupViewModel>(GetOrderTagGroups(Model))); }
+        }
+
         private IEnumerable<Numerator> _numerators;
         public IEnumerable<Numerator> Numerators { get { return _numerators ?? (_numerators = Workspace.All<Numerator>()); } set { _numerators = value; } }
 
@@ -53,18 +71,6 @@ namespace Samba.Modules.MenuModule
 
         public Numerator TicketNumerator { get { return Model.TicketNumerator; } set { Model.TicketNumerator = value; } }
         public Numerator OrderNumerator { get { return Model.OrderNumerator; } set { Model.OrderNumerator = value; } }
-
-        public int? TableScreenId
-        {
-            get { return Model.TableScreenId; }
-            set { Model.TableScreenId = value.GetValueOrDefault(0); }
-        }
-
-        public int? TerminalTableScreenId
-        {
-            get { return Model.TerminalTableScreenId; }
-            set { Model.TerminalTableScreenId = value.GetValueOrDefault(0); }
-        }
 
         public int OpenTicketViewColumnCount { get { return Model.OpenTicketViewColumnCount; } set { Model.OpenTicketViewColumnCount = value; } }
 
@@ -91,11 +97,20 @@ namespace Samba.Modules.MenuModule
 
         public TicketTagGroupViewModel SelectedTicketTag { get; set; }
         public ServiceTemplateViewModel SelectedServiceTemplate { get; set; }
+        public TableScreen SelectedPosTableScreen { get; set; }
+        public TableScreen SelectedTerminalTableScreen { get; set; }
+        public OrderTagGroupViewModel SelectedOrderTagGroup { get; set; }
 
         public ICaptionCommand AddTicketTagGroupCommand { get; set; }
         public ICaptionCommand DeleteTicketTagGroupCommand { get; set; }
         public ICaptionCommand AddServiceTemplateCommand { get; set; }
         public ICaptionCommand DeleteServiceTemplateCommand { get; set; }
+        public ICaptionCommand AddPosTableScreenCommand { get; set; }
+        public ICaptionCommand DeletePosTableScreenCommand { get; set; }
+        public ICaptionCommand AddTerminalTableScreenCommand { get; set; }
+        public ICaptionCommand DeleteTerminalTableScreenCommand { get; set; }
+        public ICaptionCommand AddOrderTagGroupCommand { get; set; }
+        public ICaptionCommand DeleteOrderTagGroupCommand { get; set; }
 
         public DepartmentViewModel(Department model)
             : base(model)
@@ -104,6 +119,99 @@ namespace Samba.Modules.MenuModule
             DeleteTicketTagGroupCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.TagGroup), OnDeleteTicketTagGroup, CanDeleteTicketTagGroup);
             AddServiceTemplateCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.ServiceTemplate), OnAddServiceTemplate);
             DeleteServiceTemplateCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.ServiceTemplate), OnDeleteServiceTempalte, CanDeleteServiceTemplate);
+            AddPosTableScreenCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.TableScreen), OnAddPosTableScreen);
+            DeletePosTableScreenCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.TableScreen), OnDeletePosTableScreen, CanDeletePosTableScreen);
+            AddTerminalTableScreenCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.TableScreen), OnAddTerminalTableScreen);
+            DeleteTerminalTableScreenCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.TableScreen), OnDeleteTerminalTableScreen, CanDeleteTerminalTableScreen);
+            AddOrderTagGroupCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.OrderTagGroup), OnAddOrderTagGroup);
+            DeleteOrderTagGroupCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.OrderTagGroup), OnDeleteOrderTagGroup, CanDeleteOrderTagGroup);
+        }
+
+        private bool CanDeleteOrderTagGroup(string arg)
+        {
+            return SelectedOrderTagGroup != null;
+        }
+
+        private void OnDeleteOrderTagGroup(string obj)
+        {
+            Model.OrderTagGroups.Remove(SelectedOrderTagGroup.Model);
+            OrderTagGroups.Remove(SelectedOrderTagGroup);
+        }
+
+        private void OnAddOrderTagGroup(string obj)
+        {
+            var selectedValues =
+                  InteractionService.UserIntraction.ChooseValuesFrom(Workspace.All<OrderTagGroup>().ToList<IOrderable>(),
+                  Model.TerminalTableScreens.ToList<IOrderable>(), Resources.OrderTagGroups, string.Format(Resources.ChooseServicesForDepartmentHint_f, Model.Name),
+                  Resources.OrderTagGroup, Resources.OrderTagGroups);
+
+            foreach (OrderTagGroup selectedValue in selectedValues)
+            {
+                if (!Model.OrderTagGroups.Contains(selectedValue))
+                    Model.OrderTagGroups.Add(selectedValue);
+            }
+
+            _orderTagGroups = new ObservableCollection<OrderTagGroupViewModel>(GetOrderTagGroups(Model));
+
+            RaisePropertyChanged(() => OrderTagGroups);
+        }
+
+        private bool CanDeleteTerminalTableScreen(string arg)
+        {
+            return SelectedTerminalTableScreen != null;
+        }
+
+        private void OnDeleteTerminalTableScreen(string obj)
+        {
+            Model.TerminalTableScreens.Remove(SelectedTerminalTableScreen);
+            TerminalTableScreens.Remove(SelectedTerminalTableScreen);
+        }
+
+        private void OnAddTerminalTableScreen(string obj)
+        {
+            var selectedValues =
+                  InteractionService.UserIntraction.ChooseValuesFrom(Workspace.All<TableScreen>().ToList<IOrderable>(),
+                  Model.TerminalTableScreens.ToList<IOrderable>(), Resources.TableScreens, string.Format(Resources.ChooseServicesForDepartmentHint_f, Model.Name),
+                  Resources.TableScreen, Resources.TableScreens);
+
+            foreach (TableScreen selectedValue in selectedValues)
+            {
+                if (!Model.TerminalTableScreens.Contains(selectedValue))
+                    Model.TerminalTableScreens.Add(selectedValue);
+            }
+
+            _terminalTableScreens = new ObservableCollection<TableScreen>(Model.TerminalTableScreens.OrderBy(x => x.Order));
+
+            RaisePropertyChanged(() => TerminalTableScreens);
+        }
+
+        private bool CanDeletePosTableScreen(string arg)
+        {
+            return SelectedPosTableScreen != null;
+        }
+
+        private void OnDeletePosTableScreen(string obj)
+        {
+            Model.PosTableScreens.Remove(SelectedPosTableScreen);
+            PosTableScreens.Remove(SelectedPosTableScreen);
+        }
+
+        private void OnAddPosTableScreen(string obj)
+        {
+            var selectedValues =
+                  InteractionService.UserIntraction.ChooseValuesFrom(Workspace.All<TableScreen>().ToList<IOrderable>(),
+                  Model.PosTableScreens.ToList<IOrderable>(), Resources.TableScreens, string.Format(Resources.ChooseServicesForDepartmentHint_f, Model.Name),
+                  Resources.TableScreen, Resources.TableScreens);
+
+            foreach (TableScreen selectedValue in selectedValues)
+            {
+                if (!Model.PosTableScreens.Contains(selectedValue))
+                    Model.PosTableScreens.Add(selectedValue);
+            }
+
+            _posTableScreens = new ObservableCollection<TableScreen>(Model.PosTableScreens.OrderBy(x => x.Order));
+
+            RaisePropertyChanged(() => PosTableScreens);
         }
 
         private bool CanDeleteServiceTemplate(string arg)
@@ -162,6 +270,11 @@ namespace Samba.Modules.MenuModule
             _ticketTagGroups = new ObservableCollection<TicketTagGroupViewModel>(GetTicketTags(Model));
 
             RaisePropertyChanged(() => TicketTagGroups);
+        }
+
+        private static IEnumerable<OrderTagGroupViewModel> GetOrderTagGroups(Department model)
+        {
+            return model.OrderTagGroups.OrderBy(x => x.Order).Select(x => new OrderTagGroupViewModel(x));
         }
 
         private static IEnumerable<ServiceTemplateViewModel> GetServiceTemplates(Department model)
