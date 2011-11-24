@@ -97,6 +97,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samba.Modules.AccountModule
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samba.Infrastructure.ExceptionReporter", "Samba.Infrastructure.ExceptionReporter\Samba.Infrastructure.ExceptionReporter.csproj", "{A3CCA406-C125-4261-8B6B-FD3DAF423050}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PropertyTools", "Lib\PropertyTools\PropertyTools.csproj", "{37466829-61F5-47FA-9E3E-9CEDCD9535C0}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SambaPos.vsmdi
@@ -430,6 +432,16 @@ Global
 		{A3CCA406-C125-4261-8B6B-FD3DAF423050}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{A3CCA406-C125-4261-8B6B-FD3DAF423050}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{A3CCA406-C125-4261-8B6B-FD3DAF423050}.Release|x86.ActiveCfg = Release|Any CPU
+		{37466829-61F5-47FA-9E3E-9CEDCD9535C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37466829-61F5-47FA-9E3E-9CEDCD9535C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37466829-61F5-47FA-9E3E-9CEDCD9535C0}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{37466829-61F5-47FA-9E3E-9CEDCD9535C0}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{37466829-61F5-47FA-9E3E-9CEDCD9535C0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{37466829-61F5-47FA-9E3E-9CEDCD9535C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37466829-61F5-47FA-9E3E-9CEDCD9535C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37466829-61F5-47FA-9E3E-9CEDCD9535C0}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{37466829-61F5-47FA-9E3E-9CEDCD9535C0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{37466829-61F5-47FA-9E3E-9CEDCD9535C0}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -468,6 +480,7 @@ Global
 		{434D497A-D439-44C8-84A5-5301B572708F} = {BF4FA34A-A4C9-4BEC-90C4-AA09483582BB}
 		{512FD53F-9AD1-46A1-A961-9FABDFAD50C5} = {BF4FA34A-A4C9-4BEC-90C4-AA09483582BB}
 		{7168F82F-288A-42C4-9EB1-FBBE5112F211} = {BF4FA34A-A4C9-4BEC-90C4-AA09483582BB}
+		{37466829-61F5-47FA-9E3E-9CEDCD9535C0} = {BF4FA34A-A4C9-4BEC-90C4-AA09483582BB}
 		{413B698C-0D7D-4FCD-9F16-AF51AED4E647} = {8090D262-C7F1-4EFE-93F8-1B71BD23B627}
 		{C23F85CE-17B7-4A7D-9FEB-9189EA1D53D6} = {8090D262-C7F1-4EFE-93F8-1B71BD23B627}
 	EndGlobalSection

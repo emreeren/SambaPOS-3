@@ -12,9 +12,9 @@ namespace Samba.Services
 {
     public class DataAccessService
     {
-        public IEnumerable<Table> GetCurrentTables(int tableScreenId, int currentPageNo)
+        public IEnumerable<Table> GetCurrentTables(TableScreen tableScreen, int currentPageNo)
         {
-            AppServices.MainDataContext.UpdateTables(tableScreenId, currentPageNo);
+            AppServices.MainDataContext.UpdateTables(tableScreen, currentPageNo);
 
             var selectedTableScreen = AppServices.MainDataContext.SelectedTableScreen;
 

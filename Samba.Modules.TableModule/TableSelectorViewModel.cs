@@ -104,7 +104,7 @@ namespace Samba.Modules.TableModule
             if (SelectedTableScreen == null && TableScreens.Count() > 0)
                 AppServices.MainDataContext.SelectedTableScreen = TableScreens.First();
             if (SelectedTableScreen != null)
-                UpdateTables(SelectedTableScreen.Id);
+                UpdateTables(SelectedTableScreen);
         }
 
         private bool CanDecPageNumber(string arg)
@@ -149,7 +149,7 @@ namespace Samba.Modules.TableModule
 
         private void OnSelectTableCategoryExecuted(TableScreen obj)
         {
-            UpdateTables(obj.Id);
+            UpdateTables(obj);
         }
 
         private static void OnSelectTableExecuted(TableScreenItemViewModel obj)
@@ -164,16 +164,10 @@ namespace Samba.Modules.TableModule
             location.PublishEvent(EventTopicNames.LocationSelectedForTicket);
         }
 
-        private void UpdateTables(int tableScreenId)
-        {
-            UpdateMethod2(tableScreenId);
-            RaisePropertyChanged(() => TablesVerticalAlignment);
-        }
-
-        private void UpdateMethod2(int tableScreenId)
+        private void UpdateTables(TableScreen tableScreen)
         {
             Feedback = "";
-            var tableData = AppServices.DataAccessService.GetCurrentTables(tableScreenId, CurrentPageNo).OrderBy(x => x.Order);
+            var tableData = AppServices.DataAccessService.GetCurrentTables(tableScreen, CurrentPageNo).OrderBy(x => x.Order);
             if (Tables != null && (Tables.Count() == 0 || Tables.Count != tableData.Count() || Tables.First().Caption != tableData.First().Name)) Tables = null;
             if (Tables == null)
             {
@@ -211,6 +205,7 @@ namespace Samba.Modules.TableModule
             RaisePropertyChanged(() => TableScreens);
             RaisePropertyChanged(() => SelectedTableScreen);
             RaisePropertyChanged(() => IsPageNavigatorVisible);
+            RaisePropertyChanged(() => TablesVerticalAlignment);
         }
 
         public void LoadTrackableTables()
@@ -224,7 +219,7 @@ namespace Samba.Modules.TableModule
         public void SaveTrackableTables()
         {
             AppServices.MainDataContext.SaveTables();
-            UpdateTables(SelectedTableScreen.Id);
+            UpdateTables(SelectedTableScreen);
         }
     }
 }

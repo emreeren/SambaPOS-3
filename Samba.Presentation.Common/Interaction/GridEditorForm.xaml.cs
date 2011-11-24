@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
@@ -26,7 +27,7 @@ namespace Samba.Presentation.Common.Interaction
         {
             if (items.Count > 0)
             {
-                MainGrid.ColumnHeaders = new StringCollection();
+                MainGrid.ColumnHeaders = new List<string>();
                 var itemType = items[0].GetType();
                 foreach (PropertyDescriptor descriptor in TypeDescriptor.GetProperties(itemType))
                 {
@@ -51,8 +52,8 @@ namespace Samba.Presentation.Common.Interaction
                         cd.DisplayTemplate = colorDisplayTemplate;
 
                         var colorEditTemplate = new DataTemplate { DataType = typeof(SolidColorBrush) };
-                        var fefe = new FrameworkElementFactory(typeof(ColorPicker));
-                        fefe.SetBinding(ColorPicker.SelectedColorProperty, new Binding(descriptor.Name) { Converter = new BrushToColorConverter() });
+                        var fefe = new FrameworkElementFactory(typeof(ColorPicker2));
+                        fefe.SetBinding(ColorPicker2.SelectedColorProperty, new Binding(descriptor.Name) { Converter = new BrushToColorConverter() });
                         colorEditTemplate.VisualTree = fefe;
                         cd.EditTemplate = colorEditTemplate;
                     }

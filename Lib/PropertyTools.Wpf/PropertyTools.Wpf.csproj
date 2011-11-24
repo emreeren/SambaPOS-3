@@ -48,12 +48,12 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\Output\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\Release\PropertyTools.Wpf.xml</DocumentationFile>
+    <DocumentationFile>..\..\Output\PropertyTools.Wpf.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -96,6 +96,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\ColorPicker2\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\ColorPicker\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -126,6 +130,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Controls\SpinControl\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Dialogs\AboutDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -133,6 +141,10 @@
     <Page Include="Dialogs\WizardDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PropertyControl\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -178,19 +190,13 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\AutoUpdateTextAttribute.cs" />
-    <Compile Include="Attributes\DirectoryPathAttribute.cs" />
-    <Compile Include="Attributes\EnumDisplayNameAttribute.cs" />
-    <Compile Include="Attributes\FilePathAttribute.cs" />
-    <Compile Include="Attributes\HeightAttribute.cs" />
-    <Compile Include="Attributes\ResettableAttribute.cs" />
-    <Compile Include="Attributes\SortOrderAttribute.cs" />
-    <Compile Include="Attributes\WidePropertyAttribute.cs" />
-    <Compile Include="Attributes\FormatStringAttribute.cs" />
-    <Compile Include="Attributes\SlidableAttribute.cs" />
-    <Compile Include="Attributes\OptionalAttribute.cs" />
-    <Compile Include="Attributes\RadioButtonsAttribute.cs" />
+    <Compile Include="Controls\ColorPicker2\ColorPicker2.cs" />
     <Compile Include="Controls\Bitmap.cs" />
+    <Compile Include="Controls\ColorPicker2\ColorPickerPanel.cs" />
+    <Compile Include="Controls\ColorPicker2\ColorPickerPanelStrings.cs" />
+    <Compile Include="Controls\ColorPicker2\ColorSlider.cs" />
+    <Compile Include="Controls\ColorPicker2\HsvControl.cs" />
+    <Compile Include="Controls\ColorPicker2\SpectrumSlider.cs" />
     <Compile Include="Controls\ColorPicker\CaptureScreenshot.cs" />
     <Compile Include="Controls\ColorPicker\ColorPickerPalette.cs" />
     <Compile Include="Controls\ColorPicker\ColorWrapper.cs" />
@@ -198,17 +204,31 @@
     <Compile Include="Controls\EnumMenuItem.cs" />
     <Compile Include="Controls\FilePicker\DirectoryPicker.cs" />
     <Compile Include="Controls\FilePicker\FilePicker.cs" />
+    <Compile Include="Controls\FilePicker\IFileDialogService.cs" />
+    <Compile Include="Controls\FilePicker\IFolderBrowserDialogService.cs" />
     <Compile Include="Controls\FormattingTextBox.cs" />
+    <Compile Include="Controls\LinkBlock.cs" />
     <Compile Include="Controls\PopupBox\PopupBox.cs" />
     <Compile Include="Controls\SliderEx.cs" />
+    <Compile Include="Controls\SpinControl\SpinControl.cs" />
+    <Compile Include="Controls\StackPanelEx.cs" />
     <Compile Include="Controls\TextBoxEx.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\ColorToComponentConverter.cs" />
+    <Compile Include="Converters\ColorToStringConverter.cs" />
+    <Compile Include="Converters\DefinedColorToVisibilityConverter.cs" />
+    <Compile Include="Converters\ValueToVisibilityConverter.cs" />
+    <Compile Include="Converters\HueToColorConverter.cs" />
+    <Compile Include="Converters\ZeroToVisibilityConverter.cs" />
     <Compile Include="Converters\DrawingColorToMediaColorConverter.cs" />
     <Compile Include="Converters\DoubleToGridLengthConverter.cs" />
     <Compile Include="Converters\EnumDescriptionConverter.cs" />
     <Compile Include="Converters\NullToBoolConverter.cs" />
     <Compile Include="Converters\NullToVisibilityConverter.cs" />
-    <Compile Include="Converters\ToDoubleConverter.cs" />
+    <Compile Include="Dialogs\AboutViewModel.cs" />
+    <Compile Include="Extensions\ReflectionExtensions.cs" />
+    <Compile Include="Converters\ObjectToDoubleConverter.cs" />
+    <Compile Include="Converters\ValueToBooleanConverter.cs" />
     <Compile Include="Dialogs\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
     </Compile>
@@ -226,6 +246,7 @@
       <DependentUpon>WizardDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\PasswordHelper.cs" />
+    <Compile Include="Helpers\PropertyInfoHelper.cs" />
     <Compile Include="Helpers\TimeSpanFormatter.cs" />
     <Compile Include="Helpers\TimeSpanParser.cs" />
     <Compile Include="Helpers\TypeHelper.cs" />
@@ -235,6 +256,7 @@
     <Compile Include="Interfaces\IPropertyStateUpdater.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="Interfaces\IResettableProperties.cs" />
+    <Compile Include="Interfaces\PropertyStateBag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -251,10 +273,27 @@
     <Compile Include="Dialogs\PropertyDialog.xaml.cs">
       <DependentUpon>PropertyDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ItemsBag\ItemsBag.cs" />
+    <Compile Include="ItemsBag\ItemsBagPropertyDescriptor.cs" />
+    <Compile Include="ItemsBag\ItemsBagTypeDescriptionProvider.cs" />
+    <Compile Include="ItemsBag\ItemsBagTypeDescriptor.cs" />
+    <Compile Include="PropertyControl\CategoryControlType.cs" />
+    <Compile Include="PropertyControl\DefaultPropertyControlFactory.cs" />
+    <Compile Include="PropertyControl\DefaultPropertyItemFactory.cs" />
+    <Compile Include="PropertyControl\HeaderViewModel.cs" />
+    <Compile Include="PropertyControl\IPropertyControlFactory.cs" />
+    <Compile Include="PropertyControl\IPropertyItemFactory.cs" />
+    <Compile Include="PropertyControl\PropertyControl.cs" />
+    <Compile Include="PropertyControl\PropertyControlFactoryOptions.cs" />
+    <Compile Include="PropertyControl\PropertyItem.cs" />
+    <Compile Include="Converters\ValidationErrorsToStringConverter.cs" />
+    <Compile Include="Behaviors\WebBrowserBehavior.cs" />
     <Compile Include="PropertyEditor\CategoryTemplateSelector.cs" />
+    <Compile Include="PropertyControl\PropertyConverter.cs" />
     <Compile Include="PropertyEditor\PropertyEditor.cs" />
     <Compile Include="Helpers\AttributeHelper.cs" />
     <Compile Include="Interfaces\IPropertyViewModelFactory.cs" />
+    <Compile Include="PropertyEditor\PropertyViewModel\EnumPropertyViewModel.cs" />
     <Compile Include="PropertyEditor\PropertyViewModel\FilePathViewModel.cs" />
     <Compile Include="PropertyEditor\PropertyViewModel\OptionalPropertyViewModel.cs" />
     <Compile Include="PropertyEditor\DefaultPropertyViewModelFactory.cs" />
@@ -270,6 +309,7 @@
     <Compile Include="PropertyEditor\PropertyViewModel\TabViewModel.cs" />
     <Compile Include="SimpleGrid\AutoFiller.cs" />
     <Compile Include="SimpleGrid\CellRef.cs" />
+    <Compile Include="SimpleGrid\CellRefConverter.cs" />
     <Compile Include="SimpleGrid\ColumnDefinition.cs" />
     <Compile Include="SimpleGrid\SimpleGrid.Properties.cs" />
     <Compile Include="SimpleGrid\GridLengthCollectionConverter.cs" />
@@ -322,6 +362,21 @@
     <Resource Include="SimpleGrid\Cursors\Cross.cur" />
     <Resource Include="SimpleGrid\Cursors\DownArrow.cur" />
     <Resource Include="SimpleGrid\Cursors\RightArrow.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="SimpleGrid\todo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Controls\ColorPicker2\ColorPicker.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Controls\ColorPicker2\Hsv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PropertyTools\PropertyTools.csproj">
+      <Project>{37466829-61F5-47FA-9E3E-9CEDCD9535C0}</Project>
+      <Name>PropertyTools</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

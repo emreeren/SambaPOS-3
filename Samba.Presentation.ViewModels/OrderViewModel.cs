@@ -264,7 +264,7 @@ namespace Samba.Presentation.ViewModels
         public void ToggleOrderTag(OrderTagGroup orderTagGroup, OrderTag orderTag, int userId)
         {
             var result = _model.ToggleOrderTag(orderTagGroup, orderTag, userId);
-            
+
             RuleExecutor.NotifyEvent(result ? RuleEventNames.OrderTagged : RuleEventNames.OrderUntagged,
             new
             {
@@ -278,6 +278,7 @@ namespace Samba.Presentation.ViewModels
             RaisePropertyChanged(() => Quantity);
             RaisePropertyChanged(() => Description);
             RaisePropertyChanged(() => FontWeight);
+            RaisePropertyChanged(() => IsLocked);
 
         }
 

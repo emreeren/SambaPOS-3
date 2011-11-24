@@ -314,26 +314,31 @@ namespace Samba.Services
             else ticket.LocationName = "";
         }
 
-        public void UpdateTableData(TableScreen selectedTableScreen, int pageNo)
+        public void UpdateTables(TableScreen tableScreen, int pageNo)
         {
-            var set = selectedTableScreen.Tables.Select(x => x.Id);
-            if (selectedTableScreen.PageCount > 1)
+            SelectedTableScreen = tableScreen;
+            if (SelectedTableScreen != null)
             {
-                set = selectedTableScreen.Tables
-                    .OrderBy(x => x.Order)
-                    .Skip(pageNo * selectedTableScreen.ItemCountPerPage)
-                    .Take(selectedTableScreen.ItemCountPerPage)
-                    .Select(x => x.Id);
-            }
+                IEnumerable<int> set;
+                if (tableScreen.PageCount > 1)
+                {
+                    set = tableScreen.Tables
+                        .OrderBy(x => x.Order)
+                        .Skip(pageNo * tableScreen.ItemCountPerPage)
+                        .Take(tableScreen.ItemCountPerPage)
+                        .Select(x => x.Id);
+                }
+                else set = tableScreen.Tables.OrderBy(x => x.Order).Select(x => x.Id);
 
-            var result = Dao.Select<Table, dynamic>(x => new { x.Id, Tid = x.TicketId, Locked = x.IsTicketLocked },
-                                                   x => set.Contains(x.Id));
-            foreach (var td in result)
-            {
-                var tid = td.Id;
-                var table = selectedTableScreen.Tables.Single(x => x.Id == tid);
-                table.TicketId = td.Tid;
-                table.IsTicketLocked = td.Locked;
+                var result = Dao.Select<Table, dynamic>(x => new { x.Id, Tid = x.TicketId, Locked = x.IsTicketLocked },
+                                                       x => set.Contains(x.Id));
+
+                result.ToList().ForEach(x =>
+                {
+                    var table = tableScreen.Tables.Single(y => y.Id == x.Id);
+                    table.TicketId = x.Tid;
+                    table.IsTicketLocked = x.Locked;
+                });
             }
         }
 
@@ -382,16 +387,6 @@ namespace Samba.Services
             SelectedTicket.LocationName = table.Name;
             if (SelectedDepartment != null) SelectedTicket.DepartmentId = SelectedDepartment.Id;
             table.TicketId = SelectedTicket.GetRemainingAmount() > 0 ? SelectedTicket.Id : 0;
-        }
-
-        public void UpdateTables(int tableScreenId, int pageNo)
-        {
-            SelectedTableScreen = null;
-            if (tableScreenId > 0)
-            {
-                SelectedTableScreen = SelectedDepartment.PosTableScreens.Single(x => x.Id == tableScreenId);
-                AppServices.MainDataContext.UpdateTableData(SelectedTableScreen, pageNo);
-            }
         }
 
         public void OpenTicket(int ticketId)

@@ -806,7 +806,7 @@ namespace Samba.Modules.TicketModule
         {
             if (SelectedDepartment != null)
             {
-                if (SelectedDepartment.IsAlaCarte)
+                if (SelectedDepartment.IsAlaCarte && SelectedDepartment.PosTableScreens.Count > 0)
                 {
                     SelectedDepartment.PublishEvent(EventTopicNames.SelectTable);
                     StopTimer();

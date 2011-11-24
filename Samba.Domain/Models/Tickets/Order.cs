@@ -11,9 +11,9 @@ namespace Samba.Domain.Models.Tickets
     {
         public Order()
         {
+            _selectedQuantity = 0;
             _orderTagValues = new List<OrderTagValue>();
             CreatedDateTime = DateTime.Now;
-            _selectedQuantity = 0;
             CalculatePrice = true;
             DecreaseInventory = true;
         }
@@ -128,13 +128,15 @@ namespace Samba.Domain.Models.Tickets
                            UserId = userId,
                            DecreaseInventory = orderTagGroup.DecreaseOrderInventory,
                            CalculatePrice = orderTagGroup.CalculateOrderPrice,
-                           Quantity = 1
+                           Quantity = 1,
+                           UnlocksOrder = orderTagGroup.UnlocksOrder,
+                           NewTag = true
                        };
             otag.UpdatePrice(TaxIncluded, TaxRate, orderTag.Price);
-
             OrderTagValues.Add(otag);
             CalculatePrice = orderTagGroup.CalculateOrderPrice;
             DecreaseInventory = orderTagGroup.DecreaseOrderInventory;
+            if (orderTagGroup.UnlocksOrder) Locked = false;
         }
 
         private void UntagOrder(OrderTagValue orderTagValue)
@@ -142,6 +144,7 @@ namespace Samba.Domain.Models.Tickets
             OrderTagValues.Remove(orderTagValue);
             CalculatePrice = OrderTagValues.FirstOrDefault(x => !x.CalculatePrice) == null;
             DecreaseInventory = OrderTagValues.FirstOrDefault(x => !x.DecreaseInventory) == null;
+            if (orderTagValue.UnlocksOrder && OrderTagValues.FirstOrDefault(x => x.UnlocksOrder && x.NewTag) == null) Locked = true;
         }
 
         public bool ToggleOrderTag(OrderTagGroup orderTagGroup, OrderTag orderTag, int userId)
@@ -163,8 +166,6 @@ namespace Samba.Domain.Models.Tickets
                 UntagOrder(otag);
                 result = false;
             }
-            if (orderTagGroup.UnlocksOrder)
-                Locked = false;
             return result;
         }
 
