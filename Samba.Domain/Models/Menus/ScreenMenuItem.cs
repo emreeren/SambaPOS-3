@@ -1,4 +1,5 @@
 ﻿using System;
+using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Menus
@@ -8,7 +9,7 @@ namespace Samba.Domain.Models.Menus
         public ScreenMenuItem()
         {
             Quantity = 1;
-            Tag = "";
+            SubMenuTag = "";
         }
 
         public int Id { get; set; }
@@ -26,9 +27,10 @@ namespace Samba.Domain.Models.Menus
         public string ButtonColor { get; set; }
         public int Quantity { get; set; }
         public string ImagePath { get; set; }
-        public string Tag { get; set; }
+        public string SubMenuTag { get; set; }
         public string ItemPortion { get; set; }
         public int UsageCount { get; set; }
+        public virtual OrderTagValue OrderTagValue { get; set; }
 
         public MenuItem MenuItem;
     }

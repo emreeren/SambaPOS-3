@@ -1663,6 +1663,24 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Default Order Tag.
+        /// </summary>
+        public static string DefaultOrderTag {
+            get {
+                return ResourceManager.GetString("DefaultOrderTag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default Order Tags.
+        /// </summary>
+        public static string DefaultOrderTags {
+            get {
+                return ResourceManager.GetString("DefaultOrderTags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Default Properties.
         /// </summary>
         public static string DefaultProperties {
@@ -4414,6 +4432,33 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Order Tag Template.
+        /// </summary>
+        public static string OrderTagTemplate {
+            get {
+                return ResourceManager.GetString("OrderTagTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order Tag Template Name.
+        /// </summary>
+        public static string OrderTagTemplateName {
+            get {
+                return ResourceManager.GetString("OrderTagTemplateName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order Tag Templates.
+        /// </summary>
+        public static string OrderTagTemplates {
+            get {
+                return ResourceManager.GetString("OrderTagTemplates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Override Windows Regional Settings.
         /// </summary>
         public static string OverrideWindowsRegionalSettings {
@@ -5917,6 +5962,15 @@ namespace Samba.Localization.Properties {
         public static string SubLineTemplate {
             get {
                 return ResourceManager.GetString("SubLineTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sub Menu Tags.
+        /// </summary>
+        public static string SubMenuTags {
+            get {
+                return ResourceManager.GetString("SubMenuTags", resourceCulture);
             }
         }
         

@@ -32,45 +32,45 @@ namespace PropertyTools.Wpf
         ///   The alpha property.
         /// </summary>
         public static readonly DependencyProperty AlphaProperty = DependencyProperty.Register(
-            "Alpha", 
-            typeof(int), 
-            typeof(ColorPickerPanel), 
+            "Alpha",
+            typeof(int),
+            typeof(ColorPickerPanel),
             new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, ComponentChanged));
 
         /// <summary>
         ///   The blue property.
         /// </summary>
         public static readonly DependencyProperty BlueProperty = DependencyProperty.Register(
-            "Blue", 
-            typeof(int), 
-            typeof(ColorPickerPanel), 
+            "Blue",
+            typeof(int),
+            typeof(ColorPickerPanel),
             new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, ComponentChanged));
 
         /// <summary>
         ///   The brightness property.
         /// </summary>
         public static readonly DependencyProperty BrightnessProperty = DependencyProperty.Register(
-            "Brightness", 
-            typeof(int), 
-            typeof(ColorPickerPanel), 
+            "Brightness",
+            typeof(int),
+            typeof(ColorPickerPanel),
             new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, ComponentChanged));
 
         /// <summary>
         ///   The green property.
         /// </summary>
         public static readonly DependencyProperty GreenProperty = DependencyProperty.Register(
-            "Green", 
-            typeof(int), 
-            typeof(ColorPickerPanel), 
+            "Green",
+            typeof(int),
+            typeof(ColorPickerPanel),
             new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, ComponentChanged));
 
         /// <summary>
         ///   The hue property.
         /// </summary>
         public static readonly DependencyProperty HueProperty = DependencyProperty.Register(
-            "Hue", 
-            typeof(int), 
-            typeof(ColorPickerPanel), 
+            "Hue",
+            typeof(int),
+            typeof(ColorPickerPanel),
             new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, ComponentChanged));
 
         /// <summary>
@@ -83,31 +83,31 @@ namespace PropertyTools.Wpf
         ///   The red property.
         /// </summary>
         public static readonly DependencyProperty RedProperty = DependencyProperty.Register(
-            "Red", 
-            typeof(int), 
-            typeof(ColorPickerPanel), 
+            "Red",
+            typeof(int),
+            typeof(ColorPickerPanel),
             new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, ComponentChanged));
 
         /// <summary>
         ///   The saturation property.
         /// </summary>
         public static readonly DependencyProperty SaturationProperty = DependencyProperty.Register(
-            "Saturation", 
-            typeof(int), 
-            typeof(ColorPickerPanel), 
+            "Saturation",
+            typeof(int),
+            typeof(ColorPickerPanel),
             new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, ComponentChanged));
 
         /// <summary>
         ///   The selected color property.
         /// </summary>
         public static readonly DependencyProperty SelectedColorProperty = DependencyProperty.Register(
-            "SelectedColor", 
-            typeof(Color?), 
-            typeof(ColorPickerPanel), 
+            "SelectedColor",
+            typeof(Color?),
+            typeof(ColorPickerPanel),
             new FrameworkPropertyMetadata(
-                Color.FromArgb(0, 0, 0, 0), 
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, 
-                SelectedColorChanged, 
+                Color.FromArgb(0, 0, 0, 0),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                SelectedColorChanged,
                 CoerceSelectedColorValue));
 
         /// <summary>
@@ -537,7 +537,7 @@ namespace PropertyTools.Wpf
         protected virtual void OnSelectedColorChanged(Color? newColor, Color? oldColor)
         {
             Debug.WriteLine("ColorPickerPanel.OnSelectedColorChanged {0} ({1})", newColor, oldColor);
-            if (!this.withinColorChange && !this.withinComponentChange && newColor != null)
+            if (!this.withinColorChange && !this.withinComponentChange && newColor != null && newColor.Value.ColorToHex() != "#00000000")
             {
                 this.AddColorToRecentColorsIfMissing(newColor.Value);
                 this.UpdateRGB(newColor.Value);

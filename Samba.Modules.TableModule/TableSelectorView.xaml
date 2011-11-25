@@ -60,7 +60,7 @@
             <Border Name="brd" BorderThickness="1" BorderBrush="Silver" Background="{Binding SelectedTableScreen.BackgroundColor}">
                 <Viewbox Stretch="Uniform">
                     <Grid>
-                        <Image Source="{Binding SelectedTableScreen.BackgroundImage}" HorizontalAlignment="Left"
+                        <Image Source="{Binding SelectedTableScreen.BackgroundImage, Converter={StaticResource NullImageConverter}}" HorizontalAlignment="Left"
                              VerticalAlignment="Top" Stretch="None">
                         </Image>
                         <Common:DiagramCanvas SnapsToDevicePixels="True" MinWidth="640" MinHeight="480" EditingMode="None"

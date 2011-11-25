@@ -33,6 +33,8 @@ namespace Samba.Domain.Models.Tables
             get { return Name; }
         }
 
+        public bool IsBackgroundImageVisible { get { return !string.IsNullOrEmpty(BackgroundImage); } }
+
         public TableScreen()
         {
             _tables = new List<Table>();

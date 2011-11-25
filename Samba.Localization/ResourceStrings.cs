@@ -7,6 +7,7 @@ namespace Samba.Localization
 {
     public static class ResourceStrings
     {
+        public const string SubMenuTags = "SubMenuTags";
         public const string Table = "Table";
         public const string MaxItems = "MaxItems";
         public const string SortType = "SortType";

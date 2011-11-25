@@ -35,7 +35,7 @@ namespace Samba.Services
         public IEnumerable<ScreenMenuItem> GetMenuItems(ScreenMenuCategory category, int currentPageNo, string tag)
         {
             var items = category.ScreenMenuItems
-                .Where(x => x.Tag == tag || (string.IsNullOrEmpty(tag) && string.IsNullOrEmpty(x.Tag)));
+                .Where(x => x.SubMenuTag == tag || (string.IsNullOrEmpty(tag) && string.IsNullOrEmpty(x.SubMenuTag)));
 
             if (category.PageCount > 1)
             {
@@ -49,8 +49,8 @@ namespace Samba.Services
 
         public IEnumerable<string> GetSubCategories(ScreenMenuCategory category, string parentTag)
         {
-            return category.ScreenMenuItems.Where(x => !string.IsNullOrEmpty(x.Tag))
-                .Select(x => x.Tag)
+            return category.ScreenMenuItems.Where(x => !string.IsNullOrEmpty(x.SubMenuTag))
+                .Select(x => x.SubMenuTag)
                 .Distinct()
                 .Where(x => string.IsNullOrEmpty(parentTag) || (x.StartsWith(parentTag) && x != parentTag))
                 .Select(x => Regex.Replace(x, "^" + parentTag + ",", ""))

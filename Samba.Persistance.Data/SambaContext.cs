@@ -27,6 +27,8 @@ namespace Samba.Persistance.Data
         public DbSet<MenuItemPortion> MenuItemPortions { get; set; }
         public DbSet<OrderTag> OrderTags { get; set; }
         public DbSet<OrderTagGroup> OrderTagGroups { get; set; }
+        public DbSet<OrderTagTemplate> OrderTagTemplates { get; set; }
+        public DbSet<OrderTagTemplateValue> OrderTagTemplateValues { get; set; }
         public DbSet<OrderTagMap> OrderTagMaps { get; set; }
         public DbSet<ScreenMenu> ScreenMenus { get; set; }
         public DbSet<ScreenMenuCategory> ScreenMenuCategories { get; set; }

@@ -45,17 +45,17 @@ namespace Samba.Modules.MenuModule
         }
 
         [LocalizedDisplayName(ResourceStrings.Color)]
-        public SolidColorBrush ButtonColor
+        public Color ButtonColor
         {
             get
             {
                 if (!string.IsNullOrEmpty(Model.ButtonColor))
-                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString(Model.ButtonColor));
-                return Brushes.Transparent;
+                    return (Color)ColorConverter.ConvertFromString(Model.ButtonColor);
+                return Colors.Transparent;
             }
             set
             {
-                Model.ButtonColor = value != Brushes.Transparent ? value.ToString() : string.Empty;
+                Model.ButtonColor = value != Colors.Transparent ? value.ToString() : string.Empty;
                 RaisePropertyChanged(() => ButtonColor);
             }
         }
@@ -85,11 +85,11 @@ namespace Samba.Modules.MenuModule
             set { Model.Quantity = value; RaisePropertyChanged(() => Quantity); }
         }
 
-        [LocalizedDisplayName(ResourceStrings.Tag)]
+        [LocalizedDisplayName(ResourceStrings.SubMenuTags)]
         public string Tag
         {
-            get { return Model.Tag; }
-            set { Model.Tag = value; RaisePropertyChanged(() => Tag); }
+            get { return Model.SubMenuTag; }
+            set { Model.SubMenuTag = value; RaisePropertyChanged(() => Tag); }
         }
 
         [LocalizedDisplayName(ResourceStrings.Portion)]
