@@ -61,7 +61,13 @@ namespace Samba.Services
         public ScreenMenu GetScreenMenu(int screenMenuId)
         {
             return Dao.SingleWithCache<ScreenMenu>(x => x.Id == screenMenuId, x => x.Categories,
-                                          x => x.Categories.Select(z => z.ScreenMenuItems));
+            x => x.Categories.Select(z => z.ScreenMenuItems.Select(
+                w => w.OrderTagTemplate.OrderTagTemplateValues.Select(
+                    x1 => x1.OrderTag)))
+            ,
+            x => x.Categories.Select(z => z.ScreenMenuItems.Select(
+                w => w.OrderTagTemplate.OrderTagTemplateValues.Select(
+                    x1 => x1.OrderTagGroup))));
         }
 
         public MenuItem GetMenuItem(int menuItemId)

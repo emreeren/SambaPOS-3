@@ -30,7 +30,7 @@ namespace Samba.Domain.Models.Menus
         public string SubMenuTag { get; set; }
         public string ItemPortion { get; set; }
         public int UsageCount { get; set; }
-        public virtual OrderTagValue OrderTagValue { get; set; }
+        public virtual OrderTagTemplate OrderTagTemplate { get; set; }
 
         public MenuItem MenuItem;
     }

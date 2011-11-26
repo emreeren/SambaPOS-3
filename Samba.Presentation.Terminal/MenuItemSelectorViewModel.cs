@@ -123,7 +123,7 @@ namespace Samba.Presentation.Terminal
                     selectedMultiplier = obj.Quantity;
             }
 
-            var item = DataContext.SelectedTicket.AddNewItem(obj.MenuItemId, selectedMultiplier, obj.ItemPortion);
+            var item = DataContext.SelectedTicket.AddNewItem(obj.MenuItemId, selectedMultiplier, obj.ItemPortion, obj.OrderTagTemplate);
             if (item != null)
                 AddedMenuItems.Add(item);
             if (obj.AutoSelect)

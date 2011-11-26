@@ -796,7 +796,8 @@ namespace PropertyTools.Wpf
 
             this.autoFillToolTip = new ToolTip
                 {
-                   Placement = PlacementMode.Bottom, PlacementTarget = this.autoFillSelection 
+                    Placement = PlacementMode.Bottom,
+                    PlacementTarget = this.autoFillSelection
                 };
 
             this.UpdateGridContent();
@@ -2219,7 +2220,8 @@ namespace PropertyTools.Wpf
         /// </param>
         private void ColumnGridSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            this.UpdateColumnWidths();
+            if (!AutoSizeColumns)
+                this.UpdateColumnWidths();
         }
 
         /// <summary>
@@ -3507,8 +3509,8 @@ namespace PropertyTools.Wpf
 
                 var border = new Border
                     {
-                        BorderBrush = this.HeaderBorderBrush, 
-                        BorderThickness = new Thickness(0, 1, 1, 1), 
+                        BorderBrush = this.HeaderBorderBrush,
+                        BorderThickness = new Thickness(0, 1, 1, 1),
                         Margin = new Thickness(0, 0, j < columns - 1 ? -1 : 0, 0)
                     };
                 Grid.SetColumn(border, j);
@@ -3519,11 +3521,11 @@ namespace PropertyTools.Wpf
                 {
                     cell = new TextBlock
                         {
-                            Text = header != null ? header.ToString() : "-", 
-                            VerticalAlignment = VerticalAlignment.Center, 
+                            Text = header != null ? header.ToString() : "-",
+                            VerticalAlignment = VerticalAlignment.Center,
                             HorizontalAlignment =
                                 this.GetHorizontalAlignment(
-                                    new CellRef(!this.ItemsInColumns ? -1 : j, !this.ItemsInColumns ? j : -1)), 
+                                    new CellRef(!this.ItemsInColumns ? -1 : j, !this.ItemsInColumns ? j : -1)),
                             Padding = new Thickness(4, 2, 4, 2)
                         };
                 }
@@ -3535,11 +3537,11 @@ namespace PropertyTools.Wpf
                 {
                     var splitter = new GridSplitter
                         {
-                            ResizeDirection = GridResizeDirection.Columns, 
-                            Background = Brushes.Transparent, 
-                            Width = 4, 
-                            Focusable = false, 
-                            VerticalAlignment = VerticalAlignment.Stretch, 
+                            ResizeDirection = GridResizeDirection.Columns,
+                            Background = Brushes.Transparent,
+                            Width = 4,
+                            Focusable = false,
+                            VerticalAlignment = VerticalAlignment.Stretch,
                             HorizontalAlignment = HorizontalAlignment.Right
                         };
                     splitter.MouseDoubleClick += this.ColumnSplitterDoubleClick;
@@ -3642,8 +3644,8 @@ namespace PropertyTools.Wpf
 
                 var border = new Border
                     {
-                        BorderBrush = this.HeaderBorderBrush, 
-                        BorderThickness = new Thickness(1, 0, 1, 1), 
+                        BorderBrush = this.HeaderBorderBrush,
+                        BorderThickness = new Thickness(1, 0, 1, 1),
                         Margin = new Thickness(0, 0, 0, -1)
                     };
 
@@ -3655,9 +3657,9 @@ namespace PropertyTools.Wpf
                 {
                     cell = new TextBlock
                         {
-                            Text = header != null ? header.ToString() : "-", 
-                            VerticalAlignment = VerticalAlignment.Center, 
-                            HorizontalAlignment = HorizontalAlignment.Center, 
+                            Text = header != null ? header.ToString() : "-",
+                            VerticalAlignment = VerticalAlignment.Center,
+                            HorizontalAlignment = HorizontalAlignment.Center,
                             Padding = new Thickness(4, 2, 4, 2)
                         };
                 }
@@ -3674,16 +3676,16 @@ namespace PropertyTools.Wpf
 
                 var cell = new TextBlock
                     {
-                        Text = this.AddItemHeader, 
+                        Text = this.AddItemHeader,
                         // ToolTip = "Add row",
-                        VerticalAlignment = VerticalAlignment.Center, 
+                        VerticalAlignment = VerticalAlignment.Center,
                         HorizontalAlignment = HorizontalAlignment.Center
                     };
                 var border = new Border
                     {
-                        Background = Brushes.Transparent, 
-                        BorderBrush = this.HeaderBorderBrush, 
-                        BorderThickness = new Thickness(1, 0, 1, 1), 
+                        Background = Brushes.Transparent,
+                        BorderBrush = this.HeaderBorderBrush,
+                        BorderThickness = new Thickness(1, 0, 1, 1),
                         Margin = new Thickness(0, 0, 0, 0)
                     };
 
@@ -3731,7 +3733,8 @@ namespace PropertyTools.Wpf
             {
                 var border = new Border
                     {
-                       BorderBrush = this.GridLineBrush, BorderThickness = new Thickness(0, 1, 0, 0) 
+                        BorderBrush = this.GridLineBrush,
+                        BorderThickness = new Thickness(0, 1, 0, 0)
                     };
 
                 if (i < rows && this.AlternatingRowsBackground != null && i % 2 == 1)
@@ -3761,7 +3764,7 @@ namespace PropertyTools.Wpf
 
                     var border = new Border
                         {
-                            BorderBrush = this.GridLineBrush, 
+                            BorderBrush = this.GridLineBrush,
                             BorderThickness = new Thickness(i > 0 ? 1 : 0, 0, i == columns - 1 ? 1 : 0, 0)
                         };
 

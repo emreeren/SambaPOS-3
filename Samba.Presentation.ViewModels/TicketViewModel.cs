@@ -259,7 +259,7 @@ namespace Samba.Presentation.ViewModels
             this.PublishEvent(EventTopicNames.SelectedOrdersChanged);
         }
 
-        public OrderViewModel AddNewItem(int menuItemId, decimal quantity, string portionName)
+        public OrderViewModel AddNewItem(int menuItemId, decimal quantity, string portionName, OrderTagTemplate template)
         {
             if (!Model.CanSubmit) return null;
             ClearSelectedItems();
@@ -275,6 +275,9 @@ namespace Samba.Presentation.ViewModels
 
             var ti = Model.AddOrder(AppServices.CurrentLoggedInUser.Id, menuItem, portion.Name, AppServices.MainDataContext.SelectedDepartment.PriceTag);
             ti.Quantity = quantity > 9 ? decimal.Round(quantity / portion.Multiplier, LocalSettings.Decimals) : quantity;
+
+            if (template != null) template.OrderTagTemplateValues.ToList().ForEach(x => ti.ToggleOrderTag(x.OrderTagGroup, x.OrderTag, 0));
+
             var orderViewModel = new OrderViewModel(ti);
             _orders.Add(orderViewModel);
             RecalculateTicket();

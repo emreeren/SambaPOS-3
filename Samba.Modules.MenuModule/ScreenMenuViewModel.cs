@@ -105,7 +105,7 @@ namespace Samba.Modules.MenuModule
 
         private void OnEditCategoryItemProperties(string obj)
         {
-            InteractionService.UserIntraction.EditProperties(SelectedCategory.ScreenMenuItems.Select(x => new ScreenMenuItemViewModel(x)).ToList());
+            InteractionService.UserIntraction.EditProperties(SelectedCategory.ScreenMenuItems.Select(x => new ScreenMenuItemViewModel(Workspace, x)).ToList());
         }
 
         private void OnEditCategoryItems(string value)
@@ -160,7 +160,7 @@ namespace Samba.Modules.MenuModule
             InteractionService.UserIntraction.SortItems(Model.Categories, Resources.SortCategories,
                 string.Format(Resources.SortCategoriesDialogHint_f, Model.Name));
             Categories = new ObservableCollection<ScreenMenuCategoryViewModel>(Categories.OrderBy(x => x.Model.Order));
-            RaisePropertyChanged(()=>Categories);
+            RaisePropertyChanged(() => Categories);
         }
 
         private bool CanSortCategories(string arg)
