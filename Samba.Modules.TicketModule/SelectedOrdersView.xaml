@@ -90,7 +90,7 @@
         <ItemsControl Grid.Row="1" ItemsSource="{Binding OrderTags}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <FxButton:FlexButton MaxHeight="65" Margin="5" Content="{Binding Name}" CommandParameter="{Binding}"
+                    <FxButton:FlexButton MaxHeight="65" Margin="5" ButtonColor="{Binding Color}" Content="{Binding Name}" CommandParameter="{Binding}"
                          Command="{Binding DataContext.OrderTagSelectedCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ItemsControl}}" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -131,10 +131,11 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <FxButton:FlexButton Margin="0,5,5,0" Height="{Binding DataContext.ButtonHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
-                                         Command="{Binding DataContext.OrderTagSelectedCommand, 
-                                         RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=2, AncestorType={x:Type ItemsControl}}}"
-                                         CommandParameter="{Binding}">
+                                    <FxButton:FlexButton Margin="0,5,5,0" ButtonColor="{Binding Color}"
+                                                         Height="{Binding DataContext.ButtonHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
+                                                         Command="{Binding DataContext.OrderTagSelectedCommand, 
+                                                         RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=2, AncestorType={x:Type ItemsControl}}}"
+                                                         CommandParameter="{Binding}">
                                         <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="{Binding Name}" />
                                     </FxButton:FlexButton>
                                 </DataTemplate>

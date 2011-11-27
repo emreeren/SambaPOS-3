@@ -6,10 +6,10 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class OrderTagTemplateValue : IEntity
+    public class OrderTagTemplateValue 
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public int OrderTagTemplateId { get; set; }
         public virtual OrderTagGroup OrderTagGroup { get; set; }
         public virtual OrderTag OrderTag { get; set; }
     }

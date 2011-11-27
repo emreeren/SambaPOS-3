@@ -150,6 +150,12 @@ namespace Samba.Services
             orderTag2.UnlocksOrder = true;
             _workspace.Add(orderTag2);
 
+            var orderTagTemplate = new OrderTagTemplate();
+            orderTagTemplate.Name = Resources.Gift;
+            orderTagTemplate.OrderTagTemplateValues.Add(new OrderTagTemplateValue { OrderTagGroup = orderTag1, OrderTag = orderTag1.OrderTags[0] });
+
+            _workspace.Add(orderTagTemplate);
+
             var action = new AppAction { ActionType = "RemoveOrderTag", Name = Resources.RemoveGiftTag, Parameter = "OrderTagName=" + Resources.Gift };
             _workspace.Add(action);
             _workspace.CommitChanges();

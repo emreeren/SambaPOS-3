@@ -116,7 +116,7 @@ namespace Samba.Domain.Models.Tickets
             if (value != null) ToggleOrderTag(orderTagGroup, orderTag, userId);
         }
 
-        private void TagOrder(OrderTagGroup orderTagGroup, OrderTag orderTag, int userId)
+        private void TagOrder(OrderTagGroup orderTagGroup, OrderTag orderTag, int userId, int tagIndex)
         {
             var otag = new OrderTagValue
                        {
@@ -133,7 +133,12 @@ namespace Samba.Domain.Models.Tickets
                            NewTag = true
                        };
             otag.UpdatePrice(TaxIncluded, TaxRate, orderTag.Price);
-            OrderTagValues.Add(otag);
+
+            if (tagIndex > -1)
+                OrderTagValues.Insert(tagIndex, otag);
+            else
+                OrderTagValues.Add(otag);
+            
             CalculatePrice = orderTagGroup.CalculateOrderPrice;
             DecreaseInventory = orderTagGroup.DecreaseOrderInventory;
             if (orderTagGroup.UnlocksOrder) Locked = false;
@@ -153,9 +158,15 @@ namespace Samba.Domain.Models.Tickets
             var otag = OrderTagValues.FirstOrDefault(x => x.Name == orderTag.Name);
             if (otag == null)
             {
+                var tagIndex = -1;
                 if (orderTagGroup.IsSingleSelection)
+                {
+                    var sTag = OrderTagValues.SingleOrDefault(x => x.OrderTagGroupId == orderTag.OrderTagGroupId);
+                    if (sTag != null) tagIndex = OrderTagValues.IndexOf(sTag);
                     OrderTagValues.Where(x => x.OrderTagGroupId == orderTagGroup.Id).ToList().ForEach(x => OrderTagValues.Remove(x));
-                TagOrder(orderTagGroup, orderTag, userId);
+                }
+
+                TagOrder(orderTagGroup, orderTag, userId, tagIndex);
             }
             else if (orderTagGroup.IsQuantitySelection)
             {
@@ -309,6 +320,11 @@ namespace Samba.Domain.Models.Tickets
             TaxTemplateId = taxTemplate.Id;
             TaxIncluded = taxTemplate.TaxIncluded;
             UpdatePrice(Price, PriceTag);
+        }
+
+        public bool IsTaggedWith(OrderTag model)
+        {
+            return OrderTagValues.Any(x => x.Name == model.Name);
         }
     }
 }

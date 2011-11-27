@@ -64,5 +64,11 @@ namespace Samba.Modules.TicketModule
         {
             return Resources.OrderTagTemplate;
         }
+
+        protected override bool CanSave(string arg)
+        {
+            if (OrderTagTemplateValues.Any(x => x.OrderTag == null || x.OrderTagGroup == null)) return false;
+            return base.CanSave(arg);
+        }
     }
 }
