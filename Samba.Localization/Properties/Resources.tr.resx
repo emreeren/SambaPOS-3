@@ -336,6 +336,9 @@ Yap</value>
   <data name="List_f" xml:space="preserve">
     <value>{0} Listesi</value>
   </data>
+  <data name="Select_f" xml:space="preserve">
+    <value>{0} Seç</value>
+  </data>
   <data name="Confirmation" xml:space="preserve">
     <value>Onay</value>
   </data>

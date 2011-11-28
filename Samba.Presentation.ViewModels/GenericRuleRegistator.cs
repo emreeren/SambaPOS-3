@@ -260,7 +260,7 @@ namespace Samba.Presentation.ViewModels
                     if (order != null)
                     {
                         var tagName = x.Value.GetAsString("OrderTagName");
-                        var orderTag = AppServices.MainDataContext.OrderTagGroups.SingleOrDefault(y => y.Name == tagName);
+                        var orderTag = AppServices.MainDataContext.SelectedDepartment.OrderTagGroups.SingleOrDefault(y => y.Name == tagName);
                         if (x.Value.Action.ActionType == "RemoveOrderTag")
                         {
                             var tags = order.OrderTagValues.Where(y => y.OrderTagGroupId == orderTag.Id);

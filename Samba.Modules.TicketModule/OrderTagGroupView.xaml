@@ -1,7 +1,6 @@
 ﻿<UserControl x:Class="Samba.Modules.TicketModule.OrderTagGroupView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:Common="clr-namespace:Samba.Presentation.Common;assembly=Samba.Presentation.Common"
-     xmlns:ListViewLM="clr-namespace:Samba.Presentation.Common.ListViewLM;assembly=Samba.Presentation.Common"
      mc:Ignorable="d" d:DesignWidth="500">
     <UserControl.Resources>
         <Style TargetType="{x:Type TextBlock}" x:Key="GridBlockStyle">
@@ -81,7 +80,7 @@
                                         </DataGridTemplateColumn.CellEditingTemplate>
                                     </DataGridTemplateColumn>
                                     <DataGridTextColumn Header="{LocText Price}" Binding="{Binding Path=Price,StringFormat='#,#0.00'}"
-                         CellStyle="{StaticResource RightAlignedCellStyle}" />
+                                        CellStyle="{StaticResource RightAlignedCellStyle}" />
                                 </DataGrid.Columns>
                                 <DataGrid.ContextMenu>
                                     <ContextMenu>
@@ -121,21 +120,10 @@
             </TextBlock>
                     </DockPanel>
                     <ListView Grid.Row="2" ItemsSource="{Binding OrderTagMaps}" SelectedItem="{Binding SelectedOrderTagMap}"
-             HorizontalAlignment="Left" MinWidth="500" ListViewLM:ListViewLayoutManager.Enabled="True">
+                        HorizontalAlignment="Left" MinWidth="500">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="{LocText Department}" ListViewLM:ProportionalColumn.Width="1">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Grid>
-                                                <TextBlock Style="{StaticResource GridBlockStyle}" HorizontalAlignment="Stretch" Text="{Binding DepartmentLabel}" />
-                                                <ComboBox Style="{StaticResource GridEditStyle}" HorizontalAlignment="Stretch" DisplayMemberPath="Name"
-                                         SelectedValuePath="Id" SelectedValue="{Binding DepartmentId}" ItemsSource="{Binding Departments}" />
-                                            </Grid>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="{LocText MenuItemGroup}" ListViewLM:ProportionalColumn.Width="1">
+                                <GridViewColumn Width="150" Header="{LocText MenuItemGroup}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <Grid>
@@ -146,7 +134,7 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Header="{LocText MenuItem}" ListViewLM:ProportionalColumn.Width="1.5">
+                                <GridViewColumn Width="150" Header="{LocText MenuItem}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <Grid>

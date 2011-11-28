@@ -115,15 +115,15 @@ namespace Samba.Modules.MenuModule
         public DepartmentViewModel(Department model)
             : base(model)
         {
-            AddTicketTagGroupCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.TagGroup), OnAddTicketTagGroup);
+            AddTicketTagGroupCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.TagGroup), OnAddTicketTagGroup);
             DeleteTicketTagGroupCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.TagGroup), OnDeleteTicketTagGroup, CanDeleteTicketTagGroup);
-            AddServiceTemplateCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.ServiceTemplate), OnAddServiceTemplate);
+            AddServiceTemplateCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.ServiceTemplate), OnAddServiceTemplate);
             DeleteServiceTemplateCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.ServiceTemplate), OnDeleteServiceTempalte, CanDeleteServiceTemplate);
-            AddPosTableScreenCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.TableScreen), OnAddPosTableScreen);
+            AddPosTableScreenCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.TableScreen), OnAddPosTableScreen);
             DeletePosTableScreenCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.TableScreen), OnDeletePosTableScreen, CanDeletePosTableScreen);
-            AddTerminalTableScreenCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.TableScreen), OnAddTerminalTableScreen);
+            AddTerminalTableScreenCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.TableScreen), OnAddTerminalTableScreen);
             DeleteTerminalTableScreenCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.TableScreen), OnDeleteTerminalTableScreen, CanDeleteTerminalTableScreen);
-            AddOrderTagGroupCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.OrderTagGroup), OnAddOrderTagGroup);
+            AddOrderTagGroupCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.OrderTagGroup), OnAddOrderTagGroup);
             DeleteOrderTagGroupCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.OrderTagGroup), OnDeleteOrderTagGroup, CanDeleteOrderTagGroup);
         }
 
@@ -142,7 +142,7 @@ namespace Samba.Modules.MenuModule
         {
             var selectedValues =
                   InteractionService.UserIntraction.ChooseValuesFrom(Workspace.All<OrderTagGroup>().ToList<IOrderable>(),
-                  Model.TerminalTableScreens.ToList<IOrderable>(), Resources.OrderTagGroups, string.Format(Resources.ChooseServicesForDepartmentHint_f, Model.Name),
+                  Model.OrderTagGroups.ToList<IOrderable>(), Resources.OrderTagGroups, string.Format(Resources.ChooseServicesForDepartmentHint_f, Model.Name),
                   Resources.OrderTagGroup, Resources.OrderTagGroups);
 
             foreach (OrderTagGroup selectedValue in selectedValues)

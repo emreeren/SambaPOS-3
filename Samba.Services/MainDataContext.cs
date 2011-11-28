@@ -190,12 +190,6 @@ namespace Samba.Services
             get { return _serviceTemplates ?? (_serviceTemplates = Dao.Query<ServiceTemplate>()); }
         }
 
-        private IEnumerable<OrderTagGroup> _orderTagGroups;
-        public IEnumerable<OrderTagGroup> OrderTagGroups
-        {
-            get { return _orderTagGroups ?? (_orderTagGroups = Dao.Query<OrderTagGroup>(x => x.OrderTagMaps, x => x.OrderTags)); }
-        }
-
         public WorkPeriod CurrentWorkPeriod { get { return LastTwoWorkPeriods.LastOrDefault(); } }
         public WorkPeriod PreviousWorkPeriod { get { return LastTwoWorkPeriods.Count() > 1 ? LastTwoWorkPeriods.FirstOrDefault() : null; } }
 
@@ -551,7 +545,6 @@ namespace Samba.Services
                 _actions = null;
                 _taxTemplates = null;
                 _serviceTemplates = null;
-                _orderTagGroups = null;
 
                 if (selectedDepartment > 0 && Departments.Count(x => x.Id == selectedDepartment) > 0)
                 {
@@ -644,22 +637,21 @@ namespace Samba.Services
             return AppServices.DataAccessService.GetMenuItem(menuItemId).TaxTemplate;
         }
 
-        public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(int deparmentId, MenuItem menuItem)
+        public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(MenuItem menuItem)
         {
-            return GetOrderTagGroupsForItem(OrderTagGroups, deparmentId, menuItem);
+            return GetOrderTagGroupsForItem(SelectedDepartment.OrderTagGroups, menuItem);
         }
 
-        public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItems(int deparmentId, IEnumerable<MenuItem> menuItems)
+        public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItems(IEnumerable<MenuItem> menuItems)
         {
-            return menuItems.Aggregate(OrderTagGroups, (current, menuItem) => GetOrderTagGroupsForItem(current, deparmentId, menuItem));
+            return menuItems.Aggregate(SelectedDepartment.OrderTagGroups.OrderBy(x => x.Order) as IEnumerable<OrderTagGroup>, GetOrderTagGroupsForItem);
         }
 
-        private static IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(IEnumerable<OrderTagGroup> tagGroups, int deparmentId, MenuItem menuItem)
+        private static IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(IEnumerable<OrderTagGroup> tagGroups, MenuItem menuItem)
         {
             var maps = tagGroups.SelectMany(x => x.OrderTagMaps);
 
             maps = maps
-                .Where(x => x.DepartmentId == deparmentId || x.DepartmentId == 0)
                 .Where(x => x.MenuItemGroupCode == menuItem.GroupCode || x.MenuItemGroupCode == null)
                 .Where(x => x.MenuItemId == menuItem.Id || x.MenuItemId == 0);
 

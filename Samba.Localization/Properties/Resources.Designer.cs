@@ -5505,6 +5505,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select {0}.
+        /// </summary>
+        public static string Select_f {
+            get {
+                return ResourceManager.GetString("Select_f", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select Account.
         /// </summary>
         public static string SelectAccount {

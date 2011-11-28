@@ -337,6 +337,9 @@ Payment</value>
   <data name="List_f" xml:space="preserve">
     <value>{0} List</value>
   </data>
+  <data name="Select_f" xml:space="preserve">
+    <value>Select {0}</value>
+  </data>
   <data name="Confirmation" xml:space="preserve">
     <value>Confirmation</value>
   </data>

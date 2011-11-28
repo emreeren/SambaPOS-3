@@ -165,7 +165,6 @@ namespace Samba.Domain.Models.Tickets
                     if (sTag != null) tagIndex = OrderTagValues.IndexOf(sTag);
                     OrderTagValues.Where(x => x.OrderTagGroupId == orderTagGroup.Id).ToList().ForEach(x => OrderTagValues.Remove(x));
                 }
-
                 TagOrder(orderTagGroup, orderTag, userId, tagIndex);
             }
             else if (orderTagGroup.IsQuantitySelection)

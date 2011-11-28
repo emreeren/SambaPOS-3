@@ -213,7 +213,7 @@ namespace Samba.Modules.TicketModule
             {
                 if (_selectedOrders != null && _selectedOrders.Count > 0)
                 {
-                    return AppServices.MainDataContext.GetOrderTagGroupsForItems(SelectedTicket.Model.DepartmentId, _selectedOrders.Select(x => x.MenuItem))
+                    return AppServices.MainDataContext.GetOrderTagGroupsForItems(_selectedOrders.Select(x => x.MenuItem))
                         .Where(x => !string.IsNullOrEmpty(x.ButtonHeader))
                         .Select(x => new OrderTagButton(x));
                 }

@@ -266,10 +266,9 @@ namespace Samba.Modules.TicketModule
 
             if (SelectedTicket != null && SelectedItem.Model.DecreaseInventory && !SelectedItem.Model.Locked)
             {
-                var mi = AppServices.DataAccessService.GetMenuItem(SelectedItem.Model.MenuItemId);
-                if (SelectedItem.Model.PortionCount > 1) SelectedItemPortions.AddRange(mi.Portions);
+                if (SelectedItem.Model.PortionCount > 1) SelectedItemPortions.AddRange(SelectedItem.MenuItem.Portions);
                 OrderTagGroups.AddRange(
-                    AppServices.MainDataContext.GetOrderTagGroupsForItem(value.Model.DepartmentId, mi)
+                    AppServices.MainDataContext.GetOrderTagGroupsForItem(SelectedItem.MenuItem)
                     .Where(x => string.IsNullOrEmpty(x.ButtonHeader))
                     .Select(x => new OrderTagGroupViewModel(SelectedTicket.SelectedOrders.Select(y => y.Model), x)));
                 RaisePropertyChanged(() => IsPortionsVisible);
