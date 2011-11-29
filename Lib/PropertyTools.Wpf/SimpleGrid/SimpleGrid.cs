@@ -768,7 +768,8 @@ namespace PropertyTools.Wpf
             this.textEditor = this.Template.FindName(PART_TextEditor, this) as TextBox;
             this.enumEditor = this.Template.FindName(PART_EnumEditor, this) as ComboBox;
             this.contentEditor = new ContentControl();
-
+            this.contentEditor.PreviewKeyDown += this.TextEditorPreviewKeyDown;
+            
             this.enumEditor.SelectionChanged += this.EnumEditorSelectionChanged;
 
             this.textEditor.PreviewKeyDown += this.TextEditorPreviewKeyDown;
@@ -3287,6 +3288,7 @@ namespace PropertyTools.Wpf
         /// <param name="e">
         /// The e.
         /// </param>
+        
         private void TextEditorPreviewKeyDown(object sender, KeyEventArgs e)
         {
             bool shift = Keyboard.IsKeyDown(Key.LeftShift);
