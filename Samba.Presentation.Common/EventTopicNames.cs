@@ -15,6 +15,8 @@ namespace Samba.Presentation.Common
         public const string UserLoggedOut = "UserLoggedOut";
         public const string UserLoggedIn = "UserLoggedIn";
         public const string MessageReceived = "MessageReceived";
+        public const string OrderTagged = "OrderTagged";
+        public const string OrderUntagged = "OrderUntagged";
     }
 
     public static class EventTopicNames

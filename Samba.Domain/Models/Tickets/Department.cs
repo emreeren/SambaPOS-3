@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
+using Samba.Domain.Models.Tables;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
@@ -20,8 +21,6 @@ namespace Samba.Domain.Models.Tickets
         public bool IsFastFood { get; set; }
         public bool IsAlaCarte { get; set; }
         public bool IsTakeAway { get; set; }
-        public int TableScreenId { get; set; }
-        public int TerminalTableScreenId { get; set; }
         public int OpenTicketViewColumnCount { get; set; }
         [StringLength(10)]
         public string PriceTag { get; set; }
@@ -31,6 +30,27 @@ namespace Samba.Domain.Models.Tickets
         {
             get { return _ticketTagGroups; }
             set { _ticketTagGroups = value; }
+        }
+
+        private IList<OrderTagGroup> _orderTagGroups;
+        public virtual IList<OrderTagGroup> OrderTagGroups
+        {
+            get { return _orderTagGroups; }
+            set { _orderTagGroups = value; }
+        }
+
+        private IList<TableScreen> _posTableScreens;
+        public virtual IList<TableScreen> PosTableScreens
+        {
+            get { return _posTableScreens; }
+            set { _posTableScreens = value; }
+        }
+
+        private IList<TableScreen> _terminalTableScreens;
+        public virtual IList<TableScreen> TerminalTableScreens
+        {
+            get { return _terminalTableScreens; }
+            set { _terminalTableScreens = value; }
         }
 
         private IList<ServiceTemplate> _serviceTemplates;
@@ -48,6 +68,9 @@ namespace Samba.Domain.Models.Tickets
             OpenTicketViewColumnCount = 5;
             _ticketTagGroups = new List<TicketTagGroup>();
             _serviceTemplates = new List<ServiceTemplate>();
+            _orderTagGroups = new List<OrderTagGroup>();
+            _posTableScreens = new List<TableScreen>();
+            _terminalTableScreens = new List<TableScreen>();
         }
     }
 }

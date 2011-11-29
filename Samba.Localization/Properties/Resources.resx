@@ -337,6 +337,9 @@ Payment</value>
   <data name="List_f" xml:space="preserve">
     <value>{0} List</value>
   </data>
+  <data name="Select_f" xml:space="preserve">
+    <value>Select {0}</value>
+  </data>
   <data name="Confirmation" xml:space="preserve">
     <value>Confirmation</value>
   </data>
@@ -3024,5 +3027,41 @@ Continue without adding details?</value>
   <data name="OrderTagMapping" xml:space="preserve">
     <value>Order Tag Mapping</value>
     <comment>Label content</comment>
+  </data>
+  <data name="RemoveGiftTag">
+    <value xml:space="preserve">Remove Gift Tag</value>
+  </data>
+  <data name="RemoveGiftTagWhenVoided">
+    <value xml:space="preserve">Remove Gift Tag when Voided</value>
+  </data>
+  <data name="TableScreen">
+    <value xml:space="preserve">Table Screen</value>
+  </data>
+  <data name="TableScreens">
+    <value xml:space="preserve">Table Screens</value>
+  </data>
+  <data name="PosTableScreens">
+    <value xml:space="preserve">POS Table Screens</value>
+  </data>
+  <data name="TerminalTableScreens">
+    <value xml:space="preserve">Terminal Table Screens</value>
+  </data>
+  <data name="OrderTagTemplate">
+    <value xml:space="preserve">Order Tag Template</value>
+  </data>
+  <data name="OrderTagTemplates">
+    <value xml:space="preserve">Order Tag Templates</value>
+  </data>
+  <data name="OrderTagTemplateName">
+    <value xml:space="preserve">Order Tag Template Name</value>
+  </data>
+  <data name="DefaultOrderTags">
+    <value xml:space="preserve">Default Order Tags</value>
+  </data>
+  <data name="DefaultOrderTag">
+    <value xml:space="preserve">Default Order Tag</value>
+  </data>
+  <data name="SubMenuTags">
+    <value xml:space="preserve">Sub Menu Tags</value>
   </data>
 </root>

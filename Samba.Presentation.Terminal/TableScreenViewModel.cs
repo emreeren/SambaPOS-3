@@ -165,7 +165,7 @@ namespace Samba.Presentation.Terminal
         private void UpdateTables()
         {
             Tables.Clear();
-            Tables.AddRange(AppServices.DataAccessService.GetCurrentTables(AppServices.MainDataContext.SelectedDepartment.TerminalTableScreenId, CurrentPageNo)
+            Tables.AddRange(AppServices.DataAccessService.GetCurrentTables(AppServices.MainDataContext.SelectedDepartment.TerminalTableScreens.FirstOrDefault(), CurrentPageNo)
                 .Select(x => new TableScreenItemViewModel(x, AppServices.MainDataContext.SelectedTableScreen)));
             if (SelectedTableScreen != null)
             {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
@@ -26,7 +27,7 @@ namespace Samba.Presentation.Common.Interaction
         {
             if (items.Count > 0)
             {
-                MainGrid.ColumnHeaders = new StringCollection();
+                MainGrid.ColumnHeaders = new List<string>();
                 var itemType = items[0].GetType();
                 foreach (PropertyDescriptor descriptor in TypeDescriptor.GetProperties(itemType))
                 {
@@ -37,11 +38,11 @@ namespace Samba.Presentation.Common.Interaction
 
                     var cd = new ColumnDefinition() { DataField = descriptor.Name };
 
-                    if (descriptor.PropertyType == typeof(SolidColorBrush))
+                    if (descriptor.PropertyType == typeof(Color))
                     {
-                        var colorDisplayTemplate = new DataTemplate { DataType = typeof(SolidColorBrush) };
+                        var colorDisplayTemplate = new DataTemplate { DataType = typeof(Color) };
                         var fef = new FrameworkElementFactory(typeof(Rectangle));
-                        fef.SetBinding(Shape.FillProperty, new Binding(descriptor.Name));
+                        fef.SetBinding(Shape.FillProperty, new Binding(descriptor.Name){Converter = new ColorToBrushConverter()});
                         fef.SetValue(WidthProperty, 12.0);
                         fef.SetValue(HeightProperty, 12.0);
                         fef.SetValue(MarginProperty, new Thickness(4, 0, 4, 0));
@@ -50,9 +51,9 @@ namespace Samba.Presentation.Common.Interaction
                         colorDisplayTemplate.VisualTree = fef;
                         cd.DisplayTemplate = colorDisplayTemplate;
 
-                        var colorEditTemplate = new DataTemplate { DataType = typeof(SolidColorBrush) };
-                        var fefe = new FrameworkElementFactory(typeof(ColorPicker));
-                        fefe.SetBinding(ColorPicker.SelectedColorProperty, new Binding(descriptor.Name) { Converter = new BrushToColorConverter() });
+                        var colorEditTemplate = new DataTemplate { DataType = typeof(Color) };
+                        var fefe = new FrameworkElementFactory(typeof(ColorPicker2));
+                        fefe.SetBinding(ColorPicker2.SelectedColorProperty, new Binding(descriptor.Name));
                         colorEditTemplate.VisualTree = fefe;
                         cd.EditTemplate = colorEditTemplate;
                     }
@@ -69,8 +70,7 @@ namespace Samba.Presentation.Common.Interaction
                     var displayName = descriptor.DisplayName;
                     if (!String.IsNullOrEmpty(displayName))
                         cd.Header = descriptor.DisplayName;
-
-
+                    
                     MainGrid.ColumnDefinitions.Add(cd);
                 }
                 MainGrid.Content = items;

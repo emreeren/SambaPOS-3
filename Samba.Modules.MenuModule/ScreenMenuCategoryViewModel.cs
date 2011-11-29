@@ -60,15 +60,15 @@ namespace Samba.Modules.MenuModule
         }
 
         [LocalizedDisplayName(ResourceStrings.ButtonColor), LocalizedCategory(ResourceStrings.CategoryProperties)]
-        public SolidColorBrush MainButtonColor
+        public Color MainButtonColor
         {
             get
             {
-                return new SolidColorBrush((Color)ColorConverter.ConvertFromString(Model.MButtonColor));
+                return (Color)ColorConverter.ConvertFromString(Model.MButtonColor);
             }
             set
             {
-                Model.MButtonColor = value != Brushes.Transparent ? value.ToString() : string.Empty;
+                Model.MButtonColor = value != Colors.Transparent ? value.ToString() : string.Empty;
                 RaisePropertyChanged(() => MainButtonColor);
             }
         }
@@ -116,15 +116,15 @@ namespace Samba.Modules.MenuModule
         }
 
         [LocalizedDisplayName(ResourceStrings.ButtonColor), LocalizedCategory(ResourceStrings.MenuProperties)]
-        public SolidColorBrush ButtonColor
+        public Color ButtonColor
         {
             get
             {
-                return new SolidColorBrush((Color)ColorConverter.ConvertFromString(Model.ButtonColor));
+                return (Color)ColorConverter.ConvertFromString(Model.ButtonColor);
             }
             set
             {
-                Model.ButtonColor = value != Brushes.Transparent ? value.ToString() : string.Empty;
+                Model.ButtonColor = value != Colors.Transparent ? value.ToString() : string.Empty;
                 RaisePropertyChanged(() => ButtonColor);
             }
         }

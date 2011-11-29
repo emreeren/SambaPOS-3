@@ -222,6 +222,10 @@
       <Project>{7168F82F-288A-42C4-9EB1-FBBE5112F211}</Project>
       <Name>PropertyTools.Wpf</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lib\PropertyTools\PropertyTools.csproj">
+      <Project>{37466829-61F5-47FA-9E3E-9CEDCD9535C0}</Project>
+      <Name>PropertyTools</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lib\UIControls\UIControls.csproj">
       <Project>{A3082956-9EE4-4B35-9B4E-B07D0C4C8B56}</Project>
       <Name>UIControls</Name>

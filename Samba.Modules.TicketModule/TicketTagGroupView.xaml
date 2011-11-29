@@ -51,11 +51,11 @@
                     <Label>
                         <LocText ResourceIdentifierKey="WhenTagSelected" Suffix=":"/>
                     </Label>
-                    <PropertyEditorLibrary:ColorPicker HorizontalAlignment="Left" MinWidth="150" SelectedColor="{Binding ButtonColorWhenTagSelected}" />
+                    <PropertyEditorLibrary:ColorPicker2 HorizontalAlignment="Left" MinWidth="150" SelectedColor="{Binding ButtonColorWhenTagSelected}" />
                     <Label>
                         <LocText ResourceIdentifierKey="WhenTagNotSelected" Suffix=":"/>
                     </Label>
-                    <PropertyEditorLibrary:ColorPicker HorizontalAlignment="Left" MinWidth="150" SelectedColor="{Binding ButtonColorWhenNoTagSelected}" />
+                    <PropertyEditorLibrary:ColorPicker2 HorizontalAlignment="Left" MinWidth="150" SelectedColor="{Binding ButtonColorWhenNoTagSelected}" />
                 </StackPanel>
             </GroupBox>
         </StackPanel>

@@ -12,9 +12,9 @@ namespace Samba.Services
 {
     public class DataAccessService
     {
-        public IEnumerable<Table> GetCurrentTables(int tableScreenId, int currentPageNo)
+        public IEnumerable<Table> GetCurrentTables(TableScreen tableScreen, int currentPageNo)
         {
-            AppServices.MainDataContext.UpdateTables(tableScreenId, currentPageNo);
+            AppServices.MainDataContext.UpdateTables(tableScreen, currentPageNo);
 
             var selectedTableScreen = AppServices.MainDataContext.SelectedTableScreen;
 
@@ -35,7 +35,7 @@ namespace Samba.Services
         public IEnumerable<ScreenMenuItem> GetMenuItems(ScreenMenuCategory category, int currentPageNo, string tag)
         {
             var items = category.ScreenMenuItems
-                .Where(x => x.Tag == tag || (string.IsNullOrEmpty(tag) && string.IsNullOrEmpty(x.Tag)));
+                .Where(x => x.SubMenuTag == tag || (string.IsNullOrEmpty(tag) && string.IsNullOrEmpty(x.SubMenuTag)));
 
             if (category.PageCount > 1)
             {
@@ -49,8 +49,8 @@ namespace Samba.Services
 
         public IEnumerable<string> GetSubCategories(ScreenMenuCategory category, string parentTag)
         {
-            return category.ScreenMenuItems.Where(x => !string.IsNullOrEmpty(x.Tag))
-                .Select(x => x.Tag)
+            return category.ScreenMenuItems.Where(x => !string.IsNullOrEmpty(x.SubMenuTag))
+                .Select(x => x.SubMenuTag)
                 .Distinct()
                 .Where(x => string.IsNullOrEmpty(parentTag) || (x.StartsWith(parentTag) && x != parentTag))
                 .Select(x => Regex.Replace(x, "^" + parentTag + ",", ""))
@@ -61,7 +61,13 @@ namespace Samba.Services
         public ScreenMenu GetScreenMenu(int screenMenuId)
         {
             return Dao.SingleWithCache<ScreenMenu>(x => x.Id == screenMenuId, x => x.Categories,
-                                          x => x.Categories.Select(z => z.ScreenMenuItems));
+            x => x.Categories.Select(z => z.ScreenMenuItems.Select(
+                w => w.OrderTagTemplate.OrderTagTemplateValues.Select(
+                    x1 => x1.OrderTag)))
+            ,
+            x => x.Categories.Select(z => z.ScreenMenuItems.Select(
+                w => w.OrderTagTemplate.OrderTagTemplateValues.Select(
+                    x1 => x1.OrderTagGroup))));
         }
 
         public MenuItem GetMenuItem(int menuItemId)

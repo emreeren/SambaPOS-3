@@ -27,6 +27,8 @@ namespace Samba.Persistance.Data
         public DbSet<MenuItemPortion> MenuItemPortions { get; set; }
         public DbSet<OrderTag> OrderTags { get; set; }
         public DbSet<OrderTagGroup> OrderTagGroups { get; set; }
+        public DbSet<OrderTagTemplate> OrderTagTemplates { get; set; }
+        public DbSet<OrderTagTemplateValue> OrderTagTemplateValues { get; set; }
         public DbSet<OrderTagMap> OrderTagMaps { get; set; }
         public DbSet<ScreenMenu> ScreenMenus { get; set; }
         public DbSet<ScreenMenuCategory> ScreenMenuCategories { get; set; }
@@ -76,6 +78,10 @@ namespace Samba.Persistance.Data
         {
             modelBuilder.Entity<Department>().HasMany(p => p.TicketTagGroups).WithMany();
             modelBuilder.Entity<Department>().HasMany(p => p.ServiceTemplates).WithMany();
+            modelBuilder.Entity<Department>().HasMany(p => p.OrderTagGroups).WithMany();
+            modelBuilder.Entity<Department>().HasMany(p => p.PosTableScreens).WithMany();
+            modelBuilder.Entity<Department>().HasMany(p => p.TerminalTableScreens).WithMany();
+
             modelBuilder.Entity<TableScreen>().HasMany(p => p.Tables).WithMany();
             modelBuilder.Entity<Terminal>().HasMany(p => p.PrintJobs).WithMany();
 

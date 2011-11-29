@@ -168,7 +168,7 @@ namespace Samba.Modules.TicketModule
                         && AppServices.MainDataContext.SelectedDepartment.IsAlaCarte))
                         && IsNothingSelected) &&
                         ((AppServices.MainDataContext.SelectedDepartment != null &&
-                        AppServices.MainDataContext.SelectedDepartment.TableScreenId > 0));
+                        AppServices.MainDataContext.SelectedDepartment.PosTableScreens.Count > 0));
             }
         }
 
@@ -213,7 +213,7 @@ namespace Samba.Modules.TicketModule
             {
                 if (_selectedOrders != null && _selectedOrders.Count > 0)
                 {
-                    return AppServices.MainDataContext.GetOrderTagGroupsForItems(SelectedTicket.Model.DepartmentId, _selectedOrders.Select(x => x.MenuItem))
+                    return AppServices.MainDataContext.GetOrderTagGroupsForItems(_selectedOrders.Select(x => x.MenuItem))
                         .Where(x => !string.IsNullOrEmpty(x.ButtonHeader))
                         .Select(x => new OrderTagButton(x));
                 }
@@ -509,6 +509,7 @@ namespace Samba.Modules.TicketModule
         private bool CanShowOrderTagsExecute(OrderTagGroup arg)
         {
             if (_selectedOrders.Count == 0) return false;
+            if (!arg.DecreaseOrderInventory && _selectedOrders.Any(x => !x.IsLocked && !x.IsTaggedWith(arg))) return false;
             if (_selectedOrders.Any(x => !x.Model.DecreaseInventory && !x.IsTaggedWith(arg))) return false;
             return !arg.UnlocksOrder || !_selectedOrders.Any(x => x.IsLocked && x.OrderTagValues.Count(y => y.Model.OrderTagGroupId == arg.Id) > 0);
         }
@@ -805,7 +806,7 @@ namespace Samba.Modules.TicketModule
         {
             if (SelectedDepartment != null)
             {
-                if (SelectedDepartment.IsAlaCarte)
+                if (SelectedDepartment.IsAlaCarte && SelectedDepartment.PosTableScreens.Count > 0)
                 {
                     SelectedDepartment.PublishEvent(EventTopicNames.SelectTable);
                     StopTimer();
@@ -988,7 +989,7 @@ namespace Samba.Modules.TicketModule
 
             if (SelectedTicket.IsLocked && !AppServices.IsUserPermittedFor(PermissionNames.AddItemsToLockedTickets)) return;
 
-            var ti = SelectedTicket.AddNewItem(obj.ScreenMenuItem.MenuItemId, obj.Quantity, obj.ScreenMenuItem.ItemPortion);
+            var ti = SelectedTicket.AddNewItem(obj.ScreenMenuItem.MenuItemId, obj.Quantity, obj.ScreenMenuItem.ItemPortion, obj.ScreenMenuItem.OrderTagTemplate);
 
             if (obj.ScreenMenuItem.AutoSelect && ti != null)
             {

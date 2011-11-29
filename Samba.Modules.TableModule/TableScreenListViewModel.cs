@@ -3,6 +3,7 @@ using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common.ModelBase;
+using System.Linq;
 
 namespace Samba.Modules.TableModule
 {
@@ -20,8 +21,10 @@ namespace Samba.Modules.TableModule
 
         protected override string CanDeleteItem(TableScreen model)
         {
-            var count = Dao.Count<Department>(x => x.TableScreenId == model.Id);
-            if (count > 0) return Resources.DeleteErrorTableViewUsedInDepartment;
+            if (Dao.Query<Department>(x => x.PosTableScreens.Any(y => y.Id == model.Id)) != null)
+                return Resources.DeleteErrorTableViewUsedInDepartment;
+            if (Dao.Query<Department>(x => x.TerminalTableScreens.Any(y => y.Id == model.Id)) != null)
+                return Resources.DeleteErrorTableViewUsedInDepartment;
             return base.CanDeleteItem(model);
         }
     }

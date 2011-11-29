@@ -69,6 +69,8 @@
     <Compile Include="Models\Actions\AppRule.cs" />
     <Compile Include="Models\Actions\AppAction.cs" />
     <Compile Include="Models\Tickets\OrderTagMap.cs" />
+    <Compile Include="Models\Tickets\OrderTagTemplate.cs" />
+    <Compile Include="Models\Tickets\OrderTagTemplateValue.cs" />
     <Compile Include="Models\Tickets\Service.cs" />
     <Compile Include="Models\Menus\ServiceTemplate.cs" />
     <Compile Include="Models\Menus\TaxTemplate.cs" />

@@ -102,8 +102,8 @@ namespace Samba.Presentation.Terminal
             set
             {
                 _selectedIndex = value;
-                RaisePropertyChanged(()=>SelectedIndex);
-                RaisePropertyChanged(()=>IsLoggedUserVisible);
+                RaisePropertyChanged(() => SelectedIndex);
+                RaisePropertyChanged(() => IsLoggedUserVisible);
             }
         }
 
@@ -114,7 +114,7 @@ namespace Samba.Presentation.Terminal
             set
             {
                 _selectedTicketViewIndex = value;
-                RaisePropertyChanged(()=>SelectedTicketViewIndex);
+                RaisePropertyChanged(() => SelectedTicketViewIndex);
             }
         }
 
@@ -325,7 +325,7 @@ namespace Samba.Presentation.Terminal
         private void ActivateTableView()
         {
             SelectedIndex = 2;
-            if (AppServices.MainDataContext.SelectedDepartment.TerminalTableScreenId > 0)
+            if (AppServices.MainDataContext.SelectedDepartment.TerminalTableScreens.Count > 0)
             {
                 SelectedTicketViewIndex = 0;
                 TableScreenViewModel.Refresh();

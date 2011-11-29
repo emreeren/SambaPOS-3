@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.ComponentModel.Composition;
 using System.Windows.Media;
-using PropertyTools.Wpf;
+using PropertyTools.DataAnnotations;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Services;

@@ -27,7 +27,7 @@
                 <Label>
                     <LocText ResourceIdentifierKey="BackgroundColor" Suffix=":"/>
                 </Label>
-                <PropertyEditorLibrary:ColorPicker HorizontalAlignment="Left" MinWidth="200" SelectedColor="{Binding BackgroundColor}" />
+                <PropertyEditorLibrary:ColorPicker2 HorizontalAlignment="Left" MinWidth="200" SelectedColor="{Binding BackgroundColor,Mode=TwoWay}" />
                 <Label>
                     <LocText ResourceIdentifierKey="BackgroundImage" Suffix=":"/>
                 </Label>
@@ -36,17 +36,17 @@
                     <Label Margin="0,5,0,0">
                         <LocText ResourceIdentifierKey="EmptyTableColor" Suffix=":"/>
                     </Label>
-                    <PropertyEditorLibrary:ColorPicker Margin="0,5,0,0" HorizontalAlignment="Left" MinWidth="150"
+                    <PropertyEditorLibrary:ColorPicker2 Margin="0,5,0,0" HorizontalAlignment="Left" MinWidth="150"
                          SelectedColor="{Binding TableEmptyColor}" />
                     <Label Margin="0,5,0,0">
                         <LocText ResourceIdentifierKey="UnavailableTableColor" Suffix=":"/>
                     </Label>
-                    <PropertyEditorLibrary:ColorPicker Margin="0,5,0,0" HorizontalAlignment="Left" MinWidth="150"
+                    <PropertyEditorLibrary:ColorPicker2 Margin="0,5,0,0" HorizontalAlignment="Left" MinWidth="150"
                          SelectedColor="{Binding TableFullColor}" />
                     <Label Margin="0,5,0,0">
                         <LocText ResourceIdentifierKey="LockedTableColor" Suffix=":"/>
                     </Label>
-                    <PropertyEditorLibrary:ColorPicker Margin="0,5,0,0" HorizontalAlignment="Left" MinWidth="150"
+                    <PropertyEditorLibrary:ColorPicker2 Margin="0,5,0,0" HorizontalAlignment="Left" MinWidth="150"
                          SelectedColor="{Binding TableLockedColor}" />
                     <Label Margin="0,5,0,0">
                         <LocText ResourceIdentifierKey="ColumnCount" Suffix=":"/>

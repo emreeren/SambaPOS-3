@@ -145,16 +145,16 @@ namespace Samba.Services
         private IEnumerable<AppAction> _actions;
         public IEnumerable<AppAction> Actions { get { return _actions ?? (_actions = Dao.Query<AppAction>()); } }
 
-        private IEnumerable<TableScreen> _tableScreens;
-        public IEnumerable<TableScreen> TableScreens { get { return _tableScreens ?? (_tableScreens = Dao.Query<TableScreen>(x => x.Tables)); } }
-
         private IEnumerable<Department> _departments;
         public IEnumerable<Department> Departments
         {
             get
             {
                 return _departments ?? (_departments = Dao.Query<Department>(x => x.TicketNumerator, x => x.OrderNumerator,
-                    x => x.ServiceTemplates, x => x.TicketTagGroups.Select(y => y.Numerator), x => x.TicketTagGroups.Select(y => y.TicketTags)));
+                    x => x.ServiceTemplates, x => x.OrderTagGroups, x => x.OrderTagGroups.Select(y => y.OrderTags), x => x.OrderTagGroups.Select(y => y.OrderTagMaps),
+                    x => x.PosTableScreens, x => x.PosTableScreens.Select(y => y.Tables),
+                    x => x.TerminalTableScreens, x => x.TerminalTableScreens.Select(y => y.Tables),
+                    x => x.TicketTagGroups.Select(y => y.Numerator), x => x.TicketTagGroups.Select(y => y.TicketTags)));
             }
         }
 
@@ -190,12 +190,6 @@ namespace Samba.Services
             get { return _serviceTemplates ?? (_serviceTemplates = Dao.Query<ServiceTemplate>()); }
         }
 
-        private IEnumerable<OrderTagGroup> _orderTagGroups;
-        public IEnumerable<OrderTagGroup> OrderTagGroups
-        {
-            get { return _orderTagGroups ?? (_orderTagGroups = Dao.Query<OrderTagGroup>(x => x.OrderTagMaps, x => x.OrderTags)); }
-        }
-
         public WorkPeriod CurrentWorkPeriod { get { return LastTwoWorkPeriods.LastOrDefault(); } }
         public WorkPeriod PreviousWorkPeriod { get { return LastTwoWorkPeriods.Count() > 1 ? LastTwoWorkPeriods.FirstOrDefault() : null; } }
 
@@ -210,7 +204,7 @@ namespace Samba.Services
             {
                 if (value != null && (_selectedDepartment == null || _selectedDepartment.Id != value.Id))
                 {
-                    SelectedTableScreen = TableScreens.FirstOrDefault(x => x.Id == value.TableScreenId);
+                    SelectedTableScreen = value.PosTableScreens.FirstOrDefault();
                 }
                 _selectedDepartment = value;
             }
@@ -314,26 +308,31 @@ namespace Samba.Services
             else ticket.LocationName = "";
         }
 
-        public void UpdateTableData(TableScreen selectedTableScreen, int pageNo)
+        public void UpdateTables(TableScreen tableScreen, int pageNo)
         {
-            var set = selectedTableScreen.Tables.Select(x => x.Id);
-            if (selectedTableScreen.PageCount > 1)
+            SelectedTableScreen = tableScreen;
+            if (SelectedTableScreen != null)
             {
-                set = selectedTableScreen.Tables
-                    .OrderBy(x => x.Order)
-                    .Skip(pageNo * selectedTableScreen.ItemCountPerPage)
-                    .Take(selectedTableScreen.ItemCountPerPage)
-                    .Select(x => x.Id);
-            }
+                IEnumerable<int> set;
+                if (tableScreen.PageCount > 1)
+                {
+                    set = tableScreen.Tables
+                        .OrderBy(x => x.Order)
+                        .Skip(pageNo * tableScreen.ItemCountPerPage)
+                        .Take(tableScreen.ItemCountPerPage)
+                        .Select(x => x.Id);
+                }
+                else set = tableScreen.Tables.OrderBy(x => x.Order).Select(x => x.Id);
 
-            var result = Dao.Select<Table, dynamic>(x => new { x.Id, Tid = x.TicketId, Locked = x.IsTicketLocked },
-                                                   x => set.Contains(x.Id));
-            foreach (var td in result)
-            {
-                var tid = td.Id;
-                var table = selectedTableScreen.Tables.Single(x => x.Id == tid);
-                table.TicketId = td.Tid;
-                table.IsTicketLocked = td.Locked;
+                var result = Dao.Select<Table, dynamic>(x => new { x.Id, Tid = x.TicketId, Locked = x.IsTicketLocked },
+                                                       x => set.Contains(x.Id));
+
+                result.ToList().ForEach(x =>
+                {
+                    var table = tableScreen.Tables.Single(y => y.Id == x.Id);
+                    table.TicketId = x.Tid;
+                    table.IsTicketLocked = x.Locked;
+                });
             }
         }
 
@@ -382,16 +381,6 @@ namespace Samba.Services
             SelectedTicket.LocationName = table.Name;
             if (SelectedDepartment != null) SelectedTicket.DepartmentId = SelectedDepartment.Id;
             table.TicketId = SelectedTicket.GetRemainingAmount() > 0 ? SelectedTicket.Id : 0;
-        }
-
-        public void UpdateTables(int tableScreenId, int pageNo)
-        {
-            SelectedTableScreen = null;
-            if (tableScreenId > 0)
-            {
-                SelectedTableScreen = TableScreens.Single(x => x.Id == tableScreenId);
-                AppServices.MainDataContext.UpdateTableData(SelectedTableScreen, pageNo);
-            }
         }
 
         public void OpenTicket(int ticketId)
@@ -532,7 +521,7 @@ namespace Samba.Services
             {
                 _tableWorkspace.CommitChanges();
                 _tableWorkspace = null;
-                _tableScreens = null;
+                _departments = null;
             }
         }
 
@@ -548,7 +537,6 @@ namespace Samba.Services
                 SelectedTableScreen = null;
                 SelectedDepartment = null;
 
-                _tableScreens = null;
                 _departments = null;
                 _permittedDepartments = null;
                 _lastTwoWorkPeriods = null;
@@ -557,12 +545,13 @@ namespace Samba.Services
                 _actions = null;
                 _taxTemplates = null;
                 _serviceTemplates = null;
-                _orderTagGroups = null;
 
-                if (selectedTableScreen > 0 && TableScreens.Count(x => x.Id == selectedTableScreen) > 0)
-                    SelectedTableScreen = TableScreens.Single(x => x.Id == selectedTableScreen);
                 if (selectedDepartment > 0 && Departments.Count(x => x.Id == selectedDepartment) > 0)
+                {
                     SelectedDepartment = Departments.Single(x => x.Id == selectedDepartment);
+                    if (selectedTableScreen > 0 && SelectedDepartment.PosTableScreens.Count(x => x.Id == selectedTableScreen) > 0)
+                        SelectedTableScreen = SelectedDepartment.PosTableScreens.Single(x => x.Id == selectedTableScreen);
+                }
             }
         }
 
@@ -648,22 +637,21 @@ namespace Samba.Services
             return AppServices.DataAccessService.GetMenuItem(menuItemId).TaxTemplate;
         }
 
-        public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(int deparmentId, MenuItem menuItem)
+        public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(MenuItem menuItem)
         {
-            return GetOrderTagGroupsForItem(OrderTagGroups, deparmentId, menuItem);
+            return GetOrderTagGroupsForItem(SelectedDepartment.OrderTagGroups, menuItem);
         }
 
-        public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItems(int deparmentId, IEnumerable<MenuItem> menuItems)
+        public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItems(IEnumerable<MenuItem> menuItems)
         {
-            return menuItems.Aggregate(OrderTagGroups, (current, menuItem) => GetOrderTagGroupsForItem(current, deparmentId, menuItem));
+            return menuItems.Aggregate(SelectedDepartment.OrderTagGroups.OrderBy(x => x.Order) as IEnumerable<OrderTagGroup>, GetOrderTagGroupsForItem);
         }
 
-        private static IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(IEnumerable<OrderTagGroup> tagGroups, int deparmentId, MenuItem menuItem)
+        private static IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(IEnumerable<OrderTagGroup> tagGroups, MenuItem menuItem)
         {
             var maps = tagGroups.SelectMany(x => x.OrderTagMaps);
 
             maps = maps
-                .Where(x => x.DepartmentId == deparmentId || x.DepartmentId == 0)
                 .Where(x => x.MenuItemGroupCode == menuItem.GroupCode || x.MenuItemGroupCode == null)
                 .Where(x => x.MenuItemId == menuItem.Id || x.MenuItemId == 0);
 

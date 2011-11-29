@@ -37,6 +37,9 @@ namespace Samba.Presentation.ViewModels
             RuleActionTypeRegistry.RegisterActionType("AddTicketDiscount", Resources.AddTicketDiscount, new { DiscountPercentage = 0m });
             RuleActionTypeRegistry.RegisterActionType("AddOrder", Resources.AddOrder, new { MenuItemName = "", PortionName = "", Quantity = 0, Tag = "" });
             RuleActionTypeRegistry.RegisterActionType("UpdateTicketTag", Resources.UpdateTicketTag, new { TagName = "", TagValue = "" });
+            RuleActionTypeRegistry.RegisterActionType("TagOrder", "Tag Order", new { OrderTagName = "", OrderTagValue = "" });
+            RuleActionTypeRegistry.RegisterActionType("UntagOrder", "Untag Order", new { OrderTagName = "", OrderTagValue = "" });
+            RuleActionTypeRegistry.RegisterActionType("RemoveOrderTag", "Remove OrderTag", new { OrderTagName = "" });
             RuleActionTypeRegistry.RegisterActionType("UpdatePriceTag", Resources.UpdatePriceTag, new { DepartmentName = "", PriceTag = "" });
             RuleActionTypeRegistry.RegisterActionType("RefreshCache", Resources.RefreshCache);
             RuleActionTypeRegistry.RegisterActionType("SendMessage", Resources.BroadcastMessage, new { Command = "" });
@@ -57,6 +60,8 @@ namespace Samba.Presentation.ViewModels
             RuleActionTypeRegistry.RegisterEvent(RuleEventNames.TicketCreated, Resources.TicketCreated);
             RuleActionTypeRegistry.RegisterEvent(RuleEventNames.TicketLocationChanged, Resources.TicketLocationChanged, new { OldLocation = "", NewLocation = "" });
             RuleActionTypeRegistry.RegisterEvent(RuleEventNames.TicketTagSelected, Resources.TicketTagSelected, new { TagName = "", TagValue = "", NumericValue = 0, TicketTag = "" });
+            RuleActionTypeRegistry.RegisterEvent(RuleEventNames.OrderTagged, "Order Tagged", new { OrderTagName = "", OrderTagValue = "" });
+            RuleActionTypeRegistry.RegisterEvent(RuleEventNames.OrderUntagged, "Order Untagged", new { OrderTagName = "", OrderTagValue = "" });
             RuleActionTypeRegistry.RegisterEvent(RuleEventNames.AccountSelectedForTicket, Resources.AccountSelectedForTicket, new { AccountName = "", PhoneNumber = "", AccountNote = "" });
             RuleActionTypeRegistry.RegisterEvent(RuleEventNames.TicketTotalChanged, Resources.TicketTotalChanged, new { TicketTotal = 0m, PreviousTotal = 0m, DiscountTotal = 0m, DiscountAmount = 0m, TipAmount = 0m });
             RuleActionTypeRegistry.RegisterEvent(RuleEventNames.MessageReceived, Resources.MessageReceived, new { Command = "" });
@@ -74,6 +79,7 @@ namespace Samba.Presentation.ViewModels
             RuleActionTypeRegistry.RegisterParameterSoruce("TaxTemplate", () => Dao.Select<TaxTemplate, string>(x => x.Name, x => x.Id > 0));
             RuleActionTypeRegistry.RegisterParameterSoruce("ServiceTemplate", () => Dao.Select<ServiceTemplate, string>(x => x.Name, x => x.Id > 0));
             RuleActionTypeRegistry.RegisterParameterSoruce("TagName", () => Dao.Select<TicketTagGroup, string>(x => x.Name, x => x.Id > 0));
+            RuleActionTypeRegistry.RegisterParameterSoruce("OrderTagName", () => Dao.Select<OrderTagGroup, string>(x => x.Name, x => x.Id > 0));
         }
 
         private static void ResetCache()
@@ -245,6 +251,34 @@ namespace Samba.Presentation.ViewModels
                         ticket.SetTagValue(tagName, tagValue);
                         var tagData = new TicketTagData { TagName = tagName, TagValue = tagValue };
                         tagData.PublishEvent(EventTopicNames.TagSelectedForSelectedTicket);
+                    }
+                }
+
+                if (x.Value.Action.ActionType == "TagOrder" || x.Value.Action.ActionType == "UntagOrder" || x.Value.Action.ActionType == "RemoveOrderTag")
+                {
+                    var order = x.Value.GetDataValue<Order>("Order");
+                    if (order != null)
+                    {
+                        var tagName = x.Value.GetAsString("OrderTagName");
+                        var orderTag = AppServices.MainDataContext.SelectedDepartment.OrderTagGroups.SingleOrDefault(y => y.Name == tagName);
+                        if (x.Value.Action.ActionType == "RemoveOrderTag")
+                        {
+                            var tags = order.OrderTagValues.Where(y => y.OrderTagGroupId == orderTag.Id);
+                            tags.ToList().ForEach(y => order.OrderTagValues.Remove(y));
+                            return;
+                        }
+                        var tagValue = x.Value.GetAsString("OrderTagValue");
+                        if (orderTag != null)
+                        {
+                            var orderTagValue = orderTag.OrderTags.SingleOrDefault(y => y.Name == tagValue);
+                            if (orderTagValue != null)
+                            {
+                                if (x.Value.Action.ActionType == "TagOrder")
+                                    order.TagIfNotTagged(orderTag, orderTagValue, AppServices.CurrentLoggedInUser.Id);
+                                if (x.Value.Action.ActionType == "UntagOrder")
+                                    order.UntagIfTagged(orderTag, orderTagValue, AppServices.CurrentLoggedInUser.Id);
+                            }
+                        }
                     }
                 }
 

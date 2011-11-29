@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tables
 {
-    public class TableScreen : IEntity
+    public class TableScreen : IEntity, IOrderable
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public byte[] LastUpdateTime { get; set; }
+        public int Order { get; set; }
         public int DisplayMode { get; set; }
         public string BackgroundColor { get; set; }
         public string BackgroundImage { get; set; }
@@ -26,6 +27,13 @@ namespace Samba.Domain.Models.Tables
             get { return _tables; }
             set { _tables = value; }
         }
+
+        public string UserString
+        {
+            get { return Name; }
+        }
+
+        public bool IsBackgroundImageVisible { get { return !string.IsNullOrEmpty(BackgroundImage); } }
 
         public TableScreen()
         {

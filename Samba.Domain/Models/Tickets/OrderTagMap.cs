@@ -12,7 +12,6 @@ namespace Samba.Domain.Models.Tickets
         public int Id { get; set; }
         public string Name { get; set; }
         public int OrderTagGroupId { get; set; }
-        public int DepartmentId { get; set; }
         public string MenuItemGroupCode { get; set; }
         public int MenuItemId { get; set; }
     }

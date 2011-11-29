@@ -1,16 +1,23 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Windows.Media;
 using Samba.Domain.Models.Menus;
+using Samba.Domain.Models.Tickets;
+using Samba.Infrastructure.Data;
 using Samba.Localization;
+using Samba.Persistance.Data;
 using Samba.Presentation.Common;
 
 namespace Samba.Modules.MenuModule
 {
     public class ScreenMenuItemViewModel : ObservableObject
     {
-        public ScreenMenuItemViewModel(ScreenMenuItem model)
+        public ScreenMenuItemViewModel(IWorkspace workspace, ScreenMenuItem model)
         {
             Model = model;
+            _workspace = workspace;
         }
 
         [Browsable(false)]
@@ -45,17 +52,17 @@ namespace Samba.Modules.MenuModule
         }
 
         [LocalizedDisplayName(ResourceStrings.Color)]
-        public SolidColorBrush ButtonColor
+        public Color ButtonColor
         {
             get
             {
                 if (!string.IsNullOrEmpty(Model.ButtonColor))
-                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString(Model.ButtonColor));
-                return Brushes.Transparent;
+                    return (Color)ColorConverter.ConvertFromString(Model.ButtonColor);
+                return Colors.Transparent;
             }
             set
             {
-                Model.ButtonColor = value != Brushes.Transparent ? value.ToString() : string.Empty;
+                Model.ButtonColor = value != Colors.Transparent ? value.ToString() : string.Empty;
                 RaisePropertyChanged(() => ButtonColor);
             }
         }
@@ -64,7 +71,11 @@ namespace Samba.Modules.MenuModule
         public string ImagePath
         {
             get { return Model.ImagePath ?? ""; }
-            set { Model.ImagePath = value; RaisePropertyChanged(() => ImagePath); }
+            set
+            {
+                Model.ImagePath = value != null ? value.Trim('\b') : null;
+                RaisePropertyChanged(() => ImagePath);
+            }
         }
 
         [LocalizedDisplayName(ResourceStrings.Header)]
@@ -81,11 +92,11 @@ namespace Samba.Modules.MenuModule
             set { Model.Quantity = value; RaisePropertyChanged(() => Quantity); }
         }
 
-        [LocalizedDisplayName(ResourceStrings.Tag)]
+        [LocalizedDisplayName(ResourceStrings.SubMenuTags)]
         public string Tag
         {
-            get { return Model.Tag; }
-            set { Model.Tag = value; RaisePropertyChanged(() => Tag); }
+            get { return Model.SubMenuTag; }
+            set { Model.SubMenuTag = value; RaisePropertyChanged(() => Tag); }
         }
 
         [LocalizedDisplayName(ResourceStrings.Portion)]
@@ -93,6 +104,25 @@ namespace Samba.Modules.MenuModule
         {
             get { return Model.ItemPortion; }
             set { Model.ItemPortion = value; RaisePropertyChanged(() => Portion); }
+        }
+
+        [LocalizedDisplayName(ResourceStrings.OrderTagTemplate)]
+        public string OrderTagTemplateName
+        {
+            get { return Model.OrderTagTemplate != null ? Model.OrderTagTemplate.Name : ""; }
+            set
+            {
+                Model.OrderTagTemplate = OrderTagTemplates.FirstOrDefault(x => x.Name == value);
+                RaisePropertyChanged(() => OrderTagTemplateName);
+            }
+        }
+
+        private IEnumerable<OrderTagTemplate> _orderTagTemplates;
+        private readonly IWorkspace _workspace;
+
+        protected IEnumerable<OrderTagTemplate> OrderTagTemplates
+        {
+            get { return _orderTagTemplates ?? (_orderTagTemplates = _workspace.All<OrderTagTemplate>()); }
         }
     }
 }

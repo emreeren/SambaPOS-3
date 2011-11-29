@@ -7,12 +7,6 @@ using Samba.Presentation.Common;
 
 namespace Samba.Modules.TicketModule
 {
-    public class DepartmentData
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-    }
-
     public class MenuItemData
     {
         public int Id { get; set; }
@@ -31,19 +25,6 @@ namespace Samba.Modules.TicketModule
         }
 
         public int Id { get { return Model.Id; } }
-
-        public string DepartmentLabel { get { return DepartmentId > 0 ? Departments.Single(x => x.Id == DepartmentId).Name : NullLabel; } }
-
-        public int DepartmentId
-        {
-            get { return Model.DepartmentId; }
-            set
-            {
-                Model.DepartmentId = value;
-                RaisePropertyChanged(() => DepartmentId);
-                RaisePropertyChanged(() => DepartmentLabel);
-            }
-        }
 
         public string MenuItemGroupCodeLabel
         {
@@ -76,7 +57,6 @@ namespace Samba.Modules.TicketModule
             }
         }
 
-        public IEnumerable<DepartmentData> Departments { get { return GetAllDepartments(); } }
         public IEnumerable<MenuItemData> MenuItems { get { return GetAllMenuItems(MenuItemGroupCode); } }
         public IEnumerable<string> MenuItemGroupCodes { get { return GetAllMenuItemGroupCodes(); } }
 
@@ -90,13 +70,6 @@ namespace Samba.Modules.TicketModule
         {
             IList<string> result = new List<string>(Dao.Distinct<MenuItem>(x => x.GroupCode).OrderBy(x => x));
             result.Insert(0, NullLabel);
-            return result;
-        }
-
-        private static IEnumerable<DepartmentData> GetAllDepartments()
-        {
-            IList<DepartmentData> result = new List<DepartmentData>(Dao.Select<Department, DepartmentData>(x => new DepartmentData { Id = x.Id, Name = x.Name }, x => x.Id > 0).OrderBy(x => x.Name));
-            result.Insert(0, new DepartmentData { Name = NullLabel });
             return result;
         }
 

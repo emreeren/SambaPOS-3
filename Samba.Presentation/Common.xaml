@@ -70,7 +70,8 @@
     </LinearGradientBrush>
 
     <loc:VisibilityConverter x:Key="VisibilityConverter" />
-
+    <loc:NullImageConverter x:Key="NullImageConverter"/>
+    
     <ListViewEx:BackgroundConvertor x:Key="backgroundConverter"/>
     <DataTemplate x:Key="HeaderTemplateSortAsc" >
         <Grid Height ="30" x:Name="HeaderTemplateSortAscGrid">

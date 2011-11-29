@@ -1663,6 +1663,24 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Default Order Tag.
+        /// </summary>
+        public static string DefaultOrderTag {
+            get {
+                return ResourceManager.GetString("DefaultOrderTag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default Order Tags.
+        /// </summary>
+        public static string DefaultOrderTags {
+            get {
+                return ResourceManager.GetString("DefaultOrderTags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Default Properties.
         /// </summary>
         public static string DefaultProperties {
@@ -4414,6 +4432,33 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Order Tag Template.
+        /// </summary>
+        public static string OrderTagTemplate {
+            get {
+                return ResourceManager.GetString("OrderTagTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order Tag Template Name.
+        /// </summary>
+        public static string OrderTagTemplateName {
+            get {
+                return ResourceManager.GetString("OrderTagTemplateName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order Tag Templates.
+        /// </summary>
+        public static string OrderTagTemplates {
+            get {
+                return ResourceManager.GetString("OrderTagTemplates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Override Windows Regional Settings.
         /// </summary>
         public static string OverrideWindowsRegionalSettings {
@@ -4599,6 +4644,15 @@ namespace Samba.Localization.Properties {
         public static string POSMenu {
             get {
                 return ResourceManager.GetString("POSMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to POS Table Screens.
+        /// </summary>
+        public static string PosTableScreens {
+            get {
+                return ResourceManager.GetString("PosTableScreens", resourceCulture);
             }
         }
         
@@ -5144,6 +5198,24 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove Gift Tag.
+        /// </summary>
+        public static string RemoveGiftTag {
+            get {
+                return ResourceManager.GetString("RemoveGiftTag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove Gift Tag when Voided.
+        /// </summary>
+        public static string RemoveGiftTagWhenVoided {
+            get {
+                return ResourceManager.GetString("RemoveGiftTagWhenVoided", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Report does not contain Start Amounts.
         /// </summary>
         public static string ReportDoesNotContainsCashState {
@@ -5429,6 +5501,15 @@ namespace Samba.Localization.Properties {
         public static string Select {
             get {
                 return ResourceManager.GetString("Select", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select {0}.
+        /// </summary>
+        public static string Select_f {
+            get {
+                return ResourceManager.GetString("Select_f", resourceCulture);
             }
         }
         
@@ -5894,6 +5975,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sub Menu Tags.
+        /// </summary>
+        public static string SubMenuTags {
+            get {
+                return ResourceManager.GetString("SubMenuTags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sub Tags.
         /// </summary>
         public static string SubTags {
@@ -5962,6 +6052,24 @@ namespace Samba.Localization.Properties {
         public static string Tables {
             get {
                 return ResourceManager.GetString("Tables", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Table Screen.
+        /// </summary>
+        public static string TableScreen {
+            get {
+                return ResourceManager.GetString("TableScreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Table Screens.
+        /// </summary>
+        public static string TableScreens {
+            get {
+                return ResourceManager.GetString("TableScreens", resourceCulture);
             }
         }
         
@@ -6197,6 +6305,15 @@ namespace Samba.Localization.Properties {
         public static string Terminals {
             get {
                 return ResourceManager.GetString("Terminals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Terminal Table Screens.
+        /// </summary>
+        public static string TerminalTableScreens {
+            get {
+                return ResourceManager.GetString("TerminalTableScreens", resourceCulture);
             }
         }
         

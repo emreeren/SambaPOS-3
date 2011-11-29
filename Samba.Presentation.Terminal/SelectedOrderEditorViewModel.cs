@@ -153,10 +153,9 @@ namespace Samba.Presentation.Terminal
 
             if (order != null)
             {
-                var mi = AppServices.DataAccessService.GetMenuItem(order.Model.MenuItemId);
-                if (mi.Portions.Count > 1) SelectedItemPortions.AddRange(mi.Portions.Select(x => new MenuItemPortionViewModel(x)));
+                if (order.MenuItem.Portions.Count > 1) SelectedItemPortions.AddRange(order.MenuItem.Portions.Select(x => new MenuItemPortionViewModel(x)));
                 SelectedItemPropertyGroups.AddRange(
-                    AppServices.MainDataContext.GetOrderTagGroupsForItem(AppServices.MainDataContext.SelectedDepartment.Id, mi).Select(x => new OrderTagGroupViewModel(x)));
+                    AppServices.MainDataContext.GetOrderTagGroupsForItem(order.MenuItem).Select(x => new OrderTagGroupViewModel(x)));
             }
             else
             {
