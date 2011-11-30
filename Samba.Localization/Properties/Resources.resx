@@ -3064,4 +3064,16 @@ Continue without adding details?</value>
   <data name="SubMenuTags">
     <value xml:space="preserve">Sub Menu Tags</value>
   </data>
+	<data name="AccountTemplateName">
+		<value xml:space="preserve">Account Template Name</value>
+	</data>
+	<data name="AccountTemplate">
+		<value xml:space="preserve">Account Template</value>
+	</data>
+	<data name="AccountTemplateList">
+		<value xml:space="preserve">Account Template List</value>
+	</data>
+	<data name="DeleteErrorAccountTemplateAssignedtoAccounts">
+		<value><![CDATA[Can't delete because this template assigned to accounts]]></value>
+	</data>
 </root>

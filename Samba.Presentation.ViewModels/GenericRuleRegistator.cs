@@ -103,19 +103,13 @@ namespace Samba.Presentation.ViewModels
 
                     if (!string.IsNullOrEmpty(phoneNumber))
                     {
-                        qFilter = y => y.PhoneNumber == phoneNumber;
+                        qFilter = y => y.SearchString == phoneNumber;
                     }
 
                     if (!string.IsNullOrEmpty(accountName))
                     {
                         if (qFilter == null) qFilter = y => y.Name == accountName;
                         else qFilter = qFilter.And(y => y.Name == accountName);
-                    }
-
-                    if (!string.IsNullOrEmpty(note))
-                    {
-                        if (qFilter == null) qFilter = y => y.Note == note;
-                        else qFilter = qFilter.And(y => y.Note == note);
                     }
 
                     if (qFilter != null)

@@ -32,6 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentValidation, Version=3.1.0.0, Culture=neutral, PublicKeyToken=a82054b837897c66, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\Lib\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
@@ -58,10 +59,15 @@
       <DependentUpon>AccountSelectorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AccountSelectorViewModel.cs" />
-    <Compile Include="AccountEditorView.xaml.cs">
-      <DependentUpon>AccountEditorView.xaml</DependentUpon>
+    <Compile Include="AccountView.xaml.cs">
+      <DependentUpon>AccountView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AccountEditorViewModel.cs" />
+    <Compile Include="AccountViewModel.cs" />
+    <Compile Include="AccountTemplateListViewModel.cs" />
+    <Compile Include="AccountTemplateView.xaml.cs">
+      <DependentUpon>AccountTemplateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AccountTemplateViewModel.cs" />
     <Compile Include="AccountTransactionViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -70,7 +76,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AccountEditorView.xaml">
+    <Page Include="AccountView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AccountTemplateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

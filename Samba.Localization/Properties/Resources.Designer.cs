@@ -199,6 +199,33 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account Template.
+        /// </summary>
+        public static string AccountTemplate {
+            get {
+                return ResourceManager.GetString("AccountTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account Template List.
+        /// </summary>
+        public static string AccountTemplateList {
+            get {
+                return ResourceManager.GetString("AccountTemplateList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account Template Name.
+        /// </summary>
+        public static string AccountTemplateName {
+            get {
+                return ResourceManager.GetString("AccountTemplateName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Action.
         /// </summary>
         public static string Action {
@@ -1722,6 +1749,15 @@ namespace Samba.Localization.Properties {
         public static string Delete_f {
             get {
                 return ResourceManager.GetString("Delete_f", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t delete because this template assigned to accounts.
+        /// </summary>
+        public static string DeleteErrorAccountTemplateAssignedtoAccounts {
+            get {
+                return ResourceManager.GetString("DeleteErrorAccountTemplateAssignedtoAccounts", resourceCulture);
             }
         }
         

@@ -144,7 +144,7 @@
 Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="AccountName" xml:space="preserve">
-    <value>Müşteri Adı</value>
+    <value>Hesap Adı</value>
     <comment>TextBlock content</comment>
   </data>
   <data name="Address" xml:space="preserve">

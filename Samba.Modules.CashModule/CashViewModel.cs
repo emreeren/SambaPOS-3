@@ -97,8 +97,8 @@ namespace Samba.Modules.CashModule
             }
         }
 
-        private AccountViewModel _selectedAccount;
-        public AccountViewModel SelectedAccount
+        private AccountSearchViewModel _selectedAccount;
+        public AccountSearchViewModel SelectedAccount
         {
             get { return _selectedAccount; }
             set
@@ -314,25 +314,25 @@ namespace Samba.Modules.CashModule
         public void MakePaymentToAccount(Account account)
         {
             ResetTransactionData(TransactionType.Expense);
-            SelectedAccount = new AccountViewModel(account);
+            SelectedAccount = new AccountSearchViewModel(account);
         }
 
         internal void GetPaymentFromAccount(Account account)
         {
             ResetTransactionData(TransactionType.Income);
-            SelectedAccount = new AccountViewModel(account);
+            SelectedAccount = new AccountSearchViewModel(account);
         }
 
         internal void AddLiabilityAmount(Account account)
         {
             ResetTransactionData(TransactionType.Liability);
-            SelectedAccount = new AccountViewModel(account);
+            SelectedAccount = new AccountSearchViewModel(account);
         }
 
         internal void AddReceivableAmount(Account account)
         {
             ResetTransactionData(TransactionType.Receivable);
-            SelectedAccount = new AccountViewModel(account);
+            SelectedAccount = new AccountSearchViewModel(account);
         }
     }
 }

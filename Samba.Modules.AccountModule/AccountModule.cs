@@ -7,7 +7,6 @@ using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Interaction;
-using Samba.Presentation.Common.ModelBase;
 using Samba.Services;
 
 namespace Samba.Modules.AccountModule
@@ -17,19 +16,20 @@ namespace Samba.Modules.AccountModule
     {
         private readonly IRegionManager _regionManager;
         private readonly AccountSelectorView _accountSelectorView;
-        
+
         [ImportingConstructor]
         public AccountModule(IRegionManager regionManager, AccountSelectorView accountSelectorView)
-            :base(regionManager,AppScreens.AccountList)
+            : base(regionManager, AppScreens.AccountList)
         {
             _regionManager = regionManager;
             _accountSelectorView = accountSelectorView;
 
             AddDashboardCommand<AccountListViewModel>(Resources.AccountList, Resources.Accounts, 40);
+            AddDashboardCommand<AccountTemplateListViewModel>(Resources.AccountTemplateList, Resources.Accounts, 40);
             PermissionRegistry.RegisterPermission(PermissionNames.MakeAccountTransaction, PermissionCategories.Cash, Resources.CanMakeAccountTransaction);
             PermissionRegistry.RegisterPermission(PermissionNames.CreditOrDeptAccount, PermissionCategories.Cash, Resources.CanMakeCreditOrDeptTransaction);
         }
-        
+
         public override object GetVisibleView()
         {
             return _accountSelectorView;

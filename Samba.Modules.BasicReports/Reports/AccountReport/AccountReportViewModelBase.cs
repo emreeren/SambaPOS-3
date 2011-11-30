@@ -62,8 +62,8 @@ namespace Samba.Modules.BasicReports.Reports.AccountReport
             var cids = list.Select(x => x.AccountId).ToList();
 
             var accounts = Dao.Select<Account, AccountData>(
-                    x => new AccountData { Id = x.Id, AccountName = x.Name, PhoneNumber = x.PhoneNumber, Amount = 0 },
-                    x => cids.Contains(x.Id) && x.InternalAccount == selectInternalAccounts);
+                    x => new AccountData { Id = x.Id, AccountName = x.Name, PhoneNumber = x.SearchString, Amount = 0 },
+                    x => cids.Contains(x.Id));
 
             foreach (var accountData in accounts)
             {
