@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml.Linq;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Accounts
@@ -7,12 +8,11 @@ namespace Samba.Domain.Models.Accounts
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Address { get; set; }
-        public string Note { get; set; }
+        public virtual AccountTemplate AccountTemplate { get; set; }
+        public string SearchString { get; set; }
         public DateTime AccountOpeningDate { get; set; }
-        public bool InternalAccount { get; set; }
-
+        public string CustomData { get; set; }
+        
         private static Account _null;
         public static Account Null { get { return _null ?? (_null = new Account { Name = "*" }); } }
 

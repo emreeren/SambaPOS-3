@@ -196,8 +196,7 @@ namespace Samba.Services.Printing
             if (ticket.AccountId > 0 && (result.Contains(Resources.TF_AccountAddress) || result.Contains(Resources.TF_AccountPhone)))
             {
                 var account = Dao.SingleWithCache<Account>(x => x.Id == ticket.AccountId);
-                result = FormatData(result, Resources.TF_AccountAddress, () => account.Address);
-                result = FormatData(result, Resources.TF_AccountPhone, () => account.PhoneNumber);
+                result = FormatData(result, Resources.TF_AccountPhone, () => account.SearchString);
             }
 
             result = RemoveTag(result, Resources.TF_AccountAddress);

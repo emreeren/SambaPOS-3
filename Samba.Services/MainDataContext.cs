@@ -92,18 +92,14 @@ namespace Samba.Services
                 var result = _workspace.Single<Account>(
                         x => x.Id == account.Id
                         && x.Name == account.Name
-                        && x.Address == account.Address
-                        && x.PhoneNumber == account.PhoneNumber
-                        && x.Note == account.Note);
+                        && x.SearchString == account.SearchString);
 
                 if (result == null)
                 {
                     result = _workspace.Single<Account>(x => x.Id == account.Id);
                     Debug.Assert(result != null);
-                    result.Address = account.Address;
                     result.Name = account.Name;
-                    result.PhoneNumber = account.PhoneNumber;
-                    result.Note = account.Note;
+                    result.SearchString = account.SearchString;
                 }
                 return result;
             }

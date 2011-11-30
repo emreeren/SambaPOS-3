@@ -52,6 +52,7 @@ namespace Samba.Persistance.Data
         public DbSet<WorkPeriod> WorkPeriods { get; set; }
         public DbSet<PaidItem> PaidItems { get; set; }
         public DbSet<Account> Accounts { get; set; }
+        public DbSet<AccountTemplate> AccountTemplates { get; set; }
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<CashTransaction> CashTransactions { get; set; }
         public DbSet<AccountTransaction> AccountTransactions { get; set; }
@@ -76,6 +77,8 @@ namespace Samba.Persistance.Data
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Account>().Property(x => x.CustomData).HasColumnType("XML");
+
             modelBuilder.Entity<Department>().HasMany(p => p.TicketTagGroups).WithMany();
             modelBuilder.Entity<Department>().HasMany(p => p.ServiceTemplates).WithMany();
             modelBuilder.Entity<Department>().HasMany(p => p.OrderTagGroups).WithMany();

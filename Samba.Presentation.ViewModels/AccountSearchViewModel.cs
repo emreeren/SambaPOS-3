@@ -9,20 +9,18 @@ using Samba.Presentation.Common;
 
 namespace Samba.Presentation.ViewModels
 {
-    public class AccountViewModel : ObservableObject
+    public class AccountSearchViewModel : ObservableObject
     {
         public Account Model { get; set; }
 
-        public AccountViewModel(Account model)
+        public AccountSearchViewModel(Account model)
         {
             Model = model;
         }
 
         public int Id { get { return Model.Id; } }
         public string Name { get { return Model.Name; } set { Model.Name = value.Trim(); RaisePropertyChanged(() => Name); } }
-        public string PhoneNumber { get { return Model.PhoneNumber; } set { Model.PhoneNumber = !string.IsNullOrEmpty(value) ? value.Trim() : ""; RaisePropertyChanged(() => PhoneNumber); } }
-        public string Address { get { return Model.Address; } set { Model.Address = value; RaisePropertyChanged(() => Address); } }
-        public string Note { get { return Model.Note; } set { Model.Note = value; RaisePropertyChanged(() => Note); } }
+        public string PhoneNumber { get { return Model.SearchString; } set { Model.SearchString = !string.IsNullOrEmpty(value) ? value.Trim() : ""; RaisePropertyChanged(() => PhoneNumber); } }
         public string PhoneNumberText { get { return PhoneNumber != null && PhoneNumber.Length == 10 ? FormatAsPhoneNumber(PhoneNumber) : PhoneNumber; } }
         public DateTime AccountOpeningDate { get { return Model.AccountOpeningDate; } set { Model.AccountOpeningDate = value; } }
 

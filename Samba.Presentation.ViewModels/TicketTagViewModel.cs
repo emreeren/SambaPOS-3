@@ -43,7 +43,7 @@ namespace Samba.Presentation.ViewModels
             get
             {
                 return _accountNames ??
-                    (_accountNames = Dao.Select<Account, string>(x => x.Name, x => x.InternalAccount));
+                    (_accountNames = Dao.Select<Account, string>(x => x.Name, x => x.Id > 0));
             }
         }
 

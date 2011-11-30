@@ -51,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandButtonViewModel.cs" />
-    <Compile Include="AccountViewModel.cs" />
+    <Compile Include="AccountSearchViewModel.cs" />
     <Compile Include="OrderTagButton.cs" />
     <Compile Include="DiscountViewModel.cs" />
     <Compile Include="GenericRuleRegistator.cs" />

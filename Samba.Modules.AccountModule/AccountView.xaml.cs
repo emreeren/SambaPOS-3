@@ -5,9 +5,9 @@ namespace Samba.Modules.AccountModule
     /// <summary>
     /// Interaction logic for AccountEditorView.xaml
     /// </summary>
-    public partial class AccountEditorView : UserControl
+    public partial class AccountView : UserControl
     {
-        public AccountEditorView()
+        public AccountView()
         {
             InitializeComponent();
         }

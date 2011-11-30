@@ -370,8 +370,7 @@ namespace Samba.Modules.TicketModule
                             {
                                 Ticket = AppServices.MainDataContext.SelectedTicket,
                                 AccountName = x.Value.Name,
-                                x.Value.PhoneNumber,
-                                AccountNote = x.Value.Note
+                                PhoneNumber = x.Value.SearchString
                             });
 
                         if (!string.IsNullOrEmpty(SelectedTicket.AccountName) && SelectedTicket.Orders.Count > 0)

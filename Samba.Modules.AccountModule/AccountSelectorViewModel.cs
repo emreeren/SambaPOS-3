@@ -38,7 +38,7 @@ namespace Samba.Modules.AccountModule
         public ICaptionCommand CloseAccountScreenCommand { get; set; }
 
         public Ticket SelectedTicket { get { return AppServices.MainDataContext.SelectedTicket; } }
-        public ObservableCollection<AccountViewModel> FoundAccounts { get; set; }
+        public ObservableCollection<AccountSearchViewModel> FoundAccounts { get; set; }
 
         public ObservableCollection<AccountTransactionViewModel> SelectedAccountTransactions { get; set; }
 
@@ -49,10 +49,10 @@ namespace Samba.Modules.AccountModule
             set { _selectedView = value; RaisePropertyChanged(() => SelectedView); }
         }
 
-        public AccountViewModel SelectedAccount { get { return FoundAccounts.Count == 1 ? FoundAccounts[0] : FocusedAccount; } }
+        public AccountSearchViewModel SelectedAccount { get { return FoundAccounts.Count == 1 ? FoundAccounts[0] : FocusedAccount; } }
 
-        private AccountViewModel _focusedAccount;
-        public AccountViewModel FocusedAccount
+        private AccountSearchViewModel _focusedAccount;
+        public AccountSearchViewModel FocusedAccount
         {
             get { return _focusedAccount; }
             set
@@ -156,7 +156,7 @@ namespace Samba.Modules.AccountModule
         {
             _updateTimer = new Timer(500);
             _updateTimer.Elapsed += UpdateTimerElapsed;
-            FoundAccounts = new ObservableCollection<AccountViewModel>();
+            FoundAccounts = new ObservableCollection<AccountSearchViewModel>();
             CloseScreenCommand = new CaptionCommand<string>(Resources.Close, OnCloseScreen);
             SelectAccountCommand = new CaptionCommand<string>(Resources.SelectAccount_r, OnSelectAccount, CanSelectAccount);
             CreateAccountCommand = new CaptionCommand<string>(Resources.NewAccount_r, OnCreateAccount, CanCreateAccount);
@@ -216,7 +216,7 @@ namespace Samba.Modules.AccountModule
         {
             FoundAccounts.Clear();
             if (account != null)
-                FoundAccounts.Add(new AccountViewModel(account));
+                FoundAccounts.Add(new AccountSearchViewModel(account));
             RaisePropertyChanged(() => SelectedAccount);
             OnDisplayAccount("");
         }
@@ -334,11 +334,10 @@ namespace Samba.Modules.AccountModule
             FoundAccounts.Clear();
             var c = new Account
                         {
-                            Address = AddressSearchText,
                             Name = AccountNameSearchText,
-                            PhoneNumber = PhoneNumberSearchText
+                            SearchString = PhoneNumberSearchText
                         };
-            FoundAccounts.Add(new AccountViewModel(c));
+            FoundAccounts.Add(new AccountSearchViewModel(c));
             SelectedView = 1;
             RaisePropertyChanged(() => SelectedAccount);
         }
@@ -349,7 +348,6 @@ namespace Samba.Modules.AccountModule
                 AppServices.MainDataContext.IsCurrentWorkPeriodOpen
                 && SelectedAccount != null
                 && !string.IsNullOrEmpty(SelectedAccount.PhoneNumber)
-                && !string.IsNullOrEmpty(SelectedAccount.Address)
                 && !string.IsNullOrEmpty(SelectedAccount.Name)
                 && (AppServices.MainDataContext.SelectedTicket == null || AppServices.MainDataContext.SelectedTicket.AccountId == 0);
         }
@@ -401,13 +399,11 @@ namespace Samba.Modules.AccountModule
                                      {
                                          bool searchPn = string.IsNullOrEmpty(PhoneNumberSearchText);
                                          bool searchCn = string.IsNullOrEmpty(AccountNameSearchText);
-                                         bool searchAd = string.IsNullOrEmpty(AddressSearchText);
 
                                          result = Dao.Query<Account>(
                                              x =>
-                                                (searchPn || x.PhoneNumber.Contains(PhoneNumberSearchText)) &&
-                                                (searchCn || x.Name.ToLower().Contains(AccountNameSearchText.ToLower())) &&
-                                                (searchAd || x.Address.ToLower().Contains(AddressSearchText.ToLower())));
+                                                (searchPn || x.SearchString.Contains(PhoneNumberSearchText)) &&
+                                                (searchCn || x.Name.ToLower().Contains(AccountNameSearchText.ToLower())));
                                      };
 
                 worker.RunWorkerCompleted +=
@@ -418,7 +414,7 @@ namespace Samba.Modules.AccountModule
                                delegate
                                {
                                    FoundAccounts.Clear();
-                                   FoundAccounts.AddRange(result.Select(x => new AccountViewModel(x)));
+                                   FoundAccounts.AddRange(result.Select(x => new AccountSearchViewModel(x)));
 
                                    if (SelectedAccount != null && PhoneNumberSearchText == SelectedAccount.PhoneNumber)
                                    {
@@ -455,7 +451,7 @@ namespace Samba.Modules.AccountModule
             if (AppServices.MainDataContext.SelectedTicket != null && AppServices.MainDataContext.SelectedTicket.AccountId > 0)
             {
                 var account = Dao.SingleWithCache<Account>(x => x.Id == AppServices.MainDataContext.SelectedTicket.AccountId);
-                if (account != null) FoundAccounts.Add(new AccountViewModel(account));
+                if (account != null) FoundAccounts.Add(new AccountSearchViewModel(account));
                 if (SelectedAccount != null)
                 {
                     SelectedView = 1;
