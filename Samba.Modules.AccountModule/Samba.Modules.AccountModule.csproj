@@ -53,6 +53,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountCustomFieldViewModel.cs" />
     <Compile Include="AccountListViewModel.cs" />
     <Compile Include="AccountModule.cs" />
     <Compile Include="AccountSelectorView.xaml.cs">

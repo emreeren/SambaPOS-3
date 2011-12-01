@@ -50,15 +50,16 @@ namespace Samba.Services
 
             foreach (var orderTagValue in orderTagValues)
             {
-                var sd = new SalesData();
                 var tip = orderTagValue;
                 var mi = AppServices.DataAccessService.GetMenuItem(tip.Key.MenuItemId);
                 var port = mi.Portions.FirstOrDefault(x => x.Name == tip.Key.PortionName) ?? mi.Portions[0];
+                var sd = salesData.SingleOrDefault(x => x.MenuItemId == mi.Id && x.MenuItemName == mi.Name && x.PortionName == port.Name) ?? new SalesData();
                 sd.MenuItemId = mi.Id;
                 sd.MenuItemName = mi.Name;
                 sd.PortionName = port.Name;
-                sd.Total = tip.Sum(x => x.OrderTagValues.Quantity * x.Quantity);
-                salesData.Add(sd);
+                sd.Total += tip.Sum(x => x.OrderTagValues.Quantity * x.Quantity);
+                if (!salesData.Contains(sd))
+                    salesData.Add(sd);
             }
 
             return salesData;

@@ -3069,4 +3069,37 @@ Bilgi eklemeden devam etmek istiyor musunuz?]]>
   <data name="SubMenuTags">
     <value xml:space="preserve">Alt Menü Etiketleri</value>
   </data>
+  <data name="AccountTemplateName">
+    <value xml:space="preserve">Hesap Şablonu Adı</value>
+  </data>
+  <data name="AccountTemplate">
+    <value xml:space="preserve">Hesap Şablonu</value>
+  </data>
+  <data name="AccountTemplateList">
+    <value xml:space="preserve">Hesap Şablonu Listesi</value>
+  </data>
+  <data name="DeleteErrorAccountTemplateAssignedtoAccounts">
+    <value><![CDATA[Hesap Şablonu kullanıldığı için silinemez.]]></value>
+  </data>
+  <data name="CustomField">
+    <value xml:space="preserve">Özel Alan</value>
+  </data>
+	<data name="CustomFields">
+		<value xml:space="preserve">Özel Alanlar</value>
+	</data>
+  <data name="New_f">
+    <value xml:space="preserve">Yeni {0}</value>
+  </data>
+  <data name="CustomFieldName">
+    <value xml:space="preserve">Özel Alan Adı</value>
+  </data>
+  <data name="FieldType">
+    <value xml:space="preserve">Alan Tipi</value>
+  </data>
+	<data name="DisplayFormat">
+		<value xml:space="preserve">Gösterim Formatı</value>
+	</data>
+	<data name="EditingFormat">
+		<value xml:space="preserve">Düzenleme Formatı</value>
+	</data>
 </root>
