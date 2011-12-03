@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Samba.Domain.Models.Actions;
+using Samba.Infrastructure;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Services;
@@ -56,7 +57,8 @@ namespace Samba.Modules.SettingsModule
             get
             {
                 if (string.IsNullOrEmpty(Model.Parameter)) return new Dictionary<string, string>();
-                return Model.Parameter.Split('#').ToDictionary(x => x.Split('=')[0], x => x.Split('=')[1]);
+                return JsonHelper.Deserialize<Dictionary<string, string>>(Model.Parameter);
+                //Model.Parameter.Split('#').ToDictionary(x => x.Split('=')[0], x => x.Split('=')[1]);
             }
         }
 
@@ -111,7 +113,8 @@ namespace Samba.Modules.SettingsModule
         protected override void OnSave(string value)
         {
             base.OnSave(value);
-            Model.Parameter = string.Join("#", ParameterValues.Select(x => x.Name + "=" + x.Value));
+            Model.Parameter = JsonHelper.Serialize(ParameterValues.ToDictionary(x => x.Name, x => x.Value));
+            //string.Join("#", ParameterValues.Select(x => x.Name + "=" + x.Value));
         }
 
         public override Type GetViewType()

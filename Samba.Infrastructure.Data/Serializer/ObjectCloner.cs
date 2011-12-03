@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml;
 
 namespace Samba.Infrastructure.Data.Serializer
 {
@@ -21,6 +23,25 @@ namespace Samba.Infrastructure.Data.Serializer
             }
         }
 
+        public static T Deserialize<T>(string data) where T : class
+        {
+            using (var deserializer = new XmlDeserializerHelper())
+            {
+                var d = new XmlDocument();
+                d.LoadXml(data);
+                return deserializer.Deserialize(d) as T;
+            }
+        }
+
+        public static string Serialize<T>(T data) where T : class
+        {
+            using (var serializer = new XmlSerializerHelper())
+            {
+                var doc = serializer.Serialize(data);
+                return doc.InnerXml;
+            }
+        }
+        
         public static int DataHash(object item)
         {
             using (var serializer = new XmlSerializerHelper { IgnoreSerializableAttribute = true })

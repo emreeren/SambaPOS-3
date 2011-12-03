@@ -21,7 +21,14 @@ namespace Samba.Infrastructure.Data.SQL
 
         public void CommitChanges()
         {
-            _context.SaveChanges();
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
 
         public void ResetDatabase()

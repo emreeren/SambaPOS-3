@@ -63,6 +63,7 @@
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
@@ -85,6 +86,7 @@
     <Compile Include="Cron\MonthsCronEntry.cs" />
     <Compile Include="IMessageListener.cs" />
     <Compile Include="IStringCompareable.cs" />
+    <Compile Include="JsonHelper.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="MessagingClient.cs" />
     <Compile Include="MessagingClientObject.cs" />
