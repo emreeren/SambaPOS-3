@@ -10,5 +10,23 @@ namespace Samba.Domain.Models.Accounts
     {
         public int Id { get; set; }
         public string Name { get; set; }
+
+        private readonly IList<AccountCustomField> _accountCustomFields;
+        public virtual IList<AccountCustomField> AccountCustomFields
+        {
+            get { return _accountCustomFields; }
+        }
+
+        public AccountTemplate()
+        {
+            _accountCustomFields = new List<AccountCustomField>();
+        }
+
+        public AccountCustomField AddCustomField(string fieldName, int fieldType)
+        {
+            var result = new AccountCustomField { Name = fieldName, FieldType = fieldType };
+            _accountCustomFields.Add(result);
+            return result;
+        }
     }
 }

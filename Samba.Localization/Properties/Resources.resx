@@ -3064,16 +3064,37 @@ Continue without adding details?</value>
   <data name="SubMenuTags">
     <value xml:space="preserve">Sub Menu Tags</value>
   </data>
-	<data name="AccountTemplateName">
-		<value xml:space="preserve">Account Template Name</value>
-	</data>
-	<data name="AccountTemplate">
-		<value xml:space="preserve">Account Template</value>
-	</data>
-	<data name="AccountTemplateList">
-		<value xml:space="preserve">Account Template List</value>
-	</data>
-	<data name="DeleteErrorAccountTemplateAssignedtoAccounts">
-		<value><![CDATA[Can't delete because this template assigned to accounts]]></value>
-	</data>
+  <data name="AccountTemplateName">
+    <value xml:space="preserve">Account Template Name</value>
+  </data>
+  <data name="AccountTemplate">
+    <value xml:space="preserve">Account Template</value>
+  </data>
+  <data name="AccountTemplateList">
+    <value xml:space="preserve">Account Template List</value>
+  </data>
+  <data name="DeleteErrorAccountTemplateAssignedtoAccounts">
+    <value><![CDATA[Can't delete because this template assigned to accounts]]></value>
+  </data>
+  <data name="CustomField">
+    <value xml:space="preserve">Custom Field</value>
+  </data>
+  <data name="CustomFields">
+    <value xml:space="preserve">Custom Fields</value>
+  </data>
+  <data name="New_f">
+    <value xml:space="preserve">New {0}</value>
+  </data>
+  <data name="CustomFieldName">
+    <value xml:space="preserve">Custom Field Name</value>
+  </data>
+  <data name="FieldType">
+    <value xml:space="preserve">Field Type</value>
+  </data>
+  <data name="DisplayFormat">
+    <value xml:space="preserve">Display Format</value>
+  </data>
+  <data name="EditingFormat">
+    <value xml:space="preserve">Editing Format</value>
+  </data>
 </root>

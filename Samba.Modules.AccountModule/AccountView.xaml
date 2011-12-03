@@ -19,6 +19,19 @@
             </Label>
             <Common:MaskedTextBox HorizontalAlignment="Left" MinWidth="100" InputMask="(000) 000-0000"
                  PromptChar=" " UnmaskedText="{Binding SearchString, Mode=TwoWay, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" />
+            <ItemsControl ItemsSource="{Binding CustomData}" HorizontalAlignment="Left">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <DockPanel>
+                                <TextBlock Text="{Binding Name}"/>
+                                <TextBlock Text=":"/>
+                            </DockPanel>
+                            <TextBox MinWidth="60" Text="{Binding Value}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
             <Button HorizontalAlignment="Left" Margin="0,10" Width="60" Content="{Binding SaveCommand.Caption}"
                  Command="{Binding SaveCommand}" />
             <Label Content="{Binding Error}" Foreground="Red" />

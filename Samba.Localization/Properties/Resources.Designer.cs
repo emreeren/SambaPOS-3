@@ -1627,6 +1627,33 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Custom Field.
+        /// </summary>
+        public static string CustomField {
+            get {
+                return ResourceManager.GetString("CustomField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Custom Field Name.
+        /// </summary>
+        public static string CustomFieldName {
+            get {
+                return ResourceManager.GetString("CustomFieldName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Custom Fields.
+        /// </summary>
+        public static string CustomFields {
+            get {
+                return ResourceManager.GetString("CustomFields", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Data Connection String.
         /// </summary>
         public static string DataConnection {
@@ -2168,6 +2195,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Display Format.
+        /// </summary>
+        public static string DisplayFormat {
+            get {
+                return ResourceManager.GetString("DisplayFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Display Popup.
         /// </summary>
         public static string DisplayPopup {
@@ -2254,6 +2290,15 @@ namespace Samba.Localization.Properties {
         public static string Edit_f {
             get {
                 return ResourceManager.GetString("Edit_f", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Editing Format.
+        /// </summary>
+        public static string EditingFormat {
+            get {
+                return ResourceManager.GetString("EditingFormat", resourceCulture);
             }
         }
         
@@ -2717,6 +2762,15 @@ namespace Samba.Localization.Properties {
         public static string FastMenu {
             get {
                 return ResourceManager.GetString("FastMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Field Type.
+        /// </summary>
+        public static string FieldType {
+            get {
+                return ResourceManager.GetString("FieldType", resourceCulture);
             }
         }
         
@@ -3941,6 +3995,15 @@ namespace Samba.Localization.Properties {
         public static string Negative {
             get {
                 return ResourceManager.GetString("Negative", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New {0}.
+        /// </summary>
+        public static string New_f {
+            get {
+                return ResourceManager.GetString("New_f", resourceCulture);
             }
         }
         

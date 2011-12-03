@@ -77,7 +77,7 @@ namespace Samba.Persistance.Data
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Account>().Property(x => x.CustomData).HasColumnType("XML");
+            modelBuilder.Entity<Account>().Property(x => x.CustomData).IsMaxLength();
 
             modelBuilder.Entity<Department>().HasMany(p => p.TicketTagGroups).WithMany();
             modelBuilder.Entity<Department>().HasMany(p => p.ServiceTemplates).WithMany();

@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Accounts\AccountCustomField.cs" />
     <Compile Include="Models\Accounts\AccountTemplate.cs" />
     <Compile Include="Models\Actions\ActionContainer.cs" />
     <Compile Include="Models\Actions\AppRule.cs" />

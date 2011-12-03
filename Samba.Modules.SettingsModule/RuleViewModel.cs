@@ -64,7 +64,7 @@ namespace Samba.Modules.SettingsModule
             choosenValues.Cast<ActionContainer>().ToList().ForEach(x => Model.Actions.Add(x));
             _actions = new ObservableCollection<ActionContainerViewModel>(Model.Actions.Select(x => new ActionContainerViewModel(x, this)));
 
-            RaisePropertyChanged(()=>Actions);
+            RaisePropertyChanged(() => Actions);
 
         }
 
@@ -81,7 +81,7 @@ namespace Samba.Modules.SettingsModule
             set
             {
                 _constraints = value;
-                RaisePropertyChanged(()=>Constraints);
+                RaisePropertyChanged(() => Constraints);
             }
         }
 
@@ -115,6 +115,7 @@ namespace Samba.Modules.SettingsModule
 
         protected override void OnSave(string value)
         {
+
             Model.EventConstraints = string.Join("#", Constraints
                 .Where(x => x.Value != null)
                 .Select(x => x.GetConstraintData()));
