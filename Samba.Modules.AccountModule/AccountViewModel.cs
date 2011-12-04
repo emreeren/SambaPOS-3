@@ -1,24 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Dynamic;
 using System.Linq;
-using System.Text;
-using System.Xml.Linq;
+using System.Runtime.Serialization;
 using FluentValidation;
 using Samba.Domain.Models.Accounts;
 using Samba.Infrastructure;
-using Samba.Infrastructure.Data.BinarySerializer;
-using Samba.Infrastructure.Data.Serializer;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
 
 namespace Samba.Modules.AccountModule
 {
+    [DataContract]
     public class CustomDataValue
     {
+        [DataMember]
         public string Name { get; set; }
+        [DataMember]
         public string Value { get; set; }
+
+        public AccountCustomField CustomField { get; set; }
     }
 
     public class AccountViewModel : EntityViewModelBase<Account>
@@ -72,9 +73,12 @@ namespace Samba.Modules.AccountModule
         {
             if (AccountTemplate != null)
             {
-                foreach (var cf in AccountTemplate.AccountCustomFields.Where(cf => data.FirstOrDefault(x => x.Name == cf.Name) == null))
+                foreach (var cf in AccountTemplate.AccountCustomFields)
                 {
-                    data.Add(new CustomDataValue { Name = cf.Name });
+                    var customField = cf;
+                    var d = data.FirstOrDefault(x => x.Name == customField.Name);
+                    if (d == null) data.Add(new CustomDataValue { Name = cf.Name, CustomField = cf });
+                    else d.CustomField = cf;
                 }
             }
         }

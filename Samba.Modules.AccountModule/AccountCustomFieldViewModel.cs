@@ -25,8 +25,8 @@ namespace Samba.Modules.AccountModule
 
         public string Name { get { return Model.Name; } set { Model.Name = value; } }
 
-        public string DisplayFormat { get { return Model.DisplayFormat; } set { Model.DisplayFormat = value; } }
         public string EditingFormat { get { return Model.EditingFormat; } set { Model.EditingFormat = value; } }
+        public string ValueSource { get { return Model.ValueSource; } set { Model.ValueSource = value; } }
 
         public AccountCustomFieldViewModel(AccountCustomField model)
         {

@@ -75,7 +75,7 @@
                             </support:DelayTextBox>
                             <!-- Numeric -->
                             <!-- List -->
-                            <ComboBox Visibility="Collapsed" IsTextSearchEnabled="True" IsEditable="{Binding Path=AssignedDataGridColumn.UserCanEnterText, RelativeSource={RelativeSource AncestorType={x:Type local:DataGridColumnFilter}}, FallbackValue=False}"
+                            <ComboBox Visibility="Collapsed" IsTextSearchEnabled="True" 
                                  IsReadOnly="False" Height="{Binding  RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Converter={StaticResource fontSizeToHeightConverter}, Path=FontSize}"
                                  SelectedValue="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:DataGridColumnFilter}}, Path=FilterCurrentData.QueryString, Mode=TwoWay, Converter={StaticResource comboBoxToQueryStringConverter}}"
                                  Name="PART_ComboBoxFilter" Grid.Column="2">

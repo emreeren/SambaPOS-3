@@ -42,8 +42,8 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="{LocText DisplayFormat}" MinWidth="100" Binding="{Binding DisplayFormat}" />
                 <DataGridTextColumn Header="{LocText EditingFormat}" MinWidth="100" Binding="{Binding EditingFormat}" />
+                <DataGridTextColumn Header="{LocText Values}" MinWidth="100" Binding="{Binding ValueSource}" />
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>

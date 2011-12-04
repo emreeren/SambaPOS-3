@@ -11,7 +11,12 @@ namespace Samba.Domain.Models.Accounts
         public int Id { get; set; }
         public string Name { get; set; }
         public int FieldType { get; set; }
-        public string DisplayFormat { get; set; }
         public string EditingFormat { get; set; }
+        public string ValueSource { get; set; }
+
+        public bool IsString { get { return FieldType == 0; } }
+        public bool IsWideString { get { return FieldType == 1; } }
+        public bool IsNumber { get { return FieldType == 2; } }
+        public IEnumerable<string> Values { get { return (ValueSource ?? "").Split(',').Select(x=>x.Trim()); } }
     }
 }
