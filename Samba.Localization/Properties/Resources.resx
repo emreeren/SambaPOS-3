@@ -3097,4 +3097,7 @@ Continue without adding details?</value>
   <data name="EditingFormat">
     <value xml:space="preserve">Editing Format</value>
   </data>
+	<data name="Values">
+		<value xml:space="preserve">Values</value>
+	</data>
 </root>
