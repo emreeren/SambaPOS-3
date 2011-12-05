@@ -35,6 +35,11 @@
                                 </CheckBox>
                             </StackPanel>
                         </GroupBox>
+                        <Label MinWidth="130">
+                            <LocText ResourceIdentifierKey="TicketTemplate" Suffix=":"/>
+                        </Label>
+                        <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding TicketTemplates}"
+                                     SelectedItem="{Binding TicketTemplate}" />
                         <Label>
                             <LocText ResourceIdentifierKey="POSMenu" Suffix=":"/>
                         </Label>
@@ -61,21 +66,7 @@
                         </GroupBox>
                     </StackPanel>
                     <StackPanel Grid.Column="1" Margin="20,0" HorizontalAlignment="Left">
-                        <GroupBox Header="{LocText Numerators}" HorizontalAlignment="Left"
-                             Padding="5">
-                            <UniformGrid>
-                                <Label MinWidth="130">
-                                    <LocText ResourceIdentifierKey="TicketNumerator" Suffix=":"/>
-                                </Label>
-                                <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding Numerators}"
-                                     SelectedItem="{Binding TicketNumerator}" />
-                                <Label MinWidth="130">
-                                    <LocText ResourceIdentifierKey="OrderNumerator" Suffix=":"/>
-                                </Label>
-                                <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding Numerators}"
-                                     SelectedItem="{Binding OrderNumerator}" />
-                            </UniformGrid>
-                        </GroupBox>
+                        
                         <TabControl Margin="0,5,0,0">
                             <TabItem Header="{LocText TableScreens}" Padding="5">
                                 <StackPanel>

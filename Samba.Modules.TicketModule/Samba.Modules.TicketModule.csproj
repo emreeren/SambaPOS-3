@@ -58,6 +58,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentValidation, Version=3.1.0.0, Culture=neutral, PublicKeyToken=a82054b837897c66, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\Lib\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
@@ -132,6 +133,11 @@
       <DependentUpon>TicketTagGroupView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TicketTagGroupViewModel.cs" />
+    <Compile Include="TicketTemplateListViewModel.cs" />
+    <Compile Include="TicketTemplateView.xaml.cs">
+      <DependentUpon>TicketTemplateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TicketTemplateViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="DepartmentButtonView.xaml">
@@ -173,6 +179,10 @@
     <Page Include="TicketTagGroupView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TicketTemplateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

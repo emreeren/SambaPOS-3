@@ -63,14 +63,15 @@ namespace Samba.Modules.MenuModule
             get { return _orderTagGroups ?? (_orderTagGroups = new ObservableCollection<OrderTagGroupViewModel>(GetOrderTagGroups(Model))); }
         }
 
-        private IEnumerable<Numerator> _numerators;
-        public IEnumerable<Numerator> Numerators { get { return _numerators ?? (_numerators = Workspace.All<Numerator>()); } set { _numerators = value; } }
-
         public int ScreenMenuId { get { return Model.ScreenMenuId; } set { Model.ScreenMenuId = value; } }
         public int TerminalScreenMenuId { get { return Model.TerminalScreenMenuId; } set { Model.TerminalScreenMenuId = value; } }
 
-        public Numerator TicketNumerator { get { return Model.TicketNumerator; } set { Model.TicketNumerator = value; } }
-        public Numerator OrderNumerator { get { return Model.OrderNumerator; } set { Model.OrderNumerator = value; } }
+        private IEnumerable<TicketTemplate> _ticketTemplates;
+        public IEnumerable<TicketTemplate> TicketTemplates
+        {
+            get { return _ticketTemplates ?? (_ticketTemplates = Workspace.All<TicketTemplate>()); }
+        }
+        public TicketTemplate TicketTemplate { get { return Model.TicketTemplate; } set { Model.TicketTemplate = value; } }
 
         public int OpenTicketViewColumnCount { get { return Model.OpenTicketViewColumnCount; } set { Model.OpenTicketViewColumnCount = value; } }
 
@@ -307,8 +308,7 @@ namespace Samba.Modules.MenuModule
     {
         public DepartmentValidator()
         {
-            RuleFor(x => x.TicketNumerator).NotNull();
-            RuleFor(x => x.OrderNumerator).NotNull();
+            RuleFor(x => x.TicketTemplate).NotNull();
         }
     }
 }

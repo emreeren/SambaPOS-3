@@ -6,7 +6,7 @@ using Samba.Presentation.Common.ModelBase;
 
 namespace Samba.Modules.SettingsModule
 {
-    public class NumeratorListViewModel:EntityCollectionViewModelBase<NumeratorViewModel,Numerator>
+    public class NumeratorListViewModel : EntityCollectionViewModelBase<NumeratorViewModel, Numerator>
     {
         protected override NumeratorViewModel CreateNewViewModel(Numerator model)
         {
@@ -20,9 +20,9 @@ namespace Samba.Modules.SettingsModule
 
         protected override string CanDeleteItem(Numerator model)
         {
-            var count = Dao.Count<Department>(x => x.OrderNumerator.Id == model.Id);
+            var count = Dao.Count<TicketTemplate>(x => x.OrderNumerator.Id == model.Id);
             if (count > 0) return Resources.DeleteErrorNumeratorIsOrderNumerator;
-            count = Dao.Count<Department>(x => x.TicketNumerator.Id == model.Id);
+            count = Dao.Count<TicketTemplate>(x => x.TicketNumerator.Id == model.Id);
             if (count > 0) return Resources.DeleteErrorNumeratorIsTicketNumerator;
             count = Dao.Count<TicketTagGroup>(x => x.Numerator.Id == model.Id);
             if (count > 0) return Resources.DeleteErrorNumeratorUsedInTicket;

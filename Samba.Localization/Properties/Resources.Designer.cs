@@ -7152,6 +7152,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ticket Templates.
+        /// </summary>
+        public static string TicketTemplates {
+            get {
+                return ResourceManager.GetString("TicketTemplates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
         ///        * {PROPERTIES}.
         /// </summary>

@@ -77,6 +77,7 @@
     <Compile Include="Models\Menus\ServiceTemplate.cs" />
     <Compile Include="Models\Menus\TaxTemplate.cs" />
     <Compile Include="Models\Tickets\TicketTagValue.cs" />
+    <Compile Include="Models\Tickets\TicketTemplate.cs" />
     <Compile Include="Models\Transactions\AccountTransaction.cs" />
     <Compile Include="Models\Transactions\CashTransaction.cs" />
     <Compile Include="Models\Inventories\CostItem.cs" />

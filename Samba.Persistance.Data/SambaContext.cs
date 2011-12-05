@@ -34,6 +34,7 @@ namespace Samba.Persistance.Data
         public DbSet<ScreenMenuCategory> ScreenMenuCategories { get; set; }
         public DbSet<ScreenMenuItem> ScreenMenuItems { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<TicketTemplate> TicketTemplates { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderTagValue> OrderTagValues { get; set; }

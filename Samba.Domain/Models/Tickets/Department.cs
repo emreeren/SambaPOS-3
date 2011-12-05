@@ -16,11 +16,11 @@ namespace Samba.Domain.Models.Tickets
         public string UserString { get { return Name; } }
         public int ScreenMenuId { get; set; }
         public int TerminalScreenMenuId { get; set; }
-        public virtual Numerator TicketNumerator { get; set; }
-        public virtual Numerator OrderNumerator { get; set; }
         public bool IsFastFood { get; set; }
         public bool IsAlaCarte { get; set; }
         public bool IsTakeAway { get; set; }
+        public virtual TicketTemplate TicketTemplate { get; set; }
+
         public int OpenTicketViewColumnCount { get; set; }
         [StringLength(10)]
         public string PriceTag { get; set; }
