@@ -474,7 +474,7 @@ namespace Samba.Presentation.ViewModels
                 return Resources.CantCompleteOperationWhenThereIsZeroPricedProduct;
             if (!IsPaid && Orders.Count > 0)
             {
-                var tg = AppServices.MainDataContext.SelectedDepartment.TicketTagGroups.FirstOrDefault(
+                var tg = AppServices.MainDataContext.SelectedDepartment.TicketTemplate.TicketTagGroups.FirstOrDefault(
                         x => x.ForceValue && !IsTaggedWith(x.Name));
                 if (tg != null) return string.Format(Resources.TagCantBeEmpty_f, tg.Name);
             }

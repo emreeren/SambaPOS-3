@@ -11,6 +11,7 @@ using Samba.Infrastructure;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common;
+using Samba.Presentation.Common.UIControls;
 using Samba.Presentation.ViewModels;
 using Samba.Services;
 
@@ -68,7 +69,7 @@ namespace Samba.Modules.TicketModule
                 }
                 else
                 {
-                    ticketTags = AppServices.MainDataContext.SelectedDepartment.TicketTagGroups.Where(
+                    ticketTags = AppServices.MainDataContext.SelectedDepartment.TicketTemplate.TicketTagGroups.Where(
                            x => x.Name == obj.Value.LastSelectedTicketTag.Name).SelectMany(x => x.TicketTags).ToList();
                 }
                 ticketTags.Sort(new AlphanumComparator());
@@ -191,7 +192,7 @@ namespace Samba.Modules.TicketModule
 
         private void OnUpdateFreeTag(string obj)
         {
-            var cachedTag = AppServices.MainDataContext.SelectedDepartment.TicketTagGroups.Single(
+            var cachedTag = AppServices.MainDataContext.SelectedDepartment.TicketTemplate.TicketTagGroups.Single(
                 x => x.Id == SelectedTicket.LastSelectedTicketTag.Id);
             Debug.Assert(cachedTag != null);
             var ctag = cachedTag.TicketTags.SingleOrDefault(x => x.Name.ToLower() == FreeTag.ToLower());

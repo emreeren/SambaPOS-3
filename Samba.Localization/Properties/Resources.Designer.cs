@@ -6246,24 +6246,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tag Group.
-        /// </summary>
-        public static string TagGroup {
-            get {
-                return ResourceManager.GetString("TagGroup", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Tag Groups.
-        /// </summary>
-        public static string TagGroups {
-            get {
-                return ResourceManager.GetString("TagGroups", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Tag Name.
         /// </summary>
         public static string TagName {
@@ -7072,6 +7054,24 @@ namespace Samba.Localization.Properties {
         public static string TicketTag {
             get {
                 return ResourceManager.GetString("TicketTag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tag Group.
+        /// </summary>
+        public static string TicketTagGroup {
+            get {
+                return ResourceManager.GetString("TicketTagGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tag Groups.
+        /// </summary>
+        public static string TicketTagGroups {
+            get {
+                return ResourceManager.GetString("TicketTagGroups", resourceCulture);
             }
         }
         

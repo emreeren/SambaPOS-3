@@ -90,11 +90,6 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Behaviors\DialogActivationBehavior.cs" />
-    <Compile Include="Behaviors\IWindow.cs" />
-    <Compile Include="Behaviors\RegionPopupBehaviors.cs" />
-    <Compile Include="Behaviors\WindowDialogActivationBehavior.cs" />
-    <Compile Include="Behaviors\WindowWrapper.Desktop.cs" />
     <Compile Include="Browser\BrowserControl.xaml.cs">
       <DependentUpon>BrowserControl.xaml</DependentUpon>
     </Compile>
@@ -111,8 +106,9 @@
     <Compile Include="CategoryCommand.cs" />
     <Compile Include="CommandCategory.cs" />
     <Compile Include="CommonEventPublisher.cs" />
-    <Compile Include="DataContextGrid.cs" />
-    <Compile Include="DiagramCanvas.cs" />
+    <Compile Include="Converters\NullImageConverter.cs" />
+    <Compile Include="Converters\VisibilityConverter.cs" />
+    <Compile Include="UIControls\DiagramCanvas.cs" />
     <Compile Include="DialogCloser.cs" />
     <Compile Include="ErrorReport\ErrorReportView.xaml.cs">
       <DependentUpon>ErrorReportView.xaml</DependentUpon>
@@ -122,7 +118,7 @@
     <Compile Include="EventServiceFactory.cs" />
     <Compile Include="EventTopicNames.cs" />
     <Compile Include="ExtensionServices.cs" />
-    <Compile Include="FilteredTextBox.cs" />
+    <Compile Include="UIControls\FilteredTextBox.cs" />
     <Compile Include="GenericEvent.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="IDiagram.cs" />
@@ -159,7 +155,7 @@
       <DependentUpon>ValueChooserForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="IUserInteraction.cs" />
-    <Compile Include="KineticBehaviour.cs" />
+    <Compile Include="UIControls\KineticBehaviour.cs" />
     <Compile Include="ListViewEx\BackgroundConverter.cs" />
     <Compile Include="ListViewEx\ListViewCustomComparer.cs" />
     <Compile Include="ListViewEx\ListViewSorter.cs" />
@@ -170,7 +166,7 @@
     <Compile Include="ListViewLM\ListViewLayoutManager.cs" />
     <Compile Include="ListViewLM\ProportionalColumn.cs" />
     <Compile Include="ListViewLM\RangeColumn.cs" />
-    <Compile Include="MaskedTextBox.cs" />
+    <Compile Include="UIControls\MaskedTextBox.cs" />
     <Compile Include="MessageListener.cs" />
     <Compile Include="MessageProcessor.cs" />
     <Compile Include="ModelBase\AbstractEntityCollectionViewModelBase.cs" />
@@ -195,8 +191,9 @@
     </Compile>
     <Compile Include="RegionNames.cs" />
     <Compile Include="RuleExecutor.cs" />
-    <Compile Include="TextBoxInputMaskBehavior.cs" />
     <Compile Include="Services\TriggerService.cs" />
+    <Compile Include="UIControls\BindablePasswordBox.cs" />
+    <Compile Include="UIControls\SearchTextBox.cs" />
     <Compile Include="VirtualKeyboard\KeyboardView2.xaml.cs">
       <DependentUpon>KeyboardView2.xaml</DependentUpon>
     </Compile>
@@ -225,10 +222,6 @@
     <ProjectReference Include="..\Lib\PropertyTools\PropertyTools.csproj">
       <Project>{37466829-61F5-47FA-9E3E-9CEDCD9535C0}</Project>
       <Name>PropertyTools</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lib\UIControls\UIControls.csproj">
-      <Project>{A3082956-9EE4-4B35-9B4E-B07D0C4C8B56}</Project>
-      <Name>UIControls</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">
       <Project>{2386F6A0-91B2-4D1A-8DBC-92109924AFFE}</Project>
@@ -308,6 +301,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="VirtualKeyboard\KeyboardView2.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -341,6 +338,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ErrorReport\Images\warning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\clear.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\search.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -130,11 +130,9 @@
       <DependentUpon>MessageClientStatusView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="NullImageConverter.cs" />
     <Compile Include="Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>
     </Compile>
-    <Compile Include="VisibilityConverter.cs" />
     <Compile Include="WorkPeriodStatusView.xaml.cs">
       <DependentUpon>WorkPeriodStatusView.xaml</DependentUpon>
     </Compile>
@@ -196,10 +194,6 @@
       <Project>{512FD53F-9AD1-46A1-A961-9FABDFAD50C5}</Project>
       <Name>DataGridFilterLibrary</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Lib\UIControls\UIControls.csproj">
-      <Project>{A3082956-9EE4-4B35-9B4E-B07D0C4C8B56}</Project>
-      <Name>UIControls</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Samba.Localization\Samba.Localization.csproj">
       <Project>{406B96A6-C886-4149-AD88-A2402EDB2B90}</Project>
       <Name>Samba.Localization</Name>
@@ -216,6 +210,14 @@
       <Project>{629A2D7C-9014-4A85-A1E9-26161D5B3043}</Project>
       <Name>Samba.Modules.CidMonitor</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.DeliveryModule\Samba.Modules.DeliveryModule.csproj">
+      <Project>{1A2BB482-E079-4435-B804-92E8819E31F5}</Project>
+      <Name>Samba.Modules.DeliveryModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.DepartmentModule\Samba.Modules.DepartmentModule.csproj">
+      <Project>{3F15FA1B-DB89-418B-8E7C-E7747D9098FF}</Project>
+      <Name>Samba.Modules.DepartmentModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samba.Modules.InventoryModule\Samba.Modules.InventoryModule.csproj">
       <Project>{E93B6838-9B18-4718-AB7B-2EA5232518C3}</Project>
       <Name>Samba.Modules.InventoryModule</Name>
@@ -223,6 +225,10 @@
     <ProjectReference Include="..\Samba.Modules.NavigationModule\Samba.Modules.NavigationModule.csproj">
       <Project>{9497C48E-B9B5-4869-820E-09ECE4347632}</Project>
       <Name>Samba.Modules.NavigationModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.RestaurantModule\Samba.Modules.RestaurantModule.csproj">
+      <Project>{56B13A56-FDC9-45A5-94FC-10F8AADD86F5}</Project>
+      <Name>Samba.Modules.RestaurantModule</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Modules.UserModule\Samba.Modules.UserModule.csproj">
       <Project>{1AE61C89-EBFD-498D-9F53-6319B302CDBF}</Project>
@@ -255,10 +261,6 @@
     <ProjectReference Include="..\Samba.Modules.SettingsModule\Samba.Modules.SettingsModule.csproj">
       <Project>{3B7CF671-E246-4284-9DEB-F7F8CD784ED1}</Project>
       <Name>Samba.Modules.SettingsModule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Samba.Modules.TableModule\Samba.Modules.TableModule.csproj">
-      <Project>{8E5E6C3E-91C8-47D7-9ABF-C0F2B95CEB21}</Project>
-      <Name>Samba.Modules.TableModule</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Modules.TicketModule\Samba.Modules.TicketModule.csproj">
       <Project>{9E6FF3D9-BAE7-4E48-B144-0859BE28C570}</Project>

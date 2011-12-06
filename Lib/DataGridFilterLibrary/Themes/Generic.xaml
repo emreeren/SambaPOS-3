@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
      xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:local="clr-namespace:DataGridFilterLibrary"
-     xmlns:support="clr-namespace:DataGridFilterLibrary.Support" xmlns:lex="http://schemas.root-project.org/xaml/presentation">
+     xmlns:support="clr-namespace:DataGridFilterLibrary.Support">
     <Style TargetType="{x:Type local:DataGridColumnFilter}">
         <Style.Resources>
             <support:EnumDisplayer Type="{x:Type support:FilterOperator}" x:Key="filterOperators">

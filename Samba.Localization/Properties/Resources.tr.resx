@@ -572,11 +572,11 @@ Yap</value>
     <value>Adisyon Etiketleri</value>
     <comment>GroupBox.Header</comment>
   </data>
-  <data name="TagGroups" xml:space="preserve">
+  <data name="TicketTagGroups" xml:space="preserve">
     <value>Etiket Grupları</value>
     <comment>DataGridTextColumn.Header</comment>
   </data>
-  <data name="TagGroup" xml:space="preserve">
+  <data name="TicketTagGroup" xml:space="preserve">
     <value>Etiket Grubu</value>
   </data>
   <data name="ChooseTagsForDepartmentHint" xml:space="preserve">

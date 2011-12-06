@@ -1,6 +1,6 @@
 ﻿<UserControl x:Class="Samba.Modules.TicketModule.SelectedOrdersView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:FxButton="clr-namespace:FlexButton;assembly=FlexButton" xmlns:Common="clr-namespace:Samba.Presentation.Common;assembly=Samba.Presentation.Common" mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:FxButton="clr-namespace:FlexButton;assembly=FlexButton" xmlns:Common="clr-namespace:Samba.Presentation.Common;assembly=Samba.Presentation.Common" xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common" mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <Style TargetType="GroupBox">
             <Style.Resources>
@@ -66,7 +66,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
-                <Common:FilteredTextBox Name="FreeTag" Type="{Binding FilteredTextBoxType}" FontSize="18" Text="{Binding FreeTag,UpdateSourceTrigger=PropertyChanged}"
+                <UIControls:FilteredTextBox Name="FreeTag" Type="{Binding FilteredTextBoxType}" FontSize="18" Text="{Binding FreeTag,UpdateSourceTrigger=PropertyChanged}"
                      HorizontalAlignment="Stretch" />
                 <FxButton:FlexButton Grid.Column="1" Margin="5,0" Command="{Binding UpdateFreeTagCommand}"
                      Content="{Binding UpdateFreeTagCommand.Caption}">

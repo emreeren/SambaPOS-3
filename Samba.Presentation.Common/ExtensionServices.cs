@@ -116,8 +116,7 @@ namespace Samba.Presentation.Common
             }
             return null;
         }
-
-
+        
         public static DataGridRow GetRow(this DataGrid dataGrid, int index)
         {
             var row = (DataGridRow)dataGrid.ItemContainerGenerator.ContainerFromIndex(index);

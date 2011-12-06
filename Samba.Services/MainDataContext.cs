@@ -148,10 +148,13 @@ namespace Samba.Services
             {
                 return _departments ?? (_departments = Dao.Query<Department>(
                     x => x.TicketTemplate.OrderNumerator, x => x.TicketTemplate.TicketNumerator,
-                    x => x.ServiceTemplates, x => x.OrderTagGroups, x => x.OrderTagGroups.Select(y => y.OrderTags), x => x.OrderTagGroups.Select(y => y.OrderTagMaps),
+                    x => x.TicketTemplate.ServiceTemplates, 
+                    x => x.TicketTemplate.OrderTagGroups, 
+                    x => x.TicketTemplate.OrderTagGroups.Select(y => y.OrderTags), 
+                    x => x.TicketTemplate.OrderTagGroups.Select(y => y.OrderTagMaps),
                     x => x.PosTableScreens, x => x.PosTableScreens.Select(y => y.Tables),
-                    x => x.TerminalTableScreens, x => x.TerminalTableScreens.Select(y => y.Tables),
-                    x => x.TicketTagGroups.Select(y => y.Numerator), x => x.TicketTagGroups.Select(y => y.TicketTags)));
+                    x => x.TicketTemplate.TicketTagGroups.Select(y => y.Numerator), 
+                    x => x.TicketTemplate.TicketTagGroups.Select(y => y.TicketTags)));
             }
         }
 
@@ -636,12 +639,12 @@ namespace Samba.Services
 
         public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(MenuItem menuItem)
         {
-            return GetOrderTagGroupsForItem(SelectedDepartment.OrderTagGroups, menuItem);
+            return GetOrderTagGroupsForItem(SelectedDepartment.TicketTemplate.OrderTagGroups, menuItem);
         }
 
         public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItems(IEnumerable<MenuItem> menuItems)
         {
-            return menuItems.Aggregate(SelectedDepartment.OrderTagGroups.OrderBy(x => x.Order) as IEnumerable<OrderTagGroup>, GetOrderTagGroupsForItem);
+            return menuItems.Aggregate(SelectedDepartment.TicketTemplate.OrderTagGroups.OrderBy(x => x.Order) as IEnumerable<OrderTagGroup>, GetOrderTagGroupsForItem);
         }
 
         private static IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(IEnumerable<OrderTagGroup> tagGroups, MenuItem menuItem)

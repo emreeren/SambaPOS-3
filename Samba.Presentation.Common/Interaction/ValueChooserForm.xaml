@@ -1,8 +1,10 @@
 ﻿<Window x:Class="Samba.Presentation.Common.Interaction.ValueChooserForm" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
-     xmlns:uic="clr-namespace:UIControls;assembly=UIControls" Title="ValueChooserForm"
+     Title="ValueChooserForm"
      Width="444" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow" PreviewKeyDown="Window_PreviewKeyDown"
-     mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+     mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+     xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls" 
      Closing="Window_Closing">
     <Grid>
         <Grid.RowDefinitions>
@@ -31,12 +33,12 @@
                 </ContextMenu>
             </ListBox.ContextMenu>
         </ListBox>
-        <uic:SearchTextBox Grid.Row="3" Margin="3" Name="SearchTextBox" Search="SearchTextBox_Search"
+        <UIControls:SearchTextBox Grid.Row="3" Margin="3" x:Name="SearchTextBox" Search="SearchTextBox_Search"
              KeyDown="SearchTextBox_KeyDown">
-            <uic:SearchTextBox.LabelText>
+            <UIControls:SearchTextBox.LabelText>
                 <LocText ResourceIdentifierKey="Search"/>
-            </uic:SearchTextBox.LabelText>
-        </uic:SearchTextBox>
+            </UIControls:SearchTextBox.LabelText>
+        </UIControls:SearchTextBox>
         <Label Grid.Row="1" Grid.Column="2" Name="SelectedValuesLabel">
             <LocText ResourceIdentifierKey="Selected"/>
         </Label>

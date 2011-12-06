@@ -407,7 +407,7 @@ namespace Samba.Domain.Models.Tickets
         public static Ticket Create(Department department)
         {
             var ticket = new Ticket { DepartmentId = department.Id };
-            foreach (var serviceTemplate in department.ServiceTemplates)
+            foreach (var serviceTemplate in department.TicketTemplate.ServiceTemplates)
             {
                 ticket.AddService(serviceTemplate.Id, serviceTemplate.CalculationMethod, serviceTemplate.Amount);
             }

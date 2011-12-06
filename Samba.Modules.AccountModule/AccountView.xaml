@@ -1,6 +1,6 @@
 ﻿<UserControl x:Class="Samba.Modules.AccountModule.AccountView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:Common="clr-namespace:Samba.Presentation.Common;assembly=Samba.Presentation.Common" xmlns:AccountModule="clr-namespace:Samba.Modules.AccountModule" mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:Common="clr-namespace:Samba.Presentation.Common;assembly=Samba.Presentation.Common" xmlns:AccountModule="clr-namespace:Samba.Modules.AccountModule" xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common" mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <DataTemplate x:Key="textTemplate">
             <StackPanel>
@@ -12,7 +12,7 @@
         <DataTemplate x:Key="numberTemplate">
             <StackPanel>
                 <Label Content="{Binding Name}"/>
-                <Common:FilteredTextBox Type="Number" MinWidth="60" Text="{Binding Value}"/>
+                <UIControls:FilteredTextBox Type="Number" MinWidth="60" Text="{Binding Value}"/>
             </StackPanel>
         </DataTemplate>
 
@@ -33,7 +33,7 @@
         <DataTemplate x:Key="maskedTemplate">
             <StackPanel>
                 <Label Content="{Binding Name}"/>
-                <Common:MaskedTextBox MinWidth="60" 
+                <UIControls:MaskedTextBox MinWidth="60" 
                     PromptChar=" "
                     UnmaskedText="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
                     InputMask="{Binding CustomField.EditingFormat}"/>
