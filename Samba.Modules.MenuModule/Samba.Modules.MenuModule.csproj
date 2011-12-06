@@ -81,16 +81,6 @@
       <DependentUpon>ScreenMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ScreenMenuViewModel.cs" />
-    <Compile Include="DepartmentListViewModel.cs" />
-    <Compile Include="DepartmentView.xaml.cs">
-      <DependentUpon>DepartmentView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="DepartmentViewModel.cs" />
-    <Compile Include="ServiceTemplateListViewModel.cs" />
-    <Compile Include="ServiceTemplateView.xaml.cs">
-      <DependentUpon>ServiceTemplateView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ServiceTemplateViewModel.cs" />
     <Compile Include="TaxTemplateListViewModel.cs" />
     <Compile Include="TaxTemplateView.xaml.cs">
       <DependentUpon>TaxTemplateView.xaml</DependentUpon>
@@ -121,10 +111,6 @@
     <ProjectReference Include="..\Samba.Localization\Samba.Localization.csproj">
       <Project>{406B96A6-C886-4149-AD88-A2402EDB2B90}</Project>
       <Name>Samba.Localization</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Samba.Modules.TicketModule\Samba.Modules.TicketModule.csproj">
-      <Project>{9E6FF3D9-BAE7-4E48-B144-0859BE28C570}</Project>
-      <Name>Samba.Modules.TicketModule</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Persistance.Data\Samba.Persistance.Data.csproj">
       <Project>{FEDA2199-91CD-4AF1-B571-4AA2E8371A18}</Project>
@@ -159,14 +145,6 @@
     <Page Include="ScreenMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="DepartmentView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ServiceTemplateView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="TaxTemplateView.xaml">
       <Generator>MSBuild:Compile</Generator>

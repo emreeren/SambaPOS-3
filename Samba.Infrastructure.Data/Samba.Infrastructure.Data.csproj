@@ -60,9 +60,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="Norm">
-      <HintPath>..\Lib\Norm.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
@@ -84,7 +81,6 @@
     <Compile Include="IReadOnlyWorkspace.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="IWorkspace.cs" />
-    <Compile Include="MongoDB\MongoWorkspace.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryBase.cs" />
     <Compile Include="Serializer\BinaryContainer.cs" />

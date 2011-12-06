@@ -58,6 +58,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentValidation, Version=3.1.0.0, Culture=neutral, PublicKeyToken=a82054b837897c66, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\Lib\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
@@ -112,6 +113,11 @@
       <DependentUpon>SelectedOrdersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SelectedOrdersViewModel.cs" />
+    <Compile Include="ServiceTemplateListViewModel.cs" />
+    <Compile Include="ServiceTemplateView.xaml.cs">
+      <DependentUpon>ServiceTemplateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceTemplateViewModel.cs" />
     <Compile Include="TicketExplorerFilter.cs" />
     <Compile Include="TicketExplorerRowViewModel.cs" />
     <Compile Include="TicketExplorerView.xaml.cs">
@@ -132,6 +138,11 @@
       <DependentUpon>TicketTagGroupView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TicketTagGroupViewModel.cs" />
+    <Compile Include="TicketTemplateListViewModel.cs" />
+    <Compile Include="TicketTemplateView.xaml.cs">
+      <DependentUpon>TicketTemplateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TicketTemplateViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="DepartmentButtonView.xaml">
@@ -158,6 +169,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ServiceTemplateView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="TicketEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -173,6 +188,10 @@
     <Page Include="TicketTagGroupView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TicketTemplateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

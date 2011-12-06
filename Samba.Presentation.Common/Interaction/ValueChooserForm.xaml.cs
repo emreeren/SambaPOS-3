@@ -35,6 +35,7 @@ namespace Samba.Presentation.Common.Interaction
             SelectedValuesListBox.ItemsSource = SelectedValues;
 
             SearchTextBox.Focus();
+            SearchTextBox.MinHeight = 20;
         }
 
         private void InitValues()

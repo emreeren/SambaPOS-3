@@ -2,7 +2,7 @@
      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:ListViewLM="clr-namespace:Samba.Presentation.Common.ListViewLM;assembly=Samba.Presentation.Common"
      xmlns:FlexButton="clr-namespace:FlexButton;assembly=FlexButton" xmlns:VirtualKeyboard="clr-namespace:Samba.Presentation.Common.VirtualKeyboard;assembly=Samba.Presentation.Common"
-     xmlns:Common="clr-namespace:Samba.Presentation.Common;assembly=Samba.Presentation.Common"
+     xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common" 
      mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="800" FontSize="20">
     <Grid>
         <TabControl BorderThickness="0" Grid.Column="0" Padding="0" SelectedIndex="{Binding ActiveView}">
@@ -233,7 +233,7 @@
                     <TextBlock Text="{LocText Description}" />
                     <TextBox Text="{Binding Description}" Name="DescriptionEditor" />
                     <TextBlock Text="{LocText Amount}" />
-                    <Common:FilteredTextBox Name="AmountEditor" Type="Number" HorizontalAlignment="Left"
+                    <UIControls:FilteredTextBox Name="AmountEditor" Type="Number" HorizontalAlignment="Left"
                          MinWidth="100" Text="{Binding Amount,StringFormat='{}{0:#,##.##}',UpdateSourceTrigger=PropertyChanged}"
                          Loaded="FilteredTextBox_Loaded" />
 

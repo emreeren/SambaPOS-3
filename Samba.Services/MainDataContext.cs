@@ -146,11 +146,15 @@ namespace Samba.Services
         {
             get
             {
-                return _departments ?? (_departments = Dao.Query<Department>(x => x.TicketNumerator, x => x.OrderNumerator,
-                    x => x.ServiceTemplates, x => x.OrderTagGroups, x => x.OrderTagGroups.Select(y => y.OrderTags), x => x.OrderTagGroups.Select(y => y.OrderTagMaps),
+                return _departments ?? (_departments = Dao.Query<Department>(
+                    x => x.TicketTemplate.OrderNumerator, x => x.TicketTemplate.TicketNumerator,
+                    x => x.TicketTemplate.ServiceTemplates, 
+                    x => x.TicketTemplate.OrderTagGroups, 
+                    x => x.TicketTemplate.OrderTagGroups.Select(y => y.OrderTags), 
+                    x => x.TicketTemplate.OrderTagGroups.Select(y => y.OrderTagMaps),
                     x => x.PosTableScreens, x => x.PosTableScreens.Select(y => y.Tables),
-                    x => x.TerminalTableScreens, x => x.TerminalTableScreens.Select(y => y.Tables),
-                    x => x.TicketTagGroups.Select(y => y.Numerator), x => x.TicketTagGroups.Select(y => y.TicketTags)));
+                    x => x.TicketTemplate.TicketTagGroups.Select(y => y.Numerator), 
+                    x => x.TicketTemplate.TicketTagGroups.Select(y => y.TicketTags)));
             }
         }
 
@@ -449,7 +453,7 @@ namespace Samba.Services
                 {
                     if (SelectedTicket.Orders.Where(x => !x.Locked).FirstOrDefault() != null)
                     {
-                        SelectedTicket.MergeOrdersAndUpdateOrderNumbers(NumberGenerator.GetNextNumber(SelectedDepartment.OrderNumerator.Id));
+                        SelectedTicket.MergeOrdersAndUpdateOrderNumbers(NumberGenerator.GetNextNumber(SelectedDepartment.TicketTemplate.OrderNumerator.Id));
                         SelectedTicket.Orders.Where(x => x.Id == 0).ToList().ForEach(x => x.CreatedDateTime = DateTime.Now);
                     }
 
@@ -481,12 +485,12 @@ namespace Samba.Services
 
         public void UpdateTicketNumber(Ticket ticket)
         {
-            UpdateTicketNumber(ticket, SelectedDepartment.TicketNumerator);
+            UpdateTicketNumber(ticket, SelectedDepartment.TicketTemplate.TicketNumerator);
         }
 
         public void UpdateTicketNumber(Ticket ticket, Numerator numerator)
         {
-            if (numerator == null) numerator = SelectedDepartment.TicketNumerator;
+            if (numerator == null) numerator = SelectedDepartment.TicketTemplate.TicketNumerator;
             if (string.IsNullOrEmpty(ticket.TicketNumber))
                 ticket.TicketNumber = NumberGenerator.GetNextString(numerator.Id);
         }
@@ -635,12 +639,12 @@ namespace Samba.Services
 
         public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(MenuItem menuItem)
         {
-            return GetOrderTagGroupsForItem(SelectedDepartment.OrderTagGroups, menuItem);
+            return GetOrderTagGroupsForItem(SelectedDepartment.TicketTemplate.OrderTagGroups, menuItem);
         }
 
         public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItems(IEnumerable<MenuItem> menuItems)
         {
-            return menuItems.Aggregate(SelectedDepartment.OrderTagGroups.OrderBy(x => x.Order) as IEnumerable<OrderTagGroup>, GetOrderTagGroupsForItem);
+            return menuItems.Aggregate(SelectedDepartment.TicketTemplate.OrderTagGroups.OrderBy(x => x.Order) as IEnumerable<OrderTagGroup>, GetOrderTagGroupsForItem);
         }
 
         private static IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(IEnumerable<OrderTagGroup> tagGroups, MenuItem menuItem)

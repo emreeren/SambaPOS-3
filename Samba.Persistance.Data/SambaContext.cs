@@ -34,6 +34,7 @@ namespace Samba.Persistance.Data
         public DbSet<ScreenMenuCategory> ScreenMenuCategories { get; set; }
         public DbSet<ScreenMenuItem> ScreenMenuItems { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<TicketTemplate> TicketTemplates { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderTagValue> OrderTagValues { get; set; }
@@ -77,13 +78,13 @@ namespace Samba.Persistance.Data
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<TicketTemplate>().HasMany(p => p.TicketTagGroups).WithMany();
+            modelBuilder.Entity<TicketTemplate>().HasMany(p => p.ServiceTemplates).WithMany();
+            modelBuilder.Entity<TicketTemplate>().HasMany(p => p.OrderTagGroups).WithMany();
+            
             modelBuilder.Entity<Account>().Property(x => x.CustomData).IsMaxLength();
 
-            modelBuilder.Entity<Department>().HasMany(p => p.TicketTagGroups).WithMany();
-            modelBuilder.Entity<Department>().HasMany(p => p.ServiceTemplates).WithMany();
-            modelBuilder.Entity<Department>().HasMany(p => p.OrderTagGroups).WithMany();
             modelBuilder.Entity<Department>().HasMany(p => p.PosTableScreens).WithMany();
-            modelBuilder.Entity<Department>().HasMany(p => p.TerminalTableScreens).WithMany();
 
             modelBuilder.Entity<TableScreen>().HasMany(p => p.Tables).WithMany();
             modelBuilder.Entity<Terminal>().HasMany(p => p.PrintJobs).WithMany();

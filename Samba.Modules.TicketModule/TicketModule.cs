@@ -30,9 +30,11 @@ namespace Samba.Modules.TicketModule
             _regionManager = regionManager;
             _ticketEditorView = ticketEditorView;
 
-            AddDashboardCommand<TicketTagGroupListViewModel>(Resources.TicketTags, Resources.Settings);
-            AddDashboardCommand<OrderTagGroupListViewModel>(Resources.OrderTags, Resources.Settings); 
-            AddDashboardCommand<OrderTagTemplateListViewModel>(Resources.OrderTagTemplates, Resources.Settings);
+            AddDashboardCommand<TicketTemplateListViewModel>(Resources.TicketTemplates, Resources.Tickets,10);
+            AddDashboardCommand<TicketTagGroupListViewModel>(Resources.TicketTags, Resources.Tickets,10);
+            AddDashboardCommand<OrderTagGroupListViewModel>(Resources.OrderTags, Resources.Tickets,10);
+            AddDashboardCommand<OrderTagTemplateListViewModel>(Resources.OrderTagTemplates, Resources.Tickets,10);
+            AddDashboardCommand<ServiceTemplateListViewModel>(Resources.ServiceTemplates, Resources.Products);
 
             PermissionRegistry.RegisterPermission(PermissionNames.AddItemsToLockedTickets, PermissionCategories.Ticket, Resources.CanReleaseTicketLock);
             PermissionRegistry.RegisterPermission(PermissionNames.RemoveTicketTag, PermissionCategories.Ticket, Resources.CanRemoveTicketTag);

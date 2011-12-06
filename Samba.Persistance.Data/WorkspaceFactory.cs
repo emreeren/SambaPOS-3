@@ -9,7 +9,6 @@ using FluentMigrator.Runner.Announcers;
 using FluentMigrator.Runner.Initialization;
 using Microsoft.Win32;
 using Samba.Infrastructure.Data;
-using Samba.Infrastructure.Data.MongoDB;
 using Samba.Infrastructure.Data.SQL;
 using Samba.Infrastructure.Data.Text;
 using Samba.Infrastructure.Settings;
@@ -19,7 +18,6 @@ namespace Samba.Persistance.Data
     public static class WorkspaceFactory
     {
         private static TextFileWorkspace _textFileWorkspace;
-        private static readonly MongoWorkspace MongoWorkspace;
         private static string _connectionString = LocalSettings.ConnectionString;
 
         static WorkspaceFactory()
@@ -40,10 +38,6 @@ namespace Samba.Persistance.Data
             else if (LocalSettings.ConnectionString.EndsWith(".txt"))
             {
                 _textFileWorkspace = GetTextFileWorkspace();
-            }
-            else if (_connectionString.StartsWith("mongodb://"))
-            {
-                MongoWorkspace = GetMongoWorkspace();
             }
             else if (!string.IsNullOrEmpty(LocalSettings.ConnectionString))
             {
@@ -69,14 +63,12 @@ namespace Samba.Persistance.Data
 
         public static IWorkspace Create()
         {
-            if (MongoWorkspace != null) return MongoWorkspace;
             if (_textFileWorkspace != null) return _textFileWorkspace;
             return new EFWorkspace(new SambaContext(false));
         }
 
         public static IReadOnlyWorkspace CreateReadOnly()
         {
-            if (MongoWorkspace != null) return MongoWorkspace;
             if (_textFileWorkspace != null) return _textFileWorkspace;
             return new ReadOnlyEFWorkspace(new SambaContext(true));
         }
@@ -92,11 +84,6 @@ namespace Samba.Persistance.Data
             return _connectionString.EndsWith(".txt")
                 ? _connectionString
                 : string.Format("{0}\\{1}.txt", LocalSettings.DocumentPath, LocalSettings.AppName);
-        }
-
-        private static MongoWorkspace GetMongoWorkspace()
-        {
-            return new MongoWorkspace(_connectionString);
         }
 
         public static void SetDefaultConnectionString(string cTestdataTxt)

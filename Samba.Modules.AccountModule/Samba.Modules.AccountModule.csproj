@@ -58,10 +58,6 @@
     <Compile Include="AccountCustomFieldViewModel.cs" />
     <Compile Include="AccountListViewModel.cs" />
     <Compile Include="AccountModule.cs" />
-    <Compile Include="AccountSelectorView.xaml.cs">
-      <DependentUpon>AccountSelectorView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="AccountSelectorViewModel.cs" />
     <Compile Include="AccountView.xaml.cs">
       <DependentUpon>AccountView.xaml</DependentUpon>
     </Compile>
@@ -71,14 +67,9 @@
       <DependentUpon>AccountTemplateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AccountTemplateViewModel.cs" />
-    <Compile Include="AccountTransactionViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="AccountSelectorView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="AccountView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

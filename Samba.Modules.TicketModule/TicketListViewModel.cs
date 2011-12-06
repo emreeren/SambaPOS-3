@@ -199,7 +199,7 @@ namespace Samba.Modules.TicketModule
             get
             {
                 return AppServices.MainDataContext.SelectedDepartment != null
-                    ? AppServices.MainDataContext.SelectedDepartment.TicketTagGroups
+                    ? AppServices.MainDataContext.SelectedDepartment.TicketTemplate.TicketTagGroups
                     .Where(x => x.ActiveOnPosClient)
                     .OrderBy(x => x.Order)
                     .Select(x => new TicketTagButton(x, SelectedTicket))

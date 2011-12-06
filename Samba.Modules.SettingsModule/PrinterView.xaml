@@ -1,7 +1,6 @@
 ﻿<UserControl x:Class="Samba.Modules.SettingsModule.PrinterView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:Common="clr-namespace:Samba.Presentation.Common;assembly=Samba.Presentation.Common"
-     mc:Ignorable="d">
+     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:Common="clr-namespace:Samba.Presentation.Common;assembly=Samba.Presentation.Common" xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common" mc:Ignorable="d">
     <Grid>
         <StackPanel>
             <Label>
@@ -21,11 +20,11 @@
             <Label>
                 <LocText ResourceIdentifierKey="CharacterSet" Suffix=":"/>
             </Label>
-            <Common:FilteredTextBox Type="Digits" HorizontalAlignment="Left" MinWidth="100" Text="{Binding CodePage}" />
+            <UIControls:FilteredTextBox Type="Digits" HorizontalAlignment="Left" MinWidth="100" Text="{Binding CodePage}" />
             <Label>
                 <LocText ResourceIdentifierKey="LineCharacterCount" Suffix=":"/>
             </Label>
-            <Common:FilteredTextBox Type="Digits" HorizontalAlignment="Left" MinWidth="100" Text="{Binding CharsPerLine}" />
+            <UIControls:FilteredTextBox Type="Digits" HorizontalAlignment="Left" MinWidth="100" Text="{Binding CharsPerLine}" />
             <Button HorizontalAlignment="Left" Margin="0,10" Width="60" Content="{Binding SaveCommand.Caption}"
                  Command="{Binding SaveCommand}" />
             <Label Content="{Binding Error}" Foreground="Red" />

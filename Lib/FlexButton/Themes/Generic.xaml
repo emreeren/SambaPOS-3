@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="FlexButton.Themes.g__projeler_restoran_lib_flexbutton_themes_generic_xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     
     <!-- Encapsulate actual control definitions in separate files for easy maintenance -->

@@ -47,12 +47,20 @@ namespace Samba.Services
 
             _workspace.CommitChanges();
 
+            var ticketTemplate = new TicketTemplate
+                                     {
+                                         Name = Resources.TicketTemplate,
+                                         TicketNumerator = ticketNumerator,
+                                         OrderNumerator = orderNumerator,
+                                     };
+
+            _workspace.Add(ticketTemplate);
+
             var department = new Department
             {
                 Name = Resources.Restaurant,
+                TicketTemplate = ticketTemplate,
                 ScreenMenuId = screen.Id,
-                TicketNumerator = ticketNumerator,
-                OrderNumerator = orderNumerator,
                 IsAlaCarte = true
             };
 
@@ -64,28 +72,28 @@ namespace Samba.Services
             var u = new User("Administrator", "1234") { UserRole = role };
             _workspace.Add(u);
 
-            var ticketTemplate = new PrinterTemplate();
-            ticketTemplate.Name = Resources.TicketTemplate;
-            ticketTemplate.HeaderTemplate = Resources.TicketTemplateHeaderValue;
-            ticketTemplate.LineTemplate = Resources.TicketTempleteLineTemplateValue;
-            ticketTemplate.FooterTemplate = Resources.TicketTemplateFooterValue;
+            var ticketPrinterTemplate = new PrinterTemplate();
+            ticketPrinterTemplate.Name = Resources.TicketTemplate;
+            ticketPrinterTemplate.HeaderTemplate = Resources.TicketTemplateHeaderValue;
+            ticketPrinterTemplate.LineTemplate = Resources.TicketTempleteLineTemplateValue;
+            ticketPrinterTemplate.FooterTemplate = Resources.TicketTemplateFooterValue;
 
-            var kitchenTemplate = new PrinterTemplate();
-            kitchenTemplate.Name = Resources.KitchenOrderTemplate;
-            kitchenTemplate.HeaderTemplate = Resources.KitchenTemplateHeaderValue;
+            var kitchenPrinterTemplate = new PrinterTemplate();
+            kitchenPrinterTemplate.Name = Resources.KitchenOrderTemplate;
+            kitchenPrinterTemplate.HeaderTemplate = Resources.KitchenTemplateHeaderValue;
 
-            kitchenTemplate.LineTemplate = Resources.KitchenTemplateLineTemplateValue;
-            kitchenTemplate.FooterTemplate = "<F>-";
+            kitchenPrinterTemplate.LineTemplate = Resources.KitchenTemplateLineTemplateValue;
+            kitchenPrinterTemplate.FooterTemplate = "<F>-";
 
-            var invoiceTemplate = new PrinterTemplate();
-            invoiceTemplate.Name = Resources.InvoicePrinterTemplate;
-            invoiceTemplate.HeaderTemplate = Resources.InvoiceTemplateHeaderValue;
-            invoiceTemplate.LineTemplate = Resources.InvoiceTemplateLineTemplateValue;
-            invoiceTemplate.FooterTemplate = "<F>-";
+            var invoicePrinterTemplate = new PrinterTemplate();
+            invoicePrinterTemplate.Name = Resources.InvoicePrinterTemplate;
+            invoicePrinterTemplate.HeaderTemplate = Resources.InvoiceTemplateHeaderValue;
+            invoicePrinterTemplate.LineTemplate = Resources.InvoiceTemplateLineTemplateValue;
+            invoicePrinterTemplate.FooterTemplate = "<F>-";
 
-            _workspace.Add(ticketTemplate);
-            _workspace.Add(kitchenTemplate);
-            _workspace.Add(invoiceTemplate);
+            _workspace.Add(ticketPrinterTemplate);
+            _workspace.Add(kitchenPrinterTemplate);
+            _workspace.Add(invoicePrinterTemplate);
 
             var printer1 = new Printer { Name = Resources.TicketPrinter };
             var printer2 = new Printer { Name = Resources.KitchenPrinter };
@@ -102,7 +110,7 @@ namespace Samba.Services
                 SlipReportPrinter = printer1,
             };
 
-            var pm1 = new PrinterMap { Printer = printer1, PrinterTemplate = ticketTemplate };
+            var pm1 = new PrinterMap { Printer = printer1, PrinterTemplate = ticketPrinterTemplate };
             _workspace.Add(pm1);
 
             var pj1 = new PrintJob
@@ -122,7 +130,7 @@ namespace Samba.Services
 
             _workspace.Add(pj1);
 
-            var pm2 = new PrinterMap { Printer = printer2, PrinterTemplate = kitchenTemplate };
+            var pm2 = new PrinterMap { Printer = printer2, PrinterTemplate = kitchenPrinterTemplate };
             var pj2 = new PrintJob
             {
                 Name = Resources.PrintOrdersToKitchenPrinter,
@@ -150,14 +158,13 @@ namespace Samba.Services
             orderTag2.UnlocksOrder = true;
             _workspace.Add(orderTag2);
 
-            department.OrderTagGroups.Add(orderTag1);
-            department.OrderTagGroups.Add(orderTag2);
+            department.TicketTemplate.OrderTagGroups.Add(orderTag1);
+            department.TicketTemplate.OrderTagGroups.Add(orderTag2);
 
-            var orderTagTemplate = new OrderTagTemplate {Name = Resources.Gift};
+            var orderTagTemplate = new OrderTagTemplate { Name = Resources.Gift };
             orderTagTemplate.OrderTagTemplateValues.Add(new OrderTagTemplateValue { OrderTagGroup = orderTag1, OrderTag = orderTag1.OrderTags[0] });
 
             _workspace.Add(orderTagTemplate);
-
             
             var action = new AppAction { ActionType = "RemoveOrderTag", Name = Resources.RemoveGiftTag, Parameter = "OrderTagName=" + Resources.Gift };
             _workspace.Add(action);
