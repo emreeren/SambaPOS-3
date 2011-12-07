@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Samba.Domain.Models.Menus;
-using Samba.Domain.Models.Settings;
+﻿using System.Collections.Generic;
 using Samba.Domain.Models.Tables;
 using Samba.Infrastructure.Data;
 
@@ -21,8 +17,6 @@ namespace Samba.Domain.Models.Tickets
         public virtual TicketTemplate TicketTemplate { get; set; }
 
         public int OpenTicketViewColumnCount { get; set; }
-        [StringLength(10)]
-        public string PriceTag { get; set; }
 
         private IList<TableScreen> _posTableScreens;
         public virtual IList<TableScreen> PosTableScreens

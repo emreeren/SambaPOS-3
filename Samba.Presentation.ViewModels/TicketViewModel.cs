@@ -273,7 +273,8 @@ namespace Samba.Presentation.ViewModels
                 portion = menuItem.Portions.First(x => x.Name == portionName);
             }
 
-            var ti = Model.AddOrder(AppServices.CurrentLoggedInUser.Id, menuItem, portion.Name, AppServices.MainDataContext.SelectedDepartment.PriceTag);
+            var ti = Model.AddOrder(AppServices.CurrentLoggedInUser.Id, menuItem, portion.Name, 
+                AppServices.MainDataContext.SelectedDepartment.TicketTemplate.PriceTag);
             ti.Quantity = quantity > 9 ? decimal.Round(quantity / portion.Multiplier, LocalSettings.Decimals) : quantity;
 
             if (template != null) template.OrderTagTemplateValues.ToList().ForEach(x => ti.ToggleOrderTag(x.OrderTagGroup, x.OrderTag, 0));

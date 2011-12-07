@@ -9,6 +9,7 @@ using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
+using Samba.Persistance.Data;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Common.Services;
@@ -40,7 +41,9 @@ namespace Samba.Modules.TicketModule
         public Numerator TicketNumerator { get { return Model.TicketNumerator; } set { Model.TicketNumerator = value; } }
         public Numerator OrderNumerator { get { return Model.OrderNumerator; } set { Model.OrderNumerator = value; } }
 
-
+        public IEnumerable<string> PriceTags { get { return Dao.Select<MenuItemPriceDefinition, string>(x => x.PriceTag, x => x.Id > 0); } }
+        public string PriceTag { get { return Model.PriceTag; } set { Model.PriceTag = value; } }
+        
         public TicketTagGroupViewModel SelectedTicketTag { get; set; }
         public OrderTagGroupViewModel SelectedOrderTagGroup { get; set; }
         public ServiceTemplateViewModel SelectedServiceTemplate { get; set; }

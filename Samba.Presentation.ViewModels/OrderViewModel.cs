@@ -290,7 +290,7 @@ namespace Samba.Presentation.ViewModels
 
         public void UpdatePrice(decimal value)
         {
-            Model.UpdatePrice(value, AppServices.MainDataContext.SelectedDepartment.PriceTag);
+            Model.UpdatePrice(value, AppServices.MainDataContext.SelectedDepartment.TicketTemplate.PriceTag);
             RaisePropertyChanged(() => Price);
             RaisePropertyChanged(() => TotalPrice);
         }

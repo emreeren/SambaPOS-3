@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Common;
 
-namespace Samba.Modules.TicketModule
+namespace Samba.Modules.DepartmentModule
 {
     /// <summary>
     /// Interaction logic for DepartmentButtonView.xaml
@@ -14,17 +14,17 @@ namespace Samba.Modules.TicketModule
     public partial class DepartmentButtonView : UserControl
     {
         [ImportingConstructor]
-        public DepartmentButtonView(TicketEditorViewModel viewModel)
+        public DepartmentButtonView()
         {
             InitializeComponent();
-            DataContext = viewModel;
+            //DataContext = viewModel;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ((TicketEditorViewModel)DataContext).TicketListViewModel.SelectedDepartment =
-                ((Button)sender).DataContext as Department;
-            EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicketView);
+            //((TicketEditorViewModel)DataContext).TicketListViewModel.SelectedDepartment =
+            //    ((Button)sender).DataContext as Department;
+            //EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicketView);
         }
     }
 }

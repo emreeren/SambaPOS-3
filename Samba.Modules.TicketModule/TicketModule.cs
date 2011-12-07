@@ -115,7 +115,6 @@ namespace Samba.Modules.TicketModule
         protected override void OnInitialization()
         {
             _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(TicketEditorView));
-            _regionManager.RegisterViewWithRegion(RegionNames.UserRegion, typeof(DepartmentButtonView));
         }
     }
 }

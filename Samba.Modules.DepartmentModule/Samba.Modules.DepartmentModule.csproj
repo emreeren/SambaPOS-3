@@ -61,6 +61,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DepartmentButtonView.xaml.cs">
+      <DependentUpon>DepartmentButtonView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DepartmentListViewModel.cs" />
     <Compile Include="DepartmentView.xaml.cs">
       <DependentUpon>DepartmentView.xaml</DependentUpon>
@@ -70,6 +73,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="DepartmentButtonView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="DepartmentView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -66,9 +66,6 @@ namespace Samba.Modules.DepartmentModule
             set { Model.IsTakeAway = value; }
         }
 
-        public IEnumerable<string> PriceTags { get { return Dao.Select<MenuItemPriceDefinition, string>(x => x.PriceTag, x => x.Id > 0); } }
-        public string PriceTag { get { return Model.PriceTag; } set { Model.PriceTag = value; } }
-        
         public TableScreen SelectedPosTableScreen { get; set; }
         
         public ICaptionCommand AddPosTableScreenCommand { get; set; }

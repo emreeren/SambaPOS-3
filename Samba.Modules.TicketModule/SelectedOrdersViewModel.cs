@@ -230,7 +230,7 @@ namespace Samba.Modules.TicketModule
 
         private void OnPortionSelected(MenuItemPortion obj)
         {
-            SelectedItem.UpdatePortion(obj, AppServices.MainDataContext.SelectedDepartment.PriceTag);
+            SelectedItem.UpdatePortion(obj, AppServices.MainDataContext.SelectedDepartment.TicketTemplate.PriceTag);
             if (OrderTagGroups.Count == 0)
                 SelectedTicket.ClearSelectedItems();
         }

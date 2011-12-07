@@ -20,7 +20,12 @@
             </Label>
             <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding Numerators}"
                                      SelectedItem="{Binding OrderNumerator}" />
-
+            <Label>
+                <LocText ResourceIdentifierKey="PriceTag" Suffix=":"/>
+            </Label>
+            <ComboBox HorizontalAlignment="Left" MinWidth="150" IsEditable="True" 
+                              ItemsSource="{Binding PriceTags}" Text="{Binding PriceTag}" />
+            
             <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                 <DataGrid MinWidth="170" ItemsSource="{Binding TicketTagGroups}" SelectedItem="{Binding SelectedTicketTag, Mode=TwoWay}"
                                      HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
