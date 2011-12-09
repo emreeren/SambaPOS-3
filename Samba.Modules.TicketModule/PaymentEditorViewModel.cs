@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
@@ -18,13 +19,19 @@ using Samba.Services;
 
 namespace Samba.Modules.TicketModule
 {
+    [Export]
     public class PaymentEditorViewModel : ObservableObject
     {
         private bool _resetAmount;
+        private readonly ITicketService _ticketService;
+        private readonly IDepartmentService _departmentService;
         private readonly ICaptionCommand _manualPrintCommand;
 
-        public PaymentEditorViewModel()
+        [ImportingConstructor]
+        public PaymentEditorViewModel(ITicketService ticketService, IDepartmentService departmentService)
         {
+            _ticketService = ticketService;
+            _departmentService = departmentService;
             _manualPrintCommand = new CaptionCommand<PrintJob>(Resources.Print, OnManualPrint, CanManualPrint);
             SubmitCashPaymentCommand = new CaptionCommand<string>(Resources.Cash, OnSubmitCashPayment, CanSubmitCashPayment);
             SubmitCreditCardPaymentCommand = new CaptionCommand<string>(Resources.CreditCard_r, OnSubmitCreditCardPayment,
@@ -100,7 +107,7 @@ namespace Samba.Modules.TicketModule
         {
             get
             {
-                return AppServices.MainDataContext.SelectedTicket != null && AppServices.MainDataContext.SelectedTicket.Payments.Count() > 0
+                return _ticketService.CurrentTicket != null && _ticketService.CurrentTicket.Payments.Count() > 0
                            ? Visibility.Visible
                            : Visibility.Collapsed;
             }
@@ -153,18 +160,18 @@ namespace Samba.Modules.TicketModule
             AppServices.PrintService.ManualPrintTicket(SelectedTicket.Model, obj);
         }
 
-        private static bool CanAutoSetDiscount(string arg)
+        private bool CanAutoSetDiscount(string arg)
         {
-            return AppServices.MainDataContext.SelectedTicket != null
-                   && AppServices.MainDataContext.SelectedTicket.GetRemainingAmount() > 0;
+            return _ticketService.CurrentTicket != null
+                   && _ticketService.CurrentTicket.GetRemainingAmount() > 0;
         }
 
         private bool CanSetDiscount(string arg)
         {
             if (GetTenderedValue() == 0) return true;
-            return AppServices.MainDataContext.SelectedTicket != null
-                && GetTenderedValue() <= AppServices.MainDataContext.SelectedTicket.GetRemainingAmount()
-                && (AppServices.MainDataContext.SelectedTicket.TotalAmount > 0)
+            return _ticketService.CurrentTicket != null
+                && GetTenderedValue() <= _ticketService.CurrentTicket.GetRemainingAmount()
+                && (_ticketService.CurrentTicket.TotalAmount > 0)
                 && AppServices.IsUserPermittedFor(PermissionNames.MakeDiscount)
                 && AppServices.IsUserPermittedFor(PermissionNames.RoundPayment);
         }
@@ -172,9 +179,9 @@ namespace Samba.Modules.TicketModule
         private bool CanSetDiscountRate(string arg)
         {
             if (GetTenderedValue() == 0) return true;
-            return AppServices.MainDataContext.SelectedTicket != null
-                && AppServices.MainDataContext.SelectedTicket.TotalAmount > 0
-                && AppServices.MainDataContext.SelectedTicket.GetRemainingAmount() > 0
+            return _ticketService.CurrentTicket != null
+                && _ticketService.CurrentTicket.TotalAmount > 0
+                && _ticketService.CurrentTicket.GetRemainingAmount() > 0
                 && GetTenderedValue() <= 100 && AppServices.IsUserPermittedFor(PermissionNames.MakeDiscount);
         }
 
@@ -277,7 +284,7 @@ namespace Samba.Modules.TicketModule
         {
             var paidItems = MergedItems.SelectMany(x => x.PaidItems);
             SelectedTicket.UpdatePaidItems(paidItems);
-            AppServices.MainDataContext.SelectedTicket.PublishEvent(EventTopicNames.PaymentSubmitted);
+            _ticketService.CurrentTicket.PublishEvent(EventTopicNames.PaymentSubmitted);
             TenderedAmount = "";
             ReturningAmount = "";
             ReturningAmountVisibility = Visibility.Collapsed;
@@ -286,17 +293,17 @@ namespace Samba.Modules.TicketModule
 
         private bool CanSubmitAccountPayment(string arg)
         {
-            return AppServices.MainDataContext.SelectedTicket != null
-                && AppServices.MainDataContext.SelectedTicket.AccountId > 0
+            return _ticketService.CurrentTicket != null
+                && _ticketService.CurrentTicket.AccountId > 0
                 && GetTenderedValue() == GetPaymentValue()
-                && AppServices.MainDataContext.SelectedTicket.GetRemainingAmount() > 0;
+                && _ticketService.CurrentTicket.GetRemainingAmount() > 0;
         }
 
         private bool CanSubmitCashPayment(string arg)
         {
-            return AppServices.MainDataContext.SelectedTicket != null
+            return _ticketService.CurrentTicket != null
                 && GetTenderedValue() > 0
-                && AppServices.MainDataContext.SelectedTicket.GetRemainingAmount() > 0;
+                && _ticketService.CurrentTicket.GetRemainingAmount() > 0;
         }
 
         private decimal GetTenderedValue()
@@ -328,20 +335,20 @@ namespace Samba.Modules.TicketModule
 
             if (tenderedAmount > 0)
             {
-                if (tenderedAmount > AppServices.MainDataContext.SelectedTicket.GetRemainingAmount())
-                    tenderedAmount = AppServices.MainDataContext.SelectedTicket.GetRemainingAmount();
+                if (tenderedAmount > _ticketService.CurrentTicket.GetRemainingAmount())
+                    tenderedAmount = _ticketService.CurrentTicket.GetRemainingAmount();
                 AppServices.MainDataContext.AddPaymentToSelectedTicket(tenderedAmount, DateTime.Now, paymentType);
                 PaymentAmount = (GetPaymentValue() - tenderedAmount).ToString("#,#0.00");
 
-                LastTenderedAmount = tenderedAmount <= AppServices.MainDataContext.SelectedTicket.GetRemainingAmount()
+                LastTenderedAmount = tenderedAmount <= _ticketService.CurrentTicket.GetRemainingAmount()
                     ? tenderedAmount.ToString("#,#0.00")
-                    : AppServices.MainDataContext.SelectedTicket.GetRemainingAmount().ToString("#,#0.00");
+                    : _ticketService.CurrentTicket.GetRemainingAmount().ToString("#,#0.00");
             }
 
             ReturningAmount = string.Format(Resources.ChangeAmount_f, returningAmount.ToString(LocalSettings.DefaultCurrencyFormat));
             ReturningAmountVisibility = returningAmount > 0 ? Visibility.Visible : Visibility.Collapsed;
 
-            if (returningAmount == 0 && AppServices.MainDataContext.SelectedTicket.GetRemainingAmount() == 0)
+            if (returningAmount == 0 && _ticketService.CurrentTicket.GetRemainingAmount() == 0)
             {
                 ClosePaymentScreen();
             }
@@ -386,7 +393,7 @@ namespace Samba.Modules.TicketModule
             SelectedTicket.Model.AddTicketDiscount(DiscountType.Amount, 0, AppServices.CurrentLoggedInUser.Id);
             SelectedTicket.Model.AddTicketDiscount(DiscountType.Auto, 0, AppServices.CurrentLoggedInUser.Id);
 
-            SelectedTicket.Model.AddTicketDiscount(DiscountType.Amount, AppServices.MainDataContext.SelectedTicket.GetRemainingAmount() - GetTenderedValue(), AppServices.CurrentLoggedInUser.Id);
+            SelectedTicket.Model.AddTicketDiscount(DiscountType.Amount, _ticketService.CurrentTicket.GetRemainingAmount() - GetTenderedValue(), AppServices.CurrentLoggedInUser.Id);
             PaymentAmount = "";
             RefreshValues();
         }
@@ -409,8 +416,8 @@ namespace Samba.Modules.TicketModule
                 InteractionService.UserIntraction.GiveFeedback(Resources.AllDiscountsRemoved);
             }
             if (GetPaymentValue() <= 0)
-                PaymentAmount = AppServices.MainDataContext.SelectedTicket != null
-                    ? AppServices.MainDataContext.SelectedTicket.GetRemainingAmount().ToString("#,#0.00")
+                PaymentAmount = _ticketService.CurrentTicket != null
+                    ? _ticketService.CurrentTicket.GetRemainingAmount().ToString("#,#0.00")
                     : "";
             SelectedTicket.Discounts.Clear();
             SelectedTicket.Discounts.AddRange(SelectedTicket.Model.Discounts.Select(x => new DiscountViewModel(x)));
@@ -478,8 +485,8 @@ namespace Samba.Modules.TicketModule
                 if (GetTenderedValue() > 0) quantity = GetTenderedValue();
                 if (quantity > obj.RemainingQuantity) quantity = obj.RemainingQuantity;
                 _selectedTotal += obj.Price * quantity;
-                if (_selectedTotal > AppServices.MainDataContext.SelectedTicket.GetRemainingAmount())
-                    _selectedTotal = AppServices.MainDataContext.SelectedTicket.GetRemainingAmount();
+                if (_selectedTotal > _ticketService.CurrentTicket.GetRemainingAmount())
+                    _selectedTotal = _ticketService.CurrentTicket.GetRemainingAmount();
                 PaymentAmount = _selectedTotal.ToString("#,#0.00");
                 TenderedAmount = "";
                 _resetAmount = true;
@@ -518,8 +525,13 @@ namespace Samba.Modules.TicketModule
         public void Prepare()
         {
             Debug.Assert(SelectedTicket == null);
-            SelectedTicket = new TicketViewModel(AppServices.MainDataContext.SelectedTicket, AppServices.MainDataContext.SelectedDepartment.IsFastFood);
-            TicketRemainingValue = AppServices.MainDataContext.SelectedTicket.GetRemainingAmount();
+
+            SelectedTicket = new TicketViewModel(
+                _ticketService.CurrentTicket,
+                _departmentService.CurrentDepartment.TicketTemplate,
+                _departmentService.CurrentDepartment.IsFastFood);
+
+            TicketRemainingValue = _ticketService.CurrentTicket.GetRemainingAmount();
             PrepareMergedItems();
             RefreshValues();
             LastTenderedAmount = PaymentAmount;

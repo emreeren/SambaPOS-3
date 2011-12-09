@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
@@ -17,14 +18,18 @@ using Samba.Services;
 
 namespace Samba.Modules.TicketModule
 {
+    [Export]
     public class SelectedOrdersViewModel : ObservableObject
     {
         private bool _showExtraPropertyEditor;
         private bool _showTicketNoteEditor;
         private bool _showFreeTagEditor;
+        private readonly IDepartmentService _departmentService;
 
-        public SelectedOrdersViewModel()
+        [ImportingConstructor]
+        public SelectedOrdersViewModel(IDepartmentService departmentService)
         {
+            _departmentService = departmentService;
             CloseCommand = new CaptionCommand<string>(Resources.Close, OnCloseCommandExecuted);
             SelectTicketTagCommand = new DelegateCommand<TicketTag>(OnTicketTagSelected);
             PortionSelectedCommand = new DelegateCommand<MenuItemPortion>(OnPortionSelected);
@@ -69,7 +74,7 @@ namespace Samba.Modules.TicketModule
                 }
                 else
                 {
-                    ticketTags = AppServices.MainDataContext.SelectedDepartment.TicketTemplate.TicketTagGroups.Where(
+                    ticketTags = _departmentService.CurrentDepartment.TicketTemplate.TicketTagGroups.Where(
                            x => x.Name == obj.Value.LastSelectedTicketTag.Name).SelectMany(x => x.TicketTags).ToList();
                 }
                 ticketTags.Sort(new AlphanumComparator());
@@ -192,7 +197,7 @@ namespace Samba.Modules.TicketModule
 
         private void OnUpdateFreeTag(string obj)
         {
-            var cachedTag = AppServices.MainDataContext.SelectedDepartment.TicketTemplate.TicketTagGroups.Single(
+            var cachedTag = _departmentService.CurrentDepartment.TicketTemplate.TicketTagGroups.Single(
                 x => x.Id == SelectedTicket.LastSelectedTicketTag.Id);
             Debug.Assert(cachedTag != null);
             var ctag = cachedTag.TicketTags.SingleOrDefault(x => x.Name.ToLower() == FreeTag.ToLower());
@@ -230,7 +235,7 @@ namespace Samba.Modules.TicketModule
 
         private void OnPortionSelected(MenuItemPortion obj)
         {
-            SelectedItem.UpdatePortion(obj, AppServices.MainDataContext.SelectedDepartment.TicketTemplate.PriceTag);
+            SelectedItem.UpdatePortion(obj, _departmentService.CurrentDepartment.TicketTemplate.PriceTag);
             if (OrderTagGroups.Count == 0)
                 SelectedTicket.ClearSelectedItems();
         }

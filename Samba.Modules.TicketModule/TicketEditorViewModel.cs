@@ -13,14 +13,17 @@ namespace Samba.Modules.TicketModule
     [Export]
     public class TicketEditorViewModel : ObservableObject
     {
+        private readonly ITicketService _ticketService;
+
         [ImportingConstructor]
-        public TicketEditorViewModel()
+        public TicketEditorViewModel(ITicketService ticketService, PaymentEditorViewModel paymentViewModel, TicketExplorerViewModel ticketExplorerViewModel, SelectedOrdersViewModel selectedOrdersViewModel, TicketListViewModel ticketListViewModel, MenuItemSelectorViewModel menuItemSelectorViewModel)
         {
-            TicketListViewModel = new TicketListViewModel();
-            MenuItemSelectorViewModel = new MenuItemSelectorViewModel(TicketListViewModel.AddMenuItemCommand);
-            PaymentViewModel = new PaymentEditorViewModel();
-            SelectedOrdersViewModel = new SelectedOrdersViewModel();
-            TicketExplorerViewModel = new TicketExplorerViewModel();
+            _ticketService = ticketService;
+            TicketListViewModel = ticketListViewModel;
+            MenuItemSelectorViewModel = menuItemSelectorViewModel;
+            PaymentViewModel = paymentViewModel;
+            TicketExplorerViewModel = ticketExplorerViewModel;
+            SelectedOrdersViewModel = selectedOrdersViewModel;
             DisplayCategoriesScreen();
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketViewModel>>().Subscribe(OnTicketViewModelEvent);
@@ -70,8 +73,8 @@ namespace Samba.Modules.TicketModule
 
         private void CloseTicket()
         {
-            if (AppServices.MainDataContext.SelectedTicket != null)
-                AppServices.MainDataContext.CloseTicket();
+            if (_ticketService.CurrentTicket != null)
+                _ticketService.CloseTicket();
             TicketListViewModel.SelectedDepartment = null;
         }
 

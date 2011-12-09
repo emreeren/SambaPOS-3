@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
+using Microsoft.Practices.ServiceLocation;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Users;
 using Samba.Infrastructure.Data;
@@ -93,7 +94,8 @@ namespace Samba.Services
 
         public static bool CanNavigate()
         {
-            return MainDataContext.SelectedTicket == null;
+            return true;
+            //return TicketService.CurrentTicket == null;
         }
 
         public static bool CanStartApplication()

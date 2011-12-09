@@ -71,6 +71,7 @@
     <Compile Include="DepartmentViewModel.cs" />
     <Compile Include="DepartmentModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceImplementations\DepartmentService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="DepartmentButtonView.xaml">

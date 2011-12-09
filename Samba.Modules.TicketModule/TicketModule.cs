@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Regions;
+using Microsoft.Practices.ServiceLocation;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
@@ -25,6 +26,7 @@ namespace Samba.Modules.TicketModule
         public TicketModule(IRegionManager regionManager, TicketEditorView ticketEditorView)
             : base(regionManager, AppScreens.TicketList)
         {
+            
             SetNavigationCommand("POS", Resources.Common, "Images/Network.png");
 
             _regionManager = regionManager;

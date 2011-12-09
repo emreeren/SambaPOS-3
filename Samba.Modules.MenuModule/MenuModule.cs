@@ -17,13 +17,6 @@ namespace Samba.Modules.MenuModule
             AddDashboardCommand<PriceListViewModel>(Resources.BatchPriceList, Resources.Products);
             AddDashboardCommand<MenuItemPriceDefinitionListViewModel>(Resources.PriceDefinitions, Resources.Products);
             AddDashboardCommand<TaxTemplateListViewModel>(Resources.TaxTemplates, Resources.Products);
-
-            PermissionRegistry.RegisterPermission(PermissionNames.ChangeDepartment, PermissionCategories.Department, Resources.CanChangeDepartment);
-            
-            foreach (var department in AppServices.MainDataContext.Departments)
-            {
-                PermissionRegistry.RegisterPermission(PermissionNames.UseDepartment + department.Id, PermissionCategories.Department, department.Name);
-            }
         }
     }
 }

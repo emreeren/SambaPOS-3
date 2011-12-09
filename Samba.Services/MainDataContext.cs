@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using Microsoft.Practices.ServiceLocation;
 using Samba.Domain;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Actions;
@@ -13,7 +14,6 @@ using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
 using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Data.Serializer;
-using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 
 namespace Samba.Services
@@ -132,6 +132,9 @@ namespace Samba.Services
         public int TableCount { get; set; }
         public string NumeratorValue { get; set; }
 
+        public ITicketService TicketService { get; set; }
+        public IDepartmentService DepartmentService { get; set; }
+
         private IWorkspace _tableWorkspace;
         private readonly TicketWorkspace _ticketWorkspace = new TicketWorkspace();
 
@@ -141,33 +144,6 @@ namespace Samba.Services
         private IEnumerable<AppAction> _actions;
         public IEnumerable<AppAction> Actions { get { return _actions ?? (_actions = Dao.Query<AppAction>()); } }
 
-        private IEnumerable<Department> _departments;
-        public IEnumerable<Department> Departments
-        {
-            get
-            {
-                return _departments ?? (_departments = Dao.Query<Department>(
-                    x => x.TicketTemplate.OrderNumerator, x => x.TicketTemplate.TicketNumerator,
-                    x => x.TicketTemplate.ServiceTemplates, 
-                    x => x.TicketTemplate.OrderTagGroups, 
-                    x => x.TicketTemplate.OrderTagGroups.Select(y => y.OrderTags), 
-                    x => x.TicketTemplate.OrderTagGroups.Select(y => y.OrderTagMaps),
-                    x => x.PosTableScreens, x => x.PosTableScreens.Select(y => y.Tables),
-                    x => x.TicketTemplate.TicketTagGroups.Select(y => y.Numerator), 
-                    x => x.TicketTemplate.TicketTagGroups.Select(y => y.TicketTags)));
-            }
-        }
-
-        private IEnumerable<Department> _permittedDepartments;
-        public IEnumerable<Department> PermittedDepartments
-        {
-            get
-            {
-                return _permittedDepartments ?? (
-                    _permittedDepartments = Departments.Where(
-                      x => AppServices.IsUserPermittedFor(PermissionNames.UseDepartment + x.Id)));
-            }
-        }
 
         private IEnumerable<WorkPeriod> _lastTwoWorkPeriods;
         public IEnumerable<WorkPeriod> LastTwoWorkPeriods
@@ -194,21 +170,6 @@ namespace Samba.Services
         public WorkPeriod PreviousWorkPeriod { get { return LastTwoWorkPeriods.Count() > 1 ? LastTwoWorkPeriods.FirstOrDefault() : null; } }
 
         public TableScreen SelectedTableScreen { get; set; }
-        public Ticket SelectedTicket { get { return _ticketWorkspace.Ticket; } }
-
-        private Department _selectedDepartment;
-        public Department SelectedDepartment
-        {
-            get { return _selectedDepartment; }
-            set
-            {
-                if (value != null && (_selectedDepartment == null || _selectedDepartment.Id != value.Id))
-                {
-                    SelectedTableScreen = value.PosTableScreens.FirstOrDefault();
-                }
-                _selectedDepartment = value;
-            }
-        }
 
         public bool IsCurrentWorkPeriodOpen
         {
@@ -222,6 +183,8 @@ namespace Samba.Services
         public MainDataContext()
         {
             _ticketWorkspace = new TicketWorkspace();
+            TicketService = ServiceLocator.Current.GetInstance(typeof(ITicketService)) as ITicketService;
+            DepartmentService = ServiceLocator.Current.GetInstance(typeof(IDepartmentService)) as IDepartmentService;
         }
 
         private static IEnumerable<WorkPeriod> GetLastTwoWorkPeriods()
@@ -231,7 +194,7 @@ namespace Samba.Services
 
         public void ResetUserData()
         {
-            _permittedDepartments = null;
+            DepartmentService.Reset();
             ThreadPool.QueueUserWorkItem(ResetTableAndAccountCounts);
         }
 
@@ -344,165 +307,44 @@ namespace Samba.Services
 
         public void AssignAccountToSelectedTicket(Account account)
         {
-            if (SelectedTicket == null)
-            {
-                _ticketWorkspace.CreateTicket(SelectedDepartment);
-            }
-            AssignAccountToTicket(SelectedTicket, account);
+            TicketService.UpdateAccount(account);
         }
 
         public void AssignLocationToSelectedTicket(int locationId)
         {
-            if (SelectedTicket == null)
-            {
-                _ticketWorkspace.CreateTicket(SelectedDepartment);
-            }
-
-            var table = _ticketWorkspace.GetTableWithId(locationId);
-
-            Debug.Assert(SelectedTicket != null);
-
-            if (!string.IsNullOrEmpty(SelectedTicket.LocationName))
-            {
-                var oldTable = _ticketWorkspace.GetTicketTable();
-                if (oldTable.TicketId == SelectedTicket.Id)
-                {
-                    oldTable.IsTicketLocked = false;
-                    oldTable.TicketId = 0;
-                }
-            }
-
-            if (table.TicketId > 0 && table.TicketId != SelectedTicket.Id)
-            {
-                MoveOrders(SelectedTicket.Orders.ToList(), table.TicketId);
-                OpenTicket(table.TicketId);
-            }
-
-            SelectedTicket.LocationName = table.Name;
-            if (SelectedDepartment != null) SelectedTicket.DepartmentId = SelectedDepartment.Id;
-            table.TicketId = SelectedTicket.GetRemainingAmount() > 0 ? SelectedTicket.Id : 0;
+            TicketService.UpdateLocation(locationId);
         }
 
         public void OpenTicket(int ticketId)
         {
-            _ticketWorkspace.OpenTicket(ticketId);
+            TicketService.OpenTicket(ticketId);
         }
 
         public TicketCommitResult CloseTicket()
         {
-            var result = new TicketCommitResult();
-            Debug.Assert(SelectedTicket != null);
-            var changed = false;
-            if (SelectedTicket.Id > 0)
-            {
-                var lup = Dao.Single<Ticket, DateTime>(SelectedTicket.Id, x => x.LastUpdateTime);
-                if (SelectedTicket.LastUpdateTime.CompareTo(lup) != 0)
-                {
-                    var currentTicket = Dao.Single<Ticket>(x => x.Id == SelectedTicket.Id, x => x.Orders, x => x.Payments);
-                    if (currentTicket.LocationName != SelectedTicket.LocationName)
-                    {
-                        result.ErrorMessage = string.Format(Resources.TicketMovedRetryLastOperation_f, currentTicket.LocationName);
-                        changed = true;
-                    }
-
-                    if (currentTicket.IsPaid != SelectedTicket.IsPaid)
-                    {
-                        if (currentTicket.IsPaid)
-                        {
-                            result.ErrorMessage = Resources.TicketPaidChangesNotSaved;
-                        }
-                        if (SelectedTicket.IsPaid)
-                        {
-                            result.ErrorMessage = Resources.TicketChangedRetryLastOperation;
-                        }
-                        changed = true;
-                    }
-                    else if (currentTicket.LastPaymentDate != SelectedTicket.LastPaymentDate)
-                    {
-                        var currentPaymentIds = SelectedTicket.Payments.Select(x => x.Id).Distinct();
-                        var unknownPayments = currentTicket.Payments.Where(x => !currentPaymentIds.Contains(x.Id)).FirstOrDefault();
-                        if (unknownPayments != null)
-                        {
-                            result.ErrorMessage = Resources.TicketPaidLastChangesNotSaved;
-                            changed = true;
-                        }
-                    }
-                }
-            }
-
-            if (!string.IsNullOrEmpty(SelectedTicket.LocationName) && SelectedTicket.Id == 0)
-            {
-                var ticketId = Dao.Select<Table, int>(x => x.TicketId, x => x.Name == SelectedTicket.LocationName).FirstOrDefault();
-                {
-                    if (ticketId > 0)
-                    {
-                        result.ErrorMessage = string.Format(Resources.TableChangedRetryLastOperation_f, SelectedTicket.LocationName);
-                        changed = true;
-                    }
-                }
-            }
-
-            var canSumbitTicket = !changed && SelectedTicket.CanSubmit; // Fişi kaydedebilmek için gün sonu yapılmamış ve fişin ödenmemiş olması gerekir.
-
-            if (canSumbitTicket)
-            {
-                Recalculate(SelectedTicket);
-                SelectedTicket.IsPaid = SelectedTicket.RemainingAmount == 0;
-
-                if (SelectedTicket.Orders.Count > 0)
-                {
-                    if (SelectedTicket.Orders.Where(x => !x.Locked).FirstOrDefault() != null)
-                    {
-                        SelectedTicket.MergeOrdersAndUpdateOrderNumbers(NumberGenerator.GetNextNumber(SelectedDepartment.TicketTemplate.OrderNumerator.Id));
-                        SelectedTicket.Orders.Where(x => x.Id == 0).ToList().ForEach(x => x.CreatedDateTime = DateTime.Now);
-                    }
-
-                    if (SelectedTicket.Id == 0)
-                    {
-                        UpdateTicketNumber(SelectedTicket);
-                        SelectedTicket.LastOrderDate = DateTime.Now;
-                        _ticketWorkspace.CommitChanges();
-                    }
-
-                    Debug.Assert(!string.IsNullOrEmpty(SelectedTicket.TicketNumber));
-                    Debug.Assert(SelectedTicket.Id > 0);
-
-                    //Otomatik yazdırma
-                    AppServices.PrintService.AutoPrintTicket(SelectedTicket);
-                    SelectedTicket.LockTicket();
-                }
-
-                UpdateTicketTable(SelectedTicket);
-                if (SelectedTicket.Id > 0)  // eğer adisyonda satır yoksa ID burada 0 olmalı.
-                    _ticketWorkspace.CommitChanges();
-                Debug.Assert(SelectedTicket.Orders.Count(x => x.OrderNumber == 0) == 0);
-            }
-            result.TicketId = SelectedTicket.Id;
-            _ticketWorkspace.Reset();
-
-            return result;
+            return TicketService.CloseTicket();
         }
 
         public void UpdateTicketNumber(Ticket ticket)
         {
-            UpdateTicketNumber(ticket, SelectedDepartment.TicketTemplate.TicketNumerator);
+            TicketService.UpdateTicketNumber(ticket, DepartmentService.CurrentDepartment.TicketTemplate.TicketNumerator);
         }
 
         public void UpdateTicketNumber(Ticket ticket, Numerator numerator)
         {
-            if (numerator == null) numerator = SelectedDepartment.TicketTemplate.TicketNumerator;
+            if (numerator == null) numerator = DepartmentService.CurrentDepartment.TicketTemplate.TicketNumerator;
             if (string.IsNullOrEmpty(ticket.TicketNumber))
                 ticket.TicketNumber = NumberGenerator.GetNextString(numerator.Id);
         }
 
         public void AddPaymentToSelectedTicket(decimal tenderedAmount, DateTime date, PaymentType paymentType)
         {
-            SelectedTicket.AddPayment(date, tenderedAmount, paymentType, AppServices.CurrentLoggedInUser.Id);
+            TicketService.AddPayment(tenderedAmount, date, paymentType);
         }
 
         public void PaySelectedTicket(PaymentType paymentType)
         {
-            AddPaymentToSelectedTicket(SelectedTicket.GetRemainingAmount(), DateTime.Now, paymentType);
+            TicketService.PaySelectedTicket(paymentType);
         }
 
         public IList<Table> LoadTables(string selectedTableScreen)
@@ -521,7 +363,7 @@ namespace Samba.Services
             {
                 _tableWorkspace.CommitChanges();
                 _tableWorkspace = null;
-                _departments = null;
+                DepartmentService.Reset();
             }
         }
 
@@ -531,14 +373,12 @@ namespace Samba.Services
 
             if (_tableWorkspace == null)
             {
-                var selectedDepartment = SelectedDepartment != null ? SelectedDepartment.Id : 0;
+                var selectedDepartment = DepartmentService.CurrentDepartment != null ? DepartmentService.CurrentDepartment.Id : 0;
                 var selectedTableScreen = SelectedTableScreen != null ? SelectedTableScreen.Id : 0;
 
                 SelectedTableScreen = null;
-                SelectedDepartment = null;
-
-                _departments = null;
-                _permittedDepartments = null;
+                DepartmentService.SelectDepartment(null);
+                DepartmentService.Reset();
                 _lastTwoWorkPeriods = null;
                 _users = null;
                 _rules = null;
@@ -546,12 +386,14 @@ namespace Samba.Services
                 _taxTemplates = null;
                 _serviceTemplates = null;
 
-                if (selectedDepartment > 0 && Departments.Count(x => x.Id == selectedDepartment) > 0)
-                {
-                    SelectedDepartment = Departments.Single(x => x.Id == selectedDepartment);
-                    if (selectedTableScreen > 0 && SelectedDepartment.PosTableScreens.Count(x => x.Id == selectedTableScreen) > 0)
-                        SelectedTableScreen = SelectedDepartment.PosTableScreens.Single(x => x.Id == selectedTableScreen);
-                }
+                DepartmentService.SelectDepartment(selectedDepartment);
+
+                //if (selectedDepartment > 0 && Departments.Count(x => x.Id == selectedDepartment) > 0)
+                //{
+                //    SelectedDepartment = Departments.Single(x => x.Id == selectedDepartment);
+                //    if (selectedTableScreen > 0 && SelectedDepartment.PosTableScreens.Count(x => x.Id == selectedTableScreen) > 0)
+                //        SelectedTableScreen = SelectedDepartment.PosTableScreens.Single(x => x.Id == selectedTableScreen);
+                //}
             }
         }
 
@@ -580,45 +422,18 @@ namespace Samba.Services
 
         public void CreateNewTicket()
         {
-            _ticketWorkspace.CreateTicket(SelectedDepartment);
+            TicketService.OpenTicket(0);
         }
 
         public TicketCommitResult MoveOrders(IEnumerable<Order> selectedOrders, int targetTicketId)
         {
-            var clonedOrders = selectedOrders.Select(ObjectCloner.Clone).ToList();
-            selectedOrders.ToList().ForEach(x => SelectedTicket.Orders.Remove(x));
-
-            if (SelectedTicket.Orders.Count == 0)
-            {
-                var info = targetTicketId.ToString();
-                if (targetTicketId > 0)
-                {
-                    var tData = Dao.Single<Ticket, dynamic>(targetTicketId, x => new { x.LocationName, x.TicketNumber });
-                    info = tData.LocationName + " - " + tData.TicketNumber;
-                }
-                if (!string.IsNullOrEmpty(SelectedTicket.Note)) SelectedTicket.Note += "\r";
-                SelectedTicket.Note += SelectedTicket.LocationName + " => " + info;
-            }
-
-            CloseTicket();
-
-            if (targetTicketId == 0)
-                CreateNewTicket();
-            else OpenTicket(targetTicketId);
-
-            foreach (var clonedOrder in clonedOrders)
-            {
-                SelectedTicket.Orders.Add(clonedOrder);
-            }
-
-            SelectedTicket.LastOrderDate = DateTime.Now;
-            return CloseTicket();
+            return TicketService.MoveOrders(selectedOrders, targetTicketId);
         }
 
         public void ResetTableDataForSelectedTicket()
         {
-            _ticketWorkspace.ResetTableData(SelectedTicket);
-            AppServices.MainDataContext.UpdateTicketTable(SelectedTicket);
+            _ticketWorkspace.ResetTableData(TicketService.CurrentTicket);
+            UpdateTicketTable(TicketService.CurrentTicket);
             _ticketWorkspace.CommitChanges();
         }
 
@@ -639,12 +454,12 @@ namespace Samba.Services
 
         public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(MenuItem menuItem)
         {
-            return GetOrderTagGroupsForItem(SelectedDepartment.TicketTemplate.OrderTagGroups, menuItem);
+            return GetOrderTagGroupsForItem(DepartmentService.CurrentDepartment.TicketTemplate.OrderTagGroups, menuItem);
         }
 
         public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItems(IEnumerable<MenuItem> menuItems)
         {
-            return menuItems.Aggregate(SelectedDepartment.TicketTemplate.OrderTagGroups.OrderBy(x => x.Order) as IEnumerable<OrderTagGroup>, GetOrderTagGroupsForItem);
+            return menuItems.Aggregate(DepartmentService.CurrentDepartment.TicketTemplate.OrderTagGroups.OrderBy(x => x.Order) as IEnumerable<OrderTagGroup>, GetOrderTagGroupsForItem);
         }
 
         private static IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(IEnumerable<OrderTagGroup> tagGroups, MenuItem menuItem)

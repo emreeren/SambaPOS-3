@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using FluentValidation;
 using Samba.Domain.Models.Users;
 using Samba.Localization.Properties;
+using Samba.Persistance.Data;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Services;
@@ -17,7 +18,7 @@ namespace Samba.Modules.UserModule
         public UserViewModel(User user)
             : base(user)
         {
-            EventServiceFactory.EventService.GetEvent<GenericEvent<UserRole>>().Subscribe(x => RaisePropertyChanged(()=>Roles));
+            EventServiceFactory.EventService.GetEvent<GenericEvent<UserRole>>().Subscribe(x => RaisePropertyChanged(() => Roles));
         }
 
         public string PinCode
@@ -33,7 +34,7 @@ namespace Samba.Modules.UserModule
                 {
                     _edited = true;
                     Model.PinCode = value;
-                    RaisePropertyChanged(()=>PinCode);
+                    RaisePropertyChanged(() => PinCode);
                 }
             }
         }
@@ -59,7 +60,7 @@ namespace Samba.Modules.UserModule
 
         protected override string GetSaveErrorMessage()
         {
-            var users = AppServices.Workspace.All<User>(x => x.PinCode == Model.PinCode);
+            var users = Dao.Query<User>(x => x.PinCode == Model.PinCode);
             return users.Count() > 1 || (users.Count() == 1 && users.ElementAt(0).Id != Model.Id)
                 ? Resources.SaveErrorThisPinCodeInUse : "";
         }

@@ -57,6 +57,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\Lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="ReachFramework" />
@@ -84,7 +87,10 @@
     <Compile Include="HtmlConverter\HtmlTokenType.cs" />
     <Compile Include="HtmlConverter\HtmlToXamlConverter.cs" />
     <Compile Include="DataCreationService.cs" />
+    <Compile Include="IDepartmentService.cs" />
     <Compile Include="InventoryService.cs" />
+    <Compile Include="IService.cs" />
+    <Compile Include="ITicketService.cs" />
     <Compile Include="MainDataContext.cs" />
     <Compile Include="MessagingService.cs" />
     <Compile Include="MethodQueue.cs" />

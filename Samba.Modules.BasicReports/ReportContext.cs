@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Microsoft.Practices.ServiceLocation;
 using Samba.Domain;
 using Samba.Domain.Models.Inventories;
 using Samba.Domain.Models.Menus;
@@ -23,6 +24,9 @@ namespace Samba.Modules.BasicReports
 {
     public static class ReportContext
     {
+        private static readonly IDepartmentService DepartmentService =
+            ServiceLocator.Current.GetInstance(typeof(IDepartmentService)) as IDepartmentService;
+
         public static IList<ReportViewModelBase> Reports { get; private set; }
 
         private static IEnumerable<Ticket> _tickets;
@@ -306,7 +310,7 @@ namespace Samba.Modules.BasicReports
 
         internal static string GetDepartmentName(int departmentId)
         {
-            var d = AppServices.MainDataContext.Departments.SingleOrDefault(x => x.Id == departmentId);
+            var d = DepartmentService.GetDepartment(departmentId);
             return d != null ? d.Name : Resources.UndefinedWithBrackets;
         }
 

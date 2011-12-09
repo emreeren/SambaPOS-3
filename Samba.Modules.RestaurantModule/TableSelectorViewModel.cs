@@ -27,9 +27,9 @@ namespace Samba.Modules.RestaurantModule
 
         public ObservableCollection<IDiagram> Tables { get; set; }
 
-        public Ticket SelectedTicket { get { return AppServices.MainDataContext.SelectedTicket; } }
+        public Ticket SelectedTicket { get { return _ticketService.CurrentTicket; } }
         public TableScreen SelectedTableScreen { get { return AppServices.MainDataContext.SelectedTableScreen; } }
-        public IEnumerable<TableScreen> TableScreens { get { return AppServices.MainDataContext.SelectedDepartment != null ? AppServices.MainDataContext.SelectedDepartment.PosTableScreens : null; } }
+        public IEnumerable<TableScreen> TableScreens { get { return _departmentService.CurrentDepartment != null ? _departmentService.CurrentDepartment.PosTableScreens : null; } }
 
         public bool IsNavigated { get; set; }
         public bool CanDesignTables { get { return AppServices.CurrentLoggedInUser.UserRole.IsAdmin; } }
@@ -69,8 +69,14 @@ namespace Samba.Modules.RestaurantModule
 
         public VerticalAlignment TablesVerticalAlignment { get { return SelectedTableScreen != null && SelectedTableScreen.ButtonHeight > 0 ? VerticalAlignment.Top : VerticalAlignment.Stretch; } }
 
-        public TableSelectorViewModel()
+        private readonly IDepartmentService _departmentService;
+        private readonly ITicketService _ticketService;
+
+        [ImportingConstructor]
+        public TableSelectorViewModel(ITicketService ticketService, IDepartmentService departmentService)
         {
+            _ticketService = ticketService;
+            _departmentService = departmentService;
             SelectTableCategoryCommand = new DelegateCommand<TableScreen>(OnSelectTableCategoryExecuted);
             TableSelectionCommand = new DelegateCommand<TableScreenItemViewModel>(OnSelectTableExecuted);
             CloseScreenCommand = new CaptionCommand<string>(Resources.Close, OnCloseScreenExecuted);

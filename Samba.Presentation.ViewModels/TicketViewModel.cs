@@ -16,13 +16,15 @@ namespace Samba.Presentation.ViewModels
     public class TicketViewModel : ObservableObject
     {
         private readonly Ticket _model;
+        private readonly TicketTemplate _ticketTemplate;
         private readonly bool _forcePayment;
 
-        public TicketViewModel(Ticket model, bool forcePayment)
+        public TicketViewModel(Ticket model, TicketTemplate ticketTemplate, bool forcePayment)
         {
             _forcePayment = forcePayment;
             _model = model;
-            _orders = new ObservableCollection<OrderViewModel>(model.Orders.Select(x => new OrderViewModel(x)).OrderBy(x => x.Model.CreatedDateTime));
+            _ticketTemplate = ticketTemplate;
+            _orders = new ObservableCollection<OrderViewModel>(model.Orders.Select(x => new OrderViewModel(x, ticketTemplate)).OrderBy(x => x.Model.CreatedDateTime));
             _payments = new ObservableCollection<PaymentViewModel>(model.Payments.Select(x => new PaymentViewModel(x)));
             _discounts = new ObservableCollection<DiscountViewModel>(model.Discounts.Select(x => new DiscountViewModel(x)));
 
@@ -33,7 +35,7 @@ namespace Samba.Presentation.ViewModels
 
             PrintJobButtons = AppServices.CurrentTerminal.PrintJobs
                 .Where(x => (!string.IsNullOrEmpty(x.ButtonHeader))
-                    && (x.PrinterMaps.Count(y => y.Department == null || y.Department.Id == AppServices.MainDataContext.SelectedDepartment.Id) > 0))
+                    && (x.PrinterMaps.Count(y => y.Department == null || y.Department.Id == model.DepartmentId) > 0))
                 .OrderBy(x => x.Order)
                 .Select(x => new PrintJobButton(x, Model));
 
@@ -273,13 +275,12 @@ namespace Samba.Presentation.ViewModels
                 portion = menuItem.Portions.First(x => x.Name == portionName);
             }
 
-            var ti = Model.AddOrder(AppServices.CurrentLoggedInUser.Id, menuItem, portion.Name, 
-                AppServices.MainDataContext.SelectedDepartment.TicketTemplate.PriceTag);
+            var ti = Model.AddOrder(AppServices.CurrentLoggedInUser.Id, menuItem, portion.Name, _ticketTemplate.PriceTag);
             ti.Quantity = quantity > 9 ? decimal.Round(quantity / portion.Multiplier, LocalSettings.Decimals) : quantity;
 
             if (template != null) template.OrderTagTemplateValues.ToList().ForEach(x => ti.ToggleOrderTag(x.OrderTagGroup, x.OrderTag, 0));
 
-            var orderViewModel = new OrderViewModel(ti);
+            var orderViewModel = new OrderViewModel(ti, _ticketTemplate);
             _orders.Add(orderViewModel);
             RecalculateTicket();
             orderViewModel.PublishEvent(EventTopicNames.OrderAdded);
@@ -289,7 +290,7 @@ namespace Samba.Presentation.ViewModels
         private void RegenerateItemViewModels()
         {
             _orders.Clear();
-            _orders.AddRange(Model.Orders.Select(x => new OrderViewModel(x)));
+            _orders.AddRange(Model.Orders.Select(x => new OrderViewModel(x, _ticketTemplate)));
             RecalculateTicket();
             ClearSelectedItems();
         }
@@ -411,7 +412,7 @@ namespace Samba.Presentation.ViewModels
             foreach (var newItem in newItems)
             {
                 AppServices.MainDataContext.AddItemToSelectedTicket(newItem);
-                _orders.Add(new OrderViewModel(newItem) { Selected = true });
+                _orders.Add(new OrderViewModel(newItem, _ticketTemplate) { Selected = true });
             }
             selectedItems.ForEach(x => x.NotSelected());
         }
@@ -449,7 +450,7 @@ namespace Samba.Presentation.ViewModels
         {
             Model.MergeOrdersAndUpdateOrderNumbers(0);
             _orders.Clear();
-            _orders.AddRange(Model.Orders.Select(x => new OrderViewModel(x)));
+            _orders.AddRange(Model.Orders.Select(x => new OrderViewModel(x,_ticketTemplate)));
         }
 
         public bool CanMoveSelectedOrders()
@@ -475,8 +476,7 @@ namespace Samba.Presentation.ViewModels
                 return Resources.CantCompleteOperationWhenThereIsZeroPricedProduct;
             if (!IsPaid && Orders.Count > 0)
             {
-                var tg = AppServices.MainDataContext.SelectedDepartment.TicketTemplate.TicketTagGroups.FirstOrDefault(
-                        x => x.ForceValue && !IsTaggedWith(x.Name));
+                var tg = _ticketTemplate.TicketTagGroups.FirstOrDefault(x => x.ForceValue && !IsTaggedWith(x.Name));
                 if (tg != null) return string.Format(Resources.TagCantBeEmpty_f, tg.Name);
             }
             return "";
@@ -538,19 +538,6 @@ namespace Samba.Presentation.ViewModels
                         PaymentTotal = ticket.GetPaymentAmount()
                     });
             }
-        }
-
-        public static void CreateNewTicket()
-        {
-            AppServices.MainDataContext.CreateNewTicket();
-            RuleExecutor.NotifyEvent(RuleEventNames.TicketCreated, new { Ticket = AppServices.MainDataContext.SelectedTicket });
-        }
-
-        public static void AssignLocationToSelectedTicket(int locationId)
-        {
-            var oldLocation = AppServices.MainDataContext.SelectedTicket != null ? AppServices.MainDataContext.SelectedTicket.LocationName : "";
-            AppServices.MainDataContext.AssignLocationToSelectedTicket(locationId);
-            RuleExecutor.NotifyEvent(RuleEventNames.TicketLocationChanged, new { Ticket = AppServices.MainDataContext.SelectedTicket, OldLocation = oldLocation, NewLocation = AppServices.MainDataContext.SelectedTicket.LocationName });
         }
 
         public static void RegenerateTaxRates(Ticket ticket)

@@ -30,8 +30,8 @@ namespace Samba.Presentation.Common
 
         public static void _PublishEvent<TEventsubject>(this TEventsubject eventArgs, string eventTopic)
         {
-            EventServiceFactory.EventService.GetEvent<GenericEvent<TEventsubject>>()
-                .Publish(new EventParameters<TEventsubject> { Topic = eventTopic, Value = eventArgs });
+            var e = EventServiceFactory.EventService.GetEvent<GenericEvent<TEventsubject>>();
+            e.Publish(new EventParameters<TEventsubject> { Topic = eventTopic, Value = eventArgs });
         }
 
         public static void PublishEvent<TEventsubject>(this TEventsubject eventArgs, string eventTopic)
@@ -88,7 +88,7 @@ namespace Samba.Presentation.Common
             {
                 if (i == sIndex) continue;
                 var item = dataGrid.GetContainerFromIndex<DataGridRow>(i);
-                if (item !=null && item.IsEditing) return item;
+                if (item != null && item.IsEditing) return item;
             }
 
             return null;
@@ -116,7 +116,7 @@ namespace Samba.Presentation.Common
             }
             return null;
         }
-        
+
         public static DataGridRow GetRow(this DataGrid dataGrid, int index)
         {
             var row = (DataGridRow)dataGrid.ItemContainerGenerator.ContainerFromIndex(index);

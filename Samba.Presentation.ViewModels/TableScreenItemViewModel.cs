@@ -146,9 +146,9 @@ namespace Samba.Presentation.ViewModels
         public void UpdateButtonColor()
         {
             IsEnabled = true;
-            if (AppServices.MainDataContext.SelectedTicket != null && Model.IsTicketLocked) IsEnabled = false;
-            if (AppServices.MainDataContext.SelectedTicket != null && Model.TicketId > 0 && !AppServices.IsUserPermittedFor(PermissionNames.MergeTickets))
-                IsEnabled = false;
+            //if (AppServices.MainDataContext.SelectedTicket != null && Model.IsTicketLocked) IsEnabled = false;
+            //if (AppServices.MainDataContext.SelectedTicket != null && Model.TicketId > 0 && !AppServices.IsUserPermittedFor(PermissionNames.MergeTickets))
+            //    IsEnabled = false;
 
             ButtonColor = Model.TicketId == 0
                 ? _screen.TableEmptyColor
