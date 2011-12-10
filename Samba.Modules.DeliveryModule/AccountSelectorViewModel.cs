@@ -317,7 +317,7 @@ namespace Samba.Modules.DeliveryModule
 
         private void OnFindTicket(string obj)
         {
-            AppServices.MainDataContext.OpenTicketFromTicketNumber(TicketSearchText);
+            _ticketService.OpenTicketByTicketNumber(TicketSearchText);
             if (_ticketService.CurrentTicket != null)
                 EventServiceFactory.EventService.PublishEvent(EventTopicNames.DisplayTicketView);
             TicketSearchText = "";

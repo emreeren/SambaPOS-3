@@ -216,7 +216,7 @@ namespace Samba.Modules.TicketModule
             {
                 if (_selectedOrders != null && _selectedOrders.Count > 0)
                 {
-                    return AppServices.MainDataContext.GetOrderTagGroupsForItems(_selectedOrders.Select(x => x.MenuItem))
+                    return _ticketService.GetOrderTagGroupsForItems(_selectedOrders.Select(x => x.MenuItem))
                         .Where(x => !string.IsNullOrEmpty(x.ButtonHeader))
                         .Select(x => new OrderTagButton(x));
                 }
@@ -258,176 +258,172 @@ namespace Samba.Modules.TicketModule
             RemoveTicketLockCommand = new CaptionCommand<string>(Resources.ReleaseLock, OnRemoveTicketLock, CanRemoveTicketLock);
             ChangePriceCommand = new CaptionCommand<string>(Resources.ChangePrice, OnChangePrice, CanChangePrice);
 
-            EventServiceFactory.EventService.GetEvent<GenericEvent<ScreenMenuItemData>>().Subscribe(
-                x =>
-                {
-                    if (x.Topic == EventTopicNames.ScreenMenuItemDataSelected) AddMenuItemCommand.Execute(x.Value);
-                });
-
+            EventServiceFactory.EventService.GetEvent<GenericEvent<ScreenMenuItemData>>().Subscribe(OnMenuItemSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<LocationData>>().Subscribe(OnLocationSelected);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<WorkPeriod>>().Subscribe(OnWorkPeriodChanged);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<OrderViewModel>>().Subscribe(OnSelectedOrdersChanged);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<TicketTagData>>().Subscribe(OnTagSelected);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<TicketViewModel>>().Subscribe(OnTicketSelectedOrdersChanged);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<Account>>().Subscribe(OnAccountSelectedForTicket);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<Ticket>>().Subscribe(OnPaymentSubmitted);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnRefreshTicket);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<Message>>().Subscribe(OnMessageReceived);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<PopupData>>().Subscribe(OnAccountSelectedFromPopup);
+        }
 
-            EventServiceFactory.EventService.GetEvent<GenericEvent<WorkPeriod>>().Subscribe(
-                x =>
+        private void OnTicketSelectedOrdersChanged(EventParameters<TicketViewModel> obj)
+        {
+            if (obj.Topic == EventTopicNames.SelectedOrdersChanged)
+            {
+                _selectedOrders.Clear();
+                _selectedOrders.AddRange(obj.Value.SelectedOrders);
+                if (obj.Value.SelectedOrders.Count == 0) LastSelectedOrder = null;
+                RaisePropertyChanged(() => IsItemsSelected);
+                RaisePropertyChanged(() => IsNothingSelected);
+                RaisePropertyChanged(() => IsNothingSelectedAndTicketLocked);
+                RaisePropertyChanged(() => IsTableButtonVisible);
+                RaisePropertyChanged(() => IsAccountButtonVisible);
+                RaisePropertyChanged(() => IsItemsSelectedAndUnlocked);
+                RaisePropertyChanged(() => IsItemsSelectedAndLocked);
+                RaisePropertyChanged(() => IsTicketSelected);
+                RaisePropertyChanged(() => OrderTagButtons);
+            }
+        }
+
+        private void OnRefreshTicket(EventParameters<EventAggregator> obj)
+        {
+            if (SelectedDepartment == null)
+                UpdateSelectedDepartment(AppServices.CurrentLoggedInUser.UserRole.DepartmentId);
+
+            if (obj.Topic == EventTopicNames.ActivateTicketView)
+            {
+                UpdateSelectedTicketView();
+                DisplayTickets();
+            }
+
+            if (obj.Topic == EventTopicNames.DisplayTicketView)
+            {
+                UpdateSelectedTicketView();
+                RefreshVisuals();
+            }
+
+            if (obj.Topic == EventTopicNames.RefreshSelectedTicket)
+            {
+                _selectedTicket = null;
+                RefreshVisuals();
+                SelectedTicketView = SingleTicketView;
+            }
+        }
+
+        private void OnAccountSelectedFromPopup(EventParameters<PopupData> obj)
+        {
+            if (obj.Value.EventMessage == EventTopicNames.SelectAccount)
+            {
+                //var dep = AppServices.MainDataContext.Departments.FirstOrDefault(y => y.IsTakeAway);
+                //if (dep != null)
+                //{
+                //    UpdateSelectedDepartment(dep.Id);
+                //    SelectedTicketView = OpenTicketListView;
+                //}
+                //if (SelectedDepartment == null)
+                //    SelectedDepartment = AppServices.MainDataContext.Departments.FirstOrDefault();
+                RefreshVisuals();
+            }
+        }
+
+        private void OnMessageReceived(EventParameters<Message> obj)
+        {
+            if (AppServices.ActiveAppScreen == AppScreens.TicketList
+                && obj.Topic == EventTopicNames.MessageReceivedEvent
+                && obj.Value.Command == Messages.TicketRefreshMessage)
+            {
+                UpdateOpenTickets(SelectedDepartment);
+                RefreshVisuals();
+            }
+        }
+
+        private void OnPaymentSubmitted(EventParameters<Ticket> obj)
+        {
+            _selectedTicket = null;
+            if (obj.Topic == EventTopicNames.PaymentSubmitted)
+                CloseTicket();
+        }
+
+        private void OnAccountSelectedForTicket(EventParameters<Account> obj)
+        {
+            if (obj.Topic == EventTopicNames.AccountSelectedForTicket)
+            {
+                _ticketService.UpdateAccount(obj.Value);
+
+                RuleExecutor.NotifyEvent(RuleEventNames.AccountSelectedForTicket,
+                    new
+                    {
+                        Ticket = AppServices.MainDataContext.TicketService.CurrentTicket,
+                        AccountName = obj.Value.Name,
+                        PhoneNumber = obj.Value.SearchString
+                    });
+
+                if (!string.IsNullOrEmpty(SelectedTicket.AccountName) && SelectedTicket.Orders.Count > 0)
+                    CloseTicket();
+                else
                 {
-                    if (x.Topic == EventTopicNames.WorkPeriodStatusChanged)
-                    {
-                        RaisePropertyChanged(() => CanChangeDepartment);
-                    }
-                });
-
-            EventServiceFactory.EventService.GetEvent<GenericEvent<OrderViewModel>>().Subscribe(
-                x =>
-                {
-                    if (SelectedTicket != null && x.Topic == EventTopicNames.SelectedOrdersChanged)
-                    {
-                        LastSelectedOrder = x.Value.Selected ? x.Value : null;
-                        foreach (var item in SelectedTicket.SelectedOrders)
-                        { item.IsLastSelected = item == LastSelectedOrder; }
-
-                        SelectedTicket.PublishEvent(EventTopicNames.SelectedOrdersChanged);
-                    }
-                });
-
-            EventServiceFactory.EventService.GetEvent<GenericEvent<TicketTagData>>().Subscribe(
-                x =>
-                {
-                    if (x.Topic == EventTopicNames.TagSelectedForSelectedTicket)
-                    {
-                        if (x.Value.Action == 1 && CanCloseTicket(""))
-                            CloseTicketCommand.Execute("");
-                        if (x.Value.Action == 2 && CanMakePayment(""))
-                            MakePaymentCommand.Execute("");
-                        else
-                        {
-                            RefreshVisuals();
-                        }
-                    }
-                });
-
-            EventServiceFactory.EventService.GetEvent<GenericEvent<TicketViewModel>>().Subscribe(
-                x =>
-                {
-                    if (x.Topic == EventTopicNames.SelectedOrdersChanged)
-                    {
-                        _selectedOrders.Clear();
-                        _selectedOrders.AddRange(x.Value.SelectedOrders);
-                        if (x.Value.SelectedOrders.Count == 0) LastSelectedOrder = null;
-                        RaisePropertyChanged(() => IsItemsSelected);
-                        RaisePropertyChanged(() => IsNothingSelected);
-                        RaisePropertyChanged(() => IsNothingSelectedAndTicketLocked);
-                        RaisePropertyChanged(() => IsTableButtonVisible);
-                        RaisePropertyChanged(() => IsAccountButtonVisible);
-                        RaisePropertyChanged(() => IsItemsSelectedAndUnlocked);
-                        RaisePropertyChanged(() => IsItemsSelectedAndLocked);
-                        RaisePropertyChanged(() => IsTicketSelected);
-                        RaisePropertyChanged(() => OrderTagButtons);
-                    }
-                });
-
-            EventServiceFactory.EventService.GetEvent<GenericEvent<Account>>().Subscribe(
-                x =>
-                {
-                    if (x.Topic == EventTopicNames.AccountSelectedForTicket)
-                    {
-                        AppServices.MainDataContext.AssignAccountToSelectedTicket(x.Value);
-
-                        RuleExecutor.NotifyEvent(RuleEventNames.AccountSelectedForTicket,
-                            new
-                            {
-                                Ticket = AppServices.MainDataContext.TicketService.CurrentTicket,
-                                AccountName = x.Value.Name,
-                                PhoneNumber = x.Value.SearchString
-                            });
-
-                        if (!string.IsNullOrEmpty(SelectedTicket.AccountName) && SelectedTicket.Orders.Count > 0)
-                            CloseTicket();
-                        else
-                        {
-                            RefreshVisuals();
-                            SelectedTicketView = SingleTicketView;
-                        }
-                    }
-
-                    if (x.Topic == EventTopicNames.PaymentRequestedForTicket)
-                    {
-                        AppServices.MainDataContext.AssignAccountToSelectedTicket(x.Value);
-                        if (!string.IsNullOrEmpty(SelectedTicket.AccountName) && SelectedTicket.Orders.Count > 0)
-                            MakePaymentCommand.Execute("");
-                        else
-                        {
-                            RefreshVisuals();
-                            SelectedTicketView = SingleTicketView;
-                        }
-
-                    }
-                });
-
-            EventServiceFactory.EventService.GetEvent<GenericEvent<Ticket>>().Subscribe(
-                x =>
-                {
-                    _selectedTicket = null;
-
-                    if (x.Topic == EventTopicNames.PaymentSubmitted)
-                    {
-                        CloseTicket();
-                    }
-                });
-
-            EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(
-                 x =>
-                 {
-                     if (SelectedDepartment == null)
-                         UpdateSelectedDepartment(AppServices.CurrentLoggedInUser.UserRole.DepartmentId);
-
-                     if (x.Topic == EventTopicNames.ActivateTicketView)
-                     {
-                         UpdateSelectedTicketView();
-                         DisplayTickets();
-                     }
-
-                     if (x.Topic == EventTopicNames.DisplayTicketView)
-                     {
-                         UpdateSelectedTicketView();
-                         RefreshVisuals();
-                     }
-
-                     if (x.Topic == EventTopicNames.RefreshSelectedTicket)
-                     {
-                         _selectedTicket = null;
-                         RefreshVisuals();
-                         SelectedTicketView = SingleTicketView;
-                     }
-                 });
-
-            EventServiceFactory.EventService.GetEvent<GenericEvent<Message>>().Subscribe(
-                x =>
-                {
-                    if (AppServices.ActiveAppScreen == AppScreens.TicketList
-                        && x.Topic == EventTopicNames.MessageReceivedEvent
-                        && x.Value.Command == Messages.TicketRefreshMessage)
-                    {
-                        UpdateOpenTickets(SelectedDepartment);
-                        RefreshVisuals();
-                    }
-                });
-
-            EventServiceFactory.EventService.GetEvent<GenericEvent<PopupData>>().Subscribe(
-                x =>
-                {
-                    if (x.Value.EventMessage == EventTopicNames.SelectAccount)
-                    {
-                        //var dep = AppServices.MainDataContext.Departments.FirstOrDefault(y => y.IsTakeAway);
-                        //if (dep != null)
-                        //{
-                        //    UpdateSelectedDepartment(dep.Id);
-                        //    SelectedTicketView = OpenTicketListView;
-                        //}
-                        //if (SelectedDepartment == null)
-                        //    SelectedDepartment = AppServices.MainDataContext.Departments.FirstOrDefault();
-                        RefreshVisuals();
-                    }
+                    RefreshVisuals();
+                    SelectedTicketView = SingleTicketView;
                 }
-                );
+            }
+
+            if (obj.Topic == EventTopicNames.PaymentRequestedForTicket)
+            {
+                _ticketService.UpdateAccount(obj.Value);
+                if (!string.IsNullOrEmpty(SelectedTicket.AccountName) && SelectedTicket.Orders.Count > 0)
+                    MakePaymentCommand.Execute("");
+                else
+                {
+                    RefreshVisuals();
+                    SelectedTicketView = SingleTicketView;
+                }
+
+            }
+        }
+
+        private void OnTagSelected(EventParameters<TicketTagData> obj)
+        {
+            if (obj.Topic == EventTopicNames.TagSelectedForSelectedTicket)
+            {
+                if (obj.Value.Action == 1 && CanCloseTicket(""))
+                    CloseTicketCommand.Execute("");
+                if (obj.Value.Action == 2 && CanMakePayment(""))
+                    MakePaymentCommand.Execute("");
+                else
+                {
+                    RefreshVisuals();
+                }
+            }
+        }
+
+        private void OnSelectedOrdersChanged(EventParameters<OrderViewModel> obj)
+        {
+            if (SelectedTicket != null && obj.Topic == EventTopicNames.SelectedOrdersChanged)
+            {
+                LastSelectedOrder = obj.Value.Selected ? obj.Value : null;
+                foreach (var item in SelectedTicket.SelectedOrders)
+                { item.IsLastSelected = item == LastSelectedOrder; }
+
+                SelectedTicket.PublishEvent(EventTopicNames.SelectedOrdersChanged);
+            }
+        }
+
+        private void OnWorkPeriodChanged(EventParameters<WorkPeriod> obj)
+        {
+            if (obj.Topic == EventTopicNames.WorkPeriodStatusChanged)
+            {
+                RaisePropertyChanged(() => CanChangeDepartment);
+            }
+        }
+
+        private void OnMenuItemSelected(EventParameters<ScreenMenuItemData> obj)
+        {
+            if (obj.Topic == EventTopicNames.ScreenMenuItemDataSelected) AddMenuItemCommand.Execute(obj.Value);
         }
 
         private void OnLocationSelected(EventParameters<LocationData> obj)
@@ -459,14 +455,13 @@ namespace Samba.Modules.TicketModule
                     {
                         _ticketService.OpenTicket(0);
                         _ticketService.UpdateLocation(obj.Value.LocationId);
-                        //TicketViewModel.CreateNewTicket();
-                        //TicketViewModel.AssignLocationToSelectedTicket(x.Value.LocationId);
                     }
                     else
                     {
-                        AppServices.MainDataContext.OpenTicket(obj.Value.TicketId);
+                        _ticketService.OpenTicket(obj.Value.TicketId);
                         if (SelectedTicket != null)
                         {
+                            // adisyon masasý ile týklanan masa ayný deðil.
                             if (SelectedTicket.Location != obj.Value.LocationName)
                                 AppServices.MainDataContext.ResetTableDataForSelectedTicket();
                         }
@@ -579,8 +574,8 @@ namespace Samba.Modules.TicketModule
         {
             if ((SelectedTicket.Id == 0 || SelectedTicket.Orders.Any(x => x.Model.Id == 0)) && SelectedTicket.Orders.Count > 0)
             {
-                var result = AppServices.MainDataContext.CloseTicket();
-                AppServices.MainDataContext.OpenTicket(result.TicketId);
+                var result = _ticketService.CloseTicket();
+                _ticketService.OpenTicket(result.TicketId);
                 _selectedTicket = null;
             }
         }
@@ -776,19 +771,19 @@ namespace Samba.Modules.TicketModule
 
         private void OnMakeCreditCardPaymentExecute(string obj)
         {
-            AppServices.MainDataContext.PaySelectedTicket(PaymentType.CreditCard);
+            _ticketService.PaySelectedTicket(PaymentType.CreditCard);
             CloseTicket();
         }
 
         private void OnMakeTicketPaymentExecute(string obj)
         {
-            AppServices.MainDataContext.PaySelectedTicket(PaymentType.Ticket);
+            _ticketService.PaySelectedTicket(PaymentType.Ticket);
             CloseTicket();
         }
 
         private void OnMakeCashPaymentExecute(string obj)
         {
-            AppServices.MainDataContext.PaySelectedTicket(PaymentType.Cash);
+            _ticketService.PaySelectedTicket(PaymentType.Ticket);
             CloseTicket();
         }
 
@@ -925,7 +920,7 @@ namespace Samba.Modules.TicketModule
             }
 
             SelectedTicket.ClearSelectedItems();
-            var result = AppServices.MainDataContext.CloseTicket();
+            var result = _ticketService.CloseTicket();
             if (!string.IsNullOrEmpty(result.ErrorMessage))
             {
                 InteractionService.UserIntraction.GiveFeedback(result.ErrorMessage);
@@ -949,7 +944,7 @@ namespace Samba.Modules.TicketModule
         {
             _selectedTicket = null;
             _selectedOrders.Clear();
-            AppServices.MainDataContext.OpenTicket(id.GetValueOrDefault(0));
+            _ticketService.OpenTicket(id.GetValueOrDefault(0));
             SelectedTicketView = SingleTicketView;
             RefreshVisuals();
             SelectedTicket.ClearSelectedItems();

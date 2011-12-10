@@ -6,6 +6,7 @@ using System.Text;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Persistance.Data;
+using Samba.Presentation.Common;
 using Samba.Services;
 
 namespace Samba.Modules.DepartmentModule.ServiceImplementations
@@ -26,7 +27,11 @@ namespace Samba.Modules.DepartmentModule.ServiceImplementations
 
         public void SelectDepartment(Department department)
         {
-            CurrentDepartment = department;
+            if(department != CurrentDepartment)
+            {
+                CurrentDepartment = department;
+                CurrentDepartment.PublishEvent(EventTopicNames.SelectedDepartmentChanged);
+            }
         }
 
         public Department CurrentDepartment { get; private set; }

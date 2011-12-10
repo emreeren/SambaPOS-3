@@ -525,7 +525,7 @@ namespace Samba.Presentation.ViewModels
         public static void RecalculateTicket(Ticket ticket)
         {
             var total = ticket.TotalAmount;
-            AppServices.MainDataContext.Recalculate(ticket);
+            ticket.Recalculate(AppServices.SettingService.AutoRoundDiscount, AppServices.CurrentLoggedInUser.Id);
             if (total != ticket.TotalAmount)
             {
                 RuleExecutor.NotifyEvent(RuleEventNames.TicketTotalChanged,

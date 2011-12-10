@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Samba.Domain;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 
@@ -12,6 +13,8 @@ namespace Samba.Services
     public interface ITicketService : IService
     {
         void OpenTicket(int ticketId);
+        void OpenTicketByLocationName(string locationName);
+        void OpenTicketByTicketNumber(string ticketNumber);
         TicketCommitResult MoveOrders(IEnumerable<Order> selectedOrders, int targetTicketId);
         void UpdateAccount(Account account);
         void UpdateLocation(int locationId);
@@ -20,5 +23,7 @@ namespace Samba.Services
         void AddPayment(decimal tenderedAmount, DateTime date, PaymentType paymentType);
         void PaySelectedTicket(PaymentType paymentType);
         void UpdateTicketNumber(Ticket ticket, Numerator numerator);
+        IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(MenuItem menuItem);
+        IEnumerable<OrderTagGroup> GetOrderTagGroupsForItems(IEnumerable<MenuItem> menuItems);
     }
 }

@@ -337,7 +337,7 @@ namespace Samba.Modules.TicketModule
             {
                 if (tenderedAmount > _ticketService.CurrentTicket.GetRemainingAmount())
                     tenderedAmount = _ticketService.CurrentTicket.GetRemainingAmount();
-                AppServices.MainDataContext.AddPaymentToSelectedTicket(tenderedAmount, DateTime.Now, paymentType);
+                _ticketService.AddPayment(tenderedAmount, DateTime.Now, paymentType);
                 PaymentAmount = (GetPaymentValue() - tenderedAmount).ToString("#,#0.00");
 
                 LastTenderedAmount = tenderedAmount <= _ticketService.CurrentTicket.GetRemainingAmount()

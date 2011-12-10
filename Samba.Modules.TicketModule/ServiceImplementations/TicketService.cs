@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using Samba.Domain;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tables;
 using Samba.Domain.Models.Tickets;
@@ -39,6 +40,10 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
 
         public void OpenTicket(int ticketId)
         {
+            Debug.Assert(_workspace == null);
+            Debug.Assert(CurrentTicket == null);
+            Debug.Assert(_departmentService.CurrentDepartment != null);
+
             _workspace = WorkspaceFactory.Create();
             CurrentTicket = ticketId == 0
                                 ? Ticket.Create(_departmentService.CurrentDepartment)
@@ -46,6 +51,24 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
                                                             x => x.Orders.Select(y => y.OrderTagValues));
             if (CurrentTicket.Id == 0)
                 RuleExecutor.NotifyEvent(RuleEventNames.TicketCreated, new { Ticket = CurrentTicket });
+
+        }
+
+        public void OpenTicketByLocationName(string locationName)
+        {
+            var table = Dao.SingleWithCache<Table>(x => x.Name == locationName);
+            if (table != null)
+            {
+                if (table.TicketId > 0) OpenTicket(table.TicketId);
+                UpdateLocation(table.Id);
+            }
+        }
+
+        public void OpenTicketByTicketNumber(string ticketNumber)
+        {
+            Debug.Assert(CurrentTicket == null);
+            var id = Dao.Select<Ticket, int>(x => x.Id, x => x.TicketNumber == ticketNumber).FirstOrDefault();
+            if (id > 0) OpenTicket(id);
         }
 
         public TicketCommitResult CloseTicket()
@@ -142,6 +165,7 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
             }
             result.TicketId = CurrentTicket.Id;
             _workspace = null;
+            CurrentTicket = null;
 
             return result;
         }
@@ -274,6 +298,25 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
 
             CurrentTicket.LastOrderDate = DateTime.Now;
             return CloseTicket();
+        }
+
+        public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(MenuItem menuItem)
+        {
+            return GetOrderTagGroupsForItem(_departmentService.CurrentDepartment.TicketTemplate.OrderTagGroups, menuItem);
+        }
+
+        public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItems(IEnumerable<MenuItem> menuItems)
+        {
+            return menuItems.Aggregate(_departmentService.CurrentDepartment.TicketTemplate.OrderTagGroups.OrderBy(x => x.Order) as IEnumerable<OrderTagGroup>, GetOrderTagGroupsForItem);
+        }
+
+        private static IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(IEnumerable<OrderTagGroup> tagGroups, MenuItem menuItem)
+        {
+            var maps = tagGroups.SelectMany(x => x.OrderTagMaps)
+                .Where(x => x.MenuItemGroupCode == menuItem.GroupCode || x.MenuItemGroupCode == null)
+                .Where(x => x.MenuItemId == menuItem.Id || x.MenuItemId == 0);
+
+            return tagGroups.Where(x => maps.Any(y => y.OrderTagGroupId == x.Id));
         }
 
         public void Reset()

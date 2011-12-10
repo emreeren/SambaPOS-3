@@ -25,11 +25,13 @@ namespace Samba.Modules.TicketModule
         private bool _showTicketNoteEditor;
         private bool _showFreeTagEditor;
         private readonly IDepartmentService _departmentService;
+        private readonly ITicketService _ticketService;
 
         [ImportingConstructor]
-        public SelectedOrdersViewModel(IDepartmentService departmentService)
+        public SelectedOrdersViewModel(IDepartmentService departmentService,ITicketService ticketService)
         {
             _departmentService = departmentService;
+            _ticketService = ticketService;
             CloseCommand = new CaptionCommand<string>(Resources.Close, OnCloseCommandExecuted);
             SelectTicketTagCommand = new DelegateCommand<TicketTag>(OnTicketTagSelected);
             PortionSelectedCommand = new DelegateCommand<MenuItemPortion>(OnPortionSelected);
@@ -155,6 +157,7 @@ namespace Samba.Modules.TicketModule
         }
 
         private string _freeTag;
+
         public string FreeTag
         {
             get { return _freeTag; }
@@ -274,7 +277,7 @@ namespace Samba.Modules.TicketModule
             {
                 if (SelectedItem.Model.PortionCount > 1) SelectedItemPortions.AddRange(SelectedItem.MenuItem.Portions);
                 OrderTagGroups.AddRange(
-                    AppServices.MainDataContext.GetOrderTagGroupsForItem(SelectedItem.MenuItem)
+                    _ticketService.GetOrderTagGroupsForItem(SelectedItem.MenuItem)
                     .Where(x => string.IsNullOrEmpty(x.ButtonHeader))
                     .Select(x => new OrderTagGroupViewModel(SelectedTicket.SelectedOrders.Select(y => y.Model), x)));
                 RaisePropertyChanged(() => IsPortionsVisible);

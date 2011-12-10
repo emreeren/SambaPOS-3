@@ -13,7 +13,6 @@ using Samba.Domain.Models.Tables;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
 using Samba.Infrastructure.Data;
-using Samba.Infrastructure.Data.Serializer;
 using Samba.Persistance.Data;
 
 namespace Samba.Services
@@ -76,6 +75,7 @@ namespace Samba.Services
 
             public Account UpdateAccount(Account account)
             {
+                // Hesap yoksa açar, varsa ve değerleri farklıysa günceller.
                 if (account == Account.Null)
                     return Account.Null;
 
@@ -250,6 +250,7 @@ namespace Samba.Services
 
         public void UpdateTicketTable(Ticket ticket)
         {
+            // adisyon masasını günceller.
             if (string.IsNullOrEmpty(ticket.LocationName)) return;
             var table = _ticketWorkspace.LoadTable(ticket.LocationName);
             if (table != null)
@@ -305,26 +306,6 @@ namespace Samba.Services
             ticket.UpdateAccount(_ticketWorkspace.UpdateAccount(account));
         }
 
-        public void AssignAccountToSelectedTicket(Account account)
-        {
-            TicketService.UpdateAccount(account);
-        }
-
-        public void AssignLocationToSelectedTicket(int locationId)
-        {
-            TicketService.UpdateLocation(locationId);
-        }
-
-        public void OpenTicket(int ticketId)
-        {
-            TicketService.OpenTicket(ticketId);
-        }
-
-        public TicketCommitResult CloseTicket()
-        {
-            return TicketService.CloseTicket();
-        }
-
         public void UpdateTicketNumber(Ticket ticket)
         {
             TicketService.UpdateTicketNumber(ticket, DepartmentService.CurrentDepartment.TicketTemplate.TicketNumerator);
@@ -335,16 +316,6 @@ namespace Samba.Services
             if (numerator == null) numerator = DepartmentService.CurrentDepartment.TicketTemplate.TicketNumerator;
             if (string.IsNullOrEmpty(ticket.TicketNumber))
                 ticket.TicketNumber = NumberGenerator.GetNextString(numerator.Id);
-        }
-
-        public void AddPaymentToSelectedTicket(decimal tenderedAmount, DateTime date, PaymentType paymentType)
-        {
-            TicketService.AddPayment(tenderedAmount, date, paymentType);
-        }
-
-        public void PaySelectedTicket(PaymentType paymentType)
-        {
-            TicketService.PaySelectedTicket(paymentType);
         }
 
         public IList<Table> LoadTables(string selectedTableScreen)
@@ -397,32 +368,9 @@ namespace Samba.Services
             }
         }
 
-        public void OpenTicketFromTableName(string tableName)
-        {
-            var table = Dao.SingleWithCache<Table>(x => x.Name == tableName);
-            if (table != null)
-            {
-                if (table.TicketId > 0)
-                    OpenTicket(table.TicketId);
-                AssignLocationToSelectedTicket(table.Id);
-            }
-        }
-
-        public void OpenTicketFromTicketNumber(string ticketNumber)
-        {
-            Debug.Assert(_ticketWorkspace.Ticket == null);
-            var id = Dao.Select<Ticket, int>(x => x.Id, x => x.TicketNumber == ticketNumber).FirstOrDefault();
-            if (id > 0) OpenTicket(id);
-        }
-
         public string GetUserName(int userId)
         {
             return userId > 0 ? Users.Single(x => x.Id == userId).Name : "-";
-        }
-
-        public void CreateNewTicket()
-        {
-            TicketService.OpenTicket(0);
         }
 
         public TicketCommitResult MoveOrders(IEnumerable<Order> selectedOrders, int targetTicketId)
@@ -442,35 +390,9 @@ namespace Samba.Services
             _ticketWorkspace.AddItemToSelectedTicket(model);
         }
 
-        public void Recalculate(Ticket ticket)
-        {
-            ticket.Recalculate(AppServices.SettingService.AutoRoundDiscount, AppServices.CurrentLoggedInUser.Id);
-        }
-
         public TaxTemplate GetTaxTemplate(int menuItemId)
         {
             return AppServices.DataAccessService.GetMenuItem(menuItemId).TaxTemplate;
-        }
-
-        public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(MenuItem menuItem)
-        {
-            return GetOrderTagGroupsForItem(DepartmentService.CurrentDepartment.TicketTemplate.OrderTagGroups, menuItem);
-        }
-
-        public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItems(IEnumerable<MenuItem> menuItems)
-        {
-            return menuItems.Aggregate(DepartmentService.CurrentDepartment.TicketTemplate.OrderTagGroups.OrderBy(x => x.Order) as IEnumerable<OrderTagGroup>, GetOrderTagGroupsForItem);
-        }
-
-        private static IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(IEnumerable<OrderTagGroup> tagGroups, MenuItem menuItem)
-        {
-            var maps = tagGroups.SelectMany(x => x.OrderTagMaps);
-
-            maps = maps
-                .Where(x => x.MenuItemGroupCode == menuItem.GroupCode || x.MenuItemGroupCode == null)
-                .Where(x => x.MenuItemId == menuItem.Id || x.MenuItemId == 0);
-
-            return tagGroups.Where(x => maps.Any(y => y.OrderTagGroupId == x.Id));
         }
     }
 }

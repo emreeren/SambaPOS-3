@@ -23,6 +23,9 @@ namespace Samba.Presentation.ViewModels
         private static readonly IDepartmentService DepartmentService =
             ServiceLocator.Current.GetInstance(typeof(IDepartmentService)) as IDepartmentService;
 
+        private static readonly ITicketService TicketService =
+            ServiceLocator.Current.GetInstance(typeof(ITicketService)) as ITicketService;
+
         private static bool _registered;
         public static void RegisterOnce()
         {
@@ -120,9 +123,9 @@ namespace Samba.Presentation.ViewModels
                     {
                         var account = Dao.Query(qFilter).FirstOrDefault();
                         if (account != null)
-                            AppServices.MainDataContext.AssignAccountToSelectedTicket(account);
+                            TicketService.UpdateAccount(account);
                     }
-                    else AppServices.MainDataContext.AssignAccountToSelectedTicket(Account.Null);
+                    else TicketService.UpdateAccount(Account.Null);
                 }
 
                 if (x.Value.Action.ActionType == "UpdateProgramSetting")
