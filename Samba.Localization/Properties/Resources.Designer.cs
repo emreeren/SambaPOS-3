@@ -136,11 +136,11 @@ namespace Samba.Localization.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to # {0} Account: {1}
-        ///Table: {2}.
+        ///Location: {2}.
         /// </summary>
-        public static string AccountNameAndTableName_f {
+        public static string AccountNameAndLocationName_f {
             get {
-                return ResourceManager.GetString("AccountNameAndTableName_f", resourceCulture);
+                return ResourceManager.GetString("AccountNameAndLocationName_f", resourceCulture);
             }
         }
         
@@ -334,20 +334,20 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add one line for each Table Name. Start Categories with # character..
+        ///   Looks up a localized string similar to Add one line for each location Name. Start Categories with # character..
         /// </summary>
-        public static string AddMultipleTableHint {
+        public static string AddMultipleLocationHint {
             get {
-                return ResourceManager.GetString("AddMultipleTableHint", resourceCulture);
+                return ResourceManager.GetString("AddMultipleLocationHint", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add Multiple Tables.
+        ///   Looks up a localized string similar to Add Multiple Locations.
         /// </summary>
-        public static string AddMultipleTables {
+        public static string AddMultipleLocations {
             get {
-                return ResourceManager.GetString("AddMultipleTables", resourceCulture);
+                return ResourceManager.GetString("AddMultipleLocations", resourceCulture);
             }
         }
         
@@ -479,11 +479,11 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All Tables.
+        ///   Looks up a localized string similar to All Locations.
         /// </summary>
-        public static string AllTables {
+        public static string AllLocations {
             get {
-                return ResourceManager.GetString("AllTables", resourceCulture);
+                return ResourceManager.GetString("AllLocations", resourceCulture);
             }
         }
         
@@ -921,20 +921,20 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can change Location of a Ticket.
+        /// </summary>
+        public static string CanChangeLocation {
+            get {
+                return ResourceManager.GetString("CanChangeLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can Change Report Date Filter.
         /// </summary>
         public static string CanChangeReportFilter {
             get {
                 return ResourceManager.GetString("CanChangeReportFilter", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Can change Table of a Ticket.
-        /// </summary>
-        public static string CanChangeTable {
-            get {
-                return ResourceManager.GetString("CanChangeTable", resourceCulture);
             }
         }
         
@@ -1074,20 +1074,20 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can display Location List.
+        /// </summary>
+        public static string CanOpenLocationList {
+            get {
+                return ResourceManager.GetString("CanOpenLocationList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can Enter Navigation Screen.
         /// </summary>
         public static string CanOpenNavigation {
             get {
                 return ResourceManager.GetString("CanOpenNavigation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Can display Table List.
-        /// </summary>
-        public static string CanOpenTableList {
-            get {
-                return ResourceManager.GetString("CanOpenTableList", resourceCulture);
             }
         }
         
@@ -1318,21 +1318,21 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change
+        ///Location.
+        /// </summary>
+        public static string ChangeLocation_r {
+            get {
+                return ResourceManager.GetString("ChangeLocation_r", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change Price.
         /// </summary>
         public static string ChangePrice {
             get {
                 return ResourceManager.GetString("ChangePrice", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Change
-        ///Table.
-        /// </summary>
-        public static string ChangeTable_r {
-            get {
-                return ResourceManager.GetString("ChangeTable_r", resourceCulture);
             }
         }
         
@@ -1834,6 +1834,24 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t delete becasuse this Location assigned to a Location View.
+        /// </summary>
+        public static string DeleteErrorLocationUsedInLocationView {
+            get {
+                return ResourceManager.GetString("DeleteErrorLocationUsedInLocationView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t delete because this Location View assigned to a Department.
+        /// </summary>
+        public static string DeleteErrorLocationViewUsedInDepartment {
+            get {
+                return ResourceManager.GetString("DeleteErrorLocationViewUsedInDepartment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can&apos;t delete because this Menu assigned to a Department.
         /// </summary>
         public static string DeleteErrorMenuViewUsedInDepartment {
@@ -1924,24 +1942,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can&apos;t delete becasuse this Table assigned to a Table View.
-        /// </summary>
-        public static string DeleteErrorTableUsedInTableView {
-            get {
-                return ResourceManager.GetString("DeleteErrorTableUsedInTableView", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Can&apos;t delete because this Table View assigned to a Department.
-        /// </summary>
-        public static string DeleteErrorTableViewUsedInDepartment {
-            get {
-                return ResourceManager.GetString("DeleteErrorTableViewUsedInDepartment", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Can&apos;t delete because this Tag assigned to a Department.
         /// </summary>
         public static string DeleteErrorTagUsedInDepartment {
@@ -1969,11 +1969,11 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can&apos;t delete because there is a ticket assigned to that table.
+        ///   Looks up a localized string similar to Can&apos;t delete because there is a ticket assigned to that location.
         /// </summary>
-        public static string DeleteErrorTicketAssignedToTable {
+        public static string DeleteErrorTicketAssignedToLocation {
             get {
-                return ResourceManager.GetString("DeleteErrorTicketAssignedToTable", resourceCulture);
+                return ResourceManager.GetString("DeleteErrorTicketAssignedToLocation", resourceCulture);
             }
         }
         
@@ -2375,20 +2375,20 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Empty Location Color.
+        /// </summary>
+        public static string EmptyLocationColor {
+            get {
+                return ResourceManager.GetString("EmptyLocationColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Don&apos;t leave {0} name empty..
         /// </summary>
         public static string EmptyNameError {
             get {
                 return ResourceManager.GetString("EmptyNameError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Empty Table Color.
-        /// </summary>
-        public static string EmptyTableColor {
-            get {
-                return ResourceManager.GetString("EmptyTableColor", resourceCulture);
             }
         }
         
@@ -2802,20 +2802,20 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Find Location.
+        /// </summary>
+        public static string FindLocation {
+            get {
+                return ResourceManager.GetString("FindLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Find Product.
         /// </summary>
         public static string FindProduct {
             get {
                 return ResourceManager.GetString("FindProduct", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Find Table.
-        /// </summary>
-        public static string FindTable {
-            get {
-                return ResourceManager.GetString("FindTable", resourceCulture);
             }
         }
         
@@ -3357,7 +3357,7 @@ namespace Samba.Localization.Properties {
         ///   Looks up a localized string similar to &lt;T&gt;INVOICE
         ///&lt;L00&gt;Date:{TICKET DATE}
         ///&lt;L00&gt;Time:{TIME}
-        ///&lt;L00&gt;Table No:{TABLE}
+        ///&lt;L00&gt;Location No:{LOCATION}
         ///&lt;L00&gt;Ticket No:{TICKET NO}
         ///&lt;F&gt;-.
         /// </summary>
@@ -3432,11 +3432,11 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;T&gt;{TABLE USER}
+        ///   Looks up a localized string similar to &lt;T&gt;{LOCATION USER}
         ///&lt;F&gt;-
         ///&lt;L00&gt;Date:{TICKET DATE}
         ///&lt;L00&gt;Time:{TIME}
-        ///&lt;L00&gt;Table No:{TABLE}
+        ///&lt;L00&gt;Location No:{LOCATION}
         ///&lt;L00&gt;Ticket No:{TICKET NO}
         ///&lt;F&gt;-.
         /// </summary>
@@ -3710,11 +3710,138 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Locked Table Color.
+        ///   Looks up a localized string similar to Location.
         /// </summary>
-        public static string LockedTableColor {
+        public static string Location {
             get {
-                return ResourceManager.GetString("LockedTableColor", resourceCulture);
+                return ResourceManager.GetString("Location", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location: {0}.
+        /// </summary>
+        public static string Location_f {
+            get {
+                return ResourceManager.GetString("Location_f", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} location changed. Your latest changes not saved..
+        /// </summary>
+        public static string LocationChangedRetryLastOperation_f {
+            get {
+                return ResourceManager.GetString("LocationChangedRetryLastOperation_f", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location List.
+        /// </summary>
+        public static string LocationList {
+            get {
+                return ResourceManager.GetString("LocationList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location Name.
+        /// </summary>
+        public static string LocationName {
+            get {
+                return ResourceManager.GetString("LocationName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location Name, If empty User Name.
+        /// </summary>
+        public static string LocationOrUserName {
+            get {
+                return ResourceManager.GetString("LocationOrUserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Locations.
+        /// </summary>
+        public static string Locations {
+            get {
+                return ResourceManager.GetString("Locations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location Screen.
+        /// </summary>
+        public static string LocationScreen {
+            get {
+                return ResourceManager.GetString("LocationScreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location Screens.
+        /// </summary>
+        public static string LocationScreens {
+            get {
+                return ResourceManager.GetString("LocationScreens", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} ticket
+        ///merged with {1} location..
+        /// </summary>
+        public static string LocationsMerged_f {
+            get {
+                return ResourceManager.GetString("LocationsMerged_f", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location View.
+        /// </summary>
+        public static string LocationView {
+            get {
+                return ResourceManager.GetString("LocationView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Mode.
+        /// </summary>
+        public static string LocationViewMode {
+            get {
+                return ResourceManager.GetString("LocationViewMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Name.
+        /// </summary>
+        public static string LocationViewName {
+            get {
+                return ResourceManager.GetString("LocationViewName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location Views.
+        /// </summary>
+        public static string LocationViews {
+            get {
+                return ResourceManager.GetString("LocationViews", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Locked Location Color.
+        /// </summary>
+        public static string LockedLocationColor {
+            get {
+                return ResourceManager.GetString("LockedLocationColor", resourceCulture);
             }
         }
         
@@ -4747,24 +4874,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to POS Table Screens.
-        /// </summary>
-        public static string PosTableScreens {
-            get {
-                return ResourceManager.GetString("PosTableScreens", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to POS Table View.
-        /// </summary>
-        public static string POSTableView {
-            get {
-                return ResourceManager.GetString("POSTableView", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to POS View.
         /// </summary>
         public static string POSView {
@@ -5532,11 +5641,11 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There is already a table with that name..
+        ///   Looks up a localized string similar to There is already a location with that name..
         /// </summary>
-        public static string SaveErrorDuplicateTableName {
+        public static string SaveErrorDuplicateLocationName {
             get {
-                return ResourceManager.GetString("SaveErrorDuplicateTableName", resourceCulture);
+                return ResourceManager.GetString("SaveErrorDuplicateLocationName", resourceCulture);
             }
         }
         
@@ -5668,6 +5777,61 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select Location.
+        /// </summary>
+        public static string SelectLocation {
+            get {
+                return ResourceManager.GetString("SelectLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select
+        ///Location.
+        /// </summary>
+        public static string SelectLocation_r {
+            get {
+                return ResourceManager.GetString("SelectLocation_r", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select locations you want to add to {0} view.
+        /// </summary>
+        public static string SelectLocationDialogHint_f {
+            get {
+                return ResourceManager.GetString("SelectLocationDialogHint_f", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select the location you want to add orders..
+        /// </summary>
+        public static string SelectLocationForOperation {
+            get {
+                return ResourceManager.GetString("SelectLocationForOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select location for ticket..
+        /// </summary>
+        public static string SelectLocationForTicket {
+            get {
+                return ResourceManager.GetString("SelectLocationForTicket", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select new location for {0} ticket..
+        /// </summary>
+        public static string SelectLocationThatYouWantToMoveTicket_f {
+            get {
+                return ResourceManager.GetString("SelectLocationThatYouWantToMoveTicket_f", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select Print Job.
         /// </summary>
         public static string SelectPrintJob {
@@ -5691,61 +5855,6 @@ namespace Samba.Localization.Properties {
         public static string SelectPropertyGroupsHint_f {
             get {
                 return ResourceManager.GetString("SelectPropertyGroupsHint_f", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Select Table.
-        /// </summary>
-        public static string SelectTable {
-            get {
-                return ResourceManager.GetString("SelectTable", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Select
-        ///Table.
-        /// </summary>
-        public static string SelectTable_r {
-            get {
-                return ResourceManager.GetString("SelectTable_r", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Select tables you want to add to {0} view.
-        /// </summary>
-        public static string SelectTableDialogHint_f {
-            get {
-                return ResourceManager.GetString("SelectTableDialogHint_f", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Select the table you want to add orders..
-        /// </summary>
-        public static string SelectTableForOperation {
-            get {
-                return ResourceManager.GetString("SelectTableForOperation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Select table for ticket..
-        /// </summary>
-        public static string SelectTableForTicket {
-            get {
-                return ResourceManager.GetString("SelectTableForTicket", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Select new table for {0} ticket..
-        /// </summary>
-        public static string SelectTableThatYouWantToMoveTicket_f {
-            get {
-                return ResourceManager.GetString("SelectTableThatYouWantToMoveTicket_f", resourceCulture);
             }
         }
         
@@ -6092,133 +6201,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Table.
-        /// </summary>
-        public static string Table {
-            get {
-                return ResourceManager.GetString("Table", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Table: {0}.
-        /// </summary>
-        public static string Table_f {
-            get {
-                return ResourceManager.GetString("Table_f", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} table changed. Your latest changes not saved..
-        /// </summary>
-        public static string TableChangedRetryLastOperation_f {
-            get {
-                return ResourceManager.GetString("TableChangedRetryLastOperation_f", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Table List.
-        /// </summary>
-        public static string TableList {
-            get {
-                return ResourceManager.GetString("TableList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Table Name.
-        /// </summary>
-        public static string TableName {
-            get {
-                return ResourceManager.GetString("TableName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Table Name, If empty User Name.
-        /// </summary>
-        public static string TableOrUserName {
-            get {
-                return ResourceManager.GetString("TableOrUserName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Tables.
-        /// </summary>
-        public static string Tables {
-            get {
-                return ResourceManager.GetString("Tables", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Table Screen.
-        /// </summary>
-        public static string TableScreen {
-            get {
-                return ResourceManager.GetString("TableScreen", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Table Screens.
-        /// </summary>
-        public static string TableScreens {
-            get {
-                return ResourceManager.GetString("TableScreens", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} ticket
-        ///merged with {1} table..
-        /// </summary>
-        public static string TablesMerged_f {
-            get {
-                return ResourceManager.GetString("TablesMerged_f", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Table View.
-        /// </summary>
-        public static string TableView {
-            get {
-                return ResourceManager.GetString("TableView", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to View Mode.
-        /// </summary>
-        public static string TableViewMode {
-            get {
-                return ResourceManager.GetString("TableViewMode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to View Name.
-        /// </summary>
-        public static string TableViewName {
-            get {
-                return ResourceManager.GetString("TableViewName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Table Views.
-        /// </summary>
-        public static string TableViews {
-            get {
-                return ResourceManager.GetString("TableViews", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Tag.
         /// </summary>
         public static string Tag {
@@ -6386,24 +6368,6 @@ namespace Samba.Localization.Properties {
         public static string Terminals {
             get {
                 return ResourceManager.GetString("Terminals", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Terminal Table Screens.
-        /// </summary>
-        public static string TerminalTableScreens {
-            get {
-                return ResourceManager.GetString("TerminalTableScreens", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Terminal Table View.
-        /// </summary>
-        public static string TerminalTableView {
-            get {
-                return ResourceManager.GetString("TerminalTableView", resourceCulture);
             }
         }
         
@@ -6606,6 +6570,24 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {LOCATION}.
+        /// </summary>
+        public static string TF_LocationName {
+            get {
+                return ResourceManager.GetString("TF_LocationName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {LOCATION USER}.
+        /// </summary>
+        public static string TF_LocationOrUserName {
+            get {
+                return ResourceManager.GetString("TF_LocationOrUserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {TICKET TAG:.
         /// </summary>
         public static string TF_OptionalTicketTag {
@@ -6620,24 +6602,6 @@ namespace Samba.Localization.Properties {
         public static string TF_RemainingAmountIfPaid {
             get {
                 return ResourceManager.GetString("TF_RemainingAmountIfPaid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {TABLE}.
-        /// </summary>
-        public static string TF_TableName {
-            get {
-                return ResourceManager.GetString("TF_TableName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {TABLE USER}.
-        /// </summary>
-        public static string TF_TableOrUserName {
-            get {
-                return ResourceManager.GetString("TF_TableOrUserName", resourceCulture);
             }
         }
         
@@ -6877,11 +6841,11 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ticket merged with {0} table..
+        ///   Looks up a localized string similar to Ticket merged with {0} location..
         /// </summary>
-        public static string TicketMergedToTable_f {
+        public static string TicketMergedToLocation_f {
             get {
-                return ResourceManager.GetString("TicketMergedToTable_f", resourceCulture);
+                return ResourceManager.GetString("TicketMergedToLocation_f", resourceCulture);
             }
         }
         
@@ -6896,11 +6860,11 @@ namespace Samba.Localization.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to {0} ticket
-        ///moved to {1} table..
+        ///moved to {1} location..
         /// </summary>
-        public static string TicketMovedToTable_f {
+        public static string TicketMovedToLocation_f {
             get {
-                return ResourceManager.GetString("TicketMovedToTable_f", resourceCulture);
+                return ResourceManager.GetString("TicketMovedToLocation_f", resourceCulture);
             }
         }
         
@@ -6932,7 +6896,7 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to # {0} Table: {1}.
+        ///   Looks up a localized string similar to # {0} Account: {1}.
         /// </summary>
         public static string TicketNumberAndAccount_f {
             get {
@@ -6941,11 +6905,11 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to # {0} Table: {1}.
+        ///   Looks up a localized string similar to # {0} Location: {1}.
         /// </summary>
-        public static string TicketNumberAndTable_f {
+        public static string TicketNumberAndLocation_f {
             get {
-                return ResourceManager.GetString("TicketNumberAndTable_f", resourceCulture);
+                return ResourceManager.GetString("TicketNumberAndLocation_f", resourceCulture);
             }
         }
         
@@ -7141,7 +7105,7 @@ namespace Samba.Localization.Properties {
         ///   Looks up a localized string similar to &lt;T&gt;TICKET
         ///&lt;L00&gt;Date:{TICKET DATE}
         ///&lt;L00&gt;Time:{TIME}
-        ///&lt;L00&gt;Table No:{TABLE}
+        ///&lt;L00&gt;Location No:{LOCATION}
         ///&lt;L00&gt;Ticket No:{TICKET NO}
         ///&lt;F&gt;-.
         /// </summary>
@@ -7596,11 +7560,11 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Full Table Color.
+        ///   Looks up a localized string similar to Full Location Color.
         /// </summary>
-        public static string UnavailableTableColor {
+        public static string UnavailableLocationColor {
             get {
-                return ResourceManager.GetString("UnavailableTableColor", resourceCulture);
+                return ResourceManager.GetString("UnavailableLocationColor", resourceCulture);
             }
         }
         

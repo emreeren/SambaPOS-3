@@ -195,8 +195,8 @@
                     <FxButton:FlexButton Margin="0,0,0,2" Command="{Binding FindTicketCommand}" Focusable="False">
                         <LocText ResourceIdentifierKey="FindTicket"/>
                     </FxButton:FlexButton>
-                    <FxButton:FlexButton Margin="0,0,0,2" Command="{Binding FindTableCommand}" Focusable="False">
-                        <LocText ResourceIdentifierKey="FindTable"/>
+                    <FxButton:FlexButton Margin="0,0,0,2" Command="{Binding FindLocationCommand}" Focusable="False">
+                        <LocText ResourceIdentifierKey="FindLocation"/>
                     </FxButton:FlexButton>
                 </UniformGrid>
                 <ItemsControl Grid.Row="2" Grid.Column="0" ItemsSource="{Binding AlphaButtonValues}">

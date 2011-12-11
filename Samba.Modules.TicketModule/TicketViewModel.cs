@@ -9,16 +9,17 @@ using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common;
+using Samba.Presentation.ViewModels;
 using Samba.Services;
 
-namespace Samba.Presentation.ViewModels
+namespace Samba.Modules.TicketModule
 {
     public class TicketViewModel : ObservableObject
     {
         private readonly Ticket _model;
         private readonly TicketTemplate _ticketTemplate;
         private readonly bool _forcePayment;
-
+        
         public TicketViewModel(Ticket model, TicketTemplate ticketTemplate, bool forcePayment)
         {
             _forcePayment = forcePayment;
@@ -261,40 +262,6 @@ namespace Samba.Presentation.ViewModels
             this.PublishEvent(EventTopicNames.SelectedOrdersChanged);
         }
 
-        public OrderViewModel AddNewItem(int menuItemId, decimal quantity, string portionName, OrderTagTemplate template)
-        {
-            if (!Model.CanSubmit) return null;
-            ClearSelectedItems();
-            var menuItem = AppServices.DataAccessService.GetMenuItem(menuItemId);
-            if (menuItem.Portions.Count == 0) return null;
-
-            var portion = menuItem.Portions[0];
-
-            if (!string.IsNullOrEmpty(portionName) && menuItem.Portions.Count(x => x.Name == portionName) > 0)
-            {
-                portion = menuItem.Portions.First(x => x.Name == portionName);
-            }
-
-            var ti = Model.AddOrder(AppServices.CurrentLoggedInUser.Id, menuItem, portion.Name, _ticketTemplate.PriceTag);
-            ti.Quantity = quantity > 9 ? decimal.Round(quantity / portion.Multiplier, LocalSettings.Decimals) : quantity;
-
-            if (template != null) template.OrderTagTemplateValues.ToList().ForEach(x => ti.ToggleOrderTag(x.OrderTagGroup, x.OrderTag, 0));
-
-            var orderViewModel = new OrderViewModel(ti, _ticketTemplate);
-            _orders.Add(orderViewModel);
-            RecalculateTicket();
-            orderViewModel.PublishEvent(EventTopicNames.OrderAdded);
-            return orderViewModel;
-        }
-
-        private void RegenerateItemViewModels()
-        {
-            _orders.Clear();
-            _orders.AddRange(Model.Orders.Select(x => new OrderViewModel(x, _ticketTemplate)));
-            RecalculateTicket();
-            ClearSelectedItems();
-        }
-
         public void RefreshVisuals()
         {
             RaisePropertyChanged(() => TicketTotalLabel);
@@ -312,17 +279,6 @@ namespace Samba.Presentation.ViewModels
             RaisePropertyChanged(() => IsTicketRoundingVisible);
             RaisePropertyChanged(() => IsTicketServiceVisible);
             RaisePropertyChanged(() => IsTagged);
-        }
-
-        public void CancelItems(IEnumerable<OrderViewModel> orders, int userId)
-        {
-            orders.ToList().ForEach(x => Model.CancelOrder(x.Model));
-            RegenerateItemViewModels();
-        }
-
-        public void CancelSelectedItems()
-        {
-            CancelItems(SelectedOrders.ToArray(), AppServices.CurrentLoggedInUser.Id);
         }
 
         public bool CanCancelSelectedItems()
@@ -426,16 +382,16 @@ namespace Samba.Presentation.ViewModels
                 string selectedTicketTitle;
 
                 if (!string.IsNullOrEmpty(Location) && Model.Id == 0)
-                    selectedTicketTitle = string.Format(Resources.Table_f, Location);
+                    selectedTicketTitle = string.Format(Resources.Location_f, Location);
                 else if (!string.IsNullOrEmpty(AccountName) && Model.Id == 0)
                     selectedTicketTitle = string.Format(Resources.Account_f, AccountName);
                 else if (string.IsNullOrEmpty(AccountName)) selectedTicketTitle = string.IsNullOrEmpty(Location)
                      ? string.Format("# {0}", Model.TicketNumber)
-                     : string.Format(Resources.TicketNumberAndTable_f, Model.TicketNumber, Location);
+                     : string.Format(Resources.TicketNumberAndLocation_f, Model.TicketNumber, Location);
                 else if (string.IsNullOrEmpty(Location)) selectedTicketTitle = string.IsNullOrEmpty(AccountName)
                      ? string.Format("# {0}", Model.TicketNumber)
                      : string.Format(Resources.TicketNumberAndAccount_f, Model.TicketNumber, AccountName);
-                else selectedTicketTitle = string.Format(Resources.AccountNameAndTableName_f, Model.TicketNumber, AccountName, Location);
+                else selectedTicketTitle = string.Format(Resources.AccountNameAndLocationName_f, Model.TicketNumber, AccountName, Location);
 
                 return selectedTicketTitle;
             }
@@ -450,7 +406,7 @@ namespace Samba.Presentation.ViewModels
         {
             Model.MergeOrdersAndUpdateOrderNumbers(0);
             _orders.Clear();
-            _orders.AddRange(Model.Orders.Select(x => new OrderViewModel(x,_ticketTemplate)));
+            _orders.AddRange(Model.Orders.Select(x => new OrderViewModel(x, _ticketTemplate)));
         }
 
         public bool CanMoveSelectedOrders()
@@ -464,10 +420,10 @@ namespace Samba.Presentation.ViewModels
             return AppServices.IsUserPermittedFor(PermissionNames.MoveOrders);
         }
 
-        public bool CanChangeTable()
+        public bool CanChangeLocation()
         {
             if (IsLocked || Orders.Count == 0 || (Payments.Count > 0 && !string.IsNullOrEmpty(Location)) || !Model.CanSubmit) return false;
-            return string.IsNullOrEmpty(Location) || AppServices.IsUserPermittedFor(PermissionNames.ChangeTable);
+            return string.IsNullOrEmpty(Location) || AppServices.IsUserPermittedFor(PermissionNames.ChangeLocation);
         }
 
         public string GetPrintError()
@@ -515,41 +471,6 @@ namespace Samba.Presentation.ViewModels
         public bool IsTaggedWith(string tagGroup)
         {
             return !string.IsNullOrEmpty(Model.GetTagValue(tagGroup));
-        }
-
-        public void RecalculateTicket()
-        {
-            RecalculateTicket(Model);
-        }
-
-        public static void RecalculateTicket(Ticket ticket)
-        {
-            var total = ticket.TotalAmount;
-            ticket.Recalculate(AppServices.SettingService.AutoRoundDiscount, AppServices.CurrentLoggedInUser.Id);
-            if (total != ticket.TotalAmount)
-            {
-                RuleExecutor.NotifyEvent(RuleEventNames.TicketTotalChanged,
-                    new
-                    {
-                        Ticket = ticket,
-                        PreviousTotal = total,
-                        TicketTotal = ticket.GetSum(),
-                        DiscountTotal = ticket.GetDiscountAndRoundingTotal(),
-                        PaymentTotal = ticket.GetPaymentAmount()
-                    });
-            }
-        }
-
-        public static void RegenerateTaxRates(Ticket ticket)
-        {
-            foreach (var order in ticket.Orders)
-            {
-                var mi = AppServices.DataAccessService.GetMenuItem(order.MenuItemId);
-                if (mi == null) continue;
-                var item = order;
-                var portion = mi.Portions.FirstOrDefault(x => x.Name == item.PortionName);
-                if (portion != null) order.UpdatePortion(portion, order.PriceTag, mi.TaxTemplate);
-            }
         }
     }
 }

@@ -3,37 +3,37 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using Samba.Domain.Models.Tables;
+using Samba.Domain.Models.Locations;
 using Samba.Localization;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Services;
 using Samba.Services;
 
-namespace Samba.Presentation.ViewModels
+namespace Samba.Modules.LocationModule
 {
-    public class TableScreenItemViewModel : ObservableObject, IDiagram
+    public class LocationScreenItemViewModel : ObservableObject, IDiagram
     {
         private readonly ICommand _actionCommand;
 
-        public TableScreenItemViewModel(Table model, TableScreen screen)
+        public LocationScreenItemViewModel(Location model, LocationScreen screen)
             : this(model, screen, null)
         {
 
         }
 
-        public TableScreenItemViewModel(Table model, TableScreen screen, ICommand actionCommand)
+        public LocationScreenItemViewModel(Location model, LocationScreen screen, ICommand actionCommand)
         {
             _actionCommand = actionCommand;
             _screen = screen;
             Model = model;
         }
 
-        private readonly TableScreen _screen;
+        private readonly LocationScreen _screen;
 
-        private Table _model;
+        private Location _model;
 
         [Browsable(false)]
-        public Table Model
+        public Location Model
         {
             get { return _model; }
             set
@@ -43,7 +43,7 @@ namespace Samba.Presentation.ViewModels
             }
         }
 
-        [LocalizedDisplayName(ResourceStrings.Table)]
+        [LocalizedDisplayName(ResourceStrings.Location)]
         public string Name { get { return Model.Name; } }
 
         private string _buttonColor;
@@ -151,8 +151,8 @@ namespace Samba.Presentation.ViewModels
             //    IsEnabled = false;
 
             ButtonColor = Model.TicketId == 0
-                ? _screen.TableEmptyColor
-                : (Model.IsTicketLocked ? _screen.TableLockedColor : _screen.TableFullColor);
+                ? _screen.LocationEmptyColor
+                : (Model.IsTicketLocked ? _screen.LocationLockedColor : _screen.LocationFullColor);
         }
     }
 }

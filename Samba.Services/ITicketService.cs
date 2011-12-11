@@ -25,5 +25,7 @@ namespace Samba.Services
         void UpdateTicketNumber(Ticket ticket, Numerator numerator);
         IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(MenuItem menuItem);
         IEnumerable<OrderTagGroup> GetOrderTagGroupsForItems(IEnumerable<MenuItem> menuItems);
+        void RecalculateTicket(Ticket ticket);
+        void RegenerateTaxRates(Ticket ticket);
     }
 }

@@ -67,13 +67,10 @@
     <Compile Include="ScreenCategoryButton.cs" />
     <Compile Include="ScreenMenuItemButton.cs" />
     <Compile Include="ScreenSubCategoryButton.cs" />
-    <Compile Include="TableScreenItemViewModel.cs" />
     <Compile Include="OrderTagValueViewModel.cs" />
     <Compile Include="OrderViewModel.cs" />
-    <Compile Include="TicketTagButton.cs" />
     <Compile Include="TicketTagData.cs" />
     <Compile Include="TicketTagViewModel.cs" />
-    <Compile Include="TicketViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">

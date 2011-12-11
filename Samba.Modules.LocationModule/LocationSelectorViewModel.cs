@@ -4,7 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
 using Microsoft.Practices.Prism.Commands;
-using Samba.Domain.Models.Tables;
+using Samba.Domain.Models.Locations;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure;
 using Samba.Localization.Properties;
@@ -13,29 +13,29 @@ using Samba.Presentation.Common.Services;
 using Samba.Presentation.ViewModels;
 using Samba.Services;
 
-namespace Samba.Modules.RestaurantModule
+namespace Samba.Modules.LocationModule
 {
     [Export]
-    public class TableSelectorViewModel : ObservableObject
+    public class LocationSelectorViewModel : ObservableObject
     {
-        public DelegateCommand<TableScreenItemViewModel> TableSelectionCommand { get; set; }
-        public DelegateCommand<TableScreen> SelectTableCategoryCommand { get; set; }
+        public DelegateCommand<LocationScreenItemViewModel> LocationSelectionCommand { get; set; }
+        public DelegateCommand<LocationScreen> SelectLocationCategoryCommand { get; set; }
         public ICaptionCommand CloseScreenCommand { get; set; }
-        public ICaptionCommand EditSelectedTableScreenPropertiesCommand { get; set; }
+        public ICaptionCommand EditSelectedLocationScreenPropertiesCommand { get; set; }
         public ICaptionCommand IncPageNumberCommand { get; set; }
         public ICaptionCommand DecPageNumberCommand { get; set; }
 
-        public ObservableCollection<IDiagram> Tables { get; set; }
+        public ObservableCollection<IDiagram> Locations { get; set; }
 
         public Ticket SelectedTicket { get { return _ticketService.CurrentTicket; } }
-        public TableScreen SelectedTableScreen { get { return AppServices.MainDataContext.SelectedTableScreen; } }
-        public IEnumerable<TableScreen> TableScreens { get { return _departmentService.CurrentDepartment != null ? _departmentService.CurrentDepartment.PosTableScreens : null; } }
+        public LocationScreen SelectedLocationScreen { get { return AppServices.MainDataContext.SelectedLocationScreen; } }
+        public IEnumerable<LocationScreen> LocationScreens { get { return _departmentService.CurrentDepartment != null ? _departmentService.CurrentDepartment.LocationScreens : null; } }
 
         public bool IsNavigated { get; set; }
-        public bool CanDesignTables { get { return AppServices.CurrentLoggedInUser.UserRole.IsAdmin; } }
+        public bool CanDesignLocations { get { return AppServices.CurrentLoggedInUser.UserRole.IsAdmin; } }
         public int CurrentPageNo { get; set; }
 
-        public bool IsPageNavigatorVisible { get { return SelectedTableScreen != null && SelectedTableScreen.PageCount > 1; } }
+        public bool IsPageNavigatorVisible { get { return SelectedLocationScreen != null && SelectedLocationScreen.PageCount > 1; } }
         public bool IsFeedbackVisible { get { return !string.IsNullOrEmpty(Feedback); } }
         private string _feedback;
         public string Feedback
@@ -67,83 +67,83 @@ namespace Samba.Modules.RestaurantModule
             }
         }
 
-        public VerticalAlignment TablesVerticalAlignment { get { return SelectedTableScreen != null && SelectedTableScreen.ButtonHeight > 0 ? VerticalAlignment.Top : VerticalAlignment.Stretch; } }
+        public VerticalAlignment LocationsVerticalAlignment { get { return SelectedLocationScreen != null && SelectedLocationScreen.ButtonHeight > 0 ? VerticalAlignment.Top : VerticalAlignment.Stretch; } }
 
         private readonly IDepartmentService _departmentService;
         private readonly ITicketService _ticketService;
 
         [ImportingConstructor]
-        public TableSelectorViewModel(ITicketService ticketService, IDepartmentService departmentService)
+        public LocationSelectorViewModel(ITicketService ticketService, IDepartmentService departmentService)
         {
             _ticketService = ticketService;
             _departmentService = departmentService;
-            SelectTableCategoryCommand = new DelegateCommand<TableScreen>(OnSelectTableCategoryExecuted);
-            TableSelectionCommand = new DelegateCommand<TableScreenItemViewModel>(OnSelectTableExecuted);
+            SelectLocationCategoryCommand = new DelegateCommand<LocationScreen>(OnSelectLocationCategoryExecuted);
+            LocationSelectionCommand = new DelegateCommand<LocationScreenItemViewModel>(OnSelectLocationExecuted);
             CloseScreenCommand = new CaptionCommand<string>(Resources.Close, OnCloseScreenExecuted);
-            EditSelectedTableScreenPropertiesCommand = new CaptionCommand<string>(Resources.Properties, OnEditSelectedTableScreenProperties, CanEditSelectedTableScreenProperties);
+            EditSelectedLocationScreenPropertiesCommand = new CaptionCommand<string>(Resources.Properties, OnEditSelectedLocationScreenProperties, CanEditSelectedLocationScreenProperties);
             IncPageNumberCommand = new CaptionCommand<string>(Resources.NextPage + " >>", OnIncPageNumber, CanIncPageNumber);
             DecPageNumberCommand = new CaptionCommand<string>("<< " + Resources.PreviousPage, OnDecPageNumber, CanDecPageNumber);
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<Department>>().Subscribe(
                 x =>
                 {
-                    if (x.Topic == EventTopicNames.SelectTable)
+                    if (x.Topic == EventTopicNames.SelectLocation)
                     {
-                        RefreshTables();
+                        RefreshLocations();
                     }
                 });
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<Message>>().Subscribe(
                 x =>
                 {
-                    if (AppServices.ActiveAppScreen == AppScreens.TableList
+                    if (AppServices.ActiveAppScreen == AppScreens.LocationList
                         && x.Topic == EventTopicNames.MessageReceivedEvent
                         && x.Value.Command == Messages.TicketRefreshMessage)
                     {
-                        RefreshTables();
+                        RefreshLocations();
                     }
                 });
         }
 
-        public void RefreshTables()
+        public void RefreshLocations()
         {
-            if (SelectedTableScreen == null && TableScreens.Count() > 0)
-                AppServices.MainDataContext.SelectedTableScreen = TableScreens.First();
-            if (SelectedTableScreen != null)
-                UpdateTables(SelectedTableScreen);
+            if (SelectedLocationScreen == null && LocationScreens.Count() > 0)
+                AppServices.MainDataContext.SelectedLocationScreen = LocationScreens.First();
+            if (SelectedLocationScreen != null)
+                UpdateLocations(SelectedLocationScreen);
         }
 
         private bool CanDecPageNumber(string arg)
         {
-            return SelectedTableScreen != null && CurrentPageNo > 0;
+            return SelectedLocationScreen != null && CurrentPageNo > 0;
         }
 
         private void OnDecPageNumber(string obj)
         {
             CurrentPageNo--;
-            RefreshTables();
+            RefreshLocations();
         }
 
         private bool CanIncPageNumber(string arg)
         {
-            return SelectedTableScreen != null && CurrentPageNo < SelectedTableScreen.PageCount - 1;
+            return SelectedLocationScreen != null && CurrentPageNo < SelectedLocationScreen.PageCount - 1;
         }
 
         private void OnIncPageNumber(string obj)
         {
             CurrentPageNo++;
-            RefreshTables();
+            RefreshLocations();
         }
 
-        private bool CanEditSelectedTableScreenProperties(string arg)
+        private bool CanEditSelectedLocationScreenProperties(string arg)
         {
-            return SelectedTableScreen != null;
+            return SelectedLocationScreen != null;
         }
 
-        private void OnEditSelectedTableScreenProperties(string obj)
+        private void OnEditSelectedLocationScreenProperties(string obj)
         {
-            if (SelectedTableScreen != null)
-                InteractionService.UserIntraction.EditProperties(SelectedTableScreen);
+            if (SelectedLocationScreen != null)
+                InteractionService.UserIntraction.EditProperties(SelectedLocationScreen);
         }
 
         private void OnCloseScreenExecuted(string obj)
@@ -153,12 +153,12 @@ namespace Samba.Modules.RestaurantModule
                                                               : EventTopicNames.DisplayTicketView);
         }
 
-        private void OnSelectTableCategoryExecuted(TableScreen obj)
+        private void OnSelectLocationCategoryExecuted(LocationScreen obj)
         {
-            UpdateTables(obj);
+            UpdateLocations(obj);
         }
 
-        private static void OnSelectTableExecuted(TableScreenItemViewModel obj)
+        private static void OnSelectLocationExecuted(LocationScreenItemViewModel obj)
         {
             var location = new LocationData
                                {
@@ -170,21 +170,21 @@ namespace Samba.Modules.RestaurantModule
             location.PublishEvent(EventTopicNames.LocationSelectedForTicket);
         }
 
-        private void UpdateTables(TableScreen tableScreen)
+        private void UpdateLocations(LocationScreen locationScreen)
         {
             Feedback = "";
-            var tableData = AppServices.DataAccessService.GetCurrentTables(tableScreen, CurrentPageNo).OrderBy(x => x.Order);
-            if (Tables != null && (Tables.Count() == 0 || Tables.Count != tableData.Count() || Tables.First().Caption != tableData.First().Name)) Tables = null;
-            if (Tables == null)
+            var locationData = AppServices.DataAccessService.GetCurrentLocations(locationScreen, CurrentPageNo).OrderBy(x => x.Order);
+            if (Locations != null && (Locations.Count() == 0 || Locations.Count != locationData.Count() || Locations.First().Caption != locationData.First().Name)) Locations = null;
+            if (Locations == null)
             {
-                Tables = new ObservableCollection<IDiagram>();
-                Tables.AddRange(tableData.Select(x => new TableScreenItemViewModel(x, SelectedTableScreen, TableSelectionCommand)));
+                Locations = new ObservableCollection<IDiagram>();
+                Locations.AddRange(locationData.Select(x => new LocationScreenItemViewModel(x, SelectedLocationScreen, LocationSelectionCommand)));
             }
             else
             {
-                for (var i = 0; i < tableData.Count(); i++)
+                for (var i = 0; i < locationData.Count(); i++)
                 {
-                    ((TableScreenItemViewModel)Tables[i]).Model = tableData.ElementAt(i);
+                    ((LocationScreenItemViewModel)Locations[i]).Model = locationData.ElementAt(i);
                 }
             }
 
@@ -192,40 +192,40 @@ namespace Samba.Modules.RestaurantModule
             {
                 FeedbackColor = "Red";
                 FeedbackForeground = "White";
-                Feedback = string.Format(Resources.SelectTableThatYouWantToMoveTicket_f, SelectedTicket.LocationName);
+                Feedback = string.Format(Resources.SelectLocationThatYouWantToMoveTicket_f, SelectedTicket.LocationName);
             }
             else if (SelectedTicket != null)
             {
                 FeedbackColor = "Red";
                 FeedbackForeground = "White";
-                Feedback = Resources.SelectTableForTicket;
+                Feedback = Resources.SelectLocationForTicket;
             }
             else
             {
                 FeedbackColor = "LightYellow";
                 FeedbackForeground = "Black";
-                Feedback = Resources.SelectTableForOperation;
+                Feedback = Resources.SelectLocationForOperation;
             }
 
-            RaisePropertyChanged(() => Tables);
-            RaisePropertyChanged(() => TableScreens);
-            RaisePropertyChanged(() => SelectedTableScreen);
+            RaisePropertyChanged(() => Locations);
+            RaisePropertyChanged(() => LocationScreens);
+            RaisePropertyChanged(() => SelectedLocationScreen);
             RaisePropertyChanged(() => IsPageNavigatorVisible);
-            RaisePropertyChanged(() => TablesVerticalAlignment);
+            RaisePropertyChanged(() => LocationsVerticalAlignment);
         }
 
-        public void LoadTrackableTables()
+        public void LoadTrackableLocations()
         {
-            Tables = new ObservableCollection<IDiagram>(
-                AppServices.MainDataContext.LoadTables(SelectedTableScreen.Name)
-                .Select<Table, IDiagram>(x => new TableScreenItemViewModel(x, SelectedTableScreen)));
-            RaisePropertyChanged(() => Tables);
+            Locations = new ObservableCollection<IDiagram>(
+                AppServices.MainDataContext.LoadLocations(SelectedLocationScreen.Name)
+                .Select<Location, IDiagram>(x => new LocationScreenItemViewModel(x, SelectedLocationScreen)));
+            RaisePropertyChanged(() => Locations);
         }
 
-        public void SaveTrackableTables()
+        public void SaveTrackableLocations()
         {
-            AppServices.MainDataContext.SaveTables();
-            UpdateTables(SelectedTableScreen);
+            AppServices.MainDataContext.SaveLocations();
+            UpdateLocations(SelectedLocationScreen);
         }
     }
 }

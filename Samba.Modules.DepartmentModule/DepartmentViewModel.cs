@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FluentValidation;
+using Samba.Domain.Models.Locations;
 using Samba.Domain.Models.Menus;
-using Samba.Domain.Models.Tables;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
@@ -24,17 +24,17 @@ namespace Samba.Modules.DepartmentModule
             set { _screenMenus = value; }
         }
 
-        private IEnumerable<TableScreen> _tableScreens;
-        public IEnumerable<TableScreen> TableScreens
-        {
-            get { return _tableScreens ?? (_tableScreens = Dao.Query<TableScreen>()); }
-            set { _tableScreens = value; }
-        }
+        //private IEnumerable<LocationScreen> _locationScreens;
+        //public IEnumerable<LocationScreen> LocationScreens
+        //{
+        //    get { return _locationScreens ?? (_locationScreens = Dao.Query<LocationScreen>()); }
+        //    set { _locationScreens = value; }
+        //}
 
-        private ObservableCollection<TableScreen> _posTableScreens;
-        public ObservableCollection<TableScreen> PosTableScreens
+        private ObservableCollection<LocationScreen> _locationScreens;
+        public ObservableCollection<LocationScreen> LocationScreens
         {
-            get { return _posTableScreens ?? (_posTableScreens = new ObservableCollection<TableScreen>(Model.PosTableScreens.OrderBy(x => x.Order))); }
+            get { return _locationScreens ?? (_locationScreens = new ObservableCollection<LocationScreen>(Model.LocationScreens.OrderBy(x => x.Order))); }
         }
 
         public int ScreenMenuId { get { return Model.ScreenMenuId; } set { Model.ScreenMenuId = value; } }
@@ -66,45 +66,45 @@ namespace Samba.Modules.DepartmentModule
             set { Model.IsTakeAway = value; }
         }
 
-        public TableScreen SelectedPosTableScreen { get; set; }
+        public LocationScreen SelectedLocationScreen { get; set; }
         
-        public ICaptionCommand AddPosTableScreenCommand { get; set; }
-        public ICaptionCommand DeletePosTableScreenCommand { get; set; }
+        public ICaptionCommand AddLocationScreenCommand { get; set; }
+        public ICaptionCommand DeleteLocationScreenCommand { get; set; }
 
         public DepartmentViewModel(Department model)
             : base(model)
         {
-            AddPosTableScreenCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.TableScreen), OnAddPosTableScreen);
-            DeletePosTableScreenCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.TableScreen), OnDeletePosTableScreen, CanDeletePosTableScreen);
+            AddLocationScreenCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.LocationScreen), OnAddLocationScreen);
+            DeleteLocationScreenCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.LocationScreen), OnDeleteLocationScreen, CanDeleteLocationScreen);
         }
 
-        private bool CanDeletePosTableScreen(string arg)
+        private bool CanDeleteLocationScreen(string arg)
         {
-            return SelectedPosTableScreen != null;
+            return SelectedLocationScreen != null;
         }
 
-        private void OnDeletePosTableScreen(string obj)
+        private void OnDeleteLocationScreen(string obj)
         {
-            Model.PosTableScreens.Remove(SelectedPosTableScreen);
-            PosTableScreens.Remove(SelectedPosTableScreen);
+            Model.LocationScreens.Remove(SelectedLocationScreen);
+            LocationScreens.Remove(SelectedLocationScreen);
         }
 
-        private void OnAddPosTableScreen(string obj)
+        private void OnAddLocationScreen(string obj)
         {
             var selectedValues =
-                  InteractionService.UserIntraction.ChooseValuesFrom(Workspace.All<TableScreen>().ToList<IOrderable>(),
-                  Model.PosTableScreens.ToList<IOrderable>(), Resources.TableScreens, string.Format(Resources.ChooseServicesForDepartmentHint_f, Model.Name),
-                  Resources.TableScreen, Resources.TableScreens);
+                  InteractionService.UserIntraction.ChooseValuesFrom(Workspace.All<LocationScreen>().ToList<IOrderable>(),
+                  Model.LocationScreens.ToList<IOrderable>(), Resources.LocationScreens, string.Format(Resources.ChooseServicesForDepartmentHint_f, Model.Name),
+                  Resources.LocationScreen, Resources.LocationScreens);
 
-            foreach (TableScreen selectedValue in selectedValues)
+            foreach (LocationScreen selectedValue in selectedValues)
             {
-                if (!Model.PosTableScreens.Contains(selectedValue))
-                    Model.PosTableScreens.Add(selectedValue);
+                if (!Model.LocationScreens.Contains(selectedValue))
+                    Model.LocationScreens.Add(selectedValue);
             }
 
-            _posTableScreens = new ObservableCollection<TableScreen>(Model.PosTableScreens.OrderBy(x => x.Order));
+            _locationScreens = new ObservableCollection<LocationScreen>(Model.LocationScreens.OrderBy(x => x.Order));
 
-            RaisePropertyChanged(() => PosTableScreens);
+            RaisePropertyChanged(() => LocationScreens);
         }
 
         public override Type GetViewType()

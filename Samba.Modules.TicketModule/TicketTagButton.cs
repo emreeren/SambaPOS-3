@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Samba.Domain.Models.Tickets;
+﻿using Samba.Domain.Models.Tickets;
 
-namespace Samba.Presentation.ViewModels
+namespace Samba.Modules.TicketModule
 {
     public class TicketTagButton
     {
-        private readonly TicketViewModel _ticket;
-        public TicketTagButton(TicketTagGroup ticketTagGroup, TicketViewModel ticket)
+        private readonly Ticket _ticket;
+        public TicketTagButton(TicketTagGroup ticketTagGroup, Ticket ticket)
         {
             Model = ticketTagGroup;
             Caption = Model.Name;
@@ -24,7 +20,7 @@ namespace Samba.Presentation.ViewModels
             get
             {
                 if (_ticket != null)
-                    return !string.IsNullOrEmpty(_ticket.Model.GetTagValue(Model.Name))
+                    return !string.IsNullOrEmpty(_ticket.GetTagValue(Model.Name))
                         ? Model.ButtonColorWhenTagSelected
                         : Model.ButtonColorWhenNoTagSelected;
                 return "Gainsboro";

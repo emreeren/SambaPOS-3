@@ -222,13 +222,13 @@
       <Project>{E93B6838-9B18-4718-AB7B-2EA5232518C3}</Project>
       <Name>Samba.Modules.InventoryModule</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.LocationModule\Samba.Modules.LocationModule.csproj">
+      <Project>{943FE6E9-58E2-499C-8B61-0FD8CE9F42F8}</Project>
+      <Name>Samba.Modules.LocationModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samba.Modules.NavigationModule\Samba.Modules.NavigationModule.csproj">
       <Project>{9497C48E-B9B5-4869-820E-09ECE4347632}</Project>
       <Name>Samba.Modules.NavigationModule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Samba.Modules.RestaurantModule\Samba.Modules.RestaurantModule.csproj">
-      <Project>{56B13A56-FDC9-45A5-94FC-10F8AADD86F5}</Project>
-      <Name>Samba.Modules.RestaurantModule</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Modules.UserModule\Samba.Modules.UserModule.csproj">
       <Project>{1AE61C89-EBFD-498D-9F53-6319B302CDBF}</Project>

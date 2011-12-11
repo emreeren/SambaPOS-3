@@ -7,9 +7,9 @@ using Microsoft.Practices.ServiceLocation;
 using Samba.Domain;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Actions;
+using Samba.Domain.Models.Locations;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
-using Samba.Domain.Models.Tables;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
 using Samba.Infrastructure.Data;
@@ -68,9 +68,9 @@ namespace Samba.Services
                 _workspace = null;
             }
 
-            public Table LoadTable(string locationName)
+            public Location LoadLocation(string locationName)
             {
-                return _workspace.Single<Table>(x => x.Name == locationName);
+                return _workspace.Single<Location>(x => x.Name == locationName);
             }
 
             public Account UpdateAccount(Account account)
@@ -104,21 +104,21 @@ namespace Samba.Services
                 return result;
             }
 
-            public Table GetTableWithId(int tableId)
+            public Location GetLocationWithId(int locationId)
             {
-                return _workspace.Single<Table>(x => x.Id == tableId);
+                return _workspace.Single<Location>(x => x.Id == locationId);
             }
 
-            public Table GetTicketTable()
+            public Location GetTicketLocation()
             {
                 Debug.Assert(!string.IsNullOrEmpty(Ticket.LocationName));
                 Debug.Assert(Ticket != null);
-                return _workspace.Single<Table>(x => x.Name == Ticket.LocationName);
+                return _workspace.Single<Location>(x => x.Name == Ticket.LocationName);
             }
 
-            public void ResetTableData(IEntity ticket)
+            public void ResetLocationData(IEntity ticket)
             {
-                _workspace.All<Table>(x => x.TicketId == ticket.Id).ToList().ForEach(x => x.Reset());
+                _workspace.All<Location>(x => x.TicketId == ticket.Id).ToList().ForEach(x => x.Reset());
             }
 
             public void AddItemToSelectedTicket(Order model)
@@ -129,13 +129,13 @@ namespace Samba.Services
         }
 
         public int AccountCount { get; set; }
-        public int TableCount { get; set; }
+        public int LocationCount { get; set; }
         public string NumeratorValue { get; set; }
 
         public ITicketService TicketService { get; set; }
         public IDepartmentService DepartmentService { get; set; }
 
-        private IWorkspace _tableWorkspace;
+        private IWorkspace _locationWorkspace;
         private readonly TicketWorkspace _ticketWorkspace = new TicketWorkspace();
 
         private IEnumerable<AppRule> _rules;
@@ -169,7 +169,7 @@ namespace Samba.Services
         public WorkPeriod CurrentWorkPeriod { get { return LastTwoWorkPeriods.LastOrDefault(); } }
         public WorkPeriod PreviousWorkPeriod { get { return LastTwoWorkPeriods.Count() > 1 ? LastTwoWorkPeriods.FirstOrDefault() : null; } }
 
-        public TableScreen SelectedTableScreen { get; set; }
+        public LocationScreen SelectedLocationScreen { get; set; }
 
         public bool IsCurrentWorkPeriodOpen
         {
@@ -195,13 +195,13 @@ namespace Samba.Services
         public void ResetUserData()
         {
             DepartmentService.Reset();
-            ThreadPool.QueueUserWorkItem(ResetTableAndAccountCounts);
+            ThreadPool.QueueUserWorkItem(ResetLocationAndAccountCounts);
         }
 
-        private void ResetTableAndAccountCounts(object state)
+        private void ResetLocationAndAccountCounts(object state)
         {
             AccountCount = Dao.Count<Account>(null);
-            TableCount = Dao.Count<Table>(null);
+            LocationCount = Dao.Count<Location>(null);
         }
 
         public void StartWorkPeriod(string description, decimal cashAmount, decimal creditCardAmount, decimal ticketAmount)
@@ -248,54 +248,54 @@ namespace Samba.Services
             }
         }
 
-        public void UpdateTicketTable(Ticket ticket)
+        public void UpdateTicketLocation(Ticket ticket)
         {
             // adisyon masasını günceller.
             if (string.IsNullOrEmpty(ticket.LocationName)) return;
-            var table = _ticketWorkspace.LoadTable(ticket.LocationName);
-            if (table != null)
+            var location = _ticketWorkspace.LoadLocation(ticket.LocationName);
+            if (location != null)
             {
                 if (ticket.IsPaid || ticket.Orders.Count == 0)
                 {
-                    if (table.TicketId == ticket.Id)
+                    if (location.TicketId == ticket.Id)
                     {
-                        table.TicketId = 0;
-                        table.IsTicketLocked = false;
+                        location.TicketId = 0;
+                        location.IsTicketLocked = false;
                     }
                 }
                 else
                 {
-                    table.TicketId = ticket.Id;
-                    table.IsTicketLocked = ticket.Locked;
+                    location.TicketId = ticket.Id;
+                    location.IsTicketLocked = ticket.Locked;
                 }
             }
             else ticket.LocationName = "";
         }
 
-        public void UpdateTables(TableScreen tableScreen, int pageNo)
+        public void UpdateLocations(LocationScreen locationScreen, int pageNo)
         {
-            SelectedTableScreen = tableScreen;
-            if (SelectedTableScreen != null)
+            SelectedLocationScreen = locationScreen;
+            if (SelectedLocationScreen != null)
             {
                 IEnumerable<int> set;
-                if (tableScreen.PageCount > 1)
+                if (locationScreen.PageCount > 1)
                 {
-                    set = tableScreen.Tables
+                    set = locationScreen.Locations
                         .OrderBy(x => x.Order)
-                        .Skip(pageNo * tableScreen.ItemCountPerPage)
-                        .Take(tableScreen.ItemCountPerPage)
+                        .Skip(pageNo * locationScreen.ItemCountPerPage)
+                        .Take(locationScreen.ItemCountPerPage)
                         .Select(x => x.Id);
                 }
-                else set = tableScreen.Tables.OrderBy(x => x.Order).Select(x => x.Id);
+                else set = locationScreen.Locations.OrderBy(x => x.Order).Select(x => x.Id);
 
-                var result = Dao.Select<Table, dynamic>(x => new { x.Id, Tid = x.TicketId, Locked = x.IsTicketLocked },
+                var result = Dao.Select<Location, dynamic>(x => new { x.Id, Tid = x.TicketId, Locked = x.IsTicketLocked },
                                                        x => set.Contains(x.Id));
 
                 result.ToList().ForEach(x =>
                 {
-                    var table = tableScreen.Tables.Single(y => y.Id == x.Id);
-                    table.TicketId = x.Tid;
-                    table.IsTicketLocked = x.Locked;
+                    var location = locationScreen.Locations.Single(y => y.Id == x.Id);
+                    location.TicketId = x.Tid;
+                    location.IsTicketLocked = x.Locked;
                 });
             }
         }
@@ -318,22 +318,22 @@ namespace Samba.Services
                 ticket.TicketNumber = NumberGenerator.GetNextString(numerator.Id);
         }
 
-        public IList<Table> LoadTables(string selectedTableScreen)
+        public IList<Location> LoadLocations(string selectedLocationScreen)
         {
-            if (_tableWorkspace != null)
+            if (_locationWorkspace != null)
             {
-                _tableWorkspace.CommitChanges();
+                _locationWorkspace.CommitChanges();
             }
-            _tableWorkspace = WorkspaceFactory.Create();
-            return _tableWorkspace.Single<TableScreen>(x => x.Name == selectedTableScreen).Tables;
+            _locationWorkspace = WorkspaceFactory.Create();
+            return _locationWorkspace.Single<LocationScreen>(x => x.Name == selectedLocationScreen).Locations;
         }
 
-        public void SaveTables()
+        public void SaveLocations()
         {
-            if (_tableWorkspace != null)
+            if (_locationWorkspace != null)
             {
-                _tableWorkspace.CommitChanges();
-                _tableWorkspace = null;
+                _locationWorkspace.CommitChanges();
+                _locationWorkspace = null;
                 DepartmentService.Reset();
             }
         }
@@ -342,12 +342,12 @@ namespace Samba.Services
         {
             Debug.Assert(_ticketWorkspace.Ticket == null);
 
-            if (_tableWorkspace == null)
+            if (_locationWorkspace == null)
             {
                 var selectedDepartment = DepartmentService.CurrentDepartment != null ? DepartmentService.CurrentDepartment.Id : 0;
-                var selectedTableScreen = SelectedTableScreen != null ? SelectedTableScreen.Id : 0;
+                var selectedLocationScreen = SelectedLocationScreen != null ? SelectedLocationScreen.Id : 0;
 
-                SelectedTableScreen = null;
+                SelectedLocationScreen = null;
                 DepartmentService.SelectDepartment(null);
                 DepartmentService.Reset();
                 _lastTwoWorkPeriods = null;
@@ -362,8 +362,8 @@ namespace Samba.Services
                 //if (selectedDepartment > 0 && Departments.Count(x => x.Id == selectedDepartment) > 0)
                 //{
                 //    SelectedDepartment = Departments.Single(x => x.Id == selectedDepartment);
-                //    if (selectedTableScreen > 0 && SelectedDepartment.PosTableScreens.Count(x => x.Id == selectedTableScreen) > 0)
-                //        SelectedTableScreen = SelectedDepartment.PosTableScreens.Single(x => x.Id == selectedTableScreen);
+                //    if (selectedLocationScreen > 0 && SelectedDepartment.PosLocationScreens.Count(x => x.Id == selectedLocationScreen) > 0)
+                //        SelectedLocationScreen = SelectedDepartment.PosLocationScreens.Single(x => x.Id == selectedLocationScreen);
                 //}
             }
         }
@@ -378,10 +378,10 @@ namespace Samba.Services
             return TicketService.MoveOrders(selectedOrders, targetTicketId);
         }
 
-        public void ResetTableDataForSelectedTicket()
+        public void ResetLocationDataForSelectedTicket()
         {
-            _ticketWorkspace.ResetTableData(TicketService.CurrentTicket);
-            UpdateTicketTable(TicketService.CurrentTicket);
+            _ticketWorkspace.ResetLocationData(TicketService.CurrentTicket);
+            UpdateTicketLocation(TicketService.CurrentTicket);
             _ticketWorkspace.CommitChanges();
         }
 

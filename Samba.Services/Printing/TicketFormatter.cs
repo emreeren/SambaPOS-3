@@ -191,9 +191,9 @@ namespace Samba.Services.Printing
             if (string.IsNullOrEmpty(ticket.LocationName))
                 title = userName;
 
-            result = FormatData(result, Resources.TF_TableOrUserName, () => title);
+            result = FormatData(result, Resources.TF_LocationOrUserName, () => title);
             result = FormatData(result, Resources.TF_UserName, () => userName);
-            result = FormatData(result, Resources.TF_TableName, () => ticket.LocationName);
+            result = FormatData(result, Resources.TF_LocationName, () => ticket.LocationName);
             result = FormatData(result, Resources.TF_TicketNote, () => ticket.Note);
             result = FormatData(result, Resources.TF_AccountName, () => ticket.AccountName);
 

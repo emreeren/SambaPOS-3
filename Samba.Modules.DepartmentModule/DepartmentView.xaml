@@ -58,32 +58,32 @@
                     </StackPanel>
                     <StackPanel Grid.Column="1" Margin="20,0" HorizontalAlignment="Left">
                         <Label>
-                            <LocText ResourceIdentifierKey="PosTableScreens" Suffix=":"/>
+                            <LocText ResourceIdentifierKey="LocationScreens" Suffix=":"/>
                         </Label>
                         <StackPanel Orientation="Horizontal">
-                            <DataGrid ItemsSource="{Binding PosTableScreens}" SelectedItem="{Binding SelectedPosTableScreen, Mode=TwoWay}"
+                            <DataGrid ItemsSource="{Binding LocationScreens}" SelectedItem="{Binding SelectedLocationScreen, Mode=TwoWay}"
                                      HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
                                      AutoGenerateColumns="False" CanUserSortColumns="False" IsReadOnly="True" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="{LocText TableScreen}"
+                                    <DataGridTextColumn Header="{LocText LocationScreen}"
                                              MinWidth="100" Binding="{Binding Name}" />
                                 </DataGrid.Columns>
                                 <DataGrid.ContextMenu>
                                     <ContextMenu>
-                                        <MenuItem Command="{Binding AddPosTableScreenCommand}" Header="{Binding AddPosTableScreenCommand.Caption}" />
-                                        <MenuItem Command="{Binding DeletePosTableScreenCommand}" Header="{Binding DeletePosTableScreenCommand.Caption}" />
+                                        <MenuItem Command="{Binding AddLocationScreenCommand}" Header="{Binding AddLocationScreenCommand.Caption}" />
+                                        <MenuItem Command="{Binding DeleteLocationScreenCommand}" Header="{Binding DeleteLocationScreenCommand.Caption}" />
                                     </ContextMenu>
                                 </DataGrid.ContextMenu>
                             </DataGrid>
                             <StackPanel Margin="10">
                                 <TextBlock Margin="2,3">
-                                        <Hyperlink Command="{Binding AddPosTableScreenCommand}">
-                                            <TextBlock Text="{Binding Path=AddPosTableScreenCommand.Caption}" />
+                                        <Hyperlink Command="{Binding AddLocationScreenCommand}">
+                                            <TextBlock Text="{Binding Path=AddLocationScreenCommand.Caption}" />
                                         </Hyperlink>
                                     </TextBlock>
                                 <TextBlock Margin="2,3">
-                                        <Hyperlink Command="{Binding DeletePosTableScreenCommand}">
-                                            <TextBlock Text="{Binding Path=DeletePosTableScreenCommand.Caption}" />
+                                        <Hyperlink Command="{Binding DeleteLocationScreenCommand}">
+                                            <TextBlock Text="{Binding Path=DeleteLocationScreenCommand.Caption}" />
                                         </Hyperlink>
                                     </TextBlock>
                             </StackPanel>

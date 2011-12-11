@@ -6,10 +6,10 @@ using Samba.Domain.Models.Tickets;
 
 namespace Samba.Services
 {
-    public interface IDepartmentService:IService
+    public interface IDepartmentService : IService
     {
-        void SelectDepartment(Department department);
         void SelectDepartment(int id);
+        void SelectDepartment(Department department);
         Department CurrentDepartment { get; }
         Department GetDepartment(int id);
         IEnumerable<string> GetDepartmentNames();

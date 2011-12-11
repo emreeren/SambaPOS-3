@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{56B13A56-FDC9-45A5-94FC-10F8AADD86F5}</ProjectGuid>
+    <ProjectGuid>{943FE6E9-58E2-499C-8B61-0FD8CE9F42F8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Samba.Modules.RestaurantModule</RootNamespace>
-    <AssemblyName>Samba.Modules.RestaurantModule</AssemblyName>
+    <RootNamespace>Samba.Modules.LocationModule</RootNamespace>
+    <AssemblyName>Samba.Modules.LocationModule</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -51,40 +51,41 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LocationScreenItemViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TableEditorView.xaml.cs">
-      <DependentUpon>TableEditorView.xaml</DependentUpon>
+    <Compile Include="LocationModule.cs" />
+    <Compile Include="LocationEditorView.xaml.cs">
+      <DependentUpon>LocationEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TableEditorViewModel.cs" />
-    <Compile Include="TableListViewModel.cs" />
-    <Compile Include="RestaurantModule.cs" />
-    <Compile Include="TableScreenListViewModel.cs" />
-    <Compile Include="TableScreenView.xaml.cs">
-      <DependentUpon>TableScreenView.xaml</DependentUpon>
+    <Compile Include="LocationEditorViewModel.cs" />
+    <Compile Include="LocationListViewModel.cs" />
+    <Compile Include="LocationScreenListViewModel.cs" />
+    <Compile Include="LocationScreenView.xaml.cs">
+      <DependentUpon>LocationScreenView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TableScreenViewModel.cs" />
-    <Compile Include="TableSelectorView.xaml.cs">
-      <DependentUpon>TableSelectorView.xaml</DependentUpon>
+    <Compile Include="LocationScreenViewModel.cs" />
+    <Compile Include="LocationSelectorView.xaml.cs">
+      <DependentUpon>LocationSelectorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TableSelectorViewModel.cs" />
+    <Compile Include="LocationSelectorViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Images\back1.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="TableEditorView.xaml">
+    <Page Include="LocationEditorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="TableScreenView.xaml">
+    <Page Include="LocationScreenView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="TableSelectorView.xaml">
+    <Page Include="LocationSelectorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -97,10 +98,6 @@
     <ProjectReference Include="..\Lib\PropertyTools.Wpf\PropertyTools.Wpf.csproj">
       <Project>{7168F82F-288A-42C4-9EB1-FBBE5112F211}</Project>
       <Name>PropertyTools.Wpf</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lib\PropertyTools\PropertyTools.csproj">
-      <Project>{37466829-61F5-47FA-9E3E-9CEDCD9535C0}</Project>
-      <Name>PropertyTools</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">
       <Project>{2386F6A0-91B2-4D1A-8DBC-92109924AFFE}</Project>

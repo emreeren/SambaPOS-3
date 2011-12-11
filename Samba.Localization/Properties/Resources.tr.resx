@@ -516,12 +516,8 @@ Yap</value>
     <value>Terminal Menü</value>
     <comment>Label content</comment>
   </data>
-  <data name="POSTableView" xml:space="preserve">
-    <value>POS Masa Görünümü</value>
-    <comment>Label content</comment>
-  </data>
-  <data name="TerminalTableView" xml:space="preserve">
-    <value>Terminal Masa Görünümü</value>
+  <data name="LocationView" xml:space="preserve">
+    <value>Yer Görünümü</value>
     <comment>Label content</comment>
   </data>
   <data name="OpenTicketView" xml:space="preserve">
@@ -972,16 +968,16 @@ Yap</value>
     <value>Seçimli Adisyon Etiketi</value>
     <comment>Paragraph content</comment>
   </data>
-  <data name="TableOrUserName" xml:space="preserve">
-    <value>Masa adı, yoksa garson adı</value>
+  <data name="LocationOrUserName" xml:space="preserve">
+    <value>Yer adı, yoksa garson adı</value>
     <comment>Paragraph content</comment>
   </data>
   <data name="UserName" xml:space="preserve">
     <value>Kullanıcı Adı</value>
     <comment>Paragraph content</comment>
   </data>
-  <data name="TableName" xml:space="preserve">
-    <value>Masa adı</value>
+  <data name="LocationName" xml:space="preserve">
+    <value>Yer adı</value>
     <comment>Paragraph content</comment>
   </data>
   <data name="TicketNote" xml:space="preserve">
@@ -1358,47 +1354,47 @@ Yap</value>
     <value>Açık {0} adisyon bulunmaktadır.
 Açık adisyon varken gün sonu yapılamaz.</value>
   </data>
-  <data name="Table" xml:space="preserve">
-    <value>Masa</value>
+  <data name="Location" xml:space="preserve">
+    <value>Yer</value>
   </data>
-  <data name="SaveErrorDuplicateTableName" xml:space="preserve">
-    <value>Bu isimde bir masa zaten var</value>
+  <data name="SaveErrorDuplicateLocationName" xml:space="preserve">
+    <value>Bu isimde bir yer zaten var</value>
   </data>
-  <data name="AddMultipleTables" xml:space="preserve">
-    <value>Toplu Masa Ekle</value>
+  <data name="AddMultipleLocations" xml:space="preserve">
+    <value>Toplu Yer Ekle</value>
   </data>
-  <data name="AddMultipleTableHint" xml:space="preserve">
-    <value>Eklemek istediğiniz masa adlarını ekleyiniz. Kategorileri # karakteri ile başlatınız.</value>
+  <data name="AddMultipleLocationHint" xml:space="preserve">
+    <value>Eklemek istediğiniz yer adlarını ekleyiniz. Kategorileri # karakteri ile başlatınız.</value>
   </data>
-  <data name="DeleteErrorTicketAssignedToTable" xml:space="preserve">
-    <value>Masaya bağlı adisyon varken masa silinemez.</value>
+  <data name="DeleteErrorTicketAssignedToLocation" xml:space="preserve">
+    <value>Bu yere bağlı bir adisyon varken yer silinemez.</value>
   </data>
-  <data name="DeleteErrorTableUsedInTableView" xml:space="preserve">
-    <value>Bu masa bir masa görünümünde kullanıldığı için silinemez</value>
+  <data name="DeleteErrorLocationUsedInLocationView" xml:space="preserve">
+    <value>Bu yer bir yer görünümünde kullanıldığı için silinemez</value>
   </data>
-  <data name="TableList" xml:space="preserve">
-    <value>Masa Listesi</value>
+  <data name="LocationList" xml:space="preserve">
+    <value>Yer Listesi</value>
   </data>
-  <data name="TableViews" xml:space="preserve">
-    <value>Masa Görünümleri</value>
+  <data name="LocationViews" xml:space="preserve">
+    <value>Yer Görünümleri</value>
   </data>
-  <data name="Tables" xml:space="preserve">
-    <value>Masalar</value>
+  <data name="Locations" xml:space="preserve">
+    <value>Yerler</value>
   </data>
-  <data name="CanOpenTableList" xml:space="preserve">
-    <value>Masa listesini açabilir</value>
+  <data name="CanOpenLocationList" xml:space="preserve">
+    <value>Yer listesini açabilir</value>
   </data>
-  <data name="CanChangeTable" xml:space="preserve">
-    <value>Masa değiştirebilir</value>
+  <data name="CanChangeLocation" xml:space="preserve">
+    <value>Yer değiştirebilir</value>
   </data>
-  <data name="DeleteErrorTableViewUsedInDepartment" xml:space="preserve">
-    <value>Bu masa görünümü bir departmanda kullanıldığından silinemez.</value>
+  <data name="DeleteErrorLocationViewUsedInDepartment" xml:space="preserve">
+    <value>Bu yer görünümü bir departmanda kullanıldığından silinemez.</value>
   </data>
-  <data name="TableViewName" xml:space="preserve">
+  <data name="LocationViewName" xml:space="preserve">
     <value>Görünüm Adı</value>
     <comment>Label content</comment>
   </data>
-  <data name="TableViewMode" xml:space="preserve">
+  <data name="LocationViewMode" xml:space="preserve">
     <value>Görünüm Modu</value>
     <comment>Label content</comment>
   </data>
@@ -1410,16 +1406,16 @@ Açık adisyon varken gün sonu yapılamaz.</value>
     <value>Arkaplan Resmi</value>
     <comment>Label content</comment>
   </data>
-  <data name="EmptyTableColor" xml:space="preserve">
-    <value>Boş Masa Rengi</value>
+  <data name="EmptyLocationColor" xml:space="preserve">
+    <value>Boş Yer Rengi</value>
     <comment>Label content</comment>
   </data>
-  <data name="UnavailableTableColor" xml:space="preserve">
-    <value>Dolu Masa Rengi</value>
+  <data name="UnavailableLocationColor" xml:space="preserve">
+    <value>Dolu Yer Rengi</value>
     <comment>Label content</comment>
   </data>
-  <data name="LockedTableColor" xml:space="preserve">
-    <value>Kilitli Masa Rengi</value>
+  <data name="LockedLocationColor" xml:space="preserve">
+    <value>Kilitli Yer Rengi</value>
     <comment>Label content</comment>
   </data>
   <data name="NumeratorHeight" xml:space="preserve">
@@ -1439,14 +1435,11 @@ Açık adisyon varken gün sonu yapılamaz.</value>
   <data name="Hidden" xml:space="preserve">
     <value>Gizli</value>
   </data>
-  <data name="SelectTable" xml:space="preserve">
-    <value>Masa Seç</value>
+  <data name="SelectLocation" xml:space="preserve">
+    <value>Yer Seç</value>
   </data>
-  <data name="SelectTableDialogHint_f" xml:space="preserve">
-    <value>{0} görünümüne eklemek istediğiniz masaları seçiniz</value>
-  </data>
-  <data name="TableView" xml:space="preserve">
-    <value>Masa Görünümü</value>
+  <data name="SelectLocationDialogHint_f" xml:space="preserve">
+    <value>{0} görünümüne eklemek istediğiniz yerleri seçiniz</value>
   </data>
   <data name="EditMode" xml:space="preserve">
     <value>Düzenleme Modu</value>
@@ -1458,32 +1451,32 @@ Açık adisyon varken gün sonu yapılamaz.</value>
   <data name="PreviousPage" xml:space="preserve">
     <value>Önceki Sayfa</value>
   </data>
-  <data name="TablesMerged_f" xml:space="preserve">
+  <data name="LocationsMerged_f" xml:space="preserve">
     <value>{0} adisyonu
-{1} masası ile birleştirildi.</value>
+{1} yeri ile birleştirildi.</value>
   </data>
-  <data name="TicketMergedToTable_f" xml:space="preserve">
-    <value>Adisyon {0} masası ile birleştirildi.</value>
+  <data name="TicketMergedToLocation_f" xml:space="preserve">
+    <value>Adisyon {0} yeri ile birleştirildi.</value>
   </data>
-  <data name="TicketMovedToTable_f" xml:space="preserve">
+  <data name="TicketMovedToLocation_f" xml:space="preserve">
     <value>{0} adisyonu
-{1} masasına taşındı.</value>
+{1} yerine taşındı.</value>
   </data>
-  <data name="SelectTableThatYouWantToMoveTicket_f" xml:space="preserve">
-    <value>{0} adisyonunu taşıyacağınız masayı seçiniz.</value>
+  <data name="SelectLocationThatYouWantToMoveTicket_f" xml:space="preserve">
+    <value>{0} adisyonunu taşıyacağınız yeri seçiniz.</value>
   </data>
-  <data name="SelectTableForTicket" xml:space="preserve">
-    <value>Adisyon için masa seçiniz.</value>
+  <data name="SelectLocationForTicket" xml:space="preserve">
+    <value>Adisyon için yer seçiniz.</value>
   </data>
-  <data name="SelectTableForOperation" xml:space="preserve">
-    <value>İşlem yapmak istediğiniz masayı seçiniz.</value>
+  <data name="SelectLocationForOperation" xml:space="preserve">
+    <value>İşlem yapmak istediğiniz yeri seçiniz.</value>
   </data>
   <data name="FindTicket" xml:space="preserve">
     <value>Adisyon Bul</value>
     <comment>FxButton:FlexButton content</comment>
   </data>
-  <data name="FindTable" xml:space="preserve">
-    <value>Masa Bul</value>
+  <data name="FindLocation" xml:space="preserve">
+    <value>Yer Bul</value>
     <comment>FxButton:FlexButton content</comment>
   </data>
   <data name="DiscountTotal" xml:space="preserve">
@@ -1579,12 +1572,12 @@ Belgeler</value>
   <data name="NewTicket" xml:space="preserve">
     <value>Yeni Adisyon</value>
   </data>
-  <data name="ChangeTable_r" xml:space="preserve">
-    <value>Masa
+  <data name="ChangeLocation_r" xml:space="preserve">
+    <value>Yer
 Değiştir</value>
   </data>
-  <data name="SelectTable_r" xml:space="preserve">
-    <value>Masa
+  <data name="SelectLocation_r" xml:space="preserve">
+    <value>Yer
 Seç</value>
   </data>
   <data name="AccountInfo_r" xml:space="preserve">
@@ -1808,21 +1801,21 @@ Raporlar bölümünden gün sonu raporlarınızı alınız.</value>
   <data name="TicketTimeDisplay_f" xml:space="preserve">
     <value>{0} ({1} dk.)</value>
   </data>
-  <data name="Table_f" xml:space="preserve">
-    <value>Masa: {0}</value>
+  <data name="Location_f" xml:space="preserve">
+    <value>Yer: {0}</value>
   </data>
   <data name="Account_f" xml:space="preserve">
     <value>Hesap: {0}</value>
   </data>
-  <data name="TicketNumberAndTable_f" xml:space="preserve">
-    <value># {0} Masa: {1}</value>
+  <data name="TicketNumberAndLocation_f" xml:space="preserve">
+    <value># {0} Yer: {1}</value>
   </data>
   <data name="TicketNumberAndAccount_f" xml:space="preserve">
     <value># {0} Hesap: {1}</value>
   </data>
-  <data name="AccountNameAndTableName_f" xml:space="preserve">
+  <data name="AccountNameAndLocationName_f" xml:space="preserve">
     <value># {0} Hesap: {1}
-Masa: {2}</value>
+Yer: {2}</value>
   </data>
   <data name="CantCompleteOperationWhenThereIsZeroPricedProduct" xml:space="preserve">
     <value>Adisyonda sıfır fiyatlı ürün varken bu işlem yapılamaz.</value>
@@ -2026,7 +2019,7 @@ Masa: {2}</value>
     <value>&lt;T&gt;ADİSYON
 &lt;L00&gt;Tarih:{ADİSYON TARİH}
 &lt;L00&gt;Saat:{SAAT}
-&lt;L00&gt;Masa No:{MASA}
+&lt;L00&gt;Yer No:{YER}
 &lt;L00&gt;Adisyon No:{ADİSYON NO}
 &lt;F&gt;-</value>
   </data>
@@ -2042,11 +2035,11 @@ Masa: {2}</value>
 &lt;C10&gt;Y İ N E   B E K L E R İ Z</value>
   </data>
   <data name="KitchenTemplateHeaderValue" xml:space="preserve">
-    <value>&lt;T&gt;{MASA GARSON}
+    <value>&lt;T&gt;{YER GARSON}
 &lt;F&gt;-
 &lt;L00&gt;Tarih:{ADİSYON TARİH}
 &lt;L00&gt;Saat:{SAAT}
-&lt;L00&gt;Masa No:{MASA}
+&lt;L00&gt;Yer No:{YER}
 &lt;L00&gt;Adisyon No:{ADİSYON NO}
 &lt;F&gt;-</value>
   </data>
@@ -2062,7 +2055,7 @@ Masa: {2}</value>
     <value>&lt;T&gt;ADİSYON
 &lt;L00&gt;Tarih:{ADİSYON TARİH}
 &lt;L00&gt;Saat:{SAAT}
-&lt;L00&gt;Masa No:{MASA}
+&lt;L00&gt;Yer No:{YER}
 &lt;L00&gt;Adisyon No:{ADİSYON NO}
 &lt;F&gt;-</value>
   </data>
@@ -2081,7 +2074,7 @@ Masa: {2}</value>
   <data name="PrintOrdersToKitchenPrinter" xml:space="preserve">
     <value>Siparişleri Mutfağa Yazdır</value>
   </data>
-  <data name="AllTables" xml:space="preserve">
+  <data name="AllLocations" xml:space="preserve">
     <value>Tümü</value>
   </data>
   <data name="Search" xml:space="preserve">
@@ -2145,14 +2138,14 @@ Masa: {2}</value>
   <data name="TF_OptionalTicketTag" xml:space="preserve">
     <value>{ADİSYON ETİKET:</value>
   </data>
-  <data name="TF_TableOrUserName" xml:space="preserve">
-    <value>{MASA GARSON}</value>
+  <data name="TF_LocationOrUserName" xml:space="preserve">
+    <value>{YER GARSON}</value>
   </data>
   <data name="TF_UserName" xml:space="preserve">
     <value>{GARSON}</value>
   </data>
-  <data name="TF_TableName" xml:space="preserve">
-    <value>{MASA}</value>
+  <data name="TF_LocationName" xml:space="preserve">
+    <value>{YER}</value>
   </data>
   <data name="TF_TicketNote" xml:space="preserve">
     <value>{NOT}</value>
@@ -2671,8 +2664,8 @@ Masa: {2}</value>
   <data name="TicketPaidLastChangesNotSaved" xml:space="preserve">
     <value>Adisyona ödeme alınmış. Yaptığınız değişiklikler kayıt edilmeyecek.</value>
   </data>
-  <data name="TableChangedRetryLastOperation_f" xml:space="preserve">
-    <value>{0} masasında değişiklik var. Son işlemi tekrar yapın.</value>
+  <data name="LocationChangedRetryLastOperation_f" xml:space="preserve">
+    <value>{0} yerinde değişiklik var. Son işlemi tekrar yapın.</value>
   </data>
   <data name="NewLiabilityTransaction" xml:space="preserve">
     <value>Yeni Alacaklandırma Hareketi</value>
@@ -3039,17 +3032,11 @@ Bilgi eklemeden devam etmek istiyor musunuz?]]>
   <data name="RemoveGiftTagWhenVoided">
     <value xml:space="preserve">İade yapıldığında İkram etiketini kaldır</value>
   </data>
-  <data name="TableScreen">
-    <value xml:space="preserve">Masa Görünümü</value>
+  <data name="LocationScreen">
+    <value xml:space="preserve">Yer Görünümü</value>
   </data>
-  <data name="TableScreens">
-    <value xml:space="preserve">Masa Görünümleri</value>
-  </data>
-  <data name="PosTableScreens">
-    <value xml:space="preserve">POS Masa Görünümleri</value>
-  </data>
-  <data name="TerminalTableScreens">
-    <value xml:space="preserve">Terminal Masa Görünümleri</value>
+  <data name="LocationScreens">
+    <value xml:space="preserve">Yer Görünümleri</value>
   </data>
   <data name="OrderTagTemplate">
     <value xml:space="preserve">Sipariş Etiketi Şablonu</value>
@@ -3101,5 +3088,11 @@ Bilgi eklemeden devam etmek istiyor musunuz?]]>
 	</data>
 	<data name="EditingFormat">
 		<value xml:space="preserve">Düzenleme Formatı</value>
+	</data>
+	<data name="Values">
+		<value xml:space="preserve">Değerler</value>
+	</data>
+	<data name="TicketTemplates">
+		<value xml:space="preserve">Adisyon Şablonları</value>
 	</data>
 </root>

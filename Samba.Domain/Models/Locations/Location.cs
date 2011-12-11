@@ -1,9 +1,8 @@
-﻿using System;
-using Samba.Infrastructure.Data;
+﻿using Samba.Infrastructure.Data;
 
-namespace Samba.Domain.Models.Tables
+namespace Samba.Domain.Models.Locations
 {
-    public class Table : IEntity, IOrderable
+    public class Location : IEntity, IOrderable
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -24,7 +23,7 @@ namespace Samba.Domain.Models.Tables
             get { return Name + " [" + Category + "]"; }
         }
 
-        public Table()
+        public Location()
         {
             Height = 70;
             Width = 70;

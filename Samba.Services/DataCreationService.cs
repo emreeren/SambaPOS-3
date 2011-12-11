@@ -5,9 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Samba.Domain.Models.Actions;
+using Samba.Domain.Models.Locations;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
-using Samba.Domain.Models.Tables;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
 using Samba.Infrastructure.Data;
@@ -183,13 +183,13 @@ namespace Samba.Services
             _workspace.Add(rule);
 
             ImportMenus(screen);
-            ImportTables(department);
+            ImportLocations(department);
 
             _workspace.CommitChanges();
             _workspace.Dispose();
         }
 
-        private void ImportTables(Department department)
+        private void ImportLocations(Department department)
         {
             var fileName = string.Format("{0}/Imports/table{1}.txt", LocalSettings.AppPath, "_" + LocalSettings.CurrentLanguage);
 
@@ -199,18 +199,18 @@ namespace Samba.Services
             if (!File.Exists(fileName)) return;
 
             var lines = File.ReadAllLines(fileName);
-            var items = BatchCreateTables(lines, _workspace);
+            var items = BatchCreateLocations(lines, _workspace);
             _workspace.CommitChanges();
 
-            var screen = new TableScreen { Name = Resources.AllTables, ColumnCount = 8 };
+            var screen = new LocationScreen { Name = Resources.AllLocations, ColumnCount = 8 };
             _workspace.Add(screen);
 
-            foreach (var table in items)
-                screen.AddScreenItem(table);
+            foreach (var location in items)
+                screen.AddScreenItem(location);
 
             _workspace.CommitChanges();
 
-            department.PosTableScreens.Add(screen);
+            department.LocationScreens.Add(screen);
         }
 
         private void ImportMenus(ScreenMenu screenMenu)
@@ -236,9 +236,9 @@ namespace Samba.Services
             }
         }
 
-        public IEnumerable<Table> BatchCreateTables(string[] values, IWorkspace workspace)
+        public IEnumerable<Location> BatchCreateLocations(string[] values, IWorkspace workspace)
         {
-            IList<Table> result = new List<Table>();
+            IList<Location> result = new List<Location>();
             if (values.Length > 0)
             {
                 var currentCategory = Resources.Common;
@@ -250,15 +250,15 @@ namespace Samba.Services
                     }
                     else
                     {
-                        var tableName = value;
-                        var count = Dao.Count<Table>(y => y.Name == tableName.Trim());
+                        var locationName = value;
+                        var count = Dao.Count<Location>(y => y.Name == locationName.Trim());
                         if (count == 0)
                         {
-                            var table = new Table { Name = value.Trim(), Category = currentCategory };
-                            if (result.Count(x => x.Name.ToLower() == table.Name.ToLower()) == 0)
+                            var location = new Location { Name = value.Trim(), Category = currentCategory };
+                            if (result.Count(x => x.Name.ToLower() == location.Name.ToLower()) == 0)
                             {
-                                result.Add(table);
-                                workspace.Add(table);
+                                result.Add(location);
+                                workspace.Add(location);
                             }
                         }
                     }

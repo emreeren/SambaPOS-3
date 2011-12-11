@@ -1,34 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using Samba.Domain.Models.Tables;
+using Samba.Domain.Models.Locations;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common.ModelBase;
 
-namespace Samba.Modules.RestaurantModule
+namespace Samba.Modules.LocationModule
 {
-    public class TableEditorViewModel : EntityViewModelBase<Table>
+    public class LocationEditorViewModel : EntityViewModelBase<Location>
     {
-        public TableEditorViewModel(Table model)
+        public LocationEditorViewModel(Location model)
             : base(model)
         {
 
         }
 
         private IEnumerable<string> _categories;
-        public IEnumerable<string> Categories { get { return _categories ?? (_categories = Dao.Distinct<Table>(x => x.Category)); } }
+        public IEnumerable<string> Categories { get { return _categories ?? (_categories = Dao.Distinct<Location>(x => x.Category)); } }
 
         public string Category { get { return Model.Category; } set { Model.Category = value; } }
         public string GroupValue { get { return Model.Category; } }
 
         public override Type GetViewType()
         {
-            return typeof(TableEditorView);
+            return typeof(LocationEditorView);
         }
 
         public override string GetModelTypeString()
         {
-            return Resources.Table;
+            return Resources.Location;
         }
 
         protected override bool CanSave(string arg)
@@ -38,8 +38,8 @@ namespace Samba.Modules.RestaurantModule
 
         protected override string GetSaveErrorMessage()
         {
-            if (Dao.Single<Table>(x => x.Name.ToLower() == Model.Name.ToLower() && x.Id != Model.Id) != null)
-                return Resources.SaveErrorDuplicateTableName;
+            if (Dao.Single<Location>(x => x.Name.ToLower() == Model.Name.ToLower() && x.Id != Model.Id) != null)
+                return Resources.SaveErrorDuplicateLocationName;
             return base.GetSaveErrorMessage();
         }
     }

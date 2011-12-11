@@ -173,7 +173,7 @@ namespace Samba.Presentation.ViewModels
                         if (taxTemplate != null)
                         {
                             ticket.UpdateTax(taxTemplate);
-                            TicketViewModel.RecalculateTicket(ticket);
+                            TicketService.RecalculateTicket(ticket);
                             EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
                         }
                     }
@@ -191,7 +191,7 @@ namespace Samba.Presentation.ViewModels
                         {
                             var amount = x.Value.GetAsDecimal("Amount");
                             ticket.AddService(serviceTemplate.Id, serviceTemplate.CalculationMethod, amount);
-                            TicketViewModel.RecalculateTicket(ticket);
+                            TicketService.RecalculateTicket(ticket);
                         }
                     }
                 }
@@ -201,8 +201,8 @@ namespace Samba.Presentation.ViewModels
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
                     if (ticket != null)
                     {
-                        TicketViewModel.RegenerateTaxRates(ticket);
-                        TicketViewModel.RecalculateTicket(ticket);
+                        TicketService.RegenerateTaxRates(ticket);
+                        TicketService.RecalculateTicket(ticket);
                         EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
                     }
                 }
@@ -214,7 +214,7 @@ namespace Samba.Presentation.ViewModels
                     {
                         var percentValue = x.Value.GetAsDecimal("DiscountPercentage");
                         ticket.AddTicketDiscount(DiscountType.Percent, percentValue, AppServices.CurrentLoggedInUser.Id);
-                        TicketViewModel.RecalculateTicket(ticket);
+                        TicketService.RecalculateTicket(ticket);
                     }
                 }
 
@@ -236,7 +236,7 @@ namespace Samba.Presentation.ViewModels
                         ti.Quantity = quantity;
                         ti.Tag = tag;
 
-                        TicketViewModel.RecalculateTicket(ticket);
+                        TicketService.RecalculateTicket(ticket);
 
                         EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
                     }

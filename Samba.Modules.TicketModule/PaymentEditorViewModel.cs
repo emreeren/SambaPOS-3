@@ -408,11 +408,11 @@ namespace Samba.Modules.TicketModule
 
         public void RefreshValues()
         {
-            SelectedTicket.RecalculateTicket();
+            _ticketService.RecalculateTicket(SelectedTicket.Model);
             if (SelectedTicket.Model.GetRemainingAmount() < 0)
             {
                 SelectedTicket.Model.Discounts.Clear();
-                SelectedTicket.RecalculateTicket();
+                _ticketService.RecalculateTicket(SelectedTicket.Model);
                 InteractionService.UserIntraction.GiveFeedback(Resources.AllDiscountsRemoved);
             }
             if (GetPaymentValue() <= 0)

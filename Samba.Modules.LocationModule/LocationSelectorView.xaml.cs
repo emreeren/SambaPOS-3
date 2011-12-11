@@ -4,17 +4,17 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using Samba.Services;
 
-namespace Samba.Modules.RestaurantModule
+namespace Samba.Modules.LocationModule
 {
     /// <summary>
-    /// Interaction logic for TableSelectorView.xaml
+    /// Interaction logic for LocationSelectorView.xaml
     /// </summary>
 
     [Export]
-    public partial class TableSelectorView : UserControl
+    public partial class LocationSelectorView : UserControl
     {
         [ImportingConstructor]
-        public TableSelectorView(TableSelectorViewModel viewModel)
+        public LocationSelectorView(LocationSelectorViewModel viewModel)
         {
             InitializeComponent();
             DataContext = viewModel;
@@ -28,14 +28,14 @@ namespace Samba.Modules.RestaurantModule
                 brd.BorderBrush = Brushes.Red;
                 miDesignMode.IsChecked = true;
                 DiagramCanvas.EditingMode = InkCanvasEditingMode.Select;
-                (DataContext as TableSelectorViewModel).LoadTrackableTables();
+                (DataContext as LocationSelectorViewModel).LoadTrackableLocations();
             }
             else
             {
                 brd.BorderBrush = Brushes.Silver;
                 miDesignMode.IsChecked = false;
                 DiagramCanvas.EditingMode = InkCanvasEditingMode.None;
-                (DataContext as TableSelectorViewModel).SaveTrackableTables();
+                (DataContext as LocationSelectorViewModel).SaveTrackableLocations();
             }
         }
     }

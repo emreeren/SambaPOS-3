@@ -28,7 +28,7 @@ namespace Samba.Modules.TicketModule
         public DelegateCommand<ScreenMenuCategory> CategoryCommand { get; set; }
         public DelegateCommand<ScreenMenuItem> MenuItemCommand { get; set; }
         public DelegateCommand<string> TypeValueCommand { get; set; }
-        public DelegateCommand<string> FindTableCommand { get; set; }
+        public DelegateCommand<string> FindLocationCommand { get; set; }
         public DelegateCommand<string> FindMenuItemCommand { get; set; }
         public DelegateCommand<string> FindTicketCommand { get; set; }
         public ICaptionCommand IncPageNumberCommand { get; set; }
@@ -76,7 +76,7 @@ namespace Samba.Modules.TicketModule
             CategoryCommand = new DelegateCommand<ScreenMenuCategory>(OnCategoryCommandExecute);
             MenuItemCommand = new DelegateCommand<ScreenMenuItem>(OnMenuItemCommandExecute);
             TypeValueCommand = new DelegateCommand<string>(OnTypeValueExecute);
-            FindTableCommand = new DelegateCommand<string>(OnFindTableExecute, CanFindTable);
+            FindLocationCommand = new DelegateCommand<string>(OnFindLocationExecute, CanFindLocation);
             FindMenuItemCommand = new DelegateCommand<string>(OnFindMenuItemCommand);
             FindTicketCommand = new DelegateCommand<string>(OnFindTicketExecute, CanFindTicket);
             IncPageNumberCommand = new CaptionCommand<string>(Localization.Properties.Resources.NextPage + " >>", OnIncPageNumber, CanIncPageNumber);
@@ -215,12 +215,12 @@ namespace Samba.Modules.TicketModule
             }
         }
 
-        private bool CanFindTable(string arg)
+        private bool CanFindLocation(string arg)
         {
             return _ticketService.CurrentTicket == null;
         }
 
-        private void OnFindTableExecute(string obj)
+        private void OnFindLocationExecute(string obj)
         {
             if (_ticketService.CurrentTicket == null)
             {

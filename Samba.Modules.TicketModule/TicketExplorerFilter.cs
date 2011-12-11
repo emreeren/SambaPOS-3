@@ -22,7 +22,7 @@ namespace Samba.Modules.TicketModule
             FilterValues = new List<string>();
         }
 
-        private readonly string[] _filterTypes = { Resources.OnlyOpenTickets, Resources.AllTickets, Resources.Account, Resources.Table };
+        private readonly string[] _filterTypes = { Resources.OnlyOpenTickets, Resources.AllTickets, Resources.Account, Resources.Location};
         public int FilterTypeIndex
         {
             get { return (int)FilterType; }

@@ -15,6 +15,7 @@ using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure;
+using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common;
@@ -44,7 +45,7 @@ namespace Samba.Modules.TicketModule
         public CaptionCommand<string> MakeCashPaymentCommand { get; set; }
         public CaptionCommand<string> MakeCreditCardPaymentCommand { get; set; }
         public CaptionCommand<string> MakeTicketPaymentCommand { get; set; }
-        public CaptionCommand<string> SelectTableCommand { get; set; }
+        public CaptionCommand<string> SelectLocationCommand { get; set; }
         public CaptionCommand<string> SelectAccountCommand { get; set; }
         public CaptionCommand<string> PrintTicketCommand { get; set; }
         public CaptionCommand<string> PrintInvoiceCommand { get; set; }
@@ -160,17 +161,17 @@ namespace Samba.Modules.TicketModule
         public bool IsTicketServiceVisible { get { return SelectedTicket != null && SelectedTicket.IsTicketServiceVisible; } }
         public bool IsPlainTotalVisible { get { return IsTicketDiscountVisible || IsTicketTaxTotalVisible || IsTicketRoundingVisible || IsTicketServiceVisible; } }
 
-        public bool IsTableButtonVisible
+        public bool IsLocationButtonVisible
         {
             get
             {
                 return true;
-                //((AppServices.MainDataContext.TableCount > 0 ||
+                //((AppServices.MainDataContext.LocationCount > 0 ||
                 //    (AppServices.MainDataContext.SelectedDepartment != null
                 //    && AppServices.MainDataContext.SelectedDepartment.IsAlaCarte))
                 //    && IsNothingSelected) &&
                 //    ((AppServices.MainDataContext.SelectedDepartment != null &&
-                //    AppServices.MainDataContext.SelectedDepartment.PosTableScreens.Count > 0));
+                //    AppServices.MainDataContext.SelectedDepartment.LocationScreens.Count > 0));
             }
         }
 
@@ -205,7 +206,7 @@ namespace Samba.Modules.TicketModule
                     ? _departmentService.CurrentDepartment.TicketTemplate.TicketTagGroups
                     .Where(x => x.ActiveOnPosClient)
                     .OrderBy(x => x.Order)
-                    .Select(x => new TicketTagButton(x, SelectedTicket))
+                    .Select(x => new TicketTagButton(x, SelectedTicket.Model))
                     : null;
             }
         }
@@ -241,7 +242,7 @@ namespace Samba.Modules.TicketModule
             MakeCashPaymentCommand = new CaptionCommand<string>(Resources.CashPayment_r, OnMakeCashPaymentExecute, CanMakeFastPayment);
             MakeCreditCardPaymentCommand = new CaptionCommand<string>(Resources.CreditCard_r, OnMakeCreditCardPaymentExecute, CanMakeFastPayment);
             MakeTicketPaymentCommand = new CaptionCommand<string>(Resources.Voucher_r, OnMakeTicketPaymentExecute, CanMakeFastPayment);
-            SelectTableCommand = new CaptionCommand<string>(Resources.SelectTable, OnSelectTableExecute, CanSelectTable);
+            SelectLocationCommand = new CaptionCommand<string>(Resources.SelectLocation, OnSelectLocationExecute, CanSelectLocation);
             SelectAccountCommand = new CaptionCommand<string>(Resources.SelectAccount, OnSelectAccountExecute, CanSelectAccount);
             ShowAllOpenTickets = new CaptionCommand<string>(Resources.AllTickets_r, OnShowAllOpenTickets);
 
@@ -281,7 +282,7 @@ namespace Samba.Modules.TicketModule
                 RaisePropertyChanged(() => IsItemsSelected);
                 RaisePropertyChanged(() => IsNothingSelected);
                 RaisePropertyChanged(() => IsNothingSelectedAndTicketLocked);
-                RaisePropertyChanged(() => IsTableButtonVisible);
+                RaisePropertyChanged(() => IsLocationButtonVisible);
                 RaisePropertyChanged(() => IsAccountButtonVisible);
                 RaisePropertyChanged(() => IsItemsSelectedAndUnlocked);
                 RaisePropertyChanged(() => IsItemsSelectedAndLocked);
@@ -443,11 +444,11 @@ namespace Samba.Modules.TicketModule
 
                     if (!string.IsNullOrEmpty(oldLocationName) || ticketsMerged)
                         if (ticketsMerged && !string.IsNullOrEmpty(oldLocationName))
-                            InteractionService.UserIntraction.GiveFeedback(string.Format(Resources.TablesMerged_f, oldLocationName, obj.Value.Caption));
+                            InteractionService.UserIntraction.GiveFeedback(string.Format(Resources.LocationsMerged_f, oldLocationName, obj.Value.Caption));
                         else if (ticketsMerged)
-                            InteractionService.UserIntraction.GiveFeedback(string.Format(Resources.TicketMergedToTable_f, obj.Value.Caption));
+                            InteractionService.UserIntraction.GiveFeedback(string.Format(Resources.TicketMergedToLocation_f, obj.Value.Caption));
                         else if (oldLocationName != obj.Value.LocationName)
-                            InteractionService.UserIntraction.GiveFeedback(string.Format(Resources.TicketMovedToTable_f, oldLocationName, obj.Value.Caption));
+                            InteractionService.UserIntraction.GiveFeedback(string.Format(Resources.TicketMovedToLocation_f, oldLocationName, obj.Value.Caption));
                 }
                 else
                 {
@@ -463,7 +464,7 @@ namespace Samba.Modules.TicketModule
                         {
                             // adisyon masasý ile týklanan masa ayný deðil.
                             if (SelectedTicket.Location != obj.Value.LocationName)
-                                AppServices.MainDataContext.ResetTableDataForSelectedTicket();
+                                AppServices.MainDataContext.ResetLocationDataForSelectedTicket();
                         }
                     }
                     EventServiceFactory.EventService.PublishEvent(EventTopicNames.DisplayTicketView);
@@ -685,7 +686,11 @@ namespace Samba.Modules.TicketModule
 
         private void OnCancelItemCommand(string obj)
         {
-            _selectedTicket.CancelSelectedItems();
+            SelectedTicket.SelectedOrders.ToList().ForEach(x => SelectedTicket.Model.CancelOrder(x.Model));
+            SelectedTicket.Orders.Clear();
+            SelectedTicket.Orders.AddRange(SelectedTicket.Model.Orders.Select(x => new OrderViewModel(x, SelectedDepartment.TicketTemplate)));
+            SelectedTicket.ClearSelectedItems();
+            _ticketService.RecalculateTicket(SelectedTicket.Model);
             RefreshSelectedTicket();
         }
 
@@ -730,25 +735,25 @@ namespace Samba.Modules.TicketModule
                 && SelectedTicket.Model.CanSubmit));
         }
 
-        private bool CanSelectTable(string arg)
+        private bool CanSelectLocation(string arg)
         {
             if (SelectedTicket != null && !SelectedTicket.IsLocked)
-                return SelectedTicket.CanChangeTable();
+                return SelectedTicket.CanChangeLocation();
             return SelectedTicket == null;
         }
 
-        private void OnSelectTableExecute(string obj)
+        private void OnSelectLocationExecute(string obj)
         {
-            SelectedDepartment.PublishEvent(EventTopicNames.SelectTable);
+            SelectedDepartment.PublishEvent(EventTopicNames.SelectLocation);
         }
 
-        public string SelectTableButtonCaption
+        public string SelectLocationButtonCaption
         {
             get
             {
                 if (SelectedTicket != null && !string.IsNullOrEmpty(SelectedTicket.Location))
-                    return Resources.ChangeTable_r;
-                return Resources.SelectTable_r;
+                    return Resources.ChangeLocation_r;
+                return Resources.SelectLocation_r;
             }
         }
 
@@ -812,9 +817,9 @@ namespace Samba.Modules.TicketModule
         {
             if (SelectedDepartment != null)
             {
-                if (SelectedDepartment.IsAlaCarte && SelectedDepartment.PosTableScreens.Count > 0)
+                if (SelectedDepartment.IsAlaCarte && SelectedDepartment.LocationScreens.Count > 0)
                 {
-                    SelectedDepartment.PublishEvent(EventTopicNames.SelectTable);
+                    SelectedDepartment.PublishEvent(EventTopicNames.SelectLocation);
                     StopTimer();
                     RefreshVisuals();
                     return;
@@ -966,12 +971,12 @@ namespace Samba.Modules.TicketModule
             RaisePropertyChanged(() => IsPlainTotalVisible);
             RaisePropertyChanged(() => IsFastPaymentButtonsVisible);
             RaisePropertyChanged(() => IsCloseButtonVisible);
-            RaisePropertyChanged(() => SelectTableButtonCaption);
+            RaisePropertyChanged(() => SelectLocationButtonCaption);
             RaisePropertyChanged(() => SelectAccountButtonCaption);
             RaisePropertyChanged(() => OpenTicketListViewColumnCount);
             RaisePropertyChanged(() => IsDepartmentSelectorVisible);
             RaisePropertyChanged(() => TicketBackground);
-            RaisePropertyChanged(() => IsTableButtonVisible);
+            RaisePropertyChanged(() => IsLocationButtonVisible);
             RaisePropertyChanged(() => IsAccountButtonVisible);
             RaisePropertyChanged(() => IsNothingSelectedAndTicketLocked);
             RaisePropertyChanged(() => IsNothingSelectedAndTicketTagged);
@@ -995,7 +1000,7 @@ namespace Samba.Modules.TicketModule
 
             if (SelectedTicket.IsLocked && !AppServices.IsUserPermittedFor(PermissionNames.AddItemsToLockedTickets)) return;
 
-            var ti = SelectedTicket.AddNewItem(obj.ScreenMenuItem.MenuItemId, obj.Quantity, obj.ScreenMenuItem.ItemPortion, obj.ScreenMenuItem.OrderTagTemplate);
+            var ti = AddNewItem(obj.ScreenMenuItem.MenuItemId, obj.Quantity, obj.ScreenMenuItem.ItemPortion, obj.ScreenMenuItem.OrderTagTemplate);
 
             if (obj.ScreenMenuItem.AutoSelect && ti != null)
             {
@@ -1003,6 +1008,33 @@ namespace Samba.Modules.TicketModule
             }
 
             RefreshSelectedTicket();
+        }
+
+
+        public OrderViewModel AddNewItem(int menuItemId, decimal quantity, string portionName, OrderTagTemplate template)
+        {
+            if (!SelectedTicket.Model.CanSubmit) return null;
+            SelectedTicket.ClearSelectedItems();
+            var menuItem = AppServices.DataAccessService.GetMenuItem(menuItemId);
+            if (menuItem.Portions.Count == 0) return null;
+
+            var portion = menuItem.Portions[0];
+
+            if (!string.IsNullOrEmpty(portionName) && menuItem.Portions.Count(x => x.Name == portionName) > 0)
+            {
+                portion = menuItem.Portions.First(x => x.Name == portionName);
+            }
+
+            var ti = SelectedTicket.Model.AddOrder(AppServices.CurrentLoggedInUser.Id, menuItem, portion.Name, SelectedDepartment.TicketTemplate.PriceTag);
+            ti.Quantity = quantity > 9 ? decimal.Round(quantity / portion.Multiplier, LocalSettings.Decimals) : quantity;
+
+            if (template != null) template.OrderTagTemplateValues.ToList().ForEach(x => ti.ToggleOrderTag(x.OrderTagGroup, x.OrderTag, 0));
+
+            var orderViewModel = new OrderViewModel(ti, SelectedDepartment.TicketTemplate);
+            SelectedTicket.Orders.Add(orderViewModel);
+            _ticketService.RecalculateTicket(SelectedTicket.Model);
+            orderViewModel.PublishEvent(EventTopicNames.OrderAdded);
+            return orderViewModel;
         }
 
         private void RefreshSelectedTicket()

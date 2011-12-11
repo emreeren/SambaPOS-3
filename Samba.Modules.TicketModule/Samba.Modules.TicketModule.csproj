@@ -132,6 +132,7 @@
       <DependentUpon>TicketEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TicketEditorViewModel.cs" />
+    <Compile Include="TicketTagButton.cs" />
     <Compile Include="TicketTagGroupListViewModel.cs" />
     <Compile Include="TicketTagGroupView.xaml.cs">
       <DependentUpon>TicketTagGroupView.xaml</DependentUpon>
@@ -142,6 +143,7 @@
       <DependentUpon>TicketTemplateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TicketTemplateViewModel.cs" />
+    <Compile Include="TicketViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="MenuItemSelectorView.xaml">

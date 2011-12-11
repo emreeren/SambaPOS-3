@@ -9,7 +9,7 @@ namespace Samba.Services
         public static string OpenDashboard = "OpenDashboard";
         public static string OpenWorkPeriods = "OpenWorkPeriods";
         public static string OpenReports = "OpenReports";
-        public static string OpenTables = "OpenTables";
+        public static string OpenLocations = "OpenLocation";
         public static string UseDepartment = "UseDepartment_";
         public static string ChangeDepartment = "ChangeDepartment";
         public static string AddItemsToLockedTickets = "AddItemsToLockedTickets";
@@ -23,7 +23,7 @@ namespace Samba.Services
         public static string MakeDiscount = "MakeDiscount";
         public static string RoundPayment = "RoundPayment";
         public static string FixPayment = "FixPayment";
-        public static string ChangeTable = "ChangeTable";
+        public static string ChangeLocation = "ChangeLocation";
         public static string NavigateCashView = "NavigateCashView";
         public static string ChangeItemPrice = "ChangeItemPrice";
         public static string RemoveTicketTag = "RemoveTicketTag";
