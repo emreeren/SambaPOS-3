@@ -74,6 +74,7 @@
       <DependentUpon>RecipeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="RecipeViewModel.cs" />
+    <Compile Include="ServiceImplementations\InventoryService.cs" />
     <Compile Include="TransactionItemViewModel.cs" />
     <Compile Include="TransactionListViewModel.cs" />
     <Compile Include="TransactionView.xaml.cs">

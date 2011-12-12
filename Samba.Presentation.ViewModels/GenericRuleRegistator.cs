@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Windows.Media;
+using Microsoft.Practices.ServiceLocation;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
@@ -19,6 +20,12 @@ namespace Samba.Presentation.ViewModels
 {
     public static class GenericRuleRegistator
     {
+        private static readonly IDepartmentService DepartmentService =
+            ServiceLocator.Current.GetInstance(typeof(IDepartmentService)) as IDepartmentService;
+
+        private static readonly ITicketService TicketService =
+            ServiceLocator.Current.GetInstance(typeof(ITicketService)) as ITicketService;
+
         private static bool _registered;
         public static void RegisterOnce()
         {
@@ -70,7 +77,7 @@ namespace Samba.Presentation.ViewModels
         private static void RegisterParameterSources()
         {
             RuleActionTypeRegistry.RegisterParameterSoruce("UserName", () => AppServices.MainDataContext.Users.Select(x => x.Name));
-            RuleActionTypeRegistry.RegisterParameterSoruce("DepartmentName", () => AppServices.MainDataContext.Departments.Select(x => x.Name));
+            RuleActionTypeRegistry.RegisterParameterSoruce("DepartmentName", () => DepartmentService.GetDepartmentNames());
             RuleActionTypeRegistry.RegisterParameterSoruce("TerminalName", () => AppServices.Terminals.Select(x => x.Name));
             RuleActionTypeRegistry.RegisterParameterSoruce("TriggerName", () => Dao.Select<Trigger, string>(yz => yz.Name, y => !string.IsNullOrEmpty(y.Expression)));
             RuleActionTypeRegistry.RegisterParameterSoruce("MenuItemName", () => Dao.Select<MenuItem, string>(yz => yz.Name, y => y.Id > 0));
@@ -86,7 +93,7 @@ namespace Samba.Presentation.ViewModels
         {
             TriggerService.UpdateCronObjects();
             AppServices.ResetCache();
-            AppServices.MainDataContext.SelectedDepartment.PublishEvent(EventTopicNames.SelectedDepartmentChanged);
+            DepartmentService.CurrentDepartment.PublishEvent(EventTopicNames.SelectedDepartmentChanged);
         }
 
         private static void HandleEvents()
@@ -116,9 +123,9 @@ namespace Samba.Presentation.ViewModels
                     {
                         var account = Dao.Query(qFilter).FirstOrDefault();
                         if (account != null)
-                            AppServices.MainDataContext.AssignAccountToSelectedTicket(account);
+                            TicketService.UpdateAccount(TicketService.CurrentTicket, account);
                     }
-                    else AppServices.MainDataContext.AssignAccountToSelectedTicket(Account.Null);
+                    else TicketService.UpdateAccount(TicketService.CurrentTicket, Account.Null);
                 }
 
                 if (x.Value.Action.ActionType == "UpdateProgramSetting")
@@ -166,7 +173,7 @@ namespace Samba.Presentation.ViewModels
                         if (taxTemplate != null)
                         {
                             ticket.UpdateTax(taxTemplate);
-                            TicketViewModel.RecalculateTicket(ticket);
+                            TicketService.RecalculateTicket(ticket);
                             EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
                         }
                     }
@@ -184,7 +191,7 @@ namespace Samba.Presentation.ViewModels
                         {
                             var amount = x.Value.GetAsDecimal("Amount");
                             ticket.AddService(serviceTemplate.Id, serviceTemplate.CalculationMethod, amount);
-                            TicketViewModel.RecalculateTicket(ticket);
+                            TicketService.RecalculateTicket(ticket);
                         }
                     }
                 }
@@ -194,8 +201,8 @@ namespace Samba.Presentation.ViewModels
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
                     if (ticket != null)
                     {
-                        TicketViewModel.RegenerateTaxRates(ticket);
-                        TicketViewModel.RecalculateTicket(ticket);
+                        TicketService.RegenerateTaxRates(ticket);
+                        TicketService.RecalculateTicket(ticket);
                         EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
                     }
                 }
@@ -207,7 +214,7 @@ namespace Samba.Presentation.ViewModels
                     {
                         var percentValue = x.Value.GetAsDecimal("DiscountPercentage");
                         ticket.AddTicketDiscount(DiscountType.Percent, percentValue, AppServices.CurrentLoggedInUser.Id);
-                        TicketViewModel.RecalculateTicket(ticket);
+                        TicketService.RecalculateTicket(ticket);
                     }
                 }
 
@@ -224,12 +231,12 @@ namespace Samba.Presentation.ViewModels
                         var tag = x.Value.GetAsString("Tag");
 
                         var ti = ticket.AddOrder(AppServices.CurrentLoggedInUser.Id, menuItem, portionName,
-                                 AppServices.MainDataContext.SelectedDepartment.PriceTag);
+                                 DepartmentService.CurrentDepartment.TicketTemplate.PriceTag);
 
                         ti.Quantity = quantity;
                         ti.Tag = tag;
 
-                        TicketViewModel.RecalculateTicket(ticket);
+                        TicketService.RecalculateTicket(ticket);
 
                         EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
                     }
@@ -254,7 +261,7 @@ namespace Samba.Presentation.ViewModels
                     if (order != null)
                     {
                         var tagName = x.Value.GetAsString("OrderTagName");
-                        var orderTag = AppServices.MainDataContext.SelectedDepartment.TicketTemplate.OrderTagGroups.SingleOrDefault(y => y.Name == tagName);
+                        var orderTag = DepartmentService.CurrentDepartment.TicketTemplate.OrderTagGroups.SingleOrDefault(y => y.Name == tagName);
                         if (x.Value.Action.ActionType == "RemoveOrderTag")
                         {
                             var tags = order.OrderTagValues.Where(y => y.OrderTagGroupId == orderTag.Id);
@@ -285,7 +292,7 @@ namespace Samba.Presentation.ViewModels
                         var department = workspace.Single<Department>(y => y.Name == departmentName);
                         if (department != null)
                         {
-                            department.PriceTag = priceTag;
+                            department.TicketTemplate.PriceTag = priceTag;
                             workspace.CommitChanges();
                             MethodQueue.Queue("ResetCache", ResetCache);
                         }

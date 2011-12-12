@@ -222,13 +222,13 @@
       <Project>{E93B6838-9B18-4718-AB7B-2EA5232518C3}</Project>
       <Name>Samba.Modules.InventoryModule</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.LocationModule\Samba.Modules.LocationModule.csproj">
+      <Project>{943FE6E9-58E2-499C-8B61-0FD8CE9F42F8}</Project>
+      <Name>Samba.Modules.LocationModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samba.Modules.NavigationModule\Samba.Modules.NavigationModule.csproj">
       <Project>{9497C48E-B9B5-4869-820E-09ECE4347632}</Project>
       <Name>Samba.Modules.NavigationModule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Samba.Modules.RestaurantModule\Samba.Modules.RestaurantModule.csproj">
-      <Project>{56B13A56-FDC9-45A5-94FC-10F8AADD86F5}</Project>
-      <Name>Samba.Modules.RestaurantModule</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Modules.UserModule\Samba.Modules.UserModule.csproj">
       <Project>{1AE61C89-EBFD-498D-9F53-6319B302CDBF}</Project>
@@ -265,6 +265,10 @@
     <ProjectReference Include="..\Samba.Modules.TicketModule\Samba.Modules.TicketModule.csproj">
       <Project>{9E6FF3D9-BAE7-4E48-B144-0859BE28C570}</Project>
       <Name>Samba.Modules.TicketModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.WorkperiodModule\Samba.Modules.WorkperiodModule.csproj">
+      <Project>{19D333D1-D336-41C3-9B1E-55E760E6B026}</Project>
+      <Name>Samba.Modules.WorkperiodModule</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Persistance.DBMigration\Samba.Persistance.DBMigration.csproj">
       <Project>{3AED3A4C-F3D7-4D29-BF58-85743E4F7AFD}</Project>

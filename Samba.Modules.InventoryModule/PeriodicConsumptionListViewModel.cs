@@ -2,6 +2,7 @@
 using System.Linq;
 using Samba.Domain.Models.Inventories;
 using Samba.Localization.Properties;
+using Samba.Modules.InventoryModule.ServiceImplementations;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Services;
@@ -29,13 +30,13 @@ namespace Samba.Modules.InventoryModule
 
         protected override bool CanAddItem(object obj)
         {
-            return AppServices.MainDataContext.CurrentWorkPeriod != null;
+            return WorkPeriodService.CurrentWorkPeriod != null;
         }
 
         protected override string CanDeleteItem(PeriodicConsumption model)
         {
-            if (model.WorkPeriodId != AppServices.MainDataContext.CurrentWorkPeriod.Id
-                || !AppServices.MainDataContext.IsCurrentWorkPeriodOpen)
+            if (model.WorkPeriodId != WorkPeriodService.CurrentWorkPeriod.Id
+                || !WorkPeriodService.IsCurrentWorkPeriodOpen)
                 return Resources.CantDeletePastEndOfDayRecords;
             return base.CanDeleteItem(model);
         }

@@ -38,6 +38,7 @@
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\Lib\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -66,13 +67,10 @@
     <Compile Include="ScreenCategoryButton.cs" />
     <Compile Include="ScreenMenuItemButton.cs" />
     <Compile Include="ScreenSubCategoryButton.cs" />
-    <Compile Include="TableScreenItemViewModel.cs" />
     <Compile Include="OrderTagValueViewModel.cs" />
     <Compile Include="OrderViewModel.cs" />
-    <Compile Include="TicketTagButton.cs" />
     <Compile Include="TicketTagData.cs" />
     <Compile Include="TicketTagViewModel.cs" />
-    <Compile Include="TicketViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">

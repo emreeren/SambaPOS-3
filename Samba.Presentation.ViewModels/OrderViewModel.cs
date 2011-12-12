@@ -14,11 +14,14 @@ namespace Samba.Presentation.ViewModels
 {
     public class OrderViewModel : ObservableObject
     {
+        private TicketTemplate _ticketTemplate;
+
         public bool IsSelectedQuantityModified { get; set; }
 
-        public OrderViewModel(Order model)
+        public OrderViewModel(Order model,TicketTemplate ticketTemplate)
         {
             _model = model;
+            _ticketTemplate = ticketTemplate;
             ResetSelectedQuantity();
             ItemSelectedCommand = new DelegateCommand<OrderViewModel>(OnItemSelected);
             UpdateItemColor();
@@ -290,7 +293,7 @@ namespace Samba.Presentation.ViewModels
 
         public void UpdatePrice(decimal value)
         {
-            Model.UpdatePrice(value, AppServices.MainDataContext.SelectedDepartment.PriceTag);
+            Model.UpdatePrice(value, _ticketTemplate.PriceTag);
             RaisePropertyChanged(() => Price);
             RaisePropertyChanged(() => TotalPrice);
         }

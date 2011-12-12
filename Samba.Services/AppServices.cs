@@ -20,7 +20,7 @@ namespace Samba.Services
         SingleTicket,
         TicketList,
         Payment,
-        TableList,
+        LocationList,
         AccountList,
         WorkPeriods,
         Dashboard,
@@ -66,12 +66,6 @@ namespace Samba.Services
             get { return _messagingService ?? (_messagingService = new MessagingService()); }
         }
 
-        private static CashService _cashService;
-        public static CashService CashService
-        {
-            get { return _cashService ?? (_cashService = new CashService()); }
-        }
-
         private static SettingService _settingService;
         public static SettingService SettingService
         {
@@ -93,7 +87,8 @@ namespace Samba.Services
 
         public static bool CanNavigate()
         {
-            return MainDataContext.SelectedTicket == null;
+            return true;
+            //return TicketService.CurrentTicket == null;
         }
 
         public static bool CanStartApplication()

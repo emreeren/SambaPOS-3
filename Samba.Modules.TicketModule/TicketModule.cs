@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.Linq;
 using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
@@ -20,20 +19,23 @@ namespace Samba.Modules.TicketModule
     {
         readonly IRegionManager _regionManager;
         private readonly TicketEditorView _ticketEditorView;
+        private readonly IWorkPeriodService _workPeriodService;
 
         [ImportingConstructor]
-        public TicketModule(IRegionManager regionManager, TicketEditorView ticketEditorView)
+        public TicketModule(IRegionManager regionManager, TicketEditorView ticketEditorView,IWorkPeriodService workPeriodService)
             : base(regionManager, AppScreens.TicketList)
         {
-            SetNavigationCommand("POS", Resources.Common, "Images/Network.png");
+
+            SetNavigationCommand("POS", Resources.Common, "Images/Network.png", 10);
 
             _regionManager = regionManager;
             _ticketEditorView = ticketEditorView;
+            _workPeriodService = workPeriodService;
 
-            AddDashboardCommand<TicketTemplateListViewModel>(Resources.TicketTemplates, Resources.Tickets,10);
-            AddDashboardCommand<TicketTagGroupListViewModel>(Resources.TicketTags, Resources.Tickets,10);
-            AddDashboardCommand<OrderTagGroupListViewModel>(Resources.OrderTags, Resources.Tickets,10);
-            AddDashboardCommand<OrderTagTemplateListViewModel>(Resources.OrderTagTemplates, Resources.Tickets,10);
+            AddDashboardCommand<TicketTemplateListViewModel>(Resources.TicketTemplates, Resources.Tickets, 10);
+            AddDashboardCommand<TicketTagGroupListViewModel>(Resources.TicketTags, Resources.Tickets, 10);
+            AddDashboardCommand<OrderTagGroupListViewModel>(Resources.OrderTags, Resources.Tickets, 10);
+            AddDashboardCommand<OrderTagTemplateListViewModel>(Resources.OrderTagTemplates, Resources.Tickets, 10);
             AddDashboardCommand<ServiceTemplateListViewModel>(Resources.ServiceTemplates, Resources.Products);
 
             PermissionRegistry.RegisterPermission(PermissionNames.AddItemsToLockedTickets, PermissionCategories.Ticket, Resources.CanReleaseTicketLock);
@@ -80,7 +82,7 @@ namespace Samba.Modules.TicketModule
                             using (var vr = WorkspaceFactory.CreateReadOnly())
                             {
                                 AppServices.ResetCache();
-                                var endDate = AppServices.MainDataContext.LastTwoWorkPeriods.Last().EndDate;
+                                var endDate = workPeriodService.LastTwoWorkPeriods.Last().EndDate;
                                 var startDate = endDate.AddDays(-7);
                                 vr.Queryable<Order>()
                                     .Where(y => y.CreatedDateTime >= startDate && y.CreatedDateTime < endDate)
@@ -93,12 +95,11 @@ namespace Samba.Modules.TicketModule
                     }
                 }
             });
-
         }
 
         protected override bool CanNavigate(string arg)
         {
-            return AppServices.MainDataContext.IsCurrentWorkPeriodOpen;
+            return _workPeriodService.IsCurrentWorkPeriodOpen;
         }
 
         protected override void OnNavigate(string obj)
@@ -115,7 +116,6 @@ namespace Samba.Modules.TicketModule
         protected override void OnInitialization()
         {
             _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(TicketEditorView));
-            _regionManager.RegisterViewWithRegion(RegionNames.UserRegion, typeof(DepartmentButtonView));
         }
     }
 }

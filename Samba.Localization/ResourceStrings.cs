@@ -9,7 +9,7 @@ namespace Samba.Localization
     {
         public const string OrderTagTemplate = "OrderTagTemplate";
         public const string SubMenuTags = "SubMenuTags";
-        public const string Table = "Table";
+        public const string Location = "Location";
         public const string MaxItems = "MaxItems";
         public const string SortType = "SortType";
         public const string Portion = "Portion";

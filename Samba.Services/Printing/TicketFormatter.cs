@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Practices.ServiceLocation;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
@@ -89,6 +90,9 @@ namespace Samba.Services.Printing
 
     public static class TicketFormatter
     {
+        private static readonly IDepartmentService DepartmentService =
+            ServiceLocator.Current.GetInstance(typeof(IDepartmentService)) as IDepartmentService;
+
         public static string[] GetFormattedTicket(Ticket ticket, IEnumerable<Order> lines, PrinterTemplate template)
         {
             if (template.MergeLines) lines = MergeLines(lines);
@@ -187,9 +191,9 @@ namespace Samba.Services.Printing
             if (string.IsNullOrEmpty(ticket.LocationName))
                 title = userName;
 
-            result = FormatData(result, Resources.TF_TableOrUserName, () => title);
+            result = FormatData(result, Resources.TF_LocationOrUserName, () => title);
             result = FormatData(result, Resources.TF_UserName, () => userName);
-            result = FormatData(result, Resources.TF_TableName, () => ticket.LocationName);
+            result = FormatData(result, Resources.TF_LocationName, () => ticket.LocationName);
             result = FormatData(result, Resources.TF_TicketNote, () => ticket.Note);
             result = FormatData(result, Resources.TF_AccountName, () => ticket.AccountName);
 
@@ -236,7 +240,7 @@ namespace Samba.Services.Printing
 
         private static string GetDepartmentName(int departmentId)
         {
-            var dep = AppServices.MainDataContext.Departments.SingleOrDefault(x => x.Id == departmentId);
+            var dep = DepartmentService.GetDepartment(departmentId);
             return dep != null ? dep.Name : Resources.UndefinedWithBrackets;
         }
 

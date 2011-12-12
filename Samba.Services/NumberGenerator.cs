@@ -5,7 +5,7 @@ using Samba.Persistance.Data;
 
 namespace Samba.Services
 {
-    internal static class NumberGenerator
+    public static class NumberGenerator
     {
         public static int GetNextNumber(int numeratorId)
         {

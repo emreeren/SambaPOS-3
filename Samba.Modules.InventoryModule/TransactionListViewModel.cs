@@ -22,7 +22,7 @@ namespace Samba.Modules.InventoryModule
 
         protected override bool CanAddItem(object obj)
         {
-            return AppServices.MainDataContext.CurrentWorkPeriod != null;
+            return WorkPeriodService.CurrentWorkPeriod != null;
         }
     }
 }

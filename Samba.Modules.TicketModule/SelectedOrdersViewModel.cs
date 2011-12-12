@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
@@ -17,14 +18,20 @@ using Samba.Services;
 
 namespace Samba.Modules.TicketModule
 {
+    [Export]
     public class SelectedOrdersViewModel : ObservableObject
     {
         private bool _showExtraPropertyEditor;
         private bool _showTicketNoteEditor;
         private bool _showFreeTagEditor;
+        private readonly IDepartmentService _departmentService;
+        private readonly ITicketService _ticketService;
 
-        public SelectedOrdersViewModel()
+        [ImportingConstructor]
+        public SelectedOrdersViewModel(IDepartmentService departmentService, ITicketService ticketService)
         {
+            _departmentService = departmentService;
+            _ticketService = ticketService;
             CloseCommand = new CaptionCommand<string>(Resources.Close, OnCloseCommandExecuted);
             SelectTicketTagCommand = new DelegateCommand<TicketTag>(OnTicketTagSelected);
             PortionSelectedCommand = new DelegateCommand<MenuItemPortion>(OnPortionSelected);
@@ -69,14 +76,19 @@ namespace Samba.Modules.TicketModule
                 }
                 else
                 {
-                    ticketTags = AppServices.MainDataContext.SelectedDepartment.TicketTemplate.TicketTagGroups.Where(
+                    ticketTags = _departmentService.CurrentDepartment.TicketTemplate.TicketTagGroups.Where(
                            x => x.Name == obj.Value.LastSelectedTicketTag.Name).SelectMany(x => x.TicketTags).ToList();
                 }
                 ticketTags.Sort(new AlphanumComparator());
                 TicketTags.AddRange(ticketTags);
 
                 if (SelectedTicket.IsTaggedWith(SelectedTicket.LastSelectedTicketTag.Name)) TicketTags.Add(TicketTag.Empty);
-                if (TicketTags.Count == 1 && !_showFreeTagEditor) obj.Value.UpdateTag(SelectedTicket.LastSelectedTicketTag, TicketTags[0]);
+                if (TicketTags.Count == 1 && !_showFreeTagEditor)
+                {
+                    _ticketService.UpdateTag(obj.Value.Model, SelectedTicket.LastSelectedTicketTag, TicketTags[0]);
+                    SelectedTicket.ClearSelectedItems();
+                }
+
                 RaisePropertyChanged(() => TagColumnCount);
                 RaisePropertyChanged(() => IsFreeTagEditorVisible);
                 RaisePropertyChanged(() => FilteredTextBoxType);
@@ -150,6 +162,7 @@ namespace Samba.Modules.TicketModule
         }
 
         private string _freeTag;
+
         public string FreeTag
         {
             get { return _freeTag; }
@@ -192,7 +205,7 @@ namespace Samba.Modules.TicketModule
 
         private void OnUpdateFreeTag(string obj)
         {
-            var cachedTag = AppServices.MainDataContext.SelectedDepartment.TicketTemplate.TicketTagGroups.Single(
+            var cachedTag = _departmentService.CurrentDepartment.TicketTemplate.TicketTagGroups.Single(
                 x => x.Id == SelectedTicket.LastSelectedTicketTag.Id);
             Debug.Assert(cachedTag != null);
             var ctag = cachedTag.TicketTags.SingleOrDefault(x => x.Name.ToLower() == FreeTag.ToLower());
@@ -212,7 +225,8 @@ namespace Samba.Modules.TicketModule
                     }
                 }
             }
-            SelectedTicket.UpdateTag(SelectedTicket.LastSelectedTicketTag, new TicketTag { Name = FreeTag });
+            _ticketService.UpdateTag(SelectedTicket.Model, SelectedTicket.LastSelectedTicketTag, new TicketTag { Name = FreeTag });
+            SelectedTicket.ClearSelectedItems();
             FreeTag = string.Empty;
         }
 
@@ -225,12 +239,13 @@ namespace Samba.Modules.TicketModule
 
         private void OnTicketTagSelected(TicketTag obj)
         {
-            SelectedTicket.UpdateTag(SelectedTicket.LastSelectedTicketTag, obj);
+            _ticketService.UpdateTag(SelectedTicket.Model, SelectedTicket.LastSelectedTicketTag, obj);
+            SelectedTicket.ClearSelectedItems();
         }
 
         private void OnPortionSelected(MenuItemPortion obj)
         {
-            SelectedItem.UpdatePortion(obj, AppServices.MainDataContext.SelectedDepartment.PriceTag);
+            SelectedItem.UpdatePortion(obj, _departmentService.CurrentDepartment.TicketTemplate.PriceTag);
             if (OrderTagGroups.Count == 0)
                 SelectedTicket.ClearSelectedItems();
         }
@@ -269,7 +284,7 @@ namespace Samba.Modules.TicketModule
             {
                 if (SelectedItem.Model.PortionCount > 1) SelectedItemPortions.AddRange(SelectedItem.MenuItem.Portions);
                 OrderTagGroups.AddRange(
-                    AppServices.MainDataContext.GetOrderTagGroupsForItem(SelectedItem.MenuItem)
+                    _ticketService.GetOrderTagGroupsForItem(SelectedItem.MenuItem)
                     .Where(x => string.IsNullOrEmpty(x.ButtonHeader))
                     .Select(x => new OrderTagGroupViewModel(SelectedTicket.SelectedOrders.Select(y => y.Model), x)));
                 RaisePropertyChanged(() => IsPortionsVisible);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Microsoft.Practices.ServiceLocation;
 using Samba.Domain;
 using Samba.Domain.Models.Inventories;
 using Samba.Domain.Models.Menus;
@@ -23,6 +24,15 @@ namespace Samba.Modules.BasicReports
 {
     public static class ReportContext
     {
+        private static readonly IDepartmentService DepartmentService =
+            ServiceLocator.Current.GetInstance(typeof(IDepartmentService)) as IDepartmentService;
+        private static readonly IWorkPeriodService WorkPeriodService =
+                 ServiceLocator.Current.GetInstance(typeof(IWorkPeriodService)) as IWorkPeriodService;
+        private static readonly IInventoryService InventoryService =
+                 ServiceLocator.Current.GetInstance(typeof(IInventoryService)) as IInventoryService;
+        private static readonly ICashService CashService =
+                 ServiceLocator.Current.GetInstance(typeof(ICashService)) as ICashService;
+
         public static IList<ReportViewModelBase> Reports { get; private set; }
 
         private static IEnumerable<Ticket> _tickets;
@@ -69,7 +79,7 @@ namespace Samba.Modules.BasicReports
         private static WorkPeriod _currentWorkPeriod;
         public static WorkPeriod CurrentWorkPeriod
         {
-            get { return _currentWorkPeriod ?? (_currentWorkPeriod = AppServices.MainDataContext.CurrentWorkPeriod); }
+            get { return _currentWorkPeriod ?? (_currentWorkPeriod = WorkPeriodService.CurrentWorkPeriod); }
             set
             {
                 _currentWorkPeriod = value;
@@ -154,7 +164,7 @@ namespace Samba.Modules.BasicReports
 
         private static IEnumerable<CashTransactionData> GetCashTransactions()
         {
-            return AppServices.CashService.GetTransactionsWithAccountData(CurrentWorkPeriod);
+            return CashService.GetTransactionsWithAccountData(CurrentWorkPeriod);
         }
 
         public static string CurrencyFormat { get { return "#,#0.00;-#,#0.00;-"; } }
@@ -280,8 +290,8 @@ namespace Samba.Modules.BasicReports
                 wp = WorkPeriods.Where(x => x.StartDate >= startDate && x.StartDate < endDate);
             if (wp.Count() == 0)
                 wp = WorkPeriods.Where(x => x.EndDate >= startDate && x.EndDate < endDate);
-            if (wp.Count() == 0 && AppServices.MainDataContext.CurrentWorkPeriod.StartDate < startDate)
-                wp = new List<WorkPeriod> { AppServices.MainDataContext.CurrentWorkPeriod };
+            if (wp.Count() == 0 && WorkPeriodService.CurrentWorkPeriod.StartDate < startDate)
+                wp = new List<WorkPeriod> { WorkPeriodService.CurrentWorkPeriod };
             return wp.OrderBy(x => x.StartDate);
         }
 
@@ -306,7 +316,7 @@ namespace Samba.Modules.BasicReports
 
         internal static string GetDepartmentName(int departmentId)
         {
-            var d = AppServices.MainDataContext.Departments.SingleOrDefault(x => x.Id == departmentId);
+            var d = DepartmentService.GetDepartment(departmentId);
             return d != null ? d.Name : Resources.UndefinedWithBrackets;
         }
 

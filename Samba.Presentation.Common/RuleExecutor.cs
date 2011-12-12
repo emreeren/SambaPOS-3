@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Microsoft.Practices.ServiceLocation;
 using Samba.Domain.Models.Actions;
 using Samba.Services;
 
@@ -47,6 +48,9 @@ namespace Samba.Presentation.Common
 
     public static class RuleExecutor
     {
+        private static readonly IDepartmentService DepartmentService =
+            ServiceLocator.Current.GetInstance(typeof(IDepartmentService)) as IDepartmentService;
+
         public static void NotifyEvent(string eventName, object dataObject)
         {
             var rules = AppServices.MainDataContext.Rules.Where(x => x.EventName == eventName);
@@ -100,8 +104,8 @@ namespace Samba.Presentation.Common
                     }
                     if (condition.Name == "DepartmentName" && !string.IsNullOrEmpty(condition.Value))
                     {
-                        if (AppServices.MainDataContext.SelectedDepartment == null ||
-                            !condition.Value.Equals(AppServices.MainDataContext.SelectedDepartment.Name))
+                        if (DepartmentService.CurrentDepartment == null ||
+                            !condition.Value.Equals(DepartmentService.CurrentDepartment.Name))
                         {
                             return false;
                         }

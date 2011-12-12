@@ -1,7 +1,6 @@
 <ResourceDictionary
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-  xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls" 
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:ListViewEx="clr-namespace:Samba.Presentation.Common.ListViewEx" 
   xmlns:Converters="clr-namespace:Samba.Presentation.Common.Converters">
 

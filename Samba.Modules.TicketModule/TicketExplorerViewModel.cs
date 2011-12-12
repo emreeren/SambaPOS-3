@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -13,13 +14,17 @@ using Samba.Services;
 
 namespace Samba.Modules.TicketModule
 {
+    [Export]
     public class TicketExplorerViewModel : ObservableObject
     {
         private readonly Timer _timer;
+        private readonly ITicketService _ticketService;
 
-        public TicketExplorerViewModel()
+        [ImportingConstructor]
+        public TicketExplorerViewModel(ITicketService ticketService)
         {
             ResetFilters();
+            _ticketService = ticketService;
             _timer = new Timer(250);
             _timer.Elapsed += TimerElapsed;
 
@@ -119,10 +124,10 @@ namespace Samba.Modules.TicketModule
         {
             if (SelectedRow != null)
             {
-                if (AppServices.MainDataContext.SelectedTicket != null)
-                    AppServices.MainDataContext.CloseTicket();
-                AppServices.MainDataContext.OpenTicket(SelectedRow.Id);
-                if (AppServices.MainDataContext.SelectedTicket != null)
+                if (_ticketService.CurrentTicket != null)
+                    _ticketService.CloseTicket();
+                _ticketService.OpenTicket(SelectedRow.Id);
+                if (_ticketService.CurrentTicket != null)
                     EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
                 CommandManager.InvalidateRequerySuggested();
             }

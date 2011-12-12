@@ -1,9 +1,7 @@
 ﻿<UserControl x:Class="Samba.Modules.TicketModule.PaymentEditorView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:FxButton="clr-namespace:FlexButton;assembly=FlexButton"
-     xmlns:Common="clr-namespace:Samba.Presentation.Common;assembly=Samba.Presentation.Common"
-     xmlns:ComponentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase" mc:Ignorable="d"
-     d:DesignHeight="600" d:DesignWidth="800" xmlns:lex="http://schemas.root-project.org/xaml/presentation" xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common">
+     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:FxButton="clr-namespace:FlexButton;assembly=FlexButton" xmlns:ComponentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase" mc:Ignorable="d"
+     d:DesignHeight="600" d:DesignWidth="800" xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common">
     <UserControl.Resources>
         <CollectionViewSource Source="{Binding MergedItems}" x:Key="cvs">
             <CollectionViewSource.SortDescriptions>
@@ -110,27 +108,6 @@
                      Visibility="{Binding SelectedTicket.IsTicketDiscountVisible,Converter={StaticResource VisibilityConverter}}" />
                 <TextBlock Grid.Column="1" Grid.Row="2" TextAlignment="Right" Text="{Binding SelectedTicket.TicketDiscountLabel}"
                      Visibility="{Binding SelectedTicket.IsTicketDiscountVisible,Converter={StaticResource VisibilityConverter}}" />
-
-                <!--<ItemsControl Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" ItemsSource="{Binding SelectedTicket.Discounts}"
-                     HorizontalContentAlignment="Stretch" Visibility="{Binding SelectedTicket.IsTicketDiscountVisible,Converter={StaticResource VisibilityConverter}}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto" />
-                                    <ColumnDefinition Width="auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" Foreground="DarkRed" Margin="10,0,0,0" FontSize="14" TextAlignment="Left"
-                                     Text="{Binding DiscountTypeDisplay}" />
-                                <TextBlock Grid.Column="1" Foreground="DarkRed" Margin="10,0,0,0" FontSize="14" TextAlignment="Left"
-                                     Text="{Binding AmountDisplay}" />
-                                <TextBlock Grid.Column="2" Foreground="DarkRed" Margin="5,0,0,0" FontSize="14" TextAlignment="Right"
-                                     Text="{Binding DiscountAmountDisplay}" />
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>-->
 
                 <TextBlock Grid.Column="0" Grid.Row="3" Text="{LocText ServiceTotal,Suffix=':'}"
                      Visibility="{Binding SelectedTicket.IsTicketServiceVisible,Converter={StaticResource VisibilityConverter}}" />

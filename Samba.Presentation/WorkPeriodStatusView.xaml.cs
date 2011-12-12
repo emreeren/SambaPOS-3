@@ -42,18 +42,17 @@ namespace Samba.Presentation
                 try
                 {
                     if (AppServices.ActiveAppScreen == AppScreens.LoginScreen) return;
-                    if (AppServices.MainDataContext.IsCurrentWorkPeriodOpen)
-                    {
-                        var ts = new TimeSpan(DateTime.Now.Ticks - AppServices.MainDataContext.CurrentWorkPeriod.StartDate.Ticks);
-                        tbWorkPeriodStatus.Visibility = ts.TotalHours > 24 ? Visibility.Visible : Visibility.Collapsed;
-                    }
-                    else tbWorkPeriodStatus.Visibility = Visibility.Collapsed;
+                    //if (AppServices.MainDataContext.IsCurrentWorkPeriodOpen)
+                    //{
+                    //    var ts = new TimeSpan(DateTime.Now.Ticks - AppServices.MainDataContext.CurrentWorkPeriod.StartDate.Ticks);
+                    //    tbWorkPeriodStatus.Visibility = ts.TotalHours > 24 ? Visibility.Visible : Visibility.Collapsed;
+                    //}
+                    //else tbWorkPeriodStatus.Visibility = Visibility.Collapsed;
                 }
                 catch (Exception)
                 {
                     _timer.Change(Timeout.Infinite, Timeout.Infinite);
                 }
-
             }));
         }
     }

@@ -13,11 +13,13 @@ namespace Samba.Modules.BasicReports
     {
         private readonly IRegionManager _regionManager;
         private readonly BasicReportView _basicReportView;
+        private readonly IWorkPeriodService _workPeriodService;
 
         [ImportingConstructor]
-        public BasicReportModule(IRegionManager regionManager, BasicReportView basicReportView)
+        public BasicReportModule(IRegionManager regionManager, BasicReportView basicReportView, IWorkPeriodService workPeriodService)
             : base(regionManager, AppScreens.ReportScreen)
         {
+            _workPeriodService = workPeriodService;
             _regionManager = regionManager;
             _basicReportView = basicReportView;
             SetNavigationCommand(Resources.Reports, Resources.Common, "Images/Ppt.png", 80);
@@ -39,7 +41,7 @@ namespace Samba.Modules.BasicReports
                         var report = ReportContext.Reports.Where(y => y.Header == reportName).FirstOrDefault();
                         if (report != null)
                         {
-                            ReportContext.CurrentWorkPeriod = AppServices.MainDataContext.CurrentWorkPeriod;
+                            ReportContext.CurrentWorkPeriod = _workPeriodService.CurrentWorkPeriod;
                             var document = report.GetReportDocument();
                             ReportViewModelBase.SaveAsXps(fileName, document);
                         }
@@ -55,14 +57,14 @@ namespace Samba.Modules.BasicReports
 
         protected override bool CanNavigate(string arg)
         {
-            return (AppServices.IsUserPermittedFor(PermissionNames.OpenReports) && AppServices.MainDataContext.CurrentWorkPeriod != null);
+            return (AppServices.IsUserPermittedFor(PermissionNames.OpenReports) && _workPeriodService.CurrentWorkPeriod != null);
         }
 
         protected override void OnNavigate(string obj)
         {
             base.OnNavigate(obj);
             ReportContext.ResetCache();
-            ReportContext.CurrentWorkPeriod = AppServices.MainDataContext.CurrentWorkPeriod;
+            ReportContext.CurrentWorkPeriod = _workPeriodService.CurrentWorkPeriod;
         }
 
         protected override void OnInitialization()

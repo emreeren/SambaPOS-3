@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Printing;
 using System.Windows.Documents;
@@ -8,7 +9,7 @@ using Samba.Services.Printing;
 
 namespace Samba.Services
 {
-    public class PrinterService
+    public class PrinterService : IPrinterService
     {
         private LocalPrintServer _printServer;
         private PrintQueueCollection _printers;
@@ -42,7 +43,6 @@ namespace Samba.Services
 
         public void ManualPrintTicket(Ticket ticket, PrintJob printer)
         {
-            AppServices.MainDataContext.UpdateTicketNumber(ticket);
             if (printer != null) TicketPrinter.ManualPrintTicket(ticket, printer);
         }
 
@@ -71,5 +71,9 @@ namespace Samba.Services
             _printServer = null;
         }
 
+        public void Reset()
+        {
+            _printServer = null;
+        }
     }
 }

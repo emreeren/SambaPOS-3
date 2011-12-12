@@ -72,7 +72,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="{LocText Number}"
                      Binding="{Binding TicketNumber}" />
-                <DataGridTextColumn Header="{LocText Table}"
+                <DataGridTextColumn Header="{LocText Location}"
                      Binding="{Binding Location}" />
                 <DataGridTextColumn Header="{LocText Date}"
                      Binding="{Binding Date}" />

@@ -46,9 +46,9 @@ namespace Samba.Modules.SettingsModule
             result.Add(Resources.TF_TicketTag, Resources.TicketTag);
             result.Add("{DEPARTMENT}", Resources.DepartmentName);
             result.Add(Resources.TF_OptionalTicketTag, Resources.OptionalTicketTag);
-            result.Add(Resources.TF_TableOrUserName, Resources.TableOrUserName);
+            result.Add(Resources.TF_LocationOrUserName, Resources.LocationOrUserName);
             result.Add(Resources.TF_UserName, Resources.UserName);
-            result.Add(Resources.TF_TableName, Resources.TableName);
+            result.Add(Resources.TF_LocationName, Resources.LocationName);
             result.Add(Resources.TF_TicketNote, Resources.TicketNote);
             result.Add(Resources.TF_AccountName, Resources.AccountName);
             result.Add(Resources.TF_AccountAddress, Resources.AccountAddress);

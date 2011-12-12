@@ -110,11 +110,11 @@ namespace Samba.Presentation
 
         private void WindowClosing(object sender, CancelEventArgs e)
         {
-            if (AppServices.MainDataContext.SelectedTicket != null)
-            {
-                e.Cancel = true;
-                return;
-            }
+            //if (AppServices.MainDataContext.SelectedTicket != null)
+            //{
+            //    e.Cancel = true;
+            //    return;
+            //}
 
             if (WindowState == WindowState.Normal)
             {

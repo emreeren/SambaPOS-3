@@ -4,32 +4,32 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using Samba.Domain.Models.Inventories;
+using Samba.Domain.Models.Locations;
 using Samba.Domain.Models.Menus;
-using Samba.Domain.Models.Tables;
 using Samba.Persistance.Data;
 
 namespace Samba.Services
 {
     public class DataAccessService
     {
-        public IEnumerable<Table> GetCurrentTables(TableScreen tableScreen, int currentPageNo)
+        public IEnumerable<Location> GetCurrentLocations(LocationScreen locationScreen, int currentPageNo)
         {
-            AppServices.MainDataContext.UpdateTables(tableScreen, currentPageNo);
+            AppServices.MainDataContext.UpdateLocations(locationScreen, currentPageNo);
 
-            var selectedTableScreen = AppServices.MainDataContext.SelectedTableScreen;
+            var selectedLocationScreen = AppServices.MainDataContext.SelectedLocationScreen;
 
-            if (selectedTableScreen != null)
+            if (selectedLocationScreen != null)
             {
-                if (selectedTableScreen.PageCount > 1)
+                if (selectedLocationScreen.PageCount > 1)
                 {
-                    return selectedTableScreen.Tables
+                    return selectedLocationScreen.Locations
                          .OrderBy(x => x.Order)
-                         .Skip(selectedTableScreen.ItemCountPerPage * currentPageNo)
-                         .Take(selectedTableScreen.ItemCountPerPage);
+                         .Skip(selectedLocationScreen.ItemCountPerPage * currentPageNo)
+                         .Take(selectedLocationScreen.ItemCountPerPage);
                 }
-                return selectedTableScreen.Tables;
+                return selectedLocationScreen.Locations;
             }
-            return new List<Table>();
+            return new List<Location>();
         }
 
         public IEnumerable<ScreenMenuItem> GetMenuItems(ScreenMenuCategory category, int currentPageNo, string tag)
@@ -95,9 +95,9 @@ namespace Samba.Services
             return Dao.Select<InventoryItem, string>(x => x.Name, x => !string.IsNullOrEmpty(x.Name));
         }
 
-        public Table GetTable(string tableName)
+        public Location GetLocation(string locationName)
         {
-            return Dao.Single<Table>(x => x.Name == tableName);
+            return Dao.Single<Location>(x => x.Name == locationName);
         }
     }
 }

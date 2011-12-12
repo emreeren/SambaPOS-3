@@ -517,12 +517,8 @@ Payment</value>
     <value>Terminal Menu</value>
     <comment>Label content</comment>
   </data>
-  <data name="POSTableView" xml:space="preserve">
-    <value>POS Table View</value>
-    <comment>Label content</comment>
-  </data>
-  <data name="TerminalTableView" xml:space="preserve">
-    <value>Terminal Table View</value>
+  <data name="LocationView" xml:space="preserve">
+    <value>Location View</value>
     <comment>Label content</comment>
   </data>
   <data name="OpenTicketView" xml:space="preserve">
@@ -973,16 +969,16 @@ Payment</value>
     <value>Optional Ticket Tag</value>
     <comment>Paragraph content</comment>
   </data>
-  <data name="TableOrUserName" xml:space="preserve">
-    <value>Table Name, If empty User Name</value>
+  <data name="LocationOrUserName" xml:space="preserve">
+    <value>Location Name, If empty User Name</value>
     <comment>Paragraph content</comment>
   </data>
   <data name="UserName" xml:space="preserve">
     <value>User Name</value>
     <comment>Paragraph content</comment>
   </data>
-  <data name="TableName" xml:space="preserve">
-    <value>Table Name</value>
+  <data name="LocationName" xml:space="preserve">
+    <value>Location Name</value>
     <comment>Paragraph content</comment>
   </data>
   <data name="TicketNote" xml:space="preserve">
@@ -1359,44 +1355,44 @@ Payment</value>
     <value>There are {0} open tickets.
 Can't end Work Period while tickets open</value>
   </data>
-  <data name="Table" xml:space="preserve">
-    <value>Table</value>
+  <data name="Location" xml:space="preserve">
+    <value>Location</value>
   </data>
-  <data name="SaveErrorDuplicateTableName" xml:space="preserve">
-    <value>There is already a table with that name.</value>
+  <data name="SaveErrorDuplicateLocationName" xml:space="preserve">
+    <value>There is already a location with that name.</value>
   </data>
-  <data name="AddMultipleTables" xml:space="preserve">
-    <value>Add Multiple Tables</value>
+  <data name="AddMultipleLocations" xml:space="preserve">
+    <value>Add Multiple Locations</value>
   </data>
-  <data name="AddMultipleTableHint" xml:space="preserve">
-    <value>Add one line for each Table Name. Start Categories with # character.</value>
+  <data name="AddMultipleLocationHint" xml:space="preserve">
+    <value>Add one line for each location Name. Start Categories with # character.</value>
   </data>
-  <data name="DeleteErrorTicketAssignedToTable" xml:space="preserve">
-    <value>Can't delete because there is a ticket assigned to that table</value>
+  <data name="DeleteErrorTicketAssignedToLocation" xml:space="preserve">
+    <value>Can't delete because there is a ticket assigned to that location</value>
   </data>
-  <data name="DeleteErrorTableUsedInTableView" xml:space="preserve">
-    <value>Can't delete becasuse this Table assigned to a Table View</value>
+  <data name="DeleteErrorLocationUsedInLocationView" xml:space="preserve">
+    <value>Can't delete becasuse this Location assigned to a Location View</value>
   </data>
-  <data name="TableViews" xml:space="preserve">
-    <value>Table Views</value>
+  <data name="LocationViews" xml:space="preserve">
+    <value>Location Views</value>
   </data>
-  <data name="Tables" xml:space="preserve">
-    <value>Tables</value>
+  <data name="Locations" xml:space="preserve">
+    <value>Locations</value>
   </data>
-  <data name="CanOpenTableList" xml:space="preserve">
-    <value>Can display Table List</value>
+  <data name="CanOpenLocationList" xml:space="preserve">
+    <value>Can display Location List</value>
   </data>
-  <data name="CanChangeTable" xml:space="preserve">
-    <value>Can change Table of a Ticket</value>
+  <data name="CanChangeLocation" xml:space="preserve">
+    <value>Can change Location of a Ticket</value>
   </data>
-  <data name="DeleteErrorTableViewUsedInDepartment" xml:space="preserve">
-    <value>Can't delete because this Table View assigned to a Department</value>
+  <data name="DeleteErrorLocationViewUsedInDepartment" xml:space="preserve">
+    <value>Can't delete because this Location View assigned to a Department</value>
   </data>
-  <data name="TableViewName" xml:space="preserve">
+  <data name="LocationViewName" xml:space="preserve">
     <value>View Name</value>
     <comment>Label content</comment>
   </data>
-  <data name="TableViewMode" xml:space="preserve">
+  <data name="LocationViewMode" xml:space="preserve">
     <value>View Mode</value>
     <comment>Label content</comment>
   </data>
@@ -1408,16 +1404,16 @@ Can't end Work Period while tickets open</value>
     <value>Background Image</value>
     <comment>Label content</comment>
   </data>
-  <data name="EmptyTableColor" xml:space="preserve">
-    <value>Empty Table Color</value>
+  <data name="EmptyLocationColor" xml:space="preserve">
+    <value>Empty Location Color</value>
     <comment>Label content</comment>
   </data>
-  <data name="UnavailableTableColor" xml:space="preserve">
-    <value>Full Table Color</value>
+  <data name="UnavailableLocationColor" xml:space="preserve">
+    <value>Full Location Color</value>
     <comment>Label content</comment>
   </data>
-  <data name="LockedTableColor" xml:space="preserve">
-    <value>Locked Table Color</value>
+  <data name="LockedLocationColor" xml:space="preserve">
+    <value>Locked Location Color</value>
     <comment>Label content</comment>
   </data>
   <data name="NumeratorHeight" xml:space="preserve">
@@ -1437,17 +1433,14 @@ Can't end Work Period while tickets open</value>
   <data name="Hidden" xml:space="preserve">
     <value>Hidden</value>
   </data>
-  <data name="SelectTable" xml:space="preserve">
-    <value>Select Table</value>
+  <data name="SelectLocation" xml:space="preserve">
+    <value>Select Location</value>
   </data>
-  <data name="TableList" xml:space="preserve">
-    <value>Table List</value>
+  <data name="LocationList" xml:space="preserve">
+    <value>Location List</value>
   </data>
-  <data name="SelectTableDialogHint_f" xml:space="preserve">
-    <value>Select tables you want to add to {0} view</value>
-  </data>
-  <data name="TableView" xml:space="preserve">
-    <value>Table View</value>
+  <data name="SelectLocationDialogHint_f" xml:space="preserve">
+    <value>Select locations you want to add to {0} view</value>
   </data>
   <data name="EditMode" xml:space="preserve">
     <value>Design Mode</value>
@@ -1459,25 +1452,25 @@ Can't end Work Period while tickets open</value>
   <data name="PreviousPage" xml:space="preserve">
     <value>Previous Page</value>
   </data>
-  <data name="TablesMerged_f" xml:space="preserve">
+  <data name="LocationsMerged_f" xml:space="preserve">
     <value>{0} ticket
-merged with {1} table.</value>
+merged with {1} location.</value>
   </data>
-  <data name="TicketMergedToTable_f" xml:space="preserve">
-    <value>Ticket merged with {0} table.</value>
+  <data name="TicketMergedToLocation_f" xml:space="preserve">
+    <value>Ticket merged with {0} location.</value>
   </data>
-  <data name="TicketMovedToTable_f" xml:space="preserve">
+  <data name="TicketMovedToLocation_f" xml:space="preserve">
     <value>{0} ticket
-moved to {1} table.</value>
+moved to {1} location.</value>
   </data>
-  <data name="SelectTableThatYouWantToMoveTicket_f" xml:space="preserve">
-    <value>Select new table for {0} ticket.</value>
+  <data name="SelectLocationThatYouWantToMoveTicket_f" xml:space="preserve">
+    <value>Select new location for {0} ticket.</value>
   </data>
-  <data name="SelectTableForTicket" xml:space="preserve">
-    <value>Select table for ticket.</value>
+  <data name="SelectLocationForTicket" xml:space="preserve">
+    <value>Select location for ticket.</value>
   </data>
-  <data name="SelectTableForOperation" xml:space="preserve">
-    <value>Select the table you want to add orders.</value>
+  <data name="SelectLocationForOperation" xml:space="preserve">
+    <value>Select the location you want to add orders.</value>
   </data>
   <data name="FindProduct" xml:space="preserve">
     <value>Find Product</value>
@@ -1487,8 +1480,8 @@ moved to {1} table.</value>
     <value>Find Ticket</value>
     <comment>FxButton:FlexButton content</comment>
   </data>
-  <data name="FindTable" xml:space="preserve">
-    <value>Find Table</value>
+  <data name="FindLocation" xml:space="preserve">
+    <value>Find Location</value>
     <comment>FxButton:FlexButton content</comment>
   </data>
   <data name="DiscountTotal" xml:space="preserve">
@@ -1584,13 +1577,13 @@ Tickets</value>
   <data name="NewTicket" xml:space="preserve">
     <value>New Ticket</value>
   </data>
-  <data name="ChangeTable_r" xml:space="preserve">
+  <data name="ChangeLocation_r" xml:space="preserve">
     <value>Change
-Table</value>
+Location</value>
   </data>
-  <data name="SelectTable_r" xml:space="preserve">
+  <data name="SelectLocation_r" xml:space="preserve">
     <value>Select
-Table</value>
+Location</value>
   </data>
   <data name="AccountInfo_r" xml:space="preserve">
     <value>Account
@@ -1812,21 +1805,21 @@ Visit Reports section and create Work Period Reports</value>
   <data name="TicketTimeDisplay_f" xml:space="preserve">
     <value>{0} ({1} min.)</value>
   </data>
-  <data name="Table_f" xml:space="preserve">
-    <value>Table: {0}</value>
+  <data name="Location_f" xml:space="preserve">
+    <value>Location: {0}</value>
   </data>
   <data name="Account_f" xml:space="preserve">
     <value>Account: {0}</value>
   </data>
-  <data name="TicketNumberAndTable_f" xml:space="preserve">
-    <value># {0} Table: {1}</value>
+  <data name="TicketNumberAndLocation_f" xml:space="preserve">
+    <value># {0} Location: {1}</value>
   </data>
   <data name="TicketNumberAndAccount_f" xml:space="preserve">
-    <value># {0} Table: {1}</value>
+    <value># {0} Account: {1}</value>
   </data>
-  <data name="AccountNameAndTableName_f" xml:space="preserve">
+  <data name="AccountNameAndLocationName_f" xml:space="preserve">
     <value># {0} Account: {1}
-Table: {2}</value>
+Location: {2}</value>
   </data>
   <data name="CantCompleteOperationWhenThereIsZeroPricedProduct" xml:space="preserve">
     <value>Can't complete this operation while zero priced orders exists.</value>
@@ -2033,7 +2026,7 @@ Table: {2}</value>
     <value>&lt;T&gt;TICKET
 &lt;L00&gt;Date:{TICKET DATE}
 &lt;L00&gt;Time:{TIME}
-&lt;L00&gt;Table No:{TABLE}
+&lt;L00&gt;Location No:{LOCATION}
 &lt;L00&gt;Ticket No:{TICKET NO}
 &lt;F&gt;-</value>
   </data>
@@ -2049,11 +2042,11 @@ Table: {2}</value>
 &lt;C10&gt;T H A N K    Y O U</value>
   </data>
   <data name="KitchenTemplateHeaderValue" xml:space="preserve">
-    <value>&lt;T&gt;{TABLE USER}
+    <value>&lt;T&gt;{LOCATION USER}
 &lt;F&gt;-
 &lt;L00&gt;Date:{TICKET DATE}
 &lt;L00&gt;Time:{TIME}
-&lt;L00&gt;Table No:{TABLE}
+&lt;L00&gt;Location No:{LOCATION}
 &lt;L00&gt;Ticket No:{TICKET NO}
 &lt;F&gt;-</value>
   </data>
@@ -2069,7 +2062,7 @@ Table: {2}</value>
     <value>&lt;T&gt;INVOICE
 &lt;L00&gt;Date:{TICKET DATE}
 &lt;L00&gt;Time:{TIME}
-&lt;L00&gt;Table No:{TABLE}
+&lt;L00&gt;Location No:{LOCATION}
 &lt;L00&gt;Ticket No:{TICKET NO}
 &lt;F&gt;-</value>
   </data>
@@ -2088,8 +2081,8 @@ Table: {2}</value>
   <data name="PrintOrdersToKitchenPrinter" xml:space="preserve">
     <value>Print Orders to Kitchen Printer</value>
   </data>
-  <data name="AllTables" xml:space="preserve">
-    <value>All Tables</value>
+  <data name="AllLocations" xml:space="preserve">
+    <value>All Locations</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
@@ -2151,14 +2144,14 @@ Table: {2}</value>
   <data name="TF_OptionalTicketTag" xml:space="preserve">
     <value>{TICKET TAG:</value>
   </data>
-  <data name="TF_TableOrUserName" xml:space="preserve">
-    <value>{TABLE USER}</value>
+  <data name="TF_LocationOrUserName" xml:space="preserve">
+    <value>{LOCATION USER}</value>
   </data>
   <data name="TF_UserName" xml:space="preserve">
     <value>{USER NAME}</value>
   </data>
-  <data name="TF_TableName" xml:space="preserve">
-    <value>{TABLE}</value>
+  <data name="TF_LocationName" xml:space="preserve">
+    <value>{LOCATION}</value>
   </data>
   <data name="TF_TicketNote" xml:space="preserve">
     <value>{NOTE}</value>
@@ -2670,8 +2663,8 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="TicketPaidLastChangesNotSaved" xml:space="preserve">
     <value>Ticket paid. Your latest changes not saved.</value>
   </data>
-  <data name="TableChangedRetryLastOperation_f" xml:space="preserve">
-    <value>{0} table changed. Your latest changes not saved.</value>
+  <data name="LocationChangedRetryLastOperation_f" xml:space="preserve">
+    <value>{0} location changed. Your latest changes not saved.</value>
   </data>
   <data name="NewLiabilityTransaction" xml:space="preserve">
     <value>New Credit Transaction</value>
@@ -3034,17 +3027,11 @@ Continue without adding details?</value>
   <data name="RemoveGiftTagWhenVoided">
     <value xml:space="preserve">Remove Gift Tag when Voided</value>
   </data>
-  <data name="TableScreen">
-    <value xml:space="preserve">Table Screen</value>
+  <data name="LocationScreen">
+    <value xml:space="preserve">Location Screen</value>
   </data>
-  <data name="TableScreens">
-    <value xml:space="preserve">Table Screens</value>
-  </data>
-  <data name="PosTableScreens">
-    <value xml:space="preserve">POS Table Screens</value>
-  </data>
-  <data name="TerminalTableScreens">
-    <value xml:space="preserve">Terminal Table Screens</value>
+  <data name="LocationScreens">
+    <value xml:space="preserve">Location Screens</value>
   </data>
   <data name="OrderTagTemplate">
     <value xml:space="preserve">Order Tag Template</value>

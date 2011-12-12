@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Data;
@@ -14,6 +12,8 @@ namespace Samba.Domain.Models.Tickets
         public string Name { get; set; }
         public virtual Numerator TicketNumerator { get; set; }
         public virtual Numerator OrderNumerator { get; set; }
+        [StringLength(10)]
+        public string PriceTag { get; set; }
 
         private IList<TicketTagGroup> _ticketTagGroups;
         public virtual IList<TicketTagGroup> TicketTagGroups

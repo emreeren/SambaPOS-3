@@ -30,6 +30,7 @@ namespace Samba.Domain.Models.Tickets
             Date = DateTime.Now;
             LastPaymentDate = DateTime.Now;
             LastOrderDate = DateTime.Now;
+            LastUpdateTime = DateTime.Now;
             LocationName = locationName;
             PrintJobData = "";
 
