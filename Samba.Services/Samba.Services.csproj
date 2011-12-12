@@ -89,6 +89,7 @@
     <Compile Include="ICashService.cs" />
     <Compile Include="IDepartmentService.cs" />
     <Compile Include="IInventoryService.cs" />
+    <Compile Include="IPrinterService.cs" />
     <Compile Include="IService.cs" />
     <Compile Include="ITicketService.cs" />
     <Compile Include="IWorkPeriodService.cs" />
