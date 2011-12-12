@@ -3,6 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Linq;
 using System.Threading;
+using Microsoft.Practices.ServiceLocation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Samba.Domain.Models.Inventories;
 using Samba.Domain.Models.Menus;
@@ -19,6 +20,9 @@ namespace Samba.Services.Test
         [TestMethod]
         public void TestCost()
         {
+            var inventoryService = ServiceLocator.Current.GetInstance(typeof(IInventoryService)) as IInventoryService;
+            var workPeriodService = ServiceLocator.Current.GetInstance(typeof(IWorkPeriodService)) as IWorkPeriodService;
+
             var workspace = PrepareMenu("c:\\sd1.txt");
 
             var iskender = workspace.Single<MenuItem>(x => x.Name.ToLower().Contains("iskender"));
@@ -46,7 +50,7 @@ namespace Samba.Services.Test
             rp.RecipeItems.Add(new RecipeItem { InventoryItem = pide, Quantity = 2 });
             rp.RecipeItems.Add(new RecipeItem { InventoryItem = zeytinYagi, Quantity = 1 });
 
-            AppServices.MainDataContext.StartWorkPeriod("", 0, 0, 0);
+            workPeriodService.StartWorkPeriod("", 0, 0, 0);
 
             var transaction = new InventoryTransaction { Date = DateTime.Now, Name = "1" };
             workspace.Add(transaction);
@@ -62,7 +66,7 @@ namespace Samba.Services.Test
             ticket.AddOrder(0, iskender, iskender.Portions[0].Name);
             ticket.AddOrder(0, iskender, iskender.Portions[0].Name);
 
-            var pc = InventoryService.GetCurrentPeriodicConsumption(workspace);
+            var pc = inventoryService.GetCurrentPeriodicConsumption(workspace);
             workspace.Add(pc);
 
             var iskenderCostItem = pc.CostItems.Single(x => x.Portion.MenuItemId == iskender.Id);
@@ -84,7 +88,7 @@ namespace Samba.Services.Test
             yogurtpc.PhysicalInventory = 28;
             zeytinYagipc.PhysicalInventory = 4.5m;
 
-            InventoryService.CalculateCost(pc, AppServices.MainDataContext.CurrentWorkPeriod);
+            inventoryService.CalculateCost(pc, workPeriodService.CurrentWorkPeriod);
 
             etCost = (etpc.GetConsumption() * etCost) / etpc.GetPredictedConsumption();
             pideCost = (pidepc.GetConsumption() * pideCost) / pidepc.GetPredictedConsumption();
@@ -96,6 +100,9 @@ namespace Samba.Services.Test
 
         public void TestPurchase()
         {
+            var inventoryService = ServiceLocator.Current.GetInstance(typeof(IInventoryService)) as IInventoryService;
+            var workPeriodService = ServiceLocator.Current.GetInstance(typeof(IWorkPeriodService)) as IWorkPeriodService;
+
             var workspace = PrepareMenu("c:\\sd2.txt");
 
             var iskender = workspace.Single<MenuItem>(x => x.Name.ToLower().Contains("iskender"));
@@ -120,7 +127,7 @@ namespace Samba.Services.Test
             rp.RecipeItems.Add(new RecipeItem { InventoryItem = yogurt, Quantity = 50 });
             rp.RecipeItems.Add(new RecipeItem { InventoryItem = pide, Quantity = 2 });
 
-            AppServices.MainDataContext.StartWorkPeriod("", 0, 0, 0);
+            workPeriodService.StartWorkPeriod("", 0, 0, 0);
 
             var transaction = new InventoryTransaction { Date = DateTime.Now, Name = "1" };
             workspace.Add(transaction);
@@ -141,7 +148,7 @@ namespace Samba.Services.Test
             workspace.Add(transaction2);
             transaction2.TransactionItems.Add(new InventoryTransactionItem { InventoryItem = donerEti, Multiplier = 1000, Price = 15, Quantity = 10, Unit = "KG" });
 
-            var pc = InventoryService.GetCurrentPeriodicConsumption(workspace);
+            var pc = inventoryService.GetCurrentPeriodicConsumption(workspace);
             workspace.Add(pc);
 
             var etpc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItem.Id == donerEti.Id);
@@ -165,9 +172,9 @@ namespace Samba.Services.Test
 
             Assert.AreEqual(pc.CostItems.Count(), 1);
 
-            AppServices.MainDataContext.StopWorkPeriod("");
+            workPeriodService.StopWorkPeriod("");
             Thread.Sleep(1);
-            AppServices.MainDataContext.StartWorkPeriod("", 0, 0, 0);
+            workPeriodService.StartWorkPeriod("", 0, 0, 0);
             Thread.Sleep(1);
 
             transaction = new InventoryTransaction { Date = DateTime.Now, Name = "1" };
@@ -181,7 +188,7 @@ namespace Samba.Services.Test
             ticket.AddOrder(0, iskender, iskender.Portions[0].Name);
             ticket.AddOrder(0, iskender, iskender.Portions[0].Name);
 
-            pc = InventoryService.GetCurrentPeriodicConsumption(workspace);
+            pc = inventoryService.GetCurrentPeriodicConsumption(workspace);
             workspace.Add(pc);
             var etpc2 = pc.PeriodicConsumptionItems.Single(x => x.InventoryItem.Id == donerEti.Id);
             Assert.IsNotNull(etpc2);
@@ -193,9 +200,9 @@ namespace Samba.Services.Test
             cost = decimal.Round(cost, 2);
             Assert.AreEqual(etpc2.Cost, cost);
 
-            AppServices.MainDataContext.StopWorkPeriod("");
+            workPeriodService.StopWorkPeriod("");
             Thread.Sleep(1);
-            AppServices.MainDataContext.StartWorkPeriod("", 0, 0, 0);
+            workPeriodService.StartWorkPeriod("", 0, 0, 0);
             Thread.Sleep(1);
 
             transaction = new InventoryTransaction { Date = DateTime.Now, Name = "1" };
@@ -208,7 +215,7 @@ namespace Samba.Services.Test
             ticket.AddOrder(0, iskender, iskender.Portions[0].Name);
             ticket.AddOrder(0, iskender, iskender.Portions[0].Name);
 
-            pc = InventoryService.GetCurrentPeriodicConsumption(workspace);
+            pc = inventoryService.GetCurrentPeriodicConsumption(workspace);
             workspace.Add(pc);
             var etpc3 = pc.PeriodicConsumptionItems.Single(x => x.InventoryItem.Id == donerEti.Id);
             Assert.IsNotNull(etpc3);

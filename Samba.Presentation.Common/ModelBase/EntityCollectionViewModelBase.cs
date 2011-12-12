@@ -4,10 +4,12 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Linq;
 using Microsoft.Practices.Prism.Events;
+using Microsoft.Practices.ServiceLocation;
 using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Data.Serializer;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
+using Samba.Services;
 
 namespace Samba.Presentation.Common.ModelBase
 {
@@ -16,8 +18,28 @@ namespace Samba.Presentation.Common.ModelBase
         where TModel : class, IEntity, new()
     {
         private readonly IWorkspace _workspace = WorkspaceFactory.Create();
-
         public IWorkspace Workspace { get { return _workspace; } }
+
+        private IWorkPeriodService _workPeriodService;
+        public IWorkPeriodService WorkPeriodService
+        {
+            get
+            {
+                return _workPeriodService ?? (_workPeriodService =
+                        ServiceLocator.Current.GetInstance(typeof(IWorkPeriodService)) as IWorkPeriodService);
+            }
+        }
+
+        private IInventoryService _inventoryService;
+        public IInventoryService InventoryService
+        {
+            get
+            {
+                return _inventoryService ?? (_inventoryService =
+                        ServiceLocator.Current.GetInstance(typeof(IInventoryService)) as IInventoryService);
+            }
+        }
+
 
         private ObservableCollection<TViewModel> _items;
         public ObservableCollection<TViewModel> Items { get { return _items ?? (_items = GetItemsList()); } }
@@ -188,7 +210,7 @@ namespace Samba.Presentation.Common.ModelBase
         protected TViewModel InternalCreateNewViewModel(TModel model)
         {
             var result = CreateNewViewModel(model);
-            result.Init(_workspace);
+            result.Init(_workspace, WorkPeriodService, InventoryService);
             return result;
         }
 

@@ -7,7 +7,6 @@ using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Common.Services;
 using Samba.Services;
-using System.Linq;
 
 namespace Samba.Modules.MenuModule
 {
@@ -33,7 +32,7 @@ namespace Samba.Modules.MenuModule
             foreach (var mi in createdItems)
             {
                 var mv = CreateNewViewModel(mi);
-                mv.Init(Workspace);
+                mv.Init(Workspace, WorkPeriodService, InventoryService);
                 Items.Add(mv);
             }
         }

@@ -16,7 +16,6 @@ namespace Samba.Services
         void OpenTicketByLocationName(string locationName);
         void OpenTicketByTicketNumber(string ticketNumber);
         TicketCommitResult MoveOrders(IEnumerable<Order> selectedOrders, int targetTicketId);
-        void UpdateAccount(Account account);
         void UpdateLocation(int locationId);
         Ticket CurrentTicket { get; }
         TicketCommitResult CloseTicket();
@@ -25,7 +24,10 @@ namespace Samba.Services
         void UpdateTicketNumber(Ticket ticket, Numerator numerator);
         IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(MenuItem menuItem);
         IEnumerable<OrderTagGroup> GetOrderTagGroupsForItems(IEnumerable<MenuItem> menuItems);
+        void UpdateAccount(Ticket ticket, Account account);
         void RecalculateTicket(Ticket ticket);
         void RegenerateTaxRates(Ticket ticket);
+        void UpdateTag(Ticket ticket, TicketTagGroup tagGroup, TicketTag ticketTag);
+        void ResetLocationData(Ticket ticket);
     }
 }

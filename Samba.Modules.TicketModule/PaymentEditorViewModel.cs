@@ -157,6 +157,7 @@ namespace Samba.Modules.TicketModule
 
         private void OnManualPrint(PrintJob obj)
         {
+            _ticketService.UpdateTicketNumber(SelectedTicket.Model, _departmentService.CurrentDepartment.TicketTemplate.TicketNumerator);
             AppServices.PrintService.ManualPrintTicket(SelectedTicket.Model, obj);
         }
 
@@ -392,7 +393,6 @@ namespace Samba.Modules.TicketModule
             if (!AppServices.IsUserPermittedFor(PermissionNames.RoundPayment)) return;
             SelectedTicket.Model.AddTicketDiscount(DiscountType.Amount, 0, AppServices.CurrentLoggedInUser.Id);
             SelectedTicket.Model.AddTicketDiscount(DiscountType.Auto, 0, AppServices.CurrentLoggedInUser.Id);
-
             SelectedTicket.Model.AddTicketDiscount(DiscountType.Amount, _ticketService.CurrentTicket.GetRemainingAmount() - GetTenderedValue(), AppServices.CurrentLoggedInUser.Id);
             PaymentAmount = "";
             RefreshValues();

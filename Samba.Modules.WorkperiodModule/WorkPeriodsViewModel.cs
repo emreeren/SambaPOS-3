@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
@@ -8,13 +9,15 @@ using Samba.Persistance.Data;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Services;
 using Samba.Services;
-using System.Linq;
 
-namespace Samba.Modules.SettingsModule.WorkPeriods
+namespace Samba.Modules.WorkperiodModule
 {
     [Export]
     public class WorkPeriodsViewModel : ObservableObject
     {
+        private readonly IWorkPeriodService _workPeriodService;
+
+
         private IEnumerable<WorkPeriodViewModel> _workPeriods;
         public IEnumerable<WorkPeriodViewModel> WorkPeriods
         {
@@ -24,7 +27,6 @@ namespace Samba.Modules.SettingsModule.WorkPeriods
                                                            .OrderByDescending(x => x.Id)
                                                            .Select(x => new WorkPeriodViewModel(x)));
             }
-
         }
 
         public ICaptionCommand StartOfDayCommand { get; set; }
@@ -33,7 +35,7 @@ namespace Samba.Modules.SettingsModule.WorkPeriods
         public ICaptionCommand DisplayEndOfDayScreenCommand { get; set; }
         public ICaptionCommand CancelCommand { get; set; }
 
-        public WorkPeriod LastWorkPeriod { get { return AppServices.MainDataContext.CurrentWorkPeriod; } }
+        public WorkPeriod LastWorkPeriod { get { return _workPeriodService.CurrentWorkPeriod; } }
 
         public TimeSpan WorkPeriodTime { get; set; }
 
@@ -41,21 +43,21 @@ namespace Samba.Modules.SettingsModule.WorkPeriods
         public int OpenTicketCount
         {
             get { return _openTicketCount; }
-            set { _openTicketCount = value; RaisePropertyChanged(()=>OpenTicketCount); }
+            set { _openTicketCount = value; RaisePropertyChanged(() => OpenTicketCount); }
         }
 
         private string _openTicketLabel;
         public string OpenTicketLabel
         {
             get { return _openTicketLabel; }
-            set { _openTicketLabel = value; RaisePropertyChanged(()=>OpenTicketLabel); }
+            set { _openTicketLabel = value; RaisePropertyChanged(() => OpenTicketLabel); }
         }
 
         private int _activeScreen;
         public int ActiveScreen
         {
             get { return _activeScreen; }
-            set { _activeScreen = value; RaisePropertyChanged(()=>ActiveScreen); }
+            set { _activeScreen = value; RaisePropertyChanged(() => ActiveScreen); }
         }
 
         public string StartDescription { get; set; }
@@ -68,7 +70,7 @@ namespace Samba.Modules.SettingsModule.WorkPeriods
         {
             get
             {
-                if (AppServices.MainDataContext.IsCurrentWorkPeriodOpen)
+                if (_workPeriodService.IsCurrentWorkPeriodOpen)
                 {
                     var title1 = string.Format(Resources.WorkPeriodStartDate_f, LastWorkPeriod.StartDate.ToShortDateString());
                     var title2 = string.Format(Resources.WorkPeriodStartTime, LastWorkPeriod.StartDate.ToShortTimeString());
@@ -81,8 +83,10 @@ namespace Samba.Modules.SettingsModule.WorkPeriods
             }
         }
 
-        public WorkPeriodsViewModel()
+        [ImportingConstructor]
+        public WorkPeriodsViewModel(IWorkPeriodService workPeriodService)
         {
+            _workPeriodService = workPeriodService;
             StartOfDayCommand = new CaptionCommand<string>(Resources.StartWorkPeriod, OnStartOfDayExecute, CanStartOfDayExecute);
             EndOfDayCommand = new CaptionCommand<string>(Resources.EndWorkPeriod, OnEndOfDayExecute, CanEndOfDayExecute);
             DisplayStartOfDayScreenCommand = new CaptionCommand<string>(Resources.StartWorkPeriod, OnDisplayStartOfDayScreenCommand, CanStartOfDayExecute);
@@ -110,15 +114,15 @@ namespace Samba.Modules.SettingsModule.WorkPeriods
             return AppServices.ActiveAppScreen == AppScreens.WorkPeriods
                 && OpenTicketCount == 0
                 && WorkPeriodTime.TotalMinutes > 1
-                && AppServices.MainDataContext.IsCurrentWorkPeriodOpen;
+                && _workPeriodService.IsCurrentWorkPeriodOpen;
         }
 
         private void OnEndOfDayExecute(string obj)
         {
-            AppServices.MainDataContext.StopWorkPeriod(EndDescription);
+            _workPeriodService.StopWorkPeriod(EndDescription);
             Refresh();
-            AppServices.MainDataContext.CurrentWorkPeriod.PublishEvent(EventTopicNames.WorkPeriodStatusChanged);
-            RuleExecutor.NotifyEvent(RuleEventNames.WorkPeriodEnds, new { WorkPeriod = AppServices.MainDataContext.CurrentWorkPeriod, UserName = AppServices.CurrentLoggedInUser.Name });
+            _workPeriodService.CurrentWorkPeriod.PublishEvent(EventTopicNames.WorkPeriodStatusChanged);
+            RuleExecutor.NotifyEvent(RuleEventNames.WorkPeriodEnds, new { WorkPeriod = _workPeriodService.CurrentWorkPeriod, UserName = AppServices.CurrentLoggedInUser.Name });
             InteractionService.UserIntraction.GiveFeedback(Resources.WorkPeriodEndsMessage);
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateNavigation);
         }
@@ -131,10 +135,10 @@ namespace Samba.Modules.SettingsModule.WorkPeriods
 
         private void OnStartOfDayExecute(string obj)
         {
-            AppServices.MainDataContext.StartWorkPeriod(StartDescription, CashAmount, CreditCardAmount, TicketAmount);
+            _workPeriodService.StartWorkPeriod(StartDescription, CashAmount, CreditCardAmount, TicketAmount);
             Refresh();
-            AppServices.MainDataContext.CurrentWorkPeriod.PublishEvent(EventTopicNames.WorkPeriodStatusChanged);
-            RuleExecutor.NotifyEvent(RuleEventNames.WorkPeriodStarts, new { WorkPeriod = AppServices.MainDataContext.CurrentWorkPeriod, UserName = AppServices.CurrentLoggedInUser.Name });
+            _workPeriodService.CurrentWorkPeriod.PublishEvent(EventTopicNames.WorkPeriodStatusChanged);
+            RuleExecutor.NotifyEvent(RuleEventNames.WorkPeriodStarts, new { WorkPeriod = _workPeriodService.CurrentWorkPeriod, UserName = AppServices.CurrentLoggedInUser.Name });
             InteractionService.UserIntraction.GiveFeedback(Resources.StartingWorkPeriodCompleted);
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateNavigation);
         }
@@ -153,9 +157,9 @@ namespace Samba.Modules.SettingsModule.WorkPeriods
             }
             else OpenTicketLabel = "";
 
-            RaisePropertyChanged(()=>WorkPeriods);
-            RaisePropertyChanged(()=>LastEndOfDayLabel);
-            RaisePropertyChanged(()=>WorkPeriods);
+            RaisePropertyChanged(() => WorkPeriods);
+            RaisePropertyChanged(() => LastEndOfDayLabel);
+            RaisePropertyChanged(() => WorkPeriods);
 
             StartDescription = "";
             EndDescription = "";

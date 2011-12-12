@@ -28,7 +28,7 @@ namespace Samba.Modules.TicketModule
         private readonly ITicketService _ticketService;
 
         [ImportingConstructor]
-        public SelectedOrdersViewModel(IDepartmentService departmentService,ITicketService ticketService)
+        public SelectedOrdersViewModel(IDepartmentService departmentService, ITicketService ticketService)
         {
             _departmentService = departmentService;
             _ticketService = ticketService;
@@ -83,7 +83,12 @@ namespace Samba.Modules.TicketModule
                 TicketTags.AddRange(ticketTags);
 
                 if (SelectedTicket.IsTaggedWith(SelectedTicket.LastSelectedTicketTag.Name)) TicketTags.Add(TicketTag.Empty);
-                if (TicketTags.Count == 1 && !_showFreeTagEditor) obj.Value.UpdateTag(SelectedTicket.LastSelectedTicketTag, TicketTags[0]);
+                if (TicketTags.Count == 1 && !_showFreeTagEditor)
+                {
+                    _ticketService.UpdateTag(obj.Value.Model, SelectedTicket.LastSelectedTicketTag, TicketTags[0]);
+                    SelectedTicket.ClearSelectedItems();
+                }
+
                 RaisePropertyChanged(() => TagColumnCount);
                 RaisePropertyChanged(() => IsFreeTagEditorVisible);
                 RaisePropertyChanged(() => FilteredTextBoxType);
@@ -220,7 +225,8 @@ namespace Samba.Modules.TicketModule
                     }
                 }
             }
-            SelectedTicket.UpdateTag(SelectedTicket.LastSelectedTicketTag, new TicketTag { Name = FreeTag });
+            _ticketService.UpdateTag(SelectedTicket.Model, SelectedTicket.LastSelectedTicketTag, new TicketTag { Name = FreeTag });
+            SelectedTicket.ClearSelectedItems();
             FreeTag = string.Empty;
         }
 
@@ -233,7 +239,8 @@ namespace Samba.Modules.TicketModule
 
         private void OnTicketTagSelected(TicketTag obj)
         {
-            SelectedTicket.UpdateTag(SelectedTicket.LastSelectedTicketTag, obj);
+            _ticketService.UpdateTag(SelectedTicket.Model, SelectedTicket.LastSelectedTicketTag, obj);
+            SelectedTicket.ClearSelectedItems();
         }
 
         private void OnPortionSelected(MenuItemPortion obj)

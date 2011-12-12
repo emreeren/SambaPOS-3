@@ -5,6 +5,7 @@ using Microsoft.Practices.Prism.Modularity;
 using Samba.Domain.Models.Inventories;
 using Samba.Domain.Models.Settings;
 using Samba.Localization.Properties;
+using Samba.Modules.InventoryModule.ServiceImplementations;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
@@ -15,9 +16,14 @@ namespace Samba.Modules.InventoryModule
     [ModuleExport(typeof(InventoryModule))]
     public class InventoryModule : ModuleBase
     {
+        private readonly IWorkPeriodService _workPeriodService;
+        private readonly IInventoryService _inventoryService;
+
         [ImportingConstructor]
-        public InventoryModule()
+        public InventoryModule(IWorkPeriodService workPeriodService, IInventoryService inventoryService)
         {
+            _workPeriodService = workPeriodService;
+            _inventoryService = inventoryService;
             AddDashboardCommand<InventoryItemListViewModel>(Resources.InventoryItems, Resources.Products, 26);
             AddDashboardCommand<RecipeListViewModel>(Resources.Recipes, Resources.Products, 27);
             AddDashboardCommand<TransactionListViewModel>(Resources.Transactions, Resources.Products, 28);
@@ -26,35 +32,28 @@ namespace Samba.Modules.InventoryModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<WorkPeriod>>().Subscribe(OnWorkperiodStatusChanged);
         }
 
-        private static void OnWorkperiodStatusChanged(EventParameters<WorkPeriod> obj)
+        private void OnWorkperiodStatusChanged(EventParameters<WorkPeriod> obj)
         {
-            if (obj.Topic == EventTopicNames.WorkPeriodStatusChanged)
+            if (obj.Topic != EventTopicNames.WorkPeriodStatusChanged) return;
+            using (var ws = WorkspaceFactory.Create())
             {
-                using (var ws = WorkspaceFactory.Create())
+                if (ws.Count<Recipe>() <= 0) return;
+                if (!_workPeriodService.IsCurrentWorkPeriodOpen)
                 {
-                    if (ws.Count<Recipe>() > 0)
-                    {
-                        if (!AppServices.MainDataContext.IsCurrentWorkPeriodOpen)
-                        {
-                            var pc = InventoryService.GetCurrentPeriodicConsumption(ws);
-                            if (pc.Id == 0) ws.Add(pc);
-                            ws.CommitChanges();
-                        }
-                        else
-                        {
-                            if (AppServices.MainDataContext.PreviousWorkPeriod != null)
-                            {
-                                var pc = InventoryService.GetPreviousPeriodicConsumption(ws);
-                                if (pc != null)
-                                {
-                                    InventoryService.CalculateCost(pc, AppServices.MainDataContext.PreviousWorkPeriod);
-                                    ws.CommitChanges();
-                                }
-                            }
-                        }
-                    }
+                    var pc = _inventoryService.GetCurrentPeriodicConsumption(ws);
+                    if (pc.Id == 0) ws.Add(pc);
+                    ws.CommitChanges();
+                }
+                else
+                {
+                    if (_workPeriodService.PreviousWorkPeriod == null) return;
+                    var pc = _inventoryService.GetPreviousPeriodicConsumption(ws);
+                    if (pc == null) return;
+                    _inventoryService.CalculateCost(pc, _workPeriodService.PreviousWorkPeriod);
+                    ws.CommitChanges();
                 }
             }
         }
+
     }
 }

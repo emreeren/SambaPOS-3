@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using FluentValidation;
 using Samba.Domain.Models.Inventories;
-using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
@@ -76,7 +73,7 @@ namespace Samba.Modules.InventoryModule
 
         protected override bool CanSave(string arg)
         {
-            return AppServices.MainDataContext.IsCurrentWorkPeriodOpen && AppServices.MainDataContext.CurrentWorkPeriod.StartDate < Model.Date && base.CanSave(arg);
+            return WorkPeriodService.IsCurrentWorkPeriodOpen && WorkPeriodService.CurrentWorkPeriod.StartDate < Model.Date && base.CanSave(arg);
         }
 
         private void OnAddTransactionItem(string obj)
@@ -117,16 +114,16 @@ namespace Samba.Modules.InventoryModule
 
         protected override AbstractValidator<InventoryTransaction> GetValidator()
         {
-            return new TransactionValidator();
+            return new TransactionValidator(WorkPeriodService);
         }
     }
 
     internal class TransactionValidator : EntityValidator<InventoryTransaction>
     {
-        public TransactionValidator()
+        public TransactionValidator(IWorkPeriodService workPeriodService)
         {
-            var startDate = AppServices.MainDataContext.IsCurrentWorkPeriodOpen
-                                ? AppServices.MainDataContext.CurrentWorkPeriod.StartDate
+            var startDate = workPeriodService.IsCurrentWorkPeriodOpen
+                                ? workPeriodService.CurrentWorkPeriod.StartDate
                                 : DateTime.Now;
             RuleFor(x => x.Date).GreaterThan(startDate);
             RuleFor(x => x.TransactionItems).Must(x => x.Count > 0).WithMessage(Resources.TransactionsEmptyError)

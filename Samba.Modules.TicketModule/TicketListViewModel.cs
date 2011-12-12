@@ -34,6 +34,7 @@ namespace Samba.Modules.TicketModule
 
         private readonly ITicketService _ticketService;
         private readonly IDepartmentService _departmentService;
+        private IWorkPeriodService _workPeriodService;
 
         private readonly Timer _timer;
 
@@ -189,7 +190,7 @@ namespace Samba.Modules.TicketModule
 
         public bool CanChangeDepartment
         {
-            get { return SelectedTicket == null && AppServices.MainDataContext.IsCurrentWorkPeriodOpen; }
+            get { return SelectedTicket == null && _workPeriodService.IsCurrentWorkPeriodOpen; }
         }
 
         public Brush TicketBackground { get { return SelectedTicket != null && (SelectedTicket.IsLocked || SelectedTicket.IsPaid) ? SystemColors.ControlLightBrush : SystemColors.WindowBrush; } }
@@ -226,8 +227,9 @@ namespace Samba.Modules.TicketModule
         }
 
         [ImportingConstructor]
-        public TicketListViewModel(IDepartmentService departmentService, ITicketService ticketService)
+        public TicketListViewModel(IDepartmentService departmentService, ITicketService ticketService,IWorkPeriodService workPeriodService)
         {
+            _workPeriodService = workPeriodService;
             _departmentService = departmentService;
             _ticketService = ticketService;
             _timer = new Timer(OnTimer, null, Timeout.Infinite, 1000);
@@ -354,7 +356,7 @@ namespace Samba.Modules.TicketModule
         {
             if (obj.Topic == EventTopicNames.AccountSelectedForTicket)
             {
-                _ticketService.UpdateAccount(obj.Value);
+                _ticketService.UpdateAccount(SelectedTicket.Model, obj.Value);
 
                 RuleExecutor.NotifyEvent(RuleEventNames.AccountSelectedForTicket,
                     new
@@ -375,7 +377,7 @@ namespace Samba.Modules.TicketModule
 
             if (obj.Topic == EventTopicNames.PaymentRequestedForTicket)
             {
-                _ticketService.UpdateAccount(obj.Value);
+                _ticketService.UpdateAccount(SelectedTicket.Model, obj.Value);
                 if (!string.IsNullOrEmpty(SelectedTicket.AccountName) && SelectedTicket.Orders.Count > 0)
                     MakePaymentCommand.Execute("");
                 else
@@ -383,7 +385,6 @@ namespace Samba.Modules.TicketModule
                     RefreshVisuals();
                     SelectedTicketView = SingleTicketView;
                 }
-
             }
         }
 
@@ -464,7 +465,7 @@ namespace Samba.Modules.TicketModule
                         {
                             // adisyon masasý ile týklanan masa ayný deðil.
                             if (SelectedTicket.Location != obj.Value.LocationName)
-                                AppServices.MainDataContext.ResetLocationDataForSelectedTicket();
+                                _ticketService.ResetLocationData(_ticketService.CurrentTicket);
                         }
                     }
                     EventServiceFactory.EventService.PublishEvent(EventTopicNames.DisplayTicketView);
@@ -564,6 +565,7 @@ namespace Samba.Modules.TicketModule
 
             SaveTicketIfNew();
 
+            _ticketService.UpdateTicketNumber(SelectedTicket.Model, _departmentService.CurrentDepartment.TicketTemplate.TicketNumerator);
             AppServices.PrintService.ManualPrintTicket(SelectedTicket.Model, printJob);
 
             if (printJob.WhenToPrint == (int)WhenToPrintTypes.Paid && !SelectedTicket.IsPaid)

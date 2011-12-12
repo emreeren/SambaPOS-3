@@ -123,9 +123,9 @@ namespace Samba.Presentation.ViewModels
                     {
                         var account = Dao.Query(qFilter).FirstOrDefault();
                         if (account != null)
-                            TicketService.UpdateAccount(account);
+                            TicketService.UpdateAccount(TicketService.CurrentTicket, account);
                     }
-                    else TicketService.UpdateAccount(Account.Null);
+                    else TicketService.UpdateAccount(TicketService.CurrentTicket, Account.Null);
                 }
 
                 if (x.Value.Action.ActionType == "UpdateProgramSetting")

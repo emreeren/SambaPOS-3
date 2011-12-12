@@ -142,6 +142,7 @@ namespace Samba.Modules.DeliveryModule
         private int _activeView;
         private readonly ITicketService _ticketService;
         private readonly IDepartmentService _departmentService;
+        private readonly IWorkPeriodService _workPeriodService;
 
         public int ActiveView
         {
@@ -154,10 +155,11 @@ namespace Samba.Modules.DeliveryModule
         public string TotalBalance { get { return SelectedAccountTransactions.Sum(x => x.Receivable - x.Liability).ToString("#,#0.00"); } }
 
         [ImportingConstructor]
-        public AccountSelectorViewModel(ITicketService ticketService, IDepartmentService departmentService)
+        public AccountSelectorViewModel(ITicketService ticketService, IDepartmentService departmentService,IWorkPeriodService workPeriodService)
         {
             _ticketService = ticketService;
             _departmentService = departmentService;
+            _workPeriodService = workPeriodService;
             _updateTimer = new Timer(500);
             _updateTimer.Elapsed += UpdateTimerElapsed;
             FoundAccounts = new ObservableCollection<AccountSearchViewModel>();
@@ -349,7 +351,7 @@ namespace Samba.Modules.DeliveryModule
         private bool CanSelectAccount(string arg)
         {
             return
-                AppServices.MainDataContext.IsCurrentWorkPeriodOpen
+                _workPeriodService.IsCurrentWorkPeriodOpen
                 && SelectedAccount != null
                 && !string.IsNullOrEmpty(SelectedAccount.PhoneNumber)
                 && !string.IsNullOrEmpty(SelectedAccount.Name)
@@ -439,7 +441,7 @@ namespace Samba.Modules.DeliveryModule
 
         private void OnCloseScreen(string obj)
         {
-            if (_departmentService.CurrentDepartment != null && AppServices.MainDataContext.IsCurrentWorkPeriodOpen)
+            if (_departmentService.CurrentDepartment != null && _workPeriodService.IsCurrentWorkPeriodOpen)
                 EventServiceFactory.EventService.PublishEvent(EventTopicNames.DisplayTicketView);
             else
                 EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateNavigation);

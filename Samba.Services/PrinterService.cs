@@ -42,7 +42,6 @@ namespace Samba.Services
 
         public void ManualPrintTicket(Ticket ticket, PrintJob printer)
         {
-            AppServices.MainDataContext.UpdateTicketNumber(ticket);
             if (printer != null) TicketPrinter.ManualPrintTicket(ticket, printer);
         }
 

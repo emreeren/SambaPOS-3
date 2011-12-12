@@ -146,8 +146,8 @@ namespace Samba.Modules.BasicReports
             if (!wpList.Contains(ReportContext.CurrentWorkPeriod))
             { wpList.Insert(0, ReportContext.CurrentWorkPeriod); }
 
-            if (!wpList.Contains(AppServices.MainDataContext.CurrentWorkPeriod))
-                wpList.Insert(0, AppServices.MainDataContext.CurrentWorkPeriod);
+            //if (!wpList.Contains(AppServices.MainDataContext.CurrentWorkPeriod))
+            //    wpList.Insert(0, AppServices.MainDataContext.CurrentWorkPeriod);
 
             return new FilterGroup { Values = wpList, SelectedValue = ReportContext.CurrentWorkPeriod };
         }

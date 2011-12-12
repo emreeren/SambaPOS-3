@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using Samba.Presentation.Common;
 
-namespace Samba.Modules.SettingsModule.WorkPeriods
+namespace Samba.Modules.WorkperiodModule
 {
     /// <summary>
     /// Interaction logic for EndOfDayView.xaml

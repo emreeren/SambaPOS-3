@@ -13,11 +13,13 @@ namespace Samba.Modules.TicketModule
     public class TicketEditorViewModel : ObservableObject
     {
         private readonly ITicketService _ticketService;
+        private readonly IWorkPeriodService _workPeriodService;
 
         [ImportingConstructor]
-        public TicketEditorViewModel(ITicketService ticketService, PaymentEditorViewModel paymentViewModel, TicketExplorerViewModel ticketExplorerViewModel, SelectedOrdersViewModel selectedOrdersViewModel, TicketListViewModel ticketListViewModel, MenuItemSelectorViewModel menuItemSelectorViewModel)
+        public TicketEditorViewModel(ITicketService ticketService,IWorkPeriodService workPeriodService, PaymentEditorViewModel paymentViewModel, TicketExplorerViewModel ticketExplorerViewModel, SelectedOrdersViewModel selectedOrdersViewModel, TicketListViewModel ticketListViewModel, MenuItemSelectorViewModel menuItemSelectorViewModel)
         {
             _ticketService = ticketService;
+            _workPeriodService = workPeriodService;
             TicketListViewModel = ticketListViewModel;
             MenuItemSelectorViewModel = menuItemSelectorViewModel;
             PaymentViewModel = paymentViewModel;
@@ -145,10 +147,10 @@ namespace Samba.Modules.TicketModule
         {
             SelectedView = 0;
             SelectedSubView = 2;
-            TicketExplorerViewModel.StartDate = AppServices.MainDataContext.CurrentWorkPeriod.StartDate.Date;
+            TicketExplorerViewModel.StartDate = _workPeriodService.CurrentWorkPeriod.StartDate.Date;
             if (!AppServices.IsUserPermittedFor(PermissionNames.DisplayOldTickets))
             {
-                TicketExplorerViewModel.StartDate = AppServices.MainDataContext.CurrentWorkPeriod.StartDate;
+                TicketExplorerViewModel.StartDate = _workPeriodService.CurrentWorkPeriod.StartDate;
             }
             TicketExplorerViewModel.EndDate = DateTime.Now;
             TicketExplorerViewModel.Refresh();

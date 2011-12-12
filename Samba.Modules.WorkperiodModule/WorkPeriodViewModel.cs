@@ -1,6 +1,6 @@
 ﻿using Samba.Domain.Models.Settings;
 
-namespace Samba.Modules.SettingsModule.WorkPeriods
+namespace Samba.Modules.WorkperiodModule
 {
     public class WorkPeriodViewModel
     {

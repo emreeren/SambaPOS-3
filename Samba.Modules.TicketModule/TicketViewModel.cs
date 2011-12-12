@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
-using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
-using Samba.Persistance.Data;
 using Samba.Presentation.Common;
 using Samba.Presentation.ViewModels;
 using Samba.Services;
@@ -436,36 +434,6 @@ namespace Samba.Modules.TicketModule
                 if (tg != null) return string.Format(Resources.TagCantBeEmpty_f, tg.Name);
             }
             return "";
-        }
-
-        public void UpdateTag(TicketTagGroup tagGroup, TicketTag ticketTag)
-        {
-            Model.SetTagValue(tagGroup.Name, ticketTag.Name);
-            if (tagGroup.Numerator != null)
-            {
-                Model.TicketNumber = "";
-                AppServices.MainDataContext.UpdateTicketNumber(Model, tagGroup.Numerator);
-            }
-
-            if (ticketTag.AccountId > 0)
-                AppServices.MainDataContext.AssignAccountToTicket(Model,
-                    Dao.SingleWithCache<Account>(x => x.Id == ticketTag.AccountId));
-
-            ClearSelectedItems();
-
-            var tagData = new TicketTagData { Action = tagGroup.Action, TagName = tagGroup.Name, TagValue = ticketTag.Name, NumericValue = tagGroup.IsNumeric ? Convert.ToDecimal(ticketTag.Name) : 0 };
-
-            RuleExecutor.NotifyEvent(RuleEventNames.TicketTagSelected,
-                        new
-                        {
-                            Ticket = Model,
-                            tagData.TagName,
-                            tagData.TagValue,
-                            tagData.NumericValue,
-                            TicketTag = Model.GetTagData()
-                        });
-
-            tagData.PublishEvent(EventTopicNames.TagSelectedForSelectedTicket);
         }
 
         public bool IsTaggedWith(string tagGroup)

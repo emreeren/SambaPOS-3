@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using Samba.Domain.Models.Inventories;
-using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
-using Samba.Services;
 
 namespace Samba.Modules.InventoryModule
 {
@@ -47,8 +43,8 @@ namespace Samba.Modules.InventoryModule
 
         protected override bool CanSave(string arg)
         {
-            return !AppServices.MainDataContext.IsCurrentWorkPeriodOpen && _periodicConsumptionItems.Count > 0
-                && Model.WorkPeriodId == AppServices.MainDataContext.CurrentWorkPeriod.Id && base.CanSave(arg);
+            return WorkPeriodService.IsCurrentWorkPeriodOpen && _periodicConsumptionItems.Count > 0
+                && Model.WorkPeriodId == WorkPeriodService.CurrentWorkPeriod.Id && base.CanSave(arg);
         }
         
         private void OnUpdateCalculation(string obj)
@@ -58,7 +54,7 @@ namespace Samba.Modules.InventoryModule
 
         public void UpdateCost()
         {
-            InventoryService.CalculateCost(Model, AppServices.MainDataContext.CurrentWorkPeriod);
+            InventoryService.CalculateCost(Model, WorkPeriodService.CurrentWorkPeriod);
             _costItems = null;
             RaisePropertyChanged(()=>CostItems);
         }
@@ -75,7 +71,7 @@ namespace Samba.Modules.InventoryModule
 
         protected override void OnSave(string value)
         {
-            InventoryService.CalculateCost(Model, AppServices.MainDataContext.CurrentWorkPeriod);
+            InventoryService.CalculateCost(Model, WorkPeriodService.CurrentWorkPeriod);
             base.OnSave(value);
         }
     }

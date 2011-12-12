@@ -14,6 +14,7 @@ using Samba.Infrastructure.Data.Serializer;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common;
+using Samba.Presentation.ViewModels;
 using Samba.Services;
 
 namespace Samba.Modules.TicketModule.ServiceImplementations
@@ -30,10 +31,10 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
             _departmentService = departmentService;
         }
 
-        public void UpdateAccount(Account account)
+        public void UpdateAccount(Ticket ticket, Account account)
         {
-            Debug.Assert(CurrentTicket != null);
-            CurrentTicket.UpdateAccount(CheckAccount(account));
+            Debug.Assert(ticket != null);
+            ticket.UpdateAccount(CheckAccount(account));
         }
 
         public Ticket CurrentTicket { get; private set; }
@@ -349,6 +350,46 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
             }
         }
 
+        public void UpdateTag(Ticket ticket, TicketTagGroup tagGroup, TicketTag ticketTag)
+        {
+            ticket.SetTagValue(tagGroup.Name, ticketTag.Name);
+            if (tagGroup.Numerator != null)
+            {
+                ticket.TicketNumber = "";
+                UpdateTicketNumber(ticket, tagGroup.Numerator);
+            }
+
+            if (ticketTag.AccountId > 0)
+                UpdateAccount(ticket, Dao.SingleWithCache<Account>(x => x.Id == ticketTag.AccountId));
+
+            var tagData = new TicketTagData { Action = tagGroup.Action, TagName = tagGroup.Name, TagValue = ticketTag.Name, NumericValue = tagGroup.IsNumeric ? Convert.ToDecimal(ticketTag.Name) : 0 };
+
+            RuleExecutor.NotifyEvent(RuleEventNames.TicketTagSelected,
+                        new
+                        {
+                            Ticket = ticket,
+                            tagData.TagName,
+                            tagData.TagValue,
+                            tagData.NumericValue,
+                            TicketTag = ticket.GetTagData()
+                        });
+
+            tagData.PublishEvent(EventTopicNames.TagSelectedForSelectedTicket);
+        }
+
+        public void ResetLocationData(Ticket ticket)
+        {
+            _workspace.All<Location>(x => x.TicketId == ticket.Id).ToList().ForEach(x => x.Reset());
+            UpdateTicketLocation(ticket);
+            Debug.Assert(_workspace != null);
+            Debug.Assert(ticket!= null);
+            Debug.Assert(ticket.Id > 0 || ticket.Orders.Count > 0);
+            if (ticket.Id == 0 && ticket.TicketNumber != null)
+                _workspace.Add(ticket);
+            ticket.LastUpdateTime = DateTime.Now;
+            _workspace.CommitChanges();
+        }
+        
         public void Reset()
         {
 

@@ -86,10 +86,6 @@
       <DependentUpon>TriggerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TriggerViewModel.cs" />
-    <Compile Include="WorkPeriods\WorkPeriodsView.xaml.cs">
-      <DependentUpon>WorkPeriodsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="WorkPeriods\WorkPeriodsViewModel.cs" />
     <Compile Include="NumeratorListViewModel.cs" />
     <Compile Include="NumeratorView.xaml.cs">
       <DependentUpon>NumeratorView.xaml</DependentUpon>
@@ -117,7 +113,6 @@
       <DependentUpon>TerminalView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TerminalViewModel.cs" />
-    <Compile Include="WorkPeriods\WorkPeriodViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lib\FlexButton\FlexButton.csproj">
@@ -175,10 +170,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TriggerView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="WorkPeriods\WorkPeriodsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

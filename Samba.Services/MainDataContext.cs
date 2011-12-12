@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using Microsoft.Practices.ServiceLocation;
-using Samba.Domain;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Actions;
 using Samba.Domain.Models.Locations;
@@ -73,37 +72,6 @@ namespace Samba.Services
                 return _workspace.Single<Location>(x => x.Name == locationName);
             }
 
-            public Account UpdateAccount(Account account)
-            {
-                // Hesap yoksa açar, varsa ve değerleri farklıysa günceller.
-                if (account == Account.Null)
-                    return Account.Null;
-
-                if (account.Id == 0)
-                {
-                    using (var workspace = WorkspaceFactory.Create())
-                    {
-                        workspace.Add(account);
-                        workspace.CommitChanges();
-                    }
-                    return account;
-                }
-
-                var result = _workspace.Single<Account>(
-                        x => x.Id == account.Id
-                        && x.Name == account.Name
-                        && x.SearchString == account.SearchString);
-
-                if (result == null)
-                {
-                    result = _workspace.Single<Account>(x => x.Id == account.Id);
-                    Debug.Assert(result != null);
-                    result.Name = account.Name;
-                    result.SearchString = account.SearchString;
-                }
-                return result;
-            }
-
             public Location GetLocationWithId(int locationId)
             {
                 return _workspace.Single<Location>(x => x.Id == locationId);
@@ -125,7 +93,6 @@ namespace Samba.Services
             {
                 _workspace.Add(model);
             }
-
         }
 
         public int AccountCount { get; set; }
@@ -134,6 +101,9 @@ namespace Samba.Services
 
         public ITicketService TicketService { get; set; }
         public IDepartmentService DepartmentService { get; set; }
+        public IInventoryService InventoryService { get; set; }
+        public IWorkPeriodService WorkPeriodService { get; set; }
+
 
         private IWorkspace _locationWorkspace;
         private readonly TicketWorkspace _ticketWorkspace = new TicketWorkspace();
@@ -143,13 +113,6 @@ namespace Samba.Services
 
         private IEnumerable<AppAction> _actions;
         public IEnumerable<AppAction> Actions { get { return _actions ?? (_actions = Dao.Query<AppAction>()); } }
-
-
-        private IEnumerable<WorkPeriod> _lastTwoWorkPeriods;
-        public IEnumerable<WorkPeriod> LastTwoWorkPeriods
-        {
-            get { return _lastTwoWorkPeriods ?? (_lastTwoWorkPeriods = GetLastTwoWorkPeriods()); }
-        }
 
         private IEnumerable<User> _users;
         public IEnumerable<User> Users { get { return _users ?? (_users = Dao.Query<User>(x => x.UserRole)); } }
@@ -166,30 +129,15 @@ namespace Samba.Services
             get { return _serviceTemplates ?? (_serviceTemplates = Dao.Query<ServiceTemplate>()); }
         }
 
-        public WorkPeriod CurrentWorkPeriod { get { return LastTwoWorkPeriods.LastOrDefault(); } }
-        public WorkPeriod PreviousWorkPeriod { get { return LastTwoWorkPeriods.Count() > 1 ? LastTwoWorkPeriods.FirstOrDefault() : null; } }
-
         public LocationScreen SelectedLocationScreen { get; set; }
-
-        public bool IsCurrentWorkPeriodOpen
-        {
-            get
-            {
-                return CurrentWorkPeriod != null &&
-                 CurrentWorkPeriod.StartDate == CurrentWorkPeriod.EndDate;
-            }
-        }
 
         public MainDataContext()
         {
             _ticketWorkspace = new TicketWorkspace();
             TicketService = ServiceLocator.Current.GetInstance(typeof(ITicketService)) as ITicketService;
             DepartmentService = ServiceLocator.Current.GetInstance(typeof(IDepartmentService)) as IDepartmentService;
-        }
-
-        private static IEnumerable<WorkPeriod> GetLastTwoWorkPeriods()
-        {
-            return Dao.Last<WorkPeriod>(2);
+            InventoryService = ServiceLocator.Current.GetInstance(typeof(IInventoryService)) as IInventoryService;
+            WorkPeriodService = ServiceLocator.Current.GetInstance(typeof(IWorkPeriodService)) as IWorkPeriodService;
         }
 
         public void ResetUserData()
@@ -202,74 +150,6 @@ namespace Samba.Services
         {
             AccountCount = Dao.Count<Account>(null);
             LocationCount = Dao.Count<Location>(null);
-        }
-
-        public void StartWorkPeriod(string description, decimal cashAmount, decimal creditCardAmount, decimal ticketAmount)
-        {
-            using (var workspace = WorkspaceFactory.Create())
-            {
-                _lastTwoWorkPeriods = null;
-
-                var latestWorkPeriod = workspace.Last<WorkPeriod>();
-                if (latestWorkPeriod != null && latestWorkPeriod.StartDate == latestWorkPeriod.EndDate)
-                {
-                    return;
-                }
-
-                var now = DateTime.Now;
-                var newPeriod = new WorkPeriod
-                                    {
-                                        StartDate = now,
-                                        EndDate = now,
-                                        StartDescription = description,
-                                        CashAmount = cashAmount,
-                                        CreditCardAmount = creditCardAmount,
-                                        TicketAmount = ticketAmount
-                                    };
-
-                workspace.Add(newPeriod);
-                workspace.CommitChanges();
-                _lastTwoWorkPeriods = null;
-            }
-        }
-
-        public void StopWorkPeriod(string description)
-        {
-            using (var workspace = WorkspaceFactory.Create())
-            {
-                var period = workspace.Last<WorkPeriod>();
-                if (period.EndDate == period.StartDate)
-                {
-                    period.EndDate = DateTime.Now;
-                    period.EndDescription = description;
-                    workspace.CommitChanges();
-                }
-                _lastTwoWorkPeriods = null;
-            }
-        }
-
-        public void UpdateTicketLocation(Ticket ticket)
-        {
-            // adisyon masasını günceller.
-            if (string.IsNullOrEmpty(ticket.LocationName)) return;
-            var location = _ticketWorkspace.LoadLocation(ticket.LocationName);
-            if (location != null)
-            {
-                if (ticket.IsPaid || ticket.Orders.Count == 0)
-                {
-                    if (location.TicketId == ticket.Id)
-                    {
-                        location.TicketId = 0;
-                        location.IsTicketLocked = false;
-                    }
-                }
-                else
-                {
-                    location.TicketId = ticket.Id;
-                    location.IsTicketLocked = ticket.Locked;
-                }
-            }
-            else ticket.LocationName = "";
         }
 
         public void UpdateLocations(LocationScreen locationScreen, int pageNo)
@@ -298,24 +178,6 @@ namespace Samba.Services
                     location.IsTicketLocked = x.Locked;
                 });
             }
-        }
-
-        public void AssignAccountToTicket(Ticket ticket, Account account)
-        {
-            Debug.Assert(ticket != null);
-            ticket.UpdateAccount(_ticketWorkspace.UpdateAccount(account));
-        }
-
-        public void UpdateTicketNumber(Ticket ticket)
-        {
-            TicketService.UpdateTicketNumber(ticket, DepartmentService.CurrentDepartment.TicketTemplate.TicketNumerator);
-        }
-
-        public void UpdateTicketNumber(Ticket ticket, Numerator numerator)
-        {
-            if (numerator == null) numerator = DepartmentService.CurrentDepartment.TicketTemplate.TicketNumerator;
-            if (string.IsNullOrEmpty(ticket.TicketNumber))
-                ticket.TicketNumber = NumberGenerator.GetNextString(numerator.Id);
         }
 
         public IList<Location> LoadLocations(string selectedLocationScreen)
@@ -350,7 +212,8 @@ namespace Samba.Services
                 SelectedLocationScreen = null;
                 DepartmentService.SelectDepartment(null);
                 DepartmentService.Reset();
-                _lastTwoWorkPeriods = null;
+                InventoryService.Reset();
+                WorkPeriodService.Reset();
                 _users = null;
                 _rules = null;
                 _actions = null;
@@ -376,13 +239,6 @@ namespace Samba.Services
         public TicketCommitResult MoveOrders(IEnumerable<Order> selectedOrders, int targetTicketId)
         {
             return TicketService.MoveOrders(selectedOrders, targetTicketId);
-        }
-
-        public void ResetLocationDataForSelectedTicket()
-        {
-            _ticketWorkspace.ResetLocationData(TicketService.CurrentTicket);
-            UpdateTicketLocation(TicketService.CurrentTicket);
-            _ticketWorkspace.CommitChanges();
         }
 
         public void AddItemToSelectedTicket(Order model)

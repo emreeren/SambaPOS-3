@@ -266,6 +266,10 @@
       <Project>{9E6FF3D9-BAE7-4E48-B144-0859BE28C570}</Project>
       <Name>Samba.Modules.TicketModule</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.WorkperiodModule\Samba.Modules.WorkperiodModule.csproj">
+      <Project>{19D333D1-D336-41C3-9B1E-55E760E6B026}</Project>
+      <Name>Samba.Modules.WorkperiodModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samba.Persistance.DBMigration\Samba.Persistance.DBMigration.csproj">
       <Project>{3AED3A4C-F3D7-4D29-BF58-85743E4F7AFD}</Project>
       <Name>Samba.Persistance.DBMigration</Name>

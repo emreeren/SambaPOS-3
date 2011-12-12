@@ -32,7 +32,7 @@ namespace Samba.Modules.CashModule
                     _incomeTransactions = Transactions.Where(x => x.TransactionType == (int)TransactionType.Income).Select(
                             x => new CashTransactionViewModel(x)).OrderByDescending(x => x.Date).Cast<ICashTransactionViewModel>().ToList();
 
-                    var operations = AppServices.CashService.GetCurrentCashOperationData();
+                    var operations = _cashService.GetCurrentCashOperationData();
                     var operationViewModel = new CashOperationViewModel
                                                  {
                                                      CashPaymentValue = operations[0],
@@ -43,15 +43,15 @@ namespace Samba.Modules.CashModule
                                                  };
                     (_incomeTransactions as IList).Insert(0, operationViewModel);
 
-                    if (AppServices.MainDataContext.CurrentWorkPeriod != null)
+                    if (_workPeriodService.CurrentWorkPeriod != null)
                     {
                         var dayStartCashViewModel = new CashOperationViewModel
                                                         {
-                                                            CashPaymentValue = AppServices.MainDataContext.CurrentWorkPeriod.CashAmount,
-                                                            CreditCardPaymentValue = AppServices.MainDataContext.CurrentWorkPeriod.CreditCardAmount,
-                                                            TicketPaymentValue = AppServices.MainDataContext.CurrentWorkPeriod.TicketAmount,
+                                                            CashPaymentValue = _workPeriodService.CurrentWorkPeriod.CashAmount,
+                                                            CreditCardPaymentValue = _workPeriodService.CurrentWorkPeriod.CreditCardAmount,
+                                                            TicketPaymentValue = _workPeriodService.CurrentWorkPeriod.TicketAmount,
                                                             Description = Resources.StartOfDay,
-                                                            Date = AppServices.MainDataContext.CurrentWorkPeriod.StartDate
+                                                            Date = _workPeriodService.CurrentWorkPeriod.StartDate
                                                         };
                         (_incomeTransactions as IList).Insert(0, dayStartCashViewModel);
                     }
@@ -184,8 +184,14 @@ namespace Samba.Modules.CashModule
         public decimal CreditCardTotal { get { return CreditCardIncomeTotal - CreditCardExpenseTotal; } }
         public decimal TicketTotal { get { return TicketIncomeTotal - TicketExpenseTotal; } }
 
-        public CashViewModel()
+        private readonly IWorkPeriodService _workPeriodService;
+        private readonly ICashService _cashService;
+
+        [ImportingConstructor]
+        public CashViewModel(IWorkPeriodService workPeriodService,ICashService cashService)
         {
+            _workPeriodService = workPeriodService;
+            _cashService = cashService;
             ActivateIncomeTransactionRecordCommand = new CaptionCommand<string>(Resources.IncomeTransaction_r, OnActivateIncomeTransactionRecord, CanActivateIncomeTransactionRecord);
             ActivateExpenseTransactionRecordCommand = new CaptionCommand<string>(Resources.ExpenseTransaction_r, OnActivateExpenseTransactionRecord, CanActivateIncomeTransactionRecord);
             CancelTransactionCommand = new CaptionCommand<string>(Resources.Cancel, OnCancelTransaction);
@@ -202,9 +208,9 @@ namespace Samba.Modules.CashModule
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateAccountView);
         }
 
-        private static bool CanActivateIncomeTransactionRecord(string arg)
+        private bool CanActivateIncomeTransactionRecord(string arg)
         {
-            return AppServices.MainDataContext.IsCurrentWorkPeriodOpen && AppServices.IsUserPermittedFor(PermissionNames.MakeCashTransaction);
+            return _workPeriodService.IsCurrentWorkPeriodOpen && AppServices.IsUserPermittedFor(PermissionNames.MakeCashTransaction);
         }
 
         private int GetSelectedAccountId()
@@ -215,42 +221,42 @@ namespace Samba.Modules.CashModule
         private void OnApplyTransaction(string obj)
         {
             if (TransactionType == TransactionType.Liability)
-                AppServices.CashService.AddLiability(GetSelectedAccountId(), Amount, Description);
+                _cashService.AddLiability(GetSelectedAccountId(), Amount, Description);
             else if (TransactionType == TransactionType.Receivable)
-                AppServices.CashService.AddReceivable(GetSelectedAccountId(), Amount, Description);
+                _cashService.AddReceivable(GetSelectedAccountId(), Amount, Description);
             ActivateTransactionList();
         }
 
         private void OnApplyTicketTransaction(string obj)
         {
             if (TransactionType == TransactionType.Expense)
-                AppServices.CashService.AddExpense(GetSelectedAccountId(), Amount, Description, PaymentType.Ticket);
+                _cashService.AddExpense(GetSelectedAccountId(), Amount, Description, PaymentType.Ticket);
             else
-                AppServices.CashService.AddIncome(GetSelectedAccountId(), Amount, Description, PaymentType.Ticket);
+                _cashService.AddIncome(GetSelectedAccountId(), Amount, Description, PaymentType.Ticket);
             ActivateTransactionList();
         }
 
         private void OnApplyCreditCardTransaction(string obj)
         {
             if (TransactionType == TransactionType.Expense)
-                AppServices.CashService.AddExpense(GetSelectedAccountId(), Amount, Description, PaymentType.CreditCard);
+                _cashService.AddExpense(GetSelectedAccountId(), Amount, Description, PaymentType.CreditCard);
             else
-                AppServices.CashService.AddIncome(GetSelectedAccountId(), Amount, Description, PaymentType.CreditCard);
+                _cashService.AddIncome(GetSelectedAccountId(), Amount, Description, PaymentType.CreditCard);
             ActivateTransactionList();
         }
 
         private void OnApplyCashTransaction(string obj)
         {
             if (TransactionType == TransactionType.Expense)
-                AppServices.CashService.AddExpense(GetSelectedAccountId(), Amount, Description, PaymentType.Cash);
+                _cashService.AddExpense(GetSelectedAccountId(), Amount, Description, PaymentType.Cash);
             else
-                AppServices.CashService.AddIncome(GetSelectedAccountId(), Amount, Description, PaymentType.Cash);
+                _cashService.AddIncome(GetSelectedAccountId(), Amount, Description, PaymentType.Cash);
             ActivateTransactionList();
         }
 
         private bool CanApplyTransaction(string arg)
         {
-            return AppServices.MainDataContext.IsCurrentWorkPeriodOpen && !string.IsNullOrEmpty(Description) && Amount != 0;
+            return _workPeriodService.IsCurrentWorkPeriodOpen && !string.IsNullOrEmpty(Description) && Amount != 0;
         }
 
         private void OnCancelTransaction(string obj)
@@ -304,10 +310,10 @@ namespace Samba.Modules.CashModule
             RaisePropertyChanged(() => TicketTotal);
         }
 
-        private static IEnumerable<CashTransaction> GetTransactions()
+        private IEnumerable<CashTransaction> GetTransactions()
         {
-            return AppServices.MainDataContext.CurrentWorkPeriod != null
-                    ? AppServices.CashService.GetTransactions(AppServices.MainDataContext.CurrentWorkPeriod).ToList()
+            return _workPeriodService.CurrentWorkPeriod != null
+                    ? _cashService.GetTransactions(_workPeriodService.CurrentWorkPeriod).ToList()
                     : new List<CashTransaction>();
         }
 

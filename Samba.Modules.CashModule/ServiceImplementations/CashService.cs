@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Linq;
 using Samba.Domain;
@@ -9,27 +10,27 @@ using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Transactions;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
+using Samba.Services;
 
-namespace Samba.Services
+namespace Samba.Modules.CashModule.ServiceImplementations
 {
-    public class CashTransactionData
+    [Export(typeof(ICashService))]
+    public class CashService : ICashService
     {
-        public string Name { get; set; }
-        public DateTime Date { get; set; }
-        public int PaymentType { get; set; }
-        public int TransactionType { get; set; }
-        public decimal Amount { get; set; }
-        public string AccountName { get; set; }
-    }
+        private readonly IWorkPeriodService _workPeriodService;
 
-    public class CashService
-    {
+        [ImportingConstructor]
+        public CashService(IWorkPeriodService workPeriodService)
+        {
+            _workPeriodService = workPeriodService;
+        }
+
         public dynamic GetCurrentCashOperationData()
         {
-            if (AppServices.MainDataContext.CurrentWorkPeriod == null)
+            if (_workPeriodService.CurrentWorkPeriod == null)
                 return new[] { 0m, 0m, 0m };
 
-            var startDate = AppServices.MainDataContext.CurrentWorkPeriod.StartDate;
+            var startDate = _workPeriodService.CurrentWorkPeriod.StartDate;
 
             var cashAmount = Dao.Sum<Payment>(x => x.Amount,
                                                  x =>
@@ -135,6 +136,11 @@ namespace Samba.Services
 
                 workspace.CommitChanges();
             }
+        }
+
+        public void Reset()
+        {
+
         }
     }
 

@@ -67,12 +67,14 @@ namespace Samba.Modules.TicketModule
         public string CurrentTag { get; set; }
 
         private readonly ITicketService _ticketService;
+        private IWorkPeriodService _workPeriodService;
 
         [ImportingConstructor]
-        public MenuItemSelectorViewModel(ITicketService ticketService)
+        public MenuItemSelectorViewModel(ITicketService ticketService,IWorkPeriodService workPeriodService)
         {
             _ticketService = ticketService;
-            //AddMenuItemCommand = new DelegateCommand<ScreenMenuItemData>(On);
+            _workPeriodService = workPeriodService;
+
             CategoryCommand = new DelegateCommand<ScreenMenuCategory>(OnCategoryCommandExecute);
             MenuItemCommand = new DelegateCommand<ScreenMenuItem>(OnMenuItemCommandExecute);
             TypeValueCommand = new DelegateCommand<string>(OnTypeValueExecute);
@@ -91,7 +93,6 @@ namespace Samba.Modules.TicketModule
         }
 
         private bool _filtered;
-
         private void FilterMenuItems(string numeratorValue)
         {
             if (!string.IsNullOrEmpty(numeratorValue) && Char.IsLower(numeratorValue[0]))
@@ -143,14 +144,14 @@ namespace Samba.Modules.TicketModule
         {
             if (string.IsNullOrEmpty(NumeratorValue))
             {
-                AppServices.MainDataContext.CurrentWorkPeriod.PublishEvent(EventTopicNames.DisplayTicketExplorer);
+                _workPeriodService.CurrentWorkPeriod.PublishEvent(EventTopicNames.DisplayTicketExplorer);
             }
             else
             {
                 _ticketService.OpenTicketByTicketNumber(NumeratorValue);
                 if (_ticketService.CurrentTicket != null)
                 {
-                    if (!AppServices.IsUserPermittedFor(PermissionNames.DisplayOldTickets) && _ticketService.CurrentTicket.Date < AppServices.MainDataContext.CurrentWorkPeriod.StartDate)
+                    if (!AppServices.IsUserPermittedFor(PermissionNames.DisplayOldTickets) && _ticketService.CurrentTicket.Date < _workPeriodService.CurrentWorkPeriod.StartDate)
                         _ticketService.CloseTicket();
                     else
                         EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);

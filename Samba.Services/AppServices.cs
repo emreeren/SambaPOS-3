@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
-using Microsoft.Practices.ServiceLocation;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Users;
 using Samba.Infrastructure.Data;
@@ -65,12 +64,6 @@ namespace Samba.Services
         public static MessagingService MessagingService
         {
             get { return _messagingService ?? (_messagingService = new MessagingService()); }
-        }
-
-        private static CashService _cashService;
-        public static CashService CashService
-        {
-            get { return _cashService ?? (_cashService = new CashService()); }
         }
 
         private static SettingService _settingService;

@@ -76,7 +76,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CashService.cs" />
     <Compile Include="DataAccessService.cs" />
     <Compile Include="EMailService.cs" />
     <Compile Include="HtmlConverter\HtmlCssParser.cs" />
@@ -87,10 +86,12 @@
     <Compile Include="HtmlConverter\HtmlTokenType.cs" />
     <Compile Include="HtmlConverter\HtmlToXamlConverter.cs" />
     <Compile Include="DataCreationService.cs" />
+    <Compile Include="ICashService.cs" />
     <Compile Include="IDepartmentService.cs" />
-    <Compile Include="InventoryService.cs" />
+    <Compile Include="IInventoryService.cs" />
     <Compile Include="IService.cs" />
     <Compile Include="ITicketService.cs" />
+    <Compile Include="IWorkPeriodService.cs" />
     <Compile Include="MainDataContext.cs" />
     <Compile Include="MessagingService.cs" />
     <Compile Include="MethodQueue.cs" />
@@ -140,7 +141,9 @@
       <Name>Samba.Persistance.Data</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ServiceImplementations\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>IF NOT "$(ConfigurationName)"=="Release" GOTO End

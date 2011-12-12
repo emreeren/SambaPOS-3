@@ -3,6 +3,7 @@ using System.Windows;
 using FluentValidation;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
+using Samba.Services;
 
 namespace Samba.Presentation.Common.ModelBase
 {
@@ -15,6 +16,8 @@ namespace Samba.Presentation.Common.ModelBase
         private IValidator<TModel> _validator;
 
         protected IWorkspace Workspace { get; private set; }
+        protected IWorkPeriodService WorkPeriodService { get; private set; }
+        protected IInventoryService InventoryService { get; private set; }
 
         protected EntityViewModelBase(TModel model)
         {
@@ -33,6 +36,7 @@ namespace Samba.Presentation.Common.ModelBase
         }
 
         private string _error;
+
         public string Error
         {
             get { return _error; }
@@ -45,9 +49,11 @@ namespace Samba.Presentation.Common.ModelBase
 
         public abstract string GetModelTypeString();
 
-        public void Init(IWorkspace workspace)
+        public void Init(IWorkspace workspace, IWorkPeriodService workPeriodService, IInventoryService inventoryService)
         {
             _modelSaved = false;
+            InventoryService = inventoryService;
+            WorkPeriodService = workPeriodService;
             Workspace = workspace;
             Initialize();
         }
