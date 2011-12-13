@@ -34,7 +34,8 @@ namespace Samba.Modules.TicketModule
 
         private readonly ITicketService _ticketService;
         private readonly IDepartmentService _departmentService;
-        private IWorkPeriodService _workPeriodService;
+        private readonly IWorkPeriodService _workPeriodService;
+        private readonly IPrinterService _printerService;
 
         private readonly Timer _timer;
 
@@ -227,10 +228,12 @@ namespace Samba.Modules.TicketModule
         }
 
         [ImportingConstructor]
-        public TicketListViewModel(IDepartmentService departmentService, ITicketService ticketService,IWorkPeriodService workPeriodService)
+        public TicketListViewModel(IDepartmentService departmentService, ITicketService ticketService,
+            IWorkPeriodService workPeriodService, IPrinterService printerService)
         {
             _workPeriodService = workPeriodService;
             _departmentService = departmentService;
+            _printerService = printerService;
             _ticketService = ticketService;
             _timer = new Timer(OnTimer, null, Timeout.Infinite, 1000);
             _selectedOrders = new ObservableCollection<OrderViewModel>();
@@ -566,7 +569,7 @@ namespace Samba.Modules.TicketModule
             SaveTicketIfNew();
 
             _ticketService.UpdateTicketNumber(SelectedTicket.Model, _departmentService.CurrentDepartment.TicketTemplate.TicketNumerator);
-            AppServices.PrintService.ManualPrintTicket(SelectedTicket.Model, printJob);
+            _printerService.ManualPrintTicket(SelectedTicket.Model, printJob);
 
             if (printJob.WhenToPrint == (int)WhenToPrintTypes.Paid && !SelectedTicket.IsPaid)
                 MakePaymentCommand.Execute("");

@@ -12,7 +12,7 @@ using System.Diagnostics;
 using System.Collections;
 using System.Diagnostics.Contracts;
 
-namespace Samba.Services.HtmlConverter
+namespace Samba.Modules.PrinterModule.HtmlConverter
 {
     /// <summary>
     /// HtmlSchema class

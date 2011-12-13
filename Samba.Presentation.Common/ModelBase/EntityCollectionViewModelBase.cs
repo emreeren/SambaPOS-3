@@ -40,6 +40,15 @@ namespace Samba.Presentation.Common.ModelBase
             }
         }
 
+        private IPrinterService _printerService;
+        public IPrinterService PrinterService
+        {
+            get
+            {
+                return _printerService ?? (_printerService =
+                        ServiceLocator.Current.GetInstance(typeof(IPrinterService)) as IPrinterService);
+            }
+        }
 
         private ObservableCollection<TViewModel> _items;
         public ObservableCollection<TViewModel> Items { get { return _items ?? (_items = GetItemsList()); } }
@@ -210,7 +219,7 @@ namespace Samba.Presentation.Common.ModelBase
         protected TViewModel InternalCreateNewViewModel(TModel model)
         {
             var result = CreateNewViewModel(model);
-            result.Init(_workspace, WorkPeriodService, InventoryService);
+            result.Init(_workspace, WorkPeriodService, InventoryService, PrinterService);
             return result;
         }
 

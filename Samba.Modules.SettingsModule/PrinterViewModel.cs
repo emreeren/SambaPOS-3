@@ -43,9 +43,9 @@ namespace Samba.Modules.SettingsModule
             get { return _printerNames ?? (_printerNames = GetPrinterNames()); }
         }
 
-        private static IEnumerable<string> GetPrinterNames()
+        private IEnumerable<string> GetPrinterNames()
         {
-            return AppServices.PrintService.GetPrinterNames();
+            return PrinterService.GetPrinterNames();
         }
 
         public override Type GetViewType()

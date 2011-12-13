@@ -48,12 +48,6 @@ namespace Samba.Services
             set { _mainDataContext = value; }
         }
 
-        private static PrinterService _printService;
-        public static PrinterService PrintService
-        {
-            get { return _printService ?? (_printService = new PrinterService()); }
-        }
-
         private static DataAccessService _dataAccessService;
         public static DataAccessService DataAccessService
         {
@@ -145,7 +139,6 @@ namespace Samba.Services
             _terminal = null;
             _terminals = null;
             MainDataContext.ResetCache();
-            PrintService.ResetCache();
             SettingService.ResetCache();
             SerialPortService.ResetCache();
             Dao.ResetCache();

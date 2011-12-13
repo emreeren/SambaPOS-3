@@ -1,9 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
 
-namespace Samba.Infrastructure.Printing
+namespace Samba.Modules.PrinterModule
 {
     public static class AsciiControlChars
     {

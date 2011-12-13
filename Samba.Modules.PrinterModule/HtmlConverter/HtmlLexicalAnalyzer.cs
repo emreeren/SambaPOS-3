@@ -14,7 +14,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Text;
 
-namespace Samba.Services.HtmlConverter
+namespace Samba.Modules.PrinterModule.HtmlConverter
 {
     /// <summary>
     /// lexical analyzer class

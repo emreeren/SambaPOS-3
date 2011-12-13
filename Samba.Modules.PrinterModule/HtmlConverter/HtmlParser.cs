@@ -14,7 +14,7 @@ using System.Xml;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Samba.Services.HtmlConverter
+namespace Samba.Modules.PrinterModule.HtmlConverter
 {
     /// <summary>
     /// HtmlParser class accepts a string of possibly badly formed Html, parses it and returns a string

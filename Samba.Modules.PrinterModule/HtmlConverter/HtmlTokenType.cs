@@ -8,7 +8,7 @@
 //
 //---------------------------------------------------------------------------
 
-namespace Samba.Services.HtmlConverter
+namespace Samba.Modules.PrinterModule.HtmlConverter
 {
     /// <summary>
     /// types of lexical tokens for html-to-xaml converter

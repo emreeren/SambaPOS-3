@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows.Documents;
 using Samba.Domain.Models.Settings;
+using Samba.Services;
 
-namespace Samba.Services.Printing
+namespace Samba.Modules.PrinterModule
 {
     public class TextPrinterJob : AbstractPrintJob
     {
@@ -15,14 +14,14 @@ namespace Samba.Services.Printing
 
         public override void DoPrint(string[] lines)
         {
-            var q = AppServices.PrintService.GetPrinter(Printer.ShareName);
+            var q = PrinterInfo.GetPrinter(Printer.ShareName);
             var text = lines.Aggregate("", (current, s) => current + RemoveTag(s.Replace("|", "")) + "\r\n");
             PrintFlowDocument(q, new FlowDocument(new Paragraph(new Run(text))));
         }
 
         public override void DoPrint(FlowDocument document)
         {
-            var q = AppServices.PrintService.GetPrinter(Printer.ShareName);
+            var q = PrinterInfo.GetPrinter(Printer.ShareName);
             PrintFlowDocument(q, document);
         }
     }

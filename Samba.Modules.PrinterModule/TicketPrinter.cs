@@ -12,8 +12,9 @@ using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data.Serializer;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
+using Samba.Services;
 
-namespace Samba.Services.Printing
+namespace Samba.Modules.PrinterModule
 {
     internal class PrinterData
     {

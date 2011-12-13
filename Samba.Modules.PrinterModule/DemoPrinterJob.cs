@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows.Documents;
 using Samba.Domain.Models.Settings;
 
-namespace Samba.Services.Printing
+namespace Samba.Modules.PrinterModule
 {
     class DemoPrinterJob : AbstractPrintJob
     {

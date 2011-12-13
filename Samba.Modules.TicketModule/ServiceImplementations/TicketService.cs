@@ -24,11 +24,13 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
     {
         private IWorkspace _workspace;
         private readonly IDepartmentService _departmentService;
+        private readonly IPrinterService _printerService;
 
         [ImportingConstructor]
-        public TicketService(IDepartmentService departmentService)
+        public TicketService(IDepartmentService departmentService, IPrinterService printerService)
         {
             _departmentService = departmentService;
+            _printerService = printerService;
         }
 
         public void UpdateAccount(Ticket ticket, Account account)
@@ -155,7 +157,7 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
                     Debug.Assert(CurrentTicket.Id > 0);
 
                     //Otomatik yazdırma
-                    AppServices.PrintService.AutoPrintTicket(CurrentTicket);
+                    _printerService.AutoPrintTicket(CurrentTicket);
                     CurrentTicket.LockTicket();
                 }
 
@@ -382,14 +384,14 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
             _workspace.All<Location>(x => x.TicketId == ticket.Id).ToList().ForEach(x => x.Reset());
             UpdateTicketLocation(ticket);
             Debug.Assert(_workspace != null);
-            Debug.Assert(ticket!= null);
+            Debug.Assert(ticket != null);
             Debug.Assert(ticket.Id > 0 || ticket.Orders.Count > 0);
             if (ticket.Id == 0 && ticket.TicketNumber != null)
                 _workspace.Add(ticket);
             ticket.LastUpdateTime = DateTime.Now;
             _workspace.CommitChanges();
         }
-        
+
         public void Reset()
         {
 

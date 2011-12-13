@@ -18,6 +18,7 @@ namespace Samba.Presentation.Common.ModelBase
         protected IWorkspace Workspace { get; private set; }
         protected IWorkPeriodService WorkPeriodService { get; private set; }
         protected IInventoryService InventoryService { get; private set; }
+        protected IPrinterService PrinterService { get; private set; }
 
         protected EntityViewModelBase(TModel model)
         {
@@ -49,11 +50,12 @@ namespace Samba.Presentation.Common.ModelBase
 
         public abstract string GetModelTypeString();
 
-        public void Init(IWorkspace workspace, IWorkPeriodService workPeriodService, IInventoryService inventoryService)
+        public void Init(IWorkspace workspace, IWorkPeriodService workPeriodService, IInventoryService inventoryService, IPrinterService printerService)
         {
             _modelSaved = false;
             InventoryService = inventoryService;
             WorkPeriodService = workPeriodService;
+            PrinterService = printerService;
             Workspace = workspace;
             Initialize();
         }

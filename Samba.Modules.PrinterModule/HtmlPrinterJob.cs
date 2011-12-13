@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Windows;
 using System.Windows.Documents;
 using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Settings;
-using Samba.Services.HtmlConverter;
+using Samba.Modules.PrinterModule.HtmlConverter;
 
-namespace Samba.Services.Printing
+namespace Samba.Modules.PrinterModule
 {
     public class HtmlPrinterJob : AbstractPrintJob
     {
@@ -25,7 +21,7 @@ namespace Samba.Services.Printing
 
         public override void DoPrint(string[] lines)
         {
-            var q = AppServices.PrintService.GetPrinter(Printer.ShareName);
+            var q = PrinterInfo.GetPrinter(Printer.ShareName);
             var formattedLines = ConvertTagsToHtml(lines);
             var text = formattedLines.Aggregate("", (current, s) => current + s + "\r\n");
 

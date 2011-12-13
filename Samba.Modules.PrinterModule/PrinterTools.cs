@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Documents;
 
-namespace Samba.Services.Printing
+namespace Samba.Modules.PrinterModule
 {
     internal static class PrinterTools
     {

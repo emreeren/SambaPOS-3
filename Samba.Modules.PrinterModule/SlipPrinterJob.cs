@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
 using System.Windows.Documents;
 using Samba.Domain.Models.Settings;
-using Samba.Infrastructure.Printing;
 
-namespace Samba.Services.Printing
+namespace Samba.Modules.PrinterModule
 {
     public class SlipPrinterJob : AbstractPrintJob
     {

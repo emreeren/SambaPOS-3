@@ -26,12 +26,14 @@ namespace Samba.Modules.TicketModule
         private readonly ITicketService _ticketService;
         private readonly IDepartmentService _departmentService;
         private readonly ICaptionCommand _manualPrintCommand;
+        private readonly IPrinterService _printerService;
 
         [ImportingConstructor]
-        public PaymentEditorViewModel(ITicketService ticketService, IDepartmentService departmentService)
+        public PaymentEditorViewModel(ITicketService ticketService, IDepartmentService departmentService, IPrinterService printerService)
         {
             _ticketService = ticketService;
             _departmentService = departmentService;
+            _printerService = printerService;
             _manualPrintCommand = new CaptionCommand<PrintJob>(Resources.Print, OnManualPrint, CanManualPrint);
             SubmitCashPaymentCommand = new CaptionCommand<string>(Resources.Cash, OnSubmitCashPayment, CanSubmitCashPayment);
             SubmitCreditCardPaymentCommand = new CaptionCommand<string>(Resources.CreditCard_r, OnSubmitCreditCardPayment,
@@ -158,7 +160,7 @@ namespace Samba.Modules.TicketModule
         private void OnManualPrint(PrintJob obj)
         {
             _ticketService.UpdateTicketNumber(SelectedTicket.Model, _departmentService.CurrentDepartment.TicketTemplate.TicketNumerator);
-            AppServices.PrintService.ManualPrintTicket(SelectedTicket.Model, obj);
+            _printerService.ManualPrintTicket(SelectedTicket.Model, obj);
         }
 
         private bool CanAutoSetDiscount(string arg)

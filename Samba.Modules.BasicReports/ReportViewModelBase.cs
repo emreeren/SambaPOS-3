@@ -159,7 +159,7 @@ namespace Samba.Modules.BasicReports
 
         private void OnPrintDocument(string obj)
         {
-            AppServices.PrintService.PrintSlipReport(Document);
+            ReportContext.PrinterService.PrintSlipReport(Document);
         }
 
         public void RefreshReport()

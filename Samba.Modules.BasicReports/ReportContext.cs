@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Microsoft.Practices.ServiceLocation;
 using Samba.Domain;
 using Samba.Domain.Models.Inventories;
 using Samba.Domain.Models.Menus;
@@ -24,14 +23,11 @@ namespace Samba.Modules.BasicReports
 {
     public static class ReportContext
     {
-        private static readonly IDepartmentService DepartmentService =
-            ServiceLocator.Current.GetInstance(typeof(IDepartmentService)) as IDepartmentService;
-        private static readonly IWorkPeriodService WorkPeriodService =
-                 ServiceLocator.Current.GetInstance(typeof(IWorkPeriodService)) as IWorkPeriodService;
-        private static readonly IInventoryService InventoryService =
-                 ServiceLocator.Current.GetInstance(typeof(IInventoryService)) as IInventoryService;
-        private static readonly ICashService CashService =
-                 ServiceLocator.Current.GetInstance(typeof(ICashService)) as ICashService;
+        public static ICashService CashService { get; set; }
+        public static IDepartmentService DepartmentService { get; set; }
+        public static IWorkPeriodService WorkPeriodService { get; set; }
+        public static IInventoryService InventoryService { get; set; }
+        public static IPrinterService PrinterService { get; set; }
 
         public static IList<ReportViewModelBase> Reports { get; private set; }
 

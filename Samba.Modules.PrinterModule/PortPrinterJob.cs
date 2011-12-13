@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Windows.Documents;
 using Samba.Domain.Models.Settings;
+using Samba.Services;
 
-namespace Samba.Services.Printing
+namespace Samba.Modules.PrinterModule
 {
     class PortPrinterJob : AbstractPrintJob
     {

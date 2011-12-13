@@ -16,7 +16,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Samba.Services.HtmlConverter
+namespace Samba.Modules.PrinterModule.HtmlConverter
 {
     // DependencyProperty
 

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Samba.Infrastructure.Printing
+namespace Samba.Modules.PrinterModule
 {
     public enum LineAlignment
     {

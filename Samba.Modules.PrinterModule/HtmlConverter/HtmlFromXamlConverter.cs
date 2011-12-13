@@ -14,7 +14,7 @@ using System.Text;
 using System.IO;
 using System.Xml;
 
-namespace Samba.Services.HtmlConverter
+namespace Samba.Modules.PrinterModule.HtmlConverter
 {
     /// <summary>
     /// HtmlToXamlConverter is a static class that takes an HTML string
