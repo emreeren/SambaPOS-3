@@ -16,6 +16,8 @@ namespace Samba.Modules.PrinterModule
     {
         private static readonly IDepartmentService DepartmentService =
             ServiceLocator.Current.GetInstance(typeof(IDepartmentService)) as IDepartmentService;
+        private static readonly IUserService UserService =
+            ServiceLocator.Current.GetInstance(typeof(IUserService)) as IUserService;
 
         public static string[] GetFormattedTicket(Ticket ticket, IEnumerable<Order> lines, PrinterTemplate template)
         {
@@ -109,7 +111,7 @@ namespace Samba.Modules.PrinterModule
                 }
             }
 
-            var userName = AppServices.MainDataContext.GetUserName(userNo);
+            var userName = UserService.GetUserName(userNo);
 
             var title = ticket.LocationName;
             if (string.IsNullOrEmpty(ticket.LocationName))

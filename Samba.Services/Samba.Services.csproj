@@ -85,6 +85,7 @@
     <Compile Include="IPrinterService.cs" />
     <Compile Include="IService.cs" />
     <Compile Include="ITicketService.cs" />
+    <Compile Include="IUserService.cs" />
     <Compile Include="IWorkPeriodService.cs" />
     <Compile Include="MainDataContext.cs" />
     <Compile Include="MessagingService.cs" />

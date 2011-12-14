@@ -14,11 +14,11 @@ namespace Samba.Presentation.ViewModels
 {
     public class OrderViewModel : ObservableObject
     {
-        private TicketTemplate _ticketTemplate;
+        private readonly TicketTemplate _ticketTemplate;
 
         public bool IsSelectedQuantityModified { get; set; }
 
-        public OrderViewModel(Order model,TicketTemplate ticketTemplate)
+        public OrderViewModel(Order model, TicketTemplate ticketTemplate)
         {
             _model = model;
             _ticketTemplate = ticketTemplate;

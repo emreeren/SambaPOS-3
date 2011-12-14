@@ -17,9 +17,11 @@ namespace Samba.Modules.TicketModule
         private readonly Ticket _model;
         private readonly TicketTemplate _ticketTemplate;
         private readonly bool _forcePayment;
+        private ITicketService _ticketService;
         
-        public TicketViewModel(Ticket model, TicketTemplate ticketTemplate, bool forcePayment)
+        public TicketViewModel(Ticket model, TicketTemplate ticketTemplate, bool forcePayment,ITicketService ticketService)
         {
+            _ticketService = ticketService;
             _forcePayment = forcePayment;
             _model = model;
             _ticketTemplate = ticketTemplate;
@@ -365,7 +367,7 @@ namespace Samba.Modules.TicketModule
             var newItems = Model.ExtractSelectedOrders(selectedItems.Select(x => x.Model));
             foreach (var newItem in newItems)
             {
-                AppServices.MainDataContext.AddItemToSelectedTicket(newItem);
+                _ticketService.AddItemToSelectedTicket(newItem);
                 _orders.Add(new OrderViewModel(newItem, _ticketTemplate) { Selected = true });
             }
             selectedItems.ForEach(x => x.NotSelected());

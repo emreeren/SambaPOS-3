@@ -531,7 +531,7 @@ namespace Samba.Modules.TicketModule
             SelectedTicket = new TicketViewModel(
                 _ticketService.CurrentTicket,
                 _departmentService.CurrentDepartment.TicketTemplate,
-                _departmentService.CurrentDepartment.IsFastFood);
+                _departmentService.CurrentDepartment.IsFastFood, _ticketService);
 
             TicketRemainingValue = _ticketService.CurrentTicket.GetRemainingAmount();
             PrepareMergedItems();
@@ -539,7 +539,6 @@ namespace Samba.Modules.TicketModule
             LastTenderedAmount = PaymentAmount;
             CreateButtons();
         }
-
     }
 
     public class MergedItem : ObservableObject

@@ -392,6 +392,11 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
             _workspace.CommitChanges();
         }
 
+        public void AddItemToSelectedTicket(Order newItem)
+        {
+            _workspace.Add(newItem);
+        }
+
         public void Reset()
         {
 

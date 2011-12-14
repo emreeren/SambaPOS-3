@@ -98,11 +98,10 @@ namespace Samba.Services
         public int LocationCount { get; set; }
         public string NumeratorValue { get; set; }
 
-        public ITicketService TicketService { get; set; }
         public IDepartmentService DepartmentService { get; set; }
         public IInventoryService InventoryService { get; set; }
         public IWorkPeriodService WorkPeriodService { get; set; }
-
+        public IUserService UserService { get; set; }
 
         private IWorkspace _locationWorkspace;
         private readonly TicketWorkspace _ticketWorkspace = new TicketWorkspace();
@@ -112,9 +111,6 @@ namespace Samba.Services
 
         private IEnumerable<AppAction> _actions;
         public IEnumerable<AppAction> Actions { get { return _actions ?? (_actions = Dao.Query<AppAction>()); } }
-
-        private IEnumerable<User> _users;
-        public IEnumerable<User> Users { get { return _users ?? (_users = Dao.Query<User>(x => x.UserRole)); } }
 
         private IEnumerable<TaxTemplate> _taxTemplates;
         public IEnumerable<TaxTemplate> TaxTemplates
@@ -133,10 +129,10 @@ namespace Samba.Services
         public MainDataContext()
         {
             _ticketWorkspace = new TicketWorkspace();
-            TicketService = ServiceLocator.Current.GetInstance(typeof(ITicketService)) as ITicketService;
             DepartmentService = ServiceLocator.Current.GetInstance(typeof(IDepartmentService)) as IDepartmentService;
             InventoryService = ServiceLocator.Current.GetInstance(typeof(IInventoryService)) as IInventoryService;
             WorkPeriodService = ServiceLocator.Current.GetInstance(typeof(IWorkPeriodService)) as IWorkPeriodService;
+            UserService = ServiceLocator.Current.GetInstance(typeof(IUserService)) as IUserService;
         }
 
         public void ResetUserData()
@@ -213,7 +209,7 @@ namespace Samba.Services
                 DepartmentService.Reset();
                 InventoryService.Reset();
                 WorkPeriodService.Reset();
-                _users = null;
+                UserService.Reset();
                 _rules = null;
                 _actions = null;
                 _taxTemplates = null;
@@ -228,21 +224,6 @@ namespace Samba.Services
                 //        SelectedLocationScreen = SelectedDepartment.PosLocationScreens.Single(x => x.Id == selectedLocationScreen);
                 //}
             }
-        }
-
-        public string GetUserName(int userId)
-        {
-            return userId > 0 ? Users.Single(x => x.Id == userId).Name : "-";
-        }
-
-        public TicketCommitResult MoveOrders(IEnumerable<Order> selectedOrders, int targetTicketId)
-        {
-            return TicketService.MoveOrders(selectedOrders, targetTicketId);
-        }
-
-        public void AddItemToSelectedTicket(Order model)
-        {
-            _ticketWorkspace.AddItemToSelectedTicket(model);
         }
 
         public TaxTemplate GetTaxTemplate(int menuItemId)

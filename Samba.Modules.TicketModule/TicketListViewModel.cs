@@ -76,7 +76,7 @@ namespace Samba.Modules.TicketModule
                 if (_ticketService.CurrentTicket == null) _selectedTicket = null;
                 if (_selectedTicket == null && _ticketService.CurrentTicket != null)
                     _selectedTicket = new TicketViewModel(_ticketService.CurrentTicket, _departmentService.CurrentDepartment.TicketTemplate,
-                      _departmentService.CurrentDepartment != null && _departmentService.CurrentDepartment.IsFastFood);
+                      _departmentService.CurrentDepartment != null && _departmentService.CurrentDepartment.IsFastFood, _ticketService);
                 return _selectedTicket;
             }
         }
@@ -364,7 +364,7 @@ namespace Samba.Modules.TicketModule
                 RuleExecutor.NotifyEvent(RuleEventNames.AccountSelectedForTicket,
                     new
                     {
-                        Ticket = AppServices.MainDataContext.TicketService.CurrentTicket,
+                        Ticket = _ticketService.CurrentTicket,
                         AccountName = obj.Value.Name,
                         PhoneNumber = obj.Value.SearchString
                     });
@@ -601,7 +601,7 @@ namespace Samba.Modules.TicketModule
         private void OnMoveOrders(string obj)
         {
             SelectedTicket.FixSelectedItems();
-            var newTicketId = AppServices.MainDataContext.MoveOrders(SelectedTicket.SelectedOrders.Select(x => x.Model), 0).TicketId;
+            var newTicketId = _ticketService.MoveOrders(SelectedTicket.SelectedOrders.Select(x => x.Model), 0).TicketId;
             OnOpenTicketExecute(newTicketId);
         }
 
@@ -910,9 +910,9 @@ namespace Samba.Modules.TicketModule
             _timer.Change(Timeout.Infinite, 60000);
         }
 
-        private static void OnMakePaymentExecute(string obj)
+        private void OnMakePaymentExecute(string obj)
         {
-            AppServices.MainDataContext.TicketService.CurrentTicket.PublishEvent(EventTopicNames.MakePayment);
+            _ticketService.CurrentTicket.PublishEvent(EventTopicNames.MakePayment);
         }
 
         private void OnCloseTicketExecute(string obj)

@@ -29,5 +29,6 @@ namespace Samba.Services
         void RegenerateTaxRates(Ticket ticket);
         void UpdateTag(Ticket ticket, TicketTagGroup tagGroup, TicketTag ticketTag);
         void ResetLocationData(Ticket ticket);
+        void AddItemToSelectedTicket(Order newItem);
     }
 }

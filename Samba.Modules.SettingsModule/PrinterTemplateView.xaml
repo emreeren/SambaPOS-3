@@ -44,7 +44,7 @@
         </FlowDocumentScrollViewer>
 
         <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1">
-            <Button HorizontalAlignment="Left" Margin="0,10" Width="60" Content="{Binding SaveCommand.Caption}"
+            <Button HorizontalAlignment="Left" Margin="0,10" MinWidth="70" Content="{Binding SaveCommand.Caption}"
                      Command="{Binding SaveCommand}" />
             <Label Content="{Binding Error}" Foreground="Red" />
         </StackPanel>
