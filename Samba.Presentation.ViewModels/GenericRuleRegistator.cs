@@ -26,6 +26,9 @@ namespace Samba.Presentation.ViewModels
         private static readonly ITicketService TicketService =
             ServiceLocator.Current.GetInstance(typeof(ITicketService)) as ITicketService;
 
+        private static readonly IUserService UserService =
+            ServiceLocator.Current.GetInstance(typeof(IUserService)) as IUserService;
+
         private static bool _registered;
         public static void RegisterOnce()
         {
@@ -76,7 +79,7 @@ namespace Samba.Presentation.ViewModels
 
         private static void RegisterParameterSources()
         {
-            RuleActionTypeRegistry.RegisterParameterSoruce("UserName", () => AppServices.MainDataContext.Users.Select(x => x.Name));
+            RuleActionTypeRegistry.RegisterParameterSoruce("UserName", () => UserService.GetUserNames());
             RuleActionTypeRegistry.RegisterParameterSoruce("DepartmentName", () => DepartmentService.GetDepartmentNames());
             RuleActionTypeRegistry.RegisterParameterSoruce("TerminalName", () => AppServices.Terminals.Select(x => x.Name));
             RuleActionTypeRegistry.RegisterParameterSoruce("TriggerName", () => Dao.Select<Trigger, string>(yz => yz.Name, y => !string.IsNullOrEmpty(y.Expression)));
@@ -230,7 +233,7 @@ namespace Samba.Presentation.ViewModels
                         var quantity = x.Value.GetAsDecimal("Quantity");
                         var tag = x.Value.GetAsString("Tag");
 
-                        var ti = ticket.AddOrder(AppServices.CurrentLoggedInUser.Id, menuItem, portionName,
+                        var ti = ticket.AddOrder(AppServices.CurrentLoggedInUser.Name, menuItem, portionName,
                                  DepartmentService.CurrentDepartment.TicketTemplate.PriceTag);
 
                         ti.Quantity = quantity;

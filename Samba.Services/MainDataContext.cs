@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Microsoft.Practices.ServiceLocation;
@@ -8,8 +6,6 @@ using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Actions;
 using Samba.Domain.Models.Locations;
 using Samba.Domain.Models.Menus;
-using Samba.Domain.Models.Tickets;
-using Samba.Domain.Models.Users;
 using Samba.Infrastructure.Data;
 using Samba.Persistance.Data;
 
@@ -23,77 +19,6 @@ namespace Samba.Services
 
     public class MainDataContext
     {
-        private class TicketWorkspace
-        {
-            private IWorkspace _workspace;
-            public Ticket Ticket { get; private set; }
-
-            public void CreateTicket(Department department)
-            {
-                Debug.Assert(_workspace == null);
-                Debug.Assert(Ticket == null);
-                Debug.Assert(department != null);
-
-                _workspace = WorkspaceFactory.Create();
-                Ticket = Ticket.Create(department);
-            }
-
-            public void OpenTicket(int ticketId)
-            {
-                Debug.Assert(_workspace == null);
-                Debug.Assert(Ticket == null);
-                _workspace = WorkspaceFactory.Create();
-
-                Ticket = _workspace.Single<Ticket>(ticket => ticket.Id == ticketId, x => x.Orders.Select(y => y.OrderTagValues));
-            }
-
-            public void CommitChanges()
-            {
-                Debug.Assert(_workspace != null);
-                Debug.Assert(Ticket != null);
-                Debug.Assert(Ticket.Id > 0 || Ticket.Orders.Count > 0);
-                if (Ticket.Id == 0 && Ticket.TicketNumber != null)
-                    _workspace.Add(Ticket);
-                Ticket.LastUpdateTime = DateTime.Now;
-                _workspace.CommitChanges();
-            }
-
-            public void Reset()
-            {
-                Debug.Assert(Ticket != null);
-                Debug.Assert(_workspace != null);
-                Ticket = null;
-                _workspace = null;
-            }
-
-            public Location LoadLocation(string locationName)
-            {
-                return _workspace.Single<Location>(x => x.Name == locationName);
-            }
-
-            public Location GetLocationWithId(int locationId)
-            {
-                return _workspace.Single<Location>(x => x.Id == locationId);
-            }
-
-            public Location GetTicketLocation()
-            {
-                Debug.Assert(!string.IsNullOrEmpty(Ticket.LocationName));
-                Debug.Assert(Ticket != null);
-                return _workspace.Single<Location>(x => x.Name == Ticket.LocationName);
-            }
-
-            public void ResetLocationData(IEntity ticket)
-            {
-                _workspace.All<Location>(x => x.TicketId == ticket.Id).ToList().ForEach(x => x.Reset());
-            }
-
-            public void AddItemToSelectedTicket(Order model)
-            {
-                _workspace.Add(model);
-            }
-        }
-
         public int AccountCount { get; set; }
         public int LocationCount { get; set; }
         public string NumeratorValue { get; set; }
@@ -104,8 +29,7 @@ namespace Samba.Services
         public IUserService UserService { get; set; }
 
         private IWorkspace _locationWorkspace;
-        private readonly TicketWorkspace _ticketWorkspace = new TicketWorkspace();
-
+        
         private IEnumerable<AppRule> _rules;
         public IEnumerable<AppRule> Rules { get { return _rules ?? (_rules = Dao.Query<AppRule>(x => x.Actions)); } }
 
@@ -128,7 +52,6 @@ namespace Samba.Services
 
         public MainDataContext()
         {
-            _ticketWorkspace = new TicketWorkspace();
             DepartmentService = ServiceLocator.Current.GetInstance(typeof(IDepartmentService)) as IDepartmentService;
             InventoryService = ServiceLocator.Current.GetInstance(typeof(IInventoryService)) as IInventoryService;
             WorkPeriodService = ServiceLocator.Current.GetInstance(typeof(IWorkPeriodService)) as IWorkPeriodService;
@@ -197,8 +120,6 @@ namespace Samba.Services
 
         public void ResetCache()
         {
-            Debug.Assert(_ticketWorkspace.Ticket == null);
-
             if (_locationWorkspace == null)
             {
                 var selectedDepartment = DepartmentService.CurrentDepartment != null ? DepartmentService.CurrentDepartment.Id : 0;

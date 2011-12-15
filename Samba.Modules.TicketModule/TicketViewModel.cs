@@ -17,9 +17,9 @@ namespace Samba.Modules.TicketModule
         private readonly Ticket _model;
         private readonly TicketTemplate _ticketTemplate;
         private readonly bool _forcePayment;
-        private ITicketService _ticketService;
-        
-        public TicketViewModel(Ticket model, TicketTemplate ticketTemplate, bool forcePayment,ITicketService ticketService)
+        private readonly ITicketService _ticketService;
+
+        public TicketViewModel(Ticket model, TicketTemplate ticketTemplate, bool forcePayment, ITicketService ticketService)
         {
             _ticketService = ticketService;
             _forcePayment = forcePayment;

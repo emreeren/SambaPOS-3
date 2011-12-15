@@ -1030,7 +1030,7 @@ namespace Samba.Modules.TicketModule
                 portion = menuItem.Portions.First(x => x.Name == portionName);
             }
 
-            var ti = SelectedTicket.Model.AddOrder(AppServices.CurrentLoggedInUser.Id, menuItem, portion.Name, SelectedDepartment.TicketTemplate.PriceTag);
+            var ti = SelectedTicket.Model.AddOrder(AppServices.CurrentLoggedInUser.Name, menuItem, portion.Name, SelectedDepartment.TicketTemplate.PriceTag);
             ti.Quantity = quantity > 9 ? decimal.Round(quantity / portion.Multiplier, LocalSettings.Decimals) : quantity;
 
             if (template != null) template.OrderTagTemplateValues.ToList().ForEach(x => ti.ToggleOrderTag(x.OrderTagGroup, x.OrderTag, 0));

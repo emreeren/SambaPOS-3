@@ -24,6 +24,10 @@ namespace Samba.Modules.PrinterModule
                     {
                         SerialPortService.WritePort(Printer.ShareName, RemoveTag(s) + "\n\r");
                     }
+                    if (s.ToLower().StartsWith("<xct"))
+                    {
+                        SerialPortService.WriteCommand(Printer.ShareName, RemoveTag(s));
+                    }
                     else SerialPortService.WritePort(Printer.ShareName, RemoveTag(s));
                 }
             }

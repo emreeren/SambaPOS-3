@@ -16,14 +16,12 @@ namespace Samba.Modules.PrinterModule
     {
         private static readonly IDepartmentService DepartmentService =
             ServiceLocator.Current.GetInstance(typeof(IDepartmentService)) as IDepartmentService;
-        private static readonly IUserService UserService =
-            ServiceLocator.Current.GetInstance(typeof(IUserService)) as IUserService;
 
         public static string[] GetFormattedTicket(Ticket ticket, IEnumerable<Order> lines, PrinterTemplate template)
         {
             if (template.MergeLines) lines = MergeLines(lines);
             var orderNo = lines.Count() > 0 ? lines.ElementAt(0).OrderNumber : 0;
-            var userNo = lines.Count() > 0 ? lines.ElementAt(0).CreatingUserId : 0;
+            var userNo = lines.Count() > 0 ? lines.ElementAt(0).CreatingUserName : "";
             var header = ReplaceDocumentVars(template.HeaderTemplate, ticket, orderNo, userNo);
             var footer = ReplaceDocumentVars(template.FooterTemplate, ticket, orderNo, userNo);
             var lns = lines.SelectMany(x => FormatLines(template, x).Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)).ToArray();
@@ -62,7 +60,7 @@ namespace Samba.Modules.PrinterModule
                                         TaxTemplateId = x.Key.TaxTemplateId,
                                         TaxIncluded = x.Key.TaxIncluded,
                                         CreatedDateTime = x.Last().CreatedDateTime,
-                                        CreatingUserId = x.Last().CreatingUserId,
+                                        CreatingUserName = x.Last().CreatingUserName,
                                         OrderNumber = x.Last().OrderNumber,
                                         TicketId = x.Last().TicketId,
                                         PortionName = x.Key.PortionName,
@@ -75,7 +73,7 @@ namespace Samba.Modules.PrinterModule
             return result;
         }
 
-        private static string ReplaceDocumentVars(string document, Ticket ticket, int orderNo, int userNo)
+        private static string ReplaceDocumentVars(string document, Ticket ticket, int orderNo, string userName)
         {
             string result = document;
             if (string.IsNullOrEmpty(document)) return "";
@@ -110,8 +108,6 @@ namespace Samba.Modules.PrinterModule
                     result = FormatData(result, value, () => "");
                 }
             }
-
-            var userName = UserService.GetUserName(userNo);
 
             var title = ticket.LocationName;
             if (string.IsNullOrEmpty(ticket.LocationName))

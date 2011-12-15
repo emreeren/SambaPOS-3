@@ -7,7 +7,6 @@ using Samba.Domain.Models.Inventories;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
-using Samba.Domain.Models.Users;
 using Samba.Localization.Properties;
 using Samba.Modules.BasicReports.Reports;
 using Samba.Modules.BasicReports.Reports.AccountReport;
@@ -28,6 +27,7 @@ namespace Samba.Modules.BasicReports
         public static IWorkPeriodService WorkPeriodService { get; set; }
         public static IInventoryService InventoryService { get; set; }
         public static IPrinterService PrinterService { get; set; }
+        public static IUserService UserService { get; set; }
 
         public static IList<ReportViewModelBase> Reports { get; private set; }
 
@@ -57,8 +57,6 @@ namespace Samba.Modules.BasicReports
         {
             get { return _ticketTagGroups ?? (_ticketTagGroups = Dao.Query<TicketTagGroup>()); }
         }
-
-        public static IEnumerable<User> Users { get { return AppServices.MainDataContext.Users; } }
 
         private static IEnumerable<WorkPeriod> _workPeriods;
         public static IEnumerable<WorkPeriod> WorkPeriods
@@ -306,8 +304,7 @@ namespace Samba.Modules.BasicReports
 
         public static string GetUserName(int userId)
         {
-            var user = Users.SingleOrDefault(x => x.Id == userId);
-            return user != null ? user.Name : Resources.UndefinedWithBrackets;
+            return UserService.ContainsUser(userId) ? UserService.GetUserName(userId) : Resources.UndefinedWithBrackets;
         }
 
         internal static string GetDepartmentName(int departmentId)

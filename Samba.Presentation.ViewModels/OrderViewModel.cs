@@ -15,9 +15,6 @@ namespace Samba.Presentation.ViewModels
     public class OrderViewModel : ObservableObject
     {
         private readonly TicketTemplate _ticketTemplate;
-
-        public bool IsSelectedQuantityModified { get; set; }
-
         public OrderViewModel(Order model, TicketTemplate ticketTemplate)
         {
             _model = model;
@@ -31,13 +28,7 @@ namespace Samba.Presentation.ViewModels
 
         public string Description
         {
-            get
-            {
-                var desc = _model.MenuItemName + _model.GetPortionDesc();
-                if (IsSelectedQuantityModified)
-                    desc = string.Format("({0:#.##}) {1}", Model.SelectedQuantity, desc);
-                return desc;
-            }
+            get {return _model.Description; }
         }
 
         private readonly Order _model;
@@ -60,13 +51,11 @@ namespace Samba.Presentation.ViewModels
         public void IncSelectedQuantity()
         {
             Model.IncSelectedQuantity();
-            IsSelectedQuantityModified = true;
             RefreshSelectedItem();
         }
         public void DecSelectedQuantity()
         {
             Model.DecSelectedQuantity();
-            IsSelectedQuantityModified = true;
             RefreshSelectedItem();
         }
 
@@ -74,7 +63,6 @@ namespace Samba.Presentation.ViewModels
         {
             Model.ResetSelectedQuantity();
             IsLastSelected = false;
-            IsSelectedQuantityModified = false;
             RefreshSelectedItem();
         }
 
@@ -131,7 +119,7 @@ namespace Samba.Presentation.ViewModels
 
         public object GroupObject { get { return new { OrderNumber, Time = Model.Id > 0 ? Model.CreatedDateTime.ToShortTimeString() : "" }; } }
 
-        public string CreatingUserName { get { return AppServices.MainDataContext.GetUserName(Model.CreatingUserId); } }
+        public string CreatingUserName { get { return Model.CreatingUserName; } }
 
         public string CustomPropertyName
         {

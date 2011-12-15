@@ -30,7 +30,7 @@ namespace Samba.Domain.Models.Tickets
         public bool CalculatePrice { get; set; }
         public bool DecreaseInventory { get; set; }
         public int OrderNumber { get; set; }
-        public int CreatingUserId { get; set; }
+        public string CreatingUserName { get; set; }
         public DateTime CreatedDateTime { get; set; }
 
         [StringLength(10)]
@@ -55,7 +55,18 @@ namespace Samba.Domain.Models.Tickets
             get { return _selectedQuantity; }
         }
 
-        public void UpdateMenuItem(int userId, MenuItem menuItem, string portionName, string priceTag, int quantity)
+        public string Description
+        {
+            get
+            {
+                var desc = MenuItemName + GetPortionDesc();
+                if (SelectedQuantity != Quantity)
+                    desc = string.Format("({0:#.##}) {1}", SelectedQuantity, desc);
+                return desc;
+            }
+        }
+
+        public void UpdateMenuItem(string userName, MenuItem menuItem, string portionName, string priceTag, int quantity)
         {
             MenuItemId = menuItem.Id;
             MenuItemName = menuItem.Name;
@@ -65,7 +76,7 @@ namespace Samba.Domain.Models.Tickets
             Quantity = quantity;
             _selectedQuantity = quantity;
             PortionCount = menuItem.Portions.Count;
-            CreatingUserId = userId;
+            CreatingUserName = userName;
             CreatedDateTime = DateTime.Now;
         }
 
@@ -138,7 +149,7 @@ namespace Samba.Domain.Models.Tickets
                 OrderTagValues.Insert(tagIndex, otag);
             else
                 OrderTagValues.Add(otag);
-            
+
             CalculatePrice = orderTagGroup.CalculateOrderPrice;
             DecreaseInventory = orderTagGroup.DecreaseOrderInventory;
             if (orderTagGroup.UnlocksOrder) Locked = false;

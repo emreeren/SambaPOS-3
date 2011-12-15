@@ -228,8 +228,8 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
             //----
 
             var owners = ReportContext.Tickets.SelectMany(ticket => ticket.Orders.Select(order => new { Ticket = ticket, Order = order }))
-                .GroupBy(x => new { x.Order.CreatingUserId })
-                .Select(x => new UserInfo { UserId = x.Key.CreatingUserId, Amount = x.Sum(y => MenuGroupBuilder.CalculateOrderTotal(y.Ticket, y.Order)) });
+                .GroupBy(x => new { x.Order.CreatingUserName })
+                .Select(x => new UserInfo { UserName = x.Key.CreatingUserName, Amount = x.Sum(y => MenuGroupBuilder.CalculateOrderTotal(y.Ticket, y.Order)) });
 
             report.AddColumTextAlignment("Garson", TextAlignment.Left, TextAlignment.Right);
             report.AddColumnLength("Garson", "65*", "35*");

@@ -34,6 +34,7 @@ namespace Samba.Modules.TicketModule
             _ticketService = ticketService;
             _departmentService = departmentService;
             _printerService = printerService;
+            
             _manualPrintCommand = new CaptionCommand<PrintJob>(Resources.Print, OnManualPrint, CanManualPrint);
             SubmitCashPaymentCommand = new CaptionCommand<string>(Resources.Cash, OnSubmitCashPayment, CanSubmitCashPayment);
             SubmitCreditCardPaymentCommand = new CaptionCommand<string>(Resources.CreditCard_r, OnSubmitCreditCardPayment,

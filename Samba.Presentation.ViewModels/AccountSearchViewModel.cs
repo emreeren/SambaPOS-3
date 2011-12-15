@@ -38,10 +38,9 @@ namespace Samba.Presentation.ViewModels
             TotalTicketAmount = Dao.Sum<Ticket>(x => x.TotalAmount, x => x.AccountId == Model.Id);
         }
 
-        public IEnumerable<OrderViewModel> LastTicketLines { get { return LastTicket != null ? LastTicket.Orders.Where(x => x.CalculatePrice).Select(x => new OrderViewModel(x, null)) : null; } }
+        public IEnumerable<Order> LastTicketLines { get { return LastTicket != null ? LastTicket.Orders.Where(x => x.CalculatePrice) : null; } }
         public decimal TicketTotal { get { return LastTicket != null ? LastTicket.GetSum() : 0; } }
         public string LastTicketStateString { get { return LastTicket != null ? (LastTicket.IsPaid ? Resources.Paid : Resources.Open) : ""; } }
         public decimal TotalTicketAmount { get; private set; }
-
     }
 }
