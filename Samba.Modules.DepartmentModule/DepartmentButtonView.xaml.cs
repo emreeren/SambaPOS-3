@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Common;
+using Samba.Services;
 
 namespace Samba.Modules.DepartmentModule
 {
@@ -13,18 +14,20 @@ namespace Samba.Modules.DepartmentModule
     [Export]
     public partial class DepartmentButtonView : UserControl
     {
+        private IDepartmentService _departmentService;
+
         [ImportingConstructor]
-        public DepartmentButtonView()
+        public DepartmentButtonView(IDepartmentService departmentService, ITicketService ticketService, IWorkPeriodService workPeriodService)
         {
             InitializeComponent();
-            //DataContext = viewModel;
+            _departmentService = departmentService;
+            DataContext = new DepartmentButtonViewModel(departmentService, ticketService, workPeriodService);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //((TicketEditorViewModel)DataContext).TicketListViewModel.SelectedDepartment =
-            //    ((Button)sender).DataContext as Department;
-            //EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicketView);
+            _departmentService.SelectDepartment(((Button)sender).DataContext as Department);
+            EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicketView);
         }
     }
 }

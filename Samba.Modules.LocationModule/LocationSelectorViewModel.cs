@@ -28,7 +28,7 @@ namespace Samba.Modules.LocationModule
         public ObservableCollection<IDiagram> Locations { get; set; }
 
         public Ticket SelectedTicket { get { return _ticketService.CurrentTicket; } }
-        public LocationScreen SelectedLocationScreen { get { return AppServices.MainDataContext.SelectedLocationScreen; } }
+        public LocationScreen SelectedLocationScreen { get { return _locationService.SelectedLocationScreen; } }
         public IEnumerable<LocationScreen> LocationScreens { get { return _departmentService.CurrentDepartment != null ? _departmentService.CurrentDepartment.LocationScreens : null; } }
 
         public bool IsNavigated { get; set; }
@@ -71,11 +71,13 @@ namespace Samba.Modules.LocationModule
 
         private readonly IDepartmentService _departmentService;
         private readonly ITicketService _ticketService;
+        private readonly ILocationService _locationService;
 
         [ImportingConstructor]
-        public LocationSelectorViewModel(ITicketService ticketService, IDepartmentService departmentService)
+        public LocationSelectorViewModel(ITicketService ticketService, IDepartmentService departmentService, ILocationService locationService)
         {
             _ticketService = ticketService;
+            _locationService = locationService;
             _departmentService = departmentService;
             SelectLocationCategoryCommand = new DelegateCommand<LocationScreen>(OnSelectLocationCategoryExecuted);
             LocationSelectionCommand = new DelegateCommand<LocationScreenItemViewModel>(OnSelectLocationExecuted);
@@ -108,7 +110,7 @@ namespace Samba.Modules.LocationModule
         public void RefreshLocations()
         {
             if (SelectedLocationScreen == null && LocationScreens.Count() > 0)
-                AppServices.MainDataContext.SelectedLocationScreen = LocationScreens.First();
+                _locationService.SelectedLocationScreen = LocationScreens.First();
             if (SelectedLocationScreen != null)
                 UpdateLocations(SelectedLocationScreen);
         }
@@ -173,8 +175,10 @@ namespace Samba.Modules.LocationModule
         private void UpdateLocations(LocationScreen locationScreen)
         {
             Feedback = "";
-            var locationData = AppServices.DataAccessService.GetCurrentLocations(locationScreen, CurrentPageNo).OrderBy(x => x.Order);
+            var locationData = _locationService.GetCurrentLocations(locationScreen, CurrentPageNo).OrderBy(x => x.Order);
+            
             if (Locations != null && (Locations.Count() == 0 || Locations.Count != locationData.Count() || Locations.First().Caption != locationData.First().Name)) Locations = null;
+            
             if (Locations == null)
             {
                 Locations = new ObservableCollection<IDiagram>();
@@ -217,14 +221,14 @@ namespace Samba.Modules.LocationModule
         public void LoadTrackableLocations()
         {
             Locations = new ObservableCollection<IDiagram>(
-                AppServices.MainDataContext.LoadLocations(SelectedLocationScreen.Name)
+                _locationService.LoadLocations(SelectedLocationScreen.Name)
                 .Select<Location, IDiagram>(x => new LocationScreenItemViewModel(x, SelectedLocationScreen)));
             RaisePropertyChanged(() => Locations);
         }
 
         public void SaveTrackableLocations()
         {
-            AppServices.MainDataContext.SaveLocations();
+            _locationService.SaveLocations();
             UpdateLocations(SelectedLocationScreen);
         }
     }

@@ -12,26 +12,6 @@ namespace Samba.Services
 {
     public class DataAccessService
     {
-        public IEnumerable<Location> GetCurrentLocations(LocationScreen locationScreen, int currentPageNo)
-        {
-            AppServices.MainDataContext.UpdateLocations(locationScreen, currentPageNo);
-
-            var selectedLocationScreen = AppServices.MainDataContext.SelectedLocationScreen;
-
-            if (selectedLocationScreen != null)
-            {
-                if (selectedLocationScreen.PageCount > 1)
-                {
-                    return selectedLocationScreen.Locations
-                         .OrderBy(x => x.Order)
-                         .Skip(selectedLocationScreen.ItemCountPerPage * currentPageNo)
-                         .Take(selectedLocationScreen.ItemCountPerPage);
-                }
-                return selectedLocationScreen.Locations;
-            }
-            return new List<Location>();
-        }
-
         public IEnumerable<ScreenMenuItem> GetMenuItems(ScreenMenuCategory category, int currentPageNo, string tag)
         {
             var items = category.ScreenMenuItems

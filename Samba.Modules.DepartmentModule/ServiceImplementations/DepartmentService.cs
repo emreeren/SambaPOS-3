@@ -43,14 +43,12 @@ namespace Samba.Modules.DepartmentModule.ServiceImplementations
         }
 
         private IEnumerable<Department> _permittedDepartments;
-        public IEnumerable<Department> PermittedDepartments
+
+        public IEnumerable<Department> GetPermittedDepartments()
         {
-            get
-            {
-                return _permittedDepartments ?? (
-                    _permittedDepartments = Departments.Where(
-                      x => AppServices.IsUserPermittedFor(PermissionNames.UseDepartment + x.Id)));
-            }
+            return _permittedDepartments ?? (
+                _permittedDepartments = Departments.Where(
+                  x => AppServices.IsUserPermittedFor(PermissionNames.UseDepartment + x.Id)));
         }
 
         public Department GetDepartment(int id)

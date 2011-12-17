@@ -330,7 +330,7 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                     <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding ShowAllOpenTickets}"
-                         Visibility="{Binding CanChangeDepartment,Converter={StaticResource VisibilityConverter}}">
+                         Visibility="{Binding CanDisplayAllTickets,Converter={StaticResource VisibilityConverter}}">
                         <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
                              Text="{Binding ShowAllOpenTickets.Caption}" />
                     </FxButton:FlexButton>

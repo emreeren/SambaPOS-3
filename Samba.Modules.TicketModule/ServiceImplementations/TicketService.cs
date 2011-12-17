@@ -62,8 +62,9 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
             var location = Dao.SingleWithCache<Location>(x => x.Name == locationName);
             if (location != null)
             {
-                if (location.TicketId > 0) OpenTicket(location.TicketId);
-                UpdateLocation(location.Id);
+                if (location.TicketId > 0)
+                    OpenTicket(location.TicketId);
+                ChangeTicketLocation(CurrentTicket, location.Id);
             }
         }
 
@@ -199,8 +200,7 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
                 {
                     if (location.TicketId == ticket.Id)
                     {
-                        location.TicketId = 0;
-                        location.IsTicketLocked = false;
+                        location.Reset();
                     }
                 }
                 else
@@ -210,6 +210,37 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
                 }
             }
             else ticket.LocationName = "";
+        }
+
+        public void ChangeTicketLocation(Ticket ticket, int locationId)
+        {
+            Debug.Assert(ticket != null);
+
+            var location = _workspace.Single<Location>(x => x.Id == locationId);
+            var oldLocation = "";
+
+            if (!string.IsNullOrEmpty(ticket.LocationName))
+            {
+                oldLocation = ticket.LocationName;
+                var oldLoc = _workspace.Single<Location>(x => x.Name == oldLocation);
+                if (oldLoc.TicketId == ticket.Id)
+                {
+                    oldLoc.Reset();
+                }
+            }
+
+            if (location.TicketId > 0 && location.TicketId != ticket.Id)
+            {
+                MoveOrders(ticket.Orders.ToList(), location.TicketId);
+                OpenTicket(location.TicketId);
+                ticket = CurrentTicket;
+            }
+
+            ticket.LocationName = location.Name;
+            if (_departmentService.CurrentDepartment != null) ticket.DepartmentId = _departmentService.CurrentDepartment.Id;
+            location.TicketId = ticket.GetRemainingAmount() > 0 ? ticket.Id : 0;
+
+            RuleExecutor.NotifyEvent(RuleEventNames.TicketLocationChanged, new { Ticket = ticket, OldLocation = oldLocation, NewLocation = ticket.LocationName });
         }
 
         public Account CheckAccount(Account account)
@@ -240,37 +271,6 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
                 result.SearchString = account.SearchString;
             }
             return result;
-        }
-
-        public void UpdateLocation(int locationId)
-        {
-            Debug.Assert(CurrentTicket != null);
-
-            var location = _workspace.Single<Location>(x => x.Id == locationId);
-            string oldLocation = "";
-
-            if (!string.IsNullOrEmpty(CurrentTicket.LocationName))
-            {
-                oldLocation = CurrentTicket.LocationName;
-                var oldLoc = _workspace.Single<Location>(x => x.Name == CurrentTicket.LocationName);
-                if (oldLoc.TicketId == CurrentTicket.Id)
-                {
-                    oldLoc.IsTicketLocked = false;
-                    oldLoc.TicketId = 0;
-                }
-            }
-
-            if (location.TicketId > 0 && location.TicketId != CurrentTicket.Id)
-            {
-                MoveOrders(CurrentTicket.Orders.ToList(), location.TicketId);
-                OpenTicket(location.TicketId);
-            }
-
-            CurrentTicket.LocationName = location.Name;
-            if (_departmentService.CurrentDepartment != null) CurrentTicket.DepartmentId = _departmentService.CurrentDepartment.Id;
-            location.TicketId = CurrentTicket.GetRemainingAmount() > 0 ? CurrentTicket.Id : 0;
-
-            RuleExecutor.NotifyEvent(RuleEventNames.TicketLocationChanged, new { Ticket = CurrentTicket, OldLocation = oldLocation, NewLocation = CurrentTicket.LocationName });
         }
 
         public TicketCommitResult MoveOrders(IEnumerable<Order> selectedOrders, int targetTicketId)

@@ -34,7 +34,6 @@ namespace Samba.Modules.TicketModule
 
         private readonly ITicketService _ticketService;
         private readonly IDepartmentService _departmentService;
-        private readonly IWorkPeriodService _workPeriodService;
         private readonly IPrinterService _printerService;
 
         private readonly Timer _timer;
@@ -138,15 +137,7 @@ namespace Samba.Modules.TicketModule
             }
         }
 
-        public bool IsDepartmentSelectorVisible
-        {
-            get
-            {
-                return //PermittedDepartments.Count() > 1 &&
-                       AppServices.IsUserPermittedFor(PermissionNames.ChangeDepartment);
-            }
-        }
-
+        public bool CanDisplayAllTickets { get { return SelectedTicket == null; } }
         public bool IsItemsSelected { get { return _selectedOrders.Count > 0; } }
         public bool IsItemsSelectedAndUnlocked { get { return _selectedOrders.Count > 0 && _selectedOrders.Where(x => x.IsLocked).Count() == 0; } }
         public bool IsItemsSelectedAndLocked { get { return _selectedOrders.Count > 0 && _selectedOrders.Where(x => !x.IsLocked).Count() == 0; } }
@@ -189,11 +180,6 @@ namespace Samba.Modules.TicketModule
             }
         }
 
-        public bool CanChangeDepartment
-        {
-            get { return SelectedTicket == null && _workPeriodService.IsCurrentWorkPeriodOpen; }
-        }
-
         public Brush TicketBackground { get { return SelectedTicket != null && (SelectedTicket.IsLocked || SelectedTicket.IsPaid) ? SystemColors.ControlLightBrush : SystemColors.WindowBrush; } }
 
         public int OpenTicketListViewColumnCount { get { return SelectedDepartment != null ? SelectedDepartment.OpenTicketViewColumnCount : 5; } }
@@ -228,10 +214,9 @@ namespace Samba.Modules.TicketModule
         }
 
         [ImportingConstructor]
-        public TicketListViewModel(IDepartmentService departmentService, ITicketService ticketService,
-            IWorkPeriodService workPeriodService, IPrinterService printerService)
+        public TicketListViewModel(IDepartmentService departmentService, ITicketService ticketService, 
+            IPrinterService printerService)
         {
-            _workPeriodService = workPeriodService;
             _departmentService = departmentService;
             _printerService = printerService;
             _ticketService = ticketService;
@@ -266,7 +251,6 @@ namespace Samba.Modules.TicketModule
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<ScreenMenuItemData>>().Subscribe(OnMenuItemSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<LocationData>>().Subscribe(OnLocationSelected);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<WorkPeriod>>().Subscribe(OnWorkPeriodChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<OrderViewModel>>().Subscribe(OnSelectedOrdersChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketTagData>>().Subscribe(OnTagSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketViewModel>>().Subscribe(OnTicketSelectedOrdersChanged);
@@ -418,14 +402,6 @@ namespace Samba.Modules.TicketModule
             }
         }
 
-        private void OnWorkPeriodChanged(EventParameters<WorkPeriod> obj)
-        {
-            if (obj.Topic == EventTopicNames.WorkPeriodStatusChanged)
-            {
-                RaisePropertyChanged(() => CanChangeDepartment);
-            }
-        }
-
         private void OnMenuItemSelected(EventParameters<ScreenMenuItemData> obj)
         {
             if (obj.Topic == EventTopicNames.ScreenMenuItemDataSelected) AddMenuItemCommand.Execute(obj.Value);
@@ -439,7 +415,7 @@ namespace Samba.Modules.TicketModule
                 {
                     var oldLocationName = SelectedTicket.Location;
                     var ticketsMerged = obj.Value.TicketId > 0 && obj.Value.TicketId != SelectedTicket.Id;
-                    _ticketService.UpdateLocation(obj.Value.LocationId);
+                    _ticketService.ChangeTicketLocation(SelectedTicket.Model, obj.Value.LocationId);
 
                     CloseTicket();
 
@@ -459,14 +435,16 @@ namespace Samba.Modules.TicketModule
                     if (obj.Value.TicketId == 0)
                     {
                         _ticketService.OpenTicket(0);
-                        _ticketService.UpdateLocation(obj.Value.LocationId);
+                        if (SelectedTicket != null)
+                        {
+                            _ticketService.ChangeTicketLocation(SelectedTicket.Model, obj.Value.LocationId);
+                        }
                     }
                     else
                     {
                         _ticketService.OpenTicket(obj.Value.TicketId);
                         if (SelectedTicket != null)
                         {
-                            // adisyon masasý ile týklanan masa ayný deðil.
                             if (SelectedTicket.Location != obj.Value.LocationName)
                                 _ticketService.ResetLocationData(_ticketService.CurrentTicket);
                         }
@@ -965,7 +943,7 @@ namespace Samba.Modules.TicketModule
         {
             UpdateSelectedTicketTitle();
             RaisePropertyChanged(() => SelectedTicket);
-            RaisePropertyChanged(() => CanChangeDepartment);
+            RaisePropertyChanged(() => CanDisplayAllTickets);
             RaisePropertyChanged(() => IsTicketRemainingVisible);
             RaisePropertyChanged(() => IsTicketPaymentVisible);
             RaisePropertyChanged(() => IsTicketTotalVisible);
@@ -979,7 +957,6 @@ namespace Samba.Modules.TicketModule
             RaisePropertyChanged(() => SelectLocationButtonCaption);
             RaisePropertyChanged(() => SelectAccountButtonCaption);
             RaisePropertyChanged(() => OpenTicketListViewColumnCount);
-            RaisePropertyChanged(() => IsDepartmentSelectorVisible);
             RaisePropertyChanged(() => TicketBackground);
             RaisePropertyChanged(() => IsLocationButtonVisible);
             RaisePropertyChanged(() => IsAccountButtonVisible);
@@ -1055,7 +1032,7 @@ namespace Samba.Modules.TicketModule
             RaisePropertyChanged(() => IsTicketServiceVisible);
             RaisePropertyChanged(() => IsTicketRoundingVisible);
             RaisePropertyChanged(() => IsPlainTotalVisible);
-            RaisePropertyChanged(() => CanChangeDepartment);
+            RaisePropertyChanged(() => CanDisplayAllTickets);
             RaisePropertyChanged(() => TicketBackground);
             RaisePropertyChanged(() => IsTicketSelected);
             RaisePropertyChanged(() => IsFastPaymentButtonsVisible);

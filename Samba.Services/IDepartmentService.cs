@@ -13,5 +13,6 @@ namespace Samba.Services
         Department CurrentDepartment { get; }
         Department GetDepartment(int id);
         IEnumerable<string> GetDepartmentNames();
+        IEnumerable<Department> GetPermittedDepartments();
     }
 }

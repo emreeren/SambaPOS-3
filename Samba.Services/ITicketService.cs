@@ -10,13 +10,19 @@ using Samba.Domain.Models.Tickets;
 
 namespace Samba.Services
 {
+    public class TicketCommitResult
+    {
+        public int TicketId { get; set; }
+        public string ErrorMessage { get; set; }
+    }
+
     public interface ITicketService : IService
     {
         void OpenTicket(int ticketId);
         void OpenTicketByLocationName(string locationName);
         void OpenTicketByTicketNumber(string ticketNumber);
         TicketCommitResult MoveOrders(IEnumerable<Order> selectedOrders, int targetTicketId);
-        void UpdateLocation(int locationId);
+        void ChangeTicketLocation(Ticket ticket, int locationId);
         Ticket CurrentTicket { get; }
         TicketCommitResult CloseTicket();
         void AddPayment(decimal tenderedAmount, DateTime date, PaymentType paymentType);
