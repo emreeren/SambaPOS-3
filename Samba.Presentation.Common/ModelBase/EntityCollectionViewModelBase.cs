@@ -25,8 +25,8 @@ namespace Samba.Presentation.Common.ModelBase
         {
             get
             {
-                return _workPeriodService ?? (_workPeriodService =
-                        ServiceLocator.Current.GetInstance(typeof(IWorkPeriodService)) as IWorkPeriodService);
+                return _workPeriodService ?? (_workPeriodService = 
+                    ServiceLocator.Current.GetInstance<IWorkPeriodService>());
             }
         }
 
@@ -36,10 +36,29 @@ namespace Samba.Presentation.Common.ModelBase
             get
             {
                 return _inventoryService ?? (_inventoryService =
-                        ServiceLocator.Current.GetInstance(typeof(IInventoryService)) as IInventoryService);
+                        ServiceLocator.Current.GetInstance<IInventoryService>());
             }
         }
 
+        private IPrinterService _printerService;
+        public IPrinterService PrinterService
+        {
+            get
+            {
+                return _printerService ?? (_printerService =
+                        ServiceLocator.Current.GetInstance<IPrinterService>());
+            }
+        }
+
+        private ITriggerService _triggerService;
+        public ITriggerService TriggerService
+        {
+            get
+            {
+                return _triggerService ?? (_triggerService =
+                    ServiceLocator.Current.GetInstance<ITriggerService>());
+            }
+        }
 
         private ObservableCollection<TViewModel> _items;
         public ObservableCollection<TViewModel> Items { get { return _items ?? (_items = GetItemsList()); } }
@@ -210,7 +229,7 @@ namespace Samba.Presentation.Common.ModelBase
         protected TViewModel InternalCreateNewViewModel(TModel model)
         {
             var result = CreateNewViewModel(model);
-            result.Init(_workspace, WorkPeriodService, InventoryService);
+            result.Init(_workspace, WorkPeriodService, InventoryService, PrinterService, TriggerService);
             return result;
         }
 

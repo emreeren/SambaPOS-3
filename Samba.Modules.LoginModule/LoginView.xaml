@@ -31,13 +31,14 @@ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
             </Border>
             <TextBlock FontSize="14" HorizontalAlignment="Center" Text="{Binding AdminPasswordHint}"
                  TextAlignment="Center" />
-            <Button HorizontalAlignment="Center" Width="110" Height="50" FontWeight="Bold" FontSize="18"
+            <Button HorizontalAlignment="Center" MinWidth="110" Height="50" FontWeight="Bold" FontSize="18"
                  Margin="5" Click="Button_Click">
-                <Button.Background>
-                    <ImageBrush AlignmentX="Left" ImageSource="Images/LanShutDown.icon.gif" Stretch="None"
-                         TileMode="None" />
-                </Button.Background>
-                <LocText ResourceIdentifierKey="Exit"/>
+                <DockPanel>
+                    <Image Source="Images/LanShutDown.icon.gif" Stretch="None"/>
+                    <Label>
+                        <LocText ResourceIdentifierKey="Exit"/>
+                    </Label>
+                </DockPanel>
             </Button>
         </StackPanel>
     </Grid>

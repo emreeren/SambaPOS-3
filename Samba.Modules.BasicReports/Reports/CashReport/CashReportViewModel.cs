@@ -13,6 +13,11 @@ namespace Samba.Modules.BasicReports.Reports.CashReport
 {
     public class CashReportViewModel : ReportViewModelBase
     {
+        public CashReportViewModel(IUserService userService, IWorkPeriodService workPeriodService)
+            : base(userService, workPeriodService)
+        {
+        }
+
         protected override void CreateFilterGroups()
         {
             FilterGroups.Clear();

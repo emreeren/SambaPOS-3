@@ -3,6 +3,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using Microsoft.Practices.ServiceLocation;
 using Samba.Domain.Models.Settings;
 using Samba.Presentation.Common;
 using Samba.Services;
@@ -15,9 +16,12 @@ namespace Samba.Presentation
     public partial class WorkPeriodStatusView : UserControl
     {
         private Timer _timer;
+        private readonly IApplicationState _applicationState;
+        
         public WorkPeriodStatusView()
         {
             InitializeComponent();
+            _applicationState = ServiceLocator.Current.GetInstance<IApplicationState>();
             EventServiceFactory.EventService.GetEvent<GenericEvent<WorkPeriod>>().Subscribe(OnWorkperiodStatusChanged);
         }
 
@@ -41,7 +45,9 @@ namespace Samba.Presentation
             {
                 try
                 {
-                    if (AppServices.ActiveAppScreen == AppScreens.LoginScreen) return;
+                    if (_applicationState.ActiveAppScreen == AppScreens.LoginScreen) return;
+
+                    //todo: fix
                     //if (AppServices.MainDataContext.IsCurrentWorkPeriodOpen)
                     //{
                     //    var ts = new TimeSpan(DateTime.Now.Ticks - AppServices.MainDataContext.CurrentWorkPeriod.StartDate.Ticks);

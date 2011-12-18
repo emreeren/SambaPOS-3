@@ -105,17 +105,11 @@ namespace Samba.Domain.Models.Tickets
             set { _paidItems = value; }
         }
 
-        public Order AddOrder(int userId, MenuItem menuItem, string portionName)
-        {
-            // Only for tests
-            return AddOrder(userId, menuItem, portionName, "");
-        }
-
-        public Order AddOrder(int userId, MenuItem menuItem, string portionName, string priceTag)
+        public Order AddOrder(string userName, MenuItem menuItem, string portionName, string priceTag)
         {
             Locked = false;
             var tif = new Order();
-            tif.UpdateMenuItem(userId, menuItem, portionName, priceTag, 1);
+            tif.UpdateMenuItem(userName, menuItem, portionName, priceTag, 1);
             Orders.Add(tif);
             return tif;
         }
@@ -547,6 +541,11 @@ namespace Samba.Domain.Models.Tickets
         public void UpdateTax(TaxTemplate taxTemplate)
         {
             Orders.ToList().ForEach(x => x.UpdateTaxTemplate(taxTemplate));
+        }
+
+        public void RemoveOrders(IEnumerable<Order> selectedOrders)
+        {
+            selectedOrders.ToList().ForEach(x => Orders.Remove(x));
         }
     }
 }

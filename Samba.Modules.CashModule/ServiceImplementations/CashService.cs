@@ -10,19 +10,23 @@ using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Transactions;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
+using Samba.Presentation.Common;
+using Samba.Presentation.Common.Services;
 using Samba.Services;
 
 namespace Samba.Modules.CashModule.ServiceImplementations
 {
     [Export(typeof(ICashService))]
-    public class CashService : ICashService
+    public class CashService : AbstractService, ICashService
     {
         private readonly IWorkPeriodService _workPeriodService;
+        private readonly IApplicationState _applicationState;
 
         [ImportingConstructor]
-        public CashService(IWorkPeriodService workPeriodService)
+        public CashService(IWorkPeriodService workPeriodService, IApplicationState applicationState)
         {
             _workPeriodService = workPeriodService;
+            _applicationState = applicationState;
         }
 
         public dynamic GetCurrentCashOperationData()
@@ -102,7 +106,7 @@ namespace Samba.Modules.CashModule.ServiceImplementations
             }
         }
 
-        private static void AddTransaction(int accountId, decimal amount, string description, PaymentType paymentType, TransactionType transactionType)
+        private void AddTransaction(int accountId, decimal amount, string description, PaymentType paymentType, TransactionType transactionType)
         {
             using (var workspace = WorkspaceFactory.Create())
             {
@@ -115,7 +119,7 @@ namespace Samba.Modules.CashModule.ServiceImplementations
                         Name = description,
                         PaymentType = (int)paymentType,
                         TransactionType = (int)transactionType,
-                        UserId = AppServices.CurrentLoggedInUser.Id,
+                        UserId = _applicationState.CurrentLoggedInUser.Id,
                         AccountId = accountId
                     };
                     workspace.Add(c);
@@ -128,7 +132,7 @@ namespace Samba.Modules.CashModule.ServiceImplementations
                         Date = DateTime.Now,
                         Name = description,
                         TransactionType = (int)transactionType,
-                        UserId = AppServices.CurrentLoggedInUser.Id,
+                        UserId = _applicationState.CurrentLoggedInUser.Id,
                         AccountId = accountId
                     };
                     workspace.Add(c);
@@ -138,7 +142,7 @@ namespace Samba.Modules.CashModule.ServiceImplementations
             }
         }
 
-        public void Reset()
+        public override void Reset()
         {
 
         }

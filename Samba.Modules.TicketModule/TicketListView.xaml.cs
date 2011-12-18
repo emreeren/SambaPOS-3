@@ -25,7 +25,7 @@ namespace Samba.Modules.TicketModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketViewModel>>().Subscribe(
                 x =>
                 {
-                    if (x.Topic == EventTopicNames.SelectedTicketChanged)
+                    if (x.Topic == EventTopicNames.TicketDisplayed)
                         Scroller.ScrollToEnd();
                 });
 

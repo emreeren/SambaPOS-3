@@ -7,24 +7,27 @@ using Samba.Domain.Models.Locations;
 using Samba.Localization;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Services;
-using Samba.Services;
 
 namespace Samba.Modules.LocationModule
 {
     public class LocationScreenItemViewModel : ObservableObject, IDiagram
     {
+        private readonly bool _isTicketSelected;
+        private readonly bool _userPermittedToMerge;
         private readonly ICommand _actionCommand;
 
         public LocationScreenItemViewModel(Location model, LocationScreen screen)
-            : this(model, screen, null)
+            : this(model, screen, null, false, true)
         {
 
         }
 
-        public LocationScreenItemViewModel(Location model, LocationScreen screen, ICommand actionCommand)
+        public LocationScreenItemViewModel(Location model, LocationScreen screen, ICommand actionCommand, bool isTicketSelected, bool userPermittedToMerge)
         {
             _actionCommand = actionCommand;
             _screen = screen;
+            _isTicketSelected = isTicketSelected;
+            _userPermittedToMerge = userPermittedToMerge;
             Model = model;
         }
 
@@ -71,6 +74,7 @@ namespace Samba.Modules.LocationModule
         }
 
         private bool _isEnabled;
+
         [Browsable(false)]
         public bool IsEnabled
         {
@@ -139,16 +143,14 @@ namespace Samba.Modules.LocationModule
 
         public void EditProperties()
         {
-            if (AppServices.CurrentLoggedInUser.UserRole.IsAdmin)
-                InteractionService.UserIntraction.EditProperties(this);
+            InteractionService.UserIntraction.EditProperties(this);
         }
 
         public void UpdateButtonColor()
         {
             IsEnabled = true;
-            //if (AppServices.MainDataContext.SelectedTicket != null && Model.IsTicketLocked) IsEnabled = false;
-            //if (AppServices.MainDataContext.SelectedTicket != null && Model.TicketId > 0 && !AppServices.IsUserPermittedFor(PermissionNames.MergeTickets))
-            //    IsEnabled = false;
+            if (_isTicketSelected && Model.IsTicketLocked) IsEnabled = false;
+            if (_isTicketSelected && Model.TicketId > 0 && !_userPermittedToMerge) IsEnabled = false;
 
             ButtonColor = Model.TicketId == 0
                 ? _screen.LocationEmptyColor

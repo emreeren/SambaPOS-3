@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Documents;
-using Samba.Domain.Models.Tickets;
+﻿using System.Windows.Documents;
 using Samba.Localization.Properties;
-using Samba.Persistance.Data;
+using Samba.Services;
 
 namespace Samba.Modules.BasicReports.Reports.AccountReport
 {
     class LiabilityReportViewModel : AccountReportViewModelBase
     {
+        public LiabilityReportViewModel(IUserService userService, IWorkPeriodService workPeriodService)
+            : base(userService, workPeriodService)
+        {
+        }
+
         protected override FlowDocument GetReport()
         {
             return CreateReport(Resources.AccountsLiability, false, false);

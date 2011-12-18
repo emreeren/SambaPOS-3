@@ -5,11 +5,17 @@ using System.Windows;
 using System.Windows.Documents;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
+using Samba.Services;
 
 namespace Samba.Modules.BasicReports.Reports.CSVBuilder
 {
     class CsvBuilderViewModel : ReportViewModelBase
     {
+        public CsvBuilderViewModel(IUserService userService, IWorkPeriodService workPeriodService)
+            : base(userService, workPeriodService)
+        {
+        }
+
         protected override void CreateFilterGroups()
         {
             FilterGroups.Clear();
@@ -54,7 +60,7 @@ namespace Samba.Modules.BasicReports.Reports.CSVBuilder
                         Date = x.Order.CreatedDateTime.ToShortDateString(),
                         Time = x.Order.CreatedDateTime.ToShortTimeString(),
                         x.Ticket.TicketNumber,
-                        UserName = ReportContext.GetUserName(x.Order.CreatingUserId),
+                        UserName = x.Order.CreatingUserName,
                         Account = x.Ticket.AccountName,
                         Location = x.Ticket.LocationName,
                         x.Order.OrderNumber,

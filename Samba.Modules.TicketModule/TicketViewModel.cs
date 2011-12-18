@@ -17,12 +17,18 @@ namespace Samba.Modules.TicketModule
         private readonly Ticket _model;
         private readonly TicketTemplate _ticketTemplate;
         private readonly bool _forcePayment;
-        
-        public TicketViewModel(Ticket model, TicketTemplate ticketTemplate, bool forcePayment)
+        private readonly ITicketService _ticketService;
+        private readonly IUserService _userService;
+
+        public TicketViewModel(Ticket model, TicketTemplate ticketTemplate, bool forcePayment,
+            ITicketService ticketService, IUserService userService)
         {
+            _ticketService = ticketService;
+            _userService = userService;
             _forcePayment = forcePayment;
             _model = model;
             _ticketTemplate = ticketTemplate;
+
             _orders = new ObservableCollection<OrderViewModel>(model.Orders.Select(x => new OrderViewModel(x, ticketTemplate)).OrderBy(x => x.Model.CreatedDateTime));
             _payments = new ObservableCollection<PaymentViewModel>(model.Payments.Select(x => new PaymentViewModel(x)));
             _discounts = new ObservableCollection<DiscountViewModel>(model.Discounts.Select(x => new DiscountViewModel(x)));
@@ -365,7 +371,7 @@ namespace Samba.Modules.TicketModule
             var newItems = Model.ExtractSelectedOrders(selectedItems.Select(x => x.Model));
             foreach (var newItem in newItems)
             {
-                AppServices.MainDataContext.AddItemToSelectedTicket(newItem);
+                _ticketService.AddItemToSelectedTicket(newItem);
                 _orders.Add(new OrderViewModel(newItem, _ticketTemplate) { Selected = true });
             }
             selectedItems.ForEach(x => x.NotSelected());
@@ -413,15 +419,15 @@ namespace Samba.Modules.TicketModule
             if (!Model.CanRemoveSelectedOrders(SelectedOrders.Select(x => x.Model))) return false;
             if (SelectedOrders.Where(x => x.Model.Id == 0).Count() > 0) return false;
             if (SelectedOrders.Where(x => x.IsLocked).Count() == 0
-                && AppServices.IsUserPermittedFor(PermissionNames.MoveUnlockedOrders))
+                && _userService.IsUserPermittedFor(PermissionNames.MoveUnlockedOrders))
                 return true;
-            return AppServices.IsUserPermittedFor(PermissionNames.MoveOrders);
+            return _userService.IsUserPermittedFor(PermissionNames.MoveOrders);
         }
 
         public bool CanChangeLocation()
         {
             if (IsLocked || Orders.Count == 0 || (Payments.Count > 0 && !string.IsNullOrEmpty(Location)) || !Model.CanSubmit) return false;
-            return string.IsNullOrEmpty(Location) || AppServices.IsUserPermittedFor(PermissionNames.ChangeLocation);
+            return string.IsNullOrEmpty(Location) || _userService.IsUserPermittedFor(PermissionNames.ChangeLocation);
         }
 
         public string GetPrintError()

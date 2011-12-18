@@ -68,6 +68,7 @@
       <DependentUpon>LocationSelectorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="LocationSelectorViewModel.cs" />
+    <Compile Include="ServiceImplementations\LocationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Images\back1.jpg" />

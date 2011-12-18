@@ -12,7 +12,6 @@ using System.Windows.Threading;
 using Samba.Domain.Models.Users;
 using Samba.Infrastructure.Settings;
 using Samba.Presentation.Common;
-using Samba.Presentation.Common.Services;
 using Samba.Services;
 
 namespace Samba.Presentation
@@ -25,10 +24,12 @@ namespace Samba.Presentation
     public partial class Shell : Window
     {
         private readonly DispatcherTimer _timer;
+        private readonly IApplicationState _applicationState;
 
         [ImportingConstructor]
-        public Shell()
+        public Shell(IApplicationState applicationState)
         {
+            _applicationState = applicationState;
             InitializeComponent();
             LanguageProperty.OverrideMetadata(
                                   typeof(FrameworkElement),
@@ -49,7 +50,7 @@ namespace Samba.Presentation
                 x =>
                 {
                     if (x.Topic == EventTopicNames.DashboardClosed)
-                        AppServices.ResetCache();
+                        EventServiceFactory.EventService._PublishEvent(EventTopicNames.ResetCache);
                 });
 
             UserRegion.Visibility = Visibility.Collapsed;
@@ -59,7 +60,7 @@ namespace Samba.Presentation
 
             _timer = new DispatcherTimer();
             _timer.Tick += TimerTick;
-            TimeLabel.Text = "..."; // DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToShortTimeString();
+            TimeLabel.Text = "...";
 
 #if !DEBUG
             WindowStyle = WindowStyle.None;
@@ -110,11 +111,11 @@ namespace Samba.Presentation
 
         private void WindowClosing(object sender, CancelEventArgs e)
         {
-            //if (AppServices.MainDataContext.SelectedTicket != null)
-            //{
-            //    e.Cancel = true;
-            //    return;
-            //}
+            if (_applicationState.CurrentTicket != null)
+            {
+                e.Cancel = true;
+                return;
+            }
 
             if (WindowState == WindowState.Normal)
             {
@@ -138,7 +139,7 @@ namespace Samba.Presentation
 
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            if (msg == NativeMethods.WM_SHOWSAMBAPOS)
+            if (msg == NativeWin32.WM_SHOWSAMBAPOS)
             {
                 ShowMe();
             }

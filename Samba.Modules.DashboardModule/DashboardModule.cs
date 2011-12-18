@@ -12,20 +12,22 @@ namespace Samba.Modules.DashboardModule
     {
         private readonly IRegionManager _regionManager;
         private readonly DashboardView _dashboardView;
+        private readonly IUserService _userService;
 
         [ImportingConstructor]
-        public DashboardModule(IRegionManager regionManager, DashboardView dashboardView)
+        public DashboardModule(IRegionManager regionManager, DashboardView dashboardView, IUserService userService)
             : base(regionManager, AppScreens.Dashboard)
         {
             _regionManager = regionManager;
             _dashboardView = dashboardView;
+            _userService = userService;
             SetNavigationCommand(Resources.Management, Resources.Common, "Images/Tools.png", 90);
             PermissionRegistry.RegisterPermission(PermissionNames.OpenDashboard, PermissionCategories.Navigation, Resources.CanOpenDashboard);
         }
 
         protected override bool CanNavigate(string arg)
         {
-            return AppServices.IsUserPermittedFor(PermissionNames.OpenDashboard);
+            return _userService.IsUserPermittedFor(PermissionNames.OpenDashboard);
         }
 
         protected override void OnNavigate(string obj)
@@ -33,7 +35,7 @@ namespace Samba.Modules.DashboardModule
             base.OnNavigate(obj);
             ((DashboardViewModel)_dashboardView.DataContext).Refresh();
         }
-        
+
         public override object GetVisibleView()
         {
             return _dashboardView;

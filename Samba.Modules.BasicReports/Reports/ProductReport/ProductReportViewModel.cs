@@ -1,14 +1,18 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
-using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
+using Samba.Services;
 
 namespace Samba.Modules.BasicReports.Reports.ProductReport
 {
     public class ProductReportViewModel : ReportViewModelBase
     {
+        public ProductReportViewModel(IUserService userService, IWorkPeriodService workPeriodService)
+            : base(userService, workPeriodService)
+        {
+        }
+
         protected override FlowDocument GetReport()
         {
             var report = new SimpleReport("8cm");

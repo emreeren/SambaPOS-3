@@ -33,17 +33,17 @@ namespace Samba.Presentation.Common
         public uint dwExtra;
     }
 
-
     public class NativeWin32
     {
         //    public const ushort KEYEVENTF_KEYUP = 0x0002;
         public const uint INPUT_KEYBOARD = 1;
         public const uint KEYEVENTF_EXTENDEDKEY = 0x0001;
         public const uint KEYEVENTF_KEYUP = 0x0002;
+        public const int HWND_BROADCAST = 0xffff;
+        public static readonly int WM_SHOWSAMBAPOS = RegisterWindowMessage("WM_SHOWSAMBAPOS");
 
         [DllImport("user32.dll")]
         public static extern Boolean Keybd_Event(int dwKey, byte bScan, Int32 dwFlags, Int32 dwExtraInfo);
-
 
         [DllImport("user32.dll")]
         public static extern uint SendInput(uint nInputs, ref INPUT pInputs, int cbSize);
@@ -53,8 +53,15 @@ namespace Samba.Presentation.Common
 
         [DllImport("user32.dll")]
         public static extern int SetWindowLong(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
+
         [DllImport("user32.dll", SetLastError = true)]
         public static extern UInt32 GetWindowLong(IntPtr hWnd, int nIndex);
+
+        [DllImport("user32")]
+        public static extern bool PostMessage(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam);
+        
+        [DllImport("user32")]
+        public static extern int RegisterWindowMessage(string message);
 
     }
 

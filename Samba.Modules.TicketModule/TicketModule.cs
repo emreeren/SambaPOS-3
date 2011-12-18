@@ -82,7 +82,7 @@ namespace Samba.Modules.TicketModule
                             using (var vr = WorkspaceFactory.CreateReadOnly())
                             {
                                 AppServices.ResetCache();
-                                var endDate = workPeriodService.LastTwoWorkPeriods.Last().EndDate;
+                                var endDate = workPeriodService.CurrentWorkPeriod.EndDate;
                                 var startDate = endDate.AddDays(-7);
                                 vr.Queryable<Order>()
                                     .Where(y => y.CreatedDateTime >= startDate && y.CreatedDateTime < endDate)

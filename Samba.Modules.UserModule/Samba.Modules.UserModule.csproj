@@ -59,6 +59,7 @@
     <Compile Include="LoggedInUserViewModel.cs" />
     <Compile Include="PermissionViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceImplementations\UserService.cs" />
     <Compile Include="UserListViewModel.cs" />
     <Compile Include="UserModule.cs" />
     <Compile Include="UserRoleListViewModel.cs" />

@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Regions;
@@ -15,13 +14,15 @@ namespace Samba.Modules.NavigationModule
     {
         private readonly IRegionManager _regionManager;
         private readonly NavigationView _navigationView;
-        
+        private readonly IUserService _userService;
+
         [ImportingConstructor]
-        public NavigationModule(IRegionManager regionManager, NavigationView navigationView)
+        public NavigationModule(IRegionManager regionManager, NavigationView navigationView, IUserService userService)
             : base(regionManager, AppScreens.Navigation)
         {
             _regionManager = regionManager;
             _navigationView = navigationView;
+            _userService = userService;
 
             PermissionRegistry.RegisterPermission(PermissionNames.OpenNavigation, PermissionCategories.Navigation, Resources.CanOpenNavigation);
 
@@ -52,7 +53,7 @@ namespace Samba.Modules.NavigationModule
 
         private void ActivateNavigation()
         {
-            if (AppServices.IsUserPermittedFor(PermissionNames.OpenNavigation))
+            if (_userService.IsUserPermittedFor(PermissionNames.OpenNavigation))
             {
                 Activate();
                 ((NavigationViewModel)_navigationView.DataContext).Refresh();

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
 using Samba.Domain.Models.Settings;
-using Samba.Domain.Models.Users;
 using Samba.Infrastructure.Data;
 using Samba.Infrastructure.ExceptionReporter;
 using Samba.Infrastructure.Settings;
@@ -13,26 +11,9 @@ using Samba.Persistance.Data;
 
 namespace Samba.Services
 {
-    public enum AppScreens
-    {
-        LoginScreen,
-        Navigation,
-        SingleTicket,
-        TicketList,
-        Payment,
-        LocationList,
-        AccountList,
-        WorkPeriods,
-        Dashboard,
-        CashView,
-        ReportScreen
-    }
-
     public static class AppServices
     {
         public static Dispatcher MainDispatcher { get; set; }
-
-        public static AppScreens ActiveAppScreen { get; set; }
 
         private static IWorkspace _workspace;
         public static IWorkspace Workspace
@@ -46,12 +27,6 @@ namespace Samba.Services
         {
             get { return _mainDataContext ?? (_mainDataContext = new MainDataContext()); }
             set { _mainDataContext = value; }
-        }
-
-        private static PrinterService _printService;
-        public static PrinterService PrintService
-        {
-            get { return _printService ?? (_printService = new PrinterService()); }
         }
 
         private static DataAccessService _dataAccessService;
@@ -78,38 +53,9 @@ namespace Samba.Services
         private static Terminal _terminal;
         public static Terminal CurrentTerminal { get { return _terminal ?? (_terminal = GetCurrentTerminal()); } set { _terminal = value; } }
 
-        private static User _currentLoggedInUser;
-        public static User CurrentLoggedInUser
-        {
-            get { return _currentLoggedInUser ?? User.Nobody; }
-            private set { _currentLoggedInUser = value; }
-        }
-
-        public static bool CanNavigate()
-        {
-            return true;
-            //return TicketService.CurrentTicket == null;
-        }
-
         public static bool CanStartApplication()
         {
             return LocalSettings.CurrentDbVersion <= 0 || LocalSettings.CurrentDbVersion == LocalSettings.DbVersion;
-        }
-
-        public static bool CanModifyTicket()
-        {
-            return true;
-        }
-
-        private static User GetUserByPinCode(string pinCode)
-        {
-            return Workspace.All<User>(x => x.PinCode == pinCode).FirstOrDefault();
-        }
-
-        private static LoginStatus CheckPinCodeStatus(string pinCode)
-        {
-            var users = Workspace.All<User>(x => x.PinCode == pinCode);
-            return users.Count() == 0 ? LoginStatus.PinNotFound : LoginStatus.CanLogin;
         }
 
         private static Terminal GetCurrentTerminal()
@@ -145,35 +91,10 @@ namespace Samba.Services
             _terminal = null;
             _terminals = null;
             MainDataContext.ResetCache();
-            PrintService.ResetCache();
             SettingService.ResetCache();
             SerialPortService.ResetCache();
             Dao.ResetCache();
             Workspace = WorkspaceFactory.Create();
-        }
-
-        public static User LoginUser(string pinValue)
-        {
-            Debug.Assert(CurrentLoggedInUser == User.Nobody);
-            CurrentLoggedInUser = CanStartApplication() && CheckPinCodeStatus(pinValue) == LoginStatus.CanLogin ? GetUserByPinCode(pinValue) : User.Nobody;
-            MainDataContext.ResetUserData();
-            return CurrentLoggedInUser;
-        }
-
-        public static void LogoutUser(bool resetCache = true)
-        {
-            Debug.Assert(CurrentLoggedInUser != User.Nobody);
-            CurrentLoggedInUser = User.Nobody;
-            if (resetCache) ResetCache();
-        }
-
-        public static bool IsUserPermittedFor(string p)
-        {
-            if (CurrentLoggedInUser.UserRole.IsAdmin) return true;
-            if (CurrentLoggedInUser.UserRole.Id == 0) return false;
-            var permission = CurrentLoggedInUser.UserRole.Permissions.SingleOrDefault(x => x.Name == p);
-            if (permission == null) return false;
-            return permission.Value == (int)PermissionValue.Enabled;
         }
     }
 }

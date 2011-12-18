@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Microsoft.Practices.ServiceLocation;
 using Samba.Domain;
 using Samba.Domain.Models.Inventories;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
-using Samba.Domain.Models.Users;
 using Samba.Localization.Properties;
 using Samba.Modules.BasicReports.Reports;
 using Samba.Modules.BasicReports.Reports.AccountReport;
@@ -24,14 +22,12 @@ namespace Samba.Modules.BasicReports
 {
     public static class ReportContext
     {
-        private static readonly IDepartmentService DepartmentService =
-            ServiceLocator.Current.GetInstance(typeof(IDepartmentService)) as IDepartmentService;
-        private static readonly IWorkPeriodService WorkPeriodService =
-                 ServiceLocator.Current.GetInstance(typeof(IWorkPeriodService)) as IWorkPeriodService;
-        private static readonly IInventoryService InventoryService =
-                 ServiceLocator.Current.GetInstance(typeof(IInventoryService)) as IInventoryService;
-        private static readonly ICashService CashService =
-                 ServiceLocator.Current.GetInstance(typeof(ICashService)) as ICashService;
+        public static ICashService CashService { get; set; }
+        public static IDepartmentService DepartmentService { get; set; }
+        public static IWorkPeriodService WorkPeriodService { get; set; }
+        public static IInventoryService InventoryService { get; set; }
+        public static IPrinterService PrinterService { get; set; }
+        public static IUserService UserService { get; set; }
 
         public static IList<ReportViewModelBase> Reports { get; private set; }
 
@@ -61,8 +57,6 @@ namespace Samba.Modules.BasicReports
         {
             get { return _ticketTagGroups ?? (_ticketTagGroups = Dao.Query<TicketTagGroup>()); }
         }
-
-        public static IEnumerable<User> Users { get { return AppServices.MainDataContext.Users; } }
 
         private static IEnumerable<WorkPeriod> _workPeriods;
         public static IEnumerable<WorkPeriod> WorkPeriods
@@ -173,16 +167,16 @@ namespace Samba.Modules.BasicReports
         {
             Reports = new List<ReportViewModelBase>
                           {
-                              new EndDayReportViewModel(),
-                              new ProductReportViewModel(),
-                              new CashReportViewModel(),
-                              new LiabilityReportViewModel(),
-                              new ReceivableReportViewModel(),
-                              new InternalAccountsViewModel(),
-                              new PurchaseReportViewModel(),
-                              new InventoryReportViewModel(),
-                              new CostReportViewModel(),
-                              new CsvBuilderViewModel()
+                              new EndDayReportViewModel(UserService,WorkPeriodService),
+                              new ProductReportViewModel(UserService,WorkPeriodService),
+                              new CashReportViewModel(UserService,WorkPeriodService),
+                              new LiabilityReportViewModel(UserService,WorkPeriodService),
+                              new ReceivableReportViewModel(UserService,WorkPeriodService),
+                              new InternalAccountsViewModel(UserService,WorkPeriodService),
+                              new PurchaseReportViewModel(UserService,WorkPeriodService),
+                              new InventoryReportViewModel(UserService,WorkPeriodService),
+                              new CostReportViewModel(UserService,WorkPeriodService),
+                              new CsvBuilderViewModel(UserService,WorkPeriodService)
                           };
         }
 
@@ -310,8 +304,7 @@ namespace Samba.Modules.BasicReports
 
         public static string GetUserName(int userId)
         {
-            var user = Users.SingleOrDefault(x => x.Id == userId);
-            return user != null ? user.Name : Resources.UndefinedWithBrackets;
+            return UserService.ContainsUser(userId) ? UserService.GetUserName(userId) : Resources.UndefinedWithBrackets;
         }
 
         internal static string GetDepartmentName(int departmentId)

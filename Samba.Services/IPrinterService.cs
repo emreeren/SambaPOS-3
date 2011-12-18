@@ -9,11 +9,11 @@ namespace Samba.Services
     public interface IPrinterService : IService
     {
         IEnumerable<string> GetPrinterNames();
+        PrintQueue GetPrinter(string shareName);
         void ManualPrintTicket(Ticket ticket, PrintJob printer);
         void AutoPrintTicket(Ticket ticket);
         void PrintReport(FlowDocument document);
         void PrintSlipReport(FlowDocument document);
-        PrintQueue GetPrinter(string shareName);
-        void ResetCache();
+        
     }
 }

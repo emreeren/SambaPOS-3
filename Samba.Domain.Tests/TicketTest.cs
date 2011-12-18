@@ -20,8 +20,8 @@ namespace Samba.Domain.Tests
             mi2.AddPortion("Test", 15, "TL");
 
             var ticket = new Ticket();
-            ticket.AddOrder(0, mi, "Test");
-            ticket.AddOrder(0, mi2, "Test");
+            ticket.AddOrder("", mi, "Test","");
+            ticket.AddOrder("", mi2, "Test","");
 
             Assert.IsTrue(ticket.GetSum() == 25);
 
@@ -81,7 +81,7 @@ namespace Samba.Domain.Tests
 
             var mix = new MenuItem("TestItem2") { TaxTemplate = t };
             mix.AddPortion("Adet", 10, "TL");
-            ticket.AddOrder(0, mix, "Adet");
+            ticket.AddOrder("", mix, "Adet","");
 
             Assert.AreEqual(26m, ticket.GetSum());
 

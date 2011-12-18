@@ -42,7 +42,7 @@
                 <Button HorizontalAlignment="Left" Margin="0,10" Content="{Binding StartMessagingServerCommand.Caption}"
                      Command="{Binding StartMessagingServerCommand}" />
                 <StackPanel Orientation="Horizontal">
-                    <Button HorizontalAlignment="Left" Margin="0,10,20,10" Width="60" Content="{Binding SaveSettingsCommand.Caption}"
+                    <Button HorizontalAlignment="Left" Margin="0,10,20,10" MinWidth="70" Content="{Binding SaveSettingsCommand.Caption}"
                      Command="{Binding SaveSettingsCommand}" />
                     <Button HorizontalAlignment="Left" Margin="2,10" Content="{Binding DisplayCommonAppPathCommand.Caption}"
                      Command="{Binding DisplayCommonAppPathCommand}" />

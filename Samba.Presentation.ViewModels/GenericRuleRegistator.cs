@@ -26,6 +26,16 @@ namespace Samba.Presentation.ViewModels
         private static readonly ITicketService TicketService =
             ServiceLocator.Current.GetInstance(typeof(ITicketService)) as ITicketService;
 
+        private static readonly IApplicationState ApplicationState =
+            ServiceLocator.Current.GetInstance(typeof(IApplicationState)) as IApplicationState;
+
+        private static readonly IUserService UserService =
+            ServiceLocator.Current.GetInstance(typeof(IUserService)) as IUserService;
+
+        private static readonly ITriggerService TriggerService =
+            ServiceLocator.Current.GetInstance(typeof(ITriggerService)) as ITriggerService;
+
+
         private static bool _registered;
         public static void RegisterOnce()
         {
@@ -59,10 +69,10 @@ namespace Samba.Presentation.ViewModels
 
         private static void RegisterRules()
         {
-            RuleActionTypeRegistry.RegisterEvent(RuleEventNames.UserLoggedIn, Resources.UserLogin, new { UserName = "", RoleName = "" });
-            RuleActionTypeRegistry.RegisterEvent(RuleEventNames.UserLoggedOut, Resources.UserLogout, new { UserName = "", RoleName = "" });
-            RuleActionTypeRegistry.RegisterEvent(RuleEventNames.WorkPeriodStarts, Resources.WorkPeriodStarted, new { UserName = "" });
-            RuleActionTypeRegistry.RegisterEvent(RuleEventNames.WorkPeriodEnds, Resources.WorkPeriodEnded, new { UserName = "" });
+            RuleActionTypeRegistry.RegisterEvent(RuleEventNames.UserLoggedIn, Resources.UserLogin, new { RoleName = "" });
+            RuleActionTypeRegistry.RegisterEvent(RuleEventNames.UserLoggedOut, Resources.UserLogout, new { RoleName = "" });
+            RuleActionTypeRegistry.RegisterEvent(RuleEventNames.WorkPeriodStarts, Resources.WorkPeriodStarted);
+            RuleActionTypeRegistry.RegisterEvent(RuleEventNames.WorkPeriodEnds, Resources.WorkPeriodEnded);
             RuleActionTypeRegistry.RegisterEvent(RuleEventNames.TriggerExecuted, Resources.TriggerExecuted, new { TriggerName = "" });
             RuleActionTypeRegistry.RegisterEvent(RuleEventNames.TicketCreated, Resources.TicketCreated);
             RuleActionTypeRegistry.RegisterEvent(RuleEventNames.TicketLocationChanged, Resources.TicketLocationChanged, new { OldLocation = "", NewLocation = "" });
@@ -76,7 +86,7 @@ namespace Samba.Presentation.ViewModels
 
         private static void RegisterParameterSources()
         {
-            RuleActionTypeRegistry.RegisterParameterSoruce("UserName", () => AppServices.MainDataContext.Users.Select(x => x.Name));
+            RuleActionTypeRegistry.RegisterParameterSoruce("UserName", () => UserService.GetUserNames());
             RuleActionTypeRegistry.RegisterParameterSoruce("DepartmentName", () => DepartmentService.GetDepartmentNames());
             RuleActionTypeRegistry.RegisterParameterSoruce("TerminalName", () => AppServices.Terminals.Select(x => x.Name));
             RuleActionTypeRegistry.RegisterParameterSoruce("TriggerName", () => Dao.Select<Trigger, string>(yz => yz.Name, y => !string.IsNullOrEmpty(y.Expression)));
@@ -92,8 +102,8 @@ namespace Samba.Presentation.ViewModels
         private static void ResetCache()
         {
             TriggerService.UpdateCronObjects();
-            AppServices.ResetCache();
-            DepartmentService.CurrentDepartment.PublishEvent(EventTopicNames.SelectedDepartmentChanged);
+            EventServiceFactory.EventService._PublishEvent(EventTopicNames.ResetCache);
+            ApplicationState.CurrentDepartment.PublishEvent(EventTopicNames.SelectedDepartmentChanged);
         }
 
         private static void HandleEvents()
@@ -123,9 +133,9 @@ namespace Samba.Presentation.ViewModels
                     {
                         var account = Dao.Query(qFilter).FirstOrDefault();
                         if (account != null)
-                            TicketService.UpdateAccount(TicketService.CurrentTicket, account);
+                            TicketService.UpdateAccount(ApplicationState.CurrentTicket, account);
                     }
-                    else TicketService.UpdateAccount(TicketService.CurrentTicket, Account.Null);
+                    else TicketService.UpdateAccount(ApplicationState.CurrentTicket, Account.Null);
                 }
 
                 if (x.Value.Action.ActionType == "UpdateProgramSetting")
@@ -213,7 +223,7 @@ namespace Samba.Presentation.ViewModels
                     if (ticket != null)
                     {
                         var percentValue = x.Value.GetAsDecimal("DiscountPercentage");
-                        ticket.AddTicketDiscount(DiscountType.Percent, percentValue, AppServices.CurrentLoggedInUser.Id);
+                        ticket.AddTicketDiscount(DiscountType.Percent, percentValue, ApplicationState.CurrentLoggedInUser.Id);
                         TicketService.RecalculateTicket(ticket);
                     }
                 }
@@ -230,8 +240,8 @@ namespace Samba.Presentation.ViewModels
                         var quantity = x.Value.GetAsDecimal("Quantity");
                         var tag = x.Value.GetAsString("Tag");
 
-                        var ti = ticket.AddOrder(AppServices.CurrentLoggedInUser.Id, menuItem, portionName,
-                                 DepartmentService.CurrentDepartment.TicketTemplate.PriceTag);
+                        var ti = ticket.AddOrder(ApplicationState.CurrentLoggedInUser.Name, menuItem, portionName,
+                                 ApplicationState.CurrentDepartment.TicketTemplate.PriceTag);
 
                         ti.Quantity = quantity;
                         ti.Tag = tag;
@@ -261,7 +271,7 @@ namespace Samba.Presentation.ViewModels
                     if (order != null)
                     {
                         var tagName = x.Value.GetAsString("OrderTagName");
-                        var orderTag = DepartmentService.CurrentDepartment.TicketTemplate.OrderTagGroups.SingleOrDefault(y => y.Name == tagName);
+                        var orderTag = ApplicationState.CurrentDepartment.TicketTemplate.OrderTagGroups.SingleOrDefault(y => y.Name == tagName);
                         if (x.Value.Action.ActionType == "RemoveOrderTag")
                         {
                             var tags = order.OrderTagValues.Where(y => y.OrderTagGroupId == orderTag.Id);
@@ -275,9 +285,9 @@ namespace Samba.Presentation.ViewModels
                             if (orderTagValue != null)
                             {
                                 if (x.Value.Action.ActionType == "TagOrder")
-                                    order.TagIfNotTagged(orderTag, orderTagValue, AppServices.CurrentLoggedInUser.Id);
+                                    order.TagIfNotTagged(orderTag, orderTagValue, ApplicationState.CurrentLoggedInUser.Id);
                                 if (x.Value.Action.ActionType == "UntagOrder")
-                                    order.UntagIfTagged(orderTag, orderTagValue, AppServices.CurrentLoggedInUser.Id);
+                                    order.UntagIfTagged(orderTag, orderTagValue, ApplicationState.CurrentLoggedInUser.Id);
                             }
                         }
                     }
@@ -315,12 +325,12 @@ namespace Samba.Presentation.ViewModels
             {
                 if (x.Topic == EventTopicNames.UserLoggedIn)
                 {
-                    RuleExecutor.NotifyEvent(RuleEventNames.UserLoggedIn, new { User = x.Value, UserName = x.Value.Name, RoleName = x.Value.UserRole.Name });
+                    RuleExecutor.NotifyEvent(RuleEventNames.UserLoggedIn, new { User = x.Value, RoleName = x.Value.UserRole.Name });
                 }
 
                 if (x.Topic == EventTopicNames.UserLoggedOut)
                 {
-                    RuleExecutor.NotifyEvent(RuleEventNames.UserLoggedOut, new { User = x.Value, UserName = x.Value.Name, RoleName = x.Value.UserRole.Name });
+                    RuleExecutor.NotifyEvent(RuleEventNames.UserLoggedOut, new { User = x.Value, RoleName = x.Value.UserRole.Name });
                 }
             });
         }

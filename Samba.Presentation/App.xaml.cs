@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using Microsoft.Practices.ServiceLocation;
 using Samba.Infrastructure;
 using Samba.Presentation.Common.ErrorReport;
 using Samba.Presentation.Common.Services;
@@ -15,11 +16,11 @@ namespace Samba.Presentation
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            //#if (DEBUG)
-            //            RunInDebugMode();
-            //#else
+#if (DEBUG)
+            RunInDebugMode();
+#else
             RunInReleaseMode();
-            //#endif
+#endif
             this.ShutdownMode = ShutdownMode.OnMainWindowClose;
         }
 
@@ -27,7 +28,7 @@ namespace Samba.Presentation
         {
             if (MessagingClient.IsConnected)
                 MessagingClient.Disconnect();
-            TriggerService.CloseTriggers();
+            ServiceLocator.Current.GetInstance<ITriggerService>().CloseTriggers();
         }
 
         private static void RunInDebugMode()

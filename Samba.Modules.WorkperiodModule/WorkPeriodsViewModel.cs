@@ -16,7 +16,7 @@ namespace Samba.Modules.WorkperiodModule
     public class WorkPeriodsViewModel : ObservableObject
     {
         private readonly IWorkPeriodService _workPeriodService;
-
+        private readonly IApplicationState _applicationState;
 
         private IEnumerable<WorkPeriodViewModel> _workPeriods;
         public IEnumerable<WorkPeriodViewModel> WorkPeriods
@@ -84,9 +84,11 @@ namespace Samba.Modules.WorkperiodModule
         }
 
         [ImportingConstructor]
-        public WorkPeriodsViewModel(IWorkPeriodService workPeriodService)
+        public WorkPeriodsViewModel(IWorkPeriodService workPeriodService, IApplicationState applicationState)
         {
             _workPeriodService = workPeriodService;
+            _applicationState = applicationState;
+
             StartOfDayCommand = new CaptionCommand<string>(Resources.StartWorkPeriod, OnStartOfDayExecute, CanStartOfDayExecute);
             EndOfDayCommand = new CaptionCommand<string>(Resources.EndWorkPeriod, OnEndOfDayExecute, CanEndOfDayExecute);
             DisplayStartOfDayScreenCommand = new CaptionCommand<string>(Resources.StartWorkPeriod, OnDisplayStartOfDayScreenCommand, CanStartOfDayExecute);
@@ -111,7 +113,7 @@ namespace Samba.Modules.WorkperiodModule
 
         private bool CanEndOfDayExecute(string arg)
         {
-            return AppServices.ActiveAppScreen == AppScreens.WorkPeriods
+            return _applicationState.ActiveAppScreen == AppScreens.WorkPeriods
                 && OpenTicketCount == 0
                 && WorkPeriodTime.TotalMinutes > 1
                 && _workPeriodService.IsCurrentWorkPeriodOpen;
@@ -122,14 +124,14 @@ namespace Samba.Modules.WorkperiodModule
             _workPeriodService.StopWorkPeriod(EndDescription);
             Refresh();
             _workPeriodService.CurrentWorkPeriod.PublishEvent(EventTopicNames.WorkPeriodStatusChanged);
-            RuleExecutor.NotifyEvent(RuleEventNames.WorkPeriodEnds, new { WorkPeriod = _workPeriodService.CurrentWorkPeriod, UserName = AppServices.CurrentLoggedInUser.Name });
+            RuleExecutor.NotifyEvent(RuleEventNames.WorkPeriodEnds, new { WorkPeriod = _workPeriodService.CurrentWorkPeriod });
             InteractionService.UserIntraction.GiveFeedback(Resources.WorkPeriodEndsMessage);
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateNavigation);
         }
 
         private bool CanStartOfDayExecute(string arg)
         {
-            return AppServices.ActiveAppScreen == AppScreens.WorkPeriods
+            return _applicationState.ActiveAppScreen == AppScreens.WorkPeriods
                 && (LastWorkPeriod == null || LastWorkPeriod.StartDate != LastWorkPeriod.EndDate);
         }
 
@@ -138,7 +140,7 @@ namespace Samba.Modules.WorkperiodModule
             _workPeriodService.StartWorkPeriod(StartDescription, CashAmount, CreditCardAmount, TicketAmount);
             Refresh();
             _workPeriodService.CurrentWorkPeriod.PublishEvent(EventTopicNames.WorkPeriodStatusChanged);
-            RuleExecutor.NotifyEvent(RuleEventNames.WorkPeriodStarts, new { WorkPeriod = _workPeriodService.CurrentWorkPeriod, UserName = AppServices.CurrentLoggedInUser.Name });
+            RuleExecutor.NotifyEvent(RuleEventNames.WorkPeriodStarts, new { WorkPeriod = _workPeriodService.CurrentWorkPeriod });
             InteractionService.UserIntraction.GiveFeedback(Resources.StartingWorkPeriodCompleted);
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateNavigation);
         }

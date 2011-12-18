@@ -10,7 +10,6 @@ namespace Samba.Services
     {
         WorkPeriod CurrentWorkPeriod { get; }
         WorkPeriod PreviousWorkPeriod { get; }
-        IEnumerable<WorkPeriod> LastTwoWorkPeriods { get; }
         bool IsCurrentWorkPeriodOpen { get; }
         void StartWorkPeriod(string description, decimal cashAmount, decimal creditCardAmount, decimal ticketAmount);
         void StopWorkPeriod(string description);

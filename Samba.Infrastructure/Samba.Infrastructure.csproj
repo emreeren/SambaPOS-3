@@ -97,8 +97,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Printing\LinePrinter.cs" />
-    <Compile Include="Printing\PrinterHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerializableDictionary.cs" />
     <Compile Include="Settings\LocalSettings.cs" />

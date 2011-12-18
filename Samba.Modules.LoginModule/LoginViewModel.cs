@@ -1,7 +1,5 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.IO;
-using System.Linq;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Services;
@@ -11,6 +9,14 @@ namespace Samba.Login
     [Export]
     public class LoginViewModel
     {
+        private readonly IUserService _userService;
+
+        [ImportingConstructor]
+        public LoginViewModel(IUserService userService)
+        {
+            _userService = userService;
+        }
+
         public string LogoPath
         {
             get
@@ -30,10 +36,9 @@ namespace Samba.Login
         public string AdminPasswordHint { get { return GetAdminPasswordHint(); } }
         public string SqlHint { get { return GetSqlHint(); } }
 
-        private static string GetSqlHint()
+        private string GetSqlHint()
         {
-            return !string.IsNullOrEmpty(GetAdminPasswordHint())
-                ? Resources.SqlHint : "";
+            return !string.IsNullOrEmpty(GetAdminPasswordHint()) ? Resources.SqlHint : "";
         }
 
         private static string GetDatabaseLabel()
@@ -41,11 +46,9 @@ namespace Samba.Login
             return LocalSettings.DatabaseLabel;
         }
 
-        public static string GetAdminPasswordHint()
+        public string GetAdminPasswordHint()
         {
-            if ((GetDatabaseLabel() == "TX" || GetDatabaseLabel() == "CE")
-                && AppServices.MainDataContext.Users.Count() == 1
-                && AppServices.MainDataContext.Users.ElementAt(0).PinCode == "1234")
+            if ((GetDatabaseLabel() == "TX" || GetDatabaseLabel() == "CE") && _userService.IsDefaultUserConfigured)
             {
                 return Resources.AdminPasswordHint;
             }

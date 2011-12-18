@@ -1,16 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
 using Samba.Localization.Properties;
-using Samba.Persistance.Data;
+using Samba.Services;
 
 namespace Samba.Modules.BasicReports.Reports.InventoryReports
 {
     class PurchaseReportViewModel : ReportViewModelBase
     {
+        public PurchaseReportViewModel(IUserService userService, IWorkPeriodService workPeriodService)
+            : base(userService, workPeriodService)
+        {
+        }
+
         protected override void CreateFilterGroups()
         {
             FilterGroups.Clear();

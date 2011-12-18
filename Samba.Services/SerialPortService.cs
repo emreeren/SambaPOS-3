@@ -41,5 +41,11 @@ namespace Samba.Services
                 Ports[key].Close();
             Ports.Clear();
         }
+
+        public static void WriteCommand(string portName, string command)
+        {
+            var data = command.Trim().Split(',').Select(x => Convert.ToInt32(x)).Aggregate("", (current, i) => current + (char)i);
+            WritePort(portName, data);
+        }
     }
 }

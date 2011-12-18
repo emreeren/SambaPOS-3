@@ -13,13 +13,23 @@ namespace Samba.Modules.BasicReports
     {
         private readonly IRegionManager _regionManager;
         private readonly BasicReportView _basicReportView;
-        private readonly IWorkPeriodService _workPeriodService;
+        private readonly IUserService _userService;
 
         [ImportingConstructor]
-        public BasicReportModule(IRegionManager regionManager, BasicReportView basicReportView, IWorkPeriodService workPeriodService)
+        public BasicReportModule(IRegionManager regionManager, BasicReportView basicReportView,
+            IWorkPeriodService workPeriodService, IPrinterService printerService, ICashService cashService,
+            IDepartmentService departmentService, IInventoryService inventoryService, IUserService userService)
             : base(regionManager, AppScreens.ReportScreen)
         {
-            _workPeriodService = workPeriodService;
+            ReportContext.PrinterService = printerService;
+            ReportContext.WorkPeriodService = workPeriodService;
+            ReportContext.CashService = cashService;
+            ReportContext.DepartmentService = departmentService;
+            ReportContext.InventoryService = inventoryService;
+            ReportContext.UserService = userService;
+
+            _userService = userService;
+
             _regionManager = regionManager;
             _basicReportView = basicReportView;
             SetNavigationCommand(Resources.Reports, Resources.Common, "Images/Ppt.png", 80);
@@ -41,7 +51,7 @@ namespace Samba.Modules.BasicReports
                         var report = ReportContext.Reports.Where(y => y.Header == reportName).FirstOrDefault();
                         if (report != null)
                         {
-                            ReportContext.CurrentWorkPeriod = _workPeriodService.CurrentWorkPeriod;
+                            ReportContext.CurrentWorkPeriod = ReportContext.WorkPeriodService.CurrentWorkPeriod;
                             var document = report.GetReportDocument();
                             ReportViewModelBase.SaveAsXps(fileName, document);
                         }
@@ -57,14 +67,15 @@ namespace Samba.Modules.BasicReports
 
         protected override bool CanNavigate(string arg)
         {
-            return (AppServices.IsUserPermittedFor(PermissionNames.OpenReports) && _workPeriodService.CurrentWorkPeriod != null);
+            return (_userService.IsUserPermittedFor(PermissionNames.OpenReports) 
+                && ReportContext.WorkPeriodService.CurrentWorkPeriod != null);
         }
 
         protected override void OnNavigate(string obj)
         {
             base.OnNavigate(obj);
             ReportContext.ResetCache();
-            ReportContext.CurrentWorkPeriod = _workPeriodService.CurrentWorkPeriod;
+            ReportContext.CurrentWorkPeriod = ReportContext.WorkPeriodService.CurrentWorkPeriod;
         }
 
         protected override void OnInitialization()

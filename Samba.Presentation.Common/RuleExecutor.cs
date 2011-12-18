@@ -48,8 +48,8 @@ namespace Samba.Presentation.Common
 
     public static class RuleExecutor
     {
-        private static readonly IDepartmentService DepartmentService =
-            ServiceLocator.Current.GetInstance(typeof(IDepartmentService)) as IDepartmentService;
+        private static readonly IApplicationState ApplicationState =
+            ServiceLocator.Current.GetInstance(typeof(IApplicationState)) as IApplicationState;
 
         public static void NotifyEvent(string eventName, object dataObject)
         {
@@ -104,8 +104,8 @@ namespace Samba.Presentation.Common
                     }
                     if (condition.Name == "DepartmentName" && !string.IsNullOrEmpty(condition.Value))
                     {
-                        if (DepartmentService.CurrentDepartment == null ||
-                            !condition.Value.Equals(DepartmentService.CurrentDepartment.Name))
+                        if (ApplicationState.CurrentDepartment == null ||
+                            !condition.Value.Equals(ApplicationState.CurrentDepartment.Name))
                         {
                             return false;
                         }
@@ -113,8 +113,8 @@ namespace Samba.Presentation.Common
 
                     if (condition.Name == "UserName" && !string.IsNullOrEmpty(condition.Value))
                     {
-                        if (AppServices.CurrentLoggedInUser == null ||
-                            !condition.Value.Equals(AppServices.CurrentLoggedInUser.Name))
+                        if (ApplicationState.CurrentLoggedInUser == null ||
+                            !condition.Value.Equals(ApplicationState.CurrentLoggedInUser.Name))
                         {
                             return false;
                         }

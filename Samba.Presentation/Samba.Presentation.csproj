@@ -230,6 +230,10 @@
       <Project>{9497C48E-B9B5-4869-820E-09ECE4347632}</Project>
       <Name>Samba.Modules.NavigationModule</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.PrinterModule\Samba.Modules.PrinterModule.csproj">
+      <Project>{0FE1BF9D-225A-4D7F-8AB5-102138110999}</Project>
+      <Name>Samba.Modules.PrinterModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samba.Modules.UserModule\Samba.Modules.UserModule.csproj">
       <Project>{1AE61C89-EBFD-498D-9F53-6319B302CDBF}</Project>
       <Name>Samba.Modules.UserModule</Name>

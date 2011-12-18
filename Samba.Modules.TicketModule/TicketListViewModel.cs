@@ -33,8 +33,12 @@ namespace Samba.Modules.TicketModule
         private const int SingleTicketView = 1;
 
         private readonly ITicketService _ticketService;
-        private readonly IDepartmentService _departmentService;
-        private IWorkPeriodService _workPeriodService;
+        private readonly IPrinterService _printerService;
+        private readonly IAccountService _accountService;
+        private readonly ILocationService _locationService;
+        private readonly IUserService _userService;
+        private readonly IApplicationState _applicationState;
+        private readonly IApplicationStateSetter _applicationStateSetter;
 
         private readonly Timer _timer;
 
@@ -72,10 +76,10 @@ namespace Samba.Modules.TicketModule
         {
             get
             {
-                if (_ticketService.CurrentTicket == null) _selectedTicket = null;
-                if (_selectedTicket == null && _ticketService.CurrentTicket != null)
-                    _selectedTicket = new TicketViewModel(_ticketService.CurrentTicket, _departmentService.CurrentDepartment.TicketTemplate,
-                      _departmentService.CurrentDepartment != null && _departmentService.CurrentDepartment.IsFastFood);
+                if (_applicationState.CurrentTicket == null) _selectedTicket = null;
+                if (_selectedTicket == null && _applicationState.CurrentTicket != null)
+                    _selectedTicket = new TicketViewModel(_applicationState.CurrentTicket, _applicationState.CurrentDepartment.TicketTemplate,
+                      _applicationState.CurrentDepartment != null && _applicationState.CurrentDepartment.IsFastFood, _ticketService, _userService);
                 return _selectedTicket;
             }
         }
@@ -110,12 +114,12 @@ namespace Samba.Modules.TicketModule
                 StopTimer();
                 if (value == OpenTicketListView)
                 {
-                    AppServices.ActiveAppScreen = AppScreens.TicketList;
+                    _applicationStateSetter.SetCurrentApplicationScreen(AppScreens.TicketList);
                     StartTimer();
                 }
                 if (value == SingleTicketView)
                 {
-                    AppServices.ActiveAppScreen = AppScreens.SingleTicket;
+                    _applicationStateSetter.SetCurrentApplicationScreen(AppScreens.SingleTicket);
                 }
                 _selectedTicketView = value;
                 RaisePropertyChanged(() => SelectedTicketView);
@@ -124,12 +128,12 @@ namespace Samba.Modules.TicketModule
 
         public Department SelectedDepartment
         {
-            get { return _departmentService.CurrentDepartment; }
+            get { return _applicationState.CurrentDepartment; }
             set
             {
-                if (value != _departmentService.CurrentDepartment)
+                if (value != _applicationState.CurrentDepartment)
                 {
-                    _departmentService.SelectDepartment(value);
+                    _applicationStateSetter.SetCurrentDepartment(value);
                     RaisePropertyChanged(() => SelectedDepartment);
                     RaisePropertyChanged(() => SelectedTicket);
                     SelectedDepartment.PublishEvent(EventTopicNames.SelectedDepartmentChanged);
@@ -137,15 +141,7 @@ namespace Samba.Modules.TicketModule
             }
         }
 
-        public bool IsDepartmentSelectorVisible
-        {
-            get
-            {
-                return //PermittedDepartments.Count() > 1 &&
-                       AppServices.IsUserPermittedFor(PermissionNames.ChangeDepartment);
-            }
-        }
-
+        public bool CanDisplayAllTickets { get { return SelectedTicket == null; } }
         public bool IsItemsSelected { get { return _selectedOrders.Count > 0; } }
         public bool IsItemsSelectedAndUnlocked { get { return _selectedOrders.Count > 0 && _selectedOrders.Where(x => x.IsLocked).Count() == 0; } }
         public bool IsItemsSelectedAndLocked { get { return _selectedOrders.Count > 0 && _selectedOrders.Where(x => !x.IsLocked).Count() == 0; } }
@@ -166,13 +162,13 @@ namespace Samba.Modules.TicketModule
         {
             get
             {
-                return true;
-                //((AppServices.MainDataContext.LocationCount > 0 ||
-                //    (AppServices.MainDataContext.SelectedDepartment != null
-                //    && AppServices.MainDataContext.SelectedDepartment.IsAlaCarte))
-                //    && IsNothingSelected) &&
-                //    ((AppServices.MainDataContext.SelectedDepartment != null &&
-                //    AppServices.MainDataContext.SelectedDepartment.LocationScreens.Count > 0));
+                return
+                ((_locationService.GetLocationCount() > 0 ||
+                    (_applicationState.CurrentDepartment != null
+                    && _applicationState.CurrentDepartment.IsAlaCarte))
+                    && IsNothingSelected) &&
+                    ((_applicationState.CurrentDepartment != null &&
+                    _applicationState.CurrentDepartment.LocationScreens.Count > 0));
             }
         }
 
@@ -180,17 +176,10 @@ namespace Samba.Modules.TicketModule
         {
             get
             {
-                return true;
-                //(AppServices.MainDataContext.AccountCount > 0 ||
-                //(AppServices.MainDataContext.SelectedDepartment != null
-                //&& AppServices.MainDataContext.SelectedDepartment.IsTakeAway))
-                //&& IsNothingSelected;
+                return _accountService.GetAccountCount() > 0
+                    || (_applicationState.CurrentDepartment != null && _applicationState.CurrentDepartment.IsTakeAway)
+                    && IsNothingSelected;
             }
-        }
-
-        public bool CanChangeDepartment
-        {
-            get { return SelectedTicket == null && _workPeriodService.IsCurrentWorkPeriodOpen; }
         }
 
         public Brush TicketBackground { get { return SelectedTicket != null && (SelectedTicket.IsLocked || SelectedTicket.IsPaid) ? SystemColors.ControlLightBrush : SystemColors.WindowBrush; } }
@@ -203,8 +192,8 @@ namespace Samba.Modules.TicketModule
         {
             get
             {
-                return _departmentService.CurrentDepartment != null
-                    ? _departmentService.CurrentDepartment.TicketTemplate.TicketTagGroups
+                return _applicationState.CurrentDepartment != null
+                    ? _applicationState.CurrentDepartment.TicketTemplate.TicketTagGroups
                     .Where(x => x.ActiveOnPosClient)
                     .OrderBy(x => x.Order)
                     .Select(x => new TicketTagButton(x, SelectedTicket.Model))
@@ -227,11 +216,18 @@ namespace Samba.Modules.TicketModule
         }
 
         [ImportingConstructor]
-        public TicketListViewModel(IDepartmentService departmentService, ITicketService ticketService,IWorkPeriodService workPeriodService)
+        public TicketListViewModel(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
+            ITicketService ticketService, IAccountService accountService, IPrinterService printerService,
+            ILocationService locationService, IUserService userService)
         {
-            _workPeriodService = workPeriodService;
-            _departmentService = departmentService;
+            _printerService = printerService;
             _ticketService = ticketService;
+            _accountService = accountService;
+            _locationService = locationService;
+            _userService = userService;
+            _applicationState = applicationState;
+            _applicationStateSetter = applicationStateSetter;
+
             _timer = new Timer(OnTimer, null, Timeout.Infinite, 1000);
             _selectedOrders = new ObservableCollection<OrderViewModel>();
 
@@ -263,7 +259,6 @@ namespace Samba.Modules.TicketModule
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<ScreenMenuItemData>>().Subscribe(OnMenuItemSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<LocationData>>().Subscribe(OnLocationSelected);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<WorkPeriod>>().Subscribe(OnWorkPeriodChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<OrderViewModel>>().Subscribe(OnSelectedOrdersChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketTagData>>().Subscribe(OnTagSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketViewModel>>().Subscribe(OnTicketSelectedOrdersChanged);
@@ -295,8 +290,8 @@ namespace Samba.Modules.TicketModule
 
         private void OnRefreshTicket(EventParameters<EventAggregator> obj)
         {
-            if (SelectedDepartment == null)
-                UpdateSelectedDepartment(AppServices.CurrentLoggedInUser.UserRole.DepartmentId);
+            if (SelectedDepartment == null && _applicationState.CurrentLoggedInUser.UserRole.DepartmentId > 0)
+                UpdateSelectedDepartment(_applicationState.CurrentLoggedInUser.UserRole.DepartmentId);
 
             if (obj.Topic == EventTopicNames.ActivateTicketView)
             {
@@ -322,6 +317,7 @@ namespace Samba.Modules.TicketModule
         {
             if (obj.Value.EventMessage == EventTopicNames.SelectAccount)
             {
+                //todo fix
                 //var dep = AppServices.MainDataContext.Departments.FirstOrDefault(y => y.IsTakeAway);
                 //if (dep != null)
                 //{
@@ -336,7 +332,7 @@ namespace Samba.Modules.TicketModule
 
         private void OnMessageReceived(EventParameters<Message> obj)
         {
-            if (AppServices.ActiveAppScreen == AppScreens.TicketList
+            if (_applicationState.ActiveAppScreen == AppScreens.TicketList
                 && obj.Topic == EventTopicNames.MessageReceivedEvent
                 && obj.Value.Command == Messages.TicketRefreshMessage)
             {
@@ -361,7 +357,7 @@ namespace Samba.Modules.TicketModule
                 RuleExecutor.NotifyEvent(RuleEventNames.AccountSelectedForTicket,
                     new
                     {
-                        Ticket = AppServices.MainDataContext.TicketService.CurrentTicket,
+                        Ticket = _applicationState.CurrentTicket,
                         AccountName = obj.Value.Name,
                         PhoneNumber = obj.Value.SearchString
                     });
@@ -415,14 +411,6 @@ namespace Samba.Modules.TicketModule
             }
         }
 
-        private void OnWorkPeriodChanged(EventParameters<WorkPeriod> obj)
-        {
-            if (obj.Topic == EventTopicNames.WorkPeriodStatusChanged)
-            {
-                RaisePropertyChanged(() => CanChangeDepartment);
-            }
-        }
-
         private void OnMenuItemSelected(EventParameters<ScreenMenuItemData> obj)
         {
             if (obj.Topic == EventTopicNames.ScreenMenuItemDataSelected) AddMenuItemCommand.Execute(obj.Value);
@@ -436,7 +424,7 @@ namespace Samba.Modules.TicketModule
                 {
                     var oldLocationName = SelectedTicket.Location;
                     var ticketsMerged = obj.Value.TicketId > 0 && obj.Value.TicketId != SelectedTicket.Id;
-                    _ticketService.UpdateLocation(obj.Value.LocationId);
+                    _ticketService.ChangeTicketLocation(SelectedTicket.Model, obj.Value.LocationId);
 
                     CloseTicket();
 
@@ -456,16 +444,18 @@ namespace Samba.Modules.TicketModule
                     if (obj.Value.TicketId == 0)
                     {
                         _ticketService.OpenTicket(0);
-                        _ticketService.UpdateLocation(obj.Value.LocationId);
+                        if (SelectedTicket != null)
+                        {
+                            _ticketService.ChangeTicketLocation(SelectedTicket.Model, obj.Value.LocationId);
+                        }
                     }
                     else
                     {
                         _ticketService.OpenTicket(obj.Value.TicketId);
                         if (SelectedTicket != null)
                         {
-                            // adisyon masasý ile týklanan masa ayný deðil.
                             if (SelectedTicket.Location != obj.Value.LocationName)
-                                _ticketService.ResetLocationData(_ticketService.CurrentTicket);
+                                _ticketService.ResetLocationData(_applicationState.CurrentTicket);
                         }
                     }
                     EventServiceFactory.EventService.PublishEvent(EventTopicNames.DisplayTicketView);
@@ -528,7 +518,7 @@ namespace Samba.Modules.TicketModule
                 && !SelectedTicket.IsLocked
                 && SelectedTicket.Model.CanSubmit
                 && _selectedOrders.Count == 1
-                && (_selectedOrders[0].Price == 0 || AppServices.IsUserPermittedFor(PermissionNames.ChangeItemPrice));
+                && (_selectedOrders[0].Price == 0 || _userService.IsUserPermittedFor(PermissionNames.ChangeItemPrice));
         }
 
         private void OnChangePrice(string obj)
@@ -565,8 +555,8 @@ namespace Samba.Modules.TicketModule
 
             SaveTicketIfNew();
 
-            _ticketService.UpdateTicketNumber(SelectedTicket.Model, _departmentService.CurrentDepartment.TicketTemplate.TicketNumerator);
-            AppServices.PrintService.ManualPrintTicket(SelectedTicket.Model, printJob);
+            _ticketService.UpdateTicketNumber(SelectedTicket.Model, _applicationState.CurrentDepartment.TicketTemplate.TicketNumerator);
+            _printerService.ManualPrintTicket(SelectedTicket.Model, printJob);
 
             if (printJob.WhenToPrint == (int)WhenToPrintTypes.Paid && !SelectedTicket.IsPaid)
                 MakePaymentCommand.Execute("");
@@ -577,7 +567,7 @@ namespace Samba.Modules.TicketModule
         {
             if ((SelectedTicket.Id == 0 || SelectedTicket.Orders.Any(x => x.Model.Id == 0)) && SelectedTicket.Orders.Count > 0)
             {
-                var result = _ticketService.CloseTicket();
+                var result = _ticketService.CloseTicket(SelectedTicket.Model);
                 _ticketService.OpenTicket(result.TicketId);
                 _selectedTicket = null;
             }
@@ -586,7 +576,7 @@ namespace Samba.Modules.TicketModule
         private bool CanRemoveTicketLock(string arg)
         {
             return SelectedTicket != null && (SelectedTicket.IsLocked) &&
-                   AppServices.IsUserPermittedFor(PermissionNames.AddItemsToLockedTickets);
+                   _userService.IsUserPermittedFor(PermissionNames.AddItemsToLockedTickets);
         }
 
         private void OnRemoveTicketLock(string obj)
@@ -598,7 +588,7 @@ namespace Samba.Modules.TicketModule
         private void OnMoveOrders(string obj)
         {
             SelectedTicket.FixSelectedItems();
-            var newTicketId = AppServices.MainDataContext.MoveOrders(SelectedTicket.SelectedOrders.Select(x => x.Model), 0).TicketId;
+            var newTicketId = _ticketService.MoveOrders(SelectedTicket.Model, SelectedTicket.SelectedOrders.Select(x => x.Model), 0).TicketId;
             OnOpenTicketExecute(newTicketId);
         }
 
@@ -619,7 +609,8 @@ namespace Samba.Modules.TicketModule
 
         private bool CanShowExtraProperty(string arg)
         {
-            return SelectedOrder != null && !SelectedOrder.Model.Locked && AppServices.IsUserPermittedFor(PermissionNames.ChangeExtraProperty);
+            return SelectedOrder != null && !SelectedOrder.Model.Locked
+                && _userService.IsUserPermittedFor(PermissionNames.ChangeExtraProperty);
         }
 
         private void OnShowExtraProperty(string obj)
@@ -698,7 +689,7 @@ namespace Samba.Modules.TicketModule
 
         private void OnTimer(object state)
         {
-            if (AppServices.ActiveAppScreen == AppScreens.TicketList && OpenTickets != null)
+            if (_applicationState.ActiveAppScreen == AppScreens.TicketList && OpenTickets != null)
                 foreach (var openTicketView in OpenTickets)
                 {
                     openTicketView.Refresh();
@@ -773,30 +764,31 @@ namespace Samba.Modules.TicketModule
         {
             return SelectedTicket != null
                 && (SelectedTicket.TicketPlainTotalValue > 0 || SelectedTicket.Orders.Count > 0)
-                && AppServices.IsUserPermittedFor(PermissionNames.MakePayment);
+                && _userService.IsUserPermittedFor(PermissionNames.MakePayment);
         }
 
         private void OnMakeCreditCardPaymentExecute(string obj)
         {
-            _ticketService.PaySelectedTicket(PaymentType.CreditCard);
+            _ticketService.PaySelectedTicket(SelectedTicket.Model, PaymentType.CreditCard);
             CloseTicket();
         }
 
         private void OnMakeTicketPaymentExecute(string obj)
         {
-            _ticketService.PaySelectedTicket(PaymentType.Ticket);
+            _ticketService.PaySelectedTicket(SelectedTicket.Model, PaymentType.Ticket);
             CloseTicket();
         }
 
         private void OnMakeCashPaymentExecute(string obj)
         {
-            _ticketService.PaySelectedTicket(PaymentType.Ticket);
+            _ticketService.PaySelectedTicket(SelectedTicket.Model, PaymentType.Ticket);
             CloseTicket();
         }
 
         private bool CanMakeFastPayment(string arg)
         {
-            return SelectedTicket != null && SelectedTicket.TicketRemainingValue > 0 && AppServices.IsUserPermittedFor(PermissionNames.MakeFastPayment);
+            return SelectedTicket != null && SelectedTicket.TicketRemainingValue > 0
+                && _userService.IsUserPermittedFor(PermissionNames.MakeFastPayment);
         }
 
         private bool CanCloseTicket(string arg)
@@ -806,7 +798,7 @@ namespace Samba.Modules.TicketModule
 
         private void CloseTicket()
         {
-            if (_departmentService.CurrentDepartment.IsFastFood && !CanCloseTicket(""))
+            if (_applicationState.CurrentDepartment.IsFastFood && !CanCloseTicket(""))
             {
                 SaveTicketIfNew();
                 RefreshVisuals();
@@ -898,7 +890,7 @@ namespace Samba.Modules.TicketModule
 
         private void StartTimer()
         {
-            if (AppServices.ActiveAppScreen == AppScreens.TicketList)
+            if (_applicationState.ActiveAppScreen == AppScreens.TicketList)
                 _timer.Change(60000, 60000);
         }
 
@@ -907,9 +899,9 @@ namespace Samba.Modules.TicketModule
             _timer.Change(Timeout.Infinite, 60000);
         }
 
-        private static void OnMakePaymentExecute(string obj)
+        private void OnMakePaymentExecute(string obj)
         {
-            AppServices.MainDataContext.TicketService.CurrentTicket.PublishEvent(EventTopicNames.MakePayment);
+            _applicationState.CurrentTicket.PublishEvent(EventTopicNames.MakePayment);
         }
 
         private void OnCloseTicketExecute(string obj)
@@ -927,7 +919,7 @@ namespace Samba.Modules.TicketModule
             }
 
             SelectedTicket.ClearSelectedItems();
-            var result = _ticketService.CloseTicket();
+            var result = _ticketService.CloseTicket(SelectedTicket.Model);
             if (!string.IsNullOrEmpty(result.ErrorMessage))
             {
                 InteractionService.UserIntraction.GiveFeedback(result.ErrorMessage);
@@ -937,8 +929,7 @@ namespace Samba.Modules.TicketModule
 
             if (AppServices.CurrentTerminal.AutoLogout)
             {
-                AppServices.LogoutUser(false);
-                AppServices.CurrentLoggedInUser.PublishEvent(EventTopicNames.UserLoggedOut);
+                _userService.LogoutUser(false);
             }
             else
             {
@@ -955,14 +946,14 @@ namespace Samba.Modules.TicketModule
             SelectedTicketView = SingleTicketView;
             RefreshVisuals();
             SelectedTicket.ClearSelectedItems();
-            SelectedTicket.PublishEvent(EventTopicNames.SelectedTicketChanged);
+            SelectedTicket.PublishEvent(EventTopicNames.TicketDisplayed);
         }
 
         private void RefreshVisuals()
         {
             UpdateSelectedTicketTitle();
             RaisePropertyChanged(() => SelectedTicket);
-            RaisePropertyChanged(() => CanChangeDepartment);
+            RaisePropertyChanged(() => CanDisplayAllTickets);
             RaisePropertyChanged(() => IsTicketRemainingVisible);
             RaisePropertyChanged(() => IsTicketPaymentVisible);
             RaisePropertyChanged(() => IsTicketTotalVisible);
@@ -976,7 +967,6 @@ namespace Samba.Modules.TicketModule
             RaisePropertyChanged(() => SelectLocationButtonCaption);
             RaisePropertyChanged(() => SelectAccountButtonCaption);
             RaisePropertyChanged(() => OpenTicketListViewColumnCount);
-            RaisePropertyChanged(() => IsDepartmentSelectorVisible);
             RaisePropertyChanged(() => TicketBackground);
             RaisePropertyChanged(() => IsLocationButtonVisible);
             RaisePropertyChanged(() => IsAccountButtonVisible);
@@ -1000,7 +990,7 @@ namespace Samba.Modules.TicketModule
 
             Debug.Assert(SelectedTicket != null);
 
-            if (SelectedTicket.IsLocked && !AppServices.IsUserPermittedFor(PermissionNames.AddItemsToLockedTickets)) return;
+            if (SelectedTicket.IsLocked && !_userService.IsUserPermittedFor(PermissionNames.AddItemsToLockedTickets)) return;
 
             var ti = AddNewItem(obj.ScreenMenuItem.MenuItemId, obj.Quantity, obj.ScreenMenuItem.ItemPortion, obj.ScreenMenuItem.OrderTagTemplate);
 
@@ -1027,7 +1017,8 @@ namespace Samba.Modules.TicketModule
                 portion = menuItem.Portions.First(x => x.Name == portionName);
             }
 
-            var ti = SelectedTicket.Model.AddOrder(AppServices.CurrentLoggedInUser.Id, menuItem, portion.Name, SelectedDepartment.TicketTemplate.PriceTag);
+            var ti = SelectedTicket.Model.AddOrder(_applicationState.CurrentLoggedInUser.Name, menuItem, portion.Name, SelectedDepartment.TicketTemplate.PriceTag);
+
             ti.Quantity = quantity > 9 ? decimal.Round(quantity / portion.Multiplier, LocalSettings.Decimals) : quantity;
 
             if (template != null) template.OrderTagTemplateValues.ToList().ForEach(x => ti.ToggleOrderTag(x.OrderTagGroup, x.OrderTag, 0));
@@ -1052,7 +1043,7 @@ namespace Samba.Modules.TicketModule
             RaisePropertyChanged(() => IsTicketServiceVisible);
             RaisePropertyChanged(() => IsTicketRoundingVisible);
             RaisePropertyChanged(() => IsPlainTotalVisible);
-            RaisePropertyChanged(() => CanChangeDepartment);
+            RaisePropertyChanged(() => CanDisplayAllTickets);
             RaisePropertyChanged(() => TicketBackground);
             RaisePropertyChanged(() => IsTicketSelected);
             RaisePropertyChanged(() => IsFastPaymentButtonsVisible);
@@ -1066,7 +1057,8 @@ namespace Samba.Modules.TicketModule
             //SelectedDepartment = departmentId > 0
             //    ? Departments.SingleOrDefault(x => x.Id == departmentId)
             //    : null;
-            _departmentService.SelectDepartment(departmentId);
+
+            _applicationStateSetter.SetCurrentDepartment(departmentId);
         }
 
         protected override void Dispose(bool disposing)

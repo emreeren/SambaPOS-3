@@ -3,6 +3,7 @@ using System.ComponentModel.Composition.Hosting;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
+using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.MefExtensions;
 using Microsoft.Practices.ServiceLocation;
 using Samba.Infrastructure.Settings;
@@ -16,7 +17,7 @@ namespace Samba.Presentation
 {
     public class Bootstrapper : MefBootstrapper
     {
-        static Mutex _mutex = new Mutex(true, "{aa77c8c4-b8c1-4e61-908f-48c6fb65227d}");
+        static readonly Mutex Mutex = new Mutex(true, "{aa77c8c4-b8c1-4e61-908f-48c6fb65227d}");
 
         protected override DependencyObject CreateShell()
         {
@@ -46,9 +47,9 @@ namespace Samba.Presentation
 
         protected override void InitializeShell()
         {
-            if (!_mutex.WaitOne(TimeSpan.Zero, true))
+            if (!Mutex.WaitOne(TimeSpan.Zero, true))
             {
-                NativeMethods.PostMessage((IntPtr)NativeMethods.HWND_BROADCAST, NativeMethods.WM_SHOWSAMBAPOS, IntPtr.Zero, IntPtr.Zero);
+                NativeWin32.PostMessage((IntPtr)NativeWin32.HWND_BROADCAST, NativeWin32.WM_SHOWSAMBAPOS, IntPtr.Zero, IntPtr.Zero);
                 Environment.Exit(1);
             }
 
@@ -104,18 +105,10 @@ namespace Samba.Presentation
 
             Application.Current.MainWindow = (Shell)Shell;
             Application.Current.MainWindow.Show();
-            AppServices.CurrentLoggedInUser.PublishEvent(EventTopicNames.UserLoggedOut);
+            EventServiceFactory.EventService.PublishEvent(EventTopicNames.ShellInitialized);
+            //AppServices.CurrentLoggedInUser.PublishEvent(EventTopicNames.UserLoggedOut);
             InteractionService.UserIntraction.ToggleSplashScreen();
-            TriggerService.UpdateCronObjects();
+            ServiceLocator.Current.GetInstance<ITriggerService>().UpdateCronObjects();
         }
-    }
-    internal class NativeMethods
-    {
-        public const int HWND_BROADCAST = 0xffff;
-        public static readonly int WM_SHOWSAMBAPOS = RegisterWindowMessage("WM_SHOWSAMBAPOS");
-        [DllImport("user32")]
-        public static extern bool PostMessage(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam);
-        [DllImport("user32")]
-        public static extern int RegisterWindowMessage(string message);
     }
 }
