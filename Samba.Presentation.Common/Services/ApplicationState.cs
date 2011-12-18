@@ -15,17 +15,20 @@ namespace Samba.Presentation.Common.Services
     {
         public Ticket CurrentTicket { get; private set; }
 
-        public void SetCurrentTicket(Ticket ticket)
-        {
-            CurrentTicket = ticket;
-            (this as IApplicationState)._PublishEvent(EventTopicNames.SelectedTicketChanged);
-        }
-
         private User _currentLoggedInUser;
         public User CurrentLoggedInUser
         {
             get { return _currentLoggedInUser ?? User.Nobody; }
             private set { _currentLoggedInUser = value; }
+        }
+
+        public AppScreens ActiveAppScreen { get; private set; }
+        public Department CurrentDepartment { get; private set; }
+
+        public void SetCurrentTicket(Ticket ticket)
+        {
+            CurrentTicket = ticket;
+            (this as IApplicationState)._PublishEvent(EventTopicNames.SelectedTicketChanged);
         }
 
         public void SetCurrentLoggedInUser(User user)
@@ -63,10 +66,6 @@ namespace Samba.Presentation.Common.Services
         {
             ActiveAppScreen = appScreen;
         }
-
-        public AppScreens ActiveAppScreen { get; private set; }
-
-        public Department CurrentDepartment { get; private set; }
 
         public override void Reset()
         {

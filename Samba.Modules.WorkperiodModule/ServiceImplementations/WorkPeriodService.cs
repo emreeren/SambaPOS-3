@@ -4,7 +4,6 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Settings;
 using Samba.Persistance.Data;
-using Samba.Presentation.Common;
 using Samba.Presentation.Common.Services;
 using Samba.Services;
 
