@@ -9,8 +9,8 @@ namespace Samba.Services
 {
     public static class MethodQueue
     {
-        private static readonly ITicketService TicketService =
-            ServiceLocator.Current.GetInstance(typeof(ITicketService)) as ITicketService;
+        private static readonly IApplicationState ApplicationState =
+            ServiceLocator.Current.GetInstance(typeof(IApplicationState)) as IApplicationState;
 
         private static readonly Dictionary<string, Action> MethodList = new Dictionary<string, Action>();
 
@@ -24,8 +24,8 @@ namespace Samba.Services
         [MethodImpl(MethodImplOptions.Synchronized)]
         public static void RunQueue()
         {
-            if (MethodList.Count == 0 || AppServices.CurrentLoggedInUser == User.Nobody
-                || TicketService.CurrentTicket != null) return;
+            if (MethodList.Count == 0 || ApplicationState.CurrentLoggedInUser == User.Nobody
+                || ApplicationState.CurrentTicket != null) return;
             lock (MethodList)
             {
                 MethodList.Values.ToList().ForEach(x => x.Invoke());

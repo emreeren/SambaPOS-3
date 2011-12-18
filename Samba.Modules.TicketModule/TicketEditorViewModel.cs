@@ -14,12 +14,23 @@ namespace Samba.Modules.TicketModule
     {
         private readonly ITicketService _ticketService;
         private readonly IWorkPeriodService _workPeriodService;
+        private readonly IUserService _userService;
+        private readonly IApplicationState _applicationState;
+        private readonly IApplicationStateSetter _applicationStateSetter;
 
         [ImportingConstructor]
-        public TicketEditorViewModel(ITicketService ticketService,IWorkPeriodService workPeriodService, PaymentEditorViewModel paymentViewModel, TicketExplorerViewModel ticketExplorerViewModel, SelectedOrdersViewModel selectedOrdersViewModel, TicketListViewModel ticketListViewModel, MenuItemSelectorViewModel menuItemSelectorViewModel)
+        public TicketEditorViewModel(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
+            ITicketService ticketService, IWorkPeriodService workPeriodService, IUserService userService,
+            PaymentEditorViewModel paymentViewModel, TicketExplorerViewModel ticketExplorerViewModel,
+            SelectedOrdersViewModel selectedOrdersViewModel, TicketListViewModel ticketListViewModel,
+            MenuItemSelectorViewModel menuItemSelectorViewModel)
         {
             _ticketService = ticketService;
+            _userService = userService;
             _workPeriodService = workPeriodService;
+            _applicationState = applicationState;
+            _applicationStateSetter = applicationStateSetter;
+
             TicketListViewModel = ticketListViewModel;
             MenuItemSelectorViewModel = menuItemSelectorViewModel;
             PaymentViewModel = paymentViewModel;
@@ -74,8 +85,8 @@ namespace Samba.Modules.TicketModule
 
         private void CloseTicket()
         {
-            if (_ticketService.CurrentTicket != null)
-                _ticketService.CloseTicket();
+            if (_applicationState.CurrentTicket != null)
+                _ticketService.CloseTicket(_applicationState.CurrentTicket);
             TicketListViewModel.SelectedDepartment = null;
         }
 
@@ -110,7 +121,7 @@ namespace Samba.Modules.TicketModule
             switch (obj.Topic)
             {
                 case EventTopicNames.MakePayment:
-                    AppServices.ActiveAppScreen = AppScreens.Payment;
+                    _applicationStateSetter.SetCurrentApplicationScreen(AppScreens.Payment);
                     PaymentViewModel.Prepare();
                     DisplayPaymentScreen();
                     break;
@@ -148,7 +159,7 @@ namespace Samba.Modules.TicketModule
             SelectedView = 0;
             SelectedSubView = 2;
             TicketExplorerViewModel.StartDate = _workPeriodService.CurrentWorkPeriod.StartDate.Date;
-            if (!AppServices.IsUserPermittedFor(PermissionNames.DisplayOldTickets))
+            if (!_userService.IsUserPermittedFor(PermissionNames.DisplayOldTickets))
             {
                 TicketExplorerViewModel.StartDate = _workPeriodService.CurrentWorkPeriod.StartDate;
             }
@@ -158,7 +169,7 @@ namespace Samba.Modules.TicketModule
 
         public bool HandleTextInput(string text)
         {
-            if ((AppServices.ActiveAppScreen == AppScreens.TicketList || AppServices.ActiveAppScreen == AppScreens.SingleTicket)
+            if ((_applicationState.ActiveAppScreen == AppScreens.TicketList || _applicationState.ActiveAppScreen == AppScreens.SingleTicket)
                 && SelectedView == 0 && SelectedSubView == 0)
                 return MenuItemSelectorViewModel.HandleTextInput(text);
             return false;

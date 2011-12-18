@@ -21,6 +21,9 @@ namespace Samba.Presentation.Common
 
     public static class EventTopicNames
     {
+        public const string SelectedTicketChanged = "Selected Ticket Changed";
+        public const string ShellInitialized = "Shell Initialized";
+        public const string ResetCache = "Reset Cache";
         public const string ScreenMenuItemDataSelected = "Screen Menu Item Data Selected";
         public const string AddLiabilityAmount = "Add Liability Amount";
         public const string AddReceivableAmount = "Add Receivable Amount";
@@ -44,7 +47,7 @@ namespace Samba.Presentation.Common
         public const string SelectAccount = "Select Account";
         public const string NavigationCommandAdded = "Navigation Command Added";
         public const string DashboardCommandAdded = "Dashboard Command Added";
-        public const string SelectedTicketChanged = "Selected Ticket Changed";
+        public const string TicketDisplayed = "Ticket Displayed";
         public const string OrderAdded = "Order Added";
         public const string DashboardClosed = "Dashboard Closed";
         public const string MessageReceivedEvent = "Message Received";

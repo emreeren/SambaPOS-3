@@ -19,12 +19,18 @@ namespace Samba.Modules.TicketModule
     {
         private readonly Timer _timer;
         private readonly ITicketService _ticketService;
+        private readonly IApplicationState _applicationState;
+
+        private readonly IUserService _userService;
 
         [ImportingConstructor]
-        public TicketExplorerViewModel(ITicketService ticketService)
+        public TicketExplorerViewModel(ITicketService ticketService, IUserService userService, IApplicationState applicationState)
         {
             ResetFilters();
             _ticketService = ticketService;
+            _userService = userService;
+            _applicationState = applicationState;
+
             _timer = new Timer(250);
             _timer.Elapsed += TimerElapsed;
 
@@ -50,7 +56,7 @@ namespace Samba.Modules.TicketModule
         public ICaptionCommand RefreshDatesCommand { get; set; }
         public ICaptionCommand CloseCommand { get; set; }
 
-        public bool CanChanageDateFilter { get { return AppServices.IsUserPermittedFor(PermissionNames.DisplayOldTickets); } }
+        public bool CanChanageDateFilter { get { return _userService.IsUserPermittedFor(PermissionNames.DisplayOldTickets); } }
 
         private DateTime _startDate;
         public DateTime StartDate
@@ -124,10 +130,11 @@ namespace Samba.Modules.TicketModule
         {
             if (SelectedRow != null)
             {
-                if (_ticketService.CurrentTicket != null)
-                    _ticketService.CloseTicket();
-                _ticketService.OpenTicket(SelectedRow.Id);
-                if (_ticketService.CurrentTicket != null)
+                var ticket = _applicationState.CurrentTicket;
+                if (_applicationState.CurrentTicket != null)
+                    _ticketService.CloseTicket(ticket);
+                ticket = _ticketService.OpenTicket(SelectedRow.Id);
+                if (ticket != null)
                     EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
                 CommandManager.InvalidateRequerySuggested();
             }

@@ -8,6 +8,8 @@ using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Persistance.Data;
+using Samba.Presentation.Common;
+using Samba.Presentation.Common.Services;
 using Samba.Services;
 
 namespace Samba.Modules.InventoryModule.ServiceImplementations
@@ -21,7 +23,7 @@ namespace Samba.Modules.InventoryModule.ServiceImplementations
     }
 
     [Export(typeof(IInventoryService))]
-    public class InventoryService : IInventoryService
+    public class InventoryService : AbstractService, IInventoryService
     {
         private readonly IWorkPeriodService _workPeriodService;
 
@@ -186,9 +188,9 @@ namespace Samba.Modules.InventoryModule.ServiceImplementations
             }
         }
 
-        public void Reset()
+        public override void Reset()
         {
-            
+
         }
     }
 }

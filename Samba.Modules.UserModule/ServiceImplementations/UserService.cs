@@ -1,19 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
+using Samba.Infrastructure.Data;
 using Samba.Persistance.Data;
+using Samba.Presentation.Common;
+using Samba.Presentation.Common.Services;
 using Samba.Services;
 
 namespace Samba.Modules.UserModule.ServiceImplementations
 {
     [Export(typeof(IUserService))]
-    public class UserService : IUserService
+    public class UserService : AbstractService, IUserService
     {
+        private readonly IApplicationState _applicationState;
+        private readonly IApplicationStateSetter _applicationStateSetter;
+
+        [ImportingConstructor]
+        public UserService(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter)
+        {
+            _applicationState = applicationState;
+            _applicationStateSetter = applicationStateSetter;
+        }
+
+        private static IWorkspace _workspace;
+        public static IWorkspace Workspace
+        {
+            get { return _workspace ?? (_workspace = WorkspaceFactory.Create()); }
+            set { _workspace = value; }
+        }
+
         private IEnumerable<User> _users;
         public IEnumerable<User> Users { get { return _users ?? (_users = Dao.Query<User>(x => x.UserRole)); } }
+
+        private IEnumerable<Department> _permittedDepartments;
+        public IEnumerable<Department> PermittedDepartments
+        {
+            get
+            {
+                return _permittedDepartments ?? (
+                       _permittedDepartments = _applicationState.Departments.Where(
+                         x => IsUserPermittedFor(PermissionNames.UseDepartment + x.Id)));
+            }
+        }
 
         public bool ContainsUser(int userId)
         {
@@ -35,9 +68,52 @@ namespace Samba.Modules.UserModule.ServiceImplementations
             return Users.Select(x => x.Name);
         }
 
-        public void Reset()
+        public User LoginUser(string pinValue)
+        {
+            Debug.Assert(_applicationState.CurrentLoggedInUser == User.Nobody);
+            var user = CheckPinCodeStatus(pinValue) == LoginStatus.CanLogin ? GetUserByPinCode(pinValue) : User.Nobody;
+            _applicationStateSetter.SetCurrentLoggedInUser(user);
+            Reset();
+            if (user != User.Nobody)
+                user.PublishEvent(EventTopicNames.UserLoggedIn);
+            return user;
+        }
+
+        public void LogoutUser(bool resetCache = true)
+        {
+            var user = _applicationState.CurrentLoggedInUser;
+            Debug.Assert(user != User.Nobody);
+            user.PublishEvent(EventTopicNames.UserLoggedOut);
+            _applicationStateSetter.SetCurrentLoggedInUser(User.Nobody);
+            EventServiceFactory.EventService._PublishEvent(EventTopicNames.ResetCache);
+        }
+
+        private static User GetUserByPinCode(string pinCode)
+        {
+            return Workspace.All<User>(x => x.PinCode == pinCode).FirstOrDefault();
+        }
+
+        private static LoginStatus CheckPinCodeStatus(string pinCode)
+        {
+            var users = Workspace.All<User>(x => x.PinCode == pinCode);
+            return users.Count() == 0 ? LoginStatus.PinNotFound : LoginStatus.CanLogin;
+        }
+
+        public bool IsUserPermittedFor(string p)
+        {
+            var user = _applicationState.CurrentLoggedInUser;
+            if (user == User.Nobody) return false;
+            if (user.UserRole.IsAdmin) return true;
+            if (user.UserRole.Id == 0) return false;
+            var permission = user.UserRole.Permissions.SingleOrDefault(x => x.Name == p);
+            if (permission == null) return false;
+            return permission.Value == (int)PermissionValue.Enabled;
+        }
+
+        public override void Reset()
         {
             _users = null;
+            _permittedDepartments = null;
         }
     }
 }

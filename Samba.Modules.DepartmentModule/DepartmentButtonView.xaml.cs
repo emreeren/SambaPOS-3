@@ -14,19 +14,20 @@ namespace Samba.Modules.DepartmentModule
     [Export]
     public partial class DepartmentButtonView : UserControl
     {
-        private IDepartmentService _departmentService;
+        private readonly IApplicationStateSetter _applicationStateSetter;
 
         [ImportingConstructor]
-        public DepartmentButtonView(IDepartmentService departmentService, ITicketService ticketService, IWorkPeriodService workPeriodService)
+        public DepartmentButtonView(IApplicationStateSetter applicationStateSetter, IApplicationState applicationState,
+            IWorkPeriodService workPeriodService, IUserService userService)
         {
             InitializeComponent();
-            _departmentService = departmentService;
-            DataContext = new DepartmentButtonViewModel(departmentService, ticketService, workPeriodService);
+            _applicationStateSetter = applicationStateSetter;
+            DataContext = new DepartmentButtonViewModel(applicationState, workPeriodService, userService);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            _departmentService.SelectDepartment(((Button)sender).DataContext as Department);
+            _applicationStateSetter.SetCurrentDepartment(((Button)sender).DataContext as Department);
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicketView);
         }
     }

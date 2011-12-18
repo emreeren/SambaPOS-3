@@ -167,16 +167,16 @@ namespace Samba.Modules.BasicReports
         {
             Reports = new List<ReportViewModelBase>
                           {
-                              new EndDayReportViewModel(),
-                              new ProductReportViewModel(),
-                              new CashReportViewModel(),
-                              new LiabilityReportViewModel(),
-                              new ReceivableReportViewModel(),
-                              new InternalAccountsViewModel(),
-                              new PurchaseReportViewModel(),
-                              new InventoryReportViewModel(),
-                              new CostReportViewModel(),
-                              new CsvBuilderViewModel()
+                              new EndDayReportViewModel(UserService,WorkPeriodService),
+                              new ProductReportViewModel(UserService,WorkPeriodService),
+                              new CashReportViewModel(UserService,WorkPeriodService),
+                              new LiabilityReportViewModel(UserService,WorkPeriodService),
+                              new ReceivableReportViewModel(UserService,WorkPeriodService),
+                              new InternalAccountsViewModel(UserService,WorkPeriodService),
+                              new PurchaseReportViewModel(UserService,WorkPeriodService),
+                              new InventoryReportViewModel(UserService,WorkPeriodService),
+                              new CostReportViewModel(UserService,WorkPeriodService),
+                              new CsvBuilderViewModel(UserService,WorkPeriodService)
                           };
         }
 

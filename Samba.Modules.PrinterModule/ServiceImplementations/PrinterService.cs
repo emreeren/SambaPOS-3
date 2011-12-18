@@ -4,12 +4,14 @@ using System.Printing;
 using System.Windows.Documents;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
+using Samba.Presentation.Common;
+using Samba.Presentation.Common.Services;
 using Samba.Services;
 
 namespace Samba.Modules.PrinterModule.ServiceImplementations
 {
     [Export(typeof(IPrinterService))]
-    public class PrinterService : IPrinterService
+    public class PrinterService : AbstractService, IPrinterService
     {
         public IEnumerable<string> GetPrinterNames()
         {
@@ -41,7 +43,7 @@ namespace Samba.Modules.PrinterModule.ServiceImplementations
             return PrinterInfo.GetPrinter(shareName);
         }
 
-        public void Reset()
+        public override void Reset()
         {
             PrinterInfo.ResetCache();
         }

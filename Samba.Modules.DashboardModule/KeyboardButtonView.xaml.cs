@@ -16,12 +16,14 @@ namespace Samba.Modules.DashboardModule
         private readonly DashboardView _dashboardView;
         private readonly GridLength _gridLength = new GridLength(5);
         private readonly GridLength _zeroGridLength = new GridLength(0);
+        private readonly IApplicationState _applicationState;
 
         [ImportingConstructor]
-        public KeyboardButtonView(DashboardView dashboardView)
+        public KeyboardButtonView(IApplicationState applicationState,DashboardView dashboardView)
         {
             InitializeComponent();
             _dashboardView = dashboardView;
+            _applicationState = applicationState;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -31,7 +33,7 @@ namespace Samba.Modules.DashboardModule
 
         private void ToggleKeyboard()
         {
-            if (AppServices.ActiveAppScreen == AppScreens.Dashboard)
+            if (_applicationState.ActiveAppScreen == AppScreens.Dashboard)
             {
                 if (_dashboardView.Splitter.Height == _zeroGridLength)
                 {

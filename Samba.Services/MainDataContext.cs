@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Threading;
 using Microsoft.Practices.ServiceLocation;
-using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Actions;
-using Samba.Domain.Models.Locations;
 using Samba.Domain.Models.Menus;
 using Samba.Persistance.Data;
 
@@ -11,8 +8,6 @@ namespace Samba.Services
 {
     public class MainDataContext
     {
-        public int AccountCount { get; set; }
-        public int LocationCount { get; set; }
         public string NumeratorValue { get; set; }
 
         public IDepartmentService DepartmentService { get; set; }
@@ -20,7 +15,7 @@ namespace Samba.Services
         public IWorkPeriodService WorkPeriodService { get; set; }
         public IUserService UserService { get; set; }
         public ILocationService LocationService { get; set; }
-        
+
         private IEnumerable<AppRule> _rules;
         public IEnumerable<AppRule> Rules { get { return _rules ?? (_rules = Dao.Query<AppRule>(x => x.Actions)); } }
 
@@ -51,32 +46,22 @@ namespace Samba.Services
         public void ResetUserData()
         {
             DepartmentService.Reset();
-            ThreadPool.QueueUserWorkItem(ResetLocationAndAccountCounts);
-        }
-
-        private void ResetLocationAndAccountCounts(object state)
-        {
-            AccountCount = Dao.Count<Account>(null);
-            LocationCount = Dao.Count<Location>(null);
         }
 
         public void ResetCache()
         {
-            var selectedDepartment = DepartmentService.CurrentDepartment != null ? DepartmentService.CurrentDepartment.Id : 0;
-            var selectedLocationScreen = LocationService.SelectedLocationScreen != null ? LocationService.SelectedLocationScreen.Id : 0;
+            //var selectedDepartment = DepartmentService.CurrentDepartment != null ? DepartmentService.CurrentDepartment.Id : 0;
+            //var selectedLocationScreen = LocationService.SelectedLocationScreen != null ? LocationService.SelectedLocationScreen.Id : 0;
 
-            LocationService.SelectedLocationScreen = null;
-            DepartmentService.SelectDepartment(null);
-            DepartmentService.Reset();
-            InventoryService.Reset();
-            WorkPeriodService.Reset();
-            UserService.Reset();
-            _rules = null;
-            _actions = null;
-            _taxTemplates = null;
-            _serviceTemplates = null;
+            //LocationService.SelectedLocationScreen = null;
+            //DepartmentService.SelectDepartment(null);
+            //IService.
+            //_rules = null;
+            //_actions = null;
+            //_taxTemplates = null;
+            //_serviceTemplates = null;
 
-            DepartmentService.SelectDepartment(selectedDepartment);
+            //DepartmentService.SelectDepartment(selectedDepartment);
 
             //if (selectedDepartment > 0 && Departments.Count(x => x.Id == selectedDepartment) > 0)
             //{

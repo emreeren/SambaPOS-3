@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Practices.Prism.Regions;
+﻿using Microsoft.Practices.Prism.Regions;
+using Microsoft.Practices.ServiceLocation;
 using Samba.Services;
 
 namespace Samba.Presentation.Common
@@ -11,17 +8,19 @@ namespace Samba.Presentation.Common
     {
         private readonly IRegionManager _regionManager;
         private readonly AppScreens _appScreen;
+        private readonly IApplicationStateSetter _applicationStateSetter;
         private ICategoryCommand _navigationCommand;
 
         protected VisibleModuleBase(IRegionManager regionManager, AppScreens appScreen)
         {
+            _applicationStateSetter = ServiceLocator.Current.GetInstance<IApplicationStateSetter>();
             _regionManager = regionManager;
             _appScreen = appScreen;
         }
 
         public void Activate()
         {
-            AppServices.ActiveAppScreen = _appScreen;
+            _applicationStateSetter.SetCurrentApplicationScreen(_appScreen);
             _regionManager.Regions[RegionNames.MainRegion].Activate(GetVisibleView());
         }
 
@@ -34,7 +33,7 @@ namespace Samba.Presentation.Common
         {
             return true;
         }
-        
+
         protected virtual void OnNavigate(string obj)
         {
             Activate();

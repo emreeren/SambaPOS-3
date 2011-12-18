@@ -13,6 +13,7 @@ namespace Samba.Modules.BasicReports
     {
         private readonly IRegionManager _regionManager;
         private readonly BasicReportView _basicReportView;
+        private readonly IUserService _userService;
 
         [ImportingConstructor]
         public BasicReportModule(IRegionManager regionManager, BasicReportView basicReportView,
@@ -26,6 +27,8 @@ namespace Samba.Modules.BasicReports
             ReportContext.DepartmentService = departmentService;
             ReportContext.InventoryService = inventoryService;
             ReportContext.UserService = userService;
+
+            _userService = userService;
 
             _regionManager = regionManager;
             _basicReportView = basicReportView;
@@ -64,7 +67,8 @@ namespace Samba.Modules.BasicReports
 
         protected override bool CanNavigate(string arg)
         {
-            return (AppServices.IsUserPermittedFor(PermissionNames.OpenReports) && ReportContext.WorkPeriodService.CurrentWorkPeriod != null);
+            return (_userService.IsUserPermittedFor(PermissionNames.OpenReports) 
+                && ReportContext.WorkPeriodService.CurrentWorkPeriod != null);
         }
 
         protected override void OnNavigate(string obj)

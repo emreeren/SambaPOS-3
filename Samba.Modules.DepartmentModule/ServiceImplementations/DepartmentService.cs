@@ -1,70 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
 using Samba.Domain.Models.Tickets;
-using Samba.Infrastructure.Data;
-using Samba.Persistance.Data;
 using Samba.Presentation.Common;
+using Samba.Presentation.Common.Services;
 using Samba.Services;
 
 namespace Samba.Modules.DepartmentModule.ServiceImplementations
 {
     [Export(typeof(IDepartmentService))]
-    public class DepartmentService : IDepartmentService
+    public class DepartmentService : AbstractService, IDepartmentService
     {
-        private IWorkspace _workspace;
-        public IWorkspace Workspace
+        private readonly IApplicationState _applicationState;
+
+        [ImportingConstructor]
+        public DepartmentService(IApplicationState applicationState)
         {
-            get { return _workspace ?? (_workspace = WorkspaceFactory.Create()); }
-        }
-
-        public void SelectDepartment(int id)
-        {
-            SelectDepartment(Departments.SingleOrDefault(x => x.Id == id));
-        }
-
-        public void SelectDepartment(Department department)
-        {
-            if(department != CurrentDepartment)
-            {
-                CurrentDepartment = department;
-                CurrentDepartment.PublishEvent(EventTopicNames.SelectedDepartmentChanged);
-            }
-        }
-
-        public Department CurrentDepartment { get; private set; }
-
-        private IEnumerable<Department> _departments;
-        public IEnumerable<Department> Departments
-        {
-            get { return _departments ?? (_departments = Workspace.All<Department>()); }
-        }
-
-        private IEnumerable<Department> _permittedDepartments;
-
-        public IEnumerable<Department> GetPermittedDepartments()
-        {
-            return _permittedDepartments ?? (
-                _permittedDepartments = Departments.Where(
-                  x => AppServices.IsUserPermittedFor(PermissionNames.UseDepartment + x.Id)));
+            _applicationState = applicationState;
         }
 
         public Department GetDepartment(int id)
         {
-            return Departments.First(x => x.Id == id);
+            return _applicationState.Departments.First(x => x.Id == id);
         }
 
         public IEnumerable<string> GetDepartmentNames()
         {
-            return Departments.Select(x => x.Name);
+            return _applicationState.Departments.Select(x => x.Name);
         }
 
-        public void Reset()
+        public override void Reset()
         {
-            _departments = null;
-            _permittedDepartments = null;
+            
         }
     }
 }

@@ -5,11 +5,17 @@ using System.Windows;
 using System.Windows.Documents;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
+using Samba.Services;
 
 namespace Samba.Modules.BasicReports.Reports.CSVBuilder
 {
     class CsvBuilderViewModel : ReportViewModelBase
     {
+        public CsvBuilderViewModel(IUserService userService, IWorkPeriodService workPeriodService)
+            : base(userService, workPeriodService)
+        {
+        }
+
         protected override void CreateFilterGroups()
         {
             FilterGroups.Clear();

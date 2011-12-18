@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Cron;
 using Samba.Persistance.Data;
@@ -7,11 +8,20 @@ using Samba.Services;
 
 namespace Samba.Presentation.Common.Services
 {
-    public static class TriggerService
+    [Export(typeof(ITriggerService))]
+    public class TriggerService : ITriggerService
     {
-        private static readonly List<CronObject> CronObjects = new List<CronObject>();
+        private readonly List<CronObject> _cronObjects;
+        private readonly IApplicationState _applicationState;
 
-        public static void UpdateCronObjects()
+        [ImportingConstructor]
+        public TriggerService(IApplicationState applicationState)
+        {
+            _applicationState = applicationState;
+            _cronObjects = new List<CronObject>();
+        }
+
+        public void UpdateCronObjects()
         {
             CloseTriggers();
 
@@ -26,22 +36,22 @@ namespace Samba.Presentation.Common.Services
 
                 var cronObject = new CronObject(dataContext);
                 cronObject.OnCronTrigger += OnCronTrigger;
-                CronObjects.Add(cronObject);
+                _cronObjects.Add(cronObject);
             }
-            CronObjects.ForEach(x => x.Start());
+            _cronObjects.ForEach(x => x.Start());
         }
 
-        public static void CloseTriggers()
+        public void CloseTriggers()
         {
-            foreach (var cronObject in CronObjects)
+            foreach (var cronObject in _cronObjects)
             {
                 cronObject.Stop();
                 cronObject.OnCronTrigger -= OnCronTrigger;
             }
-            CronObjects.Clear();
+            _cronObjects.Clear();
         }
 
-        private static void OnCronTrigger(object sender, CronEventArgs e)
+        private void OnCronTrigger(object sender, CronEventArgs e)
         {
             using (var workspace = WorkspaceFactory.Create())
             {
@@ -50,7 +60,7 @@ namespace Samba.Presentation.Common.Services
                 {
                     trigger.LastTrigger = DateTime.Now;
                     workspace.CommitChanges();
-                    if (AppServices.ActiveAppScreen != AppScreens.Dashboard)
+                    if (_applicationState.ActiveAppScreen != AppScreens.Dashboard)
                         RuleExecutor.NotifyEvent(RuleEventNames.TriggerExecuted, new { TriggerName = trigger.Name });
                 }
                 else e.CronObject.Stop();

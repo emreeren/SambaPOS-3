@@ -8,11 +8,7 @@ namespace Samba.Services
 {
     public interface IDepartmentService : IService
     {
-        void SelectDepartment(int id);
-        void SelectDepartment(Department department);
-        Department CurrentDepartment { get; }
         Department GetDepartment(int id);
         IEnumerable<string> GetDepartmentNames();
-        IEnumerable<Department> GetPermittedDepartments();
     }
 }

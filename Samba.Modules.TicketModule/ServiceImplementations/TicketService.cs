@@ -14,23 +14,29 @@ using Samba.Infrastructure.Data.Serializer;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common;
+using Samba.Presentation.Common.Services;
 using Samba.Presentation.ViewModels;
 using Samba.Services;
 
 namespace Samba.Modules.TicketModule.ServiceImplementations
 {
     [Export(typeof(ITicketService))]
-    public class TicketService : ITicketService
+    public class TicketService : AbstractService, ITicketService
     {
         private IWorkspace _workspace;
         private readonly IDepartmentService _departmentService;
         private readonly IPrinterService _printerService;
+        private readonly IApplicationState _applicationState;
+        private readonly IApplicationStateSetter _applicationStateSetter;
 
         [ImportingConstructor]
-        public TicketService(IDepartmentService departmentService, IPrinterService printerService)
+        public TicketService(IDepartmentService departmentService, IPrinterService printerService,
+            IApplicationState applicationState, IApplicationStateSetter applicationStateSetter)
         {
             _departmentService = departmentService;
             _printerService = printerService;
+            _applicationState = applicationState;
+            _applicationStateSetter = applicationStateSetter;
         }
 
         public void UpdateAccount(Ticket ticket, Account account)
@@ -39,76 +45,86 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
             ticket.UpdateAccount(CheckAccount(account));
         }
 
-        public Ticket CurrentTicket { get; private set; }
-
-        public void OpenTicket(int ticketId)
+        public Ticket OpenTicket(int ticketId)
         {
+            var ticket = _applicationState.CurrentTicket;
             Debug.Assert(_workspace == null);
-            Debug.Assert(CurrentTicket == null);
-            Debug.Assert(_departmentService.CurrentDepartment != null);
+            Debug.Assert(ticket == null);
+            Debug.Assert(_applicationState.CurrentDepartment != null);
 
             _workspace = WorkspaceFactory.Create();
-            CurrentTicket = ticketId == 0
-                                ? Ticket.Create(_departmentService.CurrentDepartment)
-                                : _workspace.Single<Ticket>(ticket => ticket.Id == ticketId,
-                                                            x => x.Orders.Select(y => y.OrderTagValues));
-            if (CurrentTicket.Id == 0)
-                RuleExecutor.NotifyEvent(RuleEventNames.TicketCreated, new { Ticket = CurrentTicket });
+            ticket = ticketId == 0
+                                 ? Ticket.Create(_applicationState.CurrentDepartment)
+                                 : _workspace.Single<Ticket>(t => t.Id == ticketId,
+                                                             x => x.Orders.Select(y => y.OrderTagValues));
+            _applicationStateSetter.SetCurrentTicket(ticket);
 
+            if (ticket.Id == 0)
+                RuleExecutor.NotifyEvent(RuleEventNames.TicketCreated, new { Ticket = ticket });
+
+            return ticket;
         }
 
-        public void OpenTicketByLocationName(string locationName)
+        public Ticket OpenTicketByLocationName(string locationName)
         {
             var location = Dao.SingleWithCache<Location>(x => x.Name == locationName);
             if (location != null)
             {
+                var ticket = _applicationState.CurrentTicket;
                 if (location.TicketId > 0)
-                    OpenTicket(location.TicketId);
-                ChangeTicketLocation(CurrentTicket, location.Id);
+                    ticket = OpenTicket(location.TicketId);
+                ChangeTicketLocation(ticket, location.Id);
+                return ticket;
             }
+            return null;
         }
 
-        public void OpenTicketByTicketNumber(string ticketNumber)
+        public Ticket OpenTicketByTicketNumber(string ticketNumber)
         {
-            Debug.Assert(CurrentTicket == null);
+            Debug.Assert(_applicationState.CurrentTicket == null);
             var id = Dao.Select<Ticket, int>(x => x.Id, x => x.TicketNumber == ticketNumber).FirstOrDefault();
-            if (id > 0) OpenTicket(id);
+            if (id > 0)
+            {
+                var ticket = OpenTicket(id);
+                return ticket;
+            }
+            return null;
         }
 
-        public TicketCommitResult CloseTicket()
+        public TicketCommitResult CloseTicket(Ticket ticket)
         {
-            var department = _departmentService.GetDepartment(CurrentTicket.DepartmentId);
+            var department = _departmentService.GetDepartment(ticket.DepartmentId);
             var result = new TicketCommitResult();
-            Debug.Assert(CurrentTicket != null);
+            Debug.Assert(ticket != null);
             var changed = false;
 
-            if (CurrentTicket.Id > 0)
+            if (ticket.Id > 0)
             {
-                var lup = Dao.Single<Ticket, DateTime>(CurrentTicket.Id, x => x.LastUpdateTime);
-                if (CurrentTicket.LastUpdateTime.CompareTo(lup) != 0)
+                var lup = Dao.Single<Ticket, DateTime>(ticket.Id, x => x.LastUpdateTime);
+                if (ticket.LastUpdateTime.CompareTo(lup) != 0)
                 {
-                    var currentTicket = Dao.Single<Ticket>(x => x.Id == CurrentTicket.Id, x => x.Orders, x => x.Payments);
-                    if (currentTicket.LocationName != CurrentTicket.LocationName)
+                    var currentTicket = Dao.Single<Ticket>(x => x.Id == ticket.Id, x => x.Orders, x => x.Payments);
+                    if (currentTicket.LocationName != ticket.LocationName)
                     {
                         result.ErrorMessage = string.Format(Resources.TicketMovedRetryLastOperation_f, currentTicket.LocationName);
                         changed = true;
                     }
 
-                    if (currentTicket.IsPaid != CurrentTicket.IsPaid)
+                    if (currentTicket.IsPaid != ticket.IsPaid)
                     {
                         if (currentTicket.IsPaid)
                         {
                             result.ErrorMessage = Resources.TicketPaidChangesNotSaved;
                         }
-                        if (CurrentTicket.IsPaid)
+                        if (ticket.IsPaid)
                         {
                             result.ErrorMessage = Resources.TicketChangedRetryLastOperation;
                         }
                         changed = true;
                     }
-                    else if (currentTicket.LastPaymentDate != CurrentTicket.LastPaymentDate)
+                    else if (currentTicket.LastPaymentDate != ticket.LastPaymentDate)
                     {
-                        var currentPaymentIds = CurrentTicket.Payments.Select(x => x.Id).Distinct();
+                        var currentPaymentIds = ticket.Payments.Select(x => x.Id).Distinct();
                         var unknownPayments = currentTicket.Payments.Where(x => !currentPaymentIds.Contains(x.Id)).FirstOrDefault();
                         if (unknownPayments != null)
                         {
@@ -119,69 +135,69 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
                 }
             }
 
-            if (!string.IsNullOrEmpty(CurrentTicket.LocationName) && CurrentTicket.Id == 0)
+            if (!string.IsNullOrEmpty(ticket.LocationName) && ticket.Id == 0)
             {
-                var ticketId = Dao.Select<Location, int>(x => x.TicketId, x => x.Name == CurrentTicket.LocationName).FirstOrDefault();
+                var ticketId = Dao.Select<Location, int>(x => x.TicketId, x => x.Name == ticket.LocationName).FirstOrDefault();
                 {
                     if (ticketId > 0)
                     {
-                        result.ErrorMessage = string.Format(Resources.LocationChangedRetryLastOperation_f, CurrentTicket.LocationName);
+                        result.ErrorMessage = string.Format(Resources.LocationChangedRetryLastOperation_f, ticket.LocationName);
                         changed = true;
                     }
                 }
             }
 
-            var canSumbitTicket = !changed && CurrentTicket.CanSubmit; // Fişi kaydedebilmek için gün sonu yapılmamış ve fişin ödenmemiş olması gerekir.
+            var canSumbitTicket = !changed && ticket.CanSubmit; // Fişi kaydedebilmek için gün sonu yapılmamış ve fişin ödenmemiş olması gerekir.
 
             if (canSumbitTicket)
             {
-                CurrentTicket.Recalculate(AppServices.SettingService.AutoRoundDiscount, AppServices.CurrentLoggedInUser.Id);
-                CurrentTicket.IsPaid = CurrentTicket.RemainingAmount == 0;
+                ticket.Recalculate(AppServices.SettingService.AutoRoundDiscount, _applicationState.CurrentLoggedInUser.Id);
+                ticket.IsPaid = ticket.RemainingAmount == 0;
 
-                if (CurrentTicket.Orders.Count > 0)
+                if (ticket.Orders.Count > 0)
                 {
-                    if (CurrentTicket.Orders.Where(x => !x.Locked).FirstOrDefault() != null)
+                    if (ticket.Orders.Where(x => !x.Locked).FirstOrDefault() != null)
                     {
-                        CurrentTicket.MergeOrdersAndUpdateOrderNumbers(NumberGenerator.GetNextNumber(department.TicketTemplate.OrderNumerator.Id));
-                        CurrentTicket.Orders.Where(x => x.Id == 0).ToList().ForEach(x => x.CreatedDateTime = DateTime.Now);
+                        ticket.MergeOrdersAndUpdateOrderNumbers(NumberGenerator.GetNextNumber(department.TicketTemplate.OrderNumerator.Id));
+                        ticket.Orders.Where(x => x.Id == 0).ToList().ForEach(x => x.CreatedDateTime = DateTime.Now);
                     }
 
-                    if (CurrentTicket.Id == 0)
+                    if (ticket.Id == 0)
                     {
-                        _workspace.Add(CurrentTicket);
-                        UpdateTicketNumber(CurrentTicket, department.TicketTemplate.TicketNumerator);
-                        CurrentTicket.LastOrderDate = DateTime.Now;
+                        _workspace.Add(ticket);
+                        UpdateTicketNumber(ticket, department.TicketTemplate.TicketNumerator);
+                        ticket.LastOrderDate = DateTime.Now;
                         _workspace.CommitChanges();
                     }
 
-                    Debug.Assert(!string.IsNullOrEmpty(CurrentTicket.TicketNumber));
-                    Debug.Assert(CurrentTicket.Id > 0);
+                    Debug.Assert(!string.IsNullOrEmpty(ticket.TicketNumber));
+                    Debug.Assert(ticket.Id > 0);
 
                     //Otomatik yazdırma
-                    _printerService.AutoPrintTicket(CurrentTicket);
-                    CurrentTicket.LockTicket();
+                    _printerService.AutoPrintTicket(ticket);
+                    ticket.LockTicket();
                 }
 
-                UpdateTicketLocation(CurrentTicket);
-                if (CurrentTicket.Id > 0)  // eğer adisyonda satır yoksa ID burada 0 olmalı.
+                UpdateTicketLocation(ticket);
+                if (ticket.Id > 0)  // eğer adisyonda satır yoksa ID burada 0 olmalı.
                     _workspace.CommitChanges();
-                Debug.Assert(CurrentTicket.Orders.Count(x => x.OrderNumber == 0) == 0);
+                Debug.Assert(ticket.Orders.Count(x => x.OrderNumber == 0) == 0);
             }
-            result.TicketId = CurrentTicket.Id;
+            result.TicketId = ticket.Id;
             _workspace = null;
-            CurrentTicket = null;
+            _applicationStateSetter.SetCurrentTicket(null);
 
             return result;
         }
 
-        public void AddPayment(decimal tenderedAmount, DateTime date, PaymentType paymentType)
+        public void AddPayment(Ticket ticket, decimal tenderedAmount, DateTime date, PaymentType paymentType)
         {
-            CurrentTicket.AddPayment(date, tenderedAmount, paymentType, AppServices.CurrentLoggedInUser.Id);
+            ticket.AddPayment(date, tenderedAmount, paymentType, _applicationState.CurrentLoggedInUser.Id);
         }
 
-        public void PaySelectedTicket(PaymentType paymentType)
+        public void PaySelectedTicket(Ticket ticket, PaymentType paymentType)
         {
-            AddPayment(CurrentTicket.GetRemainingAmount(), DateTime.Now, paymentType);
+            AddPayment(ticket, ticket.GetRemainingAmount(), DateTime.Now, paymentType);
         }
 
         public void UpdateTicketNumber(Ticket ticket, Numerator numerator)
@@ -231,13 +247,12 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
 
             if (location.TicketId > 0 && location.TicketId != ticket.Id)
             {
-                MoveOrders(ticket.Orders.ToList(), location.TicketId);
-                OpenTicket(location.TicketId);
-                ticket = CurrentTicket;
+                MoveOrders(ticket, ticket.Orders.ToList(), location.TicketId);
+                ticket = OpenTicket(location.TicketId);
             }
 
             ticket.LocationName = location.Name;
-            if (_departmentService.CurrentDepartment != null) ticket.DepartmentId = _departmentService.CurrentDepartment.Id;
+            if (_applicationState.CurrentDepartment != null) ticket.DepartmentId = _applicationState.CurrentDepartment.Id;
             location.TicketId = ticket.GetRemainingAmount() > 0 ? ticket.Id : 0;
 
             RuleExecutor.NotifyEvent(RuleEventNames.TicketLocationChanged, new { Ticket = ticket, OldLocation = oldLocation, NewLocation = ticket.LocationName });
@@ -273,12 +288,12 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
             return result;
         }
 
-        public TicketCommitResult MoveOrders(IEnumerable<Order> selectedOrders, int targetTicketId)
+        public TicketCommitResult MoveOrders(Ticket ticket, IEnumerable<Order> selectedOrders, int targetTicketId)
         {
             var clonedOrders = selectedOrders.Select(ObjectCloner.Clone).ToList();
-            selectedOrders.ToList().ForEach(x => CurrentTicket.Orders.Remove(x));
+            ticket.RemoveOrders(selectedOrders);
 
-            if (CurrentTicket.Orders.Count == 0)
+            if (ticket.Orders.Count == 0)
             {
                 var info = targetTicketId.ToString();
                 if (targetTicketId > 0)
@@ -286,31 +301,30 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
                     var tData = Dao.Single<Ticket, dynamic>(targetTicketId, x => new { x.LocationName, x.TicketNumber });
                     info = tData.LocationName + " - " + tData.TicketNumber;
                 }
-                if (!string.IsNullOrEmpty(CurrentTicket.Note)) CurrentTicket.Note += "\r";
-                CurrentTicket.Note += CurrentTicket.LocationName + " => " + info;
+                if (!string.IsNullOrEmpty(ticket.Note)) ticket.Note += "\r";
+                ticket.Note += ticket.LocationName + " => " + info;
             }
 
-            CloseTicket();
-
-            OpenTicket(targetTicketId);
+            CloseTicket(ticket);
+            ticket = OpenTicket(targetTicketId);
 
             foreach (var clonedOrder in clonedOrders)
             {
-                CurrentTicket.Orders.Add(clonedOrder);
+                ticket.Orders.Add(clonedOrder);
             }
 
-            CurrentTicket.LastOrderDate = DateTime.Now;
-            return CloseTicket();
+            ticket.LastOrderDate = DateTime.Now;
+            return CloseTicket(ticket);
         }
 
         public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(MenuItem menuItem)
         {
-            return GetOrderTagGroupsForItem(_departmentService.CurrentDepartment.TicketTemplate.OrderTagGroups, menuItem);
+            return GetOrderTagGroupsForItem(_applicationState.CurrentDepartment.TicketTemplate.OrderTagGroups, menuItem);
         }
 
         public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItems(IEnumerable<MenuItem> menuItems)
         {
-            return menuItems.Aggregate(_departmentService.CurrentDepartment.TicketTemplate.OrderTagGroups.OrderBy(x => x.Order) as IEnumerable<OrderTagGroup>, GetOrderTagGroupsForItem);
+            return menuItems.Aggregate(_applicationState.CurrentDepartment.TicketTemplate.OrderTagGroups.OrderBy(x => x.Order) as IEnumerable<OrderTagGroup>, GetOrderTagGroupsForItem);
         }
 
         private static IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(IEnumerable<OrderTagGroup> tagGroups, MenuItem menuItem)
@@ -325,7 +339,7 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
         public void RecalculateTicket(Ticket ticket)
         {
             var total = ticket.TotalAmount;
-            ticket.Recalculate(AppServices.SettingService.AutoRoundDiscount, AppServices.CurrentLoggedInUser.Id);
+            ticket.Recalculate(AppServices.SettingService.AutoRoundDiscount, _applicationState.CurrentLoggedInUser.Id);
             if (total != ticket.TotalAmount)
             {
                 RuleExecutor.NotifyEvent(RuleEventNames.TicketTotalChanged,
@@ -397,7 +411,7 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
             _workspace.Add(newItem);
         }
 
-        public void Reset()
+        public override void Reset()
         {
 
         }

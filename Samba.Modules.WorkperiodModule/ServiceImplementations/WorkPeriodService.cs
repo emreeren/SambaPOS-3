@@ -4,12 +4,14 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Settings;
 using Samba.Persistance.Data;
+using Samba.Presentation.Common;
+using Samba.Presentation.Common.Services;
 using Samba.Services;
 
 namespace Samba.Modules.WorkperiodModule.ServiceImplementations
 {
     [Export(typeof(IWorkPeriodService))]
-    public class WorkPeriodService : IWorkPeriodService
+    public class WorkPeriodService : AbstractService, IWorkPeriodService
     {
         private IEnumerable<WorkPeriod> _lastTwoWorkPeriods;
         public IEnumerable<WorkPeriod> LastTwoWorkPeriods
@@ -80,7 +82,7 @@ namespace Samba.Modules.WorkperiodModule.ServiceImplementations
             }
         }
 
-        public void Reset()
+        public override void Reset()
         {
             _lastTwoWorkPeriods = null;
         }

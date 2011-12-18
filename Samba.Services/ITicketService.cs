@@ -18,15 +18,15 @@ namespace Samba.Services
 
     public interface ITicketService : IService
     {
-        void OpenTicket(int ticketId);
-        void OpenTicketByLocationName(string locationName);
-        void OpenTicketByTicketNumber(string ticketNumber);
-        TicketCommitResult MoveOrders(IEnumerable<Order> selectedOrders, int targetTicketId);
+        Ticket OpenTicket(int ticketId);
+        //todo move to state
+        Ticket OpenTicketByLocationName(string locationName);
+        Ticket OpenTicketByTicketNumber(string ticketNumber);
+        TicketCommitResult MoveOrders(Ticket ticket, IEnumerable<Order> selectedOrders, int targetTicketId);
         void ChangeTicketLocation(Ticket ticket, int locationId);
-        Ticket CurrentTicket { get; }
-        TicketCommitResult CloseTicket();
-        void AddPayment(decimal tenderedAmount, DateTime date, PaymentType paymentType);
-        void PaySelectedTicket(PaymentType paymentType);
+        TicketCommitResult CloseTicket(Ticket ticket);
+        void AddPayment(Ticket ticket, decimal tenderedAmount, DateTime date, PaymentType paymentType);
+        void PaySelectedTicket(Ticket ticket, PaymentType paymentType);
         void UpdateTicketNumber(Ticket ticket, Numerator numerator);
         IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(MenuItem menuItem);
         IEnumerable<OrderTagGroup> GetOrderTagGroupsForItems(IEnumerable<MenuItem> menuItems);

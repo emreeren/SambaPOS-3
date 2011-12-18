@@ -5,11 +5,18 @@ using System.Windows;
 using System.Windows.Documents;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
+using Samba.Services;
 
 namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 {
     public class EndDayReportViewModel : ReportViewModelBase
     {
+        public EndDayReportViewModel(IUserService userService, IWorkPeriodService workPeriodService)
+            : base(userService, workPeriodService)
+        {
+
+        }
+
         protected override void CreateFilterGroups()
         {
             FilterGroups.Clear();

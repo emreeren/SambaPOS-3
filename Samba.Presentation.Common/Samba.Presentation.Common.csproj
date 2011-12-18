@@ -90,6 +90,8 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Services\AbstractService.cs" />
+    <Compile Include="Services\ApplicationState.cs" />
     <Compile Include="Browser\BrowserControl.xaml.cs">
       <DependentUpon>BrowserControl.xaml</DependentUpon>
     </Compile>

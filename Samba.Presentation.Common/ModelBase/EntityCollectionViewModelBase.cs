@@ -25,8 +25,8 @@ namespace Samba.Presentation.Common.ModelBase
         {
             get
             {
-                return _workPeriodService ?? (_workPeriodService =
-                        ServiceLocator.Current.GetInstance(typeof(IWorkPeriodService)) as IWorkPeriodService);
+                return _workPeriodService ?? (_workPeriodService = 
+                    ServiceLocator.Current.GetInstance<IWorkPeriodService>());
             }
         }
 
@@ -36,7 +36,7 @@ namespace Samba.Presentation.Common.ModelBase
             get
             {
                 return _inventoryService ?? (_inventoryService =
-                        ServiceLocator.Current.GetInstance(typeof(IInventoryService)) as IInventoryService);
+                        ServiceLocator.Current.GetInstance<IInventoryService>());
             }
         }
 
@@ -46,7 +46,17 @@ namespace Samba.Presentation.Common.ModelBase
             get
             {
                 return _printerService ?? (_printerService =
-                        ServiceLocator.Current.GetInstance(typeof(IPrinterService)) as IPrinterService);
+                        ServiceLocator.Current.GetInstance<IPrinterService>());
+            }
+        }
+
+        private ITriggerService _triggerService;
+        public ITriggerService TriggerService
+        {
+            get
+            {
+                return _triggerService ?? (_triggerService =
+                    ServiceLocator.Current.GetInstance<ITriggerService>());
             }
         }
 
@@ -219,7 +229,7 @@ namespace Samba.Presentation.Common.ModelBase
         protected TViewModel InternalCreateNewViewModel(TModel model)
         {
             var result = CreateNewViewModel(model);
-            result.Init(_workspace, WorkPeriodService, InventoryService, PrinterService);
+            result.Init(_workspace, WorkPeriodService, InventoryService, PrinterService, TriggerService);
             return result;
         }
 

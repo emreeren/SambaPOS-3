@@ -27,12 +27,12 @@ namespace Samba.Modules.LocationModule
 
         public ObservableCollection<IDiagram> Locations { get; set; }
 
-        public Ticket SelectedTicket { get { return _ticketService.CurrentTicket; } }
+        public Ticket SelectedTicket { get { return _applicationState.CurrentTicket; } }
         public LocationScreen SelectedLocationScreen { get { return _locationService.SelectedLocationScreen; } }
-        public IEnumerable<LocationScreen> LocationScreens { get { return _departmentService.CurrentDepartment != null ? _departmentService.CurrentDepartment.LocationScreens : null; } }
+        public IEnumerable<LocationScreen> LocationScreens { get { return _applicationState.CurrentDepartment != null ? _applicationState.CurrentDepartment.LocationScreens : null; } }
 
         public bool IsNavigated { get; set; }
-        public bool CanDesignLocations { get { return AppServices.CurrentLoggedInUser.UserRole.IsAdmin; } }
+        public bool CanDesignLocations { get { return _applicationState.CurrentLoggedInUser.UserRole.IsAdmin; } }
         public int CurrentPageNo { get; set; }
 
         public bool IsPageNavigatorVisible { get { return SelectedLocationScreen != null && SelectedLocationScreen.PageCount > 1; } }
@@ -69,16 +69,17 @@ namespace Samba.Modules.LocationModule
 
         public VerticalAlignment LocationsVerticalAlignment { get { return SelectedLocationScreen != null && SelectedLocationScreen.ButtonHeight > 0 ? VerticalAlignment.Top : VerticalAlignment.Stretch; } }
 
-        private readonly IDepartmentService _departmentService;
-        private readonly ITicketService _ticketService;
+        private readonly IApplicationState _applicationState;
         private readonly ILocationService _locationService;
+        private readonly IUserService _userService;
 
         [ImportingConstructor]
-        public LocationSelectorViewModel(ITicketService ticketService, IDepartmentService departmentService, ILocationService locationService)
+        public LocationSelectorViewModel(IApplicationState applicationState, ILocationService locationService, 
+            IUserService userService)
         {
-            _ticketService = ticketService;
+            _applicationState = applicationState;
             _locationService = locationService;
-            _departmentService = departmentService;
+            _userService = userService;
             SelectLocationCategoryCommand = new DelegateCommand<LocationScreen>(OnSelectLocationCategoryExecuted);
             LocationSelectionCommand = new DelegateCommand<LocationScreenItemViewModel>(OnSelectLocationExecuted);
             CloseScreenCommand = new CaptionCommand<string>(Resources.Close, OnCloseScreenExecuted);
@@ -98,7 +99,7 @@ namespace Samba.Modules.LocationModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<Message>>().Subscribe(
                 x =>
                 {
-                    if (AppServices.ActiveAppScreen == AppScreens.LocationList
+                    if (_applicationState.ActiveAppScreen == AppScreens.LocationList
                         && x.Topic == EventTopicNames.MessageReceivedEvent
                         && x.Value.Command == Messages.TicketRefreshMessage)
                     {
@@ -176,13 +177,18 @@ namespace Samba.Modules.LocationModule
         {
             Feedback = "";
             var locationData = _locationService.GetCurrentLocations(locationScreen, CurrentPageNo).OrderBy(x => x.Order);
-            
+
             if (Locations != null && (Locations.Count() == 0 || Locations.Count != locationData.Count() || Locations.First().Caption != locationData.First().Name)) Locations = null;
-            
+
             if (Locations == null)
             {
                 Locations = new ObservableCollection<IDiagram>();
-                Locations.AddRange(locationData.Select(x => new LocationScreenItemViewModel(x, SelectedLocationScreen, LocationSelectionCommand)));
+                Locations.AddRange(locationData.Select(x =>
+                    new LocationScreenItemViewModel(x,
+                        SelectedLocationScreen,
+                        LocationSelectionCommand,
+                        _applicationState.CurrentTicket != null,
+                        _userService.IsUserPermittedFor(PermissionNames.MergeTickets))));
             }
             else
             {

@@ -12,18 +12,25 @@ namespace Samba.Modules.DepartmentModule
 {
     public class DepartmentButtonViewModel : NotificationObject
     {
-        private readonly IDepartmentService _departmentService;
-        private readonly ITicketService _ticketService;
+        private readonly IApplicationState _applicationState;
         private readonly IWorkPeriodService _workPeriodService;
+        private readonly IUserService _userService;
 
-        public DepartmentButtonViewModel(IDepartmentService departmentService, ITicketService ticketService, IWorkPeriodService workPeriodService)
+        public DepartmentButtonViewModel(IApplicationState applicationState,
+            IWorkPeriodService workPeriodService, IUserService userService)
         {
-            _departmentService = departmentService;
-            _ticketService = ticketService;
+            _applicationState = applicationState;
             _workPeriodService = workPeriodService;
-
+            _userService = userService;
+            EventServiceFactory.EventService.GetEvent<GenericEvent<IApplicationState>>().Subscribe(OnSelectedTicketChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<WorkPeriod>>().Subscribe(OnWorkPeriodChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<User>>().Subscribe(OnUserLoggedIn);
+        }
+
+        private void OnSelectedTicketChanged(EventParameters<IApplicationState> obj)
+        {
+            if (obj.Topic == EventTopicNames.SelectedTicketChanged)
+                RaisePropertyChanged(() => CanChangeDepartment);
         }
 
         public bool IsDepartmentSelectorVisible
@@ -31,18 +38,18 @@ namespace Samba.Modules.DepartmentModule
             get
             {
                 return PermittedDepartments.Count() > 1
-                    && AppServices.IsUserPermittedFor(PermissionNames.ChangeDepartment);
+                    && _userService.IsUserPermittedFor(PermissionNames.ChangeDepartment);
             }
         }
 
         public IEnumerable<Department> PermittedDepartments
         {
-            get { return _departmentService.GetPermittedDepartments(); }
+            get { return _userService.PermittedDepartments; }
         }
 
         public bool CanChangeDepartment
         {
-            get { return _ticketService.CurrentTicket == null && _workPeriodService.IsCurrentWorkPeriodOpen; }
+            get { return _applicationState.CurrentTicket == null && _workPeriodService.IsCurrentWorkPeriodOpen; }
         }
 
         private void OnWorkPeriodChanged(EventParameters<WorkPeriod> obj)
@@ -57,12 +64,10 @@ namespace Samba.Modules.DepartmentModule
         {
             if (obj.Topic == EventTopicNames.UserLoggedIn)
             {
-                _departmentService.Reset();
-                RaisePropertyChanged(() => CanChangeDepartment);
-                RaisePropertyChanged(() => PermittedDepartments);
                 RaisePropertyChanged(() => IsDepartmentSelectorVisible);
+                RaisePropertyChanged(() => PermittedDepartments);
+                RaisePropertyChanged(() => CanChangeDepartment);
             }
         }
-
     }
 }

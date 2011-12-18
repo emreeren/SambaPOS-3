@@ -117,8 +117,8 @@ namespace Samba.Modules.DeliveryModule
         {
             get
             {
-                return (_ticketService.CurrentTicket != null &&
-                        _ticketService.CurrentTicket.AccountId > 0);
+                return (_applicationState.CurrentTicket != null &&
+                        _applicationState.CurrentTicket.AccountId > 0);
             }
         }
 
@@ -126,8 +126,8 @@ namespace Samba.Modules.DeliveryModule
         {
             get
             {
-                return (_ticketService.CurrentTicket != null &&
-                        _ticketService.CurrentTicket.AccountId == 0);
+                return (_applicationState.CurrentTicket != null &&
+                        _applicationState.CurrentTicket.AccountId == 0);
             }
         }
 
@@ -135,14 +135,15 @@ namespace Samba.Modules.DeliveryModule
         {
             get
             {
-                return (_ticketService.CurrentTicket != null && AppServices.IsUserPermittedFor(PermissionNames.MakePayment));
+                return (_applicationState.CurrentTicket != null && _userService.IsUserPermittedFor(PermissionNames.MakePayment));
             }
         }
 
         private int _activeView;
-        private readonly ITicketService _ticketService;
-        private readonly IDepartmentService _departmentService;
+        private readonly IApplicationState _applicationState;
         private readonly IWorkPeriodService _workPeriodService;
+        private readonly IUserService _userService;
+        private readonly ITicketService _ticketService;
 
         public int ActiveView
         {
@@ -155,11 +156,14 @@ namespace Samba.Modules.DeliveryModule
         public string TotalBalance { get { return SelectedAccountTransactions.Sum(x => x.Receivable - x.Liability).ToString("#,#0.00"); } }
 
         [ImportingConstructor]
-        public AccountSelectorViewModel(ITicketService ticketService, IDepartmentService departmentService,IWorkPeriodService workPeriodService)
+        public AccountSelectorViewModel(IApplicationState applicationState, IWorkPeriodService workPeriodService, 
+            IUserService userService, ITicketService ticketService)
         {
-            _ticketService = ticketService;
-            _departmentService = departmentService;
+            _applicationState = applicationState;
             _workPeriodService = workPeriodService;
+            _userService = userService;
+            _ticketService = ticketService;
+
             _updateTimer = new Timer(500);
             _updateTimer.Elapsed += UpdateTimerElapsed;
             FoundAccounts = new ObservableCollection<AccountSearchViewModel>();
@@ -181,12 +185,12 @@ namespace Samba.Modules.DeliveryModule
 
         private bool CanAddLiability(string arg)
         {
-            return CanSelectAccount(arg) && AppServices.IsUserPermittedFor(PermissionNames.CreditOrDeptAccount);
+            return CanSelectAccount(arg) && _userService.IsUserPermittedFor(PermissionNames.CreditOrDeptAccount);
         }
 
         private bool CanMakePaymentToAccount(string arg)
         {
-            return CanSelectAccount(arg) && AppServices.IsUserPermittedFor(PermissionNames.MakeAccountTransaction);
+            return CanSelectAccount(arg) && _userService.IsUserPermittedFor(PermissionNames.MakeAccountTransaction);
         }
 
         private void OnAddReceivable(string obj)
@@ -296,7 +300,7 @@ namespace Samba.Modules.DeliveryModule
 
         private bool CanMakePayment(string arg)
         {
-            return SelectedAccount != null && _ticketService.CurrentTicket != null;
+            return SelectedAccount != null && _applicationState.CurrentTicket != null;
         }
 
         private void OnMakePayment(string obj)
@@ -307,9 +311,9 @@ namespace Samba.Modules.DeliveryModule
 
         private bool CanResetAccount(string arg)
         {
-            return _ticketService.CurrentTicket != null &&
-                _ticketService.CurrentTicket.CanSubmit &&
-                _ticketService.CurrentTicket.AccountId > 0;
+            return _applicationState.CurrentTicket != null &&
+                _applicationState.CurrentTicket.CanSubmit &&
+                _applicationState.CurrentTicket.AccountId > 0;
         }
 
         private static void OnResetAccount(string obj)
@@ -320,14 +324,14 @@ namespace Samba.Modules.DeliveryModule
         private void OnFindTicket(string obj)
         {
             _ticketService.OpenTicketByTicketNumber(TicketSearchText);
-            if (_ticketService.CurrentTicket != null)
+            if (_applicationState.CurrentTicket != null)
                 EventServiceFactory.EventService.PublishEvent(EventTopicNames.DisplayTicketView);
             TicketSearchText = "";
         }
 
         private bool CanFindTicket(string arg)
         {
-            return !string.IsNullOrEmpty(TicketSearchText) && _ticketService.CurrentTicket == null;
+            return !string.IsNullOrEmpty(TicketSearchText) && _applicationState.CurrentTicket == null;
         }
 
         private bool CanCreateAccount(string arg)
@@ -355,7 +359,7 @@ namespace Samba.Modules.DeliveryModule
                 && SelectedAccount != null
                 && !string.IsNullOrEmpty(SelectedAccount.PhoneNumber)
                 && !string.IsNullOrEmpty(SelectedAccount.Name)
-                && (_ticketService.CurrentTicket == null || _ticketService.CurrentTicket.AccountId == 0);
+                && (_applicationState.CurrentTicket == null || _applicationState.CurrentTicket.AccountId == 0);
         }
 
         private void SaveSelectedAccount()
@@ -441,7 +445,7 @@ namespace Samba.Modules.DeliveryModule
 
         private void OnCloseScreen(string obj)
         {
-            if (_departmentService.CurrentDepartment != null && _workPeriodService.IsCurrentWorkPeriodOpen)
+            if (_applicationState.CurrentDepartment != null && _workPeriodService.IsCurrentWorkPeriodOpen)
                 EventServiceFactory.EventService.PublishEvent(EventTopicNames.DisplayTicketView);
             else
                 EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateNavigation);
@@ -454,9 +458,9 @@ namespace Samba.Modules.DeliveryModule
         {
             ClearSearchValues();
 
-            if (_ticketService.CurrentTicket != null && _ticketService.CurrentTicket.AccountId > 0)
+            if (_applicationState.CurrentTicket != null && _applicationState.CurrentTicket.AccountId > 0)
             {
-                var account = Dao.SingleWithCache<Account>(x => x.Id == _ticketService.CurrentTicket.AccountId);
+                var account = Dao.SingleWithCache<Account>(x => x.Id == _applicationState.CurrentTicket.AccountId);
                 if (account != null) FoundAccounts.Add(new AccountSearchViewModel(account));
                 if (SelectedAccount != null)
                 {

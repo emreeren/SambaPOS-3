@@ -24,13 +24,14 @@ namespace Samba.Modules.TicketModule
         private bool _showExtraPropertyEditor;
         private bool _showTicketNoteEditor;
         private bool _showFreeTagEditor;
-        private readonly IDepartmentService _departmentService;
+        private readonly IApplicationState _applicationState;
         private readonly ITicketService _ticketService;
 
         [ImportingConstructor]
-        public SelectedOrdersViewModel(IDepartmentService departmentService, ITicketService ticketService)
+        public SelectedOrdersViewModel(IApplicationState applicationState, ITicketService ticketService, 
+            IUserService userService)
         {
-            _departmentService = departmentService;
+            _applicationState = applicationState;
             _ticketService = ticketService;
             CloseCommand = new CaptionCommand<string>(Resources.Close, OnCloseCommandExecuted);
             SelectTicketTagCommand = new DelegateCommand<TicketTag>(OnTicketTagSelected);
@@ -56,7 +57,7 @@ namespace Samba.Modules.TicketModule
                 {
                     SelectedTicket.FixSelectedItems();
                     SelectedTicket.SelectedOrders.ToList().ForEach(x =>
-                        x.ToggleOrderTag(SelectedOrderTagGroup, OrderTags[0].Model, AppServices.CurrentLoggedInUser.Id));
+                        x.ToggleOrderTag(SelectedOrderTagGroup, OrderTags[0].Model, _applicationState.CurrentLoggedInUser.Id));
                     if (SelectedOrderTagGroup.IsSingleSelection)
                         obj.Value.ClearSelectedItems();
                 }
@@ -76,7 +77,7 @@ namespace Samba.Modules.TicketModule
                 }
                 else
                 {
-                    ticketTags = _departmentService.CurrentDepartment.TicketTemplate.TicketTagGroups.Where(
+                    ticketTags = _applicationState.CurrentDepartment.TicketTemplate.TicketTagGroups.Where(
                            x => x.Name == obj.Value.LastSelectedTicketTag.Name).SelectMany(x => x.TicketTags).ToList();
                 }
                 ticketTags.Sort(new AlphanumComparator());
@@ -205,7 +206,7 @@ namespace Samba.Modules.TicketModule
 
         private void OnUpdateFreeTag(string obj)
         {
-            var cachedTag = _departmentService.CurrentDepartment.TicketTemplate.TicketTagGroups.Single(
+            var cachedTag = _applicationState.CurrentDepartment.TicketTemplate.TicketTagGroups.Single(
                 x => x.Id == SelectedTicket.LastSelectedTicketTag.Id);
             Debug.Assert(cachedTag != null);
             var ctag = cachedTag.TicketTags.SingleOrDefault(x => x.Name.ToLower() == FreeTag.ToLower());
@@ -245,7 +246,7 @@ namespace Samba.Modules.TicketModule
 
         private void OnPortionSelected(MenuItemPortion obj)
         {
-            SelectedItem.UpdatePortion(obj, _departmentService.CurrentDepartment.TicketTemplate.PriceTag);
+            SelectedItem.UpdatePortion(obj, _applicationState.CurrentDepartment.TicketTemplate.PriceTag);
             if (OrderTagGroups.Count == 0)
                 SelectedTicket.ClearSelectedItems();
         }
@@ -256,7 +257,7 @@ namespace Samba.Modules.TicketModule
             Debug.Assert(mig != null);
             SelectedTicket.FixSelectedItems();
             SelectedTicket.SelectedOrders.ToList().ForEach(x =>
-                x.ToggleOrderTag(mig, orderTag.Model, AppServices.CurrentLoggedInUser.Id));
+                x.ToggleOrderTag(mig, orderTag.Model, _applicationState.CurrentLoggedInUser.Id));
             OrderTagGroups.ToList().ForEach(x => x.OrderTags.ToList().ForEach(u => u.Refresh()));
             if (SelectedOrderTagGroup != null) SelectedTicket.ClearSelectedItems();
             SelectedTicket.RefreshVisuals();

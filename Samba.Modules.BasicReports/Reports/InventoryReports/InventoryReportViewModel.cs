@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Documents;
 using Samba.Localization.Properties;
@@ -11,6 +9,12 @@ namespace Samba.Modules.BasicReports.Reports.InventoryReports
 {
     class InventoryReportViewModel : ReportViewModelBase
     {
+        public InventoryReportViewModel(IUserService userService, IWorkPeriodService workPeriodService)
+            : base(userService, workPeriodService)
+        {
+
+        }
+
         protected override void CreateFilterGroups()
         {
             FilterGroups.Clear();
@@ -38,7 +42,7 @@ namespace Samba.Modules.BasicReports.Reports.InventoryReports
                 {
                     report.AddRow("InventoryTable",
                         costItem.InventoryItem.Name,
-                        costItem.InventoryItem.TransactionUnit??costItem.InventoryItem.BaseUnit,
+                        costItem.InventoryItem.TransactionUnit ?? costItem.InventoryItem.BaseUnit,
                         costItem.GetPhysicalInventory().ToString("#,#0.##"));
                 }
             }

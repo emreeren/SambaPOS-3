@@ -4,11 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Windows.Documents;
 using Samba.Localization.Properties;
+using Samba.Services;
 
 namespace Samba.Modules.BasicReports.Reports.AccountReport
 {
     class InternalAccountsViewModel : AccountReportViewModelBase
     {
+        public InternalAccountsViewModel(IUserService userService, IWorkPeriodService workPeriodService)
+            : base(userService, workPeriodService)
+        {
+        }
+
         protected override FlowDocument GetReport()
         {
             return CreateReport(Resources.InternalAccounts, null, true);

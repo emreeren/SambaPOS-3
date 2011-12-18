@@ -8,11 +8,18 @@ using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Transactions;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
+using Samba.Services;
 
 namespace Samba.Modules.BasicReports.Reports.AccountReport
 {
     public abstract class AccountReportViewModelBase : ReportViewModelBase
     {
+        protected AccountReportViewModelBase(IUserService userService, IWorkPeriodService workPeriodService)
+            : base(userService, workPeriodService)
+        {
+
+        }
+
         protected override void CreateFilterGroups()
         {
             FilterGroups.Clear();

@@ -53,11 +53,16 @@ namespace Samba.Modules.BasicReports
 
         public FlowDocument Document { get; set; }
 
-        public bool CanUserChangeDates { get { return AppServices.IsUserPermittedFor(PermissionNames.ChangeReportDate); } }
+        public bool CanUserChangeDates { get { return UserService.IsUserPermittedFor(PermissionNames.ChangeReportDate); } }
 
-        protected ReportViewModelBase()
+        public IUserService UserService { get; set; }
+        public IWorkPeriodService WorkPeriodService { get; set; }
+
+        protected ReportViewModelBase(IUserService userService, IWorkPeriodService workPeriodService)
         {
             _links = new List<string>();
+            UserService = userService;
+            WorkPeriodService = workPeriodService;
             PrintDocumentCommand = new CaptionCommand<string>(Resources.Print, OnPrintDocument);
             RefreshFiltersCommand = new CaptionCommand<string>(Resources.Refresh, OnRefreshFilters, CanRefreshFilters);
             SaveDocumentCommand = new CaptionCommand<string>(Resources.Save, OnSaveDocument);
@@ -146,8 +151,8 @@ namespace Samba.Modules.BasicReports
             if (!wpList.Contains(ReportContext.CurrentWorkPeriod))
             { wpList.Insert(0, ReportContext.CurrentWorkPeriod); }
 
-            //if (!wpList.Contains(AppServices.MainDataContext.CurrentWorkPeriod))
-            //    wpList.Insert(0, AppServices.MainDataContext.CurrentWorkPeriod);
+            if (!wpList.Contains(WorkPeriodService.CurrentWorkPeriod))
+                wpList.Insert(0, WorkPeriodService.CurrentWorkPeriod);
 
             return new FilterGroup { Values = wpList, SelectedValue = ReportContext.CurrentWorkPeriod };
         }

@@ -186,12 +186,14 @@ namespace Samba.Modules.CashModule
 
         private readonly IWorkPeriodService _workPeriodService;
         private readonly ICashService _cashService;
+        private readonly IUserService _userService;
 
         [ImportingConstructor]
-        public CashViewModel(IWorkPeriodService workPeriodService,ICashService cashService)
+        public CashViewModel(IWorkPeriodService workPeriodService, ICashService cashService, IUserService userService)
         {
             _workPeriodService = workPeriodService;
             _cashService = cashService;
+            _userService = userService;
             ActivateIncomeTransactionRecordCommand = new CaptionCommand<string>(Resources.IncomeTransaction_r, OnActivateIncomeTransactionRecord, CanActivateIncomeTransactionRecord);
             ActivateExpenseTransactionRecordCommand = new CaptionCommand<string>(Resources.ExpenseTransaction_r, OnActivateExpenseTransactionRecord, CanActivateIncomeTransactionRecord);
             CancelTransactionCommand = new CaptionCommand<string>(Resources.Cancel, OnCancelTransaction);
@@ -210,7 +212,7 @@ namespace Samba.Modules.CashModule
 
         private bool CanActivateIncomeTransactionRecord(string arg)
         {
-            return _workPeriodService.IsCurrentWorkPeriodOpen && AppServices.IsUserPermittedFor(PermissionNames.MakeCashTransaction);
+            return _workPeriodService.IsCurrentWorkPeriodOpen && _userService.IsUserPermittedFor(PermissionNames.MakeCashTransaction);
         }
 
         private int GetSelectedAccountId()

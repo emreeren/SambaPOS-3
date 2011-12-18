@@ -9,28 +9,34 @@ namespace Samba.Modules.UserModule
     [Export]
     public class LoggedInUserViewModel : ObservableObject
     {
+        private readonly IUserService _userService;
+        private readonly IApplicationState _applicationState;
+
         [ImportingConstructor]
-        public LoggedInUserViewModel()
+        public LoggedInUserViewModel(IApplicationState applicationState,IUserService userService)
         {
+            _userService = userService;
+            _applicationState = applicationState;
+
             EventServiceFactory.EventService.GetEvent<GenericEvent<User>>().Subscribe(x =>
             {
                 if (x.Topic == EventTopicNames.UserLoggedIn) UserLoggedIn(x.Value);
                 if (x.Topic == EventTopicNames.UserLoggedOut) UserLoggedOut(x.Value);
             });
-            LoggedInUser = AppServices.CurrentLoggedInUser;
+
+            LoggedInUser = applicationState.CurrentLoggedInUser;
 
             LogoutUserCommand = new DelegateCommand<User>(x =>
             {
-                if (AppServices.CanNavigate())
+                if (_applicationState.CurrentTicket == null)
                 {
-                    if (AppServices.IsUserPermittedFor(PermissionNames.OpenNavigation))
+                    if (_userService.IsUserPermittedFor(PermissionNames.OpenNavigation))
                     {
                         EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateNavigation);
                     }
                     else
                     {
-                        AppServices.CurrentLoggedInUser.PublishEvent(EventTopicNames.UserLoggedOut);
-                        AppServices.LogoutUser();
+                        _userService.LogoutUser();
                     }
                 }
             });

@@ -12,6 +12,7 @@ namespace Samba.Modules.WorkperiodModule
     {
         private readonly IRegionManager _regionManager;
         private readonly WorkPeriodsView _workPeriodsView;
+        private readonly IUserService _userService;
 
         protected override void OnInitialization()
         {
@@ -19,11 +20,12 @@ namespace Samba.Modules.WorkperiodModule
         }
 
         [ImportingConstructor]
-        public WorkPeriodsModule(IRegionManager regionManager, WorkPeriodsView workPeriodsView)
+        public WorkPeriodsModule(IRegionManager regionManager, WorkPeriodsView workPeriodsView,IUserService userService)
             : base(regionManager, AppScreens.WorkPeriods)
         {
             _regionManager = regionManager;
             _workPeriodsView = workPeriodsView;
+            _userService = userService;
 
             SetNavigationCommand(Resources.DayOperations, Resources.Common, "Images/Run.png");
             PermissionRegistry.RegisterPermission(PermissionNames.OpenWorkPeriods, PermissionCategories.Navigation,
@@ -37,7 +39,7 @@ namespace Samba.Modules.WorkperiodModule
 
         protected override bool CanNavigate(string arg)
         {
-            return AppServices.IsUserPermittedFor(PermissionNames.OpenWorkPeriods);
+            return _userService.IsUserPermittedFor(PermissionNames.OpenWorkPeriods);
         }
 
         protected override void OnNavigate(string obj)

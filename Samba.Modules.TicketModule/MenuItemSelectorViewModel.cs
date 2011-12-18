@@ -20,7 +20,7 @@ namespace Samba.Modules.TicketModule
     public class MenuItemSelectorViewModel : ObservableObject
     {
         private ScreenMenu _currentScreenMenu;
-        
+
         public ObservableCollection<ScreenMenuItemButton> MostUsedMenuItems { get; set; }
         public ObservableCollection<ScreenCategoryButton> Categories { get; set; }
         public ObservableCollection<ScreenMenuItemButton> MenuItems { get; set; }
@@ -67,13 +67,18 @@ namespace Samba.Modules.TicketModule
         public string CurrentTag { get; set; }
 
         private readonly ITicketService _ticketService;
-        private IWorkPeriodService _workPeriodService;
+        private readonly IApplicationState _applicationState;
+        private readonly IWorkPeriodService _workPeriodService;
+        private readonly IUserService _userService;
 
         [ImportingConstructor]
-        public MenuItemSelectorViewModel(ITicketService ticketService,IWorkPeriodService workPeriodService)
+        public MenuItemSelectorViewModel(IApplicationState applicationState, ITicketService ticketService, IWorkPeriodService workPeriodService,
+            IUserService userService)
         {
             _ticketService = ticketService;
             _workPeriodService = workPeriodService;
+            _userService = userService;
+            _applicationState = applicationState;
 
             CategoryCommand = new DelegateCommand<ScreenMenuCategory>(OnCategoryCommandExecute);
             MenuItemCommand = new DelegateCommand<ScreenMenuItem>(OnMenuItemCommandExecute);
@@ -148,11 +153,11 @@ namespace Samba.Modules.TicketModule
             }
             else
             {
-                _ticketService.OpenTicketByTicketNumber(NumeratorValue);
-                if (_ticketService.CurrentTicket != null)
+                var ticket = _ticketService.OpenTicketByTicketNumber(NumeratorValue);
+                if (ticket != null)
                 {
-                    if (!AppServices.IsUserPermittedFor(PermissionNames.DisplayOldTickets) && _ticketService.CurrentTicket.Date < _workPeriodService.CurrentWorkPeriod.StartDate)
-                        _ticketService.CloseTicket();
+                    if (!_userService.IsUserPermittedFor(PermissionNames.DisplayOldTickets) && _applicationState.CurrentTicket.Date < _workPeriodService.CurrentWorkPeriod.StartDate)
+                        _ticketService.CloseTicket(ticket);
                     else
                         EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
                 }
@@ -162,7 +167,7 @@ namespace Samba.Modules.TicketModule
 
         private bool CanFindTicket(string arg)
         {
-            return _ticketService.CurrentTicket == null;
+            return _applicationState.CurrentTicket == null;
         }
 
         private void OnFindMenuItemCommand(string obj)
@@ -218,15 +223,15 @@ namespace Samba.Modules.TicketModule
 
         private bool CanFindLocation(string arg)
         {
-            return _ticketService.CurrentTicket == null;
+            return _applicationState.CurrentTicket == null;
         }
 
         private void OnFindLocationExecute(string obj)
         {
-            if (_ticketService.CurrentTicket == null)
+            if (_applicationState.CurrentTicket == null)
             {
                 _ticketService.OpenTicketByLocationName(NumeratorValue);
-                if (_ticketService.CurrentTicket != null)
+                if (_applicationState.CurrentTicket != null)
                     EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
             }
             NumeratorValue = "";

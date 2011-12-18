@@ -542,5 +542,10 @@ namespace Samba.Domain.Models.Tickets
         {
             Orders.ToList().ForEach(x => x.UpdateTaxTemplate(taxTemplate));
         }
+
+        public void RemoveOrders(IEnumerable<Order> selectedOrders)
+        {
+            selectedOrders.ToList().ForEach(x => Orders.Remove(x));
+        }
     }
 }

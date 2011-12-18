@@ -6,14 +6,22 @@ using System.Text;
 using Samba.Domain.Models.Locations;
 using Samba.Infrastructure.Data;
 using Samba.Persistance.Data;
+using Samba.Presentation.Common;
+using Samba.Presentation.Common.Services;
 using Samba.Services;
 
 namespace Samba.Modules.LocationModule.ServiceImplementations
 {
     [Export(typeof(ILocationService))]
-    public class LocationService : ILocationService
+    public class LocationService : AbstractService, ILocationService
     {
         private IWorkspace _locationWorkspace;
+        private readonly int _locationCount;
+
+        public LocationService()
+        {
+            _locationCount = Dao.Count<Location>(null);
+        }
 
         public LocationScreen SelectedLocationScreen { get; set; }
 
@@ -76,6 +84,11 @@ namespace Samba.Modules.LocationModule.ServiceImplementations
             return _locationWorkspace.Single<LocationScreen>(x => x.Name == selectedLocationScreen).Locations;
         }
 
+        public int GetLocationCount()
+        {
+            return _locationCount;
+        }
+
         public void SaveLocations()
         {
             if (_locationWorkspace != null)
@@ -85,9 +98,9 @@ namespace Samba.Modules.LocationModule.ServiceImplementations
             }
         }
 
-        public void Reset()
+        public override void Reset()
         {
-            
+
         }
     }
 }

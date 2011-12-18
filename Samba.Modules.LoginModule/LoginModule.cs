@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Regions;
 using Samba.Domain.Models.Users;
@@ -13,13 +14,15 @@ namespace Samba.Login
     {
         readonly IRegionManager _regionManager;
         private readonly LoginView _loginView;
+        private readonly IUserService _userService;
 
         [ImportingConstructor]
-        public LoginModule(IRegionManager regionManager, LoginView loginView)
+        public LoginModule(IRegionManager regionManager, LoginView loginView, IUserService userService)
             : base(regionManager, AppScreens.LoginScreen)
         {
             _regionManager = regionManager;
             _loginView = loginView;
+            _userService = userService;
             SetNavigationCommand("Logout", Resources.Common, "images/bmp.png", 99);
         }
 
@@ -30,8 +33,7 @@ namespace Samba.Login
 
         protected override void OnNavigate(string obj)
         {
-            AppServices.CurrentLoggedInUser.PublishEvent(EventTopicNames.UserLoggedOut);
-            AppServices.LogoutUser();
+            _userService.LogoutUser();
         }
 
         protected override void OnInitialization()
@@ -41,23 +43,28 @@ namespace Samba.Login
             EventServiceFactory.EventService.GetEvent<GenericEvent<User>>().Subscribe(
                 x =>
                 {
-                    if (x.Topic == EventTopicNames.UserLoggedOut) 
+                    if (x.Topic == EventTopicNames.UserLoggedOut)
                         Activate();
+                });
+
+            EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(
+                x =>
+                {
+                    if (x.Topic == EventTopicNames.ShellInitialized) Activate();
+
                 });
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<string>>().Subscribe(
                 x =>
                 {
-                    if (x.Topic == EventTopicNames.PinSubmitted) 
+                    if (x.Topic == EventTopicNames.PinSubmitted)
                         PinEntered(x.Value);
                 });
         }
 
         public void PinEntered(string pin)
         {
-            var u = AppServices.LoginUser(pin);
-            if (u != User.Nobody)
-                u.PublishEvent(EventTopicNames.UserLoggedIn);
+            _userService.LoginUser(pin);
         }
 
         public override object GetVisibleView()

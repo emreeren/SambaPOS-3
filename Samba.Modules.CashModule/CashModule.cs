@@ -13,16 +13,18 @@ namespace Samba.Modules.CashModule
     {
         private readonly IRegionManager _regionManager;
         private readonly CashView _cashView;
-        private IWorkPeriodService _workPeriodService;
+        private readonly IWorkPeriodService _workPeriodService;
+        private readonly IUserService _userService;
         public ICategoryCommand NavigateCashViewCommand { get; set; }
 
         [ImportingConstructor]
-        public CashModule(IRegionManager regionManager, CashView cashView,IWorkPeriodService workPeriodService)
+        public CashModule(IRegionManager regionManager, CashView cashView,IWorkPeriodService workPeriodService,IUserService userService)
             : base(regionManager, AppScreens.CashView)
         {
             _regionManager = regionManager;
             _cashView = cashView;
             _workPeriodService = workPeriodService;
+            _userService = userService;
             SetNavigationCommand(Resources.Drawer, Resources.Common, "images/Xls.png", 70);
             PermissionRegistry.RegisterPermission(PermissionNames.NavigateCashView, PermissionCategories.Navigation, Resources.CanNavigateCash);
             PermissionRegistry.RegisterPermission(PermissionNames.MakeCashTransaction, PermissionCategories.Cash, Resources.CanMakeCashTransaction);
@@ -30,7 +32,7 @@ namespace Samba.Modules.CashModule
 
         protected override bool CanNavigate(string arg)
         {
-            return AppServices.IsUserPermittedFor(PermissionNames.NavigateCashView) && _workPeriodService.CurrentWorkPeriod != null;
+            return _userService.IsUserPermittedFor(PermissionNames.NavigateCashView) && _workPeriodService.CurrentWorkPeriod != null;
         }
 
         protected override void OnNavigate(string obj)
