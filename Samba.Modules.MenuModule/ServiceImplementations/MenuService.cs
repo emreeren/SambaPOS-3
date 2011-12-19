@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
-using Samba.Domain.Models.Inventories;
-using Samba.Domain.Models.Locations;
 using Samba.Domain.Models.Menus;
 using Samba.Persistance.Data;
+using Samba.Presentation.Common.Services;
+using Samba.Services;
 
-namespace Samba.Services
+namespace Samba.Modules.MenuModule.ServiceImplementations
 {
-    public class DataAccessService
+    [Export(typeof(IMenuService))]
+    public class MenuService : AbstractService, IMenuService
     {
         public IEnumerable<ScreenMenuItem> GetMenuItems(ScreenMenuCategory category, int currentPageNo, string tag)
         {
@@ -70,14 +72,9 @@ namespace Samba.Services
             return Dao.SingleWithCache(expression, x => x.TaxTemplate, x => x.Portions.Select(y => y.Prices));
         }
 
-        public IEnumerable<string> GetInventoryItemNames()
+        public override void Reset()
         {
-            return Dao.Select<InventoryItem, string>(x => x.Name, x => !string.IsNullOrEmpty(x.Name));
-        }
 
-        public Location GetLocation(string locationName)
-        {
-            return Dao.Single<Location>(x => x.Name == locationName);
         }
     }
 }

@@ -39,6 +39,7 @@ namespace Samba.Modules.TicketModule
         private readonly IUserService _userService;
         private readonly IApplicationState _applicationState;
         private readonly IApplicationStateSetter _applicationStateSetter;
+        private readonly IMenuService _menuService;
 
         private readonly Timer _timer;
 
@@ -79,7 +80,7 @@ namespace Samba.Modules.TicketModule
                 if (_applicationState.CurrentTicket == null) _selectedTicket = null;
                 if (_selectedTicket == null && _applicationState.CurrentTicket != null)
                     _selectedTicket = new TicketViewModel(_applicationState.CurrentTicket, _applicationState.CurrentDepartment.TicketTemplate,
-                      _applicationState.CurrentDepartment != null && _applicationState.CurrentDepartment.IsFastFood, _ticketService, _userService);
+                      _applicationState.CurrentDepartment != null && _applicationState.CurrentDepartment.IsFastFood, _ticketService, _userService, _menuService);
                 return _selectedTicket;
             }
         }
@@ -218,7 +219,7 @@ namespace Samba.Modules.TicketModule
         [ImportingConstructor]
         public TicketListViewModel(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
             ITicketService ticketService, IAccountService accountService, IPrinterService printerService,
-            ILocationService locationService, IUserService userService)
+            ILocationService locationService, IUserService userService, IMenuService menuService)
         {
             _printerService = printerService;
             _ticketService = ticketService;
@@ -227,6 +228,7 @@ namespace Samba.Modules.TicketModule
             _userService = userService;
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
+            _menuService = menuService;
 
             _timer = new Timer(OnTimer, null, Timeout.Infinite, 1000);
             _selectedOrders = new ObservableCollection<OrderViewModel>();
@@ -681,7 +683,7 @@ namespace Samba.Modules.TicketModule
         {
             SelectedTicket.SelectedOrders.ToList().ForEach(x => SelectedTicket.Model.CancelOrder(x.Model));
             SelectedTicket.Orders.Clear();
-            SelectedTicket.Orders.AddRange(SelectedTicket.Model.Orders.Select(x => new OrderViewModel(x, SelectedDepartment.TicketTemplate)));
+            SelectedTicket.Orders.AddRange(SelectedTicket.Model.Orders.Select(x => new OrderViewModel(x, SelectedDepartment.TicketTemplate, _menuService)));
             SelectedTicket.ClearSelectedItems();
             _ticketService.RecalculateTicket(SelectedTicket.Model);
             RefreshSelectedTicket();
@@ -1007,7 +1009,7 @@ namespace Samba.Modules.TicketModule
         {
             if (!SelectedTicket.Model.CanSubmit) return null;
             SelectedTicket.ClearSelectedItems();
-            var menuItem = AppServices.DataAccessService.GetMenuItem(menuItemId);
+            var menuItem = _menuService.GetMenuItem(menuItemId);
             if (menuItem.Portions.Count == 0) return null;
 
             var portion = menuItem.Portions[0];
@@ -1023,7 +1025,7 @@ namespace Samba.Modules.TicketModule
 
             if (template != null) template.OrderTagTemplateValues.ToList().ForEach(x => ti.ToggleOrderTag(x.OrderTagGroup, x.OrderTag, 0));
 
-            var orderViewModel = new OrderViewModel(ti, SelectedDepartment.TicketTemplate);
+            var orderViewModel = new OrderViewModel(ti, SelectedDepartment.TicketTemplate, _menuService);
             SelectedTicket.Orders.Add(orderViewModel);
             _ticketService.RecalculateTicket(SelectedTicket.Model);
             orderViewModel.PublishEvent(EventTopicNames.OrderAdded);

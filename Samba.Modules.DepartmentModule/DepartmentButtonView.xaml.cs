@@ -18,11 +18,11 @@ namespace Samba.Modules.DepartmentModule
 
         [ImportingConstructor]
         public DepartmentButtonView(IApplicationStateSetter applicationStateSetter, IApplicationState applicationState,
-            IWorkPeriodService workPeriodService, IUserService userService)
+             IUserService userService)
         {
             InitializeComponent();
             _applicationStateSetter = applicationStateSetter;
-            DataContext = new DepartmentButtonViewModel(applicationState, workPeriodService, userService);
+            DataContext = new DepartmentButtonViewModel(applicationState, userService);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

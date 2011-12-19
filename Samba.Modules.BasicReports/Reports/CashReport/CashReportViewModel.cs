@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
 using Samba.Domain;
-using Samba.Domain.Models.Settings;
 using Samba.Localization.Properties;
 using Samba.Services;
 
@@ -13,8 +9,8 @@ namespace Samba.Modules.BasicReports.Reports.CashReport
 {
     public class CashReportViewModel : ReportViewModelBase
     {
-        public CashReportViewModel(IUserService userService, IWorkPeriodService workPeriodService)
-            : base(userService, workPeriodService)
+        public CashReportViewModel(IUserService userService, IApplicationState applicationState)
+            : base(userService, applicationState)
         {
         }
 

@@ -18,7 +18,8 @@ namespace Samba.Modules.BasicReports
         [ImportingConstructor]
         public BasicReportModule(IRegionManager regionManager, BasicReportView basicReportView,
             IWorkPeriodService workPeriodService, IPrinterService printerService, ICashService cashService,
-            IDepartmentService departmentService, IInventoryService inventoryService, IUserService userService)
+            IDepartmentService departmentService, IInventoryService inventoryService, IUserService userService,
+            IApplicationState applicationState)
             : base(regionManager, AppScreens.ReportScreen)
         {
             ReportContext.PrinterService = printerService;
@@ -27,6 +28,7 @@ namespace Samba.Modules.BasicReports
             ReportContext.DepartmentService = departmentService;
             ReportContext.InventoryService = inventoryService;
             ReportContext.UserService = userService;
+            ReportContext.ApplicationState = applicationState;
 
             _userService = userService;
 
@@ -51,7 +53,7 @@ namespace Samba.Modules.BasicReports
                         var report = ReportContext.Reports.Where(y => y.Header == reportName).FirstOrDefault();
                         if (report != null)
                         {
-                            ReportContext.CurrentWorkPeriod = ReportContext.WorkPeriodService.CurrentWorkPeriod;
+                            ReportContext.CurrentWorkPeriod = ReportContext.ApplicationState.CurrentWorkPeriod;
                             var document = report.GetReportDocument();
                             ReportViewModelBase.SaveAsXps(fileName, document);
                         }
@@ -68,14 +70,14 @@ namespace Samba.Modules.BasicReports
         protected override bool CanNavigate(string arg)
         {
             return (_userService.IsUserPermittedFor(PermissionNames.OpenReports) 
-                && ReportContext.WorkPeriodService.CurrentWorkPeriod != null);
+                && ReportContext.ApplicationState.CurrentWorkPeriod != null);
         }
 
         protected override void OnNavigate(string obj)
         {
             base.OnNavigate(obj);
             ReportContext.ResetCache();
-            ReportContext.CurrentWorkPeriod = ReportContext.WorkPeriodService.CurrentWorkPeriod;
+            ReportContext.CurrentWorkPeriod = ReportContext.ApplicationState.CurrentWorkPeriod;
         }
 
         protected override void OnInitialization()

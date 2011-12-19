@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Samba.Domain.Models.Inventories;
+﻿using Samba.Domain.Models.Inventories;
 using Samba.Presentation.Common.ModelBase;
-using Samba.Services;
 
 namespace Samba.Modules.InventoryModule
 {
@@ -22,7 +17,7 @@ namespace Samba.Modules.InventoryModule
 
         protected override bool CanAddItem(object obj)
         {
-            return WorkPeriodService.CurrentWorkPeriod != null;
+            return ApplicationState.CurrentWorkPeriod != null;
         }
     }
 }

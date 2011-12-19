@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Practices.Prism.ViewModel;
 using Samba.Domain.Models.Settings;
@@ -13,14 +12,11 @@ namespace Samba.Modules.DepartmentModule
     public class DepartmentButtonViewModel : NotificationObject
     {
         private readonly IApplicationState _applicationState;
-        private readonly IWorkPeriodService _workPeriodService;
         private readonly IUserService _userService;
 
-        public DepartmentButtonViewModel(IApplicationState applicationState,
-            IWorkPeriodService workPeriodService, IUserService userService)
+        public DepartmentButtonViewModel(IApplicationState applicationState, IUserService userService)
         {
             _applicationState = applicationState;
-            _workPeriodService = workPeriodService;
             _userService = userService;
             EventServiceFactory.EventService.GetEvent<GenericEvent<IApplicationState>>().Subscribe(OnSelectedTicketChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<WorkPeriod>>().Subscribe(OnWorkPeriodChanged);
@@ -49,7 +45,7 @@ namespace Samba.Modules.DepartmentModule
 
         public bool CanChangeDepartment
         {
-            get { return _applicationState.CurrentTicket == null && _workPeriodService.IsCurrentWorkPeriodOpen; }
+            get { return _applicationState.CurrentTicket == null && _applicationState.IsCurrentWorkPeriodOpen; }
         }
 
         private void OnWorkPeriodChanged(EventParameters<WorkPeriod> obj)

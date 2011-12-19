@@ -73,7 +73,6 @@
     <Compile Include="TagData.cs" />
     <Compile Include="TextPrinterJob.cs" />
     <Compile Include="TicketFormatter.cs" />
-    <Compile Include="TicketPrinter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">

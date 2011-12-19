@@ -12,36 +12,23 @@ namespace Samba.Modules.WorkperiodModule.ServiceImplementations
     [Export(typeof(IWorkPeriodService))]
     public class WorkPeriodService : AbstractService, IWorkPeriodService
     {
-        private IEnumerable<WorkPeriod> _lastTwoWorkPeriods;
-        public IEnumerable<WorkPeriod> LastTwoWorkPeriods
+        private readonly IApplicationStateSetter _applicationStateSetter;
+        private readonly IApplicationState _applicationState;
+
+        [ImportingConstructor]
+        public WorkPeriodService(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter)
         {
-            get { return _lastTwoWorkPeriods ?? (_lastTwoWorkPeriods = Dao.Last<WorkPeriod>(2)); }
+            _applicationState = applicationState;
+            _applicationStateSetter = applicationStateSetter;
         }
 
-        public WorkPeriod CurrentWorkPeriod
-        {
-            get { return LastTwoWorkPeriods.LastOrDefault(); }
-        }
-
-        public WorkPeriod PreviousWorkPeriod
-        {
-            get { return LastTwoWorkPeriods.Count() > 1 ? LastTwoWorkPeriods.FirstOrDefault() : null; }
-        }
-
-        public bool IsCurrentWorkPeriodOpen
-        {
-            get
-            {
-                return CurrentWorkPeriod != null &&
-                    CurrentWorkPeriod.StartDate == CurrentWorkPeriod.EndDate;
-            }
-        }
+        public WorkPeriod CurrentWorkPeriod { get { return _applicationState.CurrentWorkPeriod; } }
 
         public void StartWorkPeriod(string description, decimal cashAmount, decimal creditCardAmount, decimal ticketAmount)
         {
             using (var workspace = WorkspaceFactory.Create())
             {
-                _lastTwoWorkPeriods = null;
+                _applicationStateSetter.ResetWorkPeriods();
 
                 var latestWorkPeriod = workspace.Last<WorkPeriod>();
                 if (latestWorkPeriod != null && latestWorkPeriod.StartDate == latestWorkPeriod.EndDate)
@@ -62,7 +49,7 @@ namespace Samba.Modules.WorkperiodModule.ServiceImplementations
 
                 workspace.Add(newPeriod);
                 workspace.CommitChanges();
-                _lastTwoWorkPeriods = null;
+                _applicationStateSetter.ResetWorkPeriods();
             }
         }
 
@@ -77,13 +64,13 @@ namespace Samba.Modules.WorkperiodModule.ServiceImplementations
                     period.EndDescription = description;
                     workspace.CommitChanges();
                 }
-                _lastTwoWorkPeriods = null;
+                _applicationStateSetter.ResetWorkPeriods();
             }
         }
 
         public override void Reset()
         {
-            _lastTwoWorkPeriods = null;
+
         }
     }
 }

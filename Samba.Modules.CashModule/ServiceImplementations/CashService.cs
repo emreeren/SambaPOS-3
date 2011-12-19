@@ -19,22 +19,20 @@ namespace Samba.Modules.CashModule.ServiceImplementations
     [Export(typeof(ICashService))]
     public class CashService : AbstractService, ICashService
     {
-        private readonly IWorkPeriodService _workPeriodService;
         private readonly IApplicationState _applicationState;
 
         [ImportingConstructor]
-        public CashService(IWorkPeriodService workPeriodService, IApplicationState applicationState)
+        public CashService(IApplicationState applicationState)
         {
-            _workPeriodService = workPeriodService;
             _applicationState = applicationState;
         }
 
         public dynamic GetCurrentCashOperationData()
         {
-            if (_workPeriodService.CurrentWorkPeriod == null)
+            if (_applicationState.CurrentWorkPeriod == null)
                 return new[] { 0m, 0m, 0m };
 
-            var startDate = _workPeriodService.CurrentWorkPeriod.StartDate;
+            var startDate = _applicationState.CurrentWorkPeriod.StartDate;
 
             var cashAmount = Dao.Sum<Payment>(x => x.Amount,
                                                  x =>

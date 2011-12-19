@@ -1,14 +1,10 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
-using Microsoft.Practices.Prism.Modularity;
 using Samba.Domain.Models.Inventories;
 using Samba.Domain.Models.Settings;
 using Samba.Localization.Properties;
-using Samba.Modules.InventoryModule.ServiceImplementations;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common;
-using Samba.Presentation.Common.ModelBase;
 using Samba.Services;
 
 namespace Samba.Modules.InventoryModule
@@ -16,14 +12,14 @@ namespace Samba.Modules.InventoryModule
     [ModuleExport(typeof(InventoryModule))]
     public class InventoryModule : ModuleBase
     {
-        private readonly IWorkPeriodService _workPeriodService;
         private readonly IInventoryService _inventoryService;
+        private readonly IApplicationState _applicationState;
 
         [ImportingConstructor]
-        public InventoryModule(IWorkPeriodService workPeriodService, IInventoryService inventoryService)
+        public InventoryModule(IInventoryService inventoryService, IApplicationState applicationState)
         {
-            _workPeriodService = workPeriodService;
             _inventoryService = inventoryService;
+            _applicationState = applicationState;
             AddDashboardCommand<InventoryItemListViewModel>(Resources.InventoryItems, Resources.Products, 26);
             AddDashboardCommand<RecipeListViewModel>(Resources.Recipes, Resources.Products, 27);
             AddDashboardCommand<TransactionListViewModel>(Resources.Transactions, Resources.Products, 28);
@@ -38,7 +34,7 @@ namespace Samba.Modules.InventoryModule
             using (var ws = WorkspaceFactory.Create())
             {
                 if (ws.Count<Recipe>() <= 0) return;
-                if (!_workPeriodService.IsCurrentWorkPeriodOpen)
+                if (!_applicationState.IsCurrentWorkPeriodOpen)
                 {
                     var pc = _inventoryService.GetCurrentPeriodicConsumption(ws);
                     if (pc.Id == 0) ws.Add(pc);
@@ -46,10 +42,10 @@ namespace Samba.Modules.InventoryModule
                 }
                 else
                 {
-                    if (_workPeriodService.PreviousWorkPeriod == null) return;
+                    if (_applicationState.PreviousWorkPeriod == null) return;
                     var pc = _inventoryService.GetPreviousPeriodicConsumption(ws);
                     if (pc == null) return;
-                    _inventoryService.CalculateCost(pc, _workPeriodService.PreviousWorkPeriod);
+                    _inventoryService.CalculateCost(pc, _applicationState.PreviousWorkPeriod);
                     ws.CommitChanges();
                 }
             }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Samba.Domain.Models.Inventories;
 using Samba.Domain.Models.Menus;
-using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common;
@@ -21,7 +20,6 @@ namespace Samba.Modules.InventoryModule
             DeleteInventoryItemCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.Inventory), OnDeleteInventoryItem, CanDeleteInventoryItem);
         }
 
-
         public override Type GetViewType()
         {
             return typeof(RecipeView);
@@ -38,7 +36,7 @@ namespace Samba.Modules.InventoryModule
         private ObservableCollection<RecipeItemViewModel> _recipeItems;
         public ObservableCollection<RecipeItemViewModel> RecipeItems
         {
-            get { return _recipeItems ?? (_recipeItems = new ObservableCollection<RecipeItemViewModel>(Model.RecipeItems.Select(x => new RecipeItemViewModel(x, Workspace)))); }
+            get { return _recipeItems ?? (_recipeItems = new ObservableCollection<RecipeItemViewModel>(Model.RecipeItems.Select(x => new RecipeItemViewModel(x, Workspace, InventoryService)))); }
         }
 
         private RecipeItemViewModel _selectedRecipeItem;
@@ -48,7 +46,7 @@ namespace Samba.Modules.InventoryModule
             set
             {
                 _selectedRecipeItem = value;
-                RaisePropertyChanged(()=>SelectedRecipeItem);
+                RaisePropertyChanged(() => SelectedRecipeItem);
             }
         }
 
@@ -66,7 +64,7 @@ namespace Samba.Modules.InventoryModule
                     if (mi != null && mi.Portions.Count == 1)
                         Portion = mi.Portions[0];
                 }
-                RaisePropertyChanged(()=>SelectedMenuItemName);
+                RaisePropertyChanged(() => SelectedMenuItemName);
             }
         }
 
@@ -87,7 +85,7 @@ namespace Samba.Modules.InventoryModule
                 if (value != null)
                 { SelectedMenuItemName = value.Name; }
                 else Portion = null;
-                RaisePropertyChanged(()=>SelectedMenuItem);
+                RaisePropertyChanged(() => SelectedMenuItem);
             }
         }
 
@@ -107,7 +105,7 @@ namespace Samba.Modules.InventoryModule
             set
             {
                 Model.Portion = value;
-                RaisePropertyChanged(()=>Portion);
+                RaisePropertyChanged(() => Portion);
             }
         }
 
@@ -132,7 +130,7 @@ namespace Samba.Modules.InventoryModule
         {
             var ri = new RecipeItem();
             Model.RecipeItems.Add(ri);
-            var riv = new RecipeItemViewModel(ri, Workspace);
+            var riv = new RecipeItemViewModel(ri, Workspace, InventoryService);
             RecipeItems.Add(riv);
             SelectedRecipeItem = riv;
         }

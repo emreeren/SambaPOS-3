@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
-using Samba.Infrastructure.Data;
 using Samba.Persistance.Data;
 using Samba.Services;
 
@@ -13,6 +13,37 @@ namespace Samba.Presentation.Common.Services
     [Export(typeof(IApplicationStateSetter))]
     public class ApplicationState : AbstractService, IApplicationState, IApplicationStateSetter
     {
+        private readonly IDepartmentService _departmentService;
+        [ImportingConstructor]
+        public ApplicationState(IDepartmentService departmentService)
+        {
+            _departmentService = departmentService;
+        }
+
+        private IEnumerable<WorkPeriod> _lastTwoWorkPeriods;
+        public IEnumerable<WorkPeriod> LastTwoWorkPeriods
+        {
+            get { return _lastTwoWorkPeriods ?? (_lastTwoWorkPeriods = Dao.Last<WorkPeriod>(2)); }
+        }
+
+        public WorkPeriod CurrentWorkPeriod
+        {
+            get { return LastTwoWorkPeriods.LastOrDefault(); }
+        }
+
+        public WorkPeriod PreviousWorkPeriod
+        {
+            get { return LastTwoWorkPeriods.Count() > 1 ? LastTwoWorkPeriods.FirstOrDefault() : null; }
+        }
+
+        public bool IsCurrentWorkPeriodOpen
+        {
+            get
+            {
+                return CurrentWorkPeriod != null && CurrentWorkPeriod.StartDate == CurrentWorkPeriod.EndDate;
+            }
+        }
+
         public Ticket CurrentTicket { get; private set; }
 
         private User _currentLoggedInUser;
@@ -36,18 +67,6 @@ namespace Samba.Presentation.Common.Services
             CurrentLoggedInUser = user;
         }
 
-        private IWorkspace _workspace;
-        public IWorkspace Workspace
-        {
-            get { return _workspace ?? (_workspace = WorkspaceFactory.Create()); }
-        }
-
-        private IEnumerable<Department> _departments;
-        public IEnumerable<Department> Departments
-        {
-            get { return _departments ?? (_departments = Workspace.All<Department>()); }
-        }
-
         public void SetCurrentDepartment(Department department)
         {
             if (department != CurrentDepartment)
@@ -59,7 +78,7 @@ namespace Samba.Presentation.Common.Services
 
         public void SetCurrentDepartment(int departmentId)
         {
-            SetCurrentDepartment(Departments.First(x => x.Id == departmentId));
+            SetCurrentDepartment(_departmentService.GetDepartment(departmentId));
         }
 
         public void SetCurrentApplicationScreen(AppScreens appScreen)
@@ -67,10 +86,14 @@ namespace Samba.Presentation.Common.Services
             ActiveAppScreen = appScreen;
         }
 
+        public void ResetWorkPeriods()
+        {
+            _lastTwoWorkPeriods = null;
+        }
+
         public override void Reset()
         {
-            _departments = null;
-            _workspace = null;
+            _lastTwoWorkPeriods = null;
         }
     }
 }

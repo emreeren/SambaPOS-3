@@ -28,15 +28,17 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
         private readonly IPrinterService _printerService;
         private readonly IApplicationState _applicationState;
         private readonly IApplicationStateSetter _applicationStateSetter;
+        private readonly IMenuService _menuService;
 
         [ImportingConstructor]
         public TicketService(IDepartmentService departmentService, IPrinterService printerService,
-            IApplicationState applicationState, IApplicationStateSetter applicationStateSetter)
+            IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,IMenuService menuService)
         {
             _departmentService = departmentService;
             _printerService = printerService;
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
+            _menuService = menuService;
         }
 
         public void UpdateAccount(Ticket ticket, Account account)
@@ -358,7 +360,7 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
         {
             foreach (var order in ticket.Orders)
             {
-                var mi = AppServices.DataAccessService.GetMenuItem(order.MenuItemId);
+                var mi = _menuService.GetMenuItem(order.MenuItemId);
                 if (mi == null) continue;
                 var item = order;
                 var portion = mi.Portions.FirstOrDefault(x => x.Name == item.PortionName);

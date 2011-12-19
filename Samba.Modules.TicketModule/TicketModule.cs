@@ -19,10 +19,11 @@ namespace Samba.Modules.TicketModule
     {
         readonly IRegionManager _regionManager;
         private readonly TicketEditorView _ticketEditorView;
-        private readonly IWorkPeriodService _workPeriodService;
+        private readonly IApplicationState _applicationState;
 
         [ImportingConstructor]
-        public TicketModule(IRegionManager regionManager, TicketEditorView ticketEditorView,IWorkPeriodService workPeriodService)
+        public TicketModule(IRegionManager regionManager, TicketEditorView ticketEditorView, 
+            IApplicationState applicationState)
             : base(regionManager, AppScreens.TicketList)
         {
 
@@ -30,7 +31,7 @@ namespace Samba.Modules.TicketModule
 
             _regionManager = regionManager;
             _ticketEditorView = ticketEditorView;
-            _workPeriodService = workPeriodService;
+            _applicationState = applicationState;
 
             AddDashboardCommand<TicketTemplateListViewModel>(Resources.TicketTemplates, Resources.Tickets, 10);
             AddDashboardCommand<TicketTagGroupListViewModel>(Resources.TicketTags, Resources.Tickets, 10);
@@ -82,7 +83,7 @@ namespace Samba.Modules.TicketModule
                             using (var vr = WorkspaceFactory.CreateReadOnly())
                             {
                                 AppServices.ResetCache();
-                                var endDate = workPeriodService.CurrentWorkPeriod.EndDate;
+                                var endDate = _applicationState.CurrentWorkPeriod.EndDate;
                                 var startDate = endDate.AddDays(-7);
                                 vr.Queryable<Order>()
                                     .Where(y => y.CreatedDateTime >= startDate && y.CreatedDateTime < endDate)
@@ -99,7 +100,7 @@ namespace Samba.Modules.TicketModule
 
         protected override bool CanNavigate(string arg)
         {
-            return _workPeriodService.IsCurrentWorkPeriodOpen;
+            return _applicationState.IsCurrentWorkPeriodOpen;
         }
 
         protected override void OnNavigate(string obj)

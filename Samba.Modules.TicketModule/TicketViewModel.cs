@@ -19,17 +19,19 @@ namespace Samba.Modules.TicketModule
         private readonly bool _forcePayment;
         private readonly ITicketService _ticketService;
         private readonly IUserService _userService;
+        private readonly IMenuService _menuService;
 
         public TicketViewModel(Ticket model, TicketTemplate ticketTemplate, bool forcePayment,
-            ITicketService ticketService, IUserService userService)
+            ITicketService ticketService, IUserService userService, IMenuService menuService)
         {
             _ticketService = ticketService;
             _userService = userService;
             _forcePayment = forcePayment;
             _model = model;
             _ticketTemplate = ticketTemplate;
+            _menuService = menuService;
 
-            _orders = new ObservableCollection<OrderViewModel>(model.Orders.Select(x => new OrderViewModel(x, ticketTemplate)).OrderBy(x => x.Model.CreatedDateTime));
+            _orders = new ObservableCollection<OrderViewModel>(model.Orders.Select(x => new OrderViewModel(x, ticketTemplate, _menuService)).OrderBy(x => x.Model.CreatedDateTime));
             _payments = new ObservableCollection<PaymentViewModel>(model.Payments.Select(x => new PaymentViewModel(x)));
             _discounts = new ObservableCollection<DiscountViewModel>(model.Discounts.Select(x => new DiscountViewModel(x)));
 
@@ -372,7 +374,7 @@ namespace Samba.Modules.TicketModule
             foreach (var newItem in newItems)
             {
                 _ticketService.AddItemToSelectedTicket(newItem);
-                _orders.Add(new OrderViewModel(newItem, _ticketTemplate) { Selected = true });
+                _orders.Add(new OrderViewModel(newItem, _ticketTemplate, _menuService) { Selected = true });
             }
             selectedItems.ForEach(x => x.NotSelected());
         }
@@ -410,7 +412,7 @@ namespace Samba.Modules.TicketModule
         {
             Model.MergeOrdersAndUpdateOrderNumbers(0);
             _orders.Clear();
-            _orders.AddRange(Model.Orders.Select(x => new OrderViewModel(x, _ticketTemplate)));
+            _orders.AddRange(Model.Orders.Select(x => new OrderViewModel(x, _ticketTemplate, _menuService)));
         }
 
         public bool CanMoveSelectedOrders()

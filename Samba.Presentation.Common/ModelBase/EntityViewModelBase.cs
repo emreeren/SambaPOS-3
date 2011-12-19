@@ -16,10 +16,10 @@ namespace Samba.Presentation.Common.ModelBase
         private IValidator<TModel> _validator;
 
         protected IWorkspace Workspace { get; private set; }
-        protected IWorkPeriodService WorkPeriodService { get; private set; }
         protected IInventoryService InventoryService { get; private set; }
         protected IPrinterService PrinterService { get; private set; }
         protected ITriggerService TriggerService { get; private set; }
+        protected IApplicationState ApplicationState { get; private set; }
 
         protected EntityViewModelBase(TModel model)
         {
@@ -51,14 +51,14 @@ namespace Samba.Presentation.Common.ModelBase
 
         public abstract string GetModelTypeString();
 
-        public void Init(IWorkspace workspace, IWorkPeriodService workPeriodService, IInventoryService inventoryService, 
-            IPrinterService printerService,ITriggerService triggerService)
+        public void Init(IWorkspace workspace, IInventoryService inventoryService,
+            IPrinterService printerService, ITriggerService triggerService, IApplicationState applicationState)
         {
             _modelSaved = false;
             InventoryService = inventoryService;
-            WorkPeriodService = workPeriodService;
             PrinterService = printerService;
             TriggerService = triggerService;
+            ApplicationState = applicationState;
             Workspace = workspace;
             Initialize();
         }

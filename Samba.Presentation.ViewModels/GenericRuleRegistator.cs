@@ -13,7 +13,6 @@ using Samba.Domain.Models.Users;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common;
-using Samba.Presentation.Common.Services;
 using Samba.Services;
 
 namespace Samba.Presentation.ViewModels
@@ -21,19 +20,22 @@ namespace Samba.Presentation.ViewModels
     public static class GenericRuleRegistator
     {
         private static readonly IDepartmentService DepartmentService =
-            ServiceLocator.Current.GetInstance(typeof(IDepartmentService)) as IDepartmentService;
+            ServiceLocator.Current.GetInstance<IDepartmentService>();
 
         private static readonly ITicketService TicketService =
-            ServiceLocator.Current.GetInstance(typeof(ITicketService)) as ITicketService;
+            ServiceLocator.Current.GetInstance<ITicketService>();
 
         private static readonly IApplicationState ApplicationState =
-            ServiceLocator.Current.GetInstance(typeof(IApplicationState)) as IApplicationState;
+            ServiceLocator.Current.GetInstance<IApplicationState>();
 
         private static readonly IUserService UserService =
-            ServiceLocator.Current.GetInstance(typeof(IUserService)) as IUserService;
+            ServiceLocator.Current.GetInstance<IUserService>();
 
         private static readonly ITriggerService TriggerService =
-            ServiceLocator.Current.GetInstance(typeof(ITriggerService)) as ITriggerService;
+            ServiceLocator.Current.GetInstance<ITriggerService>();
+
+        private static readonly IMenuService MenuService =
+            ServiceLocator.Current.GetInstance<IMenuService>();
 
 
         private static bool _registered;
@@ -235,7 +237,7 @@ namespace Samba.Presentation.ViewModels
                     if (ticket != null)
                     {
                         var menuItemName = x.Value.GetAsString("MenuItemName");
-                        var menuItem = AppServices.DataAccessService.GetMenuItemByName(menuItemName);
+                        var menuItem = MenuService.GetMenuItemByName(menuItemName);
                         var portionName = x.Value.GetAsString("PortionName");
                         var quantity = x.Value.GetAsDecimal("Quantity");
                         var tag = x.Value.GetAsString("Tag");
