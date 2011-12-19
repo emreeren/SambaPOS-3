@@ -19,12 +19,15 @@ namespace Samba.Modules.UserModule.ServiceImplementations
     {
         private readonly IApplicationState _applicationState;
         private readonly IApplicationStateSetter _applicationStateSetter;
+        private readonly IDepartmentService _departmentService;
 
         [ImportingConstructor]
-        public UserService(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter)
+        public UserService(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
+            IDepartmentService departmentService)
         {
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
+            _departmentService = departmentService;
         }
 
         private static IWorkspace _workspace;
@@ -43,7 +46,7 @@ namespace Samba.Modules.UserModule.ServiceImplementations
             get
             {
                 return _permittedDepartments ?? (
-                       _permittedDepartments = _applicationState.Departments.Where(
+                       _permittedDepartments = _departmentService.GetDepartments().Where(
                          x => IsUserPermittedFor(PermissionNames.UseDepartment + x.Id)));
             }
         }

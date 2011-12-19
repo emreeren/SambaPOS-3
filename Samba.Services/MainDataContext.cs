@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Microsoft.Practices.ServiceLocation;
 using Samba.Domain.Models.Actions;
 using Samba.Domain.Models.Menus;
 using Samba.Persistance.Data;
@@ -10,11 +9,6 @@ namespace Samba.Services
     {
         public string NumeratorValue { get; set; }
 
-        public IDepartmentService DepartmentService { get; set; }
-        public IInventoryService InventoryService { get; set; }
-        public IWorkPeriodService WorkPeriodService { get; set; }
-        public IUserService UserService { get; set; }
-        public ILocationService LocationService { get; set; }
 
         private IEnumerable<AppRule> _rules;
         public IEnumerable<AppRule> Rules { get { return _rules ?? (_rules = Dao.Query<AppRule>(x => x.Actions)); } }
@@ -32,20 +26,6 @@ namespace Samba.Services
         public IEnumerable<ServiceTemplate> ServiceTemplates
         {
             get { return _serviceTemplates ?? (_serviceTemplates = Dao.Query<ServiceTemplate>()); }
-        }
-
-        public MainDataContext()
-        {
-            DepartmentService = ServiceLocator.Current.GetInstance(typeof(IDepartmentService)) as IDepartmentService;
-            InventoryService = ServiceLocator.Current.GetInstance(typeof(IInventoryService)) as IInventoryService;
-            WorkPeriodService = ServiceLocator.Current.GetInstance(typeof(IWorkPeriodService)) as IWorkPeriodService;
-            UserService = ServiceLocator.Current.GetInstance(typeof(IUserService)) as IUserService;
-            LocationService = ServiceLocator.Current.GetInstance(typeof(ILocationService)) as ILocationService;
-        }
-
-        public void ResetUserData()
-        {
-            DepartmentService.Reset();
         }
 
         public void ResetCache()
@@ -70,10 +50,12 @@ namespace Samba.Services
             //        SelectedLocationScreen = SelectedDepartment.PosLocationScreens.Single(x => x.Id == selectedLocationScreen);
             //}
         }
-
+        
         public TaxTemplate GetTaxTemplate(int menuItemId)
         {
-            return AppServices.DataAccessService.GetMenuItem(menuItemId).TaxTemplate;
+            //todo fix
+            return new TaxTemplate();
+            //return AppServices.DataAccessService.GetMenuItem(menuItemId).TaxTemplate;
         }
     }
 }

@@ -11,8 +11,8 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 {
     public class EndDayReportViewModel : ReportViewModelBase
     {
-        public EndDayReportViewModel(IUserService userService, IWorkPeriodService workPeriodService)
-            : base(userService, workPeriodService)
+        public EndDayReportViewModel(IUserService userService, IApplicationState applicationState)
+            : base(userService, applicationState)
         {
 
         }

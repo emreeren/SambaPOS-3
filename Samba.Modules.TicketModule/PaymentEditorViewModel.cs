@@ -28,15 +28,17 @@ namespace Samba.Modules.TicketModule
         private readonly ICaptionCommand _manualPrintCommand;
         private readonly IPrinterService _printerService;
         private readonly IUserService _userService;
+        private readonly IMenuService _menuService;
 
         [ImportingConstructor]
         public PaymentEditorViewModel(IApplicationState applicationState, ITicketService ticketService,
-            IPrinterService printerService, IUserService userService)
+            IPrinterService printerService, IUserService userService,IMenuService menuService)
         {
             _applicationState = applicationState;
             _ticketService = ticketService;
             _printerService = printerService;
             _userService = userService;
+            _menuService = menuService;
 
             _manualPrintCommand = new CaptionCommand<PrintJob>(Resources.Print, OnManualPrint, CanManualPrint);
             SubmitCashPaymentCommand = new CaptionCommand<string>(Resources.Cash, OnSubmitCashPayment, CanSubmitCashPayment);
@@ -536,7 +538,7 @@ namespace Samba.Modules.TicketModule
             SelectedTicket = new TicketViewModel(
                 _applicationState.CurrentTicket,
                 _applicationState.CurrentDepartment.TicketTemplate,
-                _applicationState.CurrentDepartment.IsFastFood, _ticketService, _userService);
+                _applicationState.CurrentDepartment.IsFastFood, _ticketService, _userService,_menuService);
 
             TicketRemainingValue = _applicationState.CurrentTicket.GetRemainingAmount();
             PrepareMergedItems();

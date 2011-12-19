@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Printing;
-using System.Text;
 
 namespace Samba.Modules.PrinterModule
 {
-    public static class PrinterInfo
+    internal static class PrinterInfo
     {
         private static LocalPrintServer _printServer;
         internal static LocalPrintServer PrintServer

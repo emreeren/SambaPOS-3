@@ -13,5 +13,6 @@ namespace Samba.Services
         PeriodicConsumption GetPreviousPeriodicConsumption(IWorkspace workspace);
         PeriodicConsumption GetCurrentPeriodicConsumption(IWorkspace workspace);
         void CalculateCost(PeriodicConsumption pc, WorkPeriod workPeriod);
+        IEnumerable<string> GetInventoryItemNames();
     }
 }

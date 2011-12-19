@@ -28,6 +28,7 @@ namespace Samba.Modules.BasicReports
         public static IInventoryService InventoryService { get; set; }
         public static IPrinterService PrinterService { get; set; }
         public static IUserService UserService { get; set; }
+        public static IApplicationState ApplicationState { get; set; }
 
         public static IList<ReportViewModelBase> Reports { get; private set; }
 
@@ -73,7 +74,7 @@ namespace Samba.Modules.BasicReports
         private static WorkPeriod _currentWorkPeriod;
         public static WorkPeriod CurrentWorkPeriod
         {
-            get { return _currentWorkPeriod ?? (_currentWorkPeriod = WorkPeriodService.CurrentWorkPeriod); }
+            get { return _currentWorkPeriod ?? (_currentWorkPeriod = ApplicationState.CurrentWorkPeriod); }
             set
             {
                 _currentWorkPeriod = value;
@@ -167,16 +168,16 @@ namespace Samba.Modules.BasicReports
         {
             Reports = new List<ReportViewModelBase>
                           {
-                              new EndDayReportViewModel(UserService,WorkPeriodService),
-                              new ProductReportViewModel(UserService,WorkPeriodService),
-                              new CashReportViewModel(UserService,WorkPeriodService),
-                              new LiabilityReportViewModel(UserService,WorkPeriodService),
-                              new ReceivableReportViewModel(UserService,WorkPeriodService),
-                              new InternalAccountsViewModel(UserService,WorkPeriodService),
-                              new PurchaseReportViewModel(UserService,WorkPeriodService),
-                              new InventoryReportViewModel(UserService,WorkPeriodService),
-                              new CostReportViewModel(UserService,WorkPeriodService),
-                              new CsvBuilderViewModel(UserService,WorkPeriodService)
+                              new EndDayReportViewModel(UserService,ApplicationState),
+                              new ProductReportViewModel(UserService,ApplicationState),
+                              new CashReportViewModel(UserService,ApplicationState),
+                              new LiabilityReportViewModel(UserService,ApplicationState),
+                              new ReceivableReportViewModel(UserService,ApplicationState),
+                              new InternalAccountsViewModel(UserService,ApplicationState),
+                              new PurchaseReportViewModel(UserService,ApplicationState),
+                              new InventoryReportViewModel(UserService,ApplicationState),
+                              new CostReportViewModel(UserService,ApplicationState),
+                              new CsvBuilderViewModel(UserService,ApplicationState)
                           };
         }
 
@@ -284,8 +285,8 @@ namespace Samba.Modules.BasicReports
                 wp = WorkPeriods.Where(x => x.StartDate >= startDate && x.StartDate < endDate);
             if (wp.Count() == 0)
                 wp = WorkPeriods.Where(x => x.EndDate >= startDate && x.EndDate < endDate);
-            if (wp.Count() == 0 && WorkPeriodService.CurrentWorkPeriod.StartDate < startDate)
-                wp = new List<WorkPeriod> { WorkPeriodService.CurrentWorkPeriod };
+            if (wp.Count() == 0 && ApplicationState.CurrentWorkPeriod.StartDate < startDate)
+                wp = new List<WorkPeriod> { ApplicationState.CurrentWorkPeriod };
             return wp.OrderBy(x => x.StartDate);
         }
 

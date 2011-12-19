@@ -6,8 +6,8 @@ namespace Samba.Modules.BasicReports.Reports.AccountReport
 {
     class LiabilityReportViewModel : AccountReportViewModelBase
     {
-        public LiabilityReportViewModel(IUserService userService, IWorkPeriodService workPeriodService)
-            : base(userService, workPeriodService)
+        public LiabilityReportViewModel(IUserService userService, IApplicationState applicationState)
+            : base(userService,applicationState)
         {
         }
 

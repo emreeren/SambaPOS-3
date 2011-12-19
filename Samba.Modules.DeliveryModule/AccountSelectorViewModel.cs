@@ -141,7 +141,6 @@ namespace Samba.Modules.DeliveryModule
 
         private int _activeView;
         private readonly IApplicationState _applicationState;
-        private readonly IWorkPeriodService _workPeriodService;
         private readonly IUserService _userService;
         private readonly ITicketService _ticketService;
 
@@ -156,16 +155,16 @@ namespace Samba.Modules.DeliveryModule
         public string TotalBalance { get { return SelectedAccountTransactions.Sum(x => x.Receivable - x.Liability).ToString("#,#0.00"); } }
 
         [ImportingConstructor]
-        public AccountSelectorViewModel(IApplicationState applicationState, IWorkPeriodService workPeriodService, 
-            IUserService userService, ITicketService ticketService)
+        public AccountSelectorViewModel(IApplicationState applicationState, IUserService userService,
+            ITicketService ticketService)
         {
             _applicationState = applicationState;
-            _workPeriodService = workPeriodService;
             _userService = userService;
             _ticketService = ticketService;
 
             _updateTimer = new Timer(500);
             _updateTimer.Elapsed += UpdateTimerElapsed;
+
             FoundAccounts = new ObservableCollection<AccountSearchViewModel>();
             CloseScreenCommand = new CaptionCommand<string>(Resources.Close, OnCloseScreen);
             SelectAccountCommand = new CaptionCommand<string>(Resources.SelectAccount_r, OnSelectAccount, CanSelectAccount);
@@ -355,7 +354,7 @@ namespace Samba.Modules.DeliveryModule
         private bool CanSelectAccount(string arg)
         {
             return
-                _workPeriodService.IsCurrentWorkPeriodOpen
+                _applicationState.IsCurrentWorkPeriodOpen
                 && SelectedAccount != null
                 && !string.IsNullOrEmpty(SelectedAccount.PhoneNumber)
                 && !string.IsNullOrEmpty(SelectedAccount.Name)
@@ -445,10 +444,9 @@ namespace Samba.Modules.DeliveryModule
 
         private void OnCloseScreen(string obj)
         {
-            if (_applicationState.CurrentDepartment != null && _workPeriodService.IsCurrentWorkPeriodOpen)
-                EventServiceFactory.EventService.PublishEvent(EventTopicNames.DisplayTicketView);
-            else
-                EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateNavigation);
+            EventServiceFactory.EventService.PublishEvent(_applicationState.IsCurrentWorkPeriodOpen
+                                                              ? EventTopicNames.DisplayTicketView
+                                                              : EventTopicNames.ActivateNavigation);
             SelectedView = 0;
             ActiveView = 0;
             SelectedAccountTransactions.Clear();

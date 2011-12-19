@@ -43,8 +43,8 @@ namespace Samba.Modules.InventoryModule
 
         protected override bool CanSave(string arg)
         {
-            return WorkPeriodService.IsCurrentWorkPeriodOpen && _periodicConsumptionItems.Count > 0
-                && Model.WorkPeriodId == WorkPeriodService.CurrentWorkPeriod.Id && base.CanSave(arg);
+            return ApplicationState.IsCurrentWorkPeriodOpen && _periodicConsumptionItems.Count > 0
+                && Model.WorkPeriodId == ApplicationState.CurrentWorkPeriod.Id && base.CanSave(arg);
         }
         
         private void OnUpdateCalculation(string obj)
@@ -54,7 +54,7 @@ namespace Samba.Modules.InventoryModule
 
         public void UpdateCost()
         {
-            InventoryService.CalculateCost(Model, WorkPeriodService.CurrentWorkPeriod);
+            InventoryService.CalculateCost(Model, ApplicationState.CurrentWorkPeriod);
             _costItems = null;
             RaisePropertyChanged(()=>CostItems);
         }
@@ -71,7 +71,7 @@ namespace Samba.Modules.InventoryModule
 
         protected override void OnSave(string value)
         {
-            InventoryService.CalculateCost(Model, WorkPeriodService.CurrentWorkPeriod);
+            InventoryService.CalculateCost(Model, ApplicationState.CurrentWorkPeriod);
             base.OnSave(value);
         }
     }

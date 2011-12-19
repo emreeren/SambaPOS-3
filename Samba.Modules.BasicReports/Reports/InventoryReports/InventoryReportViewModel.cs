@@ -9,8 +9,8 @@ namespace Samba.Modules.BasicReports.Reports.InventoryReports
 {
     class InventoryReportViewModel : ReportViewModelBase
     {
-        public InventoryReportViewModel(IUserService userService, IWorkPeriodService workPeriodService)
-            : base(userService, workPeriodService)
+        public InventoryReportViewModel(IUserService userService, IApplicationState applicationState)
+            : base(userService, applicationState)
         {
 
         }

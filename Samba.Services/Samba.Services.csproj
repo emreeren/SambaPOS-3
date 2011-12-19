@@ -76,7 +76,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataAccessService.cs" />
     <Compile Include="EMailService.cs" />
     <Compile Include="DataCreationService.cs" />
     <Compile Include="IAccountService.cs" />
@@ -86,6 +85,7 @@
     <Compile Include="IDepartmentService.cs" />
     <Compile Include="IInventoryService.cs" />
     <Compile Include="ILocationService.cs" />
+    <Compile Include="IMenuService.cs" />
     <Compile Include="IPrinterService.cs" />
     <Compile Include="IService.cs" />
     <Compile Include="ITicketService.cs" />

@@ -11,5 +11,6 @@ namespace Samba.Services
         void SetCurrentDepartment(Department department);
         void SetCurrentDepartment(int departmentId);
         void SetCurrentApplicationScreen(AppScreens appScreen);
+        void ResetWorkPeriods();
     }
 }

@@ -10,18 +10,20 @@ namespace Samba.Modules.InventoryModule
     public class MaterialViewModel : ObservableObject
     {
         public InventoryItem Model { get; set; }
+        private readonly IInventoryService _inventoryService;
         private readonly IWorkspace _workspace;
 
-        public MaterialViewModel(InventoryItem model, IWorkspace workspace)
+        public MaterialViewModel(InventoryItem model, IWorkspace workspace, IInventoryService inventoryService)
         {
             Model = model;
             _workspace = workspace;
+            _inventoryService = inventoryService;
         }
 
         private IEnumerable<string> _inventoryItemNames;
         public IEnumerable<string> InventoryItemNames
         {
-            get { return _inventoryItemNames ?? (_inventoryItemNames = AppServices.DataAccessService.GetInventoryItemNames()); }
+            get { return _inventoryItemNames ?? (_inventoryItemNames = _inventoryService.GetInventoryItemNames()); }
         }
 
         public string Name
@@ -33,7 +35,7 @@ namespace Samba.Modules.InventoryModule
             set
             {
                 UpdateInventoryItem(value);
-                RaisePropertyChanged(()=>Name);
+                RaisePropertyChanged(() => Name);
             }
         }
 

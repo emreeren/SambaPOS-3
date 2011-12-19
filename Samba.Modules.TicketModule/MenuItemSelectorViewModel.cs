@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
@@ -68,17 +67,17 @@ namespace Samba.Modules.TicketModule
 
         private readonly ITicketService _ticketService;
         private readonly IApplicationState _applicationState;
-        private readonly IWorkPeriodService _workPeriodService;
         private readonly IUserService _userService;
+        private readonly IMenuService _menuService;
 
         [ImportingConstructor]
-        public MenuItemSelectorViewModel(IApplicationState applicationState, ITicketService ticketService, IWorkPeriodService workPeriodService,
-            IUserService userService)
+        public MenuItemSelectorViewModel(IApplicationState applicationState, ITicketService ticketService,
+            IUserService userService, IMenuService menuService)
         {
             _ticketService = ticketService;
-            _workPeriodService = workPeriodService;
             _userService = userService;
             _applicationState = applicationState;
+            _menuService = menuService;
 
             CategoryCommand = new DelegateCommand<ScreenMenuCategory>(OnCategoryCommandExecute);
             MenuItemCommand = new DelegateCommand<ScreenMenuItem>(OnMenuItemCommandExecute);
@@ -149,14 +148,14 @@ namespace Samba.Modules.TicketModule
         {
             if (string.IsNullOrEmpty(NumeratorValue))
             {
-                _workPeriodService.CurrentWorkPeriod.PublishEvent(EventTopicNames.DisplayTicketExplorer);
+                _applicationState.CurrentWorkPeriod.PublishEvent(EventTopicNames.DisplayTicketExplorer);
             }
             else
             {
                 var ticket = _ticketService.OpenTicketByTicketNumber(NumeratorValue);
                 if (ticket != null)
                 {
-                    if (!_userService.IsUserPermittedFor(PermissionNames.DisplayOldTickets) && _applicationState.CurrentTicket.Date < _workPeriodService.CurrentWorkPeriod.StartDate)
+                    if (!_userService.IsUserPermittedFor(PermissionNames.DisplayOldTickets) && _applicationState.CurrentTicket.Date < _applicationState.CurrentWorkPeriod.StartDate)
                         _ticketService.CloseTicket(ticket);
                     else
                         EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
@@ -209,7 +208,7 @@ namespace Samba.Modules.TicketModule
                 }
                 try
                 {
-                    var mi = AppServices.DataAccessService.GetMenuItem(insertedData);
+                    var mi = _menuService.GetMenuItem(insertedData);
                     if (mi != null)
                     {
                         var si = new ScreenMenuItem { MenuItemId = mi.Id, Name = mi.Name };
@@ -262,7 +261,7 @@ namespace Samba.Modules.TicketModule
             if (department.Topic == EventTopicNames.SelectedDepartmentChanged)
             {
                 _currentScreenMenu = department.Value != null
-                    ? AppServices.DataAccessService.GetScreenMenu(department.Value.ScreenMenuId)
+                    ? _menuService.GetScreenMenu(department.Value.ScreenMenuId)
                     : null;
 
                 Categories = CreateCategoryButtons(_currentScreenMenu);
@@ -301,7 +300,7 @@ namespace Samba.Modules.TicketModule
 
             SubCategories.Clear();
             SubCategories.AddRange(
-                AppServices.DataAccessService.GetSubCategories(category, CurrentTag)
+                _menuService.GetSubCategories(category, CurrentTag)
                 .Select(x => new ScreenSubCategoryButton(x, SubCategoryCommand, category.MButtonColor, category.SubButtonHeight)));
 
             if (!string.IsNullOrEmpty(CurrentTag))
@@ -366,7 +365,7 @@ namespace Samba.Modules.TicketModule
         {
             SelectedCategory = category;
 
-            var screenMenuItems = AppServices.DataAccessService.GetMenuItems(category, pageNo, tag);
+            var screenMenuItems = _menuService.GetMenuItems(category, pageNo, tag);
             var result = new ObservableCollection<ScreenMenuItemButton>();
             var items = screenMenuItems.Select(x => new ScreenMenuItemButton(x, MenuItemCommand, category));
             if (category.SortType == 1) items = items.OrderByDescending(x => x.UsageCount);

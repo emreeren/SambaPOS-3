@@ -14,8 +14,8 @@ namespace Samba.Modules.BasicReports.Reports.AccountReport
 {
     public abstract class AccountReportViewModelBase : ReportViewModelBase
     {
-        protected AccountReportViewModelBase(IUserService userService, IWorkPeriodService workPeriodService)
-            : base(userService, workPeriodService)
+        protected AccountReportViewModelBase(IUserService userService, IApplicationState applicationState)
+            : base(userService, applicationState)
         {
 
         }
@@ -74,7 +74,8 @@ namespace Samba.Modules.BasicReports.Reports.AccountReport
 
             foreach (var accountData in accounts)
             {
-                accountData.Amount = list.SingleOrDefault(x => x.AccountId == accountData.Id).Amount;
+                AccountData data = accountData;
+                accountData.Amount = list.SingleOrDefault(x => x.AccountId == data.Id).Amount;
             }
 
             return accounts;

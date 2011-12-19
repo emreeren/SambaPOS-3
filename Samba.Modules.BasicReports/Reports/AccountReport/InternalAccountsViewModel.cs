@@ -10,8 +10,8 @@ namespace Samba.Modules.BasicReports.Reports.AccountReport
 {
     class InternalAccountsViewModel : AccountReportViewModelBase
     {
-        public InternalAccountsViewModel(IUserService userService, IWorkPeriodService workPeriodService)
-            : base(userService, workPeriodService)
+        public InternalAccountsViewModel(IUserService userService, IApplicationState applicationState)
+            : base(userService, applicationState)
         {
         }
 

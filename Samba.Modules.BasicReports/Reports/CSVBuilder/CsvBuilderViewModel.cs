@@ -11,8 +11,8 @@ namespace Samba.Modules.BasicReports.Reports.CSVBuilder
 {
     class CsvBuilderViewModel : ReportViewModelBase
     {
-        public CsvBuilderViewModel(IUserService userService, IWorkPeriodService workPeriodService)
-            : base(userService, workPeriodService)
+        public CsvBuilderViewModel(IUserService userService, IApplicationState applicationState)
+            : base(userService, applicationState)
         {
         }
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Linq;
@@ -8,7 +7,6 @@ using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Persistance.Data;
-using Samba.Presentation.Common;
 using Samba.Presentation.Common.Services;
 using Samba.Services;
 
@@ -25,18 +23,20 @@ namespace Samba.Modules.InventoryModule.ServiceImplementations
     [Export(typeof(IInventoryService))]
     public class InventoryService : AbstractService, IInventoryService
     {
-        private readonly IWorkPeriodService _workPeriodService;
+        private readonly IApplicationState _applicationState;
+        private readonly IMenuService _menuService;
 
         [ImportingConstructor]
-        public InventoryService(IWorkPeriodService workPeriodService)
+        public InventoryService(IApplicationState applicationState, IMenuService menuService)
         {
-            _workPeriodService = workPeriodService;
+            _applicationState = applicationState;
+            _menuService = menuService;
         }
 
         private IEnumerable<InventoryTransactionItem> GetTransactionItems()
         {
             return Dao.Query<InventoryTransaction>(x =>
-                                                   x.Date > _workPeriodService.CurrentWorkPeriod.StartDate,
+                                                   x.Date > _applicationState.CurrentWorkPeriod.StartDate,
                                                    x => x.TransactionItems,
                                                    x => x.TransactionItems.Select(y => y.InventoryItem)).SelectMany(x => x.TransactionItems);
         }
@@ -51,7 +51,7 @@ namespace Samba.Modules.InventoryModule.ServiceImplementations
                     .Where(x => x.DecreaseInventory && recipeItemIds.Contains(x.MenuItemId));
         }
 
-        private static IEnumerable<SalesData> GetSales(WorkPeriod workPeriod)
+        private IEnumerable<SalesData> GetSales(WorkPeriod workPeriod)
         {
             var orders = GetOrdersFromRecipes(workPeriod);
             var salesData = orders.GroupBy(x => new { x.MenuItemName, x.MenuItemId, x.PortionName })
@@ -64,7 +64,7 @@ namespace Samba.Modules.InventoryModule.ServiceImplementations
             foreach (var orderTagValue in orderTagValues)
             {
                 var tip = orderTagValue;
-                var mi = AppServices.DataAccessService.GetMenuItem(tip.Key.MenuItemId);
+                var mi = _menuService.GetMenuItem(tip.Key.MenuItemId);
                 var port = mi.Portions.FirstOrDefault(x => x.Name == tip.Key.PortionName) ?? mi.Portions[0];
                 var sd = salesData.SingleOrDefault(x => x.MenuItemId == mi.Id && x.MenuItemName == mi.Name && x.PortionName == port.Name) ?? new SalesData();
                 sd.MenuItemId = mi.Id;
@@ -109,7 +109,7 @@ namespace Samba.Modules.InventoryModule.ServiceImplementations
 
         private void UpdateConsumption(PeriodicConsumption pc, IWorkspace workspace)
         {
-            var sales = GetSales(_workPeriodService.CurrentWorkPeriod);
+            var sales = GetSales(_applicationState.CurrentWorkPeriod);
 
             foreach (var sale in sales)
             {
@@ -135,29 +135,29 @@ namespace Samba.Modules.InventoryModule.ServiceImplementations
         {
             var pc = new PeriodicConsumption
             {
-                WorkPeriodId = _workPeriodService.CurrentWorkPeriod.Id,
-                Name = _workPeriodService.CurrentWorkPeriod.StartDate + " - " +
-                       _workPeriodService.CurrentWorkPeriod.EndDate,
-                StartDate = _workPeriodService.CurrentWorkPeriod.StartDate,
-                EndDate = _workPeriodService.CurrentWorkPeriod.EndDate
+                WorkPeriodId = _applicationState.CurrentWorkPeriod.Id,
+                Name = _applicationState.CurrentWorkPeriod.StartDate + " - " +
+                       _applicationState.CurrentWorkPeriod.EndDate,
+                StartDate = _applicationState.CurrentWorkPeriod.StartDate,
+                EndDate = _applicationState.CurrentWorkPeriod.EndDate
             };
 
             CreatePeriodicConsumptionItems(pc, workspace);
             UpdateConsumption(pc, workspace);
-            CalculateCost(pc, _workPeriodService.CurrentWorkPeriod);
+            CalculateCost(pc, _applicationState.CurrentWorkPeriod);
             return pc;
         }
 
         public PeriodicConsumption GetPreviousPeriodicConsumption(IWorkspace workspace)
         {
-            return _workPeriodService.PreviousWorkPeriod == null ? null :
-               workspace.Single<PeriodicConsumption>(x => x.WorkPeriodId == _workPeriodService.PreviousWorkPeriod.Id);
+            return _applicationState.PreviousWorkPeriod == null ? null :
+               workspace.Single<PeriodicConsumption>(x => x.WorkPeriodId == _applicationState.PreviousWorkPeriod.Id);
         }
 
         public PeriodicConsumption GetCurrentPeriodicConsumption(IWorkspace workspace)
         {
             var pc = workspace.Single<PeriodicConsumption>(x =>
-                x.WorkPeriodId == _workPeriodService.CurrentWorkPeriod.Id) ??
+                x.WorkPeriodId == _applicationState.CurrentWorkPeriod.Id) ??
                      CreateNewPeriodicConsumption(workspace);
             return pc;
         }
@@ -186,6 +186,11 @@ namespace Samba.Modules.InventoryModule.ServiceImplementations
                     pc.CostItems.Single(x => x.Portion.Id == recipe.Portion.Id).Cost = decimal.Round(totalcost, 2);
                 }
             }
+        }
+
+        public IEnumerable<string> GetInventoryItemNames()
+        {
+            return Dao.Select<InventoryItem, string>(x => x.Name, x => !string.IsNullOrEmpty(x.Name));
         }
 
         public override void Reset()

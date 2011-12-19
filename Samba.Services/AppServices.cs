@@ -29,12 +29,6 @@ namespace Samba.Services
             set { _mainDataContext = value; }
         }
 
-        private static DataAccessService _dataAccessService;
-        public static DataAccessService DataAccessService
-        {
-            get { return _dataAccessService ?? (_dataAccessService = new DataAccessService()); }
-        }
-
         private static MessagingService _messagingService;
         public static MessagingService MessagingService
         {

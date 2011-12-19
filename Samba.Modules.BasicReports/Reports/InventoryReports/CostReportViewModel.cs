@@ -8,8 +8,8 @@ namespace Samba.Modules.BasicReports.Reports.InventoryReports
 {
     class CostReportViewModel : ReportViewModelBase
     {
-        public CostReportViewModel(IUserService userService, IWorkPeriodService workPeriodService)
-            : base(userService, workPeriodService)
+        public CostReportViewModel(IUserService userService, IApplicationState applicationState)
+            : base(userService, applicationState)
         {
         }
 

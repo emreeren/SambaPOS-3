@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
 
@@ -23,8 +24,10 @@ namespace Samba.Services
     {
         Ticket CurrentTicket { get; }
         User CurrentLoggedInUser { get; }
-        IEnumerable<Department> Departments { get; }
         Department CurrentDepartment { get; }
         AppScreens ActiveAppScreen { get; }
+        WorkPeriod CurrentWorkPeriod { get; }
+        WorkPeriod PreviousWorkPeriod { get; }
+        bool IsCurrentWorkPeriodOpen { get; }
     }
 }

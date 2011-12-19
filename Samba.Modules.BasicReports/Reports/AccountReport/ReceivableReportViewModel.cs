@@ -10,8 +10,8 @@ namespace Samba.Modules.BasicReports.Reports.AccountReport
 {
     public class ReceivableReportViewModel : AccountReportViewModelBase
     {
-        public ReceivableReportViewModel(IUserService userService, IWorkPeriodService workPeriodService)
-            : base(userService, workPeriodService)
+        public ReceivableReportViewModel(IUserService userService, IApplicationState applicationState)
+            : base(userService, applicationState)
         {
         }
 

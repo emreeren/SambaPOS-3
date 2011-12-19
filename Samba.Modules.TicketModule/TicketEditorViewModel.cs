@@ -13,21 +13,18 @@ namespace Samba.Modules.TicketModule
     public class TicketEditorViewModel : ObservableObject
     {
         private readonly ITicketService _ticketService;
-        private readonly IWorkPeriodService _workPeriodService;
         private readonly IUserService _userService;
         private readonly IApplicationState _applicationState;
         private readonly IApplicationStateSetter _applicationStateSetter;
 
         [ImportingConstructor]
         public TicketEditorViewModel(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
-            ITicketService ticketService, IWorkPeriodService workPeriodService, IUserService userService,
-            PaymentEditorViewModel paymentViewModel, TicketExplorerViewModel ticketExplorerViewModel,
-            SelectedOrdersViewModel selectedOrdersViewModel, TicketListViewModel ticketListViewModel,
-            MenuItemSelectorViewModel menuItemSelectorViewModel)
+            ITicketService ticketService, IUserService userService, PaymentEditorViewModel paymentViewModel,
+            TicketExplorerViewModel ticketExplorerViewModel, SelectedOrdersViewModel selectedOrdersViewModel,
+            TicketListViewModel ticketListViewModel, MenuItemSelectorViewModel menuItemSelectorViewModel)
         {
             _ticketService = ticketService;
             _userService = userService;
-            _workPeriodService = workPeriodService;
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
 
@@ -158,10 +155,10 @@ namespace Samba.Modules.TicketModule
         {
             SelectedView = 0;
             SelectedSubView = 2;
-            TicketExplorerViewModel.StartDate = _workPeriodService.CurrentWorkPeriod.StartDate.Date;
+            TicketExplorerViewModel.StartDate = _applicationState.CurrentWorkPeriod.StartDate.Date;
             if (!_userService.IsUserPermittedFor(PermissionNames.DisplayOldTickets))
             {
-                TicketExplorerViewModel.StartDate = _workPeriodService.CurrentWorkPeriod.StartDate;
+                TicketExplorerViewModel.StartDate = _applicationState.CurrentWorkPeriod.StartDate;
             }
             TicketExplorerViewModel.EndDate = DateTime.Now;
             TicketExplorerViewModel.Refresh();

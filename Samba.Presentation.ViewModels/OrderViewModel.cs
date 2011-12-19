@@ -14,11 +14,14 @@ namespace Samba.Presentation.ViewModels
 {
     public class OrderViewModel : ObservableObject
     {
+        private IMenuService _menuService;
+
         private readonly TicketTemplate _ticketTemplate;
-        public OrderViewModel(Order model, TicketTemplate ticketTemplate)
+        public OrderViewModel(Order model, TicketTemplate ticketTemplate, IMenuService menuService)
         {
             _model = model;
             _ticketTemplate = ticketTemplate;
+            _menuService = menuService;
             ResetSelectedQuantity();
             ItemSelectedCommand = new DelegateCommand<OrderViewModel>(OnItemSelected);
             UpdateItemColor();
@@ -28,7 +31,7 @@ namespace Samba.Presentation.ViewModels
 
         public string Description
         {
-            get {return _model.Description; }
+            get { return _model.Description; }
         }
 
         private readonly Order _model;
@@ -198,7 +201,7 @@ namespace Samba.Presentation.ViewModels
         private MenuItem _menuItem;
         public MenuItem MenuItem
         {
-            get { return _menuItem ?? (_menuItem = AppServices.DataAccessService.GetMenuItem(Model.MenuItemId)); }
+            get { return _menuItem ?? (_menuItem = _menuService.GetMenuItem(Model.MenuItemId)); }
         }
 
         private void OnItemSelected(OrderViewModel obj)

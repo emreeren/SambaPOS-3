@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Linq;
@@ -19,16 +18,6 @@ namespace Samba.Presentation.Common.ModelBase
     {
         private readonly IWorkspace _workspace = WorkspaceFactory.Create();
         public IWorkspace Workspace { get { return _workspace; } }
-
-        private IWorkPeriodService _workPeriodService;
-        public IWorkPeriodService WorkPeriodService
-        {
-            get
-            {
-                return _workPeriodService ?? (_workPeriodService = 
-                    ServiceLocator.Current.GetInstance<IWorkPeriodService>());
-            }
-        }
 
         private IInventoryService _inventoryService;
         public IInventoryService InventoryService
@@ -57,6 +46,16 @@ namespace Samba.Presentation.Common.ModelBase
             {
                 return _triggerService ?? (_triggerService =
                     ServiceLocator.Current.GetInstance<ITriggerService>());
+            }
+        }
+
+        private IApplicationState _applicationState;
+        public IApplicationState ApplicationState
+        {
+            get
+            {
+                return _applicationState ?? (_applicationState =
+                    ServiceLocator.Current.GetInstance<IApplicationState>());
             }
         }
 
@@ -229,7 +228,7 @@ namespace Samba.Presentation.Common.ModelBase
         protected TViewModel InternalCreateNewViewModel(TModel model)
         {
             var result = CreateNewViewModel(model);
-            result.Init(_workspace, WorkPeriodService, InventoryService, PrinterService, TriggerService);
+            result.Init(_workspace, InventoryService, PrinterService, TriggerService, ApplicationState);
             return result;
         }
 

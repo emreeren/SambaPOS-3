@@ -9,11 +9,13 @@ namespace Samba.Modules.InventoryModule
     class RecipeItemViewModel : ObservableObject
     {
         private readonly IWorkspace _workspace;
+        private readonly IInventoryService _inventoryService;
 
-        public RecipeItemViewModel(RecipeItem model, IWorkspace workspace)
+        public RecipeItemViewModel(RecipeItem model, IWorkspace workspace, IInventoryService inventoryService)
         {
             Model = model;
             _workspace = workspace;
+            _inventoryService = inventoryService;
         }
 
         public RecipeItem Model { get; set; }
@@ -22,7 +24,7 @@ namespace Samba.Modules.InventoryModule
         private IEnumerable<string> _inventoryItemNames;
         public IEnumerable<string> InventoryItemNames
         {
-            get { return _inventoryItemNames ?? (_inventoryItemNames = AppServices.DataAccessService.GetInventoryItemNames()); }
+            get { return _inventoryItemNames ?? (_inventoryItemNames = _inventoryService.GetInventoryItemNames()); }
         }
 
         public string Name
