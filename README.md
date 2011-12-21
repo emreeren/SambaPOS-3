@@ -2,4 +2,4 @@
 
 3rd release rewrite.
 
-Visit www.sambapos.com For stable releases 
+Visit www.sambapos.com for stable releases.
