@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Windows.Documents;
 using Samba.Domain.Models.Settings;
+using Samba.Modules.PrinterModule.Tools;
 using Samba.Services;
 
 namespace Samba.Modules.PrinterModule

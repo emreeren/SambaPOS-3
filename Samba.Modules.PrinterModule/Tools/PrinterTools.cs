@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Documents;
 
-namespace Samba.Modules.PrinterModule
+namespace Samba.Modules.PrinterModule.Tools
 {
     internal static class PrinterTools
     {

@@ -135,6 +135,10 @@
       <Project>{406B96A6-C886-4149-AD88-A2402EDB2B90}</Project>
       <Name>Samba.Localization</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.PrinterModule\Samba.Modules.PrinterModule.csproj">
+      <Project>{0FE1BF9D-225A-4D7F-8AB5-102138110999}</Project>
+      <Name>Samba.Modules.PrinterModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samba.Persistance.Data\Samba.Persistance.Data.csproj">
       <Project>{FEDA2199-91CD-4AF1-B571-4AA2E8371A18}</Project>
       <Name>Samba.Persistance.Data</Name>

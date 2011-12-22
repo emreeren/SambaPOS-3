@@ -4,6 +4,7 @@ using System.Windows.Documents;
 using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Settings;
 using Samba.Modules.PrinterModule.HtmlConverter;
+using Samba.Modules.PrinterModule.Tools;
 
 namespace Samba.Modules.PrinterModule
 {

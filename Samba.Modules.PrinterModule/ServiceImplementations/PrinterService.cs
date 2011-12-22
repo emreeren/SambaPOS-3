@@ -12,6 +12,7 @@ using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data.Serializer;
 using Samba.Localization.Properties;
+using Samba.Modules.PrinterModule.Tools;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common.Services;
 using Samba.Services;

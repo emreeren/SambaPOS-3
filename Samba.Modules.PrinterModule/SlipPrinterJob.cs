@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Documents;
 using Samba.Domain.Models.Settings;
+using Samba.Modules.PrinterModule.Tools;
 
 namespace Samba.Modules.PrinterModule
 {

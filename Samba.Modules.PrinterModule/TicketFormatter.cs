@@ -17,6 +17,7 @@ namespace Samba.Modules.PrinterModule
         private static readonly IDepartmentService DepartmentService =
             ServiceLocator.Current.GetInstance(typeof(IDepartmentService)) as IDepartmentService;
 
+
         public static string[] GetFormattedTicket(Ticket ticket, IEnumerable<Order> lines, PrinterTemplate template)
         {
             if (template.MergeLines) lines = MergeLines(lines);
@@ -78,19 +79,19 @@ namespace Samba.Modules.PrinterModule
             string result = document;
             if (string.IsNullOrEmpty(document)) return "";
 
-            result = FormatData(result, Resources.TF_TicketDate, () => ticket.Date.ToShortDateString());
-            result = FormatData(result, Resources.TF_TicketTime, () => ticket.Date.ToShortTimeString());
-            result = FormatData(result, Resources.TF_DayDate, () => DateTime.Now.ToShortDateString());
-            result = FormatData(result, Resources.TF_DayTime, () => DateTime.Now.ToShortTimeString());
-            result = FormatData(result, Resources.TF_UniqueTicketId, () => ticket.Id.ToString());
-            result = FormatData(result, Resources.TF_TicketNumber, () => ticket.TicketNumber);
-            result = FormatData(result, Resources.TF_LineOrderNumber, orderNo.ToString);
-            result = FormatData(result, Resources.TF_TicketTag, ticket.GetTagData);
-            result = FormatDataIf(true, result, "{DEPARTMENT}", () => GetDepartmentName(ticket.DepartmentId));
+            result = FormatData(result, TagNames.TicketDate, () => ticket.Date.ToShortDateString());
+            result = FormatData(result, TagNames.TicketTime, () => ticket.Date.ToShortTimeString());
+            result = FormatData(result, TagNames.Date, () => DateTime.Now.ToShortDateString());
+            result = FormatData(result, TagNames.Time, () => DateTime.Now.ToShortTimeString());
+            result = FormatData(result, TagNames.TicketId, () => ticket.Id.ToString());
+            result = FormatData(result, TagNames.TicketNo, () => ticket.TicketNumber);
+            result = FormatData(result, TagNames.OrderNo, orderNo.ToString);
+            result = FormatData(result, TagNames.TicketTag, ticket.GetTagData);
+            result = FormatDataIf(true, result, TagNames.Department, () => GetDepartmentName(ticket.DepartmentId));
 
-            if (result.Contains(Resources.TF_OptionalTicketTag))
+            if (result.Contains(TagNames.TicketTag2))
             {
-                var start = result.IndexOf(Resources.TF_OptionalTicketTag);
+                var start = result.IndexOf(TagNames.TicketTag2);
                 var end = result.IndexOf("}", start) + 1;
                 var value = result.Substring(start, end - start);
                 var tags = "";
@@ -113,20 +114,20 @@ namespace Samba.Modules.PrinterModule
             if (string.IsNullOrEmpty(ticket.LocationName))
                 title = userName;
 
-            result = FormatData(result, Resources.TF_LocationOrUserName, () => title);
-            result = FormatData(result, Resources.TF_UserName, () => userName);
-            result = FormatData(result, Resources.TF_LocationName, () => ticket.LocationName);
-            result = FormatData(result, Resources.TF_TicketNote, () => ticket.Note);
-            result = FormatData(result, Resources.TF_AccountName, () => ticket.AccountName);
+            result = FormatData(result, TagNames.LocationUser, () => title);
+            result = FormatData(result, TagNames.UserName, () => userName);
+            result = FormatData(result, TagNames.Location, () => ticket.LocationName);
+            result = FormatData(result, TagNames.Note, () => ticket.Note);
+            result = FormatData(result, TagNames.AccName, () => ticket.AccountName);
 
-            if (ticket.AccountId > 0 && (result.Contains(Resources.TF_AccountAddress) || result.Contains(Resources.TF_AccountPhone)))
+            if (ticket.AccountId > 0 && (result.Contains(TagNames.AccAddress) || result.Contains(TagNames.AccPhone)))
             {
                 var account = Dao.SingleWithCache<Account>(x => x.Id == ticket.AccountId);
-                result = FormatData(result, Resources.TF_AccountPhone, () => account.SearchString);
+                result = FormatData(result, TagNames.AccPhone, () => account.SearchString);
             }
 
-            result = RemoveTag(result, Resources.TF_AccountAddress);
-            result = RemoveTag(result, Resources.TF_AccountPhone);
+            result = RemoveTag(result, TagNames.AccAddress);
+            result = RemoveTag(result, TagNames.AccPhone);
 
             var payment = ticket.GetPaymentAmount();
             var remaining = ticket.GetRemainingAmount();
@@ -135,27 +136,27 @@ namespace Samba.Modules.PrinterModule
             var taxAmount = ticket.CalculateTax();
             var servicesTotal = ticket.GetServicesTotal();
 
-            result = FormatDataIf(taxAmount > 0 || discount > 0 || servicesTotal > 0, result, "{PLAIN TOTAL}", () => plainTotal.ToString("#,#0.00"));
-            result = FormatDataIf(discount > 0, result, "{DISCOUNT TOTAL}", () => discount.ToString("#,#0.00"));
-            result = FormatDataIf(taxAmount > 0, result, "{TAX TOTAL}", () => taxAmount.ToString("#,#0.00"));
-            result = FormatDataIf(taxAmount > 0, result, "{SERVICE TOTAL}", () => servicesTotal.ToString("#,#0.00"));
-            result = FormatDataIf(taxAmount > 0, result, "{TAX DETAILS}", () => GetTaxDetails(ticket.Orders, plainTotal, discount));
-            result = FormatDataIf(servicesTotal > 0, result, "{SERVICE DETAILS}", () => GetServiceDetails(ticket));
+            result = FormatDataIf(taxAmount > 0 || discount > 0 || servicesTotal > 0, result, TagNames.PlainTotal, () => plainTotal.ToString("#,#0.00"));
+            result = FormatDataIf(discount > 0, result, TagNames.DiscountTotal, () => discount.ToString("#,#0.00"));
+            result = FormatDataIf(taxAmount > 0, result, TagNames.TaxTotal, () => taxAmount.ToString("#,#0.00"));
+            result = FormatDataIf(taxAmount > 0, result, TagNames.ServiceTotal, () => servicesTotal.ToString("#,#0.00"));
+            result = FormatDataIf(taxAmount > 0, result, TagNames.TaxDetails, () => GetTaxDetails(ticket.Orders, plainTotal, discount));
+            result = FormatDataIf(servicesTotal > 0, result, TagNames.ServiceDetails, () => GetServiceDetails(ticket));
 
-            result = FormatDataIf(payment > 0, result, Resources.TF_RemainingAmountIfPaid,
+            result = FormatDataIf(payment > 0, result, TagNames.IfPaid,
                 () => string.Format(Resources.RemainingAmountIfPaidValue_f, payment.ToString("#,#0.00"), remaining.ToString("#,#0.00")));
 
-            result = FormatDataIf(discount > 0, result, Resources.TF_DiscountTotalAndTicketTotal,
+            result = FormatDataIf(discount > 0, result, TagNames.IfDiscount,
                 () => string.Format(Resources.DiscountTotalAndTicketTotalValue_f, (plainTotal).ToString("#,#0.00"), discount.ToString("#,#0.00")));
 
-            result = FormatDataIf(discount < 0, result, Resources.TF_IfFlatten, () => string.Format(Resources.IfNegativeDiscountValue_f, discount.ToString("#,#0.00")));
+            result = FormatDataIf(discount < 0, result, TagNames.IfFlatten, () => string.Format(Resources.IfNegativeDiscountValue_f, discount.ToString("#,#0.00")));
 
-            result = FormatData(result, Resources.TF_TicketTotal, () => ticket.GetSum().ToString("#,#0.00"));
-            result = FormatData(result, Resources.TF_TicketPaidTotal, () => ticket.GetPaymentAmount().ToString("#,#0.00"));
-            result = FormatData(result, Resources.TF_TicketRemainingAmount, () => ticket.GetRemainingAmount().ToString("#,#0.00"));
+            result = FormatData(result, TagNames.TicketTotal, () => ticket.GetSum().ToString("#,#0.00"));
+            result = FormatData(result, TagNames.PaymentTotal, () => ticket.GetPaymentAmount().ToString("#,#0.00"));
+            result = FormatData(result, TagNames.Balance, () => ticket.GetRemainingAmount().ToString("#,#0.00"));
 
-            result = FormatData(result, "{TOTAL TEXT}", () => HumanFriendlyInteger.CurrencyToWritten(ticket.GetSum()));
-            result = FormatData(result, "{TOTALTEXT}", () => HumanFriendlyInteger.CurrencyToWritten(ticket.GetSum(), true));
+            result = FormatData(result, TagNames.TotalText, () => HumanFriendlyInteger.CurrencyToWritten(ticket.GetSum()));
+            result = FormatData(result, TagNames.Totaltext, () => HumanFriendlyInteger.CurrencyToWritten(ticket.GetSum(), true));
 
             return result;
         }
@@ -237,16 +238,16 @@ namespace Samba.Modules.PrinterModule
 
             if (order != null)
             {
-                result = FormatData(result, Resources.TF_LineItemQuantity, () => order.Quantity.ToString("#,#0.##"));
-                result = FormatData(result, Resources.TF_LineItemName, () => order.MenuItemName + order.GetPortionDesc());
-                result = FormatData(result, Resources.TF_LineItemPrice, () => order.Price.ToString("#,#0.00"));
-                result = FormatData(result, Resources.TF_LineItemTotal, () => order.GetItemPrice().ToString("#,#0.00"));
-                result = FormatData(result, Resources.TF_LineItemTotalAndQuantity, () => order.GetItemValue().ToString("#,#0.00"));
-                result = FormatData(result, Resources.TF_LineItemPriceCents, () => (order.Price * 100).ToString("#,##"));
-                result = FormatData(result, Resources.TF_LineItemTotalWithoutGifts, () => order.GetTotal().ToString("#,#0.00"));
-                result = FormatData(result, Resources.TF_LineOrderNumber, () => order.OrderNumber.ToString());
-                result = FormatData(result, "{PRICE TAG}", () => order.PriceTag);
-                if (result.Contains(Resources.TF_LineItemDetails.Substring(0, Resources.TF_LineItemDetails.Length - 1)))
+                result = FormatData(result, TagNames.Quantity, () => order.Quantity.ToString("#,#0.##"));
+                result = FormatData(result, TagNames.Name, () => order.MenuItemName + order.GetPortionDesc());
+                result = FormatData(result, TagNames.Price, () => order.Price.ToString("#,#0.00"));
+                result = FormatData(result, TagNames.Total, () => order.GetItemPrice().ToString("#,#0.00"));
+                result = FormatData(result, TagNames.TotalAmount, () => order.GetItemValue().ToString("#,#0.00"));
+                result = FormatData(result, TagNames.Cents, () => (order.Price * 100).ToString("#,##"));
+                result = FormatData(result, TagNames.LineAmount, () => order.GetTotal().ToString("#,#0.00"));
+                result = FormatData(result, TagNames.OrderNo, () => order.OrderNumber.ToString());
+                result = FormatData(result, TagNames.PriceTag, () => order.PriceTag);
+                if (result.Contains(TagNames.Properties.Substring(0, TagNames.Properties.Length - 1)))
                 {
                     string lineFormat = result;
                     if (order.OrderTagValues.Count > 0)
@@ -255,9 +256,9 @@ namespace Samba.Modules.PrinterModule
                         foreach (var property in order.OrderTagValues)
                         {
                             var itemProperty = property;
-                            var lineValue = FormatData(lineFormat, Resources.TF_LineItemDetails, () => itemProperty.Name);
-                            lineValue = FormatData(lineValue, Resources.TF_LineItemDetailQuantity, () => itemProperty.Quantity.ToString("#.##"));
-                            lineValue = FormatData(lineValue, Resources.TF_LineItemDetailPrice, () => itemProperty.AddTagPriceToOrderPrice ? "" : itemProperty.Price.ToString("#,#0.00"));
+                            var lineValue = FormatData(lineFormat, TagNames.Properties, () => itemProperty.Name);
+                            lineValue = FormatData(lineValue, TagNames.PropQuantity, () => itemProperty.Quantity.ToString("#.##"));
+                            lineValue = FormatData(lineValue, TagNames.PropPrice, () => itemProperty.AddTagPriceToOrderPrice ? "" : itemProperty.Price.ToString("#,#0.00"));
                             label += lineValue + "\r\n";
                         }
                         result = "\r\n" + label;

@@ -61,16 +61,17 @@
     <Compile Include="HtmlConverter\HtmlTokenType.cs" />
     <Compile Include="HtmlConverter\HtmlToXamlConverter.cs" />
     <Compile Include="HtmlPrinterJob.cs" />
-    <Compile Include="LinePrinter.cs" />
+    <Compile Include="TagNames.cs" />
+    <Compile Include="Tools\LinePrinter.cs" />
     <Compile Include="PortPrinterJob.cs" />
-    <Compile Include="PrinterHelper.cs" />
-    <Compile Include="PrinterInfo.cs" />
+    <Compile Include="Tools\PrinterInfo.cs" />
     <Compile Include="ServiceImplementations\PrinterService.cs" />
-    <Compile Include="PrinterTools.cs" />
+    <Compile Include="Tools\PrinterTools.cs" />
     <Compile Include="PrintJobFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SlipPrinterJob.cs" />
     <Compile Include="TagData.cs" />
+    <Compile Include="TextFormattingTools.cs" />
     <Compile Include="TextPrinterJob.cs" />
     <Compile Include="TicketFormatter.cs" />
   </ItemGroup>
@@ -103,6 +104,9 @@
       <Project>{413B698C-0D7D-4FCD-9F16-AF51AED4E647}</Project>
       <Name>Samba.Services</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Formatters\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

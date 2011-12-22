@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Printing;
 
-namespace Samba.Modules.PrinterModule
+namespace Samba.Modules.PrinterModule.Tools
 {
     internal static class PrinterInfo
     {
