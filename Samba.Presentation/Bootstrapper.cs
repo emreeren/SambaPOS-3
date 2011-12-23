@@ -109,6 +109,7 @@ namespace Samba.Presentation
             //AppServices.CurrentLoggedInUser.PublishEvent(EventTopicNames.UserLoggedOut);
             InteractionService.UserIntraction.ToggleSplashScreen();
             ServiceLocator.Current.GetInstance<ITriggerService>().UpdateCronObjects();
+            RuleExecutor.NotifyEvent(RuleEventNames.ApplicationStarted, new { });
         }
     }
 }

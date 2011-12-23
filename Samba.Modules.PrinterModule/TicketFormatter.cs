@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Microsoft.Practices.ServiceLocation;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Settings;
@@ -158,6 +159,8 @@ namespace Samba.Modules.PrinterModule
             result = FormatData(result, TagNames.TotalText, () => HumanFriendlyInteger.CurrencyToWritten(ticket.GetSum()));
             result = FormatData(result, TagNames.Totaltext, () => HumanFriendlyInteger.CurrencyToWritten(ticket.GetSum(), true));
 
+            result = UpdateSettings(result);
+
             return result;
         }
 
@@ -197,6 +200,21 @@ namespace Samba.Modules.PrinterModule
                 if (total > 0) sb.AppendLine("<J>" + tbTitle + ":|" + total.ToString("#,#0.00"));
             }
             return string.Join("\r", sb);
+        }
+
+        private static string UpdateSettings(string result)
+        {
+            while (Regex.IsMatch(result, "{SETTING:[^}]+}", RegexOptions.Singleline))
+            {
+                var match = Regex.Match(result, "{SETTING:([^}]+)}");
+                var tagName = match.Groups[0].Value;
+                var settingName = match.Groups[1].Value;
+                var tagData = new TagData(result, tagName);
+                var value = !string.IsNullOrEmpty(settingName) ? AppServices.SettingService.GetCustomSetting(settingName).StringValue : "";
+                var replace = !string.IsNullOrEmpty(value) ? tagData.Title.Replace("<value>", value) : "";
+                result = result.Replace(tagData.DataString, replace);
+            }
+            return result;
         }
 
         private static string FormatData(string data, string tag, Func<string> valueFunc)
@@ -247,6 +265,7 @@ namespace Samba.Modules.PrinterModule
                 result = FormatData(result, TagNames.LineAmount, () => order.GetTotal().ToString("#,#0.00"));
                 result = FormatData(result, TagNames.OrderNo, () => order.OrderNumber.ToString());
                 result = FormatData(result, TagNames.PriceTag, () => order.PriceTag);
+                result = UpdateSettings(result);
                 if (result.Contains(TagNames.Properties.Substring(0, TagNames.Properties.Length - 1)))
                 {
                     string lineFormat = result;
@@ -265,6 +284,7 @@ namespace Samba.Modules.PrinterModule
                     }
                     else result = "";
                 }
+                result = result.Replace("<", "\r\n<");
             }
             return result;
         }

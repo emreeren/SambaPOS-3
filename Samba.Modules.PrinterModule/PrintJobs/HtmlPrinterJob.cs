@@ -6,7 +6,7 @@ using Samba.Infrastructure.Settings;
 using Samba.Modules.PrinterModule.HtmlConverter;
 using Samba.Modules.PrinterModule.Tools;
 
-namespace Samba.Modules.PrinterModule
+namespace Samba.Modules.PrinterModule.PrintJobs
 {
     public class HtmlPrinterJob : AbstractPrintJob
     {

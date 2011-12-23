@@ -5,7 +5,7 @@ using System.Windows.Documents;
 using System.Windows.Xps;
 using Samba.Domain.Models.Settings;
 
-namespace Samba.Modules.PrinterModule
+namespace Samba.Modules.PrinterModule.PrintJobs
 {
     public abstract class AbstractPrintJob
     {

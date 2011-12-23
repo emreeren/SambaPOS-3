@@ -19,24 +19,13 @@ namespace Samba.Presentation.ViewModels
 {
     public static class GenericRuleRegistator
     {
-        private static readonly IDepartmentService DepartmentService =
-            ServiceLocator.Current.GetInstance<IDepartmentService>();
-
-        private static readonly ITicketService TicketService =
-            ServiceLocator.Current.GetInstance<ITicketService>();
-
-        private static readonly IApplicationState ApplicationState =
-            ServiceLocator.Current.GetInstance<IApplicationState>();
-
-        private static readonly IUserService UserService =
-            ServiceLocator.Current.GetInstance<IUserService>();
-
-        private static readonly ITriggerService TriggerService =
-            ServiceLocator.Current.GetInstance<ITriggerService>();
-
-        private static readonly IMenuService MenuService =
-            ServiceLocator.Current.GetInstance<IMenuService>();
-
+        private static readonly IDepartmentService DepartmentService = ServiceLocator.Current.GetInstance<IDepartmentService>();
+        private static readonly ITicketService TicketService = ServiceLocator.Current.GetInstance<ITicketService>();
+        private static readonly IApplicationState ApplicationState = ServiceLocator.Current.GetInstance<IApplicationState>();
+        private static readonly IUserService UserService = ServiceLocator.Current.GetInstance<IUserService>();
+        private static readonly ITriggerService TriggerService = ServiceLocator.Current.GetInstance<ITriggerService>();
+        private static readonly IMenuService MenuService = ServiceLocator.Current.GetInstance<IMenuService>();
+        private static readonly IPrinterService PrinterService = ServiceLocator.Current.GetInstance<IPrinterService>();
 
         private static bool _registered;
         public static void RegisterOnce()
@@ -67,6 +56,8 @@ namespace Samba.Presentation.ViewModels
             RuleActionTypeRegistry.RegisterActionType("RegenerateTicketTax", Resources.RegenerateTicketTax);
             RuleActionTypeRegistry.RegisterActionType("UpdateTicketService", Resources.UpdateTicketService, new { ServiceTemplate = "", Amount = 0m });
             RuleActionTypeRegistry.RegisterActionType("UpdateTicketAccount", Resources.UpdateTicketAccount, new { AccountPhone = "", AccountName = "", Note = "" });
+            RuleActionTypeRegistry.RegisterActionType("ExecutePrintJob", "Execute Print Job", new { PrintJobName = "" });
+
         }
 
         private static void RegisterRules()
@@ -84,6 +75,10 @@ namespace Samba.Presentation.ViewModels
             RuleActionTypeRegistry.RegisterEvent(RuleEventNames.AccountSelectedForTicket, Resources.AccountSelectedForTicket, new { AccountName = "", PhoneNumber = "", AccountNote = "" });
             RuleActionTypeRegistry.RegisterEvent(RuleEventNames.TicketTotalChanged, Resources.TicketTotalChanged, new { TicketTotal = 0m, PreviousTotal = 0m, DiscountTotal = 0m, DiscountAmount = 0m, TipAmount = 0m });
             RuleActionTypeRegistry.RegisterEvent(RuleEventNames.MessageReceived, Resources.MessageReceived, new { Command = "" });
+            RuleActionTypeRegistry.RegisterEvent(RuleEventNames.TicketLineAdded, "Line Added to Ticket", new { MenuItemName = "" });
+            RuleActionTypeRegistry.RegisterEvent(RuleEventNames.ChangeAmountChanged, "Change Amount Updated", new { TicketAmount = 0, ChangeAmount = 0, TenderedAmount = 0 });
+            RuleActionTypeRegistry.RegisterEvent(RuleEventNames.TicketClosed, "Ticket Closed");
+            RuleActionTypeRegistry.RegisterEvent(RuleEventNames.ApplicationStarted, "Application Started");
         }
 
         private static void RegisterParameterSources()
@@ -307,6 +302,24 @@ namespace Samba.Presentation.ViewModels
                             department.TicketTemplate.PriceTag = priceTag;
                             workspace.CommitChanges();
                             MethodQueue.Queue("ResetCache", ResetCache);
+                        }
+                    }
+                }
+
+                if (x.Value.Action.ActionType == "ExecutePrintJob")
+                {
+                    var ticket = x.Value.GetDataValue<Ticket>("Ticket");
+                    var pjName = x.Value.Action.GetParameter("PrintJobName");
+                    if (!string.IsNullOrEmpty(pjName))
+                    {
+                        var j = AppServices.CurrentTerminal.PrintJobs.SingleOrDefault(y => y.Name == pjName);
+
+                        if (j != null)
+                        {
+                            if (ticket != null)
+                                PrinterService.ManualPrintTicket(ticket, j);
+                            else
+                                PrinterService.ExecutePrintJob(j);
                         }
                     }
                 }

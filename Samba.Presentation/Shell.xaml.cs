@@ -50,7 +50,12 @@ namespace Samba.Presentation
                 x =>
                 {
                     if (x.Topic == EventTopicNames.DashboardClosed)
+                    {
                         EventServiceFactory.EventService._PublishEvent(EventTopicNames.ResetCache);
+                        //todo fix
+                        AppServices.ResetCache();
+                    }
+                     
                 });
 
             UserRegion.Visibility = Visibility.Collapsed;

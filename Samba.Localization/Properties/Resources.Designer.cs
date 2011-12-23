@@ -3467,6 +3467,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Last Lines by Printer Line Count.
+        /// </summary>
+        public static string LastLinesByPrinterLineCount {
+            get {
+                return ResourceManager.GetString("LastLinesByPrinterLineCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last Order.
         /// </summary>
         public static string LastOrder {
@@ -3535,6 +3544,15 @@ namespace Samba.Localization.Properties {
         public static string LineCharacterCount {
             get {
                 return ResourceManager.GetString("LineCharacterCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Line Count.
+        /// </summary>
+        public static string LineCount {
+            get {
+                return ResourceManager.GetString("LineCount", resourceCulture);
             }
         }
         
@@ -6472,7 +6490,7 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bin.
+        ///   Looks up a localized string similar to Thousand.
         /// </summary>
         public static string Thousand {
             get {

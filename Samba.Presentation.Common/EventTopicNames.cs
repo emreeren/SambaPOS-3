@@ -4,6 +4,10 @@ namespace Samba.Presentation.Common
 {
     public static class RuleEventNames
     {
+        public const string ApplicationStarted = "ApplicationStarted";
+        public const string TicketClosed = "TicketClosed";
+        public const string ChangeAmountChanged = "ChangeAmountChanged";
+        public const string TicketLineAdded = "TicketLineAdded";
         public const string TicketLocationChanged = "TicketLocationChanged";
         public const string TriggerExecuted = "TriggerExecuted";
         public const string TicketTotalChanged = "TicketTotalChanged";

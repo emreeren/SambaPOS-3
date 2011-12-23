@@ -26,7 +26,7 @@ namespace Samba.Modules.SettingsModule
         public ICaptionCommand DeletePrinterMapCommand { get; set; }
 
         private readonly IList<string> _whenToPrintTypes = new[] { Resources.Manual, Resources.WhenNewLinesAddedToTicket, Resources.WhenTicketPaid };
-        private readonly IList<string> _whatToPrintTypes = new[] { Resources.AllLines, Resources.OnlyNewLines, Resources.LinesGroupedByBarcode, Resources.LinesGroupedByGroupCode, Resources.LinesGroupedByTag };
+        private readonly IList<string> _whatToPrintTypes = new[] { Resources.AllLines, Resources.OnlyNewLines, Resources.LinesGroupedByBarcode, Resources.LinesGroupedByGroupCode, Resources.LinesGroupedByTag, Resources.LastLinesByPrinterLineCount };
         public IList<string> WhenToPrintTypes { get { return _whenToPrintTypes; } }
         public IList<string> WhatToPrintTypes { get { return _whatToPrintTypes; } }
 

@@ -19,7 +19,11 @@ namespace Samba.Modules.TicketModule
                 x =>
                 {
                     if (x.Topic == EventTopicNames.OrderAdded)
+                    {
                         Scroller.ScrollToEnd();
+                        RuleExecutor.NotifyEvent(RuleEventNames.TicketLineAdded, new { Ticket = ((TicketListViewModel)DataContext).SelectedTicket.Model, x.Value.Model.MenuItemName });
+                    }
+
                 });
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketViewModel>>().Subscribe(

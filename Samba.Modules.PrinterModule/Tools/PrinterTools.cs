@@ -62,7 +62,11 @@ namespace Samba.Modules.PrinterModule.Tools
         private static IEnumerable<string> ReadTables(Block block)
         {
             var result = new List<string>();
-            if (block is Table) result.AddRange(ReadTable(block as Table));
+            if (block is Table)
+            {
+                result.AddRange(ReadTable(block as Table));
+                result.Add("<C00> ");
+            }
             return result;
         }
 
@@ -71,7 +75,6 @@ namespace Samba.Modules.PrinterModule.Tools
             var result = new List<string> { " " };
             var colLenghts = new int[table.Columns.Count];
             var colAlignments = new TextAlignment[table.Columns.Count];
-
 
             foreach (var row in table.RowGroups[0].Rows)
             {
@@ -85,7 +88,6 @@ namespace Samba.Modules.PrinterModule.Tools
                         colLenghts[i] = value.Length;
                 }
             }
-
 
             foreach (var row in table.RowGroups[0].Rows)
             {

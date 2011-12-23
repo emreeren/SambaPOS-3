@@ -1,9 +1,10 @@
 ﻿using System.Linq;
 using System.Windows.Documents;
 using Samba.Domain.Models.Settings;
+using Samba.Modules.PrinterModule.Formatters;
 using Samba.Services;
 
-namespace Samba.Modules.PrinterModule
+namespace Samba.Modules.PrinterModule.PrintJobs
 {
     class PortPrinterJob : AbstractPrintJob
     {
@@ -13,7 +14,8 @@ namespace Samba.Modules.PrinterModule
 
         public override void DoPrint(string[] lines)
         {
-            foreach (var line in lines)
+            var document = new FormattedDocument(lines, Printer.CharsPerLine).GetFormattedDocument().ToArray();
+            foreach (var line in document)
             {
                 var data = line.Contains("<") ? line.Split('<').Where(x => !string.IsNullOrEmpty(x)).Select(x => '<' + x) : line.Split('#');
                 foreach (var s in data)
@@ -24,9 +26,9 @@ namespace Samba.Modules.PrinterModule
                     {
                         SerialPortService.WritePort(Printer.ShareName, RemoveTag(s) + "\n\r");
                     }
-                    if (s.ToLower().StartsWith("<xct"))
+                    else if (s.ToLower().StartsWith("<xct"))
                     {
-                        SerialPortService.WriteCommand(Printer.ShareName, RemoveTag(s));
+                        SerialPortService.WriteCommand(Printer.ShareName, RemoveTag(s), Printer.CodePage);
                     }
                     else SerialPortService.WritePort(Printer.ShareName, RemoveTag(s));
                 }

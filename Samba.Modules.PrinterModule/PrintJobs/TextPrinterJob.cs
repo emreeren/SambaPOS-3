@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using System.Windows.Documents;
 using Samba.Domain.Models.Settings;
+using Samba.Modules.PrinterModule.Formatters;
 using Samba.Modules.PrinterModule.Tools;
-using Samba.Services;
 
-namespace Samba.Modules.PrinterModule
+namespace Samba.Modules.PrinterModule.PrintJobs
 {
     public class TextPrinterJob : AbstractPrintJob
     {
@@ -16,7 +16,7 @@ namespace Samba.Modules.PrinterModule
         public override void DoPrint(string[] lines)
         {
             var q = PrinterInfo.GetPrinter(Printer.ShareName);
-            var text = lines.Aggregate("", (current, s) => current + RemoveTag(s.Replace("|", "")) + "\r\n");
+            var text = new FormattedDocument(lines, Printer.CharsPerLine).GetFormattedText();
             PrintFlowDocument(q, new FlowDocument(new Paragraph(new Run(text))));
         }
 

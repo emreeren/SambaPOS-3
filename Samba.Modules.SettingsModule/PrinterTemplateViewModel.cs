@@ -46,7 +46,7 @@ namespace Samba.Modules.SettingsModule
             result.Add(TagNames.TicketNo, Resources.TicketNumber);
             result.Add(TagNames.TicketTag, Resources.TicketTag);
             result.Add(TagNames.Department, Resources.DepartmentName);
-            result.Add(TagNames.TicketTag, Resources.OptionalTicketTag);
+            result.Add(TagNames.TicketTag2, Resources.OptionalTicketTag);
             result.Add(TagNames.LocationUser, Resources.LocationOrUserName);
             result.Add(TagNames.UserName, Resources.UserName);
             result.Add(TagNames.Location, Resources.LocationName);

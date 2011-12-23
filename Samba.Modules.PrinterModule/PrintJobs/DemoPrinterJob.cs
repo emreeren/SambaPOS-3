@@ -1,20 +1,15 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows.Documents;
 using Samba.Domain.Models.Settings;
+using Samba.Modules.PrinterModule.Formatters;
 using Samba.Modules.PrinterModule.Tools;
 
-namespace Samba.Modules.PrinterModule
+namespace Samba.Modules.PrinterModule.PrintJobs
 {
     class DemoPrinterJob : AbstractPrintJob
     {
-        [DllImport("user32.dll", EntryPoint = "FindWindowEx")]
-        public static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
-        [DllImport("User32.dll")]
-        public static extern int SendMessage(IntPtr hWnd, int uMsg, int wParam, string lParam);
-
         public DemoPrinterJob(Printer printer)
             : base(printer)
         {
@@ -37,17 +32,10 @@ namespace Samba.Modules.PrinterModule
 
             if (notepads[0] != null)
             {
-                IntPtr child = FindWindowEx(notepads[0].MainWindowHandle, new IntPtr(0), wname, null);
-                var text = lines.Aggregate("", (current, s) => current + RemoveTagFmt(s));
-                SendMessage(child, 0x000C, 0, text);
+                IntPtr child = NativeMethods.FindWindowEx(notepads[0].MainWindowHandle, new IntPtr(0), wname, null);
+                var text = new FormattedDocument(lines, Printer.CharsPerLine).GetFormattedText();
+                NativeMethods.SendMessage(child, 0x000C, 0, text);
             }
-        }
-
-        private static string RemoveTagFmt(string s)
-        {
-            var result = RemoveTag(s.Replace("|", " "));
-            if (!string.IsNullOrEmpty(result)) return result + "\r\n";
-            return "";
         }
 
         public override void DoPrint(FlowDocument document)

@@ -467,7 +467,7 @@ namespace Samba.Modules.TicketModule
 
         private void UpdateSelectedTicketView()
         {
-            if (SelectedTicket != null || SelectedDepartment.IsFastFood)
+            if (SelectedTicket != null || (SelectedDepartment != null && SelectedDepartment.IsFastFood))
                 SelectedTicketView = SingleTicketView;
             else
             {
@@ -926,6 +926,9 @@ namespace Samba.Modules.TicketModule
             {
                 InteractionService.UserIntraction.GiveFeedback(result.ErrorMessage);
             }
+
+            RuleExecutor.NotifyEvent(RuleEventNames.TicketClosed, new { Ticket = _selectedTicket.Model });
+
             _selectedTicket = null;
             _selectedOrders.Clear();
 

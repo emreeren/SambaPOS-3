@@ -2729,7 +2729,7 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>Ninety</value>
   </data>
   <data name="Thousand" xml:space="preserve">
-    <value>Bin</value>
+    <value>Thousand</value>
   </data>
   <data name="Million" xml:space="preserve">
     <value>Million</value>
@@ -2991,4 +2991,10 @@ Continue without adding details?</value>
   <data name="TicketTemplates">
     <value xml:space="preserve">Ticket Templates</value>
   </data>
+	<data name="LastLinesByPrinterLineCount">
+		<value xml:space="preserve">Last Lines by Printer Line Count</value>
+	</data>
+	<data name="LineCount">
+		<value xml:space="preserve">Line Count</value>
+	</data>
 </root>

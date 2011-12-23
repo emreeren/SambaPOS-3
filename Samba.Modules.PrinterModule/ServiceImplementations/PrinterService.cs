@@ -12,6 +12,7 @@ using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data.Serializer;
 using Samba.Localization.Properties;
+using Samba.Modules.PrinterModule.PrintJobs;
 using Samba.Modules.PrinterModule.Tools;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common.Services;
@@ -135,6 +136,9 @@ namespace Samba.Modules.PrinterModule.ServiceImplementations
                 case (int)WhatToPrintTypes.GroupedByTag:
                     ti = GroupLinesByValue(ticket, x => x.Tag ?? "", Resources.UndefinedWithBrackets);
                     break;
+                case (int)WhatToPrintTypes.LastLinesByPrinterLineCount:
+                    ti = GetLastItems(ticket, printJob);
+                    break;
                 default:
                     ti = ticket.Orders.OrderBy(x => x.Id).ToList();
                     break;
@@ -154,6 +158,21 @@ namespace Samba.Modules.PrinterModule.ServiceImplementations
                         }
                     }));
         }
+
+        private static IEnumerable<Order> GetLastItems(Ticket ticket, PrintJob printJob)
+        {
+            if (ticket.Orders.Count > 1)
+            {
+                var printer = printJob.PrinterMaps.Count == 1 ? printJob.PrinterMaps[0]
+                    : GetPrinterMapForItem(printJob.PrinterMaps, ticket, ticket.Orders.Last().MenuItemId);
+                var result = ticket.Orders.OrderByDescending(x => x.CreatedDateTime).ToList();
+                if (printer.Printer.PageHeight > 0)
+                    result = result.Take(printer.Printer.PageHeight).ToList();
+                return result;
+            }
+            return ticket.Orders.ToList();
+        }
+
 
         private IEnumerable<Order> GroupLinesByValue(Ticket ticket, Func<MenuItem, object> selector, string defaultValue, bool calcDiscounts = false)
         {
@@ -240,6 +259,19 @@ namespace Samba.Modules.PrinterModule.ServiceImplementations
             var printer = AppServices.CurrentTerminal.SlipReportPrinter;
             if (printer == null || string.IsNullOrEmpty(printer.ShareName)) return;
             PrintJobFactory.CreatePrintJob(printer).DoPrint(document);
+        }
+
+        public void ExecutePrintJob(PrintJob printJob)
+        {
+            if (printJob.PrinterMaps.Count > 0)
+            {
+                var printerMap = printJob.PrinterMaps[0];
+                var content = printerMap
+                    .PrinterTemplate
+                    .HeaderTemplate
+                    .Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                PrintJobFactory.CreatePrintJob(printerMap.Printer).DoPrint(content);
+            }
         }
     }
 }

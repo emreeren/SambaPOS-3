@@ -1,6 +1,6 @@
 ﻿using Samba.Domain.Models.Settings;
 
-namespace Samba.Modules.PrinterModule
+namespace Samba.Modules.PrinterModule.PrintJobs
 {
     public static class PrintJobFactory
     {

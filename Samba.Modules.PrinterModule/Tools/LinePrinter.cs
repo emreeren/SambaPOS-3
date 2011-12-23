@@ -154,7 +154,6 @@ namespace Samba.Modules.PrinterModule.Tools
 
         public void PrintWindow(string line)
         {
-            //var chars = "▒▓";
             const string tl = "┌";
             const string tr = "┐";
             const string bl = "└";
@@ -195,7 +194,7 @@ namespace Samba.Modules.PrinterModule.Tools
         public void StartDocument()
         {
             if (_hprinter == IntPtr.Zero)
-                _hprinter = GetPrinter(_printerName);
+                _hprinter = PrinterHelper.GetPrinter(_printerName);
         }
 
         public void WriteData(byte[] data)
@@ -203,7 +202,7 @@ namespace Samba.Modules.PrinterModule.Tools
             if (_hprinter != IntPtr.Zero)
             {
                 int dwWritten;
-                if (!NativeMethods.WritePrinter(_hprinter, data, data.Length, out dwWritten)) BombWin32();
+                if (!PrinterHelper.WritePrinter(_hprinter, data, data.Length, out dwWritten)) BombWin32();
             }
         }
 
@@ -215,7 +214,7 @@ namespace Samba.Modules.PrinterModule.Tools
 
         public void EndDocument()
         {
-            EndPrinter(_hprinter);
+            PrinterHelper.EndPrinter(_hprinter);
             _hprinter = IntPtr.Zero;
         }
 
@@ -349,30 +348,12 @@ namespace Samba.Modules.PrinterModule.Tools
             }
         }
 
-
-        public static IntPtr GetPrinter(string szPrinterName)
-        {
-            var di = new NativeMethods.DOCINFOA { pDocName = "Samba POS Document", pDataType = "RAW" };
-            IntPtr hPrinter;
-            if (!NativeMethods.OpenPrinter(szPrinterName, out hPrinter, IntPtr.Zero)) BombWin32();
-            if (!NativeMethods.StartDocPrinter(hPrinter, 1, di)) BombWin32();
-            if (!NativeMethods.StartPagePrinter(hPrinter)) BombWin32();
-            return hPrinter;
-        }
-
-        public static void EndPrinter(IntPtr hPrinter)
-        {
-            NativeMethods.EndPagePrinter(hPrinter);
-            NativeMethods.EndDocPrinter(hPrinter);
-            NativeMethods.ClosePrinter(hPrinter);
-        }
-
         public static void SendBytesToPrinter(string szPrinterName, byte[] pBytes)
         {
-            var hPrinter = GetPrinter(szPrinterName);
+            var hPrinter = PrinterHelper.GetPrinter(szPrinterName);
             int dwWritten;
-            if (!NativeMethods.WritePrinter(hPrinter, pBytes, pBytes.Length, out dwWritten)) BombWin32();
-            EndPrinter(hPrinter);
+            if (!PrinterHelper.WritePrinter(hPrinter, pBytes, pBytes.Length, out dwWritten)) BombWin32();
+            PrinterHelper.EndPrinter(hPrinter);
         }
 
         public static void SendFileToPrinter(string szPrinterName, string szFileName)
@@ -385,35 +366,6 @@ namespace Samba.Modules.PrinterModule.Tools
                 SendBytesToPrinter(szPrinterName, bytes);
             }
         }
-    }
-
-    public static class NativeMethods
-    {
-        [StructLayout(LayoutKind.Sequential)]
-        public struct DOCINFOA
-        {
-            [MarshalAs(UnmanagedType.LPWStr)]
-            public string pDocName;
-            [MarshalAs(UnmanagedType.LPWStr)]
-            public string pOutputFile;
-            [MarshalAs(UnmanagedType.LPWStr)]
-            public string pDataType;
-        }
-
-        [DllImport("winspool.Drv", SetLastError = true, CharSet = CharSet.Unicode)]
-        internal static extern bool OpenPrinter(string szPrinter, out IntPtr hPrinter, IntPtr pd);
-        [DllImport("winspool.Drv", SetLastError = true)]
-        internal static extern bool ClosePrinter(IntPtr hPrinter);
-        [DllImport("winspool.Drv", SetLastError = true)]
-        internal static extern bool StartDocPrinter(IntPtr hPrinter, Int32 level, DOCINFOA di);
-        [DllImport("winspool.Drv", SetLastError = true)]
-        internal static extern bool EndDocPrinter(IntPtr hPrinter);
-        [DllImport("winspool.Drv", SetLastError = true)]
-        internal static extern bool StartPagePrinter(IntPtr hPrinter);
-        [DllImport("winspool.Drv", SetLastError = true)]
-        internal static extern bool EndPagePrinter(IntPtr hPrinter);
-        [DllImport("winspool.Drv", SetLastError = true)]
-        internal static extern bool WritePrinter(IntPtr hPrinter, byte[] pBytes, Int32 dwCount, out Int32 dwWritten);
     }
 }
 
