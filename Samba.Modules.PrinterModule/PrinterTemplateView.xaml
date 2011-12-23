@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="Samba.Modules.PrinterModule.PrinterTemplateView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:Common="clr-namespace:Samba.Presentation.Common;assembly=Samba.Presentation.Common" xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common" mc:Ignorable="d" d:DesignWidth="575" d:DesignHeight="278">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <ScrollViewer Grid.Row="0" Grid.Column="0" UIControls:KineticBehaviour.HandleKineticScrolling="True" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <Label>
+                    <LocText ResourceIdentifierKey="TemplateName" Suffix=":"/>
+                </Label>
+                <TextBox Text="{Binding Name}" MinWidth="200" HorizontalAlignment="Left" />
+                <Label>
+                    <LocText ResourceIdentifierKey="HeaderTemplate" Suffix=":"/>
+                </Label>
+                <TextBox Text="{Binding HeaderTemplate}" MinWidth="200" HorizontalAlignment="Left"
+                     MinHeight="50" AcceptsReturn="True" FontFamily="Lucida Console" />
+                <Label>
+                    <LocText ResourceIdentifierKey="LineTemplate" Suffix=":"/>
+                </Label>
+                <TextBox Text="{Binding LineTemplate}" MinWidth="200" HorizontalAlignment="Left" AcceptsReturn="True"
+                     FontFamily="Lucida Console" />
+                <Label>
+                    <LocText ResourceIdentifierKey="FooterTemplate" Suffix=":"/>
+                </Label>
+                <TextBox Text="{Binding FooterTemplate}" MinWidth="200" HorizontalAlignment="Left"
+                     MinHeight="40" AcceptsReturn="True" FontFamily="Lucida Console" />
+                <CheckBox Margin="0,3,0,0" IsChecked="{Binding MergeLines}" HorizontalAlignment="Left">
+                    <LocText ResourceIdentifierKey="MergeLines"/>
+                </CheckBox>
+            </StackPanel>
+        </ScrollViewer>
+
+        <FlowDocumentScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
+            <FlowDocument Name="HelpDocument" FontFamily="Segoe UI" FontSize="12"/>
+        </FlowDocumentScrollViewer>
+
+        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1">
+            <Button HorizontalAlignment="Left" Margin="0,10" MinWidth="70" Content="{Binding SaveCommand.Caption}"
+                     Command="{Binding SaveCommand}" />
+            <Label Content="{Binding Error}" Foreground="Red" />
+        </StackPanel>
+
+    </Grid>
+
+</UserControl>

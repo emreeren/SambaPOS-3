@@ -202,6 +202,10 @@
       <Project>{EDEF0022-075C-4DEC-853F-6558F9E8438A}</Project>
       <Name>Samba.Modules.AccountModule</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.AutomationModule\Samba.Modules.AutomationModule.csproj">
+      <Project>{EAA09B33-28AD-4F33-A2E8-4DBCB42457D0}</Project>
+      <Name>Samba.Modules.AutomationModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samba.Modules.CashModule\Samba.Modules.CashModule.csproj">
       <Project>{AE519041-8D61-4B85-9770-69743DB051F7}</Project>
       <Name>Samba.Modules.CashModule</Name>

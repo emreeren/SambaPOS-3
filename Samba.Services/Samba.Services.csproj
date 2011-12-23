@@ -79,6 +79,7 @@
     <Compile Include="EMailService.cs" />
     <Compile Include="DataCreationService.cs" />
     <Compile Include="IAccountService.cs" />
+    <Compile Include="IActionData.cs" />
     <Compile Include="IApplicationState.cs" />
     <Compile Include="IApplicationStateSetter.cs" />
     <Compile Include="ICashService.cs" />
@@ -87,7 +88,9 @@
     <Compile Include="ILocationService.cs" />
     <Compile Include="IMenuService.cs" />
     <Compile Include="IPrinterService.cs" />
+    <Compile Include="IRuleService.cs" />
     <Compile Include="IService.cs" />
+    <Compile Include="ISettingService.cs" />
     <Compile Include="ITicketService.cs" />
     <Compile Include="ITriggerService.cs" />
     <Compile Include="IUserService.cs" />

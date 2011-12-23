@@ -192,8 +192,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="RegionNames.cs" />
-    <Compile Include="RuleExecutor.cs" />
-    <Compile Include="Services\TriggerService.cs" />
     <Compile Include="UIControls\BindablePasswordBox.cs" />
     <Compile Include="UIControls\SearchTextBox.cs" />
     <Compile Include="VirtualKeyboard\KeyboardView2.xaml.cs">

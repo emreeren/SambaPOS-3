@@ -14,14 +14,16 @@ namespace Samba.Presentation.ViewModels
 {
     public class OrderViewModel : ObservableObject
     {
-        private IMenuService _menuService;
+        private readonly IMenuService _menuService;
+        private readonly IRuleService _ruleService;
 
         private readonly TicketTemplate _ticketTemplate;
-        public OrderViewModel(Order model, TicketTemplate ticketTemplate, IMenuService menuService)
+        public OrderViewModel(Order model, TicketTemplate ticketTemplate, IMenuService menuService, IRuleService ruleService)
         {
             _model = model;
             _ticketTemplate = ticketTemplate;
             _menuService = menuService;
+            _ruleService = ruleService;
             ResetSelectedQuantity();
             ItemSelectedCommand = new DelegateCommand<OrderViewModel>(OnItemSelected);
             UpdateItemColor();
@@ -250,7 +252,8 @@ namespace Samba.Presentation.ViewModels
 
         public void UpdatePortion(MenuItemPortion portion, string priceTag)
         {
-            _model.UpdatePortion(portion, priceTag, AppServices.MainDataContext.GetTaxTemplate(portion.MenuItemId));
+            var taxTemplate = _menuService.GetMenuItem(portion.MenuItemId).TaxTemplate;
+            _model.UpdatePortion(portion, priceTag, taxTemplate);
             RaisePropertyChanged(() => Description);
             RaisePropertyChanged(() => TotalPrice);
         }
@@ -258,8 +261,7 @@ namespace Samba.Presentation.ViewModels
         public void ToggleOrderTag(OrderTagGroup orderTagGroup, OrderTag orderTag, int userId)
         {
             var result = _model.ToggleOrderTag(orderTagGroup, orderTag, userId);
-
-            RuleExecutor.NotifyEvent(result ? RuleEventNames.OrderTagged : RuleEventNames.OrderUntagged,
+            _ruleService.NotifyEvent(result ? RuleEventNames.OrderTagged : RuleEventNames.OrderUntagged,
             new
             {
                 Order = Model,

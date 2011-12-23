@@ -28,7 +28,7 @@ namespace Samba.Modules.LocationModule
         public ObservableCollection<IDiagram> Locations { get; set; }
 
         public Ticket SelectedTicket { get { return _applicationState.CurrentTicket; } }
-        public LocationScreen SelectedLocationScreen { get { return _locationService.SelectedLocationScreen; } }
+        public LocationScreen SelectedLocationScreen { get { return _applicationState.SelectedLocationScreen; } }
         public IEnumerable<LocationScreen> LocationScreens { get { return _applicationState.CurrentDepartment != null ? _applicationState.CurrentDepartment.LocationScreens : null; } }
 
         public bool IsNavigated { get; set; }
@@ -72,12 +72,14 @@ namespace Samba.Modules.LocationModule
         private readonly IApplicationState _applicationState;
         private readonly ILocationService _locationService;
         private readonly IUserService _userService;
+        private readonly IApplicationStateSetter _applicationStateSetter;
 
         [ImportingConstructor]
-        public LocationSelectorViewModel(IApplicationState applicationState, ILocationService locationService, 
-            IUserService userService)
+        public LocationSelectorViewModel(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
+            ILocationService locationService, IUserService userService)
         {
             _applicationState = applicationState;
+            _applicationStateSetter = applicationStateSetter;
             _locationService = locationService;
             _userService = userService;
             SelectLocationCategoryCommand = new DelegateCommand<LocationScreen>(OnSelectLocationCategoryExecuted);
@@ -111,7 +113,7 @@ namespace Samba.Modules.LocationModule
         public void RefreshLocations()
         {
             if (SelectedLocationScreen == null && LocationScreens.Count() > 0)
-                _locationService.SelectedLocationScreen = LocationScreens.First();
+                _applicationStateSetter.SetSelectedLocationScreen(LocationScreens.First());
             if (SelectedLocationScreen != null)
                 UpdateLocations(SelectedLocationScreen);
         }

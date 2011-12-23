@@ -17,6 +17,7 @@ namespace Samba.Modules.WorkperiodModule
     {
         private readonly IWorkPeriodService _workPeriodService;
         private readonly IApplicationState _applicationState;
+        private readonly IRuleService _ruleService;
 
         private IEnumerable<WorkPeriodViewModel> _workPeriods;
         public IEnumerable<WorkPeriodViewModel> WorkPeriods
@@ -84,10 +85,11 @@ namespace Samba.Modules.WorkperiodModule
         }
 
         [ImportingConstructor]
-        public WorkPeriodsViewModel(IWorkPeriodService workPeriodService, IApplicationState applicationState)
+        public WorkPeriodsViewModel(IWorkPeriodService workPeriodService, IApplicationState applicationState, IRuleService ruleService)
         {
             _workPeriodService = workPeriodService;
             _applicationState = applicationState;
+            _ruleService = ruleService;
 
             StartOfDayCommand = new CaptionCommand<string>(Resources.StartWorkPeriod, OnStartOfDayExecute, CanStartOfDayExecute);
             EndOfDayCommand = new CaptionCommand<string>(Resources.EndWorkPeriod, OnEndOfDayExecute, CanEndOfDayExecute);
@@ -124,7 +126,7 @@ namespace Samba.Modules.WorkperiodModule
             _workPeriodService.StopWorkPeriod(EndDescription);
             Refresh();
             _applicationState.CurrentWorkPeriod.PublishEvent(EventTopicNames.WorkPeriodStatusChanged);
-            RuleExecutor.NotifyEvent(RuleEventNames.WorkPeriodEnds, new { WorkPeriod = _applicationState.CurrentWorkPeriod });
+            _ruleService.NotifyEvent(RuleEventNames.WorkPeriodEnds, new { WorkPeriod = _applicationState.CurrentWorkPeriod });
             InteractionService.UserIntraction.GiveFeedback(Resources.WorkPeriodEndsMessage);
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateNavigation);
         }
@@ -140,7 +142,7 @@ namespace Samba.Modules.WorkperiodModule
             _workPeriodService.StartWorkPeriod(StartDescription, CashAmount, CreditCardAmount, TicketAmount);
             Refresh();
             _applicationState.CurrentWorkPeriod.PublishEvent(EventTopicNames.WorkPeriodStatusChanged);
-            RuleExecutor.NotifyEvent(RuleEventNames.WorkPeriodStarts, new { WorkPeriod = _applicationState.CurrentWorkPeriod });
+            _ruleService.NotifyEvent(RuleEventNames.WorkPeriodStarts, new { WorkPeriod = _applicationState.CurrentWorkPeriod });
             InteractionService.UserIntraction.GiveFeedback(Resources.StartingWorkPeriodCompleted);
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateNavigation);
         }

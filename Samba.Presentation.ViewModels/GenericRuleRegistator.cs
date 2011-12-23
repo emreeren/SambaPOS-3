@@ -9,7 +9,6 @@ using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
-using Samba.Domain.Models.Users;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common;
@@ -26,6 +25,8 @@ namespace Samba.Presentation.ViewModels
         private static readonly ITriggerService TriggerService = ServiceLocator.Current.GetInstance<ITriggerService>();
         private static readonly IMenuService MenuService = ServiceLocator.Current.GetInstance<IMenuService>();
         private static readonly IPrinterService PrinterService = ServiceLocator.Current.GetInstance<IPrinterService>();
+        private static readonly ISettingService SettingService = ServiceLocator.Current.GetInstance<ISettingService>();
+        private static readonly IRuleService RuleService = ServiceLocator.Current.GetInstance<IRuleService>();
 
         private static bool _registered;
         public static void RegisterOnce()
@@ -57,7 +58,6 @@ namespace Samba.Presentation.ViewModels
             RuleActionTypeRegistry.RegisterActionType("UpdateTicketService", Resources.UpdateTicketService, new { ServiceTemplate = "", Amount = 0m });
             RuleActionTypeRegistry.RegisterActionType("UpdateTicketAccount", Resources.UpdateTicketAccount, new { AccountPhone = "", AccountName = "", Note = "" });
             RuleActionTypeRegistry.RegisterActionType("ExecutePrintJob", "Execute Print Job", new { PrintJobName = "" });
-
         }
 
         private static void RegisterRules()
@@ -105,7 +105,7 @@ namespace Samba.Presentation.ViewModels
 
         private static void HandleEvents()
         {
-            EventServiceFactory.EventService.GetEvent<GenericEvent<ActionData>>().Subscribe(x =>
+            EventServiceFactory.EventService.GetEvent<GenericEvent<IActionData>>().Subscribe(x =>
             {
                 if (x.Value.Action.ActionType == "UpdateTicketAccount")
                 {
@@ -176,7 +176,7 @@ namespace Samba.Presentation.ViewModels
                     if (ticket != null)
                     {
                         var taxTemplateName = x.Value.GetAsString("TaxTemplate");
-                        var taxTemplate = AppServices.MainDataContext.TaxTemplates.FirstOrDefault(y => y.Name == taxTemplateName);
+                        var taxTemplate = SettingService.GetTaxTemplateByName(taxTemplateName);
                         if (taxTemplate != null)
                         {
                             ticket.UpdateTax(taxTemplate);
@@ -192,8 +192,7 @@ namespace Samba.Presentation.ViewModels
                     if (ticket != null)
                     {
                         var serviceTemplateName = x.Value.GetAsString("ServiceTemplate");
-                        var serviceTemplate = AppServices.MainDataContext.ServiceTemplates.FirstOrDefault(
-                                y => y.Name == serviceTemplateName);
+                        var serviceTemplate = SettingService.GetServiceTemplateByName(serviceTemplateName);
                         if (serviceTemplate != null)
                         {
                             var amount = x.Value.GetAsDecimal("Amount");
@@ -332,20 +331,7 @@ namespace Samba.Presentation.ViewModels
             {
                 if (x.Topic == EventTopicNames.MessageReceivedEvent && x.Value.Command == "ActionMessage")
                 {
-                    RuleExecutor.NotifyEvent(RuleEventNames.MessageReceived, new { Command = x.Value.Data });
-                }
-            });
-
-            EventServiceFactory.EventService.GetEvent<GenericEvent<User>>().Subscribe(x =>
-            {
-                if (x.Topic == EventTopicNames.UserLoggedIn)
-                {
-                    RuleExecutor.NotifyEvent(RuleEventNames.UserLoggedIn, new { User = x.Value, RoleName = x.Value.UserRole.Name });
-                }
-
-                if (x.Topic == EventTopicNames.UserLoggedOut)
-                {
-                    RuleExecutor.NotifyEvent(RuleEventNames.UserLoggedOut, new { User = x.Value, RoleName = x.Value.UserRole.Name });
+                    RuleService.NotifyEvent(RuleEventNames.MessageReceived, new { Command = x.Value.Data });
                 }
             });
         }

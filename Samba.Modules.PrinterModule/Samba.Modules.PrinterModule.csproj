@@ -31,6 +31,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentValidation, Version=3.1.0.0, Culture=neutral, PublicKeyToken=a82054b837897c66, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Practices.Prism, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Practices.Prism.MefExtensions">
+      <HintPath>..\Lib\Microsoft.Practices.Prism.MefExtensions.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\Lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
@@ -62,7 +67,20 @@
     <Compile Include="Formatters\LeftAlignFormatter.cs" />
     <Compile Include="Formatters\RightAlignFormatter.cs" />
     <Compile Include="Formatters\TitleFormatter.cs" />
-    <Compile Include="ILineFormatter.cs" />
+    <Compile Include="Formatters\ILineFormatter.cs" />
+    <Compile Include="PrinterListViewModel.cs" />
+    <Compile Include="PrinterMapViewModel.cs" />
+    <Compile Include="PrinterModule.cs" />
+    <Compile Include="PrinterTemplateCollectionViewModel.cs" />
+    <Compile Include="PrinterTemplateView.xaml.cs">
+      <DependentUpon>PrinterTemplateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PrinterTemplateViewModel.cs" />
+    <Compile Include="PrinterView.xaml.cs">
+      <DependentUpon>PrinterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PrinterViewModel.cs" />
+    <Compile Include="PrintJobListViewModel.cs" />
     <Compile Include="PrintJobs\AbstractPrintJob.cs" />
     <Compile Include="PrintJobs\DemoPrinterJob.cs" />
     <Compile Include="HtmlConverter\HtmlCssParser.cs" />
@@ -73,10 +91,13 @@
     <Compile Include="HtmlConverter\HtmlTokenType.cs" />
     <Compile Include="HtmlConverter\HtmlToXamlConverter.cs" />
     <Compile Include="PrintJobs\HtmlPrinterJob.cs" />
-    <Compile Include="TagNames.cs" />
+    <Compile Include="PrintJobView.xaml.cs">
+      <DependentUpon>PrintJobView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PrintJobViewModel.cs" />
+    <Compile Include="ValueChangers\TagNames.cs" />
     <Compile Include="Tools\LinePrinter.cs" />
     <Compile Include="PrintJobs\PortPrinterJob.cs" />
-    <Compile Include="NativeMethods.cs" />
     <Compile Include="Tools\PrinterHelper.cs" />
     <Compile Include="Tools\PrinterInfo.cs" />
     <Compile Include="ServiceImplementations\PrinterService.cs" />
@@ -86,7 +107,7 @@
     <Compile Include="PrintJobs\SlipPrinterJob.cs" />
     <Compile Include="TagData.cs" />
     <Compile Include="PrintJobs\TextPrinterJob.cs" />
-    <Compile Include="TicketFormatter.cs" />
+    <Compile Include="ValueChangers\TicketFormatter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">
@@ -118,7 +139,24 @@
       <Name>Samba.Services</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Page Include="PrinterTemplateView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="PrinterView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="PrintJobView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

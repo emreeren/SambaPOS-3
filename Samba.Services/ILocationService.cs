@@ -8,7 +8,6 @@ namespace Samba.Services
 {
     public interface ILocationService : IService
     {
-        LocationScreen SelectedLocationScreen { get; set; }
         void UpdateLocations(LocationScreen locationScreen, int pageNo);
         IEnumerable<Location> GetCurrentLocations(LocationScreen locationScreen, int currentPageNo);
         IList<Location> LoadLocations(string selectedLocationScreen);

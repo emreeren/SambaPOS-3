@@ -13,14 +13,8 @@ namespace Samba.Modules.SettingsModule
         {
             AddDashboardCommand<SettingsViewModel>(Resources.LocalSettings, Resources.Settings);
             AddDashboardCommand<TerminalListViewModel>(Resources.Terminals, Resources.Settings);
-            AddDashboardCommand<PrinterListViewModel>(Resources.Printers, Resources.Settings);
-            AddDashboardCommand<PrintJobListViewModel>(Resources.PrintJobs, Resources.Settings);
-            AddDashboardCommand<PrinterTemplateCollectionViewModel>(Resources.PrinterTemplates, Resources.Settings);
             AddDashboardCommand<NumeratorListViewModel>(Resources.Numerators, Resources.Settings);
             AddDashboardCommand<ProgramSettingsViewModel>(Resources.ProgramSettings, Resources.Settings, 10);
-            AddDashboardCommand<RuleActionListViewModel>(Resources.RuleActions, Resources.Settings);
-            AddDashboardCommand<RuleListViewModel>(Resources.Rules, Resources.Settings);
-            AddDashboardCommand<TriggerListViewModel>(Resources.Triggers, Resources.Settings);
             AddDashboardCommand<BrowserViewModel>(Resources.SambaPosWebsite, Resources.SambaNetwork, 99);
         }
 

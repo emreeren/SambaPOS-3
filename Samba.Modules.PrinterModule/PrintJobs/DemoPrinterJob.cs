@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Documents;
 using Samba.Domain.Models.Settings;
 using Samba.Modules.PrinterModule.Formatters;
@@ -10,6 +10,11 @@ namespace Samba.Modules.PrinterModule.PrintJobs
 {
     class DemoPrinterJob : AbstractPrintJob
     {
+        [DllImport("user32.dll", EntryPoint = "FindWindowEx")]
+        public static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
+        [DllImport("User32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int uMsg, int wParam, string lParam);
+
         public DemoPrinterJob(Printer printer)
             : base(printer)
         {
@@ -25,16 +30,17 @@ namespace Samba.Modules.PrinterModule.PrintJobs
 
             var notepads = Process.GetProcessesByName(pcs[0]);
 
-            if (notepads.Length == 0)
+            if (notepads.Length == 0) 
                 notepads = Process.GetProcessesByName("notepad");
 
-            if (notepads.Length == 0) return;
+            if (notepads.Length == 0) 
+                return;
 
             if (notepads[0] != null)
             {
-                IntPtr child = NativeMethods.FindWindowEx(notepads[0].MainWindowHandle, new IntPtr(0), wname, null);
+                var child = FindWindowEx(notepads[0].MainWindowHandle, new IntPtr(0), wname, null);
                 var text = new FormattedDocument(lines, Printer.CharsPerLine).GetFormattedText();
-                NativeMethods.SendMessage(child, 0x000C, 0, text);
+                SendMessage(child, 0x000C, 0, text);
             }
         }
 

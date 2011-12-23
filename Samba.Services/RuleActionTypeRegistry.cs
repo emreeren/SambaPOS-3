@@ -186,6 +186,7 @@ namespace Samba.Services
         }
 
         public static IDictionary<string, RuleActionType> ActionTypes = new Dictionary<string, RuleActionType>();
+
         public static void RegisterActionType(string actionType, string actionName, object parameterObject = null)
         {
             if (!ActionTypes.ContainsKey(actionType))

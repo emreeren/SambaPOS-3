@@ -42,7 +42,7 @@ namespace Samba.Modules.BasicReports
             RuleActionTypeRegistry.RegisterActionType("SaveReportToFile", Resources.SaveReportToFile, new { ReportName = "", FileName = "" });
             RuleActionTypeRegistry.RegisterParameterSoruce("ReportName", () => ReportContext.Reports.Select(x => x.Header));
 
-            EventServiceFactory.EventService.GetEvent<GenericEvent<ActionData>>().Subscribe(x =>
+            EventServiceFactory.EventService.GetEvent<GenericEvent<IActionData>>().Subscribe(x =>
             {
                 if (x.Value.Action.ActionType == "SaveReportToFile")
                 {

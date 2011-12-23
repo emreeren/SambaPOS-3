@@ -56,52 +56,20 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionContainerViewModel.cs" />
-    <Compile Include="ParameterValueTemplateSelector.cs" />
-    <Compile Include="RuleActionListViewModel.cs" />
-    <Compile Include="RuleActionView.xaml.cs">
-      <DependentUpon>RuleActionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="RuleActionViewModel.cs" />
     <Compile Include="BrowserView.xaml.cs">
       <DependentUpon>BrowserView.xaml</DependentUpon>
     </Compile>
     <Compile Include="BrowserViewModel.cs" />
-    <Compile Include="PrintJobListViewModel.cs" />
-    <Compile Include="PrintJobView.xaml.cs">
-      <DependentUpon>PrintJobView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PrintJobViewModel.cs" />
     <Compile Include="ProgramSettingsView.xaml.cs">
       <DependentUpon>ProgramSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ProgramSettingsViewModel.cs" />
-    <Compile Include="RuleListViewModel.cs" />
-    <Compile Include="RuleView.xaml.cs">
-      <DependentUpon>RuleView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="RuleViewModel.cs" />
-    <Compile Include="TriggerListViewModel.cs" />
-    <Compile Include="TriggerView.xaml.cs">
-      <DependentUpon>TriggerView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TriggerViewModel.cs" />
+    <Compile Include="ServiceImplementations\SettingService.cs" />
     <Compile Include="NumeratorListViewModel.cs" />
     <Compile Include="NumeratorView.xaml.cs">
       <DependentUpon>NumeratorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="NumeratorViewModel.cs" />
-    <Compile Include="PrinterListViewModel.cs" />
-    <Compile Include="PrinterMapViewModel.cs" />
-    <Compile Include="PrinterTemplateCollectionViewModel.cs" />
-    <Compile Include="PrinterTemplateView.xaml.cs">
-      <DependentUpon>PrinterTemplateView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PrinterTemplateViewModel.cs" />
-    <Compile Include="PrinterView.xaml.cs">
-      <DependentUpon>PrinterView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PrinterViewModel.cs" />
     <Compile Include="SettingsModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SettingsView.xaml.cs">
@@ -153,15 +121,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="RuleActionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="BrowserView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PrintJobView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -169,23 +129,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="RuleView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="TriggerView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="NumeratorView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PrinterTemplateView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PrinterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
