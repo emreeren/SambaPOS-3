@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Samba.Domain;
 using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Data;
 using Samba.Persistance.Data;
+using Samba.Services;
 
-namespace Samba.Services
+namespace Samba.Modules.SettingsModule.ServiceImplementations
 {
-    public class SettingService
+    public class ProgramSettings : IProgramSettings
     {
-        private readonly IDictionary<string, ProgramSetting> _settingCache = new Dictionary<string, ProgramSetting>();
-        private readonly IDictionary<string, SettingGetter> _customSettingCache = new Dictionary<string, SettingGetter>();
+        private readonly IDictionary<string, ProgramSettingValue> _settingCache = new Dictionary<string, ProgramSettingValue>();
+        private readonly IDictionary<string, ProgramSetting> _customSettingCache = new Dictionary<string, ProgramSetting>();
         private IWorkspace _workspace;
 
-        public SettingService()
+        public ProgramSettings()
         {
             _workspace = WorkspaceFactory.Create();
         }
@@ -50,46 +48,46 @@ namespace Samba.Services
             set { GetAutoRoundDiscount().DecimalValue = value; }
         }
 
-        private SettingGetter _weightBarcodePrefix;
-        private SettingGetter GetWeightBarcodePrefix()
+        private ProgramSetting _weightBarcodePrefix;
+        private ProgramSetting GetWeightBarcodePrefix()
         {
             return _weightBarcodePrefix ?? (_weightBarcodePrefix = GetSetting("WeightBarcodePrefix"));
         }
 
-        private SettingGetter _autoRoundDiscount;
-        private SettingGetter GetAutoRoundDiscount()
+        private ProgramSetting _autoRoundDiscount;
+        private ProgramSetting GetAutoRoundDiscount()
         {
             return _autoRoundDiscount ?? (_autoRoundDiscount = GetSetting("AutoRoundDiscount"));
         }
 
-        private SettingGetter _weightBarcodeQuantityLength;
-        private SettingGetter GetWeightBarcodeQuantityLength()
+        private ProgramSetting _weightBarcodeQuantityLength;
+        private ProgramSetting GetWeightBarcodeQuantityLength()
         {
             return _weightBarcodeQuantityLength ?? (_weightBarcodeQuantityLength = GetSetting("WeightBarcodeQuantityLength"));
         }
 
-        private SettingGetter _weightBarcodeItemLength;
-        private SettingGetter GetWeightBarcodeItemLength()
+        private ProgramSetting _weightBarcodeItemLength;
+        private ProgramSetting GetWeightBarcodeItemLength()
         {
             return _weightBarcodeItemLength ?? (_weightBarcodeItemLength = GetSetting("WeightBarcodeItemLength"));
         }
 
-        private SettingGetter _weightBarcodeItemFormat;
-        public SettingGetter GetWeightBarcodeItemFormat()
+        private ProgramSetting _weightBarcodeItemFormat;
+        private ProgramSetting GetWeightBarcodeItemFormat()
         {
             return _weightBarcodeItemFormat ?? (_weightBarcodeItemFormat = GetSetting("WeightBarcodeItemFormat"));
         }
 
-        public SettingGetter GetCustomSetting(string settingName)
+        public ProgramSetting GetCustomSetting(string settingName)
         {
             if (!_customSettingCache.ContainsKey(settingName))
                 _customSettingCache.Add(settingName, GetSetting(settingName));
             return _customSettingCache[settingName];
         }
 
-        public SettingGetter GetSetting(string valueName)
+        public ProgramSetting GetSetting(string valueName)
         {
-            var setting = _workspace.Single<ProgramSetting>(x => x.Name == valueName);
+            var setting = _workspace.Single<ProgramSettingValue>(x => x.Name == valueName);
             if (_settingCache.ContainsKey(valueName))
             {
                 if (setting == null)
@@ -98,11 +96,11 @@ namespace Samba.Services
             }
             if (setting == null)
             {
-                setting = new ProgramSetting { Name = valueName };
+                setting = new ProgramSettingValue { Name = valueName };
                 _settingCache.Add(valueName, setting);
                 _workspace.Add(setting);
             }
-            return new SettingGetter(setting);
+            return new ProgramSetting(setting);
         }
 
         public void SaveChanges()

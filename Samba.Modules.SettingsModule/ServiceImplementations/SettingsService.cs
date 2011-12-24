@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
+using Samba.Domain;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Data;
@@ -15,6 +16,8 @@ namespace Samba.Modules.SettingsModule.ServiceImplementations
     [Export(typeof(ISettingService))]
     class SettingService : AbstractService, ISettingService
     {
+        private readonly ProgramSettings _globalSettings = new ProgramSettings();
+
         private static IWorkspace _workspace;
         public static IWorkspace Workspace
         {
@@ -72,11 +75,27 @@ namespace Samba.Modules.SettingsModule.ServiceImplementations
             return Terminals.Select(x => x.Name);
         }
 
+        public IProgramSettings ProgramSettings
+        {
+            get { return _globalSettings; }
+        }
+
+        public IProgramSetting GetProgramSetting(string settingName)
+        {
+            return _globalSettings.GetSetting(settingName);
+        }
+
+        public void SaveProgramSettings()
+        {
+            _globalSettings.SaveChanges();
+        }
+
         public override void Reset()
         {
             _taxTemplates = null;
             _serviceTemplates = null;
             _terminals = null;
+            _globalSettings.ResetCache();
             Workspace = WorkspaceFactory.Create();
         }
     }

@@ -32,7 +32,7 @@ namespace Samba.Modules.MenuModule
             foreach (var mi in createdItems)
             {
                 var mv = CreateNewViewModel(mi);
-                mv.Init(Workspace, InventoryService, PrinterService, TriggerService, ApplicationState);
+                mv.Init(Workspace, InventoryService, PrinterService, TriggerService, ApplicationState, AutomationService);
                 Items.Add(mv);
             }
         }

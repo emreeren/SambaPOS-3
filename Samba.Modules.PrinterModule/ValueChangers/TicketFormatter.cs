@@ -209,7 +209,7 @@ namespace Samba.Modules.PrinterModule.ValueChangers
                 var tagName = match.Groups[0].Value;
                 var settingName = match.Groups[1].Value;
                 var tagData = new TagData(result, tagName);
-                var value = !string.IsNullOrEmpty(settingName) ? AppServices.SettingService.GetCustomSetting(settingName).StringValue : "";
+                var value = !string.IsNullOrEmpty(settingName) ? SettingService.GetProgramSetting(settingName).StringValue : "";
                 var replace = !string.IsNullOrEmpty(value) ? tagData.Title.Replace("<value>", value) : "";
                 result = result.Replace(tagData.DataString, replace);
             }

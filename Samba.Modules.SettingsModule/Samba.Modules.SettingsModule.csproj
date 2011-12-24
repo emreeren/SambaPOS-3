@@ -42,6 +42,7 @@
     <Reference Include="Microsoft.Practices.Prism.MefExtensions">
       <HintPath>..\Lib\Microsoft.Practices.Prism.MefExtensions.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -64,7 +65,9 @@
       <DependentUpon>ProgramSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ProgramSettingsViewModel.cs" />
-    <Compile Include="ServiceImplementations\SettingService.cs" />
+    <Compile Include="ServiceImplementations\ProgramSettings.cs" />
+    <Compile Include="ServiceImplementations\ProgramSetting.cs" />
+    <Compile Include="ServiceImplementations\SettingsService.cs" />
     <Compile Include="NumeratorListViewModel.cs" />
     <Compile Include="NumeratorView.xaml.cs">
       <DependentUpon>NumeratorView.xaml</DependentUpon>

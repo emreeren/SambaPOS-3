@@ -40,6 +40,7 @@
     <Reference Include="Microsoft.Practices.Prism.MefExtensions">
       <HintPath>..\Lib\Microsoft.Practices.Prism.MefExtensions.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
@@ -60,9 +61,13 @@
   <ItemGroup>
     <Compile Include="ActionContainerViewModel.cs" />
     <Compile Include="AutomationModule.cs" />
+    <Compile Include="ParameterValue.cs" />
     <Compile Include="ParameterValueTemplateSelector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuleActionListViewModel.cs" />
+    <Compile Include="ServiceImplementations\OperatorConstants.cs" />
+    <Compile Include="ServiceImplementations\ParameterSources.cs" />
+    <Compile Include="ServiceImplementations\RuleActionTypeRegistry.cs" />
     <Compile Include="RuleActionView.xaml.cs">
       <DependentUpon>RuleActionView.xaml</DependentUpon>
     </Compile>
@@ -73,7 +78,8 @@
     </Compile>
     <Compile Include="RuleViewModel.cs" />
     <Compile Include="ServiceImplementations\ActionData.cs" />
-    <Compile Include="ServiceImplementations\RuleService.cs" />
+    <Compile Include="ServiceImplementations\RuleConstraint.cs" />
+    <Compile Include="ServiceImplementations\AutomationService.cs" />
     <Compile Include="ServiceImplementations\TriggerService.cs" />
     <Compile Include="TriggerListViewModel.cs" />
     <Compile Include="TriggerView.xaml.cs">

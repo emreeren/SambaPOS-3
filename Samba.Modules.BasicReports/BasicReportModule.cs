@@ -19,7 +19,7 @@ namespace Samba.Modules.BasicReports
         public BasicReportModule(IRegionManager regionManager, BasicReportView basicReportView,
             IWorkPeriodService workPeriodService, IPrinterService printerService, ICashService cashService,
             IDepartmentService departmentService, IInventoryService inventoryService, IUserService userService,
-            IApplicationState applicationState)
+            IApplicationState applicationState,IAutomationService automationService)
             : base(regionManager, AppScreens.ReportScreen)
         {
             ReportContext.PrinterService = printerService;
@@ -29,7 +29,7 @@ namespace Samba.Modules.BasicReports
             ReportContext.InventoryService = inventoryService;
             ReportContext.UserService = userService;
             ReportContext.ApplicationState = applicationState;
-
+            
             _userService = userService;
 
             _regionManager = regionManager;
@@ -39,8 +39,8 @@ namespace Samba.Modules.BasicReports
             PermissionRegistry.RegisterPermission(PermissionNames.OpenReports, PermissionCategories.Navigation, Resources.CanDisplayReports);
             PermissionRegistry.RegisterPermission(PermissionNames.ChangeReportDate, PermissionCategories.Report, Resources.CanChangeReportFilter);
 
-            RuleActionTypeRegistry.RegisterActionType("SaveReportToFile", Resources.SaveReportToFile, new { ReportName = "", FileName = "" });
-            RuleActionTypeRegistry.RegisterParameterSoruce("ReportName", () => ReportContext.Reports.Select(x => x.Header));
+            automationService.RegisterActionType("SaveReportToFile", Resources.SaveReportToFile, new { ReportName = "", FileName = "" });
+            automationService.RegisterParameterSoruce("ReportName", () => ReportContext.Reports.Select(x => x.Header));
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<IActionData>>().Subscribe(x =>
             {

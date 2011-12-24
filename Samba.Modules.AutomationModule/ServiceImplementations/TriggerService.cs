@@ -14,13 +14,13 @@ namespace Samba.Modules.AutomationModule.ServiceImplementations
     {
         private readonly List<CronObject> _cronObjects;
         private readonly IApplicationState _applicationState;
-        private readonly IRuleService _ruleService;
+        private readonly IAutomationService _automationService;
 
         [ImportingConstructor]
-        public TriggerService(IApplicationState applicationState, IRuleService ruleService)
+        public TriggerService(IApplicationState applicationState, IAutomationService automationService)
         {
             _applicationState = applicationState;
-            _ruleService = ruleService;
+            _automationService = automationService;
             _cronObjects = new List<CronObject>();
         }
 
@@ -64,7 +64,7 @@ namespace Samba.Modules.AutomationModule.ServiceImplementations
                     trigger.LastTrigger = DateTime.Now;
                     workspace.CommitChanges();
                     if (_applicationState.ActiveAppScreen != AppScreens.Dashboard)
-                        _ruleService.NotifyEvent(RuleEventNames.TriggerExecuted, new { TriggerName = trigger.Name });
+                        _automationService.NotifyEvent(RuleEventNames.TriggerExecuted, new { TriggerName = trigger.Name });
                 }
                 else e.CronObject.Stop();
             }

@@ -44,7 +44,7 @@ namespace Samba.Persistance.Data
         public DbSet<Location> Locations { get; set; }
         public DbSet<Terminal> Terminals { get; set; }
         public DbSet<Printer> Printers { get; set; }
-        public DbSet<ProgramSetting> ProgramSettings { get; set; }
+        public DbSet<ProgramSettingValue> ProgramSettings { get; set; }
         public DbSet<PrinterMap> PrinterMaps { get; set; }
         public DbSet<PrinterTemplate> PrinterTemplates { get; set; }
         public DbSet<LocationScreen> LocationScreens { get; set; }

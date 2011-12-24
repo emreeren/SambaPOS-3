@@ -20,6 +20,7 @@ namespace Samba.Presentation.Common.ModelBase
         protected IPrinterService PrinterService { get; private set; }
         protected ITriggerService TriggerService { get; private set; }
         protected IApplicationState ApplicationState { get; private set; }
+        protected IAutomationService AutomationService { get; private set; }
 
         protected EntityViewModelBase(TModel model)
         {
@@ -52,13 +53,15 @@ namespace Samba.Presentation.Common.ModelBase
         public abstract string GetModelTypeString();
 
         public void Init(IWorkspace workspace, IInventoryService inventoryService,
-            IPrinterService printerService, ITriggerService triggerService, IApplicationState applicationState)
+            IPrinterService printerService, ITriggerService triggerService,
+            IApplicationState applicationState, IAutomationService automationService)
         {
             _modelSaved = false;
             InventoryService = inventoryService;
             PrinterService = printerService;
             TriggerService = triggerService;
             ApplicationState = applicationState;
+            AutomationService = automationService;
             Workspace = workspace;
             Initialize();
         }

@@ -14,7 +14,7 @@ namespace Samba.Presentation.Common.ModelBase
 
         public IList<ICaptionCommand> CustomCommands { get; set; }
 
-        public string ModelTitle { get; set; }
+        public string ModelTitle { get { return GetModelTitle(); } }
 
 
         private IEnumerable<ICaptionCommand> _allCommands;
@@ -25,14 +25,13 @@ namespace Samba.Presentation.Common.ModelBase
 
         private IEnumerable<ICaptionCommand> GetCommands()
         {
-            var result = new List<ICaptionCommand> {AddItemCommand, EditItemCommand, DeleteItemCommand};
+            var result = new List<ICaptionCommand> { AddItemCommand, EditItemCommand, DeleteItemCommand };
             result.AddRange(CustomCommands);
             return result;
         }
 
         protected AbstractEntityCollectionViewModelBase()
         {
-            ModelTitle = GetModelTitle();
             AddItemCommand = new CaptionCommand<object>(string.Format(Resources.Add_f, ModelTitle), OnAddItem, CanAddItem);
             EditItemCommand = new CaptionCommand<object>(string.Format(Resources.Edit_f, ModelTitle), OnEditItem, CanEditItem);
             DeleteItemCommand = new CaptionCommand<object>(string.Format(Resources.Delete_f, ModelTitle), OnDeleteItem, CanDeleteItem);

@@ -101,12 +101,13 @@ namespace Samba.Presentation.Common.Interaction
 
         private PopupWindow _popupWindow;
 
-        public UserInteraction()
+        [ImportingConstructor]
+        public UserInteraction(IAutomationService automationService)
         {
             _popupDataViewModel = new PopupDataViewModel();
 
-            RuleActionTypeRegistry.RegisterActionType("ShowMessage", Resources.ShowMessage, new { Message = "" });
-            RuleActionTypeRegistry.RegisterActionType("DisplayPopup", Resources.DisplayPopup, new { Title = "", Message = "", Color = "" });
+            automationService.RegisterActionType("ShowMessage", Resources.ShowMessage, new { Message = "" });
+            automationService.RegisterActionType("DisplayPopup", Resources.DisplayPopup, new { Title = "", Message = "", Color = "" });
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<IActionData>>().Subscribe(x =>
             {

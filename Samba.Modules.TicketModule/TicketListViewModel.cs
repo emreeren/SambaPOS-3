@@ -40,7 +40,7 @@ namespace Samba.Modules.TicketModule
         private readonly IApplicationState _applicationState;
         private readonly IApplicationStateSetter _applicationStateSetter;
         private readonly IMenuService _menuService;
-        private readonly IRuleService _ruleService;
+        private readonly IAutomationService _automationService;
 
         private readonly Timer _timer;
 
@@ -81,7 +81,7 @@ namespace Samba.Modules.TicketModule
                 if (_applicationState.CurrentTicket == null) _selectedTicket = null;
                 if (_selectedTicket == null && _applicationState.CurrentTicket != null)
                     _selectedTicket = new TicketViewModel(_applicationState.CurrentTicket, _applicationState.CurrentDepartment.TicketTemplate,
-                      _applicationState.CurrentDepartment != null && _applicationState.CurrentDepartment.IsFastFood, _ticketService, _userService, _menuService, _ruleService, _applicationState);
+                      _applicationState.CurrentDepartment != null && _applicationState.CurrentDepartment.IsFastFood, _ticketService, _userService, _menuService, _automationService, _applicationState);
                 return _selectedTicket;
             }
         }
@@ -220,7 +220,7 @@ namespace Samba.Modules.TicketModule
         [ImportingConstructor]
         public TicketListViewModel(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
             ITicketService ticketService, IAccountService accountService, IPrinterService printerService,
-            ILocationService locationService, IUserService userService, IMenuService menuService, IRuleService ruleService)
+            ILocationService locationService, IUserService userService, IMenuService menuService, IAutomationService automationService)
         {
             _printerService = printerService;
             _ticketService = ticketService;
@@ -230,7 +230,7 @@ namespace Samba.Modules.TicketModule
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
             _menuService = menuService;
-            _ruleService = ruleService;
+            _automationService = automationService;
 
             _timer = new Timer(OnTimer, null, Timeout.Infinite, 1000);
             _selectedOrders = new ObservableCollection<OrderViewModel>();
@@ -676,7 +676,7 @@ namespace Samba.Modules.TicketModule
         {
             SelectedTicket.SelectedOrders.ToList().ForEach(x => SelectedTicket.Model.CancelOrder(x.Model));
             SelectedTicket.Orders.Clear();
-            SelectedTicket.Orders.AddRange(SelectedTicket.Model.Orders.Select(x => new OrderViewModel(x, SelectedDepartment.TicketTemplate, _menuService, _ruleService)));
+            SelectedTicket.Orders.AddRange(SelectedTicket.Model.Orders.Select(x => new OrderViewModel(x, SelectedDepartment.TicketTemplate, _menuService, _automationService)));
             SelectedTicket.ClearSelectedItems();
             _ticketService.RecalculateTicket(SelectedTicket.Model);
             RefreshSelectedTicket();
@@ -920,7 +920,7 @@ namespace Samba.Modules.TicketModule
                 InteractionService.UserIntraction.GiveFeedback(result.ErrorMessage);
             }
 
-            _ruleService.NotifyEvent(RuleEventNames.TicketClosed, new { Ticket = _selectedTicket.Model });
+            _automationService.NotifyEvent(RuleEventNames.TicketClosed, new { Ticket = _selectedTicket.Model });
 
             _selectedTicket = null;
             _selectedOrders.Clear();
@@ -1021,11 +1021,11 @@ namespace Samba.Modules.TicketModule
 
             if (template != null) template.OrderTagTemplateValues.ToList().ForEach(x => ti.ToggleOrderTag(x.OrderTagGroup, x.OrderTag, 0));
 
-            var orderViewModel = new OrderViewModel(ti, SelectedDepartment.TicketTemplate, _menuService, _ruleService);
+            var orderViewModel = new OrderViewModel(ti, SelectedDepartment.TicketTemplate, _menuService, _automationService);
             SelectedTicket.Orders.Add(orderViewModel);
             _ticketService.RecalculateTicket(SelectedTicket.Model);
             orderViewModel.PublishEvent(EventTopicNames.OrderAdded);
-            _ruleService.NotifyEvent(RuleEventNames.TicketLineAdded, new { Ticket = SelectedTicket.Model, orderViewModel.Model.MenuItemName });
+            _automationService.NotifyEvent(RuleEventNames.TicketLineAdded, new { Ticket = SelectedTicket.Model, orderViewModel.Model.MenuItemName });
             return orderViewModel;
         }
 

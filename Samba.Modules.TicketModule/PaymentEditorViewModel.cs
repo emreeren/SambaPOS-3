@@ -29,18 +29,18 @@ namespace Samba.Modules.TicketModule
         private readonly IPrinterService _printerService;
         private readonly IUserService _userService;
         private readonly IMenuService _menuService;
-        private readonly IRuleService _ruleService;
+        private readonly IAutomationService _automationService;
 
         [ImportingConstructor]
         public PaymentEditorViewModel(IApplicationState applicationState, ITicketService ticketService,
-            IPrinterService printerService, IUserService userService, IMenuService menuService, IRuleService ruleService)
+            IPrinterService printerService, IUserService userService, IMenuService menuService, IAutomationService automationService)
         {
             _applicationState = applicationState;
             _ticketService = ticketService;
             _printerService = printerService;
             _userService = userService;
             _menuService = menuService;
-            _ruleService = ruleService;
+            _automationService = automationService;
 
             _manualPrintCommand = new CaptionCommand<PrintJob>(Resources.Print, OnManualPrint, CanManualPrint);
             SubmitCashPaymentCommand = new CaptionCommand<string>(Resources.Cash, OnSubmitCashPayment, CanSubmitCashPayment);
@@ -361,7 +361,7 @@ namespace Samba.Modules.TicketModule
 
             if (returningAmount > 0)
             {
-                _ruleService.NotifyEvent(RuleEventNames.ChangeAmountChanged,
+                _automationService.NotifyEvent(RuleEventNames.ChangeAmountChanged,
                     new { Ticket = SelectedTicket.Model, TicketAmount = SelectedTicket.Model.TotalAmount, ChangeAmount = returningAmount, TenderedAmount = tenderedAmount });
             }
 
@@ -545,7 +545,7 @@ namespace Samba.Modules.TicketModule
             SelectedTicket = new TicketViewModel(
                 _applicationState.CurrentTicket,
                 _applicationState.CurrentDepartment.TicketTemplate,
-                _applicationState.CurrentDepartment.IsFastFood, _ticketService, _userService, _menuService, _ruleService,_applicationState);
+                _applicationState.CurrentDepartment.IsFastFood, _ticketService, _userService, _menuService, _automationService,_applicationState);
 
             TicketRemainingValue = _applicationState.CurrentTicket.GetRemainingAmount();
             PrepareMergedItems();

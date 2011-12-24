@@ -112,7 +112,7 @@
     <Compile Include="Models\Settings\Printer.cs" />
     <Compile Include="Models\Settings\PrinterMap.cs" />
     <Compile Include="Models\Settings\PrinterTemplate.cs" />
-    <Compile Include="Models\Settings\ProgramSetting.cs" />
+    <Compile Include="Models\Settings\ProgramSettingValue.cs" />
     <Compile Include="Models\Menus\MenuItem.cs" />
     <Compile Include="Models\Menus\MenuItemPortion.cs" />
     <Compile Include="Models\Tickets\OrderTag.cs" />
@@ -137,7 +137,6 @@
     <Compile Include="Models\Menus\ScreenMenu.cs" />
     <Compile Include="Models\Menus\ScreenMenuCategory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SettingGetter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Samba.Infrastructure.Data\Samba.Infrastructure.Data.csproj">

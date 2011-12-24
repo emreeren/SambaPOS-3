@@ -3,7 +3,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Settings
 {
-    public class ProgramSetting : IEntity
+    public class ProgramSettingValue : IEntity
     {
         public int Id { get; set; }
         [StringLength(100)]

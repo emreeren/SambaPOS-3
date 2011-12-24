@@ -1,13 +1,15 @@
 ﻿using System;
+using Samba.Domain;
 using Samba.Domain.Models.Settings;
+using Samba.Services;
 
-namespace Samba.Domain
+namespace Samba.Modules.SettingsModule.ServiceImplementations
 {
-    public class SettingGetter
+    public class ProgramSetting : IProgramSetting
     {
-        private readonly ProgramSetting _programSetting;
+        private readonly ProgramSettingValue _programSetting;
 
-        public SettingGetter(ProgramSetting programSetting)
+        public ProgramSetting(ProgramSettingValue programSetting)
         {
             _programSetting = programSetting;
         }

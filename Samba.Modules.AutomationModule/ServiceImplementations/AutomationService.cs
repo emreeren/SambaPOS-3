@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Actions;
@@ -9,15 +10,19 @@ using Samba.Services;
 
 namespace Samba.Modules.AutomationModule.ServiceImplementations
 {
-    [Export(typeof(IRuleService))]
-    class RuleService : AbstractService, IRuleService
+    [Export(typeof(IAutomationService))]
+    class AutomationService : AbstractService, IAutomationService
     {
         private readonly IApplicationState _applicationState;
+        private readonly RuleActionTypeRegistry _ruleActionTypeRegistry;
+        private readonly ISettingService _settingService;
 
         [ImportingConstructor]
-        public RuleService(IApplicationState applicationState)
+        public AutomationService(IApplicationState applicationState, ISettingService settingService)
         {
             _applicationState = applicationState;
+            _ruleActionTypeRegistry = new RuleActionTypeRegistry();
+            _settingService = settingService;
         }
 
         private IEnumerable<AppRule> _rules;
@@ -45,10 +50,56 @@ namespace Samba.Modules.AutomationModule.ServiceImplementations
             }
         }
 
+        public void RegisterActionType(string actionType, string actionName, object parameterObject)
+        {
+            _ruleActionTypeRegistry.RegisterActionType(actionType, actionName, parameterObject);
+        }
+
+        public void RegisterEvent(string eventKey, string eventName, object constraintObject)
+        {
+            _ruleActionTypeRegistry.RegisterEvent(eventKey, eventName, constraintObject);
+        }
+
+        public void RegisterParameterSoruce(string parameterName, Func<IEnumerable<string>> action)
+        {
+            ParameterSources.Add(parameterName, action);
+
+        }
+
+        public IEnumerable<IRuleConstraint> GetEventConstraints(string eventName)
+        {
+            return _ruleActionTypeRegistry.GetEventConstraints(eventName);
+        }
+
+        public IEnumerable<RuleEvent> GetRuleEvents()
+        {
+            return _ruleActionTypeRegistry.RuleEvents.Values;
+        }
+
+        public IEnumerable<string> GetParameterSource(string parameterName)
+        {
+            return ParameterSources.GetParameterSource(parameterName);
+        }
+
+        IEnumerable<string> IAutomationService.GetParameterNames(string eventName)
+        {
+            return _ruleActionTypeRegistry.GetParameterNames(eventName);
+        }
+
+        public RuleActionType GetActionType(string value)
+        {
+            return _ruleActionTypeRegistry.ActionTypes[value];
+        }
+
+        public IEnumerable<RuleActionType> GetActionTypes()
+        {
+            return _ruleActionTypeRegistry.ActionTypes.Values;
+        }
+
         private bool SatisfiesConditions(AppRule appRule, object dataObject)
         {
             var conditions = appRule.EventConstraints.Split('#')
-                .Select(x => new RuleConstraintViewModel(x));
+                .Select(x => new RuleConstraint(x));
 
             var parameterNames = dataObject.GetType().GetProperties().Select(x => x.Name);
 
@@ -68,7 +119,7 @@ namespace Samba.Modules.AutomationModule.ServiceImplementations
                     {
                         var settingName = condition.Name.Replace("SN$", "");
                         var settingValue = condition.Value;
-                        if (AppServices.SettingService.GetCustomSetting(settingName).StringValue != settingValue)
+                        if (_settingService.GetProgramSetting(settingName).StringValue != settingValue)
                             return false;
                     }
                     if (condition.Name == "TerminalName" && !string.IsNullOrEmpty(condition.Value))

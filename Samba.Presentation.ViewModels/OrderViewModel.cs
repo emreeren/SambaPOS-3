@@ -15,15 +15,15 @@ namespace Samba.Presentation.ViewModels
     public class OrderViewModel : ObservableObject
     {
         private readonly IMenuService _menuService;
-        private readonly IRuleService _ruleService;
+        private readonly IAutomationService _automationService;
 
         private readonly TicketTemplate _ticketTemplate;
-        public OrderViewModel(Order model, TicketTemplate ticketTemplate, IMenuService menuService, IRuleService ruleService)
+        public OrderViewModel(Order model, TicketTemplate ticketTemplate, IMenuService menuService, IAutomationService ruleService)
         {
             _model = model;
             _ticketTemplate = ticketTemplate;
             _menuService = menuService;
-            _ruleService = ruleService;
+            _automationService = ruleService;
             ResetSelectedQuantity();
             ItemSelectedCommand = new DelegateCommand<OrderViewModel>(OnItemSelected);
             UpdateItemColor();
@@ -261,7 +261,7 @@ namespace Samba.Presentation.ViewModels
         public void ToggleOrderTag(OrderTagGroup orderTagGroup, OrderTag orderTag, int userId)
         {
             var result = _model.ToggleOrderTag(orderTagGroup, orderTag, userId);
-            _ruleService.NotifyEvent(result ? RuleEventNames.OrderTagged : RuleEventNames.OrderUntagged,
+            _automationService.NotifyEvent(result ? RuleEventNames.OrderTagged : RuleEventNames.OrderUntagged,
             new
             {
                 Order = Model,

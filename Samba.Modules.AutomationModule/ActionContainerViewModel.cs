@@ -39,13 +39,15 @@ namespace Samba.Modules.AutomationModule
     public class ActionContainerViewModel : ObservableObject
     {
 
-        public ActionContainerViewModel(ActionContainer model, RuleViewModel ruleViewModel)
+        public ActionContainerViewModel(ActionContainer model, RuleViewModel ruleViewModel, IAutomationService automationService)
         {
             Model = model;
             _ruleViewModel = ruleViewModel;
+            _automationService = automationService;
         }
 
         private readonly RuleViewModel _ruleViewModel;
+        private readonly IAutomationService _automationService;
         private AppAction _action;
         public AppAction Action { get { return _action ?? (_action = Dao.Single<AppAction>(x => x.Id == Model.AppActionId)); } set { _action = value; } }
 
@@ -66,12 +68,12 @@ namespace Samba.Modules.AutomationModule
                 {
                     result = Regex.Matches(Action.Parameter, "\\[([^\\]]+)\\]")
                         .Cast<Match>()
-                        .Select(match => new ActionParameterValue(this, match.Groups[1].Value, "", RuleActionTypeRegistry.GetParameterNames(_ruleViewModel.EventName)));
+                        .Select(match => new ActionParameterValue(this, match.Groups[1].Value, "", _automationService.GetParameterNames(_ruleViewModel.EventName)));
                 }
                 else
                 {
                     result = Model.ParameterValues.Split('#').Select(
-                    x => new ActionParameterValue(this, x.Split('=')[0], x.Split('=')[1], RuleActionTypeRegistry.GetParameterNames(_ruleViewModel.EventName)));
+                    x => new ActionParameterValue(this, x.Split('=')[0], x.Split('=')[1], _automationService.GetParameterNames(_ruleViewModel.EventName)));
                 }
             }
             else result = new List<ActionParameterValue>();

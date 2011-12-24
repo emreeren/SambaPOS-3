@@ -29,27 +29,28 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
         private readonly IApplicationState _applicationState;
         private readonly IApplicationStateSetter _applicationStateSetter;
         private readonly IMenuService _menuService;
-        private readonly IRuleService _ruleService;
+        private readonly IAutomationService _automationService;
+        private readonly ISettingService _settingService;
 
         [ImportingConstructor]
         public TicketService(IDepartmentService departmentService, IPrinterService printerService,
             IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
-            IMenuService menuService, IRuleService ruleService)
+            IMenuService menuService, IAutomationService automationService, ISettingService settingService)
         {
             _departmentService = departmentService;
             _printerService = printerService;
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
             _menuService = menuService;
-            _ruleService = ruleService;
-
+            _automationService = automationService;
+            _settingService = settingService;
         }
 
         public void UpdateAccount(Ticket ticket, Account account)
         {
             Debug.Assert(ticket != null);
             ticket.UpdateAccount(CheckAccount(account));
-            _ruleService.NotifyEvent(RuleEventNames.AccountSelectedForTicket,
+            _automationService.NotifyEvent(RuleEventNames.AccountSelectedForTicket,
                     new
                     {
                         Ticket = _applicationState.CurrentTicket,
@@ -73,7 +74,7 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
             _applicationStateSetter.SetCurrentTicket(ticket);
 
             if (ticket.Id == 0)
-                _ruleService.NotifyEvent(RuleEventNames.TicketCreated, new { Ticket = ticket });
+                _automationService.NotifyEvent(RuleEventNames.TicketCreated, new { Ticket = ticket });
 
             return ticket;
         }
@@ -164,7 +165,7 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
 
             if (canSumbitTicket)
             {
-                ticket.Recalculate(AppServices.SettingService.AutoRoundDiscount, _applicationState.CurrentLoggedInUser.Id);
+                ticket.Recalculate(_settingService.ProgramSettings.AutoRoundDiscount, _applicationState.CurrentLoggedInUser.Id);
                 ticket.IsPaid = ticket.RemainingAmount == 0;
 
                 if (ticket.Orders.Count > 0)
@@ -268,7 +269,7 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
             if (_applicationState.CurrentDepartment != null) ticket.DepartmentId = _applicationState.CurrentDepartment.Id;
             location.TicketId = ticket.GetRemainingAmount() > 0 ? ticket.Id : 0;
 
-            _ruleService.NotifyEvent(RuleEventNames.TicketLocationChanged, new { Ticket = ticket, OldLocation = oldLocation, NewLocation = ticket.LocationName });
+            _automationService.NotifyEvent(RuleEventNames.TicketLocationChanged, new { Ticket = ticket, OldLocation = oldLocation, NewLocation = ticket.LocationName });
         }
 
         public Account CheckAccount(Account account)
@@ -352,10 +353,10 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
         public void RecalculateTicket(Ticket ticket)
         {
             var total = ticket.TotalAmount;
-            ticket.Recalculate(AppServices.SettingService.AutoRoundDiscount, _applicationState.CurrentLoggedInUser.Id);
+            ticket.Recalculate(_settingService.ProgramSettings.AutoRoundDiscount, _applicationState.CurrentLoggedInUser.Id);
             if (total != ticket.TotalAmount)
             {
-                _ruleService.NotifyEvent(RuleEventNames.TicketTotalChanged,
+                _automationService.NotifyEvent(RuleEventNames.TicketTotalChanged,
                     new
                     {
                         Ticket = ticket,
@@ -393,7 +394,7 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
 
             var tagData = new TicketTagData { Action = tagGroup.Action, TagName = tagGroup.Name, TagValue = ticketTag.Name, NumericValue = tagGroup.IsNumeric ? Convert.ToDecimal(ticketTag.Name) : 0 };
 
-            _ruleService.NotifyEvent(RuleEventNames.TicketTagSelected,
+            _automationService.NotifyEvent(RuleEventNames.TicketTagSelected,
                         new
                         {
                             Ticket = ticket,

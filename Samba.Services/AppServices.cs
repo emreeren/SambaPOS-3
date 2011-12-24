@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
-using Samba.Domain.Models.Settings;
-using Samba.Infrastructure.Data;
 using Samba.Infrastructure.ExceptionReporter;
 using Samba.Infrastructure.Settings;
 using Samba.Persistance.Data;
@@ -26,12 +22,6 @@ namespace Samba.Services
         public static MessagingService MessagingService
         {
             get { return _messagingService ?? (_messagingService = new MessagingService()); }
-        }
-
-        private static SettingService _settingService;
-        public static SettingService SettingService
-        {
-            get { return _settingService ?? (_settingService = new SettingService()); }
         }
 
         public static bool CanStartApplication()
@@ -60,7 +50,6 @@ namespace Samba.Services
         {
         
             MainDataContext.ResetCache();
-            SettingService.ResetCache();
             SerialPortService.ResetCache();
             Dao.ResetCache();
             

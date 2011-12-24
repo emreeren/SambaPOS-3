@@ -34,8 +34,7 @@ namespace Samba.Presentation.Common.ModelBase
         {
             get
             {
-                return _printerService ?? (_printerService =
-                        ServiceLocator.Current.GetInstance<IPrinterService>());
+                return _printerService ?? (_printerService = ServiceLocator.Current.GetInstance<IPrinterService>());
             }
         }
 
@@ -44,8 +43,7 @@ namespace Samba.Presentation.Common.ModelBase
         {
             get
             {
-                return _triggerService ?? (_triggerService =
-                    ServiceLocator.Current.GetInstance<ITriggerService>());
+                return _triggerService ?? (_triggerService = ServiceLocator.Current.GetInstance<ITriggerService>());
             }
         }
 
@@ -54,9 +52,14 @@ namespace Samba.Presentation.Common.ModelBase
         {
             get
             {
-                return _applicationState ?? (_applicationState =
-                    ServiceLocator.Current.GetInstance<IApplicationState>());
+                return _applicationState ?? (_applicationState = ServiceLocator.Current.GetInstance<IApplicationState>());
             }
+        }
+
+        private IAutomationService _automationService;
+        public IAutomationService AutomationService
+        {
+            get { return _automationService ?? (_automationService = ServiceLocator.Current.GetInstance<IAutomationService>()); }
         }
 
         private ObservableCollection<TViewModel> _items;
@@ -228,7 +231,7 @@ namespace Samba.Presentation.Common.ModelBase
         protected TViewModel InternalCreateNewViewModel(TModel model)
         {
             var result = CreateNewViewModel(model);
-            result.Init(_workspace, InventoryService, PrinterService, TriggerService, ApplicationState);
+            result.Init(_workspace, InventoryService, PrinterService, TriggerService, ApplicationState, AutomationService);
             return result;
         }
 

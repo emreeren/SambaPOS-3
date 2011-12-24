@@ -5,6 +5,7 @@ using System.Linq;
 using Samba.Domain.Models.Actions;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
+using Samba.Modules.AutomationModule.ServiceImplementations;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Common.Services;
@@ -17,16 +18,16 @@ namespace Samba.Modules.AutomationModule
         public RuleViewModel(AppRule model)
             : base(model)
         {
-            _actions = new ObservableCollection<ActionContainerViewModel>(Model.Actions.Select(x => new ActionContainerViewModel(x, this)));
+            _actions = new ObservableCollection<ActionContainerViewModel>(Model.Actions.Select(x => new ActionContainerViewModel(x, this, AutomationService)));
 
             SelectActionsCommand = new CaptionCommand<string>(Resources.SelectActions, OnSelectActions);
-            Constraints = new ObservableCollection<RuleConstraintViewModel>();
+            Constraints = new ObservableCollection<IRuleConstraint>();
             if (!string.IsNullOrEmpty(model.EventConstraints))
             {
                 Constraints.AddRange(
                     model.EventConstraints.Split('#')
                     .Where(x => !x.StartsWith("SN$"))
-                    .Select(x => new RuleConstraintViewModel(x)));
+                    .Select(x => new RuleConstraint(x)));
                 var settingData =
                 model.EventConstraints.Split('#').Where(x => x.StartsWith("SN$")).FirstOrDefault();
                 if (!string.IsNullOrEmpty(settingData))
@@ -62,7 +63,7 @@ namespace Samba.Modules.AutomationModule
 
             Model.Actions.Clear();
             choosenValues.Cast<ActionContainer>().ToList().ForEach(x => Model.Actions.Add(x));
-            _actions = new ObservableCollection<ActionContainerViewModel>(Model.Actions.Select(x => new ActionContainerViewModel(x, this)));
+            _actions = new ObservableCollection<ActionContainerViewModel>(Model.Actions.Select(x => new ActionContainerViewModel(x, this, AutomationService)));
 
             RaisePropertyChanged(() => Actions);
 
@@ -74,8 +75,8 @@ namespace Samba.Modules.AutomationModule
             get { return _actions; }
         }
 
-        private ObservableCollection<RuleConstraintViewModel> _constraints;
-        public ObservableCollection<RuleConstraintViewModel> Constraints
+        private ObservableCollection<IRuleConstraint> _constraints;
+        public ObservableCollection<IRuleConstraint> Constraints
         {
             get { return _constraints; }
             set
@@ -88,7 +89,7 @@ namespace Samba.Modules.AutomationModule
         public string SettingConstraintName { get; set; }
         public string SettingConstraintValue { get; set; }
 
-        public IEnumerable<RuleEvent> Events { get { return RuleActionTypeRegistry.RuleEvents.Values; } }
+        public IEnumerable<RuleEvent> Events { get { return AutomationService.GetRuleEvents(); } }
 
         public ICaptionCommand SelectActionsCommand { get; set; }
 
@@ -98,8 +99,7 @@ namespace Samba.Modules.AutomationModule
             set
             {
                 Model.EventName = value;
-                Constraints = new ObservableCollection<RuleConstraintViewModel>(
-                    RuleActionTypeRegistry.GetEventConstraints(Model.EventName));
+                Constraints = new ObservableCollection<IRuleConstraint>(AutomationService.GetEventConstraints(Model.EventName));
             }
         }
 

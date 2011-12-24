@@ -20,16 +20,16 @@ namespace Samba.Modules.UserModule.ServiceImplementations
         private readonly IApplicationState _applicationState;
         private readonly IApplicationStateSetter _applicationStateSetter;
         private readonly IDepartmentService _departmentService;
-        private IRuleService _ruleService;
+        private readonly IAutomationService _automationService;
 
         [ImportingConstructor]
         public UserService(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
-            IDepartmentService departmentService, IRuleService ruleService)
+            IDepartmentService departmentService, IAutomationService automationService)
         {
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
             _departmentService = departmentService;
-            _ruleService = ruleService;
+            _automationService = automationService;
         }
 
         private static IWorkspace _workspace;
@@ -82,7 +82,7 @@ namespace Samba.Modules.UserModule.ServiceImplementations
             if (user != User.Nobody)
             {
                 user.PublishEvent(EventTopicNames.UserLoggedIn);
-                _ruleService.NotifyEvent(RuleEventNames.UserLoggedIn, new { User = user, RoleName = user.UserRole.Name });
+                _automationService.NotifyEvent(RuleEventNames.UserLoggedIn, new { User = user, RoleName = user.UserRole.Name });
             }
             return user;
         }
@@ -92,7 +92,7 @@ namespace Samba.Modules.UserModule.ServiceImplementations
             var user = _applicationState.CurrentLoggedInUser;
             Debug.Assert(user != User.Nobody);
             user.PublishEvent(EventTopicNames.UserLoggedOut);
-            _ruleService.NotifyEvent(RuleEventNames.UserLoggedOut, new { User = user, RoleName = user.UserRole.Name });
+            _automationService.NotifyEvent(RuleEventNames.UserLoggedOut, new { User = user, RoleName = user.UserRole.Name });
             _applicationStateSetter.SetCurrentLoggedInUser(User.Nobody);
             EventServiceFactory.EventService._PublishEvent(EventTopicNames.ResetCache);
         }
