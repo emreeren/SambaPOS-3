@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Samba.Domain.Models.Locations;
+﻿using Samba.Domain.Models.Locations;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
@@ -31,5 +30,6 @@ namespace Samba.Services
         WorkPeriod CurrentWorkPeriod { get; }
         WorkPeriod PreviousWorkPeriod { get; }
         bool IsCurrentWorkPeriodOpen { get; }
+        Terminal CurrentTerminal { get; }
     }
 }

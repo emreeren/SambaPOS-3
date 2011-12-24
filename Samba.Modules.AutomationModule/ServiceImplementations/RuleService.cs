@@ -73,7 +73,7 @@ namespace Samba.Modules.AutomationModule.ServiceImplementations
                     }
                     if (condition.Name == "TerminalName" && !string.IsNullOrEmpty(condition.Value))
                     {
-                        if (!condition.Value.Equals(AppServices.CurrentTerminal.Name))
+                        if (!condition.Value.Equals(_applicationState.CurrentTerminal.Name))
                         {
                             return false;
                         }

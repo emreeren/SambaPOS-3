@@ -545,7 +545,7 @@ namespace Samba.Modules.TicketModule
             SelectedTicket = new TicketViewModel(
                 _applicationState.CurrentTicket,
                 _applicationState.CurrentDepartment.TicketTemplate,
-                _applicationState.CurrentDepartment.IsFastFood, _ticketService, _userService, _menuService, _ruleService);
+                _applicationState.CurrentDepartment.IsFastFood, _ticketService, _userService, _menuService, _ruleService,_applicationState);
 
             TicketRemainingValue = _applicationState.CurrentTicket.GetRemainingAmount();
             PrepareMergedItems();

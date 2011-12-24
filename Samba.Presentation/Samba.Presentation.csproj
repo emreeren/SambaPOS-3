@@ -230,6 +230,10 @@
       <Project>{943FE6E9-58E2-499C-8B61-0FD8CE9F42F8}</Project>
       <Name>Samba.Modules.LocationModule</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.LoginModule\Samba.Modules.LoginModule.csproj">
+      <Project>{534CEC53-1EBC-4386-95E3-0E451FCB388A}</Project>
+      <Name>Samba.Modules.LoginModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samba.Modules.NavigationModule\Samba.Modules.NavigationModule.csproj">
       <Project>{9497C48E-B9B5-4869-820E-09ECE4347632}</Project>
       <Name>Samba.Modules.NavigationModule</Name>
@@ -253,10 +257,6 @@
     <ProjectReference Include="..\Samba.Infrastructure\Samba.Infrastructure.csproj">
       <Project>{B184E8F8-A507-4C3D-B580-184E3776A95C}</Project>
       <Name>Samba.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Samba.Modules.LoginModule\Samba.LoginModule.csproj">
-      <Project>{6A64EA38-3CED-4810-BB79-0EBA0A70B38E}</Project>
-      <Name>Samba.LoginModule</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Modules.DashboardModule\Samba.Modules.DashboardModule.csproj">
       <Project>{1544262A-3EC9-413F-9165-7CF69A15B4CF}</Project>

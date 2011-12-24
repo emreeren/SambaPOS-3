@@ -1,12 +1,12 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using System.ComponentModel.Composition;
 using System.Windows.Input;
 using Samba.Presentation.Common;
 
-namespace Samba.Login
+namespace Samba.Modules.LoginModule
 {
     /// <summary>
     /// Interaction logic for LoginView.xaml
@@ -32,13 +32,13 @@ namespace Samba.Login
             Application.Current.Shutdown();
         }
 
-        private void UserControl_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        private void UserControl_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Text)&& char.IsDigit(e.Text, 0))
                 PadControl.UpdatePinValue(e.Text);
         }
 
-        private void UserControl_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        private void UserControl_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if(e.Key == Key.Enter)
                 PadControl.SubmitPin();

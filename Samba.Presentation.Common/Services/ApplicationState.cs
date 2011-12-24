@@ -5,6 +5,7 @@ using Samba.Domain.Models.Locations;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
+using Samba.Infrastructure.Settings;
 using Samba.Persistance.Data;
 using Samba.Services;
 
@@ -15,16 +16,22 @@ namespace Samba.Presentation.Common.Services
     public class ApplicationState : AbstractService, IApplicationState, IApplicationStateSetter
     {
         private readonly IDepartmentService _departmentService;
+        private readonly ISettingService _settingService;
+
         [ImportingConstructor]
-        public ApplicationState(IDepartmentService departmentService)
+        public ApplicationState(IDepartmentService departmentService,ISettingService settingService)
         {
             _departmentService = departmentService;
+            _settingService = settingService;
         }
 
         public AppScreens ActiveAppScreen { get; private set; }
         public Department CurrentDepartment { get; private set; }
         public Ticket CurrentTicket { get; private set; }
         public LocationScreen SelectedLocationScreen { get; private set; }
+
+        private Terminal _terminal;
+        public Terminal CurrentTerminal { get { return _terminal ?? (_terminal = GetCurrentTerminal()); } set { _terminal = value; } }
 
         private User _currentLoggedInUser;
         public User CurrentLoggedInUser
@@ -92,6 +99,17 @@ namespace Samba.Presentation.Common.Services
             SelectedLocationScreen = locationScreen;
         }
 
+        private Terminal GetCurrentTerminal()
+        {
+            if (!string.IsNullOrEmpty(LocalSettings.TerminalName))
+            {
+                var terminal = _settingService.GetTerminalByName(LocalSettings.TerminalName);
+                if (terminal != null) return terminal;
+            }
+            var dterminal = _settingService.GetDefaultTerminal();
+            return dterminal ?? Terminal.DefaultTerminal;
+        }
+
         public void ResetWorkPeriods()
         {
             _lastTwoWorkPeriods = null;
@@ -100,6 +118,7 @@ namespace Samba.Presentation.Common.Services
         public override void Reset()
         {
             _lastTwoWorkPeriods = null;
+            _terminal = null;
         }
     }
 }

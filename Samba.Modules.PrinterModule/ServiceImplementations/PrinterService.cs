@@ -12,7 +12,6 @@ using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data.Serializer;
 using Samba.Localization.Properties;
-using Samba.Modules.PrinterModule.Formatters;
 using Samba.Modules.PrinterModule.PrintJobs;
 using Samba.Modules.PrinterModule.Tools;
 using Samba.Modules.PrinterModule.ValueChangers;
@@ -40,11 +39,13 @@ namespace Samba.Modules.PrinterModule.ServiceImplementations
     public class PrinterService : AbstractService, IPrinterService
     {
         private readonly IMenuService _menuService;
+        private readonly IApplicationState _applicationState;
 
         [ImportingConstructor]
-        public PrinterService(IMenuService menuService)
+        public PrinterService(IMenuService menuService,IApplicationState applicationState)
         {
             _menuService = menuService;
+            _applicationState = applicationState;
         }
 
         public IEnumerable<string> GetPrinterNames()
@@ -84,7 +85,7 @@ namespace Samba.Modules.PrinterModule.ServiceImplementations
 
         public void AutoPrintTicket(Ticket ticket)
         {
-            foreach (var customPrinter in AppServices.CurrentTerminal.PrintJobs.Where(x => !x.UseForPaidTickets))
+            foreach (var customPrinter in _applicationState.CurrentTerminal.PrintJobs.Where(x => !x.UseForPaidTickets))
             {
                 if (ShouldAutoPrint(ticket, customPrinter))
                     ManualPrintTicket(ticket, customPrinter);
@@ -251,14 +252,14 @@ namespace Samba.Modules.PrinterModule.ServiceImplementations
 
         public void PrintReport(FlowDocument document)
         {
-            var printer = AppServices.CurrentTerminal.ReportPrinter;
+            var printer = _applicationState.CurrentTerminal.ReportPrinter;
             if (printer == null || string.IsNullOrEmpty(printer.ShareName)) return;
             PrintJobFactory.CreatePrintJob(printer).DoPrint(document);
         }
 
         public void PrintSlipReport(FlowDocument document)
         {
-            var printer = AppServices.CurrentTerminal.SlipReportPrinter;
+            var printer = _applicationState.CurrentTerminal.SlipReportPrinter;
             if (printer == null || string.IsNullOrEmpty(printer.ShareName)) return;
             PrintJobFactory.CreatePrintJob(printer).DoPrint(document);
         }

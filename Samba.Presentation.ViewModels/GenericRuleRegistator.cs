@@ -85,7 +85,7 @@ namespace Samba.Presentation.ViewModels
         {
             RuleActionTypeRegistry.RegisterParameterSoruce("UserName", () => UserService.GetUserNames());
             RuleActionTypeRegistry.RegisterParameterSoruce("DepartmentName", () => DepartmentService.GetDepartmentNames());
-            RuleActionTypeRegistry.RegisterParameterSoruce("TerminalName", () => AppServices.Terminals.Select(x => x.Name));
+            RuleActionTypeRegistry.RegisterParameterSoruce("TerminalName", () => SettingService.GetTerminalNames());
             RuleActionTypeRegistry.RegisterParameterSoruce("TriggerName", () => Dao.Select<Trigger, string>(yz => yz.Name, y => !string.IsNullOrEmpty(y.Expression)));
             RuleActionTypeRegistry.RegisterParameterSoruce("MenuItemName", () => Dao.Select<MenuItem, string>(yz => yz.Name, y => y.Id > 0));
             RuleActionTypeRegistry.RegisterParameterSoruce("PriceTag", () => Dao.Select<MenuItemPriceDefinition, string>(x => x.PriceTag, x => x.Id > 0));
@@ -311,7 +311,7 @@ namespace Samba.Presentation.ViewModels
                     var pjName = x.Value.Action.GetParameter("PrintJobName");
                     if (!string.IsNullOrEmpty(pjName))
                     {
-                        var j = AppServices.CurrentTerminal.PrintJobs.SingleOrDefault(y => y.Name == pjName);
+                        var j = ApplicationState.CurrentTerminal.PrintJobs.SingleOrDefault(y => y.Name == pjName);
 
                         if (j != null)
                         {

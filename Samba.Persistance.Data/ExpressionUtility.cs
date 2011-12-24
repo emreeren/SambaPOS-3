@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Samba.Persistance.Data
 {
-    public static class ExpUtility
+    public static class ExpressionUtility
     {
         public static Expression<T> Compose<T>(this Expression<T> first, Expression<T> second, Func<Expression, Expression, Expression> merge)
         {

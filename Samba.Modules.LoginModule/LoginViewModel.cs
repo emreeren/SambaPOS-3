@@ -4,7 +4,7 @@ using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Services;
 
-namespace Samba.Login
+namespace Samba.Modules.LoginModule
 {
     [Export]
     public class LoginViewModel

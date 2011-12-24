@@ -7,7 +7,7 @@ using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Services;
 
-namespace Samba.Login
+namespace Samba.Modules.LoginModule
 {
     [ModuleExport(typeof(LoginModule))]
     public class LoginModule : VisibleModuleBase

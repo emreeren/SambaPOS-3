@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using Samba.Presentation.Common;
 using Samba.Services;
 
-namespace Samba.Login
+namespace Samba.Modules.LoginModule
 {
     public delegate void PinSubmittedEventHandler(object sender, string pinValue);
 

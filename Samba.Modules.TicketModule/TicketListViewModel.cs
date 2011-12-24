@@ -81,7 +81,7 @@ namespace Samba.Modules.TicketModule
                 if (_applicationState.CurrentTicket == null) _selectedTicket = null;
                 if (_selectedTicket == null && _applicationState.CurrentTicket != null)
                     _selectedTicket = new TicketViewModel(_applicationState.CurrentTicket, _applicationState.CurrentDepartment.TicketTemplate,
-                      _applicationState.CurrentDepartment != null && _applicationState.CurrentDepartment.IsFastFood, _ticketService, _userService, _menuService, _ruleService);
+                      _applicationState.CurrentDepartment != null && _applicationState.CurrentDepartment.IsFastFood, _ticketService, _userService, _menuService, _ruleService, _applicationState);
                 return _selectedTicket;
             }
         }
@@ -423,7 +423,7 @@ namespace Samba.Modules.TicketModule
 
                     CloseTicket();
 
-                    if (!AppServices.CurrentTerminal.AutoLogout)
+                    if (!_applicationState.CurrentTerminal.AutoLogout)
                         EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicketView);
 
                     if (!string.IsNullOrEmpty(oldLocationName) || ticketsMerged)
@@ -925,7 +925,7 @@ namespace Samba.Modules.TicketModule
             _selectedTicket = null;
             _selectedOrders.Clear();
 
-            if (AppServices.CurrentTerminal.AutoLogout)
+            if (_applicationState.CurrentTerminal.AutoLogout)
             {
                 _userService.LogoutUser(false);
             }
