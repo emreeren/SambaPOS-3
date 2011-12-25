@@ -5,6 +5,7 @@ using System.Text;
 using Samba.Domain.Models.Inventories;
 using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Data;
+using Samba.Services.Common;
 
 namespace Samba.Services
 {

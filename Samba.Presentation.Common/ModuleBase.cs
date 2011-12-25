@@ -3,13 +3,51 @@ using System.Collections.Generic;
 using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.ServiceLocation;
 using Samba.Presentation.Common.ModelBase;
+using Samba.Services.Common;
 
 namespace Samba.Presentation.Common
 {
+    static class ObjectCache
+    {
+        private static readonly IDictionary<Type, VisibleViewModelBase> Cache = new Dictionary<Type, VisibleViewModelBase>();
+
+        static ObjectCache()
+        {
+            EventServiceFactory.EventService.GetEvent<GenericEvent<VisibleViewModelBase>>().Subscribe(OnViewClosed);
+        }
+
+        private static void OnViewClosed(EventParameters<VisibleViewModelBase> eventParameters)
+        {
+            if (eventParameters.Topic == EventTopicNames.ViewClosed)
+            {
+                Cache[eventParameters.Value.GetType()] = null;
+            }
+        }
+
+        public static void Add(Type type)
+        {
+            Cache.Add(type, null);
+        }
+
+        public static bool Contains(Type type)
+        {
+            return Cache[type] != null;
+        }
+
+        public static void Update(Type type, VisibleViewModelBase modelBase)
+        {
+            Cache[type] = modelBase;
+        }
+
+        public static VisibleViewModelBase Get(Type type)
+        {
+            return Cache[type];
+        }
+    }
+
     public abstract class ModuleBase : IModule
     {
         private readonly List<ICategoryCommand> _dashboardCommands = new List<ICategoryCommand>();
-        private readonly IDictionary<Type, VisibleViewModelBase> _objectCache = new Dictionary<Type, VisibleViewModelBase>();
 
         public void Initialize()
         {
@@ -18,15 +56,6 @@ namespace Samba.Presentation.Common
             moduleLifecycleService.RegisterForStage(OnInitialization, ModuleInitializationStage.Initialization);
             moduleLifecycleService.RegisterForStage(OnPostInitialization, ModuleInitializationStage.PostInitialization);
             moduleLifecycleService.RegisterForStage(OnStartUp, ModuleInitializationStage.StartUp);
-
-            EventServiceFactory.EventService.GetEvent<GenericEvent<VisibleViewModelBase>>().Subscribe(
-                s =>
-                {
-                    if (s.Topic == EventTopicNames.ViewClosed)
-                    {
-                        _objectCache[s.Value.GetType()] = null;
-                    }
-                });
         }
 
         protected virtual void OnPreInitialization()
@@ -47,19 +76,26 @@ namespace Samba.Presentation.Common
         {
         }
 
-        protected void AddDashboardCommand<TView>(string caption, string category, int order = 0) where TView : VisibleViewModelBase, new()
+        protected void AddDashboardCommand<TView>(string caption, string category, int order = 0) where TView : VisibleViewModelBase
         {
             _dashboardCommands.Add(new CategoryCommand<TView>(caption, category, OnExecute) { Order = order });
-            _objectCache.Add(typeof(TView), null);
+            ObjectCache.Add(typeof(TView));
         }
 
-        private void OnExecute<TView>(TView obj) where TView : VisibleViewModelBase, new()
+        private static void OnExecute<TView>(TView obj) where TView : VisibleViewModelBase
         {
-            if (_objectCache[typeof(TView)] == null)
+            if (!ObjectCache.Contains(typeof(TView)))
             {
-                _objectCache[typeof(TView)] = new TView();
+                try
+                {
+                    ObjectCache.Update(typeof(TView), ServiceLocator.Current.GetInstance<TView>());
+                }
+                catch (Exception)
+                {
+                    ObjectCache.Update(typeof(TView), Activator.CreateInstance<TView>());
+                }
             }
-            CommonEventPublisher.PublishViewAddedEvent(_objectCache[typeof(TView)]);
+            CommonEventPublisher.PublishViewAddedEvent(ObjectCache.Get(typeof(TView)));
         }
     }
 }

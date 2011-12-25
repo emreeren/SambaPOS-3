@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Common;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.DepartmentModule
 {

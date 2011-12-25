@@ -14,8 +14,7 @@ namespace Samba.Modules.PrinterModule
 {
     class PrintJobViewModel : EntityViewModelBase<PrintJob>
     {
-        public PrintJobViewModel(PrintJob model)
-            : base(model)
+        public PrintJobViewModel()
         {
             _newPrinterMaps = new List<PrinterMap>();
             AddPrinterMapCommand = new CaptionCommand<string>(Resources.Add, OnAddPrinterMap);

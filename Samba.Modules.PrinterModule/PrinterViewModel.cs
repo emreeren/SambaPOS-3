@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using FluentValidation;
 using Samba.Domain.Models.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
+using Samba.Services;
 
 namespace Samba.Modules.PrinterModule
 {
@@ -16,11 +18,15 @@ namespace Samba.Modules.PrinterModule
         }
     }
 
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class PrinterViewModel : EntityViewModelBase<Printer>
     {
-        public PrinterViewModel(Printer model)
-            : base(model)
+        private readonly IPrinterService _printerService;
+
+        [ImportingConstructor]
+        public PrinterViewModel(IPrinterService printerService)
         {
+            _printerService = printerService;
         }
 
         public IList<string> PrinterTypes { get { return new[] { Resources.TicketPrinter, Resources.Text, Resources.Html, Resources.PortPrinter, Resources.DemoPrinter }; } }
@@ -44,7 +50,7 @@ namespace Samba.Modules.PrinterModule
 
         private IEnumerable<string> GetPrinterNames()
         {
-            return PrinterService.GetPrinterNames();
+            return _printerService.GetPrinterNames();
         }
 
         public override Type GetViewType()

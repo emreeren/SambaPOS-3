@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
+using Samba.Services.Common;
 
 namespace Samba.Services
 {

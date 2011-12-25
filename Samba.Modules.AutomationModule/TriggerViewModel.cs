@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
@@ -40,26 +41,15 @@ namespace Samba.Modules.AutomationModule
         public string Expression { get { return string.Format("{0} {1} {2} {3} {4}", Minute, Hour, Day, Month, Weekday); } }
     }
 
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     class TriggerViewModel : EntityViewModelBase<Trigger>
     {
-        public TriggerViewModel(Trigger model)
-            : base(model)
+        private readonly ITriggerService _triggerService;
+
+        [ImportingConstructor]
+        public TriggerViewModel(ITriggerService triggerService)
         {
-            GenerateCommonSettings();
-
-            if (!string.IsNullOrEmpty(model.Expression))
-            {
-                var parts = Model.Expression.Split(' ');
-                if (parts.Length == 5)
-                {
-                    Minute = parts[0];
-                    Hour = parts[1];
-                    Day = parts[2];
-                    Month = parts[3];
-                    Weekday = parts[4];
-                }
-            }
-
+            _triggerService = triggerService;
             TestExpressionCommand = new CaptionCommand<string>("Test", OnTestExpression);
         }
 
@@ -327,7 +317,7 @@ namespace Samba.Modules.AutomationModule
         {
             LastTrigger = DateTime.Now;
             base.OnSave(value);
-            MethodQueue.Queue("UpdateCronObjects", TriggerService.UpdateCronObjects);
+            MethodQueue.Queue("UpdateCronObjects", _triggerService.UpdateCronObjects);
         }
 
         protected override string GetSaveErrorMessage()
@@ -336,6 +326,26 @@ namespace Samba.Modules.AutomationModule
             if (nextTime == null)
                 return Resources.ErrorInExpression + "!";
             return base.GetSaveErrorMessage();
+        }
+
+        protected override void Initialize()
+        {
+            GenerateCommonSettings();
+
+            if (!string.IsNullOrEmpty(Model.Expression))
+            {
+                var parts = Model.Expression.Split(' ');
+                if (parts.Length == 5)
+                {
+                    Minute = parts[0];
+                    Hour = parts[1];
+                    Day = parts[2];
+                    Month = parts[3];
+                    Weekday = parts[4];
+                }
+            }
+
+            base.Initialize();
         }
     }
 }

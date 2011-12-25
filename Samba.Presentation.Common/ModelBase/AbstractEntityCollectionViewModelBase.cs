@@ -13,9 +13,9 @@ namespace Samba.Presentation.Common.ModelBase
 
         public IList<ICaptionCommand> CustomCommands { get; set; }
 
-        public string ModelTitle { get { return GetModelTitle(); } }
-
-
+        private string _modelTitle;
+        public string ModelTitle { get { return _modelTitle ?? (_modelTitle = GetModelTitle()); } }
+        
         private IEnumerable<ICaptionCommand> _allCommands;
         public IEnumerable<ICaptionCommand> AllCommands
         {

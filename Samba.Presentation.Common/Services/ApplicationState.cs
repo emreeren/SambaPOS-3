@@ -8,6 +8,7 @@ using Samba.Domain.Models.Users;
 using Samba.Infrastructure.Settings;
 using Samba.Persistance.Data;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Presentation.Common.Services
 {
@@ -72,7 +73,7 @@ namespace Samba.Presentation.Common.Services
         public void SetCurrentTicket(Ticket ticket)
         {
             CurrentTicket = ticket;
-            (this as IApplicationState)._PublishEvent(EventTopicNames.SelectedTicketChanged);
+            (this as IApplicationState).PublishEvent(EventTopicNames.SelectedTicketChanged);
         }
 
         public void SetCurrentDepartment(Department department)

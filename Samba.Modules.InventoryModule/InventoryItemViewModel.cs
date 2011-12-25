@@ -9,11 +9,6 @@ namespace Samba.Modules.InventoryModule
 {
     public class InventoryItemViewModel : EntityViewModelBase<InventoryItem>
     {
-        public InventoryItemViewModel(InventoryItem model)
-            : base(model)
-        {
-        }
-
         public override Type GetViewType()
         {
             return typeof(InventoryItemView);

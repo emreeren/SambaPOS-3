@@ -6,8 +6,8 @@ using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Data;
 using Samba.Persistance.Data;
-using Samba.Presentation.Common.Services;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.SettingsModule.ServiceImplementations
 {

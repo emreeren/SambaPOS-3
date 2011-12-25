@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Samba.Presentation.Common
+﻿namespace Samba.Services.Common
 {
     public static class RuleEventNames
     {

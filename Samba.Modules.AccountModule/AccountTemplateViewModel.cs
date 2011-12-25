@@ -11,8 +11,7 @@ namespace Samba.Modules.AccountModule
 {
     public class AccountTemplateViewModel : EntityViewModelBase<AccountTemplate>
     {
-        public AccountTemplateViewModel(AccountTemplate model)
-            : base(model)
+        public AccountTemplateViewModel()
         {
             AddCustomFieldCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.CustomField), OnAddCustomField);
             DeleteCustomFieldCommand = new CaptionCommand<AccountCustomFieldViewModel>(string.Format(Resources.Delete_f, Resources.CustomField), OnDeleteCustomField, CanDeleteCustomField);

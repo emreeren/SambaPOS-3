@@ -91,7 +91,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ObservableObject.cs" />
-    <Compile Include="Services\AbstractService.cs" />
     <Compile Include="Services\ApplicationState.cs" />
     <Compile Include="Browser\BrowserControl.xaml.cs">
       <DependentUpon>BrowserControl.xaml</DependentUpon>
@@ -118,11 +117,8 @@
     </Compile>
     <Compile Include="ErrorReport\ErrorReportViewModel.cs" />
     <Compile Include="ErrorReport\ExceptionReporter.cs" />
-    <Compile Include="EventServiceFactory.cs" />
-    <Compile Include="EventTopicNames.cs" />
     <Compile Include="ExtensionServices.cs" />
     <Compile Include="UIControls\FilteredTextBox.cs" />
-    <Compile Include="GenericEvent.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="IDiagram.cs" />
     <Compile Include="IModuleInitializationService.cs" />
@@ -246,6 +242,10 @@
     <ProjectReference Include="..\Samba.Persistance.Data\Samba.Persistance.Data.csproj">
       <Project>{FEDA2199-91CD-4AF1-B571-4AA2E8371A18}</Project>
       <Name>Samba.Persistance.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Services.Common\Samba.Services.Common.csproj">
+      <Project>{4C8C1254-7615-46F8-B782-C6AA1441B323}</Project>
+      <Name>Samba.Services.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Services\Samba.Services.csproj">
       <Project>{413B698C-0D7D-4FCD-9F16-AF51AED4E647}</Project>

@@ -48,11 +48,9 @@ namespace Samba.Services
 
         public static void ResetCache()
         {
-        
             MainDataContext.ResetCache();
             SerialPortService.ResetCache();
             Dao.ResetCache();
-            
         }
     }
 }

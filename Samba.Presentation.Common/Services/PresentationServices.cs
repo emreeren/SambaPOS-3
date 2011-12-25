@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using Samba.Services.Common;
 
 namespace Samba.Presentation.Common.Services
 {

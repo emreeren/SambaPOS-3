@@ -1,25 +1,25 @@
-﻿using Samba.Domain.Models.Settings;
+﻿using System.ComponentModel.Composition;
+using Samba.Domain.Models.Settings;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Services;
 
 namespace Samba.Modules.AutomationModule
 {
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     class TriggerListViewModel : EntityCollectionViewModelBase<TriggerViewModel, Trigger>
     {
-        protected override TriggerViewModel CreateNewViewModel(Trigger model)
-        {
-            return new TriggerViewModel(model);
-        }
+        private readonly ITriggerService _triggerService;
 
-        protected override Trigger CreateNewModel()
+        [ImportingConstructor]
+        public TriggerListViewModel(ITriggerService triggerService)
         {
-            return new Trigger();
+            _triggerService = triggerService;
         }
 
         protected override void OnDeleteItem(object obj)
         {
             base.OnDeleteItem(obj);
-            MethodQueue.Queue("UpdateCronObjects", TriggerService.UpdateCronObjects);
+            MethodQueue.Queue("UpdateCronObjects", _triggerService.UpdateCronObjects);
         }
     }
 }

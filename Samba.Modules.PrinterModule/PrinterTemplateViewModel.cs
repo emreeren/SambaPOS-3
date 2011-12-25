@@ -9,11 +9,6 @@ namespace Samba.Modules.PrinterModule
 {
     public class PrinterTemplateViewModel : EntityViewModelBase<PrinterTemplate>
     {
-        public PrinterTemplateViewModel(PrinterTemplate model)
-            : base(model)
-        {
-        }
-
         public string HeaderTemplate { get { return Model.HeaderTemplate; } set { Model.HeaderTemplate = value; } }
         public string LineTemplate { get { return Model.LineTemplate; } set { Model.LineTemplate = value; } }
         public string FooterTemplate { get { return Model.FooterTemplate; } set { Model.FooterTemplate = value; } }

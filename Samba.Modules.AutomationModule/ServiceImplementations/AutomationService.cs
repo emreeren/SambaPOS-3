@@ -4,9 +4,8 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Actions;
 using Samba.Persistance.Data;
-using Samba.Presentation.Common;
-using Samba.Presentation.Common.Services;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.AutomationModule.ServiceImplementations
 {

@@ -7,6 +7,7 @@ using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
+using Samba.Services.Common;
 
 namespace Samba.Services
 {

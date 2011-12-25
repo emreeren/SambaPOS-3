@@ -33,8 +33,7 @@ namespace Samba.Modules.LocationModule
         public int NumeratorHeight { get { return Model.NumeratorHeight; } set { Model.NumeratorHeight = value; } }
         public string AlphaButtonValues { get { return Model.AlphaButtonValues; } set { Model.AlphaButtonValues = value; } }
 
-        public LocationScreenViewModel(LocationScreen model)
-            : base(model)
+        public LocationScreenViewModel()
         {
             SelectLocationsCommand = new CaptionCommand<string>(Resources.SelectLocation, OnSelectLocations);
         }

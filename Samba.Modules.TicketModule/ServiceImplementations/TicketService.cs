@@ -14,9 +14,10 @@ using Samba.Infrastructure.Data.Serializer;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common;
-using Samba.Presentation.Common.Services;
 using Samba.Presentation.ViewModels;
 using Samba.Services;
+using Samba.Services.Common;
+using Samba.Services.Implementations;
 
 namespace Samba.Modules.TicketModule.ServiceImplementations
 {

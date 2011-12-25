@@ -1,39 +1,42 @@
-﻿using System.Linq;
+﻿using System.ComponentModel.Composition;
+using System.Linq;
 using Samba.Domain.Models.Inventories;
 using Samba.Localization.Properties;
-using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
+using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.InventoryModule
 {
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     class PeriodicConsumptionListViewModel : EntityCollectionViewModelBase<PeriodicConsumptionViewModel, PeriodicConsumption>
     {
-        protected override PeriodicConsumptionViewModel CreateNewViewModel(PeriodicConsumption model)
-        {
-            return new PeriodicConsumptionViewModel(model);
-        }
+        private readonly IApplicationState _applicationState;
+        private readonly IInventoryService _inventoryService;
 
-        protected override PeriodicConsumption CreateNewModel()
+        [ImportingConstructor]
+        public PeriodicConsumptionListViewModel(IApplicationState applicationState,IInventoryService inventoryService)
         {
-            return new PeriodicConsumption();
+            _applicationState = applicationState;
+            _inventoryService = inventoryService;
         }
 
         protected override void OnAddItem(object obj)
         {
-            var pc = InventoryService.GetCurrentPeriodicConsumption(Workspace);
+            var pc = _inventoryService.GetCurrentPeriodicConsumption(Workspace);
             VisibleViewModelBase wm = Items.SingleOrDefault(x => x.Name == pc.Name) ?? InternalCreateNewViewModel(pc);
             wm.PublishEvent(EventTopicNames.ViewAdded);
         }
 
         protected override bool CanAddItem(object obj)
         {
-            return ApplicationState.CurrentWorkPeriod != null;
+            return _applicationState.CurrentWorkPeriod != null;
         }
 
         protected override string CanDeleteItem(PeriodicConsumption model)
         {
-            if (model.WorkPeriodId != ApplicationState.CurrentWorkPeriod.Id
-                || !ApplicationState.IsCurrentWorkPeriodOpen)
+            if (model.WorkPeriodId != _applicationState.CurrentWorkPeriod.Id
+                || !_applicationState.IsCurrentWorkPeriodOpen)
                 return Resources.CantDeletePastEndOfDayRecords;
             return base.CanDeleteItem(model);
         }

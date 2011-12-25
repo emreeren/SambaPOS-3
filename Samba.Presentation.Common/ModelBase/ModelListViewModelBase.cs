@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Samba.Services.Common;
 
 namespace Samba.Presentation.Common.ModelBase
 {

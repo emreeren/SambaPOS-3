@@ -13,6 +13,7 @@ using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Presentation.ViewModels
 {
@@ -99,7 +100,7 @@ namespace Samba.Presentation.ViewModels
         private static void ResetCache()
         {
             TriggerService.UpdateCronObjects();
-            EventServiceFactory.EventService._PublishEvent(EventTopicNames.ResetCache);
+            EventServiceFactory.EventService.PublishEvent(EventTopicNames.ResetCache, true);
             ApplicationState.CurrentDepartment.PublishEvent(EventTopicNames.SelectedDepartmentChanged);
         }
 

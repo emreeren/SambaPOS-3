@@ -3,6 +3,7 @@ using Microsoft.Practices.Prism.Commands;
 using Samba.Domain.Models.Users;
 using Samba.Presentation.Common;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.UserModule
 {

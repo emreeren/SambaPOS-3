@@ -9,6 +9,7 @@ using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.ViewModels;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.TicketModule
 {

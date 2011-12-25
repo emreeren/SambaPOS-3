@@ -1,7 +1,6 @@
 ﻿using Microsoft.Practices.Prism.Events;
-using Samba.Services;
 
-namespace Samba.Presentation.Common.Services
+namespace Samba.Services.Common
 {
     public abstract class AbstractService : IService
     {

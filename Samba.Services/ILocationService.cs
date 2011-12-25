@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Samba.Domain.Models.Locations;
+using Samba.Services.Common;
 
 namespace Samba.Services
 {

@@ -9,16 +9,6 @@ namespace Samba.Modules.LocationModule
 {
     public class LocationScreenListViewModel : EntityCollectionViewModelBase<LocationScreenViewModel, LocationScreen>
     {
-        protected override LocationScreenViewModel CreateNewViewModel(LocationScreen model)
-        {
-            return new LocationScreenViewModel(model);
-        }
-
-        protected override LocationScreen CreateNewModel()
-        {
-            return new LocationScreen();
-        }
-
         protected override string CanDeleteItem(LocationScreen model)
         {
             if (Dao.Query<Department>(x => x.LocationScreens.Any(y => y.Id == model.Id)) != null)

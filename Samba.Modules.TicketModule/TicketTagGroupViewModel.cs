@@ -25,8 +25,8 @@ namespace Samba.Modules.TicketModule
             get { return _numerators ?? (_numerators = Workspace.All<Numerator>()); }
         }
 
-        private readonly ObservableCollection<TicketTagViewModel> _ticketTags;
-        public ObservableCollection<TicketTagViewModel> TicketTags { get { return _ticketTags; } }
+        private ObservableCollection<TicketTagViewModel> _ticketTags;
+        public ObservableCollection<TicketTagViewModel> TicketTags { get { return _ticketTags ?? (_ticketTags = GetTicketTags(Model)); } }
 
         public TicketTagViewModel SelectedTicketTag { get; set; }
         public ICaptionCommand AddTicketTagCommand { get; set; }
@@ -44,17 +44,15 @@ namespace Samba.Modules.TicketModule
         public bool ActiveOnPosClient { get { return Model.ActiveOnPosClient; } set { Model.ActiveOnPosClient = value; } }
         public bool ActiveOnTerminalClient { get { return Model.ActiveOnTerminalClient; } set { Model.ActiveOnTerminalClient = value; } }
 
-        public TicketTagGroupViewModel(TicketTagGroup model)
-            : base(model)
+        public TicketTagGroupViewModel()
         {
-            _ticketTags = new ObservableCollection<TicketTagViewModel>(GetTicketTags(model));
             AddTicketTagCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.Tag), OnAddTicketTagExecuted);
             DeleteTicketTagCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.Tag), OnDeleteTicketTagExecuted, CanDeleteTicketTag);
         }
 
-        private static IEnumerable<TicketTagViewModel> GetTicketTags(TicketTagGroup ticketTagGroup)
+        private static ObservableCollection<TicketTagViewModel> GetTicketTags(TicketTagGroup ticketTagGroup)
         {
-            return ticketTagGroup.TicketTags.Select(item => new TicketTagViewModel(item));
+            return new ObservableCollection<TicketTagViewModel>(ticketTagGroup.TicketTags.Select(item => new TicketTagViewModel(item)));
         }
 
         public override string GetModelTypeString()

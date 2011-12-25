@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
 using Samba.Domain.Models.Inventories;
 using Samba.Domain.Models.Menus;
 using Samba.Localization.Properties;
@@ -8,16 +9,21 @@ using Samba.Persistance.Data;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
 using System.Linq;
+using Samba.Services;
 
 namespace Samba.Modules.InventoryModule
 {
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     class RecipeViewModel : EntityViewModelBase<Recipe>
     {
-        public RecipeViewModel(Recipe model)
-            : base(model)
+        private readonly IInventoryService _inventoryService;
+
+        [ImportingConstructor]
+        public RecipeViewModel(IInventoryService inventoryService)
         {
             AddInventoryItemCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.Inventory), OnAddInventoryItem, CanAddInventoryItem);
             DeleteInventoryItemCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.Inventory), OnDeleteInventoryItem, CanDeleteInventoryItem);
+            _inventoryService = inventoryService;
         }
 
         public override Type GetViewType()
@@ -36,7 +42,7 @@ namespace Samba.Modules.InventoryModule
         private ObservableCollection<RecipeItemViewModel> _recipeItems;
         public ObservableCollection<RecipeItemViewModel> RecipeItems
         {
-            get { return _recipeItems ?? (_recipeItems = new ObservableCollection<RecipeItemViewModel>(Model.RecipeItems.Select(x => new RecipeItemViewModel(x, Workspace, InventoryService)))); }
+            get { return _recipeItems ?? (_recipeItems = new ObservableCollection<RecipeItemViewModel>(Model.RecipeItems.Select(x => new RecipeItemViewModel(x, Workspace, _inventoryService)))); }
         }
 
         private RecipeItemViewModel _selectedRecipeItem;
@@ -130,7 +136,7 @@ namespace Samba.Modules.InventoryModule
         {
             var ri = new RecipeItem();
             Model.RecipeItems.Add(ri);
-            var riv = new RecipeItemViewModel(ri, Workspace, InventoryService);
+            var riv = new RecipeItemViewModel(ri, Workspace, _inventoryService);
             RecipeItems.Add(riv);
             SelectedRecipeItem = riv;
         }

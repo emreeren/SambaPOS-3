@@ -56,7 +56,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\Lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
@@ -90,7 +89,6 @@
     <Compile Include="IPrinterService.cs" />
     <Compile Include="IRuleConstraint.cs" />
     <Compile Include="IAutomationService.cs" />
-    <Compile Include="IService.cs" />
     <Compile Include="IProgramSetting.cs" />
     <Compile Include="ISettingService.cs" />
     <Compile Include="ITicketService.cs" />
@@ -130,6 +128,10 @@
     <ProjectReference Include="..\Samba.Persistance.Data\Samba.Persistance.Data.csproj">
       <Project>{FEDA2199-91CD-4AF1-B571-4AA2E8371A18}</Project>
       <Name>Samba.Persistance.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Services.Common\Samba.Services.Common.csproj">
+      <Project>{4C8C1254-7615-46F8-B782-C6AA1441B323}</Project>
+      <Name>Samba.Services.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

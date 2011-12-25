@@ -14,8 +14,7 @@ namespace Samba.Modules.MenuModule
 {
     public class ScreenMenuViewModel : EntityViewModelBase<ScreenMenu>
     {
-        public ScreenMenuViewModel(ScreenMenu model)
-            : base(model)
+        public ScreenMenuViewModel()
         {
             AddCategoryCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.Category), OnAddCategory);
             EditCategoryCommand = new CaptionCommand<string>(string.Format(Resources.Edit_f, Resources.Category), OnEditCategory, CanEditCategory);

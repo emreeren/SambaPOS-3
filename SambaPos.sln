@@ -103,6 +103,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samba.Modules.AutomationMod
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samba.Modules.LoginModule", "Samba.Modules.LoginModule\Samba.Modules.LoginModule.csproj", "{534CEC53-1EBC-4386-95E3-0E451FCB388A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samba.Services.Implementations", "Samba.Services.Implementations\Samba.Services.Implementations.csproj", "{FC7C3BE1-3464-4AFB-8F1C-9209EF64BE29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samba.Services.Common", "Samba.Services.Common\Samba.Services.Common.csproj", "{4C8C1254-7615-46F8-B782-C6AA1441B323}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SambaPos.vsmdi
@@ -466,6 +470,26 @@ Global
 		{534CEC53-1EBC-4386-95E3-0E451FCB388A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{534CEC53-1EBC-4386-95E3-0E451FCB388A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{534CEC53-1EBC-4386-95E3-0E451FCB388A}.Release|x86.ActiveCfg = Release|Any CPU
+		{FC7C3BE1-3464-4AFB-8F1C-9209EF64BE29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC7C3BE1-3464-4AFB-8F1C-9209EF64BE29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC7C3BE1-3464-4AFB-8F1C-9209EF64BE29}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{FC7C3BE1-3464-4AFB-8F1C-9209EF64BE29}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{FC7C3BE1-3464-4AFB-8F1C-9209EF64BE29}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FC7C3BE1-3464-4AFB-8F1C-9209EF64BE29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC7C3BE1-3464-4AFB-8F1C-9209EF64BE29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC7C3BE1-3464-4AFB-8F1C-9209EF64BE29}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{FC7C3BE1-3464-4AFB-8F1C-9209EF64BE29}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{FC7C3BE1-3464-4AFB-8F1C-9209EF64BE29}.Release|x86.ActiveCfg = Release|Any CPU
+		{4C8C1254-7615-46F8-B782-C6AA1441B323}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C8C1254-7615-46F8-B782-C6AA1441B323}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C8C1254-7615-46F8-B782-C6AA1441B323}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4C8C1254-7615-46F8-B782-C6AA1441B323}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4C8C1254-7615-46F8-B782-C6AA1441B323}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4C8C1254-7615-46F8-B782-C6AA1441B323}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C8C1254-7615-46F8-B782-C6AA1441B323}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C8C1254-7615-46F8-B782-C6AA1441B323}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4C8C1254-7615-46F8-B782-C6AA1441B323}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{4C8C1254-7615-46F8-B782-C6AA1441B323}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -509,5 +533,7 @@ Global
 		{7168F82F-288A-42C4-9EB1-FBBE5112F211} = {BF4FA34A-A4C9-4BEC-90C4-AA09483582BB}
 		{37466829-61F5-47FA-9E3E-9CEDCD9535C0} = {BF4FA34A-A4C9-4BEC-90C4-AA09483582BB}
 		{413B698C-0D7D-4FCD-9F16-AF51AED4E647} = {8090D262-C7F1-4EFE-93F8-1B71BD23B627}
+		{FC7C3BE1-3464-4AFB-8F1C-9209EF64BE29} = {8090D262-C7F1-4EFE-93F8-1B71BD23B627}
+		{4C8C1254-7615-46F8-B782-C6AA1441B323} = {8090D262-C7F1-4EFE-93F8-1B71BD23B627}
 	EndGlobalSection
 EndGlobal

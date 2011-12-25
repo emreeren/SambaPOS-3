@@ -12,10 +12,6 @@ namespace Samba.Modules.UserModule
 {
     public class UserRoleViewModel : EntityViewModelBase<UserRole>
     {
-        public UserRoleViewModel(UserRole role)
-            : base(role)
-        { }
-
         private IEnumerable<PermissionViewModel> _permissions;
         public IEnumerable<PermissionViewModel> Permissions
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
 using System.Linq;
 using FluentValidation;
 using Samba.Domain.Models.Inventories;
@@ -10,11 +11,15 @@ using Samba.Services;
 
 namespace Samba.Modules.InventoryModule
 {
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     class TransactionViewModel : EntityViewModelBase<InventoryTransaction>
     {
-        public TransactionViewModel(InventoryTransaction model)
-            : base(model)
+        private readonly IApplicationState _applicationState;
+
+        [ImportingConstructor]
+        public TransactionViewModel(IApplicationState applicationState)
         {
+            _applicationState = applicationState;
             AddTransactionItemCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.Line), OnAddTransactionItem, CanAddTransactionItem);
             DeleteTransactionItemCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.Line), OnDeleteTransactionItem, CanDeleteTransactionItem);
         }
@@ -73,7 +78,7 @@ namespace Samba.Modules.InventoryModule
 
         protected override bool CanSave(string arg)
         {
-            return ApplicationState.IsCurrentWorkPeriodOpen && ApplicationState.CurrentWorkPeriod.StartDate < Model.Date && base.CanSave(arg);
+            return _applicationState.IsCurrentWorkPeriodOpen && _applicationState.CurrentWorkPeriod.StartDate < Model.Date && base.CanSave(arg);
         }
 
         private void OnAddTransactionItem(string obj)
@@ -114,7 +119,7 @@ namespace Samba.Modules.InventoryModule
 
         protected override AbstractValidator<InventoryTransaction> GetValidator()
         {
-            return new TransactionValidator(ApplicationState);
+            return new TransactionValidator(_applicationState);
         }
     }
 

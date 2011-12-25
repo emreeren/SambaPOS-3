@@ -12,6 +12,7 @@ using Samba.Presentation.Common;
 using Samba.Presentation.Common.Services;
 using Samba.Presentation.ViewModels;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.LocationModule
 {

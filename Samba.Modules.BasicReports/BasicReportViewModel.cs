@@ -4,6 +4,7 @@ using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Events;
 using Samba.Domain.Models.Users;
 using Samba.Presentation.Common;
+using Samba.Services.Common;
 
 namespace Samba.Modules.BasicReports
 {

@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
 using Samba.Infrastructure.Data;
 using Samba.Persistance.Data;
-using Samba.Presentation.Common;
-using Samba.Presentation.Common.Services;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.UserModule.ServiceImplementations
 {
@@ -94,7 +91,7 @@ namespace Samba.Modules.UserModule.ServiceImplementations
             user.PublishEvent(EventTopicNames.UserLoggedOut);
             _automationService.NotifyEvent(RuleEventNames.UserLoggedOut, new { User = user, RoleName = user.UserRole.Name });
             _applicationStateSetter.SetCurrentLoggedInUser(User.Nobody);
-            EventServiceFactory.EventService._PublishEvent(EventTopicNames.ResetCache);
+            EventServiceFactory.EventService.PublishEvent(EventTopicNames.ResetCache, true);
         }
 
         private static User GetUserByPinCode(string pinCode)

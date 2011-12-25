@@ -7,16 +7,6 @@ namespace Samba.Modules.PrinterModule
 {
     public class PrinterListViewModel : EntityCollectionViewModelBase<PrinterViewModel, Printer>
     {
-        protected override PrinterViewModel CreateNewViewModel(Printer model)
-        {
-            return new PrinterViewModel(model);
-        }
-
-        protected override Printer CreateNewModel()
-        {
-            return new Printer();
-        }
-
         protected override string CanDeleteItem(Printer model)
         {
             var count = Dao.Count<Terminal>(x => x.ReportPrinter.Id == model.Id || x.SlipReportPrinter.Id == model.Id);

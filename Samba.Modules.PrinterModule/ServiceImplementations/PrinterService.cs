@@ -18,6 +18,7 @@ using Samba.Modules.PrinterModule.ValueChangers;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common.Services;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.PrinterModule.ServiceImplementations
 {

@@ -13,6 +13,7 @@ using Samba.Domain.Models.Users;
 using Samba.Infrastructure.Settings;
 using Samba.Presentation.Common;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Presentation
 {
@@ -51,11 +52,11 @@ namespace Samba.Presentation
                 {
                     if (x.Topic == EventTopicNames.DashboardClosed)
                     {
-                        EventServiceFactory.EventService._PublishEvent(EventTopicNames.ResetCache);
+                        EventServiceFactory.EventService.PublishEvent(EventTopicNames.ResetCache, true);
                         //todo fix
                         AppServices.ResetCache();
                     }
-                     
+
                 });
 
             UserRegion.Visibility = Visibility.Collapsed;

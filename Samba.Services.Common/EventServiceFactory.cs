@@ -1,6 +1,6 @@
 ﻿using Microsoft.Practices.Prism.Events;
 
-namespace Samba.Presentation.Common
+namespace Samba.Services.Common
 {
     public static class EventServiceFactory
     {

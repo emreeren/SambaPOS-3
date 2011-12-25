@@ -3,7 +3,7 @@ using Microsoft.Practices.Prism.ViewModel;
 
 namespace Samba.Presentation.Common
 {
-    public abstract class ObservableObject : NotificationObject, IDisposable
+    public abstract class ObservableObject : NotificationObject
     {
         ~ObservableObject()
         {

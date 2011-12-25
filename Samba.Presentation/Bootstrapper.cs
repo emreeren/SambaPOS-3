@@ -1,9 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition.Hosting;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
-using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.MefExtensions;
 using Microsoft.Practices.ServiceLocation;
 using Samba.Infrastructure.Settings;
@@ -12,6 +10,7 @@ using Samba.Presentation.Common;
 using Samba.Presentation.Common.Services;
 using Samba.Presentation.ViewModels;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Presentation
 {
@@ -30,10 +29,9 @@ namespace Samba.Presentation
             var path = System.IO.Path.GetDirectoryName(Application.ResourceAssembly.Location);
             if (path != null)
             {
-                AggregateCatalog.Catalogs.Add(new DirectoryCatalog(path, "Samba.Login*"));
                 AggregateCatalog.Catalogs.Add(new DirectoryCatalog(path, "Samba.Modules*"));
                 AggregateCatalog.Catalogs.Add(new DirectoryCatalog(path, "Samba.Presentation*"));
-                AggregateCatalog.Catalogs.Add(new DirectoryCatalog(path, "Samba.Services.dll"));
+                AggregateCatalog.Catalogs.Add(new DirectoryCatalog(path, "Samba.Services*"));
             }
             LocalSettings.AppPath = path;
         }

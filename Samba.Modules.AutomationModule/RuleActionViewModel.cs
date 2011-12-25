@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Actions;
 using Samba.Infrastructure;
@@ -9,12 +10,15 @@ using Samba.Services;
 
 namespace Samba.Modules.AutomationModule
 {
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     class RuleActionViewModel : EntityViewModelBase<AppAction>
     {
-        public RuleActionViewModel(AppAction model)
-            : base(model)
-        {
+        private readonly IAutomationService _automationService;
 
+        [ImportingConstructor]
+        public RuleActionViewModel(IAutomationService automationService)
+        {
+            _automationService = automationService;
         }
 
         public Dictionary<string, string> Parameters
@@ -43,7 +47,7 @@ namespace Samba.Modules.AutomationModule
         {
             if (string.IsNullOrEmpty(value)) return new List<ParameterValue>();
 
-            var result = CreateParemeterValues(AutomationService.GetActionType(value)).ToList();
+            var result = CreateParemeterValues(_automationService.GetActionType(value)).ToList();
 
             result.ForEach(x =>
                             {
@@ -64,7 +68,7 @@ namespace Samba.Modules.AutomationModule
             }
         }
 
-        public IEnumerable<RuleActionType> ActionTypes { get { return AutomationService.GetActionTypes(); } }
+        public IEnumerable<RuleActionType> ActionTypes { get { return _automationService.GetActionTypes(); } }
 
         private static IEnumerable<ParameterValue> CreateParemeterValues(RuleActionType actionType)
         {

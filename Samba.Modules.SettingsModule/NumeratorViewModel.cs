@@ -12,12 +12,7 @@ namespace Samba.Modules.SettingsModule
             get { return Model.NumberFormat; }
             set { Model.NumberFormat = value; }
         }
-
-        public NumeratorViewModel(Numerator model)
-            : base(model)
-        {
-        }
-
+        
         public override Type GetViewType()
         {
             return typeof(NumeratorView);

@@ -3,7 +3,7 @@ using System.Windows;
 using FluentValidation;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
-using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Presentation.Common.ModelBase
 {
@@ -11,20 +11,15 @@ namespace Samba.Presentation.Common.ModelBase
     {
         private bool _modelSaved;
 
-        public TModel Model { get; private set; }
+        // todo: set gerektiren tüm bağımlıklar düzeltilecek.
+        public TModel Model { get; set; }
         public ICaptionCommand SaveCommand { get; private set; }
         private IValidator<TModel> _validator;
 
         protected IWorkspace Workspace { get; private set; }
-        protected IInventoryService InventoryService { get; private set; }
-        protected IPrinterService PrinterService { get; private set; }
-        protected ITriggerService TriggerService { get; private set; }
-        protected IApplicationState ApplicationState { get; private set; }
-        protected IAutomationService AutomationService { get; private set; }
 
-        protected EntityViewModelBase(TModel model)
+        protected EntityViewModelBase()
         {
-            Model = model;
             SaveCommand = new CaptionCommand<string>(Resources.Save, OnSave, CanSave);
         }
 
@@ -52,16 +47,10 @@ namespace Samba.Presentation.Common.ModelBase
 
         public abstract string GetModelTypeString();
 
-        public void Init(IWorkspace workspace, IInventoryService inventoryService,
-            IPrinterService printerService, ITriggerService triggerService,
-            IApplicationState applicationState, IAutomationService automationService)
+        public void Init(IWorkspace workspace, TModel model)
         {
             _modelSaved = false;
-            InventoryService = inventoryService;
-            PrinterService = printerService;
-            TriggerService = triggerService;
-            ApplicationState = applicationState;
-            AutomationService = automationService;
+            Model = model;
             Workspace = workspace;
             Initialize();
         }

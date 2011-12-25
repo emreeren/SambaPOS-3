@@ -1,10 +1,10 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using Samba.Domain.Models.Accounts;
 using Samba.Persistance.Data;
-using Samba.Presentation.Common.Services;
-using Samba.Services;
+using Samba.Services.Common;
 
-namespace Samba.Modules.AccountModule.ServiceImplementations
+namespace Samba.Services.Implementations.AccountModule
 {
     [Export(typeof(IAccountService))]
     public class AccountService : AbstractService, IAccountService
@@ -14,6 +14,11 @@ namespace Samba.Modules.AccountModule.ServiceImplementations
         public int GetAccountCount()
         {
             return (int)(_accountCount ?? (_accountCount = Dao.Count<Account>(null)));
+        }
+
+        public bool DidAccountTemplateUsed(int accountTemplateId)
+        {
+            return (Dao.Count<Account>(x => x.AccountTemplate.Id == accountTemplateId) > 0);
         }
 
         public override void Reset()

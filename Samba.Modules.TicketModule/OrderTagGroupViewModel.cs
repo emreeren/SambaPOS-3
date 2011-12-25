@@ -13,7 +13,7 @@ namespace Samba.Modules.TicketModule
     public class OrderTagGroupViewModel : EntityViewModelBase<OrderTagGroup>
     {
         private readonly IEnumerable<Order> _selectedOrders;
-        
+
         private ObservableCollection<OrderTagViewModel> _orderTags;
         public ObservableCollection<OrderTagViewModel> OrderTags { get { return _orderTags ?? (_orderTags = new ObservableCollection<OrderTagViewModel>(GetOrderTags(_selectedOrders, Model))); } }
 
@@ -42,13 +42,11 @@ namespace Samba.Modules.TicketModule
         public OrderTagViewModel SelectedOrderTag { get; set; }
         public OrderTagMapViewModel SelectedOrderTagMap { get; set; }
 
-        public OrderTagGroupViewModel(OrderTagGroup model)
-            : this(null, model)
+        public OrderTagGroupViewModel()
         {
         }
 
-        public OrderTagGroupViewModel(IEnumerable<Order> selectedOrders, OrderTagGroup model)
-            : base(model)
+        public OrderTagGroupViewModel(IEnumerable<Order> selectedOrders)
         {
             _selectedOrders = selectedOrders;
             AddOrderTagCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.OrderTag), OnAddPropertyExecuted);

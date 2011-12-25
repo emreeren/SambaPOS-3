@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Actions;
 using Samba.Infrastructure.Data;
@@ -13,33 +14,17 @@ using Samba.Services;
 
 namespace Samba.Modules.AutomationModule
 {
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class RuleViewModel : EntityViewModelBase<AppRule>
     {
-        public RuleViewModel(AppRule model)
-            : base(model)
-        {
-            _actions = new ObservableCollection<ActionContainerViewModel>(Model.Actions.Select(x => new ActionContainerViewModel(x, this, AutomationService)));
+        private readonly IAutomationService _automationService;
 
+        [ImportingConstructor]
+        public RuleViewModel(IAutomationService automationService)
+        {
+            _automationService = automationService;
             SelectActionsCommand = new CaptionCommand<string>(Resources.SelectActions, OnSelectActions);
             Constraints = new ObservableCollection<IRuleConstraint>();
-            if (!string.IsNullOrEmpty(model.EventConstraints))
-            {
-                Constraints.AddRange(
-                    model.EventConstraints.Split('#')
-                    .Where(x => !x.StartsWith("SN$"))
-                    .Select(x => new RuleConstraint(x)));
-                var settingData =
-                model.EventConstraints.Split('#').Where(x => x.StartsWith("SN$")).FirstOrDefault();
-                if (!string.IsNullOrEmpty(settingData))
-                {
-                    var settingParts = settingData.Split(';');
-                    if (settingParts.Length == 3)
-                    {
-                        SettingConstraintName = settingParts[0].Replace("SN$", "");
-                        SettingConstraintValue = settingParts[2];
-                    }
-                }
-            }
         }
 
         private void OnSelectActions(string obj)
@@ -63,7 +48,7 @@ namespace Samba.Modules.AutomationModule
 
             Model.Actions.Clear();
             choosenValues.Cast<ActionContainer>().ToList().ForEach(x => Model.Actions.Add(x));
-            _actions = new ObservableCollection<ActionContainerViewModel>(Model.Actions.Select(x => new ActionContainerViewModel(x, this, AutomationService)));
+            _actions = new ObservableCollection<ActionContainerViewModel>(Model.Actions.Select(x => new ActionContainerViewModel(x, this, _automationService)));
 
             RaisePropertyChanged(() => Actions);
 
@@ -89,7 +74,7 @@ namespace Samba.Modules.AutomationModule
         public string SettingConstraintName { get; set; }
         public string SettingConstraintValue { get; set; }
 
-        public IEnumerable<RuleEvent> Events { get { return AutomationService.GetRuleEvents(); } }
+        public IEnumerable<RuleEvent> Events { get { return _automationService.GetRuleEvents(); } }
 
         public ICaptionCommand SelectActionsCommand { get; set; }
 
@@ -99,7 +84,7 @@ namespace Samba.Modules.AutomationModule
             set
             {
                 Model.EventName = value;
-                Constraints = new ObservableCollection<IRuleConstraint>(AutomationService.GetEventConstraints(Model.EventName));
+                Constraints = new ObservableCollection<IRuleConstraint>(_automationService.GetEventConstraints(Model.EventName));
             }
         }
 
@@ -121,6 +106,32 @@ namespace Samba.Modules.AutomationModule
             if (!string.IsNullOrEmpty(SettingConstraintName))
                 Model.EventConstraints += "SN$" + SettingConstraintName + ";=;" + SettingConstraintValue;
             base.OnSave(value);
+        }
+
+        protected override void Initialize()
+        {
+            _actions = new ObservableCollection<ActionContainerViewModel>(Model.Actions.Select(x => new ActionContainerViewModel(x, this, _automationService)));
+
+            if (!string.IsNullOrEmpty(Model.EventConstraints))
+            {
+                Constraints.AddRange(
+                    Model.EventConstraints.Split('#')
+                    .Where(x => !x.StartsWith("SN$"))
+                    .Select(x => new RuleConstraint(x)));
+                var settingData =
+                Model.EventConstraints.Split('#').Where(x => x.StartsWith("SN$")).FirstOrDefault();
+                if (!string.IsNullOrEmpty(settingData))
+                {
+                    var settingParts = settingData.Split(';');
+                    if (settingParts.Length == 3)
+                    {
+                        SettingConstraintName = settingParts[0].Replace("SN$", "");
+                        SettingConstraintValue = settingParts[2];
+                    }
+                }
+            }
+
+            base.Initialize();
         }
     }
 }
