@@ -96,6 +96,10 @@
       <Project>{04ED7BE0-8768-4A8D-B1ED-C92CB60789EF}</Project>
       <Name>Samba.Presentation.ViewModels</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Samba.Services.Common\Samba.Services.Common.csproj">
+      <Project>{4C8C1254-7615-46F8-B782-C6AA1441B323}</Project>
+      <Name>Samba.Services.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samba.Services\Samba.Services.csproj">
       <Project>{413B698C-0D7D-4FCD-9F16-AF51AED4E647}</Project>
       <Name>Samba.Services</Name>

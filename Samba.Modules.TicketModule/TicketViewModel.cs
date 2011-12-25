@@ -9,6 +9,7 @@ using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.ViewModels;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.TicketModule
 {
@@ -20,9 +21,12 @@ namespace Samba.Modules.TicketModule
         private readonly ITicketService _ticketService;
         private readonly IUserService _userService;
         private readonly IMenuService _menuService;
+        private readonly IAutomationService _automationService;
+        private readonly IApplicationState _applicationState;
 
         public TicketViewModel(Ticket model, TicketTemplate ticketTemplate, bool forcePayment,
-            ITicketService ticketService, IUserService userService, IMenuService menuService)
+            ITicketService ticketService, IUserService userService, IMenuService menuService,
+            IAutomationService automationService,IApplicationState applicationState)
         {
             _ticketService = ticketService;
             _userService = userService;
@@ -30,8 +34,10 @@ namespace Samba.Modules.TicketModule
             _model = model;
             _ticketTemplate = ticketTemplate;
             _menuService = menuService;
+            _automationService = automationService;
+            _applicationState = applicationState;
 
-            _orders = new ObservableCollection<OrderViewModel>(model.Orders.Select(x => new OrderViewModel(x, ticketTemplate, _menuService)).OrderBy(x => x.Model.CreatedDateTime));
+            _orders = new ObservableCollection<OrderViewModel>(model.Orders.Select(x => new OrderViewModel(x, ticketTemplate, _menuService, _automationService)).OrderBy(x => x.Model.CreatedDateTime));
             _payments = new ObservableCollection<PaymentViewModel>(model.Payments.Select(x => new PaymentViewModel(x)));
             _discounts = new ObservableCollection<DiscountViewModel>(model.Discounts.Select(x => new DiscountViewModel(x)));
 
@@ -40,7 +46,7 @@ namespace Samba.Modules.TicketModule
 
             SelectAllItemsCommand = new CaptionCommand<string>("", OnSelectAllItemsExecute);
 
-            PrintJobButtons = AppServices.CurrentTerminal.PrintJobs
+            PrintJobButtons = _applicationState.CurrentTerminal.PrintJobs
                 .Where(x => (!string.IsNullOrEmpty(x.ButtonHeader))
                     && (x.PrinterMaps.Count(y => y.Department == null || y.Department.Id == model.DepartmentId) > 0))
                 .OrderBy(x => x.Order)
@@ -374,7 +380,7 @@ namespace Samba.Modules.TicketModule
             foreach (var newItem in newItems)
             {
                 _ticketService.AddItemToSelectedTicket(newItem);
-                _orders.Add(new OrderViewModel(newItem, _ticketTemplate, _menuService) { Selected = true });
+                _orders.Add(new OrderViewModel(newItem, _ticketTemplate, _menuService, _automationService) { Selected = true });
             }
             selectedItems.ForEach(x => x.NotSelected());
         }
@@ -412,7 +418,7 @@ namespace Samba.Modules.TicketModule
         {
             Model.MergeOrdersAndUpdateOrderNumbers(0);
             _orders.Clear();
-            _orders.AddRange(Model.Orders.Select(x => new OrderViewModel(x, _ticketTemplate, _menuService)));
+            _orders.AddRange(Model.Orders.Select(x => new OrderViewModel(x, _ticketTemplate, _menuService, _automationService)));
         }
 
         public bool CanMoveSelectedOrders()

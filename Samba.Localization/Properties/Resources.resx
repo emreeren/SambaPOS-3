@@ -2117,99 +2117,6 @@ Location: {2}</value>
   <data name="NoTicketsFoundForTag" xml:space="preserve">
     <value>No tickets found tagged with {0} tag.</value>
   </data>
-  <data name="TF_TicketDate" xml:space="preserve">
-    <value>{TICKET DATE}</value>
-  </data>
-  <data name="TF_TicketTime" xml:space="preserve">
-    <value>{TICKET TIME}</value>
-  </data>
-  <data name="TF_DayDate" xml:space="preserve">
-    <value>{DATE}</value>
-  </data>
-  <data name="TF_DayTime" xml:space="preserve">
-    <value>{TIME}</value>
-  </data>
-  <data name="TF_UniqueTicketId" xml:space="preserve">
-    <value>{TICKET ID}</value>
-  </data>
-  <data name="TF_TicketNumber" xml:space="preserve">
-    <value>{TICKET NO}</value>
-  </data>
-  <data name="TF_LineOrderNumber" xml:space="preserve">
-    <value>{ORDER NO}</value>
-  </data>
-  <data name="TF_TicketTag" xml:space="preserve">
-    <value>{TICKET TAG}</value>
-  </data>
-  <data name="TF_OptionalTicketTag" xml:space="preserve">
-    <value>{TICKET TAG:</value>
-  </data>
-  <data name="TF_LocationOrUserName" xml:space="preserve">
-    <value>{LOCATION USER}</value>
-  </data>
-  <data name="TF_UserName" xml:space="preserve">
-    <value>{USER NAME}</value>
-  </data>
-  <data name="TF_LocationName" xml:space="preserve">
-    <value>{LOCATION}</value>
-  </data>
-  <data name="TF_TicketNote" xml:space="preserve">
-    <value>{NOTE}</value>
-  </data>
-  <data name="TF_AccountName" xml:space="preserve">
-    <value>{ACC NAME}</value>
-  </data>
-  <data name="TF_AccountAddress" xml:space="preserve">
-    <value>{ACC ADDRESS}</value>
-  </data>
-  <data name="TF_AccountPhone" xml:space="preserve">
-    <value>{ACC PHONE}</value>
-  </data>
-  <data name="TF_RemainingAmountIfPaid" xml:space="preserve">
-    <value>{IF PAID}</value>
-  </data>
-  <data name="TF_DiscountTotalAndTicketTotal" xml:space="preserve">
-    <value>{IF DISCOUNT}</value>
-  </data>
-  <data name="TF_TicketTotal" xml:space="preserve">
-    <value>{TICKET TOTAL}</value>
-  </data>
-  <data name="TF_TicketPaidTotal" xml:space="preserve">
-    <value>{PAYMENT TOTAL}</value>
-  </data>
-  <data name="TF_TicketRemainingAmount" xml:space="preserve">
-    <value>{BALANCE}</value>
-  </data>
-  <data name="TF_LineItemQuantity" xml:space="preserve">
-    <value>{QUANTITY}</value>
-  </data>
-  <data name="TF_LineItemName" xml:space="preserve">
-    <value>{NAME}</value>
-  </data>
-  <data name="TF_LineItemPrice" xml:space="preserve">
-    <value>{PRICE}</value>
-  </data>
-  <data name="TF_LineItemTotal" xml:space="preserve">
-    <value>{TOTAL}</value>
-  </data>
-  <data name="TF_LineItemTotalAndQuantity" xml:space="preserve">
-    <value>{TOTAL AMOUNT}</value>
-  </data>
-  <data name="TF_LineItemTotalWithoutGifts" xml:space="preserve">
-    <value>{LINE AMOUNT}</value>
-  </data>
-  <data name="TF_LineItemPriceCents" xml:space="preserve">
-    <value>{CENTS}</value>
-  </data>
-  <data name="TF_LineItemDetails" xml:space="preserve">
-    <value>{PROPERTIES}</value>
-  </data>
-  <data name="TF_LineItemDetailPrice" xml:space="preserve">
-    <value>{PROP PRICE}</value>
-  </data>
-  <data name="TF_LineItemDetailQuantity" xml:space="preserve">
-    <value>{PROP QUANTITY}</value>
-  </data>
   <data name="RemainingAmountIfPaidValue_f" xml:space="preserve">
     <value>Paid:|{0}
 &lt;J&gt;Grand TOTAL:|{1}</value>
@@ -2228,12 +2135,6 @@ Location: {2}</value>
   </data>
   <data name="Restaurant" xml:space="preserve">
     <value>Restaurant</value>
-  </data>
-  <data name="TF_GiftTotal" xml:space="preserve">
-    <value>{GIFT TOTAL}</value>
-  </data>
-  <data name="TF_IfFlatten" xml:space="preserve">
-    <value>{IF FLATTEN}</value>
   </data>
   <data name="IfNegativeDiscountValue_f" xml:space="preserve">
     <value>&lt;J&gt;Rounding:|{0}</value>
@@ -2828,7 +2729,7 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>Ninety</value>
   </data>
   <data name="Thousand" xml:space="preserve">
-    <value>Bin</value>
+    <value>Thousand</value>
   </data>
   <data name="Million" xml:space="preserve">
     <value>Million</value>
@@ -3084,10 +2985,16 @@ Continue without adding details?</value>
   <data name="EditingFormat">
     <value xml:space="preserve">Editing Format</value>
   </data>
-	<data name="Values">
-		<value xml:space="preserve">Values</value>
+  <data name="Values">
+    <value xml:space="preserve">Values</value>
+  </data>
+  <data name="TicketTemplates">
+    <value xml:space="preserve">Ticket Templates</value>
+  </data>
+	<data name="LastLinesByPrinterLineCount">
+		<value xml:space="preserve">Last Lines by Printer Line Count</value>
 	</data>
-	<data name="TicketTemplates">
-		<value xml:space="preserve">Ticket Templates</value>
+	<data name="LineCount">
+		<value xml:space="preserve">Line Count</value>
 	</data>
 </root>

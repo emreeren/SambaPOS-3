@@ -4,10 +4,9 @@ using FluentValidation;
 using Samba.Domain.Models.Users;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
-using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
-using Samba.Services;
 using System.Linq;
+using Samba.Services.Common;
 
 namespace Samba.Modules.UserModule
 {
@@ -15,8 +14,7 @@ namespace Samba.Modules.UserModule
     {
         private bool _edited;
 
-        public UserViewModel(User user)
-            : base(user)
+        public UserViewModel()
         {
             EventServiceFactory.EventService.GetEvent<GenericEvent<UserRole>>().Subscribe(x => RaisePropertyChanged(() => Roles));
         }

@@ -11,11 +11,6 @@ namespace Samba.Modules.MenuModule
 {
     class MenuItemPriceDefinitionViewModel : EntityViewModelBase<MenuItemPriceDefinition>
     {
-        public MenuItemPriceDefinitionViewModel(MenuItemPriceDefinition model)
-            : base(model)
-        {
-        }
-
         public string PriceTag { get { return Model.PriceTag; } set { Model.PriceTag = value; } }
 
         public override Type GetViewType()

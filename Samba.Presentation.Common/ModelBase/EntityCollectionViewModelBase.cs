@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Linq;
@@ -8,7 +9,7 @@ using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Data.Serializer;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
-using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Presentation.Common.ModelBase
 {
@@ -18,46 +19,6 @@ namespace Samba.Presentation.Common.ModelBase
     {
         private readonly IWorkspace _workspace = WorkspaceFactory.Create();
         public IWorkspace Workspace { get { return _workspace; } }
-
-        private IInventoryService _inventoryService;
-        public IInventoryService InventoryService
-        {
-            get
-            {
-                return _inventoryService ?? (_inventoryService =
-                        ServiceLocator.Current.GetInstance<IInventoryService>());
-            }
-        }
-
-        private IPrinterService _printerService;
-        public IPrinterService PrinterService
-        {
-            get
-            {
-                return _printerService ?? (_printerService =
-                        ServiceLocator.Current.GetInstance<IPrinterService>());
-            }
-        }
-
-        private ITriggerService _triggerService;
-        public ITriggerService TriggerService
-        {
-            get
-            {
-                return _triggerService ?? (_triggerService =
-                    ServiceLocator.Current.GetInstance<ITriggerService>());
-            }
-        }
-
-        private IApplicationState _applicationState;
-        public IApplicationState ApplicationState
-        {
-            get
-            {
-                return _applicationState ?? (_applicationState =
-                    ServiceLocator.Current.GetInstance<IApplicationState>());
-            }
-        }
 
         private ObservableCollection<TViewModel> _items;
         public ObservableCollection<TViewModel> Items { get { return _items ?? (_items = GetItemsList()); } }
@@ -84,8 +45,6 @@ namespace Samba.Presentation.Common.ModelBase
             _workspace.CommitChanges();
         }
 
-        protected abstract TViewModel CreateNewViewModel(TModel model);
-        protected abstract TModel CreateNewModel();
         private readonly SubscriptionToken _token;
         private readonly SubscriptionToken _token2;
         public IList<EntityViewModelBase<TModel>> OpenViewModels { get; set; }
@@ -182,7 +141,8 @@ namespace Samba.Presentation.Common.ModelBase
 
         protected override void OnAddItem(object obj)
         {
-            VisibleViewModelBase wm = InternalCreateNewViewModel(CreateNewModel());
+            var model = new TModel();
+            VisibleViewModelBase wm = InternalCreateNewViewModel(model);
             if (wm is EntityViewModelBase<TModel>)
                 OpenViewModels.Add(wm as EntityViewModelBase<TModel>);
             wm.PublishEvent(EventTopicNames.ViewAdded);
@@ -225,10 +185,25 @@ namespace Samba.Presentation.Common.ModelBase
             return new ObservableCollection<TViewModel>(itemsList.Select(InternalCreateNewViewModel));
         }
 
+        protected TViewModel CreateNewViewModel(TModel model)
+        {
+            TViewModel result;
+            try
+            {
+                result = ServiceLocator.Current.GetInstance<TViewModel>();
+            }
+            catch (Exception)
+            {
+                result = Activator.CreateInstance<TViewModel>();
+            }
+            result.Model = model;
+            return result;
+        }
+
         protected TViewModel InternalCreateNewViewModel(TModel model)
         {
             var result = CreateNewViewModel(model);
-            result.Init(_workspace, InventoryService, PrinterService, TriggerService, ApplicationState);
+            result.Init(_workspace, model);
             return result;
         }
 
@@ -238,9 +213,9 @@ namespace Samba.Presentation.Common.ModelBase
             {
                 if (_workspace != null)
                     _workspace.Dispose();
+                EventServiceFactory.EventService.GetEvent<GenericEvent<EntityViewModelBase<TModel>>>().Unsubscribe(_token);
+                EventServiceFactory.EventService.GetEvent<GenericEvent<VisibleViewModelBase>>().Unsubscribe(_token2);
             }
-            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityViewModelBase<TModel>>>().Unsubscribe(_token);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<VisibleViewModelBase>>().Unsubscribe(_token2);
         }
 
         public int GetCount()

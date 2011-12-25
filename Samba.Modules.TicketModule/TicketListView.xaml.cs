@@ -1,9 +1,8 @@
 ﻿using System.Windows.Controls;
-using System.Windows.Data;
 using Microsoft.Practices.Prism.Events;
-using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Common;
 using Samba.Presentation.ViewModels;
+using Samba.Services.Common;
 
 namespace Samba.Modules.TicketModule
 {
@@ -19,7 +18,9 @@ namespace Samba.Modules.TicketModule
                 x =>
                 {
                     if (x.Topic == EventTopicNames.OrderAdded)
+                    {
                         Scroller.ScrollToEnd();
+                    }
                 });
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketViewModel>>().Subscribe(

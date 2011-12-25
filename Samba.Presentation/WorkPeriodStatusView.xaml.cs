@@ -5,8 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using Microsoft.Practices.ServiceLocation;
 using Samba.Domain.Models.Settings;
-using Samba.Presentation.Common;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Presentation
 {

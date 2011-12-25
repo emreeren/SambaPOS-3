@@ -106,12 +106,17 @@ namespace Samba.Modules.BasicReports
         {
             var filterDesc = extenstion.Trim('.', ' ').ToUpper();
 
+            defaultName = defaultName.Replace(" ", "_");
+            defaultName = defaultName.Replace(".", "_");
+
             var saveFileDialog = new SaveFileDialog
                                      {
+                                         InitialDirectory = LocalSettings.DocumentPath,
                                          FileName = defaultName,
                                          DefaultExt = extenstion,
                                          Filter = string.Format("{0} File (*{1})|*{1}", filterDesc, extenstion)
                                      };
+
 
             var result = saveFileDialog.ShowDialog();
             return result.GetValueOrDefault(false) ? saveFileDialog.FileName : "";

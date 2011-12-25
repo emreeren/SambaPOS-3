@@ -8,16 +8,6 @@ namespace Samba.Modules.SettingsModule
 {
     public class NumeratorListViewModel : EntityCollectionViewModelBase<NumeratorViewModel, Numerator>
     {
-        protected override NumeratorViewModel CreateNewViewModel(Numerator model)
-        {
-            return new NumeratorViewModel(model);
-        }
-
-        protected override Numerator CreateNewModel()
-        {
-            return new Numerator();
-        }
-
         protected override string CanDeleteItem(Numerator model)
         {
             var count = Dao.Count<TicketTemplate>(x => x.OrderNumerator.Id == model.Id);

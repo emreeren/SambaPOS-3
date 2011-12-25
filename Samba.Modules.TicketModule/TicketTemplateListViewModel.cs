@@ -9,14 +9,6 @@ namespace Samba.Modules.TicketModule
 {
     class TicketTemplateListViewModel : EntityCollectionViewModelBase<TicketTemplateViewModel, TicketTemplate>
     {
-        protected override TicketTemplateViewModel CreateNewViewModel(TicketTemplate model)
-        {
-            return new TicketTemplateViewModel(model);
-        }
 
-        protected override TicketTemplate CreateNewModel()
-        {
-            return new TicketTemplate();
-        }
     }
 }

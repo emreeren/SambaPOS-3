@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using System.Printing;
 using System.Windows.Documents;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
+using Samba.Services.Common;
 
 namespace Samba.Services
 {
@@ -13,6 +13,6 @@ namespace Samba.Services
         void AutoPrintTicket(Ticket ticket);
         void PrintReport(FlowDocument document);
         void PrintSlipReport(FlowDocument document);
-        
+        void ExecutePrintJob(PrintJob printJob);
     }
 }

@@ -71,8 +71,7 @@ namespace Samba.Modules.DepartmentModule
         public ICaptionCommand AddLocationScreenCommand { get; set; }
         public ICaptionCommand DeleteLocationScreenCommand { get; set; }
 
-        public DepartmentViewModel(Department model)
-            : base(model)
+        public DepartmentViewModel()
         {
             AddLocationScreenCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.LocationScreen), OnAddLocationScreen);
             DeleteLocationScreenCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.LocationScreen), OnDeleteLocationScreen, CanDeleteLocationScreen);

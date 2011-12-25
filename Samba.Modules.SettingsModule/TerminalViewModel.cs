@@ -14,8 +14,7 @@ namespace Samba.Modules.SettingsModule
 {
     public class TerminalViewModel : EntityViewModelBase<Terminal>
     {
-        public TerminalViewModel(Terminal model)
-            : base(model)
+        public TerminalViewModel()
         {
             SelectPrintJobsCommand = new CaptionCommand<string>(Resources.SelectPrintJob, OnAddPrintJob);
         }

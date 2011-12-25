@@ -9,14 +9,6 @@ namespace Samba.Modules.TicketModule
 {
     class OrderTagTemplateListViewModel : EntityCollectionViewModelBase<OrderTagTemplateViewModel, OrderTagTemplate>
     {
-        protected override OrderTagTemplateViewModel CreateNewViewModel(OrderTagTemplate model)
-        {
-            return new OrderTagTemplateViewModel(model);
-        }
 
-        protected override OrderTagTemplate CreateNewModel()
-        {
-            return new OrderTagTemplate();
-        }
     }
 }

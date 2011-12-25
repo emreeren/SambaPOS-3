@@ -13,8 +13,7 @@ namespace Samba.Modules.TicketModule
 {
     class OrderTagTemplateViewModel : EntityViewModelBase<OrderTagTemplate>
     {
-        public OrderTagTemplateViewModel(OrderTagTemplate model)
-            : base(model)
+        public OrderTagTemplateViewModel()
         {
             AddOrderTagTemplateCommand = new CaptionCommand<string>(Resources.Add, OnAddOrderTagTemplate);
             DeleteOrderTagTemplateCommand = new CaptionCommand<string>(Resources.Delete, OnDeleteOrderTagTemplate, CanDeleteOrderTagTemplate);

@@ -36,9 +36,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="FluentMigrator">
-      <HintPath>..\Lib\FluentMigrator.dll</HintPath>
-    </Reference>
     <Reference Include="FluentMigrator.Runner">
       <HintPath>..\Lib\FluentMigrator.Runner.dll</HintPath>
     </Reference>
@@ -53,7 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dao.cs" />
-    <Compile Include="ExpUtility.cs" />
+    <Compile Include="ExpressionUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SambaContext.cs" />
     <Compile Include="WorkspaceFactory.cs" />

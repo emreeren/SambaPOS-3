@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 using Samba.Presentation.Common.ModelBase;
+using Samba.Services.Common;
 
 namespace Samba.Presentation.Common
 {

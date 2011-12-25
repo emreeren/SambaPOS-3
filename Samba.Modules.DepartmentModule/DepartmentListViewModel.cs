@@ -8,16 +8,6 @@ namespace Samba.Modules.DepartmentModule
 {
     public class DepartmentListViewModel : EntityCollectionViewModelBase<DepartmentViewModel, Department>
     {
-        protected override DepartmentViewModel CreateNewViewModel(Department model)
-        {
-            return new DepartmentViewModel(model);
-        }
-
-        protected override Department CreateNewModel()
-        {
-            return new Department();
-        }
-
         protected override string CanDeleteItem(Department model)
         {
             var count = Dao.Count<UserRole>(x => x.DepartmentId == model.Id);

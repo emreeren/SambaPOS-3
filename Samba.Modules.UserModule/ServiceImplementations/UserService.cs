@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
 using Samba.Infrastructure.Data;
 using Samba.Persistance.Data;
-using Samba.Presentation.Common;
-using Samba.Presentation.Common.Services;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.UserModule.ServiceImplementations
 {
@@ -20,14 +17,16 @@ namespace Samba.Modules.UserModule.ServiceImplementations
         private readonly IApplicationState _applicationState;
         private readonly IApplicationStateSetter _applicationStateSetter;
         private readonly IDepartmentService _departmentService;
+        private readonly IAutomationService _automationService;
 
         [ImportingConstructor]
         public UserService(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
-            IDepartmentService departmentService)
+            IDepartmentService departmentService, IAutomationService automationService)
         {
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
             _departmentService = departmentService;
+            _automationService = automationService;
         }
 
         private static IWorkspace _workspace;
@@ -78,7 +77,10 @@ namespace Samba.Modules.UserModule.ServiceImplementations
             _applicationStateSetter.SetCurrentLoggedInUser(user);
             Reset();
             if (user != User.Nobody)
+            {
                 user.PublishEvent(EventTopicNames.UserLoggedIn);
+                _automationService.NotifyEvent(RuleEventNames.UserLoggedIn, new { User = user, RoleName = user.UserRole.Name });
+            }
             return user;
         }
 
@@ -87,8 +89,9 @@ namespace Samba.Modules.UserModule.ServiceImplementations
             var user = _applicationState.CurrentLoggedInUser;
             Debug.Assert(user != User.Nobody);
             user.PublishEvent(EventTopicNames.UserLoggedOut);
+            _automationService.NotifyEvent(RuleEventNames.UserLoggedOut, new { User = user, RoleName = user.UserRole.Name });
             _applicationStateSetter.SetCurrentLoggedInUser(User.Nobody);
-            EventServiceFactory.EventService._PublishEvent(EventTopicNames.ResetCache);
+            EventServiceFactory.EventService.PublishEvent(EventTopicNames.ResetCache, true);
         }
 
         private static User GetUserByPinCode(string pinCode)

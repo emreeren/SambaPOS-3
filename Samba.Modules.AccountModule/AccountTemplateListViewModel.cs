@@ -1,30 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel.Composition;
 using Samba.Domain.Models.Accounts;
 using Samba.Localization.Properties;
-using Samba.Persistance.Data;
 using Samba.Presentation.Common.ModelBase;
-
+using Samba.Services;
 
 namespace Samba.Modules.AccountModule
 {
+    [Export(typeof(AccountTemplateListViewModel))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     class AccountTemplateListViewModel : EntityCollectionViewModelBase<AccountTemplateViewModel, AccountTemplate>
     {
-        protected override AccountTemplateViewModel CreateNewViewModel(AccountTemplate model)
+        private readonly IAccountService _accountService;
+
+        [ImportingConstructor]
+        public AccountTemplateListViewModel(IAccountService accountService)
         {
-            return new AccountTemplateViewModel(model);
+            _accountService = accountService;
         }
 
-        protected override AccountTemplate CreateNewModel()
+        public AccountTemplateListViewModel()
         {
-            return new AccountTemplate();
+            
         }
 
         protected override string CanDeleteItem(AccountTemplate model)
         {
-            if (Dao.Count<Account>(x => x.AccountTemplate.Id == model.Id) > 0)
+            if (_accountService.DidAccountTemplateUsed(model.Id))
                 return Resources.DeleteErrorAccountTemplateAssignedtoAccounts;
             return base.CanDeleteItem(model);
         }

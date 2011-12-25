@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Collections.ObjectModel;
 using Samba.Domain.Models.Menus;
@@ -10,6 +11,7 @@ using Samba.Presentation.Common.ModelBase;
 
 namespace Samba.Modules.MenuModule
 {
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class MenuItemViewModel : EntityViewModelBase<MenuItem>
     {
         private IEnumerable<string> _groupCodes;
@@ -24,10 +26,10 @@ namespace Samba.Modules.MenuModule
             get { return _portions ?? (_portions = new ObservableCollection<PortionViewModel>(GetPortions(Model))); }
         }
 
-        private IEnumerable<TaxTemplateViewModel> _taxTemplates;
-        public IEnumerable<TaxTemplateViewModel> TaxTemplates
+        private IEnumerable<dynamic> _taxTemplates;
+        public IEnumerable<dynamic> TaxTemplates
         {
-            get { return _taxTemplates ?? (_taxTemplates = Workspace.All<TaxTemplate>().Select(x => new TaxTemplateViewModel(x))); }
+            get { return _taxTemplates ?? (_taxTemplates = Workspace.All<TaxTemplate>().Select(x => new { Model = x, DisplayName = string.Format("{0} - {1}", Name, (x.TaxIncluded ? Resources.Included : Resources.Excluded)) })); }
         }
 
         public TaxTemplate TaxTemplate { get { return Model.TaxTemplate; } set { Model.TaxTemplate = value; } }
@@ -55,8 +57,7 @@ namespace Samba.Modules.MenuModule
             set { Model.Barcode = value; }
         }
 
-        public MenuItemViewModel(MenuItem model)
-            : base(model)
+        public MenuItemViewModel()
         {
             AddPortionCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.Portion), OnAddPortion);
             DeletePortionCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.Portion), OnDeletePortion, CanDeletePortion);

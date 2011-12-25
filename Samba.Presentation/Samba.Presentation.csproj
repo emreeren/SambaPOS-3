@@ -202,6 +202,10 @@
       <Project>{EDEF0022-075C-4DEC-853F-6558F9E8438A}</Project>
       <Name>Samba.Modules.AccountModule</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.AutomationModule\Samba.Modules.AutomationModule.csproj">
+      <Project>{EAA09B33-28AD-4F33-A2E8-4DBCB42457D0}</Project>
+      <Name>Samba.Modules.AutomationModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samba.Modules.CashModule\Samba.Modules.CashModule.csproj">
       <Project>{AE519041-8D61-4B85-9770-69743DB051F7}</Project>
       <Name>Samba.Modules.CashModule</Name>
@@ -226,6 +230,10 @@
       <Project>{943FE6E9-58E2-499C-8B61-0FD8CE9F42F8}</Project>
       <Name>Samba.Modules.LocationModule</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.LoginModule\Samba.Modules.LoginModule.csproj">
+      <Project>{534CEC53-1EBC-4386-95E3-0E451FCB388A}</Project>
+      <Name>Samba.Modules.LoginModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samba.Modules.NavigationModule\Samba.Modules.NavigationModule.csproj">
       <Project>{9497C48E-B9B5-4869-820E-09ECE4347632}</Project>
       <Name>Samba.Modules.NavigationModule</Name>
@@ -249,10 +257,6 @@
     <ProjectReference Include="..\Samba.Infrastructure\Samba.Infrastructure.csproj">
       <Project>{B184E8F8-A507-4C3D-B580-184E3776A95C}</Project>
       <Name>Samba.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Samba.Modules.LoginModule\Samba.LoginModule.csproj">
-      <Project>{6A64EA38-3CED-4810-BB79-0EBA0A70B38E}</Project>
-      <Name>Samba.LoginModule</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Modules.DashboardModule\Samba.Modules.DashboardModule.csproj">
       <Project>{1544262A-3EC9-413F-9165-7CF69A15B4CF}</Project>
@@ -285,6 +289,14 @@
     <ProjectReference Include="..\Samba.Presentation.ViewModels\Samba.Presentation.ViewModels.csproj">
       <Project>{04ED7BE0-8768-4A8D-B1ED-C92CB60789EF}</Project>
       <Name>Samba.Presentation.ViewModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Services.Common\Samba.Services.Common.csproj">
+      <Project>{4C8C1254-7615-46F8-B782-C6AA1441B323}</Project>
+      <Name>Samba.Services.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Services.Implementations\Samba.Services.Implementations.csproj">
+      <Project>{FC7C3BE1-3464-4AFB-8F1C-9209EF64BE29}</Project>
+      <Name>Samba.Services.Implementations</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Services\Samba.Services.csproj">
       <Project>{413B698C-0D7D-4FCD-9F16-AF51AED4E647}</Project>

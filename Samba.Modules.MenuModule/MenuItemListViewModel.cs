@@ -27,12 +27,13 @@ namespace Samba.Modules.MenuModule
                 Resources.BatchCreateProductsDialogHint);
 
             var createdItems = new DataCreationService().BatchCreateMenuItems(values, Workspace);
+
             Workspace.CommitChanges();
 
-            foreach (var mi in createdItems)
+            foreach (var createdItem in createdItems)
             {
-                var mv = CreateNewViewModel(mi);
-                mv.Init(Workspace, InventoryService, PrinterService, TriggerService, ApplicationState);
+                var mv = CreateNewViewModel(createdItem);
+                mv.Init(Workspace, createdItem);
                 Items.Add(mv);
             }
         }
@@ -40,16 +41,6 @@ namespace Samba.Modules.MenuModule
         protected override System.Collections.Generic.IEnumerable<MenuItem> SelectItems()
         {
             return Workspace.All<MenuItem>();
-        }
-
-        protected override MenuItemViewModel CreateNewViewModel(MenuItem model)
-        {
-            return new MenuItemViewModel(model);
-        }
-
-        protected override MenuItem CreateNewModel()
-        {
-            return MenuItem.Create();
         }
 
         protected override string CanDeleteItem(MenuItem model)

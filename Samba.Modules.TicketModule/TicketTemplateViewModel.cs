@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using FluentValidation;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
@@ -18,7 +17,7 @@ namespace Samba.Modules.TicketModule
 {
     class TicketTemplateViewModel : EntityViewModelBase<TicketTemplate>
     {
-        public TicketTemplateViewModel(TicketTemplate model) : base(model)
+        public TicketTemplateViewModel()
         {
             AddTicketTagGroupCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.TicketTagGroup), OnAddTicketTagGroup);
             DeleteTicketTagGroupCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.TicketTagGroup), OnDeleteTicketTagGroup, CanDeleteTicketTagGroup);
@@ -44,41 +43,41 @@ namespace Samba.Modules.TicketModule
         public IEnumerable<string> PriceTags { get { return Dao.Select<MenuItemPriceDefinition, string>(x => x.PriceTag, x => x.Id > 0); } }
         public string PriceTag { get { return Model.PriceTag; } set { Model.PriceTag = value; } }
         
-        public TicketTagGroupViewModel SelectedTicketTag { get; set; }
-        public OrderTagGroupViewModel SelectedOrderTagGroup { get; set; }
-        public ServiceTemplateViewModel SelectedServiceTemplate { get; set; }
+        public TicketTagGroup SelectedTicketTag { get; set; }
+        public OrderTagGroup SelectedOrderTagGroup { get; set; }
+        public ServiceTemplate SelectedServiceTemplate { get; set; }
         
-        private ObservableCollection<TicketTagGroupViewModel> _ticketTagGroups;
-        public ObservableCollection<TicketTagGroupViewModel> TicketTagGroups
+        private ObservableCollection<TicketTagGroup> _ticketTagGroups;
+        public ObservableCollection<TicketTagGroup> TicketTagGroups
         {
-            get { return _ticketTagGroups ?? (_ticketTagGroups = new ObservableCollection<TicketTagGroupViewModel>(GetTicketTags(Model))); }
+            get { return _ticketTagGroups ?? (_ticketTagGroups = new ObservableCollection<TicketTagGroup>(GetTicketTags(Model))); }
         }
 
-        private ObservableCollection<ServiceTemplateViewModel> _serviceTemplates;
-        public ObservableCollection<ServiceTemplateViewModel> ServiceTemplates
+        private ObservableCollection<ServiceTemplate> _serviceTemplates;
+        public ObservableCollection<ServiceTemplate> ServiceTemplates
         {
-            get { return _serviceTemplates ?? (_serviceTemplates = new ObservableCollection<ServiceTemplateViewModel>(GetServiceTemplates(Model))); }
+            get { return _serviceTemplates ?? (_serviceTemplates = new ObservableCollection<ServiceTemplate>(GetServiceTemplates(Model))); }
         }
 
-        private ObservableCollection<OrderTagGroupViewModel> _orderTagGroups;
-        public ObservableCollection<OrderTagGroupViewModel> OrderTagGroups
+        private ObservableCollection<OrderTagGroup> _orderTagGroups;
+        public ObservableCollection<OrderTagGroup> OrderTagGroups
         {
-            get { return _orderTagGroups ?? (_orderTagGroups = new ObservableCollection<OrderTagGroupViewModel>(GetOrderTagGroups(Model))); }
+            get { return _orderTagGroups ?? (_orderTagGroups = new ObservableCollection<OrderTagGroup>(GetOrderTagGroups(Model))); }
         }
 
-        private static IEnumerable<TicketTagGroupViewModel> GetTicketTags(TicketTemplate model)
+        private static IEnumerable<TicketTagGroup> GetTicketTags(TicketTemplate model)
         {
-            return model.TicketTagGroups.OrderBy(x => x.Order).Select(x => new TicketTagGroupViewModel(x));
+            return model.TicketTagGroups.OrderBy(x => x.Order);
         }
 
-        private static IEnumerable<OrderTagGroupViewModel> GetOrderTagGroups(TicketTemplate model)
+        private static IEnumerable<OrderTagGroup> GetOrderTagGroups(TicketTemplate model)
         {
-            return model.OrderTagGroups.OrderBy(x => x.Order).Select(x => new OrderTagGroupViewModel(x));
+            return model.OrderTagGroups.OrderBy(x => x.Order);
         }
 
-        private static IEnumerable<ServiceTemplateViewModel> GetServiceTemplates(TicketTemplate model)
+        private static IEnumerable<ServiceTemplate> GetServiceTemplates(TicketTemplate model)
         {
-            return model.ServiceTemplates.OrderBy(x => x.Order).Select(x => new ServiceTemplateViewModel(x));
+            return model.ServiceTemplates.OrderBy(x => x.Order);
         }
 
         private bool CanDeleteOrderTagGroup(string arg)
@@ -88,7 +87,7 @@ namespace Samba.Modules.TicketModule
 
         private void OnDeleteOrderTagGroup(string obj)
         {
-            Model.OrderTagGroups.Remove(SelectedOrderTagGroup.Model);
+            Model.OrderTagGroups.Remove(SelectedOrderTagGroup);
             OrderTagGroups.Remove(SelectedOrderTagGroup);
         }
 
@@ -105,7 +104,7 @@ namespace Samba.Modules.TicketModule
                     Model.OrderTagGroups.Add(selectedValue);
             }
 
-            _orderTagGroups = new ObservableCollection<OrderTagGroupViewModel>(GetOrderTagGroups(Model));
+            _orderTagGroups = new ObservableCollection<OrderTagGroup>(GetOrderTagGroups(Model));
 
             RaisePropertyChanged(() => OrderTagGroups);
         }
@@ -117,7 +116,7 @@ namespace Samba.Modules.TicketModule
 
         private void OnDeleteTicketTagGroup(string obj)
         {
-            Model.TicketTagGroups.Remove(SelectedTicketTag.Model);
+            Model.TicketTagGroups.Remove(SelectedTicketTag);
             TicketTagGroups.Remove(SelectedTicketTag);
         }
 
@@ -134,7 +133,7 @@ namespace Samba.Modules.TicketModule
                     Model.TicketTagGroups.Add(selectedValue);
             }
 
-            _ticketTagGroups = new ObservableCollection<TicketTagGroupViewModel>(GetTicketTags(Model));
+            _ticketTagGroups = new ObservableCollection<TicketTagGroup>(GetTicketTags(Model));
 
             RaisePropertyChanged(() => TicketTagGroups);
         }
@@ -146,7 +145,7 @@ namespace Samba.Modules.TicketModule
 
         private void OnDeleteServiceTempalte(string obj)
         {
-            Model.ServiceTemplates.Remove(SelectedServiceTemplate.Model);
+            Model.ServiceTemplates.Remove(SelectedServiceTemplate);
             ServiceTemplates.Remove(SelectedServiceTemplate);
         }
 
@@ -163,7 +162,7 @@ namespace Samba.Modules.TicketModule
                     Model.ServiceTemplates.Add(selectedValue);
             }
 
-            _serviceTemplates = new ObservableCollection<ServiceTemplateViewModel>(GetServiceTemplates(Model));
+            _serviceTemplates = new ObservableCollection<ServiceTemplate>(GetServiceTemplates(Model));
 
             RaisePropertyChanged(() => ServiceTemplates);
         }

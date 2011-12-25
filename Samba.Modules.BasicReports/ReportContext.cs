@@ -30,7 +30,28 @@ namespace Samba.Modules.BasicReports
         public static IUserService UserService { get; set; }
         public static IApplicationState ApplicationState { get; set; }
 
-        public static IList<ReportViewModelBase> Reports { get; private set; }
+        private static IList<ReportViewModelBase> _reports;
+        public static IList<ReportViewModelBase> Reports
+        {
+            get { return _reports ?? (_reports = GetReports()); }
+        }
+
+        private static IList<ReportViewModelBase> GetReports()
+        {
+            return new List<ReportViewModelBase>
+                          {
+                              new EndDayReportViewModel(UserService,ApplicationState),
+                              new ProductReportViewModel(UserService,ApplicationState),
+                              new CashReportViewModel(UserService,ApplicationState),
+                              new LiabilityReportViewModel(UserService,ApplicationState),
+                              new ReceivableReportViewModel(UserService,ApplicationState),
+                              new InternalAccountsViewModel(UserService,ApplicationState),
+                              new PurchaseReportViewModel(UserService,ApplicationState),
+                              new InventoryReportViewModel(UserService,ApplicationState),
+                              new CostReportViewModel(UserService,ApplicationState),
+                              new CsvBuilderViewModel(UserService,ApplicationState)
+                          };
+        }
 
         private static IEnumerable<Ticket> _tickets;
         public static IEnumerable<Ticket> Tickets { get { return _tickets ?? (_tickets = GetTickets()); } }
@@ -163,23 +184,6 @@ namespace Samba.Modules.BasicReports
         }
 
         public static string CurrencyFormat { get { return "#,#0.00;-#,#0.00;-"; } }
-
-        static ReportContext()
-        {
-            Reports = new List<ReportViewModelBase>
-                          {
-                              new EndDayReportViewModel(UserService,ApplicationState),
-                              new ProductReportViewModel(UserService,ApplicationState),
-                              new CashReportViewModel(UserService,ApplicationState),
-                              new LiabilityReportViewModel(UserService,ApplicationState),
-                              new ReceivableReportViewModel(UserService,ApplicationState),
-                              new InternalAccountsViewModel(UserService,ApplicationState),
-                              new PurchaseReportViewModel(UserService,ApplicationState),
-                              new InventoryReportViewModel(UserService,ApplicationState),
-                              new CostReportViewModel(UserService,ApplicationState),
-                              new CsvBuilderViewModel(UserService,ApplicationState)
-                          };
-        }
 
         public static void ResetCache()
         {

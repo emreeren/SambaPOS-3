@@ -10,16 +10,6 @@ namespace Samba.Modules.MenuModule
 {
     class MenuItemPriceDefinitionListViewModel : EntityCollectionViewModelBase<MenuItemPriceDefinitionViewModel, MenuItemPriceDefinition>
     {
-        protected override MenuItemPriceDefinitionViewModel CreateNewViewModel(MenuItemPriceDefinition model)
-        {
-            return new MenuItemPriceDefinitionViewModel(model);
-        }
-
-        protected override MenuItemPriceDefinition CreateNewModel()
-        {
-            return new MenuItemPriceDefinition();
-        }
-
         protected override void BeforeDeleteItem(MenuItemPriceDefinition item)
         {
             using (var workspace = WorkspaceFactory.Create())

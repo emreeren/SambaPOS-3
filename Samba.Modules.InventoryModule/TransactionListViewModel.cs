@@ -1,23 +1,23 @@
-﻿using Samba.Domain.Models.Inventories;
+﻿using System.ComponentModel.Composition;
+using Samba.Domain.Models.Inventories;
 using Samba.Presentation.Common.ModelBase;
+using Samba.Services;
 
 namespace Samba.Modules.InventoryModule
 {
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     class TransactionListViewModel : EntityCollectionViewModelBase<TransactionViewModel, InventoryTransaction>
     {
-        protected override TransactionViewModel CreateNewViewModel(InventoryTransaction model)
-        {
-            return new TransactionViewModel(model);
-        }
+        private readonly IApplicationState _applicationState;
 
-        protected override InventoryTransaction CreateNewModel()
+        public TransactionListViewModel(IApplicationState applicationState)
         {
-            return new InventoryTransaction();
+            _applicationState = applicationState;
         }
 
         protected override bool CanAddItem(object obj)
         {
-            return ApplicationState.CurrentWorkPeriod != null;
+            return _applicationState.CurrentWorkPeriod != null;
         }
     }
 }

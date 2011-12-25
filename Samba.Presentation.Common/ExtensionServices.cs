@@ -12,8 +12,6 @@ using System.Windows.Threading;
 
 namespace Samba.Presentation.Common
 {
-    delegate void PublishEventDelegate<in TEventSubject>(TEventSubject eventArgs, string eventTopic);
-
     public static class ExtensionServices
     {
         public static void BackgroundFocus(this UIElement el)
@@ -26,23 +24,6 @@ namespace Samba.Presentation.Common
         {
             Action a = textBox.SelectAll;
             textBox.Dispatcher.BeginInvoke(DispatcherPriority.Input, a);
-        }
-
-        public static void _PublishEvent<TEventsubject>(this TEventsubject eventArgs, string eventTopic)
-        {
-            var e = EventServiceFactory.EventService.GetEvent<GenericEvent<TEventsubject>>();
-            e.Publish(new EventParameters<TEventsubject> { Topic = eventTopic, Value = eventArgs });
-        }
-
-        public static void PublishEvent<TEventsubject>(this TEventsubject eventArgs, string eventTopic)
-        {
-            PublishEvent(eventArgs, eventTopic, false);
-        }
-
-        public static void PublishEvent<TEventsubject>(this TEventsubject eventArgs, string eventTopic, bool wait)
-        {
-            if (wait) Application.Current.Dispatcher.Invoke(new PublishEventDelegate<TEventsubject>(_PublishEvent), eventArgs, eventTopic);
-            else Application.Current.Dispatcher.BeginInvoke(new PublishEventDelegate<TEventsubject>(_PublishEvent), eventArgs, eventTopic);
         }
 
         public static void AddRange<T>(this ObservableCollection<T> oc, IEnumerable<T> collection)

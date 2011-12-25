@@ -5,6 +5,7 @@ using Samba.Domain.Models.Accounts;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.CashModule
 {

@@ -10,6 +10,7 @@ using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Services;
 using FlexButton;
+using Samba.Services.Common;
 
 namespace Samba.Presentation.Common.Interaction
 {
@@ -101,14 +102,15 @@ namespace Samba.Presentation.Common.Interaction
 
         private PopupWindow _popupWindow;
 
-        public UserInteraction()
+        [ImportingConstructor]
+        public UserInteraction(IAutomationService automationService)
         {
             _popupDataViewModel = new PopupDataViewModel();
 
-            RuleActionTypeRegistry.RegisterActionType("ShowMessage", Resources.ShowMessage, new { Message = "" });
-            RuleActionTypeRegistry.RegisterActionType("DisplayPopup", Resources.DisplayPopup, new { Title = "", Message = "", Color = "" });
+            automationService.RegisterActionType("ShowMessage", Resources.ShowMessage, new { Message = "" });
+            automationService.RegisterActionType("DisplayPopup", Resources.DisplayPopup, new { Title = "", Message = "", Color = "" });
 
-            EventServiceFactory.EventService.GetEvent<GenericEvent<ActionData>>().Subscribe(x =>
+            EventServiceFactory.EventService.GetEvent<GenericEvent<IActionData>>().Subscribe(x =>
             {
                 if (x.Value.Action.ActionType == "ShowMessage")
                 {

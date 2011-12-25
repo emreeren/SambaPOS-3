@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="Samba.Modules.AutomationModule.TriggerView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" d:DesignHeight="300"
+     d:DesignWidth="300">
+    <Grid>
+        <StackPanel>
+            <Label HorizontalAlignment="Left" Content="{LocText TriggerName}" />
+            <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
+            <Label HorizontalAlignment="Left" Content="{LocText Expression}" />
+            <TextBox IsReadOnly="True" HorizontalAlignment="Left" MinWidth="200" Text="{Binding Expression}" />
+            <GroupBox Header="{LocText ExpressionBuilder}" HorizontalAlignment="Left"
+                 Margin="5">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                        <Label MinWidth="126">
+                            <LocText ResourceIdentifierKey="CommonSettings" Suffix=":"/>
+                        </Label>
+                        <ComboBox MinWidth="150" ItemsSource="{Binding CommonCronSettings}" SelectedItem="{Binding SelectedCronSetting}"
+                             DisplayMemberPath="SettingName" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                        <Label MinWidth="70">
+                            <LocText ResourceIdentifierKey="Minute" Suffix=":"/>
+                        </Label>
+                        <TextBox Margin="5,0" Text="{Binding Minute}" MinWidth="50" />
+                        <ComboBox MinWidth="150" ItemsSource="{Binding CommonMinuteCronSettings}" SelectedItem="{Binding SelectedMinuteCronSetting}"
+                             DisplayMemberPath="SettingName" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                        <Label MinWidth="70">
+                            <LocText ResourceIdentifierKey="Hour" Suffix=":"/>
+                        </Label>
+                        <TextBox Margin="5,0" Text="{Binding Hour}" MinWidth="50" />
+                        <ComboBox MinWidth="150" ItemsSource="{Binding CommonHourCronSettings}" SelectedItem="{Binding SelectedHourCronSetting}"
+                             DisplayMemberPath="SettingName" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                        <Label MinWidth="70">
+                            <LocText ResourceIdentifierKey="Day" Suffix=":"/>
+                        </Label>
+                        <TextBox Margin="5,0" Text="{Binding Day}" MinWidth="50" />
+                        <ComboBox MinWidth="150" ItemsSource="{Binding CommonDayCronSettings}" SelectedItem="{Binding SelectedDayCronSetting}"
+                             DisplayMemberPath="SettingName" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                        <Label MinWidth="70">
+                            <LocText ResourceIdentifierKey="Month" Suffix=":"/>
+                        </Label>
+                        <TextBox Margin="5,0" Text="{Binding Month}" MinWidth="50" />
+                        <ComboBox MinWidth="150" ItemsSource="{Binding CommonMonthCronSettings}" SelectedItem="{Binding SelectedMonthCronSetting}"
+                             DisplayMemberPath="SettingName" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                        <Label MinWidth="70">
+                            <LocText ResourceIdentifierKey="Weekday" Suffix=":"/>
+                        </Label>
+                        <TextBox Margin="5,0" Text="{Binding Weekday}" MinWidth="50" />
+                        <ComboBox MinWidth="150" ItemsSource="{Binding CommonWeekdayCronSettings}" SelectedItem="{Binding SelectedWeekdayCronSetting}"
+                             DisplayMemberPath="SettingName" />
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+            <StackPanel Orientation="Horizontal">
+                <Button HorizontalAlignment="Left" Margin="0,10,3,0" MinWidth="70" Content="{Binding SaveCommand.Caption}"
+                 Command="{Binding SaveCommand}" />
+                <Button HorizontalAlignment="Left" Margin="0,10,3,0" MinWidth="70" Content="{Binding TestExpressionCommand.Caption}"
+                 Command="{Binding TestExpressionCommand}" />
+            </StackPanel>
+            <Label Content="{Binding Error}" Foreground="Red" />
+        </StackPanel>
+    </Grid>
+</UserControl>

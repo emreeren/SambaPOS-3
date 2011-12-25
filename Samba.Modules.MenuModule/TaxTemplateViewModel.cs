@@ -7,11 +7,6 @@ namespace Samba.Modules.MenuModule
 {
     public class TaxTemplateViewModel : EntityViewModelBase<TaxTemplate>
     {
-        public TaxTemplateViewModel(TaxTemplate model)
-            : base(model)
-        {
-        }
-
         public string DisplayName
         {
             get

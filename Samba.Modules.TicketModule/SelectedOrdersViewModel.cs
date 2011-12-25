@@ -15,6 +15,7 @@ using Samba.Presentation.Common;
 using Samba.Presentation.Common.UIControls;
 using Samba.Presentation.ViewModels;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.TicketModule
 {
@@ -287,7 +288,7 @@ namespace Samba.Modules.TicketModule
                 OrderTagGroups.AddRange(
                     _ticketService.GetOrderTagGroupsForItem(SelectedItem.MenuItem)
                     .Where(x => string.IsNullOrEmpty(x.ButtonHeader))
-                    .Select(x => new OrderTagGroupViewModel(SelectedTicket.SelectedOrders.Select(y => y.Model), x)));
+                    .Select(x => new OrderTagGroupViewModel(SelectedTicket.SelectedOrders.Select(y => y.Model)){Model = x}));
                 RaisePropertyChanged(() => IsPortionsVisible);
             }
 

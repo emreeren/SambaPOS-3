@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using Samba.Domain.Models.Locations;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
+using Samba.Infrastructure.Settings;
 using Samba.Persistance.Data;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Presentation.Common.Services
 {
@@ -14,10 +17,28 @@ namespace Samba.Presentation.Common.Services
     public class ApplicationState : AbstractService, IApplicationState, IApplicationStateSetter
     {
         private readonly IDepartmentService _departmentService;
+        private readonly ISettingService _settingService;
+
         [ImportingConstructor]
-        public ApplicationState(IDepartmentService departmentService)
+        public ApplicationState(IDepartmentService departmentService,ISettingService settingService)
         {
             _departmentService = departmentService;
+            _settingService = settingService;
+        }
+
+        public AppScreens ActiveAppScreen { get; private set; }
+        public Department CurrentDepartment { get; private set; }
+        public Ticket CurrentTicket { get; private set; }
+        public LocationScreen SelectedLocationScreen { get; private set; }
+
+        private Terminal _terminal;
+        public Terminal CurrentTerminal { get { return _terminal ?? (_terminal = GetCurrentTerminal()); } set { _terminal = value; } }
+
+        private User _currentLoggedInUser;
+        public User CurrentLoggedInUser
+        {
+            get { return _currentLoggedInUser ?? User.Nobody; }
+            private set { _currentLoggedInUser = value; }
         }
 
         private IEnumerable<WorkPeriod> _lastTwoWorkPeriods;
@@ -44,27 +65,15 @@ namespace Samba.Presentation.Common.Services
             }
         }
 
-        public Ticket CurrentTicket { get; private set; }
-
-        private User _currentLoggedInUser;
-        public User CurrentLoggedInUser
+        public void SetCurrentLoggedInUser(User user)
         {
-            get { return _currentLoggedInUser ?? User.Nobody; }
-            private set { _currentLoggedInUser = value; }
+            CurrentLoggedInUser = user;
         }
-
-        public AppScreens ActiveAppScreen { get; private set; }
-        public Department CurrentDepartment { get; private set; }
 
         public void SetCurrentTicket(Ticket ticket)
         {
             CurrentTicket = ticket;
-            (this as IApplicationState)._PublishEvent(EventTopicNames.SelectedTicketChanged);
-        }
-
-        public void SetCurrentLoggedInUser(User user)
-        {
-            CurrentLoggedInUser = user;
+            (this as IApplicationState).PublishEvent(EventTopicNames.SelectedTicketChanged);
         }
 
         public void SetCurrentDepartment(Department department)
@@ -86,6 +95,22 @@ namespace Samba.Presentation.Common.Services
             ActiveAppScreen = appScreen;
         }
 
+        public void SetSelectedLocationScreen(LocationScreen locationScreen)
+        {
+            SelectedLocationScreen = locationScreen;
+        }
+
+        private Terminal GetCurrentTerminal()
+        {
+            if (!string.IsNullOrEmpty(LocalSettings.TerminalName))
+            {
+                var terminal = _settingService.GetTerminalByName(LocalSettings.TerminalName);
+                if (terminal != null) return terminal;
+            }
+            var dterminal = _settingService.GetDefaultTerminal();
+            return dterminal ?? Terminal.DefaultTerminal;
+        }
+
         public void ResetWorkPeriods()
         {
             _lastTwoWorkPeriods = null;
@@ -94,6 +119,7 @@ namespace Samba.Presentation.Common.Services
         public override void Reset()
         {
             _lastTwoWorkPeriods = null;
+            _terminal = null;
         }
     }
 }

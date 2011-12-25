@@ -9,6 +9,7 @@ using Samba.Infrastructure.Data;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common.Services;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.InventoryModule.ServiceImplementations
 {
@@ -175,15 +176,16 @@ namespace Samba.Modules.InventoryModule.ServiceImplementations
                     foreach (var recipeItem in recipe.RecipeItems.Where(x => x.InventoryItem != null && x.Quantity > 0))
                     {
                         var item = recipeItem;
-                        var pci = pc.PeriodicConsumptionItems.Single(x => x.InventoryItem.Id == item.InventoryItem.Id);
-                        if (pci.GetPredictedConsumption() > 0)
+                        var pci = pc.PeriodicConsumptionItems.SingleOrDefault(x => x.InventoryItem.Id == item.InventoryItem.Id);
+                        if (pci != null && pci.GetPredictedConsumption() > 0)
                         {
                             var cost = recipeItem.Quantity * (pci.Cost / pci.UnitMultiplier);
                             cost = (pci.GetConsumption() * cost) / pci.GetPredictedConsumption();
                             totalcost += cost;
                         }
                     }
-                    pc.CostItems.Single(x => x.Portion.Id == recipe.Portion.Id).Cost = decimal.Round(totalcost, 2);
+                    var ci = pc.CostItems.SingleOrDefault(x => x.Portion.Id == recipe.Portion.Id);
+                    if (ci != null) ci.Cost = decimal.Round(totalcost, 2);
                 }
             }
         }

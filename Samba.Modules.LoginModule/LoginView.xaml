@@ -1,9 +1,7 @@
-﻿<UserControl x:Class="Samba.Login.LoginView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<UserControl x:Class="Samba.Modules.LoginModule.LoginView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:Login1="clr-namespace:Samba.Login"
-     mc:Ignorable="d" d:DesignWidth="774" Background="{StaticResource {x:Static SystemColors.ControlLightBrushKey}}"
+     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:Login1="clr-namespace:Samba.Modules.LoginModule" mc:Ignorable="d" d:DesignWidth="774" Background="{StaticResource {x:Static SystemColors.ControlLightBrushKey}}"
      PreviewTextInput="UserControl_PreviewTextInput" PreviewKeyDown="UserControl_PreviewKeyDown">
     <Grid>
         <Grid.ColumnDefinitions>

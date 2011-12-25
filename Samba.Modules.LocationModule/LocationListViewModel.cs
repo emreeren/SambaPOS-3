@@ -32,16 +32,6 @@ namespace Samba.Modules.LocationModule
                 Items.Add(CreateNewViewModel(location));
         }
 
-        protected override LocationEditorViewModel CreateNewViewModel(Location model)
-        {
-            return new LocationEditorViewModel(model);
-        }
-
-        protected override Location CreateNewModel()
-        {
-            return new Location();
-        }
-
         protected override string CanDeleteItem(Location model)
         {
             if (model.TicketId > 0) return Resources.DeleteErrorTicketAssignedToLocation;

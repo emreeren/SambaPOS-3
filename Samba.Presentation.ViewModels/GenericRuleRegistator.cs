@@ -9,34 +9,25 @@ using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
-using Samba.Domain.Models.Users;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Presentation.ViewModels
 {
     public static class GenericRuleRegistator
     {
-        private static readonly IDepartmentService DepartmentService =
-            ServiceLocator.Current.GetInstance<IDepartmentService>();
-
-        private static readonly ITicketService TicketService =
-            ServiceLocator.Current.GetInstance<ITicketService>();
-
-        private static readonly IApplicationState ApplicationState =
-            ServiceLocator.Current.GetInstance<IApplicationState>();
-
-        private static readonly IUserService UserService =
-            ServiceLocator.Current.GetInstance<IUserService>();
-
-        private static readonly ITriggerService TriggerService =
-            ServiceLocator.Current.GetInstance<ITriggerService>();
-
-        private static readonly IMenuService MenuService =
-            ServiceLocator.Current.GetInstance<IMenuService>();
-
+        private static readonly IDepartmentService DepartmentService = ServiceLocator.Current.GetInstance<IDepartmentService>();
+        private static readonly ITicketService TicketService = ServiceLocator.Current.GetInstance<ITicketService>();
+        private static readonly IApplicationState ApplicationState = ServiceLocator.Current.GetInstance<IApplicationState>();
+        private static readonly IUserService UserService = ServiceLocator.Current.GetInstance<IUserService>();
+        private static readonly ITriggerService TriggerService = ServiceLocator.Current.GetInstance<ITriggerService>();
+        private static readonly IMenuService MenuService = ServiceLocator.Current.GetInstance<IMenuService>();
+        private static readonly IPrinterService PrinterService = ServiceLocator.Current.GetInstance<IPrinterService>();
+        private static readonly ISettingService SettingService = ServiceLocator.Current.GetInstance<ISettingService>();
+        private static readonly IAutomationService AutomationService = ServiceLocator.Current.GetInstance<IAutomationService>();
 
         private static bool _registered;
         public static void RegisterOnce()
@@ -52,65 +43,70 @@ namespace Samba.Presentation.ViewModels
 
         private static void RegisterActions()
         {
-            RuleActionTypeRegistry.RegisterActionType("SendEmail", Resources.SendEmail, new { SMTPServer = "", SMTPUser = "", SMTPPassword = "", SMTPPort = 0, ToEMailAddress = "", Subject = "", FromEMailAddress = "", EMailMessage = "", FileName = "", DeleteFile = false });
-            RuleActionTypeRegistry.RegisterActionType("AddTicketDiscount", Resources.AddTicketDiscount, new { DiscountPercentage = 0m });
-            RuleActionTypeRegistry.RegisterActionType("AddOrder", Resources.AddOrder, new { MenuItemName = "", PortionName = "", Quantity = 0, Tag = "" });
-            RuleActionTypeRegistry.RegisterActionType("UpdateTicketTag", Resources.UpdateTicketTag, new { TagName = "", TagValue = "" });
-            RuleActionTypeRegistry.RegisterActionType("TagOrder", "Tag Order", new { OrderTagName = "", OrderTagValue = "" });
-            RuleActionTypeRegistry.RegisterActionType("UntagOrder", "Untag Order", new { OrderTagName = "", OrderTagValue = "" });
-            RuleActionTypeRegistry.RegisterActionType("RemoveOrderTag", "Remove OrderTag", new { OrderTagName = "" });
-            RuleActionTypeRegistry.RegisterActionType("UpdatePriceTag", Resources.UpdatePriceTag, new { DepartmentName = "", PriceTag = "" });
-            RuleActionTypeRegistry.RegisterActionType("RefreshCache", Resources.RefreshCache);
-            RuleActionTypeRegistry.RegisterActionType("SendMessage", Resources.BroadcastMessage, new { Command = "" });
-            RuleActionTypeRegistry.RegisterActionType("UpdateProgramSetting", Resources.UpdateProgramSetting, new { SettingName = "", SettingValue = "" });
-            RuleActionTypeRegistry.RegisterActionType("UpdateTicketTax", Resources.UpdateTicketTax, new { TaxTemplate = "" });
-            RuleActionTypeRegistry.RegisterActionType("RegenerateTicketTax", Resources.RegenerateTicketTax);
-            RuleActionTypeRegistry.RegisterActionType("UpdateTicketService", Resources.UpdateTicketService, new { ServiceTemplate = "", Amount = 0m });
-            RuleActionTypeRegistry.RegisterActionType("UpdateTicketAccount", Resources.UpdateTicketAccount, new { AccountPhone = "", AccountName = "", Note = "" });
+            AutomationService.RegisterActionType("SendEmail", Resources.SendEmail, new { SMTPServer = "", SMTPUser = "", SMTPPassword = "", SMTPPort = 0, ToEMailAddress = "", Subject = "", FromEMailAddress = "", EMailMessage = "", FileName = "", DeleteFile = false });
+            AutomationService.RegisterActionType("AddTicketDiscount", Resources.AddTicketDiscount, new { DiscountPercentage = 0m });
+            AutomationService.RegisterActionType("AddOrder", Resources.AddOrder, new { MenuItemName = "", PortionName = "", Quantity = 0, Tag = "" });
+            AutomationService.RegisterActionType("UpdateTicketTag", Resources.UpdateTicketTag, new { TagName = "", TagValue = "" });
+            AutomationService.RegisterActionType("TagOrder", "Tag Order", new { OrderTagName = "", OrderTagValue = "" });
+            AutomationService.RegisterActionType("UntagOrder", "Untag Order", new { OrderTagName = "", OrderTagValue = "" });
+            AutomationService.RegisterActionType("RemoveOrderTag", "Remove OrderTag", new { OrderTagName = "" });
+            AutomationService.RegisterActionType("UpdatePriceTag", Resources.UpdatePriceTag, new { DepartmentName = "", PriceTag = "" });
+            AutomationService.RegisterActionType("RefreshCache", Resources.RefreshCache);
+            AutomationService.RegisterActionType("SendMessage", Resources.BroadcastMessage, new { Command = "" });
+            AutomationService.RegisterActionType("UpdateProgramSetting", Resources.UpdateProgramSetting, new { SettingName = "", SettingValue = "" });
+            AutomationService.RegisterActionType("UpdateTicketTax", Resources.UpdateTicketTax, new { TaxTemplate = "" });
+            AutomationService.RegisterActionType("RegenerateTicketTax", Resources.RegenerateTicketTax);
+            AutomationService.RegisterActionType("UpdateTicketService", Resources.UpdateTicketService, new { ServiceTemplate = "", Amount = 0m });
+            AutomationService.RegisterActionType("UpdateTicketAccount", Resources.UpdateTicketAccount, new { AccountPhone = "", AccountName = "", Note = "" });
+            AutomationService.RegisterActionType("ExecutePrintJob", "Execute Print Job", new { PrintJobName = "" });
         }
 
         private static void RegisterRules()
         {
-            RuleActionTypeRegistry.RegisterEvent(RuleEventNames.UserLoggedIn, Resources.UserLogin, new { RoleName = "" });
-            RuleActionTypeRegistry.RegisterEvent(RuleEventNames.UserLoggedOut, Resources.UserLogout, new { RoleName = "" });
-            RuleActionTypeRegistry.RegisterEvent(RuleEventNames.WorkPeriodStarts, Resources.WorkPeriodStarted);
-            RuleActionTypeRegistry.RegisterEvent(RuleEventNames.WorkPeriodEnds, Resources.WorkPeriodEnded);
-            RuleActionTypeRegistry.RegisterEvent(RuleEventNames.TriggerExecuted, Resources.TriggerExecuted, new { TriggerName = "" });
-            RuleActionTypeRegistry.RegisterEvent(RuleEventNames.TicketCreated, Resources.TicketCreated);
-            RuleActionTypeRegistry.RegisterEvent(RuleEventNames.TicketLocationChanged, Resources.TicketLocationChanged, new { OldLocation = "", NewLocation = "" });
-            RuleActionTypeRegistry.RegisterEvent(RuleEventNames.TicketTagSelected, Resources.TicketTagSelected, new { TagName = "", TagValue = "", NumericValue = 0, TicketTag = "" });
-            RuleActionTypeRegistry.RegisterEvent(RuleEventNames.OrderTagged, "Order Tagged", new { OrderTagName = "", OrderTagValue = "" });
-            RuleActionTypeRegistry.RegisterEvent(RuleEventNames.OrderUntagged, "Order Untagged", new { OrderTagName = "", OrderTagValue = "" });
-            RuleActionTypeRegistry.RegisterEvent(RuleEventNames.AccountSelectedForTicket, Resources.AccountSelectedForTicket, new { AccountName = "", PhoneNumber = "", AccountNote = "" });
-            RuleActionTypeRegistry.RegisterEvent(RuleEventNames.TicketTotalChanged, Resources.TicketTotalChanged, new { TicketTotal = 0m, PreviousTotal = 0m, DiscountTotal = 0m, DiscountAmount = 0m, TipAmount = 0m });
-            RuleActionTypeRegistry.RegisterEvent(RuleEventNames.MessageReceived, Resources.MessageReceived, new { Command = "" });
+            AutomationService.RegisterEvent(RuleEventNames.UserLoggedIn, Resources.UserLogin, new { RoleName = "" });
+            AutomationService.RegisterEvent(RuleEventNames.UserLoggedOut, Resources.UserLogout, new { RoleName = "" });
+            AutomationService.RegisterEvent(RuleEventNames.WorkPeriodStarts, Resources.WorkPeriodStarted);
+            AutomationService.RegisterEvent(RuleEventNames.WorkPeriodEnds, Resources.WorkPeriodEnded);
+            AutomationService.RegisterEvent(RuleEventNames.TriggerExecuted, Resources.TriggerExecuted, new { TriggerName = "" });
+            AutomationService.RegisterEvent(RuleEventNames.TicketCreated, Resources.TicketCreated);
+            AutomationService.RegisterEvent(RuleEventNames.TicketLocationChanged, Resources.TicketLocationChanged, new { OldLocation = "", NewLocation = "" });
+            AutomationService.RegisterEvent(RuleEventNames.TicketTagSelected, Resources.TicketTagSelected, new { TagName = "", TagValue = "", NumericValue = 0, TicketTag = "" });
+            AutomationService.RegisterEvent(RuleEventNames.OrderTagged, "Order Tagged", new { OrderTagName = "", OrderTagValue = "" });
+            AutomationService.RegisterEvent(RuleEventNames.OrderUntagged, "Order Untagged", new { OrderTagName = "", OrderTagValue = "" });
+            AutomationService.RegisterEvent(RuleEventNames.AccountSelectedForTicket, Resources.AccountSelectedForTicket, new { AccountName = "", PhoneNumber = "", AccountNote = "" });
+            AutomationService.RegisterEvent(RuleEventNames.TicketTotalChanged, Resources.TicketTotalChanged, new { TicketTotal = 0m, PreviousTotal = 0m, DiscountTotal = 0m, DiscountAmount = 0m, TipAmount = 0m });
+            AutomationService.RegisterEvent(RuleEventNames.MessageReceived, Resources.MessageReceived, new { Command = "" });
+            AutomationService.RegisterEvent(RuleEventNames.TicketLineAdded, "Line Added to Ticket", new { MenuItemName = "" });
+            AutomationService.RegisterEvent(RuleEventNames.ChangeAmountChanged, "Change Amount Updated", new { TicketAmount = 0, ChangeAmount = 0, TenderedAmount = 0 });
+            AutomationService.RegisterEvent(RuleEventNames.TicketClosed, "Ticket Closed");
+            AutomationService.RegisterEvent(RuleEventNames.ApplicationStarted, "Application Started");
         }
 
         private static void RegisterParameterSources()
         {
-            RuleActionTypeRegistry.RegisterParameterSoruce("UserName", () => UserService.GetUserNames());
-            RuleActionTypeRegistry.RegisterParameterSoruce("DepartmentName", () => DepartmentService.GetDepartmentNames());
-            RuleActionTypeRegistry.RegisterParameterSoruce("TerminalName", () => AppServices.Terminals.Select(x => x.Name));
-            RuleActionTypeRegistry.RegisterParameterSoruce("TriggerName", () => Dao.Select<Trigger, string>(yz => yz.Name, y => !string.IsNullOrEmpty(y.Expression)));
-            RuleActionTypeRegistry.RegisterParameterSoruce("MenuItemName", () => Dao.Select<MenuItem, string>(yz => yz.Name, y => y.Id > 0));
-            RuleActionTypeRegistry.RegisterParameterSoruce("PriceTag", () => Dao.Select<MenuItemPriceDefinition, string>(x => x.PriceTag, x => x.Id > 0));
-            RuleActionTypeRegistry.RegisterParameterSoruce("Color", () => typeof(Colors).GetProperties(BindingFlags.Public | BindingFlags.Static).Select(x => x.Name));
-            RuleActionTypeRegistry.RegisterParameterSoruce("TaxTemplate", () => Dao.Select<TaxTemplate, string>(x => x.Name, x => x.Id > 0));
-            RuleActionTypeRegistry.RegisterParameterSoruce("ServiceTemplate", () => Dao.Select<ServiceTemplate, string>(x => x.Name, x => x.Id > 0));
-            RuleActionTypeRegistry.RegisterParameterSoruce("TagName", () => Dao.Select<TicketTagGroup, string>(x => x.Name, x => x.Id > 0));
-            RuleActionTypeRegistry.RegisterParameterSoruce("OrderTagName", () => Dao.Select<OrderTagGroup, string>(x => x.Name, x => x.Id > 0));
+            AutomationService.RegisterParameterSoruce("UserName", () => UserService.GetUserNames());
+            AutomationService.RegisterParameterSoruce("DepartmentName", () => DepartmentService.GetDepartmentNames());
+            AutomationService.RegisterParameterSoruce("TerminalName", () => SettingService.GetTerminalNames());
+            AutomationService.RegisterParameterSoruce("TriggerName", () => Dao.Select<Trigger, string>(yz => yz.Name, y => !string.IsNullOrEmpty(y.Expression)));
+            AutomationService.RegisterParameterSoruce("MenuItemName", () => Dao.Select<MenuItem, string>(yz => yz.Name, y => y.Id > 0));
+            AutomationService.RegisterParameterSoruce("PriceTag", () => Dao.Select<MenuItemPriceDefinition, string>(x => x.PriceTag, x => x.Id > 0));
+            AutomationService.RegisterParameterSoruce("Color", () => typeof(Colors).GetProperties(BindingFlags.Public | BindingFlags.Static).Select(x => x.Name));
+            AutomationService.RegisterParameterSoruce("TaxTemplate", () => Dao.Select<TaxTemplate, string>(x => x.Name, x => x.Id > 0));
+            AutomationService.RegisterParameterSoruce("ServiceTemplate", () => Dao.Select<ServiceTemplate, string>(x => x.Name, x => x.Id > 0));
+            AutomationService.RegisterParameterSoruce("TagName", () => Dao.Select<TicketTagGroup, string>(x => x.Name, x => x.Id > 0));
+            AutomationService.RegisterParameterSoruce("OrderTagName", () => Dao.Select<OrderTagGroup, string>(x => x.Name, x => x.Id > 0));
         }
 
         private static void ResetCache()
         {
             TriggerService.UpdateCronObjects();
-            EventServiceFactory.EventService._PublishEvent(EventTopicNames.ResetCache);
+            EventServiceFactory.EventService.PublishEvent(EventTopicNames.ResetCache, true);
             ApplicationState.CurrentDepartment.PublishEvent(EventTopicNames.SelectedDepartmentChanged);
         }
 
         private static void HandleEvents()
         {
-            EventServiceFactory.EventService.GetEvent<GenericEvent<ActionData>>().Subscribe(x =>
+            EventServiceFactory.EventService.GetEvent<GenericEvent<IActionData>>().Subscribe(x =>
             {
                 if (x.Value.Action.ActionType == "UpdateTicketAccount")
                 {
@@ -146,8 +142,8 @@ namespace Samba.Presentation.ViewModels
                     var settingValue = x.Value.GetAsString("SettingValue");
                     if (!string.IsNullOrEmpty(settingName))
                     {
-                        AppServices.SettingService.GetCustomSetting(settingName).StringValue = settingValue;
-                        AppServices.SettingService.SaveChanges();
+                        SettingService.GetProgramSetting(settingName).StringValue = settingValue;
+                        SettingService.SaveProgramSettings();
                     }
                 }
 
@@ -181,7 +177,7 @@ namespace Samba.Presentation.ViewModels
                     if (ticket != null)
                     {
                         var taxTemplateName = x.Value.GetAsString("TaxTemplate");
-                        var taxTemplate = AppServices.MainDataContext.TaxTemplates.FirstOrDefault(y => y.Name == taxTemplateName);
+                        var taxTemplate = SettingService.GetTaxTemplateByName(taxTemplateName);
                         if (taxTemplate != null)
                         {
                             ticket.UpdateTax(taxTemplate);
@@ -197,8 +193,7 @@ namespace Samba.Presentation.ViewModels
                     if (ticket != null)
                     {
                         var serviceTemplateName = x.Value.GetAsString("ServiceTemplate");
-                        var serviceTemplate = AppServices.MainDataContext.ServiceTemplates.FirstOrDefault(
-                                y => y.Name == serviceTemplateName);
+                        var serviceTemplate = SettingService.GetServiceTemplateByName(serviceTemplateName);
                         if (serviceTemplate != null)
                         {
                             var amount = x.Value.GetAsDecimal("Amount");
@@ -310,6 +305,24 @@ namespace Samba.Presentation.ViewModels
                         }
                     }
                 }
+
+                if (x.Value.Action.ActionType == "ExecutePrintJob")
+                {
+                    var ticket = x.Value.GetDataValue<Ticket>("Ticket");
+                    var pjName = x.Value.Action.GetParameter("PrintJobName");
+                    if (!string.IsNullOrEmpty(pjName))
+                    {
+                        var j = ApplicationState.CurrentTerminal.PrintJobs.SingleOrDefault(y => y.Name == pjName);
+
+                        if (j != null)
+                        {
+                            if (ticket != null)
+                                PrinterService.ManualPrintTicket(ticket, j);
+                            else
+                                PrinterService.ExecutePrintJob(j);
+                        }
+                    }
+                }
             });
         }
 
@@ -319,20 +332,7 @@ namespace Samba.Presentation.ViewModels
             {
                 if (x.Topic == EventTopicNames.MessageReceivedEvent && x.Value.Command == "ActionMessage")
                 {
-                    RuleExecutor.NotifyEvent(RuleEventNames.MessageReceived, new { Command = x.Value.Data });
-                }
-            });
-
-            EventServiceFactory.EventService.GetEvent<GenericEvent<User>>().Subscribe(x =>
-            {
-                if (x.Topic == EventTopicNames.UserLoggedIn)
-                {
-                    RuleExecutor.NotifyEvent(RuleEventNames.UserLoggedIn, new { User = x.Value, RoleName = x.Value.UserRole.Name });
-                }
-
-                if (x.Topic == EventTopicNames.UserLoggedOut)
-                {
-                    RuleExecutor.NotifyEvent(RuleEventNames.UserLoggedOut, new { User = x.Value, RoleName = x.Value.UserRole.Name });
+                    AutomationService.NotifyEvent(RuleEventNames.MessageReceived, new { Command = x.Value.Data });
                 }
             });
         }

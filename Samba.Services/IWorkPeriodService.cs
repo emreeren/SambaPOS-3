@@ -1,4 +1,6 @@
-﻿namespace Samba.Services
+﻿using Samba.Services.Common;
+
+namespace Samba.Services
 {
     public interface IWorkPeriodService : IService
     {

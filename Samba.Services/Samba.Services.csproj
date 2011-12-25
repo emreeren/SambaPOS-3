@@ -56,13 +56,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\Lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="ReachFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
@@ -79,15 +77,20 @@
     <Compile Include="EMailService.cs" />
     <Compile Include="DataCreationService.cs" />
     <Compile Include="IAccountService.cs" />
+    <Compile Include="IActionData.cs" />
     <Compile Include="IApplicationState.cs" />
     <Compile Include="IApplicationStateSetter.cs" />
     <Compile Include="ICashService.cs" />
     <Compile Include="IDepartmentService.cs" />
+    <Compile Include="IProgramSettings.cs" />
     <Compile Include="IInventoryService.cs" />
     <Compile Include="ILocationService.cs" />
     <Compile Include="IMenuService.cs" />
     <Compile Include="IPrinterService.cs" />
-    <Compile Include="IService.cs" />
+    <Compile Include="IRuleConstraint.cs" />
+    <Compile Include="IAutomationService.cs" />
+    <Compile Include="IProgramSetting.cs" />
+    <Compile Include="ISettingService.cs" />
     <Compile Include="ITicketService.cs" />
     <Compile Include="ITriggerService.cs" />
     <Compile Include="IUserService.cs" />
@@ -95,14 +98,11 @@
     <Compile Include="MainDataContext.cs" />
     <Compile Include="MessagingService.cs" />
     <Compile Include="MethodQueue.cs" />
-    <Compile Include="NumberGenerator.cs" />
     <Compile Include="PermissionNames.cs" />
     <Compile Include="PermissionRegistry.cs" />
     <Compile Include="AppServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RuleActionTypeRegistry.cs" />
     <Compile Include="SerialPortService.cs" />
-    <Compile Include="SettingService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">
@@ -128,6 +128,10 @@
     <ProjectReference Include="..\Samba.Persistance.Data\Samba.Persistance.Data.csproj">
       <Project>{FEDA2199-91CD-4AF1-B571-4AA2E8371A18}</Project>
       <Name>Samba.Persistance.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Services.Common\Samba.Services.Common.csproj">
+      <Project>{4C8C1254-7615-46F8-B782-C6AA1441B323}</Project>
+      <Name>Samba.Services.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

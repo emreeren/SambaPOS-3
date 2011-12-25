@@ -9,12 +9,6 @@ namespace Samba.Modules.LocationModule
 {
     public class LocationEditorViewModel : EntityViewModelBase<Location>
     {
-        public LocationEditorViewModel(Location model)
-            : base(model)
-        {
-
-        }
-
         private IEnumerable<string> _categories;
         public IEnumerable<string> Categories { get { return _categories ?? (_categories = Dao.Distinct<Location>(x => x.Category)); } }
 

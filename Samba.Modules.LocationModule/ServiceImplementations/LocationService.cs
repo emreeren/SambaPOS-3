@@ -6,6 +6,7 @@ using Samba.Infrastructure.Data;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common.Services;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.LocationModule.ServiceImplementations
 {
@@ -14,18 +15,22 @@ namespace Samba.Modules.LocationModule.ServiceImplementations
     {
         private IWorkspace _locationWorkspace;
         private readonly int _locationCount;
+        private readonly IApplicationState _applicationState;
+        private readonly IApplicationStateSetter _applicationStateSetter;
 
-        public LocationService()
+        [ImportingConstructor]
+        public LocationService(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter)
         {
             _locationCount = Dao.Count<Location>(null);
+            _applicationState = applicationState;
+            _applicationStateSetter = applicationStateSetter;
         }
-
-        public LocationScreen SelectedLocationScreen { get; set; }
 
         public void UpdateLocations(LocationScreen locationScreen, int pageNo)
         {
-            SelectedLocationScreen = locationScreen;
-            if (SelectedLocationScreen != null)
+            _applicationStateSetter.SetSelectedLocationScreen(locationScreen);
+
+            if (locationScreen != null)
             {
                 IEnumerable<int> set;
                 if (locationScreen.PageCount > 1)
@@ -54,7 +59,7 @@ namespace Samba.Modules.LocationModule.ServiceImplementations
         {
             UpdateLocations(locationScreen, currentPageNo);
 
-            var selectedLocationScreen = SelectedLocationScreen;
+            var selectedLocationScreen = _applicationState.SelectedLocationScreen;
 
             if (selectedLocationScreen != null)
             {

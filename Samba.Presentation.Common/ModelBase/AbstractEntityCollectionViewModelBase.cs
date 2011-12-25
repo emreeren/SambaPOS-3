@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Samba.Localization.Properties;
-using Samba.Services;
 
 namespace Samba.Presentation.Common.ModelBase
 {
@@ -14,9 +13,9 @@ namespace Samba.Presentation.Common.ModelBase
 
         public IList<ICaptionCommand> CustomCommands { get; set; }
 
-        public string ModelTitle { get; set; }
-
-
+        private string _modelTitle;
+        public string ModelTitle { get { return _modelTitle ?? (_modelTitle = GetModelTitle()); } }
+        
         private IEnumerable<ICaptionCommand> _allCommands;
         public IEnumerable<ICaptionCommand> AllCommands
         {
@@ -25,14 +24,13 @@ namespace Samba.Presentation.Common.ModelBase
 
         private IEnumerable<ICaptionCommand> GetCommands()
         {
-            var result = new List<ICaptionCommand> {AddItemCommand, EditItemCommand, DeleteItemCommand};
+            var result = new List<ICaptionCommand> { AddItemCommand, EditItemCommand, DeleteItemCommand };
             result.AddRange(CustomCommands);
             return result;
         }
 
         protected AbstractEntityCollectionViewModelBase()
         {
-            ModelTitle = GetModelTitle();
             AddItemCommand = new CaptionCommand<object>(string.Format(Resources.Add_f, ModelTitle), OnAddItem, CanAddItem);
             EditItemCommand = new CaptionCommand<object>(string.Format(Resources.Edit_f, ModelTitle), OnEditItem, CanEditItem);
             DeleteItemCommand = new CaptionCommand<object>(string.Format(Resources.Delete_f, ModelTitle), OnDeleteItem, CanDeleteItem);

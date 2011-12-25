@@ -14,9 +14,10 @@ using Samba.Infrastructure.Data.Serializer;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common;
-using Samba.Presentation.Common.Services;
 using Samba.Presentation.ViewModels;
 using Samba.Services;
+using Samba.Services.Common;
+using Samba.Services.Implementations;
 
 namespace Samba.Modules.TicketModule.ServiceImplementations
 {
@@ -29,22 +30,34 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
         private readonly IApplicationState _applicationState;
         private readonly IApplicationStateSetter _applicationStateSetter;
         private readonly IMenuService _menuService;
+        private readonly IAutomationService _automationService;
+        private readonly ISettingService _settingService;
 
         [ImportingConstructor]
         public TicketService(IDepartmentService departmentService, IPrinterService printerService,
-            IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,IMenuService menuService)
+            IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
+            IMenuService menuService, IAutomationService automationService, ISettingService settingService)
         {
             _departmentService = departmentService;
             _printerService = printerService;
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
             _menuService = menuService;
+            _automationService = automationService;
+            _settingService = settingService;
         }
 
         public void UpdateAccount(Ticket ticket, Account account)
         {
             Debug.Assert(ticket != null);
             ticket.UpdateAccount(CheckAccount(account));
+            _automationService.NotifyEvent(RuleEventNames.AccountSelectedForTicket,
+                    new
+                    {
+                        Ticket = _applicationState.CurrentTicket,
+                        AccountName = account.Name,
+                        PhoneNumber = account.SearchString
+                    });
         }
 
         public Ticket OpenTicket(int ticketId)
@@ -62,7 +75,7 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
             _applicationStateSetter.SetCurrentTicket(ticket);
 
             if (ticket.Id == 0)
-                RuleExecutor.NotifyEvent(RuleEventNames.TicketCreated, new { Ticket = ticket });
+                _automationService.NotifyEvent(RuleEventNames.TicketCreated, new { Ticket = ticket });
 
             return ticket;
         }
@@ -153,14 +166,15 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
 
             if (canSumbitTicket)
             {
-                ticket.Recalculate(AppServices.SettingService.AutoRoundDiscount, _applicationState.CurrentLoggedInUser.Id);
+                ticket.Recalculate(_settingService.ProgramSettings.AutoRoundDiscount, _applicationState.CurrentLoggedInUser.Id);
                 ticket.IsPaid = ticket.RemainingAmount == 0;
 
                 if (ticket.Orders.Count > 0)
                 {
                     if (ticket.Orders.Where(x => !x.Locked).FirstOrDefault() != null)
                     {
-                        ticket.MergeOrdersAndUpdateOrderNumbers(NumberGenerator.GetNextNumber(department.TicketTemplate.OrderNumerator.Id));
+                        var number = _settingService.GetNextNumber(department.TicketTemplate.OrderNumerator.Id);
+                        ticket.MergeOrdersAndUpdateOrderNumbers(number);
                         ticket.Orders.Where(x => x.Id == 0).ToList().ForEach(x => x.CreatedDateTime = DateTime.Now);
                     }
 
@@ -205,7 +219,9 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
         public void UpdateTicketNumber(Ticket ticket, Numerator numerator)
         {
             if (string.IsNullOrEmpty(ticket.TicketNumber))
-                ticket.TicketNumber = NumberGenerator.GetNextString(numerator.Id);
+            {
+                ticket.TicketNumber = _settingService.GetNextString(numerator.Id);
+            }
         }
 
         private void UpdateTicketLocation(Ticket ticket)
@@ -257,7 +273,7 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
             if (_applicationState.CurrentDepartment != null) ticket.DepartmentId = _applicationState.CurrentDepartment.Id;
             location.TicketId = ticket.GetRemainingAmount() > 0 ? ticket.Id : 0;
 
-            RuleExecutor.NotifyEvent(RuleEventNames.TicketLocationChanged, new { Ticket = ticket, OldLocation = oldLocation, NewLocation = ticket.LocationName });
+            _automationService.NotifyEvent(RuleEventNames.TicketLocationChanged, new { Ticket = ticket, OldLocation = oldLocation, NewLocation = ticket.LocationName });
         }
 
         public Account CheckAccount(Account account)
@@ -341,10 +357,10 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
         public void RecalculateTicket(Ticket ticket)
         {
             var total = ticket.TotalAmount;
-            ticket.Recalculate(AppServices.SettingService.AutoRoundDiscount, _applicationState.CurrentLoggedInUser.Id);
+            ticket.Recalculate(_settingService.ProgramSettings.AutoRoundDiscount, _applicationState.CurrentLoggedInUser.Id);
             if (total != ticket.TotalAmount)
             {
-                RuleExecutor.NotifyEvent(RuleEventNames.TicketTotalChanged,
+                _automationService.NotifyEvent(RuleEventNames.TicketTotalChanged,
                     new
                     {
                         Ticket = ticket,
@@ -382,7 +398,7 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
 
             var tagData = new TicketTagData { Action = tagGroup.Action, TagName = tagGroup.Name, TagValue = ticketTag.Name, NumericValue = tagGroup.IsNumeric ? Convert.ToDecimal(ticketTag.Name) : 0 };
 
-            RuleExecutor.NotifyEvent(RuleEventNames.TicketTagSelected,
+            _automationService.NotifyEvent(RuleEventNames.TicketTagSelected,
                         new
                         {
                             Ticket = ticket,

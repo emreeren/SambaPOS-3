@@ -12,6 +12,7 @@ using Samba.Presentation.Common;
 using Samba.Presentation.Common.Services;
 using Samba.Presentation.ViewModels;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.TicketModule
 {
@@ -69,15 +70,17 @@ namespace Samba.Modules.TicketModule
         private readonly IApplicationState _applicationState;
         private readonly IUserService _userService;
         private readonly IMenuService _menuService;
+        private readonly ISettingService _settingService;
 
         [ImportingConstructor]
         public MenuItemSelectorViewModel(IApplicationState applicationState, ITicketService ticketService,
-            IUserService userService, IMenuService menuService)
+            IUserService userService, IMenuService menuService,ISettingService settingService)
         {
             _ticketService = ticketService;
             _userService = userService;
             _applicationState = applicationState;
             _menuService = menuService;
+            _settingService = settingService;
 
             CategoryCommand = new DelegateCommand<ScreenMenuCategory>(OnCategoryCommandExecute);
             MenuItemCommand = new DelegateCommand<ScreenMenuItem>(OnMenuItemCommandExecute);
@@ -183,20 +186,20 @@ namespace Samba.Modules.TicketModule
 
             if (quantity > 0)
             {
-                var weightBarcodePrefix = AppServices.SettingService.WeightBarcodePrefix;
+                var weightBarcodePrefix = _settingService.ProgramSettings.WeightBarcodePrefix;
                 if (!string.IsNullOrEmpty(weightBarcodePrefix) && insertedData.StartsWith(weightBarcodePrefix))
                 {
-                    var itemLength = AppServices.SettingService.WeightBarcodeItemLength;
-                    var quantityLength = AppServices.SettingService.WeightBarcodeQuantityLength;
+                    var itemLength = _settingService.ProgramSettings.WeightBarcodeItemLength;
+                    var quantityLength = _settingService.ProgramSettings.WeightBarcodeQuantityLength;
                     if (itemLength > 0 && quantityLength > 0 && insertedData.Length >= itemLength + quantityLength + weightBarcodePrefix.Length)
                     {
                         var bc = insertedData.Substring(weightBarcodePrefix.Length, itemLength);
-                        if (!string.IsNullOrEmpty(AppServices.SettingService.WeightBarcodeItemFormat))
+                        if (!string.IsNullOrEmpty(_settingService.ProgramSettings.WeightBarcodeItemFormat))
                         {
                             int integerValue;
                             int.TryParse(bc, out integerValue);
                             if (integerValue > 0)
-                                bc = integerValue.ToString(AppServices.SettingService.WeightBarcodeItemFormat);
+                                bc = integerValue.ToString(_settingService.ProgramSettings.WeightBarcodeItemFormat);
                         }
                         var qty = insertedData.Substring(weightBarcodePrefix.Length + itemLength, quantityLength);
                         if (bc.Length > 0 && qty.Length > 0)

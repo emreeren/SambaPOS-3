@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Samba.Domain;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Transactions;
+using Samba.Services.Common;
 
 namespace Samba.Services
 {

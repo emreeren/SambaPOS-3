@@ -8,5 +8,6 @@ namespace Samba.Services
     public interface IAccountService
     {
         int GetAccountCount();
+        bool DidAccountTemplateUsed(int accountTemplateId);
     }
 }

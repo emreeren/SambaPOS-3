@@ -9,14 +9,6 @@ namespace Samba.Modules.InventoryModule
 {
     class RecipeListViewModel : EntityCollectionViewModelBase<RecipeViewModel, Recipe>
     {
-        protected override RecipeViewModel CreateNewViewModel(Recipe model)
-        {
-            return new RecipeViewModel(model);
-        }
 
-        protected override Recipe CreateNewModel()
-        {
-            return new Recipe();
-        }
     }
 }

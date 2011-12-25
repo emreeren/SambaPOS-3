@@ -2017,46 +2017,45 @@ Yer: {2}</value>
   </data>
   <data name="TicketTemplateHeaderValue" xml:space="preserve">
     <value>&lt;T&gt;ADİSYON
-&lt;L00&gt;Tarih:{ADİSYON TARİH}
-&lt;L00&gt;Saat:{SAAT}
-&lt;L00&gt;Yer No:{YER}
-&lt;L00&gt;Adisyon No:{ADİSYON NO}
+&lt;L00&gt;Tarih:{TICKET DATE}
+&lt;L00&gt;Saat:{TICKET TIME}
+&lt;L00&gt;Yer No:{LOCATION}
+&lt;L00&gt;Adisyon No:{TICKET NO}
 &lt;F&gt;-</value>
   </data>
   <data name="TicketTemplateFooterValue" xml:space="preserve">
     <value>&lt;F&gt;=
 &lt;EB&gt;
-&lt;J10&gt;{VARSA İSKONTO}
-&lt;J10&gt;[Toplam İkram:|{TOPLAM İKRAM}]
-&lt;J10&gt;Toplam:|{TOPLAM FİYAT}
-{VARSA ÖDENEN}
+&lt;J10&gt;{IF DISCOUNT}
+&lt;J10&gt;Toplam:|{TICKET TOTAL}
+{IF PAID}
 &lt;DB&gt;
 &lt;F&gt;=
 &lt;C10&gt;Y İ N E   B E K L E R İ Z</value>
   </data>
   <data name="KitchenTemplateHeaderValue" xml:space="preserve">
-    <value>&lt;T&gt;{YER GARSON}
+    <value>&lt;T&gt;{LOCATION USER}
 &lt;F&gt;-
-&lt;L00&gt;Tarih:{ADİSYON TARİH}
-&lt;L00&gt;Saat:{SAAT}
-&lt;L00&gt;Yer No:{YER}
-&lt;L00&gt;Adisyon No:{ADİSYON NO}
+&lt;L00&gt;Tarih:{TICKET DATE}
+&lt;L00&gt;Saat:{TICKET TIME}
+&lt;L00&gt;Yer No:{LOCATION}
+&lt;L00&gt;Adisyon No:{TICKET NO}
 &lt;F&gt;-</value>
   </data>
   <data name="KitchenTemplateVoidedLineTemplateValue" xml:space="preserve">
-    <value>&lt;L00&gt;**İPTAL**{MİKTAR} {ÜRÜN}
-        * {ÖZELLİKLER}</value>
+    <value>&lt;L00&gt;**İPTAL**{QUANTITY} {NAME}
+        * {PROPERTIES}</value>
   </data>
   <data name="KitchenTemplateLineTemplateValue" xml:space="preserve">
-    <value>&lt;L00&gt;{MİKTAR} {ÜRÜN}
-        * {ÖZELLİKLER}</value>
+    <value>&lt;L00&gt;{QUANTITY} {NAME}
+        * {PROPERTIES}</value>
   </data>
   <data name="InvoiceTemplateHeaderValue" xml:space="preserve">
     <value>&lt;T&gt;ADİSYON
-&lt;L00&gt;Tarih:{ADİSYON TARİH}
-&lt;L00&gt;Saat:{SAAT}
-&lt;L00&gt;Yer No:{YER}
-&lt;L00&gt;Adisyon No:{ADİSYON NO}
+&lt;L00&gt;Tarih:{TICKET DATE}
+&lt;L00&gt;Saat:{TICKET TIME}
+&lt;L00&gt;Yer No:{LOCATION}
+&lt;L00&gt;Adisyon No:{TICKET NO}
 &lt;F&gt;-</value>
   </data>
   <data name="KitchenPrinter" xml:space="preserve">
@@ -2091,7 +2090,7 @@ Yer: {2}</value>
 Çeki</value>
   </data>
   <data name="TicketTemplateGiftedLineTemplateValue" xml:space="preserve">
-    <value>&lt;L00&gt;{MİKTAR} {ÜRÜN} |İKRAM</value>
+    <value>&lt;L00&gt;{QUANTITY} {NAME} |İKRAM</value>
   </data>
   <data name="NavigationPermissions" xml:space="preserve">
     <value>Navigasyon İzinleri</value>
@@ -2111,99 +2110,6 @@ Yer: {2}</value>
   <data name="NoTicketsFoundForTag" xml:space="preserve">
     <value>{0} etiketi ile etikletlenmiş adisyon yok.</value>
   </data>
-  <data name="TF_TicketDate" xml:space="preserve">
-    <value>{ADİSYON TARİH}</value>
-  </data>
-  <data name="TF_TicketTime" xml:space="preserve">
-    <value>{ADİSYON SAAT}</value>
-  </data>
-  <data name="TF_DayDate" xml:space="preserve">
-    <value>{TARİH}</value>
-  </data>
-  <data name="TF_DayTime" xml:space="preserve">
-    <value>{SAAT}</value>
-  </data>
-  <data name="TF_UniqueTicketId" xml:space="preserve">
-    <value>{ADİSYON ID}</value>
-  </data>
-  <data name="TF_TicketNumber" xml:space="preserve">
-    <value>{ADİSYON NO}</value>
-  </data>
-  <data name="TF_LineOrderNumber" xml:space="preserve">
-    <value>{SİPARİŞ NO}</value>
-  </data>
-  <data name="TF_TicketTag" xml:space="preserve">
-    <value>{ADİSYON ETİKET}</value>
-  </data>
-  <data name="TF_OptionalTicketTag" xml:space="preserve">
-    <value>{ADİSYON ETİKET:</value>
-  </data>
-  <data name="TF_LocationOrUserName" xml:space="preserve">
-    <value>{YER GARSON}</value>
-  </data>
-  <data name="TF_UserName" xml:space="preserve">
-    <value>{GARSON}</value>
-  </data>
-  <data name="TF_LocationName" xml:space="preserve">
-    <value>{YER}</value>
-  </data>
-  <data name="TF_TicketNote" xml:space="preserve">
-    <value>{NOT}</value>
-  </data>
-  <data name="TF_AccountName" xml:space="preserve">
-    <value>{MÜŞTERİ ADI}</value>
-  </data>
-  <data name="TF_AccountAddress" xml:space="preserve">
-    <value>{MÜŞTERİ ADRES}</value>
-  </data>
-  <data name="TF_AccountPhone" xml:space="preserve">
-    <value>{MÜŞTERİ TELEFON}</value>
-  </data>
-  <data name="TF_RemainingAmountIfPaid" xml:space="preserve">
-    <value>{VARSA ÖDENEN}</value>
-  </data>
-  <data name="TF_DiscountTotalAndTicketTotal" xml:space="preserve">
-    <value>{VARSA İSKONTO}</value>
-  </data>
-  <data name="TF_TicketTotal" xml:space="preserve">
-    <value>{TOPLAM FİYAT}</value>
-  </data>
-  <data name="TF_TicketPaidTotal" xml:space="preserve">
-    <value>{TOPLAM ÖDENEN}</value>
-  </data>
-  <data name="TF_TicketRemainingAmount" xml:space="preserve">
-    <value>{TOPLAM BAKİYE}</value>
-  </data>
-  <data name="TF_LineItemQuantity" xml:space="preserve">
-    <value>{MİKTAR}</value>
-  </data>
-  <data name="TF_LineItemName" xml:space="preserve">
-    <value>{ÜRÜN}</value>
-  </data>
-  <data name="TF_LineItemPrice" xml:space="preserve">
-    <value>{FİYAT}</value>
-  </data>
-  <data name="TF_LineItemTotal" xml:space="preserve">
-    <value>{TUTAR}</value>
-  </data>
-  <data name="TF_LineItemTotalAndQuantity" xml:space="preserve">
-    <value>{TOPLAM TUTAR}</value>
-  </data>
-  <data name="TF_LineItemTotalWithoutGifts" xml:space="preserve">
-    <value>{HAREKET TOPLAM}</value>
-  </data>
-  <data name="TF_LineItemPriceCents" xml:space="preserve">
-    <value>{YKR}</value>
-  </data>
-  <data name="TF_LineItemDetails" xml:space="preserve">
-    <value>{ÖZELLİKLER}</value>
-  </data>
-  <data name="TF_LineItemDetailPrice" xml:space="preserve">
-    <value>{ÖZELLİK FİYAT}</value>
-  </data>
-  <data name="TF_LineItemDetailQuantity" xml:space="preserve">
-    <value>{ÖZELLİK MİKTAR}</value>
-  </data>
   <data name="RemainingAmountIfPaidValue_f" xml:space="preserve">
     <value>Ödenen:|{0}
 &lt;J&gt;Genel TOPLAM:|{1}</value>
@@ -2213,21 +2119,15 @@ Yer: {2}</value>
 &lt;J&gt;İskonto:|{1}</value>
   </data>
   <data name="TicketTempleteLineTemplateValue" xml:space="preserve">
-    <value>&lt;J00&gt;- {MİKTAR} {ÜRÜN}|{FİYAT}
-        * {ÖZELLİKLER}</value>
+    <value>&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
+        * {PROPERTIES}</value>
   </data>
   <data name="InvoiceTemplateLineTemplateValue" xml:space="preserve">
-    <value>&lt;L00&gt;{MİKTAR} {ÜRÜN}
-        * {ÖZELLİKLER}</value>
+    <value>&lt;L00&gt;{QUANTITY} {NAME}
+        * {PROPERTIES}</value>
   </data>
   <data name="Restaurant" xml:space="preserve">
     <value>Restoran</value>
-  </data>
-  <data name="TF_GiftTotal" xml:space="preserve">
-    <value>{TOPLAM İKRAM}</value>
-  </data>
-  <data name="TF_IfFlatten" xml:space="preserve">
-    <value>{VARSA DÜZELTME}</value>
   </data>
   <data name="IfNegativeDiscountValue_f" xml:space="preserve">
     <value>&lt;J&gt;Düzeltme:|{0}</value>
@@ -2944,31 +2844,29 @@ Borçlandır</value>
   <data name="UpdateTicketAccount" xml:space="preserve">
     <value>Adisyon Hesabını Değiştir</value>
   </data>
-  <data name="TransactionMultiplierError">
-    <value xml:space="preserve">Hareket Çarpanı sıfır olmamalı</value>
+  <data name="TransactionMultiplierError" xml:space="preserve">
+    <value>Hareket Çarpanı sıfır olmamalı</value>
   </data>
-  <data name="TransactionsEmptyError">
-    <value xml:space="preserve">Hareketler boş olmamalı</value>
+  <data name="TransactionsEmptyError" xml:space="preserve">
+    <value>Hareketler boş olmamalı</value>
   </data>
-  <data name="TranactionsZeroQuantityError">
-    <value xml:space="preserve">Hareker Miktarı sıfır olmamalı</value>
+  <data name="TranactionsZeroQuantityError" xml:space="preserve">
+    <value>Hareker Miktarı sıfır olmamalı</value>
   </data>
-  <data name="TransactionUnitError">
-    <value xml:space="preserve">Hareket Birimi boş olmamalı</value>
+  <data name="TransactionUnitError" xml:space="preserve">
+    <value>Hareket Birimi boş olmamalı</value>
   </data>
-  <data name="Copy">
-    <value xml:space="preserve">Kopyala</value>
+  <data name="Copy" xml:space="preserve">
+    <value>Kopyala</value>
   </data>
-  <data name="Send">
-    <value xml:space="preserve">Gönder</value>
+  <data name="Send" xml:space="preserve">
+    <value>Gönder</value>
   </data>
-  <data name="ErrorReportWithoutFeedback">
-    <value>
-      <![CDATA[Raporu herhangi bir bilgi eklemeden gönderiyorsunuz.
+  <data name="ErrorReportWithoutFeedback" xml:space="preserve">
+    <value>Raporu herhangi bir bilgi eklemeden gönderiyorsunuz.
 Lütfen problemin nasıl oluştuğu ile ilgili bilgi veriniz.
 
-Bilgi eklemeden devam etmek istiyor musunuz?]]>
-    </value>
+Bilgi eklemeden devam etmek istiyor musunuz?</value>
   </data>
   <data name="SambaPOSReporter" xml:space="preserve">
     <value>SambaPOS Raporlayıcı</value>
@@ -3001,98 +2899,104 @@ Bilgi eklemeden devam etmek istiyor musunuz?]]>
   <data name="OrderTags" xml:space="preserve">
     <value>Sipariş Etiketleri</value>
   </data>
-  <data name="APortionShouldSelected">
-    <value xml:space="preserve">Bir porsiyon seçilmeli</value>
+  <data name="APortionShouldSelected" xml:space="preserve">
+    <value>Bir porsiyon seçilmeli</value>
   </data>
-  <data name="ThereIsAnotherRecipeFor_f">
-    <value xml:space="preserve">{0} için başka bir reçete var</value>
+  <data name="ThereIsAnotherRecipeFor_f" xml:space="preserve">
+    <value>{0} için başka bir reçete var</value>
   </data>
-  <data name="DeleteErrorPrinterAssignedToTerminal">
+  <data name="DeleteErrorPrinterAssignedToTerminal" xml:space="preserve">
     <value>Bu yazıcı bir terminalde kullanıldığı için silinemez.</value>
   </data>
-  <data name="DeleteErrorPrinterAssignedToPrinterMap">
+  <data name="DeleteErrorPrinterAssignedToPrinterMap" xml:space="preserve">
     <value>Bu yazıcı bir yazdırma görevinde kullanıldığı için silinemez.</value>
   </data>
-  <data name="Alphanumeric">
-    <value xml:space="preserve">Alfasayısal</value>
+  <data name="Alphanumeric" xml:space="preserve">
+    <value>Alfasayısal</value>
   </data>
-  <data name="Numeric">
-    <value xml:space="preserve">Sayısal</value>
+  <data name="Numeric" xml:space="preserve">
+    <value>Sayısal</value>
   </data>
-  <data name="TaggingType">
-    <value xml:space="preserve">Etiket Tipi</value>
+  <data name="TaggingType" xml:space="preserve">
+    <value>Etiket Tipi</value>
   </data>
   <data name="OrderTagMapping" xml:space="preserve">
     <value>Sipariş Etiketi Yönlendirmeleri</value>
     <comment>Label content</comment>
   </data>
-  <data name="RemoveGiftTag">
-    <value xml:space="preserve">İkram Etiketini Kaldır</value>
+  <data name="RemoveGiftTag" xml:space="preserve">
+    <value>İkram Etiketini Kaldır</value>
   </data>
-  <data name="RemoveGiftTagWhenVoided">
-    <value xml:space="preserve">İade yapıldığında İkram etiketini kaldır</value>
+  <data name="RemoveGiftTagWhenVoided" xml:space="preserve">
+    <value>İade yapıldığında İkram etiketini kaldır</value>
   </data>
-  <data name="LocationScreen">
-    <value xml:space="preserve">Yer Görünümü</value>
+  <data name="LocationScreen" xml:space="preserve">
+    <value>Yer Görünümü</value>
   </data>
-  <data name="LocationScreens">
-    <value xml:space="preserve">Yer Görünümleri</value>
+  <data name="LocationScreens" xml:space="preserve">
+    <value>Yer Görünümleri</value>
   </data>
-  <data name="OrderTagTemplate">
-    <value xml:space="preserve">Sipariş Etiketi Şablonu</value>
+  <data name="OrderTagTemplate" xml:space="preserve">
+    <value>Sipariş Etiketi Şablonu</value>
   </data>
-  <data name="OrderTagTemplates">
-    <value xml:space="preserve">Sipariş Etiketi Şablonları</value>
+  <data name="OrderTagTemplates" xml:space="preserve">
+    <value>Sipariş Etiketi Şablonları</value>
   </data>
-  <data name="OrderTagTemplateName">
-    <value xml:space="preserve">Sipariş Etiketi Şablon Adı</value>
+  <data name="OrderTagTemplateName" xml:space="preserve">
+    <value>Sipariş Etiketi Şablon Adı</value>
   </data>
-  <data name="DefaultOrderTags">
-    <value xml:space="preserve">Varsayılan Sipariş Etiketleri</value>
+  <data name="DefaultOrderTags" xml:space="preserve">
+    <value>Varsayılan Sipariş Etiketleri</value>
   </data>
-  <data name="DefaultOrderTag">
-    <value xml:space="preserve">Varsayılan Sipariş Etiketi</value>
+  <data name="DefaultOrderTag" xml:space="preserve">
+    <value>Varsayılan Sipariş Etiketi</value>
   </data>
-  <data name="SubMenuTags">
-    <value xml:space="preserve">Alt Menü Etiketleri</value>
+  <data name="SubMenuTags" xml:space="preserve">
+    <value>Alt Menü Etiketleri</value>
   </data>
-  <data name="AccountTemplateName">
-    <value xml:space="preserve">Hesap Şablonu Adı</value>
+  <data name="AccountTemplateName" xml:space="preserve">
+    <value>Hesap Şablonu Adı</value>
   </data>
-  <data name="AccountTemplate">
-    <value xml:space="preserve">Hesap Şablonu</value>
+  <data name="AccountTemplate" xml:space="preserve">
+    <value>Hesap Şablonu</value>
   </data>
-  <data name="AccountTemplateList">
-    <value xml:space="preserve">Hesap Şablonu Listesi</value>
+  <data name="AccountTemplateList" xml:space="preserve">
+    <value>Hesap Şablonu Listesi</value>
   </data>
-  <data name="DeleteErrorAccountTemplateAssignedtoAccounts">
-    <value><![CDATA[Hesap Şablonu kullanıldığı için silinemez.]]></value>
+  <data name="DeleteErrorAccountTemplateAssignedtoAccounts" xml:space="preserve">
+    <value>Hesap Şablonu kullanıldığı için silinemez.</value>
   </data>
-  <data name="CustomField">
-    <value xml:space="preserve">Özel Alan</value>
+  <data name="CustomField" xml:space="preserve">
+    <value>Özel Alan</value>
   </data>
-	<data name="CustomFields">
-		<value xml:space="preserve">Özel Alanlar</value>
+  <data name="CustomFields" xml:space="preserve">
+    <value>Özel Alanlar</value>
+  </data>
+  <data name="New_f" xml:space="preserve">
+    <value>Yeni {0}</value>
+  </data>
+  <data name="CustomFieldName" xml:space="preserve">
+    <value>Özel Alan Adı</value>
+  </data>
+  <data name="FieldType" xml:space="preserve">
+    <value>Alan Tipi</value>
+  </data>
+  <data name="DisplayFormat" xml:space="preserve">
+    <value>Gösterim Formatı</value>
+  </data>
+  <data name="EditingFormat" xml:space="preserve">
+    <value>Düzenleme Formatı</value>
+  </data>
+  <data name="Values" xml:space="preserve">
+    <value>Değerler</value>
+  </data>
+  <data name="TicketTemplates" xml:space="preserve">
+    <value>Adisyon Şablonları</value>
+  </data>
+	<data name="LastLinesByPrinterLineCount">
+		<value xml:space="preserve">Satır Sayısına göre Son Eklenen Satırlar</value>
 	</data>
-  <data name="New_f">
-    <value xml:space="preserve">Yeni {0}</value>
-  </data>
-  <data name="CustomFieldName">
-    <value xml:space="preserve">Özel Alan Adı</value>
-  </data>
-  <data name="FieldType">
-    <value xml:space="preserve">Alan Tipi</value>
-  </data>
-	<data name="DisplayFormat">
-		<value xml:space="preserve">Gösterim Formatı</value>
-	</data>
-	<data name="EditingFormat">
-		<value xml:space="preserve">Düzenleme Formatı</value>
-	</data>
-	<data name="Values">
-		<value xml:space="preserve">Değerler</value>
-	</data>
-	<data name="TicketTemplates">
-		<value xml:space="preserve">Adisyon Şablonları</value>
+	<data name="LineCount">
+		<value xml:space="preserve">Satır Sayısı</value>
 	</data>
 </root>

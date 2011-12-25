@@ -24,12 +24,6 @@ namespace Samba.Modules.AccountModule
 
     public class AccountViewModel : EntityViewModelBase<Account>
     {
-        public AccountViewModel(Account model)
-            : base(model)
-        {
-
-        }
-
         private IEnumerable<AccountTemplate> _accountTemplates;
         public IEnumerable<AccountTemplate> AccountTemplates
         {

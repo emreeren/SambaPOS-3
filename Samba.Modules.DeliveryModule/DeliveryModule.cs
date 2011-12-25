@@ -7,6 +7,7 @@ using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Interaction;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.DeliveryModule
 {

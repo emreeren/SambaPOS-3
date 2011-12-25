@@ -68,7 +68,6 @@
     </Compile>
     <Compile Include="AccountTemplateViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceImplementations\AccountService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="AccountView.xaml">

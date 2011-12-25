@@ -7,11 +7,6 @@ namespace Samba.Modules.TicketModule
 {
     public class ServiceTemplateViewModel : EntityViewModelBase<ServiceTemplate>
     {
-        public ServiceTemplateViewModel(ServiceTemplate model)
-            : base(model)
-        {
-        }
-
         private string[] _calculationMethods;
         public string[] CalculationMethods
         {
