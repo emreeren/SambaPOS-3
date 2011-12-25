@@ -100,7 +100,6 @@
     <Compile Include="MainDataContext.cs" />
     <Compile Include="MessagingService.cs" />
     <Compile Include="MethodQueue.cs" />
-    <Compile Include="NumberGenerator.cs" />
     <Compile Include="PermissionNames.cs" />
     <Compile Include="PermissionRegistry.cs" />
     <Compile Include="AppServices.cs" />

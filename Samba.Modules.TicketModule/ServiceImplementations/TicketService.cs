@@ -172,7 +172,8 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
                 {
                     if (ticket.Orders.Where(x => !x.Locked).FirstOrDefault() != null)
                     {
-                        ticket.MergeOrdersAndUpdateOrderNumbers(NumberGenerator.GetNextNumber(department.TicketTemplate.OrderNumerator.Id));
+                        var number = _settingService.GetNextNumber(department.TicketTemplate.OrderNumerator.Id);
+                        ticket.MergeOrdersAndUpdateOrderNumbers(number);
                         ticket.Orders.Where(x => x.Id == 0).ToList().ForEach(x => x.CreatedDateTime = DateTime.Now);
                     }
 
@@ -217,7 +218,9 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
         public void UpdateTicketNumber(Ticket ticket, Numerator numerator)
         {
             if (string.IsNullOrEmpty(ticket.TicketNumber))
-                ticket.TicketNumber = NumberGenerator.GetNextString(numerator.Id);
+            {
+                ticket.TicketNumber = _settingService.GetNextString(numerator.Id);
+            }
         }
 
         private void UpdateTicketLocation(Ticket ticket)

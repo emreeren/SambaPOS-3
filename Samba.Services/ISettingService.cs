@@ -16,5 +16,7 @@ namespace Samba.Services
         IProgramSettings ProgramSettings { get; }
         IProgramSetting GetProgramSetting(string settingName);
         void SaveProgramSettings();
+        int GetNextNumber(int numeratorId);
+        string GetNextString(int numeratorId);
     }
 }

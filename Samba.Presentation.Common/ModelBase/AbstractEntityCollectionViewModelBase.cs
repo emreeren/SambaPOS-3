@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Samba.Localization.Properties;
-using Samba.Services;
 
 namespace Samba.Presentation.Common.ModelBase
 {

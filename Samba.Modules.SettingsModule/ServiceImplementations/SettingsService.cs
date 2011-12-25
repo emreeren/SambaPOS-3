@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Text;
-using Samba.Domain;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Data;
@@ -88,6 +86,42 @@ namespace Samba.Modules.SettingsModule.ServiceImplementations
         public void SaveProgramSettings()
         {
             _globalSettings.SaveChanges();
+        }
+
+        public int GetNextNumber(int numeratorId)
+        {
+            using (var workspace = WorkspaceFactory.Create())
+            {
+                var numerator = workspace.Single<Numerator>(x => x.Id == numeratorId);
+                numerator.Number++;
+                try
+                {
+                    workspace.CommitChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return GetNextNumber(numeratorId);
+                }
+                return numerator.Number;
+            }
+        }
+
+        public string GetNextString(int numeratorId)
+        {
+            using (var workspace = WorkspaceFactory.Create())
+            {
+                var numerator = workspace.Single<Numerator>(x => x.Id == numeratorId);
+                numerator.Number++;
+                try
+                {
+                    workspace.CommitChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return GetNextString(numeratorId);
+                }
+                return numerator.GetNumber();
+            }
         }
 
         public override void Reset()
