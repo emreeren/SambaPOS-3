@@ -1,7 +1,6 @@
-﻿using System.Linq;
+﻿using System.ComponentModel.Composition;
 using Samba.Domain.Models.Locations;
 using Samba.Localization.Properties;
-using Samba.Persistance.Data;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Common.Services;
@@ -9,12 +8,16 @@ using Samba.Services;
 
 namespace Samba.Modules.LocationModule
 {
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class LocationListViewModel : EntityCollectionViewModelBase<LocationEditorViewModel, Location>
     {
+        private readonly ILocationService _locationService;
         public ICaptionCommand BatchCreateLocations { get; set; }
 
-        public LocationListViewModel()
+        [ImportingConstructor]
+        public LocationListViewModel(ILocationService locationService)
         {
+            _locationService = locationService;
             BatchCreateLocations = new CaptionCommand<string>(Resources.AddMultipleLocations, OnBatchCreateLocationsExecute);
             CustomCommands.Add(BatchCreateLocations);
         }
@@ -35,7 +38,7 @@ namespace Samba.Modules.LocationModule
         protected override string CanDeleteItem(Location model)
         {
             if (model.TicketId > 0) return Resources.DeleteErrorTicketAssignedToLocation;
-            var count = Dao.Count<LocationScreen>(x => x.Locations.Any(y => y.Id == model.Id));
+            var count = _locationService.GetLocationCountByLocationScreen(model.Id);
             if (count > 0) return Resources.DeleteErrorLocationUsedInLocationView;
             return base.CanDeleteItem(model);
         }

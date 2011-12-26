@@ -1,16 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using Samba.Domain.Models.Locations;
 using Samba.Localization.Properties;
-using Samba.Persistance.Data;
 using Samba.Presentation.Common.ModelBase;
+using Samba.Services;
 
 namespace Samba.Modules.LocationModule
 {
+    [Export(typeof(LocationEditorViewModel)), PartCreationPolicy(CreationPolicy.NonShared)]
     public class LocationEditorViewModel : EntityViewModelBase<Location>
     {
+        private readonly ILocationService _locationService;
+
+        [ImportingConstructor]
+        public LocationEditorViewModel(ILocationService locationService)
+        {
+            _locationService = locationService;
+        }
+
         private IEnumerable<string> _categories;
-        public IEnumerable<string> Categories { get { return _categories ?? (_categories = Dao.Distinct<Location>(x => x.Category)); } }
+        public IEnumerable<string> Categories { get { return _categories ?? (_categories = _locationService.GetCategories()); } }
 
         public string Category { get { return Model.Category; } set { Model.Category = value; } }
         public string GroupValue { get { return Model.Category; } }
@@ -32,9 +42,7 @@ namespace Samba.Modules.LocationModule
 
         protected override string GetSaveErrorMessage()
         {
-            if (Dao.Single<Location>(x => x.Name.ToLower() == Model.Name.ToLower() && x.Id != Model.Id) != null)
-                return Resources.SaveErrorDuplicateLocationName;
-            return base.GetSaveErrorMessage();
+            return _locationService.GetSaveErrorMessage(Model);
         }
     }
 }

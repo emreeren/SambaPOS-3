@@ -5,7 +5,6 @@ using System.ComponentModel.Composition;
 using Samba.Domain.Models.Inventories;
 using Samba.Domain.Models.Menus;
 using Samba.Localization.Properties;
-using Samba.Persistance.Data;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
 using System.Linq;
@@ -17,13 +16,16 @@ namespace Samba.Modules.InventoryModule
     class RecipeViewModel : EntityViewModelBase<Recipe>
     {
         private readonly IInventoryService _inventoryService;
+        private readonly IMenuService _menuService;
 
         [ImportingConstructor]
-        public RecipeViewModel(IInventoryService inventoryService)
+        public RecipeViewModel(IInventoryService inventoryService, IMenuService menuService)
         {
+            _inventoryService = inventoryService;
+            _menuService = menuService;
+
             AddInventoryItemCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.Inventory), OnAddInventoryItem, CanAddInventoryItem);
             DeleteInventoryItemCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.Inventory), OnDeleteInventoryItem, CanDeleteInventoryItem);
-            _inventoryService = inventoryService;
         }
 
         public override Type GetViewType()
@@ -77,11 +79,10 @@ namespace Samba.Modules.InventoryModule
         private IEnumerable<string> _menuItemNames;
         public IEnumerable<string> MenuItemNames
         {
-            get { return _menuItemNames ?? (_menuItemNames = Dao.Select<MenuItem, string>(x => x.Name, null)); }
+            get { return _menuItemNames ?? (_menuItemNames = _menuService.GetMenuItemNames()); }
         }
 
         private MenuItem _selectedMenuItem;
-
         public MenuItem SelectedMenuItem
         {
             get { return GetMenuItem(); }
@@ -157,7 +158,7 @@ namespace Samba.Modules.InventoryModule
                 return Resources.SaveErrorZeroOrNullInventoryLines;
             if (Model.Portion == null)
                 return Resources.APortionShouldSelected;
-            var count = Dao.Count<Recipe>(x => x.Portion.Id == Model.Portion.Id && x.Id != Model.Id);
+            var count = _inventoryService.RecipeCountByPortion(Model);
             if (count > 0)
                 return string.Format(Resources.ThereIsAnotherRecipeFor_f, SelectedMenuItem.Name);
             return base.GetSaveErrorMessage();

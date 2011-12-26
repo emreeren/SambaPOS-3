@@ -4,11 +4,9 @@ using System.ComponentModel.Composition;
 using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Cron;
 using Samba.Persistance.Data;
-using Samba.Presentation.Common;
-using Samba.Services;
 using Samba.Services.Common;
 
-namespace Samba.Modules.AutomationModule.ServiceImplementations
+namespace Samba.Services.Implementations.AutomationModule
 {
     [Export(typeof(ITriggerService))]
     public class TriggerService : ITriggerService

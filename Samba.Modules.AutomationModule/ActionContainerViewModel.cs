@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Samba.Domain.Models.Actions;
-using Samba.Persistance.Data;
 using Samba.Presentation.Common;
 using Samba.Services;
 
@@ -48,8 +47,9 @@ namespace Samba.Modules.AutomationModule
 
         private readonly RuleViewModel _ruleViewModel;
         private readonly IAutomationService _automationService;
+
         private AppAction _action;
-        public AppAction Action { get { return _action ?? (_action = Dao.Single<AppAction>(x => x.Id == Model.AppActionId)); } set { _action = value; } }
+        public AppAction Action { get { return _action ?? (_action = _automationService.GetActionById(Model.AppActionId)); } set { _action = value; } }
 
         public ActionContainer Model { get; set; }
 

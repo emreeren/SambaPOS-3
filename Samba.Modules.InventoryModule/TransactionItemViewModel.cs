@@ -1,20 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Samba.Domain.Models.Inventories;
 using Samba.Infrastructure.Data;
-using Samba.Persistance.Data;
 using Samba.Presentation.Common;
+using Samba.Services;
 
 namespace Samba.Modules.InventoryModule
 {
     class TransactionItemViewModel : ObservableObject
     {
         private readonly IWorkspace _workspace;
-        public TransactionItemViewModel(InventoryTransactionItem model, IWorkspace workspace)
+        private readonly IInventoryService _inventoryService;
+
+        public TransactionItemViewModel(InventoryTransactionItem model, IWorkspace workspace, IInventoryService inventoryService)
         {
             _workspace = workspace;
+            _inventoryService = inventoryService;
             Model = model;
         }
 
@@ -64,7 +64,7 @@ namespace Samba.Modules.InventoryModule
         private IEnumerable<string> _inventoryItemNames;
         public IEnumerable<string> InventoryItemNames
         {
-            get { return _inventoryItemNames ?? (_inventoryItemNames = Dao.Select<InventoryItem, string>(x => x.Name, x => !string.IsNullOrEmpty(x.Name))); }
+            get { return _inventoryItemNames ?? (_inventoryItemNames = _inventoryService.GetInventoryItemNames()); }
         }
 
         public IEnumerable<string> UnitNames

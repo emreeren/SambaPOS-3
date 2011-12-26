@@ -7,11 +7,9 @@ using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Persistance.Data;
-using Samba.Presentation.Common.Services;
-using Samba.Services;
 using Samba.Services.Common;
 
-namespace Samba.Modules.InventoryModule.ServiceImplementations
+namespace Samba.Services.Implementations.InventoryModule
 {
     internal class SalesData
     {
@@ -32,6 +30,8 @@ namespace Samba.Modules.InventoryModule.ServiceImplementations
         {
             _applicationState = applicationState;
             _menuService = menuService;
+
+            EventServiceFactory.EventService.GetEvent<GenericEvent<WorkPeriod>>().Subscribe(OnWorkperiodStatusChanged);
         }
 
         private IEnumerable<InventoryTransactionItem> GetTransactionItems()
@@ -193,6 +193,44 @@ namespace Samba.Modules.InventoryModule.ServiceImplementations
         public IEnumerable<string> GetInventoryItemNames()
         {
             return Dao.Select<InventoryItem, string>(x => x.Name, x => !string.IsNullOrEmpty(x.Name));
+        }
+
+        public int GetPeriodicConsumptionItemCountByInventoryItem(int id)
+        {
+            return Dao.Count<PeriodicConsumptionItem>(x => x.InventoryItem.Id == id);
+        }
+
+        public IEnumerable<string> GetGroupCodes()
+        {
+            return Dao.Distinct<InventoryItem>(x => x.GroupCode);
+        }
+
+        public decimal RecipeCountByPortion(Recipe model)
+        {
+            return Dao.Count<Recipe>(x => x.Portion.Id == model.Portion.Id && x.Id != model.Id);
+        }
+
+        private void OnWorkperiodStatusChanged(EventParameters<WorkPeriod> obj)
+        {
+            if (obj.Topic != EventTopicNames.WorkPeriodStatusChanged) return;
+            using (var ws = WorkspaceFactory.Create())
+            {
+                if (ws.Count<Recipe>() <= 0) return;
+                if (!_applicationState.IsCurrentWorkPeriodOpen)
+                {
+                    var pc = GetCurrentPeriodicConsumption(ws);
+                    if (pc.Id == 0) ws.Add(pc);
+                    ws.CommitChanges();
+                }
+                else
+                {
+                    if (_applicationState.PreviousWorkPeriod == null) return;
+                    var pc = GetPreviousPeriodicConsumption(ws);
+                    if (pc == null) return;
+                    CalculateCost(pc, _applicationState.PreviousWorkPeriod);
+                    ws.CommitChanges();
+                }
+            }
         }
 
         public override void Reset()

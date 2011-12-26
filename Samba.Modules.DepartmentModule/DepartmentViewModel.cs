@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
 using System.Linq;
 using FluentValidation;
 using Samba.Domain.Models.Locations;
@@ -8,36 +9,38 @@ using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
-using Samba.Persistance.Data;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Common.Services;
+using Samba.Services;
 
 namespace Samba.Modules.DepartmentModule
 {
+    [Export,PartCreationPolicy(CreationPolicy.NonShared)]
     public class DepartmentViewModel : EntityViewModelBase<Department>
     {
+        private readonly IMenuService _menuService;
+
+        [ImportingConstructor]
+        public DepartmentViewModel(IMenuService menuService)
+        {
+            _menuService = menuService;
+        }
+
+        public int ScreenMenuId { get { return Model.ScreenMenuId; } set { Model.ScreenMenuId = value; } }
+
         private IEnumerable<ScreenMenu> _screenMenus;
         public IEnumerable<ScreenMenu> ScreenMenus
         {
-            get { return _screenMenus ?? (_screenMenus = Dao.Query<ScreenMenu>()); }
+            get { return _screenMenus ?? (_screenMenus = _menuService.GetScreenMenus()); }
             set { _screenMenus = value; }
         }
-
-        //private IEnumerable<LocationScreen> _locationScreens;
-        //public IEnumerable<LocationScreen> LocationScreens
-        //{
-        //    get { return _locationScreens ?? (_locationScreens = Dao.Query<LocationScreen>()); }
-        //    set { _locationScreens = value; }
-        //}
 
         private ObservableCollection<LocationScreen> _locationScreens;
         public ObservableCollection<LocationScreen> LocationScreens
         {
             get { return _locationScreens ?? (_locationScreens = new ObservableCollection<LocationScreen>(Model.LocationScreens.OrderBy(x => x.Order))); }
         }
-
-        public int ScreenMenuId { get { return Model.ScreenMenuId; } set { Model.ScreenMenuId = value; } }
 
         private IEnumerable<TicketTemplate> _ticketTemplates;
         public IEnumerable<TicketTemplate> TicketTemplates

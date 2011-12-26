@@ -10,10 +10,9 @@ using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Transactions;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
-using Samba.Services;
 using Samba.Services.Common;
 
-namespace Samba.Modules.CashModule.ServiceImplementations
+namespace Samba.Services.Implementations.CashModule
 {
     [Export(typeof(ICashService))]
     public class CashService : AbstractService, ICashService

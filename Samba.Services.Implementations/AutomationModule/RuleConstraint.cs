@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Localization.Properties;
-using Samba.Services;
 
-namespace Samba.Modules.AutomationModule.ServiceImplementations
+namespace Samba.Services.Implementations.AutomationModule
 {
     [Export(typeof(IRuleConstraint))]
     [PartCreationPolicy(CreationPolicy.NonShared)]

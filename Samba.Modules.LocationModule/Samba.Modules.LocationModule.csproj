@@ -68,7 +68,6 @@
       <DependentUpon>LocationSelectorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="LocationSelectorViewModel.cs" />
-    <Compile Include="ServiceImplementations\LocationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Images\back1.jpg" />
@@ -115,10 +114,6 @@
     <ProjectReference Include="..\Samba.Localization\Samba.Localization.csproj">
       <Project>{406B96A6-C886-4149-AD88-A2402EDB2B90}</Project>
       <Name>Samba.Localization</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Samba.Persistance.Data\Samba.Persistance.Data.csproj">
-      <Project>{FEDA2199-91CD-4AF1-B571-4AA2E8371A18}</Project>
-      <Name>Samba.Persistance.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Presentation.Common\Samba.Presentation.Common.csproj">
       <Project>{FE1A894E-D55E-4CEA-980A-1C678A2453FC}</Project>

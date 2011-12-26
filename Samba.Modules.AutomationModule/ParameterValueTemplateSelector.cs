@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using Samba.Services;
 
 namespace Samba.Modules.AutomationModule
 {
@@ -12,7 +13,7 @@ namespace Samba.Modules.AutomationModule
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            var pv = item as ParameterValue;
+            var pv = item as IParameterValue;
             if (pv != null)
             {
                 if (pv.Name.Contains("Password")) return PasswordTemplate;

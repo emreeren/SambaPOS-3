@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
+using Samba.Domain.Models;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Actions;
 using Samba.Domain.Models.Inventories;
@@ -81,7 +82,7 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<TicketTemplate>().HasMany(p => p.TicketTagGroups).WithMany();
             modelBuilder.Entity<TicketTemplate>().HasMany(p => p.ServiceTemplates).WithMany();
             modelBuilder.Entity<TicketTemplate>().HasMany(p => p.OrderTagGroups).WithMany();
-            
+
             modelBuilder.Entity<Account>().Property(x => x.CustomData).IsMaxLength();
 
             modelBuilder.Entity<Department>().HasMany(p => p.LocationScreens).WithMany();

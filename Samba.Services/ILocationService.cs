@@ -14,5 +14,10 @@ namespace Samba.Services
         IList<Location> LoadLocations(string selectedLocationScreen);
         int GetLocationCount();
         void SaveLocations();
+        IEnumerable<string> GetCategories();
+        Location GetLocationByModel(Location model);
+        int GetLocationCountByLocationScreen(int locationId);
+        bool DidLocationScreenUsedInDepartment(int id);
+        string GetSaveErrorMessage(Location model);
     }
 }

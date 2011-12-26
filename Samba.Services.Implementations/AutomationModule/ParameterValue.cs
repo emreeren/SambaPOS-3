@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Samba.Localization.Properties;
-using Samba.Modules.AutomationModule.ServiceImplementations;
 
-namespace Samba.Modules.AutomationModule
+namespace Samba.Services.Implementations.AutomationModule
 {
-    internal class ParameterValue
+    internal class ParameterValue : IParameterValue
     {
         private readonly PropertyInfo _parameterInfo;
 

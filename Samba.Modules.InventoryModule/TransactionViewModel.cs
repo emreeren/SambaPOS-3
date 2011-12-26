@@ -15,11 +15,13 @@ namespace Samba.Modules.InventoryModule
     class TransactionViewModel : EntityViewModelBase<InventoryTransaction>
     {
         private readonly IApplicationState _applicationState;
+        private readonly IInventoryService _inventoryService;
 
         [ImportingConstructor]
-        public TransactionViewModel(IApplicationState applicationState)
+        public TransactionViewModel(IApplicationState applicationState, IInventoryService inventoryService)
         {
             _applicationState = applicationState;
+            _inventoryService = inventoryService;
             AddTransactionItemCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.Line), OnAddTransactionItem, CanAddTransactionItem);
             DeleteTransactionItemCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.Line), OnDeleteTransactionItem, CanDeleteTransactionItem);
         }
@@ -44,7 +46,7 @@ namespace Samba.Modules.InventoryModule
             if (Model.TransactionItems.Count == 0)
                 AddTransactionItemCommand.Execute("");
             return new ObservableCollection<TransactionItemViewModel>(
-                     Model.TransactionItems.Select(x => new TransactionItemViewModel(x, Workspace)));
+                     Model.TransactionItems.Select(x => new TransactionItemViewModel(x, Workspace, _inventoryService)));
         }
 
         private TransactionItemViewModel _selectedTransactionItem;
@@ -84,7 +86,7 @@ namespace Samba.Modules.InventoryModule
         private void OnAddTransactionItem(string obj)
         {
             var ti = new InventoryTransactionItem();
-            var tiv = new TransactionItemViewModel(ti, Workspace);
+            var tiv = new TransactionItemViewModel(ti, Workspace, _inventoryService);
             Model.TransactionItems.Add(ti);
             TransactionItems.Add(tiv);
             SelectedTransactionItem = tiv;

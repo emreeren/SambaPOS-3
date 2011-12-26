@@ -43,9 +43,9 @@ namespace Samba.Modules.AutomationModule
 
         public bool IsParameterLabelVisible { get { return ParameterValues.Count > 0; } }
 
-        private List<ParameterValue> CreateParameterValues(string value)
+        private List<IParameterValue> CreateParameterValues(string value)
         {
-            if (string.IsNullOrEmpty(value)) return new List<ParameterValue>();
+            if (string.IsNullOrEmpty(value)) return new List<IParameterValue>();
 
             var result = CreateParemeterValues(_automationService.GetActionType(value)).ToList();
 
@@ -57,8 +57,8 @@ namespace Samba.Modules.AutomationModule
             return result;
         }
 
-        private List<ParameterValue> _parameterValues;
-        public List<ParameterValue> ParameterValues
+        private List<IParameterValue> _parameterValues;
+        public List<IParameterValue> ParameterValues
         {
             get { return _parameterValues ?? (_parameterValues = CreateParameterValues(Model.ActionType)); }
             set
@@ -70,11 +70,9 @@ namespace Samba.Modules.AutomationModule
 
         public IEnumerable<RuleActionType> ActionTypes { get { return _automationService.GetActionTypes(); } }
 
-        private static IEnumerable<ParameterValue> CreateParemeterValues(RuleActionType actionType)
+        private IEnumerable<IParameterValue> CreateParemeterValues(RuleActionType actionType)
         {
-            if (actionType.ParameterObject != null)
-                return actionType.ParameterObject.GetType().GetProperties().Select(x => new ParameterValue(x));
-            return new List<ParameterValue>();
+            return _automationService.CreateParameterValues(actionType);
         }
 
         protected override void OnSave(string value)

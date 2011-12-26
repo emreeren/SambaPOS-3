@@ -12,5 +12,6 @@ namespace Samba.Services
         Department GetDepartment(int id);
         IEnumerable<string> GetDepartmentNames();
         IEnumerable<Department> GetDepartments();
+        int GetUserRoleCount(int departmentId);
     }
 }

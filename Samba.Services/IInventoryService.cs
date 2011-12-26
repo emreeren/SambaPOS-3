@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Samba.Domain.Models.Inventories;
 using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Data;
@@ -15,5 +12,8 @@ namespace Samba.Services
         PeriodicConsumption GetCurrentPeriodicConsumption(IWorkspace workspace);
         void CalculateCost(PeriodicConsumption pc, WorkPeriod workPeriod);
         IEnumerable<string> GetInventoryItemNames();
+        int GetPeriodicConsumptionItemCountByInventoryItem(int id);
+        IEnumerable<string> GetGroupCodes();
+        decimal RecipeCountByPortion(Recipe model);
     }
 }

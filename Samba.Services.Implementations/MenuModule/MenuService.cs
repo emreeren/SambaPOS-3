@@ -6,10 +6,9 @@ using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using Samba.Domain.Models.Menus;
 using Samba.Persistance.Data;
-using Samba.Services;
 using Samba.Services.Common;
 
-namespace Samba.Modules.MenuModule.ServiceImplementations
+namespace Samba.Services.Implementations.MenuModule
 {
     [Export(typeof(IMenuService))]
     public class MenuService : AbstractService, IMenuService
@@ -70,6 +69,16 @@ namespace Samba.Modules.MenuModule.ServiceImplementations
         public MenuItem GetMenuItem(Expression<Func<MenuItem, bool>> expression)
         {
             return Dao.SingleWithCache(expression, x => x.TaxTemplate, x => x.Portions.Select(y => y.Prices));
+        }
+
+        public IEnumerable<ScreenMenu> GetScreenMenus()
+        {
+            return Dao.Query<ScreenMenu>();
+        }
+
+        public IEnumerable<string> GetMenuItemNames()
+        {
+            return Dao.Select<MenuItem, string>(x => x.Name, null);
         }
 
         public override void Reset()

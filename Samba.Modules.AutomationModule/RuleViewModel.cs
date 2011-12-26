@@ -6,7 +6,6 @@ using System.Linq;
 using Samba.Domain.Models.Actions;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
-using Samba.Modules.AutomationModule.ServiceImplementations;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Common.Services;
@@ -114,12 +113,10 @@ namespace Samba.Modules.AutomationModule
 
             if (!string.IsNullOrEmpty(Model.EventConstraints))
             {
-                Constraints.AddRange(
-                    Model.EventConstraints.Split('#')
-                    .Where(x => !x.StartsWith("SN$"))
-                    .Select(x => new RuleConstraint(x)));
-                var settingData =
-                Model.EventConstraints.Split('#').Where(x => x.StartsWith("SN$")).FirstOrDefault();
+                Constraints.AddRange(_automationService.CreateRuleConstraints(Model.EventConstraints));
+                
+                var settingData = Model.EventConstraints.Split('#').Where(x => x.StartsWith("SN$")).FirstOrDefault();
+
                 if (!string.IsNullOrEmpty(settingData))
                 {
                     var settingParts = settingData.Split(';');

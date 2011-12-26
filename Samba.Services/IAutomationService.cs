@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Samba.Domain.Models.Actions;
 
 namespace Samba.Services
 {
@@ -29,5 +30,8 @@ namespace Samba.Services
         IEnumerable<string> GetParameterNames(string eventName);
         RuleActionType GetActionType(string value);
         IEnumerable<RuleActionType> GetActionTypes();
+        IEnumerable<IRuleConstraint> CreateRuleConstraints(string eventConstraints);
+        IEnumerable<IParameterValue> CreateParameterValues(RuleActionType actionType);
+        AppAction GetActionById(int appActionId);
     }
 }

@@ -14,5 +14,7 @@ namespace Samba.Services
         MenuItem GetMenuItem(string barcode);
         MenuItem GetMenuItemByName(string menuItemName);
         MenuItem GetMenuItem(Expression<Func<MenuItem, bool>> expression);
+        IEnumerable<ScreenMenu> GetScreenMenus();
+        IEnumerable<string> GetMenuItemNames();
     }
 }

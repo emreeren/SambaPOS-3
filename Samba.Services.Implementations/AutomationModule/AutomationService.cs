@@ -4,10 +4,9 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Actions;
 using Samba.Persistance.Data;
-using Samba.Services;
 using Samba.Services.Common;
 
-namespace Samba.Modules.AutomationModule.ServiceImplementations
+namespace Samba.Services.Implementations.AutomationModule
 {
     [Export(typeof(IAutomationService))]
     class AutomationService : AbstractService, IAutomationService
@@ -93,6 +92,25 @@ namespace Samba.Modules.AutomationModule.ServiceImplementations
         public IEnumerable<RuleActionType> GetActionTypes()
         {
             return _ruleActionTypeRegistry.ActionTypes.Values;
+        }
+
+        public IEnumerable<IRuleConstraint> CreateRuleConstraints(string eventConstraints)
+        {
+            return eventConstraints.Split('#')
+                .Where(x => !x.StartsWith("SN$"))
+                .Select(x => new RuleConstraint(x));
+        }
+
+        public IEnumerable<IParameterValue> CreateParameterValues(RuleActionType actionType)
+        {
+            if (actionType.ParameterObject != null)
+                return actionType.ParameterObject.GetType().GetProperties().Select(x => new ParameterValue(x));
+            return new List<IParameterValue>();
+        }
+
+        public AppAction GetActionById(int appActionId)
+        {
+            return Dao.Single<AppAction>(x => x.Id == appActionId);
         }
 
         private bool SatisfiesConditions(AppRule appRule, object dataObject)

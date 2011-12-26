@@ -1,14 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Locations;
+using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
+using Samba.Localization.Properties;
 using Samba.Persistance.Data;
-using Samba.Presentation.Common.Services;
-using Samba.Services;
 using Samba.Services.Common;
 
-namespace Samba.Modules.LocationModule.ServiceImplementations
+namespace Samba.Services.Implementations.LocationModule
 {
     [Export(typeof(ILocationService))]
     public class LocationService : AbstractService, ILocationService
@@ -43,8 +44,10 @@ namespace Samba.Modules.LocationModule.ServiceImplementations
                 }
                 else set = locationScreen.Locations.OrderBy(x => x.Order).Select(x => x.Id);
 
-                var result = Dao.Select<Location, dynamic>(x => new { x.Id, Tid = x.TicketId, Locked = x.IsTicketLocked },
-                                                       x => set.Contains(x.Id));
+                var result = Dao.Select<Location, dynamic>(
+                    x =>
+                        new { x.Id, Tid = x.TicketId, Locked = x.IsTicketLocked },
+                        x => set.Contains(x.Id));
 
                 result.ToList().ForEach(x =>
                 {
@@ -98,6 +101,32 @@ namespace Samba.Modules.LocationModule.ServiceImplementations
                 _locationWorkspace.CommitChanges();
                 _locationWorkspace = null;
             }
+        }
+
+        public IEnumerable<string> GetCategories()
+        {
+            return Dao.Distinct<Location>(x => x.Category);
+        }
+
+        public string GetSaveErrorMessage(Location model)
+        {
+            var spec = LocationSpecifications.LocationCanSave(model.Name, model.Id);
+            return Dao.Query(spec.SatisfiedBy()) != null ? Resources.SaveErrorDuplicateLocationName : "";
+        }
+
+        public Location GetLocationByModel(Location model)
+        {
+            return Dao.Single<Location>(x => x.Name.ToLower() == model.Name.ToLower() && x.Id != model.Id);
+        }
+
+        public int GetLocationCountByLocationScreen(int locationId)
+        {
+            return Dao.Count<LocationScreen>(x => x.Locations.Any(y => y.Id == locationId));
+        }
+
+        public bool DidLocationScreenUsedInDepartment(int id)
+        {
+            return Dao.Query<Department>(x => x.LocationScreens.Any(y => y.Id == id)) != null;
         }
 
         public override void Reset()

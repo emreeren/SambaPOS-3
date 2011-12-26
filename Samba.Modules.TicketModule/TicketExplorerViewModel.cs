@@ -9,6 +9,7 @@ using System.Windows.Threading;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
+using Samba.Persistance.Data.Specification;
 using Samba.Presentation.Common;
 using Samba.Services;
 using Samba.Services.Common;

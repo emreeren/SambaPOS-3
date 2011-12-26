@@ -15,12 +15,14 @@ namespace Samba.Modules.InventoryModule
     {
         private readonly IApplicationState _applicationState;
         private readonly IInventoryService _inventoryService;
+        private readonly IMenuService _menuService;
 
         [ImportingConstructor]
-        public PeriodicConsumptionViewModel(IApplicationState applicationState, IInventoryService inventoryService)
+        public PeriodicConsumptionViewModel(IApplicationState applicationState, IInventoryService inventoryService, IMenuService menuService)
         {
             _applicationState = applicationState;
             _inventoryService = inventoryService;
+            _menuService = menuService;
             UpdateCalculationCommand = new CaptionCommand<string>(Resources.CalculateCost, OnUpdateCalculation);
         }
 
@@ -35,7 +37,7 @@ namespace Samba.Modules.InventoryModule
         private ObservableCollection<CostItemViewModel> _costItems;
         public ObservableCollection<CostItemViewModel> CostItems
         {
-            get { return _costItems ?? (_costItems = new ObservableCollection<CostItemViewModel>(Model.CostItems.Select(x => new CostItemViewModel(x)))); }
+            get { return _costItems ?? (_costItems = new ObservableCollection<CostItemViewModel>(Model.CostItems.Select(x => new CostItemViewModel(x, _menuService.GetMenuItem(x.Portion.MenuItemId))))); }
         }
 
         private PeriodicConsumptionItemViewModel _selectedPeriodicConsumptionItem;

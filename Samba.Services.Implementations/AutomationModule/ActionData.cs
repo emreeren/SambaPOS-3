@@ -1,7 +1,6 @@
 ﻿using Samba.Domain.Models.Actions;
-using Samba.Services;
 
-namespace Samba.Modules.AutomationModule.ServiceImplementations
+namespace Samba.Services.Implementations.AutomationModule
 {
     public class ActionData : IActionData
     {

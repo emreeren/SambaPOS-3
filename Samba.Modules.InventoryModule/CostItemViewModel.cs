@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Samba.Domain.Models.Inventories;
+﻿using Samba.Domain.Models.Inventories;
 using Samba.Domain.Models.Menus;
-using Samba.Persistance.Data;
 using Samba.Presentation.Common;
 
 namespace Samba.Modules.InventoryModule
@@ -13,13 +8,14 @@ namespace Samba.Modules.InventoryModule
     {
         public CostItem Model { get; set; }
 
-        public CostItemViewModel(CostItem model)
+        public CostItemViewModel(CostItem model,MenuItem menuItem)
         {
             Model = model;
+            _menuItem = menuItem;
         }
 
-        private MenuItem _menuItem;
-        public MenuItem MenuItem { get { return _menuItem ?? (_menuItem = Dao.Single<MenuItem>(x => x.Id == Model.Portion.MenuItemId)); } }
+        private readonly MenuItem _menuItem;
+        public MenuItem MenuItem { get { return _menuItem; } }
         public string MenuItemName { get { return MenuItem.Name; } }
         public string PortionName { get { return Model.Portion.Name; } }
         public decimal Quantity { get { return Model.Quantity; } }

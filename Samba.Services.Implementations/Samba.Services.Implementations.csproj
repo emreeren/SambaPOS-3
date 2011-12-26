@@ -45,6 +45,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountModule\AccountService.cs" />
+    <Compile Include="AutomationModule\ActionData.cs" />
+    <Compile Include="AutomationModule\AutomationService.cs" />
+    <Compile Include="AutomationModule\OperatorConstants.cs" />
+    <Compile Include="AutomationModule\ParameterSources.cs" />
+    <Compile Include="AutomationModule\ParameterValue.cs" />
+    <Compile Include="AutomationModule\RuleActionTypeRegistry.cs" />
+    <Compile Include="AutomationModule\RuleConstraint.cs" />
+    <Compile Include="AutomationModule\TriggerService.cs" />
+    <Compile Include="CashModule\CashService.cs" />
+    <Compile Include="DepartmentModule\DepartmentService.cs" />
+    <Compile Include="InventoryModule\InventoryService.cs" />
+    <Compile Include="LocationModule\LocationService.cs" />
+    <Compile Include="LocationModule\LocationSpecifications.cs" />
+    <Compile Include="MenuModule\MenuService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +69,14 @@
     <ProjectReference Include="..\Samba.Infrastructure.Data\Samba.Infrastructure.Data.csproj">
       <Project>{2D64F506-D566-4CA5-A19C-BCB5F9A2E7F4}</Project>
       <Name>Samba.Infrastructure.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Infrastructure\Samba.Infrastructure.csproj">
+      <Project>{B184E8F8-A507-4C3D-B580-184E3776A95C}</Project>
+      <Name>Samba.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Localization\Samba.Localization.csproj">
+      <Project>{406B96A6-C886-4149-AD88-A2402EDB2B90}</Project>
+      <Name>Samba.Localization</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Persistance.Data\Samba.Persistance.Data.csproj">
       <Project>{FEDA2199-91CD-4AF1-B571-4AA2E8371A18}</Project>

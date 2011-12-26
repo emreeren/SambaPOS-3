@@ -1,14 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using Samba.Domain.Models.Inventories;
 using Samba.Localization.Properties;
-using Samba.Persistance.Data;
 using Samba.Presentation.Common.ModelBase;
+using Samba.Services;
 
 namespace Samba.Modules.InventoryModule
 {
+    [Export,PartCreationPolicy(CreationPolicy.NonShared)]
     public class InventoryItemViewModel : EntityViewModelBase<InventoryItem>
     {
+        private readonly IInventoryService _inventoryService;
+        
+        [ImportingConstructor]
+        public InventoryItemViewModel(IInventoryService inventoryService)
+        {
+            _inventoryService = inventoryService;
+        }
+
         public override Type GetViewType()
         {
             return typeof(InventoryItemView);
@@ -20,7 +30,7 @@ namespace Samba.Modules.InventoryModule
         }
 
         private IEnumerable<string> _groupCodes;
-        public IEnumerable<string> GroupCodes { get { return _groupCodes ?? (_groupCodes = Dao.Distinct<InventoryItem>(x => x.GroupCode)); } }
+        public IEnumerable<string> GroupCodes { get { return _groupCodes ?? (_groupCodes = _inventoryService.GetGroupCodes()); } }
 
         public string GroupCode
         {

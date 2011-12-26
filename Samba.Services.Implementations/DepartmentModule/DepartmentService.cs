@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using Samba.Domain.Models.Tickets;
+using Samba.Domain.Models.Users;
 using Samba.Infrastructure.Data;
 using Samba.Persistance.Data;
-using Samba.Services;
 using Samba.Services.Common;
 
-namespace Samba.Modules.DepartmentModule.ServiceImplementations
+namespace Samba.Services.Implementations.DepartmentModule
 {
     [Export(typeof(IDepartmentService))]
     public class DepartmentService : AbstractService, IDepartmentService
@@ -18,13 +17,13 @@ namespace Samba.Modules.DepartmentModule.ServiceImplementations
             get { return _workspace ?? (_workspace = WorkspaceFactory.Create()); }
         }
 
-        private IEnumerable<Department> _departments;
-        public IEnumerable<Department> Departments
+        private IEnumerable<Domain.Models.Tickets.Department> _departments;
+        public IEnumerable<Domain.Models.Tickets.Department> Departments
         {
-            get { return _departments ?? (_departments = Workspace.All<Department>()); }
+            get { return _departments ?? (_departments = Workspace.All<Domain.Models.Tickets.Department>()); }
         }
 
-        public Department GetDepartment(int id)
+        public Domain.Models.Tickets.Department GetDepartment(int id)
         {
             return Departments.First(x => x.Id == id);
         }
@@ -34,9 +33,14 @@ namespace Samba.Modules.DepartmentModule.ServiceImplementations
             return Departments.Select(x => x.Name);
         }
 
-        public IEnumerable<Department> GetDepartments()
+        public IEnumerable<Domain.Models.Tickets.Department> GetDepartments()
         {
             return Departments;
+        }
+
+        public int GetUserRoleCount(int departmentId)
+        {
+           return Dao.Count<UserRole>(x => x.DepartmentId == departmentId);
         }
 
         public override void Reset()
