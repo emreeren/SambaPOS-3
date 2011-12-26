@@ -18,11 +18,6 @@ namespace Samba.Modules.AccountModule
             _accountService = accountService;
         }
 
-        public AccountTemplateListViewModel()
-        {
-            
-        }
-
         protected override string CanDeleteItem(AccountTemplate model)
         {
             if (_accountService.DidAccountTemplateUsed(model.Id))

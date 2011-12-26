@@ -34,11 +34,11 @@ namespace Samba.Modules.TicketModule
             _ticketEditorView = ticketEditorView;
             _applicationState = applicationState;
 
-            AddDashboardCommand<TicketTemplateListViewModel>(Resources.TicketTemplates, Resources.Tickets, 10);
-            AddDashboardCommand<TicketTagGroupListViewModel>(Resources.TicketTags, Resources.Tickets, 10);
-            AddDashboardCommand<OrderTagGroupListViewModel>(Resources.OrderTags, Resources.Tickets, 10);
-            AddDashboardCommand<OrderTagTemplateListViewModel>(Resources.OrderTagTemplates, Resources.Tickets, 10);
-            AddDashboardCommand<ServiceTemplateListViewModel>(Resources.ServiceTemplates, Resources.Products);
+            AddDashboardCommand<TicketTemplateListViewModel>(Resources.TicketTemplates, Resources.Tickets, 35);
+            AddDashboardCommand<TicketTagGroupListViewModel>(Resources.TicketTags, Resources.Tickets, 35);
+            AddDashboardCommand<OrderTagGroupListViewModel>(Resources.OrderTags, Resources.Tickets, 35);
+            AddDashboardCommand<OrderTagTemplateListViewModel>(Resources.OrderTagTemplates, Resources.Tickets, 35);
+            AddDashboardCommand<ServiceTemplateListViewModel>(Resources.ServiceTemplates, Resources.Products,35);
 
             PermissionRegistry.RegisterPermission(PermissionNames.AddItemsToLockedTickets, PermissionCategories.Ticket, Resources.CanReleaseTicketLock);
             PermissionRegistry.RegisterPermission(PermissionNames.RemoveTicketTag, PermissionCategories.Ticket, Resources.CanRemoveTicketTag);
@@ -61,8 +61,7 @@ namespace Samba.Modules.TicketModule
                 {
                     if (x.Topic == EventTopicNames.AccountSelectedForTicket || x.Topic == EventTopicNames.PaymentRequestedForTicket)
                         Activate();
-                }
-                );
+                });
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(
                 x =>

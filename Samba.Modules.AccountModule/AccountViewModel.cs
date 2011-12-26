@@ -18,7 +18,6 @@ namespace Samba.Modules.AccountModule
         public string Name { get; set; }
         [DataMember]
         public string Value { get; set; }
-
         public AccountCustomField CustomField { get; set; }
     }
 
