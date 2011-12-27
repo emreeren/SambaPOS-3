@@ -22,7 +22,7 @@ namespace Samba.Services.Implementations.LocationModule
         [ImportingConstructor]
         public LocationService(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter)
         {
-            _locationCount = Dao.Count<Location>(null);
+            _locationCount = Dao.Count<Location>();
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
         }
@@ -108,20 +108,19 @@ namespace Samba.Services.Implementations.LocationModule
             return Dao.Distinct<Location>(x => x.Category);
         }
 
-        public string GetSaveErrorMessage(Location model)
+        public OperationTestResult TestSaveOperation(Location model)
         {
-            var spec = LocationSpecifications.LocationCanSave(model.Name, model.Id);
-            return Dao.Query(spec.SatisfiedBy()) != null ? Resources.SaveErrorDuplicateLocationName : "";
+            var errorMessage = EntitySpecifications.EntityDuplicates(model).Exists()
+                ? Resources.SaveErrorDuplicateLocationName : "";
+            return new OperationTestResult(errorMessage);
         }
 
-        public Location GetLocationByModel(Location model)
+        public OperationTestResult TestDeleteOperation(Location model)
         {
-            return Dao.Single<Location>(x => x.Name.ToLower() == model.Name.ToLower() && x.Id != model.Id);
-        }
-
-        public int GetLocationCountByLocationScreen(int locationId)
-        {
-            return Dao.Count<LocationScreen>(x => x.Locations.Any(y => y.Id == locationId));
+            if (model.TicketId > 0) return new OperationTestResult(Resources.DeleteErrorTicketAssignedToLocation);
+            if (LocationSpecifications.LocationScreensByLocationId(model.Id).Exists())
+                return new OperationTestResult(Resources.DeleteErrorLocationUsedInLocationView);
+            return new OperationTestResult("");
         }
 
         public bool DidLocationScreenUsedInDepartment(int id)

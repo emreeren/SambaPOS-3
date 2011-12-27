@@ -15,9 +15,8 @@ namespace Samba.Services
         int GetLocationCount();
         void SaveLocations();
         IEnumerable<string> GetCategories();
-        Location GetLocationByModel(Location model);
-        int GetLocationCountByLocationScreen(int locationId);
         bool DidLocationScreenUsedInDepartment(int id);
-        string GetSaveErrorMessage(Location model);
+        OperationTestResult TestSaveOperation(Location model);
+        OperationTestResult TestDeleteOperation(Location model);
     }
 }

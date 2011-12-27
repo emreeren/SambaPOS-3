@@ -32,17 +32,14 @@ namespace Samba.Infrastructure.Data.SQL
             return _context.ReadOnly<T>().Select(expression).Distinct().Where(x => !string.IsNullOrEmpty(x)).ToList();
         }
 
-        public T Single<T>(Expression<Func<T, bool>> expression, string[] includes) where T : class
-        {
-            if (includes == null || includes.Length < 1)
-                return _context.ReadOnly<T>().Where(expression).SingleOrDefault();
-            return includes.Aggregate(_context.ReadOnly<T>() as ObjectQuery<T>,
-                                      (current, include) => current.Include(include)).Where(expression).SingleOrDefault();
-        }
-
         public T Single<T>(Expression<Func<T, bool>> predictate, params Expression<Func<T, object>>[] includes) where T : class
         {
-            return includes.Aggregate(_context.ReadOnly<T>(), (current, include) => current.Include(include)).Where(predictate).SingleOrDefault();
+            return includes.Aggregate(_context.ReadOnly<T>(), (current, include) => current.Include(include)).SingleOrDefault(predictate);
+        }
+
+        public T First<T>(Expression<Func<T, bool>> predictate, params Expression<Func<T, object>>[] includes) where T : class
+        {
+            return includes.Aggregate(_context.ReadOnly<T>(), (current, include) => current.Include(include)).FirstOrDefault(predictate);
         }
 
         public IEnumerable<TResult> Select<TSource, TResult>(Expression<Func<TSource, TResult>> expression, Expression<Func<TSource, bool>> predictate) where TSource : class
@@ -73,7 +70,7 @@ namespace Samba.Infrastructure.Data.SQL
             }
         }
 
-        public T Last<T>(Expression<Func<T, bool>> predictate, Expression<Func<T, object>>[] includes) where T : class,IEntity
+        public T Last<T>(Expression<Func<T, bool>> predictate, params Expression<Func<T, object>>[] includes) where T : class,IEntity
         {
             return includes.Aggregate(_context.ReadOnly<T>(), (current, include) => current.Include(include))
                 .Where(predictate)

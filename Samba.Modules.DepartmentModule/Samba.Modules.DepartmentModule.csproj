@@ -31,9 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Accessibility">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
     <Reference Include="FluentValidation">
       <HintPath>..\Samba.Modules.TicketModule\bin\Debug\FluentValidation.dll</HintPath>
     </Reference>

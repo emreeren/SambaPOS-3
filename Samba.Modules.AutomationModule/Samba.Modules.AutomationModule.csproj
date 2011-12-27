@@ -31,9 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Accessibility">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\Lib\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>

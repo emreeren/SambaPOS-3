@@ -9,22 +9,9 @@ namespace Samba.Services.Implementations.LocationModule
 {
     public static class LocationSpecifications
     {
-        public static Specification<Location> LocationByName(string name)
+        public static Specification<LocationScreen> LocationScreensByLocationId(int locationId)
         {
-            return new DirectSpecification<Location>(x => x.Name.ToLower() == name.ToLower());
-        }
-
-        public static Specification<Location> LocationById(int id)
-        {
-            return new DirectSpecification<Location>(x => x.Id == id);
-        }
-
-        public static Specification<Location> LocationCanSave(string name, int id)
-        {
-            Specification<Location> spec = new TrueSpecification<Location>();
-            spec &= LocationByName(name);
-            spec &= LocationById(id);
-            return spec;
+            return new DirectSpecification<LocationScreen>(x => x.Locations.Any(y => y.Id == locationId));
         }
     }
 }

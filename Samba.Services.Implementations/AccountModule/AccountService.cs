@@ -13,7 +13,7 @@ namespace Samba.Services.Implementations.AccountModule
 
         public int GetAccountCount()
         {
-            return (int)(_accountCount ?? (_accountCount = Dao.Count<Account>(null)));
+            return (int)(_accountCount ?? (_accountCount = Dao.Count<Account>()));
         }
 
         public bool DidAccountTemplateUsed(int accountTemplateId)

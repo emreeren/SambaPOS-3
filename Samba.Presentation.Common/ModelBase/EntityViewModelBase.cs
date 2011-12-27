@@ -15,6 +15,7 @@ namespace Samba.Presentation.Common.ModelBase
         public TModel Model { get; set; }
         public ICaptionCommand SaveCommand { get; private set; }
         private IValidator<TModel> _validator;
+        public string ErrorMessage { get; set; }
 
         protected IWorkspace Workspace { get; private set; }
 
@@ -80,7 +81,7 @@ namespace Samba.Presentation.Common.ModelBase
 
         protected virtual void OnSave(string value)
         {
-            var errorMessage = GetSaveErrorMessage();
+            ErrorMessage = GetSaveErrorMessage();
             if (CanSave())
             {
                 _modelSaved = true;
@@ -94,14 +95,15 @@ namespace Samba.Presentation.Common.ModelBase
             else
             {
                 if (string.IsNullOrEmpty(Name))
-                    errorMessage = string.Format(Resources.EmptyNameError, GetModelTypeString());
-                MessageBox.Show(errorMessage, Resources.CantSave);
+                    ErrorMessage = string.Format(Resources.EmptyNameError, GetModelTypeString());
+                MessageBox.Show(ErrorMessage, Resources.CantSave);
+                ErrorMessage = "";
             }
         }
 
         public bool CanSave()
         {
-            return !string.IsNullOrEmpty(Name) && string.IsNullOrEmpty(GetSaveErrorMessage()) && CanSave("");
+            return !string.IsNullOrEmpty(Name) && string.IsNullOrEmpty(ErrorMessage) && CanSave("");
         }
 
         protected virtual string GetSaveErrorMessage()

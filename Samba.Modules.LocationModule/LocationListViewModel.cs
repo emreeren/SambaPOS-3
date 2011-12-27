@@ -37,9 +37,7 @@ namespace Samba.Modules.LocationModule
 
         protected override string CanDeleteItem(Location model)
         {
-            if (model.TicketId > 0) return Resources.DeleteErrorTicketAssignedToLocation;
-            var count = _locationService.GetLocationCountByLocationScreen(model.Id);
-            if (count > 0) return Resources.DeleteErrorLocationUsedInLocationView;
+            var testResult = _locationService.TestDeleteOperation(model);
             return base.CanDeleteItem(model);
         }
     }

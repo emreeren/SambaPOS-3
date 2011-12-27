@@ -52,7 +52,6 @@ namespace Samba.Persistance.Data
             using (var workspace = WorkspaceFactory.CreateReadOnly())
             {
                 var result = workspace.Single(predictate, includes);
-                //AddToCache(typeof(T), ObjectCloner.DataHash(includes), result);
                 return result;
             }
         }
@@ -76,6 +75,11 @@ namespace Samba.Persistance.Data
             {
                 return workspace.Distinct(expression).ToList();
             }
+        }
+
+        public static IEnumerable<T> Query<T>(ISpecification<T> specification, params Expression<Func<T, object>>[] includes) where T : class
+        {
+            return Query(specification.SatisfiedBy());
         }
 
         public static IEnumerable<T> Query<T>(Expression<Func<T, bool>> predictate, params Expression<Func<T, object>>[] includes) where T : class
@@ -118,12 +122,38 @@ namespace Samba.Persistance.Data
             return result;
         }
 
+        public static bool Exists<T>(Expression<Func<T, bool>> predictate) where T : class
+        {
+            using (var workspace = WorkspaceFactory.CreateReadOnly())
+            {
+                return workspace.First(predictate) != null;
+            }
+        }
+
+        public static bool Exists<T>(ISpecification<T> specification) where T : class
+        {
+            return Exists(specification.SatisfiedBy());
+        }
+
+        public static int Count<T>() where T : class
+        {
+            using (var workspace = WorkspaceFactory.CreateReadOnly())
+            {
+                return workspace.Count<T>(null);
+            }
+        }
+
         public static int Count<T>(Expression<Func<T, bool>> predictate) where T : class
         {
             using (var workspace = WorkspaceFactory.CreateReadOnly())
             {
                 return workspace.Count(predictate);
             }
+        }
+
+        public static int Count<T>(ISpecification<T> specifiation) where T : class
+        {
+            return Count(specifiation.SatisfiedBy());
         }
 
         public static decimal Sum<T>(Expression<Func<T, decimal>> func, Expression<Func<T, bool>> predictate) where T : class

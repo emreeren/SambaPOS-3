@@ -42,7 +42,8 @@ namespace Samba.Modules.LocationModule
 
         protected override string GetSaveErrorMessage()
         {
-            return _locationService.GetSaveErrorMessage(Model);
+            var message = _locationService.TestSaveOperation(Model);
+            return !message.CanCompleteOperation ? message.ErrorMessage : base.GetSaveErrorMessage();
         }
     }
 }
