@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using System.Linq;
 using Samba.Domain.Models.Locations;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
@@ -37,8 +38,8 @@ namespace Samba.Modules.LocationModule
 
         protected override string CanDeleteItem(Location model)
         {
-            var testResult = _locationService.TestDeleteOperation(model);
-            return base.CanDeleteItem(model);
+            var errors = _locationService.TestDeleteOperation(model);
+            return !string.IsNullOrEmpty(errors) ? errors : base.CanDeleteItem(model);
         }
     }
 }

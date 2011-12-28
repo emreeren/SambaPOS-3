@@ -53,7 +53,7 @@ namespace Samba.Services
             if (!string.IsNullOrEmpty(command))
             {
                 var data = command.Trim().Split(',').Select(x => Convert.ToInt32(x)).Aggregate("", (current, i) => current + (char)i);
-                WritePort(data, command, codePage);
+                WritePort(portName, data, codePage);
             }
         }
     }

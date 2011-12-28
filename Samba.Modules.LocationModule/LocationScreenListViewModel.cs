@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using System.Linq;
 using Samba.Domain.Models.Locations;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
@@ -6,7 +7,7 @@ using Samba.Services;
 
 namespace Samba.Modules.LocationModule
 {
-    [Export,PartCreationPolicy(CreationPolicy.NonShared)]
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class LocationScreenListViewModel : EntityCollectionViewModelBase<LocationScreenViewModel, LocationScreen>
     {
         private readonly ILocationService _locationService;
@@ -19,9 +20,8 @@ namespace Samba.Modules.LocationModule
 
         protected override string CanDeleteItem(LocationScreen model)
         {
-            if (_locationService.DidLocationScreenUsedInDepartment(model.Id))
-                return Resources.DeleteErrorLocationViewUsedInDepartment;
-            return base.CanDeleteItem(model);
+            var errors = _locationService.TestDeleteOperation(model);
+            return !string.IsNullOrEmpty(errors) ? errors : base.CanDeleteItem(model);
         }
     }
 }

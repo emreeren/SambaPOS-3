@@ -11,5 +11,15 @@ namespace Samba.Persistance.Data
         {
             return Dao.Exists(specification.SatisfiedBy());
         }
+
+        public static bool NotExists<T>(this ISpecification<T> specification) where T : class
+        {
+            return !Exists(specification);
+        }
+
+        public static string Validate<T>(this ISpecification<T> specification, string errorMessage) where T : class
+        {
+            return Exists(specification) ? errorMessage : "";
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using Samba.Domain.Models.Locations;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
@@ -42,8 +43,8 @@ namespace Samba.Modules.LocationModule
 
         protected override string GetSaveErrorMessage()
         {
-            var message = _locationService.TestSaveOperation(Model);
-            return !message.CanCompleteOperation ? message.ErrorMessage : base.GetSaveErrorMessage();
+            var errors = _locationService.TestSaveOperation(Model);
+            return !string.IsNullOrEmpty(errors) ? errors : base.GetSaveErrorMessage();
         }
     }
 }

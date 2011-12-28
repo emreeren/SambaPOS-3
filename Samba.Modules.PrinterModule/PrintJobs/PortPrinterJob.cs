@@ -28,11 +28,13 @@ namespace Samba.Modules.PrinterModule.PrintJobs
                     }
                     else if (s.ToLower().StartsWith("<xct"))
                     {
-                        SerialPortService.WriteCommand(Printer.ShareName, RemoveTag(s), Printer.CodePage);
+                        var lineData = s.ToLower().Replace("<xct", "").Trim(new[] { ' ', '<', '>' });
+                        SerialPortService.WriteCommand(Printer.ShareName, lineData, Printer.CodePage);
                     }
-                    else SerialPortService.WritePort(Printer.ShareName, RemoveTag(s));
+                    else SerialPortService.WritePort(Printer.ShareName, RemoveTag(s), Printer.CodePage);
                 }
             }
+            SerialPortService.ResetCache();
         }
 
         public override void DoPrint(FlowDocument document)

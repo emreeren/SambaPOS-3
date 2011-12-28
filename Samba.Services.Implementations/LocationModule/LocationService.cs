@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Locations;
@@ -108,24 +107,26 @@ namespace Samba.Services.Implementations.LocationModule
             return Dao.Distinct<Location>(x => x.Category);
         }
 
-        public OperationTestResult TestSaveOperation(Location model)
+        public string TestSaveOperation(Location model)
         {
-            var errorMessage = EntitySpecifications.EntityDuplicates(model).Exists()
-                ? Resources.SaveErrorDuplicateLocationName : "";
-            return new OperationTestResult(errorMessage);
+            if (EntitySpecifications.EntityDuplicates(model).Exists())
+                return Resources.SaveErrorDuplicateLocationName;
+            return "";
         }
 
-        public OperationTestResult TestDeleteOperation(Location model)
+        public string TestDeleteOperation(Location model)
         {
-            if (model.TicketId > 0) return new OperationTestResult(Resources.DeleteErrorTicketAssignedToLocation);
+            if (model.Id == 0) return Resources.DeleteErrorTicketAssignedToLocation;
             if (LocationSpecifications.LocationScreensByLocationId(model.Id).Exists())
-                return new OperationTestResult(Resources.DeleteErrorLocationUsedInLocationView);
-            return new OperationTestResult("");
+                return Resources.DeleteErrorLocationUsedInLocationView;
+            return "";
         }
 
-        public bool DidLocationScreenUsedInDepartment(int id)
+        public string TestDeleteOperation(LocationScreen model)
         {
-            return Dao.Query<Department>(x => x.LocationScreens.Any(y => y.Id == id)) != null;
+            if (LocationSpecifications.DepartmentsByLocationScreenId(model.Id).Exists())
+                return Resources.DeleteErrorLocationViewUsedInDepartment;
+            return "";
         }
 
         public override void Reset()

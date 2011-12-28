@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Samba.Domain.Models.Locations;
 using Samba.Services.Common;
 
@@ -15,8 +12,8 @@ namespace Samba.Services
         int GetLocationCount();
         void SaveLocations();
         IEnumerable<string> GetCategories();
-        bool DidLocationScreenUsedInDepartment(int id);
-        OperationTestResult TestSaveOperation(Location model);
-        OperationTestResult TestDeleteOperation(Location model);
+        string TestSaveOperation(Location model);
+        string TestDeleteOperation(Location model);
+        string TestDeleteOperation(LocationScreen model);
     }
 }
