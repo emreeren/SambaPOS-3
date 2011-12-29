@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Locations;
@@ -24,6 +25,10 @@ namespace Samba.Services.Implementations.LocationModule
             _locationCount = Dao.Count<Location>();
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
+
+            ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<Location>(Resources.SaveErrorDuplicateLocationName));
+            ValidatorRegistry.RegisterDeleteValidator(new LocationDeleteValidator());
+            ValidatorRegistry.RegisterDeleteValidator(new LocationScreenDeleteValidator());
         }
 
         public void UpdateLocations(LocationScreen locationScreen, int pageNo)
@@ -107,31 +112,30 @@ namespace Samba.Services.Implementations.LocationModule
             return Dao.Distinct<Location>(x => x.Category);
         }
 
-        public string TestSaveOperation(Location model)
-        {
-            if (EntitySpecifications.EntityDuplicates(model).Exists())
-                return Resources.SaveErrorDuplicateLocationName;
-            return "";
-        }
-
-        public string TestDeleteOperation(Location model)
-        {
-            if (model.Id == 0) return Resources.DeleteErrorTicketAssignedToLocation;
-            if (LocationSpecifications.LocationScreensByLocationId(model.Id).Exists())
-                return Resources.DeleteErrorLocationUsedInLocationView;
-            return "";
-        }
-
-        public string TestDeleteOperation(LocationScreen model)
-        {
-            if (LocationSpecifications.DepartmentsByLocationScreenId(model.Id).Exists())
-                return Resources.DeleteErrorLocationViewUsedInDepartment;
-            return "";
-        }
-
         public override void Reset()
         {
 
+        }
+    }
+    
+    internal class LocationDeleteValidator : SpecificationValidator<Location>
+    {
+        public override string GetErrorMessage(Location model)
+        {
+            if (model.TicketId == 0) return Resources.DeleteErrorTicketAssignedToLocation;
+            if (Dao.Exists<LocationScreen>(x => x.Locations.Any(y => y.Id == model.Id)))
+                return Resources.DeleteErrorLocationUsedInLocationView;
+            return "";
+        }
+    }
+
+    internal class LocationScreenDeleteValidator : SpecificationValidator<LocationScreen>
+    {
+        public override string GetErrorMessage(LocationScreen model)
+        {
+            if (Dao.Exists<Department>(x => x.LocationScreens.Any(y => y.Id == model.Id)))
+                return Resources.DeleteErrorLocationViewUsedInDepartment;
+            return "";
         }
     }
 }

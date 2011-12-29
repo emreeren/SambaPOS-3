@@ -47,13 +47,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractService.cs" />
+    <Compile Include="DictionaryByType.cs" />
     <Compile Include="EventServiceFactory.cs" />
     <Compile Include="EventTopicNames.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="GenericEvent.cs" />
     <Compile Include="IService.cs" />
+    <Compile Include="NonDuplicateSaveValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OperationTestResult.cs" />
+    <Compile Include="SpecificationValidator.cs" />
+    <Compile Include="ValidatorRegistry.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Samba.Infrastructure.Data\Samba.Infrastructure.Data.csproj">
+      <Project>{2D64F506-D566-4CA5-A19C-BCB5F9A2E7F4}</Project>
+      <Name>Samba.Infrastructure.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Persistance.Data\Samba.Persistance.Data.csproj">
+      <Project>{FEDA2199-91CD-4AF1-B571-4AA2E8371A18}</Project>
+      <Name>Samba.Persistance.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -12,8 +12,5 @@ namespace Samba.Services
         int GetLocationCount();
         void SaveLocations();
         IEnumerable<string> GetCategories();
-        string TestSaveOperation(Location model);
-        string TestDeleteOperation(Location model);
-        string TestDeleteOperation(LocationScreen model);
     }
 }

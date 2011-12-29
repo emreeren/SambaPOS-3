@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel.Composition;
-using System.Linq;
 using Samba.Domain.Models.Locations;
-using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Services;
 
