@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
 using Samba.Infrastructure.Data;
+using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Services.Common;
 
@@ -11,19 +14,25 @@ namespace Samba.Services.Implementations.DepartmentModule
     [Export(typeof(IDepartmentService))]
     public class DepartmentService : AbstractService, IDepartmentService
     {
+        [ImportingConstructor]
+        public DepartmentService()
+        {
+            ValidatorRegistry.RegisterDeleteValidator(new DepartmentDeleteValidator());
+        }
+
         private IWorkspace _workspace;
         public IWorkspace Workspace
         {
             get { return _workspace ?? (_workspace = WorkspaceFactory.Create()); }
         }
 
-        private IEnumerable<Domain.Models.Tickets.Department> _departments;
-        public IEnumerable<Domain.Models.Tickets.Department> Departments
+        private IEnumerable<Department> _departments;
+        public IEnumerable<Department> Departments
         {
-            get { return _departments ?? (_departments = Workspace.All<Domain.Models.Tickets.Department>()); }
+            get { return _departments ?? (_departments = Workspace.All<Department>()); }
         }
 
-        public Domain.Models.Tickets.Department GetDepartment(int id)
+        public Department GetDepartment(int id)
         {
             return Departments.First(x => x.Id == id);
         }
@@ -33,20 +42,25 @@ namespace Samba.Services.Implementations.DepartmentModule
             return Departments.Select(x => x.Name);
         }
 
-        public IEnumerable<Domain.Models.Tickets.Department> GetDepartments()
+        public IEnumerable<Department> GetDepartments()
         {
             return Departments;
-        }
-
-        public int GetUserRoleCount(int departmentId)
-        {
-           return Dao.Count<UserRole>(x => x.DepartmentId == departmentId);
         }
 
         public override void Reset()
         {
             _workspace = null;
             _departments = null;
+        }
+    }
+
+    public class DepartmentDeleteValidator : SpecificationValidator<Department>
+    {
+        public override string GetErrorMessage(Department model)
+        {
+            if (Dao.Exists<UserRole>(x => x.DepartmentId == model.Id))
+                return Resources.DeleteErrorDepartmentUsedInRole;
+            return "";
         }
     }
 }

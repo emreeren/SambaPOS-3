@@ -376,7 +376,7 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
         {
             foreach (var order in ticket.Orders)
             {
-                var mi = _menuService.GetMenuItem(order.MenuItemId);
+                var mi = _menuService.GetMenuItemById(order.MenuItemId);
                 if (mi == null) continue;
                 var item = order;
                 var portion = mi.Portions.FirstOrDefault(x => x.Name == item.PortionName);

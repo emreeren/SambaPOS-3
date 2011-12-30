@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
 using Samba.Domain.Models.Locations;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
@@ -39,12 +38,6 @@ namespace Samba.Modules.LocationModule
         protected override bool CanSave(string arg)
         {
             return Model.TicketId <= 0 && base.CanSave(arg);
-        }
-
-        protected override string GetSaveErrorMessage()
-        {
-            var errors = _locationService.TestSaveOperation(Model);
-            return !string.IsNullOrEmpty(errors) ? errors : base.GetSaveErrorMessage();
         }
     }
 }

@@ -211,7 +211,7 @@ namespace Samba.Modules.TicketModule
                 }
                 try
                 {
-                    var mi = _menuService.GetMenuItem(insertedData);
+                    var mi = _menuService.GetMenuItemByBarcode(insertedData);
                     if (mi != null)
                     {
                         var si = new ScreenMenuItem { MenuItemId = mi.Id, Name = mi.Name };
@@ -303,7 +303,7 @@ namespace Samba.Modules.TicketModule
 
             SubCategories.Clear();
             SubCategories.AddRange(
-                _menuService.GetSubCategories(category, CurrentTag)
+                _menuService.GetScreenMenuCategories(category, CurrentTag)
                 .Select(x => new ScreenSubCategoryButton(x, SubCategoryCommand, category.MButtonColor, category.SubButtonHeight)));
 
             if (!string.IsNullOrEmpty(CurrentTag))

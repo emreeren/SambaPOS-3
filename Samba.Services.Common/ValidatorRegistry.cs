@@ -19,14 +19,14 @@
         {
             SpecificationValidator<T> validator;
             SaveValidators.TryGet(out validator);
-            return validator.GetErrorMessage(model);
+            return validator != null ? validator.GetErrorMessage(model) : "";
         }
 
         public static string GetDeleteErrorMessage<T>(T model) where T : class
         {
             SpecificationValidator<T> validator;
             DeleteValidators.TryGet(out validator);
-            return validator.GetErrorMessage(model);
+            return validator != null ? validator.GetErrorMessage(model) : "";
         }
     }
 }

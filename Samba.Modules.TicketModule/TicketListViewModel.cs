@@ -1006,7 +1006,7 @@ namespace Samba.Modules.TicketModule
         {
             if (!SelectedTicket.Model.CanSubmit) return null;
             SelectedTicket.ClearSelectedItems();
-            var menuItem = _menuService.GetMenuItem(menuItemId);
+            var menuItem = _menuService.GetMenuItemById(menuItemId);
             if (menuItem.Portions.Count == 0) return null;
 
             var portion = menuItem.Portions[0];

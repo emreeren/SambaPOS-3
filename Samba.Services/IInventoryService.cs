@@ -12,8 +12,6 @@ namespace Samba.Services
         PeriodicConsumption GetCurrentPeriodicConsumption(IWorkspace workspace);
         void CalculateCost(PeriodicConsumption pc, WorkPeriod workPeriod);
         IEnumerable<string> GetInventoryItemNames();
-        int GetPeriodicConsumptionItemCountByInventoryItem(int id);
         IEnumerable<string> GetGroupCodes();
-        decimal RecipeCountByPortion(Recipe model);
     }
 }

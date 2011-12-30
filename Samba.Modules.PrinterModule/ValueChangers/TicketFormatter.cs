@@ -133,8 +133,9 @@ namespace Samba.Modules.PrinterModule.ValueChangers
             var remaining = ticket.GetRemainingAmount();
             var discount = ticket.GetDiscountAndRoundingTotal();
             var plainTotal = ticket.GetPlainSum();
-            var taxAmount = ticket.CalculateTax();
+            var taxAmount = GetTaxTotal(ticket.Orders, plainTotal, ticket.GetDiscountTotal());
             var servicesTotal = ticket.GetServicesTotal();
+            ticket.CalculateTax();
 
             result = FormatDataIf(taxAmount > 0 || discount > 0 || servicesTotal > 0, result, TagNames.PlainTotal, () => plainTotal.ToString("#,#0.00"));
             result = FormatDataIf(discount > 0, result, TagNames.DiscountTotal, () => discount.ToString("#,#0.00"));
@@ -200,6 +201,17 @@ namespace Samba.Modules.PrinterModule.ValueChangers
             }
             return string.Join("\r", sb);
         }
+
+        private static decimal GetTaxTotal(IEnumerable<Order> orders, decimal plainSum, decimal discount)
+        {
+            var result = orders.Sum(x => x.GetTotalTaxAmount());
+            if (discount > 0)
+            {
+                result -= (result * discount) / plainSum;
+            }
+            return result;
+        }
+
 
         private static string UpdateSettings(string result)
         {

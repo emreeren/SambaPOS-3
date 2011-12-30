@@ -151,17 +151,5 @@ namespace Samba.Modules.InventoryModule
         {
             return SelectedRecipeItem != null;
         }
-
-        protected override string GetSaveErrorMessage()
-        {
-            if (Model.RecipeItems.Any(x => x.InventoryItem == null || x.Quantity == 0))
-                return Resources.SaveErrorZeroOrNullInventoryLines;
-            if (Model.Portion == null)
-                return Resources.APortionShouldSelected;
-            var count = _inventoryService.RecipeCountByPortion(Model);
-            if (count > 0)
-                return string.Format(Resources.ThereIsAnotherRecipeFor_f, SelectedMenuItem.Name);
-            return base.GetSaveErrorMessage();
-        }
     }
 }

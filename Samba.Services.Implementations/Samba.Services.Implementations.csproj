@@ -60,7 +60,6 @@
     <Compile Include="DepartmentModule\DepartmentService.cs" />
     <Compile Include="InventoryModule\InventoryService.cs" />
     <Compile Include="LocationModule\LocationService.cs" />
-    <Compile Include="LocationModule\LocationSpecifications.cs" />
     <Compile Include="MenuModule\MenuService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

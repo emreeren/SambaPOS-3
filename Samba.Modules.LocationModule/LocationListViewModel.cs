@@ -35,11 +35,5 @@ namespace Samba.Modules.LocationModule
             foreach (var location in createdItems)
                 Items.Add(CreateNewViewModel(location));
         }
-
-        protected override string CanDeleteItem(Location model)
-        {
-            var errors = _locationService.TestDeleteOperation(model);
-            return !string.IsNullOrEmpty(errors) ? errors : base.CanDeleteItem(model);
-        }
     }
 }

@@ -336,5 +336,10 @@ namespace Samba.Domain.Models.Tickets
         {
             return OrderTagValues.Any(x => x.Name == model.Name);
         }
+
+        public decimal GetTotalTaxAmount()
+        {
+            return CalculatePrice && DecreaseInventory ? (TaxAmount + OrderTagValues.Sum(x => x.TaxAmount)) * Quantity : 0;
+        }
     }
 }

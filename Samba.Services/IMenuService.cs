@@ -7,14 +7,18 @@ namespace Samba.Services
 {
     public interface IMenuService
     {
-        IEnumerable<ScreenMenuItem> GetMenuItems(ScreenMenuCategory category, int currentPageNo, string tag);
-        IEnumerable<string> GetSubCategories(ScreenMenuCategory category, string parentTag);
         ScreenMenu GetScreenMenu(int screenMenuId);
-        MenuItem GetMenuItem(int menuItemId);
-        MenuItem GetMenuItem(string barcode);
+        IEnumerable<ScreenMenu> GetScreenMenus();
+        IEnumerable<string> GetScreenMenuCategories(ScreenMenuCategory category, string parentTag);
+        IEnumerable<ScreenMenuItem> GetMenuItems(ScreenMenuCategory category, int currentPageNo, string tag);
+        MenuItem GetMenuItemById(int menuItemId);
+        MenuItem GetMenuItemByBarcode(string barcode);
         MenuItem GetMenuItemByName(string menuItemName);
         MenuItem GetMenuItem(Expression<Func<MenuItem, bool>> expression);
-        IEnumerable<ScreenMenu> GetScreenMenus();
         IEnumerable<string> GetMenuItemNames();
+        IEnumerable<string> GetMenuItemGroupCodes();
+        IEnumerable<string> GetMenuItemTags();
+        void DeleteMenuItemPricesByPriceTag(string priceTag);
+        void UpdatePriceTags(MenuItemPriceDefinition model);
     }
 }

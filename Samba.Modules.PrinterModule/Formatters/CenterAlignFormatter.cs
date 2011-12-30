@@ -14,7 +14,7 @@ namespace Samba.Modules.PrinterModule.Formatters
 
         public override string GetFormattedLine()
         {
-            return Line.PadLeft(((MaxWidth + Line.Length)/2), ' ');
+            return Line.PadLeft(((MaxWidth + Line.Length) / 2), ' ').PadRight(MaxWidth);
         }
     }
 }

@@ -5,20 +5,30 @@ using System.Linq;
 using System.Collections.ObjectModel;
 using Samba.Domain.Models.Menus;
 using Samba.Localization.Properties;
-using Samba.Persistance.Data;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
+using Samba.Services;
 
 namespace Samba.Modules.MenuModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class MenuItemViewModel : EntityViewModelBase<MenuItem>
     {
+        private readonly IMenuService _menuService;
+
+        [ImportingConstructor]
+        public MenuItemViewModel(IMenuService menuService)
+        {
+            AddPortionCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.Portion), OnAddPortion);
+            DeletePortionCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.Portion), OnDeletePortion, CanDeletePortion);
+            _menuService = menuService;
+        }
+
         private IEnumerable<string> _groupCodes;
-        public IEnumerable<string> GroupCodes { get { return _groupCodes ?? (_groupCodes = Dao.Distinct<MenuItem>(x => x.GroupCode)); } }
+        public IEnumerable<string> GroupCodes { get { return _groupCodes ?? (_groupCodes = _menuService.GetMenuItemGroupCodes()); } }
 
         private IEnumerable<string> _tags;
-        public IEnumerable<string> Tags { get { return _tags ?? (_tags = Dao.Distinct<MenuItem>(x => x.Tag)); } }
+        public IEnumerable<string> Tags { get { return _tags ?? (_tags = _menuService.GetMenuItemTags()); } }
 
         private ObservableCollection<PortionViewModel> _portions;
         public ObservableCollection<PortionViewModel> Portions
@@ -55,12 +65,6 @@ namespace Samba.Modules.MenuModule
         {
             get { return Model.Barcode ?? ""; }
             set { Model.Barcode = value; }
-        }
-
-        public MenuItemViewModel()
-        {
-            AddPortionCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.Portion), OnAddPortion);
-            DeletePortionCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.Portion), OnDeletePortion, CanDeletePortion);
         }
 
         public string GroupValue { get { return Model.GroupCode; } }

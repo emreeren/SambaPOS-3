@@ -1,16 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.ComponentModel.Composition;
 using Samba.Domain.Models.Menus;
 using Samba.Localization.Properties;
-using Samba.Persistance.Data;
 using Samba.Presentation.Common.ModelBase;
+using Samba.Services;
 
 namespace Samba.Modules.MenuModule
 {
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     class MenuItemPriceDefinitionViewModel : EntityViewModelBase<MenuItemPriceDefinition>
     {
+        private readonly IMenuService _menuService;
+
+        [ImportingConstructor]
+        public MenuItemPriceDefinitionViewModel(IMenuService menuService)
+        {
+            _menuService = menuService;
+        }
+
         public string PriceTag { get { return Model.PriceTag; } set { Model.PriceTag = value; } }
 
         public override Type GetViewType()
@@ -23,32 +30,9 @@ namespace Samba.Modules.MenuModule
             return Resources.PriceDefinition;
         }
 
-        protected override string GetSaveErrorMessage()
-        {
-            if (Model.Id == 0 && Dao.Count<MenuItemPriceDefinition>(x => x.PriceTag.ToLower() == Model.PriceTag.ToLower()) > 0)
-            {
-                return string.Format(Resources.ThereIsAnotherPriceDefinition_f, Model.PriceTag);
-            }
-            var mip = Dao.Single<MenuItemPriceDefinition>(x => x.PriceTag == Model.PriceTag);
-            return mip != null && mip.Id != Model.Id ? string.Format(Resources.ThereIsAnotherPriceDefinition_f, Model.PriceTag) : base.GetSaveErrorMessage();
-        }
-
         protected override void OnSave(string value)
         {
-            if (Model.Id > 0)
-            {
-                var mip = Dao.Single<MenuItemPriceDefinition>(x => x.Id == Model.Id);
-                if (mip.PriceTag != Model.PriceTag)
-                {
-                    using (var workspace = WorkspaceFactory.Create())
-                    {
-                        workspace.All<MenuItemPrice>(x => x.PriceTag == mip.PriceTag)
-                            .ToList()
-                            .ForEach(x => x.PriceTag = Model.PriceTag);
-                        workspace.CommitChanges();
-                    }
-                }
-            }
+            _menuService.UpdatePriceTags(Model);
             base.OnSave(value);
         }
     }

@@ -105,7 +105,7 @@ namespace Samba.Presentation.Common.ModelBase
 
         protected virtual string CanDeleteItem(TModel model)
         {
-            return "";
+            return ValidatorRegistry.GetDeleteErrorMessage(model);
         }
 
         protected override bool CanAddItem(object obj)

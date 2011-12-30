@@ -186,7 +186,7 @@ namespace Samba.Modules.PrinterModule.ServiceImplementations
             foreach (var order in ticket.Orders.OrderBy(x => x.Id).ToList())
             {
                 var item = order;
-                var value = selector(_menuService.GetMenuItem(item.MenuItemId)).ToString();
+                var value = selector(_menuService.GetMenuItemById(item.MenuItemId)).ToString();
                 if (string.IsNullOrEmpty(value)) value = defaultValue;
                 if (!cache.ContainsKey(value))
                     cache.Add(value, 0);

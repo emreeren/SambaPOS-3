@@ -37,7 +37,7 @@ namespace Samba.Modules.InventoryModule
         private ObservableCollection<CostItemViewModel> _costItems;
         public ObservableCollection<CostItemViewModel> CostItems
         {
-            get { return _costItems ?? (_costItems = new ObservableCollection<CostItemViewModel>(Model.CostItems.Select(x => new CostItemViewModel(x, _menuService.GetMenuItem(x.Portion.MenuItemId))))); }
+            get { return _costItems ?? (_costItems = new ObservableCollection<CostItemViewModel>(Model.CostItems.Select(x => new CostItemViewModel(x, _menuService.GetMenuItemById(x.Portion.MenuItemId))))); }
         }
 
         private PeriodicConsumptionItemViewModel _selectedPeriodicConsumptionItem;

@@ -55,7 +55,6 @@
     <Compile Include="IService.cs" />
     <Compile Include="NonDuplicateSaveValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="OperationTestResult.cs" />
     <Compile Include="SpecificationValidator.cs" />
     <Compile Include="ValidatorRegistry.cs" />
   </ItemGroup>

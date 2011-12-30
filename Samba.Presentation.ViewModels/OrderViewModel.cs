@@ -204,7 +204,7 @@ namespace Samba.Presentation.ViewModels
         private MenuItem _menuItem;
         public MenuItem MenuItem
         {
-            get { return _menuItem ?? (_menuItem = _menuService.GetMenuItem(Model.MenuItemId)); }
+            get { return _menuItem ?? (_menuItem = _menuService.GetMenuItemById(Model.MenuItemId)); }
         }
 
         private void OnItemSelected(OrderViewModel obj)
@@ -253,7 +253,7 @@ namespace Samba.Presentation.ViewModels
 
         public void UpdatePortion(MenuItemPortion portion, string priceTag)
         {
-            var taxTemplate = _menuService.GetMenuItem(portion.MenuItemId).TaxTemplate;
+            var taxTemplate = _menuService.GetMenuItemById(portion.MenuItemId).TaxTemplate;
             _model.UpdatePortion(portion, priceTag, taxTemplate);
             RaisePropertyChanged(() => Description);
             RaisePropertyChanged(() => TotalPrice);

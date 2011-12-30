@@ -122,7 +122,7 @@ namespace Samba.Services.Implementations.LocationModule
     {
         public override string GetErrorMessage(Location model)
         {
-            if (model.TicketId == 0) return Resources.DeleteErrorTicketAssignedToLocation;
+            if (model.TicketId > 0) return Resources.DeleteErrorTicketAssignedToLocation;
             if (Dao.Exists<LocationScreen>(x => x.Locations.Any(y => y.Id == model.Id)))
                 return Resources.DeleteErrorLocationUsedInLocationView;
             return "";

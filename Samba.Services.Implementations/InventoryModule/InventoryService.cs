@@ -6,6 +6,7 @@ using Samba.Domain.Models.Inventories;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
+using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Services.Common;
 
@@ -32,6 +33,9 @@ namespace Samba.Services.Implementations.InventoryModule
             _menuService = menuService;
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<WorkPeriod>>().Subscribe(OnWorkperiodStatusChanged);
+
+            ValidatorRegistry.RegisterDeleteValidator(new InventoryItemDeleteValidator());
+            ValidatorRegistry.RegisterSaveValidator(new RecipeSaveValidator());
         }
 
         private IEnumerable<InventoryTransactionItem> GetTransactionItems()
@@ -65,7 +69,7 @@ namespace Samba.Services.Implementations.InventoryModule
             foreach (var orderTagValue in orderTagValues)
             {
                 var tip = orderTagValue;
-                var mi = _menuService.GetMenuItem(tip.Key.MenuItemId);
+                var mi = _menuService.GetMenuItemById(tip.Key.MenuItemId);
                 var port = mi.Portions.FirstOrDefault(x => x.Name == tip.Key.PortionName) ?? mi.Portions[0];
                 var sd = salesData.SingleOrDefault(x => x.MenuItemId == mi.Id && x.MenuItemName == mi.Name && x.PortionName == port.Name) ?? new SalesData();
                 sd.MenuItemId = mi.Id;
@@ -195,19 +199,9 @@ namespace Samba.Services.Implementations.InventoryModule
             return Dao.Select<InventoryItem, string>(x => x.Name, x => !string.IsNullOrEmpty(x.Name));
         }
 
-        public int GetPeriodicConsumptionItemCountByInventoryItem(int id)
-        {
-            return Dao.Count<PeriodicConsumptionItem>(x => x.InventoryItem.Id == id);
-        }
-
         public IEnumerable<string> GetGroupCodes()
         {
             return Dao.Distinct<InventoryItem>(x => x.GroupCode);
-        }
-
-        public decimal RecipeCountByPortion(Recipe model)
-        {
-            return Dao.Count<Recipe>(x => x.Portion.Id == model.Portion.Id && x.Id != model.Id);
         }
 
         private void OnWorkperiodStatusChanged(EventParameters<WorkPeriod> obj)
@@ -236,6 +230,33 @@ namespace Samba.Services.Implementations.InventoryModule
         public override void Reset()
         {
 
+        }
+    }
+
+    public class RecipeSaveValidator : SpecificationValidator<Recipe>
+    {
+        public override string GetErrorMessage(Recipe model)
+        {
+            if (model.RecipeItems.Any(x => x.InventoryItem == null || x.Quantity == 0))
+                return Resources.SaveErrorZeroOrNullInventoryLines;
+            if (model.Portion == null)
+                return Resources.APortionShouldSelected;
+            if (Dao.Exists<Recipe>(x => x.Portion.Id == model.Portion.Id && x.Id != model.Id))
+            {
+                var mitemName = "[Menu Item Name]"; // todo:fix;
+                return string.Format(Resources.ThereIsAnotherRecipeFor_f, mitemName);
+            }
+            return "";
+        }
+    }
+
+    public class InventoryItemDeleteValidator : SpecificationValidator<InventoryItem>
+    {
+        public override string GetErrorMessage(InventoryItem model)
+        {
+            if (Dao.Exists<PeriodicConsumptionItem>(x => x.InventoryItem.Id == model.Id))
+                return Resources.DeleteErrorInventoryItemUsedInEndOfDayRecord;
+            return "";
         }
     }
 }

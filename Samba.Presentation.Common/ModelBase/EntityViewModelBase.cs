@@ -108,7 +108,7 @@ namespace Samba.Presentation.Common.ModelBase
 
         protected virtual string GetSaveErrorMessage()
         {
-            return "";
+            return ValidatorRegistry.GetSaveErrorMessage(Model);
         }
 
         protected virtual bool CanSave(string arg)
