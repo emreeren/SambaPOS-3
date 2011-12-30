@@ -1,19 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
 using System.Linq;
-using Samba.Domain.Models.Menus;
-using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
-using Samba.Persistance.Data;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
+using Samba.Services;
 
 namespace Samba.Modules.MenuModule
 {
+    [Export(typeof(PriceListViewModel)), PartCreationPolicy(CreationPolicy.NonShared)]
     public class PriceListViewModel : VisibleViewModelBase
     {
-        private readonly IWorkspace _workspace = WorkspaceFactory.Create();
+        private readonly IPriceListService _priceListService;
+
+        [ImportingConstructor]
+        public PriceListViewModel(IPriceListService priceListService)
+        {
+            _priceListService = priceListService;
+            SaveCommand = new CaptionCommand<string>(Resources.Save, OnSave);
+        }
 
         public ICaptionCommand SaveCommand { get; set; }
 
@@ -23,34 +30,31 @@ namespace Samba.Modules.MenuModule
             get { return _items ?? (_items = CreateItems()); }
         }
 
-        public PriceListViewModel()
-        {
-            SaveCommand = new CaptionCommand<string>(Resources.Save, OnSave);
-        }
-
         private void OnSave(object obj)
         {
-            _workspace.CommitChanges();
+            _priceListService.UpdatePrices(Items.Where(x => x.IsChanged).Select(x => new PriceData(x.Model, x.ItemName)));
             foreach (var priceViewModel in Items)
             {
                 priceViewModel.IsChanged = false;
             }
+            _items = null;
+            RaisePropertyChanged(() => Items);
         }
 
         public IEnumerable<string> PriceTags { get { return Items.SelectMany(x => x.Model.Prices.Select(y => y.PriceTag)).Distinct(); } }
 
         private ObservableCollection<PriceViewModel> CreateItems()
         {
-            var tags = Dao.Select<MenuItemPriceDefinition, string>(x => x.PriceTag, x => x.Id > 0).Distinct().ToArray();
+            var tags = _priceListService.GetTags();
 
             var result = new ObservableCollection<PriceViewModel>(
-                    _workspace.All<MenuItem>(x => x.Portions.Select(y => y.Prices))
-                    .SelectMany(y => y.Portions, (mi, pt) => new PriceViewModel(pt, mi.Name, tags)));
-            
+                _priceListService.CreatePrices().Select(x => new PriceViewModel(x.Portion, x.Name, tags)));
+
             foreach (var tag in tags)
             {
-                var portions = result.Where(x => !x.Model.Prices.Select(y => y.PriceTag).Contains(tag)).ToList();
-                portions.ForEach(x => x.AddPrice(tag));
+                var tagValue = tag;
+                var portions = result.Where(x => !x.Model.Prices.Select(y => y.PriceTag).Contains(tagValue)).ToList();
+                portions.ForEach(x => x.AddPrice(tagValue));
             }
 
             return result;

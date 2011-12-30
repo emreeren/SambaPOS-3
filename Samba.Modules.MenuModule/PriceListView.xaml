@@ -28,8 +28,6 @@
                      IsReadOnly="True" MinWidth="170" Binding="{Binding ItemName}" />
                 <DataGridTextColumn Header="{LocText Portion}"
                      IsReadOnly="True" Binding="{Binding Path=PortionName}" />
-                <DataGridTextColumn Header="{LocText Price}"
-                     MinWidth="60" Binding="{Binding Path=Price,StringFormat='#,#0.00'}" CellStyle="{StaticResource RightAlignedCellStyle}" />
             </DataGrid.Columns>
             <DataGrid.Resources>
                 <Style TargetType="DataGridRow">

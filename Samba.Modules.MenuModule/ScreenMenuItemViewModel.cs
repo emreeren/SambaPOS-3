@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Media;
@@ -7,7 +6,6 @@ using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Localization;
-using Samba.Persistance.Data;
 using Samba.Presentation.Common;
 
 namespace Samba.Modules.MenuModule

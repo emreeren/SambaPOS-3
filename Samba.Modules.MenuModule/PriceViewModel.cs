@@ -12,19 +12,6 @@ namespace Samba.Modules.MenuModule
         public string ItemName { get; set; }
 
         public string PortionName { get { return Model.Name; } }
-        public decimal Price
-        {
-            get { return Model.Price; }
-            set
-            {
-                if (value != Model.Price)
-                {
-                    Model.Price = value;
-                    IsChanged = true;
-                }
-                RaisePropertyChanged(() => Price);
-            }
-        }
 
         private readonly IList<MenuItemPriceViewModel> _additionalPrices;
         public IList<MenuItemPriceViewModel> AdditionalPrices
@@ -59,10 +46,10 @@ namespace Samba.Modules.MenuModule
             ItemName = itemName;
             _additionalPrices = new List<MenuItemPriceViewModel>();
             tags.ToList().ForEach(x =>
-                                      {
-                                          var pr = model.Prices.SingleOrDefault(y => y.PriceTag == x);
-                                          if (pr != null) _additionalPrices.Add(new MenuItemPriceViewModel(pr));
-                                      });
+                {
+                    var pr = model.Prices.SingleOrDefault(y => y.PriceTag == x);
+                    if (pr != null) _additionalPrices.Add(new MenuItemPriceViewModel(pr));
+                });
         }
 
         public void AddPrice(string tag)

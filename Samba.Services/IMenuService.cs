@@ -18,7 +18,5 @@ namespace Samba.Services
         IEnumerable<string> GetMenuItemNames();
         IEnumerable<string> GetMenuItemGroupCodes();
         IEnumerable<string> GetMenuItemTags();
-        void DeleteMenuItemPricesByPriceTag(string priceTag);
-        void UpdatePriceTags(MenuItemPriceDefinition model);
     }
 }

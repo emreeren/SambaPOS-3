@@ -20,7 +20,7 @@ namespace Samba.Services.Implementations.MenuModule
         public MenuService()
         {
             ValidatorRegistry.RegisterDeleteValidator(new MenuItemDeleteValidator());
-            ValidatorRegistry.RegisterSaveValidator(new MenuItemPriceDefinitionSaveValidator());
+            ValidatorRegistry.RegisterDeleteValidator(new ScreenMenuDeleteValidator());
         }
 
         public IEnumerable<ScreenMenuItem> GetMenuItems(ScreenMenuCategory category, int currentPageNo, string tag)
@@ -101,45 +101,18 @@ namespace Samba.Services.Implementations.MenuModule
             return Dao.Distinct<MenuItem>(x => x.Tag);
         }
 
-        public void DeleteMenuItemPricesByPriceTag(string priceTag)
-        {
-            using (var workspace = WorkspaceFactory.Create())
-            {
-                workspace.Delete<MenuItemPrice>(x => x.PriceTag == priceTag);
-                workspace.CommitChanges();
-            }
-        }
-
-        public void UpdatePriceTags(MenuItemPriceDefinition model)
-        {
-            if (model.Id > 0)
-            {
-                var mip = Dao.Single<MenuItemPriceDefinition>(x => x.Id == model.Id);
-                if (mip.PriceTag != model.PriceTag)
-                {
-                    using (var workspace = WorkspaceFactory.Create())
-                    {
-                        workspace.All<MenuItemPrice>(x => x.PriceTag == mip.PriceTag)
-                            .ToList()
-                            .ForEach(x => x.PriceTag = model.PriceTag);
-                        workspace.CommitChanges();
-                    }
-                }
-            }
-        }
-
         public override void Reset()
         {
 
         }
     }
 
-    public class MenuItemPriceDefinitionSaveValidator : SpecificationValidator<MenuItemPriceDefinition>
+    public class ScreenMenuDeleteValidator : SpecificationValidator<ScreenMenu>
     {
-        public override string GetErrorMessage(MenuItemPriceDefinition model)
+        public override string GetErrorMessage(ScreenMenu model)
         {
-            if (Dao.Exists<MenuItemPriceDefinition>(x => x.PriceTag.ToLower() == model.PriceTag.ToLower() && model.Id != x.Id))
-                return string.Format(Resources.ThereIsAnotherPriceDefinition_f, model.PriceTag);
+            if (Dao.Exists<Department>(x => x.ScreenMenuId == model.Id))
+                return Resources.DeleteErrorMenuViewUsedInDepartment;
             return "";
         }
     }

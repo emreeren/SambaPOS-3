@@ -5,20 +5,20 @@ using Samba.Services;
 
 namespace Samba.Modules.MenuModule
 {
-    [Export,PartCreationPolicy(CreationPolicy.NonShared)]
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     class MenuItemPriceDefinitionListViewModel : EntityCollectionViewModelBase<MenuItemPriceDefinitionViewModel, MenuItemPriceDefinition>
     {
-        private readonly IMenuService _menuService;
+        private readonly IPriceListService _priceListService;
 
         [ImportingConstructor]
-        public MenuItemPriceDefinitionListViewModel(IMenuService menuService)
+        public MenuItemPriceDefinitionListViewModel(IPriceListService priceListService)
         {
-            _menuService = menuService;
+            _priceListService = priceListService;
         }
 
         protected override void BeforeDeleteItem(MenuItemPriceDefinition item)
         {
-            _menuService.DeleteMenuItemPricesByPriceTag(item.PriceTag);
+            _priceListService.DeleteMenuItemPricesByPriceTag(item.PriceTag);
         }
     }
 }

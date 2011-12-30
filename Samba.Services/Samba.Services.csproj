@@ -86,6 +86,7 @@
     <Compile Include="ICashService.cs" />
     <Compile Include="IDepartmentService.cs" />
     <Compile Include="IParameterValue.cs" />
+    <Compile Include="IPriceListService.cs" />
     <Compile Include="IProgramSettings.cs" />
     <Compile Include="IInventoryService.cs" />
     <Compile Include="ILocationService.cs" />

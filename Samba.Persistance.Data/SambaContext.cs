@@ -106,6 +106,10 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<OrderTagValue>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<Order>().HasMany(p => p.OrderTagValues).WithRequired().HasForeignKey(x => new { x.OrderId, x.TicketId });
 
+            modelBuilder.Entity<MenuItemPrice>().HasKey(p => new { p.Id, p.MenuItemPortionId });
+            modelBuilder.Entity<MenuItemPrice>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<MenuItemPortion>().HasMany(p => p.Prices).WithRequired().HasForeignKey(x => x.MenuItemPortionId);
+
             const int scale = 2;
             const int precision = 16;
 
@@ -123,7 +127,7 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<MenuItemPrice>().Property(x => x.Price).HasPrecision(precision, scale);
 
             //MenuItemPortion
-            modelBuilder.Entity<MenuItemPortion>().Property(x => x.Price).HasPrecision(precision, scale);
+            modelBuilder.Entity<MenuItemPortion>().Ignore(p => p.Price);
 
             //MenuItemProperty
             modelBuilder.Entity<OrderTag>().Property(x => x.Price).HasPrecision(precision, scale);
