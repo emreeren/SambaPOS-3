@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
 using Samba.Domain.Models.Settings;
 using Samba.Persistance.Data;
-using Samba.Presentation.Common.Services;
-using Samba.Services;
 using Samba.Services.Common;
 
-namespace Samba.Modules.WorkperiodModule.ServiceImplementations
+namespace Samba.Services.Implementations.WorkPeriodModule
 {
     [Export(typeof(IWorkPeriodService))]
     public class WorkPeriodService : AbstractService, IWorkPeriodService
@@ -67,6 +64,11 @@ namespace Samba.Modules.WorkperiodModule.ServiceImplementations
                 }
                 _applicationStateSetter.ResetWorkPeriods();
             }
+        }
+
+        public IEnumerable<WorkPeriod> GetLastWorkPeriods(int count)
+        {
+            return Dao.Last<WorkPeriod>(count);
         }
 
         public override void Reset()

@@ -69,7 +69,6 @@
     <Compile Include="ScreenSubCategoryButton.cs" />
     <Compile Include="OrderTagValueViewModel.cs" />
     <Compile Include="OrderViewModel.cs" />
-    <Compile Include="TicketTagData.cs" />
     <Compile Include="TicketTagViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

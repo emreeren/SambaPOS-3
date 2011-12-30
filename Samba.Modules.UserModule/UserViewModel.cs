@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using FluentValidation;
 using Samba.Domain.Models.Users;
 using Samba.Localization.Properties;
-using Samba.Persistance.Data;
 using Samba.Presentation.Common.ModelBase;
-using System.Linq;
 using Samba.Services.Common;
 
 namespace Samba.Modules.UserModule
 {
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class UserViewModel : EntityViewModelBase<User>
     {
         private bool _edited;
@@ -54,13 +54,6 @@ namespace Samba.Modules.UserModule
         protected override void Initialize()
         {
             Roles = Workspace.All<UserRole>();
-        }
-
-        protected override string GetSaveErrorMessage()
-        {
-            var users = Dao.Query<User>(x => x.PinCode == Model.PinCode);
-            return users.Count() > 1 || (users.Count() == 1 && users.ElementAt(0).Id != Model.Id)
-                ? Resources.SaveErrorThisPinCodeInUse : "";
         }
 
         protected override AbstractValidator<User> GetValidator()

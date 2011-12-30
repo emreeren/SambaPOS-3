@@ -11,6 +11,21 @@ using Samba.Services.Common;
 
 namespace Samba.Services
 {
+    public class TicketTagData
+    {
+        public string TagName { get; set; }
+
+        private string _tagValue;
+        public string TagValue
+        {
+            get { return _tagValue ?? string.Empty; }
+            set { _tagValue = value; }
+        }
+
+        public int Action { get; set; }
+        public decimal NumericValue { get; set; }
+    }
+
     public class TicketCommitResult
     {
         public int TicketId { get; set; }
@@ -37,5 +52,7 @@ namespace Samba.Services
         void UpdateTag(Ticket ticket, TicketTagGroup tagGroup, TicketTag ticketTag);
         void ResetLocationData(Ticket ticket);
         void AddItemToSelectedTicket(Order newItem);
+        IEnumerable<string> GetTicketTagGroupNames();
+        int GetOpenTicketCount();
     }
 }

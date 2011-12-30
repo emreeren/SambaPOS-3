@@ -1,26 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Tickets;
-using Samba.Persistance.Data;
 using Samba.Presentation.Common;
+using Samba.Services;
 
 namespace Samba.Modules.TicketModule
 {
-    public class MenuItemData
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string GroupCode { get; set; }
-    }
-
     public class OrderTagMapViewModel : ObservableObject
     {
         protected internal OrderTagMap Model { get; set; }
         private const string NullLabel = "*";
+        private readonly IMenuService _menuService;
 
-        public OrderTagMapViewModel(OrderTagMap model)
+        public OrderTagMapViewModel(OrderTagMap model, IMenuService menuService)
         {
+            _menuService = menuService;
             Model = model;
         }
 
@@ -63,12 +57,12 @@ namespace Samba.Modules.TicketModule
         private IEnumerable<MenuItemData> _allMenuItems;
         public IEnumerable<MenuItemData> AllMenuItems
         {
-            get { return _allMenuItems ?? (_allMenuItems = Dao.Select<MenuItem, MenuItemData>(x => new MenuItemData { Id = x.Id, GroupCode = x.GroupCode, Name = x.Name }, x => x.Id > 0).OrderBy(x => x.Name)); }
+            get { return _allMenuItems ?? (_allMenuItems = _menuService.GetMenuItemData().OrderBy(x => x.Name)); }
         }
 
-        private static IEnumerable<string> GetAllMenuItemGroupCodes()
+        private IEnumerable<string> GetAllMenuItemGroupCodes()
         {
-            IList<string> result = new List<string>(Dao.Distinct<MenuItem>(x => x.GroupCode).OrderBy(x => x));
+            IList<string> result = new List<string>(_menuService.GetMenuItemGroupCodes().OrderBy(x => x));
             result.Insert(0, NullLabel);
             return result;
         }

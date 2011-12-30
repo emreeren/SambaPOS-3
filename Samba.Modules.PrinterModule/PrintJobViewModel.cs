@@ -1,22 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
 using System.Linq;
-using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Common.Services;
+using Samba.Services;
 
 namespace Samba.Modules.PrinterModule
 {
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     class PrintJobViewModel : EntityViewModelBase<PrintJob>
     {
-        public PrintJobViewModel()
+        private readonly IDepartmentService _departmentService;
+        private readonly IMenuService _menuService;
+        private readonly ITicketService _ticketService;
+        private readonly IPrinterService _printerService;
+
+        [ImportingConstructor]
+        public PrintJobViewModel(IDepartmentService departmentService, IMenuService menuService, ITicketService ticketService, IPrinterService printerService)
         {
             _newPrinterMaps = new List<PrinterMap>();
+            _departmentService = departmentService;
+            _menuService = menuService;
+            _ticketService = ticketService;
+            _printerService = printerService;
             AddPrinterMapCommand = new CaptionCommand<string>(Resources.Add, OnAddPrinterMap);
             DeletePrinterMapCommand = new CaptionCommand<string>(Resources.Delete, OnDelete, CanDelete);
         }
@@ -57,7 +69,7 @@ namespace Samba.Modules.PrinterModule
             set
             {
                 Model.AutoPrintIfCash = value;
-                RaisePropertyChanged(()=>AutoPrintIfCash);
+                RaisePropertyChanged(() => AutoPrintIfCash);
             }
         }
 
@@ -67,7 +79,7 @@ namespace Samba.Modules.PrinterModule
             set
             {
                 Model.AutoPrintIfCreditCard = value;
-                RaisePropertyChanged(()=>AutoPrintIfCreditCard);
+                RaisePropertyChanged(() => AutoPrintIfCreditCard);
             }
         }
 
@@ -77,7 +89,7 @@ namespace Samba.Modules.PrinterModule
             set
             {
                 Model.AutoPrintIfTicket = value;
-                RaisePropertyChanged(()=>AutoPrintIfTicket);
+                RaisePropertyChanged(() => AutoPrintIfTicket);
             }
         }
 
@@ -92,7 +104,7 @@ namespace Samba.Modules.PrinterModule
         {
             return new ObservableCollection<PrinterMapViewModel>(
                     Model.PrinterMaps.Select(
-                    printerMap => new PrinterMapViewModel(printerMap, Workspace)));
+                    printerMap => new PrinterMapViewModel(printerMap, _departmentService, _menuService, _printerService, _ticketService)));
         }
 
         public override Type GetViewType()
@@ -109,18 +121,14 @@ namespace Samba.Modules.PrinterModule
         {
             foreach (var printerMap in _printerMaps)
             {
-                if (printerMap.Department == Department.All) printerMap.Department = null;
-                if (printerMap.MenuItem == MenuItem.All) printerMap.MenuItem = null;
                 if (printerMap.MenuItemGroupCode == "*") printerMap.MenuItemGroupCode = null;
                 if (printerMap.TicketTag == "*") printerMap.TicketTag = null;
             }
 
             foreach (var newPrinterMap in _newPrinterMaps)
             {
-                if (newPrinterMap.Printer != null)
+                if (newPrinterMap.PrinterId > 0)
                 {
-                    if (newPrinterMap.Department == Department.All) newPrinterMap.Department = null;
-                    if (newPrinterMap.MenuItem == MenuItem.All) newPrinterMap.MenuItem = null;
                     if (newPrinterMap.MenuItemGroupCode == "*") newPrinterMap.MenuItemGroupCode = null;
                     if (newPrinterMap.TicketTag == "*") newPrinterMap.TicketTag = null;
                     Workspace.Add(newPrinterMap);
@@ -154,8 +162,8 @@ namespace Samba.Modules.PrinterModule
 
         private void OnAddPrinterMap(object obj)
         {
-            var map = new PrinterMap { Department = Department.All, MenuItem = MenuItem.All, MenuItemGroupCode = "*" };
-            var mapModel = new PrinterMapViewModel(map, Workspace);
+            var map = new PrinterMap { DepartmentId = 0, MenuItemId = 0, MenuItemGroupCode = "*" };
+            var mapModel = new PrinterMapViewModel(map, _departmentService, _menuService, _printerService, _ticketService);
             Model.PrinterMaps.Add(map);
             PrinterMaps.Add(mapModel);
             _newPrinterMaps.Add(map);

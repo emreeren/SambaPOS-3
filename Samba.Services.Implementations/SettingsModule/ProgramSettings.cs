@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
-using Samba.Domain;
 using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Data;
 using Samba.Persistance.Data;
-using Samba.Services;
 
-namespace Samba.Modules.SettingsModule.ServiceImplementations
+namespace Samba.Services.Implementations.SettingsModule
 {
     public class ProgramSettings : IProgramSettings
     {

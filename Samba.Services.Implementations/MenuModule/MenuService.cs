@@ -101,6 +101,22 @@ namespace Samba.Services.Implementations.MenuModule
             return Dao.Distinct<MenuItem>(x => x.Tag);
         }
 
+        public IEnumerable<MenuItem> GetMenuItemsByGroupCode(string menuItemGroupCode)
+        {
+            return Dao.Query<MenuItem>(x => x.GroupCode == menuItemGroupCode);
+        }
+
+        public IEnumerable<MenuItem> GetMenuItems()
+        {
+            return Dao.Query<MenuItem>();
+        }
+
+        public IEnumerable<MenuItemData> GetMenuItemData()
+        {
+            return Dao.Select<MenuItem, MenuItemData>(
+                    x => new MenuItemData {Id = x.Id, GroupCode = x.GroupCode, Name = x.Name}, x => x.Id > 0);
+        }
+
         public override void Reset()
         {
 

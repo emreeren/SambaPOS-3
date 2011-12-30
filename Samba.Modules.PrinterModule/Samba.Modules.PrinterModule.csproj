@@ -36,23 +36,13 @@
     <Reference Include="Microsoft.Practices.Prism.MefExtensions">
       <HintPath>..\Lib\Microsoft.Practices.Prism.MefExtensions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation">
-      <HintPath>..\Lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="ReachFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Printing" />
     <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
@@ -91,10 +81,6 @@
     <ProjectReference Include="..\Samba.Localization\Samba.Localization.csproj">
       <Project>{406B96A6-C886-4149-AD88-A2402EDB2B90}</Project>
       <Name>Samba.Localization</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Samba.Persistance.Data\Samba.Persistance.Data.csproj">
-      <Project>{FEDA2199-91CD-4AF1-B571-4AA2E8371A18}</Project>
-      <Name>Samba.Persistance.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Presentation.Common\Samba.Presentation.Common.csproj">
       <Project>{FE1A894E-D55E-4CEA-980A-1C678A2453FC}</Project>

@@ -104,7 +104,7 @@
                                 <Grid>
                                     <TextBlock Style="{StaticResource GridBlockStyle}" HorizontalAlignment="Stretch" Text="{Binding DepartmentLabel}" />
                                     <ComboBox Style="{StaticResource GridEditStyle}" HorizontalAlignment="Stretch" DisplayMemberPath="Name"
-                                         SelectedItem="{Binding Department}" ItemsSource="{Binding Departments}" />
+                                         SelectedValuePath="Id" SelectedValue="{Binding DepartmentId}" ItemsSource="{Binding Departments}" />
                                 </Grid>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -137,7 +137,7 @@
                                 <Grid>
                                     <TextBlock Style="{StaticResource GridBlockStyle}" HorizontalAlignment="Stretch" Text="{Binding MenuItemLabel}" />
                                     <ComboBox Style="{StaticResource GridEditStyle}" HorizontalAlignment="Stretch" DisplayMemberPath="Name"
-                                         SelectedItem="{Binding MenuItem}" ItemsSource="{Binding MenuItems}" />
+                                              SelectedValuePath="Id" SelectedValue="{Binding MenuItemId}" ItemsSource="{Binding MenuItems}" />
                                 </Grid>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -148,7 +148,7 @@
                                 <Grid>
                                     <TextBlock Style="{StaticResource GridBlockStyle}" HorizontalAlignment="Stretch" Text="{Binding PrinterLabel}" />
                                     <ComboBox Style="{StaticResource GridEditStyle}" HorizontalAlignment="Stretch" DisplayMemberPath="Name"
-                                         SelectedItem="{Binding Printer}" ItemsSource="{Binding Printers}" />
+                                        SelectedValuePath="Id" SelectedValue="{Binding PrinterId}" ItemsSource="{Binding Printers}" />
                                 </Grid>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -159,7 +159,7 @@
                                 <Grid>
                                     <TextBlock Style="{StaticResource GridBlockStyle}" HorizontalAlignment="Stretch" Text="{Binding PrinterTemplateLabel}" />
                                     <ComboBox Style="{StaticResource GridEditStyle}" HorizontalAlignment="Stretch" DisplayMemberPath="Name"
-                                         SelectedItem="{Binding PrinterTemplate}" ItemsSource="{Binding PrinterTemplates}" />
+                                              SelectedValuePath="Id" SelectedValue="{Binding PrinterTemplateId}" ItemsSource="{Binding PrinterTemplates}" />
                                 </Grid>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>

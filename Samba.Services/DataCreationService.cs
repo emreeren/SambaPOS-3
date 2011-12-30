@@ -103,6 +103,8 @@ namespace Samba.Services
             _workspace.Add(printer2);
             _workspace.Add(printer3);
 
+            _workspace.CommitChanges();
+
             var t = new Terminal
             {
                 IsDefault = true,
@@ -110,7 +112,7 @@ namespace Samba.Services
                 SlipReportPrinter = printer1,
             };
 
-            var pm1 = new PrinterMap { Printer = printer1, PrinterTemplate = ticketPrinterTemplate };
+            var pm1 = new PrinterMap { PrinterId = printer1.Id, PrinterTemplateId = ticketPrinterTemplate.Id };
             _workspace.Add(pm1);
 
             var pj1 = new PrintJob
@@ -130,7 +132,7 @@ namespace Samba.Services
 
             _workspace.Add(pj1);
 
-            var pm2 = new PrinterMap { Printer = printer2, PrinterTemplate = kitchenPrinterTemplate };
+            var pm2 = new PrinterMap { PrinterId = printer2.Id, PrinterTemplateId = kitchenPrinterTemplate.Id };
             var pj2 = new PrintJob
             {
                 Name = Resources.PrintOrdersToKitchenPrinter,
@@ -165,7 +167,7 @@ namespace Samba.Services
             orderTagTemplate.OrderTagTemplateValues.Add(new OrderTagTemplateValue { OrderTagGroup = orderTag1, OrderTag = orderTag1.OrderTags[0] });
 
             _workspace.Add(orderTagTemplate);
-            
+
             var action = new AppAction { ActionType = "RemoveOrderTag", Name = Resources.RemoveGiftTag, Parameter = "OrderTagName=" + Resources.Gift };
             _workspace.Add(action);
             _workspace.CommitChanges();

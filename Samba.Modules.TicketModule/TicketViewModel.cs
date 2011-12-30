@@ -26,7 +26,7 @@ namespace Samba.Modules.TicketModule
 
         public TicketViewModel(Ticket model, TicketTemplate ticketTemplate, bool forcePayment,
             ITicketService ticketService, IUserService userService, IMenuService menuService,
-            IAutomationService automationService,IApplicationState applicationState)
+            IAutomationService automationService, IApplicationState applicationState)
         {
             _ticketService = ticketService;
             _userService = userService;
@@ -40,7 +40,6 @@ namespace Samba.Modules.TicketModule
             _orders = new ObservableCollection<OrderViewModel>(model.Orders.Select(x => new OrderViewModel(x, ticketTemplate, _menuService, _automationService)).OrderBy(x => x.Model.CreatedDateTime));
             _payments = new ObservableCollection<PaymentViewModel>(model.Payments.Select(x => new PaymentViewModel(x)));
             _discounts = new ObservableCollection<DiscountViewModel>(model.Discounts.Select(x => new DiscountViewModel(x)));
-
             _itemsViewSource = new CollectionViewSource { Source = _orders };
             _itemsViewSource.GroupDescriptions.Add(new PropertyGroupDescription("GroupObject"));
 
@@ -48,7 +47,7 @@ namespace Samba.Modules.TicketModule
 
             PrintJobButtons = _applicationState.CurrentTerminal.PrintJobs
                 .Where(x => (!string.IsNullOrEmpty(x.ButtonHeader))
-                    && (x.PrinterMaps.Count(y => y.Department == null || y.Department.Id == model.DepartmentId) > 0))
+                    && (x.PrinterMaps.Count(y => y.DepartmentId == 0 || y.DepartmentId == model.DepartmentId) > 0))
                 .OrderBy(x => x.Order)
                 .Select(x => new PrintJobButton(x, Model));
 

@@ -1,19 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
+using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
+using Samba.Localization.Properties;
 using Samba.Persistance.Data;
-using Samba.Services;
 using Samba.Services.Common;
 
-namespace Samba.Modules.SettingsModule.ServiceImplementations
+namespace Samba.Services.Implementations.SettingsModule
 {
     [Export(typeof(ISettingService))]
     class SettingService : AbstractService, ISettingService
     {
+        [ImportingConstructor]
+        public SettingService()
+        {
+            ValidatorRegistry.RegisterDeleteValidator(new NumeratorDeleteValidator());
+        }
+
         private readonly ProgramSettings _globalSettings = new ProgramSettings();
 
         private static IWorkspace _workspace;
@@ -131,6 +139,20 @@ namespace Samba.Modules.SettingsModule.ServiceImplementations
             _terminals = null;
             _globalSettings.ResetCache();
             Workspace = WorkspaceFactory.Create();
+        }
+    }
+
+    internal class NumeratorDeleteValidator : SpecificationValidator<Numerator>
+    {
+        public override string GetErrorMessage(Numerator model)
+        {
+            if (Dao.Exists<TicketTemplate>(x => x.OrderNumerator.Id == model.Id))
+                return Resources.DeleteErrorNumeratorIsOrderNumerator;
+            if (Dao.Exists<TicketTemplate>(x => x.TicketNumerator.Id == model.Id))
+                return Resources.DeleteErrorNumeratorIsTicketNumerator;
+            if (Dao.Exists<TicketTagGroup>(x => x.Numerator.Id == model.Id))
+                return Resources.DeleteErrorNumeratorUsedInTicket;
+            return "";
         }
     }
 }

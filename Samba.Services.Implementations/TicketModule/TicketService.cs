@@ -13,13 +13,9 @@ using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Data.Serializer;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
-using Samba.Presentation.Common;
-using Samba.Presentation.ViewModels;
-using Samba.Services;
 using Samba.Services.Common;
-using Samba.Services.Implementations;
 
-namespace Samba.Modules.TicketModule.ServiceImplementations
+namespace Samba.Services.Implementations.TicketModule
 {
     [Export(typeof(ITicketService))]
     public class TicketService : AbstractService, ITicketService
@@ -427,6 +423,16 @@ namespace Samba.Modules.TicketModule.ServiceImplementations
         public void AddItemToSelectedTicket(Order newItem)
         {
             _workspace.Add(newItem);
+        }
+
+        public IEnumerable<string> GetTicketTagGroupNames()
+        {
+            return Dao.Distinct<TicketTagGroup>(x => x.Name);
+        }
+
+        public int GetOpenTicketCount()
+        {
+            return Dao.Count<Ticket>(x => !x.IsPaid);
         }
 
         public override void Reset()

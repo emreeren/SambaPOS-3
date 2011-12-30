@@ -1,21 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
-using Samba.Persistance.Data;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Common.Services;
+using Samba.Services;
 
 namespace Samba.Modules.SettingsModule
 {
+    [Export,PartCreationPolicy(CreationPolicy.NonShared)]
     public class TerminalViewModel : EntityViewModelBase<Terminal>
     {
-        public TerminalViewModel()
+        private ISettingService _settingService;
+
+        [ImportingConstructor]
+        public TerminalViewModel(ISettingService settingService)
         {
+            _settingService = settingService;
             SelectPrintJobsCommand = new CaptionCommand<string>(Resources.SelectPrintJob, OnAddPrintJob);
         }
 
@@ -71,7 +77,7 @@ namespace Samba.Modules.SettingsModule
         {
             if (Model.IsDefault)
             {
-                var terminal = Dao.Query<Terminal>(x => x.IsDefault).SingleOrDefault();
+                var terminal = _settingService.GetDefaultTerminal();
                 if (terminal != null && terminal.Id != Model.Id)
                     return Resources.SaveErrorMultipleDefaultTerminals;
             }

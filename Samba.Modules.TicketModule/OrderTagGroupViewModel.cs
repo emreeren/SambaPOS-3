@@ -1,21 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
+using Samba.Services;
 
 namespace Samba.Modules.TicketModule
 {
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class OrderTagGroupViewModel : EntityViewModelBase<OrderTagGroup>
     {
-        private readonly IEnumerable<Order> _selectedOrders;
+        private readonly IMenuService _menuService;
+
+        [ImportingConstructor]
+        public OrderTagGroupViewModel(IMenuService menuService)
+        {
+            _menuService = menuService;
+            AddOrderTagCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.OrderTag), OnAddPropertyExecuted);
+            DeleteOrderTagCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.OrderTag), OnDeletePropertyExecuted, CanDeleteProperty);
+            AddOrderTagMapCommand = new CaptionCommand<string>(Resources.Add, OnAddOrderTagMap);
+            DeleteOrderTagMapCommand = new CaptionCommand<string>(Resources.Delete, OnDeleteOrderTagMap, CanDeleteOrderTagMap);
+        }
 
         private ObservableCollection<OrderTagViewModel> _orderTags;
-        public ObservableCollection<OrderTagViewModel> OrderTags { get { return _orderTags ?? (_orderTags = new ObservableCollection<OrderTagViewModel>(GetOrderTags(_selectedOrders, Model))); } }
+        public ObservableCollection<OrderTagViewModel> OrderTags { get { return _orderTags ?? (_orderTags = new ObservableCollection<OrderTagViewModel>(GetOrderTags(Model))); } }
 
         private ObservableCollection<OrderTagMapViewModel> _orderTagMaps;
         public ObservableCollection<OrderTagMapViewModel> OrderTagMaps { get { return _orderTagMaps ?? (_orderTagMaps = new ObservableCollection<OrderTagMapViewModel>(GetOrderTagMaps(Model))); } }
@@ -42,19 +55,6 @@ namespace Samba.Modules.TicketModule
         public OrderTagViewModel SelectedOrderTag { get; set; }
         public OrderTagMapViewModel SelectedOrderTagMap { get; set; }
 
-        public OrderTagGroupViewModel()
-        {
-        }
-
-        public OrderTagGroupViewModel(IEnumerable<Order> selectedOrders)
-        {
-            _selectedOrders = selectedOrders;
-            AddOrderTagCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.OrderTag), OnAddPropertyExecuted);
-            DeleteOrderTagCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.OrderTag), OnDeletePropertyExecuted, CanDeleteProperty);
-            AddOrderTagMapCommand = new CaptionCommand<string>(Resources.Add, OnAddOrderTagMap);
-            DeleteOrderTagMapCommand = new CaptionCommand<string>(Resources.Delete, OnDeleteOrderTagMap, CanDeleteOrderTagMap);
-        }
-
         private bool CanDeleteOrderTagMap(string arg)
         {
             return SelectedOrderTagMap != null;
@@ -70,7 +70,7 @@ namespace Samba.Modules.TicketModule
 
         private void OnAddOrderTagMap(string obj)
         {
-            OrderTagMaps.Add(new OrderTagMapViewModel(Model.AddOrderTagMap()));
+            OrderTagMaps.Add(new OrderTagMapViewModel(Model.AddOrderTagMap(), _menuService));
         }
 
         private void OnDeletePropertyExecuted(string obj)
@@ -89,17 +89,17 @@ namespace Samba.Modules.TicketModule
 
         private void OnAddPropertyExecuted(string obj)
         {
-            OrderTags.Add(new OrderTagViewModel(MenuItem.AddDefaultMenuItemProperty(Model)));
+            OrderTags.Add(new OrderTagViewModel(MenuItem.AddDefaultMenuItemProperty(Model), _menuService));
         }
 
-        private static IEnumerable<OrderTagViewModel> GetOrderTags(IEnumerable<Order> selectedOrders, OrderTagGroup baseModel)
+        private IEnumerable<OrderTagViewModel> GetOrderTags(OrderTagGroup baseModel)
         {
-            return baseModel.OrderTags.Select(item => new OrderTagViewModel(selectedOrders, item));
+            return baseModel.OrderTags.Select(item => new OrderTagViewModel(item, _menuService));
         }
 
-        private static IEnumerable<OrderTagMapViewModel> GetOrderTagMaps(OrderTagGroup model)
+        private IEnumerable<OrderTagMapViewModel> GetOrderTagMaps(OrderTagGroup model)
         {
-            return model.OrderTagMaps.Select(x => new OrderTagMapViewModel(x));
+            return model.OrderTagMaps.Select(x => new OrderTagMapViewModel(x, _menuService));
         }
 
         public override string GetModelTypeString()

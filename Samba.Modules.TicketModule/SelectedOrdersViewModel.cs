@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
@@ -29,7 +28,7 @@ namespace Samba.Modules.TicketModule
         private readonly ITicketService _ticketService;
 
         [ImportingConstructor]
-        public SelectedOrdersViewModel(IApplicationState applicationState, ITicketService ticketService, 
+        public SelectedOrdersViewModel(IApplicationState applicationState, ITicketService ticketService,
             IUserService userService)
         {
             _applicationState = applicationState;
@@ -37,13 +36,13 @@ namespace Samba.Modules.TicketModule
             CloseCommand = new CaptionCommand<string>(Resources.Close, OnCloseCommandExecuted);
             SelectTicketTagCommand = new DelegateCommand<TicketTag>(OnTicketTagSelected);
             PortionSelectedCommand = new DelegateCommand<MenuItemPortion>(OnPortionSelected);
-            OrderTagSelectedCommand = new DelegateCommand<OrderTagViewModel>(OnOrderTagSelected);
+            OrderTagSelectedCommand = new DelegateCommand<OrderTagButtonViewModel>(OnOrderTagSelected);
             UpdateExtraPropertiesCommand = new CaptionCommand<string>(Resources.Update, OnUpdateExtraProperties);
             UpdateFreeTagCommand = new CaptionCommand<string>(Resources.AddAndSave, OnUpdateFreeTag, CanUpdateFreeTag);
             SelectedItemPortions = new ObservableCollection<MenuItemPortion>();
-            OrderTagGroups = new ObservableCollection<OrderTagGroupViewModel>();
+            OrderTagGroups = new ObservableCollection<SelectedOrderTagGroupViewModel>();
             TicketTags = new ObservableCollection<TicketTag>();
-            OrderTags = new ObservableCollection<OrderTagViewModel>();
+            OrderTags = new ObservableCollection<OrderTagButtonViewModel>();
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketViewModel>>().Subscribe(OnTicketViewModelEvent);
         }
 
@@ -53,7 +52,7 @@ namespace Samba.Modules.TicketModule
             {
                 ResetValues(obj.Value);
                 SelectedOrderTagGroup = obj.Value.LastSelectedOrderTag;
-                OrderTags.AddRange(obj.Value.LastSelectedOrderTag.OrderTags.Select(x => new OrderTagViewModel(SelectedTicket.SelectedOrders.Select(u => u.Model), x)));
+                OrderTags.AddRange(obj.Value.LastSelectedOrderTag.OrderTags.Select(x => new OrderTagButtonViewModel(SelectedTicket.SelectedOrders.Select(u => u.Model), x)));
                 if (OrderTags.Count == 1)
                 {
                     SelectedTicket.FixSelectedItems();
@@ -139,11 +138,11 @@ namespace Samba.Modules.TicketModule
         public DelegateCommand<MenuItemPortion> PortionSelectedCommand { get; set; }
         public ObservableCollection<MenuItemPortion> SelectedItemPortions { get; set; }
 
-        public DelegateCommand<OrderTagViewModel> OrderTagSelectedCommand { get; set; }
-        public ObservableCollection<OrderTagGroupViewModel> OrderTagGroups { get; set; }
+        public DelegateCommand<OrderTagButtonViewModel> OrderTagSelectedCommand { get; set; }
+        public ObservableCollection<SelectedOrderTagGroupViewModel> OrderTagGroups { get; set; }
 
         public ObservableCollection<TicketTag> TicketTags { get; set; }
-        public ObservableCollection<OrderTagViewModel> OrderTags { get; set; }
+        public ObservableCollection<OrderTagButtonViewModel> OrderTags { get; set; }
 
         public int TagColumnCount { get { return TicketTags.Count % 7 == 0 ? TicketTags.Count / 7 : (TicketTags.Count / 7) + 1; } }
         public int OrderTagColumnCount { get { return OrderTags.Count % 7 == 0 ? OrderTags.Count / 7 : (OrderTags.Count / 7) + 1; } }
@@ -252,7 +251,7 @@ namespace Samba.Modules.TicketModule
                 SelectedTicket.ClearSelectedItems();
         }
 
-        private void OnOrderTagSelected(OrderTagViewModel orderTag)
+        private void OnOrderTagSelected(OrderTagButtonViewModel orderTag)
         {
             var mig = SelectedOrderTagGroup ?? OrderTagGroups.FirstOrDefault(propertyGroup => propertyGroup.OrderTags.Contains(orderTag)).Model;
             Debug.Assert(mig != null);
@@ -288,7 +287,7 @@ namespace Samba.Modules.TicketModule
                 OrderTagGroups.AddRange(
                     _ticketService.GetOrderTagGroupsForItem(SelectedItem.MenuItem)
                     .Where(x => string.IsNullOrEmpty(x.ButtonHeader))
-                    .Select(x => new OrderTagGroupViewModel(SelectedTicket.SelectedOrders.Select(y => y.Model)){Model = x}));
+                    .Select(x => new SelectedOrderTagGroupViewModel(x, SelectedTicket.SelectedOrders.Select(y => y.Model))));
                 RaisePropertyChanged(() => IsPortionsVisible);
             }
 

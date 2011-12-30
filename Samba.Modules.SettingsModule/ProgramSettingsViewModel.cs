@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Practices.ServiceLocation;
+using System.ComponentModel.Composition;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
@@ -10,6 +7,7 @@ using Samba.Services;
 
 namespace Samba.Modules.SettingsModule
 {
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class ProgramSettingsViewModel : VisibleViewModelBase
     {
         public string WeightBarcodePrefix { get; set; }
@@ -22,9 +20,10 @@ namespace Samba.Modules.SettingsModule
 
         private readonly ISettingService _settingService;
 
-        public ProgramSettingsViewModel()
+        [ImportingConstructor]
+        public ProgramSettingsViewModel(ISettingService settingService)
         {
-            _settingService = ServiceLocator.Current.GetInstance<ISettingService>();
+            _settingService = settingService;
             SaveCommand = new CaptionCommand<string>(Resources.Save, OnSave);
             WeightBarcodePrefix = _settingService.ProgramSettings.WeightBarcodePrefix;
             WeightBarcodeItemLength = _settingService.ProgramSettings.WeightBarcodeItemLength;

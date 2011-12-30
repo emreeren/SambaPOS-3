@@ -9,11 +9,11 @@ namespace Samba.Domain.Models.Settings
         public int Id { get; set; }
         public string Name { get; set; }
         public int PrintJobId { get; set; }
-        public virtual Department Department { get; set; }
+        public int DepartmentId { get; set; }
         public string MenuItemGroupCode { get; set; }
         public string TicketTag { get; set; }
-        public virtual MenuItem MenuItem { get; set; }
-        public virtual Printer Printer { get; set; }
-        public virtual PrinterTemplate PrinterTemplate { get; set; }
+        public int MenuItemId { get; set; }
+        public int PrinterId { get; set; }
+        public int PrinterTemplateId { get; set; }
     }
 }

@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Settings;
-using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
-using Samba.Persistance.Data;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Services;
 using Samba.Services;
@@ -19,13 +17,30 @@ namespace Samba.Modules.WorkperiodModule
         private readonly IWorkPeriodService _workPeriodService;
         private readonly IApplicationState _applicationState;
         private readonly IAutomationService _automationService;
+        private readonly ITicketService _ticketService;
+
+        [ImportingConstructor]
+        public WorkPeriodsViewModel(IWorkPeriodService workPeriodService, IApplicationState applicationState,
+            IAutomationService ruleService, ITicketService ticketService)
+        {
+            _workPeriodService = workPeriodService;
+            _applicationState = applicationState;
+            _automationService = ruleService;
+            _ticketService = ticketService;
+
+            StartOfDayCommand = new CaptionCommand<string>(Resources.StartWorkPeriod, OnStartOfDayExecute, CanStartOfDayExecute);
+            EndOfDayCommand = new CaptionCommand<string>(Resources.EndWorkPeriod, OnEndOfDayExecute, CanEndOfDayExecute);
+            DisplayStartOfDayScreenCommand = new CaptionCommand<string>(Resources.StartWorkPeriod, OnDisplayStartOfDayScreenCommand, CanStartOfDayExecute);
+            DisplayEndOfDayScreenCommand = new CaptionCommand<string>(Resources.EndWorkPeriod, OnDisplayEndOfDayScreenCommand, CanEndOfDayExecute);
+            CancelCommand = new CaptionCommand<string>(Resources.Cancel, OnCancel);
+        }
 
         private IEnumerable<WorkPeriodViewModel> _workPeriods;
         public IEnumerable<WorkPeriodViewModel> WorkPeriods
         {
             get
             {
-                return _workPeriods ?? (_workPeriods = Dao.Last<WorkPeriod>(30)
+                return _workPeriods ?? (_workPeriods = _workPeriodService.GetLastWorkPeriods(30)
                                                            .OrderByDescending(x => x.Id)
                                                            .Select(x => new WorkPeriodViewModel(x)));
             }
@@ -85,20 +100,6 @@ namespace Samba.Modules.WorkperiodModule
             }
         }
 
-        [ImportingConstructor]
-        public WorkPeriodsViewModel(IWorkPeriodService workPeriodService, IApplicationState applicationState, IAutomationService ruleService)
-        {
-            _workPeriodService = workPeriodService;
-            _applicationState = applicationState;
-            _automationService = ruleService;
-
-            StartOfDayCommand = new CaptionCommand<string>(Resources.StartWorkPeriod, OnStartOfDayExecute, CanStartOfDayExecute);
-            EndOfDayCommand = new CaptionCommand<string>(Resources.EndWorkPeriod, OnEndOfDayExecute, CanEndOfDayExecute);
-            DisplayStartOfDayScreenCommand = new CaptionCommand<string>(Resources.StartWorkPeriod, OnDisplayStartOfDayScreenCommand, CanStartOfDayExecute);
-            DisplayEndOfDayScreenCommand = new CaptionCommand<string>(Resources.EndWorkPeriod, OnDisplayEndOfDayScreenCommand, CanEndOfDayExecute);
-            CancelCommand = new CaptionCommand<string>(Resources.Cancel, OnCancel);
-        }
-
         private void OnCancel(string obj)
         {
             ActiveScreen = 0;
@@ -153,7 +154,8 @@ namespace Samba.Modules.WorkperiodModule
             _workPeriods = null;
             if (LastWorkPeriod != null)
                 WorkPeriodTime = new TimeSpan(DateTime.Now.Ticks - LastWorkPeriod.StartDate.Ticks);
-            OpenTicketCount = Dao.Count<Ticket>(x => !x.IsPaid);
+
+            OpenTicketCount = _ticketService.GetOpenTicketCount();
 
             if (OpenTicketCount > 0)
             {

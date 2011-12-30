@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Linq;
-using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
-using Samba.Persistance.Data;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Services;
@@ -13,10 +12,15 @@ using Samba.Services.Common;
 
 namespace Samba.Modules.SettingsModule
 {
+    [Export,PartCreationPolicy(CreationPolicy.NonShared)]
     public class SettingsViewModel : VisibleViewModelBase
     {
-        public SettingsViewModel()
+        private readonly ISettingService _settingService;
+
+        [ImportingConstructor]
+        public SettingsViewModel(ISettingService settingService)
         {
+            _settingService = settingService;
             SaveSettingsCommand = new CaptionCommand<string>(Resources.Save, OnSaveSettings);
             StartMessagingServerCommand = new CaptionCommand<string>(Resources.StartClientNow, OnStartMessagingServer, CanStartMessagingServer);
             DisplayCommonAppPathCommand = new CaptionCommand<string>(Resources.DisplayAppPath, OnDisplayAppPath);
@@ -123,10 +127,11 @@ namespace Samba.Modules.SettingsModule
         private IEnumerable<string> _terminalNames;
         public IEnumerable<string> TerminalNames
         {
-            get { return _terminalNames ?? (_terminalNames = Dao.Distinct<Terminal>(x => x.Name)); }
+            get { return _terminalNames ?? (_terminalNames = _settingService.GetTerminalNames()); }
         }
 
         private IEnumerable<CultureInfo> _supportedLanguages;
+
         public IEnumerable<CultureInfo> SupportedLanguages
         {
             get

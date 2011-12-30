@@ -31,6 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
     <Reference Include="FluentValidation">
       <HintPath>..\Samba.Modules.TicketModule\bin\Debug\FluentValidation.dll</HintPath>
     </Reference>
@@ -105,6 +106,12 @@
     <Compile Include="PrinterModule\ValueChangers\TagNames.cs" />
     <Compile Include="PrinterModule\ValueChangers\TicketFormatter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingsModule\ProgramSetting.cs" />
+    <Compile Include="SettingsModule\ProgramSettings.cs" />
+    <Compile Include="SettingsModule\SettingsService.cs" />
+    <Compile Include="TicketModule\TicketService.cs" />
+    <Compile Include="UserModule\UserService.cs" />
+    <Compile Include="WorkPeriodModule\WorkPeriodService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">

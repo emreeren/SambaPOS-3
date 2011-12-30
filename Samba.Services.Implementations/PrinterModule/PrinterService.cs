@@ -47,6 +47,34 @@ namespace Samba.Services.Implementations.PrinterModule
             _applicationState = applicationState;
 
             ValidatorRegistry.RegisterDeleteValidator(new PrinterDeleteValidator());
+            ValidatorRegistry.RegisterDeleteValidator(new PrinterTemplateDeleteValidator());
+        }
+
+        private IEnumerable<Printer> _printers;
+        public IEnumerable<Printer> Printers
+        {
+            get { return _printers ?? (_printers = Dao.Query<Printer>()); }
+        }
+
+        private IEnumerable<PrinterTemplate> _printerTemplates;
+        protected IEnumerable<PrinterTemplate> PrinterTemplates
+        {
+            get { return _printerTemplates ?? (_printerTemplates = Dao.Query<PrinterTemplate>()); }
+        }
+
+        public Printer PrinterById(int id)
+        {
+            return Printers.Single(x => x.Id == id);
+        }
+
+        private PrinterTemplate PrinterTemplateById(int printerTemplateId)
+        {
+            return PrinterTemplates.Single(x => x.Id == printerTemplateId);
+        }
+
+        public IEnumerable<PrinterTemplate> GetAllPrinterTemplates()
+        {
+            return Dao.Query<PrinterTemplate>();
         }
 
         public IEnumerable<string> GetPrinterNames()
@@ -54,8 +82,14 @@ namespace Samba.Services.Implementations.PrinterModule
             return PrinterInfo.GetPrinterNames();
         }
 
+        public IEnumerable<Printer> GetPrinters()
+        {
+            return Printers;
+        }
+
         public override void Reset()
         {
+            _printers = null;
             PrinterInfo.ResetCache();
         }
 
@@ -69,17 +103,17 @@ namespace Samba.Services.Implementations.PrinterModule
                 ? maps.Where(x => !string.IsNullOrEmpty(x.TicketTag) && !string.IsNullOrEmpty(ticket.GetTagValue(x.TicketTag)))
                 : maps.Where(x => string.IsNullOrEmpty(x.TicketTag));
 
-            maps = maps.Count(x => x.Department != null && x.Department.Id == ticket.DepartmentId) > 0
-                       ? maps.Where(x => x.Department != null && x.Department.Id == ticket.DepartmentId)
-                       : maps.Where(x => x.Department == null);
+            maps = maps.Count(x => x.DepartmentId == ticket.DepartmentId) > 0
+                       ? maps.Where(x => x.DepartmentId == ticket.DepartmentId)
+                       : maps.Where(x => x.DepartmentId == 0);
 
             maps = maps.Count(x => x.MenuItemGroupCode == menuItemGroupCode) > 0
                        ? maps.Where(x => x.MenuItemGroupCode == menuItemGroupCode)
                        : maps.Where(x => x.MenuItemGroupCode == null);
 
-            maps = maps.Count(x => x.MenuItem != null && x.MenuItem.Id == menuItemId) > 0
-                       ? maps.Where(x => x.MenuItem != null && x.MenuItem.Id == menuItemId)
-                       : maps.Where(x => x.MenuItem == null);
+            maps = maps.Count(x => x.MenuItemId == menuItemId) > 0
+                       ? maps.Where(x => x.MenuItemId == menuItemId)
+                       : maps.Where(x => x.MenuItemId == 0);
 
             return maps.FirstOrDefault();
         }
@@ -141,7 +175,7 @@ namespace Samba.Services.Implementations.PrinterModule
                     ti = GroupLinesByValue(ticket, x => x.Tag ?? "", Resources.UndefinedWithBrackets);
                     break;
                 case (int)WhatToPrintTypes.LastLinesByPrinterLineCount:
-                    ti = GetLastItems(ticket, printJob);
+                    ti = ticket.Orders.OrderBy(x => x.Id).Take(1); // todo: make it configurable
                     break;
                 default:
                     ti = ticket.Orders.OrderBy(x => x.Id).ToList();
@@ -162,21 +196,6 @@ namespace Samba.Services.Implementations.PrinterModule
                         }
                     }));
         }
-
-        private static IEnumerable<Order> GetLastItems(Ticket ticket, PrintJob printJob)
-        {
-            if (ticket.Orders.Count > 1)
-            {
-                var printer = printJob.PrinterMaps.Count == 1 ? printJob.PrinterMaps[0]
-                    : GetPrinterMapForItem(printJob.PrinterMaps, ticket, ticket.Orders.Last().MenuItemId);
-                var result = ticket.Orders.OrderByDescending(x => x.CreatedDateTime).ToList();
-                if (printer.Printer.PageHeight > 0)
-                    result = result.Take(printer.Printer.PageHeight).ToList();
-                return result;
-            }
-            return ticket.Orders.ToList();
-        }
-
 
         private IEnumerable<Order> GroupLinesByValue(Ticket ticket, Func<MenuItem, object> selector, string defaultValue, bool calcDiscounts = false)
         {
@@ -202,13 +221,13 @@ namespace Samba.Services.Implementations.PrinterModule
             });
         }
 
-        private static void InternalPrintOrders(PrintJob printJob, Ticket ticket, IEnumerable<Order> orders)
+        private void InternalPrintOrders(PrintJob printJob, Ticket ticket, IEnumerable<Order> orders)
         {
             if (printJob.PrinterMaps.Count == 1
                 && printJob.PrinterMaps[0].TicketTag == null
-                && printJob.PrinterMaps[0].MenuItem == null
+                && printJob.PrinterMaps[0].MenuItemId == 0
                 && printJob.PrinterMaps[0].MenuItemGroupCode == null
-                && printJob.PrinterMaps[0].Department == null)
+                && printJob.PrinterMaps[0].DepartmentId == 0)
             {
                 PrintOrderLines(ticket, orders, printJob.PrinterMaps[0]);
                 return;
@@ -223,7 +242,7 @@ namespace Samba.Services.Implementations.PrinterModule
                 {
                     var lmap = p;
                     var pmap = ordersCache.SingleOrDefault(
-                            x => x.Key.Printer == lmap.Printer && x.Key.PrinterTemplate == lmap.PrinterTemplate).Key;
+                            x => x.Key.PrinterId == lmap.PrinterId && x.Key.PrinterTemplateId == lmap.PrinterTemplateId).Key;
                     if (pmap == null)
                         ordersCache.Add(p, new List<Order>());
                     else p = pmap;
@@ -237,18 +256,21 @@ namespace Samba.Services.Implementations.PrinterModule
             }
         }
 
-        private static void PrintOrderLines(Ticket ticket, IEnumerable<Order> lines, PrinterMap p)
+        private void PrintOrderLines(Ticket ticket, IEnumerable<Order> lines, PrinterMap p)
         {
             if (lines.Count() <= 0) return;
             if (p == null)
             {
+                //todo: globalize
                 MessageBox.Show("Yazdırma sırasında bir problem tespit edildi: Yazıcı Haritası null");
                 AppServices.Log("Yazıcı Haritası NULL problemi tespit edildi.");
                 return;
             }
-            if (p.Printer == null || string.IsNullOrEmpty(p.Printer.ShareName) || p.PrinterTemplate == null) return;
-            var ticketLines = TicketFormatter.GetFormattedTicket(ticket, lines, p.PrinterTemplate);
-            PrintJobFactory.CreatePrintJob(p.Printer).DoPrint(ticketLines);
+            var printer = PrinterById(p.PrinterId);
+            var prinerTemplate = PrinterTemplateById(p.PrinterTemplateId);
+            if (printer == null || string.IsNullOrEmpty(printer.ShareName) || prinerTemplate == null) return;
+            var ticketLines = TicketFormatter.GetFormattedTicket(ticket, lines, prinerTemplate);
+            PrintJobFactory.CreatePrintJob(printer).DoPrint(ticketLines);
         }
 
         public void PrintReport(FlowDocument document)
@@ -270,12 +292,68 @@ namespace Samba.Services.Implementations.PrinterModule
             if (printJob.PrinterMaps.Count > 0)
             {
                 var printerMap = printJob.PrinterMaps[0];
-                var content = printerMap
-                    .PrinterTemplate
+                var printerTemplate = PrinterTemplates.Single(x => x.Id == printerMap.PrinterTemplateId);
+                var content = printerTemplate
                     .HeaderTemplate
                     .Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-                PrintJobFactory.CreatePrintJob(printerMap.Printer).DoPrint(content);
+                PrintJobFactory.CreatePrintJob(PrinterById(printerMap.PrinterId)).DoPrint(content);
             }
+        }
+
+        public IDictionary<string, string> CreateTagDescriptions()
+        {
+            var result = new Dictionary<string, string>();
+            result.Add(TagNames.TicketDate, Resources.TicketDate);
+            result.Add(TagNames.TicketTime, Resources.TicketTime);
+            result.Add(TagNames.Date, Resources.DayDate);
+            result.Add(TagNames.Time, Resources.DayTime);
+            result.Add(TagNames.TicketId, Resources.UniqueTicketId);
+            result.Add(TagNames.TicketNo, Resources.TicketNumber);
+            result.Add(TagNames.TicketTag, Resources.TicketTag);
+            result.Add(TagNames.Department, Resources.DepartmentName);
+            result.Add(TagNames.TicketTag2, Resources.OptionalTicketTag);
+            result.Add(TagNames.LocationUser, Resources.LocationOrUserName);
+            result.Add(TagNames.UserName, Resources.UserName);
+            result.Add(TagNames.Location, Resources.LocationName);
+            result.Add(TagNames.Note, Resources.TicketNote);
+            result.Add(TagNames.AccName, Resources.AccountName);
+            result.Add(TagNames.AccAddress, Resources.AccountAddress);
+            result.Add(TagNames.AccPhone, Resources.AccountPhone);
+            result.Add(TagNames.Quantity, Resources.LineItemQuantity);
+            result.Add(TagNames.Name, Resources.LineItemName);
+            result.Add(TagNames.Price, Resources.LineItemPrice);
+            result.Add(TagNames.Cents, Resources.LineItemPriceCents);
+            result.Add(TagNames.Total, Resources.LineItemTotal);
+            result.Add(TagNames.TotalAmount, Resources.LineItemQuantity);
+            result.Add(TagNames.LineAmount, Resources.LineItemTotalWithoutGifts);
+            result.Add(TagNames.Properties, Resources.LineItemDetails);
+            result.Add(TagNames.PropPrice, Resources.LineItemDetailPrice);
+            result.Add(TagNames.PropQuantity, Resources.LineItemDetailQuantity);
+            result.Add(TagNames.OrderNo, Resources.LineOrderNumber);
+            result.Add(TagNames.PriceTag, Resources.LinePriceTag);
+            result.Add(TagNames.TicketTotal, Resources.TicketTotal);
+            result.Add(TagNames.PaymentTotal, Resources.TicketPaidTotal);
+            result.Add(TagNames.PlainTotal, Resources.TicketSubTotal);
+            result.Add(TagNames.DiscountTotal, Resources.DiscountTotal);
+            result.Add(TagNames.TaxTotal, Resources.TaxTotal);
+            result.Add(TagNames.TaxDetails, Resources.TotalsGroupedByTaxTemplate);
+            result.Add(TagNames.ServiceTotal, Resources.ServiceTotal);
+            result.Add(TagNames.ServiceDetails, Resources.TotalsGroupedByServiceTemplate);
+            result.Add(TagNames.Balance, Resources.TicketRemainingAmount);
+            result.Add(TagNames.IfPaid, Resources.RemainingAmountIfPaid);
+            result.Add(TagNames.TotalText, Resources.TextWrittenTotalValue);
+            result.Add(TagNames.IfDiscount, Resources.DiscountTotalAndTicketTotal);
+            return result;
+        }
+    }
+
+    public class PrinterTemplateDeleteValidator : SpecificationValidator<PrinterTemplate>
+    {
+        public override string GetErrorMessage(PrinterTemplate model)
+        {
+            if (Dao.Exists<PrinterMap>(x => x.PrinterTemplateId == model.Id))
+                return Resources.DeleteErrorTemplateUsedInPrintJob;
+            return "";
         }
     }
 
@@ -285,7 +363,7 @@ namespace Samba.Services.Implementations.PrinterModule
         {
             if (Dao.Exists<Terminal>(x => x.ReportPrinter.Id == model.Id || x.SlipReportPrinter.Id == model.Id))
                 return Resources.DeleteErrorPrinterAssignedToTerminal;
-            if (Dao.Exists<PrinterMap>(x => x.Printer.Id == model.Id))
+            if (Dao.Exists<PrinterMap>(x => x.PrinterId == model.Id))
                 return Resources.DeleteErrorPrinterAssignedToPrinterMap;
             return "";
         }

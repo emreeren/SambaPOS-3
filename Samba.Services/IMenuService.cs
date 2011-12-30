@@ -5,6 +5,13 @@ using Samba.Domain.Models.Menus;
 
 namespace Samba.Services
 {
+    public class MenuItemData
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string GroupCode { get; set; }
+    }
+
     public interface IMenuService
     {
         ScreenMenu GetScreenMenu(int screenMenuId);
@@ -18,5 +25,8 @@ namespace Samba.Services
         IEnumerable<string> GetMenuItemNames();
         IEnumerable<string> GetMenuItemGroupCodes();
         IEnumerable<string> GetMenuItemTags();
+        IEnumerable<MenuItem> GetMenuItemsByGroupCode(string menuItemGroupCode);
+        IEnumerable<MenuItem> GetMenuItems();
+        IEnumerable<MenuItemData> GetMenuItemData();
     }
 }

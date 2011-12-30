@@ -1,27 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
-using Samba.Persistance.Data;
 using Samba.Presentation.Common;
+using Samba.Services;
 
 namespace Samba.Modules.TicketModule
 {
     public class OrderTagViewModel : ObservableObject
     {
         public OrderTag Model { get; set; }
-        private readonly IEnumerable<Order> _selectedOrders;
+        private readonly IMenuService _menuService;
 
-        public OrderTagViewModel(OrderTag model)
-            : this(null, model)
+        public OrderTagViewModel(OrderTag model, IMenuService menuService)
         {
-        }
-
-        public OrderTagViewModel(IEnumerable<Order> selectedOrder, OrderTag model)
-        {
-            _selectedOrders = selectedOrder;
+            _menuService = menuService;
             Model = model;
             if (string.IsNullOrEmpty(model.Name))
                 model.Name = string.Format("[{0}]", Resources.NewProperty);
@@ -30,15 +23,6 @@ namespace Samba.Modules.TicketModule
 
         public string Name { get { return Model.Name; } set { Model.Name = value; } }
         public decimal Price { get { return Model.Price; } set { Model.Price = value; } }
-        public string Color
-        {
-            get
-            {
-                if (_selectedOrders != null && _selectedOrders.All(x => x.IsTaggedWith(Model)))
-                    return "Red";
-                return "Transparent";
-            }
-        }
 
         public int MenuItemId
         {
@@ -67,7 +51,7 @@ namespace Samba.Modules.TicketModule
         private IEnumerable<MenuItem> _menuItems;
         public IEnumerable<MenuItem> MenuItems
         {
-            get { return _menuItems ?? (_menuItems = Dao.Query<MenuItem>()); }
+            get { return _menuItems ?? (_menuItems = _menuService.GetMenuItems()); }
         }
 
         private void UpdateMenuItem(int value)
@@ -75,13 +59,8 @@ namespace Samba.Modules.TicketModule
             if (value > 0)
             {
                 if (MenuItem == null || MenuItem.Id != value)
-                    MenuItem = Dao.Single<MenuItem>(x => x.Id == value, x => x.Portions);
+                    MenuItem = _menuService.GetMenuItemById(value);
             }
-        }
-
-        public void Refresh()
-        {
-            RaisePropertyChanged(() => Color);
         }
     }
 }

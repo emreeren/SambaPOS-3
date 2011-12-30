@@ -83,6 +83,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OrderTagButtonViewModel.cs" />
+    <Compile Include="SelectedOrderTagGroupViewModel.cs" />
     <Compile Include="MenuItemSelectorView.xaml.cs">
       <DependentUpon>MenuItemSelectorView.xaml</DependentUpon>
     </Compile>
@@ -111,7 +113,6 @@
       <DependentUpon>SelectedOrdersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SelectedOrdersViewModel.cs" />
-    <Compile Include="ServiceImplementations\TicketService.cs" />
     <Compile Include="ServiceTemplateListViewModel.cs" />
     <Compile Include="ServiceTemplateView.xaml.cs">
       <DependentUpon>ServiceTemplateView.xaml</DependentUpon>

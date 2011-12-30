@@ -32,7 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
     <Reference Include="FluentValidation, Version=3.1.0.0, Culture=neutral, PublicKeyToken=a82054b837897c66, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\FluentValidation.dll</HintPath>
@@ -43,18 +42,13 @@
     <Reference Include="Microsoft.Practices.Prism.MefExtensions">
       <HintPath>..\Lib\Microsoft.Practices.Prism.MefExtensions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
@@ -66,9 +60,6 @@
       <DependentUpon>ProgramSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ProgramSettingsViewModel.cs" />
-    <Compile Include="ServiceImplementations\ProgramSettings.cs" />
-    <Compile Include="ServiceImplementations\ProgramSetting.cs" />
-    <Compile Include="ServiceImplementations\SettingsService.cs" />
     <Compile Include="NumeratorListViewModel.cs" />
     <Compile Include="NumeratorView.xaml.cs">
       <DependentUpon>NumeratorView.xaml</DependentUpon>
@@ -87,10 +78,6 @@
     <Compile Include="TerminalViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Lib\FlexButton\FlexButton.csproj">
-      <Project>{434D497A-D439-44C8-84A5-5301B572708F}</Project>
-      <Name>FlexButton</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">
       <Project>{2386F6A0-91B2-4D1A-8DBC-92109924AFFE}</Project>
       <Name>Samba.Domain</Name>
@@ -106,14 +93,6 @@
     <ProjectReference Include="..\Samba.Localization\Samba.Localization.csproj">
       <Project>{406B96A6-C886-4149-AD88-A2402EDB2B90}</Project>
       <Name>Samba.Localization</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Samba.Modules.PrinterModule\Samba.Modules.PrinterModule.csproj">
-      <Project>{0FE1BF9D-225A-4D7F-8AB5-102138110999}</Project>
-      <Name>Samba.Modules.PrinterModule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Samba.Persistance.Data\Samba.Persistance.Data.csproj">
-      <Project>{FEDA2199-91CD-4AF1-B571-4AA2E8371A18}</Project>
-      <Name>Samba.Persistance.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Presentation.Common\Samba.Presentation.Common.csproj">
       <Project>{FE1A894E-D55E-4CEA-980A-1C678A2453FC}</Project>

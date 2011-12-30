@@ -5,11 +5,11 @@ using System.Linq;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
 using Samba.Infrastructure.Data;
+using Samba.Localization.Properties;
 using Samba.Persistance.Data;
-using Samba.Services;
 using Samba.Services.Common;
 
-namespace Samba.Modules.UserModule.ServiceImplementations
+namespace Samba.Services.Implementations.UserModule
 {
     [Export(typeof(IUserService))]
     public class UserService : AbstractService, IUserService
@@ -27,6 +27,10 @@ namespace Samba.Modules.UserModule.ServiceImplementations
             _applicationStateSetter = applicationStateSetter;
             _departmentService = departmentService;
             _automationService = automationService;
+
+            ValidatorRegistry.RegisterDeleteValidator(new UserDeleteValidator());
+            ValidatorRegistry.RegisterDeleteValidator(new UserRoleDeleteValidator());
+            ValidatorRegistry.RegisterSaveValidator(new UserSaveValidator());
         }
 
         private static IWorkspace _workspace;
@@ -120,6 +124,38 @@ namespace Samba.Modules.UserModule.ServiceImplementations
         {
             _users = null;
             _permittedDepartments = null;
+        }
+    }
+
+    public class UserSaveValidator : SpecificationValidator<User>
+    {
+        public override string GetErrorMessage(User model)
+        {
+            if (Dao.Exists<User>(x => x.PinCode == model.PinCode && x.Id != model.Id))
+                return Resources.SaveErrorThisPinCodeInUse;
+            return "";
+        }
+    }
+
+    public class UserRoleDeleteValidator : SpecificationValidator<UserRole>
+    {
+        public override string GetErrorMessage(UserRole model)
+        {
+            if (Dao.Exists<User>(x => x.UserRole.Id == model.Id))
+                return Resources.DeleteErrorThisRoleUsedInAUserAccount;
+            return "";
+        }
+    }
+
+    public class UserDeleteValidator : SpecificationValidator<User>
+    {
+        public override string GetErrorMessage(User model)
+        {
+            if (model.UserRole.IsAdmin) return Resources.DeleteErrorAdminUser;
+            if (Dao.Count<User>() == 1) return Resources.DeleteErrorLastUser;
+            if (Dao.Exists<Order>(x => x.CreatingUserName == model.Name))
+                return Resources.DeleteErrorUserDidTicketOperation;
+            return "";
         }
     }
 }
