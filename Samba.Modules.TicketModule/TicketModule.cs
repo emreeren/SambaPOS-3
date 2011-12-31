@@ -22,7 +22,6 @@ namespace Samba.Modules.TicketModule
             IApplicationState applicationState)
             : base(regionManager, AppScreens.TicketList)
         {
-
             SetNavigationCommand("POS", Resources.Common, "Images/Network.png", 10);
 
             _regionManager = regionManager;

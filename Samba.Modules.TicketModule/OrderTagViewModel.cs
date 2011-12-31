@@ -11,7 +11,7 @@ namespace Samba.Modules.TicketModule
     {
         public OrderTag Model { get; set; }
         private readonly IMenuService _menuService;
-
+        
         public OrderTagViewModel(OrderTag model, IMenuService menuService)
         {
             _menuService = menuService;
@@ -59,7 +59,7 @@ namespace Samba.Modules.TicketModule
             if (value > 0)
             {
                 if (MenuItem == null || MenuItem.Id != value)
-                    MenuItem = _menuService.GetMenuItemById(value);
+                    MenuItem = _menuService.GetMenuItem(x => x.Id == value);
             }
         }
     }

@@ -96,13 +96,8 @@
     </Compile>
     <Compile Include="OrderTagTemplateViewModel.cs" />
     <Compile Include="OrderTagViewModel.cs" />
-    <Compile Include="PaymentEditorView.xaml.cs">
-      <DependentUpon>PaymentEditorView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PaymentEditorViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScreenMenuItemData.cs" />
-    <Compile Include="SearchData.cs" />
     <Compile Include="SelectedOrdersView.xaml.cs">
       <DependentUpon>SelectedOrdersView.xaml</DependentUpon>
     </Compile>
@@ -148,10 +143,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="OrderTagTemplateView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PaymentEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

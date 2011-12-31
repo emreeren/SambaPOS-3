@@ -37,14 +37,14 @@ namespace Samba.Services.Implementations.PrinterModule
     [Export(typeof(IPrinterService))]
     public class PrinterService : AbstractService, IPrinterService
     {
-        private readonly IMenuService _menuService;
         private readonly IApplicationState _applicationState;
+        private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public PrinterService(IMenuService menuService, IApplicationState applicationState)
+        public PrinterService(IApplicationState applicationState, ICacheService cacheService)
         {
-            _menuService = menuService;
             _applicationState = applicationState;
+            _cacheService = cacheService;
 
             ValidatorRegistry.RegisterDeleteValidator(new PrinterDeleteValidator());
             ValidatorRegistry.RegisterDeleteValidator(new PrinterTemplateDeleteValidator());
@@ -205,7 +205,7 @@ namespace Samba.Services.Implementations.PrinterModule
             foreach (var order in ticket.Orders.OrderBy(x => x.Id).ToList())
             {
                 var item = order;
-                var value = selector(_menuService.GetMenuItemById(item.MenuItemId)).ToString();
+                var value = selector(_cacheService.GetMenuItem(x => x.Id == item.MenuItemId)).ToString();
                 if (string.IsNullOrEmpty(value)) value = defaultValue;
                 if (!cache.ContainsKey(value))
                     cache.Add(value, 0);

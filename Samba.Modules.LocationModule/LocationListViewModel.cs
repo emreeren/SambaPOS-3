@@ -12,13 +12,11 @@ namespace Samba.Modules.LocationModule
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class LocationListViewModel : EntityCollectionViewModelBase<LocationEditorViewModel, Location>
     {
-        private readonly ILocationService _locationService;
         public ICaptionCommand BatchCreateLocations { get; set; }
 
         [ImportingConstructor]
-        public LocationListViewModel(ILocationService locationService)
+        public LocationListViewModel()
         {
-            _locationService = locationService;
             BatchCreateLocations = new CaptionCommand<string>(Resources.AddMultipleLocations, OnBatchCreateLocationsExecute);
             CustomCommands.Add(BatchCreateLocations);
         }

@@ -1,9 +1,9 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
-using Microsoft.Practices.ServiceLocation;
 using Samba.Domain.Models.Settings;
 using Samba.Services;
 using Samba.Services.Common;
@@ -13,15 +13,18 @@ namespace Samba.Presentation
     /// <summary>
     /// Interaction logic for WorkPeriodStatusViewModel.xaml
     /// </summary>
+
+    [Export]
     public partial class WorkPeriodStatusView : UserControl
     {
         private Timer _timer;
         private readonly IApplicationState _applicationState;
-        
-        public WorkPeriodStatusView()
+
+        [ImportingConstructor]
+        public WorkPeriodStatusView(IApplicationState applicationState)
         {
             InitializeComponent();
-            _applicationState = ServiceLocator.Current.GetInstance<IApplicationState>();
+            _applicationState = applicationState;
             EventServiceFactory.EventService.GetEvent<GenericEvent<WorkPeriod>>().Subscribe(OnWorkperiodStatusChanged);
         }
 
@@ -46,14 +49,12 @@ namespace Samba.Presentation
                 try
                 {
                     if (_applicationState.ActiveAppScreen == AppScreens.LoginScreen) return;
-
-                    //todo: fix
-                    //if (AppServices.MainDataContext.IsCurrentWorkPeriodOpen)
-                    //{
-                    //    var ts = new TimeSpan(DateTime.Now.Ticks - AppServices.MainDataContext.CurrentWorkPeriod.StartDate.Ticks);
-                    //    tbWorkPeriodStatus.Visibility = ts.TotalHours > 24 ? Visibility.Visible : Visibility.Collapsed;
-                    //}
-                    //else tbWorkPeriodStatus.Visibility = Visibility.Collapsed;
+                    if (_applicationState.IsCurrentWorkPeriodOpen)
+                    {
+                        var ts = new TimeSpan(DateTime.Now.Ticks - _applicationState.CurrentWorkPeriod.StartDate.Ticks);
+                        tbWorkPeriodStatus.Visibility = ts.TotalHours > 24 ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+                    }
+                    else tbWorkPeriodStatus.Visibility = System.Windows.Visibility.Collapsed;
                 }
                 catch (Exception)
                 {

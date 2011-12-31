@@ -3,6 +3,7 @@ using System.ComponentModel.Composition.Hosting;
 using System.Threading;
 using System.Windows;
 using Microsoft.Practices.Prism.MefExtensions;
+using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.ServiceLocation;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Engine;
@@ -100,6 +101,10 @@ namespace Samba.Presentation
                 LocalSettings.SaveSettings();
                 Environment.Exit(1);
             }
+
+            var rm = Container.GetExportedValue<IRegionManager>();
+            rm.RegisterViewWithRegion("MessageRegion", typeof(WorkPeriodStatusView));
+            rm.RegisterViewWithRegion("MessageRegion", typeof(MessageClientStatusView));
 
             Application.Current.MainWindow = (Shell)Shell;
             Application.Current.MainWindow.Show();

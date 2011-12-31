@@ -337,6 +337,11 @@ namespace Samba.Domain.Models.Tickets
             return OrderTagValues.Any(x => x.Name == model.Name);
         }
 
+        public bool IsTaggedWith(OrderTagGroup orderTagGroup)
+        {
+            return OrderTagValues.FirstOrDefault(x => x.OrderTagGroupId == orderTagGroup.Id) != null;
+        }
+
         public decimal GetTotalTaxAmount()
         {
             return CalculatePrice && DecreaseInventory ? (TaxAmount + OrderTagValues.Sum(x => x.TaxAmount)) * Quantity : 0;

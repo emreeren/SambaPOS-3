@@ -7,7 +7,6 @@ using System.Linq.Expressions;
 using Samba.Domain;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Locations;
-using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
@@ -27,22 +26,22 @@ namespace Samba.Services.Implementations.TicketModule
         private readonly IPrinterService _printerService;
         private readonly IApplicationState _applicationState;
         private readonly IApplicationStateSetter _applicationStateSetter;
-        private readonly IMenuService _menuService;
         private readonly IAutomationService _automationService;
         private readonly ISettingService _settingService;
+        private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
         public TicketService(IDepartmentService departmentService, IPrinterService printerService,
             IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
-            IMenuService menuService, IAutomationService automationService, ISettingService settingService)
+            IAutomationService automationService, ISettingService settingService, ICacheService cacheService)
         {
             _departmentService = departmentService;
             _printerService = printerService;
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
-            _menuService = menuService;
             _automationService = automationService;
             _settingService = settingService;
+            _cacheService = cacheService;
 
             ValidatorRegistry.RegisterDeleteValidator(new TicketTagGroupDeleteValidator());
         }
@@ -108,7 +107,6 @@ namespace Samba.Services.Implementations.TicketModule
 
         public TicketCommitResult CloseTicket(Ticket ticket)
         {
-            var department = _departmentService.GetDepartment(ticket.DepartmentId);
             var result = new TicketCommitResult();
             Debug.Assert(ticket != null);
             var changed = false;
@@ -171,6 +169,8 @@ namespace Samba.Services.Implementations.TicketModule
 
                 if (ticket.Orders.Count > 0)
                 {
+                    var department = _departmentService.GetDepartment(ticket.DepartmentId);
+
                     if (ticket.Orders.Where(x => !x.Locked).FirstOrDefault() != null)
                     {
                         var number = _settingService.GetNextNumber(department.TicketTemplate.OrderNumerator.Id);
@@ -335,25 +335,6 @@ namespace Samba.Services.Implementations.TicketModule
             return CloseTicket(ticket);
         }
 
-        public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(MenuItem menuItem)
-        {
-            return GetOrderTagGroupsForItem(_applicationState.CurrentDepartment.TicketTemplate.OrderTagGroups, menuItem);
-        }
-
-        public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItems(IEnumerable<MenuItem> menuItems)
-        {
-            return menuItems.Aggregate(_applicationState.CurrentDepartment.TicketTemplate.OrderTagGroups.OrderBy(x => x.Order) as IEnumerable<OrderTagGroup>, GetOrderTagGroupsForItem);
-        }
-
-        private static IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(IEnumerable<OrderTagGroup> tagGroups, MenuItem menuItem)
-        {
-            var maps = tagGroups.SelectMany(x => x.OrderTagMaps)
-                .Where(x => x.MenuItemGroupCode == menuItem.GroupCode || x.MenuItemGroupCode == null)
-                .Where(x => x.MenuItemId == menuItem.Id || x.MenuItemId == 0);
-
-            return tagGroups.Where(x => maps.Any(y => y.OrderTagGroupId == x.Id));
-        }
-
         public void RecalculateTicket(Ticket ticket)
         {
             var total = ticket.TotalAmount;
@@ -376,7 +357,7 @@ namespace Samba.Services.Implementations.TicketModule
         {
             foreach (var order in ticket.Orders)
             {
-                var mi = _menuService.GetMenuItemById(order.MenuItemId);
+                var mi = _cacheService.GetMenuItem(x => x.Id == order.MenuItemId);
                 if (mi == null) continue;
                 var item = order;
                 var portion = mi.Portions.FirstOrDefault(x => x.Name == item.PortionName);
@@ -422,11 +403,6 @@ namespace Samba.Services.Implementations.TicketModule
                 _workspace.Add(ticket);
             ticket.LastUpdateTime = DateTime.Now;
             _workspace.CommitChanges();
-        }
-
-        public void AddItemToSelectedTicket(Order newItem)
-        {
-            _workspace.Add(newItem);
         }
 
         public IEnumerable<string> GetTicketTagGroupNames()
@@ -487,6 +463,15 @@ namespace Samba.Services.Implementations.TicketModule
         {
             var item = new TicketExplorerFilter { FilterType = FilterType.OpenTickets };
             return new List<ITicketExplorerFilter> { item };
+        }
+
+        public IEnumerable<Order> FixSelectedOrders(Ticket model, IEnumerable<Order> selectedOrders)
+        {
+            var selectedItems = selectedOrders.Where(x => x.SelectedQuantity > 0 && x.SelectedQuantity < x.Quantity).ToList();
+            var newItems = model.ExtractSelectedOrders(selectedItems);
+            foreach (var newItem in newItems)
+                _workspace.Add(newItem);
+            return newItems;
         }
 
         public override void Reset()

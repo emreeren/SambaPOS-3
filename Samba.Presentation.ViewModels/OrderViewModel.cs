@@ -15,15 +15,13 @@ namespace Samba.Presentation.ViewModels
 {
     public class OrderViewModel : ObservableObject
     {
-        private readonly IMenuService _menuService;
         private readonly IAutomationService _automationService;
 
         private readonly TicketTemplate _ticketTemplate;
-        public OrderViewModel(Order model, TicketTemplate ticketTemplate, IMenuService menuService, IAutomationService ruleService)
+        public OrderViewModel(Order model, TicketTemplate ticketTemplate, IAutomationService ruleService)
         {
             _model = model;
             _ticketTemplate = ticketTemplate;
-            _menuService = menuService;
             _automationService = ruleService;
             ResetSelectedQuantity();
             ItemSelectedCommand = new DelegateCommand<OrderViewModel>(OnItemSelected);
@@ -173,13 +171,7 @@ namespace Samba.Presentation.ViewModels
             }
         }
 
-        public FontWeight FontWeight
-        {
-            get
-            {
-                return _model.Locked ? FontWeights.Bold : FontWeights.Normal;
-            }
-        }
+        public FontWeight FontWeight { get { return _model.Locked ? FontWeights.Bold : FontWeights.Normal; } }
 
         public string PriceTag { get { return Model.PriceTag; } }
 
@@ -190,6 +182,7 @@ namespace Samba.Presentation.ViewModels
         }
 
         public bool IsLocked { get { return Model.Locked; } }
+
         private bool _isLastSelected;
         public bool IsLastSelected
         {
@@ -201,10 +194,9 @@ namespace Samba.Presentation.ViewModels
             }
         }
 
-        private MenuItem _menuItem;
-        public MenuItem MenuItem
+        public int MenuItemId
         {
-            get { return _menuItem ?? (_menuItem = _menuService.GetMenuItemById(Model.MenuItemId)); }
+            get { return Model.MenuItemId; }
         }
 
         private void OnItemSelected(OrderViewModel obj)
@@ -251,9 +243,8 @@ namespace Samba.Presentation.ViewModels
             }
         }
 
-        public void UpdatePortion(MenuItemPortion portion, string priceTag)
+        public void UpdatePortion(MenuItemPortion portion, string priceTag, TaxTemplate taxTemplate)
         {
-            var taxTemplate = _menuService.GetMenuItemById(portion.MenuItemId).TaxTemplate;
             _model.UpdatePortion(portion, priceTag, taxTemplate);
             RaisePropertyChanged(() => Description);
             RaisePropertyChanged(() => TotalPrice);
@@ -276,7 +267,6 @@ namespace Samba.Presentation.ViewModels
             RaisePropertyChanged(() => Description);
             RaisePropertyChanged(() => FontWeight);
             RaisePropertyChanged(() => IsLocked);
-
         }
 
         private void RefreshProperties()
@@ -294,7 +284,7 @@ namespace Samba.Presentation.ViewModels
 
         public bool IsTaggedWith(OrderTagGroup orderTagGroup)
         {
-            return OrderTagValues.FirstOrDefault(x => x.Model.OrderTagGroupId == orderTagGroup.Id) != null;
+            return Model.IsTaggedWith(orderTagGroup);
         }
     }
 }

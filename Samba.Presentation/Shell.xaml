@@ -56,13 +56,13 @@
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
 
-            <StackPanel Grid.Column="1" Orientation="Horizontal">
-                <Presentation:WorkPeriodStatusView></Presentation:WorkPeriodStatusView>
-            </StackPanel>
-            
-            <StackPanel Grid.Column="2" Orientation="Horizontal">
-                <Presentation:MessageClientStatusView></Presentation:MessageClientStatusView>
-            </StackPanel>
+            <ItemsControl Grid.Column="1" cal:RegionManager.RegionName="MessageRegion" Name="MessageRegion" Background="Transparent">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
 
             <ItemsControl Grid.Column="3" cal:RegionManager.RegionName="RightUserRegion" Name="RightUserRegion" Background="Transparent">
                 <ItemsControl.ItemsPanel>

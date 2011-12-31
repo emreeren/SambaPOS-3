@@ -2,14 +2,17 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:TicketModule="clr-namespace:Samba.Modules.TicketModule" xmlns:Common="clr-namespace:Samba.Presentation.Common;assembly=Samba.Presentation.Common" mc:Ignorable="d" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:TicketModule="clr-namespace:Samba.Modules.TicketModule" mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" PreviewTextInput="UserControl_PreviewTextInput" Loaded="UserControl_Loaded">
+    
     <TabControl BorderThickness="0" SelectedIndex="{Binding SelectedView}" Margin="0" Padding="0" Background="{StaticResource {x:Static SystemColors.ControlLightBrushKey}}">
+        
         <TabControl.ItemContainerStyle>
             <Style TargetType="{x:Type TabItem}">
                 <Setter Property="Visibility" Value="Collapsed"/>
             </Style>
         </TabControl.ItemContainerStyle>
+    
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="45*"/>
@@ -35,6 +38,6 @@
                 <TicketModule:TicketExplorerView DataContext="{Binding TicketExplorerViewModel}"/>
             </TabControl>
         </Grid>
-        <TicketModule:PaymentEditorView DataContext="{Binding PaymentViewModel}"/>
+                
     </TabControl>
 </UserControl>

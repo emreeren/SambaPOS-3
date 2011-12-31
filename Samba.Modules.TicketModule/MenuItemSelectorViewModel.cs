@@ -71,16 +71,18 @@ namespace Samba.Modules.TicketModule
         private readonly IUserService _userService;
         private readonly IMenuService _menuService;
         private readonly ISettingService _settingService;
+        private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
         public MenuItemSelectorViewModel(IApplicationState applicationState, ITicketService ticketService,
-            IUserService userService, IMenuService menuService,ISettingService settingService)
+            IUserService userService, IMenuService menuService, ISettingService settingService, ICacheService cacheService)
         {
             _ticketService = ticketService;
             _userService = userService;
             _applicationState = applicationState;
             _menuService = menuService;
             _settingService = settingService;
+            _cacheService = cacheService;
 
             CategoryCommand = new DelegateCommand<ScreenMenuCategory>(OnCategoryCommandExecute);
             MenuItemCommand = new DelegateCommand<ScreenMenuItem>(OnMenuItemCommandExecute);
@@ -211,7 +213,7 @@ namespace Samba.Modules.TicketModule
                 }
                 try
                 {
-                    var mi = _menuService.GetMenuItemByBarcode(insertedData);
+                    var mi = _cacheService.GetMenuItem(x => x.Barcode == insertedData);
                     if (mi != null)
                     {
                         var si = new ScreenMenuItem { MenuItemId = mi.Id, Name = mi.Name };
@@ -367,7 +369,7 @@ namespace Samba.Modules.TicketModule
         {
             SelectedCategory = category;
 
-            var screenMenuItems = _menuService.GetMenuItems(category, pageNo, tag);
+            var screenMenuItems = _menuService.GetScreenMenuItems(category, pageNo, tag);
             var result = new ObservableCollection<ScreenMenuItemButton>();
             var items = screenMenuItems.Select(x => new ScreenMenuItemButton(x, MenuItemCommand, category));
             result.AddRange(items);

@@ -66,6 +66,7 @@
     <Compile Include="AutomationModule\RuleActionTypeRegistry.cs" />
     <Compile Include="AutomationModule\RuleConstraint.cs" />
     <Compile Include="AutomationModule\TriggerService.cs" />
+    <Compile Include="CacheService.cs" />
     <Compile Include="CashModule\CashService.cs" />
     <Compile Include="DepartmentModule\DepartmentService.cs" />
     <Compile Include="InventoryModule\InventoryService.cs" />

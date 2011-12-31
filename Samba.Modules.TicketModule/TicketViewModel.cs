@@ -20,24 +20,22 @@ namespace Samba.Modules.TicketModule
         private readonly bool _forcePayment;
         private readonly ITicketService _ticketService;
         private readonly IUserService _userService;
-        private readonly IMenuService _menuService;
         private readonly IAutomationService _automationService;
         private readonly IApplicationState _applicationState;
 
         public TicketViewModel(Ticket model, TicketTemplate ticketTemplate, bool forcePayment,
-            ITicketService ticketService, IUserService userService, IMenuService menuService,
-            IAutomationService automationService, IApplicationState applicationState)
+            ITicketService ticketService, IUserService userService, IAutomationService automationService,
+            IApplicationState applicationState)
         {
             _ticketService = ticketService;
             _userService = userService;
             _forcePayment = forcePayment;
             _model = model;
             _ticketTemplate = ticketTemplate;
-            _menuService = menuService;
             _automationService = automationService;
             _applicationState = applicationState;
 
-            _orders = new ObservableCollection<OrderViewModel>(model.Orders.Select(x => new OrderViewModel(x, ticketTemplate, _menuService, _automationService)).OrderBy(x => x.Model.CreatedDateTime));
+            _orders = new ObservableCollection<OrderViewModel>(model.Orders.Select(x => new OrderViewModel(x, ticketTemplate, _automationService)).OrderBy(x => x.Model.CreatedDateTime));
             _payments = new ObservableCollection<PaymentViewModel>(model.Payments.Select(x => new PaymentViewModel(x)));
             _discounts = new ObservableCollection<DiscountViewModel>(model.Discounts.Select(x => new DiscountViewModel(x)));
             _itemsViewSource = new CollectionViewSource { Source = _orders };
@@ -375,11 +373,10 @@ namespace Samba.Modules.TicketModule
         public void FixSelectedItems()
         {
             var selectedItems = SelectedOrders.Where(x => x.SelectedQuantity > 0 && x.SelectedQuantity < x.Quantity).ToList();
-            var newItems = Model.ExtractSelectedOrders(selectedItems.Select(x => x.Model));
+            var newItems = _ticketService.FixSelectedOrders(Model, selectedItems.Select(x => x.Model));
             foreach (var newItem in newItems)
             {
-                _ticketService.AddItemToSelectedTicket(newItem);
-                _orders.Add(new OrderViewModel(newItem, _ticketTemplate, _menuService, _automationService) { Selected = true });
+                _orders.Add(new OrderViewModel(newItem, _ticketTemplate, _automationService) { Selected = true });
             }
             selectedItems.ForEach(x => x.NotSelected());
         }
@@ -417,7 +414,7 @@ namespace Samba.Modules.TicketModule
         {
             Model.MergeOrdersAndUpdateOrderNumbers(0);
             _orders.Clear();
-            _orders.AddRange(Model.Orders.Select(x => new OrderViewModel(x, _ticketTemplate, _menuService, _automationService)));
+            _orders.AddRange(Model.Orders.Select(x => new OrderViewModel(x, _ticketTemplate, _automationService)));
         }
 
         public bool CanMoveSelectedOrders()

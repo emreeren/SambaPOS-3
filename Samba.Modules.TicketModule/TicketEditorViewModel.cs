@@ -20,9 +20,9 @@ namespace Samba.Modules.TicketModule
 
         [ImportingConstructor]
         public TicketEditorViewModel(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
-            ITicketService ticketService, IUserService userService, PaymentEditorViewModel paymentViewModel,
-            TicketExplorerViewModel ticketExplorerViewModel, SelectedOrdersViewModel selectedOrdersViewModel,
-            TicketListViewModel ticketListViewModel, MenuItemSelectorViewModel menuItemSelectorViewModel)
+            ITicketService ticketService, IUserService userService, TicketExplorerViewModel ticketExplorerViewModel,
+            SelectedOrdersViewModel selectedOrdersViewModel, TicketListViewModel ticketListViewModel,
+            MenuItemSelectorViewModel menuItemSelectorViewModel)
         {
             _ticketService = ticketService;
             _userService = userService;
@@ -31,7 +31,6 @@ namespace Samba.Modules.TicketModule
 
             TicketListViewModel = ticketListViewModel;
             MenuItemSelectorViewModel = menuItemSelectorViewModel;
-            PaymentViewModel = paymentViewModel;
             TicketExplorerViewModel = ticketExplorerViewModel;
             SelectedOrdersViewModel = selectedOrdersViewModel;
             DisplayCategoriesScreen();
@@ -55,7 +54,6 @@ namespace Samba.Modules.TicketModule
 
         public MenuItemSelectorViewModel MenuItemSelectorViewModel { get; set; }
         public TicketListViewModel TicketListViewModel { get; set; }
-        public PaymentEditorViewModel PaymentViewModel { get; set; }
         public SelectedOrdersViewModel SelectedOrdersViewModel { get; set; }
         public TicketExplorerViewModel TicketExplorerViewModel { get; set; }
 
@@ -118,12 +116,6 @@ namespace Samba.Modules.TicketModule
         {
             switch (obj.Topic)
             {
-                case EventTopicNames.MakePayment:
-                    _applicationStateSetter.SetCurrentApplicationScreen(AppScreens.Payment);
-                    PaymentViewModel.Prepare();
-                    DisplayPaymentScreen();
-                    break;
-
                 case EventTopicNames.PaymentSubmitted:
                     DisplayCategoriesScreen();
                     break;
@@ -133,11 +125,6 @@ namespace Samba.Modules.TicketModule
         private void DisplayCategoriesScreen()
         {
             DisplayOrdersScreen();
-        }
-
-        private void DisplayPaymentScreen()
-        {
-            SelectedView = 1;
         }
 
         public void DisplayOrdersScreen()

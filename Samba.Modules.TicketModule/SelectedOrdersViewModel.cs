@@ -25,12 +25,15 @@ namespace Samba.Modules.TicketModule
         private bool _showFreeTagEditor;
         private readonly IApplicationState _applicationState;
         private readonly ITicketService _ticketService;
+        private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public SelectedOrdersViewModel(IApplicationState applicationState, ITicketService ticketService, IUserService userService)
+        public SelectedOrdersViewModel(IApplicationState applicationState, ITicketService ticketService,
+            IUserService userService, ICacheService cacheService)
         {
             _applicationState = applicationState;
             _ticketService = ticketService;
+            _cacheService = cacheService;
             CloseCommand = new CaptionCommand<string>(Resources.Close, OnCloseCommandExecuted);
             SelectTicketTagCommand = new DelegateCommand<TicketTag>(OnTicketTagSelected);
             PortionSelectedCommand = new DelegateCommand<MenuItemPortion>(OnPortionSelected);
@@ -231,7 +234,8 @@ namespace Samba.Modules.TicketModule
 
         private void OnPortionSelected(MenuItemPortion obj)
         {
-            SelectedItem.UpdatePortion(obj, _applicationState.CurrentDepartment.TicketTemplate.PriceTag);
+            var taxTemplate = _cacheService.GetMenuItem(x => x.Id == obj.MenuItemId).TaxTemplate;
+            SelectedItem.UpdatePortion(obj, _applicationState.CurrentDepartment.TicketTemplate.PriceTag, taxTemplate);
             if (OrderTagGroups.Count == 0)
                 SelectedTicket.ClearSelectedItems();
         }
@@ -268,9 +272,10 @@ namespace Samba.Modules.TicketModule
 
             if (SelectedTicket != null && SelectedItem.Model.DecreaseInventory && !SelectedItem.Model.Locked)
             {
-                if (SelectedItem.Model.PortionCount > 1) SelectedItemPortions.AddRange(SelectedItem.MenuItem.Portions);
+                var portions = _cacheService.GetMenuItemPortions(SelectedItem.MenuItemId);
+                if (SelectedItem.Model.PortionCount > 1) SelectedItemPortions.AddRange(portions);
                 OrderTagGroups.AddRange(
-                    _ticketService.GetOrderTagGroupsForItem(SelectedItem.MenuItem)
+                    _cacheService.GetOrderTagGroupsForItem(SelectedItem.MenuItemId)
                     .Where(x => string.IsNullOrEmpty(x.ButtonHeader))
                     .Select(x => new SelectedOrderTagGroupViewModel(x, SelectedTicket.SelectedOrders.Select(y => y.Model))));
                 RaisePropertyChanged(() => IsPortionsVisible);

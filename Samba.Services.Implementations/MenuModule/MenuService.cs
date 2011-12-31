@@ -23,7 +23,7 @@ namespace Samba.Services.Implementations.MenuModule
             ValidatorRegistry.RegisterDeleteValidator(new ScreenMenuDeleteValidator());
         }
 
-        public IEnumerable<ScreenMenuItem> GetMenuItems(ScreenMenuCategory category, int currentPageNo, string tag)
+        public IEnumerable<ScreenMenuItem> GetScreenMenuItems(ScreenMenuCategory category, int currentPageNo, string tag)
         {
             var items = category.ScreenMenuItems
                 .Where(x => x.SubMenuTag == tag || (string.IsNullOrEmpty(tag) && string.IsNullOrEmpty(x.SubMenuTag)));
@@ -61,24 +61,9 @@ namespace Samba.Services.Implementations.MenuModule
                     x1 => x1.OrderTagGroup))));
         }
 
-        public MenuItem GetMenuItemById(int menuItemId)
-        {
-            return GetMenuItem(x => x.Id == menuItemId);
-        }
-
-        public MenuItem GetMenuItemByBarcode(string barcode)
-        {
-            return GetMenuItem(x => x.Barcode == barcode);
-        }
-
-        public MenuItem GetMenuItemByName(string menuItemName)
-        {
-            return GetMenuItem(x => x.Name == menuItemName);
-        }
-
         public MenuItem GetMenuItem(Expression<Func<MenuItem, bool>> expression)
         {
-            return Dao.SingleWithCache(expression, x => x.TaxTemplate, x => x.Portions.Select(y => y.Prices));
+            return Dao.Single(expression, x => x.TaxTemplate, x => x.Portions.Select(y => y.Prices));
         }
 
         public IEnumerable<ScreenMenu> GetScreenMenus()
@@ -114,7 +99,7 @@ namespace Samba.Services.Implementations.MenuModule
         public IEnumerable<MenuItemData> GetMenuItemData()
         {
             return Dao.Select<MenuItem, MenuItemData>(
-                    x => new MenuItemData {Id = x.Id, GroupCode = x.GroupCode, Name = x.Name}, x => x.Id > 0);
+                    x => new MenuItemData { Id = x.Id, GroupCode = x.GroupCode, Name = x.Name }, x => x.Id > 0);
         }
 
         public override void Reset()

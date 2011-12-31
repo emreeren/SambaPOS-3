@@ -24,13 +24,13 @@ namespace Samba.Services.Implementations.InventoryModule
     public class InventoryService : AbstractService, IInventoryService
     {
         private readonly IApplicationState _applicationState;
-        private readonly IMenuService _menuService;
+        private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public InventoryService(IApplicationState applicationState, IMenuService menuService)
+        public InventoryService(IApplicationState applicationState, ICacheService cacheService)
         {
             _applicationState = applicationState;
-            _menuService = menuService;
+            _cacheService = cacheService;
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<WorkPeriod>>().Subscribe(OnWorkperiodStatusChanged);
 
@@ -69,7 +69,7 @@ namespace Samba.Services.Implementations.InventoryModule
             foreach (var orderTagValue in orderTagValues)
             {
                 var tip = orderTagValue;
-                var mi = _menuService.GetMenuItemById(tip.Key.MenuItemId);
+                var mi = _cacheService.GetMenuItem(x => x.Id == tip.Key.MenuItemId);
                 var port = mi.Portions.FirstOrDefault(x => x.Name == tip.Key.PortionName) ?? mi.Portions[0];
                 var sd = salesData.SingleOrDefault(x => x.MenuItemId == mi.Id && x.MenuItemName == mi.Name && x.PortionName == port.Name) ?? new SalesData();
                 sd.MenuItemId = mi.Id;

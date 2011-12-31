@@ -25,10 +25,10 @@ namespace Samba.Presentation.ViewModels
         private static readonly IApplicationState ApplicationState = ServiceLocator.Current.GetInstance<IApplicationState>();
         private static readonly IUserService UserService = ServiceLocator.Current.GetInstance<IUserService>();
         private static readonly ITriggerService TriggerService = ServiceLocator.Current.GetInstance<ITriggerService>();
-        private static readonly IMenuService MenuService = ServiceLocator.Current.GetInstance<IMenuService>();
         private static readonly IPrinterService PrinterService = ServiceLocator.Current.GetInstance<IPrinterService>();
         private static readonly ISettingService SettingService = ServiceLocator.Current.GetInstance<ISettingService>();
         private static readonly IAutomationService AutomationService = ServiceLocator.Current.GetInstance<IAutomationService>();
+        private static readonly ICacheService CacheService = ServiceLocator.Current.GetInstance<ICacheService>();
 
         private static bool _registered;
         public static void RegisterOnce()
@@ -233,7 +233,7 @@ namespace Samba.Presentation.ViewModels
                     if (ticket != null)
                     {
                         var menuItemName = x.Value.GetAsString("MenuItemName");
-                        var menuItem = MenuService.GetMenuItemByName(menuItemName);
+                        var menuItem = CacheService.GetMenuItem(y => y.Name == menuItemName);
                         var portionName = x.Value.GetAsString("PortionName");
                         var quantity = x.Value.GetAsDecimal("Quantity");
                         var tag = x.Value.GetAsString("Tag");

@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using Samba.Domain;
 using Samba.Domain.Models.Accounts;
-using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Services.Common;
@@ -70,25 +67,24 @@ namespace Samba.Services
         //todo move to state
         Ticket OpenTicketByLocationName(string locationName);
         Ticket OpenTicketByTicketNumber(string ticketNumber);
-        TicketCommitResult MoveOrders(Ticket ticket, IEnumerable<Order> selectedOrders, int targetTicketId);
-        void ChangeTicketLocation(Ticket ticket, int locationId);
         TicketCommitResult CloseTicket(Ticket ticket);
+        TicketCommitResult MoveOrders(Ticket ticket, IEnumerable<Order> selectedOrders, int targetTicketId);
+
+        void ChangeTicketLocation(Ticket ticket, int locationId);
         void AddPayment(Ticket ticket, decimal tenderedAmount, DateTime date, PaymentType paymentType);
         void PaySelectedTicket(Ticket ticket, PaymentType paymentType);
         void UpdateTicketNumber(Ticket ticket, Numerator numerator);
-        IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(MenuItem menuItem);
-        IEnumerable<OrderTagGroup> GetOrderTagGroupsForItems(IEnumerable<MenuItem> menuItems);
         void UpdateAccount(Ticket ticket, Account account);
         void RecalculateTicket(Ticket ticket);
         void RegenerateTaxRates(Ticket ticket);
         void UpdateTag(Ticket ticket, TicketTagGroup tagGroup, TicketTag ticketTag);
         void ResetLocationData(Ticket ticket);
-        void AddItemToSelectedTicket(Order newItem);
+        IEnumerable<Order> FixSelectedOrders(Ticket model, IEnumerable<Order> selectedOrders);
         IEnumerable<string> GetTicketTagGroupNames();
-        int GetOpenTicketCount();
-        IEnumerable<OpenTicketData> GetOpenTickets(Expression<Func<Ticket, bool>> prediction);
         IEnumerable<TicketTagGroup> GetTicketTagGroupsById(int id);
         void SaveFreeTicketTag(int id, string freeTag);
+        int GetOpenTicketCount();
+        IEnumerable<OpenTicketData> GetOpenTickets(Expression<Func<Ticket, bool>> prediction);
         IList<TicketExplorerRowData> GetFilteredTickets(DateTime startDate, DateTime endDate, IList<ITicketExplorerFilter> filters);
         IList<ITicketExplorerFilter> CreateTicketExplorerFilters();
     }
