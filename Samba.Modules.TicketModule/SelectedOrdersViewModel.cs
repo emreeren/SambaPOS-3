@@ -9,7 +9,6 @@ using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure;
 using Samba.Localization.Properties;
-using Samba.Persistance.Data;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.UIControls;
 using Samba.Presentation.ViewModels;
@@ -28,8 +27,7 @@ namespace Samba.Modules.TicketModule
         private readonly ITicketService _ticketService;
 
         [ImportingConstructor]
-        public SelectedOrdersViewModel(IApplicationState applicationState, ITicketService ticketService,
-            IUserService userService)
+        public SelectedOrdersViewModel(IApplicationState applicationState, ITicketService ticketService, IUserService userService)
         {
             _applicationState = applicationState;
             _ticketService = ticketService;
@@ -51,8 +49,8 @@ namespace Samba.Modules.TicketModule
             if (obj.Topic == EventTopicNames.SelectOrderTag)
             {
                 ResetValues(obj.Value);
-                SelectedOrderTagGroup = obj.Value.LastSelectedOrderTag;
-                OrderTags.AddRange(obj.Value.LastSelectedOrderTag.OrderTags.Select(x => new OrderTagButtonViewModel(SelectedTicket.SelectedOrders.Select(u => u.Model), x)));
+                SelectedOrderTagGroup = obj.Value.LastSelectedOrderTagGroup;
+                OrderTags.AddRange(obj.Value.LastSelectedOrderTagGroup.OrderTags.Select(x => new OrderTagButtonViewModel(SelectedTicket.SelectedOrders.Select(u => u.Model), x)));
                 if (OrderTags.Count == 1)
                 {
                     SelectedTicket.FixSelectedItems();
@@ -67,26 +65,26 @@ namespace Samba.Modules.TicketModule
             if (obj.Topic == EventTopicNames.SelectTicketTag)
             {
                 ResetValues(obj.Value);
-                _showFreeTagEditor = SelectedTicket.LastSelectedTicketTag.FreeTagging;
+                _showFreeTagEditor = SelectedTicket.LastSelectedTicketTagGroup.FreeTagging;
 
                 List<TicketTag> ticketTags;
                 if (_showFreeTagEditor)
                 {
-                    ticketTags = Dao.Query<TicketTagGroup>(x => x.Id == SelectedTicket.LastSelectedTicketTag.Id,
-                                                 x => x.TicketTags).SelectMany(x => x.TicketTags).OrderBy(x => x.Name).ToList();
+                    ticketTags = _ticketService.GetTicketTagGroupsById(SelectedTicket.LastSelectedTicketTagGroup.Id)
+                        .SelectMany(x => x.TicketTags).OrderBy(x => x.Name).ToList();
                 }
                 else
                 {
                     ticketTags = _applicationState.CurrentDepartment.TicketTemplate.TicketTagGroups.Where(
-                           x => x.Name == obj.Value.LastSelectedTicketTag.Name).SelectMany(x => x.TicketTags).ToList();
+                           x => x.Name == obj.Value.LastSelectedTicketTagGroup.Name).SelectMany(x => x.TicketTags).ToList();
                 }
                 ticketTags.Sort(new AlphanumComparator());
                 TicketTags.AddRange(ticketTags);
 
-                if (SelectedTicket.IsTaggedWith(SelectedTicket.LastSelectedTicketTag.Name)) TicketTags.Add(TicketTag.Empty);
+                if (SelectedTicket.IsTaggedWith(SelectedTicket.LastSelectedTicketTagGroup.Name)) TicketTags.Add(TicketTag.Empty);
                 if (TicketTags.Count == 1 && !_showFreeTagEditor)
                 {
-                    _ticketService.UpdateTag(obj.Value.Model, SelectedTicket.LastSelectedTicketTag, TicketTags[0]);
+                    _ticketService.UpdateTag(obj.Value.Model, SelectedTicket.LastSelectedTicketTagGroup, TicketTags[0]);
                     SelectedTicket.ClearSelectedItems();
                 }
 
@@ -151,11 +149,11 @@ namespace Samba.Modules.TicketModule
         {
             get
             {
-                if (SelectedTicket != null && SelectedTicket.LastSelectedTicketTag != null)
+                if (SelectedTicket != null && SelectedTicket.LastSelectedTicketTagGroup != null)
                 {
-                    if (SelectedTicket.LastSelectedTicketTag.IsInteger)
+                    if (SelectedTicket.LastSelectedTicketTagGroup.IsInteger)
                         return FilteredTextBox.FilteredTextBoxType.Digits;
-                    if (SelectedTicket.LastSelectedTicketTag.IsDecimal)
+                    if (SelectedTicket.LastSelectedTicketTagGroup.IsDecimal)
                         return FilteredTextBox.FilteredTextBoxType.Number;
                 }
                 return FilteredTextBox.FilteredTextBoxType.Letters;
@@ -206,27 +204,14 @@ namespace Samba.Modules.TicketModule
 
         private void OnUpdateFreeTag(string obj)
         {
-            var cachedTag = _applicationState.CurrentDepartment.TicketTemplate.TicketTagGroups.Single(
-                x => x.Id == SelectedTicket.LastSelectedTicketTag.Id);
-            Debug.Assert(cachedTag != null);
-            var ctag = cachedTag.TicketTags.SingleOrDefault(x => x.Name.ToLower() == FreeTag.ToLower());
-            if (ctag == null && cachedTag.SaveFreeTags)
+            var cachedTagGroup = _applicationState.CurrentDepartment.TicketTemplate.TicketTagGroups.Single(x => x.Id == SelectedTicket.LastSelectedTicketTagGroup.Id);
+            Debug.Assert(cachedTagGroup != null);
+            var ctag = cachedTagGroup.TicketTags.SingleOrDefault(x => x.Name.ToLower() == FreeTag.ToLower());
+            if (ctag == null && cachedTagGroup.SaveFreeTags)
             {
-                using (var workspace = WorkspaceFactory.Create())
-                {
-                    var tt = workspace.Single<TicketTagGroup>(x => x.Id == SelectedTicket.LastSelectedTicketTag.Id);
-                    Debug.Assert(tt != null);
-                    var tag = tt.TicketTags.SingleOrDefault(x => x.Name.ToLower() == FreeTag.ToLower());
-                    if (tag == null)
-                    {
-                        tag = new TicketTag { Name = FreeTag };
-                        tt.TicketTags.Add(tag);
-                        workspace.Add(tag);
-                        workspace.CommitChanges();
-                    }
-                }
+                _ticketService.SaveFreeTicketTag(SelectedTicket.LastSelectedTicketTagGroup.Id, FreeTag);
             }
-            _ticketService.UpdateTag(SelectedTicket.Model, SelectedTicket.LastSelectedTicketTag, new TicketTag { Name = FreeTag });
+            _ticketService.UpdateTag(SelectedTicket.Model, SelectedTicket.LastSelectedTicketTagGroup, new TicketTag { Name = FreeTag });
             SelectedTicket.ClearSelectedItems();
             FreeTag = string.Empty;
         }
@@ -240,7 +225,7 @@ namespace Samba.Modules.TicketModule
 
         private void OnTicketTagSelected(TicketTag obj)
         {
-            _ticketService.UpdateTag(SelectedTicket.Model, SelectedTicket.LastSelectedTicketTag, obj);
+            _ticketService.UpdateTag(SelectedTicket.Model, SelectedTicket.LastSelectedTicketTagGroup, obj);
             SelectedTicket.ClearSelectedItems();
         }
 

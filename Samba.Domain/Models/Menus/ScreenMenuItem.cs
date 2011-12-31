@@ -29,7 +29,6 @@ namespace Samba.Domain.Models.Menus
         public string ImagePath { get; set; }
         public string SubMenuTag { get; set; }
         public string ItemPortion { get; set; }
-        public int UsageCount { get; set; }
         public virtual OrderTagTemplate OrderTagTemplate { get; set; }
 
         public MenuItem MenuItem;

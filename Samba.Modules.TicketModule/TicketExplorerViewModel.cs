@@ -2,14 +2,10 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Timers;
 using System.Windows.Input;
 using System.Windows.Threading;
-using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
-using Samba.Persistance.Data;
-using Samba.Persistance.Data.Specification;
 using Samba.Presentation.Common;
 using Samba.Services;
 using Samba.Services.Common;
@@ -28,10 +24,11 @@ namespace Samba.Modules.TicketModule
         [ImportingConstructor]
         public TicketExplorerViewModel(ITicketService ticketService, IUserService userService, IApplicationState applicationState)
         {
-            ResetFilters();
             _ticketService = ticketService;
             _userService = userService;
             _applicationState = applicationState;
+
+            ResetFilters();
 
             _timer = new Timer(250);
             _timer.Elapsed += TimerElapsed;
@@ -42,8 +39,8 @@ namespace Samba.Modules.TicketModule
             RefreshDatesCommand = new CaptionCommand<string>(Resources.Refresh, OnRefreshDates);
         }
 
-        private IList<TicketExplorerFilter> _filters;
-        public IList<TicketExplorerFilter> Filters
+        private IList<ITicketExplorerFilter> _filters;
+        public IList<ITicketExplorerFilter> Filters
         {
             get { return _filters; }
             set
@@ -79,8 +76,8 @@ namespace Samba.Modules.TicketModule
             set { _endDate = value; RaisePropertyChanged(() => EndDate); }
         }
 
-        private IList<TicketExplorerRowViewModel> _tickets;
-        public IList<TicketExplorerRowViewModel> Tickets
+        private IList<TicketExplorerRowData> _tickets;
+        public IList<TicketExplorerRowData> Tickets
         {
             get { return _tickets; }
             set
@@ -90,7 +87,7 @@ namespace Samba.Modules.TicketModule
             }
         }
 
-        public TicketExplorerRowViewModel SelectedRow { get; set; }
+        public TicketExplorerRowData SelectedRow { get; set; }
 
         private decimal _total;
         public decimal Total
@@ -108,10 +105,7 @@ namespace Samba.Modules.TicketModule
 
         public void Refresh()
         {
-            EndDate = EndDate.Date.AddDays(1).AddMinutes(-1);
-            Expression<Func<Ticket, bool>> qFilter = x => x.Date >= StartDate && x.Date < EndDate;
-            qFilter = Filters.Aggregate(qFilter, (current, filter) => current.And(filter.GetExpression()));
-            Tickets = Dao.Query(qFilter).Select(x => new TicketExplorerRowViewModel(x)).ToList();
+            Tickets= _ticketService.GetFilteredTickets(StartDate, EndDate, Filters);
             Total = Tickets.Sum(x => x.Sum);
             RaisePropertyChanged(() => CanChanageDateFilter);
         }
@@ -168,16 +162,7 @@ namespace Samba.Modules.TicketModule
 
         public void ResetFilters()
         {
-            var item = new TicketExplorerFilter();
-            try
-            {
-                item.FilterType = FilterType.OpenTickets;
-                Filters = new List<TicketExplorerFilter> { item };
-            }
-            finally
-            {
-                item.Dispose();
-            }
+            Filters = _ticketService.CreateTicketExplorerFilters();
         }
 
         protected override void Dispose(bool disposing)

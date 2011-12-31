@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
 using System.Linq;
 using FluentValidation;
 using Samba.Domain.Models.Menus;
@@ -8,17 +9,22 @@ using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
-using Samba.Persistance.Data;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Common.Services;
+using Samba.Services;
 
 namespace Samba.Modules.TicketModule
 {
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     class TicketTemplateViewModel : EntityViewModelBase<TicketTemplate>
     {
-        public TicketTemplateViewModel()
+        private readonly IPriceListService _priceListService;
+
+        [ImportingConstructor]
+        public TicketTemplateViewModel(IPriceListService priceListService)
         {
+            _priceListService = priceListService;
             AddTicketTagGroupCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.TicketTagGroup), OnAddTicketTagGroup);
             DeleteTicketTagGroupCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.TicketTagGroup), OnDeleteTicketTagGroup, CanDeleteTicketTagGroup);
             AddOrderTagGroupCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.OrderTagGroup), OnAddOrderTagGroup);
@@ -40,13 +46,13 @@ namespace Samba.Modules.TicketModule
         public Numerator TicketNumerator { get { return Model.TicketNumerator; } set { Model.TicketNumerator = value; } }
         public Numerator OrderNumerator { get { return Model.OrderNumerator; } set { Model.OrderNumerator = value; } }
 
-        public IEnumerable<string> PriceTags { get { return Dao.Select<MenuItemPriceDefinition, string>(x => x.PriceTag, x => x.Id > 0); } }
+        public IEnumerable<string> PriceTags { get { return _priceListService.GetTags(); } }
         public string PriceTag { get { return Model.PriceTag; } set { Model.PriceTag = value; } }
-        
+
         public TicketTagGroup SelectedTicketTag { get; set; }
         public OrderTagGroup SelectedOrderTagGroup { get; set; }
         public ServiceTemplate SelectedServiceTemplate { get; set; }
-        
+
         private ObservableCollection<TicketTagGroup> _ticketTagGroups;
         public ObservableCollection<TicketTagGroup> TicketTagGroups
         {
@@ -169,7 +175,7 @@ namespace Samba.Modules.TicketModule
 
         public override Type GetViewType()
         {
-            return typeof (TicketTemplateView);
+            return typeof(TicketTemplateView);
         }
 
         public override string GetModelTypeString()

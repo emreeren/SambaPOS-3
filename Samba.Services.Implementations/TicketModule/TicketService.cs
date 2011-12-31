@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using Samba.Domain;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Locations;
@@ -13,6 +14,7 @@ using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Data.Serializer;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
+using Samba.Persistance.Data.Specification;
 using Samba.Services.Common;
 
 namespace Samba.Services.Implementations.TicketModule
@@ -41,6 +43,8 @@ namespace Samba.Services.Implementations.TicketModule
             _menuService = menuService;
             _automationService = automationService;
             _settingService = settingService;
+
+            ValidatorRegistry.RegisterDeleteValidator(new TicketTagGroupDeleteValidator());
         }
 
         public void UpdateAccount(Ticket ticket, Account account)
@@ -435,9 +439,69 @@ namespace Samba.Services.Implementations.TicketModule
             return Dao.Count<Ticket>(x => !x.IsPaid);
         }
 
+        public IEnumerable<OpenTicketData> GetOpenTickets(Expression<Func<Ticket, bool>> prediction)
+        {
+            return Dao.Select(x => new OpenTicketData
+            {
+                Id = x.Id,
+                LastOrderDate = x.LastOrderDate,
+                TicketNumber = x.TicketNumber,
+                LocationName = x.LocationName,
+                AccountName = x.AccountName,
+                RemainingAmount = x.RemainingAmount,
+                Date = x.Date
+            }, prediction);
+        }
+
+        public IEnumerable<TicketTagGroup> GetTicketTagGroupsById(int id)
+        {
+            return Dao.Query<TicketTagGroup>(x => x.Id == id, x => x.TicketTags);
+        }
+
+        public void SaveFreeTicketTag(int id, string freeTag)
+        {
+            using (var workspace = WorkspaceFactory.Create())
+            {
+                var tt = workspace.Single<TicketTagGroup>(x => x.Id == id);
+                Debug.Assert(tt != null);
+                var tag = tt.TicketTags.SingleOrDefault(x => x.Name.ToLower() == freeTag.ToLower());
+                if (tag == null)
+                {
+                    tag = new TicketTag { Name = freeTag };
+                    tt.TicketTags.Add(tag);
+                    workspace.Add(tag);
+                    workspace.CommitChanges();
+                }
+            }
+        }
+
+        public IList<TicketExplorerRowData> GetFilteredTickets(DateTime startDate, DateTime endDate, IList<ITicketExplorerFilter> filters)
+        {
+            endDate = endDate.Date.AddDays(1).AddMinutes(-1);
+            Expression<Func<Ticket, bool>> qFilter = x => x.Date >= startDate && x.Date < endDate;
+            qFilter = filters.Aggregate(qFilter, (current, filter) => current.And(filter.GetExpression()));
+            return Dao.Query(qFilter).Select(x => new TicketExplorerRowData(x)).ToList();
+        }
+
+        public IList<ITicketExplorerFilter> CreateTicketExplorerFilters()
+        {
+            var item = new TicketExplorerFilter { FilterType = FilterType.OpenTickets };
+            return new List<ITicketExplorerFilter> { item };
+        }
+
         public override void Reset()
         {
 
+        }
+    }
+
+    public class TicketTagGroupDeleteValidator : SpecificationValidator<TicketTagGroup>
+    {
+        public override string GetErrorMessage(TicketTagGroup model)
+        {
+            if (Dao.Exists<TicketTemplate>(x => x.TicketTagGroups.Any(y => y.Id == model.Id)))
+                return Resources.DeleteErrorTagUsedInDepartment;
+            return "";
         }
     }
 }

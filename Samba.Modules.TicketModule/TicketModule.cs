@@ -1,14 +1,9 @@
 ﻿using System.ComponentModel.Composition;
-using System.Linq;
 using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Regions;
 using Samba.Domain.Models.Accounts;
-using Samba.Domain.Models.Menus;
-using Samba.Domain.Models.Settings;
-using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
-using Samba.Persistance.Data;
 using Samba.Presentation.Common;
 using Samba.Services;
 using Samba.Services.Common;
@@ -23,7 +18,7 @@ namespace Samba.Modules.TicketModule
         private readonly IApplicationState _applicationState;
 
         [ImportingConstructor]
-        public TicketModule(IRegionManager regionManager, TicketEditorView ticketEditorView, 
+        public TicketModule(IRegionManager regionManager, TicketEditorView ticketEditorView,
             IApplicationState applicationState)
             : base(regionManager, AppScreens.TicketList)
         {
@@ -38,7 +33,7 @@ namespace Samba.Modules.TicketModule
             AddDashboardCommand<TicketTagGroupListViewModel>(Resources.TicketTags, Resources.Tickets, 35);
             AddDashboardCommand<OrderTagGroupListViewModel>(Resources.OrderTags, Resources.Tickets, 35);
             AddDashboardCommand<OrderTagTemplateListViewModel>(Resources.OrderTagTemplates, Resources.Tickets, 35);
-            AddDashboardCommand<ServiceTemplateListViewModel>(Resources.ServiceTemplates, Resources.Products,35);
+            AddDashboardCommand<ServiceTemplateListViewModel>(Resources.ServiceTemplates, Resources.Products, 35);
 
             PermissionRegistry.RegisterPermission(PermissionNames.AddItemsToLockedTickets, PermissionCategories.Ticket, Resources.CanReleaseTicketLock);
             PermissionRegistry.RegisterPermission(PermissionNames.RemoveTicketTag, PermissionCategories.Ticket, Resources.CanRemoveTicketTag);
@@ -69,33 +64,6 @@ namespace Samba.Modules.TicketModule
                     if (x.Topic == EventTopicNames.ActivateTicketView || x.Topic == EventTopicNames.DisplayTicketView)
                         Activate();
                 });
-
-            EventServiceFactory.EventService.GetEvent<GenericEvent<WorkPeriod>>().Subscribe(
-            x =>
-            {
-                if (x.Topic == EventTopicNames.WorkPeriodStatusChanged)
-                {
-                    if (x.Value.StartDate < x.Value.EndDate)
-                    {
-                        using (var v = WorkspaceFactory.Create())
-                        {
-                            var items = v.All<ScreenMenuItem>().ToList();
-                            using (var vr = WorkspaceFactory.CreateReadOnly())
-                            {
-                                AppServices.ResetCache();
-                                var endDate = _applicationState.CurrentWorkPeriod.EndDate;
-                                var startDate = endDate.AddDays(-7);
-                                vr.Queryable<Order>()
-                                    .Where(y => y.CreatedDateTime >= startDate && y.CreatedDateTime < endDate)
-                                    .GroupBy(y => y.MenuItemId)
-                                    .ToList().ForEach(
-                                        y => items.Where(z => z.MenuItemId == y.Key).ToList().ForEach(z => z.UsageCount = y.Count()));
-                            }
-                            v.CommitChanges();
-                        }
-                    }
-                }
-            });
         }
 
         protected override bool CanNavigate(string arg)

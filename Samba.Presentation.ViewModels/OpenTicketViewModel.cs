@@ -1,15 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
+using Samba.Services;
 
 namespace Samba.Presentation.ViewModels
 {
     public class OpenTicketViewModel : ObservableObject
     {
+        public OpenTicketViewModel(OpenTicketData openTicketData, bool shouldWrap)
+        {
+            Id = openTicketData.Id;
+            LastOrderDate = openTicketData.LastOrderDate;
+            TicketNumber = openTicketData.TicketNumber;
+            LocationName = openTicketData.LocationName;
+            AccountName = openTicketData.AccountName;
+            RemainingAmount = openTicketData.RemainingAmount;
+            Date = openTicketData.Date;
+            WrapText = shouldWrap;
+        }
+
         public int Id { get; set; }
         public string LocationName { get; set; }
         public string AccountName { get; set; }
@@ -28,7 +38,7 @@ namespace Samba.Presentation.ViewModels
                 return difference == 0 ? "-" : string.Format(Resources.OpenTicketButtonDuration, difference.ToString("#"));
             }
         }
-        
+
         public string Title
         {
             get
@@ -40,9 +50,9 @@ namespace Samba.Presentation.ViewModels
                 return result.TrimEnd('\r');
             }
         }
-        
+
         public string TitleTextColor { get { return !string.IsNullOrEmpty(LocationName) || !string.IsNullOrEmpty(AccountName) ? "DarkBlue" : "Maroon"; } }
-       
+
         public string Total
         {
             get

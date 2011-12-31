@@ -56,8 +56,6 @@ namespace Samba.Presentation.ViewModels
             }
         }
 
-        public int UsageCount { get { return ScreenMenuItem.UsageCount; } set { ScreenMenuItem.UsageCount = value; } }
-
         public int FindOrder(string t)
         {
             if (Caption.ToLower().StartsWith(t.ToLower())) return -99 + Caption.Length;

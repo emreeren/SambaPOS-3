@@ -327,7 +327,6 @@ namespace Samba.Modules.TicketModule
                         sitems = Categories.Select(x => x.Category).SelectMany(x => x.ScreenMenuItems);
                     }
                     var items = sitems.Select(x => new ScreenMenuItemButton(x, MenuItemCommand, SelectedCategory));
-                    if (category.SortType == 1) items = items.OrderByDescending(x => x.UsageCount);
                     MenuItems.AddRange(items.Take(category.MaxItems));
                 }
             }
@@ -371,7 +370,6 @@ namespace Samba.Modules.TicketModule
             var screenMenuItems = _menuService.GetMenuItems(category, pageNo, tag);
             var result = new ObservableCollection<ScreenMenuItemButton>();
             var items = screenMenuItems.Select(x => new ScreenMenuItemButton(x, MenuItemCommand, category));
-            if (category.SortType == 1) items = items.OrderByDescending(x => x.UsageCount);
             result.AddRange(items);
             return result;
         }

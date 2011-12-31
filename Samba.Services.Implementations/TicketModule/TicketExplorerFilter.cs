@@ -3,19 +3,10 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
-using Samba.Presentation.Common;
 
-namespace Samba.Modules.TicketModule
+namespace Samba.Services.Implementations.TicketModule
 {
-    public enum FilterType
-    {
-        OpenTickets,
-        AllTickets,
-        Account,
-        Location
-    }
-
-    public class TicketExplorerFilter : ObservableObject
+    public class TicketExplorerFilter :  ITicketExplorerFilter
     {
         public TicketExplorerFilter()
         {
@@ -23,6 +14,7 @@ namespace Samba.Modules.TicketModule
         }
 
         private readonly string[] _filterTypes = { Resources.OnlyOpenTickets, Resources.AllTickets, Resources.Account, Resources.Location};
+        
         public int FilterTypeIndex
         {
             get { return (int)FilterType; }
@@ -30,7 +22,7 @@ namespace Samba.Modules.TicketModule
             {
                 FilterType = (FilterType)value;
                 FilterValue = "";
-                RaisePropertyChanged(() => IsTextBoxEnabled);
+                
             }
         }
 
@@ -39,22 +31,16 @@ namespace Samba.Modules.TicketModule
 
         public FilterType FilterType { get; set; }
 
-        private string _filterValue;
-        public string FilterValue
-        {
-            get { return _filterValue; }
-            set
-            {
-                _filterValue = value;
-                RaisePropertyChanged(() => FilterValue);
-            }
-        }
+        public string FilterValue { get; set; }
 
         public List<string> FilterValues { get; set; }
 
         public Expression<Func<Ticket, bool>> GetExpression()
         {
             Expression<Func<Ticket, bool>> result = null;
+
+            if (FilterType == FilterType.AllTickets)
+                result = x => x.Id > 0;
 
             if (FilterType == FilterType.OpenTickets)
                 result = x => !x.IsPaid;

@@ -16,12 +16,6 @@ namespace Samba.Modules.MenuModule
         Büyük
     }
 
-    public enum SortType
-    {
-        Order,
-        TopItems
-    }
-
     public class ScreenMenuCategoryViewModel : ObservableObject
     {
         public ScreenMenuCategoryViewModel(ScreenMenuCategory model)
@@ -134,13 +128,6 @@ namespace Samba.Modules.MenuModule
         {
             get { return Model.MaxItems; }
             set { Model.MaxItems = value; RaisePropertyChanged(() => MaxItems); }
-        }
-
-        [LocalizedDisplayName(ResourceStrings.SortType), LocalizedCategory(ResourceStrings.MenuProperties)]
-        public SortType SortType
-        {
-            get { return (SortType)Model.SortType; }
-            set { Model.SortType = (int)value; RaisePropertyChanged(() => SortType); }
         }
 
         [LocalizedDisplayName(ResourceStrings.NumeratorType), LocalizedCategory(ResourceStrings.NumeratorProperties)]

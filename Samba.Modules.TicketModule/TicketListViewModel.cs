@@ -17,7 +17,6 @@ using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
-using Samba.Persistance.Data;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Interaction;
 using Samba.Presentation.Common.Services;
@@ -479,7 +478,7 @@ namespace Samba.Modules.TicketModule
         {
             if (SelectedTicket != null)
             {
-                _selectedTicket.LastSelectedTicketTag = tagGroup;
+                _selectedTicket.LastSelectedTicketTagGroup = tagGroup;
                 _selectedTicket.PublishEvent(EventTopicNames.SelectTicketTag);
             }
             else if (ShowAllOpenTickets.CanExecute(""))
@@ -496,7 +495,7 @@ namespace Samba.Modules.TicketModule
 
         private void OnShowOrderTagsExecute(OrderTagGroup orderTagGroup)
         {
-            _selectedTicket.LastSelectedOrderTag = orderTagGroup;
+            _selectedTicket.LastSelectedOrderTagGroup = orderTagGroup;
             _selectedTicket.PublishEvent(EventTopicNames.SelectOrderTag);
         }
 
@@ -867,19 +866,10 @@ namespace Samba.Modules.TicketModule
             else
                 prediction = x => !x.IsPaid;
 
+            var openTickets = _ticketService.GetOpenTickets(prediction);
             var shouldWrap = !SelectedDepartment.IsTakeAway;
 
-            OpenTickets = Dao.Select(x => new OpenTicketViewModel
-            {
-                Id = x.Id,
-                LastOrderDate = x.LastOrderDate,
-                TicketNumber = x.TicketNumber,
-                LocationName = x.LocationName,
-                AccountName = x.AccountName,
-                RemainingAmount = x.RemainingAmount,
-                Date = x.Date,
-                WrapText = shouldWrap
-            }, prediction).OrderBy(x => x.LastOrderDate);
+            OpenTickets = openTickets.Select(x => new OpenTicketViewModel(x, shouldWrap)).OrderBy(x => x.LastOrderDate);
 
             StartTimer();
         }
