@@ -2,6 +2,7 @@
 using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Regions;
+using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Common;
 using Samba.Services;
 using Samba.Services.Common;
@@ -31,12 +32,12 @@ namespace Samba.Modules.PaymentModule
         {
             _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(PaymentEditorView));
 
-            EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(
+            EventServiceFactory.EventService.GetEvent<GenericEvent<Ticket>>().Subscribe(
              x =>
              {
                  if (x.Topic == EventTopicNames.MakePayment)
                  {
-                     ((PaymentEditorViewModel)_paymentEditorView.DataContext).Prepare();
+                     ((PaymentEditorViewModel)_paymentEditorView.DataContext).Prepare(x.Value);
                      Activate();
                  }
              });

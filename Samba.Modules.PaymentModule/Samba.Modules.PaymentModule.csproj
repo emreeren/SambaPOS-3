@@ -52,6 +52,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MergedItem.cs" />
     <Compile Include="PaymentEditorView.xaml.cs">
       <DependentUpon>PaymentEditorView.xaml</DependentUpon>
     </Compile>

@@ -465,7 +465,7 @@ namespace Samba.Services.Implementations.TicketModule
             return new List<ITicketExplorerFilter> { item };
         }
 
-        public IEnumerable<Order> FixSelectedOrders(Ticket model, IEnumerable<Order> selectedOrders)
+        public IEnumerable<Order> ExtractSelectedOrders(Ticket model, IEnumerable<Order> selectedOrders)
         {
             var selectedItems = selectedOrders.Where(x => x.SelectedQuantity > 0 && x.SelectedQuantity < x.Quantity).ToList();
             var newItems = model.ExtractSelectedOrders(selectedItems);

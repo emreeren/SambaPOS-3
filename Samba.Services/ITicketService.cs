@@ -79,7 +79,7 @@ namespace Samba.Services
         void RegenerateTaxRates(Ticket ticket);
         void UpdateTag(Ticket ticket, TicketTagGroup tagGroup, TicketTag ticketTag);
         void ResetLocationData(Ticket ticket);
-        IEnumerable<Order> FixSelectedOrders(Ticket model, IEnumerable<Order> selectedOrders);
+        IEnumerable<Order> ExtractSelectedOrders(Ticket model, IEnumerable<Order> selectedOrders);
         IEnumerable<string> GetTicketTagGroupNames();
         IEnumerable<TicketTagGroup> GetTicketTagGroupsById(int id);
         void SaveFreeTicketTag(int id, string freeTag);

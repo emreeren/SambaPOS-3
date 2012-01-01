@@ -888,9 +888,9 @@ namespace Samba.Modules.TicketModule
             _timer.Change(Timeout.Infinite, 60000);
         }
 
-        private static void OnMakePaymentExecute(string obj)
+        private void OnMakePaymentExecute(string obj)
         {
-            EventServiceFactory.EventService.PublishEvent(EventTopicNames.MakePayment);
+            SelectedTicket.Model.PublishEvent(EventTopicNames.MakePayment);
         }
 
         private void OnCloseTicketExecute(string obj)

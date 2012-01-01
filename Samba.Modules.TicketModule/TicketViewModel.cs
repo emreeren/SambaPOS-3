@@ -361,19 +361,10 @@ namespace Samba.Modules.TicketModule
         public bool IsLocked { get { return Model.Locked; } set { Model.Locked = value; } }
         public bool IsTagged { get { return Model.IsTagged; } }
 
-        public void UpdatePaidItems(IEnumerable<PaidItem> paidItems)
-        {
-            Model.PaidItems.Clear();
-            foreach (var paidItem in paidItems)
-            {
-                Model.PaidItems.Add(paidItem);
-            }
-        }
-
         public void FixSelectedItems()
         {
             var selectedItems = SelectedOrders.Where(x => x.SelectedQuantity > 0 && x.SelectedQuantity < x.Quantity).ToList();
-            var newItems = _ticketService.FixSelectedOrders(Model, selectedItems.Select(x => x.Model));
+            var newItems = _ticketService.ExtractSelectedOrders(Model, selectedItems.Select(x => x.Model));
             foreach (var newItem in newItems)
             {
                 _orders.Add(new OrderViewModel(newItem, _ticketTemplate, _automationService) { Selected = true });
