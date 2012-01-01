@@ -1,17 +1,20 @@
-﻿using System.Windows.Controls;
-using System.Windows.Input;
+﻿using System.ComponentModel.Composition;
+using System.Windows.Controls;
 using Samba.Presentation.Common;
-using Samba.Services;
 
 namespace Samba.Modules.TicketModule
 {
     /// <summary>
     /// Interaction logic for SelectedOrdersView.xaml
     /// </summary>
+    /// 
+    [Export]
     public partial class SelectedOrdersView : UserControl
     {
-        public SelectedOrdersView()
+        [ImportingConstructor]
+        public SelectedOrdersView(SelectedOrdersViewModel viewModel)
         {
+            DataContext = viewModel;
             InitializeComponent();
         }
 

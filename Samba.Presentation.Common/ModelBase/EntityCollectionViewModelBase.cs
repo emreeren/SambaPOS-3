@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
 using System.Windows;
 using System.Linq;
 using Microsoft.Practices.Prism.Events;
@@ -13,10 +14,50 @@ using Samba.Services.Common;
 
 namespace Samba.Presentation.Common.ModelBase
 {
-    public abstract class EntityCollectionViewModelBase<TViewModel, TModel> : AbstractEntityCollectionViewModelBase, ICountable
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
+    public class EntityCollectionViewModelBase<TViewModel, TModel> : AbstractEntityCollectionViewModelBase, ICountable
         where TViewModel : EntityViewModelBase<TModel>
         where TModel : class, IEntity, new()
     {
+        [ImportingConstructor]
+        public EntityCollectionViewModelBase()
+        {
+            OpenViewModels = new List<EntityViewModelBase<TModel>>();
+
+            _token = EventServiceFactory.EventService.GetEvent<GenericEvent<EntityViewModelBase<TModel>>>().Subscribe(x =>
+            {
+                if (x.Topic == EventTopicNames.AddedModelSaved)
+                    if (x.Value is TViewModel)
+                        Items.Add(x.Value as TViewModel);
+
+                if (x.Topic == EventTopicNames.ModelAddedOrDeleted)
+                {
+                    foreach (var openViewModel in OpenViewModels)
+                    {
+                        if (!openViewModel.CanSave())
+                            openViewModel.RollbackModel();
+                    }
+
+                    if (x.Value is TViewModel)
+                    {
+                        _workspace.Update(x.Value.Model);
+                        _workspace.CommitChanges();
+                        _workspace.Refresh(x.Value.Model);
+                    }
+                }
+            });
+
+            _token2 = EventServiceFactory.EventService.GetEvent<GenericEvent<VisibleViewModelBase>>().Subscribe(
+                  s =>
+                  {
+                      if (s.Topic == EventTopicNames.ViewClosed)
+                      {
+                          if (s.Value is EntityViewModelBase<TModel> && OpenViewModels.Contains(s.Value))
+                              OpenViewModels.Remove(s.Value as EntityViewModelBase<TModel>);
+                      }
+                  });
+        }
+
         private readonly IWorkspace _workspace = WorkspaceFactory.Create();
         public IWorkspace Workspace { get { return _workspace; } }
 
@@ -48,44 +89,6 @@ namespace Samba.Presentation.Common.ModelBase
         private readonly SubscriptionToken _token;
         private readonly SubscriptionToken _token2;
         public IList<EntityViewModelBase<TModel>> OpenViewModels { get; set; }
-
-        protected EntityCollectionViewModelBase()
-        {
-            OpenViewModels = new List<EntityViewModelBase<TModel>>();
-
-            _token = EventServiceFactory.EventService.GetEvent<GenericEvent<EntityViewModelBase<TModel>>>().Subscribe(x =>
-                 {
-                     if (x.Topic == EventTopicNames.AddedModelSaved)
-                         if (x.Value is TViewModel)
-                             Items.Add(x.Value as TViewModel);
-
-                     if (x.Topic == EventTopicNames.ModelAddedOrDeleted)
-                     {
-                         foreach (var openViewModel in OpenViewModels)
-                         {
-                             if (!openViewModel.CanSave())
-                                 openViewModel.RollbackModel();
-                         }
-
-                         if (x.Value is TViewModel)
-                         {
-                             _workspace.Update(x.Value.Model);
-                             _workspace.CommitChanges();
-                             _workspace.Refresh(x.Value.Model);
-                         }
-                     }
-                 });
-
-            _token2 = EventServiceFactory.EventService.GetEvent<GenericEvent<VisibleViewModelBase>>().Subscribe(
-                  s =>
-                  {
-                      if (s.Topic == EventTopicNames.ViewClosed)
-                      {
-                          if (s.Value is EntityViewModelBase<TModel> && OpenViewModels.Contains(s.Value))
-                              OpenViewModels.Remove(s.Value as EntityViewModelBase<TModel>);
-                      }
-                  });
-        }
 
         private TViewModel _selectedItem;
         public TViewModel SelectedItem

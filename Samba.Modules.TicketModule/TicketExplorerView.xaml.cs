@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -17,12 +18,16 @@ namespace Samba.Modules.TicketModule
     /// <summary>
     /// Interaction logic for TicketExplorerView.xaml
     /// </summary>
+    /// 
+    [Export]
     public partial class TicketExplorerView : UserControl
     {
         private bool _scrolled;
 
-        public TicketExplorerView()
+        [ImportingConstructor]
+        public TicketExplorerView(TicketExplorerViewModel viewModel)
         {
+            DataContext = viewModel;
             InitializeComponent();
         }
 

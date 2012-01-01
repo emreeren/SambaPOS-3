@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using Microsoft.Practices.Prism.Events;
+using Microsoft.Practices.Prism.Regions;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
@@ -16,10 +17,14 @@ namespace Samba.Modules.TicketModule
         private readonly ITicketService _ticketService;
         private readonly IUserService _userService;
         private readonly IApplicationState _applicationState;
-        private readonly IApplicationStateSetter _applicationStateSetter;
+        private readonly IRegionManager _regionManager;
+        private readonly TicketListViewModel _ticketListViewModel;
+        private readonly MenuItemSelectorViewModel _menuItemSelectorViewModel;
+        private readonly SelectedOrdersViewModel _selectedOrdersViewModel;
+        private readonly TicketExplorerViewModel _ticketExplorerViewModel;
 
         [ImportingConstructor]
-        public TicketEditorViewModel(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
+        public TicketEditorViewModel(IRegionManager regionManager, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
             ITicketService ticketService, IUserService userService, TicketExplorerViewModel ticketExplorerViewModel,
             SelectedOrdersViewModel selectedOrdersViewModel, TicketListViewModel ticketListViewModel,
             MenuItemSelectorViewModel menuItemSelectorViewModel)
@@ -27,12 +32,12 @@ namespace Samba.Modules.TicketModule
             _ticketService = ticketService;
             _userService = userService;
             _applicationState = applicationState;
-            _applicationStateSetter = applicationStateSetter;
+            _regionManager = regionManager;
 
-            TicketListViewModel = ticketListViewModel;
-            MenuItemSelectorViewModel = menuItemSelectorViewModel;
-            TicketExplorerViewModel = ticketExplorerViewModel;
-            SelectedOrdersViewModel = selectedOrdersViewModel;
+            _ticketListViewModel = ticketListViewModel;
+            _menuItemSelectorViewModel = menuItemSelectorViewModel;
+            _ticketExplorerViewModel = ticketExplorerViewModel;
+            _selectedOrdersViewModel = selectedOrdersViewModel;
             DisplayCategoriesScreen();
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketViewModel>>().Subscribe(OnTicketViewModelEvent);
@@ -52,25 +57,6 @@ namespace Samba.Modules.TicketModule
 
         public CaptionCommand<Ticket> DisplayPaymentScreenCommand { get; set; }
 
-        public MenuItemSelectorViewModel MenuItemSelectorViewModel { get; set; }
-        public TicketListViewModel TicketListViewModel { get; set; }
-        public SelectedOrdersViewModel SelectedOrdersViewModel { get; set; }
-        public TicketExplorerViewModel TicketExplorerViewModel { get; set; }
-
-        private int _selectedView;
-        public int SelectedView
-        {
-            get { return _selectedView; }
-            set { _selectedView = value; RaisePropertyChanged(() => SelectedView); }
-        }
-
-        private int _selectedSubView;
-        public int SelectedSubView
-        {
-            get { return _selectedSubView; }
-            set { _selectedSubView = value; RaisePropertyChanged(() => SelectedSubView); }
-        }
-
         private void OnUserLoginEvent(EventParameters<User> obj)
         {
             if (obj.Topic == EventTopicNames.UserLoggedOut)
@@ -83,7 +69,7 @@ namespace Samba.Modules.TicketModule
         {
             if (_applicationState.CurrentTicket != null)
                 _ticketService.CloseTicket(_applicationState.CurrentTicket);
-            TicketListViewModel.SelectedDepartment = null;
+            _ticketListViewModel.SelectedDepartment = null;
         }
 
         private void OnWorkPeriodEvent(EventParameters<WorkPeriod> obj)
@@ -98,7 +84,7 @@ namespace Samba.Modules.TicketModule
         {
             if (obj.Topic == EventTopicNames.SelectedOrdersChanged)
             {
-                if (SelectedOrdersViewModel.ShouldDisplay(obj.Value))
+                if (_selectedOrdersViewModel.ShouldDisplay(obj.Value))
                     DisplayTicketDetailsScreen();
                 else DisplayCategoriesScreen();
             }
@@ -129,34 +115,31 @@ namespace Samba.Modules.TicketModule
 
         public void DisplayOrdersScreen()
         {
-            SelectedView = 0;
-            SelectedSubView = 0;
+            _regionManager.RequestNavigate(RegionNames.TicketSubRegion, new Uri("MenuItemSelectorView", UriKind.Relative));
         }
 
         public void DisplayTicketDetailsScreen()
         {
-            SelectedView = 0;
-            SelectedSubView = 1;
+            _regionManager.RequestNavigate(RegionNames.TicketSubRegion, new Uri("SelectedOrdersView", UriKind.Relative));
         }
 
         public void DisplayTicketExplorerScreen()
         {
-            SelectedView = 0;
-            SelectedSubView = 2;
-            TicketExplorerViewModel.StartDate = _applicationState.CurrentWorkPeriod.StartDate.Date;
+            _regionManager.RequestNavigate(RegionNames.TicketSubRegion, new Uri("TicketExplorerView", UriKind.Relative));
+
+            _ticketExplorerViewModel.StartDate = _applicationState.CurrentWorkPeriod.StartDate.Date;
             if (!_userService.IsUserPermittedFor(PermissionNames.DisplayOldTickets))
             {
-                TicketExplorerViewModel.StartDate = _applicationState.CurrentWorkPeriod.StartDate;
+                _ticketExplorerViewModel.StartDate = _applicationState.CurrentWorkPeriod.StartDate;
             }
-            TicketExplorerViewModel.EndDate = DateTime.Now;
-            TicketExplorerViewModel.Refresh();
+            _ticketExplorerViewModel.EndDate = DateTime.Now;
+            _ticketExplorerViewModel.Refresh();
         }
 
         public bool HandleTextInput(string text)
         {
-            if ((_applicationState.ActiveAppScreen == AppScreens.TicketList || _applicationState.ActiveAppScreen == AppScreens.SingleTicket)
-                && SelectedView == 0 && SelectedSubView == 0)
-                return MenuItemSelectorViewModel.HandleTextInput(text);
+            if ((_applicationState.ActiveAppScreen == AppScreens.TicketList || _applicationState.ActiveAppScreen == AppScreens.SingleTicket))
+                return _menuItemSelectorViewModel.HandleTextInput(text);
             return false;
         }
     }

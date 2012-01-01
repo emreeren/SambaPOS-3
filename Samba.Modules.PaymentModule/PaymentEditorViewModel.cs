@@ -29,18 +29,16 @@ namespace Samba.Modules.PaymentModule
         private readonly ICaptionCommand _manualPrintCommand;
         private readonly IPrinterService _printerService;
         private readonly IUserService _userService;
-        private readonly IMenuService _menuService;
         private readonly IAutomationService _automationService;
 
         [ImportingConstructor]
         public PaymentEditorViewModel(IApplicationState applicationState, ITicketService ticketService,
-            IPrinterService printerService, IUserService userService, IMenuService menuService, IAutomationService automationService)
+            IPrinterService printerService, IUserService userService, IAutomationService automationService)
         {
             _applicationState = applicationState;
             _ticketService = ticketService;
             _printerService = printerService;
             _userService = userService;
-            _menuService = menuService;
             _automationService = automationService;
 
             _manualPrintCommand = new CaptionCommand<PrintJob>(Resources.Print, OnManualPrint, CanManualPrint);
@@ -84,9 +82,7 @@ namespace Samba.Modules.PaymentModule
 
         public ObservableCollection<MergedItem> MergedItems { get; set; }
 
-        //todo fix
-        public string SelectedTicketTitle { get { return ""; } }
-        //public string SelectedTicketTitle { get { return SelectedTicket != null ? SelectedTicket.Title : ""; } }
+        public string SelectedTicketTitle { get { return SelectedTicket != null ? Totals.Title : ""; } }
 
         private string _paymentAmount;
         public string PaymentAmount
@@ -154,14 +150,14 @@ namespace Samba.Modules.PaymentModule
 
             if (SelectedTicket != null)
             {
-                //todo fix
-                //result.AddRange(SelectedTicket.PrintJobButtons.Where(x => x.Model.UseFromPaymentScreen)
-                //    .Select(x => new CommandButtonViewModel
-                //            {
-                //                Caption = x.Caption,
-                //                Command = _manualPrintCommand,
-                //                Parameter = x.Model
-                //            }));
+                result.AddRange(_applicationState.CurrentTerminal.PrintJobs.Where(x => !string.IsNullOrEmpty(x.ButtonHeader) && x.UseFromPaymentScreen)
+                    .Select(x => new CommandButtonViewModel
+                                     {
+                                         Caption = x.ButtonHeader,
+                                         Command = _manualPrintCommand,
+                                         Parameter = x
+                                     })
+                );
             }
             return result;
         }
@@ -448,9 +444,7 @@ namespace Samba.Modules.PaymentModule
                     ? SelectedTicket.GetRemainingAmount().ToString("#,#0.00")
                     : "";
 
-            //todo fix
-            //SelectedTicket.Discounts.Clear();
-            //SelectedTicket.Discounts.AddRange(SelectedTicket.Discounts.Select(x => new DiscountViewModel(x)));
+            Totals.ResetCache();
 
             RaisePropertyChanged(() => SelectedTicket);
             RaisePropertyChanged(() => Totals);
@@ -555,10 +549,10 @@ namespace Samba.Modules.PaymentModule
         public void Prepare(Ticket selectedTicket)
         {
             Debug.Assert(SelectedTicket == null);
+            Totals = new TicketTotalsViewModel(selectedTicket);
             SelectedTicket = selectedTicket;
             TicketRemainingValue = selectedTicket.GetRemainingAmount();
             PrepareMergedItems();
-            Totals = new TicketTotalsViewModel(selectedTicket);
             RefreshValues();
             LastTenderedAmount = PaymentAmount;
             CreateButtons();

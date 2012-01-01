@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:cal="http://www.codeplex.com/CompositeWPF"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-        xmlns:Presentation="clr-namespace:Samba.Presentation" Title="Samba Pos Shell" WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow"
+        Title="Samba Pos Shell" WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow"
         WindowState="Normal" SnapsToDevicePixels="True" Height="600" Width="800" Closing="WindowClosing" Loaded="WindowLoaded" Icon="/Samba.Presentation;component/apple.ico">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -26,7 +26,7 @@
             <TextBlock Margin="10,0" FontWeight="Bold" FontSize="24" Foreground="White" MouseDown="TextBlockMouseDown" VerticalAlignment="Center">SAMBA POS 3</TextBlock>
         </StackPanel>
         <TextBlock Name="TimeLabel" Grid.Row="0" Grid.Column="1" Margin="10,5,10,0" FontSize="18" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right" FontFamily="Lucida Console">SAAT</TextBlock>
-        <TabControl Background="LightGray" Grid.Row="1" Grid.ColumnSpan="2" cal:RegionManager.RegionName="MainRegion" SelectedIndex="0" Name="MainTabControl">
+        <TabControl Background="{StaticResource {x:Static SystemColors.ControlLightBrushKey}}" Grid.Row="1" Grid.ColumnSpan="2" cal:RegionManager.RegionName="MainRegion" SelectedIndex="0" Name="MainTabControl">
             <TabControl.ItemContainerStyle>
                 <Style TargetType="{x:Type TabItem}">
                     <Setter Property="Visibility" Value="Collapsed"/>

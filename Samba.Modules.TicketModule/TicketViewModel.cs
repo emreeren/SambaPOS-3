@@ -4,7 +4,6 @@ using System.Linq;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
 using Samba.Domain.Models.Tickets;
-using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.ViewModels;
@@ -34,9 +33,7 @@ namespace Samba.Modules.TicketModule
             _applicationState = applicationState;
 
             _orders = new ObservableCollection<OrderViewModel>(model.Orders.Select(x => new OrderViewModel(x, ticketTemplate, _automationService)).OrderBy(x => x.Model.CreatedDateTime));
-            _payments = new ObservableCollection<PaymentViewModel>(model.Payments.Select(x => new PaymentViewModel(x)));
-            _discounts = new ObservableCollection<DiscountViewModel>(model.Discounts.Select(x => new DiscountViewModel(x)));
-            _itemsViewSource = new CollectionViewSource { Source = _orders };
+           _itemsViewSource = new CollectionViewSource { Source = _orders };
             _itemsViewSource.GroupDescriptions.Add(new PropertyGroupDescription("GroupObject"));
 
             SelectAllItemsCommand = new CaptionCommand<string>("", OnSelectAllItemsExecute);
@@ -59,11 +56,8 @@ namespace Samba.Modules.TicketModule
         {
             foreach (var order in Orders.Where(x => x.OrderNumber == obj))
                 order.ToggleSelection();
-
             RefreshVisuals();
-
             this.PublishEvent(EventTopicNames.SelectedOrdersChanged);
-
         }
 
         public Ticket Model
@@ -82,18 +76,6 @@ namespace Samba.Modules.TicketModule
         {
             get { return _itemsViewSource; }
             set { _itemsViewSource = value; }
-        }
-
-        private readonly ObservableCollection<PaymentViewModel> _payments;
-        public ObservableCollection<PaymentViewModel> Payments
-        {
-            get { return _payments; }
-        }
-
-        private readonly ObservableCollection<DiscountViewModel> _discounts;
-        public ObservableCollection<DiscountViewModel> Discounts
-        {
-            get { return _discounts; }
         }
 
         public ObservableCollection<OrderViewModel> SelectedOrders
@@ -127,87 +109,7 @@ namespace Samba.Modules.TicketModule
         public bool IsTicketNoteVisible { get { return !string.IsNullOrEmpty(Note); } }
 
         public bool IsPaid { get { return Model.IsPaid; } }
-
-        public decimal TicketTotalValue
-        {
-            get { return Model.GetSum(); }
-        }
-
-        public decimal TicketTaxValue
-        {
-            get { return Model.CalculateTax(); }
-        }
-
-        public decimal TicketServiceValue
-        {
-            get { return Model.GetServicesTotal(); }
-        }
-
-        public decimal TicketPaymentValue
-        {
-            get { return Model.GetPaymentAmount(); }
-        }
-
-        public decimal TicketRemainingValue
-        {
-            get { return Model.GetRemainingAmount(); }
-        }
-
-        public decimal TicketPlainTotalValue
-        {
-            get { return Model.GetPlainSum(); }
-        }
-
-        public string TicketPlainTotalLabel
-        {
-            get { return TicketPlainTotalValue.ToString(LocalSettings.DefaultCurrencyFormat); }
-        }
-
-        public string TicketTotalLabel
-        {
-            get { return TicketTotalValue.ToString(LocalSettings.DefaultCurrencyFormat); }
-        }
-
-        public decimal TicketDiscountAmount
-        {
-            get { return Model.GetDiscountTotal(); }
-        }
-
-        public string TicketDiscountLabel
-        {
-            get { return TicketDiscountAmount.ToString(LocalSettings.DefaultCurrencyFormat); }
-        }
-
-        public decimal TicketRoundingAmount
-        {
-            get { return Model.GetRoundingTotal(); }
-        }
-
-        public string TicketRoundingLabel
-        {
-            get { return TicketRoundingAmount.ToString(LocalSettings.DefaultCurrencyFormat); }
-        }
-
-        public string TicketTaxLabel
-        {
-            get { return TicketTaxValue.ToString(LocalSettings.DefaultCurrencyFormat); }
-        }
-
-        public string TicketServiceLabel
-        {
-            get { return TicketServiceValue.ToString(LocalSettings.DefaultCurrencyFormat); }
-        }
-
-        public string TicketPaymentLabel
-        {
-            get { return TicketPaymentValue.ToString(LocalSettings.DefaultCurrencyFormat); }
-        }
-
-        public string TicketRemainingLabel
-        {
-            get { return TicketRemainingValue.ToString(LocalSettings.DefaultCurrencyFormat); }
-        }
-
+        
         public string TicketCreationDate
         {
             get
@@ -271,20 +173,6 @@ namespace Samba.Modules.TicketModule
 
         public void RefreshVisuals()
         {
-            RaisePropertyChanged(() => TicketTotalLabel);
-            RaisePropertyChanged(() => TicketRemainingLabel);
-            RaisePropertyChanged(() => TicketDiscountLabel);
-            RaisePropertyChanged(() => TicketPlainTotalLabel);
-            RaisePropertyChanged(() => TicketServiceLabel);
-            RaisePropertyChanged(() => TicketRoundingLabel);
-            RaisePropertyChanged(() => TicketTaxLabel);
-            RaisePropertyChanged(() => IsTicketRemainingVisible);
-            RaisePropertyChanged(() => IsTicketPaymentVisible);
-            RaisePropertyChanged(() => IsTicketDiscountVisible);
-            RaisePropertyChanged(() => IsTicketTotalVisible);
-            RaisePropertyChanged(() => IsTicketTaxTotalVisible);
-            RaisePropertyChanged(() => IsTicketRoundingVisible);
-            RaisePropertyChanged(() => IsTicketServiceVisible);
             RaisePropertyChanged(() => IsTagged);
         }
 
@@ -297,47 +185,7 @@ namespace Samba.Modules.TicketModule
         {
             return !_forcePayment || Model.GetRemainingAmount() <= 0 || !string.IsNullOrEmpty(Location) || !string.IsNullOrEmpty(AccountName) || IsTagged || Orders.Count == 0;
         }
-
-        public bool IsTicketTotalVisible
-        {
-            get { return TicketPaymentValue > 0 && TicketTotalValue > 0; }
-        }
-
-        public bool IsTicketPaymentVisible
-        {
-            get { return TicketPaymentValue > 0; }
-        }
-
-        public bool IsTicketRemainingVisible
-        {
-            get { return TicketRemainingValue > 0; }
-        }
-
-        public bool IsTicketTaxTotalVisible
-        {
-            get { return TicketTaxValue > 0; }
-        }
-
-        public bool IsPlainTotalVisible
-        {
-            get { return IsTicketDiscountVisible || IsTicketTaxTotalVisible || IsTicketRoundingVisible || IsTicketServiceVisible; }
-        }
-
-        public bool IsTicketDiscountVisible
-        {
-            get { return TicketDiscountAmount != 0; }
-        }
-
-        public bool IsTicketRoundingVisible
-        {
-            get { return TicketRoundingAmount != 0; }
-        }
-
-        public bool IsTicketServiceVisible
-        {
-            get { return TicketServiceValue > 0; }
-        }
-
+        
         public string Location
         {
             get { return Model.LocationName; }
@@ -368,30 +216,6 @@ namespace Samba.Modules.TicketModule
                 _orders.Add(new OrderViewModel(newItem, _ticketTemplate, _automationService) { Selected = true });
             }
             selectedItems.ForEach(x => x.NotSelected());
-        }
-
-        public string Title
-        {
-            get
-            {
-                if (Model == null) return "";
-
-                string selectedTicketTitle;
-
-                if (!string.IsNullOrEmpty(Location) && Model.Id == 0)
-                    selectedTicketTitle = string.Format(Resources.Location_f, Location);
-                else if (!string.IsNullOrEmpty(AccountName) && Model.Id == 0)
-                    selectedTicketTitle = string.Format(Resources.Account_f, AccountName);
-                else if (string.IsNullOrEmpty(AccountName)) selectedTicketTitle = string.IsNullOrEmpty(Location)
-                     ? string.Format("# {0}", Model.TicketNumber)
-                     : string.Format(Resources.TicketNumberAndLocation_f, Model.TicketNumber, Location);
-                else if (string.IsNullOrEmpty(Location)) selectedTicketTitle = string.IsNullOrEmpty(AccountName)
-                     ? string.Format("# {0}", Model.TicketNumber)
-                     : string.Format(Resources.TicketNumberAndAccount_f, Model.TicketNumber, AccountName);
-                else selectedTicketTitle = string.Format(Resources.AccountNameAndLocationName_f, Model.TicketNumber, AccountName, Location);
-
-                return selectedTicketTitle;
-            }
         }
 
         public string CustomPrintData { get { return Model.PrintJobData; } set { Model.PrintJobData = value; } }

@@ -22,10 +22,5 @@ namespace Samba.Modules.TicketModule
         {
             e.Handled = ((TicketEditorViewModel)DataContext).HandleTextInput(e.Text);
         }
-
-        private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
-        {
-            MainTabControl.BackgroundFocus();
-        }
     }
 }

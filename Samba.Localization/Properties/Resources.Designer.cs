@@ -3369,7 +3369,7 @@ namespace Samba.Localization.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;L00&gt;{QUANTITY} {NAME}
-        ///        * {PROPERTIES}.
+        ///				* {PROPERTIES}.
         /// </summary>
         public static string InvoiceTemplateLineTemplateValue {
             get {
@@ -3448,7 +3448,7 @@ namespace Samba.Localization.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;L00&gt;{QUANTITY} {NAME}
-        ///        * {PROPERTIES}.
+        ///				* {PROPERTIES}.
         /// </summary>
         public static string KitchenTemplateLineTemplateValue {
             get {
@@ -3458,7 +3458,7 @@ namespace Samba.Localization.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;L00&gt;**VOID**{QUANTITY} {NAME}
-        ///        * {PROPERTIES}.
+        ///				* {PROPERTIES}.
         /// </summary>
         public static string KitchenTemplateVoidedLineTemplateValue {
             get {
@@ -6219,6 +6219,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sub Total.
+        /// </summary>
+        public static string SubTotal {
+            get {
+                return ResourceManager.GetString("SubTotal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tag.
         /// </summary>
         public static string Tag {
@@ -6847,7 +6856,7 @@ namespace Samba.Localization.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
-        ///        * {PROPERTIES}.
+        ///				* {PROPERTIES}.
         /// </summary>
         public static string TicketTempleteLineTemplateValue {
             get {

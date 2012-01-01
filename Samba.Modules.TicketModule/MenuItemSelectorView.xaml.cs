@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.ComponentModel.Composition;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -8,6 +9,9 @@ namespace Samba.Modules.TicketModule
     /// <summary>
     /// Interaction logic for MenuItemSelectorView.xaml
     /// </summary>
+    /// 
+
+    [Export]
     public partial class MenuItemSelectorView : UserControl
     {
         private readonly GridLength _thin = GridLength.Auto;
@@ -15,8 +19,10 @@ namespace Samba.Modules.TicketModule
         private readonly GridLength _auto25 = new GridLength(25, GridUnitType.Star);
         private readonly GridLength _auto45 = new GridLength(45, GridUnitType.Star);
 
-        public MenuItemSelectorView()
+        [ImportingConstructor]
+        public MenuItemSelectorView(MenuItemSelectorViewModel viewModel)
         {
+            DataContext = viewModel;
             InitializeComponent();
         }
 

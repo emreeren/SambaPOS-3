@@ -16,17 +16,24 @@ namespace Samba.Modules.TicketModule
         readonly IRegionManager _regionManager;
         private readonly TicketEditorView _ticketEditorView;
         private readonly IApplicationState _applicationState;
+        private readonly TicketExplorerView _ticketExplorerView;
+        private readonly MenuItemSelectorView _menuItemSelectorView;
+        private readonly SelectedOrdersView _selectedOrdersView;
 
         [ImportingConstructor]
         public TicketModule(IRegionManager regionManager, TicketEditorView ticketEditorView,
-            IApplicationState applicationState)
+            IApplicationState applicationState, TicketExplorerView ticketExplorerView,
+            MenuItemSelectorView menuItemSelectorView, SelectedOrdersView selectedOrdersView)
             : base(regionManager, AppScreens.TicketList)
         {
             SetNavigationCommand("POS", Resources.Common, "Images/Network.png", 10);
 
             _regionManager = regionManager;
             _ticketEditorView = ticketEditorView;
+            _ticketExplorerView = ticketExplorerView;
             _applicationState = applicationState;
+            _menuItemSelectorView = menuItemSelectorView;
+            _selectedOrdersView = selectedOrdersView;
 
             AddDashboardCommand<TicketTemplateListViewModel>(Resources.TicketTemplates, Resources.Tickets, 35);
             AddDashboardCommand<TicketTagGroupListViewModel>(Resources.TicketTags, Resources.Tickets, 35);
@@ -84,6 +91,10 @@ namespace Samba.Modules.TicketModule
         protected override void OnInitialization()
         {
             _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(TicketEditorView));
+            _regionManager.RegisterViewWithRegion(RegionNames.TicketRegion, typeof(TicketListView));
+            _regionManager.Regions[RegionNames.TicketSubRegion].Add(_selectedOrdersView, "SelectedOrdersView");
+            _regionManager.Regions[RegionNames.TicketSubRegion].Add(_menuItemSelectorView, "MenuItemSelectorView");
+            _regionManager.Regions[RegionNames.TicketSubRegion].Add(_ticketExplorerView, "TicketExplorerView");
         }
     }
 }

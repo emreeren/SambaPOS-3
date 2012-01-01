@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.Composition;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
+using Samba.Domain.Models.Accounts;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
+using Samba.Presentation.Common.ModelBase;
 using Samba.Services;
 
 namespace Samba.Modules.AccountModule
@@ -12,8 +14,10 @@ namespace Samba.Modules.AccountModule
         [ImportingConstructor]
         public AccountModule()
         {
-            AddDashboardCommand<AccountListViewModel>(Resources.AccountList, Resources.Accounts, 40);
-            AddDashboardCommand<AccountTemplateListViewModel>(Resources.AccountTemplateList, Resources.Accounts, 40);
+            AddDashboardCommand<EntityCollectionViewModelBase<AccountViewModel, Account>>(Resources.AccountList, Resources.Accounts, 40);
+            AddDashboardCommand<EntityCollectionViewModelBase<AccountTemplateViewModel, AccountTemplate>>(Resources.AccountTemplateList, Resources.Accounts, 40);
+            //AddDashboardCommand<AccountListViewModel>(Resources.AccountList, Resources.Accounts, 40);
+            //AddDashboardCommand<AccountTemplateListViewModel>(Resources.AccountTemplateList, Resources.Accounts, 40);
             PermissionRegistry.RegisterPermission(PermissionNames.MakeAccountTransaction, PermissionCategories.Cash, Resources.CanMakeAccountTransaction);
             PermissionRegistry.RegisterPermission(PermissionNames.CreditOrDeptAccount, PermissionCategories.Cash, Resources.CanMakeCreditOrDeptTransaction);
         }

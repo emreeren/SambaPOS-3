@@ -80,13 +80,18 @@ namespace Samba.Modules.TicketModule
             {
                 if (_applicationState.CurrentTicket == null) _selectedTicket = null;
                 if (_selectedTicket == null && _applicationState.CurrentTicket != null)
+                {
                     _selectedTicket = new TicketViewModel(_applicationState.CurrentTicket,
                         _applicationState.CurrentDepartment.TicketTemplate,
                         _applicationState.CurrentDepartment != null && _applicationState.CurrentDepartment.IsFastFood,
                         _ticketService, _automationService, _applicationState);
+                    Totals = new TicketTotalsViewModel(_applicationState.CurrentTicket);
+                }
                 return _selectedTicket;
             }
         }
+
+        public TicketTotalsViewModel Totals { get; set; }
 
         private readonly ObservableCollection<OrderViewModel> _selectedOrders;
         public OrderViewModel SelectedOrder
@@ -153,14 +158,6 @@ namespace Samba.Modules.TicketModule
         public bool IsNothingSelectedAndTicketLocked { get { return _selectedTicket != null && _selectedOrders.Count == 0 && _selectedTicket.IsLocked; } }
         public bool IsNothingSelectedAndTicketTagged { get { return _selectedTicket != null && _selectedOrders.Count == 0 && SelectedTicket.IsTagged; } }
         public bool IsTicketSelected { get { return SelectedTicket != null && _selectedOrders.Count == 0; } }
-        public bool IsTicketTotalVisible { get { return SelectedTicket != null && SelectedTicket.IsTicketTotalVisible; } }
-        public bool IsTicketPaymentVisible { get { return SelectedTicket != null && SelectedTicket.IsTicketPaymentVisible; } }
-        public bool IsTicketRemainingVisible { get { return SelectedTicket != null && SelectedTicket.IsTicketRemainingVisible; } }
-        public bool IsTicketDiscountVisible { get { return SelectedTicket != null && SelectedTicket.IsTicketDiscountVisible; } }
-        public bool IsTicketRoundingVisible { get { return SelectedTicket != null && SelectedTicket.IsTicketRoundingVisible; } }
-        public bool IsTicketTaxTotalVisible { get { return SelectedTicket != null && SelectedTicket.IsTicketTaxTotalVisible; } }
-        public bool IsTicketServiceVisible { get { return SelectedTicket != null && SelectedTicket.IsTicketServiceVisible; } }
-        public bool IsPlainTotalVisible { get { return IsTicketDiscountVisible || IsTicketTaxTotalVisible || IsTicketRoundingVisible || IsTicketServiceVisible; } }
 
         public bool IsLocationButtonVisible
         {
@@ -718,7 +715,7 @@ namespace Samba.Modules.TicketModule
 
         public void UpdateSelectedTicketTitle()
         {
-            SelectedTicketTitle = SelectedTicket == null || SelectedTicket.Title.Trim() == "#" ? Resources.NewTicket : SelectedTicket.Title;
+            SelectedTicketTitle = SelectedTicket == null || Totals.Title.Trim() == "#" ? Resources.NewTicket : Totals.Title;
         }
 
         private void OnSelectAccountExecute(string obj)
@@ -738,7 +735,7 @@ namespace Samba.Modules.TicketModule
         {
             if (SelectedTicket != null)
             {
-                if (SelectedTicket.IsLocked || SelectedTicket.Orders.Count == 0 || (SelectedTicket.Payments.Count > 0 && !string.IsNullOrEmpty(SelectedTicket.Location)) || !SelectedTicket.Model.CanSubmit) return false;
+                if (SelectedTicket.IsLocked || SelectedTicket.Orders.Count == 0 || (Totals.Payments.Count > 0 && !string.IsNullOrEmpty(SelectedTicket.Location)) || !SelectedTicket.Model.CanSubmit) return false;
                 return string.IsNullOrEmpty(SelectedTicket.Location) || _userService.IsUserPermittedFor(PermissionNames.ChangeLocation);
             }
             return SelectedTicket == null;
@@ -772,7 +769,7 @@ namespace Samba.Modules.TicketModule
         private bool CanMakePayment(string arg)
         {
             return SelectedTicket != null
-                && (SelectedTicket.TicketPlainTotalValue > 0 || SelectedTicket.Orders.Count > 0)
+                && (Totals.TicketPlainTotalValue > 0 || SelectedTicket.Orders.Count > 0)
                 && _userService.IsUserPermittedFor(PermissionNames.MakePayment);
         }
 
@@ -796,7 +793,7 @@ namespace Samba.Modules.TicketModule
 
         private bool CanMakeFastPayment(string arg)
         {
-            return SelectedTicket != null && SelectedTicket.TicketRemainingValue > 0
+            return SelectedTicket != null && Totals.TicketRemainingValue > 0
                 && _userService.IsUserPermittedFor(PermissionNames.MakeFastPayment);
         }
 
@@ -840,7 +837,7 @@ namespace Samba.Modules.TicketModule
 
                 if (SelectedTicket != null)
                 {
-                    if (!SelectedDepartment.IsFastFood || SelectedTicket.TicketRemainingValue == 0 || !string.IsNullOrEmpty(SelectedTicket.Location))
+                    if (!SelectedDepartment.IsFastFood || Totals.TicketRemainingValue == 0 || !string.IsNullOrEmpty(SelectedTicket.Location))
                     {
                         SelectedTicket.ClearSelectedItems();
                     }
@@ -859,7 +856,7 @@ namespace Samba.Modules.TicketModule
                 if (SelectedTicket != null && !string.IsNullOrEmpty(SelectedTicket.Location)) return false;
                 if (SelectedTicket != null && !string.IsNullOrEmpty(SelectedTicket.AccountName)) return false;
                 if (SelectedTicket != null && SelectedTicket.IsTagged) return false;
-                if (SelectedTicket != null && SelectedTicket.TicketRemainingValue == 0) return false;
+                if (SelectedTicket != null && Totals.TicketRemainingValue == 0) return false;
                 return SelectedDepartment != null && SelectedDepartment.IsFastFood;
             }
         }
@@ -956,15 +953,8 @@ namespace Samba.Modules.TicketModule
         {
             UpdateSelectedTicketTitle();
             RaisePropertyChanged(() => SelectedTicket);
+            RaisePropertyChanged(() => Totals);
             RaisePropertyChanged(() => CanDisplayAllTickets);
-            RaisePropertyChanged(() => IsTicketRemainingVisible);
-            RaisePropertyChanged(() => IsTicketPaymentVisible);
-            RaisePropertyChanged(() => IsTicketTotalVisible);
-            RaisePropertyChanged(() => IsTicketDiscountVisible);
-            RaisePropertyChanged(() => IsTicketTaxTotalVisible);
-            RaisePropertyChanged(() => IsTicketServiceVisible);
-            RaisePropertyChanged(() => IsTicketRoundingVisible);
-            RaisePropertyChanged(() => IsPlainTotalVisible);
             RaisePropertyChanged(() => IsFastPaymentButtonsVisible);
             RaisePropertyChanged(() => IsCloseButtonVisible);
             RaisePropertyChanged(() => SelectLocationButtonCaption);
@@ -1039,14 +1029,7 @@ namespace Samba.Modules.TicketModule
             SelectedTicketView = SingleTicketView;
 
             RaisePropertyChanged(() => SelectedTicket);
-            RaisePropertyChanged(() => IsTicketRemainingVisible);
-            RaisePropertyChanged(() => IsTicketPaymentVisible);
-            RaisePropertyChanged(() => IsTicketTotalVisible);
-            RaisePropertyChanged(() => IsTicketDiscountVisible);
-            RaisePropertyChanged(() => IsTicketTaxTotalVisible);
-            RaisePropertyChanged(() => IsTicketServiceVisible);
-            RaisePropertyChanged(() => IsTicketRoundingVisible);
-            RaisePropertyChanged(() => IsPlainTotalVisible);
+            RaisePropertyChanged(() => Totals);
             RaisePropertyChanged(() => CanDisplayAllTickets);
             RaisePropertyChanged(() => TicketBackground);
             RaisePropertyChanged(() => IsTicketSelected);

@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Settings;
+using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 
 namespace Samba.Presentation.ViewModels
@@ -21,6 +20,12 @@ namespace Samba.Presentation.ViewModels
         public ObservableCollection<PaymentViewModel> Payments
         {
             get { return _payments ?? (_payments = new ObservableCollection<PaymentViewModel>(Model.Payments.Select(x => new PaymentViewModel(x)))); }
+        }
+
+        private ObservableCollection<DiscountViewModel> _discounts;
+        public ObservableCollection<DiscountViewModel> Discounts
+        {
+            get { return _discounts ?? (_discounts = new ObservableCollection<DiscountViewModel>(Model.Discounts.Select(x => new DiscountViewModel(x)))); }
         }
 
         public decimal TicketTotalValue { get { return Model.GetSum(); } }
@@ -79,6 +84,36 @@ namespace Samba.Presentation.ViewModels
         public string TicketRemainingLabel
         {
             get { return TicketRemainingValue.ToString(LocalSettings.DefaultCurrencyFormat); }
+        }
+
+        public string Title
+        {
+            get
+            {
+                if (Model == null) return "";
+
+                string selectedTicketTitle;
+
+                if (!string.IsNullOrEmpty(Model.LocationName) && Model.Id == 0)
+                    selectedTicketTitle = string.Format(Resources.Location_f, Model.LocationName);
+                else if (!string.IsNullOrEmpty(Model.AccountName) && Model.Id == 0)
+                    selectedTicketTitle = string.Format(Resources.Account_f, Model.AccountName);
+                else if (string.IsNullOrEmpty(Model.AccountName)) selectedTicketTitle = string.IsNullOrEmpty(Model.LocationName)
+                     ? string.Format("# {0}", Model.TicketNumber)
+                     : string.Format(Resources.TicketNumberAndLocation_f, Model.TicketNumber, Model.LocationName);
+                else if (string.IsNullOrEmpty(Model.LocationName)) selectedTicketTitle = string.IsNullOrEmpty(Model.AccountName)
+                     ? string.Format("# {0}", Model.TicketNumber)
+                     : string.Format(Resources.TicketNumberAndAccount_f, Model.TicketNumber, Model.AccountName);
+                else selectedTicketTitle = string.Format(Resources.AccountNameAndLocationName_f, Model.TicketNumber, Model.AccountName, Model.LocationName);
+
+                return selectedTicketTitle;
+            }
+        }
+
+        public void ResetCache()
+        {
+            _payments = null;
+            _discounts = null;
         }
     }
 }
