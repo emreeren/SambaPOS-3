@@ -66,6 +66,8 @@ namespace Samba.Modules.PaymentModule
             LastTenderedAmount = "1";
         }
 
+        public TicketTotalsViewModel Totals { get; set; }
+
         public CaptionCommand<string> SubmitCashPaymentCommand { get; set; }
         public CaptionCommand<string> SubmitCreditCardPaymentCommand { get; set; }
         public CaptionCommand<string> SubmitTicketPaymentCommand { get; set; }
@@ -451,6 +453,7 @@ namespace Samba.Modules.PaymentModule
             //SelectedTicket.Discounts.AddRange(SelectedTicket.Discounts.Select(x => new DiscountViewModel(x)));
 
             RaisePropertyChanged(() => SelectedTicket);
+            RaisePropertyChanged(() => Totals);
             RaisePropertyChanged(() => ReturningAmountVisibility);
             RaisePropertyChanged(() => PaymentsVisibility);
             RaisePropertyChanged(() => ReturningAmount);
@@ -555,6 +558,7 @@ namespace Samba.Modules.PaymentModule
             SelectedTicket = selectedTicket;
             TicketRemainingValue = selectedTicket.GetRemainingAmount();
             PrepareMergedItems();
+            Totals = new TicketTotalsViewModel(selectedTicket);
             RefreshValues();
             LastTenderedAmount = PaymentAmount;
             CreateButtons();

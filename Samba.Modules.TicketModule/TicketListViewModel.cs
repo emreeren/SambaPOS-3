@@ -80,9 +80,10 @@ namespace Samba.Modules.TicketModule
             {
                 if (_applicationState.CurrentTicket == null) _selectedTicket = null;
                 if (_selectedTicket == null && _applicationState.CurrentTicket != null)
-                    _selectedTicket = new TicketViewModel(_applicationState.CurrentTicket, _applicationState.CurrentDepartment.TicketTemplate,
-                      _applicationState.CurrentDepartment != null && _applicationState.CurrentDepartment.IsFastFood, _ticketService, _userService,
-                      _automationService, _applicationState);
+                    _selectedTicket = new TicketViewModel(_applicationState.CurrentTicket,
+                        _applicationState.CurrentDepartment.TicketTemplate,
+                        _applicationState.CurrentDepartment != null && _applicationState.CurrentDepartment.IsFastFood,
+                        _ticketService, _automationService, _applicationState);
                 return _selectedTicket;
             }
         }
@@ -221,7 +222,7 @@ namespace Samba.Modules.TicketModule
         [ImportingConstructor]
         public TicketListViewModel(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
             ITicketService ticketService, IAccountService accountService, IPrinterService printerService,
-            ILocationService locationService, IUserService userService, IAutomationService automationService, 
+            ILocationService locationService, IUserService userService, IAutomationService automationService,
             ICacheService cacheService)
         {
             _printerService = printerService;
@@ -592,7 +593,14 @@ namespace Samba.Modules.TicketModule
 
         private bool CanMoveOrders(string arg)
         {
-            return SelectedTicket != null && SelectedTicket.CanMoveSelectedOrders();
+            if (SelectedTicket == null) return false;
+            if (SelectedTicket.IsLocked) return false;
+            if (!SelectedTicket.Model.CanRemoveSelectedOrders(SelectedTicket.SelectedOrders.Select(x => x.Model))) return false;
+            if (SelectedTicket.SelectedOrders.Where(x => x.Model.Id == 0).Count() > 0) return false;
+            if (SelectedTicket.SelectedOrders.Where(x => x.IsLocked).Count() == 0
+                && _userService.IsUserPermittedFor(PermissionNames.MoveUnlockedOrders))
+                return true;
+            return _userService.IsUserPermittedFor(PermissionNames.MoveOrders);
         }
 
         private bool CanEditTicketNote(string arg)
@@ -728,8 +736,11 @@ namespace Samba.Modules.TicketModule
 
         private bool CanSelectLocation(string arg)
         {
-            if (SelectedTicket != null && !SelectedTicket.IsLocked)
-                return SelectedTicket.CanChangeLocation();
+            if (SelectedTicket != null)
+            {
+                if (SelectedTicket.IsLocked || SelectedTicket.Orders.Count == 0 || (SelectedTicket.Payments.Count > 0 && !string.IsNullOrEmpty(SelectedTicket.Location)) || !SelectedTicket.Model.CanSubmit) return false;
+                return string.IsNullOrEmpty(SelectedTicket.Location) || _userService.IsUserPermittedFor(PermissionNames.ChangeLocation);
+            }
             return SelectedTicket == null;
         }
 

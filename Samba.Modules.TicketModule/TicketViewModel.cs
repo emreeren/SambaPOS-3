@@ -19,16 +19,14 @@ namespace Samba.Modules.TicketModule
         private readonly TicketTemplate _ticketTemplate;
         private readonly bool _forcePayment;
         private readonly ITicketService _ticketService;
-        private readonly IUserService _userService;
         private readonly IAutomationService _automationService;
         private readonly IApplicationState _applicationState;
 
         public TicketViewModel(Ticket model, TicketTemplate ticketTemplate, bool forcePayment,
-            ITicketService ticketService, IUserService userService, IAutomationService automationService,
+            ITicketService ticketService, IAutomationService automationService,
             IApplicationState applicationState)
         {
             _ticketService = ticketService;
-            _userService = userService;
             _forcePayment = forcePayment;
             _model = model;
             _ticketTemplate = ticketTemplate;
@@ -406,23 +404,6 @@ namespace Samba.Modules.TicketModule
             Model.MergeOrdersAndUpdateOrderNumbers(0);
             _orders.Clear();
             _orders.AddRange(Model.Orders.Select(x => new OrderViewModel(x, _ticketTemplate, _automationService)));
-        }
-
-        public bool CanMoveSelectedOrders()
-        {
-            if (IsLocked) return false;
-            if (!Model.CanRemoveSelectedOrders(SelectedOrders.Select(x => x.Model))) return false;
-            if (SelectedOrders.Where(x => x.Model.Id == 0).Count() > 0) return false;
-            if (SelectedOrders.Where(x => x.IsLocked).Count() == 0
-                && _userService.IsUserPermittedFor(PermissionNames.MoveUnlockedOrders))
-                return true;
-            return _userService.IsUserPermittedFor(PermissionNames.MoveOrders);
-        }
-
-        public bool CanChangeLocation()
-        {
-            if (IsLocked || Orders.Count == 0 || (Payments.Count > 0 && !string.IsNullOrEmpty(Location)) || !Model.CanSubmit) return false;
-            return string.IsNullOrEmpty(Location) || _userService.IsUserPermittedFor(PermissionNames.ChangeLocation);
         }
 
         public string GetPrintError()

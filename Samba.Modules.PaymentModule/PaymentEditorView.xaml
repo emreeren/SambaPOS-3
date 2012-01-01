@@ -100,40 +100,40 @@
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Column="0" Grid.Row="0" Text="{LocText TicketTotal,Suffix=':'}"
-                     Visibility="{Binding SelectedTicket.IsPlainTotalVisible,Converter={StaticResource VisibilityConverter}}" />
-                <TextBlock Grid.Column="1" Grid.Row="0" TextAlignment="Right" Text="{Binding SelectedTicket.TicketPlainTotalLabel}"
-                     Visibility="{Binding SelectedTicket.IsPlainTotalVisible,Converter={StaticResource VisibilityConverter}}" />
+                     Visibility="{Binding Totals.IsPlainTotalVisible,Converter={StaticResource VisibilityConverter}}" />
+                <TextBlock Grid.Column="1" Grid.Row="0" TextAlignment="Right" Text="{Binding Totals.TicketPlainTotalLabel}"
+                     Visibility="{Binding Totals.IsPlainTotalVisible,Converter={StaticResource VisibilityConverter}}" />
 
                 <TextBlock Grid.Column="0" Grid.Row="2" Text="{LocText DiscountTotal,Suffix=':'}"
-                     Visibility="{Binding SelectedTicket.IsTicketDiscountVisible,Converter={StaticResource VisibilityConverter}}" />
-                <TextBlock Grid.Column="1" Grid.Row="2" TextAlignment="Right" Text="{Binding SelectedTicket.TicketDiscountLabel}"
-                     Visibility="{Binding SelectedTicket.IsTicketDiscountVisible,Converter={StaticResource VisibilityConverter}}" />
+                     Visibility="{Binding Totals.IsTicketDiscountVisible,Converter={StaticResource VisibilityConverter}}" />
+                <TextBlock Grid.Column="1" Grid.Row="2" TextAlignment="Right" Text="{Binding Totals.TicketDiscountLabel}"
+                     Visibility="{Binding Totals.IsTicketDiscountVisible,Converter={StaticResource VisibilityConverter}}" />
 
                 <TextBlock Grid.Column="0" Grid.Row="3" Text="{LocText ServiceTotal,Suffix=':'}"
-                     Visibility="{Binding SelectedTicket.IsTicketServiceVisible,Converter={StaticResource VisibilityConverter}}" />
-                <TextBlock Grid.Column="1" Grid.Row="3" TextAlignment="Right" Text="{Binding SelectedTicket.TicketServiceLabel}"
-                     Visibility="{Binding SelectedTicket.IsTicketServiceVisible,Converter={StaticResource VisibilityConverter}}" />
+                     Visibility="{Binding Totals.IsTicketServiceVisible,Converter={StaticResource VisibilityConverter}}" />
+                <TextBlock Grid.Column="1" Grid.Row="3" TextAlignment="Right" Text="{Binding Totals.TicketServiceLabel}"
+                     Visibility="{Binding Totals.IsTicketServiceVisible,Converter={StaticResource VisibilityConverter}}" />
 
                 <TextBlock Grid.Column="0" Grid.Row="4" Text="{LocText TaxTotal,Suffix=':'}"
-                     Visibility="{Binding SelectedTicket.IsTicketTaxTotalVisible,Converter={StaticResource VisibilityConverter}}" />
-                <TextBlock Grid.Column="1" Grid.Row="4" TextAlignment="Right" Text="{Binding SelectedTicket.TicketTaxLabel}"
-                     Visibility="{Binding SelectedTicket.IsTicketTaxTotalVisible,Converter={StaticResource VisibilityConverter}}" />
+                     Visibility="{Binding Totals.IsTicketTaxTotalVisible,Converter={StaticResource VisibilityConverter}}" />
+                <TextBlock Grid.Column="1" Grid.Row="4" TextAlignment="Right" Text="{Binding Totals.TicketTaxLabel}"
+                     Visibility="{Binding Totals.IsTicketTaxTotalVisible,Converter={StaticResource VisibilityConverter}}" />
 
                 <TextBlock Grid.Column="0" Grid.Row="5" Text="{LocText RoundingTotal,Suffix=':'}"
-                     Visibility="{Binding SelectedTicket.IsTicketRoundingVisible,Converter={StaticResource VisibilityConverter}}" />
-                <TextBlock Grid.Column="1" Grid.Row="5" TextAlignment="Right" Text="{Binding SelectedTicket.TicketRoundingLabel}"
-                     Visibility="{Binding SelectedTicket.IsTicketRoundingVisible,Converter={StaticResource VisibilityConverter}}" />
+                     Visibility="{Binding Totals.IsTicketRoundingVisible,Converter={StaticResource VisibilityConverter}}" />
+                <TextBlock Grid.Column="1" Grid.Row="5" TextAlignment="Right" Text="{Binding Totals.TicketRoundingLabel}"
+                     Visibility="{Binding Totals.IsTicketRoundingVisible,Converter={StaticResource VisibilityConverter}}" />
 
                 <TextBlock Grid.Column="0" Grid.Row="6" Text="{LocText GrandTotal,Suffix=':'}"
-                     Visibility="{Binding SelectedTicket.IsTicketTotalVisible,Converter={StaticResource VisibilityConverter}}" />
-                <TextBlock Grid.Column="1" Grid.Row="6" TextAlignment="Right" Text="{Binding SelectedTicket.TicketTotalLabel}"
-                     Visibility="{Binding SelectedTicket.IsTicketTotalVisible,Converter={StaticResource VisibilityConverter}}" />
+                     Visibility="{Binding Totals.IsTicketTotalVisible,Converter={StaticResource VisibilityConverter}}" />
+                <TextBlock Grid.Column="1" Grid.Row="6" TextAlignment="Right" Text="{Binding Totals.TicketTotalLabel}"
+                     Visibility="{Binding Totals.IsTicketTotalVisible,Converter={StaticResource VisibilityConverter}}" />
                 <TextBlock Grid.Column="0" Grid.Row="7" Text="{LocText PaymentTotal,Suffix=':'}"
-                     Visibility="{Binding SelectedTicket.IsTicketPaymentVisible,Converter={StaticResource VisibilityConverter}}" />
-                <TextBlock Grid.Column="1" Grid.Row="7" TextAlignment="Right" Text="{Binding SelectedTicket.TicketPaymentLabel}"
-                     Visibility="{Binding SelectedTicket.IsTicketPaymentVisible,Converter={StaticResource VisibilityConverter}}" />
-                <ItemsControl Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="2" ItemsSource="{Binding SelectedTicket.Payments}"
-                     HorizontalContentAlignment="Stretch" Visibility="{Binding SelectedTicket.IsTicketPaymentVisible,Converter={StaticResource VisibilityConverter}}">
+                     Visibility="{Binding Totals.IsTicketPaymentVisible,Converter={StaticResource VisibilityConverter}}" />
+                <TextBlock Grid.Column="1" Grid.Row="7" TextAlignment="Right" Text="{Binding Totals.TicketPaymentLabel}"
+                     Visibility="{Binding Totals.IsTicketPaymentVisible,Converter={StaticResource VisibilityConverter}}" />
+                <ItemsControl Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="2" ItemsSource="{Binding Totals.Payments}"
+                     HorizontalContentAlignment="Stretch" Visibility="{Binding Totals.IsTicketPaymentVisible,Converter={StaticResource VisibilityConverter}}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Grid>
@@ -153,9 +153,9 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
                 <TextBlock Grid.Column="0" FontSize="20" Grid.Row="9" FontWeight="Bold" Foreground="Red"
-                     Text="{LocText Balance,Suffix=':'}" Visibility="{Binding SelectedTicket.IsTicketRemainingVisible,Converter={StaticResource VisibilityConverter}}" />
+                     Text="{LocText Balance,Suffix=':'}" Visibility="{Binding Totals.IsTicketRemainingVisible,Converter={StaticResource VisibilityConverter}}" />
                 <TextBlock Grid.Column="1" FontSize="20" Grid.Row="9" FontWeight="Bold" Foreground="Red"
-                     TextAlignment="Right" Text="{Binding SelectedTicket.TicketRemainingLabel}" Visibility="{Binding SelectedTicket.IsTicketRemainingVisible,Converter={StaticResource VisibilityConverter}}" />
+                     TextAlignment="Right" Text="{Binding Totals.TicketRemainingLabel}" Visibility="{Binding Totals.IsTicketRemainingVisible,Converter={StaticResource VisibilityConverter}}" />
             </Grid>
         </Grid>
         <Grid Grid.Column="1" Margin="5">

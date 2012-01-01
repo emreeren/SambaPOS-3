@@ -70,6 +70,7 @@
     <Compile Include="OrderTagValueViewModel.cs" />
     <Compile Include="OrderViewModel.cs" />
     <Compile Include="TicketTagViewModel.cs" />
+    <Compile Include="TicketTotalsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">
