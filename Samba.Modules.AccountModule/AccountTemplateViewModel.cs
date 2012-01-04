@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Accounts;
 using Samba.Localization.Properties;
@@ -9,8 +9,10 @@ using Samba.Presentation.Common.ModelBase;
 
 namespace Samba.Modules.AccountModule
 {
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class AccountTemplateViewModel : EntityViewModelBase<AccountTemplate>
     {
+        [ImportingConstructor]
         public AccountTemplateViewModel()
         {
             AddCustomFieldCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.CustomField), OnAddCustomField);

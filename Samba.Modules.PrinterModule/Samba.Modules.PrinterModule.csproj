@@ -46,10 +46,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PrinterListViewModel.cs" />
     <Compile Include="PrinterMapViewModel.cs" />
     <Compile Include="PrinterModule.cs" />
-    <Compile Include="PrinterTemplateCollectionViewModel.cs" />
     <Compile Include="PrinterTemplateView.xaml.cs">
       <DependentUpon>PrinterTemplateView.xaml</DependentUpon>
     </Compile>
@@ -58,7 +56,6 @@
       <DependentUpon>PrinterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="PrinterViewModel.cs" />
-    <Compile Include="PrintJobListViewModel.cs" />
     <Compile Include="PrintJobView.xaml.cs">
       <DependentUpon>PrintJobView.xaml</DependentUpon>
     </Compile>

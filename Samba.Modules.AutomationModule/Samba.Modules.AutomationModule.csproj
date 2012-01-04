@@ -57,12 +57,10 @@
     <Compile Include="AutomationModule.cs" />
     <Compile Include="ParameterValueTemplateSelector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RuleActionListViewModel.cs" />
     <Compile Include="RuleActionView.xaml.cs">
       <DependentUpon>RuleActionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="RuleActionViewModel.cs" />
-    <Compile Include="RuleListViewModel.cs" />
     <Compile Include="RuleView.xaml.cs">
       <DependentUpon>RuleView.xaml</DependentUpon>
     </Compile>

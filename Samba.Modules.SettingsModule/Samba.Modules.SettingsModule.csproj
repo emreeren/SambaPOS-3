@@ -60,7 +60,6 @@
       <DependentUpon>ProgramSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ProgramSettingsViewModel.cs" />
-    <Compile Include="NumeratorListViewModel.cs" />
     <Compile Include="NumeratorView.xaml.cs">
       <DependentUpon>NumeratorView.xaml</DependentUpon>
     </Compile>

@@ -56,13 +56,11 @@
   <ItemGroup>
     <Compile Include="AccountCustomFieldTemplateSelector.cs" />
     <Compile Include="AccountCustomFieldViewModel.cs" />
-    <Compile Include="AccountListViewModel.cs" />
     <Compile Include="AccountModule.cs" />
     <Compile Include="AccountView.xaml.cs">
       <DependentUpon>AccountView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AccountViewModel.cs" />
-    <Compile Include="AccountTemplateListViewModel.cs" />
     <Compile Include="AccountTemplateView.xaml.cs">
       <DependentUpon>AccountTemplateView.xaml</DependentUpon>
     </Compile>

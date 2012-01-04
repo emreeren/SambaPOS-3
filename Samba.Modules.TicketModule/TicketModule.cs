@@ -3,8 +3,11 @@ using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Regions;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Menus;
+using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
+using Samba.Presentation.Common.ModelBase;
 using Samba.Services;
 using Samba.Services.Common;
 
@@ -35,11 +38,11 @@ namespace Samba.Modules.TicketModule
             _menuItemSelectorView = menuItemSelectorView;
             _selectedOrdersView = selectedOrdersView;
 
-            AddDashboardCommand<TicketTemplateListViewModel>(Resources.TicketTemplates, Resources.Tickets, 35);
-            AddDashboardCommand<TicketTagGroupListViewModel>(Resources.TicketTags, Resources.Tickets, 35);
-            AddDashboardCommand<OrderTagGroupListViewModel>(Resources.OrderTags, Resources.Tickets, 35);
-            AddDashboardCommand<OrderTagTemplateListViewModel>(Resources.OrderTagTemplates, Resources.Tickets, 35);
-            AddDashboardCommand<ServiceTemplateListViewModel>(Resources.ServiceTemplates, Resources.Products, 35);
+            AddDashboardCommand<EntityCollectionViewModelBase<TicketTemplateViewModel, TicketTemplate>>(Resources.TicketTemplates, Resources.Tickets, 35);
+            AddDashboardCommand<EntityCollectionViewModelBase<TicketTagGroupViewModel, TicketTagGroup>>(Resources.TicketTags, Resources.Tickets, 35);
+            AddDashboardCommand<EntityCollectionViewModelBase<OrderTagGroupViewModel, OrderTagGroup>>(Resources.OrderTags, Resources.Tickets, 35);
+            AddDashboardCommand<EntityCollectionViewModelBase<OrderTagTemplateViewModel, OrderTagTemplate>>(Resources.OrderTagTemplates, Resources.Tickets, 35);
+            AddDashboardCommand<EntityCollectionViewModelBase<ServiceTemplateViewModel, ServiceTemplate>>(Resources.ServiceTemplates, Resources.Products, 35);
 
             PermissionRegistry.RegisterPermission(PermissionNames.AddItemsToLockedTickets, PermissionCategories.Ticket, Resources.CanReleaseTicketLock);
             PermissionRegistry.RegisterPermission(PermissionNames.RemoveTicketTag, PermissionCategories.Ticket, Resources.CanRemoveTicketTag);

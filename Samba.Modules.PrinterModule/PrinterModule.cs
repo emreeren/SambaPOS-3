@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.Composition;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
+using Samba.Domain.Models.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
+using Samba.Presentation.Common.ModelBase;
 
 namespace Samba.Modules.PrinterModule
 {
@@ -11,9 +13,9 @@ namespace Samba.Modules.PrinterModule
         [ImportingConstructor]
         public PrinterModule()
         {
-            AddDashboardCommand<PrinterListViewModel>(Resources.Printers, Resources.Settings, 10);
-            AddDashboardCommand<PrintJobListViewModel>(Resources.PrintJobs, Resources.Settings, 10);
-            AddDashboardCommand<PrinterTemplateCollectionViewModel>(Resources.PrinterTemplates, Resources.Settings, 10);
+            AddDashboardCommand<EntityCollectionViewModelBase<PrinterViewModel, Printer>>(Resources.Printers, Resources.Settings, 10);
+            AddDashboardCommand<EntityCollectionViewModelBase<PrintJobViewModel, PrintJob>>(Resources.PrintJobs, Resources.Settings, 10);
+            AddDashboardCommand<EntityCollectionViewModelBase<PrinterTemplateViewModel, PrinterTemplate>>(Resources.PrinterTemplates, Resources.Settings, 10);
         }
     }
 }

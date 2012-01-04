@@ -3,7 +3,6 @@ using System.Windows;
 using Microsoft.Practices.ServiceLocation;
 using Samba.Infrastructure;
 using Samba.Presentation.Common.ErrorReport;
-using Samba.Presentation.Common.Services;
 using Samba.Services;
 
 namespace Samba.Presentation

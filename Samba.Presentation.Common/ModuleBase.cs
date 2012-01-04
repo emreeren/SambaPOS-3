@@ -10,9 +10,10 @@ namespace Samba.Presentation.Common
     static class ObjectCache
     {
         private static readonly IDictionary<Type, VisibleViewModelBase> Cache = new Dictionary<Type, VisibleViewModelBase>();
-
+        private static readonly IList<string> NonSingletonTypeNames = new List<string>();
         static ObjectCache()
         {
+            NonSingletonTypeNames.Add(typeof(EntityCollectionViewModelBase<,>).Name);
             EventServiceFactory.EventService.GetEvent<GenericEvent<VisibleViewModelBase>>().Subscribe(OnViewClosed);
         }
 
@@ -42,6 +43,26 @@ namespace Samba.Presentation.Common
         public static VisibleViewModelBase Get(Type type)
         {
             return Cache[type];
+        }
+
+        public static VisibleViewModelBase Activate<TView>() where TView : VisibleViewModelBase
+        {
+            if (!Contains(typeof(TView)))
+            {
+                try
+                {
+                    Update(typeof(TView),
+                           NonSingletonTypeNames.Contains(typeof(TView).Name)
+                               ? Activator.CreateInstance<TView>()
+                               : ServiceLocator.Current.GetInstance<TView>());
+                }
+                catch (Exception)
+                {
+                    Update(typeof(TView), Activator.CreateInstance<TView>());
+                }
+
+            }
+            return Get(typeof(TView));
         }
     }
 
@@ -84,18 +105,7 @@ namespace Samba.Presentation.Common
 
         private static void OnExecute<TView>(TView obj) where TView : VisibleViewModelBase
         {
-            if (!ObjectCache.Contains(typeof(TView)))
-            {
-                try
-                {
-                    ObjectCache.Update(typeof(TView), ServiceLocator.Current.GetInstance<TView>());
-                }
-                catch (Exception)
-                {
-                    ObjectCache.Update(typeof(TView), Activator.CreateInstance<TView>());
-                }
-            }
-            CommonEventPublisher.PublishViewAddedEvent(ObjectCache.Get(typeof(TView)));
+            CommonEventPublisher.PublishViewAddedEvent(ObjectCache.Activate<TView>());
         }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.Composition;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Regions;
+using Samba.Domain.Models.Locations;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
+using Samba.Presentation.Common.ModelBase;
 using Samba.Services;
 using Samba.Services.Common;
 
@@ -23,7 +25,7 @@ namespace Samba.Modules.LocationModule
             _locationSelectorView = locationSelectorView;
 
             AddDashboardCommand<LocationListViewModel>(Resources.LocationList, Resources.Locations, 30);
-            AddDashboardCommand<LocationScreenListViewModel>(Resources.LocationViews, Resources.Locations);
+            AddDashboardCommand<EntityCollectionViewModelBase<LocationScreenViewModel, LocationScreen>>(Resources.LocationViews, Resources.Locations);
         }
 
         public override object GetVisibleView()

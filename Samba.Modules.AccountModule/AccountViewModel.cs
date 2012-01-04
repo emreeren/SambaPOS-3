@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Runtime.Serialization;
 using FluentValidation;
@@ -21,6 +22,7 @@ namespace Samba.Modules.AccountModule
         public AccountCustomField CustomField { get; set; }
     }
 
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class AccountViewModel : EntityViewModelBase<Account>
     {
         private IEnumerable<AccountTemplate> _accountTemplates;

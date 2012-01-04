@@ -1,13 +1,10 @@
-﻿using System;
-using System.ComponentModel.Composition;
-using System.Linq;
+﻿using System.ComponentModel.Composition;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Regions;
 using Samba.Domain.Models.Users;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
-using Samba.Services;
 
 namespace Samba.Modules.UserModule
 {
@@ -19,8 +16,8 @@ namespace Samba.Modules.UserModule
         [ImportingConstructor]
         public UserModule(IRegionManager regionManager)
         {
-            AddDashboardCommand<UserRoleListViewModel>(Resources.UserRoleList, Resources.Users, 50);
-            AddDashboardCommand<UserListViewModel>(Resources.UserList, Resources.Users);
+            AddDashboardCommand<EntityCollectionViewModelBase<UserRoleViewModel, UserRole>>(Resources.UserRoleList, Resources.Users, 50);
+            AddDashboardCommand<EntityCollectionViewModelBase<UserViewModel, User>>(Resources.UserList, Resources.Users);
             _regionManager = regionManager;
         }
 

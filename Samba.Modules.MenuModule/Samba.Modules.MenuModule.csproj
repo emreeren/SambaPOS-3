@@ -76,12 +76,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScreenMenuCategoryViewModel.cs" />
     <Compile Include="ScreenMenuItemViewModel.cs" />
-    <Compile Include="ScreenMenuListViewModel.cs" />
     <Compile Include="ScreenMenuView.xaml.cs">
       <DependentUpon>ScreenMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ScreenMenuViewModel.cs" />
-    <Compile Include="TaxTemplateListViewModel.cs" />
     <Compile Include="TaxTemplateView.xaml.cs">
       <DependentUpon>TaxTemplateView.xaml</DependentUpon>
     </Compile>

@@ -31,9 +31,6 @@ namespace Samba.Presentation
             var path = System.IO.Path.GetDirectoryName(Application.ResourceAssembly.Location);
             if (path != null)
             {
-                //AggregateCatalog.Catalogs.Add(new InterceptingCatalog(new DirectoryCatalog(path, "Samba.Modules*"), cfg));
-                //AggregateCatalog.Catalogs.Add(new DirectoryCatalog(path, "Samba.Presentation*"));
-                //AggregateCatalog.Catalogs.Add(new DirectoryCatalog(path, "Samba.Services*"));
                 AggregateCatalog.Catalogs.Add(new DirectoryCatalog(path, "Samba.Modules*"));
                 AggregateCatalog.Catalogs.Add(new DirectoryCatalog(path, "Samba.Presentation*"));
                 AggregateCatalog.Catalogs.Add(new DirectoryCatalog(path, "Samba.Services*"));

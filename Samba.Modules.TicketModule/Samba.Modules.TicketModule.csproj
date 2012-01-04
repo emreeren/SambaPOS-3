@@ -83,13 +83,11 @@
       <DependentUpon>MenuItemSelectorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MenuItemSelectorViewModel.cs" />
-    <Compile Include="OrderTagGroupListViewModel.cs" />
     <Compile Include="OrderTagGroupView.xaml.cs">
       <DependentUpon>OrderTagGroupView.xaml</DependentUpon>
     </Compile>
     <Compile Include="OrderTagGroupViewModel.cs" />
     <Compile Include="OrderTagMapViewModel.cs" />
-    <Compile Include="OrderTagTemplateListViewModel.cs" />
     <Compile Include="OrderTagTemplateValueViewModel.cs" />
     <Compile Include="OrderTagTemplateView.xaml.cs">
       <DependentUpon>OrderTagTemplateView.xaml</DependentUpon>
@@ -102,7 +100,6 @@
       <DependentUpon>SelectedOrdersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SelectedOrdersViewModel.cs" />
-    <Compile Include="ServiceTemplateListViewModel.cs" />
     <Compile Include="ServiceTemplateView.xaml.cs">
       <DependentUpon>ServiceTemplateView.xaml</DependentUpon>
     </Compile>
@@ -121,12 +118,10 @@
     </Compile>
     <Compile Include="TicketEditorViewModel.cs" />
     <Compile Include="TicketTagButton.cs" />
-    <Compile Include="TicketTagGroupListViewModel.cs" />
     <Compile Include="TicketTagGroupView.xaml.cs">
       <DependentUpon>TicketTagGroupView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TicketTagGroupViewModel.cs" />
-    <Compile Include="TicketTemplateListViewModel.cs" />
     <Compile Include="TicketTemplateView.xaml.cs">
       <DependentUpon>TicketTemplateView.xaml</DependentUpon>
     </Compile>
