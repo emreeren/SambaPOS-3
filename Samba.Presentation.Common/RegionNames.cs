@@ -2,6 +2,7 @@
 {
     public static class RegionNames
     {
+        public const string OpenTicketRegion = "OpenTicketRegion";
         public const string TicketSubRegion = "TicketSubRegion";
         public const string TicketRegion = "TicketRegion";
         public const string MainRegion = "MainRegion";

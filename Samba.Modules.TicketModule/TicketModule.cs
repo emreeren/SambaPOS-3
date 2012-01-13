@@ -22,11 +22,13 @@ namespace Samba.Modules.TicketModule
         private readonly TicketExplorerView _ticketExplorerView;
         private readonly MenuItemSelectorView _menuItemSelectorView;
         private readonly SelectedOrdersView _selectedOrdersView;
+        private readonly OpenTicketsView _openTicketsView;
 
         [ImportingConstructor]
         public TicketModule(IRegionManager regionManager, TicketEditorView ticketEditorView,
             IApplicationState applicationState, TicketExplorerView ticketExplorerView,
-            MenuItemSelectorView menuItemSelectorView, SelectedOrdersView selectedOrdersView)
+            MenuItemSelectorView menuItemSelectorView, SelectedOrdersView selectedOrdersView,
+            OpenTicketsView openTicketsView)
             : base(regionManager, AppScreens.TicketList)
         {
             SetNavigationCommand("POS", Resources.Common, "Images/Network.png", 10);
@@ -37,6 +39,7 @@ namespace Samba.Modules.TicketModule
             _applicationState = applicationState;
             _menuItemSelectorView = menuItemSelectorView;
             _selectedOrdersView = selectedOrdersView;
+            _openTicketsView = openTicketsView;
 
             AddDashboardCommand<EntityCollectionViewModelBase<TicketTemplateViewModel, TicketTemplate>>(Resources.TicketTemplates, Resources.Tickets, 35);
             AddDashboardCommand<EntityCollectionViewModelBase<TicketTagGroupViewModel, TicketTagGroup>>(Resources.TicketTags, Resources.Tickets, 35);
@@ -98,6 +101,7 @@ namespace Samba.Modules.TicketModule
             _regionManager.Regions[RegionNames.TicketSubRegion].Add(_selectedOrdersView, "SelectedOrdersView");
             _regionManager.Regions[RegionNames.TicketSubRegion].Add(_menuItemSelectorView, "MenuItemSelectorView");
             _regionManager.Regions[RegionNames.TicketSubRegion].Add(_ticketExplorerView, "TicketExplorerView");
+            _regionManager.Regions[RegionNames.OpenTicketRegion].Add(_openTicketsView, "OpenTicketView");
         }
     }
 }

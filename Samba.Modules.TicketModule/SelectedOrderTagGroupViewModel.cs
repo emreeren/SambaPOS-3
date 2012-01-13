@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Common;
-using Samba.Services;
 
 namespace Samba.Modules.TicketModule
 {

@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="Samba.Modules.TicketModule.OpenTicketsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:FxButton="clr-namespace:FlexButton;assembly=FlexButton" xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common" mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ScrollViewer UIControls:KineticBehaviour.HandleKineticScrolling="True" BorderThickness="1"
+                     BorderBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" VerticalScrollBarVisibility="Auto">
+            <ItemsControl Grid.IsSharedSizeScope="True" BorderThickness="0" ItemsSource="{Binding OpenTickets}"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="{Binding OpenTicketListViewColumnCount}" VerticalAlignment="Top" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <FxButton:FlexButton ButtonColor="Silver" Margin="0,0,0,0" Padding="2" Focusable="False"
+                                     Height="90" Command="{Binding DataContext.OpenTicketCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
+                                     CommandParameter="{Binding Id}" HorizontalContentAlignment="Left" VerticalContentAlignment="Stretch">
+                            <Grid HorizontalAlignment="Stretch">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+                                <Viewbox Grid.Row="0" MaxHeight="50" HorizontalAlignment="Left">
+                                    <TextBlock TextAlignment="Left" Text="{Binding Title}" Foreground="{Binding TitleTextColor}" />
+                                </Viewbox>
+                                <Viewbox Grid.Row="1" MaxHeight="40">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Text="{Binding TicketTime}" />
+                                        <TextBlock Grid.Row="1" MinWidth="55" Text="{Binding Total}" />
+                                    </Grid>
+                                </Viewbox>
+                            </Grid>
+                        </FxButton:FlexButton>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

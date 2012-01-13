@@ -60,7 +60,6 @@
     <Compile Include="MenuItemPortionViewModel.cs" />
     <Compile Include="OrderTagGroupViewModel.cs" />
     <Compile Include="OrderTagViewModel.cs" />
-    <Compile Include="OpenTicketViewModel.cs" />
     <Compile Include="PaymentViewModel.cs" />
     <Compile Include="PrintJobButton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

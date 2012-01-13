@@ -18,7 +18,6 @@ namespace Samba.Modules.TicketModule
         private readonly Timer _timer;
         private readonly ITicketService _ticketService;
         private readonly IApplicationState _applicationState;
-
         private readonly IUserService _userService;
 
         [ImportingConstructor]

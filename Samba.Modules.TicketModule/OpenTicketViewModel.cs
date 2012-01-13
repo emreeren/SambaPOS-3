@@ -4,7 +4,7 @@ using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Services;
 
-namespace Samba.Presentation.ViewModels
+namespace Samba.Modules.TicketModule
 {
     public class OpenTicketViewModel : ObservableObject
     {

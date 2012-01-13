@@ -42,6 +42,9 @@ namespace Samba.Domain.Models.Tickets
             _tags = new List<TicketTagValue>();
         }
 
+        private static Ticket _emptyTicket;
+        public static Ticket Empty { get { return _emptyTicket ?? (_emptyTicket = new Ticket()); } }
+
         private bool _shouldLock;
         private Dictionary<int, int> _printCounts;
 

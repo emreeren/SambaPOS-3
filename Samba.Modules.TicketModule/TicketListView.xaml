@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="Samba.Modules.TicketModule.TicketListView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:cmn="clr-namespace:Samba.Presentation.Common;assembly=Samba.Presentation.Common"
-     xmlns:FxButton="clr-namespace:FlexButton;assembly=FlexButton" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common" mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+     xmlns:FxButton="clr-namespace:FlexButton;assembly=FlexButton" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common" xmlns:cal="clr-namespace:Microsoft.Practices.Prism.Regions;assembly=Microsoft.Practices.Prism" mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <Style x:Key="GroupLabelStyle" TargetType="TextBlock">
             <Style.Triggers>
@@ -23,7 +23,10 @@
                     <Setter Property="Visibility" Value="Collapsed" />
                 </Style>
             </TabControl.ItemContainerStyle>
-            <Grid>
+            <!--OPEN TICKET VIEW AREA-->
+            <ContentControl cal:RegionManager.RegionName="{x:Static cmn:RegionNames.OpenTicketRegion}"/>
+
+            <!--<Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
@@ -66,7 +69,8 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </ScrollViewer>
-            </Grid>
+            </Grid>-->
+            <!--TICKET AREA-->
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
@@ -80,9 +84,11 @@
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
+                <!--TITLE AREA-->
                 <Label Name="TitleLabel" Grid.Row="0" Grid.Column="1" Content="{Binding SelectedTicketTitle}"
                      FontWeight="Bold" FontSize="18" Background="DarkGray" Foreground="WhiteSmoke" BorderThickness="0">
                 </Label>
+                <!--ORDERS AREA-->
                 <Border BorderThickness="1" Grid.Row="1" Grid.Column="1" BorderBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}">
                     <ScrollViewer Name="Scroller" UIControls:KineticBehaviour.HandleKineticScrolling="True" VerticalScrollBarVisibility="Auto">
                         <ItemsControl BorderThickness="0" Background="{Binding TicketBackground}"
@@ -183,6 +189,7 @@
                         </ItemsControl>
                     </ScrollViewer>
                 </Border>
+                <!--TAG FOOTER AREA-->
                 <StackPanel Grid.Row="2" Grid.Column="1">
                     <Border Background="{StaticResource {x:Static SystemColors.InfoBrushKey}}" BorderBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}"
                          BorderThickness="1,0,1,1" Visibility="{Binding SelectedTicket.IsTagged,Converter={StaticResource VisibilityConverter},FallbackValue=Collapsed}">
@@ -193,6 +200,7 @@
                         <TextBlock Margin="3" TextTrimming="WordEllipsis" Text="{Binding SelectedTicket.Note}" />
                     </Border>
                 </StackPanel>
+                <!--TICKET TIME AREA-->
                 <Border Grid.Row="3" Grid.Column="1" BorderBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}"
                      BorderThickness="1,0,1,1" Visibility="{Binding SelectedTicket.IsTicketTimeVisible,Converter={StaticResource VisibilityConverter},FallbackValue=Collapsed}">
                     <Grid Margin="3">
@@ -220,6 +228,7 @@
                              Text="{Binding SelectedTicket.TicketLastPaymentDate}" />
                     </Grid>
                 </Border>
+                <!--TICKET TOTALS AREA-->
                 <UniformGrid Columns="2" Grid.Row="4" Grid.Column="1" Margin="5">
                     <UniformGrid.Resources>
                         <Style TargetType="TextBlock">
@@ -254,17 +263,18 @@
                     <TextBlock Text="{LocText SubTotal,Suffix=':'}" Visibility="{Binding Totals.IsTicketTotalVisible,Converter={StaticResource VisibilityConverter}}" />
                     <TextBlock TextAlignment="Right" Text="{Binding Totals.TicketTotalLabel}"
                          Visibility="{Binding Totals.IsTicketTotalVisible,Converter={StaticResource VisibilityConverter}}" />
-                    
+
                     <TextBlock Text="{LocText ChargedAmount,Suffix=':'}"
                          Visibility="{Binding Totals.IsTicketPaymentVisible,Converter={StaticResource VisibilityConverter}}" />
                     <TextBlock TextAlignment="Right" Text="{Binding Totals.TicketPaymentLabel}"
                          Visibility="{Binding Totals.IsTicketPaymentVisible,Converter={StaticResource VisibilityConverter}}" />
-                    
+
                     <TextBlock FontSize="18" FontWeight="Bold" Foreground="Red" Text="{LocText Balance,Suffix=':'}"
                          Visibility="{Binding Totals.IsTicketRemainingVisible,Converter={StaticResource VisibilityConverter}}" />
                     <TextBlock FontSize="18" FontWeight="Bold" Foreground="Red" TextAlignment="Right"
                          Text="{Binding Totals.TicketRemainingLabel}" Visibility="{Binding Totals.IsTicketRemainingVisible,Converter={StaticResource VisibilityConverter}}" />
                 </UniformGrid>
+                <!--PAYMENT BUTTONS AREA-->
                 <Grid Grid.Column="1" Grid.Row="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -284,6 +294,7 @@
                          Command="{Binding CloseTicketCommand}" Content="{Binding CloseTicketCommand.Caption}"
                          Visibility="{Binding IsCloseButtonVisible,Converter={StaticResource VisibilityConverter}}" />
                 </Grid>
+                <!--COMMAND BUTTONS AREA-->
                 <StackPanel Grid.Column="0" Grid.RowSpan="5" Grid.Row="0" VerticalAlignment="Top"
                      Width="80">
                     <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding SelectLocationCommand}"

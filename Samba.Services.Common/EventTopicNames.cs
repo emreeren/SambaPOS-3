@@ -23,6 +23,7 @@
 
     public static class EventTopicNames
     {
+        public const string UpdateOpenTickets = "Update Open Tickets";
         public const string SelectedTicketChanged = "Selected Ticket Changed";
         public const string ShellInitialized = "Shell Initialized";
         public const string ResetCache = "Reset Cache";
