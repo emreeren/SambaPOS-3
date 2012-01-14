@@ -192,7 +192,7 @@ namespace Samba.Modules.TicketModule
                     ? _applicationState.CurrentDepartment.TicketTemplate.TicketTagGroups
                     .Where(x => x.ActiveOnPosClient)
                     .OrderBy(x => x.Order)
-                    .Select(x => new TicketTagButton(x, SelectedTicket.Model))
+                    .Select(x => new TicketTagButton(x, SelectedTicket != null ? SelectedTicket.Model : null))
                     : null;
             }
         }
@@ -479,6 +479,7 @@ namespace Samba.Modules.TicketModule
             }
             else if (ShowAllOpenTickets.CanExecute(""))
             {
+                
                 //UpdateOpenTickets(SelectedDepartment);
                 SelectedDepartment.PublishEvent(EventTopicNames.UpdateOpenTickets);
                 //todo bi çözüm bulalým

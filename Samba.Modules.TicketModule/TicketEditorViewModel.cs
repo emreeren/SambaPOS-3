@@ -115,16 +115,19 @@ namespace Samba.Modules.TicketModule
 
         public void DisplayOrdersScreen()
         {
+            _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("TicketEditorView", UriKind.Relative));
             _regionManager.RequestNavigate(RegionNames.TicketSubRegion, new Uri("MenuItemSelectorView", UriKind.Relative));
         }
 
         public void DisplayTicketDetailsScreen()
         {
+            _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("TicketEditorView", UriKind.Relative));
             _regionManager.RequestNavigate(RegionNames.TicketSubRegion, new Uri("SelectedOrdersView", UriKind.Relative));
         }
 
         public void DisplayTicketExplorerScreen()
         {
+            _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("TicketEditorView", UriKind.Relative));
             _regionManager.RequestNavigate(RegionNames.TicketSubRegion, new Uri("TicketExplorerView", UriKind.Relative));
 
             _ticketExplorerViewModel.StartDate = _applicationState.CurrentWorkPeriod.StartDate.Date;
