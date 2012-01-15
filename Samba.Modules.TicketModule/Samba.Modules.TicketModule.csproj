@@ -82,46 +82,21 @@
     </Compile>
     <Compile Include="OpenTicketsViewModel.cs" />
     <Compile Include="OpenTicketViewModel.cs" />
-    <Compile Include="OrderTagButtonViewModel.cs" />
-    <Compile Include="SelectedOrderTagGroupViewModel.cs" />
-    <Compile Include="MenuItemSelectorView.xaml.cs">
-      <DependentUpon>MenuItemSelectorView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MenuItemSelectorViewModel.cs" />
-    <Compile Include="OrderTagGroupView.xaml.cs">
-      <DependentUpon>OrderTagGroupView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="OrderTagGroupViewModel.cs" />
-    <Compile Include="OrderTagMapViewModel.cs" />
     <Compile Include="OrderTagTemplateValueViewModel.cs" />
     <Compile Include="OrderTagTemplateView.xaml.cs">
       <DependentUpon>OrderTagTemplateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="OrderTagTemplateViewModel.cs" />
-    <Compile Include="OrderTagViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScreenMenuItemData.cs" />
-    <Compile Include="SelectedOrdersView.xaml.cs">
-      <DependentUpon>SelectedOrdersView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SelectedOrdersViewModel.cs" />
     <Compile Include="ServiceTemplateView.xaml.cs">
       <DependentUpon>ServiceTemplateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ServiceTemplateViewModel.cs" />
-    <Compile Include="TicketExplorerView.xaml.cs">
-      <DependentUpon>TicketExplorerView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TicketExplorerViewModel.cs" />
     <Compile Include="TicketListView.xaml.cs">
       <DependentUpon>TicketListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TicketListViewModel.cs" />
     <Compile Include="TicketModule.cs" />
-    <Compile Include="TicketEditorView.xaml.cs">
-      <DependentUpon>TicketEditorView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TicketEditorViewModel.cs" />
     <Compile Include="TicketOrdersView.xaml.cs">
       <DependentUpon>TicketOrdersView.xaml</DependentUpon>
     </Compile>
@@ -135,40 +110,19 @@
       <DependentUpon>TicketTemplateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TicketTemplateViewModel.cs" />
-    <Compile Include="TicketViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="MenuItemSelectorView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="OpenTicketsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="OrderTagGroupView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="OrderTagTemplateView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SelectedOrdersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ServiceTemplateView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="TicketEditorView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="TicketExplorerView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TicketListView.xaml">
       <SubType>Designer</SubType>

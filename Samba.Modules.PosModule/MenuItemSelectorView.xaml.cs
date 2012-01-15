@@ -2,9 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Input;
 
-namespace Samba.Modules.TicketModule
+namespace Samba.Modules.PosModule
 {
     /// <summary>
     /// Interaction logic for MenuItemSelectorView.xaml

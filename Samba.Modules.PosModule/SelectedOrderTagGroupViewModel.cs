@@ -4,7 +4,7 @@ using System.Linq;
 using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Common;
 
-namespace Samba.Modules.TicketModule
+namespace Samba.Modules.PosModule
 {
     public class SelectedOrderTagGroupViewModel : ObservableObject
     {

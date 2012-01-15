@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using Samba.Presentation.Common;
 
-namespace Samba.Modules.TicketModule
+namespace Samba.Modules.PosModule
 {
     /// <summary>
     /// Interaction logic for SelectedOrdersView.xaml

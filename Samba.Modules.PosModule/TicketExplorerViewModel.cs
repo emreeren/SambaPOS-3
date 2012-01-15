@@ -10,7 +10,7 @@ using Samba.Presentation.Common;
 using Samba.Services;
 using Samba.Services.Common;
 
-namespace Samba.Modules.TicketModule
+namespace Samba.Modules.PosModule
 {
     [Export]
     public class TicketExplorerViewModel : ObservableObject

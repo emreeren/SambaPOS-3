@@ -4,17 +4,19 @@ using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 
-namespace Samba.Modules.TicketModule
+namespace Samba.Modules.PosModule
 {
     public class OrderTagButtonViewModel : ObservableObject
     {
         public OrderTag Model { get; set; }
+        public OrderTagGroup OrderTagGroup { get; set; }
         private readonly IEnumerable<Order> _selectedOrders;
 
-        public OrderTagButtonViewModel(IEnumerable<Order> selectedOrders, OrderTag model)
+        public OrderTagButtonViewModel(IEnumerable<Order> selectedOrders, OrderTagGroup tagGroup, OrderTag model)
         {
             _selectedOrders = selectedOrders;
             Model = model;
+            OrderTagGroup = tagGroup;
             if (string.IsNullOrEmpty(model.Name))
                 model.Name = string.Format("[{0}]", Resources.NewProperty);
         }

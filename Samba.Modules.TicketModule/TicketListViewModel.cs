@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
@@ -264,6 +265,20 @@ namespace Samba.Modules.TicketModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnRefreshTicket);
             EventServiceFactory.EventService.GetEvent<GenericEvent<Message>>().Subscribe(OnMessageReceived);
             EventServiceFactory.EventService.GetEvent<GenericEvent<PopupData>>().Subscribe(OnAccountSelectedFromPopup);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<OrderTagData>>().Subscribe(OnOrderTagEvent);
+
+        }
+
+        private void OnOrderTagEvent(EventParameters<OrderTagData> obj)
+        {
+            if (obj.Topic == EventTopicNames.OrderTagSelected)
+            {
+                SelectedTicket.FixSelectedItems();
+                SelectedTicket.SelectedOrders.ToList().ForEach(x =>
+                    x.ToggleOrderTag(obj.Value.OrderTagGroup, obj.Value.SelectedOrderTag, _applicationState.CurrentLoggedInUser.Id));
+                if (obj.Value.OrderTagGroup.IsSingleSelection)
+                    SelectedTicket.ClearSelectedItems();
+            }
         }
 
         private void OnTicketSelectedOrdersChanged(EventParameters<TicketViewModel> obj)
@@ -377,11 +392,16 @@ namespace Samba.Modules.TicketModule
 
         private void OnTagSelected(EventParameters<TicketTagData> obj)
         {
+            if (obj.Topic == EventTopicNames.TicketTagSelected)
+            {
+                _ticketService.UpdateTag(obj.Value.Ticket, obj.Value.TicketTagGroup, obj.Value.SelectedTicketTag);
+                SelectedTicket.ClearSelectedItems();
+            }
             if (obj.Topic == EventTopicNames.TagSelectedForSelectedTicket)
             {
-                if (obj.Value.Action == 1 && CanCloseTicket(""))
+                if (obj.Value.TicketTagGroup.Action == 1 && CanCloseTicket(""))
                     CloseTicketCommand.Execute("");
-                if (obj.Value.Action == 2 && CanMakePayment(""))
+                if (obj.Value.TicketTagGroup.Action == 2 && CanMakePayment(""))
                     MakePaymentCommand.Execute("");
                 else
                 {
@@ -611,7 +631,7 @@ namespace Samba.Modules.TicketModule
 
         private void OnEditTicketNote(string obj)
         {
-            SelectedTicket.PublishEvent(EventTopicNames.EditTicketNote);
+            SelectedTicket.Model.PublishEvent(EventTopicNames.EditTicketNote);
         }
 
         private bool CanShowExtraProperty(string arg)
@@ -622,7 +642,7 @@ namespace Samba.Modules.TicketModule
 
         private void OnShowExtraProperty(string obj)
         {
-            _selectedTicket.PublishEvent(EventTopicNames.SelectExtraProperty);
+            _selectedTicket.Model.PublishEvent(EventTopicNames.SelectExtraProperty);
         }
 
         private void OnDecQuantityCommand(string obj)

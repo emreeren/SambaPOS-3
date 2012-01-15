@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Samba.Modules.TicketModule
+namespace Samba.Modules.PosModule
 {
     /// <summary>
     /// Interaction logic for MenuItemPropertyGroupView.xaml

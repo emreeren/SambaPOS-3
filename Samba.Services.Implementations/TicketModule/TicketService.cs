@@ -377,7 +377,14 @@ namespace Samba.Services.Implementations.TicketModule
             if (ticketTag.AccountId > 0)
                 UpdateAccount(ticket, Dao.SingleWithCache<Account>(x => x.Id == ticketTag.AccountId));
 
-            var tagData = new TicketTagData { Action = tagGroup.Action, TagName = tagGroup.Name, TagValue = ticketTag.Name, NumericValue = tagGroup.IsNumeric ? Convert.ToDecimal(ticketTag.Name) : 0 };
+            var tagData = new TicketTagData
+            {
+                Ticket = ticket,
+                SelectedTicketTag = ticketTag,
+                TicketTagGroup = tagGroup,
+                TagName = tagGroup.Name,
+                TagValue = ticketTag.Name
+            };
 
             _automationService.NotifyEvent(RuleEventNames.TicketTagSelected,
                         new
@@ -385,7 +392,7 @@ namespace Samba.Services.Implementations.TicketModule
                             Ticket = ticket,
                             tagData.TagName,
                             tagData.TagValue,
-                            tagData.NumericValue,
+                            NumericValue = tagGroup.IsNumeric ? Convert.ToDecimal(ticketTag.Name) : 0,
                             TicketTag = ticket.GetTagData()
                         });
 

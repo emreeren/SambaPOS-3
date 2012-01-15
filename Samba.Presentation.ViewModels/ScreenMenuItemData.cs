@@ -1,6 +1,6 @@
 ﻿using Samba.Domain.Models.Menus;
 
-namespace Samba.Modules.TicketModule
+namespace Samba.Presentation.ViewModels
 {
     public class ScreenMenuItemData
     {

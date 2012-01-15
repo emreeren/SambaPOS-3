@@ -51,8 +51,9 @@ namespace Samba.Services
             set { _tagValue = value; }
         }
 
-        public int Action { get; set; }
-        public decimal NumericValue { get; set; }
+        public TicketTagGroup TicketTagGroup { get; set; }
+        public TicketTag SelectedTicketTag { get; set; }
+        public Ticket Ticket { get; set; }
     }
 
     public class TicketCommitResult

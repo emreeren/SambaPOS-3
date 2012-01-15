@@ -23,6 +23,8 @@
 
     public static class EventTopicNames
     {
+        public const string TicketTagSelected = "TicketTagSelected";
+        public const string OrderTagSelected = "OrderTagSelected";
         public const string UpdateOpenTickets = "Update Open Tickets";
         public const string SelectedTicketChanged = "Selected Ticket Changed";
         public const string ShellInitialized = "Shell Initialized";

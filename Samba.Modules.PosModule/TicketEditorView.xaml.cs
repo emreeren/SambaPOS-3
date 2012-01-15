@@ -1,8 +1,7 @@
 ﻿using System.Windows.Controls;
 using System.ComponentModel.Composition;
-using Samba.Presentation.Common;
 
-namespace Samba.Modules.TicketModule
+namespace Samba.Modules.PosModule
 {
     /// <summary>
     /// Interaction logic for TicketEditorView.xaml

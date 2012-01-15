@@ -6,10 +6,11 @@ using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
 using Samba.Presentation.Common;
+using Samba.Presentation.ViewModels;
 using Samba.Services;
 using Samba.Services.Common;
 
-namespace Samba.Modules.TicketModule
+namespace Samba.Modules.PosModule
 {
     [Export]
     public class TicketEditorViewModel : ObservableObject
@@ -18,7 +19,6 @@ namespace Samba.Modules.TicketModule
         private readonly IUserService _userService;
         private readonly IApplicationState _applicationState;
         private readonly IRegionManager _regionManager;
-        private readonly TicketListViewModel _ticketListViewModel;
         private readonly MenuItemSelectorViewModel _menuItemSelectorViewModel;
         private readonly SelectedOrdersViewModel _selectedOrdersViewModel;
         private readonly TicketExplorerViewModel _ticketExplorerViewModel;
@@ -26,15 +26,13 @@ namespace Samba.Modules.TicketModule
         [ImportingConstructor]
         public TicketEditorViewModel(IRegionManager regionManager, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
             ITicketService ticketService, IUserService userService, TicketExplorerViewModel ticketExplorerViewModel,
-            SelectedOrdersViewModel selectedOrdersViewModel, TicketListViewModel ticketListViewModel,
-            MenuItemSelectorViewModel menuItemSelectorViewModel)
+            SelectedOrdersViewModel selectedOrdersViewModel, MenuItemSelectorViewModel menuItemSelectorViewModel)
         {
             _ticketService = ticketService;
             _userService = userService;
             _applicationState = applicationState;
             _regionManager = regionManager;
 
-            _ticketListViewModel = ticketListViewModel;
             _menuItemSelectorViewModel = menuItemSelectorViewModel;
             _ticketExplorerViewModel = ticketExplorerViewModel;
             _selectedOrdersViewModel = selectedOrdersViewModel;
@@ -69,7 +67,8 @@ namespace Samba.Modules.TicketModule
         {
             if (_applicationState.CurrentTicket != null)
                 _ticketService.CloseTicket(_applicationState.CurrentTicket);
-            _ticketListViewModel.SelectedDepartment = null;
+            //todo fix
+            //_ticketListViewModel.SelectedDepartment = null;
         }
 
         private void OnWorkPeriodEvent(EventParameters<WorkPeriod> obj)

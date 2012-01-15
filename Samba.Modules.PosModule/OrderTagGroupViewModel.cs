@@ -10,7 +10,7 @@ using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Services;
 
-namespace Samba.Modules.TicketModule
+namespace Samba.Modules.PosModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class OrderTagGroupViewModel : EntityViewModelBase<OrderTagGroup>

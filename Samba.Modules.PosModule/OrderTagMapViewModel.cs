@@ -4,7 +4,7 @@ using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Common;
 using Samba.Services;
 
-namespace Samba.Modules.TicketModule
+namespace Samba.Modules.PosModule
 {
     public class OrderTagMapViewModel : ObservableObject
     {

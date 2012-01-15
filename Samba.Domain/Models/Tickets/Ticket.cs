@@ -550,5 +550,10 @@ namespace Samba.Domain.Models.Tickets
         {
             selectedOrders.ToList().ForEach(x => Orders.Remove(x));
         }
+
+        public bool IsTaggedWith(string tagName)
+        {
+            return !string.IsNullOrEmpty(GetTagValue(tagName));
+        }
     }
 }
