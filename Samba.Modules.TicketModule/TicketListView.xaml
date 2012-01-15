@@ -1,16 +1,8 @@
 ﻿<UserControl x:Class="Samba.Modules.TicketModule.TicketListView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:cmn="clr-namespace:Samba.Presentation.Common;assembly=Samba.Presentation.Common"
-     xmlns:FxButton="clr-namespace:FlexButton;assembly=FlexButton" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common" xmlns:cal="clr-namespace:Microsoft.Practices.Prism.Regions;assembly=Microsoft.Practices.Prism" mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
-    <UserControl.Resources>
-        <Style x:Key="GroupLabelStyle" TargetType="TextBlock">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Name}" Value="{x:Null}">
-                    <Setter Property="Visibility" Value="Collapsed" />
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-    </UserControl.Resources>
+     xmlns:FxButton="clr-namespace:FlexButton;assembly=FlexButton" xmlns:cal="clr-namespace:Microsoft.Practices.Prism.Regions;assembly=Microsoft.Practices.Prism" mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -89,7 +81,9 @@
                      FontWeight="Bold" FontSize="18" Background="DarkGray" Foreground="WhiteSmoke" BorderThickness="0">
                 </Label>
                 <!--ORDERS AREA-->
-                <Border BorderThickness="1" Grid.Row="1" Grid.Column="1" BorderBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}">
+                <ContentControl Grid.Row="1" Grid.Column="1" cal:RegionManager.RegionName="{x:Static cmn:RegionNames.TicketOrdersRegion}"/>
+
+                <!--<Border BorderThickness="1" Grid.Row="1" Grid.Column="1" BorderBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}">
                     <ScrollViewer Name="Scroller" UIControls:KineticBehaviour.HandleKineticScrolling="True" VerticalScrollBarVisibility="Auto">
                         <ItemsControl BorderThickness="0" Background="{Binding TicketBackground}"
                              ItemsSource="{Binding SelectedTicket.ItemsViewSource.View}" HorizontalContentAlignment="Stretch">
@@ -188,7 +182,7 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </ScrollViewer>
-                </Border>
+                </Border>-->
                 <!--TAG FOOTER AREA-->
                 <StackPanel Grid.Row="2" Grid.Column="1">
                     <Border Background="{StaticResource {x:Static SystemColors.InfoBrushKey}}" BorderBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}"

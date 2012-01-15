@@ -97,11 +97,13 @@ namespace Samba.Modules.TicketModule
         protected override void OnInitialization()
         {
             _regionManager.RegisterViewWithRegion(RegionNames.TicketRegion, typeof(TicketListView));
+            _regionManager.RegisterViewWithRegion(RegionNames.TicketOrdersRegion, typeof(TicketOrdersView));
             _regionManager.Regions[RegionNames.MainRegion].Add(_ticketEditorView, "TicketEditorView");
             _regionManager.Regions[RegionNames.TicketSubRegion].Add(_selectedOrdersView, "SelectedOrdersView");
             _regionManager.Regions[RegionNames.TicketSubRegion].Add(_menuItemSelectorView, "MenuItemSelectorView");
             _regionManager.Regions[RegionNames.TicketSubRegion].Add(_ticketExplorerView, "TicketExplorerView");
             _regionManager.Regions[RegionNames.OpenTicketRegion].Add(_openTicketsView, "OpenTicketView");
+
         }
     }
 }

@@ -3,8 +3,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Linq;
-using System.Windows;
-using System.Windows.Media;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Events;
 using Samba.Domain;
@@ -38,6 +36,7 @@ namespace Samba.Modules.TicketModule
         private readonly IApplicationStateSetter _applicationStateSetter;
         private readonly IAutomationService _automationService;
         private readonly ICacheService _cacheService;
+        private readonly TicketOrdersViewModel _ticketOrdersViewModel;
 
         public DelegateCommand<ScreenMenuItemData> AddMenuItemCommand { get; set; }
         public CaptionCommand<string> CloseTicketCommand { get; set; }
@@ -80,10 +79,12 @@ namespace Samba.Modules.TicketModule
                         _applicationState.CurrentDepartment != null && _applicationState.CurrentDepartment.IsFastFood,
                         _ticketService, _automationService, _applicationState);
                     Totals = new TicketTotalsViewModel(_applicationState.CurrentTicket);
+                    _ticketOrdersViewModel.SelectedTicket = _selectedTicket;
                 }
                 if (_selectedTicket == null && (Totals == null || Totals.Model != Ticket.Empty))
                 {
                     Totals = new TicketTotalsViewModel(Ticket.Empty);
+                    _ticketOrdersViewModel.SelectedTicket = null;
                 }
                 return _selectedTicket;
             }
@@ -180,8 +181,6 @@ namespace Samba.Modules.TicketModule
             }
         }
 
-        public Brush TicketBackground { get { return SelectedTicket != null && (SelectedTicket.IsLocked || SelectedTicket.IsPaid) ? SystemColors.ControlLightBrush : SystemColors.WindowBrush; } }
-
         public OrderViewModel LastSelectedOrder { get; set; }
 
         public IEnumerable<TicketTagButton> TicketTagButtons
@@ -215,7 +214,7 @@ namespace Samba.Modules.TicketModule
         public TicketListViewModel(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
             ITicketService ticketService, IAccountService accountService, IPrinterService printerService,
             ILocationService locationService, IUserService userService, IAutomationService automationService,
-            ICacheService cacheService)
+            ICacheService cacheService, TicketOrdersViewModel ticketOrdersViewModel)
         {
             _printerService = printerService;
             _ticketService = ticketService;
@@ -226,6 +225,7 @@ namespace Samba.Modules.TicketModule
             _applicationStateSetter = applicationStateSetter;
             _automationService = automationService;
             _cacheService = cacheService;
+            _ticketOrdersViewModel = ticketOrdersViewModel;
 
             _selectedOrders = new ObservableCollection<OrderViewModel>();
 
@@ -479,7 +479,7 @@ namespace Samba.Modules.TicketModule
             }
             else if (ShowAllOpenTickets.CanExecute(""))
             {
-                
+
                 //UpdateOpenTickets(SelectedDepartment);
                 SelectedDepartment.PublishEvent(EventTopicNames.UpdateOpenTickets);
                 //todo bi çözüm bulalým
@@ -915,7 +915,6 @@ namespace Samba.Modules.TicketModule
             RaisePropertyChanged(() => IsCloseButtonVisible);
             RaisePropertyChanged(() => SelectLocationButtonCaption);
             RaisePropertyChanged(() => SelectAccountButtonCaption);
-            RaisePropertyChanged(() => TicketBackground);
             RaisePropertyChanged(() => IsLocationButtonVisible);
             RaisePropertyChanged(() => IsAccountButtonVisible);
             RaisePropertyChanged(() => IsNothingSelectedAndTicketLocked);
@@ -983,7 +982,6 @@ namespace Samba.Modules.TicketModule
             RaisePropertyChanged(() => SelectedTicket);
             RaisePropertyChanged(() => Totals);
             RaisePropertyChanged(() => CanDisplayAllTickets);
-            RaisePropertyChanged(() => TicketBackground);
             RaisePropertyChanged(() => IsTicketSelected);
             RaisePropertyChanged(() => IsFastPaymentButtonsVisible);
             RaisePropertyChanged(() => IsCloseButtonVisible);

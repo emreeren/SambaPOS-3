@@ -122,6 +122,10 @@
       <DependentUpon>TicketEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TicketEditorViewModel.cs" />
+    <Compile Include="TicketOrdersView.xaml.cs">
+      <DependentUpon>TicketOrdersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TicketOrdersViewModel.cs" />
     <Compile Include="TicketTagButton.cs" />
     <Compile Include="TicketTagGroupView.xaml.cs">
       <DependentUpon>TicketTagGroupView.xaml</DependentUpon>
@@ -167,6 +171,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TicketListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TicketOrdersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
