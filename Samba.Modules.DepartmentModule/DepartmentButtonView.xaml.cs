@@ -28,8 +28,12 @@ namespace Samba.Modules.DepartmentModule
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            _applicationStateSetter.SetCurrentDepartment(((Button)sender).DataContext as Department);
-            EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicketView);
+            var department = ((Button)sender).DataContext as Department;
+            if (department != null)
+            {
+                _applicationStateSetter.SetCurrentDepartment(department.Id);
+                EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicketView);
+            }
         }
     }
 }

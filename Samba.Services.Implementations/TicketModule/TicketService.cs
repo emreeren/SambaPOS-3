@@ -377,6 +377,11 @@ namespace Samba.Services.Implementations.TicketModule
             if (ticketTag.AccountId > 0)
                 UpdateAccount(ticket, Dao.SingleWithCache<Account>(x => x.Id == ticketTag.AccountId));
 
+            if (tagGroup.SaveFreeTags)
+            {
+                SaveFreeTicketTag(tagGroup.Id, ticketTag.Name);
+            }
+
             var tagData = new TicketTagData
             {
                 Ticket = ticket,
@@ -412,11 +417,6 @@ namespace Samba.Services.Implementations.TicketModule
             _workspace.CommitChanges();
         }
 
-        public IEnumerable<string> GetTicketTagGroupNames()
-        {
-            return Dao.Distinct<TicketTagGroup>(x => x.Name);
-        }
-
         public int GetOpenTicketCount()
         {
             return Dao.Count<Ticket>(x => !x.IsPaid);
@@ -436,25 +436,22 @@ namespace Samba.Services.Implementations.TicketModule
             }, prediction);
         }
 
-        public IEnumerable<TicketTagGroup> GetTicketTagGroupsById(int id)
-        {
-            return Dao.Query<TicketTagGroup>(x => x.Id == id, x => x.TicketTags);
-        }
-
         public void SaveFreeTicketTag(int id, string freeTag)
         {
+            if (string.IsNullOrEmpty(freeTag)) return;
+
             using (var workspace = WorkspaceFactory.Create())
             {
                 var tt = workspace.Single<TicketTagGroup>(x => x.Id == id);
                 Debug.Assert(tt != null);
                 var tag = tt.TicketTags.SingleOrDefault(x => x.Name.ToLower() == freeTag.ToLower());
-                if (tag == null)
-                {
-                    tag = new TicketTag { Name = freeTag };
-                    tt.TicketTags.Add(tag);
-                    workspace.Add(tag);
-                    workspace.CommitChanges();
-                }
+                
+                if (tag != null) return;
+                tag = new TicketTag { Name = freeTag };
+                tt.TicketTags.Add(tag);
+                workspace.Add(tag);
+                workspace.CommitChanges();
+                Dao.ResetCache();
             }
         }
 

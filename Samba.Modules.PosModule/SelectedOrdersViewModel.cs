@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
@@ -44,58 +45,67 @@ namespace Samba.Modules.PosModule
             OrderTagGroups = new ObservableCollection<SelectedOrderTagGroupViewModel>();
             TicketTags = new ObservableCollection<TicketTag>();
             OrderTags = new ObservableCollection<OrderTagButtonViewModel>();
-            EventServiceFactory.EventService.GetEvent<GenericEvent<TicketViewModel>>().Subscribe(OnTicketViewModelEvent);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<OrderTagData>>().Subscribe(OnOrderTagDataSelected);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<TicketTagData>>().Subscribe(OnTicketTagDataSelected);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<Ticket>>().Subscribe(OnTicketEvent);
         }
 
-        private void OnTicketViewModelEvent(EventParameters<TicketViewModel> obj)
+        private void OnTicketTagDataSelected(EventParameters<TicketTagData> obj)
         {
-            if (obj.Topic == EventTopicNames.SelectOrderTag)
-            {
-                ResetValues(obj.Value);
-                SelectedOrderTagGroup = obj.Value.LastSelectedOrderTagGroup;
-                OrderTags.AddRange(obj.Value.LastSelectedOrderTagGroup.OrderTags.Select(x => new OrderTagButtonViewModel(SelectedTicket.SelectedOrders.Select(u => u.Model), x)));
-                if (OrderTags.Count == 1)
-                {
-                    SelectedTicket.FixSelectedItems();
-                    SelectedTicket.SelectedOrders.ToList().ForEach(x =>
-                        x.ToggleOrderTag(SelectedOrderTagGroup, OrderTags[0].Model, _applicationState.CurrentLoggedInUser.Id));
-                    if (SelectedOrderTagGroup.IsSingleSelection)
-                        obj.Value.ClearSelectedItems();
-                }
-                RaisePropertyChanged(() => OrderTagColumnCount);
-            }
-
             if (obj.Topic == EventTopicNames.SelectTicketTag)
             {
-                ResetValues(obj.Value);
-                _showFreeTagEditor = SelectedTicket.LastSelectedTicketTagGroup.FreeTagging;
-
+                ResetValues(obj.Value.Ticket);
+                _showFreeTagEditor = obj.Value.TicketTagGroup.FreeTagging;
+                SelectedTicketTagData = obj.Value;
                 List<TicketTag> ticketTags;
                 if (_showFreeTagEditor)
                 {
-                    ticketTags = _ticketService.GetTicketTagGroupsById(SelectedTicket.LastSelectedTicketTagGroup.Id)
-                        .SelectMany(x => x.TicketTags).OrderBy(x => x.Name).ToList();
+                    ticketTags = _cacheService.GetTicketTagGroupById(obj.Value.TicketTagGroup.Id)
+                        .TicketTags.OrderBy(x => x.Name).ToList();
                 }
                 else
                 {
                     ticketTags = _applicationState.CurrentDepartment.TicketTemplate.TicketTagGroups.Where(
-                           x => x.Name == obj.Value.LastSelectedTicketTagGroup.Name).SelectMany(x => x.TicketTags).ToList();
+                           x => x.Name == obj.Value.TicketTagGroup.Name).SelectMany(x => x.TicketTags).ToList();
                 }
                 ticketTags.Sort(new AlphanumComparator());
                 TicketTags.AddRange(ticketTags);
 
-                if (SelectedTicket.IsTaggedWith(SelectedTicket.LastSelectedTicketTagGroup.Name)) TicketTags.Add(TicketTag.Empty);
+                if (SelectedTicket.IsTaggedWith(obj.Value.TicketTagGroup.Name)) TicketTags.Add(TicketTag.Empty);
                 if (TicketTags.Count == 1 && !_showFreeTagEditor)
                 {
-                    _ticketService.UpdateTag(obj.Value.Model, SelectedTicket.LastSelectedTicketTagGroup, TicketTags[0]);
-                    SelectedTicket.ClearSelectedItems();
+                    obj.Value.SelectedTicketTag = TicketTags[0];
+                    obj.Value.PublishEvent(EventTopicNames.TicketTagSelected);
+                    return;
                 }
 
                 RaisePropertyChanged(() => TagColumnCount);
                 RaisePropertyChanged(() => IsFreeTagEditorVisible);
                 RaisePropertyChanged(() => FilteredTextBoxType);
+                EventServiceFactory.EventService.PublishEvent(EventTopicNames.DisplayTicketOrderDetails);
             }
+        }
 
+        private void OnOrderTagDataSelected(EventParameters<OrderTagData> obj)
+        {
+            if (obj.Topic == EventTopicNames.SelectOrderTag)
+            {
+                ResetValues(obj.Value.Ticket);
+                SelectedOrderTagData = obj.Value;
+                OrderTags.AddRange(obj.Value.OrderTagGroup.OrderTags.Select(x => new OrderTagButtonViewModel(obj.Value.SelectedOrders, obj.Value.OrderTagGroup, x)));
+                if (OrderTags.Count == 1)
+                {
+                    obj.Value.SelectedOrderTag = OrderTags[0].Model;
+                    obj.Value.PublishEvent(EventTopicNames.OrderTagSelected);
+                    return;
+                }
+                RaisePropertyChanged(() => OrderTagColumnCount);
+                EventServiceFactory.EventService.PublishEvent(EventTopicNames.DisplayTicketOrderDetails);
+            }
+        }
+
+        private void OnTicketEvent(EventParameters<Ticket> obj)
+        {
             if (obj.Topic == EventTopicNames.SelectExtraProperty)
             {
                 ResetValues(obj.Value);
@@ -112,11 +122,14 @@ namespace Samba.Modules.PosModule
             }
         }
 
-        private void ResetValues(TicketViewModel selectedTicket)
+        private void ResetValues(Ticket selectedTicket)
         {
+
             SelectedTicket = null;
-            SelectedItem = null;
-            SelectedOrderTagGroup = null;
+            SelectedOrder = null;
+            SelectedOrderTagData = null;
+            SelectedTicketTagData = null;
+
             SelectedItemPortions.Clear();
             OrderTagGroups.Clear();
             TicketTags.Clear();
@@ -127,9 +140,10 @@ namespace Samba.Modules.PosModule
             SetSelectedTicket(selectedTicket);
         }
 
-        public TicketViewModel SelectedTicket { get; private set; }
-        public OrderViewModel SelectedItem { get; private set; }
-        public OrderTagGroup SelectedOrderTagGroup { get; set; }
+        public Ticket SelectedTicket { get; private set; }
+        public Order SelectedOrder { get; private set; }
+        public OrderTagData SelectedOrderTagData { get; set; }
+        public TicketTagData SelectedTicketTagData { get; set; }
 
         public ICaptionCommand CloseCommand { get; set; }
         public ICaptionCommand UpdateExtraPropertiesCommand { get; set; }
@@ -152,11 +166,11 @@ namespace Samba.Modules.PosModule
         {
             get
             {
-                if (SelectedTicket != null && SelectedTicket.LastSelectedTicketTagGroup != null)
+                if (SelectedTicketTagData != null && SelectedTicketTagData.TicketTagGroup != null)
                 {
-                    if (SelectedTicket.LastSelectedTicketTagGroup.IsInteger)
+                    if (SelectedTicketTagData.TicketTagGroup.IsInteger)
                         return FilteredTextBox.FilteredTextBoxType.Digits;
-                    if (SelectedTicket.LastSelectedTicketTagGroup.IsDecimal)
+                    if (SelectedTicketTagData.TicketTagGroup.IsDecimal)
                         return FilteredTextBox.FilteredTextBoxType.Number;
                 }
                 return FilteredTextBox.FilteredTextBoxType.Letters;
@@ -164,7 +178,6 @@ namespace Samba.Modules.PosModule
         }
 
         private string _freeTag;
-
         public string FreeTag
         {
             get { return _freeTag; }
@@ -179,9 +192,9 @@ namespace Samba.Modules.PosModule
         {
             get
             {
-                return SelectedItem != null
-                    && SelectedItem.Model.DecreaseInventory
-                    && !SelectedItem.IsLocked
+                return SelectedOrder != null
+                    && SelectedOrder.DecreaseInventory
+                    && !SelectedOrder.Locked
                     && SelectedItemPortions.Count > 0;
             }
         }
@@ -192,11 +205,11 @@ namespace Samba.Modules.PosModule
             _showExtraPropertyEditor = false;
             _showFreeTagEditor = false;
             FreeTag = string.Empty;
-            SelectedTicket.ClearSelectedItems();
+            EventServiceFactory.EventService.PublishEvent(EventTopicNames.DisplayTicketView);
         }
 
         public bool IsFreeTagEditorVisible { get { return _showFreeTagEditor; } }
-        public bool IsExtraPropertyEditorVisible { get { return _showExtraPropertyEditor && SelectedItem != null; } }
+        public bool IsExtraPropertyEditorVisible { get { return _showExtraPropertyEditor && SelectedOrder != null; } }
         public bool IsTicketNoteEditorVisible { get { return _showTicketNoteEditor; } }
 
 
@@ -207,77 +220,80 @@ namespace Samba.Modules.PosModule
 
         private void OnUpdateFreeTag(string obj)
         {
-            var cachedTagGroup = _applicationState.CurrentDepartment.TicketTemplate.TicketTagGroups.Single(x => x.Id == SelectedTicket.LastSelectedTicketTagGroup.Id);
-            Debug.Assert(cachedTagGroup != null);
-            var ctag = cachedTagGroup.TicketTags.SingleOrDefault(x => x.Name.ToLower() == FreeTag.ToLower());
-            if (ctag == null && cachedTagGroup.SaveFreeTags)
-            {
-                _ticketService.SaveFreeTicketTag(SelectedTicket.LastSelectedTicketTagGroup.Id, FreeTag);
-            }
-            _ticketService.UpdateTag(SelectedTicket.Model, SelectedTicket.LastSelectedTicketTagGroup, new TicketTag { Name = FreeTag });
-            SelectedTicket.ClearSelectedItems();
+            SelectedTicketTagData.SelectedTicketTag = new TicketTag { Name = FreeTag };
+            SelectedTicketTagData.PublishEvent(EventTopicNames.TicketTagSelected);
             FreeTag = string.Empty;
         }
 
         private void OnUpdateExtraProperties(string obj)
         {
-            SelectedTicket.RefreshVisuals();
+            EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
             _showExtraPropertyEditor = false;
             RaisePropertyChanged(() => IsExtraPropertyEditorVisible);
         }
 
         private void OnTicketTagSelected(TicketTag obj)
         {
-            _ticketService.UpdateTag(SelectedTicket.Model, SelectedTicket.LastSelectedTicketTagGroup, obj);
-            SelectedTicket.ClearSelectedItems();
+            SelectedTicketTagData.SelectedTicketTag = obj;
+            SelectedTicketTagData.PublishEvent(EventTopicNames.TicketTagSelected);
         }
 
         private void OnPortionSelected(MenuItemPortion obj)
         {
-            var taxTemplate = _cacheService.GetMenuItem(x => x.Id == obj.MenuItemId).TaxTemplate;
-            SelectedItem.UpdatePortion(obj, _applicationState.CurrentDepartment.TicketTemplate.PriceTag, taxTemplate);
+            obj.PublishEvent(EventTopicNames.PortionSelected);
             if (OrderTagGroups.Count == 0)
-                SelectedTicket.ClearSelectedItems();
+                EventServiceFactory.EventService.PublishEvent(EventTopicNames.DisplayTicketView);
         }
 
         private void OnOrderTagSelected(OrderTagButtonViewModel orderTag)
         {
-            var mig = SelectedOrderTagGroup ?? OrderTagGroups.FirstOrDefault(propertyGroup => propertyGroup.OrderTags.Contains(orderTag)).Model;
+            var mig = SelectedOrderTagData != null
+                ? SelectedOrderTagData.OrderTagGroup
+                : OrderTagGroups.FirstOrDefault(propertyGroup => propertyGroup.OrderTags.Contains(orderTag)).Model;
             Debug.Assert(mig != null);
-            SelectedTicket.FixSelectedItems();
-            SelectedTicket.SelectedOrders.ToList().ForEach(x =>
-                x.ToggleOrderTag(mig, orderTag.Model, _applicationState.CurrentLoggedInUser.Id));
-            OrderTagGroups.ToList().ForEach(x => x.OrderTags.ToList().ForEach(u => u.Refresh()));
-            if (SelectedOrderTagGroup != null) SelectedTicket.ClearSelectedItems();
-            SelectedTicket.RefreshVisuals();
+
+            var orderTagData = new OrderTagData
+                                   {
+                                       OrderTagGroup = mig,
+                                       SelectedOrderTag = orderTag.Model,
+                                       Ticket = SelectedTicket
+                                   };
+
+            orderTagData.PublishEvent(EventTopicNames.OrderTagSelected);
         }
 
-        private void SetSelectedTicket(TicketViewModel ticketViewModel)
+        private void SetSelectedTicket(Ticket ticketViewModel)
         {
             SelectedTicket = ticketViewModel;
-            SelectedItem = SelectedTicket.SelectedOrders.Count() == 1 ? SelectedTicket.SelectedOrders[0] : null;
             RaisePropertyChanged(() => SelectedTicket);
-            RaisePropertyChanged(() => SelectedItem);
+            RaisePropertyChanged(() => SelectedOrder);
             RaisePropertyChanged(() => IsTicketNoteEditorVisible);
             RaisePropertyChanged(() => IsExtraPropertyEditorVisible);
             RaisePropertyChanged(() => IsFreeTagEditorVisible);
             RaisePropertyChanged(() => IsPortionsVisible);
         }
 
-        public bool ShouldDisplay(TicketViewModel value)
+        public bool ShouldDisplay(Ticket value, IEnumerable<Order> selectedOrders)
         {
+            if (selectedOrders.Any(x => x.Locked)) return false;
+            SelectedOrder = selectedOrders.Count() == 1 ? selectedOrders.ElementAt(0) : null;
+
             ResetValues(value);
 
-            if (SelectedItem == null || SelectedItem.Model.Locked) return false;
-
-            if (SelectedTicket != null && SelectedItem.Model.DecreaseInventory && !SelectedItem.Model.Locked)
+            if (SelectedTicket != null && SelectedOrder != null)
             {
-                var portions = _cacheService.GetMenuItemPortions(SelectedItem.MenuItemId);
-                if (SelectedItem.Model.PortionCount > 1) SelectedItemPortions.AddRange(portions);
+                var portions = _cacheService.GetMenuItemPortions(SelectedOrder.MenuItemId);
+
+                if (SelectedOrder.PortionCount > 1)
+                {
+                    SelectedItemPortions.AddRange(portions);
+                }
+
                 OrderTagGroups.AddRange(
-                    _cacheService.GetOrderTagGroupsForItem(SelectedItem.MenuItemId)
+                    _cacheService.GetOrderTagGroupsForItem(SelectedOrder.MenuItemId)
                     .Where(x => string.IsNullOrEmpty(x.ButtonHeader))
-                    .Select(x => new SelectedOrderTagGroupViewModel(x, SelectedTicket.SelectedOrders.Select(y => y.Model))));
+                    .Select(x => new SelectedOrderTagGroupViewModel(x, selectedOrders)));
+
                 RaisePropertyChanged(() => IsPortionsVisible);
             }
 

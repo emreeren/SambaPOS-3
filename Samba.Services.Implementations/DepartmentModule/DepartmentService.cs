@@ -34,6 +34,7 @@ namespace Samba.Services.Implementations.DepartmentModule
 
         public Department GetDepartment(int id)
         {
+            if (id == 0) return null;
             return Departments.First(x => x.Id == id);
         }
 

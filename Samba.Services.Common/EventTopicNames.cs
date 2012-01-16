@@ -23,6 +23,8 @@
 
     public static class EventTopicNames
     {
+        public const string DisplayTicketOrderDetails = "Display Ticket Order Details";
+        public const string PortionSelected = "Portion Selected";
         public const string TicketTagSelected = "TicketTagSelected";
         public const string OrderTagSelected = "OrderTagSelected";
         public const string UpdateOpenTickets = "Update Open Tickets";

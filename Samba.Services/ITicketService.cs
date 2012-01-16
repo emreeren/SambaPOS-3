@@ -81,9 +81,6 @@ namespace Samba.Services
         void UpdateTag(Ticket ticket, TicketTagGroup tagGroup, TicketTag ticketTag);
         void ResetLocationData(Ticket ticket);
         IEnumerable<Order> ExtractSelectedOrders(Ticket model, IEnumerable<Order> selectedOrders);
-        IEnumerable<string> GetTicketTagGroupNames();
-        IEnumerable<TicketTagGroup> GetTicketTagGroupsById(int id);
-        void SaveFreeTicketTag(int id, string freeTag);
         int GetOpenTicketCount();
         IEnumerable<OpenTicketData> GetOpenTickets(Expression<Func<Ticket, bool>> prediction);
         IList<TicketExplorerRowData> GetFilteredTickets(DateTime startDate, DateTime endDate, IList<ITicketExplorerFilter> filters);

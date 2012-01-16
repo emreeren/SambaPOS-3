@@ -14,5 +14,7 @@ namespace Samba.Services
         IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(int menuItemId);
         IEnumerable<OrderTagGroup> GetOrderTagGroupsForItems(IEnumerable<int> menuItemIds);
         IEnumerable<MenuItemPortion> GetMenuItemPortions(int menuItemId);
+        IEnumerable<string> GetTicketTagGroupNames();
+        TicketTagGroup GetTicketTagGroupById(int id);
     }
 }

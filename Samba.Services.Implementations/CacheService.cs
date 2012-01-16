@@ -52,8 +52,20 @@ namespace Samba.Services.Implementations
             return tagGroups.Where(x => maps.Any(y => y.OrderTagGroupId == x.Id));
         }
 
+        private IEnumerable<string> _ticketTagGroupNames;
+        public IEnumerable<string> GetTicketTagGroupNames()
+        {
+            return _ticketTagGroupNames ?? (_ticketTagGroupNames = Dao.Distinct<TicketTagGroup>(x => x.Name));
+        }
+
+        public TicketTagGroup GetTicketTagGroupById(int id)
+        {
+            return Dao.SingleWithCache<TicketTagGroup>(x => x.Id == id, x => x.TicketTags);
+        }
+
         public override void Reset()
         {
+            _ticketTagGroupNames = null;
             Dao.ResetCache();
             //
         }

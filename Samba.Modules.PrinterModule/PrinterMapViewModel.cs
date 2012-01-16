@@ -16,16 +16,16 @@ namespace Samba.Modules.PrinterModule
         private readonly IDepartmentService _departmentService;
         private readonly IMenuService _menuService;
         private readonly IPrinterService _printerService;
-        private readonly ITicketService _ticketService;
+        private readonly ICacheService _cacheService;
 
         public PrinterMapViewModel(PrinterMap model, IDepartmentService departmentService,
-            IMenuService menuService, IPrinterService printerService, ITicketService ticketService)
+            IMenuService menuService, IPrinterService printerService, ICacheService cacheService)
         {
             Model = model;
             _departmentService = departmentService;
             _menuService = menuService;
             _printerService = printerService;
-            _ticketService = ticketService;
+            _cacheService = cacheService;
         }
 
         public IEnumerable<Department> Departments { get { return GetAllDepartments(); } }
@@ -44,7 +44,7 @@ namespace Samba.Modules.PrinterModule
 
         private IEnumerable<string> GetTicketTags()
         {
-            IList<string> result = new List<string>(_ticketService.GetTicketTagGroupNames().OrderBy(x => x));
+            IList<string> result = new List<string>(_cacheService.GetTicketTagGroupNames().OrderBy(x => x));
             result.Insert(0, NullLabel);
             return result;
         }

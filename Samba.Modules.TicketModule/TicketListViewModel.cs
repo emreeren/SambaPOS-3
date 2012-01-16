@@ -8,6 +8,7 @@ using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Events;
 using Samba.Domain;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure;
@@ -141,7 +142,7 @@ namespace Samba.Modules.TicketModule
             {
                 if (value != _applicationState.CurrentDepartment)
                 {
-                    _applicationStateSetter.SetCurrentDepartment(value);
+                    _applicationStateSetter.SetCurrentDepartment(value != null ? value.Id : 0);
                     RaisePropertyChanged(() => SelectedDepartment);
                     RaisePropertyChanged(() => SelectedTicket);
                     SelectedDepartment.PublishEvent(EventTopicNames.SelectedDepartmentChanged);
@@ -266,7 +267,16 @@ namespace Samba.Modules.TicketModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<Message>>().Subscribe(OnMessageReceived);
             EventServiceFactory.EventService.GetEvent<GenericEvent<PopupData>>().Subscribe(OnAccountSelectedFromPopup);
             EventServiceFactory.EventService.GetEvent<GenericEvent<OrderTagData>>().Subscribe(OnOrderTagEvent);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<MenuItemPortion>>().Subscribe(OnPortionSelected);
+        }
 
+        private void OnPortionSelected(EventParameters<MenuItemPortion> obj)
+        {
+            if (obj.Topic == EventTopicNames.PortionSelected)
+            {
+                var taxTemplate = _cacheService.GetMenuItem(x => x.Id == obj.Value.MenuItemId).TaxTemplate;
+                SelectedOrder.UpdatePortion(obj.Value, _applicationState.CurrentDepartment.TicketTemplate.PriceTag, taxTemplate);
+            }
         }
 
         private void OnOrderTagEvent(EventParameters<OrderTagData> obj)
@@ -494,8 +504,12 @@ namespace Samba.Modules.TicketModule
         {
             if (SelectedTicket != null)
             {
-                _selectedTicket.LastSelectedTicketTagGroup = tagGroup;
-                _selectedTicket.PublishEvent(EventTopicNames.SelectTicketTag);
+                var ticketTagData = new TicketTagData
+                                        {
+                                            TicketTagGroup = tagGroup,
+                                            Ticket = SelectedTicket.Model
+                                        };
+                ticketTagData.PublishEvent(EventTopicNames.SelectTicketTag);
             }
             else if (ShowAllOpenTickets.CanExecute(""))
             {
@@ -514,8 +528,15 @@ namespace Samba.Modules.TicketModule
 
         private void OnShowOrderTagsExecute(OrderTagGroup orderTagGroup)
         {
-            _selectedTicket.LastSelectedOrderTagGroup = orderTagGroup;
-            _selectedTicket.PublishEvent(EventTopicNames.SelectOrderTag);
+            var orderTagData = new OrderTagData
+                                   {
+                                       SelectedOrders = _selectedOrders.Select(x => x.Model),
+                                       OrderTagGroup = orderTagGroup,
+                                       Ticket = SelectedTicket.Model
+                                   };
+            orderTagData.PublishEvent(EventTopicNames.SelectOrderTag);
+            //_selectedTicket.LastSelectedOrderTagGroup = orderTagGroup;
+            //_selectedTicket.PublishEvent(EventTopicNames.SelectOrderTag);
         }
 
         private bool CanShowOrderTagsExecute(OrderTagGroup arg)
