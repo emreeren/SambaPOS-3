@@ -137,7 +137,7 @@ namespace Samba.Modules.PosModule
 
         private static void OnCloseCommandExecuted(string obj)
         {
-            EventServiceFactory.EventService.PublishEvent(EventTopicNames.DisplayTicketView);
+            EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
         }
 
         private void OnRefreshDates(string obj)

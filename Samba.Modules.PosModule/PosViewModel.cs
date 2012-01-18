@@ -14,7 +14,7 @@ using Samba.Services.Common;
 namespace Samba.Modules.PosModule
 {
     [Export]
-    public class TicketEditorViewModel : ObservableObject
+    public class PosViewModel : ObservableObject
     {
         private readonly ITicketService _ticketService;
         private readonly IUserService _userService;
@@ -25,7 +25,7 @@ namespace Samba.Modules.PosModule
         private readonly TicketExplorerViewModel _ticketExplorerViewModel;
 
         [ImportingConstructor]
-        public TicketEditorViewModel(IRegionManager regionManager, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
+        public PosViewModel(IRegionManager regionManager, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
             ITicketService ticketService, IUserService userService, TicketExplorerViewModel ticketExplorerViewModel,
             SelectedOrdersViewModel selectedOrdersViewModel, MenuItemSelectorViewModel menuItemSelectorViewModel)
         {
@@ -37,7 +37,7 @@ namespace Samba.Modules.PosModule
             _menuItemSelectorViewModel = menuItemSelectorViewModel;
             _ticketExplorerViewModel = ticketExplorerViewModel;
             _selectedOrdersViewModel = selectedOrdersViewModel;
-            DisplayCategoriesScreen();
+            // DisplayMenuScreen();
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketViewModel>>().Subscribe(OnTicketViewModelEvent);
             EventServiceFactory.EventService.GetEvent<GenericEvent<Ticket>>().Subscribe(OnTicketEvent);
@@ -47,16 +47,29 @@ namespace Samba.Modules.PosModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(
                  x =>
                  {
-                     if (x.Topic == EventTopicNames.ActivateTicketView || x.Topic == EventTopicNames.DisplayTicketView)
+                     switch (x.Topic)
                      {
-                         DisplayCategoriesScreen();
-                     }
-                     else if (x.Topic == EventTopicNames.DisplayTicketOrderDetails)
-                     {
-                         DisplayTicketDetailsScreen();
+                         case EventTopicNames.ActivatePosView:
+                             DisplayTickets();
+                             DisplayMenuScreen();
+                             break;
+                         case EventTopicNames.DisplayTicketOrderDetails:
+                             DisplayTicketDetailsScreen();
+                             break;
+                         case EventTopicNames.ActivateTicket:
+                             DisplaySingleTicket();
+                             break;
                      }
                  });
 
+            EventServiceFactory.EventService.GetEvent<GenericEvent<Department>>().Subscribe(
+                x =>
+                {
+                    if (x.Topic == EventTopicNames.ActivateOpenTickets)
+                    {
+                        DisplayOpenTickets();
+                    }
+                });
         }
 
         public CaptionCommand<Ticket> DisplayPaymentScreenCommand { get; set; }
@@ -91,16 +104,8 @@ namespace Samba.Modules.PosModule
             {
                 if (_selectedOrdersViewModel.ShouldDisplay(obj.Value.Model, obj.Value.SelectedOrders.Select(x => x.Model)))
                     DisplayTicketDetailsScreen();
-                else DisplayCategoriesScreen();
+                else DisplayMenuScreen();
             }
-
-            //if (obj.Topic == EventTopicNames.SelectExtraProperty
-            //    || obj.Topic == EventTopicNames.SelectTicketTag
-            //    || obj.Topic == EventTopicNames.SelectOrderTag
-            //    || obj.Topic == EventTopicNames.EditTicketNote)
-            //{
-            //    DisplayTicketDetailsScreen();
-            //}
         }
 
         private void OnTicketEvent(EventParameters<Ticket> obj)
@@ -108,36 +113,71 @@ namespace Samba.Modules.PosModule
             switch (obj.Topic)
             {
                 case EventTopicNames.PaymentSubmitted:
-                    DisplayCategoriesScreen();
+                    DisplayMenuScreen();
                     break;
             }
         }
 
-        private void DisplayCategoriesScreen()
+        public void DisplayTickets()
         {
-            DisplayOrdersScreen();
+            if (_applicationState.CurrentTicket != null)
+            {
+                EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
+                return;
+            }
+
+            _applicationState.CurrentDepartment.PublishEvent(EventTopicNames.ActivateOpenTickets);
+            
+            if (_applicationState.CurrentDepartment.IsAlaCarte && _applicationState.CurrentDepartment.LocationScreens.Count > 0)
+            {
+                _applicationState.CurrentDepartment.PublishEvent(EventTopicNames.SelectLocation);
+            }
+            else if (_applicationState.CurrentDepartment.IsTakeAway)
+            {
+                _applicationState.CurrentDepartment.PublishEvent(EventTopicNames.SelectAccount);
+            }
+            else if (_applicationState.CurrentDepartment.IsFastFood)
+                EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
+
+            //    if (SelectedTicket != null || (SelectedDepartment != null && SelectedDepartment.IsFastFood))
+            //        EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
+            //    else
+            //        SelectedDepartment.PublishEvent(EventTopicNames.ActivateOpenTickets);
         }
 
         private bool _handleText;
 
-        public void DisplayOrdersScreen()
+        private void DisplaySingleTicket()
+        {
+            _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
+            _regionManager.RequestNavigate(RegionNames.TicketRegion, new Uri("TicketListView", UriKind.Relative));
+        }
+
+        public void DisplayOpenTickets()
         {
             _handleText = true;
-            _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("TicketEditorView", UriKind.Relative));
+            _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
+            _regionManager.RequestNavigate(RegionNames.TicketRegion, new Uri("OpenTicketsView", UriKind.Relative));
+        }
+
+        public void DisplayMenuScreen()
+        {
+            _handleText = true;
+            _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
             _regionManager.RequestNavigate(RegionNames.TicketSubRegion, new Uri("MenuItemSelectorView", UriKind.Relative));
         }
 
         public void DisplayTicketDetailsScreen()
         {
             _handleText = false;
-            _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("TicketEditorView", UriKind.Relative));
+            _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
             _regionManager.RequestNavigate(RegionNames.TicketSubRegion, new Uri("SelectedOrdersView", UriKind.Relative));
         }
 
         public void DisplayTicketExplorerScreen()
         {
             _handleText = true;
-            _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("TicketEditorView", UriKind.Relative));
+            _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
             _regionManager.RequestNavigate(RegionNames.TicketSubRegion, new Uri("TicketExplorerView", UriKind.Relative));
 
             _ticketExplorerViewModel.StartDate = _applicationState.CurrentWorkPeriod.StartDate.Date;

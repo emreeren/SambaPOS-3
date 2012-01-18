@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
@@ -11,7 +10,7 @@ using Samba.Presentation.Common;
 using Samba.Services;
 using Samba.Services.Common;
 
-namespace Samba.Presentation.ViewModels
+namespace Samba.Modules.PosModule
 {
     public class OrderViewModel : ObservableObject
     {

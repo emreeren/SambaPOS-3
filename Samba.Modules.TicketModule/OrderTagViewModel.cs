@@ -5,7 +5,7 @@ using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Services;
 
-namespace Samba.Modules.PosModule
+namespace Samba.Modules.TicketModule
 {
     public class OrderTagViewModel : ObservableObject
     {

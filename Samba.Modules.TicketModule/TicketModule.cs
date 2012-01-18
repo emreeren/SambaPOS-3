@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Regions;
@@ -16,16 +17,13 @@ namespace Samba.Modules.TicketModule
     [ModuleExport(typeof(TicketModule))]
     public class TicketModule : ModuleBase
     {
-        readonly IRegionManager _regionManager;
-
         [ImportingConstructor]
-        public TicketModule(IRegionManager regionManager)
+        public TicketModule()
         {
-            _regionManager = regionManager;
-
             AddDashboardCommand<EntityCollectionViewModelBase<TicketTemplateViewModel, TicketTemplate>>(Resources.TicketTemplates, Resources.Tickets, 35);
             AddDashboardCommand<EntityCollectionViewModelBase<TicketTagGroupViewModel, TicketTagGroup>>(Resources.TicketTags, Resources.Tickets, 35);
             AddDashboardCommand<EntityCollectionViewModelBase<OrderTagTemplateViewModel, OrderTagTemplate>>(Resources.OrderTagTemplates, Resources.Tickets, 35);
+            AddDashboardCommand<EntityCollectionViewModelBase<OrderTagGroupViewModel, OrderTagGroup>>(Resources.OrderTags, Resources.Tickets, 35);
             AddDashboardCommand<EntityCollectionViewModelBase<ServiceTemplateViewModel, ServiceTemplate>>(Resources.ServiceTemplates, Resources.Products, 35);
 
             PermissionRegistry.RegisterPermission(PermissionNames.AddItemsToLockedTickets, PermissionCategories.Ticket, Resources.CanReleaseTicketLock);
@@ -47,9 +45,6 @@ namespace Samba.Modules.TicketModule
 
         protected override void OnInitialization()
         {
-            _regionManager.RegisterViewWithRegion(RegionNames.TicketRegion, typeof(TicketListView));
-            _regionManager.RegisterViewWithRegion(RegionNames.TicketOrdersRegion, typeof(TicketOrdersView));
-            _regionManager.RegisterViewWithRegion(RegionNames.OpenTicketRegion, typeof(OpenTicketsView));
         }
     }
 }

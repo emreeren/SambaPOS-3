@@ -19,29 +19,32 @@ namespace Samba.Modules.PosModule
     [ModuleExport(typeof(PosModule))]
     class PosModule : VisibleModuleBase
     {
-        private readonly TicketEditorView _ticketEditorView;
+        private readonly PosView _posView;
         private readonly TicketExplorerView _ticketExplorerView;
         private readonly MenuItemSelectorView _menuItemSelectorView;
         private readonly SelectedOrdersView _selectedOrdersView;
+        private readonly OpenTicketsView _openTicketsView;
         private readonly IRegionManager _regionManager;
         private readonly IApplicationState _applicationState;
+        private readonly TicketListView _ticketListView;
 
         [ImportingConstructor]
         public PosModule(IRegionManager regionManager, IApplicationState applicationState,
-            TicketEditorView ticketEditorView, TicketExplorerView ticketExplorerView,
+            PosView posView, TicketListView ticketListView,
+            TicketExplorerView ticketExplorerView, OpenTicketsView openTicketsView,
             MenuItemSelectorView menuItemSelectorView, SelectedOrdersView selectedOrdersView)
             : base(regionManager, AppScreens.TicketList)
         {
             SetNavigationCommand("POS", Resources.Common, "Images/Network.png", 10);
 
-            _ticketEditorView = ticketEditorView;
+            _posView = posView;
+            _openTicketsView = openTicketsView;
             _ticketExplorerView = ticketExplorerView;
             _menuItemSelectorView = menuItemSelectorView;
             _selectedOrdersView = selectedOrdersView;
             _regionManager = regionManager;
             _applicationState = applicationState;
-
-            AddDashboardCommand<EntityCollectionViewModelBase<OrderTagGroupViewModel, OrderTagGroup>>(Resources.OrderTags, Resources.Tickets, 35);
+            _ticketListView = ticketListView;
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<Account>>().Subscribe(
                 x =>
@@ -49,22 +52,17 @@ namespace Samba.Modules.PosModule
                     if (x.Topic == EventTopicNames.AccountSelectedForTicket || x.Topic == EventTopicNames.PaymentRequestedForTicket)
                         Activate();
                 });
-
-            EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(
-                x =>
-                {
-                    if (x.Topic == EventTopicNames.ActivateTicketView || x.Topic == EventTopicNames.DisplayTicketView)
-                        Activate();
-                });
-
         }
 
         protected override void OnInitialization()
         {
-            _regionManager.Regions[RegionNames.MainRegion].Add(_ticketEditorView, "TicketEditorView");
+            _regionManager.Regions[RegionNames.MainRegion].Add(_posView, "PosView");
+            _regionManager.Regions[RegionNames.TicketRegion].Add(_openTicketsView, "OpenTicketsView");
+            _regionManager.Regions[RegionNames.TicketRegion].Add(_ticketListView, "TicketListView");
             _regionManager.Regions[RegionNames.TicketSubRegion].Add(_selectedOrdersView, "SelectedOrdersView");
             _regionManager.Regions[RegionNames.TicketSubRegion].Add(_menuItemSelectorView, "MenuItemSelectorView");
             _regionManager.Regions[RegionNames.TicketSubRegion].Add(_ticketExplorerView, "TicketExplorerView");
+            _regionManager.RegisterViewWithRegion(RegionNames.TicketOrdersRegion, typeof(TicketOrdersView));
         }
 
         protected override bool CanNavigate(string arg)
@@ -75,12 +73,12 @@ namespace Samba.Modules.PosModule
         protected override void OnNavigate(string obj)
         {
             base.OnNavigate(obj);
-            EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicketView);
+            EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
         }
 
         public override object GetVisibleView()
         {
-            return _ticketEditorView;
+            return _posView;
         }
     }
 }

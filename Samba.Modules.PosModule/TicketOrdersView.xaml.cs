@@ -1,22 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.ComponentModel.Composition;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Microsoft.Practices.Prism.Events;
 using Samba.Presentation.ViewModels;
 using Samba.Services.Common;
 
-namespace Samba.Modules.TicketModule
+namespace Samba.Modules.PosModule
 {
     /// <summary>
     /// Interaction logic for TicketOrdersView.xaml
@@ -47,7 +35,7 @@ namespace Samba.Modules.TicketModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(
                 x =>
                 {
-                    if (x.Topic == EventTopicNames.DisplayTicketView || x.Topic == EventTopicNames.RefreshSelectedTicket)
+                    if (x.Topic == EventTopicNames.RefreshSelectedTicket)
                         Scroller.ScrollToEnd();
                 });
         }

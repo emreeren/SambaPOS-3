@@ -32,7 +32,7 @@ namespace Samba.Modules.DepartmentModule
             if (department != null)
             {
                 _applicationStateSetter.SetCurrentDepartment(department.Id);
-                EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicketView);
+                EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
             }
         }
     }

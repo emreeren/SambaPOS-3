@@ -1,7 +1,7 @@
 ﻿using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Common;
 
-namespace Samba.Presentation.ViewModels
+namespace Samba.Modules.PosModule
 {
     public class OrderTagValueViewModel : ObservableObject
     {

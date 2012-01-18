@@ -205,7 +205,7 @@ namespace Samba.Modules.PosModule
             _showExtraPropertyEditor = false;
             _showFreeTagEditor = false;
             FreeTag = string.Empty;
-            EventServiceFactory.EventService.PublishEvent(EventTopicNames.DisplayTicketView);
+            EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
         }
 
         public bool IsFreeTagEditorVisible { get { return _showFreeTagEditor; } }
@@ -242,7 +242,7 @@ namespace Samba.Modules.PosModule
         {
             obj.PublishEvent(EventTopicNames.PortionSelected);
             if (OrderTagGroups.Count == 0)
-                EventServiceFactory.EventService.PublishEvent(EventTopicNames.DisplayTicketView);
+                EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
         }
 
         private void OnOrderTagSelected(OrderTagButtonViewModel orderTag)
@@ -276,9 +276,9 @@ namespace Samba.Modules.PosModule
         public bool ShouldDisplay(Ticket value, IEnumerable<Order> selectedOrders)
         {
             if (selectedOrders.Any(x => x.Locked)) return false;
-            SelectedOrder = selectedOrders.Count() == 1 ? selectedOrders.ElementAt(0) : null;
-
             ResetValues(value);
+
+            SelectedOrder = selectedOrders.Count() == 1 ? selectedOrders.ElementAt(0) : null;
 
             if (SelectedTicket != null && SelectedOrder != null)
             {

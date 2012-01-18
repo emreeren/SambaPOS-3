@@ -1,6 +1,6 @@
 ﻿using Samba.Domain.Models.Tickets;
 
-namespace Samba.Modules.TicketModule
+namespace Samba.Modules.PosModule
 {
     public class TicketTagButton
     {

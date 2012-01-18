@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Media;
+﻿using System.ComponentModel.Composition;
 using Samba.Presentation.Common;
 using Samba.Presentation.ViewModels;
-using Samba.Services.Common;
 
-namespace Samba.Modules.TicketModule
+namespace Samba.Modules.PosModule
 {
     [Export]
     public class TicketOrdersViewModel : ObservableObject
@@ -17,12 +10,7 @@ namespace Samba.Modules.TicketModule
         [ImportingConstructor]
         public TicketOrdersViewModel()
         {
-            //EventServiceFactory.EventService.GetEvent<GenericEvent<OrderViewModel>>().Subscribe(
-            //x =>
-            //{
-            //    if (x.Topic == EventTopicNames.OrderAdded)
-            //        RaisePropertyChanged(() => TicketBackground);
-            //});
+
         }
 
         public string TicketBackground { get { return SelectedTicket != null && (SelectedTicket.IsLocked || SelectedTicket.IsPaid) ? "Transparent" : "White"; } }

@@ -325,7 +325,7 @@ namespace Samba.Modules.DeliveryModule
         {
             _ticketService.OpenTicketByTicketNumber(TicketSearchText);
             if (_applicationState.CurrentTicket != null)
-                EventServiceFactory.EventService.PublishEvent(EventTopicNames.DisplayTicketView);
+                EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
             TicketSearchText = "";
         }
 
@@ -446,7 +446,7 @@ namespace Samba.Modules.DeliveryModule
         private void OnCloseScreen(string obj)
         {
             EventServiceFactory.EventService.PublishEvent(_applicationState.IsCurrentWorkPeriodOpen
-                                                              ? EventTopicNames.DisplayTicketView
+                                                              ? EventTopicNames.ActivatePosView
                                                               : EventTopicNames.ActivateNavigation);
             SelectedView = 0;
             ActiveView = 0;

@@ -1,11 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows.Controls;
-using Microsoft.Practices.Prism.Events;
-using Samba.Presentation.Common;
-using Samba.Presentation.ViewModels;
-using Samba.Services.Common;
 
-namespace Samba.Modules.TicketModule
+namespace Samba.Modules.PosModule
 {
     /// <summary>
     /// Interaction logic for TicketListView.xaml

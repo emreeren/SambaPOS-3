@@ -55,13 +55,16 @@
       <DependentUpon>MenuItemSelectorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MenuItemSelectorViewModel.cs" />
-    <Compile Include="OrderTagButtonViewModel.cs" />
-    <Compile Include="OrderTagGroupView.xaml.cs">
-      <DependentUpon>OrderTagGroupView.xaml</DependentUpon>
+    <Compile Include="OpenTicketsView.xaml.cs">
+      <DependentUpon>OpenTicketsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OrderTagGroupViewModel.cs" />
-    <Compile Include="OrderTagMapViewModel.cs" />
-    <Compile Include="OrderTagViewModel.cs" />
+    <Compile Include="OpenTicketsViewModel.cs" />
+    <Compile Include="OpenTicketViewModel.cs" />
+    <Compile Include="OrderTagButton.cs" />
+    <Compile Include="OrderTagButtonViewModel.cs" />
+    <Compile Include="OrderTagData.cs" />
+    <Compile Include="OrderTagValueViewModel.cs" />
+    <Compile Include="OrderViewModel.cs" />
     <Compile Include="PosModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SelectedOrdersView.xaml.cs">
@@ -69,14 +72,24 @@
     </Compile>
     <Compile Include="SelectedOrdersViewModel.cs" />
     <Compile Include="SelectedOrderTagGroupViewModel.cs" />
-    <Compile Include="TicketEditorView.xaml.cs">
-      <DependentUpon>TicketEditorView.xaml</DependentUpon>
+    <Compile Include="PosView.xaml.cs">
+      <DependentUpon>PosView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TicketEditorViewModel.cs" />
+    <Compile Include="PosViewModel.cs" />
     <Compile Include="TicketExplorerView.xaml.cs">
       <DependentUpon>TicketExplorerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TicketExplorerViewModel.cs" />
+    <Compile Include="TicketListView.xaml.cs">
+      <DependentUpon>TicketListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TicketListViewModel.cs" />
+    <Compile Include="TicketOrdersView.xaml.cs">
+      <DependentUpon>TicketOrdersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TicketOrdersViewModel.cs" />
+    <Compile Include="TicketTagButton.cs" />
+    <Compile Include="TicketViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lib\FlexButton\FlexButton.csproj">
@@ -117,7 +130,19 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="TicketEditorView.xaml">
+    <Page Include="OpenTicketsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TicketListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TicketOrdersView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -136,12 +161,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="TicketExplorerView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="OrderTagGroupView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

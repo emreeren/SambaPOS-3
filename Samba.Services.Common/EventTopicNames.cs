@@ -23,11 +23,13 @@
 
     public static class EventTopicNames
     {
+        public const string TicketClosed = "Ticket Closed";
+        public const string ActivateTicket = "ActivateTicket";
+        public const string ActivateOpenTickets = "Activate Open Tickets";
         public const string DisplayTicketOrderDetails = "Display Ticket Order Details";
         public const string PortionSelected = "Portion Selected";
         public const string TicketTagSelected = "TicketTagSelected";
         public const string OrderTagSelected = "OrderTagSelected";
-        public const string UpdateOpenTickets = "Update Open Tickets";
         public const string SelectedTicketChanged = "Selected Ticket Changed";
         public const string ShellInitialized = "Shell Initialized";
         public const string ResetCache = "Reset Cache";
@@ -71,8 +73,7 @@
         public const string SelectedDepartmentChanged = "Selected Department Changed";
         public const string SelectLocation = "Select Location";
         public const string FindLocation = "Find Location";
-        public const string ActivateTicketView = "Activate Ticket View";
-        public const string DisplayTicketView = "Display Ticket View";
+        public const string ActivatePosView = "Activate POS View";
         public const string RefreshSelectedTicket = "Refresh Selected Ticket";
         public const string EditTicketNote = "Edit Ticket Note";
         public const string PaymentRequestedForTicket = "Payment Requested For Ticket";

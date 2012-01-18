@@ -22,8 +22,8 @@ namespace Samba.Modules.PosModule
         public int ButtonHeight { get { return Model.ButtonHeight; } set { Model.ButtonHeight = value; } }
         public int ColumnCount { get { return Model.ColumnCount; } set { Model.ColumnCount = value; } }
 
-        public OrderTagViewModel SelectedOrderTag { get; set; }
-        public OrderTagMapViewModel SelectedOrderTagMap { get; set; }
+        //public OrderTagViewModel SelectedOrderTag { get; set; }
+        //public OrderTagMapViewModel SelectedOrderTagMap { get; set; }
 
         public OrderTagGroup Model { get; private set; }
         public string Name { get { return Model.Name; } }

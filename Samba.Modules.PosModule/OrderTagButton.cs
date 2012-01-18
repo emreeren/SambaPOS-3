@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Samba.Domain.Models.Tickets;
+﻿using Samba.Domain.Models.Tickets;
 
-namespace Samba.Presentation.ViewModels
+namespace Samba.Modules.PosModule
 {
     public class OrderTagButton
     {

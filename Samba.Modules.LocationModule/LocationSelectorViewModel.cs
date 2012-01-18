@@ -156,7 +156,7 @@ namespace Samba.Modules.LocationModule
         {
             EventServiceFactory.EventService.PublishEvent(IsNavigated
                                                               ? EventTopicNames.ActivateNavigation
-                                                              : EventTopicNames.DisplayTicketView);
+                                                              : EventTopicNames.ActivatePosView);
         }
 
         private void OnSelectLocationCategoryExecuted(LocationScreen obj)

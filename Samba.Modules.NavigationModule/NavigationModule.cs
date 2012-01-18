@@ -61,7 +61,7 @@ namespace Samba.Modules.NavigationModule
             }
             else
             {
-                EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicketView);
+                EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
             }
         }
     }

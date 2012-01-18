@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading;
 using Microsoft.Practices.Prism.Commands;
 using Samba.Domain.Models.Tickets;
@@ -11,7 +10,7 @@ using Samba.Presentation.Common;
 using Samba.Services;
 using Samba.Services.Common;
 
-namespace Samba.Modules.TicketModule
+namespace Samba.Modules.PosModule
 {
     [Export]
     public class OpenTicketsViewModel : ObservableObject
@@ -36,7 +35,7 @@ namespace Samba.Modules.TicketModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<Department>>().Subscribe(
                 x =>
                 {
-                    if (x.Topic == EventTopicNames.UpdateOpenTickets)
+                    if (x.Topic == EventTopicNames.ActivateOpenTickets)
                     {
                         _department = x.Value;
                         RaisePropertyChanged(() => OpenTicketListViewColumnCount);

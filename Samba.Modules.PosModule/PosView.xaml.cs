@@ -8,10 +8,10 @@ namespace Samba.Modules.PosModule
     /// </summary>
     /// 
     [Export]
-    public partial class TicketEditorView : UserControl
+    public partial class PosView : UserControl
     {
         [ImportingConstructor]
-        public TicketEditorView(TicketEditorViewModel viewModel)
+        public PosView(PosViewModel viewModel)
         {
             InitializeComponent();
             DataContext = viewModel;
@@ -19,7 +19,7 @@ namespace Samba.Modules.PosModule
 
         private void UserControl_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
-            e.Handled = ((TicketEditorViewModel)DataContext).HandleTextInput(e.Text);
+            e.Handled = ((PosViewModel)DataContext).HandleTextInput(e.Text);
         }
     }
 }
