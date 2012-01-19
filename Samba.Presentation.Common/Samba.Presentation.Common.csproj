@@ -90,6 +90,12 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ElementSpy.cs" />
+    <Compile Include="ModelBase\GenericEntityView.xaml.cs">
+      <DependentUpon>GenericEntityView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ModelBase\IEditableCollection.cs" />
+    <Compile Include="ModelBase\IValueSource.cs" />
     <Compile Include="ObservableObject.cs" />
     <Compile Include="Services\ApplicationState.cs" />
     <Compile Include="Browser\BrowserControl.xaml.cs">
@@ -300,6 +306,10 @@
     <Page Include="ModelBase\EntityCollectionBaseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ModelBase\GenericEntityView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>

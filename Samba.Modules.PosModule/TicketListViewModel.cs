@@ -172,7 +172,7 @@ namespace Samba.Modules.PosModule
             }
         }
 
-        public IEnumerable<OrderTagButton> OrderTagButtons
+        public IEnumerable<OrderTagGroupButton> OrderTagButtons
         {
             get
             {
@@ -180,7 +180,7 @@ namespace Samba.Modules.PosModule
                 {
                     return _cacheService.GetOrderTagGroupsForItems(_selectedOrders.Select(x => x.MenuItemId))
                         .Where(x => !string.IsNullOrEmpty(x.ButtonHeader))
-                        .Select(x => new OrderTagButton(x));
+                        .Select(x => new OrderTagGroupButton(x));
                 }
                 return null;
             }

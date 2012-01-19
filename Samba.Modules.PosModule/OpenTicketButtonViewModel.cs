@@ -6,9 +6,9 @@ using Samba.Services;
 
 namespace Samba.Modules.PosModule
 {
-    public class OpenTicketViewModel : ObservableObject
+    public class OpenTicketButtonViewModel : ObservableObject
     {
-        public OpenTicketViewModel(OpenTicketData openTicketData, bool shouldWrap)
+        public OpenTicketButtonViewModel(OpenTicketData openTicketData, bool shouldWrap)
         {
             Id = openTicketData.Id;
             LastOrderDate = openTicketData.LastOrderDate;

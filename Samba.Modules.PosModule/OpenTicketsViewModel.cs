@@ -44,7 +44,7 @@ namespace Samba.Modules.PosModule
                 });
         }
 
-        public IEnumerable<OpenTicketViewModel> OpenTickets { get; set; }
+        public IEnumerable<OpenTicketButtonViewModel> OpenTickets { get; set; }
 
         private void OnTimer(object state)
         {
@@ -71,17 +71,12 @@ namespace Samba.Modules.PosModule
         {
             StopTimer();
 
-            Expression<Func<Ticket, bool>> prediction;
-
-            //if (department != null)
-            prediction = x => !x.IsPaid && x.DepartmentId == department.Id;
-            //else
-            //    prediction = x => !x.IsPaid;
+            Expression<Func<Ticket, bool>> prediction = x => !x.IsPaid && x.DepartmentId == department.Id;
 
             var openTickets = _ticketService.GetOpenTickets(prediction);
             var shouldWrap = !department.IsTakeAway;
 
-            OpenTickets = openTickets.Select(x => new OpenTicketViewModel(x, shouldWrap)).OrderBy(x => x.LastOrderDate);
+            OpenTickets = openTickets.Select(x => new OpenTicketButtonViewModel(x, shouldWrap)).OrderBy(x => x.LastOrderDate);
 
             RaisePropertyChanged(() => OpenTickets);
 

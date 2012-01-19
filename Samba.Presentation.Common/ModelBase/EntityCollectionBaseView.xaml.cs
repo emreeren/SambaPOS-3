@@ -53,5 +53,6 @@ namespace Samba.Presentation.Common.ModelBase
                     ((AbstractEntityCollectionViewModelBase)DataContext).EditItemCommand.Execute(null);
             }
         }
+
     }
 }

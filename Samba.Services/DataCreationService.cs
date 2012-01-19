@@ -168,7 +168,7 @@ namespace Samba.Services
 
             _workspace.Add(orderTagTemplate);
 
-            var action = new AppAction { ActionType = "RemoveOrderTag", Name = Resources.RemoveGiftTag, Parameter = "OrderTagName=" + Resources.Gift };
+            var action = new AppAction { ActionType = "RemoveOrderTag", Name = Resources.RemoveGiftTag, Parameter = string.Format("[{{\"Key\":\"OrderTagName\",\"Value\":\"{0}\"}}]", Resources.Gift) };
             _workspace.Add(action);
             _workspace.CommitChanges();
 

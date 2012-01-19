@@ -1,6 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Samba.Infrastructure;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Actions
@@ -10,14 +12,32 @@ namespace Samba.Domain.Models.Actions
         public int Id { get; set; }
         public string Name { get; set; }
         public string ActionType { get; set; }
+
+        private string _parameter;
+
         [StringLength(500)]
-        public string Parameter { get; set; }
+        public string Parameter
+        {
+            get { return _parameter; }
+            set
+            {
+                _parameter = value;
+                _parameters = null;
+            }
+        }
+
+        private Dictionary<string, string> _parameters;
+        public Dictionary<string, string> Parameters
+        {
+            get { return _parameters ?? (_parameters = JsonHelper.Deserialize<Dictionary<string, string>>(Parameter)); }
+        }
 
         public string GetParameter(string parameterName)
         {
-            var param = Parameter.Split('#').Where(x => x.StartsWith(parameterName + "=")).FirstOrDefault();
-            if (!string.IsNullOrEmpty(param) && param.Contains("=")) return param.Split('=')[1];
-            return "";
+            return Parameters.ContainsKey(parameterName) ? Parameters[parameterName] : "";
+            //var param = Parameter.Split('#').Where(x => x.StartsWith(parameterName + "=")).FirstOrDefault();
+            //if (!string.IsNullOrEmpty(param) && param.Contains("=")) return param.Split('=')[1];
+            //return "";
         }
 
         public string GetFormattedParameter(string parameterName, object dataObject, string parameterValues)

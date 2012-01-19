@@ -268,7 +268,7 @@ namespace Samba.Presentation.ViewModels
                     var order = x.Value.GetDataValue<Order>("Order");
                     if (order != null)
                     {
-                        var tagName = x.Value.GetAsString("OrderTagName");
+                        var tagName = x.Value.GetAsString("OrderTagName"); 
                         var orderTag = ApplicationState.CurrentDepartment.TicketTemplate.OrderTagGroups.SingleOrDefault(y => y.Name == tagName);
                         if (x.Value.Action.ActionType == "RemoveOrderTag")
                         {

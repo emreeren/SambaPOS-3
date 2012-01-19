@@ -26,7 +26,11 @@ namespace Samba.Localization
         {
             get
             {
-                return Resources.ResourceManager.GetString(_resourceName);
+                var result = Resources.ResourceManager.GetString(_resourceName);
+                if (string.IsNullOrEmpty(result))
+                    result =
+                        _resourceName.Select(x => char.IsLower(x) ? x.ToString() : string.Format(" {0}", x)).Aggregate((x, y) => x + y).Trim();
+                return result;
             }
         }
     }

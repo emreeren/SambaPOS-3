@@ -59,8 +59,8 @@
       <DependentUpon>OpenTicketsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="OpenTicketsViewModel.cs" />
-    <Compile Include="OpenTicketViewModel.cs" />
-    <Compile Include="OrderTagButton.cs" />
+    <Compile Include="OpenTicketButtonViewModel.cs" />
+    <Compile Include="OrderTagGroupButton.cs" />
     <Compile Include="OrderTagButtonViewModel.cs" />
     <Compile Include="OrderTagData.cs" />
     <Compile Include="OrderTagValueViewModel.cs" />
