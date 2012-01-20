@@ -9,9 +9,10 @@
         public const string Time = "{TIME}";
         public const string TicketNo = "{TICKET NO}";
         public const string OrderNo = "{ORDER NO}";
-        public const string TicketTag = "{TICKET TAG}";
         public const string Department = "{DEPARTMENT}";
+        public const string TicketTag = "{TICKET TAG}";
         public const string TicketTag2 = "{TICKET TAG:";
+        public const string TicketTag3 = "{TICKETTAG:";
         public const string LocationUser = "{LOCATION USER}";
         public const string UserName = "{USER NAME}";
         public const string Location = "{LOCATION}";

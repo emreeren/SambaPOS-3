@@ -22,6 +22,8 @@
                         <StackPanel Orientation="Horizontal">
                             <Label Content="{LocText SettingCheck,Suffix=':'}" MinWidth="130" />
                             <TextBox MinWidth="80" Margin="2" Text="{Binding SettingConstraintName}" />
+                            <ComboBox Margin="3,0" MinWidth="45" IsEditable="True" Text="{Binding SettingConstraintOperation}" 
+                                                  ItemsSource="{Binding Operations}"/>
                             <TextBox MinWidth="80" Margin="2" Text="{Binding SettingConstraintValue}" />
                         </StackPanel>
                         <ItemsControl ItemsSource="{Binding Constraints}" HorizontalAlignment="Left">

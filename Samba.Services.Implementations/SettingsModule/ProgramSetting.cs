@@ -57,5 +57,11 @@ namespace Samba.Services.Implementations.SettingsModule
             }
             set { _programSetting.Value = value.ToString(); }
         }
+
+        private static ProgramSetting _nullSetting;
+        public static ProgramSetting NullSetting
+        {
+            get { return _nullSetting ?? (_nullSetting = new ProgramSetting(new ProgramSettingValue())); }
+        }
     }
 }

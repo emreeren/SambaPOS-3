@@ -96,6 +96,7 @@
     <Compile Include="IRuleConstraint.cs" />
     <Compile Include="IAutomationService.cs" />
     <Compile Include="IProgramSetting.cs" />
+    <Compile Include="ISettingReplacer.cs" />
     <Compile Include="ISettingService.cs" />
     <Compile Include="ITicketExplorerFilter.cs" />
     <Compile Include="ITicketService.cs" />

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Data;
 using Samba.Persistance.Data;
@@ -83,6 +84,32 @@ namespace Samba.Services.Implementations.SettingsModule
             return _customSettingCache[settingName];
         }
 
+        public ProgramSetting ReadLocalSetting(string settingName)
+        {
+            if (!_customSettingCache.ContainsKey(settingName))
+            {
+                var p = new ProgramSettingValue { Name = settingName };
+                var getter = new ProgramSetting(p);
+                _customSettingCache.Add(settingName, getter);
+            }
+            return _customSettingCache[settingName];
+        }
+
+        public ProgramSetting ReadGlobalSetting(string settingName)
+        {
+            return GetSetting(settingName);
+        }
+
+        public ProgramSetting ReadSetting(string settingName)
+        {
+            if (_customSettingCache.ContainsKey(settingName))
+                return _customSettingCache[settingName];
+            if (_settingCache.ContainsKey(settingName))
+                return new ProgramSetting(_settingCache[settingName]);
+            var setting = Dao.Single<ProgramSettingValue>(x => x.Name == settingName); //_workspace.Single<ProgramSetting>(x => x.Name == settingName);)
+            return setting != null ? new ProgramSetting(setting) : ProgramSetting.NullSetting;
+        }
+
         public ProgramSetting GetSetting(string valueName)
         {
             var setting = _workspace.Single<ProgramSettingValue>(x => x.Name == valueName);
@@ -104,6 +131,7 @@ namespace Samba.Services.Implementations.SettingsModule
         public void SaveChanges()
         {
             _workspace.CommitChanges();
+            _workspace = WorkspaceFactory.Create();
         }
 
         public void ResetCache()

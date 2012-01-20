@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Samba.Domain.Models.Actions;
+using Samba.Infrastructure.Data.Serializer;
 using Samba.Persistance.Data;
 using Samba.Services.Common;
 
@@ -31,6 +33,7 @@ namespace Samba.Services.Implementations.AutomationModule
 
         public void NotifyEvent(string eventName, object dataObject)
         {
+            var settingReplacer = _settingService.GetSettingReplacer();
             var rules = Rules.Where(x => x.EventName == eventName);
             foreach (var rule in rules.Where(x => string.IsNullOrEmpty(x.EventConstraints) || SatisfiesConditions(x, dataObject)))
             {
@@ -41,7 +44,13 @@ namespace Samba.Services.Implementations.AutomationModule
 
                     if (action != null)
                     {
-                        IActionData data = new ActionData { Action = action, DataObject = dataObject, ParameterValues = container.ParameterValues };
+                        //IActionData data = new ActionData { Action = action, DataObject = dataObject, ParameterValues = container.ParameterValues };
+                        //data.PublishEvent(EventTopicNames.ExecuteEvent, true);
+                        var clonedAction = ObjectCloner.Clone(action);
+                        var containerParameterValues = container.ParameterValues ?? "";
+                        clonedAction.Parameter = settingReplacer.ReplaceSettingValue("\\{:[^}]+\\}", clonedAction.Parameter);
+                        containerParameterValues = settingReplacer.ReplaceSettingValue("\\{:[^}]+\\}", containerParameterValues);
+                        var data = new ActionData { Action = clonedAction, DataObject = dataObject, ParameterValues = containerParameterValues };
                         data.PublishEvent(EventTopicNames.ExecuteEvent, true);
                     }
                 }
@@ -61,7 +70,6 @@ namespace Samba.Services.Implementations.AutomationModule
         public void RegisterParameterSoruce(string parameterName, Func<IEnumerable<string>> action)
         {
             ParameterSources.Add(parameterName, action);
-
         }
 
         public IEnumerable<IRuleConstraint> GetEventConstraints(string eventName)
@@ -135,9 +143,29 @@ namespace Samba.Services.Implementations.AutomationModule
                     if (condition.Name.StartsWith("SN$"))
                     {
                         var settingName = condition.Name.Replace("SN$", "");
-                        var settingValue = condition.Value;
-                        if (_settingService.GetProgramSetting(settingName).StringValue != settingValue)
-                            return false;
+                        while (Regex.IsMatch(settingName, "\\[[^\\]]+\\]"))
+                        {
+                            var paramvalue = Regex.Match(settingName, "\\[[^\\]]+\\]").Groups[0].Value;
+                            var insideValue = paramvalue.Trim(new[] { '[', ']' });
+                            if (parameterNames.Contains(insideValue))
+                            {
+                                var v = dataObject.GetType().GetProperty(insideValue).GetValue(dataObject, null).ToString();
+                                settingName = settingName.Replace(paramvalue, v);
+                            }
+                            else
+                            {
+                                if (paramvalue == "[Day]")
+                                    settingName = settingName.Replace(paramvalue, DateTime.Now.Day.ToString());
+                                else if (paramvalue == "[Month]")
+                                    settingName = settingName.Replace(paramvalue, DateTime.Now.Month.ToString());
+                                else if (paramvalue == "[Year]")
+                                    settingName = settingName.Replace(paramvalue, DateTime.Now.Year.ToString());
+                                else settingName = settingName.Replace(paramvalue, "");
+                            }
+                        }
+
+                        var customSettingValue = _settingService.ReadSetting(settingName).StringValue ?? "";
+                        if (!condition.ValueEquals(customSettingValue)) return false;
                     }
                     if (condition.Name == "TerminalName" && !string.IsNullOrEmpty(condition.Value))
                     {

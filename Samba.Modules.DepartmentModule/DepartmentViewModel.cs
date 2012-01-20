@@ -25,6 +25,8 @@ namespace Samba.Modules.DepartmentModule
         public DepartmentViewModel(IMenuService menuService)
         {
             _menuService = menuService;
+            AddLocationScreenCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.LocationScreen), OnAddLocationScreen);
+            DeleteLocationScreenCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.LocationScreen), OnDeleteLocationScreen, CanDeleteLocationScreen);
         }
 
         public int ScreenMenuId { get { return Model.ScreenMenuId; } set { Model.ScreenMenuId = value; } }
@@ -73,12 +75,6 @@ namespace Samba.Modules.DepartmentModule
         
         public ICaptionCommand AddLocationScreenCommand { get; set; }
         public ICaptionCommand DeleteLocationScreenCommand { get; set; }
-
-        public DepartmentViewModel()
-        {
-            AddLocationScreenCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.LocationScreen), OnAddLocationScreen);
-            DeleteLocationScreenCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.LocationScreen), OnDeleteLocationScreen, CanDeleteLocationScreen);
-        }
 
         private bool CanDeleteLocationScreen(string arg)
         {

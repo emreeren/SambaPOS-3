@@ -83,13 +83,15 @@ namespace Samba.Services.Implementations.AutomationModule
 
         public bool ValueEquals(object parameterValue)
         {
-            if (IsNumericType(parameterValue.GetType()))
+            if (IsNumericType(parameterValue.GetType()) || Operation.Contains(OperatorConstants.Greater) || Operation.Contains(OperatorConstants.Less))
             {
                 decimal propertyValue;
                 decimal.TryParse(parameterValue.ToString(), out propertyValue);
 
                 decimal objectValue;
                 decimal.TryParse(Value, out objectValue);
+
+                if (objectValue < 0 || propertyValue < 0) return false;
 
                 if (Operation.Contains(OperatorConstants.NotEqual))
                 {
@@ -101,11 +103,11 @@ namespace Samba.Services.Implementations.AutomationModule
                 }
                 else if (Operation.Contains(OperatorConstants.Greater))
                 {
-                    if (propertyValue < objectValue) return false;
+                    if (propertyValue <= objectValue) return false;
                 }
                 else if (Operation.Contains(OperatorConstants.Less))
                 {
-                    if (propertyValue > objectValue) return false;
+                    if (propertyValue >= objectValue) return false;
                 }
             }
             else

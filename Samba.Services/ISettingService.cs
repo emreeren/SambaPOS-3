@@ -15,8 +15,11 @@ namespace Samba.Services
         IEnumerable<string> GetTerminalNames();
         IProgramSettings ProgramSettings { get; }
         IProgramSetting GetProgramSetting(string settingName);
+        IProgramSetting ReadSetting(string settingName);
+        ISettingReplacer GetSettingReplacer();
         void SaveProgramSettings();
         int GetNextNumber(int numeratorId);
         string GetNextString(int numeratorId);
+        
     }
 }

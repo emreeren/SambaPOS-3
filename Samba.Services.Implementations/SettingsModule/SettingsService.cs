@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
@@ -29,6 +30,16 @@ namespace Samba.Services.Implementations.SettingsModule
         {
             get { return _workspace ?? (_workspace = WorkspaceFactory.Create()); }
             set { _workspace = value; }
+        }
+
+        public IProgramSetting ReadSetting(string settingName)
+        {
+            return _globalSettings.ReadSetting(settingName);
+        }
+
+        public ISettingReplacer GetSettingReplacer()
+        {
+            return new SettingReplacer(_globalSettings);
         }
 
         private static IEnumerable<Terminal> _terminals;

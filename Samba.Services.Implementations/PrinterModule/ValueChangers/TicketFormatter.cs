@@ -88,11 +88,11 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             result = FormatData(result, TagNames.TicketTag, ticket.GetTagData);
             result = FormatDataIf(true, result, TagNames.Department, () => GetDepartmentName(ticket.DepartmentId));
 
-            if (result.Contains(TagNames.TicketTag2))
+            const string ticketTagPattern = TagNames.TicketTag2 + "[^}]+}";
+
+            while (Regex.IsMatch(result, ticketTagPattern))
             {
-                var start = result.IndexOf(TagNames.TicketTag2);
-                var end = result.IndexOf("}", start) + 1;
-                var value = result.Substring(start, end - start);
+                var value = Regex.Match(result, ticketTagPattern).Groups[0].Value;
                 var tags = "";
                 try
                 {
@@ -102,6 +102,23 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
                         ? (t + ": " + ticket.GetTagValue(t.Trim()) + "\r")
                         : ""));
                     result = FormatData(result.Trim('\r'), value, () => tags);
+                }
+                catch (Exception)
+                {
+                    result = FormatData(result, value, () => "");
+                }
+            }
+
+            const string ticketTag2Pattern = TagNames.TicketTag3+"[^}]+}";
+
+            while (Regex.IsMatch(result, ticketTag2Pattern))
+            {
+                var value = Regex.Match(result, ticketTag2Pattern).Groups[0].Value;
+                var tag = value.Trim('{', '}').Split(':')[1];
+                var tagValue = ticket.GetTagValue(tag);
+                try
+                {
+                    result = FormatData(result, value, () => tagValue);
                 }
                 catch (Exception)
                 {

@@ -71,7 +71,9 @@ namespace Samba.Modules.AutomationModule
         }
 
         public string SettingConstraintName { get; set; }
+        public string SettingConstraintOperation { get; set; }
         public string SettingConstraintValue { get; set; }
+        public IEnumerable<string> Operations { get { return new[] { "=", ">", "<", "!=" }; } }
 
         public IEnumerable<RuleEvent> Events { get { return _automationService.GetRuleEvents(); } }
 
@@ -103,7 +105,12 @@ namespace Samba.Modules.AutomationModule
                 .Where(x => x.Value != null)
                 .Select(x => x.GetConstraintData()));
             if (!string.IsNullOrEmpty(SettingConstraintName))
-                Model.EventConstraints += "SN$" + SettingConstraintName + ";=;" + SettingConstraintValue;
+            {
+                if (!string.IsNullOrEmpty(Model.EventConstraints))
+                    Model.EventConstraints = Model.EventConstraints + "#";
+                Model.EventConstraints += "SN$" + SettingConstraintName + ";" + (SettingConstraintOperation ?? "=") + ";" + SettingConstraintValue;
+            }
+
             base.OnSave(value);
         }
 
@@ -123,6 +130,7 @@ namespace Samba.Modules.AutomationModule
                     if (settingParts.Length == 3)
                     {
                         SettingConstraintName = settingParts[0].Replace("SN$", "");
+                        SettingConstraintOperation = settingParts[1];
                         SettingConstraintValue = settingParts[2];
                     }
                 }
