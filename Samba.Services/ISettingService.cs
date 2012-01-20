@@ -16,10 +16,12 @@ namespace Samba.Services
         IProgramSettings ProgramSettings { get; }
         IProgramSetting GetProgramSetting(string settingName);
         IProgramSetting ReadSetting(string settingName);
+        IProgramSetting ReadLocalSetting(string settingName);
+        IProgramSetting ReadGlobalSetting(string settingName);
         ISettingReplacer GetSettingReplacer();
         void SaveProgramSettings();
         int GetNextNumber(int numeratorId);
         string GetNextString(int numeratorId);
-        
+
     }
 }

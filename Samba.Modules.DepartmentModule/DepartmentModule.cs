@@ -29,7 +29,7 @@ namespace Samba.Modules.DepartmentModule
 
         protected override void OnInitialization()
         {
-            _regionManager.RegisterViewWithRegion(RegionNames.UserRegion, typeof(DepartmentButtonView));
+            _regionManager.RegisterViewWithRegion(RegionNames.UserRegion, typeof(DepartmentSelectorView));
         }
     }
 }

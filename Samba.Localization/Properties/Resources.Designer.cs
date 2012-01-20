@@ -1482,6 +1482,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Command.
+        /// </summary>
+        public static string Command {
+            get {
+                return ResourceManager.GetString("Command", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Common.
         /// </summary>
         public static string Common {
@@ -1713,6 +1722,15 @@ namespace Samba.Localization.Properties {
         public static string DayTime {
             get {
                 return ResourceManager.GetString("DayTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Decrease.
+        /// </summary>
+        public static string Decrease {
+            get {
+                return ResourceManager.GetString("Decrease", resourceCulture);
             }
         }
         
@@ -3215,6 +3233,15 @@ namespace Samba.Localization.Properties {
         public static string IncomeTransactions {
             get {
                 return ResourceManager.GetString("IncomeTransactions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Increase.
+        /// </summary>
+        public static string Increase {
+            get {
+                return ResourceManager.GetString("Increase", resourceCulture);
             }
         }
         
@@ -5506,6 +5533,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Role Name.
+        /// </summary>
+        public static string RoleName {
+            get {
+                return ResourceManager.GetString("RoleName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Round.
         /// </summary>
         public static string Round {
@@ -5949,11 +5985,29 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Setting Name.
+        /// </summary>
+        public static string SettingName {
+            get {
+                return ResourceManager.GetString("SettingName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         public static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Setting Value.
+        /// </summary>
+        public static string SettingValue {
+            get {
+                return ResourceManager.GetString("SettingValue", resourceCulture);
             }
         }
         
@@ -7412,6 +7466,15 @@ namespace Samba.Localization.Properties {
         public static string UpdateTicketTax {
             get {
                 return ResourceManager.GetString("UpdateTicketTax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update Type.
+        /// </summary>
+        public static string UpdateType {
+            get {
+                return ResourceManager.GetString("UpdateType", resourceCulture);
             }
         }
         

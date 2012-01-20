@@ -32,7 +32,6 @@ namespace Samba.Modules.LocationModule
         public LocationScreen SelectedLocationScreen { get { return _applicationState.SelectedLocationScreen; } }
         public IEnumerable<LocationScreen> LocationScreens { get { return _applicationState.CurrentDepartment != null ? _applicationState.CurrentDepartment.LocationScreens : null; } }
 
-        public bool IsNavigated { get; set; }
         public bool CanDesignLocations { get { return _applicationState.CurrentLoggedInUser.UserRole.IsAdmin; } }
         public int CurrentPageNo { get; set; }
 
@@ -154,9 +153,7 @@ namespace Samba.Modules.LocationModule
 
         private void OnCloseScreenExecuted(string obj)
         {
-            EventServiceFactory.EventService.PublishEvent(IsNavigated
-                                                              ? EventTopicNames.ActivateNavigation
-                                                              : EventTopicNames.ActivatePosView);
+            _applicationState.CurrentDepartment.PublishEvent(EventTopicNames.ActivateOpenTickets);
         }
 
         private void OnSelectLocationCategoryExecuted(LocationScreen obj)

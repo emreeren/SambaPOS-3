@@ -16,9 +16,12 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
     {
         private static readonly IDepartmentService DepartmentService = ServiceLocator.Current.GetInstance<IDepartmentService>();
         private static readonly ISettingService SettingService = ServiceLocator.Current.GetInstance<ISettingService>();
+        private static ISettingReplacer _settingReplacer;
+
 
         public static string[] GetFormattedTicket(Ticket ticket, IEnumerable<Order> lines, PrinterTemplate template)
         {
+            _settingReplacer = SettingService.GetSettingReplacer();
             if (template.MergeLines) lines = MergeLines(lines);
             var orderNo = lines.Count() > 0 ? lines.ElementAt(0).OrderNumber : 0;
             var userNo = lines.Count() > 0 ? lines.ElementAt(0).CreatingUserName : "";
@@ -109,7 +112,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
                 }
             }
 
-            const string ticketTag2Pattern = TagNames.TicketTag3+"[^}]+}";
+            const string ticketTag2Pattern = TagNames.TicketTag3 + "[^}]+}";
 
             while (Regex.IsMatch(result, ticketTag2Pattern))
             {
@@ -175,7 +178,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             result = FormatData(result, TagNames.TotalText, () => HumanFriendlyInteger.CurrencyToWritten(ticket.GetSum()));
             result = FormatData(result, TagNames.Totaltext, () => HumanFriendlyInteger.CurrencyToWritten(ticket.GetSum(), true));
 
-            result = UpdateSettings(result);
+            result = _settingReplacer.ReplaceSettingValue("{SETTING:([^}]+)}", result);
 
             return result;
         }
@@ -228,22 +231,6 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             return result;
         }
 
-
-        private static string UpdateSettings(string result)
-        {
-            while (Regex.IsMatch(result, "{SETTING:[^}]+}", RegexOptions.Singleline))
-            {
-                var match = Regex.Match(result, "{SETTING:([^}]+)}");
-                var tagName = match.Groups[0].Value;
-                var settingName = match.Groups[1].Value;
-                var tagData = new TagData(result, tagName);
-                var value = !string.IsNullOrEmpty(settingName) ? SettingService.GetProgramSetting(settingName).StringValue : "";
-                var replace = !string.IsNullOrEmpty(value) ? tagData.Title.Replace("<value>", value) : "";
-                result = result.Replace(tagData.DataString, replace);
-            }
-            return result;
-        }
-
         private static string FormatData(string data, string tag, Func<string> valueFunc)
         {
             if (!data.Contains(tag)) return data;
@@ -292,7 +279,8 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
                 result = FormatData(result, TagNames.LineAmount, () => order.GetTotal().ToString("#,#0.00"));
                 result = FormatData(result, TagNames.OrderNo, () => order.OrderNumber.ToString());
                 result = FormatData(result, TagNames.PriceTag, () => order.PriceTag);
-                result = UpdateSettings(result);
+                result = _settingReplacer.ReplaceSettingValue("{SETTING:([^}]+)}", result);
+
                 if (result.Contains(TagNames.Properties.Substring(0, TagNames.Properties.Length - 1)))
                 {
                     string lineFormat = result;

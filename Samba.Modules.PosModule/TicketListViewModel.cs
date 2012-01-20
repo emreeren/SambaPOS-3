@@ -377,9 +377,9 @@ namespace Samba.Modules.PosModule
             }
             if (obj.Topic == EventTopicNames.TagSelectedForSelectedTicket)
             {
-                if (obj.Value.TicketTagGroup.Action == 1 && CanCloseTicket(""))
+                if (obj.Value.TicketTagGroup != null && obj.Value.TicketTagGroup.Action == 1 && CanCloseTicket(""))
                     CloseTicketCommand.Execute("");
-                if (obj.Value.TicketTagGroup.Action == 2 && CanMakePayment(""))
+                if (obj.Value.TicketTagGroup != null && obj.Value.TicketTagGroup.Action == 2 && CanMakePayment(""))
                     MakePaymentCommand.Execute("");
                 else
                 {

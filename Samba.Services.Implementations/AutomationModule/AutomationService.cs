@@ -44,13 +44,11 @@ namespace Samba.Services.Implementations.AutomationModule
 
                     if (action != null)
                     {
-                        //IActionData data = new ActionData { Action = action, DataObject = dataObject, ParameterValues = container.ParameterValues };
-                        //data.PublishEvent(EventTopicNames.ExecuteEvent, true);
                         var clonedAction = ObjectCloner.Clone(action);
                         var containerParameterValues = container.ParameterValues ?? "";
-                        clonedAction.Parameter = settingReplacer.ReplaceSettingValue("\\{:[^}]+\\}", clonedAction.Parameter);
-                        containerParameterValues = settingReplacer.ReplaceSettingValue("\\{:[^}]+\\}", containerParameterValues);
-                        var data = new ActionData { Action = clonedAction, DataObject = dataObject, ParameterValues = containerParameterValues };
+                        clonedAction.Parameter = settingReplacer.ReplaceSettingValue("\\{:([^}]+)\\}", clonedAction.Parameter);
+                        containerParameterValues = settingReplacer.ReplaceSettingValue("\\{:([^}]+)\\}", containerParameterValues);
+                        IActionData data = new ActionData { Action = clonedAction, DataObject = dataObject, ParameterValues = containerParameterValues };
                         data.PublishEvent(EventTopicNames.ExecuteEvent, true);
                     }
                 }

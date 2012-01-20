@@ -3002,4 +3002,25 @@ Bilgi eklemeden devam etmek istiyor musunuz?</value>
 	<data name="SubTotal">
 		<value xml:space="preserve">Ara Toplam</value>
 	</data>
+  <data name="Increase" xml:space="preserve">
+    <value>Arttır</value>
+  </data>
+  <data name="Decrease" xml:space="preserve">
+    <value>Azalt</value>
+  </data>
+  <data name="SettingName" xml:space="preserve">
+    <value>Ayar Adı</value>
+  </data>
+  <data name="SettingValue" xml:space="preserve">
+    <value>Ayar Değeri</value>
+  </data>
+  <data name="UpdateType" xml:space="preserve">
+    <value>Güncelleme Şekli</value>
+  </data>
+  <data name="Command" xml:space="preserve">
+    <value>Komut</value>
+  </data>
+  <data name="RoleName" xml:space="preserve">
+    <value>Rol Adı</value>
+  </data>
 </root>

@@ -20,8 +20,6 @@ namespace Samba.Services.Implementations.SettingsModule
 
         public string ReplaceSettingValue(string template, string value)
         {
-            // template = "\\{:[^}]+\\}"
-
             if (value == null) return "";
             while (Regex.IsMatch(value, template, RegexOptions.Singleline))
             {

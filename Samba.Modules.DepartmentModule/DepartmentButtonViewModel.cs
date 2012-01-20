@@ -1,69 +1,36 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Samba.Domain.Models.Settings;
-using Samba.Domain.Models.Tickets;
-using Samba.Domain.Models.Users;
+﻿using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Common;
 using Samba.Services;
-using Samba.Services.Common;
 
 namespace Samba.Modules.DepartmentModule
 {
     public class DepartmentButtonViewModel : ObservableObject
     {
         private readonly IApplicationState _applicationState;
-        private readonly IUserService _userService;
+        private readonly DepartmentSelectorViewModel _parentViewModel;
 
-        public DepartmentButtonViewModel(IApplicationState applicationState, IUserService userService)
+        public DepartmentButtonViewModel(DepartmentSelectorViewModel parentViewModel,
+            IApplicationState applicationState)
         {
+            _parentViewModel = parentViewModel;
             _applicationState = applicationState;
-            _userService = userService;
-            EventServiceFactory.EventService.GetEvent<GenericEvent<IApplicationState>>().Subscribe(OnSelectedTicketChanged);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<WorkPeriod>>().Subscribe(OnWorkPeriodChanged);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<User>>().Subscribe(OnUserLoggedIn);
+            DepartmentSelectionCommand = new CaptionCommand<string>("Select", OnSelectDepartment);
         }
 
-        private void OnSelectedTicketChanged(EventParameters<IApplicationState> obj)
+        private void OnSelectDepartment(string obj)
         {
-            if (obj.Topic == EventTopicNames.SelectedTicketChanged)
-                RaisePropertyChanged(() => CanChangeDepartment);
+            _parentViewModel.UpdateSelectedDepartment(Department);
         }
 
-        public bool IsDepartmentSelectorVisible
-        {
-            get
-            {
-                return PermittedDepartments.Count() > 1
-                    && _userService.IsUserPermittedFor(PermissionNames.ChangeDepartment);
-            }
-        }
+        public ICaptionCommand DepartmentSelectionCommand { get; set; }
 
-        public IEnumerable<Department> PermittedDepartments
-        {
-            get { return _userService.PermittedDepartments; }
-        }
+        public string Name { get; set; }
+        public Department Department { get; set; }
+        public string ButtonColor { get { return _applicationState.CurrentDepartment == Department ? "Red" : "Gainsboro"; } }
 
-        public bool CanChangeDepartment
+        public void Refresh()
         {
-            get { return _applicationState.CurrentTicket == null && _applicationState.IsCurrentWorkPeriodOpen; }
-        }
-
-        private void OnWorkPeriodChanged(EventParameters<WorkPeriod> obj)
-        {
-            if (obj.Topic == EventTopicNames.WorkPeriodStatusChanged)
-            {
-                RaisePropertyChanged(() => CanChangeDepartment);
-            }
-        }
-
-        private void OnUserLoggedIn(EventParameters<User> obj)
-        {
-            if (obj.Topic == EventTopicNames.UserLoggedIn)
-            {
-                RaisePropertyChanged(() => IsDepartmentSelectorVisible);
-                RaisePropertyChanged(() => PermittedDepartments);
-                RaisePropertyChanged(() => CanChangeDepartment);
-            }
+            RaisePropertyChanged(() => ButtonColor);
         }
     }
 }

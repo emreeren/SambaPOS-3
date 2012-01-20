@@ -44,7 +44,7 @@ namespace Samba.Presentation.ViewModels
 
         private static void RegisterActions()
         {
-            AutomationService.RegisterActionType("SendEmail", Resources.SendEmail, new { SMTPServer = "", SMTPUser = "", SMTPPassword = "", SMTPPort = 0, ToEMailAddress = "", Subject = "", FromEMailAddress = "", EMailMessage = "", FileName = "", DeleteFile = false });
+            AutomationService.RegisterActionType("SendEmail", Resources.SendEmail, new { SMTPServer = "", SMTPUser = "", SMTPPassword = "", SMTPPort = 0, ToEMailAddress = "", Subject = "", FromEMailAddress = "", EMailMessage = "", FileName = "", DeleteFile = false, BypassSslErrors = false });
             AutomationService.RegisterActionType("AddTicketDiscount", Resources.AddTicketDiscount, new { DiscountPercentage = 0m });
             AutomationService.RegisterActionType("AddOrder", Resources.AddOrder, new { MenuItemName = "", PortionName = "", Quantity = 0, Tag = "" });
             AutomationService.RegisterActionType("UpdateTicketTag", Resources.UpdateTicketTag, new { TagName = "", TagValue = "" });
@@ -54,7 +54,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType("UpdatePriceTag", Resources.UpdatePriceTag, new { DepartmentName = "", PriceTag = "" });
             AutomationService.RegisterActionType("RefreshCache", Resources.RefreshCache);
             AutomationService.RegisterActionType("SendMessage", Resources.BroadcastMessage, new { Command = "" });
-            AutomationService.RegisterActionType("UpdateProgramSetting", Resources.UpdateProgramSetting, new { SettingName = "", SettingValue = "" });
+            AutomationService.RegisterActionType("UpdateProgramSetting", Resources.UpdateProgramSetting, new { SettingName = "", SettingValue = "", UpdateType = Resources.Update, IsLocal = true });
             AutomationService.RegisterActionType("UpdateTicketTax", Resources.UpdateTicketTax, new { TaxTemplate = "" });
             AutomationService.RegisterActionType("RegenerateTicketTax", Resources.RegenerateTicketTax);
             AutomationService.RegisterActionType("UpdateTicketService", Resources.UpdateTicketService, new { ServiceTemplate = "", Amount = 0m });
@@ -139,12 +139,65 @@ namespace Samba.Presentation.ViewModels
 
                 if (x.Value.Action.ActionType == "UpdateProgramSetting")
                 {
+                    //var settingName = x.Value.GetAsString("SettingName");
+                    //var settingValue = x.Value.GetAsString("SettingValue");
+                    //if (!string.IsNullOrEmpty(settingName))
+                    //{
+                    //    SettingService.GetProgramSetting(settingName).StringValue = settingValue;
+                    //    SettingService.SaveProgramSettings();
+                    //}
+
                     var settingName = x.Value.GetAsString("SettingName");
-                    var settingValue = x.Value.GetAsString("SettingValue");
+                    var updateType = x.Value.GetAsString("UpdateType");
                     if (!string.IsNullOrEmpty(settingName))
                     {
-                        SettingService.GetProgramSetting(settingName).StringValue = settingValue;
-                        SettingService.SaveProgramSettings();
+                        var isLocal = x.Value.GetAsBoolean("IsLocal");
+                        var setting = isLocal
+                            ? SettingService.ReadLocalSetting(settingName)
+                            : SettingService.ReadGlobalSetting(settingName);
+
+                        if (updateType == Resources.Increase)
+                        {
+                            var settingValue = x.Value.GetAsInteger("SettingValue");
+                            if (string.IsNullOrEmpty(setting.StringValue))
+                                setting.IntegerValue = settingValue;
+                            else
+                                setting.IntegerValue = setting.IntegerValue + settingValue;
+                        }
+                        else if (updateType == Resources.Decrease)
+                        {
+                            var settingValue = x.Value.GetAsInteger("SettingValue");
+                            if (string.IsNullOrEmpty(setting.StringValue))
+                                setting.IntegerValue = settingValue;
+                            else
+                                setting.IntegerValue = setting.IntegerValue - settingValue;
+                        }
+                        else if (updateType == "Toggle")
+                        {
+                            var settingValue = x.Value.GetAsString("SettingValue");
+                            var parts = settingValue.Split(',');
+                            if (string.IsNullOrEmpty(setting.StringValue))
+                            {
+                                setting.StringValue = parts[0];
+                            }
+                            else
+                            {
+                                for (var i = 0; i < parts.Length; i++)
+                                {
+                                    if (parts[i] == setting.StringValue)
+                                    {
+                                        setting.StringValue = (i + 1) < parts.Length ? parts[i + 1] : parts[0];
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            var settingValue = x.Value.GetAsString("SettingValue");
+                            setting.StringValue = settingValue;
+                        }
+                        if (!isLocal) SettingService.SaveProgramSettings();
                     }
                 }
 
@@ -169,7 +222,8 @@ namespace Samba.Presentation.ViewModels
                         x.Value.GetAsString("Subject"),
                         x.Value.GetAsString("EMailMessage"),
                         x.Value.GetAsString("FileName"),
-                        x.Value.GetAsBoolean("DeleteFile"));
+                        x.Value.GetAsBoolean("DeleteFile"),
+                        x.Value.GetAsBoolean("BypassSslErrors"));
                 }
 
                 if (x.Value.Action.ActionType == "UpdateTicketTax")

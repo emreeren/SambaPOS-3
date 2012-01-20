@@ -3000,4 +3000,26 @@ Continue without adding details?</value>
 	<data name="SubTotal">
 		<value xml:space="preserve">Sub Total</value>
 	</data>
+  <data name="Increase" xml:space="preserve">
+    <value>Increase</value>
+  </data>
+  <data name="Decrease" xml:space="preserve">
+    <value>Decrease</value>
+  </data>
+  <data name="SettingName" xml:space="preserve">
+    <value>Setting Name</value>
+  </data>
+  <data name="SettingValue" xml:space="preserve">
+    <value>Setting Value</value>
+  </data>
+  <data name="UpdateType" xml:space="preserve">
+    <value>Update Type</value>
+  </data>
+  <data name="Command" xml:space="preserve">
+    <value>Command</value>
+  </data>
+  <data name="RoleName" xml:space="preserve">
+    <value>Role Name</value>
+  </data>
+
 </root>

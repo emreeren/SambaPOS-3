@@ -32,16 +32,6 @@ namespace Samba.Services.Implementations.SettingsModule
             set { _workspace = value; }
         }
 
-        public IProgramSetting ReadSetting(string settingName)
-        {
-            return _globalSettings.ReadSetting(settingName);
-        }
-
-        public ISettingReplacer GetSettingReplacer()
-        {
-            return new SettingReplacer(_globalSettings);
-        }
-
         private static IEnumerable<Terminal> _terminals;
         public static IEnumerable<Terminal> Terminals { get { return _terminals ?? (_terminals = Workspace.All<Terminal>()); } }
 
@@ -96,7 +86,7 @@ namespace Samba.Services.Implementations.SettingsModule
         {
             get { return _globalSettings; }
         }
-
+        
         public IProgramSetting GetProgramSetting(string settingName)
         {
             return _globalSettings.GetSetting(settingName);
@@ -105,6 +95,26 @@ namespace Samba.Services.Implementations.SettingsModule
         public void SaveProgramSettings()
         {
             _globalSettings.SaveChanges();
+        }
+
+        public IProgramSetting ReadLocalSetting(string settingName)
+        {
+            return _globalSettings.ReadLocalSetting(settingName);
+        }
+
+        public IProgramSetting ReadGlobalSetting(string settingName)
+        {
+            return _globalSettings.ReadGlobalSetting(settingName);
+        }
+
+        public IProgramSetting ReadSetting(string settingName)
+        {
+            return _globalSettings.ReadSetting(settingName);
+        }
+
+        public ISettingReplacer GetSettingReplacer()
+        {
+            return new SettingReplacer(_globalSettings);
         }
 
         public int GetNextNumber(int numeratorId)

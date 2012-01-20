@@ -3,14 +3,13 @@
      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
-        <Label Grid.Column="0" Content="{LocText User, Suffix=':'}"
-             HorizontalAlignment="Left" VerticalAlignment="Bottom" />
-        <Label Grid.Column="1" Content="{Binding Path=LoggedInUserName}" HorizontalAlignment="Left"
-             VerticalAlignment="Bottom" />
+        <StackPanel Grid.Column="0" Margin="0,0,5,2" >
+            <TextBlock Text="{LocText User, Suffix=':'}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding Path=LoggedInUserName}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+        </StackPanel>
         <Button Focusable="False" Grid.Column="2" Content="{LocText MainMenu}"
              Command="{Binding Path=LogoutUserCommand}" />
     </Grid>

@@ -445,9 +445,7 @@ namespace Samba.Modules.DeliveryModule
 
         private void OnCloseScreen(string obj)
         {
-            EventServiceFactory.EventService.PublishEvent(_applicationState.IsCurrentWorkPeriodOpen
-                                                              ? EventTopicNames.ActivatePosView
-                                                              : EventTopicNames.ActivateNavigation);
+            _applicationState.CurrentDepartment.PublishEvent(EventTopicNames.ActivateOpenTickets); 
             SelectedView = 0;
             ActiveView = 0;
             SelectedAccountTransactions.Clear();

@@ -58,10 +58,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DepartmentButtonView.xaml.cs">
-      <DependentUpon>DepartmentButtonView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="DepartmentButtonViewModel.cs" />
+    <Compile Include="DepartmentSelectorView.xaml.cs">
+      <DependentUpon>DepartmentSelectorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DepartmentSelectorViewModel.cs" />
     <Compile Include="DepartmentListViewModel.cs" />
     <Compile Include="DepartmentView.xaml.cs">
       <DependentUpon>DepartmentView.xaml</DependentUpon>
@@ -71,7 +72,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="DepartmentButtonView.xaml">
+    <Page Include="DepartmentSelectorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -81,6 +82,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lib\FlexButton\FlexButton.csproj">
+      <Project>{434D497A-D439-44C8-84A5-5301B572708F}</Project>
+      <Name>FlexButton</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">
       <Project>{2386F6A0-91B2-4D1A-8DBC-92109924AFFE}</Project>
       <Name>Samba.Domain</Name>
