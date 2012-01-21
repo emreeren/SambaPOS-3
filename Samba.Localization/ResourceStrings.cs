@@ -7,6 +7,7 @@ namespace Samba.Localization
 {
     public static class ResourceStrings
     {
+        public const string FontSize = "FontSize";
         public const string OrderTagTemplate = "OrderTagTemplate";
         public const string SubMenuTags = "SubMenuTags";
         public const string Location = "Location";

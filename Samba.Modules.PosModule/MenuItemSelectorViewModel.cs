@@ -61,7 +61,7 @@ namespace Samba.Modules.PosModule
         public bool IsQuickNumeratorVisible { get { return SelectedCategory != null && SelectedCategory.IsQuickNumeratorVisible; } }
         public bool IsNumeratorVisible { get { return SelectedCategory != null && SelectedCategory.IsNumeratorVisible; } }
         public bool IsPageNumberNavigatorVisible { get { return SelectedCategory != null && SelectedCategory.PageCount > 1; } }
-        public VerticalAlignment MenuItemsVerticalAlignment { get { return SelectedCategory != null && SelectedCategory.ButtonHeight > 0 ? VerticalAlignment.Top : VerticalAlignment.Stretch; } }
+        public VerticalAlignment MenuItemsVerticalAlignment { get { return SelectedCategory != null && SelectedCategory.MenuItemButtonHeight > 0 ? VerticalAlignment.Top : VerticalAlignment.Stretch; } }
         public VerticalAlignment CategoriesVerticalAlignment { get { return Categories != null && Categories.Count > 0 && double.IsNaN(Categories[0].MButtonHeight) ? VerticalAlignment.Stretch : VerticalAlignment.Top; } }
         public int CurrentPageNo { get; set; }
         public string CurrentTag { get; set; }
@@ -306,11 +306,11 @@ namespace Samba.Modules.PosModule
             SubCategories.Clear();
             SubCategories.AddRange(
                 _menuService.GetScreenMenuCategories(category, CurrentTag)
-                .Select(x => new ScreenSubCategoryButton(x, SubCategoryCommand, category.MButtonColor, category.SubButtonHeight)));
+                .Select(x => new ScreenSubCategoryButton(x, SubCategoryCommand, category.MainButtonColor, category.MainFontSize, category.SubButtonHeight)));
 
             if (!string.IsNullOrEmpty(CurrentTag))
             {
-                var backButton = new ScreenSubCategoryButton(CurrentTag.Replace(CurrentTag.Split(',').Last(), "").Trim(new[] { ',', ' ' }), SubCategoryCommand, "Gainsboro", category.SubButtonHeight, true);
+                var backButton = new ScreenSubCategoryButton(CurrentTag.Replace(CurrentTag.Split(',').Last(), "").Trim(new[] { ',', ' ' }), SubCategoryCommand, "Gainsboro", category.MainFontSize, category.SubButtonHeight, true);
                 SubCategories.Add(backButton);
             }
 

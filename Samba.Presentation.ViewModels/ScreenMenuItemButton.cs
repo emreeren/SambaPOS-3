@@ -21,7 +21,7 @@ namespace Samba.Presentation.ViewModels
             var color = screenMenuItem.ButtonColor;
 
             if (string.IsNullOrEmpty(color))
-                color = category != null ? category.ButtonColor : "Green";
+                color = category != null ? category.MenuItemButtonColor : "Green";
 
             ButtonColor = color;
         }
@@ -44,14 +44,15 @@ namespace Samba.Presentation.ViewModels
         }
         public ICommand Command { get { return _command; } }
         public ScreenMenuCategory Category { get { return _category; } }
-        public double ButtonHeight { get { return Category.ButtonHeight > 0 ? Category.ButtonHeight : double.NaN; } }
+        public double ButtonHeight { get { return Category.MenuItemButtonHeight > 0 ? Category.MenuItemButtonHeight : double.NaN; } }
         public string ButtonColor { get; private set; }
+        public double FontSize { get { return _screenMenuItem.FontSize > 1 ? _screenMenuItem.FontSize : Category.MenuItemFontSize; } }
         public string ImagePath
         {
             get
             {
-                return !string.IsNullOrEmpty(ScreenMenuItem.ImagePath) 
-                    ? ScreenMenuItem.ImagePath 
+                return !string.IsNullOrEmpty(ScreenMenuItem.ImagePath)
+                    ? ScreenMenuItem.ImagePath
                     : LocalSettings.AppPath + "\\images\\empty.png";
             }
         }

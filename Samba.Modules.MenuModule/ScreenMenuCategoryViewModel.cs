@@ -49,8 +49,15 @@ namespace Samba.Modules.MenuModule
         [LocalizedDisplayName(ResourceStrings.ButtonHeight), LocalizedCategory(ResourceStrings.CategoryProperties)]
         public int MainButtonHeight
         {
-            get { return Model.MButtonHeight; }
-            set { Model.MButtonHeight = value; RaisePropertyChanged(() => MainButtonHeight); }
+            get { return Model.MainButtonHeight; }
+            set { Model.MainButtonHeight = value; RaisePropertyChanged(() => MainButtonHeight); }
+        }
+
+        [LocalizedDisplayName(ResourceStrings.FontSize), LocalizedCategory(ResourceStrings.CategoryProperties)]
+        public double MainFontSize
+        {
+            get { return Model.MainFontSize; }
+            set { Model.MainFontSize = value; RaisePropertyChanged(() => MainFontSize); }
         }
 
         [LocalizedDisplayName(ResourceStrings.ButtonColor), LocalizedCategory(ResourceStrings.CategoryProperties)]
@@ -58,11 +65,11 @@ namespace Samba.Modules.MenuModule
         {
             get
             {
-                return (Color)ColorConverter.ConvertFromString(Model.MButtonColor);
+                return (Color)ColorConverter.ConvertFromString(Model.MainButtonColor);
             }
             set
             {
-                Model.MButtonColor = value != Colors.Transparent ? value.ToString() : string.Empty;
+                Model.MainButtonColor = value != Colors.Transparent ? value.ToString() : string.Empty;
                 RaisePropertyChanged(() => MainButtonColor);
             }
         }
@@ -91,8 +98,15 @@ namespace Samba.Modules.MenuModule
         [LocalizedDisplayName(ResourceStrings.ButtonHeight), LocalizedCategory(ResourceStrings.MenuProperties)]
         public int ButtonHeight
         {
-            get { return Model.ButtonHeight; }
-            set { Model.ButtonHeight = value; RaisePropertyChanged(() => ButtonHeight); }
+            get { return Model.MenuItemButtonHeight; }
+            set { Model.MenuItemButtonHeight = value; RaisePropertyChanged(() => ButtonHeight); }
+        }
+
+        [LocalizedDisplayName(ResourceStrings.FontSize), LocalizedCategory(ResourceStrings.MenuProperties)]
+        public double FontSize
+        {
+            get { return Model.MenuItemFontSize; }
+            set { Model.MenuItemFontSize = value; RaisePropertyChanged(() => FontSize); }
         }
 
         [LocalizedDisplayName(ResourceStrings.PageCount), LocalizedCategory(ResourceStrings.MenuProperties)]
@@ -114,11 +128,11 @@ namespace Samba.Modules.MenuModule
         {
             get
             {
-                return (Color)ColorConverter.ConvertFromString(Model.ButtonColor);
+                return (Color)ColorConverter.ConvertFromString(Model.MenuItemButtonColor);
             }
             set
             {
-                Model.ButtonColor = value != Colors.Transparent ? value.ToString() : string.Empty;
+                Model.MenuItemButtonColor = value != Colors.Transparent ? value.ToString() : string.Empty;
                 RaisePropertyChanged(() => ButtonColor);
             }
         }

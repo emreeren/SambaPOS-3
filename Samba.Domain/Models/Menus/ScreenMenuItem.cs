@@ -9,6 +9,7 @@ namespace Samba.Domain.Models.Menus
         public ScreenMenuItem()
         {
             Quantity = 1;
+            FontSize = 1;
             SubMenuTag = "";
         }
 
@@ -27,6 +28,7 @@ namespace Samba.Domain.Models.Menus
         public string ButtonColor { get; set; }
         public int Quantity { get; set; }
         public string ImagePath { get; set; }
+        public double FontSize { get; set; }
         public string SubMenuTag { get; set; }
         public string ItemPortion { get; set; }
         public virtual OrderTagTemplate OrderTagTemplate { get; set; }

@@ -139,14 +139,6 @@ namespace Samba.Presentation.ViewModels
 
                 if (x.Value.Action.ActionType == "UpdateProgramSetting")
                 {
-                    //var settingName = x.Value.GetAsString("SettingName");
-                    //var settingValue = x.Value.GetAsString("SettingValue");
-                    //if (!string.IsNullOrEmpty(settingName))
-                    //{
-                    //    SettingService.GetProgramSetting(settingName).StringValue = settingValue;
-                    //    SettingService.SaveProgramSettings();
-                    //}
-
                     var settingName = x.Value.GetAsString("SettingName");
                     var updateType = x.Value.GetAsString("UpdateType");
                     if (!string.IsNullOrEmpty(settingName))

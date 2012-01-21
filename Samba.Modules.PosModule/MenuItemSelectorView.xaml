@@ -42,7 +42,7 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <FxButton:FlexButton Content="{Binding Caption}" Focusable="False" Command="{Binding ButtonCommand}"
+                            <FxButton:FlexButton FontSize="{Binding FontSize}" Content="{Binding Caption}" Focusable="False" Command="{Binding ButtonCommand}"
                                  CommandParameter="{Binding Category}" Height="{Binding MButtonHeight}" Margin="0,0,0,0"
                                  ButtonImage="{Binding ImagePath}" ButtonColor="{Binding MButtonColor}" />
                         </DataTemplate>
@@ -105,7 +105,7 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <FxButton:FlexButton Content="{Binding Caption}" Focusable="False" Command="{Binding Command}"
+                            <FxButton:FlexButton Content="{Binding Caption}" Focusable="False" Command="{Binding Command}" FontSize="{Binding FontSize}"
                                  CommandParameter="{Binding }" Height="{Binding Height}" Margin="0,0,0,5" ButtonColor="{Binding ButtonColor}"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -126,7 +126,7 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <FxButton:FlexButton Focusable="False" ButtonColor="{Binding ButtonColor}" Content="{Binding Caption}"
+                                    <FxButton:FlexButton FontSize="{Binding FontSize}" Focusable="False" ButtonColor="{Binding ButtonColor}" Content="{Binding Caption}"
                                      Command="{Binding Command}" CommandParameter="{Binding ScreenMenuItem}" Height="{Binding ButtonHeight}"
                                       Margin="0,0,0,0" ButtonImage="{Binding ImagePath}"/>
                                 </DataTemplate>

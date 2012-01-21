@@ -25,5 +25,6 @@
     <local:ColorToAlphaColorConverter x:Key="ColorToAlphaColorConverter" />
     <local:HighlightCornerRadiusConverter x:Key="HighlightCornerRadiusConverter" />
     <local:BrightnessToColorConverter x:Key="BrightnessToColorConverter" />
+    <local:FontSizeToViewBoxDirectionConverter x:Key="fontSizeToViewBoxDirectionConverter" />
 
 </ResourceDictionary>

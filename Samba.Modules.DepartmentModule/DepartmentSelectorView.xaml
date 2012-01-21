@@ -12,8 +12,10 @@
                   Margin="0,0,5,0">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <FlexButton:FlexButton Margin="5,0,0,0" Width="70" MinHeight="30" Command="{Binding DepartmentSelectionCommand}"
-                                           Content="{Binding Name}" ButtonColor="{Binding ButtonColor}"  />
+                    <FlexButton:FlexButton Margin="5,0,0,0" MinWidth="70" MinHeight="30" Command="{Binding DepartmentSelectionCommand}"
+                                           ButtonColor="{Binding ButtonColor}"  >
+                        <TextBlock FontSize="12" Text="{Binding Name}"/>
+                    </FlexButton:FlexButton>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemsPanel>

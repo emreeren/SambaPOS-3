@@ -26,7 +26,7 @@ namespace Samba.Modules.DepartmentModule
 
         public string Name { get; set; }
         public Department Department { get; set; }
-        public string ButtonColor { get { return _applicationState.CurrentDepartment == Department ? "Red" : "Gainsboro"; } }
+        public string ButtonColor { get { return _applicationState.CurrentDepartment == Department ? "Gray" : "Gainsboro"; } }
 
         public void Refresh()
         {

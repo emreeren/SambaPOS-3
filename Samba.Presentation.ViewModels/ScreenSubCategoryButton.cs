@@ -17,13 +17,15 @@ namespace Samba.Presentation.ViewModels
 
         public ICommand Command { get; set; }
         public int Height { get; set; }
+        public double FontSize { get; set; }
         public bool BackButton { get; set; }
 
-        public ScreenSubCategoryButton(string name, ICommand command, string buttonColor, int height, bool backButton = false)
+        public ScreenSubCategoryButton(string name, ICommand command, string buttonColor, double fontSize, int height, bool backButton = false)
         {
             Name = name;
             Command = command;
             Height = height;
+            FontSize = fontSize;
             BackButton = backButton;
             ButtonColor = buttonColor;
         }

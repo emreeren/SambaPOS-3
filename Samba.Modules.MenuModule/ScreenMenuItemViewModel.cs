@@ -76,6 +76,13 @@ namespace Samba.Modules.MenuModule
             }
         }
 
+        [LocalizedDisplayName(ResourceStrings.FontSize)]
+        public double FontSize
+        {
+            get { return Model.FontSize; }
+            set { Model.FontSize = value; RaisePropertyChanged(()=>FontSize);}
+        }
+
         [LocalizedDisplayName(ResourceStrings.Header)]
         public string Name
         {

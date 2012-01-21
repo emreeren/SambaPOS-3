@@ -9,15 +9,17 @@ namespace Samba.Domain.Models.Menus
         public ScreenMenuCategory()
         {
             _screenMenuItems = new List<ScreenMenuItem>();
-            MButtonHeight = 65;
-            ButtonHeight = 65;
+            MainButtonHeight = 65;
+            MenuItemButtonHeight = 65;
             SubButtonHeight = 65;
             ColumnCount = 0;
             WrapText = false;
-            ButtonColor = "Green";
-            MButtonColor = "Orange";
+            MenuItemButtonColor = "Green";
+            MainButtonColor = "Orange";
             NumeratorType = 2;
             PageCount = 1;
+            MainFontSize = 1;
+            MenuItemFontSize = 1;
         }
 
         public ScreenMenuCategory(string name)
@@ -46,13 +48,16 @@ namespace Samba.Domain.Models.Menus
         public int MenuItemCount { get { return ScreenMenuItems.Count; } }
         public int ColumnCount { get; set; }
 
-        public int ButtonHeight { get; set; }
+        public int MenuItemButtonHeight { get; set; }
+        public string MenuItemButtonColor { get; set; }
+        public double MenuItemFontSize { get; set; }
+
         public bool WrapText { get; set; }
-        public string ButtonColor { get; set; }
         public int PageCount { get; set; }
 
-        public int MButtonHeight { get; set; }
-        public string MButtonColor { get; set; }
+        public int MainButtonHeight { get; set; }
+        public string MainButtonColor { get; set; }
+        public double MainFontSize { get; set; }
 
         public int SubButtonHeight { get; set; }
 
