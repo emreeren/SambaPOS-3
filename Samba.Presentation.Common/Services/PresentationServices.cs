@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Samba.Services.Common;
 
@@ -6,6 +7,7 @@ namespace Samba.Presentation.Common.Services
 {
     public static class PresentationServices
     {
+        public static ObservableCollection<ICaptionCommand> OrderCommands { get; private set; }
         public static ObservableCollection<ICategoryCommand> NavigationCommandCategories { get; private set; }
         public static ObservableCollection<DashboardCommandCategory> DashboardCommandCategories { get; private set; }
 
@@ -13,9 +15,17 @@ namespace Samba.Presentation.Common.Services
         {
             NavigationCommandCategories = new ObservableCollection<ICategoryCommand>();
             DashboardCommandCategories = new ObservableCollection<DashboardCommandCategory>();
+            OrderCommands = new ObservableCollection<ICaptionCommand>();
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<ICategoryCommand>>().Subscribe(OnNavigationCommandAdded);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<ICategoryCommand>>().Subscribe(OnDashboardCommand);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<ICategoryCommand>>().Subscribe(OnDashboardCommandAdded);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<ICaptionCommand>>().Subscribe(OnTicketCommandAdded);
+        }
+
+        private static void OnTicketCommandAdded(EventParameters<ICaptionCommand> obj)
+        {
+            if (obj.Topic == EventTopicNames.AddCustomOrderCommand)
+                OrderCommands.Add(obj.Value);
         }
 
         private static void OnNavigationCommandAdded(EventParameters<ICategoryCommand> obj)
@@ -24,7 +34,7 @@ namespace Samba.Presentation.Common.Services
                 NavigationCommandCategories.Add(obj.Value);
         }
 
-        private static void OnDashboardCommand(EventParameters<ICategoryCommand> result)
+        private static void OnDashboardCommandAdded(EventParameters<ICategoryCommand> result)
         {
             if (result.Topic == EventTopicNames.DashboardCommandAdded)
             {

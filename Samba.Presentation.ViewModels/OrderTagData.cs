@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Samba.Domain.Models.Tickets;
 
-namespace Samba.Modules.PosModule
+namespace Samba.Presentation.ViewModels
 {
     public class OrderTagData
     {

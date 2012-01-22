@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Samba.Domain.Models.Locations;
 using Samba.Infrastructure.Data;
 
@@ -14,6 +15,8 @@ namespace Samba.Domain.Models.Tickets
         public bool IsFastFood { get; set; }
         public bool IsAlaCarte { get; set; }
         public bool IsTakeAway { get; set; }
+        [StringLength(10)]
+        public string PriceTag { get; set; }
         public virtual TicketTemplate TicketTemplate { get; set; }
 
         public int OpenTicketViewColumnCount { get; set; }

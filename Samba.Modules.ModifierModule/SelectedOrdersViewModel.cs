@@ -16,7 +16,7 @@ using Samba.Presentation.ViewModels;
 using Samba.Services;
 using Samba.Services.Common;
 
-namespace Samba.Modules.PosModule
+namespace Samba.Modules.ModifierModule
 {
     [Export]
     public class SelectedOrdersViewModel : ObservableObject
@@ -25,15 +25,14 @@ namespace Samba.Modules.PosModule
         private bool _showTicketNoteEditor;
         private bool _showFreeTagEditor;
         private readonly IApplicationState _applicationState;
-        private readonly ITicketService _ticketService;
         private readonly ICacheService _cacheService;
 
+
         [ImportingConstructor]
-        public SelectedOrdersViewModel(IApplicationState applicationState, ITicketService ticketService,
-            IUserService userService, ICacheService cacheService)
+        public SelectedOrdersViewModel(IApplicationState applicationState, IUserService userService,
+            ICacheService cacheService)
         {
             _applicationState = applicationState;
-            _ticketService = ticketService;
             _cacheService = cacheService;
             CloseCommand = new CaptionCommand<string>(Resources.Close, OnCloseCommandExecuted);
             SelectTicketTagCommand = new DelegateCommand<TicketTag>(OnTicketTagSelected);
@@ -45,9 +44,18 @@ namespace Samba.Modules.PosModule
             OrderTagGroups = new ObservableCollection<SelectedOrderTagGroupViewModel>();
             TicketTags = new ObservableCollection<TicketTag>();
             OrderTags = new ObservableCollection<OrderTagButtonViewModel>();
+
             EventServiceFactory.EventService.GetEvent<GenericEvent<OrderTagData>>().Subscribe(OnOrderTagDataSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketTagData>>().Subscribe(OnTicketTagDataSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<Ticket>>().Subscribe(OnTicketEvent);
+        }
+
+        public void ActivateExtraModifierScreen(Ticket ticket)
+        {
+            //ResetValues(ticket);
+            _showExtraPropertyEditor = true;
+            RaisePropertyChanged(() => IsExtraPropertyEditorVisible);
+            RaisePropertyChanged(() => IsPortionsVisible);
         }
 
         private void OnTicketTagDataSelected(EventParameters<TicketTagData> obj)
@@ -106,14 +114,6 @@ namespace Samba.Modules.PosModule
 
         private void OnTicketEvent(EventParameters<Ticket> obj)
         {
-            if (obj.Topic == EventTopicNames.SelectExtraProperty)
-            {
-                ResetValues(obj.Value);
-                _showExtraPropertyEditor = true;
-                RaisePropertyChanged(() => IsExtraPropertyEditorVisible);
-                RaisePropertyChanged(() => IsPortionsVisible);
-            }
-
             if (obj.Topic == EventTopicNames.EditTicketNote)
             {
                 ResetValues(obj.Value);
@@ -259,7 +259,10 @@ namespace Samba.Modules.PosModule
                                        Ticket = SelectedTicket
                                    };
 
-            orderTagData.PublishEvent(EventTopicNames.OrderTagSelected);
+            orderTagData.PublishEvent(EventTopicNames.OrderTagSelected, true);
+
+            OrderTags.ToList().ForEach(x => x.Refresh());
+            OrderTagGroups.Where(x => x.OrderTags.Contains(orderTag)).ToList().ForEach(x => x.Refresh());
         }
 
         private void SetSelectedTicket(Ticket ticketViewModel)
@@ -275,10 +278,9 @@ namespace Samba.Modules.PosModule
 
         public bool ShouldDisplay(Ticket value, IEnumerable<Order> selectedOrders)
         {
-            if (selectedOrders.Any(x => x.Locked)) return false;
             ResetValues(value);
-
             SelectedOrder = selectedOrders.Count() == 1 ? selectedOrders.ElementAt(0) : null;
+            if (selectedOrders.Any(x => x.Locked)) return false;
 
             if (SelectedTicket != null && SelectedOrder != null)
             {

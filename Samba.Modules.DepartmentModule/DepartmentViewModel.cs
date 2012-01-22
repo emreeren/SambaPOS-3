@@ -20,11 +20,13 @@ namespace Samba.Modules.DepartmentModule
     public class DepartmentViewModel : EntityViewModelBase<Department>
     {
         private readonly IMenuService _menuService;
+        private readonly IPriceListService _priceListService;
 
         [ImportingConstructor]
-        public DepartmentViewModel(IMenuService menuService)
+        public DepartmentViewModel(IMenuService menuService,IPriceListService priceListService)
         {
             _menuService = menuService;
+            _priceListService = priceListService;
             AddLocationScreenCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.LocationScreen), OnAddLocationScreen);
             DeleteLocationScreenCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.LocationScreen), OnDeleteLocationScreen, CanDeleteLocationScreen);
         }
@@ -50,6 +52,9 @@ namespace Samba.Modules.DepartmentModule
             get { return _ticketTemplates ?? (_ticketTemplates = Workspace.All<TicketTemplate>()); }
         }
         public TicketTemplate TicketTemplate { get { return Model.TicketTemplate; } set { Model.TicketTemplate = value; } }
+
+        public IEnumerable<string> PriceTags { get { return _priceListService.GetTags(); } }
+        public string PriceTag { get { return Model.PriceTag; } set { Model.PriceTag = value; } }
 
         public int OpenTicketViewColumnCount { get { return Model.OpenTicketViewColumnCount; } set { Model.OpenTicketViewColumnCount = value; } }
 

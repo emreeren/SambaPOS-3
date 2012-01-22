@@ -274,9 +274,9 @@ namespace Samba.Modules.PosModule
             OrderTagValues.AddRange(Model.OrderTagValues.Select(x => new OrderTagValueViewModel(x)));
         }
 
-        public void UpdatePrice(decimal value)
+        public void UpdatePrice(decimal value, string priceTag)
         {
-            Model.UpdatePrice(value, _ticketTemplate.PriceTag);
+            Model.UpdatePrice(value, priceTag);
             RaisePropertyChanged(() => Price);
             RaisePropertyChanged(() => TotalPrice);
         }

@@ -33,7 +33,7 @@ namespace Samba.Modules.PosModule
             _applicationState = applicationState;
 
             _orders = new ObservableCollection<OrderViewModel>(model.Orders.Select(x => new OrderViewModel(x, ticketTemplate, _automationService)).OrderBy(x => x.Model.CreatedDateTime));
-           _itemsViewSource = new CollectionViewSource { Source = _orders };
+            _itemsViewSource = new CollectionViewSource { Source = _orders };
             _itemsViewSource.GroupDescriptions.Add(new PropertyGroupDescription("GroupObject"));
 
             SelectAllItemsCommand = new CaptionCommand<string>("", OnSelectAllItemsExecute);
@@ -57,7 +57,8 @@ namespace Samba.Modules.PosModule
             foreach (var order in Orders.Where(x => x.OrderNumber == obj))
                 order.ToggleSelection();
             RefreshVisuals();
-            this.PublishEvent(EventTopicNames.SelectedOrdersChanged);
+            var so = new SelectedOrdersData { SelectedOrders = SelectedOrders.Select(x => x.Model), Ticket = Model };
+            so.PublishEvent(EventTopicNames.SelectedOrdersChanged);
         }
 
         public Ticket Model
@@ -109,7 +110,7 @@ namespace Samba.Modules.PosModule
         public bool IsTicketNoteVisible { get { return !string.IsNullOrEmpty(Note); } }
 
         public bool IsPaid { get { return Model.IsPaid; } }
-        
+
         public string TicketCreationDate
         {
             get
@@ -160,15 +161,12 @@ namespace Samba.Modules.PosModule
 
         public void ClearSelectedItems()
         {
-            //LastSelectedTicketTagGroup = null;
-            //LastSelectedOrderTagGroup = null;
-
             foreach (var item in Orders)
                 item.NotSelected();
 
             RefreshVisuals();
-
-            this.PublishEvent(EventTopicNames.SelectedOrdersChanged);
+            var so = new SelectedOrdersData { SelectedOrders = SelectedOrders.Select(x => x.Model), Ticket = Model };
+            so.PublishEvent(EventTopicNames.SelectedOrdersChanged);
         }
 
         public void RefreshVisuals()
@@ -185,7 +183,7 @@ namespace Samba.Modules.PosModule
         {
             return !_forcePayment || Model.GetRemainingAmount() <= 0 || !string.IsNullOrEmpty(Location) || !string.IsNullOrEmpty(AccountName) || IsTagged || Orders.Count == 0;
         }
-        
+
         public string Location
         {
             get { return Model.LocationName; }
@@ -219,16 +217,6 @@ namespace Samba.Modules.PosModule
         }
 
         public string CustomPrintData { get { return Model.PrintJobData; } set { Model.PrintJobData = value; } }
-
-        //public TicketTagGroup LastSelectedTicketTagGroup { get; set; }
-        //public OrderTagGroup LastSelectedOrderTagGroup { get; set; }
-
-        public void MergeLines()
-        {
-            Model.MergeOrdersAndUpdateOrderNumbers(0);
-            _orders.Clear();
-            _orders.AddRange(Model.Orders.Select(x => new OrderViewModel(x, _ticketTemplate, _automationService)));
-        }
 
         public string GetPrintError()
         {

@@ -2748,7 +2748,7 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ekstra Modifier.
+        ///   Looks up a localized string similar to Extra Modifier.
         /// </summary>
         public static string ExtraModifier {
             get {

@@ -285,7 +285,7 @@ namespace Samba.Presentation.ViewModels
                         var tag = x.Value.GetAsString("Tag");
 
                         var ti = ticket.AddOrder(ApplicationState.CurrentLoggedInUser.Name, menuItem, portionName,
-                                 ApplicationState.CurrentDepartment.TicketTemplate.PriceTag);
+                                 ApplicationState.CurrentDepartment.PriceTag);
 
                         ti.Quantity = quantity;
                         ti.Tag = tag;
@@ -346,7 +346,7 @@ namespace Samba.Presentation.ViewModels
                         var department = workspace.Single<Department>(y => y.Name == departmentName);
                         if (department != null)
                         {
-                            department.TicketTemplate.PriceTag = priceTag;
+                            department.PriceTag = priceTag;
                             workspace.CommitChanges();
                             MethodQueue.Queue("ResetCache", ResetCache);
                         }

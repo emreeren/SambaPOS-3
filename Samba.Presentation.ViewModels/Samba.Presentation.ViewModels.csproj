@@ -57,6 +57,7 @@
     <Compile Include="GenericRuleRegistator.cs" />
     <Compile Include="LocationData.cs" />
     <Compile Include="MenuItemPortionViewModel.cs" />
+    <Compile Include="OrderTagData.cs" />
     <Compile Include="PaymentViewModel.cs" />
     <Compile Include="PrintJobButton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="ScreenMenuItemButton.cs" />
     <Compile Include="ScreenMenuItemData.cs" />
     <Compile Include="ScreenSubCategoryButton.cs" />
+    <Compile Include="SelectedOrdersData.cs" />
     <Compile Include="TicketTagViewModel.cs" />
     <Compile Include="TicketTotalsViewModel.cs" />
   </ItemGroup>

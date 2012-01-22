@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 
-namespace Samba.Modules.PosModule
+namespace Samba.Modules.ModifierModule
 {
     public class OrderTagButtonViewModel : ObservableObject
     {
@@ -22,15 +23,7 @@ namespace Samba.Modules.PosModule
         }
 
         public string Name { get { return Model.Name; } set { Model.Name = value; } }
-        public string Color
-        {
-            get
-            {
-                if (_selectedOrders != null && _selectedOrders.All(x => x.IsTaggedWith(Model)))
-                    return "Red";
-                return "Transparent";
-            }
-        }
+        public string Color { get { return _selectedOrders != null && _selectedOrders.All(x => x.IsTaggedWith(Model)) ? "Red" : "Transparent"; } }
 
         public void Refresh()
         {

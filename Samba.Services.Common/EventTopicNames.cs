@@ -23,6 +23,7 @@
 
     public static class EventTopicNames
     {
+        public const string AddCustomOrderCommand = "Add Custom Order Command";
         public const string TicketClosed = "Ticket Closed";
         public const string ActivateTicket = "ActivateTicket";
         public const string ActivateOpenTickets = "Activate Open Tickets";
@@ -50,7 +51,6 @@
         public const string BrowseUrl = "Browse Url";
         public const string ActivateAccount = "Activate Account";
         public const string ActivateAccountView = "Activate Account View";
-        public const string SelectExtraProperty = "Select Extra Property";
         public const string ActivateNavigation = "Activate Navigation";
         public const string AccountSelectedForTicket = "Account Selected For Ticket";
         public const string SelectAccount = "Select Account";

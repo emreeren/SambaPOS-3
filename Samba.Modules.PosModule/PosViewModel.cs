@@ -21,13 +21,12 @@ namespace Samba.Modules.PosModule
         private readonly IApplicationState _applicationState;
         private readonly IRegionManager _regionManager;
         private readonly MenuItemSelectorViewModel _menuItemSelectorViewModel;
-        private readonly SelectedOrdersViewModel _selectedOrdersViewModel;
         private readonly TicketExplorerViewModel _ticketExplorerViewModel;
 
         [ImportingConstructor]
         public PosViewModel(IRegionManager regionManager, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
             ITicketService ticketService, IUserService userService, TicketExplorerViewModel ticketExplorerViewModel,
-            SelectedOrdersViewModel selectedOrdersViewModel, MenuItemSelectorViewModel menuItemSelectorViewModel)
+            MenuItemSelectorViewModel menuItemSelectorViewModel)
         {
             _ticketService = ticketService;
             _userService = userService;
@@ -36,13 +35,19 @@ namespace Samba.Modules.PosModule
 
             _menuItemSelectorViewModel = menuItemSelectorViewModel;
             _ticketExplorerViewModel = ticketExplorerViewModel;
-            _selectedOrdersViewModel = selectedOrdersViewModel;
-            // DisplayMenuScreen();
 
-            EventServiceFactory.EventService.GetEvent<GenericEvent<TicketViewModel>>().Subscribe(OnTicketViewModelEvent);
             EventServiceFactory.EventService.GetEvent<GenericEvent<Ticket>>().Subscribe(OnTicketEvent);
             EventServiceFactory.EventService.GetEvent<GenericEvent<User>>().Subscribe(OnUserLoginEvent);
             EventServiceFactory.EventService.GetEvent<GenericEvent<WorkPeriod>>().Subscribe(OnWorkPeriodEvent);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<SelectedOrdersData>>().Subscribe(
+                x =>
+                {
+                    if (x.Topic == EventTopicNames.SelectedOrdersChanged)
+                    {
+                        if (x.Value.SelectedOrders.Count() != 1)
+                            DisplayMenuScreen();
+                    }
+                });
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(
                  x =>
@@ -52,9 +57,6 @@ namespace Samba.Modules.PosModule
                          case EventTopicNames.ActivatePosView:
                              DisplayTickets();
                              DisplayMenuScreen();
-                             break;
-                         case EventTopicNames.DisplayTicketOrderDetails:
-                             DisplayTicketDetailsScreen();
                              break;
                          case EventTopicNames.ActivateTicket:
                              DisplaySingleTicket();
@@ -98,16 +100,6 @@ namespace Samba.Modules.PosModule
             }
         }
 
-        private void OnTicketViewModelEvent(EventParameters<TicketViewModel> obj)
-        {
-            if (obj.Topic == EventTopicNames.SelectedOrdersChanged)
-            {
-                if (_selectedOrdersViewModel.ShouldDisplay(obj.Value.Model, obj.Value.SelectedOrders.Select(x => x.Model)))
-                    DisplayTicketDetailsScreen();
-                else DisplayMenuScreen();
-            }
-        }
-
         private void OnTicketEvent(EventParameters<Ticket> obj)
         {
             switch (obj.Topic)
@@ -127,7 +119,7 @@ namespace Samba.Modules.PosModule
             }
 
             _applicationState.CurrentDepartment.PublishEvent(EventTopicNames.ActivateOpenTickets);
-            
+
             if (_applicationState.CurrentDepartment.IsAlaCarte && _applicationState.CurrentDepartment.LocationScreens.Count > 0)
             {
                 _applicationState.CurrentDepartment.PublishEvent(EventTopicNames.SelectLocation);
@@ -138,11 +130,6 @@ namespace Samba.Modules.PosModule
             }
             else if (_applicationState.CurrentDepartment.IsFastFood)
                 EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
-
-            //    if (SelectedTicket != null || (SelectedDepartment != null && SelectedDepartment.IsFastFood))
-            //        EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
-            //    else
-            //        SelectedDepartment.PublishEvent(EventTopicNames.ActivateOpenTickets);
         }
 
         private bool _handleText;
@@ -150,35 +137,28 @@ namespace Samba.Modules.PosModule
         private void DisplaySingleTicket()
         {
             _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
-            _regionManager.RequestNavigate(RegionNames.TicketRegion, new Uri("TicketListView", UriKind.Relative));
+            _regionManager.RequestNavigate(RegionNames.PosMainRegion, new Uri("TicketListView", UriKind.Relative));
         }
 
         public void DisplayOpenTickets()
         {
             _handleText = true;
             _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
-            _regionManager.RequestNavigate(RegionNames.TicketRegion, new Uri("OpenTicketsView", UriKind.Relative));
+            _regionManager.RequestNavigate(RegionNames.PosMainRegion, new Uri("OpenTicketsView", UriKind.Relative));
         }
 
         public void DisplayMenuScreen()
         {
             _handleText = true;
             _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
-            _regionManager.RequestNavigate(RegionNames.TicketSubRegion, new Uri("MenuItemSelectorView", UriKind.Relative));
-        }
-
-        public void DisplayTicketDetailsScreen()
-        {
-            _handleText = false;
-            _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
-            _regionManager.RequestNavigate(RegionNames.TicketSubRegion, new Uri("SelectedOrdersView", UriKind.Relative));
+            _regionManager.RequestNavigate(RegionNames.PosSubRegion, new Uri("MenuItemSelectorView", UriKind.Relative));
         }
 
         public void DisplayTicketExplorerScreen()
         {
             _handleText = true;
             _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
-            _regionManager.RequestNavigate(RegionNames.TicketSubRegion, new Uri("TicketExplorerView", UriKind.Relative));
+            _regionManager.RequestNavigate(RegionNames.PosSubRegion, new Uri("TicketExplorerView", UriKind.Relative));
 
             _ticketExplorerViewModel.StartDate = _applicationState.CurrentWorkPeriod.StartDate.Date;
             if (!_userService.IsUserPermittedFor(PermissionNames.DisplayOldTickets))

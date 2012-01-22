@@ -36,16 +36,25 @@
                                 </CheckBox>
                             </StackPanel>
                         </GroupBox>
-                        <Label MinWidth="130">
+                        
+                        <Label>
                             <LocText ResourceIdentifierKey="TicketTemplate" Suffix=":"/>
                         </Label>
                         <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding TicketTemplates}"
                                      SelectedItem="{Binding TicketTemplate}" />
+
                         <Label>
                             <LocText ResourceIdentifierKey="POSMenu" Suffix=":"/>
                         </Label>
                         <ComboBox HorizontalAlignment="Left" MinWidth="150" ItemsSource="{Binding ScreenMenus}"
                              DisplayMemberPath="Name" SelectedValuePath="Id" SelectedValue="{Binding ScreenMenuId}" />
+
+                        <Label>
+                            <LocText ResourceIdentifierKey="PriceTag" Suffix=":"/>
+                        </Label>
+                        <ComboBox HorizontalAlignment="Left" MinWidth="150" IsEditable="True" 
+                              ItemsSource="{Binding PriceTags}" Text="{Binding PriceTag}" />
+
                         <GroupBox Header="{LocText OpenTicketView}"
                              Padding="5" Margin="0,5">
                             <StackPanel>

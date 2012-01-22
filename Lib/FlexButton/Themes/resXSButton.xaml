@@ -25,7 +25,6 @@
 
         <!-- Provide DEFAULT values for some properties -->
         <Setter Property="CornerRadius" Value="4" />
-        <Setter Property="FontSize" Value="1" />
         <Setter Property="Background" Value="{StaticResource brushClearGlass}" />
         <Setter Property="OuterBorderBrush" Value="{StaticResource brushOuterBorder}" />
         <Setter Property="OuterBorderThickness" Value="1" />

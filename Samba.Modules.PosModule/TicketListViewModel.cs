@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
@@ -57,12 +58,13 @@ namespace Samba.Modules.PosModule
         public ICaptionCommand ShowTicketTagsCommand { get; set; }
         public ICaptionCommand ShowOrderTagsCommand { get; set; }
         public ICaptionCommand CancelItemCommand { get; set; }
-        public ICaptionCommand ShowExtraPropertyEditorCommand { get; set; }
         public ICaptionCommand EditTicketNoteCommand { get; set; }
         public ICaptionCommand RemoveTicketLockCommand { get; set; }
         public ICaptionCommand RemoveTicketTagCommand { get; set; }
         public ICaptionCommand ChangePriceCommand { get; set; }
         public ICaptionCommand PrintJobCommand { get; set; }
+
+        public ObservableCollection<ICaptionCommand> CustomOrderCommands { get { return PresentationServices.OrderCommands; } }
 
         private TicketViewModel _selectedTicket;
         public TicketViewModel SelectedTicket
@@ -90,12 +92,12 @@ namespace Samba.Modules.PosModule
 
         public TicketTotalsViewModel Totals { get; set; }
 
-        private readonly ObservableCollection<OrderViewModel> _selectedOrders;
-        public OrderViewModel SelectedOrder
+        private readonly ObservableCollection<Order> _selectedOrders;
+        public Order SelectedOrder
         {
             get
             {
-                return SelectedTicket != null && SelectedTicket.SelectedOrders.Count == 1 ? SelectedTicket.SelectedOrders[0] : null;
+                return SelectedTicket != null && SelectedTicket.SelectedOrders.Count == 1 ? SelectedTicket.SelectedOrders[0].Model : null;
             }
         }
 
@@ -126,8 +128,8 @@ namespace Samba.Modules.PosModule
 
         public bool CanDisplayAllTickets { get { return SelectedTicket == null; } }
         public bool IsItemsSelected { get { return _selectedOrders.Count > 0; } }
-        public bool IsItemsSelectedAndUnlocked { get { return _selectedOrders.Count > 0 && _selectedOrders.Where(x => x.IsLocked).Count() == 0; } }
-        public bool IsItemsSelectedAndLocked { get { return _selectedOrders.Count > 0 && _selectedOrders.Where(x => !x.IsLocked).Count() == 0; } }
+        public bool IsItemsSelectedAndUnlocked { get { return _selectedOrders.Count > 0 && _selectedOrders.Where(x => x.Locked).Count() == 0; } }
+        public bool IsItemsSelectedAndLocked { get { return _selectedOrders.Count > 0 && _selectedOrders.Where(x => !x.Locked).Count() == 0; } }
         public bool IsNothingSelected { get { return _selectedOrders.Count == 0; } }
         public bool IsNothingSelectedAndTicketLocked { get { return _selectedTicket != null && _selectedOrders.Count == 0 && _selectedTicket.IsLocked; } }
         public bool IsNothingSelectedAndTicketTagged { get { return _selectedTicket != null && _selectedOrders.Count == 0 && SelectedTicket.IsTagged; } }
@@ -203,7 +205,7 @@ namespace Samba.Modules.PosModule
             _cacheService = cacheService;
             _ticketOrdersViewModel = ticketOrdersViewModel;
 
-            _selectedOrders = new ObservableCollection<OrderViewModel>();
+            _selectedOrders = new ObservableCollection<Order>();
 
             PrintJobCommand = new CaptionCommand<PrintJob>(Resources.Print, OnPrintJobExecute, CanExecutePrintJob);
 
@@ -225,7 +227,6 @@ namespace Samba.Modules.PosModule
             ShowOrderTagsCommand = new CaptionCommand<OrderTagGroup>(Resources.Tag, OnShowOrderTagsExecute, CanShowOrderTagsExecute);
             CancelItemCommand = new CaptionCommand<string>(Resources.Cancel, OnCancelItemCommand, CanCancelSelectedItems);
             MoveOrdersCommand = new CaptionCommand<string>(Resources.MoveTicketLine, OnMoveOrders, CanMoveOrders);
-            ShowExtraPropertyEditorCommand = new CaptionCommand<string>(Resources.ExtraModifier, OnShowExtraProperty, CanShowExtraProperty);
             EditTicketNoteCommand = new CaptionCommand<string>(Resources.TicketNote, OnEditTicketNote, CanEditTicketNote);
             RemoveTicketLockCommand = new CaptionCommand<string>(Resources.ReleaseLock, OnRemoveTicketLock, CanRemoveTicketLock);
             ChangePriceCommand = new CaptionCommand<string>(Resources.ChangePrice, OnChangePrice, CanChangePrice);
@@ -234,7 +235,6 @@ namespace Samba.Modules.PosModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<LocationData>>().Subscribe(OnLocationSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<OrderViewModel>>().Subscribe(OnSelectedOrdersChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketTagData>>().Subscribe(OnTagSelected);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<TicketViewModel>>().Subscribe(OnTicketSelectedOrdersChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<Account>>().Subscribe(OnAccountSelectedForTicket);
             EventServiceFactory.EventService.GetEvent<GenericEvent<Ticket>>().Subscribe(OnPaymentSubmitted);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnRefreshTicket);
@@ -249,7 +249,7 @@ namespace Samba.Modules.PosModule
             if (obj.Topic == EventTopicNames.PortionSelected)
             {
                 var taxTemplate = _cacheService.GetMenuItem(x => x.Id == obj.Value.MenuItemId).TaxTemplate;
-                SelectedOrder.UpdatePortion(obj.Value, _applicationState.CurrentDepartment.TicketTemplate.PriceTag, taxTemplate);
+                SelectedOrder.UpdatePortion(obj.Value, _applicationState.CurrentDepartment.PriceTag, taxTemplate);
             }
         }
 
@@ -260,27 +260,8 @@ namespace Samba.Modules.PosModule
                 SelectedTicket.FixSelectedItems();
                 SelectedTicket.SelectedOrders.ToList().ForEach(x =>
                     x.ToggleOrderTag(obj.Value.OrderTagGroup, obj.Value.SelectedOrderTag, _applicationState.CurrentLoggedInUser.Id));
-                if (obj.Value.OrderTagGroup.IsSingleSelection)
+                if (!string.IsNullOrEmpty(obj.Value.OrderTagGroup.ButtonHeader) && obj.Value.OrderTagGroup.IsSingleSelection)
                     SelectedTicket.ClearSelectedItems();
-            }
-        }
-
-        private void OnTicketSelectedOrdersChanged(EventParameters<TicketViewModel> obj)
-        {
-            if (obj.Topic == EventTopicNames.SelectedOrdersChanged)
-            {
-                _selectedOrders.Clear();
-                _selectedOrders.AddRange(obj.Value.SelectedOrders);
-                if (obj.Value.SelectedOrders.Count == 0) LastSelectedOrder = null;
-                RaisePropertyChanged(() => IsItemsSelected);
-                RaisePropertyChanged(() => IsNothingSelected);
-                RaisePropertyChanged(() => IsNothingSelectedAndTicketLocked);
-                RaisePropertyChanged(() => IsLocationButtonVisible);
-                RaisePropertyChanged(() => IsAccountButtonVisible);
-                RaisePropertyChanged(() => IsItemsSelectedAndUnlocked);
-                RaisePropertyChanged(() => IsItemsSelectedAndLocked);
-                RaisePropertyChanged(() => IsTicketSelected);
-                RaisePropertyChanged(() => OrderTagButtons);
             }
         }
 
@@ -294,6 +275,7 @@ namespace Samba.Modules.PosModule
                 RefreshVisuals();
                 if (SelectedTicket != null)
                     SelectedTicket.ClearSelectedItems();
+                RefreshSelectedItems();
             }
 
             if (obj.Topic == EventTopicNames.RefreshSelectedTicket)
@@ -394,9 +376,33 @@ namespace Samba.Modules.PosModule
             {
                 LastSelectedOrder = obj.Value.Selected ? obj.Value : null;
                 foreach (var item in SelectedTicket.SelectedOrders)
-                { item.IsLastSelected = item == LastSelectedOrder; }
-                SelectedTicket.PublishEvent(EventTopicNames.SelectedOrdersChanged);
+                {
+                    item.IsLastSelected = item == LastSelectedOrder;
+                }
+
+                _selectedOrders.Clear();
+                _selectedOrders.AddRange(SelectedTicket.SelectedOrders.Select(x => x.Model));
+                if (_selectedOrders.Count == 0) LastSelectedOrder = null;
+
+                RefreshSelectedItems();
+
+                var so = new SelectedOrdersData { SelectedOrders = _selectedOrders, Ticket = SelectedTicket.Model };
+                so.PublishEvent(EventTopicNames.SelectedOrdersChanged);
+
             }
+        }
+
+        private void RefreshSelectedItems()
+        {
+            RaisePropertyChanged(() => IsItemsSelected);
+            RaisePropertyChanged(() => IsNothingSelected);
+            RaisePropertyChanged(() => IsNothingSelectedAndTicketLocked);
+            RaisePropertyChanged(() => IsLocationButtonVisible);
+            RaisePropertyChanged(() => IsAccountButtonVisible);
+            RaisePropertyChanged(() => IsItemsSelectedAndUnlocked);
+            RaisePropertyChanged(() => IsItemsSelectedAndLocked);
+            RaisePropertyChanged(() => IsTicketSelected);
+            RaisePropertyChanged(() => OrderTagButtons);
         }
 
         private void OnMenuItemSelected(EventParameters<ScreenMenuItemData> obj)
@@ -484,7 +490,7 @@ namespace Samba.Modules.PosModule
         {
             var orderTagData = new OrderTagData
                                    {
-                                       SelectedOrders = _selectedOrders.Select(x => x.Model),
+                                       SelectedOrders = _selectedOrders,
                                        OrderTagGroup = orderTagGroup,
                                        Ticket = SelectedTicket.Model
                                    };
@@ -494,9 +500,9 @@ namespace Samba.Modules.PosModule
         private bool CanShowOrderTagsExecute(OrderTagGroup arg)
         {
             if (_selectedOrders.Count == 0) return false;
-            if (!arg.DecreaseOrderInventory && _selectedOrders.Any(x => !x.IsLocked && !x.IsTaggedWith(arg))) return false;
-            if (_selectedOrders.Any(x => !x.Model.DecreaseInventory && !x.IsTaggedWith(arg))) return false;
-            return !arg.UnlocksOrder || !_selectedOrders.Any(x => x.IsLocked && x.OrderTagValues.Count(y => y.Model.OrderTagGroupId == arg.Id) > 0);
+            if (!arg.DecreaseOrderInventory && _selectedOrders.Any(x => !x.Locked && !x.IsTaggedWith(arg))) return false;
+            if (_selectedOrders.Any(x => !x.DecreaseInventory && !x.IsTaggedWith(arg))) return false;
+            return !arg.UnlocksOrder || !_selectedOrders.Any(x => x.Locked && x.OrderTagValues.Count(y => y.OrderTagGroupId == arg.Id) > 0);
         }
 
         private bool CanChangePrice(string arg)
@@ -518,7 +524,7 @@ namespace Samba.Modules.PosModule
             }
             else
             {
-                _selectedOrders[0].UpdatePrice(price);
+                _selectedOrders[0].UpdatePrice(price, SelectedDepartment.PriceTag);
             }
             _selectedTicket.ClearSelectedItems();
             _selectedTicket.RefreshVisuals();
@@ -605,17 +611,6 @@ namespace Samba.Modules.PosModule
         private void OnEditTicketNote(string obj)
         {
             SelectedTicket.Model.PublishEvent(EventTopicNames.EditTicketNote);
-        }
-
-        private bool CanShowExtraProperty(string arg)
-        {
-            return SelectedOrder != null && !SelectedOrder.Model.Locked
-                && _userService.IsUserPermittedFor(PermissionNames.ChangeExtraProperty);
-        }
-
-        private void OnShowExtraProperty(string obj)
-        {
-            _selectedTicket.Model.PublishEvent(EventTopicNames.SelectExtraProperty);
         }
 
         private void OnDecQuantityCommand(string obj)
@@ -913,7 +908,7 @@ namespace Samba.Modules.PosModule
                 portion = menuItem.Portions.First(x => x.Name == portionName);
             }
 
-            var ti = SelectedTicket.Model.AddOrder(_applicationState.CurrentLoggedInUser.Name, menuItem, portion.Name, SelectedDepartment.TicketTemplate.PriceTag);
+            var ti = SelectedTicket.Model.AddOrder(_applicationState.CurrentLoggedInUser.Name, menuItem, portion.Name, SelectedDepartment.PriceTag);
 
             ti.Quantity = quantity > 9 ? decimal.Round(quantity / portion.Multiplier, LocalSettings.Decimals) : quantity;
 

@@ -228,16 +228,30 @@
                              Text="{Binding MoveOrdersCommand.Caption}" />
             </FxButton:FlexButton>
 
-            <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding ShowExtraPropertyEditorCommand}"
-                         Visibility="{Binding IsItemsSelectedAndUnlocked,Converter={StaticResource VisibilityConverter}}">
-                <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
-                             Text="{Binding ShowExtraPropertyEditorCommand.Caption}" />
-            </FxButton:FlexButton>
             <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding ChangePriceCommand}"
                          Visibility="{Binding IsItemsSelected,Converter={StaticResource VisibilityConverter}}">
                 <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
                              Text="{Binding ChangePriceCommand.Caption}" />
             </FxButton:FlexButton>
+
+            <ItemsControl ItemsSource="{Binding CustomOrderCommands,NotifyOnTargetUpdated=True}"
+                         HorizontalAlignment="Stretch" Visibility="{Binding IsItemsSelected,Converter={StaticResource VisibilityConverter}}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel VerticalAlignment="Top" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <FxButton:FlexButton Focusable="False" Command="{Binding Path=.}"
+                                     CommandParameter="{Binding Model}" Height="50"
+                                     Margin="0,0,3,3">
+                            <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
+                                         Text="{Binding Caption}" />
+                        </FxButton:FlexButton>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </StackPanel>
     </Grid>
 </UserControl>

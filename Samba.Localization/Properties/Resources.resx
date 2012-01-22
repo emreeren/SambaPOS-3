@@ -1563,7 +1563,7 @@ Tickets</value>
 		<value>Divide</value>
 	</data>
 	<data name="ExtraModifier" xml:space="preserve">
-		<value>Ekstra Modifier</value>
+		<value>Extra Modifier</value>
 	</data>
 	<data name="ReleaseLock" xml:space="preserve">
 		<value>Release Lock</value>

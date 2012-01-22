@@ -46,9 +46,6 @@ namespace Samba.Modules.TicketModule
         public Numerator TicketNumerator { get { return Model.TicketNumerator; } set { Model.TicketNumerator = value; } }
         public Numerator OrderNumerator { get { return Model.OrderNumerator; } set { Model.OrderNumerator = value; } }
 
-        public IEnumerable<string> PriceTags { get { return _priceListService.GetTags(); } }
-        public string PriceTag { get { return Model.PriceTag; } set { Model.PriceTag = value; } }
-
         public TicketTagGroup SelectedTicketTag { get; set; }
         public OrderTagGroup SelectedOrderTagGroup { get; set; }
         public ServiceTemplate SelectedServiceTemplate { get; set; }
