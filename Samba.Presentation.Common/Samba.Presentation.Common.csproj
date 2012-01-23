@@ -90,6 +90,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomCommand.cs" />
     <Compile Include="ElementSpy.cs" />
     <Compile Include="ModelBase\GenericEntityView.xaml.cs">
       <DependentUpon>GenericEntityView.xaml</DependentUpon>

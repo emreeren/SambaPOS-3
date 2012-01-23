@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Regions;
@@ -15,28 +17,65 @@ namespace Samba.Modules.ModifierModule
     [ModuleExport(typeof(ModifierModule))]
     class ModifierModule : ModuleBase
     {
-        private readonly SelectedOrdersView _selectedOrdersView;
-        private readonly SelectedOrdersViewModel _selectedOrdersViewModel;
+        private IEnumerable<Order> _selectedOrders;
+
+        private readonly OrderTagEditorView _selectedOrdersView;
+        private readonly OrderTagEditorViewModel _selectedOrdersViewModel;
         private readonly IRegionManager _regionManager;
         private readonly IUserService _userService;
 
         private readonly ICaptionCommand _showExtraModifierCommand;
+        private readonly TicketNoteEditorView _ticketNoteEditorView;
+        private readonly TicketNoteEditorViewModel _ticketNoteEditorViewModel;
+        private readonly TicketTagEditorView _ticketTagEditorView;
+        private readonly TicketTagEditorViewModel _ticketTagEditorViewModel;
+        private readonly ExtraModifierEditorViewModel _extraModifierEditorViewModel;
+        private readonly ExtraModifierEditorView _extraModifierEditorView;
 
         [ImportingConstructor]
         public ModifierModule(IRegionManager regionManager, IUserService userService,
-            SelectedOrdersView selectedOrdersView, SelectedOrdersViewModel selectedOrdersViewModel)
+            ExtraModifierEditorView extraModifierEditorView, ExtraModifierEditorViewModel extraModifierEditorViewModel,
+            TicketNoteEditorView ticketNoteEditorView, TicketNoteEditorViewModel ticketNoteEditorViewModel,
+            TicketTagEditorView ticketTagEditorView, TicketTagEditorViewModel ticketTagEditorViewModel,
+            OrderTagEditorView selectedOrdersView, OrderTagEditorViewModel selectedOrdersViewModel)
         {
             _selectedOrdersView = selectedOrdersView;
             _selectedOrdersViewModel = selectedOrdersViewModel;
+            _ticketNoteEditorView = ticketNoteEditorView;
+            _ticketNoteEditorViewModel = ticketNoteEditorViewModel;
+            _ticketTagEditorView = ticketTagEditorView;
+            _ticketTagEditorViewModel = ticketTagEditorViewModel;
+            _extraModifierEditorViewModel = extraModifierEditorViewModel;
+            _extraModifierEditorView = extraModifierEditorView;
+
             _regionManager = regionManager;
             _userService = userService;
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<SelectedOrdersData>>().Subscribe(OnSelectedOrdersDataEvent);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnDisplayTicketDetailsScreen);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<TicketTagData>>().Subscribe(OnTicketTagDataSelected);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<Ticket>>().Subscribe(OnTicketEvent);
 
             _showExtraModifierCommand = new CaptionCommand<Ticket>(Resources.ExtraModifier, OnExtraModifiersSelected, CanSelectExtraModifier);
             _showExtraModifierCommand.PublishEvent(EventTopicNames.AddCustomOrderCommand);
+        }
 
+        private void OnTicketTagDataSelected(EventParameters<TicketTagData> obj)
+        {
+            if (obj.Topic == EventTopicNames.SelectTicketTag)
+            {
+                var isTagSelected = _ticketTagEditorViewModel.TicketTagSelected(obj.Value.Ticket, obj.Value.TicketTagGroup);
+                if (!isTagSelected) DisplayTicketTagEditor();
+            }
+        }
+
+        private void OnTicketEvent(EventParameters<Ticket> obj)
+        {
+            if (obj.Topic == EventTopicNames.EditTicketNote)
+            {
+                _ticketNoteEditorViewModel.SelectedTicket = obj.Value;
+                DisplayTicketNoteEditor();
+            }
         }
 
         private bool CanSelectExtraModifier(Ticket arg)
@@ -47,8 +86,9 @@ namespace Samba.Modules.ModifierModule
 
         private void OnExtraModifiersSelected(Ticket obj)
         {
-            DisplayTicketDetailsScreen();
-            _selectedOrdersViewModel.ActivateExtraModifierScreen(obj);
+            _extraModifierEditorViewModel.SelectedOrder = _selectedOrders.Count() == 1 
+                ? _selectedOrders.ElementAt(0) : Order.Null;
+            DisplayExtraModifierEditor();
         }
 
         private void OnDisplayTicketDetailsScreen(EventParameters<EventAggregator> obj)
@@ -59,21 +99,41 @@ namespace Samba.Modules.ModifierModule
 
         protected override void OnInitialization()
         {
-            _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(SelectedOrdersView));
+            _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(OrderTagEditorView));
+            _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(TicketNoteEditorView));
+            _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(TicketTagEditorView));
+            _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(ExtraModifierEditorView));
+        }
+
+        public void DisplayExtraModifierEditor()
+        {
+            _regionManager.Regions[RegionNames.PosSubRegion].Activate(_extraModifierEditorView);
         }
 
         public void DisplayTicketDetailsScreen()
         {
             _regionManager.Regions[RegionNames.PosSubRegion].Activate(_selectedOrdersView);
+            _ticketNoteEditorView.TicketNote.BackgroundFocus();
+        }
+
+        public void DisplayTicketNoteEditor()
+        {
+            _regionManager.Regions[RegionNames.PosSubRegion].Activate(_ticketNoteEditorView);
+        }
+
+        public void DisplayTicketTagEditor()
+        {
+            _regionManager.Regions[RegionNames.PosSubRegion].Activate(_ticketTagEditorView);
         }
 
         private void OnSelectedOrdersDataEvent(EventParameters<SelectedOrdersData> selectedOrdersEvent)
         {
             if (selectedOrdersEvent.Topic == EventTopicNames.SelectedOrdersChanged)
             {
-                if (_selectedOrdersViewModel.ShouldDisplay(selectedOrdersEvent.Value.Ticket, selectedOrdersEvent.Value.SelectedOrders))
+                _selectedOrders = selectedOrdersEvent.Value.SelectedOrders;
+
+                if (_selectedOrdersViewModel.ShouldDisplay(selectedOrdersEvent.Value.Ticket, _selectedOrders))
                     DisplayTicketDetailsScreen();
-                //else EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
             }
         }
     }

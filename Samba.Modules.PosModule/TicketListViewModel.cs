@@ -65,6 +65,7 @@ namespace Samba.Modules.PosModule
         public ICaptionCommand PrintJobCommand { get; set; }
 
         public ObservableCollection<ICaptionCommand> CustomOrderCommands { get { return PresentationServices.OrderCommands; } }
+        public ObservableCollection<ICaptionCommand> CustomTicketCommands { get { return PresentationServices.TicketCommands; } }
 
         private TicketViewModel _selectedTicket;
         public TicketViewModel SelectedTicket
@@ -352,11 +353,6 @@ namespace Samba.Modules.PosModule
 
         private void OnTagSelected(EventParameters<TicketTagData> obj)
         {
-            if (obj.Topic == EventTopicNames.TicketTagSelected)
-            {
-                _ticketService.UpdateTag(obj.Value.Ticket, obj.Value.TicketTagGroup, obj.Value.SelectedTicketTag);
-                SelectedTicket.ClearSelectedItems();
-            }
             if (obj.Topic == EventTopicNames.TagSelectedForSelectedTicket)
             {
                 if (obj.Value.TicketTagGroup != null && obj.Value.TicketTagGroup.Action == 1 && CanCloseTicket(""))
@@ -924,7 +920,6 @@ namespace Samba.Modules.PosModule
 
         private void RefreshSelectedTicket()
         {
-            //SelectedTicketView = SingleTicketView;
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
 
             RaisePropertyChanged(() => SelectedTicket);

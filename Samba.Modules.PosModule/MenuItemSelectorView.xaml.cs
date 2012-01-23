@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using Samba.Presentation.Common;
 
 namespace Samba.Modules.PosModule
 {

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Samba.Modules.ModifierModule.SelectedOrdersView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<UserControl x:Class="Samba.Modules.ModifierModule.OrderTagEditorView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:FxButton="clr-namespace:FlexButton;assembly=FlexButton" xmlns:Common="clr-namespace:Samba.Presentation.Common;assembly=Samba.Presentation.Common" xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common" mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
@@ -58,35 +58,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <GroupBox Grid.Row="0" Margin="5" Header="{LocText Tag}"
-             Visibility="{Binding IsFreeTagEditorVisible,Converter={StaticResource VisibilityConverter}}"
-             IsVisibleChanged="GroupBox_IsVisibleChanged_2">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="auto" />
-                </Grid.ColumnDefinitions>
-                <UIControls:FilteredTextBox Name="FreeTag" Type="{Binding FilteredTextBoxType}" FontSize="18" Text="{Binding FreeTag,UpdateSourceTrigger=PropertyChanged}"
-                     HorizontalAlignment="Stretch" />
-                <FxButton:FlexButton Grid.Column="1" Margin="5,0" Command="{Binding UpdateFreeTagCommand}"
-                     Content="{Binding UpdateFreeTagCommand.Caption}">
-                </FxButton:FlexButton>
-            </Grid>
-        </GroupBox>
-        <ItemsControl Grid.Row="1" ItemsSource="{Binding TicketTags}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <FxButton:FlexButton MaxHeight="65" Margin="5" Content="{Binding Display}" CommandParameter="{Binding}"
-                         Command="{Binding DataContext.SelectTicketTagCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ItemsControl}}" />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <UniformGrid Columns="{Binding TagColumnCount}" VerticalAlignment="Top">
-                    </UniformGrid>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>
+
         <ItemsControl Grid.Row="1" ItemsSource="{Binding OrderTags}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -145,36 +117,8 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <GroupBox Grid.Row="0" Margin="5" Header="{LocText ExtraModifiers}"
-             FontSize="14" Visibility="{Binding IsExtraPropertyEditorVisible,Converter={StaticResource VisibilityConverter}}"
-             IsVisibleChanged="GroupBox_IsVisibleChanged">
-            <StackPanel Orientation="Horizontal">
-                <StackPanel MinWidth="150" Margin="3">
-                    <TextBlock MinWidth="60" Text="{LocText Description, Suffix=':'}">
-                    </TextBlock>
-                    <TextBox FontSize="18" Name="ExtraPropertyName" Text="{Binding SelectedItem.CustomPropertyName}">
-                    </TextBox>
-                </StackPanel>
-                <StackPanel MinWidth="100" Margin="3">
-                    <TextBlock MinWidth="60" Text="{LocText Price,Suffix=':'}">
-                    </TextBlock>
-                    <TextBox FontSize="18" Text="{Binding SelectedItem.CustomPropertyPrice}">
-                    </TextBox>
-                </StackPanel>
-                <StackPanel MinWidth="50" Margin="3">
-                    <TextBlock MinWidth="60">
-                    </TextBlock>
-                    <FxButton:FlexButton FontSize="18" Content="{Binding UpdateExtraPropertiesCommand.Caption}"
-                         Command="{Binding UpdateExtraPropertiesCommand}" />
-                </StackPanel>
-            </StackPanel>
-        </GroupBox>
-        <GroupBox Grid.Row="1" Margin="5" Header="{LocText TicketNote}"
-             Visibility="{Binding IsTicketNoteEditorVisible,Converter={StaticResource VisibilityConverter}}"
-             IsVisibleChanged="GroupBox_IsVisibleChanged_1">
-            <TextBox Name="TicketNote" FontSize="18" MinHeight="60" AcceptsReturn="True" TextWrapping="Wrap"
-                 Text="{Binding SelectedTicket.Note}" />
-        </GroupBox>
+        
+       
         <FxButton:FlexButton VerticalAlignment="Bottom" Grid.Row="2" Margin="3" Height="60"
              Content="{Binding CloseCommand.Caption}" Command="{Binding CloseCommand}" ButtonColor="Red" />
     </Grid>

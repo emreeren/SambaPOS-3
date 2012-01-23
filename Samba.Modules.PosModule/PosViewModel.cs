@@ -22,16 +22,18 @@ namespace Samba.Modules.PosModule
         private readonly IRegionManager _regionManager;
         private readonly MenuItemSelectorViewModel _menuItemSelectorViewModel;
         private readonly TicketExplorerViewModel _ticketExplorerViewModel;
+        private readonly MenuItemSelectorView _menuItemSelectorView;
 
         [ImportingConstructor]
         public PosViewModel(IRegionManager regionManager, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
             ITicketService ticketService, IUserService userService, TicketExplorerViewModel ticketExplorerViewModel,
-            MenuItemSelectorViewModel menuItemSelectorViewModel)
+            MenuItemSelectorViewModel menuItemSelectorViewModel, MenuItemSelectorView menuItemSelectorView)
         {
             _ticketService = ticketService;
             _userService = userService;
             _applicationState = applicationState;
             _regionManager = regionManager;
+            _menuItemSelectorView = menuItemSelectorView;
 
             _menuItemSelectorViewModel = menuItemSelectorViewModel;
             _ticketExplorerViewModel = ticketExplorerViewModel;
@@ -132,8 +134,6 @@ namespace Samba.Modules.PosModule
                 EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
         }
 
-        private bool _handleText;
-
         private void DisplaySingleTicket()
         {
             _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
@@ -142,21 +142,18 @@ namespace Samba.Modules.PosModule
 
         public void DisplayOpenTickets()
         {
-            _handleText = true;
             _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
             _regionManager.RequestNavigate(RegionNames.PosMainRegion, new Uri("OpenTicketsView", UriKind.Relative));
         }
 
         public void DisplayMenuScreen()
         {
-            _handleText = true;
             _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
             _regionManager.RequestNavigate(RegionNames.PosSubRegion, new Uri("MenuItemSelectorView", UriKind.Relative));
         }
 
         public void DisplayTicketExplorerScreen()
         {
-            _handleText = true;
             _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
             _regionManager.RequestNavigate(RegionNames.PosSubRegion, new Uri("TicketExplorerView", UriKind.Relative));
 
@@ -171,7 +168,8 @@ namespace Samba.Modules.PosModule
 
         public bool HandleTextInput(string text)
         {
-            return _handleText && _menuItemSelectorViewModel.HandleTextInput(text);
+            return _regionManager.Regions[RegionNames.PosSubRegion].ActiveViews.Contains(_menuItemSelectorView)
+                && _menuItemSelectorViewModel.HandleTextInput(text);
         }
     }
 }

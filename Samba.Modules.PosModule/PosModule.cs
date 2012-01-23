@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
-using Microsoft.Practices.Prism.Events;
+﻿using System.ComponentModel.Composition;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Regions;
 using Samba.Domain.Models.Accounts;
-using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
-using Samba.Presentation.Common.ModelBase;
 using Samba.Services;
 using Samba.Services.Common;
 
@@ -60,7 +53,6 @@ namespace Samba.Modules.PosModule
             _regionManager.Regions[RegionNames.PosSubRegion].Add(_menuItemSelectorView, "MenuItemSelectorView");
             _regionManager.Regions[RegionNames.PosSubRegion].Add(_ticketExplorerView, "TicketExplorerView");
             _regionManager.RegisterViewWithRegion(RegionNames.TicketOrdersRegion, typeof(TicketOrdersView));
-            
         }
 
         protected override bool CanNavigate(string arg)

@@ -180,7 +180,7 @@ html
                     SaveSettings();
                 }
             }
-            catch(IOException)
+            catch (IOException)
             {
                 return;
             }

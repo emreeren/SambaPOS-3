@@ -4,22 +4,25 @@ using Microsoft.Practices.Prism.Commands;
 
 namespace Samba.Presentation.Common
 {
-    public class CaptionCommand<T> : DelegateCommand<T>, ICaptionCommand
+    public class CustomCommand : DelegateCommand<object>, ICaptionCommand
     {
-        public CaptionCommand(string caption, Action<T> executeMethod)
+        public CustomCommand(string caption, object dataObject, Action<object> executeMethod)
             : base(executeMethod)
         {
             Caption = caption;
+            DataObject = dataObject;
         }
 
-        public CaptionCommand(string caption, Action<T> executeMethod, Func<T, bool> canExecuteMethod)
+        public CustomCommand(string caption, Action<object> executeMethod, object dataObject, Func<object, bool> canExecuteMethod)
             : base(executeMethod, canExecuteMethod)
         {
             Caption = caption;
+            DataObject = dataObject;
         }
 
         public string Caption { get; set; }
-        
+        public object DataObject { get; set; }
+
         public new event EventHandler CanExecuteChanged
         {
             add { CommandManager.RequerySuggested += value; }

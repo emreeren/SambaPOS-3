@@ -385,7 +385,6 @@ namespace Samba.Services.Implementations.TicketModule
             var tagData = new TicketTagData
             {
                 Ticket = ticket,
-                SelectedTicketTag = ticketTag,
                 TicketTagGroup = tagGroup,
                 TagName = tagGroup.Name,
                 TagValue = ticketTag.Name

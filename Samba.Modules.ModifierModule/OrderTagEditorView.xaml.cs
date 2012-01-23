@@ -2,17 +2,17 @@
 using System.Windows.Controls;
 using Samba.Presentation.Common;
 
-namespace Samba.Modules.PosModule
+namespace Samba.Modules.ModifierModule
 {
     /// <summary>
-    /// Interaction logic for TicketListView.xaml
+    /// Interaction logic for SelectedOrdersView.xaml
     /// </summary>
     /// 
     [Export]
-    public partial class TicketListView : UserControl
+    public partial class OrderTagEditorView : UserControl
     {
         [ImportingConstructor]
-        public TicketListView(TicketListViewModel viewModel)
+        public OrderTagEditorView(OrderTagEditorViewModel viewModel)
         {
             DataContext = viewModel;
             InitializeComponent();

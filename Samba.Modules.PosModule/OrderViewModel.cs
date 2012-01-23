@@ -124,44 +124,6 @@ namespace Samba.Modules.PosModule
 
         public string CreatingUserName { get { return Model.CreatingUserName; } }
 
-        public string CustomPropertyName
-        {
-            get { return Model.GetCustomOrderTag() != null ? Model.GetCustomOrderTag().Name : ""; }
-            set
-            {
-                Model.UpdateCustomOrderTag(value, CustomPropertyPrice, CustomPropertyQuantity);
-                RefreshProperties();
-            }
-        }
-
-        public decimal CustomPropertyPrice
-        {
-            get
-            {
-                var prop = Model.GetCustomOrderTag();
-                if (prop != null)
-                {
-                    return Model.TaxIncluded ? prop.Price + prop.TaxAmount : prop.Price;
-                }
-                return 0;
-            }
-            set
-            {
-                Model.UpdateCustomOrderTag(CustomPropertyName, value, CustomPropertyQuantity);
-                RefreshProperties();
-            }
-        }
-
-        public decimal CustomPropertyQuantity
-        {
-            get { return Model.GetCustomOrderTag() != null ? Model.GetCustomOrderTag().Quantity : 1; }
-            set
-            {
-                Model.UpdateCustomOrderTag(CustomPropertyName, CustomPropertyPrice, value);
-                RefreshProperties();
-            }
-        }
-
         public TextDecorationCollection TextDecoration
         {
             get

@@ -23,13 +23,13 @@
 
     public static class EventTopicNames
     {
+        public const string AddCustomTicketCommand="Add Custom Ticket Command";
         public const string AddCustomOrderCommand = "Add Custom Order Command";
         public const string TicketClosed = "Ticket Closed";
         public const string ActivateTicket = "ActivateTicket";
         public const string ActivateOpenTickets = "Activate Open Tickets";
         public const string DisplayTicketOrderDetails = "Display Ticket Order Details";
         public const string PortionSelected = "Portion Selected";
-        public const string TicketTagSelected = "TicketTagSelected";
         public const string OrderTagSelected = "OrderTagSelected";
         public const string SelectedTicketChanged = "Selected Ticket Changed";
         public const string ShellInitialized = "Shell Initialized";

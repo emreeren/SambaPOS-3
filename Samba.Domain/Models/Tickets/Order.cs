@@ -66,6 +66,15 @@ namespace Samba.Domain.Models.Tickets
             }
         }
 
+        private static Order _null = new Order();
+        public static Order Null
+        {
+            get
+            {
+                return _null;
+            }
+        }
+
         public void UpdateMenuItem(string userName, MenuItem menuItem, string portionName, string priceTag, int quantity)
         {
             MenuItemId = menuItem.Id;
@@ -143,6 +152,7 @@ namespace Samba.Domain.Models.Tickets
                            UnlocksOrder = orderTagGroup.UnlocksOrder,
                            NewTag = true
                        };
+
             otag.UpdatePrice(TaxIncluded, TaxRate, orderTag.Price);
 
             if (tagIndex > -1)

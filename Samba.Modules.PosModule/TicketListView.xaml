@@ -1,7 +1,9 @@
 ﻿<UserControl x:Class="Samba.Modules.PosModule.TicketListView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:cmn="clr-namespace:Samba.Presentation.Common;assembly=Samba.Presentation.Common"
-     xmlns:FxButton="clr-namespace:FlexButton;assembly=FlexButton" xmlns:cal="clr-namespace:Microsoft.Practices.Prism.Regions;assembly=Microsoft.Practices.Prism" mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+     xmlns:FxButton="clr-namespace:FlexButton;assembly=FlexButton" 
+     xmlns:cal="clr-namespace:Microsoft.Practices.Prism.Regions;assembly=Microsoft.Practices.Prism" 
+     mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -141,6 +143,24 @@
                 <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
                              Text="{Binding SelectAccountButtonCaption}" />
             </FxButton:FlexButton>
+            <ItemsControl ItemsSource="{Binding CustomTicketCommands,NotifyOnTargetUpdated=True}"
+                         HorizontalAlignment="Stretch" Visibility="{Binding IsNothingSelected,Converter={StaticResource VisibilityConverter}}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel VerticalAlignment="Top" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <FxButton:FlexButton Focusable="False" Command="{Binding Path=.}"
+                                     CommandParameter="{Binding DataObject}" Height="50"
+                                     Margin="0,0,3,3">
+                            <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
+                                         Text="{Binding Caption}" />
+                        </FxButton:FlexButton>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
             <ItemsControl ItemsSource="{Binding TicketTagButtons,NotifyOnTargetUpdated=True}"
                          HorizontalAlignment="Stretch" Visibility="{Binding IsNothingSelected,Converter={StaticResource VisibilityConverter}}">
                 <ItemsControl.ItemsPanel>
