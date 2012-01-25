@@ -5758,6 +5758,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search String.
+        /// </summary>
+        public static string SearchString {
+            get {
+                return ResourceManager.GetString("SearchString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select.
         /// </summary>
         public static string Select {

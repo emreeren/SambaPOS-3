@@ -28,8 +28,8 @@ namespace Samba.Modules.DeliveryModule
 
         private void MyTabControlSelectedIndexChanged(object sender, EventArgs e)
         {
-            if (((TabControl)sender).SelectedIndex == 1)
-                PhoneNumberTextBox.BackgroundFocus();
+            //if (((TabControl)sender).SelectedIndex == 1)
+            //    PhoneNumberTextBox.BackgroundFocus();
         }
 
         private void FlexButtonClick(object sender, RoutedEventArgs e)
@@ -40,52 +40,7 @@ namespace Samba.Modules.DeliveryModule
         private void Reset()
         {
             ((AccountSelectorViewModel)DataContext).RefreshSelectedAccount();
-            PhoneNumber.BackgroundFocus();
-        }
-
-        private void HandleKeyDown(KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                e.Handled = true;
-                if (((AccountSelectorViewModel)DataContext).SelectAccountCommand.CanExecute(""))
-                    ((AccountSelectorViewModel)DataContext).SelectAccountCommand.Execute("");
-            }
-        }
-
-        private void PhoneNumberPreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            HandleKeyDown(e);
-        }
-
-        private void AccountNamePreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            HandleKeyDown(e);
-        }
-
-        private void AddressPreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            HandleKeyDown(e);
-        }
-
-        private void PhoneNumberTextBoxPreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            HandleKeyDown(e);
-        }
-
-        private void TicketNoPreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if(e.Key == Key.Enter)
-            {
-                e.Handled = true;
-                if (((AccountSelectorViewModel)DataContext).FindTicketCommand.CanExecute(""))
-                    ((AccountSelectorViewModel)DataContext).FindTicketCommand.Execute("");
-            }
-        }
-
-        private void PhoneNumberLoaded(object sender, RoutedEventArgs e)
-        {
-            PhoneNumber.BackgroundFocus();
+            //SearchString.BackgroundFocus();
         }
     }
 }

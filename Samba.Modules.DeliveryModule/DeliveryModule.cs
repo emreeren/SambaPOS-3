@@ -33,6 +33,8 @@ namespace Samba.Modules.DeliveryModule
         protected override void OnInitialization()
         {
             _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(AccountSelectorView));
+            _regionManager.RegisterViewWithRegion(RegionNames.AccountSearchRegion, typeof(AccountSearcherView));
+            _regionManager.RegisterViewWithRegion(RegionNames.NewAccountRegion, typeof(AccountEditorView));
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<Department>>().Subscribe(x =>
             {

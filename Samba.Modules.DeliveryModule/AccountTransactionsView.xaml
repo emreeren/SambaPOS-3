@@ -1,0 +1,126 @@
+﻿<UserControl x:Class="Samba.Modules.DeliveryModule.AccountTransactionsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:FlexButton="clr-namespace:FlexButton;assembly=FlexButton" xmlns:ListViewLM="clr-namespace:Samba.Presentation.Common.ListViewLM;assembly=Samba.Presentation.Common" mc:Ignorable="d" 
+             d:DesignWidth="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="9*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <TextBlock FontWeight="Bold" Margin="5" Grid.Row="0" Grid.Column="0" Text="{LocText AccountName}">
+            </TextBlock>
+            <TextBlock Margin="5" Grid.Row="0" Grid.Column="1" Text="{Binding SelectedAccount.Name}" />
+            <TextBlock FontWeight="Bold" Margin="5" Grid.Row="0" Grid.Column="2" Text="{LocText PhoneNumber}">
+            </TextBlock>
+            <TextBlock Margin="5" Grid.Row="0" Grid.Column="3" Text="{Binding SelectedAccount.PhoneNumberText}" />
+            <TextBlock FontWeight="Bold" Margin="5" Grid.Row="1" Grid.Column="0" Text="{LocText Address}">
+            </TextBlock>
+            <TextBlock Margin="5" Grid.Row="1" Grid.Column="1" Text="{Binding SelectedAccount.Address}" />
+            <TextBlock FontWeight="Bold" Margin="5" Grid.Row="1" Grid.Column="2" Text="{LocText Note}">
+            </TextBlock>
+            <TextBlock Margin="5" Grid.Row="1" Grid.Column="3" Text="{Binding SelectedAccount.Note}" />
+        </Grid>
+        <ListView BorderThickness="0" Grid.Row="1" Grid.Column="0" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}"
+                 VirtualizingStackPanel.IsVirtualizing="True" IsSynchronizedWithCurrentItem="True"
+                 ListViewLM:ListViewLayoutManager.Enabled="True" ItemsSource="{Binding SelectedAccountTransactions}"
+                 ItemContainerStyle="{StaticResource ListViewItemExContainerStyle}">
+            <ListView.View>
+                <GridView AllowsColumnReorder="False" ColumnHeaderContainerStyle="{StaticResource BlueBackground}"
+                         ColumnHeaderTemplate="{StaticResource WrappedHeaderTemplate}">
+                    <GridViewColumn Header="{LocText Date}"
+                             ListViewLM:ProportionalColumn.Width="1.7">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock TextTrimming="CharacterEllipsis" FontSize="18" Text="{Binding Date}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="{LocText Description}"
+                             ListViewLM:ProportionalColumn.Width="3">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock TextTrimming="CharacterEllipsis" FontSize="18" Text="{Binding Description}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="{LocText Liability}"
+                             ListViewLM:ProportionalColumn.Width="1">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock FontSize="18" Foreground="{Binding TextColor}" Text="{Binding Receivable,StringFormat='#,#0.00;-#,#0.00; '}"
+                                         TextAlignment="Right" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="{LocText Receiveable}"
+                             ListViewLM:ProportionalColumn.Width="1">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock FontSize="18" Foreground="{Binding TextColor}" Text="{Binding Liability,StringFormat='#,#0.00;-#,#0.00; '}"
+                                         TextAlignment="Right" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="{LocText GrandTotal}"
+                             ListViewLM:ProportionalColumn.Width="1">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock FontSize="18" Foreground="{Binding TextColor}" Text="{Binding Balance,StringFormat='#,#0.00;-#,#0.00; '}"
+                                         TextAlignment="Right" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <ListView Grid.Row="2" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}"
+                             ListViewLM:ListViewLayoutManager.Enabled="True" BorderThickness="0" ItemContainerStyle="{StaticResource ListViewItemExContainerStyle}">
+            <ListView.View>
+                <GridView AllowsColumnReorder="False" ColumnHeaderContainerStyle="{StaticResource SilverBackground}"
+                                     ColumnHeaderTemplate="{StaticResource WrappedFooterTemplate}">
+                    <GridViewColumn ListViewLM:ProportionalColumn.Width="4.7" />
+                    <GridViewColumn Header="{Binding TotalReceivable}" ListViewLM:ProportionalColumn.Width="1" />
+                    <GridViewColumn Header="{Binding TotalLiability}" ListViewLM:ProportionalColumn.Width="1" />
+                    <GridViewColumn Header="{Binding TotalBalance}" ListViewLM:ProportionalColumn.Width="1" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Grid Grid.Column="1" Grid.RowSpan="2" Background="Silver">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0">
+                <FlexButton:FlexButton Margin="2" Height="60" Content="{LocText Close}"
+                         ButtonColor="Red" Command="{Binding CloseAccountScreenCommand}" />
+                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding AddReceivableCommand.Caption}"
+                         Command="{Binding AddReceivableCommand}" />
+                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding AddLiabilityCommand.Caption}"
+                         Command="{Binding AddLiabilityCommand}" />
+                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding GetPaymentFromAccountCommand.Caption}"
+                         Command="{Binding GetPaymentFromAccountCommand}" />
+                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding MakePaymentToAccountCommand.Caption}"
+                         Command="{Binding MakePaymentToAccountCommand}" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -51,6 +51,18 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountEditorView.xaml.cs">
+      <DependentUpon>AccountEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AccountEditorViewModel.cs" />
+    <Compile Include="AccountSearcherView.xaml.cs">
+      <DependentUpon>AccountSearcherView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AccountSearcherViewModel.cs" />
+    <Compile Include="AccountTransactionsView.xaml.cs">
+      <DependentUpon>AccountTransactionsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AccountTransactionsViewModel.cs" />
     <Compile Include="AccountTransactionViewModel.cs" />
     <Compile Include="DeliveryModule.cs" />
     <Compile Include="AccountSelectorView.xaml.cs">
@@ -60,9 +72,21 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="AccountEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AccountSearcherView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AccountSelectorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="AccountTransactionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
