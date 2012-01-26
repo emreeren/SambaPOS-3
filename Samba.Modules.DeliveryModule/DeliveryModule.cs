@@ -16,48 +16,54 @@ namespace Samba.Modules.DeliveryModule
     {
         private readonly IRegionManager _regionManager;
         private readonly AccountSelectorView _accountSelectorView;
+        private readonly AccountEditorView _accountEditorView;
+        private readonly DeliveryView _deliveryView;
+        private readonly AccountTransactionsView _accountTransactionsView;
 
         [ImportingConstructor]
-        public DeliveryModule(IRegionManager regionManager, AccountSelectorView accountSelectorView)
+        public DeliveryModule(IRegionManager regionManager, DeliveryView deliveryView,
+            AccountSelectorView accountSelectorView,
+            AccountEditorView accountEditorView,
+            AccountTransactionsView accountTransactionsView)
             : base(regionManager, AppScreens.AccountList)
         {
             _regionManager = regionManager;
             _accountSelectorView = accountSelectorView;
+            _deliveryView = deliveryView;
+            _accountTransactionsView = accountTransactionsView;
+            _accountEditorView = accountEditorView;
         }
 
         public override object GetVisibleView()
         {
-            return _accountSelectorView;
+            return _deliveryView;
         }
 
         protected override void OnInitialization()
         {
-            _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(AccountSelectorView));
-            _regionManager.RegisterViewWithRegion(RegionNames.AccountSearchRegion, typeof(AccountSearcherView));
-            _regionManager.RegisterViewWithRegion(RegionNames.NewAccountRegion, typeof(AccountEditorView));
+            _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(DeliveryView));
+            _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(AccountTransactionsView));
+            _regionManager.RegisterViewWithRegion(RegionNames.AccountDisplayRegion, typeof(AccountSelectorView));
+            _regionManager.RegisterViewWithRegion(RegionNames.AccountDisplayRegion, typeof(AccountEditorView));
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<Department>>().Subscribe(x =>
             {
                 if (x.Topic == EventTopicNames.SelectAccount)
-                {
-                    Activate();
-                    ((AccountSelectorViewModel)_accountSelectorView.DataContext).RefreshSelectedAccount();
-                }
+                    ActivateAccountSelector();
             });
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(x =>
             {
-                if (x.Topic == EventTopicNames.ActivateAccountView) Activate();
-                ((AccountSelectorViewModel)_accountSelectorView.DataContext).RefreshSelectedAccount();
+                if (x.Topic == EventTopicNames.ActivateAccountView)
+                    ActivateAccountSelector();
             });
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<Account>>().Subscribe(x =>
             {
-                if (x.Topic == EventTopicNames.ActivateAccount)
-                {
-                    Activate();
-                    ((AccountSelectorViewModel)_accountSelectorView.DataContext).DisplayAccount(x.Value);
-                }
+                if (x.Topic == EventTopicNames.DisplayAccountTransactions)
+                    ActivateAccountTransactions();
+                else if (x.Topic == EventTopicNames.EditAccountDetails)
+                    ActivateAccountEditor();
             });
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<PopupData>>().Subscribe(
@@ -66,9 +72,27 @@ namespace Samba.Modules.DeliveryModule
                     if (x.Topic == EventTopicNames.PopupClicked && x.Value.EventMessage == EventTopicNames.SelectAccount)
                     {
                         Activate();
-                        ((AccountSelectorViewModel)_accountSelectorView.DataContext).SearchAccount(x.Value.DataObject as string);
+                        ((DeliveryViewModel)_accountSelectorView.DataContext).SearchAccount(x.Value.DataObject as string);
                     }
                 });
+        }
+
+        private void ActivateAccountEditor()
+        {
+            Activate();
+            _regionManager.Regions[RegionNames.AccountDisplayRegion].Activate(_accountEditorView);
+        }
+
+        private void ActivateAccountTransactions()
+        {
+            _regionManager.Regions[RegionNames.MainRegion].Activate(_accountTransactionsView);
+        }
+
+        private void ActivateAccountSelector()
+        {
+            Activate();
+            ((AccountSelectorViewModel)_accountSelectorView.DataContext).RefreshSelectedAccount();
+            _regionManager.Regions[RegionNames.AccountDisplayRegion].Activate(_accountSelectorView);
         }
     }
 }

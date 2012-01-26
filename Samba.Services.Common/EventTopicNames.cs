@@ -23,6 +23,8 @@
 
     public static class EventTopicNames
     {
+        public const string EditAccountDetails="Edit Account Details";
+        public const string DisplayAccountTransactions="Display Account Transactions";
         public const string SelectedAccountChanged="Selected Account Changed";
         public const string AddCustomTicketCommand="Add Custom Ticket Command";
         public const string AddCustomOrderCommand = "Add Custom Order Command";
@@ -50,7 +52,6 @@
         public const string ResetNumerator = "Reset Numerator";
         public const string WorkPeriodStatusChanged = "WorkPeriod Status Changed";
         public const string BrowseUrl = "Browse Url";
-        public const string ActivateAccount = "Activate Account";
         public const string ActivateAccountView = "Activate Account View";
         public const string ActivateNavigation = "Activate Navigation";
         public const string AccountSelectedForTicket = "Account Selected For Ticket";

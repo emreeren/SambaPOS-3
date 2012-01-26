@@ -5,6 +5,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using Samba.Domain;
+using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Transactions;
 using Samba.Localization.Properties;
@@ -32,6 +33,16 @@ namespace Samba.Modules.DeliveryModule
             AddReceivableCommand = new CaptionCommand<string>(Resources.AddReceivable_r, OnAddReceivable, CanAddLiability);
             CloseAccountScreenCommand = new CaptionCommand<string>(Resources.Close, OnCloseAccountScreen);
             SelectedAccountTransactions = new ObservableCollection<AccountTransactionViewModel>();
+
+            EventServiceFactory.EventService.GetEvent<GenericEvent<Account>>().Subscribe(OnDisplayAccountTransactions);
+        }
+
+        private void OnDisplayAccountTransactions(EventParameters<Account> obj)
+        {
+            if (obj.Topic == EventTopicNames.DisplayAccountTransactions)
+            {
+                SelectedAccount = new AccountSearchViewModel(obj.Value);
+            }
         }
 
         private AccountSearchViewModel _selectedAccount;
@@ -60,7 +71,6 @@ namespace Samba.Modules.DeliveryModule
 
         private void DisplayTransactions()
         {
-            //SaveSelectedAccount();
             SelectedAccountTransactions.Clear();
             if (SelectedAccount != null)
             {
@@ -137,6 +147,7 @@ namespace Samba.Modules.DeliveryModule
         private void OnCloseAccountScreen(string obj)
         {
             // RefreshSelectedAccount();
+            SelectedAccountTransactions.Clear();
         }
 
         private void OnAddReceivable(string obj)

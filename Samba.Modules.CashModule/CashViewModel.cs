@@ -296,7 +296,7 @@ namespace Samba.Modules.CashModule
 
             if (SelectedAccount != null)
             {
-                SelectedAccount.Model.PublishEvent(EventTopicNames.ActivateAccount);
+                SelectedAccount.Model.PublishEvent(EventTopicNames.DisplayAccountTransactions);
                 SelectedAccount = null;
                 return;
             }

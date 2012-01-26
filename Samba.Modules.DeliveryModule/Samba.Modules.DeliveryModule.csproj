@@ -55,20 +55,20 @@
       <DependentUpon>AccountEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AccountEditorViewModel.cs" />
-    <Compile Include="AccountSearcherView.xaml.cs">
-      <DependentUpon>AccountSearcherView.xaml</DependentUpon>
+    <Compile Include="AccountSelectorView.xaml.cs">
+      <DependentUpon>AccountSelectorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AccountSearcherViewModel.cs" />
+    <Compile Include="AccountSelectorViewModel.cs" />
     <Compile Include="AccountTransactionsView.xaml.cs">
       <DependentUpon>AccountTransactionsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AccountTransactionsViewModel.cs" />
     <Compile Include="AccountTransactionViewModel.cs" />
     <Compile Include="DeliveryModule.cs" />
-    <Compile Include="AccountSelectorView.xaml.cs">
-      <DependentUpon>AccountSelectorView.xaml</DependentUpon>
+    <Compile Include="DeliveryView.xaml.cs">
+      <DependentUpon>DeliveryView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AccountSelectorViewModel.cs" />
+    <Compile Include="DeliveryViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -76,11 +76,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AccountSearcherView.xaml">
+    <Page Include="AccountSelectorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AccountSelectorView.xaml">
+    <Page Include="DeliveryView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

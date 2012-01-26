@@ -1,35 +1,43 @@
-﻿using System;
-using System.ComponentModel;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using Samba.Presentation.Common;
 
 namespace Samba.Modules.DeliveryModule
 {
     /// <summary>
-    /// Interaction logic for AccountSelectorView.xaml
+    /// Interaction logic for AccountSearchView.xaml
     /// </summary>
-
+    
     [Export]
     public partial class AccountSelectorView : UserControl
     {
-        readonly DependencyPropertyDescriptor _selectedIndexChange = DependencyPropertyDescriptor.FromProperty(Selector.SelectedIndexProperty, typeof(TabControl));
-
         [ImportingConstructor]
         public AccountSelectorView(AccountSelectorViewModel viewModel)
         {
-            InitializeComponent();
             DataContext = viewModel;
-            _selectedIndexChange.AddValueChanged(MainTabControl, MyTabControlSelectedIndexChanged);
+            InitializeComponent();
         }
 
-        private void MyTabControlSelectedIndexChanged(object sender, EventArgs e)
+        private void SearchStringPreviewKeyDown(object sender, KeyEventArgs e)
         {
-            //if (((TabControl)sender).SelectedIndex == 1)
-            //    PhoneNumberTextBox.BackgroundFocus();
+            if (e.Key == Key.Enter)
+            {
+                e.Handled = true;
+                if (((AccountSelectorViewModel)DataContext).SelectAccountCommand.CanExecute(""))
+                    ((AccountSelectorViewModel)DataContext).SelectAccountCommand.Execute("");
+            }
+        }
+
+        private void TicketNoPreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                e.Handled = true;
+                if (((AccountSelectorViewModel)DataContext).FindTicketCommand.CanExecute(""))
+                    ((AccountSelectorViewModel)DataContext).FindTicketCommand.Execute("");
+            }
         }
 
         private void FlexButtonClick(object sender, RoutedEventArgs e)
@@ -40,7 +48,12 @@ namespace Samba.Modules.DeliveryModule
         private void Reset()
         {
             ((AccountSelectorViewModel)DataContext).RefreshSelectedAccount();
-            //SearchString.BackgroundFocus();
+            SearchString.BackgroundFocus();
+        }
+
+        private void SearchStringLoaded(object sender, RoutedEventArgs e)
+        {
+            SearchString.BackgroundFocus();
         }
     }
 }

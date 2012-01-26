@@ -4,14 +4,11 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Text;
 using System.Timers;
 using System.Windows.Input;
 using System.Windows.Threading;
-using Microsoft.Practices.Prism.Regions;
-using Samba.Domain;
 using Samba.Domain.Models.Accounts;
-using Samba.Domain.Models.Tickets;
-using Samba.Domain.Models.Transactions;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common;
@@ -32,13 +29,74 @@ namespace Samba.Modules.DeliveryModule
         public ICaptionCommand MakePaymentCommand { get; set; }
         public ICaptionCommand DisplayAccountCommand { get; set; }
 
-        public AccountSearchViewModel SelectedAccount { get; set; }
+        private readonly IApplicationState _applicationState;
+        private readonly ITicketService _ticketService;
+        private readonly IUserService _userService;
 
-        private int _selectedView;
-        public int SelectedView
+        [ImportingConstructor]
+        public AccountSelectorViewModel(IApplicationState applicationState, ITicketService ticketService, IUserService userService)
         {
-            get { return _selectedView; }
-            set { _selectedView = value; RaisePropertyChanged(() => SelectedView); }
+            _updateTimer = new Timer(500);
+            _updateTimer.Elapsed += UpdateTimerElapsed;
+
+            _applicationState = applicationState;
+            _ticketService = ticketService;
+            _userService = userService;
+
+            FoundAccounts = new ObservableCollection<AccountSearchViewModel>();
+
+            CloseScreenCommand = new CaptionCommand<string>(Resources.Close, OnCloseScreen);
+            SelectAccountCommand = new CaptionCommand<string>(Resources.SelectAccount_r, OnSelectAccount, CanSelectAccount);
+            CreateAccountCommand = new CaptionCommand<string>(Resources.NewAccount_r, OnCreateAccount, CanCreateAccount);
+            FindTicketCommand = new CaptionCommand<string>(Resources.FindTicket_r, OnFindTicket, CanFindTicket);
+            ResetAccountCommand = new CaptionCommand<string>(Resources.ResetAccount_r, OnResetAccount, CanResetAccount);
+            MakePaymentCommand = new CaptionCommand<string>(Resources.GetPayment_r, OnMakePayment, CanMakePayment);
+            DisplayAccountCommand = new CaptionCommand<string>(Resources.Account, OnDisplayAccount, CanSelectAccount);
+        }
+
+        private readonly Timer _updateTimer;
+        public ObservableCollection<AccountSearchViewModel> FoundAccounts { get; set; }
+
+        public AccountSearchViewModel SelectedAccount
+        {
+            get
+            {
+                return FoundAccounts.Count == 1 ? FoundAccounts[0] : FocusedAccount;
+            }
+        }
+
+        private AccountSearchViewModel _focusedAccount;
+        public AccountSearchViewModel FocusedAccount
+        {
+            get { return _focusedAccount; }
+            set
+            {
+                _focusedAccount = value;
+                RaisePropertyChanged(() => FocusedAccount);
+                RaisePropertyChanged(() => SelectedAccount);
+            }
+        }
+
+        private string _ticketSearchText;
+        public string TicketSearchText
+        {
+            get { return _ticketSearchText; }
+            set { _ticketSearchText = value; RaisePropertyChanged(() => TicketSearchText); }
+        }
+
+        private string _searchString;
+        public string SearchString
+        {
+            get { return string.IsNullOrEmpty(_searchString) ? null : _searchString.TrimStart('+', '0'); }
+            set
+            {
+                if (value != _searchString)
+                {
+                    _searchString = value;
+                    RaisePropertyChanged(() => SearchString);
+                    ResetTimer();
+                }
+            }
         }
 
         public bool IsResetAccountVisible
@@ -67,69 +125,6 @@ namespace Samba.Modules.DeliveryModule
             }
         }
 
-        private int _activeView;
-        private readonly IApplicationState _applicationState;
-        private readonly IUserService _userService;
-        private readonly ITicketService _ticketService;
-        private readonly IRegionManager _regionManager;
-        private readonly AccountTransactionsView _accountTransactionsView;
-        private readonly AccountTransactionsViewModel _accountTransactionsViewModel;
-
-        public int ActiveView
-        {
-            get { return _activeView; }
-            set { _activeView = value; RaisePropertyChanged(() => ActiveView); }
-        }
-
-        [ImportingConstructor]
-        public AccountSelectorViewModel(IRegionManager regionManager,
-            IApplicationState applicationState, IUserService userService,
-            AccountTransactionsView accountTransactionsView,AccountTransactionsViewModel accountTransactionsViewModel,
-            ITicketService ticketService)
-        {
-            _applicationState = applicationState;
-            _userService = userService;
-            _ticketService = ticketService;
-            _regionManager = regionManager;
-            _accountTransactionsView = accountTransactionsView;
-            _accountTransactionsViewModel = accountTransactionsViewModel;
-
-            _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(AccountTransactionsView));
-
-            CloseScreenCommand = new CaptionCommand<string>(Resources.Close, OnCloseScreen);
-            SelectAccountCommand = new CaptionCommand<string>(Resources.SelectAccount_r, OnSelectAccount, CanSelectAccount);
-            CreateAccountCommand = new CaptionCommand<string>(Resources.NewAccount_r, OnCreateAccount, CanCreateAccount);
-            //FindTicketCommand = new CaptionCommand<string>(Resources.FindTicket_r, OnFindTicket, CanFindTicket);
-            ResetAccountCommand = new CaptionCommand<string>(Resources.ResetAccount_r, OnResetAccount, CanResetAccount);
-            MakePaymentCommand = new CaptionCommand<string>(Resources.GetPayment_r, OnMakePayment, CanMakePayment);
-            DisplayAccountCommand = new CaptionCommand<string>(Resources.Account, OnDisplayAccount, CanSelectAccount);
-
-            EventServiceFactory.EventService.GetEvent<GenericEvent<AccountSearchViewModel>>().Subscribe(
-                x =>
-                {
-                    if (x.Topic == EventTopicNames.SelectedAccountChanged)
-                    {
-                        SelectedAccount = x.Value;
-                    }
-                }
-                );
-        }
-
-        internal void DisplayAccount(Account account)
-        {
-            SelectedAccount = new AccountSearchViewModel(account);
-            RaisePropertyChanged(() => SelectedAccount);
-            OnDisplayAccount("");
-        }
-
-        private void OnDisplayAccount(string obj)
-        {
-            //ActiveView = 1;
-            SaveSelectedAccount();
-            _accountTransactionsViewModel.SelectedAccount = SelectedAccount;
-            _regionManager.Regions[RegionNames.MainRegion].Activate(_accountTransactionsView);
-        }
-
         private bool CanMakePayment(string arg)
         {
             return SelectedAccount != null && _applicationState.CurrentTicket != null;
@@ -139,6 +134,11 @@ namespace Samba.Modules.DeliveryModule
         {
             SelectedAccount.Model.PublishEvent(EventTopicNames.PaymentRequestedForTicket);
             ClearSearchValues();
+        }
+
+        private void OnDisplayAccount(string obj)
+        {
+            SelectedAccount.Model.PublishEvent(EventTopicNames.DisplayAccountTransactions);
         }
 
         private bool CanResetAccount(string arg)
@@ -153,18 +153,18 @@ namespace Samba.Modules.DeliveryModule
             Account.Null.PublishEvent(EventTopicNames.AccountSelectedForTicket);
         }
 
-        //private void OnFindTicket(string obj)
-        //{
-        //    _ticketService.OpenTicketByTicketNumber(TicketSearchText);
-        //    if (_applicationState.CurrentTicket != null)
-        //        EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
-        //    TicketSearchText = "";
-        //}
+        private void OnFindTicket(string obj)
+        {
+            _ticketService.OpenTicketByTicketNumber(TicketSearchText);
+            if (_applicationState.CurrentTicket != null)
+                EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
+            TicketSearchText = "";
+        }
 
-        //private bool CanFindTicket(string arg)
-        //{
-        //    return !string.IsNullOrEmpty(TicketSearchText) && _applicationState.CurrentTicket == null;
-        //}
+        private bool CanFindTicket(string arg)
+        {
+            return !string.IsNullOrEmpty(TicketSearchText) && _applicationState.CurrentTicket == null;
+        }
 
         private bool CanCreateAccount(string arg)
         {
@@ -173,10 +173,9 @@ namespace Samba.Modules.DeliveryModule
 
         private void OnCreateAccount(string obj)
         {
+            ClearSearchValues();
             var c = new Account();
-            SelectedAccount = new AccountSearchViewModel(c);
-            SelectedView = 1;
-            RaisePropertyChanged(() => SelectedAccount);
+            c.PublishEvent(EventTopicNames.EditAccountDetails);
         }
 
         private bool CanSelectAccount(string arg)
@@ -186,16 +185,6 @@ namespace Samba.Modules.DeliveryModule
                 && SelectedAccount != null
                 && !string.IsNullOrEmpty(SelectedAccount.Name)
                 && (_applicationState.CurrentTicket == null || _applicationState.CurrentTicket.AccountId == 0);
-        }
-
-        private void SaveSelectedAccount()
-        {
-            if (!SelectedAccount.IsNotNew)
-            {
-                var ws = WorkspaceFactory.Create();
-                ws.Add(SelectedAccount.Model);
-                ws.CommitChanges();
-            }
         }
 
         private void OnSelectAccount(string obj)
@@ -208,9 +197,6 @@ namespace Samba.Modules.DeliveryModule
         private void OnCloseScreen(string obj)
         {
             _applicationState.CurrentDepartment.PublishEvent(EventTopicNames.ActivateOpenTickets);
-            SelectedView = 0;
-            ActiveView = 0;
-            //SelectedAccountTransactions.Clear();
         }
 
         public void RefreshSelectedAccount()
@@ -221,36 +207,98 @@ namespace Samba.Modules.DeliveryModule
             {
                 var account = Dao.SingleWithCache<Account>(x => x.Id == _applicationState.CurrentTicket.AccountId);
                 if (account != null)
-                    SelectedAccount = new AccountSearchViewModel(account);
-                //FoundAccounts.Add(new AccountSearchViewModel(account));
-                if (SelectedAccount != null)
                 {
-                    SelectedView = 1;
-                    SelectedAccount.UpdateDetailedInfo();
+                    ClearSearchValues();
+                    account.PublishEvent(EventTopicNames.EditAccountDetails);
                 }
+                //    FocusedAccount = new AccountSearchViewModel(account);
+                //if (SelectedAccount != null)
+                //{
+                //    SelectedAccount.UpdateDetailedInfo();
+                //}
             }
             RaisePropertyChanged(() => SelectedAccount);
             RaisePropertyChanged(() => IsClearVisible);
             RaisePropertyChanged(() => IsResetAccountVisible);
             RaisePropertyChanged(() => IsMakePaymentVisible);
-            ActiveView = 0;
-            //SelectedAccountTransactions.Clear();
+        }
+
+        private void SaveSelectedAccount()
+        {
+            if (!SelectedAccount.IsNotNew)
+            {
+                var ws = WorkspaceFactory.Create();
+                ws.Add(SelectedAccount.Model);
+                ws.CommitChanges();
+            }
         }
 
         private void ClearSearchValues()
         {
-            //FoundAccounts.Clear();
-            //SelectedView = 0;
-            //ActiveView = 0;
-            //SearchString = "";
-            //AccountNameSearchText = "";
+            FoundAccounts.Clear();
+            SearchString = "";
+            TicketSearchText = "";
         }
 
-        public void SearchAccount(string phoneNumber)
+        private void ResetTimer()
         {
-            //ClearSearchValues();
-            //SearchString = phoneNumber;
-            //UpdateFoundAccounts();
+            _updateTimer.Stop();
+
+            if (!string.IsNullOrEmpty(SearchString))
+            {
+                _updateTimer.Start();
+            }
+            else FoundAccounts.Clear();
         }
+
+        void UpdateTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            _updateTimer.Stop();
+            UpdateFoundAccounts();
+        }
+
+        private void UpdateFoundAccounts()
+        {
+            IEnumerable<Account> result = new List<Account>();
+
+            using (var worker = new BackgroundWorker())
+            {
+                worker.DoWork += delegate
+                {
+                    var searchPn = string.IsNullOrEmpty(SearchString.Trim());
+                    result = Dao.Query<Account>(
+                        x => (searchPn || x.CustomData.Contains(SearchString) || x.Name.Contains(SearchString)));
+                };
+
+                worker.RunWorkerCompleted +=
+                    delegate
+                    {
+
+                        AppServices.MainDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(
+                               delegate
+                               {
+                                   FoundAccounts.Clear();
+                                   FoundAccounts.AddRange(result.Select(x => new AccountSearchViewModel(x)));
+
+                                   if (SelectedAccount != null && SearchString == SelectedAccount.PhoneNumber)
+                                   {
+                                       //SelectedView = 1;
+                                       SelectedAccount.UpdateDetailedInfo();
+                                   }
+
+                                   RaisePropertyChanged(() => SelectedAccount);
+
+                                   CommandManager.InvalidateRequerySuggested();
+
+                                   SelectedAccount.PublishEvent(EventTopicNames.SelectedAccountChanged);
+
+                               }));
+
+                    };
+
+                worker.RunWorkerAsync();
+            }
+        }
+
     }
 }
