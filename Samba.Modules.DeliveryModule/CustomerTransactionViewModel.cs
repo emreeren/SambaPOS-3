@@ -2,7 +2,7 @@
 
 namespace Samba.Modules.DeliveryModule
 {
-    public class AccountTransactionViewModel
+    public class CustomerTransactionViewModel
     {
         public DateTime Date { get; set; }
         public string Description { get; set; }

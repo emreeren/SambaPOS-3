@@ -122,7 +122,7 @@ namespace Samba.Services.Implementations.CashModule
                 }
                 else
                 {
-                    var c = new AccountTransaction
+                    var c = new CustomerTransaction
                     {
                         Amount = amount,
                         Date = DateTime.Now,

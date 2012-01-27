@@ -327,26 +327,32 @@ namespace Samba.Modules.PosModule
         {
             if (obj.Topic == EventTopicNames.AccountSelectedForTicket)
             {
-                _ticketService.UpdateAccount(SelectedTicket.Model, obj.Value);
-
-                if (!string.IsNullOrEmpty(SelectedTicket.AccountName) && SelectedTicket.Orders.Count > 0)
-                    CloseTicket();
-                else
+                if (SelectedTicket == null) _ticketService.OpenTicket(0);
+                if (SelectedTicket != null)
                 {
-                    RefreshVisuals();
-                    EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
+                    _ticketService.UpdateAccount(SelectedTicket.Model, obj.Value);
+                    if (!string.IsNullOrEmpty(SelectedTicket.AccountName) && SelectedTicket.Orders.Count > 0)
+                        CloseTicket();
+                    else
+                    {
+                        RefreshVisuals();
+                        EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
+                    }
                 }
             }
 
             if (obj.Topic == EventTopicNames.PaymentRequestedForTicket)
             {
-                _ticketService.UpdateAccount(SelectedTicket.Model, obj.Value);
-                if (!string.IsNullOrEmpty(SelectedTicket.AccountName) && SelectedTicket.Orders.Count > 0)
-                    MakePaymentCommand.Execute("");
-                else
+                if (SelectedTicket != null)
                 {
-                    RefreshVisuals();
-                    EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
+                    _ticketService.UpdateAccount(SelectedTicket.Model, obj.Value);
+                    if (!string.IsNullOrEmpty(SelectedTicket.AccountName) && SelectedTicket.Orders.Count > 0)
+                        MakePaymentCommand.Execute("");
+                    else
+                    {
+                        RefreshVisuals();
+                        EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
+                    }
                 }
             }
         }

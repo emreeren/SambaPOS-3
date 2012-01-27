@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Data;
@@ -33,6 +34,10 @@ namespace Samba.Domain.Models.Tickets
             get { return _orderTagGroups; }
             set { _orderTagGroups = value; }
         }
+
+        public AccountTemplate SourceAccountTemplate { get; set; } // Sales
+        public AccountTemplate TargetAccountTemplate { get; set; } // Customers
+        public AccountTemplate PaymentAccountTemplate { get; set; } // Payments (Cash, Credit Card)
         
         public TicketTemplate()
         {

@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="Samba.Modules.AccountModule.AccountTransactionDocumentTemplateView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel >
+            <Label>
+                Account Transaction Document Template Name:
+            </Label>
+            <TextBox HorizontalAlignment="Left" MinWidth="250" Text="{Binding Name}" />
+            <Label MinWidth="120">Account Transaction Template</Label>
+            <ComboBox HorizontalAlignment="Left" MinWidth="200" DisplayMemberPath="Name" ItemsSource="{Binding AccountTransactionTemplates}"
+                                     SelectedItem="{Binding AccountTransactionTemplate}" />
+            <Label MinWidth="120">Source Account</Label>
+            <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding SourceAccounts}"
+                                     SelectedItem="{Binding SourceAccount}" />
+            <Label MinWidth="120">Target Account</Label>
+            <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding TargetAccounts}"
+                                     SelectedItem="{Binding TargetAccount}" />
+            <Label MinWidth="120">Transaction Account</Label>
+            <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding TransactionAccounts}"
+                                     SelectedItem="{Binding TransactionAccount}" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="2">
+            <Button HorizontalAlignment="Left" Margin="0,10" MinWidth="70" Content="{Binding SaveCommand.Caption}"
+                 Command="{Binding SaveCommand}" />
+            <Label Content="{Binding Error}" Foreground="Red" />
+        </StackPanel>
+    </Grid>
+</UserControl>

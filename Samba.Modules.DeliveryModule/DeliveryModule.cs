@@ -18,19 +18,19 @@ namespace Samba.Modules.DeliveryModule
         private readonly AccountSelectorView _accountSelectorView;
         private readonly AccountEditorView _accountEditorView;
         private readonly DeliveryView _deliveryView;
-        private readonly AccountTransactionsView _accountTransactionsView;
+        private readonly CustomerTransactionsView _customerTransactionsView;
 
         [ImportingConstructor]
         public DeliveryModule(IRegionManager regionManager, DeliveryView deliveryView,
             AccountSelectorView accountSelectorView,
             AccountEditorView accountEditorView,
-            AccountTransactionsView accountTransactionsView)
+            CustomerTransactionsView customerTransactionsView)
             : base(regionManager, AppScreens.AccountList)
         {
             _regionManager = regionManager;
             _accountSelectorView = accountSelectorView;
             _deliveryView = deliveryView;
-            _accountTransactionsView = accountTransactionsView;
+            _customerTransactionsView = customerTransactionsView;
             _accountEditorView = accountEditorView;
         }
 
@@ -42,7 +42,7 @@ namespace Samba.Modules.DeliveryModule
         protected override void OnInitialization()
         {
             _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(DeliveryView));
-            _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(AccountTransactionsView));
+            _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(CustomerTransactionsView));
             _regionManager.RegisterViewWithRegion(RegionNames.AccountDisplayRegion, typeof(AccountSelectorView));
             _regionManager.RegisterViewWithRegion(RegionNames.AccountDisplayRegion, typeof(AccountEditorView));
 
@@ -61,7 +61,7 @@ namespace Samba.Modules.DeliveryModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<Account>>().Subscribe(x =>
             {
                 if (x.Topic == EventTopicNames.DisplayAccountTransactions)
-                    ActivateAccountTransactions();
+                    ActivateCustomerTransactions();
                 else if (x.Topic == EventTopicNames.EditAccountDetails)
                     ActivateAccountEditor();
             });
@@ -83,9 +83,9 @@ namespace Samba.Modules.DeliveryModule
             _regionManager.Regions[RegionNames.AccountDisplayRegion].Activate(_accountEditorView);
         }
 
-        private void ActivateAccountTransactions()
+        private void ActivateCustomerTransactions()
         {
-            _regionManager.Regions[RegionNames.MainRegion].Activate(_accountTransactionsView);
+            _regionManager.Regions[RegionNames.MainRegion].Activate(_customerTransactionsView);
         }
 
         private void ActivateAccountSelector()

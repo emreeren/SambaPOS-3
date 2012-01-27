@@ -45,8 +45,8 @@ namespace Samba.Modules.BasicReports.Reports.AccountReport
                     Amount = x.Sum(y => y.TransactionType == 1 ? y.Amount : 0 - y.Amount)
                 });
 
-            var accountTransactions = Dao.Query<AccountTransaction>().Where(x => x.AccountId > 0);
-            var accountTransactionSum = accountTransactions.GroupBy(x => x.AccountId).Select(
+            var customerTransactions = Dao.Query<CustomerTransaction>().Where(x => x.AccountId > 0);
+            var customerTransactionSum = customerTransactions.GroupBy(x => x.AccountId).Select(
                 x =>
                 new
                 {
@@ -57,11 +57,11 @@ namespace Samba.Modules.BasicReports.Reports.AccountReport
 
             var accountIds = paymentSum.Select(x => x.AccountId).Distinct();
             accountIds = accountIds.Union(transactionSum.Select(x => x.AccountId).Distinct());
-            accountIds = accountIds.Union(accountTransactionSum.Select(x => x.AccountId).Distinct());
+            accountIds = accountIds.Union(customerTransactionSum.Select(x => x.AccountId).Distinct());
 
             var list = (from accountId in accountIds
                         let amount = transactionSum.Where(x => x.AccountId == accountId).Sum(x => x.Amount)
-                        let account = accountTransactionSum.Where(x => x.AccountId == accountId).Sum(x => x.Amount)
+                        let account = customerTransactionSum.Where(x => x.AccountId == accountId).Sum(x => x.Amount)
                         let payment = paymentSum.Where(x => x.AccountId == accountId).Sum(x => x.Amount)
                         select new { AccountId = accountId, Amount = (amount + account + payment) })
                             .Where(x => x.Amount != 0).ToList();

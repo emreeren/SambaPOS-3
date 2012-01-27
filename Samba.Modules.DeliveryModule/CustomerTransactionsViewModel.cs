@@ -18,12 +18,12 @@ using Samba.Services.Common;
 namespace Samba.Modules.DeliveryModule
 {
     [Export]
-    public class AccountTransactionsViewModel : ObservableObject
+    public class CustomerTransactionsViewModel : ObservableObject
     {
         private readonly IUserService _userService;
 
         [ImportingConstructor]
-        public AccountTransactionsViewModel(IUserService userService)
+        public CustomerTransactionsViewModel(IUserService userService)
         {
             _userService = userService;
 
@@ -32,7 +32,7 @@ namespace Samba.Modules.DeliveryModule
             AddLiabilityCommand = new CaptionCommand<string>(Resources.AddLiability_r, OnAddLiability, CanAddLiability);
             AddReceivableCommand = new CaptionCommand<string>(Resources.AddReceivable_r, OnAddReceivable, CanAddLiability);
             CloseAccountScreenCommand = new CaptionCommand<string>(Resources.Close, OnCloseAccountScreen);
-            SelectedAccountTransactions = new ObservableCollection<AccountTransactionViewModel>();
+            SelectedCustomerTransactions = new ObservableCollection<CustomerTransactionViewModel>();
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<Account>>().Subscribe(OnDisplayAccountTransactions);
         }
@@ -57,11 +57,11 @@ namespace Samba.Modules.DeliveryModule
             }
         }
 
-        public ObservableCollection<AccountTransactionViewModel> SelectedAccountTransactions { get; set; }
+        public ObservableCollection<CustomerTransactionViewModel> SelectedCustomerTransactions { get; set; }
 
-        public string TotalReceivable { get { return SelectedAccountTransactions.Sum(x => x.Receivable).ToString("#,#0.00"); } }
-        public string TotalLiability { get { return SelectedAccountTransactions.Sum(x => x.Liability).ToString("#,#0.00"); } }
-        public string TotalBalance { get { return SelectedAccountTransactions.Sum(x => x.Receivable - x.Liability).ToString("#,#0.00"); } }
+        public string TotalReceivable { get { return SelectedCustomerTransactions.Sum(x => x.Receivable).ToString("#,#0.00"); } }
+        public string TotalLiability { get { return SelectedCustomerTransactions.Sum(x => x.Liability).ToString("#,#0.00"); } }
+        public string TotalBalance { get { return SelectedCustomerTransactions.Sum(x => x.Receivable - x.Liability).ToString("#,#0.00"); } }
 
         public ICaptionCommand GetPaymentFromAccountCommand { get; set; }
         public ICaptionCommand MakePaymentToAccountCommand { get; set; }
@@ -71,15 +71,15 @@ namespace Samba.Modules.DeliveryModule
 
         private void DisplayTransactions()
         {
-            SelectedAccountTransactions.Clear();
+            SelectedCustomerTransactions.Clear();
             if (SelectedAccount != null)
             {
                 var tickets = Dao.Query<Ticket>(x => x.AccountId == SelectedAccount.Id && x.LastPaymentDate > SelectedAccount.AccountOpeningDate, x => x.Payments);
                 var cashTransactions = Dao.Query<CashTransaction>(x => x.Date > SelectedAccount.AccountOpeningDate && x.AccountId == SelectedAccount.Id);
-                var accountTransactions = Dao.Query<AccountTransaction>(x => x.Date > SelectedAccount.AccountOpeningDate && x.AccountId == SelectedAccount.Id);
+                var customerTransactions = Dao.Query<CustomerTransaction>(x => x.Date > SelectedAccount.AccountOpeningDate && x.AccountId == SelectedAccount.Id);
 
-                var transactions = new List<AccountTransactionViewModel>();
-                transactions.AddRange(tickets.Select(x => new AccountTransactionViewModel
+                var transactions = new List<CustomerTransactionViewModel>();
+                transactions.AddRange(tickets.Select(x => new CustomerTransactionViewModel
                 {
                     Description = string.Format(Resources.TicketNumber_f, x.TicketNumber),
                     Date = x.LastPaymentDate,
@@ -88,7 +88,7 @@ namespace Samba.Modules.DeliveryModule
                 }));
 
                 transactions.AddRange(cashTransactions.Where(x => x.TransactionType == (int)TransactionType.Income)
-                    .Select(x => new AccountTransactionViewModel
+                    .Select(x => new CustomerTransactionViewModel
                     {
                         Description = x.Name,
                         Date = x.Date,
@@ -96,23 +96,23 @@ namespace Samba.Modules.DeliveryModule
                     }));
 
                 transactions.AddRange(cashTransactions.Where(x => x.TransactionType == (int)TransactionType.Expense)
-                    .Select(x => new AccountTransactionViewModel
+                    .Select(x => new CustomerTransactionViewModel
                     {
                         Description = x.Name,
                         Date = x.Date,
                         Receivable = x.Amount
                     }));
 
-                transactions.AddRange(accountTransactions.Where(x => x.TransactionType == (int)TransactionType.Liability)
-                    .Select(x => new AccountTransactionViewModel
+                transactions.AddRange(customerTransactions.Where(x => x.TransactionType == (int)TransactionType.Liability)
+                    .Select(x => new CustomerTransactionViewModel
                     {
                         Description = x.Name,
                         Date = x.Date,
                         Liability = x.Amount
                     }));
 
-                transactions.AddRange(accountTransactions.Where(x => x.TransactionType == (int)TransactionType.Receivable)
-                    .Select(x => new AccountTransactionViewModel
+                transactions.AddRange(customerTransactions.Where(x => x.TransactionType == (int)TransactionType.Receivable)
+                    .Select(x => new CustomerTransactionViewModel
                     {
                         Description = x.Name,
                         Date = x.Date,
@@ -127,7 +127,7 @@ namespace Samba.Modules.DeliveryModule
                     if (i > 0) (transactions[i].Balance) += (transactions[i - 1].Balance);
                 }
 
-                SelectedAccountTransactions.AddRange(transactions);
+                SelectedCustomerTransactions.AddRange(transactions);
                 RaisePropertyChanged(() => TotalReceivable);
                 RaisePropertyChanged(() => TotalLiability);
                 RaisePropertyChanged(() => TotalBalance);
@@ -147,7 +147,7 @@ namespace Samba.Modules.DeliveryModule
         private void OnCloseAccountScreen(string obj)
         {
             // RefreshSelectedAccount();
-            SelectedAccountTransactions.Clear();
+            SelectedCustomerTransactions.Clear();
         }
 
         private void OnAddReceivable(string obj)

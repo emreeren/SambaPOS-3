@@ -57,7 +57,7 @@ namespace Samba.Persistance.Data
         public DbSet<AccountTemplate> AccountTemplates { get; set; }
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<CashTransaction> CashTransactions { get; set; }
-        public DbSet<AccountTransaction> AccountTransactions { get; set; }
+        public DbSet<CustomerTransaction> CustomerTransactions { get; set; }
         public DbSet<InventoryItem> InventoryItems { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<RecipeItem> RecipeItems { get; set; }
@@ -76,9 +76,18 @@ namespace Samba.Persistance.Data
         public DbSet<TaxTemplate> TaxTemplates { get; set; }
         public DbSet<ServiceTemplate> ServiceTemplates { get; set; }
         public DbSet<Service> Services { get; set; }
+        public DbSet<AccountTransaction> AccountTransactions { get; set; }
+        public DbSet<AccountTransactionTemplate> AccountTransactionTemplates { get; set; }
+        public DbSet<AccountTransactionDocument> AccountTransactionDocuments { get; set; }
+        public DbSet<AccountTransactionDocumentTemplate> AccountTransactionDocumentTemplates { get; set; }
+        public DbSet<AccountTransactionDocumentLine> AccountTransactionDocumentLines { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<AccountTransactionDocumentLine>().HasKey(p => new { p.Id, p.AccountTransactionDocumentId });
+            modelBuilder.Entity<AccountTransactionDocumentLine>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<AccountTransactionDocument>().HasMany(p => p.AccountTransactionDocumentLines).WithRequired().HasForeignKey(x => x.AccountTransactionDocumentId);
+
             modelBuilder.Entity<TicketTemplate>().HasMany(p => p.TicketTagGroups).WithMany();
             modelBuilder.Entity<TicketTemplate>().HasMany(p => p.ServiceTemplates).WithMany();
             modelBuilder.Entity<TicketTemplate>().HasMany(p => p.OrderTagGroups).WithMany();
@@ -158,8 +167,8 @@ namespace Samba.Persistance.Data
             //CashTransaction
             modelBuilder.Entity<CashTransaction>().Property(x => x.Amount).HasPrecision(precision, scale);
 
-            //AccountTransaction
-            modelBuilder.Entity<AccountTransaction>().Property(x => x.Amount).HasPrecision(precision, scale);
+            //CustomerTransaction
+            modelBuilder.Entity<CustomerTransaction>().Property(x => x.Amount).HasPrecision(precision, scale);
 
             //WorkPeriod
             modelBuilder.Entity<WorkPeriod>().Property(x => x.CashAmount).HasPrecision(precision, scale);

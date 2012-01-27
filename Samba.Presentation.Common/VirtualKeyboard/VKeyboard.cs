@@ -121,7 +121,7 @@ namespace Samba.Presentation.Common.VirtualKeyboard
             KeyEnter = new VKey("Enter", "Enter", Keys.Enter); VirtualKeys.Add(KeyEnter);
             KeyComma = new VKey(Keys.Oemcomma); VirtualKeys.Add(KeyComma);
             KeyPoint = new VKey(Keys.OemPeriod); VirtualKeys.Add(KeyPoint);
-            KeyAt = new VKey("@", "€", Keys.Oem1); VirtualKeys.Add(KeyAt);
+            KeyAt = new VKey("@", "€", Keys.Oem102); VirtualKeys.Add(KeyAt);
             KeySpace = new VKey(" ", "Space", Keys.Space); VirtualKeys.Add(KeySpace);
             UpArrow = new VKey("Up", "Up", Keys.Up); VirtualKeys.Add(UpArrow);
             DownArrow = new VKey("Down", "Down", Keys.Down); VirtualKeys.Add(DownArrow);

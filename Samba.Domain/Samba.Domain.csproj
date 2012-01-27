@@ -67,6 +67,11 @@
   <ItemGroup>
     <Compile Include="Models\Accounts\AccountCustomField.cs" />
     <Compile Include="Models\Accounts\AccountTemplate.cs" />
+    <Compile Include="Models\Accounts\AccountTransaction.cs" />
+    <Compile Include="Models\Accounts\AccountTransactionDocument.cs" />
+    <Compile Include="Models\Accounts\AccountTransactionDocumentLine.cs" />
+    <Compile Include="Models\Accounts\AccountTransactionDocumentTemplate.cs" />
+    <Compile Include="Models\Accounts\AccountTransactionTemplate.cs" />
     <Compile Include="Models\Actions\ActionContainer.cs" />
     <Compile Include="Models\Actions\AppRule.cs" />
     <Compile Include="Models\Actions\AppAction.cs" />
@@ -78,7 +83,7 @@
     <Compile Include="Models\Menus\TaxTemplate.cs" />
     <Compile Include="Models\Tickets\TicketTagValue.cs" />
     <Compile Include="Models\Tickets\TicketTemplate.cs" />
-    <Compile Include="Models\Transactions\AccountTransaction.cs" />
+    <Compile Include="Models\Transactions\CustomerTransaction.cs" />
     <Compile Include="Models\Transactions\CashTransaction.cs" />
     <Compile Include="Models\Inventories\CostItem.cs" />
     <Compile Include="Models\Inventories\InventoryItem.cs" />

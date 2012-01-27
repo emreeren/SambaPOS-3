@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using FluentValidation;
+using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
@@ -49,6 +50,13 @@ namespace Samba.Modules.TicketModule
         public TicketTagGroup SelectedTicketTag { get; set; }
         public OrderTagGroup SelectedOrderTagGroup { get; set; }
         public ServiceTemplate SelectedServiceTemplate { get; set; }
+
+        private IEnumerable<AccountTemplate> _accountTemplates;
+        public IEnumerable<AccountTemplate> AccountTemplates { get { return _accountTemplates ?? (_accountTemplates = Workspace.All<AccountTemplate>()); } }
+
+        public AccountTemplate SourceAccountTemplate { get { return Model.SourceAccountTemplate; } set { Model.SourceAccountTemplate = value; } }
+        public AccountTemplate TargetAccountTemplate { get { return Model.TargetAccountTemplate; } set { Model.TargetAccountTemplate = value; } }
+        public AccountTemplate PaymentAccountTemplate { get { return Model.PaymentAccountTemplate; } set { Model.PaymentAccountTemplate = value; } }
 
         private ObservableCollection<TicketTagGroup> _ticketTagGroups;
         public ObservableCollection<TicketTagGroup> TicketTagGroups

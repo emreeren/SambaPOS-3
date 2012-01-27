@@ -59,11 +59,11 @@
       <DependentUpon>AccountSelectorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AccountSelectorViewModel.cs" />
-    <Compile Include="AccountTransactionsView.xaml.cs">
-      <DependentUpon>AccountTransactionsView.xaml</DependentUpon>
+    <Compile Include="CustomerTransactionsView.xaml.cs">
+      <DependentUpon>CustomerTransactionsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AccountTransactionsViewModel.cs" />
-    <Compile Include="AccountTransactionViewModel.cs" />
+    <Compile Include="CustomerTransactionsViewModel.cs" />
+    <Compile Include="CustomerTransactionViewModel.cs" />
     <Compile Include="DeliveryModule.cs" />
     <Compile Include="DeliveryView.xaml.cs">
       <DependentUpon>DeliveryView.xaml</DependentUpon>
@@ -84,7 +84,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="AccountTransactionsView.xaml">
+    <Page Include="CustomerTransactionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

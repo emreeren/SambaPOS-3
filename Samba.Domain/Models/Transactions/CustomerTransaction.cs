@@ -3,7 +3,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Transactions
 {
-    public class AccountTransaction : IEntity
+    public class CustomerTransaction : IEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }

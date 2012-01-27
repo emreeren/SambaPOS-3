@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:ListViewLM="clr-namespace:Samba.Presentation.Common.ListViewLM;assembly=Samba.Presentation.Common" 
-             xmlns:ListViewEx="clr-namespace:Samba.Presentation.Common.ListViewEx;assembly=Samba.Presentation.Common" xmlns:FlexButton="clr-namespace:FlexButton;assembly=FlexButton" mc:Ignorable="d" 
+             xmlns:ListViewEx="clr-namespace:Samba.Presentation.Common.ListViewEx;assembly=Samba.Presentation.Common" xmlns:FlexButton="clr-namespace:FlexButton;assembly=FlexButton" xmlns:VirtualKeyboard="clr-namespace:Samba.Presentation.Common.VirtualKeyboard;assembly=Samba.Presentation.Common" mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -14,6 +14,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Margin="2">
             <Grid.ColumnDefinitions>
@@ -71,7 +72,10 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Grid Grid.Column="1" Grid.RowSpan="2" Background="Silver">
+        <Viewbox Grid.Row="2">
+            <VirtualKeyboard:KeyboardView/>
+        </Viewbox>
+        <Grid Grid.Column="1" Grid.RowSpan="3" Background="LightGray">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />

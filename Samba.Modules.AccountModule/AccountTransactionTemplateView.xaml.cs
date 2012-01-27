@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -13,19 +12,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Samba.Modules.DeliveryModule
+namespace Samba.Modules.AccountModule
 {
     /// <summary>
-    /// Interaction logic for AccountTransactionsView.xaml
+    /// Interaction logic for AccountTransactionTemplateView.xaml
     /// </summary>
-    
-    [Export]
-    public partial class AccountTransactionsView : UserControl
+    public partial class AccountTransactionTemplateView : UserControl
     {
-        [ImportingConstructor]
-        public AccountTransactionsView(AccountTransactionsViewModel viewModel)
+        public AccountTransactionTemplateView()
         {
-            DataContext = viewModel;
             InitializeComponent();
         }
     }
