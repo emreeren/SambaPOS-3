@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="Samba.Modules.AccountModule.AccountTransactionDocumentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <DockPanel>
+            <Label>Document Name</Label>
+            <TextBox Text="{Binding Name}"></TextBox>
+        </DockPanel>
+        <DataGrid Grid.Row="1" ItemsSource="{Binding AccountTransactions}">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Action">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Margin="3" Text="{Binding AccountTransactionTemplate.Name}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <Grid FocusManager.FocusedElement="{Binding ElementName=cb}">
+                                <ComboBox Name="cb" IsEditable="True" ItemsSource="{Binding AccountTransactionTemplates}" SelectedItem="{Binding AccountTransactionTemplate}" />
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Grid.Row="2">
+            <StackPanel Orientation="Horizontal">
+                <Button HorizontalAlignment="Left" Margin="0,10" MinWidth="70" Content="{Binding SaveCommand.Caption}"
+                 Command="{Binding SaveCommand}" />
+                <Button HorizontalAlignment="Left" Margin="4,10" MinWidth="70" Content="{Binding AddItemCommand.Caption}"
+                 Command="{Binding AddItemCommand}" />
+            </StackPanel>
+            <Label Content="{Binding Error}" Foreground="Red" />
+        </StackPanel>
+    </Grid>
+</UserControl>

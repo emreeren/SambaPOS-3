@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace Samba.Modules.AccountModule
 {
     /// <summary>
-    /// Interaction logic for AccountTransactionDocumentTemplateView.xaml
+    /// Interaction logic for AccountTransactionDocumentView.xaml
     /// </summary>
-    public partial class AccountTransactionDocumentTemplateView : UserControl
+    public partial class AccountTransactionDocumentView : UserControl
     {
-        public AccountTransactionDocumentTemplateView()
+        public AccountTransactionDocumentView()
         {
             InitializeComponent();
         }
