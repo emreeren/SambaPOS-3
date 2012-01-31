@@ -29,13 +29,13 @@ namespace Samba.Modules.AccountModule
         private ObservableCollection<AccountTransactionViewModel> CreateAccountTransactions()
         {
             var result = new ObservableCollection<AccountTransactionViewModel>();
-            result.AddRange(Model.AccountTransactions.Select(x => new AccountTransactionViewModel(Workspace, x)));
+            result.AddRange(Model.AccountTransactions.Select(x => new AccountTransactionViewModel(Workspace, x, Model)));
             return result;
         }
 
         private void OnAddItem(string obj)
         {
-            var transaction = new AccountTransactionViewModel(Workspace, null);
+            var transaction = new AccountTransactionViewModel(Workspace, null, Model);
             AccountTransactions.Add(transaction);
         }
 

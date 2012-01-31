@@ -12,19 +12,41 @@ namespace Samba.Modules.AccountModule
     class AccountTransactionViewModel : ObservableObject
     {
         private readonly IWorkspace _workspace;
+        private readonly AccountTransactionDocument _document;
         public AccountTransaction Model { get; set; }
 
-        public AccountTransactionViewModel(IWorkspace workspace, AccountTransaction model)
+        public AccountTransactionViewModel(IWorkspace workspace, AccountTransaction model, AccountTransactionDocument document)
         {
-            Model = model;
+            Model = model ?? AccountTransaction.Null;
+            _document = document;
             _workspace = workspace;
-            _accountTransactionTemplate = model != null ? model.AccountTransactionTemplate : null;
+            _accountTransactionTemplate = Model.AccountTransactionTemplate;
         }
 
         private IEnumerable<AccountTransactionTemplate> _accountTransactionTemplates;
         public IEnumerable<AccountTransactionTemplate> AccountTransactionTemplates
         {
-            get { return _accountTransactionTemplates ?? (_accountTransactionTemplates = _workspace.All<AccountTransactionTemplate>()); }
+            get { return _accountTransactionTemplates ?? (_accountTransactionTemplates = _workspace.All<AccountTransactionTemplate>().ToList()); }
+        }
+
+        private IEnumerable<Account> _sourceAccounts;
+        public IEnumerable<Account> SourceAccounts
+        {
+            get
+            {
+                if (AccountTransactionTemplate == null) return null;
+                return _sourceAccounts ?? (_sourceAccounts = _workspace.All<Account>(x => x.AccountTemplate.Id == AccountTransactionTemplate.SourceAccountTemplate.Id).ToList());
+            }
+        }
+
+        private IEnumerable<Account> _targetAccounts;
+        public IEnumerable<Account> TargetAccounts
+        {
+            get
+            {
+                if (AccountTransactionTemplate == null) return null;
+                return _targetAccounts ?? (_targetAccounts = _workspace.All<Account>(x => x.AccountTemplate.Id == AccountTransactionTemplate.TargetAccountTemplate.Id).ToList());
+            }
         }
 
         private AccountTransactionTemplate _accountTransactionTemplate;
@@ -34,8 +56,35 @@ namespace Samba.Modules.AccountModule
             set
             {
                 _accountTransactionTemplate = value;
-                if (Model == null) Model = AccountTransaction.Create(value);
+                if (Model == AccountTransaction.Null)
+                {
+                    Model = AccountTransaction.Create(value);
+                    _document.AccountTransactions.Add(Model);
+                }
+                RaisePropertyChanged("AccountTransactionTemplate");
+                RaisePropertyChanged("SourceAccount");
+                RaisePropertyChanged("TargetAccount");
             }
+        }
+
+        public Account SourceAccount
+        {
+            get { return Model.SourceTransactionValue.Account; }
+            set { Model.SourceTransactionValue.Account = value; }
+        }
+
+        public Account TargetAccount
+        {
+            get { return Model.TargetTransactionValue.Account; }
+            set { Model.TargetTransactionValue.Account = value; }
+        }
+
+        public string Name { get { return Model.Name; } set { Model.Name = value; } }
+
+        public decimal Amount
+        {
+            get { return Model.Amount; }
+            set { Model.Amount = value; }
         }
     }
 }

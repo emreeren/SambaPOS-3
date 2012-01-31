@@ -11,10 +11,12 @@ namespace Samba.Domain.Models.Accounts
         public AccountTransactionDocument()
         {
             _accountTransactions = new List<AccountTransaction>();
+            Date = DateTime.Now;
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
+        public DateTime Date { get; set; }
 
         private IList<AccountTransaction> _accountTransactions;
         public virtual IList<AccountTransaction> AccountTransactions
