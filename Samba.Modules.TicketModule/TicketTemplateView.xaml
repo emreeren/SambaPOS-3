@@ -23,7 +23,7 @@
             </Label>
             <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding Numerators}"
                                      SelectedItem="{Binding OrderNumerator}" />
-           
+
             <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                 <DataGrid MinWidth="170" ItemsSource="{Binding TicketTagGroups}" SelectedItem="{Binding SelectedTicketTag, Mode=TwoWay}"
                                      HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
@@ -118,15 +118,12 @@
             <Label Content="{Binding Error}" Foreground="Red" />
         </StackPanel>
         <StackPanel Grid.Column="1">
-            <Label MinWidth="120">Source Account Template</Label>
-            <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTemplates}"
-                                     SelectedItem="{Binding SourceAccountTemplate}" />
-            <Label MinWidth="120">Target Account Template</Label>
-            <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTemplates}"
-                                     SelectedItem="{Binding TargetAccountTemplate}" />
-            <Label MinWidth="120">Payment Account Template</Label>
-            <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTemplates}"
-                                     SelectedItem="{Binding PaymentAccountTemplate}" />
+            <Label MinWidth="120">Sale Transaction Template</Label>
+            <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTransactionTemplates}"
+                                     SelectedItem="{Binding SaleTransactionTemplate}" />
+            <Label MinWidth="120">Payment Transaction Template</Label>
+            <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTransactionTemplates}"
+                                     SelectedItem="{Binding PaymentTransactionTemplate}" />
         </StackPanel>
     </Grid>
 </UserControl>

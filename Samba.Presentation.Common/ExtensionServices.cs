@@ -112,6 +112,7 @@ namespace Samba.Presentation.Common
         public static T GetVisualChild<T>(DependencyObject parent) where T : DependencyObject
         {
             var child = default(T);
+            if (parent == null) return child;
             var numVisuals = VisualTreeHelper.GetChildrenCount(parent);
             for (var i = 0; i < numVisuals; i++)
             {

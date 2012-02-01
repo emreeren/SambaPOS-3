@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Actions;
 using Samba.Domain.Models.Locations;
 using Samba.Domain.Models.Menus;
@@ -36,6 +37,33 @@ namespace Samba.Services
 
             if (!ShouldCreateData()) return;
 
+            var saleAccountTemplate = new AccountTemplate { Name = "Sales Accounts" };
+            var paymentAccountTemplate = new AccountTemplate { Name = "Payment Accounts" };
+            var customerAccountTemplate = new AccountTemplate { Name = "Customer Accounts" };
+
+            var defaultSaleAccount = new Account { AccountTemplate = saleAccountTemplate, Name = "Sales" };
+            var defaultpaymentAccount = new Account { AccountTemplate = paymentAccountTemplate, Name = "Cash" };
+            var defaultCustomerAccount = new Account { AccountTemplate = customerAccountTemplate, Name = "Customer" };
+
+            var saleTransactionTemplate = new AccountTransactionTemplate
+            {
+                SourceAccountTemplate = saleAccountTemplate,
+                TargetAccountTemplate = customerAccountTemplate,
+                DefaultSourceAccount = defaultSaleAccount,
+                DefaultTargetAccount = defaultCustomerAccount
+            };
+
+            var paymentTransactionTemplate = new AccountTransactionTemplate
+            {
+                SourceAccountTemplate = customerAccountTemplate,
+                TargetAccountTemplate = paymentAccountTemplate,
+                DefaultSourceAccount = defaultCustomerAccount,
+                DefaultTargetAccount = defaultpaymentAccount
+            };
+
+            _workspace.Add(saleTransactionTemplate);
+            _workspace.Add(paymentTransactionTemplate);
+
             var screen = new ScreenMenu();
             _workspace.Add(screen);
 
@@ -52,6 +80,8 @@ namespace Samba.Services
                                          Name = Resources.TicketTemplate,
                                          TicketNumerator = ticketNumerator,
                                          OrderNumerator = orderNumerator,
+                                         SaleTransactionTemplate = saleTransactionTemplate,
+                                         PaymentTransactionTemplate = paymentTransactionTemplate
                                      };
 
             _workspace.Add(ticketTemplate);

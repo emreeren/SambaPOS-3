@@ -14,7 +14,8 @@
             <Label>Document Name</Label>
             <TextBox Text="{Binding Name}"></TextBox>
         </DockPanel>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding AccountTransactions}" AutoGenerateColumns="False">
+        <DataGrid Grid.Row="1" ItemsSource="{Binding AccountTransactions}" AutoGenerateColumns="False" 
+                  PreviewTextInput="DataGrid_PreviewTextInput" PreparingCellForEdit="DataGrid_PreparingCellForEdit">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Transaction">
                     <DataGridTemplateColumn.CellTemplate>
@@ -70,7 +71,7 @@
                     </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTextColumn Header="Description" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Description" Binding="{Binding Name}" Width="*"/>
 
                 <DataGridTemplateColumn Header="Amount">
                     <DataGridTemplateColumn.CellTemplate>

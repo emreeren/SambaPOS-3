@@ -13,19 +13,15 @@ using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Common.Services;
-using Samba.Services;
 
 namespace Samba.Modules.TicketModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     class TicketTemplateViewModel : EntityViewModelBase<TicketTemplate>
     {
-        private readonly IPriceListService _priceListService;
-
         [ImportingConstructor]
-        public TicketTemplateViewModel(IPriceListService priceListService)
+        public TicketTemplateViewModel()
         {
-            _priceListService = priceListService;
             AddTicketTagGroupCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.TicketTagGroup), OnAddTicketTagGroup);
             DeleteTicketTagGroupCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.TicketTagGroup), OnDeleteTicketTagGroup, CanDeleteTicketTagGroup);
             AddOrderTagGroupCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.OrderTagGroup), OnAddOrderTagGroup);
@@ -51,12 +47,11 @@ namespace Samba.Modules.TicketModule
         public OrderTagGroup SelectedOrderTagGroup { get; set; }
         public ServiceTemplate SelectedServiceTemplate { get; set; }
 
-        private IEnumerable<AccountTemplate> _accountTemplates;
-        public IEnumerable<AccountTemplate> AccountTemplates { get { return _accountTemplates ?? (_accountTemplates = Workspace.All<AccountTemplate>()); } }
+        private IEnumerable<AccountTransactionTemplate> _accountTransactionTemplates;
+        public IEnumerable<AccountTransactionTemplate> AccountTransactionTemplates { get { return _accountTransactionTemplates ?? (_accountTransactionTemplates = Workspace.All<AccountTransactionTemplate>()); } }
 
-        public AccountTemplate SourceAccountTemplate { get { return Model.SourceAccountTemplate; } set { Model.SourceAccountTemplate = value; } }
-        public AccountTemplate TargetAccountTemplate { get { return Model.TargetAccountTemplate; } set { Model.TargetAccountTemplate = value; } }
-        public AccountTemplate PaymentAccountTemplate { get { return Model.PaymentAccountTemplate; } set { Model.PaymentAccountTemplate = value; } }
+        public virtual AccountTransactionTemplate SaleTransactionTemplate { get { return Model.SaleTransactionTemplate; } set { Model.SaleTransactionTemplate = value; } }
+        public virtual AccountTransactionTemplate PaymentTransactionTemplate { get { return Model.PaymentTransactionTemplate; } set { Model.PaymentTransactionTemplate = value; } }
 
         private ObservableCollection<TicketTagGroup> _ticketTagGroups;
         public ObservableCollection<TicketTagGroup> TicketTagGroups
@@ -200,6 +195,8 @@ namespace Samba.Modules.TicketModule
         {
             RuleFor(x => x.TicketNumerator).NotNull();
             RuleFor(x => x.OrderNumerator).NotNull();
+            RuleFor(x => x.SaleTransactionTemplate).NotNull();
+            RuleFor(x => x.PaymentTransactionTemplate).NotNull();
         }
     }
 }

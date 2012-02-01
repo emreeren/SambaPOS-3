@@ -35,10 +35,9 @@ namespace Samba.Domain.Models.Tickets
             set { _orderTagGroups = value; }
         }
 
-        public AccountTemplate SourceAccountTemplate { get; set; } // Sales
-        public AccountTemplate TargetAccountTemplate { get; set; } // Customers
-        public AccountTemplate PaymentAccountTemplate { get; set; } // Payments (Cash, Credit Card)
-        
+        public virtual AccountTransactionTemplate SaleTransactionTemplate { get; set; }
+        public virtual AccountTransactionTemplate PaymentTransactionTemplate { get; set; }
+
         public TicketTemplate()
         {
             _ticketTagGroups = new List<TicketTagGroup>();

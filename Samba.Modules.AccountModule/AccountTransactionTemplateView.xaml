@@ -16,10 +16,10 @@
                 Account Transaction Template Name:
             </Label>
             <TextBox HorizontalAlignment="Left" MinWidth="250" Text="{Binding Name}" />
-            <Label MinWidth="120">Source Account Template</Label>
+            <Label MinWidth="120">Source Account Template (Debit)</Label>
             <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTemplates}"
                                      SelectedItem="{Binding SourceAccountTemplate}" />
-            <Label MinWidth="120">Target Account Template</Label>
+            <Label MinWidth="120">Target Account Template (Credit)</Label>
             <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTemplates}"
                                      SelectedItem="{Binding TargetAccountTemplate}" />
 

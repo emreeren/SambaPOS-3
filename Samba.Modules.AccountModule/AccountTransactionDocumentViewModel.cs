@@ -46,7 +46,7 @@ namespace Samba.Modules.AccountModule
 
         public override string GetModelTypeString()
         {
-            return "Account Transaction Documents";
+            return "Account Transaction Document";
         }
     }
 }
