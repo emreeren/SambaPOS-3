@@ -45,7 +45,7 @@
                         <DataTemplate>
                             <Grid FocusManager.FocusedElement="{Binding ElementName=cb1}">
                                 <ComboBox Name="cb1" IsEditable="True" 
-                                          ItemsSource="{Binding SourceAccounts}" 
+                                          ItemsSource="{Binding SourceAccounts}"
                                           SelectedItem="{Binding SourceAccount}" 
                                           DisplayMemberPath="Name" />
                             </Grid>
@@ -64,7 +64,7 @@
                             <Grid FocusManager.FocusedElement="{Binding ElementName=cb2}">
                                 <ComboBox Name="cb2" IsEditable="True" 
                                           ItemsSource="{Binding TargetAccounts}" 
-                                          SelectedItem="{Binding TargetAccount}" 
+                                          SelectedValue="{Binding TargetAccount}" 
                                           DisplayMemberPath="Name" />
                             </Grid>
                         </DataTemplate>

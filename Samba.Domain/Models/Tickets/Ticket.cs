@@ -18,12 +18,6 @@ namespace Samba.Domain.Models.Tickets
 
         }
 
-        public Ticket(int ticketId)
-            : this(ticketId, "")
-        {
-
-        }
-
         public Ticket(int ticketId, string locationName)
         {
             Id = ticketId;
@@ -57,14 +51,18 @@ namespace Samba.Domain.Models.Tickets
         public DateTime LastOrderDate { get; set; }
         public DateTime LastPaymentDate { get; set; }
         public string LocationName { get; set; }
-        public int AccountId { get; set; }
-        public string AccountName { get; set; }
         public bool IsPaid { get; set; }
         public decimal RemainingAmount { get; set; }
-        public decimal TotalAmount { get; set; }
+
         public int DepartmentId { get; set; }
         public string Note { get; set; }
         public bool Locked { get; set; }
+
+        public decimal TotalAmount { get; set; }
+        public int SaleTransactionId { get; set; }
+        public virtual AccountTransaction SaleTransaction { get; set; }
+        public string AccountName { get; set; }
+        public int AccountId { get; set; }
 
         private IList<Order> _orders;
         public virtual IList<Order> Orders
@@ -409,6 +407,7 @@ namespace Samba.Domain.Models.Tickets
             {
                 ticket.AddService(serviceTemplate.Id, serviceTemplate.CalculationMethod, serviceTemplate.Amount);
             }
+            ticket.SaleTransaction = AccountTransaction.Create(department.TicketTemplate.SaleTransactionTemplate);
             return ticket;
         }
 
@@ -486,16 +485,9 @@ namespace Samba.Domain.Models.Tickets
 
         public void UpdateAccount(Account account)
         {
-            if (account == Account.Null)
-            {
-                AccountId = 0;
-                AccountName = "";
-            }
-            else
-            {
-                AccountId = account.Id;
-                AccountName = account.Name.Trim();
-            }
+            AccountName = account.Name;
+            AccountId = account.Id;
+            SaleTransaction.TargetTransactionValue.AccountId = account == Account.Null ? 0 : account.Id;
         }
 
         public void Recalculate(decimal autoRoundValue, int userId)
@@ -520,6 +512,7 @@ namespace Samba.Domain.Models.Tickets
             }
 
             RemainingAmount = GetRemainingAmount();
+            SaleTransaction.Amount = GetPlainSum();
             TotalAmount = GetSum();
         }
 

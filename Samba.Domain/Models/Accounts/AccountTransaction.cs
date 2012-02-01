@@ -38,10 +38,8 @@ namespace Samba.Domain.Models.Accounts
             }
         }
 
-        public int AccountTransactionDocumentId { get; set; }
         public int AccountTransactionTemplateId { get; set; }
-
-        public virtual AccountTransactionTemplate AccountTransactionTemplate { get; set; }
+        
         public virtual AccountTransactionValue SourceTransactionValue { get; set; }
         public virtual AccountTransactionValue TargetTransactionValue { get; set; }
 
@@ -62,12 +60,12 @@ namespace Samba.Domain.Models.Accounts
         {
             var result = new AccountTransaction
                              {
-                                 AccountTransactionTemplate = template,
+                                 AccountTransactionTemplateId = template.Id,
                                  SourceTransactionValue = new AccountTransactionValue(),
                                  TargetTransactionValue = new AccountTransactionValue()
                              };
-            result.SourceTransactionValue.Account = template.DefaultSourceAccount;
-            result.TargetTransactionValue.Account = template.DefaultTargetAccount;
+            result.SourceTransactionValue.AccountId = template.DefaultSourceAccount.Id;
+            result.TargetTransactionValue.AccountId = template.DefaultTargetAccount.Id;
             return result;
         }
     }

@@ -47,6 +47,7 @@ namespace Samba.Services
 
             var saleTransactionTemplate = new AccountTransactionTemplate
             {
+                Name = "Sale Transaction",
                 SourceAccountTemplate = saleAccountTemplate,
                 TargetAccountTemplate = customerAccountTemplate,
                 DefaultSourceAccount = defaultSaleAccount,
@@ -55,6 +56,7 @@ namespace Samba.Services
 
             var paymentTransactionTemplate = new AccountTransactionTemplate
             {
+                Name = "Payment Transaction",
                 SourceAccountTemplate = customerAccountTemplate,
                 TargetAccountTemplate = paymentAccountTemplate,
                 DefaultSourceAccount = defaultCustomerAccount,

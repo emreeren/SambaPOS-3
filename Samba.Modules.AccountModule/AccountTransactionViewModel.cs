@@ -20,7 +20,8 @@ namespace Samba.Modules.AccountModule
             Model = model ?? AccountTransaction.Null;
             _document = document;
             _workspace = workspace;
-            _accountTransactionTemplate = Model.AccountTransactionTemplate;
+            _accountTransactionTemplate =
+                AccountTransactionTemplates.SingleOrDefault(x => x.Id == Model.AccountTransactionTemplateId);
         }
 
         private IEnumerable<AccountTransactionTemplate> _accountTransactionTemplates;
@@ -34,7 +35,7 @@ namespace Samba.Modules.AccountModule
         {
             get
             {
-                if (AccountTransactionTemplate == null) return null;
+                if (AccountTransactionTemplate == null) return new List<Account>();
                 return _sourceAccounts ?? (_sourceAccounts = _workspace.All<Account>(x => x.AccountTemplate.Id == AccountTransactionTemplate.SourceAccountTemplate.Id).ToList());
             }
         }
@@ -44,7 +45,7 @@ namespace Samba.Modules.AccountModule
         {
             get
             {
-                if (AccountTransactionTemplate == null) return null;
+                if (AccountTransactionTemplate == null) return new List<Account>();
                 return _targetAccounts ?? (_targetAccounts = _workspace.All<Account>(x => x.AccountTemplate.Id == AccountTransactionTemplate.TargetAccountTemplate.Id).ToList());
             }
         }
@@ -61,23 +62,17 @@ namespace Samba.Modules.AccountModule
                     Model = AccountTransaction.Create(value);
                     _document.AccountTransactions.Add(Model);
                 }
-                RaisePropertyChanged("AccountTransactionTemplate");
-                RaisePropertyChanged("SourceAccount");
-                RaisePropertyChanged("TargetAccount");
+                RaisePropertyChanged(() => AccountTransactionTemplate);
+                RaisePropertyChanged(() => SourceAccount);
+                RaisePropertyChanged(() => TargetAccount);
             }
         }
 
-        public Account SourceAccount
-        {
-            get { return Model.SourceTransactionValue.Account; }
-            set { Model.SourceTransactionValue.Account = value; }
-        }
+        public Account SourceAccount { get { return SourceAccounts.SingleOrDefault(x => x.Id == SourceAccountId); } }
+        public Account TargetAccount { get { return TargetAccounts.SingleOrDefault(x => x.Id == TargetAccountId); } }
 
-        public Account TargetAccount
-        {
-            get { return Model.TargetTransactionValue.Account; }
-            set { Model.TargetTransactionValue.Account = value; }
-        }
+        public int SourceAccountId { get { return Model.SourceTransactionValue.AccountId; } set { Model.SourceTransactionValue.AccountId = value; } }
+        public int TargetAccountId { get { return Model.TargetTransactionValue.AccountId; } set { Model.TargetTransactionValue.AccountId = value; } }
 
         public string Name { get { return Model.Name; } set { Model.Name = value; } }
 
