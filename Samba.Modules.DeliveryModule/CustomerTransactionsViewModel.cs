@@ -74,7 +74,7 @@ namespace Samba.Modules.DeliveryModule
             SelectedCustomerTransactions.Clear();
             if (SelectedAccount != null)
             {
-                var tickets = Dao.Query<Ticket>(x => x.AccountId == SelectedAccount.Id && x.LastPaymentDate > SelectedAccount.AccountOpeningDate, x => x.Payments);
+                var tickets = Dao.Query<Ticket>(x => x.SaleTransaction.TargetTransactionValue.AccountId == SelectedAccount.Id && x.LastPaymentDate > SelectedAccount.AccountOpeningDate, x => x.Payments);
                 var cashTransactions = Dao.Query<CashTransaction>(x => x.Date > SelectedAccount.AccountOpeningDate && x.AccountId == SelectedAccount.Id);
                 var customerTransactions = Dao.Query<CustomerTransaction>(x => x.Date > SelectedAccount.AccountOpeningDate && x.AccountId == SelectedAccount.Id);
 

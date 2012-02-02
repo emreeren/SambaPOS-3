@@ -61,8 +61,6 @@ namespace Samba.Domain.Models.Tickets
         public decimal TotalAmount { get; set; }
         public int SaleTransactionId { get; set; }
         public virtual AccountTransaction SaleTransaction { get; set; }
-        public string AccountName { get; set; }
-        public int AccountId { get; set; }
 
         private IList<Order> _orders;
         public virtual IList<Order> Orders
@@ -485,9 +483,8 @@ namespace Samba.Domain.Models.Tickets
 
         public void UpdateAccount(Account account)
         {
-            AccountName = account.Name;
-            AccountId = account.Id;
-            SaleTransaction.TargetTransactionValue.AccountId = account == Account.Null ? 0 : account.Id;
+            SaleTransaction.TargetTransactionValue.AccountId = account.Id;
+            SaleTransaction.TargetTransactionValue.AccountName = account.Name;
         }
 
         public void Recalculate(decimal autoRoundValue, int userId)

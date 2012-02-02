@@ -49,6 +49,12 @@ namespace Samba.Services.Implementations.TicketModule
         public void UpdateAccount(Ticket ticket, Account account)
         {
             Debug.Assert(ticket != null);
+            if (account == Account.Null)
+            {
+                var template = _workspace.Single<AccountTransactionTemplate>(
+                        x => x.Id == ticket.SaleTransaction.AccountTransactionTemplateId);
+                account = template.DefaultTargetAccount;
+            }
             ticket.UpdateAccount(CheckAccount(account));
             _automationService.NotifyEvent(RuleEventNames.AccountSelectedForTicket,
                     new
@@ -357,11 +363,12 @@ namespace Samba.Services.Implementations.TicketModule
         {
             foreach (var order in ticket.Orders)
             {
-                var mi = _cacheService.GetMenuItem(x => x.Id == order.MenuItemId);
+                var order1 = order;
+                var mi = _cacheService.GetMenuItem(x => x.Id == order1.MenuItemId);
                 if (mi == null) continue;
-                var item = order;
+                var item = order1;
                 var portion = mi.Portions.FirstOrDefault(x => x.Name == item.PortionName);
-                if (portion != null) order.UpdatePortion(portion, order.PriceTag, mi.TaxTemplate);
+                if (portion != null) order1.UpdatePortion(portion, order1.PriceTag, mi.TaxTemplate);
             }
         }
 
@@ -429,7 +436,7 @@ namespace Samba.Services.Implementations.TicketModule
                 LastOrderDate = x.LastOrderDate,
                 TicketNumber = x.TicketNumber,
                 LocationName = x.LocationName,
-                AccountName = x.AccountName,
+                AccountName = x.SaleTransaction.TargetTransactionValue.AccountName,
                 RemainingAmount = x.RemainingAmount,
                 Date = x.Date
             }, prediction);
@@ -444,7 +451,7 @@ namespace Samba.Services.Implementations.TicketModule
                 var tt = workspace.Single<TicketTagGroup>(x => x.Id == id);
                 Debug.Assert(tt != null);
                 var tag = tt.TicketTags.SingleOrDefault(x => x.Name.ToLower() == freeTag.ToLower());
-                
+
                 if (tag != null) return;
                 tag = new TicketTag { Name = freeTag };
                 tt.TicketTags.Add(tag);
@@ -459,7 +466,7 @@ namespace Samba.Services.Implementations.TicketModule
             endDate = endDate.Date.AddDays(1).AddMinutes(-1);
             Expression<Func<Ticket, bool>> qFilter = x => x.Date >= startDate && x.Date < endDate;
             qFilter = filters.Aggregate(qFilter, (current, filter) => current.And(filter.GetExpression()));
-            return Dao.Query(qFilter).Select(x => new TicketExplorerRowData(x)).ToList();
+            return Dao.Query(qFilter, x => x.SaleTransaction.TargetTransactionValue).Select(x => new TicketExplorerRowData(x)).ToList();
         }
 
         public IList<ITicketExplorerFilter> CreateTicketExplorerFilters()

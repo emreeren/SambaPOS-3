@@ -28,8 +28,8 @@ namespace Samba.Modules.BasicReports.Reports.AccountReport
 
         protected IEnumerable<AccountData> GetBalancedAccounts(bool selectInternalAccounts)
         {
-            var tickets = Dao.Query<Ticket>(x => x.AccountId > 0, x => x.Payments);
-            var paymentSum = tickets.GroupBy(x => x.AccountId).Select(x =>
+            var tickets = Dao.Query<Ticket>(x => x.SaleTransaction.TargetTransactionValue.AccountId > 0, x => x.Payments);
+            var paymentSum = tickets.GroupBy(x => x.SaleTransaction.TargetTransactionValue.AccountId).Select(x =>
                 new
                 {
                     AccountId = x.Key,

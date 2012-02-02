@@ -6,15 +6,15 @@ using Samba.Localization.Properties;
 
 namespace Samba.Services.Implementations.TicketModule
 {
-    public class TicketExplorerFilter :  ITicketExplorerFilter
+    public class TicketExplorerFilter : ITicketExplorerFilter
     {
         public TicketExplorerFilter()
         {
             FilterValues = new List<string>();
         }
 
-        private readonly string[] _filterTypes = { Resources.OnlyOpenTickets, Resources.AllTickets, Resources.Account, Resources.Location};
-        
+        private readonly string[] _filterTypes = { Resources.OnlyOpenTickets, Resources.AllTickets, Resources.Account, Resources.Location };
+
         public int FilterTypeIndex
         {
             get { return (int)FilterType; }
@@ -22,7 +22,7 @@ namespace Samba.Services.Implementations.TicketModule
             {
                 FilterType = (FilterType)value;
                 FilterValue = "";
-                
+
             }
         }
 
@@ -57,11 +57,11 @@ namespace Samba.Services.Implementations.TicketModule
             if (FilterType == FilterType.Account)
             {
                 if (FilterValue == "*")
-                    result = x => !string.IsNullOrEmpty(x.AccountName);
+                    result = x => !string.IsNullOrEmpty(x.SaleTransaction.TargetTransactionValue.AccountName);
                 else if (!string.IsNullOrEmpty(FilterValue))
-                    result = x => x.AccountName.ToLower().Contains(FilterValue.ToLower());
+                    result = x => x.SaleTransaction.TargetTransactionValue.AccountName.ToLower().Contains(FilterValue.ToLower());
                 else
-                    result = x => string.IsNullOrEmpty(x.AccountName);
+                    result = x => string.IsNullOrEmpty(x.SaleTransaction.TargetTransactionValue.AccountName);
             }
 
             return result;

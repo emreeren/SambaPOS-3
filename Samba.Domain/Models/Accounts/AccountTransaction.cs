@@ -65,7 +65,9 @@ namespace Samba.Domain.Models.Accounts
                                  TargetTransactionValue = new AccountTransactionValue()
                              };
             result.SourceTransactionValue.AccountId = template.DefaultSourceAccount.Id;
+            result.SourceTransactionValue.AccountName = template.DefaultSourceAccount.Name;
             result.TargetTransactionValue.AccountId = template.DefaultTargetAccount.Id;
+            result.TargetTransactionValue.AccountName = template.DefaultTargetAccount.Name;
             return result;
         }
     }

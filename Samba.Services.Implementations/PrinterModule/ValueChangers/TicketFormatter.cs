@@ -17,8 +17,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
         private static readonly IDepartmentService DepartmentService = ServiceLocator.Current.GetInstance<IDepartmentService>();
         private static readonly ISettingService SettingService = ServiceLocator.Current.GetInstance<ISettingService>();
         private static ISettingReplacer _settingReplacer;
-
-
+        
         public static string[] GetFormattedTicket(Ticket ticket, IEnumerable<Order> lines, PrinterTemplate template)
         {
             _settingReplacer = SettingService.GetSettingReplacer();
@@ -137,11 +136,11 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             result = FormatData(result, TagNames.UserName, () => userName);
             result = FormatData(result, TagNames.Location, () => ticket.LocationName);
             result = FormatData(result, TagNames.Note, () => ticket.Note);
-            result = FormatData(result, TagNames.AccName, () => ticket.AccountName);
+            result = FormatData(result, TagNames.AccName, () => ticket.SaleTransaction.TargetTransactionValue.AccountName);
 
-            if (ticket.AccountId > 0 && (result.Contains(TagNames.AccAddress) || result.Contains(TagNames.AccPhone)))
+            if (ticket.SaleTransaction.TargetTransactionValue.AccountId > 0 && (result.Contains(TagNames.AccAddress) || result.Contains(TagNames.AccPhone)))
             {
-                var account = Dao.SingleWithCache<Account>(x => x.Id == ticket.AccountId);
+                var account = Dao.SingleWithCache<Account>(x => x.Id == ticket.SaleTransaction.TargetTransactionValue.AccountId);
                 result = FormatData(result, TagNames.AccPhone, () => account.SearchString);
             }
 
