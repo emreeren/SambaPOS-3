@@ -28,57 +28,59 @@ namespace Samba.Modules.BasicReports.Reports.AccountReport
 
         protected IEnumerable<AccountData> GetBalancedAccounts(bool selectInternalAccounts)
         {
-            var tickets = Dao.Query<Ticket>(x => x.SaleTransaction.TargetTransactionValue.AccountId > 0, x => x.Payments);
-            var paymentSum = tickets.GroupBy(x => x.SaleTransaction.TargetTransactionValue.AccountId).Select(x =>
-                new
-                {
-                    AccountId = x.Key,
-                    Amount = x.Sum(k => k.Payments.Where(y => y.PaymentType == 3).Sum(j => j.Amount))
-                });
+            return new List<AccountData>();
 
-            var transactions = Dao.Query<CashTransaction>().Where(x => x.AccountId > 0);
-            var transactionSum = transactions.GroupBy(x => x.AccountId).Select(
-                x =>
-                new
-                {
-                    AccountId = x.Key,
-                    Amount = x.Sum(y => y.TransactionType == 1 ? y.Amount : 0 - y.Amount)
-                });
+            //var tickets = Dao.Query<Ticket>(x => x.SaleTransaction.TargetTransactionValue.AccountId > 0, x => x.Payments);
+            //var paymentSum = tickets.GroupBy(x => x.SaleTransaction.TargetTransactionValue.AccountId).Select(x =>
+            //    new
+            //    {
+            //        AccountId = x.Key,
+            //        Amount = x.Sum(k => k.Payments.Where(y => y.PaymentType == 3).Sum(j => j.Amount))
+            //    });
 
-            var customerTransactions = Dao.Query<CustomerTransaction>().Where(x => x.AccountId > 0);
-            var customerTransactionSum = customerTransactions.GroupBy(x => x.AccountId).Select(
-                x =>
-                new
-                {
-                    AccountId = x.Key,
-                    Amount = x.Sum(y => y.TransactionType == 3 ? y.Amount : 0 - y.Amount)
-                });
+            //var transactions = Dao.Query<CashTransaction>().Where(x => x.AccountId > 0);
+            //var transactionSum = transactions.GroupBy(x => x.AccountId).Select(
+            //    x =>
+            //    new
+            //    {
+            //        AccountId = x.Key,
+            //        Amount = x.Sum(y => y.TransactionType == 1 ? y.Amount : 0 - y.Amount)
+            //    });
+
+            //var customerTransactions = Dao.Query<CustomerTransaction>().Where(x => x.AccountId > 0);
+            //var customerTransactionSum = customerTransactions.GroupBy(x => x.AccountId).Select(
+            //    x =>
+            //    new
+            //    {
+            //        AccountId = x.Key,
+            //        Amount = x.Sum(y => y.TransactionType == 3 ? y.Amount : 0 - y.Amount)
+            //    });
 
 
-            var accountIds = paymentSum.Select(x => x.AccountId).Distinct();
-            accountIds = accountIds.Union(transactionSum.Select(x => x.AccountId).Distinct());
-            accountIds = accountIds.Union(customerTransactionSum.Select(x => x.AccountId).Distinct());
+            //var accountIds = paymentSum.Select(x => x.AccountId).Distinct();
+            //accountIds = accountIds.Union(transactionSum.Select(x => x.AccountId).Distinct());
+            //accountIds = accountIds.Union(customerTransactionSum.Select(x => x.AccountId).Distinct());
 
-            var list = (from accountId in accountIds
-                        let amount = transactionSum.Where(x => x.AccountId == accountId).Sum(x => x.Amount)
-                        let account = customerTransactionSum.Where(x => x.AccountId == accountId).Sum(x => x.Amount)
-                        let payment = paymentSum.Where(x => x.AccountId == accountId).Sum(x => x.Amount)
-                        select new { AccountId = accountId, Amount = (amount + account + payment) })
-                            .Where(x => x.Amount != 0).ToList();
+            //var list = (from accountId in accountIds
+            //            let amount = transactionSum.Where(x => x.AccountId == accountId).Sum(x => x.Amount)
+            //            let account = customerTransactionSum.Where(x => x.AccountId == accountId).Sum(x => x.Amount)
+            //            let payment = paymentSum.Where(x => x.AccountId == accountId).Sum(x => x.Amount)
+            //            select new { AccountId = accountId, Amount = (amount + account + payment) })
+            //                .Where(x => x.Amount != 0).ToList();
 
-            var cids = list.Select(x => x.AccountId).ToList();
+            //var cids = list.Select(x => x.AccountId).ToList();
 
-            var accounts = Dao.Select<Account, AccountData>(
-                    x => new AccountData { Id = x.Id, AccountName = x.Name, PhoneNumber = x.SearchString, Amount = 0 },
-                    x => cids.Contains(x.Id));
+            //var accounts = Dao.Select<Account, AccountData>(
+            //        x => new AccountData { Id = x.Id, AccountName = x.Name, PhoneNumber = x.SearchString, Amount = 0 },
+            //        x => cids.Contains(x.Id));
 
-            foreach (var accountData in accounts)
-            {
-                AccountData data = accountData;
-                accountData.Amount = list.SingleOrDefault(x => x.AccountId == data.Id).Amount;
-            }
+            //foreach (var accountData in accounts)
+            //{
+            //    AccountData data = accountData;
+            //    accountData.Amount = list.SingleOrDefault(x => x.AccountId == data.Id).Amount;
+            //}
 
-            return accounts;
+            //return accounts;
         }
 
         public FlowDocument CreateReport(string reportHeader, bool? returnReceivables, bool selectInternalAccounts)

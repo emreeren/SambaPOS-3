@@ -8,10 +8,10 @@ using Samba.Presentation.Common;
 
 namespace Samba.Presentation.ViewModels
 {
-    public class CommandButtonViewModel
+    public class CommandButtonViewModel<T>
     {
         public ICaptionCommand Command { get; set; }
         public string Caption { get; set; }
-        public PrintJob Parameter { get; set; }
+        public T Parameter { get; set; }
     }
 }

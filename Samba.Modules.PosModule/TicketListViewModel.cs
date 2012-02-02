@@ -758,19 +758,19 @@ namespace Samba.Modules.PosModule
 
         private void OnMakeCreditCardPaymentExecute(string obj)
         {
-            _ticketService.PaySelectedTicket(SelectedTicket.Model, PaymentType.CreditCard);
+            //_ticketService.PaySelectedTicket(SelectedTicket.Model, PaymentType.CreditCard);
             CloseTicket();
         }
 
         private void OnMakeTicketPaymentExecute(string obj)
         {
-            _ticketService.PaySelectedTicket(SelectedTicket.Model, PaymentType.Ticket);
+            //_ticketService.PaySelectedTicket(SelectedTicket.Model, PaymentType.Ticket);
             CloseTicket();
         }
 
         private void OnMakeCashPaymentExecute(string obj)
         {
-            _ticketService.PaySelectedTicket(SelectedTicket.Model, PaymentType.Ticket);
+            //_ticketService.PaySelectedTicket(SelectedTicket.Model, PaymentType.Ticket);
             CloseTicket();
         }
 

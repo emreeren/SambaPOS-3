@@ -4,7 +4,6 @@ using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
-using Samba.Domain;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Locations;
 using Samba.Domain.Models.Settings;
@@ -122,7 +121,7 @@ namespace Samba.Services.Implementations.TicketModule
                 var lup = Dao.Single<Ticket, DateTime>(ticket.Id, x => x.LastUpdateTime);
                 if (ticket.LastUpdateTime.CompareTo(lup) != 0)
                 {
-                    var currentTicket = Dao.Single<Ticket>(x => x.Id == ticket.Id, x => x.Orders, x => x.Payments);
+                    var currentTicket = Dao.Single<Ticket>(x => x.Id == ticket.Id, x => x.Orders);
                     if (currentTicket.LocationName != ticket.LocationName)
                     {
                         result.ErrorMessage = string.Format(Resources.TicketMovedRetryLastOperation_f, currentTicket.LocationName);
@@ -141,16 +140,16 @@ namespace Samba.Services.Implementations.TicketModule
                         }
                         changed = true;
                     }
-                    else if (currentTicket.LastPaymentDate != ticket.LastPaymentDate)
-                    {
-                        var currentPaymentIds = ticket.Payments.Select(x => x.Id).Distinct();
-                        var unknownPayments = currentTicket.Payments.Where(x => !currentPaymentIds.Contains(x.Id)).FirstOrDefault();
-                        if (unknownPayments != null)
-                        {
-                            result.ErrorMessage = Resources.TicketPaidLastChangesNotSaved;
-                            changed = true;
-                        }
-                    }
+                    //else if (currentTicket.LastPaymentDate != ticket.LastPaymentDate)
+                    //{
+                    //    var currentPaymentIds = ticket.Payments.Select(x => x.Id).Distinct();
+                    //    var unknownPayments = currentTicket.Payments.Where(x => !currentPaymentIds.Contains(x.Id)).FirstOrDefault();
+                    //    if (unknownPayments != null)
+                    //    {
+                    //        result.ErrorMessage = Resources.TicketPaidLastChangesNotSaved;
+                    //        changed = true;
+                    //    }
+                    //}
                 }
             }
 
@@ -212,14 +211,15 @@ namespace Samba.Services.Implementations.TicketModule
             return result;
         }
 
-        public void AddPayment(Ticket ticket, decimal tenderedAmount, DateTime date, PaymentType paymentType)
+        public void AddPayment(Ticket ticket, decimal tenderedAmount, DateTime date, Account paymentAccount)
         {
-            ticket.AddPayment(date, tenderedAmount, paymentType, _applicationState.CurrentLoggedInUser.Id);
+            var paymentTemplate = _cacheService.GetAccountTransactionTemplateById(ticket.PaymentTransactionTemplateId);
+            ticket.AddPayment(date, tenderedAmount, paymentAccount, _applicationState.CurrentLoggedInUser.Id, paymentTemplate);
         }
 
-        public void PaySelectedTicket(Ticket ticket, PaymentType paymentType)
+        public void PaySelectedTicket(Ticket ticket, Account paymentAccount)
         {
-            AddPayment(ticket, ticket.GetRemainingAmount(), DateTime.Now, paymentType);
+            AddPayment(ticket, ticket.GetRemainingAmount(), DateTime.Now, paymentAccount);
         }
 
         public void UpdateTicketNumber(Ticket ticket, Numerator numerator)

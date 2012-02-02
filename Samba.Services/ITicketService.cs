@@ -71,8 +71,8 @@ namespace Samba.Services
         TicketCommitResult MoveOrders(Ticket ticket, IEnumerable<Order> selectedOrders, int targetTicketId);
 
         void ChangeTicketLocation(Ticket ticket, int locationId);
-        void AddPayment(Ticket ticket, decimal tenderedAmount, DateTime date, PaymentType paymentType);
-        void PaySelectedTicket(Ticket ticket, PaymentType paymentType);
+        void AddPayment(Ticket ticket, decimal tenderedAmount, DateTime date, Account paymentAccount);
+        void PaySelectedTicket(Ticket ticket, Account paymentAccount);
         void UpdateTicketNumber(Ticket ticket, Numerator numerator);
         void UpdateAccount(Ticket ticket, Account account);
         void RecalculateTicket(Ticket ticket);

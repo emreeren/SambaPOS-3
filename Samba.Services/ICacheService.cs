@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Tickets;
 
@@ -16,5 +17,7 @@ namespace Samba.Services
         IEnumerable<MenuItemPortion> GetMenuItemPortions(int menuItemId);
         IEnumerable<string> GetTicketTagGroupNames();
         TicketTagGroup GetTicketTagGroupById(int id);
+        AccountTransactionTemplate GetAccountTransactionTemplateById(int id);
+        IEnumerable<Account> GetAccountsByTemplateId(int templateId);
     }
 }

@@ -16,10 +16,11 @@ namespace Samba.Presentation.ViewModels
             Model = model;
         }
 
-        private ObservableCollection<PaymentViewModel> _payments;
-        public ObservableCollection<PaymentViewModel> Payments
+        private ObservableCollection<TransactionValueViewModel> _payments;
+        public ObservableCollection<TransactionValueViewModel> Payments
         {
-            get { return _payments ?? (_payments = new ObservableCollection<PaymentViewModel>(Model.Payments.Select(x => new PaymentViewModel(x)))); }
+            //get { return _payments ?? (_payments = new ObservableCollection<PaymentViewModel>(Model.Payments.Select(x => new PaymentViewModel(x)))); }
+            get { return _payments ?? (_payments = new ObservableCollection<TransactionValueViewModel>()); }
         }
 
         private ObservableCollection<DiscountViewModel> _discounts;

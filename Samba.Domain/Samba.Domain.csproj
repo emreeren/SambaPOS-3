@@ -109,7 +109,6 @@
     <Compile Include="Models\Tickets\PaidItem.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="PaymentType.cs" />
     <Compile Include="Models\Users\Permission.cs" />
     <Compile Include="Models\Settings\WorkPeriod.cs" />
     <Compile Include="Models\Settings\Numerator.cs" />
@@ -125,9 +124,6 @@
     <Compile Include="Models\Locations\Location.cs" />
     <Compile Include="Models\Settings\Terminal.cs" />
     <Compile Include="Models\Locations\LocationScreen.cs" />
-    <Compile Include="Models\Tickets\Payment.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Models\Tickets\Ticket.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -29,7 +29,6 @@ namespace Samba.Domain.Models.Tickets
             PrintJobData = "";
 
             _orders = new List<Order>();
-            _payments = new List<Payment>();
             _discounts = new List<Discount>();
             _paidItems = new List<PaidItem>();
             _services = new List<Service>();
@@ -37,7 +36,16 @@ namespace Samba.Domain.Models.Tickets
         }
 
         private static Ticket _emptyTicket;
-        public static Ticket Empty { get { return _emptyTicket ?? (_emptyTicket = new Ticket()); } }
+        public static Ticket Empty
+        {
+            get
+            {
+                return _emptyTicket ?? (_emptyTicket = new Ticket
+                                                           {
+                                                               AccountTransactions = new AccountTransactionDocument()
+                                                           });
+            }
+        }
 
         private bool _shouldLock;
         private Dictionary<int, int> _printCounts;
@@ -45,7 +53,19 @@ namespace Samba.Domain.Models.Tickets
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime LastUpdateTime { get; set; }
-        public string TicketNumber { get; set; }
+
+        private string _ticketNumber;
+        public string TicketNumber
+        {
+            get { return _ticketNumber; }
+            set
+            {
+                _ticketNumber = value;
+                if (AccountTransactions != null)
+                    AccountTransactions.Name = string.Format("Ticket Transaction [{0}]", TicketNumber);
+            }
+        }
+
         public string PrintJobData { get; set; }
         public DateTime Date { get; set; }
         public DateTime LastOrderDate { get; set; }
@@ -59,21 +79,19 @@ namespace Samba.Domain.Models.Tickets
         public bool Locked { get; set; }
 
         public decimal TotalAmount { get; set; }
+
         public int SaleTransactionId { get; set; }
         public virtual AccountTransaction SaleTransaction { get; set; }
+        public virtual AccountTransactionDocument AccountTransactions { get; set; }
+
+        public int PaymentTransactionTemplateId { get; set; }
+
 
         private IList<Order> _orders;
         public virtual IList<Order> Orders
         {
             get { return _orders; }
             set { _orders = value; }
-        }
-
-        private IList<Payment> _payments;
-        public virtual IList<Payment> Payments
-        {
-            get { return _payments; }
-            set { _payments = value; }
         }
 
         private IList<Discount> _discounts;
@@ -113,17 +131,23 @@ namespace Samba.Domain.Models.Tickets
             return tif;
         }
 
-        public Payment AddPayment(DateTime date, decimal amount, PaymentType paymentType, int userId)
+        public void AddPayment(DateTime date, decimal amount, Account paymentAccount, int userId, AccountTransactionTemplate paymentTransactionTemplate)
         {
-            var result = new Payment { Amount = amount, Date = date, PaymentType = (int)paymentType, UserId = userId };
-            Payments.Add(result);
+            var transaction = AccountTransaction.Create(paymentTransactionTemplate);
+            transaction.Amount = amount;
+            transaction.TargetTransactionValue.AccountId = paymentAccount.Id;
+            transaction.TargetTransactionValue.AccountName = paymentAccount.Name;
+            AccountTransactions.AccountTransactions.Add(transaction);
+
+            //var result = new Payment { Amount = amount, Date = date, PaymentType = (int)paymentType, UserId = userId };
+            //Payments.Add(result);
+
             LastPaymentDate = DateTime.Now;
             RemainingAmount = GetRemainingAmount();
             if (RemainingAmount == 0)
             {
                 PaidItems.Clear();
             }
-            return result;
         }
 
         public void RemoveOrder(Order ti)
@@ -283,7 +307,8 @@ namespace Samba.Domain.Models.Tickets
 
         public decimal GetPaymentAmount()
         {
-            return Payments.Sum(item => item.Amount);
+            return AccountTransactions.AccountTransactions.Where(x => x.AccountTransactionTemplateId == PaymentTransactionTemplateId).Sum(x => x.Amount);
+            //return Payments.Sum(item => item.Amount);
         }
 
         public decimal GetRemainingAmount()
@@ -291,16 +316,6 @@ namespace Samba.Domain.Models.Tickets
             var sum = GetSum();
             var payment = GetPaymentAmount();
             return decimal.Round(sum - payment, LocalSettings.Decimals);
-        }
-
-        public decimal GetAccountPaymentAmount()
-        {
-            return Payments.Where(x => x.PaymentType != (int)PaymentType.Account).Sum(x => x.Amount);
-        }
-
-        public decimal GetAccountRemainingAmount()
-        {
-            return Payments.Where(x => x.PaymentType == (int)PaymentType.Account).Sum(x => x.Amount);
         }
 
         public string UserString
@@ -401,13 +416,19 @@ namespace Samba.Domain.Models.Tickets
         public static Ticket Create(Department department)
         {
             var ticket = new Ticket { DepartmentId = department.Id };
+
             foreach (var serviceTemplate in department.TicketTemplate.ServiceTemplates)
             {
                 ticket.AddService(serviceTemplate.Id, serviceTemplate.CalculationMethod, serviceTemplate.Amount);
             }
+
+            ticket.PaymentTransactionTemplateId = department.TicketTemplate.PaymentTransactionTemplate.Id;
+            ticket.AccountTransactions = new AccountTransactionDocument();
             ticket.SaleTransaction = AccountTransaction.Create(department.TicketTemplate.SaleTransactionTemplate);
+            ticket.AccountTransactions.AccountTransactions.Add(ticket.SaleTransaction);
             return ticket;
         }
+
 
         public Order CloneOrder(Order item)
         {

@@ -18,14 +18,13 @@ namespace Samba.Modules.BasicReports
 
         [ImportingConstructor]
         public BasicReportModule(IRegionManager regionManager, BasicReportView basicReportView,
-            IWorkPeriodService workPeriodService, IPrinterService printerService, ICashService cashService,
+            IWorkPeriodService workPeriodService, IPrinterService printerService, 
             IDepartmentService departmentService, IInventoryService inventoryService, IUserService userService,
             IApplicationState applicationState,IAutomationService automationService)
             : base(regionManager, AppScreens.ReportScreen)
         {
             ReportContext.PrinterService = printerService;
             ReportContext.WorkPeriodService = workPeriodService;
-            ReportContext.CashService = cashService;
             ReportContext.DepartmentService = departmentService;
             ReportContext.InventoryService = inventoryService;
             ReportContext.UserService = userService;

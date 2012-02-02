@@ -66,7 +66,6 @@
     <Compile Include="Reports\AccountReport\LiabilityReportViewModel.cs" />
     <Compile Include="Reports\AccountReport\ReceivableReportViewModel.cs" />
     <Compile Include="Reports\AmountCalculator.cs" />
-    <Compile Include="Reports\CashReport\CashReportViewModel.cs" />
     <Compile Include="Reports\CSVBuilder\CsvBuilderViewModel.cs" />
     <Compile Include="Reports\DepartmentInfo.cs" />
     <Compile Include="Reports\InventoryReports\InventoryReportViewModel.cs" />

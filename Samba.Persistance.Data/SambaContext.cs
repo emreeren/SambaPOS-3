@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
-using Samba.Domain.Models;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Actions;
 using Samba.Domain.Models.Inventories;
@@ -34,7 +33,6 @@ namespace Samba.Persistance.Data
         public DbSet<ScreenMenu> ScreenMenus { get; set; }
         public DbSet<ScreenMenuCategory> ScreenMenuCategories { get; set; }
         public DbSet<ScreenMenuItem> ScreenMenuItems { get; set; }
-        public DbSet<Payment> Payments { get; set; }
         public DbSet<TicketTemplate> TicketTemplates { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Order> Orders { get; set; }
@@ -189,12 +187,13 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<Ticket>().Property(x => x.RemainingAmount).HasPrecision(precision, scale);
             modelBuilder.Entity<Ticket>().Property(x => x.TotalAmount).HasPrecision(precision, scale);
 
-            //Payment
-            modelBuilder.Entity<Payment>().Property(x => x.Amount).HasPrecision(precision, scale);
-
             //Discount
             modelBuilder.Entity<Discount>().Property(x => x.Amount).HasPrecision(precision, scale);
             modelBuilder.Entity<Discount>().Property(x => x.DiscountAmount).HasPrecision(precision, scale);
+
+            modelBuilder.Entity<AccountTransaction>().Property(x => x.Amount).HasPrecision(precision, scale);
+            modelBuilder.Entity<AccountTransactionValue>().Property(x => x.Liability).HasPrecision(precision, scale);
+            modelBuilder.Entity<AccountTransactionValue>().Property(x => x.Receivable).HasPrecision(precision, scale);
 
             modelBuilder.Entity<Numerator>().Property(x => x.LastUpdateTime).IsConcurrencyToken().HasColumnType(
                 "timestamp");

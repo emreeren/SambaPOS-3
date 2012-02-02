@@ -84,7 +84,6 @@
     <Compile Include="IApplicationState.cs" />
     <Compile Include="IApplicationStateSetter.cs" />
     <Compile Include="ICacheService.cs" />
-    <Compile Include="ICashService.cs" />
     <Compile Include="IDepartmentService.cs" />
     <Compile Include="IParameterValue.cs" />
     <Compile Include="IPriceListService.cs" />

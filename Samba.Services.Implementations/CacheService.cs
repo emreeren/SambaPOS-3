@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Linq.Expressions;
+using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Tickets;
 using Samba.Persistance.Data;
@@ -63,11 +64,27 @@ namespace Samba.Services.Implementations
             return Dao.SingleWithCache<TicketTagGroup>(x => x.Id == id, x => x.TicketTags);
         }
 
+        public AccountTransactionTemplate GetAccountTransactionTemplateById(int id)
+        {
+            return Dao.SingleWithCache<AccountTransactionTemplate>(x => x.Id == id, x => x.TargetAccountTemplate, x => x.SourceAccountTemplate, x => x.DefaultSourceAccount, x => x.DefaultTargetAccount);
+        }
+
+        private IEnumerable<Account> _accounts;
+        public IEnumerable<Account> Accounts
+        {
+            get { return _accounts ?? (_accounts = Dao.Query<Account>(x => x.AccountTemplate)); }
+        }
+
+        public IEnumerable<Account> GetAccountsByTemplateId(int templateId)
+        {
+            return Accounts.Where(x => x.AccountTemplate.Id == templateId);
+        }
+
         public override void Reset()
         {
             _ticketTagGroupNames = null;
+            _accounts = null;
             Dao.ResetCache();
-            //
         }
     }
 }

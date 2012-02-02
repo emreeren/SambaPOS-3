@@ -149,7 +149,8 @@ namespace Samba.Modules.PosModule
         }
 
         public bool IsTicketTimeVisible { get { return Model.Id != 0; } }
-        public bool IsLastPaymentDateVisible { get { return Model.Payments.Count > 0; } }
+        //public bool IsLastPaymentDateVisible { get { return Model.Payments.Count > 0; } }
+        public bool IsLastPaymentDateVisible { get { return false; } }
         public bool IsLastOrderDateVisible
         {
             get

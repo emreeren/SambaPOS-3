@@ -273,17 +273,21 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </Grid>
-        <UniformGrid Rows="5" Grid.Column="2">
-            <FxButton:FlexButton Command="{Binding SubmitCashPaymentCommand}" Content="{Binding SubmitCashPaymentCommand.Caption}"
-                 Margin="10" />
-            <FxButton:FlexButton Command="{Binding SubmitCreditCardPaymentCommand}" Content="{Binding SubmitCreditCardPaymentCommand.Caption}"
-                 Margin="10" />
-            <FxButton:FlexButton Command="{Binding SubmitTicketPaymentCommand}" Content="{Binding SubmitTicketPaymentCommand.Caption}"
-                 Margin="10" />
-            <FxButton:FlexButton Command="{Binding SubmitAccountPaymentCommand}" Content="{Binding SubmitAccountPaymentCommand.Caption}"
-                 Margin="10" />
-            <FxButton:FlexButton Command="{Binding ClosePaymentScreenCommand}" Content="{Binding ClosePaymentScreenCommand.Caption}"
-                 Margin="10" ButtonColor="Red" />
-        </UniformGrid>
+        <ItemsControl Grid.Column="2" ItemsSource="{Binding PaymentButtons}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="1" MinHeight="60" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <FxButton:FlexButton Focusable="False" Command="{Binding Command}" CommandParameter="{Binding Parameter}"
+                             Margin="3,3,3,0">
+                        <TextBlock FontSize="24" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
+                                 Text="{Binding Caption}" />
+                    </FxButton:FlexButton>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </UserControl>

@@ -72,66 +72,66 @@ namespace Samba.Modules.DeliveryModule
         private void DisplayTransactions()
         {
             SelectedCustomerTransactions.Clear();
-            if (SelectedAccount != null)
-            {
-                var tickets = Dao.Query<Ticket>(x => x.SaleTransaction.TargetTransactionValue.AccountId == SelectedAccount.Id && x.LastPaymentDate > SelectedAccount.AccountOpeningDate, x => x.Payments);
-                var cashTransactions = Dao.Query<CashTransaction>(x => x.Date > SelectedAccount.AccountOpeningDate && x.AccountId == SelectedAccount.Id);
-                var customerTransactions = Dao.Query<CustomerTransaction>(x => x.Date > SelectedAccount.AccountOpeningDate && x.AccountId == SelectedAccount.Id);
+            //if (SelectedAccount != null)
+            //{
+            //    var tickets = Dao.Query<Ticket>(x => x.SaleTransaction.TargetTransactionValue.AccountId == SelectedAccount.Id && x.LastPaymentDate > SelectedAccount.AccountOpeningDate, x => x.Payments);
+            //    var cashTransactions = Dao.Query<CashTransaction>(x => x.Date > SelectedAccount.AccountOpeningDate && x.AccountId == SelectedAccount.Id);
+            //    var customerTransactions = Dao.Query<CustomerTransaction>(x => x.Date > SelectedAccount.AccountOpeningDate && x.AccountId == SelectedAccount.Id);
 
-                var transactions = new List<CustomerTransactionViewModel>();
-                transactions.AddRange(tickets.Select(x => new CustomerTransactionViewModel
-                {
-                    Description = string.Format(Resources.TicketNumber_f, x.TicketNumber),
-                    Date = x.LastPaymentDate,
-                    Receivable = x.GetAccountPaymentAmount() + x.GetAccountRemainingAmount(),
-                    Liability = x.GetAccountPaymentAmount()
-                }));
+            //    var transactions = new List<CustomerTransactionViewModel>();
+            //    transactions.AddRange(tickets.Select(x => new CustomerTransactionViewModel
+            //    {
+            //        Description = string.Format(Resources.TicketNumber_f, x.TicketNumber),
+            //        Date = x.LastPaymentDate,
+            //        Receivable = x.GetAccountPaymentAmount() + x.GetAccountRemainingAmount(),
+            //        Liability = x.GetAccountPaymentAmount()
+            //    }));
 
-                transactions.AddRange(cashTransactions.Where(x => x.TransactionType == (int)TransactionType.Income)
-                    .Select(x => new CustomerTransactionViewModel
-                    {
-                        Description = x.Name,
-                        Date = x.Date,
-                        Liability = x.Amount
-                    }));
+            //    transactions.AddRange(cashTransactions.Where(x => x.TransactionType == (int)TransactionType.Income)
+            //        .Select(x => new CustomerTransactionViewModel
+            //        {
+            //            Description = x.Name,
+            //            Date = x.Date,
+            //            Liability = x.Amount
+            //        }));
 
-                transactions.AddRange(cashTransactions.Where(x => x.TransactionType == (int)TransactionType.Expense)
-                    .Select(x => new CustomerTransactionViewModel
-                    {
-                        Description = x.Name,
-                        Date = x.Date,
-                        Receivable = x.Amount
-                    }));
+            //    transactions.AddRange(cashTransactions.Where(x => x.TransactionType == (int)TransactionType.Expense)
+            //        .Select(x => new CustomerTransactionViewModel
+            //        {
+            //            Description = x.Name,
+            //            Date = x.Date,
+            //            Receivable = x.Amount
+            //        }));
 
-                transactions.AddRange(customerTransactions.Where(x => x.TransactionType == (int)TransactionType.Liability)
-                    .Select(x => new CustomerTransactionViewModel
-                    {
-                        Description = x.Name,
-                        Date = x.Date,
-                        Liability = x.Amount
-                    }));
+            //    transactions.AddRange(customerTransactions.Where(x => x.TransactionType == (int)TransactionType.Liability)
+            //        .Select(x => new CustomerTransactionViewModel
+            //        {
+            //            Description = x.Name,
+            //            Date = x.Date,
+            //            Liability = x.Amount
+            //        }));
 
-                transactions.AddRange(customerTransactions.Where(x => x.TransactionType == (int)TransactionType.Receivable)
-                    .Select(x => new CustomerTransactionViewModel
-                    {
-                        Description = x.Name,
-                        Date = x.Date,
-                        Receivable = x.Amount
-                    }));
+            //    transactions.AddRange(customerTransactions.Where(x => x.TransactionType == (int)TransactionType.Receivable)
+            //        .Select(x => new CustomerTransactionViewModel
+            //        {
+            //            Description = x.Name,
+            //            Date = x.Date,
+            //            Receivable = x.Amount
+            //        }));
 
-                transactions = transactions.OrderBy(x => x.Date).ToList();
+            //    transactions = transactions.OrderBy(x => x.Date).ToList();
 
-                for (var i = 0; i < transactions.Count; i++)
-                {
-                    transactions[i].Balance = (transactions[i].Receivable - transactions[i].Liability);
-                    if (i > 0) (transactions[i].Balance) += (transactions[i - 1].Balance);
-                }
+            //    for (var i = 0; i < transactions.Count; i++)
+            //    {
+            //        transactions[i].Balance = (transactions[i].Receivable - transactions[i].Liability);
+            //        if (i > 0) (transactions[i].Balance) += (transactions[i - 1].Balance);
+            //    }
 
-                SelectedCustomerTransactions.AddRange(transactions);
-                RaisePropertyChanged(() => TotalReceivable);
-                RaisePropertyChanged(() => TotalLiability);
-                RaisePropertyChanged(() => TotalBalance);
-            }
+            //    SelectedCustomerTransactions.AddRange(transactions);
+            //    RaisePropertyChanged(() => TotalReceivable);
+            //    RaisePropertyChanged(() => TotalLiability);
+            //    RaisePropertyChanged(() => TotalBalance);
+            //}
         }
 
         private bool CanAddLiability(string arg)

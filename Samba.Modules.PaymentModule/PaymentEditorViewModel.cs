@@ -8,6 +8,7 @@ using System.Linq;
 using System.Windows;
 using Microsoft.Practices.Prism.Commands;
 using Samba.Domain;
+using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Settings;
@@ -27,12 +28,14 @@ namespace Samba.Modules.PaymentModule
         private readonly IApplicationState _applicationState;
         private readonly ITicketService _ticketService;
         private readonly ICaptionCommand _manualPrintCommand;
+        private readonly ICaptionCommand _makePaymentCommand;
         private readonly IPrinterService _printerService;
         private readonly IUserService _userService;
         private readonly IAutomationService _automationService;
+        private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public PaymentEditorViewModel(IApplicationState applicationState, ITicketService ticketService,
+        public PaymentEditorViewModel(IApplicationState applicationState, ITicketService ticketService, ICacheService cacheService,
             IPrinterService printerService, IUserService userService, IAutomationService automationService)
         {
             _applicationState = applicationState;
@@ -40,8 +43,11 @@ namespace Samba.Modules.PaymentModule
             _printerService = printerService;
             _userService = userService;
             _automationService = automationService;
+            _cacheService = cacheService;
 
             _manualPrintCommand = new CaptionCommand<PrintJob>(Resources.Print, OnManualPrint, CanManualPrint);
+            _makePaymentCommand = new CaptionCommand<Account>("*", OnMakePayment, CanMakePayment);
+
             SubmitCashPaymentCommand = new CaptionCommand<string>(Resources.Cash, OnSubmitCashPayment, CanSubmitCashPayment);
             SubmitCreditCardPaymentCommand = new CaptionCommand<string>(Resources.CreditCard_r, OnSubmitCreditCardPayment,
                                                                         CanSubmitCashPayment);
@@ -118,31 +124,50 @@ namespace Samba.Modules.PaymentModule
         {
             get
             {
-                return SelectedTicket != null && SelectedTicket.Payments.Count() > 0
-                           ? Visibility.Visible
-                           : Visibility.Collapsed;
+                return Visibility.Visible;
+                //return SelectedTicket != null && SelectedTicket.Payments.Count() > 0
+                //           ? Visibility.Visible
+                //           : Visibility.Collapsed;
             }
         }
 
-        public IEnumerable<CommandButtonViewModel> CommandButtons { get; set; }
+        public IEnumerable<CommandButtonViewModel<PrintJob>> CommandButtons { get; set; }
+        public IEnumerable<CommandButtonViewModel<Account>> PaymentButtons { get; set; }
 
-        private IEnumerable<CommandButtonViewModel> CreateCommandButtons()
+        private IEnumerable<CommandButtonViewModel<Account>> CreatePaymentButtons(Ticket ticket)
         {
-            var result = new List<CommandButtonViewModel>();
+            var result = new List<CommandButtonViewModel<Account>>();
+            var paymentTemplate = _cacheService.GetAccountTransactionTemplateById(ticket.PaymentTransactionTemplateId);
+            var paymentAccounts = _cacheService.GetAccountsByTemplateId(paymentTemplate.TargetAccountTemplate.Id);
+            result.AddRange(
+                paymentAccounts.Select(x => new CommandButtonViewModel<Account>
+                                                   {
+                                                       Caption = x.Name,
+                                                       Command = _makePaymentCommand,
+                                                       Parameter = x
+                                                   }));
 
-            result.Add(new CommandButtonViewModel
+            result.Add(new CommandButtonViewModel<Account> { Caption = "Close", Command = ClosePaymentScreenCommand });
+            return result;
+        }
+
+        private IEnumerable<CommandButtonViewModel<PrintJob>> CreateCommandButtons()
+        {
+            var result = new List<CommandButtonViewModel<PrintJob>>();
+
+            result.Add(new CommandButtonViewModel<PrintJob>
                            {
                                Caption = SetDiscountRateCommand.Caption,
                                Command = SetDiscountRateCommand
                            });
 
-            result.Add(new CommandButtonViewModel
+            result.Add(new CommandButtonViewModel<PrintJob>
                            {
                                Caption = SetDiscountAmountCommand.Caption,
                                Command = SetDiscountAmountCommand
                            });
 
-            result.Add(new CommandButtonViewModel
+            result.Add(new CommandButtonViewModel<PrintJob>
                            {
                                Caption = AutoSetDiscountAmountCommand.Caption,
                                Command = AutoSetDiscountAmountCommand
@@ -151,7 +176,7 @@ namespace Samba.Modules.PaymentModule
             if (SelectedTicket != null)
             {
                 result.AddRange(_applicationState.CurrentTerminal.PrintJobs.Where(x => !string.IsNullOrEmpty(x.ButtonHeader) && x.UseFromPaymentScreen)
-                    .Select(x => new CommandButtonViewModel
+                    .Select(x => new CommandButtonViewModel<PrintJob>
                                      {
                                          Caption = x.ButtonHeader,
                                          Command = _manualPrintCommand,
@@ -160,6 +185,18 @@ namespace Samba.Modules.PaymentModule
                 );
             }
             return result;
+        }
+
+        private bool CanMakePayment(Account arg)
+        {
+            return SelectedTicket != null
+                && GetTenderedValue() > 0
+                && SelectedTicket.GetRemainingAmount() > 0;
+        }
+
+        private void OnMakePayment(Account obj)
+        {
+            SubmitPayment(obj);
         }
 
         private bool CanManualPrint(PrintJob arg)
@@ -210,22 +247,22 @@ namespace Samba.Modules.PaymentModule
 
         private void OnSubmitAccountPayment(string obj)
         {
-            SubmitPayment(PaymentType.Account);
+            //SubmitPayment(PaymentType.Account);
         }
 
         private void OnSubmitTicketPayment(string obj)
         {
-            SubmitPayment(PaymentType.Ticket);
+            //SubmitPayment(PaymentType.Ticket);
         }
 
         private void OnSubmitCreditCardPayment(string obj)
         {
-            SubmitPayment(PaymentType.CreditCard);
+            //SubmitPayment(PaymentType.CreditCard);
         }
 
         private void OnSubmitCashPayment(string obj)
         {
-            SubmitPayment(PaymentType.Cash);
+            //SubmitPayment(PaymentType.Cash);
         }
 
         private void OnDivideValue(string obj)
@@ -338,7 +375,7 @@ namespace Samba.Modules.PaymentModule
             return result;
         }
 
-        private void SubmitPayment(PaymentType paymentType)
+        private void SubmitPayment(Account paymentAccount)
         {
             var tenderedAmount = GetTenderedValue();
             var remainingTicketAmount = GetPaymentValue();
@@ -355,7 +392,7 @@ namespace Samba.Modules.PaymentModule
             {
                 if (tenderedAmount > SelectedTicket.GetRemainingAmount())
                     tenderedAmount = SelectedTicket.GetRemainingAmount();
-                _ticketService.AddPayment(SelectedTicket, tenderedAmount, DateTime.Now, paymentType);
+                _ticketService.AddPayment(SelectedTicket, tenderedAmount, DateTime.Now, paymentAccount);
                 PaymentAmount = (GetPaymentValue() - tenderedAmount).ToString("#,#0.00");
 
                 LastTenderedAmount = tenderedAmount <= SelectedTicket.GetRemainingAmount()
@@ -540,10 +577,12 @@ namespace Samba.Modules.PaymentModule
             ReturningAmountVisibility = Visibility.Collapsed;
         }
 
-        public void CreateButtons()
+        public void CreateButtons(Ticket selectedTicket)
         {
             CommandButtons = CreateCommandButtons();
             RaisePropertyChanged(() => CommandButtons);
+            PaymentButtons = CreatePaymentButtons(selectedTicket);
+            RaisePropertyChanged(() => PaymentButtons);
         }
 
         public void Prepare(Ticket selectedTicket)
@@ -555,7 +594,8 @@ namespace Samba.Modules.PaymentModule
             PrepareMergedItems();
             RefreshValues();
             LastTenderedAmount = PaymentAmount;
-            CreateButtons();
+            CreateButtons(selectedTicket);
+
         }
     }
 }

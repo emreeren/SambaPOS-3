@@ -10,7 +10,6 @@ using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Modules.BasicReports.Reports;
 using Samba.Modules.BasicReports.Reports.AccountReport;
-using Samba.Modules.BasicReports.Reports.CashReport;
 using Samba.Modules.BasicReports.Reports.CSVBuilder;
 using Samba.Modules.BasicReports.Reports.EndOfDayReport;
 using Samba.Modules.BasicReports.Reports.InventoryReports;
@@ -22,7 +21,6 @@ namespace Samba.Modules.BasicReports
 {
     public static class ReportContext
     {
-        public static ICashService CashService { get; set; }
         public static IDepartmentService DepartmentService { get; set; }
         public static IWorkPeriodService WorkPeriodService { get; set; }
         public static IInventoryService InventoryService { get; set; }
@@ -42,7 +40,6 @@ namespace Samba.Modules.BasicReports
                           {
                               new EndDayReportViewModel(UserService,ApplicationState),
                               new ProductReportViewModel(UserService,ApplicationState),
-                              new CashReportViewModel(UserService,ApplicationState),
                               new LiabilityReportViewModel(UserService,ApplicationState),
                               new ReceivableReportViewModel(UserService,ApplicationState),
                               new InternalAccountsViewModel(UserService,ApplicationState),
@@ -71,9 +68,6 @@ namespace Samba.Modules.BasicReports
         private static IEnumerable<InventoryItem> _inventoryItems;
         public static IEnumerable<InventoryItem> InventoryItems { get { return _inventoryItems ?? (_inventoryItems = GetInventoryItems()); } }
 
-        private static IEnumerable<CashTransactionData> _cashTransactions;
-        public static IEnumerable<CashTransactionData> CashTransactions { get { return _cashTransactions ?? (_cashTransactions = GetCashTransactions()); } }
-
         private static IEnumerable<TicketTagGroup> _ticketTagGroups;
         public static IEnumerable<TicketTagGroup> TicketTagGroups
         {
@@ -100,7 +94,6 @@ namespace Samba.Modules.BasicReports
             {
                 _currentWorkPeriod = value;
                 _tickets = null;
-                _cashTransactions = null;
                 _periodicConsumptions = null;
                 _transactions = null;
                 StartDate = CurrentWorkPeriod.StartDate;
@@ -166,7 +159,7 @@ namespace Samba.Modules.BasicReports
         {
             if (CurrentWorkPeriod.StartDate == CurrentWorkPeriod.EndDate)
                 return Dao.Query<Ticket>(x => x.LastPaymentDate >= CurrentWorkPeriod.StartDate,
-                                         x => x.Payments, x => x.Services,
+                                         x => x.Services, x => x.AccountTransactions.AccountTransactions,
                                          x => x.Discounts, x => x.Orders, x => x.Tags,
                                          x => x.Orders.Select(y => y.OrderTagValues));
 
@@ -174,13 +167,8 @@ namespace Samba.Modules.BasicReports
                 Dao.Query<Ticket>(
                     x =>
                     x.LastPaymentDate >= CurrentWorkPeriod.StartDate && x.LastPaymentDate < CurrentWorkPeriod.EndDate,
-                    x => x.Payments, x => x.Services, x => x.Discounts, x => x.Tags, x => x.Orders.Select(y => y.OrderTagValues));
+                    x => x.AccountTransactions.AccountTransactions, x => x.Services, x => x.Discounts, x => x.Tags, x => x.Orders.Select(y => y.OrderTagValues));
 
-        }
-
-        private static IEnumerable<CashTransactionData> GetCashTransactions()
-        {
-            return CashService.GetTransactionsWithAccountData(CurrentWorkPeriod);
         }
 
         public static string CurrencyFormat { get { return "#,#0.00;-#,#0.00;-"; } }
@@ -191,7 +179,6 @@ namespace Samba.Modules.BasicReports
             _transactions = null;
             _periodicConsumptions = null;
             _currentWorkPeriod = null;
-            _cashTransactions = null;
             _thisMonthWorkPeriod = null;
             _lastMonthWorkPeriod = null;
             _thisWeekWorkPeriod = null;
@@ -320,32 +307,11 @@ namespace Samba.Modules.BasicReports
 
         internal static AmountCalculator GetOperationalAmountCalculator()
         {
-            var groups = Tickets
-                .SelectMany(x => x.Payments)
-                .GroupBy(x => new { x.PaymentType })
-                .Select(x => new TenderedAmount { PaymentType = x.Key.PaymentType, Amount = x.Sum(y => y.Amount) });
-            return new AmountCalculator(groups);
-        }
-
-        internal static decimal GetCashTotalAmount()
-        {
-            return
-                CashTransactions.Where(x => x.PaymentType == (int)PaymentType.Cash && x.TransactionType == (int)TransactionType.Income).Sum(x => x.Amount) -
-                CashTransactions.Where(x => x.PaymentType == (int)PaymentType.Cash && x.TransactionType == (int)TransactionType.Expense).Sum(x => x.Amount);
-        }
-
-        internal static decimal GetCreditCardTotalAmount()
-        {
-            return
-                CashTransactions.Where(x => x.PaymentType == (int)PaymentType.CreditCard && x.TransactionType == (int)TransactionType.Income).Sum(x => x.Amount) -
-                CashTransactions.Where(x => x.PaymentType == (int)PaymentType.CreditCard && x.TransactionType == (int)TransactionType.Expense).Sum(x => x.Amount);
-        }
-
-        internal static decimal GetTicketTotalAmount()
-        {
-            return
-                CashTransactions.Where(x => x.PaymentType == (int)PaymentType.Ticket && x.TransactionType == (int)TransactionType.Income).Sum(x => x.Amount) -
-                CashTransactions.Where(x => x.PaymentType == (int)PaymentType.Ticket && x.TransactionType == (int)TransactionType.Expense).Sum(x => x.Amount);
+            //var groups = Tickets
+            //    .SelectMany(x => x.AccountTransactions.AccountTransactions.Where(x))
+            //    .GroupBy(x => new { x.PaymentType })
+            //    .Select(x => new TenderedAmount { PaymentType = x.Key.PaymentType, Amount = x.Sum(y => y.Amount) });
+            return new AmountCalculator(null);
         }
 
         public static PeriodicConsumption GetCurrentPeriodicConsumption()
