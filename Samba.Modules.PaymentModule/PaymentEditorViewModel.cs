@@ -7,7 +7,6 @@ using System.Globalization;
 using System.Linq;
 using System.Windows;
 using Microsoft.Practices.Prism.Commands;
-using Samba.Domain;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
@@ -46,12 +45,8 @@ namespace Samba.Modules.PaymentModule
             _cacheService = cacheService;
 
             _manualPrintCommand = new CaptionCommand<PrintJob>(Resources.Print, OnManualPrint, CanManualPrint);
-            _makePaymentCommand = new CaptionCommand<Account>("*", OnMakePayment, CanMakePayment);
+            _makePaymentCommand = new CaptionCommand<Account>("", OnMakePayment, CanMakePayment);
 
-            SubmitCashPaymentCommand = new CaptionCommand<string>(Resources.Cash, OnSubmitCashPayment, CanSubmitCashPayment);
-            SubmitCreditCardPaymentCommand = new CaptionCommand<string>(Resources.CreditCard_r, OnSubmitCreditCardPayment,
-                                                                        CanSubmitCashPayment);
-            SubmitTicketPaymentCommand = new CaptionCommand<string>(Resources.Voucher_r, OnSubmitTicketPayment, CanSubmitCashPayment);
             SubmitAccountPaymentCommand = new CaptionCommand<string>(Resources.AccountBalance_r, OnSubmitAccountPayment, CanSubmitAccountPayment);
             ClosePaymentScreenCommand = new CaptionCommand<string>(Resources.Close, OnClosePaymentScreen, CanClosePaymentScreen);
             TenderAllCommand = new CaptionCommand<string>(Resources.All, OnTenderAllCommand);
@@ -72,9 +67,6 @@ namespace Samba.Modules.PaymentModule
 
         public TicketTotalsViewModel Totals { get; set; }
 
-        public CaptionCommand<string> SubmitCashPaymentCommand { get; set; }
-        public CaptionCommand<string> SubmitCreditCardPaymentCommand { get; set; }
-        public CaptionCommand<string> SubmitTicketPaymentCommand { get; set; }
         public CaptionCommand<string> SubmitAccountPaymentCommand { get; set; }
         public CaptionCommand<string> ClosePaymentScreenCommand { get; set; }
         public CaptionCommand<string> TenderAllCommand { get; set; }
@@ -147,7 +139,13 @@ namespace Samba.Modules.PaymentModule
                                                        Parameter = x
                                                    }));
 
-            result.Add(new CommandButtonViewModel<Account> { Caption = "Close", Command = ClosePaymentScreenCommand });
+            result.Add(new CommandButtonViewModel<Account>
+            {
+                Caption = "Close",
+                Command = ClosePaymentScreenCommand,
+                Color = "Red"
+            });
+
             return result;
         }
 
@@ -250,21 +248,6 @@ namespace Samba.Modules.PaymentModule
             //SubmitPayment(PaymentType.Account);
         }
 
-        private void OnSubmitTicketPayment(string obj)
-        {
-            //SubmitPayment(PaymentType.Ticket);
-        }
-
-        private void OnSubmitCreditCardPayment(string obj)
-        {
-            //SubmitPayment(PaymentType.CreditCard);
-        }
-
-        private void OnSubmitCashPayment(string obj)
-        {
-            //SubmitPayment(PaymentType.Cash);
-        }
-
         private void OnDivideValue(string obj)
         {
             decimal tenderedValue = GetTenderedValue();
@@ -351,13 +334,6 @@ namespace Samba.Modules.PaymentModule
             return SelectedTicket != null
                 && SelectedTicket.SaleTransaction.TargetTransactionValue.AccountId > 0
                 && GetTenderedValue() == GetPaymentValue()
-                && SelectedTicket.GetRemainingAmount() > 0;
-        }
-
-        private bool CanSubmitCashPayment(string arg)
-        {
-            return SelectedTicket != null
-                && GetTenderedValue() > 0
                 && SelectedTicket.GetRemainingAmount() > 0;
         }
 

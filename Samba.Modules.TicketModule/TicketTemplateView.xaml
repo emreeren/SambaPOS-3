@@ -124,6 +124,14 @@
             <Label MinWidth="120">Payment Transaction Template</Label>
             <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTransactionTemplates}"
                                      SelectedItem="{Binding PaymentTransactionTemplate}" />
+            <Label MinWidth="120">Discount Transaction Template</Label>
+            <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTransactionTemplates}"
+                                     SelectedItem="{Binding DiscountTransactionTemplate}" />
+            <Label MinWidth="120">Rounding Transaction Template</Label>
+            <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTransactionTemplates}"
+                                     SelectedItem="{Binding RoundingTransactionTemplate}" />
+
+
         </StackPanel>
     </Grid>
 </UserControl>

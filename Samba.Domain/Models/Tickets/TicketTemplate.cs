@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
@@ -37,6 +36,8 @@ namespace Samba.Domain.Models.Tickets
 
         public virtual AccountTransactionTemplate SaleTransactionTemplate { get; set; }
         public virtual AccountTransactionTemplate PaymentTransactionTemplate { get; set; }
+        public virtual AccountTransactionTemplate DiscountTransactionTemplate { get; set; }
+        public virtual AccountTransactionTemplate RoundingTransactionTemplate { get; set; }
 
         public TicketTemplate()
         {

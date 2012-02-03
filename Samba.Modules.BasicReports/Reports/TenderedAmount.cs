@@ -2,7 +2,7 @@
 {
     internal class TenderedAmount
     {
-        public int PaymentType { get; set; }
+        public string PaymentName { get; set; }
         public decimal Amount { get; set; }
     }
 }

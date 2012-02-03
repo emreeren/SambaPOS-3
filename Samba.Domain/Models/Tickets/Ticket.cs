@@ -138,10 +138,6 @@ namespace Samba.Domain.Models.Tickets
             transaction.TargetTransactionValue.AccountId = paymentAccount.Id;
             transaction.TargetTransactionValue.AccountName = paymentAccount.Name;
             AccountTransactions.AccountTransactions.Add(transaction);
-
-            //var result = new Payment { Amount = amount, Date = date, PaymentType = (int)paymentType, UserId = userId };
-            //Payments.Add(result);
-
             LastPaymentDate = DateTime.Now;
             RemainingAmount = GetRemainingAmount();
             if (RemainingAmount == 0)

@@ -52,6 +52,8 @@ namespace Samba.Modules.TicketModule
 
         public virtual AccountTransactionTemplate SaleTransactionTemplate { get { return Model.SaleTransactionTemplate; } set { Model.SaleTransactionTemplate = value; } }
         public virtual AccountTransactionTemplate PaymentTransactionTemplate { get { return Model.PaymentTransactionTemplate; } set { Model.PaymentTransactionTemplate = value; } }
+        public virtual AccountTransactionTemplate DiscountTransactionTemplate { get { return Model.DiscountTransactionTemplate; } set { Model.DiscountTransactionTemplate = value; } }
+        public virtual AccountTransactionTemplate RoundingTransactionTemplate { get { return Model.RoundingTransactionTemplate; } set { Model.RoundingTransactionTemplate = value; } }
 
         private ObservableCollection<TicketTagGroup> _ticketTagGroups;
         public ObservableCollection<TicketTagGroup> TicketTagGroups

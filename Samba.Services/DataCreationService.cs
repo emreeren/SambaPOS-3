@@ -42,7 +42,7 @@ namespace Samba.Services
             var customerAccountTemplate = new AccountTemplate { Name = "Customer Accounts" };
 
             var defaultSaleAccount = new Account { AccountTemplate = saleAccountTemplate, Name = "Sales" };
-            var defaultpaymentAccount = new Account { AccountTemplate = paymentAccountTemplate, Name = "Cash" };
+            var defaultpaymentAccount = new Account { AccountTemplate = paymentAccountTemplate, Name = Resources.Cash };
             var defaultCustomerAccount = new Account { AccountTemplate = customerAccountTemplate, Name = "Customer" };
 
             var saleTransactionTemplate = new AccountTransactionTemplate

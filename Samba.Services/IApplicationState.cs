@@ -16,7 +16,7 @@ namespace Samba.Services
         AccountList,
         WorkPeriods,
         Dashboard,
-        CashView,
+        AccountView,
         ReportScreen
     }
 

@@ -159,15 +159,16 @@ namespace Samba.Modules.BasicReports
         {
             if (CurrentWorkPeriod.StartDate == CurrentWorkPeriod.EndDate)
                 return Dao.Query<Ticket>(x => x.LastPaymentDate >= CurrentWorkPeriod.StartDate,
-                                         x => x.Services, x => x.AccountTransactions.AccountTransactions,
-                                         x => x.Discounts, x => x.Orders, x => x.Tags,
-                                         x => x.Orders.Select(y => y.OrderTagValues));
+                                         x => x.Services, x => x.Discounts,
+                                         x => x.AccountTransactions.AccountTransactions.Select(y => y.TargetTransactionValue),
+                                         x => x.Orders, x => x.Tags, x => x.Orders.Select(y => y.OrderTagValues));
 
             return
                 Dao.Query<Ticket>(
                     x =>
                     x.LastPaymentDate >= CurrentWorkPeriod.StartDate && x.LastPaymentDate < CurrentWorkPeriod.EndDate,
-                    x => x.AccountTransactions.AccountTransactions, x => x.Services, x => x.Discounts, x => x.Tags, x => x.Orders.Select(y => y.OrderTagValues));
+                    x => x.AccountTransactions.AccountTransactions.Select(y => y.TargetTransactionValue), 
+                    x => x.Services, x => x.Discounts, x => x.Tags, x => x.Orders.Select(y => y.OrderTagValues));
 
         }
 
@@ -307,11 +308,11 @@ namespace Samba.Modules.BasicReports
 
         internal static AmountCalculator GetOperationalAmountCalculator()
         {
-            //var groups = Tickets
-            //    .SelectMany(x => x.AccountTransactions.AccountTransactions.Where(x))
-            //    .GroupBy(x => new { x.PaymentType })
-            //    .Select(x => new TenderedAmount { PaymentType = x.Key.PaymentType, Amount = x.Sum(y => y.Amount) });
-            return new AmountCalculator(null);
+            var groups = Tickets
+                .SelectMany(x => x.AccountTransactions.AccountTransactions.Where(y => y.AccountTransactionTemplateId == x.PaymentTransactionTemplateId))
+                .GroupBy(x => new { x.TargetTransactionValue.AccountName })
+                .Select(x => new TenderedAmount { PaymentName = x.Key.AccountName, Amount = x.Sum(y => y.Amount) });
+            return new AmountCalculator(groups);
         }
 
         public static PeriodicConsumption GetCurrentPeriodicConsumption()

@@ -20,7 +20,12 @@ namespace Samba.Presentation.ViewModels
         public ObservableCollection<TransactionValueViewModel> Payments
         {
             //get { return _payments ?? (_payments = new ObservableCollection<PaymentViewModel>(Model.Payments.Select(x => new PaymentViewModel(x)))); }
-            get { return _payments ?? (_payments = new ObservableCollection<TransactionValueViewModel>()); }
+            get
+            {
+                return _payments ?? (_payments = new ObservableCollection<TransactionValueViewModel>(Model.AccountTransactions.AccountTransactions
+                    .Where(x => x.AccountTransactionTemplateId == Model.PaymentTransactionTemplateId)
+                    .Select(x => new TransactionValueViewModel(x.TargetTransactionValue))));
+            }
         }
 
         private ObservableCollection<DiscountViewModel> _discounts;

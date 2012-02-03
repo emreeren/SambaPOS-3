@@ -79,16 +79,16 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 
             //---------------
 
-            var ac = ReportContext.GetOperationalAmountCalculator();
+            var amountCalculator = ReportContext.GetOperationalAmountCalculator();
 
             report.AddColumnLength("GelirlerTablosu", "45*", "Auto", "35*");
             report.AddColumTextAlignment("GelirlerTablosu", TextAlignment.Left, TextAlignment.Right, TextAlignment.Right);
             report.AddTable("GelirlerTablosu", Resources.Incomes, "", "");
-            report.AddRow("GelirlerTablosu", Resources.Cash, ac.CashPercent, ac.CashTotal.ToString(ReportContext.CurrencyFormat));
-            report.AddRow("GelirlerTablosu", Resources.CreditCard, ac.CreditCardPercent, ac.CreditCardTotal.ToString(ReportContext.CurrencyFormat));
-            report.AddRow("GelirlerTablosu", Resources.Voucher, ac.TicketPercent, ac.TicketTotal.ToString(ReportContext.CurrencyFormat));
-            report.AddRow("GelirlerTablosu", Resources.AccountBalance, ac.AccountPercent, ac.AccountTotal.ToString(ReportContext.CurrencyFormat));
-            report.AddRow("GelirlerTablosu", Resources.TotalIncome.ToUpper(), "", ac.TotalAmount.ToString(ReportContext.CurrencyFormat));
+
+            foreach (var paymentName in amountCalculator.PaymentNames)
+                report.AddRow("GelirlerTablosu", paymentName, amountCalculator.GetPercent(paymentName), amountCalculator.GetAmount(paymentName).ToString(ReportContext.CurrencyFormat));
+            
+            report.AddRow("GelirlerTablosu", Resources.TotalIncome.ToUpper(), "", amountCalculator.TotalAmount.ToString(ReportContext.CurrencyFormat));
 
             //---------------
 
@@ -120,34 +120,39 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
                 ? (ticketGropus.Sum(x => x.Amount) / ticketGropus.Sum(x => x.TicketCount)).ToString(ReportContext.CurrencyFormat)
                 : "0");
 
-            //if (ticketGropus.Count() > 1)
-            //{
-            //    foreach (var departmentInfo in ticketGropus)
-            //    {
-            //        var dinfo = departmentInfo;
+            if (ticketGropus.Count() > 1)
+            {
+                foreach (var departmentInfo in ticketGropus)
+                {
+                    var dinfo = departmentInfo;
 
-            //        var dPayments = ReportContext.Tickets
-            //            .Where(x => x.DepartmentId == dinfo.DepartmentId)
-            //            .SelectMany(x => x.Payments)
-            //            .GroupBy(x => new { x.PaymentType })
-            //            .Select(x => new TenderedAmount { PaymentType = x.Key.PaymentType, Amount = x.Sum(y => y.Amount) });
+                    var groups = ReportContext.Tickets
+                        .Where(x => x.DepartmentId == dinfo.DepartmentId)
+                        .SelectMany(x => x.AccountTransactions.AccountTransactions.Where(y => y.AccountTransactionTemplateId == x.PaymentTransactionTemplateId))
+                        .GroupBy(x => new { x.TargetTransactionValue.AccountName })
+                        .Select(x => new TenderedAmount { PaymentName = x.Key.AccountName, Amount = x.Sum(y => y.Amount) });
 
-            //        report.AddColumnLength(departmentInfo.DepartmentName + Resources.Incomes, "40*", "Auto", "35*");
-            //        report.AddColumTextAlignment(departmentInfo.DepartmentName + Resources.Incomes, TextAlignment.Left, TextAlignment.Right, TextAlignment.Right);
-            //        report.AddTable(departmentInfo.DepartmentName + Resources.Incomes, string.Format(Resources.Incomes_f, departmentInfo.DepartmentName), "", "");
-            //        report.AddRow(departmentInfo.DepartmentName + Resources.Incomes, Resources.Cash, GetPercent(0, dPayments), GetAmount(0, dPayments).ToString(ReportContext.CurrencyFormat));
-            //        report.AddRow(departmentInfo.DepartmentName + Resources.Incomes, Resources.CreditCard, GetPercent(1, dPayments), GetAmount(1, dPayments).ToString(ReportContext.CurrencyFormat));
-            //        report.AddRow(departmentInfo.DepartmentName + Resources.Incomes, Resources.Voucher, GetPercent(2, dPayments), GetAmount(2, dPayments).ToString(ReportContext.CurrencyFormat));
-            //        report.AddRow(departmentInfo.DepartmentName + Resources.Incomes, Resources.TotalIncome, "", departmentInfo.Amount.ToString(ReportContext.CurrencyFormat));
+                    var departmentAmountCalculator = new AmountCalculator(groups);
 
-            //        var ddiscounts = ReportContext.Tickets
-            //            .Where(x => x.DepartmentId == dinfo.DepartmentId)
-            //            .SelectMany(x => x.Discounts)
-            //            .Sum(x => x.DiscountAmount);
+                    report.AddColumnLength(departmentInfo.DepartmentName + Resources.Incomes, "40*", "Auto", "35*");
+                    report.AddColumTextAlignment(departmentInfo.DepartmentName + Resources.Incomes, TextAlignment.Left, TextAlignment.Right, TextAlignment.Right);
+                    report.AddTable(departmentInfo.DepartmentName + Resources.Incomes, string.Format(Resources.Incomes_f, departmentInfo.DepartmentName), "", "");
 
-            //        report.AddRow(departmentInfo.DepartmentName + Resources.Incomes, Resources.DiscountsTotal, "", ddiscounts.ToString(ReportContext.CurrencyFormat));
-            //    }
-            //}
+                    foreach (var paymentName in departmentAmountCalculator.PaymentNames)
+                    {
+                        report.AddRow(departmentInfo.DepartmentName + Resources.Incomes, paymentName, departmentAmountCalculator.GetPercent(paymentName), departmentAmountCalculator.GetAmount(paymentName).ToString(ReportContext.CurrencyFormat));
+                    }
+
+                    report.AddRow(departmentInfo.DepartmentName + Resources.Incomes, Resources.TotalIncome, "", departmentInfo.Amount.ToString(ReportContext.CurrencyFormat));
+
+                    var ddiscounts = ReportContext.Tickets
+                        .Where(x => x.DepartmentId == dinfo.DepartmentId)
+                        .SelectMany(x => x.Discounts)
+                        .Sum(x => x.DiscountAmount);
+
+                    report.AddRow(departmentInfo.DepartmentName + Resources.Incomes, Resources.DiscountsTotal, "", ddiscounts.ToString(ReportContext.CurrencyFormat));
+                }
+            }
 
             //--
 
@@ -262,18 +267,6 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 
             report.AddRow("Gıda", Resources.Total.ToUpper(), "", menuGroups.Sum(x => x.Amount).ToString(ReportContext.CurrencyFormat));
             return report.Document;
-        }
-
-        private static string GetPercent(int paymentType, IEnumerable<TenderedAmount> data)
-        {
-            var total = data.Sum(x => x.Amount);
-            return total > 0 ? string.Format("%{0:0.00}", (GetAmount(paymentType, data) * 100) / total) : "%0";
-        }
-
-        private static decimal GetAmount(int paymentType, IEnumerable<TenderedAmount> data)
-        {
-            var r = data.SingleOrDefault(x => x.PaymentType == paymentType);
-            return r != null ? r.Amount : 0;
         }
 
         protected override string GetHeader()

@@ -13,27 +13,18 @@ namespace Samba.Modules.BasicReports.Reports
             _amounts = amounts;
         }
 
-        internal decimal GetAmount(int paymentType)
+        internal decimal GetAmount(string paymentName)
         {
-            var r = _amounts.SingleOrDefault(x => x.PaymentType == paymentType);
+            var r = _amounts.SingleOrDefault(x => x.PaymentName == paymentName);
             return r != null ? r.Amount : 0;
         }
 
-        internal string GetPercent(int paymentType)
+        internal string GetPercent(string paymentName)
         {
-            return TotalAmount > 0 ? string.Format("%{0:0.00}", (GetAmount(paymentType) * 100) / TotalAmount) : "%0";
+            return TotalAmount > 0 ? string.Format("%{0:0.00}", (GetAmount(paymentName) * 100) / TotalAmount) : "%0";
         }
 
-        public decimal CashTotal { get { return GetAmount(0); } }
-        public decimal CreditCardTotal { get { return GetAmount(1); } }
-        public decimal TicketTotal { get { return GetAmount(2); } }
-        public decimal AccountTotal { get { return GetAmount(3); } }
-        public decimal GrandTotal { get { return _amounts.Where(x => x.PaymentType != 3).Sum(x => x.Amount); } }
+        public IEnumerable<string> PaymentNames { get { return _amounts.Select(x => x.PaymentName).Distinct(); } }
         public decimal TotalAmount { get { return _amounts.Sum(x => x.Amount); } }
-
-        public string CashPercent { get { return GetPercent(0); } }
-        public string CreditCardPercent { get { return GetPercent(1); } }
-        public string TicketPercent { get { return GetPercent(2); } }
-        public string AccountPercent { get { return GetPercent(3); } }
     }
 }
