@@ -77,24 +77,24 @@ namespace Samba.Modules.BasicReports.Reports.ProductReport
             //PrepareModificationTable(report, x => x.Voided, Resources.Voids);
             //PrepareModificationTable(report, x => x.Gifted, Resources.Gifts);
 
-            var discounts = ReportContext.Tickets
-                .SelectMany(x => x.Discounts.Select(y => new { x.TicketNumber, y.UserId, Amount = y.DiscountAmount }))
-                .GroupBy(x => new { x.TicketNumber, x.UserId }).Select(x => new { x.Key.TicketNumber, x.Key.UserId, Amount = x.Sum(y => y.Amount) });
+            //var discounts = ReportContext.Tickets
+            //    .SelectMany(x => x.Discounts.Select(y => new { x.TicketNumber, y.UserId, Amount = y.DiscountAmount }))
+            //    .GroupBy(x => new { x.TicketNumber, x.UserId }).Select(x => new { x.Key.TicketNumber, x.Key.UserId, Amount = x.Sum(y => y.Amount) });
 
-            if (discounts.Count() > 0)
-            {
-                report.AddColumTextAlignment("İskontolarTablosu", TextAlignment.Left, TextAlignment.Left, TextAlignment.Right);
-                report.AddColumnLength("İskontolarTablosu", "20*", "Auto", "35*");
-                report.AddTable("İskontolarTablosu", Resources.Discounts, "", "");
+            //if (discounts.Count() > 0)
+            //{
+            //    report.AddColumTextAlignment("İskontolarTablosu", TextAlignment.Left, TextAlignment.Left, TextAlignment.Right);
+            //    report.AddColumnLength("İskontolarTablosu", "20*", "Auto", "35*");
+            //    report.AddTable("İskontolarTablosu", Resources.Discounts, "", "");
 
-                foreach (var discount in discounts.OrderByDescending(x => x.Amount))
-                {
-                    report.AddRow("İskontolarTablosu", discount.TicketNumber, ReportContext.GetUserName(discount.UserId), discount.Amount.ToString(ReportContext.CurrencyFormat));
-                }
+            //    foreach (var discount in discounts.OrderByDescending(x => x.Amount))
+            //    {
+            //        report.AddRow("İskontolarTablosu", discount.TicketNumber, ReportContext.GetUserName(discount.UserId), discount.Amount.ToString(ReportContext.CurrencyFormat));
+            //    }
 
-                if (discounts.Count() > 1)
-                    report.AddRow("İskontolarTablosu", Resources.Total, "", discounts.Sum(x => x.Amount).ToString(ReportContext.CurrencyFormat));
-            }
+            //    if (discounts.Count() > 1)
+            //        report.AddRow("İskontolarTablosu", Resources.Total, "", discounts.Sum(x => x.Amount).ToString(ReportContext.CurrencyFormat));
+            //}
 
             //----------------------
 

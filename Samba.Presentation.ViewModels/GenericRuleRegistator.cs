@@ -263,13 +263,13 @@ namespace Samba.Presentation.ViewModels
 
                 if (x.Value.Action.ActionType == "AddTicketDiscount")
                 {
-                    var ticket = x.Value.GetDataValue<Ticket>("Ticket");
-                    if (ticket != null)
-                    {
-                        var percentValue = x.Value.GetAsDecimal("DiscountPercentage");
-                        ticket.AddTicketDiscount(DiscountType.Percent, percentValue, ApplicationState.CurrentLoggedInUser.Id);
-                        TicketService.RecalculateTicket(ticket);
-                    }
+                    //var ticket = x.Value.GetDataValue<Ticket>("Ticket");
+                    //if (ticket != null)
+                    //{
+                    //    var percentValue = x.Value.GetAsDecimal("DiscountPercentage");
+                    //    ticket.AddTicketDiscount(DiscountType.Percent, percentValue, ApplicationState.CurrentLoggedInUser.Id);
+                    //    TicketService.RecalculateTicket(ticket);
+                    //}
                 }
 
                 if (x.Value.Action.ActionType == "AddOrder")

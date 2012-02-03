@@ -1,4 +1,5 @@
-﻿using Samba.Domain.Models.Tickets;
+﻿using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 
@@ -6,9 +7,9 @@ namespace Samba.Presentation.ViewModels
 {
     public class DiscountViewModel
     {
-        public Discount Model { get; set; }
+        public AccountTransactionValue Model { get; set; }
 
-        public DiscountViewModel(Discount model)
+        public DiscountViewModel(AccountTransactionValue model)
         {
             Model = model;
         }
@@ -17,7 +18,7 @@ namespace Samba.Presentation.ViewModels
         {
             get
             {
-                return Model.DiscountType == (int)DiscountType.Percent ? "%" : "";
+                return Model.Name;
             }
         }
 
@@ -25,15 +26,16 @@ namespace Samba.Presentation.ViewModels
         {
             get
             {
-                switch (Model.DiscountType)
-                {
-                    case (int)DiscountType.Percent:
-                        return Model.Amount.ToString();
-                    case (int)DiscountType.Auto:
-                        return Resources.AutoFlatten_ab;
-                    default:
-                        return Model.Amount > 0 ? Resources.Rounding : Resources.Flattening;
-                }
+                //switch (Model.DiscountType)
+                //{
+                //    case (int)DiscountType.Percent:
+                //        return Model.Amount.ToString();
+                //    case (int)DiscountType.Auto:
+                //        return Resources.AutoFlatten_ab;
+                //    default:
+                //        return Model.Amount > 0 ? Resources.Rounding : Resources.Flattening;
+                //}
+                return Model.AccountName;
             }
         }
 
@@ -41,7 +43,7 @@ namespace Samba.Presentation.ViewModels
         {
             get
             {
-                return Model.DiscountAmount.ToString(LocalSettings.DefaultCurrencyFormat);
+                return (Model.Liability + Model.Receivable).ToString(LocalSettings.DefaultCurrencyFormat);
             }
         }
     }

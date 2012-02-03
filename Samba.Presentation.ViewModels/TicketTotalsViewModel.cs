@@ -16,22 +16,33 @@ namespace Samba.Presentation.ViewModels
             Model = model;
         }
 
-        private ObservableCollection<TransactionValueViewModel> _payments;
-        public ObservableCollection<TransactionValueViewModel> Payments
+        private ObservableCollection<PaymentViewModel> _payments;
+        public ObservableCollection<PaymentViewModel> Payments
         {
-            //get { return _payments ?? (_payments = new ObservableCollection<PaymentViewModel>(Model.Payments.Select(x => new PaymentViewModel(x)))); }
             get
             {
-                return _payments ?? (_payments = new ObservableCollection<TransactionValueViewModel>(Model.AccountTransactions.AccountTransactions
+                return _payments ?? (_payments = new ObservableCollection<PaymentViewModel>(Model.AccountTransactions.AccountTransactions
                     .Where(x => x.AccountTransactionTemplateId == Model.PaymentTransactionTemplateId)
-                    .Select(x => new TransactionValueViewModel(x.TargetTransactionValue))));
+                    .Select(x => new PaymentViewModel(x.TargetTransactionValue))));
             }
         }
 
         private ObservableCollection<DiscountViewModel> _discounts;
         public ObservableCollection<DiscountViewModel> Discounts
         {
-            get { return _discounts ?? (_discounts = new ObservableCollection<DiscountViewModel>(Model.Discounts.Select(x => new DiscountViewModel(x)))); }
+            get
+            {
+                return _discounts ??
+                       (_discounts =
+                        new ObservableCollection<DiscountViewModel>(Model.AccountTransactions.AccountTransactions
+                                                                        .Where(
+                                                                            x =>
+                                                                            x.AccountTransactionTemplateId ==
+                                                                            Model.DiscountTransactionTemplateId ||
+                                                                            x.AccountTransactionTemplateId ==
+                                                                            Model.RoundingTransactionTemplateId)
+                .Select(x => new DiscountViewModel(x.SourceTransactionValue))));
+            }
         }
 
         public decimal TicketTotalValue { get { return Model.GetSum(); } }

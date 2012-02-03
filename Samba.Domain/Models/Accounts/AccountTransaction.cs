@@ -39,6 +39,7 @@ namespace Samba.Domain.Models.Accounts
         }
 
         public int AccountTransactionTemplateId { get; set; }
+        public int AccountTransactionDocumentId { get; set; }
         
         public virtual AccountTransactionValue SourceTransactionValue { get; set; }
         public virtual AccountTransactionValue TargetTransactionValue { get; set; }

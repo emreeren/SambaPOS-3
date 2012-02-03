@@ -408,6 +408,9 @@ namespace Samba.Modules.PaymentModule
 
         private void OnSetDiscountRateCommand(string obj)
         {
+            var discountTemplate =
+                _cacheService.GetAccountTransactionTemplateById(SelectedTicket.DiscountTransactionTemplateId);
+
             var tenderedvalue = GetTenderedValue();
             if (tenderedvalue == 0 && SelectedTicket.GetDiscountTotal() == 0)
             {
@@ -415,21 +418,26 @@ namespace Samba.Modules.PaymentModule
             }
             if (tenderedvalue > 0 && SelectedTicket.GetPlainSum() > 0)
             {
-                SelectedTicket.AddTicketDiscount(DiscountType.Percent, GetTenderedValue(), _applicationState.CurrentLoggedInUser.Id);
+                SelectedTicket.AddTicketDiscount(discountTemplate, GetTenderedValue(), _applicationState.CurrentLoggedInUser.Id);
             }
-            else SelectedTicket.AddTicketDiscount(DiscountType.Percent, 0, _applicationState.CurrentLoggedInUser.Id);
+            else SelectedTicket.AddTicketDiscount(discountTemplate, 0, _applicationState.CurrentLoggedInUser.Id);
             PaymentAmount = "";
             RefreshValues();
         }
 
         private void OnAutoSetDiscount(string obj)
         {
+            var discountTemplate =
+                _cacheService.GetAccountTransactionTemplateById(SelectedTicket.DiscountTransactionTemplateId);
+            var roundingTemplate =
+                _cacheService.GetAccountTransactionTemplateById(SelectedTicket.RoundingTransactionTemplateId);
+
             if (GetTenderedValue() == 0) return;
             if (!_userService.IsUserPermittedFor(PermissionNames.FixPayment) && GetTenderedValue() > GetPaymentValue()) return;
             if (!_userService.IsUserPermittedFor(PermissionNames.RoundPayment)) return;
-            SelectedTicket.AddTicketDiscount(DiscountType.Amount, 0, _applicationState.CurrentLoggedInUser.Id);
-            SelectedTicket.AddTicketDiscount(DiscountType.Auto, 0, _applicationState.CurrentLoggedInUser.Id);
-            SelectedTicket.AddTicketDiscount(DiscountType.Amount, SelectedTicket.GetRemainingAmount() - GetTenderedValue(),
+            SelectedTicket.AddTicketDiscount(discountTemplate, 0, _applicationState.CurrentLoggedInUser.Id);
+            SelectedTicket.AddTicketDiscount(roundingTemplate, 0, _applicationState.CurrentLoggedInUser.Id);
+            SelectedTicket.AddTicketDiscount(discountTemplate, SelectedTicket.GetRemainingAmount() - GetTenderedValue(),
                 _applicationState.CurrentLoggedInUser.Id);
             PaymentAmount = "";
             RefreshValues();
@@ -437,8 +445,10 @@ namespace Samba.Modules.PaymentModule
 
         private void OnSetDiscountAmountCommand(string obj)
         {
+            var discountTemplate =
+                _cacheService.GetAccountTransactionTemplateById(SelectedTicket.DiscountTransactionTemplateId);
             if (GetTenderedValue() > GetPaymentValue()) return;
-            SelectedTicket.AddTicketDiscount(DiscountType.Amount, GetTenderedValue(), _applicationState.CurrentLoggedInUser.Id);
+            SelectedTicket.AddTicketDiscount(discountTemplate, GetTenderedValue(), _applicationState.CurrentLoggedInUser.Id);
             PaymentAmount = "";
             RefreshValues();
         }
@@ -448,7 +458,14 @@ namespace Samba.Modules.PaymentModule
             _ticketService.RecalculateTicket(SelectedTicket);
             if (SelectedTicket.GetRemainingAmount() < 0)
             {
-                SelectedTicket.Discounts.Clear();
+                var discountTemplate =
+                    _cacheService.GetAccountTransactionTemplateById(SelectedTicket.DiscountTransactionTemplateId);
+                var roundingTemplate =
+                    _cacheService.GetAccountTransactionTemplateById(SelectedTicket.RoundingTransactionTemplateId);
+                
+                SelectedTicket.AddTicketDiscount(discountTemplate, 0, _applicationState.CurrentLoggedInUser.Id);
+                SelectedTicket.AddTicketDiscount(roundingTemplate, 0, _applicationState.CurrentLoggedInUser.Id);
+                
                 _ticketService.RecalculateTicket(SelectedTicket);
                 InteractionService.UserIntraction.GiveFeedback(Resources.AllDiscountsRemoved);
             }

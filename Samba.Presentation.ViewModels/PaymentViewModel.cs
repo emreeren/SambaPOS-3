@@ -4,11 +4,11 @@ using Samba.Presentation.Common;
 
 namespace Samba.Presentation.ViewModels
 {
-    public class TransactionValueViewModel : ObservableObject
+    public class PaymentViewModel : ObservableObject
     {
         public AccountTransactionValue Model { get; set; }
 
-        public TransactionValueViewModel(AccountTransactionValue model)
+        public PaymentViewModel(AccountTransactionValue model)
         {
             Model = model;
         }

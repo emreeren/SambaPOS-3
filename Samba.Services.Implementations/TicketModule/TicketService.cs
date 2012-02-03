@@ -169,7 +169,8 @@ namespace Samba.Services.Implementations.TicketModule
 
             if (canSumbitTicket)
             {
-                ticket.Recalculate(_settingService.ProgramSettings.AutoRoundDiscount, _applicationState.CurrentLoggedInUser.Id);
+                var roundingTemplate = _cacheService.GetAccountTransactionTemplateById(ticket.RoundingTransactionTemplateId);
+                ticket.Recalculate(roundingTemplate, _settingService.ProgramSettings.AutoRoundDiscount, _applicationState.CurrentLoggedInUser.Id);
                 ticket.IsPaid = ticket.RemainingAmount == 0;
 
                 if (ticket.Orders.Count > 0)
@@ -344,7 +345,8 @@ namespace Samba.Services.Implementations.TicketModule
         public void RecalculateTicket(Ticket ticket)
         {
             var total = ticket.TotalAmount;
-            ticket.Recalculate(_settingService.ProgramSettings.AutoRoundDiscount, _applicationState.CurrentLoggedInUser.Id);
+            var roundingTemplate = _cacheService.GetAccountTransactionTemplateById(ticket.RoundingTransactionTemplateId);
+            ticket.Recalculate(roundingTemplate, _settingService.ProgramSettings.AutoRoundDiscount, _applicationState.CurrentLoggedInUser.Id);
             if (total != ticket.TotalAmount)
             {
                 _automationService.NotifyEvent(RuleEventNames.TicketTotalChanged,

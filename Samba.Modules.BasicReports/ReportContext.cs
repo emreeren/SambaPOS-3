@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Samba.Domain;
 using Samba.Domain.Models.Inventories;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
@@ -159,7 +158,7 @@ namespace Samba.Modules.BasicReports
         {
             if (CurrentWorkPeriod.StartDate == CurrentWorkPeriod.EndDate)
                 return Dao.Query<Ticket>(x => x.LastPaymentDate >= CurrentWorkPeriod.StartDate,
-                                         x => x.Services, x => x.Discounts,
+                                         x => x.Services, 
                                          x => x.AccountTransactions.AccountTransactions.Select(y => y.TargetTransactionValue),
                                          x => x.Orders, x => x.Tags, x => x.Orders.Select(y => y.OrderTagValues));
 
@@ -168,7 +167,7 @@ namespace Samba.Modules.BasicReports
                     x =>
                     x.LastPaymentDate >= CurrentWorkPeriod.StartDate && x.LastPaymentDate < CurrentWorkPeriod.EndDate,
                     x => x.AccountTransactions.AccountTransactions.Select(y => y.TargetTransactionValue), 
-                    x => x.Services, x => x.Discounts, x => x.Tags, x => x.Orders.Select(y => y.OrderTagValues));
+                    x => x.Services, x => x.Tags, x => x.Orders.Select(y => y.OrderTagValues));
 
         }
 
