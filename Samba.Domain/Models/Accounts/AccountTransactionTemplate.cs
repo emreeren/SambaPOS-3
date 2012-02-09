@@ -10,5 +10,6 @@ namespace Samba.Domain.Models.Accounts
         public virtual AccountTemplate TargetAccountTemplate { get; set; }
         public virtual Account DefaultSourceAccount { get; set; }
         public virtual Account DefaultTargetAccount { get; set; }
+        public string Function { get; set; }
     }
 }

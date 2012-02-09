@@ -78,7 +78,7 @@ namespace Samba.Persistance.Data
         public DbSet<AccountTransactionValue> AccountTransactionValues { get; set; }
         public DbSet<AccountTransactionTemplate> AccountTransactionTemplates { get; set; }
         public DbSet<AccountTransactionDocument> AccountTransactionDocuments { get; set; }
-
+        
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AccountTransaction>().HasKey(p => new { p.Id, p.AccountTransactionDocumentId });

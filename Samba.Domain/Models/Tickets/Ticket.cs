@@ -126,10 +126,9 @@ namespace Samba.Domain.Models.Tickets
 
         public void AddPayment(DateTime date, decimal amount, Account paymentAccount, int userId, AccountTransactionTemplate paymentTransactionTemplate)
         {
-            var transaction = AccountTransaction.Create(paymentTransactionTemplate);
+            var transaction = AccountTransaction.Create(paymentTransactionTemplate, AccountTransactions);
             transaction.Amount = amount;
-            transaction.TargetTransactionValue.AccountId = paymentAccount.Id;
-            transaction.TargetTransactionValue.AccountName = paymentAccount.Name;
+            transaction.SetTargetAccount(paymentAccount, AccountTransactions);
             AccountTransactions.AccountTransactions.Add(transaction);
             LastPaymentDate = DateTime.Now;
             RemainingAmount = GetRemainingAmount();
@@ -268,7 +267,7 @@ namespace Samba.Domain.Models.Tickets
             var c = AccountTransactions.AccountTransactions.SingleOrDefault(x => x.AccountTransactionTemplateId == template.Id);
             if (c == null)
             {
-                c = AccountTransaction.Create(template);
+                c = AccountTransaction.Create(template, AccountTransactions);
                 c.Amount = amount;
                 AccountTransactions.AccountTransactions.Add(c);
             }
@@ -419,7 +418,7 @@ namespace Samba.Domain.Models.Tickets
 
             ticket.PaymentTransactionTemplateId = department.TicketTemplate.PaymentTransactionTemplate.Id;
             ticket.AccountTransactions = new AccountTransactionDocument();
-            ticket.SaleTransaction = AccountTransaction.Create(department.TicketTemplate.SaleTransactionTemplate);
+            ticket.SaleTransaction = AccountTransaction.Create(department.TicketTemplate.SaleTransactionTemplate, ticket.AccountTransactions);
             ticket.AccountTransactions.AccountTransactions.Add(ticket.SaleTransaction);
             ticket.DiscountTransactionTemplateId = department.TicketTemplate.DiscountTransactionTemplate.Id;
             ticket.RoundingTransactionTemplateId = department.TicketTemplate.RoundingTransactionTemplate.Id;

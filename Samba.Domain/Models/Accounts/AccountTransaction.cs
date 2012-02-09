@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NCalc;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Accounts
@@ -40,9 +41,10 @@ namespace Samba.Domain.Models.Accounts
 
         public int AccountTransactionTemplateId { get; set; }
         public int AccountTransactionDocumentId { get; set; }
-        
         public virtual AccountTransactionValue SourceTransactionValue { get; set; }
         public virtual AccountTransactionValue TargetTransactionValue { get; set; }
+
+        public string Function { get; set; }
 
         private static AccountTransaction _null;
         public static AccountTransaction Null
@@ -57,19 +59,59 @@ namespace Samba.Domain.Models.Accounts
             }
         }
 
-        public static AccountTransaction Create(AccountTransactionTemplate template)
+        public static AccountTransaction Create(AccountTransactionTemplate template, AccountTransactionDocument document)
         {
             var result = new AccountTransaction
                              {
+                                 Name = template.Name,
                                  AccountTransactionTemplateId = template.Id,
                                  SourceTransactionValue = new AccountTransactionValue(),
-                                 TargetTransactionValue = new AccountTransactionValue()
+                                 TargetTransactionValue = new AccountTransactionValue(),
+                                 Function = template.Function
                              };
-            result.SourceTransactionValue.AccountId = template.DefaultSourceAccount.Id;
-            result.SourceTransactionValue.AccountName = template.DefaultSourceAccount.Name;
-            result.TargetTransactionValue.AccountId = template.DefaultTargetAccount.Id;
-            result.TargetTransactionValue.AccountName = template.DefaultTargetAccount.Name;
+
+            result.SetSoruceAccount(template.DefaultSourceAccount, document);
+            result.SetTargetAccount(template.DefaultTargetAccount, document);
             return result;
+        }
+
+        public void SetSoruceAccount(Account account, AccountTransactionDocument document)
+        {
+            if (account == null) return;
+            SourceTransactionValue.AccountId = account.Id;
+            SourceTransactionValue.AccountName = account.Name;
+            _calculatingAccount = account;
+            _calculatingDocument = document;
+            DoCalculations();
+        }
+
+        public void SetTargetAccount(Account account, AccountTransactionDocument document)
+        {
+            if (account == null) return;
+            TargetTransactionValue.AccountId = account.Id;
+            TargetTransactionValue.AccountName = account.Name;
+            _calculatingAccount = account;
+            _calculatingDocument = document;
+            DoCalculations();
+        }
+
+        private void DoCalculations()
+        {
+            if (!string.IsNullOrEmpty(Function))
+            {
+                var e = new Expression(Function);
+                e.EvaluateParameter += e_EvaluateParameter;
+                var result = e.Evaluate();
+                e.EvaluateParameter -= e_EvaluateParameter;
+            }
+        }
+
+        private Account _calculatingAccount;
+        private AccountTransactionDocument _calculatingDocument;
+
+        void e_EvaluateParameter(string name, ParameterArgs args)
+        {
+            args.Result = 1;
         }
     }
 }

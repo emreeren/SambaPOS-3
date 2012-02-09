@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Samba.Domain.Models.Accounts;
 using Samba.Infrastructure.Data;
-using Samba.Persistance.Data;
 using Samba.Presentation.Common;
 
 namespace Samba.Modules.AccountModule
@@ -59,7 +56,7 @@ namespace Samba.Modules.AccountModule
                 _accountTransactionTemplate = value;
                 if (Model == AccountTransaction.Null)
                 {
-                    Model = AccountTransaction.Create(value);
+                    Model = AccountTransaction.Create(value, _document);
                     _document.AccountTransactions.Add(Model);
                 }
                 RaisePropertyChanged(() => AccountTransactionTemplate);
@@ -68,8 +65,24 @@ namespace Samba.Modules.AccountModule
             }
         }
 
-        public Account SourceAccount { get { return SourceAccounts.SingleOrDefault(x => x.Id == SourceAccountId); } }
-        public Account TargetAccount { get { return TargetAccounts.SingleOrDefault(x => x.Id == TargetAccountId); } }
+        public Account SourceAccount
+        {
+            get { return SourceAccounts.SingleOrDefault(x => x.Id == SourceAccountId); }
+            set
+            {
+                Model.SetSoruceAccount(value, _document);
+                RaisePropertyChanged(() => SourceAccount);
+            }
+        }
+        public Account TargetAccount
+        {
+            get { return TargetAccounts.SingleOrDefault(x => x.Id == TargetAccountId); }
+            set
+            {
+                Model.SetTargetAccount(value, _document);
+                RaisePropertyChanged(() => TargetAccount);
+            }
+        }
 
         public int SourceAccountId { get { return Model.SourceTransactionValue.AccountId; } set { Model.SourceTransactionValue.AccountId = value; } }
         public int TargetAccountId { get { return Model.TargetTransactionValue.AccountId; } set { Model.TargetTransactionValue.AccountId = value; } }

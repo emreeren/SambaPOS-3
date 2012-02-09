@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
@@ -17,6 +18,17 @@ namespace Samba.Modules.AccountModule
         {
             AddCustomFieldCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.CustomField), OnAddCustomField);
             DeleteCustomFieldCommand = new CaptionCommand<AccountCustomFieldViewModel>(string.Format(Resources.Delete_f, Resources.CustomField), OnDeleteCustomField, CanDeleteCustomField);
+        }
+
+        public ICaptionCommand AddCustomFieldCommand { get; set; }
+        public ICaptionCommand DeleteCustomFieldCommand { get; set; }
+
+        public AccountCustomFieldViewModel SelectedCustomField { get; set; }
+
+        private ObservableCollection<AccountCustomFieldViewModel> _accountCustomFields;
+        public ObservableCollection<AccountCustomFieldViewModel> AccountCustomFields
+        {
+            get { return _accountCustomFields ?? (_accountCustomFields = new ObservableCollection<AccountCustomFieldViewModel>(Model.AccountCustomFields.Select(x => new AccountCustomFieldViewModel(x)))); }
         }
 
         private bool CanDeleteCustomField(AccountCustomFieldViewModel arg)
@@ -39,17 +51,6 @@ namespace Samba.Modules.AccountModule
         {
             var result = Model.AddCustomField(string.Format(Resources.New_f, Resources.CustomField), 0);
             AccountCustomFields.Add(new AccountCustomFieldViewModel(result));
-        }
-
-        public ICaptionCommand AddCustomFieldCommand { get; set; }
-        public ICaptionCommand DeleteCustomFieldCommand { get; set; }
-
-        public AccountCustomFieldViewModel SelectedCustomField { get; set; }
-
-        private ObservableCollection<AccountCustomFieldViewModel> _accountCustomFields;
-        public ObservableCollection<AccountCustomFieldViewModel> AccountCustomFields
-        {
-            get { return _accountCustomFields ?? (_accountCustomFields = new ObservableCollection<AccountCustomFieldViewModel>(Model.AccountCustomFields.Select(x => new AccountCustomFieldViewModel(x)))); }
         }
 
         public override string GetModelTypeString()
