@@ -18,7 +18,7 @@ namespace Samba.Modules.TicketModule
             AddDashboardCommand<EntityCollectionViewModelBase<TicketTagGroupViewModel, TicketTagGroup>>(Resources.TicketTags, Resources.Tickets, 35);
             AddDashboardCommand<EntityCollectionViewModelBase<OrderTagTemplateViewModel, OrderTagTemplate>>(Resources.OrderTagTemplates, Resources.Tickets, 35);
             AddDashboardCommand<EntityCollectionViewModelBase<OrderTagGroupViewModel, OrderTagGroup>>(Resources.OrderTags, Resources.Tickets, 35);
-            AddDashboardCommand<EntityCollectionViewModelBase<CalculationTemplateViewModel, CalculationTemplate>>(Resources.CalculationTemplates, Resources.Products, 35);
+            AddDashboardCommand<EntityCollectionViewModelBase<CalculationTemplateViewModel, CalculationTemplate>>(Resources.CalculationTemplates, Resources.Tickets, 35);
 
             PermissionRegistry.RegisterPermission(PermissionNames.AddItemsToLockedTickets, PermissionCategories.Ticket, Resources.CanReleaseTicketLock);
             PermissionRegistry.RegisterPermission(PermissionNames.RemoveTicketTag, PermissionCategories.Ticket, Resources.CanRemoveTicketTag);

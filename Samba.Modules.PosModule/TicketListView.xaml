@@ -129,6 +129,12 @@
             </ItemsControl>
 
             <DockPanel>
+                <TextBlock Text="{LocText GrandTotal,Suffix=':'}"
+                     Visibility="{Binding Totals.IsTicketTotalVisible,Converter={StaticResource VisibilityConverter}}" />
+                <TextBlock TextAlignment="Right" Text="{Binding Totals.TicketTotalLabel}"
+                     Visibility="{Binding Totals.IsTicketTotalVisible,Converter={StaticResource VisibilityConverter}}" />
+            </DockPanel>
+            <DockPanel>
                 <TextBlock Text="{LocText ChargedAmount,Suffix=':'}"
                          Visibility="{Binding Totals.IsTicketPaymentVisible,Converter={StaticResource VisibilityConverter}}" />
                 <TextBlock TextAlignment="Right" Text="{Binding Totals.TicketPaymentLabel}"

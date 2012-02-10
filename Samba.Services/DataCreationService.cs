@@ -50,6 +50,7 @@ namespace Samba.Services
             var defaultDiscountAccount = new Account { AccountTemplate = discountAccountTemplate, Name = "Discount" };
             var defaultRoundingAccount = new Account { AccountTemplate = discountAccountTemplate, Name = Resources.Rounding };
 
+            _workspace.Add(defaultpaymentAccount);
             _workspace.Add(creditCardAccount);
             _workspace.Add(voucherAccount);
 

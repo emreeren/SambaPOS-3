@@ -132,7 +132,7 @@ namespace Samba.Modules.PaymentModule
 
             result.Add(new CommandButtonViewModel<Account>
             {
-                Caption = "Close",
+                Caption = Resources.Close,
                 Command = ClosePaymentScreenCommand,
                 Color = "Red"
             });

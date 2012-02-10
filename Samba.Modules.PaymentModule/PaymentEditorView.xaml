@@ -315,7 +315,7 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <FxButton:FlexButton ButtonColor="{Binding Color}" Focusable="False" Command="{Binding Command}" CommandParameter="{Binding Parameter}"
-                             Margin="3,3,3,0">
+                             Margin="5">
                         <TextBlock FontSize="24" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
                                  Text="{Binding Caption}" />
                     </FxButton:FlexButton>
