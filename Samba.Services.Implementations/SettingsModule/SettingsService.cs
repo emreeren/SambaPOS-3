@@ -41,20 +41,20 @@ namespace Samba.Services.Implementations.SettingsModule
             get { return _taxTemplates ?? (_taxTemplates = Dao.Query<TaxTemplate>()); }
         }
 
-        private IEnumerable<ServiceTemplate> _serviceTemplates;
-        public IEnumerable<ServiceTemplate> ServiceTemplates
+        private IEnumerable<CalculationTemplate> _calculationTemplates;
+        public IEnumerable<CalculationTemplate> CalculationTemplates
         {
-            get { return _serviceTemplates ?? (_serviceTemplates = Dao.Query<ServiceTemplate>()); }
+            get { return _calculationTemplates ?? (_calculationTemplates = Dao.Query<CalculationTemplate>()); }
         }
 
-        public ServiceTemplate GetServiceTemplateById(int id)
+        public CalculationTemplate GetCalculationTemplateById(int id)
         {
-            return ServiceTemplates.FirstOrDefault(x => x.Id == id);
+            return CalculationTemplates.FirstOrDefault(x => x.Id == id);
         }
 
-        public ServiceTemplate GetServiceTemplateByName(string name)
+        public CalculationTemplate GetCalculationTemplateByName(string name)
         {
-            return ServiceTemplates.FirstOrDefault(y => y.Name == name);
+            return CalculationTemplates.FirstOrDefault(y => y.Name == name);
         }
 
         public TaxTemplate GetTaxTemplateById(int id)
@@ -156,7 +156,7 @@ namespace Samba.Services.Implementations.SettingsModule
         public override void Reset()
         {
             _taxTemplates = null;
-            _serviceTemplates = null;
+            _calculationTemplates = null;
             _terminals = null;
             _globalSettings.ResetCache();
             Workspace = WorkspaceFactory.Create();

@@ -28,6 +28,7 @@ namespace Samba.Modules.PaymentModule
         private readonly ITicketService _ticketService;
         private readonly ICaptionCommand _manualPrintCommand;
         private readonly ICaptionCommand _makePaymentCommand;
+        private readonly ICaptionCommand _serviceSelectedCommand;
         private readonly IPrinterService _printerService;
         private readonly IUserService _userService;
         private readonly IAutomationService _automationService;
@@ -46,6 +47,7 @@ namespace Samba.Modules.PaymentModule
 
             _manualPrintCommand = new CaptionCommand<PrintJob>(Resources.Print, OnManualPrint, CanManualPrint);
             _makePaymentCommand = new CaptionCommand<Account>("", OnMakePayment, CanMakePayment);
+            _serviceSelectedCommand = new CaptionCommand<CalculationTemplate>("", OnSelectCalculationTemplate);
 
             SubmitAccountPaymentCommand = new CaptionCommand<string>(Resources.AccountBalance_r, OnSubmitAccountPayment, CanSubmitAccountPayment);
             ClosePaymentScreenCommand = new CaptionCommand<string>(Resources.Close, OnClosePaymentScreen, CanClosePaymentScreen);
@@ -112,18 +114,7 @@ namespace Samba.Modules.PaymentModule
             set { _returningAmountVisibility = value; RaisePropertyChanged(() => ReturningAmountVisibility); }
         }
 
-        public Visibility PaymentsVisibility
-        {
-            get
-            {
-                return Visibility.Visible;
-                //return SelectedTicket != null && SelectedTicket.Payments.Count() > 0
-                //           ? Visibility.Visible
-                //           : Visibility.Collapsed;
-            }
-        }
-
-        public IEnumerable<CommandButtonViewModel<PrintJob>> CommandButtons { get; set; }
+        public IEnumerable<object> CommandButtons { get; set; }
         public IEnumerable<CommandButtonViewModel<Account>> PaymentButtons { get; set; }
 
         private IEnumerable<CommandButtonViewModel<Account>> CreatePaymentButtons(Ticket ticket)
@@ -149,40 +140,39 @@ namespace Samba.Modules.PaymentModule
             return result;
         }
 
-        private IEnumerable<CommandButtonViewModel<PrintJob>> CreateCommandButtons()
+        private IEnumerable<CommandButtonViewModel<object>> CreateCommandButtons()
         {
-            var result = new List<CommandButtonViewModel<PrintJob>>();
-
-            result.Add(new CommandButtonViewModel<PrintJob>
-                           {
-                               Caption = SetDiscountRateCommand.Caption,
-                               Command = SetDiscountRateCommand
-                           });
-
-            result.Add(new CommandButtonViewModel<PrintJob>
-                           {
-                               Caption = SetDiscountAmountCommand.Caption,
-                               Command = SetDiscountAmountCommand
-                           });
-
-            result.Add(new CommandButtonViewModel<PrintJob>
-                           {
-                               Caption = AutoSetDiscountAmountCommand.Caption,
-                               Command = AutoSetDiscountAmountCommand
-                           });
+            var result = new List<CommandButtonViewModel<object>>();
 
             if (SelectedTicket != null)
             {
+                result.AddRange(_applicationState.CurrentDepartment.TicketTemplate.CalulationTemplates.Where(x => !string.IsNullOrEmpty(x.ButtonHeader)).OrderBy(x => x.Order)
+                    .Select(x => new CommandButtonViewModel<object>
+                    {
+                        Caption = x.Name,
+                        Command = _serviceSelectedCommand,
+                        Parameter = x
+                    }));
+                
                 result.AddRange(_applicationState.CurrentTerminal.PrintJobs.Where(x => !string.IsNullOrEmpty(x.ButtonHeader) && x.UseFromPaymentScreen)
-                    .Select(x => new CommandButtonViewModel<PrintJob>
-                                     {
-                                         Caption = x.ButtonHeader,
-                                         Command = _manualPrintCommand,
-                                         Parameter = x
-                                     })
+                    .Select(x => new CommandButtonViewModel<object>
+                    {
+                        Caption = x.ButtonHeader,
+                        Command = _manualPrintCommand,
+                        Parameter = x
+                    })
                 );
             }
             return result;
+        }
+
+        private void OnSelectCalculationTemplate(CalculationTemplate obj)
+        {
+            var amount = obj.Amount;
+            if (amount == 0) amount = GetTenderedValue();
+            SelectedTicket.AddCalculation(obj, amount);
+            PaymentAmount = "";
+            RefreshValues();
         }
 
         private bool CanMakePayment(Account arg)
@@ -408,49 +398,49 @@ namespace Samba.Modules.PaymentModule
 
         private void OnSetDiscountRateCommand(string obj)
         {
-            var discountTemplate =
-                _cacheService.GetAccountTransactionTemplateById(SelectedTicket.DiscountTransactionTemplateId);
+            //var discountTemplate =
+            //    _cacheService.GetAccountTransactionTemplateById(SelectedTicket.DiscountTransactionTemplateId);
 
-            var tenderedvalue = GetTenderedValue();
-            if (tenderedvalue == 0 && SelectedTicket.GetDiscountTotal() == 0)
-            {
-                InteractionService.UserIntraction.GiveFeedback(Resources.EmptyDiscountRateFeedback);
-            }
-            if (tenderedvalue > 0 && SelectedTicket.GetPlainSum() > 0)
-            {
-                SelectedTicket.AddTicketDiscount(discountTemplate, GetTenderedValue(), _applicationState.CurrentLoggedInUser.Id);
-            }
-            else SelectedTicket.AddTicketDiscount(discountTemplate, 0, _applicationState.CurrentLoggedInUser.Id);
-            PaymentAmount = "";
-            RefreshValues();
+            //var tenderedvalue = GetTenderedValue();
+            //if (tenderedvalue == 0 && SelectedTicket.GetPreTaxServicesTotal() == 0)
+            //{
+            //    InteractionService.UserIntraction.GiveFeedback(Resources.EmptyDiscountRateFeedback);
+            //}
+            //if (tenderedvalue > 0 && SelectedTicket.GetPlainSum() > 0)
+            //{
+            //    SelectedTicket.AddTicketDiscount(discountTemplate, GetTenderedValue(), _applicationState.CurrentLoggedInUser.Id);
+            //}
+            //else SelectedTicket.AddTicketDiscount(discountTemplate, 0, _applicationState.CurrentLoggedInUser.Id);
+            //PaymentAmount = "";
+            //RefreshValues();
         }
 
         private void OnAutoSetDiscount(string obj)
         {
-            var discountTemplate =
-                _cacheService.GetAccountTransactionTemplateById(SelectedTicket.DiscountTransactionTemplateId);
-            var roundingTemplate =
-                _cacheService.GetAccountTransactionTemplateById(SelectedTicket.RoundingTransactionTemplateId);
+            //var discountTemplate =
+            //    _cacheService.GetAccountTransactionTemplateById(SelectedTicket.DiscountTransactionTemplateId);
+            //var roundingTemplate =
+            //    _cacheService.GetAccountTransactionTemplateById(SelectedTicket.RoundingTransactionTemplateId);
 
-            if (GetTenderedValue() == 0) return;
-            if (!_userService.IsUserPermittedFor(PermissionNames.FixPayment) && GetTenderedValue() > GetPaymentValue()) return;
-            if (!_userService.IsUserPermittedFor(PermissionNames.RoundPayment)) return;
-            SelectedTicket.AddTicketDiscount(discountTemplate, 0, _applicationState.CurrentLoggedInUser.Id);
-            SelectedTicket.AddTicketDiscount(roundingTemplate, 0, _applicationState.CurrentLoggedInUser.Id);
-            SelectedTicket.AddTicketDiscount(discountTemplate, SelectedTicket.GetRemainingAmount() - GetTenderedValue(),
-                _applicationState.CurrentLoggedInUser.Id);
-            PaymentAmount = "";
-            RefreshValues();
+            //if (GetTenderedValue() == 0) return;
+            //if (!_userService.IsUserPermittedFor(PermissionNames.FixPayment) && GetTenderedValue() > GetPaymentValue()) return;
+            //if (!_userService.IsUserPermittedFor(PermissionNames.RoundPayment)) return;
+            //SelectedTicket.AddTicketDiscount(discountTemplate, 0, _applicationState.CurrentLoggedInUser.Id);
+            //SelectedTicket.AddTicketDiscount(roundingTemplate, 0, _applicationState.CurrentLoggedInUser.Id);
+            //SelectedTicket.AddTicketDiscount(discountTemplate, SelectedTicket.GetRemainingAmount() - GetTenderedValue(),
+            //    _applicationState.CurrentLoggedInUser.Id);
+            //PaymentAmount = "";
+            //RefreshValues();
         }
 
         private void OnSetDiscountAmountCommand(string obj)
         {
-            var discountTemplate =
-                _cacheService.GetAccountTransactionTemplateById(SelectedTicket.DiscountTransactionTemplateId);
-            if (GetTenderedValue() > GetPaymentValue()) return;
-            SelectedTicket.AddTicketDiscount(discountTemplate, GetTenderedValue(), _applicationState.CurrentLoggedInUser.Id);
-            PaymentAmount = "";
-            RefreshValues();
+            //var discountTemplate =
+            //    _cacheService.GetAccountTransactionTemplateById(SelectedTicket.DiscountTransactionTemplateId);
+            //if (GetTenderedValue() > GetPaymentValue()) return;
+            //SelectedTicket.AddTicketDiscount(discountTemplate, GetTenderedValue(), _applicationState.CurrentLoggedInUser.Id);
+            //PaymentAmount = "";
+            //RefreshValues();
         }
 
         public void RefreshValues()
@@ -458,14 +448,14 @@ namespace Samba.Modules.PaymentModule
             _ticketService.RecalculateTicket(SelectedTicket);
             if (SelectedTicket.GetRemainingAmount() < 0)
             {
-                var discountTemplate =
-                    _cacheService.GetAccountTransactionTemplateById(SelectedTicket.DiscountTransactionTemplateId);
-                var roundingTemplate =
-                    _cacheService.GetAccountTransactionTemplateById(SelectedTicket.RoundingTransactionTemplateId);
-                
-                SelectedTicket.AddTicketDiscount(discountTemplate, 0, _applicationState.CurrentLoggedInUser.Id);
-                SelectedTicket.AddTicketDiscount(roundingTemplate, 0, _applicationState.CurrentLoggedInUser.Id);
-                
+                //var discountTemplate =
+                //    _cacheService.GetAccountTransactionTemplateById(SelectedTicket.DiscountTransactionTemplateId);
+                //var roundingTemplate =
+                //    _cacheService.GetAccountTransactionTemplateById(SelectedTicket.RoundingTransactionTemplateId);
+
+                //SelectedTicket.AddTicketDiscount(discountTemplate, 0, _applicationState.CurrentLoggedInUser.Id);
+                //SelectedTicket.AddTicketDiscount(roundingTemplate, 0, _applicationState.CurrentLoggedInUser.Id);
+
                 _ticketService.RecalculateTicket(SelectedTicket);
                 InteractionService.UserIntraction.GiveFeedback(Resources.AllDiscountsRemoved);
             }
@@ -479,7 +469,6 @@ namespace Samba.Modules.PaymentModule
             RaisePropertyChanged(() => SelectedTicket);
             RaisePropertyChanged(() => Totals);
             RaisePropertyChanged(() => ReturningAmountVisibility);
-            RaisePropertyChanged(() => PaymentsVisibility);
             RaisePropertyChanged(() => ReturningAmount);
             TenderedAmount = "";
         }
@@ -490,8 +479,8 @@ namespace Samba.Modules.PaymentModule
             PaymentAmount = "";
             _selectedTotal = 0;
 
-            var serviceAmount = SelectedTicket.GetServicesTotal();
-            var sum = SelectedTicket.GetSumWithoutTax();
+            var serviceAmount = SelectedTicket.GetPostTaxServicesTotal();
+            var sum = SelectedTicket.GetSum();
 
             if (sum == 0) return;
 

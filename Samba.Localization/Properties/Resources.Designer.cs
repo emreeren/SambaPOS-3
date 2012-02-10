@@ -226,6 +226,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account Transaction Template.
+        /// </summary>
+        public static string AccountTransactionTemplate {
+            get {
+                return ResourceManager.GetString("AccountTransactionTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Action.
         /// </summary>
         public static string Action {
@@ -885,6 +894,24 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Calculation Template.
+        /// </summary>
+        public static string CalculationTemplate {
+            get {
+                return ResourceManager.GetString("CalculationTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Calculation Templates.
+        /// </summary>
+        public static string CalculationTemplates {
+            get {
+                return ResourceManager.GetString("CalculationTemplates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to To be able to display Caller-ID you should install hardware driver..
         /// </summary>
         public static string CallerIdDriverError {
@@ -1364,11 +1391,11 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select tax or services for using at {0} department..
+        ///   Looks up a localized string similar to Select calculations for using at {0} template..
         /// </summary>
-        public static string ChooseServicesForDepartmentHint_f {
+        public static string ChooseCalculationsForDepartmentHint_f {
             get {
-                return ResourceManager.GetString("ChooseServicesForDepartmentHint_f", resourceCulture);
+                return ResourceManager.GetString("ChooseCalculationsForDepartmentHint_f", resourceCulture);
             }
         }
         
@@ -1731,6 +1758,15 @@ namespace Samba.Localization.Properties {
         public static string Decrease {
             get {
                 return ResourceManager.GetString("Decrease", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Decrease Amount.
+        /// </summary>
+        public static string DecreaseAmount {
+            get {
+                return ResourceManager.GetString("DecreaseAmount", resourceCulture);
             }
         }
         
@@ -3187,6 +3223,15 @@ namespace Samba.Localization.Properties {
         public static string Included {
             get {
                 return ResourceManager.GetString("Included", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Include Tax.
+        /// </summary>
+        public static string IncludeTax {
+            get {
+                return ResourceManager.GetString("IncludeTax", resourceCulture);
             }
         }
         
@@ -5958,33 +6003,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Service Template.
-        /// </summary>
-        public static string ServiceTemplate {
-            get {
-                return ResourceManager.GetString("ServiceTemplate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Service Templates.
-        /// </summary>
-        public static string ServiceTemplates {
-            get {
-                return ResourceManager.GetString("ServiceTemplates", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Services Total.
-        /// </summary>
-        public static string ServiceTotal {
-            get {
-                return ResourceManager.GetString("ServiceTotal", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Setting Check.
         /// </summary>
         public static string SettingCheck {
@@ -7117,11 +7135,11 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Totals grouped by Service template.
+        ///   Looks up a localized string similar to Totals grouped by Calculation template.
         /// </summary>
-        public static string TotalsGroupedByServiceTemplate {
+        public static string TotalsGroupedByCalculationTemplate {
             get {
-                return ResourceManager.GetString("TotalsGroupedByServiceTemplate", resourceCulture);
+                return ResourceManager.GetString("TotalsGroupedByCalculationTemplate", resourceCulture);
             }
         }
         

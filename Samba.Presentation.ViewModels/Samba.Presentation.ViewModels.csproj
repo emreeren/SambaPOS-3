@@ -53,7 +53,7 @@
   <ItemGroup>
     <Compile Include="CommandButtonViewModel.cs" />
     <Compile Include="AccountSearchViewModel.cs" />
-    <Compile Include="DiscountViewModel.cs" />
+    <Compile Include="ServiceViewModel.cs" />
     <Compile Include="GenericRuleRegistator.cs" />
     <Compile Include="LocationData.cs" />
     <Compile Include="MenuItemPortionViewModel.cs" />

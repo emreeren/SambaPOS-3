@@ -44,8 +44,6 @@ namespace Samba.Domain.Models.Accounts
         public virtual AccountTransactionValue SourceTransactionValue { get; set; }
         public virtual AccountTransactionValue TargetTransactionValue { get; set; }
 
-        public string Function { get; set; }
-
         private static AccountTransaction _null;
         public static AccountTransaction Null
         {
@@ -59,7 +57,7 @@ namespace Samba.Domain.Models.Accounts
             }
         }
 
-        public static AccountTransaction Create(AccountTransactionTemplate template, AccountTransactionDocument document)
+        public static AccountTransaction Create(AccountTransactionTemplate template)
         {
             var result = new AccountTransaction
                              {
@@ -67,51 +65,25 @@ namespace Samba.Domain.Models.Accounts
                                  AccountTransactionTemplateId = template.Id,
                                  SourceTransactionValue = new AccountTransactionValue(),
                                  TargetTransactionValue = new AccountTransactionValue(),
-                                 Function = template.Function
                              };
 
-            result.SetSoruceAccount(template.DefaultSourceAccount, document);
-            result.SetTargetAccount(template.DefaultTargetAccount, document);
+            result.SetSoruceAccount(template.DefaultSourceAccount);
+            result.SetTargetAccount(template.DefaultTargetAccount);
             return result;
         }
 
-        public void SetSoruceAccount(Account account, AccountTransactionDocument document)
+        public void SetSoruceAccount(Account account)
         {
             if (account == null) return;
             SourceTransactionValue.AccountId = account.Id;
             SourceTransactionValue.AccountName = account.Name;
-            _calculatingAccount = account;
-            _calculatingDocument = document;
-            DoCalculations();
         }
 
-        public void SetTargetAccount(Account account, AccountTransactionDocument document)
+        public void SetTargetAccount(Account account)
         {
             if (account == null) return;
             TargetTransactionValue.AccountId = account.Id;
             TargetTransactionValue.AccountName = account.Name;
-            _calculatingAccount = account;
-            _calculatingDocument = document;
-            DoCalculations();
-        }
-
-        private void DoCalculations()
-        {
-            if (!string.IsNullOrEmpty(Function))
-            {
-                var e = new Expression(Function);
-                e.EvaluateParameter += e_EvaluateParameter;
-                var result = e.Evaluate();
-                e.EvaluateParameter -= e_EvaluateParameter;
-            }
-        }
-
-        private Account _calculatingAccount;
-        private AccountTransactionDocument _calculatingDocument;
-
-        void e_EvaluateParameter(string name, ParameterArgs args)
-        {
-            args.Result = 1;
         }
     }
 }

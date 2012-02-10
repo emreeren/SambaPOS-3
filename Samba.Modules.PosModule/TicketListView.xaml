@@ -64,52 +64,85 @@
                              Text="{Binding SelectedTicket.TicketLastPaymentDate}" />
             </Grid>
         </Border>
+
         <!--TICKET TOTALS AREA-->
-        <UniformGrid Columns="2" Grid.Row="4" Grid.Column="1" Margin="5">
-            <UniformGrid.Resources>
+        <StackPanel Grid.Row="4" Grid.Column="1" Margin="5">
+
+            <StackPanel.Resources>
                 <Style TargetType="TextBlock">
                     <Setter Property="FontSize" Value="16" />
                 </Style>
-            </UniformGrid.Resources>
+            </StackPanel.Resources>
 
-            <TextBlock Text="{LocText TicketTotal,Suffix=':'}" Visibility="{Binding Totals.IsPlainTotalVisible,Converter={StaticResource VisibilityConverter}}" />
-            <TextBlock TextAlignment="Right" Text="{Binding Totals.TicketPlainTotalLabel}"
+            <DockPanel>
+                <TextBlock Text="{LocText TicketTotal,Suffix=':'}" Visibility="{Binding Totals.IsPlainTotalVisible,Converter={StaticResource VisibilityConverter}}" />
+                <TextBlock TextAlignment="Right" Text="{Binding Totals.TicketPlainTotalLabel}"
                          Visibility="{Binding Totals.IsPlainTotalVisible,Converter={StaticResource VisibilityConverter}}" />
+            </DockPanel>
 
-            <TextBlock Text="{LocText DiscountTotal,Suffix=':'}"
-                         Foreground="DarkRed" FontWeight="Bold" Visibility="{Binding Totals.IsTicketDiscountVisible,Converter={StaticResource VisibilityConverter}}" />
-            <TextBlock TextAlignment="Right" Foreground="DarkRed" FontWeight="Bold" Text="{Binding Totals.TicketDiscountLabel}"
-                         Visibility="{Binding Totals.IsTicketDiscountVisible,Converter={StaticResource VisibilityConverter}}" />
+            <ItemsControl ItemsSource="{Binding Totals.PreServices}" HorizontalContentAlignment="Stretch">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Foreground="DarkGreen" Margin="10,0,0,0" FontSize="14"
+                                     TextAlignment="Left" Text="{Binding Name}" />
+                            <TextBlock Grid.Column="1" Foreground="DarkGreen" Margin="5,0,0,0" FontSize="14" TextAlignment="Right"
+                                     Text="{Binding Amount}" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
 
-            <TextBlock Text="{LocText ServiceTotal,Suffix=':'}"
-                         Foreground="DarkRed" FontWeight="Bold" Visibility="{Binding Totals.IsTicketServiceVisible,Converter={StaticResource VisibilityConverter}}" />
-            <TextBlock TextAlignment="Right" Foreground="DarkRed" FontWeight="Bold" Text="{Binding Totals.TicketServiceLabel}"
-                         Visibility="{Binding Totals.IsTicketServiceVisible,Converter={StaticResource VisibilityConverter}}" />
+            <DockPanel>
+                <TextBlock Text="{LocText SubTotal,Suffix=':'}"
+                     Visibility="{Binding Totals.IsTicketSubTotalVisible,Converter={StaticResource VisibilityConverter}}" />
+                <TextBlock TextAlignment="Right" Text="{Binding Totals.TicketSubTotalLabel}"
+                     Visibility="{Binding Totals.IsTicketSubTotalVisible,Converter={StaticResource VisibilityConverter}}" />
+            </DockPanel>
 
-            <TextBlock Text="{LocText TaxTotal,Suffix=':'}"
-                         Foreground="DarkRed" FontWeight="Bold" Visibility="{Binding Totals.IsTicketTaxTotalVisible,Converter={StaticResource VisibilityConverter}}" />
-            <TextBlock TextAlignment="Right" Foreground="DarkRed" FontWeight="Bold" Text="{Binding Totals.TicketTaxLabel}"
-                         Visibility="{Binding Totals.IsTicketTaxTotalVisible,Converter={StaticResource VisibilityConverter}}" />
+            <DockPanel>
+                <TextBlock Text="{LocText TaxTotal,Suffix=':'}"
+                     Visibility="{Binding Totals.IsTicketTaxTotalVisible,Converter={StaticResource VisibilityConverter}}" />
+                <TextBlock TextAlignment="Right" Text="{Binding Totals.TicketTaxLabel}"
+                     Visibility="{Binding Totals.IsTicketTaxTotalVisible,Converter={StaticResource VisibilityConverter}}" />
+            </DockPanel>
 
-            <TextBlock Text="{LocText RoundingTotal,Suffix=':'}"
-                         Foreground="DarkRed" FontWeight="Bold" Visibility="{Binding Totals.IsTicketRoundingVisible,Converter={StaticResource VisibilityConverter}}" />
-            <TextBlock TextAlignment="Right" Foreground="DarkRed" FontWeight="Bold" Text="{Binding Totals.TicketRoundingLabel}"
-                         Visibility="{Binding Totals.IsTicketRoundingVisible,Converter={StaticResource VisibilityConverter}}" />
+            <ItemsControl ItemsSource="{Binding Totals.PostServices}" HorizontalContentAlignment="Stretch">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Foreground="DarkGreen" Margin="10,0,0,0" FontSize="14"
+                                     TextAlignment="Left" Text="{Binding Name}" />
+                            <TextBlock Grid.Column="1" Foreground="DarkGreen" Margin="5,0,0,0" FontSize="14" TextAlignment="Right"
+                                     Text="{Binding Amount}" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
 
-            <TextBlock Text="{LocText SubTotal,Suffix=':'}" Visibility="{Binding Totals.IsTicketTotalVisible,Converter={StaticResource VisibilityConverter}}" />
-            <TextBlock TextAlignment="Right" Text="{Binding Totals.TicketTotalLabel}"
-                         Visibility="{Binding Totals.IsTicketTotalVisible,Converter={StaticResource VisibilityConverter}}" />
-
-            <TextBlock Text="{LocText ChargedAmount,Suffix=':'}"
+            <DockPanel>
+                <TextBlock Text="{LocText ChargedAmount,Suffix=':'}"
                          Visibility="{Binding Totals.IsTicketPaymentVisible,Converter={StaticResource VisibilityConverter}}" />
-            <TextBlock TextAlignment="Right" Text="{Binding Totals.TicketPaymentLabel}"
+                <TextBlock TextAlignment="Right" Text="{Binding Totals.TicketPaymentLabel}"
                          Visibility="{Binding Totals.IsTicketPaymentVisible,Converter={StaticResource VisibilityConverter}}" />
+            </DockPanel>
 
-            <TextBlock FontSize="18" FontWeight="Bold" Foreground="Red" Text="{LocText Balance,Suffix=':'}"
+            <DockPanel>
+                <TextBlock FontSize="18" FontWeight="Bold" Foreground="Red" Text="{LocText Balance,Suffix=':'}"
                          Visibility="{Binding Totals.IsTicketRemainingVisible,Converter={StaticResource VisibilityConverter}}" />
-            <TextBlock FontSize="18" FontWeight="Bold" Foreground="Red" TextAlignment="Right"
+                <TextBlock FontSize="18" FontWeight="Bold" Foreground="Red" TextAlignment="Right"
                          Text="{Binding Totals.TicketRemainingLabel}" Visibility="{Binding Totals.IsTicketRemainingVisible,Converter={StaticResource VisibilityConverter}}" />
-        </UniformGrid>
+            </DockPanel>
+        </StackPanel>
+
         <!--PAYMENT BUTTONS AREA-->
         <Grid Grid.Column="1" Grid.Row="5">
             <Grid.ColumnDefinitions>

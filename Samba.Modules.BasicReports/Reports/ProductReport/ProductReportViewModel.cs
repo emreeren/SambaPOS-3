@@ -98,25 +98,25 @@ namespace Samba.Modules.BasicReports.Reports.ProductReport
 
             //----------------------
 
-            var ticketGroups = ReportContext.Tickets
-                .GroupBy(x => new { x.DepartmentId })
-                .Select(x => new { x.Key.DepartmentId, TicketCount = x.Count(), Amount = x.Sum(y => y.GetSumWithoutTax()) });
+            //var ticketGroups = ReportContext.Tickets
+            //    .GroupBy(x => new { x.DepartmentId })
+            //    .Select(x => new { x.Key.DepartmentId, TicketCount = x.Count(), Amount = x.Sum(y => y.GetSumWithoutTax()) });
 
-            if (ticketGroups.Count() > 0)
-            {
+            //if (ticketGroups.Count() > 0)
+            //{
 
-                report.AddColumTextAlignment("AdisyonlarTablosu", TextAlignment.Left, TextAlignment.Right, TextAlignment.Right);
-                report.AddColumnLength("AdisyonlarTablosu", "40*", "20*", "40*");
-                report.AddTable("AdisyonlarTablosu", Resources.Tickets, "", "");
+            //    report.AddColumTextAlignment("AdisyonlarTablosu", TextAlignment.Left, TextAlignment.Right, TextAlignment.Right);
+            //    report.AddColumnLength("AdisyonlarTablosu", "40*", "20*", "40*");
+            //    report.AddTable("AdisyonlarTablosu", Resources.Tickets, "", "");
 
-                foreach (var ticketGroup in ticketGroups)
-                {
-                    report.AddRow("AdisyonlarTablosu", ReportContext.GetDepartmentName(ticketGroup.DepartmentId), ticketGroup.TicketCount.ToString("#.##"), ticketGroup.Amount.ToString(ReportContext.CurrencyFormat));
-                }
+            //    foreach (var ticketGroup in ticketGroups)
+            //    {
+            //        report.AddRow("AdisyonlarTablosu", ReportContext.GetDepartmentName(ticketGroup.DepartmentId), ticketGroup.TicketCount.ToString("#.##"), ticketGroup.Amount.ToString(ReportContext.CurrencyFormat));
+            //    }
 
-                if (ticketGroups.Count() > 1)
-                    report.AddRow("AdisyonlarTablosu", Resources.Total, ticketGroups.Sum(x => x.TicketCount).ToString("#.##"), ticketGroups.Sum(x => x.Amount).ToString(ReportContext.CurrencyFormat));
-            }
+            //    if (ticketGroups.Count() > 1)
+            //        report.AddRow("AdisyonlarTablosu", Resources.Total, ticketGroups.Sum(x => x.TicketCount).ToString("#.##"), ticketGroups.Sum(x => x.Amount).ToString(ReportContext.CurrencyFormat));
+            //}
 
             //----------------------
 

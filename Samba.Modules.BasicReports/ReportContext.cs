@@ -79,10 +79,10 @@ namespace Samba.Modules.BasicReports
             get { return _workPeriods ?? (_workPeriods = Dao.Query<WorkPeriod>()); }
         }
 
-        private static IEnumerable<ServiceTemplate> _serviceTemplates;
-        public static IEnumerable<ServiceTemplate> ServiceTemplates
+        private static IEnumerable<CalculationTemplate> _calculationTemplates;
+        public static IEnumerable<CalculationTemplate> CalculationTemplates
         {
-            get { return _serviceTemplates ?? (_serviceTemplates = Dao.Query<ServiceTemplate>()); }
+            get { return _calculationTemplates ?? (_calculationTemplates = Dao.Query<CalculationTemplate>()); }
         }
 
         private static WorkPeriod _currentWorkPeriod;
@@ -186,7 +186,7 @@ namespace Samba.Modules.BasicReports
             _yesterdayWorkPeriod = null;
             _todayWorkPeriod = null;
             _workPeriods = null;
-            _serviceTemplates = null;
+            _calculationTemplates = null;
         }
 
         private static WorkPeriod _thisMonthWorkPeriod;

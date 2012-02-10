@@ -56,7 +56,7 @@ namespace Samba.Modules.AccountModule
                 _accountTransactionTemplate = value;
                 if (Model == AccountTransaction.Null)
                 {
-                    Model = AccountTransaction.Create(value, _document);
+                    Model = AccountTransaction.Create(value);
                     _document.AccountTransactions.Add(Model);
                 }
                 RaisePropertyChanged(() => AccountTransactionTemplate);
@@ -70,7 +70,7 @@ namespace Samba.Modules.AccountModule
             get { return SourceAccounts.SingleOrDefault(x => x.Id == SourceAccountId); }
             set
             {
-                Model.SetSoruceAccount(value, _document);
+                Model.SetSoruceAccount(value);
                 RaisePropertyChanged(() => SourceAccount);
             }
         }
@@ -79,7 +79,7 @@ namespace Samba.Modules.AccountModule
             get { return TargetAccounts.SingleOrDefault(x => x.Id == TargetAccountId); }
             set
             {
-                Model.SetTargetAccount(value, _document);
+                Model.SetTargetAccount(value);
                 RaisePropertyChanged(() => TargetAccount);
             }
         }

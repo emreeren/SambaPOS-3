@@ -8,6 +8,11 @@ using Samba.Presentation.Common;
 
 namespace Samba.Presentation.ViewModels
 {
+    public interface ICommandButtonViewModel
+    {
+
+    }
+
     public class CommandButtonViewModel<T>
     {
         public CommandButtonViewModel()

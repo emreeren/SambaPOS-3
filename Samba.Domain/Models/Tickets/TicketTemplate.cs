@@ -20,11 +20,11 @@ namespace Samba.Domain.Models.Tickets
             set { _ticketTagGroups = value; }
         }
 
-        private IList<ServiceTemplate> _serviceTemplates;
-        public virtual IList<ServiceTemplate> ServiceTemplates
+        private IList<CalculationTemplate> _calculationTemplates;
+        public virtual IList<CalculationTemplate> CalulationTemplates
         {
-            get { return _serviceTemplates; }
-            set { _serviceTemplates = value; }
+            get { return _calculationTemplates; }
+            set { _calculationTemplates = value; }
         }
 
         private IList<OrderTagGroup> _orderTagGroups;
@@ -36,13 +36,11 @@ namespace Samba.Domain.Models.Tickets
 
         public virtual AccountTransactionTemplate SaleTransactionTemplate { get; set; }
         public virtual AccountTransactionTemplate PaymentTransactionTemplate { get; set; }
-        public virtual AccountTransactionTemplate DiscountTransactionTemplate { get; set; }
-        public virtual AccountTransactionTemplate RoundingTransactionTemplate { get; set; }
 
         public TicketTemplate()
         {
             _ticketTagGroups = new List<TicketTagGroup>();
-            _serviceTemplates = new List<ServiceTemplate>();
+            _calculationTemplates = new List<CalculationTemplate>();
             _orderTagGroups = new List<OrderTagGroup>();
         }
     }

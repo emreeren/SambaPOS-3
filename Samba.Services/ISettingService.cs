@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
+using Samba.Domain.Models.Tickets;
 
 namespace Samba.Services
 {
     public interface ISettingService
     {
-        ServiceTemplate GetServiceTemplateById(int id);
-        ServiceTemplate GetServiceTemplateByName(string name);
+        CalculationTemplate GetCalculationTemplateById(int id);
+        CalculationTemplate GetCalculationTemplateByName(string name);
         TaxTemplate GetTaxTemplateById(int id);
         TaxTemplate GetTaxTemplateByName(string name);
         Terminal GetTerminalByName(string name);

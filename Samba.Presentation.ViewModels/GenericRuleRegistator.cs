@@ -57,7 +57,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType("UpdateProgramSetting", Resources.UpdateProgramSetting, new { SettingName = "", SettingValue = "", UpdateType = Resources.Update, IsLocal = true });
             AutomationService.RegisterActionType("UpdateTicketTax", Resources.UpdateTicketTax, new { TaxTemplate = "" });
             AutomationService.RegisterActionType("RegenerateTicketTax", Resources.RegenerateTicketTax);
-            AutomationService.RegisterActionType("UpdateTicketService", Resources.UpdateTicketService, new { ServiceTemplate = "", Amount = 0m });
+            AutomationService.RegisterActionType("UpdateTicketService", Resources.UpdateTicketService, new { CalculationTemplate = "", Amount = 0m });
             AutomationService.RegisterActionType("UpdateTicketAccount", Resources.UpdateTicketAccount, new { AccountPhone = "", AccountName = "", Note = "" });
             AutomationService.RegisterActionType("ExecutePrintJob", "Execute Print Job", new { PrintJobName = "" });
         }
@@ -93,7 +93,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterParameterSoruce("PriceTag", () => Dao.Select<MenuItemPriceDefinition, string>(x => x.PriceTag, x => x.Id > 0));
             AutomationService.RegisterParameterSoruce("Color", () => typeof(Colors).GetProperties(BindingFlags.Public | BindingFlags.Static).Select(x => x.Name));
             AutomationService.RegisterParameterSoruce("TaxTemplate", () => Dao.Select<TaxTemplate, string>(x => x.Name, x => x.Id > 0));
-            AutomationService.RegisterParameterSoruce("ServiceTemplate", () => Dao.Select<ServiceTemplate, string>(x => x.Name, x => x.Id > 0));
+            AutomationService.RegisterParameterSoruce("CalculationTemplate", () => Dao.Select<CalculationTemplate, string>(x => x.Name, x => x.Id > 0));
             AutomationService.RegisterParameterSoruce("TagName", () => Dao.Select<TicketTagGroup, string>(x => x.Name, x => x.Id > 0));
             AutomationService.RegisterParameterSoruce("OrderTagName", () => Dao.Select<OrderTagGroup, string>(x => x.Name, x => x.Id > 0));
         }
@@ -239,12 +239,12 @@ namespace Samba.Presentation.ViewModels
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
                     if (ticket != null)
                     {
-                        var serviceTemplateName = x.Value.GetAsString("ServiceTemplate");
-                        var serviceTemplate = SettingService.GetServiceTemplateByName(serviceTemplateName);
-                        if (serviceTemplate != null)
+                        var calculationTemplateName = x.Value.GetAsString("CalculationTemplate");
+                        var calculationTemplate = SettingService.GetCalculationTemplateByName(calculationTemplateName);
+                        if (calculationTemplate != null)
                         {
                             var amount = x.Value.GetAsDecimal("Amount");
-                            ticket.AddService(serviceTemplate.Id, serviceTemplate.CalculationMethod, amount);
+                            ticket.AddCalculation(calculationTemplate, amount);
                             TicketService.RecalculateTicket(ticket);
                         }
                     }
@@ -314,7 +314,7 @@ namespace Samba.Presentation.ViewModels
                     var order = x.Value.GetDataValue<Order>("Order");
                     if (order != null)
                     {
-                        var tagName = x.Value.GetAsString("OrderTagName"); 
+                        var tagName = x.Value.GetAsString("OrderTagName");
                         var orderTag = ApplicationState.CurrentDepartment.TicketTemplate.OrderTagGroups.SingleOrDefault(y => y.Name == tagName);
                         if (x.Value.Action.ActionType == "RemoveOrderTag")
                         {

@@ -30,7 +30,7 @@ namespace Samba.Domain.Models.Tickets
 
             _orders = new List<Order>();
             _paidItems = new List<PaidItem>();
-            _services = new List<Service>();
+            _services = new List<Calculation>();
             _tags = new List<TicketTagValue>();
         }
 
@@ -84,8 +84,6 @@ namespace Samba.Domain.Models.Tickets
         public virtual AccountTransactionDocument AccountTransactions { get; set; }
 
         public int PaymentTransactionTemplateId { get; set; }
-        public int RoundingTransactionTemplateId { get; set; }
-        public int DiscountTransactionTemplateId { get; set; }
 
         private IList<Order> _orders;
         public virtual IList<Order> Orders
@@ -94,8 +92,8 @@ namespace Samba.Domain.Models.Tickets
             set { _orders = value; }
         }
 
-        private IList<Service> _services;
-        public virtual IList<Service> Services
+        private IList<Calculation> _services;
+        public virtual IList<Calculation> Services
         {
             get { return _services; }
             set { _services = value; }
@@ -126,9 +124,9 @@ namespace Samba.Domain.Models.Tickets
 
         public void AddPayment(DateTime date, decimal amount, Account paymentAccount, int userId, AccountTransactionTemplate paymentTransactionTemplate)
         {
-            var transaction = AccountTransaction.Create(paymentTransactionTemplate, AccountTransactions);
+            var transaction = AccountTransaction.Create(paymentTransactionTemplate);
             transaction.Amount = amount;
-            transaction.SetTargetAccount(paymentAccount, AccountTransactions);
+            transaction.SetTargetAccount(paymentAccount);
             AccountTransactions.AccountTransactions.Add(transaction);
             LastPaymentDate = DateTime.Now;
             RemainingAmount = GetRemainingAmount();
@@ -148,72 +146,44 @@ namespace Samba.Domain.Models.Tickets
             return Orders.Count();
         }
 
-        public decimal GetSumWithoutTax()
-        {
-            var sum = GetPlainSum();
-            sum -= GetDiscountAndRoundingTotal();
-            return sum;
-        }
-
         public decimal GetSum()
         {
             var plainSum = GetPlainSum();
-            var discount = GetDiscountTotal(); //CalculateDiscounts(Discounts.Where(x => x.DiscountType == (int)DiscountType.Percent), plainSum);
-            var tax = CalculateTax(plainSum, discount);
-            var services = CalculateServices(Services, plainSum - discount, tax);
-            return (plainSum - discount + services + tax) - GetRoundingTotal();
-            //Discounts.Where(x => x.DiscountType != (int)DiscountType.Percent).Sum(x => x.Amount);
+            var services = CalculateServices(Services.Where(x => !x.IncludeTax), plainSum);
+            var tax = CalculateTax(plainSum, services);
+            plainSum = plainSum + services + tax;
+            services = CalculateServices(Services.Where(x => x.IncludeTax), plainSum);
+            return (plainSum + services);
         }
 
-        public decimal CalculateTax()
+        public decimal GetPreTaxServicesTotal()
         {
-            return CalculateTax(GetPlainSum(), GetDiscountTotal());
+            var plainSum = GetPlainSum();
+            return CalculateServices(Services.Where(x => !x.IncludeTax), plainSum);
         }
 
-        private decimal CalculateTax(decimal plainSum, decimal discount)
+        public decimal GetPostTaxServicesTotal()
+        {
+            var plainSum = GetPlainSum();
+            var postServices = CalculateServices(Services.Where(x => !x.IncludeTax), plainSum);
+            var tax = CalculateTax(plainSum, postServices);
+            return CalculateServices(Services.Where(x => x.IncludeTax), plainSum + postServices + tax);
+        }
+
+        public decimal CalculateTax(decimal plainSum, decimal preTaxServices)
         {
             var result = Orders.Where(x => !x.TaxIncluded && x.CalculatePrice).Sum(x => (x.TaxAmount + x.OrderTagValues.Sum(y => y.TaxAmount)) * x.Quantity);
-            if (discount > 0)
-                result -= (result * discount) / plainSum;
+            if (preTaxServices > 0)
+                result += (result * preTaxServices) / plainSum;
             return result;
         }
 
-        public decimal GetDiscountAndRoundingTotal()
-        {
-            //decimal sum = GetPlainSum();
-            //return CalculateDiscounts(Discounts, sum);
-            return GetDiscountTotal() + GetRoundingTotal();
-        }
-
-        public decimal GetDiscountTotal()
-        {
-            return AccountTransactions.AccountTransactions.Where(
-                    x => x.AccountTransactionTemplateId == DiscountTransactionTemplateId).Sum(x => x.Amount);
-            //decimal sum = GetPlainSum();
-            //return CalculateDiscounts(Discounts.Where(x => x.DiscountType == (int)DiscountType.Percent), sum);
-        }
-
-        public decimal GetRoundingTotal()
-        {
-            return AccountTransactions.AccountTransactions.Where(
-                    x => x.AccountTransactionTemplateId == RoundingTransactionTemplateId).Sum(x => x.Amount);
-            //CalculateDiscounts(Discounts.Where(x => x.DiscountType != (int)DiscountType.Percent), 0);
-        }
-
-        public decimal GetServicesTotal()
-        {
-            var plainSum = GetPlainSum();
-            var discount = GetDiscountTotal();
-            var tax = CalculateTax(plainSum, discount);
-            return CalculateServices(Services, plainSum - discount, tax);
-        }
-
-        private static decimal CalculateServices(IEnumerable<Service> services, decimal sum, decimal tax)
+        private decimal CalculateServices(IEnumerable<Calculation> services, decimal sum)
         {
             decimal totalAmount = 0;
             var currentSum = sum;
 
-            foreach (var service in services)
+            foreach (var service in services.OrderBy(x => x.Order))
             {
                 if (service.CalculationType == 0)
                 {
@@ -221,53 +191,30 @@ namespace Samba.Domain.Models.Tickets
                 }
                 else if (service.CalculationType == 1)
                 {
-                    service.CalculationAmount = service.Amount > 0 ? ((sum + tax) * service.Amount) / 100 : 0;
-                }
-                else if (service.CalculationType == 2)
-                {
                     service.CalculationAmount = service.Amount > 0 ? (currentSum * service.Amount) / 100 : 0;
                 }
                 else service.CalculationAmount = service.Amount;
 
                 service.CalculationAmount = Decimal.Round(service.CalculationAmount, LocalSettings.Decimals);
+                if (service.DecreaseAmount) service.CalculationAmount = 0 - service.CalculationAmount;
+
                 totalAmount += service.CalculationAmount;
                 currentSum += service.CalculationAmount;
+
+                var s = service;
+                var transaction = AccountTransactions.AccountTransactions.Single(x => x.AccountTransactionTemplateId == s.AccountTransactionTemplateId);
+                transaction.Amount = Math.Abs(service.CalculationAmount);
             }
 
             return decimal.Round(totalAmount, LocalSettings.Decimals);
         }
-
-        //private decimal CalculateDiscounts(IEnumerable<AccountTransaction> discounts, decimal sum)
-        //{
-        //    decimal totalDiscount = 0;
-        //    foreach (var discount in discounts)
-        //    {
-        //        if (discount.AccountTransactionTemplateId == DiscountTransactionTemplateId)
-        //        {
-        //            if (discount.OrderId == 0)
-        //                discount.DiscountAmount = discount.Amount > 0
-        //                    ? (sum * discount.Amount) / 100 : 0;
-        //            else
-        //            {
-        //                var d = discount;
-        //                discount.DiscountAmount = discount.Amount > 0
-        //                    ? (Orders.Single(x => x.Id == d.OrderId).GetTotal() * discount.Amount) / 100 : 0;
-        //            }
-        //        }
-        //        else discount.DiscountAmount = discount.Amount;
-
-        //        discount.DiscountAmount = Decimal.Round(discount.DiscountAmount, LocalSettings.Decimals);
-        //        totalDiscount += discount.DiscountAmount;
-        //    }
-        //    return decimal.Round(totalDiscount, LocalSettings.Decimals);
-        //}
 
         public void AddTicketDiscount(AccountTransactionTemplate template, decimal amount, int userId)
         {
             var c = AccountTransactions.AccountTransactions.SingleOrDefault(x => x.AccountTransactionTemplateId == template.Id);
             if (c == null)
             {
-                c = AccountTransaction.Create(template, AccountTransactions);
+                c = AccountTransaction.Create(template);
                 c.Amount = amount;
                 AccountTransactions.AccountTransactions.Add(c);
             }
@@ -275,22 +222,40 @@ namespace Samba.Domain.Models.Tickets
             c.Amount = amount;
         }
 
-        public void AddService(int serviceId, int calculationMethod, decimal amount)
+        public void AddCalculation(CalculationTemplate template, decimal amount)
         {
-            var t = Services.SingleOrDefault(x => x.ServiceId == serviceId);
+            var t = Services.SingleOrDefault(x => x.ServiceId == template.Id) ??
+                    Services.SingleOrDefault(x => x.AccountTransactionTemplateId == template.AccountTransactionTemplate.Id);
             if (t == null)
             {
-                t = new Service
+                t = new Calculation
                         {
                             Amount = amount,
-                            CalculationType = calculationMethod,
-                            ServiceId = serviceId
+                            Name = template.Name,
+                            CalculationType = template.CalculationMethod,
+                            ServiceId = template.Id,
+                            IncludeTax = template.IncludeTax,
+                            DecreaseAmount = template.DecreaseAmount,
+                            Order = template.Order,
+                            AccountTransactionTemplateId = template.AccountTransactionTemplate.Id
                         };
+
+                var transaction = AccountTransaction.Create(template.AccountTransactionTemplate);
+                transaction.Name = t.Name;
+                AccountTransactions.AccountTransactions.Add(transaction);
                 Services.Add(t);
             }
+            else if (t.Amount == amount) amount = 0;
+
+            t.Name = template.Name;
 
             if (amount == 0)
+            {
                 Services.Remove(t);
+                AccountTransactions.AccountTransactions.Remove(
+                    AccountTransactions.AccountTransactions.Single(x => t.AccountTransactionTemplateId == x.AccountTransactionTemplateId));
+            }
+
             t.Amount = amount;
         }
 
@@ -302,7 +267,6 @@ namespace Samba.Domain.Models.Tickets
         public decimal GetPaymentAmount()
         {
             return AccountTransactions.AccountTransactions.Where(x => x.AccountTransactionTemplateId == PaymentTransactionTemplateId).Sum(x => x.Amount);
-            //return Payments.Sum(item => item.Amount);
         }
 
         public decimal GetRemainingAmount()
@@ -411,17 +375,15 @@ namespace Samba.Domain.Models.Tickets
         {
             var ticket = new Ticket { DepartmentId = department.Id };
 
-            foreach (var serviceTemplate in department.TicketTemplate.ServiceTemplates)
+            foreach (var calulationTemplate in department.TicketTemplate.CalulationTemplates.Where(x => string.IsNullOrEmpty(x.ButtonHeader)))
             {
-                ticket.AddService(serviceTemplate.Id, serviceTemplate.CalculationMethod, serviceTemplate.Amount);
+                ticket.AddCalculation(calulationTemplate, calulationTemplate.Amount);
             }
 
             ticket.PaymentTransactionTemplateId = department.TicketTemplate.PaymentTransactionTemplate.Id;
             ticket.AccountTransactions = new AccountTransactionDocument();
-            ticket.SaleTransaction = AccountTransaction.Create(department.TicketTemplate.SaleTransactionTemplate, ticket.AccountTransactions);
+            ticket.SaleTransaction = AccountTransaction.Create(department.TicketTemplate.SaleTransactionTemplate);
             ticket.AccountTransactions.AccountTransactions.Add(ticket.SaleTransaction);
-            ticket.DiscountTransactionTemplateId = department.TicketTemplate.DiscountTransactionTemplate.Id;
-            ticket.RoundingTransactionTemplateId = department.TicketTemplate.RoundingTransactionTemplate.Id;
             return ticket;
         }
 
@@ -504,26 +466,26 @@ namespace Samba.Domain.Models.Tickets
             SaleTransaction.TargetTransactionValue.AccountName = account.Name;
         }
 
-        public void Recalculate(AccountTransactionTemplate template, decimal autoRoundValue, int userId)
+        public void Recalculate(decimal autoRoundValue, int userId)
         {
-            if (autoRoundValue != 0)
-            {
-                AddTicketDiscount(template, 0, userId);
-                var ramount = GetRemainingAmount();
-                if (ramount > 0)
-                {
-                    decimal damount;
-                    if (autoRoundValue > 0)
-                        damount = decimal.Round(ramount / autoRoundValue, MidpointRounding.AwayFromZero) * autoRoundValue;
-                    else // eğer yuvarlama eksi olarak verildiyse hep aşağı yuvarlar
-                        damount = Math.Truncate(ramount / autoRoundValue) * autoRoundValue;
-                    AddTicketDiscount(template, ramount - damount, userId);
-                }
-                else if (ramount < 0)
-                {
-                    AddTicketDiscount(template, ramount, userId);
-                }
-            }
+            //if (autoRoundValue != 0)
+            //{
+            //    AddTicketDiscount(template, 0, userId);
+            //    var ramount = GetRemainingAmount();
+            //    if (ramount > 0)
+            //    {
+            //        decimal damount;
+            //        if (autoRoundValue > 0)
+            //            damount = decimal.Round(ramount / autoRoundValue, MidpointRounding.AwayFromZero) * autoRoundValue;
+            //        else // eğer yuvarlama eksi olarak verildiyse hep aşağı yuvarlar
+            //            damount = Math.Truncate(ramount / autoRoundValue) * autoRoundValue;
+            //        AddTicketDiscount(template, ramount - damount, userId);
+            //    }
+            //    else if (ramount < 0)
+            //    {
+            //        AddTicketDiscount(template, ramount, userId);
+            //    }
+            //}
 
             RemainingAmount = GetRemainingAmount();
             SaleTransaction.Amount = GetPlainSum();

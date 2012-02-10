@@ -41,9 +41,9 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
                 {
                     DepartmentId = x.Key.DepartmentId,
                     TicketCount = x.Count(),
-                    Amount = x.Sum(y => y.GetSumWithoutTax()),
-                    Tax = x.Sum(y => y.CalculateTax()),
-                    Services = x.Sum(y => y.GetServicesTotal())
+                    Amount = x.Sum(y => y.GetPlainSum()),
+                    Tax = x.Sum(y => y.CalculateTax(y.GetPlainSum(), y.GetPreTaxServicesTotal())),
+                    Services = x.Sum(y => y.GetPostTaxServicesTotal())
                 });
 
             if (ticketGropus.Count() > 1)
@@ -68,7 +68,7 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
                     ReportContext.Tickets.SelectMany(x => x.Services).GroupBy(x => x.ServiceId).ToList().ForEach(
                         x =>
                         {
-                            var template = ReportContext.ServiceTemplates.SingleOrDefault(y => y.Id == x.Key);
+                            var template = ReportContext.CalculationTemplates.SingleOrDefault(y => y.Id == x.Key);
                             var title = template != null ? template.Name : Resources.UndefinedWithBrackets;
                             report.AddRow("Departman", title, x.Sum(y => y.CalculationAmount).ToString(ReportContext.CurrencyFormat));
                         });
@@ -87,7 +87,7 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 
             foreach (var paymentName in amountCalculator.PaymentNames)
                 report.AddRow("GelirlerTablosu", paymentName, amountCalculator.GetPercent(paymentName), amountCalculator.GetAmount(paymentName).ToString(ReportContext.CurrencyFormat));
-            
+
             report.AddRow("GelirlerTablosu", Resources.TotalIncome.ToUpper(), "", amountCalculator.TotalAmount.ToString(ReportContext.CurrencyFormat));
 
             //---------------
@@ -170,7 +170,7 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
                     }
                 }
 
-                var tagGroups = dict.Select(x => new TicketTagInfo { Amount = x.Value.Sum(y => y.GetSumWithoutTax()), TicketCount = x.Value.Count, TagName = x.Key }).OrderBy(x => x.TagName);
+                var tagGroups = dict.Select(x => new TicketTagInfo { Amount = x.Value.Sum(y => y.GetPlainSum()), TicketCount = x.Value.Count, TagName = x.Key }).OrderBy(x => x.TagName);
 
                 var tagGrp = tagGroups.GroupBy(x => x.TagName.Split(':')[0]);
 

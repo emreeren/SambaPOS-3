@@ -5,7 +5,6 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using FluentValidation;
 using Samba.Domain.Models.Accounts;
-using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
@@ -26,16 +25,16 @@ namespace Samba.Modules.TicketModule
             DeleteTicketTagGroupCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.TicketTagGroup), OnDeleteTicketTagGroup, CanDeleteTicketTagGroup);
             AddOrderTagGroupCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.OrderTagGroup), OnAddOrderTagGroup);
             DeleteOrderTagGroupCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.OrderTagGroup), OnDeleteOrderTagGroup, CanDeleteOrderTagGroup);
-            AddServiceTemplateCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.ServiceTemplate), OnAddServiceTemplate);
-            DeleteServiceTemplateCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.ServiceTemplate), OnDeleteServiceTempalte, CanDeleteServiceTemplate);
+            AddCalculationTemplateCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.CalculationTemplate), OnAddCalculationTemplate);
+            DeleteCalculationTemplateCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.CalculationTemplate), OnDeleteCalculationTempalte, CanDeleteCalculationTemplate);
         }
 
         public ICaptionCommand AddTicketTagGroupCommand { get; set; }
         public ICaptionCommand DeleteTicketTagGroupCommand { get; set; }
         public ICaptionCommand AddOrderTagGroupCommand { get; set; }
         public ICaptionCommand DeleteOrderTagGroupCommand { get; set; }
-        public ICaptionCommand AddServiceTemplateCommand { get; set; }
-        public ICaptionCommand DeleteServiceTemplateCommand { get; set; }
+        public ICaptionCommand AddCalculationTemplateCommand { get; set; }
+        public ICaptionCommand DeleteCalculationTemplateCommand { get; set; }
 
         private IEnumerable<Numerator> _numerators;
         public IEnumerable<Numerator> Numerators { get { return _numerators ?? (_numerators = Workspace.All<Numerator>()); } set { _numerators = value; } }
@@ -45,15 +44,13 @@ namespace Samba.Modules.TicketModule
 
         public TicketTagGroup SelectedTicketTag { get; set; }
         public OrderTagGroup SelectedOrderTagGroup { get; set; }
-        public ServiceTemplate SelectedServiceTemplate { get; set; }
+        public CalculationTemplate SelectedCalculationTemplate { get; set; }
 
         private IEnumerable<AccountTransactionTemplate> _accountTransactionTemplates;
         public IEnumerable<AccountTransactionTemplate> AccountTransactionTemplates { get { return _accountTransactionTemplates ?? (_accountTransactionTemplates = Workspace.All<AccountTransactionTemplate>()); } }
 
         public virtual AccountTransactionTemplate SaleTransactionTemplate { get { return Model.SaleTransactionTemplate; } set { Model.SaleTransactionTemplate = value; } }
         public virtual AccountTransactionTemplate PaymentTransactionTemplate { get { return Model.PaymentTransactionTemplate; } set { Model.PaymentTransactionTemplate = value; } }
-        public virtual AccountTransactionTemplate DiscountTransactionTemplate { get { return Model.DiscountTransactionTemplate; } set { Model.DiscountTransactionTemplate = value; } }
-        public virtual AccountTransactionTemplate RoundingTransactionTemplate { get { return Model.RoundingTransactionTemplate; } set { Model.RoundingTransactionTemplate = value; } }
 
         private ObservableCollection<TicketTagGroup> _ticketTagGroups;
         public ObservableCollection<TicketTagGroup> TicketTagGroups
@@ -61,10 +58,10 @@ namespace Samba.Modules.TicketModule
             get { return _ticketTagGroups ?? (_ticketTagGroups = new ObservableCollection<TicketTagGroup>(GetTicketTags(Model))); }
         }
 
-        private ObservableCollection<ServiceTemplate> _serviceTemplates;
-        public ObservableCollection<ServiceTemplate> ServiceTemplates
+        private ObservableCollection<CalculationTemplate> _calculationTemplates;
+        public ObservableCollection<CalculationTemplate> CalculationTemplates
         {
-            get { return _serviceTemplates ?? (_serviceTemplates = new ObservableCollection<ServiceTemplate>(GetServiceTemplates(Model))); }
+            get { return _calculationTemplates ?? (_calculationTemplates = new ObservableCollection<CalculationTemplate>(GetCalculationTemplates(Model))); }
         }
 
         private ObservableCollection<OrderTagGroup> _orderTagGroups;
@@ -83,9 +80,9 @@ namespace Samba.Modules.TicketModule
             return model.OrderTagGroups.OrderBy(x => x.Order);
         }
 
-        private static IEnumerable<ServiceTemplate> GetServiceTemplates(TicketTemplate model)
+        private static IEnumerable<CalculationTemplate> GetCalculationTemplates(TicketTemplate model)
         {
-            return model.ServiceTemplates.OrderBy(x => x.Order);
+            return model.CalulationTemplates.OrderBy(x => x.Order);
         }
 
         private bool CanDeleteOrderTagGroup(string arg)
@@ -103,7 +100,7 @@ namespace Samba.Modules.TicketModule
         {
             var selectedValues =
                   InteractionService.UserIntraction.ChooseValuesFrom(Workspace.All<OrderTagGroup>().ToList<IOrderable>(),
-                  Model.OrderTagGroups.ToList<IOrderable>(), Resources.OrderTagGroups, string.Format(Resources.ChooseServicesForDepartmentHint_f, Model.Name),
+                  Model.OrderTagGroups.ToList<IOrderable>(), Resources.OrderTagGroups, string.Format(Resources.ChooseCalculationsForDepartmentHint_f, Model.Name),
                   Resources.OrderTagGroup, Resources.OrderTagGroups);
 
             foreach (OrderTagGroup selectedValue in selectedValues)
@@ -146,33 +143,33 @@ namespace Samba.Modules.TicketModule
             RaisePropertyChanged(() => TicketTagGroups);
         }
 
-        private bool CanDeleteServiceTemplate(string arg)
+        private bool CanDeleteCalculationTemplate(string arg)
         {
-            return SelectedServiceTemplate != null;
+            return SelectedCalculationTemplate != null;
         }
 
-        private void OnDeleteServiceTempalte(string obj)
+        private void OnDeleteCalculationTempalte(string obj)
         {
-            Model.ServiceTemplates.Remove(SelectedServiceTemplate);
-            ServiceTemplates.Remove(SelectedServiceTemplate);
+            Model.CalulationTemplates.Remove(SelectedCalculationTemplate);
+            CalculationTemplates.Remove(SelectedCalculationTemplate);
         }
 
-        private void OnAddServiceTemplate(string obj)
+        private void OnAddCalculationTemplate(string obj)
         {
             var selectedValues =
-              InteractionService.UserIntraction.ChooseValuesFrom(Workspace.All<ServiceTemplate>().ToList<IOrderable>(),
-              Model.ServiceTemplates.ToList<IOrderable>(), Resources.ServiceTemplates, string.Format(Resources.ChooseServicesForDepartmentHint_f, Model.Name),
-              Resources.ServiceTemplate, Resources.ServiceTemplates);
+              InteractionService.UserIntraction.ChooseValuesFrom(Workspace.All<CalculationTemplate>().ToList<IOrderable>(),
+              Model.CalulationTemplates.ToList<IOrderable>(), Resources.CalculationTemplates, string.Format(Resources.ChooseCalculationsForDepartmentHint_f, Model.Name),
+              Resources.CalculationTemplate, Resources.CalculationTemplates);
 
-            foreach (ServiceTemplate selectedValue in selectedValues)
+            foreach (CalculationTemplate selectedValue in selectedValues)
             {
-                if (!Model.ServiceTemplates.Contains(selectedValue))
-                    Model.ServiceTemplates.Add(selectedValue);
+                if (!Model.CalulationTemplates.Contains(selectedValue))
+                    Model.CalulationTemplates.Add(selectedValue);
             }
 
-            _serviceTemplates = new ObservableCollection<ServiceTemplate>(GetServiceTemplates(Model));
+            _calculationTemplates = new ObservableCollection<CalculationTemplate>(GetCalculationTemplates(Model));
 
-            RaisePropertyChanged(() => ServiceTemplates);
+            RaisePropertyChanged(() => CalculationTemplates);
         }
 
         public override Type GetViewType()

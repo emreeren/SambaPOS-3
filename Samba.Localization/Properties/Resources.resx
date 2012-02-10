@@ -2768,17 +2768,8 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="RoundingTotal" xml:space="preserve">
     <value>Rounding Total</value>
   </data>
-  <data name="ServiceTemplates" xml:space="preserve">
-    <value>Service Templates</value>
-  </data>
-  <data name="ChooseServicesForDepartmentHint_f" xml:space="preserve">
-    <value>Select tax or services for using at {0} department.</value>
-  </data>
-  <data name="ServiceTemplate" xml:space="preserve">
-    <value>Service Template</value>
-  </data>
-  <data name="ServiceTotal" xml:space="preserve">
-    <value>Services Total</value>
+  <data name="ChooseCalculationsForDepartmentHint_f" xml:space="preserve">
+    <value>Select calculations for using at {0} template.</value>
   </data>
   <data name="CalculationMethod" xml:space="preserve">
     <value>Calculation Method</value>
@@ -2830,8 +2821,8 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="TaxTotal" xml:space="preserve">
     <value>Tax Total</value>
   </data>
-  <data name="TotalsGroupedByServiceTemplate" xml:space="preserve">
-    <value>Totals grouped by Service template</value>
+  <data name="TotalsGroupedByCalculationTemplate" xml:space="preserve">
+    <value>Totals grouped by Calculation template</value>
   </data>
   <data name="TextWrittenTotalValue" xml:space="preserve">
     <value>Text written total value</value>
@@ -3023,5 +3014,23 @@ Continue without adding details?</value>
   </data>
   <data name="SearchString" xml:space="preserve">
     <value>Search String</value>
+  </data>
+  <data name="CalculationTemplates" xml:space="preserve">
+    <value>Calculation Templates</value>
+  </data>
+  <data name="CalculationTemplate" xml:space="preserve">
+    <value>Calculation Template</value>
+  </data>
+  <data name="AccountTransactionTemplate" xml:space="preserve">
+    <value>Account Transaction Template</value>
+    <comment>Label content</comment>
+  </data>
+  <data name="IncludeTax" xml:space="preserve">
+    <value>Include Tax</value>
+    <comment>CheckBox content</comment>
+  </data>
+  <data name="DecreaseAmount" xml:space="preserve">
+    <value>Decrease Amount</value>
+    <comment>CheckBox content</comment>
   </data>
 </root>

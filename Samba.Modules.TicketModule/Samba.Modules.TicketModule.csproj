@@ -89,10 +89,10 @@
     <Compile Include="OrderTagTemplateViewModel.cs" />
     <Compile Include="OrderTagViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceTemplateView.xaml.cs">
-      <DependentUpon>ServiceTemplateView.xaml</DependentUpon>
+    <Compile Include="CalculationTemplateView.xaml.cs">
+      <DependentUpon>CalculationTemplateView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ServiceTemplateViewModel.cs" />
+    <Compile Include="CalculationTemplateViewModel.cs" />
     <Compile Include="TicketModule.cs" />
     <Compile Include="TicketTagGroupView.xaml.cs">
       <DependentUpon>TicketTagGroupView.xaml</DependentUpon>
@@ -112,7 +112,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ServiceTemplateView.xaml">
+    <Page Include="CalculationTemplateView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

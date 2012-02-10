@@ -25,7 +25,7 @@
         public const string TaxTotal = "{TAX TOTAL}";
         public const string ServiceTotal = "{SERVICE TOTAL}";
         public const string TaxDetails = "{TAX DETAILS}";
-        public const string ServiceDetails = "{SERVICE DETAILS}";
+        public const string CalculationDetails = "{CALCULATION DETAILS}";
         public const string IfPaid = "{IF PAID}";
         public const string IfDiscount = "{IF DISCOUNT}";
         public const string IfFlatten = "{IF FLATTEN}";

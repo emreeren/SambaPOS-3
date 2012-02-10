@@ -40,10 +40,36 @@ namespace Samba.Services
             var saleAccountTemplate = new AccountTemplate { Name = "Sales Accounts" };
             var paymentAccountTemplate = new AccountTemplate { Name = "Payment Accounts" };
             var customerAccountTemplate = new AccountTemplate { Name = "Customer Accounts" };
+            var discountAccountTemplate = new AccountTemplate { Name = "Discount Accounts" };
 
             var defaultSaleAccount = new Account { AccountTemplate = saleAccountTemplate, Name = "Sales" };
             var defaultpaymentAccount = new Account { AccountTemplate = paymentAccountTemplate, Name = Resources.Cash };
+            var creditCardAccount = new Account { AccountTemplate = paymentAccountTemplate, Name = Resources.CreditCard };
+            var voucherAccount = new Account { AccountTemplate = paymentAccountTemplate, Name = Resources.Voucher };
             var defaultCustomerAccount = new Account { AccountTemplate = customerAccountTemplate, Name = "Customer" };
+            var defaultDiscountAccount = new Account { AccountTemplate = discountAccountTemplate, Name = "Discount" };
+            var defaultRoundingAccount = new Account { AccountTemplate = discountAccountTemplate, Name = Resources.Rounding };
+
+            _workspace.Add(creditCardAccount);
+            _workspace.Add(voucherAccount);
+
+            var discountTransactionTemplate = new AccountTransactionTemplate
+            {
+                Name = "Discount Transaction",
+                SourceAccountTemplate = customerAccountTemplate,
+                TargetAccountTemplate = discountAccountTemplate,
+                DefaultSourceAccount = defaultCustomerAccount,
+                DefaultTargetAccount = defaultDiscountAccount
+            };
+
+            var roundingTransactionTemplate = new AccountTransactionTemplate
+            {
+                Name = "Rounding Transaction",
+                SourceAccountTemplate = customerAccountTemplate,
+                TargetAccountTemplate = discountAccountTemplate,
+                DefaultSourceAccount = defaultCustomerAccount,
+                DefaultTargetAccount = defaultRoundingAccount
+            };
 
             var saleTransactionTemplate = new AccountTransactionTemplate
             {
@@ -65,6 +91,30 @@ namespace Samba.Services
 
             _workspace.Add(saleTransactionTemplate);
             _workspace.Add(paymentTransactionTemplate);
+            _workspace.Add(discountTransactionTemplate);
+            _workspace.Add(roundingTransactionTemplate);
+
+            var discountService = new CalculationTemplate
+            {
+                AccountTransactionTemplate = discountTransactionTemplate,
+                ButtonHeader = Resources.DiscountPercentSign,
+                CalculationMethod = 0,
+                DecreaseAmount = true,
+                Name = Resources.DiscountPercentSign
+            };
+
+            var roundingService = new CalculationTemplate
+            {
+                AccountTransactionTemplate = roundingTransactionTemplate,
+                ButtonHeader = Resources.Round,
+                CalculationMethod = 2,
+                DecreaseAmount = true,
+                IncludeTax = true,
+                Name = Resources.Round
+            };
+
+            _workspace.Add(discountService);
+            _workspace.Add(roundingService);
 
             var screen = new ScreenMenu();
             _workspace.Add(screen);
@@ -85,6 +135,9 @@ namespace Samba.Services
                                          SaleTransactionTemplate = saleTransactionTemplate,
                                          PaymentTransactionTemplate = paymentTransactionTemplate
                                      };
+
+            ticketTemplate.CalulationTemplates.Add(discountService);
+            ticketTemplate.CalulationTemplates.Add(roundingService);
 
             _workspace.Add(ticketTemplate);
 

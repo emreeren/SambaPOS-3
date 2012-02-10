@@ -3,11 +3,11 @@
 namespace Samba.Modules.TicketModule
 {
     /// <summary>
-    /// Interaction logic for ServiceTemplateView.xaml
+    /// Interaction logic for CalculationTemplateView.xaml
     /// </summary>
-    public partial class ServiceTemplateView : UserControl
+    public partial class CalculationTemplateView : UserControl
     {
-        public ServiceTemplateView()
+        public CalculationTemplateView()
         {
             InitializeComponent();
         }

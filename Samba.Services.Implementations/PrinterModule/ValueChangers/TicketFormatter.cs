@@ -17,7 +17,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
         private static readonly IDepartmentService DepartmentService = ServiceLocator.Current.GetInstance<IDepartmentService>();
         private static readonly ISettingService SettingService = ServiceLocator.Current.GetInstance<ISettingService>();
         private static ISettingReplacer _settingReplacer;
-        
+
         public static string[] GetFormattedTicket(Ticket ticket, IEnumerable<Order> lines, PrinterTemplate template)
         {
             _settingReplacer = SettingService.GetSettingReplacer();
@@ -149,26 +149,25 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
             var payment = ticket.GetPaymentAmount();
             var remaining = ticket.GetRemainingAmount();
-            var discount = ticket.GetDiscountAndRoundingTotal();
             var plainTotal = ticket.GetPlainSum();
-            var taxAmount = GetTaxTotal(ticket.Orders, plainTotal, ticket.GetDiscountTotal());
-            var servicesTotal = ticket.GetServicesTotal();
-            ticket.CalculateTax();
+            var preTaxServices = ticket.GetPreTaxServicesTotal();
+            var taxAmount = ticket.CalculateTax(plainTotal, preTaxServices);  //GetTaxTotal(ticket.Orders, plainTotal, ticket.GetDiscountTotal());
+            var servicesTotal = ticket.GetPostTaxServicesTotal();
+            //ticket.CalculateTax(plainTotal, preTaxServices);
 
-            result = FormatDataIf(taxAmount > 0 || discount > 0 || servicesTotal > 0, result, TagNames.PlainTotal, () => plainTotal.ToString("#,#0.00"));
-            result = FormatDataIf(discount > 0, result, TagNames.DiscountTotal, () => discount.ToString("#,#0.00"));
+            result = FormatDataIf(taxAmount > 0 || preTaxServices > 0 || servicesTotal > 0, result, TagNames.PlainTotal, () => plainTotal.ToString("#,#0.00"));
+            result = FormatDataIf(preTaxServices > 0, result, TagNames.DiscountTotal, () => preTaxServices.ToString("#,#0.00"));
             result = FormatDataIf(taxAmount > 0, result, TagNames.TaxTotal, () => taxAmount.ToString("#,#0.00"));
-            result = FormatDataIf(taxAmount > 0, result, TagNames.ServiceTotal, () => servicesTotal.ToString("#,#0.00"));
-            result = FormatDataIf(taxAmount > 0, result, TagNames.TaxDetails, () => GetTaxDetails(ticket.Orders, plainTotal, discount));
-            result = FormatDataIf(servicesTotal > 0, result, TagNames.ServiceDetails, () => GetServiceDetails(ticket));
+            result = FormatDataIf(taxAmount > 0, result, TagNames.TaxDetails, () => GetTaxDetails(ticket.Orders, plainTotal, preTaxServices));
+            result = FormatDataIf(servicesTotal > 0, result, TagNames.CalculationDetails, () => GetServiceDetails(ticket));
 
             result = FormatDataIf(payment > 0, result, TagNames.IfPaid,
                 () => string.Format(Resources.RemainingAmountIfPaidValue_f, payment.ToString("#,#0.00"), remaining.ToString("#,#0.00")));
 
-            result = FormatDataIf(discount > 0, result, TagNames.IfDiscount,
-                () => string.Format(Resources.DiscountTotalAndTicketTotalValue_f, (plainTotal).ToString("#,#0.00"), discount.ToString("#,#0.00")));
+            result = FormatDataIf(preTaxServices > 0, result, TagNames.IfDiscount,
+                () => string.Format(Resources.DiscountTotalAndTicketTotalValue_f, (plainTotal).ToString("#,#0.00"), preTaxServices.ToString("#,#0.00")));
 
-            result = FormatDataIf(discount < 0, result, TagNames.IfFlatten, () => string.Format(Resources.IfNegativeDiscountValue_f, discount.ToString("#,#0.00")));
+            result = FormatDataIf(preTaxServices < 0, result, TagNames.IfFlatten, () => string.Format(Resources.IfNegativeDiscountValue_f, preTaxServices.ToString("#,#0.00")));
 
             result = FormatData(result, TagNames.TicketTotal, () => ticket.GetSum().ToString("#,#0.00"));
             result = FormatData(result, TagNames.PaymentTotal, () => ticket.GetPaymentAmount().ToString("#,#0.00"));
@@ -194,7 +193,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             foreach (var service in ticket.Services)
             {
                 var lservice = service;
-                var ts = SettingService.GetServiceTemplateById(lservice.ServiceId);
+                var ts = SettingService.GetCalculationTemplateById(lservice.ServiceId);
                 var tsTitle = ts != null ? ts.Name : Resources.UndefinedWithBrackets;
                 sb.AppendLine("<J>" + tsTitle + ":|" + lservice.CalculationAmount.ToString("#,#0.00"));
             }

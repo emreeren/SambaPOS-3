@@ -42,8 +42,6 @@ namespace Samba.Modules.AccountModule
             }
         }
 
-        public string Function { get { return Model.Function; } set { Model.Function = value; } }
-
         public Account DefaultSourceAccount { get { return Model.DefaultSourceAccount; } set { Model.DefaultSourceAccount = value; } }
         public Account DefaultTargetAccount { get { return Model.DefaultTargetAccount; } set { Model.DefaultTargetAccount = value; } }
 

@@ -96,7 +96,7 @@ namespace Samba.Modules.DepartmentModule
         {
             var selectedValues =
                   InteractionService.UserIntraction.ChooseValuesFrom(Workspace.All<LocationScreen>().ToList<IOrderable>(),
-                  Model.LocationScreens.ToList<IOrderable>(), Resources.LocationScreens, string.Format(Resources.ChooseServicesForDepartmentHint_f, Model.Name),
+                  Model.LocationScreens.ToList<IOrderable>(), Resources.LocationScreens, string.Format(Resources.ChooseCalculationsForDepartmentHint_f, Model.Name),
                   Resources.LocationScreen, Resources.LocationScreens);
 
             foreach (LocationScreen selectedValue in selectedValues)

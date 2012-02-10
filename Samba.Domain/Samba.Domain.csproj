@@ -80,8 +80,8 @@
     <Compile Include="Models\Tickets\OrderTagMap.cs" />
     <Compile Include="Models\Tickets\OrderTagTemplate.cs" />
     <Compile Include="Models\Tickets\OrderTagTemplateValue.cs" />
-    <Compile Include="Models\Tickets\Service.cs" />
-    <Compile Include="Models\Menus\ServiceTemplate.cs" />
+    <Compile Include="Models\Tickets\Calculation.cs" />
+    <Compile Include="Models\Tickets\CalculationTemplate.cs" />
     <Compile Include="Models\Menus\TaxTemplate.cs" />
     <Compile Include="Models\Tickets\TicketTagValue.cs" />
     <Compile Include="Models\Tickets\TicketTemplate.cs" />

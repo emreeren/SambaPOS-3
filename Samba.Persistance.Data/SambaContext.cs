@@ -48,7 +48,6 @@ namespace Samba.Persistance.Data
         public DbSet<PrinterTemplate> PrinterTemplates { get; set; }
         public DbSet<LocationScreen> LocationScreens { get; set; }
         public DbSet<Numerator> Numerators { get; set; }
-        public DbSet<Discount> Discounts { get; set; }
         public DbSet<WorkPeriod> WorkPeriods { get; set; }
         public DbSet<PaidItem> PaidItems { get; set; }
         public DbSet<Account> Accounts { get; set; }
@@ -72,8 +71,8 @@ namespace Samba.Persistance.Data
         public DbSet<MenuItemPriceDefinition> MenuItemPriceDefinitions { get; set; }
         public DbSet<MenuItemPrice> MenuItemPrices { get; set; }
         public DbSet<TaxTemplate> TaxTemplates { get; set; }
-        public DbSet<ServiceTemplate> ServiceTemplates { get; set; }
-        public DbSet<Service> Services { get; set; }
+        public DbSet<CalculationTemplate> CalculationTemplates { get; set; }
+        public DbSet<Calculation> Services { get; set; }
         public DbSet<AccountTransaction> AccountTransactions { get; set; }
         public DbSet<AccountTransactionValue> AccountTransactionValues { get; set; }
         public DbSet<AccountTransactionTemplate> AccountTransactionTemplates { get; set; }
@@ -86,7 +85,7 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<AccountTransactionDocument>().HasMany(p => p.AccountTransactions).WithRequired().HasForeignKey(x => x.AccountTransactionDocumentId);
 
             modelBuilder.Entity<TicketTemplate>().HasMany(p => p.TicketTagGroups).WithMany();
-            modelBuilder.Entity<TicketTemplate>().HasMany(p => p.ServiceTemplates).WithMany();
+            modelBuilder.Entity<TicketTemplate>().HasMany(p => p.CalulationTemplates).WithMany();
             modelBuilder.Entity<TicketTemplate>().HasMany(p => p.OrderTagGroups).WithMany();
 
             modelBuilder.Entity<Account>().Property(x => x.CustomData).IsMaxLength();
@@ -100,8 +99,8 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<TicketTagValue>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<Ticket>().HasMany(p => p.Tags).WithRequired().HasForeignKey(x => x.TicketId);
 
-            modelBuilder.Entity<Service>().HasKey(p => new { p.Id, p.TicketId });
-            modelBuilder.Entity<Service>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<Calculation>().HasKey(p => new { p.Id, p.TicketId });
+            modelBuilder.Entity<Calculation>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<Ticket>().HasMany(p => p.Services).WithRequired().HasForeignKey(x => x.TicketId);
 
             modelBuilder.Entity<Order>().HasKey(p => new { p.Id, p.TicketId });
@@ -119,12 +118,12 @@ namespace Samba.Persistance.Data
             const int scale = 2;
             const int precision = 16;
 
-            //ServiceTemplate
-            modelBuilder.Entity<ServiceTemplate>().Property(x => x.Amount).HasPrecision(precision, scale);
+            //CalculationTemplate
+            modelBuilder.Entity<CalculationTemplate>().Property(x => x.Amount).HasPrecision(precision, scale);
 
             //Service
-            modelBuilder.Entity<Service>().Property(x => x.Amount).HasPrecision(precision, scale);
-            modelBuilder.Entity<Service>().Property(x => x.CalculationAmount).HasPrecision(precision, scale);
+            modelBuilder.Entity<Calculation>().Property(x => x.Amount).HasPrecision(precision, scale);
+            modelBuilder.Entity<Calculation>().Property(x => x.CalculationAmount).HasPrecision(precision, scale);
 
             //TaxTemplate
             modelBuilder.Entity<TaxTemplate>().Property(x => x.Rate).HasPrecision(precision, scale);
@@ -190,10 +189,6 @@ namespace Samba.Persistance.Data
             //Ticket
             modelBuilder.Entity<Ticket>().Property(x => x.RemainingAmount).HasPrecision(precision, scale);
             modelBuilder.Entity<Ticket>().Property(x => x.TotalAmount).HasPrecision(precision, scale);
-
-            //Discount
-            modelBuilder.Entity<Discount>().Property(x => x.Amount).HasPrecision(precision, scale);
-            modelBuilder.Entity<Discount>().Property(x => x.DiscountAmount).HasPrecision(precision, scale);
 
             modelBuilder.Entity<AccountTransaction>().Property(x => x.Amount).HasPrecision(precision, scale);
             modelBuilder.Entity<AccountTransactionValue>().Property(x => x.Liability).HasPrecision(precision, scale);

@@ -2770,17 +2770,8 @@ Borçlandır</value>
 	<data name="RoundingTotal" xml:space="preserve">
 		<value>Yuvarlama Toplamı</value>
 	</data>
-	<data name="ServiceTemplates" xml:space="preserve">
-		<value>Hizmet Şablonları</value>
-	</data>
-	<data name="ChooseServicesForDepartmentHint_f" xml:space="preserve">
-		<value>{0} departmanında kullanmak istediğiniz hizmet şablonlarını seçiniz.</value>
-	</data>
-	<data name="ServiceTemplate" xml:space="preserve">
-		<value>Hizmet Şablonu</value>
-	</data>
-	<data name="ServiceTotal" xml:space="preserve">
-		<value>Toplam Hizmet</value>
+	<data name="ChooseCalculationsForDepartmentHint_f" xml:space="preserve">
+		<value>{0} şablunda kullanmak istediğiniz hesaplama şablonlarını seçiniz.</value>
 	</data>
 	<data name="CalculationMethod" xml:space="preserve">
 		<value>Hesaplama Metodu</value>
@@ -2832,7 +2823,7 @@ Borçlandır</value>
 	<data name="TaxTotal" xml:space="preserve">
 		<value>Hizmet Toplamı</value>
 	</data>
-	<data name="TotalsGroupedByServiceTemplate" xml:space="preserve">
+	<data name="TotalsGroupedByCalculationTemplate" xml:space="preserve">
 		<value>Hizmet türlerine göre gruplanmış Hizmet tutarları</value>
 	</data>
 	<data name="TextWrittenTotalValue" xml:space="preserve">
@@ -3023,4 +3014,13 @@ Bilgi eklemeden devam etmek istiyor musunuz?</value>
   <data name="RoleName" xml:space="preserve">
     <value>Rol Adı</value>
   </data>
+	<data name="SearchString" xml:space="preserve">
+    <value>Arama Terimi</value>
+  </data>
+	<data name="CalculationTemplates">
+		<value xml:space="preserve">Hesaplama Şablonları</value>
+	</data>
+	<data name="CalculationTemplate">
+		<value xml:space="preserve">Hesaplama Şablonu</value>
+	</data>
 </root>

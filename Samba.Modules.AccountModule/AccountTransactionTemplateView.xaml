@@ -28,9 +28,6 @@
             <Label MinWidth="120">Default Target Account</Label>
             <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding TargetAccounts}"
                                      SelectedItem="{Binding DefaultTargetAccount}" />
-            <Label MinWidth="120">Function</Label>
-            <TextBox Text="{Binding Function}" MinWidth="170" HorizontalAlignment="Left"></TextBox>
-            
         </StackPanel>
 
         <StackPanel Grid.Row="2">

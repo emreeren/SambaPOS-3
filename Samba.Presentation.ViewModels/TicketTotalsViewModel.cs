@@ -27,41 +27,31 @@ namespace Samba.Presentation.ViewModels
             }
         }
 
-        private ObservableCollection<DiscountViewModel> _discounts;
-        public ObservableCollection<DiscountViewModel> Discounts
+        private ObservableCollection<ServiceViewModel> _preServices;
+        public ObservableCollection<ServiceViewModel> PreServices
         {
-            get
-            {
-                return _discounts ??
-                       (_discounts =
-                        new ObservableCollection<DiscountViewModel>(Model.AccountTransactions.AccountTransactions
-                                                                        .Where(
-                                                                            x =>
-                                                                            x.AccountTransactionTemplateId ==
-                                                                            Model.DiscountTransactionTemplateId ||
-                                                                            x.AccountTransactionTemplateId ==
-                                                                            Model.RoundingTransactionTemplateId)
-                .Select(x => new DiscountViewModel(x.SourceTransactionValue))));
-            }
+            get { return _preServices ?? (_preServices = new ObservableCollection<ServiceViewModel>(Model.Services.Where(x => !x.IncludeTax).Select(x => new ServiceViewModel(x)))); }
+        }
+
+        private ObservableCollection<ServiceViewModel> _postServices;
+        public ObservableCollection<ServiceViewModel> PostServices
+        {
+            get { return _postServices ?? (_postServices = new ObservableCollection<ServiceViewModel>(Model.Services.Where(x => x.IncludeTax).Select(x => new ServiceViewModel(x)))); }
         }
 
         public decimal TicketTotalValue { get { return Model.GetSum(); } }
-        public decimal TicketTaxValue { get { return Model.CalculateTax(); } }
-        public decimal TicketServiceValue { get { return Model.GetServicesTotal(); } }
+        public decimal TicketTaxValue { get { return Model.CalculateTax(Model.GetPlainSum(), Model.GetPreTaxServicesTotal()); } }
+        public decimal TicketSubTotalValue { get { return Model.GetPlainSum() + Model.GetPreTaxServicesTotal(); } }
         public decimal TicketPaymentValue { get { return Model.GetPaymentAmount(); } }
         public decimal TicketRemainingValue { get { return Model.GetRemainingAmount(); } }
         public decimal TicketPlainTotalValue { get { return Model.GetPlainSum(); } }
-        public decimal TicketDiscountAmount { get { return Model.GetDiscountTotal(); } }
-        public decimal TicketRoundingAmount { get { return Model.GetRoundingTotal(); } }
 
         public bool IsTicketTotalVisible { get { return TicketPaymentValue > 0 && TicketTotalValue > 0; } }
         public bool IsTicketPaymentVisible { get { return TicketPaymentValue > 0; } }
         public bool IsTicketRemainingVisible { get { return TicketRemainingValue > 0; } }
         public bool IsTicketTaxTotalVisible { get { return TicketTaxValue > 0; } }
-        public bool IsPlainTotalVisible { get { return IsTicketDiscountVisible || IsTicketTaxTotalVisible || IsTicketRoundingVisible || IsTicketServiceVisible; } }
-        public bool IsTicketDiscountVisible { get { return TicketDiscountAmount != 0; } }
-        public bool IsTicketRoundingVisible { get { return TicketRoundingAmount != 0; } }
-        public bool IsTicketServiceVisible { get { return TicketServiceValue > 0; } }
+        public bool IsPlainTotalVisible { get { return PostServices.Count > 0 || PreServices.Count > 0 || IsTicketTaxTotalVisible; } }
+        public bool IsTicketSubTotalVisible { get { return PostServices.Count > 0 && PreServices.Count > 0; } }
 
         public string TicketPlainTotalLabel
         {
@@ -73,24 +63,14 @@ namespace Samba.Presentation.ViewModels
             get { return TicketTotalValue.ToString(LocalSettings.DefaultCurrencyFormat); }
         }
 
-        public string TicketDiscountLabel
-        {
-            get { return TicketDiscountAmount.ToString(LocalSettings.DefaultCurrencyFormat); }
-        }
-
-        public string TicketRoundingLabel
-        {
-            get { return TicketRoundingAmount.ToString(LocalSettings.DefaultCurrencyFormat); }
-        }
-
         public string TicketTaxLabel
         {
             get { return TicketTaxValue.ToString(LocalSettings.DefaultCurrencyFormat); }
         }
 
-        public string TicketServiceLabel
+        public string TicketSubTotalLabel
         {
-            get { return TicketServiceValue.ToString(LocalSettings.DefaultCurrencyFormat); }
+            get { return TicketSubTotalValue.ToString(LocalSettings.DefaultCurrencyFormat); }
         }
 
         public string TicketPaymentLabel
@@ -130,7 +110,8 @@ namespace Samba.Presentation.ViewModels
         public void ResetCache()
         {
             _payments = null;
-            _discounts = null;
+            _preServices = null;
+            _postServices = null;
         }
     }
 }

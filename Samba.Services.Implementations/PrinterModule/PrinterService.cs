@@ -199,7 +199,7 @@ namespace Samba.Services.Implementations.PrinterModule
 
         private IEnumerable<Order> GroupLinesByValue(Ticket ticket, Func<MenuItem, object> selector, string defaultValue, bool calcDiscounts = false)
         {
-            var discounts = calcDiscounts ? ticket.GetDiscountAndRoundingTotal() : 0;
+            var discounts = calcDiscounts ? ticket.GetPreTaxServicesTotal() : 0;
             var di = discounts > 0 ? discounts / ticket.GetPlainSum() : 0;
             var cache = new Dictionary<string, decimal>();
             foreach (var order in ticket.Orders.OrderBy(x => x.Id).ToList())
@@ -337,8 +337,7 @@ namespace Samba.Services.Implementations.PrinterModule
             result.Add(TagNames.DiscountTotal, Resources.DiscountTotal);
             result.Add(TagNames.TaxTotal, Resources.TaxTotal);
             result.Add(TagNames.TaxDetails, Resources.TotalsGroupedByTaxTemplate);
-            result.Add(TagNames.ServiceTotal, Resources.ServiceTotal);
-            result.Add(TagNames.ServiceDetails, Resources.TotalsGroupedByServiceTemplate);
+            result.Add(TagNames.CalculationDetails, Resources.TotalsGroupedByCalculationTemplate);
             result.Add(TagNames.Balance, Resources.TicketRemainingAmount);
             result.Add(TagNames.IfPaid, Resources.RemainingAmountIfPaid);
             result.Add(TagNames.TotalText, Resources.TextWrittenTotalValue);

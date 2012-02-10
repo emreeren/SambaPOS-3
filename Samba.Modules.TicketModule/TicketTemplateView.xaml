@@ -83,29 +83,29 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
-                <DataGrid MinWidth="170" ItemsSource="{Binding ServiceTemplates}" SelectedItem="{Binding SelectedServiceTemplate, Mode=TwoWay}"
+                <DataGrid MinWidth="170" ItemsSource="{Binding CalculationTemplates}" SelectedItem="{Binding SelectedCalculationTemplate, Mode=TwoWay}"
                                      HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
                                      AutoGenerateColumns="False" CanUserSortColumns="False" IsReadOnly="True" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="{LocText ServiceTemplate}"
+                        <DataGridTextColumn Header="{LocText CalculationTemplate}"
                                              MinWidth="100" Binding="{Binding Name}" />
                     </DataGrid.Columns>
                     <DataGrid.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Command="{Binding AddServiceTemplateCommand}" Header="{Binding AddServiceTemplateCommand.Caption}" />
-                            <MenuItem Command="{Binding DeleteServiceTemplateCommand}" Header="{Binding DeleteServiceTemplateCommand.Caption}" />
+                            <MenuItem Command="{Binding AddCalculationTemplateCommand}" Header="{Binding AddCalculationTemplateCommand.Caption}" />
+                            <MenuItem Command="{Binding DeleteCalculationTemplateCommand}" Header="{Binding DeleteCalculationTemplateCommand.Caption}" />
                         </ContextMenu>
                     </DataGrid.ContextMenu>
                 </DataGrid>
                 <StackPanel Margin="10">
                     <TextBlock Margin="2,3">
-                                        <Hyperlink Command="{Binding AddServiceTemplateCommand}">
-                                            <TextBlock Text="{Binding Path=AddServiceTemplateCommand.Caption}" />
+                                        <Hyperlink Command="{Binding AddCalculationTemplateCommand}">
+                                            <TextBlock Text="{Binding Path=AddCalculationTemplateCommand.Caption}" />
                                         </Hyperlink>
                                     </TextBlock>
                     <TextBlock Margin="2,3">
-                                        <Hyperlink Command="{Binding DeleteServiceTemplateCommand}">
-                                            <TextBlock Text="{Binding Path=DeleteServiceTemplateCommand.Caption}" />
+                                        <Hyperlink Command="{Binding DeleteCalculationTemplateCommand}">
+                                            <TextBlock Text="{Binding Path=DeleteCalculationTemplateCommand.Caption}" />
                                         </Hyperlink>
                                     </TextBlock>
                 </StackPanel>
@@ -124,14 +124,6 @@
             <Label MinWidth="120">Payment Transaction Template</Label>
             <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTransactionTemplates}"
                                      SelectedItem="{Binding PaymentTransactionTemplate}" />
-            <Label MinWidth="120">Discount Transaction Template</Label>
-            <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTransactionTemplates}"
-                                     SelectedItem="{Binding DiscountTransactionTemplate}" />
-            <Label MinWidth="120">Rounding Transaction Template</Label>
-            <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTransactionTemplates}"
-                                     SelectedItem="{Binding RoundingTransactionTemplate}" />
-
-
         </StackPanel>
     </Grid>
 </UserControl>
