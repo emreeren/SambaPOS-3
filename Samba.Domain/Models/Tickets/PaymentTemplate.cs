@@ -1,11 +1,15 @@
-﻿using Samba.Domain.Models.Accounts;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Samba.Domain.Models.Accounts;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class CalculationTemplate : IEntity,IOrderable
+    public class PaymentTemplate : IEntity, IOrderable
     {
-        public CalculationTemplate()
+        public PaymentTemplate()
         {
             ButtonColor = "Gainsboro";
         }
@@ -14,12 +18,8 @@ namespace Samba.Domain.Models.Tickets
         public string Name { get; set; }
         public int Order { get; set; }
         public string UserString { get { return Name; } }
-        public string ButtonHeader { get; set; }
         public string ButtonColor { get; set; }
-        public int CalculationMethod { get; set; }
-        public decimal Amount { get; set; }
-        public bool IncludeTax { get; set; }
-        public bool DecreaseAmount { get; set; }
         public virtual AccountTransactionTemplate AccountTransactionTemplate { get; set; }
+        public virtual Account Account { get; set; }
     }
 }

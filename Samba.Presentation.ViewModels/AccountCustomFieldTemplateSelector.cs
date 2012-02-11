@@ -1,8 +1,7 @@
-﻿using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace Samba.Modules.AccountModule
+namespace Samba.Presentation.ViewModels
 {
     public class AccountCustomFieldTemplateSelector : DataTemplateSelector
     {

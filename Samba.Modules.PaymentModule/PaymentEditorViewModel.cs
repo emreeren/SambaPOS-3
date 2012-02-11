@@ -7,7 +7,6 @@ using System.Globalization;
 using System.Linq;
 using System.Windows;
 using Microsoft.Practices.Prism.Commands;
-using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Settings;
@@ -32,10 +31,9 @@ namespace Samba.Modules.PaymentModule
         private readonly IPrinterService _printerService;
         private readonly IUserService _userService;
         private readonly IAutomationService _automationService;
-        private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public PaymentEditorViewModel(IApplicationState applicationState, ITicketService ticketService, ICacheService cacheService,
+        public PaymentEditorViewModel(IApplicationState applicationState, ITicketService ticketService, 
             IPrinterService printerService, IUserService userService, IAutomationService automationService)
         {
             _applicationState = applicationState;
@@ -43,10 +41,9 @@ namespace Samba.Modules.PaymentModule
             _printerService = printerService;
             _userService = userService;
             _automationService = automationService;
-            _cacheService = cacheService;
 
             _manualPrintCommand = new CaptionCommand<PrintJob>(Resources.Print, OnManualPrint, CanManualPrint);
-            _makePaymentCommand = new CaptionCommand<Account>("", OnMakePayment, CanMakePayment);
+            _makePaymentCommand = new CaptionCommand<PaymentTemplate>("", OnMakePayment, CanMakePayment);
             _serviceSelectedCommand = new CaptionCommand<CalculationTemplate>("", OnSelectCalculationTemplate);
 
             SubmitAccountPaymentCommand = new CaptionCommand<string>(Resources.AccountBalance_r, OnSubmitAccountPayment, CanSubmitAccountPayment);
@@ -115,22 +112,23 @@ namespace Samba.Modules.PaymentModule
         }
 
         public IEnumerable<object> CommandButtons { get; set; }
-        public IEnumerable<CommandButtonViewModel<Account>> PaymentButtons { get; set; }
+        public IEnumerable<CommandButtonViewModel<PaymentTemplate>> PaymentButtons { get; set; }
 
-        private IEnumerable<CommandButtonViewModel<Account>> CreatePaymentButtons(Ticket ticket)
+        private IEnumerable<CommandButtonViewModel<PaymentTemplate>> CreatePaymentButtons()
         {
-            var result = new List<CommandButtonViewModel<Account>>();
-            var paymentTemplate = _cacheService.GetAccountTransactionTemplateById(ticket.PaymentTransactionTemplateId);
-            var paymentAccounts = _cacheService.GetAccountsByTemplateId(paymentTemplate.TargetAccountTemplate.Id);
+            var result = new List<CommandButtonViewModel<PaymentTemplate>>();
             result.AddRange(
-                paymentAccounts.Select(x => new CommandButtonViewModel<Account>
+                _applicationState.CurrentDepartment.TicketTemplate.PaymentTemplates
+                .OrderBy(x=>x.Order)
+                .Select(x => new CommandButtonViewModel<PaymentTemplate>
                                                    {
                                                        Caption = x.Name,
                                                        Command = _makePaymentCommand,
+                                                       Color = x.ButtonColor,
                                                        Parameter = x
                                                    }));
 
-            result.Add(new CommandButtonViewModel<Account>
+            result.Add(new CommandButtonViewModel<PaymentTemplate>
             {
                 Caption = Resources.Close,
                 Command = ClosePaymentScreenCommand,
@@ -151,9 +149,10 @@ namespace Samba.Modules.PaymentModule
                     {
                         Caption = x.Name,
                         Command = _serviceSelectedCommand,
+                        Color = x.ButtonColor,
                         Parameter = x
                     }));
-                
+
                 result.AddRange(_applicationState.CurrentTerminal.PrintJobs.Where(x => !string.IsNullOrEmpty(x.ButtonHeader) && x.UseFromPaymentScreen)
                     .Select(x => new CommandButtonViewModel<object>
                     {
@@ -175,14 +174,14 @@ namespace Samba.Modules.PaymentModule
             RefreshValues();
         }
 
-        private bool CanMakePayment(Account arg)
+        private bool CanMakePayment(PaymentTemplate arg)
         {
             return SelectedTicket != null
                 && GetTenderedValue() > 0
                 && SelectedTicket.GetRemainingAmount() > 0;
         }
 
-        private void OnMakePayment(Account obj)
+        private void OnMakePayment(PaymentTemplate obj)
         {
             SubmitPayment(obj);
         }
@@ -341,7 +340,7 @@ namespace Samba.Modules.PaymentModule
             return result;
         }
 
-        private void SubmitPayment(Account paymentAccount)
+        private void SubmitPayment(PaymentTemplate paymentTemplate)
         {
             var tenderedAmount = GetTenderedValue();
             var remainingTicketAmount = GetPaymentValue();
@@ -358,7 +357,7 @@ namespace Samba.Modules.PaymentModule
             {
                 if (tenderedAmount > SelectedTicket.GetRemainingAmount())
                     tenderedAmount = SelectedTicket.GetRemainingAmount();
-                _ticketService.AddPayment(SelectedTicket, tenderedAmount, DateTime.Now, paymentAccount);
+                _ticketService.AddPayment(SelectedTicket, paymentTemplate, tenderedAmount);
                 PaymentAmount = (GetPaymentValue() - tenderedAmount).ToString("#,#0.00");
 
                 LastTenderedAmount = tenderedAmount <= SelectedTicket.GetRemainingAmount()
@@ -563,7 +562,7 @@ namespace Samba.Modules.PaymentModule
         {
             CommandButtons = CreateCommandButtons();
             RaisePropertyChanged(() => CommandButtons);
-            PaymentButtons = CreatePaymentButtons(selectedTicket);
+            PaymentButtons = CreatePaymentButtons();
             RaisePropertyChanged(() => PaymentButtons);
         }
 

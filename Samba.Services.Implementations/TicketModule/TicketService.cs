@@ -212,15 +212,14 @@ namespace Samba.Services.Implementations.TicketModule
             return result;
         }
 
-        public void AddPayment(Ticket ticket, decimal tenderedAmount, DateTime date, Account paymentAccount)
+        public void AddPayment(Ticket ticket, PaymentTemplate template, decimal tenderedAmount)
         {
-            var paymentTemplate = _cacheService.GetAccountTransactionTemplateById(ticket.PaymentTransactionTemplateId);
-            ticket.AddPayment(date, tenderedAmount, paymentAccount, _applicationState.CurrentLoggedInUser.Id, paymentTemplate);
+            ticket.AddPayment(template, tenderedAmount, _applicationState.CurrentLoggedInUser.Id);
         }
 
-        public void PaySelectedTicket(Ticket ticket, Account paymentAccount)
+        public void PaySelectedTicket(Ticket ticket, PaymentTemplate template)
         {
-            AddPayment(ticket, ticket.GetRemainingAmount(), DateTime.Now, paymentAccount);
+            AddPayment(ticket, template, ticket.GetRemainingAmount());
         }
 
         public void UpdateTicketNumber(Ticket ticket, Numerator numerator)

@@ -27,6 +27,8 @@ namespace Samba.Modules.TicketModule
             DeleteOrderTagGroupCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.OrderTagGroup), OnDeleteOrderTagGroup, CanDeleteOrderTagGroup);
             AddCalculationTemplateCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.CalculationTemplate), OnAddCalculationTemplate);
             DeleteCalculationTemplateCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.CalculationTemplate), OnDeleteCalculationTempalte, CanDeleteCalculationTemplate);
+            AddPaymentTemplateCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.PaymentTemplate), OnAddPaymentTemplate);
+            DeletePaymentTemplateCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.PaymentTemplate), OnDeletePaymentTemplate, CanDeletePaymentTemplate);
         }
 
         public ICaptionCommand AddTicketTagGroupCommand { get; set; }
@@ -35,6 +37,8 @@ namespace Samba.Modules.TicketModule
         public ICaptionCommand DeleteOrderTagGroupCommand { get; set; }
         public ICaptionCommand AddCalculationTemplateCommand { get; set; }
         public ICaptionCommand DeleteCalculationTemplateCommand { get; set; }
+        public ICaptionCommand AddPaymentTemplateCommand { get; set; }
+        public ICaptionCommand DeletePaymentTemplateCommand { get; set; }
 
         private IEnumerable<Numerator> _numerators;
         public IEnumerable<Numerator> Numerators { get { return _numerators ?? (_numerators = Workspace.All<Numerator>()); } set { _numerators = value; } }
@@ -45,13 +49,13 @@ namespace Samba.Modules.TicketModule
         public TicketTagGroup SelectedTicketTag { get; set; }
         public OrderTagGroup SelectedOrderTagGroup { get; set; }
         public CalculationTemplate SelectedCalculationTemplate { get; set; }
+        public PaymentTemplate SelectedPaymentTemplate { get; set; }
 
         private IEnumerable<AccountTransactionTemplate> _accountTransactionTemplates;
         public IEnumerable<AccountTransactionTemplate> AccountTransactionTemplates { get { return _accountTransactionTemplates ?? (_accountTransactionTemplates = Workspace.All<AccountTransactionTemplate>()); } }
 
         public virtual AccountTransactionTemplate SaleTransactionTemplate { get { return Model.SaleTransactionTemplate; } set { Model.SaleTransactionTemplate = value; } }
-        public virtual AccountTransactionTemplate PaymentTransactionTemplate { get { return Model.PaymentTransactionTemplate; } set { Model.PaymentTransactionTemplate = value; } }
-
+        
         private ObservableCollection<TicketTagGroup> _ticketTagGroups;
         public ObservableCollection<TicketTagGroup> TicketTagGroups
         {
@@ -62,6 +66,12 @@ namespace Samba.Modules.TicketModule
         public ObservableCollection<CalculationTemplate> CalculationTemplates
         {
             get { return _calculationTemplates ?? (_calculationTemplates = new ObservableCollection<CalculationTemplate>(GetCalculationTemplates(Model))); }
+        }
+
+        private ObservableCollection<PaymentTemplate> _paymentTemplates;
+        public ObservableCollection<PaymentTemplate> PaymentTemplates
+        {
+            get { return _paymentTemplates ?? (_paymentTemplates = new ObservableCollection<PaymentTemplate>(GetPaymentTemplates(Model))); }
         }
 
         private ObservableCollection<OrderTagGroup> _orderTagGroups;
@@ -85,6 +95,11 @@ namespace Samba.Modules.TicketModule
             return model.CalulationTemplates.OrderBy(x => x.Order);
         }
 
+        private static IEnumerable<PaymentTemplate> GetPaymentTemplates(TicketTemplate model)
+        {
+            return model.PaymentTemplates.OrderBy(x => x.Order);
+        }
+
         private bool CanDeleteOrderTagGroup(string arg)
         {
             return SelectedOrderTagGroup != null;
@@ -100,7 +115,7 @@ namespace Samba.Modules.TicketModule
         {
             var selectedValues =
                   InteractionService.UserIntraction.ChooseValuesFrom(Workspace.All<OrderTagGroup>().ToList<IOrderable>(),
-                  Model.OrderTagGroups.ToList<IOrderable>(), Resources.OrderTagGroups, string.Format(Resources.ChooseCalculationsForDepartmentHint_f, Model.Name),
+                  Model.OrderTagGroups.ToList<IOrderable>(), Resources.OrderTagGroups, string.Format(Resources.ChooseTagsForDepartmentHint, Model.Name),
                   Resources.OrderTagGroup, Resources.OrderTagGroups);
 
             foreach (OrderTagGroup selectedValue in selectedValues)
@@ -143,6 +158,36 @@ namespace Samba.Modules.TicketModule
             RaisePropertyChanged(() => TicketTagGroups);
         }
 
+        private bool CanDeletePaymentTemplate(string arg)
+        {
+            return SelectedPaymentTemplate != null;
+        }
+
+        private void OnDeletePaymentTemplate(string obj)
+        {
+            Model.PaymentTemplates.Remove(SelectedPaymentTemplate);
+            PaymentTemplates.Remove(SelectedPaymentTemplate);
+        }
+
+        private void OnAddPaymentTemplate(string obj)
+        {
+            var selectedValues =
+              InteractionService.UserIntraction.ChooseValuesFrom(Workspace.All<PaymentTemplate>().ToList<IOrderable>(),
+              Model.PaymentTemplates.ToList<IOrderable>(), Resources.PaymentTemplates, string.Format(Resources.ChoosePaymentsForTicketTemplate_f, Model.Name),
+              Resources.PaymentTemplate, Resources.PaymentTemplates);
+
+            foreach (PaymentTemplate selectedValue in selectedValues)
+            {
+                if (!Model.PaymentTemplates.Contains(selectedValue))
+                    Model.PaymentTemplates.Add(selectedValue);
+            }
+
+            _paymentTemplates = new ObservableCollection<PaymentTemplate>(GetPaymentTemplates(Model));
+
+            RaisePropertyChanged(() => PaymentTemplates);
+        }
+
+
         private bool CanDeleteCalculationTemplate(string arg)
         {
             return SelectedCalculationTemplate != null;
@@ -158,7 +203,7 @@ namespace Samba.Modules.TicketModule
         {
             var selectedValues =
               InteractionService.UserIntraction.ChooseValuesFrom(Workspace.All<CalculationTemplate>().ToList<IOrderable>(),
-              Model.CalulationTemplates.ToList<IOrderable>(), Resources.CalculationTemplates, string.Format(Resources.ChooseCalculationsForDepartmentHint_f, Model.Name),
+              Model.CalulationTemplates.ToList<IOrderable>(), Resources.CalculationTemplates, string.Format(Resources.ChooseCalculationsForTicketTemplate_f, Model.Name),
               Resources.CalculationTemplate, Resources.CalculationTemplates);
 
             foreach (CalculationTemplate selectedValue in selectedValues)
@@ -195,7 +240,6 @@ namespace Samba.Modules.TicketModule
             RuleFor(x => x.TicketNumerator).NotNull();
             RuleFor(x => x.OrderNumerator).NotNull();
             RuleFor(x => x.SaleTransactionTemplate).NotNull();
-            RuleFor(x => x.PaymentTransactionTemplate).NotNull();
         }
     }
 }

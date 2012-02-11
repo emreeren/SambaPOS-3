@@ -24,6 +24,8 @@ namespace Samba.Modules.DeliveryModule
             if (obj.Topic == EventTopicNames.EditAccountDetails)
             {
                 SelectedAccount = new AccountSearchViewModel(obj.Value);
+                CustomDataViewModel = new AccountCustomDataViewModel(obj.Value);
+                RaisePropertyChanged(() => CustomDataViewModel);
             }
         }
 
@@ -37,5 +39,7 @@ namespace Samba.Modules.DeliveryModule
                 RaisePropertyChanged(() => SelectedAccount);
             }
         }
+
+        public AccountCustomDataViewModel CustomDataViewModel { get; set; }
     }
 }

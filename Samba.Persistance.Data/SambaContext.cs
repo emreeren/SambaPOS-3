@@ -72,7 +72,9 @@ namespace Samba.Persistance.Data
         public DbSet<MenuItemPrice> MenuItemPrices { get; set; }
         public DbSet<TaxTemplate> TaxTemplates { get; set; }
         public DbSet<CalculationTemplate> CalculationTemplates { get; set; }
-        public DbSet<Calculation> Services { get; set; }
+        public DbSet<Calculation> Calculations { get; set; }
+        public DbSet<PaymentTemplate> PaymentTemplates { get; set; }
+        public DbSet<Payment> Payments { get; set; }
         public DbSet<AccountTransaction> AccountTransactions { get; set; }
         public DbSet<AccountTransactionValue> AccountTransactionValues { get; set; }
         public DbSet<AccountTransactionTemplate> AccountTransactionTemplates { get; set; }
@@ -80,20 +82,18 @@ namespace Samba.Persistance.Data
         
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AccountTransaction>().HasKey(p => new { p.Id, p.AccountTransactionDocumentId });
-            modelBuilder.Entity<AccountTransaction>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            modelBuilder.Entity<AccountTransactionDocument>().HasMany(p => p.AccountTransactions).WithRequired().HasForeignKey(x => x.AccountTransactionDocumentId);
+            modelBuilder.Entity<Account>().Property(x => x.CustomData).IsMaxLength();
 
             modelBuilder.Entity<TicketTemplate>().HasMany(p => p.TicketTagGroups).WithMany();
             modelBuilder.Entity<TicketTemplate>().HasMany(p => p.CalulationTemplates).WithMany();
             modelBuilder.Entity<TicketTemplate>().HasMany(p => p.OrderTagGroups).WithMany();
-
-            modelBuilder.Entity<Account>().Property(x => x.CustomData).IsMaxLength();
-
             modelBuilder.Entity<Department>().HasMany(p => p.LocationScreens).WithMany();
-
             modelBuilder.Entity<LocationScreen>().HasMany(p => p.Locations).WithMany();
             modelBuilder.Entity<Terminal>().HasMany(p => p.PrintJobs).WithMany();
+
+            modelBuilder.Entity<AccountTransaction>().HasKey(p => new { p.Id, p.AccountTransactionDocumentId });
+            modelBuilder.Entity<AccountTransaction>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<AccountTransactionDocument>().HasMany(p => p.AccountTransactions).WithRequired().HasForeignKey(x => x.AccountTransactionDocumentId);
 
             modelBuilder.Entity<TicketTagValue>().HasKey(p => new { p.Id, p.TicketId });
             modelBuilder.Entity<TicketTagValue>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
@@ -101,7 +101,11 @@ namespace Samba.Persistance.Data
 
             modelBuilder.Entity<Calculation>().HasKey(p => new { p.Id, p.TicketId });
             modelBuilder.Entity<Calculation>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            modelBuilder.Entity<Ticket>().HasMany(p => p.Services).WithRequired().HasForeignKey(x => x.TicketId);
+            modelBuilder.Entity<Ticket>().HasMany(p => p.Calculations).WithRequired().HasForeignKey(x => x.TicketId);
+
+            modelBuilder.Entity<Payment>().HasKey(p => new { p.Id, p.TicketId });
+            modelBuilder.Entity<Payment>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<Ticket>().HasMany(p => p.Payments).WithRequired().HasForeignKey(x => x.TicketId);
 
             modelBuilder.Entity<Order>().HasKey(p => new { p.Id, p.TicketId });
             modelBuilder.Entity<Order>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
@@ -121,9 +125,12 @@ namespace Samba.Persistance.Data
             //CalculationTemplate
             modelBuilder.Entity<CalculationTemplate>().Property(x => x.Amount).HasPrecision(precision, scale);
 
-            //Service
+            //Calculation
             modelBuilder.Entity<Calculation>().Property(x => x.Amount).HasPrecision(precision, scale);
             modelBuilder.Entity<Calculation>().Property(x => x.CalculationAmount).HasPrecision(precision, scale);
+
+            //Payment
+            modelBuilder.Entity<Payment>().Property(x => x.Amount).HasPrecision(precision, scale);
 
             //TaxTemplate
             modelBuilder.Entity<TaxTemplate>().Property(x => x.Rate).HasPrecision(precision, scale);

@@ -43,14 +43,14 @@ namespace Samba.Services
             var discountAccountTemplate = new AccountTemplate { Name = "Discount Accounts" };
 
             var defaultSaleAccount = new Account { AccountTemplate = saleAccountTemplate, Name = "Sales" };
-            var defaultpaymentAccount = new Account { AccountTemplate = paymentAccountTemplate, Name = Resources.Cash };
+            var cashAccount = new Account { AccountTemplate = paymentAccountTemplate, Name = Resources.Cash };
             var creditCardAccount = new Account { AccountTemplate = paymentAccountTemplate, Name = Resources.CreditCard };
             var voucherAccount = new Account { AccountTemplate = paymentAccountTemplate, Name = Resources.Voucher };
             var defaultCustomerAccount = new Account { AccountTemplate = customerAccountTemplate, Name = "Customer" };
             var defaultDiscountAccount = new Account { AccountTemplate = discountAccountTemplate, Name = "Discount" };
             var defaultRoundingAccount = new Account { AccountTemplate = discountAccountTemplate, Name = Resources.Rounding };
 
-            _workspace.Add(defaultpaymentAccount);
+            _workspace.Add(cashAccount);
             _workspace.Add(creditCardAccount);
             _workspace.Add(voucherAccount);
 
@@ -87,7 +87,7 @@ namespace Samba.Services
                 SourceAccountTemplate = customerAccountTemplate,
                 TargetAccountTemplate = paymentAccountTemplate,
                 DefaultSourceAccount = defaultCustomerAccount,
-                DefaultTargetAccount = defaultpaymentAccount
+                DefaultTargetAccount = cashAccount
             };
 
             _workspace.Add(saleTransactionTemplate);
@@ -133,12 +133,34 @@ namespace Samba.Services
                                          Name = Resources.TicketTemplate,
                                          TicketNumerator = ticketNumerator,
                                          OrderNumerator = orderNumerator,
-                                         SaleTransactionTemplate = saleTransactionTemplate,
-                                         PaymentTransactionTemplate = paymentTransactionTemplate
+                                         SaleTransactionTemplate = saleTransactionTemplate
                                      };
 
             ticketTemplate.CalulationTemplates.Add(discountService);
             ticketTemplate.CalulationTemplates.Add(roundingService);
+
+            var cashPayment = new PaymentTemplate
+            {
+                AccountTransactionTemplate = paymentTransactionTemplate,
+                Account = cashAccount,
+                Name = cashAccount.Name
+            };
+            var creditCardPayment = new PaymentTemplate
+            {
+                AccountTransactionTemplate = paymentTransactionTemplate,
+                Account = creditCardAccount,
+                Name = creditCardAccount.Name
+            };
+            var voucherPayment = new PaymentTemplate
+            {
+                AccountTransactionTemplate = paymentTransactionTemplate,
+                Account = voucherAccount,
+                Name = voucherAccount.Name
+            };
+
+            ticketTemplate.PaymentTemplates.Add(cashPayment);
+            ticketTemplate.PaymentTemplates.Add(creditCardPayment);
+            ticketTemplate.PaymentTemplates.Add(voucherPayment);
 
             _workspace.Add(ticketTemplate);
 

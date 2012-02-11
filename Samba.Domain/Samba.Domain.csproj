@@ -83,6 +83,8 @@
     <Compile Include="Models\Tickets\Calculation.cs" />
     <Compile Include="Models\Tickets\CalculationTemplate.cs" />
     <Compile Include="Models\Menus\TaxTemplate.cs" />
+    <Compile Include="Models\Tickets\Payment.cs" />
+    <Compile Include="Models\Tickets\PaymentTemplate.cs" />
     <Compile Include="Models\Tickets\TicketTagValue.cs" />
     <Compile Include="Models\Tickets\TicketTemplate.cs" />
     <Compile Include="Models\Transactions\CustomerTransaction.cs" />

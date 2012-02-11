@@ -1,0 +1,79 @@
+﻿<UserControl x:Class="Samba.Presentation.ViewModels.AccountCustomDataEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common"
+             xmlns:AccountModule="clr-namespace:Samba.Presentation.ViewModels" mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <DataTemplate x:Key="textTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" MinWidth="100" Content="{Binding Name}"/>
+                <TextBox Margin="0,0,2,2" Grid.Column="1" MinWidth="200" Text="{Binding Value}"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="numberTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="{Binding Name}"/>
+                <UIControls:FilteredTextBox Margin="0,0,2,2" Grid.Column="1" Type="Number" MinWidth="200" Text="{Binding Value}"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="wideTextTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="{Binding Name}"/>
+                <TextBox Margin="0,0,2,2" Grid.Column="1" MinWidth="200" Text="{Binding Value}" AcceptsReturn="True" MinHeight="40"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="comboBoxTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="{Binding Name}"/>
+                <ComboBox Margin="0,0,2,2" Grid.Column="1" MinWidth="200" ItemsSource="{Binding CustomField.Values}" SelectedItem="{Binding Value}" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="maskedTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="{Binding Name}"/>
+                <UIControls:MaskedTextBox Margin="0,0,2,2" Grid.Column="1" MinWidth="200" 
+                    PromptChar=" "
+                    UnmaskedText="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
+                    InputMask="{Binding CustomField.EditingFormat}"/>
+            </Grid>
+        </DataTemplate>
+
+        <AccountModule:AccountCustomFieldTemplateSelector x:Key="customFieldTemplateSelector" 
+            TextTemplate="{StaticResource textTemplate}"
+            WideTextTemplate="{StaticResource wideTextTemplate}"
+            MaskedTemplate="{StaticResource maskedTemplate}"
+            NumberTemplate="{StaticResource numberTemplate}"                                                          
+            ComboBoxTemplate="{StaticResource comboBoxTemplate}"                                                          
+        />
+    </UserControl.Resources>
+
+    <ItemsControl Focusable="False" ItemsSource="{Binding CustomData}" ItemTemplateSelector="{StaticResource customFieldTemplateSelector}"/>
+
+</UserControl>

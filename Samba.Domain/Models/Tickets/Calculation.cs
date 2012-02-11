@@ -9,6 +9,7 @@ namespace Samba.Domain.Models.Tickets
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public int Order { get; set; }
         public int ServiceId { get; set; }
         public int TicketId { get; set; }
         public int AccountTransactionTemplateId { get; set; }
@@ -17,6 +18,5 @@ namespace Samba.Domain.Models.Tickets
         public bool DecreaseAmount { get; set; }
         public decimal Amount { get; set; }
         public decimal CalculationAmount { get; set; }
-        public object Order { get; set; }
     }
 }

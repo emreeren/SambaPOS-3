@@ -65,7 +65,7 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 
                 if (serviceSum > 0)
                 {
-                    ReportContext.Tickets.SelectMany(x => x.Services).GroupBy(x => x.ServiceId).ToList().ForEach(
+                    ReportContext.Tickets.SelectMany(x => x.Calculations).GroupBy(x => x.ServiceId).ToList().ForEach(
                         x =>
                         {
                             var template = ReportContext.CalculationTemplates.SingleOrDefault(y => y.Id == x.Key);
@@ -128,9 +128,9 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 
                     var groups = ReportContext.Tickets
                         .Where(x => x.DepartmentId == dinfo.DepartmentId)
-                        .SelectMany(x => x.AccountTransactions.AccountTransactions.Where(y => y.AccountTransactionTemplateId == x.PaymentTransactionTemplateId))
-                        .GroupBy(x => new { x.TargetTransactionValue.AccountName })
-                        .Select(x => new TenderedAmount { PaymentName = x.Key.AccountName, Amount = x.Sum(y => y.Amount) });
+                        .SelectMany(x => x.Payments)
+                        .GroupBy(x => new { x.Name })
+                        .Select(x => new TenderedAmount { PaymentName = x.Key.Name, Amount = x.Sum(y => y.Amount) });
 
                     var departmentAmountCalculator = new AmountCalculator(groups);
 

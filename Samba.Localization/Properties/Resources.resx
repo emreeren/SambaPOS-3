@@ -577,7 +577,7 @@ Payment</value>
     <value>Tag Group</value>
   </data>
   <data name="ChooseTagsForDepartmentHint" xml:space="preserve">
-    <value>Select tags for using at {0} department.</value>
+    <value>Select tags for using at {0} template.</value>
   </data>
   <data name="Department" xml:space="preserve">
     <value>Department</value>
@@ -2768,8 +2768,14 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="RoundingTotal" xml:space="preserve">
     <value>Rounding Total</value>
   </data>
-  <data name="ChooseCalculationsForDepartmentHint_f" xml:space="preserve">
+  <data name="ChooseLocationScreensForTicketTemplate_f" xml:space="preserve">
+    <value>Select Location Screens for using at {0} template.</value>
+  </data>
+  <data name="ChooseCalculationsForTicketTemplate_f" xml:space="preserve">
     <value>Select calculations for using at {0} template.</value>
+  </data>
+  <data name="ChoosePaymentsForTicketTemplate_f" xml:space="preserve">
+    <value>Select Payment Templates for using at {0} template.</value>
   </data>
   <data name="CalculationMethod" xml:space="preserve">
     <value>Calculation Method</value>
@@ -3033,4 +3039,10 @@ Continue without adding details?</value>
     <value>Decrease Amount</value>
     <comment>CheckBox content</comment>
   </data>
+	<data name="PaymentTemplate">
+		<value xml:space="preserve">Payment Template</value>
+	</data>
+	<data name="PaymentTemplates">
+		<value xml:space="preserve">Payment Templates</value>
+	</data>
 </root>

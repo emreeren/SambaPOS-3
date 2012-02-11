@@ -21,22 +21,21 @@ namespace Samba.Presentation.ViewModels
         {
             get
             {
-                return _payments ?? (_payments = new ObservableCollection<PaymentViewModel>(Model.AccountTransactions.AccountTransactions
-                    .Where(x => x.AccountTransactionTemplateId == Model.PaymentTransactionTemplateId)
-                    .Select(x => new PaymentViewModel(x.TargetTransactionValue))));
+                return _payments ?? (_payments = new ObservableCollection<PaymentViewModel>(
+                    Model.Payments.Select(x => new PaymentViewModel(x))));
             }
         }
 
         private ObservableCollection<ServiceViewModel> _preServices;
         public ObservableCollection<ServiceViewModel> PreServices
         {
-            get { return _preServices ?? (_preServices = new ObservableCollection<ServiceViewModel>(Model.Services.Where(x => !x.IncludeTax).Select(x => new ServiceViewModel(x)))); }
+            get { return _preServices ?? (_preServices = new ObservableCollection<ServiceViewModel>(Model.Calculations.Where(x => !x.IncludeTax).Select(x => new ServiceViewModel(x)))); }
         }
 
         private ObservableCollection<ServiceViewModel> _postServices;
         public ObservableCollection<ServiceViewModel> PostServices
         {
-            get { return _postServices ?? (_postServices = new ObservableCollection<ServiceViewModel>(Model.Services.Where(x => x.IncludeTax).Select(x => new ServiceViewModel(x)))); }
+            get { return _postServices ?? (_postServices = new ObservableCollection<ServiceViewModel>(Model.Calculations.Where(x => x.IncludeTax).Select(x => new ServiceViewModel(x)))); }
         }
 
         public decimal TicketTotalValue { get { return Model.GetSum(); } }

@@ -190,7 +190,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
         private static string GetServiceDetails(Ticket ticket)
         {
             var sb = new StringBuilder();
-            foreach (var service in ticket.Services)
+            foreach (var service in ticket.Calculations)
             {
                 var lservice = service;
                 var ts = SettingService.GetCalculationTemplateById(lservice.ServiceId);

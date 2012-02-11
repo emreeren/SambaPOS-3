@@ -30,6 +30,7 @@ namespace Samba.Modules.TicketModule
         public int CalculationMethod { get { return Model.CalculationMethod; } set { Model.CalculationMethod = value; } }
         public decimal Amount { get { return Model.Amount; } set { Model.Amount = value; } }
         public string ButtonHeader { get { return Model.ButtonHeader; } set { Model.ButtonHeader = value; } }
+        public string ButtonColor { get { return Model.ButtonColor; } set { Model.ButtonColor = value; } }
         public bool IncludeTax { get { return Model.IncludeTax; } set { Model.IncludeTax = value; } }
         public bool DecreaseAmount { get { return Model.DecreaseAmount; } set { Model.DecreaseAmount = value; } }
 

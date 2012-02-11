@@ -43,6 +43,8 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,6 +53,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountCustomDataEditor.xaml.cs">
+      <DependentUpon>AccountCustomDataEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AccountCustomDataViewModel.cs" />
+    <Compile Include="AccountCustomFieldTemplateSelector.cs" />
     <Compile Include="CommandButtonViewModel.cs" />
     <Compile Include="AccountSearchViewModel.cs" />
     <Compile Include="ServiceViewModel.cs" />
@@ -102,6 +109,12 @@
       <Project>{413B698C-0D7D-4FCD-9F16-AF51AED4E647}</Project>
       <Name>Samba.Services</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="AccountCustomDataEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -30,8 +30,9 @@ namespace Samba.Domain.Models.Tickets
 
             _orders = new List<Order>();
             _paidItems = new List<PaidItem>();
-            _services = new List<Calculation>();
+            _calculations = new List<Calculation>();
             _tags = new List<TicketTagValue>();
+            _payments = new List<Payment>();
         }
 
         private static Ticket _emptyTicket;
@@ -83,8 +84,6 @@ namespace Samba.Domain.Models.Tickets
         public virtual AccountTransaction SaleTransaction { get; set; }
         public virtual AccountTransactionDocument AccountTransactions { get; set; }
 
-        public int PaymentTransactionTemplateId { get; set; }
-
         private IList<Order> _orders;
         public virtual IList<Order> Orders
         {
@@ -92,11 +91,18 @@ namespace Samba.Domain.Models.Tickets
             set { _orders = value; }
         }
 
-        private IList<Calculation> _services;
-        public virtual IList<Calculation> Services
+        private IList<Calculation> _calculations;
+        public virtual IList<Calculation> Calculations
         {
-            get { return _services; }
-            set { _services = value; }
+            get { return _calculations; }
+            set { _calculations = value; }
+        }
+
+        private IList<Payment> _payments;
+        public virtual IList<Payment> Payments
+        {
+            get { return _payments; }
+            set { _payments = value; }
         }
 
         private IList<TicketTagValue> _tags;
@@ -122,12 +128,16 @@ namespace Samba.Domain.Models.Tickets
             return tif;
         }
 
-        public void AddPayment(DateTime date, decimal amount, Account paymentAccount, int userId, AccountTransactionTemplate paymentTransactionTemplate)
+        public void AddPayment(PaymentTemplate paymentTemplate, decimal amount, int userId)
         {
-            var transaction = AccountTransaction.Create(paymentTransactionTemplate);
+            var transaction = AccountTransaction.Create(paymentTemplate.AccountTransactionTemplate);
             transaction.Amount = amount;
-            transaction.SetTargetAccount(paymentAccount);
+            transaction.SetTargetAccount(paymentTemplate.Account);
             AccountTransactions.AccountTransactions.Add(transaction);
+
+            var payment = new Payment { AccountTransaction = transaction, Amount = amount, Name = paymentTemplate.Account.Name };
+            Payments.Add(payment);
+
             LastPaymentDate = DateTime.Now;
             RemainingAmount = GetRemainingAmount();
             if (RemainingAmount == 0)
@@ -149,25 +159,25 @@ namespace Samba.Domain.Models.Tickets
         public decimal GetSum()
         {
             var plainSum = GetPlainSum();
-            var services = CalculateServices(Services.Where(x => !x.IncludeTax), plainSum);
+            var services = CalculateServices(Calculations.Where(x => !x.IncludeTax), plainSum);
             var tax = CalculateTax(plainSum, services);
             plainSum = plainSum + services + tax;
-            services = CalculateServices(Services.Where(x => x.IncludeTax), plainSum);
+            services = CalculateServices(Calculations.Where(x => x.IncludeTax), plainSum);
             return (plainSum + services);
         }
 
         public decimal GetPreTaxServicesTotal()
         {
             var plainSum = GetPlainSum();
-            return CalculateServices(Services.Where(x => !x.IncludeTax), plainSum);
+            return CalculateServices(Calculations.Where(x => !x.IncludeTax), plainSum);
         }
 
         public decimal GetPostTaxServicesTotal()
         {
             var plainSum = GetPlainSum();
-            var postServices = CalculateServices(Services.Where(x => !x.IncludeTax), plainSum);
+            var postServices = CalculateServices(Calculations.Where(x => !x.IncludeTax), plainSum);
             var tax = CalculateTax(plainSum, postServices);
-            return CalculateServices(Services.Where(x => x.IncludeTax), plainSum + postServices + tax);
+            return CalculateServices(Calculations.Where(x => x.IncludeTax), plainSum + postServices + tax);
         }
 
         public decimal CalculateTax(decimal plainSum, decimal preTaxServices)
@@ -224,8 +234,8 @@ namespace Samba.Domain.Models.Tickets
 
         public void AddCalculation(CalculationTemplate template, decimal amount)
         {
-            var t = Services.SingleOrDefault(x => x.ServiceId == template.Id) ??
-                    Services.SingleOrDefault(x => x.AccountTransactionTemplateId == template.AccountTransactionTemplate.Id);
+            var t = Calculations.SingleOrDefault(x => x.ServiceId == template.Id) ??
+                    Calculations.SingleOrDefault(x => x.AccountTransactionTemplateId == template.AccountTransactionTemplate.Id);
             if (t == null)
             {
                 t = new Calculation
@@ -243,7 +253,7 @@ namespace Samba.Domain.Models.Tickets
                 var transaction = AccountTransaction.Create(template.AccountTransactionTemplate);
                 transaction.Name = t.Name;
                 AccountTransactions.AccountTransactions.Add(transaction);
-                Services.Add(t);
+                Calculations.Add(t);
             }
             else if (t.Amount == amount) amount = 0;
 
@@ -251,7 +261,7 @@ namespace Samba.Domain.Models.Tickets
 
             if (amount == 0)
             {
-                Services.Remove(t);
+                Calculations.Remove(t);
                 AccountTransactions.AccountTransactions.Remove(
                     AccountTransactions.AccountTransactions.Single(x => t.AccountTransactionTemplateId == x.AccountTransactionTemplateId));
             }
@@ -266,7 +276,7 @@ namespace Samba.Domain.Models.Tickets
 
         public decimal GetPaymentAmount()
         {
-            return AccountTransactions.AccountTransactions.Where(x => x.AccountTransactionTemplateId == PaymentTransactionTemplateId).Sum(x => x.Amount);
+            return Payments.Sum(x => x.Amount);
         }
 
         public decimal GetRemainingAmount()
@@ -375,12 +385,12 @@ namespace Samba.Domain.Models.Tickets
         {
             var ticket = new Ticket { DepartmentId = department.Id };
 
-            foreach (var calulationTemplate in department.TicketTemplate.CalulationTemplates.Where(x => string.IsNullOrEmpty(x.ButtonHeader)))
+            foreach (var calulationTemplate in department.TicketTemplate.CalulationTemplates.OrderBy(x => x.Order)
+                .Where(x => string.IsNullOrEmpty(x.ButtonHeader)))
             {
                 ticket.AddCalculation(calulationTemplate, calulationTemplate.Amount);
             }
 
-            ticket.PaymentTransactionTemplateId = department.TicketTemplate.PaymentTransactionTemplate.Id;
             ticket.AccountTransactions = new AccountTransactionDocument();
             ticket.SaleTransaction = AccountTransaction.Create(department.TicketTemplate.SaleTransactionTemplate);
             ticket.AccountTransactions.AccountTransactions.Add(ticket.SaleTransaction);

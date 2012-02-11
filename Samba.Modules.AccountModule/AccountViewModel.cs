@@ -1,27 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
-using System.Linq;
-using System.Runtime.Serialization;
 using FluentValidation;
 using Samba.Domain.Models.Accounts;
-using Samba.Infrastructure;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
+using Samba.Presentation.ViewModels;
 
 namespace Samba.Modules.AccountModule
 {
-    [DataContract]
-    public class CustomDataValue
-    {
-        [DataMember]
-        public string Name { get; set; }
-        [DataMember]
-        public string Value { get; set; }
-        public AccountCustomField CustomField { get; set; }
-    }
-
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class AccountViewModel : EntityViewModelBase<Account>
     {
@@ -37,45 +24,15 @@ namespace Samba.Modules.AccountModule
             set
             {
                 Model.AccountTemplate = value;
-                _customData = null;
-                RaisePropertyChanged(() => CustomData);
+                _customDataViewModel = null;
+                RaisePropertyChanged(() => CustomDataViewModel);
             }
         }
 
-        private ObservableCollection<CustomDataValue> _customData;
-        public ObservableCollection<CustomDataValue> CustomData
+        private AccountCustomDataViewModel _customDataViewModel;
+        public AccountCustomDataViewModel CustomDataViewModel
         {
-            get { return _customData ?? (_customData = GetCustomData(Model.CustomData)); }
-        }
-
-        private ObservableCollection<CustomDataValue> GetCustomData(string customData)
-        {
-            var data = new ObservableCollection<CustomDataValue>();
-            try
-            {
-                if (!string.IsNullOrWhiteSpace(customData))
-                    data = JsonHelper.Deserialize<ObservableCollection<CustomDataValue>>(customData) ??
-                    new ObservableCollection<CustomDataValue>();
-            }
-            finally
-            {
-                GenerateFields(data);
-            }
-            return data;
-        }
-
-        private void GenerateFields(ObservableCollection<CustomDataValue> data)
-        {
-            if (AccountTemplate != null)
-            {
-                foreach (var cf in AccountTemplate.AccountCustomFields)
-                {
-                    var customField = cf;
-                    var d = data.FirstOrDefault(x => x.Name == customField.Name);
-                    if (d == null) data.Add(new CustomDataValue { Name = cf.Name, CustomField = cf });
-                    else d.CustomField = cf;
-                }
-            }
+            get { return _customDataViewModel ?? (_customDataViewModel = Model != null ? new AccountCustomDataViewModel(Model) : null); }
         }
 
         public override Type GetViewType()
@@ -97,7 +54,7 @@ namespace Samba.Modules.AccountModule
 
         protected override void OnSave(string value)
         {
-            Model.CustomData = JsonHelper.Serialize(_customData);
+            CustomDataViewModel.Update();
             base.OnSave(value);
         }
     }

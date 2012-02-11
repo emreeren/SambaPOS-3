@@ -1393,14 +1393,32 @@ namespace Samba.Localization.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Select calculations for using at {0} template..
         /// </summary>
-        public static string ChooseCalculationsForDepartmentHint_f {
+        public static string ChooseCalculationsForTicketTemplate_f {
             get {
-                return ResourceManager.GetString("ChooseCalculationsForDepartmentHint_f", resourceCulture);
+                return ResourceManager.GetString("ChooseCalculationsForTicketTemplate_f", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select tags for using at {0} department..
+        ///   Looks up a localized string similar to Select Location Screens for using at {0} template..
+        /// </summary>
+        public static string ChooseLocationScreensForTicketTemplate_f {
+            get {
+                return ResourceManager.GetString("ChooseLocationScreensForTicketTemplate_f", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Payment Templates for using at {0} template..
+        /// </summary>
+        public static string ChoosePaymentsForTicketTemplate_f {
+            get {
+                return ResourceManager.GetString("ChoosePaymentsForTicketTemplate_f", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select tags for using at {0} template..
         /// </summary>
         public static string ChooseTagsForDepartmentHint {
             get {
@@ -4825,6 +4843,24 @@ namespace Samba.Localization.Properties {
         public static string PastWeek {
             get {
                 return ResourceManager.GetString("PastWeek", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Payment Template.
+        /// </summary>
+        public static string PaymentTemplate {
+            get {
+                return ResourceManager.GetString("PaymentTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Payment Templates.
+        /// </summary>
+        public static string PaymentTemplates {
+            get {
+                return ResourceManager.GetString("PaymentTemplates", resourceCulture);
             }
         }
         

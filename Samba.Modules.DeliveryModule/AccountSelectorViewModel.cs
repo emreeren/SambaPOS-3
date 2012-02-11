@@ -174,7 +174,7 @@ namespace Samba.Modules.DeliveryModule
         private void OnCreateAccount(string obj)
         {
             ClearSearchValues();
-            var c = new Account();
+            var c = new Account { AccountTemplate = _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.TargetAccountTemplate };
             c.PublishEvent(EventTopicNames.EditAccountDetails);
         }
 
@@ -266,8 +266,10 @@ namespace Samba.Modules.DeliveryModule
                 worker.DoWork += delegate
                 {
                     var searchPn = string.IsNullOrEmpty(SearchString.Trim());
-                    result = Dao.Query<Account>(
-                        x => (searchPn || x.CustomData.Contains(SearchString) || x.Name.Contains(SearchString)));
+                    result = Dao.Query<Account>(x =>
+                        x.AccountTemplate.Id == _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.TargetAccountTemplate.Id
+                        && x.Id != _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.DefaultTargetAccount.Id
+                        && (searchPn || x.CustomData.Contains(SearchString) || x.Name.Contains(SearchString)));
                 };
 
                 worker.RunWorkerCompleted +=

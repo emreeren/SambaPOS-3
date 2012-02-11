@@ -1,53 +1,11 @@
 ﻿<UserControl x:Class="Samba.Modules.AccountModule.AccountView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:Common="clr-namespace:Samba.Presentation.Common;assembly=Samba.Presentation.Common" xmlns:AccountModule="clr-namespace:Samba.Modules.AccountModule" xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common" mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:ViewModels="clr-namespace:Samba.Presentation.ViewModels;assembly=Samba.Presentation.ViewModels" mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-        <DataTemplate x:Key="textTemplate">
-            <StackPanel>
-                <Label Content="{Binding Name}"/>
-                <TextBox MinWidth="60" Text="{Binding Value}"/>
-            </StackPanel>
-        </DataTemplate>
-
-        <DataTemplate x:Key="numberTemplate">
-            <StackPanel>
-                <Label Content="{Binding Name}"/>
-                <UIControls:FilteredTextBox Type="Number" MinWidth="60" Text="{Binding Value}"/>
-            </StackPanel>
-        </DataTemplate>
-
-        <DataTemplate x:Key="wideTextTemplate">
-            <StackPanel>
-                <Label Content="{Binding Name}"/>
-                <TextBox MinWidth="60" Text="{Binding Value}" AcceptsReturn="True" MinHeight="40"/>
-            </StackPanel>
-        </DataTemplate>
-
-        <DataTemplate x:Key="comboBoxTemplate">
-            <StackPanel>
-                <Label Content="{Binding Name}"/>
-                <ComboBox MinWidth="60" ItemsSource="{Binding CustomField.Values}" SelectedItem="{Binding Value}" />
-            </StackPanel>
-        </DataTemplate>
-
-        <DataTemplate x:Key="maskedTemplate">
-            <StackPanel>
-                <Label Content="{Binding Name}"/>
-                <UIControls:MaskedTextBox MinWidth="60" 
-                    PromptChar=" "
-                    UnmaskedText="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
-                    InputMask="{Binding CustomField.EditingFormat}"/>
-            </StackPanel>
-        </DataTemplate>
-
-        <AccountModule:AccountCustomFieldTemplateSelector x:Key="customFieldTemplateSelector" 
-            TextTemplate="{StaticResource textTemplate}"
-            WideTextTemplate="{StaticResource wideTextTemplate}"
-            MaskedTemplate="{StaticResource maskedTemplate}"
-            NumberTemplate="{StaticResource numberTemplate}"                                                          
-            ComboBoxTemplate="{StaticResource comboBoxTemplate}"                                                          
-        />
-
+        <Style TargetType="Label">
+            <Setter Property="MinWidth" Value="120"/>
+            <Setter Property="Margin" Value="0,3,3,0"/>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <StackPanel>
@@ -61,8 +19,9 @@
             <ComboBox HorizontalAlignment="Left" MinWidth="150" 
                       ItemsSource="{Binding AccountTemplates}" 
                       SelectedItem="{Binding AccountTemplate}" DisplayMemberPath="Name"/>
-            <ItemsControl ItemsSource="{Binding CustomData}" HorizontalAlignment="Left" Focusable="False" ItemTemplateSelector="{StaticResource customFieldTemplateSelector}">
-            </ItemsControl>
+
+            <ViewModels:AccountCustomDataEditor Margin="0,5" HorizontalAlignment="Left" Focusable="False" DataContext="{Binding CustomDataViewModel}"/>
+
             <Button HorizontalAlignment="Left" Margin="0,10" MinWidth="70" Content="{Binding SaveCommand.Caption}"
                  Command="{Binding SaveCommand}" />
             <Label Content="{Binding Error}" Foreground="Red" />

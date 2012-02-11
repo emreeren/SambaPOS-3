@@ -1,21 +1,21 @@
 ﻿using System;
-using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Common;
 
 namespace Samba.Presentation.ViewModels
 {
     public class PaymentViewModel : ObservableObject
     {
-        public AccountTransactionValue Model { get; set; }
+        public Payment Model { get; set; }
 
-        public PaymentViewModel(AccountTransactionValue model)
+        public PaymentViewModel(Payment model)
         {
             Model = model;
         }
 
         public decimal Amount
         {
-            get { return Model.Receivable+Model.Liability; }
+            get { return Model.Amount; }
         }
 
         public DateTime Date
@@ -36,7 +36,7 @@ namespace Samba.Presentation.ViewModels
 
         public string PaymentTypeDisplay
         {
-            get { return Model.AccountName; }
+            get { return Model.Name; }
         }
 
         public string AmountDisplay

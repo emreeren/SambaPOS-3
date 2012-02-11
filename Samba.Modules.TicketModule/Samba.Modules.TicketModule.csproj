@@ -88,6 +88,10 @@
     </Compile>
     <Compile Include="OrderTagTemplateViewModel.cs" />
     <Compile Include="OrderTagViewModel.cs" />
+    <Compile Include="PaymentTemplateView.xaml.cs">
+      <DependentUpon>PaymentTemplateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PaymentTemplateViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CalculationTemplateView.xaml.cs">
       <DependentUpon>CalculationTemplateView.xaml</DependentUpon>
@@ -115,6 +119,10 @@
     <Page Include="CalculationTemplateView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PaymentTemplateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TicketTagGroupView.xaml">
       <Generator>MSBuild:Compile</Generator>

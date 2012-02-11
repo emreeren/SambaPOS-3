@@ -576,7 +576,7 @@ Yap</value>
 		<value>Etiket Grubu</value>
 	</data>
 	<data name="ChooseTagsForDepartmentHint" xml:space="preserve">
-		<value>{0} departmanında kullanmak istediğiniz etiketleri seçiniz.</value>
+		<value>{0} şablonunda kullanmak istediğiniz etiketleri seçiniz.</value>
 	</data>
 	<data name="Department" xml:space="preserve">
 		<value>Departman</value>
@@ -2770,9 +2770,15 @@ Borçlandır</value>
 	<data name="RoundingTotal" xml:space="preserve">
 		<value>Yuvarlama Toplamı</value>
 	</data>
-	<data name="ChooseCalculationsForDepartmentHint_f" xml:space="preserve">
-		<value>{0} şablunda kullanmak istediğiniz hesaplama şablonlarını seçiniz.</value>
-	</data>
+  <data name="ChooseLocationScreensForTicketTemplate_f" xml:space="preserve">
+    <value>{0} şablonunda kullanmak istediğiniz yer şablonlarını seçiniz.</value>
+  </data>
+  <data name="ChooseCalculationsForTicketTemplate_f" xml:space="preserve">
+    <value>{0} şablunda kullanmak istediğiniz hesaplama şablonlarını seçiniz.</value>
+  </data>
+  <data name="ChoosePaymentsForTicketTemplate_f" xml:space="preserve">
+    <value>{0} şablunda kullanmak istediğiniz ödeme şablonlarını seçiniz.</value>
+  </data>
 	<data name="CalculationMethod" xml:space="preserve">
 		<value>Hesaplama Metodu</value>
 		<comment>Label.Content</comment>
