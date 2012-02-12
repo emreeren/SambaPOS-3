@@ -6,6 +6,7 @@ using System.Text;
 using Samba.Domain.Models.Accounts;
 using Samba.Presentation.Common;
 using Samba.Presentation.ViewModels;
+using Samba.Services;
 using Samba.Services.Common;
 
 namespace Samba.Modules.DeliveryModule
@@ -13,9 +14,12 @@ namespace Samba.Modules.DeliveryModule
     [Export]
     public class AccountEditorViewModel : ObservableObject
     {
+        private readonly ICacheService _cacheService;
+
         [ImportingConstructor]
-        public AccountEditorViewModel()
+        public AccountEditorViewModel(ICacheService cacheService)
         {
+            _cacheService = cacheService;
             EventServiceFactory.EventService.GetEvent<GenericEvent<Account>>().Subscribe(OnEditAccount);
         }
 
@@ -23,8 +27,9 @@ namespace Samba.Modules.DeliveryModule
         {
             if (obj.Topic == EventTopicNames.EditAccountDetails)
             {
+                var accountTemplate = _cacheService.GetAccountTemplateById(obj.Value.AccountTemplateId);
                 SelectedAccount = new AccountSearchViewModel(obj.Value);
-                CustomDataViewModel = new AccountCustomDataViewModel(obj.Value);
+                CustomDataViewModel = new AccountCustomDataViewModel(obj.Value, accountTemplate);
                 RaisePropertyChanged(() => CustomDataViewModel);
             }
         }

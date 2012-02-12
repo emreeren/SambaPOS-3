@@ -19,14 +19,14 @@ namespace Samba.Modules.DepartmentModule
 
         private void OnSelectDepartment(string obj)
         {
-            _parentViewModel.UpdateSelectedDepartment(Department);
+            _parentViewModel.UpdateSelectedDepartment(DepartmentId);
         }
 
         public ICaptionCommand DepartmentSelectionCommand { get; set; }
 
         public string Name { get; set; }
-        public Department Department { get; set; }
-        public string ButtonColor { get { return _applicationState.CurrentDepartment == Department ? "Gray" : "Gainsboro"; } }
+        public int DepartmentId { get; set; }
+        public string ButtonColor { get { return _applicationState.CurrentDepartment != null && _applicationState.CurrentDepartment.Id == DepartmentId ? "Gray" : "Gainsboro"; } }
 
         public void Refresh()
         {

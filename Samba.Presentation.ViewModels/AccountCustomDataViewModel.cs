@@ -21,9 +21,11 @@ namespace Samba.Presentation.ViewModels
     public class AccountCustomDataViewModel : ObservableObject
     {
         public Account Model { get; set; }
+        private readonly AccountTemplate _template;
 
-        public AccountCustomDataViewModel(Account model)
+        public AccountCustomDataViewModel(Account model, AccountTemplate template)
         {
+            _template = template;
             Model = model;
         }
 
@@ -51,17 +53,16 @@ namespace Samba.Presentation.ViewModels
 
         private void GenerateFields(ICollection<CustomDataValue> data)
         {
-            if (Model.AccountTemplate != null)
-            {
-                data.Where(x => !Model.AccountTemplate.AccountCustomFields.Any(y => y.Name == x.Name)).ToList().ForEach(x => data.Remove(x));
+            if(_template == null) return;
 
-                foreach (var cf in Model.AccountTemplate.AccountCustomFields)
-                {
-                    var customField = cf;
-                    var d = data.FirstOrDefault(x => x.Name == customField.Name);
-                    if (d == null) data.Add(new CustomDataValue { Name = cf.Name, CustomField = cf });
-                    else d.CustomField = cf;
-                }
+            data.Where(x => !_template.AccountCustomFields.Any(y => y.Name == x.Name)).ToList().ForEach(x => data.Remove(x));
+
+            foreach (var cf in _template.AccountCustomFields)
+            {
+                var customField = cf;
+                var d = data.FirstOrDefault(x => x.Name == customField.Name);
+                if (d == null) data.Add(new CustomDataValue { Name = cf.Name, CustomField = cf });
+                else d.CustomField = cf;
             }
         }
 

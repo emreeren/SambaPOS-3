@@ -42,52 +42,65 @@ namespace Samba.Services
             var customerAccountTemplate = new AccountTemplate { Name = "Customer Accounts" };
             var discountAccountTemplate = new AccountTemplate { Name = "Discount Accounts" };
 
-            var defaultSaleAccount = new Account { AccountTemplate = saleAccountTemplate, Name = "Sales" };
-            var cashAccount = new Account { AccountTemplate = paymentAccountTemplate, Name = Resources.Cash };
-            var creditCardAccount = new Account { AccountTemplate = paymentAccountTemplate, Name = Resources.CreditCard };
-            var voucherAccount = new Account { AccountTemplate = paymentAccountTemplate, Name = Resources.Voucher };
-            var defaultCustomerAccount = new Account { AccountTemplate = customerAccountTemplate, Name = "Customer" };
-            var defaultDiscountAccount = new Account { AccountTemplate = discountAccountTemplate, Name = "Discount" };
-            var defaultRoundingAccount = new Account { AccountTemplate = discountAccountTemplate, Name = Resources.Rounding };
+            _workspace.Add(saleAccountTemplate);
+            _workspace.Add(paymentAccountTemplate);
+            _workspace.Add(customerAccountTemplate);
+            _workspace.Add(discountAccountTemplate);
 
+            _workspace.CommitChanges();
+
+            var defaultSaleAccount = new Account { AccountTemplateId = saleAccountTemplate.Id, Name = "Sales" };
+            var cashAccount = new Account { AccountTemplateId = paymentAccountTemplate.Id, Name = Resources.Cash };
+            var creditCardAccount = new Account { AccountTemplateId = paymentAccountTemplate.Id, Name = Resources.CreditCard };
+            var voucherAccount = new Account { AccountTemplateId = paymentAccountTemplate.Id, Name = Resources.Voucher };
+            var defaultCustomerAccount = new Account { AccountTemplateId = customerAccountTemplate.Id, Name = "Customer" };
+            var defaultDiscountAccount = new Account { AccountTemplateId = discountAccountTemplate.Id, Name = "Discount" };
+            var defaultRoundingAccount = new Account { AccountTemplateId = discountAccountTemplate.Id, Name = Resources.Rounding };
+
+            _workspace.Add(defaultSaleAccount);
+            _workspace.Add(defaultCustomerAccount);
+            _workspace.Add(defaultDiscountAccount);
+            _workspace.Add(defaultRoundingAccount);
             _workspace.Add(cashAccount);
             _workspace.Add(creditCardAccount);
             _workspace.Add(voucherAccount);
 
+            _workspace.CommitChanges();
+
             var discountTransactionTemplate = new AccountTransactionTemplate
             {
                 Name = "Discount Transaction",
-                SourceAccountTemplate = customerAccountTemplate,
-                TargetAccountTemplate = discountAccountTemplate,
-                DefaultSourceAccount = defaultCustomerAccount,
-                DefaultTargetAccount = defaultDiscountAccount
+                SourceAccountTemplateId = customerAccountTemplate.Id,
+                TargetAccountTemplateId = discountAccountTemplate.Id,
+                DefaultSourceAccountId = defaultCustomerAccount.Id,
+                DefaultTargetAccountId = defaultDiscountAccount.Id
             };
 
             var roundingTransactionTemplate = new AccountTransactionTemplate
             {
                 Name = "Rounding Transaction",
-                SourceAccountTemplate = customerAccountTemplate,
-                TargetAccountTemplate = discountAccountTemplate,
-                DefaultSourceAccount = defaultCustomerAccount,
-                DefaultTargetAccount = defaultRoundingAccount
+                SourceAccountTemplateId = customerAccountTemplate.Id,
+                TargetAccountTemplateId = discountAccountTemplate.Id,
+                DefaultSourceAccountId = defaultCustomerAccount.Id,
+                DefaultTargetAccountId = defaultRoundingAccount.Id
             };
 
             var saleTransactionTemplate = new AccountTransactionTemplate
             {
                 Name = "Sale Transaction",
-                SourceAccountTemplate = saleAccountTemplate,
-                TargetAccountTemplate = customerAccountTemplate,
-                DefaultSourceAccount = defaultSaleAccount,
-                DefaultTargetAccount = defaultCustomerAccount
+                SourceAccountTemplateId = saleAccountTemplate.Id,
+                TargetAccountTemplateId = customerAccountTemplate.Id,
+                DefaultSourceAccountId = defaultSaleAccount.Id,
+                DefaultTargetAccountId = defaultCustomerAccount.Id
             };
 
             var paymentTransactionTemplate = new AccountTransactionTemplate
             {
                 Name = "Payment Transaction",
-                SourceAccountTemplate = customerAccountTemplate,
-                TargetAccountTemplate = paymentAccountTemplate,
-                DefaultSourceAccount = defaultCustomerAccount,
-                DefaultTargetAccount = cashAccount
+                SourceAccountTemplateId = customerAccountTemplate.Id,
+                TargetAccountTemplateId = paymentAccountTemplate.Id,
+                DefaultSourceAccountId = defaultCustomerAccount.Id,
+                DefaultTargetAccountId = cashAccount.Id
             };
 
             _workspace.Add(saleTransactionTemplate);

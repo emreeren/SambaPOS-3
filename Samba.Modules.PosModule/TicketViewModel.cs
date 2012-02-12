@@ -193,14 +193,12 @@ namespace Samba.Modules.PosModule
 
         public int AccountId
         {
-            get { return Model.SaleTransaction.TargetTransactionValue.AccountId; }
-            set { Model.SaleTransaction.TargetTransactionValue.AccountId = value; }
+            get { return Model.AccountId; }
         }
 
         public string AccountName
         {
-            get { return Model.SaleTransaction.TargetTransactionValue.AccountName; }
-            set { Model.SaleTransaction.TargetTransactionValue.AccountName = value; }
+            get { return Model.AccountName; }
         }
 
         public bool IsLocked { get { return Model.Locked; } set { Model.Locked = value; } }

@@ -67,23 +67,19 @@ namespace Samba.Domain.Models.Accounts
                                  TargetTransactionValue = new AccountTransactionValue(),
                              };
 
-            result.SetSoruceAccount(template.DefaultSourceAccount);
-            result.SetTargetAccount(template.DefaultTargetAccount);
+            result.SetSoruceAccount(template.DefaultSourceAccountId);
+            result.SetTargetAccount(template.DefaultTargetAccountId);
             return result;
         }
 
-        public void SetSoruceAccount(Account account)
+        public void SetSoruceAccount(int accountId)
         {
-            if (account == null) return;
-            SourceTransactionValue.AccountId = account.Id;
-            SourceTransactionValue.AccountName = account.Name;
+            SourceTransactionValue.AccountId = accountId;
         }
 
-        public void SetTargetAccount(Account account)
+        public void SetTargetAccount(int accountId)
         {
-            if (account == null) return;
-            TargetTransactionValue.AccountId = account.Id;
-            TargetTransactionValue.AccountName = account.Name;
+            TargetTransactionValue.AccountId = accountId;
         }
     }
 }

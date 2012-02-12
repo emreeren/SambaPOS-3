@@ -31,7 +31,7 @@ namespace Samba.Modules.TicketModule
             {
                 return _accounts ?? (_accounts =
                     AccountTransactionTemplate != null
-                    ? Workspace.All<Account>(x => x.AccountTemplate.Id == AccountTransactionTemplate.TargetAccountTemplate.Id).ToList()
+                    ? Workspace.All<Account>(x => x.AccountTemplateId == AccountTransactionTemplate.TargetAccountTemplateId).ToList()
                     : new List<Account>());
             }
         }

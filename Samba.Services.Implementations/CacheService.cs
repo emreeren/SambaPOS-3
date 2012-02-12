@@ -66,18 +66,28 @@ namespace Samba.Services.Implementations
 
         public AccountTransactionTemplate GetAccountTransactionTemplateById(int id)
         {
-            return Dao.SingleWithCache<AccountTransactionTemplate>(x => x.Id == id, x => x.TargetAccountTemplate, x => x.SourceAccountTemplate, x => x.DefaultSourceAccount, x => x.DefaultTargetAccount);
+            return Dao.SingleWithCache<AccountTransactionTemplate>(x => x.Id == id);
         }
 
         private IEnumerable<Account> _accounts;
         public IEnumerable<Account> Accounts
         {
-            get { return _accounts ?? (_accounts = Dao.Query<Account>(x => x.AccountTemplate)); }
+            get { return _accounts ?? (_accounts = Dao.Query<Account>()); }
         }
 
         public IEnumerable<Account> GetAccountsByTemplateId(int templateId)
         {
-            return Accounts.Where(x => x.AccountTemplate.Id == templateId);
+            return Accounts.Where(x => x.AccountTemplateId == templateId);
+        }
+
+        public AccountTemplate GetAccountTemplateById(int accountTemplateId)
+        {
+            return Dao.SingleWithCache<AccountTemplate>(x => x.Id == accountTemplateId, x => x.AccountCustomFields.Select(y => y.Values));
+        }
+
+        public Account GetAccountById(int accountId)
+        {
+            return Dao.SingleWithCache<Account>(x => x.Id == accountId);
         }
 
         public override void Reset()

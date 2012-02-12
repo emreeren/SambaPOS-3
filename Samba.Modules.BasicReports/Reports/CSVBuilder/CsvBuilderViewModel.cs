@@ -61,7 +61,7 @@ namespace Samba.Modules.BasicReports.Reports.CSVBuilder
                         Time = x.Order.CreatedDateTime.ToShortTimeString(),
                         x.Ticket.TicketNumber,
                         UserName = x.Order.CreatingUserName,
-                        Account = x.Ticket.SaleTransaction.TargetTransactionValue.AccountName,
+                        Account = x.Ticket.AccountName,
                         Location = x.Ticket.LocationName,
                         x.Order.OrderNumber,
                         x.Order.CalculatePrice,

@@ -136,11 +136,11 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             result = FormatData(result, TagNames.UserName, () => userName);
             result = FormatData(result, TagNames.Location, () => ticket.LocationName);
             result = FormatData(result, TagNames.Note, () => ticket.Note);
-            result = FormatData(result, TagNames.AccName, () => ticket.SaleTransaction.TargetTransactionValue.AccountName);
+            result = FormatData(result, TagNames.AccName, () => ticket.AccountName);
 
-            if (ticket.SaleTransaction.TargetTransactionValue.AccountId > 0 && (result.Contains(TagNames.AccAddress) || result.Contains(TagNames.AccPhone)))
+            if (ticket.AccountId > 0 && (result.Contains(TagNames.AccAddress) || result.Contains(TagNames.AccPhone)))
             {
-                var account = Dao.SingleWithCache<Account>(x => x.Id == ticket.SaleTransaction.TargetTransactionValue.AccountId);
+                var account = Dao.SingleWithCache<Account>(x => x.Id == ticket.AccountId);
                 result = FormatData(result, TagNames.AccPhone, () => account.SearchString);
             }
 

@@ -32,6 +32,7 @@ namespace Samba.Domain.Models.Tickets
         public int OrderNumber { get; set; }
         public string CreatingUserName { get; set; }
         public DateTime CreatedDateTime { get; set; }
+        public int AccountTransactionTemplateId { get; set; }
 
         [StringLength(10)]
         public string PriceTag { get; set; }

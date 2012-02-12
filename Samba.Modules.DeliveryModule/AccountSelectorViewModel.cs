@@ -104,7 +104,7 @@ namespace Samba.Modules.DeliveryModule
             get
             {
                 return (_applicationState.CurrentTicket != null &&
-                        _applicationState.CurrentTicket.SaleTransaction.TargetTransactionValue.AccountId > 0);
+                        _applicationState.CurrentTicket.AccountId > 0);
             }
         }
 
@@ -113,7 +113,7 @@ namespace Samba.Modules.DeliveryModule
             get
             {
                 return (_applicationState.CurrentTicket != null &&
-                        _applicationState.CurrentTicket.SaleTransaction.TargetTransactionValue.AccountId == 0);
+                        _applicationState.CurrentTicket.AccountId == 0);
             }
         }
 
@@ -145,7 +145,7 @@ namespace Samba.Modules.DeliveryModule
         {
             return _applicationState.CurrentTicket != null &&
                 _applicationState.CurrentTicket.CanSubmit &&
-                _applicationState.CurrentTicket.SaleTransaction.TargetTransactionValue.AccountId > 0;
+                _applicationState.CurrentTicket.AccountId > 0;
         }
 
         private static void OnResetAccount(string obj)
@@ -174,7 +174,7 @@ namespace Samba.Modules.DeliveryModule
         private void OnCreateAccount(string obj)
         {
             ClearSearchValues();
-            var c = new Account { AccountTemplate = _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.TargetAccountTemplate };
+            var c = new Account { AccountTemplateId = _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.TargetAccountTemplateId };
             c.PublishEvent(EventTopicNames.EditAccountDetails);
         }
 
@@ -184,7 +184,7 @@ namespace Samba.Modules.DeliveryModule
                 _applicationState.IsCurrentWorkPeriodOpen
                 && SelectedAccount != null
                 && !string.IsNullOrEmpty(SelectedAccount.Name)
-                && (_applicationState.CurrentTicket == null || _applicationState.CurrentTicket.SaleTransaction.TargetTransactionValue.AccountId == 0);
+                && (_applicationState.CurrentTicket == null || _applicationState.CurrentTicket.AccountId == 0);
         }
 
         private void OnSelectAccount(string obj)
@@ -203,9 +203,9 @@ namespace Samba.Modules.DeliveryModule
         {
             ClearSearchValues();
 
-            if (_applicationState.CurrentTicket != null && _applicationState.CurrentTicket.SaleTransaction.TargetTransactionValue.AccountId > 0)
+            if (_applicationState.CurrentTicket != null && _applicationState.CurrentTicket.AccountId > 0)
             {
-                var account = Dao.SingleWithCache<Account>(x => x.Id == _applicationState.CurrentTicket.SaleTransaction.TargetTransactionValue.AccountId);
+                var account = Dao.SingleWithCache<Account>(x => x.Id == _applicationState.CurrentTicket.AccountId);
                 if (account != null)
                 {
                     ClearSearchValues();
@@ -267,8 +267,8 @@ namespace Samba.Modules.DeliveryModule
                 {
                     var searchPn = string.IsNullOrEmpty(SearchString.Trim());
                     result = Dao.Query<Account>(x =>
-                        x.AccountTemplate.Id == _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.TargetAccountTemplate.Id
-                        && x.Id != _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.DefaultTargetAccount.Id
+                        x.AccountTemplateId == _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.TargetAccountTemplateId
+                        && x.Id != _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.DefaultTargetAccountId
                         && (searchPn || x.CustomData.Contains(SearchString) || x.Name.Contains(SearchString)));
                 };
 

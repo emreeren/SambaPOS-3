@@ -8,7 +8,7 @@ namespace Samba.Domain.Models.Accounts
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public virtual AccountTemplate AccountTemplate { get; set; }
+        public int AccountTemplateId { get; set; }
         public string SearchString { get; set; }
         public DateTime AccountOpeningDate { get; set; }
         public string CustomData { get; set; }

@@ -33,7 +33,7 @@ namespace Samba.Modules.AccountModule
             get
             {
                 if (AccountTransactionTemplate == null) return new List<Account>();
-                return _sourceAccounts ?? (_sourceAccounts = _workspace.All<Account>(x => x.AccountTemplate.Id == AccountTransactionTemplate.SourceAccountTemplate.Id).ToList());
+                return _sourceAccounts ?? (_sourceAccounts = _workspace.All<Account>(x => x.AccountTemplateId == AccountTransactionTemplate.SourceAccountTemplateId).ToList());
             }
         }
 
@@ -43,7 +43,7 @@ namespace Samba.Modules.AccountModule
             get
             {
                 if (AccountTransactionTemplate == null) return new List<Account>();
-                return _targetAccounts ?? (_targetAccounts = _workspace.All<Account>(x => x.AccountTemplate.Id == AccountTransactionTemplate.TargetAccountTemplate.Id).ToList());
+                return _targetAccounts ?? (_targetAccounts = _workspace.All<Account>(x => x.AccountTemplateId == AccountTransactionTemplate.TargetAccountTemplateId).ToList());
             }
         }
 
@@ -70,7 +70,7 @@ namespace Samba.Modules.AccountModule
             get { return SourceAccounts.SingleOrDefault(x => x.Id == SourceAccountId); }
             set
             {
-                Model.SetSoruceAccount(value);
+                Model.SetSoruceAccount(value.Id);
                 RaisePropertyChanged(() => SourceAccount);
             }
         }
@@ -79,7 +79,7 @@ namespace Samba.Modules.AccountModule
             get { return TargetAccounts.SingleOrDefault(x => x.Id == TargetAccountId); }
             set
             {
-                Model.SetTargetAccount(value);
+                Model.SetTargetAccount(value.Id);
                 RaisePropertyChanged(() => TargetAccount);
             }
         }

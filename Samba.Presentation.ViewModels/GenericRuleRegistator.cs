@@ -284,7 +284,9 @@ namespace Samba.Presentation.ViewModels
                         var quantity = x.Value.GetAsDecimal("Quantity");
                         var tag = x.Value.GetAsString("Tag");
 
-                        var ti = ticket.AddOrder(ApplicationState.CurrentLoggedInUser.Name, menuItem, portionName,
+                        var ti = ticket.AddOrder(
+                                 ApplicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate,
+                                 ApplicationState.CurrentLoggedInUser.Name, menuItem, portionName,
                                  ApplicationState.CurrentDepartment.PriceTag);
 
                         ti.Quantity = quantity;

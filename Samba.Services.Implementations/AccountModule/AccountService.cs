@@ -33,7 +33,7 @@ namespace Samba.Services.Implementations.AccountModule
     {
         public override string GetErrorMessage(AccountTemplate model)
         {
-            if (Dao.Exists<Account>(x => x.AccountTemplate.Id == model.Id))
+            if (Dao.Exists<Account>(x => x.AccountTemplateId == model.Id))
                 return Resources.DeleteErrorAccountTemplateAssignedtoAccounts;
             return "";
         }

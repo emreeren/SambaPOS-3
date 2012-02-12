@@ -87,10 +87,11 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<TicketTemplate>().HasMany(p => p.TicketTagGroups).WithMany();
             modelBuilder.Entity<TicketTemplate>().HasMany(p => p.CalulationTemplates).WithMany();
             modelBuilder.Entity<TicketTemplate>().HasMany(p => p.OrderTagGroups).WithMany();
+            modelBuilder.Entity<TicketTemplate>().HasMany(p => p.PaymentTemplates).WithMany();
             modelBuilder.Entity<Department>().HasMany(p => p.LocationScreens).WithMany();
             modelBuilder.Entity<LocationScreen>().HasMany(p => p.Locations).WithMany();
             modelBuilder.Entity<Terminal>().HasMany(p => p.PrintJobs).WithMany();
-
+            
             modelBuilder.Entity<AccountTransaction>().HasKey(p => new { p.Id, p.AccountTransactionDocumentId });
             modelBuilder.Entity<AccountTransaction>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<AccountTransactionDocument>().HasMany(p => p.AccountTransactions).WithRequired().HasForeignKey(x => x.AccountTransactionDocumentId);

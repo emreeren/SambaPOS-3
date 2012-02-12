@@ -910,7 +910,9 @@ namespace Samba.Modules.PosModule
                 portion = menuItem.Portions.First(x => x.Name == portionName);
             }
 
-            var ti = SelectedTicket.Model.AddOrder(_applicationState.CurrentLoggedInUser.Name, menuItem, portion.Name, SelectedDepartment.PriceTag);
+            var ti = SelectedTicket.Model.AddOrder(
+                _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate,
+                _applicationState.CurrentLoggedInUser.Name, menuItem, portion.Name, SelectedDepartment.PriceTag);
 
             ti.Quantity = quantity > 9 ? decimal.Round(quantity / portion.Multiplier, LocalSettings.Decimals) : quantity;
 

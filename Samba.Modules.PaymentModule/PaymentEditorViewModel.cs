@@ -321,7 +321,7 @@ namespace Samba.Modules.PaymentModule
         private bool CanSubmitAccountPayment(string arg)
         {
             return SelectedTicket != null
-                && SelectedTicket.SaleTransaction.TargetTransactionValue.AccountId > 0
+                && SelectedTicket.AccountId > 0
                 && GetTenderedValue() == GetPaymentValue()
                 && SelectedTicket.GetRemainingAmount() > 0;
         }

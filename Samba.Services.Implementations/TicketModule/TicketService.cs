@@ -51,8 +51,8 @@ namespace Samba.Services.Implementations.TicketModule
             if (account == Account.Null)
             {
                 var template = _workspace.Single<AccountTransactionTemplate>(
-                        x => x.Id == ticket.SaleTransaction.AccountTransactionTemplateId);
-                account = template.DefaultTargetAccount;
+                        x => x.Id == _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.Id);
+                account = _cacheService.GetAccountById(template.DefaultTargetAccountId);
             }
             ticket.UpdateAccount(CheckAccount(account));
             _automationService.NotifyEvent(RuleEventNames.AccountSelectedForTicket,
@@ -73,15 +73,22 @@ namespace Samba.Services.Implementations.TicketModule
 
             _workspace = WorkspaceFactory.Create();
             ticket = ticketId == 0
-                                 ? Ticket.Create(_applicationState.CurrentDepartment)
+                                 ? CreateTicket()
                                  : _workspace.Single<Ticket>(t => t.Id == ticketId,
-                                                             x => x.Orders.Select(y => y.OrderTagValues));
+                                                             x => x.Orders.Select(y => y.OrderTagValues), x => x.Calculations);
             _applicationStateSetter.SetCurrentTicket(ticket);
 
             if (ticket.Id == 0)
                 _automationService.NotifyEvent(RuleEventNames.TicketCreated, new { Ticket = ticket });
 
             return ticket;
+        }
+
+        private Ticket CreateTicket()
+        {
+            var account = _cacheService.GetAccountById(
+                    _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.DefaultTargetAccountId);
+            return Ticket.Create(_applicationState.CurrentDepartment, account);
         }
 
         public Ticket OpenTicketByLocationName(string locationName)
@@ -337,6 +344,13 @@ namespace Samba.Services.Implementations.TicketModule
                 ticket.Orders.Add(clonedOrder);
             }
 
+            foreach (var template in from order in clonedOrders.GroupBy(x => x.AccountTransactionTemplateId)
+                                     where !ticket.AccountTransactions.AccountTransactions.Any(x => x.AccountTransactionTemplateId == order.Key)
+                                     select _cacheService.GetAccountTransactionTemplateById(order.Key))
+            {
+                ticket.AccountTransactions.AccountTransactions.Add(AccountTransaction.Create(template));
+            }
+
             ticket.LastOrderDate = DateTime.Now;
             return CloseTicket(ticket);
         }
@@ -437,7 +451,7 @@ namespace Samba.Services.Implementations.TicketModule
                 LastOrderDate = x.LastOrderDate,
                 TicketNumber = x.TicketNumber,
                 LocationName = x.LocationName,
-                AccountName = x.SaleTransaction.TargetTransactionValue.AccountName,
+                AccountName = x.AccountName,
                 RemainingAmount = x.RemainingAmount,
                 Date = x.Date
             }, prediction);
@@ -467,7 +481,7 @@ namespace Samba.Services.Implementations.TicketModule
             endDate = endDate.Date.AddDays(1).AddMinutes(-1);
             Expression<Func<Ticket, bool>> qFilter = x => x.Date >= startDate && x.Date < endDate;
             qFilter = filters.Aggregate(qFilter, (current, filter) => current.And(filter.GetExpression()));
-            return Dao.Query(qFilter, x => x.SaleTransaction.TargetTransactionValue).Select(x => new TicketExplorerRowData(x)).ToList();
+            return Dao.Query(qFilter).Select(x => new TicketExplorerRowData(x)).ToList();
         }
 
         public IList<ITicketExplorerFilter> CreateTicketExplorerFilters()

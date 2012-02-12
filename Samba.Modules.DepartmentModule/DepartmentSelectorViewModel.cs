@@ -25,9 +25,9 @@ namespace Samba.Modules.DepartmentModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<User>>().Subscribe(OnUserLoggedIn);
         }
 
-        public void UpdateSelectedDepartment(Department department)
+        public void UpdateSelectedDepartment(int departmentId)
         {
-            _applicationStateSetter.SetCurrentDepartment(department.Id);
+            _applicationStateSetter.SetCurrentDepartment(departmentId);
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
             PermittedDepartments.ToList().ForEach(x => x.Refresh());
             RaisePropertyChanged(() => PermittedDepartments);
@@ -58,7 +58,7 @@ namespace Samba.Modules.DepartmentModule
                     (_permittedDepartments = _userService.PermittedDepartments
                     .Select(x => new DepartmentButtonViewModel(this, _applicationState)
                                {
-                                   Department = x,
+                                   DepartmentId = x.Id,
                                    Name = x.Name
                                }).ToList());
             }

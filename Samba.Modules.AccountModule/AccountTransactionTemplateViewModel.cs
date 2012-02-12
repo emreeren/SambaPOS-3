@@ -17,33 +17,35 @@ namespace Samba.Modules.AccountModule
 
         public AccountTemplate SourceAccountTemplate
         {
-            get { return Model.SourceAccountTemplate; }
+            get { return AccountTemplates.SingleOrDefault(x => x.Id == Model.SourceAccountTemplateId); }
             set
             {
-                if (Model.SourceAccountTemplate != value)
+                if (Model.SourceAccountTemplateId != value.Id)
                 {
-                    Model.SourceAccountTemplate = value;
+                    Model.SourceAccountTemplateId = value.Id;
                     _sourceAccounts = null;
-                    RaisePropertyChanged("SourceAccounts");
+                    RaisePropertyChanged(() => SourceAccountTemplate);
+                    RaisePropertyChanged(() => SourceAccounts);
                 }
             }
         }
         public AccountTemplate TargetAccountTemplate
         {
-            get { return Model.TargetAccountTemplate; }
+            get { return AccountTemplates.SingleOrDefault(x => x.Id == Model.TargetAccountTemplateId); }
             set
             {
-                if (Model.TargetAccountTemplate != value)
+                if (Model.TargetAccountTemplateId != value.Id)
                 {
-                    Model.TargetAccountTemplate = value;
+                    Model.TargetAccountTemplateId = value.Id;
                     _targetAccounts = null;
-                    RaisePropertyChanged("TargetAccounts");
+                    RaisePropertyChanged(() => TargetAccountTemplate);
+                    RaisePropertyChanged(() => TargetAccounts);
                 }
             }
         }
 
-        public Account DefaultSourceAccount { get { return Model.DefaultSourceAccount; } set { Model.DefaultSourceAccount = value; } }
-        public Account DefaultTargetAccount { get { return Model.DefaultTargetAccount; } set { Model.DefaultTargetAccount = value; } }
+        public int DefaultSourceAccountId { get { return Model.DefaultSourceAccountId; } set { Model.DefaultSourceAccountId = value; } }
+        public int DefaultTargetAccountId { get { return Model.DefaultTargetAccountId; } set { Model.DefaultTargetAccountId = value; } }
 
         private IEnumerable<Account> _sourceAccounts;
         public IEnumerable<Account> SourceAccounts
@@ -59,12 +61,12 @@ namespace Samba.Modules.AccountModule
 
         private IEnumerable<Account> GetSoruceAccounts()
         {
-            return SourceAccountTemplate != null ? Workspace.All<Account>(x => x.AccountTemplate.Id == SourceAccountTemplate.Id).ToList() : null;
+            return SourceAccountTemplate != null ? Workspace.All<Account>(x => x.AccountTemplateId == SourceAccountTemplate.Id).ToList() : null;
         }
 
         private IEnumerable<Account> GetTargetAccounts()
         {
-            return TargetAccountTemplate != null ? Workspace.All<Account>(x => x.AccountTemplate.Id == TargetAccountTemplate.Id).ToList() : null;
+            return TargetAccountTemplate != null ? Workspace.All<Account>(x => x.AccountTemplateId == TargetAccountTemplate.Id).ToList() : null;
         }
 
         public override Type GetViewType()
@@ -87,8 +89,8 @@ namespace Samba.Modules.AccountModule
     {
         public AccountTransactionTemplateValidator()
         {
-            RuleFor(x => x.SourceAccountTemplate).NotNull();
-            RuleFor(x => x.TargetAccountTemplate).NotNull();
+            RuleFor(x => x.SourceAccountTemplateId).GreaterThan(0);
+            RuleFor(x => x.TargetAccountTemplateId).GreaterThan(0);
         }
     }
 }

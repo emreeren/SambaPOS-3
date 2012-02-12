@@ -80,8 +80,9 @@ namespace Samba.Domain.Models.Tickets
 
         public decimal TotalAmount { get; set; }
 
-        public int SaleTransactionId { get; set; }
-        public virtual AccountTransaction SaleTransaction { get; set; }
+        public int AccountId { get; set; }
+        public string AccountName { get; set; }
+
         public virtual AccountTransactionDocument AccountTransactions { get; set; }
 
         private IList<Order> _orders;
@@ -119,11 +120,17 @@ namespace Samba.Domain.Models.Tickets
             set { _paidItems = value; }
         }
 
-        public Order AddOrder(string userName, MenuItem menuItem, string portionName, string priceTag)
+        public Order AddOrder(AccountTransactionTemplate template, string userName, MenuItem menuItem, string portionName, string priceTag)
         {
             Locked = false;
             var tif = new Order();
             tif.UpdateMenuItem(userName, menuItem, portionName, priceTag, 1);
+            tif.AccountTransactionTemplateId = template.Id;
+            if (AccountTransactions.AccountTransactions.SingleOrDefault(x => x.AccountTransactionTemplateId == template.Id) == null)
+            {
+                var transaction = AccountTransaction.Create(template);
+                AccountTransactions.AccountTransactions.Add(transaction);
+            }
             Orders.Add(tif);
             return tif;
         }
@@ -132,9 +139,8 @@ namespace Samba.Domain.Models.Tickets
         {
             var transaction = AccountTransaction.Create(paymentTemplate.AccountTransactionTemplate);
             transaction.Amount = amount;
-            transaction.SetTargetAccount(paymentTemplate.Account);
+            transaction.SetTargetAccount(paymentTemplate.Account.Id);
             AccountTransactions.AccountTransactions.Add(transaction);
-
             var payment = new Payment { AccountTransaction = transaction, Amount = amount, Name = paymentTemplate.Account.Name };
             Payments.Add(payment);
 
@@ -148,7 +154,13 @@ namespace Samba.Domain.Models.Tickets
 
         public void RemoveOrder(Order ti)
         {
+            var transactionId = ti.AccountTransactionTemplateId;
             Orders.Remove(ti);
+            if (!Orders.Any(x => x.AccountTransactionTemplateId == transactionId))
+            {
+                AccountTransactions.AccountTransactions.Where(x => x.AccountTransactionTemplateId == transactionId)
+                       .ToList().ForEach(x => AccountTransactions.AccountTransactions.Remove(x));
+            }
         }
 
         public int GetItemCount()
@@ -381,7 +393,7 @@ namespace Samba.Domain.Models.Tickets
             _shouldLock = false;
         }
 
-        public static Ticket Create(Department department)
+        public static Ticket Create(Department department, Account account)
         {
             var ticket = new Ticket { DepartmentId = department.Id };
 
@@ -392,8 +404,7 @@ namespace Samba.Domain.Models.Tickets
             }
 
             ticket.AccountTransactions = new AccountTransactionDocument();
-            ticket.SaleTransaction = AccountTransaction.Create(department.TicketTemplate.SaleTransactionTemplate);
-            ticket.AccountTransactions.AccountTransactions.Add(ticket.SaleTransaction);
+            ticket.UpdateAccount(account);
             return ticket;
         }
 
@@ -472,8 +483,15 @@ namespace Samba.Domain.Models.Tickets
 
         public void UpdateAccount(Account account)
         {
-            SaleTransaction.TargetTransactionValue.AccountId = account.Id;
-            SaleTransaction.TargetTransactionValue.AccountName = account.Name;
+            foreach (var transaction in AccountTransactions.AccountTransactions)
+            {
+                if (transaction.SourceTransactionValue.AccountId == AccountId)
+                    transaction.SetSoruceAccount(account.Id);
+                if (transaction.TargetTransactionValue.AccountId == AccountId)
+                    transaction.SetTargetAccount(account.Id);
+            }
+            AccountId = account.Id;
+            AccountName = account.Name;
         }
 
         public void Recalculate(decimal autoRoundValue, int userId)
@@ -497,8 +515,21 @@ namespace Samba.Domain.Models.Tickets
             //    }
             //}
 
+            //AccountTransactions.AccountTransactions.Where(x => !Orders.Any(y => y.AccountTransactionTemplateId == x.AccountTransactionTemplateId))
+            //    .ToList().ForEach(x => AccountTransactions.AccountTransactions.Remove(x));
+
+            if (Orders.Count > 0)
+            {
+                var transactionGroup = Orders.GroupBy(x => x.AccountTransactionTemplateId);
+                foreach (var transactionItem in transactionGroup)
+                {
+                    var t = transactionItem;
+                    var transaction = AccountTransactions.AccountTransactions.SingleOrDefault(x => x.AccountTransactionTemplateId == t.Key);
+                    transaction.Amount = t.Sum(x => x.GetTotal());
+                }
+            }
+
             RemainingAmount = GetRemainingAmount();
-            SaleTransaction.Amount = GetPlainSum();
             TotalAmount = GetSum();
         }
 
@@ -527,7 +558,7 @@ namespace Samba.Domain.Models.Tickets
 
         public void RemoveOrders(IEnumerable<Order> selectedOrders)
         {
-            selectedOrders.ToList().ForEach(x => Orders.Remove(x));
+            selectedOrders.ToList().ForEach(RemoveOrder);
         }
 
         public bool IsTaggedWith(string tagName)

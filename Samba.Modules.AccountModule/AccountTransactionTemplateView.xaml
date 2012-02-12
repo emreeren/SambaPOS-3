@@ -23,11 +23,15 @@
             <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTemplates}"
                                      SelectedItem="{Binding TargetAccountTemplate}" />
             <Label MinWidth="120">Default Source Account</Label>
-            <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding SourceAccounts}"
-                                     SelectedItem="{Binding DefaultSourceAccount}" />
+            <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" 
+                      ItemsSource="{Binding SourceAccounts}"
+                      SelectedValue="{Binding DefaultSourceAccountId}" 
+                      SelectedValuePath="Id"/>
             <Label MinWidth="120">Default Target Account</Label>
-            <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding TargetAccounts}"
-                                     SelectedItem="{Binding DefaultTargetAccount}" />
+            <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" 
+                      ItemsSource="{Binding TargetAccounts}"
+                      SelectedValue="{Binding DefaultTargetAccountId}" 
+                      SelectedValuePath="Id"/>
         </StackPanel>
 
         <StackPanel Grid.Row="2">

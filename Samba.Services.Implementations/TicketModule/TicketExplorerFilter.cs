@@ -57,11 +57,11 @@ namespace Samba.Services.Implementations.TicketModule
             if (FilterType == FilterType.Account)
             {
                 if (FilterValue == "*")
-                    result = x => !string.IsNullOrEmpty(x.SaleTransaction.TargetTransactionValue.AccountName);
+                    result = x => !string.IsNullOrEmpty(x.AccountName);
                 else if (!string.IsNullOrEmpty(FilterValue))
-                    result = x => x.SaleTransaction.TargetTransactionValue.AccountName.ToLower().Contains(FilterValue.ToLower());
+                    result = x => x.AccountName.ToLower().Contains(FilterValue.ToLower());
                 else
-                    result = x => string.IsNullOrEmpty(x.SaleTransaction.TargetTransactionValue.AccountName);
+                    result = x => string.IsNullOrEmpty(x.AccountName);
             }
 
             return result;

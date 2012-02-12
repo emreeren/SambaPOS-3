@@ -34,8 +34,8 @@ namespace Samba.Presentation.ViewModels
 
         public void UpdateDetailedInfo()
         {
-            LastTicket = Dao.Last<Ticket>(x => x.SaleTransaction.TargetTransactionValue.AccountId == Model.Id, x => x.Orders);
-            TotalTicketAmount = Dao.Sum<Ticket>(x => x.TotalAmount, x => x.SaleTransaction.TargetTransactionValue.AccountId == Model.Id);
+            LastTicket = Dao.Last<Ticket>(x => x.AccountId == Model.Id, x => x.Orders);
+            TotalTicketAmount = Dao.Sum<Ticket>(x => x.TotalAmount, x => x.AccountId == Model.Id);
         }
 
         public IEnumerable<Order> LastTicketLines { get { return LastTicket != null ? LastTicket.Orders.Where(x => x.CalculatePrice) : null; } }

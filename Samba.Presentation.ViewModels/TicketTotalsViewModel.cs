@@ -92,15 +92,15 @@ namespace Samba.Presentation.ViewModels
 
                 if (!string.IsNullOrEmpty(Model.LocationName) && Model.Id == 0)
                     selectedTicketTitle = string.Format(Resources.Location_f, Model.LocationName);
-                else if (!string.IsNullOrEmpty(Model.SaleTransaction.TargetTransactionValue.AccountName) && Model.Id == 0)
-                    selectedTicketTitle = string.Format(Resources.Account_f, Model.SaleTransaction.TargetTransactionValue.AccountName);
-                else if (string.IsNullOrEmpty(Model.SaleTransaction.TargetTransactionValue.AccountName)) selectedTicketTitle = string.IsNullOrEmpty(Model.LocationName)
+                else if (!string.IsNullOrEmpty(Model.AccountName) && Model.Id == 0)
+                    selectedTicketTitle = string.Format(Resources.Account_f, Model.AccountName);
+                else if (string.IsNullOrEmpty(Model.AccountName)) selectedTicketTitle = string.IsNullOrEmpty(Model.LocationName)
                      ? string.Format("# {0}", Model.TicketNumber)
                      : string.Format(Resources.TicketNumberAndLocation_f, Model.TicketNumber, Model.LocationName);
-                else if (string.IsNullOrEmpty(Model.LocationName)) selectedTicketTitle = string.IsNullOrEmpty(Model.SaleTransaction.TargetTransactionValue.AccountName)
+                else if (string.IsNullOrEmpty(Model.LocationName)) selectedTicketTitle = string.IsNullOrEmpty(Model.AccountName)
                      ? string.Format("# {0}", Model.TicketNumber)
-                     : string.Format(Resources.TicketNumberAndAccount_f, Model.TicketNumber, Model.SaleTransaction.TargetTransactionValue.AccountName);
-                else selectedTicketTitle = string.Format(Resources.AccountNameAndLocationName_f, Model.TicketNumber, Model.SaleTransaction.TargetTransactionValue.AccountName, Model.LocationName);
+                     : string.Format(Resources.TicketNumberAndAccount_f, Model.TicketNumber, Model.AccountName);
+                else selectedTicketTitle = string.Format(Resources.AccountNameAndLocationName_f, Model.TicketNumber, Model.AccountName, Model.LocationName);
 
                 return selectedTicketTitle;
             }

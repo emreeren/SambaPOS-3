@@ -6,9 +6,9 @@ namespace Samba.Domain.Models.Accounts
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public virtual AccountTemplate SourceAccountTemplate { get; set; }
-        public virtual AccountTemplate TargetAccountTemplate { get; set; }
-        public virtual Account DefaultSourceAccount { get; set; }
-        public virtual Account DefaultTargetAccount { get; set; }
+        public int SourceAccountTemplateId { get; set; }
+        public int TargetAccountTemplateId { get; set; }
+        public int DefaultSourceAccountId { get; set; }
+        public int DefaultTargetAccountId { get; set; }
     }
 }
