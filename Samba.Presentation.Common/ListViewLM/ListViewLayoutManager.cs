@@ -15,563 +15,565 @@ using System.ComponentModel;
 namespace Samba.Presentation.Common.ListViewLM
 {
 
-	// ------------------------------------------------------------------------
-	public class ListViewLayoutManager
-	{
+    // ------------------------------------------------------------------------
+    public class ListViewLayoutManager
+    {
 
-		// ----------------------------------------------------------------------
-		public static readonly DependencyProperty EnabledProperty = DependencyProperty.RegisterAttached(
-			"Enabled",
-			typeof( bool ),
-			typeof( ListViewLayoutManager ),
-			new FrameworkPropertyMetadata( new PropertyChangedCallback( OnLayoutManagerEnabledChanged ) ) );
+        // ----------------------------------------------------------------------
+        public static readonly DependencyProperty EnabledProperty = DependencyProperty.RegisterAttached(
+            "Enabled",
+            typeof(bool),
+            typeof(ListViewLayoutManager),
+            new FrameworkPropertyMetadata(new PropertyChangedCallback(OnLayoutManagerEnabledChanged)));
 
-		// ----------------------------------------------------------------------
-		public ListViewLayoutManager( ListView listView )
-		{
-			if ( listView == null )
-			{
-				throw new ArgumentNullException( "listView" );
-			}
+        // ----------------------------------------------------------------------
+        public ListViewLayoutManager(ListView listView)
+        {
+            if (listView == null)
+            {
+                throw new ArgumentNullException("listView");
+            }
 
-			this.listView = listView;
-			this.listView.Loaded += new RoutedEventHandler( ListViewLoaded );
-			this.listView.Unloaded += new RoutedEventHandler( ListViewUnloaded );
-		} // ListViewLayoutManager
+            this.listView = listView;
+            this.listView.Loaded += new RoutedEventHandler(ListViewLoaded);
+            this.listView.Unloaded += new RoutedEventHandler(ListViewUnloaded);
+        }
 
-		// ----------------------------------------------------------------------
-		public ListView ListView
-		{
-			get { return this.listView; }
-		} // ListView
+        // ListViewLayoutManager
 
-		// ----------------------------------------------------------------------
-		public ScrollBarVisibility VerticalScrollBarVisibility
-		{
-			get { return this.verticalScrollBarVisibility; }
-			set { this.verticalScrollBarVisibility = value; }
-		} // VerticalScrollBarVisibility
+        // ----------------------------------------------------------------------
+        public ListView ListView
+        {
+            get { return this.listView; }
+        } // ListView
 
-		// ----------------------------------------------------------------------
-		public static void SetEnabled( DependencyObject dependencyObject, bool enabled )
-		{
-			dependencyObject.SetValue( EnabledProperty, enabled );
-		} // SetEnabled
+        // ----------------------------------------------------------------------
+        public ScrollBarVisibility VerticalScrollBarVisibility
+        {
+            get { return this.verticalScrollBarVisibility; }
+            set { this.verticalScrollBarVisibility = value; }
+        } // VerticalScrollBarVisibility
 
-		// ----------------------------------------------------------------------
-		private void RegisterEvents( DependencyObject start )
-		{
-			for ( int i = 0; i < VisualTreeHelper.GetChildrenCount( start ); i++ )
-			{
-				Visual childVisual = VisualTreeHelper.GetChild( start, i ) as Visual;
-				if ( childVisual is Thumb )
-				{
-					GridViewColumn gridViewColumn = FindParentColumn( childVisual );
-					if ( gridViewColumn == null )
-					{
-						continue;
-					}
+        // ----------------------------------------------------------------------
+        public static void SetEnabled(DependencyObject dependencyObject, bool enabled)
+        {
+            dependencyObject.SetValue(EnabledProperty, enabled);
+        } // SetEnabled
 
-					Thumb thumb = childVisual as Thumb;
-					thumb.PreviewMouseMove += new MouseEventHandler( ThumbPreviewMouseMove );
-					thumb.PreviewMouseLeftButtonDown += new MouseButtonEventHandler( ThumbPreviewMouseLeftButtonDown );
-					DependencyPropertyDescriptor.FromProperty(
-						GridViewColumn.WidthProperty,
-						typeof( GridViewColumn ) ).AddValueChanged( gridViewColumn, GridColumnWidthChanged );
-				}
-				else if ( childVisual is GridViewColumnHeader )
-				{
-					GridViewColumnHeader columnHeader = childVisual as GridViewColumnHeader;
-					columnHeader.SizeChanged += new SizeChangedEventHandler( GridColumnHeaderSizeChanged );
-				}
-				else if ( this.scrollViewer == null && childVisual is ScrollViewer )
-				{
-					this.scrollViewer = childVisual as ScrollViewer;
-					this.scrollViewer.ScrollChanged += new ScrollChangedEventHandler( ScrollViewerScrollChanged );
-					// assume we do the regulation of the horizontal scrollbar
-					this.scrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
-					this.scrollViewer.VerticalScrollBarVisibility = this.verticalScrollBarVisibility;
-				}
+        // ----------------------------------------------------------------------
+        private void RegisterEvents(DependencyObject start)
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(start); i++)
+            {
+                Visual childVisual = VisualTreeHelper.GetChild(start, i) as Visual;
+                if (childVisual is Thumb)
+                {
+                    GridViewColumn gridViewColumn = FindParentColumn(childVisual);
+                    if (gridViewColumn == null)
+                    {
+                        continue;
+                    }
 
-				RegisterEvents( childVisual );  // recursive
-			}
-		} // RegisterEvents
+                    Thumb thumb = childVisual as Thumb;
+                    thumb.PreviewMouseMove += new MouseEventHandler(ThumbPreviewMouseMove);
+                    thumb.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(ThumbPreviewMouseLeftButtonDown);
+                    DependencyPropertyDescriptor.FromProperty(
+                        GridViewColumn.WidthProperty,
+                        typeof(GridViewColumn)).AddValueChanged(gridViewColumn, GridColumnWidthChanged);
+                }
+                else if (childVisual is GridViewColumnHeader)
+                {
+                    GridViewColumnHeader columnHeader = childVisual as GridViewColumnHeader;
+                    columnHeader.SizeChanged += new SizeChangedEventHandler(GridColumnHeaderSizeChanged);
+                }
+                else if (this.scrollViewer == null && childVisual is ScrollViewer)
+                {
+                    this.scrollViewer = childVisual as ScrollViewer;
+                    this.scrollViewer.ScrollChanged += new ScrollChangedEventHandler(ScrollViewerScrollChanged);
+                    // assume we do the regulation of the horizontal scrollbar
+                    this.scrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+                    this.scrollViewer.VerticalScrollBarVisibility = this.verticalScrollBarVisibility;
+                }
 
-		// ----------------------------------------------------------------------
-		private void UnregisterEvents( DependencyObject start )
-		{
-			for ( int i = 0; i < VisualTreeHelper.GetChildrenCount( start ); i++ )
-			{
-				Visual childVisual = VisualTreeHelper.GetChild( start, i ) as Visual;
-				if ( childVisual is Thumb )
-				{
-					GridViewColumn gridViewColumn = FindParentColumn( childVisual );
-					if ( gridViewColumn == null )
-					{
-						continue;
-					}
+                RegisterEvents(childVisual);  // recursive
+            }
+        } // RegisterEvents
 
-					Thumb thumb = childVisual as Thumb;
-					thumb.PreviewMouseMove -= new MouseEventHandler( ThumbPreviewMouseMove );
-					thumb.PreviewMouseLeftButtonDown -= new MouseButtonEventHandler( ThumbPreviewMouseLeftButtonDown );
-					DependencyPropertyDescriptor.FromProperty(
-						GridViewColumn.WidthProperty,
-						typeof( GridViewColumn ) ).RemoveValueChanged( gridViewColumn, GridColumnWidthChanged );
-				}
-				else if ( childVisual is GridViewColumnHeader )
-				{
-					GridViewColumnHeader columnHeader = childVisual as GridViewColumnHeader;
-					columnHeader.SizeChanged -= new SizeChangedEventHandler( GridColumnHeaderSizeChanged );
-				}
-				else if ( this.scrollViewer == null && childVisual is ScrollViewer )
-				{
-					this.scrollViewer = childVisual as ScrollViewer;
-					this.scrollViewer.ScrollChanged -= new ScrollChangedEventHandler( ScrollViewerScrollChanged );
-				}
+        // ----------------------------------------------------------------------
+        private void UnregisterEvents(DependencyObject start)
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(start); i++)
+            {
+                Visual childVisual = VisualTreeHelper.GetChild(start, i) as Visual;
+                if (childVisual is Thumb)
+                {
+                    GridViewColumn gridViewColumn = FindParentColumn(childVisual);
+                    if (gridViewColumn == null)
+                    {
+                        continue;
+                    }
 
-				UnregisterEvents( childVisual );  // recursive
-			}
-		} // UnregisterEvents
+                    Thumb thumb = childVisual as Thumb;
+                    thumb.PreviewMouseMove -= new MouseEventHandler(ThumbPreviewMouseMove);
+                    thumb.PreviewMouseLeftButtonDown -= new MouseButtonEventHandler(ThumbPreviewMouseLeftButtonDown);
+                    DependencyPropertyDescriptor.FromProperty(
+                        GridViewColumn.WidthProperty,
+                        typeof(GridViewColumn)).RemoveValueChanged(gridViewColumn, GridColumnWidthChanged);
+                }
+                else if (childVisual is GridViewColumnHeader)
+                {
+                    GridViewColumnHeader columnHeader = childVisual as GridViewColumnHeader;
+                    columnHeader.SizeChanged -= new SizeChangedEventHandler(GridColumnHeaderSizeChanged);
+                }
+                else if (this.scrollViewer == null && childVisual is ScrollViewer)
+                {
+                    this.scrollViewer = childVisual as ScrollViewer;
+                    this.scrollViewer.ScrollChanged -= new ScrollChangedEventHandler(ScrollViewerScrollChanged);
+                }
 
-		// ----------------------------------------------------------------------
-		private GridViewColumn FindParentColumn( DependencyObject element )
-		{
-			if ( element == null )
-			{
-				return null;
-			}
+                UnregisterEvents(childVisual);  // recursive
+            }
+        } // UnregisterEvents
 
-			while ( element != null )
-			{
-				if ( element is GridViewColumnHeader )
-				{
-					return ( (GridViewColumnHeader)element ).Column;
-				}
-				element = VisualTreeHelper.GetParent( element );
-			}
+        // ----------------------------------------------------------------------
+        private GridViewColumn FindParentColumn(DependencyObject element)
+        {
+            if (element == null)
+            {
+                return null;
+            }
 
-			return null;
-		} // FindParentColumn
+            while (element != null)
+            {
+                if (element is GridViewColumnHeader)
+                {
+                    return ((GridViewColumnHeader)element).Column;
+                }
+                element = VisualTreeHelper.GetParent(element);
+            }
 
-		// ----------------------------------------------------------------------
-		private GridViewColumnHeader FindColumnHeader( DependencyObject start, GridViewColumn gridViewColumn )
-		{
-			for ( int i = 0; i < VisualTreeHelper.GetChildrenCount( start ); i++ )
-			{
-				Visual childVisual = VisualTreeHelper.GetChild( start, i ) as Visual;
-				if ( childVisual is GridViewColumnHeader )
-				{
-					GridViewColumnHeader gridViewHeader = childVisual as GridViewColumnHeader;
-					if ( gridViewHeader != null && gridViewHeader.Column == gridViewColumn )
-					{
-						return gridViewHeader;
-					}
-				}
-				GridViewColumnHeader childGridViewHeader = FindColumnHeader( childVisual, gridViewColumn );  // recursive
-				if ( childGridViewHeader != null )
-				{
-					return childGridViewHeader;
-				}
-			}
-			return null;
-		} // FindColumnHeader
+            return null;
+        } // FindParentColumn
 
-		// ----------------------------------------------------------------------
-		private void InitColumns()
-		{
-			GridView view = this.listView.View as GridView;
-			if ( view == null )
-			{
-				return;
-			}
+        // ----------------------------------------------------------------------
+        private GridViewColumnHeader FindColumnHeader(DependencyObject start, GridViewColumn gridViewColumn)
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(start); i++)
+            {
+                Visual childVisual = VisualTreeHelper.GetChild(start, i) as Visual;
+                if (childVisual is GridViewColumnHeader)
+                {
+                    GridViewColumnHeader gridViewHeader = childVisual as GridViewColumnHeader;
+                    if (gridViewHeader != null && gridViewHeader.Column == gridViewColumn)
+                    {
+                        return gridViewHeader;
+                    }
+                }
+                GridViewColumnHeader childGridViewHeader = FindColumnHeader(childVisual, gridViewColumn);  // recursive
+                if (childGridViewHeader != null)
+                {
+                    return childGridViewHeader;
+                }
+            }
+            return null;
+        } // FindColumnHeader
 
-			foreach ( GridViewColumn gridViewColumn in view.Columns )
-			{
-				if ( !RangeColumn.IsRangeColumn( gridViewColumn ) )
-				{
-					continue;
-				}
+        // ----------------------------------------------------------------------
+        private void InitColumns()
+        {
+            GridView view = this.listView.View as GridView;
+            if (view == null)
+            {
+                return;
+            }
 
-				double? minWidth = RangeColumn.GetRangeMinWidth( gridViewColumn );
-				double? maxWidth = RangeColumn.GetRangeMaxWidth( gridViewColumn );
-				if ( !minWidth.HasValue && !maxWidth.HasValue )
-				{
-					continue;
-				}
-				
-				GridViewColumnHeader columnHeader = FindColumnHeader( this.listView, gridViewColumn );
-				if ( columnHeader == null )
-				{
-					continue;
-				}
+            foreach (GridViewColumn gridViewColumn in view.Columns)
+            {
+                if (!RangeColumn.IsRangeColumn(gridViewColumn))
+                {
+                    continue;
+                }
 
-				double actualWidth = columnHeader.ActualWidth;
-				if ( minWidth.HasValue )
-				{
-					columnHeader.MinWidth = minWidth.Value;
-					if ( !double.IsInfinity( actualWidth ) && actualWidth < columnHeader.MinWidth )
-					{
-						gridViewColumn.Width = columnHeader.MinWidth;
-					}
-				}
-				if ( maxWidth.HasValue )
-				{
-					columnHeader.MaxWidth = maxWidth.Value;
-					if ( !double.IsInfinity( actualWidth ) && actualWidth > columnHeader.MaxWidth )
-					{
-						gridViewColumn.Width = columnHeader.MaxWidth;
-					}
-				}
-			}
-		} // InitColumns
+                double? minWidth = RangeColumn.GetRangeMinWidth(gridViewColumn);
+                double? maxWidth = RangeColumn.GetRangeMaxWidth(gridViewColumn);
+                if (!minWidth.HasValue && !maxWidth.HasValue)
+                {
+                    continue;
+                }
 
-		// ----------------------------------------------------------------------
-		protected virtual void ResizeColumns()
-		{
-			GridView view = this.listView.View as GridView;
-			if ( view == null || view.Columns.Count == 0 )
-			{
-				return;
-			}
+                GridViewColumnHeader columnHeader = FindColumnHeader(this.listView, gridViewColumn);
+                if (columnHeader == null)
+                {
+                    continue;
+                }
 
-			// listview width
-			double actualWidth = double.PositiveInfinity;
-			if ( this.scrollViewer != null )
-			{
-				actualWidth = this.scrollViewer.ViewportWidth;
-			}
-			if ( double.IsInfinity( actualWidth ) )
-			{
-				actualWidth = this.listView.ActualWidth;
-			}
-			if ( double.IsInfinity( actualWidth ) || actualWidth <= 0 )
-			{
-				return;
-			}
+                double actualWidth = columnHeader.ActualWidth;
+                if (minWidth.HasValue)
+                {
+                    columnHeader.MinWidth = minWidth.Value;
+                    if (!double.IsInfinity(actualWidth) && actualWidth < columnHeader.MinWidth)
+                    {
+                        gridViewColumn.Width = columnHeader.MinWidth;
+                    }
+                }
+                if (maxWidth.HasValue)
+                {
+                    columnHeader.MaxWidth = maxWidth.Value;
+                    if (!double.IsInfinity(actualWidth) && actualWidth > columnHeader.MaxWidth)
+                    {
+                        gridViewColumn.Width = columnHeader.MaxWidth;
+                    }
+                }
+            }
+        } // InitColumns
 
-			double resizeableRegionCount = 0;
-			double otherColumnsWidth = 0;
-			// determine column sizes
-			foreach ( GridViewColumn gridViewColumn in view.Columns )
-			{
-				if ( ProportionalColumn.IsProportionalColumn( gridViewColumn ) )
-				{
-					resizeableRegionCount += ProportionalColumn.GetProportionalWidth( gridViewColumn ).Value;
-				}
-				else
-				{
-					otherColumnsWidth += gridViewColumn.ActualWidth;
-				}
-			}
+        // ----------------------------------------------------------------------
+        protected virtual void ResizeColumns()
+        {
+            GridView view = this.listView.View as GridView;
+            if (view == null || view.Columns.Count == 0)
+            {
+                return;
+            }
 
-			if ( resizeableRegionCount <= 0 )
-			{
-				// no proportional columns present: commit the regulation to the scroll viewer
-				this.scrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
+            // listview width
+            double actualWidth = double.PositiveInfinity;
+            if (this.scrollViewer != null)
+            {
+                actualWidth = this.scrollViewer.ViewportWidth;
+            }
+            if (double.IsInfinity(actualWidth))
+            {
+                actualWidth = this.listView.ActualWidth;
+            }
+            if (double.IsInfinity(actualWidth) || actualWidth <= 0)
+            {
+                return;
+            }
 
-				// search the first fill column
-				GridViewColumn fillColumn = null;
-				for ( int i = 0; i < view.Columns.Count; i++ )
-				{
-					GridViewColumn gridViewColumn = view.Columns[ i ];
-					if ( IsFillColumn( gridViewColumn ) )
-					{
-						fillColumn = gridViewColumn;
-						break;
-					}
-				}
+            double resizeableRegionCount = 0;
+            double otherColumnsWidth = 0;
+            // determine column sizes
+            foreach (GridViewColumn gridViewColumn in view.Columns)
+            {
+                if (ProportionalColumn.IsProportionalColumn(gridViewColumn))
+                {
+                    resizeableRegionCount += ProportionalColumn.GetProportionalWidth(gridViewColumn).Value;
+                }
+                else
+                {
+                    otherColumnsWidth += gridViewColumn.ActualWidth;
+                }
+            }
 
-				if ( fillColumn != null )
-				{
-					double otherColumnsWithoutFillWidth = otherColumnsWidth - fillColumn.ActualWidth;
-					double fillWidth = actualWidth - otherColumnsWithoutFillWidth;
-					if ( fillWidth > 0 )
-					{
-						double? minWidth = RangeColumn.GetRangeMinWidth( fillColumn );
-						double? maxWidth = RangeColumn.GetRangeMaxWidth( fillColumn );
+            if (resizeableRegionCount <= 0)
+            {
+                // no proportional columns present: commit the regulation to the scroll viewer
+                this.scrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
 
-						bool setWidth = true;
-						if ( minWidth.HasValue && fillWidth < minWidth.Value )
-						{
-							setWidth = false;
-						}
-						if ( maxWidth.HasValue && fillWidth > maxWidth.Value )
-						{
-							setWidth = false;
-						}
-						if ( setWidth )
-						{
-							this.scrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
-							fillColumn.Width = fillWidth;
-						}
-					}
-				}
-				return;
-			}
+                // search the first fill column
+                GridViewColumn fillColumn = null;
+                for (int i = 0; i < view.Columns.Count; i++)
+                {
+                    GridViewColumn gridViewColumn = view.Columns[i];
+                    if (IsFillColumn(gridViewColumn))
+                    {
+                        fillColumn = gridViewColumn;
+                        break;
+                    }
+                }
 
-			double resizeableColumnsWidth = actualWidth - otherColumnsWidth;
-			if ( resizeableColumnsWidth <= 0 )
-			{
-				return; // missing space
-			}
+                if (fillColumn != null)
+                {
+                    double otherColumnsWithoutFillWidth = otherColumnsWidth - fillColumn.ActualWidth;
+                    double fillWidth = actualWidth - otherColumnsWithoutFillWidth;
+                    if (fillWidth > 0)
+                    {
+                        double? minWidth = RangeColumn.GetRangeMinWidth(fillColumn);
+                        double? maxWidth = RangeColumn.GetRangeMaxWidth(fillColumn);
 
-			// resize columns
-			double resizeableRegionWidth = resizeableColumnsWidth / resizeableRegionCount;
-			foreach ( GridViewColumn gridViewColumn in view.Columns )
-			{
-				if ( ProportionalColumn.IsProportionalColumn( gridViewColumn ) )
-				{
-					gridViewColumn.Width = ProportionalColumn.GetProportionalWidth( gridViewColumn ).Value * resizeableRegionWidth;
-				}
-			}
-		} // ResizeColumns
+                        bool setWidth = true;
+                        if (minWidth.HasValue && fillWidth < minWidth.Value)
+                        {
+                            setWidth = false;
+                        }
+                        if (maxWidth.HasValue && fillWidth > maxWidth.Value)
+                        {
+                            setWidth = false;
+                        }
+                        if (setWidth)
+                        {
+                            this.scrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+                            fillColumn.Width = fillWidth;
+                        }
+                    }
+                }
+                return;
+            }
 
-		// ----------------------------------------------------------------------
-		// returns the delta
-		private double SetRangeColumnToBounds( GridViewColumn gridViewColumn )
-		{
-			double startWidth = gridViewColumn.Width;
+            double resizeableColumnsWidth = actualWidth - otherColumnsWidth;
+            if (resizeableColumnsWidth <= 0)
+            {
+                return; // missing space
+            }
 
-			double? minWidth = RangeColumn.GetRangeMinWidth( gridViewColumn );
-			double? maxWidth = RangeColumn.GetRangeMaxWidth( gridViewColumn );
+            // resize columns
+            double resizeableRegionWidth = resizeableColumnsWidth / resizeableRegionCount;
+            foreach (GridViewColumn gridViewColumn in view.Columns)
+            {
+                if (ProportionalColumn.IsProportionalColumn(gridViewColumn))
+                {
+                    gridViewColumn.Width = ProportionalColumn.GetProportionalWidth(gridViewColumn).Value * resizeableRegionWidth;
+                }
+            }
+        } // ResizeColumns
 
-			if ( ( minWidth.HasValue && maxWidth.HasValue ) && ( minWidth > maxWidth ) )
-			{
-				return 0; // invalid case
-			}
+        // ----------------------------------------------------------------------
+        // returns the delta
+        private double SetRangeColumnToBounds(GridViewColumn gridViewColumn)
+        {
+            double startWidth = gridViewColumn.Width;
 
-			if ( minWidth.HasValue && gridViewColumn.Width < minWidth.Value )
-			{
-				gridViewColumn.Width = minWidth.Value;
-			}
-			else if ( maxWidth.HasValue && gridViewColumn.Width > maxWidth.Value )
-			{
-				gridViewColumn.Width = maxWidth.Value;
-			}
+            double? minWidth = RangeColumn.GetRangeMinWidth(gridViewColumn);
+            double? maxWidth = RangeColumn.GetRangeMaxWidth(gridViewColumn);
 
-			return gridViewColumn.Width - startWidth;
-		} // SetRangeColumnToBounds
+            if ((minWidth.HasValue && maxWidth.HasValue) && (minWidth > maxWidth))
+            {
+                return 0; // invalid case
+            }
 
-		// ----------------------------------------------------------------------
-		private bool IsFillColumn( GridViewColumn gridViewColumn )
-		{
-			if ( gridViewColumn == null )
-			{
-				return false;
-			}
+            if (minWidth.HasValue && gridViewColumn.Width < minWidth.Value)
+            {
+                gridViewColumn.Width = minWidth.Value;
+            }
+            else if (maxWidth.HasValue && gridViewColumn.Width > maxWidth.Value)
+            {
+                gridViewColumn.Width = maxWidth.Value;
+            }
 
-			GridView view = this.listView.View as GridView;
-			if ( view == null || view.Columns.Count == 0 )
-			{
-				return false;
-			}
+            return gridViewColumn.Width - startWidth;
+        } // SetRangeColumnToBounds
 
-			bool? isFillCoumn = RangeColumn.GetRangeIsFillColumn( gridViewColumn );
-			return isFillCoumn.HasValue && isFillCoumn.Value == true;
-		} // IsFillColumn
+        // ----------------------------------------------------------------------
+        private bool IsFillColumn(GridViewColumn gridViewColumn)
+        {
+            if (gridViewColumn == null)
+            {
+                return false;
+            }
 
-		// ----------------------------------------------------------------------
-		private void DoResizeColumns()
-		{
-			if ( this.resizing )
-			{
-				return;
-			}
+            GridView view = this.listView.View as GridView;
+            if (view == null || view.Columns.Count == 0)
+            {
+                return false;
+            }
 
-			this.resizing = true;
-			try
-			{
-				ResizeColumns();
-			}
-			catch
-			{
-				throw;
-			}
-			finally
-			{
-				this.resizing = false;
-			}
-		} // DoResizeColumns
+            bool? isFillCoumn = RangeColumn.GetRangeIsFillColumn(gridViewColumn);
+            return isFillCoumn.HasValue && isFillCoumn.Value == true;
+        } // IsFillColumn
 
-		// ----------------------------------------------------------------------
-		private void ListViewLoaded( object sender, RoutedEventArgs e )
-		{
-			RegisterEvents( this.listView );
-			InitColumns();
-			DoResizeColumns();
-			this.loaded = true;
-		} // ListViewLoaded
+        // ----------------------------------------------------------------------
+        private void DoResizeColumns()
+        {
+            if (this.resizing)
+            {
+                return;
+            }
 
-		// ----------------------------------------------------------------------
-		private void ListViewUnloaded( object sender, RoutedEventArgs e )
-		{
-			if ( !this.loaded )
-			{
-				return;
-			}
-			UnregisterEvents( this.listView );
-			this.loaded = false;
-		} // ListViewUnloaded
+            this.resizing = true;
+            try
+            {
+                ResizeColumns();
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                this.resizing = false;
+            }
+        } // DoResizeColumns
 
-		// ----------------------------------------------------------------------
-		private void ThumbPreviewMouseMove( object sender, MouseEventArgs e )
-		{
-			Thumb thumb = sender as Thumb;
-			GridViewColumn gridViewColumn = FindParentColumn( thumb );
-			if ( gridViewColumn == null )
-			{
-				return;
-			}
+        // ----------------------------------------------------------------------
+        private void ListViewLoaded(object sender, RoutedEventArgs e)
+        {
+            RegisterEvents(this.listView);
+            InitColumns();
+            DoResizeColumns();
+            this.loaded = true;
+        } // ListViewLoaded
 
-			// suppress column resizing for proportional, fixed and range fill columns
-			if ( ProportionalColumn.IsProportionalColumn( gridViewColumn ) || 
-				FixedColumn.IsFixedColumn( gridViewColumn ) ||
-				IsFillColumn( gridViewColumn ) )
-			{
-				thumb.Cursor = null;
-				return;
-			}
+        // ----------------------------------------------------------------------
+        private void ListViewUnloaded(object sender, RoutedEventArgs e)
+        {
+            if (!this.loaded)
+            {
+                return;
+            }
+            UnregisterEvents(this.listView);
+            this.loaded = false;
+        } // ListViewUnloaded
 
-			// check range column bounds
-			if ( thumb.IsMouseCaptured && RangeColumn.IsRangeColumn( gridViewColumn ) )
-			{
-				double? minWidth = RangeColumn.GetRangeMinWidth( gridViewColumn );
-				double? maxWidth = RangeColumn.GetRangeMaxWidth( gridViewColumn );
+        // ----------------------------------------------------------------------
+        private void ThumbPreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            Thumb thumb = sender as Thumb;
+            GridViewColumn gridViewColumn = FindParentColumn(thumb);
+            if (gridViewColumn == null)
+            {
+                return;
+            }
 
-				if ( ( minWidth.HasValue && maxWidth.HasValue ) && ( minWidth > maxWidth ) )
-				{
-					return; // invalid case
-				}
+            // suppress column resizing for proportional, fixed and range fill columns
+            if (ProportionalColumn.IsProportionalColumn(gridViewColumn) ||
+                FixedColumn.IsFixedColumn(gridViewColumn) ||
+                IsFillColumn(gridViewColumn))
+            {
+                thumb.Cursor = null;
+                return;
+            }
 
-				if ( this.resizeCursor == null )
-				{
-					this.resizeCursor = thumb.Cursor; // save the resize cursor
-				}
+            // check range column bounds
+            if (thumb.IsMouseCaptured && RangeColumn.IsRangeColumn(gridViewColumn))
+            {
+                double? minWidth = RangeColumn.GetRangeMinWidth(gridViewColumn);
+                double? maxWidth = RangeColumn.GetRangeMaxWidth(gridViewColumn);
 
-				if ( minWidth.HasValue && gridViewColumn.Width <= minWidth.Value )
-				{
-					thumb.Cursor = Cursors.No;
-				}
-				else if ( maxWidth.HasValue && gridViewColumn.Width >= maxWidth.Value )
-				{
-					thumb.Cursor = Cursors.No;
-				}
-				else
-				{
-					thumb.Cursor = this.resizeCursor; // between valid min/max
-				}
-			}
-		} // ThumbPreviewMouseMove
+                if ((minWidth.HasValue && maxWidth.HasValue) && (minWidth > maxWidth))
+                {
+                    return; // invalid case
+                }
 
-		// ----------------------------------------------------------------------
-		private void ThumbPreviewMouseLeftButtonDown( object sender, MouseButtonEventArgs e )
-		{
-			Thumb thumb = sender as Thumb;
-			GridViewColumn gridViewColumn = FindParentColumn( thumb );
+                if (this.resizeCursor == null)
+                {
+                    this.resizeCursor = thumb.Cursor; // save the resize cursor
+                }
 
-			// suppress column resizing for proportional, fixed and range fill columns
-			if ( ProportionalColumn.IsProportionalColumn( gridViewColumn ) || 
-				FixedColumn.IsFixedColumn( gridViewColumn ) ||
-				IsFillColumn( gridViewColumn ) )
-			{
-				e.Handled = true;
-				return;
-			}
-		} // ThumbPreviewMouseLeftButtonDown
+                if (minWidth.HasValue && gridViewColumn.Width <= minWidth.Value)
+                {
+                    thumb.Cursor = Cursors.No;
+                }
+                else if (maxWidth.HasValue && gridViewColumn.Width >= maxWidth.Value)
+                {
+                    thumb.Cursor = Cursors.No;
+                }
+                else
+                {
+                    thumb.Cursor = this.resizeCursor; // between valid min/max
+                }
+            }
+        } // ThumbPreviewMouseMove
 
-		// ----------------------------------------------------------------------
-		private void GridColumnWidthChanged( object sender, EventArgs e )
-		{
-			if ( !this.loaded )
-			{
-				return;
-			}
+        // ----------------------------------------------------------------------
+        private void ThumbPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Thumb thumb = sender as Thumb;
+            GridViewColumn gridViewColumn = FindParentColumn(thumb);
 
-			GridViewColumn gridViewColumn = sender as GridViewColumn;
+            // suppress column resizing for proportional, fixed and range fill columns
+            if (ProportionalColumn.IsProportionalColumn(gridViewColumn) ||
+                FixedColumn.IsFixedColumn(gridViewColumn) ||
+                IsFillColumn(gridViewColumn))
+            {
+                e.Handled = true;
+                return;
+            }
+        } // ThumbPreviewMouseLeftButtonDown
 
-			// suppress column resizing for proportional and fixed columns
-			if ( ProportionalColumn.IsProportionalColumn( gridViewColumn ) || FixedColumn.IsFixedColumn( gridViewColumn ) )
-			{
-				return;
-			}
+        // ----------------------------------------------------------------------
+        private void GridColumnWidthChanged(object sender, EventArgs e)
+        {
+            if (!this.loaded)
+            {
+                return;
+            }
 
-			// ensure range column within the bounds
-			if ( RangeColumn.IsRangeColumn( gridViewColumn ) )
-			{
-				// special case: auto column width - maybe conflicts with min/max range
-				if ( gridViewColumn.Width.Equals( double.NaN ) )
-				{
-					this.autoSizedColumn = gridViewColumn;
-					return; // handled by the change header size event
-				}
+            GridViewColumn gridViewColumn = sender as GridViewColumn;
 
-				// ensure column bounds
-				if ( SetRangeColumnToBounds( gridViewColumn ) != 0 )
-				{
-					return;
-				}
-			}
+            // suppress column resizing for proportional and fixed columns
+            if (ProportionalColumn.IsProportionalColumn(gridViewColumn) || FixedColumn.IsFixedColumn(gridViewColumn))
+            {
+                return;
+            }
 
-			DoResizeColumns();
-		} // GridColumnWidthChanged
+            // ensure range column within the bounds
+            if (RangeColumn.IsRangeColumn(gridViewColumn))
+            {
+                // special case: auto column width - maybe conflicts with min/max range
+                if (gridViewColumn.Width.Equals(double.NaN))
+                {
+                    this.autoSizedColumn = gridViewColumn;
+                    return; // handled by the change header size event
+                }
 
-		// ----------------------------------------------------------------------
-		// handle autosized column
-		private void GridColumnHeaderSizeChanged( object sender, SizeChangedEventArgs e )
-		{
-			if ( this.autoSizedColumn == null )
-			{
-				return;
-			}
+                // ensure column bounds
+                if (SetRangeColumnToBounds(gridViewColumn) != 0)
+                {
+                    return;
+                }
+            }
 
-			GridViewColumnHeader gridViewColumnHeader = sender as GridViewColumnHeader;
-			if ( gridViewColumnHeader.Column == this.autoSizedColumn )
-			{
-				if ( gridViewColumnHeader.Width.Equals( double.NaN ) )
-				{
-					// sync column with 
-					gridViewColumnHeader.Column.Width = gridViewColumnHeader.ActualWidth;
-					DoResizeColumns();
-				}
+            DoResizeColumns();
+        } // GridColumnWidthChanged
 
-				this.autoSizedColumn = null;
-			}
-		} // GridColumnHeaderSizeChanged
+        // ----------------------------------------------------------------------
+        // handle autosized column
+        private void GridColumnHeaderSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (this.autoSizedColumn == null)
+            {
+                return;
+            }
 
-		// ----------------------------------------------------------------------
-		private void ScrollViewerScrollChanged( object sender, ScrollChangedEventArgs e )
-		{
-			if ( this.loaded && e.ViewportWidthChange != 0 )
-			{
-				DoResizeColumns();
-			}
-		} // ScrollViewerScrollChanged
+            GridViewColumnHeader gridViewColumnHeader = sender as GridViewColumnHeader;
+            if (gridViewColumnHeader.Column == this.autoSizedColumn)
+            {
+                if (gridViewColumnHeader.Width.Equals(double.NaN))
+                {
+                    // sync column with 
+                    gridViewColumnHeader.Column.Width = gridViewColumnHeader.ActualWidth;
+                    DoResizeColumns();
+                }
 
-		// ----------------------------------------------------------------------
-		private static void OnLayoutManagerEnabledChanged( DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e )
-		{
-			ListView listView = dependencyObject as ListView;
-			if ( listView != null )
-			{
-				bool enabled = (bool)e.NewValue;
-				if ( enabled )
-				{
-					new ListViewLayoutManager( listView );
-				}
-			}
-		} // OnLayoutManagerEnabledChanged
+                this.autoSizedColumn = null;
+            }
+        } // GridColumnHeaderSizeChanged
 
-		// ----------------------------------------------------------------------
-		// members
-		private readonly ListView listView;
-		private ScrollViewer scrollViewer;
-		private bool loaded = false;
-		private bool resizing = false;
-		private Cursor resizeCursor;
-		private ScrollBarVisibility verticalScrollBarVisibility = ScrollBarVisibility.Auto;
-		private GridViewColumn autoSizedColumn;
+        // ----------------------------------------------------------------------
+        private void ScrollViewerScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            if (this.loaded && e.ViewportWidthChange != 0)
+            {
+                DoResizeColumns();
+            }
+        } // ScrollViewerScrollChanged
 
-	} // class ListViewLayoutManager
+        // ----------------------------------------------------------------------
+        private static void OnLayoutManagerEnabledChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+        {
+            ListView listView = dependencyObject as ListView;
+            if (listView != null)
+            {
+                bool enabled = (bool)e.NewValue;
+                if (enabled)
+                {
+                    new ListViewLayoutManager(listView);
+                }
+            }
+        } // OnLayoutManagerEnabledChanged
+
+        // ----------------------------------------------------------------------
+        // members
+        private readonly ListView listView;
+        private ScrollViewer scrollViewer;
+        private bool loaded = false;
+        private bool resizing = false;
+        private Cursor resizeCursor;
+        private ScrollBarVisibility verticalScrollBarVisibility = ScrollBarVisibility.Auto;
+        private GridViewColumn autoSizedColumn;
+
+    } // class ListViewLayoutManager
 
 } // namespace Itenso.Windows.Controls.ListViewLayout
 // -- EOF -------------------------------------------------------------------

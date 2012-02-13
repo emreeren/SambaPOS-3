@@ -54,7 +54,8 @@ namespace Samba.Services.Implementations.TicketModule
                         x => x.Id == _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.Id);
                 account = _cacheService.GetAccountById(template.DefaultTargetAccountId);
             }
-            ticket.UpdateAccount(CheckAccount(account));
+            //ticket.UpdateAccount(CheckAccount(account));
+            ticket.UpdateAccount(account);
             _automationService.NotifyEvent(RuleEventNames.AccountSelectedForTicket,
                     new
                     {
@@ -176,7 +177,6 @@ namespace Samba.Services.Implementations.TicketModule
 
             if (canSumbitTicket)
             {
-                //var roundingTemplate = _cacheService.GetAccountTransactionTemplateById(ticket.RoundingTransactionTemplateId);
                 ticket.Recalculate(_settingService.ProgramSettings.AutoRoundDiscount, _applicationState.CurrentLoggedInUser.Id);
                 ticket.IsPaid = ticket.RemainingAmount == 0;
 
@@ -289,35 +289,36 @@ namespace Samba.Services.Implementations.TicketModule
             _automationService.NotifyEvent(RuleEventNames.TicketLocationChanged, new { Ticket = ticket, OldLocation = oldLocation, NewLocation = ticket.LocationName });
         }
 
-        public Account CheckAccount(Account account)
-        {
-            if (account == Account.Null)
-                return Account.Null;
+        //public Account CheckAccount(Account account)
+        //{
+        //    if (account == Account.Null)
+        //        return Account.Null;
 
-            if (account.Id == 0)
-            {
-                using (var workspace = WorkspaceFactory.Create())
-                {
-                    workspace.Add(account);
-                    workspace.CommitChanges();
-                }
-                return account;
-            }
+        //    if (account.Id == 0)
+        //    {
+        //        using (var workspace = WorkspaceFactory.Create())
+        //        {
+        //            workspace.Add(account);
+        //            workspace.CommitChanges();
+        //        }
+        //        return account;
+        //    }
 
-            var result = _workspace.Single<Account>(
-                    x => x.Id == account.Id
-                    && x.Name == account.Name
-                    && x.SearchString == account.SearchString);
+        //    var result = _workspace.Single<Account>(
+        //            x => x.Id == account.Id
+        //            && x.Name == account.Name
+        //            && x.CustomData == account.CustomData);
 
-            if (result == null)
-            {
-                result = _workspace.Single<Account>(x => x.Id == account.Id);
-                Debug.Assert(result != null);
-                result.Name = account.Name;
-                result.SearchString = account.SearchString;
-            }
-            return result;
-        }
+        //    if (result == null)
+        //    {
+        //        result = _workspace.Single<Account>(x => x.Id == account.Id);
+        //        Debug.Assert(result != null);
+        //        result.Name = account.Name;
+        //        result.SearchString = account.SearchString;
+        //        result.CustomData = account.CustomData;
+        //    }
+        //    return result;
+        //}
 
         public TicketCommitResult MoveOrders(Ticket ticket, IEnumerable<Order> selectedOrders, int targetTicketId)
         {
@@ -358,7 +359,6 @@ namespace Samba.Services.Implementations.TicketModule
         public void RecalculateTicket(Ticket ticket)
         {
             var total = ticket.TotalAmount;
-            //var roundingTemplate = _cacheService.GetAccountTransactionTemplateById(ticket.RoundingTransactionTemplateId);
             ticket.Recalculate(_settingService.ProgramSettings.AutoRoundDiscount, _applicationState.CurrentLoggedInUser.Id);
             if (total != ticket.TotalAmount)
             {

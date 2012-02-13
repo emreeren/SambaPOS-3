@@ -23,7 +23,7 @@ namespace Samba.Modules.MenuModule
         public PriceListView()
         {
             InitializeComponent();
-            DataContextChanged += new DependencyPropertyChangedEventHandler(PriceListView_DataContextChanged);
+            DataContextChanged += PriceListView_DataContextChanged;
         }
 
         void PriceListView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)

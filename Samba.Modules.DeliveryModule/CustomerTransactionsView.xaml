@@ -60,7 +60,7 @@
                              ListViewLM:ProportionalColumn.Width="3">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock TextTrimming="CharacterEllipsis" FontSize="18" Text="{Binding Description}" />
+                                <TextBlock TextTrimming="CharacterEllipsis" FontSize="18" Text="{Binding Name}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -68,7 +68,7 @@
                              ListViewLM:ProportionalColumn.Width="1">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock FontSize="18" Foreground="{Binding TextColor}" Text="{Binding Receivable,StringFormat='#,#0.00;-#,#0.00; '}"
+                                <TextBlock FontSize="18" Foreground="{Binding TextColor}" Text="{Binding Liability,StringFormat='#,#0.00;-#,#0.00; '}"
                                          TextAlignment="Right" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -77,7 +77,7 @@
                              ListViewLM:ProportionalColumn.Width="1">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock FontSize="18" Foreground="{Binding TextColor}" Text="{Binding Liability,StringFormat='#,#0.00;-#,#0.00; '}"
+                                <TextBlock FontSize="18" Foreground="{Binding TextColor}" Text="{Binding Receivable,StringFormat='#,#0.00;-#,#0.00; '}"
                                          TextAlignment="Right" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -100,8 +100,8 @@
                 <GridView AllowsColumnReorder="False" ColumnHeaderContainerStyle="{StaticResource SilverBackground}"
                                      ColumnHeaderTemplate="{StaticResource WrappedFooterTemplate}">
                     <GridViewColumn ListViewLM:ProportionalColumn.Width="4.7" />
-                    <GridViewColumn Header="{Binding TotalReceivable}" ListViewLM:ProportionalColumn.Width="1" />
                     <GridViewColumn Header="{Binding TotalLiability}" ListViewLM:ProportionalColumn.Width="1" />
+                    <GridViewColumn Header="{Binding TotalReceivable}" ListViewLM:ProportionalColumn.Width="1" />
                     <GridViewColumn Header="{Binding TotalBalance}" ListViewLM:ProportionalColumn.Width="1" />
                 </GridView>
             </ListView.View>

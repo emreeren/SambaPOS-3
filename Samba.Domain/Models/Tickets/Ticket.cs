@@ -82,6 +82,7 @@ namespace Samba.Domain.Models.Tickets
 
         public int AccountId { get; set; }
         public string AccountName { get; set; }
+        public int TargetAccountTemplateId { get; set; }
 
         public virtual AccountTransactionDocument AccountTransactions { get; set; }
 
@@ -129,6 +130,7 @@ namespace Samba.Domain.Models.Tickets
             if (AccountTransactions.AccountTransactions.SingleOrDefault(x => x.AccountTransactionTemplateId == template.Id) == null)
             {
                 var transaction = AccountTransaction.Create(template);
+                transaction.UpdateAccounts(TargetAccountTemplateId, AccountId);
                 AccountTransactions.AccountTransactions.Add(transaction);
             }
             Orders.Add(tif);
@@ -140,6 +142,7 @@ namespace Samba.Domain.Models.Tickets
             var transaction = AccountTransaction.Create(paymentTemplate.AccountTransactionTemplate);
             transaction.Amount = amount;
             transaction.SetTargetAccount(paymentTemplate.Account.Id);
+            transaction.UpdateAccounts(TargetAccountTemplateId, AccountId);
             AccountTransactions.AccountTransactions.Add(transaction);
             var payment = new Payment { AccountTransaction = transaction, Amount = amount, Name = paymentTemplate.Account.Name };
             Payments.Add(payment);
@@ -231,19 +234,6 @@ namespace Samba.Domain.Models.Tickets
             return decimal.Round(totalAmount, LocalSettings.Decimals);
         }
 
-        public void AddTicketDiscount(AccountTransactionTemplate template, decimal amount, int userId)
-        {
-            var c = AccountTransactions.AccountTransactions.SingleOrDefault(x => x.AccountTransactionTemplateId == template.Id);
-            if (c == null)
-            {
-                c = AccountTransaction.Create(template);
-                c.Amount = amount;
-                AccountTransactions.AccountTransactions.Add(c);
-            }
-            if (amount == 0) AccountTransactions.AccountTransactions.Remove(c);
-            c.Amount = amount;
-        }
-
         public void AddCalculation(CalculationTemplate template, decimal amount)
         {
             var t = Calculations.SingleOrDefault(x => x.ServiceId == template.Id) ??
@@ -264,6 +254,7 @@ namespace Samba.Domain.Models.Tickets
 
                 var transaction = AccountTransaction.Create(template.AccountTransactionTemplate);
                 transaction.Name = t.Name;
+                transaction.UpdateAccounts(TargetAccountTemplateId, AccountId);
                 AccountTransactions.AccountTransactions.Add(transaction);
                 Calculations.Add(t);
             }
@@ -403,6 +394,7 @@ namespace Samba.Domain.Models.Tickets
                 ticket.AddCalculation(calulationTemplate, calulationTemplate.Amount);
             }
 
+            ticket.TargetAccountTemplateId = account.AccountTemplateId;
             ticket.AccountTransactions = new AccountTransactionDocument();
             ticket.UpdateAccount(account);
             return ticket;
@@ -485,9 +477,9 @@ namespace Samba.Domain.Models.Tickets
         {
             foreach (var transaction in AccountTransactions.AccountTransactions)
             {
-                if (transaction.SourceTransactionValue.AccountId == AccountId)
+                if (transaction.SourceTransactionValue.AccountTemplateId == TargetAccountTemplateId)
                     transaction.SetSoruceAccount(account.Id);
-                if (transaction.TargetTransactionValue.AccountId == AccountId)
+                if (transaction.TargetTransactionValue.AccountTemplateId == TargetAccountTemplateId)
                     transaction.SetTargetAccount(account.Id);
             }
             AccountId = account.Id;
@@ -525,6 +517,7 @@ namespace Samba.Domain.Models.Tickets
                 {
                     var t = transactionItem;
                     var transaction = AccountTransactions.AccountTransactions.SingleOrDefault(x => x.AccountTransactionTemplateId == t.Key);
+                    transaction.UpdateAccounts(TargetAccountTemplateId, AccountId);
                     transaction.Amount = t.Sum(x => x.GetTotal());
                 }
             }

@@ -23,6 +23,13 @@ namespace Samba.Presentation.ViewModels
         public Account Model { get; set; }
         private readonly AccountTemplate _template;
 
+        public string GetValue(string name)
+        {
+            return CustomData.Any(x => x.Name == name) 
+                ? CustomData.SingleOrDefault(x => x.Name == name).Value 
+                : string.Empty;
+        }
+
         public AccountCustomDataViewModel(Account model, AccountTemplate template)
         {
             _template = template;
@@ -53,7 +60,7 @@ namespace Samba.Presentation.ViewModels
 
         private void GenerateFields(ICollection<CustomDataValue> data)
         {
-            if(_template == null) return;
+            if (_template == null) return;
 
             data.Where(x => !_template.AccountCustomFields.Any(y => y.Name == x.Name)).ToList().ForEach(x => data.Remove(x));
 

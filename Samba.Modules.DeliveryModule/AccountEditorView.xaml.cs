@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Samba.Presentation.Common;
 
 namespace Samba.Modules.DeliveryModule
 {
@@ -27,6 +28,11 @@ namespace Samba.Modules.DeliveryModule
         {
             DataContext = viewModel;
             InitializeComponent();
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            AccountNameEdit.BackgroundFocus();
         }
     }
 }

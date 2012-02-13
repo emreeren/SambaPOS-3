@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:VirtualKeyboard="clr-namespace:Samba.Presentation.Common.VirtualKeyboard;assembly=Samba.Presentation.Common" xmlns:ViewModels="clr-namespace:Samba.Presentation.ViewModels;assembly=Samba.Presentation.ViewModels" mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             xmlns:VirtualKeyboard="clr-namespace:Samba.Presentation.Common.VirtualKeyboard;assembly=Samba.Presentation.Common" xmlns:ViewModels="clr-namespace:Samba.Presentation.ViewModels;assembly=Samba.Presentation.ViewModels" xmlns:FlexButton="clr-namespace:FlexButton;assembly=FlexButton" mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <Style TargetType="Label">
             <Setter Property="MinWidth" Value="150"/>
@@ -12,6 +12,10 @@
         </Style>
     </UserControl.Resources>
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="9*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
@@ -27,7 +31,7 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Label Margin="0,0,2,2" MinWidth="100" Grid.Row="0" Grid.Column="0" Content="{LocText AccountName}" />
-                <TextBox Margin="0,0,2,2" Grid.Row="0" Grid.Column="1" Text="{Binding SelectedAccount.Name,UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Name="AccountNameEdit" Margin="0,0,2,2" Grid.Row="0" Grid.Column="1" Text="{Binding SelectedAccount.Name,UpdateSourceTrigger=PropertyChanged}" />
                 <ViewModels:AccountCustomDataEditor Focusable="False" Grid.Row="1" Grid.ColumnSpan="2" DataContext="{Binding CustomDataViewModel}"/>
             </Grid>
             <Grid Visibility="{Binding SelectedAccount.IsNotNew,Converter={StaticResource VisibilityConverter}}">
@@ -83,6 +87,21 @@
         <Viewbox Grid.Row="1">
             <VirtualKeyboard:KeyboardView/>
         </Viewbox>
+
+        <Grid Grid.Column="1" Grid.RowSpan="2" Background="LightGray">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0">
+                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding CloseScreenCommand.Caption}"
+                         ButtonColor="Red" Command="{Binding CloseScreenCommand}" />
+                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding SaveAccountCommand.Caption}"
+                         Command="{Binding SaveAccountCommand}" />
+                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding SelectAccountCommand.Caption}"
+                         Command="{Binding SelectAccountCommand}" />
+            </StackPanel>
+        </Grid>
     </Grid>
 
 </UserControl>

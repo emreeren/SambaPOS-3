@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
-using Samba.Domain;
 using Samba.Domain.Models.Accounts;
-using Samba.Domain.Models.Tickets;
-using Samba.Domain.Models.Transactions;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common;
@@ -21,18 +16,19 @@ namespace Samba.Modules.DeliveryModule
     public class CustomerTransactionsViewModel : ObservableObject
     {
         private readonly IUserService _userService;
+        private readonly IApplicationState _applicationState;
 
         [ImportingConstructor]
-        public CustomerTransactionsViewModel(IUserService userService)
+        public CustomerTransactionsViewModel(IUserService userService,IApplicationState applicationState)
         {
             _userService = userService;
-
+            _applicationState = applicationState;
             MakePaymentToAccountCommand = new CaptionCommand<string>(Resources.MakePayment_r, OnMakePaymentToAccountCommand, CanMakePaymentToAccount);
             GetPaymentFromAccountCommand = new CaptionCommand<string>(Resources.GetPayment_r, OnGetPaymentFromAccountCommand, CanMakePaymentToAccount);
             AddLiabilityCommand = new CaptionCommand<string>(Resources.AddLiability_r, OnAddLiability, CanAddLiability);
             AddReceivableCommand = new CaptionCommand<string>(Resources.AddReceivable_r, OnAddReceivable, CanAddLiability);
             CloseAccountScreenCommand = new CaptionCommand<string>(Resources.Close, OnCloseAccountScreen);
-            SelectedCustomerTransactions = new ObservableCollection<CustomerTransactionViewModel>();
+            SelectedCustomerTransactions = new ObservableCollection<AccountTransactionValue>();
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<Account>>().Subscribe(OnDisplayAccountTransactions);
         }
@@ -41,7 +37,7 @@ namespace Samba.Modules.DeliveryModule
         {
             if (obj.Topic == EventTopicNames.DisplayAccountTransactions)
             {
-                SelectedAccount = new AccountSearchViewModel(obj.Value);
+                SelectedAccount = new AccountSearchViewModel(obj.Value, null);
             }
         }
 
@@ -57,11 +53,11 @@ namespace Samba.Modules.DeliveryModule
             }
         }
 
-        public ObservableCollection<CustomerTransactionViewModel> SelectedCustomerTransactions { get; set; }
+        public ObservableCollection<AccountTransactionValue> SelectedCustomerTransactions { get; set; }
 
         public string TotalReceivable { get { return SelectedCustomerTransactions.Sum(x => x.Receivable).ToString("#,#0.00"); } }
         public string TotalLiability { get { return SelectedCustomerTransactions.Sum(x => x.Liability).ToString("#,#0.00"); } }
-        public string TotalBalance { get { return SelectedCustomerTransactions.Sum(x => x.Receivable - x.Liability).ToString("#,#0.00"); } }
+        public string TotalBalance { get { return SelectedCustomerTransactions.Sum(x => x.Liability - x.Receivable).ToString("#,#0.00"); } }
 
         public ICaptionCommand GetPaymentFromAccountCommand { get; set; }
         public ICaptionCommand MakePaymentToAccountCommand { get; set; }
@@ -72,6 +68,9 @@ namespace Samba.Modules.DeliveryModule
         private void DisplayTransactions()
         {
             SelectedCustomerTransactions.Clear();
+            var transactions = new List<AccountTransactionValue>();
+            transactions.AddRange(Dao.Query<AccountTransactionValue>(x => x.AccountId == SelectedAccount.Id));
+
             //if (SelectedAccount != null)
             //{
             //    var tickets = Dao.Query<Ticket>(x => x.SaleTransaction.TargetTransactionValue.AccountId == SelectedAccount.Id && x.LastPaymentDate > SelectedAccount.AccountOpeningDate, x => x.Payments);
@@ -127,10 +126,10 @@ namespace Samba.Modules.DeliveryModule
             //        if (i > 0) (transactions[i].Balance) += (transactions[i - 1].Balance);
             //    }
 
-            //    SelectedCustomerTransactions.AddRange(transactions);
-            //    RaisePropertyChanged(() => TotalReceivable);
-            //    RaisePropertyChanged(() => TotalLiability);
-            //    RaisePropertyChanged(() => TotalBalance);
+            SelectedCustomerTransactions.AddRange(transactions);
+            RaisePropertyChanged(() => TotalReceivable);
+            RaisePropertyChanged(() => TotalLiability);
+            RaisePropertyChanged(() => TotalBalance);
             //}
         }
 
@@ -148,6 +147,9 @@ namespace Samba.Modules.DeliveryModule
         {
             // RefreshSelectedAccount();
             SelectedCustomerTransactions.Clear();
+            if (_applicationState.CurrentTicket != null)
+                EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
+            else EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateAccountView);
         }
 
         private void OnAddReceivable(string obj)

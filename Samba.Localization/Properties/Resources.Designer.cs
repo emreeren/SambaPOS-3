@@ -107,16 +107,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Account
-        ///Info.
-        /// </summary>
-        public static string AccountInfo_r {
-            get {
-                return ResourceManager.GetString("AccountInfo_r", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Account List.
         /// </summary>
         public static string AccountList {
@@ -1332,6 +1322,15 @@ namespace Samba.Localization.Properties {
         public static string Cent {
             get {
                 return ResourceManager.GetString("Cent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change Account.
+        /// </summary>
+        public static string ChangeAccount {
+            get {
+                return ResourceManager.GetString("ChangeAccount", resourceCulture);
             }
         }
         
@@ -2901,16 +2900,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Find
-        ///Ticket.
-        /// </summary>
-        public static string FindTicket_r {
-            get {
-                return ResourceManager.GetString("FindTicket_r", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to 1st and 15th.
         /// </summary>
         public static string FirstAndFifteenth {
@@ -4243,12 +4232,11 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New
-        ///Account.
+        ///   Looks up a localized string similar to New Account.
         /// </summary>
-        public static string NewAccount_r {
+        public static string NewAccount {
             get {
-                return ResourceManager.GetString("NewAccount_r", resourceCulture);
+                return ResourceManager.GetString("NewAccount", resourceCulture);
             }
         }
         
@@ -5595,12 +5583,11 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reset
-        ///Account.
+        ///   Looks up a localized string similar to Reset Account.
         /// </summary>
-        public static string ResetAccount_r {
+        public static string ResetAccount {
             get {
-                return ResourceManager.GetString("ResetAccount_r", resourceCulture);
+                return ResourceManager.GetString("ResetAccount", resourceCulture);
             }
         }
         
@@ -5871,16 +5858,6 @@ namespace Samba.Localization.Properties {
         public static string SelectAccount {
             get {
                 return ResourceManager.GetString("SelectAccount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Select
-        ///Account.
-        /// </summary>
-        public static string SelectAccount_r {
-            get {
-                return ResourceManager.GetString("SelectAccount_r", resourceCulture);
             }
         }
         

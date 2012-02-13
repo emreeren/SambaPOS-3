@@ -18,6 +18,7 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Margin="2">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.5*" />
                 <ColumnDefinition Width="3*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
@@ -25,47 +26,27 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TextBlock Margin="3" Grid.Row="0" Grid.Column="0" FontSize="24" Text="{LocText SearchString}" />
-            <TextBlock Margin="3" Grid.Row="0" Grid.Column="1" FontSize="24" Text="{LocText Ticket}" />
-            <TextBox Margin="3" Grid.Row="1" Grid.Column="0" FontSize="24" Name="SearchString"
+            <TextBlock Margin="3" Grid.Row="0" Grid.Column="0" FontSize="24" Text="Templates" />
+            <TextBlock Margin="3" Grid.Row="0" Grid.Column="1" FontSize="24" Text="{LocText SearchString}" />
+            <TextBlock Margin="3" Grid.Row="0" Grid.Column="2" FontSize="24" Text="{LocText Ticket}" />
+            <ComboBox Margin="3" Grid.Row="1" Grid.Column="0" FontSize="24" DisplayMemberPath="Name" ItemsSource="{Binding AccountTemplates}" SelectedItem="{Binding SelectedAccountTemplate}"></ComboBox>
+            <TextBox Margin="3" Grid.Row="1" Grid.Column="1" FontSize="24" Name="SearchString"
                              Text="{Binding SearchString,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                              PreviewKeyDown="SearchStringPreviewKeyDown" Loaded="SearchStringLoaded" />
-            <TextBox Margin="3" Grid.Row="1" Grid.Column="1" FontSize="24" Name="TicketNo" Text="{Binding TicketSearchText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+            <TextBox Margin="3" Grid.Row="1" Grid.Column="2" FontSize="24" Name="TicketNo" Text="{Binding TicketSearchText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                              PreviewKeyDown="TicketNoPreviewKeyDown" />
         </Grid>
-        <ListView Grid.Row="1" Margin="5" Background="LightGray" VirtualizingStackPanel.IsVirtualizing="True"
+        <ListView Name="MainListView" Grid.Row="1" Margin="5" Background="LightGray" VirtualizingStackPanel.IsVirtualizing="True"
                          IsSynchronizedWithCurrentItem="True" ListViewEx:ListViewSorter.IsListviewSortable="True"
                          ListViewLM:ListViewLayoutManager.Enabled="True" ItemsSource="{Binding FoundAccounts}"
                          SelectedItem="{Binding FocusedAccount,Mode=TwoWay}" ItemContainerStyle="{StaticResource ListViewItemExContainerStyle}">
             <ListView.View>
                 <GridView AllowsColumnReorder="False" ColumnHeaderContainerStyle="{StaticResource BlueBackground}"
                                  ColumnHeaderTemplate="{StaticResource WrappedHeaderTemplate}">
-                    <GridViewColumn Header="{LocText AccountName}"
-                                     ListViewLM:ProportionalColumn.Width="1.5">
+                    <GridViewColumn Header="{LocText AccountName}" ListViewLM:ProportionalColumn.Width="2">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Name}" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="{LocText PhoneNumber}" ListViewLM:ProportionalColumn.Width="1">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding PhoneNumberText}" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="{LocText Address}" ListViewLM:ProportionalColumn.Width="1.3">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Address}" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="{LocText Note}" ListViewLM:ProportionalColumn.Width="1">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Note}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -89,6 +70,8 @@
                          Content="{Binding ResetAccountCommand.Caption}" Visibility="{Binding IsResetAccountVisible,Converter={StaticResource VisibilityConverter}}" />
                 <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding SelectAccountCommand.Caption}"
                          Command="{Binding SelectAccountCommand}" Name="SelectAccountButton" />
+                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding EditAccountCommand.Caption}"
+                         Command="{Binding EditAccountCommand}"/>
                 <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding MakePaymentCommand.Caption}"
                          Command="{Binding MakePaymentCommand}" Visibility="{Binding IsMakePaymentVisible,Converter={StaticResource VisibilityConverter}}" />
                 <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding CreateAccountCommand.Caption}"

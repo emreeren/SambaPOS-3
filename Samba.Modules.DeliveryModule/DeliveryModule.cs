@@ -92,6 +92,7 @@ namespace Samba.Modules.DeliveryModule
         {
             Activate();
             ((AccountSelectorViewModel)_accountSelectorView.DataContext).RefreshSelectedAccount();
+            
             _regionManager.Regions[RegionNames.AccountDisplayRegion].Activate(_accountSelectorView);
         }
     }

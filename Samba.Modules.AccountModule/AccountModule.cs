@@ -42,6 +42,5 @@ namespace Samba.Modules.AccountModule
         {
             throw new NotImplementedException();
         }
-
     }
 }

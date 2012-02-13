@@ -21,9 +21,18 @@ namespace Samba.Modules.DeliveryModule
     [Export]
     public class AccountSelectorViewModel : ObservableObject
     {
+        public event EventHandler SelectedAccountTemplateChanged;
+
+        private void InvokeSelectedAccountTemplateChanged(EventArgs e)
+        {
+            var handler = SelectedAccountTemplateChanged;
+            if (handler != null) handler(this, e);
+        }
+
         public ICaptionCommand CloseScreenCommand { get; set; }
         public ICaptionCommand SelectAccountCommand { get; set; }
         public ICaptionCommand CreateAccountCommand { get; set; }
+        public ICaptionCommand EditAccountCommand { get; set; }
         public ICaptionCommand ResetAccountCommand { get; set; }
         public ICaptionCommand FindTicketCommand { get; set; }
         public ICaptionCommand MakePaymentCommand { get; set; }
@@ -32,9 +41,11 @@ namespace Samba.Modules.DeliveryModule
         private readonly IApplicationState _applicationState;
         private readonly ITicketService _ticketService;
         private readonly IUserService _userService;
+        private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public AccountSelectorViewModel(IApplicationState applicationState, ITicketService ticketService, IUserService userService)
+        public AccountSelectorViewModel(IApplicationState applicationState, ITicketService ticketService,
+            IUserService userService, ICacheService cacheService)
         {
             _updateTimer = new Timer(500);
             _updateTimer.Elapsed += UpdateTimerElapsed;
@@ -42,16 +53,31 @@ namespace Samba.Modules.DeliveryModule
             _applicationState = applicationState;
             _ticketService = ticketService;
             _userService = userService;
+            _cacheService = cacheService;
 
             FoundAccounts = new ObservableCollection<AccountSearchViewModel>();
 
             CloseScreenCommand = new CaptionCommand<string>(Resources.Close, OnCloseScreen);
-            SelectAccountCommand = new CaptionCommand<string>(Resources.SelectAccount_r, OnSelectAccount, CanSelectAccount);
-            CreateAccountCommand = new CaptionCommand<string>(Resources.NewAccount_r, OnCreateAccount, CanCreateAccount);
-            FindTicketCommand = new CaptionCommand<string>(Resources.FindTicket_r, OnFindTicket, CanFindTicket);
-            ResetAccountCommand = new CaptionCommand<string>(Resources.ResetAccount_r, OnResetAccount, CanResetAccount);
+            SelectAccountCommand = new CaptionCommand<string>(Resources.SelectAccount.Replace(" ", "\r"), OnSelectAccount, CanSelectAccount);
+            EditAccountCommand = new CaptionCommand<string>(string.Format(Resources.Edit_f, Resources.Account).Replace(" ", "\r"), OnEditAccount, CanEditAccount);
+            CreateAccountCommand = new CaptionCommand<string>(Resources.NewAccount.Replace(" ", "\r"), OnCreateAccount, CanCreateAccount);
+            FindTicketCommand = new CaptionCommand<string>(Resources.FindTicket.Replace(" ", "\r"), OnFindTicket, CanFindTicket);
+            ResetAccountCommand = new CaptionCommand<string>(Resources.ResetAccount.Replace(" ", "\r"), OnResetAccount, CanResetAccount);
             MakePaymentCommand = new CaptionCommand<string>(Resources.GetPayment_r, OnMakePayment, CanMakePayment);
             DisplayAccountCommand = new CaptionCommand<string>(Resources.Account, OnDisplayAccount, CanSelectAccount);
+        }
+
+        public IEnumerable<AccountTemplate> AccountTemplates { get { return _cacheService.GetAccountTemplates(); } }
+        private AccountTemplate _selectedAccountTemplate;
+        public AccountTemplate SelectedAccountTemplate
+        {
+            get { return _selectedAccountTemplate; }
+            set
+            {
+                _selectedAccountTemplate = value;
+                RaisePropertyChanged(() => SelectedAccountTemplate);
+                InvokeSelectedAccountTemplateChanged(EventArgs.Empty);
+            }
         }
 
         private readonly Timer _updateTimer;
@@ -104,7 +130,7 @@ namespace Samba.Modules.DeliveryModule
             get
             {
                 return (_applicationState.CurrentTicket != null &&
-                        _applicationState.CurrentTicket.AccountId > 0);
+                        _applicationState.CurrentTicket.AccountId != _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.DefaultTargetAccountId);
             }
         }
 
@@ -153,6 +179,16 @@ namespace Samba.Modules.DeliveryModule
             Account.Null.PublishEvent(EventTopicNames.AccountSelectedForTicket);
         }
 
+        private bool CanEditAccount(string arg)
+        {
+            return SelectedAccount != null;
+        }
+
+        private void OnEditAccount(string obj)
+        {
+            SelectedAccount.Model.PublishEvent(EventTopicNames.EditAccountDetails);
+        }
+
         private void OnFindTicket(string obj)
         {
             _ticketService.OpenTicketByTicketNumber(TicketSearchText);
@@ -183,54 +219,44 @@ namespace Samba.Modules.DeliveryModule
             return
                 _applicationState.IsCurrentWorkPeriodOpen
                 && SelectedAccount != null
-                && !string.IsNullOrEmpty(SelectedAccount.Name)
-                && (_applicationState.CurrentTicket == null || _applicationState.CurrentTicket.AccountId == 0);
+                && !string.IsNullOrEmpty(SelectedAccount.Name);
         }
 
         private void OnSelectAccount(string obj)
         {
-            SaveSelectedAccount();
             SelectedAccount.Model.PublishEvent(EventTopicNames.AccountSelectedForTicket);
             ClearSearchValues();
         }
 
         private void OnCloseScreen(string obj)
         {
-            _applicationState.CurrentDepartment.PublishEvent(EventTopicNames.ActivateOpenTickets);
+            if (_applicationState.CurrentTicket != null)
+                EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
+            else
+                _applicationState.CurrentDepartment.PublishEvent(EventTopicNames.ActivateOpenTickets);
         }
 
         public void RefreshSelectedAccount()
         {
+            if (SelectedAccountTemplate == null || SelectedAccountTemplate.Id != _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.TargetAccountTemplateId)
+                SelectedAccountTemplate = _cacheService.GetAccountTemplateById(
+                        _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.TargetAccountTemplateId);
+
             ClearSearchValues();
 
-            if (_applicationState.CurrentTicket != null && _applicationState.CurrentTicket.AccountId > 0)
+            if (_applicationState.CurrentTicket != null && _applicationState.CurrentTicket.AccountId != _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.DefaultTargetAccountId)
             {
                 var account = Dao.SingleWithCache<Account>(x => x.Id == _applicationState.CurrentTicket.AccountId);
                 if (account != null)
                 {
                     ClearSearchValues();
-                    account.PublishEvent(EventTopicNames.EditAccountDetails);
+                    FoundAccounts.Add(new AccountSearchViewModel(account, SelectedAccountTemplate));
                 }
-                //    FocusedAccount = new AccountSearchViewModel(account);
-                //if (SelectedAccount != null)
-                //{
-                //    SelectedAccount.UpdateDetailedInfo();
-                //}
             }
             RaisePropertyChanged(() => SelectedAccount);
             RaisePropertyChanged(() => IsClearVisible);
             RaisePropertyChanged(() => IsResetAccountVisible);
             RaisePropertyChanged(() => IsMakePaymentVisible);
-        }
-
-        private void SaveSelectedAccount()
-        {
-            if (!SelectedAccount.IsNotNew)
-            {
-                var ws = WorkspaceFactory.Create();
-                ws.Add(SelectedAccount.Model);
-                ws.CommitChanges();
-            }
         }
 
         private void ClearSearchValues()
@@ -266,8 +292,11 @@ namespace Samba.Modules.DeliveryModule
                 worker.DoWork += delegate
                 {
                     var searchPn = string.IsNullOrEmpty(SearchString.Trim());
+                    var templateId = SelectedAccountTemplate != null
+                                         ? SelectedAccountTemplate.Id
+                                         : _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.TargetAccountTemplateId;
                     result = Dao.Query<Account>(x =>
-                        x.AccountTemplateId == _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.TargetAccountTemplateId
+                        x.AccountTemplateId == templateId
                         && x.Id != _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.DefaultTargetAccountId
                         && (searchPn || x.CustomData.Contains(SearchString) || x.Name.Contains(SearchString)));
                 };
@@ -280,11 +309,10 @@ namespace Samba.Modules.DeliveryModule
                                delegate
                                {
                                    FoundAccounts.Clear();
-                                   FoundAccounts.AddRange(result.Select(x => new AccountSearchViewModel(x)));
+                                   FoundAccounts.AddRange(result.Select(x => new AccountSearchViewModel(x, SelectedAccountTemplate)));
 
                                    if (SelectedAccount != null && SearchString == SelectedAccount.PhoneNumber)
                                    {
-                                       //SelectedView = 1;
                                        SelectedAccount.UpdateDetailedInfo();
                                    }
 

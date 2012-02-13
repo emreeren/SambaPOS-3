@@ -10,7 +10,6 @@ namespace Samba.Modules.MenuModule
     {
         public MenuItemPortion Model { get; set; }
         public string ItemName { get; set; }
-
         public string PortionName { get { return Model.Name; } }
 
         private readonly IList<MenuItemPriceViewModel> _additionalPrices;

@@ -69,6 +69,8 @@ namespace Samba.Domain.Models.Accounts
 
             result.SetSoruceAccount(template.DefaultSourceAccountId);
             result.SetTargetAccount(template.DefaultTargetAccountId);
+            result.SourceTransactionValue.AccountTemplateId = template.SourceAccountTemplateId;
+            result.TargetTransactionValue.AccountTemplateId = template.TargetAccountTemplateId;
             return result;
         }
 
@@ -80,6 +82,14 @@ namespace Samba.Domain.Models.Accounts
         public void SetTargetAccount(int accountId)
         {
             TargetTransactionValue.AccountId = accountId;
+        }
+
+        public void UpdateAccounts(int targetAccountTemplateId, int accountId)
+        {
+            if (SourceTransactionValue.AccountTemplateId == targetAccountTemplateId)
+                SetSoruceAccount(accountId);
+            if (TargetTransactionValue.AccountTemplateId == targetAccountTemplateId)
+                SetTargetAccount(accountId);
         }
     }
 }

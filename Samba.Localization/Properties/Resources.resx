@@ -273,21 +273,11 @@ Transaction</value>
   <data name="AccountList" xml:space="preserve">
     <value>Account List</value>
   </data>
-  <data name="SelectAccount_r" xml:space="preserve">
-    <value>Select
-Account</value>
+  <data name="NewAccount" xml:space="preserve">
+    <value>New Account</value>
   </data>
-  <data name="NewAccount_r" xml:space="preserve">
-    <value>New
-Account</value>
-  </data>
-  <data name="FindTicket_r" xml:space="preserve">
-    <value>Find
-Ticket</value>
-  </data>
-  <data name="ResetAccount_r" xml:space="preserve">
-    <value>Reset
-Account</value>
+  <data name="ResetAccount" xml:space="preserve">
+    <value>Reset Account</value>
   </data>
   <data name="GetPayment_r" xml:space="preserve">
     <value>Get
@@ -1584,10 +1574,6 @@ Location</value>
   <data name="SelectLocation_r" xml:space="preserve">
     <value>Select
 Location</value>
-  </data>
-  <data name="AccountInfo_r" xml:space="preserve">
-    <value>Account
-Info</value>
   </data>
   <data name="ChangeAmount_f" xml:space="preserve">
     <value>Change Due: {0}</value>
@@ -3039,10 +3025,13 @@ Continue without adding details?</value>
     <value>Decrease Amount</value>
     <comment>CheckBox content</comment>
   </data>
-	<data name="PaymentTemplate">
-		<value xml:space="preserve">Payment Template</value>
-	</data>
-	<data name="PaymentTemplates">
-		<value xml:space="preserve">Payment Templates</value>
-	</data>
+  <data name="PaymentTemplate" xml:space="preserve">
+    <value>Payment Template</value>
+  </data>
+  <data name="PaymentTemplates" xml:space="preserve">
+    <value>Payment Templates</value>
+  </data>
+  <data name="ChangeAccount" xml:space="preserve">
+    <value>Change Account</value>
+  </data>
 </root>

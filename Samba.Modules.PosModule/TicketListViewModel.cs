@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
@@ -6,7 +5,6 @@ using System.Diagnostics;
 using System.Linq;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Events;
-using Samba.Domain;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
@@ -743,9 +741,9 @@ namespace Samba.Modules.PosModule
         {
             get
             {
-                if (SelectedTicket != null && !string.IsNullOrEmpty(SelectedTicket.AccountName))
-                    return Resources.AccountInfo_r;
-                return Resources.SelectAccount_r;
+                if (SelectedTicket != null && SelectedTicket.AccountId != SelectedDepartment.TicketTemplate.SaleTransactionTemplate.DefaultTargetAccountId)
+                    return Resources.ChangeAccount.Replace(" ", "\r");
+                return Resources.SelectAccount.Replace(" ", "\r");
             }
         }
 

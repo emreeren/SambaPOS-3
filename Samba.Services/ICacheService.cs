@@ -19,6 +19,7 @@ namespace Samba.Services
         TicketTagGroup GetTicketTagGroupById(int id);
         AccountTransactionTemplate GetAccountTransactionTemplateById(int id);
         IEnumerable<Account> GetAccountsByTemplateId(int templateId);
+        IEnumerable<AccountTemplate> GetAccountTemplates();
         AccountTemplate GetAccountTemplateById(int accountTemplateId);
         Account GetAccountById(int accountId);
     }

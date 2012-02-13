@@ -80,9 +80,20 @@ namespace Samba.Services.Implementations
             return Accounts.Where(x => x.AccountTemplateId == templateId);
         }
 
+        private IEnumerable<AccountTemplate> _accountTemplates;
+        public IEnumerable<AccountTemplate> AccountTemplates
+        {
+            get { return _accountTemplates ?? (_accountTemplates = Dao.Query<AccountTemplate>(x => x.AccountCustomFields)); }
+        }
+
+        public IEnumerable<AccountTemplate> GetAccountTemplates()
+        {
+            return AccountTemplates;
+        }
+
         public AccountTemplate GetAccountTemplateById(int accountTemplateId)
         {
-            return Dao.SingleWithCache<AccountTemplate>(x => x.Id == accountTemplateId, x => x.AccountCustomFields.Select(y => y.Values));
+            return AccountTemplates.Single(x => x.Id == accountTemplateId);
         }
 
         public Account GetAccountById(int accountId)
@@ -93,6 +104,7 @@ namespace Samba.Services.Implementations
         public override void Reset()
         {
             _ticketTagGroupNames = null;
+            _accountTemplates = null;
             _accounts = null;
             Dao.ResetCache();
         }

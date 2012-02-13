@@ -13,6 +13,7 @@ namespace Samba.Domain.Models.Accounts
         public int Id { get; set; }
         public string Name { get; set; }
         public int AccountId { get; set; }
+        public int AccountTemplateId { get; set; }
         public DateTime Date { get; set; }
         public decimal Liability { get; set; }
         public decimal Receivable { get; set; }
