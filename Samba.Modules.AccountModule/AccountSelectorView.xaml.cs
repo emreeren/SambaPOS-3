@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -8,7 +7,7 @@ using System.Windows.Input;
 using Samba.Domain.Models.Accounts;
 using Samba.Presentation.Common;
 
-namespace Samba.Modules.DeliveryModule
+namespace Samba.Modules.AccountModule
 {
     /// <summary>
     /// Interaction logic for AccountSearchView.xaml

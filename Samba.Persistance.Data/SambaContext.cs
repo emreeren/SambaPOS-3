@@ -199,8 +199,8 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<Ticket>().Property(x => x.TotalAmount).HasPrecision(precision, scale);
 
             modelBuilder.Entity<AccountTransaction>().Property(x => x.Amount).HasPrecision(precision, scale);
-            modelBuilder.Entity<AccountTransactionValue>().Property(x => x.Liability).HasPrecision(precision, scale);
-            modelBuilder.Entity<AccountTransactionValue>().Property(x => x.Receivable).HasPrecision(precision, scale);
+            modelBuilder.Entity<AccountTransactionValue>().Property(x => x.Debit).HasPrecision(precision, scale);
+            modelBuilder.Entity<AccountTransactionValue>().Property(x => x.Credit).HasPrecision(precision, scale);
 
             modelBuilder.Entity<Numerator>().Property(x => x.LastUpdateTime).IsConcurrencyToken().HasColumnType(
                 "timestamp");

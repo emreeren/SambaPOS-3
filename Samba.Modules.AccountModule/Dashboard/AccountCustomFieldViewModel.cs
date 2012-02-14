@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using Samba.Domain.Models.Accounts;
 using Samba.Presentation.Common;
 
-namespace Samba.Modules.AccountModule
+namespace Samba.Modules.AccountModule.Dashboard
 {
     public class AccountCustomFieldViewModel : ObservableObject
     {

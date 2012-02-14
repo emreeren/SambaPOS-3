@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Samba.Modules.AccountModule
+namespace Samba.Modules.AccountModule.Dashboard
 {
     /// <summary>
     /// Interaction logic for AccountEditorView.xaml

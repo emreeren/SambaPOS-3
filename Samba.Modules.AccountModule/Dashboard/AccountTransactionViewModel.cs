@@ -4,7 +4,7 @@ using Samba.Domain.Models.Accounts;
 using Samba.Infrastructure.Data;
 using Samba.Presentation.Common;
 
-namespace Samba.Modules.AccountModule
+namespace Samba.Modules.AccountModule.Dashboard
 {
     class AccountTransactionViewModel : ObservableObject
     {

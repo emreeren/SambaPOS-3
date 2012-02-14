@@ -33,9 +33,9 @@ namespace Samba.Domain.Models.Accounts
             {
                 _amount = value;
                 if (SourceTransactionValue != null)
-                    SourceTransactionValue.Receivable = value;
+                    SourceTransactionValue.Credit = value;
                 if (TargetTransactionValue != null)
-                    TargetTransactionValue.Liability = value;
+                    TargetTransactionValue.Debit = value;
             }
         }
 
@@ -61,12 +61,11 @@ namespace Samba.Domain.Models.Accounts
         {
             var result = new AccountTransaction
                              {
-                                 Name = template.Name,
                                  AccountTransactionTemplateId = template.Id,
                                  SourceTransactionValue = new AccountTransactionValue(),
                                  TargetTransactionValue = new AccountTransactionValue(),
                              };
-
+            result.Name = template.Name;
             result.SetSoruceAccount(template.DefaultSourceAccountId);
             result.SetTargetAccount(template.DefaultTargetAccountId);
             result.SourceTransactionValue.AccountTemplateId = template.SourceAccountTemplateId;

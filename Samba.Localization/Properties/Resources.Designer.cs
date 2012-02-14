@@ -1616,6 +1616,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Credit.
+        /// </summary>
+        public static string Credit {
+            get {
+                return ResourceManager.GetString("Credit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Credit Card.
         /// </summary>
         public static string CreditCard {
@@ -1766,6 +1775,15 @@ namespace Samba.Localization.Properties {
         public static string DayTime {
             get {
                 return ResourceManager.GetString("DayTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Debit.
+        /// </summary>
+        public static string Debit {
+            get {
+                return ResourceManager.GetString("Debit", resourceCulture);
             }
         }
         

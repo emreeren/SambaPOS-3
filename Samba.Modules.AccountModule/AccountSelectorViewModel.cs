@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
 using System.Timers;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -16,7 +15,7 @@ using Samba.Presentation.ViewModels;
 using Samba.Services;
 using Samba.Services.Common;
 
-namespace Samba.Modules.DeliveryModule
+namespace Samba.Modules.AccountModule
 {
     [Export]
     public class AccountSelectorViewModel : ObservableObject
@@ -75,6 +74,7 @@ namespace Samba.Modules.DeliveryModule
             set
             {
                 _selectedAccountTemplate = value;
+                ClearSearchValues();
                 RaisePropertyChanged(() => SelectedAccountTemplate);
                 InvokeSelectedAccountTemplateChanged(EventArgs.Empty);
             }
@@ -238,6 +238,8 @@ namespace Samba.Modules.DeliveryModule
 
         public void RefreshSelectedAccount()
         {
+            if(_applicationState.CurrentDepartment == null) return;
+
             if (SelectedAccountTemplate == null || SelectedAccountTemplate.Id != _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.TargetAccountTemplateId)
                 SelectedAccountTemplate = _cacheService.GetAccountTemplateById(
                         _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.TargetAccountTemplateId);
@@ -253,10 +255,12 @@ namespace Samba.Modules.DeliveryModule
                     FoundAccounts.Add(new AccountSearchViewModel(account, SelectedAccountTemplate));
                 }
             }
+            RaisePropertyChanged(() => SelectedAccountTemplate);
             RaisePropertyChanged(() => SelectedAccount);
             RaisePropertyChanged(() => IsClearVisible);
             RaisePropertyChanged(() => IsResetAccountVisible);
             RaisePropertyChanged(() => IsMakePaymentVisible);
+
         }
 
         private void ClearSearchValues()
@@ -292,12 +296,14 @@ namespace Samba.Modules.DeliveryModule
                 worker.DoWork += delegate
                 {
                     var searchPn = string.IsNullOrEmpty(SearchString.Trim());
-                    var templateId = SelectedAccountTemplate != null
-                                         ? SelectedAccountTemplate.Id
-                                         : _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.TargetAccountTemplateId;
+                    var defaultAccountId =
+                        _applicationState.CurrentDepartment != null? _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.DefaultTargetAccountId : 0;
+
+                    var templateId = SelectedAccountTemplate != null ? SelectedAccountTemplate.Id : 0;
+
                     result = Dao.Query<Account>(x =>
                         x.AccountTemplateId == templateId
-                        && x.Id != _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.DefaultTargetAccountId
+                        && x.Id != defaultAccountId
                         && (searchPn || x.CustomData.Contains(SearchString) || x.Name.Contains(SearchString)));
                 };
 

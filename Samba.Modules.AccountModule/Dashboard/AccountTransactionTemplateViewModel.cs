@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
 using FluentValidation;
 using Samba.Domain.Models.Accounts;
 using Samba.Presentation.Common.ModelBase;
 
-namespace Samba.Modules.AccountModule
+namespace Samba.Modules.AccountModule.Dashboard
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     class AccountTransactionTemplateViewModel : EntityViewModelBase<AccountTransactionTemplate>

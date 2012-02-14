@@ -54,43 +54,76 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountCustomFieldViewModel.cs" />
+    <Compile Include="AccountDetailViewModel.cs" />
+    <Compile Include="AccountEditorView.xaml.cs">
+      <DependentUpon>AccountEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AccountEditorViewModel.cs" />
+    <Compile Include="AccountSelectorView.xaml.cs">
+      <DependentUpon>AccountSelectorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AccountSelectorViewModel.cs" />
+    <Compile Include="AccountDetailsView.xaml.cs">
+      <DependentUpon>AccountDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AccountDetailsViewModel.cs" />
+    <Compile Include="Dashboard\AccountCustomFieldViewModel.cs" />
     <Compile Include="AccountModule.cs" />
-    <Compile Include="AccountTransactionDocumentView.xaml.cs">
+    <Compile Include="Dashboard\AccountTransactionDocumentView.xaml.cs">
       <DependentUpon>AccountTransactionDocumentView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AccountTransactionDocumentViewModel.cs" />
-    <Compile Include="AccountTransactionTemplateView.xaml.cs">
+    <Compile Include="Dashboard\AccountTransactionDocumentViewModel.cs" />
+    <Compile Include="Dashboard\AccountTransactionTemplateView.xaml.cs">
       <DependentUpon>AccountTransactionTemplateView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AccountTransactionTemplateViewModel.cs" />
-    <Compile Include="AccountTransactionViewModel.cs" />
-    <Compile Include="AccountView.xaml.cs">
+    <Compile Include="Dashboard\AccountTransactionTemplateViewModel.cs" />
+    <Compile Include="Dashboard\AccountTransactionViewModel.cs" />
+    <Compile Include="Dashboard\AccountView.xaml.cs">
       <DependentUpon>AccountView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AccountViewModel.cs" />
-    <Compile Include="AccountTemplateView.xaml.cs">
+    <Compile Include="Dashboard\AccountViewModel.cs" />
+    <Compile Include="Dashboard\AccountTemplateView.xaml.cs">
       <DependentUpon>AccountTemplateView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AccountTemplateViewModel.cs" />
+    <Compile Include="Dashboard\AccountTemplateViewModel.cs" />
+    <Compile Include="DeliveryView.xaml.cs">
+      <DependentUpon>DeliveryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DeliveryViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="AccountTransactionDocumentView.xaml">
+    <Page Include="AccountEditorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="AccountSelectorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="AccountDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dashboard\AccountTransactionDocumentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AccountTransactionTemplateView.xaml">
+    <Page Include="Dashboard\AccountTransactionTemplateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AccountView.xaml">
+    <Page Include="Dashboard\AccountView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AccountTemplateView.xaml">
+    <Page Include="Dashboard\AccountTemplateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DeliveryView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

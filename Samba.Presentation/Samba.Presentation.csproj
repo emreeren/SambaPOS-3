@@ -210,10 +210,6 @@
       <Project>{629A2D7C-9014-4A85-A1E9-26161D5B3043}</Project>
       <Name>Samba.Modules.CidMonitor</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Samba.Modules.DeliveryModule\Samba.Modules.DeliveryModule.csproj">
-      <Project>{1A2BB482-E079-4435-B804-92E8819E31F5}</Project>
-      <Name>Samba.Modules.DeliveryModule</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Samba.Modules.DepartmentModule\Samba.Modules.DepartmentModule.csproj">
       <Project>{3F15FA1B-DB89-418B-8E7C-E7747D9098FF}</Project>
       <Name>Samba.Modules.DepartmentModule</Name>

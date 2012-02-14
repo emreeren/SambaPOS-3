@@ -12,7 +12,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <Grid Grid.Column="1" Grid.Row="1" Background="Silver" Grid.RowSpan="2">
+        <Grid Grid.Column="1" Grid.Row="1" Background="LightGray" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />

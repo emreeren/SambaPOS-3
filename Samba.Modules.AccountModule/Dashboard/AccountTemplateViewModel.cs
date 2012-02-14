@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
@@ -8,7 +7,7 @@ using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
 
-namespace Samba.Modules.AccountModule
+namespace Samba.Modules.AccountModule.Dashboard
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class AccountTemplateViewModel : EntityViewModelBase<AccountTemplate>

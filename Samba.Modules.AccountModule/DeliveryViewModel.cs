@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using Samba.Presentation.Common;
 
-namespace Samba.Modules.DeliveryModule
+namespace Samba.Modules.AccountModule
 {
     [Export]
     public class DeliveryViewModel : ObservableObject

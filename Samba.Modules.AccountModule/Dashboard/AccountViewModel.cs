@@ -7,7 +7,7 @@ using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.ViewModels;
 
-namespace Samba.Modules.AccountModule
+namespace Samba.Modules.AccountModule.Dashboard
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class AccountViewModel : EntityViewModelBase<Account>

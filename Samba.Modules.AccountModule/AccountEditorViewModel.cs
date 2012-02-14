@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using Microsoft.Practices.Prism.Commands;
 using Samba.Domain.Models.Accounts;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
@@ -13,7 +8,7 @@ using Samba.Presentation.ViewModels;
 using Samba.Services;
 using Samba.Services.Common;
 
-namespace Samba.Modules.DeliveryModule
+namespace Samba.Modules.AccountModule
 {
     [Export]
     public class AccountEditorViewModel : ObservableObject

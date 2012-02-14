@@ -1,13 +1,7 @@
-﻿using System;
-using System.ComponentModel;
-using System.ComponentModel.Composition;
-using System.Windows;
+﻿using System.ComponentModel.Composition;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Input;
-using Samba.Presentation.Common;
 
-namespace Samba.Modules.DeliveryModule
+namespace Samba.Modules.AccountModule
 {
     /// <summary>
     /// Interaction logic for AccountSelectorView.xaml

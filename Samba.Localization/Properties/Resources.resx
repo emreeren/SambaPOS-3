@@ -3034,4 +3034,10 @@ Continue without adding details?</value>
   <data name="ChangeAccount" xml:space="preserve">
     <value>Change Account</value>
   </data>
+	<data name="Debit">
+		<value xml:space="preserve">Debit</value>
+	</data>
+	<data name="Credit">
+		<value xml:space="preserve">Credit</value>
+	</data>
 </root>

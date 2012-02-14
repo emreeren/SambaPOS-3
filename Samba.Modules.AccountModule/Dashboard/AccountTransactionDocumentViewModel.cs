@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
 using Samba.Domain.Models.Accounts;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
 
-namespace Samba.Modules.AccountModule
+namespace Samba.Modules.AccountModule.Dashboard
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     class AccountTransactionDocumentViewModel : EntityViewModelBase<AccountTransactionDocument>
