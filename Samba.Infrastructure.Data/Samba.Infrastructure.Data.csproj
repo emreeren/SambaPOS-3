@@ -109,7 +109,6 @@
 
 copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)SambaSetup\src"
 copy "$(SolutionDir)Lib\EntityFramework.dll" "$(SolutionDir)SambaSetup\src"
-copy "$(SolutionDir)Lib\Norm.dll" "$(SolutionDir)SambaSetup\src"
 
 :End</PostBuildEvent>
   </PropertyGroup>

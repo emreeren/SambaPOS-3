@@ -3040,4 +3040,7 @@ Continue without adding details?</value>
 	<data name="Credit">
 		<value xml:space="preserve">Credit</value>
 	</data>
+	<data name="AccountDetails">
+		<value xml:space="preserve">Account Details</value>
+	</data>
 </root>

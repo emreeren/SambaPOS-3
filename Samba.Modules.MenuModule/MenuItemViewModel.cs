@@ -39,7 +39,7 @@ namespace Samba.Modules.MenuModule
         private IEnumerable<dynamic> _taxTemplates;
         public IEnumerable<dynamic> TaxTemplates
         {
-            get { return _taxTemplates ?? (_taxTemplates = Workspace.All<TaxTemplate>().Select(x => new { Model = x, DisplayName = string.Format("{0} - {1}", Name, (x.TaxIncluded ? Resources.Included : Resources.Excluded)) })); }
+            get { return _taxTemplates ?? (_taxTemplates = Workspace.All<TaxTemplate>().Select(x => new { Model = x, DisplayName = string.Format("{0} - {1}", x.Name, (x.TaxIncluded ? Resources.Included : Resources.Excluded)) })); }
         }
 
         public TaxTemplate TaxTemplate { get { return Model.TaxTemplate; } set { Model.TaxTemplate = value; } }

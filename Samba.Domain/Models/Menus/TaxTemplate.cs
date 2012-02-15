@@ -1,4 +1,5 @@
-﻿using Samba.Infrastructure.Data;
+﻿using Samba.Domain.Models.Accounts;
+using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Menus
 {
@@ -8,5 +9,6 @@ namespace Samba.Domain.Models.Menus
         public string Name { get; set; }
         public decimal Rate { get; set; }
         public bool TaxIncluded { get; set; }
+        public virtual AccountTransactionTemplate AccountTransactionTemplate { get; set; }
     }
 }

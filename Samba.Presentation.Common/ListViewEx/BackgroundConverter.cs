@@ -28,7 +28,7 @@ namespace Samba.Presentation.Common.ListViewEx
             int index = listView.ItemContainerGenerator.IndexFromContainer(item);
             if (index % 2 == 0)
             {
-                return Brushes.Lavender;
+                return Brushes.GhostWhite;
             }
 
             else

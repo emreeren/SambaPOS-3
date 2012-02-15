@@ -100,45 +100,50 @@ Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:Ad
 Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
 
 [Files]
-Source: src\Norm.dll; DestDir: {app}
 Source: src\EntityFramework.dll; DestDir: {app}
 Source: src\Microsoft.Practices.Prism.dll; DestDir: {app}
 Source: src\Microsoft.Practices.Prism.MefExtensions.dll; DestDir: {app}
 Source: src\Microsoft.Practices.Prism.Interactivity.dll; DestDir: {app}
 Source: src\Microsoft.Practices.ServiceLocation.dll; DestDir: {app}
+Source: src\PropertyTools.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\PropertyTools.Wpf.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Domain.dll; DestDir: {app}; Flags: ignoreversion
+Source: src\Samba.Infrastructure.ExceptionReporter.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Infrastructure.Data.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Infrastructure.dll; DestDir: {app}; Flags: ignoreversion
-Source: src\Samba.Login.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.MessagingServer.exe; DestDir: {app}; Flags: ignoreversion
+Source: src\Samba.Modules.AccountModule.dll; DestDir: {app}; Flags: ignoreversion
+Source: src\Samba.Modules.AutomationModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.BasicReports.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.BasicReports.pdb; DestDir: {app}; Flags: ignoreversion
-Source: src\Samba.Modules.CashModule.dll; DestDir: {app}; Flags: ignoreversion
-Source: src\Samba.Modules.AccountModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.DashboardModule.dll; DestDir: {app}; Flags: ignoreversion
-Source: src\Samba.Modules.MenuModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.InventoryModule.dll; DestDir: {app}; Flags: ignoreversion
+Source: src\Samba.Modules.LocationModule.dll; DestDir: {app}; Flags: ignoreversion
+Source: src\Samba.Modules.LoginModule.dll; DestDir: {app}; Flags: ignoreversion
+Source: src\Samba.Modules.MenuModule.dll; DestDir: {app}; Flags: ignoreversion
+Source: src\Samba.Modules.ModifierModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.NavigationModule.dll; DestDir: {app}; Flags: ignoreversion
+Source: src\Samba.Modules.PaymentModule.dll; DestDir: {app}; Flags: ignoreversion
+Source: src\Samba.Modules.PosModule.dll; DestDir: {app}; Flags: ignoreversion
+Source: src\Samba.Modules.PrinterModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.SettingsModule.dll; DestDir: {app}; Flags: ignoreversion
-Source: src\Samba.Modules.TableModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.TicketModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.UserModule.dll; DestDir: {app}; Flags: ignoreversion
+Source: src\Samba.Modules.WorkperiodModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Persistance.DBMigration.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Persistance.Data.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Presentation.Common.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Presentation.exe; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Presentation.exe.config; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Presentation.exe.manifest; DestDir: {app}; Flags: ignoreversion
-Source: src\Samba.Presentation.Terminal.exe; DestDir: {app}; Flags: ignoreversion; Components: terminal
-Source: src\Samba.Presentation.Terminal.exe.config; DestDir: {app}; Flags: ignoreversion; Components: terminal
 Source: src\AxInterop.cidv5callerid.dll; DestDir: {app}; Flags: ignoreversion; Components: cid
 Source: src\Interop.cidv5callerid.dll; DestDir: {app}; Flags: ignoreversion; Components: cid
 Source: src\Samba.Modules.CidMonitor.dll; DestDir: {app}; Flags: ignoreversion; Components: cid
 Source: src\Samba.Presentation.ViewModels.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Services.dll; DestDir: {app}; Flags: ignoreversion
+Source: src\Samba.Services.Common.dll; DestDir: {app}; Flags: ignoreversion
+Source: src\Samba.Services.Implementations.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\System.Windows.Interactivity.dll; DestDir: {app}
-Source: src\UIControls.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Images\apple-icon.png; DestDir: {app}\Images\
 Source: src\Images\apple.ico; DestDir: {app}\Images\
 Source: src\Images\empty.png; DestDir: {app}\Images\

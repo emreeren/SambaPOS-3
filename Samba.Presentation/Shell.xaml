@@ -23,7 +23,7 @@
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Stretch">
             <Image Source="/Samba.Presentation;component/Images/apple-icon.png" Stretch="UniformToFill"></Image>
-            <TextBlock Margin="10,0" FontWeight="Bold" FontSize="24" Foreground="White" MouseDown="TextBlockMouseDown" VerticalAlignment="Center">SAMBA POS 3</TextBlock>
+            <TextBlock Margin="10,0" FontWeight="Bold" FontSize="24" Foreground="White" MouseDown="TextBlockMouseDown" VerticalAlignment="Center">SAMBA POS &lt;3</TextBlock>
         </StackPanel>
         <TextBlock Name="TimeLabel" Grid.Row="0" Grid.Column="1" Margin="10,5,10,0" FontSize="18" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right" FontFamily="Lucida Console">SAAT</TextBlock>
         <TabControl Background="{StaticResource {x:Static SystemColors.ControlLightBrushKey}}" Grid.Row="1" Grid.ColumnSpan="2" cal:RegionManager.RegionName="MainRegion" SelectedIndex="0" Name="MainTabControl">

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Inventories;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
@@ -85,6 +86,12 @@ namespace Samba.Modules.BasicReports
             get { return _calculationTemplates ?? (_calculationTemplates = Dao.Query<CalculationTemplate>()); }
         }
 
+        private static IEnumerable<AccountTransactionValue> _accountTransactionValues;
+        public static IEnumerable<AccountTransactionValue> AccountTransactionValues
+        {
+            get { return _accountTransactionValues ?? (_accountTransactionValues = GetAccountTransactionValues()); }
+        }
+
         private static WorkPeriod _currentWorkPeriod;
         public static WorkPeriod CurrentWorkPeriod
         {
@@ -151,24 +158,30 @@ namespace Samba.Modules.BasicReports
 
         private static IEnumerable<Department> GetDepartments()
         {
-            return Dao.Query<Department>();
+            return Dao.Query<Department>(x => x.TicketTemplate.SaleTransactionTemplate, x => x.TicketTemplate.PaymentTemplates, x => x.TicketTemplate.CalulationTemplates, x => x.TicketTemplate.TicketTagGroups, x => x.TicketTemplate.OrderTagGroups);
         }
 
         private static IEnumerable<Ticket> GetTickets()
         {
             if (CurrentWorkPeriod.StartDate == CurrentWorkPeriod.EndDate)
-                return Dao.Query<Ticket>(x => x.LastPaymentDate >= CurrentWorkPeriod.StartDate,
-                                         x => x.Calculations,
-                                         x => x.AccountTransactions.AccountTransactions.Select(y => y.TargetTransactionValue),
-                                         x => x.Orders, x => x.Tags, x => x.Orders.Select(y => y.OrderTagValues));
+                return Dao.Query<Ticket>(
+                    x => x.LastPaymentDate >= CurrentWorkPeriod.StartDate,
+                    x => x.AccountTransactions.AccountTransactions,
+                    x => x.Payments, x => x.Calculations, x => x.Orders, x => x.Tags, x => x.Orders.Select(y => y.OrderTagValues));
 
+            return Dao.Query<Ticket>(
+                    x => x.LastPaymentDate >= CurrentWorkPeriod.StartDate && x.LastPaymentDate < CurrentWorkPeriod.EndDate,
+                    x => x.AccountTransactions.AccountTransactions,
+                    x => x.Payments, x => x.Calculations, x => x.Tags, x => x.Orders.Select(y => y.OrderTagValues));
+
+        }
+
+        private static IEnumerable<AccountTransactionValue> GetAccountTransactionValues()
+        {
+            if (CurrentWorkPeriod.StartDate == CurrentWorkPeriod.EndDate)
+                return Dao.Query<AccountTransactionValue>(x => x.Date >= CurrentWorkPeriod.StartDate);
             return
-                Dao.Query<Ticket>(
-                    x =>
-                    x.LastPaymentDate >= CurrentWorkPeriod.StartDate && x.LastPaymentDate < CurrentWorkPeriod.EndDate,
-                    x => x.AccountTransactions.AccountTransactions.Select(y => y.TargetTransactionValue),
-                    x => x.Calculations, x => x.Tags, x => x.Orders.Select(y => y.OrderTagValues));
-
+                Dao.Query<AccountTransactionValue>(x => x.Date >= CurrentWorkPeriod.StartDate && x.Date < CurrentWorkPeriod.EndDate);
         }
 
         public static string CurrencyFormat { get { return "#,#0.00;-#,#0.00;-"; } }
@@ -177,6 +190,7 @@ namespace Samba.Modules.BasicReports
         {
             _tickets = null;
             _transactions = null;
+            _accountTransactionValues = null;
             _periodicConsumptions = null;
             _currentWorkPeriod = null;
             _thisMonthWorkPeriod = null;

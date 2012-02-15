@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Accounts;
+using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common;
@@ -55,9 +56,9 @@ namespace Samba.Modules.AccountModule
 
         public ObservableCollection<AccountDetailViewModel> AccountDetails { get; set; }
 
-        public string TotalDebit { get { return AccountDetails.Sum(x => x.Debit).ToString("#,#0.00"); } }
-        public string TotalCredit { get { return AccountDetails.Sum(x => x.Credit).ToString("#,#0.00"); } }
-        public string TotalBalance { get { return AccountDetails.Sum(x => x.Debit - x.Credit).ToString("#,#0.00"); } }
+        public string TotalDebit { get { return AccountDetails.Sum(x => x.Debit).ToString(LocalSettings.DefaultCurrencyFormat); } }
+        public string TotalCredit { get { return AccountDetails.Sum(x => x.Credit).ToString(LocalSettings.DefaultCurrencyFormat); } }
+        public string TotalBalance { get { return AccountDetails.Sum(x => x.Debit - x.Credit).ToString(LocalSettings.DefaultCurrencyFormat); } }
 
         public ICaptionCommand GetPaymentFromAccountCommand { get; set; }
         public ICaptionCommand MakePaymentToAccountCommand { get; set; }

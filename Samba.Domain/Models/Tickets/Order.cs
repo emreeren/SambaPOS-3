@@ -33,6 +33,7 @@ namespace Samba.Domain.Models.Tickets
         public string CreatingUserName { get; set; }
         public DateTime CreatedDateTime { get; set; }
         public int AccountTransactionTemplateId { get; set; }
+        public int AccountTransactionTaxTemplateId { get; set; }
 
         [StringLength(10)]
         public string PriceTag { get; set; }
@@ -99,6 +100,7 @@ namespace Samba.Domain.Models.Tickets
                 TaxRate = taxTemplate.Rate;
                 TaxIncluded = taxTemplate.TaxIncluded;
                 TaxTemplateId = taxTemplate.Id;
+                AccountTransactionTaxTemplateId = taxTemplate.AccountTransactionTemplate.Id;
             }
 
             if (!string.IsNullOrEmpty(priceTag))

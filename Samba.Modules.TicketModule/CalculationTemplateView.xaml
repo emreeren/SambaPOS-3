@@ -11,7 +11,7 @@
         <PropertyEditorLibrary:ColorPicker2 HorizontalAlignment="Left" MinWidth="150"
                          SelectedColor="{Binding ButtonColor}" />
         <Label MinWidth="120">
-            <LocText ResourceIdentifierKey="AccountTransactionTemplate"/>
+            <LocText ResourceIdentifierKey="AccountTransactionTemplate" Suffix=":"/>
         </Label>
         
         <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTransactionTemplates}"

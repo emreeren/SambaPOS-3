@@ -148,16 +148,16 @@ namespace Samba.Services.Implementations.TicketModule
                         }
                         changed = true;
                     }
-                    //else if (currentTicket.LastPaymentDate != ticket.LastPaymentDate)
-                    //{
-                    //    var currentPaymentIds = ticket.Payments.Select(x => x.Id).Distinct();
-                    //    var unknownPayments = currentTicket.Payments.Where(x => !currentPaymentIds.Contains(x.Id)).FirstOrDefault();
-                    //    if (unknownPayments != null)
-                    //    {
-                    //        result.ErrorMessage = Resources.TicketPaidLastChangesNotSaved;
-                    //        changed = true;
-                    //    }
-                    //}
+                    else if (currentTicket.LastPaymentDate != ticket.LastPaymentDate)
+                    {
+                        var currentPaymentIds = ticket.Payments.Select(x => x.Id).Distinct();
+                        var unknownPayments = currentTicket.Payments.Where(x => !currentPaymentIds.Contains(x.Id)).FirstOrDefault();
+                        if (unknownPayments != null)
+                        {
+                            result.ErrorMessage = Resources.TicketPaidLastChangesNotSaved;
+                            changed = true;
+                        }
+                    }
                 }
             }
 

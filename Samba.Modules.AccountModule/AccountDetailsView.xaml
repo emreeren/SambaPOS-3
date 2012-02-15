@@ -54,7 +54,7 @@
                              ListViewLM:ProportionalColumn.Width="1">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock FontSize="18" Foreground="{Binding TextColor}" Text="{Binding Debit,StringFormat='#,#0.00;-#,#0.00; '}"
+                                <TextBlock FontSize="18" Foreground="{Binding TextColor}" Text="{Binding DebitStr}"
                                          TextAlignment="Right" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -63,7 +63,7 @@
                              ListViewLM:ProportionalColumn.Width="1">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock FontSize="18" Foreground="{Binding TextColor}" Text="{Binding Credit,StringFormat='#,#0.00;-#,#0.00; '}"
+                                <TextBlock FontSize="18" Foreground="{Binding TextColor}" Text="{Binding CreditStr}"
                                          TextAlignment="Right" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -72,7 +72,7 @@
                              ListViewLM:ProportionalColumn.Width="1">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock FontSize="18" Foreground="{Binding TextColor}" Text="{Binding Balance,StringFormat='#,#0.00;-#,#0.00; '}"
+                                <TextBlock FontSize="18" Foreground="{Binding TextColor}" Text="{Binding BalanceStr}"
                                          TextAlignment="Right" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>

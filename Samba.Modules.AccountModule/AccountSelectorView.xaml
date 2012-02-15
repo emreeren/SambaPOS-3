@@ -62,7 +62,8 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0">
-                <FlexButton:FlexButton Margin="2" Height="60" Content="{LocText Close}"
+                <FlexButton:FlexButton Visibility="{Binding IsCloseButtonVisible,Converter={StaticResource VisibilityConverter}}"
+                         Margin="2" Height="60" Content="{LocText Close}"
                          ButtonColor="Red" Command="{Binding CloseScreenCommand}" />
                 <FlexButton:FlexButton Margin="2" Height="60" Content="{LocText Clear}"
                          Click="FlexButtonClick" Visibility="{Binding IsClearVisible,Converter={StaticResource VisibilityConverter}}" />

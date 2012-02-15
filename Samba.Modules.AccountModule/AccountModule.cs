@@ -20,13 +20,15 @@ namespace Samba.Modules.AccountModule
     {
         private readonly IUserService _userService;
         private readonly IRegionManager _regionManager;
+        private readonly IApplicationStateSetter _applicationStateSetter;
         private readonly AccountSelectorView _accountSelectorView;
         private readonly AccountEditorView _accountEditorView;
         private readonly DeliveryView _deliveryView;
         private readonly AccountDetailsView _customerTransactionsView;
-
+        
         [ImportingConstructor]
         public AccountModule(IRegionManager regionManager, IUserService userService,
+            IApplicationStateSetter applicationStateSetter,
             DeliveryView deliveryView, 
             AccountSelectorView accountSelectorView,
             AccountEditorView accountEditorView,
@@ -39,11 +41,12 @@ namespace Samba.Modules.AccountModule
             _deliveryView = deliveryView;
             _customerTransactionsView = customerTransactionsView;
             _accountEditorView = accountEditorView;
+            _applicationStateSetter = applicationStateSetter;
 
-            AddDashboardCommand<EntityCollectionViewModelBase<AccountViewModel, Account>>(Resources.AccountList, Resources.Accounts, 40);
             AddDashboardCommand<EntityCollectionViewModelBase<AccountTemplateViewModel, AccountTemplate>>(Resources.AccountTemplateList, Resources.Accounts, 40);
-            AddDashboardCommand<EntityCollectionViewModelBase<AccountTransactionTemplateViewModel, AccountTransactionTemplate>>("Transaction Template List", Resources.Accounts, 40);
-            AddDashboardCommand<EntityCollectionViewModelBase<AccountTransactionDocumentViewModel, AccountTransactionDocument>>("Transaction Document List", Resources.Accounts, 40);
+            AddDashboardCommand<EntityCollectionViewModelBase<AccountViewModel, Account>>(Resources.AccountList, Resources.Accounts, 40);
+            AddDashboardCommand<EntityCollectionViewModelBase<AccountTransactionTemplateViewModel, AccountTransactionTemplate>>(string.Format(Resources.List_f, "Transaction Template"), Resources.Accounts, 40);
+            AddDashboardCommand<EntityCollectionViewModelBase<AccountTransactionDocumentViewModel, AccountTransactionDocument>>(string.Format(Resources.List_f, "Transaction Document"), Resources.Accounts, 40);
             
             PermissionRegistry.RegisterPermission(PermissionNames.MakeAccountTransaction, PermissionCategories.Cash, Resources.CanMakeAccountTransaction);
             PermissionRegistry.RegisterPermission(PermissionNames.CreditOrDeptAccount, PermissionCategories.Cash, Resources.CanMakeCreditOrDeptTransaction);
@@ -116,7 +119,8 @@ namespace Samba.Modules.AccountModule
 
         protected override void OnNavigate(string obj)
         {
-            ((AccountSelectorViewModel)_accountSelectorView.DataContext).RefreshSelectedAccount();
+            _applicationStateSetter.SetCurrentDepartment(0);
+            ActivateAccountSelector();
             base.OnNavigate(obj);
         }
 

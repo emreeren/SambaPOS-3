@@ -443,7 +443,7 @@ namespace Samba.Services
 
         private static void CreateDefaultCurrenciesIfNeeded()
         {
-            LocalSettings.DefaultCurrencyFormat = "C";
+            LocalSettings.DefaultCurrencyFormat = "#,0.00;(#,0.00);-";
         }
     }
 }

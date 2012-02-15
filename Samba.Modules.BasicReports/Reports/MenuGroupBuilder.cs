@@ -60,15 +60,15 @@ namespace Samba.Modules.BasicReports.Reports
 
         public static decimal CalculateOrderTotal(Ticket ticket, Order order)
         {
-            //var discount = ticket.GetDiscountAndRoundingTotal();
-            //if (discount != 0)
-            //{
-            //    var tsum = ticket.GetSumWithoutTax() + discount;
-            //    var rate = tsum > 0 ? (discount * 100) / tsum : 100;
-            //    var tiTotal = order.GetTotal();
-            //    var itemDiscount = (tiTotal * rate) / 100;
-            //    return tiTotal - itemDiscount;
-            //}
+            var discount = ticket.GetPreTaxServicesTotal();
+            if (discount != 0)
+            {
+                var tsum = ticket.GetPlainSum();
+                var rate = tsum > 0 ? (discount * 100) / tsum : 100;
+                var tiTotal = order.GetTotal();
+                var itemDiscount = (tiTotal * rate) / 100;
+                return tiTotal + itemDiscount;
+            }
             return order.GetTotal();
         }
     }

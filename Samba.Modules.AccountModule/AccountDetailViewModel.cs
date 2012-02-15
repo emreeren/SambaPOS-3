@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Samba.Domain.Models.Accounts;
+using Samba.Infrastructure.Settings;
 using Samba.Presentation.Common;
 
 namespace Samba.Modules.AccountModule
@@ -18,8 +19,13 @@ namespace Samba.Modules.AccountModule
 
         public string Name { get { return Model.Name; } }
         public DateTime Date { get { return Model.Date; } }
+
         public decimal Debit { get { return Model.Debit; } }
         public decimal Credit { get { return Model.Credit; } }
         public decimal Balance { get; set; }
+
+        public string DebitStr { get { return Debit.ToString(LocalSettings.DefaultCurrencyFormat); } }
+        public string CreditStr { get { return Credit.ToString(LocalSettings.DefaultCurrencyFormat); } }
+        public string BalanceStr { get { return Balance.ToString(LocalSettings.DefaultCurrencyFormat); } }
     }
 }

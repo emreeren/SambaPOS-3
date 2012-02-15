@@ -133,6 +133,15 @@ namespace Samba.Domain.Models.Tickets
                 transaction.UpdateAccounts(TargetAccountTemplateId, AccountId);
                 AccountTransactions.AccountTransactions.Add(transaction);
             }
+
+            if (tif.AccountTransactionTaxTemplateId > 0
+                && AccountTransactions.AccountTransactions
+                    .SingleOrDefault(x => x.AccountTransactionTemplateId == tif.AccountTransactionTaxTemplateId) == null)
+            {
+                var transaction = AccountTransaction.Create(menuItem.TaxTemplate.AccountTransactionTemplate);
+                transaction.UpdateAccounts(TargetAccountTemplateId, AccountId);
+                AccountTransactions.AccountTransactions.Add(transaction);
+            }
             Orders.Add(tif);
             return tif;
         }
@@ -518,7 +527,17 @@ namespace Samba.Domain.Models.Tickets
                     var t = transactionItem;
                     var transaction = AccountTransactions.AccountTransactions.SingleOrDefault(x => x.AccountTransactionTemplateId == t.Key);
                     transaction.UpdateAccounts(TargetAccountTemplateId, AccountId);
-                    transaction.Amount = t.Sum(x => x.GetTotal());
+                    transaction.Amount = t.Sum(x => x.GetTotal() - x.GetTotalTaxAmount());
+                }
+
+                var taxGroup = Orders.Where(x => x.AccountTransactionTaxTemplateId > 0).GroupBy(x => x.AccountTransactionTaxTemplateId);
+
+                foreach (var taxGroupItem in taxGroup)
+                {
+                    var tg = taxGroupItem;
+                    var transaction = AccountTransactions.AccountTransactions.SingleOrDefault(x => x.AccountTransactionTemplateId == tg.Key);
+                    transaction.UpdateAccounts(TargetAccountTemplateId, AccountId);
+                    transaction.Amount = tg.Sum(x => x.GetTotalTaxAmount());
                 }
             }
 

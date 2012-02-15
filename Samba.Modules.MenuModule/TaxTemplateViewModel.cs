@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
 
 namespace Samba.Modules.MenuModule
 {
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class TaxTemplateViewModel : EntityViewModelBase<TaxTemplate>
     {
         public string DisplayName
@@ -14,6 +18,14 @@ namespace Samba.Modules.MenuModule
                 return string.Format("{0} - {1}", Name, (TaxIncluded ? Resources.Included : Resources.Excluded));
             }
         }
+
+        private IEnumerable<AccountTransactionTemplate> _accountTransactionTemplates;
+        public IEnumerable<AccountTransactionTemplate> AccountTransactionTemplates
+        {
+            get { return _accountTransactionTemplates ?? (_accountTransactionTemplates = Workspace.All<AccountTransactionTemplate>()); }
+        }
+
+        public AccountTransactionTemplate AccountTransactionTemplate { get { return Model.AccountTransactionTemplate; } set { Model.AccountTransactionTemplate = value; } }
 
         public decimal Rate { get { return Model.Rate; } set { Model.Rate = value; } }
 

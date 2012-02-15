@@ -24,7 +24,7 @@ namespace Samba.Services.Implementations
 
         public MenuItem GetMenuItem(Expression<Func<MenuItem, bool>> expression)
         {
-            return Dao.SingleWithCache(expression, x => x.TaxTemplate, x => x.Portions.Select(y => y.Prices));
+            return Dao.SingleWithCache(expression, x => x.TaxTemplate.AccountTransactionTemplate, x => x.Portions.Select(y => y.Prices));
         }
 
         public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(int menuItemId)
