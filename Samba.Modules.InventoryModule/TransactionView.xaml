@@ -8,8 +8,8 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
-            <TextBlock Margin="5,5,0,0" Text="{Binding Date,StringFormat='Tarih: {0:d}'}" />
-            <TextBlock Margin="5,5,0,0" Text="{Binding Date,StringFormat='Saat: {0:t}'}" />
+            <TextBlock Margin="5,5,0,0" Text="{Binding DateStr}" />
+            <TextBlock Margin="5,5,0,0" Text="{Binding TimeStr}" />
             <Label>
                 <LocText ResourceIdentifierKey="DocumentNo" Suffix=":"/>
             </Label>

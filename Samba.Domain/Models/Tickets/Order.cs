@@ -191,14 +191,14 @@ namespace Samba.Domain.Models.Tickets
                 }
                 TagOrder(orderTagGroup, orderTag, userId, tagIndex);
             }
-            else if (orderTagGroup.IsQuantitySelection)
-            {
-                otag.Quantity++;
-            }
             else
             {
-                UntagOrder(otag);
-                result = false;
+                otag.Quantity++;
+                if (orderTagGroup.IsSingleSelection || (orderTag.MaxQuantity > 0 && otag.Quantity > orderTag.MaxQuantity))
+                {
+                    UntagOrder(otag);
+                    result = false;
+                }
             }
             return result;
         }

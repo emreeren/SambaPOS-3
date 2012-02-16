@@ -32,6 +32,9 @@ namespace Samba.Modules.InventoryModule
             set { Model.Date = value; }
         }
 
+        public string DateStr { get { return string.Format(Resources.Date + ": {0:d}", Model.Date); } }
+        public string TimeStr { get { return string.Format(Resources.Time + ": {0:t}", Model.Date); } }
+
         public ICaptionCommand AddTransactionItemCommand { get; set; }
         public ICaptionCommand DeleteTransactionItemCommand { get; set; }
 

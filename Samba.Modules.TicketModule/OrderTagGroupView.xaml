@@ -61,8 +61,24 @@
                          HorizontalAlignment="Left" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
                          AutoGenerateColumns="False" CanUserSortColumns="False"
                          Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" CellEditEnding="DataGrid_CellEditEnding">
+                                <DataGrid.Resources>
+                                    <Style TargetType="{x:Type DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center">
+                                        </Setter>
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <TextBlock TextWrapping="Wrap" Text="{Binding}">
+                                                    </TextBlock>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </DataGrid.Resources>
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="{LocText Tag}" MinWidth="100" Binding="{Binding Name}" />
+                                    <DataGridTextColumn Header="Max Quantity" Binding="{Binding Path=MaxQuantity}"
+                                        CellStyle="{StaticResource RightAlignedCellStyle}" Width="65"/>
                                     <DataGridTemplateColumn Header="{LocText Product}" MinWidth="100">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
@@ -73,7 +89,7 @@
                                             <DataTemplate>
                                                 <Grid FocusManager.FocusedElement="{Binding ElementName=cb}">
                                                     <ComboBox Name="cb" IsEditable="True" DisplayMemberPath="Name" ItemsSource="{Binding MenuItems}" 
-                                                              SelectedItem="{Binding MenuItem}" />
+                                                              SelectedItem="{Binding Path=MenuItem, UpdateSourceTrigger=PropertyChanged}" />
                                                 </Grid>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellEditingTemplate>

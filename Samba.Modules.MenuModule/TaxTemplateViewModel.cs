@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using FluentValidation;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
 using Samba.Localization.Properties;
@@ -39,6 +40,14 @@ namespace Samba.Modules.MenuModule
         public override string GetModelTypeString()
         {
             return Resources.TaxTemplate;
+        }
+    }
+
+    internal class TaxTemplateValidator : EntityValidator<TaxTemplate>
+    {
+        public TaxTemplateValidator()
+        {
+            RuleFor(x => x.AccountTransactionTemplate).NotNull();
         }
     }
 }

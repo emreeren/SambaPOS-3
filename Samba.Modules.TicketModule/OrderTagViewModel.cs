@@ -11,7 +11,7 @@ namespace Samba.Modules.TicketModule
     {
         public OrderTag Model { get; set; }
         private readonly IMenuService _menuService;
-        
+
         public OrderTagViewModel(OrderTag model, IMenuService menuService)
         {
             _menuService = menuService;
@@ -23,6 +23,7 @@ namespace Samba.Modules.TicketModule
 
         public string Name { get { return Model.Name; } set { Model.Name = value; } }
         public decimal Price { get { return Model.Price; } set { Model.Price = value; } }
+        public int MaxQuantity { get { return Model.MaxQuantity; } set { Model.MaxQuantity = value; } }
 
         public int MenuItemId
         {

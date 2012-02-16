@@ -3043,4 +3043,7 @@ Continue without adding details?</value>
 	<data name="AccountDetails">
 		<value xml:space="preserve">Account Details</value>
 	</data>
+	<data name="Time">
+		<value xml:space="preserve">Time</value>
+	</data>
 </root>

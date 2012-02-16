@@ -1,6 +1,7 @@
 *bin/
 *obj/
 *Out/
+*Output/
 *.dll*
 *.exe*
 *.pdb*

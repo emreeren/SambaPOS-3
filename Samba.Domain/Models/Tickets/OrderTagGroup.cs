@@ -26,7 +26,6 @@ namespace Samba.Domain.Models.Tickets
 
         public bool IsMultipleSelection { get { return SelectionType == 0; } }
         public bool IsSingleSelection { get { return SelectionType == 1; } }
-        public bool IsQuantitySelection { get { return SelectionType == 2; } }
         public bool UnlocksOrder { get; set; }
         public bool CalculateOrderPrice { get; set; }
         public bool DecreaseOrderInventory { get; set; }

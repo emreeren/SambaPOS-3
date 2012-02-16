@@ -33,7 +33,7 @@ namespace Samba.Modules.TicketModule
         private ObservableCollection<OrderTagMapViewModel> _orderTagMaps;
         public ObservableCollection<OrderTagMapViewModel> OrderTagMaps { get { return _orderTagMaps ?? (_orderTagMaps = new ObservableCollection<OrderTagMapViewModel>(GetOrderTagMaps(Model))); } }
 
-        private readonly IList<string> _selectionTypes = new[] { "Multiple Selection", "Single Selection", "Quantity Selection" };
+        private readonly IList<string> _selectionTypes = new[] { "Multiple Selection", "Single Selection" };
         public IList<string> SelectionTypes { get { return _selectionTypes; } }
 
         public ICaptionCommand AddOrderTagCommand { get; set; }
