@@ -108,7 +108,7 @@
                                                          Command="{Binding DataContext.OrderTagSelectedCommand, 
                                                          RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=2, AncestorType={x:Type ItemsControl}}}"
                                                          CommandParameter="{Binding}">
-                                        <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="{Binding Name}" />
+                                        <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="{Binding DisplayText}" />
                                     </FxButton:FlexButton>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>

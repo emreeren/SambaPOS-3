@@ -18,7 +18,7 @@ namespace Samba.Modules.ModifierModule
     public class OrderTagEditorViewModel : ObservableObject
     {
         private readonly ICacheService _cacheService;
-        
+
         [ImportingConstructor]
         public OrderTagEditorViewModel(IUserService userService, ICacheService cacheService)
         {
@@ -59,7 +59,7 @@ namespace Samba.Modules.ModifierModule
             SelectedItemPortions.Clear();
             OrderTagGroups.Clear();
             OrderTags.Clear();
-            
+
             SetSelectedTicket(selectedTicket);
         }
 
@@ -74,7 +74,7 @@ namespace Samba.Modules.ModifierModule
 
         public DelegateCommand<OrderTagButtonViewModel> OrderTagSelectedCommand { get; set; }
         public ObservableCollection<SelectedOrderTagGroupViewModel> OrderTagGroups { get; set; }
-        
+
         public ObservableCollection<OrderTagButtonViewModel> OrderTags { get; set; }
         public int OrderTagColumnCount { get { return OrderTags.Count % 7 == 0 ? OrderTags.Count / 7 : (OrderTags.Count / 7) + 1; } }
 

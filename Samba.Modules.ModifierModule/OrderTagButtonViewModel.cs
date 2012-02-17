@@ -24,10 +24,25 @@ namespace Samba.Modules.ModifierModule
 
         public string Name { get { return Model.Name; } set { Model.Name = value; } }
         public string Color { get { return _selectedOrders != null && _selectedOrders.All(x => x.IsTaggedWith(Model)) ? "Red" : "Transparent"; } }
+        public string DisplayText
+        {
+            get
+            {
+                if (_selectedOrders.Any(x => x.OrderTagValues.Any(y => y.OrderTagGroupId == OrderTagGroup.Id)))
+                {
+                    var q = _selectedOrders.SelectMany(x => x.OrderTagValues).SingleOrDefault(
+                            x => x.OrderTagGroupId == OrderTagGroup.Id && x.Name == Name);
+                    if (q != null && q.Quantity > 1)
+                        return string.Format("{0} x {1}", q.Quantity, Name);
+                }
+                return Name;
+            }
+        }
 
         public void Refresh()
         {
             RaisePropertyChanged(() => Color);
+            RaisePropertyChanged(() => DisplayText);
         }
     }
 }
