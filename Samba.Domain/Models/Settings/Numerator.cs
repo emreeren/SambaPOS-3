@@ -18,7 +18,6 @@ namespace Samba.Domain.Models.Settings
         public Numerator()
         {
             NumberFormat = "#";
-            Name = "Varsayılan Numeratör";
             Number = 0;
         }
     }
