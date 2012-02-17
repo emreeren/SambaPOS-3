@@ -3046,4 +3046,7 @@ Continue without adding details?</value>
 	<data name="Time">
 		<value xml:space="preserve">Time</value>
 	</data>
+	<data name="DocumentTemplate">
+		<value xml:space="preserve">Document Template</value>
+	</data>
 </root>

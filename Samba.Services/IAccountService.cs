@@ -9,5 +9,7 @@ namespace Samba.Services
     public interface IAccountService
     {
         int GetAccountCount();
+        void CreateNewTransactionDocument(Account account, AccountTransactionDocumentTemplate documentTemplate, string description, decimal amount);
+        decimal GetAccountBalance(Account account);
     }
 }

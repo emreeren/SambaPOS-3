@@ -22,5 +22,6 @@ namespace Samba.Services
         IEnumerable<AccountTemplate> GetAccountTemplates();
         AccountTemplate GetAccountTemplateById(int accountTemplateId);
         Account GetAccountById(int accountId);
+        IEnumerable<AccountTransactionDocumentTemplate> GetAccountTransactionDocumentTemplates(int accountTemplateId);
     }
 }

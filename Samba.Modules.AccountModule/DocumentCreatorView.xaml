@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="Samba.Modules.AccountModule.DocumentCreatorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common" xmlns:VirtualKeyboard="clr-namespace:Samba.Presentation.Common.VirtualKeyboard;assembly=Samba.Presentation.Common" xmlns:FlexButton="clr-namespace:FlexButton;assembly=FlexButton" mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Loaded="UserControl_Loaded">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="9*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Column="0">
+            <Label Margin="0,0,2,2" MinWidth="100" Content="{LocText AccountName,Suffix=':'}" />
+            <TextBlock FontWeight="Bold" Margin="5,0" Text="{Binding AccountName}"/>
+            <Label Margin="0,0,2,2" MinWidth="100" Content="{LocText Description,Suffix=':'}" />
+            <TextBox Name="DescriptionEdit" HorizontalAlignment="Left" MinWidth="300" Margin="5,0" Text="{Binding Description,UpdateSourceTrigger=PropertyChanged}" />
+            <Label Margin="0,0,2,2" MinWidth="100" Content="{LocText Amount,Suffix=':'}" />
+            <UIControls:FilteredTextBox Margin="5,0" Type="Number" HorizontalAlignment="Left" MinWidth="100" Text="{Binding Amount,UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+        <StackPanel Grid.Column="1" Grid.RowSpan="2" Background="LightGray">
+            <FlexButton:FlexButton Margin="2" Height="60" Command="{Binding SaveCommand}" Content="{Binding SaveCommand.Caption}"/>
+            <FlexButton:FlexButton Margin="2" Height="60" Command="{Binding CancelCommand}" Content="{Binding CancelCommand.Caption}"/>
+        </StackPanel>
+        <Viewbox Grid.Row="1">
+            <VirtualKeyboard:KeyboardView/>
+        </Viewbox>
+    </Grid>
+
+</UserControl>

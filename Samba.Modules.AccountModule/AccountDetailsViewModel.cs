@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Accounts;
@@ -18,28 +17,22 @@ namespace Samba.Modules.AccountModule
     {
         private readonly IUserService _userService;
         private readonly IApplicationState _applicationState;
+        private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public AccountDetailsViewModel(IUserService userService, IApplicationState applicationState)
+        public AccountDetailsViewModel(IUserService userService, IApplicationState applicationState, ICacheService cacheService)
         {
             _userService = userService;
             _applicationState = applicationState;
+            _cacheService = cacheService;
             MakePaymentToAccountCommand = new CaptionCommand<string>(Resources.MakePayment_r, OnMakePaymentToAccountCommand, CanMakePaymentToAccount);
             GetPaymentFromAccountCommand = new CaptionCommand<string>(Resources.GetPayment_r, OnGetPaymentFromAccountCommand, CanMakePaymentToAccount);
             AddLiabilityCommand = new CaptionCommand<string>(Resources.AddLiability_r, OnAddLiability, CanAddLiability);
             AddReceivableCommand = new CaptionCommand<string>(Resources.AddReceivable_r, OnAddReceivable, CanAddLiability);
             CloseAccountScreenCommand = new CaptionCommand<string>(Resources.Close, OnCloseAccountScreen);
             AccountDetails = new ObservableCollection<AccountDetailViewModel>();
-
+            DocumentTemplates = new ObservableCollection<DocumentTemplateButtonViewModel>();
             EventServiceFactory.EventService.GetEvent<GenericEvent<Account>>().Subscribe(OnDisplayAccountTransactions);
-        }
-
-        private void OnDisplayAccountTransactions(EventParameters<Account> obj)
-        {
-            if (obj.Topic == EventTopicNames.DisplayAccountTransactions)
-            {
-                SelectedAccount = new AccountSearchViewModel(obj.Value, null);
-            }
         }
 
         private AccountSearchViewModel _selectedAccount;
@@ -51,9 +44,11 @@ namespace Samba.Modules.AccountModule
                 _selectedAccount = value;
                 RaisePropertyChanged(() => SelectedAccount);
                 DisplayTransactions();
+                UpdateTemplates();
             }
         }
 
+        public ObservableCollection<DocumentTemplateButtonViewModel> DocumentTemplates { get; set; }
         public ObservableCollection<AccountDetailViewModel> AccountDetails { get; set; }
 
         public string TotalDebit { get { return AccountDetails.Sum(x => x.Debit).ToString(LocalSettings.DefaultCurrencyFormat); } }
@@ -65,6 +60,16 @@ namespace Samba.Modules.AccountModule
         public ICaptionCommand AddReceivableCommand { get; set; }
         public ICaptionCommand AddLiabilityCommand { get; set; }
         public ICaptionCommand CloseAccountScreenCommand { get; set; }
+
+        private void UpdateTemplates()
+        {
+            DocumentTemplates.Clear();
+            if (SelectedAccount != null)
+            {
+                var templates = _cacheService.GetAccountTransactionDocumentTemplates(SelectedAccount.Model.AccountTemplateId);
+                DocumentTemplates.AddRange(templates.Select(x => new DocumentTemplateButtonViewModel(x, SelectedAccount.Model)));
+            }
+        }
 
         private void DisplayTransactions()
         {
@@ -83,6 +88,14 @@ namespace Samba.Modules.AccountModule
             RaisePropertyChanged(() => TotalCredit);
             RaisePropertyChanged(() => TotalDebit);
             RaisePropertyChanged(() => TotalBalance);
+        }
+
+        private void OnDisplayAccountTransactions(EventParameters<Account> obj)
+        {
+            if (obj.Topic == EventTopicNames.DisplayAccountTransactions)
+            {
+                SelectedAccount = new AccountSearchViewModel(obj.Value, null);
+            }
         }
 
         private bool CanAddLiability(string arg)

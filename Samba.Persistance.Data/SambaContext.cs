@@ -79,6 +79,7 @@ namespace Samba.Persistance.Data
         public DbSet<AccountTransactionValue> AccountTransactionValues { get; set; }
         public DbSet<AccountTransactionTemplate> AccountTransactionTemplates { get; set; }
         public DbSet<AccountTransactionDocument> AccountTransactionDocuments { get; set; }
+        public DbSet<AccountTransactionDocumentTemplate> AccountTransactionDocumentTemplates { get; set; }
         
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

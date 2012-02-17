@@ -69,6 +69,10 @@
     <Compile Include="AccountDetailsViewModel.cs" />
     <Compile Include="Dashboard\AccountCustomFieldViewModel.cs" />
     <Compile Include="AccountModule.cs" />
+    <Compile Include="Dashboard\AccountTransactionDocumentTemplateView.xaml.cs">
+      <DependentUpon>AccountTransactionDocumentTemplateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dashboard\AccountTransactionDocumentTemplateViewModel.cs" />
     <Compile Include="Dashboard\AccountTransactionDocumentView.xaml.cs">
       <DependentUpon>AccountTransactionDocumentView.xaml</DependentUpon>
     </Compile>
@@ -90,6 +94,12 @@
       <DependentUpon>DeliveryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="DeliveryViewModel.cs" />
+    <Compile Include="DocumentCreationData.cs" />
+    <Compile Include="DocumentCreatorView.xaml.cs">
+      <DependentUpon>DocumentCreatorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DocumentCreatorViewModel.cs" />
+    <Compile Include="DocumentTemplateButtonViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -104,6 +114,10 @@
     <Page Include="AccountDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dashboard\AccountTransactionDocumentTemplateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dashboard\AccountTransactionDocumentView.xaml">
       <SubType>Designer</SubType>
@@ -125,11 +139,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="DocumentCreatorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lib\FlexButton\FlexButton.csproj">
       <Project>{434D497A-D439-44C8-84A5-5301B572708F}</Project>
       <Name>FlexButton</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lib\PropertyTools.Wpf\PropertyTools.Wpf.csproj">
+      <Project>{7168F82F-288A-42C4-9EB1-FBBE5112F211}</Project>
+      <Name>PropertyTools.Wpf</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">
       <Project>{2386F6A0-91B2-4D1A-8DBC-92109924AFFE}</Project>

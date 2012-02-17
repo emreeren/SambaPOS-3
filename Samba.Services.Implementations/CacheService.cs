@@ -101,11 +101,20 @@ namespace Samba.Services.Implementations
             return Dao.SingleWithCache<Account>(x => x.Id == accountId);
         }
 
+        private IEnumerable<AccountTransactionDocumentTemplate> _documentTemplates;
+        public IEnumerable<AccountTransactionDocumentTemplate> DocumentTemplates { get { return _documentTemplates ?? (_documentTemplates = Dao.Query<AccountTransactionDocumentTemplate>(x => x.TransactionTemplates)); } }
+
+        public IEnumerable<AccountTransactionDocumentTemplate> GetAccountTransactionDocumentTemplates(int accountTemplateId)
+        {
+            return DocumentTemplates.Where(x => x.MasterAccountTemplateId == accountTemplateId);
+        }
+
         public override void Reset()
         {
             _ticketTagGroupNames = null;
             _accountTemplates = null;
             _accounts = null;
+            _documentTemplates = null;
             Dao.ResetCache();
         }
     }

@@ -213,7 +213,7 @@ namespace Samba.Modules.AccountModule
         private void OnCreateAccount(string obj)
         {
             ClearSearchValues();
-            var c = new Account { AccountTemplateId = _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.TargetAccountTemplateId };
+            var c = new Account { AccountTemplateId = SelectedAccountTemplate.Id };
             c.PublishEvent(EventTopicNames.EditAccountDetails);
         }
 

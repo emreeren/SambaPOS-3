@@ -44,8 +44,8 @@ namespace Samba.Modules.AccountModule.Dashboard
             }
         }
 
-        public int DefaultSourceAccountId { get { return Model.DefaultSourceAccountId; } set { Model.DefaultSourceAccountId = value; } }
-        public int DefaultTargetAccountId { get { return Model.DefaultTargetAccountId; } set { Model.DefaultTargetAccountId = value; } }
+        public int? DefaultSourceAccountId { get { return Model.DefaultSourceAccountId; } set { Model.DefaultSourceAccountId = value.GetValueOrDefault(0); } }
+        public int? DefaultTargetAccountId { get { return Model.DefaultTargetAccountId; } set { Model.DefaultTargetAccountId = value.GetValueOrDefault(0); } }
 
         private IEnumerable<Account> _sourceAccounts;
         public IEnumerable<Account> SourceAccounts

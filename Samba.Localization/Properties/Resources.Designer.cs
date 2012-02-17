@@ -2356,6 +2356,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Document Template.
+        /// </summary>
+        public static string DocumentTemplate {
+            get {
+                return ResourceManager.GetString("DocumentTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dollar.
         /// </summary>
         public static string Dollar {

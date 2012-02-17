@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using Samba.Domain.Models.Accounts;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
@@ -21,6 +19,21 @@ namespace Samba.Services.Implementations.AccountModule
         public int GetAccountCount()
         {
             return (int)(_accountCount ?? (_accountCount = Dao.Count<Account>()));
+        }
+
+        public void CreateNewTransactionDocument(Account selectedAccount, AccountTransactionDocumentTemplate documentTemplate, string description, decimal amount)
+        {
+            using (var w = WorkspaceFactory.Create())
+            {
+                var document = documentTemplate.CreateDocument(selectedAccount, description, amount);
+                w.Add(document);
+                w.CommitChanges();
+            }
+        }
+
+        public decimal GetAccountBalance(Account account)
+        {
+            return Dao.Sum<AccountTransactionValue>(x => x.Debit - x.Credit, x => x.AccountId == account.Id);
         }
 
         public override void Reset()

@@ -100,14 +100,14 @@
             <StackPanel Grid.Row="0">
                 <FlexButton:FlexButton Margin="2" Height="60" Content="{LocText Close}"
                          ButtonColor="Red" Command="{Binding CloseAccountScreenCommand}" />
-                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding AddReceivableCommand.Caption}"
-                         Command="{Binding AddReceivableCommand}" />
-                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding AddLiabilityCommand.Caption}"
-                         Command="{Binding AddLiabilityCommand}" />
-                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding GetPaymentFromAccountCommand.Caption}"
-                         Command="{Binding GetPaymentFromAccountCommand}" />
-                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding MakePaymentToAccountCommand.Caption}"
-                         Command="{Binding MakePaymentToAccountCommand}" />
+                <ItemsControl ItemsSource="{Binding DocumentTemplates}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding ButtonHeader}"
+                                 ButtonColor="{Binding ButtonColor}" Command="{Binding SelectDocumentTemplateCommand}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </StackPanel>
         </Grid>
     </Grid>
