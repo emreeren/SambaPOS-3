@@ -243,6 +243,13 @@ namespace Samba.Modules.PosModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<MenuItemPortion>>().Subscribe(OnPortionSelected);
         }
 
+        private void ClearSelectedItems()
+        {
+            if (SelectedTicket != null) SelectedTicket.ClearSelectedItems();
+            _selectedOrders.Clear();
+            RefreshSelectedItems();
+        }
+
         private void OnPortionSelected(EventParameters<MenuItemPortion> obj)
         {
             if (obj.Topic == EventTopicNames.PortionSelected)
@@ -260,7 +267,7 @@ namespace Samba.Modules.PosModule
                 SelectedTicket.SelectedOrders.ToList().ForEach(x =>
                     x.ToggleOrderTag(obj.Value.OrderTagGroup, obj.Value.SelectedOrderTag, _applicationState.CurrentLoggedInUser.Id));
                 if (!string.IsNullOrEmpty(obj.Value.OrderTagGroup.ButtonHeader) && obj.Value.OrderTagGroup.IsSingleSelection)
-                    SelectedTicket.ClearSelectedItems();
+                    ClearSelectedItems();
             }
         }
 
@@ -272,9 +279,7 @@ namespace Samba.Modules.PosModule
             if (obj.Topic == EventTopicNames.ActivatePosView)
             {
                 RefreshVisuals();
-                if (SelectedTicket != null)
-                    SelectedTicket.ClearSelectedItems();
-                RefreshSelectedItems();
+                ClearSelectedItems();
             }
 
             if (obj.Topic == EventTopicNames.RefreshSelectedTicket)
