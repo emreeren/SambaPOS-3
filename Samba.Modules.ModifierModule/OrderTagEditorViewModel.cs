@@ -133,7 +133,7 @@ namespace Samba.Modules.ModifierModule
         {
             ResetValues(value);
             SelectedOrder = selectedOrders.Count() == 1 ? selectedOrders.ElementAt(0) : null;
-            if (selectedOrders.Any(x => x.Locked)) return false;
+            if (selectedOrders.Any(x => x.Locked || !x.DecreaseInventory)) return false;
 
             if (SelectedTicket != null && SelectedOrder != null)
             {

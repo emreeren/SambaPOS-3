@@ -207,12 +207,15 @@ namespace Samba.Modules.PosModule
         public void FixSelectedItems()
         {
             var selectedItems = SelectedOrders.Where(x => x.SelectedQuantity > 0 && x.SelectedQuantity < x.Quantity).ToList();
-            var newItems = _ticketService.ExtractSelectedOrders(Model, selectedItems.Select(x => x.Model));
-            foreach (var newItem in newItems)
+            if (selectedItems.Count > 0)
             {
-                _orders.Add(new OrderViewModel(newItem, _ticketTemplate, _automationService) { Selected = true });
+                var newItems = _ticketService.ExtractSelectedOrders(Model, selectedItems.Select(x => x.Model));
+                foreach (var newItem in newItems)
+                {
+                    _orders.Add(new OrderViewModel(newItem, _ticketTemplate, _automationService) { Selected = true });
+                }
+                selectedItems.ForEach(x => x.NotSelected());
             }
-            selectedItems.ForEach(x => x.NotSelected());
         }
 
         public string CustomPrintData { get { return Model.PrintJobData; } set { Model.PrintJobData = value; } }

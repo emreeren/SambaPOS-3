@@ -201,6 +201,7 @@ namespace Samba.Modules.PosModule
                 ResetSelectedQuantity();
                 UpdateItemColor();
                 RaisePropertyChanged(() => Quantity);
+                RaisePropertyChanged(() => TotalPrice);
             }
         }
 

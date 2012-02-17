@@ -268,6 +268,7 @@ namespace Samba.Modules.PosModule
                     x.ToggleOrderTag(obj.Value.OrderTagGroup, obj.Value.SelectedOrderTag, _applicationState.CurrentLoggedInUser.Id));
                 if (!string.IsNullOrEmpty(obj.Value.OrderTagGroup.ButtonHeader) && obj.Value.OrderTagGroup.IsSingleSelection)
                     ClearSelectedItems();
+                RefreshVisuals();
             }
         }
 

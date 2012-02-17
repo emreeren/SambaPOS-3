@@ -555,11 +555,14 @@ namespace Samba.Domain.Models.Tickets
                 Debug.Assert(Orders.Contains(order));
                 if (order.SelectedQuantity >= order.Quantity) continue;
                 var newItem = CloneOrder(order);
+                newItem.OrderTagValues.ToList().ForEach(x => x.Id = 0);
+                newItem.OrderTagValues.ToList().ForEach(x => x.TicketId = 0);
+                newItem.OrderTagValues.ToList().ForEach(x => x.OrderId = 0);
+                newItem.Id = 0;
                 newItem.Quantity = order.SelectedQuantity;
                 order.Quantity -= order.SelectedQuantity;
                 newItems.Add(newItem);
             }
-
             return newItems;
         }
 
