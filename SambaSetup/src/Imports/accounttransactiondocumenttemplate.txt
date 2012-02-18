@@ -1,0 +1,2 @@
+Wage Commitment;Personnel;Commitment;Wage Commitment;Wage Liability
+Wage Payment;Personnel;Payment;Wage Payment;Wage Expense
