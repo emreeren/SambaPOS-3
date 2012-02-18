@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using Samba.Domain.Models.Locations;
+using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
+using System.Linq;
 using Samba.Services;
 
 namespace Samba.Modules.LocationModule
 {
     [Export(typeof(LocationEditorViewModel)), PartCreationPolicy(CreationPolicy.NonShared)]
-    public class LocationEditorViewModel : EntityViewModelBase<Location>
+    public class LocationEditorViewModel : EntityViewModelBase<Location>, IEntityCreator<Location>
     {
         private readonly ILocationService _locationService;
 
@@ -38,6 +40,11 @@ namespace Samba.Modules.LocationModule
         protected override bool CanSave(string arg)
         {
             return Model.TicketId <= 0 && base.CanSave(arg);
+        }
+
+        public IEnumerable<Location> CreateItems(IEnumerable<string> data)
+        {
+            return new DataCreationService().BatchCreateLocations(data.ToArray(), Workspace);
         }
     }
 }

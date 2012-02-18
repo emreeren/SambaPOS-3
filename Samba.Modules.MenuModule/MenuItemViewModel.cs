@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Collections.ObjectModel;
 using Samba.Domain.Models.Menus;
+using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
@@ -12,7 +13,7 @@ using Samba.Services;
 namespace Samba.Modules.MenuModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class MenuItemViewModel : EntityViewModelBase<MenuItem>
+    public class MenuItemViewModel : EntityViewModelBase<MenuItem>,IEntityCreator<MenuItem>
     {
         private readonly IMenuService _menuService;
 
@@ -104,6 +105,11 @@ namespace Samba.Modules.MenuModule
         private static IEnumerable<PortionViewModel> GetPortions(MenuItem baseModel)
         {
             return baseModel.Portions.Select(item => new PortionViewModel(item));
+        }
+
+        public IEnumerable<MenuItem> CreateItems(IEnumerable<string> data)
+        {
+            return new DataCreationService().BatchCreateMenuItems(data.ToArray(), Workspace);
         }
     }
 }

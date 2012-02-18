@@ -1362,9 +1362,6 @@ Açık adisyon varken gün sonu yapılamaz.</value>
   <data name="DeleteErrorLocationUsedInLocationView" xml:space="preserve">
     <value>Bu yer bir yer görünümünde kullanıldığı için silinemez</value>
   </data>
-  <data name="LocationList" xml:space="preserve">
-    <value>Yer Listesi</value>
-  </data>
   <data name="LocationViews" xml:space="preserve">
     <value>Yer Görünümleri</value>
   </data>

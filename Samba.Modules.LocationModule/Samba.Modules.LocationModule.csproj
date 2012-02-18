@@ -58,7 +58,6 @@
       <DependentUpon>LocationEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="LocationEditorViewModel.cs" />
-    <Compile Include="LocationListViewModel.cs" />
     <Compile Include="LocationScreenView.xaml.cs">
       <DependentUpon>LocationScreenView.xaml</DependentUpon>
     </Compile>

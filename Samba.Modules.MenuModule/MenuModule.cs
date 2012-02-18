@@ -13,7 +13,7 @@ namespace Samba.Modules.MenuModule
         [ImportingConstructor]
         public MenuModule()
         {
-            AddDashboardCommand<MenuItemListViewModel>(Resources.ProductList, Resources.Products);
+            AddDashboardCommand<EntityCollectionViewModelBase<MenuItemViewModel, MenuItem>>(Resources.ProductList, Resources.Products);
             AddDashboardCommand<EntityCollectionViewModelBase<ScreenMenuViewModel, ScreenMenu>>(Resources.MenuList, Resources.Products);
             AddDashboardCommand<PriceListViewModel>(Resources.BatchPriceList, Resources.Products);
             AddDashboardCommand<MenuItemPriceDefinitionListViewModel>(Resources.PriceDefinitions, Resources.Products);

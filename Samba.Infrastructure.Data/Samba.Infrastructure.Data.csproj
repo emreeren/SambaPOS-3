@@ -77,6 +77,7 @@
     <Compile Include="BinarySerializer\SerializationUnits.cs" />
     <Compile Include="BinarySerializer\SilverlightSerializer.cs" />
     <Compile Include="IEntity.cs" />
+    <Compile Include="IEntityCreator.cs" />
     <Compile Include="IOrderable.cs" />
     <Compile Include="IReadOnlyWorkspace.cs" />
     <Compile Include="IRepository.cs" />

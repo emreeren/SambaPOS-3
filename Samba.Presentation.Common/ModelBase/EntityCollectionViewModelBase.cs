@@ -28,7 +28,8 @@ namespace Samba.Presentation.Common.ModelBase
             OpenViewModels = new List<EntityViewModelBase<TModel>>();
             BatchCreateItemsCommand = new CaptionCommand<TModel>(string.Format("Batch Create {0}", PluralModelTitle), OnBatchCreateItems, CanBatchCreateItems);
 
-            CustomCommands.Add(BatchCreateItemsCommand);
+            if (typeof(TViewModel).GetInterfaces().Any(x => x == typeof(IEntityCreator<TModel>)))
+                CustomCommands.Add(BatchCreateItemsCommand);
 
             _token = EventServiceFactory.EventService.GetEvent<GenericEvent<EntityViewModelBase<TModel>>>().Subscribe(x =>
             {
@@ -66,7 +67,7 @@ namespace Samba.Presentation.Common.ModelBase
 
         private static bool CanBatchCreateItems(TModel arg)
         {
-            return typeof(TModel).GetInterfaces().Any(x => x == typeof(IBatchCreatable));
+            return typeof(TViewModel).GetInterfaces().Any(x => x == typeof(IEntityCreator<TModel>));
         }
 
         private void OnBatchCreateItems(TModel obj)
@@ -76,12 +77,8 @@ namespace Samba.Presentation.Common.ModelBase
             var data = InteractionService.UserIntraction.GetStringFromUser(title, description);
             if (data.Length > 0)
             {
-                foreach (var s in data)
-                {
-                    var b = Activator.CreateInstance<TModel>() as IBatchCreatable;
-                    if (b != null) b.UpdatePropertiesFromString(s);
-                    Workspace.Add(b as TModel);
-                }
+                var items = ((IEntityCreator<TModel>)InternalCreateNewViewModel(new TModel())).CreateItems(data);
+                foreach (var item in items) Workspace.Add(item);
                 Workspace.CommitChanges();
                 _items = null;
                 RaisePropertyChanged(() => Items);

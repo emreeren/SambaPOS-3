@@ -46,7 +46,7 @@ namespace Samba.Modules.LocationModule
             IList<IOrderable> selectedValues = new List<IOrderable>(ScreenItems.Select(x => x.Model));
 
             IList<IOrderable> choosenValues =
-                InteractionService.UserIntraction.ChooseValuesFrom(values, selectedValues, Resources.LocationList,
+                InteractionService.UserIntraction.ChooseValuesFrom(values, selectedValues, string.Format(Resources.List_f, Resources.Location),
                 string.Format(Resources.SelectLocationDialogHint_f, Model.Name), Resources.Location, Resources.Locations);
 
             ScreenItems.Clear();

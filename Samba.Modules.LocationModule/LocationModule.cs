@@ -24,7 +24,7 @@ namespace Samba.Modules.LocationModule
             _regionManager = regionManager;
             _locationSelectorView = locationSelectorView;
 
-            AddDashboardCommand<LocationListViewModel>(Resources.LocationList, Resources.Locations, 30);
+            AddDashboardCommand<EntityCollectionViewModelBase<LocationEditorViewModel, Location>>(string.Format(Resources.List_f, Resources.Location), Resources.Locations, 30);
             AddDashboardCommand<EntityCollectionViewModelBase<LocationScreenViewModel, LocationScreen>>(Resources.LocationViews, Resources.Locations);
         }
 

@@ -55,7 +55,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MenuItemListViewModel.cs" />
     <Compile Include="MenuItemPriceDefinitionListViewModel.cs" />
     <Compile Include="MenuItemPriceDefinitionView.xaml.cs">
       <DependentUpon>MenuItemPriceDefinitionView.xaml</DependentUpon>

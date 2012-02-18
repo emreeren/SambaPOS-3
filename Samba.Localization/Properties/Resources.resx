@@ -1426,9 +1426,6 @@ Can't end Work Period while tickets open</value>
   <data name="SelectLocation" xml:space="preserve">
     <value>Select Location</value>
   </data>
-  <data name="LocationList" xml:space="preserve">
-    <value>Location List</value>
-  </data>
   <data name="SelectLocationDialogHint_f" xml:space="preserve">
     <value>Select locations you want to add to {0} view</value>
   </data>

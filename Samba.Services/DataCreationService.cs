@@ -308,8 +308,38 @@ namespace Samba.Services
             ImportMenus(screen);
             ImportLocations(department);
 
+            ImportItems(BatchCreateAccounts);
+            ImportItems(BatchCreateTransactionTemplates);
+            ImportItems(BatchCreateTransactionTemplateDocuments);
+
             _workspace.CommitChanges();
             _workspace.Dispose();
+        }
+
+        //private void ImportAccounts()
+        //{
+        //    var fileName = string.Format("{0}/Imports/account{1}.txt", LocalSettings.AppPath, "_" + LocalSettings.CurrentLanguage);
+        //    if (!File.Exists(fileName))
+        //        fileName = string.Format("{0}/Imports/account.txt", LocalSettings.AppPath);
+
+        //    if (!File.Exists(fileName)) return;
+
+        //    var lines = File.ReadAllLines(fileName);
+        //    var items = BatchCreateAccounts(lines, _workspace);
+        //    items.ToList().ForEach(_workspace.Add);
+        //    _workspace.CommitChanges();
+        //}
+
+        private void ImportItems<T>(Func<string[], IWorkspace, IEnumerable<T>> func) where T : class
+        {
+            var fileName = string.Format("{0}\\Imports\\" + typeof(T).Name.ToLower() + "{1}.txt", LocalSettings.AppPath, "_" + LocalSettings.CurrentLanguage);
+            if (!File.Exists(fileName))
+                fileName = string.Format("{0}\\Imports\\" + typeof(T).Name.ToLower() + ".txt", LocalSettings.AppPath);
+            if (!File.Exists(fileName)) return;
+            var lines = File.ReadAllLines(fileName);
+            var items = func(lines, _workspace);
+            items.ToList().ForEach(x => _workspace.Add(x));
+            _workspace.CommitChanges();
         }
 
         private void ImportLocations(Department department)
@@ -323,6 +353,8 @@ namespace Samba.Services
 
             var lines = File.ReadAllLines(fileName);
             var items = BatchCreateLocations(lines, _workspace);
+            items.ToList().ForEach(_workspace.Add);
+
             _workspace.CommitChanges();
 
             var screen = new LocationScreen { Name = Resources.AllLocations, ColumnCount = 8 };
@@ -348,6 +380,7 @@ namespace Samba.Services
             var lines = File.ReadAllLines(fileName, Encoding.UTF8);
 
             var items = BatchCreateMenuItems(lines, _workspace);
+            items.ToList().ForEach(_workspace.Add);
             _workspace.CommitChanges();
             var groupCodes = items.Select(x => x.GroupCode).Distinct().Where(x => !string.IsNullOrEmpty(x));
 
@@ -381,7 +414,6 @@ namespace Samba.Services
                             if (result.Count(x => x.Name.ToLower() == location.Name.ToLower()) == 0)
                             {
                                 result.Add(location);
-                                workspace.Add(location);
                             }
                         }
                     }
@@ -416,9 +448,180 @@ namespace Samba.Services
                         mi.Name = itemName;
                         mi.Portions[0].Price = price;
                         mi.GroupCode = currentCategory;
-                        workspace.Add(mi);
-                        workspace.Add(mi.Portions[0]);
                         result.Add(mi);
+                    }
+                }
+            }
+            return result;
+        }
+
+        public IEnumerable<Account> BatchCreateAccounts(string[] values, IWorkspace workspace)
+        {
+            IList<Account> result = new List<Account>();
+            if (values.Length > 0)
+            {
+                var templates = workspace.All<AccountTemplate>();
+                AccountTemplate currentTemplate = null;
+
+                foreach (var item in values)
+                {
+                    if (item.StartsWith("#"))
+                    {
+                        var templateName = item.Trim('#', ' ');
+                        currentTemplate = templates.SingleOrDefault(x => x.Name.ToLower() == templateName.ToLower());
+                        if (currentTemplate == null)
+                        {
+                            using (var w = WorkspaceFactory.Create())
+                            {
+                                currentTemplate = new AccountTemplate { Name = templateName };
+                                w.Add(currentTemplate);
+                                w.CommitChanges();
+                            }
+                        }
+                    }
+                    else if (currentTemplate != null)
+                    {
+                        var accountName = item.ToLower().Trim();
+                        if (workspace.Single<Account>(x => x.Name.ToLower() == accountName) == null)
+                        {
+                            var account = new Account { Name = item, AccountTemplateId = currentTemplate.Id };
+                            result.Add(account);
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
+        public IEnumerable<AccountTransactionTemplate> BatchCreateTransactionTemplates(string[] values, IWorkspace workspace)
+        {
+            IList<AccountTransactionTemplate> result = new List<AccountTransactionTemplate>();
+            if (values.Length > 0)
+            {
+                foreach (var item in values)
+                {
+                    var parts = item.Split(';');
+                    if (parts.Count() > 2)
+                    {
+                        var name = parts[0].Trim();
+
+                        if (workspace.Single<AccountTransactionTemplate>(x => x.Name.ToLower() == name.ToLower()) != null) continue;
+
+                        var sTempName = parts[1].Trim();
+                        var tTempName = parts[2].Trim();
+                        var dsa = parts.Length > 2 ? parts[3].Trim() : "";
+                        var dta = parts.Length > 3 ? parts[4].Trim() : "";
+
+                        var sAccTemplate = workspace.Single<AccountTemplate>(x => x.Name.ToLower() == sTempName.ToLower());
+                        if (sAccTemplate == null)
+                        {
+                            using (var w = WorkspaceFactory.Create())
+                            {
+                                sAccTemplate = new AccountTemplate { Name = sTempName };
+                                w.Add(sAccTemplate);
+                                w.CommitChanges();
+                            }
+                        }
+
+                        var tAccTemplate = workspace.Single<AccountTemplate>(x => x.Name.ToLower() == tTempName.ToLower());
+                        if (tAccTemplate == null)
+                        {
+                            using (var w = WorkspaceFactory.Create())
+                            {
+                                tAccTemplate = new AccountTemplate { Name = tTempName };
+                                w.Add(tAccTemplate);
+                                w.CommitChanges();
+                            }
+                        }
+
+                        var sa = !string.IsNullOrEmpty(dsa)
+                            ? workspace.Single<Account>(x => x.Name.ToLower() == dsa.ToLower())
+                            : null;
+
+                        if (!string.IsNullOrEmpty(dsa) && sa == null)
+                        {
+                            using (var w = WorkspaceFactory.Create())
+                            {
+                                sa = new Account { Name = dsa, AccountTemplateId = sAccTemplate.Id };
+                                w.Add(sa);
+                                w.CommitChanges();
+                            }
+                        }
+
+                        var ta = !string.IsNullOrEmpty(dta)
+                            ? workspace.Single<Account>(x => x.Name.ToLower() == dta.ToLower())
+                            : null;
+
+                        if (!string.IsNullOrEmpty(dta) && ta == null)
+                        {
+                            using (var w = WorkspaceFactory.Create())
+                            {
+                                ta = new Account { Name = dta, AccountTemplateId = tAccTemplate.Id };
+                                w.Add(ta);
+                                w.CommitChanges();
+                            }
+                        }
+
+                        var resultItem = new AccountTransactionTemplate
+                                             {
+                                                 Name = name,
+                                                 SourceAccountTemplateId = sAccTemplate.Id,
+                                                 TargetAccountTemplateId = tAccTemplate.Id
+                                             };
+
+                        if (sa != null) resultItem.DefaultSourceAccountId = sa.Id;
+                        if (ta != null) resultItem.DefaultTargetAccountId = ta.Id;
+
+                        result.Add(resultItem);
+                    }
+                }
+            }
+            return result;
+        }
+
+        public IEnumerable<AccountTransactionDocumentTemplate> BatchCreateTransactionTemplateDocuments(string[] values, IWorkspace workspace)
+        {
+            IList<AccountTransactionDocumentTemplate> result = new List<AccountTransactionDocumentTemplate>();
+            if (values.Length > 0)
+            {
+                foreach (var item in values)
+                {
+                    var parts = item.Split(';');
+                    if (parts.Count() > 3)
+                    {
+                        var name = parts[0].Trim();
+                        if (workspace.Single<AccountTransactionDocumentTemplate>(x => x.Name.ToLower() == name.ToLower()) != null) continue;
+
+                        var atName = parts[1].Trim();
+                        var header = parts[2].Trim();
+
+                        var accTemplate = workspace.Single<AccountTemplate>(x => x.Name.ToLower() == atName.ToLower());
+                        if (accTemplate == null)
+                        {
+                            using (var w = WorkspaceFactory.Create())
+                            {
+                                accTemplate = new AccountTemplate { Name = atName };
+                                w.Add(accTemplate);
+                                w.CommitChanges();
+                            }
+                        }
+
+                        var resultItem = new AccountTransactionDocumentTemplate
+                                             {
+                                                 Name = name,
+                                                 MasterAccountTemplateId = accTemplate.Id,
+                                                 ButtonHeader = header,
+                                                 ButtonColor = "Gainsboro"
+                                             };
+
+                        for (var i = 3; i < parts.Length; i++)
+                        {
+                            var n = parts[i].ToLower();
+                            var tt = workspace.Single<AccountTransactionTemplate>(x => x.Name.ToLower() == n);
+                            if (tt != null) resultItem.TransactionTemplates.Add(tt);
+                        }
+
+                        result.Add(resultItem);
                     }
                 }
             }

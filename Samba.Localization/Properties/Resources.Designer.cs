@@ -3870,15 +3870,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Location List.
-        /// </summary>
-        public static string LocationList {
-            get {
-                return ResourceManager.GetString("LocationList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Location Name.
         /// </summary>
         public static string LocationName {

@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using FluentValidation;
 using Samba.Domain.Models.Accounts;
+using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.ViewModels;
+using Samba.Services;
 
 namespace Samba.Modules.AccountModule.Dashboard
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class AccountViewModel : EntityViewModelBase<Account>
+    public class AccountViewModel : EntityViewModelBase<Account>,IEntityCreator<Account>
     {
         private IEnumerable<AccountTemplate> _accountTemplates;
         public IEnumerable<AccountTemplate> AccountTemplates
@@ -63,6 +66,11 @@ namespace Samba.Modules.AccountModule.Dashboard
         {
             CustomDataViewModel.Update();
             base.OnSave(value);
+        } 
+
+        public IEnumerable<Account> CreateItems(IEnumerable<string> data)
+        { 
+            return new DataCreationService().BatchCreateAccounts(data.ToArray(), Workspace);
         }
     }
 
