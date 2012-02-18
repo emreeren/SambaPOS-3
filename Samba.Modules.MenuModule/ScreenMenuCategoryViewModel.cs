@@ -65,7 +65,9 @@ namespace Samba.Modules.MenuModule
         {
             get
             {
-                return (Color)ColorConverter.ConvertFromString(Model.MainButtonColor);
+                return !string.IsNullOrEmpty(Model.MainButtonColor) ?
+                    (Color)ColorConverter.ConvertFromString(Model.MainButtonColor) :
+                    Colors.Transparent;
             }
             set
             {

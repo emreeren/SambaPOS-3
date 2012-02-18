@@ -14,7 +14,7 @@ namespace Samba.Infrastructure
             var serializer = new DataContractJsonSerializer(obj.GetType());
             var ms = new MemoryStream();
             serializer.WriteObject(ms, obj);
-            string retVal = Encoding.Default.GetString(ms.ToArray());
+            string retVal = Encoding.UTF8.GetString(ms.ToArray());
             ms.Dispose();
             return retVal;
         }
@@ -22,7 +22,7 @@ namespace Samba.Infrastructure
         public static T Deserialize<T>(string json)
         {
             var obj = Activator.CreateInstance<T>();
-            var ms = new MemoryStream(Encoding.Default.GetBytes(json));
+            var ms = new MemoryStream(Encoding.UTF8.GetBytes(json));
             var serializer = new DataContractJsonSerializer(obj.GetType());
             obj = (T)serializer.ReadObject(ms);
             ms.Close();
