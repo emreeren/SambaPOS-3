@@ -9,16 +9,22 @@
             <Label HorizontalAlignment="Left" Content="Template Name" />
             <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
 
-            <Label MinWidth="120">
-                <LocText ResourceIdentifierKey="AccountTemplate" Suffix=":"/>
-            </Label>
-            <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTemplates}"
-                                     SelectedItem="{Binding MasterAccountTemplate}" />
             <Label HorizontalAlignment="Left" Content="{LocText ButtonHeader,Suffix=':'}" />
             <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding ButtonHeader}" />
             <Label HorizontalAlignment="Left" Content="{LocText ButtonColor,Suffix=':'}" />
             <Wpf:ColorPicker2 HorizontalAlignment="Left" MinWidth="150"
                          SelectedColor="{Binding ButtonColor}" />
+            <Label MinWidth="120">
+                <LocText ResourceIdentifierKey="AccountTemplate" Suffix=":"/>
+            </Label>
+            <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTemplates}"
+                                     SelectedItem="{Binding MasterAccountTemplate}" />
+            <Label MinWidth="120">
+                <LocText ResourceIdentifierKey="DefaultAmount" Suffix=":"/>
+            </Label>
+            <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="170" 
+                      ItemsSource="{Binding DefaultAmounts}" Text="{Binding DefaultAmount}" />
+
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                 <DataGrid MinWidth="170" ItemsSource="{Binding TransactionTemplates}" SelectedItem="{Binding SelectedTransactionTemplate, Mode=TwoWay}"
                                      HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"

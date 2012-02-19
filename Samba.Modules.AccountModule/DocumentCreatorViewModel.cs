@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
 using Samba.Domain.Models.Accounts;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
@@ -32,6 +29,20 @@ namespace Samba.Modules.AccountModule
             DocumentTemplate = obj.Value.DocumentTemplate;
             Description = "";
             Amount = 0;
+            if (!string.IsNullOrEmpty(obj.Value.DocumentTemplate.DefaultAmount))
+            {
+                var da = obj.Value.DocumentTemplate.DefaultAmount;
+                decimal amount;
+                if (da.StartsWith("["))
+                {
+                    da = _accountService.GetCustomData(obj.Value.Account, da.Trim(new[] { '[', ']' }));
+                    decimal.TryParse(da, out amount);
+                }
+                else if (da == Resources.Balance)
+                    amount = Math.Abs(_accountService.GetAccountBalance(obj.Value.Account));
+                else decimal.TryParse(da, out amount);
+                Amount = amount;
+            }
             RaisePropertyChanged(() => Description);
             RaisePropertyChanged(() => Amount);
             RaisePropertyChanged(() => AccountName);

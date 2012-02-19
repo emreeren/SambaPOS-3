@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
+using System.Text.RegularExpressions;
 using Samba.Domain.Models.Accounts;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
@@ -34,6 +36,13 @@ namespace Samba.Services.Implementations.AccountModule
         public decimal GetAccountBalance(Account account)
         {
             return Dao.Sum<AccountTransactionValue>(x => x.Debit - x.Credit, x => x.AccountId == account.Id);
+        }
+
+        public string GetCustomData(Account account, string fieldName)
+        {
+            var pattern = string.Format("\"Name\":\"{0}\",\"Value\":\"([^\"]+)\"", fieldName);
+            return Regex.IsMatch(account.CustomData, pattern) 
+                ? Regex.Match(account.CustomData, pattern).Groups[1].Value : "";
         }
 
         public override void Reset()

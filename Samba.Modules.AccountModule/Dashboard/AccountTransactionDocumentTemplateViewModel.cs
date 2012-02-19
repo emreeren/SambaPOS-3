@@ -26,6 +26,13 @@ namespace Samba.Modules.AccountModule.Dashboard
 
         public string ButtonHeader { get { return Model.ButtonHeader; } set { Model.ButtonHeader = value; } }
         public string ButtonColor { get { return Model.ButtonColor; } set { Model.ButtonColor = value; } }
+        public string DefaultAmount { get { return Model.DefaultAmount; } set { Model.DefaultAmount = value; RaisePropertyChanged(() => DefaultAmount); } }
+
+        private IEnumerable<string> _defaultAmounts;
+        public IEnumerable<string> DefaultAmounts
+        {
+            get { return _defaultAmounts ?? (_defaultAmounts = GetDefaultAmounts()); }
+        }
 
         public ICaptionCommand AddTransactionTemplateCommand { get; set; }
         public ICaptionCommand DeleteTransactionTemplateCommand { get; set; }
@@ -43,8 +50,10 @@ namespace Samba.Modules.AccountModule.Dashboard
             get { return AccountTemplates.SingleOrDefault(x => x.Id == Model.MasterAccountTemplateId); }
             set
             {
+                _defaultAmounts = null;
                 Model.MasterAccountTemplateId = value.Id;
                 RaisePropertyChanged(() => MasterAccountTemplate);
+                RaisePropertyChanged(() => DefaultAmounts);
             }
         }
 
@@ -75,6 +84,16 @@ namespace Samba.Modules.AccountModule.Dashboard
 
             _transactionTemplates = null;
             RaisePropertyChanged(() => TransactionTemplates);
+        }
+
+        private IEnumerable<string> GetDefaultAmounts()
+        {
+            var result = new List<string> { Resources.Balance };
+            if (MasterAccountTemplate != null)
+            {
+                result.AddRange(MasterAccountTemplate.AccountCustomFields.Select(x => string.Format("[{0}]", x.Name)));
+            }
+            return result;
         }
 
         public override Type GetViewType()

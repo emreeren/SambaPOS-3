@@ -11,5 +11,6 @@ namespace Samba.Services
         int GetAccountCount();
         void CreateNewTransactionDocument(Account account, AccountTransactionDocumentTemplate documentTemplate, string description, decimal amount);
         decimal GetAccountBalance(Account account);
+        string GetCustomData(Account account, string fieldName);
     }
 }

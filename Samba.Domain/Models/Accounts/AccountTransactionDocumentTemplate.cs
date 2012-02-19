@@ -33,6 +33,8 @@ namespace Samba.Domain.Models.Accounts
             get { return _transactionTemplates; }
         }
 
+        public string DefaultAmount { get; set; }
+
         public AccountTransactionDocument CreateDocument(Account account, string description, decimal amount)
         {
             Debug.Assert(account.AccountTemplateId == MasterAccountTemplateId);

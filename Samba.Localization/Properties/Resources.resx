@@ -3046,4 +3046,7 @@ Continue without adding details?</value>
 	<data name="DocumentTemplate">
 		<value xml:space="preserve">Document Template</value>
 	</data>
+	<data name="DefaultAmount">
+		<value xml:space="preserve">Default Amount</value>
+	</data>
 </root>

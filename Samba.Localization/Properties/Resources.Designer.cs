@@ -1815,6 +1815,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Default Amount.
+        /// </summary>
+        public static string DefaultAmount {
+            get {
+                return ResourceManager.GetString("DefaultAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Default Order Tag.
         /// </summary>
         public static string DefaultOrderTag {
