@@ -2202,6 +2202,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Description Template.
+        /// </summary>
+        public static string DescriptionTemplate {
+            get {
+                return ResourceManager.GetString("DescriptionTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Detailed Report.
         /// </summary>
         public static string DetailedReport {

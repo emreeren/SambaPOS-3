@@ -3049,4 +3049,7 @@ Continue without adding details?</value>
 	<data name="DefaultAmount">
 		<value xml:space="preserve">Default Amount</value>
 	</data>
+	<data name="DescriptionTemplate">
+		<value xml:space="preserve">Description Template</value>
+	</data>
 </root>

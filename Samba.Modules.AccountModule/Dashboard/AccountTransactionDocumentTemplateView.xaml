@@ -25,6 +25,12 @@
             <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="170" 
                       ItemsSource="{Binding DefaultAmounts}" Text="{Binding DefaultAmount}" />
 
+            <Label MinWidth="120">
+                <LocText ResourceIdentifierKey="DescriptionTemplate" Suffix=":"/>
+            </Label>
+            <TextBox HorizontalAlignment="Left" MinWidth="170" 
+                     Text="{Binding DescriptionTemplate}" />
+
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                 <DataGrid MinWidth="170" ItemsSource="{Binding TransactionTemplates}" SelectedItem="{Binding SelectedTransactionTemplate, Mode=TwoWay}"
                                      HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"

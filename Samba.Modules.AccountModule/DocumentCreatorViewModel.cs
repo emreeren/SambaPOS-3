@@ -27,22 +27,8 @@ namespace Samba.Modules.AccountModule
         {
             SelectedAccount = obj.Value.Account;
             DocumentTemplate = obj.Value.DocumentTemplate;
-            Description = "";
-            Amount = 0;
-            if (!string.IsNullOrEmpty(obj.Value.DocumentTemplate.DefaultAmount))
-            {
-                var da = obj.Value.DocumentTemplate.DefaultAmount;
-                decimal amount;
-                if (da.StartsWith("["))
-                {
-                    da = _accountService.GetCustomData(obj.Value.Account, da.Trim(new[] { '[', ']' }));
-                    decimal.TryParse(da, out amount);
-                }
-                else if (da == Resources.Balance)
-                    amount = Math.Abs(_accountService.GetAccountBalance(obj.Value.Account));
-                else decimal.TryParse(da, out amount);
-                Amount = amount;
-            }
+            Description = _accountService.GetDescription(obj.Value.DocumentTemplate, obj.Value.Account);
+            Amount = _accountService.GetDefaultAmount(obj.Value.DocumentTemplate, obj.Value.Account);
             RaisePropertyChanged(() => Description);
             RaisePropertyChanged(() => Amount);
             RaisePropertyChanged(() => AccountName);

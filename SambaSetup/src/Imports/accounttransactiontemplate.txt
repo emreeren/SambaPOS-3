@@ -1,4 +1,4 @@
 Wage Commitment;Personnel;Expenses;;Wages
-Wage Liability;Expenses;Payables;General Expenses;Payables
+Wage Liability;Payables;Expenses;Payables;General Expenses
 Wage Payment;Payment Accounts;Personnel;Cash;
-Wage Expense;Payables;Expenses;Payables;Wages
+Wage Expense;Expenses;Payables;Wages;Payables

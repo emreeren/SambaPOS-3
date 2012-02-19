@@ -34,6 +34,7 @@ namespace Samba.Domain.Models.Accounts
         }
 
         public string DefaultAmount { get; set; }
+        public string DescriptionTemplate { get; set; }
 
         public AccountTransactionDocument CreateDocument(Account account, string description, decimal amount)
         {

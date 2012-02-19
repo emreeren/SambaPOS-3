@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
 using Samba.Domain.Models.Accounts;
-using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
@@ -27,6 +25,7 @@ namespace Samba.Modules.AccountModule.Dashboard
         public string ButtonHeader { get { return Model.ButtonHeader; } set { Model.ButtonHeader = value; } }
         public string ButtonColor { get { return Model.ButtonColor; } set { Model.ButtonColor = value; } }
         public string DefaultAmount { get { return Model.DefaultAmount; } set { Model.DefaultAmount = value; RaisePropertyChanged(() => DefaultAmount); } }
+        public string DescriptionTemplate { get { return Model.DescriptionTemplate; } set { Model.DescriptionTemplate = value; } }
 
         private IEnumerable<string> _defaultAmounts;
         public IEnumerable<string> DefaultAmounts
@@ -88,10 +87,10 @@ namespace Samba.Modules.AccountModule.Dashboard
 
         private IEnumerable<string> GetDefaultAmounts()
         {
-            var result = new List<string> { Resources.Balance };
+            var result = new List<string> { string.Format("[{0}]", Resources.Balance) };
             if (MasterAccountTemplate != null)
             {
-                result.AddRange(MasterAccountTemplate.AccountCustomFields.Select(x => string.Format("[{0}]", x.Name)));
+                result.AddRange(MasterAccountTemplate.AccountCustomFields.Select(x => string.Format("[:{0}]", x.Name)));
             }
             return result;
         }

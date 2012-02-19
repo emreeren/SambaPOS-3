@@ -84,6 +84,7 @@
     <Compile Include="Cron\ICronEntry.cs" />
     <Compile Include="Cron\MinutesCronEntry.cs" />
     <Compile Include="Cron\MonthsCronEntry.cs" />
+    <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="IMessageListener.cs" />
     <Compile Include="IStringCompareable.cs" />
     <Compile Include="JsonHelper.cs" />
