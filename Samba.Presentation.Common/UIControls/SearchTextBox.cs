@@ -74,10 +74,9 @@ namespace Samba.Presentation.Common.UIControls {
         private DispatcherTimer searchEventDelayTimer;
 
         public SearchTextBox()
-            : base() {
-            searchEventDelayTimer = new DispatcherTimer();
-            searchEventDelayTimer.Interval = SearchEventTimeDelay.TimeSpan;
-            searchEventDelayTimer.Tick += new EventHandler(OnSeachEventDelayTimerTick);
+        {
+            searchEventDelayTimer = new DispatcherTimer {Interval = SearchEventTimeDelay.TimeSpan};
+            searchEventDelayTimer.Tick += OnSeachEventDelayTimerTick;
         }
 
         void OnSeachEventDelayTimerTick(object o, EventArgs e) {
@@ -87,7 +86,7 @@ namespace Samba.Presentation.Common.UIControls {
 
         static void OnSearchEventTimeDelayChanged(
             DependencyObject o, DependencyPropertyChangedEventArgs e) {
-            SearchTextBox stb = o as SearchTextBox;
+            var stb = o as SearchTextBox;
             if (stb != null) {
                 stb.searchEventDelayTimer.Interval = ((Duration)e.NewValue).TimeSpan;
                 stb.searchEventDelayTimer.Stop();
@@ -108,11 +107,11 @@ namespace Samba.Presentation.Common.UIControls {
         public override void OnApplyTemplate() {
             base.OnApplyTemplate();
 
-            Border iconBorder = GetTemplateChild("PART_SearchIconBorder") as Border;
+            var iconBorder = GetTemplateChild("PART_SearchIconBorder") as Border;
             if (iconBorder != null) {
-                iconBorder.MouseLeftButtonDown += new MouseButtonEventHandler(IconBorder_MouseLeftButtonDown);
-                iconBorder.MouseLeftButtonUp += new MouseButtonEventHandler(IconBorder_MouseLeftButtonUp);
-                iconBorder.MouseLeave += new MouseEventHandler(IconBorder_MouseLeave);
+                iconBorder.MouseLeftButtonDown += IconBorder_MouseLeftButtonDown;
+                iconBorder.MouseLeftButtonUp += IconBorder_MouseLeftButtonUp;
+                iconBorder.MouseLeave += IconBorder_MouseLeave;
             }
         }
 
@@ -124,7 +123,7 @@ namespace Samba.Presentation.Common.UIControls {
             if (!IsMouseLeftButtonDown) return;
 
             if (HasText && SearchMode == SearchMode.Instant) {
-                this.Text = "";
+                Text = "";
             }
 
             if (HasText && SearchMode == SearchMode.Delayed) {
@@ -140,7 +139,7 @@ namespace Samba.Presentation.Common.UIControls {
 
         protected override void OnKeyDown(KeyEventArgs e) {
             if (e.Key == Key.Escape && SearchMode == SearchMode.Instant) {
-                this.Text = "";
+                Text = "";
             }
             else if ((e.Key == Key.Return || e.Key == Key.Enter) && 
                 SearchMode == SearchMode.Delayed) {
@@ -152,8 +151,7 @@ namespace Samba.Presentation.Common.UIControls {
         }
 
         private void RaiseSearchEvent() {
-            RoutedEventArgs args = new RoutedEventArgs(SearchEvent);
-            RaiseEvent(args);
+            RaiseEvent(new RoutedEventArgs(SearchEvent));
         }
 
         public string LabelText {

@@ -16,6 +16,10 @@ namespace Samba.Services.Implementations.AccountModule
         public AccountService()
         {
             ValidatorRegistry.RegisterDeleteValidator(new AccountTemplateDeleteValidator());
+            ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<Account>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.Account)));
+            ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<AccountTemplate>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.AccountTemplate)));
+            ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<AccountTransactionTemplate>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.AccountTransactionTemplate)));
+            ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<AccountTransactionDocumentTemplate>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.DocumentTemplate)));
         }
 
         private int? _accountCount;
@@ -49,7 +53,7 @@ namespace Samba.Services.Implementations.AccountModule
         public string GetDescription(AccountTransactionDocumentTemplate documentTemplate, Account account)
         {
             var result = documentTemplate.DescriptionTemplate;
-            if(string.IsNullOrEmpty(result)) return result;
+            if (string.IsNullOrEmpty(result)) return result;
             while (Regex.IsMatch(result, "\\[:([^\\]]+)\\]"))
             {
                 var match = Regex.Match(result, "\\[:([^\\]]+)\\]");

@@ -68,9 +68,6 @@
     <Compile Include="LocationSelectorViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Images\back1.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Page Include="LocationEditorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -26,7 +26,7 @@ namespace Samba.Services.Implementations.LocationModule
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
 
-            ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<Location>(Resources.SaveErrorDuplicateLocationName));
+            ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<Location>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.Location)));
             ValidatorRegistry.RegisterDeleteValidator(new LocationDeleteValidator());
             ValidatorRegistry.RegisterDeleteValidator(new LocationScreenDeleteValidator());
         }
@@ -117,7 +117,7 @@ namespace Samba.Services.Implementations.LocationModule
 
         }
     }
-    
+
     internal class LocationDeleteValidator : SpecificationValidator<Location>
     {
         public override string GetErrorMessage(Location model)

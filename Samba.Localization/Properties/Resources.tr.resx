@@ -1347,9 +1347,6 @@ Açık adisyon varken gün sonu yapılamaz.</value>
   <data name="Location" xml:space="preserve">
     <value>Yer</value>
   </data>
-  <data name="SaveErrorDuplicateLocationName" xml:space="preserve">
-    <value>Bu isimde bir yer zaten var</value>
-  </data>
   <data name="AddMultipleLocations" xml:space="preserve">
     <value>Toplu Yer Ekle</value>
   </data>
@@ -3011,5 +3008,8 @@ Bilgi eklemeden devam etmek istiyor musunuz?</value>
   </data>
   <data name="CalculationTemplate" xml:space="preserve">
     <value>Hesaplama Şablonu</value>
+  </data>
+	<data name="SaveErrorDuplicateItemName_f" xml:space="preserve">
+    <value>Bu isimde bir {0} zaten var.</value>
   </data>
 </root>

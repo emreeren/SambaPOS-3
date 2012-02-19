@@ -5808,11 +5808,11 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There is already a location with that name..
+        ///   Looks up a localized string similar to There is already a {0} with that name..
         /// </summary>
-        public static string SaveErrorDuplicateLocationName {
+        public static string SaveErrorDuplicateItemName_f {
             get {
-                return ResourceManager.GetString("SaveErrorDuplicateLocationName", resourceCulture);
+                return ResourceManager.GetString("SaveErrorDuplicateItemName_f", resourceCulture);
             }
         }
         

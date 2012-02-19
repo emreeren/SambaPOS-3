@@ -1348,9 +1348,6 @@ Can't end Work Period while tickets open</value>
   <data name="Location" xml:space="preserve">
     <value>Location</value>
   </data>
-  <data name="SaveErrorDuplicateLocationName" xml:space="preserve">
-    <value>There is already a location with that name.</value>
-  </data>
   <data name="AddMultipleLocations" xml:space="preserve">
     <value>Add Multiple Locations</value>
   </data>
@@ -3009,6 +3006,9 @@ Continue without adding details?</value>
   </data>
   <data name="CalculationTemplate" xml:space="preserve">
     <value>Calculation Template</value>
+  </data>
+  <data name="SaveErrorDuplicateItemName_f" xml:space="preserve">
+    <value>There is already a {0} with that name.</value>
   </data>
   <data name="AccountTransactionTemplate" xml:space="preserve">
     <value>Account Transaction Template</value>
