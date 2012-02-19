@@ -3016,4 +3016,19 @@ Continue without adding details?</value>
 	<data name="AccountTransaction">
 		<value xml:space="preserve">Account Transaction</value>
 	</data>
+	<data name="This_f">
+		<value xml:space="preserve">This {0}</value>
+	</data>
+	<data name="Week">
+		<value xml:space="preserve">Week</value>
+	</data>
+	<data name="WorkPeriod">
+		<value xml:space="preserve">Work Period</value>
+	</data>
+	<data name="Default">
+		<value xml:space="preserve">Default</value>
+	</data>
+	<data name="FilterType">
+		<value xml:space="preserve">Filter Type</value>
+	</data>
 </root>

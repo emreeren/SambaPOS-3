@@ -67,6 +67,7 @@
       <DependentUpon>AccountDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AccountDetailsViewModel.cs" />
+    <Compile Include="AccountSummaryViewModel.cs" />
     <Compile Include="Dashboard\AccountCustomFieldViewModel.cs" />
     <Compile Include="AccountModule.cs" />
     <Compile Include="Dashboard\AccountTransactionDocumentTemplateView.xaml.cs">

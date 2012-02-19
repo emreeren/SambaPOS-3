@@ -5,7 +5,7 @@ using System.Windows.Data;
 
 namespace Samba.Presentation.Common.Converters
 {
-    public class VisibilityConverter : IValueConverter
+    public class FontWeightConverter : IValueConverter
     {
         public object Convert(
             object value,
@@ -15,7 +15,7 @@ namespace Samba.Presentation.Common.Converters
         {
             var param = parameter != null ? bool.Parse(parameter as string) : true;
             var val = (bool)value;
-            return val == param ? Visibility.Visible : Visibility.Collapsed;
+            return val == param ? FontWeights.Bold : FontWeights.Normal;
         }
 
         public object ConvertBack(
@@ -24,8 +24,8 @@ namespace Samba.Presentation.Common.Converters
             object parameter,
             CultureInfo culture)
         {
-            var visibility = (Visibility)value;
-            return (visibility == Visibility.Visible);
+            var weight = (FontWeight)value;
+            return (weight == FontWeights.Bold);
         }
     }
 }

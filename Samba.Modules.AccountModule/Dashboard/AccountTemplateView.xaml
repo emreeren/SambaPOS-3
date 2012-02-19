@@ -17,6 +17,10 @@
                 <LocText ResourceIdentifierKey="AccountTemplateName" Suffix=":"/>
             </Label>
             <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
+            <Label>
+                <LocText ResourceIdentifierKey="FilterType" Suffix=":"/>
+            </Label>
+            <ComboBox ItemsSource="{Binding FilterTypes}" SelectedItem="{Binding FilterType}" HorizontalAlignment="Left" MinWidth="200"/>
             <Label Margin="0,5,0,0">
                 <LocText ResourceIdentifierKey="CustomFields" Suffix=":"/>
             </Label>

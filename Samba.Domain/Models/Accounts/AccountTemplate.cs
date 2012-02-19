@@ -17,6 +17,8 @@ namespace Samba.Domain.Models.Accounts
             get { return _accountCustomFields; }
         }
 
+        public int DefaultFilterType { get; set; }
+
         public AccountTemplate()
         {
             _accountCustomFields = new List<AccountCustomField>();

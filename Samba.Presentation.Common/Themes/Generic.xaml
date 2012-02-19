@@ -5,6 +5,7 @@
   xmlns:Converters="clr-namespace:Samba.Presentation.Common.Converters">
 
     <Converters:VisibilityConverter x:Key="VisibilityConverter" />
+    <Converters:FontWeightConverter x:Key="FontWeightConverter" />
     <Converters:NullImageConverter x:Key="NullImageConverter"/>
 
     <ListViewEx:BackgroundConvertor x:Key="backgroundConverter"/>
@@ -87,7 +88,7 @@
         <DockPanel Height ="25">
             <TextBlock HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis"
 							    VerticalAlignment ="Center" FontSize="16" FontWeight="Bold"
-                                TextAlignment="Right" TextWrapping ="Wrap" Text="{Binding }" ToolTipService.ToolTip ="{Binding}" />
+                                TextWrapping ="Wrap" Text="{Binding }" ToolTipService.ToolTip ="{Binding}" />
         </DockPanel>
     </DataTemplate>
 
@@ -122,7 +123,7 @@
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property ="Height" Value ="Auto" />
     </Style>
-    
+
     <SolidColorBrush x:Key="TabControlNormalBorderBrush" Color="#8C8E94"/>
-    
+
 </ResourceDictionary>

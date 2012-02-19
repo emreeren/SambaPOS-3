@@ -20,6 +20,11 @@ namespace Samba.Infrastructure
             return new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1).AddMonths(1).ToMonthName();
         }
 
+        public static DateTime MonthStart(this DateTime dateTime)
+        {
+            return new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+        }
+
         public static int WeekOfYear(this DateTime dateTime)
         {
             return CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(dateTime,

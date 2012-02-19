@@ -1,10 +1,15 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Linq.Expressions;
 using Samba.Domain.Models.Accounts;
+using Samba.Infrastructure;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
+using Samba.Persistance.Data.Specification;
 using Samba.Presentation.Common;
 using Samba.Presentation.ViewModels;
 using Samba.Services;
@@ -32,6 +37,7 @@ namespace Samba.Modules.AccountModule
             CloseAccountScreenCommand = new CaptionCommand<string>(Resources.Close, OnCloseAccountScreen);
             AccountDetails = new ObservableCollection<AccountDetailViewModel>();
             DocumentTemplates = new ObservableCollection<DocumentTemplateButtonViewModel>();
+            AccountSummaries = new ObservableCollection<AccountSummaryViewModel>();
             EventServiceFactory.EventService.GetEvent<GenericEvent<Account>>().Subscribe(OnDisplayAccountTransactions);
         }
 
@@ -43,16 +49,28 @@ namespace Samba.Modules.AccountModule
             {
                 _selectedAccount = value;
                 RaisePropertyChanged(() => SelectedAccount);
-                DisplayTransactions();
+                FilterType = FilterTypes[SelectedAccount.AccountTemplate.DefaultFilterType];
                 UpdateTemplates();
             }
         }
 
         public ObservableCollection<DocumentTemplateButtonViewModel> DocumentTemplates { get; set; }
         public ObservableCollection<AccountDetailViewModel> AccountDetails { get; set; }
+        public ObservableCollection<AccountSummaryViewModel> AccountSummaries { get; set; }
 
-        public string TotalDebit { get { return AccountDetails.Sum(x => x.Debit).ToString(LocalSettings.DefaultCurrencyFormat); } }
-        public string TotalCredit { get { return AccountDetails.Sum(x => x.Credit).ToString(LocalSettings.DefaultCurrencyFormat); } }
+        public string[] FilterTypes { get { return new[] { Resources.All, Resources.Month, Resources.Week, Resources.WorkPeriod }; } }
+
+        private string _filterType;
+        public string FilterType
+        {
+            get { return _filterType; }
+            set
+            {
+                _filterType = value;
+                DisplayTransactions();
+            }
+        }
+
         public string TotalBalance { get { return AccountDetails.Sum(x => x.Debit - x.Credit).ToString(LocalSettings.DefaultCurrencyFormat); } }
 
         public ICaptionCommand GetPaymentFromAccountCommand { get; set; }
@@ -71,12 +89,48 @@ namespace Samba.Modules.AccountModule
             }
         }
 
+        private Expression<Func<AccountTransactionValue, bool>> GetCurrentRange(Expression<Func<AccountTransactionValue, bool>> activeSpecification)
+        {
+            if (FilterType == Resources.Month) return activeSpecification.And(x => x.Date >= DateTime.Now.MonthStart());
+            if (FilterType == Resources.WorkPeriod) return activeSpecification.And(x => x.Date >= _applicationState.CurrentWorkPeriod.StartDate);
+            return activeSpecification;
+        }
+
+        private Expression<Func<AccountTransactionValue, bool>> GetPastRange(Expression<Func<AccountTransactionValue, bool>> activeSpecification)
+        {
+            if (FilterType == Resources.Month) return activeSpecification.And(x => x.Date < DateTime.Now.MonthStart());
+            if (FilterType == Resources.WorkPeriod) return activeSpecification.And(x => x.Date < _applicationState.CurrentWorkPeriod.StartDate);
+            return activeSpecification;
+        }
+
         private void DisplayTransactions()
         {
             AccountDetails.Clear();
-            var transactions = Dao.Query<AccountTransactionValue>(x => x.AccountId == SelectedAccount.Id);
+            AccountSummaries.Clear();
 
+            var transactions = Dao.Query(GetCurrentRange(x => x.AccountId == SelectedAccount.Id));
             AccountDetails.AddRange(transactions.Select(x => new AccountDetailViewModel(x)));
+
+            if (FilterType != Resources.All)
+            {
+                var pastDebit = Dao.Sum(x => x.Debit, GetPastRange(x => x.AccountId == SelectedAccount.Id));
+                var pastCredit = Dao.Sum(x => x.Credit, GetPastRange(x => x.AccountId == SelectedAccount.Id));
+                if (pastCredit > 0 || pastDebit > 0)
+                {
+                    AccountSummaries.Add(new AccountSummaryViewModel(Resources.Total, AccountDetails.Sum(x => x.Debit), AccountDetails.Sum(x => x.Credit)));
+                    var detailValue =
+                        new AccountDetailViewModel(new AccountTransactionValue
+                                                       {
+                                                           Name = "PastTransactions",
+                                                           Credit = pastCredit,
+                                                           Debit = pastDebit
+                                                       });
+                    AccountDetails.Insert(0, detailValue);
+                    detailValue.IsBold = true;
+                }
+            }
+
+            AccountSummaries.Add(new AccountSummaryViewModel(Resources.GrandTotal, AccountDetails.Sum(x => x.Debit), AccountDetails.Sum(x => x.Credit)));
 
             for (var i = 0; i < AccountDetails.Count; i++)
             {
@@ -84,9 +138,6 @@ namespace Samba.Modules.AccountModule
                 if (i > 0) (AccountDetails[i].Balance) += (AccountDetails[i - 1].Balance);
             }
 
-            RaisePropertyChanged(() => AccountDetails);
-            RaisePropertyChanged(() => TotalCredit);
-            RaisePropertyChanged(() => TotalDebit);
             RaisePropertyChanged(() => TotalBalance);
         }
 
@@ -94,7 +145,7 @@ namespace Samba.Modules.AccountModule
         {
             if (obj.Topic == EventTopicNames.DisplayAccountTransactions)
             {
-                SelectedAccount = new AccountSearchViewModel(obj.Value, null);
+                SelectedAccount = new AccountSearchViewModel(obj.Value, _cacheService.GetAccountTemplateById(obj.Value.AccountTemplateId));
             }
         }
 

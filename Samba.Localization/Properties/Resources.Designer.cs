@@ -1824,6 +1824,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Default.
+        /// </summary>
+        public static string Default {
+            get {
+                return ResourceManager.GetString("Default", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Default Amount.
         /// </summary>
         public static string DefaultAmount {
@@ -2806,6 +2815,15 @@ namespace Samba.Localization.Properties {
         public static string FileName {
             get {
                 return ResourceManager.GetString("FileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filter Type.
+        /// </summary>
+        public static string FilterType {
+            get {
+                return ResourceManager.GetString("FilterType", resourceCulture);
             }
         }
         
@@ -6512,6 +6530,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This {0}.
+        /// </summary>
+        public static string This_f {
+            get {
+                return ResourceManager.GetString("This_f", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This Month.
         /// </summary>
         public static string ThisMonth {
@@ -7708,6 +7735,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Week.
+        /// </summary>
+        public static string Week {
+            get {
+                return ResourceManager.GetString("Week", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Weekday.
         /// </summary>
         public static string Weekday {
@@ -7803,6 +7839,15 @@ namespace Samba.Localization.Properties {
         public static string Width {
             get {
                 return ResourceManager.GetString("Width", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Work Period.
+        /// </summary>
+        public static string WorkPeriod {
+            get {
+                return ResourceManager.GetString("WorkPeriod", resourceCulture);
             }
         }
         
