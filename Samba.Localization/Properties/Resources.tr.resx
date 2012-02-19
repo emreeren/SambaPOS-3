@@ -491,9 +491,6 @@ Yap</value>
   <data name="InventoryItem" xml:space="preserve">
     <value>Stok</value>
   </data>
-  <data name="DeleteErrorDepartmentUsedInRole" xml:space="preserve">
-    <value>Bu departman bir kullanıcı rolünde kullanıldığı için silinemez.</value>
-  </data>
   <data name="DepartmentName" xml:space="preserve">
     <value>Departman Adı</value>
     <comment>Label content</comment>
@@ -576,12 +573,6 @@ Yap</value>
   </data>
   <data name="BatchCreateProductsDialogHint" xml:space="preserve">
     <value>Eklemek istediğiniz ürünleri [Ürün adı] [Fiyat] formatında ekleyiniz. Kategorileri # karakteri ile başlatınız.</value>
-  </data>
-  <data name="DeleteErrorProductUsedInMenu" xml:space="preserve">
-    <value>Bu ürün bir menüde kullanılmakta olduğu için silinemez.</value>
-  </data>
-  <data name="DeleteErrorProductUsedInReceipt" xml:space="preserve">
-    <value>Bu ürün bir reçetede kullanılmakta olduğu için silinemez.</value>
   </data>
   <data name="PropertyGroupName" xml:space="preserve">
     <value>Özellik Grubu Adı</value>
@@ -777,9 +768,6 @@ Yap</value>
   <data name="SortCategoriesDialogHint_f" xml:space="preserve">
     <value>{0} menüsünde bulunan kategorileri sıralamak için mouse ile kategorileri sürükleyip bırakınız.</value>
   </data>
-  <data name="DeleteErrorTagUsedInDepartment" xml:space="preserve">
-    <value>Bu etiket bir departmanda kullanılmakta olduğu için silinemez.</value>
-  </data>
   <data name="TicketTagName" xml:space="preserve">
     <value>Adisyon Etiketi Adı</value>
     <comment>Label content</comment>
@@ -882,15 +870,6 @@ Yap</value>
   <data name="GiftReason" xml:space="preserve">
     <value>İkram Nedeni</value>
   </data>
-  <data name="DeleteErrorNumeratorIsOrderNumerator" xml:space="preserve">
-    <value>Bu numaratör bir departmanda sipariş numaratörü olarak kullanıldığı için silinemez.</value>
-  </data>
-  <data name="DeleteErrorNumeratorIsTicketNumerator" xml:space="preserve">
-    <value>Bu numaratör bir departmanda adisyon numaratörü olarak kullanıldığı için silinemez.</value>
-  </data>
-  <data name="DeleteErrorNumeratorUsedInTicket" xml:space="preserve">
-    <value>Bu numaratör bir adisyon etiketinde kullanıldığı için silinemez.</value>
-  </data>
   <data name="NumeratorName" xml:space="preserve">
     <value>Numeratör Adı</value>
     <comment>Label content</comment>
@@ -898,9 +877,6 @@ Yap</value>
   <data name="NumeratorFormat" xml:space="preserve">
     <value>Numara Formatı</value>
     <comment>Label content</comment>
-  </data>
-  <data name="DeleteErrorTemplateUsedInPrintJob" xml:space="preserve">
-    <value>Bu yazıcı şablonu bir yazdırma görevinde kullanıldığından silinemez.</value>
   </data>
   <data name="TemplateName" xml:space="preserve">
     <value>Şablon Adı</value>
@@ -1356,9 +1332,6 @@ Açık adisyon varken gün sonu yapılamaz.</value>
   <data name="DeleteErrorTicketAssignedToLocation" xml:space="preserve">
     <value>Bu yere bağlı bir adisyon varken yer silinemez.</value>
   </data>
-  <data name="DeleteErrorLocationUsedInLocationView" xml:space="preserve">
-    <value>Bu yer bir yer görünümünde kullanıldığı için silinemez</value>
-  </data>
   <data name="LocationViews" xml:space="preserve">
     <value>Yer Görünümleri</value>
   </data>
@@ -1370,9 +1343,6 @@ Açık adisyon varken gün sonu yapılamaz.</value>
   </data>
   <data name="CanChangeLocation" xml:space="preserve">
     <value>Yer değiştirebilir</value>
-  </data>
-  <data name="DeleteErrorLocationViewUsedInDepartment" xml:space="preserve">
-    <value>Bu yer görünümü bir departmanda kullanıldığından silinemez.</value>
   </data>
   <data name="LocationViewName" xml:space="preserve">
     <value>Görünüm Adı</value>
@@ -1654,9 +1624,6 @@ Hesap</value>
   <data name="DeleteErrorLastUser" xml:space="preserve">
     <value>Son kullanıcı hesabı silinemez.</value>
   </data>
-  <data name="DeleteErrorUserDidTicketOperation" xml:space="preserve">
-    <value>Adisyon işlemi yapmış kullanıcı silinemez.</value>
-  </data>
   <data name="UserRoleList" xml:space="preserve">
     <value>Rol Listesi</value>
   </data>
@@ -1665,9 +1632,6 @@ Hesap</value>
   </data>
   <data name="UserList" xml:space="preserve">
     <value>Kullanıcı Listesi</value>
-  </data>
-  <data name="DeleteErrorThisRoleUsedInAUserAccount" xml:space="preserve">
-    <value>Bu rol bir kullanıcı hesabında kullanılmakta olduğu için silinemez.</value>
   </data>
   <data name="UserRoleName" xml:space="preserve">
     <value>Rol Adı</value>
@@ -2602,9 +2566,6 @@ Borçlandır</value>
   <data name="SortType" xml:space="preserve">
     <value>Sıralama Tipi</value>
   </data>
-  <data name="DeleteErrorProductUsedInMenuItemProperty" xml:space="preserve">
-    <value>Bu ürün bir ürün özelliğinde kullanıldığı için silinemez.</value>
-  </data>
   <data name="TaxTemplates" xml:space="preserve">
     <value>KDV Şablonları</value>
   </data>
@@ -2882,12 +2843,6 @@ Bilgi eklemeden devam etmek istiyor musunuz?</value>
   <data name="ThereIsAnotherRecipeFor_f" xml:space="preserve">
     <value>{0} için başka bir reçete var</value>
   </data>
-  <data name="DeleteErrorPrinterAssignedToTerminal" xml:space="preserve">
-    <value>Bu yazıcı bir terminalde kullanıldığı için silinemez.</value>
-  </data>
-  <data name="DeleteErrorPrinterAssignedToPrinterMap" xml:space="preserve">
-    <value>Bu yazıcı bir yazdırma görevinde kullanıldığı için silinemez.</value>
-  </data>
   <data name="Alphanumeric" xml:space="preserve">
     <value>Alfasayısal</value>
   </data>
@@ -3009,7 +2964,13 @@ Bilgi eklemeden devam etmek istiyor musunuz?</value>
   <data name="CalculationTemplate" xml:space="preserve">
     <value>Hesaplama Şablonu</value>
   </data>
-	<data name="SaveErrorDuplicateItemName_f" xml:space="preserve">
+  <data name="SaveErrorDuplicateItemName_f" xml:space="preserve">
     <value>Bu isimde bir {0} zaten var.</value>
   </data>
+	<data name="DeleteErrorUsedBy_f" xml:space="preserve">
+    <value>Bu {0} bir {1} kaydında kullanıldığı için silinemez.</value>
+  </data>
+	<data name="Order">
+		<value xml:space="preserve">Sipariş</value>
+	</data>
 </root>

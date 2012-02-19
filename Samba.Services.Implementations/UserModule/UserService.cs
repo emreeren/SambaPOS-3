@@ -142,7 +142,7 @@ namespace Samba.Services.Implementations.UserModule
         public override string GetErrorMessage(UserRole model)
         {
             if (Dao.Exists<User>(x => x.UserRole.Id == model.Id))
-                return Resources.DeleteErrorThisRoleUsedInAUserAccount;
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.UserRole, Resources.User);
             return "";
         }
     }
@@ -154,7 +154,7 @@ namespace Samba.Services.Implementations.UserModule
             if (model.UserRole.IsAdmin) return Resources.DeleteErrorAdminUser;
             if (Dao.Count<User>() == 1) return Resources.DeleteErrorLastUser;
             if (Dao.Exists<Order>(x => x.CreatingUserName == model.Name))
-                return Resources.DeleteErrorUserDidTicketOperation;
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.User, Resources.Order);
             return "";
         }
     }

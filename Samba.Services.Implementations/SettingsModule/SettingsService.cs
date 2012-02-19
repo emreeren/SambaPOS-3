@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
@@ -86,7 +84,7 @@ namespace Samba.Services.Implementations.SettingsModule
         {
             get { return _globalSettings; }
         }
-        
+
         public IProgramSetting GetProgramSetting(string settingName)
         {
             return _globalSettings.GetSetting(settingName);
@@ -168,11 +166,11 @@ namespace Samba.Services.Implementations.SettingsModule
         public override string GetErrorMessage(Numerator model)
         {
             if (Dao.Exists<TicketTemplate>(x => x.OrderNumerator.Id == model.Id))
-                return Resources.DeleteErrorNumeratorIsOrderNumerator;
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Numerator, Resources.TicketTemplate);
             if (Dao.Exists<TicketTemplate>(x => x.TicketNumerator.Id == model.Id))
-                return Resources.DeleteErrorNumeratorIsTicketNumerator;
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Numerator, Resources.TicketTemplate);
             if (Dao.Exists<TicketTagGroup>(x => x.Numerator.Id == model.Id))
-                return Resources.DeleteErrorNumeratorUsedInTicket;
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Numerator, Resources.TicketTagGroup);
             return "";
         }
     }

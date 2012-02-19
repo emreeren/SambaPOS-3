@@ -123,11 +123,11 @@ namespace Samba.Services.Implementations.MenuModule
         public override string GetErrorMessage(MenuItem model)
         {
             if (Dao.Exists<ScreenMenuItem>(x => x.MenuItemId == model.Id))
-                return Resources.DeleteErrorProductUsedInMenu;
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.MenuItem, Resources.Menu);
             if (Dao.Exists<Recipe>(x => x.Portion.MenuItemId == model.Id))
-                return Resources.DeleteErrorProductUsedInReceipt;
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.MenuItem, Resources.Recipe);
             if (Dao.Exists<OrderTag>(x => x.MenuItemId == model.Id))
-                return Resources.DeleteErrorProductUsedInMenuItemProperty;
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.MenuItem, Resources.OrderTag);
             return "";
         }
     }

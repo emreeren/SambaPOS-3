@@ -492,9 +492,6 @@ Payment</value>
   <data name="InventoryItem" xml:space="preserve">
     <value>Inventory Item</value>
   </data>
-  <data name="DeleteErrorDepartmentUsedInRole" xml:space="preserve">
-    <value>Can't delete because this department assigned to a User Role.</value>
-  </data>
   <data name="DepartmentName" xml:space="preserve">
     <value>Department Name</value>
     <comment>Label content</comment>
@@ -577,12 +574,6 @@ Payment</value>
   </data>
   <data name="BatchCreateProductsDialogHint" xml:space="preserve">
     <value>Create a line for each product with [Product Name] [Price] format. Start Category Names with # char.</value>
-  </data>
-  <data name="DeleteErrorProductUsedInMenu" xml:space="preserve">
-    <value>Can't delete because this Product assigned to a Menu</value>
-  </data>
-  <data name="DeleteErrorProductUsedInReceipt" xml:space="preserve">
-    <value>Can't delete because this Product assigned to a Receipt.</value>
   </data>
   <data name="PropertyGroupName" xml:space="preserve">
     <value>Property Group Name</value>
@@ -778,9 +769,6 @@ Payment</value>
   <data name="SortCategoriesDialogHint_f" xml:space="preserve">
     <value>Drag {0} menu categories to change order.</value>
   </data>
-  <data name="DeleteErrorTagUsedInDepartment" xml:space="preserve">
-    <value>Can't delete because this Tag assigned to a Department</value>
-  </data>
   <data name="TicketTagName" xml:space="preserve">
     <value>Ticket Tag Name</value>
     <comment>Label content</comment>
@@ -883,15 +871,6 @@ Payment</value>
   <data name="GiftReason" xml:space="preserve">
     <value>Gift Reason</value>
   </data>
-  <data name="DeleteErrorNumeratorIsOrderNumerator" xml:space="preserve">
-    <value>Can't delete because this Numerator used as Order Numerator</value>
-  </data>
-  <data name="DeleteErrorNumeratorIsTicketNumerator" xml:space="preserve">
-    <value>Can't delete because this Numerator used as Ticket Numerator</value>
-  </data>
-  <data name="DeleteErrorNumeratorUsedInTicket" xml:space="preserve">
-    <value>Can't delete beacuse this Numerator assigned to a Ticket Tag</value>
-  </data>
   <data name="NumeratorName" xml:space="preserve">
     <value>Numerator Name</value>
     <comment>Label content</comment>
@@ -899,9 +878,6 @@ Payment</value>
   <data name="NumeratorFormat" xml:space="preserve">
     <value>Number Format</value>
     <comment>Label content</comment>
-  </data>
-  <data name="DeleteErrorTemplateUsedInPrintJob" xml:space="preserve">
-    <value>Can't delete because this Print Template assigned to a Print Job</value>
   </data>
   <data name="TemplateName" xml:space="preserve">
     <value>Template Name</value>
@@ -1357,9 +1333,6 @@ Can't end Work Period while tickets open</value>
   <data name="DeleteErrorTicketAssignedToLocation" xml:space="preserve">
     <value>Can't delete because there is a ticket assigned to that location</value>
   </data>
-  <data name="DeleteErrorLocationUsedInLocationView" xml:space="preserve">
-    <value>Can't delete becasuse this Location assigned to a Location View</value>
-  </data>
   <data name="LocationViews" xml:space="preserve">
     <value>Location Views</value>
   </data>
@@ -1371,9 +1344,6 @@ Can't end Work Period while tickets open</value>
   </data>
   <data name="CanChangeLocation" xml:space="preserve">
     <value>Can change Location of a Ticket</value>
-  </data>
-  <data name="DeleteErrorLocationViewUsedInDepartment" xml:space="preserve">
-    <value>Can't delete because this Location View assigned to a Department</value>
   </data>
   <data name="LocationViewName" xml:space="preserve">
     <value>View Name</value>
@@ -1659,9 +1629,6 @@ Balance</value>
   <data name="DeleteErrorLastUser" xml:space="preserve">
     <value>Can't delete last User Account</value>
   </data>
-  <data name="DeleteErrorUserDidTicketOperation" xml:space="preserve">
-    <value>Can't delete because this User created Tickets.</value>
-  </data>
   <data name="UserRoleList" xml:space="preserve">
     <value>Role List</value>
   </data>
@@ -1670,9 +1637,6 @@ Balance</value>
   </data>
   <data name="UserList" xml:space="preserve">
     <value>User List</value>
-  </data>
-  <data name="DeleteErrorThisRoleUsedInAUserAccount" xml:space="preserve">
-    <value>Can't delete because this Role assigned to a User Account</value>
   </data>
   <data name="UserRoleName" xml:space="preserve">
     <value>Role Name</value>
@@ -2600,9 +2564,6 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="SortType" xml:space="preserve">
     <value>Sort Type</value>
   </data>
-  <data name="DeleteErrorProductUsedInMenuItemProperty" xml:space="preserve">
-    <value>Can't delete because this product assigned to a menu item property</value>
-  </data>
   <data name="TaxTemplates" xml:space="preserve">
     <value>Tax Templates</value>
   </data>
@@ -2880,12 +2841,6 @@ Continue without adding details?</value>
   <data name="ThereIsAnotherRecipeFor_f" xml:space="preserve">
     <value>There is another recipe for {0}</value>
   </data>
-  <data name="DeleteErrorPrinterAssignedToTerminal" xml:space="preserve">
-    <value>Can't delete because this Printer assigned to a Terminal</value>
-  </data>
-  <data name="DeleteErrorPrinterAssignedToPrinterMap" xml:space="preserve">
-    <value>Can't delete because this Printer assigned to a Print Job</value>
-  </data>
   <data name="Alphanumeric" xml:space="preserve">
     <value>Alphanumeric</value>
   </data>
@@ -3010,6 +2965,12 @@ Continue without adding details?</value>
   <data name="SaveErrorDuplicateItemName_f" xml:space="preserve">
     <value>There is already a {0} with that name.</value>
   </data>
+  <data name="DeleteErrorUsedBy_f" xml:space="preserve">
+    <value>Can't delete because this {0} used by a {1}</value>
+  </data>
+  <data name="Order">
+    <value xml:space="preserve">Order</value>
+  </data>
   <data name="AccountTransactionTemplate" xml:space="preserve">
     <value>Account Transaction Template</value>
     <comment>Label content</comment>
@@ -3051,5 +3012,8 @@ Continue without adding details?</value>
 	</data>
 	<data name="DescriptionTemplate">
 		<value xml:space="preserve">Description Template</value>
+	</data>
+	<data name="AccountTransaction">
+		<value xml:space="preserve">Account Transaction</value>
 	</data>
 </root>

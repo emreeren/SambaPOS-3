@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Samba.Domain.Models.Accounts;
 using Samba.Infrastructure;
@@ -16,6 +17,7 @@ namespace Samba.Services.Implementations.AccountModule
         public AccountService()
         {
             ValidatorRegistry.RegisterDeleteValidator(new AccountTemplateDeleteValidator());
+            ValidatorRegistry.RegisterDeleteValidator(new AccountDeleteValidator());
             ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<Account>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.Account)));
             ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<AccountTemplate>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.AccountTemplate)));
             ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<AccountTransactionTemplate>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.AccountTransactionTemplate)));
@@ -98,7 +100,29 @@ namespace Samba.Services.Implementations.AccountModule
         public override string GetErrorMessage(AccountTemplate model)
         {
             if (Dao.Exists<Account>(x => x.AccountTemplateId == model.Id))
-                return Resources.DeleteErrorAccountTemplateAssignedtoAccounts;
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.AccountTemplate, Resources.Account);
+            if (Dao.Exists<AccountTransactionDocumentTemplate>(x => x.MasterAccountTemplateId == model.Id))
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.AccountTemplate, Resources.DocumentTemplate);
+            return "";
+        }
+    }
+
+    public class AccountTransactionTemplateDeleteValidator : SpecificationValidator<AccountTransactionTemplate>
+    {
+        public override string GetErrorMessage(AccountTransactionTemplate model)
+        {
+            if (Dao.Exists<AccountTransactionDocumentTemplate>(x => x.TransactionTemplates.Any(y => y.Id == model.Id)))
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.AccountTransactionTemplate, Resources.DocumentTemplate);
+            return "";
+        }
+    }
+
+    public class AccountDeleteValidator : SpecificationValidator<Account>
+    {
+        public override string GetErrorMessage(Account model)
+        {
+            if (Dao.Exists<AccountTransactionValue>(x => x.AccountId == model.Id))
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Account, Resources.AccountTransaction);
             return "";
         }
     }

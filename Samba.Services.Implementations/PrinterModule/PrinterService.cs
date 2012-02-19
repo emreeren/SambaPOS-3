@@ -351,7 +351,7 @@ namespace Samba.Services.Implementations.PrinterModule
         public override string GetErrorMessage(PrinterTemplate model)
         {
             if (Dao.Exists<PrinterMap>(x => x.PrinterTemplateId == model.Id))
-                return Resources.DeleteErrorTemplateUsedInPrintJob;
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.PrinterTemplate, Resources.PrintJob);
             return "";
         }
     }
@@ -361,9 +361,9 @@ namespace Samba.Services.Implementations.PrinterModule
         public override string GetErrorMessage(Printer model)
         {
             if (Dao.Exists<Terminal>(x => x.ReportPrinter.Id == model.Id || x.SlipReportPrinter.Id == model.Id))
-                return Resources.DeleteErrorPrinterAssignedToTerminal;
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Printer, Resources.Terminal);
             if (Dao.Exists<PrinterMap>(x => x.PrinterId == model.Id))
-                return Resources.DeleteErrorPrinterAssignedToPrinterMap;
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Printer, Resources.PrintJob);
             return "";
         }
     }

@@ -225,6 +225,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account Transaction.
+        /// </summary>
+        public static string AccountTransaction {
+            get {
+                return ResourceManager.GetString("AccountTransaction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account Transaction Template.
         /// </summary>
         public static string AccountTransactionTemplate {
@@ -1905,15 +1914,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can&apos;t delete because this department assigned to a User Role..
-        /// </summary>
-        public static string DeleteErrorDepartmentUsedInRole {
-            get {
-                return ResourceManager.GetString("DeleteErrorDepartmentUsedInRole", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Can&apos;t delete because this Gift Reason used in a Ticket.
         /// </summary>
         public static string DeleteErrorGiftReasonInUse {
@@ -1941,101 +1941,11 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can&apos;t delete becasuse this Location assigned to a Location View.
-        /// </summary>
-        public static string DeleteErrorLocationUsedInLocationView {
-            get {
-                return ResourceManager.GetString("DeleteErrorLocationUsedInLocationView", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Can&apos;t delete because this Location View assigned to a Department.
-        /// </summary>
-        public static string DeleteErrorLocationViewUsedInDepartment {
-            get {
-                return ResourceManager.GetString("DeleteErrorLocationViewUsedInDepartment", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Can&apos;t delete because this Menu assigned to a Department.
         /// </summary>
         public static string DeleteErrorMenuViewUsedInDepartment {
             get {
                 return ResourceManager.GetString("DeleteErrorMenuViewUsedInDepartment", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Can&apos;t delete because this Numerator used as Order Numerator.
-        /// </summary>
-        public static string DeleteErrorNumeratorIsOrderNumerator {
-            get {
-                return ResourceManager.GetString("DeleteErrorNumeratorIsOrderNumerator", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Can&apos;t delete because this Numerator used as Ticket Numerator.
-        /// </summary>
-        public static string DeleteErrorNumeratorIsTicketNumerator {
-            get {
-                return ResourceManager.GetString("DeleteErrorNumeratorIsTicketNumerator", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Can&apos;t delete beacuse this Numerator assigned to a Ticket Tag.
-        /// </summary>
-        public static string DeleteErrorNumeratorUsedInTicket {
-            get {
-                return ResourceManager.GetString("DeleteErrorNumeratorUsedInTicket", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Can&apos;t delete because this Printer assigned to a Print Job.
-        /// </summary>
-        public static string DeleteErrorPrinterAssignedToPrinterMap {
-            get {
-                return ResourceManager.GetString("DeleteErrorPrinterAssignedToPrinterMap", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Can&apos;t delete because this Printer assigned to a Terminal.
-        /// </summary>
-        public static string DeleteErrorPrinterAssignedToTerminal {
-            get {
-                return ResourceManager.GetString("DeleteErrorPrinterAssignedToTerminal", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Can&apos;t delete because this Product assigned to a Menu.
-        /// </summary>
-        public static string DeleteErrorProductUsedInMenu {
-            get {
-                return ResourceManager.GetString("DeleteErrorProductUsedInMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Can&apos;t delete because this product assigned to a menu item property.
-        /// </summary>
-        public static string DeleteErrorProductUsedInMenuItemProperty {
-            get {
-                return ResourceManager.GetString("DeleteErrorProductUsedInMenuItemProperty", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Can&apos;t delete because this Product assigned to a Receipt..
-        /// </summary>
-        public static string DeleteErrorProductUsedInReceipt {
-            get {
-                return ResourceManager.GetString("DeleteErrorProductUsedInReceipt", resourceCulture);
             }
         }
         
@@ -2049,33 +1959,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can&apos;t delete because this Tag assigned to a Department.
-        /// </summary>
-        public static string DeleteErrorTagUsedInDepartment {
-            get {
-                return ResourceManager.GetString("DeleteErrorTagUsedInDepartment", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Can&apos;t delete because this Print Template assigned to a Print Job.
-        /// </summary>
-        public static string DeleteErrorTemplateUsedInPrintJob {
-            get {
-                return ResourceManager.GetString("DeleteErrorTemplateUsedInPrintJob", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Can&apos;t delete because this Role assigned to a User Account.
-        /// </summary>
-        public static string DeleteErrorThisRoleUsedInAUserAccount {
-            get {
-                return ResourceManager.GetString("DeleteErrorThisRoleUsedInAUserAccount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Can&apos;t delete because there is a ticket assigned to that location.
         /// </summary>
         public static string DeleteErrorTicketAssignedToLocation {
@@ -2085,11 +1968,11 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can&apos;t delete because this User created Tickets..
+        ///   Looks up a localized string similar to Can&apos;t delete because this {0} used by a {1}.
         /// </summary>
-        public static string DeleteErrorUserDidTicketOperation {
+        public static string DeleteErrorUsedBy_f {
             get {
-                return ResourceManager.GetString("DeleteErrorUserDidTicketOperation", resourceCulture);
+                return ResourceManager.GetString("DeleteErrorUsedBy_f", resourceCulture);
             }
         }
         
@@ -4723,6 +4606,15 @@ namespace Samba.Localization.Properties {
         public static string OptionalTicketTag {
             get {
                 return ResourceManager.GetString("OptionalTicketTag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order.
+        /// </summary>
+        public static string Order {
+            get {
+                return ResourceManager.GetString("Order", resourceCulture);
             }
         }
         

@@ -510,7 +510,7 @@ namespace Samba.Services.Implementations.TicketModule
         public override string GetErrorMessage(TicketTagGroup model)
         {
             if (Dao.Exists<TicketTemplate>(x => x.TicketTagGroups.Any(y => y.Id == model.Id)))
-                return Resources.DeleteErrorTagUsedInDepartment;
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.TicketTagGroup, Resources.TicketTemplate);
             return "";
         }
     }

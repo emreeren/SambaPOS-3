@@ -60,7 +60,7 @@ namespace Samba.Services.Implementations.DepartmentModule
         public override string GetErrorMessage(Department model)
         {
             if (Dao.Exists<UserRole>(x => x.DepartmentId == model.Id))
-                return Resources.DeleteErrorDepartmentUsedInRole;
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Department, Resources.UserRole);
             return "";
         }
     }

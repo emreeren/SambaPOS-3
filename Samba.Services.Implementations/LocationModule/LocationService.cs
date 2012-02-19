@@ -124,7 +124,7 @@ namespace Samba.Services.Implementations.LocationModule
         {
             if (model.TicketId > 0) return Resources.DeleteErrorTicketAssignedToLocation;
             if (Dao.Exists<LocationScreen>(x => x.Locations.Any(y => y.Id == model.Id)))
-                return Resources.DeleteErrorLocationUsedInLocationView;
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Location, Resources.LocationScreen);
             return "";
         }
     }
@@ -134,7 +134,7 @@ namespace Samba.Services.Implementations.LocationModule
         public override string GetErrorMessage(LocationScreen model)
         {
             if (Dao.Exists<Department>(x => x.LocationScreens.Any(y => y.Id == model.Id)))
-                return Resources.DeleteErrorLocationViewUsedInDepartment;
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.LocationScreen, Resources.Department);
             return "";
         }
     }
