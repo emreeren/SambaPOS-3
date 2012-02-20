@@ -39,9 +39,7 @@ namespace Samba.Modules.PosModule
         public CaptionCommand<string> CloseTicketCommand { get; set; }
         public CaptionCommand<string> MakePaymentCommand { get; set; }
 
-        public CaptionCommand<string> MakeCashPaymentCommand { get; set; }
-        public CaptionCommand<string> MakeCreditCardPaymentCommand { get; set; }
-        public CaptionCommand<string> MakeTicketPaymentCommand { get; set; }
+        public CaptionCommand<PaymentTemplate> MakeFastPaymentCommand { get; set; }
         public CaptionCommand<string> SelectLocationCommand { get; set; }
         public CaptionCommand<string> SelectAccountCommand { get; set; }
         public CaptionCommand<string> PrintTicketCommand { get; set; }
@@ -64,6 +62,7 @@ namespace Samba.Modules.PosModule
 
         public ObservableCollection<ICaptionCommand> CustomOrderCommands { get { return PresentationServices.OrderCommands; } }
         public ObservableCollection<ICaptionCommand> CustomTicketCommands { get { return PresentationServices.TicketCommands; } }
+        public PaymentButtonGroupViewModel PaymentButtonGroup { get; set; }
 
         private TicketViewModel _selectedTicket;
         public TicketViewModel SelectedTicket
@@ -79,6 +78,8 @@ namespace Samba.Modules.PosModule
                         _ticketService, _automationService, _applicationState);
                     Totals = new TicketTotalsViewModel(_applicationState.CurrentTicket);
                     _ticketOrdersViewModel.SelectedTicket = _selectedTicket;
+                    if (_applicationState.CurrentDepartment != null)
+                        PaymentButtonGroup.UpdatePaymentButtons(_applicationState.CurrentDepartment.TicketTemplate.PaymentTemplates.Where(x => x.DisplayUnderTicket));
                 }
                 if (_selectedTicket == null && (Totals == null || Totals.Model != Ticket.Empty))
                 {
@@ -204,16 +205,15 @@ namespace Samba.Modules.PosModule
             _cacheService = cacheService;
             _ticketOrdersViewModel = ticketOrdersViewModel;
 
+
             _selectedOrders = new ObservableCollection<Order>();
 
             PrintJobCommand = new CaptionCommand<PrintJob>(Resources.Print, OnPrintJobExecute, CanExecutePrintJob);
 
             AddMenuItemCommand = new DelegateCommand<ScreenMenuItemData>(OnAddMenuItemCommandExecute);
             CloseTicketCommand = new CaptionCommand<string>(Resources.CloseTicket_r, OnCloseTicketExecute, CanCloseTicket);
-            MakePaymentCommand = new CaptionCommand<string>(Resources.GetPayment, OnMakePaymentExecute, CanMakePayment);
-            MakeCashPaymentCommand = new CaptionCommand<string>(Resources.CashPayment_r, OnMakeCashPaymentExecute, CanMakeFastPayment);
-            MakeCreditCardPaymentCommand = new CaptionCommand<string>(Resources.CreditCard_r, OnMakeCreditCardPaymentExecute, CanMakeFastPayment);
-            MakeTicketPaymentCommand = new CaptionCommand<string>(Resources.Voucher_r, OnMakeTicketPaymentExecute, CanMakeFastPayment);
+            MakePaymentCommand = new CaptionCommand<string>(Resources.Settle, OnMakePaymentExecute, CanMakePayment);
+            MakeFastPaymentCommand = new CaptionCommand<PaymentTemplate>("[FastPayment]", OnMakeFastPaymentExecute, CanMakeFastPayment);
             SelectLocationCommand = new CaptionCommand<string>(Resources.SelectLocation, OnSelectLocationExecute, CanSelectLocation);
             SelectAccountCommand = new CaptionCommand<string>(Resources.SelectAccount, OnSelectAccountExecute, CanSelectAccount);
             ShowAllOpenTickets = new CaptionCommand<string>(Resources.AllTickets_r, OnShowAllOpenTickets);
@@ -229,6 +229,8 @@ namespace Samba.Modules.PosModule
             EditTicketNoteCommand = new CaptionCommand<string>(Resources.TicketNote, OnEditTicketNote, CanEditTicketNote);
             RemoveTicketLockCommand = new CaptionCommand<string>(Resources.ReleaseLock, OnRemoveTicketLock, CanRemoveTicketLock);
             ChangePriceCommand = new CaptionCommand<string>(Resources.ChangePrice, OnChangePrice, CanChangePrice);
+
+            PaymentButtonGroup = new PaymentButtonGroupViewModel(MakeFastPaymentCommand, MakePaymentCommand, CloseTicketCommand);
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<ScreenMenuItemData>>().Subscribe(OnMenuItemSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<LocationData>>().Subscribe(OnLocationSelected);
@@ -642,7 +644,6 @@ namespace Samba.Modules.PosModule
         {
             return LastSelectedOrder != null &&
                    !LastSelectedOrder.IsLocked;
-
         }
 
         private bool CanDecSelectionQuantity(string arg)
@@ -760,25 +761,13 @@ namespace Samba.Modules.PosModule
                 && _userService.IsUserPermittedFor(PermissionNames.MakePayment);
         }
 
-        private void OnMakeCreditCardPaymentExecute(string obj)
+        private void OnMakeFastPaymentExecute(PaymentTemplate obj)
         {
-            //_ticketService.PaySelectedTicket(SelectedTicket.Model, PaymentType.CreditCard);
+            _ticketService.PaySelectedTicket(SelectedTicket.Model, obj);
             CloseTicket();
         }
 
-        private void OnMakeTicketPaymentExecute(string obj)
-        {
-            //_ticketService.PaySelectedTicket(SelectedTicket.Model, PaymentType.Ticket);
-            CloseTicket();
-        }
-
-        private void OnMakeCashPaymentExecute(string obj)
-        {
-            //_ticketService.PaySelectedTicket(SelectedTicket.Model, PaymentType.Ticket);
-            CloseTicket();
-        }
-
-        private bool CanMakeFastPayment(string arg)
+        private bool CanMakeFastPayment(PaymentTemplate arg)
         {
             return SelectedTicket != null && Totals.TicketRemainingValue > 0
                 && _userService.IsUserPermittedFor(PermissionNames.MakeFastPayment);

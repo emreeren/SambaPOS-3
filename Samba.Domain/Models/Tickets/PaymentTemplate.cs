@@ -17,6 +17,8 @@ namespace Samba.Domain.Models.Tickets
         public int Order { get; set; }
         public string UserString { get { return Name; } }
         public string ButtonColor { get; set; }
+        public bool DisplayAtPaymentScreen { get; set; }
+        public bool DisplayUnderTicket { get; set; }
         public virtual AccountTransactionTemplate AccountTransactionTemplate { get; set; }
         public virtual Account Account { get; set; }
     }

@@ -33,7 +33,7 @@ namespace Samba.Modules.PaymentModule
         private readonly IAutomationService _automationService;
 
         [ImportingConstructor]
-        public PaymentEditorViewModel(IApplicationState applicationState, ITicketService ticketService, 
+        public PaymentEditorViewModel(IApplicationState applicationState, ITicketService ticketService,
             IPrinterService printerService, IUserService userService, IAutomationService automationService)
         {
             _applicationState = applicationState;
@@ -61,10 +61,13 @@ namespace Samba.Modules.PaymentModule
             MergedItems = new ObservableCollection<MergedItem>();
             ReturningAmountVisibility = Visibility.Collapsed;
 
+            PaymentButtonGroup = new PaymentButtonGroupViewModel(_makePaymentCommand, null, ClosePaymentScreenCommand);
+
             LastTenderedAmount = "1";
         }
 
         public TicketTotalsViewModel Totals { get; set; }
+        public PaymentButtonGroupViewModel PaymentButtonGroup { get; set; }
 
         public CaptionCommand<string> SubmitAccountPaymentCommand { get; set; }
         public CaptionCommand<string> ClosePaymentScreenCommand { get; set; }
@@ -112,32 +115,7 @@ namespace Samba.Modules.PaymentModule
         }
 
         public IEnumerable<object> CommandButtons { get; set; }
-        public IEnumerable<CommandButtonViewModel<PaymentTemplate>> PaymentButtons { get; set; }
-
-        private IEnumerable<CommandButtonViewModel<PaymentTemplate>> CreatePaymentButtons()
-        {
-            var result = new List<CommandButtonViewModel<PaymentTemplate>>();
-            result.AddRange(
-                _applicationState.CurrentDepartment.TicketTemplate.PaymentTemplates
-                .OrderBy(x=>x.Order)
-                .Select(x => new CommandButtonViewModel<PaymentTemplate>
-                                                   {
-                                                       Caption = x.Name,
-                                                       Command = _makePaymentCommand,
-                                                       Color = x.ButtonColor,
-                                                       Parameter = x
-                                                   }));
-
-            result.Add(new CommandButtonViewModel<PaymentTemplate>
-            {
-                Caption = Resources.Close,
-                Command = ClosePaymentScreenCommand,
-                Color = "Red"
-            });
-
-            return result;
-        }
-
+        
         private IEnumerable<CommandButtonViewModel<object>> CreateCommandButtons()
         {
             var result = new List<CommandButtonViewModel<object>>();
@@ -562,8 +540,8 @@ namespace Samba.Modules.PaymentModule
         {
             CommandButtons = CreateCommandButtons();
             RaisePropertyChanged(() => CommandButtons);
-            PaymentButtons = CreatePaymentButtons();
-            RaisePropertyChanged(() => PaymentButtons);
+            PaymentButtonGroup.UpdatePaymentButtons(_applicationState.CurrentDepartment.TicketTemplate.PaymentTemplates.Where(x => x.DisplayAtPaymentScreen));
+            RaisePropertyChanged(() => PaymentButtonGroup);
         }
 
         public void Prepare(Ticket selectedTicket)

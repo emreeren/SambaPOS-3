@@ -2968,8 +2968,8 @@ Continue without adding details?</value>
   <data name="DeleteErrorUsedBy_f" xml:space="preserve">
     <value>Can't delete because this {0} used by a {1}</value>
   </data>
-  <data name="Order">
-    <value xml:space="preserve">Order</value>
+  <data name="Order" xml:space="preserve">
+    <value>Order</value>
   </data>
   <data name="AccountTransactionTemplate" xml:space="preserve">
     <value>Account Transaction Template</value>
@@ -2992,46 +2992,57 @@ Continue without adding details?</value>
   <data name="ChangeAccount" xml:space="preserve">
     <value>Change Account</value>
   </data>
-	<data name="Debit">
-		<value xml:space="preserve">Debit</value>
-	</data>
-	<data name="Credit">
-		<value xml:space="preserve">Credit</value>
-	</data>
-	<data name="AccountDetails">
-		<value xml:space="preserve">Account Details</value>
-	</data>
-	<data name="Time">
-		<value xml:space="preserve">Time</value>
-	</data>
-	<data name="DocumentTemplate">
-		<value xml:space="preserve">Document Template</value>
-	</data>
-	<data name="DefaultAmount">
-		<value xml:space="preserve">Default Amount</value>
-	</data>
-	<data name="DescriptionTemplate">
-		<value xml:space="preserve">Description Template</value>
-	</data>
-	<data name="AccountTransaction">
-		<value xml:space="preserve">Account Transaction</value>
-	</data>
-	<data name="This_f">
-		<value xml:space="preserve">This {0}</value>
-	</data>
-	<data name="Week">
-		<value xml:space="preserve">Week</value>
-	</data>
-	<data name="WorkPeriod">
-		<value xml:space="preserve">Work Period</value>
-	</data>
-	<data name="Default">
-		<value xml:space="preserve">Default</value>
-	</data>
-	<data name="FilterType">
-		<value xml:space="preserve">Filter Type</value>
-	</data>
-	<data name="PastTransactions">
-		<value xml:space="preserve">Past Transactions</value>
+  <data name="Debit" xml:space="preserve">
+    <value>Debit</value>
+  </data>
+  <data name="Credit" xml:space="preserve">
+    <value>Credit</value>
+  </data>
+  <data name="AccountDetails" xml:space="preserve">
+    <value>Account Details</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="DocumentTemplate" xml:space="preserve">
+    <value>Document Template</value>
+  </data>
+  <data name="DefaultAmount" xml:space="preserve">
+    <value>Default Amount</value>
+  </data>
+  <data name="DescriptionTemplate" xml:space="preserve">
+    <value>Description Template</value>
+  </data>
+  <data name="AccountTransaction" xml:space="preserve">
+    <value>Account Transaction</value>
+  </data>
+  <data name="This_f" xml:space="preserve">
+    <value>This {0}</value>
+  </data>
+  <data name="Week" xml:space="preserve">
+    <value>Week</value>
+  </data>
+  <data name="WorkPeriod" xml:space="preserve">
+    <value>Work Period</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="FilterType" xml:space="preserve">
+    <value>Filter Type</value>
+  </data>
+  <data name="PastTransactions" xml:space="preserve">
+    <value>Past Transactions</value>
+  </data>
+  <data name="DisplayAtPaymentScreen" xml:space="preserve">
+    <value>Display at payment screen</value>
+    <comment>CheckBox.Content</comment>
+  </data>
+  <data name="DisplayUnderTicket" xml:space="preserve">
+    <value>Display under ticket</value>
+    <comment>CheckBox.Content</comment>
+  </data>
+	<data name="Settle">
+		<value xml:space="preserve">Settle</value>
 	</data>
 </root>

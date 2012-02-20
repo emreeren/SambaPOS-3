@@ -2203,6 +2203,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Display at payment screen.
+        /// </summary>
+        public static string DisplayAtPaymentScreen {
+            get {
+                return ResourceManager.GetString("DisplayAtPaymentScreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Display Format.
         /// </summary>
         public static string DisplayFormat {
@@ -2217,6 +2226,15 @@ namespace Samba.Localization.Properties {
         public static string DisplayPopup {
             get {
                 return ResourceManager.GetString("DisplayPopup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display under ticket.
+        /// </summary>
+        public static string DisplayUnderTicket {
+            get {
+                return ResourceManager.GetString("DisplayUnderTicket", resourceCulture);
             }
         }
         
@@ -6012,6 +6030,15 @@ namespace Samba.Localization.Properties {
         public static string SettingValue {
             get {
                 return ResourceManager.GetString("SettingValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settle.
+        /// </summary>
+        public static string Settle {
+            get {
+                return ResourceManager.GetString("Settle", resourceCulture);
             }
         }
         

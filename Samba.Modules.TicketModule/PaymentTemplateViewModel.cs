@@ -59,6 +59,8 @@ namespace Samba.Modules.TicketModule
         }
 
         public string ButtonColor { get { return Model.ButtonColor; } set { Model.ButtonColor = value; } }
+        public bool DisplayAtPaymentScreen { get { return Model.DisplayAtPaymentScreen; } set { Model.DisplayAtPaymentScreen = value; } }
+        public bool DisplayUnderTicket { get { return Model.DisplayUnderTicket; } set { Model.DisplayUnderTicket = value; } }
 
         public override Type GetViewType()
         {

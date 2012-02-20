@@ -150,25 +150,21 @@
         </StackPanel>
 
         <!--PAYMENT BUTTONS AREA-->
-        <Grid Grid.Column="1" Grid.Row="5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="auto" />
-            </Grid.ColumnDefinitions>
-            <UniformGrid Rows="1" Grid.Column="0">
-                <FxButton:FlexButton Height="60" Margin="0,0,3,3" Command="{Binding MakePaymentCommand}"
-                             Content="{Binding MakePaymentCommand.Caption}" />
-                <FxButton:FlexButton Height="60" Margin="0,0,3,3" Command="{Binding MakeCashPaymentCommand}"
-                             Content="{Binding MakeCashPaymentCommand.Caption}" Visibility="{Binding IsFastPaymentButtonsVisible,Converter={StaticResource VisibilityConverter}}" />
-                <FxButton:FlexButton Height="60" Margin="0,0,3,3" Command="{Binding MakeCreditCardPaymentCommand}"
-                             Content="{Binding MakeCreditCardPaymentCommand.Caption}" Visibility="{Binding IsFastPaymentButtonsVisible,Converter={StaticResource VisibilityConverter}}" />
-                <FxButton:FlexButton Height="60" Margin="0,0,3,3" Command="{Binding MakeTicketPaymentCommand}"
-                             Content="{Binding MakeTicketPaymentCommand.Caption}" Visibility="{Binding IsFastPaymentButtonsVisible,Converter={StaticResource VisibilityConverter}}" />
-            </UniformGrid>
-            <FxButton:FlexButton ButtonColor="Red" Grid.Column="1" Width="80" Height="60" Margin="0,0,0,3"
-                         Command="{Binding CloseTicketCommand}" Content="{Binding CloseTicketCommand.Caption}"
-                         Visibility="{Binding IsCloseButtonVisible,Converter={StaticResource VisibilityConverter}}" />
-        </Grid>
+        <ItemsControl Grid.Column="1" Grid.Row="5" ItemsSource="{Binding PaymentButtonGroup.PaymentButtons}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="1" MinHeight="60" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <FxButton:FlexButton FontSize="30" Content="{Binding Caption}" ButtonColor="{Binding Color}" Focusable="False" Command="{Binding Command}" 
+                                         CommandParameter="{Binding Parameter}" Margin="0,0,3,3">
+                    </FxButton:FlexButton>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
         <!--COMMAND BUTTONS AREA-->
         <StackPanel Grid.Column="0" Grid.RowSpan="5" Grid.Row="0" VerticalAlignment="Top"
                      Width="80">

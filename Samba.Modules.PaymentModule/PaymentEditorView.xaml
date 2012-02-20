@@ -306,7 +306,7 @@
             </ItemsControl>
         </Grid>
 
-        <ItemsControl Grid.Column="2" ItemsSource="{Binding PaymentButtons}">
+        <ItemsControl Grid.Column="2" ItemsSource="{Binding PaymentButtonGroup.PaymentButtons}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Columns="1" MinHeight="60" />
