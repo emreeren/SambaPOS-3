@@ -5,10 +5,8 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class Department : IEntity
+    public class Department : Entity
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
         public byte[] LastUpdateTime { get; set; }
         public string UserString { get { return Name; } }
         public int ScreenMenuId { get; set; }

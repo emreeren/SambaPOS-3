@@ -7,10 +7,8 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Actions
 {
-    public class AppAction : IEntity
+    public class AppAction : Entity
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
         public string ActionType { get; set; }
 
         private string _parameter;

@@ -7,7 +7,6 @@ using Samba.Domain.Models.Locations;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
-using Samba.Domain.Models.Transactions;
 using Samba.Domain.Models.Users;
 using Samba.Infrastructure.Data.SQL;
 using Samba.Infrastructure.Settings;
@@ -53,8 +52,6 @@ namespace Samba.Persistance.Data
         public DbSet<Account> Accounts { get; set; }
         public DbSet<AccountTemplate> AccountTemplates { get; set; }
         public DbSet<Permission> Permissions { get; set; }
-        public DbSet<CashTransaction> CashTransactions { get; set; }
-        public DbSet<CustomerTransaction> CustomerTransactions { get; set; }
         public DbSet<InventoryItem> InventoryItems { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<RecipeItem> RecipeItems { get; set; }
@@ -168,12 +165,6 @@ namespace Samba.Persistance.Data
             //TransactionItem
             modelBuilder.Entity<InventoryTransactionItem>().Property(x => x.Price).HasPrecision(precision, scale);
             modelBuilder.Entity<InventoryTransactionItem>().Property(x => x.Quantity).HasPrecision(precision, scale);
-
-            //CashTransaction
-            modelBuilder.Entity<CashTransaction>().Property(x => x.Amount).HasPrecision(precision, scale);
-
-            //CustomerTransaction
-            modelBuilder.Entity<CustomerTransaction>().Property(x => x.Amount).HasPrecision(precision, scale);
 
             //WorkPeriod
             modelBuilder.Entity<WorkPeriod>().Property(x => x.CashAmount).HasPrecision(precision, scale);

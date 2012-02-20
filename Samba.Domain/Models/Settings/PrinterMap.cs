@@ -4,10 +4,8 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Settings
 {
-    public class PrinterMap : IEntity
+    public class PrinterMap : Entity
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
         public int PrintJobId { get; set; }
         public int DepartmentId { get; set; }
         public string MenuItemGroupCode { get; set; }

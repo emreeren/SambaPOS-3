@@ -7,15 +7,13 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class PaymentTemplate : IEntity, IOrderable
+    public class PaymentTemplate : Entity, IOrderable
     {
         public PaymentTemplate()
         {
             ButtonColor = "Gainsboro";
         }
 
-        public int Id { get; set; }
-        public string Name { get; set; }
         public int Order { get; set; }
         public string UserString { get { return Name; } }
         public string ButtonColor { get; set; }

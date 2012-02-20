@@ -10,7 +10,7 @@ using Samba.Infrastructure.Settings;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class Ticket : IEntity
+    public class Ticket : Entity
     {
         public Ticket()
             : this(0, "")
@@ -49,9 +49,6 @@ namespace Samba.Domain.Models.Tickets
 
         private bool _shouldLock;
         private Dictionary<int, int> _printCounts;
-
-        public int Id { get; set; }
-        public string Name { get; set; }
         public DateTime LastUpdateTime { get; set; }
 
         private string _ticketNumber;

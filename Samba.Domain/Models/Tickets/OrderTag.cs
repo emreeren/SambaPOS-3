@@ -3,14 +3,13 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class OrderTag : IOrderable
+    public class OrderTag : Value, IOrderable
     {
         public OrderTag()
         {
             MaxQuantity = 1;
         }
 
-        public int Id { get; set; }
         public string Name { get; set; }
         public int Order { get; set; }
         public int OrderTagGroupId { get; set; }

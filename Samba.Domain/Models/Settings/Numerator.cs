@@ -2,10 +2,8 @@
 
 namespace Samba.Domain.Models.Settings
 {
-    public class Numerator : IEntity
+    public class Numerator : Entity
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
         public byte[] LastUpdateTime { get; set; }
         public int Number { get; set; }
         public string NumberFormat { get; set; }

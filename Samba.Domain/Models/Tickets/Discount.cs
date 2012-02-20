@@ -1,5 +1,6 @@
 ﻿using System;
 using Samba.Domain.Models.Accounts;
+using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
@@ -10,9 +11,8 @@ namespace Samba.Domain.Models.Tickets
         Rounding
     }
 
-    public class Discount
+    public class Discount : Value
     {
-        public int Id { get; set; }
         public int UserId { get; set; }
         public int DiscountType { get; set; }
         public decimal Value { get; set; }

@@ -5,7 +5,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Menus
 {
-    public class ScreenMenu : IEntity
+    public class ScreenMenu : Entity
     {
         public ScreenMenu()
             : this("Menu")
@@ -19,8 +19,6 @@ namespace Samba.Domain.Models.Menus
             _categories = new List<ScreenMenuCategory>();
         }
 
-        public int Id { get; set; }
-        public string Name { get; set; }
         public byte[] LastUpdateTime { get; set; }
 
         private IList<ScreenMenuCategory> _categories;

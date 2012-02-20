@@ -6,7 +6,7 @@ using Samba.Infrastructure.Settings;
 
 namespace Samba.Domain.Models.Menus
 {
-    public class MenuItem : IEntity
+    public class MenuItem : Entity
     {
         public MenuItem()
             : this(string.Empty)
@@ -20,8 +20,6 @@ namespace Samba.Domain.Models.Menus
             _portions = new List<MenuItemPortion>();
         }
 
-        public int Id { get; set; }
-        public string Name { get; set; }
         public byte[] LastUpdateTime { get; set; }
         public string GroupCode { get; set; }
         public string Barcode { get; set; }

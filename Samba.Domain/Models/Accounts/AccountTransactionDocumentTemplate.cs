@@ -7,15 +7,13 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Accounts
 {
-    public class AccountTransactionDocumentTemplate : IEntity
+    public class AccountTransactionDocumentTemplate : Entity
     {
         public AccountTransactionDocumentTemplate()
         {
             _transactionTemplates = new List<AccountTransactionTemplate>();
         }
 
-        public int Id { get; set; }
-        public string Name { get; set; }
         public string ButtonHeader { get; set; }
 
         private string _buttonColor;

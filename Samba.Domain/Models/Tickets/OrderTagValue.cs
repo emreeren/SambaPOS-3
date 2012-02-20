@@ -1,10 +1,10 @@
 ﻿using System;
+using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class OrderTagValue
+    public class OrderTagValue : Value
     {
-        public int Id { get; set; }
         public int OrderId { get; set; }
         public int TicketId { get; set; }
         public string Name { get; set; }

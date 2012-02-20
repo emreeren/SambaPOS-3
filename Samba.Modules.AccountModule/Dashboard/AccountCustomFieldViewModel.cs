@@ -21,7 +21,7 @@ namespace Samba.Modules.AccountModule.Dashboard
         }
 
         public string Name { get { return Model.Name; } set { Model.Name = value; } }
-
+        public bool Hidden { get { return Model.Hidden; } set { Model.Hidden = value; } }
         public string EditingFormat { get { return Model.EditingFormat; } set { Model.EditingFormat = value; } }
         public string ValueSource { get { return Model.ValueSource; } set { Model.ValueSource = value; } }
 

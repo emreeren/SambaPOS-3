@@ -14,12 +14,9 @@ namespace Samba.Domain.Models.Tickets
         Price
     }
 
-    public class TicketTagGroup : IEntity, IOrderable
+    public class TicketTagGroup : Entity, IOrderable
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
         public int Order { get; set; }
-
         public virtual Numerator Numerator { get; set; }
         private IList<TicketTag> _ticketTags;
 

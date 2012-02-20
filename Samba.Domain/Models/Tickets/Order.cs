@@ -4,10 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Diagnostics;
 using Samba.Domain.Models.Menus;
+using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class Order
+    public class Order : Value
     {
         public Order()
         {
@@ -18,7 +19,6 @@ namespace Samba.Domain.Models.Tickets
             DecreaseInventory = true;
         }
 
-        public int Id { get; set; }
         public int TicketId { get; set; }
         public int MenuItemId { get; set; }
         public string MenuItemName { get; set; }

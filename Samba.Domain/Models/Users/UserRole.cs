@@ -3,7 +3,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Users
 {
-    public class UserRole : IEntity
+    public class UserRole : Entity
     {
         public UserRole()
         {
@@ -16,8 +16,6 @@ namespace Samba.Domain.Models.Users
             Name = name;
         }
 
-        public int Id { get; set; }
-        public string Name { get; set; }
         public byte[] LastUpdateTime { get; set; }
         public bool IsAdmin { get; set; }
         public int DepartmentId { get; set; }

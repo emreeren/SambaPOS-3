@@ -4,7 +4,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class OrderTagGroup : IEntity, IOrderable
+    public class OrderTagGroup : Entity, IOrderable
     {
         public int Order { get; set; }
 
@@ -13,10 +13,7 @@ namespace Samba.Domain.Models.Tickets
             get { return Name; }
         }
 
-        public int Id { get; set; }
-        public string Name { get; set; }
         public string ButtonHeader { get; set; }
-
         public int ColumnCount { get; set; }
         public int ButtonHeight { get; set; }
         public int TerminalColumnCount { get; set; }

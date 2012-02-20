@@ -4,17 +4,19 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Inventories
 {
-    public class Recipe : IEntity
+    public class Recipe : Entity
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
         public virtual MenuItemPortion Portion { get; set; }
-        public virtual IList<RecipeItem> RecipeItems { get; set; }
         public decimal FixedCost { get; set; }
+        private readonly IList<RecipeItem> _recipeItems;
+        public virtual IList<RecipeItem> RecipeItems
+        {
+            get { return _recipeItems; }
+        }
 
         public Recipe()
         {
-            RecipeItems = new List<RecipeItem>();
+            _recipeItems = new List<RecipeItem>();
         }
     }
 }

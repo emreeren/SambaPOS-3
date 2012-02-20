@@ -4,10 +4,8 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Inventories
 {
-    public class InventoryTransaction : IEntity
+    public class InventoryTransaction : Entity
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
         public DateTime Date { get; set; }
 
         private IList<InventoryTransactionItem> _transactionItems;

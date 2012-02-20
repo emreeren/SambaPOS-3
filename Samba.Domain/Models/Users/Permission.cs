@@ -9,10 +9,8 @@ namespace Samba.Domain.Models.Users
         Invisible
     }
 
-    public class Permission : IEntity
+    public class Permission : Entity
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
         public int Value { get; set; }
         public int UserRoleId { get; set; }
     }

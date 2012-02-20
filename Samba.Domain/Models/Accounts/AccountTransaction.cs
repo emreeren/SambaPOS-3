@@ -7,23 +7,21 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Accounts
 {
-    public class AccountTransaction : IEntity
+    public class AccountTransaction : Entity
     {
-        public int Id { get; set; }
-
-        private string _name;
-        public string Name
-        {
-            get { return _name; }
-            set
-            {
-                _name = value;
-                if (SourceTransactionValue != null)
-                    SourceTransactionValue.Name = value;
-                if (TargetTransactionValue != null)
-                    TargetTransactionValue.Name = value;
-            }
-        }
+        //private string _name;
+        //public string Name
+        //{
+        //    get { return _name; }
+        //    set
+        //    {
+        //        _name = value;
+        //        if (SourceTransactionValue != null)
+        //            SourceTransactionValue.Name = value;
+        //        if (TargetTransactionValue != null)
+        //            TargetTransactionValue.Name = value;
+        //    }
+        //}
 
         private decimal _amount;
         public decimal Amount

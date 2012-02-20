@@ -1,8 +1,9 @@
-﻿namespace Samba.Domain.Models.Inventories
+﻿using Samba.Infrastructure.Data;
+
+namespace Samba.Domain.Models.Inventories
 {
-    public class PeriodicConsumptionItem
+    public class PeriodicConsumptionItem : Value
     {
-        public int Id { get; set; }
         public int PeriodicConsumptionId { get; set; }
         public virtual InventoryItem InventoryItem { get; set; }
         public decimal UnitMultiplier { get; set; }

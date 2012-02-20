@@ -36,7 +36,7 @@ namespace Samba.Modules.AccountModule
             if (selector != null && gridView != null)
             {
                 gridView.Columns.Where(x => x.Header.ToString() != "Account Name").ToList().ForEach(x => gridView.Columns.Remove(x));
-                selector.SelectedAccountTemplate.AccountCustomFields.Select(CreateColumn).ToList().ForEach(x => gridView.Columns.Add(x));
+                selector.SelectedAccountTemplate.AccountCustomFields.Where(x => !x.Hidden).Select(CreateColumn).ToList().ForEach(x => gridView.Columns.Add(x));
                 MainListView.RaiseEvent(new RoutedEventArgs(LoadedEvent, MainListView));
             }
         }

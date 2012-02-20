@@ -48,6 +48,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="{LocText EditingFormat}" MinWidth="100" Binding="{Binding EditingFormat}" />
                 <DataGridTextColumn Header="{LocText Values}" MinWidth="100" Binding="{Binding ValueSource}" />
+                <DataGridCheckBoxColumn Header="Hidden" Binding="{Binding Hidden}"/>
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>

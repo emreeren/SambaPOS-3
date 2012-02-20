@@ -1,8 +1,9 @@
-﻿namespace Samba.Domain.Models.Inventories
+﻿using Samba.Infrastructure.Data;
+
+namespace Samba.Domain.Models.Inventories
 {
-    public class InventoryTransactionItem
+    public class InventoryTransactionItem : Value
     {
-        public int Id { get; set; }
         public int TransactionId { get; set; }
         public virtual InventoryItem InventoryItem { get; set; }
         public string Unit { get; set; }

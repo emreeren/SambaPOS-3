@@ -8,10 +8,8 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class TicketTag : IEntity, IStringCompareable
+    public class TicketTag : Entity, IStringCompareable
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
         public int TicketTagGroupId { get; set; }
         public int AccountId { get; set; }
         public string AccountName { get; set; }

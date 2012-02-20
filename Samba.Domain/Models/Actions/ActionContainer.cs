@@ -3,11 +3,11 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Actions
 {
-    public class ActionContainer : IOrderable
+    public class ActionContainer : Value, IOrderable
     {
         public ActionContainer()
         {
-            
+
         }
 
         public ActionContainer(AppAction ruleAction)
@@ -16,7 +16,6 @@ namespace Samba.Domain.Models.Actions
             Name = ruleAction.Name;
         }
 
-        public int Id { get; set; }
         public int AppActionId { get; set; }
         public int AppRuleId { get; set; }
         public string Name { get; set; }
@@ -29,6 +28,6 @@ namespace Samba.Domain.Models.Actions
             get { return Name; }
         }
 
-        
+
     }
 }

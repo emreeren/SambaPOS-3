@@ -4,10 +4,8 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Actions
 {
-    public class AppRule : IEntity
+    public class AppRule : Entity
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
         public string EventName { get; set; }
         [StringLength(500)]
         public string EventConstraints { get; set; }

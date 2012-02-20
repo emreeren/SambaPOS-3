@@ -300,7 +300,6 @@ namespace Samba.Modules.AccountModule
             {
                 worker.DoWork += delegate
                 {
-                    var searchPn = string.IsNullOrEmpty(SearchString.Trim());
                     var defaultAccountId =
                         _applicationState.CurrentDepartment != null ? _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.DefaultTargetAccountId : 0;
 
@@ -309,7 +308,9 @@ namespace Samba.Modules.AccountModule
                     result = Dao.Query<Account>(x =>
                         x.AccountTemplateId == templateId
                         && x.Id != defaultAccountId
-                        && (searchPn || x.CustomData.Contains(SearchString) || x.Name.Contains(SearchString)));
+                        && (x.CustomData.Contains(SearchString) || x.Name.Contains(SearchString)));
+
+                    result = result.ToList().Where(x => SelectedAccountTemplate.GetMatchingFields(x, SearchString).Any(y => !y.Hidden) || x.Name.ToLower().Contains(SearchString));
                 };
 
                 worker.RunWorkerCompleted +=

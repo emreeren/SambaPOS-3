@@ -3,10 +3,8 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Settings
 {
-    public class Terminal : IEntity
+    public class Terminal : Entity
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
         public byte[] LastUpdateTime { get; set; }
         public bool IsDefault { get; set; }
         public bool AutoLogout { get; set; }

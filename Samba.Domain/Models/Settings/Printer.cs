@@ -3,10 +3,8 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Settings
 {
-    public class Printer : IEntity
+    public class Printer : Entity
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
         public byte[] LastUpdateTime { get; set; }
         public string ShareName { get; set; }
         public int PrinterType { get; set; }

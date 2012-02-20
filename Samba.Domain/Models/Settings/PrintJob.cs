@@ -24,10 +24,8 @@ namespace Samba.Domain.Models.Settings
         LastLinesByPrinterLineCount
     }
 
-    public class PrintJob : IEntity, IOrderable
+    public class PrintJob : Entity, IOrderable
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
         public string ButtonHeader { get; set; }
         public int Order { get; set; }
         public string UserString { get { return Name; } }

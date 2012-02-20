@@ -2,7 +2,7 @@
 
 namespace Samba.Domain.Models.Users
 {
-    public class User : IEntity
+    public class User : Entity
     {
         public User()
         {
@@ -16,8 +16,6 @@ namespace Samba.Domain.Models.Users
             _userRole = UserRole.Empty;
         }
 
-        public int Id { get; set; }
-        public string Name { get; set; }
         public byte[] LastUpdateTime { get; set; }
         public string PinCode { get; set; }
         

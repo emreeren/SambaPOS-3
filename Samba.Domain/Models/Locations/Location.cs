@@ -2,10 +2,8 @@
 
 namespace Samba.Domain.Models.Locations
 {
-    public class Location : IEntity, IOrderable
+    public class Location : Entity, IOrderable
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
         public int Order { get; set; }
         public byte[] LastUpdateTime { get; set; }
         public string Category { get; set; }

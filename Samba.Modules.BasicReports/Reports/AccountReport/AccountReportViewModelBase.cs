@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
-using Samba.Domain.Models.Accounts;
-using Samba.Domain.Models.Tickets;
-using Samba.Domain.Models.Transactions;
 using Samba.Localization.Properties;
-using Samba.Persistance.Data;
 using Samba.Services;
 
 namespace Samba.Modules.BasicReports.Reports.AccountReport

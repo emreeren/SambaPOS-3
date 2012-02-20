@@ -5,10 +5,8 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class TicketTemplate : IEntity
+    public class TicketTemplate : Entity
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
         public virtual Numerator TicketNumerator { get; set; }
         public virtual Numerator OrderNumerator { get; set; }
 

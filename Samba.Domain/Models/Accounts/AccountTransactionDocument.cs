@@ -6,7 +6,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Accounts
 {
-    public class AccountTransactionDocument : IEntity
+    public class AccountTransactionDocument : Entity
     {
         public AccountTransactionDocument()
         {
@@ -14,8 +14,6 @@ namespace Samba.Domain.Models.Accounts
             Date = DateTime.Now;
         }
 
-        public int Id { get; set; }
-        public string Name { get; set; }
         public DateTime Date { get; set; }
 
         private IList<AccountTransaction> _accountTransactions;

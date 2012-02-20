@@ -4,7 +4,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Menus
 {
-    public class ScreenMenuCategory : IOrderable
+    public class ScreenMenuCategory : Value, IOrderable
     {
         public ScreenMenuCategory()
         {
@@ -28,7 +28,6 @@ namespace Samba.Domain.Models.Menus
             Name = name;
         }
 
-        public int Id { get; set; }
         public string Name { get; set; }
 
         public int Order { get; set; }
