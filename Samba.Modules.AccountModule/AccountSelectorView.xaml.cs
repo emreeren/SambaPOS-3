@@ -24,11 +24,6 @@ namespace Samba.Modules.AccountModule
             InitializeComponent();
         }
 
-        //Header = priceTag,
-        //Binding = new Binding("[" + i + "]") { StringFormat = "#,#0.00;-#,#0.00;-" },
-        //MinWidth = 60,
-        //CellStyle = (Style)FindResource("RightAlignedCellStyle")
-
         void viewModel_SelectedAccountTemplateChanged(object sender, System.EventArgs e)
         {
             var gridView = MainListView.View as GridView;
@@ -36,7 +31,8 @@ namespace Samba.Modules.AccountModule
             if (selector != null && gridView != null)
             {
                 gridView.Columns.Where(x => x.Header.ToString() != "Account Name").ToList().ForEach(x => gridView.Columns.Remove(x));
-                selector.SelectedAccountTemplate.AccountCustomFields.Where(x => !x.Hidden).Select(CreateColumn).ToList().ForEach(x => gridView.Columns.Add(x));
+                if (selector.SelectedAccount != null)
+                    selector.SelectedAccountTemplate.AccountCustomFields.Where(x => !x.Hidden).Select(CreateColumn).ToList().ForEach(x => gridView.Columns.Add(x));
                 MainListView.RaiseEvent(new RoutedEventArgs(LoadedEvent, MainListView));
             }
         }

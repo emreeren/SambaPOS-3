@@ -9,20 +9,6 @@ namespace Samba.Domain.Models.Accounts
 {
     public class AccountTransaction : Entity
     {
-        //private string _name;
-        //public string Name
-        //{
-        //    get { return _name; }
-        //    set
-        //    {
-        //        _name = value;
-        //        if (SourceTransactionValue != null)
-        //            SourceTransactionValue.Name = value;
-        //        if (TargetTransactionValue != null)
-        //            TargetTransactionValue.Name = value;
-        //    }
-        //}
-
         private decimal _amount;
         public decimal Amount
         {
@@ -59,11 +45,17 @@ namespace Samba.Domain.Models.Accounts
         {
             var result = new AccountTransaction
                              {
+                                 Name = template.Name,
                                  AccountTransactionTemplateId = template.Id,
                                  SourceTransactionValue = new AccountTransactionValue(),
-                                 TargetTransactionValue = new AccountTransactionValue(),
+                                 TargetTransactionValue = new AccountTransactionValue()
                              };
-            result.Name = template.Name;
+
+            if (result.SourceTransactionValue != null)
+                result.SourceTransactionValue.Name = template.Name;
+            if (result.TargetTransactionValue != null)
+                result.TargetTransactionValue.Name = template.Name;
+
             result.SetSoruceAccount(template.DefaultSourceAccountId);
             result.SetTargetAccount(template.DefaultTargetAccountId);
             result.SourceTransactionValue.AccountTemplateId = template.SourceAccountTemplateId;

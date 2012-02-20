@@ -55,7 +55,7 @@ namespace Samba.Modules.TicketModule
         public IEnumerable<AccountTransactionTemplate> AccountTransactionTemplates { get { return _accountTransactionTemplates ?? (_accountTransactionTemplates = Workspace.All<AccountTransactionTemplate>()); } }
 
         public virtual AccountTransactionTemplate SaleTransactionTemplate { get { return Model.SaleTransactionTemplate; } set { Model.SaleTransactionTemplate = value; } }
-        
+
         private ObservableCollection<TicketTagGroup> _ticketTagGroups;
         public ObservableCollection<TicketTagGroup> TicketTagGroups
         {
@@ -240,6 +240,9 @@ namespace Samba.Modules.TicketModule
             RuleFor(x => x.TicketNumerator).NotNull();
             RuleFor(x => x.OrderNumerator).NotNull();
             RuleFor(x => x.SaleTransactionTemplate).NotNull();
+            RuleFor(x => x.SaleTransactionTemplate.DefaultSourceAccountId).GreaterThan(0).When(x => x.SaleTransactionTemplate != null);
+            RuleFor(x => x.SaleTransactionTemplate.DefaultTargetAccountId).GreaterThan(0).When(x => x.SaleTransactionTemplate != null);
+            RuleFor(x => x.TicketNumerator).NotEqual(x => x.OrderNumerator).When(x => x.TicketNumerator != null);
         }
     }
 }

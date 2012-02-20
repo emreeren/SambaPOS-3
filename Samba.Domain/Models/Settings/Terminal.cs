@@ -8,6 +8,7 @@ namespace Samba.Domain.Models.Settings
         public byte[] LastUpdateTime { get; set; }
         public bool IsDefault { get; set; }
         public bool AutoLogout { get; set; }
+        
         public virtual Printer SlipReportPrinter { get; set; }
         public virtual Printer ReportPrinter { get; set; }
 
@@ -18,8 +19,8 @@ namespace Samba.Domain.Models.Settings
             set { _printJobs = value; }
         }
 
-        private static readonly Terminal _defaultTerminal = new Terminal { Name = "Varsayılan Terminal" };
-        public static Terminal DefaultTerminal { get { return _defaultTerminal; } }
+        private static Terminal _defaultTerminal;
+        public static Terminal DefaultTerminal { get { return _defaultTerminal ?? (_defaultTerminal = new Terminal { Name = "Default Terminal" }); } }
 
         public Terminal()
         {

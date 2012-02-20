@@ -4781,6 +4781,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Past Transactions.
+        /// </summary>
+        public static string PastTransactions {
+            get {
+                return ResourceManager.GetString("PastTransactions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Past Week.
         /// </summary>
         public static string PastWeek {

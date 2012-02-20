@@ -16,6 +16,6 @@ namespace Samba.Domain.Models.Accounts
         public bool IsString { get { return FieldType == 0; } }
         public bool IsWideString { get { return FieldType == 1; } }
         public bool IsNumber { get { return FieldType == 2; } }
-        public IEnumerable<string> Values { get { return (ValueSource ?? "").Split(',').Select(x=>x.Trim()); } }
+        public IEnumerable<string> Values { get { return (ValueSource ?? "").Split(',').Select(x => x.Trim()); } }
     }
 }

@@ -266,6 +266,7 @@ namespace Samba.Modules.AccountModule
             RaisePropertyChanged(() => IsResetAccountVisible);
             RaisePropertyChanged(() => IsMakePaymentVisible);
             RaisePropertyChanged(() => IsCloseButtonVisible);
+            RaisePropertyChanged(() => AccountTemplates);
         }
 
         private void ClearSearchValues()
@@ -329,11 +330,8 @@ namespace Samba.Modules.AccountModule
                                    }
 
                                    RaisePropertyChanged(() => SelectedAccount);
-
                                    CommandManager.InvalidateRequerySuggested();
-
                                    SelectedAccount.PublishEvent(EventTopicNames.SelectedAccountChanged);
-
                                }));
 
                     };

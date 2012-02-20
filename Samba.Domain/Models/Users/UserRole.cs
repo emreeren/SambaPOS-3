@@ -7,7 +7,7 @@ namespace Samba.Domain.Models.Users
     {
         public UserRole()
         {
-            Permissions = new List<Permission>();
+            _permissions = new List<Permission>();
         }
 
         public UserRole(string name)
@@ -19,7 +19,12 @@ namespace Samba.Domain.Models.Users
         public byte[] LastUpdateTime { get; set; }
         public bool IsAdmin { get; set; }
         public int DepartmentId { get; set; }
-        public virtual IList<Permission> Permissions { get; set; }
+
+        private readonly IList<Permission> _permissions;
+        public virtual IList<Permission> Permissions
+        {
+            get { return _permissions; }
+        }
 
         public string UserString
         {

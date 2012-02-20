@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
@@ -121,7 +120,7 @@ namespace Samba.Modules.AccountModule
                     var detailValue =
                         new AccountDetailViewModel(new AccountTransactionValue
                                                        {
-                                                           Name = "PastTransactions",
+                                                           Name = Resources.PastTransactions,
                                                            Credit = pastCredit,
                                                            Debit = pastDebit
                                                        });

@@ -3031,4 +3031,7 @@ Continue without adding details?</value>
 	<data name="FilterType">
 		<value xml:space="preserve">Filter Type</value>
 	</data>
+	<data name="PastTransactions">
+		<value xml:space="preserve">Past Transactions</value>
+	</data>
 </root>
