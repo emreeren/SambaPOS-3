@@ -14,16 +14,14 @@ namespace Samba.Modules.AccountModule
     public class AccountEditorViewModel : ObservableObject
     {
         private readonly ICacheService _cacheService;
-        private readonly IApplicationState _applicationState;
         public ICaptionCommand CloseScreenCommand { get; set; }
         public ICaptionCommand SaveAccountCommand { get; set; }
         public ICaptionCommand SelectAccountCommand { get; set; }
 
         [ImportingConstructor]
-        public AccountEditorViewModel(ICacheService cacheService, IApplicationState applicationState)
+        public AccountEditorViewModel(ICacheService cacheService)
         {
             _cacheService = cacheService;
-            _applicationState = applicationState;
             CloseScreenCommand = new CaptionCommand<string>(Resources.Close, OnCloseScreen);
             SaveAccountCommand = new CaptionCommand<string>(Resources.Save, OnSaveAccount);
             SelectAccountCommand = new CaptionCommand<string>(Resources.SelectAccount.Replace(" ", "\r"), OnSelectAccount);
@@ -39,9 +37,7 @@ namespace Samba.Modules.AccountModule
         private void OnSaveAccount(string obj)
         {
             SaveSelectedAccount();
-            if (_applicationState.CurrentTicket != null)
-                EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
-            else EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateAccountView);
+            CommonEventPublisher.RequestNavigation(EventTopicNames.ActivateAccountView);
         }
 
         private void SaveSelectedAccount()
@@ -74,11 +70,9 @@ namespace Samba.Modules.AccountModule
             }
         }
 
-        private void OnCloseScreen(string obj)
+        private static void OnCloseScreen(string obj)
         {
-            if (_applicationState.CurrentTicket != null)
-                EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
-            else EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateAccountView);
+            CommonEventPublisher.RequestNavigation(EventTopicNames.ActivateAccountView);
         }
 
         private void OnEditAccount(EventParameters<Account> obj)

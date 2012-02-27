@@ -104,7 +104,7 @@ namespace Samba.Modules.PosModule
 
         public void Refresh()
         {
-            Tickets= _ticketService.GetFilteredTickets(StartDate, EndDate, Filters);
+            Tickets = _ticketService.GetFilteredTickets(StartDate, EndDate, Filters);
             Total = Tickets.Sum(x => x.Sum);
             RaisePropertyChanged(() => CanChanageDateFilter);
         }
@@ -125,12 +125,7 @@ namespace Samba.Modules.PosModule
         {
             if (SelectedRow != null)
             {
-                var ticket = _applicationState.CurrentTicket;
-                if (_applicationState.CurrentTicket != null)
-                    _ticketService.CloseTicket(ticket);
-                ticket = _ticketService.OpenTicket(SelectedRow.Id);
-                if (ticket != null)
-                    EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
+                ExtensionMethods.PublishIdEvent(SelectedRow.Model.Id, EventTopicNames.DisplayTicket);
                 CommandManager.InvalidateRequerySuggested();
             }
         }

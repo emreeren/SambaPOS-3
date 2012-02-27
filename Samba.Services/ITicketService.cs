@@ -60,13 +60,10 @@ namespace Samba.Services
         public int TicketId { get; set; }
         public string ErrorMessage { get; set; }
     }
-
+   
     public interface ITicketService : IService
     {
         Ticket OpenTicket(int ticketId);
-        //todo move to state
-        Ticket OpenTicketByLocationName(string locationName);
-        Ticket OpenTicketByTicketNumber(string ticketNumber);
         TicketCommitResult CloseTicket(Ticket ticket);
         TicketCommitResult MoveOrders(Ticket ticket, IEnumerable<Order> selectedOrders, int targetTicketId);
 

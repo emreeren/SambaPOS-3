@@ -28,7 +28,18 @@ namespace Samba.Modules.LocationModule
 
         public ObservableCollection<IDiagram> Locations { get; set; }
 
-        public Ticket SelectedTicket { get { return _applicationState.CurrentTicket; } }
+        private Ticket _selectedTicket;
+        public Ticket SelectedTicket
+        {
+            get { return _selectedTicket; }
+            set
+            {
+                _selectedTicket = value;
+                RefreshLocations();
+                RaisePropertyChanged(() => SelectedTicket);
+            }
+        }
+
         public LocationScreen SelectedLocationScreen { get { return _applicationState.SelectedLocationScreen; } }
         public IEnumerable<LocationScreen> LocationScreens { get { return _applicationState.CurrentDepartment != null ? _applicationState.CurrentDepartment.LocationScreens : null; } }
 
@@ -88,15 +99,6 @@ namespace Samba.Modules.LocationModule
             EditSelectedLocationScreenPropertiesCommand = new CaptionCommand<string>(Resources.Properties, OnEditSelectedLocationScreenProperties, CanEditSelectedLocationScreenProperties);
             IncPageNumberCommand = new CaptionCommand<string>(Resources.NextPage + " >>", OnIncPageNumber, CanIncPageNumber);
             DecPageNumberCommand = new CaptionCommand<string>("<< " + Resources.PreviousPage, OnDecPageNumber, CanDecPageNumber);
-
-            EventServiceFactory.EventService.GetEvent<GenericEvent<Department>>().Subscribe(
-                x =>
-                {
-                    if (x.Topic == EventTopicNames.SelectLocation)
-                    {
-                        RefreshLocations();
-                    }
-                });
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<Message>>().Subscribe(
                 x =>
@@ -187,7 +189,7 @@ namespace Samba.Modules.LocationModule
                     new LocationScreenItemViewModel(x,
                         SelectedLocationScreen,
                         LocationSelectionCommand,
-                        _applicationState.CurrentTicket != null,
+                        SelectedTicket != null,
                         _userService.IsUserPermittedFor(PermissionNames.MergeTickets))));
             }
             else

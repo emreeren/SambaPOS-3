@@ -32,26 +32,18 @@ namespace Samba.Modules.AccountModule
         public ICaptionCommand SelectAccountCommand { get; set; }
         public ICaptionCommand CreateAccountCommand { get; set; }
         public ICaptionCommand EditAccountCommand { get; set; }
-        public ICaptionCommand ResetAccountCommand { get; set; }
-        public ICaptionCommand FindTicketCommand { get; set; }
-        public ICaptionCommand MakePaymentCommand { get; set; }
         public ICaptionCommand DisplayAccountCommand { get; set; }
 
         private readonly IApplicationState _applicationState;
-        private readonly ITicketService _ticketService;
-        private readonly IUserService _userService;
         private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public AccountSelectorViewModel(IApplicationState applicationState, ITicketService ticketService,
-            IUserService userService, ICacheService cacheService)
+        public AccountSelectorViewModel(IApplicationState applicationState, ICacheService cacheService)
         {
             _updateTimer = new Timer(500);
             _updateTimer.Elapsed += UpdateTimerElapsed;
 
             _applicationState = applicationState;
-            _ticketService = ticketService;
-            _userService = userService;
             _cacheService = cacheService;
 
             FoundAccounts = new ObservableCollection<AccountSearchViewModel>();
@@ -60,9 +52,6 @@ namespace Samba.Modules.AccountModule
             SelectAccountCommand = new CaptionCommand<string>(Resources.SelectAccount.Replace(" ", "\r"), OnSelectAccount, CanSelectAccount);
             EditAccountCommand = new CaptionCommand<string>(string.Format(Resources.Edit_f, Resources.Account).Replace(" ", "\r"), OnEditAccount, CanEditAccount);
             CreateAccountCommand = new CaptionCommand<string>(Resources.NewAccount.Replace(" ", "\r"), OnCreateAccount, CanCreateAccount);
-            FindTicketCommand = new CaptionCommand<string>(Resources.FindTicket.Replace(" ", "\r"), OnFindTicket, CanFindTicket);
-            ResetAccountCommand = new CaptionCommand<string>(Resources.ResetAccount.Replace(" ", "\r"), OnResetAccount, CanResetAccount);
-            MakePaymentCommand = new CaptionCommand<string>(Resources.GetPayment_r, OnMakePayment, CanMakePayment);
             DisplayAccountCommand = new CaptionCommand<string>(Resources.AccountDetails.Replace(" ", "\r"), OnDisplayAccount, CanSelectAccount);
         }
 
@@ -103,13 +92,6 @@ namespace Samba.Modules.AccountModule
             }
         }
 
-        private string _ticketSearchText;
-        public string TicketSearchText
-        {
-            get { return _ticketSearchText; }
-            set { _ticketSearchText = value; RaisePropertyChanged(() => TicketSearchText); }
-        }
-
         private string _searchString;
         public string SearchString
         {
@@ -127,59 +109,10 @@ namespace Samba.Modules.AccountModule
 
         public bool IsCloseButtonVisible { get { return _applicationState.CurrentDepartment != null; } }
 
-        public bool IsResetAccountVisible
-        {
-            get
-            {
-                return (_applicationState.CurrentTicket != null &&
-                        _applicationState.CurrentTicket.AccountId != _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.DefaultTargetAccountId);
-            }
-        }
-
-        public bool IsClearVisible
-        {
-            get
-            {
-                return (_applicationState.CurrentTicket != null &&
-                        _applicationState.CurrentTicket.AccountId == 0);
-            }
-        }
-
-        public bool IsMakePaymentVisible
-        {
-            get
-            {
-                return (_applicationState.CurrentTicket != null && _userService.IsUserPermittedFor(PermissionNames.MakePayment));
-            }
-        }
-
-        private bool CanMakePayment(string arg)
-        {
-            return SelectedAccount != null && _applicationState.CurrentTicket != null;
-        }
-
-        private void OnMakePayment(string obj)
-        {
-            SelectedAccount.Model.PublishEvent(EventTopicNames.PaymentRequestedForTicket);
-            ClearSearchValues();
-        }
-
         private void OnDisplayAccount(string obj)
         {
             SelectedAccount.Model.PublishEvent(EventTopicNames.DisplayAccountTransactions);
             ClearSearchValues();
-        }
-
-        private bool CanResetAccount(string arg)
-        {
-            return _applicationState.CurrentTicket != null &&
-                _applicationState.CurrentTicket.CanSubmit &&
-                _applicationState.CurrentTicket.AccountId > 0;
-        }
-
-        private static void OnResetAccount(string obj)
-        {
-            Account.Null.PublishEvent(EventTopicNames.AccountSelectedForTicket);
         }
 
         private bool CanEditAccount(string arg)
@@ -190,19 +123,6 @@ namespace Samba.Modules.AccountModule
         private void OnEditAccount(string obj)
         {
             SelectedAccount.Model.PublishEvent(EventTopicNames.EditAccountDetails);
-        }
-
-        private void OnFindTicket(string obj)
-        {
-            _ticketService.OpenTicketByTicketNumber(TicketSearchText);
-            if (_applicationState.CurrentTicket != null)
-                EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
-            TicketSearchText = "";
-        }
-
-        private bool CanFindTicket(string arg)
-        {
-            return !string.IsNullOrEmpty(TicketSearchText) && _applicationState.CurrentTicket == null;
         }
 
         private bool CanCreateAccount(string arg)
@@ -233,10 +153,7 @@ namespace Samba.Modules.AccountModule
 
         private void OnCloseScreen(string obj)
         {
-            if (_applicationState.CurrentTicket != null)
-                EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
-            else
-                _applicationState.CurrentDepartment.PublishEvent(EventTopicNames.ActivateOpenTickets);
+            CommonEventPublisher.RequestNavigation(EventTopicNames.ActivateOpenTickets);
         }
 
         public void RefreshSelectedAccount()
@@ -249,22 +166,19 @@ namespace Samba.Modules.AccountModule
 
                 ClearSearchValues();
 
-                if (_applicationState.CurrentTicket != null && _applicationState.CurrentTicket.AccountId != _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.DefaultTargetAccountId)
-                {
-                    var account = Dao.SingleWithCache<Account>(x => x.Id == _applicationState.CurrentTicket.AccountId);
-                    if (account != null)
-                    {
-                        ClearSearchValues();
-                        FoundAccounts.Add(new AccountSearchViewModel(account, SelectedAccountTemplate));
-                    }
-                }
+                //if (_applicationState.CurrentTicket != null && _applicationState.CurrentTicket.AccountId != _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.DefaultTargetAccountId)
+                //{
+                //    var account = Dao.SingleWithCache<Account>(x => x.Id == _applicationState.CurrentTicket.AccountId);
+                //    if (account != null)
+                //    {
+                //        ClearSearchValues();
+                //        FoundAccounts.Add(new AccountSearchViewModel(account, SelectedAccountTemplate));
+                //    }
+                //}
             }
 
             RaisePropertyChanged(() => SelectedAccountTemplate);
             RaisePropertyChanged(() => SelectedAccount);
-            RaisePropertyChanged(() => IsClearVisible);
-            RaisePropertyChanged(() => IsResetAccountVisible);
-            RaisePropertyChanged(() => IsMakePaymentVisible);
             RaisePropertyChanged(() => IsCloseButtonVisible);
             RaisePropertyChanged(() => AccountTemplates);
         }
@@ -273,7 +187,6 @@ namespace Samba.Modules.AccountModule
         {
             FoundAccounts.Clear();
             SearchString = "";
-            TicketSearchText = "";
         }
 
         private void ResetTimer()

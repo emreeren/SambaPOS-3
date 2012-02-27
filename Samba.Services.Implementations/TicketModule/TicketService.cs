@@ -24,20 +24,18 @@ namespace Samba.Services.Implementations.TicketModule
         private readonly IDepartmentService _departmentService;
         private readonly IPrinterService _printerService;
         private readonly IApplicationState _applicationState;
-        private readonly IApplicationStateSetter _applicationStateSetter;
         private readonly IAutomationService _automationService;
         private readonly ISettingService _settingService;
         private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
         public TicketService(IDepartmentService departmentService, IPrinterService printerService,
-            IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
-            IAutomationService automationService, ISettingService settingService, ICacheService cacheService)
+            IApplicationState applicationState, IAutomationService automationService,
+            ISettingService settingService, ICacheService cacheService)
         {
             _departmentService = departmentService;
             _printerService = printerService;
             _applicationState = applicationState;
-            _applicationStateSetter = applicationStateSetter;
             _automationService = automationService;
             _settingService = settingService;
             _cacheService = cacheService;
@@ -59,7 +57,7 @@ namespace Samba.Services.Implementations.TicketModule
             _automationService.NotifyEvent(RuleEventNames.AccountSelectedForTicket,
                     new
                     {
-                        Ticket = _applicationState.CurrentTicket,
+                        Ticket = ticket,
                         AccountName = account.Name,
                         PhoneNumber = account.SearchString
                     });
@@ -67,17 +65,14 @@ namespace Samba.Services.Implementations.TicketModule
 
         public Ticket OpenTicket(int ticketId)
         {
-            var ticket = _applicationState.CurrentTicket;
             Debug.Assert(_workspace == null);
-            Debug.Assert(ticket == null);
             Debug.Assert(_applicationState.CurrentDepartment != null);
 
             _workspace = WorkspaceFactory.Create();
-            ticket = ticketId == 0
-                                 ? CreateTicket()
-                                 : _workspace.Single<Ticket>(t => t.Id == ticketId,
-                                                             x => x.Orders.Select(y => y.OrderTagValues), x => x.Calculations);
-            _applicationStateSetter.SetCurrentTicket(ticket);
+            var ticket = ticketId == 0
+                                  ? CreateTicket()
+                                  : _workspace.Single<Ticket>(t => t.Id == ticketId,
+                                                              x => x.Orders.Select(y => y.OrderTagValues), x => x.Calculations);
 
             if (ticket.Id == 0)
                 _automationService.NotifyEvent(RuleEventNames.TicketCreated, new { Ticket = ticket });
@@ -90,32 +85,6 @@ namespace Samba.Services.Implementations.TicketModule
             var account = _cacheService.GetAccountById(
                     _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.DefaultTargetAccountId);
             return Ticket.Create(_applicationState.CurrentDepartment, account);
-        }
-
-        public Ticket OpenTicketByLocationName(string locationName)
-        {
-            var location = Dao.SingleWithCache<Location>(x => x.Name == locationName);
-            if (location != null)
-            {
-                var ticket = _applicationState.CurrentTicket;
-                if (location.TicketId > 0)
-                    ticket = OpenTicket(location.TicketId);
-                ChangeTicketLocation(ticket, location.Id);
-                return ticket;
-            }
-            return null;
-        }
-
-        public Ticket OpenTicketByTicketNumber(string ticketNumber)
-        {
-            Debug.Assert(_applicationState.CurrentTicket == null);
-            var id = Dao.Select<Ticket, int>(x => x.Id, x => x.TicketNumber == ticketNumber).FirstOrDefault();
-            if (id > 0)
-            {
-                var ticket = OpenTicket(id);
-                return ticket;
-            }
-            return null;
         }
 
         public TicketCommitResult CloseTicket(Ticket ticket)
@@ -214,8 +183,6 @@ namespace Samba.Services.Implementations.TicketModule
             }
             result.TicketId = ticket.Id;
             _workspace = null;
-            _applicationStateSetter.SetCurrentTicket(null);
-
             return result;
         }
 

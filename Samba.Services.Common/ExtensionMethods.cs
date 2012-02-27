@@ -26,5 +26,16 @@ namespace Samba.Services.Common
             if (wait) Application.Current.Dispatcher.Invoke(new PublishEventDelegate<TEventsubject>(Publish), eventArgs, eventTopic);
             else Application.Current.Dispatcher.BeginInvoke(new PublishEventDelegate<TEventsubject>(Publish), eventArgs, eventTopic);
         }
+
+        public static void PublishIdEvent(int id, string eventTopic)
+        {
+            Application.Current.Dispatcher.BeginInvoke(new PublishEventDelegate<int>(InternalPublishIdEvent), id, eventTopic);
+        }
+
+        private static void InternalPublishIdEvent(int id, string eventTopic)
+        {
+            var e = EventServiceFactory.EventService.GetEvent<GenericIdEvent>();
+            e.Publish(new EventParameters<int> { Topic = eventTopic, Value = id });
+        }
     }
 }

@@ -3,6 +3,7 @@
 namespace Samba.Services.Common
 {
     public class GenericEvent<TValue> : CompositePresentationEvent<EventParameters<TValue>> { }
+    public class GenericIdEvent : CompositePresentationEvent<EventParameters<int>> { }
 
     public class EventParameters<TValue>
     {

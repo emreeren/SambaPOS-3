@@ -111,30 +111,34 @@ namespace Samba.Presentation.ViewModels
             {
                 if (x.Value.Action.ActionType == "UpdateTicketAccount")
                 {
-                    Expression<Func<Account, bool>> qFilter = null;
-
-                    var phoneNumber = x.Value.GetAsString("AccountPhone");
-                    var accountName = x.Value.GetAsString("AccountName");
-                    var note = x.Value.GetAsString("Note");
-
-                    if (!string.IsNullOrEmpty(phoneNumber))
+                    var ticket = x.Value.GetDataValue<Ticket>("Ticket");
+                    if (ticket != null)
                     {
-                        qFilter = y => y.SearchString == phoneNumber;
-                    }
+                        Expression<Func<Account, bool>> qFilter = null;
 
-                    if (!string.IsNullOrEmpty(accountName))
-                    {
-                        if (qFilter == null) qFilter = y => y.Name == accountName;
-                        else qFilter = qFilter.And(y => y.Name == accountName);
-                    }
+                        var phoneNumber = x.Value.GetAsString("AccountPhone");
+                        var accountName = x.Value.GetAsString("AccountName");
+                        var note = x.Value.GetAsString("Note");
 
-                    if (qFilter != null)
-                    {
-                        var account = Dao.Query(qFilter).FirstOrDefault();
-                        if (account != null)
-                            TicketService.UpdateAccount(ApplicationState.CurrentTicket, account);
+                        if (!string.IsNullOrEmpty(phoneNumber))
+                        {
+                            qFilter = y => y.SearchString == phoneNumber;
+                        }
+
+                        if (!string.IsNullOrEmpty(accountName))
+                        {
+                            if (qFilter == null) qFilter = y => y.Name == accountName;
+                            else qFilter = qFilter.And(y => y.Name == accountName);
+                        }
+
+                        if (qFilter != null)
+                        {
+                            var account = Dao.Query(qFilter).FirstOrDefault();
+                            if (account != null)
+                                TicketService.UpdateAccount(ticket, account);
+                        }
+                        else TicketService.UpdateAccount(ticket, Account.Null);
                     }
-                    else TicketService.UpdateAccount(ApplicationState.CurrentTicket, Account.Null);
                 }
 
                 if (x.Value.Action.ActionType == "UpdateProgramSetting")

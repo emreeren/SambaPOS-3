@@ -22,7 +22,6 @@ namespace Samba.Services
 
     public interface IApplicationState
     {
-        Ticket CurrentTicket { get; }
         User CurrentLoggedInUser { get; }
         Department CurrentDepartment { get; }
         AppScreens ActiveAppScreen { get; }
@@ -30,6 +29,7 @@ namespace Samba.Services
         WorkPeriod CurrentWorkPeriod { get; }
         WorkPeriod PreviousWorkPeriod { get; }
         bool IsCurrentWorkPeriodOpen { get; }
+        bool IsLocked { get; }
         Terminal CurrentTerminal { get; }
     }
 }

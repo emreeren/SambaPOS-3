@@ -117,7 +117,7 @@ namespace Samba.Presentation
 
         private void WindowClosing(object sender, CancelEventArgs e)
         {
-            if (_applicationState.CurrentTicket != null)
+            if (_applicationState.IsLocked)
             {
                 e.Cancel = true;
                 return;

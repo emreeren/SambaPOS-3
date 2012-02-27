@@ -24,8 +24,7 @@ namespace Samba.Services
         [MethodImpl(MethodImplOptions.Synchronized)]
         public static void RunQueue()
         {
-            if (MethodList.Count == 0 || ApplicationState.CurrentLoggedInUser == User.Nobody
-                || ApplicationState.CurrentTicket != null) return;
+            if (MethodList.Count == 0 || ApplicationState.CurrentLoggedInUser == User.Nobody || ApplicationState.IsLocked) return;
             lock (MethodList)
             {
                 MethodList.Values.ToList().ForEach(x => x.Invoke());

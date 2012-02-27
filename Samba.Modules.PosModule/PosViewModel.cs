@@ -23,22 +23,24 @@ namespace Samba.Modules.PosModule
         private readonly MenuItemSelectorViewModel _menuItemSelectorViewModel;
         private readonly TicketExplorerViewModel _ticketExplorerViewModel;
         private readonly MenuItemSelectorView _menuItemSelectorView;
+        private readonly TicketListViewModel _ticketListViewModel;
 
         [ImportingConstructor]
         public PosViewModel(IRegionManager regionManager, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
             ITicketService ticketService, IUserService userService, TicketExplorerViewModel ticketExplorerViewModel,
-            MenuItemSelectorViewModel menuItemSelectorViewModel, MenuItemSelectorView menuItemSelectorView)
+            MenuItemSelectorViewModel menuItemSelectorViewModel, MenuItemSelectorView menuItemSelectorView, TicketListViewModel ticketListViewModel)
         {
             _ticketService = ticketService;
             _userService = userService;
             _applicationState = applicationState;
             _regionManager = regionManager;
             _menuItemSelectorView = menuItemSelectorView;
+            _ticketListViewModel = ticketListViewModel;
 
             _menuItemSelectorViewModel = menuItemSelectorViewModel;
             _ticketExplorerViewModel = ticketExplorerViewModel;
 
-            EventServiceFactory.EventService.GetEvent<GenericEvent<Ticket>>().Subscribe(OnTicketEvent);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<NavigationRequest>>().Subscribe(OnNavigationRequest);
             EventServiceFactory.EventService.GetEvent<GenericEvent<User>>().Subscribe(OnUserLoginEvent);
             EventServiceFactory.EventService.GetEvent<GenericEvent<WorkPeriod>>().Subscribe(OnWorkPeriodEvent);
             EventServiceFactory.EventService.GetEvent<GenericEvent<SelectedOrdersData>>().Subscribe(
@@ -63,6 +65,9 @@ namespace Samba.Modules.PosModule
                          case EventTopicNames.ActivateTicket:
                              DisplaySingleTicket();
                              break;
+                         case EventTopicNames.PaymentSubmitted:
+                             DisplayMenuScreen();
+                             break;
                      }
                  });
 
@@ -74,6 +79,13 @@ namespace Samba.Modules.PosModule
                         DisplayOpenTickets();
                     }
                 });
+        }
+
+        private void OnNavigationRequest(EventParameters<NavigationRequest> obj)
+        {
+            EventServiceFactory.EventService.PublishEvent(_ticketListViewModel.SelectedTicket != null
+                                                              ? EventTopicNames.ActivateTicket
+                                                              : obj.Value.RequestedEvent);
         }
 
         public CaptionCommand<Ticket> DisplayPaymentScreenCommand { get; set; }
@@ -88,8 +100,8 @@ namespace Samba.Modules.PosModule
 
         private void CloseTicket()
         {
-            if (_applicationState.CurrentTicket != null)
-                _ticketService.CloseTicket(_applicationState.CurrentTicket);
+            if (_ticketListViewModel.SelectedTicket != null)
+                _ticketService.CloseTicket(_ticketListViewModel.SelectedTicket.Model);
             //todo fix
             //_ticketListViewModel.SelectedDepartment = null;
         }
@@ -102,19 +114,9 @@ namespace Samba.Modules.PosModule
             }
         }
 
-        private void OnTicketEvent(EventParameters<Ticket> obj)
-        {
-            switch (obj.Topic)
-            {
-                case EventTopicNames.PaymentSubmitted:
-                    DisplayMenuScreen();
-                    break;
-            }
-        }
-
         public void DisplayTickets()
         {
-            if (_applicationState.CurrentTicket != null)
+            if (_ticketListViewModel.SelectedTicket != null)
             {
                 EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
                 return;

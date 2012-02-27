@@ -58,10 +58,7 @@ namespace Samba.Modules.PosModule
         private void OnOpenTicketExecute(int? id)
         {
             if (id == null) return;
-            var ticket = _applicationState.CurrentTicket;
-            if (_applicationState.CurrentTicket != null)
-                _ticketService.CloseTicket(ticket);
-            ticket = _ticketService.OpenTicket(id.GetValueOrDefault());
+            var ticket = _ticketService.OpenTicket(id.GetValueOrDefault());
             if (ticket != null)
                 EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
         }

@@ -289,7 +289,7 @@ namespace Samba.Modules.PaymentModule
                 SelectedTicket.PaidItems.Add(paidItem);
             }
 
-            SelectedTicket.PublishEvent(EventTopicNames.PaymentSubmitted);
+            EventServiceFactory.EventService.PublishEvent(EventTopicNames.PaymentSubmitted);
             TenderedAmount = "";
             ReturningAmount = "";
             ReturningAmountVisibility = Visibility.Collapsed;

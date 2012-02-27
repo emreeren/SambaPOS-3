@@ -19,8 +19,7 @@ namespace Samba.Presentation.Common.Services
             OrderCommands = new ObservableCollection<ICaptionCommand>();
             TicketCommands = new ObservableCollection<ICaptionCommand>();
 
-            //EventServiceFactory.EventService.GetEvent<GenericEvent<ICategoryCommand>>().Subscribe(OnNavigationCommandAdded);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<ICategoryCommand>>().Subscribe(OnDashboardCommandAdded);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<ICategoryCommand>>().Subscribe(OnCommandAdded);
             EventServiceFactory.EventService.GetEvent<GenericEvent<ICaptionCommand>>().Subscribe(OnTicketCommandAdded);
         }
 
@@ -32,11 +31,7 @@ namespace Samba.Presentation.Common.Services
                 OrderCommands.Add(obj.Value);
         }
 
-        //private static void OnNavigationCommandAdded(EventParameters<ICategoryCommand> obj)
-        //{
-        //}
-
-        private static void OnDashboardCommandAdded(EventParameters<ICategoryCommand> result)
+        private static void OnCommandAdded(EventParameters<ICategoryCommand> result)
         {
             if (result.Topic == EventTopicNames.NavigationCommandAdded)
                 NavigationCommandCategories.Add(result.Value);

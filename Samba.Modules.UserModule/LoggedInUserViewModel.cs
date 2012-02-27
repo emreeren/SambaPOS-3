@@ -14,7 +14,7 @@ namespace Samba.Modules.UserModule
         private readonly IApplicationState _applicationState;
 
         [ImportingConstructor]
-        public LoggedInUserViewModel(IApplicationState applicationState,IUserService userService)
+        public LoggedInUserViewModel(IApplicationState applicationState, IUserService userService)
         {
             _userService = userService;
             _applicationState = applicationState;
@@ -29,7 +29,7 @@ namespace Samba.Modules.UserModule
 
             LogoutUserCommand = new DelegateCommand<User>(x =>
             {
-                if (_applicationState.CurrentTicket == null)
+                if (!_applicationState.IsLocked)
                 {
                     if (_userService.IsUserPermittedFor(PermissionNames.OpenNavigation))
                     {

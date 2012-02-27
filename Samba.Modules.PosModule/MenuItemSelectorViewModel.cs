@@ -157,21 +157,22 @@ namespace Samba.Modules.PosModule
             }
             else
             {
-                var ticket = _ticketService.OpenTicketByTicketNumber(NumeratorValue);
-                if (ticket != null)
-                {
-                    if (!_userService.IsUserPermittedFor(PermissionNames.DisplayOldTickets) && _applicationState.CurrentTicket.Date < _applicationState.CurrentWorkPeriod.StartDate)
-                        _ticketService.CloseTicket(ticket);
-                    else
-                        EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
-                }
+                //var ticket = _ticketService.OpenTicketByTicketNumber(NumeratorValue);
+                //if (ticket != null)
+                //{
+                //    if (!_userService.IsUserPermittedFor(PermissionNames.DisplayOldTickets) && _applicationState.CurrentTicket.Date < _applicationState.CurrentWorkPeriod.StartDate)
+                //        _ticketService.CloseTicket(ticket);
+                //    else
+                //        EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
+                //}
                 NumeratorValue = "";
             }
         }
 
         private bool CanFindTicket(string arg)
         {
-            return _applicationState.CurrentTicket == null;
+           // return _applicationState.CurrentTicket == null;
+            return false;
         }
 
         private void OnFindMenuItemCommand(string obj)
@@ -227,17 +228,18 @@ namespace Samba.Modules.PosModule
 
         private bool CanFindLocation(string arg)
         {
-            return _applicationState.CurrentTicket == null;
+            //return _applicationState.CurrentTicket == null;
+            return false;
         }
 
         private void OnFindLocationExecute(string obj)
         {
-            if (_applicationState.CurrentTicket == null)
-            {
-                _ticketService.OpenTicketByLocationName(NumeratorValue);
-                if (_applicationState.CurrentTicket != null)
-                    EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
-            }
+            //if (_applicationState.CurrentTicket == null)
+            //{
+            //    _ticketService.OpenTicketByLocationName(NumeratorValue);
+            //    if (_applicationState.CurrentTicket != null)
+            //        EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
+            //}
             NumeratorValue = "";
         }
 

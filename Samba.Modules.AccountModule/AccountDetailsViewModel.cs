@@ -161,9 +161,7 @@ namespace Samba.Modules.AccountModule
         private void OnCloseAccountScreen(string obj)
         {
             AccountDetails.Clear();
-            EventServiceFactory.EventService.PublishEvent(_applicationState.CurrentTicket != null
-                                                              ? EventTopicNames.ActivateTicket
-                                                              : EventTopicNames.ActivateAccountView);
+            CommonEventPublisher.RequestNavigation(EventTopicNames.ActivateAccountView);
         }
 
         private void OnAddReceivable(string obj)

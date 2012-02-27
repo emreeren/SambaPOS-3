@@ -58,16 +58,6 @@ namespace Samba.Modules.AccountModule
             }
         }
 
-        private void TicketNoPreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                e.Handled = true;
-                if (((AccountSelectorViewModel)DataContext).FindTicketCommand.CanExecute(""))
-                    ((AccountSelectorViewModel)DataContext).FindTicketCommand.Execute("");
-            }
-        }
-
         private void FlexButtonClick(object sender, RoutedEventArgs e)
         {
             Reset();

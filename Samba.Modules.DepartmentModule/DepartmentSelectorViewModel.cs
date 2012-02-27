@@ -35,7 +35,7 @@ namespace Samba.Modules.DepartmentModule
 
         private void OnSelectedTicketChanged(EventParameters<IApplicationState> obj)
         {
-            if (obj.Topic == EventTopicNames.SelectedTicketChanged)
+            if (obj.Topic == EventTopicNames.ApplicationLockStateChanged)
                 RaisePropertyChanged(() => CanChangeDepartment);
         }
 
@@ -66,7 +66,7 @@ namespace Samba.Modules.DepartmentModule
 
         public bool CanChangeDepartment
         {
-            get { return _applicationState.CurrentTicket == null && _applicationState.IsCurrentWorkPeriodOpen; }
+            get { return !_applicationState.IsLocked && _applicationState.IsCurrentWorkPeriodOpen; }
         }
 
         private void OnWorkPeriodChanged(EventParameters<WorkPeriod> obj)
@@ -85,6 +85,10 @@ namespace Samba.Modules.DepartmentModule
                 RaisePropertyChanged(() => IsDepartmentSelectorVisible);
                 RaisePropertyChanged(() => PermittedDepartments);
                 RaisePropertyChanged(() => CanChangeDepartment);
+                if (obj.Value.UserRole.DepartmentId > 0)
+                {
+                    _applicationStateSetter.SetCurrentDepartment(obj.Value.UserRole.DepartmentId);
+                }
             }
         }
     }

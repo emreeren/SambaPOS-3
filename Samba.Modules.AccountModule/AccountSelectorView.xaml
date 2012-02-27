@@ -20,7 +20,6 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1.5*" />
                 <ColumnDefinition Width="3*" />
-                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -28,13 +27,10 @@
             </Grid.RowDefinitions>
             <TextBlock Margin="3" Grid.Row="0" Grid.Column="0" FontSize="24" Text="Templates" />
             <TextBlock Margin="3" Grid.Row="0" Grid.Column="1" FontSize="24" Text="{LocText SearchString}" />
-            <TextBlock Margin="3" Grid.Row="0" Grid.Column="2" FontSize="24" Text="{LocText Ticket}" />
             <ComboBox Margin="3" Grid.Row="1" Grid.Column="0" FontSize="24" DisplayMemberPath="Name" ItemsSource="{Binding AccountTemplates}" SelectedItem="{Binding SelectedAccountTemplate}"></ComboBox>
             <TextBox Margin="3" Grid.Row="1" Grid.Column="1" FontSize="24" Name="SearchString"
                              Text="{Binding SearchString,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                              PreviewKeyDown="SearchStringPreviewKeyDown" Loaded="SearchStringLoaded" />
-            <TextBox Margin="3" Grid.Row="1" Grid.Column="2" FontSize="24" Name="TicketNo" Text="{Binding TicketSearchText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                             PreviewKeyDown="TicketNoPreviewKeyDown" />
         </Grid>
         <ListView Name="MainListView" Grid.Row="1" Margin="5" Background="LightGray" VirtualizingStackPanel.IsVirtualizing="True"
                          IsSynchronizedWithCurrentItem="True" ListViewEx:ListViewSorter.IsListviewSortable="True"
@@ -66,19 +62,13 @@
                          Margin="2" Height="60" Content="{LocText Close}"
                          ButtonColor="Red" Command="{Binding CloseScreenCommand}" />
                 <FlexButton:FlexButton Margin="2" Height="60" Content="{LocText Clear}"
-                         Click="FlexButtonClick" Visibility="{Binding IsClearVisible,Converter={StaticResource VisibilityConverter}}" />
-                <FlexButton:FlexButton Margin="2" Height="60" Command="{Binding ResetAccountCommand}"
-                         Content="{Binding ResetAccountCommand.Caption}" Visibility="{Binding IsResetAccountVisible,Converter={StaticResource VisibilityConverter}}" />
+                         Click="FlexButtonClick" />
                 <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding SelectAccountCommand.Caption}"
                          Command="{Binding SelectAccountCommand}" Name="SelectAccountButton" />
                 <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding EditAccountCommand.Caption}"
                          Command="{Binding EditAccountCommand}"/>
-                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding MakePaymentCommand.Caption}"
-                         Command="{Binding MakePaymentCommand}" Visibility="{Binding IsMakePaymentVisible,Converter={StaticResource VisibilityConverter}}" />
                 <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding CreateAccountCommand.Caption}"
                          Command="{Binding CreateAccountCommand}" Name="CreateAccountButton" />
-                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding FindTicketCommand.Caption}"
-                         Command="{Binding FindTicketCommand}" />
                 <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding DisplayAccountCommand.Caption}"
                          Command="{Binding DisplayAccountCommand}" />
             </StackPanel>

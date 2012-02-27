@@ -16,13 +16,16 @@ namespace Samba.Modules.LocationModule
     {
         private readonly IRegionManager _regionManager;
         private readonly LocationSelectorView _locationSelectorView;
+        private readonly LocationSelectorViewModel _locationSelectorViewModel;
 
         [ImportingConstructor]
-        public LocationModule(IRegionManager regionManager, LocationSelectorView locationSelectorView)
+        public LocationModule(IRegionManager regionManager, LocationSelectorView locationSelectorView,
+            LocationSelectorViewModel locationSelectorViewModel)
             : base(regionManager, AppScreens.LocationList)
         {
             _regionManager = regionManager;
             _locationSelectorView = locationSelectorView;
+            _locationSelectorViewModel = locationSelectorViewModel;
 
             AddDashboardCommand<EntityCollectionViewModelBase<LocationEditorViewModel, Location>>(string.Format(Resources.List_f, Resources.Location), Resources.Locations, 30);
             AddDashboardCommand<EntityCollectionViewModelBase<LocationScreenViewModel, LocationScreen>>(Resources.LocationViews, Resources.Locations);
@@ -44,6 +47,16 @@ namespace Samba.Modules.LocationModule
             {
                 if (x.Topic == EventTopicNames.SelectLocation)
                 {
+                    _locationSelectorViewModel.SelectedTicket = null;
+                    ActivateLocationView();
+                }
+            });
+
+            EventServiceFactory.EventService.GetEvent<GenericEvent<Ticket>>().Subscribe(x =>
+            {
+                if (x.Topic == EventTopicNames.SelectLocation)
+                {
+                    _locationSelectorViewModel.SelectedTicket = x.Value;
                     ActivateLocationView();
                 }
             });

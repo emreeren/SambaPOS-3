@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
@@ -67,26 +68,12 @@ namespace Samba.Modules.PosModule
         private TicketViewModel _selectedTicket;
         public TicketViewModel SelectedTicket
         {
-            get
+            get { return _selectedTicket; }
+            set
             {
-                if (_applicationState.CurrentTicket == null) _selectedTicket = null;
-                if (_selectedTicket == null && _applicationState.CurrentTicket != null)
-                {
-                    _selectedTicket = new TicketViewModel(_applicationState.CurrentTicket,
-                        _applicationState.CurrentDepartment.TicketTemplate,
-                        _applicationState.CurrentDepartment != null && _applicationState.CurrentDepartment.IsFastFood,
-                        _ticketService, _automationService, _applicationState);
-                    Totals = new TicketTotalsViewModel(_applicationState.CurrentTicket);
-                    _ticketOrdersViewModel.SelectedTicket = _selectedTicket;
-                    if (_applicationState.CurrentDepartment != null)
-                        PaymentButtonGroup.UpdatePaymentButtons(_applicationState.CurrentDepartment.TicketTemplate.PaymentTemplates.Where(x => x.DisplayUnderTicket));
-                }
-                if (_selectedTicket == null && (Totals == null || Totals.Model != Ticket.Empty))
-                {
-                    Totals = new TicketTotalsViewModel(Ticket.Empty);
-                    _ticketOrdersViewModel.SelectedTicket = null;
-                }
-                return _selectedTicket;
+                _selectedTicket = value;
+                _ticketOrdersViewModel.SelectedTicket = value;
+                RaisePropertyChanged(() => SelectedTicket);
             }
         }
 
@@ -237,13 +224,14 @@ namespace Samba.Modules.PosModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<OrderViewModel>>().Subscribe(OnSelectedOrdersChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketTagData>>().Subscribe(OnTagSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<Account>>().Subscribe(OnAccountSelectedForTicket);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<Ticket>>().Subscribe(OnPaymentSubmitted);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnRefreshTicket);
             EventServiceFactory.EventService.GetEvent<GenericEvent<Message>>().Subscribe(OnMessageReceived);
             EventServiceFactory.EventService.GetEvent<GenericEvent<PopupData>>().Subscribe(OnAccountSelectedFromPopup);
             EventServiceFactory.EventService.GetEvent<GenericEvent<OrderTagData>>().Subscribe(OnOrderTagEvent);
             EventServiceFactory.EventService.GetEvent<GenericEvent<MenuItemPortion>>().Subscribe(OnPortionSelected);
+            EventServiceFactory.EventService.GetEvent<GenericIdEvent>().Subscribe(OnTicketIdPublished);
         }
+
 
         private void ClearSelectedItems()
         {
@@ -278,6 +266,12 @@ namespace Samba.Modules.PosModule
         {
             if (SelectedDepartment == null && _applicationState.CurrentLoggedInUser.UserRole.DepartmentId > 0)
                 UpdateSelectedDepartment(_applicationState.CurrentLoggedInUser.UserRole.DepartmentId);
+
+            if (obj.Topic == EventTopicNames.PaymentSubmitted)
+            {
+                _selectedTicket = null;
+                CloseTicket();
+            }
 
             if (obj.Topic == EventTopicNames.ActivatePosView)
             {
@@ -322,18 +316,22 @@ namespace Samba.Modules.PosModule
             }
         }
 
-        private void OnPaymentSubmitted(EventParameters<Ticket> obj)
+        private void OnTicketIdPublished(EventParameters<int> obj)
         {
-            _selectedTicket = null;
-            if (obj.Topic == EventTopicNames.PaymentSubmitted)
-                CloseTicket();
+            if (obj.Topic == EventTopicNames.DisplayTicket)
+            {
+                if (_selectedTicket != null)
+                    _ticketService.CloseTicket(_selectedTicket.Model);
+                OpenTicket(obj.Value);
+                EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
+            }
         }
 
         private void OnAccountSelectedForTicket(EventParameters<Account> obj)
         {
             if (obj.Topic == EventTopicNames.AccountSelectedForTicket)
             {
-                if (SelectedTicket == null) _ticketService.OpenTicket(0);
+                if (SelectedTicket == null) OpenTicket(0);
                 if (SelectedTicket != null)
                 {
                     _ticketService.UpdateAccount(SelectedTicket.Model, obj.Value);
@@ -445,7 +443,7 @@ namespace Samba.Modules.PosModule
                 {
                     if (obj.Value.TicketId == 0)
                     {
-                        _ticketService.OpenTicket(0);
+                        OpenTicket(0);
                         if (SelectedTicket != null)
                         {
                             _ticketService.ChangeTicketLocation(SelectedTicket.Model, obj.Value.LocationId);
@@ -453,11 +451,11 @@ namespace Samba.Modules.PosModule
                     }
                     else
                     {
-                        _ticketService.OpenTicket(obj.Value.TicketId);
+                        OpenTicket(obj.Value.TicketId);
                         if (SelectedTicket != null)
                         {
                             if (SelectedTicket.Location != obj.Value.LocationName)
-                                _ticketService.ResetLocationData(_applicationState.CurrentTicket);
+                                _ticketService.ResetLocationData(SelectedTicket.Model);
                         }
                     }
                     EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
@@ -569,8 +567,7 @@ namespace Samba.Modules.PosModule
             if ((SelectedTicket.Id == 0 || SelectedTicket.Orders.Any(x => x.Model.Id == 0)) && SelectedTicket.Orders.Count > 0)
             {
                 var result = _ticketService.CloseTicket(SelectedTicket.Model);
-                _ticketService.OpenTicket(result.TicketId);
-                _selectedTicket = null;
+                OpenTicket(result.TicketId);
             }
         }
 
@@ -592,7 +589,7 @@ namespace Samba.Modules.PosModule
             var newTicketId = _ticketService.MoveOrders(SelectedTicket.Model, SelectedTicket.SelectedOrders.Select(x => x.Model), 0).TicketId;
             _selectedTicket = null;
             _selectedOrders.Clear();
-            _ticketService.OpenTicket(newTicketId);
+            OpenTicket(newTicketId);
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
             RefreshVisuals();
             SelectedTicket.ClearSelectedItems();
@@ -731,7 +728,7 @@ namespace Samba.Modules.PosModule
 
         private void OnSelectLocationExecute(string obj)
         {
-            SelectedDepartment.PublishEvent(EventTopicNames.SelectLocation);
+            SelectedTicket.Model.PublishEvent(EventTopicNames.SelectLocation);
         }
 
         public string SelectLocationButtonCaption
@@ -778,17 +775,6 @@ namespace Samba.Modules.PosModule
             return SelectedTicket == null || SelectedTicket.CanCloseTicket();
         }
 
-        private void CloseTicket()
-        {
-            if (_applicationState.CurrentDepartment.IsFastFood && !CanCloseTicket(""))
-            {
-                SaveTicketIfNew();
-                RefreshVisuals();
-            }
-            else if (CanCloseTicket(""))
-                CloseTicketCommand.Execute("");
-        }
-
         public bool IsFastPaymentButtonsVisible
         {
             get
@@ -812,8 +798,32 @@ namespace Samba.Modules.PosModule
             SelectedTicket.Model.PublishEvent(EventTopicNames.MakePayment);
         }
 
-        private void OnCloseTicketExecute(string obj)
+        private void OpenTicket(int id)
         {
+            _applicationStateSetter.SetApplicationLocked(true);
+            var ticket = _ticketService.OpenTicket(id);
+
+            SelectedTicket = new TicketViewModel(ticket,
+                _applicationState.CurrentDepartment.TicketTemplate,
+                _applicationState.CurrentDepartment != null && _applicationState.CurrentDepartment.IsFastFood,
+                _ticketService, _automationService, _applicationState);
+
+            Totals = new TicketTotalsViewModel(ticket ?? Ticket.Empty);
+
+            if (_applicationState.CurrentDepartment != null)
+                PaymentButtonGroup.UpdatePaymentButtons(_applicationState.CurrentDepartment.TicketTemplate.PaymentTemplates.Where(x => x.DisplayUnderTicket));
+        }
+
+        private void CloseTicket()
+        {
+            if (_applicationState.CurrentDepartment.IsFastFood && !CanCloseTicket(""))
+            {
+                SaveTicketIfNew();
+                RefreshVisuals();
+                return;
+            }
+            if (!CanCloseTicket("")) return;
+
             if (SelectedTicket.Orders.Count > 0 && SelectedTicket.Model.GetRemainingAmount() == 0)
             {
                 var message = SelectedTicket.GetPrintError();
@@ -845,6 +855,12 @@ namespace Samba.Modules.PosModule
             else EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
 
             AppServices.MessagingService.SendMessage(Messages.TicketRefreshMessage, result.TicketId.ToString());
+            _applicationStateSetter.SetApplicationLocked(false);
+        }
+
+        private void OnCloseTicketExecute(string obj)
+        {
+            CloseTicket();
         }
 
         private void RefreshVisuals()
@@ -870,7 +886,7 @@ namespace Samba.Modules.PosModule
         {
             if (SelectedTicket == null)
             {
-                _ticketService.OpenTicket(0);
+                OpenTicket(0);
                 RefreshVisuals();
             }
 

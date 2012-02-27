@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Locations;
@@ -20,7 +21,7 @@ namespace Samba.Presentation.Common.Services
         private readonly ISettingService _settingService;
 
         [ImportingConstructor]
-        public ApplicationState(IDepartmentService departmentService,ISettingService settingService)
+        public ApplicationState(IDepartmentService departmentService, ISettingService settingService)
         {
             _departmentService = departmentService;
             _settingService = settingService;
@@ -28,10 +29,16 @@ namespace Samba.Presentation.Common.Services
 
         public AppScreens ActiveAppScreen { get; private set; }
         public Department CurrentDepartment { get; private set; }
-        public Ticket CurrentTicket { get; private set; }
         public LocationScreen SelectedLocationScreen { get; private set; }
 
         private Terminal _terminal;
+
+        private bool _isLocked;
+        public bool IsLocked
+        {
+            get { return _isLocked; }
+        }
+
         public Terminal CurrentTerminal { get { return _terminal ?? (_terminal = GetCurrentTerminal()); } set { _terminal = value; } }
 
         private User _currentLoggedInUser;
@@ -70,12 +77,6 @@ namespace Samba.Presentation.Common.Services
             CurrentLoggedInUser = user;
         }
 
-        public void SetCurrentTicket(Ticket ticket)
-        {
-            CurrentTicket = ticket;
-            (this as IApplicationState).PublishEvent(EventTopicNames.SelectedTicketChanged);
-        }
-
         public void SetCurrentDepartment(Department department)
         {
             if (department != CurrentDepartment)
@@ -98,6 +99,12 @@ namespace Samba.Presentation.Common.Services
         public void SetSelectedLocationScreen(LocationScreen locationScreen)
         {
             SelectedLocationScreen = locationScreen;
+        }
+
+        public void SetApplicationLocked(bool isLocked)
+        {
+            _isLocked = isLocked;
+            (this as IApplicationState).PublishEvent(EventTopicNames.ApplicationLockStateChanged);
         }
 
         private Terminal GetCurrentTerminal()
