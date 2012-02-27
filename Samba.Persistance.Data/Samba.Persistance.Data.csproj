@@ -39,6 +39,9 @@
     <Reference Include="FluentMigrator.Runner">
       <HintPath>..\Lib\FluentMigrator.Runner.dll</HintPath>
     </Reference>
+    <Reference Include="Omu.ValueInjecter">
+      <HintPath>..\Lib\Omu.ValueInjecter.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
