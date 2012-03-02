@@ -77,7 +77,16 @@ namespace Samba.Modules.PosModule
             }
         }
 
-        public TicketTotalsViewModel Totals { get; set; }
+        private TicketTotalsViewModel _totals;
+        public TicketTotalsViewModel Totals
+        {
+            get { return _totals; }
+            set
+            {
+                _totals = value;
+                RaisePropertyChanged(() => Totals);
+            }
+        }
 
         private readonly ObservableCollection<Order> _selectedOrders;
         public Order SelectedOrder
@@ -269,7 +278,7 @@ namespace Samba.Modules.PosModule
 
             if (obj.Topic == EventTopicNames.PaymentSubmitted)
             {
-                _selectedTicket = null;
+                //_selectedTicket = null;
                 CloseTicket();
             }
 
@@ -281,7 +290,7 @@ namespace Samba.Modules.PosModule
 
             if (obj.Topic == EventTopicNames.RefreshSelectedTicket)
             {
-                _selectedTicket = null;
+                //_selectedTicket = null;
                 RefreshVisuals();
                 EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
             }

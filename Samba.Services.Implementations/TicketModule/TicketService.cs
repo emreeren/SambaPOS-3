@@ -20,7 +20,6 @@ namespace Samba.Services.Implementations.TicketModule
     [Export(typeof(ITicketService))]
     public class TicketService : AbstractService, ITicketService
     {
-        private IWorkspace _workspace;
         private readonly IDepartmentService _departmentService;
         private readonly IPrinterService _printerService;
         private readonly IApplicationState _applicationState;
@@ -48,11 +47,10 @@ namespace Samba.Services.Implementations.TicketModule
             Debug.Assert(ticket != null);
             if (account == Account.Null)
             {
-                var template = _workspace.Single<AccountTransactionTemplate>(
+                var template = Dao.Single<AccountTransactionTemplate>(
                         x => x.Id == _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.Id);
                 account = _cacheService.GetAccountById(template.DefaultTargetAccountId);
             }
-            //ticket.UpdateAccount(CheckAccount(account));
             ticket.UpdateAccount(account);
             _automationService.NotifyEvent(RuleEventNames.AccountSelectedForTicket,
                     new
@@ -65,14 +63,16 @@ namespace Samba.Services.Implementations.TicketModule
 
         public Ticket OpenTicket(int ticketId)
         {
-            Debug.Assert(_workspace == null);
             Debug.Assert(_applicationState.CurrentDepartment != null);
 
-            _workspace = WorkspaceFactory.Create();
             var ticket = ticketId == 0
-                                  ? CreateTicket()
-                                  : _workspace.Single<Ticket>(t => t.Id == ticketId,
-                                                              x => x.Orders.Select(y => y.OrderTagValues), x => x.Calculations);
+                            ? CreateTicket()
+                            : Dao.Single<Ticket>(t => t.Id == ticketId,
+                            x => x.Orders.Select(y => y.OrderTagValues),
+                            x => x.Calculations, x => x.Payments, x => x.PaidItems, x => x.Tags,
+                            x => x.AccountTransactions.AccountTransactions,
+                            x => x.AccountTransactions.AccountTransactions.Select(y => y.SourceTransactionValue),
+                            x => x.AccountTransactions.AccountTransactions.Select(y => y.TargetTransactionValue));
 
             if (ticket.Id == 0)
                 _automationService.NotifyEvent(RuleEventNames.TicketCreated, new { Ticket = ticket });
@@ -162,10 +162,9 @@ namespace Samba.Services.Implementations.TicketModule
 
                     if (ticket.Id == 0)
                     {
-                        _workspace.Add(ticket);
                         UpdateTicketNumber(ticket, department.TicketTemplate.TicketNumerator);
                         ticket.LastOrderDate = DateTime.Now;
-                        _workspace.CommitChanges();
+                        Dao.SafeSave(ticket);
                     }
 
                     Debug.Assert(!string.IsNullOrEmpty(ticket.TicketNumber));
@@ -178,11 +177,10 @@ namespace Samba.Services.Implementations.TicketModule
 
                 UpdateTicketLocation(ticket);
                 if (ticket.Id > 0)  // eğer adisyonda satır yoksa ID burada 0 olmalı.
-                    _workspace.CommitChanges();
+                    Dao.SafeSave(ticket);
                 Debug.Assert(ticket.Orders.Count(x => x.OrderNumber == 0) == 0);
             }
             result.TicketId = ticket.Id;
-            _workspace = null;
             return result;
         }
 
@@ -207,7 +205,7 @@ namespace Samba.Services.Implementations.TicketModule
         private void UpdateTicketLocation(Ticket ticket)
         {
             if (string.IsNullOrEmpty(ticket.LocationName)) return;
-            var location = _workspace.Single<Location>(x => x.Name == ticket.LocationName);
+            var location = Dao.Single<Location>(x => x.Name == ticket.LocationName);
             if (location != null)
             {
                 if (ticket.IsPaid || ticket.Orders.Count == 0)
@@ -224,23 +222,25 @@ namespace Samba.Services.Implementations.TicketModule
                 }
             }
             else ticket.LocationName = "";
+            Dao.SafeSave(location);
         }
 
         public void ChangeTicketLocation(Ticket ticket, int locationId)
         {
             Debug.Assert(ticket != null);
 
-            var location = _workspace.Single<Location>(x => x.Id == locationId);
+            var location = Dao.Single<Location>(x => x.Id == locationId);
             var oldLocation = "";
 
             if (!string.IsNullOrEmpty(ticket.LocationName))
             {
                 oldLocation = ticket.LocationName;
-                var oldLoc = _workspace.Single<Location>(x => x.Name == oldLocation);
+                var oldLoc = Dao.Single<Location>(x => x.Name == oldLocation);
                 if (oldLoc.TicketId == ticket.Id)
                 {
                     oldLoc.Reset();
                 }
+                Dao.SafeSave(oldLoc);
             }
 
             if (location.TicketId > 0 && location.TicketId != ticket.Id)
@@ -252,7 +252,7 @@ namespace Samba.Services.Implementations.TicketModule
             ticket.LocationName = location.Name;
             if (_applicationState.CurrentDepartment != null) ticket.DepartmentId = _applicationState.CurrentDepartment.Id;
             location.TicketId = ticket.GetRemainingAmount() > 0 ? ticket.Id : 0;
-
+            Dao.SafeSave(location);
             _automationService.NotifyEvent(RuleEventNames.TicketLocationChanged, new { Ticket = ticket, OldLocation = oldLocation, NewLocation = ticket.LocationName });
         }
 
@@ -394,15 +394,11 @@ namespace Samba.Services.Implementations.TicketModule
 
         public void ResetLocationData(Ticket ticket)
         {
-            _workspace.All<Location>(x => x.TicketId == ticket.Id).ToList().ForEach(x => x.Reset());
+            Dao.Query<Location>(x => x.TicketId == ticket.Id).ToList().ForEach(x => x.Reset());
             UpdateTicketLocation(ticket);
-            Debug.Assert(_workspace != null);
             Debug.Assert(ticket != null);
             Debug.Assert(ticket.Id > 0 || ticket.Orders.Count > 0);
-            if (ticket.Id == 0 && ticket.TicketNumber != null)
-                _workspace.Add(ticket);
             ticket.LastUpdateTime = DateTime.Now;
-            _workspace.CommitChanges();
         }
 
         public int GetOpenTicketCount()
@@ -461,8 +457,6 @@ namespace Samba.Services.Implementations.TicketModule
         {
             var selectedItems = selectedOrders.Where(x => x.SelectedQuantity > 0 && x.SelectedQuantity < x.Quantity).ToList();
             var newItems = model.ExtractSelectedOrders(selectedItems);
-            foreach (var newItem in newItems)
-                _workspace.Add(newItem);
             return newItems;
         }
 

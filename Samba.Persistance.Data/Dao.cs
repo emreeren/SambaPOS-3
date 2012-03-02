@@ -181,14 +181,14 @@ namespace Samba.Persistance.Data
             }
         }
 
-        public static void SafeSave<T>(IEnumerable<T> items) where T : class, IEntity
+        public static void SafeSave<T>(params T[] items) where T : class, IEntity
         {
             // Todo: support deleted enitities
             using (var w = WorkspaceFactory.Create())
             {
                 var newItems = items.Where(x => x.Id == 0);
                 w.Add(newItems);
-                
+
                 var set = items.Where(x => x.Id > 0).Select(x => x.Id);
                 var dbTickets = w.All<T>(x => set.Contains(x.Id)).ToList();
                 dbTickets.ForEach(x => x.InjectFrom<EntityInjection>(items.Single(y => y.Id == x.Id)));
