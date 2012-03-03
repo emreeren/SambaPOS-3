@@ -37,7 +37,7 @@ namespace Samba.Modules.AccountModule
             AccountDetails = new ObservableCollection<AccountDetailViewModel>();
             DocumentTemplates = new ObservableCollection<DocumentTemplateButtonViewModel>();
             AccountSummaries = new ObservableCollection<AccountSummaryViewModel>();
-            EventServiceFactory.EventService.GetEvent<GenericEvent<Account>>().Subscribe(OnDisplayAccountTransactions);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Account>>>().Subscribe(OnDisplayAccountTransactions);
         }
 
         private AccountSearchViewModel _selectedAccount;
@@ -140,11 +140,11 @@ namespace Samba.Modules.AccountModule
             RaisePropertyChanged(() => TotalBalance);
         }
 
-        private void OnDisplayAccountTransactions(EventParameters<Account> obj)
+        private void OnDisplayAccountTransactions(EventParameters<EntityOperationRequest<Account>> obj)
         {
             if (obj.Topic == EventTopicNames.DisplayAccountTransactions)
             {
-                SelectedAccount = new AccountSearchViewModel(obj.Value, _cacheService.GetAccountTemplateById(obj.Value.AccountTemplateId));
+                SelectedAccount = new AccountSearchViewModel(obj.Value.SelectedEntity, _cacheService.GetAccountTemplateById(obj.Value.SelectedEntity.AccountTemplateId));
             }
         }
 
@@ -161,7 +161,7 @@ namespace Samba.Modules.AccountModule
         private void OnCloseAccountScreen(string obj)
         {
             AccountDetails.Clear();
-            CommonEventPublisher.RequestNavigation(EventTopicNames.ActivateAccountView);
+            EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateAccountView);
         }
 
         private void OnAddReceivable(string obj)

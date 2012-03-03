@@ -65,7 +65,7 @@ namespace Samba.Modules.AccountModule
 
         private void Reset()
         {
-            ((AccountSelectorViewModel)DataContext).RefreshSelectedAccount();
+            ((AccountSelectorViewModel)DataContext).RefreshSelectedAccount(null);
             SearchString.BackgroundFocus();
         }
 

@@ -81,18 +81,28 @@ namespace Samba.Modules.AccountModule
                     ActivateAccountSelector();
             });
 
+            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Account>>>().Subscribe(
+                x =>
+                {
+                    if (x.Topic == EventTopicNames.SelectAccount)
+                    {
+                        ActivateAccountSelector(x.Value);
+                    }
+                    if (x.Topic == EventTopicNames.EditAccountDetails)
+                    {
+                        ActivateAccountEditor();
+                    }
+                    if (x.Topic == EventTopicNames.DisplayAccountTransactions)
+                    {
+                        ActivateCustomerTransactions();
+                    }
+                }
+                );
+
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(x =>
             {
                 if (x.Topic == EventTopicNames.ActivateAccountView)
                     ActivateAccountSelector();
-            });
-
-            EventServiceFactory.EventService.GetEvent<GenericEvent<Account>>().Subscribe(x =>
-            {
-                if (x.Topic == EventTopicNames.DisplayAccountTransactions)
-                    ActivateCustomerTransactions();
-                else if (x.Topic == EventTopicNames.EditAccountDetails)
-                    ActivateAccountEditor();
             });
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<PopupData>>().Subscribe(
@@ -123,10 +133,10 @@ namespace Samba.Modules.AccountModule
             _regionManager.Regions[RegionNames.MainRegion].Activate(_accountDetailsView);
         }
 
-        private void ActivateAccountSelector()
+        private void ActivateAccountSelector(EntityOperationRequest<Account> value = null)
         {
             Activate();
-            ((AccountSelectorViewModel)_accountSelectorView.DataContext).RefreshSelectedAccount();
+            ((AccountSelectorViewModel)_accountSelectorView.DataContext).RefreshSelectedAccount(value);
             _regionManager.Regions[RegionNames.AccountDisplayRegion].Activate(_accountSelectorView);
         }
 

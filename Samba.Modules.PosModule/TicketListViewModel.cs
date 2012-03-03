@@ -232,7 +232,7 @@ namespace Samba.Modules.PosModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<LocationData>>().Subscribe(OnLocationSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<OrderViewModel>>().Subscribe(OnSelectedOrdersChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketTagData>>().Subscribe(OnTagSelected);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<Account>>().Subscribe(OnAccountSelectedForTicket);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Account>>>().Subscribe(OnAccountSelectedForTicket);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnRefreshTicket);
             EventServiceFactory.EventService.GetEvent<GenericEvent<Message>>().Subscribe(OnMessageReceived);
             EventServiceFactory.EventService.GetEvent<GenericEvent<PopupData>>().Subscribe(OnAccountSelectedFromPopup);
@@ -278,7 +278,6 @@ namespace Samba.Modules.PosModule
 
             if (obj.Topic == EventTopicNames.PaymentSubmitted)
             {
-                //_selectedTicket = null;
                 CloseTicket();
             }
 
@@ -290,7 +289,6 @@ namespace Samba.Modules.PosModule
 
             if (obj.Topic == EventTopicNames.RefreshSelectedTicket)
             {
-                //_selectedTicket = null;
                 RefreshVisuals();
                 EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
             }
@@ -336,38 +334,33 @@ namespace Samba.Modules.PosModule
             }
         }
 
-        private void OnAccountSelectedForTicket(EventParameters<Account> obj)
+        private void OnAccountSelectedForTicket(EventParameters<EntityOperationRequest<Account>> obj)
         {
-            if (obj.Topic == EventTopicNames.AccountSelectedForTicket)
+            if (obj.Topic == EventTopicNames.AccountSelected)
             {
                 if (SelectedTicket == null) OpenTicket(0);
                 if (SelectedTicket != null)
                 {
-                    _ticketService.UpdateAccount(SelectedTicket.Model, obj.Value);
-                    if (!string.IsNullOrEmpty(SelectedTicket.AccountName) && SelectedTicket.Orders.Count > 0)
-                        CloseTicket();
-                    else
-                    {
-                        RefreshVisuals();
-                        EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
-                    }
+                    _ticketService.UpdateAccount(SelectedTicket.Model, obj.Value.SelectedEntity);
+                    RefreshVisuals();
+                    EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
                 }
             }
 
-            if (obj.Topic == EventTopicNames.PaymentRequestedForTicket)
-            {
-                if (SelectedTicket != null)
-                {
-                    _ticketService.UpdateAccount(SelectedTicket.Model, obj.Value);
-                    if (!string.IsNullOrEmpty(SelectedTicket.AccountName) && SelectedTicket.Orders.Count > 0)
-                        MakePaymentCommand.Execute("");
-                    else
-                    {
-                        RefreshVisuals();
-                        EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
-                    }
-                }
-            }
+            //if (obj.Topic == EventTopicNames.PaymentRequestedForTicket)
+            //{
+            //    if (SelectedTicket != null)
+            //    {
+            //        _ticketService.UpdateAccount(SelectedTicket.Model, obj.Value);
+            //        if (!string.IsNullOrEmpty(SelectedTicket.AccountName) && SelectedTicket.Orders.Count > 0)
+            //            MakePaymentCommand.Execute("");
+            //        else
+            //        {
+            //            RefreshVisuals();
+            //            EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
+            //        }
+            //    }
+            //}
         }
 
         private void OnTagSelected(EventParameters<TicketTagData> obj)
@@ -714,7 +707,9 @@ namespace Samba.Modules.PosModule
 
         private void OnSelectAccountExecute(string obj)
         {
-            SelectedDepartment.PublishEvent(EventTopicNames.SelectAccount);
+            var account = _cacheService.GetAccountById(SelectedTicket.AccountId);
+            var request = new EntityOperationRequest<Account>(account, EventTopicNames.AccountSelected);
+            request.PublishEvent(EventTopicNames.SelectAccount);
         }
 
         private bool CanSelectAccount(string arg)

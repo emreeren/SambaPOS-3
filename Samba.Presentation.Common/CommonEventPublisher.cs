@@ -32,5 +32,10 @@ namespace Samba.Presentation.Common
             var ng = new NavigationRequest { RequestedEvent = requestedEvent };
             ng.PublishEvent(EventTopicNames.NavigationRequested);
         }
+
+        public static void PublishEntityOperation<T>(T entity, string requestedEvent, string expectedEvent = "")
+        {
+            EntityOperationRequest<T>.Publish(entity, requestedEvent, expectedEvent);
+        }
     }
 }

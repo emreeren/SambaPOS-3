@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="AbstractService.cs" />
     <Compile Include="DictionaryByType.cs" />
+    <Compile Include="EntityOperationRequest.cs" />
     <Compile Include="EventServiceFactory.cs" />
     <Compile Include="EventTopicNames.cs" />
     <Compile Include="ExtensionMethods.cs" />

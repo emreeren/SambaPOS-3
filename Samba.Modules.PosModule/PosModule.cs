@@ -40,8 +40,7 @@ namespace Samba.Modules.PosModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<Account>>().Subscribe(
                 x =>
                 {
-                    if (x.Topic == EventTopicNames.AccountSelectedForTicket || x.Topic == EventTopicNames.PaymentRequestedForTicket)
-                        Activate();
+                    if (x.Topic == EventTopicNames.PaymentRequestedForTicket) Activate();
                 });
         }
 

@@ -50,13 +50,13 @@ namespace Samba.Modules.AccountModule
 
         private void OnCancel(string obj)
         {
-            SelectedAccount.PublishEvent(EventTopicNames.DisplayAccountTransactions);
+            CommonEventPublisher.PublishEntityOperation(SelectedAccount, EventTopicNames.DisplayAccountTransactions);
         }
 
         private void OnSave(string obj)
         {
             _accountService.CreateNewTransactionDocument(SelectedAccount, DocumentTemplate, Description, Amount);
-            SelectedAccount.PublishEvent(EventTopicNames.DisplayAccountTransactions);
+            CommonEventPublisher.PublishEntityOperation(SelectedAccount, EventTopicNames.DisplayAccountTransactions);
         }
 
     }

@@ -23,7 +23,9 @@
 
     public static class EventTopicNames
     {
-        public const string ApplicationLockStateChanged="Application Lock State Changed";
+        public const string SelectAccount = "Select Account";
+        public const string AccountSelected = "Account Selected";
+        public const string ApplicationLockStateChanged = "Application Lock State Changed";
         public const string DisplayTicket = "Display Ticket";
         public const string NavigationRequested = "Navigation Requested";
         public const string AccountTransactionDocumentSelected = "Account Transaction Document Selected";
@@ -57,8 +59,6 @@
         public const string BrowseUrl = "Browse Url";
         public const string ActivateAccountView = "Activate Account View";
         public const string ActivateNavigation = "Activate Navigation";
-        public const string AccountSelectedForTicket = "Account Selected For Ticket";
-        public const string SelectAccount = "Select Account";
         public const string NavigationCommandAdded = "Navigation Command Added";
         public const string DashboardCommandAdded = "Dashboard Command Added";
         public const string TicketDisplayed = "Ticket Displayed";

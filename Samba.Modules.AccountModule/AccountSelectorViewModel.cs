@@ -28,6 +28,8 @@ namespace Samba.Modules.AccountModule
             if (handler != null) handler(this, e);
         }
 
+        private EntityOperationRequest<Account> _currentAccountSelectionRequest;
+
         public ICaptionCommand CloseScreenCommand { get; set; }
         public ICaptionCommand SelectAccountCommand { get; set; }
         public ICaptionCommand CreateAccountCommand { get; set; }
@@ -52,7 +54,7 @@ namespace Samba.Modules.AccountModule
             SelectAccountCommand = new CaptionCommand<string>(Resources.SelectAccount.Replace(" ", "\r"), OnSelectAccount, CanSelectAccount);
             EditAccountCommand = new CaptionCommand<string>(string.Format(Resources.Edit_f, Resources.Account).Replace(" ", "\r"), OnEditAccount, CanEditAccount);
             CreateAccountCommand = new CaptionCommand<string>(Resources.NewAccount.Replace(" ", "\r"), OnCreateAccount, CanCreateAccount);
-            DisplayAccountCommand = new CaptionCommand<string>(Resources.AccountDetails.Replace(" ", "\r"), OnDisplayAccount, CanSelectAccount);
+            DisplayAccountCommand = new CaptionCommand<string>(Resources.AccountDetails.Replace(" ", "\r"), OnDisplayAccount, CanDisplayAccount);
         }
 
         public IEnumerable<AccountTemplate> AccountTemplates { get { return _cacheService.GetAccountTemplates(); } }
@@ -111,7 +113,7 @@ namespace Samba.Modules.AccountModule
 
         private void OnDisplayAccount(string obj)
         {
-            SelectedAccount.Model.PublishEvent(EventTopicNames.DisplayAccountTransactions);
+            CommonEventPublisher.PublishEntityOperation(SelectedAccount.Model, EventTopicNames.DisplayAccountTransactions);
             ClearSearchValues();
         }
 
@@ -122,32 +124,41 @@ namespace Samba.Modules.AccountModule
 
         private void OnEditAccount(string obj)
         {
-            SelectedAccount.Model.PublishEvent(EventTopicNames.EditAccountDetails);
+            CommonEventPublisher.PublishEntityOperation(SelectedAccount.Model, EventTopicNames.EditAccountDetails, EventTopicNames.AccountSelected);
         }
 
         private bool CanCreateAccount(string arg)
         {
-            return SelectedAccount == null && SelectedAccountTemplate != null;
+            return SelectedAccountTemplate != null;
         }
 
         private void OnCreateAccount(string obj)
         {
             ClearSearchValues();
-            var c = new Account { AccountTemplateId = SelectedAccountTemplate.Id };
-            c.PublishEvent(EventTopicNames.EditAccountDetails);
+            CommonEventPublisher.PublishEntityOperation(new Account { AccountTemplateId = SelectedAccountTemplate.Id }, EventTopicNames.EditAccountDetails, EventTopicNames.AccountSelected);
         }
 
         private bool CanSelectAccount(string arg)
         {
             return
                 _applicationState.IsCurrentWorkPeriodOpen
+                && _applicationState.CurrentDepartment != null
                 && SelectedAccount != null
                 && !string.IsNullOrEmpty(SelectedAccount.Name);
         }
 
+        private bool CanDisplayAccount(string arg)
+        {
+            return SelectedAccount != null;
+        }
+
         private void OnSelectAccount(string obj)
         {
-            SelectedAccount.Model.PublishEvent(EventTopicNames.AccountSelectedForTicket);
+            if (_currentAccountSelectionRequest != null)
+            {
+                _currentAccountSelectionRequest.Publish(SelectedAccount.Model);
+            }
+            CommonEventPublisher.RequestNavigation(EventTopicNames.ActivateOpenTickets);
             ClearSearchValues();
         }
 
@@ -156,7 +167,7 @@ namespace Samba.Modules.AccountModule
             CommonEventPublisher.RequestNavigation(EventTopicNames.ActivateOpenTickets);
         }
 
-        public void RefreshSelectedAccount()
+        public void RefreshSelectedAccount(EntityOperationRequest<Account> value)
         {
             if (_applicationState.CurrentDepartment != null)
             {
@@ -166,15 +177,13 @@ namespace Samba.Modules.AccountModule
 
                 ClearSearchValues();
 
-                //if (_applicationState.CurrentTicket != null && _applicationState.CurrentTicket.AccountId != _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.DefaultTargetAccountId)
-                //{
-                //    var account = Dao.SingleWithCache<Account>(x => x.Id == _applicationState.CurrentTicket.AccountId);
-                //    if (account != null)
-                //    {
-                //        ClearSearchValues();
-                //        FoundAccounts.Add(new AccountSearchViewModel(account, SelectedAccountTemplate));
-                //    }
-                //}
+                _currentAccountSelectionRequest = value;
+
+                if (_currentAccountSelectionRequest != null)
+                {
+                    ClearSearchValues();
+                    FoundAccounts.Add(new AccountSearchViewModel(_currentAccountSelectionRequest.SelectedEntity, SelectedAccountTemplate));
+                }
             }
 
             RaisePropertyChanged(() => SelectedAccountTemplate);
