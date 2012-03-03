@@ -183,15 +183,18 @@ namespace Samba.Persistance.Data
 
         public static void SafeSave<T>(params T[] items) where T : class, IEntity
         {
-            // Todo: support deleted enitities
             using (var w = WorkspaceFactory.Create())
             {
                 var newItems = items.Where(x => x.Id == 0);
                 w.Add(newItems);
 
                 var set = items.Where(x => x.Id > 0).Select(x => x.Id);
-                var dbTickets = w.All<T>(x => set.Contains(x.Id)).ToList();
-                dbTickets.ForEach(x => x.InjectFrom<EntityInjection>(items.Single(y => y.Id == x.Id)));
+                if (set.Count() > 0)
+                {
+                    var dbTickets = w.All<T>(x => set.Contains(x.Id)).ToList();
+                    dbTickets.ForEach(x => x.InjectFrom<EntityInjection>(items.Single(y => y.Id == x.Id)));
+                }
+
                 w.CommitChanges();
             }
         }
@@ -227,6 +230,15 @@ namespace Samba.Persistance.Data
                     if (targetChildType.GetInterfaces().Any(x => x == typeof(IValue)))
                     {
                         var sourceCollection = (c.SourceProp.Value as IEnumerable).Cast<IValue>();
+
+                        var deleteMethod = c.TargetProp.Value.GetType().GetMethod("Remove");
+
+                        (from vl in (c.TargetProp.Value as IEnumerable).Cast<IValue>()
+                         where vl.Id > 0
+                         let srcv = (c.SourceProp.Value as IEnumerable).Cast<IValue>().SingleOrDefault(z => z.Id == vl.Id)
+                         where srcv == null
+                         select vl).ToList().ForEach(x => deleteMethod.Invoke(c.TargetProp.Value, new[] { x }));
+                        
                         foreach (var s in sourceCollection)
                         {
                             var sv = s;
