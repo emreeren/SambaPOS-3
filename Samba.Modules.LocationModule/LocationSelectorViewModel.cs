@@ -5,12 +5,10 @@ using System.Linq;
 using System.Windows;
 using Microsoft.Practices.Prism.Commands;
 using Samba.Domain.Models.Locations;
-using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Services;
-using Samba.Presentation.ViewModels;
 using Samba.Services;
 using Samba.Services.Common;
 
@@ -27,18 +25,6 @@ namespace Samba.Modules.LocationModule
         public ICaptionCommand DecPageNumberCommand { get; set; }
 
         public ObservableCollection<IDiagram> Locations { get; set; }
-
-        private Ticket _selectedTicket;
-        public Ticket SelectedTicket
-        {
-            get { return _selectedTicket; }
-            set
-            {
-                _selectedTicket = value;
-                RefreshLocations();
-                RaisePropertyChanged(() => SelectedTicket);
-            }
-        }
 
         public LocationScreen SelectedLocationScreen { get { return _applicationState.SelectedLocationScreen; } }
         public IEnumerable<LocationScreen> LocationScreens { get { return _applicationState.CurrentDepartment != null ? _applicationState.CurrentDepartment.LocationScreens : null; } }
@@ -84,6 +70,7 @@ namespace Samba.Modules.LocationModule
         private readonly ILocationService _locationService;
         private readonly IUserService _userService;
         private readonly IApplicationStateSetter _applicationStateSetter;
+        private EntityOperationRequest<Location> _currentOperationRequest;
 
         [ImportingConstructor]
         public LocationSelectorViewModel(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
@@ -108,6 +95,16 @@ namespace Samba.Modules.LocationModule
                         && x.Value.Command == Messages.TicketRefreshMessage)
                     {
                         RefreshLocations();
+                    }
+                });
+
+            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Location>>>().Subscribe(
+                x =>
+                {
+                    if (x.Topic == EventTopicNames.SelectLocation)
+                    {
+                        _currentOperationRequest = x.Value;
+                        UpdateLocations(_applicationState.SelectedLocationScreen??_applicationState.CurrentDepartment.LocationScreens[0]);
                     }
                 });
         }
@@ -163,16 +160,18 @@ namespace Samba.Modules.LocationModule
             UpdateLocations(obj);
         }
 
-        private static void OnSelectLocationExecuted(LocationScreenItemViewModel obj)
+        private void OnSelectLocationExecuted(LocationScreenItemViewModel obj)
         {
-            var location = new LocationData
-                               {
-                                   LocationId = obj.Model.Id,
-                                   LocationName = obj.Model.Name,
-                                   TicketId = obj.Model.TicketId,
-                                   Caption = obj.Caption
-                               };
-            location.PublishEvent(EventTopicNames.LocationSelectedForTicket);
+            //var location = new LocationData
+            //                   {
+            //                       LocationId = obj.Model.Id,
+            //                       LocationName = obj.Model.Name,
+            //                       TicketId = obj.Model.TicketId,
+            //                       Caption = obj.Caption
+            //                   };
+            //location.PublishEvent(EventTopicNames.LocationSelectedForTicket);
+
+            _currentOperationRequest.Publish(obj.Model);
         }
 
         private void UpdateLocations(LocationScreen locationScreen)
@@ -189,7 +188,7 @@ namespace Samba.Modules.LocationModule
                     new LocationScreenItemViewModel(x,
                         SelectedLocationScreen,
                         LocationSelectionCommand,
-                        SelectedTicket != null,
+                        _currentOperationRequest.SelectedEntity != null,
                         _userService.IsUserPermittedFor(PermissionNames.MergeTickets))));
             }
             else
@@ -200,17 +199,11 @@ namespace Samba.Modules.LocationModule
                 }
             }
 
-            if (SelectedTicket != null && !string.IsNullOrEmpty(SelectedTicket.LocationName))
+            if (_currentOperationRequest.SelectedEntity != null)
             {
                 FeedbackColor = "Red";
                 FeedbackForeground = "White";
-                Feedback = string.Format(Resources.SelectLocationThatYouWantToMoveTicket_f, SelectedTicket.LocationName);
-            }
-            else if (SelectedTicket != null)
-            {
-                FeedbackColor = "Red";
-                FeedbackForeground = "White";
-                Feedback = Resources.SelectLocationForTicket;
+                Feedback = string.Format(Resources.SelectLocationThatYouWantToMoveTicket_f, _currentOperationRequest.SelectedEntity.Name);
             }
             else
             {

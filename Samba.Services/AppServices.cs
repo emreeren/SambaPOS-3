@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Threading;
 using Samba.Infrastructure.ExceptionReporter;
 using Samba.Infrastructure.Settings;
-using Samba.Persistance.Data;
 
 namespace Samba.Services
 {

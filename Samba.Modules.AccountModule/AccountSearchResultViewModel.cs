@@ -6,10 +6,11 @@ using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common;
+using Samba.Presentation.ViewModels;
 
-namespace Samba.Presentation.ViewModels
+namespace Samba.Modules.AccountModule
 {
-    public class AccountSearchViewModel : ObservableObject
+    public class AccountSearchResultViewModel : ObservableObject
     {
         public Account Model { get; set; }
         public AccountTemplate AccountTemplate { get; set; }
@@ -20,7 +21,7 @@ namespace Samba.Presentation.ViewModels
             get { return _accountCustomDataViewModel ?? (_accountCustomDataViewModel = new AccountCustomDataViewModel(Model, AccountTemplate)); }
         }
 
-        public AccountSearchViewModel(Account model, AccountTemplate template)
+        public AccountSearchResultViewModel(Account model, AccountTemplate template)
         {
             AccountTemplate = template;
             Model = model;

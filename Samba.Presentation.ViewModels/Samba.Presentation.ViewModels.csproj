@@ -59,11 +59,9 @@
     <Compile Include="AccountCustomDataViewModel.cs" />
     <Compile Include="AccountCustomFieldTemplateSelector.cs" />
     <Compile Include="CommandButtonViewModel.cs" />
-    <Compile Include="AccountSearchViewModel.cs" />
     <Compile Include="PaymentButtonGroupViewModel.cs" />
     <Compile Include="ServiceViewModel.cs" />
     <Compile Include="GenericRuleRegistator.cs" />
-    <Compile Include="LocationData.cs" />
     <Compile Include="MenuItemPortionViewModel.cs" />
     <Compile Include="OrderTagData.cs" />
     <Compile Include="PaymentViewModel.cs" />

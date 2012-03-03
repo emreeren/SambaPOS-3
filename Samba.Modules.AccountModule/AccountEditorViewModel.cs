@@ -86,14 +86,14 @@ namespace Samba.Modules.AccountModule
             {
                 _operationRequest = obj.Value;
                 var accountTemplate = _cacheService.GetAccountTemplateById(obj.Value.SelectedEntity.AccountTemplateId);
-                SelectedAccount = new AccountSearchViewModel(obj.Value.SelectedEntity, accountTemplate);
+                SelectedAccount = new AccountSearchResultViewModel(obj.Value.SelectedEntity, accountTemplate);
                 CustomDataViewModel = new AccountCustomDataViewModel(obj.Value.SelectedEntity, accountTemplate);
                 RaisePropertyChanged(() => CustomDataViewModel);
             }
         }
 
-        private AccountSearchViewModel _selectedAccount;
-        public AccountSearchViewModel SelectedAccount
+        private AccountSearchResultViewModel _selectedAccount;
+        public AccountSearchResultViewModel SelectedAccount
         {
             get { return _selectedAccount; }
             set

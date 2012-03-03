@@ -16,17 +16,14 @@ namespace Samba.Modules.LocationModule
     {
         private readonly IRegionManager _regionManager;
         private readonly LocationSelectorView _locationSelectorView;
-        private readonly LocationSelectorViewModel _locationSelectorViewModel;
-
+        
         [ImportingConstructor]
-        public LocationModule(IRegionManager regionManager, LocationSelectorView locationSelectorView,
-            LocationSelectorViewModel locationSelectorViewModel)
+        public LocationModule(IRegionManager regionManager, LocationSelectorView locationSelectorView)
             : base(regionManager, AppScreens.LocationList)
         {
             _regionManager = regionManager;
             _locationSelectorView = locationSelectorView;
-            _locationSelectorViewModel = locationSelectorViewModel;
-
+        
             AddDashboardCommand<EntityCollectionViewModelBase<LocationEditorViewModel, Location>>(string.Format(Resources.List_f, Resources.Location), Resources.Locations, 30);
             AddDashboardCommand<EntityCollectionViewModelBase<LocationScreenViewModel, LocationScreen>>(Resources.LocationViews, Resources.Locations);
         }
@@ -43,23 +40,14 @@ namespace Samba.Modules.LocationModule
             PermissionRegistry.RegisterPermission(PermissionNames.OpenLocations, PermissionCategories.Navigation, Resources.CanOpenLocationList);
             PermissionRegistry.RegisterPermission(PermissionNames.ChangeLocation, PermissionCategories.Ticket, Resources.CanChangeLocation);
 
-            EventServiceFactory.EventService.GetEvent<GenericEvent<Department>>().Subscribe(x =>
-            {
-                if (x.Topic == EventTopicNames.SelectLocation)
+            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Location>>>().Subscribe(
+                x =>
                 {
-                    _locationSelectorViewModel.SelectedTicket = null;
-                    ActivateLocationView();
-                }
-            });
-
-            EventServiceFactory.EventService.GetEvent<GenericEvent<Ticket>>().Subscribe(x =>
-            {
-                if (x.Topic == EventTopicNames.SelectLocation)
-                {
-                    _locationSelectorViewModel.SelectedTicket = x.Value;
-                    ActivateLocationView();
-                }
-            });
+                    if (x.Topic == EventTopicNames.SelectLocation)
+                    {
+                        ActivateLocationView();
+                    }
+                });
         }
 
         private void ActivateLocationView()

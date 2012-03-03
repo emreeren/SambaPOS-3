@@ -78,7 +78,9 @@ namespace Samba.Domain.Models.Tickets
         public decimal TotalAmount { get; set; }
 
         public int AccountId { get; set; }
+        public int AccountTemplateId { get; set; }
         public string AccountName { get; set; }
+
         public int TargetAccountTemplateId { get; set; }
 
         public virtual AccountTransactionDocument AccountTransactions { get; set; }
@@ -489,6 +491,7 @@ namespace Samba.Domain.Models.Tickets
                     transaction.SetTargetAccount(account.Id);
             }
             AccountId = account.Id;
+            AccountTemplateId = account.AccountTemplateId;
             AccountName = account.Name;
         }
 

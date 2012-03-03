@@ -41,11 +41,13 @@ namespace Samba.Services
             var paymentAccountTemplate = new AccountTemplate { Name = "Payment Accounts" };
             var customerAccountTemplate = new AccountTemplate { Name = "Customer Accounts" };
             var discountAccountTemplate = new AccountTemplate { Name = "Discount Accounts" };
+            var tableAccountTemplate = new AccountTemplate() { Name = "Table Accounts" };
 
             _workspace.Add(saleAccountTemplate);
             _workspace.Add(paymentAccountTemplate);
             _workspace.Add(customerAccountTemplate);
             _workspace.Add(discountAccountTemplate);
+            _workspace.Add(tableAccountTemplate);
 
             _workspace.CommitChanges();
 
@@ -306,7 +308,7 @@ namespace Samba.Services
             _workspace.Add(rule);
 
             ImportMenus(screen);
-            ImportLocations(department);
+            ImportLocations(department, tableAccountTemplate);
 
             ImportItems(BatchCreateAccounts);
             ImportItems(BatchCreateTransactionTemplates);
@@ -315,20 +317,6 @@ namespace Samba.Services
             _workspace.CommitChanges();
             _workspace.Dispose();
         }
-
-        //private void ImportAccounts()
-        //{
-        //    var fileName = string.Format("{0}/Imports/account{1}.txt", LocalSettings.AppPath, "_" + LocalSettings.CurrentLanguage);
-        //    if (!File.Exists(fileName))
-        //        fileName = string.Format("{0}/Imports/account.txt", LocalSettings.AppPath);
-
-        //    if (!File.Exists(fileName)) return;
-
-        //    var lines = File.ReadAllLines(fileName);
-        //    var items = BatchCreateAccounts(lines, _workspace);
-        //    items.ToList().ForEach(_workspace.Add);
-        //    _workspace.CommitChanges();
-        //}
 
         private void ImportItems<T>(Func<string[], IWorkspace, IEnumerable<T>> func) where T : class
         {
@@ -342,7 +330,7 @@ namespace Samba.Services
             _workspace.CommitChanges();
         }
 
-        private void ImportLocations(Department department)
+        private void ImportLocations(Department department, AccountTemplate tableTemplate)
         {
             var fileName = string.Format("{0}/Imports/table{1}.txt", LocalSettings.AppPath, "_" + LocalSettings.CurrentLanguage);
 
@@ -361,7 +349,10 @@ namespace Samba.Services
             _workspace.Add(screen);
 
             foreach (var location in items)
+            {
                 screen.AddScreenItem(location);
+                location.Account = new Account { AccountTemplateId = tableTemplate.Id, Name = location.Name };
+            }
 
             _workspace.CommitChanges();
 

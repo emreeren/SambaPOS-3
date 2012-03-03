@@ -7,6 +7,7 @@ using System.Linq;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Events;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Locations;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
@@ -229,10 +230,10 @@ namespace Samba.Modules.PosModule
             PaymentButtonGroup = new PaymentButtonGroupViewModel(MakeFastPaymentCommand, MakePaymentCommand, CloseTicketCommand);
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<ScreenMenuItemData>>().Subscribe(OnMenuItemSelected);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<LocationData>>().Subscribe(OnLocationSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<OrderViewModel>>().Subscribe(OnSelectedOrdersChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketTagData>>().Subscribe(OnTagSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Account>>>().Subscribe(OnAccountSelectedForTicket);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Location>>>().Subscribe(OnLocationSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnRefreshTicket);
             EventServiceFactory.EventService.GetEvent<GenericEvent<Message>>().Subscribe(OnMessageReceived);
             EventServiceFactory.EventService.GetEvent<GenericEvent<PopupData>>().Subscribe(OnAccountSelectedFromPopup);
@@ -418,16 +419,17 @@ namespace Samba.Modules.PosModule
             if (obj.Topic == EventTopicNames.ScreenMenuItemDataSelected) AddMenuItemCommand.Execute(obj.Value);
         }
 
-        private void OnLocationSelected(EventParameters<LocationData> obj)
+        private void OnLocationSelected(EventParameters<EntityOperationRequest<Location>> obj)
         {
             if (obj.Topic == EventTopicNames.LocationSelectedForTicket)
             {
                 if (SelectedTicket != null)
                 {
                     var oldLocationName = SelectedTicket.Location;
-                    var ticketsMerged = obj.Value.TicketId > 0 && obj.Value.TicketId != SelectedTicket.Id;
+                    var ticketsMerged = obj.Value.SelectedEntity.TicketId > 0 && obj.Value.SelectedEntity.TicketId != SelectedTicket.Id;
 
-                    _ticketService.ChangeTicketLocation(SelectedTicket.Model, obj.Value.LocationId);
+                    _ticketService.ChangeTicketLocation(SelectedTicket.Model, obj.Value.SelectedEntity.Id);
+                    //_ticketService.UpdateAccount(SelectedTicket.Model, obj.Value.SelectedEntity.Account);
                     CloseTicket();
 
                     if (!_applicationState.CurrentTerminal.AutoLogout)
@@ -435,28 +437,29 @@ namespace Samba.Modules.PosModule
 
                     if (!string.IsNullOrEmpty(oldLocationName) || ticketsMerged)
                         if (ticketsMerged && !string.IsNullOrEmpty(oldLocationName))
-                            InteractionService.UserIntraction.GiveFeedback(string.Format(Resources.LocationsMerged_f, oldLocationName, obj.Value.Caption));
+                            InteractionService.UserIntraction.GiveFeedback(string.Format(Resources.LocationsMerged_f, oldLocationName, obj.Value.SelectedEntity.Name));
                         else if (ticketsMerged)
-                            InteractionService.UserIntraction.GiveFeedback(string.Format(Resources.TicketMergedToLocation_f, obj.Value.Caption));
-                        else if (oldLocationName != obj.Value.LocationName)
-                            InteractionService.UserIntraction.GiveFeedback(string.Format(Resources.TicketMovedToLocation_f, oldLocationName, obj.Value.Caption));
+                            InteractionService.UserIntraction.GiveFeedback(string.Format(Resources.TicketMergedToLocation_f, obj.Value.SelectedEntity.Name));
+                        else if (oldLocationName != obj.Value.SelectedEntity.Name)
+                            InteractionService.UserIntraction.GiveFeedback(string.Format(Resources.TicketMovedToLocation_f, oldLocationName, obj.Value.SelectedEntity.Name));
                 }
                 else
                 {
-                    if (obj.Value.TicketId == 0)
+                    if (obj.Value.SelectedEntity.TicketId == 0)
                     {
                         OpenTicket(0);
                         if (SelectedTicket != null)
                         {
-                            _ticketService.ChangeTicketLocation(SelectedTicket.Model, obj.Value.LocationId);
+                            _ticketService.ChangeTicketLocation(SelectedTicket.Model, obj.Value.SelectedEntity.Id);
+                           // _ticketService.UpdateAccount(SelectedTicket.Model, obj.Value.SelectedEntity.Account);
                         }
                     }
                     else
                     {
-                        OpenTicket(obj.Value.TicketId);
+                        OpenTicket(obj.Value.SelectedEntity.TicketId);
                         if (SelectedTicket != null)
                         {
-                            if (SelectedTicket.Location != obj.Value.LocationName)
+                            if (SelectedTicket.Location != obj.Value.SelectedEntity.Name)
                                 _ticketService.ResetLocationData(SelectedTicket.Model);
                         }
                     }
@@ -732,7 +735,8 @@ namespace Samba.Modules.PosModule
 
         private void OnSelectLocationExecute(string obj)
         {
-            SelectedTicket.Model.PublishEvent(EventTopicNames.SelectLocation);
+            CommonEventPublisher.PublishEntityOperation<Location>(null, EventTopicNames.SelectLocation, EventTopicNames.LocationSelectedForTicket);
+            //SelectedTicket.Model.PublishEvent(EventTopicNames.SelectLocation);
         }
 
         public string SelectLocationButtonCaption

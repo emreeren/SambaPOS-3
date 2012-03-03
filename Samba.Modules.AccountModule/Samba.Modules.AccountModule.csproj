@@ -59,10 +59,11 @@
       <DependentUpon>AccountEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AccountEditorViewModel.cs" />
-    <Compile Include="AccountSelectorView.xaml.cs">
-      <DependentUpon>AccountSelectorView.xaml</DependentUpon>
+    <Compile Include="AccountSearchResultViewModel.cs" />
+    <Compile Include="AccountSearchView.xaml.cs">
+      <DependentUpon>AccountSearchView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AccountSelectorViewModel.cs" />
+    <Compile Include="AccountSearchViewModel.cs" />
     <Compile Include="AccountDetailsView.xaml.cs">
       <DependentUpon>AccountDetailsView.xaml</DependentUpon>
     </Compile>
@@ -91,10 +92,6 @@
       <DependentUpon>AccountTemplateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dashboard\AccountTemplateViewModel.cs" />
-    <Compile Include="DeliveryView.xaml.cs">
-      <DependentUpon>DeliveryView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="DeliveryViewModel.cs" />
     <Compile Include="DocumentCreationData.cs" />
     <Compile Include="DocumentCreatorView.xaml.cs">
       <DependentUpon>DocumentCreatorView.xaml</DependentUpon>
@@ -108,7 +105,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="AccountSelectorView.xaml">
+    <Page Include="AccountSearchView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -135,10 +132,6 @@
     <Page Include="Dashboard\AccountTemplateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="DeliveryView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="DocumentCreatorView.xaml">
       <SubType>Designer</SubType>

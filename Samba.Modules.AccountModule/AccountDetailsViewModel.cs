@@ -40,8 +40,8 @@ namespace Samba.Modules.AccountModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Account>>>().Subscribe(OnDisplayAccountTransactions);
         }
 
-        private AccountSearchViewModel _selectedAccount;
-        public AccountSearchViewModel SelectedAccount
+        private AccountSearchResultViewModel _selectedAccount;
+        public AccountSearchResultViewModel SelectedAccount
         {
             get { return _selectedAccount; }
             set
@@ -144,7 +144,7 @@ namespace Samba.Modules.AccountModule
         {
             if (obj.Topic == EventTopicNames.DisplayAccountTransactions)
             {
-                SelectedAccount = new AccountSearchViewModel(obj.Value.SelectedEntity, _cacheService.GetAccountTemplateById(obj.Value.SelectedEntity.AccountTemplateId));
+                SelectedAccount = new AccountSearchResultViewModel(obj.Value.SelectedEntity, _cacheService.GetAccountTemplateById(obj.Value.SelectedEntity.AccountTemplateId));
             }
         }
 

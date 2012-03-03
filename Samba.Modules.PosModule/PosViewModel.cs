@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.Regions;
+using Samba.Domain.Models.Locations;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
@@ -126,7 +127,8 @@ namespace Samba.Modules.PosModule
 
             if (_applicationState.CurrentDepartment.IsAlaCarte && _applicationState.CurrentDepartment.LocationScreens.Count > 0)
             {
-                _applicationState.CurrentDepartment.PublishEvent(EventTopicNames.SelectLocation);
+                CommonEventPublisher.PublishEntityOperation<Location>(null, EventTopicNames.SelectLocation, EventTopicNames.LocationSelectedForTicket);
+                //_applicationState.CurrentDepartment.PublishEvent(EventTopicNames.SelectLocation);
             }
             else if (_applicationState.CurrentDepartment.IsTakeAway)
             {

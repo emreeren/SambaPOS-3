@@ -14,10 +14,10 @@ namespace Samba.Modules.AccountModule
     /// </summary>
 
     [Export]
-    public partial class AccountSelectorView : UserControl
+    public partial class AccountSearchView : UserControl
     {
         [ImportingConstructor]
-        public AccountSelectorView(AccountSelectorViewModel viewModel)
+        public AccountSearchView(AccountSearchViewModel viewModel)
         {
             DataContext = viewModel;
             viewModel.SelectedAccountTemplateChanged += viewModel_SelectedAccountTemplateChanged;
@@ -27,7 +27,7 @@ namespace Samba.Modules.AccountModule
         void viewModel_SelectedAccountTemplateChanged(object sender, System.EventArgs e)
         {
             var gridView = MainListView.View as GridView;
-            var selector = sender as AccountSelectorViewModel;
+            var selector = sender as AccountSearchViewModel;
             if (selector != null && gridView != null)
             {
                 gridView.Columns.Where(x => x.Header.ToString() != "Account Name").ToList().ForEach(x => gridView.Columns.Remove(x));
@@ -53,8 +53,8 @@ namespace Samba.Modules.AccountModule
             if (e.Key == Key.Enter)
             {
                 e.Handled = true;
-                if (((AccountSelectorViewModel)DataContext).SelectAccountCommand.CanExecute(""))
-                    ((AccountSelectorViewModel)DataContext).SelectAccountCommand.Execute("");
+                if (((AccountSearchViewModel)DataContext).SelectAccountCommand.CanExecute(""))
+                    ((AccountSearchViewModel)DataContext).SelectAccountCommand.Execute("");
             }
         }
 
@@ -65,7 +65,7 @@ namespace Samba.Modules.AccountModule
 
         private void Reset()
         {
-            ((AccountSelectorViewModel)DataContext).RefreshSelectedAccount(null);
+            ((AccountSearchViewModel)DataContext).RefreshSelectedAccount(null);
             SearchString.BackgroundFocus();
         }
 

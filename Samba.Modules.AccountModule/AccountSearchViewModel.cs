@@ -11,14 +11,13 @@ using Samba.Domain.Models.Accounts;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common;
-using Samba.Presentation.ViewModels;
 using Samba.Services;
 using Samba.Services.Common;
 
 namespace Samba.Modules.AccountModule
 {
     [Export]
-    public class AccountSelectorViewModel : ObservableObject
+    public class AccountSearchViewModel : ObservableObject
     {
         public event EventHandler SelectedAccountTemplateChanged;
 
@@ -40,7 +39,7 @@ namespace Samba.Modules.AccountModule
         private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public AccountSelectorViewModel(IApplicationState applicationState, ICacheService cacheService)
+        public AccountSearchViewModel(IApplicationState applicationState, ICacheService cacheService)
         {
             _updateTimer = new Timer(500);
             _updateTimer.Elapsed += UpdateTimerElapsed;
@@ -48,7 +47,7 @@ namespace Samba.Modules.AccountModule
             _applicationState = applicationState;
             _cacheService = cacheService;
 
-            FoundAccounts = new ObservableCollection<AccountSearchViewModel>();
+            FoundAccounts = new ObservableCollection<AccountSearchResultViewModel>();
 
             CloseScreenCommand = new CaptionCommand<string>(Resources.Close, OnCloseScreen);
             SelectAccountCommand = new CaptionCommand<string>(Resources.SelectAccount.Replace(" ", "\r"), OnSelectAccount, CanSelectAccount);
@@ -72,9 +71,9 @@ namespace Samba.Modules.AccountModule
         }
 
         private readonly Timer _updateTimer;
-        public ObservableCollection<AccountSearchViewModel> FoundAccounts { get; set; }
+        public ObservableCollection<AccountSearchResultViewModel> FoundAccounts { get; set; }
 
-        public AccountSearchViewModel SelectedAccount
+        public AccountSearchResultViewModel SelectedAccount
         {
             get
             {
@@ -82,8 +81,8 @@ namespace Samba.Modules.AccountModule
             }
         }
 
-        private AccountSearchViewModel _focusedAccount;
-        public AccountSearchViewModel FocusedAccount
+        private AccountSearchResultViewModel _focusedAccount;
+        public AccountSearchResultViewModel FocusedAccount
         {
             get { return _focusedAccount; }
             set
@@ -162,7 +161,7 @@ namespace Samba.Modules.AccountModule
             ClearSearchValues();
         }
 
-        private void OnCloseScreen(string obj)
+        private static void OnCloseScreen(string obj)
         {
             CommonEventPublisher.RequestNavigation(EventTopicNames.ActivateOpenTickets);
         }
@@ -182,7 +181,7 @@ namespace Samba.Modules.AccountModule
                 if (_currentAccountSelectionRequest != null)
                 {
                     ClearSearchValues();
-                    FoundAccounts.Add(new AccountSearchViewModel(_currentAccountSelectionRequest.SelectedEntity, SelectedAccountTemplate));
+                    FoundAccounts.Add(new AccountSearchResultViewModel(_currentAccountSelectionRequest.SelectedEntity, SelectedAccountTemplate));
                 }
             }
 
@@ -244,7 +243,7 @@ namespace Samba.Modules.AccountModule
                                delegate
                                {
                                    FoundAccounts.Clear();
-                                   FoundAccounts.AddRange(result.Select(x => new AccountSearchViewModel(x, SelectedAccountTemplate)));
+                                   FoundAccounts.AddRange(result.Select(x => new AccountSearchResultViewModel(x, SelectedAccountTemplate)));
 
                                    if (SelectedAccount != null && SearchString == SelectedAccount.PhoneNumber)
                                    {

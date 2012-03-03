@@ -1,4 +1,5 @@
-﻿using Samba.Infrastructure.Data;
+﻿using Samba.Domain.Models.Accounts;
+using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Locations
 {
@@ -15,6 +16,7 @@ namespace Samba.Domain.Models.Locations
         public int Width { get; set; }
         public int CornerRadius { get; set; }
         public double Angle { get; set; }
+        public virtual Account Account { get; set; }
 
         public string UserString
         {
