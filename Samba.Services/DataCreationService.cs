@@ -39,13 +39,13 @@ namespace Samba.Services
 
             var saleAccountTemplate = new AccountTemplate { Name = "Sales Accounts" };
             var paymentAccountTemplate = new AccountTemplate { Name = "Payment Accounts" };
-            var customerAccountTemplate = new AccountTemplate { Name = "Customer Accounts" };
+           // var customerAccountTemplate = new AccountTemplate { Name = "Customer Accounts" };
             var discountAccountTemplate = new AccountTemplate { Name = "Discount Accounts" };
             var tableAccountTemplate = new AccountTemplate() { Name = "Table Accounts" };
 
             _workspace.Add(saleAccountTemplate);
             _workspace.Add(paymentAccountTemplate);
-            _workspace.Add(customerAccountTemplate);
+            //_workspace.Add(customerAccountTemplate);
             _workspace.Add(discountAccountTemplate);
             _workspace.Add(tableAccountTemplate);
 
@@ -55,12 +55,12 @@ namespace Samba.Services
             var cashAccount = new Account { AccountTemplateId = paymentAccountTemplate.Id, Name = Resources.Cash };
             var creditCardAccount = new Account { AccountTemplateId = paymentAccountTemplate.Id, Name = Resources.CreditCard };
             var voucherAccount = new Account { AccountTemplateId = paymentAccountTemplate.Id, Name = Resources.Voucher };
-            var defaultCustomerAccount = new Account { AccountTemplateId = customerAccountTemplate.Id, Name = "Customer" };
+            //var defaultCustomerAccount = new Account { AccountTemplateId = customerAccountTemplate.Id, Name = "Customer" };
             var defaultDiscountAccount = new Account { AccountTemplateId = discountAccountTemplate.Id, Name = "Discount" };
             var defaultRoundingAccount = new Account { AccountTemplateId = discountAccountTemplate.Id, Name = Resources.Rounding };
 
             _workspace.Add(defaultSaleAccount);
-            _workspace.Add(defaultCustomerAccount);
+            //_workspace.Add(defaultCustomerAccount);
             _workspace.Add(defaultDiscountAccount);
             _workspace.Add(defaultRoundingAccount);
             _workspace.Add(cashAccount);
@@ -72,18 +72,18 @@ namespace Samba.Services
             var discountTransactionTemplate = new AccountTransactionTemplate
             {
                 Name = "Discount Transaction",
-                SourceAccountTemplateId = customerAccountTemplate.Id,
+                //SourceAccountTemplateId = customerAccountTemplate.Id,
                 TargetAccountTemplateId = discountAccountTemplate.Id,
-                DefaultSourceAccountId = defaultCustomerAccount.Id,
+                //DefaultSourceAccountId = defaultCustomerAccount.Id,
                 DefaultTargetAccountId = defaultDiscountAccount.Id
             };
 
             var roundingTransactionTemplate = new AccountTransactionTemplate
             {
                 Name = "Rounding Transaction",
-                SourceAccountTemplateId = customerAccountTemplate.Id,
+                //SourceAccountTemplateId = customerAccountTemplate.Id,
                 TargetAccountTemplateId = discountAccountTemplate.Id,
-                DefaultSourceAccountId = defaultCustomerAccount.Id,
+                //DefaultSourceAccountId = defaultCustomerAccount.Id,
                 DefaultTargetAccountId = defaultRoundingAccount.Id
             };
 
@@ -91,17 +91,17 @@ namespace Samba.Services
             {
                 Name = "Sale Transaction",
                 SourceAccountTemplateId = saleAccountTemplate.Id,
-                TargetAccountTemplateId = customerAccountTemplate.Id,
+                //TargetAccountTemplateId = customerAccountTemplate.Id,
                 DefaultSourceAccountId = defaultSaleAccount.Id,
-                DefaultTargetAccountId = defaultCustomerAccount.Id
+                //DefaultTargetAccountId = defaultCustomerAccount.Id
             };
 
             var paymentTransactionTemplate = new AccountTransactionTemplate
             {
                 Name = "Payment Transaction",
-                SourceAccountTemplateId = customerAccountTemplate.Id,
+                //SourceAccountTemplateId = customerAccountTemplate.Id,
                 TargetAccountTemplateId = paymentAccountTemplate.Id,
-                DefaultSourceAccountId = defaultCustomerAccount.Id,
+                //DefaultSourceAccountId = defaultCustomerAccount.Id,
                 DefaultTargetAccountId = cashAccount.Id
             };
 

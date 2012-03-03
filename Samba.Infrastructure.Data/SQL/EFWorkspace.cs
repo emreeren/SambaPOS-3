@@ -36,6 +36,11 @@ namespace Samba.Infrastructure.Data.SQL
             // do nothing.
         }
 
+        public void AddObject(object item)
+        {
+            _context.AddObject(item);
+        }
+
         public void Refresh(IEnumerable collection)
         {
             _context.Refresh(collection);

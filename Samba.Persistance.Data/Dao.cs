@@ -185,8 +185,11 @@ namespace Samba.Persistance.Data
         {
             using (var w = WorkspaceFactory.Create())
             {
-                var newItems = items.Where(x => x.Id == 0);
-                w.Add(newItems);
+                items.Where(x => x.Id == 0).ToList().ForEach(x =>
+                                                                 {
+                                                                     AddEntities(x, w);
+                                                                     w.Add(x);
+                                                                 });
 
                 var set = items.Where(x => x.Id > 0).Select(x => x.Id);
                 if (set.Count() > 0)
@@ -197,6 +200,17 @@ namespace Samba.Persistance.Data
 
                 w.CommitChanges();
             }
+        }
+
+        public static void AddEntities(IEntity item, IWorkspace workspace)
+        {
+            if (item.Id > 0) 
+                workspace.AddObject(item);
+            item.GetType().GetProperties()
+                .Where(y => y.PropertyType.GetInterfaces().Any(z => z == typeof(IEntity)))
+                .ToList()
+                .Select(x => x.GetValue(item, null)).Cast<IEntity>().ToList()
+                .ForEach(x => AddEntities(x, workspace));
         }
     }
 
@@ -238,7 +252,7 @@ namespace Samba.Persistance.Data
                          let srcv = (c.SourceProp.Value as IEnumerable).Cast<IValue>().SingleOrDefault(z => z.Id == vl.Id)
                          where srcv == null
                          select vl).ToList().ForEach(x => deleteMethod.Invoke(c.TargetProp.Value, new[] { x }));
-                        
+
                         foreach (var s in sourceCollection)
                         {
                             var sv = s;

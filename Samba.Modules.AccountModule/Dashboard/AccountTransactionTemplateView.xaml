@@ -17,10 +17,10 @@
             </Label>
             <TextBox HorizontalAlignment="Left" MinWidth="250" Text="{Binding Name}" />
             <Label MinWidth="120">Source Account Template (Debit)</Label>
-            <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTemplates}"
+            <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTemplates}"
                                      SelectedItem="{Binding SourceAccountTemplate}" />
             <Label MinWidth="120">Target Account Template (Credit)</Label>
-            <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTemplates}"
+            <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTemplates}"
                                      SelectedItem="{Binding TargetAccountTemplate}" />
             <Label MinWidth="120">Default Source Account</Label>
             <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" 

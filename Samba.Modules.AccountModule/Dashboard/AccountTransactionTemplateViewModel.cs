@@ -20,13 +20,10 @@ namespace Samba.Modules.AccountModule.Dashboard
             get { return AccountTemplates.SingleOrDefault(x => x.Id == Model.SourceAccountTemplateId); }
             set
             {
-                if (Model.SourceAccountTemplateId != value.Id)
-                {
-                    Model.SourceAccountTemplateId = value.Id;
-                    _sourceAccounts = null;
-                    RaisePropertyChanged(() => SourceAccountTemplate);
-                    RaisePropertyChanged(() => SourceAccounts);
-                }
+                Model.SourceAccountTemplateId = value != null ? value.Id : 0;
+                _sourceAccounts = null;
+                RaisePropertyChanged(() => SourceAccountTemplate);
+                RaisePropertyChanged(() => SourceAccounts);
             }
         }
         public AccountTemplate TargetAccountTemplate
@@ -34,13 +31,10 @@ namespace Samba.Modules.AccountModule.Dashboard
             get { return AccountTemplates.SingleOrDefault(x => x.Id == Model.TargetAccountTemplateId); }
             set
             {
-                if (Model.TargetAccountTemplateId != value.Id)
-                {
-                    Model.TargetAccountTemplateId = value.Id;
-                    _targetAccounts = null;
-                    RaisePropertyChanged(() => TargetAccountTemplate);
-                    RaisePropertyChanged(() => TargetAccounts);
-                }
+                Model.TargetAccountTemplateId = value != null ? value.Id : 0;
+                _targetAccounts = null;
+                RaisePropertyChanged(() => TargetAccountTemplate);
+                RaisePropertyChanged(() => TargetAccounts);
             }
         }
 
@@ -89,8 +83,8 @@ namespace Samba.Modules.AccountModule.Dashboard
     {
         public AccountTransactionTemplateValidator()
         {
-            RuleFor(x => x.SourceAccountTemplateId).GreaterThan(0);
-            RuleFor(x => x.TargetAccountTemplateId).GreaterThan(0);
+            RuleFor(x => x.SourceAccountTemplateId).GreaterThan(0).When(x => x.TargetAccountTemplateId == 0);
+            RuleFor(x => x.TargetAccountTemplateId).GreaterThan(0).When(x => x.SourceAccountTemplateId == 0);
         }
     }
 }

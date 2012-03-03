@@ -29,5 +29,7 @@ namespace Samba.Infrastructure.Data
         void Refresh(IEnumerable collection);
         void Refresh(object item);
         void Refresh(object item, string property);
+
+        void AddObject(object item);
     }
 }

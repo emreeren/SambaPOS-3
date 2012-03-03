@@ -23,8 +23,9 @@ namespace Samba.Domain.Models.Accounts
             }
         }
 
-        public int AccountTransactionTemplateId { get; set; }
         public int AccountTransactionDocumentId { get; set; }
+        public int AccountTransactionTemplateId { get; set; }
+        public virtual AccountTransactionTemplate AccountTransactionTemplate { get; set; }
         public virtual AccountTransactionValue SourceTransactionValue { get; set; }
         public virtual AccountTransactionValue TargetTransactionValue { get; set; }
 
@@ -47,6 +48,7 @@ namespace Samba.Domain.Models.Accounts
                              {
                                  Name = template.Name,
                                  AccountTransactionTemplateId = template.Id,
+                                 AccountTransactionTemplate = template,
                                  SourceTransactionValue = new AccountTransactionValue(),
                                  TargetTransactionValue = new AccountTransactionValue()
                              };
@@ -58,8 +60,6 @@ namespace Samba.Domain.Models.Accounts
 
             result.SetSoruceAccount(template.DefaultSourceAccountId);
             result.SetTargetAccount(template.DefaultTargetAccountId);
-            result.SourceTransactionValue.AccountTemplateId = template.SourceAccountTemplateId;
-            result.TargetTransactionValue.AccountTemplateId = template.TargetAccountTemplateId;
             return result;
         }
 
@@ -73,11 +73,11 @@ namespace Samba.Domain.Models.Accounts
             TargetTransactionValue.AccountId = accountId;
         }
 
-        public void UpdateAccounts(int targetAccountTemplateId, int accountId)
+        public void UpdateAccounts(int accountTemplateId, int accountId)
         {
-            if (SourceTransactionValue.AccountTemplateId == targetAccountTemplateId)
+            if (AccountTransactionTemplate.SourceAccountTemplateId == accountTemplateId || AccountTransactionTemplate.SourceAccountTemplateId == 0)
                 SetSoruceAccount(accountId);
-            if (TargetTransactionValue.AccountTemplateId == targetAccountTemplateId)
+            if (AccountTransactionTemplate.TargetAccountTemplateId == accountTemplateId || AccountTransactionTemplate.TargetAccountTemplateId == 0)
                 SetTargetAccount(accountId);
         }
     }

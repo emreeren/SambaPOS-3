@@ -12,6 +12,7 @@ namespace Samba.Domain.Models.Tickets
         public PaymentTemplate()
         {
             ButtonColor = "Gainsboro";
+            DisplayAtPaymentScreen = true;
         }
 
         public int Order { get; set; }

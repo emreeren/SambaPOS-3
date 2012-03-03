@@ -170,6 +170,11 @@ namespace Samba.Infrastructure.Data.Text
             //gerekmiyor...
         }
 
+        public void AddObject(object item)
+        {
+            //gerekmiyor...
+        }
+
         public T SingleUc<T>(Expression<Func<T, bool>> expression) where T : class
         {
             return Single(expression);

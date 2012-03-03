@@ -402,7 +402,7 @@ namespace Samba.Domain.Models.Tickets
                 ticket.AddCalculation(calulationTemplate, calulationTemplate.Amount);
             }
 
-            ticket.TargetAccountTemplateId = account.AccountTemplateId;
+            ticket.TargetAccountTemplateId = department.TicketTemplate.SaleTransactionTemplate.TargetAccountTemplateId;
             ticket.AccountTransactions = new AccountTransactionDocument();
             ticket.UpdateAccount(account);
             return ticket;
@@ -483,12 +483,10 @@ namespace Samba.Domain.Models.Tickets
 
         public void UpdateAccount(Account account)
         {
+            if(account == null) return;
             foreach (var transaction in AccountTransactions.AccountTransactions)
             {
-                if (transaction.SourceTransactionValue.AccountTemplateId == TargetAccountTemplateId)
-                    transaction.SetSoruceAccount(account.Id);
-                if (transaction.TargetTransactionValue.AccountTemplateId == TargetAccountTemplateId)
-                    transaction.SetTargetAccount(account.Id);
+                transaction.UpdateAccounts(TargetAccountTemplateId, account.Id);
             }
             AccountId = account.Id;
             AccountTemplateId = account.AccountTemplateId;
