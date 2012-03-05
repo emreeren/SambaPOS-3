@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Samba.Domain.Models.Accounts;
 using Samba.Infrastructure;
+using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Services.Common;

@@ -170,7 +170,7 @@ namespace Samba.Infrastructure.Data.Text
             //gerekmiyor...
         }
 
-        public void AddObject(object item)
+        public void MarkUnchanged(object item)
         {
             //gerekmiyor...
         }

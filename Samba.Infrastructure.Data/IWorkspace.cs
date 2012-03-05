@@ -30,6 +30,6 @@ namespace Samba.Infrastructure.Data
         void Refresh(object item);
         void Refresh(object item, string property);
 
-        void AddObject(object item);
+        void MarkUnchanged(object item);
     }
 }

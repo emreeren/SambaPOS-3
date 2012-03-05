@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CachedDao.cs" />
     <Compile Include="Dao.cs" />
     <Compile Include="EntitySpecifications.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

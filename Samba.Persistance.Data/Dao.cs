@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Omu.ValueInjecter;
+using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Data.Serializer;
 
@@ -39,6 +40,7 @@ namespace Samba.Persistance.Data
             }
             Cache.Clear();
         }
+
 
         public static TResult Single<TSource, TResult>(int id, Expression<Func<TSource, TResult>> expression) where TSource : class,IEntity
         {
@@ -181,99 +183,20 @@ namespace Samba.Persistance.Data
             }
         }
 
-        public static void SafeSave<T>(params T[] items) where T : class, IEntity
+        public static T Load<T>(int id, params Expression<Func<T, object>>[] includes) where T : class, ICacheable
         {
-            using (var w = WorkspaceFactory.Create())
-            {
-                items.Where(x => x.Id == 0).ToList().ForEach(x =>
-                                                                 {
-                                                                     AddEntities(x, w);
-                                                                     w.Add(x);
-                                                                 });
-
-                var set = items.Where(x => x.Id > 0).Select(x => x.Id);
-                if (set.Count() > 0)
-                {
-                    var dbTickets = w.All<T>(x => set.Contains(x.Id)).ToList();
-                    dbTickets.ForEach(x => x.InjectFrom<EntityInjection>(items.Single(y => y.Id == x.Id)));
-                }
-
-                w.CommitChanges();
-            }
+            return CachedDao.CacheLoad(id, includes);
         }
 
-        public static void AddEntities(IEntity item, IWorkspace workspace)
+        public static void Save<T>(T entity) where T : class, ICacheable
         {
-            if (item.Id > 0) 
-                workspace.AddObject(item);
-            item.GetType().GetProperties()
-                .Where(y => y.PropertyType.GetInterfaces().Any(z => z == typeof(IEntity)))
-                .ToList()
-                .Select(x => x.GetValue(item, null)).Cast<IEntity>().ToList()
-                .ForEach(x => AddEntities(x, workspace));
+            CachedDao.CacheSave(entity);
+        }
+
+        public static string CheckConcurrency<T>(T entity) where T : class, ICacheable
+        {
+            return CachedDao.CheckConcurrency(entity);
         }
     }
 
-    public class EntityInjection : ConventionInjection
-    {
-        protected override bool Match(ConventionInfo c)
-        {
-            var propertyMatch = c.SourceProp.Name == c.TargetProp.Name;
-            var sourceNotNull = c.SourceProp.Value != null;
-
-            var targetPropertyIdWritable = true;
-
-            if (propertyMatch && c.TargetProp.Name == "Id" && !(c.Target.Value is IEntity))
-                targetPropertyIdWritable = false;
-
-            return propertyMatch && sourceNotNull && targetPropertyIdWritable;
-        }
-
-        protected override object SetValue(ConventionInfo c)
-        {
-            if (c.SourceProp.Type.IsValueType || c.SourceProp.Type == typeof(string))
-                return c.SourceProp.Value;
-
-            if (c.SourceProp.Type.IsGenericType)
-            {
-                var td = c.SourceProp.Type.GetGenericTypeDefinition();
-                if (td != null && td.GetInterfaces().Contains(typeof(IEnumerable)))
-                {
-                    var targetChildType = c.TargetProp.Type.GetGenericArguments()[0];
-                    if (targetChildType.IsValueType || targetChildType == typeof(string)) return c.SourceProp.Value;
-                    if (targetChildType.GetInterfaces().Any(x => x == typeof(IValue)))
-                    {
-                        var sourceCollection = (c.SourceProp.Value as IEnumerable).Cast<IValue>();
-
-                        var deleteMethod = c.TargetProp.Value.GetType().GetMethod("Remove");
-
-                        (from vl in (c.TargetProp.Value as IEnumerable).Cast<IValue>()
-                         where vl.Id > 0
-                         let srcv = (c.SourceProp.Value as IEnumerable).Cast<IValue>().SingleOrDefault(z => z.Id == vl.Id)
-                         where srcv == null
-                         select vl).ToList().ForEach(x => deleteMethod.Invoke(c.TargetProp.Value, new[] { x }));
-
-                        foreach (var s in sourceCollection)
-                        {
-                            var sv = s;
-                            var target = (c.TargetProp.Value as IEnumerable).Cast<IValue>().SingleOrDefault(z => z.Id == sv.Id && z.Id != 0);
-                            if (target != null) target.InjectFrom<EntityInjection>(sv);
-                            else
-                            {
-                                var addMethod = c.TargetProp.Value.GetType().GetMethod("Add");
-                                addMethod.Invoke(c.TargetProp.Value, new[] { sv });
-                            }
-                        }
-                    }
-                }
-
-                return c.TargetProp.Value;
-            }
-
-            if (c.TargetProp.Value == null)
-                c.TargetProp.Value = Activator.CreateInstance(c.TargetProp.Type);
-
-            return c.TargetProp.Value.InjectFrom<EntityInjection>(c.SourceProp.Value);
-        }
-    }
 }

@@ -84,7 +84,7 @@ namespace Samba.Infrastructure.Data.Serializer
                         if (AreEquals(actualValue, expectedValue) == false)
                             return false;
                     }
-                    else if (!Equals(expectedValue, actualValue))
+                    else if (!expectedValue.Equals(actualValue))
                         return false;
                 }
                 return true;

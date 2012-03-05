@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using Samba.Domain.Models.Inventories;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Tickets;
+using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Services.Common;

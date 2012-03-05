@@ -40,6 +40,7 @@ namespace Samba.Services.Implementations.TicketModule
             _cacheService = cacheService;
 
             ValidatorRegistry.RegisterDeleteValidator(new TicketTagGroupDeleteValidator());
+            ValidatorRegistry.RegisterConcurrencyValidator(new TicketConcurrencyValidator());
         }
 
         public void UpdateAccount(Ticket ticket, Account account)
@@ -66,13 +67,18 @@ namespace Samba.Services.Implementations.TicketModule
             Debug.Assert(_applicationState.CurrentDepartment != null);
 
             var ticket = ticketId == 0
-                            ? CreateTicket()
-                            : Dao.Single<Ticket>(t => t.Id == ticketId,
-                            x => x.Orders.Select(y => y.OrderTagValues),
-                            x => x.Calculations, x => x.Payments, x => x.PaidItems, x => x.Tags,
-                            x => x.AccountTransactions.AccountTransactions,
-                            x => x.AccountTransactions.AccountTransactions.Select(y => y.SourceTransactionValue),
-                            x => x.AccountTransactions.AccountTransactions.Select(y => y.TargetTransactionValue));
+                             ? CreateTicket()
+                             : Dao.Load<Ticket>(ticketId,
+                             x => x.Orders.Select(y => y.OrderTagValues), x => x.Calculations,
+                             x => x.Payments, x => x.PaidItems, x => x.Tags);
+
+            //Dao.Single<Ticket>(t => t.Id == ticketId,
+            //x => x.Orders.Select(y => y.OrderTagValues),
+            //x => x.Calculations, x => x.Payments, x => x.PaidItems, x => x.Tags,
+            //x => x.AccountTransactions.AccountTransactions,
+            //x => x.AccountTransactions.AccountTransactions.Select(y => y.AccountTransactionTemplate),
+            //x => x.AccountTransactions.AccountTransactions.Select(y => y.SourceTransactionValue),
+            //x => x.AccountTransactions.AccountTransactions.Select(y => y.TargetTransactionValue));)
 
             if (ticket.Id == 0)
                 _automationService.NotifyEvent(RuleEventNames.TicketCreated, new { Ticket = ticket });
@@ -91,57 +97,9 @@ namespace Samba.Services.Implementations.TicketModule
         {
             var result = new TicketCommitResult();
             Debug.Assert(ticket != null);
-            var changed = false;
 
-            if (ticket.Id > 0)
-            {
-                var lup = Dao.Single<Ticket, DateTime>(ticket.Id, x => x.LastUpdateTime);
-                if (ticket.LastUpdateTime.CompareTo(lup) != 0)
-                {
-                    var currentTicket = Dao.Single<Ticket>(x => x.Id == ticket.Id, x => x.Orders);
-                    if (currentTicket.LocationName != ticket.LocationName)
-                    {
-                        result.ErrorMessage = string.Format(Resources.TicketMovedRetryLastOperation_f, currentTicket.LocationName);
-                        changed = true;
-                    }
-
-                    if (currentTicket.IsPaid != ticket.IsPaid)
-                    {
-                        if (currentTicket.IsPaid)
-                        {
-                            result.ErrorMessage = Resources.TicketPaidChangesNotSaved;
-                        }
-                        if (ticket.IsPaid)
-                        {
-                            result.ErrorMessage = Resources.TicketChangedRetryLastOperation;
-                        }
-                        changed = true;
-                    }
-                    else if (currentTicket.LastPaymentDate != ticket.LastPaymentDate)
-                    {
-                        var currentPaymentIds = ticket.Payments.Select(x => x.Id).Distinct();
-                        var unknownPayments = currentTicket.Payments.Where(x => !currentPaymentIds.Contains(x.Id)).FirstOrDefault();
-                        if (unknownPayments != null)
-                        {
-                            result.ErrorMessage = Resources.TicketPaidLastChangesNotSaved;
-                            changed = true;
-                        }
-                    }
-                }
-            }
-
-            if (!string.IsNullOrEmpty(ticket.LocationName) && ticket.Id == 0)
-            {
-                var ticketId = Dao.Select<Location, int>(x => x.TicketId, x => x.Name == ticket.LocationName).FirstOrDefault();
-                {
-                    if (ticketId > 0)
-                    {
-                        result.ErrorMessage = string.Format(Resources.LocationChangedRetryLastOperation_f, ticket.LocationName);
-                        changed = true;
-                    }
-                }
-            }
-
+            result.ErrorMessage = Dao.CheckConcurrency(ticket);
+            var changed = !string.IsNullOrEmpty(result.ErrorMessage);
             var canSumbitTicket = !changed && ticket.CanSubmit; // Fişi kaydedebilmek için gün sonu yapılmamış ve fişin ödenmemiş olması gerekir.
 
             if (canSumbitTicket)
@@ -164,7 +122,7 @@ namespace Samba.Services.Implementations.TicketModule
                     {
                         UpdateTicketNumber(ticket, department.TicketTemplate.TicketNumerator);
                         ticket.LastOrderDate = DateTime.Now;
-                        Dao.SafeSave(ticket);
+                        Dao.Save(ticket);
                     }
 
                     Debug.Assert(!string.IsNullOrEmpty(ticket.TicketNumber));
@@ -176,8 +134,8 @@ namespace Samba.Services.Implementations.TicketModule
                 }
 
                 UpdateTicketLocation(ticket);
-                if (ticket.Id > 0)  // eğer adisyonda satır yoksa ID burada 0 olmalı.
-                    Dao.SafeSave(ticket);
+                if (ticket.Id > 0)// eğer adisyonda satır yoksa ID burada 0 olmalı.
+                    Dao.Save(ticket);
                 Debug.Assert(ticket.Orders.Count(x => x.OrderNumber == 0) == 0);
             }
             result.TicketId = ticket.Id;
@@ -222,7 +180,7 @@ namespace Samba.Services.Implementations.TicketModule
                 }
             }
             else ticket.LocationName = "";
-            Dao.SafeSave(location);
+            Dao.Save(location);
         }
 
         public void ChangeTicketLocation(Ticket ticket, int locationId)
@@ -240,7 +198,7 @@ namespace Samba.Services.Implementations.TicketModule
                 {
                     oldLoc.Reset();
                 }
-                Dao.SafeSave(oldLoc);
+                Dao.Save(oldLoc);
             }
 
             if (location.TicketId > 0 && location.TicketId != ticket.Id)
@@ -252,7 +210,7 @@ namespace Samba.Services.Implementations.TicketModule
             ticket.LocationName = location.Name;
             if (_applicationState.CurrentDepartment != null) ticket.DepartmentId = _applicationState.CurrentDepartment.Id;
             location.TicketId = ticket.GetRemainingAmount() > 0 ? ticket.Id : 0;
-            Dao.SafeSave(location);
+            Dao.Save(location);
             _automationService.NotifyEvent(RuleEventNames.TicketLocationChanged, new { Ticket = ticket, OldLocation = oldLocation, NewLocation = ticket.LocationName });
         }
 
@@ -463,6 +421,54 @@ namespace Samba.Services.Implementations.TicketModule
         public override void Reset()
         {
 
+        }
+    }
+
+    public class TicketConcurrencyValidator : ConcurrencyValidator<Ticket>
+    {
+        public override string GetErrorMessage(Ticket current, Ticket loaded)
+        {
+            if (current.Id > 0)
+            {
+                if (current.LocationName != loaded.LocationName)
+                {
+                    return string.Format(Resources.TicketMovedRetryLastOperation_f, loaded.LocationName);
+                }
+
+                if (current.IsPaid != loaded.IsPaid)
+                {
+                    if (loaded.IsPaid)
+                    {
+                        return Resources.TicketPaidChangesNotSaved;
+                    }
+                    if (current.IsPaid)
+                    {
+                        return Resources.TicketChangedRetryLastOperation;
+                    }
+                }
+                else if (current.LastPaymentDate != loaded.LastPaymentDate)
+                {
+                    var currentPaymentIds = current.Payments.Select(x => x.Id).Distinct();
+                    var unknownPayments = loaded.Payments.Where(x => !currentPaymentIds.Contains(x.Id)).FirstOrDefault();
+                    if (unknownPayments != null)
+                    {
+                        return Resources.TicketPaidLastChangesNotSaved;
+                    }
+                }
+            }
+
+            if (!string.IsNullOrEmpty(current.LocationName) && current.Id == 0)
+            {
+                var ticketId = Dao.Select<Location, int>(x => x.TicketId, x => x.Name == current.LocationName).FirstOrDefault();
+                {
+                    if (ticketId > 0)
+                    {
+                        return string.Format(Resources.LocationChangedRetryLastOperation_f, current.LocationName);
+                    }
+                }
+            }
+
+            return "";
         }
     }
 

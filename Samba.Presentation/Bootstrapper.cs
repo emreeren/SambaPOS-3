@@ -47,12 +47,15 @@ namespace Samba.Presentation
 
         protected override void InitializeShell()
         {
+#if DEBUG
+            // Bypass Singleton check
+#else
             if (!Mutex.WaitOne(TimeSpan.Zero, true))
             {
                 NativeWin32.PostMessage((IntPtr)NativeWin32.HWND_BROADCAST, NativeWin32.WM_SHOWSAMBAPOS, IntPtr.Zero, IntPtr.Zero);
                 Environment.Exit(1);
             }
-
+#endif
             LocalizeDictionary.ChangeLanguage(LocalSettings.CurrentLanguage);
 
             InteractionService.UserIntraction = ServiceLocator.Current.GetInstance<IUserInteraction>();

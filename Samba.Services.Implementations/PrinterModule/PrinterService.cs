@@ -10,6 +10,7 @@ using Samba.Domain;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
+using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Data.Serializer;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;

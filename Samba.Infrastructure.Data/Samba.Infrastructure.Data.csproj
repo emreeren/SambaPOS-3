@@ -76,6 +76,8 @@
     <Compile Include="BinarySerializer\IStorage.cs" />
     <Compile Include="BinarySerializer\SerializationUnits.cs" />
     <Compile Include="BinarySerializer\SilverlightSerializer.cs" />
+    <Compile Include="DictionaryByType.cs" />
+    <Compile Include="ICacheable.cs" />
     <Compile Include="IEntity.cs" />
     <Compile Include="IEntityCreator.cs" />
     <Compile Include="IOrderable.cs" />
@@ -92,11 +94,13 @@
     <Compile Include="Serializer\XmlSerializationHelpers.cs" />
     <Compile Include="Serializer\XmlSerializationTag.cs" />
     <Compile Include="Serializer\XmlSerializerHelper.cs" />
+    <Compile Include="SpecificationValidator.cs" />
     <Compile Include="SQL\CommonDbContext.cs" />
     <Compile Include="SQL\EFWorkspace.cs" />
     <Compile Include="SQL\ReadOnlyEFWorkspace.cs" />
     <Compile Include="Text\DataStorage.cs" />
     <Compile Include="Text\TextFileWorkspace.cs" />
+    <Compile Include="ValidatorRegistry.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Samba.Infrastructure\Samba.Infrastructure.csproj">

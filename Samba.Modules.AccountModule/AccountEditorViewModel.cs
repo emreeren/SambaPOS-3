@@ -45,7 +45,7 @@ namespace Samba.Modules.AccountModule
         private void SaveSelectedAccount()
         {
             CustomDataViewModel.Update();
-            Dao.SafeSave(SelectedAccount.Model);
+            Dao.Save(SelectedAccount.Model);
             //using (var ws = WorkspaceFactory.Create())
             //{
             //    if (!SelectedAccount.IsNotNew)

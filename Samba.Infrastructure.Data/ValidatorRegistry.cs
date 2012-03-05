@@ -1,9 +1,12 @@
-﻿namespace Samba.Services.Common
+﻿using Samba.Services.Common;
+
+namespace Samba.Infrastructure.Data
 {
     public static class ValidatorRegistry
     {
         private static readonly DictionaryByType SaveValidators = new DictionaryByType();
         private static readonly DictionaryByType DeleteValidators = new DictionaryByType();
+        private static readonly DictionaryByType ConcurrencyValidators = new DictionaryByType();
 
         public static void RegisterSaveValidator<T>(SpecificationValidator<T> validator) where T : class
         {
@@ -13,6 +16,11 @@
         public static void RegisterDeleteValidator<T>(SpecificationValidator<T> validator) where T : class
         {
             DeleteValidators.Add(validator);
+        }
+
+        public static void RegisterConcurrencyValidator<T>(ConcurrencyValidator<T> validator) where T : class
+        {
+            ConcurrencyValidators.Add(validator);
         }
 
         public static string GetSaveErrorMessage<T>(T model) where T : class
@@ -27,6 +35,13 @@
             SpecificationValidator<T> validator;
             DeleteValidators.TryGet(out validator);
             return validator != null ? validator.GetErrorMessage(model) : "";
+        }
+
+        public static string GetConcurrencyErrorMessage<T>(T current, T loaded) where T : class
+        {
+            ConcurrencyValidator<T> validator;
+            ConcurrencyValidators.TryGet(out validator);
+            return validator != null ? validator.GetErrorMessage(current, loaded) : "";
         }
     }
 }

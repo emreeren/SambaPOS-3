@@ -10,7 +10,7 @@ using Samba.Infrastructure.Settings;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class Ticket : Entity
+    public class Ticket : Entity, ICacheable
     {
         public Ticket()
             : this(0, "")
@@ -50,7 +50,7 @@ namespace Samba.Domain.Models.Tickets
         private bool _shouldLock;
         private Dictionary<int, int> _printCounts;
         public DateTime LastUpdateTime { get; set; }
-
+        
         private string _ticketNumber;
         public string TicketNumber
         {
@@ -483,7 +483,7 @@ namespace Samba.Domain.Models.Tickets
 
         public void UpdateAccount(Account account)
         {
-            if(account == null) return;
+            if (account == null) return;
             foreach (var transaction in AccountTransactions.AccountTransactions)
             {
                 transaction.UpdateAccounts(TargetAccountTemplateId, account.Id);

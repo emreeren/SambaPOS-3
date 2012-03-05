@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Data.Objects;
+using System.Data.Objects.DataClasses;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -36,9 +38,9 @@ namespace Samba.Infrastructure.Data.SQL
             // do nothing.
         }
 
-        public void AddObject(object item)
+        public void MarkUnchanged(object item)
         {
-            _context.AddObject(item);
+            _context.Entry(item).State = EntityState.Unchanged;
         }
 
         public void Refresh(IEnumerable collection)

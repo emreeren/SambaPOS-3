@@ -1,12 +1,13 @@
-﻿using Samba.Domain.Models.Accounts;
+﻿using System;
+using Samba.Domain.Models.Accounts;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Locations
 {
-    public class Location : Entity, IOrderable
+    public class Location : Entity, IOrderable,ICacheable
     {
         public int Order { get; set; }
-        public byte[] LastUpdateTime { get; set; }
+        public DateTime LastUpdateTime { get; set; }
         public string Category { get; set; }
         public int TicketId { get; set; }
         public bool IsTicketLocked { get; set; }
@@ -27,6 +28,7 @@ namespace Samba.Domain.Models.Locations
         {
             Height = 70;
             Width = 70;
+            LastUpdateTime = DateTime.Now;
         }
 
         public void Reset()
