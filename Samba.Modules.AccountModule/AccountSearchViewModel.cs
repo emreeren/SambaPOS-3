@@ -168,21 +168,26 @@ namespace Samba.Modules.AccountModule
 
         public void RefreshSelectedAccount(EntityOperationRequest<Account> value)
         {
-            if (_applicationState.CurrentDepartment != null)
+            if (value != null && value.SelectedEntity != null)
             {
-                if (SelectedAccountTemplate == null || SelectedAccountTemplate.Id != _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.TargetAccountTemplateId)
-                    SelectedAccountTemplate = _cacheService.GetAccountTemplateById(
-                            _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.TargetAccountTemplateId);
+                if (SelectedAccountTemplate == null ||
+                    SelectedAccountTemplate.Id != value.SelectedEntity.AccountTemplateId)
+                    SelectedAccountTemplate = _cacheService.GetAccountTemplateById(value.SelectedEntity.AccountTemplateId);
 
                 ClearSearchValues();
+            }
+            else if (_applicationState.CurrentDepartment != null)
+            {
+                var tid = _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.TargetAccountTemplateId;
+                SelectedAccountTemplate = _cacheService.GetAccountTemplateById(tid);
+            }
 
-                _currentAccountSelectionRequest = value;
+            _currentAccountSelectionRequest = value;
 
-                if (_currentAccountSelectionRequest != null)
-                {
-                    ClearSearchValues();
-                    FoundAccounts.Add(new AccountSearchResultViewModel(_currentAccountSelectionRequest.SelectedEntity, SelectedAccountTemplate));
-                }
+            if (_currentAccountSelectionRequest != null && _currentAccountSelectionRequest.SelectedEntity != null)
+            {
+                ClearSearchValues();
+                FoundAccounts.Add(new AccountSearchResultViewModel(_currentAccountSelectionRequest.SelectedEntity, SelectedAccountTemplate));
             }
 
             RaisePropertyChanged(() => SelectedAccountTemplate);

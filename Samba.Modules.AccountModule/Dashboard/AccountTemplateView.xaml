@@ -18,6 +18,10 @@
             </Label>
             <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
             <Label>
+                <LocText ResourceIdentifierKey="EntityName" Suffix=":"/>
+            </Label>
+            <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding EntityName}" />
+            <Label>
                 <LocText ResourceIdentifierKey="FilterType" Suffix=":"/>
             </Label>
             <ComboBox ItemsSource="{Binding FilterTypes}" SelectedItem="{Binding FilterType}" HorizontalAlignment="Left" MinWidth="200"/>

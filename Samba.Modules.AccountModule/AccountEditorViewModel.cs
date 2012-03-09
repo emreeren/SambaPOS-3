@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel.Composition;
-using System.Diagnostics;
+﻿using System.ComponentModel.Composition;
 using Samba.Domain.Models.Accounts;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;

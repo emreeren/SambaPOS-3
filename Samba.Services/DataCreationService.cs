@@ -37,15 +37,15 @@ namespace Samba.Services
 
             if (!ShouldCreateData()) return;
 
-            var saleAccountTemplate = new AccountTemplate { Name = "Sales Accounts" };
-            var paymentAccountTemplate = new AccountTemplate { Name = "Payment Accounts" };
-           // var customerAccountTemplate = new AccountTemplate { Name = "Customer Accounts" };
-            var discountAccountTemplate = new AccountTemplate { Name = "Discount Accounts" };
-            var tableAccountTemplate = new AccountTemplate() { Name = "Table Accounts" };
+            var saleAccountTemplate = new AccountTemplate { Name = "Sales Accounts", EntityName = "Sale" };
+            var paymentAccountTemplate = new AccountTemplate { Name = "Payment Accounts", EntityName = "Payment" };
+            var customerAccountTemplate = new AccountTemplate { Name = "Customer Accounts", EntityName = "Customer" };
+            var discountAccountTemplate = new AccountTemplate { Name = "Discount Accounts", EntityName = "Discount" };
+            var tableAccountTemplate = new AccountTemplate { Name = "Table Accounts", EntityName = Resources.Table };
 
             _workspace.Add(saleAccountTemplate);
             _workspace.Add(paymentAccountTemplate);
-            //_workspace.Add(customerAccountTemplate);
+            _workspace.Add(customerAccountTemplate);
             _workspace.Add(discountAccountTemplate);
             _workspace.Add(tableAccountTemplate);
 
@@ -72,7 +72,7 @@ namespace Samba.Services
             var discountTransactionTemplate = new AccountTransactionTemplate
             {
                 Name = "Discount Transaction",
-                //SourceAccountTemplateId = customerAccountTemplate.Id,
+                SourceAccountTemplateId = customerAccountTemplate.Id,
                 TargetAccountTemplateId = discountAccountTemplate.Id,
                 //DefaultSourceAccountId = defaultCustomerAccount.Id,
                 DefaultTargetAccountId = defaultDiscountAccount.Id
@@ -81,7 +81,7 @@ namespace Samba.Services
             var roundingTransactionTemplate = new AccountTransactionTemplate
             {
                 Name = "Rounding Transaction",
-                //SourceAccountTemplateId = customerAccountTemplate.Id,
+                SourceAccountTemplateId = customerAccountTemplate.Id,
                 TargetAccountTemplateId = discountAccountTemplate.Id,
                 //DefaultSourceAccountId = defaultCustomerAccount.Id,
                 DefaultTargetAccountId = defaultRoundingAccount.Id
@@ -91,7 +91,7 @@ namespace Samba.Services
             {
                 Name = "Sale Transaction",
                 SourceAccountTemplateId = saleAccountTemplate.Id,
-                //TargetAccountTemplateId = customerAccountTemplate.Id,
+                TargetAccountTemplateId = customerAccountTemplate.Id,
                 DefaultSourceAccountId = defaultSaleAccount.Id,
                 //DefaultTargetAccountId = defaultCustomerAccount.Id
             };
@@ -99,7 +99,7 @@ namespace Samba.Services
             var paymentTransactionTemplate = new AccountTransactionTemplate
             {
                 Name = "Payment Transaction",
-                //SourceAccountTemplateId = customerAccountTemplate.Id,
+                SourceAccountTemplateId = customerAccountTemplate.Id,
                 TargetAccountTemplateId = paymentAccountTemplate.Id,
                 //DefaultSourceAccountId = defaultCustomerAccount.Id,
                 DefaultTargetAccountId = cashAccount.Id

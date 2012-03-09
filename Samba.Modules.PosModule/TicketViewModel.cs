@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
+using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
@@ -200,6 +201,8 @@ namespace Samba.Modules.PosModule
         {
             get { return Model.AccountName; }
         }
+
+        public int AccountTemplateId { get { return Model.AccountTemplateId; } }
 
         public bool IsLocked { get { return Model.Locked; } set { Model.Locked = value; } }
         public bool IsTagged { get { return Model.IsTagged; } }

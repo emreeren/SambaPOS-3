@@ -426,24 +426,24 @@ namespace Samba.Services.Implementations.TicketModule
 
     public class TicketConcurrencyValidator : ConcurrencyValidator<Ticket>
     {
-        public override string GetErrorMessage(Ticket current, Ticket loaded)
+        public override ConcurrencyCheckResult GetErrorMessage(Ticket current, Ticket loaded)
         {
             if (current.Id > 0)
             {
                 if (current.LocationName != loaded.LocationName)
                 {
-                    return string.Format(Resources.TicketMovedRetryLastOperation_f, loaded.LocationName);
+                    return ConcurrencyCheckResult.Break(string.Format(Resources.TicketMovedRetryLastOperation_f, loaded.LocationName));
                 }
 
                 if (current.IsPaid != loaded.IsPaid)
                 {
                     if (loaded.IsPaid)
                     {
-                        return Resources.TicketPaidChangesNotSaved;
+                        return ConcurrencyCheckResult.Break(Resources.TicketPaidChangesNotSaved);
                     }
                     if (current.IsPaid)
                     {
-                        return Resources.TicketChangedRetryLastOperation;
+                        return ConcurrencyCheckResult.Break(Resources.TicketChangedRetryLastOperation);
                     }
                 }
                 else if (current.LastPaymentDate != loaded.LastPaymentDate)
@@ -452,8 +452,13 @@ namespace Samba.Services.Implementations.TicketModule
                     var unknownPayments = loaded.Payments.Where(x => !currentPaymentIds.Contains(x.Id)).FirstOrDefault();
                     if (unknownPayments != null)
                     {
-                        return Resources.TicketPaidLastChangesNotSaved;
+                        return ConcurrencyCheckResult.Break(Resources.TicketPaidLastChangesNotSaved);
                     }
+                }
+
+                if (current.RemainingAmount == 0 && loaded.GetSum() != current.GetSum())
+                {
+                    return ConcurrencyCheckResult.Break(Resources.TicketChangedRetryLastOperation);
                 }
             }
 
@@ -463,12 +468,12 @@ namespace Samba.Services.Implementations.TicketModule
                 {
                     if (ticketId > 0)
                     {
-                        return string.Format(Resources.LocationChangedRetryLastOperation_f, current.LocationName);
+                        return ConcurrencyCheckResult.Break(string.Format(Resources.LocationChangedRetryLastOperation_f, current.LocationName));
                     }
                 }
             }
 
-            return "";
+            return ConcurrencyCheckResult.Continue();
         }
     }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.Regions;
@@ -20,6 +21,7 @@ namespace Samba.Modules.PosModule
         private readonly ITicketService _ticketService;
         private readonly IUserService _userService;
         private readonly IApplicationState _applicationState;
+        private readonly IApplicationStateSetter _applicationStateSetter;
         private readonly IRegionManager _regionManager;
         private readonly MenuItemSelectorViewModel _menuItemSelectorViewModel;
         private readonly TicketExplorerViewModel _ticketExplorerViewModel;
@@ -34,6 +36,7 @@ namespace Samba.Modules.PosModule
             _ticketService = ticketService;
             _userService = userService;
             _applicationState = applicationState;
+            _applicationStateSetter = applicationStateSetter;
             _regionManager = regionManager;
             _menuItemSelectorView = menuItemSelectorView;
             _ticketListViewModel = ticketListViewModel;
@@ -117,6 +120,11 @@ namespace Samba.Modules.PosModule
 
         public void DisplayTickets()
         {
+            if (_applicationState.CurrentDepartment == null && _applicationState.CurrentLoggedInUser.UserRole.DepartmentId > 0)
+                _applicationStateSetter.SetCurrentDepartment(_applicationState.CurrentLoggedInUser.UserRole.DepartmentId);
+            
+            Debug.Assert(_applicationState.CurrentDepartment != null);
+
             if (_ticketListViewModel.SelectedTicket != null)
             {
                 EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
@@ -128,7 +136,6 @@ namespace Samba.Modules.PosModule
             if (_applicationState.CurrentDepartment.IsAlaCarte && _applicationState.CurrentDepartment.LocationScreens.Count > 0)
             {
                 CommonEventPublisher.PublishEntityOperation<Location>(null, EventTopicNames.SelectLocation, EventTopicNames.LocationSelectedForTicket);
-                //_applicationState.CurrentDepartment.PublishEvent(EventTopicNames.SelectLocation);
             }
             else if (_applicationState.CurrentDepartment.IsTakeAway)
             {

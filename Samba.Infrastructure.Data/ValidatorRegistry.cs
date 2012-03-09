@@ -37,11 +37,11 @@ namespace Samba.Infrastructure.Data
             return validator != null ? validator.GetErrorMessage(model) : "";
         }
 
-        public static string GetConcurrencyErrorMessage<T>(T current, T loaded) where T : class
+        public static ConcurrencyCheckResult GetConcurrencyErrorMessage<T>(T current, T loaded) where T : class
         {
             ConcurrencyValidator<T> validator;
             ConcurrencyValidators.TryGet(out validator);
-            return validator != null ? validator.GetErrorMessage(current, loaded) : "";
+            return validator != null ? validator.GetErrorMessage(current, loaded) : ConcurrencyCheckResult.Continue();
         }
     }
 }

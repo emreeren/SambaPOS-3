@@ -50,7 +50,7 @@ namespace Samba.Domain.Models.Tickets
         private bool _shouldLock;
         private Dictionary<int, int> _printCounts;
         public DateTime LastUpdateTime { get; set; }
-        
+
         private string _ticketNumber;
         public string TicketNumber
         {
@@ -80,8 +80,6 @@ namespace Samba.Domain.Models.Tickets
         public int AccountId { get; set; }
         public int AccountTemplateId { get; set; }
         public string AccountName { get; set; }
-
-        public int TargetAccountTemplateId { get; set; }
 
         public virtual AccountTransactionDocument AccountTransactions { get; set; }
 
@@ -129,7 +127,7 @@ namespace Samba.Domain.Models.Tickets
             if (AccountTransactions.AccountTransactions.SingleOrDefault(x => x.AccountTransactionTemplateId == template.Id) == null)
             {
                 var transaction = AccountTransaction.Create(template);
-                transaction.UpdateAccounts(TargetAccountTemplateId, AccountId);
+                transaction.UpdateAccounts(AccountTemplateId, AccountId);
                 AccountTransactions.AccountTransactions.Add(transaction);
             }
 
@@ -138,7 +136,7 @@ namespace Samba.Domain.Models.Tickets
                     .SingleOrDefault(x => x.AccountTransactionTemplateId == tif.AccountTransactionTaxTemplateId) == null)
             {
                 var transaction = AccountTransaction.Create(menuItem.TaxTemplate.AccountTransactionTemplate);
-                transaction.UpdateAccounts(TargetAccountTemplateId, AccountId);
+                transaction.UpdateAccounts(AccountTemplateId, AccountId);
                 AccountTransactions.AccountTransactions.Add(transaction);
             }
             Orders.Add(tif);
@@ -149,8 +147,8 @@ namespace Samba.Domain.Models.Tickets
         {
             var transaction = AccountTransaction.Create(paymentTemplate.AccountTransactionTemplate);
             transaction.Amount = amount;
-            transaction.SetTargetAccount(paymentTemplate.Account.Id);
-            transaction.UpdateAccounts(TargetAccountTemplateId, AccountId);
+            transaction.SetTargetAccount(paymentTemplate.Account.AccountTemplateId, paymentTemplate.Account.Id);
+            transaction.UpdateAccounts(AccountTemplateId, AccountId);
             AccountTransactions.AccountTransactions.Add(transaction);
             var payment = new Payment { AccountTransaction = transaction, Amount = amount, Name = paymentTemplate.Account.Name };
             Payments.Add(payment);
@@ -262,7 +260,7 @@ namespace Samba.Domain.Models.Tickets
 
                 var transaction = AccountTransaction.Create(template.AccountTransactionTemplate);
                 transaction.Name = t.Name;
-                transaction.UpdateAccounts(TargetAccountTemplateId, AccountId);
+                transaction.UpdateAccounts(AccountTemplateId, AccountId);
                 AccountTransactions.AccountTransactions.Add(transaction);
                 Calculations.Add(t);
             }
@@ -402,7 +400,7 @@ namespace Samba.Domain.Models.Tickets
                 ticket.AddCalculation(calulationTemplate, calulationTemplate.Amount);
             }
 
-            ticket.TargetAccountTemplateId = department.TicketTemplate.SaleTransactionTemplate.TargetAccountTemplateId;
+            ticket.AccountTemplateId = department.TicketTemplate.SaleTransactionTemplate.TargetAccountTemplateId;
             ticket.AccountTransactions = new AccountTransactionDocument();
             ticket.UpdateAccount(account);
             return ticket;
@@ -486,7 +484,7 @@ namespace Samba.Domain.Models.Tickets
             if (account == null) return;
             foreach (var transaction in AccountTransactions.AccountTransactions)
             {
-                transaction.UpdateAccounts(TargetAccountTemplateId, account.Id);
+                transaction.UpdateAccounts(AccountTemplateId, account.Id);
             }
             AccountId = account.Id;
             AccountTemplateId = account.AccountTemplateId;
@@ -524,7 +522,7 @@ namespace Samba.Domain.Models.Tickets
                 {
                     var t = transactionItem;
                     var transaction = AccountTransactions.AccountTransactions.SingleOrDefault(x => x.AccountTransactionTemplateId == t.Key);
-                    transaction.UpdateAccounts(TargetAccountTemplateId, AccountId);
+                    transaction.UpdateAccounts(AccountTemplateId, AccountId);
                     transaction.Amount = t.Sum(x => x.GetTotal() - x.GetTotalTaxAmount());
                 }
 
@@ -534,7 +532,7 @@ namespace Samba.Domain.Models.Tickets
                 {
                     var tg = taxGroupItem;
                     var transaction = AccountTransactions.AccountTransactions.SingleOrDefault(x => x.AccountTransactionTemplateId == tg.Key);
-                    transaction.UpdateAccounts(TargetAccountTemplateId, AccountId);
+                    transaction.UpdateAccounts(AccountTemplateId, AccountId);
                     transaction.Amount = tg.Sum(x => x.GetTotalTaxAmount());
                 }
             }

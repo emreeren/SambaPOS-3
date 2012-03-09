@@ -33,7 +33,7 @@ namespace Samba.Modules.AccountModule.Dashboard
             get
             {
                 if (AccountTransactionTemplate == null) return new List<Account>();
-                return _sourceAccounts ?? (_sourceAccounts = _workspace.All<Account>(x => x.AccountTemplateId == AccountTransactionTemplate.SourceAccountTemplateId).ToList());
+                return _sourceAccounts ?? (_sourceAccounts = _workspace.All<Account>(x => x.AccountTemplateId == Model.SourceAccountTemplateId).ToList());
             }
         }
 
@@ -43,7 +43,7 @@ namespace Samba.Modules.AccountModule.Dashboard
             get
             {
                 if (AccountTransactionTemplate == null) return new List<Account>();
-                return _targetAccounts ?? (_targetAccounts = _workspace.All<Account>(x => x.AccountTemplateId == AccountTransactionTemplate.TargetAccountTemplateId).ToList());
+                return _targetAccounts ?? (_targetAccounts = _workspace.All<Account>(x => x.AccountTemplateId == Model.TargetAccountTemplateId).ToList());
             }
         }
 
@@ -57,6 +57,8 @@ namespace Samba.Modules.AccountModule.Dashboard
                 if (Model == AccountTransaction.Null)
                 {
                     Model = AccountTransaction.Create(value);
+                    Model.SourceAccountTemplateId = value.SourceAccountTemplateId;
+                    Model.TargetAccountTemplateId = value.TargetAccountTemplateId;
                     _document.AccountTransactions.Add(Model);
                 }
                 RaisePropertyChanged(() => AccountTransactionTemplate);
@@ -70,7 +72,7 @@ namespace Samba.Modules.AccountModule.Dashboard
             get { return SourceAccounts.SingleOrDefault(x => x.Id == SourceAccountId); }
             set
             {
-                Model.SetSoruceAccount(value.Id);
+                SourceAccountId = value.Id;
                 RaisePropertyChanged(() => SourceAccount);
             }
         }
@@ -79,7 +81,7 @@ namespace Samba.Modules.AccountModule.Dashboard
             get { return TargetAccounts.SingleOrDefault(x => x.Id == TargetAccountId); }
             set
             {
-                Model.SetTargetAccount(value.Id);
+                TargetAccountId = value.Id;
                 RaisePropertyChanged(() => TargetAccount);
             }
         }

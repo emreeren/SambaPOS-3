@@ -9,6 +9,8 @@ namespace Samba.Domain.Models.Accounts
 {
     public class AccountTemplate : Entity
     {
+        public string EntityName { get; set; }
+
         private readonly IList<AccountCustomField> _accountCustomFields;
         public virtual IList<AccountCustomField> AccountCustomFields
         {

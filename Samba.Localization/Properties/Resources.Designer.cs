@@ -1344,6 +1344,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change {0}.
+        /// </summary>
+        public static string Change_f {
+            get {
+                return ResourceManager.GetString("Change_f", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change Account.
         /// </summary>
         public static string ChangeAccount {
@@ -2460,6 +2469,15 @@ namespace Samba.Localization.Properties {
         public static string EnterPin {
             get {
                 return ResourceManager.GetString("EnterPin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entity Name.
+        /// </summary>
+        public static string EntityName {
+            get {
+                return ResourceManager.GetString("EntityName", resourceCulture);
             }
         }
         
@@ -6309,6 +6327,15 @@ namespace Samba.Localization.Properties {
         public static string SubTotal {
             get {
                 return ResourceManager.GetString("SubTotal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Table.
+        /// </summary>
+        public static string Table {
+            get {
+                return ResourceManager.GetString("Table", resourceCulture);
             }
         }
         

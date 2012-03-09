@@ -3045,4 +3045,13 @@ Continue without adding details?</value>
 	<data name="Settle">
 		<value xml:space="preserve">Settle</value>
 	</data>
+	<data name="Table">
+		<value xml:space="preserve">Table</value>
+	</data>
+	<data name="EntityName">
+		<value xml:space="preserve">Entity Name</value>
+	</data>
+	<data name="Change_f">
+		<value xml:space="preserve">Change {0}</value>
+	</data>
 </root>

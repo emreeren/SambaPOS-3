@@ -19,6 +19,8 @@ namespace Samba.Modules.AccountModule.Dashboard
             DeleteCustomFieldCommand = new CaptionCommand<AccountCustomFieldViewModel>(string.Format(Resources.Delete_f, Resources.CustomField), OnDeleteCustomField, CanDeleteCustomField);
         }
 
+        public string EntityName { get { return Model.EntityName; } set { Model.EntityName = value; } }
+
         public string[] FilterTypes { get { return new[] { Resources.All, Resources.Month, Resources.Week, Resources.WorkPeriod }; } }
         public string FilterType { get { return FilterTypes[Model.DefaultFilterType]; } set { Model.DefaultFilterType = FilterTypes.ToList().IndexOf(value); } }
 

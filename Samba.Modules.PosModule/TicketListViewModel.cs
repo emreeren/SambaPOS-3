@@ -274,9 +274,6 @@ namespace Samba.Modules.PosModule
 
         private void OnRefreshTicket(EventParameters<EventAggregator> obj)
         {
-            if (SelectedDepartment == null && _applicationState.CurrentLoggedInUser.UserRole.DepartmentId > 0)
-                UpdateSelectedDepartment(_applicationState.CurrentLoggedInUser.UserRole.DepartmentId);
-
             if (obj.Topic == EventTopicNames.PaymentSubmitted)
             {
                 CloseTicket();
@@ -451,7 +448,7 @@ namespace Samba.Modules.PosModule
                         if (SelectedTicket != null)
                         {
                             _ticketService.ChangeTicketLocation(SelectedTicket.Model, obj.Value.SelectedEntity.Id);
-                           // _ticketService.UpdateAccount(SelectedTicket.Model, obj.Value.SelectedEntity.Account);
+                            _ticketService.UpdateAccount(SelectedTicket.Model, obj.Value.SelectedEntity.Account);
                         }
                     }
                     else
@@ -749,13 +746,33 @@ namespace Samba.Modules.PosModule
             }
         }
 
+
+        private AccountTemplate _currentAccountTemplate;
+        public AccountTemplate CurrentAccountTemplate
+        {
+            get
+            {
+                var accountTemplateId = SelectedTicket != null
+                                            ? SelectedTicket.AccountTemplateId
+                                            : SelectedDepartment.TicketTemplate.SaleTransactionTemplate.
+                                                  TargetAccountTemplateId;
+
+                if (_currentAccountTemplate == null || _currentAccountTemplate.Id != accountTemplateId)
+                    _currentAccountTemplate = _cacheService.GetAccountTemplateById(accountTemplateId);
+
+                return _currentAccountTemplate;
+            }
+        }
+
         public string SelectAccountButtonCaption
         {
             get
             {
-                if (SelectedTicket != null && SelectedTicket.AccountId != SelectedDepartment.TicketTemplate.SaleTransactionTemplate.DefaultTargetAccountId)
-                    return Resources.ChangeAccount.Replace(" ", "\r");
-                return Resources.SelectAccount.Replace(" ", "\r");
+                if (SelectedDepartment == null) return "";
+                var entityName = CurrentAccountTemplate.EntityName;
+                if (SelectedTicket != null && SelectedTicket.AccountId != 0)
+                    return string.Format(Resources.Change_f, entityName).Replace(" ", "\r");
+                return string.Format(Resources.Select_f, entityName).Replace(" ", "\r");
             }
         }
 

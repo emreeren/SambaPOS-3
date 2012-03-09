@@ -25,7 +25,9 @@ namespace Samba.Domain.Models.Accounts
 
         public int AccountTransactionDocumentId { get; set; }
         public int AccountTransactionTemplateId { get; set; }
-        public virtual AccountTransactionTemplate AccountTransactionTemplate { get; set; }
+        public int SourceAccountTemplateId { get; set; }
+        public int TargetAccountTemplateId { get; set; }
+        public bool? DynamicPart { get; set; }
         public virtual AccountTransactionValue SourceTransactionValue { get; set; }
         public virtual AccountTransactionValue TargetTransactionValue { get; set; }
 
@@ -48,37 +50,54 @@ namespace Samba.Domain.Models.Accounts
                              {
                                  Name = template.Name,
                                  AccountTransactionTemplateId = template.Id,
-                                 AccountTransactionTemplate = template,
                                  SourceTransactionValue = new AccountTransactionValue(),
                                  TargetTransactionValue = new AccountTransactionValue()
                              };
 
             if (result.SourceTransactionValue != null)
+            {
+                result.SourceTransactionValue.AccountId = template.DefaultSourceAccountId;
                 result.SourceTransactionValue.Name = template.Name;
-            if (result.TargetTransactionValue != null)
-                result.TargetTransactionValue.Name = template.Name;
+            }
 
-            result.SetSoruceAccount(template.DefaultSourceAccountId);
-            result.SetTargetAccount(template.DefaultTargetAccountId);
+            if (result.TargetTransactionValue != null)
+            {
+                result.TargetTransactionValue.AccountId = template.DefaultTargetAccountId;
+                result.TargetTransactionValue.Name = template.Name;
+            }
+
+            result.SourceAccountTemplateId = template.SourceAccountTemplateId;
+            result.TargetAccountTemplateId = template.TargetAccountTemplateId;
+
+            result.DynamicPart = null;
+            if (template.DefaultSourceAccountId == 0) result.DynamicPart = true;
+            if (template.DefaultTargetAccountId == 0) result.DynamicPart = false;
+
             return result;
         }
 
-        public void SetSoruceAccount(int accountId)
+        public void SetSourceAccount(int accountTemplateId, int accountId)
         {
+            SourceAccountTemplateId = accountTemplateId;
             SourceTransactionValue.AccountId = accountId;
         }
 
-        public void SetTargetAccount(int accountId)
+        public void SetTargetAccount(int accountTemplateId, int accountId)
         {
+            TargetAccountTemplateId = accountTemplateId;
             TargetTransactionValue.AccountId = accountId;
         }
 
         public void UpdateAccounts(int accountTemplateId, int accountId)
         {
-            if (AccountTransactionTemplate.SourceAccountTemplateId == accountTemplateId || AccountTransactionTemplate.SourceAccountTemplateId == 0)
-                SetSoruceAccount(accountId);
-            if (AccountTransactionTemplate.TargetAccountTemplateId == accountTemplateId || AccountTransactionTemplate.TargetAccountTemplateId == 0)
-                SetTargetAccount(accountId);
+            if (SourceAccountTemplateId == accountTemplateId)
+                SourceTransactionValue.AccountId = accountId;
+            else if (TargetAccountTemplateId == accountTemplateId)
+                TargetTransactionValue.AccountId = accountId;
+            else if (DynamicPart == true)
+                SetSourceAccount(accountTemplateId, accountId);
+            else if (DynamicPart == false)
+                SetTargetAccount(accountTemplateId, accountId);
         }
     }
 }

@@ -46,6 +46,14 @@ namespace Samba.Persistance.Data
                 EntityCache[typeof(T)].Remove(ce.Cacheable.Id);
         }
 
+        private static void RemoveFromEntityCache<T>(T entity) where T : ICacheable
+        {
+            if (EntityCache.ContainsKey(typeof(T)))
+            {
+                if (EntityCache[typeof(T)].ContainsKey(entity.Id))
+                    RemoveFromEntityCache<T>(EntityCache[typeof(T)][entity.Id]);
+            }
+        }
 
         public static T CacheLoad<T>(int id, params Expression<Func<T, object>>[] includes) where T : class, ICacheable
         {
@@ -145,7 +153,9 @@ namespace Samba.Persistance.Data
             using (var w = WorkspaceFactory.Create())
             {
                 var loaded = w.Single<T>(x => x.Id == entity.Id);
-                return ValidatorRegistry.GetConcurrencyErrorMessage(entity, loaded);
+                var cr = ValidatorRegistry.GetConcurrencyErrorMessage(entity, loaded);
+                if (cr.SuggestedOperation == SuggestedOperation.Refresh) RemoveFromEntityCache(entity);
+                return cr.ErrorMessage;
             }
         }
     }

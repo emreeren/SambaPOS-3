@@ -171,8 +171,7 @@ namespace Samba.Modules.PosModule
 
         private bool CanFindTicket(string arg)
         {
-           // return _applicationState.CurrentTicket == null;
-            return false;
+            return !_applicationState.IsLocked;
         }
 
         private void OnFindMenuItemCommand(string obj)
