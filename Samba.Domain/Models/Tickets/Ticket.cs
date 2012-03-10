@@ -81,6 +81,10 @@ namespace Samba.Domain.Models.Tickets
         public int AccountTemplateId { get; set; }
         public string AccountName { get; set; }
 
+        public int TargetAccountId { get; set; }
+        public int TargetAccountTemplateId { get; set; }
+        public string TargetAccountName { get; set; }
+
         public virtual AccountTransactionDocument AccountTransactions { get; set; }
 
         private IList<Order> _orders;

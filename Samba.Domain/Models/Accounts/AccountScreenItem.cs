@@ -1,10 +1,9 @@
 ﻿using System;
-using Samba.Domain.Models.Accounts;
 using Samba.Infrastructure.Data;
 
-namespace Samba.Domain.Models.Locations
+namespace Samba.Domain.Models.Accounts
 {
-    public class Location : Entity, IOrderable,ICacheable
+    public class AccountScreenItem : Entity, IOrderable, ICacheable
     {
         public int Order { get; set; }
         public DateTime LastUpdateTime { get; set; }
@@ -24,7 +23,7 @@ namespace Samba.Domain.Models.Locations
             get { return Name + " [" + Category + "]"; }
         }
 
-        public Location()
+        public AccountScreenItem()
         {
             Height = 70;
             Width = 70;

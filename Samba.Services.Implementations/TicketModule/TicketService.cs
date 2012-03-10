@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using Samba.Domain.Models.Accounts;
-using Samba.Domain.Models.Locations;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
@@ -163,7 +162,7 @@ namespace Samba.Services.Implementations.TicketModule
         private void UpdateTicketLocation(Ticket ticket)
         {
             if (string.IsNullOrEmpty(ticket.LocationName)) return;
-            var location = Dao.Single<Location>(x => x.Name == ticket.LocationName);
+            var location = Dao.Single<AccountScreenItem>(x => x.Name == ticket.LocationName);
             if (location != null)
             {
                 if (ticket.IsPaid || ticket.Orders.Count == 0)
@@ -187,13 +186,13 @@ namespace Samba.Services.Implementations.TicketModule
         {
             Debug.Assert(ticket != null);
 
-            var location = Dao.Single<Location>(x => x.Id == locationId);
+            var location = Dao.Single<AccountScreenItem>(x => x.Id == locationId);
             var oldLocation = "";
 
             if (!string.IsNullOrEmpty(ticket.LocationName))
             {
                 oldLocation = ticket.LocationName;
-                var oldLoc = Dao.Single<Location>(x => x.Name == oldLocation);
+                var oldLoc = Dao.Single<AccountScreenItem>(x => x.Name == oldLocation);
                 if (oldLoc.TicketId == ticket.Id)
                 {
                     oldLoc.Reset();
@@ -352,7 +351,7 @@ namespace Samba.Services.Implementations.TicketModule
 
         public void ResetLocationData(Ticket ticket)
         {
-            Dao.Query<Location>(x => x.TicketId == ticket.Id).ToList().ForEach(x => x.Reset());
+            Dao.Query<AccountScreenItem>(x => x.TicketId == ticket.Id).ToList().ForEach(x => x.Reset());
             UpdateTicketLocation(ticket);
             Debug.Assert(ticket != null);
             Debug.Assert(ticket.Id > 0 || ticket.Orders.Count > 0);
@@ -464,7 +463,7 @@ namespace Samba.Services.Implementations.TicketModule
 
             if (!string.IsNullOrEmpty(current.LocationName) && current.Id == 0)
             {
-                var ticketId = Dao.Select<Location, int>(x => x.TicketId, x => x.Name == current.LocationName).FirstOrDefault();
+                var ticketId = Dao.Select<AccountScreenItem, int>(x => x.TicketId, x => x.Name == current.LocationName).FirstOrDefault();
                 {
                     if (ticketId > 0)
                     {

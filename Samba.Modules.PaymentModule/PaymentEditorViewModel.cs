@@ -34,7 +34,7 @@ namespace Samba.Modules.PaymentModule
 
         [ImportingConstructor]
         public PaymentEditorViewModel(IApplicationState applicationState, ITicketService ticketService,
-            IPrinterService printerService, IUserService userService, IAutomationService automationService)
+            IPrinterService printerService, IUserService userService, IAutomationService automationService, TicketTotalsViewModel totals)
         {
             _applicationState = applicationState;
             _ticketService = ticketService;
@@ -60,6 +60,8 @@ namespace Samba.Modules.PaymentModule
 
             MergedItems = new ObservableCollection<MergedItem>();
             ReturningAmountVisibility = Visibility.Collapsed;
+
+            Totals = totals;
 
             PaymentButtonGroup = new PaymentButtonGroupViewModel(_makePaymentCommand, null, ClosePaymentScreenCommand);
 
@@ -115,7 +117,7 @@ namespace Samba.Modules.PaymentModule
         }
 
         public IEnumerable<object> CommandButtons { get; set; }
-        
+
         private IEnumerable<CommandButtonViewModel<object>> CreateCommandButtons()
         {
             var result = new List<CommandButtonViewModel<object>>();
@@ -547,7 +549,7 @@ namespace Samba.Modules.PaymentModule
         public void Prepare(Ticket selectedTicket)
         {
             Debug.Assert(SelectedTicket == null);
-            Totals = new TicketTotalsViewModel(selectedTicket);
+            Totals.Model = selectedTicket;
             SelectedTicket = selectedTicket;
             TicketRemainingValue = selectedTicket.GetRemainingAmount();
             PrepareMergedItems();

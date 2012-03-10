@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using Samba.Domain.Models.Locations;
+using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
@@ -22,16 +22,16 @@ namespace Samba.Services.Implementations.LocationModule
         [ImportingConstructor]
         public LocationService(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter)
         {
-            _locationCount = Dao.Count<Location>();
+            _locationCount = Dao.Count<AccountScreenItem>();
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
 
-            ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<Location>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.Location)));
+            ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<AccountScreenItem>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.Location)));
             ValidatorRegistry.RegisterDeleteValidator(new LocationDeleteValidator());
             ValidatorRegistry.RegisterDeleteValidator(new LocationScreenDeleteValidator());
         }
 
-        public void UpdateLocations(LocationScreen locationScreen, int pageNo)
+        public void UpdateLocations(AccountScreen locationScreen, int pageNo)
         {
             _applicationStateSetter.SetSelectedLocationScreen(locationScreen);
 
@@ -40,29 +40,29 @@ namespace Samba.Services.Implementations.LocationModule
                 IEnumerable<int> set;
                 if (locationScreen.PageCount > 1)
                 {
-                    set = locationScreen.Locations
+                    set = locationScreen.ScreenItems
                         .OrderBy(x => x.Order)
                         .Skip(pageNo * locationScreen.ItemCountPerPage)
                         .Take(locationScreen.ItemCountPerPage)
                         .Select(x => x.Id);
                 }
-                else set = locationScreen.Locations.OrderBy(x => x.Order).Select(x => x.Id);
+                else set = locationScreen.ScreenItems.OrderBy(x => x.Order).Select(x => x.Id);
 
-                var result = Dao.Select<Location, dynamic>(
+                var result = Dao.Select<AccountScreenItem, dynamic>(
                     x =>
                         new { x.Id, Tid = x.TicketId, Locked = x.IsTicketLocked },
                         x => set.Contains(x.Id));
 
                 result.ToList().ForEach(x =>
                 {
-                    var location = locationScreen.Locations.Single(y => y.Id == x.Id);
+                    var location = locationScreen.ScreenItems.Single(y => y.Id == x.Id);
                     location.TicketId = x.Tid;
                     location.IsTicketLocked = x.Locked;
                 });
             }
         }
 
-        public IEnumerable<Location> GetCurrentLocations(LocationScreen locationScreen, int currentPageNo)
+        public IEnumerable<AccountScreenItem> GetCurrentLocations(AccountScreen locationScreen, int currentPageNo)
         {
             UpdateLocations(locationScreen, currentPageNo);
 
@@ -72,25 +72,25 @@ namespace Samba.Services.Implementations.LocationModule
             {
                 if (selectedLocationScreen.PageCount > 1)
                 {
-                    return selectedLocationScreen.Locations
+                    return selectedLocationScreen.ScreenItems
                          .OrderBy(x => x.Order)
                          .Skip(selectedLocationScreen.ItemCountPerPage * currentPageNo)
                          .Take(selectedLocationScreen.ItemCountPerPage);
                 }
-                return selectedLocationScreen.Locations;
+                return selectedLocationScreen.ScreenItems;
             }
-            return new List<Location>();
+            return new List<AccountScreenItem>();
         }
 
 
-        public IList<Location> LoadLocations(string selectedLocationScreen)
+        public IList<AccountScreenItem> LoadLocations(string selectedLocationScreen)
         {
             if (_locationWorkspace != null)
             {
                 _locationWorkspace.CommitChanges();
             }
             _locationWorkspace = WorkspaceFactory.Create();
-            return _locationWorkspace.Single<LocationScreen>(x => x.Name == selectedLocationScreen).Locations;
+            return _locationWorkspace.Single<AccountScreen>(x => x.Name == selectedLocationScreen).ScreenItems;
         }
 
         public int GetLocationCount()
@@ -109,7 +109,7 @@ namespace Samba.Services.Implementations.LocationModule
 
         public IEnumerable<string> GetCategories()
         {
-            return Dao.Distinct<Location>(x => x.Category);
+            return Dao.Distinct<AccountScreenItem>(x => x.Category);
         }
 
         public override void Reset()
@@ -118,20 +118,20 @@ namespace Samba.Services.Implementations.LocationModule
         }
     }
 
-    internal class LocationDeleteValidator : SpecificationValidator<Location>
+    internal class LocationDeleteValidator : SpecificationValidator<AccountScreenItem>
     {
-        public override string GetErrorMessage(Location model)
+        public override string GetErrorMessage(AccountScreenItem model)
         {
             if (model.TicketId > 0) return Resources.DeleteErrorTicketAssignedToLocation;
-            if (Dao.Exists<LocationScreen>(x => x.Locations.Any(y => y.Id == model.Id)))
+            if (Dao.Exists<AccountScreen>(x => x.ScreenItems.Any(y => y.Id == model.Id)))
                 return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Location, Resources.LocationScreen);
             return "";
         }
     }
 
-    internal class LocationScreenDeleteValidator : SpecificationValidator<LocationScreen>
+    internal class LocationScreenDeleteValidator : SpecificationValidator<AccountScreen>
     {
-        public override string GetErrorMessage(LocationScreen model)
+        public override string GetErrorMessage(AccountScreen model)
         {
             if (Dao.Exists<Department>(x => x.LocationScreens.Any(y => y.Id == model.Id)))
                 return string.Format(Resources.DeleteErrorUsedBy_f, Resources.LocationScreen, Resources.Department);

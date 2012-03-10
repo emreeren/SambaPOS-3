@@ -171,6 +171,24 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account Screen.
+        /// </summary>
+        public static string AccountScreen {
+            get {
+                return ResourceManager.GetString("AccountScreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account Screen Item.
+        /// </summary>
+        public static string AccountScreenItem {
+            get {
+                return ResourceManager.GetString("AccountScreenItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account Selected for Ticket.
         /// </summary>
         public static string AccountSelectedForTicket {
@@ -5813,6 +5831,15 @@ namespace Samba.Localization.Properties {
         public static string SaveReportToFile {
             get {
                 return ResourceManager.GetString("SaveReportToFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Screen Item.
+        /// </summary>
+        public static string ScreenItem {
+            get {
+                return ResourceManager.GetString("ScreenItem", resourceCulture);
             }
         }
         

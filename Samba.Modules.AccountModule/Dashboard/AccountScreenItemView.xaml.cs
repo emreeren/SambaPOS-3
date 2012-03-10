@@ -1,14 +1,14 @@
 ﻿using System.Windows.Controls;
 
-namespace Samba.Modules.LocationModule
+namespace Samba.Modules.AccountModule.Dashboard
 {
     /// <summary>
     /// Interaction logic for LocationEditorView.xaml
     /// </summary>
 
-    public partial class LocationEditorView : UserControl
+    public partial class AccountScreenItemView : UserControl
     {
-        public LocationEditorView()
+        public AccountScreenItemView()
         {
             InitializeComponent();
         }

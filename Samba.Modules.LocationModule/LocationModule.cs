@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Regions;
-using Samba.Domain.Models.Locations;
+using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
@@ -24,8 +24,7 @@ namespace Samba.Modules.LocationModule
             _regionManager = regionManager;
             _locationSelectorView = locationSelectorView;
         
-            AddDashboardCommand<EntityCollectionViewModelBase<LocationEditorViewModel, Location>>(string.Format(Resources.List_f, Resources.Location), Resources.Locations, 30);
-            AddDashboardCommand<EntityCollectionViewModelBase<LocationScreenViewModel, LocationScreen>>(Resources.LocationViews, Resources.Locations);
+          
         }
 
         public override object GetVisibleView()
@@ -40,7 +39,7 @@ namespace Samba.Modules.LocationModule
             PermissionRegistry.RegisterPermission(PermissionNames.OpenLocations, PermissionCategories.Navigation, Resources.CanOpenLocationList);
             PermissionRegistry.RegisterPermission(PermissionNames.ChangeLocation, PermissionCategories.Ticket, Resources.CanChangeLocation);
 
-            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Location>>>().Subscribe(
+            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<AccountScreenItem>>>().Subscribe(
                 x =>
                 {
                     if (x.Topic == EventTopicNames.SelectLocation)

@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using Samba.Domain.Models.Locations;
+using Samba.Domain.Models.Accounts;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
 using System.Linq;
 using Samba.Services;
 
-namespace Samba.Modules.LocationModule
+namespace Samba.Modules.AccountModule.Dashboard
 {
-    [Export(typeof(LocationEditorViewModel)), PartCreationPolicy(CreationPolicy.NonShared)]
-    public class LocationEditorViewModel : EntityViewModelBase<Location>, IEntityCreator<Location>
+    [Export(typeof(AccountScreenItemViewModel)), PartCreationPolicy(CreationPolicy.NonShared)]
+    public class AccountScreenItemViewModel : EntityViewModelBase<AccountScreenItem>, IEntityCreator<AccountScreenItem>
     {
         private readonly ILocationService _locationService;
 
         [ImportingConstructor]
-        public LocationEditorViewModel(ILocationService locationService)
+        public AccountScreenItemViewModel(ILocationService locationService)
         {
             _locationService = locationService;
         }
@@ -29,12 +29,12 @@ namespace Samba.Modules.LocationModule
 
         public override Type GetViewType()
         {
-            return typeof(LocationEditorView);
+            return typeof(AccountScreenItemView);
         }
 
         public override string GetModelTypeString()
         {
-            return Resources.Location;
+            return Resources.AccountScreenItem;
         }
 
         protected override bool CanSave(string arg)
@@ -42,7 +42,7 @@ namespace Samba.Modules.LocationModule
             return Model.TicketId <= 0 && base.CanSave(arg);
         }
 
-        public IEnumerable<Location> CreateItems(IEnumerable<string> data)
+        public IEnumerable<AccountScreenItem> CreateItems(IEnumerable<string> data)
         {
             return new DataCreationService().BatchCreateLocations(data.ToArray(), Workspace);
         }

@@ -1,19 +1,39 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
 using System.Linq;
+using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
+using Samba.Services;
 
 namespace Samba.Presentation.ViewModels
 {
+    [Export]
     public class TicketTotalsViewModel : ObservableObject
     {
-        public Ticket Model { get; set; }
-        public TicketTotalsViewModel(Ticket model)
+        private readonly ICacheService _cacheService;
+        private readonly IApplicationState _applicationState;
+
+        [ImportingConstructor]
+        public TicketTotalsViewModel(ICacheService cacheService,IApplicationState applicationState)
         {
-            Model = model;
+            _cacheService = cacheService;
+            _applicationState = applicationState;
+            ResetCache();
+        }
+
+        private Ticket _model;
+        public Ticket Model
+        {
+            get { return _model; }
+            set
+            {
+                ResetCache();
+                _model = value;
+            }
         }
 
         private ObservableCollection<PaymentViewModel> _payments;
@@ -82,25 +102,53 @@ namespace Samba.Presentation.ViewModels
             get { return TicketRemainingValue.ToString(LocalSettings.DefaultCurrencyFormat); }
         }
 
+        private AccountTemplate _sourceAccountTemplate;
+        public AccountTemplate SourceAccountTemplate
+        {
+            get
+            {
+                if (_sourceAccountTemplate == null || _sourceAccountTemplate.Id != Model.AccountTemplateId)
+                    _sourceAccountTemplate = _cacheService.GetAccountTemplateById(Model.AccountTemplateId);
+                return _sourceAccountTemplate;
+            }
+        }
+
+        private AccountTemplate _targetAccountTemplate;
+        public AccountTemplate TargetAccountTemplate
+        {
+            get
+            {
+                if (_targetAccountTemplate == null || _targetAccountTemplate.Id != Model.TargetAccountTemplateId)
+                    _targetAccountTemplate = _cacheService.GetAccountTemplateById(Model.TargetAccountTemplateId);
+                return _targetAccountTemplate;
+            }
+        }
+
+        public string TargetEntityName { get { return TargetAccountTemplate != null ? TargetAccountTemplate.EntityName : ""; } }
+        public string SourceEntityName { get { return SourceAccountTemplate != null ? SourceAccountTemplate.EntityName : ""; } }
+
         public string Title
         {
             get
             {
                 if (Model == null) return "";
+                var sourceName = Model.AccountId > 0 ? string.Format("{0}: {1}", SourceEntityName, Model.AccountName) : "";
+                var targetName = Model.TargetAccountId > 0 ? string.Format("{0}: {1}", TargetEntityName, Model.TargetAccountName) : ""; ;
+                var selectedTicketTitle = sourceName + (!string.IsNullOrEmpty(targetName) ? "\r" + targetName : "");
+                if (Model.Id > 0) selectedTicketTitle = string.Format("# {0} {1}", Model.TicketNumber, selectedTicketTitle);
+                if (string.IsNullOrEmpty(selectedTicketTitle)) selectedTicketTitle = string.Format(Resources.New_f, Resources.Ticket);
 
-                string selectedTicketTitle;
-
-                if (!string.IsNullOrEmpty(Model.LocationName) && Model.Id == 0)
-                    selectedTicketTitle = string.Format(Resources.Location_f, Model.LocationName);
-                else if (!string.IsNullOrEmpty(Model.AccountName) && Model.Id == 0)
-                    selectedTicketTitle = string.Format(Resources.Account_f, Model.AccountName);
-                else if (string.IsNullOrEmpty(Model.AccountName)) selectedTicketTitle = string.IsNullOrEmpty(Model.LocationName)
-                     ? string.Format("# {0}", Model.TicketNumber)
-                     : string.Format(Resources.TicketNumberAndLocation_f, Model.TicketNumber, Model.LocationName);
-                else if (string.IsNullOrEmpty(Model.LocationName)) selectedTicketTitle = string.IsNullOrEmpty(Model.AccountName)
-                     ? string.Format("# {0}", Model.TicketNumber)
-                     : string.Format(Resources.TicketNumberAndAccount_f, Model.TicketNumber, Model.AccountName);
-                else selectedTicketTitle = string.Format(Resources.AccountNameAndLocationName_f, Model.TicketNumber, Model.AccountName, Model.LocationName);
+                //if (Model.AccountId > 0 && Model.Id == 0)
+                //    selectedTicketTitle = string.Format(Resources.Location_f, Model.LocationName);
+                //else if (!string.IsNullOrEmpty(Model.AccountName) && Model.Id == 0)
+                //    selectedTicketTitle = string.Format(Resources.Account_f, Model.AccountName);
+                //else if (string.IsNullOrEmpty(Model.AccountName)) selectedTicketTitle = string.IsNullOrEmpty(Model.LocationName)
+                //     ? string.Format("# {0}", Model.TicketNumber)
+                //     : string.Format(Resources.TicketNumberAndLocation_f, Model.TicketNumber, Model.LocationName);
+                //else if (string.IsNullOrEmpty(Model.LocationName)) selectedTicketTitle = string.IsNullOrEmpty(Model.AccountName)
+                //     ? string.Format("# {0}", Model.TicketNumber)
+                //     : string.Format(Resources.TicketNumberAndAccount_f, Model.TicketNumber, Model.AccountName);
+                //else selectedTicketTitle = string.Format(Resources.AccountNameAndLocationName_f, Model.TicketNumber, Model.AccountName, Model.LocationName);)
 
                 return selectedTicketTitle;
             }
@@ -111,6 +159,7 @@ namespace Samba.Presentation.ViewModels
             _payments = null;
             _preServices = null;
             _postServices = null;
+            _model = Ticket.Empty;
         }
     }
 }

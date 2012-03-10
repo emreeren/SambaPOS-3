@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
 using System.Linq;
-using Samba.Domain.Models.Locations;
+using Samba.Domain.Models.Accounts;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Common.Services;
 
-namespace Samba.Modules.LocationModule
+namespace Samba.Modules.AccountModule.Dashboard
 {
-    public class LocationScreenViewModel : EntityViewModelBase<LocationScreen>
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
+    public class AccountScreenViewModel : EntityViewModelBase<AccountScreen>
     {
-        public ICaptionCommand SelectLocationsCommand { get; set; }
-        private ObservableCollection<LocationScreenItemViewModel> _screenItems;
-        public ObservableCollection<LocationScreenItemViewModel> ScreenItems
-        {
-            get { return _screenItems ?? (_screenItems = new ObservableCollection<LocationScreenItemViewModel>(Model.Locations.Select(x => new LocationScreenItemViewModel(x, Model)))); }
-        }
+        public ICaptionCommand SelectScreenItemsCommand { get; set; }
+
+        public IEnumerable<AccountScreenItem> AccountScreenItems { get { return Model.ScreenItems; } }
 
         public string[] DisplayModes { get { return new[] { Resources.Automatic, Resources.Custom, Resources.Hidden }; } }
         public string DisplayMode { get { return DisplayModes[Model.DisplayMode]; } set { Model.DisplayMode = Array.IndexOf(DisplayModes, value); } }
@@ -33,40 +32,35 @@ namespace Samba.Modules.LocationModule
         public int NumeratorHeight { get { return Model.NumeratorHeight; } set { Model.NumeratorHeight = value; } }
         public string AlphaButtonValues { get { return Model.AlphaButtonValues; } set { Model.AlphaButtonValues = value; } }
 
-        public LocationScreenViewModel()
+        public AccountScreenViewModel()
         {
-            SelectLocationsCommand = new CaptionCommand<string>(Resources.SelectLocation, OnSelectLocations);
+            SelectScreenItemsCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.ScreenItem), OnSelectScreenItems);
         }
 
-        private void OnSelectLocations(string obj)
+        private void OnSelectScreenItems(string obj)
         {
-            IList<IOrderable> values = new List<IOrderable>(Workspace.All<Location>()
-                .Where(x => ScreenItems.SingleOrDefault(y => y.Model.Id == x.Id) == null));
-
-            IList<IOrderable> selectedValues = new List<IOrderable>(ScreenItems.Select(x => x.Model));
-
+            IList<IOrderable> values = new List<IOrderable>(Workspace.All<AccountScreenItem>());
+            IList<IOrderable> selectedValues = new List<IOrderable>(AccountScreenItems);
             IList<IOrderable> choosenValues =
                 InteractionService.UserIntraction.ChooseValuesFrom(values, selectedValues, string.Format(Resources.List_f, Resources.Location),
                 string.Format(Resources.SelectLocationDialogHint_f, Model.Name), Resources.Location, Resources.Locations);
 
-            ScreenItems.Clear();
-            Model.Locations.Clear();
-
-            foreach (Location choosenValue in choosenValues)
+            Model.ScreenItems.Clear();
+            foreach (AccountScreenItem choosenValue in choosenValues)
             {
                 Model.AddScreenItem(choosenValue);
-                ScreenItems.Add(new LocationScreenItemViewModel(choosenValue, Model));
             }
+            RaisePropertyChanged(() => AccountScreenItems);
         }
 
         public override Type GetViewType()
         {
-            return typeof(LocationScreenView);
+            return typeof(AccountScreenView);
         }
 
         public override string GetModelTypeString()
         {
-            return Resources.LocationView;
+            return Resources.AccountScreen;
         }
     }
 }

@@ -3,7 +3,6 @@ using System.Data.Entity;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Actions;
 using Samba.Domain.Models.Inventories;
-using Samba.Domain.Models.Locations;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
@@ -39,13 +38,13 @@ namespace Samba.Persistance.Data
         public DbSet<Department> Departments { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
-        public DbSet<Location> Locations { get; set; }
+        public DbSet<AccountScreenItem> Locations { get; set; }
         public DbSet<Terminal> Terminals { get; set; }
         public DbSet<Printer> Printers { get; set; }
         public DbSet<ProgramSettingValue> ProgramSettings { get; set; }
         public DbSet<PrinterMap> PrinterMaps { get; set; }
         public DbSet<PrinterTemplate> PrinterTemplates { get; set; }
-        public DbSet<LocationScreen> LocationScreens { get; set; }
+        public DbSet<AccountScreen> LocationScreens { get; set; }
         public DbSet<Numerator> Numerators { get; set; }
         public DbSet<WorkPeriod> WorkPeriods { get; set; }
         public DbSet<PaidItem> PaidItems { get; set; }
@@ -87,7 +86,7 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<TicketTemplate>().HasMany(p => p.OrderTagGroups).WithMany();
             modelBuilder.Entity<TicketTemplate>().HasMany(p => p.PaymentTemplates).WithMany();
             modelBuilder.Entity<Department>().HasMany(p => p.LocationScreens).WithMany();
-            modelBuilder.Entity<LocationScreen>().HasMany(p => p.Locations).WithMany();
+            modelBuilder.Entity<AccountScreen>().HasMany(p => p.ScreenItems).WithMany();
             modelBuilder.Entity<Terminal>().HasMany(p => p.PrintJobs).WithMany();
             
             modelBuilder.Entity<AccountTransaction>().HasKey(p => new { p.Id, p.AccountTransactionDocumentId });

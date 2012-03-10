@@ -125,9 +125,9 @@
     <Compile Include="Models\Tickets\OrderTag.cs" />
     <Compile Include="Models\Tickets\OrderTagGroup.cs" />
     <Compile Include="Models\Menus\ScreenMenuItem.cs" />
-    <Compile Include="Models\Locations\Location.cs" />
+    <Compile Include="Models\Accounts\AccountScreenItem.cs" />
     <Compile Include="Models\Settings\Terminal.cs" />
-    <Compile Include="Models\Locations\LocationScreen.cs" />
+    <Compile Include="Models\Accounts\AccountScreen.cs" />
     <Compile Include="Models\Tickets\Ticket.cs">
       <SubType>Code</SubType>
     </Compile>

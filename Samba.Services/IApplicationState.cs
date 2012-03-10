@@ -1,4 +1,4 @@
-﻿using Samba.Domain.Models.Locations;
+﻿using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
@@ -25,7 +25,7 @@ namespace Samba.Services
         User CurrentLoggedInUser { get; }
         Department CurrentDepartment { get; }
         AppScreens ActiveAppScreen { get; }
-        LocationScreen SelectedLocationScreen { get; }
+        AccountScreen SelectedLocationScreen { get; }
         WorkPeriod CurrentWorkPeriod { get; }
         WorkPeriod PreviousWorkPeriod { get; }
         bool IsCurrentWorkPeriodOpen { get; }

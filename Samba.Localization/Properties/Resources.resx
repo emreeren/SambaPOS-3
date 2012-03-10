@@ -3054,4 +3054,13 @@ Continue without adding details?</value>
 	<data name="Change_f">
 		<value xml:space="preserve">Change {0}</value>
 	</data>
+	<data name="AccountScreen">
+		<value xml:space="preserve">Account Screen</value>
+	</data>
+	<data name="ScreenItem">
+		<value xml:space="preserve">Screen Item</value>
+	</data>
+	<data name="AccountScreenItem">
+		<value xml:space="preserve">Account Screen Item</value>
+	</data>
 </root>

@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Actions;
-using Samba.Domain.Models.Locations;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
@@ -345,7 +344,7 @@ namespace Samba.Services
 
             _workspace.CommitChanges();
 
-            var screen = new LocationScreen { Name = Resources.AllLocations, ColumnCount = 8 };
+            var screen = new AccountScreen { Name = Resources.AllLocations, ColumnCount = 8 };
             _workspace.Add(screen);
 
             foreach (var location in items)
@@ -383,9 +382,9 @@ namespace Samba.Services
             }
         }
 
-        public IEnumerable<Location> BatchCreateLocations(string[] values, IWorkspace workspace)
+        public IEnumerable<AccountScreenItem> BatchCreateLocations(string[] values, IWorkspace workspace)
         {
-            IList<Location> result = new List<Location>();
+            IList<AccountScreenItem> result = new List<AccountScreenItem>();
             if (values.Length > 0)
             {
                 var currentCategory = Resources.Common;
@@ -398,10 +397,10 @@ namespace Samba.Services
                     else
                     {
                         var locationName = value;
-                        var count = Dao.Count<Location>(y => y.Name == locationName.Trim());
+                        var count = Dao.Count<AccountScreenItem>(y => y.Name == locationName.Trim());
                         if (count == 0)
                         {
-                            var location = new Location { Name = value.Trim(), Category = currentCategory };
+                            var location = new AccountScreenItem { Name = value.Trim(), Category = currentCategory };
                             if (result.Count(x => x.Name.ToLower() == location.Name.ToLower()) == 0)
                             {
                                 result.Add(location);

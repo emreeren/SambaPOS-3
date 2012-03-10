@@ -71,6 +71,14 @@
     <Compile Include="AccountSummaryViewModel.cs" />
     <Compile Include="Dashboard\AccountCustomFieldViewModel.cs" />
     <Compile Include="AccountModule.cs" />
+    <Compile Include="Dashboard\AccountScreenItemView.xaml.cs">
+      <DependentUpon>AccountScreenItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dashboard\AccountScreenItemViewModel.cs" />
+    <Compile Include="Dashboard\AccountScreenView.xaml.cs">
+      <DependentUpon>AccountScreenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dashboard\AccountScreenViewModel.cs" />
     <Compile Include="Dashboard\AccountTransactionDocumentTemplateView.xaml.cs">
       <DependentUpon>AccountTransactionDocumentTemplateView.xaml</DependentUpon>
     </Compile>
@@ -110,6 +118,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="AccountDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dashboard\AccountScreenItemView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dashboard\AccountScreenView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -3,26 +3,26 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using Samba.Domain.Models.Locations;
+using Samba.Domain.Models.Accounts;
 using Samba.Localization;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Services;
 
 namespace Samba.Modules.LocationModule
 {
-    public class LocationScreenItemViewModel : ObservableObject, IDiagram
+    public class AccountButtonViewModel : ObservableObject, IDiagram
     {
         private readonly bool _isTicketSelected;
         private readonly bool _userPermittedToMerge;
         private readonly ICommand _actionCommand;
 
-        public LocationScreenItemViewModel(Location model, LocationScreen screen)
+        public AccountButtonViewModel(AccountScreenItem model, AccountScreen screen)
             : this(model, screen, null, false, true)
         {
 
         }
 
-        public LocationScreenItemViewModel(Location model, LocationScreen screen, ICommand actionCommand, bool isTicketSelected, bool userPermittedToMerge)
+        public AccountButtonViewModel(AccountScreenItem model, AccountScreen screen, ICommand actionCommand, bool isTicketSelected, bool userPermittedToMerge)
         {
             _actionCommand = actionCommand;
             _screen = screen;
@@ -31,12 +31,11 @@ namespace Samba.Modules.LocationModule
             Model = model;
         }
 
-        private readonly LocationScreen _screen;
-
-        private Location _model;
+        private readonly AccountScreen _screen;
+        private AccountScreenItem _model;
 
         [Browsable(false)]
-        public Location Model
+        public AccountScreenItem Model
         {
             get { return _model; }
             set

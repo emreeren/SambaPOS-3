@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Samba.Domain.Models.Locations;
+using Samba.Domain.Models.Accounts;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
@@ -19,8 +19,8 @@ namespace Samba.Domain.Models.Tickets
 
         public int OpenTicketViewColumnCount { get; set; }
 
-        private IList<LocationScreen> _locationScreens;
-        public virtual IList<LocationScreen> LocationScreens
+        private IList<AccountScreen> _locationScreens;
+        public virtual IList<AccountScreen> LocationScreens
         {
             get { return _locationScreens; }
             set { _locationScreens = value; }
@@ -32,7 +32,7 @@ namespace Samba.Domain.Models.Tickets
         public Department()
         {
             OpenTicketViewColumnCount = 5;
-            _locationScreens = new List<LocationScreen>();
+            _locationScreens = new List<AccountScreen>();
         }
     }
 }

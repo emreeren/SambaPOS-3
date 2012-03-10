@@ -7,7 +7,6 @@ using System.Linq;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Events;
 using Samba.Domain.Models.Accounts;
-using Samba.Domain.Models.Locations;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
@@ -189,7 +188,7 @@ namespace Samba.Modules.PosModule
         public TicketListViewModel(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
             ITicketService ticketService, IAccountService accountService, IPrinterService printerService,
             ILocationService locationService, IUserService userService, IAutomationService automationService,
-            ICacheService cacheService, TicketOrdersViewModel ticketOrdersViewModel)
+            ICacheService cacheService, TicketOrdersViewModel ticketOrdersViewModel, TicketTotalsViewModel totals)
         {
             _printerService = printerService;
             _ticketService = ticketService;
@@ -201,7 +200,7 @@ namespace Samba.Modules.PosModule
             _automationService = automationService;
             _cacheService = cacheService;
             _ticketOrdersViewModel = ticketOrdersViewModel;
-
+            _totals = totals;
 
             _selectedOrders = new ObservableCollection<Order>();
 
@@ -233,7 +232,7 @@ namespace Samba.Modules.PosModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<OrderViewModel>>().Subscribe(OnSelectedOrdersChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketTagData>>().Subscribe(OnTagSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Account>>>().Subscribe(OnAccountSelectedForTicket);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Location>>>().Subscribe(OnLocationSelected);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<AccountScreenItem>>>().Subscribe(OnLocationSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnRefreshTicket);
             EventServiceFactory.EventService.GetEvent<GenericEvent<Message>>().Subscribe(OnMessageReceived);
             EventServiceFactory.EventService.GetEvent<GenericEvent<PopupData>>().Subscribe(OnAccountSelectedFromPopup);
@@ -416,7 +415,7 @@ namespace Samba.Modules.PosModule
             if (obj.Topic == EventTopicNames.ScreenMenuItemDataSelected) AddMenuItemCommand.Execute(obj.Value);
         }
 
-        private void OnLocationSelected(EventParameters<EntityOperationRequest<Location>> obj)
+        private void OnLocationSelected(EventParameters<EntityOperationRequest<AccountScreenItem>> obj)
         {
             if (obj.Topic == EventTopicNames.LocationSelectedForTicket)
             {
@@ -732,7 +731,7 @@ namespace Samba.Modules.PosModule
 
         private void OnSelectLocationExecute(string obj)
         {
-            CommonEventPublisher.PublishEntityOperation<Location>(null, EventTopicNames.SelectLocation, EventTopicNames.LocationSelectedForTicket);
+            CommonEventPublisher.PublishEntityOperation<AccountScreenItem>(null, EventTopicNames.SelectLocation, EventTopicNames.LocationSelectedForTicket);
             //SelectedTicket.Model.PublishEvent(EventTopicNames.SelectLocation);
         }
 
@@ -833,7 +832,7 @@ namespace Samba.Modules.PosModule
                 _applicationState.CurrentDepartment != null && _applicationState.CurrentDepartment.IsFastFood,
                 _ticketService, _automationService, _applicationState);
 
-            Totals = new TicketTotalsViewModel(ticket ?? Ticket.Empty);
+            Totals.Model = ticket ?? Ticket.Empty;
 
             if (_applicationState.CurrentDepartment != null)
                 PaymentButtonGroup.UpdatePaymentButtons(_applicationState.CurrentDepartment.TicketTemplate.PaymentTemplates.Where(x => x.DisplayUnderTicket));

@@ -48,6 +48,8 @@ namespace Samba.Modules.AccountModule
             AddDashboardCommand<EntityCollectionViewModelBase<AccountTransactionTemplateViewModel, AccountTransactionTemplate>>(string.Format(Resources.List_f, "Transaction Template"), Resources.Accounts, 40);
             AddDashboardCommand<EntityCollectionViewModelBase<AccountTransactionDocumentViewModel, AccountTransactionDocument>>(string.Format(Resources.List_f, "Transaction Document"), Resources.Accounts, 40);
             AddDashboardCommand<EntityCollectionViewModelBase<AccountTransactionDocumentTemplateViewModel, AccountTransactionDocumentTemplate>>(string.Format(Resources.List_f, "Document Template"), Resources.Accounts, 40);
+            AddDashboardCommand<EntityCollectionViewModelBase<AccountScreenViewModel, AccountScreen>>(string.Format(Resources.List_f, Resources.AccountScreen), Resources.Accounts, 41);
+            AddDashboardCommand<EntityCollectionViewModelBase<AccountScreenItemViewModel, AccountScreenItem>>(string.Format(Resources.List_f, Resources.AccountScreenItem), Resources.Accounts, 41);
 
             PermissionRegistry.RegisterPermission(PermissionNames.MakeAccountTransaction, PermissionCategories.Cash, Resources.CanMakeAccountTransaction);
             PermissionRegistry.RegisterPermission(PermissionNames.CreditOrDeptAccount, PermissionCategories.Cash, Resources.CanMakeCreditOrDeptTransaction);
