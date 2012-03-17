@@ -120,13 +120,13 @@ namespace Samba.Persistance.Data
             }
         }
 
-        public static void AddEntities(IValue item, IWorkspace workspace)
+        public static void AddEntities(IEntity item, IWorkspace workspace)
         {
             if (item.Id > 0) workspace.MarkUnchanged(item);
 
             var items = item.GetType().GetProperties()
-                 .Where(y => y.CanWrite && y.PropertyType.GetInterfaces().Contains(typeof(IValue)))
-                 .Select(x => x.GetValue(item, null)).Cast<IValue>().ToList();
+                 .Where(y => y.CanWrite && y.PropertyType.GetInterfaces().Contains(typeof(IEntity)))
+                 .Select(x => x.GetValue(item, null)).Cast<IEntity>().ToList();
 
             items.ForEach(x => AddEntities(x, workspace));
 
@@ -135,9 +135,9 @@ namespace Samba.Persistance.Data
                     x =>
                     x.PropertyType.IsGenericType &&
                     x.PropertyType.GetGenericTypeDefinition().GetInterfaces().Contains(typeof(IEnumerable)) &&
-                    x.PropertyType.GetGenericArguments()[0].GetInterfaces().Contains(typeof(IValue))).ToList();
+                    x.PropertyType.GetGenericArguments()[0].GetInterfaces().Contains(typeof(IEntity))).ToList();
 
-            var cis = collections.SelectMany(pi => (pi.GetValue(item, null) as IEnumerable).Cast<IValue>());
+            var cis = collections.SelectMany(pi => (pi.GetValue(item, null) as IEnumerable).Cast<IEntity>());
 
             foreach (var i in cis)
             {

@@ -1389,9 +1389,6 @@ Açık adisyon varken gün sonu yapılamaz.</value>
   <data name="Hidden" xml:space="preserve">
     <value>Gizli</value>
   </data>
-  <data name="SelectLocation" xml:space="preserve">
-    <value>Yer Seç</value>
-  </data>
   <data name="SelectLocationDialogHint_f" xml:space="preserve">
     <value>{0} görünümüne eklemek istediğiniz yerleri seçiniz</value>
   </data>

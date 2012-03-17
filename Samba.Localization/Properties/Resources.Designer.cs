@@ -216,6 +216,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account State.
+        /// </summary>
+        public static string AccountState {
+            get {
+                return ResourceManager.GetString("AccountState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account Template.
         /// </summary>
         public static string AccountTemplate {
@@ -4205,6 +4214,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string Name {
+            get {
+                return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Navigation Permissions.
         /// </summary>
         public static string NavigationPermissions {
@@ -5921,15 +5939,6 @@ namespace Samba.Localization.Properties {
         public static string SelectionRequired {
             get {
                 return ResourceManager.GetString("SelectionRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Select Location.
-        /// </summary>
-        public static string SelectLocation {
-            get {
-                return ResourceManager.GetString("SelectLocation", resourceCulture);
             }
         }
         

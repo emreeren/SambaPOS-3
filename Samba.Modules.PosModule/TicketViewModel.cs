@@ -183,26 +183,14 @@ namespace Samba.Modules.PosModule
 
         public bool CanCloseTicket()
         {
-            return !_forcePayment || Model.GetRemainingAmount() <= 0 || !string.IsNullOrEmpty(Location) || !string.IsNullOrEmpty(AccountName) || IsTagged || Orders.Count == 0;
+            return !_forcePayment || Model.GetRemainingAmount() <= 0 || !string.IsNullOrEmpty(AccountName) || IsTagged || Orders.Count == 0;
         }
 
-        public string Location
-        {
-            get { return Model.LocationName; }
-            set { Model.LocationName = value; }
-        }
-
-        public int AccountId
-        {
-            get { return Model.AccountId; }
-        }
-
-        public string AccountName
-        {
-            get { return Model.AccountName; }
-        }
-
+        public int AccountId { get { return Model.AccountId; } }
+        public string AccountName { get { return Model.AccountName; } }
         public int AccountTemplateId { get { return Model.AccountTemplateId; } }
+        public int TargetAccountId { get { return Model.TargetAccountId; } }
+        public int TargetAccountTemplateId { get { return Model.TargetAccountTemplateId; } }
 
         public bool IsLocked { get { return Model.Locked; } set { Model.Locked = value; } }
         public bool IsTagged { get { return Model.IsTagged; } }
@@ -222,6 +210,8 @@ namespace Samba.Modules.PosModule
         }
 
         public string CustomPrintData { get { return Model.PrintJobData; } set { Model.PrintJobData = value; } }
+
+
 
         public string GetPrintError()
         {

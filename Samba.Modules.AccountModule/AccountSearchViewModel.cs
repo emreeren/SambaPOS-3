@@ -123,7 +123,12 @@ namespace Samba.Modules.AccountModule
 
         private void OnEditAccount(string obj)
         {
-            CommonEventPublisher.PublishEntityOperation(SelectedAccount.Model, EventTopicNames.EditAccountDetails, EventTopicNames.AccountSelected);
+            var targetEvent = _currentAccountSelectionRequest != null
+                                  ? _currentAccountSelectionRequest.GetExpectedEvent()
+                                  : EventTopicNames.AccountSelected;
+
+            CommonEventPublisher.PublishEntityOperation(SelectedAccount.Model,
+                EventTopicNames.EditAccountDetails, targetEvent);
         }
 
         private bool CanCreateAccount(string arg)
@@ -133,8 +138,13 @@ namespace Samba.Modules.AccountModule
 
         private void OnCreateAccount(string obj)
         {
+            var targetEvent = _currentAccountSelectionRequest != null
+                                  ? _currentAccountSelectionRequest.GetExpectedEvent()
+                                  : EventTopicNames.AccountSelected;
+
             ClearSearchValues();
-            CommonEventPublisher.PublishEntityOperation(new Account { AccountTemplateId = SelectedAccountTemplate.Id }, EventTopicNames.EditAccountDetails, EventTopicNames.AccountSelected);
+            CommonEventPublisher.PublishEntityOperation(new Account { AccountTemplateId = SelectedAccountTemplate.Id },
+                EventTopicNames.EditAccountDetails, targetEvent);
         }
 
         private bool CanSelectAccount(string arg)
@@ -184,7 +194,7 @@ namespace Samba.Modules.AccountModule
 
             _currentAccountSelectionRequest = value;
 
-            if (_currentAccountSelectionRequest != null && _currentAccountSelectionRequest.SelectedEntity != null)
+            if (_currentAccountSelectionRequest != null && _currentAccountSelectionRequest.SelectedEntity != null && !string.IsNullOrEmpty(_currentAccountSelectionRequest.SelectedEntity.Name))
             {
                 ClearSearchValues();
                 FoundAccounts.Add(new AccountSearchResultViewModel(_currentAccountSelectionRequest.SelectedEntity, SelectedAccountTemplate));

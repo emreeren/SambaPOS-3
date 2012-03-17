@@ -2,6 +2,7 @@
 {
     public static class RuleEventNames
     {
+        public const string OrdersCreated = "OrdersCreated";
         public const string ApplicationStarted = "ApplicationStarted";
         public const string TicketClosed = "TicketClosed";
         public const string ChangeAmountChanged = "ChangeAmountChanged";
@@ -23,6 +24,7 @@
 
     public static class EventTopicNames
     {
+        public const string TargetAccountSelected = "Target Account Selected";
         public const string SelectAccount = "Select Account";
         public const string AccountSelected = "Account Selected";
         public const string ApplicationLockStateChanged = "Application Lock State Changed";

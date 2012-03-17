@@ -61,6 +61,13 @@ namespace Samba.Services.Implementations.TicketModule
                     });
         }
 
+        public void UpdateTargetAccount(Ticket ticket, Account account)
+        {
+            Debug.Assert(ticket != null);
+            Debug.Assert(account != Account.Null);
+            ticket.UpdateTargetAccount(account);
+        }
+
         public Ticket OpenTicket(int ticketId)
         {
             Debug.Assert(_applicationState.CurrentDepartment != null);
@@ -70,14 +77,6 @@ namespace Samba.Services.Implementations.TicketModule
                              : Dao.Load<Ticket>(ticketId,
                              x => x.Orders.Select(y => y.OrderTagValues), x => x.Calculations,
                              x => x.Payments, x => x.PaidItems, x => x.Tags);
-
-            //Dao.Single<Ticket>(t => t.Id == ticketId,
-            //x => x.Orders.Select(y => y.OrderTagValues),
-            //x => x.Calculations, x => x.Payments, x => x.PaidItems, x => x.Tags,
-            //x => x.AccountTransactions.AccountTransactions,
-            //x => x.AccountTransactions.AccountTransactions.Select(y => y.AccountTransactionTemplate),
-            //x => x.AccountTransactions.AccountTransactions.Select(y => y.SourceTransactionValue),
-            //x => x.AccountTransactions.AccountTransactions.Select(y => y.TargetTransactionValue));)
 
             if (ticket.Id == 0)
                 _automationService.NotifyEvent(RuleEventNames.TicketCreated, new { Ticket = ticket });
@@ -132,11 +131,12 @@ namespace Samba.Services.Implementations.TicketModule
                     ticket.LockTicket();
                 }
 
-                UpdateTicketLocation(ticket);
                 if (ticket.Id > 0)// eğer adisyonda satır yoksa ID burada 0 olmalı.
                     Dao.Save(ticket);
                 Debug.Assert(ticket.Orders.Count(x => x.OrderNumber == 0) == 0);
             }
+            if (!changed)
+                _automationService.NotifyEvent(RuleEventNames.TicketClosed, new { Ticket = ticket, ticket.AccountId, ticket.RemainingAmount });
             result.TicketId = ticket.Id;
             return result;
         }
@@ -159,113 +159,17 @@ namespace Samba.Services.Implementations.TicketModule
             }
         }
 
-        private void UpdateTicketLocation(Ticket ticket)
-        {
-            if (string.IsNullOrEmpty(ticket.LocationName)) return;
-            var location = Dao.Single<AccountScreenItem>(x => x.Name == ticket.LocationName);
-            if (location != null)
-            {
-                if (ticket.IsPaid || ticket.Orders.Count == 0)
-                {
-                    if (location.TicketId == ticket.Id)
-                    {
-                        location.Reset();
-                    }
-                }
-                else
-                {
-                    location.TicketId = ticket.Id;
-                    location.IsTicketLocked = ticket.Locked;
-                }
-            }
-            else ticket.LocationName = "";
-            Dao.Save(location);
-        }
-
-        public void ChangeTicketLocation(Ticket ticket, int locationId)
-        {
-            Debug.Assert(ticket != null);
-
-            var location = Dao.Single<AccountScreenItem>(x => x.Id == locationId);
-            var oldLocation = "";
-
-            if (!string.IsNullOrEmpty(ticket.LocationName))
-            {
-                oldLocation = ticket.LocationName;
-                var oldLoc = Dao.Single<AccountScreenItem>(x => x.Name == oldLocation);
-                if (oldLoc.TicketId == ticket.Id)
-                {
-                    oldLoc.Reset();
-                }
-                Dao.Save(oldLoc);
-            }
-
-            if (location.TicketId > 0 && location.TicketId != ticket.Id)
-            {
-                MoveOrders(ticket, ticket.Orders.ToList(), location.TicketId);
-                ticket = OpenTicket(location.TicketId);
-            }
-
-            ticket.LocationName = location.Name;
-            if (_applicationState.CurrentDepartment != null) ticket.DepartmentId = _applicationState.CurrentDepartment.Id;
-            location.TicketId = ticket.GetRemainingAmount() > 0 ? ticket.Id : 0;
-            Dao.Save(location);
-            _automationService.NotifyEvent(RuleEventNames.TicketLocationChanged, new { Ticket = ticket, OldLocation = oldLocation, NewLocation = ticket.LocationName });
-        }
-
-        //public Account CheckAccount(Account account)
-        //{
-        //    if (account == Account.Null)
-        //        return Account.Null;
-
-        //    if (account.Id == 0)
-        //    {
-        //        using (var workspace = WorkspaceFactory.Create())
-        //        {
-        //            workspace.Add(account);
-        //            workspace.CommitChanges();
-        //        }
-        //        return account;
-        //    }
-
-        //    var result = _workspace.Single<Account>(
-        //            x => x.Id == account.Id
-        //            && x.Name == account.Name
-        //            && x.CustomData == account.CustomData);
-
-        //    if (result == null)
-        //    {
-        //        result = _workspace.Single<Account>(x => x.Id == account.Id);
-        //        Debug.Assert(result != null);
-        //        result.Name = account.Name;
-        //        result.SearchString = account.SearchString;
-        //        result.CustomData = account.CustomData;
-        //    }
-        //    return result;
-        //}
-
         public TicketCommitResult MoveOrders(Ticket ticket, IEnumerable<Order> selectedOrders, int targetTicketId)
         {
             var clonedOrders = selectedOrders.Select(ObjectCloner.Clone).ToList();
             ticket.RemoveOrders(selectedOrders);
-
-            if (ticket.Orders.Count == 0)
-            {
-                var info = targetTicketId.ToString();
-                if (targetTicketId > 0)
-                {
-                    var tData = Dao.Single<Ticket, dynamic>(targetTicketId, x => new { x.LocationName, x.TicketNumber });
-                    info = tData.LocationName + " - " + tData.TicketNumber;
-                }
-                if (!string.IsNullOrEmpty(ticket.Note)) ticket.Note += "\r";
-                ticket.Note += ticket.LocationName + " => " + info;
-            }
 
             CloseTicket(ticket);
             ticket = OpenTicket(targetTicketId);
 
             foreach (var clonedOrder in clonedOrders)
             {
+                clonedOrder.TicketId = 0;
                 ticket.Orders.Add(clonedOrder);
             }
 
@@ -349,18 +253,14 @@ namespace Samba.Services.Implementations.TicketModule
             tagData.PublishEvent(EventTopicNames.TagSelectedForSelectedTicket);
         }
 
-        public void ResetLocationData(Ticket ticket)
-        {
-            Dao.Query<AccountScreenItem>(x => x.TicketId == ticket.Id).ToList().ForEach(x => x.Reset());
-            UpdateTicketLocation(ticket);
-            Debug.Assert(ticket != null);
-            Debug.Assert(ticket.Id > 0 || ticket.Orders.Count > 0);
-            ticket.LastUpdateTime = DateTime.Now;
-        }
-
         public int GetOpenTicketCount()
         {
             return Dao.Count<Ticket>(x => !x.IsPaid);
+        }
+
+        public IEnumerable<int> GetOpenTickets(int accountId)
+        {
+            return Dao.Select<Ticket, int>(x => x.Id, x => x.RemainingAmount > 0 && x.AccountId == accountId);
         }
 
         public IEnumerable<OpenTicketData> GetOpenTickets(Expression<Func<Ticket, bool>> prediction)
@@ -370,8 +270,8 @@ namespace Samba.Services.Implementations.TicketModule
                 Id = x.Id,
                 LastOrderDate = x.LastOrderDate,
                 TicketNumber = x.TicketNumber,
-                LocationName = x.LocationName,
                 AccountName = x.AccountName,
+                TargetAccountName = x.TargetAccountName,
                 RemainingAmount = x.RemainingAmount,
                 Date = x.Date
             }, prediction);
@@ -429,9 +329,9 @@ namespace Samba.Services.Implementations.TicketModule
         {
             if (current.Id > 0)
             {
-                if (current.LocationName != loaded.LocationName)
+                if (current.AccountName != loaded.AccountName)
                 {
-                    return ConcurrencyCheckResult.Break(string.Format(Resources.TicketMovedRetryLastOperation_f, loaded.LocationName));
+                    return ConcurrencyCheckResult.Break(string.Format(Resources.TicketMovedRetryLastOperation_f, loaded.AccountName));
                 }
 
                 if (current.IsPaid != loaded.IsPaid)
@@ -458,17 +358,6 @@ namespace Samba.Services.Implementations.TicketModule
                 if (current.RemainingAmount == 0 && loaded.GetSum() != current.GetSum())
                 {
                     return ConcurrencyCheckResult.Break(Resources.TicketChangedRetryLastOperation);
-                }
-            }
-
-            if (!string.IsNullOrEmpty(current.LocationName) && current.Id == 0)
-            {
-                var ticketId = Dao.Select<AccountScreenItem, int>(x => x.TicketId, x => x.Name == current.LocationName).FirstOrDefault();
-                {
-                    if (ticketId > 0)
-                    {
-                        return ConcurrencyCheckResult.Break(string.Format(Resources.LocationChangedRetryLastOperation_f, current.LocationName));
-                    }
                 }
             }
 

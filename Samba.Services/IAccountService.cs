@@ -10,9 +10,10 @@ namespace Samba.Services
     {
         int GetAccountCount();
         void CreateNewTransactionDocument(Account account, AccountTransactionDocumentTemplate documentTemplate, string description, decimal amount);
-        decimal GetAccountBalance(Account account);
+        decimal GetAccountBalance(int accountId);
         string GetCustomData(Account account, string fieldName);
         string GetDescription(AccountTransactionDocumentTemplate documentTemplate, Account account);
         decimal GetDefaultAmount(AccountTransactionDocumentTemplate documentTemplate, Account account);
+        void UpdateAccountState(int accountId, int stateId);
     }
 }

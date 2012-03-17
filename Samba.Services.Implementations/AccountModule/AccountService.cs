@@ -41,9 +41,9 @@ namespace Samba.Services.Implementations.AccountModule
             }
         }
 
-        public decimal GetAccountBalance(Account account)
+        public decimal GetAccountBalance(int accountId)
         {
-            return Dao.Sum<AccountTransactionValue>(x => x.Debit - x.Credit, x => x.AccountId == account.Id);
+            return Dao.Sum<AccountTransactionValue>(x => x.Debit - x.Credit, x => x.AccountId == accountId);
         }
 
         public string GetCustomData(Account account, string fieldName)
@@ -84,10 +84,24 @@ namespace Samba.Services.Implementations.AccountModule
                     decimal.TryParse(da, out result);
                 }
                 else if (da == string.Format("[{0}]", Resources.Balance))
-                    result = Math.Abs(GetAccountBalance(account));
+                    result = Math.Abs(GetAccountBalance(account.Id));
                 else decimal.TryParse(da, out result);
             }
             return result;
+        }
+
+        public void UpdateAccountState(int accountId, int stateId)
+        {
+            using (var w = WorkspaceFactory.Create())
+            {
+                var csid = w.Last<AccountStateValue>(x => x.AccountId == accountId);
+                if (csid == null || csid.StateId != stateId)
+                {
+                    var v = new AccountStateValue { AccountId = accountId, Date = DateTime.Now, StateId = stateId };
+                    w.Add(v);
+                    w.CommitChanges();
+                }
+            }
         }
 
         public override void Reset()

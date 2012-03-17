@@ -54,7 +54,15 @@ namespace Samba.Modules.TicketModule
         private IEnumerable<AccountTransactionTemplate> _accountTransactionTemplates;
         public IEnumerable<AccountTransactionTemplate> AccountTransactionTemplates { get { return _accountTransactionTemplates ?? (_accountTransactionTemplates = Workspace.All<AccountTransactionTemplate>()); } }
 
-        public virtual AccountTransactionTemplate SaleTransactionTemplate { get { return Model.SaleTransactionTemplate; } set { Model.SaleTransactionTemplate = value; } }
+        public AccountTransactionTemplate SaleTransactionTemplate { get { return Model.SaleTransactionTemplate; } set { Model.SaleTransactionTemplate = value; } }
+
+        private IEnumerable<AccountTemplate> _accountTemplates;
+        public IEnumerable<AccountTemplate> AccountTemplates
+        {
+            get { return _accountTemplates ?? (_accountTemplates = Workspace.All<AccountTemplate>()); }
+        }
+
+        public int TargetAccountTemplateId { get { return Model.TargetAccountTemplateId; } set { Model.TargetAccountTemplateId = value; } }
 
         private ObservableCollection<TicketTagGroup> _ticketTagGroups;
         public ObservableCollection<TicketTagGroup> TicketTagGroups
@@ -241,7 +249,7 @@ namespace Samba.Modules.TicketModule
             RuleFor(x => x.OrderNumerator).NotNull();
             RuleFor(x => x.SaleTransactionTemplate).NotNull();
             RuleFor(x => x.SaleTransactionTemplate.DefaultSourceAccountId).GreaterThan(0).When(x => x.SaleTransactionTemplate != null);
-            RuleFor(x => x.SaleTransactionTemplate.DefaultTargetAccountId).GreaterThan(0).When(x => x.SaleTransactionTemplate != null);
+            RuleFor(x => x.TargetAccountTemplateId).GreaterThan(0);
             RuleFor(x => x.TicketNumerator).NotEqual(x => x.OrderNumerator).When(x => x.TicketNumerator != null);
         }
     }

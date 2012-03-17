@@ -23,5 +23,7 @@ namespace Samba.Services
         AccountTemplate GetAccountTemplateById(int accountTemplateId);
         Account GetAccountById(int accountId);
         IEnumerable<AccountTransactionDocumentTemplate> GetAccountTransactionDocumentTemplates(int accountTemplateId);
+        AccountState GetAccountStateById(int accountStateId);
+        AccountState GetAccountStateByName(string stateName);
     }
 }

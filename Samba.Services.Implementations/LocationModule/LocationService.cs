@@ -44,21 +44,20 @@ namespace Samba.Services.Implementations.LocationModule
                         .OrderBy(x => x.Order)
                         .Skip(pageNo * locationScreen.ItemCountPerPage)
                         .Take(locationScreen.ItemCountPerPage)
-                        .Select(x => x.Id);
+                        .Select(x => x.Account.Id);
                 }
-                else set = locationScreen.ScreenItems.OrderBy(x => x.Order).Select(x => x.Id);
+                else set = locationScreen.ScreenItems.OrderBy(x => x.Order).Select(x => x.Account.Id);
 
-                var result = Dao.Select<AccountScreenItem, dynamic>(
-                    x =>
-                        new { x.Id, Tid = x.TicketId, Locked = x.IsTicketLocked },
-                        x => set.Contains(x.Id));
-
-                result.ToList().ForEach(x =>
+                using (var w = WorkspaceFactory.CreateReadOnly())
                 {
-                    var location = locationScreen.ScreenItems.Single(y => y.Id == x.Id);
-                    location.TicketId = x.Tid;
-                    location.IsTicketLocked = x.Locked;
-                });
+                    var ids = w.Queryable<AccountStateValue>().Where(x => set.Contains(x.AccountId)).GroupBy(x => x.AccountId).Select(x => x.Max(y => y.Id));
+                    var result = w.Queryable<AccountStateValue>().Where(x => ids.Contains(x.Id)).Select(x => new { x.AccountId, x.StateId });
+                    result.ToList().ForEach(x =>
+                    {
+                        var location = locationScreen.ScreenItems.Single(y => y.Account.Id == x.AccountId);
+                        location.AccountStateId = x.StateId;
+                    });
+                }
             }
         }
 
@@ -81,7 +80,7 @@ namespace Samba.Services.Implementations.LocationModule
             }
             return new List<AccountScreenItem>();
         }
-
+        
 
         public IList<AccountScreenItem> LoadLocations(string selectedLocationScreen)
         {
@@ -122,7 +121,6 @@ namespace Samba.Services.Implementations.LocationModule
     {
         public override string GetErrorMessage(AccountScreenItem model)
         {
-            if (model.TicketId > 0) return Resources.DeleteErrorTicketAssignedToLocation;
             if (Dao.Exists<AccountScreen>(x => x.ScreenItems.Any(y => y.Id == model.Id)))
                 return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Location, Resources.LocationScreen);
             return "";

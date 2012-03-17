@@ -41,8 +41,8 @@ namespace Samba.Modules.PosModule
         public CaptionCommand<string> MakePaymentCommand { get; set; }
 
         public CaptionCommand<PaymentTemplate> MakeFastPaymentCommand { get; set; }
-        public CaptionCommand<string> SelectLocationCommand { get; set; }
         public CaptionCommand<string> SelectAccountCommand { get; set; }
+        public CaptionCommand<string> SelectTargetAccountCommand { get; set; }
         public CaptionCommand<string> PrintTicketCommand { get; set; }
         public CaptionCommand<string> PrintInvoiceCommand { get; set; }
         public CaptionCommand<string> ShowAllOpenTickets { get; set; }
@@ -210,8 +210,8 @@ namespace Samba.Modules.PosModule
             CloseTicketCommand = new CaptionCommand<string>(Resources.CloseTicket_r, OnCloseTicketExecute, CanCloseTicket);
             MakePaymentCommand = new CaptionCommand<string>(Resources.Settle, OnMakePaymentExecute, CanMakePayment);
             MakeFastPaymentCommand = new CaptionCommand<PaymentTemplate>("[FastPayment]", OnMakeFastPaymentExecute, CanMakeFastPayment);
-            SelectLocationCommand = new CaptionCommand<string>(Resources.SelectLocation, OnSelectLocationExecute, CanSelectLocation);
             SelectAccountCommand = new CaptionCommand<string>(Resources.SelectAccount, OnSelectAccountExecute, CanSelectAccount);
+            SelectTargetAccountCommand = new CaptionCommand<string>("Select Target", OnSelectTargetAccount);
             ShowAllOpenTickets = new CaptionCommand<string>(Resources.AllTickets_r, OnShowAllOpenTickets);
 
             IncQuantityCommand = new CaptionCommand<string>("+", OnIncQuantityCommand, CanIncQuantity);
@@ -232,7 +232,7 @@ namespace Samba.Modules.PosModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<OrderViewModel>>().Subscribe(OnSelectedOrdersChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketTagData>>().Subscribe(OnTagSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Account>>>().Subscribe(OnAccountSelectedForTicket);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<AccountScreenItem>>>().Subscribe(OnLocationSelected);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<AccountScreenItem>>>().Subscribe(OnAccountScreenItemSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnRefreshTicket);
             EventServiceFactory.EventService.GetEvent<GenericEvent<Message>>().Subscribe(OnMessageReceived);
             EventServiceFactory.EventService.GetEvent<GenericEvent<PopupData>>().Subscribe(OnAccountSelectedFromPopup);
@@ -240,7 +240,6 @@ namespace Samba.Modules.PosModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<MenuItemPortion>>().Subscribe(OnPortionSelected);
             EventServiceFactory.EventService.GetEvent<GenericIdEvent>().Subscribe(OnTicketIdPublished);
         }
-
 
         private void ClearSelectedItems()
         {
@@ -344,6 +343,17 @@ namespace Samba.Modules.PosModule
                 }
             }
 
+            if (obj.Topic == EventTopicNames.TargetAccountSelected)
+            {
+                if (SelectedTicket == null) OpenTicket(0);
+                if (SelectedTicket != null)
+                {
+                    _ticketService.UpdateTargetAccount(SelectedTicket.Model, obj.Value.SelectedEntity);
+                    RefreshVisuals();
+                    EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
+                }
+            }
+
             //if (obj.Topic == EventTopicNames.PaymentRequestedForTicket)
             //{
             //    if (SelectedTicket != null)
@@ -415,49 +425,32 @@ namespace Samba.Modules.PosModule
             if (obj.Topic == EventTopicNames.ScreenMenuItemDataSelected) AddMenuItemCommand.Execute(obj.Value);
         }
 
-        private void OnLocationSelected(EventParameters<EntityOperationRequest<AccountScreenItem>> obj)
+        private void OnAccountScreenItemSelected(EventParameters<EntityOperationRequest<AccountScreenItem>> obj)
         {
             if (obj.Topic == EventTopicNames.LocationSelectedForTicket)
             {
                 if (SelectedTicket != null)
                 {
-                    var oldLocationName = SelectedTicket.Location;
-                    var ticketsMerged = obj.Value.SelectedEntity.TicketId > 0 && obj.Value.SelectedEntity.TicketId != SelectedTicket.Id;
-
-                    _ticketService.ChangeTicketLocation(SelectedTicket.Model, obj.Value.SelectedEntity.Id);
-                    //_ticketService.UpdateAccount(SelectedTicket.Model, obj.Value.SelectedEntity.Account);
+                    _ticketService.UpdateAccount(SelectedTicket.Model, obj.Value.SelectedEntity.Account);
                     CloseTicket();
 
                     if (!_applicationState.CurrentTerminal.AutoLogout)
                         EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
-
-                    if (!string.IsNullOrEmpty(oldLocationName) || ticketsMerged)
-                        if (ticketsMerged && !string.IsNullOrEmpty(oldLocationName))
-                            InteractionService.UserIntraction.GiveFeedback(string.Format(Resources.LocationsMerged_f, oldLocationName, obj.Value.SelectedEntity.Name));
-                        else if (ticketsMerged)
-                            InteractionService.UserIntraction.GiveFeedback(string.Format(Resources.TicketMergedToLocation_f, obj.Value.SelectedEntity.Name));
-                        else if (oldLocationName != obj.Value.SelectedEntity.Name)
-                            InteractionService.UserIntraction.GiveFeedback(string.Format(Resources.TicketMovedToLocation_f, oldLocationName, obj.Value.SelectedEntity.Name));
                 }
                 else
                 {
-                    if (obj.Value.SelectedEntity.TicketId == 0)
+                    var openTickets = _ticketService.GetOpenTickets(obj.Value.SelectedEntity.Account.Id);
+                    if (openTickets.Count() == 0)
                     {
                         OpenTicket(0);
                         if (SelectedTicket != null)
                         {
-                            _ticketService.ChangeTicketLocation(SelectedTicket.Model, obj.Value.SelectedEntity.Id);
                             _ticketService.UpdateAccount(SelectedTicket.Model, obj.Value.SelectedEntity.Account);
                         }
                     }
                     else
                     {
-                        OpenTicket(obj.Value.SelectedEntity.TicketId);
-                        if (SelectedTicket != null)
-                        {
-                            if (SelectedTicket.Location != obj.Value.SelectedEntity.Name)
-                                _ticketService.ResetLocationData(SelectedTicket.Model);
-                        }
+                        OpenTicket(openTickets.ElementAt(0));
                     }
                     EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
                 }
@@ -704,6 +697,15 @@ namespace Samba.Modules.PosModule
             SelectedTicketTitle = SelectedTicket == null || Totals.Title.Trim() == "#" ? Resources.NewTicket : Totals.Title;
         }
 
+        private void OnSelectTargetAccount(string obj)
+        {
+            var account = SelectedTicket.TargetAccountId == 0
+                ? new Account { AccountTemplateId = SelectedTicket.TargetAccountTemplateId } :
+                _cacheService.GetAccountById(SelectedTicket.TargetAccountId);
+            var request = new EntityOperationRequest<Account>(account, EventTopicNames.TargetAccountSelected);
+            request.PublishEvent(EventTopicNames.SelectAccount);
+        }
+
         private void OnSelectAccountExecute(string obj)
         {
             var account = _cacheService.GetAccountById(SelectedTicket.AccountId);
@@ -719,57 +721,23 @@ namespace Samba.Modules.PosModule
                 && SelectedTicket.Model.CanSubmit));
         }
 
-        private bool CanSelectLocation(string arg)
-        {
-            if (SelectedTicket != null)
-            {
-                if (SelectedTicket.IsLocked || SelectedTicket.Orders.Count == 0 || (Totals.Payments.Count > 0 && !string.IsNullOrEmpty(SelectedTicket.Location)) || !SelectedTicket.Model.CanSubmit) return false;
-                return string.IsNullOrEmpty(SelectedTicket.Location) || _userService.IsUserPermittedFor(PermissionNames.ChangeLocation);
-            }
-            return SelectedTicket == null;
-        }
-
-        private void OnSelectLocationExecute(string obj)
-        {
-            CommonEventPublisher.PublishEntityOperation<AccountScreenItem>(null, EventTopicNames.SelectLocation, EventTopicNames.LocationSelectedForTicket);
-            //SelectedTicket.Model.PublishEvent(EventTopicNames.SelectLocation);
-        }
-
-        public string SelectLocationButtonCaption
-        {
-            get
-            {
-                if (SelectedTicket != null && !string.IsNullOrEmpty(SelectedTicket.Location))
-                    return Resources.ChangeLocation_r;
-                return Resources.SelectLocation_r;
-            }
-        }
-
-
-        private AccountTemplate _currentAccountTemplate;
-        public AccountTemplate CurrentAccountTemplate
-        {
-            get
-            {
-                var accountTemplateId = SelectedTicket != null
-                                            ? SelectedTicket.AccountTemplateId
-                                            : SelectedDepartment.TicketTemplate.SaleTransactionTemplate.
-                                                  TargetAccountTemplateId;
-
-                if (_currentAccountTemplate == null || _currentAccountTemplate.Id != accountTemplateId)
-                    _currentAccountTemplate = _cacheService.GetAccountTemplateById(accountTemplateId);
-
-                return _currentAccountTemplate;
-            }
-        }
-
         public string SelectAccountButtonCaption
         {
             get
             {
-                if (SelectedDepartment == null) return "";
-                var entityName = CurrentAccountTemplate.EntityName;
+                var entityName = Totals.SourceEntityName;
                 if (SelectedTicket != null && SelectedTicket.AccountId != 0)
+                    return string.Format(Resources.Change_f, entityName).Replace(" ", "\r");
+                return string.Format(Resources.Select_f, entityName).Replace(" ", "\r");
+            }
+        }
+
+        public string SelectTargetAccountButtonCaption
+        {
+            get
+            {
+                var entityName = Totals.TargetEntityName;
+                if (SelectedTicket != null && SelectedTicket.TargetAccountId != 0)
                     return string.Format(Resources.Change_f, entityName).Replace(" ", "\r");
                 return string.Format(Resources.Select_f, entityName).Replace(" ", "\r");
             }
@@ -804,7 +772,6 @@ namespace Samba.Modules.PosModule
             get
             {
                 if (SelectedTicket != null && SelectedTicket.IsPaid) return false;
-                if (SelectedTicket != null && !string.IsNullOrEmpty(SelectedTicket.Location)) return false;
                 if (SelectedTicket != null && !string.IsNullOrEmpty(SelectedTicket.AccountName)) return false;
                 if (SelectedTicket != null && SelectedTicket.IsTagged) return false;
                 if (SelectedTicket != null && Totals.TicketRemainingValue == 0) return false;
@@ -867,8 +834,6 @@ namespace Samba.Modules.PosModule
                 InteractionService.UserIntraction.GiveFeedback(result.ErrorMessage);
             }
 
-            _automationService.NotifyEvent(RuleEventNames.TicketClosed, new { Ticket = _selectedTicket.Model });
-
             _selectedTicket = null;
             _selectedOrders.Clear();
 
@@ -895,8 +860,8 @@ namespace Samba.Modules.PosModule
             RaisePropertyChanged(() => CanDisplayAllTickets);
             RaisePropertyChanged(() => IsFastPaymentButtonsVisible);
             RaisePropertyChanged(() => IsCloseButtonVisible);
-            RaisePropertyChanged(() => SelectLocationButtonCaption);
             RaisePropertyChanged(() => SelectAccountButtonCaption);
+            RaisePropertyChanged(() => SelectTargetAccountButtonCaption);
             RaisePropertyChanged(() => IsLocationButtonVisible);
             RaisePropertyChanged(() => IsAccountButtonVisible);
             RaisePropertyChanged(() => IsNothingSelectedAndTicketLocked);
@@ -927,8 +892,7 @@ namespace Samba.Modules.PosModule
 
             RefreshSelectedTicket();
         }
-
-
+        
         public OrderViewModel AddNewItem(int menuItemId, decimal quantity, string portionName, OrderTagTemplate template)
         {
             if (!SelectedTicket.Model.CanSubmit) return null;

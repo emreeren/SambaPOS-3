@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Omu.ValueInjecter;
-using Samba.Domain.Models.Tickets;
+using System.Runtime.CompilerServices;
 using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Data.Serializer;
 
@@ -59,6 +58,7 @@ namespace Samba.Persistance.Data
             }
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public static T SingleWithCache<T>(Expression<Func<T, bool>> predictate, params Expression<Func<T, object>>[] includes) where T : class
         {
             var ci = GetFromCache(predictate, ObjectCloner.DataHash(includes));
@@ -183,11 +183,13 @@ namespace Samba.Persistance.Data
             }
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public static T Load<T>(int id, params Expression<Func<T, object>>[] includes) where T : class, ICacheable
         {
             return CachedDao.CacheLoad(id, includes);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public static void Save<T>(T entity) where T : class, ICacheable
         {
             CachedDao.CacheSave(entity);
@@ -198,5 +200,4 @@ namespace Samba.Persistance.Data
             return CachedDao.CheckConcurrency(entity);
         }
     }
-
 }

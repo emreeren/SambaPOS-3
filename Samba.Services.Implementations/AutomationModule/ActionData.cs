@@ -8,12 +8,25 @@ namespace Samba.Services.Implementations.AutomationModule
         public string ParameterValues { get; set; }
         public object DataObject { get; set; }
 
-        public T GetDataValue<T>(string parameterName) where T : class
+        public T GetDataValue<T>(string dataName) where T : class
         {
-            var property = DataObject.GetType().GetProperty(parameterName);
+            var property = DataObject.GetType().GetProperty(dataName);
             if (property != null)
                 return property.GetValue(DataObject, null) as T;
             return null;
+        }
+
+        public string GetDataValueAsString(string dataName)
+        {
+            var property = DataObject.GetType().GetProperty(dataName);
+            return property != null ? property.GetValue(DataObject, null).ToString() : "";
+        }
+
+        public int GetDataValueAsInt(string dataName)
+        {
+            int result;
+            int.TryParse(GetDataValueAsString(dataName), out result);
+            return result;
         }
 
         public bool GetAsBoolean(string parameterName)

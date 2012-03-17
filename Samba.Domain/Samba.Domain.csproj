@@ -69,6 +69,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Accounts\AccountCustomField.cs" />
+    <Compile Include="Models\Accounts\AccountStateValue.cs" />
+    <Compile Include="Models\Accounts\AccountState.cs" />
     <Compile Include="Models\Accounts\AccountTemplate.cs" />
     <Compile Include="Models\Accounts\AccountTransaction.cs" />
     <Compile Include="Models\Accounts\AccountTransactionDocument.cs" />

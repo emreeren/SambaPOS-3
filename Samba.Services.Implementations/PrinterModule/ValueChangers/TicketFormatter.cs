@@ -128,13 +128,10 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
                 }
             }
 
-            var title = ticket.LocationName;
-            if (string.IsNullOrEmpty(ticket.LocationName))
-                title = userName;
+            var title = userName;
 
             result = FormatData(result, TagNames.LocationUser, () => title);
             result = FormatData(result, TagNames.UserName, () => userName);
-            result = FormatData(result, TagNames.Location, () => ticket.LocationName);
             result = FormatData(result, TagNames.Note, () => ticket.Note);
             result = FormatData(result, TagNames.AccName, () => ticket.AccountName);
 

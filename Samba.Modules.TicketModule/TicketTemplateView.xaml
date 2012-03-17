@@ -24,6 +24,14 @@
             <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding Numerators}"
                                      SelectedItem="{Binding OrderNumerator}" />
 
+            <Label MinWidth="120">Sale Transaction Template</Label>
+            <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTransactionTemplates}"
+                                     SelectedItem="{Binding SaleTransactionTemplate}" />
+
+            <Label MinWidth="120">Target Account Template</Label>
+            <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTemplates}"
+                                     SelectedValue="{Binding TargetAccountTemplateId}" SelectedValuePath="Id" />
+
             <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                 <DataGrid MinWidth="170" ItemsSource="{Binding TicketTagGroups}" SelectedItem="{Binding SelectedTicketTag, Mode=TwoWay}"
                                      HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
@@ -148,9 +156,6 @@
             <Label Content="{Binding Error}" Foreground="Red" />
         </StackPanel>
         <StackPanel Grid.Column="1">
-            <Label MinWidth="120">Sale Transaction Template</Label>
-            <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTransactionTemplates}"
-                                     SelectedItem="{Binding SaleTransactionTemplate}" />
         </StackPanel>
     </Grid>
 </UserControl>

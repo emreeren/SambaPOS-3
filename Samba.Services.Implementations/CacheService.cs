@@ -109,12 +109,29 @@ namespace Samba.Services.Implementations
             return DocumentTemplates.Where(x => x.MasterAccountTemplateId == accountTemplateId);
         }
 
+        private IEnumerable<AccountState> _accountStates;
+        public IEnumerable<AccountState> AccountStates
+        {
+            get { return _accountStates ?? (_accountStates = Dao.Query<AccountState>()); }
+        }
+
+        public AccountState GetAccountStateById(int accountStateId)
+        {
+            return AccountStates.SingleOrDefault(x => x.Id == accountStateId);
+        }
+
+        public AccountState GetAccountStateByName(string stateName)
+        {
+            return AccountStates.FirstOrDefault(x => x.Name == stateName);
+        }
+
         public override void Reset()
         {
             _ticketTagGroupNames = null;
             _accountTemplates = null;
             _accounts = null;
             _documentTemplates = null;
+            _accountStates = null;
             Dao.ResetCache();
         }
     }

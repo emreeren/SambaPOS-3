@@ -1390,9 +1390,6 @@ Can't end Work Period while tickets open</value>
   <data name="Hidden" xml:space="preserve">
     <value>Hidden</value>
   </data>
-  <data name="SelectLocation" xml:space="preserve">
-    <value>Select Location</value>
-  </data>
   <data name="SelectLocationDialogHint_f" xml:space="preserve">
     <value>Select locations you want to add to {0} view</value>
   </data>
@@ -3062,5 +3059,11 @@ Continue without adding details?</value>
 	</data>
 	<data name="AccountScreenItem">
 		<value xml:space="preserve">Account Screen Item</value>
+	</data>
+	<data name="AccountState">
+		<value xml:space="preserve">Account State</value>
+	</data>
+	<data name="Name">
+		<value xml:space="preserve">Name</value>
 	</data>
 </root>

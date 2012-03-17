@@ -62,7 +62,7 @@ namespace Samba.Modules.BasicReports.Reports.CSVBuilder
                         x.Ticket.TicketNumber,
                         UserName = x.Order.CreatingUserName,
                         Account = x.Ticket.AccountName,
-                        Location = x.Ticket.LocationName,
+                        TargetAccount = x.Ticket.TargetAccountName,
                         x.Order.OrderNumber,
                         x.Order.CalculatePrice,
                         DecreaseFromInventory = x.Order.DecreaseInventory,

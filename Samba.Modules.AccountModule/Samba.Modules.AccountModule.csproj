@@ -79,6 +79,10 @@
       <DependentUpon>AccountScreenView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dashboard\AccountScreenViewModel.cs" />
+    <Compile Include="Dashboard\AccountStateView.xaml.cs">
+      <DependentUpon>AccountStateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dashboard\AccountStateViewModel.cs" />
     <Compile Include="Dashboard\AccountTransactionDocumentTemplateView.xaml.cs">
       <DependentUpon>AccountTransactionDocumentTemplateView.xaml</DependentUpon>
     </Compile>
@@ -128,6 +132,10 @@
     <Page Include="Dashboard\AccountScreenView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dashboard\AccountStateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dashboard\AccountTransactionDocumentTemplateView.xaml">
       <SubType>Designer</SubType>

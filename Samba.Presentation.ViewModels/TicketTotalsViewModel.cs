@@ -18,7 +18,7 @@ namespace Samba.Presentation.ViewModels
         private readonly IApplicationState _applicationState;
 
         [ImportingConstructor]
-        public TicketTotalsViewModel(ICacheService cacheService,IApplicationState applicationState)
+        public TicketTotalsViewModel(ICacheService cacheService, IApplicationState applicationState)
         {
             _cacheService = cacheService;
             _applicationState = applicationState;
@@ -107,8 +107,15 @@ namespace Samba.Presentation.ViewModels
         {
             get
             {
-                if (_sourceAccountTemplate == null || _sourceAccountTemplate.Id != Model.AccountTemplateId)
-                    _sourceAccountTemplate = _cacheService.GetAccountTemplateById(Model.AccountTemplateId);
+                if (_applicationState.CurrentDepartment == null) return null;
+
+                var sourceAccountTemplateId = Model.AccountTemplateId > 0
+                                                  ? Model.AccountTemplateId
+                                                  : _applicationState.CurrentDepartment.TicketTemplate.
+                                                        SaleTransactionTemplate.TargetAccountTemplateId;
+
+                if (_sourceAccountTemplate == null || _sourceAccountTemplate.Id != sourceAccountTemplateId)
+                    _sourceAccountTemplate = _cacheService.GetAccountTemplateById(sourceAccountTemplateId);
                 return _sourceAccountTemplate;
             }
         }
@@ -118,8 +125,17 @@ namespace Samba.Presentation.ViewModels
         {
             get
             {
-                if (_targetAccountTemplate == null || _targetAccountTemplate.Id != Model.TargetAccountTemplateId)
-                    _targetAccountTemplate = _cacheService.GetAccountTemplateById(Model.TargetAccountTemplateId);
+                if (_applicationState.CurrentDepartment == null) return null;
+
+                var targetAccountTemplateId = Model.TargetAccountTemplateId > 0
+                                                  ? Model.TargetAccountTemplateId
+                                                  : _applicationState.CurrentDepartment.TicketTemplate.
+                                                        TargetAccountTemplateId;
+
+                if (targetAccountTemplateId == 0) return null;
+
+                if (_targetAccountTemplate == null || _targetAccountTemplate.Id != targetAccountTemplateId)
+                    _targetAccountTemplate = _cacheService.GetAccountTemplateById(targetAccountTemplateId);
                 return _targetAccountTemplate;
             }
         }

@@ -25,5 +25,10 @@ namespace Samba.Services.Common
             var request = new EntityOperationRequest<T>(selectedEntity, expectedEvent);
             request.PublishEvent(requestedEvent);
         }
+
+        public string GetExpectedEvent()
+        {
+            return _expectedEvent;
+        }
     }
 }

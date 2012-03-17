@@ -37,11 +37,6 @@ namespace Samba.Modules.AccountModule.Dashboard
             return Resources.AccountScreenItem;
         }
 
-        protected override bool CanSave(string arg)
-        {
-            return Model.TicketId <= 0 && base.CanSave(arg);
-        }
-
         public IEnumerable<AccountScreenItem> CreateItems(IEnumerable<string> data)
         {
             return new DataCreationService().BatchCreateLocations(data.ToArray(), Workspace);

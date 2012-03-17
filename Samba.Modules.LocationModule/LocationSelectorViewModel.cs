@@ -70,16 +70,18 @@ namespace Samba.Modules.LocationModule
         private readonly ILocationService _locationService;
         private readonly IUserService _userService;
         private readonly IApplicationStateSetter _applicationStateSetter;
+        private readonly ICacheService _cacheService;
         private EntityOperationRequest<AccountScreenItem> _currentOperationRequest;
 
         [ImportingConstructor]
         public LocationSelectorViewModel(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
-            ILocationService locationService, IUserService userService)
+            ILocationService locationService, IUserService userService, ICacheService cacheService)
         {
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
             _locationService = locationService;
             _userService = userService;
+            _cacheService = cacheService;
             SelectLocationCategoryCommand = new DelegateCommand<AccountScreen>(OnSelectLocationCategoryExecuted);
             LocationSelectionCommand = new DelegateCommand<AccountButtonViewModel>(OnSelectLocationExecuted);
             CloseScreenCommand = new CaptionCommand<string>(Resources.Close, OnCloseScreenExecuted);
@@ -104,7 +106,7 @@ namespace Samba.Modules.LocationModule
                     if (x.Topic == EventTopicNames.SelectLocation)
                     {
                         _currentOperationRequest = x.Value;
-                        UpdateLocations(_applicationState.SelectedLocationScreen??_applicationState.CurrentDepartment.LocationScreens[0]);
+                        UpdateLocations(_applicationState.SelectedLocationScreen ?? _applicationState.CurrentDepartment.LocationScreens[0]);
                     }
                 });
         }
@@ -177,7 +179,7 @@ namespace Samba.Modules.LocationModule
         private void UpdateLocations(AccountScreen locationScreen)
         {
             Feedback = "";
-            var locationData = _locationService.GetCurrentLocations(locationScreen, CurrentPageNo).OrderBy(x => x.Order);
+            var locationData = _locationService.GetCurrentLocations(locationScreen, CurrentPageNo).OrderBy(x => x.Order).ToList();
 
             if (Locations != null && (Locations.Count() == 0 || Locations.Count != locationData.Count() || Locations.First().Caption != locationData.First().Name)) Locations = null;
 
@@ -189,12 +191,17 @@ namespace Samba.Modules.LocationModule
                         SelectedLocationScreen,
                         LocationSelectionCommand,
                         _currentOperationRequest.SelectedEntity != null,
-                        _userService.IsUserPermittedFor(PermissionNames.MergeTickets))));
+                        _userService.IsUserPermittedFor(PermissionNames.MergeTickets), _cacheService.GetAccountStateById(x.AccountStateId))));
             }
             else
             {
                 for (var i = 0; i < locationData.Count(); i++)
                 {
+                    var acs = ((AccountButtonViewModel)Locations[i]).AccountState;
+                    if (acs == null || acs.Id != locationData.ElementAt(i).AccountStateId)
+                        ((AccountButtonViewModel)Locations[i]).AccountState =
+                            _cacheService.GetAccountStateById(locationData.ElementAt(i).AccountStateId);
+
                     ((AccountButtonViewModel)Locations[i]).Model = locationData.ElementAt(i);
                 }
             }

@@ -38,7 +38,7 @@ namespace Samba.Modules.AccountModule
         {
             get
             {
-                return SelectedAccount == null ? "" : string.Format("{0} {1}: {2}", SelectedAccount.Name, Resources.Balance, _accountService.GetAccountBalance(SelectedAccount).ToString(LocalSettings.DefaultCurrencyFormat));
+                return SelectedAccount == null ? "" : string.Format("{0} {1}: {2}", SelectedAccount.Name, Resources.Balance, _accountService.GetAccountBalance(SelectedAccount.Id).ToString(LocalSettings.DefaultCurrencyFormat));
             }
         }
         public Account SelectedAccount { get; set; }

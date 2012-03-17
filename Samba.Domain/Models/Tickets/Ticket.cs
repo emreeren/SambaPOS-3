@@ -13,19 +13,18 @@ namespace Samba.Domain.Models.Tickets
     public class Ticket : Entity, ICacheable
     {
         public Ticket()
-            : this(0, "")
+            : this(0)
         {
 
         }
 
-        public Ticket(int ticketId, string locationName)
+        public Ticket(int ticketId)
         {
             Id = ticketId;
             Date = DateTime.Now;
             LastPaymentDate = DateTime.Now;
             LastOrderDate = DateTime.Now;
             LastUpdateTime = DateTime.Now;
-            LocationName = locationName;
             PrintJobData = "";
 
             _orders = new List<Order>();
@@ -67,7 +66,6 @@ namespace Samba.Domain.Models.Tickets
         public DateTime Date { get; set; }
         public DateTime LastOrderDate { get; set; }
         public DateTime LastPaymentDate { get; set; }
-        public string LocationName { get; set; }
         public bool IsPaid { get; set; }
         public decimal RemainingAmount { get; set; }
 
@@ -407,6 +405,7 @@ namespace Samba.Domain.Models.Tickets
             ticket.AccountTemplateId = department.TicketTemplate.SaleTransactionTemplate.TargetAccountTemplateId;
             ticket.AccountTransactions = new AccountTransactionDocument();
             ticket.UpdateAccount(account);
+            ticket.TargetAccountTemplateId = department.TicketTemplate.TargetAccountTemplateId;
             return ticket;
         }
 
@@ -493,6 +492,14 @@ namespace Samba.Domain.Models.Tickets
             AccountId = account.Id;
             AccountTemplateId = account.AccountTemplateId;
             AccountName = account.Name;
+        }
+
+
+        public void UpdateTargetAccount(Account account)
+        {
+            TargetAccountId = account.Id;
+            TargetAccountTemplateId = account.AccountTemplateId;
+            TargetAccountName = account.Name;
         }
 
         public void Recalculate(decimal autoRoundValue, int userId)

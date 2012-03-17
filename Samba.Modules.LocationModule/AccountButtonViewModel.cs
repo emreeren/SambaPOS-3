@@ -17,19 +17,23 @@ namespace Samba.Modules.LocationModule
         private readonly ICommand _actionCommand;
 
         public AccountButtonViewModel(AccountScreenItem model, AccountScreen screen)
-            : this(model, screen, null, false, true)
+            : this(model, screen, null, false, true, null)
         {
 
         }
 
-        public AccountButtonViewModel(AccountScreenItem model, AccountScreen screen, ICommand actionCommand, bool isTicketSelected, bool userPermittedToMerge)
+        public AccountButtonViewModel(AccountScreenItem model, AccountScreen screen,
+            ICommand actionCommand, bool isTicketSelected, bool userPermittedToMerge, AccountState state)
         {
             _actionCommand = actionCommand;
             _screen = screen;
             _isTicketSelected = isTicketSelected;
             _userPermittedToMerge = userPermittedToMerge;
+            AccountState = state;
             Model = model;
         }
+
+        public AccountState AccountState { get; set; }
 
         private readonly AccountScreen _screen;
         private AccountScreenItem _model;
@@ -73,7 +77,6 @@ namespace Samba.Modules.LocationModule
         }
 
         private bool _isEnabled;
-
         [Browsable(false)]
         public bool IsEnabled
         {
@@ -148,12 +151,12 @@ namespace Samba.Modules.LocationModule
         public void UpdateButtonColor()
         {
             IsEnabled = true;
-            if (_isTicketSelected && Model.IsTicketLocked) IsEnabled = false;
-            if (_isTicketSelected && Model.TicketId > 0 && !_userPermittedToMerge) IsEnabled = false;
+            if (_isTicketSelected && !_userPermittedToMerge) IsEnabled = false;
+            ButtonColor = AccountState != null ? AccountState.Color : "Silver";
 
-            ButtonColor = Model.TicketId == 0
-                ? _screen.LocationEmptyColor
-                : (Model.IsTicketLocked ? _screen.LocationLockedColor : _screen.LocationFullColor);
+            //ButtonColor = Model.TicketId == 0
+            //    ? _screen.LocationEmptyColor
+            //    : (Model.IsTicketLocked ? _screen.LocationLockedColor : _screen.LocationFullColor);
         }
     }
 }

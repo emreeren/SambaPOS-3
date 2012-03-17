@@ -15,8 +15,8 @@ namespace Samba.Services
         public DateTime Date { get; set; }
         public DateTime LastOrderDate { get; set; }
         public string TicketNumber { get; set; }
-        public string LocationName { get; set; }
         public string AccountName { get; set; }
+        public string TargetAccountName { get; set; }
         public decimal RemainingAmount { get; set; }
     }
 
@@ -30,9 +30,9 @@ namespace Samba.Services
         public Ticket Model { get; set; }
         public int Id { get { return Model.Id; } }
         public string TicketNumber { get { return Model.TicketNumber; } }
-        public string Location { get { return Model.LocationName; } }
         public string Date { get { return Model.Date.ToShortDateString(); } }
         public string AccountName { get { return Model.AccountName; } }
+        public string TargetAccountName { get { return Model.TargetAccountName; } }
         public string CreationTime { get { return Model.Date.ToShortTimeString(); } }
         public string LastPaymentTime { get { return Model.LastPaymentDate.ToShortTimeString(); } }
         public decimal Sum { get { return Model.TotalAmount; } }
@@ -60,26 +60,27 @@ namespace Samba.Services
         public int TicketId { get; set; }
         public string ErrorMessage { get; set; }
     }
-   
+
     public interface ITicketService : IService
     {
         Ticket OpenTicket(int ticketId);
         TicketCommitResult CloseTicket(Ticket ticket);
         TicketCommitResult MoveOrders(Ticket ticket, IEnumerable<Order> selectedOrders, int targetTicketId);
 
-        void ChangeTicketLocation(Ticket ticket, int locationId);
         void AddPayment(Ticket ticket, PaymentTemplate template, decimal tenderedAmount);
         void PaySelectedTicket(Ticket ticket, PaymentTemplate template);
         void UpdateTicketNumber(Ticket ticket, Numerator numerator);
         void UpdateAccount(Ticket ticket, Account account);
+        void UpdateTargetAccount(Ticket ticket, Account account);
         void RecalculateTicket(Ticket ticket);
         void RegenerateTaxRates(Ticket ticket);
         void UpdateTag(Ticket ticket, TicketTagGroup tagGroup, TicketTag ticketTag);
-        void ResetLocationData(Ticket ticket);
         IEnumerable<Order> ExtractSelectedOrders(Ticket model, IEnumerable<Order> selectedOrders);
         int GetOpenTicketCount();
         IEnumerable<OpenTicketData> GetOpenTickets(Expression<Func<Ticket, bool>> prediction);
+        IEnumerable<int> GetOpenTickets(int accountId);
         IList<TicketExplorerRowData> GetFilteredTickets(DateTime startDate, DateTime endDate, IList<ITicketExplorerFilter> filters);
         IList<ITicketExplorerFilter> CreateTicketExplorerFilters();
+
     }
 }

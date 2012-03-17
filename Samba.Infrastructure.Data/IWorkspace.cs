@@ -13,7 +13,8 @@ namespace Samba.Infrastructure.Data
         void DeleteAll<T>() where T : class;
         T Single<T>(Expression<Func<T, bool>> expression) where T : class;
         T Single<T>(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes) where T : class;
-        T Last<T>() where T : class, IEntity;
+        T Last<T>() where T : class, IValue;
+        T Last<T>(Expression<Func<T, bool>> expression) where T : class, IValue;
         IEnumerable<T> All<T>() where T : class;
         IEnumerable<T> All<T>(params Expression<Func<T, object>>[] includes) where T : class;
         IEnumerable<T> All<T>(Expression<Func<T, bool>> expression) where T : class;

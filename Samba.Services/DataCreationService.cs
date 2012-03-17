@@ -71,7 +71,7 @@ namespace Samba.Services
             var discountTransactionTemplate = new AccountTransactionTemplate
             {
                 Name = "Discount Transaction",
-                SourceAccountTemplateId = customerAccountTemplate.Id,
+                SourceAccountTemplateId = tableAccountTemplate.Id,
                 TargetAccountTemplateId = discountAccountTemplate.Id,
                 //DefaultSourceAccountId = defaultCustomerAccount.Id,
                 DefaultTargetAccountId = defaultDiscountAccount.Id
@@ -80,7 +80,7 @@ namespace Samba.Services
             var roundingTransactionTemplate = new AccountTransactionTemplate
             {
                 Name = "Rounding Transaction",
-                SourceAccountTemplateId = customerAccountTemplate.Id,
+                SourceAccountTemplateId = tableAccountTemplate.Id,
                 TargetAccountTemplateId = discountAccountTemplate.Id,
                 //DefaultSourceAccountId = defaultCustomerAccount.Id,
                 DefaultTargetAccountId = defaultRoundingAccount.Id
@@ -90,7 +90,7 @@ namespace Samba.Services
             {
                 Name = "Sale Transaction",
                 SourceAccountTemplateId = saleAccountTemplate.Id,
-                TargetAccountTemplateId = customerAccountTemplate.Id,
+                TargetAccountTemplateId = tableAccountTemplate.Id,
                 DefaultSourceAccountId = defaultSaleAccount.Id,
                 //DefaultTargetAccountId = defaultCustomerAccount.Id
             };
@@ -98,7 +98,7 @@ namespace Samba.Services
             var paymentTransactionTemplate = new AccountTransactionTemplate
             {
                 Name = "Payment Transaction",
-                SourceAccountTemplateId = customerAccountTemplate.Id,
+                SourceAccountTemplateId = tableAccountTemplate.Id,
                 TargetAccountTemplateId = paymentAccountTemplate.Id,
                 //DefaultSourceAccountId = defaultCustomerAccount.Id,
                 DefaultTargetAccountId = cashAccount.Id
@@ -147,7 +147,8 @@ namespace Samba.Services
                                          Name = Resources.TicketTemplate,
                                          TicketNumerator = ticketNumerator,
                                          OrderNumerator = orderNumerator,
-                                         SaleTransactionTemplate = saleTransactionTemplate
+                                         SaleTransactionTemplate = saleTransactionTemplate,
+                                         TargetAccountTemplateId = customerAccountTemplate.Id
                                      };
 
             ticketTemplate.CalulationTemplates.Add(discountService);
@@ -290,7 +291,9 @@ namespace Samba.Services
 
             _workspace.Add(orderTagTemplate);
 
-            var action = new AppAction { ActionType = "RemoveOrderTag", Name = Resources.RemoveGiftTag, Parameter = string.Format("[{{\"Key\":\"OrderTagName\",\"Value\":\"{0}\"}}]", Resources.Gift) };
+            const string parameterFormat = "[{{\"Key\":\"{0}\",\"Value\":\"{1}\"}}]";
+
+            var action = new AppAction { ActionType = "RemoveOrderTag", Name = Resources.RemoveGiftTag, Parameter = string.Format(parameterFormat, "OrderTagName", Resources.Gift) };
             _workspace.Add(action);
             _workspace.CommitChanges();
 
@@ -305,6 +308,28 @@ namespace Samba.Services
             rule.Actions.Add(actionContainer);
 
             _workspace.Add(rule);
+
+            var newOrderState = new AccountState { Name = "New Orders", AccountTemplateId = tableAccountTemplate.Id, Color = "Orange" };
+            _workspace.Add(newOrderState);
+
+            var availableState = new AccountState { Name = "Available", AccountTemplateId = tableAccountTemplate.Id, Color = "White" };
+            _workspace.Add(availableState);
+
+            var newOrderAction = new AppAction { ActionType = "UpdateAccountState", Name = "Update New Order State", Parameter = string.Format(parameterFormat, "AccountState", "New Orders") };
+            _workspace.Add(newOrderAction);
+            var availableAction = new AppAction { ActionType = "UpdateAccountState", Name = "Update Available State", Parameter = string.Format(parameterFormat, "AccountState", "Available") };
+            _workspace.Add(availableAction);
+            _workspace.CommitChanges();
+
+            var newOrderRule = new AppRule { Name = "Update New Order Table Color", EventName = "OrdersCreated" };
+            var ac1 = new ActionContainer(newOrderAction) { ParameterValues = "" };
+            newOrderRule.Actions.Add(ac1);
+            _workspace.Add(newOrderRule);
+
+            var availableRule = new AppRule { Name = "Update Available Table Color", EventName = "TicketClosed", EventConstraints = "RemainingAmount;=;0" };
+            var ac2 = new ActionContainer(availableAction) { ParameterValues = "" };
+            availableRule.Actions.Add(ac2);
+            _workspace.Add(availableRule);
 
             ImportMenus(screen);
             ImportLocations(department, tableAccountTemplate);

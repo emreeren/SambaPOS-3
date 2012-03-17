@@ -10,7 +10,7 @@ namespace Samba.Services
         OpenTickets,
         AllTickets,
         Account,
-        Location
+        Target
     }
 
     public interface ITicketExplorerFilter

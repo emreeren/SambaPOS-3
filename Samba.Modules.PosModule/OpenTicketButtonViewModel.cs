@@ -13,7 +13,7 @@ namespace Samba.Modules.PosModule
             Id = openTicketData.Id;
             LastOrderDate = openTicketData.LastOrderDate;
             TicketNumber = openTicketData.TicketNumber;
-            LocationName = openTicketData.LocationName;
+            TargetAccountName = openTicketData.TargetAccountName;
             AccountName = openTicketData.AccountName;
             RemainingAmount = openTicketData.RemainingAmount;
             Date = openTicketData.Date;
@@ -21,7 +21,7 @@ namespace Samba.Modules.PosModule
         }
 
         public int Id { get; set; }
-        public string LocationName { get; set; }
+        public string TargetAccountName { get; set; }
         public string AccountName { get; set; }
         public decimal RemainingAmount { get; set; }
         public string TicketNumber { get; set; }
@@ -43,7 +43,7 @@ namespace Samba.Modules.PosModule
         {
             get
             {
-                var result = !string.IsNullOrEmpty(LocationName) ? LocationName : TicketNumber;
+                var result = !string.IsNullOrEmpty(TargetAccountName) ? TargetAccountName : TicketNumber;
                 result = result + " ";
                 result = WrapText ? result.Replace(" ", "\r") : result;
                 if (!string.IsNullOrEmpty(AccountName)) result += AccountName;
@@ -51,7 +51,7 @@ namespace Samba.Modules.PosModule
             }
         }
 
-        public string TitleTextColor { get { return !string.IsNullOrEmpty(LocationName) || !string.IsNullOrEmpty(AccountName) ? "DarkBlue" : "Maroon"; } }
+        public string TitleTextColor { get { return !string.IsNullOrEmpty(TargetAccountName) || !string.IsNullOrEmpty(AccountName) ? "DarkBlue" : "Maroon"; } }
 
         public string Total
         {

@@ -76,7 +76,9 @@ namespace Samba.Persistance.Data
         public DbSet<AccountTransactionTemplate> AccountTransactionTemplates { get; set; }
         public DbSet<AccountTransactionDocument> AccountTransactionDocuments { get; set; }
         public DbSet<AccountTransactionDocumentTemplate> AccountTransactionDocumentTemplates { get; set; }
-        
+        public DbSet<AccountState> AccountStateTemplates { get; set; }
+        public DbSet<AccountStateValue> AccountStates { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Account>().Property(x => x.CustomData).IsMaxLength();
@@ -88,7 +90,7 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<Department>().HasMany(p => p.LocationScreens).WithMany();
             modelBuilder.Entity<AccountScreen>().HasMany(p => p.ScreenItems).WithMany();
             modelBuilder.Entity<Terminal>().HasMany(p => p.PrintJobs).WithMany();
-            
+
             modelBuilder.Entity<AccountTransaction>().HasKey(p => new { p.Id, p.AccountTransactionDocumentId });
             modelBuilder.Entity<AccountTransaction>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<AccountTransactionDocument>().HasMany(p => p.AccountTransactions).WithRequired().HasForeignKey(x => x.AccountTransactionDocumentId);

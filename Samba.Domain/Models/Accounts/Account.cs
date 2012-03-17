@@ -11,7 +11,7 @@ namespace Samba.Domain.Models.Accounts
         public string SearchString { get; set; }
         public DateTime AccountOpeningDate { get; set; }
         public string CustomData { get; set; }
-
+        
         private static Account _null;
         public static Account Null { get { return _null ?? (_null = new Account { Name = "*" }); } }
 

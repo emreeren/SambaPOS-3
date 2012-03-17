@@ -88,9 +88,14 @@ namespace Samba.Infrastructure.Data.Text
             return _storage.GetItems(expression).FirstOrDefault();
         }
 
-        public T Last<T>() where T : class,IEntity
+        public T Last<T>() where T : class,IValue
         {
             return _storage.GetItems<T>().LastOrDefault();
+        }
+
+        public T Last<T>(Expression<Func<T, bool>> expression) where T : class, IValue
+        {
+            return _storage.GetItems<T>().AsQueryable().Where(expression).LastOrDefault();
         }
 
         public IEnumerable<T> All<T>() where T : class

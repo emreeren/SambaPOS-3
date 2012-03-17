@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Data;
@@ -39,6 +40,7 @@ namespace Samba.Domain.Models.Tickets
         }
 
         public virtual AccountTransactionTemplate SaleTransactionTemplate { get; set; }
+        public int TargetAccountTemplateId { get; set; }
 
         public TicketTemplate()
         {
