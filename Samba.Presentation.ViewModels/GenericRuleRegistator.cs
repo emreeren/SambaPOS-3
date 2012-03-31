@@ -7,6 +7,7 @@ using System.Windows.Media;
 using Microsoft.Practices.ServiceLocation;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
+using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
@@ -99,7 +100,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterParameterSoruce("CalculationTemplate", () => Dao.Distinct<CalculationTemplate>(x => x.Name));
             AutomationService.RegisterParameterSoruce("TagName", () => Dao.Distinct<TicketTagGroup>(x => x.Name));
             AutomationService.RegisterParameterSoruce("OrderTagName", () => Dao.Distinct<OrderTagGroup>(x => x.Name));
-            AutomationService.RegisterParameterSoruce("AccountState", () => Dao.Distinct<AccountState>(x => x.Name));
+            AutomationService.RegisterParameterSoruce("AccountState", () => Dao.Distinct<ResourceState>(x => x.Name));
         }
 
         private static void ResetCache()
@@ -120,7 +121,7 @@ namespace Samba.Presentation.ViewModels
                     if (accountId > 0)
                     {
                         var stateName = x.Value.GetAsString("AccountState");
-                        var state = CacheService.GetAccountStateByName(stateName);
+                        var state = CacheService.GetResourceStateByName(stateName);
                         if (state != null)
                         {
                             AccountService.UpdateAccountState(accountId, state.Id);
@@ -133,7 +134,7 @@ namespace Samba.Presentation.ViewModels
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
                     if (ticket != null)
                     {
-                        Expression<Func<Account, bool>> qFilter = null;
+                        Expression<Func<Resource, bool>> qFilter = null;
 
                         var phoneNumber = x.Value.GetAsString("AccountPhone");
                         var accountName = x.Value.GetAsString("AccountName");
@@ -154,9 +155,9 @@ namespace Samba.Presentation.ViewModels
                         {
                             var account = Dao.Query(qFilter).FirstOrDefault();
                             if (account != null)
-                                TicketService.UpdateAccount(ticket, account);
+                                TicketService.UpdateResource(ticket, account);
                         }
-                        else TicketService.UpdateAccount(ticket, Account.Null);
+                        else TicketService.UpdateResource(ticket, Resource.Null);
                     }
                 }
 

@@ -3,6 +3,7 @@ using System.Linq;
 using Axcidv5callerid;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Resources;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common;
@@ -36,18 +37,18 @@ namespace Samba.Modules.CidMonitor
             pn = pn.TrimStart('9');
             pn = pn.TrimStart('0');
 
-            var c = Dao.Query<Account>(x => x.SearchString == pn);
+            var c = Dao.Query<Resource>(x => x.SearchString == pn);
             if (c.Count() == 0)
-                c = Dao.Query<Account>(x => x.SearchString.Contains(pn));
+                c = Dao.Query<Resource>(x => x.SearchString.Contains(pn));
             if (c.Count() == 1)
             {
                 var account = c.First();
                 InteractionService.UserIntraction.DisplayPopup(account.Name, account.Name + " " + Resources.Calling + ".\r" + account.SearchString + "\r" ,
-                                                            account.SearchString, EventTopicNames.SelectAccount);
+                                                            account.SearchString, EventTopicNames.SelectResource);
             }
             else
                 InteractionService.UserIntraction.DisplayPopup(e.phoneNumber, e.phoneNumber + " " + Resources.Calling + "...",
-                                                               e.phoneNumber, EventTopicNames.SelectAccount);
+                                                               e.phoneNumber, EventTopicNames.SelectResource);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Samba.Services
         public static string RoundPayment = "RoundPayment";
         public static string FixPayment = "FixPayment";
         public static string ChangeLocation = "ChangeLocation";
-        public static string NavigateAccountView = "NavigateAccountView";
+        public static string NavigateResourceView = "NavigateResourceView";
         public static string ChangeItemPrice = "ChangeItemPrice";
         public static string RemoveTicketTag = "RemoveTicketTag";
         public static string MergeTickets = "MergeTickets";

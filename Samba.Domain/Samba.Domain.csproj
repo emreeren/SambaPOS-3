@@ -68,10 +68,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Accounts\AccountCustomField.cs" />
-    <Compile Include="Models\Accounts\AccountStateValue.cs" />
-    <Compile Include="Models\Accounts\AccountState.cs" />
+    <Compile Include="Models\Accounts\Account.cs" />
     <Compile Include="Models\Accounts\AccountTemplate.cs" />
+    <Compile Include="Models\Resources\ResourceCustomField.cs" />
+    <Compile Include="Models\Resources\ResourceStateValue.cs" />
+    <Compile Include="Models\Resources\ResourceState.cs" />
+    <Compile Include="Models\Resources\ResourceTemplate.cs" />
     <Compile Include="Models\Accounts\AccountTransaction.cs" />
     <Compile Include="Models\Accounts\AccountTransactionDocument.cs" />
     <Compile Include="Models\Accounts\AccountTransactionValue.cs" />
@@ -88,6 +90,7 @@
     <Compile Include="Models\Menus\TaxTemplate.cs" />
     <Compile Include="Models\Tickets\Payment.cs" />
     <Compile Include="Models\Tickets\PaymentTemplate.cs" />
+    <Compile Include="Models\Tickets\TicketResource.cs" />
     <Compile Include="Models\Tickets\TicketTagValue.cs" />
     <Compile Include="Models\Tickets\TicketTemplate.cs" />
     <Compile Include="Models\Inventories\CostItem.cs" />
@@ -105,7 +108,7 @@
     <Compile Include="Models\Tickets\TicketTag.cs" />
     <Compile Include="Models\Tickets\TicketTagGroup.cs" />
     <Compile Include="TransactionType.cs" />
-    <Compile Include="Models\Accounts\Account.cs" />
+    <Compile Include="Models\Resources\Resource.cs" />
     <Compile Include="Models\Tickets\Department.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -127,9 +130,9 @@
     <Compile Include="Models\Tickets\OrderTag.cs" />
     <Compile Include="Models\Tickets\OrderTagGroup.cs" />
     <Compile Include="Models\Menus\ScreenMenuItem.cs" />
-    <Compile Include="Models\Accounts\AccountScreenItem.cs" />
+    <Compile Include="Models\Resources\ResourceScreenItem.cs" />
     <Compile Include="Models\Settings\Terminal.cs" />
-    <Compile Include="Models\Accounts\AccountScreen.cs" />
+    <Compile Include="Models\Resources\ResourceScreen.cs" />
     <Compile Include="Models\Tickets\Ticket.cs">
       <SubType>Code</SubType>
     </Compile>

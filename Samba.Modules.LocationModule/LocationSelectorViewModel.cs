@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using Microsoft.Practices.Prism.Commands;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Resources;
 using Samba.Infrastructure;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
@@ -18,7 +19,7 @@ namespace Samba.Modules.LocationModule
     public class LocationSelectorViewModel : ObservableObject
     {
         public DelegateCommand<AccountButtonViewModel> LocationSelectionCommand { get; set; }
-        public DelegateCommand<AccountScreen> SelectLocationCategoryCommand { get; set; }
+        public DelegateCommand<ResourceScreen> SelectLocationCategoryCommand { get; set; }
         public ICaptionCommand CloseScreenCommand { get; set; }
         public ICaptionCommand EditSelectedLocationScreenPropertiesCommand { get; set; }
         public ICaptionCommand IncPageNumberCommand { get; set; }
@@ -26,8 +27,8 @@ namespace Samba.Modules.LocationModule
 
         public ObservableCollection<IDiagram> Locations { get; set; }
 
-        public AccountScreen SelectedLocationScreen { get { return _applicationState.SelectedLocationScreen; } }
-        public IEnumerable<AccountScreen> LocationScreens { get { return _applicationState.CurrentDepartment != null ? _applicationState.CurrentDepartment.LocationScreens : null; } }
+        public ResourceScreen SelectedLocationScreen { get { return _applicationState.SelectedLocationScreen; } }
+        public IEnumerable<ResourceScreen> LocationScreens { get { return _applicationState.CurrentDepartment != null ? _applicationState.CurrentDepartment.LocationScreens : null; } }
 
         public bool CanDesignLocations { get { return _applicationState.CurrentLoggedInUser.UserRole.IsAdmin; } }
         public int CurrentPageNo { get; set; }
@@ -71,7 +72,7 @@ namespace Samba.Modules.LocationModule
         private readonly IUserService _userService;
         private readonly IApplicationStateSetter _applicationStateSetter;
         private readonly ICacheService _cacheService;
-        private EntityOperationRequest<AccountScreenItem> _currentOperationRequest;
+        private EntityOperationRequest<ResourceScreenItem> _currentOperationRequest;
 
         [ImportingConstructor]
         public LocationSelectorViewModel(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
@@ -82,7 +83,7 @@ namespace Samba.Modules.LocationModule
             _locationService = locationService;
             _userService = userService;
             _cacheService = cacheService;
-            SelectLocationCategoryCommand = new DelegateCommand<AccountScreen>(OnSelectLocationCategoryExecuted);
+            SelectLocationCategoryCommand = new DelegateCommand<ResourceScreen>(OnSelectLocationCategoryExecuted);
             LocationSelectionCommand = new DelegateCommand<AccountButtonViewModel>(OnSelectLocationExecuted);
             CloseScreenCommand = new CaptionCommand<string>(Resources.Close, OnCloseScreenExecuted);
             EditSelectedLocationScreenPropertiesCommand = new CaptionCommand<string>(Resources.Properties, OnEditSelectedLocationScreenProperties, CanEditSelectedLocationScreenProperties);
@@ -100,7 +101,7 @@ namespace Samba.Modules.LocationModule
                     }
                 });
 
-            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<AccountScreenItem>>>().Subscribe(
+            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<ResourceScreenItem>>>().Subscribe(
                 x =>
                 {
                     if (x.Topic == EventTopicNames.SelectLocation)
@@ -157,7 +158,7 @@ namespace Samba.Modules.LocationModule
             _applicationState.CurrentDepartment.PublishEvent(EventTopicNames.ActivateOpenTickets);
         }
 
-        private void OnSelectLocationCategoryExecuted(AccountScreen obj)
+        private void OnSelectLocationCategoryExecuted(ResourceScreen obj)
         {
             UpdateLocations(obj);
         }
@@ -176,7 +177,7 @@ namespace Samba.Modules.LocationModule
             _currentOperationRequest.Publish(obj.Model);
         }
 
-        private void UpdateLocations(AccountScreen locationScreen)
+        private void UpdateLocations(ResourceScreen locationScreen)
         {
             Feedback = "";
             var locationData = _locationService.GetCurrentLocations(locationScreen, CurrentPageNo).OrderBy(x => x.Order).ToList();
@@ -191,16 +192,16 @@ namespace Samba.Modules.LocationModule
                         SelectedLocationScreen,
                         LocationSelectionCommand,
                         _currentOperationRequest.SelectedEntity != null,
-                        _userService.IsUserPermittedFor(PermissionNames.MergeTickets), _cacheService.GetAccountStateById(x.AccountStateId))));
+                        _userService.IsUserPermittedFor(PermissionNames.MergeTickets), _cacheService.GetResourceStateById(x.ResourceStateId))));
             }
             else
             {
                 for (var i = 0; i < locationData.Count(); i++)
                 {
                     var acs = ((AccountButtonViewModel)Locations[i]).AccountState;
-                    if (acs == null || acs.Id != locationData.ElementAt(i).AccountStateId)
+                    if (acs == null || acs.Id != locationData.ElementAt(i).ResourceStateId)
                         ((AccountButtonViewModel)Locations[i]).AccountState =
-                            _cacheService.GetAccountStateById(locationData.ElementAt(i).AccountStateId);
+                            _cacheService.GetResourceStateById(locationData.ElementAt(i).ResourceStateId);
 
                     ((AccountButtonViewModel)Locations[i]).Model = locationData.ElementAt(i);
                 }
@@ -230,7 +231,7 @@ namespace Samba.Modules.LocationModule
         {
             Locations = new ObservableCollection<IDiagram>(
                 _locationService.LoadLocations(SelectedLocationScreen.Name)
-                .Select<AccountScreenItem, IDiagram>(x => new AccountButtonViewModel(x, SelectedLocationScreen)));
+                .Select<ResourceScreenItem, IDiagram>(x => new AccountButtonViewModel(x, SelectedLocationScreen)));
             RaisePropertyChanged(() => Locations);
         }
 

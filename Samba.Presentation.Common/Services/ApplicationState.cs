@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
@@ -29,7 +30,7 @@ namespace Samba.Presentation.Common.Services
 
         public AppScreens ActiveAppScreen { get; private set; }
         public Department CurrentDepartment { get; private set; }
-        public AccountScreen SelectedLocationScreen { get; private set; }
+        public ResourceScreen SelectedLocationScreen { get; private set; }
 
         private Terminal _terminal;
 
@@ -96,7 +97,7 @@ namespace Samba.Presentation.Common.Services
             ActiveAppScreen = appScreen;
         }
 
-        public void SetSelectedLocationScreen(AccountScreen locationScreen)
+        public void SetSelectedLocationScreen(ResourceScreen locationScreen)
         {
             SelectedLocationScreen = locationScreen;
         }

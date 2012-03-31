@@ -270,9 +270,6 @@ Transaction</value>
     <value>Receiveable</value>
     <comment>GridViewColumn.Header</comment>
   </data>
-  <data name="AccountList" xml:space="preserve">
-    <value>Account List</value>
-  </data>
   <data name="NewAccount" xml:space="preserve">
     <value>New Account</value>
   </data>
@@ -2887,9 +2884,6 @@ Continue without adding details?</value>
   <data name="AccountTemplate" xml:space="preserve">
     <value>Account Template</value>
   </data>
-  <data name="AccountTemplateList" xml:space="preserve">
-    <value>Account Template List</value>
-  </data>
   <data name="DeleteErrorAccountTemplateAssignedtoAccounts" xml:space="preserve">
     <value>Can't delete because this template assigned to accounts</value>
   </data>
@@ -3051,19 +3045,28 @@ Continue without adding details?</value>
 	<data name="Change_f">
 		<value xml:space="preserve">Change {0}</value>
 	</data>
-	<data name="AccountScreen">
-		<value xml:space="preserve">Account Screen</value>
-	</data>
+  <data name="Resource">
+    <value xml:space="preserve">Resource</value>
+  </data>
+  <data name="ResourceTemplate">
+    <value xml:space="preserve">Resource Template</value>
+  </data>
+  <data name="ResourceScreen">
+    <value xml:space="preserve">Resource Screen</value>
+  </data>
 	<data name="ScreenItem">
 		<value xml:space="preserve">Screen Item</value>
 	</data>
-	<data name="AccountScreenItem">
-		<value xml:space="preserve">Account Screen Item</value>
+	<data name="ResourceScreenItem">
+		<value xml:space="preserve">Resource Screen Item</value>
 	</data>
-	<data name="AccountState">
-		<value xml:space="preserve">Account State</value>
+	<data name="ResourceState">
+		<value xml:space="preserve">Resource State</value>
 	</data>
 	<data name="Name">
 		<value xml:space="preserve">Name</value>
+	</data>
+	<data name="Resourceses">
+		<value xml:space="preserve">Resources</value>
 	</data>
 </root>

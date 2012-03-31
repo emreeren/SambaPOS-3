@@ -2,6 +2,7 @@
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Regions;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Resources;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Services;
@@ -37,7 +38,7 @@ namespace Samba.Modules.PosModule
             _applicationState = applicationState;
             _ticketListView = ticketListView;
 
-            EventServiceFactory.EventService.GetEvent<GenericEvent<Account>>().Subscribe(
+            EventServiceFactory.EventService.GetEvent<GenericEvent<Resource>>().Subscribe(
                 x =>
                 {
                     if (x.Topic == EventTopicNames.PaymentRequestedForTicket) Activate();

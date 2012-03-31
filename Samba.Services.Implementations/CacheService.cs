@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
+using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Tickets;
 using Samba.Persistance.Data;
 using Samba.Services.Common;
@@ -69,26 +70,37 @@ namespace Samba.Services.Implementations
             return Dao.SingleWithCache<AccountTransactionTemplate>(x => x.Id == id);
         }
 
-        private IEnumerable<Account> _accounts;
-        public IEnumerable<Account> Accounts
+        private IEnumerable<Resource> _accounts;
+        public IEnumerable<Resource> Accounts
         {
-            get { return _accounts ?? (_accounts = Dao.Query<Account>()); }
+            get { return _accounts ?? (_accounts = Dao.Query<Resource>()); }
         }
 
-        public IEnumerable<Account> GetAccountsByTemplateId(int templateId)
+        public IEnumerable<Resource> GetResourcesByTemplateId(int templateId)
         {
-            return Accounts.Where(x => x.AccountTemplateId == templateId);
+            return Accounts.Where(x => x.ResourceTemplateId == templateId);
+        }
+
+        private IEnumerable<ResourceTemplate> _resourceTemplates;
+        public IEnumerable<ResourceTemplate> ResourceTemplates
+        {
+            get { return _resourceTemplates ?? (_resourceTemplates = Dao.Query<ResourceTemplate>(x => x.ResoruceCustomFields)); }
         }
 
         private IEnumerable<AccountTemplate> _accountTemplates;
         public IEnumerable<AccountTemplate> AccountTemplates
         {
-            get { return _accountTemplates ?? (_accountTemplates = Dao.Query<AccountTemplate>(x => x.AccountCustomFields)); }
+            get { return _accountTemplates ?? (_accountTemplates = Dao.Query<AccountTemplate>()); }
         }
 
-        public IEnumerable<AccountTemplate> GetAccountTemplates()
+        public IEnumerable<ResourceTemplate> GetResourceTemplates()
         {
-            return AccountTemplates;
+            return ResourceTemplates;
+        }
+
+        public ResourceTemplate GetResourceTemplateById(int resourceTemplateId)
+        {
+            return ResourceTemplates.Single(x => x.Id == resourceTemplateId);
         }
 
         public AccountTemplate GetAccountTemplateById(int accountTemplateId)
@@ -101,6 +113,11 @@ namespace Samba.Services.Implementations
             return Dao.SingleWithCache<Account>(x => x.Id == accountId);
         }
 
+        public Resource GetResourceById(int accountId)
+        {
+            return Dao.SingleWithCache<Resource>(x => x.Id == accountId);
+        }
+
         private IEnumerable<AccountTransactionDocumentTemplate> _documentTemplates;
         public IEnumerable<AccountTransactionDocumentTemplate> DocumentTemplates { get { return _documentTemplates ?? (_documentTemplates = Dao.Query<AccountTransactionDocumentTemplate>(x => x.TransactionTemplates)); } }
 
@@ -109,18 +126,18 @@ namespace Samba.Services.Implementations
             return DocumentTemplates.Where(x => x.MasterAccountTemplateId == accountTemplateId);
         }
 
-        private IEnumerable<AccountState> _accountStates;
-        public IEnumerable<AccountState> AccountStates
+        private IEnumerable<ResourceState> _accountStates;
+        public IEnumerable<ResourceState> AccountStates
         {
-            get { return _accountStates ?? (_accountStates = Dao.Query<AccountState>()); }
+            get { return _accountStates ?? (_accountStates = Dao.Query<ResourceState>()); }
         }
 
-        public AccountState GetAccountStateById(int accountStateId)
+        public ResourceState GetResourceStateById(int accountStateId)
         {
             return AccountStates.SingleOrDefault(x => x.Id == accountStateId);
         }
 
-        public AccountState GetAccountStateByName(string stateName)
+        public ResourceState GetResourceStateByName(string stateName)
         {
             return AccountStates.FirstOrDefault(x => x.Name == stateName);
         }
@@ -128,6 +145,7 @@ namespace Samba.Services.Implementations
         public override void Reset()
         {
             _ticketTagGroupNames = null;
+            _resourceTemplates = null;
             _accountTemplates = null;
             _accounts = null;
             _documentTemplates = null;

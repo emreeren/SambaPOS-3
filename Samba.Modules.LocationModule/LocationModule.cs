@@ -2,6 +2,7 @@
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Regions;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
@@ -39,7 +40,7 @@ namespace Samba.Modules.LocationModule
             PermissionRegistry.RegisterPermission(PermissionNames.OpenLocations, PermissionCategories.Navigation, Resources.CanOpenLocationList);
             PermissionRegistry.RegisterPermission(PermissionNames.ChangeLocation, PermissionCategories.Ticket, Resources.CanChangeLocation);
 
-            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<AccountScreenItem>>>().Subscribe(
+            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<ResourceScreenItem>>>().Subscribe(
                 x =>
                 {
                     if (x.Topic == EventTopicNames.SelectLocation)

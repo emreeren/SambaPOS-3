@@ -246,6 +246,10 @@
       <Project>{0FE1BF9D-225A-4D7F-8AB5-102138110999}</Project>
       <Name>Samba.Modules.PrinterModule</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.ResourceModule\Samba.Modules.ResourceModule.csproj">
+      <Project>{666338C4-F765-4CEA-B9C0-A6EBA75C2B41}</Project>
+      <Name>Samba.Modules.ResourceModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samba.Modules.UserModule\Samba.Modules.UserModule.csproj">
       <Project>{1AE61C89-EBFD-498D-9F53-6319B302CDBF}</Project>
       <Name>Samba.Modules.UserModule</Name>

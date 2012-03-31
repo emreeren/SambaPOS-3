@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.Regions;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
@@ -135,11 +136,11 @@ namespace Samba.Modules.PosModule
 
             if (_applicationState.CurrentDepartment.IsAlaCarte && _applicationState.CurrentDepartment.LocationScreens.Count > 0)
             {
-                CommonEventPublisher.PublishEntityOperation<AccountScreenItem>(null, EventTopicNames.SelectLocation, EventTopicNames.LocationSelectedForTicket);
+                CommonEventPublisher.PublishEntityOperation<ResourceScreenItem>(null, EventTopicNames.SelectLocation, EventTopicNames.LocationSelectedForTicket);
             }
             else if (_applicationState.CurrentDepartment.IsTakeAway)
             {
-                _applicationState.CurrentDepartment.PublishEvent(EventTopicNames.SelectAccount);
+                _applicationState.CurrentDepartment.PublishEvent(EventTopicNames.SelectResource);
             }
             else if (_applicationState.CurrentDepartment.IsFastFood)
                 EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);

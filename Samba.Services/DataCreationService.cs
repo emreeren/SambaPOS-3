@@ -7,6 +7,7 @@ using System.Text;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Actions;
 using Samba.Domain.Models.Menus;
+using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
@@ -36,30 +37,34 @@ namespace Samba.Services
 
             if (!ShouldCreateData()) return;
 
-            var saleAccountTemplate = new AccountTemplate { Name = "Sales Accounts", EntityName = "Sale" };
-            var paymentAccountTemplate = new AccountTemplate { Name = "Payment Accounts", EntityName = "Payment" };
-            var customerAccountTemplate = new AccountTemplate { Name = "Customer Accounts", EntityName = "Customer" };
-            var discountAccountTemplate = new AccountTemplate { Name = "Discount Accounts", EntityName = "Discount" };
-            var tableAccountTemplate = new AccountTemplate { Name = "Table Accounts", EntityName = Resources.Table };
+            var saleAccountTemplate = new AccountTemplate { Name = "Sales Accounts" };
+            var receivableAccountTemplate = new AccountTemplate { Name = "Receivable Accounts" };
+            var paymentAccountTemplate = new AccountTemplate { Name = "Payment Accounts" };
+            var discountAccountTemplate = new AccountTemplate { Name = "Discount Accounts" };
 
+            _workspace.Add(receivableAccountTemplate);
             _workspace.Add(saleAccountTemplate);
             _workspace.Add(paymentAccountTemplate);
-            _workspace.Add(customerAccountTemplate);
             _workspace.Add(discountAccountTemplate);
-            _workspace.Add(tableAccountTemplate);
+
+            var customerResourceTemplate = new ResourceTemplate { Name = "Customers", EntityName = "Customer" };
+            var tableResourceTemplate = new ResourceTemplate { Name = "Tables", EntityName = Resources.Table };
+            
+            _workspace.Add(customerResourceTemplate);
+            _workspace.Add(tableResourceTemplate);
 
             _workspace.CommitChanges();
 
             var defaultSaleAccount = new Account { AccountTemplateId = saleAccountTemplate.Id, Name = "Sales" };
+            var defaultReceivableAccount = new Account { AccountTemplateId = receivableAccountTemplate.Id, Name = "Receivalbes" };
             var cashAccount = new Account { AccountTemplateId = paymentAccountTemplate.Id, Name = Resources.Cash };
             var creditCardAccount = new Account { AccountTemplateId = paymentAccountTemplate.Id, Name = Resources.CreditCard };
             var voucherAccount = new Account { AccountTemplateId = paymentAccountTemplate.Id, Name = Resources.Voucher };
-            //var defaultCustomerAccount = new Account { AccountTemplateId = customerAccountTemplate.Id, Name = "Customer" };
             var defaultDiscountAccount = new Account { AccountTemplateId = discountAccountTemplate.Id, Name = "Discount" };
             var defaultRoundingAccount = new Account { AccountTemplateId = discountAccountTemplate.Id, Name = Resources.Rounding };
 
             _workspace.Add(defaultSaleAccount);
-            //_workspace.Add(defaultCustomerAccount);
+            _workspace.Add(defaultReceivableAccount);
             _workspace.Add(defaultDiscountAccount);
             _workspace.Add(defaultRoundingAccount);
             _workspace.Add(cashAccount);
@@ -71,18 +76,18 @@ namespace Samba.Services
             var discountTransactionTemplate = new AccountTransactionTemplate
             {
                 Name = "Discount Transaction",
-                SourceAccountTemplateId = tableAccountTemplate.Id,
+                SourceAccountTemplateId = receivableAccountTemplate.Id,
                 TargetAccountTemplateId = discountAccountTemplate.Id,
-                //DefaultSourceAccountId = defaultCustomerAccount.Id,
+                DefaultSourceAccountId = defaultReceivableAccount.Id,
                 DefaultTargetAccountId = defaultDiscountAccount.Id
             };
 
             var roundingTransactionTemplate = new AccountTransactionTemplate
             {
                 Name = "Rounding Transaction",
-                SourceAccountTemplateId = tableAccountTemplate.Id,
+                SourceAccountTemplateId = receivableAccountTemplate.Id,
                 TargetAccountTemplateId = discountAccountTemplate.Id,
-                //DefaultSourceAccountId = defaultCustomerAccount.Id,
+                DefaultSourceAccountId = defaultReceivableAccount.Id,
                 DefaultTargetAccountId = defaultRoundingAccount.Id
             };
 
@@ -90,17 +95,17 @@ namespace Samba.Services
             {
                 Name = "Sale Transaction",
                 SourceAccountTemplateId = saleAccountTemplate.Id,
-                TargetAccountTemplateId = tableAccountTemplate.Id,
+                TargetAccountTemplateId = receivableAccountTemplate.Id,
                 DefaultSourceAccountId = defaultSaleAccount.Id,
-                //DefaultTargetAccountId = defaultCustomerAccount.Id
+                DefaultTargetAccountId = defaultReceivableAccount.Id
             };
 
             var paymentTransactionTemplate = new AccountTransactionTemplate
             {
                 Name = "Payment Transaction",
-                SourceAccountTemplateId = tableAccountTemplate.Id,
+                SourceAccountTemplateId = receivableAccountTemplate.Id,
                 TargetAccountTemplateId = paymentAccountTemplate.Id,
-                //DefaultSourceAccountId = defaultCustomerAccount.Id,
+                DefaultSourceAccountId = defaultReceivableAccount.Id,
                 DefaultTargetAccountId = cashAccount.Id
             };
 
@@ -148,7 +153,6 @@ namespace Samba.Services
                                          TicketNumerator = ticketNumerator,
                                          OrderNumerator = orderNumerator,
                                          SaleTransactionTemplate = saleTransactionTemplate,
-                                         TargetAccountTemplateId = customerAccountTemplate.Id
                                      };
 
             ticketTemplate.CalulationTemplates.Add(discountService);
@@ -309,10 +313,10 @@ namespace Samba.Services
 
             _workspace.Add(rule);
 
-            var newOrderState = new AccountState { Name = "New Orders", AccountTemplateId = tableAccountTemplate.Id, Color = "Orange" };
+            var newOrderState = new ResourceState { Name = "New Orders", ResourceTempletId = tableResourceTemplate.Id, Color = "Orange" };
             _workspace.Add(newOrderState);
 
-            var availableState = new AccountState { Name = "Available", AccountTemplateId = tableAccountTemplate.Id, Color = "White" };
+            var availableState = new ResourceState { Name = "Available", ResourceTempletId = tableResourceTemplate.Id, Color = "White" };
             _workspace.Add(availableState);
 
             var newOrderAction = new AppAction { ActionType = "UpdateAccountState", Name = "Update New Order State", Parameter = string.Format(parameterFormat, "AccountState", "New Orders") };
@@ -332,9 +336,9 @@ namespace Samba.Services
             _workspace.Add(availableRule);
 
             ImportMenus(screen);
-            ImportLocations(department, tableAccountTemplate);
+            ImportLocations(department, tableResourceTemplate);
 
-            ImportItems(BatchCreateAccounts);
+            ImportItems(BatchCreateResources);
             ImportItems(BatchCreateTransactionTemplates);
             ImportItems(BatchCreateTransactionTemplateDocuments);
 
@@ -354,7 +358,7 @@ namespace Samba.Services
             _workspace.CommitChanges();
         }
 
-        private void ImportLocations(Department department, AccountTemplate tableTemplate)
+        private void ImportLocations(Department department, ResourceTemplate tableTemplate)
         {
             var fileName = string.Format("{0}/Imports/table{1}.txt", LocalSettings.AppPath, "_" + LocalSettings.CurrentLanguage);
 
@@ -369,13 +373,13 @@ namespace Samba.Services
 
             _workspace.CommitChanges();
 
-            var screen = new AccountScreen { Name = Resources.AllLocations, ColumnCount = 8 };
+            var screen = new ResourceScreen { Name = Resources.AllLocations, ColumnCount = 8 };
             _workspace.Add(screen);
 
             foreach (var location in items)
             {
                 screen.AddScreenItem(location);
-                location.Account = new Account { AccountTemplateId = tableTemplate.Id, Name = location.Name };
+                location.Resource = new Resource { ResourceTemplateId = tableTemplate.Id, Name = location.Name };
             }
 
             _workspace.CommitChanges();
@@ -407,9 +411,9 @@ namespace Samba.Services
             }
         }
 
-        public IEnumerable<AccountScreenItem> BatchCreateLocations(string[] values, IWorkspace workspace)
+        public IEnumerable<ResourceScreenItem> BatchCreateLocations(string[] values, IWorkspace workspace)
         {
-            IList<AccountScreenItem> result = new List<AccountScreenItem>();
+            IList<ResourceScreenItem> result = new List<ResourceScreenItem>();
             if (values.Length > 0)
             {
                 var currentCategory = Resources.Common;
@@ -422,10 +426,10 @@ namespace Samba.Services
                     else
                     {
                         var locationName = value;
-                        var count = Dao.Count<AccountScreenItem>(y => y.Name == locationName.Trim());
+                        var count = Dao.Count<ResourceScreenItem>(y => y.Name == locationName.Trim());
                         if (count == 0)
                         {
-                            var location = new AccountScreenItem { Name = value.Trim(), Category = currentCategory };
+                            var location = new ResourceScreenItem { Name = value.Trim(), Category = currentCategory };
                             if (result.Count(x => x.Name.ToLower() == location.Name.ToLower()) == 0)
                             {
                                 result.Add(location);
@@ -470,6 +474,7 @@ namespace Samba.Services
             return result;
         }
 
+
         public IEnumerable<Account> BatchCreateAccounts(string[] values, IWorkspace workspace)
         {
             IList<Account> result = new List<Account>();
@@ -499,7 +504,46 @@ namespace Samba.Services
                         var accountName = item.ToLower().Trim();
                         if (workspace.Single<Account>(x => x.Name.ToLower() == accountName) == null)
                         {
-                            var account = new Account { Name = item, AccountTemplateId = currentTemplate.Id };
+                            var account = new Account() { Name = item, AccountTemplateId = currentTemplate.Id };
+                            result.Add(account);
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
+
+        public IEnumerable<Resource> BatchCreateResources(string[] values, IWorkspace workspace)
+        {
+            IList<Resource> result = new List<Resource>();
+            if (values.Length > 0)
+            {
+                var templates = workspace.All<ResourceTemplate>();
+                ResourceTemplate currentTemplate = null;
+
+                foreach (var item in values)
+                {
+                    if (item.StartsWith("#"))
+                    {
+                        var templateName = item.Trim('#', ' ');
+                        currentTemplate = templates.SingleOrDefault(x => x.Name.ToLower() == templateName.ToLower());
+                        if (currentTemplate == null)
+                        {
+                            using (var w = WorkspaceFactory.Create())
+                            {
+                                currentTemplate = new ResourceTemplate { Name = templateName };
+                                w.Add(currentTemplate);
+                                w.CommitChanges();
+                            }
+                        }
+                    }
+                    else if (currentTemplate != null)
+                    {
+                        var accountName = item.ToLower().Trim();
+                        if (workspace.Single<Resource>(x => x.Name.ToLower() == accountName) == null)
+                        {
+                            var account = new Resource { Name = item, ResourceTemplateId = currentTemplate.Id };
                             result.Add(account);
                         }
                     }

@@ -40,15 +40,21 @@ namespace Samba.Modules.AccountModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Account>>>().Subscribe(OnDisplayAccountTransactions);
         }
 
-        private AccountSearchResultViewModel _selectedAccount;
-        public AccountSearchResultViewModel SelectedAccount
+        public AccountTemplate SelectedAccountTemplate { get; set; }
+
+        private Account _selectedAccount;
+        public Account SelectedAccount
         {
             get { return _selectedAccount; }
             set
             {
                 _selectedAccount = value;
+                if (SelectedAccountTemplate == null || SelectedAccountTemplate.Id != _selectedAccount.AccountTemplateId)
+                {
+                    SelectedAccountTemplate = _cacheService.GetAccountTemplateById(value.AccountTemplateId);
+                }
                 RaisePropertyChanged(() => SelectedAccount);
-                FilterType = FilterTypes[SelectedAccount.AccountTemplate.DefaultFilterType];
+                FilterType = FilterTypes[SelectedAccountTemplate.DefaultFilterType];
                 UpdateTemplates();
             }
         }
@@ -83,8 +89,8 @@ namespace Samba.Modules.AccountModule
             DocumentTemplates.Clear();
             if (SelectedAccount != null)
             {
-                var templates = _cacheService.GetAccountTransactionDocumentTemplates(SelectedAccount.Model.AccountTemplateId);
-                DocumentTemplates.AddRange(templates.Select(x => new DocumentTemplateButtonViewModel(x, SelectedAccount.Model)));
+                var templates = _cacheService.GetAccountTransactionDocumentTemplates(SelectedAccount.AccountTemplateId);
+                DocumentTemplates.AddRange(templates.Select(x => new DocumentTemplateButtonViewModel(x, SelectedAccount)));
             }
         }
 
@@ -144,7 +150,7 @@ namespace Samba.Modules.AccountModule
         {
             if (obj.Topic == EventTopicNames.DisplayAccountTransactions)
             {
-                SelectedAccount = new AccountSearchResultViewModel(obj.Value.SelectedEntity, _cacheService.GetAccountTemplateById(obj.Value.SelectedEntity.AccountTemplateId));
+                SelectedAccount = obj.Value.SelectedEntity;//= new ResourceSearchResultViewModel(obj.Value.SelectedEntity, _cacheService.GetResourceTemplateById(obj.Value.SelectedEntity.AccountTemplateId));
             }
         }
 
@@ -161,27 +167,27 @@ namespace Samba.Modules.AccountModule
         private void OnCloseAccountScreen(string obj)
         {
             AccountDetails.Clear();
-            EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateAccountView);
+            EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateResourceView);
         }
 
         private void OnAddReceivable(string obj)
         {
-            SelectedAccount.Model.PublishEvent(EventTopicNames.AddReceivableAmount);
+            SelectedAccount.PublishEvent(EventTopicNames.AddReceivableAmount);
         }
 
         private void OnAddLiability(string obj)
         {
-            SelectedAccount.Model.PublishEvent(EventTopicNames.AddLiabilityAmount);
+            SelectedAccount.PublishEvent(EventTopicNames.AddLiabilityAmount);
         }
 
         private void OnGetPaymentFromAccountCommand(string obj)
         {
-            SelectedAccount.Model.PublishEvent(EventTopicNames.GetPaymentFromAccount);
+            SelectedAccount.PublishEvent(EventTopicNames.GetPaymentFromAccount);
         }
 
         private void OnMakePaymentToAccountCommand(string obj)
         {
-            SelectedAccount.Model.PublishEvent(EventTopicNames.MakePaymentToAccount);
+            SelectedAccount.PublishEvent(EventTopicNames.MakePaymentToAccount);
         }
 
     }

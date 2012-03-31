@@ -7,13 +7,12 @@ using Samba.Domain.Models.Accounts;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
-using Samba.Presentation.ViewModels;
 using Samba.Services;
 
 namespace Samba.Modules.AccountModule.Dashboard
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class AccountViewModel : EntityViewModelBase<Account>,IEntityCreator<Account>
+    public class AccountViewModel : EntityViewModelBase<Account>, IEntityCreator<Account>
     {
         private IEnumerable<AccountTemplate> _accountTemplates;
         public IEnumerable<AccountTemplate> AccountTemplates
@@ -33,16 +32,8 @@ namespace Samba.Modules.AccountModule.Dashboard
             {
                 Model.AccountTemplateId = value.Id;
                 _accountTemplate = null;
-                _customDataViewModel = null;
-                RaisePropertyChanged(() => CustomDataViewModel);
                 RaisePropertyChanged(() => AccountTemplate);
             }
-        }
-
-        private AccountCustomDataViewModel _customDataViewModel;
-        public AccountCustomDataViewModel CustomDataViewModel
-        {
-            get { return _customDataViewModel ?? (_customDataViewModel = Model != null ? new AccountCustomDataViewModel(Model, AccountTemplate) : null); }
         }
 
         public override Type GetViewType()
@@ -55,21 +46,13 @@ namespace Samba.Modules.AccountModule.Dashboard
             return Resources.Account;
         }
 
-        public string SearchString { get { return Model.SearchString; } set { Model.SearchString = value; } }
-
         protected override AbstractValidator<Account> GetValidator()
         {
             return new AccountValidator();
         }
 
-        protected override void OnSave(string value)
-        {
-            CustomDataViewModel.Update();
-            base.OnSave(value);
-        } 
-
         public IEnumerable<Account> CreateItems(IEnumerable<string> data)
-        { 
+        {
             return new DataCreationService().BatchCreateAccounts(data.ToArray(), Workspace);
         }
     }

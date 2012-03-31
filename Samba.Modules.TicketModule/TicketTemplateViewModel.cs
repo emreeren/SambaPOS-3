@@ -5,6 +5,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using FluentValidation;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
@@ -55,14 +56,6 @@ namespace Samba.Modules.TicketModule
         public IEnumerable<AccountTransactionTemplate> AccountTransactionTemplates { get { return _accountTransactionTemplates ?? (_accountTransactionTemplates = Workspace.All<AccountTransactionTemplate>()); } }
 
         public AccountTransactionTemplate SaleTransactionTemplate { get { return Model.SaleTransactionTemplate; } set { Model.SaleTransactionTemplate = value; } }
-
-        private IEnumerable<AccountTemplate> _accountTemplates;
-        public IEnumerable<AccountTemplate> AccountTemplates
-        {
-            get { return _accountTemplates ?? (_accountTemplates = Workspace.All<AccountTemplate>()); }
-        }
-
-        public int TargetAccountTemplateId { get { return Model.TargetAccountTemplateId; } set { Model.TargetAccountTemplateId = value; } }
 
         private ObservableCollection<TicketTagGroup> _ticketTagGroups;
         public ObservableCollection<TicketTagGroup> TicketTagGroups
@@ -249,7 +242,6 @@ namespace Samba.Modules.TicketModule
             RuleFor(x => x.OrderNumerator).NotNull();
             RuleFor(x => x.SaleTransactionTemplate).NotNull();
             RuleFor(x => x.SaleTransactionTemplate.DefaultSourceAccountId).GreaterThan(0).When(x => x.SaleTransactionTemplate != null);
-            RuleFor(x => x.TargetAccountTemplateId).GreaterThan(0);
             RuleFor(x => x.TicketNumerator).NotEqual(x => x.OrderNumerator).When(x => x.TicketNumerator != null);
         }
     }

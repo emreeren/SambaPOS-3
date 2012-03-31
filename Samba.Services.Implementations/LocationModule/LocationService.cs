@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
@@ -22,16 +23,16 @@ namespace Samba.Services.Implementations.LocationModule
         [ImportingConstructor]
         public LocationService(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter)
         {
-            _locationCount = Dao.Count<AccountScreenItem>();
+            _locationCount = Dao.Count<ResourceScreenItem>();
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
 
-            ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<AccountScreenItem>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.Location)));
+            ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<ResourceScreenItem>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.Location)));
             ValidatorRegistry.RegisterDeleteValidator(new LocationDeleteValidator());
             ValidatorRegistry.RegisterDeleteValidator(new LocationScreenDeleteValidator());
         }
 
-        public void UpdateLocations(AccountScreen locationScreen, int pageNo)
+        public void UpdateLocations(ResourceScreen locationScreen, int pageNo)
         {
             _applicationStateSetter.SetSelectedLocationScreen(locationScreen);
 
@@ -44,24 +45,24 @@ namespace Samba.Services.Implementations.LocationModule
                         .OrderBy(x => x.Order)
                         .Skip(pageNo * locationScreen.ItemCountPerPage)
                         .Take(locationScreen.ItemCountPerPage)
-                        .Select(x => x.Account.Id);
+                        .Select(x => x.Resource.Id);
                 }
-                else set = locationScreen.ScreenItems.OrderBy(x => x.Order).Select(x => x.Account.Id);
+                else set = locationScreen.ScreenItems.OrderBy(x => x.Order).Select(x => x.Resource.Id);
 
                 using (var w = WorkspaceFactory.CreateReadOnly())
                 {
-                    var ids = w.Queryable<AccountStateValue>().Where(x => set.Contains(x.AccountId)).GroupBy(x => x.AccountId).Select(x => x.Max(y => y.Id));
-                    var result = w.Queryable<AccountStateValue>().Where(x => ids.Contains(x.Id)).Select(x => new { x.AccountId, x.StateId });
+                    var ids = w.Queryable<ResourceStateValue>().Where(x => set.Contains(x.ResoruceId)).GroupBy(x => x.ResoruceId).Select(x => x.Max(y => y.Id));
+                    var result = w.Queryable<ResourceStateValue>().Where(x => ids.Contains(x.Id)).Select(x => new { AccountId = x.ResoruceId, x.StateId });
                     result.ToList().ForEach(x =>
                     {
-                        var location = locationScreen.ScreenItems.Single(y => y.Account.Id == x.AccountId);
-                        location.AccountStateId = x.StateId;
+                        var location = locationScreen.ScreenItems.Single(y => y.Resource.Id == x.AccountId);
+                        location.ResourceStateId = x.StateId;
                     });
                 }
             }
         }
 
-        public IEnumerable<AccountScreenItem> GetCurrentLocations(AccountScreen locationScreen, int currentPageNo)
+        public IEnumerable<ResourceScreenItem> GetCurrentLocations(ResourceScreen locationScreen, int currentPageNo)
         {
             UpdateLocations(locationScreen, currentPageNo);
 
@@ -78,18 +79,18 @@ namespace Samba.Services.Implementations.LocationModule
                 }
                 return selectedLocationScreen.ScreenItems;
             }
-            return new List<AccountScreenItem>();
+            return new List<ResourceScreenItem>();
         }
         
 
-        public IList<AccountScreenItem> LoadLocations(string selectedLocationScreen)
+        public IList<ResourceScreenItem> LoadLocations(string selectedLocationScreen)
         {
             if (_locationWorkspace != null)
             {
                 _locationWorkspace.CommitChanges();
             }
             _locationWorkspace = WorkspaceFactory.Create();
-            return _locationWorkspace.Single<AccountScreen>(x => x.Name == selectedLocationScreen).ScreenItems;
+            return _locationWorkspace.Single<ResourceScreen>(x => x.Name == selectedLocationScreen).ScreenItems;
         }
 
         public int GetLocationCount()
@@ -108,7 +109,7 @@ namespace Samba.Services.Implementations.LocationModule
 
         public IEnumerable<string> GetCategories()
         {
-            return Dao.Distinct<AccountScreenItem>(x => x.Category);
+            return Dao.Distinct<ResourceScreenItem>(x => x.Category);
         }
 
         public override void Reset()
@@ -117,19 +118,19 @@ namespace Samba.Services.Implementations.LocationModule
         }
     }
 
-    internal class LocationDeleteValidator : SpecificationValidator<AccountScreenItem>
+    internal class LocationDeleteValidator : SpecificationValidator<ResourceScreenItem>
     {
-        public override string GetErrorMessage(AccountScreenItem model)
+        public override string GetErrorMessage(ResourceScreenItem model)
         {
-            if (Dao.Exists<AccountScreen>(x => x.ScreenItems.Any(y => y.Id == model.Id)))
+            if (Dao.Exists<ResourceScreen>(x => x.ScreenItems.Any(y => y.Id == model.Id)))
                 return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Location, Resources.LocationScreen);
             return "";
         }
     }
 
-    internal class LocationScreenDeleteValidator : SpecificationValidator<AccountScreen>
+    internal class LocationScreenDeleteValidator : SpecificationValidator<ResourceScreen>
     {
-        public override string GetErrorMessage(AccountScreen model)
+        public override string GetErrorMessage(ResourceScreen model)
         {
             if (Dao.Exists<Department>(x => x.LocationScreens.Any(y => y.Id == model.Id)))
                 return string.Format(Resources.DeleteErrorUsedBy_f, Resources.LocationScreen, Resources.Department);

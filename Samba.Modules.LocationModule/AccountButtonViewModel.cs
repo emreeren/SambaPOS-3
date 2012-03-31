@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Resources;
 using Samba.Localization;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Services;
@@ -16,14 +17,14 @@ namespace Samba.Modules.LocationModule
         private readonly bool _userPermittedToMerge;
         private readonly ICommand _actionCommand;
 
-        public AccountButtonViewModel(AccountScreenItem model, AccountScreen screen)
+        public AccountButtonViewModel(ResourceScreenItem model, ResourceScreen screen)
             : this(model, screen, null, false, true, null)
         {
 
         }
 
-        public AccountButtonViewModel(AccountScreenItem model, AccountScreen screen,
-            ICommand actionCommand, bool isTicketSelected, bool userPermittedToMerge, AccountState state)
+        public AccountButtonViewModel(ResourceScreenItem model, ResourceScreen screen,
+            ICommand actionCommand, bool isTicketSelected, bool userPermittedToMerge, ResourceState state)
         {
             _actionCommand = actionCommand;
             _screen = screen;
@@ -33,13 +34,13 @@ namespace Samba.Modules.LocationModule
             Model = model;
         }
 
-        public AccountState AccountState { get; set; }
+        public ResourceState AccountState { get; set; }
 
-        private readonly AccountScreen _screen;
-        private AccountScreenItem _model;
+        private readonly ResourceScreen _screen;
+        private ResourceScreenItem _model;
 
         [Browsable(false)]
-        public AccountScreenItem Model
+        public ResourceScreenItem Model
         {
             get { return _model; }
             set

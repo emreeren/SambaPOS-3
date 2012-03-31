@@ -189,8 +189,6 @@ namespace Samba.Modules.PosModule
         public int AccountId { get { return Model.AccountId; } }
         public string AccountName { get { return Model.AccountName; } }
         public int AccountTemplateId { get { return Model.AccountTemplateId; } }
-        public int TargetAccountId { get { return Model.TargetAccountId; } }
-        public int TargetAccountTemplateId { get { return Model.TargetAccountTemplateId; } }
 
         public bool IsLocked { get { return Model.Locked; } set { Model.Locked = value; } }
         public bool IsTagged { get { return Model.IsTagged; } }

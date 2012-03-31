@@ -40,8 +40,7 @@ namespace Samba.Domain.Models.Tickets
         }
 
         public virtual AccountTransactionTemplate SaleTransactionTemplate { get; set; }
-        public int TargetAccountTemplateId { get; set; }
-
+        
         public TicketTemplate()
         {
             _ticketTagGroups = new List<TicketTagGroup>();

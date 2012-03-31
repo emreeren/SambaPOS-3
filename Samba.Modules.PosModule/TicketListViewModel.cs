@@ -8,6 +8,7 @@ using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Events;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
+using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure;
@@ -231,8 +232,8 @@ namespace Samba.Modules.PosModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<ScreenMenuItemData>>().Subscribe(OnMenuItemSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<OrderViewModel>>().Subscribe(OnSelectedOrdersChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketTagData>>().Subscribe(OnTagSelected);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Account>>>().Subscribe(OnAccountSelectedForTicket);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<AccountScreenItem>>>().Subscribe(OnAccountScreenItemSelected);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Resource>>>().Subscribe(OnAccountSelectedForTicket);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<ResourceScreenItem>>>().Subscribe(OnAccountScreenItemSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnRefreshTicket);
             EventServiceFactory.EventService.GetEvent<GenericEvent<Message>>().Subscribe(OnMessageReceived);
             EventServiceFactory.EventService.GetEvent<GenericEvent<PopupData>>().Subscribe(OnAccountSelectedFromPopup);
@@ -292,7 +293,7 @@ namespace Samba.Modules.PosModule
 
         private void OnAccountSelectedFromPopup(EventParameters<PopupData> obj)
         {
-            if (obj.Value.EventMessage == EventTopicNames.SelectAccount)
+            if (obj.Value.EventMessage == EventTopicNames.SelectResource)
             {
                 //todo fix (caller id popupuna týklandýðýnda adisyon açan metod)
 
@@ -330,29 +331,29 @@ namespace Samba.Modules.PosModule
             }
         }
 
-        private void OnAccountSelectedForTicket(EventParameters<EntityOperationRequest<Account>> obj)
+        private void OnAccountSelectedForTicket(EventParameters<EntityOperationRequest<Resource>> obj)
         {
-            if (obj.Topic == EventTopicNames.AccountSelected)
+            if (obj.Topic == EventTopicNames.ResourceSelected)
             {
                 if (SelectedTicket == null) OpenTicket(0);
                 if (SelectedTicket != null)
                 {
-                    _ticketService.UpdateAccount(SelectedTicket.Model, obj.Value.SelectedEntity);
+                    _ticketService.UpdateResource(SelectedTicket.Model, obj.Value.SelectedEntity);
                     RefreshVisuals();
                     EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
                 }
             }
 
-            if (obj.Topic == EventTopicNames.TargetAccountSelected)
-            {
-                if (SelectedTicket == null) OpenTicket(0);
-                if (SelectedTicket != null)
-                {
-                    _ticketService.UpdateTargetAccount(SelectedTicket.Model, obj.Value.SelectedEntity);
-                    RefreshVisuals();
-                    EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
-                }
-            }
+            //if (obj.Topic == EventTopicNames.TargetAccountSelected)
+            //{
+            //    if (SelectedTicket == null) OpenTicket(0);
+            //    if (SelectedTicket != null)
+            //    {
+            //        _ticketService.UpdateTargetAccount(SelectedTicket.Model, obj.Value.SelectedEntity);
+            //        RefreshVisuals();
+            //        EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
+            //    }
+            //}
 
             //if (obj.Topic == EventTopicNames.PaymentRequestedForTicket)
             //{
@@ -425,13 +426,13 @@ namespace Samba.Modules.PosModule
             if (obj.Topic == EventTopicNames.ScreenMenuItemDataSelected) AddMenuItemCommand.Execute(obj.Value);
         }
 
-        private void OnAccountScreenItemSelected(EventParameters<EntityOperationRequest<AccountScreenItem>> obj)
+        private void OnAccountScreenItemSelected(EventParameters<EntityOperationRequest<ResourceScreenItem>> obj)
         {
             if (obj.Topic == EventTopicNames.LocationSelectedForTicket)
             {
                 if (SelectedTicket != null)
                 {
-                    _ticketService.UpdateAccount(SelectedTicket.Model, obj.Value.SelectedEntity.Account);
+                    _ticketService.UpdateResource(SelectedTicket.Model, obj.Value.SelectedEntity.Resource);
                     CloseTicket();
 
                     if (!_applicationState.CurrentTerminal.AutoLogout)
@@ -439,13 +440,13 @@ namespace Samba.Modules.PosModule
                 }
                 else
                 {
-                    var openTickets = _ticketService.GetOpenTickets(obj.Value.SelectedEntity.Account.Id);
+                    var openTickets = _ticketService.GetOpenTickets(obj.Value.SelectedEntity.Resource.Id);
                     if (openTickets.Count() == 0)
                     {
                         OpenTicket(0);
                         if (SelectedTicket != null)
                         {
-                            _ticketService.UpdateAccount(SelectedTicket.Model, obj.Value.SelectedEntity.Account);
+                            _ticketService.UpdateResource(SelectedTicket.Model, obj.Value.SelectedEntity.Resource);
                         }
                     }
                     else
@@ -699,18 +700,18 @@ namespace Samba.Modules.PosModule
 
         private void OnSelectTargetAccount(string obj)
         {
-            var account = SelectedTicket.TargetAccountId == 0
-                ? new Account { AccountTemplateId = SelectedTicket.TargetAccountTemplateId } :
-                _cacheService.GetAccountById(SelectedTicket.TargetAccountId);
-            var request = new EntityOperationRequest<Account>(account, EventTopicNames.TargetAccountSelected);
-            request.PublishEvent(EventTopicNames.SelectAccount);
+            //var account = SelectedTicket.TargetAccountId == 0
+            //    ? new Resource { ResourceTemplateId = SelectedTicket.TargetAccountTemplateId } :
+            //    _cacheService.GetResourceById(SelectedTicket.TargetAccountId);
+            //var request = new EntityOperationRequest<Resource>(account, EventTopicNames.TargetAccountSelected);
+            //request.PublishEvent(EventTopicNames.SelectResource);
         }
 
         private void OnSelectAccountExecute(string obj)
         {
-            var account = _cacheService.GetAccountById(SelectedTicket.AccountId);
-            var request = new EntityOperationRequest<Account>(account, EventTopicNames.AccountSelected);
-            request.PublishEvent(EventTopicNames.SelectAccount);
+            var account = _cacheService.GetResourceById(SelectedTicket.AccountId);
+            var request = new EntityOperationRequest<Resource>(account, EventTopicNames.ResourceSelected);
+            request.PublishEvent(EventTopicNames.SelectResource);
         }
 
         private bool CanSelectAccount(string arg)
@@ -736,9 +737,9 @@ namespace Samba.Modules.PosModule
         {
             get
             {
-                var entityName = Totals.TargetEntityName;
-                if (SelectedTicket != null && SelectedTicket.TargetAccountId != 0)
-                    return string.Format(Resources.Change_f, entityName).Replace(" ", "\r");
+                var entityName = "";
+                //if (SelectedTicket != null && SelectedTicket.TargetAccountId != 0)
+                //    return string.Format(Resources.Change_f, entityName).Replace(" ", "\r");
                 return string.Format(Resources.Select_f, entityName).Replace(" ", "\r");
             }
         }

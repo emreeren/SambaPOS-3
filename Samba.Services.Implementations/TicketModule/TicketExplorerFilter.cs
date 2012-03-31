@@ -45,14 +45,14 @@ namespace Samba.Services.Implementations.TicketModule
             if (FilterType == FilterType.OpenTickets)
                 result = x => !x.IsPaid;
 
-            if (FilterType == FilterType.Target)
-            {
-                if (FilterValue == "*")
-                    result = x => !string.IsNullOrEmpty(x.TargetAccountName);
-                else if (!string.IsNullOrEmpty(FilterValue))
-                    result = x => x.TargetAccountName.ToLower() == FilterValue.ToLower();
-                else result = x => string.IsNullOrEmpty(x.TargetAccountName);
-            }
+            //if (FilterType == FilterType.Target)
+            //{
+            //    if (FilterValue == "*")
+            //        result = x => !string.IsNullOrEmpty(x.TargetAccountName);
+            //    else if (!string.IsNullOrEmpty(FilterValue))
+            //        result = x => x.TargetAccountName.ToLower() == FilterValue.ToLower();
+            //    else result = x => string.IsNullOrEmpty(x.TargetAccountName);
+            //}
 
             if (FilterType == FilterType.Account)
             {

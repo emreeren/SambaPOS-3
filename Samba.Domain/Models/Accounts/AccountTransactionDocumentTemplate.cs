@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using Samba.Domain.Models.Resources;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Accounts

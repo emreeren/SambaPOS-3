@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Resources;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
@@ -88,10 +89,10 @@ namespace Samba.Modules.AccountModule.Dashboard
         private IEnumerable<string> GetDefaultAmounts()
         {
             var result = new List<string> { string.Format("[{0}]", Resources.Balance) };
-            if (MasterAccountTemplate != null)
-            {
-                result.AddRange(MasterAccountTemplate.AccountCustomFields.Select(x => string.Format("[:{0}]", x.Name)));
-            }
+            //if (MasterAccountTemplate != null)
+            //{
+            //    result.AddRange(MasterAccountTemplate.ResoruceCustomFields.Select(x => string.Format("[:{0}]", x.Name)));
+            //}
             return result;
         }
 

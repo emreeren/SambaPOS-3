@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
@@ -57,15 +58,13 @@ namespace Samba.Services.Implementations.TicketModule
                     {
                         Ticket = ticket,
                         AccountName = account.Name,
-                        PhoneNumber = account.SearchString
                     });
         }
 
-        public void UpdateTargetAccount(Ticket ticket, Account account)
+        public void UpdateResource(Ticket ticket, Resource resource)
         {
             Debug.Assert(ticket != null);
-            Debug.Assert(account != Account.Null);
-            ticket.UpdateTargetAccount(account);
+            ticket.UpdateResource(resource);
         }
 
         public Ticket OpenTicket(int ticketId)
@@ -74,7 +73,7 @@ namespace Samba.Services.Implementations.TicketModule
 
             var ticket = ticketId == 0
                              ? CreateTicket()
-                             : Dao.Load<Ticket>(ticketId,
+                             : Dao.Load<Ticket>(ticketId, x => x.TicketResources,
                              x => x.Orders.Select(y => y.OrderTagValues), x => x.Calculations,
                              x => x.Payments, x => x.PaidItems, x => x.Tags);
 
@@ -86,8 +85,7 @@ namespace Samba.Services.Implementations.TicketModule
 
         private Ticket CreateTicket()
         {
-            var account = _cacheService.GetAccountById(
-                    _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.DefaultTargetAccountId);
+            var account = _cacheService.GetAccountById(_applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.DefaultTargetAccountId);
             return Ticket.Create(_applicationState.CurrentDepartment, account);
         }
 
@@ -271,7 +269,6 @@ namespace Samba.Services.Implementations.TicketModule
                 LastOrderDate = x.LastOrderDate,
                 TicketNumber = x.TicketNumber,
                 AccountName = x.AccountName,
-                TargetAccountName = x.TargetAccountName,
                 RemainingAmount = x.RemainingAmount,
                 Date = x.Date
             }, prediction);

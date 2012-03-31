@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Samba.Domain;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Services.Common;
@@ -32,7 +32,6 @@ namespace Samba.Services
         public string TicketNumber { get { return Model.TicketNumber; } }
         public string Date { get { return Model.Date.ToShortDateString(); } }
         public string AccountName { get { return Model.AccountName; } }
-        public string TargetAccountName { get { return Model.TargetAccountName; } }
         public string CreationTime { get { return Model.Date.ToShortTimeString(); } }
         public string LastPaymentTime { get { return Model.LastPaymentDate.ToShortTimeString(); } }
         public decimal Sum { get { return Model.TotalAmount; } }
@@ -71,7 +70,7 @@ namespace Samba.Services
         void PaySelectedTicket(Ticket ticket, PaymentTemplate template);
         void UpdateTicketNumber(Ticket ticket, Numerator numerator);
         void UpdateAccount(Ticket ticket, Account account);
-        void UpdateTargetAccount(Ticket ticket, Account account);
+        void UpdateResource(Ticket ticket, Resource resource);
         void RecalculateTicket(Ticket ticket);
         void RegenerateTaxRates(Ticket ticket);
         void UpdateTag(Ticket ticket, TicketTagGroup tagGroup, TicketTag ticketTag);

@@ -54,11 +54,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountCustomDataEditor.xaml.cs">
-      <DependentUpon>AccountCustomDataEditor.xaml</DependentUpon>
+    <Compile Include="ResourceCustomDataEditor.xaml.cs">
+      <DependentUpon>ResourceCustomDataEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AccountCustomDataViewModel.cs" />
-    <Compile Include="AccountCustomFieldTemplateSelector.cs" />
+    <Compile Include="ResourceCustomDataViewModel.cs" />
+    <Compile Include="ResourceCustomFieldTemplateSelector.cs" />
     <Compile Include="CommandButtonViewModel.cs" />
     <Compile Include="PaymentButtonGroupViewModel.cs" />
     <Compile Include="ServiceViewModel.cs" />
@@ -111,7 +111,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="AccountCustomDataEditor.xaml">
+    <Page Include="ResourceCustomDataEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

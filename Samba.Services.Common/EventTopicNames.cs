@@ -25,13 +25,14 @@
     public static class EventTopicNames
     {
         public const string TargetAccountSelected = "Target Account Selected";
-        public const string SelectAccount = "Select Account";
-        public const string AccountSelected = "Account Selected";
+        public const string SelectResource = "Select Resource";
+        public const string ResourceSelected = "Resource Selected";
+        public const string ActivateResourceView = "Activate Resource View";
+        public const string EditResourceDetails = "Edit Resource Details";
         public const string ApplicationLockStateChanged = "Application Lock State Changed";
         public const string DisplayTicket = "Display Ticket";
         public const string NavigationRequested = "Navigation Requested";
         public const string AccountTransactionDocumentSelected = "Account Transaction Document Selected";
-        public const string EditAccountDetails = "Edit Account Details";
         public const string DisplayAccountTransactions = "Display Account Transactions";
         public const string SelectedAccountChanged = "Selected Account Changed";
         public const string AddCustomTicketCommand = "Add Custom Ticket Command";
@@ -59,7 +60,6 @@
         public const string ResetNumerator = "Reset Numerator";
         public const string WorkPeriodStatusChanged = "WorkPeriod Status Changed";
         public const string BrowseUrl = "Browse Url";
-        public const string ActivateAccountView = "Activate Account View";
         public const string ActivateNavigation = "Activate Navigation";
         public const string NavigationCommandAdded = "Navigation Command Added";
         public const string DashboardCommandAdded = "Dashboard Command Added";

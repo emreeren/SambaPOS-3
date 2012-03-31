@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
+using Samba.Domain.Models.Resources;
 using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Data.Serializer;
 using Samba.Infrastructure.Settings;
@@ -32,6 +33,7 @@ namespace Samba.Domain.Models.Tickets
             _calculations = new List<Calculation>();
             _tags = new List<TicketTagValue>();
             _payments = new List<Payment>();
+            _ticketResources = new List<TicketResource>();
         }
 
         private static Ticket _emptyTicket;
@@ -79,11 +81,14 @@ namespace Samba.Domain.Models.Tickets
         public int AccountTemplateId { get; set; }
         public string AccountName { get; set; }
 
-        public int TargetAccountId { get; set; }
-        public int TargetAccountTemplateId { get; set; }
-        public string TargetAccountName { get; set; }
-
         public virtual AccountTransactionDocument AccountTransactions { get; set; }
+
+        private IList<TicketResource> _ticketResources;
+        public virtual IList<TicketResource> TicketResources
+        {
+            get { return _ticketResources; }
+            set { _ticketResources = value; }
+        }
 
         private IList<Order> _orders;
         public virtual IList<Order> Orders
@@ -405,7 +410,6 @@ namespace Samba.Domain.Models.Tickets
             ticket.AccountTemplateId = department.TicketTemplate.SaleTransactionTemplate.TargetAccountTemplateId;
             ticket.AccountTransactions = new AccountTransactionDocument();
             ticket.UpdateAccount(account);
-            ticket.TargetAccountTemplateId = department.TicketTemplate.TargetAccountTemplateId;
             return ticket;
         }
 
@@ -482,6 +486,21 @@ namespace Samba.Domain.Models.Tickets
             return string.Join("\r", Tags.Where(x => !string.IsNullOrEmpty(x.TagValue)).Select(x => string.Format("{0}: {1}", x.TagName, x.TagValue)));
         }
 
+        public void UpdateResource(Resource resource)
+        {
+            var r = TicketResources.SingleOrDefault(x => x.ResourceTemplateId == resource.ResourceTemplateId);
+            if (r == null)
+            {
+                TicketResources.Add(new TicketResource() { ResourceId = resource.Id, ResourceName = resource.Name, ResourceTemplateId = resource.ResourceTemplateId });
+            }
+            else
+            {
+                r.ResourceId = resource.Id;
+                r.ResourceName = resource.Name;
+                r.ResourceTemplateId = resource.ResourceTemplateId;
+            }
+        }
+
         public void UpdateAccount(Account account)
         {
             if (account == null) return;
@@ -492,14 +511,6 @@ namespace Samba.Domain.Models.Tickets
             AccountId = account.Id;
             AccountTemplateId = account.AccountTemplateId;
             AccountName = account.Name;
-        }
-
-
-        public void UpdateTargetAccount(Account account)
-        {
-            TargetAccountId = account.Id;
-            TargetAccountTemplateId = account.AccountTemplateId;
-            TargetAccountName = account.Name;
         }
 
         public void Recalculate(decimal autoRoundValue, int userId)

@@ -1,0 +1,101 @@
+﻿<UserControl x:Class="Samba.Modules.ResourceModule.ResourceScreenView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+     xmlns:Common="clr-namespace:Samba.Presentation.Common;assembly=Samba.Presentation.Common" 
+     xmlns:PropertyEditorLibrary="clr-namespace:PropertyTools.Wpf;assembly=PropertyTools.Wpf" xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common" mc:Ignorable="d" d:DesignWidth="478">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Grid.Row="0" Margin="0,0,20,0">
+                <Label>
+                    <LocText ResourceIdentifierKey="LocationViewName" Suffix=":"/>
+                </Label>
+                <TextBox HorizontalAlignment="Left" MinWidth="250" Text="{Binding Name}" />
+                <Label>
+                    <LocText ResourceIdentifierKey="LocationViewMode" Suffix=":"/>
+                </Label>
+                <ComboBox HorizontalAlignment="Left" MinWidth="150" SelectedItem="{Binding DisplayMode}"
+                     ItemsSource="{Binding DisplayModes}" />
+                <Label>
+                    <LocText ResourceIdentifierKey="BackgroundColor" Suffix=":"/>
+                </Label>
+                <PropertyEditorLibrary:ColorPicker2 HorizontalAlignment="Left" MinWidth="200" SelectedColor="{Binding BackgroundColor,Mode=TwoWay}" />
+                <Label>
+                    <LocText ResourceIdentifierKey="BackgroundImage" Suffix=":"/>
+                </Label>
+                <TextBox HorizontalAlignment="Left" MinWidth="250" Text="{Binding BackgroundImage}" />
+                <UniformGrid Columns="2">
+                    <Label Margin="0,5,0,0">
+                        <LocText ResourceIdentifierKey="EmptyLocationColor" Suffix=":"/>
+                    </Label>
+                    <PropertyEditorLibrary:ColorPicker2 Margin="0,5,0,0" HorizontalAlignment="Left" MinWidth="150"
+                         SelectedColor="{Binding LocationEmptyColor}" />
+                    <Label Margin="0,5,0,0">
+                        <LocText ResourceIdentifierKey="UnavailableLocationColor" Suffix=":"/>
+                    </Label>
+                    <PropertyEditorLibrary:ColorPicker2 Margin="0,5,0,0" HorizontalAlignment="Left" MinWidth="150"
+                         SelectedColor="{Binding LocationFullColor}" />
+                    <Label Margin="0,5,0,0">
+                        <LocText ResourceIdentifierKey="LockedLocationColor" Suffix=":"/>
+                    </Label>
+                    <PropertyEditorLibrary:ColorPicker2 Margin="0,5,0,0" HorizontalAlignment="Left" MinWidth="150"
+                         SelectedColor="{Binding LocationLockedColor}" />
+                    <Label Margin="0,5,0,0">
+                        <LocText ResourceIdentifierKey="ColumnCount" Suffix=":"/>
+                    </Label>
+                    <UIControls:FilteredTextBox Type="Digits" Margin="0,5,0,0" HorizontalAlignment="Left"
+                         MinWidth="50" Text="{Binding ColumnCount}" />
+                    <Label Margin="0,5,0,0">
+                        <LocText ResourceIdentifierKey="ButtonHeight" Suffix=":"/>
+                    </Label>
+                    <UIControls:FilteredTextBox Type="Digits" Margin="0,5,0,0" HorizontalAlignment="Left"
+                         MinWidth="50" Text="{Binding ButtonHeight}" />
+                    <Label Margin="0,5,0,0">
+                        <LocText ResourceIdentifierKey=":PageCount" Suffix=":"/>
+                    </Label>
+                    <UIControls:FilteredTextBox Type="Digits" Margin="0,5,0,0" HorizontalAlignment="Left"
+                         MinWidth="50" Text="{Binding PageCount}" />
+                    <Label Margin="0,5,0,0">
+                        <LocText ResourceIdentifierKey="NumeratorHeight" Suffix=":"/>
+                    </Label>
+                    <UIControls:FilteredTextBox Type="Digits" Margin="0,5,0,0" HorizontalAlignment="Left"
+                         MinWidth="50" Text="{Binding NumeratorHeight}" />
+                    <Label Margin="0,5,0,0">
+                        <LocText ResourceIdentifierKey="AlphanumericButtons" Suffix=":"/>
+                    </Label>
+                    <TextBox Margin="0,5,0,0" HorizontalAlignment="Left" MinWidth="100" Text="{Binding AlphaButtonValues}" />
+                </UniformGrid>
+            </StackPanel>
+        </ScrollViewer>
+        <Grid Grid.Row="0" Margin="10,0,10,5" Grid.Column="1" Grid.RowSpan="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <Label>
+                    <LocText ResourceIdentifierKey="Locations" Suffix=":"/>
+                </Label>
+                <TextBlock Margin="2,5">
+                    <Hyperlink Command="{Binding SelectScreenItemsCommand}">
+                        <TextBlock Text="{Binding Path=SelectScreenItemsCommand.Caption}" />
+                    </Hyperlink>
+                </TextBlock>
+            </StackPanel>
+            <ListBox Grid.Row="1" ItemsSource="{Binding AccountScreenItems}" DisplayMemberPath="Name" MinHeight="150"
+                         MinWidth="150" BorderThickness="1" />
+        </Grid>
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
+            <Button HorizontalAlignment="Left" Margin="0,10" MinWidth="70" Content="{Binding SaveCommand.Caption}"
+                 Command="{Binding SaveCommand}" />
+            <Label Content="{Binding Error}" Foreground="Red" />
+        </StackPanel>
+    </Grid>
+</UserControl>

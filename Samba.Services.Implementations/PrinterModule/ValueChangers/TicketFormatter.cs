@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.Practices.ServiceLocation;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
@@ -137,7 +138,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
             if (ticket.AccountId > 0 && (result.Contains(TagNames.AccAddress) || result.Contains(TagNames.AccPhone)))
             {
-                var account = Dao.SingleWithCache<Account>(x => x.Id == ticket.AccountId);
+                var account = Dao.SingleWithCache<Resource>(x => x.Id == ticket.AccountId);
                 result = FormatData(result, TagNames.AccPhone, () => account.SearchString);
             }
 

@@ -6,6 +6,7 @@ using System.Linq;
 using FluentValidation;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
+using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
@@ -40,10 +41,10 @@ namespace Samba.Modules.DepartmentModule
             set { _screenMenus = value; }
         }
 
-        private ObservableCollection<AccountScreen> _locationScreens;
-        public ObservableCollection<AccountScreen> LocationScreens
+        private ObservableCollection<ResourceScreen> _locationScreens;
+        public ObservableCollection<ResourceScreen> LocationScreens
         {
-            get { return _locationScreens ?? (_locationScreens = new ObservableCollection<AccountScreen>(Model.LocationScreens.OrderBy(x => x.Order))); }
+            get { return _locationScreens ?? (_locationScreens = new ObservableCollection<ResourceScreen>(Model.LocationScreens.OrderBy(x => x.Order))); }
         }
 
         private IEnumerable<TicketTemplate> _ticketTemplates;
@@ -76,7 +77,7 @@ namespace Samba.Modules.DepartmentModule
             set { Model.IsTakeAway = value; }
         }
 
-        public AccountScreen SelectedLocationScreen { get; set; }
+        public ResourceScreen SelectedLocationScreen { get; set; }
         
         public ICaptionCommand AddLocationScreenCommand { get; set; }
         public ICaptionCommand DeleteLocationScreenCommand { get; set; }
@@ -95,17 +96,17 @@ namespace Samba.Modules.DepartmentModule
         private void OnAddLocationScreen(string obj)
         {
             var selectedValues =
-                  InteractionService.UserIntraction.ChooseValuesFrom(Workspace.All<AccountScreen>().ToList<IOrderable>(),
+                  InteractionService.UserIntraction.ChooseValuesFrom(Workspace.All<ResourceScreen>().ToList<IOrderable>(),
                   Model.LocationScreens.ToList<IOrderable>(), Resources.LocationScreens, string.Format(Resources.ChooseLocationScreensForTicketTemplate_f, Model.Name),
                   Resources.LocationScreen, Resources.LocationScreens);
 
-            foreach (AccountScreen selectedValue in selectedValues)
+            foreach (ResourceScreen selectedValue in selectedValues)
             {
                 if (!Model.LocationScreens.Contains(selectedValue))
                     Model.LocationScreens.Add(selectedValue);
             }
 
-            _locationScreens = new ObservableCollection<AccountScreen>(Model.LocationScreens.OrderBy(x => x.Order));
+            _locationScreens = new ObservableCollection<ResourceScreen>(Model.LocationScreens.OrderBy(x => x.Order));
 
             RaisePropertyChanged(() => LocationScreens);
         }

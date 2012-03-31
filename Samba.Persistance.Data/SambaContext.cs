@@ -4,6 +4,7 @@ using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Actions;
 using Samba.Domain.Models.Inventories;
 using Samba.Domain.Models.Menus;
+using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
@@ -23,32 +24,30 @@ namespace Samba.Persistance.Data
 
         public DbSet<MenuItem> MenuItems { get; set; }
         public DbSet<MenuItemPortion> MenuItemPortions { get; set; }
-        public DbSet<OrderTag> OrderTags { get; set; }
-        public DbSet<OrderTagGroup> OrderTagGroups { get; set; }
-        public DbSet<OrderTagTemplate> OrderTagTemplates { get; set; }
-        public DbSet<OrderTagTemplateValue> OrderTagTemplateValues { get; set; }
-        public DbSet<OrderTagMap> OrderTagMaps { get; set; }
-        public DbSet<ScreenMenu> ScreenMenus { get; set; }
         public DbSet<ScreenMenuCategory> ScreenMenuCategories { get; set; }
         public DbSet<ScreenMenuItem> ScreenMenuItems { get; set; }
         public DbSet<TicketTemplate> TicketTemplates { get; set; }
-        public DbSet<Ticket> Tickets { get; set; }
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderTagValue> OrderTagValues { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
-        public DbSet<AccountScreenItem> Locations { get; set; }
         public DbSet<Terminal> Terminals { get; set; }
         public DbSet<Printer> Printers { get; set; }
         public DbSet<ProgramSettingValue> ProgramSettings { get; set; }
         public DbSet<PrinterMap> PrinterMaps { get; set; }
         public DbSet<PrinterTemplate> PrinterTemplates { get; set; }
-        public DbSet<AccountScreen> LocationScreens { get; set; }
         public DbSet<Numerator> Numerators { get; set; }
         public DbSet<WorkPeriod> WorkPeriods { get; set; }
         public DbSet<PaidItem> PaidItems { get; set; }
-        public DbSet<Account> Accounts { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<TicketResource> TicketResources { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderTagGroup> OrderTagGroups { get; set; }
+        public DbSet<OrderTagTemplate> OrderTagTemplates { get; set; }
+        public DbSet<OrderTagTemplateValue> OrderTagTemplateValues { get; set; }
+        public DbSet<OrderTagMap> OrderTagMaps { get; set; }
+        public DbSet<OrderTag> OrderTags { get; set; }
+        public DbSet<OrderTagValue> OrderTagValues { get; set; }
+        public DbSet<ScreenMenu> ScreenMenus { get; set; }public DbSet<Account> Accounts { get; set; }
         public DbSet<AccountTemplate> AccountTemplates { get; set; }
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<InventoryItem> InventoryItems { get; set; }
@@ -76,19 +75,24 @@ namespace Samba.Persistance.Data
         public DbSet<AccountTransactionTemplate> AccountTransactionTemplates { get; set; }
         public DbSet<AccountTransactionDocument> AccountTransactionDocuments { get; set; }
         public DbSet<AccountTransactionDocumentTemplate> AccountTransactionDocumentTemplates { get; set; }
-        public DbSet<AccountState> AccountStateTemplates { get; set; }
-        public DbSet<AccountStateValue> AccountStates { get; set; }
+        public DbSet<Resource> Resources { get; set; }
+        public DbSet<ResourceTemplate> ResourceTemplates { get; set; }
+        public DbSet<ResourceCustomField> ResourceCustomFields { get; set; }
+        public DbSet<ResourceScreenItem> ResourceScreenItems { get; set; }
+        public DbSet<ResourceScreen> ResourceScreens { get; set; }
+        public DbSet<ResourceState> ResourceStates { get; set; }
+        public DbSet<ResourceStateValue> ResourceStateValues { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Account>().Property(x => x.CustomData).IsMaxLength();
+            modelBuilder.Entity<Resource>().Property(x => x.CustomData).IsMaxLength();
 
             modelBuilder.Entity<TicketTemplate>().HasMany(p => p.TicketTagGroups).WithMany();
             modelBuilder.Entity<TicketTemplate>().HasMany(p => p.CalulationTemplates).WithMany();
             modelBuilder.Entity<TicketTemplate>().HasMany(p => p.OrderTagGroups).WithMany();
             modelBuilder.Entity<TicketTemplate>().HasMany(p => p.PaymentTemplates).WithMany();
             modelBuilder.Entity<Department>().HasMany(p => p.LocationScreens).WithMany();
-            modelBuilder.Entity<AccountScreen>().HasMany(p => p.ScreenItems).WithMany();
+            modelBuilder.Entity<ResourceScreen>().HasMany(p => p.ScreenItems).WithMany();
             modelBuilder.Entity<Terminal>().HasMany(p => p.PrintJobs).WithMany();
 
             modelBuilder.Entity<AccountTransaction>().HasKey(p => new { p.Id, p.AccountTransactionDocumentId });

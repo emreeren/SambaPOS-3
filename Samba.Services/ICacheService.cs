@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
+using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Tickets;
 
 namespace Samba.Services
@@ -18,12 +19,14 @@ namespace Samba.Services
         IEnumerable<string> GetTicketTagGroupNames();
         TicketTagGroup GetTicketTagGroupById(int id);
         AccountTransactionTemplate GetAccountTransactionTemplateById(int id);
-        IEnumerable<Account> GetAccountsByTemplateId(int templateId);
-        IEnumerable<AccountTemplate> GetAccountTemplates();
+        IEnumerable<Resource> GetResourcesByTemplateId(int templateId);
+        IEnumerable<ResourceTemplate> GetResourceTemplates();
+        ResourceTemplate GetResourceTemplateById(int resourceTemplateId);
         AccountTemplate GetAccountTemplateById(int accountTemplateId);
         Account GetAccountById(int accountId);
+        Resource GetResourceById(int accountId);
         IEnumerable<AccountTransactionDocumentTemplate> GetAccountTransactionDocumentTemplates(int accountTemplateId);
-        AccountState GetAccountStateById(int accountStateId);
-        AccountState GetAccountStateByName(string stateName);
+        ResourceState GetResourceStateById(int accountStateId);
+        ResourceState GetResourceStateByName(string stateName);
     }
 }

@@ -55,34 +55,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountDetailViewModel.cs" />
-    <Compile Include="AccountEditorView.xaml.cs">
-      <DependentUpon>AccountEditorView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="AccountEditorViewModel.cs" />
-    <Compile Include="AccountSearchResultViewModel.cs" />
-    <Compile Include="AccountSearchView.xaml.cs">
-      <DependentUpon>AccountSearchView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="AccountSearchViewModel.cs" />
     <Compile Include="AccountDetailsView.xaml.cs">
       <DependentUpon>AccountDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AccountDetailsViewModel.cs" />
     <Compile Include="AccountSummaryViewModel.cs" />
-    <Compile Include="Dashboard\AccountCustomFieldViewModel.cs" />
     <Compile Include="AccountModule.cs" />
-    <Compile Include="Dashboard\AccountScreenItemView.xaml.cs">
-      <DependentUpon>AccountScreenItemView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dashboard\AccountScreenItemViewModel.cs" />
-    <Compile Include="Dashboard\AccountScreenView.xaml.cs">
-      <DependentUpon>AccountScreenView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dashboard\AccountScreenViewModel.cs" />
-    <Compile Include="Dashboard\AccountStateView.xaml.cs">
-      <DependentUpon>AccountStateView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dashboard\AccountStateViewModel.cs" />
     <Compile Include="Dashboard\AccountTransactionDocumentTemplateView.xaml.cs">
       <DependentUpon>AccountTransactionDocumentTemplateView.xaml</DependentUpon>
     </Compile>
@@ -96,14 +74,14 @@
     </Compile>
     <Compile Include="Dashboard\AccountTransactionTemplateViewModel.cs" />
     <Compile Include="Dashboard\AccountTransactionViewModel.cs" />
-    <Compile Include="Dashboard\AccountView.xaml.cs">
-      <DependentUpon>AccountView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dashboard\AccountViewModel.cs" />
     <Compile Include="Dashboard\AccountTemplateView.xaml.cs">
       <DependentUpon>AccountTemplateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dashboard\AccountTemplateViewModel.cs" />
+    <Compile Include="Dashboard\AccountView.xaml.cs">
+      <DependentUpon>AccountView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dashboard\AccountViewModel.cs" />
     <Compile Include="DocumentCreationData.cs" />
     <Compile Include="DocumentCreatorView.xaml.cs">
       <DependentUpon>DocumentCreatorView.xaml</DependentUpon>
@@ -113,29 +91,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="AccountEditorView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="AccountSearchView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="AccountDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Dashboard\AccountScreenItemView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Dashboard\AccountScreenView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Dashboard\AccountStateView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dashboard\AccountTransactionDocumentTemplateView.xaml">
       <SubType>Designer</SubType>
@@ -150,12 +108,12 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dashboard\AccountView.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Dashboard\AccountTemplateView.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="DocumentCreatorView.xaml">
       <SubType>Designer</SubType>

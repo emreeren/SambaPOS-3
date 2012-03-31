@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Practices.Prism.Commands;
+﻿using Microsoft.Practices.Prism.Commands;
 using Samba.Domain.Models.Accounts;
 using Samba.Presentation.Common;
 using Samba.Services.Common;
