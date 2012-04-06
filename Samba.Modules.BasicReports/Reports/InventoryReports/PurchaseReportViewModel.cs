@@ -31,7 +31,6 @@ namespace Samba.Modules.BasicReports.Reports.InventoryReports
 
             if (transactionGroups.Count() > 0)
             {
-
                 report.AddColumTextAlignment("GrupToplam", TextAlignment.Left, TextAlignment.Right);
                 report.AddColumnLength("GrupToplam", "60*", "40*");
                 report.AddTable("GrupToplam", Resources.InventoryGroup, Resources.Total);
@@ -45,7 +44,6 @@ namespace Samba.Modules.BasicReports.Reports.InventoryReports
                             transactionItem.Total.ToString(ReportContext.CurrencyFormat));
                     }
                 }
-
                 report.AddRow("GrupToplam",
                     Resources.Total, transactionGroups.Sum(x => x.Total).ToString(ReportContext.CurrencyFormat));
             }

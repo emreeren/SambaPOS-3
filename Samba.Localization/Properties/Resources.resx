@@ -270,9 +270,6 @@ Transaction</value>
     <value>Receiveable</value>
     <comment>GridViewColumn.Header</comment>
   </data>
-  <data name="NewAccount" xml:space="preserve">
-    <value>New Account</value>
-  </data>
   <data name="ResetAccount" xml:space="preserve">
     <value>Reset Account</value>
   </data>
@@ -1496,9 +1493,6 @@ Payment</value>
   <data name="CreditCard_r" xml:space="preserve">
     <value>Credit
 Card</value>
-  </data>
-  <data name="SelectAccount" xml:space="preserve">
-    <value>Select Account</value>
   </data>
   <data name="AllTickets_r" xml:space="preserve">
     <value>All
@@ -3068,5 +3062,11 @@ Continue without adding details?</value>
 	</data>
 	<data name="Resourceses">
 		<value xml:space="preserve">Resources</value>
+	</data>
+	<data name="ResourceTemplates">
+		<value xml:space="preserve">Resource Templates</value>
+	</data>
+	<data name="SelectItemsFor_f">
+		<value xml:space="preserve">Select {0} for using with {1} {2}</value>
 	</data>
 </root>

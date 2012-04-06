@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Input;
-using Samba.Domain.Models.Settings;
+﻿using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 
-namespace Samba.Presentation.ViewModels
+namespace Samba.Modules.PosModule
 {
     public class PrintJobButton
     {

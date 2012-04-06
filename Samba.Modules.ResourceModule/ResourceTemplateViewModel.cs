@@ -26,10 +26,10 @@ namespace Samba.Modules.ResourceModule
 
         public ResourceCustomFieldViewModel SelectedCustomField { get; set; }
 
-        private ObservableCollection<ResourceCustomFieldViewModel> _accountCustomFields;
-        public ObservableCollection<ResourceCustomFieldViewModel> AccountCustomFields
+        private ObservableCollection<ResourceCustomFieldViewModel> _resourceCustomFields;
+        public ObservableCollection<ResourceCustomFieldViewModel> ResourceCustomFields
         {
-            get { return _accountCustomFields ?? (_accountCustomFields = new ObservableCollection<ResourceCustomFieldViewModel>(Model.ResoruceCustomFields.Select(x => new ResourceCustomFieldViewModel(x)))); }
+            get { return _resourceCustomFields ?? (_resourceCustomFields = new ObservableCollection<ResourceCustomFieldViewModel>(Model.ResoruceCustomFields.Select(x => new ResourceCustomFieldViewModel(x)))); }
         }
 
         private bool CanDeleteCustomField(ResourceCustomFieldViewModel arg)
@@ -44,19 +44,19 @@ namespace Samba.Modules.ResourceModule
                 Model.ResoruceCustomFields.Remove(SelectedCustomField.Model);
                 if (SelectedCustomField.Model.Id > 0)
                     Workspace.Delete(SelectedCustomField.Model);
-                AccountCustomFields.Remove(SelectedCustomField);
+                ResourceCustomFields.Remove(SelectedCustomField);
             }
         }
 
         private void OnAddCustomField(string s)
         {
             var result = Model.AddCustomField(string.Format(Resources.New_f, Resources.CustomField), 0);
-            AccountCustomFields.Add(new ResourceCustomFieldViewModel(result));
+            ResourceCustomFields.Add(new ResourceCustomFieldViewModel(result));
         }
 
         public override string GetModelTypeString()
         {
-            return Resources.AccountTemplate;
+            return Resources.ResourceTemplate;
         }
 
         public override Type GetViewType()

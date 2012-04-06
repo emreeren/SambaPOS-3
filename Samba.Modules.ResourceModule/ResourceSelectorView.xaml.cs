@@ -3,17 +3,17 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace Samba.Modules.LocationModule
+namespace Samba.Modules.ResourceModule
 {
     /// <summary>
     /// Interaction logic for LocationSelectorView.xaml
     /// </summary>
 
     [Export]
-    public partial class LocationSelectorView : UserControl
+    public partial class ResourceSelectorView : UserControl
     {
         [ImportingConstructor]
-        public LocationSelectorView(LocationSelectorViewModel viewModel)
+        public ResourceSelectorView(ResourceSelectorViewModel viewModel)
         {
             InitializeComponent();
             DataContext = viewModel;
@@ -26,14 +26,14 @@ namespace Samba.Modules.LocationModule
                 brd.BorderBrush = Brushes.Red;
                 miDesignMode.IsChecked = true;
                 DiagramCanvas.EditingMode = InkCanvasEditingMode.Select;
-                ((LocationSelectorViewModel)DataContext).LoadTrackableLocations();
+                ((ResourceSelectorViewModel)DataContext).LoadTrackableResourceScreenItems();
             }
             else
             {
                 brd.BorderBrush = Brushes.Silver;
                 miDesignMode.IsChecked = false;
                 DiagramCanvas.EditingMode = InkCanvasEditingMode.None;
-                ((LocationSelectorViewModel)DataContext).SaveTrackableLocations();
+                ((ResourceSelectorViewModel)DataContext).SaveTrackableResourceScreenItems();
             }
         }
     }

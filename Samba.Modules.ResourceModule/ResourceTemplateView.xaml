@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
         <StackPanel >
             <Label>
-                <LocText ResourceIdentifierKey="AccountTemplateName" Suffix=":"/>
+                <LocText ResourceIdentifierKey="Name" Suffix=":"/>
             </Label>
             <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
             <Label>
@@ -25,7 +25,7 @@
                 <LocText ResourceIdentifierKey="CustomFields" Suffix=":"/>
             </Label>
         </StackPanel>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding AccountCustomFields}" SelectedItem="{Binding SelectedCustomField, Mode=TwoWay}"
+        <DataGrid Grid.Row="1" ItemsSource="{Binding ResourceCustomFields}" SelectedItem="{Binding SelectedCustomField, Mode=TwoWay}"
                      HorizontalAlignment="Left" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3" RowHeight="28" 
                      AutoGenerateColumns="False" CanUserSortColumns="False" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}"
                   CellStyle="{StaticResource CenterAlignedGridCell}">

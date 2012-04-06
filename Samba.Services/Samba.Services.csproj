@@ -89,7 +89,7 @@
     <Compile Include="IPriceListService.cs" />
     <Compile Include="IProgramSettings.cs" />
     <Compile Include="IInventoryService.cs" />
-    <Compile Include="ILocationService.cs" />
+    <Compile Include="IResourceService.cs" />
     <Compile Include="IMenuService.cs" />
     <Compile Include="IPrinterService.cs" />
     <Compile Include="IRuleConstraint.cs" />

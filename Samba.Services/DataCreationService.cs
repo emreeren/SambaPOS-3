@@ -49,14 +49,14 @@ namespace Samba.Services
 
             var customerResourceTemplate = new ResourceTemplate { Name = "Customers", EntityName = "Customer" };
             var tableResourceTemplate = new ResourceTemplate { Name = "Tables", EntityName = Resources.Table };
-            
+
             _workspace.Add(customerResourceTemplate);
             _workspace.Add(tableResourceTemplate);
 
             _workspace.CommitChanges();
 
             var defaultSaleAccount = new Account { AccountTemplateId = saleAccountTemplate.Id, Name = "Sales" };
-            var defaultReceivableAccount = new Account { AccountTemplateId = receivableAccountTemplate.Id, Name = "Receivalbes" };
+            var defaultReceivableAccount = new Account { AccountTemplateId = receivableAccountTemplate.Id, Name = "Receivables" };
             var cashAccount = new Account { AccountTemplateId = paymentAccountTemplate.Id, Name = Resources.Cash };
             var creditCardAccount = new Account { AccountTemplateId = paymentAccountTemplate.Id, Name = Resources.CreditCard };
             var voucherAccount = new Account { AccountTemplateId = paymentAccountTemplate.Id, Name = Resources.Voucher };
@@ -180,6 +180,9 @@ namespace Samba.Services
             ticketTemplate.PaymentTemplates.Add(cashPayment);
             ticketTemplate.PaymentTemplates.Add(creditCardPayment);
             ticketTemplate.PaymentTemplates.Add(voucherPayment);
+
+            ticketTemplate.ResourceTemplates.Add(tableResourceTemplate);
+            ticketTemplate.ResourceTemplates.Add(customerResourceTemplate);
 
             _workspace.Add(ticketTemplate);
 
@@ -319,9 +322,9 @@ namespace Samba.Services
             var availableState = new ResourceState { Name = "Available", ResourceTempletId = tableResourceTemplate.Id, Color = "White" };
             _workspace.Add(availableState);
 
-            var newOrderAction = new AppAction { ActionType = "UpdateAccountState", Name = "Update New Order State", Parameter = string.Format(parameterFormat, "AccountState", "New Orders") };
+            var newOrderAction = new AppAction { ActionType = "UpdateResourceState", Name = "Update New Order State", Parameter = string.Format(parameterFormat, "ResourceState", "New Orders") };
             _workspace.Add(newOrderAction);
-            var availableAction = new AppAction { ActionType = "UpdateAccountState", Name = "Update Available State", Parameter = string.Format(parameterFormat, "AccountState", "Available") };
+            var availableAction = new AppAction { ActionType = "UpdateResourceState", Name = "Update Available State", Parameter = string.Format(parameterFormat, "ResourceState", "Available") };
             _workspace.Add(availableAction);
             _workspace.CommitChanges();
 
@@ -336,7 +339,7 @@ namespace Samba.Services
             _workspace.Add(availableRule);
 
             ImportMenus(screen);
-            ImportLocations(department, tableResourceTemplate);
+            ImportTableResources(department, tableResourceTemplate);
 
             ImportItems(BatchCreateResources);
             ImportItems(BatchCreateTransactionTemplates);
@@ -358,7 +361,7 @@ namespace Samba.Services
             _workspace.CommitChanges();
         }
 
-        private void ImportLocations(Department department, ResourceTemplate tableTemplate)
+        private void ImportTableResources(Department department, ResourceTemplate tableTemplate)
         {
             var fileName = string.Format("{0}/Imports/table{1}.txt", LocalSettings.AppPath, "_" + LocalSettings.CurrentLanguage);
 
@@ -368,18 +371,18 @@ namespace Samba.Services
             if (!File.Exists(fileName)) return;
 
             var lines = File.ReadAllLines(fileName);
-            var items = BatchCreateLocations(lines, _workspace);
+            var items = BatchCreateResourcesWithTemplate(lines, _workspace, tableTemplate);
             items.ToList().ForEach(_workspace.Add);
 
             _workspace.CommitChanges();
 
-            var screen = new ResourceScreen { Name = Resources.AllLocations, ColumnCount = 8 };
+            var screen = new ResourceScreen { Name = "All Tables", ColumnCount = 8, ResourceTemplateId = tableTemplate.Id };
             _workspace.Add(screen);
 
-            foreach (var location in items)
+            foreach (var resource in items)
             {
-                screen.AddScreenItem(location);
-                location.Resource = new Resource { ResourceTemplateId = tableTemplate.Id, Name = location.Name };
+                resource.ResourceTemplateId = tableTemplate.Id;
+                screen.AddScreenItem(new ResourceScreenItem { Name = resource.Name, ResourceId = resource.Id });
             }
 
             _workspace.CommitChanges();
@@ -411,31 +414,22 @@ namespace Samba.Services
             }
         }
 
-        public IEnumerable<ResourceScreenItem> BatchCreateLocations(string[] values, IWorkspace workspace)
+        public IEnumerable<Resource> BatchCreateResourcesWithTemplate(string[] values, IWorkspace workspace, ResourceTemplate template)
         {
-            IList<ResourceScreenItem> result = new List<ResourceScreenItem>();
+            IList<Resource> result = new List<Resource>();
             if (values.Length > 0)
             {
-                var currentCategory = Resources.Common;
-                foreach (var value in values)
+                foreach (var resource in from value in values
+                                         where !value.StartsWith("#")
+                                         let resourceName = value
+                                         let count = Dao.Count<Resource>(y => y.Name == resourceName.Trim())
+                                         where count == 0
+                                         select new Resource { Name = value.Trim(), ResourceTemplateId = template.Id }
+                                             into resource
+                                             where result.Count(x => x.Name.ToLower() == resource.Name.ToLower()) == 0
+                                             select resource)
                 {
-                    if (value.StartsWith("#"))
-                    {
-                        currentCategory = value.Trim('#', ' ');
-                    }
-                    else
-                    {
-                        var locationName = value;
-                        var count = Dao.Count<ResourceScreenItem>(y => y.Name == locationName.Trim());
-                        if (count == 0)
-                        {
-                            var location = new ResourceScreenItem { Name = value.Trim(), Category = currentCategory };
-                            if (result.Count(x => x.Name.ToLower() == location.Name.ToLower()) == 0)
-                            {
-                                result.Add(location);
-                            }
-                        }
-                    }
+                    result.Add(resource);
                 }
             }
             return result;
@@ -504,7 +498,7 @@ namespace Samba.Services
                         var accountName = item.ToLower().Trim();
                         if (workspace.Single<Account>(x => x.Name.ToLower() == accountName) == null)
                         {
-                            var account = new Account() { Name = item, AccountTemplateId = currentTemplate.Id };
+                            var account = new Account { Name = item, AccountTemplateId = currentTemplate.Id };
                             result.Add(account);
                         }
                     }

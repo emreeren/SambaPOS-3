@@ -30,11 +30,11 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Label Margin="0,0,2,2" MinWidth="100" Grid.Row="0" Grid.Column="0" Content="{LocText AccountName}" />
-                <TextBox Name="AccountNameEdit" Margin="0,0,2,2" Grid.Row="0" Grid.Column="1" Text="{Binding SelectedAccount.Name,UpdateSourceTrigger=PropertyChanged}" />
+                <Label Margin="0,0,2,2" MinWidth="100" Grid.Row="0" Grid.Column="0" Content="{LocText Name}" />
+                <TextBox Name="ResourceNameEdit" Margin="0,0,2,2" Grid.Row="0" Grid.Column="1" Text="{Binding SelectedResource.Name,UpdateSourceTrigger=PropertyChanged}" />
                 <ViewModels:ResourceCustomDataEditor Focusable="False" Grid.Row="1" Grid.ColumnSpan="2" DataContext="{Binding CustomDataViewModel}"/>
             </Grid>
-            <Grid Visibility="{Binding SelectedAccount.IsNotNew,Converter={StaticResource VisibilityConverter}}">
+            <Grid Visibility="{Binding SelectedResource.IsNotNew,Converter={StaticResource VisibilityConverter}}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="*" />
@@ -43,17 +43,17 @@
                 <UniformGrid Columns="2" Grid.Row="0">
                     <TextBlock FontSize="16" FontWeight="Bold" Text="{LocText TotalSales}">
                     </TextBlock>
-                    <TextBlock FontSize="16" Text="{Binding SelectedAccount.TotalTicketAmount,StringFormat='#,#0.00'}" />
+                    <TextBlock FontSize="16" Text="{Binding SelectedResource.TotalTicketAmount,StringFormat='#,#0.00'}" />
                     <TextBlock FontSize="16" FontWeight="Bold" Text="{LocText LastOrderDate}">
                     </TextBlock>
-                    <TextBlock FontSize="16" Text="{Binding SelectedAccount.LastTicket.LastOrderDate,StringFormat='dd MMMM yyyy'}" />
+                    <TextBlock FontSize="16" Text="{Binding SelectedResource.LastTicket.LastOrderDate,StringFormat='dd MMMM yyyy'}" />
                     <TextBlock FontSize="16" FontWeight="Bold" Text="{LocText LastOrderStatus}">
                     </TextBlock>
-                    <TextBlock FontSize="16" Text="{Binding SelectedAccount.LastTicketStateString}" />
+                    <TextBlock FontSize="16" Text="{Binding SelectedResource.LastTicketStateString}" />
                     <TextBlock Margin="0,5,0,0" FontSize="16" FontWeight="Bold" Text="{LocText LastOrder}">
                     </TextBlock>
                 </UniformGrid>
-                <ItemsControl Grid.Row="1" Margin="3" ItemsSource="{Binding SelectedAccount.LastTicketLines}">
+                <ItemsControl Grid.Row="1" Margin="3" ItemsSource="{Binding SelectedResource.LastTicketLines}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Grid>
@@ -80,7 +80,7 @@
                     <TextBlock FontSize="16" FontWeight="Bold" Grid.Column="0" HorizontalAlignment="Stretch"
                                  Text="{LocText Total}" />
                     <TextBlock FontSize="16" FontWeight="Bold" Grid.Column="1" HorizontalAlignment="Right"
-                                 Text="{Binding SelectedAccount.TicketTotal,StringFormat='#,#0.00'}" />
+                                 Text="{Binding SelectedResource.TicketTotal,StringFormat='#,#0.00'}" />
                 </Grid>
             </Grid>
         </UniformGrid>
@@ -96,10 +96,10 @@
             <StackPanel Grid.Row="0">
                 <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding CloseScreenCommand.Caption}"
                          ButtonColor="Red" Command="{Binding CloseScreenCommand}" />
-                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding SaveAccountCommand.Caption}"
-                         Command="{Binding SaveAccountCommand}" />
-                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding SelectAccountCommand.Caption}"
-                         Command="{Binding SelectAccountCommand}" />
+                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding SaveResourceCommand.Caption}"
+                         Command="{Binding SaveResourceCommand}" />
+                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding SelectResourceCommand.Caption}"
+                         Command="{Binding SelectResourceCommand}" />
             </StackPanel>
         </Grid>
     </Grid>

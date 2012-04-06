@@ -27,19 +27,19 @@
             </Grid.RowDefinitions>
             <TextBlock Margin="3" Grid.Row="0" Grid.Column="0" FontSize="24" Text="Templates" />
             <TextBlock Margin="3" Grid.Row="0" Grid.Column="1" FontSize="24" Text="{LocText SearchString}" />
-            <ComboBox Margin="3" Grid.Row="1" Grid.Column="0" FontSize="24" DisplayMemberPath="Name" ItemsSource="{Binding AccountTemplates}" SelectedItem="{Binding SelectedAccountTemplate}"></ComboBox>
+            <ComboBox Margin="3" Grid.Row="1" Grid.Column="0" FontSize="24" DisplayMemberPath="Name" ItemsSource="{Binding ResourceTemplates}" SelectedItem="{Binding SelectedResourceTemplate}"></ComboBox>
             <TextBox Margin="3" Grid.Row="1" Grid.Column="1" FontSize="24" Name="SearchString"
                              Text="{Binding SearchString,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                              PreviewKeyDown="SearchStringPreviewKeyDown" Loaded="SearchStringLoaded" />
         </Grid>
         <ListView Name="MainListView" Grid.Row="1" Margin="5" Background="LightGray" VirtualizingStackPanel.IsVirtualizing="True"
                          IsSynchronizedWithCurrentItem="True" ListViewEx:ListViewSorter.IsListviewSortable="True"
-                         ListViewLM:ListViewLayoutManager.Enabled="True" ItemsSource="{Binding FoundAccounts}"
-                         SelectedItem="{Binding FocusedAccount,Mode=TwoWay}" ItemContainerStyle="{StaticResource ListViewItemExContainerStyle}">
+                         ListViewLM:ListViewLayoutManager.Enabled="True" ItemsSource="{Binding FoundResources}"
+                         SelectedItem="{Binding FocusedResource,Mode=TwoWay}" ItemContainerStyle="{StaticResource ListViewItemExContainerStyle}">
             <ListView.View>
                 <GridView AllowsColumnReorder="False" ColumnHeaderContainerStyle="{StaticResource BlueBackground}"
                                  ColumnHeaderTemplate="{StaticResource WrappedHeaderTemplate}">
-                    <GridViewColumn Header="{LocText AccountName}" ListViewLM:ProportionalColumn.Width="2">
+                    <GridViewColumn Header="{LocText Name}" ListViewLM:ProportionalColumn.Width="2">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Name}" />
@@ -63,12 +63,12 @@
                          ButtonColor="Red" Command="{Binding CloseScreenCommand}" />
                 <FlexButton:FlexButton Margin="2" Height="60" Content="{LocText Clear}"
                          Click="FlexButtonClick" />
-                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding SelectAccountCommand.Caption}"
-                         Command="{Binding SelectAccountCommand}" Name="SelectAccountButton" />
-                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding EditAccountCommand.Caption}"
-                         Command="{Binding EditAccountCommand}"/>
-                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding CreateAccountCommand.Caption}"
-                         Command="{Binding CreateAccountCommand}" Name="CreateAccountButton" />
+                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding SelectResourceCommand.Caption}"
+                         Command="{Binding SelectResourceCommand}" Name="SelectResourceButton" />
+                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding EditResourceCommand.Caption}"
+                         Command="{Binding EditResourceCommand}"/>
+                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding CreateResourceCommand.Caption}"
+                         Command="{Binding CreateResourceCommand}" Name="CreateResourceButton" />
                 <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding DisplayAccountCommand.Caption}"
                          Command="{Binding DisplayAccountCommand}" />
             </StackPanel>

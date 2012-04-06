@@ -52,14 +52,14 @@ namespace Samba.Modules.ResourceModule
 
         public override string GetModelTypeString()
         {
-            return Resources.Account;
+            return Resources.Resource;
         }
 
         public string SearchString { get { return Model.SearchString; } set { Model.SearchString = value; } }
 
         protected override AbstractValidator<Resource> GetValidator()
         {
-            return new AccountValidator();
+            return new ResourceValidator();
         }
 
         protected override void OnSave(string value)
@@ -74,9 +74,9 @@ namespace Samba.Modules.ResourceModule
         }
     }
 
-    internal class AccountValidator : EntityValidator<Resource>
+    internal class ResourceValidator : EntityValidator<Resource>
     {
-        public AccountValidator()
+        public ResourceValidator()
         {
             RuleFor(x => x.ResourceTemplateId).GreaterThan(0);
         }

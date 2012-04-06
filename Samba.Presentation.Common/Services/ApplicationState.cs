@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
@@ -29,8 +27,8 @@ namespace Samba.Presentation.Common.Services
         }
 
         public AppScreens ActiveAppScreen { get; private set; }
-        public Department CurrentDepartment { get; private set; }
-        public ResourceScreen SelectedLocationScreen { get; private set; }
+        public CurrentDepartmentData CurrentDepartment { get; private set; }
+        public ResourceScreen SelectedResourceScreen { get; private set; }
 
         private Terminal _terminal;
 
@@ -80,10 +78,11 @@ namespace Samba.Presentation.Common.Services
 
         public void SetCurrentDepartment(Department department)
         {
-            if (department != CurrentDepartment)
+            if (CurrentDepartment == null || department != CurrentDepartment.Model)
             {
-                CurrentDepartment = department;
-                CurrentDepartment.PublishEvent(EventTopicNames.SelectedDepartmentChanged);
+
+                CurrentDepartment = new CurrentDepartmentData { Model = department };
+                CurrentDepartment.Model.PublishEvent(EventTopicNames.SelectedDepartmentChanged);
             }
         }
 
@@ -97,9 +96,9 @@ namespace Samba.Presentation.Common.Services
             ActiveAppScreen = appScreen;
         }
 
-        public void SetSelectedLocationScreen(ResourceScreen locationScreen)
+        public void SetSelectedResourceScreen(ResourceScreen resourceScreen)
         {
-            SelectedLocationScreen = locationScreen;
+            SelectedResourceScreen = resourceScreen;
         }
 
         public void SetApplicationLocked(bool isLocked)

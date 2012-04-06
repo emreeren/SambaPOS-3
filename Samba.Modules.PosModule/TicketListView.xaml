@@ -168,21 +168,24 @@
         <!--COMMAND BUTTONS AREA-->
         <StackPanel Grid.Column="0" Grid.RowSpan="5" Grid.Row="0" VerticalAlignment="Top"
                      Width="90">
-            <!--<FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding SelectLocationCommand}"
-                         Visibility="{Binding IsLocationButtonVisible,Converter={StaticResource VisibilityConverter}}">
-                <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
-                             Text="{Binding SelectLocationButtonCaption}" />
-            </FxButton:FlexButton>-->
-            <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding SelectAccountCommand}"
-                         Visibility="{Binding IsAccountButtonVisible,Converter={StaticResource VisibilityConverter}}">
-                <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
-                             Text="{Binding SelectAccountButtonCaption}" />
-            </FxButton:FlexButton>
-            <FxButton:FlexButton Height="50" Margin="0,0,3,3" Command="{Binding SelectTargetAccountCommand}"
-                         Visibility="{Binding IsAccountButtonVisible,Converter={StaticResource VisibilityConverter}}">
-                <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
-                             Text="{Binding SelectTargetAccountButtonCaption}" />
-            </FxButton:FlexButton>
+            <ItemsControl ItemsSource="{Binding ResourceButtons,NotifyOnTargetUpdated=True}"
+                         HorizontalAlignment="Stretch" Visibility="{Binding IsNothingSelected,Converter={StaticResource VisibilityConverter}}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel VerticalAlignment="Top" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <FxButton:FlexButton Focusable="False" Command="{Binding SelectResourceCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
+                                     CommandParameter="{Binding Model}" Height="50"
+                                     Margin="0,0,3,3">
+                            <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
+                                         Text="{Binding Name}" />
+                        </FxButton:FlexButton>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
             <ItemsControl ItemsSource="{Binding CustomTicketCommands,NotifyOnTargetUpdated=True}"
                          HorizontalAlignment="Stretch" Visibility="{Binding IsNothingSelected,Converter={StaticResource VisibilityConverter}}">
                 <ItemsControl.ItemsPanel>

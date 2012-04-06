@@ -20,7 +20,7 @@ namespace Samba.Modules.ResourceModule
         public ResourceSearchView(ResourceSearchViewModel viewModel)
         {
             DataContext = viewModel;
-            viewModel.SelectedAccountTemplateChanged += viewModel_SelectedAccountTemplateChanged;
+            viewModel.SelectedResourceTemplateChanged += viewModel_SelectedAccountTemplateChanged;
             InitializeComponent();
         }
 
@@ -30,20 +30,20 @@ namespace Samba.Modules.ResourceModule
             var selector = sender as ResourceSearchViewModel;
             if (selector != null && gridView != null)
             {
-                gridView.Columns.Where(x => x.Header.ToString() != "Account Name").ToList().ForEach(x => gridView.Columns.Remove(x));
-                if (selector.SelectedAccount != null)
-                    selector.SelectedAccountTemplate.ResoruceCustomFields.Where(x => !x.Hidden).Select(CreateColumn).ToList().ForEach(x => gridView.Columns.Add(x));
+                gridView.Columns.Where(x => x.Header.ToString() != "Name").ToList().ForEach(x => gridView.Columns.Remove(x));
+                if (selector.SelectedResource != null)
+                    selector.SelectedResourceTemplate.ResoruceCustomFields.Where(x => !x.Hidden).Select(CreateColumn).ToList().ForEach(x => gridView.Columns.Add(x));
                 MainListView.RaiseEvent(new RoutedEventArgs(LoadedEvent, MainListView));
             }
         }
 
-        private static GridViewColumn CreateColumn(ResourceCustomField accountCustomField)
+        private static GridViewColumn CreateColumn(ResourceCustomField customField)
         {
             var template = new DataTemplate { DataType = typeof(string) };
             var fef = new FrameworkElementFactory(typeof(TextBlock));
-            fef.SetBinding(TextBlock.TextProperty, new Binding("[" + accountCustomField.Name + "]") { StringFormat = accountCustomField.EditingFormat });
+            fef.SetBinding(TextBlock.TextProperty, new Binding("[" + customField.Name + "]") { StringFormat = customField.EditingFormat });
             template.VisualTree = fef;
-            var c = new GridViewColumn { Header = accountCustomField.Name, CellTemplate = template };
+            var c = new GridViewColumn { Header = customField.Name, CellTemplate = template };
             Presentation.Common.ListViewLM.ProportionalColumn.ApplyWidth(c, 1);
             return c;
         }
@@ -53,8 +53,8 @@ namespace Samba.Modules.ResourceModule
             if (e.Key == Key.Enter)
             {
                 e.Handled = true;
-                if (((ResourceSearchViewModel)DataContext).SelectAccountCommand.CanExecute(""))
-                    ((ResourceSearchViewModel)DataContext).SelectAccountCommand.Execute("");
+                if (((ResourceSearchViewModel)DataContext).SelectResourceCommand.CanExecute(""))
+                    ((ResourceSearchViewModel)DataContext).SelectResourceCommand.Execute("");
             }
         }
 
@@ -65,7 +65,7 @@ namespace Samba.Modules.ResourceModule
 
         private void Reset()
         {
-            ((ResourceSearchViewModel)DataContext).RefreshSelectedAccount(null);
+            ((ResourceSearchViewModel)DataContext).RefreshSelectedResource(null);
             SearchString.BackgroundFocus();
         }
 

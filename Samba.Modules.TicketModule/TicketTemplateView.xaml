@@ -9,6 +9,12 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions >
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
         <StackPanel Grid.Column="0">
             <Label HorizontalAlignment="Left" Content="Ticket Template Name" />
             <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
@@ -28,134 +34,165 @@
             <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTransactionTemplates}"
                                      SelectedItem="{Binding SaleTransactionTemplate}" />
 
-            <Label MinWidth="120">Target Account Template</Label>
-            <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTemplates}"
-                                     SelectedValue="{Binding TargetAccountTemplateId}" SelectedValuePath="Id" />
+        </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                <DataGrid MinWidth="170" ItemsSource="{Binding TicketTagGroups}" SelectedItem="{Binding SelectedTicketTag, Mode=TwoWay}"
+        <ScrollViewer Grid.Column="1" Margin="20,0,0,0">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                    <DataGrid MinWidth="170" ItemsSource="{Binding ResourceTemplates}" SelectedItem="{Binding SelectedResourceTemplate, Mode=TwoWay}"
                                      HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
                                      AutoGenerateColumns="False" CanUserSortColumns="False" IsReadOnly="True" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="{LocText TicketTagGroup}"
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="{LocText ResourceTemplate}"
                                              MinWidth="100" Binding="{Binding Name}" />
-                    </DataGrid.Columns>
-                    <DataGrid.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Command="{Binding AddTicketTagGroupCommand}" Header="{Binding AddTicketTagGroupCommand.Caption}" />
-                            <MenuItem Command="{Binding DeleteTicketTagGroupCommand}" Header="{Binding DeleteTicketTagGroupCommand.Caption}" />
-                        </ContextMenu>
-                    </DataGrid.ContextMenu>
-                </DataGrid>
-                <StackPanel Margin="10">
-                    <TextBlock Margin="2,3">
+                        </DataGrid.Columns>
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Command="{Binding AddResourceTemplateCommand}" Header="{Binding AddResourceTemplateCommand.Caption}" />
+                                <MenuItem Command="{Binding DeleteResourceTemplateCommand}" Header="{Binding DeleteResourceTemplateCommand.Caption}" />
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                    </DataGrid>
+                    <StackPanel Margin="10">
+                        <TextBlock Margin="2,3">
+                                        <Hyperlink Command="{Binding AddResourceTemplateCommand}">
+                                            <TextBlock Text="{Binding Path=AddResourceTemplateCommand.Caption}" />
+                                        </Hyperlink>
+                                    </TextBlock>
+                        <TextBlock Margin="2,3">
+                                        <Hyperlink Command="{Binding DeleteResourceTemplateCommand}">
+                                            <TextBlock Text="{Binding Path=DeleteResourceTemplateCommand.Caption}" />
+                                        </Hyperlink>
+                                    </TextBlock>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                    <DataGrid MinWidth="170" ItemsSource="{Binding TicketTagGroups}" SelectedItem="{Binding SelectedTicketTag, Mode=TwoWay}"
+                                     HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
+                                     AutoGenerateColumns="False" CanUserSortColumns="False" IsReadOnly="True" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="{LocText TicketTagGroup}"
+                                             MinWidth="100" Binding="{Binding Name}" />
+                        </DataGrid.Columns>
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Command="{Binding AddTicketTagGroupCommand}" Header="{Binding AddTicketTagGroupCommand.Caption}" />
+                                <MenuItem Command="{Binding DeleteTicketTagGroupCommand}" Header="{Binding DeleteTicketTagGroupCommand.Caption}" />
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                    </DataGrid>
+                    <StackPanel Margin="10">
+                        <TextBlock Margin="2,3">
                                         <Hyperlink Command="{Binding AddTicketTagGroupCommand}">
                                             <TextBlock Text="{Binding Path=AddTicketTagGroupCommand.Caption}" />
                                         </Hyperlink>
                                     </TextBlock>
-                    <TextBlock Margin="2,3">
+                        <TextBlock Margin="2,3">
                                         <Hyperlink Command="{Binding DeleteTicketTagGroupCommand}">
                                             <TextBlock Text="{Binding Path=DeleteTicketTagGroupCommand.Caption}" />
                                         </Hyperlink>
                                     </TextBlock>
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
 
-            <StackPanel Orientation="Horizontal">
-                <DataGrid MinWidth="170" ItemsSource="{Binding OrderTagGroups}" SelectedItem="{Binding SelectedOrderTagGroup, Mode=TwoWay}"
+                <StackPanel Orientation="Horizontal">
+                    <DataGrid MinWidth="170" ItemsSource="{Binding OrderTagGroups}" SelectedItem="{Binding SelectedOrderTagGroup, Mode=TwoWay}"
                                      HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
                                      AutoGenerateColumns="False" CanUserSortColumns="False" IsReadOnly="True" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="{LocText OrderTagGroup}"
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="{LocText OrderTagGroup}"
                                              MinWidth="100" Binding="{Binding Name}" />
-                    </DataGrid.Columns>
-                    <DataGrid.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Command="{Binding AddOrderTagGroupCommand}" Header="{Binding AddOrderTagGroupCommand.Caption}" />
-                            <MenuItem Command="{Binding DeleteOrderTagGroupCommand}" Header="{Binding DeleteOrderTagGroupCommand.Caption}" />
-                        </ContextMenu>
-                    </DataGrid.ContextMenu>
-                </DataGrid>
-                <StackPanel Margin="10">
-                    <TextBlock Margin="2,3">
+                        </DataGrid.Columns>
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Command="{Binding AddOrderTagGroupCommand}" Header="{Binding AddOrderTagGroupCommand.Caption}" />
+                                <MenuItem Command="{Binding DeleteOrderTagGroupCommand}" Header="{Binding DeleteOrderTagGroupCommand.Caption}" />
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                    </DataGrid>
+                    <StackPanel Margin="10">
+                        <TextBlock Margin="2,3">
                                         <Hyperlink Command="{Binding AddOrderTagGroupCommand}">
                                             <TextBlock Text="{Binding Path=AddOrderTagGroupCommand.Caption}" />
                                         </Hyperlink>
                                     </TextBlock>
-                    <TextBlock Margin="2,3">
+                        <TextBlock Margin="2,3">
                                         <Hyperlink Command="{Binding DeleteOrderTagGroupCommand}">
                                             <TextBlock Text="{Binding Path=DeleteOrderTagGroupCommand.Caption}" />
                                         </Hyperlink>
                                     </TextBlock>
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
 
-            <StackPanel Orientation="Horizontal">
-                <DataGrid MinWidth="170" ItemsSource="{Binding PaymentTemplates}" SelectedItem="{Binding SelectedPaymentTemplate, Mode=TwoWay}"
+                <StackPanel Orientation="Horizontal">
+                    <DataGrid MinWidth="170" ItemsSource="{Binding PaymentTemplates}" SelectedItem="{Binding SelectedPaymentTemplate, Mode=TwoWay}"
                                      HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
                                      AutoGenerateColumns="False" CanUserSortColumns="False" IsReadOnly="True" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="{LocText PaymentTemplate}"
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="{LocText PaymentTemplate}"
                                              MinWidth="100" Binding="{Binding Name}" />
-                    </DataGrid.Columns>
-                    <DataGrid.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Command="{Binding AddPaymentTemplateCommand}" Header="{Binding AddPaymentTemplateCommand.Caption}" />
-                            <MenuItem Command="{Binding DeletePaymentTemplateCommand}" Header="{Binding DeletePaymentTemplateCommand.Caption}" />
-                        </ContextMenu>
-                    </DataGrid.ContextMenu>
-                </DataGrid>
-                <StackPanel Margin="10">
-                    <TextBlock Margin="2,3">
+                        </DataGrid.Columns>
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Command="{Binding AddPaymentTemplateCommand}" Header="{Binding AddPaymentTemplateCommand.Caption}" />
+                                <MenuItem Command="{Binding DeletePaymentTemplateCommand}" Header="{Binding DeletePaymentTemplateCommand.Caption}" />
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                    </DataGrid>
+                    <StackPanel Margin="10">
+                        <TextBlock Margin="2,3">
                                         <Hyperlink Command="{Binding AddPaymentTemplateCommand}">
                                             <TextBlock Text="{Binding Path=AddPaymentTemplateCommand.Caption}" />
                                         </Hyperlink>
                                     </TextBlock>
-                    <TextBlock Margin="2,3">
+                        <TextBlock Margin="2,3">
                                         <Hyperlink Command="{Binding DeletePaymentTemplateCommand}">
                                             <TextBlock Text="{Binding Path=DeletePaymentTemplateCommand.Caption}" />
                                         </Hyperlink>
                                     </TextBlock>
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
 
-            <StackPanel Orientation="Horizontal">
-                <DataGrid MinWidth="170" ItemsSource="{Binding CalculationTemplates}" SelectedItem="{Binding SelectedCalculationTemplate, Mode=TwoWay}"
+                <StackPanel Orientation="Horizontal">
+                    <DataGrid MinWidth="170" ItemsSource="{Binding CalculationTemplates}" SelectedItem="{Binding SelectedCalculationTemplate, Mode=TwoWay}"
                                      HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
                                      AutoGenerateColumns="False" CanUserSortColumns="False" IsReadOnly="True" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="{LocText CalculationTemplate}"
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="{LocText CalculationTemplate}"
                                              MinWidth="100" Binding="{Binding Name}" />
-                    </DataGrid.Columns>
-                    <DataGrid.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Command="{Binding AddCalculationTemplateCommand}" Header="{Binding AddCalculationTemplateCommand.Caption}" />
-                            <MenuItem Command="{Binding DeleteCalculationTemplateCommand}" Header="{Binding DeleteCalculationTemplateCommand.Caption}" />
-                        </ContextMenu>
-                    </DataGrid.ContextMenu>
-                </DataGrid>
-                <StackPanel Margin="10">
-                    <TextBlock Margin="2,3">
+                        </DataGrid.Columns>
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Command="{Binding AddCalculationTemplateCommand}" Header="{Binding AddCalculationTemplateCommand.Caption}" />
+                                <MenuItem Command="{Binding DeleteCalculationTemplateCommand}" Header="{Binding DeleteCalculationTemplateCommand.Caption}" />
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                    </DataGrid>
+                    <StackPanel Margin="10">
+                        <TextBlock Margin="2,3">
                                         <Hyperlink Command="{Binding AddCalculationTemplateCommand}">
                                             <TextBlock Text="{Binding Path=AddCalculationTemplateCommand.Caption}" />
                                         </Hyperlink>
                                     </TextBlock>
-                    <TextBlock Margin="2,3">
+                        <TextBlock Margin="2,3">
                                         <Hyperlink Command="{Binding DeleteCalculationTemplateCommand}">
                                             <TextBlock Text="{Binding Path=DeleteCalculationTemplateCommand.Caption}" />
                                         </Hyperlink>
                                     </TextBlock>
+                    </StackPanel>
                 </StackPanel>
+
             </StackPanel>
+        </ScrollViewer>
 
-
+        <StackPanel Grid.Row="1">
             <StackPanel Orientation="Horizontal">
                 <Button HorizontalAlignment="Left" Margin="0,10,3,0" MinWidth="70" Content="{Binding SaveCommand.Caption}"
                  Command="{Binding SaveCommand}" />
             </StackPanel>
             <Label Content="{Binding Error}" Foreground="Red" />
         </StackPanel>
-        <StackPanel Grid.Column="1">
-        </StackPanel>
+
     </Grid>
 </UserControl>

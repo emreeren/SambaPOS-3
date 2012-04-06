@@ -4,36 +4,36 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
 using Microsoft.Practices.Prism.Commands;
-using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Resources;
 using Samba.Infrastructure;
 using Samba.Localization.Properties;
+using Samba.Modules.LocationModule;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Services;
 using Samba.Services;
 using Samba.Services.Common;
 
-namespace Samba.Modules.LocationModule
+namespace Samba.Modules.ResourceModule
 {
     [Export]
-    public class LocationSelectorViewModel : ObservableObject
+    public class ResourceSelectorViewModel : ObservableObject
     {
-        public DelegateCommand<AccountButtonViewModel> LocationSelectionCommand { get; set; }
-        public DelegateCommand<ResourceScreen> SelectLocationCategoryCommand { get; set; }
+        public DelegateCommand<ResourceButtonViewModel> ResourceSelectionCommand { get; set; }
+        public DelegateCommand<ResourceScreen> SelectResourceCategoryCommand { get; set; }
         public ICaptionCommand CloseScreenCommand { get; set; }
-        public ICaptionCommand EditSelectedLocationScreenPropertiesCommand { get; set; }
+        public ICaptionCommand EditSelectedResourceScreenPropertiesCommand { get; set; }
         public ICaptionCommand IncPageNumberCommand { get; set; }
         public ICaptionCommand DecPageNumberCommand { get; set; }
 
-        public ObservableCollection<IDiagram> Locations { get; set; }
+        public ObservableCollection<IDiagram> ResourceScreenItems { get; set; }
 
-        public ResourceScreen SelectedLocationScreen { get { return _applicationState.SelectedLocationScreen; } }
-        public IEnumerable<ResourceScreen> LocationScreens { get { return _applicationState.CurrentDepartment != null ? _applicationState.CurrentDepartment.LocationScreens : null; } }
+        public ResourceScreen SelectedResourceScreen { get { return _applicationState.SelectedResourceScreen; } }
+        public IEnumerable<ResourceScreen> ResourceScreens { get { return _applicationState.CurrentDepartment != null ? _applicationState.CurrentDepartment.LocationScreens : null; } }
 
-        public bool CanDesignLocations { get { return _applicationState.CurrentLoggedInUser.UserRole.IsAdmin; } }
+        public bool CanDesignResourceScreenItems { get { return _applicationState.CurrentLoggedInUser.UserRole.IsAdmin; } }
         public int CurrentPageNo { get; set; }
 
-        public bool IsPageNavigatorVisible { get { return SelectedLocationScreen != null && SelectedLocationScreen.PageCount > 1; } }
+        public bool IsPageNavigatorVisible { get { return SelectedResourceScreen != null && SelectedResourceScreen.PageCount > 1; } }
         public bool IsFeedbackVisible { get { return !string.IsNullOrEmpty(Feedback); } }
         private string _feedback;
         public string Feedback
@@ -65,28 +65,28 @@ namespace Samba.Modules.LocationModule
             }
         }
 
-        public VerticalAlignment LocationsVerticalAlignment { get { return SelectedLocationScreen != null && SelectedLocationScreen.ButtonHeight > 0 ? VerticalAlignment.Top : VerticalAlignment.Stretch; } }
+        public VerticalAlignment ScreenVerticalAlignment { get { return SelectedResourceScreen != null && SelectedResourceScreen.ButtonHeight > 0 ? VerticalAlignment.Top : VerticalAlignment.Stretch; } }
 
         private readonly IApplicationState _applicationState;
-        private readonly ILocationService _locationService;
+        private readonly IResourceService _resourceService;
         private readonly IUserService _userService;
         private readonly IApplicationStateSetter _applicationStateSetter;
         private readonly ICacheService _cacheService;
         private EntityOperationRequest<ResourceScreenItem> _currentOperationRequest;
 
         [ImportingConstructor]
-        public LocationSelectorViewModel(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
-            ILocationService locationService, IUserService userService, ICacheService cacheService)
+        public ResourceSelectorViewModel(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
+            IResourceService resourceService, IUserService userService, ICacheService cacheService)
         {
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
-            _locationService = locationService;
+            _resourceService = resourceService;
             _userService = userService;
             _cacheService = cacheService;
-            SelectLocationCategoryCommand = new DelegateCommand<ResourceScreen>(OnSelectLocationCategoryExecuted);
-            LocationSelectionCommand = new DelegateCommand<AccountButtonViewModel>(OnSelectLocationExecuted);
+            SelectResourceCategoryCommand = new DelegateCommand<ResourceScreen>(OnSelectResourceCategoryExecuted);
+            ResourceSelectionCommand = new DelegateCommand<ResourceButtonViewModel>(OnSelectResourceExecuted);
             CloseScreenCommand = new CaptionCommand<string>(Resources.Close, OnCloseScreenExecuted);
-            EditSelectedLocationScreenPropertiesCommand = new CaptionCommand<string>(Resources.Properties, OnEditSelectedLocationScreenProperties, CanEditSelectedLocationScreenProperties);
+            EditSelectedResourceScreenPropertiesCommand = new CaptionCommand<string>(Resources.Properties, OnEditSelectedResourceScreenProperties, CanEditSelectedResourceScreenProperties);
             IncPageNumberCommand = new CaptionCommand<string>(Resources.NextPage + " >>", OnIncPageNumber, CanIncPageNumber);
             DecPageNumberCommand = new CaptionCommand<string>("<< " + Resources.PreviousPage, OnDecPageNumber, CanDecPageNumber);
 
@@ -97,7 +97,7 @@ namespace Samba.Modules.LocationModule
                         && x.Topic == EventTopicNames.MessageReceivedEvent
                         && x.Value.Command == Messages.TicketRefreshMessage)
                     {
-                        RefreshLocations();
+                        RefreshResourceScreenItems();
                     }
                 });
 
@@ -107,50 +107,50 @@ namespace Samba.Modules.LocationModule
                     if (x.Topic == EventTopicNames.SelectLocation)
                     {
                         _currentOperationRequest = x.Value;
-                        UpdateLocations(_applicationState.SelectedLocationScreen ?? _applicationState.CurrentDepartment.LocationScreens[0]);
+                        UpdateResourceScreenItems(_applicationState.SelectedResourceScreen ?? _applicationState.CurrentDepartment.LocationScreens[0]);
                     }
                 });
         }
 
-        public void RefreshLocations()
+        public void RefreshResourceScreenItems()
         {
-            if (SelectedLocationScreen == null && LocationScreens.Count() > 0)
-                _applicationStateSetter.SetSelectedLocationScreen(LocationScreens.First());
-            if (SelectedLocationScreen != null)
-                UpdateLocations(SelectedLocationScreen);
+            if (SelectedResourceScreen == null && ResourceScreens.Count() > 0)
+                _applicationStateSetter.SetSelectedResourceScreen(ResourceScreens.First());
+            if (SelectedResourceScreen != null)
+                UpdateResourceScreenItems(SelectedResourceScreen);
         }
 
         private bool CanDecPageNumber(string arg)
         {
-            return SelectedLocationScreen != null && CurrentPageNo > 0;
+            return SelectedResourceScreen != null && CurrentPageNo > 0;
         }
 
         private void OnDecPageNumber(string obj)
         {
             CurrentPageNo--;
-            RefreshLocations();
+            RefreshResourceScreenItems();
         }
 
         private bool CanIncPageNumber(string arg)
         {
-            return SelectedLocationScreen != null && CurrentPageNo < SelectedLocationScreen.PageCount - 1;
+            return SelectedResourceScreen != null && CurrentPageNo < SelectedResourceScreen.PageCount - 1;
         }
 
         private void OnIncPageNumber(string obj)
         {
             CurrentPageNo++;
-            RefreshLocations();
+            RefreshResourceScreenItems();
         }
 
-        private bool CanEditSelectedLocationScreenProperties(string arg)
+        private bool CanEditSelectedResourceScreenProperties(string arg)
         {
-            return SelectedLocationScreen != null;
+            return SelectedResourceScreen != null;
         }
 
-        private void OnEditSelectedLocationScreenProperties(string obj)
+        private void OnEditSelectedResourceScreenProperties(string obj)
         {
-            if (SelectedLocationScreen != null)
-                InteractionService.UserIntraction.EditProperties(SelectedLocationScreen);
+            if (SelectedResourceScreen != null)
+                InteractionService.UserIntraction.EditProperties(SelectedResourceScreen);
         }
 
         private void OnCloseScreenExecuted(string obj)
@@ -158,12 +158,12 @@ namespace Samba.Modules.LocationModule
             _applicationState.CurrentDepartment.PublishEvent(EventTopicNames.ActivateOpenTickets);
         }
 
-        private void OnSelectLocationCategoryExecuted(ResourceScreen obj)
+        private void OnSelectResourceCategoryExecuted(ResourceScreen obj)
         {
-            UpdateLocations(obj);
+            UpdateResourceScreenItems(obj);
         }
 
-        private void OnSelectLocationExecuted(AccountButtonViewModel obj)
+        private void OnSelectResourceExecuted(ResourceButtonViewModel obj)
         {
             //var location = new LocationData
             //                   {
@@ -177,33 +177,33 @@ namespace Samba.Modules.LocationModule
             _currentOperationRequest.Publish(obj.Model);
         }
 
-        private void UpdateLocations(ResourceScreen locationScreen)
+        private void UpdateResourceScreenItems(ResourceScreen resourceScreen)
         {
             Feedback = "";
-            var locationData = _locationService.GetCurrentLocations(locationScreen, CurrentPageNo).OrderBy(x => x.Order).ToList();
+            var resourceData = _resourceService.GetCurrentResourceScreenItems(resourceScreen, CurrentPageNo).OrderBy(x => x.Order).ToList();
 
-            if (Locations != null && (Locations.Count() == 0 || Locations.Count != locationData.Count() || Locations.First().Caption != locationData.First().Name)) Locations = null;
+            if (ResourceScreenItems != null && (ResourceScreenItems.Count() == 0 || ResourceScreenItems.Count != resourceData.Count() || ResourceScreenItems.First().Caption != resourceData.First().Name)) ResourceScreenItems = null;
 
-            if (Locations == null)
+            if (ResourceScreenItems == null)
             {
-                Locations = new ObservableCollection<IDiagram>();
-                Locations.AddRange(locationData.Select(x =>
-                    new AccountButtonViewModel(x,
-                        SelectedLocationScreen,
-                        LocationSelectionCommand,
+                ResourceScreenItems = new ObservableCollection<IDiagram>();
+                ResourceScreenItems.AddRange(resourceData.Select(x =>
+                    new ResourceButtonViewModel(x,
+                        SelectedResourceScreen,
+                        ResourceSelectionCommand,
                         _currentOperationRequest.SelectedEntity != null,
                         _userService.IsUserPermittedFor(PermissionNames.MergeTickets), _cacheService.GetResourceStateById(x.ResourceStateId))));
             }
             else
             {
-                for (var i = 0; i < locationData.Count(); i++)
+                for (var i = 0; i < resourceData.Count(); i++)
                 {
-                    var acs = ((AccountButtonViewModel)Locations[i]).AccountState;
-                    if (acs == null || acs.Id != locationData.ElementAt(i).ResourceStateId)
-                        ((AccountButtonViewModel)Locations[i]).AccountState =
-                            _cacheService.GetResourceStateById(locationData.ElementAt(i).ResourceStateId);
+                    var acs = ((ResourceButtonViewModel)ResourceScreenItems[i]).AccountState;
+                    if (acs == null || acs.Id != resourceData.ElementAt(i).ResourceStateId)
+                        ((ResourceButtonViewModel)ResourceScreenItems[i]).AccountState =
+                            _cacheService.GetResourceStateById(resourceData.ElementAt(i).ResourceStateId);
 
-                    ((AccountButtonViewModel)Locations[i]).Model = locationData.ElementAt(i);
+                    ((ResourceButtonViewModel)ResourceScreenItems[i]).Model = resourceData.ElementAt(i);
                 }
             }
 
@@ -220,25 +220,25 @@ namespace Samba.Modules.LocationModule
                 Feedback = Resources.SelectLocationForOperation;
             }
 
-            RaisePropertyChanged(() => Locations);
-            RaisePropertyChanged(() => LocationScreens);
-            RaisePropertyChanged(() => SelectedLocationScreen);
+            RaisePropertyChanged(() => ResourceScreenItems);
+            RaisePropertyChanged(() => ResourceScreens);
+            RaisePropertyChanged(() => SelectedResourceScreen);
             RaisePropertyChanged(() => IsPageNavigatorVisible);
-            RaisePropertyChanged(() => LocationsVerticalAlignment);
+            RaisePropertyChanged(() => ScreenVerticalAlignment);
         }
 
-        public void LoadTrackableLocations()
+        public void LoadTrackableResourceScreenItems()
         {
-            Locations = new ObservableCollection<IDiagram>(
-                _locationService.LoadLocations(SelectedLocationScreen.Name)
-                .Select<ResourceScreenItem, IDiagram>(x => new AccountButtonViewModel(x, SelectedLocationScreen)));
-            RaisePropertyChanged(() => Locations);
+            ResourceScreenItems = new ObservableCollection<IDiagram>(
+                _resourceService.LoadResourceScreenItems(SelectedResourceScreen.Name)
+                .Select<ResourceScreenItem, IDiagram>(x => new ResourceButtonViewModel(x, SelectedResourceScreen)));
+            RaisePropertyChanged(() => ResourceScreenItems);
         }
 
-        public void SaveTrackableLocations()
+        public void SaveTrackableResourceScreenItems()
         {
-            _locationService.SaveLocations();
-            UpdateLocations(SelectedLocationScreen);
+            _resourceService.SaveResourceScreenItems();
+            UpdateResourceScreenItems(SelectedResourceScreen);
         }
     }
 }

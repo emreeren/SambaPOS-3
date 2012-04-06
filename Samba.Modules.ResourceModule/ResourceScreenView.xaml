@@ -15,18 +15,19 @@
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Grid.Row="0" Margin="0,0,20,0">
                 <Label>
-                    <LocText ResourceIdentifierKey="LocationViewName" Suffix=":"/>
+                    <LocText ResourceIdentifierKey="Name" Suffix=":"/>
                 </Label>
                 <TextBox HorizontalAlignment="Left" MinWidth="250" Text="{Binding Name}" />
+                <Label>
+                    <LocText ResourceIdentifierKey="ResourceTemplate" Suffix=":"/>
+                </Label>
+                <ComboBox HorizontalAlignment="Left" MinWidth="150" SelectedValue="{Binding ResourceTemplateId}"
+                     ItemsSource="{Binding ResourceTemplates}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
                 <Label>
                     <LocText ResourceIdentifierKey="LocationViewMode" Suffix=":"/>
                 </Label>
                 <ComboBox HorizontalAlignment="Left" MinWidth="150" SelectedItem="{Binding DisplayMode}"
                      ItemsSource="{Binding DisplayModes}" />
-                <Label>
-                    <LocText ResourceIdentifierKey="BackgroundColor" Suffix=":"/>
-                </Label>
-                <PropertyEditorLibrary:ColorPicker2 HorizontalAlignment="Left" MinWidth="200" SelectedColor="{Binding BackgroundColor,Mode=TwoWay}" />
                 <Label>
                     <LocText ResourceIdentifierKey="BackgroundImage" Suffix=":"/>
                 </Label>
@@ -62,15 +63,6 @@
                     </Label>
                     <UIControls:FilteredTextBox Type="Digits" Margin="0,5,0,0" HorizontalAlignment="Left"
                          MinWidth="50" Text="{Binding PageCount}" />
-                    <Label Margin="0,5,0,0">
-                        <LocText ResourceIdentifierKey="NumeratorHeight" Suffix=":"/>
-                    </Label>
-                    <UIControls:FilteredTextBox Type="Digits" Margin="0,5,0,0" HorizontalAlignment="Left"
-                         MinWidth="50" Text="{Binding NumeratorHeight}" />
-                    <Label Margin="0,5,0,0">
-                        <LocText ResourceIdentifierKey="AlphanumericButtons" Suffix=":"/>
-                    </Label>
-                    <TextBox Margin="0,5,0,0" HorizontalAlignment="Left" MinWidth="100" Text="{Binding AlphaButtonValues}" />
                 </UniformGrid>
             </StackPanel>
         </ScrollViewer>
@@ -81,7 +73,7 @@
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Orientation="Horizontal">
                 <Label>
-                    <LocText ResourceIdentifierKey="Locations" Suffix=":"/>
+                    <LocText ResourceIdentifierKey="Resourceses" Suffix=":"/>
                 </Label>
                 <TextBlock Margin="2,5">
                     <Hyperlink Command="{Binding SelectScreenItemsCommand}">
@@ -89,7 +81,7 @@
                     </Hyperlink>
                 </TextBlock>
             </StackPanel>
-            <ListBox Grid.Row="1" ItemsSource="{Binding AccountScreenItems}" DisplayMemberPath="Name" MinHeight="150"
+            <ListBox Grid.Row="1" ItemsSource="{Binding ResourceScreenItems}" DisplayMemberPath="Name" MinHeight="150"
                          MinWidth="150" BorderThickness="1" />
         </Grid>
         <StackPanel Grid.Row="1" Grid.ColumnSpan="2">

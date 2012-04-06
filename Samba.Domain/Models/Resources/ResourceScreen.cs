@@ -15,8 +15,7 @@ namespace Samba.Domain.Models.Resources
         public int PageCount { get; set; }
         public int ColumnCount { get; set; }
         public int ButtonHeight { get; set; }
-        public int NumeratorHeight { get; set; }
-        public string AlphaButtonValues { get; set; }
+        public int ResourceTemplateId { get; set; }
 
         private IList<ResourceScreenItem> _screenItems;
         public virtual IList<ResourceScreenItem> ScreenItems

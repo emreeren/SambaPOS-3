@@ -6,8 +6,9 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Resources
 {
-    public class ResourceTemplate : Entity
+    public class ResourceTemplate : Entity,IOrderable
     {
+        public int Order { get; set; }
         public string EntityName { get; set; }
 
         private readonly IList<ResourceCustomField> _resourceCustomFields;
@@ -38,6 +39,11 @@ namespace Samba.Domain.Models.Resources
                 return ResoruceCustomFields.Where(x => data.Any(y => y.ToLower().Contains(string.Format(nameFormat, x.Name).ToLower()) && y.ToLower().Contains(searchString.ToLower())));
             }
             return ResoruceCustomFields;
+        }
+
+        public string UserString
+        {
+            get { return Name; }
         }
     }
 }

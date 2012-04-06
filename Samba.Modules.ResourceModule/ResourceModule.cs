@@ -18,57 +18,69 @@ namespace Samba.Modules.ResourceModule
     class ResourceModule : VisibleModuleBase
     {
         private readonly IUserService _userService;
-        private readonly IApplicationStateSetter _applicationStateSetter;
         private readonly IRegionManager _regionManager;
         private readonly ResourceSearchView _resourceSearchView;
         private readonly ResourceEditorView _resourceEditorView;
+        private readonly ResourceSelectorView _resourceSelectorView;
 
         [ImportingConstructor]
         public ResourceModule(IRegionManager regionManager,
-            IApplicationStateSetter applicationStateSetter,
             IUserService userService,
+            ResourceSelectorView resourceSelectorView,
             ResourceSearchView resourceSearchView,
             ResourceEditorView resourceEditorView)
             : base(regionManager, AppScreens.AccountView)
         {
+            _resourceSelectorView = resourceSelectorView;
             _resourceSearchView = resourceSearchView;
             _resourceEditorView = resourceEditorView;
             _regionManager = regionManager;
             _userService = userService;
-            _applicationStateSetter = applicationStateSetter;
-
+            
             AddDashboardCommand<EntityCollectionViewModelBase<ResourceViewModel, Resource>>(string.Format(Resources.List_f, Resources.Resource), Resources.Resourceses, 40);
             AddDashboardCommand<EntityCollectionViewModelBase<ResourceTemplateViewModel, ResourceTemplate>>(string.Format(Resources.List_f, Resources.ResourceTemplate), Resources.Resourceses, 40);
             AddDashboardCommand<EntityCollectionViewModelBase<ResourceStateViewModel, ResourceState>>(string.Format(Resources.List_f, Resources.ResourceState), Resources.Resourceses, 40);
             AddDashboardCommand<EntityCollectionViewModelBase<ResourceScreenViewModel, ResourceScreen>>(string.Format(Resources.List_f, Resources.ResourceScreen), Resources.Resourceses, 41);
-            AddDashboardCommand<EntityCollectionViewModelBase<ResourceScreenItemViewModel, ResourceScreenItem>>(string.Format(Resources.List_f, Resources.ResourceScreenItem), Resources.Resourceses, 41);
 
             PermissionRegistry.RegisterPermission(PermissionNames.NavigateResourceView, PermissionCategories.Navigation, Resources.CanNavigateCash);
+            PermissionRegistry.RegisterPermission(PermissionNames.OpenLocations, PermissionCategories.Navigation, Resources.CanOpenLocationList);
+            PermissionRegistry.RegisterPermission(PermissionNames.ChangeLocation, PermissionCategories.Ticket, Resources.CanChangeLocation);
+
             SetNavigationCommand(Resources.Resourceses, Resources.Common, "Images/Xls.png", 70);
         }
 
         protected override void OnInitialization()
         {
+            _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(ResourceSelectorView));
             _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(ResourceSearchView));
             _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(ResourceEditorView));
+
+            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<ResourceScreenItem>>>().Subscribe(
+            x =>
+            {
+                if (x.Topic == EventTopicNames.SelectLocation)
+                {
+                    ActivateResourceSelector();
+                }
+            });
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(x =>
             {
                 if (x.Topic == EventTopicNames.ActivateResourceView)
-                    ActivateResourceSelector();
+                    ActivateResourceSearcher();
             });
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<Department>>().Subscribe(x =>
             {
                 if (x.Topic == EventTopicNames.SelectResource)
-                    ActivateResourceSelector();
+                    ActivateResourceSearcher();
             });
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Resource>>>().Subscribe(x =>
             {
                 if (x.Topic == EventTopicNames.SelectResource)
                 {
-                    ActivateResourceSelector(x.Value);
+                    ActivateResourceSearcher(x.Value);
                 }
             });
 
@@ -93,11 +105,16 @@ namespace Samba.Modules.ResourceModule
         {
             _regionManager.Regions[RegionNames.MainRegion].Activate(_resourceEditorView);
         }
-
-        private void ActivateResourceSelector(EntityOperationRequest<Resource> value = null)
+        
+        private void ActivateResourceSelector()
+        {
+            _regionManager.Regions[RegionNames.MainRegion].Activate(_resourceSelectorView);
+        }
+        
+        private void ActivateResourceSearcher(EntityOperationRequest<Resource> value = null)
         {
             Activate();
-            ((ResourceSearchViewModel)_resourceSearchView.DataContext).RefreshSelectedAccount(value);
+            ((ResourceSearchViewModel)_resourceSearchView.DataContext).RefreshSelectedResource(value);
             _regionManager.Regions[RegionNames.MainRegion].Activate(_resourceSearchView);
         }
 
@@ -108,8 +125,7 @@ namespace Samba.Modules.ResourceModule
 
         protected override void OnNavigate(string obj)
         {
-            _applicationStateSetter.SetCurrentDepartment(0);
-            ActivateResourceSelector();
+            ActivateResourceSearcher();
             base.OnNavigate(obj);
         }
 

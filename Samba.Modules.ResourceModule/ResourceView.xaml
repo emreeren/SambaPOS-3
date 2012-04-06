@@ -11,11 +11,11 @@
     <Grid>
         <StackPanel>
             <Label>
-                <LocText ResourceIdentifierKey="AccountName" Suffix=":"/>
+                <LocText ResourceIdentifierKey="Name" Suffix=":"/>
             </Label>
             <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
             <Label>
-                <LocText ResourceIdentifierKey="AccountTemplate" Suffix=":"/>
+                <LocText ResourceIdentifierKey="ResourceTemplate" Suffix=":"/>
             </Label>
             <ComboBox HorizontalAlignment="Left" MinWidth="150" 
                       ItemsSource="{Binding AccountTemplates}" 

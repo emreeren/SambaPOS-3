@@ -19,20 +19,20 @@ namespace Samba.Modules.ResourceModule
     [Export]
     public class ResourceSearchViewModel : ObservableObject
     {
-        public event EventHandler SelectedAccountTemplateChanged;
+        public event EventHandler SelectedResourceTemplateChanged;
 
-        private void InvokeSelectedAccountTemplateChanged(EventArgs e)
+        private void InvokeSelectedResourceTemplateChanged(EventArgs e)
         {
-            var handler = SelectedAccountTemplateChanged;
+            var handler = SelectedResourceTemplateChanged;
             if (handler != null) handler(this, e);
         }
 
-        private EntityOperationRequest<Resource> _currentAccountSelectionRequest;
+        private EntityOperationRequest<Resource> _currentResourceSelectionRequest;
 
         public ICaptionCommand CloseScreenCommand { get; set; }
-        public ICaptionCommand SelectAccountCommand { get; set; }
-        public ICaptionCommand CreateAccountCommand { get; set; }
-        public ICaptionCommand EditAccountCommand { get; set; }
+        public ICaptionCommand SelectResourceCommand { get; set; }
+        public ICaptionCommand CreateResourceCommand { get; set; }
+        public ICaptionCommand EditResourceCommand { get; set; }
         public ICaptionCommand DisplayAccountCommand { get; set; }
 
         private readonly IApplicationState _applicationState;
@@ -47,50 +47,50 @@ namespace Samba.Modules.ResourceModule
             _applicationState = applicationState;
             _cacheService = cacheService;
 
-            FoundAccounts = new ObservableCollection<ResourceSearchResultViewModel>();
+            FoundResources = new ObservableCollection<ResourceSearchResultViewModel>();
 
             CloseScreenCommand = new CaptionCommand<string>(Resources.Close, OnCloseScreen);
-            SelectAccountCommand = new CaptionCommand<string>(Resources.SelectAccount.Replace(" ", "\r"), OnSelectAccount, CanSelectAccount);
-            EditAccountCommand = new CaptionCommand<string>(string.Format(Resources.Edit_f, Resources.Account).Replace(" ", "\r"), OnEditAccount, CanEditAccount);
-            CreateAccountCommand = new CaptionCommand<string>(Resources.NewAccount.Replace(" ", "\r"), OnCreateAccount, CanCreateAccount);
+            SelectResourceCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.Resource).Replace(" ", "\r"), OnSelectResource, CanSelectResource);
+            EditResourceCommand = new CaptionCommand<string>(string.Format(Resources.Edit_f, Resources.Resource).Replace(" ", "\r"), OnEditResource, CanEditResource);
+            CreateResourceCommand = new CaptionCommand<string>(string.Format(Resources.New_f, Resources.Resource).Replace(" ", "\r"), OnCreateResource, CanCreateResource);
             DisplayAccountCommand = new CaptionCommand<string>(Resources.AccountDetails.Replace(" ", "\r"), OnDisplayAccount, CanDisplayAccount);
         }
 
-        public IEnumerable<ResourceTemplate> AccountTemplates { get { return _cacheService.GetResourceTemplates(); } }
+        public IEnumerable<ResourceTemplate> ResourceTemplates { get { return _cacheService.GetResourceTemplates(); } }
 
-        private ResourceTemplate _selectedAccountTemplate;
-        public ResourceTemplate SelectedAccountTemplate
+        private ResourceTemplate _selectedResourceTemplate;
+        public ResourceTemplate SelectedResourceTemplate
         {
-            get { return _selectedAccountTemplate; }
+            get { return _selectedResourceTemplate; }
             set
             {
-                _selectedAccountTemplate = value;
+                _selectedResourceTemplate = value;
                 ClearSearchValues();
-                RaisePropertyChanged(() => SelectedAccountTemplate);
-                InvokeSelectedAccountTemplateChanged(EventArgs.Empty);
+                RaisePropertyChanged(() => SelectedResourceTemplate);
+                InvokeSelectedResourceTemplateChanged(EventArgs.Empty);
             }
         }
 
         private readonly Timer _updateTimer;
-        public ObservableCollection<ResourceSearchResultViewModel> FoundAccounts { get; set; }
+        public ObservableCollection<ResourceSearchResultViewModel> FoundResources { get; set; }
 
-        public ResourceSearchResultViewModel SelectedAccount
+        public ResourceSearchResultViewModel SelectedResource
         {
             get
             {
-                return FoundAccounts.Count == 1 ? FoundAccounts[0] : FocusedAccount;
+                return FoundResources.Count == 1 ? FoundResources[0] : FocusedResource;
             }
         }
 
-        private ResourceSearchResultViewModel _focusedAccount;
-        public ResourceSearchResultViewModel FocusedAccount
+        private ResourceSearchResultViewModel _focusedResource;
+        public ResourceSearchResultViewModel FocusedResource
         {
-            get { return _focusedAccount; }
+            get { return _focusedResource; }
             set
             {
-                _focusedAccount = value;
-                RaisePropertyChanged(() => FocusedAccount);
-                RaisePropertyChanged(() => SelectedAccount);
+                _focusedResource = value;
+                RaisePropertyChanged(() => FocusedResource);
+                RaisePropertyChanged(() => SelectedResource);
             }
         }
 
@@ -113,60 +113,60 @@ namespace Samba.Modules.ResourceModule
 
         private void OnDisplayAccount(string obj)
         {
-            CommonEventPublisher.PublishEntityOperation(SelectedAccount.Model, EventTopicNames.DisplayAccountTransactions);
+            CommonEventPublisher.PublishEntityOperation(SelectedResource.Model, EventTopicNames.DisplayAccountTransactions);
             ClearSearchValues();
         }
 
-        private bool CanEditAccount(string arg)
+        private bool CanEditResource(string arg)
         {
-            return SelectedAccount != null;
+            return SelectedResource != null;
         }
 
-        private void OnEditAccount(string obj)
+        private void OnEditResource(string obj)
         {
-            var targetEvent = _currentAccountSelectionRequest != null
-                                  ? _currentAccountSelectionRequest.GetExpectedEvent()
+            var targetEvent = _currentResourceSelectionRequest != null
+                                  ? _currentResourceSelectionRequest.GetExpectedEvent()
                                   : EventTopicNames.ResourceSelected;
 
-            CommonEventPublisher.PublishEntityOperation(SelectedAccount.Model,
+            CommonEventPublisher.PublishEntityOperation(SelectedResource.Model,
                 EventTopicNames.EditResourceDetails, targetEvent);
         }
 
-        private bool CanCreateAccount(string arg)
+        private bool CanCreateResource(string arg)
         {
-            return SelectedAccountTemplate != null;
+            return SelectedResourceTemplate != null;
         }
 
-        private void OnCreateAccount(string obj)
+        private void OnCreateResource(string obj)
         {
-            var targetEvent = _currentAccountSelectionRequest != null
-                                  ? _currentAccountSelectionRequest.GetExpectedEvent()
+            var targetEvent = _currentResourceSelectionRequest != null
+                                  ? _currentResourceSelectionRequest.GetExpectedEvent()
                                   : EventTopicNames.ResourceSelected;
 
             ClearSearchValues();
-            CommonEventPublisher.PublishEntityOperation(new Resource { ResourceTemplateId = SelectedAccountTemplate.Id },
+            CommonEventPublisher.PublishEntityOperation(new Resource { ResourceTemplateId = SelectedResourceTemplate.Id },
                 EventTopicNames.EditResourceDetails, targetEvent);
         }
 
-        private bool CanSelectAccount(string arg)
+        private bool CanSelectResource(string arg)
         {
             return
                 _applicationState.IsCurrentWorkPeriodOpen
                 && _applicationState.CurrentDepartment != null
-                && SelectedAccount != null
-                && !string.IsNullOrEmpty(SelectedAccount.Name);
+                && SelectedResource != null
+                && !string.IsNullOrEmpty(SelectedResource.Name);
         }
 
         private bool CanDisplayAccount(string arg)
         {
-            return SelectedAccount != null;
+            return SelectedResource != null;
         }
 
-        private void OnSelectAccount(string obj)
+        private void OnSelectResource(string obj)
         {
-            if (_currentAccountSelectionRequest != null)
+            if (_currentResourceSelectionRequest != null)
             {
-                _currentAccountSelectionRequest.Publish(SelectedAccount.Model);
+                _currentResourceSelectionRequest.Publish(SelectedResource.Model);
             }
             CommonEventPublisher.RequestNavigation(EventTopicNames.ActivateOpenTickets);
             ClearSearchValues();
@@ -177,39 +177,39 @@ namespace Samba.Modules.ResourceModule
             CommonEventPublisher.RequestNavigation(EventTopicNames.ActivateOpenTickets);
         }
 
-        public void RefreshSelectedAccount(EntityOperationRequest<Resource> value)
+        public void RefreshSelectedResource(EntityOperationRequest<Resource> value)
         {
             if (value != null && value.SelectedEntity != null)
             {
-                if (SelectedAccountTemplate == null ||
-                    SelectedAccountTemplate.Id != value.SelectedEntity.ResourceTemplateId)
-                    SelectedAccountTemplate = _cacheService.GetResourceTemplateById(value.SelectedEntity.ResourceTemplateId);
+                if (SelectedResourceTemplate == null ||
+                    SelectedResourceTemplate.Id != value.SelectedEntity.ResourceTemplateId)
+                    SelectedResourceTemplate = _cacheService.GetResourceTemplateById(value.SelectedEntity.ResourceTemplateId);
 
                 ClearSearchValues();
             }
             else if (_applicationState.CurrentDepartment != null)
             {
                 var tid = _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.TargetAccountTemplateId;
-                SelectedAccountTemplate = _cacheService.GetResourceTemplateById(tid);
+                SelectedResourceTemplate = _cacheService.GetResourceTemplateById(tid);
             }
 
-            _currentAccountSelectionRequest = value;
+            _currentResourceSelectionRequest = value;
 
-            if (_currentAccountSelectionRequest != null && _currentAccountSelectionRequest.SelectedEntity != null && !string.IsNullOrEmpty(_currentAccountSelectionRequest.SelectedEntity.Name))
+            if (_currentResourceSelectionRequest != null && _currentResourceSelectionRequest.SelectedEntity != null && !string.IsNullOrEmpty(_currentResourceSelectionRequest.SelectedEntity.Name))
             {
                 ClearSearchValues();
-                FoundAccounts.Add(new ResourceSearchResultViewModel(_currentAccountSelectionRequest.SelectedEntity, SelectedAccountTemplate));
+                FoundResources.Add(new ResourceSearchResultViewModel(_currentResourceSelectionRequest.SelectedEntity, SelectedResourceTemplate));
             }
 
-            RaisePropertyChanged(() => SelectedAccountTemplate);
-            RaisePropertyChanged(() => SelectedAccount);
+            RaisePropertyChanged(() => SelectedResourceTemplate);
+            RaisePropertyChanged(() => SelectedResource);
             RaisePropertyChanged(() => IsCloseButtonVisible);
-            RaisePropertyChanged(() => AccountTemplates);
+            RaisePropertyChanged(() => ResourceTemplates);
         }
 
         private void ClearSearchValues()
         {
-            FoundAccounts.Clear();
+            FoundResources.Clear();
             SearchString = "";
         }
 
@@ -221,16 +221,16 @@ namespace Samba.Modules.ResourceModule
             {
                 _updateTimer.Start();
             }
-            else FoundAccounts.Clear();
+            else FoundResources.Clear();
         }
 
         void UpdateTimerElapsed(object sender, ElapsedEventArgs e)
         {
             _updateTimer.Stop();
-            UpdateFoundAccounts();
+            UpdateFoundResources();
         }
 
-        private void UpdateFoundAccounts()
+        private void UpdateFoundResources()
         {
             IEnumerable<Resource> result = new List<Resource>();
 
@@ -238,17 +238,17 @@ namespace Samba.Modules.ResourceModule
             {
                 worker.DoWork += delegate
                 {
-                    var defaultAccountId =
+                    var defaultResourceId =
                         _applicationState.CurrentDepartment != null ? _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.DefaultTargetAccountId : 0;
 
-                    var templateId = SelectedAccountTemplate != null ? SelectedAccountTemplate.Id : 0;
+                    var templateId = SelectedResourceTemplate != null ? SelectedResourceTemplate.Id : 0;
 
                     result = Dao.Query<Resource>(x =>
                         x.ResourceTemplateId == templateId
-                        && x.Id != defaultAccountId
+                        && x.Id != defaultResourceId
                         && (x.CustomData.Contains(SearchString) || x.Name.Contains(SearchString)));
 
-                    result = result.ToList().Where(x => SelectedAccountTemplate.GetMatchingFields(x, SearchString).Any(y => !y.Hidden) || x.Name.ToLower().Contains(SearchString));
+                    result = result.ToList().Where(x => SelectedResourceTemplate.GetMatchingFields(x, SearchString).Any(y => !y.Hidden) || x.Name.ToLower().Contains(SearchString));
                 };
 
                 worker.RunWorkerCompleted +=
@@ -258,17 +258,16 @@ namespace Samba.Modules.ResourceModule
                         AppServices.MainDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(
                                delegate
                                {
-                                   FoundAccounts.Clear();
-                                   FoundAccounts.AddRange(result.Select(x => new ResourceSearchResultViewModel(x, SelectedAccountTemplate)));
+                                   FoundResources.Clear();
+                                   FoundResources.AddRange(result.Select(x => new ResourceSearchResultViewModel(x, SelectedResourceTemplate)));
 
-                                   if (SelectedAccount != null && SearchString == SelectedAccount.PhoneNumber)
+                                   if (SelectedResource != null && SearchString == SelectedResource.PhoneNumber)
                                    {
-                                       SelectedAccount.UpdateDetailedInfo();
+                                       SelectedResource.UpdateDetailedInfo();
                                    }
 
-                                   RaisePropertyChanged(() => SelectedAccount);
+                                   RaisePropertyChanged(() => SelectedResource);
                                    CommandManager.InvalidateRequerySuggested();
-                                   SelectedAccount.PublishEvent(EventTopicNames.SelectedAccountChanged);
                                }));
 
                     };

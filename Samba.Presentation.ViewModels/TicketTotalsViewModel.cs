@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
-using Samba.Domain.Models.Accounts;
-using Samba.Domain.Models.Resources;
+using System.Text;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
@@ -16,13 +14,11 @@ namespace Samba.Presentation.ViewModels
     public class TicketTotalsViewModel : ObservableObject
     {
         private readonly ICacheService _cacheService;
-        private readonly IApplicationState _applicationState;
-
+        
         [ImportingConstructor]
-        public TicketTotalsViewModel(ICacheService cacheService, IApplicationState applicationState)
+        public TicketTotalsViewModel(ICacheService cacheService)
         {
             _cacheService = cacheService;
-            _applicationState = applicationState;
             ResetCache();
         }
 
@@ -103,47 +99,20 @@ namespace Samba.Presentation.ViewModels
             get { return TicketRemainingValue.ToString(LocalSettings.DefaultCurrencyFormat); }
         }
 
-        private ResourceTemplate _sourceAccountTemplate;
-        public ResourceTemplate SourceAccountTemplate
-        {
-            get
-            {
-                if (_applicationState.CurrentDepartment == null) return null;
-
-                var sourceAccountTemplateId = Model.AccountTemplateId > 0
-                                                  ? Model.AccountTemplateId
-                                                  : _applicationState.CurrentDepartment.TicketTemplate.
-                                                        SaleTransactionTemplate.TargetAccountTemplateId;
-
-                if (_sourceAccountTemplate == null || _sourceAccountTemplate.Id != sourceAccountTemplateId)
-                    _sourceAccountTemplate = _cacheService.GetResourceTemplateById(sourceAccountTemplateId);
-                return _sourceAccountTemplate;
-            }
-        }
-
-        public string SourceEntityName { get { return SourceAccountTemplate != null ? SourceAccountTemplate.EntityName : ""; } }
-
         public string Title
         {
             get
             {
+                var sb = new StringBuilder();
                 if (Model == null) return "";
-                var sourceName = Model.AccountId > 0 ? string.Format("{0}: {1}", SourceEntityName, Model.AccountName) : "";
-                var selectedTicketTitle = sourceName;
-                if (Model.Id > 0) selectedTicketTitle = string.Format("# {0} {1}", Model.TicketNumber, selectedTicketTitle);
-                if (string.IsNullOrEmpty(selectedTicketTitle)) selectedTicketTitle = string.Format(Resources.New_f, Resources.Ticket);
+                foreach (var ticketResource in Model.TicketResources)
+                {
+                    var rs = _cacheService.GetResourceTemplateById(ticketResource.ResourceTemplateId);
+                    sb.AppendLine(string.Format("{0}: {1}", rs.EntityName, ticketResource.ResourceName));
+                }
+                var selectedTicketTitle = sb.ToString().Trim(new[] { '\r', '\n' });
 
-                //if (Model.AccountId > 0 && Model.Id == 0)
-                //    selectedTicketTitle = string.Format(Resources.Location_f, Model.LocationName);
-                //else if (!string.IsNullOrEmpty(Model.AccountName) && Model.Id == 0)
-                //    selectedTicketTitle = string.Format(Resources.Account_f, Model.AccountName);
-                //else if (string.IsNullOrEmpty(Model.AccountName)) selectedTicketTitle = string.IsNullOrEmpty(Model.LocationName)
-                //     ? string.Format("# {0}", Model.TicketNumber)
-                //     : string.Format(Resources.TicketNumberAndLocation_f, Model.TicketNumber, Model.LocationName);
-                //else if (string.IsNullOrEmpty(Model.LocationName)) selectedTicketTitle = string.IsNullOrEmpty(Model.AccountName)
-                //     ? string.Format("# {0}", Model.TicketNumber)
-                //     : string.Format(Resources.TicketNumberAndAccount_f, Model.TicketNumber, Model.AccountName);
-                //else selectedTicketTitle = string.Format(Resources.AccountNameAndLocationName_f, Model.TicketNumber, Model.AccountName, Model.LocationName);)
+                if (string.IsNullOrEmpty(selectedTicketTitle)) selectedTicketTitle = string.Format(Resources.New_f, Resources.Ticket);
 
                 return selectedTicketTitle;
             }

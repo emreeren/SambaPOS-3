@@ -77,9 +77,8 @@ namespace Samba.Services
         IEnumerable<Order> ExtractSelectedOrders(Ticket model, IEnumerable<Order> selectedOrders);
         int GetOpenTicketCount();
         IEnumerable<OpenTicketData> GetOpenTickets(Expression<Func<Ticket, bool>> prediction);
-        IEnumerable<int> GetOpenTickets(int accountId);
+        IEnumerable<int> GetOpenTickets(int resourceId);
         IList<TicketExplorerRowData> GetFilteredTickets(DateTime startDate, DateTime endDate, IList<ITicketExplorerFilter> filters);
         IList<ITicketExplorerFilter> CreateTicketExplorerFilters();
-
     }
 }

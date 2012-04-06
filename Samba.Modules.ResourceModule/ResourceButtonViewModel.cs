@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Resources;
 using Samba.Localization;
 using Samba.Presentation.Common;
@@ -11,19 +10,19 @@ using Samba.Presentation.Common.Services;
 
 namespace Samba.Modules.LocationModule
 {
-    public class AccountButtonViewModel : ObservableObject, IDiagram
+    public class ResourceButtonViewModel : ObservableObject, IDiagram
     {
         private readonly bool _isTicketSelected;
         private readonly bool _userPermittedToMerge;
         private readonly ICommand _actionCommand;
 
-        public AccountButtonViewModel(ResourceScreenItem model, ResourceScreen screen)
+        public ResourceButtonViewModel(ResourceScreenItem model, ResourceScreen screen)
             : this(model, screen, null, false, true, null)
         {
 
         }
 
-        public AccountButtonViewModel(ResourceScreenItem model, ResourceScreen screen,
+        public ResourceButtonViewModel(ResourceScreenItem model, ResourceScreen screen,
             ICommand actionCommand, bool isTicketSelected, bool userPermittedToMerge, ResourceState state)
         {
             _actionCommand = actionCommand;

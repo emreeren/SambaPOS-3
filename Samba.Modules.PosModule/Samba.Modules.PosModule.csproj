@@ -64,11 +64,13 @@
     <Compile Include="OrderTagValueViewModel.cs" />
     <Compile Include="OrderViewModel.cs" />
     <Compile Include="PosModule.cs" />
+    <Compile Include="PrintJobButton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PosView.xaml.cs">
       <DependentUpon>PosView.xaml</DependentUpon>
     </Compile>
     <Compile Include="PosViewModel.cs" />
+    <Compile Include="ResourceButton.cs" />
     <Compile Include="TicketExplorerView.xaml.cs">
       <DependentUpon>TicketExplorerView.xaml</DependentUpon>
     </Compile>

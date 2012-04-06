@@ -269,12 +269,6 @@ Hareketi</value>
     <value>Alacak</value>
     <comment>GridViewColumn.Header</comment>
   </data>
-  <data name="AccountList" xml:space="preserve">
-    <value>Hesap Listesi</value>
-  </data>
-  <data name="NewAccount" xml:space="preserve">
-    <value>Yeni Hesap</value>
-  </data>
   <data name="ResetAccount" xml:space="preserve">
     <value>Hesap İptal</value>
   </data>
@@ -1494,9 +1488,6 @@ Kapat</value>
   <data name="CreditCard_r" xml:space="preserve">
     <value>Kredi
 Kartı</value>
-  </data>
-  <data name="SelectAccount" xml:space="preserve">
-    <value>Hesap Seç</value>
   </data>
   <data name="AllTickets_r" xml:space="preserve">
     <value>Tüm
@@ -2964,10 +2955,10 @@ Bilgi eklemeden devam etmek istiyor musunuz?</value>
   <data name="SaveErrorDuplicateItemName_f" xml:space="preserve">
     <value>Bu isimde bir {0} zaten var.</value>
   </data>
-	<data name="DeleteErrorUsedBy_f" xml:space="preserve">
+  <data name="DeleteErrorUsedBy_f" xml:space="preserve">
     <value>Bu {0} bir {1} kaydında kullanıldığı için silinemez.</value>
   </data>
-	<data name="Order">
-		<value xml:space="preserve">Sipariş</value>
-	</data>
+  <data name="Order">
+    <value xml:space="preserve">Sipariş</value>
+  </data>
 </root>

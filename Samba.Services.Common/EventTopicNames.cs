@@ -34,7 +34,6 @@
         public const string NavigationRequested = "Navigation Requested";
         public const string AccountTransactionDocumentSelected = "Account Transaction Document Selected";
         public const string DisplayAccountTransactions = "Display Account Transactions";
-        public const string SelectedAccountChanged = "Selected Account Changed";
         public const string AddCustomTicketCommand = "Add Custom Ticket Command";
         public const string AddCustomOrderCommand = "Add Custom Order Command";
         public const string TicketClosed = "Ticket Closed";

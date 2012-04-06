@@ -30,7 +30,7 @@ namespace Samba.Presentation.ViewModels
         private static readonly ISettingService SettingService = ServiceLocator.Current.GetInstance<ISettingService>();
         private static readonly IAutomationService AutomationService = ServiceLocator.Current.GetInstance<IAutomationService>();
         private static readonly ICacheService CacheService = ServiceLocator.Current.GetInstance<ICacheService>();
-        private static readonly IAccountService AccountService = ServiceLocator.Current.GetInstance<IAccountService>();
+        private static readonly IResourceService ResourceService = ServiceLocator.Current.GetInstance<IResourceService>();
 
         private static bool _registered;
         public static void RegisterOnce()
@@ -62,7 +62,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType("UpdateTicketService", Resources.UpdateTicketService, new { CalculationTemplate = "", Amount = 0m });
             AutomationService.RegisterActionType("UpdateTicketAccount", Resources.UpdateTicketAccount, new { AccountPhone = "", AccountName = "", Note = "" });
             AutomationService.RegisterActionType("ExecutePrintJob", "Execute Print Job", new { PrintJobName = "" });
-            AutomationService.RegisterActionType("UpdateAccountState", "Update Account State", new { AccountId = 0, AccountState = "" });
+            AutomationService.RegisterActionType("UpdateResourceState", "Update Resource State", new { ResourceId = 0, ResourceState = "" });
         }
 
         private static void RegisterRules()
@@ -100,7 +100,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterParameterSoruce("CalculationTemplate", () => Dao.Distinct<CalculationTemplate>(x => x.Name));
             AutomationService.RegisterParameterSoruce("TagName", () => Dao.Distinct<TicketTagGroup>(x => x.Name));
             AutomationService.RegisterParameterSoruce("OrderTagName", () => Dao.Distinct<OrderTagGroup>(x => x.Name));
-            AutomationService.RegisterParameterSoruce("AccountState", () => Dao.Distinct<ResourceState>(x => x.Name));
+            AutomationService.RegisterParameterSoruce("ResourceState", () => Dao.Distinct<ResourceState>(x => x.Name));
         }
 
         private static void ResetCache()
@@ -114,17 +114,17 @@ namespace Samba.Presentation.ViewModels
         {
             EventServiceFactory.EventService.GetEvent<GenericEvent<IActionData>>().Subscribe(x =>
             {
-                if (x.Value.Action.ActionType == "UpdateAccountState")
+                if (x.Value.Action.ActionType == "UpdateResourceState")
                 {
-                    var accountId = x.Value.GetAsInteger("AccountId");
-                    if (accountId == 0) accountId = x.Value.GetDataValueAsInt("AccountId");
-                    if (accountId > 0)
+                    var ticket = x.Value.GetDataValue<Ticket>("Ticket");
+                    if (ticket != null)
                     {
-                        var stateName = x.Value.GetAsString("AccountState");
-                        var state = CacheService.GetResourceStateByName(stateName);
-                        if (state != null)
+                        foreach (var ticketResource in ticket.TicketResources)
                         {
-                            AccountService.UpdateAccountState(accountId, state.Id);
+                            var stateName = x.Value.GetAsString("ResourceState");
+                            var state = CacheService.GetResourceStateByName(stateName);
+                            if (state != null)
+                                ResourceService.UpdateResourceState(ticketResource.ResourceId, state.Id);
                         }
                     }
                 }

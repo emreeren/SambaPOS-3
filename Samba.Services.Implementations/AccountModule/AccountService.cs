@@ -18,10 +18,8 @@ namespace Samba.Services.Implementations.AccountModule
         [ImportingConstructor]
         public AccountService()
         {
-            ValidatorRegistry.RegisterDeleteValidator(new AccountTemplateDeleteValidator());
             ValidatorRegistry.RegisterDeleteValidator(new AccountDeleteValidator());
-            ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<Resource>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.Account)));
-            ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<ResourceTemplate>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.AccountTemplate)));
+            ValidatorRegistry.RegisterDeleteValidator(new AccountTemplateDeleteValidator());
             ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<AccountTransactionTemplate>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.AccountTransactionTemplate)));
             ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<AccountTransactionDocumentTemplate>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.DocumentTemplate)));
         }
@@ -45,13 +43,6 @@ namespace Samba.Services.Implementations.AccountModule
         public decimal GetAccountBalance(int accountId)
         {
             return Dao.Sum<AccountTransactionValue>(x => x.Debit - x.Credit, x => x.AccountId == accountId);
-        }
-
-        public string GetCustomData(Resource resource, string fieldName)
-        {
-            var pattern = string.Format("\"Name\":\"{0}\",\"Value\":\"([^\"]+)\"", fieldName);
-            return Regex.IsMatch(resource.CustomData, pattern)
-                ? Regex.Match(resource.CustomData, pattern).Groups[1].Value : "";
         }
 
         public string GetCustomData(Account account, string fieldName)
@@ -96,34 +87,30 @@ namespace Samba.Services.Implementations.AccountModule
             return result;
         }
 
-        public void UpdateAccountState(int accountId, int stateId)
-        {
-            using (var w = WorkspaceFactory.Create())
-            {
-                var csid = w.Last<ResourceStateValue>(x => x.ResoruceId == accountId);
-                if (csid == null || csid.StateId != stateId)
-                {
-                    var v = new ResourceStateValue { ResoruceId = accountId, Date = DateTime.Now, StateId = stateId };
-                    w.Add(v);
-                    w.CommitChanges();
-                }
-            }
-        }
-
         public override void Reset()
         {
             _accountCount = null;
         }
     }
 
-    public class AccountTemplateDeleteValidator : SpecificationValidator<ResourceTemplate>
+    public class AccountTemplateDeleteValidator : SpecificationValidator<AccountTemplate>
     {
-        public override string GetErrorMessage(ResourceTemplate model)
+        public override string GetErrorMessage(AccountTemplate model)
         {
-            if (Dao.Exists<Resource>(x => x.ResourceTemplateId == model.Id))
+            if (Dao.Exists<Account>(x => x.AccountTemplateId == model.Id))
                 return string.Format(Resources.DeleteErrorUsedBy_f, Resources.AccountTemplate, Resources.Account);
             if (Dao.Exists<AccountTransactionDocumentTemplate>(x => x.MasterAccountTemplateId == model.Id))
                 return string.Format(Resources.DeleteErrorUsedBy_f, Resources.AccountTemplate, Resources.DocumentTemplate);
+            return "";
+        }
+    }
+
+    public class AccountDeleteValidator : SpecificationValidator<Account>
+    {
+        public override string GetErrorMessage(Account model)
+        {
+            if (Dao.Exists<AccountTransactionValue>(x => x.AccountId == model.Id))
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Account, Resources.AccountTransaction);
             return "";
         }
     }
@@ -138,13 +125,4 @@ namespace Samba.Services.Implementations.AccountModule
         }
     }
 
-    public class AccountDeleteValidator : SpecificationValidator<Resource>
-    {
-        public override string GetErrorMessage(Resource model)
-        {
-            if (Dao.Exists<AccountTransactionValue>(x => x.AccountId == model.Id))
-                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Account, Resources.AccountTransaction);
-            return "";
-        }
-    }
 }

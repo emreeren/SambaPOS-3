@@ -10,40 +10,40 @@ using Samba.Services.Common;
 namespace Samba.Modules.ResourceModule
 {
     [Export]
-    public class AccountEditorViewModel : ObservableObject
+    public class ResourceEditorViewModel : ObservableObject
     {
         private readonly ICacheService _cacheService;
         public ICaptionCommand CloseScreenCommand { get; set; }
-        public ICaptionCommand SaveAccountCommand { get; set; }
-        public ICaptionCommand SelectAccountCommand { get; set; }
+        public ICaptionCommand SaveResourceCommand { get; set; }
+        public ICaptionCommand SelectResourceCommand { get; set; }
 
         [ImportingConstructor]
-        public AccountEditorViewModel(ICacheService cacheService)
+        public ResourceEditorViewModel(ICacheService cacheService)
         {
             _cacheService = cacheService;
             CloseScreenCommand = new CaptionCommand<string>(Resources.Close, OnCloseScreen);
-            SaveAccountCommand = new CaptionCommand<string>(Resources.Save, OnSaveAccount);
-            SelectAccountCommand = new CaptionCommand<string>(Resources.SelectAccount.Replace(" ", "\r"), OnSelectAccount);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Resource>>>().Subscribe(OnEditAccount);
+            SaveResourceCommand = new CaptionCommand<string>(Resources.Save, OnSaveResource);
+            SelectResourceCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.Resource).Replace(" ", "\r"), OnSelectResource);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Resource>>>().Subscribe(OnEditResource);
         }
 
-        private void OnSelectAccount(string obj)
+        private void OnSelectResource(string obj)
         {
-            SaveSelectedAccount();
-            _operationRequest.Publish(SelectedAccount.Model);
+            SaveSelectedResource();
+            _operationRequest.Publish(SelectedResource.Model);
         }
 
-        private void OnSaveAccount(string obj)
+        private void OnSaveResource(string obj)
         {
-            SaveSelectedAccount();
+            SaveSelectedResource();
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateResourceView);
             //CommonEventPublisher.RequestNavigation(EventTopicNames.ActivateAccountView);
         }
 
-        private void SaveSelectedAccount()
+        private void SaveSelectedResource()
         {
             CustomDataViewModel.Update();
-            Dao.Save(SelectedAccount.Model);
+            Dao.Save(SelectedResource.Model);
             //using (var ws = WorkspaceFactory.Create())
             //{
             //    if (!SelectedAccount.IsNotNew)
@@ -78,26 +78,26 @@ namespace Samba.Modules.ResourceModule
 
         private EntityOperationRequest<Resource> _operationRequest;
 
-        private void OnEditAccount(EventParameters<EntityOperationRequest<Resource>> obj)
+        private void OnEditResource(EventParameters<EntityOperationRequest<Resource>> obj)
         {
             if (obj.Topic == EventTopicNames.EditResourceDetails)
             {
                 _operationRequest = obj.Value;
-                var accountTemplate = _cacheService.GetResourceTemplateById(obj.Value.SelectedEntity.ResourceTemplateId);
-                SelectedAccount = new ResourceSearchResultViewModel(obj.Value.SelectedEntity, accountTemplate);
-                CustomDataViewModel = new ResourceCustomDataViewModel(obj.Value.SelectedEntity, accountTemplate);
+                var resourceTemplate = _cacheService.GetResourceTemplateById(obj.Value.SelectedEntity.ResourceTemplateId);
+                SelectedResource = new ResourceSearchResultViewModel(obj.Value.SelectedEntity, resourceTemplate);
+                CustomDataViewModel = new ResourceCustomDataViewModel(obj.Value.SelectedEntity, resourceTemplate);
                 RaisePropertyChanged(() => CustomDataViewModel);
             }
         }
 
-        private ResourceSearchResultViewModel _selectedAccount;
-        public ResourceSearchResultViewModel SelectedAccount
+        private ResourceSearchResultViewModel _selectedResource;
+        public ResourceSearchResultViewModel SelectedResource
         {
-            get { return _selectedAccount; }
+            get { return _selectedResource; }
             set
             {
-                _selectedAccount = value;
-                RaisePropertyChanged(() => SelectedAccount);
+                _selectedResource = value;
+                RaisePropertyChanged(() => SelectedResource);
             }
         }
 

@@ -13,7 +13,7 @@ namespace Samba.Modules.ResourceModule
     public partial class ResourceEditorView : UserControl
     {
         [ImportingConstructor]
-        public ResourceEditorView(AccountEditorViewModel viewModel)
+        public ResourceEditorView(ResourceEditorViewModel viewModel)
         {
             DataContext = viewModel;
             InitializeComponent();
@@ -21,7 +21,7 @@ namespace Samba.Modules.ResourceModule
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            AccountNameEdit.BackgroundFocus();
+            ResourceNameEdit.BackgroundFocus();
         }
     }
 }

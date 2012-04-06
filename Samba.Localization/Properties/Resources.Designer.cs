@@ -4205,15 +4205,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New Account.
-        /// </summary>
-        public static string NewAccount {
-            get {
-                return ResourceManager.GetString("NewAccount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to New Expense Transaction.
         /// </summary>
         public static string NewExpenseTransaction {
@@ -5637,6 +5628,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Resource Templates.
+        /// </summary>
+        public static string ResourceTemplates {
+            get {
+                return ResourceManager.GetString("ResourceTemplates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Restaurant.
         /// </summary>
         public static string Restaurant {
@@ -5907,15 +5907,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select Account.
-        /// </summary>
-        public static string SelectAccount {
-            get {
-                return ResourceManager.GetString("SelectAccount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Select Actions.
         /// </summary>
         public static string SelectActions {
@@ -5948,6 +5939,15 @@ namespace Samba.Localization.Properties {
         public static string SelectionRequired {
             get {
                 return ResourceManager.GetString("SelectionRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select {0} for using with {1} {2}.
+        /// </summary>
+        public static string SelectItemsFor_f {
+            get {
+                return ResourceManager.GetString("SelectItemsFor_f", resourceCulture);
             }
         }
         

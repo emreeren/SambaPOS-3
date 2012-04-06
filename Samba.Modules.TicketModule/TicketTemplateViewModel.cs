@@ -30,6 +30,8 @@ namespace Samba.Modules.TicketModule
             DeleteCalculationTemplateCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.CalculationTemplate), OnDeleteCalculationTempalte, CanDeleteCalculationTemplate);
             AddPaymentTemplateCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.PaymentTemplate), OnAddPaymentTemplate);
             DeletePaymentTemplateCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.PaymentTemplate), OnDeletePaymentTemplate, CanDeletePaymentTemplate);
+            AddResourceTemplateCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.ResourceTemplate), OnAddResourceTemplate);
+            DeleteResourceTemplateCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.ResourceTemplate), OnDeleteResourceTemplate, CanDeleteResourceTemplate);
         }
 
         public ICaptionCommand AddTicketTagGroupCommand { get; set; }
@@ -40,6 +42,8 @@ namespace Samba.Modules.TicketModule
         public ICaptionCommand DeleteCalculationTemplateCommand { get; set; }
         public ICaptionCommand AddPaymentTemplateCommand { get; set; }
         public ICaptionCommand DeletePaymentTemplateCommand { get; set; }
+        public ICaptionCommand AddResourceTemplateCommand { get; set; }
+        public ICaptionCommand DeleteResourceTemplateCommand { get; set; }
 
         private IEnumerable<Numerator> _numerators;
         public IEnumerable<Numerator> Numerators { get { return _numerators ?? (_numerators = Workspace.All<Numerator>()); } set { _numerators = value; } }
@@ -51,6 +55,7 @@ namespace Samba.Modules.TicketModule
         public OrderTagGroup SelectedOrderTagGroup { get; set; }
         public CalculationTemplate SelectedCalculationTemplate { get; set; }
         public PaymentTemplate SelectedPaymentTemplate { get; set; }
+        public ResourceTemplate SelectedResourceTemplate { get; set; }
 
         private IEnumerable<AccountTransactionTemplate> _accountTransactionTemplates;
         public IEnumerable<AccountTransactionTemplate> AccountTransactionTemplates { get { return _accountTransactionTemplates ?? (_accountTransactionTemplates = Workspace.All<AccountTransactionTemplate>()); } }
@@ -73,6 +78,13 @@ namespace Samba.Modules.TicketModule
         public ObservableCollection<PaymentTemplate> PaymentTemplates
         {
             get { return _paymentTemplates ?? (_paymentTemplates = new ObservableCollection<PaymentTemplate>(GetPaymentTemplates(Model))); }
+        }
+
+
+        private ObservableCollection<ResourceTemplate> _resourceTemplates;
+        public ObservableCollection<ResourceTemplate> ResourceTemplates
+        {
+            get { return _resourceTemplates ?? (_resourceTemplates = new ObservableCollection<ResourceTemplate>(GetResourceTemplates(Model))); }
         }
 
         private ObservableCollection<OrderTagGroup> _orderTagGroups;
@@ -99,6 +111,11 @@ namespace Samba.Modules.TicketModule
         private static IEnumerable<PaymentTemplate> GetPaymentTemplates(TicketTemplate model)
         {
             return model.PaymentTemplates.OrderBy(x => x.Order);
+        }
+
+        private static IEnumerable<ResourceTemplate> GetResourceTemplates(TicketTemplate model)
+        {
+            return model.ResourceTemplates.OrderBy(x => x.Order);
         }
 
         private bool CanDeleteOrderTagGroup(string arg)
@@ -159,15 +176,46 @@ namespace Samba.Modules.TicketModule
             RaisePropertyChanged(() => TicketTagGroups);
         }
 
-        private bool CanDeletePaymentTemplate(string arg)
+        private void OnDeleteResourceTemplate(string obj)
         {
-            return SelectedPaymentTemplate != null;
+            Model.ResourceTemplates.Remove(SelectedResourceTemplate);
+            ResourceTemplates.Remove(SelectedResourceTemplate);
         }
+
+        private bool CanDeleteResourceTemplate(string arg)
+        {
+            return SelectedResourceTemplate != null;
+        }
+
+        private void OnAddResourceTemplate(string obj)
+        {
+            var selectedValues =
+              InteractionService.UserIntraction.ChooseValuesFrom(Workspace.All<ResourceTemplate>().ToList<IOrderable>(),
+              Model.ResourceTemplates.ToList<IOrderable>(), string.Format(Resources.List_f, Resources.ResourceTemplate),
+                string.Format(Resources.SelectItemsFor_f, Resources.ResourceTemplates, Model.Name, Resources.TicketTemplate),
+              Resources.ResourceTemplate, Resources.ResourceTemplates);
+
+            foreach (ResourceTemplate selectedValue in selectedValues)
+            {
+                if (!Model.ResourceTemplates.Contains(selectedValue))
+                    Model.ResourceTemplates.Add(selectedValue);
+            }
+
+            _resourceTemplates = new ObservableCollection<ResourceTemplate>(GetResourceTemplates(Model));
+
+            RaisePropertyChanged(() => ResourceTemplates);
+        }
+
 
         private void OnDeletePaymentTemplate(string obj)
         {
             Model.PaymentTemplates.Remove(SelectedPaymentTemplate);
             PaymentTemplates.Remove(SelectedPaymentTemplate);
+        }
+
+        private bool CanDeletePaymentTemplate(string arg)
+        {
+            return SelectedPaymentTemplate != null;
         }
 
         private void OnAddPaymentTemplate(string obj)

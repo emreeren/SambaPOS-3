@@ -86,7 +86,7 @@ namespace Samba.Services.Implementations.TicketModule
         private Ticket CreateTicket()
         {
             var account = _cacheService.GetAccountById(_applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.DefaultTargetAccountId);
-            return Ticket.Create(_applicationState.CurrentDepartment, account);
+            return Ticket.Create(_applicationState.CurrentDepartment.Model, account);
         }
 
         public TicketCommitResult CloseTicket(Ticket ticket)
@@ -256,9 +256,9 @@ namespace Samba.Services.Implementations.TicketModule
             return Dao.Count<Ticket>(x => !x.IsPaid);
         }
 
-        public IEnumerable<int> GetOpenTickets(int accountId)
+        public IEnumerable<int> GetOpenTickets(int resourceId)
         {
-            return Dao.Select<Ticket, int>(x => x.Id, x => x.RemainingAmount > 0 && x.AccountId == accountId);
+            return Dao.Select<Ticket, int>(x => x.Id, x => x.RemainingAmount > 0 && x.TicketResources.Any(y => y.ResourceId == resourceId));
         }
 
         public IEnumerable<OpenTicketData> GetOpenTickets(Expression<Func<Ticket, bool>> prediction)

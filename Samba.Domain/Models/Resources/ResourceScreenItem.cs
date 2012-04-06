@@ -15,7 +15,8 @@ namespace Samba.Domain.Models.Resources
         public int Width { get; set; }
         public int CornerRadius { get; set; }
         public double Angle { get; set; }
-        public virtual Resource Resource { get; set; }
+        public int ResourceId { get; set; }
+        //public virtual Resource Resource { get; set; }
         
         public string UserString
         {

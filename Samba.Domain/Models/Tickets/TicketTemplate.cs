@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Data;
 
@@ -39,6 +40,13 @@ namespace Samba.Domain.Models.Tickets
             set { _orderTagGroups = value; }
         }
 
+        private IList<ResourceTemplate> _resourceTemplates;
+        public virtual IList<ResourceTemplate> ResourceTemplates
+        {
+            get { return _resourceTemplates; }
+            set { _resourceTemplates = value; }
+        }
+
         public virtual AccountTransactionTemplate SaleTransactionTemplate { get; set; }
         
         public TicketTemplate()
@@ -47,6 +55,7 @@ namespace Samba.Domain.Models.Tickets
             _calculationTemplates = new List<CalculationTemplate>();
             _paymentTemplates = new List<PaymentTemplate>();
             _orderTagGroups = new List<OrderTagGroup>();
+            _resourceTemplates = new List<ResourceTemplate>();
         }
     }
 }

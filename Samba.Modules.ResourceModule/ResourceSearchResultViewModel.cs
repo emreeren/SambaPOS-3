@@ -33,7 +33,7 @@ namespace Samba.Modules.ResourceModule
         }
 
         public int Id { get { return Model.Id; } }
-        public string Name { get { return Model.Name; } set { Model.Name = value.Trim(); RaisePropertyChanged(() => Name); } }
+        public string Name { get { return Model.Name; } set { Model.Name = value; RaisePropertyChanged(() => Name); } }
         public string PhoneNumber { get { return Model.SearchString; } set { Model.SearchString = !string.IsNullOrEmpty(value) ? value.Trim() : ""; RaisePropertyChanged(() => PhoneNumber); } }
         public string PhoneNumberText { get { return PhoneNumber != null && PhoneNumber.Length == 10 ? FormatAsPhoneNumber(PhoneNumber) : PhoneNumber; } }
         public Ticket LastTicket { get; private set; }

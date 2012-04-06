@@ -218,10 +218,6 @@
       <Project>{E93B6838-9B18-4718-AB7B-2EA5232518C3}</Project>
       <Name>Samba.Modules.InventoryModule</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Samba.Modules.LocationModule\Samba.Modules.LocationModule.csproj">
-      <Project>{943FE6E9-58E2-499C-8B61-0FD8CE9F42F8}</Project>
-      <Name>Samba.Modules.LocationModule</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Samba.Modules.LoginModule\Samba.Modules.LoginModule.csproj">
       <Project>{534CEC53-1EBC-4386-95E3-0E451FCB388A}</Project>
       <Name>Samba.Modules.LoginModule</Name>

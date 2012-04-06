@@ -173,7 +173,6 @@ namespace Samba.Modules.BasicReports
                     x => x.LastPaymentDate >= CurrentWorkPeriod.StartDate && x.LastPaymentDate < CurrentWorkPeriod.EndDate,
                     x => x.AccountTransactions.AccountTransactions,
                     x => x.Payments, x => x.Calculations, x => x.Tags, x => x.Orders.Select(y => y.OrderTagValues));
-
         }
 
         private static IEnumerable<AccountTransactionValue> GetAccountTransactionValues()
