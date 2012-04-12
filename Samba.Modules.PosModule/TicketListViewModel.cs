@@ -244,10 +244,10 @@ namespace Samba.Modules.PosModule
             _selectedOrders.Clear();
             RefreshSelectedItems();
         }
-
+         
         private void OnSelectResource(ResourceTemplate obj)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException(); 
         }
 
         private void OnPortionSelected(EventParameters<MenuItemPortion> obj)

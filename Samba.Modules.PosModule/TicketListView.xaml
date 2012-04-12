@@ -177,7 +177,7 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <FxButton:FlexButton Focusable="False" Command="{Binding SelectResourceCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
+                        <FxButton:FlexButton Focusable="False" Command="{Binding DataContext.SelectResourceCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
                                      CommandParameter="{Binding Model}" Height="50"
                                      Margin="0,0,3,3">
                             <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
