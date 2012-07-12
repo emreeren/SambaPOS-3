@@ -54,6 +54,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractMapViewModel.cs" />
     <Compile Include="ResourceCustomDataEditor.xaml.cs">
       <DependentUpon>ResourceCustomDataEditor.xaml</DependentUpon>
     </Compile>

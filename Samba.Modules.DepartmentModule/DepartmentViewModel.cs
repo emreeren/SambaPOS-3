@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using FluentValidation;
-using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Tickets;
@@ -17,20 +16,24 @@ using Samba.Services;
 
 namespace Samba.Modules.DepartmentModule
 {
-    [Export,PartCreationPolicy(CreationPolicy.NonShared)]
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class DepartmentViewModel : EntityViewModelBase<Department>
     {
         private readonly IMenuService _menuService;
         private readonly IPriceListService _priceListService;
 
         [ImportingConstructor]
-        public DepartmentViewModel(IMenuService menuService,IPriceListService priceListService)
+        public DepartmentViewModel(IMenuService menuService, IPriceListService priceListService)
         {
             _menuService = menuService;
             _priceListService = priceListService;
-            AddLocationScreenCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.LocationScreen), OnAddLocationScreen);
-            DeleteLocationScreenCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.LocationScreen), OnDeleteLocationScreen, CanDeleteLocationScreen);
+            AddResourceScreenCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.ResourceScreen), OnAddResourceScreen);
+            DeleteResourceScreenCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.ResourceScreen), OnDeleteResourceScreen, CanDeleteResourceScreen);
         }
+
+        private readonly IList<string> _ticketCreationMethods = new[] { string.Format(Resources.Select_f, Resources.Resource), string.Format(Resources.Create_f, Resources.Ticket) };
+        public IList<string> TicketCreationMethods { get { return _ticketCreationMethods; } }
+        public string TicketCreationMethod { get { return _ticketCreationMethods[Model.TicketCreationMethod]; } set { Model.TicketCreationMethod = _ticketCreationMethods.IndexOf(value); } }
 
         public int ScreenMenuId { get { return Model.ScreenMenuId; } set { Model.ScreenMenuId = value; } }
 
@@ -41,10 +44,10 @@ namespace Samba.Modules.DepartmentModule
             set { _screenMenus = value; }
         }
 
-        private ObservableCollection<ResourceScreen> _locationScreens;
-        public ObservableCollection<ResourceScreen> LocationScreens
+        private ObservableCollection<ResourceScreen> _resourceScreens;
+        public ObservableCollection<ResourceScreen> ResourceScreens
         {
-            get { return _locationScreens ?? (_locationScreens = new ObservableCollection<ResourceScreen>(Model.LocationScreens.OrderBy(x => x.Order))); }
+            get { return _resourceScreens ?? (_resourceScreens = new ObservableCollection<ResourceScreen>(Model.ResourceScreens.OrderBy(x => x.Order))); }
         }
 
         private IEnumerable<TicketTemplate> _ticketTemplates;
@@ -57,58 +60,38 @@ namespace Samba.Modules.DepartmentModule
         public IEnumerable<string> PriceTags { get { return _priceListService.GetTags(); } }
         public string PriceTag { get { return Model.PriceTag; } set { Model.PriceTag = value; } }
 
-        public int OpenTicketViewColumnCount { get { return Model.OpenTicketViewColumnCount; } set { Model.OpenTicketViewColumnCount = value; } }
+        public ResourceScreen SelectedResourceScreen { get; set; }
 
-        public bool IsFastFood
+        public ICaptionCommand AddResourceScreenCommand { get; set; }
+        public ICaptionCommand DeleteResourceScreenCommand { get; set; }
+
+        private bool CanDeleteResourceScreen(string arg)
         {
-            get { return Model.IsFastFood; }
-            set { Model.IsFastFood = value; }
+            return SelectedResourceScreen != null;
         }
 
-        public bool IsAlaCarte
+        private void OnDeleteResourceScreen(string obj)
         {
-            get { return Model.IsAlaCarte; }
-            set { Model.IsAlaCarte = value; }
+            Model.ResourceScreens.Remove(SelectedResourceScreen);
+            ResourceScreens.Remove(SelectedResourceScreen);
         }
 
-        public bool IsTakeAway
-        {
-            get { return Model.IsTakeAway; }
-            set { Model.IsTakeAway = value; }
-        }
-
-        public ResourceScreen SelectedLocationScreen { get; set; }
-        
-        public ICaptionCommand AddLocationScreenCommand { get; set; }
-        public ICaptionCommand DeleteLocationScreenCommand { get; set; }
-
-        private bool CanDeleteLocationScreen(string arg)
-        {
-            return SelectedLocationScreen != null;
-        }
-
-        private void OnDeleteLocationScreen(string obj)
-        {
-            Model.LocationScreens.Remove(SelectedLocationScreen);
-            LocationScreens.Remove(SelectedLocationScreen);
-        }
-
-        private void OnAddLocationScreen(string obj)
+        private void OnAddResourceScreen(string obj)
         {
             var selectedValues =
                   InteractionService.UserIntraction.ChooseValuesFrom(Workspace.All<ResourceScreen>().ToList<IOrderable>(),
-                  Model.LocationScreens.ToList<IOrderable>(), Resources.LocationScreens, string.Format(Resources.ChooseLocationScreensForTicketTemplate_f, Model.Name),
-                  Resources.LocationScreen, Resources.LocationScreens);
+                  Model.ResourceScreens.ToList<IOrderable>(), Resources.ResourceScreens, string.Format(Resources.Select_f, Resources.ResourceScreens, Model.Name, Resources.Department),
+                  Resources.ResourceScreen, Resources.ResourceScreens);
 
             foreach (ResourceScreen selectedValue in selectedValues)
             {
-                if (!Model.LocationScreens.Contains(selectedValue))
-                    Model.LocationScreens.Add(selectedValue);
+                if (!Model.ResourceScreens.Contains(selectedValue))
+                    Model.ResourceScreens.Add(selectedValue);
             }
 
-            _locationScreens = new ObservableCollection<ResourceScreen>(Model.LocationScreens.OrderBy(x => x.Order));
+            _resourceScreens = new ObservableCollection<ResourceScreen>(Model.ResourceScreens.OrderBy(x => x.Order));
 
-            RaisePropertyChanged(() => LocationScreens);
+            RaisePropertyChanged(() => ResourceScreens);
         }
 
         public override Type GetViewType()

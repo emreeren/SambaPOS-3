@@ -10,6 +10,7 @@ using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Data.Serializer;
+using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Persistance.Data.Specification;
@@ -21,25 +22,23 @@ namespace Samba.Services.Implementations.TicketModule
     public class TicketService : AbstractService, ITicketService
     {
         private readonly IDepartmentService _departmentService;
-        private readonly IPrinterService _printerService;
         private readonly IApplicationState _applicationState;
         private readonly IAutomationService _automationService;
+        private readonly IUserService _userService;
         private readonly ISettingService _settingService;
         private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public TicketService(IDepartmentService departmentService, IPrinterService printerService,
-            IApplicationState applicationState, IAutomationService automationService,
-            ISettingService settingService, ICacheService cacheService)
+        public TicketService(IDepartmentService departmentService, IApplicationState applicationState, IAutomationService automationService,
+            IUserService userService, ISettingService settingService, ICacheService cacheService)
         {
             _departmentService = departmentService;
-            _printerService = printerService;
             _applicationState = applicationState;
             _automationService = automationService;
+            _userService = userService;
             _settingService = settingService;
             _cacheService = cacheService;
 
-            ValidatorRegistry.RegisterDeleteValidator(new TicketTagGroupDeleteValidator());
             ValidatorRegistry.RegisterConcurrencyValidator(new TicketConcurrencyValidator());
         }
 
@@ -61,10 +60,46 @@ namespace Samba.Services.Implementations.TicketModule
                     });
         }
 
+        public void UpdateResource(Ticket ticket, int resourceTemplateId, int resourceId, string resourceName)
+        {
+
+            var currentResource = ticket.TicketResources.SingleOrDefault(x => x.ResourceTemplateId == resourceTemplateId);
+            var currentResourceId = currentResource != null ? currentResource.ResourceId : 0;
+            var newResourceName = resourceName;
+            var oldResourceName = currentResource != null ? currentResource.ResourceName : "";
+            if (currentResource != null && currentResource.ResourceId != resourceId)
+            {
+                var resourceTemplate = _cacheService.GetResourceTemplateById(currentResource.ResourceTemplateId);
+                _automationService.NotifyEvent(RuleEventNames.ResourceUpdated, new
+                {
+                    currentResource.ResourceTemplateId,
+                    currentResource.ResourceId,
+                    ResourceTemplateName = resourceTemplate.Name,
+                    OpenTicketCount = GetOpenTicketIds(currentResource.ResourceId).Count() - 1
+                });
+            }
+
+            ticket.UpdateResource(resourceTemplateId, resourceId, resourceName);
+
+            if (currentResourceId != resourceId)
+            {
+                _automationService.NotifyEvent(RuleEventNames.TicketResourceChanged,
+                    new
+                    {
+                        Ticket = ticket,
+                        ResourceTemplateId = resourceTemplateId,
+                        ResourceId = resourceId,
+                        OldResourceName = oldResourceName,
+                        NewResourceName = newResourceName,
+                        OrderCount = ticket.Orders.Count
+                    });
+            }
+        }
+
         public void UpdateResource(Ticket ticket, Resource resource)
         {
-            Debug.Assert(ticket != null);
-            ticket.UpdateResource(resource);
+            if (resource == null) return;
+            UpdateResource(ticket, resource.ResourceTemplateId, resource.Id, resource.Name);
         }
 
         public Ticket OpenTicket(int ticketId)
@@ -75,10 +110,9 @@ namespace Samba.Services.Implementations.TicketModule
                              ? CreateTicket()
                              : Dao.Load<Ticket>(ticketId, x => x.TicketResources,
                              x => x.Orders.Select(y => y.OrderTagValues), x => x.Calculations,
-                             x => x.Payments, x => x.PaidItems, x => x.Tags);
+                             x => x.Payments);
 
-            if (ticket.Id == 0)
-                _automationService.NotifyEvent(RuleEventNames.TicketCreated, new { Ticket = ticket });
+            _automationService.NotifyEvent(RuleEventNames.TicketOpened, new { Ticket = ticket, OrderCount = ticket.Orders.Count });
 
             return ticket;
         }
@@ -86,12 +120,13 @@ namespace Samba.Services.Implementations.TicketModule
         private Ticket CreateTicket()
         {
             var account = _cacheService.GetAccountById(_applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.DefaultTargetAccountId);
-            return Ticket.Create(_applicationState.CurrentDepartment.Model, account);
+            return Ticket.Create(_applicationState.CurrentDepartment.Model, account, _cacheService.GetCalculationTemplates());
         }
 
         public TicketCommitResult CloseTicket(Ticket ticket)
         {
             var result = new TicketCommitResult();
+
             Debug.Assert(ticket != null);
 
             result.ErrorMessage = Dao.CheckConcurrency(ticket);
@@ -124,29 +159,56 @@ namespace Samba.Services.Implementations.TicketModule
                     Debug.Assert(!string.IsNullOrEmpty(ticket.TicketNumber));
                     Debug.Assert(ticket.Id > 0);
 
-                    //Otomatik yazdırma
-                    _printerService.AutoPrintTicket(ticket);
+                    _automationService.NotifyEvent(RuleEventNames.TicketClosing, new { Ticket = ticket, NewOrderCount = ticket.GetUnlockedOrders().Count() });
                     ticket.LockTicket();
                 }
 
                 if (ticket.Id > 0)// eğer adisyonda satır yoksa ID burada 0 olmalı.
                     Dao.Save(ticket);
+
+
                 Debug.Assert(ticket.Orders.Count(x => x.OrderNumber == 0) == 0);
             }
-            if (!changed)
-                _automationService.NotifyEvent(RuleEventNames.TicketClosed, new { Ticket = ticket, ticket.AccountId, ticket.RemainingAmount });
+
+            if (ticket.Id > 0)
+            {
+                foreach (var ticketResource in ticket.TicketResources)
+                {
+                    var resourceTemplate = _cacheService.GetResourceTemplateById(ticketResource.ResourceTemplateId);
+                    _automationService.NotifyEvent(RuleEventNames.ResourceUpdated, new
+                                                                                       {
+                                                                                           ticketResource.ResourceTemplateId,
+                                                                                           ticketResource.ResourceId,
+                                                                                           ResourceTemplateName = resourceTemplate.Name,
+                                                                                           OpenTicketCount = GetOpenTicketIds(ticketResource.ResourceId).Count()
+                                                                                       });
+                }
+            }
+
             result.TicketId = ticket.Id;
             return result;
         }
 
-        public void AddPayment(Ticket ticket, PaymentTemplate template, decimal tenderedAmount)
+        public void AddPayment(Ticket ticket, string paymentTemplateName, AccountTransactionTemplate transactionTemplate, Account account, decimal tenderedAmount)
         {
-            ticket.AddPayment(template, tenderedAmount, _applicationState.CurrentLoggedInUser.Id);
+            var remainingAmount = ticket.GetRemainingAmount();
+            var changeAmount = tenderedAmount > remainingAmount ? tenderedAmount - remainingAmount : 0;
+            ticket.AddPayment(transactionTemplate, account, tenderedAmount, _applicationState.CurrentLoggedInUser.Id);
+            _automationService.NotifyEvent(RuleEventNames.PaymentProcessed,
+                new
+                {
+                    Ticket = ticket,
+                    PaymentTemplateName = paymentTemplateName,
+                    Tenderedamount = tenderedAmount,
+                    ProcessedAmount = tenderedAmount - changeAmount,
+                    ChangeAmount = changeAmount,
+                    RemainingAmount = ticket.GetRemainingAmount()
+                });
         }
 
-        public void PaySelectedTicket(Ticket ticket, PaymentTemplate template)
+        public void PayTicket(Ticket ticket, PaymentTemplate template)
         {
-            AddPayment(ticket, template, ticket.GetRemainingAmount());
+            AddPayment(ticket, template.Name, template.AccountTransactionTemplate, template.Account, ticket.GetRemainingAmount());
         }
 
         public void UpdateTicketNumber(Ticket ticket, Numerator numerator)
@@ -157,7 +219,7 @@ namespace Samba.Services.Implementations.TicketModule
             }
         }
 
-        public TicketCommitResult MoveOrders(Ticket ticket, IEnumerable<Order> selectedOrders, int targetTicketId)
+        public TicketCommitResult MoveOrders(Ticket ticket, Order[] selectedOrders, int targetTicketId)
         {
             var clonedOrders = selectedOrders.Select(ObjectCloner.Clone).ToList();
             ticket.RemoveOrders(selectedOrders);
@@ -216,14 +278,6 @@ namespace Samba.Services.Implementations.TicketModule
         public void UpdateTag(Ticket ticket, TicketTagGroup tagGroup, TicketTag ticketTag)
         {
             ticket.SetTagValue(tagGroup.Name, ticketTag.Name);
-            if (tagGroup.Numerator != null)
-            {
-                ticket.TicketNumber = "";
-                UpdateTicketNumber(ticket, tagGroup.Numerator);
-            }
-
-            if (ticketTag.AccountId > 0)
-                UpdateAccount(ticket, Dao.SingleWithCache<Account>(x => x.Id == ticketTag.AccountId));
 
             if (tagGroup.SaveFreeTags)
             {
@@ -256,9 +310,16 @@ namespace Samba.Services.Implementations.TicketModule
             return Dao.Count<Ticket>(x => !x.IsPaid);
         }
 
-        public IEnumerable<int> GetOpenTickets(int resourceId)
+        public IEnumerable<int> GetOpenTicketIds(int resourceId)
         {
             return Dao.Select<Ticket, int>(x => x.Id, x => x.RemainingAmount > 0 && x.TicketResources.Any(y => y.ResourceId == resourceId));
+        }
+
+        public IEnumerable<OpenTicketData> GetOpenTickets(int resourceId)
+        {
+            return GetOpenTickets(x =>
+                    x.RemainingAmount > 0 &&
+                    x.TicketResources.Any(y => y.ResourceId == resourceId));
         }
 
         public IEnumerable<OpenTicketData> GetOpenTickets(Expression<Func<Ticket, bool>> prediction)
@@ -268,10 +329,11 @@ namespace Samba.Services.Implementations.TicketModule
                 Id = x.Id,
                 LastOrderDate = x.LastOrderDate,
                 TicketNumber = x.TicketNumber,
-                AccountName = x.AccountName,
                 RemainingAmount = x.RemainingAmount,
-                Date = x.Date
-            }, prediction);
+                Date = x.Date,
+                TicketResources = x.TicketResources,
+                TicketTags = x.TicketTags
+            }, prediction, x => x.TicketResources);
         }
 
         public void SaveFreeTicketTag(int id, string freeTag)
@@ -305,6 +367,29 @@ namespace Samba.Services.Implementations.TicketModule
         {
             var item = new TicketExplorerFilter { FilterType = FilterType.OpenTickets };
             return new List<ITicketExplorerFilter> { item };
+        }
+
+        public Order AddOrder(Ticket ticket, int menuItemId, decimal quantity, string portionName, OrderTagTemplate template)
+        {
+            if (ticket.Locked && !_userService.IsUserPermittedFor(PermissionNames.AddItemsToLockedTickets)) return null;
+            if (!ticket.CanSubmit) return null;
+            var menuItem = _cacheService.GetMenuItem(x => x.Id == menuItemId);
+            var portion = _cacheService.GetMenuItemPortion(menuItemId, portionName);
+            if (portion == null) return null;
+            var priceTag = _applicationState.CurrentDepartment.PriceTag;
+            var ti = ticket.AddOrder(
+                _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate,
+                _applicationState.CurrentLoggedInUser.Name, menuItem, portion, priceTag);
+
+            ti.Quantity = quantity > 9 ? decimal.Round(quantity / portion.Multiplier, LocalSettings.Decimals) : quantity;
+
+            if (template != null) template.OrderTagTemplateValues.ToList().ForEach(x => ti.ToggleOrderTag(x.OrderTagGroup, x.OrderTag, 0));
+            RecalculateTicket(ticket);
+
+            ti.PublishEvent(EventTopicNames.OrderAdded);
+            _automationService.NotifyEvent(RuleEventNames.TicketLineAdded, new { Ticket = ticket, ti.MenuItemName });
+
+            return ti;
         }
 
         public IEnumerable<Order> ExtractSelectedOrders(Ticket model, IEnumerable<Order> selectedOrders)
@@ -359,16 +444,6 @@ namespace Samba.Services.Implementations.TicketModule
             }
 
             return ConcurrencyCheckResult.Continue();
-        }
-    }
-
-    public class TicketTagGroupDeleteValidator : SpecificationValidator<TicketTagGroup>
-    {
-        public override string GetErrorMessage(TicketTagGroup model)
-        {
-            if (Dao.Exists<TicketTemplate>(x => x.TicketTagGroups.Any(y => y.Id == model.Id)))
-                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.TicketTagGroup, Resources.TicketTemplate);
-            return "";
         }
     }
 }

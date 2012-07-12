@@ -227,7 +227,7 @@ namespace Samba.Infrastructure.Data.Text
             return _storage.GetItems<T>().FirstOrDefault(predictate.Compile());
         }
 
-        public IEnumerable<TResult> Select<TSource, TResult>(Expression<Func<TSource, TResult>> expression, Expression<Func<TSource, bool>> prediction) where TSource : class
+        public IEnumerable<TResult> Select<TSource, TResult>(Expression<Func<TSource, TResult>> expression, Expression<Func<TSource, bool>> prediction, params Expression<Func<TSource, object>>[] includes) where TSource : class
         {
             if (prediction != null)
                 return _storage.GetItems<TSource>().Where(prediction.Compile()).Select(expression.Compile());

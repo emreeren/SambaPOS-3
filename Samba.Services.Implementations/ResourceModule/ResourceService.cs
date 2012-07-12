@@ -18,19 +18,17 @@ namespace Samba.Services.Implementations.ResourceModule
         private IWorkspace _resoureceWorkspace;
         private readonly int _resourceScreenItemCount;
         private readonly IApplicationState _applicationState;
-        private readonly IApplicationStateSetter _applicationStateSetter;
 
         [ImportingConstructor]
-        public ResourceService(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter)
+        public ResourceService(IApplicationState applicationState)
         {
             _resourceScreenItemCount = Dao.Count<ResourceScreenItem>();
             _applicationState = applicationState;
-            _applicationStateSetter = applicationStateSetter;
 
-            ValidatorRegistry.RegisterDeleteValidator(new ResourceDeleteValidator());
-            ValidatorRegistry.RegisterDeleteValidator(new ResourceTemplateDeleteValidator());
-            ValidatorRegistry.RegisterDeleteValidator(new ResourceScreenItemDeleteValidator());
-            ValidatorRegistry.RegisterDeleteValidator(new ResourceScreenDeleteValidator());
+            ValidatorRegistry.RegisterDeleteValidator<Resource>(x => Dao.Exists<TicketResource>(y => y.ResourceId == x.Id), Resources.Resource, Resources.Ticket);
+            ValidatorRegistry.RegisterDeleteValidator<ResourceTemplate>(x => Dao.Exists<Resource>(y => y.ResourceTemplateId == x.Id), Resources.ResourceTemplate, Resources.Resource);
+            ValidatorRegistry.RegisterDeleteValidator<ResourceScreenItem>(x => Dao.Exists<ResourceScreen>(y => y.ScreenItems.Any(z => z.Id == x.Id)), Resources.Location, Resources.ResourceScreen);
+            ValidatorRegistry.RegisterDeleteValidator<ResourceScreen>(x => Dao.Exists<Department>(y => y.ResourceScreens.Any(z => z.Id == x.Id)), Resources.ResourceScreen, Resources.Department);
             ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<Resource>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.Account)));
             ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<ResourceTemplate>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.AccountTemplate)));
             ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<ResourceScreenItem>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.Location)));
@@ -38,35 +36,32 @@ namespace Samba.Services.Implementations.ResourceModule
 
         public void UpdateResourceScreenItems(ResourceScreen resourceScreen, int pageNo)
         {
-            _applicationStateSetter.SetSelectedResourceScreen(resourceScreen);
+            if (resourceScreen == null) return;
 
-            if (resourceScreen != null)
+            IEnumerable<int> set;
+            if (resourceScreen.PageCount > 1)
             {
-                IEnumerable<int> set;
-                if (resourceScreen.PageCount > 1)
-                {
-                    set = resourceScreen.ScreenItems
-                        .OrderBy(x => x.Order)
-                        .Skip(pageNo * resourceScreen.ItemCountPerPage)
-                        .Take(resourceScreen.ItemCountPerPage)
-                        .Select(x => x.ResourceId);
-                }
-                else set = resourceScreen.ScreenItems.OrderBy(x => x.Order).Select(x => x.ResourceId);
+                set = resourceScreen.ScreenItems
+                    .OrderBy(x => x.Order)
+                    .Skip(pageNo * resourceScreen.ItemCountPerPage)
+                    .Take(resourceScreen.ItemCountPerPage)
+                    .Select(x => x.ResourceId);
+            }
+            else set = resourceScreen.ScreenItems.OrderBy(x => x.Order).Select(x => x.ResourceId);
 
-                using (var w = WorkspaceFactory.CreateReadOnly())
-                {
-                    var ids = w.Queryable<ResourceStateValue>().Where(x => set.Contains(x.ResoruceId)).GroupBy(x => x.ResoruceId).Select(x => x.Max(y => y.Id));
-                    var result = w.Queryable<ResourceStateValue>().Where(x => ids.Contains(x.Id)).Select(x => new { AccountId = x.ResoruceId, x.StateId });
-                    result.ToList().ForEach(x =>
-                    {
-                        var location = resourceScreen.ScreenItems.Single(y => y.ResourceId == x.AccountId);
-                        location.ResourceStateId = x.StateId;
-                    });
-                }
+            using (var w = WorkspaceFactory.CreateReadOnly())
+            {
+                var ids = w.Queryable<ResourceStateValue>().Where(x => set.Contains(x.ResoruceId)).GroupBy(x => x.ResoruceId).Select(x => x.Max(y => y.Id));
+                var result = w.Queryable<ResourceStateValue>().Where(x => ids.Contains(x.Id)).Select(x => new { AccountId = x.ResoruceId, x.StateId });
+                result.ToList().ForEach(x =>
+                                            {
+                                                var location = resourceScreen.ScreenItems.Single(y => y.ResourceId == x.AccountId);
+                                                location.ResourceStateId = x.StateId;
+                                            });
             }
         }
 
-        public IEnumerable<ResourceScreenItem> GetCurrentResourceScreenItems(ResourceScreen resourceScreen, int currentPageNo)
+        public IEnumerable<ResourceScreenItem> GetCurrentResourceScreenItems(ResourceScreen resourceScreen, int currentPageNo, int resourceStateFilter)
         {
             UpdateResourceScreenItems(resourceScreen, currentPageNo);
 
@@ -78,22 +73,33 @@ namespace Samba.Services.Implementations.ResourceModule
                 {
                     return selectedResourceScreen.ScreenItems
                          .OrderBy(x => x.Order)
+                         .Where(x => x.ResourceStateId == resourceStateFilter || resourceStateFilter == 0)
                          .Skip(selectedResourceScreen.ItemCountPerPage * currentPageNo)
                          .Take(selectedResourceScreen.ItemCountPerPage);
                 }
-                return selectedResourceScreen.ScreenItems;
+                return selectedResourceScreen.ScreenItems.Where(x => x.ResourceStateId == resourceStateFilter || resourceStateFilter == 0);
             }
             return new List<ResourceScreenItem>();
         }
-        
-        public IList<ResourceScreenItem> LoadResourceScreenItems(string selectedLocationScreen)
+
+        public IEnumerable<Resource> GetResourcesByState(int resourceStateId, int resourceTemplateId)
+        {
+            using (var w = WorkspaceFactory.CreateReadOnly())
+            {
+                var ids = w.Queryable<ResourceStateValue>().GroupBy(x => x.ResoruceId).Select(x => x.Max(y => y.Id));
+                var vids = w.Queryable<ResourceStateValue>().Where(x => ids.Contains(x.Id) && (x.StateId == resourceStateId)).Select(x => x.ResoruceId).ToList();
+                return w.Queryable<Resource>().Where(x => x.ResourceTemplateId == resourceTemplateId && vids.Contains(x.Id)).ToList();
+            }
+        }
+
+        public IList<ResourceScreenItem> LoadResourceScreenItems(string selectedResourceScreen)
         {
             if (_resoureceWorkspace != null)
             {
                 _resoureceWorkspace.CommitChanges();
             }
             _resoureceWorkspace = WorkspaceFactory.Create();
-            return _resoureceWorkspace.Single<ResourceScreen>(x => x.Name == selectedLocationScreen).ScreenItems;
+            return _resoureceWorkspace.Single<ResourceScreen>(x => x.Name == selectedResourceScreen).ScreenItems;
         }
 
         public int GetResourceScreenItemCount()
@@ -124,6 +130,7 @@ namespace Samba.Services.Implementations.ResourceModule
 
         public void UpdateResourceState(int resourceId, int stateId)
         {
+            if (resourceId == 0) return;
             using (var w = WorkspaceFactory.Create())
             {
                 var csid = w.Last<ResourceStateValue>(x => x.ResoruceId == resourceId);
@@ -139,46 +146,6 @@ namespace Samba.Services.Implementations.ResourceModule
         public override void Reset()
         {
 
-        }
-    }
-
-    public class ResourceDeleteValidator : SpecificationValidator<Resource>
-    {
-        public override string GetErrorMessage(Resource model)
-        {
-            if (Dao.Exists<TicketResource>(x => x.ResourceId== model.Id))
-                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Resource, Resources.Ticket);
-            return "";
-        }
-    }
-
-    public class ResourceTemplateDeleteValidator : SpecificationValidator<ResourceTemplate>
-    {
-        public override string GetErrorMessage(ResourceTemplate model)
-        {
-            if (Dao.Exists<Resource>(x => x.ResourceTemplateId == model.Id))
-                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.ResourceTemplate, Resources.Resource);
-            return "";
-        }
-    }
-
-    internal class ResourceScreenItemDeleteValidator : SpecificationValidator<ResourceScreenItem>
-    {
-        public override string GetErrorMessage(ResourceScreenItem model)
-        {
-            if (Dao.Exists<ResourceScreen>(x => x.ScreenItems.Any(y => y.Id == model.Id)))
-                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Location, Resources.LocationScreen);
-            return "";
-        }
-    }
-
-    internal class ResourceScreenDeleteValidator : SpecificationValidator<ResourceScreen>
-    {
-        public override string GetErrorMessage(ResourceScreen model)
-        {
-            if (Dao.Exists<Department>(x => x.LocationScreens.Any(y => y.Id == model.Id)))
-                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.LocationScreen, Resources.Department);
-            return "";
         }
     }
 }

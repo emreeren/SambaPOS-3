@@ -16,24 +16,21 @@ namespace Samba.Modules.SettingsModule
     [Export,PartCreationPolicy(CreationPolicy.NonShared)]
     public class TerminalViewModel : EntityViewModelBase<Terminal>
     {
-        private ISettingService _settingService;
+        private readonly ISettingService _settingService;
 
         [ImportingConstructor]
         public TerminalViewModel(ISettingService settingService)
         {
             _settingService = settingService;
-            SelectPrintJobsCommand = new CaptionCommand<string>(Resources.SelectPrintJob, OnAddPrintJob);
         }
 
         public bool IsDefault { get { return Model.IsDefault; } set { Model.IsDefault = value; } }
         public bool AutoLogout { get { return Model.AutoLogout; } set { Model.AutoLogout = value; } }
         public Printer SlipReportPrinter { get { return Model.SlipReportPrinter; } set { Model.SlipReportPrinter = value; } }
         public Printer ReportPrinter { get { return Model.ReportPrinter; } set { Model.ReportPrinter = value; } }
-        public ObservableCollection<PrintJob> PrintJobs { get; set; }
         public IEnumerable<Printer> Printers { get; private set; }
         public IEnumerable<PrinterTemplate> PrinterTemplates { get; private set; }
 
-        public ICaptionCommand SelectPrintJobsCommand { get; set; }
 
         public override Type GetViewType()
         {
@@ -49,28 +46,6 @@ namespace Samba.Modules.SettingsModule
         {
             Printers = Workspace.All<Printer>();
             PrinterTemplates = Workspace.All<PrinterTemplate>();
-            PrintJobs = new ObservableCollection<PrintJob>(Model.PrintJobs);
-        }
-
-        private void OnAddPrintJob(string obj)
-        {
-            IList<IOrderable> values = new List<IOrderable>(Workspace.All<PrintJob>()
-                .Where(x => PrintJobs.SingleOrDefault(y => y.Id == x.Id) == null));
-
-            IList<IOrderable> selectedValues = new List<IOrderable>(PrintJobs.Select(x => x));
-
-            var choosenValues =
-                InteractionService.UserIntraction.ChooseValuesFrom(values, selectedValues, Resources.PrintJobList,
-                string.Format(Resources.SelectPrintJobsForTerminalHint_f, Model.Name), Resources.PrintJob, Resources.PrintJobs);
-
-            PrintJobs.Clear();
-            Model.PrintJobs.Clear();
-
-            foreach (PrintJob choosenValue in choosenValues)
-            {
-                Model.PrintJobs.Add(choosenValue);
-                PrintJobs.Add(choosenValue);
-            }
         }
 
         protected override string GetSaveErrorMessage()

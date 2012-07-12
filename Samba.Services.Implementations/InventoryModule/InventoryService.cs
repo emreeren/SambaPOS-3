@@ -34,7 +34,7 @@ namespace Samba.Services.Implementations.InventoryModule
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<WorkPeriod>>().Subscribe(OnWorkperiodStatusChanged);
 
-            ValidatorRegistry.RegisterDeleteValidator(new InventoryItemDeleteValidator());
+            ValidatorRegistry.RegisterDeleteValidator<InventoryItem>(x => Dao.Exists<PeriodicConsumptionItem>(y => y.InventoryItem.Id == x.Id), Resources.InventoryItem, Resources.EndOfDayRecord);
             ValidatorRegistry.RegisterSaveValidator(new RecipeSaveValidator());
         }
 
@@ -58,7 +58,7 @@ namespace Samba.Services.Implementations.InventoryModule
 
         private IEnumerable<SalesData> GetSales(WorkPeriod workPeriod)
         {
-            var orders = GetOrdersFromRecipes(workPeriod);
+            var orders = GetOrdersFromRecipes(workPeriod).ToList();
             var salesData = orders.GroupBy(x => new { x.MenuItemName, x.MenuItemId, x.PortionName })
                     .Select(x => new SalesData { MenuItemName = x.Key.MenuItemName, MenuItemId = x.Key.MenuItemId, PortionName = x.Key.PortionName, Total = x.Sum(y => y.Quantity) }).ToList();
 
@@ -86,7 +86,7 @@ namespace Samba.Services.Implementations.InventoryModule
         private void CreatePeriodicConsumptionItems(PeriodicConsumption pc, IWorkspace workspace)
         {
             var previousPc = GetPreviousPeriodicConsumption(workspace);
-            var transactionItems = GetTransactionItems();
+            var transactionItems = GetTransactionItems().ToList();
             foreach (var inventoryItem in workspace.All<InventoryItem>())
             {
                 var iItem = inventoryItem;
@@ -104,7 +104,7 @@ namespace Samba.Services.Implementations.InventoryModule
                     if (previousPci != null)
                         previousCost = previousPci.Cost * pci.InStock;
                 }
-                var tim = transactionItems.Where(x => x.InventoryItem.Id == iItem.Id);
+                var tim = transactionItems.Where(x => x.InventoryItem.Id == iItem.Id).ToList();
                 pci.Purchase = tim.Sum(x => x.Quantity * x.Multiplier) / pci.UnitMultiplier;
                 var totalPrice = tim.Sum(x => x.Price * x.Quantity);
                 if (pci.InStock > 0 || pci.Purchase > 0)
@@ -246,16 +246,6 @@ namespace Samba.Services.Implementations.InventoryModule
                 var mitemName = "[Menu Item Name]"; // todo:fix;
                 return string.Format(Resources.ThereIsAnotherRecipeFor_f, mitemName);
             }
-            return "";
-        }
-    }
-
-    public class InventoryItemDeleteValidator : SpecificationValidator<InventoryItem>
-    {
-        public override string GetErrorMessage(InventoryItem model)
-        {
-            if (Dao.Exists<PeriodicConsumptionItem>(x => x.InventoryItem.Id == model.Id))
-                return Resources.DeleteErrorInventoryItemUsedInEndOfDayRecord;
             return "";
         }
     }

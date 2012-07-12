@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows.Controls;
 using Microsoft.Practices.Prism.Events;
-using Samba.Presentation.ViewModels;
+using Samba.Domain.Models.Tickets;
 using Samba.Services.Common;
 
 namespace Samba.Modules.PosModule
@@ -18,19 +18,13 @@ namespace Samba.Modules.PosModule
             DataContext = viewModel;
             InitializeComponent();
 
-            EventServiceFactory.EventService.GetEvent<GenericEvent<OrderViewModel>>().Subscribe(
+            EventServiceFactory.EventService.GetEvent<GenericEvent<Order>>().Subscribe(
                x =>
                {
                    if (x.Topic == EventTopicNames.OrderAdded)
                        Scroller.ScrollToEnd();
                });
 
-            EventServiceFactory.EventService.GetEvent<GenericEvent<TicketViewModel>>().Subscribe(
-                x =>
-                {
-                    if (x.Topic == EventTopicNames.TicketDisplayed)
-                        Scroller.ScrollToEnd();
-                });
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(
                 x =>

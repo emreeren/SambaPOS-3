@@ -30,7 +30,8 @@ namespace Samba.Services.Implementations.PrinterModule.PrintJobs
                         var lineData = s.ToLower().Replace("<xct", "").Trim(new[] { ' ', '<', '>' });
                         SerialPortService.WriteCommand(Printer.ShareName, lineData, Printer.CodePage);
                     }
-                    else SerialPortService.WritePort(Printer.ShareName, RemoveTag(s), Printer.CodePage);
+                    //else SerialPortService.WritePort(Printer.ShareName, RemoveTag(s), Printer.CodePage);
+                    else SerialPortService.WritePort(Printer.ShareName, RemoveTag(s));
                 }
             }
             SerialPortService.ResetCache();

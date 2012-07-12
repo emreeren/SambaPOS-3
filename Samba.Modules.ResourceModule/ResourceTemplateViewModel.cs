@@ -1,25 +1,38 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
+using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Resources;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
+using Samba.Services;
 
 namespace Samba.Modules.ResourceModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class ResourceTemplateViewModel : EntityViewModelBase<ResourceTemplate>
     {
+        private readonly ICacheService _cacheService;
+
         [ImportingConstructor]
-        public ResourceTemplateViewModel()
+        public ResourceTemplateViewModel(ICacheService cacheService)
         {
+            _cacheService = cacheService;
             AddCustomFieldCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.CustomField), OnAddCustomField);
             DeleteCustomFieldCommand = new CaptionCommand<ResourceCustomFieldViewModel>(string.Format(Resources.Delete_f, Resources.CustomField), OnDeleteCustomField, CanDeleteCustomField);
         }
 
         public string EntityName { get { return Model.EntityName; } set { Model.EntityName = value; } }
+
+        public AccountTemplate AccountTemplate
+        {
+            get { return Model.AccountTemplateId > 0 ? _cacheService.GetAccountTemplateById(Model.AccountTemplateId) : null; }
+            set { Model.AccountTemplateId = value != null ? value.Id : 0; }
+        }
+        public IEnumerable<AccountTemplate> AccountTemplates { get { return _cacheService.GetAccountTemplates(); } }
 
         public ICaptionCommand AddCustomFieldCommand { get; set; }
         public ICaptionCommand DeleteCustomFieldCommand { get; set; }

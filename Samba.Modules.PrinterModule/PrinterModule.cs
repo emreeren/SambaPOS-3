@@ -13,9 +13,9 @@ namespace Samba.Modules.PrinterModule
         [ImportingConstructor]
         public PrinterModule()
         {
-            AddDashboardCommand<EntityCollectionViewModelBase<PrinterViewModel, Printer>>(Resources.Printers, Resources.Settings, 10);
-            AddDashboardCommand<EntityCollectionViewModelBase<PrintJobViewModel, PrintJob>>(Resources.PrintJobs, Resources.Settings, 10);
-            AddDashboardCommand<EntityCollectionViewModelBase<PrinterTemplateViewModel, PrinterTemplate>>(Resources.PrinterTemplates, Resources.Settings, 10);
+            AddDashboardCommand<EntityCollectionViewModelBase<PrinterViewModel, Printer>>(Resources.Printers, Resources.Settings, 20);
+            AddDashboardCommand<EntityCollectionViewModelBase<PrintJobViewModel, PrintJob>>(Resources.PrintJobs, Resources.Settings, 20);
+            AddDashboardCommand<EntityCollectionViewModelBase<PrinterTemplateViewModel, PrinterTemplate>>(Resources.PrinterTemplates, Resources.Settings, 20);
         }
     }
 }

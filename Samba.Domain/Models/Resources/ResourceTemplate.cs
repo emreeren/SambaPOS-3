@@ -6,10 +6,11 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Resources
 {
-    public class ResourceTemplate : Entity,IOrderable
+    public class ResourceTemplate : Entity, IOrderable
     {
         public int Order { get; set; }
         public string EntityName { get; set; }
+        public int AccountTemplateId { get; set; }
 
         private readonly IList<ResourceCustomField> _resourceCustomFields;
         public virtual IList<ResourceCustomField> ResoruceCustomFields

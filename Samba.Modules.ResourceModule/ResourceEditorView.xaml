@@ -94,11 +94,9 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0">
-                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding CloseScreenCommand.Caption}"
-                         ButtonColor="Red" Command="{Binding CloseScreenCommand}" />
                 <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding SaveResourceCommand.Caption}"
                          Command="{Binding SaveResourceCommand}" />
-                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding SelectResourceCommand.Caption}"
+                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding SelectResourceCommandCaption}"
                          Command="{Binding SelectResourceCommand}" />
             </StackPanel>
         </Grid>

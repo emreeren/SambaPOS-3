@@ -12,17 +12,17 @@ namespace Samba.Modules.ResourceModule
     public class ResourceSearchResultViewModel : ObservableObject
     {
         public Resource Model { get; set; }
-        public ResourceTemplate AccountTemplate { get; set; }
+        public ResourceTemplate ResourceTemplate { get; set; }
 
         private ResourceCustomDataViewModel _accountCustomDataViewModel;
         public ResourceCustomDataViewModel AccountCustomDataViewModel
         {
-            get { return _accountCustomDataViewModel ?? (_accountCustomDataViewModel = new ResourceCustomDataViewModel(Model, AccountTemplate)); }
+            get { return _accountCustomDataViewModel ?? (_accountCustomDataViewModel = new ResourceCustomDataViewModel(Model, ResourceTemplate)); }
         }
 
         public ResourceSearchResultViewModel(Resource model, ResourceTemplate template)
         {
-            AccountTemplate = template;
+            ResourceTemplate = template;
             Model = model;
             UpdateDetailedInfo();
         }

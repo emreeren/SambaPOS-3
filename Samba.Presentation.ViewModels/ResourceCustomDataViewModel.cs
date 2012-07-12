@@ -27,7 +27,7 @@ namespace Samba.Presentation.ViewModels
         public string GetValue(string name)
         {
             return CustomData.Any(x => x.Name == name) 
-                ? CustomData.SingleOrDefault(x => x.Name == name).Value 
+                ? CustomData.Single(x => x.Name == name).Value 
                 : string.Empty;
         }
 

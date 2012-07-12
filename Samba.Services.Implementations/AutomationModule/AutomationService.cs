@@ -124,7 +124,7 @@ namespace Samba.Services.Implementations.AutomationModule
             var conditions = appRule.EventConstraints.Split('#')
                 .Select(x => new RuleConstraint(x));
 
-            var parameterNames = dataObject.GetType().GetProperties().Select(x => x.Name);
+            var parameterNames = dataObject.GetType().GetProperties().Select(x => x.Name).ToList();
 
             foreach (var condition in conditions)
             {

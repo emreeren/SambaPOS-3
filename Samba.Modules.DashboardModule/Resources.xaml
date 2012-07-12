@@ -196,7 +196,7 @@
             </ControlTemplate>
         </DataTemplate.Resources>
 
-        <TabControl Margin="0,1,4,4" MinWidth="150" ItemsSource="{Binding}" DisplayMemberPath="Category" Template="{StaticResource ResourceKey=OutlookTab}">
+        <TabControl Margin="0,1,4,4" MinWidth="170" ItemsSource="{Binding}" DisplayMemberPath="Category" Template="{StaticResource ResourceKey=OutlookTab}">
 
         </TabControl>
 

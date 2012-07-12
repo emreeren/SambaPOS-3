@@ -20,7 +20,7 @@
                     </GroupBox.Header>
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Label Content="{LocText SettingCheck,Suffix=':'}" MinWidth="130" />
+                            <Label Content="{LocText SettingCheck,Suffix=':'}" MinWidth="150" />
                             <TextBox MinWidth="80" Margin="2" Text="{Binding SettingConstraintName}" />
                             <ComboBox Margin="3,0" MinWidth="45" IsEditable="True" Text="{Binding SettingConstraintOperation}" 
                                                   ItemsSource="{Binding Operations}"/>
@@ -30,7 +30,7 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" Margin="0,3">
-                                        <Label Content="{Binding NameDisplay}" MinWidth="130" />
+                                        <Label Content="{Binding NameDisplay}" MinWidth="150" />
                                         <ComboBox Margin="3,0" MinWidth="45" IsEditable="True" Text="{Binding Operation}" 
                                                   ItemsSource="{Binding Operations}"/>
                                         <ComboBox MinWidth="80" IsEditable="True" 

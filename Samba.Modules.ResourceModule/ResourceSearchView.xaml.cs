@@ -31,7 +31,7 @@ namespace Samba.Modules.ResourceModule
             if (selector != null && gridView != null)
             {
                 gridView.Columns.Where(x => x.Header.ToString() != "Name").ToList().ForEach(x => gridView.Columns.Remove(x));
-                if (selector.SelectedResource != null)
+                if (selector.SelectedResourceTemplate != null)
                     selector.SelectedResourceTemplate.ResoruceCustomFields.Where(x => !x.Hidden).Select(CreateColumn).ToList().ForEach(x => gridView.Columns.Add(x));
                 MainListView.RaiseEvent(new RoutedEventArgs(LoadedEvent, MainListView));
             }

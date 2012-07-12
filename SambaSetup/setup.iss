@@ -32,9 +32,6 @@
 //#include "scripts\products\mdac28.iss"
 //#include "scripts\products\jet4sp8.iss"
 
-#define Version "3.00 "
-#define FileVersion "300"
-
 [CustomMessages]
 win2000sp3_title=Windows 2000 Service Pack 3
 winxpsp2_title=Windows XP Service Pack 2
@@ -83,7 +80,7 @@ SolidCompression=true
 Compression=lzma/fast
 
 ;required by products
-MinVersion=4.1,5.0
+MinVersion=5.0
 PrivilegesRequired=admin
 ArchitecturesAllowed=
 VersionInfoProductName=Samba POS Setup
@@ -119,7 +116,6 @@ Source: src\Samba.Modules.BasicReports.pdb; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.DashboardModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.DepartmentModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.InventoryModule.dll; DestDir: {app}; Flags: ignoreversion
-Source: src\Samba.Modules.LocationModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.LoginModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.MenuModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.ModifierModule.dll; DestDir: {app}; Flags: ignoreversion
@@ -127,6 +123,7 @@ Source: src\Samba.Modules.NavigationModule.dll; DestDir: {app}; Flags: ignorever
 Source: src\Samba.Modules.PaymentModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.PosModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.PrinterModule.dll; DestDir: {app}; Flags: ignoreversion
+Source: src\Samba.Modules.ResourceModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.SettingsModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.TicketModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.UserModule.dll; DestDir: {app}; Flags: ignoreversion

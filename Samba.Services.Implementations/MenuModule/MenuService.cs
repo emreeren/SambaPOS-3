@@ -21,7 +21,7 @@ namespace Samba.Services.Implementations.MenuModule
         public MenuService()
         {
             ValidatorRegistry.RegisterDeleteValidator(new MenuItemDeleteValidator());
-            ValidatorRegistry.RegisterDeleteValidator(new ScreenMenuDeleteValidator());
+            ValidatorRegistry.RegisterDeleteValidator<ScreenMenu>(x => Dao.Exists<Department>(y => y.ScreenMenuId == x.Id),Resources.Menu,Resources.Department);
         }
 
         public IEnumerable<ScreenMenuItem> GetScreenMenuItems(ScreenMenuCategory category, int currentPageNo, string tag)
@@ -106,16 +106,6 @@ namespace Samba.Services.Implementations.MenuModule
         public override void Reset()
         {
 
-        }
-    }
-
-    public class ScreenMenuDeleteValidator : SpecificationValidator<ScreenMenu>
-    {
-        public override string GetErrorMessage(ScreenMenu model)
-        {
-            if (Dao.Exists<Department>(x => x.ScreenMenuId == model.Id))
-                return Resources.DeleteErrorMenuViewUsedInDepartment;
-            return "";
         }
     }
 

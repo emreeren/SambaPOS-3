@@ -5,6 +5,7 @@ using System.Linq;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Resources;
+using Samba.Infrastructure;
 using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Data.Serializer;
 using Samba.Infrastructure.Settings;
@@ -26,12 +27,10 @@ namespace Samba.Domain.Models.Tickets
             LastPaymentDate = DateTime.Now;
             LastOrderDate = DateTime.Now;
             LastUpdateTime = DateTime.Now;
-            PrintJobData = "";
 
             _orders = new List<Order>();
             _paidItems = new List<PaidItem>();
             _calculations = new List<Calculation>();
-            _tags = new List<TicketTagValue>();
             _payments = new List<Payment>();
             _ticketResources = new List<TicketResource>();
         }
@@ -49,7 +48,6 @@ namespace Samba.Domain.Models.Tickets
         }
 
         private bool _shouldLock;
-        private Dictionary<int, int> _printCounts;
         public DateTime LastUpdateTime { get; set; }
 
         private string _ticketNumber;
@@ -64,7 +62,6 @@ namespace Samba.Domain.Models.Tickets
             }
         }
 
-        public string PrintJobData { get; set; }
         public DateTime Date { get; set; }
         public DateTime LastOrderDate { get; set; }
         public DateTime LastPaymentDate { get; set; }
@@ -80,6 +77,8 @@ namespace Samba.Domain.Models.Tickets
         public int AccountId { get; set; }
         public int AccountTemplateId { get; set; }
         public string AccountName { get; set; }
+
+        public string TicketTags { get; set; }
 
         public virtual AccountTransactionDocument AccountTransactions { get; set; }
 
@@ -111,13 +110,6 @@ namespace Samba.Domain.Models.Tickets
             set { _payments = value; }
         }
 
-        private IList<TicketTagValue> _tags;
-        public virtual IList<TicketTagValue> Tags
-        {
-            get { return _tags; }
-            set { _tags = value; }
-        }
-
         private IList<PaidItem> _paidItems;
         public virtual IList<PaidItem> PaidItems
         {
@@ -125,11 +117,23 @@ namespace Samba.Domain.Models.Tickets
             set { _paidItems = value; }
         }
 
-        public Order AddOrder(AccountTransactionTemplate template, string userName, MenuItem menuItem, string portionName, string priceTag)
+
+        private IList<TicketTagValue> _ticketTagValues;
+        internal IList<TicketTagValue> TicketTagValues
+        {
+            get { return _ticketTagValues ?? (_ticketTagValues = JsonHelper.Deserialize<List<TicketTagValue>>(TicketTags)); }
+        }
+
+        public IList<TicketTagValue> GetTicketTagValues()
+        {
+            return TicketTagValues;
+        }
+
+        public Order AddOrder(AccountTransactionTemplate template, string userName, MenuItem menuItem, MenuItemPortion portion, string priceTag)
         {
             Locked = false;
             var tif = new Order();
-            tif.UpdateMenuItem(userName, menuItem, portionName, priceTag, 1);
+            tif.UpdateMenuItem(userName, menuItem, portion, priceTag, 1);
             tif.AccountTransactionTemplateId = template.Id;
             if (AccountTransactions.AccountTransactions.SingleOrDefault(x => x.AccountTransactionTemplateId == template.Id) == null)
             {
@@ -150,14 +154,14 @@ namespace Samba.Domain.Models.Tickets
             return tif;
         }
 
-        public void AddPayment(PaymentTemplate paymentTemplate, decimal amount, int userId)
+        public void AddPayment(AccountTransactionTemplate transactionTemplate, Account account, decimal amount, int userId)
         {
-            var transaction = AccountTransaction.Create(paymentTemplate.AccountTransactionTemplate);
+            var transaction = AccountTransaction.Create(transactionTemplate);
             transaction.Amount = amount;
-            transaction.SetTargetAccount(paymentTemplate.Account.AccountTemplateId, paymentTemplate.Account.Id);
+            transaction.SetTargetAccount(account.AccountTemplateId, account.Id);
             transaction.UpdateAccounts(AccountTemplateId, AccountId);
             AccountTransactions.AccountTransactions.Add(transaction);
-            var payment = new Payment { AccountTransaction = transaction, Amount = amount, Name = paymentTemplate.Account.Name };
+            var payment = new Payment { AccountTransaction = transaction, Amount = amount, Name = account.Name };
             Payments.Add(payment);
 
             LastPaymentDate = DateTime.Now;
@@ -231,6 +235,10 @@ namespace Samba.Domain.Models.Tickets
                 {
                     service.CalculationAmount = service.Amount > 0 ? (currentSum * service.Amount) / 100 : 0;
                 }
+                else if (service.CalculationType == 3)
+                {
+                    service.CalculationAmount = service.Amount - sum;
+                }
                 else service.CalculationAmount = service.Amount;
 
                 service.CalculationAmount = Decimal.Round(service.CalculationAmount, LocalSettings.Decimals);
@@ -241,6 +249,7 @@ namespace Samba.Domain.Models.Tickets
 
                 var s = service;
                 var transaction = AccountTransactions.AccountTransactions.Single(x => x.AccountTransactionTemplateId == s.AccountTransactionTemplateId);
+                //todo: Mutlak değeri yazmak çoğu durumda doğru ancak bazı durumlarda hesapların ters çevrilmesi gerekiyor. İncele
                 transaction.Amount = Math.Abs(service.CalculationAmount);
             }
 
@@ -264,7 +273,6 @@ namespace Samba.Domain.Models.Tickets
                             Order = template.Order,
                             AccountTransactionTemplateId = template.AccountTransactionTemplate.Id
                         };
-
                 var transaction = AccountTransaction.Create(template.AccountTransactionTemplate);
                 transaction.Name = t.Name;
                 transaction.UpdateAccounts(AccountTemplateId, AccountId);
@@ -282,7 +290,7 @@ namespace Samba.Domain.Models.Tickets
                     AccountTransactions.AccountTransactions.Single(x => t.AccountTransactionTemplateId == x.AccountTransactionTemplateId));
             }
 
-            t.Amount = amount;
+            t.Amount = template.MaxAmount > 0 && amount > template.MaxAmount ? template.MaxAmount : amount;
         }
 
         public decimal GetPlainSum()
@@ -314,13 +322,16 @@ namespace Samba.Domain.Models.Tickets
 
         public bool IsTagged
         {
-            get { return Tags.Where(x => !string.IsNullOrEmpty(x.TagValue)).Count() > 0; }
+            get { return TicketTagValues.Where(x => !string.IsNullOrEmpty(x.TagValue)).Count() > 0; }
         }
 
-        public void CancelOrder(Order item)
+        public void CancelOrders(IEnumerable<Order> orders)
         {
             Locked = false;
-            if (item.Id == 0) RemoveOrder(item);
+            foreach (var order in orders.Where(order => order.Id == 0))
+            {
+                RemoveOrder(order);
+            }
         }
 
         public bool CanRemoveSelectedOrders(IEnumerable<Order> items)
@@ -328,15 +339,10 @@ namespace Samba.Domain.Models.Tickets
             return (items.Sum(x => x.GetSelectedValue()) <= GetRemainingAmount());
         }
 
-        public bool CanCancelSelectedOrders(IEnumerable<Order> items)
+        public bool CanCancelSelectedOrders(IEnumerable<Order> selectedOrders)
         {
-            if (items.Count() == 0) return false;
-            foreach (var item in items)
-            {
-                if (!Orders.Contains(item)) return false;
-                if (item.Id > 0) return false;
-            }
-            return true;
+            var so = selectedOrders.ToList();
+            return so.Count != 0 && !so.Any(x => x.Id > 0 || !Orders.Contains(x));
         }
 
         public IEnumerable<Order> GetUnlockedOrders()
@@ -397,11 +403,11 @@ namespace Samba.Domain.Models.Tickets
             _shouldLock = false;
         }
 
-        public static Ticket Create(Department department, Account account)
+        public static Ticket Create(Department department, Account account, IEnumerable<CalculationTemplate> calculationTemplates)
         {
             var ticket = new Ticket { DepartmentId = department.Id };
 
-            foreach (var calulationTemplate in department.TicketTemplate.CalulationTemplates.OrderBy(x => x.Order)
+            foreach (var calulationTemplate in calculationTemplates.OrderBy(x => x.Order)
                 .Where(x => string.IsNullOrEmpty(x.ButtonHeader)))
             {
                 ticket.AddCalculation(calulationTemplate, calulationTemplate.Amount);
@@ -424,80 +430,52 @@ namespace Samba.Domain.Models.Tickets
             return result;
         }
 
-        public bool DidPrintJobExecuted(int printerId)
-        {
-            return GetPrintCount(printerId) > 0;
-        }
-
-        public void AddPrintJob(int printerId)
-        {
-            if (_printCounts == null)
-                _printCounts = CreatePrintCounts(PrintJobData);
-            if (!_printCounts.ContainsKey(printerId))
-                _printCounts.Add(printerId, 0);
-            _printCounts[printerId]++;
-            PrintJobData = string.Join("#", _printCounts.Select(x => string.Format("{0}:{1}", x.Key, x.Value)));
-        }
-
-        public int GetPrintCount(int id)
-        {
-            if (_printCounts == null)
-                _printCounts = CreatePrintCounts(PrintJobData);
-            return _printCounts.ContainsKey(id) ? _printCounts[id] : 0;
-        }
-
-        private static Dictionary<int, int> CreatePrintCounts(string pJobData)
-        {
-            try
-            {
-                return pJobData
-                    .Split('#')
-                    .Where(x => !string.IsNullOrEmpty(x))
-                    .Select(item => item.Split(':').Where(x => !string.IsNullOrEmpty(x)).Select(x => Convert.ToInt32(x)).ToArray())
-                    .ToDictionary(d => d[0], d => d[1]);
-            }
-            catch (Exception)
-            {
-                return new Dictionary<int, int>();
-            }
-        }
-
         public string GetTagValue(string tagName)
         {
-            var tag = Tags.SingleOrDefault(x => x.TagName == tagName);
+            var tag = TicketTagValues.SingleOrDefault(x => x.TagName == tagName);
             return tag != null ? tag.TagValue : "";
         }
 
         public void SetTagValue(string tagName, string tagValue)
         {
-            var tag = Tags.SingleOrDefault(x => x.TagName == tagName);
+            var tag = TicketTagValues.SingleOrDefault(x => x.TagName == tagName);
             if (tag == null)
             {
                 tag = new TicketTagValue { TagName = tagName, TagValue = tagValue };
-                Tags.Add(tag);
+                TicketTagValues.Add(tag);
             }
             else
                 tag.TagValue = tagValue;
-            tag.DateTime = DateTime.Now;
+
+            if (string.IsNullOrEmpty(tag.TagValue))
+                TicketTagValues.Remove(tag);
+
+            TicketTags = JsonHelper.Serialize(TicketTagValues);
+            _ticketTagValues = null;
         }
 
         public string GetTagData()
         {
-            return string.Join("\r", Tags.Where(x => !string.IsNullOrEmpty(x.TagValue)).Select(x => string.Format("{0}: {1}", x.TagName, x.TagValue)));
+            return string.Join("\r", TicketTagValues.Where(x => !string.IsNullOrEmpty(x.TagValue)).Select(x => string.Format("{0}: {1}", x.TagName, x.TagValue)));
         }
 
         public void UpdateResource(Resource resource)
         {
-            var r = TicketResources.SingleOrDefault(x => x.ResourceTemplateId == resource.ResourceTemplateId);
+            UpdateResource(resource.ResourceTemplateId, resource.Id, resource.Name);
+        }
+
+        public void UpdateResource(int resourceTemplateId, int resourceId, string resourceName)
+        {
+            var r = TicketResources.SingleOrDefault(x => x.ResourceTemplateId == resourceTemplateId);
             if (r == null)
             {
-                TicketResources.Add(new TicketResource() { ResourceId = resource.Id, ResourceName = resource.Name, ResourceTemplateId = resource.ResourceTemplateId });
+                TicketResources.Add(new TicketResource { ResourceId = resourceId, ResourceName = resourceName, ResourceTemplateId = resourceTemplateId });
             }
             else
             {
-                r.ResourceId = resource.Id;
-                r.ResourceName = resource.Name;
-                r.ResourceTemplateId = resource.ResourceTemplateId;
+                r.ResourceId = resourceId;
+                r.ResourceName = resourceName;
+                r.ResourceTemplateId = resourceTemplateId;
             }
         }
 
@@ -543,7 +521,7 @@ namespace Samba.Domain.Models.Tickets
                 foreach (var transactionItem in transactionGroup)
                 {
                     var t = transactionItem;
-                    var transaction = AccountTransactions.AccountTransactions.SingleOrDefault(x => x.AccountTransactionTemplateId == t.Key);
+                    var transaction = AccountTransactions.AccountTransactions.Single(x => x.AccountTransactionTemplateId == t.Key);
                     transaction.UpdateAccounts(AccountTemplateId, AccountId);
                     transaction.Amount = t.Sum(x => x.GetTotal() - x.GetTotalTaxAmount());
                 }
@@ -553,7 +531,7 @@ namespace Samba.Domain.Models.Tickets
                 foreach (var taxGroupItem in taxGroup)
                 {
                     var tg = taxGroupItem;
-                    var transaction = AccountTransactions.AccountTransactions.SingleOrDefault(x => x.AccountTransactionTemplateId == tg.Key);
+                    var transaction = AccountTransactions.AccountTransactions.Single(x => x.AccountTransactionTemplateId == tg.Key);
                     transaction.UpdateAccounts(AccountTemplateId, AccountId);
                     transaction.Amount = tg.Sum(x => x.GetTotalTaxAmount());
                 }
@@ -597,6 +575,12 @@ namespace Samba.Domain.Models.Tickets
         public bool IsTaggedWith(string tagName)
         {
             return !string.IsNullOrEmpty(GetTagValue(tagName));
+        }
+
+        public bool CanCloseTicket()
+        {
+            return (GetRemainingAmount() <= 0 || TicketResources.Count > 0 ||
+                 IsTagged || Orders.Count == 0);
         }
     }
 }

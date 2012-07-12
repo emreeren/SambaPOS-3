@@ -91,28 +91,6 @@ namespace Samba.Modules.PrinterModule
             }
         }
 
-        public string TicketTagLabel
-        {
-            get
-            {
-                return TicketTag ?? NullLabel;
-            }
-        }
-
-        public string TicketTag
-        {
-            get
-            {
-                return Model.TicketTag ?? NullLabel;
-            }
-            set
-            {
-                Model.TicketTag = value;
-                RaisePropertyChanged(() => TicketTag);
-                RaisePropertyChanged(() => TicketTagLabel);
-            }
-        }
-
         public string MenuItemLabel { get { return MenuItemId > 0 ? MenuItems.Single(x => x.Id == MenuItemId).Name : NullLabel; } }
         public int MenuItemId { get { return Model.MenuItemId; } set { Model.MenuItemId = value; } }
 

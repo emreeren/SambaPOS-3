@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Windows.Media;
 using Microsoft.Practices.ServiceLocation;
-using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Actions;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
@@ -62,7 +62,12 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType("UpdateTicketService", Resources.UpdateTicketService, new { CalculationTemplate = "", Amount = 0m });
             AutomationService.RegisterActionType("UpdateTicketAccount", Resources.UpdateTicketAccount, new { AccountPhone = "", AccountName = "", Note = "" });
             AutomationService.RegisterActionType("ExecutePrintJob", "Execute Print Job", new { PrintJobName = "" });
-            AutomationService.RegisterActionType("UpdateResourceState", "Update Resource State", new { ResourceId = 0, ResourceState = "" });
+            AutomationService.RegisterActionType("UpdateResourceState", "Update Resource State", new { ResourceTemplateName = "", ResourceState = "" });
+            AutomationService.RegisterActionType("CloseActiveTicket", "Close Active Ticket");
+            AutomationService.RegisterActionType("LockTicket", "Lock Ticket");
+            AutomationService.RegisterActionType("UnlockTicket", "Unlock Ticket");
+            AutomationService.RegisterActionType("CreateTicket", "Create Ticket");
+            AutomationService.RegisterActionType("DisplayPaymentScreen", "Display Payment Screen");
         }
 
         private static void RegisterRules()
@@ -72,8 +77,10 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterEvent(RuleEventNames.WorkPeriodStarts, Resources.WorkPeriodStarted);
             AutomationService.RegisterEvent(RuleEventNames.WorkPeriodEnds, Resources.WorkPeriodEnded);
             AutomationService.RegisterEvent(RuleEventNames.TriggerExecuted, Resources.TriggerExecuted, new { TriggerName = "" });
-            AutomationService.RegisterEvent(RuleEventNames.TicketCreated, Resources.TicketCreated);
-            AutomationService.RegisterEvent(RuleEventNames.TicketLocationChanged, Resources.TicketLocationChanged, new { OldLocation = "", NewLocation = "" });
+            AutomationService.RegisterEvent(RuleEventNames.TicketOpened, "Ticket Opened", new { OrderCount = 0 });
+            AutomationService.RegisterEvent(RuleEventNames.TicketClosing, "Ticket Closing", new { NewOrderCount = 0 });
+            AutomationService.RegisterEvent(RuleEventNames.PaymentProcessed, "Payment Processed", new { PaymentTemplateName = "", Tenderedamount = 0m, ProcessedAmount = 0m, ChangeAmount = 0m, RemainingAmount = 0m });
+            AutomationService.RegisterEvent(RuleEventNames.TicketResourceChanged, "Ticket Resource Changed", new { OrderCount = 0, OldResourceName = "", NewResourceName = "" });
             AutomationService.RegisterEvent(RuleEventNames.TicketTagSelected, Resources.TicketTagSelected, new { TagName = "", TagValue = "", NumericValue = 0, TicketTag = "" });
             AutomationService.RegisterEvent(RuleEventNames.OrderTagged, "Order Tagged", new { OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterEvent(RuleEventNames.OrderUntagged, "Order Untagged", new { OrderTagName = "", OrderTagValue = "" });
@@ -82,9 +89,9 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterEvent(RuleEventNames.MessageReceived, Resources.MessageReceived, new { Command = "" });
             AutomationService.RegisterEvent(RuleEventNames.TicketLineAdded, "Line Added to Ticket", new { MenuItemName = "" });
             AutomationService.RegisterEvent(RuleEventNames.ChangeAmountChanged, "Change Amount Updated", new { TicketAmount = 0, ChangeAmount = 0, TenderedAmount = 0 });
-            AutomationService.RegisterEvent(RuleEventNames.TicketClosed, "Ticket Closed", new { AccountId = 0, RemainingAmount = 0m });
             AutomationService.RegisterEvent(RuleEventNames.ApplicationStarted, "Application Started");
-            AutomationService.RegisterEvent(RuleEventNames.OrdersCreated, "Orders Created");
+            AutomationService.RegisterEvent(RuleEventNames.ResourceUpdated, "Resource Updated", new { ResourceTemplateName = "", OpenTicketCount = 0 });
+            AutomationService.RegisterEvent(RuleEventNames.AutomationCommandExecuted, "Automation Command Exeucted", new { AutomationCommandName = "" });
         }
 
         private static void RegisterParameterSources()
@@ -101,6 +108,10 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterParameterSoruce("TagName", () => Dao.Distinct<TicketTagGroup>(x => x.Name));
             AutomationService.RegisterParameterSoruce("OrderTagName", () => Dao.Distinct<OrderTagGroup>(x => x.Name));
             AutomationService.RegisterParameterSoruce("ResourceState", () => Dao.Distinct<ResourceState>(x => x.Name));
+            AutomationService.RegisterParameterSoruce("ResourceTemplateName", () => Dao.Distinct<ResourceTemplate>(x => x.Name));
+            AutomationService.RegisterParameterSoruce("AutomationCommandName", () => Dao.Distinct<AutomationCommand>(x => x.Name));
+            AutomationService.RegisterParameterSoruce("PrintJobName", () => Dao.Distinct<PrintJob>(x => x.Name));
+            AutomationService.RegisterParameterSoruce("PaymentTemplateName", () => Dao.Distinct<PaymentTemplate>(x => x.Name));
         }
 
         private static void ResetCache()
@@ -114,17 +125,66 @@ namespace Samba.Presentation.ViewModels
         {
             EventServiceFactory.EventService.GetEvent<GenericEvent<IActionData>>().Subscribe(x =>
             {
-                if (x.Value.Action.ActionType == "UpdateResourceState")
+                if (x.Value.Action.ActionType == "DisplayPaymentScreen")
                 {
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
                     if (ticket != null)
                     {
-                        foreach (var ticketResource in ticket.TicketResources)
+                        ticket.PublishEvent(EventTopicNames.MakePayment);
+                    }
+                }
+
+                if (x.Value.Action.ActionType == "LockTicket")
+                {
+                    var ticket = x.Value.GetDataValue<Ticket>("Ticket");
+                    if (ticket != null)
+                    {
+                        ticket.LockTicket();
+                    }
+                }
+
+                if (x.Value.Action.ActionType == "CreateTicket")
+                {
+                    EventServiceFactory.EventService.PublishEvent(EventTopicNames.CreateTicket);
+                }
+
+                if (x.Value.Action.ActionType == "UnlockTicket")
+                {
+                    var ticket = x.Value.GetDataValue<Ticket>("Ticket");
+                    if (ticket != null) ticket.Locked = false;
+                    EventServiceFactory.EventService.PublishEvent(EventTopicNames.UnlockTicketRequested);
+                }
+
+                if (x.Value.Action.ActionType == "CloseActiveTicket")
+                {
+                    EventServiceFactory.EventService.PublishEvent(EventTopicNames.CloseTicketRequested);
+                }
+
+                if (x.Value.Action.ActionType == "UpdateResourceState")
+                {
+                    var resourceId = x.Value.GetDataValueAsInt("ResourceId");
+                    var resourceTemplateId = x.Value.GetDataValueAsInt("ResourceTemplateId");
+                    var stateName = x.Value.GetAsString("ResourceState");
+                    var state = CacheService.GetResourceStateByName(stateName);
+                    if (state != null)
+                    {
+                        if (resourceId > 0 && resourceTemplateId > 0)
                         {
-                            var stateName = x.Value.GetAsString("ResourceState");
-                            var state = CacheService.GetResourceStateByName(stateName);
-                            if (state != null)
-                                ResourceService.UpdateResourceState(ticketResource.ResourceId, state.Id);
+                            ResourceService.UpdateResourceState(resourceId, state.Id);
+                        }
+                        else
+                        {
+                            var ticket = x.Value.GetDataValue<Ticket>("Ticket");
+                            if (ticket != null)
+                            {
+                                var resourceTemplateName = x.Value.GetDataValueAsString("ResourceTemplateName");
+                                foreach (var ticketResource in ticket.TicketResources)
+                                {
+                                    var resourceTemplate = CacheService.GetResourceTemplateById(ticketResource.ResourceTemplateId);
+                                    if (string.IsNullOrEmpty(resourceTemplateName.Trim()) || resourceTemplate.Name == resourceTemplateName)
+                                        ResourceService.UpdateResourceState(ticketResource.ResourceId, state.Id);
+                                }
+                            }
                         }
                     }
                 }
@@ -307,18 +367,8 @@ namespace Samba.Presentation.ViewModels
                         var portionName = x.Value.GetAsString("PortionName");
                         var quantity = x.Value.GetAsDecimal("Quantity");
                         var tag = x.Value.GetAsString("Tag");
-
-                        var ti = ticket.AddOrder(
-                                 ApplicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate,
-                                 ApplicationState.CurrentLoggedInUser.Name, menuItem, portionName,
-                                 ApplicationState.CurrentDepartment.PriceTag);
-
-                        ti.Quantity = quantity;
-                        ti.Tag = tag;
-
-                        TicketService.RecalculateTicket(ticket);
-
-                        EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
+                        var order = TicketService.AddOrder(ticket, menuItem.Id, quantity, portionName, null);
+                        if (order != null) order.Tag = tag;
                     }
                 }
 
@@ -341,16 +391,17 @@ namespace Samba.Presentation.ViewModels
                     if (order != null)
                     {
                         var tagName = x.Value.GetAsString("OrderTagName");
-                        var orderTag = ApplicationState.CurrentDepartment.TicketTemplate.OrderTagGroups.SingleOrDefault(y => y.Name == tagName);
-                        if (x.Value.Action.ActionType == "RemoveOrderTag")
-                        {
-                            var tags = order.OrderTagValues.Where(y => y.OrderTagGroupId == orderTag.Id);
-                            tags.ToList().ForEach(y => order.OrderTagValues.Remove(y));
-                            return;
-                        }
-                        var tagValue = x.Value.GetAsString("OrderTagValue");
+                        var orderTag = CacheService.GetOrderTagGroupByName(tagName);
+
                         if (orderTag != null)
                         {
+                            if (x.Value.Action.ActionType == "RemoveOrderTag")
+                            {
+                                var tags = order.OrderTagValues.Where(y => y.OrderTagGroupId == orderTag.Id);
+                                tags.ToList().ForEach(y => order.OrderTagValues.Remove(y));
+                                return;
+                            }
+                            var tagValue = x.Value.GetAsString("OrderTagValue");
                             var orderTagValue = orderTag.OrderTags.SingleOrDefault(y => y.Name == tagValue);
                             if (orderTagValue != null)
                             {
@@ -385,12 +436,13 @@ namespace Samba.Presentation.ViewModels
                     var pjName = x.Value.Action.GetParameter("PrintJobName");
                     if (!string.IsNullOrEmpty(pjName))
                     {
-                        var j = ApplicationState.CurrentTerminal.PrintJobs.SingleOrDefault(y => y.Name == pjName);
+                        TicketService.UpdateTicketNumber(ticket, ApplicationState.CurrentDepartment.TicketTemplate.TicketNumerator);
+                        var j = CacheService.GetPrintJobByName(pjName);
 
                         if (j != null)
                         {
                             if (ticket != null)
-                                PrinterService.ManualPrintTicket(ticket, j);
+                                PrinterService.PrintTicket(ticket, j);
                             else
                                 PrinterService.ExecutePrintJob(j);
                         }

@@ -18,5 +18,6 @@ namespace Samba.Services
         User LoginUser(string pinValue);
         void LogoutUser(bool resetCache = true);
         bool IsUserPermittedFor(string permissionName);
+        IEnumerable<UserRole> GetUserRoles();
     }
 }

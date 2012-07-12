@@ -66,14 +66,9 @@ namespace Samba.Modules.AutomationModule
             {
                 if (string.IsNullOrEmpty(Model.ParameterValues))
                 {
-
-                    result = Action.Parameters.Values.Where(x => Regex.IsMatch(x, "\\[([^\\]]+)\\]"))
+                    result = Action.Parameters.Values.Where(x => !string.IsNullOrEmpty(x) && Regex.IsMatch(x, "\\[([^\\]]+)\\]"))
                         .Select(x => new ActionParameterValue(this, x.Trim('[', ']'), "",
                                                      _automationService.GetParameterNames(_ruleViewModel.EventName)));
-
-                    //result = Regex.Matches(Action.Parameter, "\\[([^\\]]+)\\]")
-                    //    .Cast<Match>()
-                    //    .Select(match => new ActionParameterValue(this, match.Groups[1].Value, "", _automationService.GetParameterNames(_ruleViewModel.EventName)));
                 }
                 else
                 {

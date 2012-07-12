@@ -7,7 +7,6 @@ using System.Windows;
 using System.Linq;
 using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.ServiceLocation;
-using Samba.Infrastructure;
 using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Data.Serializer;
 using Samba.Localization.Properties;
@@ -26,10 +25,14 @@ namespace Samba.Presentation.Common.ModelBase
         public EntityCollectionViewModelBase()
         {
             OpenViewModels = new List<EntityViewModelBase<TModel>>();
-            BatchCreateItemsCommand = new CaptionCommand<TModel>(string.Format("Batch Create {0}", PluralModelTitle), OnBatchCreateItems, CanBatchCreateItems);
+            BatchCreateItemsCommand = new CaptionCommand<TModel>(string.Format(Resources.BatchCreate_f, PluralModelTitle), OnBatchCreateItems, CanBatchCreateItems);
+            SortItemsCommand = new CaptionCommand<TModel>(string.Format(Resources.Sort_f, PluralModelTitle), OnSortItems);
 
             if (typeof(TViewModel).GetInterfaces().Any(x => x == typeof(IEntityCreator<TModel>)))
                 CustomCommands.Add(BatchCreateItemsCommand);
+
+            if (typeof(TModel).GetInterfaces().Any(x => x == typeof(IOrderable)))
+                CustomCommands.Add(SortItemsCommand);
 
             _token = EventServiceFactory.EventService.GetEvent<GenericEvent<EntityViewModelBase<TModel>>>().Subscribe(x =>
             {
@@ -65,6 +68,15 @@ namespace Samba.Presentation.Common.ModelBase
                   });
         }
 
+        private void OnSortItems(TModel obj)
+        {
+            var list = Items.Select(x => x.Model).ToList();
+            InteractionService.UserIntraction.SortItems(list.Cast<IOrderable>(), "Test", "Test");
+            Workspace.CommitChanges();
+            _items = null;
+            RaisePropertyChanged(() => Items);
+        }
+
         private static bool CanBatchCreateItems(TModel arg)
         {
             return typeof(TViewModel).GetInterfaces().Any(x => x == typeof(IEntityCreator<TModel>));
@@ -72,8 +84,8 @@ namespace Samba.Presentation.Common.ModelBase
 
         private void OnBatchCreateItems(TModel obj)
         {
-            var title = string.Format("Batch Create {0}", ModelTitle);
-            var description = string.Format("We'll create {0} for each line you entered here.", PluralModelTitle);
+            var title = string.Format(Resources.BatchCreate_f, PluralModelTitle);
+            var description = string.Format(Resources.BatchCreateInfo_f, PluralModelTitle);
             var data = InteractionService.UserIntraction.GetStringFromUser(title, description);
             if (data.Length > 0)
             {
@@ -86,12 +98,21 @@ namespace Samba.Presentation.Common.ModelBase
         }
 
         public ICaptionCommand BatchCreateItemsCommand { get; set; }
+        public ICaptionCommand SortItemsCommand { get; set; }
 
         private readonly IWorkspace _workspace = WorkspaceFactory.Create();
         public IWorkspace Workspace { get { return _workspace; } }
 
         private ObservableCollection<TViewModel> _items;
         public ObservableCollection<TViewModel> Items { get { return _items ?? (_items = GetItemsList()); } }
+
+        public string Filter { get; set; }
+
+        public override void RefreshItems()
+        {
+            _items = null;
+            RaisePropertyChanged(() => Items);
+        }
 
         protected virtual ObservableCollection<TViewModel> GetItemsList()
         {
@@ -100,7 +121,8 @@ namespace Samba.Presentation.Common.ModelBase
 
         protected virtual IEnumerable<TModel> SelectItems()
         {
-            return _workspace.All<TModel>();
+            var filter = (Filter??"").ToLower();
+            return !string.IsNullOrEmpty(filter) ? _workspace.All<TModel>().Where(x => x.Name.ToLower().Contains(filter)) : _workspace.All<TModel>();
         }
 
         protected virtual void BeforeDeleteItem(TModel item)
@@ -175,8 +197,7 @@ namespace Samba.Presentation.Common.ModelBase
         {
             var model = new TModel();
             VisibleViewModelBase wm = InternalCreateNewViewModel(model);
-            if (wm is EntityViewModelBase<TModel>)
-                OpenViewModels.Add(wm as EntityViewModelBase<TModel>);
+            if (wm != null) OpenViewModels.Add(wm as EntityViewModelBase<TModel>);
             wm.PublishEvent(EventTopicNames.ViewAdded);
         }
 
@@ -186,8 +207,7 @@ namespace Samba.Presentation.Common.ModelBase
             duplicate.Id = 0;
             duplicate.Name = "_" + duplicate.Name;
             VisibleViewModelBase wm = InternalCreateNewViewModel(duplicate);
-            if (wm is EntityViewModelBase<TModel>)
-                OpenViewModels.Add(wm as EntityViewModelBase<TModel>);
+            if (wm != null) OpenViewModels.Add(wm as EntityViewModelBase<TModel>);
             wm.PublishEvent(EventTopicNames.ViewAdded);
         }
 
@@ -234,6 +254,8 @@ namespace Samba.Presentation.Common.ModelBase
 
         protected ObservableCollection<TViewModel> BuildViewModelList(IEnumerable<TModel> itemsList)
         {
+            if (typeof(TModel).GetInterfaces().Any(x => x == typeof(IOrderable)))
+                return new ObservableCollection<TViewModel>(itemsList.OrderBy(x => ((IOrderable)x).Order).Select(InternalCreateNewViewModel));
             return new ObservableCollection<TViewModel>(itemsList.Select(InternalCreateNewViewModel));
         }
 

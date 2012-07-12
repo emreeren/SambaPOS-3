@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Linq.Expressions;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Resources;
 using Samba.Infrastructure;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
@@ -22,13 +23,15 @@ namespace Samba.Modules.AccountModule
         private readonly IUserService _userService;
         private readonly IApplicationState _applicationState;
         private readonly ICacheService _cacheService;
+        private readonly IAccountService _accountService;
 
         [ImportingConstructor]
-        public AccountDetailsViewModel(IUserService userService, IApplicationState applicationState, ICacheService cacheService)
+        public AccountDetailsViewModel(IUserService userService, IApplicationState applicationState, ICacheService cacheService, IAccountService accountService)
         {
             _userService = userService;
             _applicationState = applicationState;
             _cacheService = cacheService;
+            _accountService = accountService;
             MakePaymentToAccountCommand = new CaptionCommand<string>(Resources.MakePayment_r, OnMakePaymentToAccountCommand, CanMakePaymentToAccount);
             GetPaymentFromAccountCommand = new CaptionCommand<string>(Resources.GetPayment_r, OnGetPaymentFromAccountCommand, CanMakePaymentToAccount);
             AddLiabilityCommand = new CaptionCommand<string>(Resources.AddLiability_r, OnAddLiability, CanAddLiability);
@@ -37,7 +40,7 @@ namespace Samba.Modules.AccountModule
             AccountDetails = new ObservableCollection<AccountDetailViewModel>();
             DocumentTemplates = new ObservableCollection<DocumentTemplateButtonViewModel>();
             AccountSummaries = new ObservableCollection<AccountSummaryViewModel>();
-            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Account>>>().Subscribe(OnDisplayAccountTransactions);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<AccountData>>>().Subscribe(OnDisplayAccountTransactions);
         }
 
         public AccountTemplate SelectedAccountTemplate { get; set; }
@@ -66,6 +69,8 @@ namespace Samba.Modules.AccountModule
         public string[] FilterTypes { get { return new[] { Resources.All, Resources.Month, Resources.Week, Resources.WorkPeriod }; } }
 
         private string _filterType;
+        private EntityOperationRequest<AccountData> _currentOperationRequest;
+
         public string FilterType
         {
             get { return _filterType; }
@@ -146,11 +151,13 @@ namespace Samba.Modules.AccountModule
             RaisePropertyChanged(() => TotalBalance);
         }
 
-        private void OnDisplayAccountTransactions(EventParameters<EntityOperationRequest<Account>> obj)
+        private void OnDisplayAccountTransactions(EventParameters<EntityOperationRequest<AccountData>> obj)
         {
             if (obj.Topic == EventTopicNames.DisplayAccountTransactions)
             {
-                SelectedAccount = obj.Value.SelectedEntity;//= new ResourceSearchResultViewModel(obj.Value.SelectedEntity, _cacheService.GetResourceTemplateById(obj.Value.SelectedEntity.AccountTemplateId));
+                var account = _accountService.GetAccountById(obj.Value.SelectedEntity.AccountId);
+                _currentOperationRequest = obj.Value;
+                SelectedAccount = account;//= new ResourceSearchResultViewModel(obj.Value.SelectedEntity, _cacheService.GetResourceTemplateById(obj.Value.SelectedEntity.AccountTemplateId));
             }
         }
 
@@ -167,7 +174,8 @@ namespace Samba.Modules.AccountModule
         private void OnCloseAccountScreen(string obj)
         {
             AccountDetails.Clear();
-            EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateResourceView);
+            if (_currentOperationRequest != null)
+                _currentOperationRequest.Publish(new AccountData { AccountId = SelectedAccount.Id });
         }
 
         private void OnAddReceivable(string obj)

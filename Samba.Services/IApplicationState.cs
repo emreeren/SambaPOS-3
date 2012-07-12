@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
@@ -14,7 +13,7 @@ namespace Samba.Services
         SingleTicket,
         TicketList,
         Payment,
-        LocationList,
+        ResourceView,
         AccountList,
         WorkPeriods,
         Dashboard,
@@ -27,12 +26,10 @@ namespace Samba.Services
         public Department Model { get; set; }
         public int Id { get { return Model != null ? Model.Id : 0; } }
         public string Name { get { return Model != null ? Model.Name : ""; } }
-        public bool IsFastFood { get { return Model != null ? Model.IsFastFood : false; } }
-        public bool IsAlaCarte { get { return Model != null ? Model.IsAlaCarte : false; } }
-        public bool IsTakeAway { get { return Model != null ? Model.IsTakeAway : false; } }
         public string PriceTag { get { return Model != null ? Model.PriceTag : ""; } }
+        public int TicketCreationMethod { get { return Model != null ? Model.TicketCreationMethod : 0; } }
         public TicketTemplate TicketTemplate { get { return Model != null ? Model.TicketTemplate : null; } }
-        public IList<ResourceScreen> LocationScreens { get { return Model != null ? Model.LocationScreens : null; } }
+        public IList<ResourceScreen> ResourceScreens { get { return Model != null ? Model.ResourceScreens : null; } }
     }
 
     public interface IApplicationState

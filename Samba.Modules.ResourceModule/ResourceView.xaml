@@ -18,9 +18,11 @@
                 <LocText ResourceIdentifierKey="ResourceTemplate" Suffix=":"/>
             </Label>
             <ComboBox HorizontalAlignment="Left" MinWidth="150" 
-                      ItemsSource="{Binding AccountTemplates}" 
-                      SelectedItem="{Binding AccountTemplate}" DisplayMemberPath="Name"/>
+                      ItemsSource="{Binding ResourceTemplates}" 
+                      SelectedItem="{Binding ResourceTemplate}" DisplayMemberPath="Name"/>
 
+            <Label Content="{LocText Account,Suffix=':'}"/>
+            <ComboBox ItemsSource="{Binding AccountNames}" Text="{Binding AccountName}" IsEditable="True" HorizontalAlignment="Left" MinWidth="150"/>
             <ViewModels:ResourceCustomDataEditor Margin="0,5" HorizontalAlignment="Left" Focusable="False" DataContext="{Binding CustomDataViewModel}"/>
 
             <Button HorizontalAlignment="Left" Margin="0,10" MinWidth="70" Content="{Binding SaveCommand.Caption}"

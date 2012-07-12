@@ -9,8 +9,7 @@ namespace Samba.Services
     public interface IPrinterService : IService
     {
         IEnumerable<string> GetPrinterNames();
-        void ManualPrintTicket(Ticket ticket, PrintJob printer);
-        void AutoPrintTicket(Ticket ticket);
+        void PrintTicket(Ticket ticket, PrintJob printer);
         void PrintReport(FlowDocument document);
         void PrintSlipReport(FlowDocument document);
         void ExecutePrintJob(PrintJob printJob);

@@ -20,7 +20,7 @@ namespace Samba.Modules.PosModule
             get
             {
                 var format = Resources.Select_f;
-                if (_selectedTicket.TicketResources.Any(x => x.ResourceTemplateId == Model.Id))
+                if (_selectedTicket != null && _selectedTicket.TicketResources.Any(x => x.ResourceTemplateId == Model.Id))
                     format = Resources.Change_f;
                 return string.Format(format, Model.EntityName);
             }

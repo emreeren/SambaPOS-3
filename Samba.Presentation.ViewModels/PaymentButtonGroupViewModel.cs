@@ -54,7 +54,7 @@ namespace Samba.Presentation.ViewModels
             }
 
             result.AddRange(
-                PaymentTemplates.Where(x => x.DisplayAtPaymentScreen)
+                PaymentTemplates
                 .OrderBy(x => x.Order)
                 .Select(x => new CommandButtonViewModel<PaymentTemplate>
                 {

@@ -31,8 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentValidation">
-      <HintPath>..\Samba.Modules.TicketModule\bin\Debug\FluentValidation.dll</HintPath>
+    <Reference Include="FluentValidation, Version=3.1.0.0, Culture=neutral, PublicKeyToken=a82054b837897c66, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\FluentValidation.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\Lib\Microsoft.Practices.Prism.dll</HintPath>
@@ -54,7 +55,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ResourceButtonViewModel.cs" />
+    <Compile Include="ResourceButtonItemViewModel.cs" />
     <Compile Include="ResourceEditorView.xaml.cs">
       <DependentUpon>ResourceEditorView.xaml</DependentUpon>
     </Compile>
@@ -69,6 +70,11 @@
       <DependentUpon>ResourceSelectorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ResourceSelectorViewModel.cs" />
+    <Compile Include="ResourceSwitcherButtonViewModel.cs" />
+    <Compile Include="ResourceSwitcherView.xaml.cs">
+      <DependentUpon>ResourceSwitcherView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ResourceSwitcherViewModel.cs" />
     <Compile Include="ResourceTemplateView.xaml.cs">
       <DependentUpon>ResourceTemplateView.xaml</DependentUpon>
     </Compile>
@@ -100,6 +106,10 @@
     <Page Include="ResourceSelectorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceSwitcherView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ResourceTemplateView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -165,6 +175,13 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>IF NOT "$(ConfigurationName)"=="Release" GOTO End
+
+copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)SambaSetup\src"
+
+:End</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

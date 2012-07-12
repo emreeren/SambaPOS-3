@@ -18,7 +18,7 @@
     <Border BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}">
         <ScrollViewer Name="Scroller" UIControls:KineticBehaviour.HandleKineticScrolling="True" VerticalScrollBarVisibility="Auto">
             <ItemsControl BorderThickness="0" Background="{Binding TicketBackground}"
-                             ItemsSource="{Binding SelectedTicket.ItemsViewSource.View}" HorizontalContentAlignment="Stretch">
+                             ItemsSource="{Binding ItemsViewSource.View}" HorizontalContentAlignment="Stretch">
                 <ItemsControl.GroupStyle>
                     <GroupStyle>
                         <GroupStyle.ContainerStyle>
@@ -33,18 +33,16 @@
                                                     <RowDefinition Height="*" />
                                                 </Grid.RowDefinitions>
                                                 <Border BorderThickness="0,0,0,1" BorderBrush="Silver">
-                                                    <Button Style="{StaticResource ItemsControlButtonStyle}" Command="{Binding DataContext.SelectedTicket.SelectAllItemsCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding Name.OrderNumber}">
-                                                        <Grid Grid.Row="0">
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="auto"/>
-                                                                <ColumnDefinition Width="*"/>
-                                                            </Grid.ColumnDefinitions>
-                                                            <TextBlock Margin="15,0,0,0" Grid.Column="0" Text="{Binding Name.OrderNumber}" FontWeight="Bold"
+                                                    <Grid Grid.Row="0">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="auto"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Margin="15,0,0,0" Grid.Column="0" Text="{Binding Name.OrderNumber}" FontWeight="Bold"
                                                                         Foreground="Gray" Style="{StaticResource GroupLabelStyle}" />
-                                                            <TextBlock Margin="5,0,0,0" Grid.Column="1" Text="{Binding Name.Time}" FontWeight="Bold"
+                                                        <TextBlock Margin="5,0,0,0" Grid.Column="1" Text="{Binding Name.Time}" FontWeight="Bold"
                                                                         Foreground="Gray" Style="{StaticResource GroupLabelStyle}" />
-                                                        </Grid>
-                                                    </Button>
+                                                    </Grid>
                                                 </Border>
                                                 <ItemsPresenter Grid.Row="1" />
                                             </Grid>

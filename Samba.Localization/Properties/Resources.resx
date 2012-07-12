@@ -502,20 +502,8 @@ Payment</value>
     <value>Location View</value>
     <comment>Label content</comment>
   </data>
-  <data name="OpenTicketView" xml:space="preserve">
-    <value>Open Tickets View</value>
-    <comment>GroupBox.Header</comment>
-  </data>
   <data name="ColumnCount" xml:space="preserve">
     <value>Column Count</value>
-    <comment>Label content</comment>
-  </data>
-  <data name="POSDefaultTicketTag" xml:space="preserve">
-    <value>POS Default Ticket Tag</value>
-    <comment>Label content</comment>
-  </data>
-  <data name="TerminalDefaultTicketTag" xml:space="preserve">
-    <value>Terminal Default Ticket Tag</value>
     <comment>Label content</comment>
   </data>
   <data name="DepartmentType" xml:space="preserve">
@@ -707,9 +695,6 @@ Payment</value>
   <data name="WrapText" xml:space="preserve">
     <value>Wrap Text</value>
   </data>
-  <data name="DeleteErrorMenuViewUsedInDepartment" xml:space="preserve">
-    <value>Can't delete because this Menu assigned to a Department</value>
-  </data>
   <data name="MenuName" xml:space="preserve">
     <value>Menu Name</value>
     <comment>Label.Content</comment>
@@ -769,10 +754,6 @@ Payment</value>
   </data>
   <data name="Numerator" xml:space="preserve">
     <value>Numerator</value>
-    <comment>Label content</comment>
-  </data>
-  <data name="DoAfterTicketSelected" xml:space="preserve">
-    <value>Do it after ticket selected</value>
     <comment>Label content</comment>
   </data>
   <data name="CanUseOnPOS" xml:space="preserve">
@@ -1122,12 +1103,6 @@ Payment</value>
   </data>
   <data name="Manual" xml:space="preserve">
     <value>Manual</value>
-  </data>
-  <data name="WhenNewLinesAddedToTicket" xml:space="preserve">
-    <value>New lines added to ticket</value>
-  </data>
-  <data name="WhenTicketPaid" xml:space="preserve">
-    <value>Ticket Paid</value>
   </data>
   <data name="AllLines" xml:space="preserve">
     <value>All Lines</value>
@@ -1494,10 +1469,6 @@ Payment</value>
     <value>Credit
 Card</value>
   </data>
-  <data name="AllTickets_r" xml:space="preserve">
-    <value>All
-Tickets</value>
-  </data>
   <data name="Void" xml:space="preserve">
     <value>Void</value>
   </data>
@@ -1543,6 +1514,9 @@ Balance</value>
   <data name="Flat" xml:space="preserve">
     <value>Auto Round</value>
   </data>
+  <data name="Discount" xml:space="preserve">
+    <value>Discount</value>
+  </data>
   <data name="DiscountPercentSign" xml:space="preserve">
     <value>Discount %</value>
   </data>
@@ -1572,12 +1546,6 @@ Balance</value>
   </data>
   <data name="CanUpdateExtraModifiers" xml:space="preserve">
     <value>Can Update Extra Modifiers</value>
-  </data>
-  <data name="CanGetPayment" xml:space="preserve">
-    <value>Can Get Payment</value>
-  </data>
-  <data name="CanGetFastPayment" xml:space="preserve">
-    <value>Can Get Fast Payment</value>
   </data>
   <data name="CanMakeDiscount" xml:space="preserve">
     <value>Can Make Discount</value>
@@ -2149,9 +2117,6 @@ Location: {2}</value>
   <data name="DisplayPopup" xml:space="preserve">
     <value>Display Popup</value>
   </data>
-  <data name="DeleteErrorInventoryItemUsedInEndOfDayRecord" xml:space="preserve">
-    <value>Can't delete because an end of day Cost document contains this Inventory Item.</value>
-  </data>
   <data name="Rules" xml:space="preserve">
     <value>Rules</value>
   </data>
@@ -2178,9 +2143,6 @@ Location: {2}</value>
   </data>
   <data name="UserLogout" xml:space="preserve">
     <value>User Logout</value>
-  </data>
-  <data name="TicketCreated" xml:space="preserve">
-    <value>Ticket Created</value>
   </data>
   <data name="TicketTagSelected" xml:space="preserve">
     <value>Ticket Tag Selected</value>
@@ -2697,12 +2659,6 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="RoundingTotal" xml:space="preserve">
     <value>Rounding Total</value>
   </data>
-  <data name="ChooseLocationScreensForTicketTemplate_f" xml:space="preserve">
-    <value>Select Location Screens for using at {0} template.</value>
-  </data>
-  <data name="ChooseCalculationsForTicketTemplate_f" xml:space="preserve">
-    <value>Select calculations for using at {0} template.</value>
-  </data>
   <data name="ChoosePaymentsForTicketTemplate_f" xml:space="preserve">
     <value>Select Payment Templates for using at {0} template.</value>
   </data>
@@ -2848,12 +2804,6 @@ Continue without adding details?</value>
   <data name="RemoveGiftTagWhenVoided" xml:space="preserve">
     <value>Remove Gift Tag when Voided</value>
   </data>
-  <data name="LocationScreen" xml:space="preserve">
-    <value>Location Screen</value>
-  </data>
-  <data name="LocationScreens" xml:space="preserve">
-    <value>Location Screens</value>
-  </data>
   <data name="OrderTagTemplate" xml:space="preserve">
     <value>Order Tag Template</value>
   </data>
@@ -2889,6 +2839,9 @@ Continue without adding details?</value>
   </data>
   <data name="New_f" xml:space="preserve">
     <value>New {0}</value>
+  </data>
+  <data name="Create_f">
+    <value xml:space="preserve">Create {0}</value>
   </data>
   <data name="CustomFieldName" xml:space="preserve">
     <value>Custom Field Name</value>
@@ -3027,18 +2980,18 @@ Continue without adding details?</value>
     <value>Display under ticket</value>
     <comment>CheckBox.Content</comment>
   </data>
-	<data name="Settle">
-		<value xml:space="preserve">Settle</value>
-	</data>
-	<data name="Table">
-		<value xml:space="preserve">Table</value>
-	</data>
-	<data name="EntityName">
-		<value xml:space="preserve">Entity Name</value>
-	</data>
-	<data name="Change_f">
-		<value xml:space="preserve">Change {0}</value>
-	</data>
+  <data name="Settle">
+    <value xml:space="preserve">Settle</value>
+  </data>
+  <data name="Table">
+    <value xml:space="preserve">Table</value>
+  </data>
+  <data name="EntityName">
+    <value xml:space="preserve">Entity Name</value>
+  </data>
+  <data name="Change_f">
+    <value xml:space="preserve">Change {0}</value>
+  </data>
   <data name="Resource">
     <value xml:space="preserve">Resource</value>
   </data>
@@ -3048,25 +3001,85 @@ Continue without adding details?</value>
   <data name="ResourceScreen">
     <value xml:space="preserve">Resource Screen</value>
   </data>
-	<data name="ScreenItem">
-		<value xml:space="preserve">Screen Item</value>
-	</data>
-	<data name="ResourceScreenItem">
-		<value xml:space="preserve">Resource Screen Item</value>
-	</data>
-	<data name="ResourceState">
-		<value xml:space="preserve">Resource State</value>
-	</data>
-	<data name="Name">
-		<value xml:space="preserve">Name</value>
-	</data>
-	<data name="Resourceses">
-		<value xml:space="preserve">Resources</value>
-	</data>
-	<data name="ResourceTemplates">
-		<value xml:space="preserve">Resource Templates</value>
-	</data>
-	<data name="SelectItemsFor_f">
-		<value xml:space="preserve">Select {0} for using with {1} {2}</value>
-	</data>
+  <data name="ResourceScreens">
+    <value xml:space="preserve">Resource Screens</value>
+  </data>
+  <data name="ScreenItem">
+    <value xml:space="preserve">Screen Item</value>
+  </data>
+  <data name="ResourceScreenItem">
+    <value xml:space="preserve">Resource Screen Item</value>
+  </data>
+  <data name="ResourceState">
+    <value xml:space="preserve">Resource State</value>
+  </data>
+  <data name="Name">
+    <value xml:space="preserve">Name</value>
+  </data>
+  <data name="Resourceses">
+    <value xml:space="preserve">Resources</value>
+  </data>
+  <data name="ResourceTemplates">
+    <value xml:space="preserve">Resource Templates</value>
+  </data>
+  <data name="SelectItemsFor_f">
+    <value xml:space="preserve">Select {0} for using with {1} {2}</value>
+  </data>
+  <data name="StateFilter">
+    <value xml:space="preserve">State Filter</value>
+  </data>
+  <data name="DisplayOpenTickets">
+    <value xml:space="preserve">Display Open Tickets</value>
+  </data>
+  <data name="RowCount">
+    <value xml:space="preserve">Row Count</value>
+  </data>
+  <data name="TicketCreationMethod">
+    <value xml:space="preserve">Ticket Creation Method</value>
+  </data>
+  <data name="CustomCommand">
+    <value xml:space="preserve">CustomCommand</value>
+  </data>
+  <data name="CommandType">
+    <value xml:space="preserve">Command Type</value>
+  </data>
+  <data name="TicketCommand">
+    <value xml:space="preserve">Ticket Command</value>
+  </data>
+  <data name="Automation">
+    <value xml:space="preserve">Automation</value>
+  </data>
+  <data name="AutomationCommand">
+    <value xml:space="preserve">Automation Command</value>
+  </data>
+  <data name="BatchCreate_f">
+    <value xml:space="preserve">Batch Create {0}</value>
+  </data>
+  <data name="BatchCreateInfo_f">
+    <value xml:space="preserve">We'll create {0} for each line you entered here.</value>
+  </data>
+  <data name="TransactionTemplate">
+    <value xml:space="preserve">Transaction Template</value>
+  </data>
+  <data name="FixedAmountFromTicketTotal">
+    <value xml:space="preserve">Fixed amount from ticket total</value>
+  </data>
+  <data name="Multiple">
+    <value xml:space="preserve">Multiple</value>
+  </data>
+  <data name="Selection_f">
+    <value xml:space="preserve">{0} Selection</value>
+  </data>
+  <data name="Single">
+    <value xml:space="preserve">Single</value>
+  </data>
+  <data name="Mappings">
+    <value xml:space="preserve">Mappings</value>
+  </data>
+  <data name="GeneralSettings">
+    <value xml:space="preserve">General Settings</value>
+  </data>
+  <data name="AccountScreen">
+    <value xml:space="preserve">Account Screen</value>
+  </data>
 </root>

@@ -16,12 +16,10 @@ namespace Samba.Modules.PosModule
     {
         private readonly IAutomationService _automationService;
 
-        private readonly TicketTemplate _ticketTemplate;
-        public OrderViewModel(Order model, TicketTemplate ticketTemplate, IAutomationService ruleService)
+        public OrderViewModel(Order model, IAutomationService automationService)
         {
             _model = model;
-            _ticketTemplate = ticketTemplate;
-            _automationService = ruleService;
+            _automationService = automationService;
             ResetSelectedQuantity();
             ItemSelectedCommand = new DelegateCommand<OrderViewModel>(OnItemSelected);
             UpdateItemColor();
@@ -235,6 +233,7 @@ namespace Samba.Modules.PosModule
         {
             OrderTagValues.Clear();
             OrderTagValues.AddRange(Model.OrderTagValues.Select(x => new OrderTagValueViewModel(x)));
+            RaisePropertyChanged(() => OrderTagValues);
         }
 
         public void UpdatePrice(decimal value, string priceTag)

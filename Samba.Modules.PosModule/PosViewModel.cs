@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.Regions;
-using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
-using Samba.Domain.Models.Users;
+using Samba.Infrastructure;
+using Samba.Localization.Properties;
 using Samba.Presentation.Common;
+using Samba.Presentation.Common.Services;
 using Samba.Presentation.ViewModels;
 using Samba.Services;
 using Samba.Services.Common;
@@ -21,94 +23,190 @@ namespace Samba.Modules.PosModule
     {
         private readonly ITicketService _ticketService;
         private readonly IUserService _userService;
+        private readonly ICacheService _cacheService;
         private readonly IApplicationState _applicationState;
         private readonly IApplicationStateSetter _applicationStateSetter;
         private readonly IRegionManager _regionManager;
         private readonly MenuItemSelectorViewModel _menuItemSelectorViewModel;
         private readonly TicketExplorerViewModel _ticketExplorerViewModel;
-        private readonly MenuItemSelectorView _menuItemSelectorView;
         private readonly TicketListViewModel _ticketListViewModel;
+        private readonly MenuItemSelectorView _menuItemSelectorView;
+        private readonly TicketViewModel _ticketViewModel;
+        private readonly TicketOrdersViewModel _ticketOrdersViewModel;
+
+        private Resource _lastSelectedResource;
+
+        private Ticket _selectedTicket;
+        public Ticket SelectedTicket
+        {
+            get { return _selectedTicket; }
+            set
+            {
+                _selectedTicket = value;
+                _ticketViewModel.SelectedTicket = value;
+            }
+        }
 
         [ImportingConstructor]
         public PosViewModel(IRegionManager regionManager, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
-            ITicketService ticketService, IUserService userService, TicketExplorerViewModel ticketExplorerViewModel,
-            MenuItemSelectorViewModel menuItemSelectorViewModel, MenuItemSelectorView menuItemSelectorView, TicketListViewModel ticketListViewModel)
+            ITicketService ticketService, IUserService userService, ICacheService cacheService,
+            TicketExplorerViewModel ticketExplorerViewModel, TicketListViewModel ticketListViewModel,
+            MenuItemSelectorViewModel menuItemSelectorViewModel, MenuItemSelectorView menuItemSelectorView, TicketViewModel ticketViewModel,
+            TicketOrdersViewModel ticketOrdersViewModel)
         {
             _ticketService = ticketService;
             _userService = userService;
+            _cacheService = cacheService;
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
             _regionManager = regionManager;
             _menuItemSelectorView = menuItemSelectorView;
-            _ticketListViewModel = ticketListViewModel;
+            _ticketViewModel = ticketViewModel;
+            _ticketOrdersViewModel = ticketOrdersViewModel;
 
             _menuItemSelectorViewModel = menuItemSelectorViewModel;
             _ticketExplorerViewModel = ticketExplorerViewModel;
+            _ticketListViewModel = ticketListViewModel;
 
-            EventServiceFactory.EventService.GetEvent<GenericEvent<NavigationRequest>>().Subscribe(OnNavigationRequest);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<User>>().Subscribe(OnUserLoginEvent);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<Ticket>>().Subscribe(OnTicketEventReceived);
             EventServiceFactory.EventService.GetEvent<GenericEvent<WorkPeriod>>().Subscribe(OnWorkPeriodEvent);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<SelectedOrdersData>>().Subscribe(
-                x =>
-                {
-                    if (x.Topic == EventTopicNames.SelectedOrdersChanged)
-                    {
-                        if (x.Value.SelectedOrders.Count() != 1)
-                            DisplayMenuScreen();
-                    }
-                });
-
-            EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(
-                 x =>
-                 {
-                     switch (x.Topic)
-                     {
-                         case EventTopicNames.ActivatePosView:
-                             DisplayTickets();
-                             DisplayMenuScreen();
-                             break;
-                         case EventTopicNames.ActivateTicket:
-                             DisplaySingleTicket();
-                             break;
-                         case EventTopicNames.PaymentSubmitted:
-                             DisplayMenuScreen();
-                             break;
-                     }
-                 });
-
-            EventServiceFactory.EventService.GetEvent<GenericEvent<Department>>().Subscribe(
-                x =>
-                {
-                    if (x.Topic == EventTopicNames.ActivateOpenTickets)
-                    {
-                        DisplayOpenTickets();
-                    }
-                });
+            EventServiceFactory.EventService.GetEvent<GenericEvent<SelectedOrdersData>>().Subscribe(OnSelectedOrdersChanged);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnTicketEvent);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<ScreenMenuItemData>>().Subscribe(OnMenuItemSelected);
+            EventServiceFactory.EventService.GetEvent<GenericIdEvent>().Subscribe(OnTicketIdPublished);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Resource>>>().Subscribe(OnResourceSelectedForTicket);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<TicketTagGroup>>().Subscribe(OnTicketTagSelected);
         }
 
-        private void OnNavigationRequest(EventParameters<NavigationRequest> obj)
+        private void OnTicketTagSelected(EventParameters<TicketTagGroup> obj)
         {
-            EventServiceFactory.EventService.PublishEvent(_ticketListViewModel.SelectedTicket != null
-                                                              ? EventTopicNames.ActivateTicket
-                                                              : obj.Value.RequestedEvent);
-        }
-
-        public CaptionCommand<Ticket> DisplayPaymentScreenCommand { get; set; }
-
-        private void OnUserLoginEvent(EventParameters<User> obj)
-        {
-            if (obj.Topic == EventTopicNames.UserLoggedOut)
+            if (obj.Topic == EventTopicNames.ActivateTicketList)
             {
-                CloseTicket();
+                _ticketListViewModel.UpdateListByTicketTagGroup(obj.Value);
+                if (_ticketListViewModel.Tickets.Count() > 0)
+                    DisplayTicketList();
+                else DisplayTickets();
             }
         }
 
-        private void CloseTicket()
+        private void OnTicketEventReceived(EventParameters<Ticket> obj)
         {
-            if (_ticketListViewModel.SelectedTicket != null)
-                _ticketService.CloseTicket(_ticketListViewModel.SelectedTicket.Model);
-            //todo fix
-            //_ticketListViewModel.SelectedDepartment = null;
+            if (obj.Topic == EventTopicNames.MoveSelectedOrders)
+            {
+                _ticketOrdersViewModel.FixSelectedItems();
+                var newTicketId = _ticketService.MoveOrders(SelectedTicket, _ticketOrdersViewModel.SelectedOrderModels.ToArray(), 0).TicketId;
+                SelectedTicket = null;
+                OpenTicket(newTicketId);
+                DisplaySingleTicket();
+            }
+        }
+
+        private void OnResourceSelectedForTicket(EventParameters<EntityOperationRequest<Resource>> eventParameters)
+        {
+            if (eventParameters.Topic == EventTopicNames.ResourceSelected)
+            {
+                if (SelectedTicket != null)
+                {
+                    _ticketService.UpdateResource(SelectedTicket, eventParameters.Value.SelectedEntity);
+                    CloseTicket();
+                }
+                else
+                {
+                    var openTickets = _ticketService.GetOpenTicketIds(eventParameters.Value.SelectedEntity.Id).ToList();
+                    if (openTickets.Count() == 0)
+                    {
+                        OpenTicket(0);
+                        _ticketService.UpdateResource(SelectedTicket, eventParameters.Value.SelectedEntity);
+                    }
+                    else if (openTickets.Count > 1)
+                    {
+                        _lastSelectedResource = eventParameters.Value.SelectedEntity;
+                        _ticketListViewModel.UpdateListByResource(eventParameters.Value.SelectedEntity);
+                        DisplayTicketList();
+                        return;
+                    }
+                    else
+                    {
+                        OpenTicket(openTickets.ElementAt(0));
+                    }
+                    EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
+                }
+            }
+        }
+
+        private void OnTicketIdPublished(EventParameters<int> obj)
+        {
+            if (obj.Topic == EventTopicNames.DisplayTicket)
+            {
+                if (SelectedTicket != null) CloseTicket();
+                if(SelectedTicket != null) return;
+                OpenTicket(obj.Value);
+                EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
+            }
+        }
+
+        private void OnMenuItemSelected(EventParameters<ScreenMenuItemData> obj)
+        {
+            if (obj.Topic == EventTopicNames.ScreenMenuItemDataSelected)
+            {
+                if (SelectedTicket == null)
+                {
+                    OpenTicket(0);
+                    _ticketService.UpdateResource(SelectedTicket, _lastSelectedResource);
+                    DisplaySingleTicket();
+                }
+                Debug.Assert(SelectedTicket != null);
+                _ticketOrdersViewModel.AddOrder(obj.Value);
+                _ticketViewModel.RefreshSelectedTicket();
+                _ticketViewModel.RefreshSelectedItems();
+            }
+        }
+
+        private void CreateTicket()
+        {
+            IEnumerable<TicketResource> tr = new List<TicketResource>();
+            if (SelectedTicket != null)
+            {
+                tr = SelectedTicket.TicketResources;
+                CloseTicket();
+                if (SelectedTicket != null) return;
+            }
+
+            OpenTicket(0);
+            foreach (var ticketResource in tr)
+            {
+                _ticketService.UpdateResource(SelectedTicket, ticketResource.ResourceTemplateId, ticketResource.ResourceId, ticketResource.ResourceName);
+            }
+        }
+
+        private void OnTicketEvent(EventParameters<EventAggregator> obj)
+        {
+            switch (obj.Topic)
+            {
+                case EventTopicNames.CreateTicket:
+                    CreateTicket();
+                    break;
+                case EventTopicNames.ActivatePosView:
+                    DisplayTickets();
+                    DisplayMenuScreen();
+                    break;
+                case EventTopicNames.RefreshSelectedTicket:
+                    DisplaySingleTicket();
+                    break;
+                case EventTopicNames.CloseTicketRequested:
+                    CloseTicket();
+                    DisplayMenuScreen();
+                    break;
+            }
+        }
+
+        private void OnSelectedOrdersChanged(EventParameters<SelectedOrdersData> obj)
+        {
+            if (obj.Topic == EventTopicNames.SelectedOrdersChanged)
+            {
+                if (obj.Value.SelectedOrders.Count() != 1)
+                    DisplayMenuScreen();
+            }
         }
 
         private void OnWorkPeriodEvent(EventParameters<WorkPeriod> obj)
@@ -121,41 +219,33 @@ namespace Samba.Modules.PosModule
 
         public void DisplayTickets()
         {
+            _lastSelectedResource = null;
+
             if (_applicationState.CurrentDepartment == null && _applicationState.CurrentLoggedInUser.UserRole.DepartmentId > 0)
                 _applicationStateSetter.SetCurrentDepartment(_applicationState.CurrentLoggedInUser.UserRole.DepartmentId);
-            
+
             Debug.Assert(_applicationState.CurrentDepartment != null);
 
-            if (_ticketListViewModel.SelectedTicket != null)
+            if (SelectedTicket != null || _applicationState.CurrentDepartment.ResourceScreens.Count == 0 || _applicationState.CurrentDepartment.TicketCreationMethod == 1)
             {
-                EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
+                DisplaySingleTicket();
                 return;
             }
-
-            _applicationState.CurrentDepartment.PublishEvent(EventTopicNames.ActivateOpenTickets);
-
-            if (_applicationState.CurrentDepartment.IsAlaCarte && _applicationState.CurrentDepartment.LocationScreens.Count > 0)
-            {
-                CommonEventPublisher.PublishEntityOperation<ResourceScreenItem>(null, EventTopicNames.SelectLocation, EventTopicNames.LocationSelectedForTicket);
-            }
-            else if (_applicationState.CurrentDepartment.IsTakeAway)
-            {
-                _applicationState.CurrentDepartment.PublishEvent(EventTopicNames.SelectResource);
-            }
-            else if (_applicationState.CurrentDepartment.IsFastFood)
-                EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateTicket);
+            CommonEventPublisher.PublishEntityOperation<Resource>(null, EventTopicNames.SelectResource, EventTopicNames.ResourceSelected);
         }
 
         private void DisplaySingleTicket()
         {
             _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
-            _regionManager.RequestNavigate(RegionNames.PosMainRegion, new Uri("TicketListView", UriKind.Relative));
+            _regionManager.RequestNavigate(RegionNames.PosMainRegion, new Uri("TicketView", UriKind.Relative));
+            _ticketViewModel.RefreshSelectedItems();
+            _ticketViewModel.RefreshVisuals();
         }
 
-        public void DisplayOpenTickets()
+        private void DisplayTicketList()
         {
             _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
-            _regionManager.RequestNavigate(RegionNames.PosMainRegion, new Uri("OpenTicketsView", UriKind.Relative));
+            _regionManager.RequestNavigate(RegionNames.PosMainRegion, new Uri("TicketListView", UriKind.Relative));
         }
 
         public void DisplayMenuScreen()
@@ -182,6 +272,75 @@ namespace Samba.Modules.PosModule
         {
             return _regionManager.Regions[RegionNames.PosSubRegion].ActiveViews.Contains(_menuItemSelectorView)
                 && _menuItemSelectorViewModel.HandleTextInput(text);
+        }
+
+        public void OpenTicket(int id)
+        {
+            _applicationStateSetter.SetApplicationLocked(true);
+            SelectedTicket = _ticketService.OpenTicket(id);
+        }
+
+        private void CloseTicket()
+        {
+            if (SelectedTicket == null) return;
+
+            if (!SelectedTicket.CanCloseTicket())
+            {
+                SaveTicketIfNew();
+                _ticketViewModel.RefreshVisuals();
+                return;
+            }
+
+            if (_ticketOrdersViewModel.Orders.Count > 0 && SelectedTicket.GetRemainingAmount() == 0)
+            {
+                var message = GetPrintError();
+                if (!string.IsNullOrEmpty(message))
+                {
+                    _ticketOrdersViewModel.ClearSelectedOrders();
+                    _ticketViewModel.RefreshVisuals();
+                    InteractionService.UserIntraction.GiveFeedback(message);
+                    return;
+                }
+            }
+
+            _ticketOrdersViewModel.ClearSelectedOrders();
+            var result = _ticketService.CloseTicket(SelectedTicket);
+            if (!string.IsNullOrEmpty(result.ErrorMessage))
+            {
+                InteractionService.UserIntraction.GiveFeedback(result.ErrorMessage);
+            }
+
+            SelectedTicket = null;
+
+            if (_applicationState.CurrentTerminal.AutoLogout)
+            {
+                _userService.LogoutUser(false);
+            }
+            else EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
+
+            AppServices.MessagingService.SendMessage(Messages.TicketRefreshMessage, result.TicketId.ToString());
+            _applicationStateSetter.SetApplicationLocked(false);
+        }
+
+        public string GetPrintError()
+        {
+            if (SelectedTicket.Orders.Count(x => x.Price == 0 && x.CalculatePrice) > 0)
+                return Resources.CantCompleteOperationWhenThereIsZeroPricedProduct;
+            if (!SelectedTicket.IsPaid && SelectedTicket.Orders.Count > 0)
+            {
+                if (_cacheService.GetTicketTagGroups().Any(x => x.ForceValue && !_ticketViewModel.IsTaggedWith(x.Name)))
+                    return string.Format(Resources.TagCantBeEmpty_f, _cacheService.GetTicketTagGroups().First(x => x.ForceValue && !_ticketViewModel.IsTaggedWith(x.Name)).Name);
+            }
+            return "";
+        }
+
+        private void SaveTicketIfNew()
+        {
+            if ((SelectedTicket.Id == 0 || _ticketOrdersViewModel.Orders.Any(x => x.Model.Id == 0)) && _ticketOrdersViewModel.Orders.Count > 0)
+            {
+                var result = _ticketService.CloseTicket(SelectedTicket);
+                OpenTicket(result.TicketId);
+            }
         }
     }
 }

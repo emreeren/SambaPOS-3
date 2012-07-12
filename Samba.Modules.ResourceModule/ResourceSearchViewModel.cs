@@ -7,6 +7,7 @@ using System.Linq;
 using System.Timers;
 using System.Windows.Input;
 using System.Windows.Threading;
+using Microsoft.Practices.Prism.Commands;
 using Samba.Domain.Models.Resources;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
@@ -29,14 +30,18 @@ namespace Samba.Modules.ResourceModule
 
         private EntityOperationRequest<Resource> _currentResourceSelectionRequest;
 
-        public ICaptionCommand CloseScreenCommand { get; set; }
-        public ICaptionCommand SelectResourceCommand { get; set; }
-        public ICaptionCommand CreateResourceCommand { get; set; }
-        public ICaptionCommand EditResourceCommand { get; set; }
+        public DelegateCommand<string> SelectResourceCommand { get; set; }
+        public DelegateCommand<string> CreateResourceCommand { get; set; }
+        public DelegateCommand<string> EditResourceCommand { get; set; }
         public ICaptionCommand DisplayAccountCommand { get; set; }
+
+        public string SelectResourceCommandCaption { get { return string.Format(Resources.Select_f, SelectedEntityName()).Replace(" ", "\r"); } }
+        public string CreateResourceCommandCaption { get { return string.Format(Resources.New_f, SelectedEntityName()).Replace(" ", "\r"); } }
+        public string EditResourceCommandCaption { get { return string.Format(Resources.Edit_f, SelectedEntityName()).Replace(" ", "\r"); } }
 
         private readonly IApplicationState _applicationState;
         private readonly ICacheService _cacheService;
+        private readonly Timer _updateTimer;
 
         [ImportingConstructor]
         public ResourceSearchViewModel(IApplicationState applicationState, ICacheService cacheService)
@@ -49,10 +54,9 @@ namespace Samba.Modules.ResourceModule
 
             FoundResources = new ObservableCollection<ResourceSearchResultViewModel>();
 
-            CloseScreenCommand = new CaptionCommand<string>(Resources.Close, OnCloseScreen);
-            SelectResourceCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.Resource).Replace(" ", "\r"), OnSelectResource, CanSelectResource);
-            EditResourceCommand = new CaptionCommand<string>(string.Format(Resources.Edit_f, Resources.Resource).Replace(" ", "\r"), OnEditResource, CanEditResource);
-            CreateResourceCommand = new CaptionCommand<string>(string.Format(Resources.New_f, Resources.Resource).Replace(" ", "\r"), OnCreateResource, CanCreateResource);
+            SelectResourceCommand = new CaptionCommand<string>("", OnSelectResource, CanSelectResource);
+            EditResourceCommand = new CaptionCommand<string>("", OnEditResource, CanEditResource);
+            CreateResourceCommand = new CaptionCommand<string>("", OnCreateResource, CanCreateResource);
             DisplayAccountCommand = new CaptionCommand<string>(Resources.AccountDetails.Replace(" ", "\r"), OnDisplayAccount, CanDisplayAccount);
         }
 
@@ -67,11 +71,18 @@ namespace Samba.Modules.ResourceModule
                 _selectedResourceTemplate = value;
                 ClearSearchValues();
                 RaisePropertyChanged(() => SelectedResourceTemplate);
+                RaisePropertyChanged(() => SelectResourceCommandCaption);
+                RaisePropertyChanged(() => CreateResourceCommandCaption);
+                RaisePropertyChanged(() => EditResourceCommandCaption);
                 InvokeSelectedResourceTemplateChanged(EventArgs.Empty);
             }
         }
 
-        private readonly Timer _updateTimer;
+        private string SelectedEntityName()
+        {
+            return SelectedResourceTemplate != null ? SelectedResourceTemplate.EntityName : Resources.Resource;
+        }
+
         public ObservableCollection<ResourceSearchResultViewModel> FoundResources { get; set; }
 
         public ResourceSearchResultViewModel SelectedResource
@@ -109,12 +120,14 @@ namespace Samba.Modules.ResourceModule
             }
         }
 
-        public bool IsCloseButtonVisible { get { return _applicationState.CurrentDepartment != null; } }
-
         private void OnDisplayAccount(string obj)
         {
-            CommonEventPublisher.PublishEntityOperation(SelectedResource.Model, EventTopicNames.DisplayAccountTransactions);
-            ClearSearchValues();
+            CommonEventPublisher.PublishEntityOperation(new AccountData { AccountId = SelectedResource.Model.AccountId }, EventTopicNames.DisplayAccountTransactions, EventTopicNames.SelectResource);
+        }
+
+        private bool CanDisplayAccount(string arg)
+        {
+            return SelectedResource != null && SelectedResource.Model.AccountId > 0;
         }
 
         private bool CanEditResource(string arg)
@@ -126,7 +139,7 @@ namespace Samba.Modules.ResourceModule
         {
             var targetEvent = _currentResourceSelectionRequest != null
                                   ? _currentResourceSelectionRequest.GetExpectedEvent()
-                                  : EventTopicNames.ResourceSelected;
+                                  : EventTopicNames.SelectResource;
 
             CommonEventPublisher.PublishEntityOperation(SelectedResource.Model,
                 EventTopicNames.EditResourceDetails, targetEvent);
@@ -141,11 +154,10 @@ namespace Samba.Modules.ResourceModule
         {
             var targetEvent = _currentResourceSelectionRequest != null
                                   ? _currentResourceSelectionRequest.GetExpectedEvent()
-                                  : EventTopicNames.ResourceSelected;
-
+                                  : EventTopicNames.SelectResource;
+            var newResource = new Resource { ResourceTemplateId = SelectedResourceTemplate.Id, Name = SearchString };
             ClearSearchValues();
-            CommonEventPublisher.PublishEntityOperation(new Resource { ResourceTemplateId = SelectedResourceTemplate.Id },
-                EventTopicNames.EditResourceDetails, targetEvent);
+            CommonEventPublisher.PublishEntityOperation(newResource, EventTopicNames.EditResourceDetails, targetEvent);
         }
 
         private bool CanSelectResource(string arg)
@@ -157,42 +169,18 @@ namespace Samba.Modules.ResourceModule
                 && !string.IsNullOrEmpty(SelectedResource.Name);
         }
 
-        private bool CanDisplayAccount(string arg)
-        {
-            return SelectedResource != null;
-        }
-
         private void OnSelectResource(string obj)
         {
             if (_currentResourceSelectionRequest != null)
             {
                 _currentResourceSelectionRequest.Publish(SelectedResource.Model);
             }
-            CommonEventPublisher.RequestNavigation(EventTopicNames.ActivateOpenTickets);
             ClearSearchValues();
-        }
-
-        private static void OnCloseScreen(string obj)
-        {
-            CommonEventPublisher.RequestNavigation(EventTopicNames.ActivateOpenTickets);
         }
 
         public void RefreshSelectedResource(EntityOperationRequest<Resource> value)
         {
-            if (value != null && value.SelectedEntity != null)
-            {
-                if (SelectedResourceTemplate == null ||
-                    SelectedResourceTemplate.Id != value.SelectedEntity.ResourceTemplateId)
-                    SelectedResourceTemplate = _cacheService.GetResourceTemplateById(value.SelectedEntity.ResourceTemplateId);
-
-                ClearSearchValues();
-            }
-            else if (_applicationState.CurrentDepartment != null)
-            {
-                var tid = _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.TargetAccountTemplateId;
-                SelectedResourceTemplate = _cacheService.GetResourceTemplateById(tid);
-            }
-
+            ClearSearchValues();
             _currentResourceSelectionRequest = value;
 
             if (_currentResourceSelectionRequest != null && _currentResourceSelectionRequest.SelectedEntity != null && !string.IsNullOrEmpty(_currentResourceSelectionRequest.SelectedEntity.Name))
@@ -203,7 +191,6 @@ namespace Samba.Modules.ResourceModule
 
             RaisePropertyChanged(() => SelectedResourceTemplate);
             RaisePropertyChanged(() => SelectedResource);
-            RaisePropertyChanged(() => IsCloseButtonVisible);
             RaisePropertyChanged(() => ResourceTemplates);
         }
 
@@ -238,17 +225,13 @@ namespace Samba.Modules.ResourceModule
             {
                 worker.DoWork += delegate
                 {
-                    var defaultResourceId =
-                        _applicationState.CurrentDepartment != null ? _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.DefaultTargetAccountId : 0;
-
                     var templateId = SelectedResourceTemplate != null ? SelectedResourceTemplate.Id : 0;
-
+                    var searchValue = SearchString.ToLower();
                     result = Dao.Query<Resource>(x =>
                         x.ResourceTemplateId == templateId
-                        && x.Id != defaultResourceId
-                        && (x.CustomData.Contains(SearchString) || x.Name.Contains(SearchString)));
+                        && (x.CustomData.Contains(SearchString) || x.Name.ToLower().Contains(searchValue)));
 
-                    result = result.ToList().Where(x => SelectedResourceTemplate.GetMatchingFields(x, SearchString).Any(y => !y.Hidden) || x.Name.ToLower().Contains(SearchString));
+                    result = result.ToList().Where(x => SelectedResourceTemplate.GetMatchingFields(x, SearchString).Any(y => !y.Hidden) || x.Name.ToLower().Contains(searchValue));
                 };
 
                 worker.RunWorkerCompleted +=
@@ -276,5 +259,10 @@ namespace Samba.Modules.ResourceModule
             }
         }
 
+        public void Refresh(ResourceScreen resourceScreen, EntityOperationRequest<Resource> currentOperationRequest)
+        {
+            SelectedResourceTemplate = _cacheService.GetResourceTemplateById(resourceScreen.ResourceTemplateId);
+            RefreshSelectedResource(currentOperationRequest);
+        }
     }
 }

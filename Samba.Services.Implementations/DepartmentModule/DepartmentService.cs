@@ -17,7 +17,8 @@ namespace Samba.Services.Implementations.DepartmentModule
         [ImportingConstructor]
         public DepartmentService()
         {
-            ValidatorRegistry.RegisterDeleteValidator(new DepartmentDeleteValidator());
+            ValidatorRegistry.RegisterDeleteValidator<Department>(
+                x => Dao.Exists<UserRole>(y => y.DepartmentId == x.Id), Resources.Department, Resources.UserRole);
         }
 
         private IWorkspace _workspace;
@@ -52,16 +53,6 @@ namespace Samba.Services.Implementations.DepartmentModule
         {
             _workspace = null;
             _departments = null;
-        }
-    }
-
-    public class DepartmentDeleteValidator : SpecificationValidator<Department>
-    {
-        public override string GetErrorMessage(Department model)
-        {
-            if (Dao.Exists<UserRole>(x => x.DepartmentId == model.Id))
-                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Department, Resources.UserRole);
-            return "";
         }
     }
 }

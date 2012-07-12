@@ -29,7 +29,7 @@ namespace Samba.Services.Implementations.UserModule
             _automationService = automationService;
 
             ValidatorRegistry.RegisterDeleteValidator(new UserDeleteValidator());
-            ValidatorRegistry.RegisterDeleteValidator(new UserRoleDeleteValidator());
+            ValidatorRegistry.RegisterDeleteValidator<UserRole>(x => Dao.Exists<User>(y => y.UserRole.Id == x.Id), Resources.UserRole, Resources.User);
             ValidatorRegistry.RegisterSaveValidator(new UserSaveValidator());
         }
 
@@ -100,13 +100,13 @@ namespace Samba.Services.Implementations.UserModule
 
         private static User GetUserByPinCode(string pinCode)
         {
-            return Workspace.All<User>(x => x.PinCode == pinCode).FirstOrDefault();
+            return Workspace.Single<User>(x => x.PinCode == pinCode);
         }
 
         private static LoginStatus CheckPinCodeStatus(string pinCode)
         {
-            var users = Workspace.All<User>(x => x.PinCode == pinCode);
-            return users.Count() == 0 ? LoginStatus.PinNotFound : LoginStatus.CanLogin;
+            var userExists = Dao.Exists<User>(x => x.PinCode == pinCode);
+            return userExists ? LoginStatus.CanLogin : LoginStatus.PinNotFound;
         }
 
         public bool IsUserPermittedFor(string p)
@@ -118,6 +118,11 @@ namespace Samba.Services.Implementations.UserModule
             var permission = user.UserRole.Permissions.SingleOrDefault(x => x.Name == p);
             if (permission == null) return false;
             return permission.Value == (int)PermissionValue.Enabled;
+        }
+
+        public IEnumerable<UserRole> GetUserRoles()
+        {
+            return Dao.Query<UserRole>();
         }
 
         public override void Reset()
@@ -133,16 +138,6 @@ namespace Samba.Services.Implementations.UserModule
         {
             if (Dao.Exists<User>(x => x.PinCode == model.PinCode && x.Id != model.Id))
                 return Resources.SaveErrorThisPinCodeInUse;
-            return "";
-        }
-    }
-
-    public class UserRoleDeleteValidator : SpecificationValidator<UserRole>
-    {
-        public override string GetErrorMessage(UserRole model)
-        {
-            if (Dao.Exists<User>(x => x.UserRole.Id == model.Id))
-                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.UserRole, Resources.User);
             return "";
         }
     }

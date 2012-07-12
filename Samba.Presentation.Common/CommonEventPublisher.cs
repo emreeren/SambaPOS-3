@@ -5,11 +5,6 @@ using Samba.Services.Common;
 
 namespace Samba.Presentation.Common
 {
-    public class NavigationRequest
-    {
-        public string RequestedEvent { get; set; }
-    }
-
     public static class CommonEventPublisher
     {
         public static void PublishViewAddedEvent(VisibleViewModelBase view)
@@ -25,12 +20,6 @@ namespace Samba.Presentation.Common
         public static void PublishDashboardUnloadedEvent(UserControl userControl)
         {
             userControl.PublishEvent(EventTopicNames.DashboardClosed);
-        }
-
-        public static void RequestNavigation(string requestedEvent)
-        {
-            var ng = new NavigationRequest { RequestedEvent = requestedEvent };
-            ng.PublishEvent(EventTopicNames.NavigationRequested);
         }
 
         public static void PublishEntityOperation<T>(T entity, string requestedEvent, string expectedEvent = "")

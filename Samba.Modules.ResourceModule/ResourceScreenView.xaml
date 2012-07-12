@@ -1,8 +1,7 @@
 ﻿<UserControl x:Class="Samba.Modules.ResourceModule.ResourceScreenView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-     xmlns:Common="clr-namespace:Samba.Presentation.Common;assembly=Samba.Presentation.Common" 
-     xmlns:PropertyEditorLibrary="clr-namespace:PropertyTools.Wpf;assembly=PropertyTools.Wpf" xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common" mc:Ignorable="d" d:DesignWidth="478">
+     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+     xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common" mc:Ignorable="d" d:DesignWidth="478">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -32,27 +31,25 @@
                     <LocText ResourceIdentifierKey="BackgroundImage" Suffix=":"/>
                 </Label>
                 <TextBox HorizontalAlignment="Left" MinWidth="250" Text="{Binding BackgroundImage}" />
-                <UniformGrid Columns="2">
-                    <Label Margin="0,5,0,0">
-                        <LocText ResourceIdentifierKey="EmptyLocationColor" Suffix=":"/>
-                    </Label>
-                    <PropertyEditorLibrary:ColorPicker2 Margin="0,5,0,0" HorizontalAlignment="Left" MinWidth="150"
-                         SelectedColor="{Binding LocationEmptyColor}" />
-                    <Label Margin="0,5,0,0">
-                        <LocText ResourceIdentifierKey="UnavailableLocationColor" Suffix=":"/>
-                    </Label>
-                    <PropertyEditorLibrary:ColorPicker2 Margin="0,5,0,0" HorizontalAlignment="Left" MinWidth="150"
-                         SelectedColor="{Binding LocationFullColor}" />
-                    <Label Margin="0,5,0,0">
-                        <LocText ResourceIdentifierKey="LockedLocationColor" Suffix=":"/>
-                    </Label>
-                    <PropertyEditorLibrary:ColorPicker2 Margin="0,5,0,0" HorizontalAlignment="Left" MinWidth="150"
-                         SelectedColor="{Binding LocationLockedColor}" />
+                <Label>
+                    <LocText ResourceIdentifierKey="StateFilter" Suffix=":"/>
+                </Label>
+                <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="150" SelectedValue="{Binding StateFilterId}"
+                     ItemsSource="{Binding ResourceStates}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
+                <CheckBox IsChecked="{Binding DisplayOpenTickets}" Margin="0,5,0,0">
+                    <LocText ResourceIdentifierKey="DisplayOpenTickets"/>
+                </CheckBox>
+                <UniformGrid Columns="2" Margin="0,5,0,0">
                     <Label Margin="0,5,0,0">
                         <LocText ResourceIdentifierKey="ColumnCount" Suffix=":"/>
                     </Label>
                     <UIControls:FilteredTextBox Type="Digits" Margin="0,5,0,0" HorizontalAlignment="Left"
                          MinWidth="50" Text="{Binding ColumnCount}" />
+                    <Label Margin="0,5,0,0">
+                        <LocText ResourceIdentifierKey="RowCount" Suffix=":"/>
+                    </Label>
+                    <UIControls:FilteredTextBox Type="Digits" Margin="0,5,0,0" HorizontalAlignment="Left"
+                         MinWidth="50" Text="{Binding RowCount}" />
                     <Label Margin="0,5,0,0">
                         <LocText ResourceIdentifierKey="ButtonHeight" Suffix=":"/>
                     </Label>
@@ -81,7 +78,7 @@
                     </Hyperlink>
                 </TextBlock>
             </StackPanel>
-            <ListBox Grid.Row="1" ItemsSource="{Binding ResourceScreenItems}" DisplayMemberPath="Name" MinHeight="150"
+            <ListBox Grid.Row="1" ItemsSource="{Binding ResourceScreenItems,Mode=OneWay}" DisplayMemberPath="Name" MinHeight="150"
                          MinWidth="150" BorderThickness="1" />
         </Grid>
         <StackPanel Grid.Row="1" Grid.ColumnSpan="2">

@@ -32,6 +32,7 @@ namespace Samba.Persistance.Data
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<Terminal> Terminals { get; set; }
         public DbSet<Printer> Printers { get; set; }
+        public DbSet<PrintJob> PrintJobs { get; set; }
         public DbSet<ProgramSettingValue> ProgramSettings { get; set; }
         public DbSet<PrinterMap> PrinterMaps { get; set; }
         public DbSet<PrinterTemplate> PrinterTemplates { get; set; }
@@ -47,8 +48,7 @@ namespace Samba.Persistance.Data
         public DbSet<OrderTagMap> OrderTagMaps { get; set; }
         public DbSet<OrderTag> OrderTags { get; set; }
         public DbSet<OrderTagValue> OrderTagValues { get; set; }
-        public DbSet<ScreenMenu> ScreenMenus { get; set; }public DbSet<Account> Accounts { get; set; }
-        public DbSet<AccountTemplate> AccountTemplates { get; set; }
+        public DbSet<ScreenMenu> ScreenMenus { get; set; }
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<InventoryItem> InventoryItems { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
@@ -59,17 +59,26 @@ namespace Samba.Persistance.Data
         public DbSet<PeriodicConsumptionItem> PeriodicConsumptionItems { get; set; }
         public DbSet<CostItem> CostItems { get; set; }
         public DbSet<TicketTag> TicketTags { get; set; }
+        public DbSet<TicketTagGroup> TicketTagGroups { get; set; }
+        public DbSet<TicketTagMap> TicketTagMaps { get; set; }
         public DbSet<AppAction> RuleActions { get; set; }
         public DbSet<ActionContainer> ActionContainers { get; set; }
         public DbSet<AppRule> Rules { get; set; }
         public DbSet<Trigger> Triggers { get; set; }
+        public DbSet<AutomationCommand> AutomationCommands { get; set; }
+        public DbSet<AutomationCommandMap> AutomationCommandMaps { get; set; }
         public DbSet<MenuItemPriceDefinition> MenuItemPriceDefinitions { get; set; }
         public DbSet<MenuItemPrice> MenuItemPrices { get; set; }
         public DbSet<TaxTemplate> TaxTemplates { get; set; }
         public DbSet<CalculationTemplate> CalculationTemplates { get; set; }
+        public DbSet<CalculationTemplateMap> CalculationTemplateMaps { get; set; }
         public DbSet<Calculation> Calculations { get; set; }
         public DbSet<PaymentTemplate> PaymentTemplates { get; set; }
+        public DbSet<PaymentTemplateMap> PaymentTemplateMaps { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<Account> Accounts { get; set; }
+        public DbSet<AccountTemplate> AccountTemplates { get; set; }
+        public DbSet<AccountScreen> AccountScreens { get; set; }
         public DbSet<AccountTransaction> AccountTransactions { get; set; }
         public DbSet<AccountTransactionValue> AccountTransactionValues { get; set; }
         public DbSet<AccountTransactionTemplate> AccountTransactionTemplates { get; set; }
@@ -86,22 +95,14 @@ namespace Samba.Persistance.Data
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Resource>().Property(x => x.CustomData).IsMaxLength();
+            modelBuilder.Entity<Ticket>().Property(x => x.TicketTags).IsMaxLength();
 
-            modelBuilder.Entity<TicketTemplate>().HasMany(p => p.TicketTagGroups).WithMany();
-            modelBuilder.Entity<TicketTemplate>().HasMany(p => p.CalulationTemplates).WithMany();
-            modelBuilder.Entity<TicketTemplate>().HasMany(p => p.OrderTagGroups).WithMany();
-            modelBuilder.Entity<TicketTemplate>().HasMany(p => p.PaymentTemplates).WithMany();
-            modelBuilder.Entity<Department>().HasMany(p => p.LocationScreens).WithMany();
+            modelBuilder.Entity<Department>().HasMany(p => p.ResourceScreens).WithMany();
             modelBuilder.Entity<ResourceScreen>().HasMany(p => p.ScreenItems).WithMany();
-            modelBuilder.Entity<Terminal>().HasMany(p => p.PrintJobs).WithMany();
 
             modelBuilder.Entity<AccountTransaction>().HasKey(p => new { p.Id, p.AccountTransactionDocumentId });
             modelBuilder.Entity<AccountTransaction>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<AccountTransactionDocument>().HasMany(p => p.AccountTransactions).WithRequired().HasForeignKey(x => x.AccountTransactionDocumentId);
-
-            modelBuilder.Entity<TicketTagValue>().HasKey(p => new { p.Id, p.TicketId });
-            modelBuilder.Entity<TicketTagValue>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            modelBuilder.Entity<Ticket>().HasMany(p => p.Tags).WithRequired().HasForeignKey(x => x.TicketId);
 
             modelBuilder.Entity<Calculation>().HasKey(p => new { p.Id, p.TicketId });
             modelBuilder.Entity<Calculation>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);

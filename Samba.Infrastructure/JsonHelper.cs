@@ -19,8 +19,9 @@ namespace Samba.Infrastructure
             return retVal;
         }
 
-        public static T Deserialize<T>(string json)
+        public static T Deserialize<T>(string json) where T : new()
         {
+            if(string.IsNullOrEmpty(json)) return new T();
             var obj = Activator.CreateInstance<T>();
             var ms = new MemoryStream(Encoding.UTF8.GetBytes(json));
             var serializer = new DataContractJsonSerializer(obj.GetType());

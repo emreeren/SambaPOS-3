@@ -105,7 +105,7 @@ namespace Samba.Modules.ModifierModule
         {
             var mig = SelectedOrderTagData != null
                 ? SelectedOrderTagData.OrderTagGroup
-                : OrderTagGroups.FirstOrDefault(propertyGroup => propertyGroup.OrderTags.Contains(orderTag)).Model;
+                : OrderTagGroups.First(propertyGroup => propertyGroup.OrderTags.Contains(orderTag)).Model;
             Debug.Assert(mig != null);
 
             var orderTagData = new OrderTagData
@@ -132,8 +132,9 @@ namespace Samba.Modules.ModifierModule
         public bool ShouldDisplay(Ticket value, IEnumerable<Order> selectedOrders)
         {
             ResetValues(value);
-            SelectedOrder = selectedOrders.Count() == 1 ? selectedOrders.ElementAt(0) : null;
-            if (selectedOrders.Any(x => x.Locked || !x.DecreaseInventory)) return false;
+            var so = selectedOrders.ToList();
+            SelectedOrder = so.Count() == 1 ? so.ElementAt(0) : null;
+            if (so.Any(x => x.Locked || !x.DecreaseInventory)) return false;
 
             if (SelectedTicket != null && SelectedOrder != null)
             {
@@ -147,7 +148,7 @@ namespace Samba.Modules.ModifierModule
                 OrderTagGroups.AddRange(
                     _cacheService.GetOrderTagGroupsForItem(SelectedOrder.MenuItemId)
                     .Where(x => string.IsNullOrEmpty(x.ButtonHeader))
-                    .Select(x => new SelectedOrderTagGroupViewModel(x, selectedOrders)));
+                    .Select(x => new SelectedOrderTagGroupViewModel(x, so)));
 
                 RaisePropertyChanged(() => IsPortionsVisible);
             }

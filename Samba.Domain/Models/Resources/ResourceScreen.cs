@@ -5,17 +5,17 @@ namespace Samba.Domain.Models.Resources
 {
     public class ResourceScreen : Entity, IOrderable
     {
+        public int ResourceTemplateId { get; set; }
         public int Order { get; set; }
         public int DisplayMode { get; set; }
         public string BackgroundColor { get; set; }
         public string BackgroundImage { get; set; }
-        public string LocationEmptyColor { get; set; }
-        public string LocationFullColor { get; set; }
-        public string LocationLockedColor { get; set; }
         public int PageCount { get; set; }
+        public int RowCount { get; set; }
         public int ColumnCount { get; set; }
         public int ButtonHeight { get; set; }
-        public int ResourceTemplateId { get; set; }
+        public int StateFilterId { get; set; }
+        public bool DisplayOpenTickets { get; set; }
 
         private IList<ResourceScreenItem> _screenItems;
         public virtual IList<ResourceScreenItem> ScreenItems
@@ -34,9 +34,6 @@ namespace Samba.Domain.Models.Resources
         public ResourceScreen()
         {
             _screenItems = new List<ResourceScreenItem>();
-            LocationEmptyColor = "WhiteSmoke";
-            LocationFullColor = "Orange";
-            LocationLockedColor = "Brown";
             BackgroundColor = "Transparent";
             PageCount = 1;
             ButtonHeight = 0;
@@ -51,7 +48,7 @@ namespace Samba.Domain.Models.Resources
                 return itemCount;
             }
         }
-
+        
         public void AddScreenItem(ResourceScreenItem choosenValue)
         {
             if (!ScreenItems.Contains(choosenValue))

@@ -4,7 +4,12 @@ namespace Samba.Domain.Models.Resources
 {
     public class ResourceState : Entity
     {
-        public int ResourceTempletId { get; set; }
         public string Color { get; set; }
+
+        private static ResourceState _empty;
+        public static ResourceState Empty
+        {
+            get { return _empty ?? (_empty = new ResourceState { Color = "Silver" }); }
+        }
     }
 }

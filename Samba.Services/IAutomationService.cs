@@ -18,6 +18,14 @@ namespace Samba.Services
         public object ParameterObject { get; set; }
     }
 
+    public class AutomationCommandData
+    {
+        public AutomationCommand AutomationCommand { get; set; }
+        public bool DisplayOnTicket { get; set; }
+        public bool DisplayOnPayment { get; set; }
+        public int VisualBehaviour { get; set; }
+    }
+
     public interface IAutomationService
     {
         void NotifyEvent(string eventName, object dataObject);

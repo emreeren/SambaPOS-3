@@ -68,7 +68,7 @@ namespace Samba.Presentation
             if (LocalSettings.StartMessagingClient)
                 AppServices.MessagingService.StartMessagingClient();
 
-            GenericRuleRegistator.RegisterOnce();
+           
 
             PresentationServices.Initialize();
 
@@ -76,6 +76,7 @@ namespace Samba.Presentation
 
             try
             {
+                GenericRuleRegistator.RegisterOnce();
                 var creationService = new DataCreationService();
                 creationService.CreateData();
             }

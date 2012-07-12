@@ -12,7 +12,7 @@ namespace Samba.Infrastructure.Data
         TResult Single<TSource, TResult>(int id, Expression<Func<TSource, TResult>> expression) where TSource : class, IEntity;
         T Single<T>(Expression<Func<T, bool>> predictate, params Expression<Func<T, object>>[] includes) where T : class;
         T First<T>(Expression<Func<T, bool>> predictate, params Expression<Func<T, object>>[] includes) where T : class;
-        IEnumerable<TResult> Select<TSource, TResult>(Expression<Func<TSource, TResult>> expression, Expression<Func<TSource, bool>> predictate) where TSource : class;
+        IEnumerable<TResult> Select<TSource, TResult>(Expression<Func<TSource, TResult>> expression, Expression<Func<TSource, bool>> predictate, params Expression<Func<TSource, object>>[] includes) where TSource : class;
         int Count<T>(Expression<Func<T, bool>> predictate) where T : class;
         decimal Sum<T>(Expression<Func<T, decimal>> selector, Expression<Func<T, bool>> predictate) where T : class;
         T Last<T>(Expression<Func<T, bool>> predictate, Expression<Func<T, object>>[] includes) where T : class,IEntity;

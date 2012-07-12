@@ -2,7 +2,6 @@
 using System.Linq;
 using Axcidv5callerid;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
-using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Resources;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
@@ -25,7 +24,11 @@ namespace Samba.Modules.CidMonitor
             }
             catch (Exception)
             {
+#if DEBUG
+                var i = 0;
+#else
                 InteractionService.UserIntraction.DisplayPopup(Resources.Information, Resources.CallerIdDriverError, "", "");
+#endif
             }
         }
 
@@ -43,7 +46,7 @@ namespace Samba.Modules.CidMonitor
             if (c.Count() == 1)
             {
                 var account = c.First();
-                InteractionService.UserIntraction.DisplayPopup(account.Name, account.Name + " " + Resources.Calling + ".\r" + account.SearchString + "\r" ,
+                InteractionService.UserIntraction.DisplayPopup(account.Name, account.Name + " " + Resources.Calling + ".\r" + account.SearchString + "\r",
                                                             account.SearchString, EventTopicNames.SelectResource);
             }
             else

@@ -158,7 +158,7 @@ namespace Samba.Modules.BasicReports
 
         private static IEnumerable<Department> GetDepartments()
         {
-            return Dao.Query<Department>(x => x.TicketTemplate.SaleTransactionTemplate, x => x.TicketTemplate.PaymentTemplates, x => x.TicketTemplate.CalulationTemplates, x => x.TicketTemplate.TicketTagGroups, x => x.TicketTemplate.OrderTagGroups);
+            return Dao.Query<Department>(x => x.TicketTemplate.SaleTransactionTemplate);
         }
 
         private static IEnumerable<Ticket> GetTickets()
@@ -167,12 +167,12 @@ namespace Samba.Modules.BasicReports
                 return Dao.Query<Ticket>(
                     x => x.LastPaymentDate >= CurrentWorkPeriod.StartDate,
                     x => x.AccountTransactions.AccountTransactions,
-                    x => x.Payments, x => x.Calculations, x => x.Orders, x => x.Tags, x => x.Orders.Select(y => y.OrderTagValues));
+                    x => x.Payments, x => x.Calculations, x => x.Orders, x => x.Orders.Select(y => y.OrderTagValues));
 
             return Dao.Query<Ticket>(
                     x => x.LastPaymentDate >= CurrentWorkPeriod.StartDate && x.LastPaymentDate < CurrentWorkPeriod.EndDate,
                     x => x.AccountTransactions.AccountTransactions,
-                    x => x.Payments, x => x.Calculations, x => x.Tags, x => x.Orders.Select(y => y.OrderTagValues));
+                    x => x.Payments, x => x.Calculations, x => x.Orders.Select(y => y.OrderTagValues));
         }
 
         private static IEnumerable<AccountTransactionValue> GetAccountTransactionValues()

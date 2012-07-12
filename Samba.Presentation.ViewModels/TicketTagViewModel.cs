@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using Samba.Domain.Models.Accounts;
-using Samba.Domain.Models.Resources;
-using Samba.Domain.Models.Tickets;
-using Samba.Persistance.Data;
+﻿using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Common;
 
 namespace Samba.Presentation.ViewModels
@@ -20,32 +16,6 @@ namespace Samba.Presentation.ViewModels
         {
             get { return Model.Name; }
             set { Model.Name = value; }
-        }
-
-        public int AccountId
-        {
-            get { return Model.AccountId; }
-            set { Model.AccountId = value; }
-        }
-
-        public string AccountName
-        {
-            get { return Model.AccountName; }
-            set
-            {
-                Model.AccountName = value;
-                AccountId = value != null ? Dao.SingleWithCache<Resource>(x => x.Name == Model.AccountName).Id : 0;
-            }
-        }
-
-        private IEnumerable<string> _accountNames;
-        public IEnumerable<string> AccountNames
-        {
-            get
-            {
-                return _accountNames ??
-                    (_accountNames = Dao.Select<Resource, string>(x => x.Name, x => x.Id > 0));
-            }
         }
 
         public string Display { get { return Model.Display; } }

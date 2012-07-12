@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using FluentValidation;
+using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Resources;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
@@ -13,36 +14,68 @@ using Samba.Services;
 namespace Samba.Modules.ResourceModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class ResourceViewModel : EntityViewModelBase<Resource>,IEntityCreator<Resource>
+    public class ResourceViewModel : EntityViewModelBase<Resource>, IEntityCreator<Resource>
     {
-        private IEnumerable<ResourceTemplate> _accountTemplates;
-        public IEnumerable<ResourceTemplate> AccountTemplates
+        private readonly IAccountService _accountService;
+
+        [ImportingConstructor]
+        public ResourceViewModel(IAccountService accountService)
         {
-            get { return _accountTemplates ?? (_accountTemplates = Workspace.All<ResourceTemplate>()); }
+            _accountService = accountService;
         }
 
-        private ResourceTemplate _accountTemplate;
-        public ResourceTemplate AccountTemplate
+        private IEnumerable<ResourceTemplate> _resourceTemplatesTemplates;
+        public IEnumerable<ResourceTemplate> ResourceTemplates
+        {
+            get { return _resourceTemplatesTemplates ?? (_resourceTemplatesTemplates = Workspace.All<ResourceTemplate>()); }
+        }
+
+        private ResourceTemplate _resoureTemplate;
+        public ResourceTemplate ResourceTemplate
         {
             get
             {
-                return _accountTemplate ??
-                       (_accountTemplate = Workspace.Single<ResourceTemplate>(x => x.Id == Model.ResourceTemplateId));
+                return _resoureTemplate ??
+                       (_resoureTemplate = Workspace.Single<ResourceTemplate>(x => x.Id == Model.ResourceTemplateId));
             }
             set
             {
                 Model.ResourceTemplateId = value.Id;
-                _accountTemplate = null;
+                _resoureTemplate = null;
                 _customDataViewModel = null;
                 RaisePropertyChanged(() => CustomDataViewModel);
-                RaisePropertyChanged(() => AccountTemplate);
+                RaisePropertyChanged(() => ResourceTemplate);
             }
         }
 
         private ResourceCustomDataViewModel _customDataViewModel;
         public ResourceCustomDataViewModel CustomDataViewModel
         {
-            get { return _customDataViewModel ?? (_customDataViewModel = Model != null ? new ResourceCustomDataViewModel(Model, AccountTemplate) : null); }
+            get { return _customDataViewModel ?? (_customDataViewModel = Model != null ? new ResourceCustomDataViewModel(Model, ResourceTemplate) : null); }
+        }
+
+        private string _accountName;
+        public string AccountName
+        {
+            get { return _accountName ?? (_accountName = _accountService.GetAccountNameById(Model.AccountId)); }
+            set
+            {
+                _accountName = value;
+                Model.AccountId = _accountService.GetAccountIdByName(value);
+                if (Model.AccountId == 0)
+                    RaisePropertyChanged(() => AccountNames);
+                _accountName = null;
+                RaisePropertyChanged(() => AccountName);
+            }
+        }
+
+        public IEnumerable<string> AccountNames
+        {
+            get
+            {
+                if (ResourceTemplate == null) return null;
+                return _accountService.GetCompletingAccountNames(ResourceTemplate.AccountTemplateId, AccountName);
+            }
         }
 
         public override Type GetViewType()
@@ -66,10 +99,10 @@ namespace Samba.Modules.ResourceModule
         {
             CustomDataViewModel.Update();
             base.OnSave(value);
-        } 
+        }
 
         public IEnumerable<Resource> CreateItems(IEnumerable<string> data)
-        { 
+        {
             return new DataCreationService().BatchCreateResources(data.ToArray(), Workspace);
         }
     }

@@ -37,9 +37,7 @@ namespace Samba.Modules.PrinterModule
         public ICaptionCommand AddPrinterMapCommand { get; set; }
         public ICaptionCommand DeletePrinterMapCommand { get; set; }
 
-        private readonly IList<string> _whenToPrintTypes = new[] { Resources.Manual, Resources.WhenNewLinesAddedToTicket, Resources.WhenTicketPaid };
         private readonly IList<string> _whatToPrintTypes = new[] { Resources.AllLines, Resources.OnlyNewLines, Resources.LinesGroupedByBarcode, Resources.LinesGroupedByGroupCode, Resources.LinesGroupedByTag, Resources.LastLinesByPrinterLineCount };
-        public IList<string> WhenToPrintTypes { get { return _whenToPrintTypes; } }
         public IList<string> WhatToPrintTypes { get { return _whatToPrintTypes; } }
 
         public IEnumerable<Department> Departments { get { return GetAllDepartments(); } }
@@ -53,9 +51,6 @@ namespace Samba.Modules.PrinterModule
 
         public PrinterMapViewModel SelectedPrinterMap { get; set; }
 
-        public string ButtonHeader { get { return Model.ButtonHeader; } set { Model.ButtonHeader = value; } }
-
-        public string WhenToPrint { get { return _whenToPrintTypes[Model.WhenToPrint]; } set { Model.WhenToPrint = _whenToPrintTypes.IndexOf(value); } }
         public string WhatToPrint { get { return _whatToPrintTypes[Model.WhatToPrint]; } set { Model.WhatToPrint = _whatToPrintTypes.IndexOf(value); } }
         public bool LocksTicket { get { return Model.LocksTicket; } set { Model.LocksTicket = value; } }
         public bool UseFromPos { get { return Model.UseFromPos; } set { Model.UseFromPos = value; } }
@@ -63,37 +58,7 @@ namespace Samba.Modules.PrinterModule
         public bool UseFromTerminal { get { return Model.UseFromTerminal; } set { Model.UseFromTerminal = value; } }
         public bool UseForPaidTickets { get { return Model.UseForPaidTickets; } set { Model.UseForPaidTickets = value; } }
         public bool ExcludeTax { get { return Model.ExcludeTax; } set { Model.ExcludeTax = value; } }
-
-        public bool AutoPrintIfCash
-        {
-            get { return Model.AutoPrintIfCash; }
-            set
-            {
-                Model.AutoPrintIfCash = value;
-                RaisePropertyChanged(() => AutoPrintIfCash);
-            }
-        }
-
-        public bool AutoPrintIfCreditCard
-        {
-            get { return Model.AutoPrintIfCreditCard; }
-            set
-            {
-                Model.AutoPrintIfCreditCard = value;
-                RaisePropertyChanged(() => AutoPrintIfCreditCard);
-            }
-        }
-
-        public bool AutoPrintIfTicket
-        {
-            get { return Model.AutoPrintIfTicket; }
-            set
-            {
-                Model.AutoPrintIfTicket = value;
-                RaisePropertyChanged(() => AutoPrintIfTicket);
-            }
-        }
-
+        
         private IEnumerable<Department> GetAllDepartments()
         {
             IList<Department> result = new List<Department>(Workspace.All<Department>().OrderBy(x => x.Name));
@@ -123,7 +88,6 @@ namespace Samba.Modules.PrinterModule
             foreach (var printerMap in _printerMaps)
             {
                 if (printerMap.MenuItemGroupCode == "*") printerMap.MenuItemGroupCode = null;
-                if (printerMap.TicketTag == "*") printerMap.TicketTag = null;
             }
 
             foreach (var newPrinterMap in _newPrinterMaps)
@@ -131,7 +95,6 @@ namespace Samba.Modules.PrinterModule
                 if (newPrinterMap.PrinterId > 0)
                 {
                     if (newPrinterMap.MenuItemGroupCode == "*") newPrinterMap.MenuItemGroupCode = null;
-                    if (newPrinterMap.TicketTag == "*") newPrinterMap.TicketTag = null;
                     Workspace.Add(newPrinterMap);
                 }
             }

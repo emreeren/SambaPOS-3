@@ -1,4 +1,5 @@
-﻿using Samba.Services.Common;
+﻿using System;
+using Samba.Services.Common;
 
 namespace Samba.Infrastructure.Data
 {
@@ -15,6 +16,12 @@ namespace Samba.Infrastructure.Data
 
         public static void RegisterDeleteValidator<T>(SpecificationValidator<T> validator) where T : class
         {
+            DeleteValidators.Add(validator);
+        }
+
+        public static void RegisterDeleteValidator<T>(Func<T, bool> validationFunction, string modelName, string entityName) where T : class
+        {
+            SpecificationValidator<T> validator = new GenericDeleteValidator<T>(validationFunction, modelName, entityName);
             DeleteValidators.Add(validator);
         }
 

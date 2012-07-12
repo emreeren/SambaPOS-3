@@ -91,7 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\FontWeightConverter.cs" />
-    <Compile Include="CustomCommand.cs" />
+    <Compile Include="Commands\CustomCommand.cs" />
     <Compile Include="ElementSpy.cs" />
     <Compile Include="ModelBase\GenericEntityView.xaml.cs">
       <DependentUpon>GenericEntityView.xaml</DependentUpon>
@@ -112,9 +112,9 @@
     <Compile Include="Browser\UrlContext.cs" />
     <Compile Include="Browser\Win32API.cs" />
     <Compile Include="Browser\WinInetAPI.cs" />
-    <Compile Include="CaptionCommand.cs" />
-    <Compile Include="CategoryCommand.cs" />
-    <Compile Include="CommandCategory.cs" />
+    <Compile Include="Commands\CaptionCommand.cs" />
+    <Compile Include="Commands\CategoryCommand.cs" />
+    <Compile Include="Commands\CommandCategory.cs" />
     <Compile Include="CommonEventPublisher.cs" />
     <Compile Include="Converters\NullImageConverter.cs" />
     <Compile Include="Converters\VisibilityConverter.cs" />
@@ -134,8 +134,8 @@
       <DependentUpon>GridEditorForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\InteractionService.cs" />
-    <Compile Include="ICaptionCommand.cs" />
-    <Compile Include="ICategoryCommand.cs" />
+    <Compile Include="Commands\ICaptionCommand.cs" />
+    <Compile Include="Commands\ICategoryCommand.cs" />
     <Compile Include="Interaction\FeedbackWindow.xaml.cs">
       <DependentUpon>FeedbackWindow.xaml</DependentUpon>
     </Compile>
@@ -313,6 +313,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Resource Include="Themes\OfficeTab.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

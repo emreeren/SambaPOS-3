@@ -4,8 +4,10 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Linq.Expressions;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Actions;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Resources;
+using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Persistance.Data;
 using Samba.Services.Common;
@@ -30,13 +32,18 @@ namespace Samba.Services.Implementations
 
         public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(int menuItemId)
         {
-            return GetOrderTagGroupsForItem(_applicationState.CurrentDepartment.TicketTemplate.OrderTagGroups, menuItemId);
+            return GetOrderTagGroups(OrderTagGroups, menuItemId);
         }
 
         public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItems(IEnumerable<int> menuItemIds)
         {
-            IEnumerable<OrderTagGroup> orderTags = _applicationState.CurrentDepartment.TicketTemplate.OrderTagGroups.OrderBy(y => y.Order);
-            return menuItemIds.Aggregate(orderTags, GetOrderTagGroupsForItem);
+            IEnumerable<OrderTagGroup> orderTags = OrderTagGroups.OrderBy(y => y.Order);
+            return menuItemIds.Aggregate(orderTags, GetOrderTagGroups);
+        }
+
+        public OrderTagGroup GetOrderTagGroupByName(string tagName)
+        {
+            return OrderTagGroups.FirstOrDefault(x => x.Name == tagName);
         }
 
         public IEnumerable<MenuItemPortion> GetMenuItemPortions(int menuItemId)
@@ -44,25 +51,32 @@ namespace Samba.Services.Implementations
             return GetMenuItem(x => x.Id == menuItemId).Portions;
         }
 
-        private IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(IEnumerable<OrderTagGroup> tagGroups, int menuItemId)
+        private IEnumerable<OrderTagGroup> _orderTagGroups;
+        public IEnumerable<OrderTagGroup> OrderTagGroups
         {
-            var mi = GetMenuItem(x => x.Id == menuItemId);
-
-            var maps = tagGroups.SelectMany(x => x.OrderTagMaps)
-                .Where(x => x.MenuItemGroupCode == mi.GroupCode || x.MenuItemGroupCode == null)
-                .Where(x => x.MenuItemId == mi.Id || x.MenuItemId == 0);
-            return tagGroups.Where(x => maps.Any(y => y.OrderTagGroupId == x.Id));
+            get { return _orderTagGroups ?? (_orderTagGroups = Dao.Query<OrderTagGroup>(x => x.OrderTags, x => x.OrderTagMaps)); }
         }
 
-        private IEnumerable<string> _ticketTagGroupNames;
+        private IEnumerable<OrderTagGroup> GetOrderTagGroups(IEnumerable<OrderTagGroup> tagGroups, int menuItemId)
+        {
+            var tgl = tagGroups.ToList();
+            var mi = GetMenuItem(x => x.Id == menuItemId);
+            var maps = tgl.SelectMany(x => x.OrderTagMaps)
+                .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
+                .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id)
+                .Where(x => x.MenuItemGroupCode == null || x.MenuItemGroupCode == mi.GroupCode)
+                .Where(x => x.MenuItemId == 0 || x.MenuItemId == mi.Id);
+            return tgl.Where(x => maps.Any(y => y.OrderTagGroupId == x.Id)).OrderBy(x => x.Order);
+        }
+
         public IEnumerable<string> GetTicketTagGroupNames()
         {
-            return _ticketTagGroupNames ?? (_ticketTagGroupNames = Dao.Distinct<TicketTagGroup>(x => x.Name));
+            return TicketTagGroups.Select(x => x.Name).Distinct();
         }
 
         public TicketTagGroup GetTicketTagGroupById(int id)
         {
-            return Dao.SingleWithCache<TicketTagGroup>(x => x.Id == id, x => x.TicketTags);
+            return TicketTagGroups.FirstOrDefault(x => x.Id == id);
         }
 
         public AccountTransactionTemplate GetAccountTransactionTemplateById(int id)
@@ -70,15 +84,15 @@ namespace Samba.Services.Implementations
             return Dao.SingleWithCache<AccountTransactionTemplate>(x => x.Id == id);
         }
 
-        private IEnumerable<Resource> _accounts;
-        public IEnumerable<Resource> Accounts
+        private IEnumerable<Resource> _resources;
+        public IEnumerable<Resource> Resources
         {
-            get { return _accounts ?? (_accounts = Dao.Query<Resource>()); }
+            get { return _resources ?? (_resources = Dao.Query<Resource>()); }
         }
 
         public IEnumerable<Resource> GetResourcesByTemplateId(int templateId)
         {
-            return Accounts.Where(x => x.ResourceTemplateId == templateId);
+            return Resources.Where(x => x.ResourceTemplateId == templateId);
         }
 
         private IEnumerable<ResourceTemplate> _resourceTemplates;
@@ -126,30 +140,147 @@ namespace Samba.Services.Implementations
             return DocumentTemplates.Where(x => x.MasterAccountTemplateId == accountTemplateId);
         }
 
-        private IEnumerable<ResourceState> _accountStates;
-        public IEnumerable<ResourceState> AccountStates
+        private IEnumerable<ResourceState> _resourceStates;
+        public IEnumerable<ResourceState> ResourceStates
         {
-            get { return _accountStates ?? (_accountStates = Dao.Query<ResourceState>()); }
+            get { return _resourceStates ?? (_resourceStates = Dao.Query<ResourceState>()); }
         }
 
         public ResourceState GetResourceStateById(int accountStateId)
         {
-            return AccountStates.SingleOrDefault(x => x.Id == accountStateId);
+            return ResourceStates.SingleOrDefault(x => x.Id == accountStateId);
         }
 
         public ResourceState GetResourceStateByName(string stateName)
         {
-            return AccountStates.FirstOrDefault(x => x.Name == stateName);
+            return ResourceStates.FirstOrDefault(x => x.Name == stateName);
+        }
+
+        public IEnumerable<ResourceState> GetResourceStates()
+        {
+            return ResourceStates;
+        }
+
+        private IEnumerable<PrintJob> _printJobs;
+        public IEnumerable<PrintJob> PrintJobs
+        {
+            get { return _printJobs ?? (_printJobs = Dao.Query<PrintJob>(x => x.PrinterMaps)); }
+        }
+
+        public PrintJob GetPrintJobByName(string name)
+        {
+            return PrintJobs.SingleOrDefault(x => x.Name == name);
+        }
+
+        private IEnumerable<PaymentTemplate> _paymentTemplates;
+        public IEnumerable<PaymentTemplate> PaymentTemplates
+        {
+            get { return _paymentTemplates ?? (_paymentTemplates = Dao.Query<PaymentTemplate>(x => x.PaymentTemplateMaps, x => x.AccountTransactionTemplate, x => x.Account)); }
+        }
+
+        public IEnumerable<PaymentTemplate> GetUnderTicketPaymentTemplates()
+        {
+            var maps = PaymentTemplates.SelectMany(x => x.PaymentTemplateMaps)
+                .Where(x => x.DisplayUnderTicket)
+                .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
+                .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
+            return PaymentTemplates.Where(x => maps.Any(y => y.PaymentTemplateId == x.Id)).OrderBy(x => x.Order);
+        }
+
+        public IEnumerable<PaymentTemplate> GetPaymentScreenPaymentTemplates()
+        {
+            var maps = PaymentTemplates.SelectMany(x => x.PaymentTemplateMaps)
+                .Where(x => x.DisplayAtPaymentScreen)
+                .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
+                .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
+            return PaymentTemplates.Where(x => maps.Any(y => y.PaymentTemplateId == x.Id)).OrderBy(x => x.Order);
+        }
+
+        private IEnumerable<TicketTagGroup> _ticketTagGroups;
+        public IEnumerable<TicketTagGroup> TicketTagGroups
+        {
+            get { return _ticketTagGroups ?? (_ticketTagGroups = Dao.Query<TicketTagGroup>(x => x.TicketTags, x => x.TicketTagMaps)); }
+        }
+
+        public IEnumerable<TicketTagGroup> GetTicketTagGroups()
+        {
+            var maps = TicketTagGroups.SelectMany(x => x.TicketTagMaps)
+                .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
+                .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
+            return TicketTagGroups.Where(x => maps.Any(y => y.TicketTagGroupId == x.Id)).OrderBy(x => x.Order);
+        }
+
+        private IEnumerable<AutomationCommand> _automationCommands;
+        public IEnumerable<AutomationCommand> AutomationCommands
+        {
+            get { return _automationCommands ?? (_automationCommands = Dao.Query<AutomationCommand>(x => x.AutomationCommandMaps)); }
+        }
+
+        public IEnumerable<AutomationCommandData> GetAutomationCommands()
+        {
+            var maps = AutomationCommands.SelectMany(x => x.AutomationCommandMaps)
+                .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
+                .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
+            var result = maps.Select(x => new AutomationCommandData { AutomationCommand = AutomationCommands.First(y => y.Id == x.AutomationCommandId), DisplayOnPayment = x.DisplayOnPayment, DisplayOnTicket = x.DisplayOnTicket, VisualBehaviour = x.VisualBehaviour });
+            return result.OrderBy(x => x.AutomationCommand.Order);
+        }
+
+        private IEnumerable<CalculationTemplate> _calculationTemplates;
+        public IEnumerable<CalculationTemplate> CalculationTemplates
+        {
+            get { return _calculationTemplates ?? (_calculationTemplates = Dao.Query<CalculationTemplate>(x => x.AccountTransactionTemplate, x => x.CalculationTemplateMaps)); }
+        }
+
+        public IEnumerable<CalculationTemplate> GetCalculationTemplates()
+        {
+            var maps = CalculationTemplates.SelectMany(x => x.CalculationTemplateMaps)
+                .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
+                .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
+            return CalculationTemplates.Where(x => maps.Any(y => y.CalculationTemplateId == x.Id)).OrderBy(x => x.Order);
+        }
+
+        public IEnumerable<AccountTemplate> GetAccountTemplates()
+        {
+            return AccountTemplates;
+        }
+
+        private IEnumerable<AccountScreen> _accountScreens;
+        public IEnumerable<AccountScreen> AccountScreens
+        {
+            get { return _accountScreens??(_accountScreens = Dao.Query<AccountScreen>()); }
+        }
+
+        public IEnumerable<AccountScreen> GetAccountScreens()
+        {
+            return AccountScreens;
+        }
+
+        public IEnumerable<AccountTemplate> GetAccountTemplatesByName(IEnumerable<string> accountTemplateNames)
+        {
+            return AccountTemplates.Where(x => accountTemplateNames.Contains(x.Name));
+        }
+
+        public MenuItemPortion GetMenuItemPortion(int menuItemId, string portionName)
+        {
+            var mi = GetMenuItem(x => x.Id == menuItemId);
+            if (mi.Portions.Count == 0) return null;
+            return mi.Portions.FirstOrDefault(x => x.Name == portionName) ?? mi.Portions[0];
         }
 
         public override void Reset()
         {
-            _ticketTagGroupNames = null;
+            _accountScreens = null;
+            _calculationTemplates = null;
+            _automationCommands = null;
+            _orderTagGroups = null;
             _resourceTemplates = null;
             _accountTemplates = null;
-            _accounts = null;
+            _resources = null;
             _documentTemplates = null;
-            _accountStates = null;
+            _resourceStates = null;
+            _printJobs = null;
+            _paymentTemplates = null;
+            _ticketTagGroups = null;
             Dao.ResetCache();
         }
     }

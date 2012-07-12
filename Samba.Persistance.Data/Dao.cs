@@ -102,11 +102,11 @@ namespace Samba.Persistance.Data
         }
 
         public static IEnumerable<TResult> Select<TSource, TResult>(Expression<Func<TSource, TResult>> expression,
-                                                  Expression<Func<TSource, bool>> predictate) where TSource : class
+                                                  Expression<Func<TSource, bool>> predictate, params Expression<Func<TSource, object>>[] includes) where TSource : class
         {
             using (var workspace = WorkspaceFactory.CreateReadOnly())
             {
-                return workspace.Select(expression, predictate).ToList();
+                return workspace.Select(expression, predictate, includes).ToList();
             }
         }
 

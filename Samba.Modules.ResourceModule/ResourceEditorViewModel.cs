@@ -13,7 +13,6 @@ namespace Samba.Modules.ResourceModule
     public class ResourceEditorViewModel : ObservableObject
     {
         private readonly ICacheService _cacheService;
-        public ICaptionCommand CloseScreenCommand { get; set; }
         public ICaptionCommand SaveResourceCommand { get; set; }
         public ICaptionCommand SelectResourceCommand { get; set; }
 
@@ -21,10 +20,14 @@ namespace Samba.Modules.ResourceModule
         public ResourceEditorViewModel(ICacheService cacheService)
         {
             _cacheService = cacheService;
-            CloseScreenCommand = new CaptionCommand<string>(Resources.Close, OnCloseScreen);
-            SaveResourceCommand = new CaptionCommand<string>(Resources.Save, OnSaveResource);
-            SelectResourceCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.Resource).Replace(" ", "\r"), OnSelectResource);
+            SaveResourceCommand = new CaptionCommand<string>(Resources.Save, OnSaveResource,CanSelectResource);
+            SelectResourceCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.Resource).Replace(" ", "\r"), OnSelectResource, CanSelectResource);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Resource>>>().Subscribe(OnEditResource);
+        }
+
+        private bool CanSelectResource(string arg)
+        {
+            return SelectedResource != null && !string.IsNullOrEmpty(SelectedResource.Name);
         }
 
         private void OnSelectResource(string obj)
@@ -36,44 +39,13 @@ namespace Samba.Modules.ResourceModule
         private void OnSaveResource(string obj)
         {
             SaveSelectedResource();
-            EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateResourceView);
-            //CommonEventPublisher.RequestNavigation(EventTopicNames.ActivateAccountView);
+            CommonEventPublisher.PublishEntityOperation(SelectedResource.Model, EventTopicNames.SelectResource, EventTopicNames.ResourceSelected);
         }
 
         private void SaveSelectedResource()
         {
             CustomDataViewModel.Update();
             Dao.Save(SelectedResource.Model);
-            //using (var ws = WorkspaceFactory.Create())
-            //{
-            //    if (!SelectedAccount.IsNotNew)
-            //    {
-            //        ws.Add(SelectedAccount.Model);
-            //        ws.CommitChanges();
-
-            //    }
-            //    else
-            //    {
-            //        var result = ws.Single<Account>(
-            //            x => x.Id == SelectedAccount.Id
-            //                && x.Name == SelectedAccount.Name
-            //                && x.CustomData == SelectedAccount.Model.CustomData);
-
-            //        if (result == null)
-            //        {
-            //            result = ws.Single<Account>(x => x.Id == SelectedAccount.Id);
-            //            Debug.Assert(result != null);
-            //            result.Name = SelectedAccount.Name;
-            //            result.CustomData = SelectedAccount.Model.CustomData;
-            //            ws.CommitChanges();
-            //        }
-            //    }
-            //}
-        }
-
-        private static void OnCloseScreen(string obj)
-        {
-            CommonEventPublisher.RequestNavigation(EventTopicNames.ActivateResourceView);
         }
 
         private EntityOperationRequest<Resource> _operationRequest;
@@ -90,6 +62,13 @@ namespace Samba.Modules.ResourceModule
             }
         }
 
+        public string SelectResourceCommandCaption { get { return string.Format(Resources.Select_f, SelectedEntityName()).Replace(" ", "\r"); } }
+
+        private string SelectedEntityName()
+        {
+            return SelectedResource != null ? SelectedResource.ResourceTemplate.EntityName : Resources.Resource;
+        }
+
         private ResourceSearchResultViewModel _selectedResource;
         public ResourceSearchResultViewModel SelectedResource
         {
@@ -98,6 +77,7 @@ namespace Samba.Modules.ResourceModule
             {
                 _selectedResource = value;
                 RaisePropertyChanged(() => SelectedResource);
+                RaisePropertyChanged(()=>SelectResourceCommandCaption);
             }
         }
 

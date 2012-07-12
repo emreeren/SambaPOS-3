@@ -11,8 +11,6 @@ namespace Samba.Domain.Models.Tickets
     public class TicketTag : Entity, IStringCompareable
     {
         public int TicketTagGroupId { get; set; }
-        public int AccountId { get; set; }
-        public string AccountName { get; set; }
         public string Display { get { return !string.IsNullOrEmpty(Name) ? Name : "X"; } }
 
         private static TicketTag _emptyTicketTag;

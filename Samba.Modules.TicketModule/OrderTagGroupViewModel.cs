@@ -16,11 +16,15 @@ namespace Samba.Modules.TicketModule
     public class OrderTagGroupViewModel : EntityViewModelBase<OrderTagGroup>
     {
         private readonly IMenuService _menuService;
+        private readonly IUserService _userService;
+        private readonly IDepartmentService _departmentService;
 
         [ImportingConstructor]
-        public OrderTagGroupViewModel(IMenuService menuService)
+        public OrderTagGroupViewModel(IMenuService menuService, IUserService userService, IDepartmentService departmentService)
         {
             _menuService = menuService;
+            _userService = userService;
+            _departmentService = departmentService;
             AddOrderTagCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.OrderTag), OnAddPropertyExecuted);
             DeleteOrderTagCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.OrderTag), OnDeletePropertyExecuted, CanDeleteProperty);
             AddOrderTagMapCommand = new CaptionCommand<string>(Resources.Add, OnAddOrderTagMap);
@@ -33,7 +37,7 @@ namespace Samba.Modules.TicketModule
         private ObservableCollection<OrderTagMapViewModel> _orderTagMaps;
         public ObservableCollection<OrderTagMapViewModel> OrderTagMaps { get { return _orderTagMaps ?? (_orderTagMaps = new ObservableCollection<OrderTagMapViewModel>(GetOrderTagMaps(Model))); } }
 
-        private readonly IList<string> _selectionTypes = new[] { "Multiple Selection", "Single Selection" };
+        private readonly IList<string> _selectionTypes = new[] { string.Format(Resources.Selection_f, Resources.Multiple), string.Format(Resources.Selection_f, Resources.Single) };
         public IList<string> SelectionTypes { get { return _selectionTypes; } }
 
         public ICaptionCommand AddOrderTagCommand { get; set; }
@@ -70,7 +74,7 @@ namespace Samba.Modules.TicketModule
 
         private void OnAddOrderTagMap(string obj)
         {
-            OrderTagMaps.Add(new OrderTagMapViewModel(Model.AddOrderTagMap(), _menuService));
+            OrderTagMaps.Add(new OrderTagMapViewModel(Model.AddOrderTagMap(), _menuService, _userService, _departmentService));
         }
 
         private void OnDeletePropertyExecuted(string obj)
@@ -99,7 +103,7 @@ namespace Samba.Modules.TicketModule
 
         private IEnumerable<OrderTagMapViewModel> GetOrderTagMaps(OrderTagGroup model)
         {
-            return model.OrderTagMaps.Select(x => new OrderTagMapViewModel(x, _menuService));
+            return model.OrderTagMaps.Select(x => new OrderTagMapViewModel(x, _menuService, _userService, _departmentService));
         }
 
         public override string GetModelTypeString()

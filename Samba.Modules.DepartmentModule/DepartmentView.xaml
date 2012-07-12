@@ -9,97 +9,71 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <ScrollViewer Grid.Row="0" UIControls:KineticBehaviour.HandleKineticScrolling="True" VerticalScrollBarVisibility="Auto">
+
             <StackPanel>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto">
-                        </ColumnDefinition>
-                        <ColumnDefinition Width="*">
-                        </ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel>
-                        <Label>
-                            <LocText ResourceIdentifierKey="DepartmentName" Suffix=":"/>
-                        </Label>
-                        <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name,Mode=TwoWay}" />
-                        <GroupBox Header="{LocText DepartmentType}"
-                             Padding="5">
-                            <StackPanel>
-                                <CheckBox IsChecked="{Binding IsFastFood}" Margin="0,6">
-                                    <LocText ResourceIdentifierKey="FastFood"/>
-                                </CheckBox>
-                                <CheckBox IsChecked="{Binding IsAlaCarte}" Margin="0,6">
-                                    <LocText ResourceIdentifierKey="ALaCarte"/>
-                                </CheckBox>
-                                <CheckBox IsChecked="{Binding IsTakeAway}" Margin="0,6">
-                                    <LocText ResourceIdentifierKey="Delivery"/>
-                                </CheckBox>
-                            </StackPanel>
-                        </GroupBox>
-                        
-                        <Label>
-                            <LocText ResourceIdentifierKey="TicketTemplate" Suffix=":"/>
-                        </Label>
-                        <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding TicketTemplates}"
+                <Label>
+                    <LocText ResourceIdentifierKey="DepartmentName" Suffix=":"/>
+                </Label>
+                <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name,Mode=TwoWay}" />
+
+                <Label>
+                    <LocText ResourceIdentifierKey="TicketTemplate" Suffix=":"/>
+                </Label>
+                <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding TicketTemplates}"
                                      SelectedItem="{Binding TicketTemplate}" />
 
-                        <Label>
-                            <LocText ResourceIdentifierKey="POSMenu" Suffix=":"/>
-                        </Label>
-                        <ComboBox HorizontalAlignment="Left" MinWidth="150" ItemsSource="{Binding ScreenMenus}"
+                <Label>
+                    <LocText ResourceIdentifierKey="POSMenu" Suffix=":"/>
+                </Label>
+                <ComboBox HorizontalAlignment="Left" MinWidth="150" ItemsSource="{Binding ScreenMenus}"
                              DisplayMemberPath="Name" SelectedValuePath="Id" SelectedValue="{Binding ScreenMenuId}" />
 
-                        <Label>
-                            <LocText ResourceIdentifierKey="PriceTag" Suffix=":"/>
-                        </Label>
-                        <ComboBox HorizontalAlignment="Left" MinWidth="150" IsEditable="True" 
+                <Label>
+                    <LocText ResourceIdentifierKey="PriceTag" Suffix=":"/>
+                </Label>
+                <ComboBox HorizontalAlignment="Left" MinWidth="150" IsEditable="True" 
                               ItemsSource="{Binding PriceTags}" Text="{Binding PriceTag}" />
 
-                        <GroupBox Header="{LocText OpenTicketView}"
-                             Padding="5" Margin="0,5">
-                            <StackPanel>
-                                <Label>
-                                    <LocText ResourceIdentifierKey="ColumnCount" Suffix=":"/>
-                                </Label>
-                                <UIControls:FilteredTextBox Type="Digits" HorizontalAlignment="Left" MinWidth="50" Text="{Binding OpenTicketViewColumnCount,Mode=TwoWay}" />
-                            </StackPanel>
-                        </GroupBox>
-                    </StackPanel>
-                    <StackPanel Grid.Column="1" Margin="20,0" HorizontalAlignment="Left">
-                        <Label>
-                            <LocText ResourceIdentifierKey="LocationScreens" Suffix=":"/>
-                        </Label>
-                        <StackPanel Orientation="Horizontal">
-                            <DataGrid ItemsSource="{Binding LocationScreens}" SelectedItem="{Binding SelectedLocationScreen, Mode=TwoWay}"
+                <Label>
+                    <LocText ResourceIdentifierKey="TicketCreationMethod" Suffix=":"/>
+                </Label>
+                <ComboBox HorizontalAlignment="Left" MinWidth="150" ItemsSource="{Binding TicketCreationMethods}" SelectedItem="{Binding TicketCreationMethod}" />
+
+                <StackPanel HorizontalAlignment="Left">
+                    <Label>
+                        <LocText ResourceIdentifierKey="ResourceScreens" Suffix=":"/>
+                    </Label>
+                    <StackPanel Orientation="Horizontal">
+                        <DataGrid ItemsSource="{Binding ResourceScreens}" SelectedItem="{Binding SelectedResourceScreen, Mode=TwoWay}"
                                      HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
                                      AutoGenerateColumns="False" CanUserSortColumns="False" IsReadOnly="True" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="{LocText LocationScreen}"
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="{LocText ResourceScreen}"
                                              MinWidth="100" Binding="{Binding Name}" />
-                                </DataGrid.Columns>
-                                <DataGrid.ContextMenu>
-                                    <ContextMenu>
-                                        <MenuItem Command="{Binding AddLocationScreenCommand}" Header="{Binding AddLocationScreenCommand.Caption}" />
-                                        <MenuItem Command="{Binding DeleteLocationScreenCommand}" Header="{Binding DeleteLocationScreenCommand.Caption}" />
-                                    </ContextMenu>
-                                </DataGrid.ContextMenu>
-                            </DataGrid>
-                            <StackPanel Margin="10">
-                                <TextBlock Margin="2,3">
-                                        <Hyperlink Command="{Binding AddLocationScreenCommand}">
-                                            <TextBlock Text="{Binding Path=AddLocationScreenCommand.Caption}" />
+                            </DataGrid.Columns>
+                            <DataGrid.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Command="{Binding AddResourceScreenCommand}" Header="{Binding AddResourceScreenCommand.Caption}" />
+                                    <MenuItem Command="{Binding DeleteResourceScreenCommand}" Header="{Binding DeleteResourceScreenCommand.Caption}" />
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
+                        </DataGrid>
+                        <StackPanel Margin="10">
+                            <TextBlock Margin="2,3">
+                                        <Hyperlink Command="{Binding AddResourceScreenCommand}">
+                                            <TextBlock Text="{Binding Path=AddResourceScreenCommand.Caption}" />
                                         </Hyperlink>
                                     </TextBlock>
-                                <TextBlock Margin="2,3">
-                                        <Hyperlink Command="{Binding DeleteLocationScreenCommand}">
-                                            <TextBlock Text="{Binding Path=DeleteLocationScreenCommand.Caption}" />
+                            <TextBlock Margin="2,3">
+                                        <Hyperlink Command="{Binding DeleteResourceScreenCommand}">
+                                            <TextBlock Text="{Binding Path=DeleteResourceScreenCommand.Caption}" />
                                         </Hyperlink>
                                     </TextBlock>
-                            </StackPanel>
                         </StackPanel>
                     </StackPanel>
-                </Grid>
+                </StackPanel>
             </StackPanel>
+
         </ScrollViewer>
         <StackPanel Grid.Row="1">
             <Button HorizontalAlignment="Left" Margin="0,10" MinWidth="70" Content="{Binding SaveCommand.Caption}"

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Samba.Domain.Models.Settings;
+﻿using System.Collections.Generic;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
@@ -17,18 +13,27 @@ namespace Samba.Domain.Models.Tickets
     public class TicketTagGroup : Entity, IOrderable
     {
         public int Order { get; set; }
-        public virtual Numerator Numerator { get; set; }
-        private IList<TicketTag> _ticketTags;
 
-        public int Action { get; set; }
         public bool FreeTagging { get; set; }
         public bool SaveFreeTags { get; set; }
         public string ButtonColorWhenTagSelected { get; set; }
         public string ButtonColorWhenNoTagSelected { get; set; }
-        public bool ActiveOnPosClient { get; set; }
-        public bool ActiveOnTerminalClient { get; set; }
         public bool ForceValue { get; set; }
         public int DataType { get; set; }
+
+        private IList<TicketTag> _ticketTags;
+        public virtual IList<TicketTag> TicketTags
+        {
+            get { return _ticketTags; }
+            set { _ticketTags = value; }
+        }
+
+        private IList<TicketTagMap> _ticketTagMaps;
+        public virtual IList<TicketTagMap> TicketTagMaps
+        {
+            get { return _ticketTagMaps; }
+            set { _ticketTagMaps = value; }
+        }
 
         public bool IsNumeric { get { return IsDecimal || IsInteger; } }
         public bool IsAlphanumeric { get { return DataType == 0; } }
@@ -40,19 +45,20 @@ namespace Samba.Domain.Models.Tickets
             get { return Name; }
         }
 
-        public virtual IList<TicketTag> TicketTags
-        {
-            get { return _ticketTags; }
-            set { _ticketTags = value; }
-        }
-
         public TicketTagGroup()
         {
             _ticketTags = new List<TicketTag>();
+            _ticketTagMaps = new List<TicketTagMap>();
             ButtonColorWhenNoTagSelected = "Gainsboro";
             ButtonColorWhenTagSelected = "Gainsboro";
-            ActiveOnPosClient = true;
             SaveFreeTags = true;
+        }
+
+        public TicketTagMap AddTicketTagMap()
+        {
+            var map = new TicketTagMap();
+            TicketTagMaps.Add(map);
+            return map;
         }
     }
 }

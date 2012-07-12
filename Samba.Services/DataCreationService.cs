@@ -15,6 +15,7 @@ using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
+using Samba.Services.Common;
 
 namespace Samba.Services
 {
@@ -120,8 +121,9 @@ namespace Samba.Services
                 ButtonHeader = Resources.DiscountPercentSign,
                 CalculationMethod = 0,
                 DecreaseAmount = true,
-                Name = Resources.DiscountPercentSign
+                Name = Resources.Discount
             };
+            discountService.AddCalculationTemplateMap();
 
             var roundingService = new CalculationTemplate
             {
@@ -132,6 +134,7 @@ namespace Samba.Services
                 IncludeTax = true,
                 Name = Resources.Round
             };
+            roundingService.AddCalculationTemplateMap();
 
             _workspace.Add(discountService);
             _workspace.Add(roundingService);
@@ -145,6 +148,18 @@ namespace Samba.Services
             var orderNumerator = new Numerator { Name = Resources.OrderNumerator };
             _workspace.Add(orderNumerator);
 
+            var printBillAutomation = new AutomationCommand { Name = Resources.PrintBill, ButtonHeader = Resources.PrintBill };
+            printBillAutomation.AutomationCommandMaps.Add(new AutomationCommandMap {VisualBehaviour = 1});
+            _workspace.Add(printBillAutomation);
+
+            var unlockTicketAutomation = new AutomationCommand { Name = "Unlock Ticket", ButtonHeader = "Unlock Ticket" };
+            unlockTicketAutomation.AutomationCommandMaps.Add(new AutomationCommandMap {VisualBehaviour = 2});
+            _workspace.Add(unlockTicketAutomation);
+
+            var addTicketAutomation = new AutomationCommand { Name = "Add Ticket", ButtonHeader = "Add Ticket" };
+            addTicketAutomation.AddAutomationCommandMap();
+            _workspace.Add(addTicketAutomation);
+
             _workspace.CommitChanges();
 
             var ticketTemplate = new TicketTemplate
@@ -155,35 +170,33 @@ namespace Samba.Services
                                          SaleTransactionTemplate = saleTransactionTemplate,
                                      };
 
-            ticketTemplate.CalulationTemplates.Add(discountService);
-            ticketTemplate.CalulationTemplates.Add(roundingService);
-
             var cashPayment = new PaymentTemplate
             {
                 AccountTransactionTemplate = paymentTransactionTemplate,
                 Account = cashAccount,
                 Name = cashAccount.Name
             };
+            cashPayment.PaymentTemplateMaps.Add(new PaymentTemplateMap { DisplayAtPaymentScreen = true });
+
             var creditCardPayment = new PaymentTemplate
             {
                 AccountTransactionTemplate = paymentTransactionTemplate,
                 Account = creditCardAccount,
                 Name = creditCardAccount.Name
             };
+            creditCardPayment.PaymentTemplateMaps.Add(new PaymentTemplateMap { DisplayAtPaymentScreen = true });
+
             var voucherPayment = new PaymentTemplate
             {
                 AccountTransactionTemplate = paymentTransactionTemplate,
                 Account = voucherAccount,
                 Name = voucherAccount.Name
             };
+            voucherPayment.PaymentTemplateMaps.Add(new PaymentTemplateMap { DisplayAtPaymentScreen = true });
 
-            ticketTemplate.PaymentTemplates.Add(cashPayment);
-            ticketTemplate.PaymentTemplates.Add(creditCardPayment);
-            ticketTemplate.PaymentTemplates.Add(voucherPayment);
-
-            ticketTemplate.ResourceTemplates.Add(tableResourceTemplate);
-            ticketTemplate.ResourceTemplates.Add(customerResourceTemplate);
-
+            _workspace.Add(cashPayment);
+            _workspace.Add(creditCardPayment);
+            _workspace.Add(voucherPayment);
             _workspace.Add(ticketTemplate);
 
             var department = new Department
@@ -191,7 +204,6 @@ namespace Samba.Services
                 Name = Resources.Restaurant,
                 TicketTemplate = ticketTemplate,
                 ScreenMenuId = screen.Id,
-                IsAlaCarte = true
             };
 
             _workspace.Add(department);
@@ -248,14 +260,11 @@ namespace Samba.Services
             var pj1 = new PrintJob
             {
                 Name = Resources.PrintBill,
-                ButtonHeader = Resources.PrintBill,
                 LocksTicket = true,
-                Order = 0,
                 UseFromPaymentScreen = true,
                 UseFromTerminal = true,
                 UseFromPos = true,
                 WhatToPrint = (int)WhatToPrintTypes.Everything,
-                WhenToPrint = (int)WhenToPrintTypes.Manual
             };
             pj1.PrinterMaps.Add(pm1);
 
@@ -266,32 +275,23 @@ namespace Samba.Services
             var pj2 = new PrintJob
             {
                 Name = Resources.PrintOrdersToKitchenPrinter,
-                ButtonHeader = "",
-                Order = 1,
                 WhatToPrint = (int)WhatToPrintTypes.NewLines,
-                WhenToPrint = (int)WhenToPrintTypes.NewLinesAdded
             };
             pj2.PrinterMaps.Add(pm2);
 
             _workspace.Add(pj2);
-
-            t.PrintJobs.Add(pj1);
-            t.PrintJobs.Add(pj2);
             _workspace.Add(t);
 
             var orderTag1 = new OrderTagGroup { Name = Resources.Gift, ButtonHeader = Resources.Gift, CalculateOrderPrice = false, DecreaseOrderInventory = true, SelectionType = 1 };
             orderTag1.OrderTags.Add(new OrderTag { Name = Resources.Gift });
-            orderTag1.OrderTagMaps.Add(new OrderTagMap());
+            orderTag1.AddOrderTagMap();
             _workspace.Add(orderTag1);
 
             var orderTag2 = new OrderTagGroup { Name = Resources.Void, ButtonHeader = Resources.Void, CalculateOrderPrice = false, DecreaseOrderInventory = false, SelectionType = 1 };
             orderTag2.OrderTags.Add(new OrderTag { Name = Resources.Void });
-            orderTag2.OrderTagMaps.Add(new OrderTagMap());
             orderTag2.UnlocksOrder = true;
+            orderTag2.AddOrderTagMap();
             _workspace.Add(orderTag2);
-
-            department.TicketTemplate.OrderTagGroups.Add(orderTag1);
-            department.TicketTemplate.OrderTagGroups.Add(orderTag2);
 
             var orderTagTemplate = new OrderTagTemplate { Name = Resources.Gift };
             orderTagTemplate.OrderTagTemplateValues.Add(new OrderTagTemplateValue { OrderTagGroup = orderTag1, OrderTag = orderTag1.OrderTags[0] });
@@ -299,6 +299,7 @@ namespace Samba.Services
             _workspace.Add(orderTagTemplate);
 
             const string parameterFormat = "[{{\"Key\":\"{0}\",\"Value\":\"{1}\"}}]";
+            const string doubleParameterFormat = "[{{\"Key\":\"{0}\",\"Value\":\"{1}\"}},{{\"Key\":\"{2}\",\"Value\":\"{3}\"}}]";
 
             var action = new AppAction { ActionType = "RemoveOrderTag", Name = Resources.RemoveGiftTag, Parameter = string.Format(parameterFormat, "OrderTagName", Resources.Gift) };
             _workspace.Add(action);
@@ -316,30 +317,64 @@ namespace Samba.Services
 
             _workspace.Add(rule);
 
-            var newOrderState = new ResourceState { Name = "New Orders", ResourceTempletId = tableResourceTemplate.Id, Color = "Orange" };
+            var newOrderState = new ResourceState { Name = "New Orders", Color = "Orange" };
             _workspace.Add(newOrderState);
 
-            var availableState = new ResourceState { Name = "Available", ResourceTempletId = tableResourceTemplate.Id, Color = "White" };
+            var availableState = new ResourceState { Name = "Available", Color = "White" };
             _workspace.Add(availableState);
+
+            var billRequestedState = new ResourceState { Name = "Bill Requested", Color = "Maroon" };
+            _workspace.Add(billRequestedState);
 
             var newOrderAction = new AppAction { ActionType = "UpdateResourceState", Name = "Update New Order State", Parameter = string.Format(parameterFormat, "ResourceState", "New Orders") };
             _workspace.Add(newOrderAction);
             var availableAction = new AppAction { ActionType = "UpdateResourceState", Name = "Update Available State", Parameter = string.Format(parameterFormat, "ResourceState", "Available") };
             _workspace.Add(availableAction);
+            var billRequestedAction = new AppAction { ActionType = "UpdateResourceState", Name = "Update Bill Requested State", Parameter = string.Format(parameterFormat, "ResourceState", "Bill Requested") };
+            _workspace.Add(billRequestedAction);
+            var createTicketAction = new AppAction { ActionType = "CreateTicket", Name = "Create New Ticket", Parameter = "" };
+            _workspace.Add(createTicketAction);
+            var closeTicketAction = new AppAction { ActionType = "CloseActiveTicket", Name = "Close Ticket", Parameter = "" };
+            _workspace.Add(closeTicketAction);
+            var printBillAction = new AppAction { ActionType = "ExecutePrintJob", Name = "Execute Bill Print Job", Parameter = string.Format(parameterFormat, "PrintJobName", Resources.PrintBill) };
+            _workspace.Add(printBillAction);
+            var printKitchenOrdersAction = new AppAction { ActionType = "ExecutePrintJob", Name = "Execute Kitchen Orders Print Job", Parameter = string.Format(parameterFormat, "PrintJobName", Resources.PrintOrdersToKitchenPrinter) };
+            _workspace.Add(printKitchenOrdersAction);
+            var unlockTicketAction = new AppAction { ActionType = "UnlockTicket", Name = "Unlock Ticket", Parameter = "" };
+            _workspace.Add(unlockTicketAction);
             _workspace.CommitChanges();
 
-            var newOrderRule = new AppRule { Name = "Update New Order Table Color", EventName = "OrdersCreated" };
-            var ac1 = new ActionContainer(newOrderAction) { ParameterValues = "" };
-            newOrderRule.Actions.Add(ac1);
+            var newOrderRule = new AppRule { Name = "Update New Order Resource Color", EventName = "TicketClosing", EventConstraints = "NewOrderCount;>;0" };
+            newOrderRule.Actions.Add(new ActionContainer(printKitchenOrdersAction));
+            newOrderRule.Actions.Add(new ActionContainer(newOrderAction));
             _workspace.Add(newOrderRule);
 
-            var availableRule = new AppRule { Name = "Update Available Table Color", EventName = "TicketClosed", EventConstraints = "RemainingAmount;=;0" };
-            var ac2 = new ActionContainer(availableAction) { ParameterValues = "" };
+            var availableRule = new AppRule { Name = "Update Available Resource Color", EventName = "ResourceUpdated", EventConstraints = "OpenTicketCount;=;0" };
+            var ac2 = new ActionContainer(availableAction);
             availableRule.Actions.Add(ac2);
             _workspace.Add(availableRule);
 
+            var movingRule = new AppRule { Name = "Update Moved Resource Color", EventName = "TicketResourceChanged", EventConstraints = "OrderCount;>;0" };
+            var ac3 = new ActionContainer(newOrderAction);
+            movingRule.Actions.Add(ac3);
+            _workspace.Add(movingRule);
+
+            var printBillRule = new AppRule { Name = "Print Bill Rule", EventName = RuleEventNames.AutomationCommandExecuted, EventConstraints = "AutomationCommandName;=;" + Resources.PrintBill };
+            printBillRule.Actions.Add(new ActionContainer(printBillAction));
+            printBillRule.Actions.Add(new ActionContainer(billRequestedAction));
+            printBillRule.Actions.Add(new ActionContainer(closeTicketAction));
+            _workspace.Add(printBillRule);
+
+            var unlockTicketRule = new AppRule { Name = "Unlock Ticket Rule", EventName = RuleEventNames.AutomationCommandExecuted, EventConstraints = "AutomationCommandName;=;Unlock Ticket" };
+            unlockTicketRule.Actions.Add(new ActionContainer(unlockTicketAction));
+            _workspace.Add(unlockTicketRule);
+
+            var createTicketRule = new AppRule { Name = "Create Ticket Rule", EventName = RuleEventNames.AutomationCommandExecuted, EventConstraints = "AutomationCommandName;=;Add Ticket" };
+            createTicketRule.Actions.Add(new ActionContainer(createTicketAction));
+            _workspace.Add(createTicketRule);
+
             ImportMenus(screen);
-            ImportTableResources(department, tableResourceTemplate);
+            ImportTableResources(department, tableResourceTemplate, availableState.Id);
 
             ImportItems(BatchCreateResources);
             ImportItems(BatchCreateTransactionTemplates);
@@ -361,7 +396,7 @@ namespace Samba.Services
             _workspace.CommitChanges();
         }
 
-        private void ImportTableResources(Department department, ResourceTemplate tableTemplate)
+        private void ImportTableResources(Department department, ResourceTemplate tableTemplate, int defaultStateId)
         {
             var fileName = string.Format("{0}/Imports/table{1}.txt", LocalSettings.AppPath, "_" + LocalSettings.CurrentLanguage);
 
@@ -371,23 +406,25 @@ namespace Samba.Services
             if (!File.Exists(fileName)) return;
 
             var lines = File.ReadAllLines(fileName);
-            var items = BatchCreateResourcesWithTemplate(lines, _workspace, tableTemplate);
-            items.ToList().ForEach(_workspace.Add);
+            var items = BatchCreateResourcesWithTemplate(lines, _workspace, tableTemplate).ToList();
+            items.ForEach(_workspace.Add);
 
             _workspace.CommitChanges();
 
-            var screen = new ResourceScreen { Name = "All Tables", ColumnCount = 8, ResourceTemplateId = tableTemplate.Id };
+            var screen = new ResourceScreen { Name = "All Tables", ColumnCount = 7, ResourceTemplateId = tableTemplate.Id, DisplayOpenTickets = true };
             _workspace.Add(screen);
 
             foreach (var resource in items)
             {
                 resource.ResourceTemplateId = tableTemplate.Id;
                 screen.AddScreenItem(new ResourceScreenItem { Name = resource.Name, ResourceId = resource.Id });
+                var state = new ResourceStateValue { Date = DateTime.Now, ResoruceId = resource.Id, StateId = defaultStateId };
+                _workspace.Add(state);
             }
 
             _workspace.CommitChanges();
 
-            department.LocationScreens.Add(screen);
+            department.ResourceScreens.Add(screen);
         }
 
         private void ImportMenus(ScreenMenu screenMenu)
@@ -401,8 +438,8 @@ namespace Samba.Services
 
             var lines = File.ReadAllLines(fileName, Encoding.UTF8);
 
-            var items = BatchCreateMenuItems(lines, _workspace);
-            items.ToList().ForEach(_workspace.Add);
+            var items = BatchCreateMenuItems(lines, _workspace).ToList();
+            items.ForEach(_workspace.Add);
             _workspace.CommitChanges();
             var groupCodes = items.Select(x => x.GroupCode).Distinct().Where(x => !string.IsNullOrEmpty(x));
 
@@ -474,7 +511,7 @@ namespace Samba.Services
             IList<Account> result = new List<Account>();
             if (values.Length > 0)
             {
-                var templates = workspace.All<AccountTemplate>();
+                var templates = workspace.All<AccountTemplate>().ToList();
                 AccountTemplate currentTemplate = null;
 
                 foreach (var item in values)
@@ -513,7 +550,7 @@ namespace Samba.Services
             IList<Resource> result = new List<Resource>();
             if (values.Length > 0)
             {
-                var templates = workspace.All<ResourceTemplate>();
+                var templates = workspace.All<ResourceTemplate>().ToList();
                 ResourceTemplate currentTemplate = null;
 
                 foreach (var item in values)

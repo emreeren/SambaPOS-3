@@ -29,8 +29,8 @@
         </TabControl>
 
         <TabControl cal:RegionManager.RegionName="{x:Static Common:RegionNames.PosSubRegion}"                        
-                    FocusVisualStyle="{x:Null}"
                     Grid.Column="1"
+                    FocusVisualStyle="{x:Null}"
                     Background="Transparent"
                     BorderThickness="0"
                     Margin="0" Padding="0">

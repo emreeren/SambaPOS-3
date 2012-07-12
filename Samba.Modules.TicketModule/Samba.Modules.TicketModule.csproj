@@ -77,6 +77,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CalculationTemplateMapViewModel.cs" />
     <Compile Include="OrderTagGroupView.xaml.cs">
       <DependentUpon>OrderTagGroupView.xaml</DependentUpon>
     </Compile>
@@ -88,6 +89,7 @@
     </Compile>
     <Compile Include="OrderTagTemplateViewModel.cs" />
     <Compile Include="OrderTagViewModel.cs" />
+    <Compile Include="PaymentTemplateMapViewModel.cs" />
     <Compile Include="PaymentTemplateView.xaml.cs">
       <DependentUpon>PaymentTemplateView.xaml</DependentUpon>
     </Compile>
@@ -102,6 +104,7 @@
       <DependentUpon>TicketTagGroupView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TicketTagGroupViewModel.cs" />
+    <Compile Include="TicketTagMapViewModel.cs" />
     <Compile Include="TicketTemplateView.xaml.cs">
       <DependentUpon>TicketTemplateView.xaml</DependentUpon>
     </Compile>

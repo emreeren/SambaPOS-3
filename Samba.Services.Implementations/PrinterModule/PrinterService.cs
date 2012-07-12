@@ -6,7 +6,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Threading;
-using Samba.Domain;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
@@ -42,13 +41,13 @@ namespace Samba.Services.Implementations.PrinterModule
         private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public PrinterService(IApplicationState applicationState, ICacheService cacheService)
+        public PrinterService(IApplicationState applicationState, ICacheService cacheService, IResourceService resourceService)
         {
             _applicationState = applicationState;
             _cacheService = cacheService;
 
             ValidatorRegistry.RegisterDeleteValidator(new PrinterDeleteValidator());
-            ValidatorRegistry.RegisterDeleteValidator(new PrinterTemplateDeleteValidator());
+            ValidatorRegistry.RegisterDeleteValidator<PrinterTemplate>(x => Dao.Exists<PrinterMap>(y => y.PrinterTemplateId == x.Id), Resources.PrinterTemplate, Resources.PrintJob);
         }
 
         private IEnumerable<Printer> _printers;
@@ -94,18 +93,16 @@ namespace Samba.Services.Implementations.PrinterModule
             PrinterInfo.ResetCache();
         }
 
-        private static PrinterMap GetPrinterMapForItem(IEnumerable<PrinterMap> printerMaps, Ticket ticket, int menuItemId)
+        private static PrinterMap GetPrinterMapForItem(IEnumerable<PrinterMap> printerMaps, int departmentId, int menuItemId)
         {
             var menuItemGroupCode = Dao.Single<MenuItem, string>(menuItemId, x => x.GroupCode);
 
             var maps = printerMaps;
 
-            maps = maps.Count(x => !string.IsNullOrEmpty(x.TicketTag) && !string.IsNullOrEmpty(ticket.GetTagValue(x.TicketTag))) > 0
-                ? maps.Where(x => !string.IsNullOrEmpty(x.TicketTag) && !string.IsNullOrEmpty(ticket.GetTagValue(x.TicketTag)))
-                : maps.Where(x => string.IsNullOrEmpty(x.TicketTag));
+            Debug.Assert(maps != null);
 
-            maps = maps.Count(x => x.DepartmentId == ticket.DepartmentId) > 0
-                       ? maps.Where(x => x.DepartmentId == ticket.DepartmentId)
+            maps = maps.Count(x => x.DepartmentId == departmentId) > 0
+                       ? maps.Where(x => x.DepartmentId == departmentId)
                        : maps.Where(x => x.DepartmentId == 0);
 
             maps = maps.Count(x => x.MenuItemGroupCode == menuItemGroupCode) > 0
@@ -119,37 +116,11 @@ namespace Samba.Services.Implementations.PrinterModule
             return maps.FirstOrDefault();
         }
 
-        public void AutoPrintTicket(Ticket ticket)
-        {
-            foreach (var customPrinter in _applicationState.CurrentTerminal.PrintJobs.Where(x => !x.UseForPaidTickets))
-            {
-                if (ShouldAutoPrint(ticket, customPrinter))
-                    ManualPrintTicket(ticket, customPrinter);
-            }
-        }
-
-        public void ManualPrintTicket(Ticket ticket, PrintJob customPrinter)
+        public void PrintTicket(Ticket ticket, PrintJob customPrinter)
         {
             Debug.Assert(!string.IsNullOrEmpty(ticket.TicketNumber));
             if (customPrinter.LocksTicket) ticket.RequestLock();
-            ticket.AddPrintJob(customPrinter.Id);
             PrintOrders(customPrinter, ticket);
-        }
-
-        private static bool ShouldAutoPrint(Ticket ticket, PrintJob customPrinter)
-        {
-            if (customPrinter.WhenToPrint == (int)WhenToPrintTypes.Manual) return false;
-            if (customPrinter.WhenToPrint == (int)WhenToPrintTypes.Paid)
-            {
-                if (ticket.DidPrintJobExecuted(customPrinter.Id)) return false;
-                if (!ticket.IsPaid) return false;
-                if (!customPrinter.AutoPrintIfCash && !customPrinter.AutoPrintIfCreditCard && !customPrinter.AutoPrintIfTicket) return false;
-                //if (customPrinter.AutoPrintIfCash && ticket.Payments.Count(x => x.PaymentType == (int)PaymentType.Cash) > 0) return true;
-                //if (customPrinter.AutoPrintIfCreditCard && ticket.Payments.Count(x => x.PaymentType == (int)PaymentType.CreditCard) > 0) return true;
-                //if (customPrinter.AutoPrintIfTicket && ticket.Payments.Count(x => x.PaymentType == (int)PaymentType.Ticket) > 0) return true;
-            }
-            if (customPrinter.WhenToPrint == (int)WhenToPrintTypes.NewLinesAdded && ticket.GetUnlockedOrders().Count() > 0) return true;
-            return false;
         }
 
         public void PrintOrders(PrintJob printJob, Ticket ticket)
@@ -225,7 +196,6 @@ namespace Samba.Services.Implementations.PrinterModule
         private void InternalPrintOrders(PrintJob printJob, Ticket ticket, IEnumerable<Order> orders)
         {
             if (printJob.PrinterMaps.Count == 1
-                && printJob.PrinterMaps[0].TicketTag == null
                 && printJob.PrinterMaps[0].MenuItemId == 0
                 && printJob.PrinterMaps[0].MenuItemGroupCode == null
                 && printJob.PrinterMaps[0].DepartmentId == 0)
@@ -238,7 +208,7 @@ namespace Samba.Services.Implementations.PrinterModule
 
             foreach (var item in orders)
             {
-                var p = GetPrinterMapForItem(printJob.PrinterMaps, ticket, item.MenuItemId);
+                var p = GetPrinterMapForItem(printJob.PrinterMaps, ticket.DepartmentId, item.MenuItemId);
                 if (p != null)
                 {
                     var lmap = p;
@@ -259,7 +229,9 @@ namespace Samba.Services.Implementations.PrinterModule
 
         private void PrintOrderLines(Ticket ticket, IEnumerable<Order> lines, PrinterMap p)
         {
-            if (lines.Count() <= 0) return;
+            Debug.Assert(lines != null, "lines != null");
+            var lns = lines.ToList();
+            if (lns.Count() == 0) return;
             if (p == null)
             {
                 //todo: globalize
@@ -270,7 +242,7 @@ namespace Samba.Services.Implementations.PrinterModule
             var printer = PrinterById(p.PrinterId);
             var prinerTemplate = PrinterTemplateById(p.PrinterTemplateId);
             if (printer == null || string.IsNullOrEmpty(printer.ShareName) || prinerTemplate == null) return;
-            var ticketLines = TicketFormatter.GetFormattedTicket(ticket, lines, prinerTemplate);
+            var ticketLines = TicketFormatter.GetFormattedTicket(ticket, lns, prinerTemplate);
             PrintJobFactory.CreatePrintJob(printer).DoPrint(ticketLines);
         }
 
@@ -344,16 +316,6 @@ namespace Samba.Services.Implementations.PrinterModule
             result.Add(TagNames.TotalText, Resources.TextWrittenTotalValue);
             result.Add(TagNames.IfDiscount, Resources.DiscountTotalAndTicketTotal);
             return result;
-        }
-    }
-
-    public class PrinterTemplateDeleteValidator : SpecificationValidator<PrinterTemplate>
-    {
-        public override string GetErrorMessage(PrinterTemplate model)
-        {
-            if (Dao.Exists<PrinterMap>(x => x.PrinterTemplateId == model.Id))
-                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.PrinterTemplate, Resources.PrintJob);
-            return "";
         }
     }
 

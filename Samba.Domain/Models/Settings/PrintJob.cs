@@ -1,19 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Samba.Domain.Models.Tickets;
+﻿using System.Collections.Generic;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Settings
 {
-    public enum WhenToPrintTypes
-    {
-        Manual,
-        NewLinesAdded,
-        Paid
-    }
-
     public enum WhatToPrintTypes
     {
         Everything,
@@ -24,16 +13,8 @@ namespace Samba.Domain.Models.Settings
         LastLinesByPrinterLineCount
     }
 
-    public class PrintJob : Entity, IOrderable
+    public class PrintJob : Entity
     {
-        public string ButtonHeader { get; set; }
-        public int Order { get; set; }
-        public string UserString { get { return Name; } }
-
-        public bool AutoPrintIfCash { get; set; }
-        public bool AutoPrintIfCreditCard { get; set; }
-        public bool AutoPrintIfTicket { get; set; }
-        public int WhenToPrint { get; set; }
         public int WhatToPrint { get; set; }
         public bool LocksTicket { get; set; }
         public bool UseFromPaymentScreen { get; set; }

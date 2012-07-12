@@ -501,20 +501,8 @@ Yap</value>
     <value>Yer Görünümü</value>
     <comment>Label content</comment>
   </data>
-  <data name="OpenTicketView" xml:space="preserve">
-    <value>Açık Adisyon Görünümü</value>
-    <comment>GroupBox.Header</comment>
-  </data>
   <data name="ColumnCount" xml:space="preserve">
     <value>Sütun Sayısı</value>
-    <comment>Label content</comment>
-  </data>
-  <data name="POSDefaultTicketTag" xml:space="preserve">
-    <value>POS Varsayılan Adisyon Etiketi</value>
-    <comment>Label content</comment>
-  </data>
-  <data name="TerminalDefaultTicketTag" xml:space="preserve">
-    <value>Terminal Varsayılan Adisyon Etiketi</value>
     <comment>Label content</comment>
   </data>
   <data name="DepartmentType" xml:space="preserve">
@@ -706,9 +694,6 @@ Yap</value>
   <data name="WrapText" xml:space="preserve">
     <value>Yazı Kaydır</value>
   </data>
-  <data name="DeleteErrorMenuViewUsedInDepartment" xml:space="preserve">
-    <value>Bu menü görünümü bir departmanda kullanıldığından silinemez.</value>
-  </data>
   <data name="MenuName" xml:space="preserve">
     <value>Menü Adı</value>
     <comment>Label.Content</comment>
@@ -768,10 +753,6 @@ Yap</value>
   </data>
   <data name="Numerator" xml:space="preserve">
     <value>Numaratör</value>
-    <comment>Label content</comment>
-  </data>
-  <data name="DoAfterTicketSelected" xml:space="preserve">
-    <value>Etiket seçildikten sonra şunu yap</value>
     <comment>Label content</comment>
   </data>
   <data name="CanUseOnPOS" xml:space="preserve">
@@ -1121,12 +1102,6 @@ Yap</value>
   </data>
   <data name="Manual" xml:space="preserve">
     <value>Manuel</value>
-  </data>
-  <data name="WhenNewLinesAddedToTicket" xml:space="preserve">
-    <value>Adisyona Yeni Satır Eklendiğinde</value>
-  </data>
-  <data name="WhenTicketPaid" xml:space="preserve">
-    <value>Adisyon Ödendiğinde</value>
   </data>
   <data name="AllLines" xml:space="preserve">
     <value>Tüm Satırlar</value>
@@ -1489,10 +1464,6 @@ Kapat</value>
     <value>Kredi
 Kartı</value>
   </data>
-  <data name="AllTickets_r" xml:space="preserve">
-    <value>Tüm
-Belgeler</value>
-  </data>
   <data name="Void" xml:space="preserve">
     <value>İade</value>
   </data>
@@ -1538,6 +1509,9 @@ Hesap</value>
   <data name="Flat" xml:space="preserve">
     <value>Düz</value>
   </data>
+  <data name="Discount" xml:space="preserve">
+    <value>İskonto</value>
+  </data>
   <data name="DiscountPercentSign" xml:space="preserve">
     <value>% İskonto</value>
   </data>
@@ -1567,12 +1541,6 @@ Hesap</value>
   </data>
   <data name="CanUpdateExtraModifiers" xml:space="preserve">
     <value>Ekstra özellik girebilir</value>
-  </data>
-  <data name="CanGetPayment" xml:space="preserve">
-    <value>Ödeme alabilir</value>
-  </data>
-  <data name="CanGetFastPayment" xml:space="preserve">
-    <value>Hızlı ödeme alabilir</value>
   </data>
   <data name="CanMakeDiscount" xml:space="preserve">
     <value>İskonto yapabilir</value>
@@ -2148,9 +2116,6 @@ Yer: {2}</value>
   <data name="DisplayPopup" xml:space="preserve">
     <value>Popup Görüntüle</value>
   </data>
-  <data name="DeleteErrorInventoryItemUsedInEndOfDayRecord" xml:space="preserve">
-    <value>Bu Stok Kartını bir gün sonu dökümanında kullanıldığı için silemezsiniz.</value>
-  </data>
   <data name="Rules" xml:space="preserve">
     <value>Kurallar</value>
   </data>
@@ -2177,9 +2142,6 @@ Yer: {2}</value>
   </data>
   <data name="UserLogout" xml:space="preserve">
     <value>Kullanıcı Çıktı</value>
-  </data>
-  <data name="TicketCreated" xml:space="preserve">
-    <value>Adisyon Açıldı</value>
   </data>
   <data name="TicketTagSelected" xml:space="preserve">
     <value>Adisyon Etiketi Seçildi</value>
@@ -2699,9 +2661,6 @@ Borçlandır</value>
   <data name="RoundingTotal" xml:space="preserve">
     <value>Yuvarlama Toplamı</value>
   </data>
-  <data name="ChooseLocationScreensForTicketTemplate_f" xml:space="preserve">
-    <value>{0} şablonunda kullanmak istediğiniz yer şablonlarını seçiniz.</value>
-  </data>
   <data name="ChooseCalculationsForTicketTemplate_f" xml:space="preserve">
     <value>{0} şablunda kullanmak istediğiniz hesaplama şablonlarını seçiniz.</value>
   </data>
@@ -2850,12 +2809,6 @@ Bilgi eklemeden devam etmek istiyor musunuz?</value>
   <data name="RemoveGiftTagWhenVoided" xml:space="preserve">
     <value>İade yapıldığında İkram etiketini kaldır</value>
   </data>
-  <data name="LocationScreen" xml:space="preserve">
-    <value>Yer Görünümü</value>
-  </data>
-  <data name="LocationScreens" xml:space="preserve">
-    <value>Yer Görünümleri</value>
-  </data>
   <data name="OrderTagTemplate" xml:space="preserve">
     <value>Sipariş Etiketi Şablonu</value>
   </data>
@@ -2894,6 +2847,9 @@ Bilgi eklemeden devam etmek istiyor musunuz?</value>
   </data>
   <data name="New_f" xml:space="preserve">
     <value>Yeni {0}</value>
+  </data>
+  <data name="Create_f">
+    <value xml:space="preserve">{0} Oluştur</value>
   </data>
   <data name="CustomFieldName" xml:space="preserve">
     <value>Özel Alan Adı</value>
@@ -2960,5 +2916,8 @@ Bilgi eklemeden devam etmek istiyor musunuz?</value>
   </data>
   <data name="Order">
     <value xml:space="preserve">Sipariş</value>
+  </data>
+  <data name="GeneralSettings">
+    <value xml:space="preserve">Geneal Ayarlar</value>
   </data>
 </root>

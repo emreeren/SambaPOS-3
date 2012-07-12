@@ -6,11 +6,10 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class TicketTagValue : Value
+    public class TicketTagValue
     {
-        public int TicketId { get; set; }
         public string TagName { get; set; }
+        public string TagNameShort { get { return string.Join("", TagName.Where(char.IsUpper)); } }
         public string TagValue { get; set; }
-        public DateTime DateTime { get; set; }
     }
 }

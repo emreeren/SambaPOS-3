@@ -49,13 +49,13 @@ namespace Samba.Modules.AccountModule
 
         private void OnCancel(string obj)
         {
-            CommonEventPublisher.PublishEntityOperation(SelectedAccount, EventTopicNames.DisplayAccountTransactions);
+            CommonEventPublisher.PublishEntityOperation(new AccountData { AccountId = SelectedAccount.Id }, EventTopicNames.DisplayAccountTransactions);
         }
 
         private void OnSave(string obj)
         {
             _accountService.CreateNewTransactionDocument(SelectedAccount, DocumentTemplate, Description, Amount);
-            CommonEventPublisher.PublishEntityOperation(SelectedAccount, EventTopicNames.DisplayAccountTransactions);
+            CommonEventPublisher.PublishEntityOperation(new AccountData { AccountId = SelectedAccount.Id }, EventTopicNames.DisplayAccountTransactions);
         }
 
     }

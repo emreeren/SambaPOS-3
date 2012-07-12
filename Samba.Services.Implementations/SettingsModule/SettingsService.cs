@@ -169,8 +169,6 @@ namespace Samba.Services.Implementations.SettingsModule
                 return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Numerator, Resources.TicketTemplate);
             if (Dao.Exists<TicketTemplate>(x => x.TicketNumerator.Id == model.Id))
                 return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Numerator, Resources.TicketTemplate);
-            if (Dao.Exists<TicketTagGroup>(x => x.Numerator.Id == model.Id))
-                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Numerator, Resources.TicketTagGroup);
             return "";
         }
     }

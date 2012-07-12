@@ -128,7 +128,7 @@ namespace Samba.Modules.ModifierModule
             }
             else
             {
-                ticketTags = _applicationState.CurrentDepartment.TicketTemplate.TicketTagGroups.Where(
+                ticketTags = _cacheService.GetTicketTagGroups().Where(
                        x => x.Name == tagGroup.Name).SelectMany(x => x.TicketTags).ToList();
             }
 

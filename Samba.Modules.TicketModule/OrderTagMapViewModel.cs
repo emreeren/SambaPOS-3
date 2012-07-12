@@ -1,24 +1,23 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Samba.Domain.Models.Tickets;
-using Samba.Presentation.Common;
+using Samba.Presentation.ViewModels;
 using Samba.Services;
 
 namespace Samba.Modules.TicketModule
 {
-    public class OrderTagMapViewModel : ObservableObject
+    public class OrderTagMapViewModel : AbstractMapViewModel
     {
         protected internal OrderTagMap Model { get; set; }
         private const string NullLabel = "*";
         private readonly IMenuService _menuService;
 
-        public OrderTagMapViewModel(OrderTagMap model, IMenuService menuService)
+        public OrderTagMapViewModel(OrderTagMap model, IMenuService menuService, IUserService userService, IDepartmentService departmentService)
+            : base(model, userService, departmentService)
         {
             _menuService = menuService;
             Model = model;
         }
-
-        public int Id { get { return Model.Id; } }
 
         public string MenuItemGroupCodeLabel
         {

@@ -18,7 +18,7 @@ namespace Samba.Modules.DepartmentModule
         {
             _departmentService = departmentService;
             _regionManager = regionManager;
-            AddDashboardCommand<DepartmentListViewModel>(Resources.Departments, Resources.Settings);
+            AddDashboardCommand<DepartmentListViewModel>(Resources.Departments, Resources.Settings,20);
             PermissionRegistry.RegisterPermission(PermissionNames.ChangeDepartment, PermissionCategories.Department, Resources.CanChangeDepartment);
 
             foreach (var department in _departmentService.GetDepartments())

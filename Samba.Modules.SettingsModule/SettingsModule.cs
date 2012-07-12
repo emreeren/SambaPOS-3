@@ -13,10 +13,10 @@ namespace Samba.Modules.SettingsModule
         [ImportingConstructor]
         public SettingsModule()
         {
-            AddDashboardCommand<SettingsViewModel>(Resources.LocalSettings, Resources.Settings);
-            AddDashboardCommand<TerminalListViewModel>(Resources.Terminals, Resources.Settings);
-            AddDashboardCommand<EntityCollectionViewModelBase<NumeratorViewModel, Numerator>>(Resources.Numerators, Resources.Settings);
-            AddDashboardCommand<ProgramSettingsViewModel>(Resources.ProgramSettings, Resources.Settings, 10);
+            AddDashboardCommand<SettingsViewModel>(Resources.LocalSettings, Resources.Settings, 20);
+            AddDashboardCommand<TerminalListViewModel>(Resources.Terminals, Resources.Settings, 20);
+            AddDashboardCommand<EntityCollectionViewModelBase<NumeratorViewModel, Numerator>>(Resources.Numerators, Resources.Settings, 20);
+            AddDashboardCommand<ProgramSettingsViewModel>(Resources.ProgramSettings, Resources.Settings, 20);
             AddDashboardCommand<BrowserViewModel>(Resources.SambaPosWebsite, Resources.SambaNetwork, 99);
         }
 

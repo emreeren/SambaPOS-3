@@ -34,22 +34,6 @@
                              ItemsSource="{Binding Printers}" DisplayMemberPath="Name" />
                     </UniformGrid>
                 </GroupBox>
-                <StackPanel Orientation="Horizontal">
-                    <Label>
-                        <LocText ResourceIdentifierKey="PrintJobs" Suffix=":"/>
-                    </Label>
-                    <TextBlock Margin="5">
-                        <Hyperlink Command="{Binding SelectPrintJobsCommand}">
-                            <TextBlock Text="{Binding Path=SelectPrintJobsCommand.Caption}" />
-                        </Hyperlink>
-                    </TextBlock>
-                </StackPanel>
-                <Border VerticalAlignment="Stretch" BorderBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}"
-                     BorderThickness="1" MinWidth="150" HorizontalAlignment="Left">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">
-                        <ListBox ItemsSource="{Binding PrintJobs}" DisplayMemberPath="Name" MinHeight="150" BorderThickness="0" />
-                    </ScrollViewer>
-                </Border>
                 <Button HorizontalAlignment="Left" Margin="0,10" MinWidth="70" Content="{Binding SaveCommand.Caption}"
                      Command="{Binding SaveCommand}" />
                 <Label Content="{Binding Error}" Foreground="Red" />

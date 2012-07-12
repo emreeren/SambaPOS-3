@@ -2,10 +2,11 @@
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
+using Samba.Presentation.Common;
 
 namespace Samba.Presentation.ViewModels
 {
-    public class ServiceViewModel
+    public class ServiceViewModel : ObservableObject
     {
         public Calculation Model { get; set; }
 
@@ -14,14 +15,30 @@ namespace Samba.Presentation.ViewModels
             Model = model;
         }
 
-        public string Name { get { return Model.Name; } }
-        
+        public string Name { get { return Model.Name + " " + Description; } }
+
+        public string Description
+        {
+            get
+            {
+                if (Model.CalculationType < 3)
+                    return (Model.Amount / 100).ToString("#,#0.##%");
+                return "";
+            }
+        }
+
         public string Amount
         {
             get
             {
                 return (Model.CalculationAmount).ToString(LocalSettings.DefaultCurrencyFormat);
             }
+        }
+
+        public void Refresh()
+        {
+            RaisePropertyChanged(() => Amount);
+            RaisePropertyChanged(() => Description);
         }
     }
 }

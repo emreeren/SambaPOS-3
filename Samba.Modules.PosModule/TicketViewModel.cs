@@ -1,231 +1,541 @@
-ï»¿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Collections.ObjectModel;
-using System.Windows.Data;
-using Samba.Domain.Models.Accounts;
+using System.ComponentModel.Composition;
+using System.Linq;
+using Microsoft.Practices.Prism.Commands;
+using Microsoft.Practices.Prism.Events;
+using Samba.Domain.Models.Menus;
+using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
+using Samba.Presentation.Common.Interaction;
+using Samba.Presentation.Common.Services;
 using Samba.Presentation.ViewModels;
 using Samba.Services;
 using Samba.Services.Common;
 
 namespace Samba.Modules.PosModule
 {
+    [Export]
     public class TicketViewModel : ObservableObject
     {
-        private readonly Ticket _model;
-        private readonly TicketTemplate _ticketTemplate;
-        private readonly bool _forcePayment;
         private readonly ITicketService _ticketService;
-        private readonly IAutomationService _automationService;
+        private readonly IUserService _userService;
         private readonly IApplicationState _applicationState;
+        private readonly IAutomationService _automationService;
+        private readonly ICacheService _cacheService;
+        private readonly TicketOrdersViewModel _ticketOrdersViewModel;
+        private readonly TicketTotalsViewModel _totals;
 
-        public TicketViewModel(Ticket model, TicketTemplate ticketTemplate, bool forcePayment,
-            ITicketService ticketService, IAutomationService automationService,
-            IApplicationState applicationState)
+        public CaptionCommand<string> PrintTicketCommand { get; set; }
+        public CaptionCommand<string> PrintInvoiceCommand { get; set; }
+        public CaptionCommand<string> MoveOrdersCommand { get; set; }
+
+        public ICaptionCommand IncQuantityCommand { get; set; }
+        public ICaptionCommand DecQuantityCommand { get; set; }
+        public ICaptionCommand IncSelectionQuantityCommand { get; set; }
+        public ICaptionCommand DecSelectionQuantityCommand { get; set; }
+        public ICaptionCommand ShowTicketTagsCommand { get; set; }
+        public ICaptionCommand ShowOrderTagsCommand { get; set; }
+        public ICaptionCommand CancelItemCommand { get; set; }
+        public ICaptionCommand EditTicketNoteCommand { get; set; }
+        public ICaptionCommand RemoveTicketLockCommand { get; set; }
+        public ICaptionCommand RemoveTicketTagCommand { get; set; }
+        public ICaptionCommand ChangePriceCommand { get; set; }
+
+        public DelegateCommand<ResourceTemplate> SelectResourceCommand { get; set; }
+        public DelegateCommand<CommandContainerButton> ExecuteAutomationCommnand { get; set; }
+
+        private ObservableCollection<ResourceButton> _resourceButtons;
+        public ObservableCollection<ResourceButton> ResourceButtons
+        {
+            get
+            {
+                if (_resourceButtons == null && SelectedDepartment != null)
+                {
+                    _resourceButtons = new ObservableCollection<ResourceButton>(
+                        SelectedDepartment.ResourceScreens
+                        .OrderBy(x => x.Order)
+                        .Select(x => _cacheService.GetResourceTemplateById(x.ResourceTemplateId))
+                        .Distinct()
+                        .Select(x => new ResourceButton(x, SelectedTicket)));
+                }
+                return _resourceButtons;
+            }
+        }
+
+        public ObservableCollection<ICaptionCommand> CustomOrderCommands { get { return PresentationServices.OrderCommands; } }
+        public ObservableCollection<ICaptionCommand> CustomTicketCommands { get { return PresentationServices.TicketCommands; } }
+
+
+        private Ticket _selectedTicket;
+        public Ticket SelectedTicket
+        {
+            get { return _selectedTicket; }
+            set
+            {
+                _resourceButtons = null;
+                _automationCommands = null;
+                _selectedTicket = value ?? Ticket.Empty;
+                _totals.Model = _selectedTicket;
+                _ticketOrdersViewModel.SelectedTicket = _selectedTicket;
+                _ticketInfo.SelectedTicket = _selectedTicket;
+                _paymentButtonViewModel.SelectedTicket = _selectedTicket;
+                RaisePropertyChanged(() => ResourceButtons);
+                RaisePropertyChanged(() => AutomationCommands);
+            }
+        }
+
+        private readonly TicketInfoViewModel _ticketInfo;
+        private readonly PaymentButtonViewModel _paymentButtonViewModel;
+        public TicketInfoViewModel TicketInfo { get { return _ticketInfo; } }
+
+        public IList<Order> SelectedOrders { get { return _ticketOrdersViewModel.SelectedOrderModels; } }
+
+        public Order SelectedOrder
+        {
+            get
+            {
+                return _ticketOrdersViewModel != null && SelectedOrders.Count == 1 ? SelectedOrders[0] : null;
+            }
+        }
+
+        public Department SelectedDepartment
+        {
+            get { return _applicationState.CurrentDepartment != null ? _applicationState.CurrentDepartment.Model : null; }
+        }
+
+        public bool IsItemsSelected { get { return SelectedOrders.Count() > 0; } }
+        public bool IsItemsSelectedAndUnlocked { get { return SelectedOrders.Count() > 0 && SelectedOrders.Count(x => x.Locked) == 0; } }
+        public bool IsItemsSelectedAndLocked { get { return SelectedOrders.Count() > 0 && SelectedOrders.Count(x => !x.Locked) == 0; } }
+        public bool IsNothingSelected { get { return SelectedOrders.Count() == 0; } }
+        public bool IsNothingSelectedAndTicketLocked { get { return SelectedOrders.Count() == 0 && SelectedTicket.Locked; } }
+        public bool IsNothingSelectedAndTicketTagged { get { return SelectedOrders.Count() == 0 && SelectedTicket.IsTagged; } }
+        public bool IsTicketSelected { get { return SelectedTicket != Ticket.Empty; } }
+
+        public OrderViewModel LastSelectedOrder { get; set; }
+
+        private IEnumerable<CommandContainerButton> _automationCommands;
+        public IEnumerable<CommandContainerButton> AutomationCommands
+        {
+            get
+            {
+                return _automationCommands ?? (_automationCommands = _cacheService.GetAutomationCommands().Select(x => new CommandContainerButton(x, SelectedTicket)));
+            }
+        }
+
+        public IEnumerable<TicketTagButton> TicketTagButtons
+        {
+            get
+            {
+                return _applicationState.CurrentDepartment != null
+                    ? _cacheService.GetTicketTagGroups()
+                    .OrderBy(x => x.Order)
+                    .Select(x => new TicketTagButton(x, SelectedTicket))
+                    : null;
+            }
+        }
+
+        public IEnumerable<OrderTagGroupButton> OrderTagButtons
+        {
+            get
+            {
+                if (SelectedOrders.Count() > 0)
+                {
+                    return _cacheService.GetOrderTagGroupsForItems(SelectedOrders.Select(x => x.MenuItemId))
+                        .Where(x => !string.IsNullOrEmpty(x.ButtonHeader))
+                        .Select(x => new OrderTagGroupButton(x));
+                }
+                return null;
+            }
+        }
+
+        [ImportingConstructor]
+        public TicketViewModel(IApplicationState applicationState,
+            ITicketService ticketService, IAccountService accountService, IResourceService locationService, IUserService userService,
+            IAutomationService automationService, ICacheService cacheService, TicketOrdersViewModel ticketOrdersViewModel,
+            TicketTotalsViewModel totals, TicketInfoViewModel ticketInfoViewModel, PaymentButtonViewModel paymentButtonViewModel)
         {
             _ticketService = ticketService;
-            _forcePayment = forcePayment;
-            _model = model;
-            _ticketTemplate = ticketTemplate;
-            _automationService = automationService;
+            _userService = userService;
             _applicationState = applicationState;
+            _automationService = automationService;
+            _cacheService = cacheService;
+            _ticketOrdersViewModel = ticketOrdersViewModel;
+            _totals = totals;
+            _ticketInfo = ticketInfoViewModel;
+            _paymentButtonViewModel = paymentButtonViewModel;
 
-            _orders = new ObservableCollection<OrderViewModel>(model.Orders.Select(x => new OrderViewModel(x, ticketTemplate, _automationService)).OrderBy(x => x.Model.CreatedDateTime));
-            _itemsViewSource = new CollectionViewSource { Source = _orders };
-            _itemsViewSource.GroupDescriptions.Add(new PropertyGroupDescription("GroupObject"));
+            SelectResourceCommand = new DelegateCommand<ResourceTemplate>(OnSelectResource, CanSelectResource);
+            ExecuteAutomationCommnand = new DelegateCommand<CommandContainerButton>(OnExecuteAutomationCommand, CanExecuteAutomationCommand);
 
-            SelectAllItemsCommand = new CaptionCommand<string>("", OnSelectAllItemsExecute);
+            IncQuantityCommand = new CaptionCommand<string>("+", OnIncQuantityCommand, CanIncQuantity);
+            DecQuantityCommand = new CaptionCommand<string>("-", OnDecQuantityCommand, CanDecQuantity);
+            IncSelectionQuantityCommand = new CaptionCommand<string>("(+)", OnIncSelectionQuantityCommand, CanIncSelectionQuantity);
+            DecSelectionQuantityCommand = new CaptionCommand<string>("(-)", OnDecSelectionQuantityCommand, CanDecSelectionQuantity);
+            ShowTicketTagsCommand = new CaptionCommand<TicketTagGroup>(Resources.Tag, OnShowTicketsTagExecute, CanExecuteShowTicketTags);
+            ShowOrderTagsCommand = new CaptionCommand<OrderTagGroup>(Resources.Tag, OnShowOrderTagsExecute, CanShowOrderTagsExecute);
+            CancelItemCommand = new CaptionCommand<string>(Resources.Cancel, OnCancelItemCommand, CanCancelSelectedItems);
+            MoveOrdersCommand = new CaptionCommand<string>(Resources.MoveTicketLine, OnMoveOrders, CanMoveOrders);
+            EditTicketNoteCommand = new CaptionCommand<string>(Resources.TicketNote, OnEditTicketNote, CanEditTicketNote);
+            RemoveTicketLockCommand = new CaptionCommand<string>(Resources.ReleaseLock, OnRemoveTicketLock, CanRemoveTicketLock);
+            ChangePriceCommand = new CaptionCommand<string>(Resources.ChangePrice, OnChangePrice, CanChangePrice);
 
-            PrintJobButtons = _applicationState.CurrentTerminal.PrintJobs
-                .Where(x => (!string.IsNullOrEmpty(x.ButtonHeader))
-                    && (x.PrinterMaps.Count(y => y.DepartmentId == 0 || y.DepartmentId == model.DepartmentId) > 0))
-                .OrderBy(x => x.Order)
-                .Select(x => new PrintJobButton(x, Model));
+            EventServiceFactory.EventService.GetEvent<GenericEvent<OrderViewModel>>().Subscribe(OnSelectedOrdersChanged);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<TicketTagData>>().Subscribe(OnTagSelected);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnRefreshTicket);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<PopupData>>().Subscribe(OnAccountSelectedFromPopup);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<OrderTagData>>().Subscribe(OnOrderTagEvent);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<MenuItemPortion>>().Subscribe(OnPortionSelected);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<Department>>().Subscribe(OnDepartmentChanged);
 
-            if (PrintJobButtons.Count(x => x.Model.UseForPaidTickets) > 0)
+            SelectedTicket = Ticket.Empty;
+        }
+
+        private bool CanExecuteAutomationCommand(CommandContainerButton arg)
+        {
+            return arg.IsEnabled && SelectedTicket.Orders.Count > 0;
+        }
+
+        private void OnExecuteAutomationCommand(CommandContainerButton obj)
+        {
+            _automationService.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new { Ticket = SelectedTicket, AutomationCommandName = obj.Name });
+        }
+
+        private void OnDepartmentChanged(EventParameters<Department> obj)
+        {
+            _resourceButtons = null;
+            RaisePropertyChanged(() => ResourceButtons);
+        }
+
+        private void ClearSelectedItems()
+        {
+            _ticketOrdersViewModel.ClearSelectedOrders();
+            RefreshSelectedItems();
+        }
+
+        private bool CanSelectResource(ResourceTemplate arg)
+        {
+            return _applicationState.CurrentDepartment.ResourceScreens.Any(x => x.ResourceTemplateId == arg.Id);
+        }
+
+        private void OnSelectResource(ResourceTemplate obj)
+        {
+            var ticketResource = SelectedTicket.TicketResources.SingleOrDefault(x => x.ResourceTemplateId == obj.Id);
+            var selectedResource = ticketResource != null ? _cacheService.GetResourceById(ticketResource.ResourceId) : Resource.GetNullResource(obj.Id);
+            EntityOperationRequest<Resource>.Publish(selectedResource, EventTopicNames.SelectResource, EventTopicNames.ResourceSelected);
+        }
+
+        private void OnPortionSelected(EventParameters<MenuItemPortion> obj)
+        {
+            if (obj.Topic == EventTopicNames.PortionSelected)
             {
-                PrintJobButtons = IsPaid
-                    ? PrintJobButtons.Where(x => x.Model.UseForPaidTickets)
-                    : PrintJobButtons.Where(x => !x.Model.UseForPaidTickets);
+                var taxTemplate = _cacheService.GetMenuItem(x => x.Id == obj.Value.MenuItemId).TaxTemplate;
+                SelectedOrder.UpdatePortion(obj.Value, _applicationState.CurrentDepartment.PriceTag, taxTemplate);
             }
         }
 
-        private void OnSelectAllItemsExecute(string obj)
+        private void OnOrderTagEvent(EventParameters<OrderTagData> obj)
         {
-            foreach (var order in Orders.Where(x => x.OrderNumber == obj))
-                order.ToggleSelection();
+            if (obj.Topic == EventTopicNames.OrderTagSelected)
+            {
+                _ticketOrdersViewModel.FixSelectedItems();
+                _ticketOrdersViewModel.SelectedOrders.ToList().ForEach(x =>
+                    x.ToggleOrderTag(obj.Value.OrderTagGroup, obj.Value.SelectedOrderTag, _applicationState.CurrentLoggedInUser.Id));
+                if (!string.IsNullOrEmpty(obj.Value.OrderTagGroup.ButtonHeader) && obj.Value.OrderTagGroup.IsSingleSelection)
+                    ClearSelectedItems();
+                RefreshVisuals();
+            }
+        }
+
+        private void OnRefreshTicket(EventParameters<EventAggregator> obj)
+        {
+
+            if (obj.Topic == EventTopicNames.UnlockTicketRequested)
+            {
+                OnRemoveTicketLock("");
+            }
+
+            if (obj.Topic == EventTopicNames.ActivatePosView)
+            {
+                RefreshVisuals();
+                _ticketInfo.Refresh();
+                RefreshSelectedItems();
+            }
+
+            if (obj.Topic == EventTopicNames.RefreshSelectedTicket)
+            {
+                RefreshVisuals();
+            }
+        }
+
+        private void OnAccountSelectedFromPopup(EventParameters<PopupData> obj)
+        {
+            if (obj.Value.EventMessage == EventTopicNames.SelectResource)
+            {
+                //todo fix (caller id popupuna týklandýðýnda adisyon açan metod)
+
+                //var dep = AppServices.MainDataContext.Departments.FirstOrDefault(y => y.IsTakeAway);
+                //if (dep != null)
+                //{
+                //    UpdateSelectedDepartment(dep.Id);
+                //    SelectedTicketView = OpenTicketListView;
+                //}
+                //if (SelectedDepartment == null)
+                //    SelectedDepartment = AppServices.MainDataContext.Departments.FirstOrDefault();
+                RefreshVisuals();
+            }
+        }
+
+
+
+
+
+        private void OnTagSelected(EventParameters<TicketTagData> obj)
+        {
+            if (obj.Topic == EventTopicNames.TagSelectedForSelectedTicket)
+            {
+                //if (obj.Value.TicketTagGroup != null && obj.Value.TicketTagGroup.Action == 1 && CanCloseTicket(""))
+                //    CloseTicketCommand.Execute("");
+                //if (obj.Value.TicketTagGroup != null && obj.Value.TicketTagGroup.Action == 2 && CanMakePayment(""))
+                //    MakePaymentCommand.Execute("");
+                //else
+                //{
+                RefreshVisuals();
+            }
+        }
+
+        private void OnSelectedOrdersChanged(EventParameters<OrderViewModel> obj)
+        {
+            if (obj.Topic == EventTopicNames.SelectedOrdersChanged)
+            {
+                LastSelectedOrder = obj.Value.Selected ? obj.Value : null;
+                if (SelectedOrders.Count() == 0) LastSelectedOrder = null;
+                _ticketOrdersViewModel.UpdateLastSelectedOrder(LastSelectedOrder);
+
+                RefreshSelectedItems();
+
+                var so = new SelectedOrdersData { SelectedOrders = SelectedOrders, Ticket = SelectedTicket };
+                so.PublishEvent(EventTopicNames.SelectedOrdersChanged);
+            }
+        }
+
+        private bool CanExecuteShowTicketTags(TicketTagGroup arg)
+        {
+            return SelectedTicket.CanSubmit;
+        }
+
+        private void OnShowTicketsTagExecute(TicketTagGroup tagGroup)
+        {
+            if (SelectedTicket == Ticket.Empty)
+            {
+                tagGroup.PublishEvent(EventTopicNames.ActivateTicketList);
+                return;
+            }
+            var ticketTagData = new TicketTagData
+                                    {
+                                        TicketTagGroup = tagGroup,
+                                        Ticket = SelectedTicket
+                                    };
+            ticketTagData.PublishEvent(EventTopicNames.SelectTicketTag);
+        }
+
+        private void OnShowOrderTagsExecute(OrderTagGroup orderTagGroup)
+        {
+            var orderTagData = new OrderTagData
+                                   {
+                                       SelectedOrders = SelectedOrders,
+                                       OrderTagGroup = orderTagGroup,
+                                       Ticket = SelectedTicket
+                                   };
+            orderTagData.PublishEvent(EventTopicNames.SelectOrderTag);
+        }
+
+        private bool CanShowOrderTagsExecute(OrderTagGroup arg)
+        {
+            if (SelectedOrders.Count() == 0) return false;
+            if (!arg.DecreaseOrderInventory && SelectedOrders.Any(x => !x.Locked && !x.IsTaggedWith(arg))) return false;
+            if (SelectedOrders.Any(x => !x.DecreaseInventory && !x.IsTaggedWith(arg))) return false;
+            return !arg.UnlocksOrder || !SelectedOrders.Any(x => x.Locked && x.OrderTagValues.Count(y => y.OrderTagGroupId == arg.Id) > 0);
+        }
+
+        private bool CanChangePrice(string arg)
+        {
+            return !SelectedTicket.Locked
+                && SelectedTicket.CanSubmit
+                && SelectedOrder != null
+                && (SelectedOrder.Price == 0 || _userService.IsUserPermittedFor(PermissionNames.ChangeItemPrice));
+        }
+
+        private void OnChangePrice(string obj)
+        {
+            decimal price;
+            decimal.TryParse(AppServices.MainDataContext.NumeratorValue, out price);
+            if (price <= 0)
+            {
+                InteractionService.UserIntraction.GiveFeedback(Resources.ForChangingPriceTypeAPrice);
+            }
+            else
+            {
+                SelectedOrder.UpdatePrice(price, SelectedDepartment.PriceTag);
+            }
+            ClearSelectedItems();
+            EventServiceFactory.EventService.PublishEvent(EventTopicNames.ResetNumerator);
+        }
+
+
+
+        private bool CanRemoveTicketLock(string arg)
+        {
+            return SelectedTicket.Locked &&
+                   _userService.IsUserPermittedFor(PermissionNames.AddItemsToLockedTickets);
+        }
+
+        private void OnRemoveTicketLock(string obj)
+        {
+            SelectedTicket.Locked = false;
+            _ticketOrdersViewModel.Refresh();
+            _automationCommands = null;
             RefreshVisuals();
-            var so = new SelectedOrdersData { SelectedOrders = SelectedOrders.Select(x => x.Model), Ticket = Model };
-            so.PublishEvent(EventTopicNames.SelectedOrdersChanged);
         }
 
-        public Ticket Model
+        private void OnMoveOrders(string obj)
         {
-            get { return _model; }
+            SelectedTicket.PublishEvent(EventTopicNames.MoveSelectedOrders);
         }
 
-        private readonly ObservableCollection<OrderViewModel> _orders;
-        public ObservableCollection<OrderViewModel> Orders
+        private bool CanMoveOrders(string arg)
         {
-            get { return _orders; }
+            if (SelectedTicket.Locked) return false;
+            if (!SelectedTicket.CanRemoveSelectedOrders(SelectedOrders)) return false;
+            if (SelectedOrders.Any(x => x.Id == 0)) return false;
+            if (SelectedOrders.Any(x => !x.Locked) && _userService.IsUserPermittedFor(PermissionNames.MoveUnlockedOrders)) return true;
+            return _userService.IsUserPermittedFor(PermissionNames.MoveOrders);
         }
 
-        private CollectionViewSource _itemsViewSource;
-        public CollectionViewSource ItemsViewSource
+        private bool CanEditTicketNote(string arg)
         {
-            get { return _itemsViewSource; }
-            set { _itemsViewSource = value; }
+            return !SelectedTicket.IsPaid;
         }
 
-        public ObservableCollection<OrderViewModel> SelectedOrders
+        private void OnEditTicketNote(string obj)
         {
-            get { return new ObservableCollection<OrderViewModel>(Orders.Where(x => x.Selected)); }
+            SelectedTicket.PublishEvent(EventTopicNames.EditTicketNote);
         }
 
-        public IEnumerable<PrintJobButton> PrintJobButtons { get; set; }
-
-        public ICaptionCommand SelectAllItemsCommand { get; set; }
-
-        public DateTime Date
+        private void OnDecQuantityCommand(string obj)
         {
-            get { return Model.Date; }
-            set { Model.Date = value; }
+            LastSelectedOrder.Quantity--;
         }
 
-        public int Id
+        private void OnIncQuantityCommand(string obj)
         {
-            get { return Model.Id; }
+            LastSelectedOrder.Quantity++;
         }
 
-        public string Note
+        private bool CanDecQuantity(string arg)
         {
-            get { return Model.Note; }
-            set { Model.Note = value; RaisePropertyChanged(() => Note); }
+            return LastSelectedOrder != null &&
+                   LastSelectedOrder.Quantity > 1 &&
+                   !LastSelectedOrder.IsLocked;
         }
 
-        public string TagDisplay { get { return Model.GetTagData().Split('\r').Select(x => !string.IsNullOrEmpty(x) && x.Contains(":") && x.Split(':')[0].Trim() == x.Split(':')[1].Trim() ? x.Split(':')[0] : x).Aggregate("", (c, v) => c + v + "\r").Trim('\r'); } }
-
-        public bool IsTicketNoteVisible { get { return !string.IsNullOrEmpty(Note); } }
-
-        public bool IsPaid { get { return Model.IsPaid; } }
-
-        public string TicketCreationDate
+        private bool CanIncQuantity(string arg)
         {
-            get
-            {
-                if (IsPaid) return Model.Date.ToString();
-                var time = new TimeSpan(DateTime.Now.Ticks - Model.Date.Ticks).TotalMinutes.ToString("#");
-
-                return !string.IsNullOrEmpty(time)
-                    ? string.Format(Resources.TicketTimeDisplay_f, Model.Date.ToShortTimeString(), time)
-                    : Model.Date.ToShortTimeString();
-            }
+            return LastSelectedOrder != null &&
+                   !LastSelectedOrder.IsLocked;
         }
 
-        public string TicketLastOrderDate
+        private bool CanDecSelectionQuantity(string arg)
         {
-            get
-            {
-                if (IsPaid) return Model.LastOrderDate.ToString();
-                var time = new TimeSpan(DateTime.Now.Ticks - Model.LastOrderDate.Ticks).TotalMinutes.ToString("#");
-                return !string.IsNullOrEmpty(time)
-                    ? string.Format(Resources.TicketTimeDisplay_f, Model.LastOrderDate.ToShortTimeString(), time)
-                    : Model.LastOrderDate.ToShortTimeString();
-            }
+            return LastSelectedOrder != null &&
+                   LastSelectedOrder.Quantity > 1 &&
+                   LastSelectedOrder.IsLocked;
         }
 
-        public string TicketLastPaymentDate
+        private void OnDecSelectionQuantityCommand(string obj)
         {
-            get
-            {
-                if (!IsPaid) return Model.LastPaymentDate != Model.Date ? Model.LastPaymentDate.ToShortTimeString() : "-";
-                var time = new TimeSpan(Model.LastPaymentDate.Ticks - Model.Date.Ticks).TotalMinutes.ToString("#");
-                return !string.IsNullOrEmpty(time)
-                    ? string.Format(Resources.TicketTimeDisplay_f, Model.LastPaymentDate, time)
-                    : Model.LastPaymentDate.ToString();
-            }
+            LastSelectedOrder.DecSelectedQuantity();
         }
 
-        public bool IsTicketTimeVisible { get { return Model.Id != 0; } }
-        //public bool IsLastPaymentDateVisible { get { return Model.Payments.Count > 0; } }
-        public bool IsLastPaymentDateVisible { get { return false; } }
-        public bool IsLastOrderDateVisible
+        private bool CanIncSelectionQuantity(string arg)
         {
-            get
-            {
-                return Model.Orders.Count > 1 && Model.Orders[Model.Orders.Count - 1].OrderNumber != 0 &&
-                    Model.Orders[0].OrderNumber != Model.Orders[Model.Orders.Count - 1].OrderNumber;
-            }
+            return LastSelectedOrder != null &&
+                   LastSelectedOrder.Quantity > 1 &&
+                   LastSelectedOrder.IsLocked;
         }
 
-        public void ClearSelectedItems()
+        private void OnIncSelectionQuantityCommand(string obj)
         {
-            foreach (var item in Orders)
-                item.NotSelected();
+            LastSelectedOrder.IncSelectedQuantity();
+        }
 
-            RefreshVisuals();
-            var so = new SelectedOrdersData { SelectedOrders = SelectedOrders.Select(x => x.Model), Ticket = Model };
-            so.PublishEvent(EventTopicNames.SelectedOrdersChanged);
+        private bool CanCancelSelectedItems(string arg)
+        {
+            return _ticketOrdersViewModel.CanCancelSelectedOrders();
+        }
+
+        private void OnCancelItemCommand(string obj)
+        {
+            _ticketOrdersViewModel.CancelSelectedOrders();
+            ClearSelectedItems();
+            _ticketService.RecalculateTicket(SelectedTicket);
+            RefreshSelectedTicket();
+        }
+
+        private string _selectedTicketTitle;
+        public string SelectedTicketTitle
+        {
+            get { return _selectedTicketTitle; }
+            set { _selectedTicketTitle = value; RaisePropertyChanged(() => SelectedTicketTitle); }
+        }
+
+        public void UpdateSelectedTicketTitle()
+        {
+            _totals.Model = SelectedTicket;
+            SelectedTicketTitle = _totals.Title.Trim() == "#" ? Resources.NewTicket : _totals.Title;
+        }
+
+        //private bool CanSelectAccount(string arg)
+        //{
+        //    return (SelectedTicket == null ||
+        //        (SelectedTicket.Orders.Count != 0
+        //        && !SelectedTicket.IsLocked
+        //        && SelectedTicket.Model.CanSubmit));
+        //}
+
+        public bool IsTaggedWith(string tagGroup)
+        {
+            return !string.IsNullOrEmpty(SelectedTicket.GetTagValue(tagGroup));
+        }
+
+        public void RefreshSelectedTicket()
+        {
+            _totals.Refresh();
+            RaisePropertyChanged(() => IsTicketSelected);
+            ExecuteAutomationCommnand.RaiseCanExecuteChanged();
         }
 
         public void RefreshVisuals()
         {
-            RaisePropertyChanged(() => IsTagged);
+            UpdateSelectedTicketTitle();
+            RefreshSelectedTicket();
+            RaisePropertyChanged(() => IsNothingSelectedAndTicketLocked);
+            RaisePropertyChanged(() => IsNothingSelectedAndTicketTagged);
+            RaisePropertyChanged(() => TicketTagButtons);
+            RaisePropertyChanged(() => AutomationCommands);
         }
 
-        public bool CanCancelSelectedItems()
+        public void RefreshSelectedItems()
         {
-            return Model.CanCancelSelectedOrders(SelectedOrders.Select(x => x.Model));
-        }
-
-        public bool CanCloseTicket()
-        {
-            return !_forcePayment || Model.GetRemainingAmount() <= 0 || !string.IsNullOrEmpty(AccountName) || IsTagged || Orders.Count == 0;
-        }
-
-        public int AccountId { get { return Model.AccountId; } }
-        public string AccountName { get { return Model.AccountName; } }
-        public int AccountTemplateId { get { return Model.AccountTemplateId; } }
-
-        public bool IsLocked { get { return Model.Locked; } set { Model.Locked = value; } }
-        public bool IsTagged { get { return Model.IsTagged; } }
-
-        public void FixSelectedItems()
-        {
-            var selectedItems = SelectedOrders.Where(x => x.SelectedQuantity > 0 && x.SelectedQuantity < x.Quantity).ToList();
-            if (selectedItems.Count > 0)
-            {
-                var newItems = _ticketService.ExtractSelectedOrders(Model, selectedItems.Select(x => x.Model));
-                foreach (var newItem in newItems)
-                {
-                    _orders.Add(new OrderViewModel(newItem, _ticketTemplate, _automationService) { Selected = true });
-                }
-                selectedItems.ForEach(x => x.NotSelected());
-            }
-        }
-
-        public string CustomPrintData { get { return Model.PrintJobData; } set { Model.PrintJobData = value; } }
-
-
-
-        public string GetPrintError()
-        {
-            if (Orders.Count(x => x.TotalPrice == 0 && x.Model.CalculatePrice) > 0)
-                return Resources.CantCompleteOperationWhenThereIsZeroPricedProduct;
-            if (!IsPaid && Orders.Count > 0)
-            {
-                var tg = _ticketTemplate.TicketTagGroups.FirstOrDefault(x => x.ForceValue && !IsTaggedWith(x.Name));
-                if (tg != null) return string.Format(Resources.TagCantBeEmpty_f, tg.Name);
-            }
-            return "";
-        }
-
-        public bool IsTaggedWith(string tagGroup)
-        {
-            return !string.IsNullOrEmpty(Model.GetTagValue(tagGroup));
+            RaisePropertyChanged(() => IsItemsSelected);
+            RaisePropertyChanged(() => IsNothingSelected);
+            RaisePropertyChanged(() => IsNothingSelectedAndTicketLocked);
+            RaisePropertyChanged(() => IsItemsSelectedAndUnlocked);
+            RaisePropertyChanged(() => IsItemsSelectedAndLocked);
+            RaisePropertyChanged(() => IsTicketSelected);
+            RaisePropertyChanged(() => OrderTagButtons);
         }
     }
 }

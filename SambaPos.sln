@@ -54,13 +54,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samba.Infrastructure.Data",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samba.Modules.BasicReports", "Samba.Modules.BasicReports\Samba.Modules.BasicReports.csproj", "{4F2C080C-FF9C-4604-8DAF-C5732BC17A05}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A98F9837-6AD7-40F9-8696-7C1B17880AFE}"
-	ProjectSection(SolutionItems) = preProject
-		Local.testsettings = Local.testsettings
-		SambaPos.vsmdi = SambaPos.vsmdi
-		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samba.Modules.NavigationModule", "Samba.Modules.NavigationModule\Samba.Modules.NavigationModule.csproj", "{9497C48E-B9B5-4869-820E-09ECE4347632}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlexButton", "Lib\FlexButton\FlexButton.csproj", "{434D497A-D439-44C8-84A5-5301B572708F}"
@@ -110,9 +103,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samba.Modules.ResourceModule", "Samba.Modules.ResourceModule\Samba.Modules.ResourceModule.csproj", "{666338C4-F765-4CEA-B9C0-A6EBA75C2B41}"
 EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = SambaPos.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -503,7 +493,6 @@ Global
 		{FE1A894E-D55E-4CEA-980A-1C678A2453FC} = {EBD09D7D-66B5-4DA4-ABB3-3F511769CF7D}
 		{04ED7BE0-8768-4A8D-B1ED-C92CB60789EF} = {EBD09D7D-66B5-4DA4-ABB3-3F511769CF7D}
 		{2386F6A0-91B2-4D1A-8DBC-92109924AFFE} = {CCCD8759-7910-4C0A-9989-E92253D94703}
-		{A98F9837-6AD7-40F9-8696-7C1B17880AFE} = {CCCD8759-7910-4C0A-9989-E92253D94703}
 		{B184E8F8-A507-4C3D-B580-184E3776A95C} = {4E2BB083-56B6-4323-9620-3F53F0774609}
 		{A31255F4-E8D8-4D8E-B25A-48FB7ED059F5} = {4E2BB083-56B6-4323-9620-3F53F0774609}
 		{2D64F506-D566-4CA5-A19C-BCB5F9A2E7F4} = {4E2BB083-56B6-4323-9620-3F53F0774609}

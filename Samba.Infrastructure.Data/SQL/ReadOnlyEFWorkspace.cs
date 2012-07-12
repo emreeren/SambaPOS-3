@@ -42,8 +42,16 @@ namespace Samba.Infrastructure.Data.SQL
             return includes.Aggregate(_context.ReadOnly<T>(), (current, include) => current.Include(include)).FirstOrDefault(predictate);
         }
 
-        public IEnumerable<TResult> Select<TSource, TResult>(Expression<Func<TSource, TResult>> expression, Expression<Func<TSource, bool>> predictate) where TSource : class
+        public IEnumerable<TResult> Select<TSource, TResult>(Expression<Func<TSource, TResult>> expression,
+            Expression<Func<TSource, bool>> predictate, params Expression<Func<TSource, object>>[] includes) where TSource : class
         {
+            //if (predictate != null)
+            //    return _context.ReadOnly<TSource>().Where(predictate).Select(expression);
+            //return _context.ReadOnly<TSource>().Select(expression);
+            if (includes != null && predictate != null)
+                return includes.Aggregate(_context.ReadOnly<TSource>(), (current, include) => current.Include(include)).Where(predictate).Select(expression);
+            if (includes != null)
+                return includes.Aggregate(_context.ReadOnly<TSource>(), (current, include) => current.Include(include)).Select(expression);
             if (predictate != null)
                 return _context.ReadOnly<TSource>().Where(predictate).Select(expression);
             return _context.ReadOnly<TSource>().Select(expression);

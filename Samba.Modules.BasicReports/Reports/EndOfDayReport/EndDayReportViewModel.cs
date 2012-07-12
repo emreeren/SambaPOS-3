@@ -161,7 +161,7 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 
                 foreach (var ticket in ReportContext.Tickets.Where(x => x.IsTagged))
                 {
-                    foreach (var tag in ticket.Tags.Select(x => x.TagName + ":" + x.TagValue))
+                    foreach (var tag in ticket.GetTicketTagValues().Select(x => x.TagName + ":" + x.TagValue))
                     {
                         if (!dict.ContainsKey(tag))
                             dict.Add(tag, new List<Ticket>());

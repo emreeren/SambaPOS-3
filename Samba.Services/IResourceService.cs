@@ -6,8 +6,8 @@ namespace Samba.Services
 {
     public interface IResourceService : IService
     {
-        void UpdateResourceScreenItems(ResourceScreen resourceScreen, int pageNo);
-        IEnumerable<ResourceScreenItem> GetCurrentResourceScreenItems(ResourceScreen resourceScreen, int currentPageNo);
+        IEnumerable<ResourceScreenItem> GetCurrentResourceScreenItems(ResourceScreen resourceScreen, int currentPageNo, int resourceStateFilter);
+        IEnumerable<Resource> GetResourcesByState(int resourceStateId, int resourceTemplateId);
         IList<ResourceScreenItem> LoadResourceScreenItems(string selectedResourceScreen);
         void SaveResourceScreenItems();
         int GetResourceScreenItemCount();

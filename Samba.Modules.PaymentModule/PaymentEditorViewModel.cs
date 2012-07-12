@@ -7,7 +7,8 @@ using System.Globalization;
 using System.Linq;
 using System.Windows;
 using Microsoft.Practices.Prism.Commands;
-using Samba.Domain.Models.Settings;
+using Microsoft.Practices.Prism.Events;
+using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
@@ -23,28 +24,26 @@ namespace Samba.Modules.PaymentModule
     public class PaymentEditorViewModel : ObservableObject
     {
         private bool _resetAmount;
-        private readonly IApplicationState _applicationState;
         private readonly ITicketService _ticketService;
-        private readonly ICaptionCommand _manualPrintCommand;
+        private readonly ICacheService _cacheService;
+        private readonly ICaptionCommand _executeAutomationCommand;
         private readonly ICaptionCommand _makePaymentCommand;
         private readonly ICaptionCommand _serviceSelectedCommand;
-        private readonly IPrinterService _printerService;
         private readonly IUserService _userService;
         private readonly IAutomationService _automationService;
 
         [ImportingConstructor]
-        public PaymentEditorViewModel(IApplicationState applicationState, ITicketService ticketService,
-            IPrinterService printerService, IUserService userService, IAutomationService automationService, TicketTotalsViewModel totals)
+        public PaymentEditorViewModel(ITicketService ticketService, ICacheService cacheService,
+            IUserService userService, IAutomationService automationService, TicketTotalsViewModel totals)
         {
-            _applicationState = applicationState;
             _ticketService = ticketService;
-            _printerService = printerService;
+            _cacheService = cacheService;
             _userService = userService;
             _automationService = automationService;
 
-            _manualPrintCommand = new CaptionCommand<PrintJob>(Resources.Print, OnManualPrint, CanManualPrint);
+            _executeAutomationCommand = new CaptionCommand<AutomationCommandData>("", OnExecuteAutomationCommand, CanExecuteAutomationCommand);
             _makePaymentCommand = new CaptionCommand<PaymentTemplate>("", OnMakePayment, CanMakePayment);
-            _serviceSelectedCommand = new CaptionCommand<CalculationTemplate>("", OnSelectCalculationTemplate);
+            _serviceSelectedCommand = new CaptionCommand<CalculationTemplate>("", OnSelectCalculationTemplate, CanSelectCalculationTemplate);
 
             SubmitAccountPaymentCommand = new CaptionCommand<string>(Resources.AccountBalance_r, OnSubmitAccountPayment, CanSubmitAccountPayment);
             ClosePaymentScreenCommand = new CaptionCommand<string>(Resources.Close, OnClosePaymentScreen, CanClosePaymentScreen);
@@ -66,6 +65,14 @@ namespace Samba.Modules.PaymentModule
             PaymentButtonGroup = new PaymentButtonGroupViewModel(_makePaymentCommand, null, ClosePaymentScreenCommand);
 
             LastTenderedAmount = "1";
+
+            EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(x =>
+            {
+                if (SelectedTicket != null && x.Topic == EventTopicNames.CloseTicketRequested)
+                {
+                    SelectedTicket = null;
+                }
+            });
         }
 
         public TicketTotalsViewModel Totals { get; set; }
@@ -124,25 +131,36 @@ namespace Samba.Modules.PaymentModule
 
             if (SelectedTicket != null)
             {
-                result.AddRange(_applicationState.CurrentDepartment.TicketTemplate.CalulationTemplates.Where(x => !string.IsNullOrEmpty(x.ButtonHeader)).OrderBy(x => x.Order)
+                result.AddRange(_cacheService.GetCalculationTemplates().Where(x => !string.IsNullOrEmpty(x.ButtonHeader))
                     .Select(x => new CommandButtonViewModel<object>
                     {
-                        Caption = x.Name,
+                        Caption = x.ButtonHeader,
                         Command = _serviceSelectedCommand,
                         Color = x.ButtonColor,
                         Parameter = x
                     }));
 
-                result.AddRange(_applicationState.CurrentTerminal.PrintJobs.Where(x => !string.IsNullOrEmpty(x.ButtonHeader) && x.UseFromPaymentScreen)
+                result.AddRange(_cacheService.GetAutomationCommands().Where(x => x.DisplayOnPayment)
                     .Select(x => new CommandButtonViewModel<object>
                     {
-                        Caption = x.ButtonHeader,
-                        Command = _manualPrintCommand,
+                        Caption = x.AutomationCommand.Name,
+                        Command = _executeAutomationCommand,
+                        Color = x.AutomationCommand.Color,
                         Parameter = x
-                    })
-                );
+                    }));
             }
             return result;
+        }
+
+        private void OnExecuteAutomationCommand(AutomationCommandData obj)
+        {
+            _automationService.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new { Ticket = SelectedTicket, AutomationCommandName = obj.AutomationCommand.Name });
+        }
+
+        private bool CanExecuteAutomationCommand(AutomationCommandData arg)
+        {
+            if (SelectedTicket != null && SelectedTicket.Locked && arg != null && arg.VisualBehaviour == 1) return false;
+            return true;
         }
 
         private void OnSelectCalculationTemplate(CalculationTemplate obj)
@@ -154,27 +172,44 @@ namespace Samba.Modules.PaymentModule
             RefreshValues();
         }
 
+        private bool CanSelectCalculationTemplate(CalculationTemplate arg)
+        {
+            if (arg != null && arg.MaxAmount > 0 && GetTenderedValue() > arg.MaxAmount) return false;
+            return true;
+        }
+
         private bool CanMakePayment(PaymentTemplate arg)
         {
             return SelectedTicket != null
                 && GetTenderedValue() > 0
-                && SelectedTicket.GetRemainingAmount() > 0;
+                && SelectedTicket.GetRemainingAmount() > 0
+                && (arg.Account != null || SelectedTicket.TicketResources.Any(x => CanMakeAccountTransaction(x, arg)));
+        }
+
+        private bool CanMakeAccountTransaction(TicketResource ticketResource, PaymentTemplate paymentTemplate)
+        {
+            var resourceTemplate = _cacheService.GetResourceTemplateById(ticketResource.ResourceTemplateId);
+            if (resourceTemplate.AccountTemplateId != paymentTemplate.AccountTransactionTemplate.TargetAccountTemplateId) return false;
+            return true;
+        }
+
+        private Account GetAccountForTransaction(PaymentTemplate paymentTemplate, IEnumerable<TicketResource> ticketResources)
+        {
+            var rt =
+            _cacheService.GetResourceTemplates().Where(
+                x => x.AccountTemplateId == paymentTemplate.AccountTransactionTemplate.TargetAccountTemplateId).Select(x => x.Id);
+            var tr = ticketResources.Where(x => rt.Contains(x.ResourceTemplateId)).FirstOrDefault();
+            if (tr != null)
+            {
+                var tra = _cacheService.GetResourceById(tr.ResourceId);
+                return _cacheService.GetAccountById(tra.AccountId);
+            }
+            return null;
         }
 
         private void OnMakePayment(PaymentTemplate obj)
         {
             SubmitPayment(obj);
-        }
-
-        private bool CanManualPrint(PrintJob arg)
-        {
-            return arg != null && SelectedTicket != null && (!SelectedTicket.Locked || SelectedTicket.GetPrintCount(arg.Id) == 0);
-        }
-
-        private void OnManualPrint(PrintJob obj)
-        {
-            _ticketService.UpdateTicketNumber(SelectedTicket, _applicationState.CurrentDepartment.TicketTemplate.TicketNumerator);
-            _printerService.ManualPrintTicket(SelectedTicket, obj);
         }
 
         private bool CanAutoSetDiscount(string arg)
@@ -291,7 +326,7 @@ namespace Samba.Modules.PaymentModule
                 SelectedTicket.PaidItems.Add(paidItem);
             }
 
-            EventServiceFactory.EventService.PublishEvent(EventTopicNames.PaymentSubmitted);
+            EventServiceFactory.EventService.PublishEvent(EventTopicNames.CloseTicketRequested);
             TenderedAmount = "";
             ReturningAmount = "";
             ReturningAmountVisibility = Visibility.Collapsed;
@@ -337,7 +372,8 @@ namespace Samba.Modules.PaymentModule
             {
                 if (tenderedAmount > SelectedTicket.GetRemainingAmount())
                     tenderedAmount = SelectedTicket.GetRemainingAmount();
-                _ticketService.AddPayment(SelectedTicket, paymentTemplate, tenderedAmount);
+                var account = paymentTemplate.Account ?? GetAccountForTransaction(paymentTemplate, SelectedTicket.TicketResources);
+                _ticketService.AddPayment(SelectedTicket, paymentTemplate.Name, paymentTemplate.AccountTransactionTemplate, account, tenderedAmount);
                 PaymentAmount = (GetPaymentValue() - tenderedAmount).ToString("#,#0.00");
 
                 LastTenderedAmount = tenderedAmount <= SelectedTicket.GetRemainingAmount()
@@ -542,7 +578,7 @@ namespace Samba.Modules.PaymentModule
         {
             CommandButtons = CreateCommandButtons();
             RaisePropertyChanged(() => CommandButtons);
-            PaymentButtonGroup.UpdatePaymentButtons(_applicationState.CurrentDepartment.TicketTemplate.PaymentTemplates.Where(x => x.DisplayAtPaymentScreen));
+            PaymentButtonGroup.UpdatePaymentButtons(_cacheService.GetPaymentScreenPaymentTemplates());
             RaisePropertyChanged(() => PaymentButtonGroup);
         }
 

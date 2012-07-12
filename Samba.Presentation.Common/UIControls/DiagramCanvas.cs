@@ -58,6 +58,7 @@ namespace Samba.Presentation.Common.UIControls
         //append when an Item in the collection is changed
         protected void collection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            if (e.NewItems == null) return;
             //adds the new items in the children collection
             foreach (IDiagram item in e.NewItems)
             {

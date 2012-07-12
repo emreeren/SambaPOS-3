@@ -14,6 +14,7 @@ namespace Samba.Domain.Models.Actions
         {
             AppActionId = ruleAction.Id;
             Name = ruleAction.Name;
+            ParameterValues = "";
         }
 
         public int AppActionId { get; set; }

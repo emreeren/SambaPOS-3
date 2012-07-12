@@ -17,9 +17,10 @@ namespace Samba.Modules.AutomationModule
         [ImportingConstructor]
         public AutomationModule()
         {
-            AddDashboardCommand<EntityCollectionViewModelBase<RuleActionViewModel, AppAction>>(Resources.RuleActions, Resources.Settings, 20);
-            AddDashboardCommand<EntityCollectionViewModelBase<RuleViewModel, AppRule>>(Resources.Rules, Resources.Settings, 20);
-            AddDashboardCommand<TriggerListViewModel>(Resources.Triggers, Resources.Settings, 20);
+            AddDashboardCommand<EntityCollectionViewModelBase<RuleActionViewModel, AppAction>>(Resources.RuleActions, Resources.Automation, 45);
+            AddDashboardCommand<EntityCollectionViewModelBase<RuleViewModel, AppRule>>(Resources.Rules, Resources.Automation, 45);
+            AddDashboardCommand<TriggerListViewModel>(Resources.Triggers, Resources.Automation, 45);
+            AddDashboardCommand<EntityCollectionViewModelBase<AutomationCommandViewModel, AutomationCommand>>(Resources.AutomationCommand.ToPlural(), Resources.Automation, 45);
         }
     }
 }

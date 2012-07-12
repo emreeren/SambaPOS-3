@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -20,6 +21,7 @@ namespace Samba.Services.Implementations.AccountModule
         {
             ValidatorRegistry.RegisterDeleteValidator(new AccountDeleteValidator());
             ValidatorRegistry.RegisterDeleteValidator(new AccountTemplateDeleteValidator());
+            ValidatorRegistry.RegisterDeleteValidator<AccountTransactionTemplate>(x => Dao.Exists<AccountTransactionDocumentTemplate>(y => y.TransactionTemplates.Any(z => z.Id == x.Id)), Resources.AccountTransactionTemplate, Resources.DocumentTemplate);
             ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<AccountTransactionTemplate>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.AccountTransactionTemplate)));
             ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<AccountTransactionDocumentTemplate>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.DocumentTemplate)));
         }
@@ -87,6 +89,40 @@ namespace Samba.Services.Implementations.AccountModule
             return result;
         }
 
+        public string GetAccountNameById(int accountId)
+        {
+            if (Dao.Exists<Account>(x => x.Id == accountId))
+                return Dao.Select<Account, string>(x => x.Name, x => x.Id == accountId).First();
+            return "";
+        }
+
+        public int GetAccountIdByName(string accountName)
+        {
+            var acName = accountName.ToLower();
+            if (Dao.Exists<Account>(x => x.Name.ToLower() == acName))
+                return Dao.Select<Account, int>(x => x.Id, x => x.Name.ToLower() == acName).FirstOrDefault();
+            return 0;
+        }
+
+        public IEnumerable<Account> GetAccounts(params AccountTemplate[] accountTemplates)
+        {
+            if (accountTemplates.Count() == 0) return Dao.Query<Account>();
+            var ids = accountTemplates.Select(x => x.Id);
+            return Dao.Query<Account>(x => ids.Contains(x.AccountTemplateId));
+        }
+
+        public IEnumerable<string> GetCompletingAccountNames(int accountTemplateId, string accountName)
+        {
+            if (string.IsNullOrWhiteSpace(accountName)) return null;
+            var lacn = accountName.ToLower();
+            return Dao.Select<Account, string>(x => x.Name, x => x.AccountTemplateId == accountTemplateId && x.Name.ToLower().Contains(lacn));
+        }
+
+        public Account GetAccountById(int accountId)
+        {
+            return Dao.Single<Account>(x => x.Id == accountId);
+        }
+
         public override void Reset()
         {
             _accountCount = null;
@@ -109,20 +145,14 @@ namespace Samba.Services.Implementations.AccountModule
     {
         public override string GetErrorMessage(Account model)
         {
+            if (Dao.Exists<Resource>(x => x.AccountId == model.Id))
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Account, Resources.Resource);
             if (Dao.Exists<AccountTransactionValue>(x => x.AccountId == model.Id))
                 return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Account, Resources.AccountTransaction);
             return "";
         }
     }
 
-    public class AccountTransactionTemplateDeleteValidator : SpecificationValidator<AccountTransactionTemplate>
-    {
-        public override string GetErrorMessage(AccountTransactionTemplate model)
-        {
-            if (Dao.Exists<AccountTransactionDocumentTemplate>(x => x.TransactionTemplates.Any(y => y.Id == model.Id)))
-                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.AccountTransactionTemplate, Resources.DocumentTemplate);
-            return "";
-        }
-    }
+
 
 }

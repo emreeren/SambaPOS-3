@@ -77,11 +77,10 @@ namespace Samba.Domain.Models.Tickets
             }
         }
 
-        public void UpdateMenuItem(string userName, MenuItem menuItem, string portionName, string priceTag, int quantity)
+        public void UpdateMenuItem(string userName, MenuItem menuItem, MenuItemPortion portion, string priceTag, int quantity)
         {
             MenuItemId = menuItem.Id;
             MenuItemName = menuItem.Name;
-            var portion = menuItem.GetPortion(portionName);
             Debug.Assert(portion != null);
             UpdatePortion(portion, priceTag, menuItem.TaxTemplate);
             Quantity = quantity;

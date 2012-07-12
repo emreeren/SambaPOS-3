@@ -1,168 +1,203 @@
 ﻿<UserControl x:Class="Samba.Modules.TicketModule.OrderTagGroupView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:Common="clr-namespace:Samba.Presentation.Common;assembly=Samba.Presentation.Common" xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common" mc:Ignorable="d" d:DesignWidth="500">
+         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common" 
+         mc:Ignorable="d" d:DesignWidth="500">
     <UserControl.Resources>
-        <Style TargetType="{x:Type TextBlock}" x:Key="GridBlockStyle">
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="Visibility" Value="{Binding Path=IsSelected,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource VisibilityConverter}, ConverterParameter=False}" />
-        </Style>
-        <Style TargetType="{x:Type FrameworkElement}" x:Key="GridEditStyle">
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="Visibility" Value="{Binding Path=IsSelected,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource VisibilityConverter}, ConverterParameter=True}" />
-        </Style>
-        <Style TargetType="ListViewItem">
-            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Samba.Presentation.Common;component/Themes/OfficeTab.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <TabControl Grid.Row="0" HorizontalAlignment="Stretch">
+        <TabControl Margin="-6,-6,0,0" Grid.Row="0" HorizontalAlignment="Stretch" Template="{StaticResource OfficeTabControl}">
             <TabItem Header="General Settings">
-                <Grid>
+                <StackPanel>
+                    <Label>
+                        <LocText ResourceIdentifierKey="OrderTagGroupName" Suffix=":"/>
+                    </Label>
+                    <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name,Mode=TwoWay}" />
+                    <Label>
+                        <LocText ResourceIdentifierKey="ButtonHeader" Suffix=":"/>
+                    </Label>
+                    <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding ButtonHeader,Mode=TwoWay}" />
+                    <Label>SelectionType:</Label>
+                    <ComboBox HorizontalAlignment="Left" ItemsSource="{Binding SelectionTypes}" SelectedItem="{Binding SelectionType}"/>
+
+                    <CheckBox Margin="5,5,0,0" Content="Unlocks Order" IsChecked="{Binding UnlocksOrder}" />
+                    <CheckBox Margin="5,5,0,0" Content="Calculate Price" IsChecked="{Binding CalculateOrderPrice}" />
+                    <CheckBox Margin="5,5,0,0" Content="Decrease Inventory" IsChecked="{Binding DecreaseOrderInventory}" />
+                    <CheckBox Margin="5,5,0,0" Content="Add Tag Price To Order Price" IsChecked="{Binding AddTagPriceToOrderPrice}" />
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Order Tags">
+                <Grid HorizontalAlignment="Left">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <DockPanel Grid.Row="0">
-                        <StackPanel x:Name="FirstColumn" Grid.Row="0">
-                            <Label>
-                                <LocText ResourceIdentifierKey="OrderTagGroupName" Suffix=":"/>
-                            </Label>
-                            <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name,Mode=TwoWay}" />
-                            <Label>
-                                <LocText ResourceIdentifierKey="ButtonHeader" Suffix=":"/>
-                            </Label>
-                            <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding ButtonHeader,Mode=TwoWay}" />
-                            <Label>SelectionType:</Label>
-                            <ComboBox ItemsSource="{Binding SelectionTypes}" SelectedItem="{Binding SelectionType}"/>
-
-                            <CheckBox Margin="5,5,0,0" Content="Unlocks Order" IsChecked="{Binding UnlocksOrder}" />
-                            <CheckBox Margin="5,5,0,0" Content="Calculate Price" IsChecked="{Binding CalculateOrderPrice}" />
-                            <CheckBox Margin="5,5,0,0" Content="Decrease Inventory" IsChecked="{Binding DecreaseOrderInventory}" />
-                            <CheckBox Margin="5,5,0,0" Content="Add Tag Price To Order Price" IsChecked="{Binding AddTagPriceToOrderPrice}" />
-                        </StackPanel>
-                        <Grid Margin="20,0" HorizontalAlignment="Left" Height="{Binding ElementName=FirstColumn, Path=ActualHeight}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-                                <LocText ResourceIdentifierKey="OrderTags" Suffix=":"/>
-                            </Label>
-                            <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding OrderTags}" SelectedItem="{Binding SelectedOrderTag, Mode=TwoWay}"
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                        <LocText ResourceIdentifierKey="OrderTags" Suffix=":"/>
+                    </Label>
+                    <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding OrderTags}" SelectedItem="{Binding SelectedOrderTag, Mode=TwoWay}"
                          HorizontalAlignment="Left" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
                          AutoGenerateColumns="False" CanUserSortColumns="False"
                          Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" CellEditEnding="DataGrid_CellEditEnding">
-                                <DataGrid.Resources>
-                                    <Style TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center">
-                                        </Setter>
-                                        <Setter Property="ContentTemplate">
-                                            <Setter.Value>
-                                                <DataTemplate>
-                                                    <TextBlock TextWrapping="Wrap" Text="{Binding}">
-                                                    </TextBlock>
-                                                </DataTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </DataGrid.Resources>
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="{LocText Tag}" MinWidth="100" Binding="{Binding Name}" />
-                                    <DataGridTextColumn Header="Max Quantity" Binding="{Binding Path=MaxQuantity}"
+                        <DataGrid.Resources>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="HorizontalContentAlignment" Value="Center">
+                                </Setter>
+                                <Setter Property="ContentTemplate">
+                                    <Setter.Value>
+                                        <DataTemplate>
+                                            <TextBlock TextWrapping="Wrap" Text="{Binding}">
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DataGrid.Resources>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="{LocText Tag}" MinWidth="100" Binding="{Binding Name}" />
+                            <DataGridTextColumn Header="Max Quantity" Binding="{Binding Path=MaxQuantity}"
                                         CellStyle="{StaticResource RightAlignedCellStyle}" Width="65"/>
-                                    <DataGridTemplateColumn Header="{LocText Product}" MinWidth="100">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Margin="3" Text="{Binding MenuItem.Name}" />
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                        <DataGridTemplateColumn.CellEditingTemplate>
-                                            <DataTemplate>
-                                                <Grid FocusManager.FocusedElement="{Binding ElementName=cb}">
-                                                    <ComboBox Name="cb" IsEditable="True" DisplayMemberPath="Name" ItemsSource="{Binding MenuItems}" 
+                            <DataGridTemplateColumn Header="{LocText Product}" MinWidth="100">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="3" Text="{Binding MenuItem.Name}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Grid FocusManager.FocusedElement="{Binding ElementName=cb}">
+                                            <ComboBox Name="cb" IsEditable="True" DisplayMemberPath="Name" ItemsSource="{Binding MenuItems}" 
                                                               SelectedItem="{Binding Path=MenuItem, UpdateSourceTrigger=PropertyChanged}" />
-                                                </Grid>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellEditingTemplate>
-                                    </DataGridTemplateColumn>
-                                    <DataGridTextColumn Header="{LocText Price}" Binding="{Binding Path=Price,StringFormat='#,#0.00'}"
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="{LocText Price}" Binding="{Binding Path=Price,StringFormat='#,#0.00'}"
                                         CellStyle="{StaticResource RightAlignedCellStyle}" />
-                                </DataGrid.Columns>
-                                <DataGrid.ContextMenu>
-                                    <ContextMenu>
-                                        <MenuItem Command="{Binding AddOrderTagCommand}" Header="{Binding AddOrderTagCommand.Caption}" />
-                                        <MenuItem Command="{Binding DeleteOrderTagCommand}" Header="{Binding DeleteOrderTagCommand.Caption}" />
-                                    </ContextMenu>
-                                </DataGrid.ContextMenu>
-                            </DataGrid>
-                            <StackPanel Grid.Row="1" Grid.Column="1" Margin="10">
-                                <TextBlock Margin="2,3">
-                            <Hyperlink Command="{Binding AddOrderTagCommand}">
-                                <TextBlock Text="{Binding Path=AddOrderTagCommand.Caption}" />
-                            </Hyperlink>
-                        </TextBlock>
-                                <TextBlock Margin="2,3">
-                            <Hyperlink Command="{Binding DeleteOrderTagCommand}">
-                                <TextBlock Text="{Binding Path=DeleteOrderTagCommand.Caption}" />
-                            </Hyperlink>
-                        </TextBlock>
-                            </StackPanel>
+                        </DataGrid.Columns>
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Command="{Binding AddOrderTagCommand}" Header="{Binding AddOrderTagCommand.Caption}" />
+                                <MenuItem Command="{Binding DeleteOrderTagCommand}" Header="{Binding DeleteOrderTagCommand.Caption}" />
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                    </DataGrid>
+                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="10">
+                        <TextBlock Margin="2,3">
+                                    <Hyperlink Command="{Binding AddOrderTagCommand}">
+                                        <TextBlock Text="{Binding Path=AddOrderTagCommand.Caption}" />
+                                    </Hyperlink>
+                                </TextBlock>
+                        <TextBlock Margin="2,3">
+                                    <Hyperlink Command="{Binding DeleteOrderTagCommand}">
+                                        <TextBlock Text="{Binding Path=DeleteOrderTagCommand.Caption}" />
+                                    </Hyperlink>
+                                </TextBlock>
+                    </StackPanel>
 
-                        </Grid>
-                    </DockPanel>
-                    <DockPanel Grid.Row="1" Margin="0,10,0,0">
+                </Grid>
+            </TabItem>
+            <TabItem Header="{LocText Mappings}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <DockPanel Grid.Row="0" Margin="0,10,0,0">
                         <Label>
                             <LocText ResourceIdentifierKey="OrderTagMapping" Suffix=":"/>
                         </Label>
                         <TextBlock Margin="2,5">
-                <Hyperlink Command="{Binding AddOrderTagMapCommand}">
-                    <TextBlock Text="{Binding Path=AddOrderTagMapCommand.Caption}" />
-                </Hyperlink>
-            </TextBlock>
+                            <Hyperlink Command="{Binding AddOrderTagMapCommand}">
+                                <TextBlock Text="{Binding Path=AddOrderTagMapCommand.Caption}" />
+                            </Hyperlink>
+                        </TextBlock>
                         <TextBlock Margin="2,5">
-                <Hyperlink Command="{Binding DeleteOrderTagMapCommand}">
-                    <TextBlock Text="{Binding Path=DeleteOrderTagMapCommand.Caption}" />
-                </Hyperlink>
-            </TextBlock>
+                            <Hyperlink Command="{Binding DeleteOrderTagMapCommand}">
+                                <TextBlock Text="{Binding Path=DeleteOrderTagMapCommand.Caption}" />
+                            </Hyperlink>
+                        </TextBlock>
                     </DockPanel>
-                    <ListView Grid.Row="2" ItemsSource="{Binding OrderTagMaps}" SelectedItem="{Binding SelectedOrderTagMap}"
-                        HorizontalAlignment="Left" MinWidth="500">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Width="150" Header="{LocText MenuItemGroup}">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Grid>
-                                                <TextBlock Style="{StaticResource GridBlockStyle}" HorizontalAlignment="Stretch" Text="{Binding MenuItemGroupCodeLabel}" />
-                                                <ComboBox Style="{StaticResource GridEditStyle}" HorizontalAlignment="Stretch" SelectedItem="{Binding MenuItemGroupCode}"
-                                         ItemsSource="{Binding MenuItemGroupCodes}" />
-                                            </Grid>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Width="150" Header="{LocText MenuItem}">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Grid>
-                                                <TextBlock Style="{StaticResource GridBlockStyle}" HorizontalAlignment="Stretch" Text="{Binding MenuItemLabel}" />
-                                                <ComboBox Style="{StaticResource GridEditStyle}" HorizontalAlignment="Stretch" DisplayMemberPath="Name"
-                                         SelectedValuePath="Id" SelectedValue="{Binding MenuItemId}" ItemsSource="{Binding MenuItems}" />
-                                            </Grid>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
+
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding OrderTagMaps}" SelectedItem="{Binding SelectedOrderTagMap}" 
+                              HorizontalAlignment="Left" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3" MinWidth="300"
+                              AutoGenerateColumns="False" CanUserSortColumns="False"
+                              Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="{LocText UserRole}" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="3" Text="{Binding UserRoleName}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Grid FocusManager.FocusedElement="{Binding ElementName=cbUserRole}">
+                                            <ComboBox Name="cbUserRole"  HorizontalAlignment="Stretch" SelectedItem="{Binding UserRoleName, UpdateSourceTrigger=PropertyChanged}"
+                                                          ItemsSource="{Binding UserRoleNames}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{LocText Department}" Width="2*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="3" Text="{Binding DepartmentName}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Grid FocusManager.FocusedElement="{Binding ElementName=cbDepartment}">
+                                            <ComboBox Name="cbDepartment"  HorizontalAlignment="Stretch" SelectedItem="{Binding DepartmentName, UpdateSourceTrigger=PropertyChanged}" 
+                                                  ItemsSource="{Binding DepartmentNames}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{LocText MenuItemGroup}" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="3" Text="{Binding MenuItemGroupCodeLabel}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Grid FocusManager.FocusedElement="{Binding ElementName=cbMenuItemGroupCode}">
+                                            <ComboBox Name="cbMenuItemGroupCode"  HorizontalAlignment="Stretch" SelectedItem="{Binding MenuItemGroupCode, UpdateSourceTrigger=PropertyChanged}"
+                                                          ItemsSource="{Binding MenuItemGroupCodes}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{LocText MenuItem}" Width="2*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="3" Text="{Binding MenuItemLabel}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Grid FocusManager.FocusedElement="{Binding ElementName=cbMenuItem}">
+                                            <ComboBox Name="cbMenuItem"  HorizontalAlignment="Stretch" DisplayMemberPath="Name"
+                                                          SelectedValuePath="Id" SelectedValue="{Binding MenuItemId, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding MenuItems}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>                  
                 </Grid>
             </TabItem>
             <TabItem Header="Display Settings">
@@ -172,15 +207,13 @@
                             <Label>
                                 <LocText ResourceIdentifierKey="ColumnCount" Suffix=":" />
                             </Label>
-                            <UIControls:FilteredTextBox Type="Digits" Margin="0,0,0,2" HorizontalAlignment="Left"
-                         MinWidth="50" Text="{Binding ColumnCount}">
-                            </UIControls:FilteredTextBox>
+                            <UIControls:FilteredTextBox Type="Digits" Margin="0,0,0,2" HorizontalAlignment="Left" 
+                                                        MinWidth="50" Text="{Binding ColumnCount}"/>
                             <Label>
                                 <LocText ResourceIdentifierKey="ButtonHeight" Suffix=":" />
                             </Label>
                             <UIControls:FilteredTextBox Type="Digits" Margin="0,0,0,2" HorizontalAlignment="Left"
-                         MinWidth="50" Text="{Binding ButtonHeight}">
-                            </UIControls:FilteredTextBox>
+                                                        MinWidth="50" Text="{Binding ButtonHeight}"/>
                         </UniformGrid>
                     </GroupBox>
                     <GroupBox Header="{LocText TerminalView}" Padding="5" Margin="0,5,0,0" HorizontalAlignment="Left">
@@ -188,15 +221,14 @@
                             <Label>
                                 <LocText ResourceIdentifierKey="ColumnCount" Suffix=":" />
                             </Label>
-                            <UIControls:FilteredTextBox Type="Digits" Margin="0,0,0,2" HorizontalAlignment="Left"
-                         MinWidth="50" Text="{Binding TerminalColumnCount}">
-                            </UIControls:FilteredTextBox>
+                            <UIControls:FilteredTextBox Type="Digits" Margin="0,0,0,2" HorizontalAlignment="Left" 
+                                                        MinWidth="50" Text="{Binding TerminalColumnCount}"/>
+                            
                             <Label>
                                 <LocText ResourceIdentifierKey="ButtonHeight" Suffix=":" />
                             </Label>
                             <UIControls:FilteredTextBox Type="Digits" Margin="0,0,0,2" HorizontalAlignment="Left"
-                         MinWidth="50" Text="{Binding TerminalButtonHeight}">
-                            </UIControls:FilteredTextBox>
+                                                        MinWidth="50" Text="{Binding TerminalButtonHeight}"/>
                         </UniformGrid>
                     </GroupBox>
 

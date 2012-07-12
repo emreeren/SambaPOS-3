@@ -21,19 +21,16 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
         <StackPanel Grid.Row="0">
             <Label>
                 <LocText ResourceIdentifierKey="PrintJobName" Suffix=":" />
             </Label>
             <TextBox HorizontalAlignment="Left" Width="250" Text="{Binding Name}" />
             <Label>
-                <LocText ResourceIdentifierKey="ButtonHeader" Suffix=":" />
+                <LocText ResourceIdentifierKey="PrintContent" />
             </Label>
-            <TextBox HorizontalAlignment="Left" Width="250" Text="{Binding ButtonHeader}" />
+            <ComboBox HorizontalAlignment="Left" MinWidth="230" SelectedItem="{Binding WhatToPrint}"
+                 ItemsSource="{Binding WhatToPrintTypes}" />
             <CheckBox IsChecked="{Binding LocksTicket}" Margin="0,5,0,2">
                 <LocText ResourceIdentifierKey="LockTicket" />
             </CheckBox>
@@ -68,33 +65,8 @@
                 </TextBlock>
             </StackPanel>
         </StackPanel>
-        <StackPanel Grid.Column="1" Margin="20,0">
-            <Label>
-                <LocText ResourceIdentifierKey="PrintContent" />
-            </Label>
-            <ComboBox HorizontalAlignment="Left" MinWidth="230" SelectedItem="{Binding WhatToPrint}"
-                 ItemsSource="{Binding WhatToPrintTypes}" />
-            <Label>
-                <LocText ResourceIdentifierKey="AutoPrintWhen" />
-            </Label>
-            <ComboBox HorizontalAlignment="Left" MinWidth="230" SelectedItem="{Binding WhenToPrint}"
-                 ItemsSource="{Binding WhenToPrintTypes}" />
-            <GroupBox Header="{LocText AutoPrintPaymentType}" Margin="0,5,0,0" HorizontalAlignment="Left"
-                 MinWidth="250">
-                <StackPanel Margin="3,5,3,5">
-                    <CheckBox IsChecked="{Binding AutoPrintIfCash}">
-                        <LocText ResourceIdentifierKey="Cash" />
-                    </CheckBox>
-                    <CheckBox IsChecked="{Binding AutoPrintIfCreditCard}">
-                        <LocText ResourceIdentifierKey="CreditCard" />
-                    </CheckBox>
-                    <CheckBox IsChecked="{Binding AutoPrintIfTicket}">
-                        <LocText ResourceIdentifierKey="Voucher" />
-                    </CheckBox>
-                </StackPanel>
-            </GroupBox>
-        </StackPanel>
-        <ListView Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding PrinterMaps}" SelectedItem="{Binding SelectedPrinterMap}"
+
+        <ListView Grid.Row="1" ItemsSource="{Binding PrinterMaps}" SelectedItem="{Binding SelectedPrinterMap}"
              HorizontalContentAlignment="Stretch" ListViewLM:ListViewLayoutManager.Enabled="True">
             <ListView.View>
                 <GridView>
@@ -105,17 +77,6 @@
                                     <TextBlock Style="{StaticResource GridBlockStyle}" HorizontalAlignment="Stretch" Text="{Binding DepartmentLabel}" />
                                     <ComboBox Style="{StaticResource GridEditStyle}" HorizontalAlignment="Stretch" DisplayMemberPath="Name"
                                          SelectedValuePath="Id" SelectedValue="{Binding DepartmentId}" ItemsSource="{Binding Departments}" />
-                                </Grid>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="{LocText Tag}" ListViewLM:ProportionalColumn.Width="1">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <TextBlock Style="{StaticResource GridBlockStyle}" HorizontalAlignment="Stretch" Text="{Binding TicketTagLabel}" />
-                                    <ComboBox Style="{StaticResource GridEditStyle}" HorizontalAlignment="Stretch" SelectedItem="{Binding TicketTag}"
-                                         ItemsSource="{Binding TicketTags}" />
                                 </Grid>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>

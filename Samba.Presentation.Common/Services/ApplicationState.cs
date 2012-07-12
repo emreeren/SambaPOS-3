@@ -80,7 +80,6 @@ namespace Samba.Presentation.Common.Services
         {
             if (CurrentDepartment == null || department != CurrentDepartment.Model)
             {
-
                 CurrentDepartment = new CurrentDepartmentData { Model = department };
                 CurrentDepartment.Model.PublishEvent(EventTopicNames.SelectedDepartmentChanged);
             }

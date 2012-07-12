@@ -54,11 +54,20 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountButton.cs" />
     <Compile Include="AccountDetailViewModel.cs" />
     <Compile Include="AccountDetailsView.xaml.cs">
       <DependentUpon>AccountDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AccountDetailsViewModel.cs" />
+    <Compile Include="Dashboard\AccountScreenView.xaml.cs">
+      <DependentUpon>AccountScreenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dashboard\AccountScreenViewModel.cs" />
+    <Compile Include="AccountSelectorView.xaml.cs">
+      <DependentUpon>AccountSelectorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AccountSelectorViewModel.cs" />
     <Compile Include="AccountSummaryViewModel.cs" />
     <Compile Include="AccountModule.cs" />
     <Compile Include="Dashboard\AccountTransactionDocumentTemplateView.xaml.cs">
@@ -94,6 +103,14 @@
     <Page Include="AccountDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dashboard\AccountScreenView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AccountSelectorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dashboard\AccountTransactionDocumentTemplateView.xaml">
       <SubType>Designer</SubType>

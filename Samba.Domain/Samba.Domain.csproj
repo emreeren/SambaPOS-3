@@ -69,7 +69,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Accounts\Account.cs" />
+    <Compile Include="Models\Accounts\AccountScreen.cs" />
     <Compile Include="Models\Accounts\AccountTemplate.cs" />
+    <Compile Include="Models\Actions\AutomationCommand.cs" />
+    <Compile Include="Models\Actions\AutomationCommandMap.cs" />
     <Compile Include="Models\Resources\ResourceCustomField.cs" />
     <Compile Include="Models\Resources\ResourceStateValue.cs" />
     <Compile Include="Models\Resources\ResourceState.cs" />
@@ -82,6 +85,7 @@
     <Compile Include="Models\Actions\ActionContainer.cs" />
     <Compile Include="Models\Actions\AppRule.cs" />
     <Compile Include="Models\Actions\AppAction.cs" />
+    <Compile Include="Models\Tickets\CalculationTemplateMap.cs" />
     <Compile Include="Models\Tickets\OrderTagMap.cs" />
     <Compile Include="Models\Tickets\OrderTagTemplate.cs" />
     <Compile Include="Models\Tickets\OrderTagTemplateValue.cs" />
@@ -90,7 +94,9 @@
     <Compile Include="Models\Menus\TaxTemplate.cs" />
     <Compile Include="Models\Tickets\Payment.cs" />
     <Compile Include="Models\Tickets\PaymentTemplate.cs" />
+    <Compile Include="Models\Tickets\PaymentTemplateMap.cs" />
     <Compile Include="Models\Tickets\TicketResource.cs" />
+    <Compile Include="Models\Tickets\TicketTagMap.cs" />
     <Compile Include="Models\Tickets\TicketTagValue.cs" />
     <Compile Include="Models\Tickets\TicketTemplate.cs" />
     <Compile Include="Models\Inventories\CostItem.cs" />
