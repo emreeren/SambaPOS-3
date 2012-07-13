@@ -190,6 +190,8 @@ namespace Samba.Modules.PaymentModule
         {
             var resourceTemplate = _cacheService.GetResourceTemplateById(ticketResource.ResourceTemplateId);
             if (resourceTemplate.AccountTemplateId != paymentTemplate.AccountTransactionTemplate.TargetAccountTemplateId) return false;
+            var rs = _cacheService.GetResourceById(ticketResource.ResourceId);
+            if (rs.AccountId == 0) return false;
             return true;
         }
 
