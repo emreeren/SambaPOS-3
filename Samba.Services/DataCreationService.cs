@@ -56,6 +56,16 @@ namespace Samba.Services
 
             _workspace.CommitChanges();
 
+            var accountScreen = new AccountScreen
+                                    {
+                                        Name = "General",
+                                        AccountTemplateNames = string.Join(";", saleAccountTemplate.Name,
+                                                                           receivableAccountTemplate.Name,
+                                                                           discountAccountTemplate.Name,
+                                                                           paymentAccountTemplate.Name)
+                                    };
+            _workspace.Add(accountScreen);
+
             var defaultSaleAccount = new Account { AccountTemplateId = saleAccountTemplate.Id, Name = "Sales" };
             var defaultReceivableAccount = new Account { AccountTemplateId = receivableAccountTemplate.Id, Name = "Receivables" };
             var cashAccount = new Account { AccountTemplateId = paymentAccountTemplate.Id, Name = Resources.Cash };
@@ -149,11 +159,11 @@ namespace Samba.Services
             _workspace.Add(orderNumerator);
 
             var printBillAutomation = new AutomationCommand { Name = Resources.PrintBill, ButtonHeader = Resources.PrintBill };
-            printBillAutomation.AutomationCommandMaps.Add(new AutomationCommandMap {VisualBehaviour = 1});
+            printBillAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { VisualBehaviour = 1 });
             _workspace.Add(printBillAutomation);
 
             var unlockTicketAutomation = new AutomationCommand { Name = "Unlock Ticket", ButtonHeader = "Unlock Ticket" };
-            unlockTicketAutomation.AutomationCommandMaps.Add(new AutomationCommandMap {VisualBehaviour = 2});
+            unlockTicketAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { VisualBehaviour = 2 });
             _workspace.Add(unlockTicketAutomation);
 
             var addTicketAutomation = new AutomationCommand { Name = "Add Ticket", ButtonHeader = "Add Ticket" };
