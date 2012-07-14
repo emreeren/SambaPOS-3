@@ -22,6 +22,8 @@ namespace Samba.Services.Implementations.AccountModule
             ValidatorRegistry.RegisterDeleteValidator(new AccountDeleteValidator());
             ValidatorRegistry.RegisterDeleteValidator(new AccountTemplateDeleteValidator());
             ValidatorRegistry.RegisterDeleteValidator<AccountTransactionTemplate>(x => Dao.Exists<AccountTransactionDocumentTemplate>(y => y.TransactionTemplates.Any(z => z.Id == x.Id)), Resources.AccountTransactionTemplate, Resources.DocumentTemplate);
+            ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<Account>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.Account)));
+            ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<AccountTemplate>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.AccountTemplate)));
             ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<AccountTransactionTemplate>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.AccountTransactionTemplate)));
             ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<AccountTransactionDocumentTemplate>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.DocumentTemplate)));
         }

@@ -33,7 +33,7 @@ namespace Samba.Services.Implementations.InventoryModule
             _cacheService = cacheService;
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<WorkPeriod>>().Subscribe(OnWorkperiodStatusChanged);
-
+            ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<InventoryItem>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.InventoryItem)));
             ValidatorRegistry.RegisterDeleteValidator<InventoryItem>(x => Dao.Exists<PeriodicConsumptionItem>(y => y.InventoryItem.Id == x.Id), Resources.InventoryItem, Resources.EndOfDayRecord);
             ValidatorRegistry.RegisterSaveValidator(new RecipeSaveValidator());
         }

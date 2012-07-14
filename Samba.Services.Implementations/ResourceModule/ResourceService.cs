@@ -29,9 +29,9 @@ namespace Samba.Services.Implementations.ResourceModule
             ValidatorRegistry.RegisterDeleteValidator<ResourceTemplate>(x => Dao.Exists<Resource>(y => y.ResourceTemplateId == x.Id), Resources.ResourceTemplate, Resources.Resource);
             ValidatorRegistry.RegisterDeleteValidator<ResourceScreenItem>(x => Dao.Exists<ResourceScreen>(y => y.ScreenItems.Any(z => z.Id == x.Id)), Resources.Location, Resources.ResourceScreen);
             ValidatorRegistry.RegisterDeleteValidator<ResourceScreen>(x => Dao.Exists<Department>(y => y.ResourceScreens.Any(z => z.Id == x.Id)), Resources.ResourceScreen, Resources.Department);
-            ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<Resource>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.Account)));
-            ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<ResourceTemplate>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.AccountTemplate)));
-            ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<ResourceScreenItem>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.Location)));
+            ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<Resource>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.Resource)));
+            ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<ResourceTemplate>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.ResourceTemplate)));
+            ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<ResourceScreenItem>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.ResourceScreenItem)));
         }
 
         public void UpdateResourceScreenItems(ResourceScreen resourceScreen, int pageNo)
