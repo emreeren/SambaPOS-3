@@ -3,12 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d" 
+             xmlns:FlexButton="clr-namespace:FlexButton;assembly=FlexButton" mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="9*"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
@@ -23,7 +24,6 @@
                 <TextBlock Text="{Binding TotalRemainingAmountLabel}" FontWeight="Bold"></TextBlock>
             </Viewbox>
         </Grid>
-
         <ItemsControl Grid.Row="1" ItemsSource="{Binding Tickets}" VerticalAlignment="Stretch" Grid.IsSharedSizeScope="True">
             
             <ItemsControl.ItemsPanel>
@@ -125,5 +125,8 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+        <UniformGrid Grid.Row="2">
+            <FlexButton:FlexButton Command="{Binding AddTicketCommand}" Content="{Binding AddTicketCommand.Caption}"/>
+        </UniformGrid>
     </Grid>
 </UserControl>
