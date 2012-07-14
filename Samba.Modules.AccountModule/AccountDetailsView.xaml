@@ -29,7 +29,7 @@
         </Grid>
         <ListView BorderThickness="0" Grid.Row="1" Grid.Column="0" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}"
 				 VirtualizingStackPanel.IsVirtualizing="True" IsSynchronizedWithCurrentItem="True"
-				 ListViewLM:ListViewLayoutManager.Enabled="True" ItemsSource="{Binding AccountDetails}"
+				 ListViewLM:ListViewLayoutManager.Enabled="True" ItemsSource="{Binding AccountDetails}" SelectedItem="{Binding FocusedAccountTransaction}"
 				 ItemContainerStyle="{StaticResource ListViewItemExContainerStyle}">
             <ListView.Resources>
                 <Style TargetType="ListViewItem">
@@ -124,6 +124,8 @@
             <StackPanel Grid.Row="0">
                 <FlexButton:FlexButton Margin="2" Height="60" Content="{LocText Close}"
 						 ButtonColor="Red" Command="{Binding CloseAccountScreenCommand}" />
+                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding DisplayTicketCommand.Caption}"
+						  Command="{Binding DisplayTicketCommand}" />
                 <ItemsControl ItemsSource="{Binding DocumentTemplates}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>

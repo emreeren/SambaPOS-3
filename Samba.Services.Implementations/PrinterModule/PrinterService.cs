@@ -290,8 +290,6 @@ namespace Samba.Services.Implementations.PrinterModule
             result.Add(TagNames.Location, Resources.LocationName);
             result.Add(TagNames.Note, Resources.TicketNote);
             result.Add(TagNames.AccName, Resources.AccountName);
-            result.Add(TagNames.AccAddress, Resources.AccountAddress);
-            result.Add(TagNames.AccPhone, Resources.AccountPhone);
             result.Add(TagNames.Quantity, Resources.LineItemQuantity);
             result.Add(TagNames.Name, Resources.LineItemName);
             result.Add(TagNames.Price, Resources.LineItemPrice);

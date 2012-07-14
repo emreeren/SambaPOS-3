@@ -5,30 +5,26 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using Samba.Infrastructure.Data;
-using Samba.Infrastructure.Data.Serializer;
 
 namespace Samba.Persistance.Data
 {
     public static class Dao
     {
-        private static readonly IDictionary<Type, IDictionary<int, ArrayList>> Cache = new Dictionary<Type, IDictionary<int, ArrayList>>();
+        private static readonly IDictionary<Type, ArrayList> Cache = new Dictionary<Type, ArrayList>();
 
-        private static void AddToCache(Type t, int key, object item)
+        private static void AddToCache<T>(T item) where T : class,IEntity
         {
             if (item == null) return;
-            if (!Cache.ContainsKey(t))
-                Cache.Add(t, new Dictionary<int, ArrayList>());
-            if (!Cache[t].ContainsKey(key))
-                Cache[t].Add(key, new ArrayList());
-            Cache[t][key].Add(item);
+            if (!Cache.ContainsKey(typeof(T)))
+                Cache.Add(typeof(T), new ArrayList());
+            Cache[typeof(T)].Add(item);
         }
 
-        private static T GetFromCache<T>(Expression<Func<T, bool>> predictate, int key)
+        private static T GetFromCache<T>(Expression<Func<T, bool>> predictate)
         {
             if (Cache.ContainsKey(typeof(T)))
-                if (Cache[typeof(T)].ContainsKey(key))
-                    return Cache[typeof(T)][key].Cast<T>().SingleOrDefault(predictate.Compile());
-            return default(T);
+                return Cache[typeof(T)].Cast<T>().SingleOrDefault(predictate.Compile());
+            return default(T);   
         }
 
         public static void ResetCache()
@@ -59,15 +55,15 @@ namespace Samba.Persistance.Data
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public static T SingleWithCache<T>(Expression<Func<T, bool>> predictate, params Expression<Func<T, object>>[] includes) where T : class
+        public static T SingleWithCache<T>(Expression<Func<T, bool>> predictate) where T : class, IEntity
         {
-            var ci = GetFromCache(predictate, ObjectCloner.DataHash(includes));
+            var ci = GetFromCache(predictate);
             if (ci != null) return ci;
 
             using (var workspace = WorkspaceFactory.CreateReadOnly())
             {
-                var result = workspace.Single(predictate, includes);
-                AddToCache(typeof(T), ObjectCloner.DataHash(includes), result);
+                var result = workspace.Single(predictate);
+                AddToCache(result);
                 return result;
             }
         }

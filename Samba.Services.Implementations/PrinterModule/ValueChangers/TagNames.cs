@@ -18,8 +18,6 @@
         public const string Location = "{LOCATION}";
         public const string Note = "{NOTE}";
         public const string AccName = "{ACC NAME}";
-        public const string AccAddress = "{ACC ADDRESS}";
-        public const string AccPhone = "{ACC PHONE}";
         public const string PlainTotal = "{PLAIN TOTAL}";
         public const string DiscountTotal = "{DISCOUNT TOTAL}";
         public const string TaxTotal = "{TAX TOTAL}";

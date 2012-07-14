@@ -60,7 +60,7 @@ namespace Samba.Services.Implementations.TicketModule
                     });
         }
 
-        public void UpdateResource(Ticket ticket, int resourceTemplateId, int resourceId, string resourceName)
+        public void UpdateResource(Ticket ticket, int resourceTemplateId, int resourceId, string resourceName, int accountId)
         {
 
             var currentResource = ticket.TicketResources.SingleOrDefault(x => x.ResourceTemplateId == resourceTemplateId);
@@ -79,7 +79,7 @@ namespace Samba.Services.Implementations.TicketModule
                 });
             }
 
-            ticket.UpdateResource(resourceTemplateId, resourceId, resourceName);
+            ticket.UpdateResource(resourceTemplateId, resourceId, resourceName, accountId);
 
             if (currentResourceId != resourceId)
             {
@@ -99,7 +99,7 @@ namespace Samba.Services.Implementations.TicketModule
         public void UpdateResource(Ticket ticket, Resource resource)
         {
             if (resource == null) return;
-            UpdateResource(ticket, resource.ResourceTemplateId, resource.Id, resource.Name);
+            UpdateResource(ticket, resource.ResourceTemplateId, resource.Id, resource.Name,resource.AccountId);
         }
 
         public Ticket OpenTicket(int ticketId)

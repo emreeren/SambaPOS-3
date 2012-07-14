@@ -136,14 +136,6 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             result = FormatData(result, TagNames.Note, () => ticket.Note);
             result = FormatData(result, TagNames.AccName, () => ticket.AccountName);
 
-            if (ticket.AccountId > 0 && (result.Contains(TagNames.AccAddress) || result.Contains(TagNames.AccPhone)))
-            {
-                var account = Dao.SingleWithCache<Resource>(x => x.Id == ticket.AccountId);
-                result = FormatData(result, TagNames.AccPhone, () => account.SearchString);
-            }
-
-            result = RemoveTag(result, TagNames.AccAddress);
-            result = RemoveTag(result, TagNames.AccPhone);
 
             var payment = ticket.GetPaymentAmount();
             var remaining = ticket.GetRemainingAmount();

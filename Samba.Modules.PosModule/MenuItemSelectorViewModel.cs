@@ -66,19 +66,14 @@ namespace Samba.Modules.PosModule
         public int CurrentPageNo { get; set; }
         public string CurrentTag { get; set; }
 
-        private readonly ITicketService _ticketService;
         private readonly IApplicationState _applicationState;
-        private readonly IUserService _userService;
         private readonly IMenuService _menuService;
         private readonly ISettingService _settingService;
         private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public MenuItemSelectorViewModel(IApplicationState applicationState, ITicketService ticketService,
-            IUserService userService, IMenuService menuService, ISettingService settingService, ICacheService cacheService)
+        public MenuItemSelectorViewModel(IApplicationState applicationState, IMenuService menuService, ISettingService settingService, ICacheService cacheService)
         {
-            _ticketService = ticketService;
-            _userService = userService;
             _applicationState = applicationState;
             _menuService = menuService;
             _settingService = settingService;
@@ -267,7 +262,7 @@ namespace Samba.Modules.PosModule
             if (department.Topic == EventTopicNames.SelectedDepartmentChanged)
             {
                 _currentScreenMenu = department.Value != null
-                    ? _menuService.GetScreenMenu(department.Value.ScreenMenuId)
+                    ? _cacheService.GetScreenMenu(department.Value.ScreenMenuId)
                     : null;
 
                 Categories = CreateCategoryButtons(_currentScreenMenu);

@@ -79,15 +79,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Account Address.
-        /// </summary>
-        public static string AccountAddress {
-            get {
-                return ResourceManager.GetString("AccountAddress", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Account Balance.
         /// </summary>
         public static string AccountBalance {
@@ -140,15 +131,6 @@ namespace Samba.Localization.Properties {
         public static string AccountNote {
             get {
                 return ResourceManager.GetString("AccountNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Account Phone.
-        /// </summary>
-        public static string AccountPhone {
-            get {
-                return ResourceManager.GetString("AccountPhone", resourceCulture);
             }
         }
         
@@ -4429,7 +4411,7 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Numerator.
+        ///   Looks up a localized string similar to Number Generator.
         /// </summary>
         public static string Numerator {
             get {
@@ -4447,7 +4429,7 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Numerator Height.
+        ///   Looks up a localized string similar to Numberpad Height.
         /// </summary>
         public static string NumeratorHeight {
             get {
@@ -4456,16 +4438,7 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Numerator Name.
-        /// </summary>
-        public static string NumeratorName {
-            get {
-                return ResourceManager.GetString("NumeratorName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Numerator Properties.
+        ///   Looks up a localized string similar to Numberpad Properties.
         /// </summary>
         public static string NumeratorProperties {
             get {
@@ -4474,7 +4447,7 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Numerators.
+        ///   Looks up a localized string similar to Number Generators.
         /// </summary>
         public static string Numerators {
             get {
@@ -4483,7 +4456,7 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Numerator Type.
+        ///   Looks up a localized string similar to Numberpad Type.
         /// </summary>
         public static string NumeratorType {
             get {
@@ -4492,7 +4465,7 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Numerator Value.
+        ///   Looks up a localized string similar to Numberpad Value.
         /// </summary>
         public static string NumeratorValue {
             get {
@@ -4690,7 +4663,7 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Order Numerator.
+        ///   Looks up a localized string similar to Order Number Generator.
         /// </summary>
         public static string OrderNumerator {
             get {
@@ -6872,7 +6845,7 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ticket Numerator.
+        ///   Looks up a localized string similar to Ticket Number Generator.
         /// </summary>
         public static string TicketNumerator {
             get {

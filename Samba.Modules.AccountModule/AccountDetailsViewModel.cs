@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Resources;
+using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
@@ -37,6 +38,7 @@ namespace Samba.Modules.AccountModule
             AddLiabilityCommand = new CaptionCommand<string>(Resources.AddLiability_r, OnAddLiability, CanAddLiability);
             AddReceivableCommand = new CaptionCommand<string>(Resources.AddReceivable_r, OnAddReceivable, CanAddLiability);
             CloseAccountScreenCommand = new CaptionCommand<string>(Resources.Close, OnCloseAccountScreen);
+            DisplayTicketCommand = new CaptionCommand<string>(Resources.FindTicket, OnDisplayTicket);
             AccountDetails = new ObservableCollection<AccountDetailViewModel>();
             DocumentTemplates = new ObservableCollection<DocumentTemplateButtonViewModel>();
             AccountSummaries = new ObservableCollection<AccountSummaryViewModel>();
@@ -44,6 +46,7 @@ namespace Samba.Modules.AccountModule
         }
 
         public AccountTemplate SelectedAccountTemplate { get; set; }
+        public AccountDetailViewModel FocusedAccountTransaction { get; set; }
 
         private Account _selectedAccount;
         public Account SelectedAccount
@@ -88,6 +91,7 @@ namespace Samba.Modules.AccountModule
         public ICaptionCommand AddReceivableCommand { get; set; }
         public ICaptionCommand AddLiabilityCommand { get; set; }
         public ICaptionCommand CloseAccountScreenCommand { get; set; }
+        public ICaptionCommand DisplayTicketCommand { get; set; }
 
         private void UpdateTemplates()
         {
@@ -176,6 +180,23 @@ namespace Samba.Modules.AccountModule
             AccountDetails.Clear();
             if (_currentOperationRequest != null)
                 _currentOperationRequest.Publish(new AccountData { AccountId = SelectedAccount.Id });
+        }
+
+        private void OnDisplayTicket(string obj)
+        {
+            if (FocusedAccountTransaction != null)
+            {
+                var acTransaction =
+                    Dao.Single<AccountTransaction>(
+                        x =>
+                        x.SourceTransactionValue.Id == FocusedAccountTransaction.Model.Id ||
+                        x.TargetTransactionValue.Id == FocusedAccountTransaction.Model.Id);
+                var document =
+                    Dao.Single<AccountTransactionDocument>(x => x.Id == acTransaction.AccountTransactionDocumentId);
+                var ticket = Dao.Single<Ticket>(x => x.AccountTransactions.Id == document.Id);
+                if (ticket != null)
+                    ExtensionMethods.PublishIdEvent(ticket.Id, EventTopicNames.DisplayTicket);
+            }
         }
 
         private void OnAddReceivable(string obj)

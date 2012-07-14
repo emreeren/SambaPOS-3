@@ -50,18 +50,6 @@ namespace Samba.Services.Implementations.MenuModule
                 .Select(x => !string.IsNullOrEmpty(parentTag) ? parentTag + "," + x : x);
         }
 
-        public ScreenMenu GetScreenMenu(int screenMenuId)
-        {
-            return Dao.SingleWithCache<ScreenMenu>(x => x.Id == screenMenuId, x => x.Categories,
-            x => x.Categories.Select(z => z.ScreenMenuItems.Select(
-                w => w.OrderTagTemplate.OrderTagTemplateValues.Select(
-                    x1 => x1.OrderTag)))
-            ,
-            x => x.Categories.Select(z => z.ScreenMenuItems.Select(
-                w => w.OrderTagTemplate.OrderTagTemplateValues.Select(
-                    x1 => x1.OrderTagGroup))));
-        }
-
         public MenuItem GetMenuItem(Expression<Func<MenuItem, bool>> expression)
         {
             return Dao.Single(expression, x => x.TaxTemplate, x => x.Portions.Select(y => y.Prices));

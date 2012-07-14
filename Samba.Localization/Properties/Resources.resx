@@ -523,15 +523,15 @@ Payment</value>
     <comment>CheckBox content</comment>
   </data>
   <data name="Numerators" xml:space="preserve">
-    <value>Numerators</value>
+    <value>Number Generators</value>
     <comment>GroupBox.Header</comment>
   </data>
   <data name="TicketNumerator" xml:space="preserve">
-    <value>Ticket Numerator</value>
+    <value>Ticket Number Generator</value>
     <comment>Label content</comment>
   </data>
   <data name="OrderNumerator" xml:space="preserve">
-    <value>Order Numerator</value>
+    <value>Order Number Generator</value>
     <comment>Label content</comment>
   </data>
   <data name="TicketTags" xml:space="preserve">
@@ -678,13 +678,13 @@ Payment</value>
     <value>Menu Properties</value>
   </data>
   <data name="NumeratorProperties" xml:space="preserve">
-    <value>Numerator Properties</value>
+    <value>Numberpad Properties</value>
   </data>
   <data name="NumeratorType" xml:space="preserve">
-    <value>Numerator Type</value>
+    <value>Numberpad Type</value>
   </data>
   <data name="NumeratorValue" xml:space="preserve">
-    <value>Numerator Value</value>
+    <value>Numberpad Value</value>
   </data>
   <data name="SortOrder" xml:space="preserve">
     <value>Sort Order</value>
@@ -753,7 +753,7 @@ Payment</value>
     <comment>Label content</comment>
   </data>
   <data name="Numerator" xml:space="preserve">
-    <value>Numerator</value>
+    <value>Number Generator</value>
     <comment>Label content</comment>
   </data>
   <data name="CanUseOnPOS" xml:space="preserve">
@@ -846,10 +846,6 @@ Payment</value>
   <data name="GiftReason" xml:space="preserve">
     <value>Gift Reason</value>
   </data>
-  <data name="NumeratorName" xml:space="preserve">
-    <value>Numerator Name</value>
-    <comment>Label content</comment>
-  </data>
   <data name="NumeratorFormat" xml:space="preserve">
     <value>Number Format</value>
     <comment>Label content</comment>
@@ -924,14 +920,6 @@ Payment</value>
   </data>
   <data name="TicketNote" xml:space="preserve">
     <value>Ticket Note</value>
-    <comment>Paragraph content</comment>
-  </data>
-  <data name="AccountAddress" xml:space="preserve">
-    <value>Account Address</value>
-    <comment>Paragraph content</comment>
-  </data>
-  <data name="AccountPhone" xml:space="preserve">
-    <value>Account Phone</value>
     <comment>Paragraph content</comment>
   </data>
   <data name="LineItemQuantity" xml:space="preserve">
@@ -1343,7 +1331,7 @@ Can't end Work Period while tickets open</value>
     <comment>Label content</comment>
   </data>
   <data name="NumeratorHeight" xml:space="preserve">
-    <value>Numerator Height</value>
+    <value>Numberpad Height</value>
     <comment>Label content</comment>
   </data>
   <data name="AlphanumericButtons" xml:space="preserve">

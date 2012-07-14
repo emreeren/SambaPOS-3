@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
-using Samba.Domain.Models.Resources;
 using Samba.Infrastructure;
 using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Data.Serializer;
@@ -459,20 +458,16 @@ namespace Samba.Domain.Models.Tickets
             return string.Join("\r", TicketTagValues.Where(x => !string.IsNullOrEmpty(x.TagValue)).Select(x => string.Format("{0}: {1}", x.TagName, x.TagValue)));
         }
 
-        public void UpdateResource(Resource resource)
-        {
-            UpdateResource(resource.ResourceTemplateId, resource.Id, resource.Name);
-        }
-
-        public void UpdateResource(int resourceTemplateId, int resourceId, string resourceName)
+        public void UpdateResource(int resourceTemplateId, int resourceId, string resourceName, int accountId)
         {
             var r = TicketResources.SingleOrDefault(x => x.ResourceTemplateId == resourceTemplateId);
             if (r == null)
             {
-                TicketResources.Add(new TicketResource { ResourceId = resourceId, ResourceName = resourceName, ResourceTemplateId = resourceTemplateId });
+                TicketResources.Add(new TicketResource { ResourceId = resourceId, ResourceName = resourceName, ResourceTemplateId = resourceTemplateId, AccountId = accountId });
             }
             else
             {
+                r.AccountId = accountId;
                 r.ResourceId = resourceId;
                 r.ResourceName = resourceName;
                 r.ResourceTemplateId = resourceTemplateId;

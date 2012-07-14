@@ -5,7 +5,7 @@
     <Grid>
         <StackPanel>
             <Label>
-                <LocText ResourceIdentifierKey="NumeratorName" Suffix=":" />
+                <LocText ResourceIdentifierKey="Name" Suffix=":" />
             </Label>
             <TextBox HorizontalAlignment="Left" Width="250" Text="{Binding Name}" />
             <Label>

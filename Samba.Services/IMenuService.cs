@@ -18,7 +18,6 @@ namespace Samba.Services
         IEnumerable<MenuItem> GetMenuItemsByGroupCode(string menuItemGroupCode);
         IEnumerable<MenuItem> GetMenuItems();
         IEnumerable<MenuItemData> GetMenuItemData();
-        ScreenMenu GetScreenMenu(int screenMenuId);
         IEnumerable<ScreenMenu> GetScreenMenus();
         IEnumerable<string> GetScreenMenuCategories(ScreenMenuCategory category, string parentTag);
         IEnumerable<ScreenMenuItem> GetScreenMenuItems(ScreenMenuCategory category, int currentPageNo, string tag);

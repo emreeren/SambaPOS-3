@@ -139,7 +139,7 @@ namespace Samba.Modules.PosModule
             if (obj.Topic == EventTopicNames.DisplayTicket)
             {
                 if (SelectedTicket != null) CloseTicket();
-                if(SelectedTicket != null) return;
+                if (SelectedTicket != null) return;
                 OpenTicket(obj.Value);
                 EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
             }
@@ -175,7 +175,7 @@ namespace Samba.Modules.PosModule
             OpenTicket(0);
             foreach (var ticketResource in tr)
             {
-                _ticketService.UpdateResource(SelectedTicket, ticketResource.ResourceTemplateId, ticketResource.ResourceId, ticketResource.ResourceName);
+                _ticketService.UpdateResource(SelectedTicket, ticketResource.ResourceTemplateId, ticketResource.ResourceId, ticketResource.ResourceName, ticketResource.AccountId);
             }
         }
 

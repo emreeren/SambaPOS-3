@@ -26,6 +26,7 @@ namespace Samba.Modules.PaymentModule
         private bool _resetAmount;
         private readonly ITicketService _ticketService;
         private readonly ICacheService _cacheService;
+        private readonly IAccountService _accountService;
         private readonly ICaptionCommand _executeAutomationCommand;
         private readonly ICaptionCommand _makePaymentCommand;
         private readonly ICaptionCommand _serviceSelectedCommand;
@@ -33,11 +34,12 @@ namespace Samba.Modules.PaymentModule
         private readonly IAutomationService _automationService;
 
         [ImportingConstructor]
-        public PaymentEditorViewModel(ITicketService ticketService, ICacheService cacheService,
+        public PaymentEditorViewModel(ITicketService ticketService, ICacheService cacheService, IAccountService accountService,
             IUserService userService, IAutomationService automationService, TicketTotalsViewModel totals)
         {
             _ticketService = ticketService;
             _cacheService = cacheService;
+            _accountService = accountService;
             _userService = userService;
             _automationService = automationService;
 
@@ -45,7 +47,6 @@ namespace Samba.Modules.PaymentModule
             _makePaymentCommand = new CaptionCommand<PaymentTemplate>("", OnMakePayment, CanMakePayment);
             _serviceSelectedCommand = new CaptionCommand<CalculationTemplate>("", OnSelectCalculationTemplate, CanSelectCalculationTemplate);
 
-            SubmitAccountPaymentCommand = new CaptionCommand<string>(Resources.AccountBalance_r, OnSubmitAccountPayment, CanSubmitAccountPayment);
             ClosePaymentScreenCommand = new CaptionCommand<string>(Resources.Close, OnClosePaymentScreen, CanClosePaymentScreen);
             TenderAllCommand = new CaptionCommand<string>(Resources.All, OnTenderAllCommand);
             TypeValueCommand = new DelegateCommand<string>(OnTypeValueExecuted);
@@ -78,7 +79,6 @@ namespace Samba.Modules.PaymentModule
         public TicketTotalsViewModel Totals { get; set; }
         public PaymentButtonGroupViewModel PaymentButtonGroup { get; set; }
 
-        public CaptionCommand<string> SubmitAccountPaymentCommand { get; set; }
         public CaptionCommand<string> ClosePaymentScreenCommand { get; set; }
         public CaptionCommand<string> TenderAllCommand { get; set; }
         public DelegateCommand<string> TypeValueCommand { get; set; }
@@ -188,25 +188,18 @@ namespace Samba.Modules.PaymentModule
 
         private bool CanMakeAccountTransaction(TicketResource ticketResource, PaymentTemplate paymentTemplate)
         {
+            if (ticketResource.AccountId == 0) return false;
             var resourceTemplate = _cacheService.GetResourceTemplateById(ticketResource.ResourceTemplateId);
             if (resourceTemplate.AccountTemplateId != paymentTemplate.AccountTransactionTemplate.TargetAccountTemplateId) return false;
-            var rs = _cacheService.GetResourceById(ticketResource.ResourceId);
-            if (rs.AccountId == 0) return false;
-            return true;
+            return false;
         }
 
         private Account GetAccountForTransaction(PaymentTemplate paymentTemplate, IEnumerable<TicketResource> ticketResources)
         {
-            var rt =
-            _cacheService.GetResourceTemplates().Where(
+            var rt = _cacheService.GetResourceTemplates().Where(
                 x => x.AccountTemplateId == paymentTemplate.AccountTransactionTemplate.TargetAccountTemplateId).Select(x => x.Id);
             var tr = ticketResources.Where(x => rt.Contains(x.ResourceTemplateId)).FirstOrDefault();
-            if (tr != null)
-            {
-                var tra = _cacheService.GetResourceById(tr.ResourceId);
-                return _cacheService.GetAccountById(tra.AccountId);
-            }
-            return null;
+            return tr != null ? _accountService.GetAccountById(tr.AccountId) : null;
         }
 
         private void OnMakePayment(PaymentTemplate obj)
@@ -247,11 +240,6 @@ namespace Samba.Modules.PaymentModule
         {
             TenderedAmount = PaymentAmount;
             _resetAmount = true;
-        }
-
-        private void OnSubmitAccountPayment(string obj)
-        {
-            //SubmitPayment(PaymentType.Account);
         }
 
         private void OnDivideValue(string obj)
@@ -333,14 +321,6 @@ namespace Samba.Modules.PaymentModule
             ReturningAmount = "";
             ReturningAmountVisibility = Visibility.Collapsed;
             SelectedTicket = null;
-        }
-
-        private bool CanSubmitAccountPayment(string arg)
-        {
-            return SelectedTicket != null
-                && SelectedTicket.AccountId > 0
-                && GetTenderedValue() == GetPaymentValue()
-                && SelectedTicket.GetRemainingAmount() > 0;
         }
 
         private decimal GetTenderedValue()

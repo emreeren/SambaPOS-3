@@ -10,6 +10,7 @@ namespace Samba.Domain.Models.Tickets
     {
         public int ResourceTemplateId { get; set; }
         public int ResourceId { get; set; }
+        public int AccountId { get; set; }
         public string ResourceName { get; set; }
     }
 }

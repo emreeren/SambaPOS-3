@@ -11,6 +11,7 @@ namespace Samba.Services
 {
     public interface ICacheService
     {
+        ScreenMenu GetScreenMenu(int screenMenuId);
         MenuItem GetMenuItem(Expression<Func<MenuItem, bool>> expression);
         MenuItemPortion GetMenuItemPortion(int menuItemId, string portionName);
         IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(int menuItemId);

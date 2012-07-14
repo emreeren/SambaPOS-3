@@ -25,9 +25,15 @@ namespace Samba.Services.Implementations
             _applicationState = applicationState;
         }
 
+        private IEnumerable<MenuItem> _menuItems;
+        public IEnumerable<MenuItem> MenuItems
+        {
+            get { return _menuItems??(_menuItems = Dao.Query<MenuItem>(x => x.TaxTemplate.AccountTransactionTemplate, x => x.Portions.Select(y => y.Prices))); }
+        }
+
         public MenuItem GetMenuItem(Expression<Func<MenuItem, bool>> expression)
         {
-            return Dao.SingleWithCache(expression, x => x.TaxTemplate.AccountTransactionTemplate, x => x.Portions.Select(y => y.Prices));
+            return MenuItems.Single(expression.Compile());
         }
 
         public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(int menuItemId)
@@ -79,9 +85,15 @@ namespace Samba.Services.Implementations
             return TicketTagGroups.FirstOrDefault(x => x.Id == id);
         }
 
+        private IEnumerable<AccountTransactionTemplate> _accountTransactionTemplates;
+        public IEnumerable<AccountTransactionTemplate> AccountTransactionTemplates
+        {
+            get { return _accountTransactionTemplates ?? (_accountTransactionTemplates = Dao.Query<AccountTransactionTemplate>()); }
+        }
+
         public AccountTransactionTemplate GetAccountTransactionTemplateById(int id)
         {
-            return Dao.SingleWithCache<AccountTransactionTemplate>(x => x.Id == id);
+            return AccountTransactionTemplates.Single(x => x.Id == id);
         }
 
         private IEnumerable<Resource> _resources;
@@ -247,7 +259,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<AccountScreen> _accountScreens;
         public IEnumerable<AccountScreen> AccountScreens
         {
-            get { return _accountScreens??(_accountScreens = Dao.Query<AccountScreen>()); }
+            get { return _accountScreens ?? (_accountScreens = Dao.Query<AccountScreen>()); }
         }
 
         public IEnumerable<AccountScreen> GetAccountScreens()
@@ -267,8 +279,29 @@ namespace Samba.Services.Implementations
             return mi.Portions.FirstOrDefault(x => x.Name == portionName) ?? mi.Portions[0];
         }
 
+        private IEnumerable<ScreenMenu> _screenMenus;
+        public IEnumerable<ScreenMenu> ScreenMenus
+        {
+            get
+            {
+                return _screenMenus ?? (
+                    _screenMenus = Dao.Query<ScreenMenu>(
+                    x => x.Categories,
+                    x => x.Categories.Select(z => z.ScreenMenuItems.Select(w => w.OrderTagTemplate.OrderTagTemplateValues.Select(x1 => x1.OrderTag))),
+                    x => x.Categories.Select(z => z.ScreenMenuItems.Select(w => w.OrderTagTemplate.OrderTagTemplateValues.Select(x1 => x1.OrderTagGroup)))));
+            }
+        }
+
+        public ScreenMenu GetScreenMenu(int screenMenuId)
+        {
+            return ScreenMenus.Single(x => x.Id == screenMenuId);
+        }
+
         public override void Reset()
         {
+            _menuItems = null;
+            _screenMenus = null;
+            _accountTransactionTemplates = null;
             _accountScreens = null;
             _calculationTemplates = null;
             _automationCommands = null;

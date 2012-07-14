@@ -845,10 +845,6 @@ Yap</value>
   <data name="GiftReason" xml:space="preserve">
     <value>İkram Nedeni</value>
   </data>
-  <data name="NumeratorName" xml:space="preserve">
-    <value>Numeratör Adı</value>
-    <comment>Label content</comment>
-  </data>
   <data name="NumeratorFormat" xml:space="preserve">
     <value>Numara Formatı</value>
     <comment>Label content</comment>
@@ -923,14 +919,6 @@ Yap</value>
   </data>
   <data name="TicketNote" xml:space="preserve">
     <value>Adisyon notu</value>
-    <comment>Paragraph content</comment>
-  </data>
-  <data name="AccountAddress" xml:space="preserve">
-    <value>Hesap Adresi</value>
-    <comment>Paragraph content</comment>
-  </data>
-  <data name="AccountPhone" xml:space="preserve">
-    <value>Hesap Telefonu</value>
     <comment>Paragraph content</comment>
   </data>
   <data name="LineItemQuantity" xml:space="preserve">
