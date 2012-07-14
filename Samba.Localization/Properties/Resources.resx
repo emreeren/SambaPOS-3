@@ -3070,4 +3070,10 @@ Continue without adding details?</value>
   <data name="AccountScreen">
     <value xml:space="preserve">Account Screen</value>
   </data>
+  <data name="CantDelete_f">
+    <value xml:space="preserve">Can't delete {0}</value>
+  </data>
+  <data name="AdminRole">
+    <value xml:space="preserve">Admin Role</value>
+  </data>
 </root>

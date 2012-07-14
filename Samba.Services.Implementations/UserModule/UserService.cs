@@ -29,7 +29,7 @@ namespace Samba.Services.Implementations.UserModule
             _automationService = automationService;
 
             ValidatorRegistry.RegisterDeleteValidator(new UserDeleteValidator());
-            ValidatorRegistry.RegisterDeleteValidator<UserRole>(x => Dao.Exists<User>(y => y.UserRole.Id == x.Id), Resources.UserRole, Resources.User);
+            ValidatorRegistry.RegisterDeleteValidator(new UserRoleDeleteValidator());
             ValidatorRegistry.RegisterSaveValidator(new UserSaveValidator());
         }
 
@@ -150,6 +150,17 @@ namespace Samba.Services.Implementations.UserModule
             if (Dao.Count<User>() == 1) return Resources.DeleteErrorLastUser;
             if (Dao.Exists<Order>(x => x.CreatingUserName == model.Name))
                 return string.Format(Resources.DeleteErrorUsedBy_f, Resources.User, Resources.Order);
+            return "";
+        }
+    }
+
+    public class UserRoleDeleteValidator : SpecificationValidator<UserRole>
+    {
+        public override string GetErrorMessage(UserRole model)
+        {
+            if (model.Id == 1 || model.IsAdmin) return string.Format(Resources.CantDelete_f, Resources.AdminRole);
+            if (Dao.Exists<User>(y => y.UserRole.Id == model.Id))
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.UserRole, Resources.User);
             return "";
         }
     }

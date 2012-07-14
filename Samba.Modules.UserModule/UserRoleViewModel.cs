@@ -45,7 +45,7 @@ namespace Samba.Modules.UserModule
         public bool IsAdmin
         {
             get { return Model.IsAdmin; }
-            set { Model.IsAdmin = value; }
+            set { Model.IsAdmin = value || Model.Id == 1; }
         }
 
         public override Type GetViewType()

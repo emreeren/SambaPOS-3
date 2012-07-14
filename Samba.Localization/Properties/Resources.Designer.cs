@@ -424,6 +424,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Admin Role.
+        /// </summary>
+        public static string AdminRole {
+            get {
+                return ResourceManager.GetString("AdminRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A-la Carte.
         /// </summary>
         public static string ALaCarte {
@@ -1149,6 +1158,15 @@ namespace Samba.Localization.Properties {
         public static string CantCompleteOperationWhenThereIsZeroPricedProduct {
             get {
                 return ResourceManager.GetString("CantCompleteOperationWhenThereIsZeroPricedProduct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t delete {0}.
+        /// </summary>
+        public static string CantDelete_f {
+            get {
+                return ResourceManager.GetString("CantDelete_f", resourceCulture);
             }
         }
         
