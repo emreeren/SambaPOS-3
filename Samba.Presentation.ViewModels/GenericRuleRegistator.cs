@@ -46,7 +46,7 @@ namespace Samba.Presentation.ViewModels
 
         private static void RegisterActions()
         {
-            AutomationService.RegisterActionType("SendEmail", Resources.SendEmail, new { SMTPServer = "", SMTPUser = "", SMTPPassword = "", SMTPPort = 0, ToEMailAddress = "", Subject = "", FromEMailAddress = "", EMailMessage = "", FileName = "", DeleteFile = false, BypassSslErrors = false });
+            AutomationService.RegisterActionType("SendEmail", Resources.SendEmail, new { SMTPServer = "", SMTPUser = "", SMTPPassword = "", SMTPPort = 0, ToEMailAddress = "", Subject = "", CCEmailAddresses = "", FromEMailAddress = "", EMailMessage = "", FileName = "", DeleteFile = false, BypassSslErrors = false });
             AutomationService.RegisterActionType("AddTicketDiscount", Resources.AddTicketDiscount, new { DiscountPercentage = 0m });
             AutomationService.RegisterActionType("AddOrder", Resources.AddOrder, new { MenuItemName = "", PortionName = "", Quantity = 0, Tag = "" });
             AutomationService.RegisterActionType("UpdateTicketTag", Resources.UpdateTicketTag, new { TagName = "", TagValue = "" });
@@ -294,6 +294,7 @@ namespace Samba.Presentation.ViewModels
                         x.Value.GetAsString("SMTPPassword"),
                         x.Value.GetAsInteger("SMTPPort"),
                         x.Value.GetAsString("ToEMailAddress"),
+                        x.Value.GetAsString("CCEmailAddresses"),
                         x.Value.GetAsString("FromEMailAddress"),
                         x.Value.GetAsString("Subject"),
                         x.Value.GetAsString("EMailMessage"),
