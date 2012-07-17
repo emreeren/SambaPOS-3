@@ -100,9 +100,16 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<Department>().HasMany(p => p.ResourceScreens).WithMany();
             modelBuilder.Entity<ResourceScreen>().HasMany(p => p.ScreenItems).WithMany();
 
+            modelBuilder.Entity<AccountTransaction>().Ignore(p => p.SourceTransactionValue);
+            modelBuilder.Entity<AccountTransaction>().Ignore(p => p.TargetTransactionValue);
+
             modelBuilder.Entity<AccountTransaction>().HasKey(p => new { p.Id, p.AccountTransactionDocumentId });
             modelBuilder.Entity<AccountTransaction>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<AccountTransactionDocument>().HasMany(p => p.AccountTransactions).WithRequired().HasForeignKey(x => x.AccountTransactionDocumentId);
+
+            modelBuilder.Entity<AccountTransactionValue>().HasKey(p => new { p.Id, p.AccountTransactionId, p.AccountTransactionDocumentId });
+            modelBuilder.Entity<AccountTransactionValue>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<AccountTransaction>().HasMany(p => p.AccountTransactionValues).WithRequired().HasForeignKey(x => new { x.AccountTransactionId, x.AccountTransactionDocumentId });
 
             modelBuilder.Entity<Calculation>().HasKey(p => new { p.Id, p.TicketId });
             modelBuilder.Entity<Calculation>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);

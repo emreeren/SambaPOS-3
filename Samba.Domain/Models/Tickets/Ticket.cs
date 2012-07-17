@@ -236,7 +236,13 @@ namespace Samba.Domain.Models.Tickets
                 }
                 else if (service.CalculationType == 3)
                 {
-                    service.CalculationAmount = service.Amount - sum;
+                    if (service.DecreaseAmount && service.Amount > currentSum)
+                        service.Amount = 0;
+                    else if (!service.DecreaseAmount && service.Amount < currentSum)
+                        service.Amount = 0;
+                    else
+                        service.CalculationAmount = service.Amount - currentSum;
+
                 }
                 else service.CalculationAmount = service.Amount;
 
@@ -249,7 +255,15 @@ namespace Samba.Domain.Models.Tickets
                 var s = service;
                 var transaction = AccountTransactions.AccountTransactions.Single(x => x.AccountTransactionTemplateId == s.AccountTransactionTemplateId);
                 //todo: Mutlak değeri yazmak çoğu durumda doğru ancak bazı durumlarda hesapların ters çevrilmesi gerekiyor. İncele
+                // Çözüm 1: İskonto olarak işaretli hesaplamaların adisyonun tutarını arttırıcı ya da tam tersi işleme neden olması engellendi.
                 transaction.Amount = Math.Abs(service.CalculationAmount);
+
+                if (service.Amount == 0)
+                {
+                    Calculations.Remove(service);
+                    AccountTransactions.AccountTransactions.Remove(
+                        AccountTransactions.AccountTransactions.Single(x => service.AccountTransactionTemplateId == x.AccountTransactionTemplateId));
+                }
             }
 
             return decimal.Round(totalAmount, LocalSettings.Decimals);

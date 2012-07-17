@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Accounts
@@ -14,5 +15,9 @@ namespace Samba.Domain.Models.Accounts
         public DateTime Date { get; set; }
         public decimal Debit { get; set; }
         public decimal Credit { get; set; }
+
+        public int AccountTransactionId { get; set; }
+        public int AccountTransactionDocumentId { get; set; }
+        public bool IsSource { get; set; }
     }
 }

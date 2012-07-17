@@ -169,6 +169,7 @@ namespace Samba.Modules.PaymentModule
             if (amount == 0) amount = GetTenderedValue();
             SelectedTicket.AddCalculation(obj, amount);
             PaymentAmount = "";
+            PrepareMergedItems();
             RefreshValues();
         }
 
@@ -476,12 +477,12 @@ namespace Samba.Modules.PaymentModule
             PaymentAmount = "";
             _selectedTotal = 0;
 
-            var serviceAmount = SelectedTicket.GetPostTaxServicesTotal();
+            var serviceAmount = SelectedTicket.GetPreTaxServicesTotal() + SelectedTicket.GetPostTaxServicesTotal();
             var sum = SelectedTicket.GetSum();
 
             if (sum == 0) return;
 
-            SelectedTicket.Orders.Where(x => x.CalculatePrice).ToList().ForEach(x => CreateMergedItem(sum, x, serviceAmount));
+            SelectedTicket.Orders.Where(x => x.CalculatePrice).ToList().ForEach(x => CreateMergedItem(SelectedTicket.GetPlainSum(), x, serviceAmount));
 
             foreach (var paidItem in SelectedTicket.PaidItems)
             {

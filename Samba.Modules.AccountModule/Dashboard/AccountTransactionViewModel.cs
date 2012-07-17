@@ -57,8 +57,6 @@ namespace Samba.Modules.AccountModule.Dashboard
                 if (Model == AccountTransaction.Null)
                 {
                     Model = AccountTransaction.Create(value);
-                    Model.SourceAccountTemplateId = value.SourceAccountTemplateId;
-                    Model.TargetAccountTemplateId = value.TargetAccountTemplateId;
                     _document.AccountTransactions.Add(Model);
                 }
                 RaisePropertyChanged(() => AccountTransactionTemplate);

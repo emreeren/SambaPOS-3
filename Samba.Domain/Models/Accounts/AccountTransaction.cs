@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using NCalc;
@@ -9,6 +10,11 @@ namespace Samba.Domain.Models.Accounts
 {
     public class AccountTransaction : Entity
     {
+        public AccountTransaction()
+        {
+            _accountTransactionValues = new List<AccountTransactionValue>();
+        }
+
         private decimal _amount;
         public decimal Amount
         {
@@ -27,9 +33,40 @@ namespace Samba.Domain.Models.Accounts
         public int AccountTransactionTemplateId { get; set; }
         public int SourceAccountTemplateId { get; set; }
         public int TargetAccountTemplateId { get; set; }
-        public bool? DynamicPart { get; set; }
-        public virtual AccountTransactionValue SourceTransactionValue { get; set; }
-        public virtual AccountTransactionValue TargetTransactionValue { get; set; }
+
+        private readonly IList<AccountTransactionValue> _accountTransactionValues;
+        public virtual IList<AccountTransactionValue> AccountTransactionValues
+        {
+            get { return _accountTransactionValues; }
+        }
+
+        public AccountTransactionValue SourceTransactionValue
+        {
+            get { return AccountTransactionValues.SingleOrDefault(x => x.IsSource); }
+            set
+            {
+                if (SourceTransactionValue != value)
+                {
+                    if (SourceTransactionValue != null)
+                        AccountTransactionValues.Remove(SourceTransactionValue);
+                    AccountTransactionValues.Add(value);
+                }
+            }
+        }
+
+        public AccountTransactionValue TargetTransactionValue
+        {
+            get { return AccountTransactionValues.SingleOrDefault(x => !x.IsSource); }
+            set
+            {
+                if (TargetTransactionValue != value)
+                {
+                    if (TargetTransactionValue != null)
+                        AccountTransactionValues.Remove(TargetTransactionValue);
+                    AccountTransactionValues.Add(value);
+                }
+            }
+        }
 
         private static AccountTransaction _null;
         public static AccountTransaction Null
@@ -38,8 +75,8 @@ namespace Samba.Domain.Models.Accounts
             {
                 return _null ?? (_null = new AccountTransaction
                                              {
-                                                 SourceTransactionValue = new AccountTransactionValue(),
-                                                 TargetTransactionValue = new AccountTransactionValue()
+                                                 SourceTransactionValue = new AccountTransactionValue { IsSource = true },
+                                                 TargetTransactionValue = new AccountTransactionValue { IsSource = false }
                                              });
             }
         }
@@ -50,41 +87,25 @@ namespace Samba.Domain.Models.Accounts
                              {
                                  Name = template.Name,
                                  AccountTransactionTemplateId = template.Id,
-                                 SourceTransactionValue = new AccountTransactionValue(),
-                                 TargetTransactionValue = new AccountTransactionValue()
+                                 SourceTransactionValue = new AccountTransactionValue { IsSource = true, AccountId = template.DefaultSourceAccountId, Name = template.Name },
+                                 TargetTransactionValue = new AccountTransactionValue { IsSource = false, AccountId = template.DefaultTargetAccountId, Name = template.Name },
+                                 SourceAccountTemplateId = template.SourceAccountTemplateId,
+                                 TargetAccountTemplateId = template.TargetAccountTemplateId
                              };
 
-            if (result.SourceTransactionValue != null)
-            {
-                result.SourceTransactionValue.AccountId = template.DefaultSourceAccountId;
-                result.SourceTransactionValue.Name = template.Name;
-            }
-
-            if (result.TargetTransactionValue != null)
-            {
-                result.TargetTransactionValue.AccountId = template.DefaultTargetAccountId;
-                result.TargetTransactionValue.Name = template.Name;
-            }
-
-            result.SourceAccountTemplateId = template.SourceAccountTemplateId;
-            result.TargetAccountTemplateId = template.TargetAccountTemplateId;
-
-            result.DynamicPart = null;
-            if (template.DefaultSourceAccountId == 0) result.DynamicPart = true;
-            if (template.DefaultTargetAccountId == 0) result.DynamicPart = false;
 
             return result;
         }
 
         public void SetSourceAccount(int accountTemplateId, int accountId)
         {
-            SourceAccountTemplateId = accountTemplateId;
+            Debug.Assert(SourceAccountTemplateId == accountTemplateId);
             SourceTransactionValue.AccountId = accountId;
         }
 
         public void SetTargetAccount(int accountTemplateId, int accountId)
         {
-            TargetAccountTemplateId = accountTemplateId;
+            Debug.Assert(TargetAccountTemplateId == accountTemplateId);
             TargetTransactionValue.AccountId = accountId;
         }
 
@@ -94,10 +115,6 @@ namespace Samba.Domain.Models.Accounts
                 SourceTransactionValue.AccountId = accountId;
             else if (TargetAccountTemplateId == accountTemplateId)
                 TargetTransactionValue.AccountId = accountId;
-            else if (DynamicPart == true)
-                SetSourceAccount(accountTemplateId, accountId);
-            else if (DynamicPart == false)
-                SetTargetAccount(accountTemplateId, accountId);
         }
     }
 }
