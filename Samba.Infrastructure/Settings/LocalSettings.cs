@@ -20,6 +20,7 @@ namespace Samba.Infrastructure.Settings
         public string CurrentLanguage { get; set; }
         public bool OverrideLanguage { get; set; }
         public bool OverrideWindowsRegionalSettings { get; set; }
+        public int DefaultRecordLimit { get; set; }
 
         private readonly SerializableDictionary<string, string> _customSettings;
         public SerializableDictionary<string, string> CustomSettings
@@ -125,6 +126,12 @@ html
             set { _settingsObject.OverrideWindowsRegionalSettings = value; }
         }
 
+        public static int DefaultRecordLimit
+        {
+            get { return _settingsObject.DefaultRecordLimit; }
+            set { _settingsObject.DefaultRecordLimit = value; }
+        }
+
         public static string AppPath { get; set; }
         public static string DocumentPath { get { return Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + AppName; } }
 
@@ -203,6 +210,8 @@ html
                     reader.Close();
                 }
             }
+            if (DefaultRecordLimit == 0)
+                DefaultRecordLimit = 100;
         }
 
         static LocalSettings()

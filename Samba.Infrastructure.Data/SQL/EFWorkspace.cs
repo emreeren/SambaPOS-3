@@ -113,6 +113,18 @@ namespace Samba.Infrastructure.Data.SQL
             return _context.Set<T>().Where(expression);
         }
 
+        public IEnumerable<T> Query<T>(int limit = 0) where T : class
+        {
+            if (limit == 0) return All<T>();
+            return _context.Set<T>().Take(limit);
+        }
+
+        public IEnumerable<T> Query<T>(Expression<Func<T, bool>> expression, int limit = 0) where T : class
+        {
+            if (limit == 0) return All(expression);
+            return _context.Set<T>().Where(expression).Take(limit);
+        }
+
         public void Add<T>(T item) where T : class
         {
             _context.Set<T>().Add(item);

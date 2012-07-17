@@ -9,6 +9,7 @@ using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.ServiceLocation;
 using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Data.Serializer;
+using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common.Services;
@@ -24,9 +25,11 @@ namespace Samba.Presentation.Common.ModelBase
         [ImportingConstructor]
         public EntityCollectionViewModelBase()
         {
+            Limit =  LocalSettings.DefaultRecordLimit;
             OpenViewModels = new List<EntityViewModelBase<TModel>>();
             BatchCreateItemsCommand = new CaptionCommand<TModel>(string.Format(Resources.BatchCreate_f, PluralModelTitle), OnBatchCreateItems, CanBatchCreateItems);
             SortItemsCommand = new CaptionCommand<TModel>(string.Format(Resources.Sort_f, PluralModelTitle), OnSortItems);
+            RemoveLimitCommand = new CaptionCommand<TModel>("Remove Limit", OnRemoveLimit);
 
             if (typeof(TViewModel).GetInterfaces().Any(x => x == typeof(IEntityCreator<TModel>)))
                 CustomCommands.Add(BatchCreateItemsCommand);
@@ -68,10 +71,18 @@ namespace Samba.Presentation.Common.ModelBase
                   });
         }
 
+        private void OnRemoveLimit(TModel obj)
+        {
+            Limit = 0;
+            _items = null;
+            RaisePropertyChanged(() => Items);
+            RaisePropertyChanged(() => DisplayLimitWarning);
+        }
+
         private void OnSortItems(TModel obj)
         {
             var list = Items.Select(x => x.Model).ToList();
-            InteractionService.UserIntraction.SortItems(list.Cast<IOrderable>(), "Test", "Test");
+            InteractionService.UserIntraction.SortItems(list.Cast<IOrderable>(), "Test", "Test");  // todo fix titles
             Workspace.CommitChanges();
             _items = null;
             RaisePropertyChanged(() => Items);
@@ -99,14 +110,35 @@ namespace Samba.Presentation.Common.ModelBase
 
         public ICaptionCommand BatchCreateItemsCommand { get; set; }
         public ICaptionCommand SortItemsCommand { get; set; }
+        public ICaptionCommand RemoveLimitCommand { get; set; }
+
+        public bool DisplayLimitWarning
+        {
+            get
+            {
+                return Limit > 0 && _items != null && _items.Count == Limit;
+            }
+        }
 
         private readonly IWorkspace _workspace = WorkspaceFactory.Create();
         public IWorkspace Workspace { get { return _workspace; } }
 
         private ObservableCollection<TViewModel> _items;
-        public ObservableCollection<TViewModel> Items { get { return _items ?? (_items = GetItemsList()); } }
+        public ObservableCollection<TViewModel> Items
+        {
+            get
+            {
+                if (_items == null)
+                {
+                    _items = GetItemsList();
+                    RaisePropertyChanged(() => DisplayLimitWarning);
+                }
+                return _items;
+            }
+        }
 
         public string Filter { get; set; }
+        public int Limit { get; set; }
 
         public override void RefreshItems()
         {
@@ -121,8 +153,8 @@ namespace Samba.Presentation.Common.ModelBase
 
         protected virtual IEnumerable<TModel> SelectItems()
         {
-            var filter = (Filter??"").ToLower();
-            return !string.IsNullOrEmpty(filter) ? _workspace.All<TModel>().Where(x => x.Name.ToLower().Contains(filter)) : _workspace.All<TModel>();
+            var filter = (Filter ?? "").ToLower();
+            return !string.IsNullOrEmpty(filter) ? _workspace.Query<TModel>(x => x.Name.ToLower().Contains(filter), Limit) : _workspace.Query<TModel>(Limit);
         }
 
         protected virtual void BeforeDeleteItem(TModel item)

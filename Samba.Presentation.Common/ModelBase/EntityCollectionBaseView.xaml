@@ -50,46 +50,59 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <ListView Grid.RowSpan="2" BorderThickness="0" ItemsSource='{Binding Source={StaticResource viewSource}}' Name="MainGrid"
+        <Grid Grid.RowSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Border Background="Lavender" Visibility="{Binding DisplayLimitWarning,Converter={StaticResource VisibilityConverter}}">
+                <TextBlock Margin="5">
+                        <Hyperlink Command="{Binding RemoveLimitCommand}">
+                            <TextBlock Text="{Binding RemoveLimitCommand.Caption}" />
+                        </Hyperlink>
+                    </TextBlock>
+            </Border>
+            <ListView  Grid.Row="1" BorderThickness="0" ItemsSource='{Binding Source={StaticResource viewSource}}' Name="MainGrid"
                   SelectedItem="{Binding Path=SelectedItem, Mode=TwoWay}" DisplayMemberPath="Name"
                   MouseDoubleClick="MainGrid_MouseDoubleClick" PreviewKeyDown="MainGrid_PreviewKeyDown">
-            <ListView.Resources>
-                <Common:ElementSpy x:Key="spy" />
-            </ListView.Resources>
-            <ListView.ContextMenu>
-                <ContextMenu Name="CM">
-                    <MenuItem Header="{Binding AddItemCommand.Caption}" Command="{Binding AddItemCommand}"/>
-                    <MenuItem Header="{Binding EditItemCommand.Caption}" Command="{Binding EditItemCommand}"/>
-                    <MenuItem Header="{Binding DeleteItemCommand.Caption}" Command="{Binding DeleteItemCommand}"/>
-                    <MenuItem Header="{Binding DeleteSelectedItemsCommand.Caption}" Command="{Binding DeleteSelectedItemsCommand}"
+                <ListView.Resources>
+                    <Common:ElementSpy x:Key="spy" />
+                </ListView.Resources>
+                <ListView.ContextMenu>
+                    <ContextMenu Name="CM">
+                        <MenuItem Header="{Binding AddItemCommand.Caption}" Command="{Binding AddItemCommand}"/>
+                        <MenuItem Header="{Binding EditItemCommand.Caption}" Command="{Binding EditItemCommand}"/>
+                        <MenuItem Header="{Binding DeleteItemCommand.Caption}" Command="{Binding DeleteItemCommand}"/>
+                        <MenuItem Header="{Binding DeleteSelectedItemsCommand.Caption}" Command="{Binding DeleteSelectedItemsCommand}"
                               CommandParameter="{Binding Source={StaticResource spy},Path=Element.SelectedItems}"/>
-                    <MenuItem Header="{Binding DuplicateItemCommand.Caption}" Command="{Binding DuplicateItemCommand}"/>
-                </ContextMenu>
-            </ListView.ContextMenu>
-            <ListView.GroupStyle>
-                <GroupStyle>
-                    <GroupStyle.ContainerStyle>
-                        <Style TargetType="{x:Type GroupItem}">
-                            <Setter Property="Margin" Value="0,0,0,5"/>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type GroupItem}">
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="auto"/>
-                                                <RowDefinition Height="*"/>
-                                            </Grid.RowDefinitions>
-                                            <TextBlock Grid.Row="0" Text="{Binding Name}" FontWeight="Bold" Style="{StaticResource GroupLabelStyle}"/>
-                                            <ItemsPresenter Grid.Row="1"/>
-                                        </Grid>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </GroupStyle.ContainerStyle>
-                </GroupStyle>
-            </ListView.GroupStyle>
-        </ListView>
+                        <MenuItem Header="{Binding DuplicateItemCommand.Caption}" Command="{Binding DuplicateItemCommand}"/>
+                    </ContextMenu>
+                </ListView.ContextMenu>
+                <ListView.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.ContainerStyle>
+                            <Style TargetType="{x:Type GroupItem}">
+                                <Setter Property="Margin" Value="0,0,0,5"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type GroupItem}">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="auto"/>
+                                                    <RowDefinition Height="*"/>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Grid.Row="0" Text="{Binding Name}" FontWeight="Bold" Style="{StaticResource GroupLabelStyle}"/>
+                                                <ItemsPresenter Grid.Row="1"/>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </GroupStyle.ContainerStyle>
+                    </GroupStyle>
+                </ListView.GroupStyle>
+            </ListView>
+        </Grid>
 
         <!--<DataGrid AutoGenerateColumns="False" Name="MainGrid" ItemsSource='{Binding Source={StaticResource viewSource}}'
                  SelectedItem="{Binding Path=SelectedItem, Mode=TwoWay}" HeadersVisibility="Column" GridLinesVisibility="None" 

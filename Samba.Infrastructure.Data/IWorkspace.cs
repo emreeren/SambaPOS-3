@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Samba.Infrastructure.Data
@@ -19,6 +20,9 @@ namespace Samba.Infrastructure.Data
         IEnumerable<T> All<T>(params Expression<Func<T, object>>[] includes) where T : class;
         IEnumerable<T> All<T>(Expression<Func<T, bool>> expression) where T : class;
 
+        IEnumerable<T> Query<T>(int limit = 0) where T : class;
+        IEnumerable<T> Query<T>(Expression<Func<T, bool>> expression, int limit = 0) where T : class;
+
         void Add<T>(T item) where T : class;
         void Add<T>(IEnumerable<T> items) where T : class;
         void Update<T>(T item) where T : class;
@@ -32,5 +36,7 @@ namespace Samba.Infrastructure.Data
         void Refresh(object item, string property);
 
         void MarkUnchanged(object item);
+
+
     }
 }
