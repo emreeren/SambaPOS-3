@@ -217,7 +217,7 @@ namespace Samba.Modules.PosModule
 
         private bool CanSelectResource(ResourceTemplate arg)
         {
-            return _applicationState.CurrentDepartment.ResourceScreens.Any(x => x.ResourceTemplateId == arg.Id);
+            return !SelectedTicket.Locked && SelectedTicket.CanSubmit && _applicationState.CurrentDepartment.ResourceScreens.Any(x => x.ResourceTemplateId == arg.Id);
         }
 
         private void OnSelectResource(ResourceTemplate obj)

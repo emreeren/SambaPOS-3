@@ -122,7 +122,7 @@ namespace Samba.Modules.AccountModule
             AccountDetails.Clear();
             AccountSummaries.Clear();
 
-            var transactions = Dao.Query(GetCurrentRange(x => x.AccountId == SelectedAccount.Id));
+            var transactions = Dao.Query(GetCurrentRange(x => x.AccountId == SelectedAccount.Id)).OrderBy(x=>x.Date);
             AccountDetails.AddRange(transactions.Select(x => new AccountDetailViewModel(x)));
 
             if (FilterType != Resources.All)
@@ -186,14 +186,8 @@ namespace Samba.Modules.AccountModule
         {
             if (FocusedAccountTransaction != null)
             {
-                var acTransaction =
-                    Dao.Single<AccountTransaction>(
-                        x =>
-                        x.SourceTransactionValue.Id == FocusedAccountTransaction.Model.Id ||
-                        x.TargetTransactionValue.Id == FocusedAccountTransaction.Model.Id);
-                var document =
-                    Dao.Single<AccountTransactionDocument>(x => x.Id == acTransaction.AccountTransactionDocumentId);
-                var ticket = Dao.Single<Ticket>(x => x.AccountTransactions.Id == document.Id);
+                var did = FocusedAccountTransaction.Model.AccountTransactionDocumentId;
+                var ticket = Dao.Single<Ticket>(x => x.AccountTransactions.Id == did);
                 if (ticket != null)
                     ExtensionMethods.PublishIdEvent(ticket.Id, EventTopicNames.DisplayTicket);
             }

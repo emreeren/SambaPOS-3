@@ -412,7 +412,7 @@ namespace Samba.Domain.Models.Tickets
             {
                 order.Locked = true;
             }
-            if (_shouldLock) Locked = true;
+            if (_shouldLock || IsPaid) Locked = true;
             _shouldLock = false;
         }
 
