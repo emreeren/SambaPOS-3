@@ -182,6 +182,23 @@ namespace Samba.Domain.Models.Tickets
             }
         }
 
+        public void RemovePayment(Payment py)
+        {
+            Payments.Remove(py);
+            AccountTransactions.AccountTransactions.Where(x => x.Id == py.AccountTransactionId).ToList().ForEach(x => AccountTransactions.AccountTransactions.Remove(x));
+        }
+
+        public void RemoveCalculation(Calculation py)
+        {
+            var transactionId = py.AccountTransactionTemplateId;
+            Calculations.Remove(py);
+            if (!Calculations.Any(x => x.AccountTransactionTemplateId == transactionId))
+            {
+                AccountTransactions.AccountTransactions.Where(x => x.AccountTransactionTemplateId == transactionId)
+                       .ToList().ForEach(x => AccountTransactions.AccountTransactions.Remove(x));
+            }
+        }
+
         public int GetItemCount()
         {
             return Orders.Count();

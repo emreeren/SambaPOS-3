@@ -72,6 +72,7 @@ namespace Samba.Services
         Ticket OpenTicket(int ticketId);
         TicketCommitResult CloseTicket(Ticket ticket);
         TicketCommitResult MoveOrders(Ticket ticket, Order[] selectedOrders, int targetTicketId);
+        TicketCommitResult MergeTickets(IEnumerable<int> ticketIds);
         Order AddOrder(Ticket ticket, int menuItemId, decimal quantity, string portionName, OrderTagTemplate template);
         void AddPayment(Ticket ticket, string paymentTemplateName, AccountTransactionTemplate transactionTemplate, Account account, decimal tenderedAmount);
         void PayTicket(Ticket ticket, PaymentTemplate template);

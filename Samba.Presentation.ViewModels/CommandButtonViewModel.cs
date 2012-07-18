@@ -6,7 +6,7 @@ namespace Samba.Presentation.ViewModels
     {
         public CommandButtonViewModel()
         {
-            Color = "Gainsboro";
+ 
         }
 
         public ICaptionCommand Command { get; set; }

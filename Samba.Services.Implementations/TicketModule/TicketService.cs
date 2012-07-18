@@ -218,6 +218,42 @@ namespace Samba.Services.Implementations.TicketModule
             }
         }
 
+        public TicketCommitResult MergeTickets(IEnumerable<int> ticketIds)
+        {
+            var ticketList = ticketIds.Select(OpenTicket).ToList();
+
+            var clonedOrders = ticketList.SelectMany(x => x.Orders).Select(ObjectCloner.Clone).ToList();
+            var clonedPayments = ticketList.SelectMany(x => x.Payments).Select(ObjectCloner.Clone).ToList();
+            var clonedTags = ticketList.SelectMany(x => x.GetTicketTagValues()).Select(ObjectCloner.Clone).ToList();
+            var clonedResources = ticketList.SelectMany(x => x.TicketResources).Select(ObjectCloner.Clone).ToList();
+
+            ticketList.ForEach(x => x.Orders.ToList().ForEach(x.RemoveOrder));
+            ticketList.ForEach(x => x.Payments.ToList().ForEach(x.RemovePayment));
+            ticketList.ForEach(x => x.Calculations.ToList().ForEach(x.RemoveCalculation));
+
+            ticketList.ForEach(x => CloseTicket(x));
+
+            var ticket = OpenTicket(0);
+            clonedOrders.ForEach(ticket.Orders.Add);
+            clonedPayments.ForEach(ticket.Payments.Add);
+            clonedResources.ForEach(x => ticket.UpdateResource(x.ResourceTemplateId, x.ResourceId, x.ResourceName, x.AccountId));
+            clonedTags.ForEach(x => ticket.SetTagValue(x.TagName, x.TagValue));
+
+            foreach (var template in from order in clonedOrders.GroupBy(x => x.AccountTransactionTemplateId)
+                                     where !ticket.AccountTransactions.AccountTransactions.Any(x => x.AccountTransactionTemplateId == order.Key)
+                                     select _cacheService.GetAccountTransactionTemplateById(order.Key))
+            {
+                ticket.AccountTransactions.AccountTransactions.Add(AccountTransaction.Create(template));
+            }
+
+            foreach (var payment in clonedPayments)
+            {
+                ticket.AccountTransactions.AccountTransactions.Add(AccountTransaction.Create(_cacheService.GetAccountTransactionTemplateById(payment.AccountTransaction.AccountTransactionTemplateId)));
+            }
+
+            return CloseTicket(ticket);
+        }
+
         public TicketCommitResult MoveOrders(Ticket ticket, Order[] selectedOrders, int targetTicketId)
         {
             var clonedOrders = selectedOrders.Select(ObjectCloner.Clone).ToList();

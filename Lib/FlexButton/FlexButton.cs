@@ -59,7 +59,7 @@ namespace FlexButton
 
         public static readonly DependencyProperty ButtonColorProperty =
             DependencyProperty.Register("ButtonColor", typeof(SolidColorBrush), typeof(FlexButton),
-            new FrameworkPropertyMetadata(new PropertyChangedCallback(OnButtonColorChanged)));
+            new FrameworkPropertyMetadata(OnButtonColorChanged));
 
         public static readonly DependencyProperty HighlightAppearanceProperty =
             DependencyProperty.Register("HighlightAppearance", typeof(ControlTemplate), typeof(FlexButton));
@@ -156,7 +156,7 @@ namespace FlexButton
             HighlightBrightness = 100;
             GlowColor = Brushes.WhiteSmoke;
 
-            OuterBorderBrush = Brushes.Gray; 
+            OuterBorderBrush = Brushes.Gray;
 
             InnerBorderBrush = new LinearGradientBrush(Colors.White, Colors.LightGray, 90);
             InnerBorderThickness = new Thickness(1);

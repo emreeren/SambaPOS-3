@@ -25,7 +25,6 @@
             </Viewbox>
         </Grid>
         <ItemsControl Grid.Row="1" ItemsSource="{Binding Tickets}" VerticalAlignment="Stretch" Grid.IsSharedSizeScope="True">
-            
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Rows="{Binding RowCount}"></UniformGrid>
@@ -48,20 +47,20 @@
                             </ColorAnimationUsingKeyFrames>
                         </Storyboard>
                     </DataTemplate.Resources>
-                    <Button x:Name="button" HorizontalAlignment="Stretch" Style="{StaticResource ItemsControlButtonStyle}" Command="{Binding OpenTicketCommand}" Margin="0,0,0,5">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto" MinWidth="60" SharedSizeGroup="Grp1"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <Border Grid.Column="0" BorderThickness="1,1,0,1" CornerRadius="5,0,0,5" BorderBrush="Silver" Background="Silver">
+                    <Grid Margin="0,0,0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"  MinWidth="60" SharedSizeGroup="Grp1"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="selector" Style="{StaticResource ItemsControlButtonStyle}" Command="{Binding SelectTicketCommand}">
+                            <Border Grid.Column="0" BorderThickness="1,1,0,1" CornerRadius="5,0,0,5" BorderBrush="Silver" Background="{Binding SelectionBackground}">
                                 <Viewbox Margin="5">
-                                    <TextBlock Text="{Binding TicketNumber}" HorizontalAlignment="Left"/>
+                                    <TextBlock Text="{Binding TicketNumber}" HorizontalAlignment="Left" Foreground="{Binding SelectionForeground}"/>
                                 </Viewbox>
                             </Border>
-
-                            <Border x:Name="border" Grid.Column="1"  BorderThickness="1" BorderBrush="Silver" Background="Gainsboro">
+                        </Button>
+                        <Button x:Name="button" Grid.Column="1" Style="{StaticResource ItemsControlButtonStyle}" Command="{Binding OpenTicketCommand}" >
+                            <Border x:Name="border" Grid.Column="1"  BorderThickness="1" BorderBrush="{Binding SelectionBackground}" Background="Gainsboro">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
@@ -110,8 +109,9 @@
                                     </Grid>
                                 </Grid>
                             </Border>
-                        </Grid>
-                    </Button>
+                        </Button>
+
+                    </Grid>
                     <DataTemplate.Triggers>
                         <Trigger Property="IsPressed" Value="True" SourceName="button">
                             <Trigger.ExitActions>
@@ -125,8 +125,9 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <UniformGrid Grid.Row="2">
-            <FlexButton:FlexButton Command="{Binding AddTicketCommand}" Content="{Binding AddTicketCommand.Caption}"/>
+        <UniformGrid Grid.Row="2" Rows="1">
+            <FlexButton:FlexButton FontSize="30" Command="{Binding MergeTicketsCommand}" Content="{Binding MergeTicketsCommand.Caption}"/>
+            <FlexButton:FlexButton FontSize="30" Command="{Binding AddTicketCommand}" Content="{Binding AddTicketCommand.Caption}"/>
         </UniformGrid>
     </Grid>
 </UserControl>
