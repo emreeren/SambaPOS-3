@@ -17,6 +17,7 @@ namespace Samba.Modules.TicketModule
     {
         private readonly IUserService _userService;
         private readonly IDepartmentService _departmentService;
+        private readonly ISettingService _settingService;
         private readonly IList<string> _tagTypes = new[] { Resources.Alphanumeric, Resources.Numeric, Resources.Price };
         public IList<string> DataTypes { get { return _tagTypes; } }
 
@@ -26,7 +27,7 @@ namespace Samba.Modules.TicketModule
         private ObservableCollection<TicketTagMapViewModel> _ticketTagMaps;
         public ObservableCollection<TicketTagMapViewModel> TicketTagMaps
         {
-            get { return _ticketTagMaps ?? (_ticketTagMaps = new ObservableCollection<TicketTagMapViewModel>(Model.TicketTagMaps.Select(x => new TicketTagMapViewModel(x, _userService, _departmentService)))); }
+            get { return _ticketTagMaps ?? (_ticketTagMaps = new ObservableCollection<TicketTagMapViewModel>(Model.TicketTagMaps.Select(x => new TicketTagMapViewModel(x, _userService, _departmentService, _settingService)))); }
         }
 
         public TicketTagViewModel SelectedTicketTag { get; set; }
@@ -46,10 +47,11 @@ namespace Samba.Modules.TicketModule
         public string ButtonColorWhenNoTagSelected { get { return Model.ButtonColorWhenNoTagSelected; } set { Model.ButtonColorWhenNoTagSelected = value; } }
 
         [ImportingConstructor]
-        public TicketTagGroupViewModel(IUserService userService, IDepartmentService departmentService)
+        public TicketTagGroupViewModel(IUserService userService, IDepartmentService departmentService, ISettingService settingService)
         {
             _userService = userService;
             _departmentService = departmentService;
+            _settingService = settingService;
 
             AddTicketTagCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.Tag), OnAddTicketTagExecuted);
             DeleteTicketTagCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.Tag), OnDeleteTicketTagExecuted, CanDeleteTicketTag);
@@ -72,7 +74,7 @@ namespace Samba.Modules.TicketModule
 
         private void OnAddTicketTagMap(string obj)
         {
-            TicketTagMaps.Add(new TicketTagMapViewModel(Model.AddTicketTagMap(), _userService, _departmentService));
+            TicketTagMaps.Add(new TicketTagMapViewModel(Model.AddTicketTagMap(), _userService, _departmentService, _settingService));
         }
 
         private static ObservableCollection<TicketTagViewModel> GetTicketTags(TicketTagGroup ticketTagGroup)
@@ -115,7 +117,7 @@ namespace Samba.Modules.TicketModule
         protected override void OnSave(string value)
         {
             if (TicketTagMaps.Count == 0)
-                TicketTagMaps.Add(new TicketTagMapViewModel(Model.AddTicketTagMap(), _userService, _departmentService));
+                TicketTagMaps.Add(new TicketTagMapViewModel(Model.AddTicketTagMap(), _userService, _departmentService, _settingService));
             base.OnSave(value);
         }
 

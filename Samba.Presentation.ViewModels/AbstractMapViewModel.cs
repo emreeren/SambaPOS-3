@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
 using Samba.Infrastructure.Data;
@@ -9,25 +10,41 @@ using Samba.Services;
 
 namespace Samba.Presentation.ViewModels
 {
-    public class AbstractMapViewModel:ObservableObject
+    public class AbstractMapViewModel : ObservableObject
     {
         private readonly IUserService _userService;
         private readonly IDepartmentService _departmentService;
+        private readonly ISettingService _settingService;
         private readonly IAbstractMapModel _model;
         private const string NullLabel = "*";
 
-        public AbstractMapViewModel(IAbstractMapModel model, IUserService userService, IDepartmentService departmentService)
+        public AbstractMapViewModel(IAbstractMapModel model, IUserService userService, IDepartmentService departmentService, ISettingService settingService)
         {
             _userService = userService;
             _departmentService = departmentService;
+            _settingService = settingService;
             _model = model;
         }
 
         public IEnumerable<string> GetItemSelectionList(IEnumerable<string> source)
         {
-            var result = new List<string> {NullLabel};
+            var result = new List<string> { NullLabel };
             result.AddRange(source);
             return result;
+        }
+
+        private IEnumerable<Terminal> _terminals;
+        public IEnumerable<Terminal> Terminals
+        {
+            get { return _terminals ?? (_terminals = _settingService.GetTerminals()); }
+        }
+
+        public IEnumerable<string> TerminalNames { get { return GetItemSelectionList(Terminals.Select(x => x.Name)); } }
+
+        public string TerminalName
+        {
+            get { return _model.TerminalId > 0 ? Terminals.Single(x => x.Id == _model.TerminalId).Name : NullLabel; }
+            set { _model.TerminalId = value != NullLabel ? Terminals.Single(x => x.Name == value).Id : 0; }
         }
 
         private IEnumerable<UserRole> _userRoles;

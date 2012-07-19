@@ -79,6 +79,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterEvent(RuleEventNames.TriggerExecuted, Resources.TriggerExecuted, new { TriggerName = "" });
             AutomationService.RegisterEvent(RuleEventNames.TicketOpened, "Ticket Opened", new { OrderCount = 0 });
             AutomationService.RegisterEvent(RuleEventNames.TicketClosing, "Ticket Closing", new { NewOrderCount = 0 });
+            AutomationService.RegisterEvent(RuleEventNames.TicketsMerged, "Tickets Merged");
             AutomationService.RegisterEvent(RuleEventNames.PaymentProcessed, "Payment Processed", new { PaymentTemplateName = "", Tenderedamount = 0m, ProcessedAmount = 0m, ChangeAmount = 0m, RemainingAmount = 0m });
             AutomationService.RegisterEvent(RuleEventNames.TicketResourceChanged, "Ticket Resource Changed", new { OrderCount = 0, OldResourceName = "", NewResourceName = "" });
             AutomationService.RegisterEvent(RuleEventNames.TicketTagSelected, Resources.TicketTagSelected, new { TagName = "", TagValue = "", NumericValue = 0, TicketTag = "" });

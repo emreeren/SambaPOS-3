@@ -59,6 +59,21 @@
                               AutoGenerateColumns="False" CanUserSortColumns="False"
                               Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
                         <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="{LocText Terminal}" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="3" Text="{Binding TerminalName}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Grid FocusManager.FocusedElement="{Binding ElementName=cbTerminal}">
+                                            <ComboBox Name="cbTerminal"  HorizontalAlignment="Stretch" SelectedItem="{Binding TerminalName, UpdateSourceTrigger=PropertyChanged}"
+                                                          ItemsSource="{Binding TerminalNames}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
                             <DataGridTemplateColumn Header="{LocText UserRole}" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>

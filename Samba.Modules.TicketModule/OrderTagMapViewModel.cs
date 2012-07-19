@@ -12,8 +12,8 @@ namespace Samba.Modules.TicketModule
         private const string NullLabel = "*";
         private readonly IMenuService _menuService;
 
-        public OrderTagMapViewModel(OrderTagMap model, IMenuService menuService, IUserService userService, IDepartmentService departmentService)
-            : base(model, userService, departmentService)
+        public OrderTagMapViewModel(OrderTagMap model, IMenuService menuService, IUserService userService, IDepartmentService departmentService, ISettingService settingService)
+            : base(model, userService, departmentService, settingService)
         {
             _menuService = menuService;
             Model = model;

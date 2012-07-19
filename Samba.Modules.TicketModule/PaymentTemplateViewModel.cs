@@ -18,12 +18,14 @@ namespace Samba.Modules.TicketModule
     {
         private readonly IUserService _userService;
         private readonly IDepartmentService _departmentService;
+        private readonly ISettingService _settingService;
 
         [ImportingConstructor]
-        public PaymentTemplateViewModel(IUserService userService, IDepartmentService departmentService)
+        public PaymentTemplateViewModel(IUserService userService, IDepartmentService departmentService, ISettingService settingService)
         {
             _userService = userService;
             _departmentService = departmentService;
+            _settingService = settingService;
 
             AddPaymentTemplateMapCommand = new CaptionCommand<string>(Resources.Add, OnAddPaymentTemplateMap);
             DeletePaymentTemplateMapCommand = new CaptionCommand<string>(Resources.Delete, OnDeletePaymentTemplateMap, CanDeletePaymentTemplateMap);
@@ -83,7 +85,7 @@ namespace Samba.Modules.TicketModule
         private ObservableCollection<PaymentTemplateMapViewModel> _paymentTemplateMaps;
         public ObservableCollection<PaymentTemplateMapViewModel> PaymentTemplateMaps
         {
-            get { return _paymentTemplateMaps ?? (_paymentTemplateMaps = new ObservableCollection<PaymentTemplateMapViewModel>(Model.PaymentTemplateMaps.Select(x => new PaymentTemplateMapViewModel(x, _userService, _departmentService)))); }
+            get { return _paymentTemplateMaps ?? (_paymentTemplateMaps = new ObservableCollection<PaymentTemplateMapViewModel>(Model.PaymentTemplateMaps.Select(x => new PaymentTemplateMapViewModel(x, _userService, _departmentService, _settingService)))); }
         }
 
         private bool CanDeletePaymentTemplateMap(string arg)
@@ -101,7 +103,7 @@ namespace Samba.Modules.TicketModule
 
         private void OnAddPaymentTemplateMap(string obj)
         {
-            PaymentTemplateMaps.Add(new PaymentTemplateMapViewModel(Model.AddPaymentTemplateMap(), _userService, _departmentService));
+            PaymentTemplateMaps.Add(new PaymentTemplateMapViewModel(Model.AddPaymentTemplateMap(), _userService, _departmentService, _settingService));
         }
 
         public override Type GetViewType()

@@ -7,7 +7,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Actions
 {
-    public class AppAction : Entity
+    public class AppAction : Entity, IOrderable
     {
         public string ActionType { get; set; }
 
@@ -59,7 +59,7 @@ namespace Samba.Domain.Models.Actions
             //    .Where(value => parameters.Keys.Contains(value));
 
             //return matches.Aggregate(s, (current, value) => current.Replace(string.Format("[{0}]", value), parameters[value].ToString()));
-            
+
             if (!string.IsNullOrEmpty(parameterValues) && Regex.IsMatch(parameterValues, "\\[([^\\]]+)\\]"))
             {
                 foreach (var propertyName in Regex.Matches(parameterValues, "\\[([^\\]]+)\\]").Cast<Match>().Select(match => match.Groups[1].Value).ToList())
@@ -80,6 +80,13 @@ namespace Samba.Domain.Models.Actions
                 .Where(value => parameters.Keys.Contains(value));
 
             return matches.Aggregate(s, (current, value) => current.Replace(string.Format("[{0}]", value), parameters[value].ToString()));
+        }
+
+        public int Order { get; set; }
+
+        public string UserString
+        {
+            get { return Name; }
         }
     }
 }

@@ -26,10 +26,10 @@ namespace Samba.Services.Implementations.AutomationModule
         }
 
         private IEnumerable<AppRule> _rules;
-        public IEnumerable<AppRule> Rules { get { return _rules ?? (_rules = Dao.Query<AppRule>(x => x.Actions)); } }
+        public IEnumerable<AppRule> Rules { get { return _rules ?? (_rules = Dao.Query<AppRule>(x => x.Actions).OrderBy(x => x.Order)); } }
 
         private IEnumerable<AppAction> _actions;
-        public IEnumerable<AppAction> Actions { get { return _actions ?? (_actions = Dao.Query<AppAction>()); } }
+        public IEnumerable<AppAction> Actions { get { return _actions ?? (_actions = Dao.Query<AppAction>().OrderBy(x=>x.Order)); } }
 
         public void NotifyEvent(string eventName, object dataObject)
         {

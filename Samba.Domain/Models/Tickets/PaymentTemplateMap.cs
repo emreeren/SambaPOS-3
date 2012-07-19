@@ -10,6 +10,7 @@ namespace Samba.Domain.Models.Tickets
     {
         public int PaymentTemplateId { get; set; }
         public int UserRoleId { get; set; }
+        public int TerminalId { get; set; }
         public int DepartmentId { get; set; }
         public bool DisplayAtPaymentScreen { get; set; }
         public bool DisplayUnderTicket { get; set; }

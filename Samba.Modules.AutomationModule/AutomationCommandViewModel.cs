@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
@@ -16,6 +15,7 @@ namespace Samba.Modules.AutomationModule
     {
         private readonly IUserService _userService;
         private readonly IDepartmentService _departmentService;
+        private readonly ISettingService _settingService;
 
         public CaptionCommand<string> DeleteAutomationCommandMapCommand { get; set; }
         public CaptionCommand<string> AddAutomationCommandMapCommand { get; set; }
@@ -23,10 +23,11 @@ namespace Samba.Modules.AutomationModule
         public AutomationCommandMapViewModel SelectedAutomationCommandMap { get; set; }
 
         [ImportingConstructor]
-        public AutomationCommandViewModel(IUserService userService, IDepartmentService departmentService)
+        public AutomationCommandViewModel(IUserService userService, IDepartmentService departmentService, ISettingService settingService)
         {
             _userService = userService;
             _departmentService = departmentService;
+            _settingService = settingService;
             AddAutomationCommandMapCommand = new CaptionCommand<string>(Resources.Add, OnAddAutomationCommand);
             DeleteAutomationCommandMapCommand = new CaptionCommand<string>(Resources.Delete, OnDeleteAutomationCommand, CanDeleteAutomationCommand);
         }
@@ -46,7 +47,7 @@ namespace Samba.Modules.AutomationModule
 
         private void OnAddAutomationCommand(string obj)
         {
-            AutomationCommandMaps.Add(new AutomationCommandMapViewModel(Model.AddAutomationCommandMap(), _userService, _departmentService));
+            AutomationCommandMaps.Add(new AutomationCommandMapViewModel(Model.AddAutomationCommandMap(), _userService, _departmentService, _settingService));
         }
 
         public string ButtonHeader { get { return Model.ButtonHeader; } set { Model.ButtonHeader = value; } }
@@ -55,7 +56,7 @@ namespace Samba.Modules.AutomationModule
         private ObservableCollection<AutomationCommandMapViewModel> _automationCommandMaps;
         public ObservableCollection<AutomationCommandMapViewModel> AutomationCommandMaps
         {
-            get { return _automationCommandMaps ?? (_automationCommandMaps = new ObservableCollection<AutomationCommandMapViewModel>(Model.AutomationCommandMaps.Select(x => new AutomationCommandMapViewModel(x, _userService, _departmentService)))); }
+            get { return _automationCommandMaps ?? (_automationCommandMaps = new ObservableCollection<AutomationCommandMapViewModel>(Model.AutomationCommandMaps.Select(x => new AutomationCommandMapViewModel(x, _userService, _departmentService, _settingService)))); }
         }
 
         public override Type GetViewType()

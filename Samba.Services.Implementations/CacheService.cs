@@ -28,7 +28,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<MenuItem> _menuItems;
         public IEnumerable<MenuItem> MenuItems
         {
-            get { return _menuItems??(_menuItems = Dao.Query<MenuItem>(x => x.TaxTemplate.AccountTransactionTemplate, x => x.Portions.Select(y => y.Prices))); }
+            get { return _menuItems ?? (_menuItems = Dao.Query<MenuItem>(x => x.TaxTemplate.AccountTransactionTemplate, x => x.Portions.Select(y => y.Prices))); }
         }
 
         public MenuItem GetMenuItem(Expression<Func<MenuItem, bool>> expression)
@@ -68,6 +68,7 @@ namespace Samba.Services.Implementations
             var tgl = tagGroups.ToList();
             var mi = GetMenuItem(x => x.Id == menuItemId);
             var maps = tgl.SelectMany(x => x.OrderTagMaps)
+                .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id)
                 .Where(x => x.MenuItemGroupCode == null || x.MenuItemGroupCode == mi.GroupCode)
@@ -194,6 +195,7 @@ namespace Samba.Services.Implementations
         {
             var maps = PaymentTemplates.SelectMany(x => x.PaymentTemplateMaps)
                 .Where(x => x.DisplayUnderTicket)
+                .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
             return PaymentTemplates.Where(x => maps.Any(y => y.PaymentTemplateId == x.Id)).OrderBy(x => x.Order);
@@ -203,6 +205,7 @@ namespace Samba.Services.Implementations
         {
             var maps = PaymentTemplates.SelectMany(x => x.PaymentTemplateMaps)
                 .Where(x => x.DisplayAtPaymentScreen)
+                .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
             return PaymentTemplates.Where(x => maps.Any(y => y.PaymentTemplateId == x.Id)).OrderBy(x => x.Order);
@@ -217,6 +220,7 @@ namespace Samba.Services.Implementations
         public IEnumerable<TicketTagGroup> GetTicketTagGroups()
         {
             var maps = TicketTagGroups.SelectMany(x => x.TicketTagMaps)
+                .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
             return TicketTagGroups.Where(x => maps.Any(y => y.TicketTagGroupId == x.Id)).OrderBy(x => x.Order);
@@ -231,6 +235,7 @@ namespace Samba.Services.Implementations
         public IEnumerable<AutomationCommandData> GetAutomationCommands()
         {
             var maps = AutomationCommands.SelectMany(x => x.AutomationCommandMaps)
+                .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
             var result = maps.Select(x => new AutomationCommandData { AutomationCommand = AutomationCommands.First(y => y.Id == x.AutomationCommandId), DisplayOnPayment = x.DisplayOnPayment, DisplayOnTicket = x.DisplayOnTicket, VisualBehaviour = x.VisualBehaviour });
@@ -246,6 +251,7 @@ namespace Samba.Services.Implementations
         public IEnumerable<CalculationTemplate> GetCalculationTemplates()
         {
             var maps = CalculationTemplates.SelectMany(x => x.CalculationTemplateMaps)
+                .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
             return CalculationTemplates.Where(x => maps.Any(y => y.CalculationTemplateId == x.Id)).OrderBy(x => x.Order);

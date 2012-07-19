@@ -18,12 +18,14 @@ namespace Samba.Modules.TicketModule
     {
         private readonly IUserService _userService;
         private readonly IDepartmentService _departmentService;
+        private readonly ISettingService _settingService;
 
         [ImportingConstructor]
-        public CalculationTemplateViewModel(IUserService userService, IDepartmentService departmentService)
+        public CalculationTemplateViewModel(IUserService userService, IDepartmentService departmentService, ISettingService settingService)
         {
             _userService = userService;
             _departmentService = departmentService;
+            _settingService = settingService;
             AddCalculationTemplateMapCommand = new CaptionCommand<string>(Resources.Add, OnAddCalculationTemplateMap);
             DeleteCalculationTemplateMapCommand = new CaptionCommand<string>(Resources.Delete, OnDeleteCalculationTemplateMap, CanDeleteCalculationTemplateMap);
         }
@@ -31,7 +33,7 @@ namespace Samba.Modules.TicketModule
         private ObservableCollection<CalculationTemplateMapViewModel> _calculationTemplateMaps;
         public ObservableCollection<CalculationTemplateMapViewModel> CalculationTemplateMaps
         {
-            get { return _calculationTemplateMaps ?? (_calculationTemplateMaps = new ObservableCollection<CalculationTemplateMapViewModel>(Model.CalculationTemplateMaps.Select(x => new CalculationTemplateMapViewModel(x, _userService, _departmentService)))); }
+            get { return _calculationTemplateMaps ?? (_calculationTemplateMaps = new ObservableCollection<CalculationTemplateMapViewModel>(Model.CalculationTemplateMaps.Select(x => new CalculationTemplateMapViewModel(x, _userService, _departmentService, _settingService)))); }
         }
 
         public CalculationTemplateMapViewModel SelectedCalculationTemplateMap { get; set; }
@@ -81,7 +83,7 @@ namespace Samba.Modules.TicketModule
 
         private void OnAddCalculationTemplateMap(string obj)
         {
-            CalculationTemplateMaps.Add(new CalculationTemplateMapViewModel(Model.AddCalculationTemplateMap(), _userService, _departmentService));
+            CalculationTemplateMaps.Add(new CalculationTemplateMapViewModel(Model.AddCalculationTemplateMap(), _userService, _departmentService, _settingService));
         }
 
         public override Type GetViewType()

@@ -2,6 +2,7 @@
 {
     public static class RuleEventNames
     {
+        public const string TicketsMerged = "TicketsMerged";
         public const string PaymentProcessed = "PaymentProcessed";
         public const string TicketResourceChanged = "TicketResourceChanged";
         public const string TicketOpened = "TicketOpened";

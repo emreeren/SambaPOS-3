@@ -7,8 +7,8 @@ namespace Samba.Modules.TicketModule
 {
     public class TicketTagMapViewModel : AbstractMapViewModel
     {
-        public TicketTagMapViewModel(TicketTagMap model, IUserService userService, IDepartmentService departmentService)
-            : base(model, userService, departmentService)
+        public TicketTagMapViewModel(TicketTagMap model, IUserService userService, IDepartmentService departmentService,ISettingService settingService)
+            : base(model, userService, departmentService,settingService)
         {
             Model = model;
         }

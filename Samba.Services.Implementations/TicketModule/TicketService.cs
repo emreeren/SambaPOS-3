@@ -227,7 +227,7 @@ namespace Samba.Services.Implementations.TicketModule
 
             var resourcesUnMatches = ticketList.SelectMany(x => x.TicketResources).GroupBy(x => x.ResourceTemplateId).Any(x => x.Select(y => y.ResourceId).Distinct().Count() > 1);
             if (resourcesUnMatches) return new TicketCommitResult { ErrorMessage = string.Format("Can't merge tickets\r{0}", "Resources doesn't match") };
-            
+
             var clonedOrders = ticketList.SelectMany(x => x.Orders).Select(ObjectCloner.Clone).ToList();
             var clonedPayments = ticketList.SelectMany(x => x.Payments).Select(ObjectCloner.Clone).ToList();
             var clonedTags = ticketList.SelectMany(x => x.GetTicketTagValues()).Select(ObjectCloner.Clone).ToList();
@@ -257,7 +257,10 @@ namespace Samba.Services.Implementations.TicketModule
                 ticket.AccountTransactions.AccountTransactions.Add(AccountTransaction.Create(_cacheService.GetAccountTransactionTemplateById(payment.AccountTransaction.AccountTransactionTemplateId)));
             }
 
-            return CloseTicket(ticket);
+
+            var result = CloseTicket(ticket);
+            _automationService.NotifyEvent(RuleEventNames.TicketsMerged, new { Ticket = ticket });
+            return result;
         }
 
         public TicketCommitResult MoveOrders(Ticket ticket, Order[] selectedOrders, int targetTicketId)

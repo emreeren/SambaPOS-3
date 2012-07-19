@@ -14,8 +14,8 @@ namespace Samba.Modules.AutomationModule
     {
         public AutomationCommandMap Model { get; set; }
 
-        public AutomationCommandMapViewModel(AutomationCommandMap model, IUserService userService, IDepartmentService departmentService)
-            : base(model, userService, departmentService)
+        public AutomationCommandMapViewModel(AutomationCommandMap model, IUserService userService, IDepartmentService departmentService, ISettingService settingService)
+            : base(model, userService, departmentService, settingService)
         {
             Model = model;
         }

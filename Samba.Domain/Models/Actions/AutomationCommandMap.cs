@@ -9,6 +9,7 @@ namespace Samba.Domain.Models.Actions
     public class AutomationCommandMap : Value, IAbstractMapModel
     {
         public int AutomationCommandId { get; set; }
+        public int TerminalId { get; set; }
         public int DepartmentId { get; set; }
         public int UserRoleId { get; set; }
         public bool DisplayOnTicket { get; set; }

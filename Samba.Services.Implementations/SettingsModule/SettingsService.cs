@@ -80,6 +80,11 @@ namespace Samba.Services.Implementations.SettingsModule
             return Terminals.Select(x => x.Name);
         }
 
+        public IEnumerable<Terminal> GetTerminals()
+        {
+            return Terminals;
+        }
+
         public IProgramSettings ProgramSettings
         {
             get { return _globalSettings; }

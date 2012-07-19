@@ -10,6 +10,7 @@ namespace Samba.Domain.Models.Tickets
     public class OrderTagMap : Value, IAbstractMapModel
     {
         public int OrderTagGroupId { get; set; }
+        public int TerminalId { get; set; }
         public int DepartmentId { get; set; }
         public int UserRoleId { get; set; }
         public string MenuItemGroupCode { get; set; }

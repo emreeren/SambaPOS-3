@@ -14,6 +14,7 @@ namespace Samba.Services
         Terminal GetTerminalByName(string name);
         Terminal GetDefaultTerminal();
         IEnumerable<string> GetTerminalNames();
+        IEnumerable<Terminal> GetTerminals();
         IProgramSettings ProgramSettings { get; }
         IProgramSetting GetProgramSetting(string settingName);
         IProgramSetting ReadSetting(string settingName);
@@ -23,6 +24,5 @@ namespace Samba.Services
         void SaveProgramSettings();
         int GetNextNumber(int numeratorId);
         string GetNextString(int numeratorId);
-
     }
 }

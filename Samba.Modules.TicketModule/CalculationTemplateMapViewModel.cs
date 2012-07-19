@@ -8,8 +8,8 @@ namespace Samba.Modules.TicketModule
     {
         public CalculationTemplateMap Model { get; set; }
 
-        public CalculationTemplateMapViewModel(CalculationTemplateMap model, IUserService userService, IDepartmentService departmentService)
-            : base(model, userService, departmentService)
+        public CalculationTemplateMapViewModel(CalculationTemplateMap model, IUserService userService, IDepartmentService departmentService,ISettingService settingService)
+            : base(model, userService, departmentService,settingService)
         {
             Model = model;
         }

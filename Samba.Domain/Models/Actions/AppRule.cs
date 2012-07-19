@@ -4,7 +4,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Actions
 {
-    public class AppRule : Entity
+    public class AppRule : Entity,IOrderable
     {
         public string EventName { get; set; }
         [StringLength(500)]
@@ -20,6 +20,13 @@ namespace Samba.Domain.Models.Actions
         public AppRule()
         {
             _actions = new List<ActionContainer>();
+        }
+
+        public int Order { get; set; }
+
+        public string UserString
+        {
+            get { return Name; }
         }
     }
 }

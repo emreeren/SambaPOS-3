@@ -9,8 +9,8 @@ namespace Samba.Modules.TicketModule
     {
         public PaymentTemplateMap Model { get; set; }
 
-        public PaymentTemplateMapViewModel(PaymentTemplateMap model, IUserService userService, IDepartmentService departmentService)
-            : base(model, userService, departmentService)
+        public PaymentTemplateMapViewModel(PaymentTemplateMap model, IUserService userService, IDepartmentService departmentService,ISettingService settingService)
+            : base(model, userService, departmentService,settingService)
         {
             Model = model;
         }
