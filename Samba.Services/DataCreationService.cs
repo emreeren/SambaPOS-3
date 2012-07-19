@@ -390,6 +390,11 @@ namespace Samba.Services
             ImportMenus(screen);
             ImportTableResources(department, tableResourceTemplate, availableState.Id);
 
+            var customerScreen = new ResourceScreen { Name = "Customers", DisplayMode = 2, ResourceTemplateId = customerResourceTemplate.Id };
+            _workspace.Add(customerScreen);
+
+            department.ResourceScreens.Add(customerScreen);
+
             ImportItems(BatchCreateResources);
             ImportItems(BatchCreateTransactionTemplates);
             ImportItems(BatchCreateTransactionTemplateDocuments);

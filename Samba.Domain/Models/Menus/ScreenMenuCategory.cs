@@ -18,8 +18,8 @@ namespace Samba.Domain.Models.Menus
             MainButtonColor = "Orange";
             NumeratorType = 2;
             PageCount = 1;
-            MainFontSize = 1;
-            MenuItemFontSize = 1;
+            MainFontSize = 30;
+            MenuItemFontSize = 30;
         }
 
         public ScreenMenuCategory(string name)
@@ -72,7 +72,7 @@ namespace Samba.Domain.Models.Menus
 
         public void AddMenuItem(MenuItem menuItem)
         {
-            var smi = new ScreenMenuItem { MenuItemId = menuItem.Id, Name = menuItem.Name };
+            var smi = new ScreenMenuItem {MenuItemId = menuItem.Id, Name = menuItem.Name};
             ScreenMenuItems.Add(smi);
         }
 
