@@ -4366,6 +4366,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No {0}.
+        /// </summary>
+        public static string No_f {
+            get {
+                return ResourceManager.GetString("No_f", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No Action.
         /// </summary>
         public static string NoAction {

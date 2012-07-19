@@ -492,17 +492,19 @@ namespace Samba.Domain.Models.Tickets
         public void UpdateResource(int resourceTemplateId, int resourceId, string resourceName, int accountId)
         {
             var r = TicketResources.SingleOrDefault(x => x.ResourceTemplateId == resourceTemplateId);
-            if (r == null)
+            if (r == null && resourceId > 0)
             {
                 TicketResources.Add(new TicketResource { ResourceId = resourceId, ResourceName = resourceName, ResourceTemplateId = resourceTemplateId, AccountId = accountId });
             }
-            else
+            else if (resourceId > 0)
             {
                 r.AccountId = accountId;
                 r.ResourceId = resourceId;
                 r.ResourceName = resourceName;
                 r.ResourceTemplateId = resourceTemplateId;
             }
+            else if (r != null && resourceId == 0)
+                TicketResources.Remove(r);
         }
 
         public void UpdateAccount(Account account)

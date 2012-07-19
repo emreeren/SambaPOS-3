@@ -33,12 +33,13 @@ namespace Samba.Modules.ResourceModule
         public DelegateCommand<string> SelectResourceCommand { get; set; }
         public DelegateCommand<string> CreateResourceCommand { get; set; }
         public DelegateCommand<string> EditResourceCommand { get; set; }
+        public DelegateCommand<string> RemoveResourceCommand { get; set; }
         public ICaptionCommand DisplayAccountCommand { get; set; }
 
         public string SelectResourceCommandCaption { get { return string.Format(Resources.Select_f, SelectedEntityName()).Replace(" ", "\r"); } }
         public string CreateResourceCommandCaption { get { return string.Format(Resources.New_f, SelectedEntityName()).Replace(" ", "\r"); } }
         public string EditResourceCommandCaption { get { return string.Format(Resources.Edit_f, SelectedEntityName()).Replace(" ", "\r"); } }
-
+        public string RemoveResourceCommandCaption { get { return string.Format(Resources.No_f, SelectedEntityName()).Replace(" ", "\r"); } }
         private readonly IApplicationState _applicationState;
         private readonly ICacheService _cacheService;
         private readonly Timer _updateTimer;
@@ -58,6 +59,7 @@ namespace Samba.Modules.ResourceModule
             EditResourceCommand = new CaptionCommand<string>("", OnEditResource, CanEditResource);
             CreateResourceCommand = new CaptionCommand<string>("", OnCreateResource, CanCreateResource);
             DisplayAccountCommand = new CaptionCommand<string>(Resources.AccountDetails.Replace(" ", "\r"), OnDisplayAccount, CanDisplayAccount);
+            RemoveResourceCommand = new CaptionCommand<string>("", OnRemoveResource, CanRemoveResource);
         }
 
         public IEnumerable<ResourceTemplate> ResourceTemplates { get { return _cacheService.GetResourceTemplates(); } }
@@ -74,6 +76,7 @@ namespace Samba.Modules.ResourceModule
                 RaisePropertyChanged(() => SelectResourceCommandCaption);
                 RaisePropertyChanged(() => CreateResourceCommandCaption);
                 RaisePropertyChanged(() => EditResourceCommandCaption);
+                RaisePropertyChanged(() => RemoveResourceCommandCaption);
                 InvokeSelectedResourceTemplateChanged(EventArgs.Empty);
             }
         }
@@ -145,6 +148,19 @@ namespace Samba.Modules.ResourceModule
                 EventTopicNames.EditResourceDetails, targetEvent);
         }
 
+        private void OnRemoveResource(string obj)
+        {
+            _currentResourceSelectionRequest.Publish(Resource.GetNullResource(SelectedResourceTemplate.Id));
+        }
+
+        private bool CanRemoveResource(string arg)
+        {
+            return _currentResourceSelectionRequest != null &&
+                   _currentResourceSelectionRequest.SelectedEntity != null &&
+                   ((SelectedResource != null && _currentResourceSelectionRequest.SelectedEntity.Id == SelectedResource.Id) ||
+                    _currentResourceSelectionRequest.SelectedEntity.Id == 0);
+        }
+
         private bool CanCreateResource(string arg)
         {
             return SelectedResourceTemplate != null;
@@ -186,7 +202,8 @@ namespace Samba.Modules.ResourceModule
             if (_currentResourceSelectionRequest != null && _currentResourceSelectionRequest.SelectedEntity != null && !string.IsNullOrEmpty(_currentResourceSelectionRequest.SelectedEntity.Name))
             {
                 ClearSearchValues();
-                FoundResources.Add(new ResourceSearchResultViewModel(_currentResourceSelectionRequest.SelectedEntity, SelectedResourceTemplate));
+                if (_currentResourceSelectionRequest.SelectedEntity.Name != "*")
+                    FoundResources.Add(new ResourceSearchResultViewModel(_currentResourceSelectionRequest.SelectedEntity, SelectedResourceTemplate));
             }
 
             RaisePropertyChanged(() => SelectedResourceTemplate);

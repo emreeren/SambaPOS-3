@@ -222,6 +222,12 @@ namespace Samba.Services.Implementations.TicketModule
         {
             var ticketList = ticketIds.Select(OpenTicket).ToList();
 
+            if (ticketList.Any(x => x.Calculations.Count() > 0))
+                return new TicketCommitResult { ErrorMessage = string.Format("Can't merge tickets\r{0}", "contains calculations") };
+
+            var resourcesUnMatches = ticketList.SelectMany(x => x.TicketResources).GroupBy(x => x.ResourceTemplateId).Any(x => x.Select(y => y.ResourceId).Distinct().Count() > 1);
+            if (resourcesUnMatches) return new TicketCommitResult { ErrorMessage = string.Format("Can't merge tickets\r{0}", "Resources doesn't match") };
+            
             var clonedOrders = ticketList.SelectMany(x => x.Orders).Select(ObjectCloner.Clone).ToList();
             var clonedPayments = ticketList.SelectMany(x => x.Payments).Select(ObjectCloner.Clone).ToList();
             var clonedTags = ticketList.SelectMany(x => x.GetTicketTagValues()).Select(ObjectCloner.Clone).ToList();

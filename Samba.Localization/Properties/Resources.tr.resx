@@ -2908,4 +2908,7 @@ Bilgi eklemeden devam etmek istiyor musunuz?</value>
   <data name="GeneralSettings">
     <value xml:space="preserve">Geneal Ayarlar</value>
   </data>
+  <data name="No_f">
+    <value xml:space="preserve">{0} Yok</value>
+  </data>
 </root>
