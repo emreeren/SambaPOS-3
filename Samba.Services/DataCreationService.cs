@@ -383,6 +383,10 @@ namespace Samba.Services
             createTicketRule.Actions.Add(new ActionContainer(createTicketAction));
             _workspace.Add(createTicketRule);
 
+            var updateMergedTicket = new AppRule { Name = "Update Merged Tickets State", EventName = RuleEventNames.TicketsMerged };
+            updateMergedTicket.Actions.Add(new ActionContainer(newOrderAction));
+            _workspace.Add(updateMergedTicket);
+
             ImportMenus(screen);
             ImportTableResources(department, tableResourceTemplate, availableState.Id);
 
@@ -421,7 +425,7 @@ namespace Samba.Services
 
             _workspace.CommitChanges();
 
-            var screen = new ResourceScreen { Name = "All Tables", ColumnCount = 7, ResourceTemplateId = tableTemplate.Id, DisplayOpenTickets = true };
+            var screen = new ResourceScreen { Name = "All Tables", ColumnCount = 7, ResourceTemplateId = tableTemplate.Id, DisplayOpenTickets = false };
             _workspace.Add(screen);
 
             foreach (var resource in items)

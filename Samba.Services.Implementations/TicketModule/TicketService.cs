@@ -75,7 +75,7 @@ namespace Samba.Services.Implementations.TicketModule
                     currentResource.ResourceTemplateId,
                     currentResource.ResourceId,
                     ResourceTemplateName = resourceTemplate.Name,
-                    OpenTicketCount = GetOpenTicketIds(currentResource.ResourceId).Count() - 1
+                    OpenTicketCount = GetOpenTicketIds(currentResource.ResourceId).Count() - (ticket.Id > 0 ? 1 : 0)
                 });
             }
 

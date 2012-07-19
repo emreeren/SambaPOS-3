@@ -155,7 +155,7 @@ namespace Samba.Modules.ResourceModule
 
         private bool CanRemoveResource(string arg)
         {
-            return _currentResourceSelectionRequest != null &&
+            return _applicationState.IsLocked && _currentResourceSelectionRequest != null &&
                    _currentResourceSelectionRequest.SelectedEntity != null &&
                    ((SelectedResource != null && _currentResourceSelectionRequest.SelectedEntity.Id == SelectedResource.Id) ||
                     _currentResourceSelectionRequest.SelectedEntity.Id == 0);
