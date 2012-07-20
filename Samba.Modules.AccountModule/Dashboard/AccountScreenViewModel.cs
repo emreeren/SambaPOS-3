@@ -4,9 +4,11 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Accounts;
+using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
+using Samba.Presentation.Common.Services;
 using Samba.Services;
 
 namespace Samba.Modules.AccountModule.Dashboard
@@ -14,65 +16,46 @@ namespace Samba.Modules.AccountModule.Dashboard
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     class AccountScreenViewModel : EntityViewModelBase<AccountScreen>
     {
-        private readonly ICacheService _cacheService;
+        private readonly IAccountService _accountService;
 
         [ImportingConstructor]
-        public AccountScreenViewModel(ICacheService cacheService)
+        public AccountScreenViewModel(IAccountService accountService)
         {
-            _cacheService = cacheService;
-
-            AddAccountTemplateNameCommand = new CaptionCommand<string>(Resources.Add, OnAddAccountTemplateName);
-            DeleteAccountTemplateNameCommand = new CaptionCommand<string>(Resources.Delete, OnDeleteAccountTemplate, CanDeleteAccountTemplate);
-        }
-
-        private bool CanDeleteAccountTemplate(string arg)
-        {
-            return SelectedAccountTemplateName != null;
-        }
-
-        private void OnDeleteAccountTemplate(string obj)
-        {
-            AccountTemplateNamesList.Remove(SelectedAccountTemplateName);
-        }
-
-        private void OnAddAccountTemplateName(string obj)
-        {
-            var acn = new TemplateName(null, AccountTemplateNames);
-            AccountTemplateNamesList.Add(acn);
-            SelectedAccountTemplateName = acn;
-            RaisePropertyChanged(() => SelectedAccountTemplateName);
+            _accountService = accountService;
+            AddAccountTemplateNameCommand = new CaptionCommand<string>(Resources.Select, OnAddAccountTemplateName);
         }
 
         public ICaptionCommand AddAccountTemplateNameCommand { get; set; }
-        public ICaptionCommand DeleteAccountTemplateNameCommand { get; set; }
 
         private IEnumerable<AccountTemplate> _accountTemplates;
         public IEnumerable<AccountTemplate> AccountTemplates
         {
-            get { return _accountTemplates ?? (_accountTemplates = _cacheService.GetAccountTemplates()); }
+            get { return _accountTemplates ?? (_accountTemplates = _accountService.GetAccountTemplates()); }
         }
 
-        private IEnumerable<string> _accountTemplateNames;
-        public IEnumerable<string> AccountTemplateNames
+        private ObservableCollection<string> _accountTemplateNamesList;
+        public ObservableCollection<string> AccountTemplateNamesList
         {
-            get { return _accountTemplateNames ?? (_accountTemplateNames = AccountTemplates.Select(x => x.Name)); }
-        }
-
-
-        public TemplateName SelectedAccountTemplateName { get; set; }
-
-        private ObservableCollection<TemplateName> _accountTemplateNamesList;
-        public ObservableCollection<TemplateName> AccountTemplateNamesList
-        {
-            get { return _accountTemplateNamesList ?? (_accountTemplateNamesList = new ObservableCollection<TemplateName>((Model.AccountTemplateNames ?? "").Split(';').Select(x => new TemplateName(x, AccountTemplateNames)))); }
+            get { return _accountTemplateNamesList ?? (_accountTemplateNamesList = new ObservableCollection<string>((Model.AccountTemplateNames ?? "").Split(';'))); }
         }
 
         protected override void OnSave(string value)
         {
-            Model.AccountTemplateNames = string.Join(";", AccountTemplateNamesList.Where(x => AccountTemplates.Select(y => y.Name).Contains(x.Name)).Select(x => x.Name).Distinct());
+            Model.AccountTemplateNames = string.Join(";", AccountTemplateNamesList.Where(x => AccountTemplates.Select(y => y.Name).Contains(x)).Distinct());
             _accountTemplateNamesList = null;
-            SelectedAccountTemplateName = null;
+            _accountTemplates = null;
             base.OnSave(value);
+        }
+
+        private void OnAddAccountTemplateName(string obj)
+        {
+            var selectedItems = AccountTemplates.Where(x => AccountTemplateNamesList.Contains(x.Name)).ToList<IOrderable>();
+            var selectedValues =
+              InteractionService.UserIntraction.ChooseValuesFrom(AccountTemplates.Where(x => !selectedItems.Contains(x)).ToList<IOrderable>(), selectedItems,
+              Resources.AccountTemplate.ToPlural(), string.Format(Resources.SelectItemsFor_f, Resources.AccountTemplate.ToPlural(), Model.Name, Resources.AccountScreen),
+              Resources.AccountTemplate, Resources.AccountTemplate.ToPlural());
+            AccountTemplateNamesList.Clear();
+            AccountTemplateNamesList.AddRange(selectedValues.Select(x => x.Name));
         }
 
         public override Type GetViewType()
@@ -86,21 +69,4 @@ namespace Samba.Modules.AccountModule.Dashboard
         }
     }
 
-    class TemplateName
-    {
-        private string _name;
-        public string Name
-        {
-            get { return !string.IsNullOrEmpty(_name) ? _name : string.Format("-{0}-", Resources.Select); }
-            set { _name = value; }
-        }
-
-        public IEnumerable<string> Names { get; set; }
-
-        public TemplateName(string name, IEnumerable<string> names)
-        {
-            Name = name;
-            Names = names;
-        }
-    }
 }

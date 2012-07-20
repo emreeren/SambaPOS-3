@@ -9,6 +9,6 @@ namespace Samba.Domain.Models.Accounts
     public class AccountScreen : Entity
     {
         public string AccountTemplateNames { get; set; }
-        public IEnumerable<string> AccountTemplateNamesList { get { return AccountTemplateNames.Split(';'); } }
+        public IEnumerable<string> AccountTemplateNamesList { get { return (AccountTemplateNames??"").Split(';'); } }
     }
 }

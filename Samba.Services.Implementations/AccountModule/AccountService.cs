@@ -125,6 +125,11 @@ namespace Samba.Services.Implementations.AccountModule
             return Dao.Single<Account>(x => x.Id == accountId);
         }
 
+        public IEnumerable<AccountTemplate> GetAccountTemplates()
+        {
+            return Dao.Query<AccountTemplate>();
+        }
+
         public override void Reset()
         {
             _accountCount = null;

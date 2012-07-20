@@ -6,26 +6,6 @@
              mc:Ignorable="d" 
              d:DesignWidth="300">
 
-    <UserControl.Resources>
-        <DataTemplate x:Key="ItemTemplate">
-            <TextBlock Text="{Binding Name}" />
-        </DataTemplate>
-
-        <DataTemplate x:Key="SelectedTemplate">
-            <Grid FocusManager.FocusedElement="{Binding ElementName=cb}">
-                <ComboBox Name="cb" Text="{Binding Name,UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Names}" IsEditable="True" HorizontalAlignment="Stretch"/>
-            </Grid>
-        </DataTemplate>
-
-        <Style TargetType="{x:Type ListBoxItem}" x:Key="ContainerStyle">
-            <Setter Property="ContentTemplate" Value="{StaticResource ItemTemplate}" />
-            <Style.Triggers>
-                <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="ContentTemplate" Value="{StaticResource SelectedTemplate}" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </UserControl.Resources>
     <Grid>
         <StackPanel>
             <Label>
@@ -35,19 +15,14 @@
 
             <StackPanel Orientation="Horizontal">
                 <TextBlock Margin="2,3" Text="{LocText AccountTemplate, Suffix=':'}"/>
-                <TextBlock Margin="2,3">
+                <TextBlock Margin="4,3">
                                         <Hyperlink Command="{Binding AddAccountTemplateNameCommand}">
                                             <TextBlock Text="{Binding Path=AddAccountTemplateNameCommand.Caption}" />
                                         </Hyperlink>
                                     </TextBlock>
-                <TextBlock Margin="2,3">
-                                        <Hyperlink Command="{Binding DeleteAccountTemplateNameCommand}">
-                                            <TextBlock Text="{Binding Path=DeleteAccountTemplateNameCommand.Caption}" />
-                                        </Hyperlink>
-                                    </TextBlock>
             </StackPanel>
             <ListBox ItemsSource="{Binding AccountTemplateNamesList}" SelectedItem="{Binding SelectedAccountTemplateName}" 
-                     HorizontalAlignment="Left" HorizontalContentAlignment="Stretch" MinWidth="200" MinHeight="100" ItemContainerStyle="{StaticResource ContainerStyle}">
+                     HorizontalAlignment="Left" HorizontalContentAlignment="Stretch" MinWidth="200" MinHeight="100">
             </ListBox>
             <Button HorizontalAlignment="Left" Margin="0,10" MinWidth="70" Content="{Binding SaveCommand.Caption}"
                  Command="{Binding SaveCommand}" />

@@ -19,17 +19,17 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="2">
+        <Grid Grid.Row="0" Grid.Column="0" Margin="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Margin="3" FontSize="30" Grid.Column="0" Text="{LocText SearchString}" />
-            <TextBox Margin="3" FontSize="30" Grid.Column="1" Name="SearchString"
+            <TextBlock Margin="3" FontSize="30" Grid.Column="0" Text="{LocText Search}" />
+            <TextBox Margin="3,3,0,3" FontSize="30" Grid.Column="1" Name="SearchString"
                              Text="{Binding SearchString,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                              PreviewKeyDown="SearchStringPreviewKeyDown" Loaded="SearchStringLoaded" />
-            <FlexButton:FlexButton Grid.Column="2" Margin="2" Content="C" MinWidth="50" Click="FlexButtonClick" />
+            <FlexButton:FlexButton Grid.Column="2" Margin="0,3,3,3" Content="X" MinWidth="50" Click="FlexButtonClick" />
         </Grid>
 
         <ListView Name="MainListView" Grid.Row="1" Margin="5" Background="LightGray" VirtualizingStackPanel.IsVirtualizing="True"
@@ -54,7 +54,7 @@
             <VirtualKeyboard:KeyboardView/>
         </Viewbox>
 
-        <Grid Grid.Column="1" Grid.Row="1" Grid.RowSpan="2">
+        <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" Background="LightGray">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />

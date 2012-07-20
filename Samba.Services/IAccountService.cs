@@ -20,5 +20,6 @@ namespace Samba.Services
         IEnumerable<Account> GetAccounts(params AccountTemplate[] accountTemplates);
         IEnumerable<string> GetCompletingAccountNames(int accountTemplateId, string accountName);
         Account GetAccountById(int accountId);
+        IEnumerable<AccountTemplate> GetAccountTemplates();
     }
 }

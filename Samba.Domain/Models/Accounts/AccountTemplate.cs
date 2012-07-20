@@ -6,8 +6,10 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Accounts
 {
-    public class AccountTemplate : Entity
+    public class AccountTemplate : Entity,IOrderable
     {
         public int DefaultFilterType { get; set; }
+        public int Order { get; set; }
+        public string UserString { get { return Name; } }
     }
 }
