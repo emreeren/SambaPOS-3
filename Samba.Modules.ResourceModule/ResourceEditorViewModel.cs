@@ -58,6 +58,7 @@ namespace Samba.Modules.ResourceModule
                 var resourceTemplate = _cacheService.GetResourceTemplateById(obj.Value.SelectedEntity.ResourceTemplateId);
                 SelectedResource = new ResourceSearchResultViewModel(obj.Value.SelectedEntity, resourceTemplate);
                 CustomDataViewModel = new ResourceCustomDataViewModel(obj.Value.SelectedEntity, resourceTemplate);
+                SelectedResource.UpdateDetailedInfo();
                 RaisePropertyChanged(() => CustomDataViewModel);
             }
         }

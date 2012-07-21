@@ -17,7 +17,9 @@ namespace Samba.Modules.AccountModule.Dashboard
 
         public string[] FilterTypes { get { return new[] { Resources.All, Resources.Month, Resources.Week, Resources.WorkPeriod }; } }
         public string FilterType { get { return FilterTypes[Model.DefaultFilterType]; } set { Model.DefaultFilterType = FilterTypes.ToList().IndexOf(value); } }
-        
+        public string Tags { get { return Model.Tags; } set { Model.Tags = value; } }
+
+
         public override string GetModelTypeString()
         {
             return Resources.AccountTemplate;

@@ -24,7 +24,6 @@ namespace Samba.Modules.ResourceModule
         {
             ResourceTemplate = template;
             Model = model;
-            UpdateDetailedInfo();
         }
 
         public string this[string index]

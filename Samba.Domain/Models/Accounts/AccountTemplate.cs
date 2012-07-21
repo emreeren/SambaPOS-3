@@ -11,5 +11,6 @@ namespace Samba.Domain.Models.Accounts
         public int DefaultFilterType { get; set; }
         public int Order { get; set; }
         public string UserString { get { return Name; } }
+        public string Tags { get; set; }
     }
 }

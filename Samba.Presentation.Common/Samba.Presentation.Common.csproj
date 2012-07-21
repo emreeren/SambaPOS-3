@@ -198,6 +198,7 @@
     <Compile Include="RegionNames.cs" />
     <Compile Include="UIControls\BindablePasswordBox.cs" />
     <Compile Include="UIControls\SearchTextBox.cs" />
+    <Compile Include="UIControls\TokenizingControl.cs" />
     <Compile Include="VirtualKeyboard\KeyboardView2.xaml.cs">
       <DependentUpon>KeyboardView2.xaml</DependentUpon>
     </Compile>

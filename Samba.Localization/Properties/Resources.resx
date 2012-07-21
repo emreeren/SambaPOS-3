@@ -3079,4 +3079,7 @@ Continue without adding details?</value>
   <data name="No_f">
     <value xml:space="preserve">No {0}</value>
   </data>
+  <data name="Tags">
+    <value xml:space="preserve">Tags</value>
+  </data>
 </root>
