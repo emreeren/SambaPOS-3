@@ -42,13 +42,18 @@ namespace Samba.Services
             var receivableAccountTemplate = new AccountTemplate { Name = "Receivable Accounts" };
             var paymentAccountTemplate = new AccountTemplate { Name = "Payment Accounts" };
             var discountAccountTemplate = new AccountTemplate { Name = "Discount Accounts" };
+            var customerAccountTemplate = new AccountTemplate { Name = "Customer Accounts" };
 
             _workspace.Add(receivableAccountTemplate);
             _workspace.Add(saleAccountTemplate);
             _workspace.Add(paymentAccountTemplate);
             _workspace.Add(discountAccountTemplate);
+            _workspace.Add(customerAccountTemplate);
+            _workspace.CommitChanges();
 
-            var customerResourceTemplate = new ResourceTemplate { Name = "Customers", EntityName = "Customer" };
+            var customerResourceTemplate = new ResourceTemplate { Name = "Customers", EntityName = "Customer", AccountTemplateId = customerAccountTemplate.Id };
+            customerResourceTemplate.ResoruceCustomFields.Add(new ResourceCustomField { EditingFormat = "(###) ### ####", FieldType = 0, Name = "Phone" });
+            customerResourceTemplate.AccountNameTemplate = "[Name]-[Phone]";
             var tableResourceTemplate = new ResourceTemplate { Name = "Tables", EntityName = Resources.Table };
 
             _workspace.Add(customerResourceTemplate);
@@ -120,10 +125,60 @@ namespace Samba.Services
                 DefaultTargetAccountId = cashAccount.Id
             };
 
+            var customerAccountTransactionTemplate = new AccountTransactionTemplate
+            {
+                Name = "Customer Account Transaction",
+                SourceAccountTemplateId = receivableAccountTemplate.Id,
+                TargetAccountTemplateId = customerAccountTemplate.Id,
+                DefaultSourceAccountId = defaultReceivableAccount.Id
+            };
+
+            var customerCashPaymentTemplate = new AccountTransactionTemplate
+            {
+                Name = "Customer Cash Payment",
+                SourceAccountTemplateId = customerAccountTemplate.Id,
+                TargetAccountTemplateId = paymentTransactionTemplate.Id,
+                DefaultTargetAccountId = cashAccount.Id
+            };
+
+            var customerCreditCardPaymentTemplate = new AccountTransactionTemplate
+            {
+                Name = "Customer Credit Card Payment",
+                SourceAccountTemplateId = customerAccountTemplate.Id,
+                TargetAccountTemplateId = paymentTransactionTemplate.Id,
+                DefaultTargetAccountId = creditCardAccount.Id
+            };
+
             _workspace.Add(saleTransactionTemplate);
             _workspace.Add(paymentTransactionTemplate);
             _workspace.Add(discountTransactionTemplate);
             _workspace.Add(roundingTransactionTemplate);
+            _workspace.Add(customerAccountTransactionTemplate);
+            _workspace.Add(customerCashPaymentTemplate);
+            _workspace.Add(customerCreditCardPaymentTemplate);
+
+            var customerCashDocument = new AccountTransactionDocumentTemplate
+            {
+                Name = "Customer Cash",
+                ButtonHeader = "Cash",
+                DefaultAmount = "[Balance]",
+                DescriptionTemplate = "Cash Payment",
+                MasterAccountTemplateId = customerAccountTemplate.Id
+            };
+            customerCashDocument.TransactionTemplates.Add(customerCashPaymentTemplate);
+
+            var customerCreditCardDocument = new AccountTransactionDocumentTemplate
+            {
+                Name = "Customer Credit Card",
+                ButtonHeader = "Credit Card",
+                DefaultAmount = "[Balance]",
+                DescriptionTemplate = "Credit Card Payment",
+                MasterAccountTemplateId = customerAccountTemplate.Id
+            };
+            customerCreditCardDocument.TransactionTemplates.Add(customerCreditCardPaymentTemplate);
+
+            _workspace.Add(customerCashDocument);
+            _workspace.Add(customerCreditCardDocument);
 
             var discountService = new CalculationTemplate
             {
@@ -204,10 +259,18 @@ namespace Samba.Services
             };
             voucherPayment.PaymentTemplateMaps.Add(new PaymentTemplateMap { DisplayAtPaymentScreen = true });
 
+            var accountPayment = new PaymentTemplate
+            {
+                AccountTransactionTemplate = customerAccountTransactionTemplate,
+                Name = "Customer Account"
+            };
+            accountPayment.PaymentTemplateMaps.Add(new PaymentTemplateMap { DisplayAtPaymentScreen = true });
+
             _workspace.Add(cashPayment);
             _workspace.Add(creditCardPayment);
             _workspace.Add(voucherPayment);
             _workspace.Add(ticketTemplate);
+            _workspace.Add(accountPayment);
 
             var department = new Department
             {
@@ -390,10 +453,14 @@ namespace Samba.Services
             ImportMenus(screen);
             ImportTableResources(department, tableResourceTemplate, availableState.Id);
 
-            var customerScreen = new ResourceScreen { Name = "Customers", DisplayMode = 2, ResourceTemplateId = customerResourceTemplate.Id };
+            var customerScreen = new ResourceScreen { Name = "Customer Search", DisplayMode = 2, ResourceTemplateId = customerResourceTemplate.Id };
             _workspace.Add(customerScreen);
 
+            var customerTicketScreen = new ResourceScreen { Name = "Customer Tickets", DisplayMode = 0, ResourceTemplateId = customerResourceTemplate.Id, StateFilterId = newOrderState.Id, ColumnCount = 6, RowCount = 6 };
+            _workspace.Add(customerTicketScreen);
+
             department.ResourceScreens.Add(customerScreen);
+            department.ResourceScreens.Add(customerTicketScreen);
 
             ImportItems(BatchCreateResources);
             ImportItems(BatchCreateTransactionTemplates);

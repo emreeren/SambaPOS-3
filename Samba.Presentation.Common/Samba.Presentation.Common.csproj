@@ -209,6 +209,7 @@
     </Compile>
     <Compile Include="VirtualKeyboard\KeyboardViewModel.cs" />
     <Compile Include="VisibleModuleBase.cs" />
+    <Compile Include="WidgetCreatorRegistry.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lib\DataGridFilterLibrary\DataGridFilterLibrary.csproj">

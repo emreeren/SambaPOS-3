@@ -36,6 +36,8 @@ namespace Samba.Modules.ResourceModule
             PermissionRegistry.RegisterPermission(PermissionNames.OpenLocations, PermissionCategories.Navigation, Resources.CanOpenLocationList);
             PermissionRegistry.RegisterPermission(PermissionNames.ChangeLocation, PermissionCategories.Ticket, Resources.CanChangeLocation);
 
+            WidgetCreatorRegistry.RegisterWidgetCreator(new ResourceWidgetCreator());
+
         }
 
         protected override void OnInitialization()

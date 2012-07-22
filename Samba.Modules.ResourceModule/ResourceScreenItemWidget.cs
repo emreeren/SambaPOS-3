@@ -10,19 +10,19 @@ using Samba.Presentation.Common.Services;
 
 namespace Samba.Modules.ResourceModule
 {
-    public class ResourceButtonItemViewModel : ObservableObject, IDiagram
+    public class ResourceScreenItemWidget : ObservableObject, IDiagram
     {
         private readonly bool _isTicketSelected;
         private readonly bool _userPermittedToMerge;
         private readonly ICommand _actionCommand;
 
-        public ResourceButtonItemViewModel(ResourceScreenItem model, ResourceScreen screen)
+        public ResourceScreenItemWidget(ResourceScreenItem model, ResourceScreen screen)
             : this(model, screen, null, false, true, null)
         {
 
         }
 
-        public ResourceButtonItemViewModel(ResourceScreenItem model, ResourceScreen screen,
+        public ResourceScreenItemWidget(ResourceScreenItem model, ResourceScreen screen,
             ICommand actionCommand, bool isTicketSelected, bool userPermittedToMerge, ResourceState state)
         {
             _actionCommand = actionCommand;
@@ -31,7 +31,6 @@ namespace Samba.Modules.ResourceModule
             _userPermittedToMerge = userPermittedToMerge;
             ResourceState = state;
             Model = model;
-            // _buttonColor = "White";
         }
 
         public ResourceState ResourceState { get; set; }
