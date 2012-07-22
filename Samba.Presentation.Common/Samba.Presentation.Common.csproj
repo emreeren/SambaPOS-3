@@ -382,6 +382,7 @@ copy "$(TargetDir)GongSolutions.Wpf.DragDrop.dll" "$(SolutionDir)SambaSetup\src"
 copy "$(TargetDir)DataGridFilterLibrary.dll" "$(SolutionDir)SambaSetup\src"
 copy "$(TargetDir)System.Windows.Interactivity.dll" "$(SolutionDir)SambaSetup\src"
 copy "$(TargetDir)FluentValidation.dll" "$(SolutionDir)SambaSetup\src"
+copy "$(TargetDir)Omu.ValueInjecter.dll" "$(SolutionDir)SambaSetup\src"
 
 :End</PostBuildEvent>
   </PropertyGroup>
