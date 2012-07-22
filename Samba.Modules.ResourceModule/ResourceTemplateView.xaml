@@ -23,6 +23,10 @@
             <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding EntityName}" />
             <Label Content="{LocText AccountTemplate,Suffix=':'}"/>
             <ComboBox HorizontalAlignment="Left" MinWidth="150" ItemsSource="{Binding AccountTemplates}" SelectedItem="{Binding AccountTemplate}" DisplayMemberPath="Name" IsEditable="True"/>
+            <Label>
+                <LocText ResourceIdentifierKey="AccountNameTemplate" Suffix=":"/>
+            </Label>
+            <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding AccountNameTemplate}" />
             <Label Margin="0,5,0,0">
                 <LocText ResourceIdentifierKey="CustomFields" Suffix=":"/>
             </Label>

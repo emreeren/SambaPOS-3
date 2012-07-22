@@ -31,6 +31,7 @@ namespace Samba.Services
         public static string MakeCashTransaction = "MakeCashTransaction";
         public static string CreditOrDeptAccount = "CreditOrDeptAccount";
         public static string MakeAccountTransaction = "MakeAccountTransaction";
+        public static string CreateAccount = "CreateAccount";
     }
 
     public static class PermissionCategories
@@ -41,5 +42,6 @@ namespace Samba.Services
         public static string Payment = Resources.SettlePermissions;
         public static string Report = Resources.ReportPermissions;
         public static string Cash = Resources.CashPermissions;
+        public static string Account = Resources.AccountPermissions;
     }
 }

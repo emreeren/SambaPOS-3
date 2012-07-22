@@ -3082,4 +3082,16 @@ Continue without adding details?</value>
   <data name="Tags">
     <value xml:space="preserve">Tags</value>
   </data>
+  <data name="AccountNameTemplate">
+    <value xml:space="preserve">Account Name Template</value>
+  </data>
+  <data name="AccountPermissions">
+    <value xml:space="preserve">Account Permissions</value>
+  </data>
+  <data name="CreateAccount">
+    <value xml:space="preserve">Create Account</value>
+  </data>
+  <data name="CanCreateAccount">
+    <value xml:space="preserve">Can Create Account</value>
+  </data>
 </root>

@@ -13,16 +13,38 @@ namespace Samba.Modules.ResourceModule
     public class ResourceEditorViewModel : ObservableObject
     {
         private readonly ICacheService _cacheService;
+        private readonly IAccountService _accountService;
+        private readonly IUserService _userService;
         public ICaptionCommand SaveResourceCommand { get; set; }
         public ICaptionCommand SelectResourceCommand { get; set; }
+        public ICaptionCommand CreateAccountCommand { get; set; }
 
         [ImportingConstructor]
-        public ResourceEditorViewModel(ICacheService cacheService)
+        public ResourceEditorViewModel(ICacheService cacheService, IAccountService accountService,IUserService userService)
         {
             _cacheService = cacheService;
-            SaveResourceCommand = new CaptionCommand<string>(Resources.Save, OnSaveResource,CanSelectResource);
+            _accountService = accountService;
+            _userService = userService;
+            SaveResourceCommand = new CaptionCommand<string>(Resources.Save, OnSaveResource, CanSelectResource);
             SelectResourceCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.Resource).Replace(" ", "\r"), OnSelectResource, CanSelectResource);
+            CreateAccountCommand = new CaptionCommand<string>(string.Format(Resources.Create_f, Resources.Account).Replace(" ", "\r"), OnCreateAccount, CanCreateAccount);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Resource>>>().Subscribe(OnEditResource);
+        }
+
+        private bool CanCreateAccount(string arg)
+        {
+            if(!_userService.IsUserPermittedFor(PermissionNames.CreateAccount)) return false;
+            return SelectedResource != null && SelectedResource.Model.AccountId == 0 && SelectedResource.ResourceTemplate.AccountTemplateId > 0 && !string.IsNullOrEmpty(SelectedResource.ResourceTemplate.GetAccountName(SelectedResource.Model));
+        }
+
+        private void OnCreateAccount(string obj)
+        {
+            if (SelectedResource.Model.Id == 0) SaveSelectedResource();
+            var accountName = SelectedResource.ResourceTemplate.GetAccountName(SelectedResource.Model);
+            var accountId = _accountService.CreateAccount(accountName, SelectedResource.ResourceTemplate.AccountTemplateId);
+            SelectedResource.Model.AccountId = accountId;
+            SaveSelectedResource();
+            CommonEventPublisher.PublishEntityOperation(SelectedResource.Model, EventTopicNames.SelectResource, EventTopicNames.ResourceSelected);
         }
 
         private bool CanSelectResource(string arg)
@@ -78,7 +100,7 @@ namespace Samba.Modules.ResourceModule
             {
                 _selectedResource = value;
                 RaisePropertyChanged(() => SelectedResource);
-                RaisePropertyChanged(()=>SelectResourceCommandCaption);
+                RaisePropertyChanged(() => SelectResourceCommandCaption);
             }
         }
 

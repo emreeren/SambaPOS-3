@@ -12,7 +12,6 @@ namespace Samba.Services
         void SaveResourceScreenItems();
         int GetResourceScreenItemCount();
         IEnumerable<string> GetCategories();
-        string GetCustomData(Resource resource, string fieldName);
         void UpdateResourceState(int resourceId, int stateId);
     }
 }

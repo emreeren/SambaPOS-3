@@ -121,13 +121,6 @@ namespace Samba.Services.Implementations.ResourceModule
             return Dao.Distinct<ResourceScreenItem>(x => x.Category);
         }
 
-        public string GetCustomData(Resource resource, string fieldName)
-        {
-            var pattern = string.Format("\"Name\":\"{0}\",\"Value\":\"([^\"]+)\"", fieldName);
-            return Regex.IsMatch(resource.CustomData, pattern)
-                ? Regex.Match(resource.CustomData, pattern).Groups[1].Value : "";
-        }
-
         public void UpdateResourceState(int resourceId, int stateId)
         {
             if (resourceId == 0) return;

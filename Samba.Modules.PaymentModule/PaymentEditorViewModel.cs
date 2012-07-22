@@ -192,7 +192,7 @@ namespace Samba.Modules.PaymentModule
             if (ticketResource.AccountId == 0) return false;
             var resourceTemplate = _cacheService.GetResourceTemplateById(ticketResource.ResourceTemplateId);
             if (resourceTemplate.AccountTemplateId != paymentTemplate.AccountTransactionTemplate.TargetAccountTemplateId) return false;
-            return false;
+            return true;
         }
 
         private Account GetAccountForTransaction(PaymentTemplate paymentTemplate, IEnumerable<TicketResource> ticketResources)

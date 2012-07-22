@@ -108,7 +108,7 @@ namespace Samba.Modules.PosModule
                 if (SelectedTicket != null)
                 {
                     _ticketService.UpdateResource(SelectedTicket, eventParameters.Value.SelectedEntity);
-                    if (SelectedTicket.Orders.Count > 0 && eventParameters.Value.SelectedEntity.Id > 0)
+                    if (SelectedTicket.Orders.Count > 0 && eventParameters.Value.SelectedEntity.Id > 0 && eventParameters.Value.SelectedEntity.ResourceTemplateId == _applicationState.SelectedResourceScreen.ResourceTemplateId)
                         CloseTicket();
                     else DisplaySingleTicket();
                 }

@@ -130,6 +130,19 @@ namespace Samba.Services.Implementations.AccountModule
             return Dao.Query<AccountTemplate>();
         }
 
+        public int CreateAccount(string accountName, int accountTemplateId)
+        {
+            if (accountTemplateId == 0 || string.IsNullOrEmpty(accountName)) return 0;
+            if (Dao.Exists<Account>(x => x.Name == accountName)) return 0;
+            using (var w = WorkspaceFactory.Create())
+            {
+                var account = new Account() { AccountTemplateId = accountTemplateId, Name = accountName };
+                w.Add(account);
+                w.CommitChanges();
+                return account.Id;
+            }
+        }
+
         public override void Reset()
         {
             _accountCount = null;

@@ -25,6 +25,7 @@ namespace Samba.Modules.ResourceModule
             DeleteCustomFieldCommand = new CaptionCommand<ResourceCustomFieldViewModel>(string.Format(Resources.Delete_f, Resources.CustomField), OnDeleteCustomField, CanDeleteCustomField);
         }
 
+        public string AccountNameTemplate { get { return Model.AccountNameTemplate; } set { Model.AccountNameTemplate = value; } }
         public string EntityName { get { return Model.EntityName; } set { Model.EntityName = value; } }
 
         public AccountTemplate AccountTemplate

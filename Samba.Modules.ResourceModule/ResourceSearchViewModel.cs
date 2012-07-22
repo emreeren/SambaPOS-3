@@ -203,7 +203,9 @@ namespace Samba.Modules.ResourceModule
             {
                 ClearSearchValues();
                 if (_currentResourceSelectionRequest.SelectedEntity.Name != "*")
+                {
                     FoundResources.Add(new ResourceSearchResultViewModel(_currentResourceSelectionRequest.SelectedEntity, SelectedResourceTemplate));
+                }
             }
 
             RaisePropertyChanged(() => SelectedResourceTemplate);

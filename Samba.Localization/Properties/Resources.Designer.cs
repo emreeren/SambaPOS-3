@@ -126,11 +126,29 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account Name Template.
+        /// </summary>
+        public static string AccountNameTemplate {
+            get {
+                return ResourceManager.GetString("AccountNameTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account Note.
         /// </summary>
         public static string AccountNote {
             get {
                 return ResourceManager.GetString("AccountNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account Permissions.
+        /// </summary>
+        public static string AccountPermissions {
+            get {
+                return ResourceManager.GetString("AccountPermissions", resourceCulture);
             }
         }
         
@@ -982,6 +1000,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can Create Account.
+        /// </summary>
+        public static string CanCreateAccount {
+            get {
+                return ResourceManager.GetString("CanCreateAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can Display Old Tickets.
         /// </summary>
         public static string CanDisplayOldTickets {
@@ -1638,6 +1665,15 @@ namespace Samba.Localization.Properties {
         public static string Create_f {
             get {
                 return ResourceManager.GetString("Create_f", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Account.
+        /// </summary>
+        public static string CreateAccount {
+            get {
+                return ResourceManager.GetString("CreateAccount", resourceCulture);
             }
         }
         
