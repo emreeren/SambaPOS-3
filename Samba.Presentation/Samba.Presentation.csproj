@@ -210,6 +210,10 @@
       <Project>{629A2D7C-9014-4A85-A1E9-26161D5B3043}</Project>
       <Name>Samba.Modules.CidMonitor</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.DashboardModule\Samba.Modules.DashboardModule.csproj">
+      <Project>{9CF4C7FD-9204-4A8F-807A-605A177F96C0}</Project>
+      <Name>Samba.Modules.DashboardModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samba.Modules.DepartmentModule\Samba.Modules.DepartmentModule.csproj">
       <Project>{3F15FA1B-DB89-418B-8E7C-E7747D9098FF}</Project>
       <Name>Samba.Modules.DepartmentModule</Name>
@@ -221,6 +225,10 @@
     <ProjectReference Include="..\Samba.Modules.LoginModule\Samba.Modules.LoginModule.csproj">
       <Project>{534CEC53-1EBC-4386-95E3-0E451FCB388A}</Project>
       <Name>Samba.Modules.LoginModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.ManagementModule\Samba.Modules.ManagementModule.csproj">
+      <Project>{F7FB0F2D-DBD6-4C97-AC45-CE4DC5F2FBD6}</Project>
+      <Name>Samba.Modules.ManagementModule</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Modules.ModifierModule\Samba.Modules.ModifierModule.csproj">
       <Project>{51FCBCEF-D8B5-49D5-B18D-E6C7D5217D21}</Project>
@@ -261,10 +269,6 @@
     <ProjectReference Include="..\Samba.Infrastructure\Samba.Infrastructure.csproj">
       <Project>{B184E8F8-A507-4C3D-B580-184E3776A95C}</Project>
       <Name>Samba.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Samba.Modules.DashboardModule\Samba.Modules.DashboardModule.csproj">
-      <Project>{1544262A-3EC9-413F-9165-7CF69A15B4CF}</Project>
-      <Name>Samba.Modules.DashboardModule</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Modules.MenuModule\Samba.Modules.MenuModule.csproj">
       <Project>{8DA03815-ED56-40C5-83CA-6DFBB1F19C4F}</Project>

@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Actions;
+using Samba.Domain.Models.Dashboards;
 using Samba.Domain.Models.Inventories;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Resources;
@@ -91,6 +92,9 @@ namespace Samba.Persistance.Data
         public DbSet<ResourceScreen> ResourceScreens { get; set; }
         public DbSet<ResourceState> ResourceStates { get; set; }
         public DbSet<ResourceStateValue> ResourceStateValues { get; set; }
+        public DbSet<Dashboard> Dashboards { get; set; }
+        public DbSet<Widget> Widgets { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

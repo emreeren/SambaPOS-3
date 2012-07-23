@@ -117,6 +117,7 @@ Source: src\Samba.Modules.DashboardModule.dll; DestDir: {app}; Flags: ignorevers
 Source: src\Samba.Modules.DepartmentModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.InventoryModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.LoginModule.dll; DestDir: {app}; Flags: ignoreversion
+Source: src\Samba.Modules.ManagementModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.MenuModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.ModifierModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.NavigationModule.dll; DestDir: {app}; Flags: ignoreversion

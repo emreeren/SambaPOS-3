@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Samba.Modules.DashboardModule")]
+[assembly: AssemblyTitle("Samba.Modules.ManagementModule")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Samba.Modules.DashboardModule")]
+[assembly: AssemblyProduct("Samba.Modules.ManagementModule")]
 [assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("28d4d8f6-6873-4bad-9e7a-f9b55013822b")]
+[assembly: Guid("2eff88ea-5df2-439e-95ff-45eddf342148")]
 
 // Version information for an assembly consists of the following four values:
 //

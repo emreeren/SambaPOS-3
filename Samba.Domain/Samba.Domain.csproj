@@ -73,6 +73,8 @@
     <Compile Include="Models\Accounts\AccountTemplate.cs" />
     <Compile Include="Models\Actions\AutomationCommand.cs" />
     <Compile Include="Models\Actions\AutomationCommandMap.cs" />
+    <Compile Include="Models\Dashboards\Dashboard.cs" />
+    <Compile Include="Models\Dashboards\Widget.cs" />
     <Compile Include="Models\Resources\ResourceCustomField.cs" />
     <Compile Include="Models\Resources\ResourceStateValue.cs" />
     <Compile Include="Models\Resources\ResourceState.cs" />

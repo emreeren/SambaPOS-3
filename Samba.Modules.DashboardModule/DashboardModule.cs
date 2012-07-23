@@ -1,50 +1,14 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
-using Microsoft.Practices.Prism.Regions;
-using Samba.Localization.Properties;
 using Samba.Presentation.Common;
-using Samba.Services;
 
 namespace Samba.Modules.DashboardModule
 {
     [ModuleExport(typeof(DashboardModule))]
-    public class DashboardModule : VisibleModuleBase
+    class DashboardModule:ModuleBase
     {
-        private readonly IRegionManager _regionManager;
-        private readonly DashboardView _dashboardView;
-        private readonly IUserService _userService;
-
-        [ImportingConstructor]
-        public DashboardModule(IRegionManager regionManager, DashboardView dashboardView, IUserService userService)
-            : base(regionManager, AppScreens.Dashboard)
-        {
-            _regionManager = regionManager;
-            _dashboardView = dashboardView;
-            _userService = userService;
-            SetNavigationCommand(Resources.Management, Resources.Common, "Images/Tools.png", 90);
-            PermissionRegistry.RegisterPermission(PermissionNames.OpenDashboard, PermissionCategories.Navigation, Resources.CanOpenDashboard);
-        }
-
-        protected override bool CanNavigate(string arg)
-        {
-            return _userService.IsUserPermittedFor(PermissionNames.OpenDashboard);
-        }
-
-        protected override void OnNavigate(string obj)
-        {
-            base.OnNavigate(obj);
-            ((DashboardViewModel)_dashboardView.DataContext).Refresh();
-        }
-
-        public override object GetVisibleView()
-        {
-            return _dashboardView;
-        }
-
-        protected override void OnPreInitialization()
-        {
-            _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(DashboardView));
-            _regionManager.RegisterViewWithRegion(RegionNames.UserRegion, typeof(KeyboardButtonView));
-        }
     }
 }
