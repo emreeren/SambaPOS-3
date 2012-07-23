@@ -93,6 +93,7 @@ namespace Samba.Persistance.Data
         public DbSet<ResourceState> ResourceStates { get; set; }
         public DbSet<ResourceStateValue> ResourceStateValues { get; set; }
         public DbSet<Dashboard> Dashboards { get; set; }
+        public DbSet<DashboardMap> DashboardMaps { get; set; }
         public DbSet<Widget> Widgets { get; set; }
 
 

@@ -19,7 +19,6 @@ namespace Samba.Modules.AutomationModule
 
         public CaptionCommand<string> DeleteAutomationCommandMapCommand { get; set; }
         public CaptionCommand<string> AddAutomationCommandMapCommand { get; set; }
-
         public AutomationCommandMapViewModel SelectedAutomationCommandMap { get; set; }
 
         [ImportingConstructor]
