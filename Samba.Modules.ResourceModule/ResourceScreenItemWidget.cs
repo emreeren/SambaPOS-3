@@ -10,7 +10,7 @@ using Samba.Presentation.Common.Services;
 
 namespace Samba.Modules.ResourceModule
 {
-    public class ResourceScreenItemWidget : ObservableObject, IDiagram
+    public class ResourceScreenItemWidget : ObservableObject,IDiagram
     {
         private readonly bool _isTicketSelected;
         private readonly bool _userPermittedToMerge;
@@ -84,6 +84,14 @@ namespace Samba.Modules.ResourceModule
             set { _isEnabled = value; RaisePropertyChanged(() => IsEnabled); }
         }
 
+        public object SettingsObject
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public string CreatorName { get; set; }
+
         [Browsable(false)]
         public string Caption
         {
@@ -146,6 +154,21 @@ namespace Samba.Modules.ResourceModule
         public void EditProperties()
         {
             InteractionService.UserIntraction.EditProperties(this);
+        }
+
+        public void EditSettings()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SaveSettings()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Refresh()
+        {
+            throw new NotImplementedException();
         }
 
         public void UpdateButtonColor()

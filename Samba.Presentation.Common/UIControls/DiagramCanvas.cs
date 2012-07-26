@@ -1,9 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
+using Samba.Presentation.Common.Widgets;
 
 namespace Samba.Presentation.Common.UIControls
 {
@@ -45,7 +45,7 @@ namespace Samba.Presentation.Common.UIControls
             if (newCollection != null)
             {
                 //adds all the children of the new collection
-                foreach (IDiagram item in newCollection)
+                foreach (var item in newCollection)
                 {
                     AddControl(item, instance);
                 }
@@ -67,10 +67,17 @@ namespace Samba.Presentation.Common.UIControls
         }
 
         public static ContextMenu ButtonContextMenu { get; set; }
+        public event EventHandler WidgetRemoved;
+
+        public void OnWidgetRemoved(EventArgs e, IDiagram widgetViewModel)
+        {
+            var handler = WidgetRemoved;
+            if (handler != null) handler(widgetViewModel, e);
+        }
 
         protected static void AddControl(IDiagram buttonHolder, InkCanvas parentControl)
         {
-            var result = WidgetCreatorRegistry.CreateWidget(buttonHolder, ButtonContextMenu);
+            var result = WidgetCreatorRegistry.CreateWidgetControl(buttonHolder, ButtonContextMenu);
             if (result != null) parentControl.Children.Add(result);
         }
 
@@ -83,15 +90,35 @@ namespace Samba.Presentation.Common.UIControls
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DiagramCanvas), new FrameworkPropertyMetadata(typeof(DiagramCanvas)));
             ButtonContextMenu = new ContextMenu();
-            var menuItem = new MenuItem() { Header = "Özellikler" };
-            menuItem.Click += MenuItemClick;
-            ButtonContextMenu.Items.Add(menuItem);
         }
 
-        static void MenuItemClick(object sender, RoutedEventArgs e)
+        public DiagramCanvas()
         {
-            ((IDiagram)((Control)((ContextMenu)((MenuItem)sender).Parent).PlacementTarget).DataContext).
-                EditProperties();
+            ButtonContextMenu.Items.Clear();
+            var menuItem = new MenuItem { Header = "Properties" };
+            menuItem.Click += MenuItemClick;
+            ButtonContextMenu.Items.Add(menuItem);
+            var mi2 = new MenuItem { Header = "Settings" };
+            mi2.Click += Mi2Click;
+            ButtonContextMenu.Items.Add(mi2);
+            var mi3 = new MenuItem { Header = "Delete Widget" };
+            mi3.Click += Mi3Click;
+            ButtonContextMenu.Items.Add(mi3);
+        }
+
+        void Mi3Click(object sender, RoutedEventArgs e)
+        {
+            OnWidgetRemoved(EventArgs.Empty, ((IDiagram)((Control)((ContextMenu)((MenuItem)sender).Parent).PlacementTarget).DataContext));
+        }
+
+        void Mi2Click(object sender, RoutedEventArgs e)
+        {
+            ((IDiagram)((Control)((ContextMenu)((MenuItem)sender).Parent).PlacementTarget).DataContext).EditSettings();
+        }
+
+        void MenuItemClick(object sender, RoutedEventArgs e)
+        {
+            ((IDiagram)((Control)((ContextMenu)((MenuItem)sender).Parent).PlacementTarget).DataContext).EditProperties();
         }
 
     }

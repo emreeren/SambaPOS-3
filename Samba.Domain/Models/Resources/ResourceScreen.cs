@@ -17,11 +17,16 @@ namespace Samba.Domain.Models.Resources
         public int StateFilterId { get; set; }
         public bool DisplayOpenTickets { get; set; }
 
-        private IList<ResourceScreenItem> _screenItems;
+        private readonly IList<ResourceScreenItem> _screenItems;
         public virtual IList<ResourceScreenItem> ScreenItems
         {
             get { return _screenItems; }
-            set { _screenItems = value; }
+        }
+
+        private readonly IList<Widget> _widgets;
+        public virtual IList<Widget> Widgets
+        {
+            get { return _widgets; }
         }
 
         public string UserString
@@ -34,6 +39,7 @@ namespace Samba.Domain.Models.Resources
         public ResourceScreen()
         {
             _screenItems = new List<ResourceScreenItem>();
+            _widgets = new List<Widget>();
             BackgroundColor = "Transparent";
             PageCount = 1;
             ButtonHeight = 0;

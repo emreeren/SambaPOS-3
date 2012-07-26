@@ -28,7 +28,6 @@
 
     public static class EventTopicNames
     {
-
         public const string CreateTicket = "Create Ticket";
         public const string MoveSelectedOrders = "Move Selected Orders";
         public const string ActivateTicketList = "Activate Ticket List";

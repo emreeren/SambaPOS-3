@@ -23,7 +23,7 @@ namespace Samba.Modules.ResourceModule
         public ICaptionCommand DecPageNumberCommand { get; set; }
         public ObservableCollection<IDiagram> ResourceScreenItems { get; set; }
         public ResourceScreen SelectedResourceScreen { get { return _applicationState.SelectedResourceScreen; } }
-        public bool CanDesignResourceScreenItems { get { return _applicationState.CurrentLoggedInUser.UserRole.IsAdmin; } }
+        //public bool CanDesignResourceScreenItems { get { return _applicationState.CurrentLoggedInUser.UserRole.IsAdmin; } }
         public int CurrentPageNo { get; set; }
         public bool IsPageNavigatorVisible { get { return SelectedResourceScreen != null && SelectedResourceScreen.PageCount > 1; } }
 

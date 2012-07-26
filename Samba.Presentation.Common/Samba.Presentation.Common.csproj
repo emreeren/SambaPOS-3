@@ -67,6 +67,9 @@
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\Lib\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.Prism.MefExtensions">
+      <HintPath>..\Lib\Microsoft.Practices.Prism.MefExtensions.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\Lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
@@ -93,12 +96,14 @@
     <Compile Include="Converters\FontWeightConverter.cs" />
     <Compile Include="Commands\CustomCommand.cs" />
     <Compile Include="ElementSpy.cs" />
+    <Compile Include="IWidgetCreator.cs" />
     <Compile Include="ModelBase\GenericEntityView.xaml.cs">
       <DependentUpon>GenericEntityView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ModelBase\IEditableCollection.cs" />
     <Compile Include="ModelBase\IValueSource.cs" />
     <Compile Include="ObservableObject.cs" />
+    <Compile Include="PresentationModule.cs" />
     <Compile Include="Services\ApplicationState.cs" />
     <Compile Include="Browser\BrowserControl.xaml.cs">
       <DependentUpon>BrowserControl.xaml</DependentUpon>
@@ -209,7 +214,9 @@
     </Compile>
     <Compile Include="VirtualKeyboard\KeyboardViewModel.cs" />
     <Compile Include="VisibleModuleBase.cs" />
-    <Compile Include="WidgetCreatorRegistry.cs" />
+    <Compile Include="Widgets\DefaultWidgetCreator.cs" />
+    <Compile Include="Widgets\WidgetCreatorRegistry.cs" />
+    <Compile Include="WidgetViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lib\DataGridFilterLibrary\DataGridFilterLibrary.csproj">
@@ -367,6 +374,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>IF NOT "$(ConfigurationName)"=="Release" GOTO End

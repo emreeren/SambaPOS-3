@@ -435,7 +435,7 @@ namespace Samba.Presentation.ViewModels
                 if (x.Value.Action.ActionType == "ExecutePrintJob")
                 {
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
-                    var pjName = x.Value.Action.GetParameter("PrintJobName");
+                    var pjName = x.Value.GetAsString("PrintJobName");
                     if (!string.IsNullOrEmpty(pjName))
                     {
                         TicketService.UpdateTicketNumber(ticket, ApplicationState.CurrentDepartment.TicketTemplate.TicketNumerator);

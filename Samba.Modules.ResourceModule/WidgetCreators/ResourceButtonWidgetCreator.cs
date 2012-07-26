@@ -1,25 +1,50 @@
-using System;
+using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using Samba.Domain.Models.Resources;
+using Samba.Infrastructure;
 using Samba.Presentation.Common;
+using Samba.Services;
 
-namespace Samba.Modules.ResourceModule
+namespace Samba.Modules.ResourceModule.WidgetCreators
 {
-    public class ResourceWidgetCreator : IWidgetCreator
+    [Export(typeof(IWidgetCreator))]
+    public class ResourceButtonWidgetCreator : IWidgetCreator
     {
-        public Type GetWidgetType()
+        private readonly ICacheService _cacheService;
+        private readonly IApplicationState _applicationState;
+
+        [ImportingConstructor]
+        public ResourceButtonWidgetCreator(ICacheService cacheService, IApplicationState applicationState)
         {
-            return typeof(ResourceScreenItemWidget);
+            _cacheService = cacheService;
+            _applicationState = applicationState;
         }
 
-        public ContentControl CreateWidget(IDiagram widgetContainer, ContextMenu contextMenu)
+        public string GetCreatorName()
         {
-            var buttonHolder = widgetContainer;
+            return "Resource Button";
+        }
 
-            var ret = new FlexButton.FlexButton { DataContext = buttonHolder, ContextMenu = contextMenu };
-            ret.CommandParameter = buttonHolder;
+        public Widget CreateNewWidget()
+        {
+            var parameters = JsonHelper.Serialize(new ResourceWidgetSettings());
+            var result = new Widget { Properties = parameters, CreatorName = GetCreatorName() };
+            return result;
+        }
+
+        public WidgetViewModel CreateWidgetViewModel(Widget widget)
+        {
+            return new ResourceButtonWidgetViewModel(widget, _cacheService, _applicationState);
+        }
+
+        public FrameworkElement CreateWidgetControl(IDiagram widgetViewModel, ContextMenu contextMenu)
+        {
+            var buttonHolder = widgetViewModel as ResourceButtonWidgetViewModel;
+
+            var ret = new FlexButton.FlexButton { DataContext = buttonHolder, ContextMenu = contextMenu, CommandParameter = buttonHolder };
 
             var heightBinding = new Binding("Height") { Source = buttonHolder, Mode = BindingMode.TwoWay };
             var widthBinding = new Binding("Width") { Source = buttonHolder, Mode = BindingMode.TwoWay };
@@ -28,7 +53,7 @@ namespace Samba.Modules.ResourceModule
             var captionBinding = new Binding("Caption") { Source = buttonHolder, Mode = BindingMode.TwoWay };
             var radiusBinding = new Binding("CornerRadius") { Source = buttonHolder, Mode = BindingMode.TwoWay };
             var buttonColorBinding = new Binding("ButtonColor") { Source = buttonHolder, Mode = BindingMode.TwoWay };
-            var commandBinding = new Binding("Command") { Source = buttonHolder, Mode = BindingMode.OneWay };
+            var commandBinding = new Binding("ItemClickedCommand") { Source = buttonHolder, Mode = BindingMode.OneWay };
             var enabledBinding = new Binding("IsEnabled") { Source = buttonHolder, Mode = BindingMode.OneWay };
             var transformBinding = new Binding("RenderTransform") { Source = buttonHolder, Mode = BindingMode.OneWay };
 
@@ -41,7 +66,7 @@ namespace Samba.Modules.ResourceModule
             ret.SetBinding(FlexButton.FlexButton.ButtonColorProperty, buttonColorBinding);
             ret.SetBinding(ButtonBase.CommandProperty, commandBinding);
             ret.SetBinding(UIElement.RenderTransformProperty, transformBinding);
-            ret.SetBinding(UIElement.IsEnabledProperty, enabledBinding);
+            //ret.SetBinding(UIElement.IsEnabledProperty, enabledBinding);
 
             return ret;
         }

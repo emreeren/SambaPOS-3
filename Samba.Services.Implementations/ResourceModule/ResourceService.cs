@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
@@ -92,6 +91,35 @@ namespace Samba.Services.Implementations.ResourceModule
             }
         }
 
+        public IList<Widget> LoadWidgets(string selectedResourceScreen)
+        {
+            if (_resoureceWorkspace != null)
+            {
+                _resoureceWorkspace.CommitChanges();
+            }
+            _resoureceWorkspace = WorkspaceFactory.Create();
+            return _resoureceWorkspace.Single<ResourceScreen>(x => x.Name == selectedResourceScreen).Widgets;
+        }
+
+        public void AddWidgetToResourceScreen(string resourceScreenName, Widget widget)
+        {
+            if (_resoureceWorkspace == null) return;
+            _resoureceWorkspace.Single<ResourceScreen>(x => x.Name == resourceScreenName).Widgets.Add(widget);
+            _resoureceWorkspace.CommitChanges();
+        }
+
+        public void UpdateResourceScreen(ResourceScreen resourceScreen)
+        {
+            UpdateResourceScreenItems(resourceScreen, 0);
+        }
+
+        public void RemoveWidget(Widget widget)
+        {
+            if (_resoureceWorkspace == null) return;
+            _resoureceWorkspace.Delete<Widget>(x=>x.Id == widget.Id);
+            _resoureceWorkspace.CommitChanges();
+        }
+
         public IList<ResourceScreenItem> LoadResourceScreenItems(string selectedResourceScreen)
         {
             if (_resoureceWorkspace != null)
@@ -135,6 +163,8 @@ namespace Samba.Services.Implementations.ResourceModule
                 }
             }
         }
+
+
 
         public override void Reset()
         {
