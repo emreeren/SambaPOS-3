@@ -71,10 +71,10 @@
     <Compile Include="PosViewModel.cs" />
     <Compile Include="ResourceButton.cs" />
     <Compile Include="TicketButtonViewModel.cs" />
-    <Compile Include="TicketExplorerView.xaml.cs">
+    <Compile Include="WidgetCreators\TicketExplorerView.xaml.cs">
       <DependentUpon>TicketExplorerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TicketExplorerViewModel.cs" />
+    <Compile Include="WidgetCreators\TicketExplorerViewModel.cs" />
     <Compile Include="TicketInfoView.xaml.cs">
       <DependentUpon>TicketInfoView.xaml</DependentUpon>
     </Compile>
@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="TicketOrdersViewModel.cs" />
     <Compile Include="TicketTagButton.cs" />
+    <Compile Include="WidgetCreators\TicketExplorerWidgetCreator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lib\FlexButton\FlexButton.csproj">
@@ -171,11 +172,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="TicketExplorerView.xaml">
+    <Page Include="WidgetCreators\TicketExplorerView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>IF NOT "$(ConfigurationName)"=="Release" GOTO End

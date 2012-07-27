@@ -13,7 +13,6 @@ namespace Samba.Modules.PosModule
     class PosModule : VisibleModuleBase
     {
         private readonly PosView _posView;
-        private readonly TicketExplorerView _ticketExplorerView;
         private readonly MenuItemSelectorView _menuItemSelectorView;
         private readonly IRegionManager _regionManager;
         private readonly IApplicationState _applicationState;
@@ -23,13 +22,12 @@ namespace Samba.Modules.PosModule
         [ImportingConstructor]
         public PosModule(IRegionManager regionManager, IApplicationState applicationState,
             PosView posView, TicketView ticketView, TicketListView ticketListView, 
-            TicketExplorerView ticketExplorerView, MenuItemSelectorView menuItemSelectorView)
+            MenuItemSelectorView menuItemSelectorView)
             : base(regionManager, AppScreens.TicketList)
         {
             SetNavigationCommand("POS", Resources.Common, "Images/Network.png", 10);
 
             _posView = posView;
-            _ticketExplorerView = ticketExplorerView;
             _menuItemSelectorView = menuItemSelectorView;
             _regionManager = regionManager;
             _applicationState = applicationState;
@@ -49,7 +47,6 @@ namespace Samba.Modules.PosModule
             _regionManager.Regions[RegionNames.PosMainRegion].Add(_ticketView, "TicketView");
             _regionManager.Regions[RegionNames.PosMainRegion].Add(_ticketListView, "TicketListView");
             _regionManager.Regions[RegionNames.PosSubRegion].Add(_menuItemSelectorView, "MenuItemSelectorView");
-            _regionManager.Regions[RegionNames.PosSubRegion].Add(_ticketExplorerView, "TicketExplorerView");
             _regionManager.RegisterViewWithRegion(RegionNames.TicketOrdersRegion, typeof(TicketOrdersView));
             _regionManager.RegisterViewWithRegion(RegionNames.TicketInfoRegion, typeof(TicketInfoView));
             _regionManager.RegisterViewWithRegion(RegionNames.TicketPaymentRegion, typeof (PaymentButtonView));

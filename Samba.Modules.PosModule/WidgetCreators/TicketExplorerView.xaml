@@ -1,0 +1,92 @@
+﻿<UserControl x:Class="Samba.Modules.PosModule.WidgetCreators.TicketExplorerView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:sys="clr-namespace:System;assembly=mscorlib" mc:Ignorable="d">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            <Grid IsEnabled="{Binding CanChanageDateFilter}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <DatePicker Grid.Column="0" Margin="5,0,0,0" SelectedDate="{Binding StartDate}" BorderThickness="1">
+                    <DatePicker.LayoutTransform>
+                        <ScaleTransform ScaleY="2" ScaleX="2">
+                        </ScaleTransform>
+                    </DatePicker.LayoutTransform>
+                </DatePicker>
+                <DatePicker Grid.Column="1" Margin="5,0,0,0" SelectedDate="{Binding EndDate}" BorderThickness="1">
+                    <DatePicker.LayoutTransform>
+                        <ScaleTransform ScaleY="2" ScaleX="2">
+                        </ScaleTransform>
+                    </DatePicker.LayoutTransform>
+                </DatePicker>
+                <Button FontSize="18" MinWidth="50" Grid.Column="2" Margin="5,0,5,0" Content="{Binding PreviousWorkPeriod.Caption}"
+                     Command="{Binding PreviousWorkPeriod }" />
+                <Button FontSize="18" MinWidth="50" Grid.Column="3" Content="{Binding NextWorkPeriod.Caption}"
+                     Command="{Binding NextWorkPeriod }" />
+            </Grid>
+            <Button Grid.Column="1" MinWidth="50" FontSize="18" Margin="5,0,0,0" Command="{Binding RefreshDatesCommand}">
+                <LocText ResourceIdentifierKey="Refresh"/>
+            </Button>
+        </Grid>
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Filters}" Margin="5,3,0,3">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+                        <ComboBox FontSize="24" SelectedIndex="{Binding FilterTypeIndex}" ItemsSource="{Binding FilterTypes}">
+                        </ComboBox>
+                        <ComboBox Grid.Column="1" FontSize="24" MinWidth="200" Margin="3,0,0,0" Text="{Binding FilterValue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                             ItemsSource="{Binding FilterValues}" IsEditable="True" IsEnabled="{Binding IsTextBoxEnabled}">
+                            <ComboBox.Resources>
+                                <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">0</sys:Double>
+                            </ComboBox.Resources>
+                        </ComboBox>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <DataGrid FontSize="18" Grid.Row="2" ItemsSource="{Binding Tickets}" SelectedItem="{Binding SelectedRow}"
+             ScrollViewer.ScrollChanged="DataGrid_ScrollChanged" IsReadOnly="True" AutoGenerateColumns="False"
+             HorizontalGridLinesBrush="Silver" VerticalGridLinesBrush="Silver" SelectionMode="Single"
+             MouseLeftButtonUp="DataGrid_MouseLeftButtonUp" IsTextSearchEnabled="True" HeadersVisibility="Column"
+             Margin="5,0,0,0" AlternatingRowBackground="WhiteSmoke" PreviewMouseDown="DataGrid_PreviewMouseDown"
+             PreviewKeyUp="DataGrid_PreviewKeyUp" GridLinesVisibility="All">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="{LocText Number}"
+                     Binding="{Binding TicketNumber}" />
+                <DataGridTextColumn Header="{LocText Location}"
+                     Binding="{Binding Location}" />
+                <DataGridTextColumn Header="{LocText Date}"
+                     Binding="{Binding Date}" />
+                <DataGridTextColumn Header="{LocText OpenClose_ab}"
+                     Binding="{Binding TimeInfo}" />
+                <DataGridTextColumn Header="{LocText Total}"
+                     Binding="{Binding Sum,StringFormat='#,#0.00'}" MinWidth="65" CellStyle="{StaticResource RightAlignedCellStyle}" />
+                <DataGridTextColumn Header="{LocText Account}"
+                     Binding="{Binding AccountName}" />
+            </DataGrid.Columns>
+            <DataGrid.Resources>
+                <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">25</sys:Double>
+            </DataGrid.Resources>
+        </DataGrid>
+        <TextBlock Grid.Row="3" Margin="3" TextAlignment="Right" Text="{Binding TotalStr}"
+             FontSize="18" FontWeight="Bold">
+        </TextBlock>
+    </Grid>
+</UserControl>

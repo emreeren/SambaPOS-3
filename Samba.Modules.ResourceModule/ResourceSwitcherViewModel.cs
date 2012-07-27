@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using Microsoft.Practices.Prism.Commands;
+using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.Regions;
 using Samba.Domain.Models.Resources;
 using Samba.Presentation.Common;
@@ -42,6 +43,17 @@ namespace Samba.Modules.ResourceModule
             _resourceDashboardViewModel = resourceDashboardViewModel;
 
             SelectResourceCategoryCommand = new DelegateCommand<ResourceScreen>(OnSelectResourceCategoryExecuted);
+
+            EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(
+            x =>
+            {
+                if (x.Topic == EventTopicNames.ResetCache)
+                {
+                    _resourceScreens = null;
+                    _resourceSwitcherButtons = null;
+                    RaisePropertyChanged(() => ResourceSwitcherButtons);
+                }
+            });
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Resource>>>().Subscribe(x =>
             {
@@ -88,7 +100,7 @@ namespace Samba.Modules.ResourceModule
         private IEnumerable<ResourceSwitcherButtonViewModel> _resourceSwitcherButtons;
         public IEnumerable<ResourceSwitcherButtonViewModel> ResourceSwitcherButtons
         {
-            get { return _resourceSwitcherButtons ?? (ResourceScreens.Select(x => new ResourceSwitcherButtonViewModel(x, _applicationState, ResourceScreens.Count() > 1))); }
+            get { return _resourceSwitcherButtons ?? (_resourceSwitcherButtons = ResourceScreens.Select(x => new ResourceSwitcherButtonViewModel(x, _applicationState, ResourceScreens.Count() > 1))); }
         }
 
         private void OnSelectResourceCategoryExecuted(ResourceScreen obj)

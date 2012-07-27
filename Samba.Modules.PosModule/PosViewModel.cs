@@ -28,7 +28,6 @@ namespace Samba.Modules.PosModule
         private readonly IApplicationStateSetter _applicationStateSetter;
         private readonly IRegionManager _regionManager;
         private readonly MenuItemSelectorViewModel _menuItemSelectorViewModel;
-        private readonly TicketExplorerViewModel _ticketExplorerViewModel;
         private readonly TicketListViewModel _ticketListViewModel;
         private readonly MenuItemSelectorView _menuItemSelectorView;
         private readonly TicketViewModel _ticketViewModel;
@@ -50,7 +49,7 @@ namespace Samba.Modules.PosModule
         [ImportingConstructor]
         public PosViewModel(IRegionManager regionManager, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
             ITicketService ticketService, IUserService userService, ICacheService cacheService,
-            TicketExplorerViewModel ticketExplorerViewModel, TicketListViewModel ticketListViewModel,
+            TicketListViewModel ticketListViewModel,
             MenuItemSelectorViewModel menuItemSelectorViewModel, MenuItemSelectorView menuItemSelectorView, TicketViewModel ticketViewModel,
             TicketOrdersViewModel ticketOrdersViewModel)
         {
@@ -65,11 +64,9 @@ namespace Samba.Modules.PosModule
             _ticketOrdersViewModel = ticketOrdersViewModel;
 
             _menuItemSelectorViewModel = menuItemSelectorViewModel;
-            _ticketExplorerViewModel = ticketExplorerViewModel;
             _ticketListViewModel = ticketListViewModel;
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<Ticket>>().Subscribe(OnTicketEventReceived);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<WorkPeriod>>().Subscribe(OnWorkPeriodEvent);
             EventServiceFactory.EventService.GetEvent<GenericEvent<SelectedOrdersData>>().Subscribe(OnSelectedOrdersChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnTicketEvent);
             EventServiceFactory.EventService.GetEvent<GenericEvent<ScreenMenuItemData>>().Subscribe(OnMenuItemSelected);
@@ -211,14 +208,6 @@ namespace Samba.Modules.PosModule
             }
         }
 
-        private void OnWorkPeriodEvent(EventParameters<WorkPeriod> obj)
-        {
-            if (obj.Topic == EventTopicNames.DisplayTicketExplorer)
-            {
-                DisplayTicketExplorerScreen();
-            }
-        }
-
         public void DisplayTickets()
         {
             _lastSelectedResource = null;
@@ -254,20 +243,6 @@ namespace Samba.Modules.PosModule
         {
             _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
             _regionManager.RequestNavigate(RegionNames.PosSubRegion, new Uri("MenuItemSelectorView", UriKind.Relative));
-        }
-
-        public void DisplayTicketExplorerScreen()
-        {
-            _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
-            _regionManager.RequestNavigate(RegionNames.PosSubRegion, new Uri("TicketExplorerView", UriKind.Relative));
-
-            _ticketExplorerViewModel.StartDate = _applicationState.CurrentWorkPeriod.StartDate.Date;
-            if (!_userService.IsUserPermittedFor(PermissionNames.DisplayOldTickets))
-            {
-                _ticketExplorerViewModel.StartDate = _applicationState.CurrentWorkPeriod.StartDate;
-            }
-            _ticketExplorerViewModel.EndDate = DateTime.Now;
-            _ticketExplorerViewModel.Refresh();
         }
 
         public bool HandleTextInput(string text)
