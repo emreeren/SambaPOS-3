@@ -38,6 +38,8 @@ namespace Samba.Modules.ResourceModule
         public bool CanDesignResourceScreenItems { get { return _applicationState.CurrentLoggedInUser.UserRole.IsAdmin; } }
 
         private bool _isDesignModeActive;
+        private ResourceScreen _currentResourceScreen;
+
         public bool IsDesignModeActive
         {
             get { return _isDesignModeActive; }
@@ -49,7 +51,11 @@ namespace Samba.Modules.ResourceModule
         public void Refresh(ResourceScreen resourceScreen, EntityOperationRequest<Resource> currentOperationRequest)
         {
             _resourceService.UpdateResourceScreen(resourceScreen);
-            Widgets = new ObservableCollection<IDiagram>(resourceScreen.Widgets.Select(WidgetCreatorRegistry.CreateWidgetViewModel));
+            if (_currentResourceScreen != resourceScreen || Widgets == null)
+            {
+                _currentResourceScreen = resourceScreen;
+                Widgets = new ObservableCollection<IDiagram>(resourceScreen.Widgets.Select(WidgetCreatorRegistry.CreateWidgetViewModel));
+            }
             Widgets.ToList().ForEach(x => x.Refresh());
             RaisePropertyChanged(() => Widgets);
         }
