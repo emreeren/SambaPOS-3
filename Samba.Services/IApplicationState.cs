@@ -43,5 +43,6 @@ namespace Samba.Services
         bool IsCurrentWorkPeriodOpen { get; }
         bool IsLocked { get; }
         Terminal CurrentTerminal { get; }
+        void ResetState();
     }
 }

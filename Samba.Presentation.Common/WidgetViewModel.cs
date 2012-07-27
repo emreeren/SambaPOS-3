@@ -30,9 +30,6 @@ namespace Samba.Presentation.Common
         protected abstract object CreateSettingsObject();
 
         [Browsable(false)]
-        public ICommand Command { get; set; }
-
-        [Browsable(false)]
         public bool IsEnabled
         {
             get { return _isEnabled; }
@@ -108,6 +105,9 @@ namespace Samba.Presentation.Common
         {
             return Model;
         }
+
+        [Browsable(false)]
+        public bool DesignMode { get; set; }
 
         public void EditProperties()
         {

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300" Loaded="UserControl_Loaded">
     <Border Name="brd" BorderThickness="1" BorderBrush="Silver" Background="{Binding SelectedResourceScreen.BackgroundColor}">
         <Viewbox Stretch="Uniform" >
             <Grid HorizontalAlignment="Stretch">
@@ -17,7 +17,7 @@
                     <UIControls:DiagramCanvas.ContextMenu>
                         <ContextMenu>
                             <MenuItem Name="miDesignMode" Header="{LocText EditMode}" Click="MenuItem_Click" IsEnabled="{Binding CanDesignResourceScreenItems}" />
-                            <MenuItem Name="miAddWidget" Header="Add Widget" Click="miAddWidget_Click"/>
+                            <MenuItem Name="miAddWidget" Header="Add Widget" IsEnabled="{Binding IsDesignModeActive}"/>
                         </ContextMenu>
                     </UIControls:DiagramCanvas.ContextMenu>
                 </UIControls:DiagramCanvas>

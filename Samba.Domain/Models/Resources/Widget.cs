@@ -3,7 +3,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Resources
 {
-    public class Widget : Entity
+    public class Widget : Value
     {
         public int XLocation { get; set; }
         public int YLocation { get; set; }

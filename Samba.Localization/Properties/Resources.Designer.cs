@@ -5645,6 +5645,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Resource Button.
+        /// </summary>
+        public static string ResourceButton {
+            get {
+                return ResourceManager.GetString("ResourceButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Resource Screen.
         /// </summary>
         public static string ResourceScreen {

@@ -30,6 +30,11 @@ namespace Samba.Presentation.Common.Widgets
             return "";
         }
 
+        public string GetCreatorDescription()
+        {
+            return "Default Widget Creator";
+        }
+
         public FrameworkElement CreateWidgetControl(IDiagram widgetViewModel, ContextMenu contextMenu)
         {
             var buttonHolder = widgetViewModel as DefaultWidgetViewModel;

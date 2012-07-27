@@ -108,17 +108,20 @@ namespace Samba.Presentation.Common.UIControls
 
         void Mi3Click(object sender, RoutedEventArgs e)
         {
-            OnWidgetRemoved(EventArgs.Empty, ((IDiagram)((Control)((ContextMenu)((MenuItem)sender).Parent).PlacementTarget).DataContext));
+            if (EditingMode != InkCanvasEditingMode.None)
+                OnWidgetRemoved(EventArgs.Empty, ((IDiagram)((Control)((ContextMenu)((MenuItem)sender).Parent).PlacementTarget).DataContext));
         }
 
         void Mi2Click(object sender, RoutedEventArgs e)
         {
-            ((IDiagram)((Control)((ContextMenu)((MenuItem)sender).Parent).PlacementTarget).DataContext).EditSettings();
+            if (EditingMode != InkCanvasEditingMode.None)
+                ((IDiagram)((Control)((ContextMenu)((MenuItem)sender).Parent).PlacementTarget).DataContext).EditSettings();
         }
 
         void MenuItemClick(object sender, RoutedEventArgs e)
         {
-            ((IDiagram)((Control)((ContextMenu)((MenuItem)sender).Parent).PlacementTarget).DataContext).EditProperties();
+            if (EditingMode != InkCanvasEditingMode.None)
+                ((IDiagram)((Control)((ContextMenu)((MenuItem)sender).Parent).PlacementTarget).DataContext).EditProperties();
         }
 
     }

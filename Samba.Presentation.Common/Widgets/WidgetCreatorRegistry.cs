@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Controls;
@@ -43,6 +44,11 @@ namespace Samba.Presentation.Common.Widgets
         public static Widget CreateWidgetFor(string creatorName)
         {
             return GetCreator(creatorName).CreateNewWidget();
+        }
+
+        public static IEnumerable<IWidgetCreator> GetCreators()
+        {
+            return Creators.Values;
         }
     }
 }

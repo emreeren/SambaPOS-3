@@ -36,6 +36,14 @@ namespace Samba.Modules.ResourceModule
 
         public ResourceScreen SelectedResourceScreen { get { return _applicationState.SelectedResourceScreen; } }
         public bool CanDesignResourceScreenItems { get { return _applicationState.CurrentLoggedInUser.UserRole.IsAdmin; } }
+
+        private bool _isDesignModeActive;
+        public bool IsDesignModeActive
+        {
+            get { return _isDesignModeActive; }
+            set { _isDesignModeActive = value; RaisePropertyChanged(() => IsDesignModeActive); }
+        }
+
         public ObservableCollection<IDiagram> Widgets { get; set; }
 
         public void Refresh(ResourceScreen resourceScreen, EntityOperationRequest<Resource> currentOperationRequest)
@@ -46,11 +54,10 @@ namespace Samba.Modules.ResourceModule
             RaisePropertyChanged(() => Widgets);
         }
 
-        public void AddWidget()
+        public void AddWidget(string creatorName)
         {
-            var widget = WidgetCreatorRegistry.CreateWidgetFor("Resource Button");
+            var widget = WidgetCreatorRegistry.CreateWidgetFor(creatorName);
             _resourceService.AddWidgetToResourceScreen(SelectedResourceScreen.Name, widget);
-            widget.Name = "New Widget";
             widget.Height = 100;
             widget.Width = 100;
             Widgets.Add(WidgetCreatorRegistry.CreateWidgetViewModel(widget));
@@ -58,15 +65,22 @@ namespace Samba.Modules.ResourceModule
 
         public void LoadTrackableResourceScreenItems()
         {
+            IsDesignModeActive = true;
             Widgets = new ObservableCollection<IDiagram>(_resourceService.LoadWidgets(SelectedResourceScreen.Name).Select(WidgetCreatorRegistry.CreateWidgetViewModel));
+            Widgets.ToList().ForEach(x => x.DesignMode = true);
             RaisePropertyChanged(() => Widgets);
         }
 
         public void SaveTrackableResourceScreenItems()
         {
+            _applicationState.ResetState();
+            EventServiceFactory.EventService.PublishEvent(EventTopicNames.ResetCache, true);
+            IsDesignModeActive = false;
             Widgets.ToList().ForEach(x => x.SaveSettings());
+            Widgets.ToList().ForEach(x => x.DesignMode = false);
             _resourceService.SaveResourceScreenItems();
             Widgets.ToList().ForEach(x => x.Refresh());
+            RaisePropertyChanged(() => Widgets);
         }
     }
 }

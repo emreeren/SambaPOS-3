@@ -7,6 +7,7 @@ namespace Samba.Presentation.Common
     public interface IWidgetCreator
     {
         string GetCreatorName();
+        string GetCreatorDescription();
         FrameworkElement CreateWidgetControl(IDiagram widget, ContextMenu contextMenu);
         Widget CreateNewWidget();
         IDiagram CreateWidgetViewModel(Widget widget);

@@ -28,6 +28,7 @@ namespace Samba.Modules.ResourceModule.WidgetCreators
 
         private void OnItemClickExecute(ResourceButtonWidgetViewModel obj)
         {
+            if (DesignMode) return;
             if (_applicationState.SelectedResourceScreen == null) return;
             var si = _applicationState.SelectedResourceScreen.ScreenItems.SingleOrDefault(x => x.Name == Settings.ResourceName);
             if (si == null) return;

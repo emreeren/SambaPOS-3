@@ -3097,4 +3097,7 @@ Continue without adding details?</value>
   <data name="Dashboard">
     <value xml:space="preserve">Dashboard</value>
   </data>
+  <data name="ResourceButton">
+    <value xml:space="preserve">Resource Button</value>
+  </data>
 </root>

@@ -14,10 +14,10 @@ namespace Samba.Presentation.Common
         int Height { get; set; }
         int Width { get; set; }
         bool IsEnabled { get; set; }
-        ICommand Command { get; }
         CornerRadius CornerRadius { get; set; }
         Transform RenderTransform { get; set; }
         Widget GetWidget();
+        bool DesignMode { get; set; }
         void EditProperties();
         void EditSettings();
         void SaveSettings();

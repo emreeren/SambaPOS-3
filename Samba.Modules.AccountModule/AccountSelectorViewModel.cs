@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using Microsoft.Practices.Prism.Events;
 using Samba.Domain.Models.Accounts;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
@@ -24,6 +25,15 @@ namespace Samba.Modules.AccountModule
             AccountButtonSelectedCommand = new CaptionCommand<AccountScreen>("", OnAccountScreenSelected);
             if (AccountScreens.Count() > 0)
                 UpdateAccountScreen(AccountScreens.First());
+
+            EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(
+            x =>
+            {
+                if (x.Topic == EventTopicNames.ResetCache)
+                {
+                    _accountButtons = null;
+                }
+            });
         }
 
         private void OnAccountScreenSelected(AccountScreen accountScreen)

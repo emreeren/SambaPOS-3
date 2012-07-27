@@ -5,6 +5,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using Samba.Domain.Models.Resources;
 using Samba.Infrastructure;
+using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Services;
 
@@ -27,7 +28,12 @@ namespace Samba.Modules.ResourceModule.WidgetCreators
 
         public string GetCreatorName()
         {
-            return "Resource Button";
+            return "ResourceButtonCreator";
+        }
+
+        public string GetCreatorDescription()
+        {
+            return Resources.ResourceButton;
         }
 
         public Widget CreateNewWidget()
