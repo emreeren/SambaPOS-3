@@ -22,12 +22,12 @@ namespace Samba.Modules.ResourceModule
             _resourceService = resourceService;
         }
 
-        public void RemoveWidget(WidgetViewModel viewModel)
+        public void RemoveWidget(IDiagram viewModel)
         {
             if (viewModel != null)
             {
                 Widgets.Remove(viewModel);
-                _resourceService.RemoveWidget(viewModel.Model);
+                _resourceService.RemoveWidget(viewModel.GetWidget());
                 RaisePropertyChanged(() => Widgets);
                 SaveTrackableResourceScreenItems();
                 LoadTrackableResourceScreenItems();

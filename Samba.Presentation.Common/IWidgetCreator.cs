@@ -9,6 +9,6 @@ namespace Samba.Presentation.Common
         string GetCreatorName();
         FrameworkElement CreateWidgetControl(IDiagram widget, ContextMenu contextMenu);
         Widget CreateNewWidget();
-        WidgetViewModel CreateWidgetViewModel(Widget widget);
+        IDiagram CreateWidgetViewModel(Widget widget);
     }
 }

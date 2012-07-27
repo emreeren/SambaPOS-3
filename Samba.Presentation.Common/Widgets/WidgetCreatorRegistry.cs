@@ -26,7 +26,7 @@ namespace Samba.Presentation.Common.Widgets
             return GetCreator(widget.CreatorName).CreateWidgetControl(widget, contextMenu);
         }
 
-        public static WidgetViewModel CreateWidgetViewModel(Widget widget)
+        public static IDiagram CreateWidgetViewModel(Widget widget)
         {
             return GetCreator(widget.CreatorName).CreateWidgetViewModel(widget);
         }

@@ -101,7 +101,7 @@
       <DependentUpon>GenericEntityView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ModelBase\IEditableCollection.cs" />
-    <Compile Include="ModelBase\IValueSource.cs" />
+    <Compile Include="ModelBase\IValueWithSource.cs" />
     <Compile Include="ObservableObject.cs" />
     <Compile Include="PresentationModule.cs" />
     <Compile Include="Services\ApplicationState.cs" />

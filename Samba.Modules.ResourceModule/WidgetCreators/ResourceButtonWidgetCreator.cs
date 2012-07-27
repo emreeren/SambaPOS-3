@@ -15,12 +15,14 @@ namespace Samba.Modules.ResourceModule.WidgetCreators
     {
         private readonly ICacheService _cacheService;
         private readonly IApplicationState _applicationState;
+        private readonly IResourceService _resourceService;
 
         [ImportingConstructor]
-        public ResourceButtonWidgetCreator(ICacheService cacheService, IApplicationState applicationState)
+        public ResourceButtonWidgetCreator(ICacheService cacheService, IApplicationState applicationState, IResourceService resourceService)
         {
             _cacheService = cacheService;
             _applicationState = applicationState;
+            _resourceService = resourceService;
         }
 
         public string GetCreatorName()
@@ -35,9 +37,9 @@ namespace Samba.Modules.ResourceModule.WidgetCreators
             return result;
         }
 
-        public WidgetViewModel CreateWidgetViewModel(Widget widget)
+        public IDiagram CreateWidgetViewModel(Widget widget)
         {
-            return new ResourceButtonWidgetViewModel(widget, _cacheService, _applicationState);
+            return new ResourceButtonWidgetViewModel(widget, _cacheService, _applicationState, _resourceService);
         }
 
         public FrameworkElement CreateWidgetControl(IDiagram widgetViewModel, ContextMenu contextMenu)
@@ -50,7 +52,7 @@ namespace Samba.Modules.ResourceModule.WidgetCreators
             var widthBinding = new Binding("Width") { Source = buttonHolder, Mode = BindingMode.TwoWay };
             var xBinding = new Binding("X") { Source = buttonHolder, Mode = BindingMode.TwoWay };
             var yBinding = new Binding("Y") { Source = buttonHolder, Mode = BindingMode.TwoWay };
-            var captionBinding = new Binding("Caption") { Source = buttonHolder, Mode = BindingMode.TwoWay };
+            var captionBinding = new Binding("Settings.Caption") { Source = buttonHolder, Mode = BindingMode.TwoWay };
             var radiusBinding = new Binding("CornerRadius") { Source = buttonHolder, Mode = BindingMode.TwoWay };
             var buttonColorBinding = new Binding("ButtonColor") { Source = buttonHolder, Mode = BindingMode.TwoWay };
             var commandBinding = new Binding("ItemClickedCommand") { Source = buttonHolder, Mode = BindingMode.OneWay };

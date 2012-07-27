@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using PropertyTools.Wpf;
+using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Common.Services;
 
 namespace Samba.Presentation.Common.Interaction
@@ -97,6 +98,27 @@ namespace Samba.Presentation.Common.Interaction
             {
                 InteractionService.UserIntraction.EditProperties(selectedItem);
                 e.Handled = true;
+            }
+        }
+
+        private void MainGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var fe = (sender as FrameworkElement);
+            if (fe != null)
+            {
+                var bm = (fe.DataContext as IEditableCollection);
+                if (bm != null && bm.EditItemCommand.CanExecute(null))
+                    bm.EditItemCommand.Execute(null);
+            }
+        }
+
+        private void MainGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                var fe = (sender as FrameworkElement);
+                if (fe != null && ((IEditableCollection)fe.DataContext).EditItemCommand.CanExecute(null))
+                    ((IEditableCollection)fe.DataContext).EditItemCommand.Execute(null);
             }
         }
     }

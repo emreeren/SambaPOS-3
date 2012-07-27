@@ -3,7 +3,6 @@ using System.Linq;
 using Samba.Domain.Models.Resources;
 using Samba.Infrastructure;
 using Samba.Presentation.Common;
-using Samba.Presentation.Common.Services;
 using Samba.Services;
 using Samba.Services.Common;
 
@@ -13,13 +12,17 @@ namespace Samba.Modules.ResourceModule.WidgetCreators
     {
         private readonly ICacheService _cacheService;
         private readonly IApplicationState _applicationState;
+        private readonly IResourceService _resourceService;
+
+        [Browsable(false)]
         public CaptionCommand<ResourceButtonWidgetViewModel> ItemClickedCommand { get; set; }
 
-        public ResourceButtonWidgetViewModel(Widget model, ICacheService cacheService, IApplicationState applicationState)
+        public ResourceButtonWidgetViewModel(Widget model, ICacheService cacheService, IApplicationState applicationState, IResourceService resourceService)
             : base(model)
         {
             _cacheService = cacheService;
             _applicationState = applicationState;
+            _resourceService = resourceService;
             ItemClickedCommand = new CaptionCommand<ResourceButtonWidgetViewModel>("", OnItemClickExecute);
         }
 
@@ -37,6 +40,11 @@ namespace Samba.Modules.ResourceModule.WidgetCreators
             return JsonHelper.Deserialize<ResourceWidgetSettings>(_model.Properties);
         }
 
+        protected override void BeforeEditSettings()
+        {
+            Settings.ResourceNameValue.UpdateValues(_resourceService.GetCurrentResourceScreenItems(_applicationState.SelectedResourceScreen, 0, 0).Select(x => x.Name));
+        }
+
         public override void Refresh()
         {
             var resourceState = GetResourceState();
@@ -45,6 +53,7 @@ namespace Samba.Modules.ResourceModule.WidgetCreators
             else ButtonColor = "Gainsboro";
         }
 
+        [Browsable(false)]
         public ResourceWidgetSettings Settings { get { return SettingsObject as ResourceWidgetSettings; } }
 
         public ResourceState GetResourceState()

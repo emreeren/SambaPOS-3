@@ -55,7 +55,7 @@ namespace Samba.Modules.ResourceModule
 
         private void DiagramCanvas_WidgetRemoved(object sender, EventArgs e)
         {
-            ((ResourceDashboardViewModel)DataContext).RemoveWidget(sender as WidgetViewModel);
+            ((ResourceDashboardViewModel)DataContext).RemoveWidget(sender as IDiagram);
         }
     }
 }

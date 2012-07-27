@@ -21,6 +21,7 @@ namespace Samba.Presentation.Common
         }
 
         private object _settingsObject;
+        [Browsable(false)]
         public object SettingsObject
         {
             get { return _settingsObject ?? (_settingsObject = CreateSettingsObject()); }
@@ -38,16 +39,11 @@ namespace Samba.Presentation.Common
             set { _isEnabled = value; RaisePropertyChanged(() => IsEnabled); }
         }
 
+        [Browsable(false)]
         public string CreatorName
         {
             get { return _model.CreatorName; }
             set { _model.CreatorName = value; }
-        }
-
-        public string Caption
-        {
-            get { return _model.Name; }
-            set { _model.Name = value; RaisePropertyChanged(() => Caption); }
         }
 
         public int X
@@ -102,9 +98,15 @@ namespace Samba.Presentation.Common
             set { _model.CornerRadius = Convert.ToInt32(value.BottomLeft); RaisePropertyChanged(() => CornerRadius); }
         }
 
+        [Browsable(false)]
         public Widget Model
         {
             get { return _model; }
+        }
+
+        public Widget GetWidget()
+        {
+            return Model;
         }
 
         public void EditProperties()
@@ -115,7 +117,15 @@ namespace Samba.Presentation.Common
         public void EditSettings()
         {
             if (SettingsObject != null)
+            {
+                BeforeEditSettings();
                 InteractionService.UserIntraction.EditProperties(SettingsObject);
+            }
+        }
+
+        protected virtual void BeforeEditSettings()
+        {
+            //override if needed
         }
 
         public void SaveSettings()

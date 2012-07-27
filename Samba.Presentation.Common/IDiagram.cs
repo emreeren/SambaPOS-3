@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using Samba.Domain.Models.Resources;
 
 namespace Samba.Presentation.Common
 {
@@ -8,7 +9,6 @@ namespace Samba.Presentation.Common
     {
         object SettingsObject { get; }
         string CreatorName { get; set; }
-        string Caption { get; set; }
         int X { get; set; }
         int Y { get; set; }
         int Height { get; set; }
@@ -17,6 +17,7 @@ namespace Samba.Presentation.Common
         ICommand Command { get; }
         CornerRadius CornerRadius { get; set; }
         Transform RenderTransform { get; set; }
+        Widget GetWidget();
         void EditProperties();
         void EditSettings();
         void SaveSettings();
