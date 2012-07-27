@@ -59,7 +59,7 @@
       <DependentUpon>ResourceDashboardView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ResourceDashboardViewModel.cs" />
-    <Compile Include="ResourceScreenItemWidget.cs" />
+    <Compile Include="ResourceScreenItemViewModel.cs" />
     <Compile Include="ResourceEditorView.xaml.cs">
       <DependentUpon>ResourceEditorView.xaml</DependentUpon>
     </Compile>

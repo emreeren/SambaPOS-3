@@ -8,7 +8,6 @@ using Samba.Domain.Models.Resources;
 using Samba.Infrastructure;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
-using Samba.Presentation.Common.Services;
 using Samba.Services;
 using Samba.Services.Common;
 
@@ -17,13 +16,11 @@ namespace Samba.Modules.ResourceModule
     [Export]
     public class ResourceSelectorViewModel : ObservableObject
     {
-        public DelegateCommand<ResourceScreenItemWidget> ResourceSelectionCommand { get; set; }
-        public ICaptionCommand EditSelectedResourceScreenPropertiesCommand { get; set; }
+        public DelegateCommand<ResourceScreenItemViewModel> ResourceSelectionCommand { get; set; }
         public ICaptionCommand IncPageNumberCommand { get; set; }
         public ICaptionCommand DecPageNumberCommand { get; set; }
-        public ObservableCollection<IDiagram> ResourceScreenItems { get; set; }
+        public ObservableCollection<ResourceScreenItemViewModel> ResourceScreenItems { get; set; }
         public ResourceScreen SelectedResourceScreen { get { return _applicationState.SelectedResourceScreen; } }
-        //public bool CanDesignResourceScreenItems { get { return _applicationState.CurrentLoggedInUser.UserRole.IsAdmin; } }
         public int CurrentPageNo { get; set; }
         public bool IsPageNavigatorVisible { get { return SelectedResourceScreen != null && SelectedResourceScreen.PageCount > 1; } }
 
@@ -48,8 +45,7 @@ namespace Samba.Modules.ResourceModule
             _cacheService = cacheService;
             _ticketService = ticketService;
 
-            ResourceSelectionCommand = new DelegateCommand<ResourceScreenItemWidget>(OnSelectResourceExecuted);
-            EditSelectedResourceScreenPropertiesCommand = new CaptionCommand<string>(Resources.Properties, OnEditSelectedResourceScreenProperties, CanEditSelectedResourceScreenProperties);
+            ResourceSelectionCommand = new DelegateCommand<ResourceScreenItemViewModel>(OnSelectResourceExecuted);
             IncPageNumberCommand = new CaptionCommand<string>(Resources.NextPage + " >>", OnIncPageNumber, CanIncPageNumber);
             DecPageNumberCommand = new CaptionCommand<string>("<< " + Resources.PreviousPage, OnDecPageNumber, CanDecPageNumber);
 
@@ -93,18 +89,7 @@ namespace Samba.Modules.ResourceModule
             RefreshResourceScreenItems();
         }
 
-        private bool CanEditSelectedResourceScreenProperties(string arg)
-        {
-            return SelectedResourceScreen != null;
-        }
-
-        private void OnEditSelectedResourceScreenProperties(string obj)
-        {
-            if (SelectedResourceScreen != null)
-                InteractionService.UserIntraction.EditProperties(SelectedResourceScreen);
-        }
-
-        private void OnSelectResourceExecuted(ResourceScreenItemWidget obj)
+        private void OnSelectResourceExecuted(ResourceScreenItemViewModel obj)
         {
             if (obj.Model.ResourceId > 0 && obj.Model.ItemId == 0)
                 _currentOperationRequest.Publish(_cacheService.GetResourceById(obj.Model.ResourceId));
@@ -118,7 +103,7 @@ namespace Samba.Modules.ResourceModule
         {
             var stateFilter = resourceScreen.DisplayMode == 0 ? resourceScreen.StateFilterId : 0;
             var resourceData = GetResourceScreenItems(resourceScreen, stateFilter);
-            if (ResourceScreenItems != null && (ResourceScreenItems.Count() == 0 || ResourceScreenItems.Count != resourceData.Count() || ResourceScreenItems.First().Caption != resourceData.First().Name)) ResourceScreenItems = null;
+            if (ResourceScreenItems != null && (ResourceScreenItems.Count() == 0 || ResourceScreenItems.Count != resourceData.Count() || ResourceScreenItems.First().Name != resourceData.First().Name)) ResourceScreenItems = null;
 
             ClearCustomItems();
             UpdateResourceButtons(resourceData);
@@ -145,9 +130,9 @@ namespace Samba.Modules.ResourceModule
             {
                 if (SelectedResourceScreen.RowCount > 0 && SelectedResourceScreen.ColumnCount > 0 && resourceData.Count > SelectedResourceScreen.ColumnCount * SelectedResourceScreen.RowCount)
                     SelectedResourceScreen.RowCount = 0;
-                ResourceScreenItems = new ObservableCollection<IDiagram>();
+                ResourceScreenItems = new ObservableCollection<ResourceScreenItemViewModel>();
                 ResourceScreenItems.AddRange(resourceData.Select(x => new
-                    ResourceScreenItemWidget(x, SelectedResourceScreen, ResourceSelectionCommand,
+                    ResourceScreenItemViewModel(x, SelectedResourceScreen, ResourceSelectionCommand,
                     _currentOperationRequest.SelectedEntity != null, _userService.IsUserPermittedFor(PermissionNames.MergeTickets),
                     _cacheService.GetResourceStateById(x.ResourceStateId))));
             }
@@ -155,10 +140,10 @@ namespace Samba.Modules.ResourceModule
             {
                 for (var i = 0; i < resourceData.Count(); i++)
                 {
-                    var acs = ((ResourceScreenItemWidget)ResourceScreenItems[i]).ResourceState;
+                    var acs = ResourceScreenItems[i].ResourceState;
                     if (acs == null || acs.Id != resourceData.ElementAt(i).ResourceStateId)
-                        ((ResourceScreenItemWidget)ResourceScreenItems[i]).ResourceState = _cacheService.GetResourceStateById(resourceData.ElementAt(i).ResourceStateId);
-                    ((ResourceScreenItemWidget)ResourceScreenItems[i]).Model = resourceData.ElementAt(i);
+                        ResourceScreenItems[i].ResourceState = _cacheService.GetResourceStateById(resourceData.ElementAt(i).ResourceStateId);
+                    ResourceScreenItems[i].Model = resourceData.ElementAt(i);
                 }
             }
         }
@@ -166,7 +151,7 @@ namespace Samba.Modules.ResourceModule
         private void ClearCustomItems()
         {
             if (ResourceScreenItems != null && SelectedResourceScreen.DisplayMode == 0)
-                ResourceScreenItems.Cast<ResourceScreenItemWidget>().Where(x => x.Model.ResourceId == 0).ToList().ForEach(
+                ResourceScreenItems.Where(x => x.Model.ResourceId == 0).ToList().ForEach(
                     x => ResourceScreenItems.Remove(x));
         }
 
@@ -182,7 +167,7 @@ namespace Samba.Modules.ResourceModule
                         !x.TicketResources.Any(y => y.ResourceTemplateId == resourceScreen.ResourceTemplateId)).ToList();
                 if (openTickets.Count > 0)
                 {
-                    ResourceScreenItems.AddRange(openTickets.Select(x => new ResourceScreenItemWidget(
+                    ResourceScreenItems.AddRange(openTickets.Select(x => new ResourceScreenItemViewModel(
                                                                              new ResourceScreenItem(x.Id) { Name = x.TicketNumber }, resourceScreen,
                                                                              ResourceSelectionCommand,
                                                                              _currentOperationRequest.SelectedEntity != null,
@@ -191,20 +176,6 @@ namespace Samba.Modules.ResourceModule
                                                                              ResourceState.Empty)));
                 }
             }
-        }
-
-        public void LoadTrackableResourceScreenItems()
-        {
-            ResourceScreenItems = new ObservableCollection<IDiagram>(
-                _resourceService.LoadResourceScreenItems(SelectedResourceScreen.Name)
-                .Select<ResourceScreenItem, IDiagram>(x => new ResourceScreenItemWidget(x, SelectedResourceScreen)));
-            RaisePropertyChanged(() => ResourceScreenItems);
-        }
-
-        public void SaveTrackableResourceScreenItems()
-        {
-            _resourceService.SaveResourceScreenItems();
-            UpdateResourceScreenItems(SelectedResourceScreen);
         }
 
         public void Refresh(ResourceScreen resourceScreen, EntityOperationRequest<Resource> currentOperationRequest)
