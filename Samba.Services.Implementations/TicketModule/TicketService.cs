@@ -158,7 +158,7 @@ namespace Samba.Services.Implementations.TicketModule
 
                     Debug.Assert(!string.IsNullOrEmpty(ticket.TicketNumber));
                     Debug.Assert(ticket.Id > 0);
-                    _automationService.NotifyEvent(RuleEventNames.TicketClosing, new { Ticket = ticket, NewOrderCount = ticket.GetUnlockedOrders().Count() });
+                    _automationService.NotifyEvent(RuleEventNames.TicketClosing, new { Ticket = ticket, TicketId = ticket.Id, NewOrderCount = ticket.GetUnlockedOrders().Count() });
                     ticket.LockTicket();
                 }
 

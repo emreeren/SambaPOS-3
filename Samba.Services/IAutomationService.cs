@@ -41,5 +41,6 @@ namespace Samba.Services
         IEnumerable<IRuleConstraint> CreateRuleConstraints(string eventConstraints);
         IEnumerable<IParameterValue> CreateParameterValues(RuleActionType actionType);
         AppAction GetActionById(int appActionId);
+        IEnumerable<string> GetAutomationCommandNames();
     }
 }

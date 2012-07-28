@@ -42,7 +42,7 @@ namespace Samba.Modules.ResourceModule
             }
             else
             {
-                brd.BorderBrush = Brushes.Gainsboro;
+                brd.BorderBrush = Brushes.Transparent;
                 miDesignMode.IsChecked = false;
                 DiagramCanvas.EditingMode = InkCanvasEditingMode.None;
                 ((ResourceDashboardViewModel)DataContext).SaveTrackableResourceScreenItems();

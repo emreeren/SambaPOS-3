@@ -75,8 +75,15 @@
       <DependentUpon>TriggerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TriggerViewModel.cs" />
+    <Compile Include="WidgetCreators\AutomationButtonWidgetCreator.cs" />
+    <Compile Include="WidgetCreators\AutomationButtonWidgetViewModel.cs" />
+    <Compile Include="WidgetCreators\AutomationButtonWidgetSettings.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lib\FlexButton\FlexButton.csproj">
+      <Project>{434D497A-D439-44C8-84A5-5301B572708F}</Project>
+      <Name>FlexButton</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lib\PropertyTools.Wpf\PropertyTools.Wpf.csproj">
       <Project>{7168F82F-288A-42C4-9EB1-FBBE5112F211}</Project>
       <Name>PropertyTools.Wpf</Name>

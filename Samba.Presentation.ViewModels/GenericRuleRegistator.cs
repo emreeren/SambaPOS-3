@@ -67,6 +67,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType("LockTicket", "Lock Ticket");
             AutomationService.RegisterActionType("UnlockTicket", "Unlock Ticket");
             AutomationService.RegisterActionType("CreateTicket", "Create Ticket");
+            AutomationService.RegisterActionType("DisplayTicket", "Display Ticket", new { TicketId = 0 });
             AutomationService.RegisterActionType("DisplayPaymentScreen", "Display Payment Screen");
         }
 
@@ -78,7 +79,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterEvent(RuleEventNames.WorkPeriodEnds, Resources.WorkPeriodEnded);
             AutomationService.RegisterEvent(RuleEventNames.TriggerExecuted, Resources.TriggerExecuted, new { TriggerName = "" });
             AutomationService.RegisterEvent(RuleEventNames.TicketOpened, "Ticket Opened", new { OrderCount = 0 });
-            AutomationService.RegisterEvent(RuleEventNames.TicketClosing, "Ticket Closing", new { NewOrderCount = 0 });
+            AutomationService.RegisterEvent(RuleEventNames.TicketClosing, "Ticket Closing", new { TicketId = 0, NewOrderCount = 0 });
             AutomationService.RegisterEvent(RuleEventNames.TicketsMerged, "Tickets Merged");
             AutomationService.RegisterEvent(RuleEventNames.PaymentProcessed, "Payment Processed", new { PaymentTemplateName = "", Tenderedamount = 0m, ProcessedAmount = 0m, ChangeAmount = 0m, RemainingAmount = 0m });
             AutomationService.RegisterEvent(RuleEventNames.TicketResourceChanged, "Ticket Resource Changed", new { OrderCount = 0, OldResourceName = "", NewResourceName = "" });
@@ -142,6 +143,13 @@ namespace Samba.Presentation.ViewModels
                     {
                         ticket.LockTicket();
                     }
+                }
+
+                if (x.Value.Action.ActionType == "DisplayTicket")
+                {
+                    var ticketId = x.Value.GetAsInteger("TicketId");
+                    if (ticketId > 0)
+                        ExtensionMethods.PublishIdEvent(ticketId, EventTopicNames.DisplayTicket);
                 }
 
                 if (x.Value.Action.ActionType == "CreateTicket")

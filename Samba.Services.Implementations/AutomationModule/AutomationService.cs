@@ -29,7 +29,7 @@ namespace Samba.Services.Implementations.AutomationModule
         public IEnumerable<AppRule> Rules { get { return _rules ?? (_rules = Dao.Query<AppRule>(x => x.Actions).OrderBy(x => x.Order)); } }
 
         private IEnumerable<AppAction> _actions;
-        public IEnumerable<AppAction> Actions { get { return _actions ?? (_actions = Dao.Query<AppAction>().OrderBy(x=>x.Order)); } }
+        public IEnumerable<AppAction> Actions { get { return _actions ?? (_actions = Dao.Query<AppAction>().OrderBy(x => x.Order)); } }
 
         public void NotifyEvent(string eventName, object dataObject)
         {
@@ -117,6 +117,11 @@ namespace Samba.Services.Implementations.AutomationModule
         public AppAction GetActionById(int appActionId)
         {
             return Dao.Single<AppAction>(x => x.Id == appActionId);
+        }
+
+        public IEnumerable<string> GetAutomationCommandNames()
+        {
+            return Dao.Distinct<AutomationCommand>(x => x.Name);
         }
 
         private bool SatisfiesConditions(AppRule appRule, object dataObject)

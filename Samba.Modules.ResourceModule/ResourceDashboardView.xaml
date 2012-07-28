@@ -6,7 +6,7 @@
              xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Loaded="UserControl_Loaded">
-    <Border Name="brd" BorderThickness="1" BorderBrush="Silver" Background="{Binding SelectedResourceScreen.BackgroundColor}">
+    <Border Name="brd" BorderThickness="1" BorderBrush="Transparent" Background="{Binding SelectedResourceScreen.BackgroundColor}">
         <Viewbox Stretch="Uniform" >
             <Grid HorizontalAlignment="Stretch">
                 <Image Source="{Binding SelectedResourceScreen.BackgroundImage, Converter={StaticResource NullImageConverter}}" HorizontalAlignment="Left"
