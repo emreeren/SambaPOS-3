@@ -404,12 +404,12 @@ namespace Samba.Services.Implementations.TicketModule
             endDate = endDate.Date.AddDays(1).AddMinutes(-1);
             Expression<Func<Ticket, bool>> qFilter = x => x.Date >= startDate && x.Date < endDate;
             qFilter = filters.Aggregate(qFilter, (current, filter) => current.And(filter.GetExpression()));
-            return Dao.Query(qFilter).Select(x => new TicketExplorerRowData(x)).ToList();
+            return Dao.Query(qFilter, x => x.TicketResources).Select(x => new TicketExplorerRowData(x)).ToList();
         }
 
         public IList<ITicketExplorerFilter> CreateTicketExplorerFilters()
         {
-            var item = new TicketExplorerFilter { FilterType = FilterType.OpenTickets };
+            var item = new TicketExplorerFilter(_cacheService) { FilterType = Resources.OnlyOpenTickets };
             return new List<ITicketExplorerFilter> { item };
         }
 

@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.Composition;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Samba.Modules.PosModule.WidgetCreators
@@ -38,6 +40,26 @@ namespace Samba.Modules.PosModule.WidgetCreators
         {
             if (e.Key == Key.Up || e.Key == Key.Down)
                 (DataContext as TicketExplorerViewModel).QueueDisplayTicket();
+        }
+
+        private void DataGrid_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            var i = 0;
+            var d = DataContext as TicketExplorerViewModel;
+            if (d != null)
+            {
+                foreach (var resourceTemplate in d.ResourceTemplates)
+                {
+                    DataGridColumn dgtc = new DataGridTextColumn
+                                              {
+                        Header = resourceTemplate.EntityName,
+                        Binding = new Binding("[" + resourceTemplate.Id + "]"),
+                        MinWidth = 60,
+                    };
+                    DataGrid.Columns.Insert(i + 1, dgtc);
+                    i++;
+                }
+            }
         }
     }
 }

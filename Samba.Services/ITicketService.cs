@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Resources;
@@ -38,12 +39,19 @@ namespace Samba.Services
         public int Id { get { return Model.Id; } }
         public string TicketNumber { get { return Model.TicketNumber; } }
         public string Date { get { return Model.Date.ToShortDateString(); } }
-        public string AccountName { get { return Model.AccountName; } }
         public string CreationTime { get { return Model.Date.ToShortTimeString(); } }
         public string LastPaymentTime { get { return Model.LastPaymentDate.ToShortTimeString(); } }
         public decimal Sum { get { return Model.TotalAmount; } }
         public bool IsPaid { get { return Model.IsPaid; } }
         public string TimeInfo { get { return CreationTime != LastPaymentTime || IsPaid ? CreationTime + " - " + LastPaymentTime : CreationTime; } }
+        public string this[int templateId]
+        {
+            get
+            {
+                var resource = Model.TicketResources.FirstOrDefault(x => x.ResourceTemplateId == templateId);
+                return resource != null ? resource.ResourceName : "";
+            }
+        }
     }
 
     public class TicketTagData

@@ -6,6 +6,7 @@ using System.Windows.Media;
 using Samba.Domain.Models.Resources;
 using Samba.Infrastructure;
 using Samba.Localization;
+using Samba.Localization.Properties;
 using Samba.Presentation.Common.Services;
 
 namespace Samba.Presentation.Common
@@ -108,6 +109,13 @@ namespace Samba.Presentation.Common
 
         [Browsable(false)]
         public bool DesignMode { get; set; }
+
+        [LocalizedDisplayName(ResourceStrings.AutoRefresh)]
+        public bool AutoRefresh
+        {
+            get { return Model.AutoRefresh; }
+            set { Model.AutoRefresh = value; RaisePropertyChanged(() => AutoRefresh); }
+        }
 
         public void EditProperties()
         {

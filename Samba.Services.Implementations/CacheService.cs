@@ -111,7 +111,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<ResourceTemplate> _resourceTemplates;
         public IEnumerable<ResourceTemplate> ResourceTemplates
         {
-            get { return _resourceTemplates ?? (_resourceTemplates = Dao.Query<ResourceTemplate>(x => x.ResoruceCustomFields)); }
+            get { return _resourceTemplates ?? (_resourceTemplates = Dao.Query<ResourceTemplate>(x => x.ResoruceCustomFields).OrderBy(x => x.Order)); }
         }
 
         private IEnumerable<AccountTemplate> _accountTemplates;

@@ -56,7 +56,7 @@ namespace Samba.Modules.ResourceModule
                 _currentResourceScreen = resourceScreen;
                 Widgets = new ObservableCollection<IDiagram>(resourceScreen.Widgets.Select(WidgetCreatorRegistry.CreateWidgetViewModel));
             }
-            Widgets.ToList().ForEach(x => x.Refresh());
+            Widgets.Where(x => x.AutoRefresh).ToList().ForEach(x => x.Refresh());
             RaisePropertyChanged(() => Widgets);
         }
 
@@ -66,6 +66,7 @@ namespace Samba.Modules.ResourceModule
             _resourceService.AddWidgetToResourceScreen(SelectedResourceScreen.Name, widget);
             widget.Height = 100;
             widget.Width = 100;
+            widget.AutoRefresh = true;
             Widgets.Add(WidgetCreatorRegistry.CreateWidgetViewModel(widget));
         }
 
@@ -85,7 +86,7 @@ namespace Samba.Modules.ResourceModule
             Widgets.ToList().ForEach(x => x.SaveSettings());
             Widgets.ToList().ForEach(x => x.DesignMode = false);
             _resourceService.SaveResourceScreenItems();
-            Widgets.ToList().ForEach(x => x.Refresh());
+            Widgets.Where(x => x.AutoRefresh).ToList().ForEach(x => x.Refresh());
             RaisePropertyChanged(() => Widgets);
         }
     }

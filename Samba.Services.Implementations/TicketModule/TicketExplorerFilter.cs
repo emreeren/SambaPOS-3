@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
@@ -8,62 +9,45 @@ namespace Samba.Services.Implementations.TicketModule
 {
     public class TicketExplorerFilter : ITicketExplorerFilter
     {
-        public TicketExplorerFilter()
+        private readonly ICacheService _cacheService;
+
+        public TicketExplorerFilter(ICacheService cacheService)
         {
+            _cacheService = cacheService;
             FilterValues = new List<string>();
         }
 
-        private readonly string[] _filterTypes = { Resources.OnlyOpenTickets, Resources.AllTickets, Resources.Account, Resources.Location };
+        public bool IsTextBoxEnabled { get { return true; } }
 
-        public int FilterTypeIndex
+        private IEnumerable<string> _filterTypes;
+        public IEnumerable<string> FilterTypes { get { return _filterTypes ?? (_filterTypes = CreateFilterTypes()); } }
+
+        private IEnumerable<string> CreateFilterTypes()
         {
-            get { return (int)FilterType; }
-            set
-            {
-                FilterType = (FilterType)value;
-                FilterValue = "";
-
-            }
+            var result = new List<string> { Resources.OnlyOpenTickets, Resources.AllTickets };
+            _cacheService.GetResourceTemplates().Select(x => x.EntityName).ToList().ForEach(result.Add);
+            return result;
         }
 
-        public bool IsTextBoxEnabled { get { return FilterType != FilterType.OpenTickets; } }
-        public string[] FilterTypes { get { return _filterTypes; } }
-
-        public FilterType FilterType { get; set; }
-
+        public string FilterType { get; set; }
         public string FilterValue { get; set; }
-
         public List<string> FilterValues { get; set; }
 
         public Expression<Func<Ticket, bool>> GetExpression()
         {
-            Expression<Func<Ticket, bool>> result = null;
-
-            if (FilterType == FilterType.AllTickets)
+            Expression<Func<Ticket, bool>> result;
+            if (FilterType == Resources.AllTickets)
                 result = x => x.Id > 0;
-
-            if (FilterType == FilterType.OpenTickets)
+            else if (FilterType == Resources.OnlyOpenTickets)
                 result = x => !x.IsPaid;
-
-            //if (FilterType == FilterType.Target)
-            //{
-            //    if (FilterValue == "*")
-            //        result = x => !string.IsNullOrEmpty(x.TargetAccountName);
-            //    else if (!string.IsNullOrEmpty(FilterValue))
-            //        result = x => x.TargetAccountName.ToLower() == FilterValue.ToLower();
-            //    else result = x => string.IsNullOrEmpty(x.TargetAccountName);
-            //}
-
-            if (FilterType == FilterType.Account)
+            else
             {
-                if (FilterValue == "*")
-                    result = x => !string.IsNullOrEmpty(x.AccountName);
-                else if (!string.IsNullOrEmpty(FilterValue))
-                    result = x => x.AccountName.ToLower().Contains(FilterValue.ToLower());
-                else
-                    result = x => string.IsNullOrEmpty(x.AccountName);
+                var fv = (FilterValue ?? "").ToLower();
+                var tid = 0;
+                var rt = _cacheService.GetResourceTemplates().SingleOrDefault(x => x.EntityName == FilterType);
+                if (rt != null) tid = rt.Id;
+                result = x => x.TicketResources.Any(y => y.ResourceTemplateId == tid && y.ResourceName.ToLower().Contains(fv));
             }
-
             return result;
         }
     }

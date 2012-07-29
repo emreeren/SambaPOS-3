@@ -658,6 +658,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auto Refresh.
+        /// </summary>
+        public static string AutoRefresh {
+            get {
+                return ResourceManager.GetString("AutoRefresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Auto Rounding.
         /// </summary>
         public static string AutoRounding {

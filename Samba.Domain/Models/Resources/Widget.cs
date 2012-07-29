@@ -13,6 +13,7 @@ namespace Samba.Domain.Models.Resources
         public double Angle { get; set; }
         public string Properties { get; set; }
         public string CreatorName { get; set; }
+        public bool AutoRefresh { get; set; }
 
         public void SaveSettings(object settingsObject)
         {

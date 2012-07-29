@@ -97,10 +97,14 @@ namespace Samba.Modules.ResourceModule
             }
         }
 
-        private IEnumerable<ResourceSwitcherButtonViewModel> _resourceSwitcherButtons;
-        public IEnumerable<ResourceSwitcherButtonViewModel> ResourceSwitcherButtons
+        private List<ResourceSwitcherButtonViewModel> _resourceSwitcherButtons;
+        public List<ResourceSwitcherButtonViewModel> ResourceSwitcherButtons
         {
-            get { return _resourceSwitcherButtons ?? (_resourceSwitcherButtons = ResourceScreens.Select(x => new ResourceSwitcherButtonViewModel(x, _applicationState, ResourceScreens.Count() > 1))); }
+            get
+            {
+                return _resourceSwitcherButtons ?? (_resourceSwitcherButtons = ResourceScreens.Select(
+                    x => new ResourceSwitcherButtonViewModel(x, _applicationState, ResourceScreens.Count() > 1)).ToList());
+            }
         }
 
         private void OnSelectResourceCategoryExecuted(ResourceScreen obj)
@@ -123,7 +127,7 @@ namespace Samba.Modules.ResourceModule
             }
 
             RaisePropertyChanged(() => ResourceSwitcherButtons);
-            ResourceSwitcherButtons.ToList().ForEach(x => x.Refresh());
+            ResourceSwitcherButtons.ForEach(x => x.Refresh());
         }
 
         private void ActivateDashboard(ResourceScreen resourceScreen)

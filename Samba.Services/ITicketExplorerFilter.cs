@@ -5,20 +5,13 @@ using Samba.Domain.Models.Tickets;
 
 namespace Samba.Services
 {
-    public enum FilterType
-    {
-        OpenTickets,
-        AllTickets,
-        Account,
-        Target
-    }
+
 
     public interface ITicketExplorerFilter
     {
-        int FilterTypeIndex { get; set; }
         bool IsTextBoxEnabled { get; }
-        string[] FilterTypes { get; }
-        FilterType FilterType { get; set; }
+        IEnumerable<string> FilterTypes { get; }
+        string FilterType { get; set; }
         string FilterValue { get; set; }
         List<string> FilterValues { get; set; }
         Expression<Func<Ticket, bool>> GetExpression();

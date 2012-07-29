@@ -18,12 +18,14 @@ namespace Samba.Modules.PosModule.WidgetCreators
         private readonly Timer _timer;
         private readonly ITicketService _ticketService;
         private readonly IUserService _userService;
+        private readonly ICacheService _cacheService;
 
-        public TicketExplorerViewModel(Widget widget, ITicketService ticketService, IUserService userService)
+        public TicketExplorerViewModel(Widget widget, ITicketService ticketService, IUserService userService, ICacheService cacheService)
             : base(widget)
         {
             _ticketService = ticketService;
             _userService = userService;
+            _cacheService = cacheService;
 
             ResetFilters();
 
@@ -82,6 +84,11 @@ namespace Samba.Modules.PosModule.WidgetCreators
                 _tickets = value;
                 RaisePropertyChanged(() => Tickets);
             }
+        }
+
+        public IEnumerable<ResourceTemplate> ResourceTemplates
+        {
+            get { return _cacheService.GetResourceTemplates(); }
         }
 
         public TicketExplorerRowData SelectedRow { get; set; }

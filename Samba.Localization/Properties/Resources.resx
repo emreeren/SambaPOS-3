@@ -3100,4 +3100,7 @@ Continue without adding details?</value>
   <data name="ResourceButton">
     <value xml:space="preserve">Resource Button</value>
   </data>
+  <data name="AutoRefresh">
+    <value xml:space="preserve">Auto Refresh</value>
+  </data>
 </root>

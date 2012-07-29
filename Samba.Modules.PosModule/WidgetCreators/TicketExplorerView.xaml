@@ -49,7 +49,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
-                        <ComboBox FontSize="24" SelectedIndex="{Binding FilterTypeIndex}" ItemsSource="{Binding FilterTypes}">
+                        <ComboBox FontSize="24" SelectedItem="{Binding FilterType}" ItemsSource="{Binding FilterTypes}">
                         </ComboBox>
                         <ComboBox Grid.Column="1" FontSize="24" MinWidth="200" Margin="3,0,0,0" Text="{Binding FilterValue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                              ItemsSource="{Binding FilterValues}" IsEditable="True" IsEnabled="{Binding IsTextBoxEnabled}">
@@ -61,25 +61,21 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <DataGrid FontSize="18" Grid.Row="2" ItemsSource="{Binding Tickets}" SelectedItem="{Binding SelectedRow}"
+        <DataGrid Name="DataGrid" FontSize="18" Grid.Row="2" ItemsSource="{Binding Tickets}" SelectedItem="{Binding SelectedRow}"
              ScrollViewer.ScrollChanged="DataGrid_ScrollChanged" IsReadOnly="True" AutoGenerateColumns="False"
              HorizontalGridLinesBrush="Silver" VerticalGridLinesBrush="Silver" SelectionMode="Single"
              MouseLeftButtonUp="DataGrid_MouseLeftButtonUp" IsTextSearchEnabled="True" HeadersVisibility="Column"
              Margin="5,0,0,0" AlternatingRowBackground="WhiteSmoke" PreviewMouseDown="DataGrid_PreviewMouseDown"
-             PreviewKeyUp="DataGrid_PreviewKeyUp" GridLinesVisibility="All">
+             PreviewKeyUp="DataGrid_PreviewKeyUp" GridLinesVisibility="All" DataContextChanged="DataGrid_DataContextChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="{LocText Number}"
                      Binding="{Binding TicketNumber}" />
-                <DataGridTextColumn Header="{LocText Location}"
-                     Binding="{Binding Location}" />
                 <DataGridTextColumn Header="{LocText Date}"
                      Binding="{Binding Date}" />
                 <DataGridTextColumn Header="{LocText OpenClose_ab}"
                      Binding="{Binding TimeInfo}" />
                 <DataGridTextColumn Header="{LocText Total}"
                      Binding="{Binding Sum,StringFormat='#,#0.00'}" MinWidth="65" CellStyle="{StaticResource RightAlignedCellStyle}" />
-                <DataGridTextColumn Header="{LocText Account}"
-                     Binding="{Binding AccountName}" />
             </DataGrid.Columns>
             <DataGrid.Resources>
                 <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">25</sys:Double>
