@@ -234,9 +234,12 @@ namespace Samba.Services.Implementations
 
         public IEnumerable<AutomationCommandData> GetAutomationCommands()
         {
+            var currentDepartmentId = _applicationState.CurrentDepartment != null
+                                          ? _applicationState.CurrentDepartment.Id
+                                          : -1;
             var maps = AutomationCommands.SelectMany(x => x.AutomationCommandMaps)
                 .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
-                .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
+                .Where(x => x.DepartmentId == 0 || x.DepartmentId == currentDepartmentId)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
             var result = maps.Select(x => new AutomationCommandData { AutomationCommand = AutomationCommands.First(y => y.Id == x.AutomationCommandId), DisplayOnPayment = x.DisplayOnPayment, DisplayOnTicket = x.DisplayOnTicket, VisualBehaviour = x.VisualBehaviour });
             return result.OrderBy(x => x.AutomationCommand.Order);

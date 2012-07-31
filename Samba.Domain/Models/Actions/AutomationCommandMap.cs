@@ -14,6 +14,6 @@ namespace Samba.Domain.Models.Actions
         public int UserRoleId { get; set; }
         public bool DisplayOnTicket { get; set; }
         public bool DisplayOnPayment { get; set; }
-        public int VisualBehaviour { get; set; } // 0 = Normal, 1 = Disable when ticket locked, 2 = Show when ticket locked
+        public int VisualBehaviour { get; set; } // 0 = Normal, 1 = Disable when ticket locked, 2 = Show when ticket locked,3=Disable when ticket active,4 = Display when ticket active
     }
 }

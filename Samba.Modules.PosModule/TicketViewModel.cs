@@ -195,7 +195,7 @@ namespace Samba.Modules.PosModule
 
         private bool CanExecuteAutomationCommand(CommandContainerButton arg)
         {
-            return arg.IsEnabled && SelectedTicket.Orders.Count > 0;
+            return arg.IsEnabled;
         }
 
         private void OnExecuteAutomationCommand(CommandContainerButton obj)
@@ -383,8 +383,6 @@ namespace Samba.Modules.PosModule
             ClearSelectedItems();
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ResetNumerator);
         }
-
-
 
         private bool CanRemoveTicketLock(string arg)
         {

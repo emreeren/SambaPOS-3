@@ -20,7 +20,7 @@ namespace Samba.Modules.AutomationModule
             Model = model;
         }
 
-        private readonly IList<string> _visualBehaviours = new[] { Resources.Default, "Disable when ticket locked", "Display when ticket locked", "Display on old tickets" };
+        private readonly IList<string> _visualBehaviours = new[] { Resources.Default, "Disable when ticket locked", "Display when ticket locked", "Disable when ticket active", "Display when ticket active" };
         public IList<string> VisualBehaviours { get { return _visualBehaviours; } }
         public string VisualBehaviour { get { return VisualBehaviours[Model.VisualBehaviour]; } set { Model.VisualBehaviour = VisualBehaviours.IndexOf(value); } }
 
