@@ -23,8 +23,9 @@ namespace Samba.Modules.PosModule
         {
             _ticketService = ticketService;
             _tickets = new List<TicketButtonViewModel>();
-            AddTicketCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.Ticket), OnAddTicket);
-            MergeTicketsCommand = new CaptionCommand<string>("Merge Tickets", OnMergeTickets, CanMergeTickets);
+            AddTicketCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.Ticket).Replace(" ","\r"), OnAddTicket);
+            MergeTicketsCommand = new CaptionCommand<string>(Resources.MergeTickets.Replace(" ", "\r"), OnMergeTickets, CanMergeTickets);
+            CloseCommand = new CaptionCommand<string>(Resources.Close.Replace(" ", "\r"), OnCloseCommand);
         }
 
         private List<TicketButtonViewModel> _tickets;
@@ -37,6 +38,7 @@ namespace Samba.Modules.PosModule
         public string ListName { get { return SelectedEntity != null ? SelectedEntity.Name : ""; } }
         public ICaptionCommand AddTicketCommand { get; set; }
         public ICaptionCommand MergeTicketsCommand { get; set; }
+        public ICaptionCommand CloseCommand { get; set; }
 
         public string TotalRemainingAmountLabel { get { return _tickets != null ? Tickets.Sum(x => x.RemainingAmount).ToString(LocalSettings.DefaultCurrencyFormat) : ""; } }
         public int RowCount { get { return _tickets.Count() > 8 ? _tickets.Count() : 8; } }
@@ -45,6 +47,11 @@ namespace Samba.Modules.PosModule
         private bool CanMergeTickets(string arg)
         {
             return SelectedItemsCount > 1;
+        }
+
+        private void OnCloseCommand(string obj)
+        {
+            EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
         }
 
         private void OnMergeTickets(string obj)

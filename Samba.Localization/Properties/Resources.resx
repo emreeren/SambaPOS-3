@@ -3103,4 +3103,7 @@ Continue without adding details?</value>
   <data name="AutoRefresh">
     <value xml:space="preserve">Auto Refresh</value>
   </data>
+  <data name="MergeTickets">
+    <value xml:space="preserve">Merge Tickets</value>
+  </data>
 </root>

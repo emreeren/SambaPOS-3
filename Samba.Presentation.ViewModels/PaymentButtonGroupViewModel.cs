@@ -58,7 +58,7 @@ namespace Samba.Presentation.ViewModels
                 .OrderBy(x => x.Order)
                 .Select(x => new CommandButtonViewModel<PaymentTemplate>
                 {
-                    Caption = x.Name,
+                    Caption = x.Name.Replace(" ", "\r"),
                     Command = _makePaymentCommand,
                     Color = x.ButtonColor,
                     Parameter = x

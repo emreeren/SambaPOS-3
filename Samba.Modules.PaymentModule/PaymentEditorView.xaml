@@ -192,8 +192,8 @@
         <Grid Grid.Column="1" Margin="5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="105" />
+                <RowDefinition Height="6*" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <UniformGrid Grid.Row="0" Columns="2" Rows="2" Margin="5">
                 <Label FontSize="28">
@@ -288,7 +288,7 @@
                 </UniformGrid>
             </Grid>
 
-            <ItemsControl Grid.Row="3" Grid.ColumnSpan="3"  ItemsSource="{Binding CommandButtons}">
+            <ItemsControl Grid.Row="2" Grid.ColumnSpan="3"  ItemsSource="{Binding CommandButtons}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid Rows="1" MinHeight="60" />
@@ -296,10 +296,8 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <FxButton:FlexButton Focusable="False" ButtonColor="{Binding Color}" Command="{Binding Command}" CommandParameter="{Binding Parameter}"
-                             Margin="3,3,3,0">
-                            <TextBlock FontSize="18" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
-                                 Text="{Binding Caption}" />
+                        <FxButton:FlexButton FontSize="40" Focusable="False" ButtonColor="{Binding Color}" Command="{Binding Command}"
+                                             CommandParameter="{Binding Parameter}" Content="{Binding Caption}" Margin="3,3,3,0">
                         </FxButton:FlexButton>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
@@ -314,10 +312,8 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <FxButton:FlexButton ButtonColor="{Binding Color}" Focusable="False" Command="{Binding Command}" CommandParameter="{Binding Parameter}"
-                             Margin="5">
-                        <TextBlock FontSize="24" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
-                                 Text="{Binding Caption}" />
+                    <FxButton:FlexButton ButtonColor="{Binding Color}" FontSize="40" Focusable="False" Command="{Binding Command}" 
+                                         CommandParameter="{Binding Parameter}" Margin="5" Content="{Binding Caption}">
                     </FxButton:FlexButton>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

@@ -126,8 +126,9 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
         <UniformGrid Grid.Row="2" Rows="1">
-            <FlexButton:FlexButton FontSize="30" Command="{Binding MergeTicketsCommand}" Content="{Binding MergeTicketsCommand.Caption}"/>
-            <FlexButton:FlexButton FontSize="30" Command="{Binding AddTicketCommand}" Content="{Binding AddTicketCommand.Caption}"/>
+            <FlexButton:FlexButton FontSize="40" Margin="0,0,3,0" Command="{Binding MergeTicketsCommand}" Content="{Binding MergeTicketsCommand.Caption}"/>
+            <FlexButton:FlexButton FontSize="40" Command="{Binding AddTicketCommand}" Content="{Binding AddTicketCommand.Caption}"/>
+            <FlexButton:FlexButton FontSize="40" Margin="3,0,0,0" Command="{Binding CloseCommand}" Content="{Binding CloseCommand.Caption}" ButtonColor="Red"/>
         </UniformGrid>
     </Grid>
 </UserControl>

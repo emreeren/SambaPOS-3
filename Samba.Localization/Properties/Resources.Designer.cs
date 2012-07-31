@@ -4132,6 +4132,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Merge Tickets.
+        /// </summary>
+        public static string MergeTickets {
+            get {
+                return ResourceManager.GetString("MergeTickets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Message.
         /// </summary>
         public static string Message {

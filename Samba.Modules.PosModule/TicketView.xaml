@@ -8,10 +8,10 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="8*"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*" MinHeight="40"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -21,12 +21,13 @@
         <Label Name="TitleLabel" Grid.Row="0" Grid.Column="1" Content="{Binding SelectedTicketTitle}"
                      FontWeight="Bold" FontSize="18" Background="DarkGray" Foreground="WhiteSmoke" BorderThickness="0">
         </Label>
+        
         <!--ORDERS AREA-->
         <ContentControl Grid.Row="1" Grid.Column="1" cal:RegionManager.RegionName="{x:Static cmn:RegionNames.TicketOrdersRegion}"/>
-
+        
         <!--TICKET INFO AREA-->
         <ContentControl Grid.Row="2" Grid.Column="1" cal:RegionManager.RegionName="{x:Static cmn:RegionNames.TicketInfoRegion}"/>
-        
+
         <!--TICKET TOTALS AREA-->
         <ContentControl Grid.Row="3" Grid.Column="1"  cal:RegionManager.RegionName="{x:Static cmn:RegionNames.TicketTotalsRegion}"/>
 
@@ -37,7 +38,7 @@
         <StackPanel Grid.Column="0" Grid.RowSpan="5" Grid.Row="0" VerticalAlignment="Top">
             <StackPanel.Resources>
                 <Style TargetType="FxButton:FlexButton">
-                    <Setter Property="Height" Value="50"/>
+                    <Setter Property="Height" Value="60"/>
                     <Setter Property="Margin" Value="0,0,3,3"/>
                 </Style>
             </StackPanel.Resources>

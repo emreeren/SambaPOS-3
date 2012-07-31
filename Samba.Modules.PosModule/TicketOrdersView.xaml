@@ -56,12 +56,12 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Button Style="{StaticResource ItemsControlButtonStyle}" Command="{Binding ItemSelectedCommand}"
-                                         CommandParameter="{Binding}">
+                                         CommandParameter="{Binding}" Grid.IsSharedSizeScope="True">
                             <Grid>
-                                <StackPanel>
+                                <StackPanel >
                                     <Grid Margin="-1" Background="{Binding Background}">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition Width="auto" SharedSizeGroup="QuantityGrp"/>
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="auto" />
                                             <ColumnDefinition Width="auto" />
@@ -70,19 +70,24 @@
                                             <RowDefinition />
                                             <RowDefinition />
                                         </Grid.RowDefinitions>
-                                        <TextBlock FontWeight="{Binding FontWeight}" TextDecorations="{Binding TextDecoration}"
-                                                         Padding="1" Foreground="{Binding Foreground}" FontSize="18" Grid.Column="0" Text="{Binding Quantity,StringFormat='0.##'}"
+
+                                        <TextBlock FontWeight="{Binding FontWeight}" TextDecorations="{Binding TextDecoration}" Grid.Column="0"
+                                                         Padding="1" Foreground="{Binding Foreground}" FontSize="22"  Text="{Binding Quantity,StringFormat='0.##'}"
                                                          Margin="5,5,6,5" />
-                                        <TextBlock FontWeight="{Binding FontWeight}" TextDecorations="{Binding TextDecoration}"
-                                                         Padding="1" Foreground="{Binding Foreground}" FontSize="18" Grid.Column="1" Text="{Binding Description}"
+
+                                        <TextBlock FontWeight="{Binding FontWeight}" TextDecorations="{Binding TextDecoration}" Grid.Column="1"
+                                                         Padding="1" Foreground="{Binding Foreground}" FontSize="22"  Text="{Binding Description}"
                                                          TextTrimming="CharacterEllipsis" Margin="5" />
+
                                         <TextBlock TextDecorations="{Binding TextDecoration}"
                                                          Padding="1" Foreground="Gray" FontSize="10" Grid.Column="2" Text="{Binding PriceTag}"
                                                          HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                                        <TextBlock FontWeight="{Binding FontWeight}" TextDecorations="{Binding TextDecoration}"
-                                                         Padding="1" Foreground="{Binding Foreground}" FontSize="18" Grid.Column="3" Text="{Binding TotalPrice, StringFormat='#,#0.00'}"
+
+                                        <TextBlock FontWeight="{Binding FontWeight}" TextDecorations="{Binding TextDecoration}" Grid.Column="3"
+                                                         Padding="1" Foreground="{Binding Foreground}" FontSize="22"  Text="{Binding TotalPrice, StringFormat='#,#0.00'}"
                                                          Margin="5" HorizontalAlignment="Right" />
                                     </Grid>
+
                                     <ItemsControl ItemsSource="{Binding OrderTagValues}">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
