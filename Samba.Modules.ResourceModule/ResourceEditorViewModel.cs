@@ -15,16 +15,18 @@ namespace Samba.Modules.ResourceModule
         private readonly ICacheService _cacheService;
         private readonly IAccountService _accountService;
         private readonly IUserService _userService;
+        private readonly ITicketService _ticketService;
         public ICaptionCommand SaveResourceCommand { get; set; }
         public ICaptionCommand SelectResourceCommand { get; set; }
         public ICaptionCommand CreateAccountCommand { get; set; }
 
         [ImportingConstructor]
-        public ResourceEditorViewModel(ICacheService cacheService, IAccountService accountService,IUserService userService)
+        public ResourceEditorViewModel(ICacheService cacheService, IAccountService accountService,IUserService userService,ITicketService ticketService)
         {
             _cacheService = cacheService;
             _accountService = accountService;
             _userService = userService;
+            _ticketService = ticketService;
             SaveResourceCommand = new CaptionCommand<string>(Resources.Save, OnSaveResource, CanSelectResource);
             SelectResourceCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.Resource).Replace(" ", "\r"), OnSelectResource, CanSelectResource);
             CreateAccountCommand = new CaptionCommand<string>(string.Format(Resources.Create_f, Resources.Account).Replace(" ", "\r"), OnCreateAccount, CanCreateAccount);
@@ -44,6 +46,7 @@ namespace Samba.Modules.ResourceModule
             var accountId = _accountService.CreateAccount(accountName, SelectedResource.ResourceTemplate.AccountTemplateId);
             SelectedResource.Model.AccountId = accountId;
             SaveSelectedResource();
+            _ticketService.UpdateAccountOfOpenTickets(SelectedResource.Model);
             CommonEventPublisher.PublishEntityOperation(SelectedResource.Model, EventTopicNames.SelectResource, EventTopicNames.ResourceSelected);
         }
 

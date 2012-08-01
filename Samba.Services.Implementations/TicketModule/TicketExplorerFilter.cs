@@ -35,14 +35,24 @@ namespace Samba.Services.Implementations.TicketModule
 
         public Expression<Func<Ticket, bool>> GetExpression()
         {
+            var fv = (FilterValue ?? "").ToLower();
             Expression<Func<Ticket, bool>> result;
             if (FilterType == Resources.AllTickets)
-                result = x => x.Id > 0;
+            {
+                if (!string.IsNullOrEmpty(FilterValue))
+                {
+                    result = x => x.Orders.Any(y => y.MenuItemName.ToLower().Contains(fv));
+                }
+                else result = x => x.Id > 0;
+            }
             else if (FilterType == Resources.OnlyOpenTickets)
-                result = x => !x.IsPaid;
+                if (!string.IsNullOrEmpty(FilterValue))
+                {
+                    result = x => !x.IsPaid && x.Orders.Any(y => y.MenuItemName.ToLower().Contains(fv));
+                }
+                else result = x => !x.IsPaid;
             else
             {
-                var fv = (FilterValue ?? "").ToLower();
                 var tid = 0;
                 var rt = _cacheService.GetResourceTemplates().SingleOrDefault(x => x.EntityName == FilterType);
                 if (rt != null) tid = rt.Id;

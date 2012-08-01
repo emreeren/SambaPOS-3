@@ -33,7 +33,7 @@ namespace Samba.Modules.PosModule.WidgetCreators
 
         private void DataGrid_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            _scrolled = true;
+            _scrolled = e.VerticalChange > 0 || e.HorizontalChange > 0;
         }
 
         private void DataGrid_PreviewKeyUp(object sender, KeyEventArgs e)
@@ -52,10 +52,10 @@ namespace Samba.Modules.PosModule.WidgetCreators
                 {
                     DataGridColumn dgtc = new DataGridTextColumn
                                               {
-                        Header = resourceTemplate.EntityName,
-                        Binding = new Binding("[" + resourceTemplate.Id + "]"),
-                        MinWidth = 60,
-                    };
+                                                  Header = resourceTemplate.EntityName,
+                                                  Binding = new Binding("[" + resourceTemplate.Id + "]"),
+                                                  MinWidth = 60,
+                                              };
                     DataGrid.Columns.Insert(i + 1, dgtc);
                     i++;
                 }

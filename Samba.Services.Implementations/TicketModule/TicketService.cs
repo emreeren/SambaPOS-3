@@ -62,7 +62,6 @@ namespace Samba.Services.Implementations.TicketModule
 
         public void UpdateResource(Ticket ticket, int resourceTemplateId, int resourceId, string resourceName, int accountId)
         {
-
             var currentResource = ticket.TicketResources.SingleOrDefault(x => x.ResourceTemplateId == resourceTemplateId);
             var currentResourceId = currentResource != null ? currentResource.ResourceId : 0;
             var newResourceName = resourceName;
@@ -399,18 +398,36 @@ namespace Samba.Services.Implementations.TicketModule
             }
         }
 
-        public IList<TicketExplorerRowData> GetFilteredTickets(DateTime startDate, DateTime endDate, IList<ITicketExplorerFilter> filters)
+        public IEnumerable<Ticket> GetFilteredTickets(DateTime startDate, DateTime endDate, IList<ITicketExplorerFilter> filters)
         {
             endDate = endDate.Date.AddDays(1).AddMinutes(-1);
             Expression<Func<Ticket, bool>> qFilter = x => x.Date >= startDate && x.Date < endDate;
             qFilter = filters.Aggregate(qFilter, (current, filter) => current.And(filter.GetExpression()));
-            return Dao.Query(qFilter, x => x.TicketResources).Select(x => new TicketExplorerRowData(x)).ToList();
+            return Dao.Query(qFilter, x => x.TicketResources);
         }
 
         public IList<ITicketExplorerFilter> CreateTicketExplorerFilters()
         {
             var item = new TicketExplorerFilter(_cacheService) { FilterType = Resources.OnlyOpenTickets };
             return new List<ITicketExplorerFilter> { item };
+        }
+
+        public void UpdateAccountOfOpenTickets(Resource resource)
+        {
+            var openTicketDataList = GetOpenTickets(resource.Id);
+            using (var w = WorkspaceFactory.Create())
+            {
+                foreach (var ticket in openTicketDataList.Select(data => w.Single<Ticket>(x => x.Id == data.Id, x => x.TicketResources)))
+                {
+                    ticket.TicketResources.Where(x => x.ResourceId == resource.Id).ToList().ForEach(x => x.AccountId = resource.AccountId);
+                    w.CommitChanges();
+                }
+            }
+        }
+
+        public IEnumerable<Order> GetOrders(int id)
+        {
+            return Dao.Query<Order>(x => x.TicketId == id);
         }
 
         public Order AddOrder(Ticket ticket, int menuItemId, decimal quantity, string portionName, OrderTagTemplate template)

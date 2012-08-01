@@ -75,8 +75,8 @@ namespace Samba.Modules.PosModule.WidgetCreators
             set { _endDate = value; RaisePropertyChanged(() => EndDate); }
         }
 
-        private IList<TicketExplorerRowData> _tickets;
-        public IList<TicketExplorerRowData> Tickets
+        private IEnumerable<TicketExplorerRowData> _tickets;
+        public IEnumerable<TicketExplorerRowData> Tickets
         {
             get { return _tickets; }
             set
@@ -119,7 +119,7 @@ namespace Samba.Modules.PosModule.WidgetCreators
                 StartDate = DateTime.Today;
                 EndDate = DateTime.Now;
             }
-            Tickets = _ticketService.GetFilteredTickets(StartDate, EndDate, Filters);
+            Tickets = _ticketService.GetFilteredTickets(StartDate, EndDate, Filters).Select(x => new TicketExplorerRowData(x, _ticketService));
             Total = Tickets.Sum(x => x.Sum);
             RaisePropertyChanged(() => CanChanageDateFilter);
         }
@@ -127,22 +127,13 @@ namespace Samba.Modules.PosModule.WidgetCreators
         void TimerElapsed(object sender, ElapsedEventArgs e)
         {
             _timer.Stop();
-            AppServices.MainDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(DisplaySelectedRow));
+            SelectedRow.UpdateDetails();
         }
 
         public void QueueDisplayTicket()
         {
             _timer.Stop();
             _timer.Start();
-        }
-
-        public void DisplaySelectedRow()
-        {
-            if (SelectedRow != null)
-            {
-                ExtensionMethods.PublishIdEvent(SelectedRow.Model.Id, EventTopicNames.DisplayTicket);
-                CommandManager.InvalidateRequerySuggested();
-            }
         }
 
         private static void OnCloseCommandExecuted(string obj)

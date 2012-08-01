@@ -62,7 +62,7 @@ namespace Samba.Domain.Models.Tickets
             get
             {
                 var desc = MenuItemName + GetPortionDesc();
-                if (SelectedQuantity != Quantity)
+                if (SelectedQuantity > 0 && SelectedQuantity != Quantity)
                     desc = string.Format("({0:#.##}) {1}", SelectedQuantity, desc);
                 return desc;
             }

@@ -71,6 +71,7 @@
     <Compile Include="PosViewModel.cs" />
     <Compile Include="ResourceButton.cs" />
     <Compile Include="TicketButtonViewModel.cs" />
+    <Compile Include="WidgetCreators\TicketExplorerRowData.cs" />
     <Compile Include="WidgetCreators\TicketExplorerView.xaml.cs">
       <DependentUpon>TicketExplorerView.xaml</DependentUpon>
     </Compile>
