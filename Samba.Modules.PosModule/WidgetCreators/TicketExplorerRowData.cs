@@ -53,7 +53,6 @@ namespace Samba.Modules.PosModule.WidgetCreators
             {
                 Details = _ticketService.GetOrders(Model.Id).Select(x => string.Format("{0:#} {1} {2}", x.Quantity, x.Description, x.GetItemPrice()));
                 RaisePropertyChanged(() => Details);
-
             }
         }
     }

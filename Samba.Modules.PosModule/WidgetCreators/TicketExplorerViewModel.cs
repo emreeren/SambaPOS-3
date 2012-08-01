@@ -1,15 +1,13 @@
 ﻿using System;
-using System.ComponentModel.Composition;
 using System.Linq;
 using System.Collections.Generic;
 using System.Timers;
-using System.Windows.Input;
-using System.Windows.Threading;
 using Samba.Domain.Models.Resources;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Services;
 using Samba.Services.Common;
+using Timer = System.Timers.Timer;
 
 namespace Samba.Modules.PosModule.WidgetCreators
 {
@@ -75,8 +73,8 @@ namespace Samba.Modules.PosModule.WidgetCreators
             set { _endDate = value; RaisePropertyChanged(() => EndDate); }
         }
 
-        private IEnumerable<TicketExplorerRowData> _tickets;
-        public IEnumerable<TicketExplorerRowData> Tickets
+        private IList<TicketExplorerRowData> _tickets;
+        public IList<TicketExplorerRowData> Tickets
         {
             get { return _tickets; }
             set
@@ -119,7 +117,8 @@ namespace Samba.Modules.PosModule.WidgetCreators
                 StartDate = DateTime.Today;
                 EndDate = DateTime.Now;
             }
-            Tickets = _ticketService.GetFilteredTickets(StartDate, EndDate, Filters).Select(x => new TicketExplorerRowData(x, _ticketService));
+            Tickets = _ticketService.GetFilteredTickets(StartDate, EndDate, Filters).Select(
+                    x => new TicketExplorerRowData(x, _ticketService)).ToList();
             Total = Tickets.Sum(x => x.Sum);
             RaisePropertyChanged(() => CanChanageDateFilter);
         }
@@ -127,7 +126,8 @@ namespace Samba.Modules.PosModule.WidgetCreators
         void TimerElapsed(object sender, ElapsedEventArgs e)
         {
             _timer.Stop();
-            SelectedRow.UpdateDetails();
+            if (SelectedRow != null)
+                SelectedRow.UpdateDetails();
         }
 
         public void QueueDisplayTicket()

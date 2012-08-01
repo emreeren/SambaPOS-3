@@ -477,8 +477,8 @@ namespace Samba.Modules.PosModule
         private void OnCancelItemCommand(string obj)
         {
             _ticketOrdersViewModel.CancelSelectedOrders();
-            ClearSelectedItems();
             _ticketService.RecalculateTicket(SelectedTicket);
+            RefreshSelectedItems();
             RefreshSelectedTicket();
         }
 

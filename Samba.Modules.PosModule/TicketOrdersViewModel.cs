@@ -69,6 +69,15 @@ namespace Samba.Modules.PosModule
             }
         }
 
+        public void CancelSelectedOrders()
+        {
+            var selectedOrders = SelectedOrderModels;
+            ClearSelectedOrders();
+            SelectedTicket.CancelOrders(selectedOrders);
+            Orders.Clear();
+            Orders.AddRange(SelectedTicket.Orders.Select(x => new OrderViewModel(x, _automationService)));
+        }
+
         public void ClearSelectedOrders()
         {
             if (Orders.Any(x => x.Selected))
@@ -104,12 +113,6 @@ namespace Samba.Modules.PosModule
             RaisePropertyChanged(() => TicketBackground);
         }
 
-        public void CancelSelectedOrders()
-        {
-            SelectedTicket.CancelOrders(SelectedOrderModels);
-            Orders.Clear();
-            Orders.AddRange(SelectedTicket.Orders.Select(x => new OrderViewModel(x, _automationService)));
-        }
 
         public void UpdateLastSelectedOrder(OrderViewModel lastSelectedOrder)
         {

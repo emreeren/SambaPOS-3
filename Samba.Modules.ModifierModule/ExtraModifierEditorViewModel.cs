@@ -82,7 +82,8 @@ namespace Samba.Modules.ModifierModule
 
         private void OnUpdateExtraProperties(string obj)
         {
-            EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
+            //EventServiceFactory.EventService.PublishEvent(EventTopicNames.DisplayTicketOrderDetails);
+           EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
         }
 
 

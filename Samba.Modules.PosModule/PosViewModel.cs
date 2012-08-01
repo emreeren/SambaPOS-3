@@ -203,7 +203,7 @@ namespace Samba.Modules.PosModule
         {
             if (obj.Topic == EventTopicNames.SelectedOrdersChanged)
             {
-                if (obj.Value.SelectedOrders.Count() != 1)
+                if (obj.Value.SelectedOrders == null || obj.Value.SelectedOrders.Count() != 1)
                     DisplayMenuScreen();
             }
         }

@@ -65,7 +65,7 @@
         <DataGrid Name="DataGrid" FontSize="18" Grid.Row="2" ItemsSource="{Binding Tickets}" SelectedItem="{Binding SelectedRow}"
              ScrollViewer.ScrollChanged="DataGrid_ScrollChanged" IsReadOnly="True" AutoGenerateColumns="False"
              HorizontalGridLinesBrush="Silver" VerticalGridLinesBrush="Silver" SelectionMode="Single"
-             MouseLeftButtonUp="DataGrid_MouseLeftButtonUp" IsTextSearchEnabled="True" HeadersVisibility="Column"
+             MouseLeftButtonUp="DataGrid_MouseLeftButtonUp" HeadersVisibility="Column" VirtualizingStackPanel.IsVirtualizing="True"
              Margin="5,0,0,0" AlternatingRowBackground="WhiteSmoke" PreviewMouseDown="DataGrid_PreviewMouseDown"
              PreviewKeyUp="DataGrid_PreviewKeyUp" GridLinesVisibility="All" DataContextChanged="DataGrid_DataContextChanged" 
              RowDetailsVisibilityMode="VisibleWhenSelected">
@@ -91,12 +91,11 @@
                             <ColumnDefinition Width="9*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Silver" BorderThickness="1">
-
+                        <Border Grid.Column="0" BorderBrush="Silver" BorderThickness="1">
+                            <ScrollViewer Grid.Column="0" Margin="3,2,0,0">
+                                <ItemsControl ItemsSource="{Binding Details}" BorderThickness="0" Background="Transparent"/>
+                            </ScrollViewer>
                         </Border>
-                        <ListBox Grid.Column="0" ItemsSource="{Binding Details}" BorderThickness="0" Background="Transparent">
-
-                        </ListBox>
                         <UniformGrid Rows="2" Grid.Column="1">
                             <FlexButton:FlexButton Command="{Binding DisplayTicketCommand}" Content="{Binding DisplayTicketCommand.Caption}"/>
                         </UniformGrid>

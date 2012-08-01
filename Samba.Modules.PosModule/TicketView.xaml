@@ -91,7 +91,7 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
             <FxButton:FlexButton Command="{Binding EditTicketNoteCommand}"
-                         Visibility="{Binding IsTicketSelected,Converter={StaticResource VisibilityConverter}}">
+                         Visibility="{Binding IsNothingSelected,Converter={StaticResource VisibilityConverter}}">
                 <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
                              Text="{Binding EditTicketNoteCommand.Caption}" />
             </FxButton:FlexButton>

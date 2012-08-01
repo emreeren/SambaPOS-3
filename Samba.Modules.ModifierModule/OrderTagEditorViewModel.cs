@@ -132,6 +132,7 @@ namespace Samba.Modules.ModifierModule
         public bool ShouldDisplay(Ticket value, IEnumerable<Order> selectedOrders)
         {
             ResetValues(value);
+            if (selectedOrders == null) return false;
             var so = selectedOrders.ToList();
             SelectedOrder = so.Count() == 1 ? so.ElementAt(0) : null;
             if (so.Any(x => x.Locked || !x.DecreaseInventory)) return false;

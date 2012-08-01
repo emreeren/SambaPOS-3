@@ -72,19 +72,19 @@
                                         </Grid.RowDefinitions>
 
                                         <TextBlock FontWeight="{Binding FontWeight}" TextDecorations="{Binding TextDecoration}" Grid.Column="0"
-                                                         Padding="1" Foreground="{Binding Foreground}" FontSize="22"  Text="{Binding Quantity,StringFormat='0.##'}"
+                                                         Padding="1" Foreground="{Binding Foreground}" FontSize="21"  Text="{Binding Quantity,StringFormat='0.##'}"
                                                          Margin="5,5,6,5" />
 
                                         <TextBlock FontWeight="{Binding FontWeight}" TextDecorations="{Binding TextDecoration}" Grid.Column="1"
-                                                         Padding="1" Foreground="{Binding Foreground}" FontSize="22"  Text="{Binding Description}"
+                                                         Padding="1" Foreground="{Binding Foreground}" FontSize="21"  Text="{Binding Description}"
                                                          TextTrimming="CharacterEllipsis" Margin="5" />
 
                                         <TextBlock TextDecorations="{Binding TextDecoration}"
-                                                         Padding="1" Foreground="Gray" FontSize="10" Grid.Column="2" Text="{Binding PriceTag}"
+                                                         Padding="1" Foreground="Gray" FontSize="11" Grid.Column="2" Text="{Binding PriceTag}"
                                                          HorizontalAlignment="Right" VerticalAlignment="Center"/>
 
                                         <TextBlock FontWeight="{Binding FontWeight}" TextDecorations="{Binding TextDecoration}" Grid.Column="3"
-                                                         Padding="1" Foreground="{Binding Foreground}" FontSize="22"  Text="{Binding TotalPrice, StringFormat='#,#0.00'}"
+                                                         Padding="1" Foreground="{Binding Foreground}" FontSize="21"  Text="{Binding TotalPrice, StringFormat='#,#0.00'}"
                                                          Margin="5" HorizontalAlignment="Right" />
                                     </Grid>
 
