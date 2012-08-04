@@ -259,12 +259,11 @@ namespace Samba.Domain.Models.Tickets
                         service.Amount = 0;
                     else
                         service.CalculationAmount = service.Amount - currentSum;
-
                 }
                 else service.CalculationAmount = service.Amount;
 
                 service.CalculationAmount = Decimal.Round(service.CalculationAmount, LocalSettings.Decimals);
-                if (service.DecreaseAmount) service.CalculationAmount = 0 - service.CalculationAmount;
+                if (service.DecreaseAmount && service.CalculationAmount > 0) service.CalculationAmount = 0 - service.CalculationAmount;
 
                 totalAmount += service.CalculationAmount;
                 currentSum += service.CalculationAmount;
@@ -319,7 +318,6 @@ namespace Samba.Domain.Models.Tickets
                 AccountTransactions.AccountTransactions.Remove(
                     AccountTransactions.AccountTransactions.Single(x => t.AccountTransactionTemplateId == x.AccountTransactionTemplateId));
             }
-
             t.Amount = template.MaxAmount > 0 && amount > template.MaxAmount ? template.MaxAmount : amount;
         }
 
@@ -437,10 +435,10 @@ namespace Samba.Domain.Models.Tickets
         {
             var ticket = new Ticket { DepartmentId = department.Id };
 
-            foreach (var calulationTemplate in calculationTemplates.OrderBy(x => x.Order)
+            foreach (var calculationTemplate in calculationTemplates.OrderBy(x => x.Order)
                 .Where(x => string.IsNullOrEmpty(x.ButtonHeader)))
             {
-                ticket.AddCalculation(calulationTemplate, calulationTemplate.Amount);
+                ticket.AddCalculation(calculationTemplate, calculationTemplate.Amount);
             }
 
             ticket.AccountTemplateId = department.TicketTemplate.SaleTransactionTemplate.TargetAccountTemplateId;
