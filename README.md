@@ -1,5 +1,6 @@
 #SambaPOS Touch Screen POS Software
 
-3rd release rewrite.
+More Information
+http://emreeren.github.com/SambaPOS-3/
 
 Visit www.sambapos.com for stable releases.
