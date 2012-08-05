@@ -35,6 +35,8 @@ namespace Samba.Presentation.ViewModels
             }
         }
 
+        public decimal CalculationAmount { get { return Model.CalculationAmount; } }
+
         public void Refresh()
         {
             RaisePropertyChanged(() => Amount);

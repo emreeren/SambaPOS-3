@@ -5789,6 +5789,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Round Ticket Total.
+        /// </summary>
+        public static string RoundTicketTotal {
+            get {
+                return ResourceManager.GetString("RoundTicketTotal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Row Count.
         /// </summary>
         public static string RowCount {

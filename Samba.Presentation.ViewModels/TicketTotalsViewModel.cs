@@ -52,14 +52,17 @@ namespace Samba.Presentation.ViewModels
         private List<ServiceViewModel> _preServices;
         public List<ServiceViewModel> PreServices
         {
-            get { return _preServices ?? (_preServices = new List<ServiceViewModel>(Model.Calculations.Where(x => !x.IncludeTax).Select(x => new ServiceViewModel(x)))); }
+            get { return _preServices ?? (_preServices = new List<ServiceViewModel>(Model.Calculations.Where(x => !x.IncludeTax).Select(x => new ServiceViewModel(x))).ToList()); }
         }
 
         private List<ServiceViewModel> _postServices;
         public List<ServiceViewModel> PostServices
         {
-            get { return _postServices ?? (_postServices = new List<ServiceViewModel>(Model.Calculations.Where(x => x.IncludeTax).Select(x => new ServiceViewModel(x)))); }
+            get { return _postServices ?? (_postServices = new List<ServiceViewModel>(Model.Calculations.Where(x => x.IncludeTax).Select(x => new ServiceViewModel(x))).ToList()); }
         }
+
+        public IEnumerable<ServiceViewModel> PreServicesList { get { return PreServices.Where(x => x.CalculationAmount != 0); } }
+        public IEnumerable<ServiceViewModel> PostServicesList { get { return PostServices.Where(x => x.CalculationAmount != 0); } }
 
         public decimal TicketTotalValue { get { return Model.GetSum(); } }
         public decimal TicketTaxValue { get { return Model.CalculateTax(Model.GetPlainSum(), Model.GetPreTaxServicesTotal()); } }
@@ -72,8 +75,8 @@ namespace Samba.Presentation.ViewModels
         public bool IsTicketPaymentVisible { get { return TicketPaymentValue > 0; } }
         public bool IsTicketRemainingVisible { get { return TicketRemainingValue > 0; } }
         public bool IsTicketTaxTotalVisible { get { return TicketTaxValue > 0; } }
-        public bool IsPlainTotalVisible { get { return PostServices.Count > 0 || PreServices.Count > 0 || IsTicketTaxTotalVisible; } }
-        public bool IsTicketSubTotalVisible { get { return PostServices.Count > 0 && PreServices.Count > 0; } }
+        public bool IsPlainTotalVisible { get { return PostServicesList.Count() > 0 || PreServicesList.Count() > 0 || IsTicketTaxTotalVisible; } }
+        public bool IsTicketSubTotalVisible { get { return PostServicesList.Count() > 0 && PreServicesList.Count() > 0; } }
 
         public string TicketPlainTotalLabel { get { return TicketPlainTotalValue.ToString(LocalSettings.DefaultCurrencyFormat); } }
         public string TicketTotalLabel { get { return TicketTotalValue.ToString(LocalSettings.DefaultCurrencyFormat); } }
@@ -140,6 +143,8 @@ namespace Samba.Presentation.ViewModels
 
             RaisePropertyChanged(() => PostServices);
             RaisePropertyChanged(() => PreServices);
+            RaisePropertyChanged(() => PreServicesList);
+            RaisePropertyChanged(() => PostServicesList);
             RaisePropertyChanged(() => Payments);
 
             PostServices.ForEach(x => x.Refresh());

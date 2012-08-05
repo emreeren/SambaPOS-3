@@ -161,6 +161,9 @@ namespace Samba.Services.Implementations.TicketModule
                     ticket.LockTicket();
                 }
 
+                if(ticket.IsPaid)
+                    ticket.AccountTransactions.AccountTransactions.Where(x=>x.Amount == 0).ToList().ForEach(x=>ticket.AccountTransactions.AccountTransactions.Remove(x));
+
                 if (ticket.Id > 0)// eğer adisyonda satır yoksa ID burada 0 olmalı.
                     Dao.Save(ticket);
 

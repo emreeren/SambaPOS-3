@@ -44,10 +44,10 @@ namespace Samba.Modules.TicketModule
         public string ButtonHeader { get { return Model.ButtonHeader; } set { Model.ButtonHeader = value; } }
         public string ButtonColor { get { return Model.ButtonColor; } set { Model.ButtonColor = value; } }
 
-        private ObservableCollection<CalculationSelectorMapViewModel> _calculationTemplateMaps;
-        public ObservableCollection<CalculationSelectorMapViewModel> CalculationTemplateMaps
+        private ObservableCollection<CalculationSelectorMapViewModel> _calculationSelectorMaps;
+        public ObservableCollection<CalculationSelectorMapViewModel> CalculationSelectorMaps
         {
-            get { return _calculationTemplateMaps ?? (_calculationTemplateMaps = new ObservableCollection<CalculationSelectorMapViewModel>(Model.CalculationSelectorMaps.Select(x => new CalculationSelectorMapViewModel(x, _userService, _departmentService, _settingService)))); }
+            get { return _calculationSelectorMaps ?? (_calculationSelectorMaps = new ObservableCollection<CalculationSelectorMapViewModel>(Model.CalculationSelectorMaps.Select(x => new CalculationSelectorMapViewModel(x, _userService, _departmentService, _settingService)))); }
         }
 
         private ObservableCollection<CalculationTemplate> _calculationTemplates;
@@ -89,7 +89,7 @@ namespace Samba.Modules.TicketModule
             if (SelectedCalculationSelectorMap.Id > 0)
                 Workspace.Delete(SelectedCalculationSelectorMap.Model);
             Model.CalculationSelectorMaps.Remove(SelectedCalculationSelectorMap.Model);
-            CalculationTemplateMaps.Remove(SelectedCalculationSelectorMap);
+            CalculationSelectorMaps.Remove(SelectedCalculationSelectorMap);
         }
 
         private bool CanDeleteCalculationSelectorMap(string arg)
@@ -99,7 +99,7 @@ namespace Samba.Modules.TicketModule
 
         private void OnAddCalculationSelectorMap(string obj)
         {
-            CalculationTemplateMaps.Add(new CalculationSelectorMapViewModel(Model.AddCalculationSelectorMap(), _userService, _departmentService, _settingService));
+            CalculationSelectorMaps.Add(new CalculationSelectorMapViewModel(Model.AddCalculationSelectorMap(), _userService, _departmentService, _settingService));
         }
 
         public override Type GetViewType()

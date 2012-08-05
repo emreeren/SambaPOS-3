@@ -236,51 +236,61 @@ namespace Samba.Domain.Models.Tickets
             return result;
         }
 
-        private decimal CalculateServices(IEnumerable<Calculation> services, decimal sum)
+        private decimal CalculateServices(IEnumerable<Calculation> calculations, decimal sum)
         {
             decimal totalAmount = 0;
             var currentSum = sum;
 
-            foreach (var service in services.OrderBy(x => x.Order))
+            foreach (var calculation in calculations.OrderBy(x => x.Order))
             {
-                if (service.CalculationType == 0)
+                if (calculation.CalculationType == 0)
                 {
-                    service.CalculationAmount = service.Amount > 0 ? (sum * service.Amount) / 100 : 0;
+                    calculation.CalculationAmount = calculation.Amount > 0 ? (sum * calculation.Amount) / 100 : 0;
                 }
-                else if (service.CalculationType == 1)
+                else if (calculation.CalculationType == 1)
                 {
-                    service.CalculationAmount = service.Amount > 0 ? (currentSum * service.Amount) / 100 : 0;
+                    calculation.CalculationAmount = calculation.Amount > 0 ? (currentSum * calculation.Amount) / 100 : 0;
                 }
-                else if (service.CalculationType == 3)
+                else if (calculation.CalculationType == 3)
                 {
-                    if (service.Amount == currentSum) service.Amount = 0;
-                    else if (service.DecreaseAmount && service.Amount > currentSum)
-                        service.Amount = 0;
-                    else if (!service.DecreaseAmount && service.Amount < currentSum)
-                        service.Amount = 0;
+                    if (calculation.Amount == currentSum) calculation.Amount = 0;
+                    else if (calculation.DecreaseAmount && calculation.Amount > currentSum)
+                        calculation.Amount = 0;
+                    else if (!calculation.DecreaseAmount && calculation.Amount < currentSum)
+                        calculation.Amount = 0;
                     else
-                        service.CalculationAmount = service.Amount - currentSum;
+                        calculation.CalculationAmount = calculation.Amount - currentSum;
                 }
-                else service.CalculationAmount = service.Amount;
-
-                service.CalculationAmount = Decimal.Round(service.CalculationAmount, LocalSettings.Decimals);
-                if (service.DecreaseAmount && service.CalculationAmount > 0) service.CalculationAmount = 0 - service.CalculationAmount;
-
-                totalAmount += service.CalculationAmount;
-                currentSum += service.CalculationAmount;
-
-                var s = service;
-                var transaction = AccountTransactions.AccountTransactions.Single(x => x.AccountTransactionTemplateId == s.AccountTransactionTemplateId);
-                //todo: Mutlak değeri yazmak çoğu durumda doğru ancak bazı durumlarda hesapların ters çevrilmesi gerekiyor. İncele
-                // Çözüm 1: İskonto olarak işaretli hesaplamaların adisyonun tutarını arttırıcı ya da tam tersi işleme neden olması engellendi.
-                transaction.Amount = Math.Abs(service.CalculationAmount);
-
-                if (service.Amount == 0)
+                else if (calculation.CalculationType == 4)
                 {
-                    Calculations.Remove(service);
-                    AccountTransactions.AccountTransactions.Remove(
-                        AccountTransactions.AccountTransactions.Single(x => service.AccountTransactionTemplateId == x.AccountTransactionTemplateId));
+                    if (calculation.Amount > 0)
+                        calculation.CalculationAmount = (decimal.Round(currentSum / calculation.Amount, MidpointRounding.AwayFromZero) * calculation.Amount) - currentSum;
+                    else // eğer yuvarlama eksi olarak verildiyse hep aşağı yuvarlar
+                        calculation.CalculationAmount = (Math.Truncate(currentSum / calculation.Amount) * calculation.Amount) - currentSum;
+
+                    if (calculation.DecreaseAmount && calculation.CalculationAmount > 0) calculation.CalculationAmount = 0;
+                    if (!calculation.DecreaseAmount && calculation.CalculationAmount < 0) calculation.CalculationAmount = 0;
                 }
+                else calculation.CalculationAmount = calculation.Amount;
+
+                calculation.CalculationAmount = Decimal.Round(calculation.CalculationAmount, LocalSettings.Decimals);
+                if (calculation.DecreaseAmount && calculation.CalculationAmount > 0) calculation.CalculationAmount = 0 - calculation.CalculationAmount;
+
+                totalAmount += calculation.CalculationAmount;
+                currentSum += calculation.CalculationAmount;
+
+                //var s = service;
+                //var transaction = AccountTransactions.AccountTransactions.Single(x => x.AccountTransactionTemplateId == s.AccountTransactionTemplateId);
+                ////todo: Mutlak değeri yazmak çoğu durumda doğru ancak bazı durumlarda hesapların ters çevrilmesi gerekiyor. İncele
+                //// Çözüm 1: İskonto olarak işaretli hesaplamaların adisyonun tutarını arttırıcı ya da tam tersi işleme neden olması engellendi.
+                //transaction.Amount = Math.Abs(service.CalculationAmount);
+
+                if (calculation.Amount == 0)
+                {
+                    Calculations.Remove(calculation);
+                }
+
+                UpdateCalculationTransaction(calculation, Math.Abs(calculation.CalculationAmount));
             }
 
             return decimal.Round(totalAmount, LocalSettings.Decimals);
@@ -301,25 +311,40 @@ namespace Samba.Domain.Models.Tickets
                             IncludeTax = template.IncludeTax,
                             DecreaseAmount = template.DecreaseAmount,
                             Order = template.Order,
-                            AccountTransactionTemplateId = template.AccountTransactionTemplate.Id
+                            AccountTransactionTemplateId = template.AccountTransactionTemplate.Id,
+                            AccountTransactionTemplate = template.AccountTransactionTemplate
                         };
-                var transaction = AccountTransaction.Create(template.AccountTransactionTemplate);
-                transaction.Name = t.Name;
-                transaction.UpdateAccounts(AccountTemplateId, AccountId);
-                AccountTransactions.AccountTransactions.Add(transaction);
                 Calculations.Add(t);
             }
-            else if (t.Amount == amount) amount = 0;
-
+            else if (t.Amount == amount)
+            {
+                amount = 0;
+            }
+            else t.Amount = amount;
             t.Name = template.Name;
-
             if (amount == 0)
             {
                 Calculations.Remove(t);
-                AccountTransactions.AccountTransactions.Remove(
-                    AccountTransactions.AccountTransactions.Single(x => t.AccountTransactionTemplateId == x.AccountTransactionTemplateId));
+                UpdateCalculationTransaction(t, 0);
             }
-            t.Amount = template.MaxAmount > 0 && amount > template.MaxAmount ? template.MaxAmount : amount;
+        }
+
+        public void UpdateCalculationTransaction(Calculation calculation, decimal amount)
+        {
+            var transaction = AccountTransactions.AccountTransactions.SingleOrDefault(x => x.AccountTransactionTemplateId == calculation.AccountTransactionTemplateId);
+            if (transaction == null)
+            {
+                transaction = AccountTransaction.Create(calculation.AccountTransactionTemplate);
+                transaction.Name = calculation.Name;
+                transaction.UpdateAccounts(AccountTemplateId, AccountId);
+                AccountTransactions.AccountTransactions.Add(transaction);
+            }
+            if (amount == 0)
+            {
+                AccountTransactions.AccountTransactions.Remove(
+                    AccountTransactions.AccountTransactions.Single(x => x.AccountTransactionTemplateId == calculation.AccountTransactionTemplateId));
+            }
+            transaction.Amount = amount;
         }
 
         public decimal GetPlainSum()
@@ -436,14 +461,13 @@ namespace Samba.Domain.Models.Tickets
         {
             var ticket = new Ticket { DepartmentId = department.Id };
 
+            ticket.AccountTemplateId = department.TicketTemplate.SaleTransactionTemplate.TargetAccountTemplateId;
+            ticket.AccountTransactions = new AccountTransactionDocument();
+            ticket.UpdateAccount(account);
             foreach (var calculationTemplate in calculationTemplates.OrderBy(x => x.Order))
             {
                 ticket.AddCalculation(calculationTemplate, calculationTemplate.Amount);
             }
-
-            ticket.AccountTemplateId = department.TicketTemplate.SaleTransactionTemplate.TargetAccountTemplateId;
-            ticket.AccountTransactions = new AccountTransactionDocument();
-            ticket.UpdateAccount(account);
             return ticket;
         }
 

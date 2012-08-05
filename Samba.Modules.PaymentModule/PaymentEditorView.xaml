@@ -104,7 +104,7 @@
                 <TextBlock Grid.Column="1" Grid.Row="0" TextAlignment="Right" Text="{Binding Totals.TicketPlainTotalLabel}"
                      Visibility="{Binding Totals.IsPlainTotalVisible,Converter={StaticResource VisibilityConverter}}" />
 
-                <ItemsControl Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" ItemsSource="{Binding Totals.PreServices}"
+                <ItemsControl Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" ItemsSource="{Binding Totals.PreServicesList}"
                      HorizontalContentAlignment="Stretch">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -132,7 +132,7 @@
                 <TextBlock Grid.Column="1" Grid.Row="4" TextAlignment="Right" Text="{Binding Totals.TicketTaxLabel}"
                      Visibility="{Binding Totals.IsTicketTaxTotalVisible,Converter={StaticResource VisibilityConverter}}" />
 
-                <ItemsControl Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" ItemsSource="{Binding Totals.PostServices}"
+                <ItemsControl Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" ItemsSource="{Binding Totals.PostServicesList}"
                      HorizontalContentAlignment="Stretch">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>

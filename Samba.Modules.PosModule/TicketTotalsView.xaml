@@ -20,7 +20,7 @@
                          Visibility="{Binding IsPlainTotalVisible,Converter={StaticResource VisibilityConverter}}" />
         </DockPanel>
 
-        <ItemsControl ItemsSource="{Binding PreServices}" HorizontalContentAlignment="Stretch">
+        <ItemsControl ItemsSource="{Binding PreServicesList}" HorizontalContentAlignment="Stretch">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -51,7 +51,7 @@
                      Visibility="{Binding IsTicketTaxTotalVisible,Converter={StaticResource VisibilityConverter}}" />
         </DockPanel>
 
-        <ItemsControl ItemsSource="{Binding PostServices}" HorizontalContentAlignment="Stretch">
+        <ItemsControl ItemsSource="{Binding PostServicesList}" HorizontalContentAlignment="Stretch">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Grid>

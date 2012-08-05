@@ -3109,4 +3109,7 @@ Continue without adding details?</value>
   <data name="CalculationSelector">
     <value xml:space="preserve">Calculation Selector</value>
   </data>
+  <data name="RoundTicketTotal">
+    <value xml:space="preserve">Round Ticket Total</value>
+  </data>
 </root>

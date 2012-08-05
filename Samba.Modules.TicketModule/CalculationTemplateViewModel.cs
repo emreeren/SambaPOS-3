@@ -21,7 +21,9 @@ namespace Samba.Modules.TicketModule
                     Resources.RateFromTicketAmount,
                     Resources.RateFromPreviousTemplate, 
                     Resources.FixedAmount,
-                    Resources.FixedAmountFromTicketTotal});
+                    Resources.FixedAmountFromTicketTotal,
+                    Resources.RoundTicketTotal
+                });
             }
         }
 
