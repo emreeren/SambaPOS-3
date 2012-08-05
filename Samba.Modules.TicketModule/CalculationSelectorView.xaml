@@ -1,0 +1,136 @@
+﻿<UserControl x:Class="Samba.Modules.TicketModule.CalculationSelectorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:PropertyEditorLibrary="clr-namespace:PropertyTools.Wpf;assembly=PropertyTools.Wpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Samba.Presentation.Common;component/Themes/OfficeTab.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions >
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <TabControl Margin="-6,-6,0,0" Template="{StaticResource OfficeTabControl}">
+            <TabItem Header="General Settings">
+                <StackPanel>
+                    <Label HorizontalAlignment="Left" Content="{LocText Name,Suffix=':'}" />
+                    <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
+                    <Label HorizontalAlignment="Left" Content="{LocText ButtonHeader,Suffix=':'}" />
+                    <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding ButtonHeader}" />
+                    <Label HorizontalAlignment="Left" Content="{LocText ButtonColor,Suffix=':'}" />
+                    <PropertyEditorLibrary:ColorPicker2 HorizontalAlignment="Left" MinWidth="150"
+                         SelectedColor="{Binding ButtonColor}" />
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <DataGrid MinWidth="170" ItemsSource="{Binding CalculationTemplates}" SelectedItem="{Binding SelectedCalculationTemplate, Mode=TwoWay}"
+                                     HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
+                                     AutoGenerateColumns="False" CanUserSortColumns="False" IsReadOnly="True" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="{LocText CalculationTemplate}"
+                                             MinWidth="100" Binding="{Binding Name}" />
+                            </DataGrid.Columns>
+                            <DataGrid.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Command="{Binding AddCalculationTemplateCommand}" Header="{Binding AddCalculationTemplateCommand.Caption}" />
+                                    <MenuItem Command="{Binding DeleteCalculationTemplateCommand}" Header="{Binding DeleteCalculationTemplateCommand.Caption}" />
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
+                        </DataGrid>
+                        <StackPanel Margin="10">
+                            <TextBlock Margin="2,3">
+                                        <Hyperlink Command="{Binding AddCalculationTemplateCommand}">
+                                            <TextBlock Text="{Binding Path=AddCalculationTemplateCommand.Caption}" />
+                                        </Hyperlink>
+                                    </TextBlock>
+                            <TextBlock Margin="2,3">
+                                        <Hyperlink Command="{Binding DeleteCalculationTemplateCommand}">
+                                            <TextBlock Text="{Binding Path=DeleteCalculationTemplateCommand.Caption}" />
+                                        </Hyperlink>
+                                    </TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="{LocText Mappings}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <DockPanel Grid.Row="0" Margin="0,10,0,0">
+                        <Label>
+                            <LocText ResourceIdentifierKey="Mappings" Suffix=":"/>
+                        </Label>
+                        <TextBlock Margin="2,5">
+                            <Hyperlink Command="{Binding AddCalculationSelectorMapCommand}">
+                                <TextBlock Text="{Binding Path=AddCalculationSelectorMapCommand.Caption}" />
+                            </Hyperlink>
+                        </TextBlock>
+                        <TextBlock Margin="2,5">
+                            <Hyperlink Command="{Binding DeleteCalculationSelectorMapCommand}">
+                                <TextBlock Text="{Binding Path=DeleteCalculationSelectorMapCommand.Caption}" />
+                            </Hyperlink>
+                        </TextBlock>
+                    </DockPanel>
+
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding CalculationSelectorMaps}" SelectedItem="{Binding SelectedCalculationSelectorMap}" 
+                              HorizontalAlignment="Left" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3" MinWidth="300"
+                              AutoGenerateColumns="False" CanUserSortColumns="False"
+                              Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="{LocText UserRole}" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="3" Text="{Binding UserRoleName}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Grid FocusManager.FocusedElement="{Binding ElementName=cbUserRole}">
+                                            <ComboBox Name="cbUserRole"  HorizontalAlignment="Stretch" SelectedItem="{Binding UserRoleName, UpdateSourceTrigger=PropertyChanged}"
+                                                          ItemsSource="{Binding UserRoleNames}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{LocText Department}" Width="2*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="3" Text="{Binding DepartmentName}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Grid FocusManager.FocusedElement="{Binding ElementName=cbDepartment}">
+                                            <ComboBox Name="cbDepartment"  HorizontalAlignment="Stretch" SelectedItem="{Binding DepartmentName, UpdateSourceTrigger=PropertyChanged}" 
+                                                  ItemsSource="{Binding DepartmentNames}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <StackPanel Grid.Row="1">
+            <StackPanel Orientation="Horizontal">
+                <Button HorizontalAlignment="Left" Margin="0,10,3,0" MinWidth="70" Content="{Binding SaveCommand.Caption}"
+                 Command="{Binding SaveCommand}" />
+            </StackPanel>
+            <Label Content="{Binding Error}" Foreground="Red" />
+        </StackPanel>
+
+    </Grid>
+</UserControl>

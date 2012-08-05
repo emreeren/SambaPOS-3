@@ -71,7 +71,8 @@ namespace Samba.Persistance.Data
         public DbSet<MenuItemPrice> MenuItemPrices { get; set; }
         public DbSet<TaxTemplate> TaxTemplates { get; set; }
         public DbSet<CalculationTemplate> CalculationTemplates { get; set; }
-        public DbSet<CalculationTemplateMap> CalculationTemplateMaps { get; set; }
+        public DbSet<CalculationSelector> CalculationSelectors { get; set; }
+        public DbSet<CalculationSelectorMap> CalculationTemplateMaps { get; set; }
         public DbSet<Calculation> Calculations { get; set; }
         public DbSet<PaymentTemplate> PaymentTemplates { get; set; }
         public DbSet<PaymentTemplateMap> PaymentTemplateMaps { get; set; }
@@ -100,6 +101,7 @@ namespace Samba.Persistance.Data
 
             modelBuilder.Entity<Department>().HasMany(p => p.ResourceScreens).WithMany();
             modelBuilder.Entity<ResourceScreen>().HasMany(p => p.ScreenItems).WithMany();
+            modelBuilder.Entity<CalculationSelector>().HasMany(x => x.CalculationTemplates).WithMany();
 
             modelBuilder.Entity<AccountTransaction>().Ignore(p => p.SourceTransactionValue);
             modelBuilder.Entity<AccountTransaction>().Ignore(p => p.TargetTransactionValue);

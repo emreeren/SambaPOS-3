@@ -35,7 +35,7 @@ namespace Samba.Services
         IEnumerable<PaymentTemplate> GetPaymentScreenPaymentTemplates();
         IEnumerable<TicketTagGroup> GetTicketTagGroups();
         IEnumerable<AutomationCommandData> GetAutomationCommands();
-        IEnumerable<CalculationTemplate> GetCalculationTemplates();
+        IEnumerable<CalculationSelector> GetCalculationSelectors();
         AccountTemplate GetAccountTemplateById(int accountTemplateId);
         IEnumerable<AccountTemplate> GetAccountTemplates();
         IEnumerable<AccountTemplate> GetAccountTemplatesByName(IEnumerable<string> accountTemplateNames);

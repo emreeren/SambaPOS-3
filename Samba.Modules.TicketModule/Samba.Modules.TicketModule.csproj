@@ -77,7 +77,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CalculationTemplateMapViewModel.cs" />
+    <Compile Include="CalculationSelectorView.xaml.cs">
+      <DependentUpon>CalculationSelectorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CalculationSelectorViewModel.cs" />
+    <Compile Include="CalculationSelectorMapViewModel.cs" />
     <Compile Include="OrderTagGroupView.xaml.cs">
       <DependentUpon>OrderTagGroupView.xaml</DependentUpon>
     </Compile>
@@ -111,6 +115,10 @@
     <Compile Include="TicketTemplateViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="CalculationSelectorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="OrderTagGroupView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -937,6 +937,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Calculation Selector.
+        /// </summary>
+        public static string CalculationSelector {
+            get {
+                return ResourceManager.GetString("CalculationSelector", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Calculation Template.
         /// </summary>
         public static string CalculationTemplate {

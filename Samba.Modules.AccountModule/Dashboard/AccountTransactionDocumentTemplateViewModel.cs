@@ -20,7 +20,7 @@ namespace Samba.Modules.AccountModule.Dashboard
         public AccountTransactionDocumentTemplateViewModel()
         {
             AddTransactionTemplateCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.AccountTransactionTemplate), OnAddTransactionTemplate);
-            DeleteTransactionTemplateCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.AccountTransactionTemplate), OnDeleteTransactionTemplate);
+            DeleteTransactionTemplateCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.AccountTransactionTemplate), OnDeleteTransactionTemplate,CanDeleteTransactionTemplate);
         }
 
         public string ButtonHeader { get { return Model.ButtonHeader; } set { Model.ButtonHeader = value; } }
@@ -61,6 +61,11 @@ namespace Samba.Modules.AccountModule.Dashboard
         public ObservableCollection<AccountTransactionTemplate> TransactionTemplates
         {
             get { return _transactionTemplates ?? (_transactionTemplates = new ObservableCollection<AccountTransactionTemplate>(Model.TransactionTemplates)); }
+        }
+
+        private bool CanDeleteTransactionTemplate(string arg)
+        {
+            return SelectedTransactionTemplate != null;
         }
 
         private void OnDeleteTransactionTemplate(string obj)

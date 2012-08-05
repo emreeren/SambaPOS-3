@@ -3106,4 +3106,7 @@ Continue without adding details?</value>
   <data name="MergeTickets">
     <value xml:space="preserve">Merge Tickets</value>
   </data>
+  <data name="CalculationSelector">
+    <value xml:space="preserve">Calculation Selector</value>
+  </data>
 </root>

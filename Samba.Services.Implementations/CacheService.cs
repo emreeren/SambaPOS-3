@@ -245,19 +245,19 @@ namespace Samba.Services.Implementations
             return result.OrderBy(x => x.AutomationCommand.Order);
         }
 
-        private IEnumerable<CalculationTemplate> _calculationTemplates;
-        public IEnumerable<CalculationTemplate> CalculationTemplates
+        private IEnumerable<CalculationSelector> _calculationSelectors;
+        public IEnumerable<CalculationSelector> CalculationSelectors
         {
-            get { return _calculationTemplates ?? (_calculationTemplates = Dao.Query<CalculationTemplate>(x => x.AccountTransactionTemplate, x => x.CalculationTemplateMaps)); }
+            get { return _calculationSelectors ?? (_calculationSelectors = Dao.Query<CalculationSelector>(x => x.CalculationSelectorMaps, x => x.CalculationTemplates.Select(y => y.AccountTransactionTemplate))); }
         }
 
-        public IEnumerable<CalculationTemplate> GetCalculationTemplates()
+        public IEnumerable<CalculationSelector> GetCalculationSelectors()
         {
-            var maps = CalculationTemplates.SelectMany(x => x.CalculationTemplateMaps)
+            var maps = CalculationSelectors.SelectMany(x => x.CalculationSelectorMaps)
                 .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
-            return CalculationTemplates.Where(x => maps.Any(y => y.CalculationTemplateId == x.Id)).OrderBy(x => x.Order);
+            return CalculationSelectors.Where(x => maps.Any(y => y.CalculationSelectorId == x.Id)).OrderBy(x => x.Order);
         }
 
         public IEnumerable<AccountTemplate> GetAccountTemplates()
@@ -312,7 +312,7 @@ namespace Samba.Services.Implementations
             _screenMenus = null;
             _accountTransactionTemplates = null;
             _accountScreens = null;
-            _calculationTemplates = null;
+            _calculationSelectors = null;
             _automationCommands = null;
             _orderTagGroups = null;
             _resourceTemplates = null;

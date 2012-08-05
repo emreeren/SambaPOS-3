@@ -253,7 +253,8 @@ namespace Samba.Domain.Models.Tickets
                 }
                 else if (service.CalculationType == 3)
                 {
-                    if (service.DecreaseAmount && service.Amount > currentSum)
+                    if (service.Amount == currentSum) service.Amount = 0;
+                    else if (service.DecreaseAmount && service.Amount > currentSum)
                         service.Amount = 0;
                     else if (!service.DecreaseAmount && service.Amount < currentSum)
                         service.Amount = 0;
@@ -435,8 +436,7 @@ namespace Samba.Domain.Models.Tickets
         {
             var ticket = new Ticket { DepartmentId = department.Id };
 
-            foreach (var calculationTemplate in calculationTemplates.OrderBy(x => x.Order)
-                .Where(x => string.IsNullOrEmpty(x.ButtonHeader)))
+            foreach (var calculationTemplate in calculationTemplates.OrderBy(x => x.Order))
             {
                 ticket.AddCalculation(calculationTemplate, calculationTemplate.Amount);
             }

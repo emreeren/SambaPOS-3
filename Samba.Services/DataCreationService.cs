@@ -183,26 +183,33 @@ namespace Samba.Services
             var discountService = new CalculationTemplate
             {
                 AccountTransactionTemplate = discountTransactionTemplate,
-                ButtonHeader = Resources.DiscountPercentSign,
                 CalculationMethod = 0,
                 DecreaseAmount = true,
                 Name = Resources.Discount
             };
-            discountService.AddCalculationTemplateMap();
 
             var roundingService = new CalculationTemplate
             {
                 AccountTransactionTemplate = roundingTransactionTemplate,
-                ButtonHeader = Resources.Round,
                 CalculationMethod = 2,
                 DecreaseAmount = true,
                 IncludeTax = true,
                 Name = Resources.Round
             };
-            roundingService.AddCalculationTemplateMap();
+
+            var discountSelector = new CalculationSelector { Name = Resources.Discount, ButtonHeader = Resources.DiscountPercentSign };
+            discountSelector.CalculationTemplates.Add(discountService);
+            discountSelector.AddCalculationSelectorMap();
+
+            var roundingSelector = new CalculationSelector { Name = Resources.Round, ButtonHeader = Resources.Round };
+            roundingSelector.CalculationTemplates.Add(roundingService);
+            roundingSelector.AddCalculationSelectorMap();
+
 
             _workspace.Add(discountService);
             _workspace.Add(roundingService);
+            _workspace.Add(discountSelector);
+            _workspace.Add(roundingSelector);
 
             var screen = new ScreenMenu();
             _workspace.Add(screen);

@@ -119,7 +119,7 @@ namespace Samba.Services.Implementations.TicketModule
         private Ticket CreateTicket()
         {
             var account = _cacheService.GetAccountById(_applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.DefaultTargetAccountId);
-            return Ticket.Create(_applicationState.CurrentDepartment.Model, account, _cacheService.GetCalculationTemplates());
+            return Ticket.Create(_applicationState.CurrentDepartment.Model, account, _cacheService.GetCalculationSelectors().Where(x => string.IsNullOrEmpty(x.ButtonHeader)).SelectMany(y => y.CalculationTemplates));
         }
 
         public TicketCommitResult CloseTicket(Ticket ticket)

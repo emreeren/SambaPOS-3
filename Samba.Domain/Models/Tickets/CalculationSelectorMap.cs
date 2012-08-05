@@ -6,10 +6,10 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class CalculationTemplateMap : Value, IAbstractMapModel
+    public class CalculationSelectorMap : Value, IAbstractMapModel
     {
+        public int CalculationSelectorId { get; set; }
         public int TerminalId { get; set; }
-        public int CalculationTemplateId { get; set; }
         public int DepartmentId { get; set; }
         public int UserRoleId { get; set; }
     }

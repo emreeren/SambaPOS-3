@@ -45,7 +45,7 @@ namespace Samba.Modules.PaymentModule
 
             _executeAutomationCommand = new CaptionCommand<AutomationCommandData>("", OnExecuteAutomationCommand, CanExecuteAutomationCommand);
             _makePaymentCommand = new CaptionCommand<PaymentTemplate>("", OnMakePayment, CanMakePayment);
-            _serviceSelectedCommand = new CaptionCommand<CalculationTemplate>("", OnSelectCalculationTemplate, CanSelectCalculationTemplate);
+            _serviceSelectedCommand = new CaptionCommand<CalculationSelector>("", OnSelectCalculationSelector, CanSelectCalculationSelector);
 
             ClosePaymentScreenCommand = new CaptionCommand<string>(Resources.Close, OnClosePaymentScreen, CanClosePaymentScreen);
             TenderAllCommand = new CaptionCommand<string>(Resources.All, OnTenderAllCommand);
@@ -131,7 +131,7 @@ namespace Samba.Modules.PaymentModule
 
             if (SelectedTicket != null)
             {
-                result.AddRange(_cacheService.GetCalculationTemplates().Where(x => !string.IsNullOrEmpty(x.ButtonHeader))
+                result.AddRange(_cacheService.GetCalculationSelectors().Where(x => !string.IsNullOrEmpty(x.ButtonHeader))
                     .Select(x => new CommandButtonViewModel<object>
                     {
                         Caption = x.ButtonHeader,
@@ -163,20 +163,23 @@ namespace Samba.Modules.PaymentModule
             return true;
         }
 
-        private void OnSelectCalculationTemplate(CalculationTemplate obj)
+        private void OnSelectCalculationSelector(CalculationSelector calculationSelector)
         {
-            var amount = obj.Amount;
-            if (amount == 0) amount = GetTenderedValue();
-            SelectedTicket.AddCalculation(obj, amount);
+            foreach (var calculationTemplate in calculationSelector.CalculationTemplates)
+            {
+                var amount = calculationTemplate.Amount;
+                if (amount == 0) amount = GetTenderedValue();
+                SelectedTicket.AddCalculation(calculationTemplate, amount);
+            }
+
             PaymentAmount = "";
             PrepareMergedItems();
             RefreshValues();
         }
 
-        private bool CanSelectCalculationTemplate(CalculationTemplate arg)
+        private bool CanSelectCalculationSelector(CalculationSelector calculationSelector)
         {
-            if (arg != null && arg.MaxAmount > 0 && GetTenderedValue() > arg.MaxAmount) return false;
-            return true;
+            return calculationSelector == null || !calculationSelector.CalculationTemplates.Any(x => x.MaxAmount > 0 && GetTenderedValue() > x.MaxAmount);
         }
 
         private bool CanMakePayment(PaymentTemplate arg)
