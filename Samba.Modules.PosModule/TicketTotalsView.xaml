@@ -10,7 +10,7 @@
 
         <StackPanel.Resources>
             <Style TargetType="TextBlock">
-                <Setter Property="FontSize" Value="16" />
+                <Setter Property="FontSize" Value="18" />
             </Style>
         </StackPanel.Resources>
 
@@ -28,9 +28,9 @@
                             <ColumnDefinition Width="auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Foreground="DarkGreen" Margin="10,0,0,0" FontSize="14"
+                        <TextBlock Grid.Column="0" Foreground="DarkGreen" Margin="10,0,0,0" FontSize="16"
                                      TextAlignment="Left" Text="{Binding Name}" />
-                        <TextBlock Grid.Column="1" Foreground="DarkGreen" Margin="5,0,0,0" FontSize="14" TextAlignment="Right"
+                        <TextBlock Grid.Column="1" Foreground="DarkGreen" Margin="5,0,0,0" FontSize="16" TextAlignment="Right"
                                      Text="{Binding Amount}" />
                     </Grid>
                 </DataTemplate>
@@ -59,9 +59,9 @@
                             <ColumnDefinition Width="auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Foreground="DarkGreen" Margin="10,0,0,0" FontSize="14"
+                        <TextBlock Grid.Column="0" Foreground="DarkGreen" Margin="10,0,0,0" FontSize="16"
                                      TextAlignment="Left" Text="{Binding Name}" />
-                        <TextBlock Grid.Column="1" Foreground="DarkGreen" Margin="5,0,0,0" FontSize="14" TextAlignment="Right"
+                        <TextBlock Grid.Column="1" Foreground="DarkGreen" Margin="5,0,0,0" FontSize="16" TextAlignment="Right"
                                      Text="{Binding Amount}" />
                     </Grid>
                 </DataTemplate>

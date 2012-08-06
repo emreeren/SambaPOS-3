@@ -75,6 +75,7 @@ namespace Samba.Persistance.Data
                     if (ce.Cacheable != entity)
                         ce.Cacheable.InjectFrom<EntityInjection>(entity);
                     entity.LastUpdateTime = DateTime.Now;
+                    AddEntities(ce.Cacheable, ce.Workspace, entity.Id);
                     ce.Workspace.CommitChanges();
                     RemoveFromEntityCache<T>(ce);
                     return;
@@ -84,7 +85,7 @@ namespace Samba.Persistance.Data
             if (entity.Id == 0)
             {
                 var w = WorkspaceFactory.Create();
-                AddEntities(entity, w);
+                AddEntities(entity, w, entity.Id);
                 w.Add(entity);
                 entity.LastUpdateTime = DateTime.Now;
                 w.CommitChanges();
@@ -97,6 +98,7 @@ namespace Samba.Persistance.Data
                     var currentItem = w.Single<T>(x => x.Id == entity.Id);
                     currentItem.InjectFrom<EntityInjection>(entity);
                     entity.LastUpdateTime = DateTime.Now;
+                    AddEntities(currentItem, w, entity.Id);
                     w.CommitChanges();
                 }
             }
@@ -106,9 +108,9 @@ namespace Samba.Persistance.Data
         {
             using (var w = WorkspaceFactory.Create())
             {
+                AddEntities(entity, w, entity.Id);
                 if (entity.Id == 0)
                 {
-                    AddEntities(entity, w);
                     w.Add(entity);
                 }
                 else
@@ -120,15 +122,16 @@ namespace Samba.Persistance.Data
             }
         }
 
-        public static void AddEntities(IEntity item, IWorkspace workspace)
+        public static void AddEntities(IEntity item, IWorkspace workspace, int parentId)
         {
-            if (item.Id > 0) workspace.MarkUnchanged(item);
+            if (item.Id > 0 && parentId == 0)
+                workspace.MarkUnchanged(item);
 
             var items = item.GetType().GetProperties()
                  .Where(y => y.CanWrite && y.PropertyType.GetInterfaces().Contains(typeof(IEntity)))
                  .Select(x => x.GetValue(item, null)).Cast<IEntity>().ToList();
 
-            items.ForEach(x => AddEntities(x, workspace));
+            items.ForEach(x => AddEntities(x, workspace, item.Id));
 
             var collections =
                 item.GetType().GetProperties().Where(
@@ -141,7 +144,7 @@ namespace Samba.Persistance.Data
 
             foreach (var i in cis)
             {
-                AddEntities(i, workspace);
+                AddEntities(i, workspace, item.Id);
             }
         }
 

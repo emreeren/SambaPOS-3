@@ -108,7 +108,7 @@ namespace Samba.Services.Implementations.TicketModule
             var ticket = ticketId == 0
                              ? CreateTicket()
                              : Dao.Load<Ticket>(ticketId, x => x.TicketResources,
-                             x => x.Orders.Select(y => y.OrderTagValues), x => x.Calculations,
+                             x => x.Orders.Select(y => y.OrderTagValues),
                              x => x.Payments);
 
             _automationService.NotifyEvent(RuleEventNames.TicketOpened, new { Ticket = ticket, OrderCount = ticket.Orders.Count });
