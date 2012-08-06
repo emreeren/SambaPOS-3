@@ -36,9 +36,6 @@
                 </Label>
                 <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="150" SelectedValue="{Binding StateFilterId}"
                      ItemsSource="{Binding ResourceStates}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
-                <CheckBox IsChecked="{Binding DisplayOpenTickets}" Margin="0,5,0,0">
-                    <LocText ResourceIdentifierKey="DisplayOpenTickets"/>
-                </CheckBox>
                 <UniformGrid Columns="2" Margin="0,5,0,0">
                     <Label Margin="0,5,0,0">
                         <LocText ResourceIdentifierKey="ColumnCount" Suffix=":"/>

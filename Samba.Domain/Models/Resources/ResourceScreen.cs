@@ -15,7 +15,6 @@ namespace Samba.Domain.Models.Resources
         public int ColumnCount { get; set; }
         public int ButtonHeight { get; set; }
         public int StateFilterId { get; set; }
-        public bool DisplayOpenTickets { get; set; }
 
         private readonly IList<ResourceScreenItem> _screenItems;
         public virtual IList<ResourceScreenItem> ScreenItems

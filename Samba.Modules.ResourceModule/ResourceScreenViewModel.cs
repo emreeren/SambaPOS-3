@@ -33,7 +33,6 @@ namespace Samba.Modules.ResourceModule
         public int ButtonHeight { get { return Model.ButtonHeight; } set { Model.ButtonHeight = value; } }
         public int ResourceTemplateId { get { return Model.ResourceTemplateId; } set { Model.ResourceTemplateId = value; } }
         public int? StateFilterId { get { return Model.StateFilterId; } set { Model.StateFilterId = value.GetValueOrDefault(0); } }
-        public bool DisplayOpenTickets { get { return Model.DisplayOpenTickets; } set { Model.DisplayOpenTickets = value; } }
 
         public ResourceScreenViewModel()
         {

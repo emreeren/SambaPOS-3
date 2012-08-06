@@ -31,19 +31,17 @@ namespace Samba.Modules.ResourceModule
         private readonly IResourceService _resourceService;
         private readonly IUserService _userService;
         private readonly ICacheService _cacheService;
-        private readonly ITicketService _ticketService;
         private EntityOperationRequest<Resource> _currentOperationRequest;
 
         [ImportingConstructor]
         public ResourceSelectorViewModel(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
-            IResourceService resourceService, IUserService userService, ICacheService cacheService, ITicketService ticketService)
+            IResourceService resourceService, IUserService userService, ICacheService cacheService)
         {
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
             _resourceService = resourceService;
             _userService = userService;
             _cacheService = cacheService;
-            _ticketService = ticketService;
 
             ResourceSelectionCommand = new DelegateCommand<ResourceScreenItemViewModel>(OnSelectResourceExecuted);
             IncPageNumberCommand = new CaptionCommand<string>(Resources.NextPage + " >>", OnIncPageNumber, CanIncPageNumber);
@@ -105,9 +103,7 @@ namespace Samba.Modules.ResourceModule
             var resourceData = GetResourceScreenItems(resourceScreen, stateFilter);
             if (ResourceScreenItems != null && (ResourceScreenItems.Count() == 0 || ResourceScreenItems.Count != resourceData.Count() || ResourceScreenItems.First().Name != resourceData.First().Name)) ResourceScreenItems = null;
 
-            ClearCustomItems();
             UpdateResourceButtons(resourceData);
-            AddOpenTickets(resourceScreen);
 
             RaisePropertyChanged(() => ResourceScreenItems);
             RaisePropertyChanged(() => SelectedResourceScreen);
@@ -144,36 +140,6 @@ namespace Samba.Modules.ResourceModule
                     if (acs == null || acs.Id != resourceData.ElementAt(i).ResourceStateId)
                         ResourceScreenItems[i].ResourceState = _cacheService.GetResourceStateById(resourceData.ElementAt(i).ResourceStateId);
                     ResourceScreenItems[i].Model = resourceData.ElementAt(i);
-                }
-            }
-        }
-
-        private void ClearCustomItems()
-        {
-            if (ResourceScreenItems != null && SelectedResourceScreen.DisplayMode == 0)
-                ResourceScreenItems.Where(x => x.Model.ResourceId == 0).ToList().ForEach(
-                    x => ResourceScreenItems.Remove(x));
-        }
-
-        private void AddOpenTickets(ResourceScreen resourceScreen)
-        {
-            if (resourceScreen.DisplayMode == 0 && resourceScreen.DisplayOpenTickets && _currentOperationRequest.SelectedEntity == null)
-            {
-                var openTickets =
-                    _ticketService.GetOpenTickets(
-                        x =>
-                        x.RemainingAmount > 0 &&
-                        x.DepartmentId == _applicationState.CurrentDepartment.Id &&
-                        !x.TicketResources.Any(y => y.ResourceTemplateId == resourceScreen.ResourceTemplateId)).ToList();
-                if (openTickets.Count > 0)
-                {
-                    ResourceScreenItems.AddRange(openTickets.Select(x => new ResourceScreenItemViewModel(
-                                                                             new ResourceScreenItem(x.Id) { Name = x.TicketNumber }, resourceScreen,
-                                                                             ResourceSelectionCommand,
-                                                                             _currentOperationRequest.SelectedEntity != null,
-                                                                             _userService.IsUserPermittedFor(
-                                                                                 PermissionNames.MergeTickets),
-                                                                             ResourceState.Empty)));
                 }
             }
         }
