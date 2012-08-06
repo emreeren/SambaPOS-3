@@ -155,29 +155,29 @@ namespace Samba.Services.Implementations.AutomationModule
                 {
                     if (condition.Name.StartsWith("SN$"))
                     {
-                        var settingName = condition.Name.Replace("SN$", "");
-                        while (Regex.IsMatch(settingName, "\\[[^\\]]+\\]"))
+                        var settingData = condition.Name.Replace("SN$", "");
+                        while (Regex.IsMatch(settingData, "\\[[^\\]]+\\]"))
                         {
-                            var paramvalue = Regex.Match(settingName, "\\[[^\\]]+\\]").Groups[0].Value;
+                            var paramvalue = Regex.Match(settingData, "\\[[^\\]]+\\]").Groups[0].Value;
                             var insideValue = paramvalue.Trim(new[] { '[', ']' });
                             if (parameterNames.Contains(insideValue))
                             {
                                 var v = dataObject.GetType().GetProperty(insideValue).GetValue(dataObject, null).ToString();
-                                settingName = settingName.Replace(paramvalue, v);
+                                settingData = settingData.Replace(paramvalue, v);
                             }
                             else
                             {
                                 if (paramvalue == "[Day]")
-                                    settingName = settingName.Replace(paramvalue, DateTime.Now.Day.ToString());
+                                    settingData = settingData.Replace(paramvalue, DateTime.Now.Day.ToString());
                                 else if (paramvalue == "[Month]")
-                                    settingName = settingName.Replace(paramvalue, DateTime.Now.Month.ToString());
+                                    settingData = settingData.Replace(paramvalue, DateTime.Now.Month.ToString());
                                 else if (paramvalue == "[Year]")
-                                    settingName = settingName.Replace(paramvalue, DateTime.Now.Year.ToString());
-                                else settingName = settingName.Replace(paramvalue, "");
+                                    settingData = settingData.Replace(paramvalue, DateTime.Now.Year.ToString());
+                                else settingData = settingData.Replace(paramvalue, "");
                             }
                         }
 
-                        var customSettingValue = _settingService.ReadSetting(settingName).StringValue ?? "";
+                        var customSettingValue = _settingService.ReadSetting(settingData).StringValue ?? "";
                         if (!condition.ValueEquals(customSettingValue)) return false;
                     }
                 }
