@@ -17,9 +17,6 @@ namespace Samba.Domain.Models.Settings
     {
         public int WhatToPrint { get; set; }
         public bool LocksTicket { get; set; }
-        public bool UseFromPaymentScreen { get; set; }
-        public bool UseFromTerminal { get; set; }
-        public bool UseFromPos { get; set; }
         public bool UseForPaidTickets { get; set; }
         public bool ExcludeTax { get; set; }
 
@@ -33,8 +30,6 @@ namespace Samba.Domain.Models.Settings
         public PrintJob()
         {
             _printerMaps = new List<PrinterMap>();
-            UseFromPos = true;
-            UseFromPaymentScreen = true;
         }
     }
 }

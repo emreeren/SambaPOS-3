@@ -10,16 +10,8 @@ using Samba.Services;
 
 namespace Samba.Modules.AutomationModule
 {
-    public class AutomationCommandMapViewModel : AbstractMapViewModel
+    public class AutomationCommandMapViewModel : AbstractMapViewModel<AutomationCommandMap>
     {
-        public AutomationCommandMap Model { get; set; }
-
-        public AutomationCommandMapViewModel(AutomationCommandMap model, IUserService userService, IDepartmentService departmentService, ISettingService settingService)
-            : base(model, userService, departmentService, settingService)
-        {
-            Model = model;
-        }
-
         private readonly IList<string> _visualBehaviours = new[] { Resources.Default, "Disable when ticket locked", "Display when ticket locked", "Disable when ticket active", "Display when ticket active" };
         public IList<string> VisualBehaviours { get { return _visualBehaviours; } }
         public string VisualBehaviour { get { return VisualBehaviours[Model.VisualBehaviour]; } set { Model.VisualBehaviour = VisualBehaviours.IndexOf(value); } }

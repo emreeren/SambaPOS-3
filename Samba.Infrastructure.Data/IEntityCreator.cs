@@ -2,7 +2,7 @@
 
 namespace Samba.Infrastructure.Data
 {
-    public interface IEntityCreator<TModel>
+    public interface IEntityCreator<out TModel>
     {
         IEnumerable<TModel> CreateItems(IEnumerable<string> data);
     }

@@ -53,9 +53,6 @@ namespace Samba.Modules.PrinterModule
 
         public string WhatToPrint { get { return _whatToPrintTypes[Model.WhatToPrint]; } set { Model.WhatToPrint = _whatToPrintTypes.IndexOf(value); } }
         public bool LocksTicket { get { return Model.LocksTicket; } set { Model.LocksTicket = value; } }
-        public bool UseFromPos { get { return Model.UseFromPos; } set { Model.UseFromPos = value; } }
-        public bool UseFromPaymentScreen { get { return Model.UseFromPaymentScreen; } set { Model.UseFromPaymentScreen = value; } }
-        public bool UseFromTerminal { get { return Model.UseFromTerminal; } set { Model.UseFromTerminal = value; } }
         public bool UseForPaidTickets { get { return Model.UseForPaidTickets; } set { Model.UseForPaidTickets = value; } }
         public bool ExcludeTax { get { return Model.ExcludeTax; } set { Model.ExcludeTax = value; } }
         
@@ -70,7 +67,7 @@ namespace Samba.Modules.PrinterModule
         {
             return new ObservableCollection<PrinterMapViewModel>(
                     Model.PrinterMaps.Select(
-                    printerMap => new PrinterMapViewModel(printerMap, _departmentService, _menuService, _printerService, _cacheService)));
+                    printerMap => new PrinterMapViewModel(printerMap, _menuService, _printerService, _cacheService)));
         }
 
         public override Type GetViewType()
@@ -126,8 +123,8 @@ namespace Samba.Modules.PrinterModule
 
         private void OnAddPrinterMap(object obj)
         {
-            var map = new PrinterMap { DepartmentId = 0, MenuItemId = 0, MenuItemGroupCode = "*" };
-            var mapModel = new PrinterMapViewModel(map, _departmentService, _menuService, _printerService, _cacheService);
+            var map = new PrinterMap { MenuItemId = 0, MenuItemGroupCode = "*" };
+            var mapModel = new PrinterMapViewModel(map, _menuService, _printerService, _cacheService);
             Model.PrinterMaps.Add(map);
             PrinterMaps.Add(mapModel);
             _newPrinterMaps.Add(map);

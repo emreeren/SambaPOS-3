@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using Samba.Infrastructure.Data;
 
-namespace Samba.Domain.Models.Tickets
+namespace Samba.Domain.Models.Actions
 {
-    public class TicketTagMap : AbstractMap
+    public class AppRuleMap : AbstractMap
     {
-        public int TicketTagGroupId { get; set; }
+        public int AppRuleId { get; set; }
     }
 }

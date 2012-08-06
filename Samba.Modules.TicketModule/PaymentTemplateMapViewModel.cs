@@ -5,21 +5,14 @@ using Samba.Services;
 
 namespace Samba.Modules.TicketModule
 {
-    public class PaymentTemplateMapViewModel : AbstractMapViewModel
+    public class PaymentTemplateMapViewModel : AbstractMapViewModel<PaymentTemplateMap>
     {
-        public PaymentTemplateMap Model { get; set; }
-
-        public PaymentTemplateMapViewModel(PaymentTemplateMap model, IUserService userService, IDepartmentService departmentService,ISettingService settingService)
-            : base(model, userService, departmentService,settingService)
-        {
-            Model = model;
-        }
-
         public bool DisplayAtPaymentScreen
         {
             get { return Model.DisplayAtPaymentScreen; }
             set { Model.DisplayAtPaymentScreen = value; }
         }
+
         public bool DisplayUnderTicket
         {
             get { return Model.DisplayUnderTicket; }

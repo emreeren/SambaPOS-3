@@ -59,12 +59,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FluentValidation, Version=3.1.0.0, Culture=neutral, PublicKeyToken=a82054b837897c66, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.Practices.Prism">
-      <HintPath>..\Lib\Microsoft.Practices.Prism.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Practices.Prism.MefExtensions">
-      <HintPath>..\Lib\Microsoft.Practices.Prism.MefExtensions.dll</HintPath>
-    </Reference>
+    <Reference Include="Microsoft.Practices.Prism, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Practices.Prism.MefExtensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="PresentationFramework.Aero" />
@@ -81,7 +78,6 @@
       <DependentUpon>CalculationSelectorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="CalculationSelectorViewModel.cs" />
-    <Compile Include="CalculationSelectorMapViewModel.cs" />
     <Compile Include="OrderTagGroupView.xaml.cs">
       <DependentUpon>OrderTagGroupView.xaml</DependentUpon>
     </Compile>
@@ -108,7 +104,6 @@
       <DependentUpon>TicketTagGroupView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TicketTagGroupViewModel.cs" />
-    <Compile Include="TicketTagMapViewModel.cs" />
     <Compile Include="TicketTemplateView.xaml.cs">
       <DependentUpon>TicketTemplateView.xaml</DependentUpon>
     </Compile>

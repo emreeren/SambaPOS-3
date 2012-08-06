@@ -120,20 +120,20 @@
                             <LocText ResourceIdentifierKey="OrderTagMapping" Suffix=":"/>
                         </Label>
                         <TextBlock Margin="2,5">
-                            <Hyperlink Command="{Binding AddOrderTagMapCommand}">
-                                <TextBlock Text="{Binding Path=AddOrderTagMapCommand.Caption}" />
+                            <Hyperlink Command="{Binding MapController.AddMapCommand}">
+                                <TextBlock Text="{Binding Path=MapController.AddMapCommand.Caption}" />
                             </Hyperlink>
                         </TextBlock>
                         <TextBlock Margin="2,5">
-                            <Hyperlink Command="{Binding DeleteOrderTagMapCommand}">
-                                <TextBlock Text="{Binding Path=DeleteOrderTagMapCommand.Caption}" />
+                            <Hyperlink Command="{Binding MapController.DeleteMapCommand}">
+                                <TextBlock Text="{Binding Path=MapController.DeleteMapCommand.Caption}" />
                             </Hyperlink>
                         </TextBlock>
                     </DockPanel>
 
-                    <DataGrid Grid.Row="1" ItemsSource="{Binding OrderTagMaps}" SelectedItem="{Binding SelectedOrderTagMap}" 
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding MapController.Maps}" SelectedItem="{Binding MapController.SelectedMap}" 
                               HorizontalAlignment="Left" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3" MinWidth="300"
-                              AutoGenerateColumns="False" CanUserSortColumns="False"
+                              AutoGenerateColumns="False" CanUserSortColumns="False" CanUserDeleteRows="False" CanUserAddRows="False"
                               Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="{LocText UserRole}" Width="*">

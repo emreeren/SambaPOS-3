@@ -341,9 +341,6 @@ namespace Samba.Services
             {
                 Name = Resources.PrintBill,
                 LocksTicket = true,
-                UseFromPaymentScreen = true,
-                UseFromTerminal = true,
-                UseFromPos = true,
                 WhatToPrint = (int)WhatToPrintTypes.Everything,
             };
             pj1.PrinterMaps.Add(pm1);
@@ -386,15 +383,15 @@ namespace Samba.Services
             _workspace.CommitChanges();
 
             var rule = new AppRule
-                           {
-                               Name = Resources.RemoveGiftTagWhenVoided,
-                               EventName = "OrderTagged",
-                               EventConstraints = "OrderTagName;=;" + Resources.Void
-                           };
+            {
+                Name = Resources.RemoveGiftTagWhenVoided,
+                EventName = "OrderTagged",
+                EventConstraints = "OrderTagName;=;" + Resources.Void
+            };
 
             var actionContainer = new ActionContainer(action) { ParameterValues = "" };
             rule.Actions.Add(actionContainer);
-
+            rule.AddRuleMap();
             _workspace.Add(rule);
 
             var newOrderState = new ResourceState { Name = "New Orders", Color = "Orange" };
@@ -427,34 +424,41 @@ namespace Samba.Services
             var newOrderRule = new AppRule { Name = "Update New Order Resource Color", EventName = "TicketClosing", EventConstraints = "NewOrderCount;>;0" };
             newOrderRule.Actions.Add(new ActionContainer(printKitchenOrdersAction));
             newOrderRule.Actions.Add(new ActionContainer(newOrderAction));
+            newOrderRule.AddRuleMap();
             _workspace.Add(newOrderRule);
 
             var availableRule = new AppRule { Name = "Update Available Resource Color", EventName = "ResourceUpdated", EventConstraints = "OpenTicketCount;=;0" };
             var ac2 = new ActionContainer(availableAction);
             availableRule.Actions.Add(ac2);
+            availableRule.AddRuleMap();
             _workspace.Add(availableRule);
 
             var movingRule = new AppRule { Name = "Update Moved Resource Color", EventName = "TicketResourceChanged", EventConstraints = "OrderCount;>;0" };
             var ac3 = new ActionContainer(newOrderAction);
             movingRule.Actions.Add(ac3);
+            movingRule.AddRuleMap();
             _workspace.Add(movingRule);
 
             var printBillRule = new AppRule { Name = "Print Bill Rule", EventName = RuleEventNames.AutomationCommandExecuted, EventConstraints = "AutomationCommandName;=;" + Resources.PrintBill };
             printBillRule.Actions.Add(new ActionContainer(printBillAction));
             printBillRule.Actions.Add(new ActionContainer(billRequestedAction));
             printBillRule.Actions.Add(new ActionContainer(closeTicketAction));
+            printBillRule.AddRuleMap();
             _workspace.Add(printBillRule);
 
             var unlockTicketRule = new AppRule { Name = "Unlock Ticket Rule", EventName = RuleEventNames.AutomationCommandExecuted, EventConstraints = "AutomationCommandName;=;Unlock Ticket" };
             unlockTicketRule.Actions.Add(new ActionContainer(unlockTicketAction));
+            unlockTicketRule.AddRuleMap();
             _workspace.Add(unlockTicketRule);
 
             var createTicketRule = new AppRule { Name = "Create Ticket Rule", EventName = RuleEventNames.AutomationCommandExecuted, EventConstraints = "AutomationCommandName;=;Add Ticket" };
             createTicketRule.Actions.Add(new ActionContainer(createTicketAction));
+            createTicketRule.AddRuleMap();
             _workspace.Add(createTicketRule);
 
             var updateMergedTicket = new AppRule { Name = "Update Merged Tickets State", EventName = RuleEventNames.TicketsMerged };
             updateMergedTicket.Actions.Add(new ActionContainer(newOrderAction));
+            updateMergedTicket.AddRuleMap();
             _workspace.Add(updateMergedTicket);
 
             ImportMenus(screen);

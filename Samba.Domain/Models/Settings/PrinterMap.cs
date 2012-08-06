@@ -7,7 +7,6 @@ namespace Samba.Domain.Models.Settings
     public class PrinterMap : Value
     {
         public int PrintJobId { get; set; }
-        public int DepartmentId { get; set; }
         public string MenuItemGroupCode { get; set; }
         public int MenuItemId { get; set; }
         public int PrinterId { get; set; }

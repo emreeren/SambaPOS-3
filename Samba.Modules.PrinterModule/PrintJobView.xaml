@@ -22,33 +22,14 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
-            <Label>
-                <LocText ResourceIdentifierKey="PrintJobName" Suffix=":" />
-            </Label>
+            <Label Content="{LocText PrintJobName}"/>
             <TextBox HorizontalAlignment="Left" Width="250" Text="{Binding Name}" />
-            <Label>
-                <LocText ResourceIdentifierKey="PrintContent" />
-            </Label>
+            <Label Content="{LocText PrintContent}"/>
             <ComboBox HorizontalAlignment="Left" MinWidth="230" SelectedItem="{Binding WhatToPrint}"
                  ItemsSource="{Binding WhatToPrintTypes}" />
-            <CheckBox IsChecked="{Binding LocksTicket}" Margin="0,5,0,2">
-                <LocText ResourceIdentifierKey="LockTicket" />
-            </CheckBox>
-            <CheckBox IsChecked="{Binding UseFromPos}" Margin="0,2">
-                <LocText ResourceIdentifierKey="UseAtPosScreen" />
-            </CheckBox>
-            <CheckBox IsChecked="{Binding UseFromPaymentScreen}" Margin="0,2">
-                <LocText ResourceIdentifierKey="UseAtPaymentScreen" />
-            </CheckBox>
-            <CheckBox IsChecked="{Binding UseFromTerminal}" Margin="0,2">
-                <LocText ResourceIdentifierKey="UseAtTerminal" />
-            </CheckBox>
-            <CheckBox IsChecked="{Binding ExcludeTax}" Margin="0,2">
-                <LocText ResourceIdentifierKey="AlwaysExcludeTax"/>
-            </CheckBox>
-            <CheckBox IsChecked="{Binding UseForPaidTickets}" Margin="0,2,0,5">
-                <LocText ResourceIdentifierKey="UseAtOldTickets" />
-            </CheckBox>
+            <CheckBox IsChecked="{Binding LocksTicket}" Margin="0,5,0,2" Content="{LocText LockTicket}"/>
+            <CheckBox IsChecked="{Binding ExcludeTax}" Margin="0,2" Content="{LocText AlwaysExcludeTax}"/>
+            <CheckBox IsChecked="{Binding UseForPaidTickets}" Margin="0,2,0,5" Content="{LocText UseAtOldTickets}"/>
             <StackPanel Orientation="Horizontal">
                 <Label>
                     <LocText ResourceIdentifierKey="PrintMapping" Suffix=":" />
@@ -70,17 +51,6 @@
              HorizontalContentAlignment="Stretch" ListViewLM:ListViewLayoutManager.Enabled="True">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="{LocText Department}" ListViewLM:ProportionalColumn.Width="1">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <TextBlock Style="{StaticResource GridBlockStyle}" HorizontalAlignment="Stretch" Text="{Binding DepartmentLabel}" />
-                                    <ComboBox Style="{StaticResource GridEditStyle}" HorizontalAlignment="Stretch" DisplayMemberPath="Name"
-                                         SelectedValuePath="Id" SelectedValue="{Binding DepartmentId}" ItemsSource="{Binding Departments}" />
-                                </Grid>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
                     <GridViewColumn Header="{LocText MenuItemGroup}" ListViewLM:ProportionalColumn.Width="1">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>

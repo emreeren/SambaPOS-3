@@ -6,12 +6,9 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class PaymentTemplateMap : Value, IAbstractMapModel
+    public class PaymentTemplateMap : AbstractMap
     {
         public int PaymentTemplateId { get; set; }
-        public int UserRoleId { get; set; }
-        public int TerminalId { get; set; }
-        public int DepartmentId { get; set; }
         public bool DisplayAtPaymentScreen { get; set; }
         public bool DisplayUnderTicket { get; set; }
     }

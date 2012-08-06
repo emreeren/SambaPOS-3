@@ -9,6 +9,7 @@ using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Common.Services;
+using Samba.Presentation.ViewModels;
 using Samba.Services;
 
 namespace Samba.Modules.AutomationModule
@@ -17,6 +18,7 @@ namespace Samba.Modules.AutomationModule
     public class RuleViewModel : EntityViewModelBase<AppRule>
     {
         private readonly IAutomationService _automationService;
+        public MapController<AppRuleMap, AbstractMapViewModel<AppRuleMap>> MapController { get; set; }
 
         [ImportingConstructor]
         public RuleViewModel(IAutomationService automationService)
@@ -116,12 +118,14 @@ namespace Samba.Modules.AutomationModule
 
         protected override void Initialize()
         {
+            MapController = new MapController<AppRuleMap, AbstractMapViewModel<AppRuleMap>>(Model.AppRuleMaps, Workspace);
+
             _actions = new ObservableCollection<ActionContainerViewModel>(Model.Actions.Select(x => new ActionContainerViewModel(x, this, _automationService)));
 
             if (!string.IsNullOrEmpty(Model.EventConstraints))
             {
                 Constraints.AddRange(_automationService.CreateRuleConstraints(Model.EventConstraints));
-                
+
                 var settingData = Model.EventConstraints.Split('#').Where(x => x.StartsWith("SN$")).FirstOrDefault();
 
                 if (!string.IsNullOrEmpty(settingData))

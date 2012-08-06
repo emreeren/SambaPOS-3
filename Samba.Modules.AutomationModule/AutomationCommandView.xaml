@@ -43,18 +43,18 @@
                             <LocText ResourceIdentifierKey="Mappings" Suffix=":"/>
                         </Label>
                         <TextBlock Margin="2,5">
-                            <Hyperlink Command="{Binding AddAutomationCommandMapCommand}">
-                                <TextBlock Text="{Binding Path=AddAutomationCommandMapCommand.Caption}" />
+                            <Hyperlink Command="{Binding MapController.AddMapCommand}">
+                                <TextBlock Text="{Binding Path=MapController.AddMapCommand.Caption}" />
                             </Hyperlink>
                         </TextBlock>
                         <TextBlock Margin="2,5">
-                            <Hyperlink Command="{Binding DeleteAutomationCommandMapCommand}">
-                                <TextBlock Text="{Binding Path=DeleteAutomationCommandMapCommand.Caption}" />
+                            <Hyperlink Command="{Binding MapController.DeleteMapCommand}">
+                                <TextBlock Text="{Binding Path=MapController.DeleteMapCommand.Caption}" />
                             </Hyperlink>
                         </TextBlock>
                     </DockPanel>
 
-                    <DataGrid Grid.Row="1" ItemsSource="{Binding AutomationCommandMaps}" SelectedItem="{Binding SelectedAutomationCommandMap}" 
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding MapController.Maps}" SelectedItem="{Binding MapController.SelectedMap}" 
                               HorizontalAlignment="Left" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3" MinWidth="300"
                               AutoGenerateColumns="False" CanUserSortColumns="False"
                               Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">

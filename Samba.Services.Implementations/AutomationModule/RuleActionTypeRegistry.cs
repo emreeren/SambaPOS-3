@@ -48,11 +48,6 @@ namespace Samba.Services.Implementations.AutomationModule
                         x => CreateRuleConstraint(x.Name, OperatorConstants.Equal, GetOperations(x.PropertyType)));
                 result.AddRange(items);
             }
-
-            if (!result.Any(x => x.Name == "UserName")) result.Insert(0, CreateRuleConstraint("UserName", OperatorConstants.Equal));
-            if (!result.Any(x => x.Name == "DepartmentName")) result.Insert(0, CreateRuleConstraint("DepartmentName", OperatorConstants.Equal));
-            if (!result.Any(x => x.Name == "TerminalName")) result.Insert(0, CreateRuleConstraint("TerminalName", OperatorConstants.Equal));
-
             return result;
         }
 

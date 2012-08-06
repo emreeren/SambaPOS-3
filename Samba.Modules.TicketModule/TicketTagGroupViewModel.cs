@@ -8,35 +8,23 @@ using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.ViewModels;
-using Samba.Services;
 
 namespace Samba.Modules.TicketModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class TicketTagGroupViewModel : EntityViewModelBase<TicketTagGroup>
     {
-        private readonly IUserService _userService;
-        private readonly IDepartmentService _departmentService;
-        private readonly ISettingService _settingService;
         private readonly IList<string> _tagTypes = new[] { Resources.Alphanumeric, Resources.Numeric, Resources.Price };
         public IList<string> DataTypes { get { return _tagTypes; } }
 
         private ObservableCollection<TicketTagViewModel> _ticketTags;
         public ObservableCollection<TicketTagViewModel> TicketTags { get { return _ticketTags ?? (_ticketTags = GetTicketTags(Model)); } }
 
-        private ObservableCollection<TicketTagMapViewModel> _ticketTagMaps;
-        public ObservableCollection<TicketTagMapViewModel> TicketTagMaps
-        {
-            get { return _ticketTagMaps ?? (_ticketTagMaps = new ObservableCollection<TicketTagMapViewModel>(Model.TicketTagMaps.Select(x => new TicketTagMapViewModel(x, _userService, _departmentService, _settingService)))); }
-        }
+        public MapController<TicketTagMap, AbstractMapViewModel<TicketTagMap>> MapController { get; set; }
 
         public TicketTagViewModel SelectedTicketTag { get; set; }
         public ICaptionCommand AddTicketTagCommand { get; set; }
         public ICaptionCommand DeleteTicketTagCommand { get; set; }
-
-        public TicketTagMapViewModel SelectedTicketTagMap { get; set; }
-        public CaptionCommand<string> DeleteTicketTagMapCommand { get; set; }
-        public CaptionCommand<string> AddTicketTagMapCommand { get; set; }
 
         public string DataType { get { return DataTypes[Model.DataType]; } set { Model.DataType = DataTypes.IndexOf(value); } }
 
@@ -47,34 +35,10 @@ namespace Samba.Modules.TicketModule
         public string ButtonColorWhenNoTagSelected { get { return Model.ButtonColorWhenNoTagSelected; } set { Model.ButtonColorWhenNoTagSelected = value; } }
 
         [ImportingConstructor]
-        public TicketTagGroupViewModel(IUserService userService, IDepartmentService departmentService, ISettingService settingService)
+        public TicketTagGroupViewModel()
         {
-            _userService = userService;
-            _departmentService = departmentService;
-            _settingService = settingService;
-
             AddTicketTagCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.Tag), OnAddTicketTagExecuted);
             DeleteTicketTagCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.Tag), OnDeleteTicketTagExecuted, CanDeleteTicketTag);
-            AddTicketTagMapCommand = new CaptionCommand<string>(Resources.Add, OnAddTicketTagMap);
-            DeleteTicketTagMapCommand = new CaptionCommand<string>(Resources.Delete, OnDeleteTicketTagMap, CanDeleteTicketTagMap);
-        }
-
-        private void OnDeleteTicketTagMap(string obj)
-        {
-            if (SelectedTicketTagMap.Id > 0)
-                Workspace.Delete(SelectedTicketTagMap.Model);
-            Model.TicketTagMaps.Remove(SelectedTicketTagMap.Model);
-            TicketTagMaps.Remove(SelectedTicketTagMap);
-        }
-
-        private bool CanDeleteTicketTagMap(string arg)
-        {
-            return SelectedTicketTagMap != null;
-        }
-
-        private void OnAddTicketTagMap(string obj)
-        {
-            TicketTagMaps.Add(new TicketTagMapViewModel(Model.AddTicketTagMap(), _userService, _departmentService, _settingService));
         }
 
         private static ObservableCollection<TicketTagViewModel> GetTicketTags(TicketTagGroup ticketTagGroup)
@@ -114,13 +78,6 @@ namespace Samba.Modules.TicketModule
             TicketTags.Add(new TicketTagViewModel(ti));
         }
 
-        protected override void OnSave(string value)
-        {
-            if (TicketTagMaps.Count == 0)
-                TicketTagMaps.Add(new TicketTagMapViewModel(Model.AddTicketTagMap(), _userService, _departmentService, _settingService));
-            base.OnSave(value);
-        }
-
         protected override string GetSaveErrorMessage()
         {
             foreach (var ticketTag in TicketTags)
@@ -148,6 +105,11 @@ namespace Samba.Modules.TicketModule
                 }
             }
             return base.GetSaveErrorMessage();
+        }
+        protected override void Initialize()
+        {
+            base.Initialize();
+            MapController = new MapController<TicketTagMap, AbstractMapViewModel<TicketTagMap>>(Model.TicketTagMaps, Workspace);
         }
     }
 }

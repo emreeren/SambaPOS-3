@@ -26,7 +26,17 @@ namespace Samba.Services.Implementations.AutomationModule
         }
 
         private IEnumerable<AppRule> _rules;
-        public IEnumerable<AppRule> Rules { get { return _rules ?? (_rules = Dao.Query<AppRule>(x => x.Actions).OrderBy(x => x.Order)); } }
+        public IEnumerable<AppRule> Rules { get { return _rules ?? (_rules = Dao.Query<AppRule>(x => x.Actions, x => x.AppRuleMaps).OrderBy(x => x.Order)); } }
+
+
+        public IEnumerable<AppRule> GetAppRules(string eventName)
+        {
+            var maps = Rules.Where(x => x.EventName == eventName).SelectMany(x => x.AppRuleMaps)
+                .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
+                .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
+                .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
+            return Rules.Where(x => maps.Any(y => y.AppRuleId == x.Id)).OrderBy(x => x.Order);
+        }
 
         private IEnumerable<AppAction> _actions;
         public IEnumerable<AppAction> Actions { get { return _actions ?? (_actions = Dao.Query<AppAction>().OrderBy(x => x.Order)); } }
@@ -34,7 +44,7 @@ namespace Samba.Services.Implementations.AutomationModule
         public void NotifyEvent(string eventName, object dataObject)
         {
             var settingReplacer = _settingService.GetSettingReplacer();
-            var rules = Rules.Where(x => x.EventName == eventName);
+            var rules = GetAppRules(eventName);
             foreach (var rule in rules.Where(x => string.IsNullOrEmpty(x.EventConstraints) || SatisfiesConditions(x, dataObject)))
             {
                 foreach (var actionContainer in rule.Actions)
@@ -169,30 +179,6 @@ namespace Samba.Services.Implementations.AutomationModule
 
                         var customSettingValue = _settingService.ReadSetting(settingName).StringValue ?? "";
                         if (!condition.ValueEquals(customSettingValue)) return false;
-                    }
-                    if (condition.Name == "TerminalName" && !string.IsNullOrEmpty(condition.Value))
-                    {
-                        if (!condition.Value.Equals(_applicationState.CurrentTerminal.Name))
-                        {
-                            return false;
-                        }
-                    }
-                    if (condition.Name == "DepartmentName" && !string.IsNullOrEmpty(condition.Value))
-                    {
-                        if (_applicationState.CurrentDepartment == null ||
-                            !condition.Value.Equals(_applicationState.CurrentDepartment.Name))
-                        {
-                            return false;
-                        }
-                    }
-
-                    if (condition.Name == "UserName" && !string.IsNullOrEmpty(condition.Value))
-                    {
-                        if (_applicationState.CurrentLoggedInUser == null ||
-                            !condition.Value.Equals(_applicationState.CurrentLoggedInUser.Name))
-                        {
-                            return false;
-                        }
                     }
                 }
             }

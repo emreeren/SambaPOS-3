@@ -32,7 +32,7 @@
                          SelectedColor="{Binding ButtonColor}" />
                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                         <DataGrid MinWidth="170" ItemsSource="{Binding CalculationTemplates}" SelectedItem="{Binding SelectedCalculationTemplate, Mode=TwoWay}"
-                                     HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
+                                     HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3" CanUserDeleteRows="False" CanUserAddRows="False"
                                      AutoGenerateColumns="False" CanUserSortColumns="False" IsReadOnly="True" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="{LocText CalculationTemplate}"
@@ -72,18 +72,18 @@
                             <LocText ResourceIdentifierKey="Mappings" Suffix=":"/>
                         </Label>
                         <TextBlock Margin="2,5">
-                            <Hyperlink Command="{Binding AddCalculationSelectorMapCommand}">
-                                <TextBlock Text="{Binding Path=AddCalculationSelectorMapCommand.Caption}" />
+                            <Hyperlink Command="{Binding MapController.AddMapCommand}">
+                                <TextBlock Text="{Binding Path=MapController.AddMapCommand.Caption}" />
                             </Hyperlink>
                         </TextBlock>
                         <TextBlock Margin="2,5">
-                            <Hyperlink Command="{Binding DeleteCalculationSelectorMapCommand}">
-                                <TextBlock Text="{Binding Path=DeleteCalculationSelectorMapCommand.Caption}" />
+                            <Hyperlink Command="{Binding MapController.DeleteMapCommand}">
+                                <TextBlock Text="{Binding Path=MapController.DeleteMapCommand.Caption}" />
                             </Hyperlink>
                         </TextBlock>
                     </DockPanel>
 
-                    <DataGrid Grid.Row="1" ItemsSource="{Binding CalculationSelectorMaps}" SelectedItem="{Binding SelectedCalculationSelectorMap}" 
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding MapController.Maps}" SelectedItem="{Binding MapController.SelectedMap}" 
                               HorizontalAlignment="Left" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3" MinWidth="300"
                               AutoGenerateColumns="False" CanUserSortColumns="False"
                               Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">

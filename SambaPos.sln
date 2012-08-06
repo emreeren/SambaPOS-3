@@ -19,7 +19,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{BE3BEF2C-C
 		Lib\FluentMigrator.Runner.dll = Lib\FluentMigrator.Runner.dll
 		Lib\FluentValidation.dll = Lib\FluentValidation.dll
 		Lib\Interop.cidv5callerid.dll = Lib\Interop.cidv5callerid.dll
-		Lib\MefContrib.dll = Lib\MefContrib.dll
 		Lib\Microsoft.Practices.ServiceLocation.dll = Lib\Microsoft.Practices.ServiceLocation.dll
 		Lib\NCalc.dll = Lib\NCalc.dll
 	EndProjectSection

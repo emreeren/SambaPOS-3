@@ -7,12 +7,9 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class OrderTagMap : Value, IAbstractMapModel
+    public class OrderTagMap : AbstractMap
     {
         public int OrderTagGroupId { get; set; }
-        public int TerminalId { get; set; }
-        public int DepartmentId { get; set; }
-        public int UserRoleId { get; set; }
         public string MenuItemGroupCode { get; set; }
         public int MenuItemId { get; set; }
     }

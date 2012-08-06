@@ -8,34 +8,21 @@ using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Common.Services;
-using Samba.Services;
+using Samba.Presentation.ViewModels;
 
 namespace Samba.Modules.TicketModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     class CalculationSelectorViewModel : EntityViewModelBase<CalculationSelector>
     {
-        private readonly IUserService _userService;
-        private readonly IDepartmentService _departmentService;
-        private readonly ISettingService _settingService;
-
         [ImportingConstructor]
-        public CalculationSelectorViewModel(IUserService userService, IDepartmentService departmentService, ISettingService settingService)
+        public CalculationSelectorViewModel()
         {
-            _userService = userService;
-            _departmentService = departmentService;
-            _settingService = settingService;
-
-            AddCalculationSelectorMapCommand = new CaptionCommand<string>(Resources.Add, OnAddCalculationSelectorMap);
-            DeleteCalculationSelectorMapCommand = new CaptionCommand<string>(Resources.Delete, OnDeleteCalculationSelectorMap, CanDeleteCalculationSelectorMap);
-
             AddCalculationTemplateCommand = new CaptionCommand<string>(Resources.Add, OnAddCalculationTemplate);
             DeleteCalculationTemplateCommand = new CaptionCommand<string>(Resources.Delete, OnDeleteCalculationTemplate, CanDeleteCalculationTemplate);
         }
 
-        public CalculationSelectorMapViewModel SelectedCalculationSelectorMap { get; set; }
-        public CaptionCommand<string> DeleteCalculationSelectorMapCommand { get; set; }
-        public CaptionCommand<string> AddCalculationSelectorMapCommand { get; set; }
+        public MapController<CalculationSelectorMap, AbstractMapViewModel<CalculationSelectorMap>> MapController { get; set; }
 
         public CalculationTemplate SelectedCalculationTemplate { get; set; }
         public ICaptionCommand AddCalculationTemplateCommand { get; set; }
@@ -43,12 +30,6 @@ namespace Samba.Modules.TicketModule
 
         public string ButtonHeader { get { return Model.ButtonHeader; } set { Model.ButtonHeader = value; } }
         public string ButtonColor { get { return Model.ButtonColor; } set { Model.ButtonColor = value; } }
-
-        private ObservableCollection<CalculationSelectorMapViewModel> _calculationSelectorMaps;
-        public ObservableCollection<CalculationSelectorMapViewModel> CalculationSelectorMaps
-        {
-            get { return _calculationSelectorMaps ?? (_calculationSelectorMaps = new ObservableCollection<CalculationSelectorMapViewModel>(Model.CalculationSelectorMaps.Select(x => new CalculationSelectorMapViewModel(x, _userService, _departmentService, _settingService)))); }
-        }
 
         private ObservableCollection<CalculationTemplate> _calculationTemplates;
         public ObservableCollection<CalculationTemplate> CalculationTemplates
@@ -84,24 +65,6 @@ namespace Samba.Modules.TicketModule
             RaisePropertyChanged(() => CalculationTemplates);
         }
 
-        private void OnDeleteCalculationSelectorMap(string obj)
-        {
-            if (SelectedCalculationSelectorMap.Id > 0)
-                Workspace.Delete(SelectedCalculationSelectorMap.Model);
-            Model.CalculationSelectorMaps.Remove(SelectedCalculationSelectorMap.Model);
-            CalculationSelectorMaps.Remove(SelectedCalculationSelectorMap);
-        }
-
-        private bool CanDeleteCalculationSelectorMap(string arg)
-        {
-            return SelectedCalculationSelectorMap != null;
-        }
-
-        private void OnAddCalculationSelectorMap(string obj)
-        {
-            CalculationSelectorMaps.Add(new CalculationSelectorMapViewModel(Model.AddCalculationSelectorMap(), _userService, _departmentService, _settingService));
-        }
-
         public override Type GetViewType()
         {
             return typeof(CalculationSelectorView);
@@ -110,6 +73,12 @@ namespace Samba.Modules.TicketModule
         public override string GetModelTypeString()
         {
             return Resources.CalculationSelector;
+        }
+
+        protected override void Initialize()
+        {
+            base.Initialize();
+            MapController = new MapController<CalculationSelectorMap, AbstractMapViewModel<CalculationSelectorMap>>(Model.CalculationSelectorMaps, Workspace);
         }
     }
 }

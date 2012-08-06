@@ -2,7 +2,6 @@
 using System.Linq;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
-using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Common;
 using Samba.Services;
 
@@ -13,22 +12,19 @@ namespace Samba.Modules.PrinterModule
         public PrinterMap Model { get; set; }
         private const string NullLabel = "*";
         private static readonly string NullPrinterLabel = string.Format("- {0} -", Localization.Properties.Resources.Select);
-        private readonly IDepartmentService _departmentService;
         private readonly IMenuService _menuService;
         private readonly IPrinterService _printerService;
         private readonly ICacheService _cacheService;
 
-        public PrinterMapViewModel(PrinterMap model, IDepartmentService departmentService,
+        public PrinterMapViewModel(PrinterMap model,
             IMenuService menuService, IPrinterService printerService, ICacheService cacheService)
         {
             Model = model;
-            _departmentService = departmentService;
             _menuService = menuService;
             _printerService = printerService;
             _cacheService = cacheService;
         }
 
-        public IEnumerable<Department> Departments { get { return GetAllDepartments(); } }
         public IEnumerable<MenuItem> MenuItems { get { return GetAllMenuItems(MenuItemGroupCode); } }
         public IEnumerable<Printer> Printers { get { return _printerService.GetPrinters(); } }
         public IEnumerable<string> TicketTags { get { return GetTicketTags(); } }
@@ -49,13 +45,6 @@ namespace Samba.Modules.PrinterModule
             return result;
         }
 
-        private IEnumerable<Department> GetAllDepartments()
-        {
-            IList<Department> result = new List<Department>(_departmentService.GetDepartments().OrderBy(x => x.Name));
-            result.Insert(0, Department.All);
-            return result;
-        }
-
         private IEnumerable<MenuItem> GetAllMenuItems(string groupCode)
         {
             IList<MenuItem> result = string.IsNullOrEmpty(groupCode) || groupCode == NullLabel
@@ -70,9 +59,6 @@ namespace Samba.Modules.PrinterModule
 
         public string PrinterTemplateLabel { get { return PrinterTemplateId > 0 ? PrinterTemplates.Single(x => x.Id == PrinterTemplateId).Name : NullPrinterLabel; } }
         public int PrinterTemplateId { get { return Model.PrinterTemplateId; } set { Model.PrinterTemplateId = value; } }
-
-        public string DepartmentLabel { get { return DepartmentId > 0 ? Departments.Single(x => x.Id == DepartmentId).Name : NullLabel; } }
-        public int DepartmentId { get { return Model.DepartmentId; } set { Model.DepartmentId = value; } }
 
         public string MenuItemGroupCodeLabel
         {

@@ -1,77 +1,166 @@
 ﻿<UserControl x:Class="Samba.Modules.AutomationModule.RuleView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" d:DesignHeight="300"
-     d:DesignWidth="300" xmlns:lex="http://schemas.root-project.org/xaml/presentation">
+     d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Samba.Presentation.Common;component/Themes/OfficeTab.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
-            <StackPanel>
-                <Label HorizontalAlignment="Left" Content="{LocText RuleName,Suffix=':'}" />
-                <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
-                <Label HorizontalAlignment="Left" Content="{LocText EventName,Suffix=':'}" />
-                <ComboBox HorizontalAlignment="Left" MinWidth="150" ItemsSource="{Binding Events}"
-                     DisplayMemberPath="EventName" SelectedValuePath="EventKey" SelectedValue="{Binding EventName}" />
-                <GroupBox HorizontalAlignment="Left" Margin="0,3" Padding="1">
-                    <GroupBox.Header>
-                        <LocText ResourceIdentifierKey="ExecuteActionsIf" Suffix=":" />
-                    </GroupBox.Header>
+
+        <TabControl Margin="-6,-6,0,0" Template="{StaticResource OfficeTabControl}">
+            <TabItem Header="General Settings">
+                <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
                     <StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="{LocText SettingCheck,Suffix=':'}" MinWidth="150" />
-                            <TextBox MinWidth="80" Margin="2" Text="{Binding SettingConstraintName}" />
-                            <ComboBox Margin="3,0" MinWidth="45" IsEditable="True" Text="{Binding SettingConstraintOperation}" 
+                        <Label HorizontalAlignment="Left" Content="{LocText RuleName,Suffix=':'}" />
+                        <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
+                        <Label HorizontalAlignment="Left" Content="{LocText EventName,Suffix=':'}" />
+                        <ComboBox HorizontalAlignment="Left" MinWidth="150" ItemsSource="{Binding Events}"
+                     DisplayMemberPath="EventName" SelectedValuePath="EventKey" SelectedValue="{Binding EventName}" />
+                        <GroupBox HorizontalAlignment="Left" Margin="0,3" Padding="1">
+                            <GroupBox.Header>
+                                <LocText ResourceIdentifierKey="ExecuteActionsIf" Suffix=":" />
+                            </GroupBox.Header>
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="{LocText SettingCheck,Suffix=':'}" MinWidth="150" />
+                                    <TextBox MinWidth="80" Margin="2" Text="{Binding SettingConstraintName}" />
+                                    <ComboBox Margin="3,0" MinWidth="45" IsEditable="True" Text="{Binding SettingConstraintOperation}" 
                                                   ItemsSource="{Binding Operations}"/>
-                            <TextBox MinWidth="80" Margin="2" Text="{Binding SettingConstraintValue}" />
-                        </StackPanel>
-                        <ItemsControl ItemsSource="{Binding Constraints}" HorizontalAlignment="Left">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" Margin="0,3">
-                                        <Label Content="{Binding NameDisplay}" MinWidth="150" />
-                                        <ComboBox Margin="3,0" MinWidth="45" IsEditable="True" Text="{Binding Operation}" 
+                                    <TextBox MinWidth="80" Margin="2" Text="{Binding SettingConstraintValue}" />
+                                </StackPanel>
+                                <ItemsControl ItemsSource="{Binding Constraints}" HorizontalAlignment="Left">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal" Margin="0,3">
+                                                <Label Content="{Binding NameDisplay}" MinWidth="150" />
+                                                <ComboBox Margin="3,0" MinWidth="45" IsEditable="True" Text="{Binding Operation}" 
                                                   ItemsSource="{Binding Operations}"/>
-                                        <ComboBox MinWidth="80" IsEditable="True" 
+                                                <ComboBox MinWidth="80" IsEditable="True" 
                                                   ItemsSource="{Binding Values}" Text="{Binding Value}"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </StackPanel>
-                </GroupBox>
-                <StackPanel Orientation="Horizontal">
-                    <Label HorizontalAlignment="Left" Content="{LocText Actions,Suffix=':'}" />
-                    <TextBlock Margin="2,5,0,0">
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </GroupBox>
+                        <StackPanel Orientation="Horizontal">
+                            <Label HorizontalAlignment="Left" Content="{LocText Actions,Suffix=':'}" />
+                            <TextBlock Margin="2,5,0,0">
                         <Hyperlink Command="{Binding SelectActionsCommand}">
                             <TextBlock Text="{Binding Path=SelectActionsCommand.Caption}" />
                         </Hyperlink>
                     </TextBlock>
-                </StackPanel>
-                <Grid HorizontalAlignment="Left">
-                    <ItemsControl ItemsSource="{Binding Actions}" HorizontalAlignment="Left">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Expander Style="{StaticResource MainViewExpander}" Header="{Binding Name}" IsExpanded="False"
+                        </StackPanel>
+                        <Grid HorizontalAlignment="Left">
+                            <ItemsControl ItemsSource="{Binding Actions}" HorizontalAlignment="Left">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Expander Style="{StaticResource MainViewExpander}" Header="{Binding Name}" IsExpanded="False"
                                      Margin="2">
-                                    <ItemsControl ItemsSource="{Binding ParameterValues}">
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Orientation="Horizontal" Margin="0,3">
-                                                    <Label Content="{Binding Name}" MinWidth="120" />
-                                                    <ComboBox Text="{Binding Value}" MinWidth="80" IsEditable="True" ItemsSource="{Binding ParameterValues}" />
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </Expander>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                                            <ItemsControl ItemsSource="{Binding ParameterValues}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal" Margin="0,3">
+                                                            <Label Content="{Binding Name}" MinWidth="120" />
+                                                            <ComboBox Text="{Binding Value}" MinWidth="80" IsEditable="True" ItemsSource="{Binding ParameterValues}" />
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </Expander>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="{LocText Mappings}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <DockPanel Grid.Row="0" Margin="0,10,0,0">
+                        <Label>
+                            <LocText ResourceIdentifierKey="Mappings" Suffix=":"/>
+                        </Label>
+                        <TextBlock Margin="2,5">
+                            <Hyperlink Command="{Binding MapController.AddMapCommand}">
+                                <TextBlock Text="{Binding Path=MapController.AddMapCommand.Caption}" />
+                            </Hyperlink>
+                        </TextBlock>
+                        <TextBlock Margin="2,5">
+                            <Hyperlink Command="{Binding MapController.DeleteMapCommand}">
+                                <TextBlock Text="{Binding Path=MapController.DeleteMapCommand.Caption}" />
+                            </Hyperlink>
+                        </TextBlock>
+                    </DockPanel>
+
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding MapController.Maps}" SelectedItem="{Binding MapController.SelectedMap}" 
+                              HorizontalAlignment="Left" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3" MinWidth="300"
+                              AutoGenerateColumns="False" CanUserSortColumns="False"
+                              Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="{LocText Terminal}" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="3" Text="{Binding TerminalName}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Grid FocusManager.FocusedElement="{Binding ElementName=cbTerminal}">
+                                            <ComboBox Name="cbTerminal"  HorizontalAlignment="Stretch" SelectedItem="{Binding TerminalName, UpdateSourceTrigger=PropertyChanged}"
+                                                          ItemsSource="{Binding TerminalNames}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{LocText UserRole}" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="3" Text="{Binding UserRoleName}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Grid FocusManager.FocusedElement="{Binding ElementName=cbUserRole}">
+                                            <ComboBox Name="cbUserRole"  HorizontalAlignment="Stretch" SelectedItem="{Binding UserRoleName, UpdateSourceTrigger=PropertyChanged}"
+                                                          ItemsSource="{Binding UserRoleNames}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{LocText Department}" Width="2*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="3" Text="{Binding DepartmentName}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Grid FocusManager.FocusedElement="{Binding ElementName=cbDepartment}">
+                                            <ComboBox Name="cbDepartment"  HorizontalAlignment="Stretch" SelectedItem="{Binding DepartmentName, UpdateSourceTrigger=PropertyChanged}" 
+                                                  ItemsSource="{Binding DepartmentNames}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
-            </StackPanel>
-        </ScrollViewer>
+            </TabItem>
+        </TabControl>
         <StackPanel Grid.Row="1">
             <Button HorizontalAlignment="Left" Margin="0,10,3,0" MinWidth="70" Content="{Binding SaveCommand.Caption}"
                  Command="{Binding SaveCommand}" />

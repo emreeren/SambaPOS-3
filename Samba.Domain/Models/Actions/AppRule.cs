@@ -4,7 +4,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Actions
 {
-    public class AppRule : Entity,IOrderable
+    public class AppRule : Entity, IOrderable
     {
         public string EventName { get; set; }
         [StringLength(500)]
@@ -16,10 +16,18 @@ namespace Samba.Domain.Models.Actions
             get { return _actions; }
             set { _actions = value; }
         }
-        
+
+        private IList<AppRuleMap> _appRuleMaps;
+        public virtual IList<AppRuleMap> AppRuleMaps
+        {
+            get { return _appRuleMaps; }
+            set { _appRuleMaps = value; }
+        }
+
         public AppRule()
         {
             _actions = new List<ActionContainer>();
+            _appRuleMaps = new List<AppRuleMap>();
         }
 
         public int Order { get; set; }
@@ -27,6 +35,11 @@ namespace Samba.Domain.Models.Actions
         public string UserString
         {
             get { return Name; }
+        }
+
+        public void AddRuleMap()
+        {
+            AppRuleMaps.Add(new AppRuleMap());
         }
     }
 }

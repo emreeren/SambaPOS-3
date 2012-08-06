@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractMapViewModel.cs" />
+    <Compile Include="MapController.cs" />
     <Compile Include="ResourceCustomDataEditor.xaml.cs">
       <DependentUpon>ResourceCustomDataEditor.xaml</DependentUpon>
     </Compile>
