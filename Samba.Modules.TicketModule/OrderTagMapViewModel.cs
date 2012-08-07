@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.Practices.ServiceLocation;
 using Samba.Domain.Models.Tickets;
+using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.ViewModels;
 using Samba.Services;
 

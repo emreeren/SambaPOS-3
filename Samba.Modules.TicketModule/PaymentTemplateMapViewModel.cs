@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using Samba.Domain.Models.Tickets;
+using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.ViewModels;
 using Samba.Services;
 

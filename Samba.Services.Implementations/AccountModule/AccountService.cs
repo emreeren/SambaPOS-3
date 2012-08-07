@@ -127,7 +127,7 @@ namespace Samba.Services.Implementations.AccountModule
 
         public IEnumerable<AccountTemplate> GetAccountTemplates()
         {
-            return Dao.Query<AccountTemplate>();
+            return Dao.Query<AccountTemplate>().OrderBy(x => x.Order);
         }
 
         public int CreateAccount(string accountName, int accountTemplateId)

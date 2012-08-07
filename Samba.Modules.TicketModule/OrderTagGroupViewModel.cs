@@ -14,10 +14,9 @@ using Samba.Services;
 namespace Samba.Modules.TicketModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class OrderTagGroupViewModel : EntityViewModelBase<OrderTagGroup>
+    public class OrderTagGroupViewModel : EntityViewModelBaseWithMap<OrderTagGroup,OrderTagMap,OrderTagMapViewModel>
     {
         private readonly IMenuService _menuService;
-        public MapController<OrderTagMap, OrderTagMapViewModel> MapController { get; set; }
 
         [ImportingConstructor]
         public OrderTagGroupViewModel(IMenuService menuService, IUserService userService, IDepartmentService departmentService, ISettingService settingService)

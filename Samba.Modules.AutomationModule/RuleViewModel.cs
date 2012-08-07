@@ -15,10 +15,9 @@ using Samba.Services;
 namespace Samba.Modules.AutomationModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class RuleViewModel : EntityViewModelBase<AppRule>
+    public class RuleViewModel : EntityViewModelBaseWithMap<AppRule, AppRuleMap, AbstractMapViewModel<AppRuleMap>>
     {
         private readonly IAutomationService _automationService;
-        public MapController<AppRuleMap, AbstractMapViewModel<AppRuleMap>> MapController { get; set; }
 
         [ImportingConstructor]
         public RuleViewModel(IAutomationService automationService)

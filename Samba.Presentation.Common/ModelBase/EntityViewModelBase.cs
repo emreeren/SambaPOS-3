@@ -46,6 +46,16 @@ namespace Samba.Presentation.Common.ModelBase
             }
         }
 
+        public string Foreground
+        {
+            get { return GetForeground(); }
+        }
+
+        protected virtual string GetForeground()
+        {
+            return "Black";
+        }
+
         public abstract string GetModelTypeString();
 
         public void Init(IWorkspace workspace, TModel model)

@@ -146,11 +146,15 @@ namespace Samba.Services.Implementations
         }
 
         private IEnumerable<AccountTransactionDocumentTemplate> _documentTemplates;
-        public IEnumerable<AccountTransactionDocumentTemplate> DocumentTemplates { get { return _documentTemplates ?? (_documentTemplates = Dao.Query<AccountTransactionDocumentTemplate>(x => x.TransactionTemplates)); } }
+        public IEnumerable<AccountTransactionDocumentTemplate> DocumentTemplates { get { return _documentTemplates ?? (_documentTemplates = Dao.Query<AccountTransactionDocumentTemplate>(x => x.TransactionTemplates, x => x.AccountTransactionDocumentTemplateMaps)); } }
 
         public IEnumerable<AccountTransactionDocumentTemplate> GetAccountTransactionDocumentTemplates(int accountTemplateId)
         {
-            return DocumentTemplates.Where(x => x.MasterAccountTemplateId == accountTemplateId);
+            var maps = DocumentTemplates.SelectMany(x => x.AccountTransactionDocumentTemplateMaps)
+               .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
+               .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
+               .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
+            return DocumentTemplates.Where(x => maps.Any(y => y.AccountTransactionDocumentTemplateId == x.Id)).OrderBy(x => x.Order);
         }
 
         private IEnumerable<ResourceState> _resourceStates;

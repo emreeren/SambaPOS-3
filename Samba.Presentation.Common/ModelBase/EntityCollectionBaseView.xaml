@@ -19,6 +19,7 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -62,11 +63,18 @@
                         </Hyperlink>
                     </TextBlock>
             </Border>
-            <ListView  Grid.Row="1" BorderThickness="0" ItemsSource='{Binding Source={StaticResource viewSource}}' Name="MainGrid"
+            <ListView Grid.Row="1" BorderThickness="0" ItemsSource='{Binding Source={StaticResource viewSource}}' Name="MainGrid"
                   SelectedItem="{Binding Path=SelectedItem, Mode=TwoWay}" DisplayMemberPath="Name"
                   MouseDoubleClick="MainGrid_MouseDoubleClick" PreviewKeyDown="MainGrid_PreviewKeyDown">
                 <ListView.Resources>
                     <Common:ElementSpy x:Key="spy" />
+                    <Style TargetType="ListViewItem">
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="false">
+                                <Setter Property="Foreground" Value="{Binding Foreground}" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
                 </ListView.Resources>
                 <ListView.ContextMenu>
                     <ContextMenu Name="CM">

@@ -83,6 +83,7 @@ namespace Samba.Persistance.Data
         public DbSet<AccountTransaction> AccountTransactions { get; set; }
         public DbSet<AccountTransactionValue> AccountTransactionValues { get; set; }
         public DbSet<AccountTransactionTemplate> AccountTransactionTemplates { get; set; }
+        public DbSet<AccountTransactionDocumentTemplateMap> AccountTransactionDocumentTemplateMaps { get; set; }
         public DbSet<AccountTransactionDocument> AccountTransactionDocuments { get; set; }
         public DbSet<AccountTransactionDocumentTemplate> AccountTransactionDocumentTemplates { get; set; }
         public DbSet<Resource> Resources { get; set; }

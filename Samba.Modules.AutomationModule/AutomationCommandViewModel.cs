@@ -8,10 +8,8 @@ using Samba.Presentation.ViewModels;
 namespace Samba.Modules.AutomationModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class AutomationCommandViewModel : EntityViewModelBase<AutomationCommand>
+    public class AutomationCommandViewModel : EntityViewModelBaseWithMap<AutomationCommand,AutomationCommandMap,AutomationCommandMapViewModel>
     {
-        public MapController<AutomationCommandMap, AutomationCommandMapViewModel> MapController { get; set; }
-
         [ImportingConstructor]
         public AutomationCommandViewModel()
         {

@@ -54,8 +54,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractMapViewModel.cs" />
-    <Compile Include="MapController.cs" />
+    <Compile Include="MapControllerView.xaml.cs">
+      <DependentUpon>MapControllerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ResourceCustomDataEditor.xaml.cs">
       <DependentUpon>ResourceCustomDataEditor.xaml</DependentUpon>
     </Compile>
@@ -112,6 +113,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="MapControllerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ResourceCustomDataEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

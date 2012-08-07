@@ -7,15 +7,13 @@ using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
-using Samba.Presentation.ViewModels;
 
 namespace Samba.Modules.TicketModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class PaymentTemplateViewModel : EntityViewModelBase<PaymentTemplate>
+    public class PaymentTemplateViewModel : EntityViewModelBaseWithMap<PaymentTemplate,PaymentTemplateMap,PaymentTemplateMapViewModel>
     {
-        public MapController<PaymentTemplateMap, PaymentTemplateMapViewModel> MapController { get; set; }
-
+      
         [ImportingConstructor]
         public PaymentTemplateViewModel()
         {

@@ -5,6 +5,7 @@ using System.Text;
 using Samba.Domain.Models.Actions;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
+using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.ViewModels;
 using Samba.Services;
 

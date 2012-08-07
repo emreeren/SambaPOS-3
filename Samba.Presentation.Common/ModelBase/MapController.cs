@@ -4,10 +4,9 @@ using System.Linq;
 using Microsoft.Practices.ServiceLocation;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
-using Samba.Presentation.Common;
 using Samba.Services;
 
-namespace Samba.Presentation.ViewModels
+namespace Samba.Presentation.Common.ModelBase
 {
     public class MapController<TModel, TViewModel>
         where TModel : class, IAbstractMapModel, new()

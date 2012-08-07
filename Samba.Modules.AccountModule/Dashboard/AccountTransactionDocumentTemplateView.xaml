@@ -2,68 +2,91 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:Wpf="clr-namespace:PropertyTools.Wpf;assembly=PropertyTools.Wpf" mc:Ignorable="d" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Wpf="clr-namespace:PropertyTools.Wpf;assembly=PropertyTools.Wpf"
+             xmlns:ViewModels="clr-namespace:Samba.Presentation.ViewModels;assembly=Samba.Presentation.ViewModels"
+             mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Samba.Presentation.Common;component/Themes/OfficeTab.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
-        <StackPanel >
-            <Label HorizontalAlignment="Left" Content="Template Name" />
-            <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
 
-            <Label HorizontalAlignment="Left" Content="{LocText ButtonHeader,Suffix=':'}" />
-            <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding ButtonHeader}" />
-            <Label HorizontalAlignment="Left" Content="{LocText ButtonColor,Suffix=':'}" />
-            <Wpf:ColorPicker2 HorizontalAlignment="Left" MinWidth="150"
+        <TabControl Margin="-6,-6,0,0" Template="{StaticResource OfficeTabControl}">
+            <TabItem Header="General Settings">
+                <StackPanel >
+                    <Label HorizontalAlignment="Left" Content="Template Name" />
+                    <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
+
+                    <Label HorizontalAlignment="Left" Content="{LocText ButtonHeader,Suffix=':'}" />
+                    <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding ButtonHeader}" />
+                    <Label HorizontalAlignment="Left" Content="{LocText ButtonColor,Suffix=':'}" />
+                    <Wpf:ColorPicker2 HorizontalAlignment="Left" MinWidth="150"
                          SelectedColor="{Binding ButtonColor}" />
-            <Label MinWidth="120">
-                <LocText ResourceIdentifierKey="AccountTemplate" Suffix=":"/>
-            </Label>
-            <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTemplates}"
+                    <Label MinWidth="120">
+                        <LocText ResourceIdentifierKey="AccountTemplate" Suffix=":"/>
+                    </Label>
+                    <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTemplates}"
                                      SelectedItem="{Binding MasterAccountTemplate}" />
-            <Label MinWidth="120">
-                <LocText ResourceIdentifierKey="DefaultAmount" Suffix=":"/>
-            </Label>
-            <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="170" 
+                    <Label MinWidth="120">
+                        <LocText ResourceIdentifierKey="DefaultAmount" Suffix=":"/>
+                    </Label>
+                    <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="170" 
                       ItemsSource="{Binding DefaultAmounts}" Text="{Binding DefaultAmount}" />
 
-            <Label MinWidth="120">
-                <LocText ResourceIdentifierKey="DescriptionTemplate" Suffix=":"/>
-            </Label>
-            <TextBox HorizontalAlignment="Left" MinWidth="170" 
+                    <Label MinWidth="120">
+                        <LocText ResourceIdentifierKey="DescriptionTemplate" Suffix=":"/>
+                    </Label>
+                    <TextBox HorizontalAlignment="Left" MinWidth="170" 
                      Text="{Binding DescriptionTemplate}" />
 
-            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                <DataGrid MinWidth="170" ItemsSource="{Binding TransactionTemplates}" SelectedItem="{Binding SelectedTransactionTemplate, Mode=TwoWay}"
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <DataGrid MinWidth="170" ItemsSource="{Binding TransactionTemplates}" SelectedItem="{Binding SelectedTransactionTemplate, Mode=TwoWay}"
                                      HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
                                      AutoGenerateColumns="False" CanUserSortColumns="False" IsReadOnly="True" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="{LocText DocumentTemplate}"
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="{LocText DocumentTemplate}"
                                              MinWidth="100" Binding="{Binding Name}" />
-                    </DataGrid.Columns>
-                    <DataGrid.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Command="{Binding AddTransactionTemplateCommand}" Header="{Binding AddTransactionTemplateCommand.Caption}" />
-                            <MenuItem Command="{Binding DeleteTransactionTemplateCommand}" Header="{Binding DeleteTransactionTemplateCommand.Caption}" />
-                        </ContextMenu>
-                    </DataGrid.ContextMenu>
-                </DataGrid>
-                <StackPanel Margin="10">
-                    <TextBlock Margin="2,3">
+                            </DataGrid.Columns>
+                            <DataGrid.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Command="{Binding AddTransactionTemplateCommand}" Header="{Binding AddTransactionTemplateCommand.Caption}" />
+                                    <MenuItem Command="{Binding DeleteTransactionTemplateCommand}" Header="{Binding DeleteTransactionTemplateCommand.Caption}" />
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
+                        </DataGrid>
+                        <StackPanel Margin="10">
+                            <TextBlock Margin="2,3">
                                         <Hyperlink Command="{Binding AddTransactionTemplateCommand}">
                                             <TextBlock Text="{Binding Path=AddTransactionTemplateCommand.Caption}" />
                                         </Hyperlink>
                                     </TextBlock>
-                    <TextBlock Margin="2,3">
+                            <TextBlock Margin="2,3">
                                         <Hyperlink Command="{Binding DeleteTransactionTemplateCommand}">
                                             <TextBlock Text="{Binding Path=DeleteTransactionTemplateCommand.Caption}" />
                                         </Hyperlink>
                                     </TextBlock>
-                </StackPanel>
-            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
 
-            <StackPanel Orientation="Horizontal">
-                <Button HorizontalAlignment="Left" Margin="0,10,3,0" MinWidth="70" Content="{Binding SaveCommand.Caption}"
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="{LocText Mappings}">
+                <ViewModels:MapControllerView DataContext ="{Binding MapController}"/>
+            </TabItem>
+        </TabControl>
+        <StackPanel Grid.Row="1">
+            <Button HorizontalAlignment="Left" Margin="0,10,3,0" MinWidth="70" Content="{Binding SaveCommand.Caption}"
                  Command="{Binding SaveCommand}" />
-            </StackPanel>
             <Label Content="{Binding Error}" Foreground="Red" />
         </StackPanel>
     </Grid>

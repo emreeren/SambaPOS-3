@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using Samba.Domain.Models.Resources;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Accounts
 {
-    public class AccountTransactionDocumentTemplate : Entity
+    public class AccountTransactionDocumentTemplate : Entity, IOrderable
     {
         public AccountTransactionDocumentTemplate()
         {
             _transactionTemplates = new List<AccountTransactionTemplate>();
+            _accountTransactionDocumentTemplateMaps = new List<AccountTransactionDocumentTemplateMap>();
         }
 
         public string ButtonHeader { get; set; }
@@ -32,8 +29,21 @@ namespace Samba.Domain.Models.Accounts
             get { return _transactionTemplates; }
         }
 
+        private IList<AccountTransactionDocumentTemplateMap> _accountTransactionDocumentTemplateMaps;
+        public virtual IList<AccountTransactionDocumentTemplateMap> AccountTransactionDocumentTemplateMaps
+        {
+            get { return _accountTransactionDocumentTemplateMaps; }
+            set { _accountTransactionDocumentTemplateMaps = value; }
+        }
+
         public string DefaultAmount { get; set; }
         public string DescriptionTemplate { get; set; }
+        public int Order { get; set; }
+
+        public string UserString
+        {
+            get { return Name; }
+        }
 
         public AccountTransactionDocument CreateDocument(Account account, string description, decimal amount)
         {
@@ -45,13 +55,11 @@ namespace Samba.Domain.Models.Accounts
                 transaction.Name = description;
                 transaction.Amount = amount;
                 transaction.UpdateAccounts(MasterAccountTemplateId, account.Id);
-                //if (transaction.SourceAccountTemplateId == MasterAccountTemplateId)
-                //    transaction.SourceTransactionValue.AccountId = account.Id;
-                //if (transaction.TargetAccountTemplateId == MasterAccountTemplateId)
-                //    transaction.TargetTransactionValue.AccountId = account.Id;
                 result.AccountTransactions.Add(transaction);
             }
             return result;
         }
+
+
     }
 }

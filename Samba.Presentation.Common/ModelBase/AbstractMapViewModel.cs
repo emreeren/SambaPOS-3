@@ -4,10 +4,9 @@ using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
 using Samba.Infrastructure.Data;
-using Samba.Presentation.Common;
 using Samba.Services;
 
-namespace Samba.Presentation.ViewModels
+namespace Samba.Presentation.Common.ModelBase
 {
     public class AbstractMapViewModel<TModel> : ObservableObject
         where TModel : IAbstractMapModel

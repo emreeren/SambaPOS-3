@@ -13,7 +13,7 @@ using Samba.Presentation.ViewModels;
 namespace Samba.Modules.TicketModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    class CalculationSelectorViewModel : EntityViewModelBase<CalculationSelector>
+    class CalculationSelectorViewModel : EntityViewModelBaseWithMap<CalculationSelector,CalculationSelectorMap,AbstractMapViewModel<CalculationSelectorMap>>
     {
         [ImportingConstructor]
         public CalculationSelectorViewModel()
@@ -21,8 +21,6 @@ namespace Samba.Modules.TicketModule
             AddCalculationTemplateCommand = new CaptionCommand<string>(Resources.Add, OnAddCalculationTemplate);
             DeleteCalculationTemplateCommand = new CaptionCommand<string>(Resources.Delete, OnDeleteCalculationTemplate, CanDeleteCalculationTemplate);
         }
-
-        public MapController<CalculationSelectorMap, AbstractMapViewModel<CalculationSelectorMap>> MapController { get; set; }
 
         public CalculationTemplate SelectedCalculationTemplate { get; set; }
         public ICaptionCommand AddCalculationTemplateCommand { get; set; }

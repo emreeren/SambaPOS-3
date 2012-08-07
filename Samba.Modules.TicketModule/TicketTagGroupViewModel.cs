@@ -12,15 +12,13 @@ using Samba.Presentation.ViewModels;
 namespace Samba.Modules.TicketModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class TicketTagGroupViewModel : EntityViewModelBase<TicketTagGroup>
+    public class TicketTagGroupViewModel : EntityViewModelBaseWithMap<TicketTagGroup,TicketTagMap,AbstractMapViewModel<TicketTagMap>>
     {
         private readonly IList<string> _tagTypes = new[] { Resources.Alphanumeric, Resources.Numeric, Resources.Price };
         public IList<string> DataTypes { get { return _tagTypes; } }
 
         private ObservableCollection<TicketTagViewModel> _ticketTags;
         public ObservableCollection<TicketTagViewModel> TicketTags { get { return _ticketTags ?? (_ticketTags = GetTicketTags(Model)); } }
-
-        public MapController<TicketTagMap, AbstractMapViewModel<TicketTagMap>> MapController { get; set; }
 
         public TicketTagViewModel SelectedTicketTag { get; set; }
         public ICaptionCommand AddTicketTagCommand { get; set; }

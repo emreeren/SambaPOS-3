@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Accounts;
-using Samba.Domain.Models.Resources;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
@@ -14,13 +13,13 @@ using Samba.Presentation.Common.Services;
 namespace Samba.Modules.AccountModule.Dashboard
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    class AccountTransactionDocumentTemplateViewModel : EntityViewModelBase<AccountTransactionDocumentTemplate>
+    class AccountTransactionDocumentTemplateViewModel : EntityViewModelBaseWithMap<AccountTransactionDocumentTemplate, AccountTransactionDocumentTemplateMap, AbstractMapViewModel<AccountTransactionDocumentTemplateMap>>
     {
         [ImportingConstructor]
         public AccountTransactionDocumentTemplateViewModel()
         {
             AddTransactionTemplateCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.AccountTransactionTemplate), OnAddTransactionTemplate);
-            DeleteTransactionTemplateCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.AccountTransactionTemplate), OnDeleteTransactionTemplate,CanDeleteTransactionTemplate);
+            DeleteTransactionTemplateCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.AccountTransactionTemplate), OnDeleteTransactionTemplate, CanDeleteTransactionTemplate);
         }
 
         public string ButtonHeader { get { return Model.ButtonHeader; } set { Model.ButtonHeader = value; } }
@@ -109,6 +108,12 @@ namespace Samba.Modules.AccountModule.Dashboard
         public override string GetModelTypeString()
         {
             return Resources.DocumentTemplate;
+        }
+
+        protected override void Initialize()
+        {
+            base.Initialize();
+            MapController = new MapController<AccountTransactionDocumentTemplateMap, AbstractMapViewModel<AccountTransactionDocumentTemplateMap>>(Model.AccountTransactionDocumentTemplateMaps, Workspace);
         }
     }
 }
