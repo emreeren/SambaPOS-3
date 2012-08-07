@@ -4060,6 +4060,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Max Selected Items.
+        /// </summary>
+        public static string MaxSelectedItems {
+            get {
+                return ResourceManager.GetString("MaxSelectedItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Menu.
         /// </summary>
         public static string Menu {

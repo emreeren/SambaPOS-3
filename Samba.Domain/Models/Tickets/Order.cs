@@ -181,8 +181,9 @@ namespace Samba.Domain.Models.Tickets
             var otag = OrderTagValues.FirstOrDefault(x => x.Name == orderTag.Name);
             if (otag == null)
             {
+                if (orderTagGroup.MaxSelectedItems > 1 && OrderTagValues.Count(x => x.OrderTagGroupId == orderTagGroup.Id) >= orderTagGroup.MaxSelectedItems) return false;
                 var tagIndex = -1;
-                if (orderTagGroup.IsSingleSelection)
+                if (orderTagGroup.MaxSelectedItems == 1)
                 {
                     var sTag = OrderTagValues.SingleOrDefault(x => x.OrderTagGroupId == orderTag.OrderTagGroupId);
                     if (sTag != null) tagIndex = OrderTagValues.IndexOf(sTag);
@@ -193,7 +194,7 @@ namespace Samba.Domain.Models.Tickets
             else
             {
                 otag.Quantity++;
-                if (orderTagGroup.IsSingleSelection || (orderTag.MaxQuantity > 0 && otag.Quantity > orderTag.MaxQuantity))
+                if (orderTagGroup.MaxSelectedItems == 1 || (orderTag.MaxQuantity > 0 && otag.Quantity > orderTag.MaxQuantity))
                 {
                     UntagOrder(otag);
                     result = false;

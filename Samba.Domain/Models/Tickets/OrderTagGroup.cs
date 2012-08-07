@@ -16,13 +16,8 @@ namespace Samba.Domain.Models.Tickets
         public string ButtonHeader { get; set; }
         public int ColumnCount { get; set; }
         public int ButtonHeight { get; set; }
-        public int TerminalColumnCount { get; set; }
-        public int TerminalButtonHeight { get; set; }
-        public int SelectionType { get; set; } // 0 multiple, 1 single, 2 quantity
+        public int MaxSelectedItems { get; set; }
         public bool AddTagPriceToOrderPrice { get; set; }
-
-        public bool IsMultipleSelection { get { return SelectionType == 0; } }
-        public bool IsSingleSelection { get { return SelectionType == 1; } }
         public bool UnlocksOrder { get; set; }
         public bool CalculateOrderPrice { get; set; }
         public bool DecreaseOrderInventory { get; set; }
@@ -47,8 +42,6 @@ namespace Samba.Domain.Models.Tickets
             _orderTagMaps = new List<OrderTagMap>();
             ColumnCount = 5;
             ButtonHeight = 65;
-            TerminalColumnCount = 4;
-            TerminalButtonHeight = 35;
             CalculateOrderPrice = true;
             DecreaseOrderInventory = true;
         }

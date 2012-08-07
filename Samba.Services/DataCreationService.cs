@@ -359,12 +359,12 @@ namespace Samba.Services
             _workspace.Add(pj2);
             _workspace.Add(t);
 
-            var orderTag1 = new OrderTagGroup { Name = Resources.Gift, ButtonHeader = Resources.Gift, CalculateOrderPrice = false, DecreaseOrderInventory = true, SelectionType = 1 };
+            var orderTag1 = new OrderTagGroup { Name = Resources.Gift, ButtonHeader = Resources.Gift, CalculateOrderPrice = false, DecreaseOrderInventory = true, MaxSelectedItems = 1 };
             orderTag1.OrderTags.Add(new OrderTag { Name = Resources.Gift });
             orderTag1.AddOrderTagMap();
             _workspace.Add(orderTag1);
 
-            var orderTag2 = new OrderTagGroup { Name = Resources.Void, ButtonHeader = Resources.Void, CalculateOrderPrice = false, DecreaseOrderInventory = false, SelectionType = 1 };
+            var orderTag2 = new OrderTagGroup { Name = Resources.Void, ButtonHeader = Resources.Void, CalculateOrderPrice = false, DecreaseOrderInventory = false, MaxSelectedItems = 1 };
             orderTag2.OrderTags.Add(new OrderTag { Name = Resources.Void });
             orderTag2.UnlocksOrder = true;
             orderTag2.AddOrderTagMap();
@@ -508,7 +508,7 @@ namespace Samba.Services
 
             _workspace.CommitChanges();
 
-            var screen = new ResourceScreen { Name = "All Tables", ColumnCount = 7, ResourceTemplateId = tableTemplate.Id};
+            var screen = new ResourceScreen { Name = "All Tables", ColumnCount = 7, ResourceTemplateId = tableTemplate.Id };
             _workspace.Add(screen);
 
             foreach (var resource in items)

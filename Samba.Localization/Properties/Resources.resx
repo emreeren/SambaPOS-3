@@ -3112,4 +3112,7 @@ Continue without adding details?</value>
   <data name="RoundTicketTotal">
     <value xml:space="preserve">Round Ticket Total</value>
   </data>
+  <data name="MaxSelectedItems">
+    <value xml:space="preserve">Max Selected Items</value>
+  </data>
 </root>

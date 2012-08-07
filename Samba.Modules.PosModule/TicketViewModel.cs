@@ -243,7 +243,7 @@ namespace Samba.Modules.PosModule
                 _ticketOrdersViewModel.FixSelectedItems();
                 _ticketOrdersViewModel.SelectedOrders.ToList().ForEach(x =>
                     x.ToggleOrderTag(obj.Value.OrderTagGroup, obj.Value.SelectedOrderTag, _applicationState.CurrentLoggedInUser.Id));
-                if (!string.IsNullOrEmpty(obj.Value.OrderTagGroup.ButtonHeader) && obj.Value.OrderTagGroup.IsSingleSelection)
+                if (!string.IsNullOrEmpty(obj.Value.OrderTagGroup.ButtonHeader) && obj.Value.OrderTagGroup.MaxSelectedItems == 1)
                     ClearSelectedItems();
                 RefreshVisuals();
             }
