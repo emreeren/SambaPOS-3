@@ -18,6 +18,7 @@ namespace Samba.Modules.TicketModule
             AddDashboardCommand<EntityCollectionViewModelBase<TicketTagGroupViewModel, TicketTagGroup>>(Resources.TicketTags, Resources.Tickets, 35);
             AddDashboardCommand<EntityCollectionViewModelBase<OrderTagTemplateViewModel, OrderTagTemplate>>(Resources.OrderTagTemplates, Resources.Tickets, 35);
             AddDashboardCommand<EntityCollectionViewModelBase<OrderTagGroupViewModel, OrderTagGroup>>(Resources.OrderTags, Resources.Tickets, 35);
+            AddDashboardCommand<EntityCollectionViewModelBase<OrderStateGroupViewModel, OrderStateGroup>>(Resources.OrderState.ToPlural(), Resources.Tickets, 35);
             AddDashboardCommand<EntityCollectionViewModelBase<CalculationTemplateViewModel, CalculationTemplate>>(Resources.CalculationTemplates, Resources.Tickets, 35);
             AddDashboardCommand<EntityCollectionViewModelBase<CalculationSelectorViewModel, CalculationSelector>>(Resources.CalculationSelector.ToPlural(), Resources.Tickets, 35);
             AddDashboardCommand<EntityCollectionViewModelBase<PaymentTemplateViewModel, PaymentTemplate>>(Resources.PaymentTemplates, Resources.Tickets, 35);

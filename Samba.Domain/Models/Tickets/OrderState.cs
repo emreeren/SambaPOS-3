@@ -1,11 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
-    class OrderState
+    public class OrderState : Value, IOrderable
     {
+        public string Name { get; set; }
+        public int OrderStateGroupId { get; set; }
+        public int Order { get; set; }
+        public string UserString { get { return Name; } }
     }
 }

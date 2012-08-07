@@ -22,24 +22,26 @@
                     <Label Content="{LocText ButtonHeader,Suffix=':'}"/>
                     <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding ButtonHeader,Mode=TwoWay}" />
                     <Label Content="{LocText MaxSelectedItems}"/>
-                    <UIControls:FilteredTextBox Text="{Binding MaxSelectedItems}" Type="Digits"/>
+                    <UIControls:FilteredTextBox HorizontalAlignment="Left" MinWidth="50" Text="{Binding MaxSelectedItems}" Type="Digits"/>
                     <CheckBox Margin="5,5,0,0" Content="Unlocks Order" IsChecked="{Binding UnlocksOrder}" />
                     <CheckBox Margin="5,5,0,0" Content="Calculate Price" IsChecked="{Binding CalculateOrderPrice}" />
                     <CheckBox Margin="5,5,0,0" Content="Decrease Inventory" IsChecked="{Binding DecreaseOrderInventory}" />
                     <CheckBox Margin="5,5,0,0" Content="Add Tag Price To Order Price" IsChecked="{Binding AddTagPriceToOrderPrice}" />
-
-                    <UniformGrid HorizontalAlignment="Left">
-                        <Label>
-                            <LocText ResourceIdentifierKey="ColumnCount" Suffix=":" />
-                        </Label>
-                        <UIControls:FilteredTextBox Type="Digits" Margin="0,0,0,2" HorizontalAlignment="Left" 
+                    <GroupBox Header="{LocText DisplaySettings}" Margin="0,5,0,0">
+                        <UniformGrid HorizontalAlignment="Left" >
+                            <Label>
+                                <LocText ResourceIdentifierKey="ColumnCount" Suffix=":" />
+                            </Label>
+                            <UIControls:FilteredTextBox Type="Digits" Margin="0,0,0,2" HorizontalAlignment="Left" 
                                                         MinWidth="50" Text="{Binding ColumnCount}"/>
-                        <Label>
-                            <LocText ResourceIdentifierKey="ButtonHeight" Suffix=":" />
-                        </Label>
-                        <UIControls:FilteredTextBox Type="Digits" Margin="0,0,0,2" HorizontalAlignment="Left"
+                            <Label>
+                                <LocText ResourceIdentifierKey="ButtonHeight" Suffix=":" />
+                            </Label>
+                            <UIControls:FilteredTextBox Type="Digits" Margin="0,0,0,2" HorizontalAlignment="Left"
                                                         MinWidth="50" Text="{Binding ButtonHeight}"/>
-                    </UniformGrid>
+                        </UniformGrid>
+                    </GroupBox>
+
                 </StackPanel>
             </TabItem>
             <TabItem Header="Order Tags">

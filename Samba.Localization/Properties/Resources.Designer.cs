@@ -2310,6 +2310,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Display Settings.
+        /// </summary>
+        public static string DisplaySettings {
+            get {
+                return ResourceManager.GetString("DisplaySettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Display under ticket.
         /// </summary>
         public static string DisplayUnderTicket {
@@ -4776,6 +4785,24 @@ namespace Samba.Localization.Properties {
         public static string OrderNumerator {
             get {
                 return ResourceManager.GetString("OrderNumerator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order State.
+        /// </summary>
+        public static string OrderState {
+            get {
+                return ResourceManager.GetString("OrderState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order State Group.
+        /// </summary>
+        public static string OrderStateGroup {
+            get {
+                return ResourceManager.GetString("OrderStateGroup", resourceCulture);
             }
         }
         

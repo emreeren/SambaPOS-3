@@ -3115,4 +3115,13 @@ Continue without adding details?</value>
   <data name="MaxSelectedItems">
     <value xml:space="preserve">Max Selected Items</value>
   </data>
+  <data name="DisplaySettings">
+    <value xml:space="preserve">Display Settings</value>
+  </data>
+  <data name="OrderState">
+    <value xml:space="preserve">Order State</value>
+  </data>
+  <data name="OrderStateGroup">
+    <value xml:space="preserve">Order State Group</value>
+  </data>
 </root>

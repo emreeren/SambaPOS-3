@@ -42,11 +42,14 @@ namespace Samba.Persistance.Data
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<TicketResource> TicketResources { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderTag> OrderTags { get; set; }
         public DbSet<OrderTagGroup> OrderTagGroups { get; set; }
+        public DbSet<OrderTagMap> OrderTagMaps { get; set; }        
+        public DbSet<OrderState> OrderStates { get; set; }
+        public DbSet<OrderStateGroup> OrderStateGroups { get; set; }
+        public DbSet<OrderStateMap> OrderStateMaps { get; set; }
         public DbSet<OrderTagTemplate> OrderTagTemplates { get; set; }
         public DbSet<OrderTagTemplateValue> OrderTagTemplateValues { get; set; }
-        public DbSet<OrderTagMap> OrderTagMaps { get; set; }
-        public DbSet<OrderTag> OrderTags { get; set; }
         public DbSet<OrderTagValue> OrderTagValues { get; set; }
         public DbSet<ScreenMenu> ScreenMenus { get; set; }
         public DbSet<Permission> Permissions { get; set; }
