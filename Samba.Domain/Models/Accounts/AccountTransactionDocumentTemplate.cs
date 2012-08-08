@@ -61,5 +61,9 @@ namespace Samba.Domain.Models.Accounts
         }
 
 
+        public void AddAccountTransactionDocumentTemplateMap()
+        {
+            AccountTransactionDocumentTemplateMaps.Add(new AccountTransactionDocumentTemplateMap());
+        }
     }
 }

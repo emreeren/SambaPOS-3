@@ -56,7 +56,7 @@
       <DependentUpon>MenuItemSelectorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MenuItemSelectorViewModel.cs" />
-    <Compile Include="OrderTagGroupButton.cs" />
+    <Compile Include="OrderStateButton.cs" />
     <Compile Include="OrderTagValueViewModel.cs" />
     <Compile Include="OrderViewModel.cs" />
     <Compile Include="PaymentButtonView.xaml.cs">

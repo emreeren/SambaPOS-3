@@ -59,20 +59,6 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <ItemsControl Grid.Row="1" ItemsSource="{Binding OrderTags}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <FxButton:FlexButton MaxHeight="65" Margin="5" ButtonColor="{Binding Color}" Content="{Binding Name}" CommandParameter="{Binding}"
-                         Command="{Binding DataContext.OrderTagSelectedCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ItemsControl}}" />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <UniformGrid Columns="{Binding OrderTagColumnCount}" VerticalAlignment="Top">
-                    </UniformGrid>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>
         <GroupBox Grid.Row="0" Header="{LocText Portions}"
              FontWeight="Bold" FontSize="14" Visibility="{Binding IsPortionsVisible,Converter={StaticResource VisibilityConverter}}">
             <ItemsControl ItemsSource="{Binding SelectedItemPortions}">

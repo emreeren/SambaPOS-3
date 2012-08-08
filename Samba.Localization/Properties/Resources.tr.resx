@@ -2791,12 +2791,6 @@ Bilgi eklemeden devam etmek istiyor musunuz?</value>
     <value>Sipariş Etiketi Yönlendirmeleri</value>
     <comment>Label content</comment>
   </data>
-  <data name="RemoveGiftTag" xml:space="preserve">
-    <value>İkram Etiketini Kaldır</value>
-  </data>
-  <data name="RemoveGiftTagWhenVoided" xml:space="preserve">
-    <value>İade yapıldığında İkram etiketini kaldır</value>
-  </data>
   <data name="OrderTagTemplate" xml:space="preserve">
     <value>Sipariş Etiketi Şablonu</value>
   </data>

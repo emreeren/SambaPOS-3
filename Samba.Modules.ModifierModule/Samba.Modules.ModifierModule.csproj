@@ -51,6 +51,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SelectedOrderStateGroupViewModel.cs" />
+    <Compile Include="OrderStateButtonViewModel.cs" />
+    <Compile Include="OrderStateEditorView.xaml.cs">
+      <DependentUpon>OrderStateEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OrderStateEditorViewModel.cs" />
     <Compile Include="ExtraModifierEditorView.xaml.cs">
       <DependentUpon>ExtraModifierEditorView.xaml</DependentUpon>
     </Compile>
@@ -73,6 +79,10 @@
     <Compile Include="TicketTagEditorViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="OrderStateEditorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ExtraModifierEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

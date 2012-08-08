@@ -80,7 +80,7 @@ namespace Samba.Services.Implementations.TicketModule
 
             ticket.UpdateResource(resourceTemplateId, resourceId, resourceName, accountId);
 
-            if (currentResourceId > 0 && currentResourceId != resourceId)
+            if (currentResourceId != resourceId)
             {
                 _automationService.NotifyEvent(RuleEventNames.TicketResourceChanged,
                     new

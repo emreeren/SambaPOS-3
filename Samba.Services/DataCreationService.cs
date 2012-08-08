@@ -165,6 +165,7 @@ namespace Samba.Services
                 DescriptionTemplate = "Cash Payment",
                 MasterAccountTemplateId = customerAccountTemplate.Id
             };
+            customerCashDocument.AddAccountTransactionDocumentTemplateMap();
             customerCashDocument.TransactionTemplates.Add(customerCashPaymentTemplate);
 
             var customerCreditCardDocument = new AccountTransactionDocumentTemplate
@@ -175,6 +176,7 @@ namespace Samba.Services
                 DescriptionTemplate = "Credit Card Payment",
                 MasterAccountTemplateId = customerAccountTemplate.Id
             };
+            customerCreditCardDocument.AddAccountTransactionDocumentTemplateMap();
             customerCreditCardDocument.TransactionTemplates.Add(customerCreditCardPaymentTemplate);
 
             _workspace.Add(customerCashDocument);
@@ -359,40 +361,19 @@ namespace Samba.Services
             _workspace.Add(pj2);
             _workspace.Add(t);
 
-            var orderTag1 = new OrderTagGroup { Name = Resources.Gift, ButtonHeader = Resources.Gift, CalculateOrderPrice = false, DecreaseOrderInventory = true, MaxSelectedItems = 1 };
-            orderTag1.OrderTags.Add(new OrderTag { Name = Resources.Gift });
-            orderTag1.AddOrderTagMap();
+            var orderTag1 = new OrderStateGroup { Name = Resources.Gift, ButtonHeader = Resources.Gift, CalculateOrderPrice = false, DecreaseOrderInventory = true };
+            orderTag1.OrderStates.Add(new OrderState { Name = Resources.Gift });
+            orderTag1.AddOrderStateMap();
             _workspace.Add(orderTag1);
 
-            var orderTag2 = new OrderTagGroup { Name = Resources.Void, ButtonHeader = Resources.Void, CalculateOrderPrice = false, DecreaseOrderInventory = false, MaxSelectedItems = 1 };
-            orderTag2.OrderTags.Add(new OrderTag { Name = Resources.Void });
+            var orderTag2 = new OrderStateGroup { Name = Resources.Void, ButtonHeader = Resources.Void, CalculateOrderPrice = false, DecreaseOrderInventory = false };
+            orderTag2.OrderStates.Add(new OrderState { Name = Resources.Void });
             orderTag2.UnlocksOrder = true;
-            orderTag2.AddOrderTagMap();
+            orderTag2.AddOrderStateMap();
             _workspace.Add(orderTag2);
-
-            var orderTagTemplate = new OrderTagTemplate { Name = Resources.Gift };
-            orderTagTemplate.OrderTagTemplateValues.Add(new OrderTagTemplateValue { OrderTagGroup = orderTag1, OrderTag = orderTag1.OrderTags[0] });
-
-            _workspace.Add(orderTagTemplate);
 
             const string parameterFormat = "[{{\"Key\":\"{0}\",\"Value\":\"{1}\"}}]";
             const string doubleParameterFormat = "[{{\"Key\":\"{0}\",\"Value\":\"{1}\"}},{{\"Key\":\"{2}\",\"Value\":\"{3}\"}}]";
-
-            var action = new AppAction { ActionType = "RemoveOrderTag", Name = Resources.RemoveGiftTag, Parameter = string.Format(parameterFormat, "OrderTagName", Resources.Gift) };
-            _workspace.Add(action);
-            _workspace.CommitChanges();
-
-            var rule = new AppRule
-            {
-                Name = Resources.RemoveGiftTagWhenVoided,
-                EventName = "OrderTagged",
-                EventConstraints = "OrderTagName;=;" + Resources.Void
-            };
-
-            var actionContainer = new ActionContainer(action) { ParameterValues = "" };
-            rule.Actions.Add(actionContainer);
-            rule.AddRuleMap();
-            _workspace.Add(rule);
 
             var newOrderState = new ResourceState { Name = "New Orders", Color = "Orange" };
             _workspace.Add(newOrderState);

@@ -19,13 +19,10 @@
                 <StackPanel>
                     <Label Content="{LocText OrderTagGroupName,Suffix=':'}"/>
                     <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name,Mode=TwoWay}" />
-                    <Label Content="{LocText ButtonHeader,Suffix=':'}"/>
-                    <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding ButtonHeader,Mode=TwoWay}" />
+                    
                     <Label Content="{LocText MaxSelectedItems}"/>
                     <UIControls:FilteredTextBox HorizontalAlignment="Left" MinWidth="50" Text="{Binding MaxSelectedItems}" Type="Digits"/>
-                    <CheckBox Margin="5,5,0,0" Content="Unlocks Order" IsChecked="{Binding UnlocksOrder}" />
-                    <CheckBox Margin="5,5,0,0" Content="Calculate Price" IsChecked="{Binding CalculateOrderPrice}" />
-                    <CheckBox Margin="5,5,0,0" Content="Decrease Inventory" IsChecked="{Binding DecreaseOrderInventory}" />
+
                     <CheckBox Margin="5,5,0,0" Content="Add Tag Price To Order Price" IsChecked="{Binding AddTagPriceToOrderPrice}" />
                     <GroupBox Header="{LocText DisplaySettings}" Margin="0,5,0,0">
                         <UniformGrid HorizontalAlignment="Left" >

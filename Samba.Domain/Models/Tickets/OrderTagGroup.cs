@@ -13,14 +13,10 @@ namespace Samba.Domain.Models.Tickets
             get { return Name; }
         }
 
-        public string ButtonHeader { get; set; }
         public int ColumnCount { get; set; }
         public int ButtonHeight { get; set; }
         public int MaxSelectedItems { get; set; }
         public bool AddTagPriceToOrderPrice { get; set; }
-        public bool UnlocksOrder { get; set; }
-        public bool CalculateOrderPrice { get; set; }
-        public bool DecreaseOrderInventory { get; set; }
 
         private IList<OrderTag> _orderTags;
         public virtual IList<OrderTag> OrderTags
@@ -42,8 +38,6 @@ namespace Samba.Domain.Models.Tickets
             _orderTagMaps = new List<OrderTagMap>();
             ColumnCount = 5;
             ButtonHeight = 65;
-            CalculateOrderPrice = true;
-            DecreaseOrderInventory = true;
         }
 
         public OrderTag AddOrderTag(string name, decimal price)

@@ -29,6 +29,10 @@ namespace Samba.Domain.Models.Tickets
         public bool Locked { get; set; }
         public bool CalculatePrice { get; set; }
         public bool DecreaseInventory { get; set; }
+        public int OrderStateGroupId { get; set; }
+        public string OrderStateGroupName { get; set; }
+        public string OrderState { get; set; }
+        public int OrderStateUserId { get; set; }
         public int OrderNumber { get; set; }
         public string CreatingUserName { get; set; }
         public DateTime CreatedDateTime { get; set; }
@@ -43,6 +47,8 @@ namespace Samba.Domain.Models.Tickets
         public decimal TaxAmount { get; set; }
         public int TaxTemplateId { get; set; }
         public bool TaxIncluded { get; set; }
+
+
 
         private IList<OrderTagValue> _orderTagValues;
         public virtual IList<OrderTagValue> OrderTagValues
@@ -148,10 +154,7 @@ namespace Samba.Domain.Models.Tickets
                            AddTagPriceToOrderPrice = orderTagGroup.AddTagPriceToOrderPrice,
                            PortionName = PortionName,
                            UserId = userId,
-                           DecreaseInventory = orderTagGroup.DecreaseOrderInventory,
-                           CalculatePrice = orderTagGroup.CalculateOrderPrice,
                            Quantity = 1,
-                           UnlocksOrder = orderTagGroup.UnlocksOrder,
                            NewTag = true
                        };
 
@@ -161,18 +164,32 @@ namespace Samba.Domain.Models.Tickets
                 OrderTagValues.Insert(tagIndex, otag);
             else
                 OrderTagValues.Add(otag);
-
-            CalculatePrice = orderTagGroup.CalculateOrderPrice;
-            DecreaseInventory = orderTagGroup.DecreaseOrderInventory;
-            if (orderTagGroup.UnlocksOrder) Locked = false;
         }
 
         private void UntagOrder(OrderTagValue orderTagValue)
         {
             OrderTagValues.Remove(orderTagValue);
-            CalculatePrice = OrderTagValues.FirstOrDefault(x => !x.CalculatePrice) == null;
-            DecreaseInventory = OrderTagValues.FirstOrDefault(x => !x.DecreaseInventory) == null;
-            if (orderTagValue.UnlocksOrder && OrderTagValues.FirstOrDefault(x => x.UnlocksOrder && x.NewTag) == null) Locked = true;
+        }
+
+        public void UpdateOrderState(OrderStateGroup orderStateGroup, OrderState orderState, int userId)
+        {
+            if (orderStateGroup.Id == OrderStateGroupId && orderState.Name == OrderState && Locked && orderStateGroup.UnlocksOrder) return;
+            if (orderState == null || (orderStateGroup.Id == OrderStateGroupId && orderState.Name == OrderState))
+            {
+                CalculatePrice = true;
+                DecreaseInventory = true;
+                OrderState = "";
+                OrderStateGroupName = "";
+                OrderStateGroupId = 0;
+                if (orderStateGroup.UnlocksOrder && Id > 0) Locked = true;
+                return;
+            }
+            CalculatePrice = orderStateGroup.CalculateOrderPrice;
+            DecreaseInventory = orderStateGroup.DecreaseOrderInventory;
+            if (orderStateGroup.UnlocksOrder) Locked = false;
+            OrderState = orderState.Name;
+            OrderStateGroupName = orderStateGroup.Name;
+            OrderStateGroupId = orderStateGroup.Id;
         }
 
         public bool ToggleOrderTag(OrderTagGroup orderTagGroup, OrderTag orderTag, int userId)
@@ -353,6 +370,11 @@ namespace Samba.Domain.Models.Tickets
         public bool IsTaggedWith(OrderTagGroup orderTagGroup)
         {
             return OrderTagValues.FirstOrDefault(x => x.OrderTagGroupId == orderTagGroup.Id) != null;
+        }
+
+        public bool IsStateApplied(OrderStateGroup orderStateGroup)
+        {
+            return OrderStateGroupId == orderStateGroup.Id;
         }
 
         public decimal GetTotalTaxAmount()

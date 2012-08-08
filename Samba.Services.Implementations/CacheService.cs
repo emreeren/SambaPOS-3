@@ -76,6 +76,21 @@ namespace Samba.Services.Implementations
             return tgl.Where(x => maps.Any(y => y.OrderTagGroupId == x.Id)).OrderBy(x => x.Order);
         }
 
+        private IEnumerable<OrderStateGroup> _orderStateGroups;
+        public IEnumerable<OrderStateGroup> OrderStateGroups
+        {
+            get { return _orderStateGroups ?? (_orderStateGroups = Dao.Query<OrderStateGroup>(x => x.OrderStates, x => x.OrderStateMaps)); }
+        }
+
+        public IEnumerable<OrderStateGroup> GetOrderStateGroups()
+        {
+            var maps = OrderStateGroups.SelectMany(x => x.OrderStateMaps)
+                .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
+                .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
+                .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
+            return OrderStateGroups.Where(x => maps.Any(y => y.OrderStateGroupId == x.Id)).OrderBy(x => x.Order);
+        }
+
         public IEnumerable<string> GetTicketTagGroupNames()
         {
             return TicketTagGroups.Select(x => x.Name).Distinct();
@@ -319,6 +334,7 @@ namespace Samba.Services.Implementations
             _calculationSelectors = null;
             _automationCommands = null;
             _orderTagGroups = null;
+            _orderStateGroups = null;
             _resourceTemplates = null;
             _accountTemplates = null;
             _resources = null;

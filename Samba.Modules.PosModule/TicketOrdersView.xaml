@@ -17,13 +17,13 @@
     </UserControl.Resources>
     <Border BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}">
         <ScrollViewer Name="Scroller" UIControls:KineticBehaviour.HandleKineticScrolling="True" VerticalScrollBarVisibility="Auto">
-            <ItemsControl BorderThickness="0" Background="{Binding TicketBackground}"
+            <ItemsControl BorderThickness="0" Background="{Binding TicketBackground}" AlternationCount="2"
                              ItemsSource="{Binding ItemsViewSource.View}" HorizontalContentAlignment="Stretch">
                 <ItemsControl.GroupStyle>
                     <GroupStyle>
                         <GroupStyle.ContainerStyle>
                             <Style TargetType="{x:Type GroupItem}">
-                                <Setter Property="Margin" Value="0,0,0,5" />
+                                <Setter Property="Margin" Value="0,1,0,5" />
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="{x:Type GroupItem}">
@@ -32,7 +32,7 @@
                                                     <RowDefinition Height="auto" />
                                                     <RowDefinition Height="*" />
                                                 </Grid.RowDefinitions>
-                                                <Border BorderThickness="0,0,0,1" BorderBrush="Silver">
+                                                <Border BorderThickness="0,0,0,1" BorderBrush="Gainsboro">
                                                     <Grid Grid.Row="0">
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="auto"/>
@@ -86,6 +86,10 @@
                                         <TextBlock FontWeight="{Binding FontWeight}" TextDecorations="{Binding TextDecoration}" Grid.Column="3"
                                                          Padding="1" Foreground="{Binding Foreground}" FontSize="21"  Text="{Binding TotalPrice, StringFormat='#,#0.00'}"
                                                          Margin="5" HorizontalAlignment="Right" />
+
+                                        <TextBlock  Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="1" Visibility="{Binding IsStateVisible,Converter={StaticResource VisibilityConverter}}"
+                                                         Margin="5,-5,5,2" FontWeight="Bold" FontSize="12" Text="{Binding State}"
+                                                         HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="{Binding Foreground}"/>
                                     </Grid>
 
                                     <ItemsControl ItemsSource="{Binding OrderTagValues}">
@@ -111,6 +115,7 @@
                                         <sys:Double>5</sys:Double>
                                     </Rectangle.StrokeDashArray>
                                 </Rectangle>
+
                             </Grid>
                         </Button>
                     </DataTemplate>

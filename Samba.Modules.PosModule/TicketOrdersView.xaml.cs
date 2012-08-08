@@ -29,7 +29,7 @@ namespace Samba.Modules.PosModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(
                 x =>
                 {
-                    if (x.Topic == EventTopicNames.RefreshSelectedTicket)
+                    if (x.Topic == EventTopicNames.ActivatePosView && ((TicketOrdersViewModel)DataContext).SelectedOrderModels.Count == 0)
                         Scroller.ScrollToEnd();
                 });
         }

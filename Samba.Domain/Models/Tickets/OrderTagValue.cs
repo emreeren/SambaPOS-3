@@ -15,9 +15,6 @@ namespace Samba.Domain.Models.Tickets
         public int OrderTagGroupId { get; set; }
         public int MenuItemId { get; set; }
         public bool AddTagPriceToOrderPrice { get; set; }
-        public bool CalculatePrice { get; set; }
-        public bool DecreaseInventory { get; set; }
-        public bool UnlocksOrder { get; set; }
         public string PortionName { get; set; }
 
         internal bool NewTag { get; set; }

@@ -29,6 +29,8 @@ namespace Samba.Modules.ModifierModule
         private readonly TicketNoteEditorViewModel _ticketNoteEditorViewModel;
         private readonly TicketTagEditorView _ticketTagEditorView;
         private readonly TicketTagEditorViewModel _ticketTagEditorViewModel;
+        private readonly OrderStateEditorView _orderStateEditorView;
+        private readonly OrderStateEditorViewModel _orderStateEditorViewModel;
         private readonly ExtraModifierEditorViewModel _extraModifierEditorViewModel;
         private readonly ExtraModifierEditorView _extraModifierEditorView;
 
@@ -37,6 +39,7 @@ namespace Samba.Modules.ModifierModule
             ExtraModifierEditorView extraModifierEditorView, ExtraModifierEditorViewModel extraModifierEditorViewModel,
             TicketNoteEditorView ticketNoteEditorView, TicketNoteEditorViewModel ticketNoteEditorViewModel,
             TicketTagEditorView ticketTagEditorView, TicketTagEditorViewModel ticketTagEditorViewModel,
+            OrderStateEditorView orderStateEditorView,OrderStateEditorViewModel orderStateEditorViewModel,
             OrderTagEditorView selectedOrdersView, OrderTagEditorViewModel selectedOrdersViewModel)
         {
             _selectedOrdersView = selectedOrdersView;
@@ -45,6 +48,8 @@ namespace Samba.Modules.ModifierModule
             _ticketNoteEditorViewModel = ticketNoteEditorViewModel;
             _ticketTagEditorView = ticketTagEditorView;
             _ticketTagEditorViewModel = ticketTagEditorViewModel;
+            _orderStateEditorView = orderStateEditorView;
+            _orderStateEditorViewModel = orderStateEditorViewModel;
             _extraModifierEditorViewModel = extraModifierEditorViewModel;
             _extraModifierEditorView = extraModifierEditorView;
 
@@ -54,10 +59,19 @@ namespace Samba.Modules.ModifierModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<SelectedOrdersData>>().Subscribe(OnSelectedOrdersDataEvent);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnDisplayTicketDetailsScreen);
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketTagData>>().Subscribe(OnTicketTagDataSelected);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<OrderStateData>>().Subscribe(OnOrderStateDataSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<Ticket>>().Subscribe(OnTicketEvent);
 
             _showExtraModifierCommand = new CaptionCommand<Ticket>(Resources.ExtraModifier, OnExtraModifiersSelected, CanSelectExtraModifier);
             _showExtraModifierCommand.PublishEvent(EventTopicNames.AddCustomOrderCommand);
+        }
+
+        private void OnOrderStateDataSelected(EventParameters<OrderStateData> obj)
+        {
+            if (obj.Topic == EventTopicNames.SelectOrderState)
+            {
+                DisplayOrderStateEditor();
+            }
         }
 
         private void OnTicketTagDataSelected(EventParameters<TicketTagData> obj)
@@ -86,7 +100,7 @@ namespace Samba.Modules.ModifierModule
 
         private void OnExtraModifiersSelected(Ticket obj)
         {
-            _extraModifierEditorViewModel.SelectedOrder = _selectedOrders.Count() == 1 
+            _extraModifierEditorViewModel.SelectedOrder = _selectedOrders.Count() == 1
                 ? _selectedOrders.ElementAt(0) : Order.Null;
             DisplayExtraModifierEditor();
         }
@@ -102,6 +116,7 @@ namespace Samba.Modules.ModifierModule
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(OrderTagEditorView));
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(TicketNoteEditorView));
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(TicketTagEditorView));
+            _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion,typeof (OrderStateEditorView));
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(ExtraModifierEditorView));
         }
 
@@ -124,6 +139,11 @@ namespace Samba.Modules.ModifierModule
         public void DisplayTicketTagEditor()
         {
             _regionManager.Regions[RegionNames.PosSubRegion].Activate(_ticketTagEditorView);
+        }
+
+        private void DisplayOrderStateEditor()
+        {
+            _regionManager.Regions[RegionNames.PosSubRegion].Activate(_orderStateEditorView);
         }
 
         private void OnSelectedOrdersDataEvent(EventParameters<SelectedOrdersData> selectedOrdersEvent)

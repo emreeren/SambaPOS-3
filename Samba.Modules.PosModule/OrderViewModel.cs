@@ -47,6 +47,15 @@ namespace Samba.Modules.PosModule
             }
         }
 
+        public bool IsStateVisible { get { return !string.IsNullOrEmpty(State); } }
+        public string State
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(Model.OrderStateGroupName) ? string.Format("[{0}]", Model.OrderStateGroupName + (!string.IsNullOrEmpty(Model.OrderState) && Model.OrderState != Model.OrderStateGroupName ? ": " + Model.OrderState : "")) : "";
+            }
+        }
+
         public decimal SelectedQuantity { get { return Model.SelectedQuantity; } }
 
         public void IncSelectedQuantity()
@@ -74,6 +83,8 @@ namespace Samba.Modules.PosModule
             RaisePropertyChanged(() => Background);
             RaisePropertyChanged(() => Foreground);
             RaisePropertyChanged(() => BorderThickness);
+            RaisePropertyChanged(() => State);
+            RaisePropertyChanged(() => IsStateVisible);
         }
 
         public decimal Price
@@ -229,6 +240,17 @@ namespace Samba.Modules.PosModule
             RaisePropertyChanged(() => IsLocked);
         }
 
+        public void UpdateOrderState(OrderStateGroup orderStateGroup, OrderState selectedOrderState, int userId)
+        {
+            Model.UpdateOrderState(orderStateGroup, selectedOrderState, userId);
+            RefreshProperties();
+            RaisePropertyChanged(() => TotalPrice);
+            RaisePropertyChanged(() => Quantity);
+            RaisePropertyChanged(() => Description);
+            RaisePropertyChanged(() => FontWeight);
+            RaisePropertyChanged(() => IsLocked);
+        }
+
         private void RefreshProperties()
         {
             OrderTagValues.Clear();
@@ -247,5 +269,7 @@ namespace Samba.Modules.PosModule
         {
             return Model.IsTaggedWith(orderTagGroup);
         }
+
+
     }
 }

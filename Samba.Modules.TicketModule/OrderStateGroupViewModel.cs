@@ -51,7 +51,7 @@ namespace Samba.Modules.TicketModule
 
         private void OnAddPropertyExecuted(string obj)
         {
-            OrderStates.Add(new OrderStateViewModel(new OrderState()));
+            OrderStates.Add(new OrderStateViewModel(Model.AddOrderState("")));
         }
 
         private IEnumerable<OrderStateViewModel> GetOrderStates(OrderStateGroup baseModel)

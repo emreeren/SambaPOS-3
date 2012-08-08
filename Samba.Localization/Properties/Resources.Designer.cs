@@ -5627,24 +5627,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remove Gift Tag.
-        /// </summary>
-        public static string RemoveGiftTag {
-            get {
-                return ResourceManager.GetString("RemoveGiftTag", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Remove Gift Tag when Voided.
-        /// </summary>
-        public static string RemoveGiftTagWhenVoided {
-            get {
-                return ResourceManager.GetString("RemoveGiftTagWhenVoided", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Report does not contain Start Amounts.
         /// </summary>
         public static string ReportDoesNotContainsCashState {

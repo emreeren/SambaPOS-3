@@ -45,7 +45,8 @@
         public const string TicketClosed = "Ticket Closed";
         public const string DisplayTicketOrderDetails = "Display Ticket Order Details";
         public const string PortionSelected = "Portion Selected";
-        public const string OrderTagSelected = "OrderTagSelected";
+        public const string OrderTagSelected = "Order Tag Selected";
+        public const string OrderStateSelected = "Order State Selected";
         public const string ShellInitialized = "Shell Initialized";
         public const string ResetCache = "Reset Cache";
         public const string ScreenMenuItemDataSelected = "Screen Menu Item Data Selected";
@@ -58,6 +59,7 @@
         public const string TagSelectedForSelectedTicket = "Tag Selected";
         public const string SelectTicketTag = "Select Ticket Tag";
         public const string SelectOrderTag = "Select Order Tag";
+        public const string SelectOrderState = "Select Order State";
         public const string LogData = "Log Data";
         public const string ResetNumerator = "Reset Numerator";
         public const string WorkPeriodStatusChanged = "WorkPeriod Status Changed";
