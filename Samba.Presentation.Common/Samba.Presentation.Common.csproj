@@ -64,6 +64,9 @@
     <Reference Include="GongSolutions.Wpf.DragDrop">
       <HintPath>..\Lib\DragDrop\GongSolutions.Wpf.DragDrop.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.AvalonEdit">
+      <HintPath>..\Lib\ICSharpCode.AvalonEdit.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\Lib\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
@@ -93,6 +96,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\NullBrushConverter.cs" />
     <Compile Include="Converters\FontWeightConverter.cs" />
     <Compile Include="Commands\CustomCommand.cs" />
     <Compile Include="ElementSpy.cs" />
@@ -124,7 +128,7 @@
     <Compile Include="Commands\CategoryCommand.cs" />
     <Compile Include="Commands\CommandCategory.cs" />
     <Compile Include="CommonEventPublisher.cs" />
-    <Compile Include="Converters\NullImageConverter.cs" />
+    <Compile Include="Converters\NullValueConverter.cs" />
     <Compile Include="Converters\VisibilityConverter.cs" />
     <Compile Include="UIControls\DiagramCanvas.cs" />
     <Compile Include="DialogCloser.cs" />
@@ -394,6 +398,7 @@ copy "$(TargetDir)DataGridFilterLibrary.dll" "$(SolutionDir)SambaSetup\src"
 copy "$(TargetDir)System.Windows.Interactivity.dll" "$(SolutionDir)SambaSetup\src"
 copy "$(TargetDir)FluentValidation.dll" "$(SolutionDir)SambaSetup\src"
 copy "$(TargetDir)Omu.ValueInjecter.dll" "$(SolutionDir)SambaSetup\src"
+copy "$(TargetDir)ICSharpCode.AvalonEdit.dll" "$(SolutionDir)SambaSetup\src"
 
 :End</PostBuildEvent>
   </PropertyGroup>

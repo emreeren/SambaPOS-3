@@ -3616,6 +3616,34 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to [HEADER]
+        ///&lt;T&gt;TICKET
+        ///&lt;L00&gt;Date:{TICKET DATE}
+        ///&lt;L00&gt;Time:{TIME}
+        ///&lt;L00&gt;Location No:{LOCATION}
+        ///&lt;L00&gt;Ticket No:{TICKET NO}
+        ///&lt;F&gt;-
+        ///
+        ///[LINE]
+        ///&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
+        ///        * {PROPERTIES}
+        ///
+        ///[LINE:GIFT]
+        ///&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
+        ///        * {PROPERTIES}
+        ///
+        ///[LINE:VOID]
+        ///&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
+        ///        * {PROPERTIES}
+        ///.
+        /// </summary>
+        public static string KitchenTemplateValue {
+            get {
+                return ResourceManager.GetString("KitchenTemplateValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;L00&gt;**VOID**{QUANTITY} {NAME}
         ///				* {PROPERTIES}.
         /// </summary>
@@ -7196,6 +7224,44 @@ namespace Samba.Localization.Properties {
         public static string TicketTemplates {
             get {
                 return ResourceManager.GetString("TicketTemplates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [HEADER]
+        ///&lt;T&gt;TICKET
+        ///&lt;L00&gt;Date:{TICKET DATE}
+        ///&lt;L00&gt;Time:{TIME}
+        ///&lt;L00&gt;Location No:{LOCATION}
+        ///&lt;L00&gt;Ticket No:{TICKET NO}
+        ///&lt;F&gt;-
+        ///
+        ///[LINE]
+        ///&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
+        ///        * {PROPERTIES}
+        ///
+        ///[LINE:GIFT]
+        ///&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
+        ///        * {PROPERTIES}
+        ///
+        ///[LINE:VOID]
+        ///&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
+        ///        * {PROPERTIES}
+        ///
+        ///[FOOTER]
+        ///&lt;F&gt;=
+        ///&lt;EB&gt;
+        ///&lt;J10&gt;{IF DISCOUNT}
+        ///&lt;J10&gt;Total Gift:|{GIFT TOTAL}
+        ///&lt;J10&gt;Total:|{TICKET TOTAL}
+        ///{IF PAID}
+        ///&lt;DB&gt;
+        ///&lt;F&gt;=
+        ///&lt;C10&gt;T H A N K    Y O U.
+        /// </summary>
+        public static string TicketTemplateValue {
+            get {
+                return ResourceManager.GetString("TicketTemplateValue", resourceCulture);
             }
         }
         

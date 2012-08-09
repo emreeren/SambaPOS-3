@@ -57,6 +57,10 @@ namespace FlexButton
         public static readonly DependencyProperty GlowColorProperty =
             DependencyProperty.Register("GlowColor", typeof(SolidColorBrush), typeof(FlexButton));
 
+        public static readonly DependencyProperty ColorProperty =
+            DependencyProperty.Register("Color", typeof(SolidColorBrush), typeof(FlexButton),
+            new FrameworkPropertyMetadata(OnColorChanged));
+
         public static readonly DependencyProperty ButtonColorProperty =
             DependencyProperty.Register("ButtonColor", typeof(SolidColorBrush), typeof(FlexButton),
             new FrameworkPropertyMetadata(OnButtonColorChanged));
@@ -92,6 +96,12 @@ namespace FlexButton
         {
             get { return (SolidColorBrush)GetValue(ButtonColorProperty); }
             set { SetValue(ButtonColorProperty, value); }
+        }
+
+        public Brush Color
+        {
+            get { return (SolidColorBrush)GetValue(ColorProperty); }
+            set { SetValue(ColorProperty, value); }
         }
 
         public CornerRadius CornerRadius
@@ -180,6 +190,20 @@ namespace FlexButton
             if (e.NewValue != null)
                 UpdateButtonColor((FlexButton)d, (SolidColorBrush)e.NewValue);
             else UpdateButtonColor((FlexButton)d, Brushes.Gainsboro);
+        }
+
+        private static void OnColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue != null)
+            {
+                var newColor = (SolidColorBrush)e.NewValue;
+                var fb = d as FlexButton;
+                if (fb != null && fb.ButtonColor == null)
+                {
+                    UpdateButtonColor(fb, newColor);
+                }
+            }
+            else UpdateButtonColor((FlexButton)d, (SolidColorBrush)((FlexButton)d).ButtonColor ?? Brushes.Gainsboro);
         }
 
         private static void UpdateButtonColor(FlexButton item, SolidColorBrush color)

@@ -9,7 +9,7 @@
     <Border Name="brd" BorderThickness="1" BorderBrush="Transparent" Background="{Binding SelectedResourceScreen.BackgroundColor}">
         <Viewbox Stretch="Uniform" >
             <Grid HorizontalAlignment="Stretch">
-                <Image Source="{Binding SelectedResourceScreen.BackgroundImage, Converter={StaticResource NullImageConverter}}" HorizontalAlignment="Left"
+                <Image Source="{Binding SelectedResourceScreen.BackgroundImage, Converter={StaticResource NullValueConverter}}" HorizontalAlignment="Left"
                                      VerticalAlignment="Top" Stretch="None">
                 </Image>
                 <UIControls:DiagramCanvas SnapsToDevicePixels="True" MinWidth="640" MinHeight="480" EditingMode="None" WidgetRemoved="DiagramCanvas_WidgetRemoved"

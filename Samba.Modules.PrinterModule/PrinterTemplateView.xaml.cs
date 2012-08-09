@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 
 namespace Samba.Modules.PrinterModule
@@ -14,7 +15,7 @@ namespace Samba.Modules.PrinterModule
             Loaded += PrinterTemplateView_Loaded;
         }
 
-        void PrinterTemplateView_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        void PrinterTemplateView_Loaded(object sender, RoutedEventArgs e)
         {
             var content = DataContext as PrinterTemplateViewModel;
             if (content != null)

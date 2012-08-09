@@ -25,8 +25,8 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             if (template.MergeLines) lines = MergeLines(lines);
             var orderNo = lines.Count() > 0 ? lines.ElementAt(0).OrderNumber : 0;
             var userNo = lines.Count() > 0 ? lines.ElementAt(0).CreatingUserName : "";
-            var header = ReplaceDocumentVars(template.HeaderTemplate, ticket, orderNo, userNo);
-            var footer = ReplaceDocumentVars(template.FooterTemplate, ticket, orderNo, userNo);
+            var header = ReplaceDocumentVars(template.GetPart("HEADER"), ticket, orderNo, userNo);
+            var footer = ReplaceDocumentVars(template.GetPart("FOOTER"), ticket, orderNo, userNo);
             var lns = lines.SelectMany(x => FormatLines(template, x).Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)).ToArray();
 
             var result = header.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -246,8 +246,9 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
         private static string FormatLines(PrinterTemplate template, Order order)
         {
-            if (!string.IsNullOrEmpty(template.LineTemplate))
-                return template.LineTemplate.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
+            var templateName = "LINE" + (!string.IsNullOrEmpty(order.OrderStateGroupName) ? ":" + order.OrderStateGroupName : "");
+            if (!string.IsNullOrEmpty(template.GetPart(templateName)))
+                return template.GetPart(templateName).Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
                     .Aggregate("", (current, s) => current + ReplaceLineVars(s, order));
             return "";
         }

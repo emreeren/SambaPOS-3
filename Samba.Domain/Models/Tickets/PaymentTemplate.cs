@@ -8,7 +8,6 @@ namespace Samba.Domain.Models.Tickets
     {
         public PaymentTemplate()
         {
-            ButtonColor = "Gainsboro";
             _paymentTemplateMaps = new List<PaymentTemplateMap>();
         }
 

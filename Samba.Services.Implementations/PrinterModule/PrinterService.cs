@@ -245,9 +245,7 @@ namespace Samba.Services.Implementations.PrinterModule
             {
                 var printerMap = printJob.PrinterMaps[0];
                 var printerTemplate = PrinterTemplates.Single(x => x.Id == printerMap.PrinterTemplateId);
-                var content = printerTemplate
-                    .HeaderTemplate
-                    .Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                var content = printerTemplate.Template.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
                 PrintJobFactory.CreatePrintJob(PrinterById(printerMap.PrinterId)).DoPrint(content);
             }
         }

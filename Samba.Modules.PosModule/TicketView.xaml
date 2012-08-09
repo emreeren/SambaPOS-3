@@ -105,7 +105,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <FxButton:FlexButton Command="{Binding DataContext.ExecuteAutomationCommnand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
-                                     CommandParameter="{Binding .}" ButtonColor="{Binding Color}" Visibility="{Binding IsVisible,Converter={StaticResource VisibilityConverter}}">
+                                     CommandParameter="{Binding .}" ButtonColor="{Binding Color,Converter={StaticResource NullBrushConverter}}" Visibility="{Binding IsVisible,Converter={StaticResource VisibilityConverter}}">
                             <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding ButtonHeader}" />
                         </FxButton:FlexButton>
                     </DataTemplate>

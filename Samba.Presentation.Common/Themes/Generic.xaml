@@ -6,7 +6,8 @@
 
     <Converters:VisibilityConverter x:Key="VisibilityConverter" />
     <Converters:FontWeightConverter x:Key="FontWeightConverter" />
-    <Converters:NullImageConverter x:Key="NullImageConverter"/>
+    <Converters:NullValueConverter x:Key="NullValueConverter"/>
+    <Converters:NullBrushConverter x:Key="NullBrushConverter"/>
     <ListViewEx:BackgroundConvertor x:Key="backgroundConverter"/>
 
     <DataTemplate x:Key="NameTokenTemplate">

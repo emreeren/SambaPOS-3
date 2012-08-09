@@ -296,28 +296,11 @@ namespace Samba.Services
             var u = new User("Administrator", "1234") { UserRole = role };
             _workspace.Add(u);
 
-            var ticketPrinterTemplate = new PrinterTemplate();
-            ticketPrinterTemplate.Name = Resources.TicketTemplate;
-            ticketPrinterTemplate.HeaderTemplate = Resources.TicketTemplateHeaderValue;
-            ticketPrinterTemplate.LineTemplate = Resources.TicketTempleteLineTemplateValue;
-            ticketPrinterTemplate.FooterTemplate = Resources.TicketTemplateFooterValue;
-
-            var kitchenPrinterTemplate = new PrinterTemplate();
-            kitchenPrinterTemplate.Name = Resources.KitchenOrderTemplate;
-            kitchenPrinterTemplate.HeaderTemplate = Resources.KitchenTemplateHeaderValue;
-
-            kitchenPrinterTemplate.LineTemplate = Resources.KitchenTemplateLineTemplateValue;
-            kitchenPrinterTemplate.FooterTemplate = "<F>-";
-
-            var invoicePrinterTemplate = new PrinterTemplate();
-            invoicePrinterTemplate.Name = Resources.InvoicePrinterTemplate;
-            invoicePrinterTemplate.HeaderTemplate = Resources.InvoiceTemplateHeaderValue;
-            invoicePrinterTemplate.LineTemplate = Resources.InvoiceTemplateLineTemplateValue;
-            invoicePrinterTemplate.FooterTemplate = "<F>-";
+            var ticketPrinterTemplate = new PrinterTemplate { Name = Resources.TicketTemplate, Template = Resources.TicketTemplateValue };
+            var kitchenPrinterTemplate = new PrinterTemplate { Name = Resources.KitchenOrderTemplate, Template = Resources.KitchenTemplateValue };
 
             _workspace.Add(ticketPrinterTemplate);
             _workspace.Add(kitchenPrinterTemplate);
-            _workspace.Add(invoicePrinterTemplate);
 
             var printer1 = new Printer { Name = Resources.TicketPrinter };
             var printer2 = new Printer { Name = Resources.KitchenPrinter };

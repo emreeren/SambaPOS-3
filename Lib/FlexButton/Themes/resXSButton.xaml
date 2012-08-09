@@ -124,14 +124,14 @@
                             <Setter TargetName="InnerBorder" Property="Opacity" Value="0.9"/>
                             <!--<Setter TargetName="content" Property="Margin" Value="3,1"/>-->
                             <Setter TargetName="R1" Property="Height" Value="10*"/>
-                            <Setter TargetName="R2" Property="Height" Value="80*"/>
-                            <Setter TargetName="R3" Property="Height" Value="10*"/>
-                            <Setter TargetName="C1" Property="Width" Value="10*"/>
-                            <Setter TargetName="C2" Property="Width" Value="80*"/>
-                            <Setter TargetName="C3" Property="Width" Value="10*"/>
+                            <Setter TargetName="R2" Property="Height" Value="85*"/>
+                            <Setter TargetName="R3" Property="Height" Value="5*"/>
+                            <Setter TargetName="C1" Property="Width" Value="7*"/>
+                            <Setter TargetName="C2" Property="Width" Value="86*"/>
+                            <Setter TargetName="C3" Property="Width" Value="7*"/>
                             <Setter TargetName="Glow" Property="Opacity" Value="0.5" />
                             <Setter TargetName="Highlight" Property="Opacity" Value="0.5"/>
-                            <Setter Property="ButtonColor" Value="Gray"/>
+                            <Setter Property="Color" Value="Gray"/>
                         </Trigger>
 
                         <Trigger Property="IsEnabled" Value="False">

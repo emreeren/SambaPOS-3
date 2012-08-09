@@ -190,7 +190,7 @@ namespace Samba.Modules.PosModule
             }
             else
             {
-                Background = null;
+                Background = Brushes.Transparent;
                 Foreground = SystemColors.WindowTextBrush;
 
                 if (IsLocked)

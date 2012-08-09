@@ -49,7 +49,6 @@ namespace Samba.Presentation.ViewModels
                 {
                     Caption = Resources.Settle,
                     Command = _settleCommand,
-                    Color = "Gainsboro"
                 });
             }
 

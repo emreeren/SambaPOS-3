@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using ICSharpCode.AvalonEdit.Document;
 using Samba.Domain.Models.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
@@ -19,10 +20,10 @@ namespace Samba.Modules.PrinterModule
             _printerService = printerService;
         }
 
-        public string HeaderTemplate { get { return Model.HeaderTemplate; } set { Model.HeaderTemplate = value; } }
-        public string LineTemplate { get { return Model.LineTemplate; } set { Model.LineTemplate = value; } }
-        public string FooterTemplate { get { return Model.FooterTemplate; } set { Model.FooterTemplate = value; } }
+        public string Template { get { return Model.Template; } set { Model.Template = value; } }
         public bool MergeLines { get { return Model.MergeLines; } set { Model.MergeLines = value; } }
+
+        public TextDocument TemplateText { get; set; }
 
         public override Type GetViewType()
         {
@@ -43,6 +44,18 @@ namespace Samba.Modules.PrinterModule
         private IDictionary<string, string> CreateDescriptions()
         {
             return _printerService.CreateTagDescriptions();
+        }
+
+        protected override void Initialize()
+        {
+            base.Initialize();
+            TemplateText= new TextDocument(Template);
+        }
+
+        protected override void OnSave(string value)
+        {
+            Template = TemplateText.Text;
+            base.OnSave(value);
         }
     }
 }

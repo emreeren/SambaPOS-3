@@ -102,6 +102,7 @@ namespace Samba.Persistance.Data
         {
             modelBuilder.Entity<Resource>().Property(x => x.CustomData).IsMaxLength();
             modelBuilder.Entity<Ticket>().Property(x => x.TicketTags).IsMaxLength();
+            modelBuilder.Entity<PrinterTemplate>().Property(x => x.Template).IsMaxLength();
 
             modelBuilder.Entity<Department>().HasMany(p => p.ResourceScreens).WithMany();
             modelBuilder.Entity<ResourceScreen>().HasMany(p => p.ScreenItems).WithMany();
