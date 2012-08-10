@@ -25,7 +25,7 @@
             MaxWidth = maxWidth;
             FontWidth = Tag.Width;
             FontHeight = Tag.Height;
-            Line = RemoveTag(documentLine).Trim();
+            Line = RemoveTag(documentLine);
         }
 
         protected static string ExpandLabel(string label)

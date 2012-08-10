@@ -949,17 +949,14 @@ Yap</value>
     <value>#Satır: Ürün Tutarı (İkram hariç)</value>
     <comment>Paragraph content</comment>
   </data>
-  <data name="LineItemDetails" xml:space="preserve">
-    <value>#Satır: Ürün Detay Özellikleri</value>
-    <comment>Paragraph content</comment>
+  <data name="OrderTagName" xml:space="preserve">
+    <value>#Etiket: Sipariş Etiketi Adı</value>
   </data>
-  <data name="LineItemDetailPrice" xml:space="preserve">
-    <value>#Satır: Ürün Özellik Fiyatı</value>
-    <comment>Paragraph content</comment>
+  <data name="OrderTagPrice" xml:space="preserve">
+    <value>#Etiket: Sipariş Etiketi Fiyatı</value>
   </data>
-  <data name="LineItemDetailQuantity" xml:space="preserve">
-    <value>#Satır: Ürün Özellik Miktarı</value>
-    <comment>Paragraph content</comment>
+  <data name="OrderTagQuantity" xml:space="preserve">
+    <value>#Etiket: Sipariş Etiketi Miktar</value>
   </data>
   <data name="LineOrderNumber" xml:space="preserve">
     <value>#Satır: Sipariş Numarası</value>

@@ -950,17 +950,14 @@ Payment</value>
     <value>#Line: Item Total (Gifts Excluded)</value>
     <comment>Paragraph content</comment>
   </data>
-  <data name="LineItemDetails" xml:space="preserve">
-    <value>#Line: Item Properties</value>
-    <comment>Paragraph content</comment>
+  <data name="OrderTagName" xml:space="preserve">
+    <value>#OrderTag: Order Tag Name</value>
   </data>
-  <data name="LineItemDetailPrice" xml:space="preserve">
-    <value>#Line: Item Property Price</value>
-    <comment>Paragraph content</comment>
+  <data name="OrderTagPrice" xml:space="preserve">
+    <value>#OrderTag: Order Tag Price</value>
   </data>
-  <data name="LineItemDetailQuantity" xml:space="preserve">
-    <value>#Line: Item Property Quantity</value>
-    <comment>Paragraph content</comment>
+  <data name="OrderTagQuantity" xml:space="preserve">
+    <value>#OrderTag: Order Tag Quantity</value>
   </data>
   <data name="LineOrderNumber" xml:space="preserve">
     <value>#Line: Order Number</value>

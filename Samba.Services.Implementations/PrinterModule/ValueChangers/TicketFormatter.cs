@@ -43,13 +43,16 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
                                                     x.MenuItemId,
                                                     x.MenuItemName,
                                                     x.CalculatePrice,
-                                                    DecreaseFromInventory = x.DecreaseInventory,
+                                                    x.DecreaseInventory,
                                                     x.Price,
                                                     x.TaxAmount,
                                                     x.TaxTemplateId,
                                                     x.TaxIncluded,
                                                     x.PortionName,
-                                                    x.PortionCount
+                                                    x.PortionCount,
+                                                    x.OrderState,
+                                                    x.OrderStateGroupName,
+                                                    x.OrderStateGroupId
                                                 });
 
             var result = group.Select(x => new Order
@@ -57,7 +60,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
                                         MenuItemId = x.Key.MenuItemId,
                                         MenuItemName = x.Key.MenuItemName,
                                         CalculatePrice = x.Key.CalculatePrice,
-                                        DecreaseInventory = x.Key.DecreaseFromInventory,
+                                        DecreaseInventory = x.Key.DecreaseInventory,
                                         Price = x.Key.Price,
                                         TaxAmount = x.Key.TaxAmount,
                                         TaxTemplateId = x.Key.TaxTemplateId,
@@ -68,6 +71,9 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
                                         TicketId = x.Last().TicketId,
                                         PortionName = x.Key.PortionName,
                                         PortionCount = x.Key.PortionCount,
+                                        OrderState = x.Key.OrderState,
+                                        OrderStateGroupName = x.Key.OrderStateGroupName,
+                                        OrderStateGroupId = x.Key.OrderStateGroupId,
                                         Quantity = x.Sum(y => y.Quantity)
                                     });
 
@@ -247,15 +253,17 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
         private static string FormatLines(PrinterTemplate template, Order order)
         {
             var templateName = "LINE" + (!string.IsNullOrEmpty(order.OrderStateGroupName) ? ":" + order.OrderStateGroupName : "");
-            if (!string.IsNullOrEmpty(template.GetPart(templateName)))
-                return template.GetPart(templateName).Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
-                    .Aggregate("", (current, s) => current + ReplaceLineVars(s, order));
+            var templatePart = template.GetPart(templateName);
+            if (!string.IsNullOrEmpty(templatePart))
+                //return templatePart.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
+                //    .Aggregate("", (current, s) => current + ReplaceLineVars(s, order));
+                return ReplaceOrderVars(templatePart, order, template);
             return "";
         }
 
-        private static string ReplaceLineVars(string line, Order order)
+        private static string ReplaceOrderVars(string orderTemplate, Order order, PrinterTemplate template)
         {
-            string result = line;
+            string result = orderTemplate;
 
             if (order != null)
             {
@@ -270,24 +278,42 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
                 result = FormatData(result, TagNames.PriceTag, () => order.PriceTag);
                 result = _settingReplacer.ReplaceSettingValue("{SETTING:([^}]+)}", result);
 
-                if (result.Contains(TagNames.Properties.Substring(0, TagNames.Properties.Length - 1)))
+                if (order.OrderTagValues.Count > 0)
                 {
-                    string lineFormat = result;
-                    if (order.OrderTagValues.Count > 0)
+                    foreach (var orderTagValue in order.OrderTagValues)
                     {
-                        string label = "";
-                        foreach (var property in order.OrderTagValues)
+                        var value = orderTagValue;
+                        var templateName = "ORDER TAG" + (!string.IsNullOrEmpty(value.Name) ? ":" + value.Name : "");
+                        var templatePart = template.GetPart(templateName);
+                        if (!string.IsNullOrEmpty(templatePart))
                         {
-                            var itemProperty = property;
-                            var lineValue = FormatData(lineFormat, TagNames.Properties, () => itemProperty.Name);
-                            lineValue = FormatData(lineValue, TagNames.PropQuantity, () => itemProperty.Quantity.ToString("#.##"));
-                            lineValue = FormatData(lineValue, TagNames.PropPrice, () => itemProperty.AddTagPriceToOrderPrice ? "" : itemProperty.Price.ToString("#,#0.00"));
-                            label += lineValue + "\r\n";
+                            var otResult = templatePart;
+                            otResult = FormatDataIf(value.Price != 0, otResult, TagNames.OrderTagPrice, () => value.AddTagPriceToOrderPrice ? "" : value.Price.ToString("#,#0.00"));
+                            otResult = FormatDataIf(value.Quantity != 0, otResult, TagNames.OrderTagQuantity, () => value.Quantity.ToString("#.##"));
+                            otResult = FormatDataIf(!string.IsNullOrEmpty(value.Name), otResult, TagNames.OrderTagName, () => value.Name);
+                            result += "\r\n" + otResult;
                         }
-                        result = "\r\n" + label;
                     }
-                    else result = "";
                 }
+
+                //if (result.Contains(TagNames.OrderTagName.Substring(0, TagNames.OrderTagName.Length - 1)))
+                //{
+                //    string lineFormat = result;
+                //    if (order.OrderTagValues.Count > 0)
+                //    {
+                //        string label = "";
+                //        foreach (var property in order.OrderTagValues)
+                //        {
+                //            var itemProperty = property;
+                //            var lineValue = FormatData(lineFormat, TagNames.OrderTagName, () => itemProperty.Name);
+                //            lineValue = FormatData(lineValue, TagNames.OrderTagQuantity, () => itemProperty.Quantity.ToString("#.##"));
+                //            lineValue = FormatData(lineValue, TagNames.OrderTagPrice, () => itemProperty.AddTagPriceToOrderPrice ? "" : itemProperty.Price.ToString("#,#0.00"));
+                //            label += lineValue + "\r\n";
+                //        }
+                //        result = "\r\n" + label;
+                //    }
+                //    else result = "";
+                //}
                 result = result.Replace("<", "\r\n<");
             }
             return result;

@@ -44,7 +44,7 @@ namespace Samba.Domain.Models.Settings
             foreach (var line in template.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries))
             {
                 var m = Regex.Match(line, @"(?<=\[)(?<SectionName>[^\]]+)(?=\])");
-                if (m.Success)
+                if (m.Success && !line.Contains("<"))
                 {
                     currentSection = m.Groups["SectionName"].Value.ToUpper(CultureInfo.InvariantCulture);
                     if (!result.ContainsKey(currentSection))

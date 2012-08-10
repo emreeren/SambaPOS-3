@@ -76,6 +76,7 @@ namespace Samba.Services.Implementations.PrinterModule
         public override void Reset()
         {
             _printers = null;
+            _printerTemplates = null;
             PrinterInfo.ResetCache();
         }
 
@@ -274,11 +275,11 @@ namespace Samba.Services.Implementations.PrinterModule
             result.Add(TagNames.Total, Resources.LineItemTotal);
             result.Add(TagNames.TotalAmount, Resources.LineItemQuantity);
             result.Add(TagNames.LineAmount, Resources.LineItemTotalWithoutGifts);
-            result.Add(TagNames.Properties, Resources.LineItemDetails);
-            result.Add(TagNames.PropPrice, Resources.LineItemDetailPrice);
-            result.Add(TagNames.PropQuantity, Resources.LineItemDetailQuantity);
             result.Add(TagNames.OrderNo, Resources.LineOrderNumber);
             result.Add(TagNames.PriceTag, Resources.LinePriceTag);
+            result.Add(TagNames.OrderTagName, Resources.OrderTagName);
+            result.Add(TagNames.OrderTagPrice, Resources.OrderTagPrice);
+            result.Add(TagNames.OrderTagQuantity, Resources.OrderTagQuantity);
             result.Add(TagNames.TicketTotal, Resources.TicketTotal);
             result.Add(TagNames.PaymentTotal, Resources.TicketPaidTotal);
             result.Add(TagNames.PlainTotal, Resources.TicketSubTotal);

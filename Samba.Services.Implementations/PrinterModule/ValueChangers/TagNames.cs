@@ -40,8 +40,8 @@
         public const string Cents = "{CENTS}";
         public const string LineAmount = "{LINE AMOUNT}";
         public const string PriceTag = "{PRICE TAG}";
-        public const string Properties = "{PROPERTIES}";
-        public const string PropQuantity = "{PROP QUANTITY}";
-        public const string PropPrice = "{PROP PRICE}";
+        public const string OrderTagName = "{ORDER TAG NAME}";
+        public const string OrderTagQuantity = "{ORDER TAG QUANTITY}";
+        public const string OrderTagPrice = "{ORDER TAG PRICE}";
     }
 }

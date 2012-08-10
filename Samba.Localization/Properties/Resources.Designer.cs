@@ -3744,33 +3744,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to #Line: Item Property Price.
-        /// </summary>
-        public static string LineItemDetailPrice {
-            get {
-                return ResourceManager.GetString("LineItemDetailPrice", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to #Line: Item Property Quantity.
-        /// </summary>
-        public static string LineItemDetailQuantity {
-            get {
-                return ResourceManager.GetString("LineItemDetailQuantity", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to #Line: Item Properties.
-        /// </summary>
-        public static string LineItemDetails {
-            get {
-                return ResourceManager.GetString("LineItemDetails", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to #Line: Item Name.
         /// </summary>
         public static string LineItemName {
@@ -4876,6 +4849,33 @@ namespace Samba.Localization.Properties {
         public static string OrderTagMapping {
             get {
                 return ResourceManager.GetString("OrderTagMapping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #OrderTag: Order Tag Name.
+        /// </summary>
+        public static string OrderTagName {
+            get {
+                return ResourceManager.GetString("OrderTagName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #OrderTag: Order Tag Price.
+        /// </summary>
+        public static string OrderTagPrice {
+            get {
+                return ResourceManager.GetString("OrderTagPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #OrderTag: Order Tag Quantity.
+        /// </summary>
+        public static string OrderTagQuantity {
+            get {
+                return ResourceManager.GetString("OrderTagQuantity", resourceCulture);
             }
         }
         
