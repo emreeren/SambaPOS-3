@@ -5,7 +5,6 @@ namespace Samba.Domain.Models.Settings
 {
     public class Terminal : Entity
     {
-        public byte[] LastUpdateTime { get; set; }
         public bool IsDefault { get; set; }
         public bool AutoLogout { get; set; }
         

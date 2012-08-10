@@ -21,11 +21,10 @@ namespace Samba.Domain.Models.Menus
 
         public byte[] LastUpdateTime { get; set; }
 
-        private IList<ScreenMenuCategory> _categories;
+        private readonly IList<ScreenMenuCategory> _categories;
         public virtual IList<ScreenMenuCategory> Categories
         {
             get { return _categories; }
-            set { _categories = value; }
         }
 
         public ScreenMenuCategory AddCategory(string categoryName)

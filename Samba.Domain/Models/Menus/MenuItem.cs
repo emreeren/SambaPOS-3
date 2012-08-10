@@ -20,18 +20,16 @@ namespace Samba.Domain.Models.Menus
             _portions = new List<MenuItemPortion>();
         }
 
-        public byte[] LastUpdateTime { get; set; }
         public string GroupCode { get; set; }
         public string Barcode { get; set; }
         public string Tag { get; set; }
 
         public virtual TaxTemplate TaxTemplate { get; set; }
 
-        private IList<MenuItemPortion> _portions;
+        private readonly IList<MenuItemPortion> _portions;
         public virtual IList<MenuItemPortion> Portions
         {
             get { return _portions; }
-            set { _portions = value; }
         }
 
         private static MenuItem _all;
@@ -57,7 +55,7 @@ namespace Samba.Domain.Models.Menus
                     return portion;
             }
             if (string.IsNullOrEmpty(portionName) && Portions.Count > 0) return Portions[0];
-            throw new Exception("Porsiyon Tanımlı Değil.");
+            throw new Exception("Portion not found.");
         }
 
         public string UserString

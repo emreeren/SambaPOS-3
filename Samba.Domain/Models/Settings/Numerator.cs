@@ -4,6 +4,7 @@ namespace Samba.Domain.Models.Settings
 {
     public class Numerator : Entity
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays")]
         public byte[] LastUpdateTime { get; set; }
         public int Number { get; set; }
         public string NumberFormat { get; set; }

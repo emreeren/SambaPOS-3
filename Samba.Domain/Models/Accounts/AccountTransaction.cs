@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using NCalc;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Accounts
@@ -83,6 +81,11 @@ namespace Samba.Domain.Models.Accounts
 
         public static AccountTransaction Create(AccountTransactionTemplate template)
         {
+            // <pex>
+            if (template == null)
+                throw new ArgumentNullException("template");
+            // </pex>
+
             var result = new AccountTransaction
                              {
                                  Name = template.Name,

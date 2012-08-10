@@ -8,11 +8,10 @@ namespace Samba.Domain.Models.Inventories
     {
         public DateTime Date { get; set; }
 
-        private IList<InventoryTransactionItem> _transactionItems;
+        private readonly IList<InventoryTransactionItem> _transactionItems;
         public virtual IList<InventoryTransactionItem> TransactionItems
         {
             get { return _transactionItems; }
-            set { _transactionItems = value; }
         }
 
         public InventoryTransaction()

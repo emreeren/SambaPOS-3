@@ -7,7 +7,6 @@ namespace Samba.Domain.Models.Tickets
 {
     public class Department : Entity
     {
-        public byte[] LastUpdateTime { get; set; }
         public string UserString { get { return Name; } }
         public int ScreenMenuId { get; set; }
         [StringLength(10)]
@@ -15,11 +14,10 @@ namespace Samba.Domain.Models.Tickets
         public int TicketCreationMethod { get; set; }
         public virtual TicketTemplate TicketTemplate { get; set; }
 
-        private IList<ResourceScreen> _resourceScreens;
+        private readonly IList<ResourceScreen> _resourceScreens;
         public virtual IList<ResourceScreen> ResourceScreens
         {
             get { return _resourceScreens; }
-            set { _resourceScreens = value; }
         }
 
         private static Department _all;

@@ -16,7 +16,6 @@ namespace Samba.Domain.Models.Users
             Name = name;
         }
 
-        public byte[] LastUpdateTime { get; set; }
         public bool IsAdmin { get; set; }
         public int DepartmentId { get; set; }
 

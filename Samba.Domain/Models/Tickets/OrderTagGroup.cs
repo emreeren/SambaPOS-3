@@ -18,18 +18,16 @@ namespace Samba.Domain.Models.Tickets
         public int MaxSelectedItems { get; set; }
         public bool AddTagPriceToOrderPrice { get; set; }
 
-        private IList<OrderTag> _orderTags;
+        private readonly IList<OrderTag> _orderTags;
         public virtual IList<OrderTag> OrderTags
         {
             get { return _orderTags; }
-            set { _orderTags = value; }
         }
 
-        private IList<OrderTagMap> _orderTagMaps;
+        private readonly IList<OrderTagMap> _orderTagMaps;
         public virtual IList<OrderTagMap> OrderTagMaps
         {
             get { return _orderTagMaps; }
-            set { _orderTagMaps = value; }
         }
 
         public OrderTagGroup()

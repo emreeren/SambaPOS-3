@@ -5,7 +5,6 @@ namespace Samba.Domain.Models.Settings
 {
     public class WorkPeriod : Entity
     {
-        public byte[] LastUpdateTime { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string StartDescription { get; set; }

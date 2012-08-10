@@ -5,7 +5,6 @@ namespace Samba.Domain.Models.Settings
 {
     public class Printer : Entity
     {
-        public byte[] LastUpdateTime { get; set; }
         public string ShareName { get; set; }
         public int PrinterType { get; set; }
         public int CodePage { get; set; }

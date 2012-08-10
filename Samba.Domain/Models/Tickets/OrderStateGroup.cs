@@ -15,18 +15,16 @@ namespace Samba.Domain.Models.Tickets
         public bool CalculateOrderPrice { get; set; }
         public bool DecreaseOrderInventory { get; set; }
 
-        private IList<OrderState> _orderStates;
+        private readonly IList<OrderState> _orderStates;
         public virtual IList<OrderState> OrderStates
         {
             get { return _orderStates; }
-            set { _orderStates = value; }
         }
 
-        private IList<OrderStateMap> _orderStateMaps;
+        private readonly IList<OrderStateMap> _orderStateMaps;
         public virtual IList<OrderStateMap> OrderStateMaps
         {
             get { return _orderStateMaps; }
-            set { _orderStateMaps = value; }
         }
 
         public OrderStateGroup()

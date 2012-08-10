@@ -16,7 +16,6 @@ namespace Samba.Domain.Models.Users
             _userRole = UserRole.Empty;
         }
 
-        public byte[] LastUpdateTime { get; set; }
         public string PinCode { get; set; }
         
         private UserRole _userRole;

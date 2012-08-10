@@ -10,18 +10,16 @@ namespace Samba.Domain.Models.Actions
         [StringLength(500)]
         public string EventConstraints { get; set; }
 
-        private IList<ActionContainer> _actions;
+        private readonly IList<ActionContainer> _actions;
         public virtual IList<ActionContainer> Actions
         {
             get { return _actions; }
-            set { _actions = value; }
         }
 
-        private IList<AppRuleMap> _appRuleMaps;
+        private readonly IList<AppRuleMap> _appRuleMaps;
         public virtual IList<AppRuleMap> AppRuleMaps
         {
             get { return _appRuleMaps; }
-            set { _appRuleMaps = value; }
         }
 
         public AppRule()

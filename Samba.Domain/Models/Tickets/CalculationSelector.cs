@@ -20,11 +20,10 @@ namespace Samba.Domain.Models.Tickets
         public int Order { get; set; }
         public string UserString { get { return Name; } }
        
-        private IList<CalculationTemplate> _calculationTemplates;
+        private readonly IList<CalculationTemplate> _calculationTemplates;
         public virtual IList<CalculationTemplate> CalculationTemplates
         {
             get { return _calculationTemplates; }
-            set { _calculationTemplates = value; }
         }
 
         private readonly IList<CalculationSelectorMap> _calculationSelectorMaps;
