@@ -17,75 +17,122 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
     {
         private static readonly IDepartmentService DepartmentService = ServiceLocator.Current.GetInstance<IDepartmentService>();
         private static readonly ISettingService SettingService = ServiceLocator.Current.GetInstance<ISettingService>();
-        private static ISettingReplacer _settingReplacer;
+        private static readonly ICacheService CacheService = ServiceLocator.Current.GetInstance<ICacheService>();
+        private static readonly IAccountService AccountService = ServiceLocator.Current.GetInstance<IAccountService>();
 
         public static string[] GetFormattedTicket(Ticket ticket, IEnumerable<Order> lines, PrinterTemplate template)
         {
-            _settingReplacer = SettingService.GetSettingReplacer();
-            if (template.MergeLines) lines = MergeLines(lines);
-            var orderNo = lines.Count() > 0 ? lines.ElementAt(0).OrderNumber : 0;
-            var userNo = lines.Count() > 0 ? lines.ElementAt(0).CreatingUserName : "";
-            var header = ReplaceDocumentVars(template.GetPart("HEADER"), ticket, orderNo, userNo);
-            var footer = ReplaceDocumentVars(template.GetPart("FOOTER"), ticket, orderNo, userNo);
-            var lns = lines.SelectMany(x => FormatLines(template, x).Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)).ToArray();
+            var orders = lines.ToList();
 
-            var result = header.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-            result.AddRange(lns);
-            result.AddRange(footer.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries));
+            if (template.MergeLines) orders = MergeLines(orders).ToList();
+            var orderNo = orders.Count() > 0 ? orders.ElementAt(0).OrderNumber : 0;
+            var userNo = orders.Count() > 0 ? orders.ElementAt(0).CreatingUserName : "";
 
-            return result.ToArray();
+            string content = FormatLayout(template, ticket, orderNo, userNo);
+            content = FormatData(content, "{RESOURCES}", () => string.Join("\r\n", ticket.TicketResources.SelectMany(x => FormatResource(template, x).Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries))));
+            content = FormatData(content, "{ORDERS}", () => string.Join("\r\n", orders.SelectMany(x => FormatOrder(template, x).Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries))));
+
+            content = SettingService.GetSettingReplacer().ReplaceSettingValue("{SETTING:([^}]+)}", content);
+
+            return content.Split(new[] { '\r', '\n' }).ToArray();
         }
 
-        private static IEnumerable<Order> MergeLines(IEnumerable<Order> lines)
+        private static string FormatResource(PrinterTemplate template, TicketResource ticketResource)
         {
-            var group = lines.Where(x => x.OrderTagValues.Count == 0).GroupBy(x => new
-                                                {
-                                                    x.MenuItemId,
-                                                    x.MenuItemName,
-                                                    x.CalculatePrice,
-                                                    x.DecreaseInventory,
-                                                    x.Price,
-                                                    x.TaxAmount,
-                                                    x.TaxTemplateId,
-                                                    x.TaxIncluded,
-                                                    x.PortionName,
-                                                    x.PortionCount,
-                                                    x.OrderState,
-                                                    x.OrderStateGroupName,
-                                                    x.OrderStateGroupId
-                                                });
+            var resourceTemplate = CacheService.GetResourceTemplateById(ticketResource.ResourceTemplateId);
+            if (resourceTemplate == null) return "";
 
-            var result = group.Select(x => new Order
-                                    {
-                                        MenuItemId = x.Key.MenuItemId,
-                                        MenuItemName = x.Key.MenuItemName,
-                                        CalculatePrice = x.Key.CalculatePrice,
-                                        DecreaseInventory = x.Key.DecreaseInventory,
-                                        Price = x.Key.Price,
-                                        TaxAmount = x.Key.TaxAmount,
-                                        TaxTemplateId = x.Key.TaxTemplateId,
-                                        TaxIncluded = x.Key.TaxIncluded,
-                                        CreatedDateTime = x.Last().CreatedDateTime,
-                                        CreatingUserName = x.Last().CreatingUserName,
-                                        OrderNumber = x.Last().OrderNumber,
-                                        TicketId = x.Last().TicketId,
-                                        PortionName = x.Key.PortionName,
-                                        PortionCount = x.Key.PortionCount,
-                                        OrderState = x.Key.OrderState,
-                                        OrderStateGroupName = x.Key.OrderStateGroupName,
-                                        OrderStateGroupId = x.Key.OrderStateGroupId,
-                                        Quantity = x.Sum(y => y.Quantity)
-                                    });
+            var templateName = "RESOURCES" + (!string.IsNullOrEmpty(resourceTemplate.Name) ? ":" + resourceTemplate.Name : "");
+            var templatePart = template.GetPart(templateName);
+            if (!string.IsNullOrEmpty(templatePart))
+                return ReplaceResourceValues(templatePart, ticketResource);
+            return "";
+        }
 
-            result = result.Union(lines.Where(x => x.OrderTagValues.Count > 0)).OrderBy(x => x.CreatedDateTime);
+        private static string ReplaceResourceValues(string templatePart, TicketResource ticketResource)
+        {
 
+            var result = templatePart;
+            if (ticketResource != null)
+            {
+                result = FormatData(result, "{RESOURCE NAME}", () => ticketResource.ResourceName);
+                result = FormatDataIf(ticketResource.AccountId > 0, result, "{RESOURCE BALANCE}", () => AccountService.GetAccountBalance(ticketResource.AccountId).ToString("#,#0.00"));
+                if (result.Contains("{RESOURCE DATA:"))
+                {
+                    const string resourceDataPattern = "{RESOURCE DATA:" + "[^}]+}";
+                    var resource = CacheService.GetResourceById(ticketResource.ResourceId);
+                    while (Regex.IsMatch(result, resourceDataPattern))
+                    {
+                        var value = Regex.Match(result, resourceDataPattern).Groups[0].Value;
+                        try
+                        {
+                            var tag = value.Trim('{', '}').Split(':')[1];
+                            result = FormatData(result.Trim('\r'), value, () => string.Join("\r", tag.Split(',').Select(x => resource.GetCustomDataFormat(x, x + ": {0}"))));
+                        }
+                        catch (Exception)
+                        {
+                            result = FormatData(result, value, () => "");
+                        }
+                    }
+                }
+                return result;
+            }
+            return "";
+        }
+
+        private static string FormatOrder(PrinterTemplate template, Order order)
+        {
+            var templateName = "ORDERS" + (!string.IsNullOrEmpty(order.OrderStateGroupName) ? ":" + order.OrderStateGroupName : "");
+            var templatePart = template.GetPart(templateName);
+            if (!string.IsNullOrEmpty(templatePart))
+                return ReplaceOrderValues(templatePart, order, template);
+            return "";
+        }
+
+        private static string ReplaceOrderValues(string orderTemplate, Order order, PrinterTemplate template)
+        {
+            string result = orderTemplate;
+
+            if (order != null)
+            {
+                result = FormatData(result, TagNames.Quantity, () => order.Quantity.ToString("#,#0.##"));
+                result = FormatData(result, TagNames.Name, () => order.MenuItemName + order.GetPortionDesc());
+                result = FormatData(result, TagNames.Price, () => order.Price.ToString("#,#0.00"));
+                result = FormatData(result, TagNames.Total, () => order.GetItemPrice().ToString("#,#0.00"));
+                result = FormatData(result, TagNames.TotalAmount, () => order.GetItemValue().ToString("#,#0.00"));
+                result = FormatData(result, TagNames.Cents, () => (order.Price * 100).ToString("#,##"));
+                result = FormatData(result, TagNames.LineAmount, () => order.GetTotal().ToString("#,#0.00"));
+                result = FormatData(result, TagNames.OrderNo, () => order.OrderNumber.ToString());
+                result = FormatData(result, TagNames.PriceTag, () => order.PriceTag);
+                result = FormatData(result, "{ORDER TAGS}", () => string.Join("\r\n", order.OrderTagValues.SelectMany(x => FormatOrderTagValue(template, x).Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries))));
+            }
             return result;
         }
 
-        private static string ReplaceDocumentVars(string document, Ticket ticket, int orderNo, string userName)
+        private static string FormatOrderTagValue(PrinterTemplate template, OrderTagValue orderTagValue)
         {
-            string result = document;
-            if (string.IsNullOrEmpty(document)) return "";
+            var templateName = "ORDER TAGS" + (!string.IsNullOrEmpty(orderTagValue.Name) ? ":" + orderTagValue.Name : "");
+            var templatePart = template.GetPart(templateName);
+            if (!string.IsNullOrEmpty(templatePart))
+            {
+                return ReplaceOrderTagValues(templatePart, orderTagValue);
+            }
+            return "";
+        }
+
+        private static string ReplaceOrderTagValues(string templatePart, OrderTagValue value)
+        {
+            var otResult = templatePart;
+            otResult = FormatDataIf(value.Price != 0, otResult, TagNames.OrderTagPrice, () => value.AddTagPriceToOrderPrice ? "" : value.Price.ToString("#,#0.00"));
+            otResult = FormatDataIf(value.Quantity != 0, otResult, TagNames.OrderTagQuantity, () => value.Quantity.ToString("#.##"));
+            otResult = FormatDataIf(!string.IsNullOrEmpty(value.Name), otResult, TagNames.OrderTagName, () => value.Name);
+            return otResult;
+        }
+
+        private static string FormatLayout(PrinterTemplate template, Ticket ticket, int orderNo, string userName)
+        {
+            string result = template.Layout;
+            if (string.IsNullOrEmpty(result)) return "";
 
             result = FormatData(result, TagNames.TicketDate, () => ticket.Date.ToShortDateString());
             result = FormatData(result, TagNames.TicketTime, () => ticket.Date.ToShortTimeString());
@@ -172,7 +219,51 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             result = FormatData(result, TagNames.TotalText, () => HumanFriendlyInteger.CurrencyToWritten(ticket.GetSum()));
             result = FormatData(result, TagNames.Totaltext, () => HumanFriendlyInteger.CurrencyToWritten(ticket.GetSum(), true));
 
-            result = _settingReplacer.ReplaceSettingValue("{SETTING:([^}]+)}", result);
+            return result;
+        }
+
+        private static IEnumerable<Order> MergeLines(IEnumerable<Order> lines)
+        {
+            var group = lines.Where(x => x.OrderTagValues.Count == 0).GroupBy(x => new
+                                                {
+                                                    x.MenuItemId,
+                                                    x.MenuItemName,
+                                                    x.CalculatePrice,
+                                                    x.DecreaseInventory,
+                                                    x.Price,
+                                                    x.TaxAmount,
+                                                    x.TaxTemplateId,
+                                                    x.TaxIncluded,
+                                                    x.PortionName,
+                                                    x.PortionCount,
+                                                    x.OrderState,
+                                                    x.OrderStateGroupName,
+                                                    x.OrderStateGroupId
+                                                });
+
+            var result = group.Select(x => new Order
+                                    {
+                                        MenuItemId = x.Key.MenuItemId,
+                                        MenuItemName = x.Key.MenuItemName,
+                                        CalculatePrice = x.Key.CalculatePrice,
+                                        DecreaseInventory = x.Key.DecreaseInventory,
+                                        Price = x.Key.Price,
+                                        TaxAmount = x.Key.TaxAmount,
+                                        TaxTemplateId = x.Key.TaxTemplateId,
+                                        TaxIncluded = x.Key.TaxIncluded,
+                                        CreatedDateTime = x.Last().CreatedDateTime,
+                                        CreatingUserName = x.Last().CreatingUserName,
+                                        OrderNumber = x.Last().OrderNumber,
+                                        TicketId = x.Last().TicketId,
+                                        PortionName = x.Key.PortionName,
+                                        PortionCount = x.Key.PortionCount,
+                                        OrderState = x.Key.OrderState,
+                                        OrderStateGroupName = x.Key.OrderStateGroupName,
+                                        OrderStateGroupId = x.Key.OrderStateGroupId,
+                                        Quantity = x.Sum(y => y.Quantity)
+                                    });
+
+            result = result.Union(lines.Where(x => x.OrderTagValues.Count > 0)).OrderBy(x => x.CreatedDateTime);
 
             return result;
         }
@@ -250,163 +341,5 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             return data.Replace(tagData.DataString, "");
         }
 
-        private static string FormatLines(PrinterTemplate template, Order order)
-        {
-            var templateName = "LINE" + (!string.IsNullOrEmpty(order.OrderStateGroupName) ? ":" + order.OrderStateGroupName : "");
-            var templatePart = template.GetPart(templateName);
-            if (!string.IsNullOrEmpty(templatePart))
-                //return templatePart.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
-                //    .Aggregate("", (current, s) => current + ReplaceLineVars(s, order));
-                return ReplaceOrderVars(templatePart, order, template);
-            return "";
-        }
-
-        private static string ReplaceOrderVars(string orderTemplate, Order order, PrinterTemplate template)
-        {
-            string result = orderTemplate;
-
-            if (order != null)
-            {
-                result = FormatData(result, TagNames.Quantity, () => order.Quantity.ToString("#,#0.##"));
-                result = FormatData(result, TagNames.Name, () => order.MenuItemName + order.GetPortionDesc());
-                result = FormatData(result, TagNames.Price, () => order.Price.ToString("#,#0.00"));
-                result = FormatData(result, TagNames.Total, () => order.GetItemPrice().ToString("#,#0.00"));
-                result = FormatData(result, TagNames.TotalAmount, () => order.GetItemValue().ToString("#,#0.00"));
-                result = FormatData(result, TagNames.Cents, () => (order.Price * 100).ToString("#,##"));
-                result = FormatData(result, TagNames.LineAmount, () => order.GetTotal().ToString("#,#0.00"));
-                result = FormatData(result, TagNames.OrderNo, () => order.OrderNumber.ToString());
-                result = FormatData(result, TagNames.PriceTag, () => order.PriceTag);
-                result = _settingReplacer.ReplaceSettingValue("{SETTING:([^}]+)}", result);
-
-                if (order.OrderTagValues.Count > 0)
-                {
-                    foreach (var orderTagValue in order.OrderTagValues)
-                    {
-                        var value = orderTagValue;
-                        var templateName = "ORDER TAG" + (!string.IsNullOrEmpty(value.Name) ? ":" + value.Name : "");
-                        var templatePart = template.GetPart(templateName);
-                        if (!string.IsNullOrEmpty(templatePart))
-                        {
-                            var otResult = templatePart;
-                            otResult = FormatDataIf(value.Price != 0, otResult, TagNames.OrderTagPrice, () => value.AddTagPriceToOrderPrice ? "" : value.Price.ToString("#,#0.00"));
-                            otResult = FormatDataIf(value.Quantity != 0, otResult, TagNames.OrderTagQuantity, () => value.Quantity.ToString("#.##"));
-                            otResult = FormatDataIf(!string.IsNullOrEmpty(value.Name), otResult, TagNames.OrderTagName, () => value.Name);
-                            result += "\r\n" + otResult;
-                        }
-                    }
-                }
-
-                //if (result.Contains(TagNames.OrderTagName.Substring(0, TagNames.OrderTagName.Length - 1)))
-                //{
-                //    string lineFormat = result;
-                //    if (order.OrderTagValues.Count > 0)
-                //    {
-                //        string label = "";
-                //        foreach (var property in order.OrderTagValues)
-                //        {
-                //            var itemProperty = property;
-                //            var lineValue = FormatData(lineFormat, TagNames.OrderTagName, () => itemProperty.Name);
-                //            lineValue = FormatData(lineValue, TagNames.OrderTagQuantity, () => itemProperty.Quantity.ToString("#.##"));
-                //            lineValue = FormatData(lineValue, TagNames.OrderTagPrice, () => itemProperty.AddTagPriceToOrderPrice ? "" : itemProperty.Price.ToString("#,#0.00"));
-                //            label += lineValue + "\r\n";
-                //        }
-                //        result = "\r\n" + label;
-                //    }
-                //    else result = "";
-                //}
-                result = result.Replace("<", "\r\n<");
-            }
-            return result;
-        }
-    }
-
-    public static class HumanFriendlyInteger
-    {
-        static readonly string[] Ones = new[] { "", Resources.One, Resources.Two, Resources.Three, Resources.Four, Resources.Five, Resources.Six, Resources.Seven, Resources.Eight, Resources.Nine };
-        static readonly string[] Teens = new[] { Resources.Ten, Resources.Eleven, Resources.Twelve, Resources.Thirteen, Resources.Fourteen, Resources.Fifteen, Resources.Sixteen, Resources.Seventeen, Resources.Eighteen, Resources.Nineteen };
-        static readonly string[] Tens = new[] { Resources.Twenty, Resources.Thirty, Resources.Forty, Resources.Fifty, Resources.Sixty, Resources.Seventy, Resources.Eighty, Resources.Ninety };
-        static readonly string[] ThousandsGroups = { "", " " + Resources.Thousand, " " + Resources.Million, " " + Resources.Billion };
-
-        private static string FriendlyInteger(int n, string leftDigits, int thousands)
-        {
-            if (n == 0)
-            {
-                return leftDigits;
-            }
-            string friendlyInt = leftDigits;
-            if (friendlyInt.Length > 0)
-            {
-                friendlyInt += " ";
-            }
-            if (n < 10)
-            {
-                friendlyInt += Ones[n];
-            }
-            else if (n < 20)
-            {
-                friendlyInt += Teens[n - 10];
-            }
-            else if (n < 100)
-            {
-                friendlyInt += FriendlyInteger(n % 10, Tens[n / 10 - 2], 0);
-            }
-            else if (n < 1000)
-            {
-                var t = Ones[n / 100] + " " + Resources.Hundred;
-                if (n / 100 == 1) t = Resources.OneHundred;
-                friendlyInt += FriendlyInteger(n % 100, t, 0);
-            }
-            else if (n < 10000 && thousands == 0)
-            {
-                var t = Ones[n / 1000] + " " + Resources.Thousand;
-                if (n / 1000 == 1) t = Resources.OneThousand;
-                friendlyInt += FriendlyInteger(n % 1000, t, 0);
-            }
-            else
-            {
-                friendlyInt += FriendlyInteger(n % 1000, FriendlyInteger(n / 1000, "", thousands + 1), 0);
-            }
-
-            return friendlyInt + ThousandsGroups[thousands];
-        }
-
-        public static string CurrencyToWritten(decimal d, bool upper = false)
-        {
-            var result = "";
-            var fraction = d - Math.Floor(d);
-            var value = d - fraction;
-            if (value > 0)
-            {
-                var start = IntegerToWritten(Convert.ToInt32(value));
-                if (upper) start = start.Replace(" ", "").ToUpper();
-                result += string.Format("{0} {1} ", start, Resources.Dollar + GetPlural(value));
-            }
-
-            if (fraction > 0)
-            {
-                var end = IntegerToWritten(Convert.ToInt32(fraction * 100));
-                if (upper) end = end.Replace(" ", "").ToUpper();
-                result += string.Format("{0} {1} ", end, Resources.Cent + GetPlural(fraction));
-            }
-            return result.Replace("  ", " ").Trim();
-        }
-
-        private static string GetPlural(decimal number)
-        {
-            return number == 1 ? "" : Resources.PluralCurrencySuffix;
-        }
-
-        public static string IntegerToWritten(int n)
-        {
-            if (n == 0)
-            {
-                return Resources.Zero;
-            }
-            if (n < 0)
-            {
-                return Resources.Negative + " " + IntegerToWritten(-n);
-            }
-            return FriendlyInteger(n, "", 0);
-        }
     }
 }

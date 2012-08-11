@@ -69,6 +69,7 @@
     <Compile Include="CacheService.cs" />
     <Compile Include="DepartmentModule\DepartmentService.cs" />
     <Compile Include="InventoryModule\InventoryService.cs" />
+    <Compile Include="PrinterModule\ValueChangers\HumanFriendlyInteger.cs" />
     <Compile Include="ResourceModule\ResourceService.cs" />
     <Compile Include="MenuModule\MenuService.cs" />
     <Compile Include="MenuModule\PriceListService.cs" />

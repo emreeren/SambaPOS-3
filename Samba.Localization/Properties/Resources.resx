@@ -3169,4 +3169,10 @@ Continue without adding details?</value>
         * {PROPERTIES}
 </value>
   </data>
+  <data name="Templates">
+    <value xml:space="preserve">Templates</value>
+  </data>
+  <data name="Layout">
+    <value xml:space="preserve">Layout</value>
+  </data>
 </root>

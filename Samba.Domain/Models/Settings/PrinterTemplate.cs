@@ -20,6 +20,17 @@ namespace Samba.Domain.Models.Settings
             }
         }
 
+        private string _layout;
+        public string Layout
+        {
+            get { return _layout; }
+            set
+            {
+                _layout = value;
+                _parts = null;
+            }
+        }
+
         public bool MergeLines { get; set; }
 
         private IDictionary<string, StringBuilder> _parts;
