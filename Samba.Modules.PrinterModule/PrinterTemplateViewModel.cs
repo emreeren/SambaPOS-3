@@ -21,11 +21,9 @@ namespace Samba.Modules.PrinterModule
         }
 
         public string Template { get { return Model.Template; } set { Model.Template = value; } }
-        public string Layout { get { return Model.Layout; } set { Model.Layout = value; } }
         public bool MergeLines { get { return Model.MergeLines; } set { Model.MergeLines = value; } }
 
         public TextDocument TemplateText { get; set; }
-        public TextDocument LayoutText { get; set; }
 
         public override Type GetViewType()
         {
@@ -51,14 +49,12 @@ namespace Samba.Modules.PrinterModule
         protected override void Initialize()
         {
             base.Initialize();
-            TemplateText= new TextDocument(Template);
-            LayoutText = new TextDocument(Layout??"");
+            TemplateText = new TextDocument(Template ?? "");
         }
 
         protected override void OnSave(string value)
         {
             Template = TemplateText.Text;
-            Layout = LayoutText.Text;
             base.OnSave(value);
         }
     }

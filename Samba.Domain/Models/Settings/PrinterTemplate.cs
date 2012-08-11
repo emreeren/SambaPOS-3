@@ -20,17 +20,6 @@ namespace Samba.Domain.Models.Settings
             }
         }
 
-        private string _layout;
-        public string Layout
-        {
-            get { return _layout; }
-            set
-            {
-                _layout = value;
-                _parts = null;
-            }
-        }
-
         public bool MergeLines { get; set; }
 
         private IDictionary<string, StringBuilder> _parts;
@@ -41,6 +30,7 @@ namespace Samba.Domain.Models.Settings
 
         public string GetPart(string partName)
         {
+            if (string.IsNullOrEmpty(partName)) partName = "LAYOUT";
             partName = partName.ToUpper(CultureInfo.InvariantCulture);
             if (Parts.ContainsKey(partName)) return Parts[partName].ToString();
             var p2 = partName.Contains(":") ? partName.Substring(0, partName.IndexOf(':')) : "";
@@ -51,7 +41,8 @@ namespace Samba.Domain.Models.Settings
         private IDictionary<string, StringBuilder> CreateParts(string template)
         {
             var result = new Dictionary<string, StringBuilder>();
-            var currentSection = "";
+            var currentSection = "LAYOUT";
+            result.Add(currentSection, new StringBuilder());
             foreach (var line in template.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries))
             {
                 var m = Regex.Match(line, @"(?<=\[)(?<SectionName>[^\]]+)(?=\])");
@@ -63,7 +54,7 @@ namespace Samba.Domain.Models.Settings
                 }
                 else
                 {
-                    if (result.ContainsKey(currentSection))
+                    if (!line.StartsWith("-- ") && result.ContainsKey(currentSection))
                         result[currentSection].AppendLine(line);
                 }
             }

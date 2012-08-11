@@ -3708,15 +3708,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Layout.
-        /// </summary>
-        public static string Layout {
-            get {
-                return ResourceManager.GetString("Layout", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Liability.
         /// </summary>
         public static string Liability {
@@ -6718,15 +6709,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Templates.
-        /// </summary>
-        public static string Templates {
-            get {
-                return ResourceManager.GetString("Templates", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Ten.
         /// </summary>
         public static string Ten {
@@ -7246,27 +7228,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [HEADER]
+        ///   Looks up a localized string similar to [LAYOUT]
+        ///-- General layout
         ///&lt;T&gt;TICKET
         ///&lt;L00&gt;Date:{TICKET DATE}
         ///&lt;L00&gt;Time:{TIME}
-        ///&lt;L00&gt;Location No:{LOCATION}
+        ///{RESOURCES}
         ///&lt;L00&gt;Ticket No:{TICKET NO}
         ///&lt;F&gt;-
-        ///
-        ///[LINE]
-        ///&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
-        ///        * {PROPERTIES}
-        ///
-        ///[LINE:GIFT]
-        ///&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
-        ///        * {PROPERTIES}
-        ///
-        ///[LINE:VOID]
-        ///&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
-        ///        * {PROPERTIES}
-        ///
-        ///[FOOTER]
+        ///{ORDERS}
         ///&lt;F&gt;=
         ///&lt;EB&gt;
         ///&lt;J10&gt;{IF DISCOUNT}
@@ -7275,7 +7245,23 @@ namespace Samba.Localization.Properties {
         ///{IF PAID}
         ///&lt;DB&gt;
         ///&lt;F&gt;=
-        ///&lt;C10&gt;T H A N K    Y O U.
+        ///&lt;C10&gt;T H A N K    Y O U
+        ///
+        ///[ORDERS]
+        ///-- Default format for orders
+        ///&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
+        ///{ORDER TAGS}
+        ///
+        ///[ORDERS:GIFT]
+        ///-- Format for gifted orders
+        ///&lt;J00&gt;- {QUANTITY} {NAME}|**GIFT**
+        ///{ORDER TAGS}
+        ///
+        ///[ORDERS:VOID]
+        ///-- Nothing will print for void lines
+        ///
+        ///[ORDER TAGS]
+        ///-- Format  [rest of string was truncated]&quot;;.
         /// </summary>
         public static string TicketTemplateValue {
             get {

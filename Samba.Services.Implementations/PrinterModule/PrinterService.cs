@@ -31,7 +31,6 @@ namespace Samba.Services.Implementations.PrinterModule
         {
             _applicationState = applicationState;
             _cacheService = cacheService;
-
             ValidatorRegistry.RegisterDeleteValidator(new PrinterDeleteValidator());
             ValidatorRegistry.RegisterDeleteValidator<PrinterTemplate>(x => Dao.Exists<PrinterMap>(y => y.PrinterTemplateId == x.Id), Resources.PrinterTemplate, Resources.PrintJob);
         }
