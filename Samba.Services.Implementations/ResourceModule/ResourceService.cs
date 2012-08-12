@@ -17,6 +17,7 @@ namespace Samba.Services.Implementations.ResourceModule
         private IWorkspace _resoureceWorkspace;
         private readonly int _resourceScreenItemCount;
         private readonly IApplicationState _applicationState;
+        private IList<Resource> _emptyResourceList = new List<Resource>().AsReadOnly();
 
         [ImportingConstructor]
         public ResourceService(IApplicationState applicationState)
@@ -87,7 +88,9 @@ namespace Samba.Services.Implementations.ResourceModule
             {
                 var ids = w.Queryable<ResourceStateValue>().GroupBy(x => x.ResoruceId).Select(x => x.Max(y => y.Id));
                 var vids = w.Queryable<ResourceStateValue>().Where(x => ids.Contains(x.Id) && (x.StateId == resourceStateId)).Select(x => x.ResoruceId).ToList();
-                return w.Queryable<Resource>().Where(x => x.ResourceTemplateId == resourceTemplateId && vids.Contains(x.Id)).ToList();
+                if (vids.Count > 0)
+                    return w.Queryable<Resource>().Where(x => x.ResourceTemplateId == resourceTemplateId && vids.Contains(x.Id)).ToList();
+                return _emptyResourceList;
             }
         }
 
@@ -116,7 +119,7 @@ namespace Samba.Services.Implementations.ResourceModule
         public void RemoveWidget(Widget widget)
         {
             if (_resoureceWorkspace == null) return;
-            _resoureceWorkspace.Delete<Widget>(x=>x.Id == widget.Id);
+            _resoureceWorkspace.Delete<Widget>(x => x.Id == widget.Id);
             _resoureceWorkspace.CommitChanges();
         }
 
