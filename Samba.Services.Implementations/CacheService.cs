@@ -165,7 +165,8 @@ namespace Samba.Services.Implementations
 
         public IEnumerable<AccountTransactionDocumentTemplate> GetAccountTransactionDocumentTemplates(int accountTemplateId)
         {
-            var maps = DocumentTemplates.SelectMany(x => x.AccountTransactionDocumentTemplateMaps)
+            var maps = DocumentTemplates.Where(x=>x.MasterAccountTemplateId==accountTemplateId)
+                .SelectMany(x => x.AccountTransactionDocumentTemplateMaps)
                .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
                .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
                .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
