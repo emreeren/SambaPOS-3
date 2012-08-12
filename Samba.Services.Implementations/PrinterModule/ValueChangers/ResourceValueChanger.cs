@@ -32,14 +32,13 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
                 if (result.Contains("{RESOURCE DATA:"))
                 {
                     const string resourceDataPattern = "{RESOURCE DATA:" + "[^}]+}";
-                    var resource = CacheService.GetResourceById(model.ResourceId);
                     while (Regex.IsMatch(result, resourceDataPattern))
                     {
                         var value = Regex.Match(result, resourceDataPattern).Groups[0].Value;
                         try
                         {
                             var tag = value.Trim('{', '}').Split(':')[1];
-                            result = FormatData(result.Trim('\r'), value, () => string.Join("\r", tag.Split(',').Select(x => resource.GetCustomDataFormat(x, x + ": {0}"))));
+                            result = FormatData(result.Trim('\r'), value, () => string.Join("\r", tag.Split(',').Select(x => model.GetCustomDataFormat(x, x + ": {0}"))));
                         }
                         catch (Exception)
                         {

@@ -174,7 +174,7 @@ namespace Samba.Modules.PosModule
             OpenTicket(0);
             foreach (var ticketResource in tr)
             {
-                _ticketService.UpdateResource(SelectedTicket, ticketResource.ResourceTemplateId, ticketResource.ResourceId, ticketResource.ResourceName, ticketResource.AccountId);
+                _ticketService.UpdateResource(SelectedTicket, ticketResource.ResourceTemplateId, ticketResource.ResourceId, ticketResource.ResourceName, ticketResource.AccountId, ticketResource.ResourceCustomData);
             }
         }
 

@@ -60,7 +60,7 @@ namespace Samba.Services.Implementations.TicketModule
                     });
         }
 
-        public void UpdateResource(Ticket ticket, int resourceTemplateId, int resourceId, string resourceName, int accountId)
+        public void UpdateResource(Ticket ticket, int resourceTemplateId, int resourceId, string resourceName, int accountId, string resourceCustomData)
         {
             var currentResource = ticket.TicketResources.SingleOrDefault(x => x.ResourceTemplateId == resourceTemplateId);
             var currentResourceId = currentResource != null ? currentResource.ResourceId : 0;
@@ -78,7 +78,7 @@ namespace Samba.Services.Implementations.TicketModule
                 });
             }
 
-            ticket.UpdateResource(resourceTemplateId, resourceId, resourceName, accountId);
+            ticket.UpdateResource(resourceTemplateId, resourceId, resourceName, accountId, resourceCustomData);
 
             if (currentResourceId != resourceId)
             {
@@ -98,7 +98,7 @@ namespace Samba.Services.Implementations.TicketModule
         public void UpdateResource(Ticket ticket, Resource resource)
         {
             if (resource == null) return;
-            UpdateResource(ticket, resource.ResourceTemplateId, resource.Id, resource.Name, resource.AccountId);
+            UpdateResource(ticket, resource.ResourceTemplateId, resource.Id, resource.Name, resource.AccountId, resource.CustomData);
         }
 
         public Ticket OpenTicket(int ticketId)
@@ -192,6 +192,7 @@ namespace Samba.Services.Implementations.TicketModule
 
         public void AddPayment(Ticket ticket, string paymentTemplateName, AccountTransactionTemplate transactionTemplate, Account account, decimal tenderedAmount)
         {
+            if (account == null) return;
             var remainingAmount = ticket.GetRemainingAmount();
             var changeAmount = tenderedAmount > remainingAmount ? tenderedAmount - remainingAmount : 0;
             ticket.AddPayment(transactionTemplate, account, tenderedAmount, _applicationState.CurrentLoggedInUser.Id);
@@ -244,7 +245,7 @@ namespace Samba.Services.Implementations.TicketModule
             var ticket = OpenTicket(0);
             clonedOrders.ForEach(ticket.Orders.Add);
             clonedPayments.ForEach(ticket.Payments.Add);
-            clonedResources.ForEach(x => ticket.UpdateResource(x.ResourceTemplateId, x.ResourceId, x.ResourceName, x.AccountId));
+            clonedResources.ForEach(x => ticket.UpdateResource(x.ResourceTemplateId, x.ResourceId, x.ResourceName, x.AccountId, x.ResourceCustomData));
             clonedTags.ForEach(x => ticket.SetTagValue(x.TagName, x.TagValue));
 
             foreach (var template in from order in clonedOrders.GroupBy(x => x.AccountTransactionTemplateId)

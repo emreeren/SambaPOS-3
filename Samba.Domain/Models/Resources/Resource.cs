@@ -20,12 +20,6 @@ namespace Samba.Domain.Models.Resources
                 ? Regex.Match(CustomData, pattern).Groups[1].Value : "";
         }
 
-        public string GetCustomDataFormat(string fieldName,string format)
-        {
-            var result = GetCustomData(fieldName.Trim());
-            return !string.IsNullOrEmpty(result) ? string.Format(format, result) : "";
-        }
-
         private static Resource _null;
         public static Resource Null { get { return _null ?? (_null = new Resource { Name = "*" }); } }
 

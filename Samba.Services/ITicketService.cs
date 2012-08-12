@@ -60,7 +60,7 @@ namespace Samba.Services
         void UpdateTicketNumber(Ticket ticket, Numerator numerator);
         void UpdateAccount(Ticket ticket, Account account);
         void UpdateResource(Ticket ticket, Resource resource);
-        void UpdateResource(Ticket ticket, int resourceTemplateId, int resourceId, string resourceName, int accountId);
+        void UpdateResource(Ticket ticket, int resourceTemplateId, int resourceId, string resourceName, int accountId,string resourceCustomData);
         void RecalculateTicket(Ticket ticket);
         void RegenerateTaxRates(Ticket ticket);
         void UpdateTag(Ticket ticket, TicketTagGroup tagGroup, TicketTag ticketTag);

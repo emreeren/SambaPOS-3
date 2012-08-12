@@ -506,12 +506,12 @@ namespace Samba.Domain.Models.Tickets
             return string.Join("\r", TicketTagValues.Where(x => !string.IsNullOrEmpty(x.TagValue)).Select(x => string.Format("{0}: {1}", x.TagName, x.TagValue)));
         }
 
-        public void UpdateResource(int resourceTemplateId, int resourceId, string resourceName, int accountId)
+        public void UpdateResource(int resourceTemplateId, int resourceId, string resourceName, int accountId, string resourceCustomData)
         {
             var r = TicketResources.SingleOrDefault(x => x.ResourceTemplateId == resourceTemplateId);
             if (r == null && resourceId > 0)
             {
-                TicketResources.Add(new TicketResource { ResourceId = resourceId, ResourceName = resourceName, ResourceTemplateId = resourceTemplateId, AccountId = accountId });
+                TicketResources.Add(new TicketResource { ResourceId = resourceId, ResourceName = resourceName, ResourceTemplateId = resourceTemplateId, AccountId = accountId, ResourceCustomData = resourceCustomData });
             }
             else if (resourceId > 0)
             {
@@ -519,6 +519,7 @@ namespace Samba.Domain.Models.Tickets
                 r.ResourceId = resourceId;
                 r.ResourceName = resourceName;
                 r.ResourceTemplateId = resourceTemplateId;
+
             }
             else if (r != null && resourceId == 0)
                 TicketResources.Remove(r);
