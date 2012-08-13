@@ -70,12 +70,16 @@
     <Compile Include="DepartmentModule\DepartmentService.cs" />
     <Compile Include="InventoryModule\InventoryService.cs" />
     <Compile Include="PrinterModule\ValueChangers\AbstractValueChanger.cs" />
+    <Compile Include="PrinterModule\ValueChangers\CalculationValueChanger.cs" />
+    <Compile Include="PrinterModule\ValueChangers\FunctionData.cs" />
+    <Compile Include="PrinterModule\ValueChangers\FunctionRegistry.cs" />
+    <Compile Include="PrinterModule\ValueChangers\ResourceValueChanger.cs" />
+    <Compile Include="PrinterModule\ValueChangers\Helper.cs" />
     <Compile Include="PrinterModule\ValueChangers\HumanFriendlyInteger.cs" />
     <Compile Include="PrinterModule\ValueChangers\IValueChanger.cs" />
     <Compile Include="PrinterModule\ValueChangers\TicketValueChanger.cs" />
     <Compile Include="PrinterModule\ValueChangers\OrderTagValueChanger.cs" />
     <Compile Include="PrinterModule\ValueChangers\OrderValueChanger.cs" />
-    <Compile Include="PrinterModule\ValueChangers\ResourceValueChanger.cs" />
     <Compile Include="ResourceModule\ResourceService.cs" />
     <Compile Include="MenuModule\MenuService.cs" />
     <Compile Include="MenuModule\PriceListService.cs" />

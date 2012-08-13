@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
+using Omu.ValueInjecter;
 
 namespace Samba.Infrastructure.Data.Serializer
 {
@@ -23,6 +24,13 @@ namespace Samba.Infrastructure.Data.Serializer
             }
         }
 
+        public static T Clone2<T>(T item) where T : new()
+        {
+            var result = new T();
+            result.InjectFrom<CloneInjection>(item);
+            return result;
+        }
+
         public static T Deserialize<T>(string data) where T : class
         {
             using (var deserializer = new XmlDeserializerHelper())
@@ -41,7 +49,7 @@ namespace Samba.Infrastructure.Data.Serializer
                 return doc.InnerXml;
             }
         }
-        
+
         public static int DataHash(object item)
         {
             using (var serializer = new XmlSerializerHelper { IgnoreSerializableAttribute = true })

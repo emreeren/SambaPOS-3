@@ -2237,15 +2237,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Discount Lines if Exists.
-        /// </summary>
-        public static string DiscountTotalAndTicketTotal {
-            get {
-                return ResourceManager.GetString("DiscountTotalAndTicketTotal", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Ticket TOTAL:|{0}
         ///&lt;J&gt;Discount:|{1}.
         /// </summary>
@@ -3528,7 +3519,7 @@ namespace Samba.Localization.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;L00&gt;{QUANTITY} {NAME}
-        ///				* {PROPERTIES}.
+        ///        * {PROPERTIES}.
         /// </summary>
         public static string InvoiceTemplateLineTemplateValue {
             get {
@@ -3607,7 +3598,7 @@ namespace Samba.Localization.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;L00&gt;{QUANTITY} {NAME}
-        ///				* {PROPERTIES}.
+        ///        * {PROPERTIES}.
         /// </summary>
         public static string KitchenTemplateLineTemplateValue {
             get {
@@ -3645,7 +3636,7 @@ namespace Samba.Localization.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;L00&gt;**VOID**{QUANTITY} {NAME}
-        ///				* {PROPERTIES}.
+        ///        * {PROPERTIES}.
         /// </summary>
         public static string KitchenTemplateVoidedLineTemplateValue {
             get {
@@ -3911,24 +3902,6 @@ namespace Samba.Localization.Properties {
         public static string LocationChangedRetryLastOperation_f {
             get {
                 return ResourceManager.GetString("LocationChangedRetryLastOperation_f", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Location Name.
-        /// </summary>
-        public static string LocationName {
-            get {
-                return ResourceManager.GetString("LocationName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Location Name, If empty User Name.
-        /// </summary>
-        public static string LocationOrUserName {
-            get {
-                return ResourceManager.GetString("LocationOrUserName", resourceCulture);
             }
         }
         
@@ -5636,15 +5609,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Payment Amount if Paid.
-        /// </summary>
-        public static string RemainingAmountIfPaid {
-            get {
-                return ResourceManager.GetString("RemainingAmountIfPaid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Paid:|{0}
         ///&lt;J&gt;Grand TOTAL:|{1}.
         /// </summary>
@@ -7258,10 +7222,7 @@ namespace Samba.Localization.Properties {
         ///{ORDER TAGS}
         ///
         ///[ORDERS:VOID]
-        ///-- Nothing will print for void lines
-        ///
-        ///[ORDER TAGS]
-        ///-- Format  [rest of string was truncated]&quot;;.
+        ///-- Nothing will print for void  [rest of string was truncated]&quot;;.
         /// </summary>
         public static string TicketTemplateValue {
             get {
@@ -7271,7 +7232,7 @@ namespace Samba.Localization.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
-        ///				* {PROPERTIES}.
+        ///        * {PROPERTIES}.
         /// </summary>
         public static string TicketTempleteLineTemplateValue {
             get {

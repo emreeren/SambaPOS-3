@@ -905,16 +905,8 @@ Yap</value>
     <value>Seçimli Adisyon Etiketi</value>
     <comment>Paragraph content</comment>
   </data>
-  <data name="LocationOrUserName" xml:space="preserve">
-    <value>Yer adı, yoksa garson adı</value>
-    <comment>Paragraph content</comment>
-  </data>
   <data name="UserName" xml:space="preserve">
     <value>Kullanıcı Adı</value>
-    <comment>Paragraph content</comment>
-  </data>
-  <data name="LocationName" xml:space="preserve">
-    <value>Yer adı</value>
     <comment>Paragraph content</comment>
   </data>
   <data name="TicketNote" xml:space="preserve">
@@ -972,14 +964,6 @@ Yap</value>
   </data>
   <data name="TicketRemainingAmount" xml:space="preserve">
     <value>Belge Bakiyesi</value>
-    <comment>Paragraph content</comment>
-  </data>
-  <data name="RemainingAmountIfPaid" xml:space="preserve">
-    <value>Ödeme varsa ödenen ve bakiye satırları</value>
-    <comment>Paragraph content</comment>
-  </data>
-  <data name="DiscountTotalAndTicketTotal" xml:space="preserve">
-    <value>İskonto varsa belge toplamı ve iskonto satırları</value>
     <comment>Paragraph content</comment>
   </data>
   <data name="PrinterTemplate" xml:space="preserve">
@@ -1929,11 +1913,11 @@ Yer: {2}</value>
   </data>
   <data name="KitchenTemplateVoidedLineTemplateValue" xml:space="preserve">
     <value>&lt;L00&gt;**İPTAL**{QUANTITY} {NAME}
-				* {PROPERTIES}</value>
+        * {PROPERTIES}</value>
   </data>
   <data name="KitchenTemplateLineTemplateValue" xml:space="preserve">
     <value>&lt;L00&gt;{QUANTITY} {NAME}
-				* {PROPERTIES}</value>
+        * {PROPERTIES}</value>
   </data>
   <data name="InvoiceTemplateHeaderValue" xml:space="preserve">
     <value>&lt;T&gt;ADİSYON
@@ -2005,11 +1989,11 @@ Yer: {2}</value>
   </data>
   <data name="TicketTempleteLineTemplateValue" xml:space="preserve">
     <value>&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
-				* {PROPERTIES}</value>
+        * {PROPERTIES}</value>
   </data>
   <data name="InvoiceTemplateLineTemplateValue" xml:space="preserve">
     <value>&lt;L00&gt;{QUANTITY} {NAME}
-				* {PROPERTIES}</value>
+        * {PROPERTIES}</value>
   </data>
   <data name="Restaurant" xml:space="preserve">
     <value>Restoran</value>

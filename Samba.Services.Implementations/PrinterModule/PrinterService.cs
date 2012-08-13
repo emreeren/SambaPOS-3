@@ -105,12 +105,11 @@ namespace Samba.Services.Implementations.PrinterModule
 
         public void PrintOrders(PrintJob printJob, Ticket ticket)
         {
+            ticket = ObjectCloner.Clone2(ticket);
             if (printJob.ExcludeTax)
             {
-                ticket = ObjectCloner.Clone(ticket);
                 ticket.Orders.ToList().ForEach(x => x.TaxIncluded = false);
             }
-
             IEnumerable<Order> ti;
             switch (printJob.WhatToPrint)
             {
@@ -262,11 +261,8 @@ namespace Samba.Services.Implementations.PrinterModule
             result.Add(TagNames.TicketTag, Resources.TicketTag);
             result.Add(TagNames.Department, Resources.DepartmentName);
             result.Add(TagNames.TicketTag2, Resources.OptionalTicketTag);
-            result.Add(TagNames.LocationUser, Resources.LocationOrUserName);
             result.Add(TagNames.UserName, Resources.UserName);
-            result.Add(TagNames.Location, Resources.LocationName);
             result.Add(TagNames.Note, Resources.TicketNote);
-            result.Add(TagNames.AccName, Resources.AccountName);
             result.Add(TagNames.Quantity, Resources.LineItemQuantity);
             result.Add(TagNames.Name, Resources.LineItemName);
             result.Add(TagNames.Price, Resources.LineItemPrice);
@@ -287,9 +283,7 @@ namespace Samba.Services.Implementations.PrinterModule
             result.Add(TagNames.TaxDetails, Resources.TotalsGroupedByTaxTemplate);
             result.Add(TagNames.CalculationDetails, Resources.TotalsGroupedByCalculationTemplate);
             result.Add(TagNames.Balance, Resources.TicketRemainingAmount);
-            result.Add(TagNames.IfPaid, Resources.RemainingAmountIfPaid);
             result.Add(TagNames.TotalText, Resources.TextWrittenTotalValue);
-            result.Add(TagNames.IfDiscount, Resources.DiscountTotalAndTicketTotal);
             return result;
         }
     }

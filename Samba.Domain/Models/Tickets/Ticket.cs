@@ -81,36 +81,40 @@ namespace Samba.Domain.Models.Tickets
 
         public virtual AccountTransactionDocument AccountTransactions { get; set; }
 
-        private readonly IList<TicketResource> _ticketResources;
+        private  IList<TicketResource> _ticketResources;
         public virtual IList<TicketResource> TicketResources
         {
             get { return _ticketResources; }
+            set { _ticketResources = value; }
         }
 
-        private readonly IList<Order> _orders;
+        private IList<Order> _orders;
         public virtual IList<Order> Orders
         {
             get { return _orders; }
+            set { _orders = value; }
         }
 
-        private readonly IList<Calculation> _calculations;
+        private IList<Calculation> _calculations;
         public virtual IList<Calculation> Calculations
         {
             get { return _calculations; }
+            set { _calculations = value; }
         }
 
-        private readonly IList<Payment> _payments;
+        private IList<Payment> _payments;
         public virtual IList<Payment> Payments
         {
             get { return _payments; }
+            set { _payments = value; }
         }
 
-        private readonly IList<PaidItem> _paidItems;
+        private IList<PaidItem> _paidItems;
         public virtual IList<PaidItem> PaidItems
         {
             get { return _paidItems; }
+            set { _paidItems = value; }
         }
-
 
         private IList<TicketTagValue> _ticketTagValues;
         internal IList<TicketTagValue> TicketTagValues
@@ -627,6 +631,18 @@ namespace Samba.Domain.Models.Tickets
         {
             return (GetRemainingAmount() <= 0 || TicketResources.Count > 0 ||
                  IsTagged || Orders.Count == 0);
+        }
+
+        public decimal GetCalculationTotal(string s)
+        {
+            return Calculations.Where(x => string.IsNullOrEmpty(s) || x.Name == s).Sum(x => x.CalculationAmount);
+        }
+
+        public string GetResourceName(int resourceTemplateId)
+        {
+            var tr = TicketResources.FirstOrDefault(x => x.ResourceTemplateId == resourceTemplateId);
+            if (tr != null) return tr.ResourceName;
+            return "";
         }
     }
 }

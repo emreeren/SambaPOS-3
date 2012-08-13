@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
-using Samba.Domain.Models.Settings;
+using Microsoft.Practices.ServiceLocation;
 using Samba.Domain.Models.Tickets;
 
 namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 {
-    public class OrderTagValueChanger : AbstractValueChanger<OrderTagValue>
+    class CalculationValueChanger : AbstractValueChanger<Calculation>
     {
         public override string GetTargetTag()
         {
-            return "ORDER TAGS";
+            return "CALCULATIONS";
         }
 
-        protected override string GetModelName(OrderTagValue model)
+        protected override string GetModelName(Calculation model)
         {
             return model.Name;
         }

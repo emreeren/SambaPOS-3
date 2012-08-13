@@ -25,6 +25,7 @@ namespace Samba.Services
         IEnumerable<Resource> GetResourcesByTemplateId(int templateId);
         IEnumerable<ResourceTemplate> GetResourceTemplates();
         ResourceTemplate GetResourceTemplateById(int resourceTemplateId);
+        int GetResourceTemplateIdByEntityName(string entityName);
         Account GetAccountById(int accountId);
         Resource GetResourceById(int resourceId);
         IEnumerable<AccountTransactionDocumentTemplate> GetAccountTransactionDocumentTemplates(int accountTemplateId);
@@ -41,5 +42,6 @@ namespace Samba.Services
         IEnumerable<AccountTemplate> GetAccountTemplates();
         IEnumerable<AccountTemplate> GetAccountTemplatesByName(IEnumerable<string> accountTemplateNames);
         IEnumerable<AccountScreen> GetAccountScreens();
+
     }
 }

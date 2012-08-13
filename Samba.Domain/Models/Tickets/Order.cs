@@ -48,10 +48,11 @@ namespace Samba.Domain.Models.Tickets
         public int TaxTemplateId { get; set; }
         public bool TaxIncluded { get; set; }
 
-        private readonly IList<OrderTagValue> _orderTagValues;
+        private  IList<OrderTagValue> _orderTagValues;
         public virtual IList<OrderTagValue> OrderTagValues
         {
             get { return _orderTagValues; }
+            set { _orderTagValues = value; }
         }
 
         private decimal _selectedQuantity;

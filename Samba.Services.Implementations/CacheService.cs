@@ -165,7 +165,7 @@ namespace Samba.Services.Implementations
 
         public IEnumerable<AccountTransactionDocumentTemplate> GetAccountTransactionDocumentTemplates(int accountTemplateId)
         {
-            var maps = DocumentTemplates.Where(x=>x.MasterAccountTemplateId==accountTemplateId)
+            var maps = DocumentTemplates.Where(x => x.MasterAccountTemplateId == accountTemplateId)
                 .SelectMany(x => x.AccountTransactionDocumentTemplateMaps)
                .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
                .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
@@ -294,6 +294,12 @@ namespace Samba.Services.Implementations
         public IEnumerable<AccountScreen> GetAccountScreens()
         {
             return AccountScreens;
+        }
+
+        public int GetResourceTemplateIdByEntityName(string entityName)
+        {
+            var rt = ResourceTemplates.FirstOrDefault(x => x.EntityName == entityName);
+            return rt != null ? rt.Id : 0;
         }
 
         public IEnumerable<AccountTemplate> GetAccountTemplatesByName(IEnumerable<string> accountTemplateNames)

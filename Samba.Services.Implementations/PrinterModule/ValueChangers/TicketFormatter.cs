@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
-using Microsoft.Practices.ServiceLocation;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 
@@ -10,26 +8,16 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 {
     public static class TicketFormatter
     {
-        private static readonly ISettingService SettingService = ServiceLocator.Current.GetInstance<ISettingService>();
         private static readonly TicketValueChanger TicketValueChanger = new TicketValueChanger();
-        private static readonly OrderValueChanger OrderValueChanger = new OrderValueChanger();
-        private static readonly ResourceValueChanger ResourceValueChanger = new ResourceValueChanger();
 
-        public static string[] GetFormattedTicket(Ticket ticket, IEnumerable<Order> lines, PrinterTemplate template)
+        public static string[] GetFormattedTicket(Ticket ticket, IEnumerable<Order> lines, PrinterTemplate printerTemplate)
         {
-            var orders = lines.ToList();
-
-            if (template.MergeLines) orders = MergeLines(orders).ToList();
-
-            string content = TicketValueChanger.GetValue(template, ticket);
-            content = ResourceValueChanger.Replace(template, content, ticket.TicketResources);
-            content = OrderValueChanger.Replace(template, content, orders);
-
-            content = SettingService.GetSettingReplacer().ReplaceSettingValue("{SETTING:([^}]+)}", content);
-
-            return content.Split(new[] { '\r', '\n' }).ToArray();
+            var orders = printerTemplate.MergeLines ? MergeLines(lines) : lines;
+            ticket.Orders.Clear();
+            orders.ToList().ForEach(ticket.Orders.Add);
+            var content = TicketValueChanger.GetValue(printerTemplate, ticket);
+            return content.Split(new[] { '\r', '\n' },StringSplitOptions.RemoveEmptyEntries).ToArray();
         }
-
 
         private static IEnumerable<Order> MergeLines(IEnumerable<Order> lines)
         {
@@ -75,19 +63,6 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             result = result.Union(lines.Where(x => x.OrderTagValues.Count > 0)).OrderBy(x => x.CreatedDateTime);
 
             return result;
-        }
-
-        private static string FormatData(string data, string tag, Func<string> valueFunc)
-        {
-            if (!data.Contains(tag)) return data;
-
-            var value = valueFunc.Invoke();
-            var tagData = new TagData(data, tag);
-            if (!string.IsNullOrEmpty(value)) value =
-                !string.IsNullOrEmpty(tagData.Title) && tagData.Title.Contains("<value>")
-                ? tagData.Title.Replace("<value>", value)
-                : tagData.Title + value;
-            return data.Replace(tagData.DataString, value);
         }
 
     }

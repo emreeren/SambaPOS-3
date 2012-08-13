@@ -60,6 +60,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="Omu.ValueInjecter">
+      <HintPath>..\Lib\Omu.ValueInjecter.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
@@ -76,7 +79,9 @@
     <Compile Include="BinarySerializer\IStorage.cs" />
     <Compile Include="BinarySerializer\SerializationUnits.cs" />
     <Compile Include="BinarySerializer\SilverlightSerializer.cs" />
+    <Compile Include="CloneInjection.cs" />
     <Compile Include="DictionaryByType.cs" />
+    <Compile Include="EntityInjection.cs" />
     <Compile Include="IAbstractMapModel.cs" />
     <Compile Include="ICacheable.cs" />
     <Compile Include="IEntity.cs" />
