@@ -12,6 +12,7 @@ namespace Samba.Domain.Models.Tickets
         public decimal Price { get; set; }
         public decimal TaxAmount { get; set; }
         public decimal Quantity { get; set; }
+        public string OrderTagGroupName { get; set; }
         public int OrderTagGroupId { get; set; }
         public int MenuItemId { get; set; }
         public bool AddTagPriceToOrderPrice { get; set; }

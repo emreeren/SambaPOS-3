@@ -36,6 +36,8 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<Order>(TagNames.LineAmount, (x, d) => x.GetTotal().ToString("#,#0.00"));
             RegisterFunction<Order>(TagNames.OrderNo, (x, d) => x.OrderNumber.ToString());
             RegisterFunction<Order>(TagNames.PriceTag, (x, d) => x.PriceTag);
+            RegisterFunction<Order>("{ORDER STATE NAME}", (x, d) => x.OrderStateGroupName);
+            RegisterFunction<Order>("{ORDER TAG:([^}]+)}", (x, d) => x.GetOrderTagValue(d));
 
             //TICKET RESOURCES
             RegisterFunction<TicketResource>("{RESOURCE NAME}", (x, d) => x.ResourceName);
@@ -60,17 +62,24 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<Ticket>(TagNames.CalculationDetails, (x, d) => GetServiceDetails(x));
             RegisterFunction<Ticket>(TagNames.TicketTotal, (x, d) => x.GetSum().ToString("#,#0.00"));
             RegisterFunction<Ticket>(TagNames.PaymentTotal, (x, d) => x.GetPaymentAmount().ToString("#,#0.00"));
-            RegisterFunction<Ticket>(TagNames.Balance, (x, d) => x.GetRemainingAmount().ToString("#,#0.00"));
+            RegisterFunction<Ticket>(TagNames.Balance, (x, d) => x.GetRemainingAmount().ToString("#,#0.00"), x => x.GetRemainingAmount() != x.GetSum());
             RegisterFunction<Ticket>(TagNames.TotalText, (x, d) => HumanFriendlyInteger.CurrencyToWritten(x.GetSum()));
             RegisterFunction<Ticket>(TagNames.Totaltext, (x, d) => HumanFriendlyInteger.CurrencyToWritten(x.GetSum(), true));
             RegisterFunction<Ticket>("{TICKET TAG:([^}]+)}", (x, d) => x.GetTagValue(d));
             RegisterFunction<Ticket>("{SETTING:([^}]+)}", (x, d) => SettingService.ReadSetting(d).StringValue);
             RegisterFunction<Ticket>("{CALCULATION TOTAL:([^}]+)}", (x, d) => x.GetCalculationTotal(d).ToString("#,#0.00"), x => x.Calculations.Count > 0);
             RegisterFunction<Ticket>("{RESOURCE NAME:([^}]+)}", (x, d) => x.GetResourceName(CacheService.GetResourceTemplateIdByEntityName(d)));
-
+            RegisterFunction<Ticket>("{ORDER STATE TOTAL:([^}]+)}", (x, d) => x.GetOrderStateTotal(d).ToString("#,#0.00"));
             RegisterFunction<Calculation>("{CALCULATION NAME}", (x, d) => x.Name);
             RegisterFunction<Calculation>("{CALCULATION AMOUNT}", (x, d) => x.Amount.ToString("#,#0.##"));
-            RegisterFunction<Calculation>("{CALCULATION RESULT}", (x, d) => x.CalculationAmount.ToString("#,#0.00"), x => x.CalculationAmount != 0);
+            RegisterFunction<Calculation>("{CALCULATION TOTAL}", (x, d) => x.CalculationAmount.ToString("#,#0.00"), x => x.CalculationAmount != 0);
+
+            //PAYMENTS
+            RegisterFunction<Payment>("{PAYMENT AMOUNT}", (x, d) => x.Amount.ToString("#,#0.00"), x => x.Amount > 0);
+            RegisterFunction<Payment>("{PAYMENT NAME}", (x, d) => x.Name);
+
+            //TAXES
+            RegisterFunction<TaxValue>("{TAX NAME}", (x, d) => x.Name);
         }
 
         public static void RegisterFunction<TModel>(string tag, Func<TModel, string, string> function, Func<TModel, bool> condition = null)

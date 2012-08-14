@@ -14,7 +14,34 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
         private string GetValue(PrinterTemplate template, IEnumerable<T> models)
         {
+
+            var groupSwitchValue = template.GetSwitch(GetTargetTag() + " GROUP");
+            if (groupSwitchValue != null)
+            {
+                var result = "";
+                var groups = models.GroupBy(x => GetGroupSelector(x, groupSwitchValue));
+                foreach (var @group in groups)
+                {
+                    var gtn = string.Format("{0} GROUP{1}", GetTargetTag(), @group.Key != null ? ":" + @group.Key : "");
+                    var groupTemplate = (template.GetPart(gtn) ?? "").Replace("{GROUP KEY}", (@group.Key ?? "").ToString());
+                    result += ReplaceValues(groupTemplate, @group.ElementAt(0), template) + "\r\n";
+                    group.ToList().ForEach(x => ProcessItem(x, groupSwitchValue));
+                    result += string.Join("\r\n", @group.SelectMany(x => GetValue(template, x).Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)));
+                    result += "\r\n";
+                }
+                return result;
+            }
             return string.Join("\r\n", models.SelectMany(x => GetValue(template, x).Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)));
+        }
+
+        protected virtual void ProcessItem(T obj, string groupSwitchValue)
+        {
+            // override if needed
+        }
+
+        protected virtual object GetGroupSelector(T arg, string switchValue)
+        {
+            return null;
         }
 
         public string GetValue(PrinterTemplate template, T model)
@@ -35,7 +62,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
         {
             return "";
         }
-        
+
         protected virtual string GetModelName(T model)
         {
             return "";

@@ -17,7 +17,7 @@ namespace Samba.Services.Implementations.ResourceModule
         private IWorkspace _resoureceWorkspace;
         private readonly int _resourceScreenItemCount;
         private readonly IApplicationState _applicationState;
-        private IList<Resource> _emptyResourceList = new List<Resource>().AsReadOnly();
+        private readonly IList<Resource> _emptyResourceList = new List<Resource>().AsReadOnly();
 
         [ImportingConstructor]
         public ResourceService(IApplicationState applicationState)

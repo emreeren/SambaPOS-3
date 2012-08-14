@@ -15,6 +15,7 @@
 
         private string PrintCenteredLabel(string label, bool expandLabel, char fillChar = '░')
         {
+            if (string.IsNullOrEmpty(label)) return "".PadLeft(MaxWidth, fillChar); 
             if (expandLabel) label = ExpandLabel(label);
             var leftPad = ((MaxWidth) + label.Length);
             if (leftPad % 2 == 1) leftPad++;

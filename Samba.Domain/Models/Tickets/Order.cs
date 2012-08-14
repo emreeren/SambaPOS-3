@@ -45,6 +45,7 @@ namespace Samba.Domain.Models.Tickets
 
         public decimal TaxRate { get; set; }
         public decimal TaxAmount { get; set; }
+        public string TaxTemplateName { get; set; }
         public int TaxTemplateId { get; set; }
         public bool TaxIncluded { get; set; }
 
@@ -103,6 +104,7 @@ namespace Samba.Domain.Models.Tickets
                 TaxRate = taxTemplate.Rate;
                 TaxIncluded = taxTemplate.TaxIncluded;
                 TaxTemplateId = taxTemplate.Id;
+                TaxTemplateName = taxTemplate.Name;
                 AccountTransactionTaxTemplateId = taxTemplate.AccountTransactionTemplate.Id;
             }
 
@@ -148,6 +150,7 @@ namespace Samba.Domain.Models.Tickets
                        {
                            Name = orderTag.Name,
                            OrderTagGroupId = orderTagGroup.Id,
+                           OrderTagGroupName =  orderTagGroup.Name,
                            MenuItemId = orderTag.MenuItemId,
                            AddTagPriceToOrderPrice = orderTagGroup.AddTagPriceToOrderPrice,
                            PortionName = PortionName,
@@ -356,6 +359,7 @@ namespace Samba.Domain.Models.Tickets
         {
             TaxRate = taxTemplate.Rate;
             TaxTemplateId = taxTemplate.Id;
+            TaxTemplateName = taxTemplate.Name;
             TaxIncluded = taxTemplate.TaxIncluded;
             UpdatePrice(Price, PriceTag);
         }
@@ -378,6 +382,13 @@ namespace Samba.Domain.Models.Tickets
         public decimal GetTotalTaxAmount()
         {
             return CalculatePrice && DecreaseInventory ? (TaxAmount + OrderTagValues.Sum(x => x.TaxAmount)) * Quantity : 0;
+        }
+
+        public string GetOrderTagValue(string s)
+        {
+            if (OrderTagValues.Any(x => x.OrderTagGroupName== s))
+                return OrderTagValues.First(x => x.OrderTagGroupName == s).Name;
+            return "";
         }
     }
 }

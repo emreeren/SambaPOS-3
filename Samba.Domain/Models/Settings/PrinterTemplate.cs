@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Samba.Infrastructure.Data;
@@ -31,10 +32,13 @@ namespace Samba.Domain.Models.Settings
         public string GetPart(string partName)
         {
             if (string.IsNullOrEmpty(partName)) partName = "LAYOUT";
-            partName = partName.ToUpper(CultureInfo.InvariantCulture);
             if (Parts.ContainsKey(partName)) return Parts[partName].ToString();
             var p2 = partName.Contains(":") ? partName.Substring(0, partName.IndexOf(':')) : "";
             if (Parts.ContainsKey(p2)) return Parts[p2].ToString();
+            if (Parts.Keys.Any(x => x.StartsWith(p2 + "|")))
+                return Parts[Parts.Keys.First(x => x.StartsWith(p2 + "|"))].ToString();
+            if (Parts.Keys.Any(x => x.StartsWith(partName + "|")))
+                return Parts[Parts.Keys.First(x => x.StartsWith(partName + "|"))].ToString();
             return "";
         }
 
@@ -48,7 +52,7 @@ namespace Samba.Domain.Models.Settings
                 var m = Regex.Match(line, @"(?<=\[)(?<SectionName>[^\]]+)(?=\])");
                 if (m.Success && !line.Contains("<"))
                 {
-                    currentSection = m.Groups["SectionName"].Value.ToUpper(CultureInfo.InvariantCulture);
+                    currentSection = m.Groups["SectionName"].Value;
                     if (!result.ContainsKey(currentSection))
                         result.Add(currentSection, new StringBuilder());
                 }
@@ -59,6 +63,12 @@ namespace Samba.Domain.Models.Settings
                 }
             }
             return result;
+        }
+
+        public string GetSwitch(string s)
+        {
+            var key = Parts.Keys.FirstOrDefault(x => x.StartsWith(s + "|"));
+            return key != null ? key.Substring(key.IndexOf("|")).Trim('|') : null;
         }
     }
 }

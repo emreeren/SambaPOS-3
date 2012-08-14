@@ -644,5 +644,10 @@ namespace Samba.Domain.Models.Tickets
             if (tr != null) return tr.ResourceName;
             return "";
         }
+
+        public decimal GetOrderStateTotal(string s)
+        {
+            return Orders.Where(x => x.OrderStateGroupName == s).Sum(x => x.GetItemValue());
+        }
     }
 }

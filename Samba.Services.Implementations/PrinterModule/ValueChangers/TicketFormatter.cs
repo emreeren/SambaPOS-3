@@ -16,12 +16,12 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             ticket.Orders.Clear();
             orders.ToList().ForEach(ticket.Orders.Add);
             var content = TicketValueChanger.GetValue(printerTemplate, ticket);
-            return content.Split(new[] { '\r', '\n' },StringSplitOptions.RemoveEmptyEntries).ToArray();
+            return content.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).ToArray();
         }
 
         private static IEnumerable<Order> MergeLines(IEnumerable<Order> lines)
         {
-            var group = lines.Where(x => x.OrderTagValues.Count == 0).GroupBy(x => new
+            var group = lines.Where(x => x.OrderTagValues.Count(y => y.Price != 0) == 0).GroupBy(x => new
                                                 {
                                                     x.MenuItemId,
                                                     x.MenuItemName,
@@ -60,7 +60,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
                                         Quantity = x.Sum(y => y.Quantity)
                                     });
 
-            result = result.Union(lines.Where(x => x.OrderTagValues.Count > 0)).OrderBy(x => x.CreatedDateTime);
+            result = result.Union(lines.Where(x => x.OrderTagValues.Count(y => y.Price != 0) > 0)).OrderBy(x => x.CreatedDateTime);
 
             return result;
         }

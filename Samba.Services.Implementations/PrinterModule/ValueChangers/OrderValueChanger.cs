@@ -26,5 +26,34 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
         {
             return OrderTagValueChanger.Replace(template, templatePart, model.OrderTagValues);
         }
+
+        protected override object GetGroupSelector(Order arg, string switchValue)
+        {
+            if (!string.IsNullOrEmpty(switchValue) && switchValue.Contains(":"))
+            {
+                var parts = switchValue.Split(':');
+                if (parts[0] == "ORDER TAG")
+                {
+                    return arg.GetOrderTagValue(parts[1]);
+                }
+            }
+            else if (switchValue == "ORDER STATE")
+            {
+                return arg.OrderStateGroupName??"";
+            }
+            return "";
+        }
+
+        protected override void ProcessItem(Order obj, string switchValue)
+        {
+            if (!string.IsNullOrEmpty(switchValue) && switchValue.Contains(":"))
+            {
+                var parts = switchValue.Split(':');
+                if (parts[0] == "ORDER TAG" && obj.OrderTagValues.Any(x => x.OrderTagGroupName == parts[1]))
+                {
+                    obj.OrderTagValues.Where(x => x.OrderTagGroupName == parts[1]).ToList().ForEach(x => obj.OrderTagValues.Remove(x));
+                }
+            }
+        }
     }
 }
