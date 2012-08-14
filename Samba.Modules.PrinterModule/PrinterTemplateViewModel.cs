@@ -43,7 +43,7 @@ namespace Samba.Modules.PrinterModule
 
         private IDictionary<string, string> CreateDescriptions()
         {
-            return _printerService.CreateTagDescriptions();
+            return _printerService.GetTagDescriptions();
         }
 
         protected override void Initialize()

@@ -22,16 +22,24 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
                 var groups = models.GroupBy(x => GetGroupSelector(x, groupSwitchValue));
                 foreach (var @group in groups)
                 {
-                    var gtn = string.Format("{0} GROUP{1}", GetTargetTag(), @group.Key != null ? ":" + @group.Key : "");
-                    var groupTemplate = (template.GetPart(gtn) ?? "").Replace("{GROUP KEY}", (@group.Key ?? "").ToString());
-                    result += ReplaceValues(groupTemplate, @group.ElementAt(0), template) + "\r\n";
+                    IGrouping<object, T> grp = @group;
+                    var gtn = string.Format("{0} GROUP{1}", GetTargetTag(), grp.Key != null ? ":" + grp.Key : "");
+                    var groupTemplate = (template.GetPart(gtn) ?? "");
+                    Helper.FormatDataIf(grp.Key != null, groupTemplate, "{GROUP KEY}", () => (grp.Key ?? "").ToString());
+                    Helper.FormatDataIf(grp.Key != null, groupTemplate, "{GROUP SUM}", () => grp.Sum(x => GetSumSelector(x)).ToString("#,#0.00"));
+                    result += ReplaceValues(groupTemplate, grp.ElementAt(0), template) + "\r\n";
                     group.ToList().ForEach(x => ProcessItem(x, groupSwitchValue));
-                    result += string.Join("\r\n", @group.SelectMany(x => GetValue(template, x).Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)));
+                    result += string.Join("\r\n", grp.SelectMany(x => GetValue(template, x).Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)));
                     result += "\r\n";
                 }
                 return result;
             }
             return string.Join("\r\n", models.SelectMany(x => GetValue(template, x).Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)));
+        }
+
+        protected virtual decimal GetSumSelector(T x)
+        {
+            return 0;
         }
 
         protected virtual void ProcessItem(T obj, string groupSwitchValue)

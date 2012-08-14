@@ -249,42 +249,9 @@ namespace Samba.Services.Implementations.PrinterModule
             }
         }
 
-        public IDictionary<string, string> CreateTagDescriptions()
+        public IDictionary<string, string> GetTagDescriptions()
         {
             return FunctionRegistry.Descriptions;
-            //result.Add(TagNames.TicketDate, Resources.TicketDate);
-            //result.Add(TagNames.TicketTime, Resources.TicketTime);
-            //result.Add(TagNames.Date, Resources.DayDate);
-            //result.Add(TagNames.Time, Resources.DayTime);
-            //result.Add(TagNames.TicketId, Resources.UniqueTicketId);
-            //result.Add(TagNames.TicketNo, Resources.TicketNumber);
-            //result.Add(TagNames.TicketTag, Resources.TicketTag);
-            //result.Add(TagNames.Department, Resources.DepartmentName);
-            //result.Add(TagNames.TicketTag2, Resources.OptionalTicketTag);
-            //result.Add(TagNames.UserName, Resources.UserName);
-            //result.Add(TagNames.Note, Resources.TicketNote);
-            //result.Add(TagNames.Quantity, Resources.LineItemQuantity);
-            //result.Add(TagNames.Name, Resources.LineItemName);
-            //result.Add(TagNames.Price, Resources.LineItemPrice);
-            //result.Add(TagNames.Cents, Resources.LineItemPriceCents);
-            //result.Add(TagNames.Total, Resources.LineItemTotal);
-            //result.Add(TagNames.TotalAmount, Resources.LineItemQuantity);
-            //result.Add(TagNames.LineAmount, Resources.LineItemTotalWithoutGifts);
-            //result.Add(TagNames.OrderNo, Resources.LineOrderNumber);
-            //result.Add(TagNames.PriceTag, Resources.LinePriceTag);
-            //result.Add(TagNames.OrderTagName, Resources.OrderTagName);
-            //result.Add(TagNames.OrderTagPrice, Resources.OrderTagPrice);
-            //result.Add(TagNames.OrderTagQuantity, Resources.OrderTagQuantity);
-            //result.Add(TagNames.TicketTotal, Resources.TicketTotal);
-            //result.Add(TagNames.PaymentTotal, Resources.TicketPaidTotal);
-            //result.Add(TagNames.PlainTotal, Resources.TicketSubTotal);
-            //result.Add(TagNames.DiscountTotal, Resources.DiscountTotal);
-            //result.Add(TagNames.TaxTotal, Resources.TaxTotal);
-            //result.Add(TagNames.TaxDetails, Resources.TotalsGroupedByTaxTemplate);
-            //result.Add(TagNames.CalculationDetails, Resources.TotalsGroupedByCalculationTemplate);
-            //result.Add(TagNames.Balance, Resources.TicketRemainingAmount);
-            //result.Add(TagNames.TotalText, Resources.TextWrittenTotalValue);
-            //return result;
         }
     }
 

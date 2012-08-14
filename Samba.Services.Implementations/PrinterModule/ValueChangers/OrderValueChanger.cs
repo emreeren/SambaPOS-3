@@ -27,6 +27,11 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             return OrderTagValueChanger.Replace(template, templatePart, model.OrderTagValues);
         }
 
+        protected override decimal GetSumSelector(Order x)
+        {
+            return x.GetItemValue();
+        }
+
         protected override object GetGroupSelector(Order arg, string switchValue)
         {
             if (!string.IsNullOrEmpty(switchValue) && switchValue.Contains(":"))
@@ -39,7 +44,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             }
             else if (switchValue == "ORDER STATE")
             {
-                return arg.OrderStateGroupName??"";
+                return arg.OrderStateGroupName ?? "";
             }
             return "";
         }

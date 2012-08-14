@@ -13,7 +13,7 @@ namespace Samba.Services
         void PrintReport(FlowDocument document);
         void PrintSlipReport(FlowDocument document);
         void ExecutePrintJob(PrintJob printJob);
-        IDictionary<string, string> CreateTagDescriptions();
+        IDictionary<string, string> GetTagDescriptions();
         IEnumerable<Printer> GetPrinters();
         IEnumerable<PrinterTemplate> GetAllPrinterTemplates();
     }

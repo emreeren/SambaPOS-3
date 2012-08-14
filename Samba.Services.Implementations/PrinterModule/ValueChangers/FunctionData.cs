@@ -22,20 +22,8 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             }
 
             while (currentData.Contains(t))
-                currentData = FormatDataIf(Condition == null || Condition.Invoke(model), currentData, t, () => Func.Invoke(model, tagValue));
+                currentData = Helper.FormatDataIf(Condition == null || Condition.Invoke(model), currentData, t, () => Func.Invoke(model, tagValue));
             return currentData;
-        }
-
-        protected string FormatDataIf(bool condition, string data, string tag, Func<string> valueFunc)
-        {
-            if (condition && data.Contains(tag)) return Helper.FormatData(data, tag, valueFunc.Invoke);
-            return RemoveTag(data, tag);
-        }
-
-        protected string RemoveTag(string data, string tag)
-        {
-            var tagData = new TagData(data, tag);
-            return data.Replace(tagData.DataString, "");
         }
     }
 }
