@@ -23,7 +23,8 @@ namespace Samba.Services.Implementations.PrinterModule
 
             DataString = BracketContains(data, '[', ']', Tag) ? GetBracketValue(data, '[', ']') : data.Substring(StartPos, Length);
             DataString = DataString.Replace("<newline>", "\r\n");
-            Title = DataString.Trim('[', ']').Replace(Tag, "<value>");
+            Title = !DataString.Contains("[=") ? DataString.Trim('[', ']') : DataString;
+            Title = Title.Replace(Tag, "<value>");
             Length = DataString.Length;
             StartPos = data.IndexOf(DataString);
             EndPos = StartPos + Length;
@@ -57,7 +58,7 @@ namespace Samba.Services.Implementations.PrinterModule
         {
             if (!content.Contains(open)) return false;
             var br = GetBracketValue(content, open, close);
-            return (br.Contains(testValue));
+            return (br.Contains(testValue)) && !br.StartsWith("[=");
         }
 
         public static string GetBracketValue(string content, char open, char close)

@@ -58,8 +58,6 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<Ticket>(TagNames.PlainTotal, (x, d) => x.GetPlainSum().ToString("#,#0.00"), x => x.GetSum() != x.GetPlainSum());
             RegisterFunction<Ticket>(TagNames.DiscountTotal, (x, d) => x.GetPreTaxServicesTotal().ToString("#,#0.00"));
             RegisterFunction<Ticket>(TagNames.TaxTotal, (x, d) => x.CalculateTax(x.GetPlainSum(), x.GetPreTaxServicesTotal()).ToString("#,#0.00"));
-            RegisterFunction<Ticket>(TagNames.TaxDetails, (x, d) => GetTaxDetails(x.Orders, x.GetPlainSum(), x.GetPreTaxServicesTotal()));
-            RegisterFunction<Ticket>(TagNames.CalculationDetails, (x, d) => GetServiceDetails(x));
             RegisterFunction<Ticket>(TagNames.TicketTotal, (x, d) => x.GetSum().ToString("#,#0.00"));
             RegisterFunction<Ticket>(TagNames.PaymentTotal, (x, d) => x.GetPaymentAmount().ToString("#,#0.00"));
             RegisterFunction<Ticket>(TagNames.Balance, (x, d) => x.GetRemainingAmount().ToString("#,#0.00"), x => x.GetRemainingAmount() != x.GetSum());
@@ -70,6 +68,9 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<Ticket>("{CALCULATION TOTAL:([^}]+)}", (x, d) => x.GetCalculationTotal(d).ToString("#,#0.00"), x => x.Calculations.Count > 0);
             RegisterFunction<Ticket>("{RESOURCE NAME:([^}]+)}", (x, d) => x.GetResourceName(CacheService.GetResourceTemplateIdByEntityName(d)));
             RegisterFunction<Ticket>("{ORDER STATE TOTAL:([^}]+)}", (x, d) => x.GetOrderStateTotal(d).ToString("#,#0.00"));
+            RegisterFunction<Ticket>("{SERVICE TOTAL}", (x, d) => x.GetPostTaxServicesTotal().ToString("#,#0.00"));
+
+            //CALCULATIONS
             RegisterFunction<Calculation>("{CALCULATION NAME}", (x, d) => x.Name);
             RegisterFunction<Calculation>("{CALCULATION AMOUNT}", (x, d) => x.Amount.ToString("#,#0.##"));
             RegisterFunction<Calculation>("{CALCULATION TOTAL}", (x, d) => x.CalculationAmount.ToString("#,#0.00"), x => x.CalculationAmount != 0);
@@ -79,6 +80,9 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<Payment>("{PAYMENT NAME}", (x, d) => x.Name);
 
             //TAXES
+            RegisterFunction<TaxValue>("{TAX AMOUNT}", (x, d) => x.TaxAmount.ToString("#,#0.00"), x => x.TaxAmount > 0);
+            RegisterFunction<TaxValue>("{TAX RATE}", (x, d) => x.Amount.ToString("#,#0.##"), x => x.Amount > 0);
+            RegisterFunction<TaxValue>("{TAXABLE AMOUNT}", (x, d) => x.OrderAmount.ToString("#,#0.00"), x => x.OrderAmount > 0);
             RegisterFunction<TaxValue>("{TAX NAME}", (x, d) => x.Name);
         }
 
@@ -105,36 +109,5 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             return dep != null ? dep.Name : Resources.UndefinedWithBrackets;
         }
 
-        private static string GetServiceDetails(Ticket ticket)
-        {
-            var sb = new StringBuilder();
-            foreach (var service in ticket.Calculations)
-            {
-                var lservice = service;
-                var ts = SettingService.GetCalculationTemplateById(lservice.ServiceId);
-                var tsTitle = ts != null ? ts.Name : Resources.UndefinedWithBrackets;
-                sb.AppendLine("<J>" + tsTitle + ":|" + lservice.CalculationAmount.ToString("#,#0.00"));
-            }
-            return String.Join("\r", sb);
-        }
-
-        private static string GetTaxDetails(IEnumerable<Order> orders, decimal plainSum, decimal discount)
-        {
-            var sb = new StringBuilder();
-            var groups = orders.Where(x => x.TaxTemplateId > 0).GroupBy(x => x.TaxTemplateId);
-            foreach (var @group in groups)
-            {
-                var iGroup = @group;
-                var tb = SettingService.GetTaxTemplateById(iGroup.Key);
-                var tbTitle = tb != null ? tb.Name : Resources.UndefinedWithBrackets;
-                var total = @group.Sum(x => x.TaxAmount * x.Quantity);
-                if (discount > 0)
-                {
-                    total -= (total * discount) / plainSum;
-                }
-                if (total > 0) sb.AppendLine("<J>" + tbTitle + ":|" + total.ToString("#,#0.00"));
-            }
-            return String.Join("\r", sb);
-        }
     }
 }

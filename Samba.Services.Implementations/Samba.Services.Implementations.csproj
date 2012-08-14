@@ -40,6 +40,9 @@
       <HintPath>..\Lib\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="NCalc">
+      <HintPath>..\Lib\NCalc.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="ReachFramework" />
@@ -70,7 +73,8 @@
     <Compile Include="DepartmentModule\DepartmentService.cs" />
     <Compile Include="InventoryModule\InventoryService.cs" />
     <Compile Include="PrinterModule\ValueChangers\AbstractValueChanger.cs" />
-    <Compile Include="PrinterModule\ValueChangers\CalculationValueChanger.cs" />
+    <Compile Include="PrinterModule\ValueChangers\PostCalculationValueChanger.cs" />
+    <Compile Include="PrinterModule\ValueChangers\PreCalculationValueChanger.cs" />
     <Compile Include="PrinterModule\ValueChangers\FunctionData.cs" />
     <Compile Include="PrinterModule\ValueChangers\FunctionRegistry.cs" />
     <Compile Include="PrinterModule\ValueChangers\PaymentValueChanger.cs" />

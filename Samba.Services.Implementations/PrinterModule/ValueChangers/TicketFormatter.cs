@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
+using NCalc;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 
@@ -16,7 +19,48 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             ticket.Orders.Clear();
             orders.ToList().ForEach(ticket.Orders.Add);
             var content = TicketValueChanger.GetValue(printerTemplate, ticket);
+            content = UpdateExpressions(content);
             return content.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).ToArray();
+        }
+
+        private static string UpdateExpressions(string data)
+        {
+            while (Regex.IsMatch(data, "\\[=[^\\]]+\\]", RegexOptions.Singleline))
+            {
+                var match = Regex.Match(data, "\\[=([^\\]]+)\\]");
+                var tag = match.Groups[0].Value;
+                var expression = match.Groups[1].Value;
+                var e = new Expression(expression);
+                e.EvaluateFunction += delegate(string name, FunctionArgs args)
+                {
+                    if (name == "Format" || name == "F")
+                    {
+                        var fmt = args.Parameters.Length > 1
+                                      ? args.Parameters[1].Evaluate().ToString()
+                                      : "#,#0.00";
+                        args.Result = ((double)args.Parameters[0].Evaluate()).ToString(fmt);
+                    }
+                    if (name == "ToNumber" || name == "TN")
+                    {
+                        double d;
+                        double.TryParse(args.Parameters[0].Evaluate().ToString(), NumberStyles.Any, CultureInfo.CurrentCulture, out d);
+                        args.Result = d;
+                    }
+                };
+                string result;
+                try
+                {
+                    result = e.Evaluate().ToString();
+                }
+                catch (EvaluationException)
+                {
+                    result = "";
+                }
+
+                data = data.Replace(tag, result);
+            }
+
+            return data;
         }
 
         private static IEnumerable<Order> MergeLines(IEnumerable<Order> lines)

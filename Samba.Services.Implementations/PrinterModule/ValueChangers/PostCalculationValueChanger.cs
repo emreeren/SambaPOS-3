@@ -7,11 +7,11 @@ using Samba.Domain.Models.Tickets;
 
 namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 {
-    class CalculationValueChanger : AbstractValueChanger<Calculation>
+    class PostCalculationValueChanger : AbstractValueChanger<Calculation>
     {
         public override string GetTargetTag()
         {
-            return "CALCULATIONS";
+            return "SERVICES";
         }
 
         protected override string GetModelName(Calculation model)
