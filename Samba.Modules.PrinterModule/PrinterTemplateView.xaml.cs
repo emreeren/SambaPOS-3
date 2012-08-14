@@ -25,10 +25,11 @@ namespace Samba.Modules.PrinterModule
                 var p = new Paragraph();
                 p.Inlines.Add(new Bold(new Run("Printer Template Token Documentation")));
                 p.Inlines.Add(new LineBreak());
-                p.Inlines.Add(new LineBreak());
 
                 foreach (var value in doc)
                 {
+                    if (string.IsNullOrEmpty(value.Value))
+                        p.Inlines.Add(new LineBreak());
                     p.Inlines.Add(new Bold(new Run(value.Key)));
                     p.Inlines.Add(new Run(" " + value.Value));
                     p.Inlines.Add(new LineBreak());
