@@ -65,6 +65,7 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="auto" />
                                             <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition Width="auto" />
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition />
@@ -80,10 +81,15 @@
                                                          TextTrimming="CharacterEllipsis" Margin="5" />
 
                                         <TextBlock TextDecorations="{Binding TextDecoration}"
-                                                         Padding="1" Foreground="Gray" FontSize="11" Grid.Column="2" Text="{Binding PriceTag}"
+                                                         Padding="1" Foreground="Gray" FontSize="12" Grid.Column="2" Text="{Binding PriceTag}"
                                                          HorizontalAlignment="Right" VerticalAlignment="Center"/>
 
-                                        <TextBlock FontWeight="{Binding FontWeight}" TextDecorations="{Binding TextDecoration}" Grid.Column="3"
+                                        <Border Grid.Column="3" VerticalAlignment="Center" Visibility="{Binding IsSuborderTagVisible,Converter={StaticResource VisibilityConverter}}"
+                                                        BorderBrush="Gainsboro" BorderThickness="1" CornerRadius="2" Padding="2" Margin="0,0,2,0">
+                                            <TextBlock Text="{Binding SubOrderTags}" Foreground="Gray" FontSize="11"/>
+                                        </Border>
+
+                                        <TextBlock FontWeight="{Binding FontWeight}" TextDecorations="{Binding TextDecoration}" Grid.Column="4"
                                                          Padding="1" Foreground="{Binding Foreground}" FontSize="21"  Text="{Binding TotalPrice, StringFormat='#,#0.00'}"
                                                          Margin="5" HorizontalAlignment="Right" />
 

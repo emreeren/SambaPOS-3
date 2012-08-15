@@ -49,7 +49,7 @@ namespace Samba.Domain.Models.Tickets
         public int TaxTemplateId { get; set; }
         public bool TaxIncluded { get; set; }
 
-        private  IList<OrderTagValue> _orderTagValues;
+        private IList<OrderTagValue> _orderTagValues;
         public virtual IList<OrderTagValue> OrderTagValues
         {
             get { return _orderTagValues; }
@@ -150,13 +150,15 @@ namespace Samba.Domain.Models.Tickets
                        {
                            Name = orderTag.Name,
                            OrderTagGroupId = orderTagGroup.Id,
-                           OrderTagGroupName =  orderTagGroup.Name,
+                           OrderTagGroupName = orderTagGroup.Name,
                            MenuItemId = orderTag.MenuItemId,
                            AddTagPriceToOrderPrice = orderTagGroup.AddTagPriceToOrderPrice,
                            PortionName = PortionName,
+                           SubValue = !string.IsNullOrEmpty(orderTagGroup.ButtonHeader) && orderTag.Price == 0 && orderTagGroup.MaxSelectedItems == 1,
                            UserId = userId,
                            Quantity = 1,
-                           NewTag = true
+                           NewTag = true,
+                           OrderKey = orderTagGroup.Order.ToString("000") + orderTag.Order.ToString("000")
                        };
 
             otag.UpdatePrice(TaxIncluded, TaxRate, orderTag.Price);
@@ -386,9 +388,19 @@ namespace Samba.Domain.Models.Tickets
 
         public string GetOrderTagValue(string s)
         {
-            if (OrderTagValues.Any(x => x.OrderTagGroupName== s))
+            if (OrderTagValues.Any(x => x.OrderTagGroupName == s))
                 return OrderTagValues.First(x => x.OrderTagGroupName == s).Name;
             return "";
         }
+
+        public string SubOrderTags
+        {
+            get
+            {
+                return string.Join(", ", OrderTagValues.Where(x => x.SubValue).OrderBy(x => x.OrderKey).Select(x => x.ShortName));
+            }
+        }
+
+        public string OrderKey { get { return string.Join("", OrderTagValues.Select(x => x.OrderKey)); } }
     }
 }

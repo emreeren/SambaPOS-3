@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
@@ -17,7 +18,9 @@ namespace Samba.Domain.Models.Tickets
         public int MenuItemId { get; set; }
         public bool AddTagPriceToOrderPrice { get; set; }
         public string PortionName { get; set; }
+        public bool SubValue { get; set; }
         internal bool NewTag { get; set; }
+        public string OrderKey { get; set; }
 
         public void UpdatePrice(bool taxIncluded, decimal taxRate, decimal orderTagPrice)
         {
@@ -30,6 +33,19 @@ namespace Samba.Domain.Models.Tickets
             }
             else if (taxRate > 0) TaxAmount = (orderTagPrice * taxRate) / 100;
             else TaxAmount = 0;
+        }
+
+        private string _shortName;
+        public string ShortName
+        {
+            get { return _shortName ?? (_shortName = ToShort(Name)); }
+        }
+
+        private string ToShort(string name)
+        {
+            if (string.IsNullOrEmpty(name)) return "";
+            if (Name.Length < 3) return name;
+            return name.Contains(" ") ? string.Join("", name.Split(' ').Select(x => x.ElementAt(0))) : Name.Substring(0, 2);
         }
     }
 }

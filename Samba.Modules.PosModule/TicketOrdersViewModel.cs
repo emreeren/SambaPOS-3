@@ -58,7 +58,7 @@ namespace Samba.Modules.PosModule
             set
             {
                 _selectedTicket = value;
-                _orders = new ObservableCollection<OrderViewModel>(_selectedTicket.Orders.Select(x => new OrderViewModel(x, _automationService)).OrderBy(x => x.Model.CreatedDateTime));
+                _orders = new ObservableCollection<OrderViewModel>(_selectedTicket.Orders.Select(x => new OrderViewModel(x, _automationService)).OrderBy(x => x.Model.CreatedDateTime).ThenBy(x => x.OrderNumber).ThenBy(x => x.OrderKey).ThenBy(x => x.Model.Id));
                 _itemsViewSource = new CollectionViewSource { Source = _orders };
                 _itemsViewSource.GroupDescriptions.Add(new PropertyGroupDescription("GroupObject"));
                 RaisePropertyChanged(() => SelectedTicket);

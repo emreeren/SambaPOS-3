@@ -1,4 +1,5 @@
-﻿using Samba.Domain.Models.Tickets;
+﻿using System.Linq;
+using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Common;
 
 namespace Samba.Modules.PosModule
@@ -29,5 +30,7 @@ namespace Samba.Modules.PosModule
                 return Model.Price != 0 && !Model.AddTagPriceToOrderPrice ? ((Model.Price + Model.TaxAmount) * Model.Quantity).ToString("#,#0.00") : "";
             }
         }
+
+        public string ShortName { get { return Model.ShortName; } }
     }
 }

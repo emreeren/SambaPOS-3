@@ -148,8 +148,23 @@ namespace Samba.Modules.PosModule
         private ObservableCollection<OrderTagValueViewModel> _orderTagValues;
         public ObservableCollection<OrderTagValueViewModel> OrderTagValues
         {
-            get { return _orderTagValues ?? (_orderTagValues = new ObservableCollection<OrderTagValueViewModel>(Model.OrderTagValues.Select(x => new OrderTagValueViewModel(x)))); }
+            get { return _orderTagValues ?? (_orderTagValues = new ObservableCollection<OrderTagValueViewModel>(Model.OrderTagValues.Where(x => !x.SubValue).Select(x => new OrderTagValueViewModel(x)))); }
         }
+
+        private ObservableCollection<OrderTagValueViewModel> _subOrderTagValues;
+        public ObservableCollection<OrderTagValueViewModel> SubOrderTagValues
+        {
+            get { return _subOrderTagValues ?? (_subOrderTagValues = new ObservableCollection<OrderTagValueViewModel>(Model.OrderTagValues.Where(x => x.SubValue).Select(x => new OrderTagValueViewModel(x)))); }
+        }
+
+        private string _subOrderTags;
+        public string SubOrderTags { get { return _subOrderTags ?? (_subOrderTags = Model.SubOrderTags); } }
+
+        private string _orderKey;
+        public string OrderKey { get { return _orderKey ?? (_orderKey = Model.OrderKey); } }
+
+        public bool IsSuborderTagVisible { get { return !string.IsNullOrEmpty(Model.SubOrderTags); } }
+
 
         public bool IsLocked { get { return Model.Locked; } }
 
@@ -253,9 +268,13 @@ namespace Samba.Modules.PosModule
 
         private void RefreshProperties()
         {
-            OrderTagValues.Clear();
-            OrderTagValues.AddRange(Model.OrderTagValues.Select(x => new OrderTagValueViewModel(x)));
+            _orderTagValues = null;
+            _subOrderTags = null;
+            _orderKey = null;
             RaisePropertyChanged(() => OrderTagValues);
+            RaisePropertyChanged(() => SubOrderTags);
+            RaisePropertyChanged(() => IsSuborderTagVisible);
+            RaisePropertyChanged(() => OrderKey);
         }
 
         public void UpdatePrice(decimal value, string priceTag)
