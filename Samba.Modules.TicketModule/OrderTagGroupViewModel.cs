@@ -31,6 +31,7 @@ namespace Samba.Modules.TicketModule
         public ICaptionCommand AddOrderTagCommand { get; set; }
         public ICaptionCommand DeleteOrderTagCommand { get; set; }
 
+        public string ButtonHeader { get { return Model.ButtonHeader; } set { Model.ButtonHeader = value; } }
         public bool AddTagPriceToOrderPrice { get { return Model.AddTagPriceToOrderPrice; } set { Model.AddTagPriceToOrderPrice = value; } }
         public int ButtonHeight { get { return Model.ButtonHeight; } set { Model.ButtonHeight = value; } }
         public int ColumnCount { get { return Model.ColumnCount; } set { Model.ColumnCount = value; } }

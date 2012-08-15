@@ -38,6 +38,7 @@ namespace Samba.Modules.PosModule
         public ICaptionCommand DecSelectionQuantityCommand { get; set; }
         public ICaptionCommand ShowTicketTagsCommand { get; set; }
         public ICaptionCommand ShowOrderStatesCommand { get; set; }
+        public ICaptionCommand ShowOrderTagsCommand { get; set; }
         public ICaptionCommand CancelItemCommand { get; set; }
         public ICaptionCommand EditTicketNoteCommand { get; set; }
         public ICaptionCommand RemoveTicketLockCommand { get; set; }
@@ -151,6 +152,20 @@ namespace Samba.Modules.PosModule
             }
         }
 
+        public IEnumerable<OrderTagButton> OrderTagButtons
+        {
+            get
+            {
+                if (SelectedOrders.Count() > 0)
+                {
+                    return _cacheService.GetOrderTagGroupsForItems(SelectedOrders.Select(x => x.MenuItemId))
+                        .Where(x => !string.IsNullOrEmpty(x.ButtonHeader))
+                        .Select(x => new OrderTagButton(x));
+                }
+                return null;
+            }
+        }
+
         [ImportingConstructor]
         public TicketViewModel(IApplicationState applicationState,
             ITicketService ticketService, IAccountService accountService, IResourceService locationService, IUserService userService,
@@ -176,6 +191,7 @@ namespace Samba.Modules.PosModule
             DecSelectionQuantityCommand = new CaptionCommand<string>("(-)", OnDecSelectionQuantityCommand, CanDecSelectionQuantity);
             ShowTicketTagsCommand = new CaptionCommand<TicketTagGroup>(Resources.Tag, OnShowTicketsTagExecute, CanExecuteShowTicketTags);
             ShowOrderStatesCommand = new CaptionCommand<OrderStateGroup>(Resources.Tag, OnShowOrderStatesExecute, CanShowOrderStatesExecute);
+            ShowOrderTagsCommand = new CaptionCommand<OrderTagGroup>(Resources.Tag, OnShowOrderTagsExecute, CanShowOrderTagsExecute);
             CancelItemCommand = new CaptionCommand<string>(Resources.Cancel, OnCancelItemCommand, CanCancelSelectedItems);
             MoveOrdersCommand = new CaptionCommand<string>(Resources.MoveTicketLine, OnMoveOrders, CanMoveOrders);
             EditTicketNoteCommand = new CaptionCommand<string>(Resources.TicketNote, OnEditTicketNote, CanEditTicketNote);
@@ -369,6 +385,23 @@ namespace Samba.Modules.PosModule
             return !arg.UnlocksOrder || !SelectedOrders.Any(x => x.Locked && x.OrderTagValues.Count(y => y.OrderTagGroupId == arg.Id) > 0);
         }
 
+        private void OnShowOrderTagsExecute(OrderTagGroup orderTagGroup)
+        {
+            var orderTagData = new OrderTagData
+            {
+                SelectedOrders = SelectedOrders,
+                OrderTagGroup = orderTagGroup,
+                Ticket = SelectedTicket
+            };
+            orderTagData.PublishEvent(EventTopicNames.SelectOrderTag);
+        }
+
+        private bool CanShowOrderTagsExecute(OrderTagGroup arg)
+        {
+            if (SelectedOrders.Count() == 0) return false;
+            return true;
+        }
+
         private bool CanChangePrice(string arg)
         {
             return !SelectedTicket.Locked
@@ -543,6 +576,7 @@ namespace Samba.Modules.PosModule
             RaisePropertyChanged(() => IsItemsSelectedAndLocked);
             RaisePropertyChanged(() => IsTicketSelected);
             RaisePropertyChanged(() => OrderStateButtons);
+            RaisePropertyChanged(() => OrderTagButtons);
         }
     }
 }

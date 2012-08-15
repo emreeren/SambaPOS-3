@@ -28,8 +28,6 @@ namespace Samba.Modules.PosModule
         public IEnumerable<OrderViewModel> SelectedOrders { get { return Orders.Where(x => x.Selected); } }
         public IList<Order> SelectedOrderModels { get { return SelectedOrders.Select(x => x.Model).ToList(); } }
 
-        // public IEnumerable<OrderViewModel> SelectedOrderModels { get { return Orders.Where(x => x.Selected); } }
-
         private ObservableCollection<OrderViewModel> _orders;
         public ObservableCollection<OrderViewModel> Orders
         {

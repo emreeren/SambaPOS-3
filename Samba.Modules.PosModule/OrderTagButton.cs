@@ -2,15 +2,15 @@
 
 namespace Samba.Modules.PosModule
 {
-    public class OrderStateButton
+    public class OrderTagButton
     {
-        public OrderStateButton(OrderStateGroup orderStateGroup)
+        public OrderTagButton(OrderTagGroup orderTagGroup)
         {
-            Model = orderStateGroup;
+            Model = orderTagGroup;
             Name = Model.ButtonHeader;
         }
 
-        public OrderStateGroup Model { get; set; }
+        public OrderTagGroup Model { get; set; }
         public string Name { get; set; }
     }
 }

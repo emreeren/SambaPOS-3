@@ -414,6 +414,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Tag Price To Order Price.
+        /// </summary>
+        public static string AddTagPriceToOrderPrice {
+            get {
+                return ResourceManager.GetString("AddTagPriceToOrderPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Ticket Discount.
         /// </summary>
         public static string AddTicketDiscount {
@@ -4039,6 +4048,15 @@ namespace Samba.Localization.Properties {
         public static string MaxItems {
             get {
                 return ResourceManager.GetString("MaxItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Max Quantity.
+        /// </summary>
+        public static string MaxQuantity {
+            get {
+                return ResourceManager.GetString("MaxQuantity", resourceCulture);
             }
         }
         

@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandContainerButton.cs" />
+    <Compile Include="OrderTagButton.cs" />
     <Compile Include="MenuItemSelectorView.xaml.cs">
       <DependentUpon>MenuItemSelectorView.xaml</DependentUpon>
     </Compile>

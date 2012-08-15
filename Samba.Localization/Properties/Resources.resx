@@ -2803,8 +2803,8 @@ Continue without adding details?</value>
   <data name="New_f" xml:space="preserve">
     <value>New {0}</value>
   </data>
-  <data name="Create_f">
-    <value xml:space="preserve">Create {0}</value>
+  <data name="Create_f" xml:space="preserve">
+    <value>Create {0}</value>
   </data>
   <data name="CustomFieldName" xml:space="preserve">
     <value>Custom Field Name</value>
@@ -2943,164 +2943,164 @@ Continue without adding details?</value>
     <value>Display under ticket</value>
     <comment>CheckBox.Content</comment>
   </data>
-  <data name="Settle">
-    <value xml:space="preserve">Settle</value>
+  <data name="Settle" xml:space="preserve">
+    <value>Settle</value>
   </data>
-  <data name="Table">
-    <value xml:space="preserve">Table</value>
+  <data name="Table" xml:space="preserve">
+    <value>Table</value>
   </data>
-  <data name="EntityName">
-    <value xml:space="preserve">Entity Name</value>
+  <data name="EntityName" xml:space="preserve">
+    <value>Entity Name</value>
   </data>
-  <data name="Change_f">
-    <value xml:space="preserve">Change {0}</value>
+  <data name="Change_f" xml:space="preserve">
+    <value>Change {0}</value>
   </data>
-  <data name="Resource">
-    <value xml:space="preserve">Resource</value>
+  <data name="Resource" xml:space="preserve">
+    <value>Resource</value>
   </data>
-  <data name="ResourceTemplate">
-    <value xml:space="preserve">Resource Template</value>
+  <data name="ResourceTemplate" xml:space="preserve">
+    <value>Resource Template</value>
   </data>
-  <data name="ResourceScreen">
-    <value xml:space="preserve">Resource Screen</value>
+  <data name="ResourceScreen" xml:space="preserve">
+    <value>Resource Screen</value>
   </data>
-  <data name="ResourceScreens">
-    <value xml:space="preserve">Resource Screens</value>
+  <data name="ResourceScreens" xml:space="preserve">
+    <value>Resource Screens</value>
   </data>
-  <data name="ScreenItem">
-    <value xml:space="preserve">Screen Item</value>
+  <data name="ScreenItem" xml:space="preserve">
+    <value>Screen Item</value>
   </data>
-  <data name="ResourceScreenItem">
-    <value xml:space="preserve">Resource Screen Item</value>
+  <data name="ResourceScreenItem" xml:space="preserve">
+    <value>Resource Screen Item</value>
   </data>
-  <data name="ResourceState">
-    <value xml:space="preserve">Resource State</value>
+  <data name="ResourceState" xml:space="preserve">
+    <value>Resource State</value>
   </data>
-  <data name="Name">
-    <value xml:space="preserve">Name</value>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
   </data>
-  <data name="Resourceses">
-    <value xml:space="preserve">Resources</value>
+  <data name="Resourceses" xml:space="preserve">
+    <value>Resources</value>
   </data>
-  <data name="ResourceTemplates">
-    <value xml:space="preserve">Resource Templates</value>
+  <data name="ResourceTemplates" xml:space="preserve">
+    <value>Resource Templates</value>
   </data>
-  <data name="SelectItemsFor_f">
-    <value xml:space="preserve">Select {0} for using with {1} {2}</value>
+  <data name="SelectItemsFor_f" xml:space="preserve">
+    <value>Select {0} for using with {1} {2}</value>
   </data>
-  <data name="StateFilter">
-    <value xml:space="preserve">State Filter</value>
+  <data name="StateFilter" xml:space="preserve">
+    <value>State Filter</value>
   </data>
-  <data name="DisplayOpenTickets">
-    <value xml:space="preserve">Display Open Tickets</value>
+  <data name="DisplayOpenTickets" xml:space="preserve">
+    <value>Display Open Tickets</value>
   </data>
-  <data name="RowCount">
-    <value xml:space="preserve">Row Count</value>
+  <data name="RowCount" xml:space="preserve">
+    <value>Row Count</value>
   </data>
-  <data name="TicketCreationMethod">
-    <value xml:space="preserve">Ticket Creation Method</value>
+  <data name="TicketCreationMethod" xml:space="preserve">
+    <value>Ticket Creation Method</value>
   </data>
-  <data name="CustomCommand">
-    <value xml:space="preserve">CustomCommand</value>
+  <data name="CustomCommand" xml:space="preserve">
+    <value>CustomCommand</value>
   </data>
-  <data name="CommandType">
-    <value xml:space="preserve">Command Type</value>
+  <data name="CommandType" xml:space="preserve">
+    <value>Command Type</value>
   </data>
-  <data name="TicketCommand">
-    <value xml:space="preserve">Ticket Command</value>
+  <data name="TicketCommand" xml:space="preserve">
+    <value>Ticket Command</value>
   </data>
-  <data name="Automation">
-    <value xml:space="preserve">Automation</value>
+  <data name="Automation" xml:space="preserve">
+    <value>Automation</value>
   </data>
-  <data name="AutomationCommand">
-    <value xml:space="preserve">Automation Command</value>
+  <data name="AutomationCommand" xml:space="preserve">
+    <value>Automation Command</value>
   </data>
-  <data name="BatchCreate_f">
-    <value xml:space="preserve">Batch Create {0}</value>
+  <data name="BatchCreate_f" xml:space="preserve">
+    <value>Batch Create {0}</value>
   </data>
-  <data name="BatchCreateInfo_f">
-    <value xml:space="preserve">We'll create {0} for each line you entered here.</value>
+  <data name="BatchCreateInfo_f" xml:space="preserve">
+    <value>We'll create {0} for each line you entered here.</value>
   </data>
-  <data name="TransactionTemplate">
-    <value xml:space="preserve">Transaction Template</value>
+  <data name="TransactionTemplate" xml:space="preserve">
+    <value>Transaction Template</value>
   </data>
-  <data name="FixedAmountFromTicketTotal">
-    <value xml:space="preserve">Fixed amount from ticket total</value>
+  <data name="FixedAmountFromTicketTotal" xml:space="preserve">
+    <value>Fixed amount from ticket total</value>
   </data>
-  <data name="Multiple">
-    <value xml:space="preserve">Multiple</value>
+  <data name="Multiple" xml:space="preserve">
+    <value>Multiple</value>
   </data>
-  <data name="Selection_f">
-    <value xml:space="preserve">{0} Selection</value>
+  <data name="Selection_f" xml:space="preserve">
+    <value>{0} Selection</value>
   </data>
-  <data name="Single">
-    <value xml:space="preserve">Single</value>
+  <data name="Single" xml:space="preserve">
+    <value>Single</value>
   </data>
-  <data name="Mappings">
-    <value xml:space="preserve">Mappings</value>
+  <data name="Mappings" xml:space="preserve">
+    <value>Mappings</value>
   </data>
-  <data name="GeneralSettings">
-    <value xml:space="preserve">General Settings</value>
+  <data name="GeneralSettings" xml:space="preserve">
+    <value>General Settings</value>
   </data>
-  <data name="AccountScreen">
-    <value xml:space="preserve">Account Screen</value>
+  <data name="AccountScreen" xml:space="preserve">
+    <value>Account Screen</value>
   </data>
-  <data name="CantDelete_f">
-    <value xml:space="preserve">Can't delete {0}</value>
+  <data name="CantDelete_f" xml:space="preserve">
+    <value>Can't delete {0}</value>
   </data>
-  <data name="AdminRole">
-    <value xml:space="preserve">Admin Role</value>
+  <data name="AdminRole" xml:space="preserve">
+    <value>Admin Role</value>
   </data>
-  <data name="No_f">
-    <value xml:space="preserve">No {0}</value>
+  <data name="No_f" xml:space="preserve">
+    <value>No {0}</value>
   </data>
-  <data name="Tags">
-    <value xml:space="preserve">Tags</value>
+  <data name="Tags" xml:space="preserve">
+    <value>Tags</value>
   </data>
-  <data name="AccountNameTemplate">
-    <value xml:space="preserve">Account Name Template</value>
+  <data name="AccountNameTemplate" xml:space="preserve">
+    <value>Account Name Template</value>
   </data>
-  <data name="AccountPermissions">
-    <value xml:space="preserve">Account Permissions</value>
+  <data name="AccountPermissions" xml:space="preserve">
+    <value>Account Permissions</value>
   </data>
-  <data name="CreateAccount">
-    <value xml:space="preserve">Create Account</value>
+  <data name="CreateAccount" xml:space="preserve">
+    <value>Create Account</value>
   </data>
-  <data name="CanCreateAccount">
-    <value xml:space="preserve">Can Create Account</value>
+  <data name="CanCreateAccount" xml:space="preserve">
+    <value>Can Create Account</value>
   </data>
-  <data name="Dashboard">
-    <value xml:space="preserve">Dashboard</value>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Dashboard</value>
   </data>
-  <data name="ResourceButton">
-    <value xml:space="preserve">Resource Button</value>
+  <data name="ResourceButton" xml:space="preserve">
+    <value>Resource Button</value>
   </data>
-  <data name="AutoRefresh">
-    <value xml:space="preserve">Auto Refresh</value>
+  <data name="AutoRefresh" xml:space="preserve">
+    <value>Auto Refresh</value>
   </data>
-  <data name="MergeTickets">
-    <value xml:space="preserve">Merge Tickets</value>
+  <data name="MergeTickets" xml:space="preserve">
+    <value>Merge Tickets</value>
   </data>
-  <data name="CalculationSelector">
-    <value xml:space="preserve">Calculation Selector</value>
+  <data name="CalculationSelector" xml:space="preserve">
+    <value>Calculation Selector</value>
   </data>
-  <data name="RoundTicketTotal">
-    <value xml:space="preserve">Round Ticket Total</value>
+  <data name="RoundTicketTotal" xml:space="preserve">
+    <value>Round Ticket Total</value>
   </data>
-  <data name="MaxSelectedItems">
-    <value xml:space="preserve">Max Selected Items</value>
+  <data name="MaxSelectedItems" xml:space="preserve">
+    <value>Max Selected Items</value>
   </data>
-  <data name="DisplaySettings">
-    <value xml:space="preserve">Display Settings</value>
+  <data name="DisplaySettings" xml:space="preserve">
+    <value>Display Settings</value>
   </data>
-  <data name="OrderState">
-    <value xml:space="preserve">Order State</value>
+  <data name="OrderState" xml:space="preserve">
+    <value>Order State</value>
   </data>
-  <data name="OrderStateGroup">
-    <value xml:space="preserve">Order State Group</value>
+  <data name="OrderStateGroup" xml:space="preserve">
+    <value>Order State Group</value>
   </data>
-  <data name="KitchenTemplateValue">
-    <value xml:space="preserve">[HEADER]
+  <data name="KitchenTemplateValue" xml:space="preserve">
+    <value>[HEADER]
 &lt;T&gt;TICKET
 &lt;L00&gt;Date:{TICKET DATE}
 &lt;L00&gt;Time:{TIME}
@@ -3121,9 +3121,8 @@ Continue without adding details?</value>
         * {PROPERTIES}
 </value>
   </data>
-
-  <data name="TicketTemplateValue">
-    <value xml:space="preserve">[LAYOUT]
+  <data name="TicketTemplateValue" xml:space="preserve">
+    <value>[LAYOUT]
 -- General layout
 &lt;T&gt;TICKET
 &lt;L00&gt;Date:{TICKET DATE}
@@ -3166,5 +3165,13 @@ Continue without adding details?</value>
 [RESOURCES:Customer]
 -- Customer resource format
 &lt;J00&gt;Customer: {RESOURCE NAME} | {RESOURCE DATA:Phone}</value>
+  </data>
+  <data name="AddTagPriceToOrderPrice" xml:space="preserve">
+    <value>Add Tag Price To Order Price</value>
+    <comment>CheckBox.Content</comment>
+  </data>
+  <data name="MaxQuantity" xml:space="preserve">
+    <value>Max Quantity</value>
+    <comment>DataGridTextColumn.Header</comment>
   </data>
 </root>

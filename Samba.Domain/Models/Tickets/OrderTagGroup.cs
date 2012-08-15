@@ -13,6 +13,7 @@ namespace Samba.Domain.Models.Tickets
             get { return Name; }
         }
 
+        public string ButtonHeader { get; set; }
         public int ColumnCount { get; set; }
         public int ButtonHeight { get; set; }
         public int MaxSelectedItems { get; set; }

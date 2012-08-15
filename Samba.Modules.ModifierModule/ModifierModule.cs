@@ -19,8 +19,8 @@ namespace Samba.Modules.ModifierModule
     {
         private IEnumerable<Order> _selectedOrders;
 
-        private readonly OrderTagEditorView _selectedOrdersView;
-        private readonly OrderTagEditorViewModel _selectedOrdersViewModel;
+        private readonly OrderTagGroupEditorView _selectedOrdersView;
+        private readonly OrderTagGroupEditorViewModel _selectedOrdersViewModel;
         private readonly IRegionManager _regionManager;
         private readonly IUserService _userService;
 
@@ -30,7 +30,7 @@ namespace Samba.Modules.ModifierModule
         private readonly TicketTagEditorView _ticketTagEditorView;
         private readonly TicketTagEditorViewModel _ticketTagEditorViewModel;
         private readonly OrderStateEditorView _orderStateEditorView;
-        private readonly OrderStateEditorViewModel _orderStateEditorViewModel;
+        private readonly OrderTagEditorView _orderTagEditorView;
         private readonly ExtraModifierEditorViewModel _extraModifierEditorViewModel;
         private readonly ExtraModifierEditorView _extraModifierEditorView;
 
@@ -39,8 +39,8 @@ namespace Samba.Modules.ModifierModule
             ExtraModifierEditorView extraModifierEditorView, ExtraModifierEditorViewModel extraModifierEditorViewModel,
             TicketNoteEditorView ticketNoteEditorView, TicketNoteEditorViewModel ticketNoteEditorViewModel,
             TicketTagEditorView ticketTagEditorView, TicketTagEditorViewModel ticketTagEditorViewModel,
-            OrderStateEditorView orderStateEditorView,OrderStateEditorViewModel orderStateEditorViewModel,
-            OrderTagEditorView selectedOrdersView, OrderTagEditorViewModel selectedOrdersViewModel)
+            OrderStateEditorView orderStateEditorView,OrderTagEditorView orderTagEditorView,
+            OrderTagGroupEditorView selectedOrdersView, OrderTagGroupEditorViewModel selectedOrdersViewModel)
         {
             _selectedOrdersView = selectedOrdersView;
             _selectedOrdersViewModel = selectedOrdersViewModel;
@@ -49,7 +49,7 @@ namespace Samba.Modules.ModifierModule
             _ticketTagEditorView = ticketTagEditorView;
             _ticketTagEditorViewModel = ticketTagEditorViewModel;
             _orderStateEditorView = orderStateEditorView;
-            _orderStateEditorViewModel = orderStateEditorViewModel;
+            _orderTagEditorView = orderTagEditorView;
             _extraModifierEditorViewModel = extraModifierEditorViewModel;
             _extraModifierEditorView = extraModifierEditorView;
 
@@ -60,10 +60,19 @@ namespace Samba.Modules.ModifierModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnDisplayTicketDetailsScreen);
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketTagData>>().Subscribe(OnTicketTagDataSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<OrderStateData>>().Subscribe(OnOrderStateDataSelected);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<OrderTagData>>().Subscribe(OnOrderTagDataSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<Ticket>>().Subscribe(OnTicketEvent);
 
             _showExtraModifierCommand = new CaptionCommand<Ticket>(Resources.ExtraModifier, OnExtraModifiersSelected, CanSelectExtraModifier);
             _showExtraModifierCommand.PublishEvent(EventTopicNames.AddCustomOrderCommand);
+        }
+        
+        private void OnOrderTagDataSelected(EventParameters<OrderTagData> obj)
+        {
+            if (obj.Topic == EventTopicNames.SelectOrderTag)
+            {
+                DisplayOrderTagEditor();
+            }
         }
 
         private void OnOrderStateDataSelected(EventParameters<OrderStateData> obj)
@@ -113,10 +122,11 @@ namespace Samba.Modules.ModifierModule
 
         protected override void OnInitialization()
         {
-            _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(OrderTagEditorView));
+            _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(OrderTagGroupEditorView));
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(TicketNoteEditorView));
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(TicketTagEditorView));
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion,typeof (OrderStateEditorView));
+            _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof (OrderTagEditorView));
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(ExtraModifierEditorView));
         }
 
@@ -144,6 +154,11 @@ namespace Samba.Modules.ModifierModule
         private void DisplayOrderStateEditor()
         {
             _regionManager.Regions[RegionNames.PosSubRegion].Activate(_orderStateEditorView);
+        }
+
+        private void DisplayOrderTagEditor()
+        {
+            _regionManager.Regions[RegionNames.PosSubRegion].Activate(_orderTagEditorView);
         }
 
         private void OnSelectedOrdersDataEvent(EventParameters<SelectedOrdersData> selectedOrdersEvent)
