@@ -513,11 +513,16 @@ namespace Samba.Modules.PosModule
 
         private bool CanCancelSelectedItems(string arg)
         {
-            return _ticketOrdersViewModel.CanCancelSelectedOrders();
+            return true;//_ticketOrdersViewModel.CanCancelSelectedOrders();
         }
 
         private void OnCancelItemCommand(string obj)
         {
+            if (!_ticketOrdersViewModel.CanCancelSelectedOrders())
+            {
+                ClearSelectedItems();
+                return;
+            }
             _ticketOrdersViewModel.CancelSelectedOrders();
             _ticketService.RecalculateTicket(SelectedTicket);
             RefreshSelectedItems();
