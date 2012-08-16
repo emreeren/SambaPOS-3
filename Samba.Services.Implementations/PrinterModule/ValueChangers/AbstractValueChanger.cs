@@ -5,6 +5,43 @@ using Samba.Domain.Models.Settings;
 
 namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 {
+    public class GroupingKey : IEquatable<GroupingKey>, IComparable<GroupingKey>
+    {
+        public GroupingKey()
+        {
+            Name = "";
+        }
+
+        public string Key { get; set; }
+        public string Name { get; set; }
+
+        private static GroupingKey _empty;
+        public static GroupingKey Empty { get { return _empty ?? (_empty = new GroupingKey()); } }
+
+        public bool Equals(GroupingKey other)
+        {
+            if (other == null) return false;
+            return Name.Equals(other.Name);
+        }
+
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            var gk = obj as GroupingKey;
+            if (gk == null) return false;
+            return Name.Equals(gk.Key);
+        }
+
+        public int CompareTo(GroupingKey other)
+        {
+            return Key.CompareTo(other.Key);
+        }
+    }
+
     public class AbstractValueChanger<T> : IValueChanger<T>
     {
         public string Replace(PrinterTemplate template, string content, IEnumerable<T> models)
@@ -14,23 +51,26 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
         private string GetValue(PrinterTemplate template, IEnumerable<T> models)
         {
-
             var groupSwitchValue = template.GetSwitch(GetTargetTag() + " GROUP");
             if (groupSwitchValue != null)
             {
                 var result = "";
                 var groups = models.GroupBy(x => GetGroupSelector(x, groupSwitchValue));
-                foreach (var @group in groups)
+                foreach (var @group in groups.OrderBy(x => x.Key))
                 {
-                    IGrouping<object, T> grp = @group;
-                    var gtn = string.Format("{0} GROUP{1}", GetTargetTag(), grp.Key != null ? ":" + grp.Key : "");
+                    IGrouping<GroupingKey, T> grp = @group;
+                    var gtn = string.Format("{0} GROUP{1}", GetTargetTag(), grp.Key.Name != null ? ":" + grp.Key.Name : "");
                     var groupTemplate = (template.GetPart(gtn) ?? "");
-                    Helper.FormatDataIf(grp.Key != null, groupTemplate, "{GROUP KEY}", () => (grp.Key ?? "").ToString());
-                    Helper.FormatDataIf(grp.Key != null, groupTemplate, "{GROUP SUM}", () => grp.Sum(x => GetSumSelector(x)).ToString("#,#0.00"));
+                    groupTemplate = Helper.FormatDataIf(grp.Key != null, groupTemplate, "{GROUP KEY}", () => (grp.Key.Name ?? ""));
+                    groupTemplate = Helper.FormatDataIf(grp.Key != null, groupTemplate, "{GROUP SUM}", () => grp.Sum(x => GetSumSelector(x)).ToString("#,#0.00"));
                     result += ReplaceValues(groupTemplate, grp.ElementAt(0), template) + "\r\n";
                     group.ToList().ForEach(x => ProcessItem(x, groupSwitchValue));
                     result += string.Join("\r\n", grp.SelectMany(x => GetValue(template, x).Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)));
-                    result += "\r\n";
+                    var ftr = string.Format("{0} FOOTER{1}", GetTargetTag(), grp.Key.Name != null ? ":" + grp.Key.Name : "");
+                    var ftrTemplate = template.GetPart(ftr) ?? "";
+                    ftrTemplate = Helper.FormatDataIf(grp.Key != null, ftrTemplate, "{GROUP KEY}", () => (grp.Key.Name ?? ""));
+                    ftrTemplate = Helper.FormatDataIf(grp.Key != null, ftrTemplate, "{GROUP SUM}", () => grp.Sum(x => GetSumSelector(x)).ToString("#,#0.00"));
+                    result += "\r\n" + ftrTemplate + "\r\n";
                 }
                 return result;
             }
@@ -47,9 +87,9 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             // override if needed
         }
 
-        protected virtual object GetGroupSelector(T arg, string switchValue)
+        protected virtual GroupingKey GetGroupSelector(T arg, string switchValue)
         {
-            return null;
+            return GroupingKey.Empty;
         }
 
         public string GetValue(PrinterTemplate template, T model)

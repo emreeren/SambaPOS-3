@@ -6,6 +6,11 @@ namespace Samba.Domain.Models.Tickets
 {
     public class OrderTagValue : Value
     {
+        public OrderTagValue()
+        {
+            Name = "";
+        }
+
         public int OrderId { get; set; }
         public int TicketId { get; set; }
         public string Name { get; set; }
@@ -39,6 +44,12 @@ namespace Samba.Domain.Models.Tickets
         public string ShortName
         {
             get { return _shortName ?? (_shortName = ToShort(Name)); }
+        }
+
+        private static OrderTagValue _empty;
+        public static OrderTagValue Empty
+        {
+            get { return _empty ?? (_empty = new OrderTagValue { Name = "" }); }
         }
 
         private string ToShort(string name)

@@ -24,7 +24,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
         protected override string ReplaceTemplateValues(string templatePart, Order model, PrinterTemplate template)
         {
-            return OrderTagValueChanger.Replace(template, templatePart, model.OrderTagValues);
+            return OrderTagValueChanger.Replace(template, templatePart, model.OrderTagValues.Where(x => !x.SubValue));
         }
 
         protected override decimal GetSumSelector(Order x)
@@ -32,21 +32,23 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             return x.GetItemValue();
         }
 
-        protected override object GetGroupSelector(Order arg, string switchValue)
+        protected override GroupingKey GetGroupSelector(Order arg, string switchValue)
         {
             if (!string.IsNullOrEmpty(switchValue) && switchValue.Contains(":"))
             {
                 var parts = switchValue.Split(':');
                 if (parts[0] == "ORDER TAG")
                 {
-                    return arg.GetOrderTagValue(parts[1]);
+                    var r = arg.GetOrderTagValue(parts[1]);
+                    return new GroupingKey { Key = r.OrderKey, Name = r.Name };
                 }
             }
             else if (switchValue == "ORDER STATE")
             {
-                return arg.OrderStateGroupName ?? "";
+                return new GroupingKey { Name = arg.OrderStateGroupName ?? "", Key = arg.OrderStateGroupName ?? "" };
             }
-            return "";
+
+            return base.GetGroupSelector(arg, switchValue);
         }
 
         protected override void ProcessItem(Order obj, string switchValue)

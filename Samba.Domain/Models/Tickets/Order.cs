@@ -386,11 +386,11 @@ namespace Samba.Domain.Models.Tickets
             return CalculatePrice && DecreaseInventory ? (TaxAmount + OrderTagValues.Sum(x => x.TaxAmount)) * Quantity : 0;
         }
 
-        public string GetOrderTagValue(string s)
+        public OrderTagValue GetOrderTagValue(string s)
         {
             if (OrderTagValues.Any(x => x.OrderTagGroupName == s))
-                return OrderTagValues.First(x => x.OrderTagGroupName == s).Name;
-            return "";
+                return OrderTagValues.First(x => x.OrderTagGroupName == s);
+            return OrderTagValue.Empty;
         }
 
         public string SubOrderTags
