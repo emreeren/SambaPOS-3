@@ -217,7 +217,8 @@ namespace Samba.Modules.PosModule
 
         private void OnExecuteAutomationCommand(CommandContainerButton obj)
         {
-            _automationService.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new { Ticket = SelectedTicket, AutomationCommandName = obj.Name });
+            obj.NextValue();
+            _automationService.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new { Ticket = SelectedTicket, AutomationCommandName = obj.Name, Value = obj.SelectedValue });
         }
 
         private void OnDepartmentChanged(EventParameters<Department> obj)

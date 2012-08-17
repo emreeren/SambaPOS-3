@@ -95,7 +95,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterEvent(RuleEventNames.ChangeAmountChanged, "Change Amount Updated", new { TicketAmount = 0, ChangeAmount = 0, TenderedAmount = 0 });
             AutomationService.RegisterEvent(RuleEventNames.ApplicationStarted, "Application Started");
             AutomationService.RegisterEvent(RuleEventNames.ResourceUpdated, "Resource Updated", new { ResourceTemplateName = "", OpenTicketCount = 0 });
-            AutomationService.RegisterEvent(RuleEventNames.AutomationCommandExecuted, "Automation Command Exeucted", new { AutomationCommandName = "" });
+            AutomationService.RegisterEvent(RuleEventNames.AutomationCommandExecuted, "Automation Command Exeucted", new { AutomationCommandName = "", Value = "" });
         }
 
         private static void RegisterParameterSources()

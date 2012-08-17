@@ -3,12 +3,11 @@ using System.ComponentModel.Composition;
 using Samba.Domain.Models.Actions;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
-using Samba.Presentation.ViewModels;
 
 namespace Samba.Modules.AutomationModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class AutomationCommandViewModel : EntityViewModelBaseWithMap<AutomationCommand,AutomationCommandMap,AutomationCommandMapViewModel>
+    public class AutomationCommandViewModel : EntityViewModelBaseWithMap<AutomationCommand, AutomationCommandMap, AutomationCommandMapViewModel>
     {
         [ImportingConstructor]
         public AutomationCommandViewModel()
@@ -18,6 +17,11 @@ namespace Samba.Modules.AutomationModule
 
         public string ButtonHeader { get { return Model.ButtonHeader; } set { Model.ButtonHeader = value; } }
         public string Color { get { return Model.Color; } set { Model.Color = value; } }
+        public string Values
+        {
+            get { return (Model.Values ?? "").Replace("|", Environment.NewLine); }
+            set { Model.Values = value.Trim(Environment.NewLine.ToCharArray()).Replace(Environment.NewLine, "|"); }
+        }
 
         public override Type GetViewType()
         {

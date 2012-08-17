@@ -444,19 +444,19 @@ namespace Samba.Services.Implementations.TicketModule
             var portion = _cacheService.GetMenuItemPortion(menuItemId, portionName);
             if (portion == null) return null;
             var priceTag = _applicationState.CurrentDepartment.PriceTag;
-            var ti = ticket.AddOrder(
+            var order = ticket.AddOrder(
                 _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate,
                 _applicationState.CurrentLoggedInUser.Name, menuItem, portion, priceTag);
 
-            ti.Quantity = quantity > 9 ? decimal.Round(quantity / portion.Multiplier, LocalSettings.Decimals) : quantity;
+            order.Quantity = quantity > 9 ? decimal.Round(quantity / portion.Multiplier, LocalSettings.Decimals) : quantity;
 
-            if (template != null) template.OrderTagTemplateValues.ToList().ForEach(x => ti.ToggleOrderTag(x.OrderTagGroup, x.OrderTag, 0));
+            if (template != null) template.OrderTagTemplateValues.ToList().ForEach(x => order.ToggleOrderTag(x.OrderTagGroup, x.OrderTag, 0));
             RecalculateTicket(ticket);
 
-            ti.PublishEvent(EventTopicNames.OrderAdded);
-            _automationService.NotifyEvent(RuleEventNames.TicketLineAdded, new { Ticket = ticket, ti.MenuItemName });
+            order.PublishEvent(EventTopicNames.OrderAdded);
+            _automationService.NotifyEvent(RuleEventNames.TicketLineAdded, new { Ticket = ticket, Order = order, order.MenuItemName });
 
-            return ti;
+            return order;
         }
 
         public IEnumerable<Order> ExtractSelectedOrders(Ticket model, IEnumerable<Order> selectedOrders)

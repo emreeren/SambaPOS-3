@@ -1,4 +1,5 @@
-using Samba.Domain.Models.Actions;
+using System.Collections.Generic;
+using System.Linq;
 using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Common;
 using Samba.Services;
@@ -14,12 +15,17 @@ namespace Samba.Modules.PosModule
         {
             _commandContainer = commandContainer;
             _selectedTicket = selectedTicket;
+            if (Values.Count > 0) SelectedValue = Values.ElementAt(0);
         }
 
         public AutomationCommandData CommandContainer { get { return _commandContainer; } }
         public string Color { get { return CommandContainer.AutomationCommand.Color; } }
         public string ButtonHeader { get { return CommandContainer.AutomationCommand.ButtonHeader; } }
         public string Name { get { return CommandContainer.AutomationCommand.Name; } }
+        public string SelectedValue { get; set; }
+        public string Display { get { return !string.IsNullOrEmpty(SelectedValue) ? SelectedValue : ButtonHeader; } }
+        public List<string> Values { get { return (CommandContainer.AutomationCommand.Values ?? "").Split('|').ToList(); } }
+
         public bool IsVisible
         {
             get
@@ -37,6 +43,15 @@ namespace Samba.Modules.PosModule
                 if (_selectedTicket.Orders.Count > 0 && _commandContainer.VisualBehaviour == 3) return false;
                 return true;
             }
+        }
+
+        public void NextValue()
+        {
+            if (Values.Count > 1)
+            {
+                SelectedValue = Values[(Values.IndexOf(SelectedValue) + 1) % Values.Count];
+            }
+            RaisePropertyChanged(() => Display);
         }
     }
 }
