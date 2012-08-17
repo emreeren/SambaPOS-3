@@ -44,7 +44,7 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
                     Amount = x.Sum(y => y.GetSum()),
                     Tax = x.Sum(y => y.CalculateTax(y.GetPlainSum(), y.GetPreTaxServicesTotal())),
                     Services = x.Sum(y => y.GetPostTaxServicesTotal())
-                });
+                }).ToList();
 
             if (ticketGropus.Count() > 1)
             {
@@ -105,10 +105,20 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
             report.AddRow("Bilgi", Resources.DiscountsTotal, discounts.ToString(ReportContext.CurrencyFormat));
 
             if (ticketGropus.Count() > 1)
+            {
                 foreach (var departmentInfo in ticketGropus)
                 {
                     report.AddRow("Bilgi", departmentInfo.DepartmentName, departmentInfo.TicketCount);
                 }
+            }
+
+            ReportContext.Tickets
+                .SelectMany(x => x.Orders)
+                .Where(x => !string.IsNullOrEmpty(x.OrderStateGroupName))
+                .GroupBy(x => x.OrderStateGroupName)
+                .Select(x => new { Name = string.Format(Resources.Total_f, x.Key), Amount = x.Sum(y => y.GetItemValue()) })
+                .ToList()
+                .ForEach(x => report.AddRow("Bilgi", x.Name, x.Amount.ToString(ReportContext.CurrencyFormat)));
 
             var ticketCount = ticketGropus.Sum(x => x.TicketCount);
 
@@ -206,7 +216,6 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
                             ticketTagInfo.Amount.ToString(ReportContext.CurrencyFormat));
                     }
 
-
                     var totalAmount = grp.Sum(x => x.Amount);
                     report.AddRow("Etiket", string.Format(Resources.TotalAmount_f, tag.Name), "", totalAmount.ToString(ReportContext.CurrencyFormat));
 
@@ -228,6 +237,7 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
                     {
                         sum = grp.Sum(x => x.TicketCount);
                     }
+
                     if (sum > 0)
                     {
                         var average = totalAmount / sum;
@@ -251,7 +261,7 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
                 report.AddRow("Garson", ownerInfo.UserName, ownerInfo.Amount.ToString(ReportContext.CurrencyFormat));
             }
 
-            var menuGroups = MenuGroupBuilder.CalculateMenuGroups(ReportContext.Tickets, ReportContext.MenuItems);
+            var menuGroups = MenuGroupBuilder.CalculateMenuGroups(ReportContext.Tickets, ReportContext.MenuItems).ToList();
 
             report.AddColumTextAlignment("Gıda", TextAlignment.Left, TextAlignment.Right, TextAlignment.Right);
             report.AddColumnLength("Gıda", "45*", "Auto", "35*");

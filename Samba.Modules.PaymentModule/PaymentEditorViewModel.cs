@@ -359,7 +359,7 @@ namespace Samba.Modules.PaymentModule
                 if (tenderedAmount > SelectedTicket.GetRemainingAmount())
                     tenderedAmount = SelectedTicket.GetRemainingAmount();
                 var account = paymentTemplate.Account ?? GetAccountForTransaction(paymentTemplate, SelectedTicket.TicketResources);
-                _ticketService.AddPayment(SelectedTicket, paymentTemplate.Name, paymentTemplate.AccountTransactionTemplate, account, tenderedAmount);
+                _ticketService.AddPayment(SelectedTicket, paymentTemplate, account, tenderedAmount);
                 PaymentAmount = (GetPaymentValue() - tenderedAmount).ToString("#,#0.00");
 
                 LastTenderedAmount = tenderedAmount <= SelectedTicket.GetRemainingAmount()

@@ -50,6 +50,12 @@ namespace Samba.Modules.BasicReports
                           };
         }
 
+        private static IEnumerable<PaymentTemplate> _paymentTemplates;
+        public static IEnumerable<PaymentTemplate> PaymentTemplates
+        {
+            get { return _paymentTemplates ?? (_paymentTemplates = Dao.Query<PaymentTemplate>()); }
+        }
+
         private static IEnumerable<Ticket> _tickets;
         public static IEnumerable<Ticket> Tickets { get { return _tickets ?? (_tickets = GetTickets()); } }
 
@@ -167,12 +173,12 @@ namespace Samba.Modules.BasicReports
                 return Dao.Query<Ticket>(
                     x => x.LastPaymentDate >= CurrentWorkPeriod.StartDate,
                     x => x.AccountTransactions.AccountTransactions,
-                    x => x.Payments, x => x.Calculations, x => x.Orders, x => x.Orders.Select(y => y.OrderTagValues));
+                    x => x.Payments.Select(y => y.AccountTransaction), x => x.Calculations, x => x.Orders, x => x.Orders.Select(y => y.OrderTagValues));
 
             return Dao.Query<Ticket>(
                     x => x.LastPaymentDate >= CurrentWorkPeriod.StartDate && x.LastPaymentDate < CurrentWorkPeriod.EndDate,
                     x => x.AccountTransactions.AccountTransactions,
-                    x => x.Payments, x => x.Calculations, x => x.Orders.Select(y => y.OrderTagValues));
+                    x => x.Payments.Select(y => y.AccountTransaction), x => x.Calculations, x => x.Orders.Select(y => y.OrderTagValues));
         }
 
         private static IEnumerable<AccountTransactionValue> GetAccountTransactionValues()
@@ -200,6 +206,7 @@ namespace Samba.Modules.BasicReports
             _todayWorkPeriod = null;
             _workPeriods = null;
             _calculationTemplates = null;
+            _paymentTemplates = null;
         }
 
         private static WorkPeriod _thisMonthWorkPeriod;
@@ -322,9 +329,15 @@ namespace Samba.Modules.BasicReports
         {
             var groups = Tickets
                 .SelectMany(x => x.Payments)
-                .GroupBy(x => new { x.Name })
-                .Select(x => new TenderedAmount { PaymentName = x.Key.Name, Amount = x.Sum(y => y.Amount) });
+                .GroupBy(x => x.PaymentTemplateId)
+                .Select(x => new TenderedAmount { PaymentName = GetPaymentTemplateName(x.Key), Amount = x.Sum(y => y.Amount) });
             return new AmountCalculator(groups);
+        }
+
+        private static string GetPaymentTemplateName(int paymentTemplateId)
+        {
+            var pt = PaymentTemplates.SingleOrDefault(x => x.Id == paymentTemplateId);
+            return pt != null ? pt.Name : "";
         }
 
         public static PeriodicConsumption GetCurrentPeriodicConsumption()

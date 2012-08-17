@@ -192,17 +192,17 @@ namespace Samba.Services.Implementations.TicketModule
             return result;
         }
 
-        public void AddPayment(Ticket ticket, string paymentTemplateName, AccountTransactionTemplate transactionTemplate, Account account, decimal tenderedAmount)
+        public void AddPayment(Ticket ticket, PaymentTemplate paymentTemplate, Account account, decimal tenderedAmount)
         {
             if (account == null) return;
             var remainingAmount = ticket.GetRemainingAmount();
             var changeAmount = tenderedAmount > remainingAmount ? tenderedAmount - remainingAmount : 0;
-            ticket.AddPayment(transactionTemplate, account, tenderedAmount, _applicationState.CurrentLoggedInUser.Id);
+            ticket.AddPayment(paymentTemplate, account, tenderedAmount, _applicationState.CurrentLoggedInUser.Id);
             _automationService.NotifyEvent(RuleEventNames.PaymentProcessed,
                 new
                 {
                     Ticket = ticket,
-                    PaymentTemplateName = paymentTemplateName,
+                    PaymentTemplateName = paymentTemplate.Name,
                     Tenderedamount = tenderedAmount,
                     ProcessedAmount = tenderedAmount - changeAmount,
                     ChangeAmount = changeAmount,
@@ -212,7 +212,7 @@ namespace Samba.Services.Implementations.TicketModule
 
         public void PayTicket(Ticket ticket, PaymentTemplate template)
         {
-            AddPayment(ticket, template.Name, template.AccountTransactionTemplate, template.Account, ticket.GetRemainingAmount());
+            AddPayment(ticket, template, template.Account, ticket.GetRemainingAmount());
         }
 
         public void UpdateTicketNumber(Ticket ticket, Numerator numerator)

@@ -81,7 +81,7 @@ namespace Samba.Domain.Models.Tickets
 
         public virtual AccountTransactionDocument AccountTransactions { get; set; }
 
-        private  IList<TicketResource> _ticketResources;
+        private IList<TicketResource> _ticketResources;
         public virtual IList<TicketResource> TicketResources
         {
             get { return _ticketResources; }
@@ -152,14 +152,14 @@ namespace Samba.Domain.Models.Tickets
             return tif;
         }
 
-        public void AddPayment(AccountTransactionTemplate transactionTemplate, Account account, decimal amount, int userId)
+        public void AddPayment(PaymentTemplate paymentTemplate, Account account, decimal amount, int userId)
         {
-            var transaction = AccountTransaction.Create(transactionTemplate);
+            var transaction = AccountTransaction.Create(paymentTemplate.AccountTransactionTemplate);
             transaction.Amount = amount;
             transaction.SetTargetAccount(account.AccountTemplateId, account.Id);
             transaction.UpdateAccounts(AccountTemplateId, AccountId);
             AccountTransactions.AccountTransactions.Add(transaction);
-            var payment = new Payment { AccountTransaction = transaction, Amount = amount, Name = account.Name };
+            var payment = new Payment { AccountTransaction = transaction, Amount = amount, Name = account.Name, PaymentTemplateId = paymentTemplate.Id };
             Payments.Add(payment);
 
             LastPaymentDate = DateTime.Now;
