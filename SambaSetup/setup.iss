@@ -158,6 +158,7 @@ Source: src\FluentMigrator.Runner.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\GongSolutions.Wpf.DragDrop.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Omu.ValueInjecter.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\ICSharpCode.AvalonEdit.dll; DestDir: {app}; Flags: ignoreversion
+Source: src\NCalc.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\migrate.txt; DestDir: {userappdata}\Ozgu Tech\SambaPOS2; Flags: ignoreversion
 Source: C:\Windows\Fonts\lucon.ttf; DestDir: {fonts}; Flags: onlyifdoesntexist uninsneveruninstall; FontInstall: Lucida Console
 Source: src\Samba.Localization.dll; DestDir: {app}; Flags: ignoreversion

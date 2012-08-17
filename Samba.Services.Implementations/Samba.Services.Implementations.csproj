@@ -168,7 +168,7 @@
     <PostBuildEvent>IF NOT "$(ConfigurationName)"=="Release" GOTO End
 
 copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)SambaSetup\src"
-
+copy "$(TargetDir)NCalc.dll" "$(SolutionDir)SambaSetup\src"
 :End</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
