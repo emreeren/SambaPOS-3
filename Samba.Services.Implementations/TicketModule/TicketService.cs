@@ -270,7 +270,7 @@ namespace Samba.Services.Implementations.TicketModule
 
         public TicketCommitResult MoveOrders(Ticket ticket, Order[] selectedOrders, int targetTicketId)
         {
-            var clonedOrders = selectedOrders.Select(ObjectCloner.Clone).ToList();
+            var clonedOrders = selectedOrders.Select(ObjectCloner.Clone2).ToList();
             ticket.RemoveOrders(selectedOrders);
 
             CloseTicket(ticket);

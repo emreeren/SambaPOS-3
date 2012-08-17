@@ -10,6 +10,7 @@ using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
+using Samba.Infrastructure.Data.Serializer;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Persistance.Data.Specification;
@@ -53,6 +54,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType("TagOrder", "Tag Order", new { OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterActionType("UntagOrder", "Untag Order", new { OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterActionType("RemoveOrderTag", "Remove OrderTag", new { OrderTagName = "" });
+            AutomationService.RegisterActionType("MoveTaggedOrders", "Move Tagged Orders", new { OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterActionType("UpdatePriceTag", Resources.UpdatePriceTag, new { DepartmentName = "", PriceTag = "" });
             AutomationService.RegisterActionType("RefreshCache", Resources.RefreshCache);
             AutomationService.RegisterActionType("SendMessage", Resources.BroadcastMessage, new { Command = "" });
@@ -419,6 +421,32 @@ namespace Samba.Presentation.ViewModels
                                     order.TagIfNotTagged(orderTag, orderTagValue, ApplicationState.CurrentLoggedInUser.Id);
                                 if (x.Value.Action.ActionType == "UntagOrder")
                                     order.UntagIfTagged(orderTag, orderTagValue, ApplicationState.CurrentLoggedInUser.Id);
+                            }
+                        }
+                    }
+                }
+
+                if (x.Value.Action.ActionType == "MoveTaggedOrders")
+                {
+                    var ticket = x.Value.GetDataValue<Ticket>("Ticket");
+                    var orderTagName = x.Value.GetAsString("OrderTagName");
+                    if (ticket != null && !string.IsNullOrEmpty(orderTagName))
+                    {
+                        var orderTagValue = x.Value.GetAsString("OrderTagValue");
+                        if (ticket.Orders.Any(y => y.OrderTagValues.Any(z => z.OrderTagGroupName == orderTagName && z.Name == orderTagValue)))
+                        {
+                            var tid = ticket.Id;
+                            EventServiceFactory.EventService.PublishEvent(EventTopicNames.CloseTicketRequested, true);
+                            ticket = TicketService.OpenTicket(tid);
+                            var orders = ticket.Orders.Where(y => y.OrderTagValues.Any(z => z.OrderTagGroupName == orderTagName && z.Name == orderTagValue)).ToArray();
+                            var commitResult = TicketService.MoveOrders(ticket, orders, 0);
+                            if (string.IsNullOrEmpty(commitResult.ErrorMessage) && commitResult.TicketId > 0)
+                            {
+                                ExtensionMethods.PublishIdEvent(commitResult.TicketId, EventTopicNames.DisplayTicket);
+                            }
+                            else
+                            {
+                                ExtensionMethods.PublishIdEvent(tid, EventTopicNames.DisplayTicket);
                             }
                         }
                     }

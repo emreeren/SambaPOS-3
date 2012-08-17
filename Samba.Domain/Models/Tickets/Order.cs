@@ -401,6 +401,6 @@ namespace Samba.Domain.Models.Tickets
             }
         }
 
-        public string OrderKey { get { return string.Join("", OrderTagValues.Select(x => x.OrderKey)); } }
+        public string OrderKey { get { return string.Join("", OrderTagValues.OrderBy(x => x.OrderKey).Select(x => x.OrderKey)); } }
     }
 }
