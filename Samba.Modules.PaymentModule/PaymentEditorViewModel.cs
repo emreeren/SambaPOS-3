@@ -27,6 +27,7 @@ namespace Samba.Modules.PaymentModule
         private readonly ITicketService _ticketService;
         private readonly ICacheService _cacheService;
         private readonly IAccountService _accountService;
+        private readonly ISettingService _settingService;
         private readonly ICaptionCommand _executeAutomationCommand;
         private readonly ICaptionCommand _makePaymentCommand;
         private readonly ICaptionCommand _serviceSelectedCommand;
@@ -34,12 +35,13 @@ namespace Samba.Modules.PaymentModule
         private readonly IAutomationService _automationService;
 
         [ImportingConstructor]
-        public PaymentEditorViewModel(ITicketService ticketService, ICacheService cacheService, IAccountService accountService,
+        public PaymentEditorViewModel(ITicketService ticketService, ICacheService cacheService, IAccountService accountService, ISettingService settingService,
             IUserService userService, IAutomationService automationService, TicketTotalsViewModel totals)
         {
             _ticketService = ticketService;
             _cacheService = cacheService;
             _accountService = accountService;
+            _settingService = settingService;
             _userService = userService;
             _automationService = automationService;
 
@@ -486,6 +488,17 @@ namespace Samba.Modules.PaymentModule
             if (sum == 0) return;
 
             SelectedTicket.Orders.Where(x => x.CalculatePrice).ToList().ForEach(x => CreateMergedItem(SelectedTicket.GetPlainSum(), x, serviceAmount));
+            var amount = 0m;
+            var ra = _settingService.ProgramSettings.AutoRoundDiscount;
+            foreach (var mergedItem in MergedItems)
+            {
+                var price = mergedItem.Price;
+                var newPrice = decimal.Round(price / ra, MidpointRounding.AwayFromZero) * ra;
+                mergedItem.Price = newPrice;
+                amount += (newPrice * mergedItem.Quantity);
+            }
+            var mLast = MergedItems.Last();
+            mLast.Price += SelectedTicket.GetSum() - amount;
 
             foreach (var paidItem in SelectedTicket.PaidItems)
             {
