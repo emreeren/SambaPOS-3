@@ -23,6 +23,7 @@ namespace Samba.Modules.ModifierModule
         public OrderTagGroupEditorViewModel(IUserService userService, ICacheService cacheService)
         {
             _cacheService = cacheService;
+            ToggleRemoveModeCommand = new CaptionCommand<string>(Resources.Remove, OnToggleRemoveMode);
             CloseCommand = new CaptionCommand<string>(Resources.Close, OnCloseCommandExecuted);
             PortionSelectedCommand = new DelegateCommand<MenuItemPortion>(OnPortionSelected);
             OrderTagSelectedCommand = new DelegateCommand<OrderTagButtonViewModel>(OnOrderTagSelected);
@@ -44,7 +45,22 @@ namespace Samba.Modules.ModifierModule
         public Ticket SelectedTicket { get; private set; }
         public Order SelectedOrder { get; private set; }
 
+        private bool _removeMode;
+        public bool RemoveMode
+        {
+            get { return _removeMode; }
+            set
+            {
+                _removeMode = value;
+                RaisePropertyChanged(() => RemoveMode);
+                RaisePropertyChanged(() => RemoveModeButtonColor);
+            }
+        }
+
+        public string RemoveModeButtonColor { get { return RemoveMode ? "Black" : "Gainsboro"; } }
+
         public ICaptionCommand CloseCommand { get; set; }
+        public CaptionCommand<string> ToggleRemoveModeCommand { get; set; }
 
         public DelegateCommand<MenuItemPortion> PortionSelectedCommand { get; set; }
         public ObservableCollection<MenuItemPortion> SelectedItemPortions { get; set; }
@@ -61,6 +77,11 @@ namespace Samba.Modules.ModifierModule
                     && !SelectedOrder.Locked
                     && SelectedItemPortions.Count > 0;
             }
+        }
+
+        private void OnToggleRemoveMode(string obj)
+        {
+            RemoveMode = !RemoveMode;
         }
 
         private static void OnCloseCommandExecuted(string obj)
@@ -87,7 +108,9 @@ namespace Samba.Modules.ModifierModule
                                        Ticket = SelectedTicket
                                    };
 
-            orderTagData.PublishEvent(EventTopicNames.OrderTagSelected, true);
+            //orderTagData.PublishEvent(EventTopicNames.OrderTagSelected, true);
+            orderTagData.PublishEvent(RemoveMode ? EventTopicNames.OrderTagRemoved : EventTopicNames.OrderTagSelected, true);
+            RemoveMode = false;
             OrderTagGroups.Where(x => x.OrderTags.Contains(orderTag)).ToList().ForEach(x => x.Refresh());
         }
 

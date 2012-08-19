@@ -277,6 +277,12 @@ namespace Samba.Modules.PosModule
                     ClearSelectedItems();
                 RefreshVisuals();
             }
+            if (obj.Topic == EventTopicNames.OrderTagRemoved)
+            {
+                _ticketOrdersViewModel.SelectedOrders.ToList().ForEach(x =>
+                    x.UnTag(obj.Value.OrderTagGroup, obj.Value.SelectedOrderTag));
+                RefreshVisuals();
+            }
         }
 
         private void OnRefreshTicket(EventParameters<EventAggregator> obj)

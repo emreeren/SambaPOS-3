@@ -3177,4 +3177,7 @@ Continue without adding details?</value>
   <data name="Filter">
     <value xml:space="preserve">Filter</value>
   </data>
+  <data name="Remove">
+    <value xml:space="preserve">Remove</value>
+  </data>
 </root>

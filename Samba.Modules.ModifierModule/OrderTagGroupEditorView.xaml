@@ -104,9 +104,12 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        
-       
-        <FxButton:FlexButton VerticalAlignment="Bottom" Grid.Row="2" Margin="3" Height="60"
-             Content="{Binding CloseCommand.Caption}" Command="{Binding CloseCommand}" ButtonColor="Red" />
+
+        <UniformGrid Rows="1" VerticalAlignment="Bottom" Grid.Row="2">
+            <FxButton:FlexButton Margin="3" Height="60"
+                 Content="{Binding ToggleRemoveModeCommand.Caption}" Command="{Binding ToggleRemoveModeCommand}" ButtonColor="{Binding RemoveModeButtonColor}" />
+            <FxButton:FlexButton  Margin="3" Height="60"
+                 Content="{Binding CloseCommand.Caption}" Command="{Binding CloseCommand}" ButtonColor="Red" />
+        </UniformGrid>
     </Grid>
 </UserControl>

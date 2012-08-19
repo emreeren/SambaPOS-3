@@ -255,6 +255,25 @@ namespace Samba.Modules.PosModule
             RaisePropertyChanged(() => IsLocked);
         }
 
+        public void UnTag(OrderTagGroup orderTagGroup, OrderTag orderTag)
+        {
+            _model.UntagIfTagged(orderTagGroup, orderTag);
+            _automationService.NotifyEvent(RuleEventNames.OrderUntagged,
+            new
+            {
+                Order = Model,
+                OrderTagName = orderTagGroup.Name,
+                OrderTagValue = orderTag.Name
+            });
+
+            RefreshProperties();
+            RaisePropertyChanged(() => TotalPrice);
+            RaisePropertyChanged(() => Quantity);
+            RaisePropertyChanged(() => Description);
+            RaisePropertyChanged(() => FontWeight);
+            RaisePropertyChanged(() => IsLocked);
+        }
+
         public void UpdateOrderState(OrderStateGroup orderStateGroup, OrderState selectedOrderState, int userId)
         {
             Model.UpdateOrderState(orderStateGroup, selectedOrderState, userId);

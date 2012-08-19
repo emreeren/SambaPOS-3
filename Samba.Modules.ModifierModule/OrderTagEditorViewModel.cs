@@ -13,14 +13,19 @@ namespace Samba.Modules.ModifierModule
     [Export]
     public class OrderTagEditorViewModel : ObservableObject
     {
-
         [ImportingConstructor]
         public OrderTagEditorViewModel()
         {
+            ToggleRemoveModeCommand = new CaptionCommand<string>(Resources.Remove, OnToggleRemoveMode);
             CloseCommand = new CaptionCommand<string>(Resources.Close, OnCloseCommandExecuted);
             OrderTagSelectedCommand = new DelegateCommand<OrderTagButtonViewModel>(OnOrderTagSelected);
             OrderTags = new ObservableCollection<OrderTagButtonViewModel>();
             EventServiceFactory.EventService.GetEvent<GenericEvent<OrderTagData>>().Subscribe(OnOrderTagDataSelected);
+        }
+
+        private void OnToggleRemoveMode(string obj)
+        {
+            RemoveMode = !RemoveMode;
         }
 
         private void OnOrderTagDataSelected(EventParameters<OrderTagData> obj)
@@ -53,7 +58,22 @@ namespace Samba.Modules.ModifierModule
         public Order SelectedOrder { get; private set; }
         public OrderTagData SelectedOrderTagData { get; set; }
 
+        private bool _removeMode;
+        public bool RemoveMode
+        {
+            get { return _removeMode; }
+            set
+            {
+                _removeMode = value;
+                RaisePropertyChanged(() => RemoveMode);
+                RaisePropertyChanged(() => RemoveModeButtonColor);
+            }
+        }
+
+        public string RemoveModeButtonColor { get { return RemoveMode ? "Black" : "Gainsboro"; } }
+
         public ICaptionCommand CloseCommand { get; set; }
+        public CaptionCommand<string> ToggleRemoveModeCommand { get; set; }
 
         public DelegateCommand<OrderTagButtonViewModel> OrderTagSelectedCommand { get; set; }
 
@@ -75,8 +95,8 @@ namespace Samba.Modules.ModifierModule
                                        Ticket = SelectedTicket
                                    };
 
-            orderTagData.PublishEvent(EventTopicNames.OrderTagSelected, true);
-
+            orderTagData.PublishEvent(RemoveMode ? EventTopicNames.OrderTagRemoved : EventTopicNames.OrderTagSelected, true);
+            RemoveMode = false;
             OrderTags.ToList().ForEach(x => x.Refresh());
         }
 

@@ -10,7 +10,6 @@ using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
-using Samba.Infrastructure.Data.Serializer;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Persistance.Data.Specification;
@@ -420,7 +419,7 @@ namespace Samba.Presentation.ViewModels
                                 if (x.Value.Action.ActionType == "TagOrder")
                                     order.TagIfNotTagged(orderTag, orderTagValue, ApplicationState.CurrentLoggedInUser.Id);
                                 if (x.Value.Action.ActionType == "UntagOrder")
-                                    order.UntagIfTagged(orderTag, orderTagValue, ApplicationState.CurrentLoggedInUser.Id);
+                                    order.UntagIfTagged(orderTag, orderTagValue);
                             }
                         }
                     }

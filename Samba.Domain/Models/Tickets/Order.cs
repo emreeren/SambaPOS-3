@@ -138,10 +138,10 @@ namespace Samba.Domain.Models.Tickets
             }
         }
 
-        public void UntagIfTagged(OrderTagGroup orderTagGroup, OrderTag orderTag, int userId)
+        public void UntagIfTagged(OrderTagGroup orderTagGroup, OrderTag orderTag)
         {
             var value = OrderTagValues.FirstOrDefault(x => x.OrderTagGroupId == orderTagGroup.Id && x.Name == orderTag.Name);
-            if (value != null) ToggleOrderTag(orderTagGroup, orderTag, userId);
+            if (value != null) UntagOrder(value);
         }
 
         private void TagOrder(OrderTagGroup orderTagGroup, OrderTag orderTag, int userId, int tagIndex)
