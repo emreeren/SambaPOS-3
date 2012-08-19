@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Linq.Expressions;
 using Microsoft.Practices.Prism.Events;
 using Samba.Domain.Models.Accounts;
+using Samba.Infrastructure;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
+using Samba.Persistance.Data.Specification;
 using Samba.Presentation.Common;
 using Samba.Services;
 using Samba.Services.Common;
@@ -31,13 +35,15 @@ namespace Samba.Modules.AccountModule
     {
         private readonly IAccountService _accountService;
         private readonly ICacheService _cacheService;
+        private readonly IApplicationState _applicationState;
         private AccountScreen _selectedAccountScreen;
 
         [ImportingConstructor]
-        public AccountSelectorViewModel(IAccountService accountService, ICacheService cacheService)
+        public AccountSelectorViewModel(IAccountService accountService, ICacheService cacheService, IApplicationState applicationState)
         {
             _accountService = accountService;
             _cacheService = cacheService;
+            _applicationState = applicationState;
             ShowAccountDetailsCommand = new CaptionCommand<string>(Resources.AccountDetails.Replace(' ', '\r'), OnShowAccountDetails, CanShowAccountDetails);
             AccountButtonSelectedCommand = new CaptionCommand<AccountScreen>("", OnAccountScreenSelected);
 
@@ -73,10 +79,10 @@ namespace Samba.Modules.AccountModule
 
         private void UpdateAccountScreen(AccountScreen accountScreen)
         {
-            if(accountScreen == null) return;
+            if (accountScreen == null) return;
             _batchDocumentButtons = null;
             _selectedAccountScreen = accountScreen;
-            var accountBalances = _accountService.GetAccountsWithBalances(_cacheService.GetAccountTemplatesByName(accountScreen.AccountTemplateNamesList));
+            var accountBalances = _accountService.GetAccountsWithBalances(_cacheService.GetAccountTemplatesByName(accountScreen.AccountTemplateNamesList), GetFilter());
             _accounts = accountBalances.Select(x => new AccountRowData(x.Key, x.Value));
             RaisePropertyChanged(() => Accounts);
             RaisePropertyChanged(() => BatchDocumentButtons);
@@ -103,6 +109,15 @@ namespace Samba.Modules.AccountModule
         public ICaptionCommand AccountButtonSelectedCommand { get; set; }
 
         public AccountRowData SelectedAccount { get; set; }
+
+        private Expression<Func<AccountTransactionValue, bool>> GetFilter()
+        {
+            if (_selectedAccountScreen == null || _selectedAccountScreen.Filter == 0) return null;
+            //Resources.All, Resources.Month, Resources.Week, Resources.WorkPeriod
+            if (_selectedAccountScreen.Filter == 1) return x => x.Date >= DateTime.Now.MonthStart();
+            if (_selectedAccountScreen.Filter == 3) return x => x.Date >= _applicationState.CurrentWorkPeriod.StartDate;
+            return null;
+        }
 
         private bool CanShowAccountDetails(string arg)
         {

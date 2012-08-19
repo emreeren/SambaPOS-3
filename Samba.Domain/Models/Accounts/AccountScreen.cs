@@ -10,5 +10,6 @@ namespace Samba.Domain.Models.Accounts
     {
         public string AccountTemplateNames { get; set; }
         public IEnumerable<string> AccountTemplateNamesList { get { return (AccountTemplateNames??"").Split(';'); } }
+        public int Filter { get; set; }
     }
 }

@@ -12,7 +12,11 @@
                 <LocText ResourceIdentifierKey="Name" Suffix=":"/>
             </Label>
             <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
-
+            <Label>
+                <LocText ResourceIdentifierKey="FilterType" Suffix=":"/>
+            </Label>
+            <ComboBox ItemsSource="{Binding FilterTypes}" SelectedItem="{Binding FilterType}" HorizontalAlignment="Left" MinWidth="200"/>
+            
             <StackPanel Orientation="Horizontal">
                 <TextBlock Margin="2,3" Text="{LocText AccountTemplate, Suffix=':'}"/>
                 <TextBlock Margin="4,3">

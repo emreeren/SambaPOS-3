@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using Samba.Domain.Models.Accounts;
 
 namespace Samba.Services
@@ -14,7 +16,7 @@ namespace Samba.Services
         void CreateNewTransactionDocument(Account account, AccountTransactionDocumentTemplate documentTemplate, string description, decimal amount);
         decimal GetAccountBalance(int accountId);
         Dictionary<int, decimal> GetAccountBalances(IEnumerable<int> accountIds);
-        Dictionary<Account, decimal> GetAccountsWithBalances(IEnumerable<AccountTemplate> accountTemplates);
+        Dictionary<Account, decimal> GetAccountsWithBalances(IEnumerable<AccountTemplate> accountTemplates, Expression<Func<AccountTransactionValue, bool>> filter);
         string GetDescription(AccountTransactionDocumentTemplate documentTemplate, Account account);
         decimal GetDefaultAmount(AccountTransactionDocumentTemplate documentTemplate, Account account);
         string GetAccountNameById(int accountId);

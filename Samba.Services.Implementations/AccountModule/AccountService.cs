@@ -66,15 +66,16 @@ namespace Samba.Services.Implementations.AccountModule
             }
         }
 
-        public Dictionary<Account, decimal> GetAccountsWithBalances(IEnumerable<AccountTemplate> accountTemplates)
+        public Dictionary<Account, decimal> GetAccountsWithBalances(IEnumerable<AccountTemplate> accountTemplates, Expression<Func<AccountTransactionValue, bool>> filter)
         {
             using (var w = WorkspaceFactory.CreateReadOnly())
             {
                 var tids = accountTemplates.Select(x => x.Id).ToList();
                 var accountIds = w.Queryable<Account>().Where(x => tids.Contains(x.AccountTemplateId)).Select(x => x.Id);
-
+                Expression<Func<AccountTransactionValue, bool>> func = x => accountIds.Contains(x.AccountId);
+                if (filter != null) func = func.And(filter);
                 var dic1 = w.Queryable<AccountTransactionValue>()
-                    .Where(x => accountIds.Contains(x.AccountId))
+                    .Where(func)
                     .GroupBy(x => x.AccountId)
                     .Select(x => new { Id = x.Key, Amount = x.Sum(y => y.Debit - y.Credit) })
                     .ToDictionary(x => x.Id, x => x.Amount);

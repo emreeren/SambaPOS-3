@@ -25,6 +25,10 @@ namespace Samba.Modules.AccountModule.Dashboard
             AddAccountTemplateNameCommand = new CaptionCommand<string>(Resources.Select, OnAddAccountTemplateName);
         }
 
+        public string[] FilterTypes { get { return new[] { Resources.All, Resources.Month, Resources.Week, Resources.WorkPeriod }; } }
+        public string FilterType { get { return FilterTypes[Model.Filter]; } set { Model.Filter = FilterTypes.ToList().IndexOf(value); } }
+ 
+
         public ICaptionCommand AddAccountTemplateNameCommand { get; set; }
 
         private IEnumerable<AccountTemplate> _accountTemplates;
