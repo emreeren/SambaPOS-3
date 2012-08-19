@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Resources;
@@ -10,6 +11,7 @@ using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Services.Common;
+using Samba.Persistance.Data.Specification;
 
 namespace Samba.Services.Implementations.AccountModule
 {
@@ -49,9 +51,41 @@ namespace Samba.Services.Implementations.AccountModule
             return Dao.Sum<AccountTransactionValue>(x => x.Debit - x.Credit, x => x.AccountId == accountId);
         }
 
+        public Dictionary<int, decimal> GetAccountBalances(IEnumerable<int> accountIds)
+        {
+            using (var w = WorkspaceFactory.CreateReadOnly())
+            {
+                Expression<Func<AccountTransactionValue, bool>> exp = x => x.Id > 0;
+                exp = accountIds.Aggregate(exp, (current, accountId) => current.Or(x => x.Id == accountId));
+
+                return w.Queryable<AccountTransactionValue>()
+                    .Where(exp)
+                    .GroupBy(x => x.AccountId)
+                    .Select(x => new { Id = x.Key, Amount = x.Sum(y => y.Debit - y.Credit) })
+                    .ToDictionary(x => x.Id, x => x.Amount);
+            }
+        }
+
+        public Dictionary<Account, decimal> GetAccountsWithBalances(IEnumerable<AccountTemplate> accountTemplates)
+        {
+            using (var w = WorkspaceFactory.CreateReadOnly())
+            {
+                var tids = accountTemplates.Select(x => x.Id).ToList();
+                var accountIds = w.Queryable<Account>().Where(x => tids.Contains(x.AccountTemplateId)).Select(x => x.Id);
+
+                var dic1 = w.Queryable<AccountTransactionValue>()
+                    .Where(x => accountIds.Contains(x.AccountId))
+                    .GroupBy(x => x.AccountId)
+                    .Select(x => new { Id = x.Key, Amount = x.Sum(y => y.Debit - y.Credit) })
+                    .ToDictionary(x => x.Id, x => x.Amount);
+
+                return w.Queryable<Account>().Where(x => tids.Contains(x.AccountTemplateId)).ToDictionary(x => x, x => dic1.ContainsKey(x.Id) ? dic1[x.Id] : 0);
+            }
+        }
+
         public string GetCustomData(Account account, string fieldName)
         {
-            return "";
+            return Dao.Single<Resource, string>(account.Id, x => x.CustomData);
         }
 
         public string GetDescription(AccountTransactionDocumentTemplate documentTemplate, Account account)
@@ -111,6 +145,21 @@ namespace Samba.Services.Implementations.AccountModule
             if (accountTemplates.Count() == 0) return Dao.Query<Account>();
             var ids = accountTemplates.Select(x => x.Id);
             return Dao.Query<Account>(x => ids.Contains(x.AccountTemplateId));
+        }
+
+        public IEnumerable<Account> GetAccounts(int accountTemplateId)
+        {
+            return Dao.Query<Account>(x => x.AccountTemplateId == accountTemplateId);
+        }
+
+        public IEnumerable<Account> GetBalancedAccounts(int accountTemplateId)
+        {
+            using (var w = WorkspaceFactory.CreateReadOnly())
+            {
+                var q1 = w.Queryable<AccountTransactionValue>().GroupBy(x => x.AccountId).Where(
+                        x => x.Sum(y => y.Debit - y.Credit) != 0).Select(x => x.Key);
+                return w.Queryable<Account>().Where(x => x.AccountTemplateId == accountTemplateId && q1.Contains(x.Id)).ToList();
+            }
         }
 
         public IEnumerable<string> GetCompletingAccountNames(int accountTemplateId, string accountName)

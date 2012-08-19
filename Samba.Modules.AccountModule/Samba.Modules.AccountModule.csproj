@@ -60,6 +60,10 @@
       <DependentUpon>AccountDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AccountDetailsViewModel.cs" />
+    <Compile Include="BatchDocumentCreatorView.xaml.cs">
+      <DependentUpon>BatchDocumentCreatorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BatchDocumentCreatorViewModel.cs" />
     <Compile Include="Dashboard\AccountScreenView.xaml.cs">
       <DependentUpon>AccountScreenView.xaml</DependentUpon>
     </Compile>
@@ -98,11 +102,20 @@
     <Compile Include="DocumentCreatorViewModel.cs" />
     <Compile Include="DocumentTemplateButtonViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="AccountDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BatchDocumentCreatorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dashboard\AccountScreenView.xaml">
       <SubType>Designer</SubType>
@@ -182,6 +195,13 @@
       <Project>{413B698C-0D7D-4FCD-9F16-AF51AED4E647}</Project>
       <Name>Samba.Services</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

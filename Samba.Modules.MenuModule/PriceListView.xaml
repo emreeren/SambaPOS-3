@@ -12,7 +12,8 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <DataGrid Name="DataGrid" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Items}"
-            AutoGenerateColumns="False" RowHeaderWidth="0" HorizontalAlignment="Left" HorizontalGridLinesBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+            AutoGenerateColumns="False" RowHeaderWidth="0" HorizontalAlignment="Left" 
+                  HorizontalGridLinesBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}"
             VerticalGridLinesBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}"
             CanUserDeleteRows="False"
             CanUserAddRows="False"

@@ -166,9 +166,18 @@ namespace Samba.Services.Implementations
         public IEnumerable<AccountTransactionDocumentTemplate> GetAccountTransactionDocumentTemplates(int accountTemplateId)
         {
             var maps = DocumentTemplates.Where(x => x.MasterAccountTemplateId == accountTemplateId)
-                .SelectMany(x => x.AccountTransactionDocumentTemplateMaps)
+               .SelectMany(x => x.AccountTransactionDocumentTemplateMaps)
                .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
-               .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
+               .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
+            return DocumentTemplates.Where(x => maps.Any(y => y.AccountTransactionDocumentTemplateId == x.Id)).OrderBy(x => x.Order);
+        }
+
+        public IEnumerable<AccountTransactionDocumentTemplate> GetBatchDocumentTemplates(IEnumerable<string> accountTemplateNamesList)
+        {
+            var ids = GetAccountTemplatesByName(accountTemplateNamesList).Select(x => x.Id);
+            var maps = DocumentTemplates.Where(x => x.BatchCreateDocuments && ids.Contains(x.MasterAccountTemplateId))
+               .SelectMany(x => x.AccountTransactionDocumentTemplateMaps)
+               .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
                .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
             return DocumentTemplates.Where(x => maps.Any(y => y.AccountTransactionDocumentTemplateId == x.Id)).OrderBy(x => x.Order);
         }

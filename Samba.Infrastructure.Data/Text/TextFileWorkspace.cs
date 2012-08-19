@@ -276,5 +276,10 @@ namespace Samba.Infrastructure.Data.Text
         {
             return _storage.GetItems<T>().AsQueryable();
         }
+
+        public void ExecSql(string sqlString)
+        {
+            //
+        }
     }
 }

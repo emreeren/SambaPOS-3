@@ -17,22 +17,29 @@ namespace Samba.Modules.AccountModule
         private readonly IRegionManager _regionManager;
         private readonly IUserService _userService;
         private readonly AccountSelectorView _accountSelectorView;
+        private readonly AccountSelectorViewModel _accountSelectorViewModel;
         private readonly AccountDetailsView _accountDetailsView;
         private readonly DocumentCreatorView _documentCreatorView;
+        private readonly BatchDocumentCreatorView _batchDocumentCreatorView;
+        private readonly BatchDocumentCreatorViewModel _batchDocumentCreatorViewModel;
 
         [ImportingConstructor]
         public AccountModule(IRegionManager regionManager,
             IUserService userService,
-            AccountSelectorView accountSelectorView,
+            AccountSelectorView accountSelectorView, AccountSelectorViewModel accountSelectorViewModel,
             AccountDetailsView accountDetailsView,
-            DocumentCreatorView documentCreatorView)
+            DocumentCreatorView documentCreatorView,
+            BatchDocumentCreatorView batchDocumentCreatorView,BatchDocumentCreatorViewModel batchDocumentCreatorViewModel)
             : base(regionManager, AppScreens.AccountList)
         {
             _regionManager = regionManager;
             _userService = userService;
             _accountSelectorView = accountSelectorView;
+            _accountSelectorViewModel = accountSelectorViewModel;
             _accountDetailsView = accountDetailsView;
             _documentCreatorView = documentCreatorView;
+            _batchDocumentCreatorView = batchDocumentCreatorView;
+            _batchDocumentCreatorViewModel = batchDocumentCreatorViewModel;
 
             AddDashboardCommand<EntityCollectionViewModelBase<AccountTemplateViewModel, AccountTemplate>>(Resources.AccountTemplate.ToPlural(), Resources.Accounts, 40);
             AddDashboardCommand<EntityCollectionViewModelBase<AccountViewModel, Account>>(Resources.Account.ToPlural(), Resources.Accounts, 40);
@@ -54,6 +61,21 @@ namespace Samba.Modules.AccountModule
             _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(AccountSelectorView));
             _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(AccountDetailsView));
             _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(DocumentCreatorView));
+            _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(BatchDocumentCreatorView));
+
+            EventServiceFactory.EventService.GetEvent<GenericEvent<AccountTransactionDocumentTemplate>>().Subscribe(
+                x =>
+                {
+                    if (x.Topic == EventTopicNames.BatchCreateDocument)
+                    {
+                        _batchDocumentCreatorViewModel.Update(x.Value);
+                        ActivateBatchDocumentCreator();
+                    }
+                    if (x.Topic == EventTopicNames.BatchDocumentsCreated)
+                    {
+                        ActivateAccountSelector();
+                    }
+                });
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<DocumentCreationData>>().Subscribe(x =>
                 {
@@ -75,6 +97,11 @@ namespace Samba.Modules.AccountModule
                         ActivateAccountSelector();
                     }
                 });
+        }
+
+        private void ActivateBatchDocumentCreator()
+        {
+            _regionManager.Regions[RegionNames.MainRegion].Activate(_batchDocumentCreatorView);
         }
 
         private void ActivateDocumentCreator()
@@ -105,6 +132,7 @@ namespace Samba.Modules.AccountModule
         protected override void OnNavigate(string obj)
         {
             Activate();
+            _accountSelectorViewModel.Refresh();
             base.OnNavigate(obj);
         }
     }

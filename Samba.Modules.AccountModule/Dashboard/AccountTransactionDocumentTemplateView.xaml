@@ -29,24 +29,14 @@
                     <Label HorizontalAlignment="Left" Content="{LocText ButtonHeader,Suffix=':'}" />
                     <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding ButtonHeader}" />
                     <Label HorizontalAlignment="Left" Content="{LocText ButtonColor,Suffix=':'}" />
-                    <Wpf:ColorPicker2 HorizontalAlignment="Left" MinWidth="150"
-                         SelectedColor="{Binding ButtonColor}" />
-                    <Label MinWidth="120">
-                        <LocText ResourceIdentifierKey="AccountTemplate" Suffix=":"/>
-                    </Label>
+                    <Wpf:ColorPicker2 HorizontalAlignment="Left" MinWidth="150" SelectedColor="{Binding ButtonColor}" />
+                    <Label MinWidth="120" Content="{LocText AccountTemplate,Suffix=':'}"/>
                     <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTemplates}"
-                                     SelectedItem="{Binding MasterAccountTemplate}" />
-                    <Label MinWidth="120">
-                        <LocText ResourceIdentifierKey="DefaultAmount" Suffix=":"/>
-                    </Label>
-                    <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="170" 
-                      ItemsSource="{Binding DefaultAmounts}" Text="{Binding DefaultAmount}" />
-
-                    <Label MinWidth="120">
-                        <LocText ResourceIdentifierKey="DescriptionTemplate" Suffix=":"/>
-                    </Label>
-                    <TextBox HorizontalAlignment="Left" MinWidth="170" 
-                     Text="{Binding DescriptionTemplate}" />
+                              SelectedItem="{Binding MasterAccountTemplate}" />
+                    <Label MinWidth="120" Content="{LocText DefaultAmount,Suffix=':'}"/>
+                    <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="170" ItemsSource="{Binding DefaultAmounts}" Text="{Binding DefaultAmount}" />
+                    <Label MinWidth="120" Content="{LocText DescriptionTemplate,Suffix=':'}"/>
+                    <TextBox HorizontalAlignment="Left" MinWidth="170" Text="{Binding DescriptionTemplate}" />
 
                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                         <DataGrid MinWidth="170" ItemsSource="{Binding TransactionTemplates}" SelectedItem="{Binding SelectedTransactionTemplate, Mode=TwoWay}"
@@ -79,7 +69,15 @@
 
                 </StackPanel>
             </TabItem>
+            <TabItem Header="Batch Create">
+                <StackPanel Margin="5,15,0,0">
+                    <CheckBox Content="Batch Create Documents" IsChecked="{Binding BatchCreateDocuments,Mode=TwoWay}"/>
+                    <Label Margin="0,5,0,0" MinWidth="120" Content="{LocText Filter,Suffix=':'}"/>
+                    <ComboBox HorizontalAlignment="Left" MinWidth="150" ItemsSource="{Binding FilterDescriptions}" 
+                              SelectedItem="{Binding FilterStr}" IsEnabled="{Binding BatchCreateDocuments}"/>
 
+                </StackPanel>
+            </TabItem>
             <TabItem Header="{LocText Mappings}">
                 <ViewModels:MapControllerView DataContext ="{Binding MapController}"/>
             </TabItem>

@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Samba.Infrastructure.Settings;
 
 namespace Samba.Presentation.Common
 {
@@ -147,6 +150,23 @@ namespace Samba.Presentation.Common
                 return string.Format("\"{0}\"", item.ToString().Replace("\"", "\\\"")); ;
             }
             return string.Format("\"{0}\"", item);
+        }
+
+        public static ParallelQuery<TSource> SetCulture<TSource>(this ParallelQuery<TSource> source)
+        {
+            SetCulture();
+            return source
+                .Select(
+                    item =>
+                    {
+                        SetCulture();
+                        return item;
+                    });
+        }
+
+        private static void SetCulture()
+        {
+            LocalSettings.UpdateThreadLanguage();
         }
     }
 }

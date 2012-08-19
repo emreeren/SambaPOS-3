@@ -21,7 +21,7 @@ namespace Samba.Modules.ResourceModule
         public ICaptionCommand CreateAccountCommand { get; set; }
 
         [ImportingConstructor]
-        public ResourceEditorViewModel(ICacheService cacheService, IAccountService accountService,IUserService userService,ITicketService ticketService)
+        public ResourceEditorViewModel(ICacheService cacheService, IAccountService accountService, IUserService userService, ITicketService ticketService)
         {
             _cacheService = cacheService;
             _accountService = accountService;
@@ -35,7 +35,9 @@ namespace Samba.Modules.ResourceModule
 
         private bool CanCreateAccount(string arg)
         {
-            if(!_userService.IsUserPermittedFor(PermissionNames.CreateAccount)) return false;
+            if (CustomDataViewModel == null) return false;
+            if (!_userService.IsUserPermittedFor(PermissionNames.CreateAccount)) return false;
+            CustomDataViewModel.Update();
             return SelectedResource != null && SelectedResource.Model.AccountId == 0 && SelectedResource.ResourceTemplate.AccountTemplateId > 0 && !string.IsNullOrEmpty(SelectedResource.ResourceTemplate.GetAccountName(SelectedResource.Model));
         }
 

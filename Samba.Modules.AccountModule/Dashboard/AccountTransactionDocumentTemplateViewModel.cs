@@ -22,10 +22,19 @@ namespace Samba.Modules.AccountModule.Dashboard
             DeleteTransactionTemplateCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.AccountTransactionTemplate), OnDeleteTransactionTemplate, CanDeleteTransactionTemplate);
         }
 
+        private readonly string[] _filterDescriptions = new[] { "All", "Balanced Accounts" };
+        public string[] FilterDescriptions
+        {
+            get { return _filterDescriptions; }
+        }
+
         public string ButtonHeader { get { return Model.ButtonHeader; } set { Model.ButtonHeader = value; } }
         public string ButtonColor { get { return Model.ButtonColor; } set { Model.ButtonColor = value; } }
         public string DefaultAmount { get { return Model.DefaultAmount; } set { Model.DefaultAmount = value; RaisePropertyChanged(() => DefaultAmount); } }
         public string DescriptionTemplate { get { return Model.DescriptionTemplate; } set { Model.DescriptionTemplate = value; } }
+        public bool BatchCreateDocuments { get { return Model.BatchCreateDocuments; } set { Model.BatchCreateDocuments = value; RaisePropertyChanged(() => BatchCreateDocuments); } }
+        public int Filter { get { return Model.Filter; } set { Model.Filter = value; } } //0 All Accounts , 1 Balanced Accounts
+        public string FilterStr { get { return FilterDescriptions[Filter]; } set { Filter = Array.IndexOf(FilterDescriptions, value); } }
 
         private IEnumerable<string> _defaultAmounts;
         public IEnumerable<string> DefaultAmounts

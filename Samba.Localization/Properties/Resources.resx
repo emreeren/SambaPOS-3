@@ -1532,7 +1532,7 @@ Balance</value>
     <value>All Tickets</value>
   </data>
   <data name="Total_f" xml:space="preserve">
-    <value>Total: {0}</value>
+    <value>{0} Total</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>User</value>
@@ -3173,5 +3173,8 @@ Continue without adding details?</value>
   <data name="MaxQuantity" xml:space="preserve">
     <value>Max Quantity</value>
     <comment>DataGridTextColumn.Header</comment>
+  </data>
+  <data name="Filter">
+    <value xml:space="preserve">Filter</value>
   </data>
 </root>

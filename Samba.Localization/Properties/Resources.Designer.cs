@@ -2926,6 +2926,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Filter.
+        /// </summary>
+        public static string Filter {
+            get {
+                return ResourceManager.GetString("Filter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Filter Type.
         /// </summary>
         public static string FilterType {
@@ -7394,7 +7403,7 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Total: {0}.
+        ///   Looks up a localized string similar to {0} Total.
         /// </summary>
         public static string Total_f {
             get {

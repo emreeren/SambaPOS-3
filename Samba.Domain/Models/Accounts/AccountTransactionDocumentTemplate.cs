@@ -39,6 +39,8 @@ namespace Samba.Domain.Models.Accounts
 
         public string DefaultAmount { get; set; }
         public string DescriptionTemplate { get; set; }
+        public bool BatchCreateDocuments { get; set; }
+        public int Filter { get; set; }
         public int Order { get; set; }
 
         public string UserString

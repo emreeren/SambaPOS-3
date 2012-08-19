@@ -28,6 +28,8 @@
 
     public static class EventTopicNames
     {
+        public const string BatchDocumentsCreated="Batch Documents Created";
+        public const string BatchCreateDocument = "Batch Create Document";
         public const string CreateTicket = "Create Ticket";
         public const string MoveSelectedOrders = "Move Selected Orders";
         public const string ActivateTicketList = "Activate Ticket List";

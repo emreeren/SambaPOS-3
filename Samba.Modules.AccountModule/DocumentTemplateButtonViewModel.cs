@@ -23,8 +23,15 @@ namespace Samba.Modules.AccountModule
 
         private void OnSelectDocumentTemplate(string obj)
         {
-            var creationData = new DocumentCreationData(Account, Model);
-            creationData.PublishEvent(EventTopicNames.AccountTransactionDocumentSelected);
+            if (Account != null)
+            {
+                var creationData = new DocumentCreationData(Account, Model);
+                creationData.PublishEvent(EventTopicNames.AccountTransactionDocumentSelected);
+            }
+            else
+            {
+                Model.PublishEvent(EventTopicNames.BatchCreateDocument);
+            }
         }
     }
 }
