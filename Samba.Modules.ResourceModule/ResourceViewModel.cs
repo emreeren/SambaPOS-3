@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using FluentValidation;
-using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Resources;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
@@ -77,6 +76,8 @@ namespace Samba.Modules.ResourceModule
                 return _accountService.GetCompletingAccountNames(ResourceTemplate.AccountTemplateId, AccountName);
             }
         }
+
+        public string GroupValue { get { return NameCache.GetName<ResourceTemplate>(Model.ResourceTemplateId); } }
 
         public override Type GetViewType()
         {

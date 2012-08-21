@@ -109,6 +109,7 @@
     <Compile Include="ModelBase\IEditableCollection.cs" />
     <Compile Include="ModelBase\IValueWithSource.cs" />
     <Compile Include="ModelBase\MapController.cs" />
+    <Compile Include="ModelBase\NameCache.cs" />
     <Compile Include="ObservableObject.cs" />
     <Compile Include="PresentationModule.cs" />
     <Compile Include="Services\ApplicationState.cs" />

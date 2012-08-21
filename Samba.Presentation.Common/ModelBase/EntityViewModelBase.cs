@@ -11,7 +11,6 @@ namespace Samba.Presentation.Common.ModelBase
     {
         private bool _modelSaved;
 
-        // todo: set gerektiren tüm bağımlıklar düzeltilecek.
         public TModel Model { get; set; }
         public ICaptionCommand SaveCommand { get; private set; }
         private IValidator<TModel> _validator;

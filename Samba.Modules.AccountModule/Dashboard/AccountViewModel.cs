@@ -36,6 +36,8 @@ namespace Samba.Modules.AccountModule.Dashboard
             }
         }
 
+        public string GroupValue { get { return NameCache.GetName<AccountTemplate>(Model.AccountTemplateId); } }
+
         public override Type GetViewType()
         {
             return typeof(AccountView);

@@ -36,7 +36,5 @@ namespace Samba.Infrastructure.Data
         void Refresh(object item, string property);
 
         void MarkUnchanged(object item);
-
-
     }
 }
