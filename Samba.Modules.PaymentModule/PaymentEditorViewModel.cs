@@ -181,12 +181,14 @@ namespace Samba.Modules.PaymentModule
 
         private bool CanSelectCalculationSelector(CalculationSelector calculationSelector)
         {
+            if (SelectedTicket != null && SelectedTicket.Locked) return false;
             return calculationSelector == null || !calculationSelector.CalculationTemplates.Any(x => x.MaxAmount > 0 && GetTenderedValue() > x.MaxAmount);
         }
 
         private bool CanMakePayment(PaymentTemplate arg)
         {
             return SelectedTicket != null
+                && !SelectedTicket.IsPaid
                 && GetTenderedValue() > 0
                 && SelectedTicket.GetRemainingAmount() > 0
                 && (arg.Account != null || SelectedTicket.TicketResources.Any(x => CanMakeAccountTransaction(x, arg)));
@@ -490,12 +492,15 @@ namespace Samba.Modules.PaymentModule
             SelectedTicket.Orders.Where(x => x.CalculatePrice).ToList().ForEach(x => CreateMergedItem(SelectedTicket.GetPlainSum(), x, serviceAmount));
             var amount = 0m;
             var ra = _settingService.ProgramSettings.AutoRoundDiscount;
-            foreach (var mergedItem in MergedItems)
+            if (ra != 0)
             {
-                var price = mergedItem.Price;
-                var newPrice = decimal.Round(price / ra, MidpointRounding.AwayFromZero) * ra;
-                mergedItem.Price = newPrice;
-                amount += (newPrice * mergedItem.Quantity);
+                foreach (var mergedItem in MergedItems)
+                {
+                    var price = mergedItem.Price;
+                    var newPrice = decimal.Round(price / ra, MidpointRounding.AwayFromZero) * ra;
+                    mergedItem.Price = newPrice;
+                    amount += (newPrice * mergedItem.Quantity);
+                }
             }
             var mLast = MergedItems.Last();
             mLast.Price += SelectedTicket.GetSum() - amount;
