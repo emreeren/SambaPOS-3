@@ -86,6 +86,7 @@ namespace Samba.Modules.AccountModule
             _accounts = accountBalances.Select(x => new AccountRowData(x.Key, x.Value));
             RaisePropertyChanged(() => Accounts);
             RaisePropertyChanged(() => BatchDocumentButtons);
+            RaisePropertyChanged(() => AccountButtons);
         }
 
         public IEnumerable<AccountScreen> AccountScreens

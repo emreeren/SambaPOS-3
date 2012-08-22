@@ -167,7 +167,7 @@ namespace Samba.Presentation.ViewModels
 
                 if (x.Value.Action.ActionType == "CloseActiveTicket")
                 {
-                    EventServiceFactory.EventService.PublishEvent(EventTopicNames.CloseTicketRequested);
+                    EventServiceFactory.EventService.PublishEvent(EventTopicNames.CloseTicketRequested,true);
                 }
 
                 if (x.Value.Action.ActionType == "UpdateResourceState")
