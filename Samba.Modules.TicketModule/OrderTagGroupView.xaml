@@ -21,12 +21,12 @@
                     <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name,Mode=TwoWay}" />
                     <Label Content="{LocText ButtonHeader,Suffix=':'}" />
                     <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding ButtonHeader,Mode=TwoWay}" />
-                    <Label Content="{LocText MaxSelectedItems}" />
+                    <Label Content="{LocText MaxSelectedItems,Suffix=':'}" />
                     <UIControls:FilteredTextBox HorizontalAlignment="Left" MinWidth="50" Text="{Binding MaxSelectedItems}"
                          Type="Digits" />
-                    <CheckBox Margin="5,5,0,0" Content="{LocText AddTagPriceToOrderPrice}"
+                    <CheckBox Margin="0,15,0,0" Content="{LocText AddTagPriceToOrderPrice}"
                          IsChecked="{Binding AddTagPriceToOrderPrice}" />
-                    <GroupBox Header="{LocText DisplaySettings}" Margin="0,10,0,0">
+                    <GroupBox Header="{LocText DisplaySettings}" Margin="0,10,0,0" HorizontalAlignment="left">
                         <UniformGrid HorizontalAlignment="Left">
                             <Label>
                                 <LocText ResourceIdentifierKey="ColumnCount" Suffix=":" />
