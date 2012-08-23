@@ -43,6 +43,6 @@ namespace Samba.Services
         IEnumerable<AccountTemplate> GetAccountTemplates();
         IEnumerable<AccountTemplate> GetAccountTemplatesByName(IEnumerable<string> accountTemplateNames);
         IEnumerable<AccountScreen> GetAccountScreens();
-        
+        PaymentTemplate GetPaymentTemplateById(int paymentTemplateId);
     }
 }

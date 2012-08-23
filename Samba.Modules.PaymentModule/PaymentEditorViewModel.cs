@@ -490,10 +490,11 @@ namespace Samba.Modules.PaymentModule
             if (sum == 0) return;
 
             SelectedTicket.Orders.Where(x => x.CalculatePrice).ToList().ForEach(x => CreateMergedItem(SelectedTicket.GetPlainSum(), x, serviceAmount));
-            var amount = 0m;
+
             var ra = _settingService.ProgramSettings.AutoRoundDiscount;
             if (ra != 0)
             {
+                var amount = 0m;
                 foreach (var mergedItem in MergedItems)
                 {
                     var price = mergedItem.Price;
@@ -501,9 +502,9 @@ namespace Samba.Modules.PaymentModule
                     mergedItem.Price = newPrice;
                     amount += (newPrice * mergedItem.Quantity);
                 }
+                var mLast = MergedItems.Last();
+                mLast.Price += SelectedTicket.GetSum() - amount;
             }
-            var mLast = MergedItems.Last();
-            mLast.Price += SelectedTicket.GetSum() - amount;
 
             foreach (var paidItem in SelectedTicket.PaidItems)
             {

@@ -184,7 +184,7 @@ namespace Samba.Domain.Models.Tickets
         public void RemovePayment(Payment py)
         {
             Payments.Remove(py);
-            AccountTransactions.AccountTransactions.Where(x => x.Id == py.AccountTransactionId).ToList().ForEach(x => AccountTransactions.AccountTransactions.Remove(x));
+            AccountTransactions.AccountTransactions.Where(x => x.Id == py.AccountTransaction.Id).ToList().ForEach(x => AccountTransactions.AccountTransactions.Remove(x));
         }
 
         public void RemoveCalculation(Calculation py)

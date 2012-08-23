@@ -305,6 +305,11 @@ namespace Samba.Services.Implementations
             return AccountScreens;
         }
 
+        public PaymentTemplate GetPaymentTemplateById(int paymentTemplateId)
+        {
+            return PaymentTemplates.Single(x => x.Id == paymentTemplateId);
+        }
+
         public int GetResourceTemplateIdByEntityName(string entityName)
         {
             var rt = ResourceTemplates.FirstOrDefault(x => x.EntityName == entityName);

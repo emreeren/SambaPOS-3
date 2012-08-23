@@ -27,10 +27,11 @@ namespace Samba.Services.Implementations.TicketModule
         private readonly IUserService _userService;
         private readonly ISettingService _settingService;
         private readonly ICacheService _cacheService;
+        private readonly IAccountService _accountService;
 
         [ImportingConstructor]
         public TicketService(IDepartmentService departmentService, IApplicationState applicationState, IAutomationService automationService,
-            IUserService userService, ISettingService settingService, ICacheService cacheService)
+            IUserService userService, ISettingService settingService, ICacheService cacheService, IAccountService accountService)
         {
             _departmentService = departmentService;
             _applicationState = applicationState;
@@ -38,6 +39,7 @@ namespace Samba.Services.Implementations.TicketModule
             _userService = userService;
             _settingService = settingService;
             _cacheService = cacheService;
+            _accountService = accountService;
 
             ValidatorRegistry.RegisterConcurrencyValidator(new TicketConcurrencyValidator());
         }
@@ -234,7 +236,7 @@ namespace Samba.Services.Implementations.TicketModule
             if (resourcesUnMatches) return new TicketCommitResult { ErrorMessage = string.Format("Can't merge tickets\r{0}", "Resources doesn't match") };
 
             var clonedOrders = ticketList.SelectMany(x => x.Orders).Select(ObjectCloner.Clone).ToList();
-            var clonedPayments = ticketList.SelectMany(x => x.Payments).Select(ObjectCloner.Clone).ToList();
+            var clonedPayments = ticketList.SelectMany(x => x.Payments).Select(ObjectCloner.Clone2).ToList();
             var clonedTags = ticketList.SelectMany(x => x.GetTicketTagValues()).Select(ObjectCloner.Clone).ToList();
             var clonedResources = ticketList.SelectMany(x => x.TicketResources).Select(ObjectCloner.Clone).ToList();
 
@@ -246,7 +248,7 @@ namespace Samba.Services.Implementations.TicketModule
 
             var ticket = OpenTicket(0);
             clonedOrders.ForEach(ticket.Orders.Add);
-            clonedPayments.ForEach(ticket.Payments.Add);
+            clonedPayments.ForEach(x => ticket.AddPayment(_cacheService.GetPaymentTemplateById(x.PaymentTemplateId), _accountService.GetAccountById(x.AccountTransaction.TargetTransactionValue.AccountId), x.Amount, 0));
             clonedResources.ForEach(x => ticket.UpdateResource(x.ResourceTemplateId, x.ResourceId, x.ResourceName, x.AccountId, x.ResourceCustomData));
             clonedTags.ForEach(x => ticket.SetTagValue(x.TagName, x.TagValue));
 
@@ -256,12 +258,6 @@ namespace Samba.Services.Implementations.TicketModule
             {
                 ticket.AccountTransactions.AccountTransactions.Add(AccountTransaction.Create(template));
             }
-
-            foreach (var payment in clonedPayments)
-            {
-                ticket.AccountTransactions.AccountTransactions.Add(AccountTransaction.Create(_cacheService.GetAccountTransactionTemplateById(payment.AccountTransaction.AccountTransactionTemplateId)));
-            }
-
 
             var result = CloseTicket(ticket);
             _automationService.NotifyEvent(RuleEventNames.TicketsMerged, new { Ticket = ticket });
