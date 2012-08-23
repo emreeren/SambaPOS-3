@@ -389,7 +389,7 @@ namespace Samba.Domain.Models.Tickets
 
         public bool CanRemoveSelectedOrders(IEnumerable<Order> items)
         {
-            return (items.Sum(x => x.GetSelectedValue()) <= GetRemainingAmount());
+            return (items.Where(x=>x.CalculatePrice).Sum(x => x.GetSelectedValue()) <= GetRemainingAmount());
         }
 
         public bool CanCancelSelectedOrders(IEnumerable<Order> selectedOrders)
