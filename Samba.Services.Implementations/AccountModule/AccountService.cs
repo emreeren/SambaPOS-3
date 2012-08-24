@@ -51,7 +51,7 @@ namespace Samba.Services.Implementations.AccountModule
             return Dao.Sum<AccountTransactionValue>(x => x.Debit - x.Credit, x => x.AccountId == accountId);
         }
 
-        public Dictionary<string, decimal> GetAccountBalances(IList<int> accountTemplateIds, Expression<Func<AccountTransactionValue, bool>> filter)
+        public Dictionary<Account, decimal> GetAccountBalances(IList<int> accountTemplateIds, Expression<Func<AccountTransactionValue, bool>> filter)
         {
             using (var w = WorkspaceFactory.CreateReadOnly())
             {
@@ -64,11 +64,11 @@ namespace Samba.Services.Implementations.AccountModule
                     .Select(x => new { Id = x.Key, Amount = x.Sum(y => y.Debit - y.Credit) })
                     .ToDictionary(x => x.Id, x => x.Amount);
 
-                return w.Queryable<Account>().Where(x => accountTemplateIds.Contains(x.AccountTemplateId)).ToDictionary(x => x.Name, x => transactionValues.ContainsKey(x.Id) ? transactionValues[x.Id] : 0);
+                return w.Queryable<Account>().Where(x => accountTemplateIds.Contains(x.AccountTemplateId)).ToDictionary(x => x, x => transactionValues.ContainsKey(x.Id) ? transactionValues[x.Id] : 0);
             }
         }
 
-        public Dictionary<string, decimal> GetAccountTemplateBalances(IList<int> accountTemplateIds, Expression<Func<AccountTransactionValue, bool>> filter)
+        public Dictionary<AccountTemplate, decimal> GetAccountTemplateBalances(IList<int> accountTemplateIds, Expression<Func<AccountTransactionValue, bool>> filter)
         {
             using (var w = WorkspaceFactory.CreateReadOnly())
             {
@@ -79,7 +79,7 @@ namespace Samba.Services.Implementations.AccountModule
                     .GroupBy(x => x.AccountTemplateId)
                     .Select(x => new { Id = x.Key, Amount = x.Sum(y => y.Debit - y.Credit) })
                     .ToDictionary(x => x.Id, x => x.Amount);
-                return w.Queryable<AccountTemplate>().Where(x => accountTemplateIds.Contains(x.Id)).ToDictionary(x => x.Name, x => transactionValues.ContainsKey(x.Id) ? transactionValues[x.Id] : 0);
+                return w.Queryable<AccountTemplate>().Where(x => accountTemplateIds.Contains(x.Id)).ToDictionary(x => x, x => transactionValues.ContainsKey(x.Id) ? transactionValues[x.Id] : 0);
             }
         }
 

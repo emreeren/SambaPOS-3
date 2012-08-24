@@ -9,7 +9,6 @@ using Samba.Domain.Models.Accounts;
 using Samba.Infrastructure;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
-using Samba.Persistance.Data.Specification;
 using Samba.Presentation.Common;
 using Samba.Services;
 using Samba.Services.Common;
@@ -18,12 +17,14 @@ namespace Samba.Modules.AccountModule
 {
     public class AccountRowData
     {
-        public AccountRowData(string name, decimal balance)
+        public AccountRowData(string name, decimal balance, int accountId)
         {
             Name = name;
             Balance = balance;
+            AccountId = accountId;
         }
 
+        public int AccountId { get; set; }
         public string BalanceStr { get { return Balance.ToString(LocalSettings.DefaultCurrencyFormat); } }
         public string Name { get; set; }
         public decimal Balance { get; set; }
@@ -86,10 +87,10 @@ namespace Samba.Modules.AccountModule
             _accounts.Clear();
 
             var detailedTemplateNames = accountScreen.AccountScreenValues.Where(x => x.DisplayDetails).Select(x => x.AccountTemplateId);
-            _accountService.GetAccountBalances(detailedTemplateNames.ToList(), GetFilter()).ToList().ForEach(x => _accounts.Add(new AccountRowData(x.Key, x.Value)));
+            _accountService.GetAccountBalances(detailedTemplateNames.ToList(), GetFilter()).ToList().ForEach(x => _accounts.Add(new AccountRowData(x.Key.Name, x.Value, x.Key.Id)));
 
             var templateTotals = accountScreen.AccountScreenValues.Where(x => !x.DisplayDetails).Select(x => x.AccountTemplateId);
-            _accountService.GetAccountTemplateBalances(templateTotals.ToList(), GetFilter()).ToList().ForEach(x => _accounts.Add(new AccountRowData(x.Key, x.Value)));
+            _accountService.GetAccountTemplateBalances(templateTotals.ToList(), GetFilter()).ToList().ForEach(x => _accounts.Add(new AccountRowData(x.Key.Name, x.Value, 0)));
 
             RaisePropertyChanged(() => BatchDocumentButtons);
             RaisePropertyChanged(() => AccountButtons);
@@ -106,7 +107,7 @@ namespace Samba.Modules.AccountModule
             get { return _accountButtons ?? (_accountButtons = AccountScreens.Select(x => new AccountButton(x, _cacheService))); }
         }
 
-        private ObservableCollection<AccountRowData> _accounts;
+        private readonly ObservableCollection<AccountRowData> _accounts;
         public ObservableCollection<AccountRowData> Accounts
         {
             get { return _accounts; }
@@ -128,12 +129,12 @@ namespace Samba.Modules.AccountModule
 
         private bool CanShowAccountDetails(string arg)
         {
-            return SelectedAccount != null;
+            return SelectedAccount != null && SelectedAccount.AccountId > 0;
         }
 
         private void OnShowAccountDetails(object obj)
         {
-            // CommonEventPublisher.PublishEntityOperation(new AccountData { AccountId = SelectedAccount.Account.Id }, EventTopicNames.DisplayAccountTransactions, EventTopicNames.ActivateAccountSelector);
+             CommonEventPublisher.PublishEntityOperation(new AccountData { AccountId = SelectedAccount.AccountId }, EventTopicNames.DisplayAccountTransactions, EventTopicNames.ActivateAccountSelector);
         }
 
         public void Refresh()
