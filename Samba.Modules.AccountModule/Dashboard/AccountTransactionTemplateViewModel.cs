@@ -85,6 +85,8 @@ namespace Samba.Modules.AccountModule.Dashboard
         {
             RuleFor(x => x.SourceAccountTemplateId).GreaterThan(0).When(x => x.TargetAccountTemplateId == 0);
             RuleFor(x => x.TargetAccountTemplateId).GreaterThan(0).When(x => x.SourceAccountTemplateId == 0);
+            RuleFor(x => x.SourceAccountTemplateId).NotEqual(x => x.TargetAccountTemplateId).When(
+                x => x.SourceAccountTemplateId > 0 && x.TargetAccountTemplateId > 0);
         }
     }
 }

@@ -74,13 +74,13 @@ namespace Samba.Services.Implementations.AccountModule
                 var accountIds = w.Queryable<Account>().Where(x => tids.Contains(x.AccountTemplateId)).Select(x => x.Id);
                 Expression<Func<AccountTransactionValue, bool>> func = x => accountIds.Contains(x.AccountId);
                 if (filter != null) func = func.And(filter);
-                var dic1 = w.Queryable<AccountTransactionValue>()
+                var transactionValues = w.Queryable<AccountTransactionValue>()
                     .Where(func)
                     .GroupBy(x => x.AccountId)
                     .Select(x => new { Id = x.Key, Amount = x.Sum(y => y.Debit - y.Credit) })
                     .ToDictionary(x => x.Id, x => x.Amount);
 
-                return w.Queryable<Account>().Where(x => tids.Contains(x.AccountTemplateId)).ToDictionary(x => x, x => dic1.ContainsKey(x.Id) ? dic1[x.Id] : 0);
+                return w.Queryable<Account>().Where(x => tids.Contains(x.AccountTemplateId)).ToDictionary(x => x, x => transactionValues.ContainsKey(x.Id) ? transactionValues[x.Id] : 0);
             }
         }
 
@@ -186,7 +186,7 @@ namespace Samba.Services.Implementations.AccountModule
             if (Dao.Exists<Account>(x => x.Name == accountName)) return 0;
             using (var w = WorkspaceFactory.Create())
             {
-                var account = new Account() { AccountTemplateId = accountTemplateId, Name = accountName };
+                var account = new Account { AccountTemplateId = accountTemplateId, Name = accountName };
                 w.Add(account);
                 w.CommitChanges();
                 return account.Id;

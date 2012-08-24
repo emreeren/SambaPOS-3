@@ -40,7 +40,7 @@ namespace Samba.Domain.Models.Accounts
 
         public AccountTransactionValue SourceTransactionValue
         {
-            get { return AccountTransactionValues.SingleOrDefault(x => x.IsSource); }
+            get { return AccountTransactionValues.SingleOrDefault(x => x.AccountTemplateId == SourceAccountTemplateId); }
             set
             {
                 if (SourceTransactionValue != value)
@@ -54,7 +54,7 @@ namespace Samba.Domain.Models.Accounts
 
         public AccountTransactionValue TargetTransactionValue
         {
-            get { return AccountTransactionValues.SingleOrDefault(x => !x.IsSource); }
+            get { return AccountTransactionValues.SingleOrDefault(x => x.AccountTemplateId == TargetAccountTemplateId); }
             set
             {
                 if (TargetTransactionValue != value)
@@ -73,8 +73,8 @@ namespace Samba.Domain.Models.Accounts
             {
                 return _null ?? (_null = new AccountTransaction
                                              {
-                                                 SourceTransactionValue = new AccountTransactionValue { IsSource = true },
-                                                 TargetTransactionValue = new AccountTransactionValue { IsSource = false }
+                                                 SourceTransactionValue = new AccountTransactionValue(),
+                                                 TargetTransactionValue = new AccountTransactionValue()
                                              });
             }
         }
@@ -90,8 +90,8 @@ namespace Samba.Domain.Models.Accounts
                              {
                                  Name = template.Name,
                                  AccountTransactionTemplateId = template.Id,
-                                 SourceTransactionValue = new AccountTransactionValue { IsSource = true, AccountId = template.DefaultSourceAccountId, Name = template.Name },
-                                 TargetTransactionValue = new AccountTransactionValue { IsSource = false, AccountId = template.DefaultTargetAccountId, Name = template.Name },
+                                 SourceTransactionValue = new AccountTransactionValue { AccountId = template.DefaultSourceAccountId, AccountTemplateId = template.SourceAccountTemplateId, Name = template.Name },
+                                 TargetTransactionValue = new AccountTransactionValue { AccountId = template.DefaultTargetAccountId, AccountTemplateId = template.TargetAccountTemplateId, Name = template.Name },
                                  SourceAccountTemplateId = template.SourceAccountTemplateId,
                                  TargetAccountTemplateId = template.TargetAccountTemplateId
                              };
