@@ -12,6 +12,5 @@ namespace Samba.Domain.Models.Accounts
 
         private static Account _null;
         public static Account Null { get { return _null ?? (_null = new Account { Name = "*" }); } }
-
     }
 }

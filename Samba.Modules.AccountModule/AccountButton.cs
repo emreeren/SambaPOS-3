@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Samba.Domain.Models.Accounts;
 using Samba.Services;
 
@@ -18,7 +19,7 @@ namespace Samba.Modules.AccountModule
         public string Caption { get { return _accountScreen.Name; } }
         public AccountScreen Model { get { return _accountScreen; } }
         public string ButtonColor { get { return "Gainsboro"; } }
-        
-        public IEnumerable<AccountTemplate> AccountTemplates { get { return _cacheService.GetAccountTemplatesByName(_accountScreen.AccountTemplateNamesList); } }
+
+        public IEnumerable<AccountTemplate> AccountTemplates { get { return _cacheService.GetAccountTemplatesByName(_accountScreen.AccountScreenValues.Select(x => x.AccountTemplateName)); } }
     }
 }

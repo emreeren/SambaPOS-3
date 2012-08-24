@@ -297,7 +297,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<AccountScreen> _accountScreens;
         public IEnumerable<AccountScreen> AccountScreens
         {
-            get { return _accountScreens ?? (_accountScreens = Dao.Query<AccountScreen>()); }
+            get { return _accountScreens ?? (_accountScreens = Dao.Query<AccountScreen>(x => x.AccountScreenValues)); }
         }
 
         public IEnumerable<AccountScreen> GetAccountScreens()

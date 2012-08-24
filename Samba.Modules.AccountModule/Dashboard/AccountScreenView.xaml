@@ -16,18 +16,31 @@
                 <LocText ResourceIdentifierKey="FilterType" Suffix=":"/>
             </Label>
             <ComboBox ItemsSource="{Binding FilterTypes}" SelectedItem="{Binding FilterType}" HorizontalAlignment="Left" MinWidth="200"/>
-            
-            <StackPanel Orientation="Horizontal">
+
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                 <TextBlock Margin="2,3" Text="{LocText AccountTemplate, Suffix=':'}"/>
                 <TextBlock Margin="4,3">
-                                        <Hyperlink Command="{Binding AddAccountTemplateNameCommand}">
-                                            <TextBlock Text="{Binding Path=AddAccountTemplateNameCommand.Caption}" />
+                                        <Hyperlink Command="{Binding AddScreenFilterCommand}">
+                                            <TextBlock Text="{Binding Path=AddScreenFilterCommand.Caption}" />
+                                        </Hyperlink>
+                                    </TextBlock>
+                <TextBlock Margin="4,3">
+                                        <Hyperlink Command="{Binding DeleteScreenFilterCommand}">
+                                            <TextBlock Text="{Binding Path=DeleteScreenFilterCommand.Caption}" />
                                         </Hyperlink>
                                     </TextBlock>
             </StackPanel>
-            <ListBox ItemsSource="{Binding AccountTemplateNamesList}" SelectedItem="{Binding SelectedAccountTemplateName}" 
-                     HorizontalAlignment="Left" HorizontalContentAlignment="Stretch" MinWidth="200" MinHeight="100">
-            </ListBox>
+            <DataGrid ItemsSource="{Binding AccountScreenFilters}" SelectedItem="{Binding SelectedScreenValue}"
+                      HorizontalAlignment="Left" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3" CanUserAddRows="False" CanUserDeleteRows="False"
+                      AutoGenerateColumns="False" CanUserSortColumns="False" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="{LocText AccountTemplate}" IsReadOnly="True"
+                                             MinWidth="100" Binding="{Binding AccountTemplateName}" />
+                    <DataGridCheckBoxColumn Header="Display Details" Binding="{Binding DisplayDetails}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
             <Button HorizontalAlignment="Left" Margin="0,10" MinWidth="70" Content="{Binding SaveCommand.Caption}"
                  Command="{Binding SaveCommand}" />
             <Label Content="{Binding Error}" Foreground="Red" />

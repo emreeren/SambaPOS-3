@@ -61,14 +61,11 @@ namespace Samba.Services
 
             _workspace.CommitChanges();
 
-            var accountScreen = new AccountScreen
-                                    {
-                                        Name = "General",
-                                        AccountTemplateNames = string.Join(";", saleAccountTemplate.Name,
-                                                                           receivableAccountTemplate.Name,
-                                                                           discountAccountTemplate.Name,
-                                                                           paymentAccountTemplate.Name)
-                                    };
+            var accountScreen = new AccountScreen { Name = "General" };
+            accountScreen.AccountScreenValues.Add(new AccountScreenValue { AccountTemplateName = saleAccountTemplate.Name, DisplayDetails = true });
+            accountScreen.AccountScreenValues.Add(new AccountScreenValue { AccountTemplateName = receivableAccountTemplate.Name, DisplayDetails = true });
+            accountScreen.AccountScreenValues.Add(new AccountScreenValue { AccountTemplateName = discountAccountTemplate.Name, DisplayDetails = true });
+            accountScreen.AccountScreenValues.Add(new AccountScreenValue { AccountTemplateName = paymentAccountTemplate.Name, DisplayDetails = true });
             _workspace.Add(accountScreen);
 
             var defaultSaleAccount = new Account { AccountTemplateId = saleAccountTemplate.Id, Name = "Sales" };

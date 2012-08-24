@@ -45,10 +45,10 @@
                     </Label>
                     <StackPanel Orientation="Horizontal">
                         <DataGrid ItemsSource="{Binding ResourceScreens}" SelectedItem="{Binding SelectedResourceScreen, Mode=TwoWay}"
-                                     HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
+                                     HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3" CanUserAddRows="False" CanUserDeleteRows="False"
                                      AutoGenerateColumns="False" CanUserSortColumns="False" IsReadOnly="True" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="{LocText ResourceScreen}"
+                                <DataGridTextColumn Header="{LocText ResourceScreen}" IsReadOnly="True"
                                              MinWidth="100" Binding="{Binding Name}" />
                             </DataGrid.Columns>
                             <DataGrid.ContextMenu>
@@ -60,15 +60,15 @@
                         </DataGrid>
                         <StackPanel Margin="10">
                             <TextBlock Margin="2,3">
-                                        <Hyperlink Command="{Binding AddResourceScreenCommand}">
-                                            <TextBlock Text="{Binding Path=AddResourceScreenCommand.Caption}" />
-                                        </Hyperlink>
-                                    </TextBlock>
+                                <Hyperlink Command="{Binding AddResourceScreenCommand}">
+                                    <TextBlock Text="{Binding Path=AddResourceScreenCommand.Caption}" />
+                                </Hyperlink>
+                            </TextBlock>
                             <TextBlock Margin="2,3">
-                                        <Hyperlink Command="{Binding DeleteResourceScreenCommand}">
-                                            <TextBlock Text="{Binding Path=DeleteResourceScreenCommand.Caption}" />
-                                        </Hyperlink>
-                                    </TextBlock>
+                                <Hyperlink Command="{Binding DeleteResourceScreenCommand}">
+                                    <TextBlock Text="{Binding Path=DeleteResourceScreenCommand.Caption}" />
+                                </Hyperlink>
+                            </TextBlock>
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>

@@ -72,6 +72,7 @@
   <ItemGroup>
     <Compile Include="Models\Accounts\Account.cs" />
     <Compile Include="Models\Accounts\AccountScreen.cs" />
+    <Compile Include="Models\Accounts\AccountScreenValue.cs" />
     <Compile Include="Models\Accounts\AccountTemplate.cs" />
     <Compile Include="Models\Accounts\AccountTransactionDocumentTemplateMap.cs" />
     <Compile Include="Models\Actions\AppRuleMap.cs" />

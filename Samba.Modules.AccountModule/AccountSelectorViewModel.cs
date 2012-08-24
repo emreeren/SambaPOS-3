@@ -67,7 +67,7 @@ namespace Samba.Modules.AccountModule
                 return _batchDocumentButtons ??
                     (_batchDocumentButtons =
                     _selectedAccountScreen != null
-                    ? _cacheService.GetBatchDocumentTemplates(_selectedAccountScreen.AccountTemplateNamesList)
+                    ? _cacheService.GetBatchDocumentTemplates(_selectedAccountScreen.AccountScreenValues.Select(x => x.AccountTemplateName))
                          .Select(x => new DocumentTemplateButtonViewModel(x, null)) : null);
             }
         }
@@ -82,7 +82,7 @@ namespace Samba.Modules.AccountModule
             if (accountScreen == null) return;
             _batchDocumentButtons = null;
             _selectedAccountScreen = accountScreen;
-            var accountBalances = _accountService.GetAccountsWithBalances(_cacheService.GetAccountTemplatesByName(accountScreen.AccountTemplateNamesList), GetFilter());
+            var accountBalances = _accountService.GetAccountsWithBalances(_cacheService.GetAccountTemplatesByName(accountScreen.AccountScreenValues.Select(x => x.AccountTemplateName)), GetFilter());
             _accounts = accountBalances.Select(x => new AccountRowData(x.Key, x.Value));
             RaisePropertyChanged(() => Accounts);
             RaisePropertyChanged(() => BatchDocumentButtons);
