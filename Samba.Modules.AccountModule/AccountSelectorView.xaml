@@ -43,7 +43,7 @@
                         <GridViewColumn Header="Account Name">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock MinWidth="250" Text="{Binding AccountName}"
+                                    <TextBlock MinWidth="250" Text="{Binding Name}"
                                                      TextAlignment="Left" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>

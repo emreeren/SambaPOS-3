@@ -35,12 +35,17 @@ namespace Samba.Infrastructure.Data
                     if (targetChildType.GetInterfaces().Any(x => x == typeof(IValue)))
                     {
                         var deleteMethod = c.TargetProp.Value.GetType().GetMethod("Remove");
-
-                        (from vl in (c.TargetProp.Value as IEnumerable).Cast<IValue>()
-                         where vl.Id > 0
-                         let srcv = (c.SourceProp.Value as IEnumerable).Cast<IValue>().SingleOrDefault(z => z.Id == vl.Id)
-                         where srcv == null
-                         select vl).ToList().ForEach(x => deleteMethod.Invoke(c.TargetProp.Value, new[] { x }));
+                        //var removingItems =
+                        //(from vl in (c.TargetProp.Value as IEnumerable).Cast<IValue>()
+                        // let srcv = (c.SourceProp.Value as IEnumerable).Cast<IValue>().SingleOrDefault(z => z.Id == vl.Id)
+                        // where srcv == null
+                        // select vl).ToList();
+                        var rmvItems = (c.TargetProp.Value as IEnumerable).Cast<IValue>()
+                            .Where(x => x.Id > 0 && !(c.SourceProp.Value as IEnumerable).Cast<IValue>().Any(y => y.Id == x.Id));
+                        rmvItems.ToList().ForEach(x => deleteMethod.Invoke(c.TargetProp.Value, new[] { x }));
+                        rmvItems = (c.TargetProp.Value as IEnumerable).Cast<IValue>()
+                            .Where(x => !(c.SourceProp.Value as IEnumerable).Cast<IValue>().Contains(x));
+                        rmvItems.ToList().ForEach(x => deleteMethod.Invoke(c.TargetProp.Value, new[] { x }));
 
                         var sourceCollection = (c.SourceProp.Value as IEnumerable).Cast<IValue>();
 
@@ -49,7 +54,7 @@ namespace Samba.Infrastructure.Data
                             var sv = s;
                             var target = (c.TargetProp.Value as IEnumerable).Cast<IValue>().SingleOrDefault(z => z.Id == sv.Id && z.Id != 0);
                             if (target != null) target.InjectFrom<EntityInjection>(sv);
-                            else
+                            else if (!(c.TargetProp.Value as IEnumerable).Cast<IValue>().Contains(sv))
                             {
                                 var addMethod = c.TargetProp.Value.GetType().GetMethod("Add");
                                 addMethod.Invoke(c.TargetProp.Value, new[] { sv });

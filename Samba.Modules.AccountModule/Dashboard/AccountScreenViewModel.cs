@@ -23,15 +23,13 @@ namespace Samba.Modules.AccountModule.Dashboard
         public AccountScreenViewModel(IAccountService accountService)
         {
             _accountService = accountService;
-            AddScreenFilterCommand = new CaptionCommand<string>(Resources.Add, OnAddScreenFilter);
-            DeleteScreenFilterCommand = new CaptionCommand<string>(Resources.Remove, OnDeleteScreenFilter, CanDeleteScreenFilter);
+            AddScreenFilterCommand = new CaptionCommand<string>(Resources.Select, OnAddScreenFilter);
         }
 
         public string[] FilterTypes { get { return new[] { Resources.All, Resources.Month, Resources.Week, Resources.WorkPeriod }; } }
         public string FilterType { get { return FilterTypes[Model.Filter]; } set { Model.Filter = FilterTypes.ToList().IndexOf(value); } }
 
         public CaptionCommand<string> AddScreenFilterCommand { get; set; }
-        public CaptionCommand<string> DeleteScreenFilterCommand { get; set; }
 
         private IEnumerable<AccountTemplate> _accountTemplates;
         public IEnumerable<AccountTemplate> AccountTemplates
@@ -46,38 +44,23 @@ namespace Samba.Modules.AccountModule.Dashboard
             get { return _accountScreenFilters ?? (_accountScreenFilters = new ObservableCollection<AccountScreenValue>(Model.AccountScreenValues.OrderBy(x => x.Order))); }
         }
 
-        public AccountScreenValue SelectedScreenValue { get; set; }
-
         private void OnAddScreenFilter(string obj)
         {
             var selectedItems = Model.AccountScreenValues;
-            var values = AccountTemplates.Where(x => !selectedItems.Any(y => y.AccountTemplateName == x.Name)).Select(x => new AccountScreenValue { AccountTemplateName = x.Name }).ToList<IOrderable>();
-            var selectedValues = InteractionService.UserIntraction.ChooseValuesFrom(values, selectedItems.ToList<IOrderable>(),
-              Resources.AccountTemplate.ToPlural(), string.Format(Resources.SelectItemsFor_f, Resources.AccountTemplate.ToPlural(), Model.Name, Resources.AccountScreen),
-              Resources.AccountTemplate, Resources.AccountTemplate.ToPlural());
+            var values = AccountTemplates.Where(x => !selectedItems.Any(y => y.AccountTemplateName == x.Name)).Select(x => new AccountScreenValue { AccountTemplateName = x.Name, AccountTemplateId = x.Id }).ToList<IOrderable>();
 
-            var v = new {AccountScreenValues = selectedValues.Cast<AccountScreenValue>().ToList()};
-            v.InjectFrom<EntityInjection>(Model);
+            var selectedValues = InteractionService.UserIntraction.ChooseValuesFrom(
+                values,
+                selectedItems.ToList<IOrderable>(),
+                Resources.AccountTemplate.ToPlural(),
+                string.Format(Resources.SelectItemsFor_f, Resources.AccountTemplate.ToPlural(), Model.Name, Resources.AccountScreen),
+                Resources.AccountTemplate,
+                Resources.AccountTemplate.ToPlural());
 
-            //selectedValues.Cast<AccountScreenValue>().Where(x => !Model.AccountScreenValues.Any(y => y.AccountTemplateName == x.Name))
-            //    .ToList().ForEach(x => Model.AccountScreenValues.Add(x));
-            Model.AccountScreenValues.Clear();
-            v.AccountScreenValues.ToList().ForEach(x=>Model.AccountScreenValues.Add(x));
+            Model.InjectFrom<EntityInjection>(new { AccountScreenValues = selectedValues.Cast<AccountScreenValue>().ToList() });
+
             _accountScreenFilters = null;
             RaisePropertyChanged(() => AccountScreenFilters);
-        }
-
-        private void OnDeleteScreenFilter(string obj)
-        {
-            Model.AccountScreenValues.Remove(SelectedScreenValue);
-            SelectedScreenValue = null;
-            _accountScreenFilters = null;
-            RaisePropertyChanged(() => AccountScreenFilters);
-        }
-
-        private bool CanDeleteScreenFilter(string arg)
-        {
-            return SelectedScreenValue != null;
         }
 
         public override Type GetViewType()

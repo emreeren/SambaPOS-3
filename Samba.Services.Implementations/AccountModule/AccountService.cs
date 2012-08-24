@@ -51,27 +51,11 @@ namespace Samba.Services.Implementations.AccountModule
             return Dao.Sum<AccountTransactionValue>(x => x.Debit - x.Credit, x => x.AccountId == accountId);
         }
 
-        public Dictionary<int, decimal> GetAccountBalances(IEnumerable<int> accountIds)
+        public Dictionary<string, decimal> GetAccountBalances(IList<int> accountTemplateIds, Expression<Func<AccountTransactionValue, bool>> filter)
         {
             using (var w = WorkspaceFactory.CreateReadOnly())
             {
-                Expression<Func<AccountTransactionValue, bool>> exp = x => x.Id > 0;
-                exp = accountIds.Aggregate(exp, (current, accountId) => current.Or(x => x.Id == accountId));
-
-                return w.Queryable<AccountTransactionValue>()
-                    .Where(exp)
-                    .GroupBy(x => x.AccountId)
-                    .Select(x => new { Id = x.Key, Amount = x.Sum(y => y.Debit - y.Credit) })
-                    .ToDictionary(x => x.Id, x => x.Amount);
-            }
-        }
-
-        public Dictionary<Account, decimal> GetAccountsWithBalances(IEnumerable<AccountTemplate> accountTemplates, Expression<Func<AccountTransactionValue, bool>> filter)
-        {
-            using (var w = WorkspaceFactory.CreateReadOnly())
-            {
-                var tids = accountTemplates.Select(x => x.Id).ToList();
-                var accountIds = w.Queryable<Account>().Where(x => tids.Contains(x.AccountTemplateId)).Select(x => x.Id);
+                var accountIds = w.Queryable<Account>().Where(x => accountTemplateIds.Contains(x.AccountTemplateId)).Select(x => x.Id);
                 Expression<Func<AccountTransactionValue, bool>> func = x => accountIds.Contains(x.AccountId);
                 if (filter != null) func = func.And(filter);
                 var transactionValues = w.Queryable<AccountTransactionValue>()
@@ -80,7 +64,22 @@ namespace Samba.Services.Implementations.AccountModule
                     .Select(x => new { Id = x.Key, Amount = x.Sum(y => y.Debit - y.Credit) })
                     .ToDictionary(x => x.Id, x => x.Amount);
 
-                return w.Queryable<Account>().Where(x => tids.Contains(x.AccountTemplateId)).ToDictionary(x => x, x => transactionValues.ContainsKey(x.Id) ? transactionValues[x.Id] : 0);
+                return w.Queryable<Account>().Where(x => accountTemplateIds.Contains(x.AccountTemplateId)).ToDictionary(x => x.Name, x => transactionValues.ContainsKey(x.Id) ? transactionValues[x.Id] : 0);
+            }
+        }
+
+        public Dictionary<string, decimal> GetAccountTemplateBalances(IList<int> accountTemplateIds, Expression<Func<AccountTransactionValue, bool>> filter)
+        {
+            using (var w = WorkspaceFactory.CreateReadOnly())
+            {
+                Expression<Func<AccountTransactionValue, bool>> func = x => accountTemplateIds.Contains(x.AccountTemplateId);
+                if (filter != null) func = func.And(filter);
+                var transactionValues = w.Queryable<AccountTransactionValue>()
+                    .Where(func)
+                    .GroupBy(x => x.AccountTemplateId)
+                    .Select(x => new { Id = x.Key, Amount = x.Sum(y => y.Debit - y.Credit) })
+                    .ToDictionary(x => x.Id, x => x.Amount);
+                return w.Queryable<AccountTemplate>().Where(x => accountTemplateIds.Contains(x.Id)).ToDictionary(x => x.Name, x => transactionValues.ContainsKey(x.Id) ? transactionValues[x.Id] : 0);
             }
         }
 

@@ -24,11 +24,6 @@
                                             <TextBlock Text="{Binding Path=AddScreenFilterCommand.Caption}" />
                                         </Hyperlink>
                                     </TextBlock>
-                <TextBlock Margin="4,3">
-                                        <Hyperlink Command="{Binding DeleteScreenFilterCommand}">
-                                            <TextBlock Text="{Binding Path=DeleteScreenFilterCommand.Caption}" />
-                                        </Hyperlink>
-                                    </TextBlock>
             </StackPanel>
             <DataGrid ItemsSource="{Binding AccountScreenFilters}" SelectedItem="{Binding SelectedScreenValue}"
                       HorizontalAlignment="Left" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3" CanUserAddRows="False" CanUserDeleteRows="False"

@@ -15,8 +15,8 @@ namespace Samba.Services
         int GetAccountCount();
         void CreateNewTransactionDocument(Account account, AccountTransactionDocumentTemplate documentTemplate, string description, decimal amount);
         decimal GetAccountBalance(int accountId);
-        Dictionary<int, decimal> GetAccountBalances(IEnumerable<int> accountIds);
-        Dictionary<Account, decimal> GetAccountsWithBalances(IEnumerable<AccountTemplate> accountTemplates, Expression<Func<AccountTransactionValue, bool>> filter);
+        Dictionary<string, decimal> GetAccountBalances(IList<int> accountTemplateIds, Expression<Func<AccountTransactionValue, bool>> filter);
+        Dictionary<string, decimal> GetAccountTemplateBalances(IList<int> accountTemplateIds, Expression<Func<AccountTransactionValue, bool>> filter);
         string GetDescription(AccountTransactionDocumentTemplate documentTemplate, Account account);
         decimal GetDefaultAmount(AccountTransactionDocumentTemplate documentTemplate, Account account);
         string GetAccountNameById(int accountId);

@@ -4,6 +4,7 @@ namespace Samba.Domain.Models.Accounts
 {
     public class AccountScreenValue : Value, IOrderable
     {
+        public int AccountTemplateId { get; set; }
         public string AccountTemplateName { get; set; }
         public bool DisplayDetails { get; set; }
 
