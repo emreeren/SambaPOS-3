@@ -134,7 +134,7 @@ namespace Samba.Services
             {
                 Name = "Customer Cash Payment",
                 SourceAccountTemplateId = customerAccountTemplate.Id,
-                TargetAccountTemplateId = paymentTransactionTemplate.Id,
+                TargetAccountTemplateId = paymentAccountTemplate.Id,
                 DefaultTargetAccountId = cashAccount.Id
             };
 
@@ -142,7 +142,7 @@ namespace Samba.Services
             {
                 Name = "Customer Credit Card Payment",
                 SourceAccountTemplateId = customerAccountTemplate.Id,
-                TargetAccountTemplateId = paymentTransactionTemplate.Id,
+                TargetAccountTemplateId = paymentAccountTemplate.Id,
                 DefaultTargetAccountId = creditCardAccount.Id
             };
 
