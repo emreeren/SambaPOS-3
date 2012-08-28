@@ -44,6 +44,17 @@ namespace Samba.Modules.ResourceModule
         private readonly ICacheService _cacheService;
         private readonly Timer _updateTimer;
 
+        private bool _canCreateNewResource;
+        public bool CanCreateNewResource
+        {
+            get { return _canCreateNewResource; }
+            set
+            {
+                _canCreateNewResource = value;
+                RaisePropertyChanged(() => CanCreateNewResource);
+            }
+        }
+
         [ImportingConstructor]
         public ResourceSearchViewModel(IApplicationState applicationState, ICacheService cacheService)
         {
@@ -163,7 +174,7 @@ namespace Samba.Modules.ResourceModule
 
         private bool CanCreateResource(string arg)
         {
-            return SelectedResourceTemplate != null;
+            return SelectedResourceTemplate != null && CanCreateNewResource;
         }
 
         private void OnCreateResource(string obj)
@@ -221,10 +232,11 @@ namespace Samba.Modules.ResourceModule
 
         private void ResetTimer()
         {
+            CanCreateNewResource = true;
             _updateTimer.Stop();
-
             if (!string.IsNullOrEmpty(SearchString))
             {
+                CanCreateNewResource = false;
                 _updateTimer.Start();
             }
             else FoundResources.Clear();
@@ -238,6 +250,7 @@ namespace Samba.Modules.ResourceModule
 
         private void UpdateFoundResources()
         {
+            CanCreateNewResource = true;
             IEnumerable<Resource> result = new List<Resource>();
 
             using (var worker = new BackgroundWorker())
