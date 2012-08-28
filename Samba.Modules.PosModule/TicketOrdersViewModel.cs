@@ -14,13 +14,11 @@ namespace Samba.Modules.PosModule
     [Export]
     public class TicketOrdersViewModel : ObservableObject
     {
-        private readonly IAutomationService _automationService;
         private readonly ITicketService _ticketService;
 
         [ImportingConstructor]
-        public TicketOrdersViewModel(IAutomationService automationService, ITicketService ticketService)
+        public TicketOrdersViewModel(ITicketService ticketService)
         {
-            _automationService = automationService;
             _ticketService = ticketService;
             _orders = new ObservableCollection<OrderViewModel>();
         }
@@ -58,7 +56,7 @@ namespace Samba.Modules.PosModule
             set
             {
                 _selectedTicket = value;
-                _orders = new ObservableCollection<OrderViewModel>(_selectedTicket.Orders.Select(x => new OrderViewModel(x, _automationService)).OrderBy(x => x.Model.CreatedDateTime).ThenBy(x => x.OrderNumber).ThenBy(x => x.OrderKey).ThenBy(x => x.Model.Id));
+                _orders = new ObservableCollection<OrderViewModel>(_selectedTicket.Orders.Select(x => new OrderViewModel(x)).OrderBy(x => x.Model.CreatedDateTime).ThenBy(x => x.OrderNumber).ThenBy(x => x.OrderKey).ThenBy(x => x.Model.Id));
                 _itemsViewSource = new CollectionViewSource { Source = _orders };
                 _itemsViewSource.GroupDescriptions.Add(new PropertyGroupDescription("GroupObject"));
                 RaisePropertyChanged(() => SelectedTicket);
@@ -73,14 +71,14 @@ namespace Samba.Modules.PosModule
             ClearSelectedOrders();
             SelectedTicket.CancelOrders(selectedOrders);
             Orders.Clear();
-            Orders.AddRange(SelectedTicket.Orders.Select(x => new OrderViewModel(x, _automationService)));
+            Orders.AddRange(SelectedTicket.Orders.Select(x => new OrderViewModel(x)));
         }
 
         public void ClearSelectedOrders()
         {
             if (Orders.Any(x => x.Selected))
             {
-                foreach (var item in Orders)
+                foreach (var item in Orders.Where(x => x.Selected))
                     item.NotSelected();
                 var so = new SelectedOrdersData { SelectedOrders = SelectedOrderModels, Ticket = SelectedTicket };
                 so.PublishEvent(EventTopicNames.SelectedOrdersChanged);
@@ -101,7 +99,7 @@ namespace Samba.Modules.PosModule
                 _orders.ToList().ForEach(x => x.NotSelected());
                 foreach (var newItem in newItems)
                 {
-                    _orders.Add(new OrderViewModel(newItem, _automationService) { Selected = true });
+                    _orders.Add(new OrderViewModel(newItem) { Selected = true });
                 }
             }
         }
@@ -111,6 +109,10 @@ namespace Samba.Modules.PosModule
             RaisePropertyChanged(() => TicketBackground);
         }
 
+        public void RefreshSelectedOrders()
+        {
+            SelectedOrders.ToList().ForEach(x => x.RefreshOrder());
+        }
 
         public void UpdateLastSelectedOrder(OrderViewModel lastSelectedOrder)
         {
@@ -122,7 +124,7 @@ namespace Samba.Modules.PosModule
 
         private OrderViewModel Add(Order ti)
         {
-            var result = new OrderViewModel(ti, _automationService);
+            var result = new OrderViewModel(ti);
             Orders.Add(result);
             return result;
         }

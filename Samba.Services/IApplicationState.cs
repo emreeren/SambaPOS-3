@@ -34,6 +34,7 @@ namespace Samba.Services
 
     public interface IApplicationState
     {
+        string NumberPadValue { get; }
         User CurrentLoggedInUser { get; }
         CurrentDepartmentData CurrentDepartment { get; }
         AppScreens ActiveAppScreen { get; }

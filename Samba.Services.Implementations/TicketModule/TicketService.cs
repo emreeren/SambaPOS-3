@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
+using Omu.ValueInjecter;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
@@ -347,7 +348,7 @@ namespace Samba.Services.Implementations.TicketModule
                             TicketTag = ticket.GetTagData()
                         });
 
-            tagData.PublishEvent(EventTopicNames.TagSelectedForSelectedTicket);
+            tagData.PublishEvent(EventTopicNames.TicketTagSelected);
         }
 
         public int GetOpenTicketCount()
@@ -396,7 +397,7 @@ namespace Samba.Services.Implementations.TicketModule
                 tt.TicketTags.Add(tag);
                 workspace.Add(tag);
                 workspace.CommitChanges();
-                Dao.ResetCache();
+                _cacheService.ResetTicketTagCache();
             }
         }
 
@@ -430,6 +431,83 @@ namespace Samba.Services.Implementations.TicketModule
         public IEnumerable<Order> GetOrders(int id)
         {
             return Dao.Query<Order>(x => x.TicketId == id);
+        }
+
+        public void TagOrders(IEnumerable<Order> selectedOrders, OrderTagGroup orderTagGroup, OrderTag orderTag)
+        {
+            foreach (var selectedOrder in selectedOrders)
+            {
+                var result = selectedOrder.ToggleOrderTag(orderTagGroup, orderTag, _applicationState.CurrentLoggedInUser.Id);
+                if (orderTagGroup.SaveFreeTags && !orderTagGroup.OrderTags.Any(x => x.Name == orderTag.Name))
+                {
+                    using (var v = WorkspaceFactory.Create())
+                    {
+                        var og = v.Single<OrderTagGroup>(x => x.Id == orderTagGroup.Id);
+                        if (og != null)
+                        {
+                            var lvTagName = orderTag.Name.ToLower();
+                            var t = v.Single<OrderTag>(x => x.Name.ToLower() == lvTagName);
+                            if (t == null)
+                            {
+                                var ot = new OrderTag();
+                                ot.InjectFrom<CloneInjection>(orderTag);
+                                og.OrderTags.Add(ot);
+                                v.CommitChanges();
+                                _cacheService.ResetOrderTagCache();
+                            }
+                        }
+                    }
+                }
+                _automationService.NotifyEvent(result ? RuleEventNames.OrderTagged : RuleEventNames.OrderUntagged,
+                new
+                {
+                    Order = selectedOrder,
+                    OrderTagName = orderTagGroup.Name,
+                    OrderTagValue = orderTag.Name
+                });
+            }
+        }
+
+        public void UntagOrders(IEnumerable<Order> selectedOrders, OrderTagGroup orderTagGroup, OrderTag orderTag)
+        {
+            foreach (var selectedOrder in selectedOrders)
+            {
+                selectedOrder.UntagIfTagged(orderTagGroup, orderTag);
+                _automationService.NotifyEvent(RuleEventNames.OrderUntagged,
+                new
+                {
+                    Order = selectedOrder,
+                    OrderTagName = orderTagGroup.Name,
+                    OrderTagValue = orderTag.Name
+                });
+            }
+        }
+
+        public bool CanDeselectOrders(IEnumerable<Order> selectedOrders)
+        {
+            return selectedOrders.All(CanDeselectOrder);
+        }
+
+        public bool CanDeselectOrder(Order order)
+        {
+            if (!order.DecreaseInventory) return true;
+            var ots = _cacheService.GetOrderTagGroupsForItem(order.MenuItemId);
+            if (order.Locked) ots = ots.Where(x => !string.IsNullOrEmpty(x.ButtonHeader));
+            return ots.Where(x => x.MinSelectedItems > 0).All(orderTagGroup => order.OrderTagValues.Count(x => x.OrderTagGroupId == orderTagGroup.Id) >= orderTagGroup.MinSelectedItems);
+        }
+
+        public OrderTagGroup GetMandantoryOrderTagGroup(Order order)
+        {
+            var ots = _cacheService.GetOrderTagGroupsForItem(order.MenuItemId);
+            if (order.Locked) ots = ots.Where(x => !string.IsNullOrEmpty(x.ButtonHeader));
+            return ots.Where(x => x.MinSelectedItems > 0).FirstOrDefault(orderTagGroup => order.OrderTagValues.Count(x => x.OrderTagGroupId == orderTagGroup.Id) < orderTagGroup.MinSelectedItems);
+        }
+
+        public bool CanCloseTicket(Ticket ticket)
+        {
+            if (!ticket.Locked)
+                return CanDeselectOrders(ticket.Orders);
+            return true;
         }
 
         public Order AddOrder(Ticket ticket, int menuItemId, decimal quantity, string portionName, OrderTagTemplate template)

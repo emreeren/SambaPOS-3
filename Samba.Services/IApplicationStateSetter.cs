@@ -10,6 +10,7 @@ namespace Samba.Services
         void SetCurrentApplicationScreen(AppScreens appScreen);
         void SetSelectedResourceScreen(ResourceScreen resourceScreen);
         void SetApplicationLocked(bool isLocked);
+        void SetNumberpadValue(string value);
         void ResetWorkPeriods();
     }
 }

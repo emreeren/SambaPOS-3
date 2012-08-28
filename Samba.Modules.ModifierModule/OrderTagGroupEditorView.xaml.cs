@@ -17,5 +17,11 @@ namespace Samba.Modules.ModifierModule
             DataContext = viewModel;
             InitializeComponent();
         }
+
+        private void TextBox_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var t = sender as TextBox;
+            if (t != null) t.BackgroundFocus();
+        }
     }
 }

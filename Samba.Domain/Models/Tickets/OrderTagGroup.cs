@@ -17,7 +17,10 @@ namespace Samba.Domain.Models.Tickets
         public int ColumnCount { get; set; }
         public int ButtonHeight { get; set; }
         public int MaxSelectedItems { get; set; }
+        public int MinSelectedItems { get; set; }
         public bool AddTagPriceToOrderPrice { get; set; }
+        public bool FreeTagging { get; set; }
+        public bool SaveFreeTags { get; set; }
 
         private readonly IList<OrderTag> _orderTags;
         public virtual IList<OrderTag> OrderTags

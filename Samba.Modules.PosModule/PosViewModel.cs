@@ -186,15 +186,20 @@ namespace Samba.Modules.PosModule
                     CreateTicket();
                     break;
                 case EventTopicNames.ActivatePosView:
-                    DisplayTickets();
-                    DisplayMenuScreen();
+                    if (_ticketService.CanDeselectOrders(_ticketOrdersViewModel.SelectedOrderModels))
+                    {
+                        DisplayTickets();
+                        DisplayMenuScreen();
+                        _ticketViewModel.ResetTicket();
+                    }
                     break;
                 case EventTopicNames.RefreshSelectedTicket:
                     DisplaySingleTicket();
                     break;
                 case EventTopicNames.CloseTicketRequested:
-                    CloseTicket();
-                    DisplayMenuScreen();
+                        CloseTicket();
+                        DisplayMenuScreen();
+
                     break;
             }
         }

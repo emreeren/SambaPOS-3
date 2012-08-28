@@ -310,6 +310,8 @@ namespace Samba.Services.Implementations
             return PaymentTemplates.Single(x => x.Id == paymentTemplateId);
         }
 
+
+
         public int GetResourceTemplateIdByEntityName(string entityName)
         {
             var rt = ResourceTemplates.FirstOrDefault(x => x.EntityName == entityName);
@@ -344,6 +346,16 @@ namespace Samba.Services.Implementations
         public ScreenMenu GetScreenMenu(int screenMenuId)
         {
             return ScreenMenus.Single(x => x.Id == screenMenuId);
+        }
+
+        public void ResetOrderTagCache()
+        {
+            _orderTagGroups = null;
+        }
+
+        public void ResetTicketTagCache()
+        {
+            _ticketTagGroups = null;
         }
 
         public override void Reset()

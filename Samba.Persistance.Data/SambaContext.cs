@@ -108,7 +108,7 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<Department>().HasMany(p => p.ResourceScreens).WithMany();
             modelBuilder.Entity<ResourceScreen>().HasMany(p => p.ScreenItems).WithMany();
             modelBuilder.Entity<CalculationSelector>().HasMany(x => x.CalculationTemplates).WithMany();
-            modelBuilder.Entity<AccountTransactionDocumentTemplate>().HasMany(x => x.AccountTransactionDocumentTemplateMaps).WithMany();
+            modelBuilder.Entity<AccountTransactionDocumentTemplate>().HasMany(x => x.TransactionTemplates).WithMany();
 
             modelBuilder.Entity<AccountTransaction>().Ignore(p => p.SourceTransactionValue);
             modelBuilder.Entity<AccountTransaction>().Ignore(p => p.TargetTransactionValue);

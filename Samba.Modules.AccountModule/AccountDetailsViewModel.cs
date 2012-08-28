@@ -122,7 +122,7 @@ namespace Samba.Modules.AccountModule
             AccountDetails.Clear();
             AccountSummaries.Clear();
 
-            var transactions = Dao.Query(GetCurrentRange(x => x.AccountId == SelectedAccount.Id)).OrderBy(x=>x.Date);
+            var transactions = Dao.Query(GetCurrentRange(x => x.AccountId == SelectedAccount.Id)).OrderBy(x => x.Date);
             AccountDetails.AddRange(transactions.Select(x => new AccountDetailViewModel(x)));
 
             if (FilterType != Resources.All)
@@ -160,7 +160,8 @@ namespace Samba.Modules.AccountModule
             if (obj.Topic == EventTopicNames.DisplayAccountTransactions)
             {
                 var account = _accountService.GetAccountById(obj.Value.SelectedEntity.AccountId);
-                _currentOperationRequest = obj.Value;
+                if (obj.Value != null && !string.IsNullOrEmpty(obj.Value.GetExpectedEvent()))
+                    _currentOperationRequest = obj.Value;
                 SelectedAccount = account;//= new ResourceSearchResultViewModel(obj.Value.SelectedEntity, _cacheService.GetResourceTemplateById(obj.Value.SelectedEntity.AccountTemplateId));
             }
         }

@@ -44,7 +44,7 @@ namespace Samba.Presentation
             EventServiceFactory.EventService.GetEvent<GenericEvent<User>>().Subscribe(x =>
             {
                 if (x.Topic == EventTopicNames.UserLoggedIn) UserLoggedIn(x.Value);
-                if (x.Topic == EventTopicNames.UserLoggedOut) UserLoggedOut(x.Value);
+                if (x.Topic == EventTopicNames.UserLoggedOut) {UserLoggedOut(x.Value);}
             });
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<UserControl>>().Subscribe(
@@ -52,9 +52,8 @@ namespace Samba.Presentation
                 {
                     if (x.Topic == EventTopicNames.DashboardClosed)
                     {
+                        SerialPortService.ResetCache();
                         EventServiceFactory.EventService.PublishEvent(EventTopicNames.ResetCache, true);
-                        //todo fix
-                        AppServices.ResetCache();
                     }
 
                 });

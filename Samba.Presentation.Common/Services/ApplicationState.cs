@@ -41,6 +41,7 @@ namespace Samba.Presentation.Common.Services
         public Terminal CurrentTerminal { get { return _terminal ?? (_terminal = GetCurrentTerminal()); } set { _terminal = value; } }
 
         private User _currentLoggedInUser;
+
         public User CurrentLoggedInUser
         {
             get { return _currentLoggedInUser ?? User.Nobody; }
@@ -48,6 +49,7 @@ namespace Samba.Presentation.Common.Services
         }
 
         private IEnumerable<WorkPeriod> _lastTwoWorkPeriods;
+
         public IEnumerable<WorkPeriod> LastTwoWorkPeriods
         {
             get { return _lastTwoWorkPeriods ?? (_lastTwoWorkPeriods = Dao.Last<WorkPeriod>(2)); }
@@ -104,6 +106,16 @@ namespace Samba.Presentation.Common.Services
         {
             _isLocked = isLocked;
             (this as IApplicationState).PublishEvent(EventTopicNames.ApplicationLockStateChanged);
+        }
+
+        public void SetNumberpadValue(string value)
+        {
+            _settingService.ReadLocalSetting("NUMBERPAD").StringValue = value;
+        }
+
+        public string NumberPadValue
+        {
+            get { return _settingService.ReadLocalSetting("NUMBERPAD").StringValue; }
         }
 
         private Terminal GetCurrentTerminal()

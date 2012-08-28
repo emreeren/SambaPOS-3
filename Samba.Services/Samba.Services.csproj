@@ -102,7 +102,6 @@
     <Compile Include="ITriggerService.cs" />
     <Compile Include="IUserService.cs" />
     <Compile Include="IWorkPeriodService.cs" />
-    <Compile Include="MainDataContext.cs" />
     <Compile Include="MessagingService.cs" />
     <Compile Include="MethodQueue.cs" />
     <Compile Include="PermissionNames.cs" />

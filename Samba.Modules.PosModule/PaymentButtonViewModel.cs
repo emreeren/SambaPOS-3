@@ -6,6 +6,7 @@ using System.Text;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
+using Samba.Presentation.Common.Services;
 using Samba.Presentation.ViewModels;
 using Samba.Services;
 using Samba.Services.Common;
@@ -76,6 +77,7 @@ namespace Samba.Modules.PosModule
 
         private void OnMakeFastPaymentExecute(PaymentTemplate obj)
         {
+            if (!CanCloseTicket()) return;
             _ticketService.PayTicket(SelectedTicket, obj);
             CloseTicket();
         }
@@ -92,7 +94,8 @@ namespace Samba.Modules.PosModule
 
         private void OnMakePaymentExecute(string obj)
         {
-            SelectedTicket.PublishEvent(EventTopicNames.MakePayment);
+            if (CanCloseTicket())
+                SelectedTicket.PublishEvent(EventTopicNames.MakePayment);
         }
 
         private void OnCloseTicketExecute(string obj)
@@ -102,7 +105,29 @@ namespace Samba.Modules.PosModule
 
         private void CloseTicket()
         {
-            EventServiceFactory.EventService.PublishEvent(EventTopicNames.CloseTicketRequested);
+            if (CanCloseTicket())
+                EventServiceFactory.EventService.PublishEvent(EventTopicNames.CloseTicketRequested);
+        }
+
+        private bool CanCloseTicket()
+        {
+            if (!_ticketService.CanCloseTicket(SelectedTicket))
+            {
+                foreach (var order in SelectedTicket.Orders)
+                {
+                    var ot = _ticketService.GetMandantoryOrderTagGroup(order);
+                    if (ot != null)
+                    {
+                        InteractionService.UserIntraction.GiveFeedback(
+                            string.Format("Select at least {0} {1} tag{2} for {3}",
+                                          ot.MinSelectedItems, ot.Name,
+                                          ot.MinSelectedItems == 1 ? "" : Resources.PluralCurrencySuffix,
+                                          order.MenuItemName));
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
     }
 }

@@ -26,6 +26,7 @@ namespace Samba.Domain.Models.Tickets
         public bool SubValue { get; set; }
         internal bool NewTag { get; set; }
         public string OrderKey { get; set; }
+        public bool FreeTag { get; set; }
 
         public void UpdatePrice(bool taxIncluded, decimal taxRate, decimal orderTagPrice)
         {
@@ -56,7 +57,7 @@ namespace Samba.Domain.Models.Tickets
         {
             if (string.IsNullOrEmpty(name)) return "";
             if (Name.Length < 3) return name;
-            return name.Contains(" ") ? string.Join("", name.Split(' ').Select(x => x.ElementAt(0))) : Name.Substring(0, 2);
+            return name.Contains(" ") ? string.Join("", name.Split(' ').Select(x => char.IsNumber(x.ElementAt(0)) ? x : x.ElementAt(0).ToString())) : Name.Substring(0, 2);
         }
     }
 }

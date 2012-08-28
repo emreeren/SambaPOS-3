@@ -58,9 +58,8 @@
         public const string ExecuteEvent = "ExecuteEvent";
         public const string UpdateDepartment = "Update Department";
         public const string PopupClicked = "Popup Clicked";
-        public const string DisplayTicketExplorer = "Display Ticket Explorer";
-        public const string TagSelectedForSelectedTicket = "Tag Selected";
         public const string SelectTicketTag = "Select Ticket Tag";
+        public const string TicketTagSelected="Ticket Tag Selected";
         public const string SelectOrderTag = "Select Order Tag";
         public const string SelectOrderState = "Select Order State";
         public const string LogData = "Log Data";

@@ -10,13 +10,6 @@ namespace Samba.Services
     {
         public static Dispatcher MainDispatcher { get; set; }
 
-        private static MainDataContext _mainDataContext;
-        public static MainDataContext MainDataContext
-        {
-            get { return _mainDataContext ?? (_mainDataContext = new MainDataContext()); }
-            set { _mainDataContext = value; }
-        }
-
         private static MessagingService _messagingService;
         public static MessagingService MessagingService
         {
@@ -43,12 +36,6 @@ namespace Samba.Services
         public static void Log(string message)
         {
             Logger.Log(message);
-        }
-
-        public static void ResetCache()
-        {
-            MainDataContext.ResetCache();
-            SerialPortService.ResetCache();
         }
     }
 }

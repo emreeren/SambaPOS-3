@@ -4214,6 +4214,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Min Selected Items.
+        /// </summary>
+        public static string MinSelectedItems {
+            get {
+                return ResourceManager.GetString("MinSelectedItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Minute.
         /// </summary>
         public static string Minute {

@@ -27,9 +27,11 @@ namespace Samba.Modules.ModifierModule
             CloseCommand = new CaptionCommand<string>(Resources.Close, OnCloseCommandExecuted);
             PortionSelectedCommand = new DelegateCommand<MenuItemPortion>(OnPortionSelected);
             OrderTagSelectedCommand = new DelegateCommand<OrderTagButtonViewModel>(OnOrderTagSelected);
+            FreeTagSelectedCommand = new DelegateCommand<OrderTagGroupViewModel>(OnFreeTagSelected);
             SelectedItemPortions = new ObservableCollection<MenuItemPortion>();
             OrderTagGroups = new ObservableCollection<OrderTagGroupViewModel>();
         }
+
 
         private void ResetValues(Ticket selectedTicket)
         {
@@ -61,6 +63,7 @@ namespace Samba.Modules.ModifierModule
 
         public ICaptionCommand CloseCommand { get; set; }
         public CaptionCommand<string> ToggleRemoveModeCommand { get; set; }
+        public DelegateCommand<OrderTagGroupViewModel> FreeTagSelectedCommand { get; set; }
 
         public DelegateCommand<MenuItemPortion> PortionSelectedCommand { get; set; }
         public ObservableCollection<MenuItemPortion> SelectedItemPortions { get; set; }
@@ -108,11 +111,36 @@ namespace Samba.Modules.ModifierModule
                                        Ticket = SelectedTicket
                                    };
 
-            //orderTagData.PublishEvent(EventTopicNames.OrderTagSelected, true);
             orderTagData.PublishEvent(RemoveMode ? EventTopicNames.OrderTagRemoved : EventTopicNames.OrderTagSelected, true);
             RemoveMode = false;
             OrderTagGroups.Where(x => x.OrderTags.Contains(orderTag)).ToList().ForEach(x => x.Refresh());
         }
+
+        private void OnFreeTagSelected(OrderTagGroupViewModel obj)
+        {
+            if (string.IsNullOrEmpty(obj.FreeTagName) || string.IsNullOrEmpty(obj.FreeTagName.Trim())) return;
+            if (obj.OrderTags.Any(x => x.Name.ToLower() == obj.FreeTagName.ToLower()))
+            {
+                var b = obj.OrderTags.First(x => x.Name == obj.FreeTagName.ToLower());
+                OnOrderTagSelected(b);
+                return;
+            }
+
+            var orderTagData = new OrderTagData
+            {
+                OrderTagGroup = obj.Model,
+                SelectedOrderTag = new OrderTag { Name = obj.FreeTagName, Price = obj.FreeTagPrice },
+                Ticket = SelectedTicket
+            };
+
+            obj.FreeTagName = "";
+            obj.FreeTagPriceStr = "0";
+            obj.CreateOrderTagButton(orderTagData);
+            orderTagData.PublishEvent(RemoveMode ? EventTopicNames.OrderTagRemoved : EventTopicNames.OrderTagSelected, true);
+            RemoveMode = false;
+            OrderTagGroups.Where(x => x.OrderTags.Any(y => y.Name == obj.FreeTagName)).ToList().ForEach(x => x.Refresh());
+        }
+
 
         private void SetSelectedTicket(Ticket ticketViewModel)
         {

@@ -69,7 +69,6 @@ namespace Samba.Modules.PosModule
         public ObservableCollection<ICaptionCommand> CustomOrderCommands { get { return PresentationServices.OrderCommands; } }
         public ObservableCollection<ICaptionCommand> CustomTicketCommands { get { return PresentationServices.TicketCommands; } }
 
-
         private Ticket _selectedTicket;
         public Ticket SelectedTicket
         {
@@ -116,6 +115,7 @@ namespace Samba.Modules.PosModule
         public bool IsTicketSelected { get { return SelectedTicket != Ticket.Empty; } }
 
         public OrderViewModel LastSelectedOrder { get; set; }
+        public bool ClearSelection { get; set; }
 
         private IEnumerable<CommandContainerButton> _automationCommands;
         public IEnumerable<CommandContainerButton> AutomationCommands
@@ -254,7 +254,6 @@ namespace Samba.Modules.PosModule
             }
         }
 
-
         private void OnOrderStateEvent(EventParameters<OrderStateData> obj)
         {
             if (obj.Topic == EventTopicNames.OrderStateSelected)
@@ -271,16 +270,19 @@ namespace Samba.Modules.PosModule
             if (obj.Topic == EventTopicNames.OrderTagSelected)
             {
                 _ticketOrdersViewModel.FixSelectedItems();
-                _ticketOrdersViewModel.SelectedOrders.ToList().ForEach(x =>
-                    x.ToggleOrderTag(obj.Value.OrderTagGroup, obj.Value.SelectedOrderTag, _applicationState.CurrentLoggedInUser.Id));
+                _ticketService.TagOrders(_ticketOrdersViewModel.SelectedOrderModels, obj.Value.OrderTagGroup, obj.Value.SelectedOrderTag);
                 if (obj.Value.OrderTagGroup.MaxSelectedItems == 1)
                     ClearSelectedItems();
+                _ticketOrdersViewModel.RefreshSelectedOrders();
+                ClearSelection = true;
                 RefreshVisuals();
             }
+
             if (obj.Topic == EventTopicNames.OrderTagRemoved)
             {
-                _ticketOrdersViewModel.SelectedOrders.ToList().ForEach(x =>
-                    x.UnTag(obj.Value.OrderTagGroup, obj.Value.SelectedOrderTag));
+                _ticketService.UntagOrders(_ticketOrdersViewModel.SelectedOrderModels, obj.Value.OrderTagGroup,
+                                           obj.Value.SelectedOrderTag);
+                _ticketOrdersViewModel.RefreshSelectedOrders();
                 RefreshVisuals();
             }
         }
@@ -291,13 +293,6 @@ namespace Samba.Modules.PosModule
             if (obj.Topic == EventTopicNames.UnlockTicketRequested)
             {
                 OnRemoveTicketLock("");
-            }
-
-            if (obj.Topic == EventTopicNames.ActivatePosView)
-            {
-                RefreshVisuals();
-                _ticketInfo.Refresh();
-                RefreshSelectedItems();
             }
 
             if (obj.Topic == EventTopicNames.RefreshSelectedTicket)
@@ -326,7 +321,7 @@ namespace Samba.Modules.PosModule
 
         private void OnTagSelected(EventParameters<TicketTagData> obj)
         {
-            if (obj.Topic == EventTopicNames.TagSelectedForSelectedTicket)
+            if (obj.Topic == EventTopicNames.TicketTagSelected)
             {
                 //if (obj.Value.TicketTagGroup != null && obj.Value.TicketTagGroup.Action == 1 && CanCloseTicket(""))
                 //    CloseTicketCommand.Execute("");
@@ -342,6 +337,23 @@ namespace Samba.Modules.PosModule
         {
             if (obj.Topic == EventTopicNames.SelectedOrdersChanged)
             {
+                if (!obj.Value.Selected && !_ticketService.CanDeselectOrder(obj.Value.Model))
+                {
+                    obj.Value.ToggleSelection();
+                    return;
+                }
+
+                if (ClearSelection)
+                {
+                    ClearSelection = false;
+                    if (obj.Value != LastSelectedOrder)
+                    {
+                        ClearSelectedItems();
+                        obj.Value.ToggleSelection();
+                        return;
+                    }
+                }
+
                 LastSelectedOrder = obj.Value.Selected ? obj.Value : null;
                 if (SelectedOrders.Count() == 0) LastSelectedOrder = null;
                 _ticketOrdersViewModel.UpdateLastSelectedOrder(LastSelectedOrder);
@@ -421,7 +433,7 @@ namespace Samba.Modules.PosModule
         private void OnChangePrice(string obj)
         {
             decimal price;
-            decimal.TryParse(AppServices.MainDataContext.NumeratorValue, out price);
+            decimal.TryParse(_applicationState.NumberPadValue, out price);
             if (price <= 0)
             {
                 InteractionService.UserIntraction.GiveFeedback(Resources.ForChangingPriceTypeAPrice);
@@ -550,17 +562,16 @@ namespace Samba.Modules.PosModule
             SelectedTicketTitle = _totals.Title.Trim() == "#" ? Resources.NewTicket : _totals.Title;
         }
 
-        //private bool CanSelectAccount(string arg)
-        //{
-        //    return (SelectedTicket == null ||
-        //        (SelectedTicket.Orders.Count != 0
-        //        && !SelectedTicket.IsLocked
-        //        && SelectedTicket.Model.CanSubmit));
-        //}
-
         public bool IsTaggedWith(string tagGroup)
         {
             return !string.IsNullOrEmpty(SelectedTicket.GetTagValue(tagGroup));
+        }
+
+        public void ResetTicket()
+        {
+            RefreshVisuals();
+            _ticketInfo.Refresh();
+            ClearSelectedItems();
         }
 
         public void RefreshSelectedTicket()

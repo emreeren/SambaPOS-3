@@ -40,9 +40,11 @@ namespace Samba.Modules.TicketModule
         public int ButtonHeight { get { return Model.ButtonHeight; } set { Model.ButtonHeight = value; } }
         public int ColumnCount { get { return Model.ColumnCount; } set { Model.ColumnCount = value; } }
         public int MaxSelectedItems { get { return Model.MaxSelectedItems; } set { Model.MaxSelectedItems = value; } }
+        public int MinSelectedItems { get { return Model.MinSelectedItems; } set { Model.MinSelectedItems = value; } }
+        public bool FreeTagging { get { return Model.FreeTagging; } set { Model.FreeTagging = value; } }
+        public bool SaveFreeTags { get { return Model.SaveFreeTags; } set { Model.SaveFreeTags = value; } }
 
         public OrderTagViewModel SelectedOrderTag { get; set; }
-
 
         private void OnSortPropertyExecuted(string obj)
         {

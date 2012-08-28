@@ -392,7 +392,7 @@ namespace Samba.Presentation.ViewModels
                         var tagValue = x.Value.GetAsString("TagValue");
                         ticket.SetTagValue(tagName, tagValue);
                         var tagData = new TicketTagData { TagName = tagName, TagValue = tagValue };
-                        tagData.PublishEvent(EventTopicNames.TagSelectedForSelectedTicket);
+                        tagData.PublishEvent(EventTopicNames.TicketTagSelected);
                     }
                 }
 

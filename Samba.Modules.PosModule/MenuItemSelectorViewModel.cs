@@ -46,11 +46,11 @@ namespace Samba.Modules.PosModule
 
         public string NumeratorValue
         {
-            get { return AppServices.MainDataContext.NumeratorValue; }
+            get { return _applicationState.NumberPadValue ?? ""; }
             set
             {
-                AppServices.MainDataContext.NumeratorValue = value;
-                FilterMenuItems(AppServices.MainDataContext.NumeratorValue);
+                _applicationStateSetter.SetNumberpadValue(value);
+                FilterMenuItems(_applicationState.NumberPadValue);
                 RaisePropertyChanged(() => NumeratorValue);
             }
         }
@@ -67,14 +67,17 @@ namespace Samba.Modules.PosModule
         public string CurrentTag { get; set; }
 
         private readonly IApplicationState _applicationState;
+        private readonly IApplicationStateSetter _applicationStateSetter;
         private readonly IMenuService _menuService;
         private readonly ISettingService _settingService;
         private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public MenuItemSelectorViewModel(IApplicationState applicationState, IMenuService menuService, ISettingService settingService, ICacheService cacheService)
+        public MenuItemSelectorViewModel(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter, IMenuService menuService,
+            ISettingService settingService, ICacheService cacheService)
         {
             _applicationState = applicationState;
+            _applicationStateSetter = applicationStateSetter;
             _menuService = menuService;
             _settingService = settingService;
             _cacheService = cacheService;
@@ -146,22 +149,22 @@ namespace Samba.Modules.PosModule
 
         private void OnFindTicketExecute(string obj)
         {
-            if (string.IsNullOrEmpty(NumeratorValue))
-            {
-                _applicationState.CurrentWorkPeriod.PublishEvent(EventTopicNames.DisplayTicketExplorer);
-            }
-            else
-            {
-                //var ticket = _ticketService.OpenTicketByTicketNumber(NumeratorValue);
-                //if (ticket != null)
-                //{
-                //    if (!_userService.IsUserPermittedFor(PermissionNames.DisplayOldTickets) && _applicationState.CurrentTicket.Date < _applicationState.CurrentWorkPeriod.StartDate)
-                //        _ticketService.CloseTicket(ticket);
-                //    else
-                //        EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
-                //}
-                NumeratorValue = "";
-            }
+            //if (string.IsNullOrEmpty(NumeratorValue))
+            //{
+            //    _applicationState.CurrentWorkPeriod.PublishEvent(EventTopicNames.DisplayTicketExplorer);
+            //}
+            //else
+            //{
+            //    //var ticket = _ticketService.OpenTicketByTicketNumber(NumeratorValue);
+            //    //if (ticket != null)
+            //    //{
+            //    //    if (!_userService.IsUserPermittedFor(PermissionNames.DisplayOldTickets) && _applicationState.CurrentTicket.Date < _applicationState.CurrentWorkPeriod.StartDate)
+            //    //        _ticketService.CloseTicket(ticket);
+            //    //    else
+            //    //        EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
+            //    //}
+            //    NumeratorValue = "";
+            //}
         }
 
         private bool CanFindTicket(string arg)

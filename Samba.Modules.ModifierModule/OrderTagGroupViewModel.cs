@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Samba.Domain.Models.Tickets;
+using Samba.Localization.Properties;
 using Samba.Presentation.Common;
+using Samba.Presentation.ViewModels;
+using Samba.Services.Common;
 
 namespace Samba.Modules.ModifierModule
 {
@@ -25,6 +28,31 @@ namespace Samba.Modules.ModifierModule
 
         public OrderTagGroup Model { get; private set; }
         public string Name { get { return Model.Name; } }
+        public bool FreeTagging { get { return Model.FreeTagging; } }
+
+        private string _freeTagName;
+        public string FreeTagName
+        {
+            get { return _freeTagName; }
+            set { _freeTagName = value; RaisePropertyChanged(() => FreeTagName); }
+        }
+
+        public string FreeTagPriceStr
+        {
+            get { return FreeTagPrice.ToString(); }
+            set { FreeTagPrice = Convert.ToDecimal(value); RaisePropertyChanged(() => FreeTagPriceStr); }
+        }
+
+        private decimal _freeTagPrice;
+        public decimal FreeTagPrice
+        {
+            get { return _freeTagPrice; }
+            set
+            {
+                _freeTagPrice = value;
+                RaisePropertyChanged(() => FreeTagPrice);
+            }
+        }
 
         private static IEnumerable<OrderTagButtonViewModel> GetOrderTags(IEnumerable<Order> selectedOrders, OrderTagGroup baseModel)
         {
@@ -36,6 +64,14 @@ namespace Samba.Modules.ModifierModule
             foreach (var orderTagButtonViewModel in OrderTags)
             {
                 orderTagButtonViewModel.Refresh();
+            }
+        }
+
+        public void CreateOrderTagButton(OrderTagData orderTagData)
+        {
+            if (!OrderTags.Any(x => x.Name == orderTagData.SelectedOrderTag.Name))
+            {
+                OrderTags.Add(new OrderTagButtonViewModel(_selectedOrders, orderTagData.OrderTagGroup, orderTagData.SelectedOrderTag));
             }
         }
     }

@@ -7,19 +7,15 @@ using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
-using Samba.Services;
 using Samba.Services.Common;
 
 namespace Samba.Modules.PosModule
 {
     public class OrderViewModel : ObservableObject
     {
-        private readonly IAutomationService _automationService;
-
-        public OrderViewModel(Order model, IAutomationService automationService)
+        public OrderViewModel(Order model)
         {
             _model = model;
-            _automationService = automationService;
             ResetSelectedQuantity();
             ItemSelectedCommand = new DelegateCommand<OrderViewModel>(OnItemSelected);
             UpdateItemColor();
@@ -165,7 +161,6 @@ namespace Samba.Modules.PosModule
 
         public bool IsSuborderTagVisible { get { return !string.IsNullOrEmpty(Model.SubOrderTags); } }
 
-
         public bool IsLocked { get { return Model.Locked; } }
 
         private bool _isLastSelected;
@@ -236,47 +231,14 @@ namespace Samba.Modules.PosModule
             RaisePropertyChanged(() => TotalPrice);
         }
 
-        public void ToggleOrderTag(OrderTagGroup orderTagGroup, OrderTag orderTag, int userId)
-        {
-            var result = _model.ToggleOrderTag(orderTagGroup, orderTag, userId);
-            _automationService.NotifyEvent(result ? RuleEventNames.OrderTagged : RuleEventNames.OrderUntagged,
-            new
-            {
-                Order = Model,
-                OrderTagName = orderTagGroup.Name,
-                OrderTagValue = orderTag.Name
-            });
-
-            RefreshProperties();
-            RaisePropertyChanged(() => TotalPrice);
-            RaisePropertyChanged(() => Quantity);
-            RaisePropertyChanged(() => Description);
-            RaisePropertyChanged(() => FontWeight);
-            RaisePropertyChanged(() => IsLocked);
-        }
-
-        public void UnTag(OrderTagGroup orderTagGroup, OrderTag orderTag)
-        {
-            _model.UntagIfTagged(orderTagGroup, orderTag);
-            _automationService.NotifyEvent(RuleEventNames.OrderUntagged,
-            new
-            {
-                Order = Model,
-                OrderTagName = orderTagGroup.Name,
-                OrderTagValue = orderTag.Name
-            });
-
-            RefreshProperties();
-            RaisePropertyChanged(() => TotalPrice);
-            RaisePropertyChanged(() => Quantity);
-            RaisePropertyChanged(() => Description);
-            RaisePropertyChanged(() => FontWeight);
-            RaisePropertyChanged(() => IsLocked);
-        }
-
         public void UpdateOrderState(OrderStateGroup orderStateGroup, OrderState selectedOrderState, int userId)
         {
             Model.UpdateOrderState(orderStateGroup, selectedOrderState, userId);
+            RefreshOrder();
+        }
+
+        public void RefreshOrder()
+        {
             RefreshProperties();
             RaisePropertyChanged(() => TotalPrice);
             RaisePropertyChanged(() => Quantity);

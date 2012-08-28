@@ -73,5 +73,11 @@ namespace Samba.Services
         IList<ITicketExplorerFilter> CreateTicketExplorerFilters();
         void UpdateAccountOfOpenTickets(Resource resource);
         IEnumerable<Order> GetOrders(int id);
+        void TagOrders(IEnumerable<Order> selectedOrders, OrderTagGroup orderTagGroup, OrderTag orderTag);
+        void UntagOrders(IEnumerable<Order> selectedOrders, OrderTagGroup orderTagGroup, OrderTag orderTag);
+        bool CanDeselectOrders(IEnumerable<Order> selectedOrders);
+        bool CanDeselectOrder(Order order);
+        OrderTagGroup GetMandantoryOrderTagGroup(Order order);
+        bool CanCloseTicket(Ticket ticket);
     }
 }

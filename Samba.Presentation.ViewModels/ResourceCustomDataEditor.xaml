@@ -1,7 +1,6 @@
 ﻿<UserControl x:Class="Samba.Presentation.ViewModels.ResourceCustomDataEditor"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common" 
              xmlns:ViewModels="clr-namespace:Samba.Presentation.ViewModels">
     <UserControl.Resources>
@@ -12,7 +11,7 @@
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" MinWidth="100" Content="{Binding Name}"/>
-                <TextBox Margin="0,0,2,2" Grid.Column="1" MinWidth="200" Text="{Binding Value}"/>
+                <TextBox Margin="0,0,2,2" Grid.Column="1" MinWidth="200" Text="{Binding Value,UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
         </DataTemplate>
 
@@ -23,7 +22,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Content="{Binding Name}"/>
-                <UIControls:FilteredTextBox Margin="0,0,2,2" Grid.Column="1" Type="Number" MinWidth="200" Text="{Binding Value}"/>
+                <UIControls:FilteredTextBox Margin="0,0,2,2" Grid.Column="1" Type="Number" MinWidth="200" Text="{Binding Value,UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
         </DataTemplate>
 
@@ -34,7 +33,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Content="{Binding Name}"/>
-                <TextBox Margin="0,0,2,2" Grid.Column="1" MinWidth="200" Text="{Binding Value}" AcceptsReturn="True" MinHeight="40"/>
+                <TextBox Margin="0,0,2,2" Grid.Column="1" MinWidth="200" Text="{Binding Value,UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" MinHeight="40"/>
             </Grid>
         </DataTemplate>
 
@@ -58,7 +57,7 @@
                 <Label Grid.Column="0" Content="{Binding Name}"/>
                 <UIControls:MaskedTextBox Margin="0,0,2,2" Grid.Column="1" MinWidth="200" 
                     PromptChar=" "
-                    UnmaskedText="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
+                    UnmaskedText="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
                     InputMask="{Binding CustomField.EditingFormat}"/>
             </Grid>
         </DataTemplate>
