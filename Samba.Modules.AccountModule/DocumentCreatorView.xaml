@@ -18,6 +18,16 @@
             <TextBlock FontWeight="Bold" Margin="5,0" Text="{Binding AccountName}"/>
             <Label Margin="0,0,2,2" MinWidth="100" Content="{LocText Description,Suffix=':'}" />
             <TextBox Name="DescriptionEdit" HorizontalAlignment="Left" MinWidth="300" Margin="5,0" Text="{Binding Description,UpdateSourceTrigger=PropertyChanged}" />
+            <ItemsControl ItemsSource="{Binding AccountSelectors}" Focusable="False">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <Label Margin="0,0,2,2" Content="{Binding TemplateName}"/>
+                            <ComboBox Margin="5,0" ItemsSource="{Binding AccountNames}" Text="{Binding AccountName}" IsEditable="True" HorizontalAlignment="Left" MinWidth="150"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
             <Label Margin="0,0,2,2" MinWidth="100" Content="{LocText Amount,Suffix=':'}" />
             <UIControls:FilteredTextBox Margin="5,0" Type="Number" HorizontalAlignment="Left" MinWidth="100" Text="{Binding Amount,UpdateSourceTrigger=PropertyChanged}" />
         </StackPanel>

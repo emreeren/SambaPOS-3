@@ -13,7 +13,7 @@ namespace Samba.Services
     public interface IAccountService
     {
         int GetAccountCount();
-        void CreateNewTransactionDocument(Account account, AccountTransactionDocumentTemplate documentTemplate, string description, decimal amount);
+        void CreateNewTransactionDocument(Account account, AccountTransactionDocumentTemplate documentTemplate, string description, decimal amount, IEnumerable<Account> accounts);
         decimal GetAccountBalance(int accountId);
         Dictionary<Account, decimal> GetAccountBalances(IList<int> accountTemplateIds, Expression<Func<AccountTransactionValue, bool>> filter);
         Dictionary<AccountTemplate, decimal> GetAccountTemplateBalances(IList<int> accountTemplateIds, Expression<Func<AccountTransactionValue, bool>> filter);

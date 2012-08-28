@@ -22,10 +22,10 @@
         <FlexButton:FlexButton Grid.Column="1" Command="{Binding CreateDocuments}" Content="{Binding CreateDocuments.Caption}">
 
         </FlexButton:FlexButton>
-        <DataGrid Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding Accounts}" HorizontalAlignment="Stretch" 
+        <DataGrid Name="MainDataGrid" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding Accounts}" HorizontalAlignment="Stretch" 
                   HorizontalGridLinesBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}"
                   VerticalGridLinesBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}"
-                  AutoGenerateColumns="False" CanUserSortColumns="False" CanUserDeleteRows="False" CanUserAddRows="False"
+                  AutoGenerateColumns="False"  CanUserDeleteRows="False" CanUserAddRows="False"
                   Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" RowHeaderWidth="0" Margin="0,3"
                   PreviewTextInput="DataGrid_PreviewTextInput" PreparingCellForEdit="DataGrid_PreparingCellForEdit">
             <DataGrid.Resources>
@@ -50,7 +50,7 @@
             </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn Binding="{Binding IsSelected}" Header="Selected"/>
-                <DataGridTextColumn MinWidth="250" Binding="{Binding Account.Name}" IsReadOnly="True" Header="Account"/>
+                <DataGridTextColumn MinWidth="250" Binding="{Binding Account.Name}" IsReadOnly="True" Header="Account" SortDirection="Ascending"/>
                 <DataGridTextColumn MinWidth="200" Binding="{Binding Description}" Header="Description"/>
                 <DataGridTemplateColumn Header="Amount" MinWidth="60" CellStyle="{StaticResource RightAlignedGridCell}">
                     <DataGridTemplateColumn.CellTemplate>

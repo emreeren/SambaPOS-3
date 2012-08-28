@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Samba.Infrastructure.Data;
 using Samba.Domain.Models.Accounts;
 using System;
@@ -48,7 +49,7 @@ namespace Samba.Domain.Models.Accounts
             get { return Name; }
         }
 
-        public AccountTransactionDocument CreateDocument(Account account, string description, decimal amount)
+        public AccountTransactionDocument CreateDocument(Account account, string description, decimal amount, IList<Account> accounts)
         {
             // <pex>
             if (account == null)
@@ -64,6 +65,23 @@ namespace Samba.Domain.Models.Accounts
                 transaction.Name = description;
                 transaction.Amount = amount;
                 transaction.UpdateAccounts(MasterAccountTemplateId, account.Id);
+                if (accounts != null && accounts.Count > 0)
+                {
+                    if (transaction.SourceAccountTemplateId != MasterAccountTemplateId &&
+                        transaction.SourceTransactionValue.AccountId == 0)
+                    {
+                        Account ac =
+                            accounts.FirstOrDefault(x => x.AccountTemplateId == transaction.SourceAccountTemplateId);
+                        if (ac != null) transaction.SetSourceAccount(ac.AccountTemplateId, ac.Id);
+                    }
+                    if (transaction.TargetAccountTemplateId != MasterAccountTemplateId &&
+                        transaction.TargetTransactionValue.AccountId == 0)
+                    {
+                        Account ac =
+                            accounts.FirstOrDefault(x => x.AccountTemplateId == transaction.TargetAccountTemplateId);
+                        if (ac != null) transaction.SetTargetAccount(ac.AccountTemplateId, ac.Id);
+                    }
+                }
                 result.AccountTransactions.Add(transaction);
             }
             return result;
@@ -73,6 +91,27 @@ namespace Samba.Domain.Models.Accounts
         public void AddAccountTransactionDocumentTemplateMap()
         {
             AccountTransactionDocumentTemplateMaps.Add(new AccountTransactionDocumentTemplateMap());
+        }
+
+        public List<int> GetNeededAccountTemplates()
+        {
+            var result = new List<int>();
+            foreach (var accountTransactionTemplate in TransactionTemplates)
+            {
+                if (accountTransactionTemplate.TargetAccountTemplateId != MasterAccountTemplateId &&
+                    accountTransactionTemplate.DefaultTargetAccountId == 0)
+                {
+                    if (!result.Contains(accountTransactionTemplate.TargetAccountTemplateId))
+                        result.Add(accountTransactionTemplate.TargetAccountTemplateId);
+                }
+                if (accountTransactionTemplate.SourceAccountTemplateId != MasterAccountTemplateId &&
+                    accountTransactionTemplate.DefaultSourceAccountId == 0)
+                {
+                    if (!result.Contains(accountTransactionTemplate.SourceAccountTemplateId))
+                        result.Add(accountTransactionTemplate.SourceAccountTemplateId);
+                }
+            }
+            return result;
         }
     }
 }

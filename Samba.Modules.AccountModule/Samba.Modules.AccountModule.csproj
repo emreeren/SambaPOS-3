@@ -64,6 +64,7 @@
       <DependentUpon>AccountDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AccountDetailsViewModel.cs" />
+    <Compile Include="AccountSelectViewModel.cs" />
     <Compile Include="BatchDocumentCreatorView.xaml.cs">
       <DependentUpon>BatchDocumentCreatorView.xaml</DependentUpon>
     </Compile>

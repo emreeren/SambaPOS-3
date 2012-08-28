@@ -36,11 +36,11 @@ namespace Samba.Services.Implementations.AccountModule
             return (int)(_accountCount ?? (_accountCount = Dao.Count<Resource>()));
         }
 
-        public void CreateNewTransactionDocument(Account selectedAccount, AccountTransactionDocumentTemplate documentTemplate, string description, decimal amount)
+        public void CreateNewTransactionDocument(Account selectedAccount, AccountTransactionDocumentTemplate documentTemplate, string description, decimal amount, IEnumerable<Account> accounts)
         {
             using (var w = WorkspaceFactory.Create())
             {
-                var document = documentTemplate.CreateDocument(selectedAccount, description, amount);
+                var document = documentTemplate.CreateDocument(selectedAccount, description, amount, accounts != null? accounts.ToList():null);
                 w.Add(document);
                 w.CommitChanges();
             }
