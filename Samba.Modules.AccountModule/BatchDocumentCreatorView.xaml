@@ -55,7 +55,7 @@
                 <DataGridTemplateColumn Header="Amount" MinWidth="60" CellStyle="{StaticResource RightAlignedGridCell}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Margin="3" Text="{Binding Path=Amount,StringFormat='#,#0.00'}" />
+                            <TextBlock Margin="5" Text="{Binding Path=Amount,StringFormat='#,#0.00'}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                     <DataGridTemplateColumn.CellEditingTemplate>
@@ -68,7 +68,5 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-
-
     </Grid>
 </UserControl>

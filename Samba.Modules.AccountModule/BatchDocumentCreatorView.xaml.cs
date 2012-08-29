@@ -1,19 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Samba.Presentation.Common;
 
 namespace Samba.Modules.AccountModule
@@ -68,11 +60,8 @@ namespace Samba.Modules.AccountModule
             }
 
             ICollectionView dataView = CollectionViewSource.GetDefaultView(MainDataGrid.ItemsSource);
-            //clear the existing sort order
             dataView.SortDescriptions.Clear();
-            //create a new sort order for the sorting that is done lastly
             dataView.SortDescriptions.Add(new SortDescription("Account.Name", ListSortDirection.Ascending));
-            //refresh the view which in turn refresh the grid
             dataView.Refresh();
         }
 
@@ -91,13 +80,8 @@ namespace Samba.Modules.AccountModule
             var ec = ExtensionServices.GetVisualChild<TextBox>(e.EditingElement as ContentPresenter);
             if (ec != null) ec.SelectAll();
 
-            var ec1 = ExtensionServices.GetVisualChild<ComboBox>(e.EditingElement as ContentPresenter);
-            if (ec1 != null) ec1.Focus();
-        }
-
-        private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-
+            var cb = ExtensionServices.GetVisualChild<ComboBox>(e.EditingElement as ContentPresenter);
+            if (cb != null) cb.Focus();
         }
     }
 }
