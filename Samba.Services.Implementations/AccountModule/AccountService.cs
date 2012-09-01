@@ -40,7 +40,7 @@ namespace Samba.Services.Implementations.AccountModule
         {
             using (var w = WorkspaceFactory.Create())
             {
-                var document = documentTemplate.CreateDocument(selectedAccount, description, amount, accounts != null? accounts.ToList():null);
+                var document = documentTemplate.CreateDocument(selectedAccount, description, amount, accounts != null ? accounts.ToList() : null);
                 w.Add(document);
                 w.CommitChanges();
             }
@@ -85,7 +85,8 @@ namespace Samba.Services.Implementations.AccountModule
 
         public string GetCustomData(Account account, string fieldName)
         {
-            return Dao.Single<Resource, string>(account.Id, x => x.CustomData);
+            var cd = Dao.Select<Resource, string>(x => x.CustomData, x => x.AccountId == account.Id).SingleOrDefault();
+            return string.IsNullOrEmpty(cd) ? "" : Resource.GetCustomData(cd, fieldName);
         }
 
         public string GetDescription(AccountTransactionDocumentTemplate documentTemplate, Account account)

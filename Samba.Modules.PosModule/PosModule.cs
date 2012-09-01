@@ -18,10 +18,11 @@ namespace Samba.Modules.PosModule
         private readonly IApplicationState _applicationState;
         private readonly TicketView _ticketView;
         private readonly TicketListView _ticketListView;
+        private readonly TicketTagListView _ticketTagListView;
 
         [ImportingConstructor]
         public PosModule(IRegionManager regionManager, IApplicationState applicationState,
-            PosView posView, TicketView ticketView, TicketListView ticketListView, 
+            PosView posView, TicketView ticketView, TicketListView ticketListView, TicketTagListView ticketTagListView,
             MenuItemSelectorView menuItemSelectorView)
             : base(regionManager, AppScreens.TicketList)
         {
@@ -33,6 +34,7 @@ namespace Samba.Modules.PosModule
             _applicationState = applicationState;
             _ticketView = ticketView;
             _ticketListView = ticketListView;
+            _ticketTagListView = ticketTagListView;
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<Resource>>().Subscribe(
                 x =>
@@ -46,6 +48,7 @@ namespace Samba.Modules.PosModule
             _regionManager.Regions[RegionNames.MainRegion].Add(_posView, "PosView");
             _regionManager.Regions[RegionNames.PosMainRegion].Add(_ticketView, "TicketView");
             _regionManager.Regions[RegionNames.PosMainRegion].Add(_ticketListView, "TicketListView");
+            _regionManager.Regions[RegionNames.PosMainRegion].Add(_ticketTagListView, "TicketTagListView");
             _regionManager.Regions[RegionNames.PosSubRegion].Add(_menuItemSelectorView, "MenuItemSelectorView");
             _regionManager.RegisterViewWithRegion(RegionNames.TicketOrdersRegion, typeof(TicketOrdersView));
             _regionManager.RegisterViewWithRegion(RegionNames.TicketInfoRegion, typeof(TicketInfoView));

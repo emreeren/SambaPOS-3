@@ -122,7 +122,7 @@ namespace Samba.Modules.BasicReports
 
         private static DateTime StrToDate(string value)
         {
-            var vals = value.Split(' ').Select(x => Convert.ToInt32(x)).ToList();
+            var vals = value.Split(new[]{' '},StringSplitOptions.RemoveEmptyEntries).Select(x => Convert.ToInt32(x)).ToList();
             if (vals.Count == 1) vals.Add(DateTime.Now.Month);
             if (vals.Count == 2) vals.Add(DateTime.Now.Year);
 

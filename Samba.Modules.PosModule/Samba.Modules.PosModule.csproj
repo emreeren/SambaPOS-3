@@ -72,6 +72,10 @@
     <Compile Include="PosViewModel.cs" />
     <Compile Include="ResourceButton.cs" />
     <Compile Include="TicketButtonViewModel.cs" />
+    <Compile Include="TicketTagListView.xaml.cs">
+      <DependentUpon>TicketTagListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TicketTagListViewModel.cs" />
     <Compile Include="WidgetCreators\TicketExplorerRowData.cs" />
     <Compile Include="WidgetCreators\TicketExplorerView.xaml.cs">
       <DependentUpon>TicketExplorerView.xaml</DependentUpon>
@@ -151,6 +155,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TicketListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TicketTagListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

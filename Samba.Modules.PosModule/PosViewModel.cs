@@ -6,7 +6,6 @@ using System.Linq;
 using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.Regions;
 using Samba.Domain.Models.Resources;
-using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure;
 using Samba.Localization.Properties;
@@ -29,6 +28,7 @@ namespace Samba.Modules.PosModule
         private readonly IRegionManager _regionManager;
         private readonly MenuItemSelectorViewModel _menuItemSelectorViewModel;
         private readonly TicketListViewModel _ticketListViewModel;
+        private readonly TicketTagListViewModel _ticketTagListViewModel;
         private readonly MenuItemSelectorView _menuItemSelectorView;
         private readonly TicketViewModel _ticketViewModel;
         private readonly TicketOrdersViewModel _ticketOrdersViewModel;
@@ -49,7 +49,7 @@ namespace Samba.Modules.PosModule
         [ImportingConstructor]
         public PosViewModel(IRegionManager regionManager, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
             ITicketService ticketService, IUserService userService, ICacheService cacheService,
-            TicketListViewModel ticketListViewModel,
+            TicketListViewModel ticketListViewModel, TicketTagListViewModel ticketTagListViewModel,
             MenuItemSelectorViewModel menuItemSelectorViewModel, MenuItemSelectorView menuItemSelectorView, TicketViewModel ticketViewModel,
             TicketOrdersViewModel ticketOrdersViewModel)
         {
@@ -62,9 +62,9 @@ namespace Samba.Modules.PosModule
             _menuItemSelectorView = menuItemSelectorView;
             _ticketViewModel = ticketViewModel;
             _ticketOrdersViewModel = ticketOrdersViewModel;
-
             _menuItemSelectorViewModel = menuItemSelectorViewModel;
             _ticketListViewModel = ticketListViewModel;
+            _ticketTagListViewModel = ticketTagListViewModel;
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<Ticket>>().Subscribe(OnTicketEventReceived);
             EventServiceFactory.EventService.GetEvent<GenericEvent<SelectedOrdersData>>().Subscribe(OnSelectedOrdersChanged);
@@ -152,12 +152,13 @@ namespace Samba.Modules.PosModule
                 {
                     OpenTicket(0);
                     _ticketService.UpdateResource(SelectedTicket, _lastSelectedResource);
-                    DisplaySingleTicket();
                 }
+
                 Debug.Assert(SelectedTicket != null);
                 _ticketOrdersViewModel.AddOrder(obj.Value);
-                _ticketViewModel.RefreshSelectedTicket();
-                _ticketViewModel.RefreshSelectedItems();
+                //_ticketViewModel.RefreshSelectedTicket();
+                //_ticketViewModel.RefreshSelectedItems();
+                DisplaySingleTicket();
             }
         }
 
@@ -197,9 +198,8 @@ namespace Samba.Modules.PosModule
                     DisplaySingleTicket();
                     break;
                 case EventTopicNames.CloseTicketRequested:
-                        CloseTicket();
-                        DisplayMenuScreen();
-
+                    CloseTicket();
+                    DisplayMenuScreen();
                     break;
             }
         }
@@ -232,6 +232,13 @@ namespace Samba.Modules.PosModule
 
         private void DisplaySingleTicket()
         {
+            if (SelectedTicket.Orders.Count == 0 && _cacheService.GetTicketTagGroups().Count(x => x.AskBeforeCreatingTicket && !SelectedTicket.IsTaggedWith(x.Name)) > 0)
+            {
+                _ticketTagListViewModel.Update(SelectedTicket);
+                DisplayTicketTagList();
+                return;
+            }
+
             _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
             _regionManager.RequestNavigate(RegionNames.PosMainRegion, new Uri("TicketView", UriKind.Relative));
             _ticketViewModel.RefreshSelectedItems();
@@ -242,6 +249,12 @@ namespace Samba.Modules.PosModule
         {
             _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
             _regionManager.RequestNavigate(RegionNames.PosMainRegion, new Uri("TicketListView", UriKind.Relative));
+        }
+
+        private void DisplayTicketTagList()
+        {
+            _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
+            _regionManager.RequestNavigate(RegionNames.PosMainRegion, new Uri("TicketTagListView", UriKind.Relative));
         }
 
         public void DisplayMenuScreen()

@@ -19,6 +19,7 @@ namespace Samba.Domain.Models.Tickets
         public string ButtonColorWhenTagSelected { get; set; }
         public string ButtonColorWhenNoTagSelected { get; set; }
         public bool ForceValue { get; set; }
+        public bool AskBeforeCreatingTicket { get; set; }
         public int DataType { get; set; }
 
         private readonly IList<TicketTag> _ticketTags;

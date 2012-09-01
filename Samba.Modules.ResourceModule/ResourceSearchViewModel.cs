@@ -10,7 +10,6 @@ using System.Windows.Threading;
 using Microsoft.Practices.Prism.Commands;
 using Samba.Domain.Models.Resources;
 using Samba.Localization.Properties;
-using Samba.Persistance.Data;
 using Samba.Presentation.Common;
 using Samba.Services;
 using Samba.Services.Common;
@@ -42,6 +41,7 @@ namespace Samba.Modules.ResourceModule
         public string RemoveResourceCommandCaption { get { return string.Format(Resources.No_f, SelectedEntityName()).Replace(" ", "\r"); } }
         private readonly IApplicationState _applicationState;
         private readonly ICacheService _cacheService;
+        private readonly IResourceService _resourceService;
         private readonly Timer _updateTimer;
 
         private bool _canCreateNewResource;
@@ -56,13 +56,14 @@ namespace Samba.Modules.ResourceModule
         }
 
         [ImportingConstructor]
-        public ResourceSearchViewModel(IApplicationState applicationState, ICacheService cacheService)
+        public ResourceSearchViewModel(IApplicationState applicationState, ICacheService cacheService, IResourceService resourceService)
         {
             _updateTimer = new Timer(500);
             _updateTimer.Elapsed += UpdateTimerElapsed;
 
             _applicationState = applicationState;
             _cacheService = cacheService;
+            _resourceService = resourceService;
 
             FoundResources = new ObservableCollection<ResourceSearchResultViewModel>();
 
@@ -72,6 +73,8 @@ namespace Samba.Modules.ResourceModule
             DisplayAccountCommand = new CaptionCommand<string>(Resources.AccountDetails.Replace(" ", "\r"), OnDisplayAccount, CanDisplayAccount);
             RemoveResourceCommand = new CaptionCommand<string>("", OnRemoveResource, CanRemoveResource);
         }
+
+        protected int StateFilter { get; set; }
 
         public IEnumerable<ResourceTemplate> ResourceTemplates { get { return _cacheService.GetResourceTemplates(); } }
 
@@ -251,20 +254,14 @@ namespace Samba.Modules.ResourceModule
         private void UpdateFoundResources()
         {
             CanCreateNewResource = true;
-            IEnumerable<Resource> result = new List<Resource>();
+            var result = new List<Resource>();
 
             using (var worker = new BackgroundWorker())
             {
                 worker.DoWork += delegate
-                {
-                    var templateId = SelectedResourceTemplate != null ? SelectedResourceTemplate.Id : 0;
-                    var searchValue = SearchString.ToLower();
-                    result = Dao.Query<Resource>(x =>
-                        x.ResourceTemplateId == templateId
-                        && (x.CustomData.Contains(SearchString) || x.Name.ToLower().Contains(searchValue)));
-
-                    result = result.ToList().Where(x => SelectedResourceTemplate.GetMatchingFields(x, SearchString).Any(y => !y.Hidden) || x.Name.ToLower().Contains(searchValue));
-                };
+                                     {
+                                         result = _resourceService.SearchResources(SearchString, SelectedResourceTemplate, StateFilter);
+                                     };
 
                 worker.RunWorkerCompleted +=
                     delegate
@@ -293,6 +290,7 @@ namespace Samba.Modules.ResourceModule
 
         public void Refresh(ResourceScreen resourceScreen, EntityOperationRequest<Resource> currentOperationRequest)
         {
+            StateFilter = resourceScreen.StateFilterId;
             SelectedResourceTemplate = _cacheService.GetResourceTemplateById(resourceScreen.ResourceTemplateId);
             RefreshSelectedResource(currentOperationRequest);
         }

@@ -27,6 +27,7 @@ namespace Samba.Modules.TicketModule
         public string DataType { get { return DataTypes[Model.DataType]; } set { Model.DataType = DataTypes.IndexOf(value); } }
 
         public bool FreeTagging { get { return Model.FreeTagging; } set { Model.FreeTagging = value; } }
+        public bool AskBeforeCreatingTicket { get { return Model.AskBeforeCreatingTicket; } set { Model.AskBeforeCreatingTicket = value; } }
         public bool SaveFreeTags { get { return Model.SaveFreeTags; } set { Model.SaveFreeTags = value; } }
         public bool ForceValue { get { return Model.ForceValue; } set { Model.ForceValue = value; } }
         public string ButtonColorWhenTagSelected { get { return Model.ButtonColorWhenTagSelected; } set { Model.ButtonColorWhenTagSelected = value; } }

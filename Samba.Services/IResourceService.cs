@@ -17,5 +17,6 @@ namespace Samba.Services
         void AddWidgetToResourceScreen(string resourceScreenName, Widget widget);
         void UpdateResourceScreen(ResourceScreen resourceScreen);
         void RemoveWidget(Widget widget);
+        List<Resource> SearchResources(string searchString, ResourceTemplate selectedResourceTemplate, int stateFilter);
     }
 }

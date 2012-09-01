@@ -14,10 +14,7 @@ namespace Samba.Domain.Models.Resources
 
         public string GetCustomData(string fieldName)
         {
-            if (string.IsNullOrEmpty(CustomData)) return "";
-            var pattern = string.Format("\"Name\":\"{0}\",\"Value\":\"([^\"]+)\"", fieldName);
-            return Regex.IsMatch(CustomData, pattern)
-                ? Regex.Match(CustomData, pattern).Groups[1].Value : "";
+            return GetCustomData(CustomData, fieldName);
         }
 
         private static Resource _null;
@@ -33,6 +30,14 @@ namespace Samba.Domain.Models.Resources
         public Resource()
         {
             LastUpdateTime = DateTime.Now;
+        }
+
+        public static string GetCustomData(string customData, string fieldName)
+        {
+            if (string.IsNullOrEmpty(customData)) return "";
+            var pattern = string.Format("\"Name\":\"{0}\",\"Value\":\"([^\"]+)\"", fieldName);
+            return Regex.IsMatch(customData, pattern)
+                ? Regex.Match(customData, pattern).Groups[1].Value : "";
         }
     }
 }

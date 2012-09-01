@@ -16,14 +16,12 @@ namespace Samba.Services.Implementations.ResourceModule
     {
         private IWorkspace _resoureceWorkspace;
         private readonly int _resourceScreenItemCount;
-        private readonly IApplicationState _applicationState;
         private readonly IList<Resource> _emptyResourceList = new List<Resource>().AsReadOnly();
 
         [ImportingConstructor]
-        public ResourceService(IApplicationState applicationState)
+        public ResourceService()
         {
             _resourceScreenItemCount = Dao.Count<ResourceScreenItem>();
-            _applicationState = applicationState;
 
             ValidatorRegistry.RegisterDeleteValidator<Resource>(x => Dao.Exists<TicketResource>(y => y.ResourceId == x.Id), Resources.Resource, Resources.Ticket);
             ValidatorRegistry.RegisterDeleteValidator<ResourceTemplate>(x => Dao.Exists<Resource>(y => y.ResourceTemplateId == x.Id), Resources.ResourceTemplate, Resources.Resource);
@@ -65,19 +63,17 @@ namespace Samba.Services.Implementations.ResourceModule
         {
             UpdateResourceScreenItems(resourceScreen, currentPageNo);
 
-            var selectedResourceScreen = _applicationState.SelectedResourceScreen;
-
-            if (selectedResourceScreen != null)
+            if (resourceScreen != null)
             {
-                if (selectedResourceScreen.PageCount > 1)
+                if (resourceScreen.PageCount > 1)
                 {
-                    return selectedResourceScreen.ScreenItems
+                    return resourceScreen.ScreenItems
                          .OrderBy(x => x.Order)
                          .Where(x => x.ResourceStateId == resourceStateFilter || resourceStateFilter == 0)
-                         .Skip(selectedResourceScreen.ItemCountPerPage * currentPageNo)
-                         .Take(selectedResourceScreen.ItemCountPerPage);
+                         .Skip(resourceScreen.ItemCountPerPage * currentPageNo)
+                         .Take(resourceScreen.ItemCountPerPage);
                 }
-                return selectedResourceScreen.ScreenItems.Where(x => x.ResourceStateId == resourceStateFilter || resourceStateFilter == 0);
+                return resourceScreen.ScreenItems.Where(x => x.ResourceStateId == resourceStateFilter || resourceStateFilter == 0);
             }
             return new List<ResourceScreenItem>();
         }
@@ -121,6 +117,34 @@ namespace Samba.Services.Implementations.ResourceModule
             if (_resoureceWorkspace == null) return;
             _resoureceWorkspace.Delete<Widget>(x => x.Id == widget.Id);
             _resoureceWorkspace.CommitChanges();
+        }
+
+        public List<Resource> SearchResources(string searchString, ResourceTemplate selectedResourceTemplate, int stateFilter)
+        {
+            var templateId = selectedResourceTemplate != null ? selectedResourceTemplate.Id : 0;
+            var searchValue = searchString.ToLower();
+
+            using (var w = WorkspaceFactory.CreateReadOnly())
+            {
+                var result =
+                    w.Query<Resource>(
+                        x =>
+                        x.ResourceTemplateId == templateId &&
+                        (x.CustomData.Contains(searchString) || x.Name.ToLower().Contains(searchValue))).Take(250).ToList();
+
+                if (selectedResourceTemplate != null)
+                    result = result.Where(x => selectedResourceTemplate.GetMatchingFields(x, searchString).Any(y => !y.Hidden) || x.Name.ToLower().Contains(searchValue)).ToList();
+
+
+                if (stateFilter > 0)
+                {
+                    var set = result.Select(x => x.Id).ToList();
+                    var ids = w.Queryable<ResourceStateValue>().Where(x => set.Contains(x.ResoruceId) && x.StateId == stateFilter).GroupBy(x => x.ResoruceId).Select(x => x.Max(y => y.Id));
+                    var resourceIds = w.Queryable<ResourceStateValue>().Where(x => ids.Contains(x.Id)).Select(x => x.ResoruceId).ToList();
+                    result = result.Where(x => resourceIds.Contains(x.Id)).ToList();
+                }
+                return result;
+            }
         }
 
         public IList<ResourceScreenItem> LoadResourceScreenItems(string selectedResourceScreen)
