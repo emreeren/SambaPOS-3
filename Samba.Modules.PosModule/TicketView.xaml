@@ -58,22 +58,6 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <ItemsControl ItemsSource="{Binding CustomTicketCommands,NotifyOnTargetUpdated=True}"
-                         HorizontalAlignment="Stretch" Visibility="{Binding IsNothingSelected,Converter={StaticResource VisibilityConverter}}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel VerticalAlignment="Top" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <FxButton:FlexButton Command="{Binding Path=.}"
-                                     CommandParameter="{Binding DataObject}">
-                            <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding Caption}" />
-                        </FxButton:FlexButton>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
             <ItemsControl ItemsSource="{Binding TicketTagButtons,NotifyOnTargetUpdated=True}"
                          HorizontalAlignment="Stretch" Visibility="{Binding IsNothingSelected,Converter={StaticResource VisibilityConverter}}">
                 <ItemsControl.ItemsPanel>
@@ -163,24 +147,6 @@
                 <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
                              Text="{Binding ChangePriceCommand.Caption}" />
             </FxButton:FlexButton>
-
-            <ItemsControl ItemsSource="{Binding CustomOrderCommands,NotifyOnTargetUpdated=True}"
-                         HorizontalAlignment="Stretch" Visibility="{Binding IsItemsSelected,Converter={StaticResource VisibilityConverter}}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel VerticalAlignment="Top" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <FxButton:FlexButton Focusable="False" Command="{Binding Path=.}"
-                                     CommandParameter="{Binding Model}">
-                            <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
-                                       Text="{Binding Caption}" />
-                        </FxButton:FlexButton>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
         </StackPanel>
     </Grid>
 </UserControl>

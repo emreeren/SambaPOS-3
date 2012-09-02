@@ -1,18 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Practices.ServiceLocation;
-using Samba.Domain.Models.Tickets;
+using Samba.Domain.Models.Menus;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Services;
 
-namespace Samba.Modules.TicketModule
+namespace Samba.Modules.MenuModule
 {
-    public class OrderTagMapViewModel : AbstractMapViewModel<OrderTagMap>
+    public class MenuItemTimerMapViewModel : AbstractMapViewModel<MenuItemTimerMap>
     {
         private const string NullLabel = "*";
         private readonly IMenuService _menuService;
 
-        public OrderTagMapViewModel()
+        public MenuItemTimerMapViewModel()
         {
             _menuService = ServiceLocator.Current.GetInstance<IMenuService>();
         }

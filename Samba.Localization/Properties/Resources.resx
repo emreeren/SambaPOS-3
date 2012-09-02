@@ -1444,9 +1444,6 @@ Card</value>
   <data name="Divide" xml:space="preserve">
     <value>Divide</value>
   </data>
-  <data name="ExtraModifier" xml:space="preserve">
-    <value>Extra Modifier</value>
-  </data>
   <data name="ReleaseLock" xml:space="preserve">
     <value>Release Lock</value>
   </data>
@@ -1479,9 +1476,6 @@ Balance</value>
   </data>
   <data name="Round" xml:space="preserve">
     <value>Round</value>
-  </data>
-  <data name="Flat" xml:space="preserve">
-    <value>Auto Round</value>
   </data>
   <data name="Discount" xml:space="preserve">
     <value>Discount</value>
@@ -3182,5 +3176,35 @@ Continue without adding details?</value>
   </data>
   <data name="MinSelectedItems">
     <value xml:space="preserve">Min Selected Items</value>
+  </data>
+  <data name="MenuItemTimer">
+    <value xml:space="preserve">Menu Item Timer</value>
+  </data>
+  <data name="PriceDurationType">
+    <value xml:space="preserve">Price Duration Type</value>
+  </data>
+  <data name="PriceDuration">
+    <value xml:space="preserve">Price Duration</value>
+  </data>
+  <data name="MinTime">
+    <value xml:space="preserve">Min Time</value>
+  </data>
+  <data name="TimeRounding">
+    <value xml:space="preserve">Time Rounding</value>
+  </data>
+  <data name="Active">
+    <value xml:space="preserve">Active</value>
+  </data>
+  <data name="Beginning">
+    <value xml:space="preserve">Beginning</value>
+  </data>
+  <data name="Ending">
+    <value xml:space="preserve">Ending</value>
+  </data>
+  <data name="Duration">
+    <value xml:space="preserve">Duration</value>
+  </data>
+  <data name="StopTimer">
+    <value xml:space="preserve">Stop Timer</value>
   </data>
 </root>

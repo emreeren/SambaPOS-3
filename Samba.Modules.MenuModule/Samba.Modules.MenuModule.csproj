@@ -43,6 +43,7 @@
     <Reference Include="Microsoft.Practices.Prism.MefExtensions">
       <HintPath>..\Lib\Microsoft.Practices.Prism.MefExtensions.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -64,11 +65,16 @@
     </Compile>
     <Compile Include="MenuItemPriceDefinitionViewModel.cs" />
     <Compile Include="MenuItemPriceViewModel.cs" />
+    <Compile Include="MenuItemTimerView.xaml.cs">
+      <DependentUpon>MenuItemTimerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MenuItemTimerViewModel.cs" />
     <Compile Include="MenuItemView.xaml.cs">
       <DependentUpon>MenuItemView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MenuItemViewModel.cs" />
     <Compile Include="MenuModule.cs" />
+    <Compile Include="MenuItemTimerMapViewModel.cs" />
     <Compile Include="PortionViewModel.cs" />
     <Compile Include="PriceListView.xaml.cs">
       <DependentUpon>PriceListView.xaml</DependentUpon>
@@ -131,6 +137,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="MenuItemPriceDefinitionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MenuItemTimerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

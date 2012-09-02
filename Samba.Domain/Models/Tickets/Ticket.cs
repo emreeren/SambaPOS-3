@@ -127,7 +127,7 @@ namespace Samba.Domain.Models.Tickets
             return TicketTagValues;
         }
 
-        public Order AddOrder(AccountTransactionTemplate template, string userName, MenuItem menuItem, MenuItemPortion portion, string priceTag)
+        public Order AddOrder(AccountTransactionTemplate template, string userName, MenuItem menuItem, MenuItemPortion portion, string priceTag, MenuItemTimer timer)
         {
             Locked = false;
             var tif = new Order();
@@ -148,6 +148,7 @@ namespace Samba.Domain.Models.Tickets
                 transaction.UpdateAccounts(AccountTemplateId, AccountId);
                 AccountTransactions.AccountTransactions.Add(transaction);
             }
+            tif.UpdateTimer(timer);
             Orders.Add(tif);
             return tif;
         }
@@ -389,7 +390,7 @@ namespace Samba.Domain.Models.Tickets
 
         public bool CanRemoveSelectedOrders(IEnumerable<Order> items)
         {
-            return (items.Where(x=>x.CalculatePrice).Sum(x => x.GetSelectedValue()) <= GetRemainingAmount());
+            return (items.Where(x => x.CalculatePrice).Sum(x => x.GetSelectedValue()) <= GetRemainingAmount());
         }
 
         public bool CanCancelSelectedOrders(IEnumerable<Order> selectedOrders)
@@ -648,6 +649,16 @@ namespace Samba.Domain.Models.Tickets
         public decimal GetOrderStateTotal(string s)
         {
             return Orders.Where(x => x.OrderStateGroupName == s).Sum(x => x.GetItemValue());
+        }
+
+        public decimal GetActiveTimerAmount()
+        {
+            return Orders.Where(x => x.MenuItemTimerValue != null && x.MenuItemTimerValue.IsActive).Sum(x => x.GetItemValue());
+        }
+
+        public void StopActiveTimers()
+        {
+            Orders.Where(x => x.MenuItemTimerValue != null && x.MenuItemTimerValue.IsActive).ToList().ForEach(x => x.StopMenuItemTimer());
         }
     }
 }

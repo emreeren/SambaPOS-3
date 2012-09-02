@@ -1,10 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using Microsoft.Practices.Prism.Commands;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Tickets;
+using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Services.Common;
@@ -43,12 +45,30 @@ namespace Samba.Modules.PosModule
             }
         }
 
-        public bool IsStateVisible { get { return !string.IsNullOrEmpty(State); } }
+        public bool IsTimerVisible { get { return Model.MenuItemTimerValue != null; } }
+        public string TimerDescription
+        {
+            get
+            {
+                if (Model.MenuItemTimerValue == null) return "";
+                const string fmt = "{0} {1} - {2} ({3:N}) {4}";
+                return String.Format(fmt,
+                    Model.MenuItemTimerValue.Start.Date != DateTime.Now.Date ? Model.MenuItemTimerValue.Start.ToShortDateString() : "",
+                    Model.MenuItemTimerValue.Start.Date == DateTime.Now.Date ? Model.MenuItemTimerValue.Start.ToShortTimeString() : "",
+                    Model.MenuItemTimerValue.GetDuration().ToShortDuration(),
+                    Model.Price,
+                    Model.MenuItemTimerValue.IsActive ? Resources.Active : "");
+            }
+        }
+
+        public string TimerColor { get { return IsTimerVisible && Model.MenuItemTimerValue.IsActive ? "Blue" : "Gray"; } }
+
+        public bool IsStateVisible { get { return !String.IsNullOrEmpty(State); } }
         public string State
         {
             get
             {
-                return !string.IsNullOrEmpty(Model.OrderStateGroupName) ? string.Format("[{0}]", Model.OrderStateGroupName + (!string.IsNullOrEmpty(Model.OrderState) && Model.OrderState != Model.OrderStateGroupName ? ": " + Model.OrderState : "")) : "";
+                return !String.IsNullOrEmpty(Model.OrderStateGroupName) ? String.Format("[{0}]", Model.OrderStateGroupName + (!String.IsNullOrEmpty(Model.OrderState) && Model.OrderState != Model.OrderStateGroupName ? ": " + Model.OrderState : "")) : "";
             }
         }
 
@@ -81,6 +101,9 @@ namespace Samba.Modules.PosModule
             RaisePropertyChanged(() => BorderThickness);
             RaisePropertyChanged(() => State);
             RaisePropertyChanged(() => IsStateVisible);
+            RaisePropertyChanged(() => IsTimerVisible);
+            RaisePropertyChanged(() => TimerDescription);
+            RaisePropertyChanged(() => TimerColor);
         }
 
         public decimal Price
@@ -120,7 +143,7 @@ namespace Samba.Modules.PosModule
         {
             get
             {
-                return Model.OrderNumber > 0 ? string.Format(Resources.OrderNumber_f,
+                return Model.OrderNumber > 0 ? String.Format(Resources.OrderNumber_f,
                     Model.OrderNumber, CreatingUserName) : Resources.NewOrder;
             }
         }
@@ -159,7 +182,7 @@ namespace Samba.Modules.PosModule
         private string _orderKey;
         public string OrderKey { get { return _orderKey ?? (_orderKey = Model.OrderKey); } }
 
-        public bool IsSuborderTagVisible { get { return !string.IsNullOrEmpty(Model.SubOrderTags); } }
+        public bool IsSuborderTagVisible { get { return !String.IsNullOrEmpty(Model.SubOrderTags); } }
 
         public bool IsLocked { get { return Model.Locked; } }
 
@@ -269,7 +292,5 @@ namespace Samba.Modules.PosModule
         {
             return Model.IsTaggedWith(orderTagGroup);
         }
-
-
     }
 }

@@ -288,6 +288,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Active.
+        /// </summary>
+        public static string Active {
+            get {
+                return ResourceManager.GetString("Active", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add.
         /// </summary>
         public static string Add {
@@ -861,6 +870,15 @@ namespace Samba.Localization.Properties {
         public static string BatchPriceList {
             get {
                 return ResourceManager.GetString("BatchPriceList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Beginning.
+        /// </summary>
+        public static string Beginning {
+            get {
+                return ResourceManager.GetString("Beginning", resourceCulture);
             }
         }
         
@@ -2400,6 +2418,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Duration.
+        /// </summary>
+        public static string Duration {
+            get {
+                return ResourceManager.GetString("Duration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit {0}.
         /// </summary>
         public static string Edit_f {
@@ -2504,6 +2531,15 @@ namespace Samba.Localization.Properties {
         public static string EmptyNameError {
             get {
                 return ResourceManager.GetString("EmptyNameError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ending.
+        /// </summary>
+        public static string Ending {
+            get {
+                return ResourceManager.GetString("Ending", resourceCulture);
             }
         }
         
@@ -2854,15 +2890,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Extra Modifier.
-        /// </summary>
-        public static string ExtraModifier {
-            get {
-                return ResourceManager.GetString("ExtraModifier", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Extra Modifiers.
         /// </summary>
         public static string ExtraModifiers {
@@ -3012,15 +3039,6 @@ namespace Samba.Localization.Properties {
         public static string FixedCost {
             get {
                 return ResourceManager.GetString("FixedCost", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Auto Round.
-        /// </summary>
-        public static string Flat {
-            get {
-                return ResourceManager.GetString("Flat", resourceCulture);
             }
         }
         
@@ -4124,6 +4142,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Menu Item Timer.
+        /// </summary>
+        public static string MenuItemTimer {
+            get {
+                return ResourceManager.GetString("MenuItemTimer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Menu List.
         /// </summary>
         public static string MenuList {
@@ -4219,6 +4246,15 @@ namespace Samba.Localization.Properties {
         public static string MinSelectedItems {
             get {
                 return ResourceManager.GetString("MinSelectedItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Min Time.
+        /// </summary>
+        public static string MinTime {
+            get {
+                return ResourceManager.GetString("MinTime", resourceCulture);
             }
         }
         
@@ -5200,6 +5236,24 @@ namespace Samba.Localization.Properties {
         public static string PriceDefinitonName {
             get {
                 return ResourceManager.GetString("PriceDefinitonName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Price Duration.
+        /// </summary>
+        public static string PriceDuration {
+            get {
+                return ResourceManager.GetString("PriceDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Price Duration Type.
+        /// </summary>
+        public static string PriceDurationType {
+            get {
+                return ResourceManager.GetString("PriceDurationType", resourceCulture);
             }
         }
         
@@ -6538,6 +6592,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Stop Timer.
+        /// </summary>
+        public static string StopTimer {
+            get {
+                return ResourceManager.GetString("StopTimer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sub Button Height.
         /// </summary>
         public static string SubButtonHeight {
@@ -7363,6 +7426,15 @@ namespace Samba.Localization.Properties {
         public static string Time {
             get {
                 return ResourceManager.GetString("Time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time Rounding.
+        /// </summary>
+        public static string TimeRounding {
+            get {
+                return ResourceManager.GetString("TimeRounding", resourceCulture);
             }
         }
         

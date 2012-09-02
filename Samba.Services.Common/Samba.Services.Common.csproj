@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractService.cs" />
+    <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="EntityOperationRequest.cs" />
     <Compile Include="EventServiceFactory.cs" />
     <Compile Include="EventTopicNames.cs" />
@@ -61,6 +62,10 @@
     <ProjectReference Include="..\Samba.Infrastructure.Data\Samba.Infrastructure.Data.csproj">
       <Project>{2D64F506-D566-4CA5-A19C-BCB5F9A2E7F4}</Project>
       <Name>Samba.Infrastructure.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Localization\Samba.Localization.csproj">
+      <Project>{406B96A6-C886-4149-AD88-A2402EDB2B90}</Project>
+      <Name>Samba.Localization</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Persistance.Data\Samba.Persistance.Data.csproj">
       <Project>{FEDA2199-91CD-4AF1-B571-4AA2E8371A18}</Project>

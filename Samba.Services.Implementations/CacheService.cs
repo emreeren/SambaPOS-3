@@ -36,6 +36,30 @@ namespace Samba.Services.Implementations
             return MenuItems.Single(expression.Compile());
         }
 
+        private IEnumerable<MenuItemTimer> _menuItemTimers;
+        public IEnumerable<MenuItemTimer> MenuItemTimers
+        {
+            get { return _menuItemTimers ?? (_menuItemTimers = Dao.Query<MenuItemTimer>( x => x.MenuItemTimerMaps)); }
+        }
+
+        private MenuItemTimer GetMenuItemTimer(IEnumerable<MenuItemTimer> menuItemTimers, int menuItemId)
+        {
+            var tgl = menuItemTimers.ToList();
+            var mi = GetMenuItem(x => x.Id == menuItemId);
+            var maps = tgl.SelectMany(x => x.MenuItemTimerMaps)
+                .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
+                .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
+                .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id)
+                .Where(x => x.MenuItemGroupCode == null || x.MenuItemGroupCode == mi.GroupCode)
+                .Where(x => x.MenuItemId == 0 || x.MenuItemId == mi.Id);
+            return tgl.Where(x => maps.Any(y => y.MenuItemTimerId == x.Id)).FirstOrDefault();
+        }
+        
+        public MenuItemTimer GetMenuItemTimer(int menuItemId)
+        {
+            return GetMenuItemTimer(MenuItemTimers, menuItemId);
+        }
+
         public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(int menuItemId)
         {
             return GetOrderTagGroups(OrderTagGroups, menuItemId);
@@ -360,6 +384,7 @@ namespace Samba.Services.Implementations
 
         public override void Reset()
         {
+            _menuItemTimers = null;
             _menuItems = null;
             _screenMenus = null;
             _accountTransactionTemplates = null;

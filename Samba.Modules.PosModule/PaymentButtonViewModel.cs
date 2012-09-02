@@ -78,6 +78,7 @@ namespace Samba.Modules.PosModule
         private void OnMakeFastPaymentExecute(PaymentTemplate obj)
         {
             if (!CanCloseTicket()) return;
+            if (SelectedTicket.GetActiveTimerAmount() > 0) return;
             _ticketService.PayTicket(SelectedTicket, obj);
             CloseTicket();
         }

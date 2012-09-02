@@ -18,6 +18,7 @@ namespace Samba.Modules.MenuModule
             AddDashboardCommand<PriceListViewModel>(Resources.BatchPriceList, Resources.Products);
             AddDashboardCommand<MenuItemPriceDefinitionListViewModel>(Resources.PriceDefinitions, Resources.Products);
             AddDashboardCommand<EntityCollectionViewModelBase<TaxTemplateViewModel, TaxTemplate>>(Resources.TaxTemplates, Resources.Products);
+            AddDashboardCommand<EntityCollectionViewModelBase<MenuItemTimerViewModel, MenuItemTimer>>(string.Format(Resources.List_f, Resources.MenuItemTimer), Resources.Products);
         }
     }
 }

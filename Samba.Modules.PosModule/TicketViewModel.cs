@@ -66,9 +66,6 @@ namespace Samba.Modules.PosModule
             }
         }
 
-        public ObservableCollection<ICaptionCommand> CustomOrderCommands { get { return PresentationServices.OrderCommands; } }
-        public ObservableCollection<ICaptionCommand> CustomTicketCommands { get { return PresentationServices.TicketCommands; } }
-
         private Ticket _selectedTicket;
         public Ticket SelectedTicket
         {

@@ -38,6 +38,8 @@ namespace Samba.Domain.Models.Tickets
         public DateTime CreatedDateTime { get; set; }
         public int AccountTransactionTemplateId { get; set; }
         public int AccountTransactionTaxTemplateId { get; set; }
+        public int? MenuItemTimerValueId { get; set; }
+        public virtual MenuItemTimerValue MenuItemTimerValue { get; set; }
 
         [StringLength(10)]
         public string PriceTag { get; set; }
@@ -73,14 +75,8 @@ namespace Samba.Domain.Models.Tickets
             }
         }
 
-        private static Order _null = new Order();
-        public static Order Null
-        {
-            get
-            {
-                return _null;
-            }
-        }
+        private static Order _null;
+        public static Order Null { get { return _null ?? (_null = new Order { MenuItemTimerValue = new MenuItemTimerValue() }); } }
 
         public void UpdateMenuItem(string userName, MenuItem menuItem, MenuItemPortion portion, string priceTag, int quantity)
         {
@@ -223,52 +219,6 @@ namespace Samba.Domain.Models.Tickets
             return result;
         }
 
-        public OrderTagValue GetCustomOrderTag()
-        {
-            return OrderTagValues.FirstOrDefault(x => x.OrderTagGroupId == 0);
-        }
-
-        public OrderTagValue GetOrCreateCustomOrderTagValue()
-        {
-            var tip = GetCustomOrderTag();
-            if (tip == null)
-            {
-                tip = new OrderTagValue
-                          {
-                              Name = "",
-                              Price = 0,
-                              OrderTagGroupId = 0,
-                              MenuItemId = 0,
-                              Quantity = 0
-                          };
-                OrderTagValues.Add(tip);
-            }
-            return tip;
-        }
-
-        public void UpdateCustomOrderTag(string text, decimal price, decimal quantity)
-        {
-            var orderTag = GetOrCreateCustomOrderTagValue();
-            if (string.IsNullOrEmpty(text))
-            {
-                OrderTagValues.Remove(orderTag);
-            }
-            else
-            {
-                orderTag.Name = text;
-                orderTag.Quantity = quantity;
-                orderTag.Price = price;
-                if (TaxIncluded && TaxRate > 0)
-                {
-                    orderTag.Price = orderTag.Price / ((100 + TaxRate) / 100);
-                    orderTag.Price = decimal.Round(orderTag.Price, 2);
-                    orderTag.TaxAmount = price - orderTag.Price;
-                }
-                else if (TaxRate > 0) orderTag.TaxAmount = (price * TaxRate) / 100;
-                else TaxAmount = 0;
-            }
-        }
-
         public decimal GetTotal()
         {
             return CalculatePrice ? GetItemValue() : 0;
@@ -293,6 +243,8 @@ namespace Samba.Domain.Models.Tickets
         {
             var result = Price;
             if (TaxIncluded) result += TaxAmount;
+            if (MenuItemTimerValue != null)
+                result = MenuItemTimerValue.GetPrice(result);
             return result;
         }
 
@@ -402,5 +354,26 @@ namespace Samba.Domain.Models.Tickets
         }
 
         public string OrderKey { get { return string.Join("", OrderTagValues.OrderBy(x => x.OrderKey).Select(x => x.OrderKey)); } }
+
+        public void UpdateTimer(MenuItemTimer timer)
+        {
+            if (timer != null)
+            {
+                MenuItemTimerValue = new MenuItemTimerValue
+                                         {
+                                             MenuItemTimerId = timer.Id,
+                                             MinTime = timer.MinTime,
+                                             PriceType = timer.PriceType,
+                                             PriceDuration = timer.PriceDuration,
+                                             TimeRounding = timer.TimeRounding,
+                                         };
+            }
+        }
+
+        public void StopMenuItemTimer()
+        {
+            if (MenuItemTimerValue != null)
+                MenuItemTimerValue.Stop();
+        }
     }
 }

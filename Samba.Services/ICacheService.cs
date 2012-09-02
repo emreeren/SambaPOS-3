@@ -14,6 +14,7 @@ namespace Samba.Services
         ScreenMenu GetScreenMenu(int screenMenuId);
         MenuItem GetMenuItem(Expression<Func<MenuItem, bool>> expression);
         MenuItemPortion GetMenuItemPortion(int menuItemId, string portionName);
+        MenuItemTimer GetMenuItemTimer(int menuItemId);
         IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(int menuItemId);
         IEnumerable<OrderTagGroup> GetOrderTagGroupsForItems(IEnumerable<int> menuItemIds);
         IEnumerable<OrderStateGroup> GetOrderStateGroups();
@@ -46,5 +47,6 @@ namespace Samba.Services
         PaymentTemplate GetPaymentTemplateById(int paymentTemplateId);
         void ResetOrderTagCache();
         void ResetTicketTagCache();
+
     }
 }

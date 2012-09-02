@@ -97,7 +97,8 @@
                                                          Margin="5,-5,5,2" FontWeight="Bold" FontSize="12" Text="{Binding State}"
                                                          HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="{Binding Foreground}"/>
                                     </Grid>
-
+                                    <TextBlock Foreground="{Binding TimerColor}" FontSize="14" FontWeight="Bold" Margin="30,-2,0,2"
+                                        Text="{Binding TimerDescription}" Visibility="{Binding IsTimerVisible,Converter={StaticResource VisibilityConverter}}"/>
                                     <ItemsControl ItemsSource="{Binding OrderTagValues}">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
