@@ -48,7 +48,7 @@ namespace Samba.Modules.PosModule
         {
             get
             {
-                if (SelectedTicket.IsPaid) return SelectedTicket.Date.ToString();
+                if (SelectedTicket.IsClosed) return SelectedTicket.Date.ToString();
                 var time = new TimeSpan(DateTime.Now.Ticks - SelectedTicket.Date.Ticks).TotalMinutes.ToString("#");
 
                 return !string.IsNullOrEmpty(time)
@@ -61,7 +61,7 @@ namespace Samba.Modules.PosModule
         {
             get
             {
-                if (SelectedTicket.IsPaid) return SelectedTicket.LastOrderDate.ToString();
+                if (SelectedTicket.IsClosed) return SelectedTicket.LastOrderDate.ToString();
                 var time = new TimeSpan(DateTime.Now.Ticks - SelectedTicket.LastOrderDate.Ticks).TotalMinutes.ToString("#");
                 return !string.IsNullOrEmpty(time)
                     ? string.Format(Resources.TicketTimeDisplay_f, SelectedTicket.LastOrderDate.ToShortTimeString(), time)
@@ -73,7 +73,7 @@ namespace Samba.Modules.PosModule
         {
             get
             {
-                if (!SelectedTicket.IsPaid) return SelectedTicket.LastPaymentDate != SelectedTicket.Date ? SelectedTicket.LastPaymentDate.ToShortTimeString() : "-";
+                if (!SelectedTicket.IsClosed) return SelectedTicket.LastPaymentDate != SelectedTicket.Date ? SelectedTicket.LastPaymentDate.ToShortTimeString() : "-";
                 var time = new TimeSpan(SelectedTicket.LastPaymentDate.Ticks - SelectedTicket.Date.Ticks).TotalMinutes.ToString("#");
                 return !string.IsNullOrEmpty(time)
                     ? string.Format(Resources.TicketTimeDisplay_f, SelectedTicket.LastPaymentDate, time)

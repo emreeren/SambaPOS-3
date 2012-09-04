@@ -321,7 +321,7 @@ namespace Samba.Modules.PosModule
         {
             if (SelectedTicket.Orders.Count(x => x.Price == 0 && x.CalculatePrice) > 0)
                 return Resources.CantCompleteOperationWhenThereIsZeroPricedProduct;
-            if (!SelectedTicket.IsPaid && SelectedTicket.Orders.Count > 0)
+            if (!SelectedTicket.IsClosed && SelectedTicket.Orders.Count > 0)
             {
                 if (_cacheService.GetTicketTagGroups().Any(x => x.ForceValue && !_ticketViewModel.IsTaggedWith(x.Name)))
                     return string.Format(Resources.TagCantBeEmpty_f, _cacheService.GetTicketTagGroups().First(x => x.ForceValue && !_ticketViewModel.IsTaggedWith(x.Name)).Name);

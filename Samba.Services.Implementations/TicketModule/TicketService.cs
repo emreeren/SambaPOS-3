@@ -140,10 +140,8 @@ namespace Samba.Services.Implementations.TicketModule
 
             if (canSumbitTicket)
             {
-                ticket.Recalculate(_settingService.ProgramSettings.AutoRoundDiscount, _applicationState.CurrentLoggedInUser.Id);
-                
-                if (ticket.RemainingAmount == 0) ticket.StopActiveTimers();
-                ticket.IsPaid = ticket.RemainingAmount == 0;
+                RecalculateTicket(ticket);
+                ticket.UpdateIsClosed();
 
                 if (ticket.Orders.Count > 0)
                 {
@@ -169,7 +167,7 @@ namespace Samba.Services.Implementations.TicketModule
                     ticket.LockTicket();
                 }
 
-                if (ticket.IsPaid)
+                if (ticket.IsClosed)
                     ticket.AccountTransactions.AccountTransactions.Where(x => x.Amount == 0).ToList().ForEach(x => ticket.AccountTransactions.AccountTransactions.Remove(x));
 
                 if (ticket.Id > 0)// eğer adisyonda satır yoksa ID burada 0 olmalı.
@@ -296,7 +294,7 @@ namespace Samba.Services.Implementations.TicketModule
         public void RecalculateTicket(Ticket ticket)
         {
             var total = ticket.TotalAmount;
-            ticket.Recalculate(_settingService.ProgramSettings.AutoRoundDiscount, _applicationState.CurrentLoggedInUser.Id);
+            ticket.Recalculate();
             if (total != ticket.TotalAmount)
             {
                 _automationService.NotifyEvent(RuleEventNames.TicketTotalChanged,
@@ -356,19 +354,17 @@ namespace Samba.Services.Implementations.TicketModule
 
         public int GetOpenTicketCount()
         {
-            return Dao.Count<Ticket>(x => !x.IsPaid);
+            return Dao.Count<Ticket>(x => !x.IsClosed);
         }
 
         public IEnumerable<int> GetOpenTicketIds(int resourceId)
         {
-            return Dao.Select<Ticket, int>(x => x.Id, x => x.RemainingAmount > 0 && x.TicketResources.Any(y => y.ResourceId == resourceId));
+            return Dao.Select<Ticket, int>(x => x.Id, x => !x.IsClosed && x.TicketResources.Any(y => y.ResourceId == resourceId));
         }
 
         public IEnumerable<OpenTicketData> GetOpenTickets(int resourceId)
         {
-            return GetOpenTickets(x =>
-                    x.RemainingAmount > 0 &&
-                    x.TicketResources.Any(y => y.ResourceId == resourceId));
+            return GetOpenTickets(x => !x.IsClosed && x.TicketResources.Any(y => y.ResourceId == resourceId));
         }
 
         public IEnumerable<OpenTicketData> GetOpenTickets(Expression<Func<Ticket, bool>> prediction)
@@ -561,13 +557,13 @@ namespace Samba.Services.Implementations.TicketModule
                     return ConcurrencyCheckResult.Break(string.Format(Resources.TicketMovedRetryLastOperation_f, loaded.AccountName));
                 }
 
-                if (current.IsPaid != loaded.IsPaid)
+                if (current.IsClosed != loaded.IsClosed)
                 {
-                    if (loaded.IsPaid)
+                    if (loaded.IsClosed)
                     {
                         return ConcurrencyCheckResult.Break(Resources.TicketPaidChangesNotSaved);
                     }
-                    if (current.IsPaid)
+                    if (current.IsClosed)
                     {
                         return ConcurrencyCheckResult.Break(Resources.TicketChangedRetryLastOperation);
                     }

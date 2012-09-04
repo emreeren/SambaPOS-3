@@ -64,7 +64,7 @@ namespace Samba.Domain.Models.Tickets
         public DateTime Date { get; set; }
         public DateTime LastOrderDate { get; set; }
         public DateTime LastPaymentDate { get; set; }
-        public bool IsPaid { get; set; }
+        public bool IsClosed { get; set; }
         public decimal RemainingAmount { get; set; }
 
         public int DepartmentId { get; set; }
@@ -267,7 +267,6 @@ namespace Samba.Domain.Models.Tickets
                         calculation.CalculationAmount = (decimal.Round(currentSum / calculation.Amount, MidpointRounding.AwayFromZero) * calculation.Amount) - currentSum;
                     else // eğer yuvarlama eksi olarak verildiyse hep aşağı yuvarlar
                         calculation.CalculationAmount = (Math.Truncate(currentSum / calculation.Amount) * calculation.Amount) - currentSum;
-
                     if (calculation.DecreaseAmount && calculation.CalculationAmount > 0) calculation.CalculationAmount = 0;
                     if (!calculation.DecreaseAmount && calculation.CalculationAmount < 0) calculation.CalculationAmount = 0;
                 }
@@ -278,12 +277,6 @@ namespace Samba.Domain.Models.Tickets
 
                 totalAmount += calculation.CalculationAmount;
                 currentSum += calculation.CalculationAmount;
-
-                //var s = service;
-                //var transaction = AccountTransactions.AccountTransactions.Single(x => x.AccountTransactionTemplateId == s.AccountTransactionTemplateId);
-                ////todo: Mutlak değeri yazmak çoğu durumda doğru ancak bazı durumlarda hesapların ters çevrilmesi gerekiyor. İncele
-                //// Çözüm 1: İskonto olarak işaretli hesaplamaların adisyonun tutarını arttırıcı ya da tam tersi işleme neden olması engellendi.
-                //transaction.Amount = Math.Abs(service.CalculationAmount);
 
                 if (calculation.Amount == 0)
                 {
@@ -371,7 +364,7 @@ namespace Samba.Domain.Models.Tickets
 
         public bool CanSubmit
         {
-            get { return !IsPaid; }
+            get { return !IsClosed; }
         }
 
         public bool IsTagged
@@ -453,16 +446,19 @@ namespace Samba.Domain.Models.Tickets
             {
                 order.Locked = true;
             }
-            if (_shouldLock || IsPaid) Locked = true;
+            if (_shouldLock || IsClosed) Locked = true;
             _shouldLock = false;
         }
 
         public static Ticket Create(Department department, Account account, IEnumerable<CalculationTemplate> calculationTemplates)
         {
-            var ticket = new Ticket { DepartmentId = department.Id };
+            var ticket = new Ticket
+                             {
+                                 DepartmentId = department.Id,
+                                 AccountTemplateId = department.TicketTemplate.SaleTransactionTemplate.TargetAccountTemplateId,
+                                 AccountTransactions = new AccountTransactionDocument()
+                             };
 
-            ticket.AccountTemplateId = department.TicketTemplate.SaleTransactionTemplate.TargetAccountTemplateId;
-            ticket.AccountTransactions = new AccountTransactionDocument();
             ticket.UpdateAccount(account);
             foreach (var calculationTemplate in calculationTemplates.OrderBy(x => x.Order))
             {
@@ -518,13 +514,12 @@ namespace Samba.Domain.Models.Tickets
             {
                 TicketResources.Add(new TicketResource { ResourceId = resourceId, ResourceName = resourceName, ResourceTemplateId = resourceTemplateId, AccountId = accountId, ResourceCustomData = resourceCustomData });
             }
-            else if (resourceId > 0)
+            else if (r != null && resourceId > 0)
             {
                 r.AccountId = accountId;
                 r.ResourceId = resourceId;
                 r.ResourceName = resourceName;
                 r.ResourceTemplateId = resourceTemplateId;
-
             }
             else if (r != null && resourceId == 0)
                 TicketResources.Remove(r);
@@ -542,30 +537,8 @@ namespace Samba.Domain.Models.Tickets
             AccountName = account.Name;
         }
 
-        public void Recalculate(decimal autoRoundValue, int userId)
+        public void Recalculate()
         {
-            //if (autoRoundValue != 0)
-            //{
-            //    AddTicketDiscount(template, 0, userId);
-            //    var ramount = GetRemainingAmount();
-            //    if (ramount > 0)
-            //    {
-            //        decimal damount;
-            //        if (autoRoundValue > 0)
-            //            damount = decimal.Round(ramount / autoRoundValue, MidpointRounding.AwayFromZero) * autoRoundValue;
-            //        else // eğer yuvarlama eksi olarak verildiyse hep aşağı yuvarlar
-            //            damount = Math.Truncate(ramount / autoRoundValue) * autoRoundValue;
-            //        AddTicketDiscount(template, ramount - damount, userId);
-            //    }
-            //    else if (ramount < 0)
-            //    {
-            //        AddTicketDiscount(template, ramount, userId);
-            //    }
-            //}
-
-            //AccountTransactions.AccountTransactions.Where(x => !Orders.Any(y => y.AccountTransactionTemplateId == x.AccountTransactionTemplateId))
-            //    .ToList().ForEach(x => AccountTransactions.AccountTransactions.Remove(x));
-
             if (Orders.Count > 0)
             {
                 var transactionGroup = Orders.GroupBy(x => x.AccountTransactionTemplateId);
@@ -659,6 +632,11 @@ namespace Samba.Domain.Models.Tickets
         public void StopActiveTimers()
         {
             Orders.Where(x => x.MenuItemTimerValue != null && x.MenuItemTimerValue.IsActive).ToList().ForEach(x => x.StopMenuItemTimer());
+        }
+
+        public void UpdateIsClosed()
+        {
+            IsClosed = RemainingAmount == 0 && GetActiveTimerAmount() == 0;
         }
     }
 }

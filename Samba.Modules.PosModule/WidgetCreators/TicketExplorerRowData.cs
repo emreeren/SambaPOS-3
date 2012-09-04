@@ -33,7 +33,7 @@ namespace Samba.Modules.PosModule.WidgetCreators
         public string CreationTime { get { return Model.Date.ToShortTimeString(); } }
         public string LastPaymentTime { get { return Model.LastPaymentDate.ToShortTimeString(); } }
         public decimal Sum { get { return Model.TotalAmount; } }
-        public bool IsPaid { get { return Model.IsPaid; } }
+        public bool IsPaid { get { return Model.IsClosed; } }
         public string TimeInfo { get { return CreationTime != LastPaymentTime || IsPaid ? CreationTime + " - " + LastPaymentTime : CreationTime; } }
         public string TicketNote { get { return Model.Note; } }
         public string this[int templateId]

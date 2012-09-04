@@ -189,7 +189,7 @@ namespace Samba.Modules.PosModule
             ShowTicketTagsCommand = new CaptionCommand<TicketTagGroup>(Resources.Tag, OnShowTicketsTagExecute, CanExecuteShowTicketTags);
             ShowOrderStatesCommand = new CaptionCommand<OrderStateGroup>(Resources.Tag, OnShowOrderStatesExecute, CanShowOrderStatesExecute);
             ShowOrderTagsCommand = new CaptionCommand<OrderTagGroup>(Resources.Tag, OnShowOrderTagsExecute, CanShowOrderTagsExecute);
-            CancelItemCommand = new CaptionCommand<string>(Resources.Cancel, OnCancelItemCommand, CanCancelSelectedItems);
+            CancelItemCommand = new CaptionCommand<string>(Resources.Cancel, OnCancelItemCommand);
             MoveOrdersCommand = new CaptionCommand<string>(Resources.MoveTicketLine, OnMoveOrders, CanMoveOrders);
             EditTicketNoteCommand = new CaptionCommand<string>(Resources.TicketNote, OnEditTicketNote, CanEditTicketNote);
             RemoveTicketLockCommand = new CaptionCommand<string>(Resources.ReleaseLock, OnRemoveTicketLock, CanRemoveTicketLock);
@@ -473,7 +473,7 @@ namespace Samba.Modules.PosModule
 
         private bool CanEditTicketNote(string arg)
         {
-            return !SelectedTicket.IsPaid;
+            return !SelectedTicket.IsClosed;
         }
 
         private void OnEditTicketNote(string obj)
@@ -526,11 +526,6 @@ namespace Samba.Modules.PosModule
         private void OnIncSelectionQuantityCommand(string obj)
         {
             LastSelectedOrder.IncSelectedQuantity();
-        }
-
-        private bool CanCancelSelectedItems(string arg)
-        {
-            return true;//_ticketOrdersViewModel.CanCancelSelectedOrders();
         }
 
         private void OnCancelItemCommand(string obj)

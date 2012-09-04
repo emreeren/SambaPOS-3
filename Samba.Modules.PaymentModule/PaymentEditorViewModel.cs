@@ -179,7 +179,7 @@ namespace Samba.Modules.PaymentModule
         private bool CanMakePayment(PaymentTemplate arg)
         {
             return SelectedTicket != null
-                && !SelectedTicket.IsPaid
+                && !SelectedTicket.IsClosed
                 && GetTenderedValue() > 0
                 && GetRemainingAmount() > 0
                 && (arg.Account != null || SelectedTicket.TicketResources.Any(x => CanMakeAccountTransaction(x, arg)));
@@ -187,7 +187,7 @@ namespace Samba.Modules.PaymentModule
 
         private decimal GetRemainingAmount()
         {
-            return SelectedTicket.GetRemainingAmount() - SelectedTicket.GetActiveTimerAmount();
+            return SelectedTicket.GetRemainingAmount();
         }
 
         private bool CanMakeAccountTransaction(TicketResource ticketResource, PaymentTemplate paymentTemplate)

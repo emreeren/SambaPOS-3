@@ -15,7 +15,6 @@ namespace Samba.Modules.PosModule
 {
     public class TicketButtonViewModel : ObservableObject
     {
-
         private readonly OpenTicketData _openTicketData;
         private readonly int _baseResourceId;
 

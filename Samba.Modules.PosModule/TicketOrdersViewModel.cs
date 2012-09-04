@@ -43,7 +43,7 @@ namespace Samba.Modules.PosModule
         {
             get
             {
-                return SelectedTicket != null && (SelectedTicket.Locked || SelectedTicket.IsPaid)
+                return SelectedTicket != null && (SelectedTicket.Locked || SelectedTicket.IsClosed)
                            ? "Transparent"
                            : "White";
             }
