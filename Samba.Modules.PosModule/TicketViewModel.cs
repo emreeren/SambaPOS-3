@@ -268,9 +268,9 @@ namespace Samba.Modules.PosModule
             {
                 _ticketOrdersViewModel.FixSelectedItems();
                 _ticketService.TagOrders(_ticketOrdersViewModel.SelectedOrderModels, obj.Value.OrderTagGroup, obj.Value.SelectedOrderTag);
-                if (obj.Value.OrderTagGroup.MaxSelectedItems == 1)
-                    ClearSelectedItems();
                 _ticketOrdersViewModel.RefreshSelectedOrders();
+                if (!string.IsNullOrEmpty(obj.Value.OrderTagGroup.ButtonHeader) && obj.Value.OrderTagGroup.MaxSelectedItems == 1)
+                    ClearSelectedItems();
                 ClearSelection = true;
                 RefreshVisuals();
             }

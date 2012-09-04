@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
+using FluentValidation;
+using FluentValidation.Results;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
@@ -43,6 +45,7 @@ namespace Samba.Modules.TicketModule
         public int MinSelectedItems { get { return Model.MinSelectedItems; } set { Model.MinSelectedItems = value; } }
         public bool FreeTagging { get { return Model.FreeTagging; } set { Model.FreeTagging = value; } }
         public bool SaveFreeTags { get { return Model.SaveFreeTags; } set { Model.SaveFreeTags = value; } }
+        public string GroupTag { get { return Model.GroupTag; } set { Model.GroupTag = value; } }
 
         public OrderTagViewModel SelectedOrderTag { get; set; }
 
@@ -109,5 +112,33 @@ namespace Samba.Modules.TicketModule
             }
         }
 
+        protected override FluentValidation.AbstractValidator<OrderTagGroup> GetValidator()
+        {
+            return new OrderTagGroupValidator();
+        }
+
+
+    }
+
+    internal class OrderTagGroupValidator : EntityValidator<OrderTagGroup>
+    {
+        public OrderTagGroupValidator()
+        {
+            RuleFor(x => x.MaxSelectedItems).GreaterThan(x => x.MinSelectedItems).When(x => x.MaxSelectedItems > 0);
+            RuleFor(x => x.MaxSelectedItems).Equal(1).When(x => !string.IsNullOrEmpty(x.GroupTag));
+            RuleFor(x => x.OrderTags).NotEmpty().When(x => !string.IsNullOrEmpty(x.GroupTag));
+            Custom(x =>
+            {
+                if (!string.IsNullOrWhiteSpace(x.GroupTag) && x.OrderTags.Count < 2)
+                {
+                    return new ValidationFailure("Order Tags", "Order Tag count should be at least 2 when Group Tag entered.");
+                }
+                if (x.OrderTags.Select(y => y.Name.ToLower()).Distinct().Count(y => !string.IsNullOrEmpty(y)) != x.OrderTags.Count)
+                {
+                    return new ValidationFailure("Order Tags", "Order Tags should have unique names");
+                }
+                return null;
+            });
+        }
     }
 }

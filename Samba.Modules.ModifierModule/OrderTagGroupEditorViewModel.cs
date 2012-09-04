@@ -26,11 +26,14 @@ namespace Samba.Modules.ModifierModule
             ToggleRemoveModeCommand = new CaptionCommand<string>(Resources.Remove, OnToggleRemoveMode);
             CloseCommand = new CaptionCommand<string>(Resources.Close, OnCloseCommandExecuted);
             PortionSelectedCommand = new DelegateCommand<MenuItemPortion>(OnPortionSelected);
+            GroupedOrderTagSelectedCommand = new DelegateCommand<GroupedOrderTagButtonViewModel>(OnGroupedOrderTagSelected);
             OrderTagSelectedCommand = new DelegateCommand<OrderTagButtonViewModel>(OnOrderTagSelected);
             FreeTagSelectedCommand = new DelegateCommand<OrderTagGroupViewModel>(OnFreeTagSelected);
             SelectedItemPortions = new ObservableCollection<MenuItemPortion>();
             OrderTagGroups = new ObservableCollection<OrderTagGroupViewModel>();
+            GroupedOrderTagGroups = new ObservableCollection<GroupedOrderTagViewModel>();
         }
+
 
 
         private void ResetValues(Ticket selectedTicket)
@@ -40,6 +43,7 @@ namespace Samba.Modules.ModifierModule
 
             SelectedItemPortions.Clear();
             OrderTagGroups.Clear();
+            GroupedOrderTagGroups.Clear();
 
             SetSelectedTicket(selectedTicket);
         }
@@ -69,7 +73,9 @@ namespace Samba.Modules.ModifierModule
         public ObservableCollection<MenuItemPortion> SelectedItemPortions { get; set; }
 
         public DelegateCommand<OrderTagButtonViewModel> OrderTagSelectedCommand { get; set; }
+        public DelegateCommand<GroupedOrderTagButtonViewModel> GroupedOrderTagSelectedCommand { get; set; }
         public ObservableCollection<OrderTagGroupViewModel> OrderTagGroups { get; set; }
+        public ObservableCollection<GroupedOrderTagViewModel> GroupedOrderTagGroups { get; set; }
 
         public bool IsPortionsVisible
         {
@@ -115,6 +121,21 @@ namespace Samba.Modules.ModifierModule
             RemoveMode = false;
             OrderTagGroups.Where(x => x.OrderTags.Contains(orderTag)).ToList().ForEach(x => x.Refresh());
         }
+
+        private void OnGroupedOrderTagSelected(GroupedOrderTagButtonViewModel obj)
+        {
+            if (!RemoveMode) obj.UpdateNextTag(obj.NextTag);
+            var orderTagData = new OrderTagData
+                                   {
+                                       OrderTagGroup = obj.OrderTagGroup,
+                                       SelectedOrderTag = obj.CurrentTag,
+                                       Ticket = SelectedTicket
+                                   };
+            if (RemoveMode) obj.UpdateNextTag(null);
+            orderTagData.PublishEvent(RemoveMode ? EventTopicNames.OrderTagRemoved : EventTopicNames.OrderTagSelected, true);
+            RemoveMode = false;
+        }
+
 
         private void OnFreeTagSelected(OrderTagGroupViewModel obj)
         {
@@ -169,13 +190,24 @@ namespace Samba.Modules.ModifierModule
 
                 RaisePropertyChanged(() => IsPortionsVisible);
 
+                var orderTagGroups = _cacheService.GetOrderTagGroupsForItem(SelectedOrder.MenuItemId).ToList();
+
                 OrderTagGroups.AddRange(
-                    _cacheService.GetOrderTagGroupsForItem(SelectedOrder.MenuItemId)
-                    .Where(x => string.IsNullOrEmpty(x.ButtonHeader))
+                    orderTagGroups
+                    .Where(x => string.IsNullOrEmpty(x.ButtonHeader) && string.IsNullOrEmpty(x.GroupTag))
                     .Select(x => new OrderTagGroupViewModel(x, so)));
+
+                if (SelectedOrder != null)
+                {
+                    GroupedOrderTagGroups.AddRange(
+                        orderTagGroups
+                        .Where(x => string.IsNullOrEmpty(x.ButtonHeader) && !string.IsNullOrEmpty(x.GroupTag) && x.OrderTags.Count > 1)
+                        .GroupBy(x => x.GroupTag)
+                        .Select(x => new GroupedOrderTagViewModel(SelectedOrder, x)));
+                }
             }
 
-            return SelectedItemPortions.Count > 1 || OrderTagGroups.Count > 0;
+            return SelectedItemPortions.Count > 1 || OrderTagGroups.Count > 0 || GroupedOrderTagGroups.Count > 0;
         }
 
     }

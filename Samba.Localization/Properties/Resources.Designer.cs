@@ -3242,6 +3242,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Group Tag.
+        /// </summary>
+        public static string GroupTag {
+            get {
+                return ResourceManager.GetString("GroupTag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Half past.
         /// </summary>
         public static string HalfPast {

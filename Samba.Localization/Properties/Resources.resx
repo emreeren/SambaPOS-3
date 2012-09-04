@@ -3207,4 +3207,7 @@ Continue without adding details?</value>
   <data name="StopTimer">
     <value xml:space="preserve">Stop Timer</value>
   </data>
+  <data name="GroupTag">
+    <value xml:space="preserve">Group Tag</value>
+  </data>
 </root>

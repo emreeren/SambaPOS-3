@@ -51,6 +51,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GroupedOrderTagButtonViewModel.cs" />
+    <Compile Include="GroupedOrderTagViewModel.cs" />
     <Compile Include="MenuItemTimerEditorView.xaml.cs">
       <DependentUpon>MenuItemTimerEditorView.xaml</DependentUpon>
     </Compile>

@@ -118,8 +118,8 @@ namespace Samba.Modules.ModifierModule
         public CaptionCommand<string> ToggleRemoveModeCommand { get; set; }
         public DelegateCommand<OrderTagButtonViewModel> OrderTagSelectedCommand { get; set; }
         public DelegateCommand<string> FreeTagSelectedCommand { get; set; }
-
         public ObservableCollection<OrderTagButtonViewModel> OrderTags { get; set; }
+
         public int OrderTagColumnCount { get { return OrderTags.Count % 7 == 0 ? OrderTags.Count / 7 : (OrderTags.Count / 7) + 1; } }
 
 
