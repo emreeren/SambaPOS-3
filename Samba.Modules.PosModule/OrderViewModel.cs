@@ -254,11 +254,11 @@ namespace Samba.Modules.PosModule
             RaisePropertyChanged(() => TotalPrice);
         }
 
-        public void UpdateOrderState(OrderStateGroup orderStateGroup, OrderState selectedOrderState, int userId)
-        {
-            Model.UpdateOrderState(orderStateGroup, selectedOrderState, userId);
-            RefreshOrder();
-        }
+        //public void UpdateOrderState(OrderStateGroup orderStateGroup, OrderState selectedOrderState, int userId)
+        //{
+        //    Model.UpdateOrderState(orderStateGroup, selectedOrderState, userId);
+        //    RefreshOrder();
+        //}
 
         public void RefreshOrder()
         {

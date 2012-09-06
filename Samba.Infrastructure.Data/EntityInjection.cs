@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Diagnostics;
 using System.Linq;
 using Omu.ValueInjecter;
 
@@ -35,11 +36,6 @@ namespace Samba.Infrastructure.Data
                     if (targetChildType.GetInterfaces().Any(x => x == typeof(IValue)))
                     {
                         var deleteMethod = c.TargetProp.Value.GetType().GetMethod("Remove");
-                        //var removingItems =
-                        //(from vl in (c.TargetProp.Value as IEnumerable).Cast<IValue>()
-                        // let srcv = (c.SourceProp.Value as IEnumerable).Cast<IValue>().SingleOrDefault(z => z.Id == vl.Id)
-                        // where srcv == null
-                        // select vl).ToList();
                         var rmvItems = (c.TargetProp.Value as IEnumerable).Cast<IValue>()
                             .Where(x => x.Id > 0 && !(c.SourceProp.Value as IEnumerable).Cast<IValue>().Any(y => y.Id == x.Id));
                         rmvItems.ToList().ForEach(x => deleteMethod.Invoke(c.TargetProp.Value, new[] { x }));
@@ -52,6 +48,13 @@ namespace Samba.Infrastructure.Data
                         foreach (var s in sourceCollection)
                         {
                             var sv = s;
+                            if (!(sv is IEntity))
+                            {
+                                sv = Activator.CreateInstance(targetChildType) as IValue;
+                                Debug.Assert(sv != null);
+                                sv.InjectFrom<EntityInjection>(s);
+                                sv.Id = 0;
+                            }
                             var target = (c.TargetProp.Value as IEnumerable).Cast<IValue>().SingleOrDefault(z => z.Id == sv.Id && z.Id != 0);
                             if (target != null) target.InjectFrom<EntityInjection>(sv);
                             else if (!(c.TargetProp.Value as IEnumerable).Cast<IValue>().Contains(sv))

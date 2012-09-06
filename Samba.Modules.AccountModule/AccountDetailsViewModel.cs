@@ -188,7 +188,7 @@ namespace Samba.Modules.AccountModule
             if (FocusedAccountTransaction != null)
             {
                 var did = FocusedAccountTransaction.Model.AccountTransactionDocumentId;
-                var ticket = Dao.Single<Ticket>(x => x.AccountTransactions.Id == did);
+                var ticket = Dao.Single<Ticket>(x => x.TransactionDocument.Id == did);
                 if (ticket != null)
                     ExtensionMethods.PublishIdEvent(ticket.Id, EventTopicNames.DisplayTicket);
             }

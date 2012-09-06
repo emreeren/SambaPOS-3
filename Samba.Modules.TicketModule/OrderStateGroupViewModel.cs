@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
+using FluentValidation;
+using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
@@ -11,7 +13,7 @@ using Samba.Presentation.Common.ModelBase;
 namespace Samba.Modules.TicketModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class OrderStateGroupViewModel : EntityViewModelBaseWithMap<OrderStateGroup,OrderStateMap,AbstractMapViewModel<OrderStateMap>>
+    public class OrderStateGroupViewModel : EntityViewModelBaseWithMap<OrderStateGroup, OrderStateMap, AbstractMapViewModel<OrderStateMap>>
     {
         [ImportingConstructor]
         public OrderStateGroupViewModel()
@@ -32,8 +34,25 @@ namespace Samba.Modules.TicketModule
         public bool UnlocksOrder { get { return Model.UnlocksOrder; } set { Model.UnlocksOrder = value; } }
         public bool CalculateOrderPrice { get { return Model.CalculateOrderPrice; } set { Model.CalculateOrderPrice = value; } }
         public bool DecreaseOrderInventory { get { return Model.DecreaseOrderInventory; } set { Model.DecreaseOrderInventory = value; } }
+        public bool IncreaseOrderInventory { get { return Model.IncreaseOrderInventory; } set { Model.IncreaseOrderInventory = value; } }
+        public int AccountTransactionTemplateId { get { return Model.AccountTransactionTemplateId; } set { Model.AccountTransactionTemplateId = value; } }
 
         public OrderStateViewModel SelectedOrderState { get; set; }
+
+        private IEnumerable<AccountTransactionTemplate> _accountTransactionTemplates;
+        public IEnumerable<AccountTransactionTemplate> AccountTransactionTemplates { get { return _accountTransactionTemplates ?? (_accountTransactionTemplates = Workspace.All<AccountTransactionTemplate>()); } }
+
+        public AccountTransactionTemplate AccountTransactionTemplate
+        {
+            get
+            {
+                return AccountTransactionTemplateId == 0 ? null : AccountTransactionTemplates.FirstOrDefault(x => x.Id == AccountTransactionTemplateId);
+            }
+            set
+            {
+                AccountTransactionTemplateId = value != null ? value.Id : 0;
+            }
+        }
 
         private void OnDeletePropertyExecuted(string obj)
         {
@@ -73,6 +92,20 @@ namespace Samba.Modules.TicketModule
         {
             base.Initialize();
             MapController = new MapController<OrderStateMap, AbstractMapViewModel<OrderStateMap>>(Model.OrderStateMaps, Workspace);
+        }
+
+        protected override AbstractValidator<OrderStateGroup> GetValidator()
+        {
+            return new OrderStateGroupValidator();
+        }
+    }
+
+    internal class OrderStateGroupValidator : EntityValidator<OrderStateGroup>
+    {
+        public OrderStateGroupValidator()
+        {
+            RuleFor(x => x.AccountTransactionTemplateId).GreaterThan(0).When(x => x.IncreaseOrderInventory);
+            RuleFor(x => x.DecreaseOrderInventory).Equal(false).When(x => x.IncreaseOrderInventory);
         }
     }
 }

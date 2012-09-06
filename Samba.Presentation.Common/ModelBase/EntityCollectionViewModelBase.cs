@@ -235,7 +235,7 @@ namespace Samba.Presentation.Common.ModelBase
 
         protected override void OnDuplicateItem(object obj)
         {
-            var duplicate = ObjectCloner.Clone(SelectedItem.Model);
+            var duplicate = ObjectCloner.EntityClone(SelectedItem.Model);
             duplicate.Id = 0;
             duplicate.Name = "_" + duplicate.Name;
             VisibleViewModelBase wm = InternalCreateNewViewModel(duplicate);

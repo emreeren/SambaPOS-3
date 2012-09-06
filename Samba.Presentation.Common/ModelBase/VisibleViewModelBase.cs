@@ -9,7 +9,7 @@ namespace Samba.Presentation.Common.ModelBase
         public abstract Type GetViewType();
 
         DelegateCommand<object> _closeCommand;
-        public ICommand CloseCommand
+        public DelegateCommand<object> CloseCommand
         {
             get { return _closeCommand ?? (_closeCommand = new DelegateCommand<object>(OnRequestClose, CanClose)); }
         }

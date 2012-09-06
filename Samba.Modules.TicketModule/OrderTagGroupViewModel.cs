@@ -112,7 +112,7 @@ namespace Samba.Modules.TicketModule
             }
         }
 
-        protected override FluentValidation.AbstractValidator<OrderTagGroup> GetValidator()
+        protected override AbstractValidator<OrderTagGroup> GetValidator()
         {
             return new OrderTagGroupValidator();
         }

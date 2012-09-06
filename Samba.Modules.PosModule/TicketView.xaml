@@ -68,7 +68,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <FxButton:FlexButton Command="{Binding DataContext.ShowTicketTagsCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
-                                     CommandParameter="{Binding Model}" ButtonColor="{Binding ButtonColor}">
+                                     CommandParameter="{Binding Model}" ButtonColor="{Binding ButtonColor,Converter={StaticResource NullBrushConverter}}">
                             <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding Caption}" />
                         </FxButton:FlexButton>
                     </DataTemplate>

@@ -73,6 +73,28 @@ namespace Samba.Modules.BasicReports.Reports.ProductReport
 
             //----------------------
 
+            var returnedMenuItems = MenuGroupBuilder.CalculateReturnedItems(ReportContext.Tickets, ReportContext.MenuItems)
+                .OrderByDescending(x => x.Quantity);
+            if (returnedMenuItems.Count() > 0)
+            {
+                report.AddColumTextAlignment("IadeTablosu", TextAlignment.Left, TextAlignment.Right, TextAlignment.Right);
+                report.AddColumnLength("IadeTablosu", "50*", "Auto", "25*");
+                report.AddTable("IadeTablosu", Resources.MenuItem, Resources.Quantity, Resources.Amount);
+
+                foreach (var menuItemInfo in returnedMenuItems)
+                {
+                    report.AddRow("IadeTablosu",
+                                  menuItemInfo.Name,
+                                  string.Format("{0:0.##}", menuItemInfo.Quantity),
+                                  menuItemInfo.Amount.ToString(ReportContext.CurrencyFormat));
+                }
+
+                report.AddRow("IadeTablosu", Resources.Total, "",
+                              returnedMenuItems.Sum(x => x.Amount).ToString(ReportContext.CurrencyFormat));
+            }
+
+            //----------------------
+
 
             //PrepareModificationTable(report, x => x.Voided, Resources.Voids);
             //PrepareModificationTable(report, x => x.Gifted, Resources.Gifts);

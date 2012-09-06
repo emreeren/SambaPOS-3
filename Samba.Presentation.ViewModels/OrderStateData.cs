@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Samba.Domain.Models.Tickets;
 
 namespace Samba.Presentation.ViewModels

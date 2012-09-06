@@ -79,5 +79,7 @@ namespace Samba.Services
         bool CanDeselectOrder(Order order);
         OrderTagGroup GetMandantoryOrderTagGroup(Order order);
         bool CanCloseTicket(Ticket ticket);
+        void RefreshAccountTransactions(Ticket ticket);
+        void UpdateOrderStates(Ticket selectedTicket, IEnumerable<Order> selectedOrders, OrderStateGroup orderStateGroup, OrderState orderState);
     }
 }

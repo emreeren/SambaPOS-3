@@ -168,7 +168,7 @@ namespace Samba.Services.Implementations.TicketModule
                 }
 
                 if (ticket.IsClosed)
-                    ticket.AccountTransactions.AccountTransactions.Where(x => x.Amount == 0).ToList().ForEach(x => ticket.AccountTransactions.AccountTransactions.Remove(x));
+                    ticket.TransactionDocument.AccountTransactions.Where(x => x.Amount == 0).ToList().ForEach(x => ticket.TransactionDocument.AccountTransactions.Remove(x));
 
                 if (ticket.Id > 0)// eğer adisyonda satır yoksa ID burada 0 olmalı.
                     Dao.Save(ticket);
@@ -255,10 +255,10 @@ namespace Samba.Services.Implementations.TicketModule
             clonedTags.ForEach(x => ticket.SetTagValue(x.TagName, x.TagValue));
 
             foreach (var template in from order in clonedOrders.GroupBy(x => x.AccountTransactionTemplateId)
-                                     where !ticket.AccountTransactions.AccountTransactions.Any(x => x.AccountTransactionTemplateId == order.Key)
+                                     where !ticket.TransactionDocument.AccountTransactions.Any(x => x.AccountTransactionTemplateId == order.Key)
                                      select _cacheService.GetAccountTransactionTemplateById(order.Key))
             {
-                ticket.AccountTransactions.AccountTransactions.Add(AccountTransaction.Create(template));
+                ticket.TransactionDocument.AddNewTransaction(template, ticket.AccountTemplateId, ticket.AccountId);
             }
 
             var result = CloseTicket(ticket);
@@ -281,10 +281,10 @@ namespace Samba.Services.Implementations.TicketModule
             }
 
             foreach (var template in from order in clonedOrders.GroupBy(x => x.AccountTransactionTemplateId)
-                                     where !ticket.AccountTransactions.AccountTransactions.Any(x => x.AccountTransactionTemplateId == order.Key)
+                                     where !ticket.TransactionDocument.AccountTransactions.Any(x => x.AccountTransactionTemplateId == order.Key)
                                      select _cacheService.GetAccountTransactionTemplateById(order.Key))
             {
-                ticket.AccountTransactions.AccountTransactions.Add(AccountTransaction.Create(template));
+                ticket.TransactionDocument.AddNewTransaction(template, ticket.AccountTemplateId, ticket.AccountId);
             }
 
             ticket.LastOrderDate = DateTime.Now;
@@ -509,6 +509,26 @@ namespace Samba.Services.Implementations.TicketModule
             return true;
         }
 
+        public void RefreshAccountTransactions(Ticket ticket)
+        {
+            foreach (var template in from order in ticket.Orders.GroupBy(x => x.AccountTransactionTemplateId)
+                                     where !ticket.TransactionDocument.AccountTransactions.Any(x => x.AccountTransactionTemplateId == order.Key)
+                                     select _cacheService.GetAccountTransactionTemplateById(order.Key))
+            {
+                ticket.TransactionDocument.AddNewTransaction(template, ticket.AccountTemplateId, ticket.AccountId);
+            }
+        }
+
+        public void UpdateOrderStates(Ticket selectedTicket, IEnumerable<Order> selectedOrders, OrderStateGroup orderStateGroup, OrderState orderState)
+        {
+            var so = selectedOrders.ToList();
+            var accountTransactionTemplateIds = so.GroupBy(x => x.AccountTransactionTemplateId).Select(x => x.Key).ToList();
+            so.ForEach(x => x.UpdateOrderState(orderStateGroup, orderState, _applicationState.CurrentLoggedInUser.Id));
+            accountTransactionTemplateIds.Where(x => !so.Any(y => y.AccountTransactionTemplateId == x)).ToList()
+                .ForEach(x => selectedTicket.TransactionDocument.AccountTransactions.Where(y => y.AccountTransactionTemplateId == x).ToList().ForEach(y => selectedTicket.TransactionDocument.AccountTransactions.Remove(y)));
+            RefreshAccountTransactions(selectedTicket);
+        }
+
         public Order AddOrder(Ticket ticket, int menuItemId, decimal quantity, string portionName, OrderTagTemplate template)
         {
             if (ticket.Locked && !_userService.IsUserPermittedFor(PermissionNames.AddItemsToLockedTickets)) return null;
@@ -552,6 +572,7 @@ namespace Samba.Services.Implementations.TicketModule
         {
             if (current.Id > 0)
             {
+                //todo fix : Check Resources instead
                 if (current.AccountName != loaded.AccountName)
                 {
                     return ConcurrencyCheckResult.Break(string.Format(Resources.TicketMovedRetryLastOperation_f, loaded.AccountName));

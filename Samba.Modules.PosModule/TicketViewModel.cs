@@ -256,7 +256,10 @@ namespace Samba.Modules.PosModule
             if (obj.Topic == EventTopicNames.OrderStateSelected)
             {
                 _ticketOrdersViewModel.FixSelectedItems();
-                _ticketOrdersViewModel.SelectedOrders.ToList().ForEach(x => x.UpdateOrderState(obj.Value.OrderStateGroup, obj.Value.SelectedOrderState, _applicationState.CurrentLoggedInUser.Id));
+                _ticketService.UpdateOrderStates(SelectedTicket, _ticketOrdersViewModel.SelectedOrderModels, obj.Value.OrderStateGroup, obj.Value.SelectedOrderState);
+     
+                //?Does refresh items needed?
+                RefreshSelectedItems();
                 ClearSelectedItems();
                 RefreshVisuals();
             }
@@ -396,10 +399,10 @@ namespace Samba.Modules.PosModule
         private bool CanShowOrderStatesExecute(OrderStateGroup arg)
         {
             if (SelectedOrders.Count() == 0) return false;
-            if (!arg.DecreaseOrderInventory && SelectedOrders.Any(x => !x.Locked && !x.IsStateApplied(arg))) return false;
+            if (!arg.DecreaseOrderInventory && !arg.IncreaseOrderInventory && SelectedOrders.Any(x => !x.Locked && !x.IsStateApplied(arg))) return false;
             if (!arg.CalculateOrderPrice && !SelectedTicket.CanRemoveSelectedOrders(SelectedOrders)) return false;
             if (SelectedOrders.Any(x => !x.DecreaseInventory && !x.IsStateApplied(arg))) return false;
-            return !arg.UnlocksOrder || !SelectedOrders.Any(x => x.Locked && x.OrderTagValues.Count(y => y.OrderTagGroupId == arg.Id) > 0);
+            return !arg.UnlocksOrder || !SelectedOrders.Any(x => x.Locked && x.OrderStateGroupId == arg.Id);
         }
 
         private void OnShowOrderTagsExecute(OrderTagGroup orderTagGroup)

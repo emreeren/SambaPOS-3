@@ -10,7 +10,7 @@ namespace Samba.Modules.BasicReports.Reports
         public static IEnumerable<MenuItemGroupInfo> CalculateMenuGroups(IEnumerable<Ticket> tickets, IEnumerable<MenuItem> menuItems)
         {
             var menuItemInfoGroups =
-                from c in tickets.SelectMany(x => x.Orders.Select(y => new { Ticket = x, Order = y }))
+                from c in tickets.SelectMany(x => x.Orders.Where(y => !y.IncreaseInventory).Select(y => new { Ticket = x, Order = y }))
                 join menuItem in menuItems on c.Order.MenuItemId equals menuItem.Id
                 group c by menuItem.GroupCode into grp
                 select new MenuItemGroupInfo
@@ -57,6 +57,19 @@ namespace Samba.Modules.BasicReports.Reports
             return result;
         }
 
+        public static IEnumerable<MenuItemSellInfo> CalculateReturnedItems(IEnumerable<Ticket> tickets, IEnumerable<MenuItem> menuItems)
+        {
+            var menuItemSellInfos =
+                from c in tickets.SelectMany(x => x.Orders.Where(y => y.IncreaseInventory).Select(y => new { Ticket = x, Order = y }))
+                join menuItem in menuItems on c.Order.MenuItemId equals menuItem.Id
+                group c by menuItem.Name into grp
+                select new MenuItemSellInfo { Name = grp.Key, Quantity = grp.Sum(y => y.Order.Quantity), Amount = grp.Sum(y => CalculateOrderTotal(y.Ticket, y.Order)) };
+
+            var result = menuItemSellInfos.ToList().OrderByDescending(x => x.Quantity);
+
+            return result;
+        }
+
 
         public static decimal CalculateOrderTotal(Ticket ticket, Order order)
         {
@@ -65,11 +78,11 @@ namespace Samba.Modules.BasicReports.Reports
             {
                 var tsum = ticket.GetPlainSum();
                 var rate = tsum > 0 ? (discount * 100) / tsum : 100;
-                var tiTotal = order.GetTotal();
+                var tiTotal = order.GetTransactionTotal();
                 var itemDiscount = (tiTotal * rate) / 100;
                 return tiTotal + itemDiscount;
             }
-            return order.GetTotal();
+            return order.GetTransactionTotal();
         }
     }
 }

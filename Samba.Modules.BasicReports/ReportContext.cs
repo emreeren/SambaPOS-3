@@ -122,7 +122,7 @@ namespace Samba.Modules.BasicReports
 
         private static DateTime StrToDate(string value)
         {
-            var vals = value.Split(new[]{' '},StringSplitOptions.RemoveEmptyEntries).Select(x => Convert.ToInt32(x)).ToList();
+            var vals = value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(x => Convert.ToInt32(x)).ToList();
             if (vals.Count == 1) vals.Add(DateTime.Now.Month);
             if (vals.Count == 2) vals.Add(DateTime.Now.Year);
 
@@ -172,12 +172,12 @@ namespace Samba.Modules.BasicReports
             if (CurrentWorkPeriod.StartDate == CurrentWorkPeriod.EndDate)
                 return Dao.Query<Ticket>(
                     x => x.LastPaymentDate >= CurrentWorkPeriod.StartDate,
-                    x => x.AccountTransactions.AccountTransactions,
+                    x => x.TransactionDocument.AccountTransactions,
                     x => x.Payments.Select(y => y.AccountTransaction), x => x.Calculations, x => x.Orders, x => x.Orders.Select(y => y.OrderTagValues));
 
             return Dao.Query<Ticket>(
                     x => x.LastPaymentDate >= CurrentWorkPeriod.StartDate && x.LastPaymentDate < CurrentWorkPeriod.EndDate,
-                    x => x.AccountTransactions.AccountTransactions,
+                    x => x.TransactionDocument.AccountTransactions,
                     x => x.Payments.Select(y => y.AccountTransaction), x => x.Calculations, x => x.Orders.Select(y => y.OrderTagValues));
         }
 
@@ -325,10 +325,21 @@ namespace Samba.Modules.BasicReports
             return d != null ? d.Name : Resources.UndefinedWithBrackets;
         }
 
-        internal static AmountCalculator GetOperationalAmountCalculator()
+        internal static AmountCalculator GetIncomeCalculator()
         {
             var groups = Tickets
                 .SelectMany(x => x.Payments)
+                .Where(x => x.Amount >= 0)
+                .GroupBy(x => x.PaymentTemplateId)
+                .Select(x => new TenderedAmount { PaymentName = GetPaymentTemplateName(x.Key), Amount = x.Sum(y => y.Amount) });
+            return new AmountCalculator(groups);
+        }
+
+        internal static AmountCalculator GetRefundCalculator()
+        {
+            var groups = Tickets
+                .SelectMany(x => x.Payments)
+                .Where(x => x.Amount < 0)
                 .GroupBy(x => x.PaymentTemplateId)
                 .Select(x => new TenderedAmount { PaymentName = GetPaymentTemplateName(x.Key), Amount = x.Sum(y => y.Amount) });
             return new AmountCalculator(groups);

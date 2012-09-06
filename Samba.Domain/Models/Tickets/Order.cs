@@ -29,6 +29,7 @@ namespace Samba.Domain.Models.Tickets
         public bool Locked { get; set; }
         public bool CalculatePrice { get; set; }
         public bool DecreaseInventory { get; set; }
+        public bool IncreaseInventory { get; set; }
         public int OrderStateGroupId { get; set; }
         public string OrderStateGroupName { get; set; }
         public string OrderState { get; set; }
@@ -37,7 +38,6 @@ namespace Samba.Domain.Models.Tickets
         public string CreatingUserName { get; set; }
         public DateTime CreatedDateTime { get; set; }
         public int AccountTransactionTemplateId { get; set; }
-        public int AccountTransactionTaxTemplateId { get; set; }
         public int? MenuItemTimerValueId { get; set; }
         public virtual MenuItemTimerValue MenuItemTimerValue { get; set; }
 
@@ -50,6 +50,7 @@ namespace Samba.Domain.Models.Tickets
         public string TaxTemplateName { get; set; }
         public int TaxTemplateId { get; set; }
         public bool TaxIncluded { get; set; }
+        public int TaxTempleteAccountTransactionTemplateId { get; set; }
 
         private IList<OrderTagValue> _orderTagValues;
         public virtual IList<OrderTagValue> OrderTagValues
@@ -101,7 +102,7 @@ namespace Samba.Domain.Models.Tickets
                 TaxIncluded = taxTemplate.TaxIncluded;
                 TaxTemplateId = taxTemplate.Id;
                 TaxTemplateName = taxTemplate.Name;
-                AccountTransactionTaxTemplateId = taxTemplate.AccountTransactionTemplate.Id;
+                TaxTempleteAccountTransactionTemplateId = taxTemplate.AccountTransactionTemplate.Id;
             }
 
             if (!string.IsNullOrEmpty(priceTag))
@@ -177,6 +178,7 @@ namespace Samba.Domain.Models.Tickets
             {
                 CalculatePrice = true;
                 DecreaseInventory = true;
+                IncreaseInventory = false;
                 OrderState = "";
                 OrderStateGroupName = "";
                 OrderStateGroupId = 0;
@@ -185,7 +187,10 @@ namespace Samba.Domain.Models.Tickets
             }
             CalculatePrice = orderStateGroup.CalculateOrderPrice;
             DecreaseInventory = orderStateGroup.DecreaseOrderInventory;
+            IncreaseInventory = orderStateGroup.IncreaseOrderInventory;
             if (orderStateGroup.UnlocksOrder) Locked = false;
+            if (orderStateGroup.AccountTransactionTemplateId > 0)
+                AccountTransactionTemplateId = orderStateGroup.AccountTransactionTemplateId;
             OrderState = orderState.Name;
             OrderStateGroupName = orderStateGroup.Name;
             OrderStateGroupId = orderStateGroup.Id;
@@ -219,9 +224,21 @@ namespace Samba.Domain.Models.Tickets
             return result;
         }
 
+        public decimal GetTransactionTotal()
+        {
+            if (CalculatePrice)
+            {
+                var tax = TaxIncluded ? GetTotalTaxAmount() : 0;
+                return GetItemValue() - tax;
+            }
+            return 0;
+        }
+
         public decimal GetTotal()
         {
-            return CalculatePrice ? GetItemValue() : 0;
+            var val = GetTransactionTotal();
+            if (IncreaseInventory) val = 0 - val;
+            return val;
         }
 
         public decimal GetItemValue()
@@ -335,7 +352,9 @@ namespace Samba.Domain.Models.Tickets
 
         public decimal GetTotalTaxAmount()
         {
-            return CalculatePrice && DecreaseInventory ? (TaxAmount + OrderTagValues.Sum(x => x.TaxAmount)) * Quantity : 0;
+            var result = CalculatePrice && (DecreaseInventory || IncreaseInventory) ? (TaxAmount + OrderTagValues.Sum(x => x.TaxAmount)) * Quantity : 0;
+            if (IncreaseInventory) result = 0 - result;
+            return result;
         }
 
         public OrderTagValue GetOrderTagValue(string s)
@@ -355,7 +374,7 @@ namespace Samba.Domain.Models.Tickets
 
         public string OrderKey { get { return string.Join("", OrderTagValues.OrderBy(x => x.OrderKey).Select(x => x.OrderKey)); } }
 
-        public void UpdateTimer(MenuItemTimer timer)
+        public void UpdateProductTimer(MenuItemTimer timer)
         {
             if (timer != null)
             {

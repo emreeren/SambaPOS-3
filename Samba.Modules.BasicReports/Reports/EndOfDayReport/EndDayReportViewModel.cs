@@ -29,12 +29,6 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 
             var report = new SimpleReport("8cm");
             AddDefaultReportHeader(report, currentPeriod, Resources.WorkPeriodReport);
-
-            //---------------
-
-            report.AddColumTextAlignment("Departman", TextAlignment.Left, TextAlignment.Right);
-            report.AddTable("Departman", Resources.Sales, "");
-
             var ticketGropus = ReportContext.Tickets
                 .GroupBy(x => new { x.DepartmentId })
                 .Select(x => new DepartmentInfo
@@ -46,50 +40,42 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
                     Services = x.Sum(y => y.GetPostTaxServicesTotal())
                 }).ToList();
 
-            if (ticketGropus.Count() > 1)
-            {
-                foreach (var departmentInfo in ticketGropus)
-                {
-                    report.AddRow("Departman", departmentInfo.DepartmentName, departmentInfo.Amount.ToString(ReportContext.CurrencyFormat));
-                }
-            }
-
-            report.AddRow("Departman", Resources.TotalSales.ToUpper(), ticketGropus.Sum(x => x.Amount).ToString(ReportContext.CurrencyFormat));
-
-            var vatSum = ticketGropus.Sum(x => x.Tax);
-            var serviceSum = ticketGropus.Sum(x => x.Services);
-            if (vatSum > 0 || serviceSum > 0)
-            {
-                if (vatSum > 0)
-                    report.AddRow("Departman", Resources.TaxTotal.ToUpper(), vatSum.ToString(ReportContext.CurrencyFormat));
-
-                if (serviceSum > 0)
-                {
-                    ReportContext.Tickets.SelectMany(x => x.Calculations).GroupBy(x => x.ServiceId).ToList().ForEach(
-                        x =>
-                        {
-                            var template = ReportContext.CalculationTemplates.SingleOrDefault(y => y.Id == x.Key);
-                            var title = template != null ? template.Name : Resources.UndefinedWithBrackets;
-                            report.AddRow("Departman", title, x.Sum(y => y.CalculationAmount).ToString(ReportContext.CurrencyFormat));
-                        });
-                }
-
-                report.AddRow("Departman", Resources.GrandTotal.ToUpper(), ticketGropus.Sum(x => x.Amount + x.Tax + x.Services).ToString(ReportContext.CurrencyFormat));
-            }
 
             //---------------
 
-            var amountCalculator = ReportContext.GetOperationalAmountCalculator();
+            CreateDepartmentInfo(report, ReportContext.Tickets.Where(x => x.TotalAmount >= 0), Resources.Sales);
+            var refundTickets = ReportContext.Tickets.Where(x => x.TotalAmount < 0).ToList();
+            if (refundTickets.Count() > 0)
+                CreateDepartmentInfo(report, refundTickets, "Returns");
+            //---------------
+
+            var incomeCalculator = ReportContext.GetIncomeCalculator();
 
             report.AddColumnLength("GelirlerTablosu", "45*", "Auto", "35*");
             report.AddColumTextAlignment("GelirlerTablosu", TextAlignment.Left, TextAlignment.Right, TextAlignment.Right);
             report.AddTable("GelirlerTablosu", Resources.Incomes, "", "");
 
-            foreach (var paymentName in amountCalculator.PaymentNames)
-                report.AddRow("GelirlerTablosu", paymentName, amountCalculator.GetPercent(paymentName), amountCalculator.GetAmount(paymentName).ToString(ReportContext.CurrencyFormat));
+            foreach (var paymentName in incomeCalculator.PaymentNames)
+                report.AddRow("GelirlerTablosu", paymentName, incomeCalculator.GetPercent(paymentName), incomeCalculator.GetAmount(paymentName).ToString(ReportContext.CurrencyFormat));
 
-            report.AddRow("GelirlerTablosu", Resources.TotalIncome.ToUpper(), "", amountCalculator.TotalAmount.ToString(ReportContext.CurrencyFormat));
+            report.AddRow("GelirlerTablosu", Resources.TotalIncome.ToUpper(), "", incomeCalculator.TotalAmount.ToString(ReportContext.CurrencyFormat));
 
+            //---------------
+
+            var refundCalculator = ReportContext.GetRefundCalculator();
+            if (refundCalculator.TotalAmount != 0)
+            {
+                report.AddColumnLength("İadeTablosu", "45*", "Auto", "35*");
+                report.AddColumTextAlignment("İadeTablosu", TextAlignment.Left, TextAlignment.Right, TextAlignment.Right);
+                report.AddTable("İadeTablosu", "Refunds", "", "");
+
+                foreach (var paymentName in refundCalculator.PaymentNames)
+                    report.AddRow("İadeTablosu", paymentName, refundCalculator.GetPercent(paymentName),
+                                  refundCalculator.GetAmount(paymentName).ToString(ReportContext.CurrencyFormat));
+
+                report.AddRow("İadeTablosu", "TOTAL REFUND", "",
+                              refundCalculator.TotalAmount.ToString(ReportContext.CurrencyFormat));
+            }
             //---------------
 
             var propertySum = ReportContext.Tickets
@@ -248,7 +234,7 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 
             //----
 
-            var owners = ReportContext.Tickets.SelectMany(ticket => ticket.Orders.Select(order => new { Ticket = ticket, Order = order }))
+            var owners = ReportContext.Tickets.SelectMany(ticket => ticket.Orders.Where(x => !x.IncreaseInventory).Select(order => new { Ticket = ticket, Order = order }))
                 .GroupBy(x => new { x.Order.CreatingUserName })
                 .Select(x => new UserInfo { UserName = x.Key.CreatingUserName, Amount = x.Sum(y => MenuGroupBuilder.CalculateOrderTotal(y.Ticket, y.Order)) });
 
@@ -259,6 +245,25 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
             foreach (var ownerInfo in owners)
             {
                 report.AddRow("Garson", ownerInfo.UserName, ownerInfo.Amount.ToString(ReportContext.CurrencyFormat));
+            }
+
+
+            //----
+
+            var refundOwners = ReportContext.Tickets.SelectMany(ticket => ticket.Orders.Where(x => x.IncreaseInventory).Select(order => new { Ticket = ticket, Order = order }))
+                .GroupBy(x => new { x.Order.CreatingUserName })
+                .Select(x => new UserInfo { UserName = x.Key.CreatingUserName, Amount = x.Sum(y => MenuGroupBuilder.CalculateOrderTotal(y.Ticket, y.Order)) }).ToList();
+            if (refundOwners.Count() > 0)
+            {
+                report.AddColumTextAlignment("Garsonİade", TextAlignment.Left, TextAlignment.Right);
+                report.AddColumnLength("Garsonİade", "65*", "35*");
+                report.AddTable("Garsonİade", "User Returns", "");
+
+                foreach (var ownerInfo in refundOwners)
+                {
+                    report.AddRow("Garsonİade", ownerInfo.UserName,
+                                  ownerInfo.Amount.ToString(ReportContext.CurrencyFormat));
+                }
             }
 
             var menuGroups = MenuGroupBuilder.CalculateMenuGroups(ReportContext.Tickets, ReportContext.MenuItems).ToList();
@@ -276,6 +281,59 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 
             report.AddRow("Gıda", Resources.Total.ToUpper(), "", menuGroups.Sum(x => x.Amount).ToString(ReportContext.CurrencyFormat));
             return report.Document;
+        }
+
+        private static void CreateDepartmentInfo(SimpleReport report, IEnumerable<Ticket> tickets, string header)
+        {
+            var rpKey = "Departman" + header;
+            report.AddColumTextAlignment(rpKey, TextAlignment.Left, TextAlignment.Right);
+            report.AddTable(rpKey, header, "");
+
+            var ticketGropus = tickets
+                .GroupBy(x => new { x.DepartmentId })
+                .Select(x => new DepartmentInfo
+                                 {
+                                     DepartmentId = x.Key.DepartmentId,
+                                     TicketCount = x.Count(),
+                                     Amount = x.Sum(y => y.GetSum()),
+                                     Tax = x.Sum(y => y.CalculateTax(y.GetPlainSum(), y.GetPreTaxServicesTotal())),
+                                     Services = x.Sum(y => y.GetPostTaxServicesTotal())
+                                 }).ToList();
+
+            if (ticketGropus.Count() > 1)
+            {
+                foreach (var departmentInfo in ticketGropus)
+                {
+                    report.AddRow(rpKey, departmentInfo.DepartmentName,
+                                  departmentInfo.Amount.ToString(ReportContext.CurrencyFormat));
+                }
+            }
+
+            report.AddRow(rpKey, header.ToUpper() + " TOTAL",
+                          ticketGropus.Sum(x => x.Amount).ToString(ReportContext.CurrencyFormat));
+
+            var vatSum = ticketGropus.Sum(x => x.Tax);
+            var serviceSum = ticketGropus.Sum(x => x.Services);
+            if (vatSum > 0 || serviceSum > 0)
+            {
+                if (vatSum > 0)
+                    report.AddRow(rpKey, Resources.TaxTotal.ToUpper(), vatSum.ToString(ReportContext.CurrencyFormat));
+
+                if (serviceSum > 0)
+                {
+                    ReportContext.Tickets.SelectMany(x => x.Calculations).GroupBy(x => x.ServiceId).ToList().ForEach(
+                        x =>
+                        {
+                            var template = ReportContext.CalculationTemplates.SingleOrDefault(y => y.Id == x.Key);
+                            var title = template != null ? template.Name : Resources.UndefinedWithBrackets;
+                            report.AddRow(rpKey, title,
+                                          x.Sum(y => y.CalculationAmount).ToString(ReportContext.CurrencyFormat));
+                        });
+                }
+
+                report.AddRow(rpKey, Resources.GrandTotal.ToUpper(),
+                              ticketGropus.Sum(x => x.Amount + x.Tax + x.Services).ToString(ReportContext.CurrencyFormat));
+            }
         }
 
         protected override string GetHeader()

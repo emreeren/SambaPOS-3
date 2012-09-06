@@ -3168,46 +3168,66 @@ Continue without adding details?</value>
     <value>Max Quantity</value>
     <comment>DataGridTextColumn.Header</comment>
   </data>
-  <data name="Filter">
-    <value xml:space="preserve">Filter</value>
+  <data name="Filter" xml:space="preserve">
+    <value>Filter</value>
   </data>
-  <data name="Remove">
-    <value xml:space="preserve">Remove</value>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
   </data>
-  <data name="MinSelectedItems">
-    <value xml:space="preserve">Min Selected Items</value>
+  <data name="MinSelectedItems" xml:space="preserve">
+    <value>Min Selected Items</value>
   </data>
-  <data name="MenuItemTimer">
-    <value xml:space="preserve">Menu Item Timer</value>
+  <data name="MenuItemTimer" xml:space="preserve">
+    <value>Menu Item Timer</value>
   </data>
-  <data name="PriceDurationType">
-    <value xml:space="preserve">Price Duration Type</value>
+  <data name="PriceDurationType" xml:space="preserve">
+    <value>Price Duration Type</value>
   </data>
-  <data name="PriceDuration">
-    <value xml:space="preserve">Price Duration</value>
+  <data name="PriceDuration" xml:space="preserve">
+    <value>Price Duration</value>
   </data>
-  <data name="MinTime">
-    <value xml:space="preserve">Min Time</value>
+  <data name="MinTime" xml:space="preserve">
+    <value>Min Time</value>
   </data>
-  <data name="TimeRounding">
-    <value xml:space="preserve">Time Rounding</value>
+  <data name="TimeRounding" xml:space="preserve">
+    <value>Time Rounding</value>
   </data>
-  <data name="Active">
-    <value xml:space="preserve">Active</value>
+  <data name="Active" xml:space="preserve">
+    <value>Active</value>
   </data>
-  <data name="Beginning">
-    <value xml:space="preserve">Beginning</value>
+  <data name="Beginning" xml:space="preserve">
+    <value>Beginning</value>
   </data>
-  <data name="Ending">
-    <value xml:space="preserve">Ending</value>
+  <data name="Ending" xml:space="preserve">
+    <value>Ending</value>
   </data>
-  <data name="Duration">
-    <value xml:space="preserve">Duration</value>
+  <data name="Duration" xml:space="preserve">
+    <value>Duration</value>
   </data>
-  <data name="StopTimer">
-    <value xml:space="preserve">Stop Timer</value>
+  <data name="StopTimer" xml:space="preserve">
+    <value>Stop Timer</value>
   </data>
-  <data name="GroupTag">
-    <value xml:space="preserve">Group Tag</value>
+  <data name="GroupTag" xml:space="preserve">
+    <value>Group Tag</value>
+  </data>
+  <data name="UnlocksOrder" xml:space="preserve">
+    <value>Unlocks Order</value>
+    <comment>CheckBox.Content</comment>
+  </data>
+  <data name="CalculatePrice" xml:space="preserve">
+    <value>Calculate Price</value>
+    <comment>CheckBox.Content</comment>
+  </data>
+  <data name="DecreaseInventory" xml:space="preserve">
+    <value>Decrease Inventory</value>
+    <comment>CheckBox.Content</comment>
+  </data>
+  <data name="IncreaseInventory" xml:space="preserve">
+    <value>Increase Inventory</value>
+    <comment>CheckBox.Content</comment>
+  </data>
+  <data name="OrderStates" xml:space="preserve">
+    <value>Order States</value>
+    <comment>TabItem.Header</comment>
   </data>
 </root>

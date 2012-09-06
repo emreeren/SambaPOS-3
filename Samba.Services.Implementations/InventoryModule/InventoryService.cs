@@ -53,16 +53,16 @@ namespace Samba.Services.Implementations.InventoryModule
                                             x => x.Orders,
                                             x => x.Orders.Select(y => y.OrderTagValues));
             return tickets.SelectMany(x => x.Orders)
-                    .Where(x => x.DecreaseInventory && recipeItemIds.Contains(x.MenuItemId));
+                    .Where(x => (x.DecreaseInventory || x.IncreaseInventory) && recipeItemIds.Contains(x.MenuItemId));
         }
 
         private IEnumerable<SalesData> GetSales(WorkPeriod workPeriod)
         {
             var orders = GetOrdersFromRecipes(workPeriod).ToList();
             var salesData = orders.GroupBy(x => new { x.MenuItemName, x.MenuItemId, x.PortionName })
-                    .Select(x => new SalesData { MenuItemName = x.Key.MenuItemName, MenuItemId = x.Key.MenuItemId, PortionName = x.Key.PortionName, Total = x.Sum(y => y.Quantity) }).ToList();
+                    .Select(x => new SalesData { MenuItemName = x.Key.MenuItemName, MenuItemId = x.Key.MenuItemId, PortionName = x.Key.PortionName, Total = x.Sum(y => GetQuantity(y)) }).ToList();
 
-            var orderTagValues = orders.SelectMany(x => x.OrderTagValues, (ti, pr) => new { OrderTagValues = pr, ti.Quantity })
+            var orderTagValues = orders.SelectMany(x => x.OrderTagValues, (ti, pr) => new { OrderTagValues = pr, Quantity = GetQuantity(ti) })
                     .Where(x => x.OrderTagValues.MenuItemId > 0)
                     .GroupBy(x => new { x.OrderTagValues.MenuItemId, x.OrderTagValues.PortionName });
 
@@ -81,6 +81,11 @@ namespace Samba.Services.Implementations.InventoryModule
             }
 
             return salesData;
+        }
+
+        private decimal GetQuantity(Order order)
+        {
+            return order.IncreaseInventory ? 0 - order.Quantity : order.Quantity;
         }
 
         private void CreatePeriodicConsumptionItems(PeriodicConsumption pc, IWorkspace workspace)
@@ -128,7 +133,6 @@ namespace Samba.Services.Implementations.InventoryModule
                         var item = recipeItem;
                         var pci = pc.PeriodicConsumptionItems.Single(x => x.InventoryItem.Id == item.InventoryItem.Id);
                         pci.Consumption += (item.Quantity * sale.Total) / pci.UnitMultiplier;
-                        Debug.Assert(pci.Consumption > 0);
                         cost += recipeItem.Quantity * (pci.Cost / pci.UnitMultiplier);
                     }
                     pc.CostItems.Add(new CostItem { Name = sale.MenuItemName, Portion = recipe.Portion, CostPrediction = cost, Quantity = sale.Total });

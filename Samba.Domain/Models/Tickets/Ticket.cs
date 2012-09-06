@@ -41,7 +41,7 @@ namespace Samba.Domain.Models.Tickets
             {
                 return _emptyTicket ?? (_emptyTicket = new Ticket
                                                            {
-                                                               AccountTransactions = new AccountTransactionDocument()
+                                                               TransactionDocument = new AccountTransactionDocument()
                                                            });
             }
         }
@@ -56,8 +56,8 @@ namespace Samba.Domain.Models.Tickets
             set
             {
                 _ticketNumber = value;
-                if (AccountTransactions != null)
-                    AccountTransactions.Name = string.Format("Ticket Transaction [{0}]", TicketNumber);
+                if (TransactionDocument != null)
+                    TransactionDocument.Name = string.Format("Ticket Transaction [{0}]", TicketNumber);
             }
         }
 
@@ -79,7 +79,7 @@ namespace Samba.Domain.Models.Tickets
 
         public string TicketTags { get; set; }
 
-        public virtual AccountTransactionDocument AccountTransactions { get; set; }
+        public virtual AccountTransactionDocument TransactionDocument { get; set; }
 
         private IList<TicketResource> _ticketResources;
         public virtual IList<TicketResource> TicketResources
@@ -130,39 +130,29 @@ namespace Samba.Domain.Models.Tickets
         public Order AddOrder(AccountTransactionTemplate template, string userName, MenuItem menuItem, MenuItemPortion portion, string priceTag, MenuItemTimer timer)
         {
             Locked = false;
-            var tif = new Order();
-            tif.UpdateMenuItem(userName, menuItem, portion, priceTag, 1);
-            tif.AccountTransactionTemplateId = template.Id;
-            if (AccountTransactions.AccountTransactions.SingleOrDefault(x => x.AccountTransactionTemplateId == template.Id) == null)
+            var order = new Order();
+            order.UpdateMenuItem(userName, menuItem, portion, priceTag, 1);
+            order.AccountTransactionTemplateId = template.Id;
+
+            TransactionDocument.AddSingletonTransaction(template.Id, template, AccountTemplateId, AccountId);
+
+            if (menuItem.TaxTemplate != null)
             {
-                var transaction = AccountTransaction.Create(template);
-                transaction.UpdateAccounts(AccountTemplateId, AccountId);
-                AccountTransactions.AccountTransactions.Add(transaction);
+                TransactionDocument.AddSingletonTransaction(order.TaxTempleteAccountTransactionTemplateId,
+                                                               menuItem.TaxTemplate.AccountTransactionTemplate,
+                                                               AccountTemplateId, AccountId);
             }
 
-            if (tif.AccountTransactionTaxTemplateId > 0
-                && AccountTransactions.AccountTransactions
-                    .SingleOrDefault(x => x.AccountTransactionTemplateId == tif.AccountTransactionTaxTemplateId) == null)
-            {
-                var transaction = AccountTransaction.Create(menuItem.TaxTemplate.AccountTransactionTemplate);
-                transaction.UpdateAccounts(AccountTemplateId, AccountId);
-                AccountTransactions.AccountTransactions.Add(transaction);
-            }
-            tif.UpdateTimer(timer);
-            Orders.Add(tif);
-            return tif;
+            order.UpdateProductTimer(timer);
+            Orders.Add(order);
+            return order;
         }
 
         public void AddPayment(PaymentTemplate paymentTemplate, Account account, decimal amount, int userId)
         {
-            var transaction = AccountTransaction.Create(paymentTemplate.AccountTransactionTemplate);
-            transaction.Amount = amount;
-            transaction.SetTargetAccount(account.AccountTemplateId, account.Id);
-            transaction.UpdateAccounts(AccountTemplateId, AccountId);
-            AccountTransactions.AccountTransactions.Add(transaction);
+            var transaction = TransactionDocument.AddNewTransaction(paymentTemplate.AccountTransactionTemplate, AccountTemplateId, AccountId, account, amount);
             var payment = new Payment { AccountTransaction = transaction, Amount = amount, Name = account.Name, PaymentTemplateId = paymentTemplate.Id };
             Payments.Add(payment);
-
             LastPaymentDate = DateTime.Now;
             RemainingAmount = GetRemainingAmount();
             if (RemainingAmount == 0)
@@ -171,21 +161,21 @@ namespace Samba.Domain.Models.Tickets
             }
         }
 
-        public void RemoveOrder(Order ti)
+        public void RemoveOrder(Order order)
         {
-            var transactionId = ti.AccountTransactionTemplateId;
-            Orders.Remove(ti);
+            var transactionId = order.AccountTransactionTemplateId;
+            Orders.Remove(order);
             if (!Orders.Any(x => x.AccountTransactionTemplateId == transactionId))
             {
-                AccountTransactions.AccountTransactions.Where(x => x.AccountTransactionTemplateId == transactionId)
-                       .ToList().ForEach(x => AccountTransactions.AccountTransactions.Remove(x));
+                TransactionDocument.AccountTransactions.Where(x => x.AccountTransactionTemplateId == transactionId)
+                       .ToList().ForEach(x => TransactionDocument.AccountTransactions.Remove(x));
             }
         }
 
         public void RemovePayment(Payment py)
         {
             Payments.Remove(py);
-            AccountTransactions.AccountTransactions.Where(x => x.Id == py.AccountTransaction.Id).ToList().ForEach(x => AccountTransactions.AccountTransactions.Remove(x));
+            TransactionDocument.AccountTransactions.Where(x => x.Id == py.AccountTransaction.Id).ToList().ForEach(x => TransactionDocument.AccountTransactions.Remove(x));
         }
 
         public void RemoveCalculation(Calculation py)
@@ -194,8 +184,8 @@ namespace Samba.Domain.Models.Tickets
             Calculations.Remove(py);
             if (!Calculations.Any(x => x.AccountTransactionTemplateId == transactionId))
             {
-                AccountTransactions.AccountTransactions.Where(x => x.AccountTransactionTemplateId == transactionId)
-                       .ToList().ForEach(x => AccountTransactions.AccountTransactions.Remove(x));
+                TransactionDocument.AccountTransactions.Where(x => x.AccountTransactionTemplateId == transactionId)
+                       .ToList().ForEach(x => TransactionDocument.AccountTransactions.Remove(x));
             }
         }
 
@@ -324,20 +314,12 @@ namespace Samba.Domain.Models.Tickets
 
         public void UpdateCalculationTransaction(Calculation calculation, decimal amount)
         {
-            var transaction = AccountTransactions.AccountTransactions.SingleOrDefault(x => x.AccountTransactionTemplateId == calculation.AccountTransactionTemplateId);
-            if (transaction == null)
-            {
-                transaction = AccountTransaction.Create(calculation.AccountTransactionTemplate);
-                transaction.Name = calculation.Name;
-                transaction.UpdateAccounts(AccountTemplateId, AccountId);
-                AccountTransactions.AccountTransactions.Add(transaction);
-            }
+            TransactionDocument.AddSingletonTransaction(calculation.AccountTransactionTemplateId, calculation.AccountTransactionTemplate, AccountTemplateId, AccountId, calculation.Name, amount);
             if (amount == 0)
             {
-                AccountTransactions.AccountTransactions.Remove(
-                    AccountTransactions.AccountTransactions.Single(x => x.AccountTransactionTemplateId == calculation.AccountTransactionTemplateId));
+                TransactionDocument.AccountTransactions.Remove(
+                    TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTemplateId == calculation.AccountTransactionTemplateId));
             }
-            transaction.Amount = amount;
         }
 
         public decimal GetPlainSum()
@@ -456,7 +438,7 @@ namespace Samba.Domain.Models.Tickets
                              {
                                  DepartmentId = department.Id,
                                  AccountTemplateId = department.TicketTemplate.SaleTransactionTemplate.TargetAccountTemplateId,
-                                 AccountTransactions = new AccountTransactionDocument()
+                                 TransactionDocument = new AccountTransactionDocument()
                              };
 
             ticket.UpdateAccount(account);
@@ -528,7 +510,7 @@ namespace Samba.Domain.Models.Tickets
         public void UpdateAccount(Account account)
         {
             if (account == null) return;
-            foreach (var transaction in AccountTransactions.AccountTransactions)
+            foreach (var transaction in TransactionDocument.AccountTransactions)
             {
                 transaction.UpdateAccounts(AccountTemplateId, account.Id);
             }
@@ -545,17 +527,17 @@ namespace Samba.Domain.Models.Tickets
                 foreach (var transactionItem in transactionGroup)
                 {
                     var t = transactionItem;
-                    var transaction = AccountTransactions.AccountTransactions.Single(x => x.AccountTransactionTemplateId == t.Key);
+                    var transaction = TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTemplateId == t.Key);
                     transaction.UpdateAccounts(AccountTemplateId, AccountId);
-                    transaction.Amount = t.Sum(x => x.GetTotal() - x.GetTotalTaxAmount());
+                    transaction.Amount = t.Sum(x => x.GetTransactionTotal());
                 }
 
-                var taxGroup = Orders.Where(x => x.AccountTransactionTaxTemplateId > 0).GroupBy(x => x.AccountTransactionTaxTemplateId);
+                var taxGroup = Orders.Where(x => x.TaxTempleteAccountTransactionTemplateId > 0).GroupBy(x => x.TaxTempleteAccountTransactionTemplateId);
 
                 foreach (var taxGroupItem in taxGroup)
                 {
                     var tg = taxGroupItem;
-                    var transaction = AccountTransactions.AccountTransactions.Single(x => x.AccountTransactionTemplateId == tg.Key);
+                    var transaction = TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTemplateId == tg.Key);
                     transaction.UpdateAccounts(AccountTemplateId, AccountId);
                     transaction.Amount = tg.Sum(x => x.GetTotalTaxAmount());
                 }

@@ -296,7 +296,7 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <FxButton:FlexButton FontSize="40" Focusable="False" ButtonColor="{Binding Color}" Command="{Binding Command}"
+                        <FxButton:FlexButton FontSize="40" Focusable="False" ButtonColor="{Binding Color,Converter={StaticResource NullBrushConverter}}" Command="{Binding Command}"
                                              CommandParameter="{Binding Parameter}" Content="{Binding Caption}" Margin="3,3,3,0">
                         </FxButton:FlexButton>
                     </DataTemplate>
@@ -312,7 +312,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <FxButton:FlexButton ButtonColor="{Binding Color}" FontSize="40" Focusable="False" Command="{Binding Command}" 
+                    <FxButton:FlexButton ButtonColor="{Binding Color,Converter={StaticResource NullBrushConverter}}" FontSize="40" Focusable="False" Command="{Binding Command}" 
                                          CommandParameter="{Binding Parameter}" Margin="5" Content="{Binding Caption}">
                     </FxButton:FlexButton>
                 </DataTemplate>

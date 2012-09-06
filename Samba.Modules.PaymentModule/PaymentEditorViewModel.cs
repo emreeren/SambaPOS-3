@@ -34,7 +34,7 @@ namespace Samba.Modules.PaymentModule
         private readonly IAutomationService _automationService;
 
         [ImportingConstructor]
-        public PaymentEditorViewModel(ITicketService ticketService, ICacheService cacheService, IAccountService accountService, 
+        public PaymentEditorViewModel(ITicketService ticketService, ICacheService cacheService, IAccountService accountService,
             ISettingService settingService, IAutomationService automationService, TicketTotalsViewModel totals)
         {
             _ticketService = ticketService;
@@ -152,6 +152,7 @@ namespace Samba.Modules.PaymentModule
 
         private bool CanExecuteAutomationCommand(AutomationCommandData arg)
         {
+            if (GetTenderedValue() <= 0) return false;
             if (SelectedTicket != null && SelectedTicket.Locked && arg != null && arg.VisualBehaviour == 1) return false;
             return true;
         }
@@ -180,8 +181,8 @@ namespace Samba.Modules.PaymentModule
         {
             return SelectedTicket != null
                 && !SelectedTicket.IsClosed
-                && GetTenderedValue() > 0
-                && GetRemainingAmount() > 0
+                && GetTenderedValue() != 0
+                && GetRemainingAmount() != 0
                 && (arg.Account != null || SelectedTicket.TicketResources.Any(x => CanMakeAccountTransaction(x, arg)));
         }
 
@@ -210,7 +211,6 @@ namespace Samba.Modules.PaymentModule
         {
             SubmitPayment(obj);
         }
-
 
         private bool CanClosePaymentScreen(string arg)
         {
@@ -331,7 +331,7 @@ namespace Samba.Modules.PaymentModule
                 tenderedAmount = remainingTicketAmount;
             }
 
-            if (tenderedAmount > 0)
+            if (tenderedAmount != 0)
             {
                 if (tenderedAmount > GetRemainingAmount())
                     tenderedAmount = GetRemainingAmount();
@@ -347,7 +347,7 @@ namespace Samba.Modules.PaymentModule
             ReturningAmount = string.Format(Resources.ChangeAmount_f, returningAmount.ToString(LocalSettings.DefaultCurrencyFormat));
             ReturningAmountVisibility = returningAmount > 0 ? Visibility.Visible : Visibility.Collapsed;
 
-            if (returningAmount > 0)
+            if (returningAmount != 0)
             {
                 _automationService.NotifyEvent(RuleEventNames.ChangeAmountChanged,
                     new { Ticket = SelectedTicket, TicketAmount = SelectedTicket.TotalAmount, ChangeAmount = returningAmount, TenderedAmount = tenderedAmount });
@@ -389,8 +389,10 @@ namespace Samba.Modules.PaymentModule
                 }
 
                 _ticketService.RecalculateTicket(SelectedTicket);
-                InteractionService.UserIntraction.GiveFeedback(Resources.AllDiscountsRemoved);
+                if (GetRemainingAmount() >= 0)
+                    InteractionService.UserIntraction.GiveFeedback(Resources.AllDiscountsRemoved);
             }
+
             if (GetPaymentValue() <= 0)
                 PaymentAmount = SelectedTicket != null
                     ? GetRemainingAmount().ToString("#,#0.00")

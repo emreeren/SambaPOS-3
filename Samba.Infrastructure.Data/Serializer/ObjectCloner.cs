@@ -31,6 +31,13 @@ namespace Samba.Infrastructure.Data.Serializer
             return result;
         }
 
+        public static T EntityClone<T>(T item) where T : new()
+        {
+            var result = new T();
+            result.InjectFrom<EntityInjection>(item);
+            return result;
+        }
+
         public static T Deserialize<T>(string data) where T : class
         {
             using (var deserializer = new XmlDeserializerHelper())

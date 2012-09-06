@@ -100,6 +100,13 @@ namespace Samba.Domain.Models.Accounts
             return result;
         }
 
+        public static AccountTransaction Create(AccountTransactionTemplate template, int accountTemplateId, int accountId)
+        {
+            var result = Create(template);
+            result.UpdateAccounts(accountTemplateId, accountId);
+            return result;
+        }
+
         public void SetSourceAccount(int accountTemplateId, int accountId)
         {
             Debug.Assert(SourceAccountTemplateId == accountTemplateId);
