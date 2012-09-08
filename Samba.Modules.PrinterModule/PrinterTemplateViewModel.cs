@@ -43,7 +43,23 @@ namespace Samba.Modules.PrinterModule
 
         private IDictionary<string, string> CreateDescriptions()
         {
-            return _printerService.GetTagDescriptions();
+            var result = new Dictionary<string, string>();
+
+            result.Add("--Format Parts--", "");
+            result.Add("{RESOURCES}", "Resource List");
+            result.Add("{ORDERS}", "Order List");
+            result.Add("{ORDER TAGS}", "Order Tag List");
+            result.Add("{TAXES}", "Tax List");
+            result.Add("{DISCOUNTS}", "Discount List");
+            result.Add("{SERVICES}", "Service List");
+            result.Add("{PAYMENTS}", "Payment List");
+
+            foreach (var tagDescription in _printerService.GetTagDescriptions())
+            {
+                result.Add(tagDescription.Key, tagDescription.Value);
+            }
+
+            return result;
         }
 
         protected override void Initialize()

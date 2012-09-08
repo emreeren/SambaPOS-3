@@ -105,7 +105,7 @@ namespace Samba.Modules.PosModule
                 if (SelectedTicket != null)
                 {
                     _ticketService.UpdateResource(SelectedTicket, eventParameters.Value.SelectedEntity);
-                    if (SelectedTicket.Orders.Count > 0 && eventParameters.Value.SelectedEntity.Id > 0 && eventParameters.Value.SelectedEntity.ResourceTemplateId == _applicationState.SelectedResourceScreen.ResourceTemplateId)
+                    if (_applicationState.SelectedResourceScreen != null &&SelectedTicket.Orders.Count > 0 && eventParameters.Value.SelectedEntity.Id > 0 && eventParameters.Value.SelectedEntity.ResourceTemplateId == _applicationState.SelectedResourceScreen.ResourceTemplateId)
                         CloseTicket();
                     else DisplaySingleTicket();
                 }
@@ -232,7 +232,7 @@ namespace Samba.Modules.PosModule
 
         private void DisplaySingleTicket()
         {
-            if (SelectedTicket.Orders.Count == 0 && _cacheService.GetTicketTagGroups().Count(x => x.AskBeforeCreatingTicket && !SelectedTicket.IsTaggedWith(x.Name)) > 0)
+            if (SelectedTicket != null && SelectedTicket.Orders.Count == 0 && _cacheService.GetTicketTagGroups().Count(x => x.AskBeforeCreatingTicket && !SelectedTicket.IsTaggedWith(x.Name)) > 0)
             {
                 _ticketTagListViewModel.Update(SelectedTicket);
                 DisplayTicketTagList();

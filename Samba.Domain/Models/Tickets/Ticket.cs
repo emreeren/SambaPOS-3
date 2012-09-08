@@ -585,7 +585,7 @@ namespace Samba.Domain.Models.Tickets
 
         public bool CanCloseTicket()
         {
-            return (GetRemainingAmount() <= 0 || TicketResources.Count > 0 ||
+            return (GetRemainingAmount() == 0 || TicketResources.Count > 0 ||
                  IsTagged || Orders.Count == 0);
         }
 

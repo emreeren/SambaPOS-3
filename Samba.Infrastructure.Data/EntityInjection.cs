@@ -48,17 +48,19 @@ namespace Samba.Infrastructure.Data
                         foreach (var s in sourceCollection)
                         {
                             var sv = s;
-                            if (!(sv is IEntity))
-                            {
-                                sv = Activator.CreateInstance(targetChildType) as IValue;
-                                Debug.Assert(sv != null);
-                                sv.InjectFrom<EntityInjection>(s);
-                                sv.Id = 0;
-                            }
+
                             var target = (c.TargetProp.Value as IEnumerable).Cast<IValue>().SingleOrDefault(z => z.Id == sv.Id && z.Id != 0);
                             if (target != null) target.InjectFrom<EntityInjection>(sv);
                             else if (!(c.TargetProp.Value as IEnumerable).Cast<IValue>().Contains(sv))
                             {
+                                if (!(sv is IEntity))
+                                {
+                                    sv = Activator.CreateInstance(targetChildType) as IValue;
+                                    Debug.Assert(sv != null);
+                                    sv.InjectFrom<EntityInjection>(s);
+                                    sv.Id = 0;
+                                }
+
                                 var addMethod = c.TargetProp.Value.GetType().GetMethod("Add");
                                 addMethod.Invoke(c.TargetProp.Value, new[] { sv });
                             }

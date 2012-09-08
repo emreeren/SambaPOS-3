@@ -29,6 +29,10 @@
       <Word>{RESOURCES}</Word>
       <Word>{ORDERS}</Word>
       <Word>{ORDER TAGS}</Word>
+      <Word>{TAXES}</Word>
+      <Word>{DISCOUNTS}</Word>
+      <Word>{SERVICES}</Word>
+      <Word>{PAYMENTS}</Word>      
     </Keywords>
     
     <!--<Rule color="Punctuation">
