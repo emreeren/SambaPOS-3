@@ -220,8 +220,8 @@ namespace Samba.Domain.Models.Tickets
 
         public decimal CalculateTax(decimal plainSum, decimal preTaxServices)
         {
-            var result = Orders.Where(x => !x.TaxIncluded && x.CalculatePrice).Sum(x => (x.TaxAmount + x.OrderTagValues.Sum(y => y.TaxAmount)) * x.Quantity);
-            if (preTaxServices > 0)
+            var result = Orders.Where(x => x.CalculatePrice).Sum(x => (x.TaxAmount + x.OrderTagValues.Sum(y => y.TaxAmount)) * x.Quantity);
+            if (preTaxServices != 0)
                 result += (result * preTaxServices) / plainSum;
             return result;
         }
@@ -528,8 +528,9 @@ namespace Samba.Domain.Models.Tickets
                 {
                     var t = transactionItem;
                     var transaction = TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTemplateId == t.Key);
+                    var amount = t.Sum(x => x.GetTotal());
                     transaction.UpdateAccounts(AccountTemplateId, AccountId);
-                    transaction.Amount = t.Sum(x => x.GetTransactionTotal());
+                    transaction.UpdateAmount(amount);
                 }
 
                 var taxGroup = Orders.Where(x => x.TaxTempleteAccountTransactionTemplateId > 0).GroupBy(x => x.TaxTempleteAccountTransactionTemplateId);
@@ -539,13 +540,15 @@ namespace Samba.Domain.Models.Tickets
                     var tg = taxGroupItem;
                     var transaction = TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTemplateId == tg.Key);
                     transaction.UpdateAccounts(AccountTemplateId, AccountId);
-                    transaction.Amount = tg.Sum(x => x.GetTotalTaxAmount());
+                    transaction.UpdateAmount(tg.Sum(x => x.GetTotalTaxAmount(GetPlainSum(), GetPreTaxServicesTotal())));
                 }
             }
 
             RemainingAmount = GetRemainingAmount();
             TotalAmount = GetSum();
         }
+
+
 
         public IEnumerable<Order> ExtractSelectedOrders(IEnumerable<Order> selectedOrders)
         {

@@ -36,9 +36,15 @@ namespace Samba.Infrastructure.Data.SQL
             // do nothing.
         }
 
-        public void MarkUnchanged(object item)
+        public void MarkUnchanged2(IEntity item)
         {
             _context.Entry(item).State = EntityState.Unchanged;
+        }
+
+        public void MarkUnchanged<T>(T item) where T : class, IEntity
+        {
+            var entity = _context.ChangeTracker.Entries<T>().SingleOrDefault(x => x.Entity.Id == item.Id);
+            MarkUnchanged2(entity != null ? entity.Entity : item);
         }
 
         public void Refresh(IEnumerable collection)

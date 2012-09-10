@@ -60,9 +60,9 @@ namespace Samba.Services.Implementations.InventoryModule
         {
             var orders = GetOrdersFromRecipes(workPeriod).ToList();
             var salesData = orders.GroupBy(x => new { x.MenuItemName, x.MenuItemId, x.PortionName })
-                    .Select(x => new SalesData { MenuItemName = x.Key.MenuItemName, MenuItemId = x.Key.MenuItemId, PortionName = x.Key.PortionName, Total = x.Sum(y => GetQuantity(y)) }).ToList();
+                    .Select(x => new SalesData { MenuItemName = x.Key.MenuItemName, MenuItemId = x.Key.MenuItemId, PortionName = x.Key.PortionName, Total = x.Sum(y => y.Quantity) }).ToList();
 
-            var orderTagValues = orders.SelectMany(x => x.OrderTagValues, (ti, pr) => new { OrderTagValues = pr, Quantity = GetQuantity(ti) })
+            var orderTagValues = orders.SelectMany(x => x.OrderTagValues, (ti, pr) => new { OrderTagValues = pr, ti.Quantity })
                     .Where(x => x.OrderTagValues.MenuItemId > 0)
                     .GroupBy(x => new { x.OrderTagValues.MenuItemId, x.OrderTagValues.PortionName });
 
@@ -83,10 +83,10 @@ namespace Samba.Services.Implementations.InventoryModule
             return salesData;
         }
 
-        private decimal GetQuantity(Order order)
-        {
-            return order.IncreaseInventory ? 0 - order.Quantity : order.Quantity;
-        }
+        //private decimal GetQuantity(Order order)
+        //{
+        //    return order.IncreaseInventory ? 0 - order.Quantity : order.Quantity;
+        //}
 
         private void CreatePeriodicConsumptionItems(PeriodicConsumption pc, IWorkspace workspace)
         {

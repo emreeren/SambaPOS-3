@@ -5,6 +5,11 @@ namespace Samba.Domain.Models.Accounts
 {
     public class AccountTransactionTemplate : Entity, IOrderable
     {
+        public AccountTransactionTemplate()
+        {
+            
+        }
+
         public int Order { get; set; }
         public string UserString { get { return Name; } }
         public int SourceAccountTemplateId { get; set; }

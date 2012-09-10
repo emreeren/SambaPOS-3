@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using Omu.ValueInjecter;
 using Samba.Infrastructure.Data;
 
@@ -122,7 +121,7 @@ namespace Samba.Persistance.Data
             }
         }
 
-        public static void AddEntities(IEntity item, IWorkspace workspace, int parentId)
+        public static void AddEntities<T>(T item, IWorkspace workspace, int parentId) where T : class, IEntity
         {
             if (item.Id > 0 && parentId == 0)
                 workspace.MarkUnchanged(item);
@@ -140,7 +139,7 @@ namespace Samba.Persistance.Data
                     x.PropertyType.GetGenericTypeDefinition().GetInterfaces().Contains(typeof(IEnumerable)) &&
                     x.PropertyType.GetGenericArguments()[0].GetInterfaces().Contains(typeof(IEntity))).ToList();
 
-            var cis = collections.SelectMany(pi => (pi.GetValue(item, null) as IEnumerable).Cast<IEntity>());
+            var cis = collections.SelectMany(pi => (pi.GetValue(item, null) as IEnumerable).Cast<IEntity>()).ToList();
 
             foreach (var i in cis)
             {

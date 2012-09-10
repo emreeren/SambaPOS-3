@@ -63,7 +63,7 @@ namespace Samba.Domain.Models.Accounts
             {
                 var transaction = AccountTransaction.Create(accountTransactionTemplate);
                 transaction.Name = description;
-                transaction.Amount = amount;
+                transaction.UpdateAmount(amount);
                 transaction.UpdateAccounts(MasterAccountTemplateId, account.Id);
                 if (accounts != null && accounts.Count > 0)
                 {

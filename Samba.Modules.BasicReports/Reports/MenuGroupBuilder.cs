@@ -78,11 +78,11 @@ namespace Samba.Modules.BasicReports.Reports
             {
                 var tsum = ticket.GetPlainSum();
                 var rate = tsum > 0 ? (discount * 100) / tsum : 100;
-                var tiTotal = order.GetTransactionTotal();
+                var tiTotal = order.GetTotal();
                 var itemDiscount = (tiTotal * rate) / 100;
                 return tiTotal + itemDiscount;
             }
-            return order.GetTransactionTotal();
+            return order.GetTotal();
         }
     }
 }

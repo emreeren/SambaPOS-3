@@ -515,7 +515,8 @@ namespace Samba.Services.Implementations.TicketModule
                                      where !ticket.TransactionDocument.AccountTransactions.Any(x => x.AccountTransactionTemplateId == order.Key)
                                      select _cacheService.GetAccountTransactionTemplateById(order.Key))
             {
-                ticket.TransactionDocument.AddNewTransaction(template, ticket.AccountTemplateId, ticket.AccountId);
+                var transaction = ticket.TransactionDocument.AddNewTransaction(template, ticket.AccountTemplateId, ticket.AccountId);
+                transaction.Reversable = false;
             }
         }
 

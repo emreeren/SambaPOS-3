@@ -191,6 +191,8 @@ namespace Samba.Domain.Models.Tickets
             if (orderStateGroup.UnlocksOrder) Locked = false;
             if (orderStateGroup.AccountTransactionTemplateId > 0)
                 AccountTransactionTemplateId = orderStateGroup.AccountTransactionTemplateId;
+            if (IncreaseInventory && Quantity > 0) Quantity = 0 - Quantity;
+            if (!IncreaseInventory && Quantity < 0) Quantity = 0 - Quantity;
             OrderState = orderState.Name;
             OrderStateGroupName = orderStateGroup.Name;
             OrderStateGroupId = orderStateGroup.Id;
@@ -224,22 +226,22 @@ namespace Samba.Domain.Models.Tickets
             return result;
         }
 
-        public decimal GetTransactionTotal()
+        public decimal GetTotal()
         {
             if (CalculatePrice)
             {
-                var tax = TaxIncluded ? GetTotalTaxAmount() : 0;
+                var tax = TaxIncluded ? GetTaxAmount() : 0;
                 return GetItemValue() - tax;
             }
             return 0;
         }
 
-        public decimal GetTotal()
-        {
-            var val = GetTransactionTotal();
-            if (IncreaseInventory) val = 0 - val;
-            return val;
-        }
+        //public decimal GetTotal()
+        //{
+        //    var val = GetTransactionTotal();
+        //    if (IncreaseInventory) val = 0 - val;
+        //    return val;
+        //}
 
         public decimal GetItemValue()
         {
@@ -350,10 +352,22 @@ namespace Samba.Domain.Models.Tickets
             return OrderStateGroupId == orderStateGroup.Id;
         }
 
-        public decimal GetTotalTaxAmount()
+        //var plainSum = GetPlainSum();
+        //var postServices = CalculateServices(Calculations.Where(x => !x.IncludeTax), plainSum);
+        //var tax = CalculateTax(plainSum, postServices);
+
+        public decimal GetTaxAmount()
         {
             var result = CalculatePrice && (DecreaseInventory || IncreaseInventory) ? (TaxAmount + OrderTagValues.Sum(x => x.TaxAmount)) * Quantity : 0;
-            if (IncreaseInventory) result = 0 - result;
+            //if (IncreaseInventory) result = 0 - result;
+            return result;
+        }
+
+        public decimal GetTotalTaxAmount(decimal plainSum, decimal preTaxServices)
+        {
+            var result = CalculatePrice && (DecreaseInventory || IncreaseInventory) ? (TaxAmount + OrderTagValues.Sum(x => x.TaxAmount)) * Quantity : 0;
+            if (preTaxServices != 0)
+                result += (result * preTaxServices) / plainSum;
             return result;
         }
 

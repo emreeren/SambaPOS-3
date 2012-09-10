@@ -11,6 +11,7 @@ namespace Samba.Domain.Models.Accounts
         public AccountTransaction()
         {
             _accountTransactionValues = new List<AccountTransactionValue>();
+            Reversable = true;
         }
 
         private decimal _amount;
@@ -21,9 +22,15 @@ namespace Samba.Domain.Models.Accounts
             {
                 _amount = value;
                 if (SourceTransactionValue != null)
+                {
+                    SourceTransactionValue.Debit = 0;
                     SourceTransactionValue.Credit = value;
+                }
                 if (TargetTransactionValue != null)
+                {
+                    TargetTransactionValue.Credit = 0;
                     TargetTransactionValue.Debit = value;
+                }
             }
         }
 
@@ -31,6 +38,8 @@ namespace Samba.Domain.Models.Accounts
         public int AccountTransactionTemplateId { get; set; }
         public int SourceAccountTemplateId { get; set; }
         public int TargetAccountTemplateId { get; set; }
+        public bool IsReversed { get; set; }
+        public bool Reversable { get; set; }
 
         private readonly IList<AccountTransactionValue> _accountTransactionValues;
         public virtual IList<AccountTransactionValue> AccountTransactionValues
@@ -125,6 +134,39 @@ namespace Samba.Domain.Models.Accounts
                 SourceTransactionValue.AccountId = accountId;
             else if (TargetAccountTemplateId == accountTemplateId)
                 TargetTransactionValue.AccountId = accountId;
+        }
+
+        public void Reverse()
+        {
+            ReverseTransaction(this);
+        }
+
+        private static void ReverseTransaction(AccountTransaction transaction)
+        {
+            var ti = transaction.SourceAccountTemplateId;
+            var tv = transaction.SourceTransactionValue;
+            transaction.SourceAccountTemplateId = transaction.TargetAccountTemplateId;
+            transaction.SourceTransactionValue = transaction.TargetTransactionValue;
+            transaction.TargetAccountTemplateId = ti;
+            transaction.TargetTransactionValue = tv;
+            transaction.IsReversed = true;
+        }
+
+        public void UpdateAmount(decimal amount)
+        {
+            if (amount < 0 && CanReverse())
+                Reverse();
+            else if (IsReversed && Amount >= 0)
+            {
+                Reverse();
+                IsReversed = false;
+            }
+            Amount = Math.Abs(amount);
+        }
+
+        private bool CanReverse()
+        {
+            return !IsReversed && Reversable;
         }
     }
 }

@@ -31,20 +31,9 @@ namespace Samba.Domain.Models.Accounts
 
         public AccountTransaction AddNewTransaction(AccountTransactionTemplate template, int accountTemplateId, int accountId, Account account, decimal amount)
         {
-            var transaction = AccountTransaction.Create(template, accountTemplateId, accountId);
-            if (amount < 0)
-            {
-                //Inverse accounts;
-                var ti = transaction.SourceAccountTemplateId;
-                var tv = transaction.SourceTransactionValue;
-                transaction.SourceAccountTemplateId = transaction.TargetAccountTemplateId;
-                transaction.SourceTransactionValue = transaction.TargetTransactionValue;
-                transaction.TargetAccountTemplateId = ti;
-                transaction.TargetTransactionValue = tv;
-                amount = Math.Abs(amount);
-            }
+            var transaction = AccountTransaction.Create(template, accountTemplateId, accountId);            
             transaction.UpdateAccounts(account.AccountTemplateId, account.Id);
-            transaction.Amount = amount;
+            transaction.UpdateAmount(amount);
             AccountTransactions.Add(transaction);
             return transaction;
         }
@@ -57,13 +46,13 @@ namespace Samba.Domain.Models.Accounts
             }
         }
 
-        public void AddSingletonTransaction(int transactionTemplateId, AccountTransactionTemplate template, int accountTemplateId, int accountId, string transactionName,decimal amount)
+        public void AddSingletonTransaction(int transactionTemplateId, AccountTransactionTemplate template, int accountTemplateId, int accountId, string transactionName, decimal amount)
         {
             if (AccountTransactions.SingleOrDefault(x => x.AccountTransactionTemplateId == transactionTemplateId) == null)
             {
                 var transaction = AddNewTransaction(template, accountTemplateId, accountId);
                 transaction.Name = transactionName;
-                transaction.Amount = amount;
+                transaction.UpdateAmount(amount);
             }
         }
     }

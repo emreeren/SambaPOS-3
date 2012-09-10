@@ -187,9 +187,9 @@ namespace Samba.Infrastructure.Data.Text
             //gerekmiyor...
         }
 
-        public void MarkUnchanged(object item)
+        public void MarkUnchanged<T>(T item) where T : class, IEntity
         {
-            //gerekmiyor...
+            //gerekmiyor..
         }
 
         public T SingleUc<T>(Expression<Func<T, bool>> expression) where T : class

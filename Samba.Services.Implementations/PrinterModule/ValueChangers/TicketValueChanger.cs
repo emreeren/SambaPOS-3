@@ -24,7 +24,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             result = PostCalculationValueChanger.Replace(template, result, model.Calculations.Where(x => x.IncludeTax));
             result = PaymentValueChanger.Replace(template, result, model.Payments);
             result = ResourceValueChanger.Replace(template, result, model.TicketResources);
-            result = TaxValueChanger.Replace(template, result, model.Orders.GroupBy(x => x.TaxTemplateName).Select(x => new TaxValue { Name = x.Key, Amount = x.Average(y => y.TaxRate), OrderAmount = x.Sum(y => y.GetItemValue() + (!y.TaxIncluded ? y.GetTotalTaxAmount() : 0)), TaxAmount = x.Sum(y => y.GetTotalTaxAmount()) }));
+            result = TaxValueChanger.Replace(template, result, model.Orders.GroupBy(x => x.TaxTemplateName).Select(x => new TaxValue { Name = x.Key, Amount = x.Average(y => y.TaxRate), OrderAmount = x.Sum(y => y.GetItemValue() + (!y.TaxIncluded ? y.GetTotalTaxAmount(model.GetPlainSum(), model.GetPreTaxServicesTotal()) : 0)), TaxAmount = x.Sum(y => y.GetTotalTaxAmount(model.GetPlainSum(), model.GetPreTaxServicesTotal())) }));
             result = OrderValueChanger.Replace(template, result, model.Orders);
             return result;
         }
