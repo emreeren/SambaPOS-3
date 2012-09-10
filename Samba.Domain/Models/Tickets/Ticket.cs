@@ -294,10 +294,10 @@ namespace Samba.Domain.Models.Tickets
                             IncludeTax = template.IncludeTax,
                             DecreaseAmount = template.DecreaseAmount,
                             Order = template.Order,
-                            AccountTransactionTemplateId = template.AccountTransactionTemplate.Id,
-                            AccountTransactionTemplate = template.AccountTransactionTemplate
+                            AccountTransactionTemplateId = template.AccountTransactionTemplate.Id
                         };
                 Calculations.Add(t);
+                TransactionDocument.AddSingletonTransaction(t.AccountTransactionTemplateId, template.AccountTransactionTemplate, AccountTemplateId, AccountId);
             }
             else if (t.Amount == amount)
             {
@@ -314,7 +314,7 @@ namespace Samba.Domain.Models.Tickets
 
         public void UpdateCalculationTransaction(Calculation calculation, decimal amount)
         {
-            TransactionDocument.AddSingletonTransaction(calculation.AccountTransactionTemplateId, calculation.AccountTransactionTemplate, AccountTemplateId, AccountId, calculation.Name, amount);
+            TransactionDocument.UpdateSingletonTransactionAmount(calculation.AccountTransactionTemplateId, calculation.Name, amount);
             if (amount == 0)
             {
                 TransactionDocument.AccountTransactions.Remove(

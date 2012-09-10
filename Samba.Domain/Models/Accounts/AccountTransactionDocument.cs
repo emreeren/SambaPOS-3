@@ -31,7 +31,7 @@ namespace Samba.Domain.Models.Accounts
 
         public AccountTransaction AddNewTransaction(AccountTransactionTemplate template, int accountTemplateId, int accountId, Account account, decimal amount)
         {
-            var transaction = AccountTransaction.Create(template, accountTemplateId, accountId);            
+            var transaction = AccountTransaction.Create(template, accountTemplateId, accountId);
             transaction.UpdateAccounts(account.AccountTemplateId, account.Id);
             transaction.UpdateAmount(amount);
             AccountTransactions.Add(transaction);
@@ -46,13 +46,13 @@ namespace Samba.Domain.Models.Accounts
             }
         }
 
-        public void AddSingletonTransaction(int transactionTemplateId, AccountTransactionTemplate template, int accountTemplateId, int accountId, string transactionName, decimal amount)
+        public void UpdateSingletonTransactionAmount(int transactionTemplateId, string transactionName, decimal amount)
         {
-            if (AccountTransactions.SingleOrDefault(x => x.AccountTransactionTemplateId == transactionTemplateId) == null)
+            var t = AccountTransactions.SingleOrDefault(x => x.AccountTransactionTemplateId == transactionTemplateId);
+            if (t != null)
             {
-                var transaction = AddNewTransaction(template, accountTemplateId, accountId);
-                transaction.Name = transactionName;
-                transaction.UpdateAmount(amount);
+                t.Name = transactionName;
+                t.UpdateAmount(amount);
             }
         }
     }

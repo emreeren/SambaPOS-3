@@ -7,13 +7,13 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class Calculation : Entity
+    public class Calculation : Value
     {
+        public string Name { get; set; }
         public int Order { get; set; }
         public int ServiceId { get; set; }
         public int TicketId { get; set; }
         public int AccountTransactionTemplateId { get; set; }
-        public virtual AccountTransactionTemplate AccountTransactionTemplate { get; set; }
         public int CalculationType { get; set; }
         public bool IncludeTax { get; set; }
         public bool DecreaseAmount { get; set; }
