@@ -81,6 +81,7 @@
       <DependentUpon>CalculationSelectorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="CalculationSelectorViewModel.cs" />
+    <Compile Include="OrderStateMapViewModel.cs" />
     <Compile Include="OrderStateGroupView.xaml.cs">
       <DependentUpon>OrderStateGroupView.xaml</DependentUpon>
     </Compile>

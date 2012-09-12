@@ -127,7 +127,7 @@ namespace Samba.Domain.Models.Tickets
             return TicketTagValues;
         }
 
-        public Order AddOrder(AccountTransactionTemplate template, string userName, MenuItem menuItem, MenuItemPortion portion, string priceTag, MenuItemTimer timer)
+        public Order AddOrder(AccountTransactionTemplate template, string userName, MenuItem menuItem, MenuItemPortion portion, string priceTag, ProductTimer timer)
         {
             Locked = false;
             var order = new Order();
@@ -611,12 +611,12 @@ namespace Samba.Domain.Models.Tickets
 
         public decimal GetActiveTimerAmount()
         {
-            return Orders.Where(x => x.MenuItemTimerValue != null && x.MenuItemTimerValue.IsActive).Sum(x => x.GetItemValue());
+            return Orders.Where(x => x.ProductTimerValue != null && x.ProductTimerValue.IsActive).Sum(x => x.GetItemValue());
         }
 
         public void StopActiveTimers()
         {
-            Orders.Where(x => x.MenuItemTimerValue != null && x.MenuItemTimerValue.IsActive).ToList().ForEach(x => x.StopMenuItemTimer());
+            Orders.Where(x => x.ProductTimerValue != null && x.ProductTimerValue.IsActive).ToList().ForEach(x => x.StopProductTimer());
         }
 
         public void UpdateIsClosed()

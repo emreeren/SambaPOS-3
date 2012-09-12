@@ -141,7 +141,7 @@ namespace Samba.Modules.PosModule
             {
                 if (SelectedOrders.Count() > 0)
                 {
-                    return _cacheService.GetOrderStateGroups()
+                    return _cacheService.GetOrderStateGroupsForItems(SelectedOrders.Select(x => x.MenuItemId))
                         .Where(x => !string.IsNullOrEmpty(x.ButtonHeader))
                         .Select(x => new OrderStateButton(x));
                 }
@@ -257,7 +257,7 @@ namespace Samba.Modules.PosModule
             {
                 _ticketOrdersViewModel.FixSelectedItems();
                 _ticketService.UpdateOrderStates(SelectedTicket, _ticketOrdersViewModel.SelectedOrderModels, obj.Value.OrderStateGroup, obj.Value.SelectedOrderState);
-     
+
                 //?Does refresh items needed?
                 RefreshSelectedItems();
                 ClearSelectedItems();

@@ -19,8 +19,8 @@ namespace Samba.Modules.ModifierModule
 
         private readonly OrderTagGroupEditorView _selectedOrdersView;
         private readonly OrderTagGroupEditorViewModel _selectedOrdersViewModel;
-        private readonly MenuItemTimerEditorView _menuItemTimerEditorView;
-        private readonly MenuItemTimerEditorViewModel _menuItemTimerEditorViewModel;
+        private readonly ProductTimerEditorView _productTimerEditorView;
+        private readonly ProductTimerEditorViewModel _productTimerEditorViewModel;
         private readonly IRegionManager _regionManager;
 
         private readonly TicketNoteEditorView _ticketNoteEditorView;
@@ -36,12 +36,12 @@ namespace Samba.Modules.ModifierModule
             TicketTagEditorView ticketTagEditorView, TicketTagEditorViewModel ticketTagEditorViewModel,
             OrderStateEditorView orderStateEditorView, OrderTagEditorView orderTagEditorView,
             OrderTagGroupEditorView selectedOrdersView, OrderTagGroupEditorViewModel selectedOrdersViewModel,
-            MenuItemTimerEditorView menuItemTimerEditorView, MenuItemTimerEditorViewModel menuItemTimerEditorViewModel)
+            ProductTimerEditorView productTimerEditorView, ProductTimerEditorViewModel productTimerEditorViewModel)
         {
             _selectedOrdersView = selectedOrdersView;
             _selectedOrdersViewModel = selectedOrdersViewModel;
-            _menuItemTimerEditorView = menuItemTimerEditorView;
-            _menuItemTimerEditorViewModel = menuItemTimerEditorViewModel;
+            _productTimerEditorView = productTimerEditorView;
+            _productTimerEditorViewModel = productTimerEditorViewModel;
             _ticketNoteEditorView = ticketNoteEditorView;
             _ticketNoteEditorViewModel = ticketNoteEditorViewModel;
             _ticketTagEditorView = ticketTagEditorView;
@@ -106,7 +106,7 @@ namespace Samba.Modules.ModifierModule
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(TicketTagEditorView));
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(OrderStateEditorView));
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(OrderTagEditorView));
-            _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(MenuItemTimerEditorView));
+            _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(ProductTimerEditorView));
         }
 
         public void DisplayTicketDetailsScreen()
@@ -135,10 +135,10 @@ namespace Samba.Modules.ModifierModule
             _regionManager.Regions[RegionNames.PosSubRegion].Activate(_orderTagEditorView);
         }
 
-        private void DisplayMenuItemTimerEdior(Order selectedOrder)
+        private void DisplayProdcutTimerEdior(Order selectedOrder)
         {
-            _menuItemTimerEditorViewModel.Update(selectedOrder);
-            _regionManager.Regions[RegionNames.PosSubRegion].Activate(_menuItemTimerEditorView);
+            _productTimerEditorViewModel.Update(selectedOrder);
+            _regionManager.Regions[RegionNames.PosSubRegion].Activate(_productTimerEditorView);
         }
 
         private void OnSelectedOrdersDataEvent(EventParameters<SelectedOrdersData> selectedOrdersEvent)
@@ -151,9 +151,9 @@ namespace Samba.Modules.ModifierModule
                 {
                     DisplayTicketDetailsScreen();
                 }
-                else if (_menuItemTimerEditorViewModel.ShouldDisplay(selectedOrdersEvent.Value.Ticket, _selectedOrders.ToList()))
+                else if (_productTimerEditorViewModel.ShouldDisplay(selectedOrdersEvent.Value.Ticket, _selectedOrders.ToList()))
                 {
-                    DisplayMenuItemTimerEdior(_selectedOrders.First());
+                    DisplayProdcutTimerEdior(_selectedOrders.First());
                 }
             }
         }

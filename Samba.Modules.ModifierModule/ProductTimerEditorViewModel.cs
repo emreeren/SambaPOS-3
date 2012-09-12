@@ -11,10 +11,10 @@ using Samba.Services.Common;
 namespace Samba.Modules.ModifierModule
 {
     [Export]
-    public class MenuItemTimerEditorViewModel : ObservableObject
+    public class ProductTimerEditorViewModel : ObservableObject
     {
         [ImportingConstructor]
-        public MenuItemTimerEditorViewModel()
+        public ProductTimerEditorViewModel()
         {
             SelectedOrder = Order.Null;
             CloseCommand = new CaptionCommand<string>(Resources.Close, OnCloseCommandExecuted);
@@ -38,24 +38,24 @@ namespace Samba.Modules.ModifierModule
         }
 
         public string ButtonColor { get { return StopTimer ? "Black" : "Gainsboro"; } }
-        public DateTime StartDate { get { return SelectedOrder.MenuItemTimerValue.Start; } }
-        public DateTime EndDate { get { return IsActive ? DateTime.Now : SelectedOrder.MenuItemTimerValue.End; } }
-        public bool IsActive { get { return SelectedOrder.MenuItemTimerValue.IsActive; } }
-        public string Start { get { return SelectedOrder.MenuItemTimerValue.Start.ToString(); } }
-        public string End { get { return IsActive ? Resources.Active : SelectedOrder.MenuItemTimerValue.End.ToString(); } }
+        public DateTime StartDate { get { return SelectedOrder.ProductTimerValue.Start; } }
+        public DateTime EndDate { get { return IsActive ? DateTime.Now : SelectedOrder.ProductTimerValue.End; } }
+        public bool IsActive { get { return SelectedOrder.ProductTimerValue.IsActive; } }
+        public string Start { get { return SelectedOrder.ProductTimerValue.Start.ToString(); } }
+        public string End { get { return IsActive ? Resources.Active : SelectedOrder.ProductTimerValue.End.ToString(); } }
         public string Duration { get { return TimeSpan.FromTicks(EndDate.Ticks - StartDate.Ticks).ToLongDuration(); } }
         public string Price { get { return GetPriceDescription(); } }
         public string Value { get { return GetValueDescription(); } }
 
         private string GetPriceDescription()
         {
-            var mi = SelectedOrder.MenuItemTimerValue;
+            var mi = SelectedOrder.ProductTimerValue;
             return string.Format("{0:#} {1} {2}: {3:N}", mi.PriceDuration, GetTimeDescription(mi.PriceType), Resources.Price, SelectedOrder.Price);
         }
 
         private string GetValueDescription()
         {
-            var mi = SelectedOrder.MenuItemTimerValue;
+            var mi = SelectedOrder.ProductTimerValue;
             return string.Format("{0:#} {1} {2}: {3:N}", mi.GetTime(), GetTimeDescription(mi.PriceType), Resources.Price, SelectedOrder.GetPlainPrice());
         }
 
@@ -84,12 +84,12 @@ namespace Samba.Modules.ModifierModule
         {
             if (selectedOrders == null || selectedOrders.Count() > 1 || selectedOrders.Count() == 0) return false;
             var order = selectedOrders.First();
-            return order.Locked && order.MenuItemTimerValue != null;
+            return order.Locked && order.ProductTimerValue != null;
         }
 
         private void OnCloseCommandExecuted(string obj)
         {
-            if (StopTimer) SelectedOrder.StopMenuItemTimer();
+            if (StopTimer) SelectedOrder.StopProductTimer();
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
         }
 
@@ -100,7 +100,7 @@ namespace Samba.Modules.ModifierModule
 
         private bool CanStopTimer(string arg)
         {
-            return SelectedOrder.MenuItemTimerValue.IsActive;
+            return SelectedOrder.ProductTimerValue.IsActive;
         }
     }
 }

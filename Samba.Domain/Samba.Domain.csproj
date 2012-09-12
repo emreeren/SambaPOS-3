@@ -78,9 +78,9 @@
     <Compile Include="Models\Actions\AppRuleMap.cs" />
     <Compile Include="Models\Actions\AutomationCommand.cs" />
     <Compile Include="Models\Actions\AutomationCommandMap.cs" />
-    <Compile Include="Models\Menus\MenuItemTimer.cs" />
-    <Compile Include="Models\Menus\MenuItemTimerMap.cs" />
-    <Compile Include="Models\Tickets\MenuItemTimerValue.cs" />
+    <Compile Include="Models\Menus\ProductTimer.cs" />
+    <Compile Include="Models\Menus\ProdcutTimerMap.cs" />
+    <Compile Include="Models\Tickets\ProductTimerValue.cs" />
     <Compile Include="Models\Resources\Widget.cs" />
     <Compile Include="Models\Resources\ResourceCustomField.cs" />
     <Compile Include="Models\Resources\ResourceStateValue.cs" />

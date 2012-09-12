@@ -51,9 +51,9 @@ namespace Samba.Persistance.Data
         public DbSet<OrderTagTemplate> OrderTagTemplates { get; set; }
         public DbSet<OrderTagTemplateValue> OrderTagTemplateValues { get; set; }
         public DbSet<OrderTagValue> OrderTagValues { get; set; }
-        public DbSet<MenuItemTimer> MenuItemTimers { get; set; }
-        public DbSet<MenuItemTimerMap> MenuItemTimerMaps { get; set; }
-        public DbSet<MenuItemTimerValue> MenuItemTimerValues { get; set; }
+        public DbSet<ProductTimer> Productimers { get; set; }
+        public DbSet<ProdcutTimerMap> ProductTimerMaps { get; set; }
+        public DbSet<ProductTimerValue> ProductTimerValues { get; set; }
         public DbSet<ScreenMenu> ScreenMenus { get; set; }
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<InventoryItem> InventoryItems { get; set; }
@@ -222,14 +222,14 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<AccountTransactionValue>().Property(x => x.Credit).HasPrecision(precision, scale);
 
             //MenuItem Timer
-            modelBuilder.Entity<MenuItemTimer>().Property(x => x.PriceDuration).HasPrecision(precision, scale);
-            modelBuilder.Entity<MenuItemTimer>().Property(x => x.MinTime).HasPrecision(precision, scale);
-            modelBuilder.Entity<MenuItemTimer>().Property(x => x.TimeRounding).HasPrecision(precision, scale);
+            modelBuilder.Entity<ProductTimer>().Property(x => x.PriceDuration).HasPrecision(precision, scale);
+            modelBuilder.Entity<ProductTimer>().Property(x => x.MinTime).HasPrecision(precision, scale);
+            modelBuilder.Entity<ProductTimer>().Property(x => x.TimeRounding).HasPrecision(precision, scale);
 
             //MenuItem Timer Value
-            modelBuilder.Entity<MenuItemTimerValue>().Property(x => x.PriceDuration).HasPrecision(precision, scale);
-            modelBuilder.Entity<MenuItemTimerValue>().Property(x => x.MinTime).HasPrecision(precision, scale);
-            modelBuilder.Entity<MenuItemTimerValue>().Property(x => x.TimeRounding).HasPrecision(precision, scale);
+            modelBuilder.Entity<ProductTimerValue>().Property(x => x.PriceDuration).HasPrecision(precision, scale);
+            modelBuilder.Entity<ProductTimerValue>().Property(x => x.MinTime).HasPrecision(precision, scale);
+            modelBuilder.Entity<ProductTimerValue>().Property(x => x.TimeRounding).HasPrecision(precision, scale);
 
             modelBuilder.Entity<Numerator>().Property(x => x.LastUpdateTime).IsConcurrencyToken().HasColumnType("timestamp");
             base.OnModelCreating(modelBuilder);

@@ -45,23 +45,23 @@ namespace Samba.Modules.PosModule
             }
         }
 
-        public bool IsTimerVisible { get { return Model.MenuItemTimerValue != null; } }
+        public bool IsTimerVisible { get { return Model.ProductTimerValue != null; } }
         public string TimerDescription
         {
             get
             {
-                if (Model.MenuItemTimerValue == null) return "";
+                if (Model.ProductTimerValue == null) return "";
                 const string fmt = "{0} {1} - {2} ({3:N}) {4}";
                 return String.Format(fmt,
-                    Model.MenuItemTimerValue.Start.Date != DateTime.Now.Date ? Model.MenuItemTimerValue.Start.ToShortDateString() : "",
-                    Model.MenuItemTimerValue.Start.Date == DateTime.Now.Date ? Model.MenuItemTimerValue.Start.ToShortTimeString() : "",
-                    Model.MenuItemTimerValue.GetDuration().ToShortDuration(),
+                    Model.ProductTimerValue.Start.Date != DateTime.Now.Date ? Model.ProductTimerValue.Start.ToShortDateString() : "",
+                    Model.ProductTimerValue.Start.Date == DateTime.Now.Date ? Model.ProductTimerValue.Start.ToShortTimeString() : "",
+                    Model.ProductTimerValue.GetDuration().ToShortDuration(),
                     Model.Price,
-                    Model.MenuItemTimerValue.IsActive ? Resources.Active : "");
+                    Model.ProductTimerValue.IsActive ? Resources.Active : "");
             }
         }
 
-        public string TimerColor { get { return IsTimerVisible && Model.MenuItemTimerValue.IsActive ? "Blue" : "Gray"; } }
+        public string TimerColor { get { return IsTimerVisible && Model.ProductTimerValue.IsActive ? "Blue" : "Gray"; } }
 
         public bool IsStateVisible { get { return !String.IsNullOrEmpty(State); } }
         public string State

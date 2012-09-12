@@ -14,10 +14,10 @@ namespace Samba.Services
         ScreenMenu GetScreenMenu(int screenMenuId);
         MenuItem GetMenuItem(Expression<Func<MenuItem, bool>> expression);
         MenuItemPortion GetMenuItemPortion(int menuItemId, string portionName);
-        MenuItemTimer GetMenuItemTimer(int menuItemId);
+        ProductTimer GetProductTimer(int menuItemId);
         IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(int menuItemId);
         IEnumerable<OrderTagGroup> GetOrderTagGroupsForItems(IEnumerable<int> menuItemIds);
-        IEnumerable<OrderStateGroup> GetOrderStateGroups();
+        IEnumerable<OrderStateGroup> GetOrderStateGroupsForItems(IEnumerable<int> menuItemIds);
         OrderTagGroup GetOrderTagGroupByName(string tagName);
         IEnumerable<MenuItemPortion> GetMenuItemPortions(int menuItemId);
         IEnumerable<string> GetTicketTagGroupNames();

@@ -3177,9 +3177,6 @@ Continue without adding details?</value>
   <data name="MinSelectedItems" xml:space="preserve">
     <value>Min Selected Items</value>
   </data>
-  <data name="MenuItemTimer" xml:space="preserve">
-    <value>Menu Item Timer</value>
-  </data>
   <data name="PriceDurationType" xml:space="preserve">
     <value>Price Duration Type</value>
   </data>
@@ -3229,5 +3226,8 @@ Continue without adding details?</value>
   <data name="OrderStates" xml:space="preserve">
     <value>Order States</value>
     <comment>TabItem.Header</comment>
+  </data>
+  <data name="ProductTimer">
+    <value xml:space="preserve">Product Timer</value>
   </data>
 </root>

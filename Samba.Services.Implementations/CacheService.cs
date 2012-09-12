@@ -36,28 +36,28 @@ namespace Samba.Services.Implementations
             return MenuItems.Single(expression.Compile());
         }
 
-        private IEnumerable<MenuItemTimer> _menuItemTimers;
-        public IEnumerable<MenuItemTimer> MenuItemTimers
+        private IEnumerable<ProductTimer> _productTimers;
+        public IEnumerable<ProductTimer> ProductTimers
         {
-            get { return _menuItemTimers ?? (_menuItemTimers = Dao.Query<MenuItemTimer>( x => x.MenuItemTimerMaps)); }
+            get { return _productTimers ?? (_productTimers = Dao.Query<ProductTimer>( x => x.ProductTimerMaps)); }
         }
 
-        private MenuItemTimer GetMenuItemTimer(IEnumerable<MenuItemTimer> menuItemTimers, int menuItemId)
+        private ProductTimer GetProductTimer(IEnumerable<ProductTimer> productTimers, int menuItemId)
         {
-            var tgl = menuItemTimers.ToList();
+            var tgl = productTimers.ToList();
             var mi = GetMenuItem(x => x.Id == menuItemId);
-            var maps = tgl.SelectMany(x => x.MenuItemTimerMaps)
+            var maps = tgl.SelectMany(x => x.ProductTimerMaps)
                 .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id)
                 .Where(x => x.MenuItemGroupCode == null || x.MenuItemGroupCode == mi.GroupCode)
                 .Where(x => x.MenuItemId == 0 || x.MenuItemId == mi.Id);
-            return tgl.Where(x => maps.Any(y => y.MenuItemTimerId == x.Id)).FirstOrDefault();
+            return tgl.Where(x => maps.Any(y => y.ProductTimerId == x.Id)).FirstOrDefault();
         }
         
-        public MenuItemTimer GetMenuItemTimer(int menuItemId)
+        public ProductTimer GetProductTimer(int menuItemId)
         {
-            return GetMenuItemTimer(MenuItemTimers, menuItemId);
+            return GetProductTimer(ProductTimers, menuItemId);
         }
 
         public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(int menuItemId)
@@ -106,13 +106,23 @@ namespace Samba.Services.Implementations
             get { return _orderStateGroups ?? (_orderStateGroups = Dao.Query<OrderStateGroup>(x => x.OrderStates, x => x.OrderStateMaps)); }
         }
 
-        public IEnumerable<OrderStateGroup> GetOrderStateGroups()
+        public IEnumerable<OrderStateGroup> GetOrderStateGroupsForItems(IEnumerable<int> menuItemIds)
         {
-            var maps = OrderStateGroups.SelectMany(x => x.OrderStateMaps)
+            IEnumerable<OrderStateGroup> orderStates = OrderStateGroups.OrderBy(y => y.Order);
+            return menuItemIds.Aggregate(orderStates, GetOrderStateGroups);
+        }
+
+        private IEnumerable<OrderStateGroup> GetOrderStateGroups(IEnumerable<OrderStateGroup> stateGroups, int menuItemId)
+        {
+            var tgl = stateGroups.ToList();
+            var mi = GetMenuItem(x => x.Id == menuItemId);
+            var maps = tgl.SelectMany(x => x.OrderStateMaps)
                 .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
-                .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
-            return OrderStateGroups.Where(x => maps.Any(y => y.OrderStateGroupId == x.Id)).OrderBy(x => x.Order);
+                .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id)
+                .Where(x => x.MenuItemGroupCode == null || x.MenuItemGroupCode == mi.GroupCode)
+                .Where(x => x.MenuItemId == 0 || x.MenuItemId == mi.Id);
+            return tgl.Where(x => maps.Any(y => y.OrderStateGroupId == x.Id)).OrderBy(x => x.Order);
         }
 
         public IEnumerable<string> GetTicketTagGroupNames()
@@ -384,7 +394,7 @@ namespace Samba.Services.Implementations
 
         public override void Reset()
         {
-            _menuItemTimers = null;
+            _productTimers = null;
             _menuItems = null;
             _screenMenus = null;
             _accountTransactionTemplates = null;

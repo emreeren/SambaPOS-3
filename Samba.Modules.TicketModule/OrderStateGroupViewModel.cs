@@ -13,7 +13,7 @@ using Samba.Presentation.Common.ModelBase;
 namespace Samba.Modules.TicketModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class OrderStateGroupViewModel : EntityViewModelBaseWithMap<OrderStateGroup, OrderStateMap, AbstractMapViewModel<OrderStateMap>>
+    public class OrderStateGroupViewModel : EntityViewModelBaseWithMap<OrderStateGroup, OrderStateMap, OrderStateMapViewModel>
     {
         [ImportingConstructor]
         public OrderStateGroupViewModel()
@@ -91,7 +91,7 @@ namespace Samba.Modules.TicketModule
         protected override void Initialize()
         {
             base.Initialize();
-            MapController = new MapController<OrderStateMap, AbstractMapViewModel<OrderStateMap>>(Model.OrderStateMaps, Workspace);
+            MapController = new MapController<OrderStateMap, OrderStateMapViewModel>(Model.OrderStateMaps, Workspace);
         }
 
         protected override AbstractValidator<OrderStateGroup> GetValidator()

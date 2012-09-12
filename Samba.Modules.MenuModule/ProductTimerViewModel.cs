@@ -8,7 +8,7 @@ using Samba.Presentation.Common.ModelBase;
 
 namespace Samba.Modules.MenuModule
 {
-    class MenuItemTimerViewModel : EntityViewModelBaseWithMap<MenuItemTimer, MenuItemTimerMap, MenuItemTimerMapViewModel>
+    class ProductTimerViewModel : EntityViewModelBaseWithMap<ProductTimer, ProdcutTimerMap, ProductTimerMapViewModel>
     {
         private readonly string[] _priceTypes = new[] { Resources.Minute, Resources.Hour, Resources.Day };
         public string[] PriceTypes { get { return _priceTypes; } }
@@ -20,18 +20,18 @@ namespace Samba.Modules.MenuModule
 
         public override Type GetViewType()
         {
-            return typeof(MenuItemTimerView);
+            return typeof(ProductTimerView);
         }
 
         public override string GetModelTypeString()
         {
-            return Resources.MenuItemTimer;
+            return Resources.ProductTimer;
         }
 
         protected override void Initialize()
         {
             base.Initialize();
-            MapController = new MapController<MenuItemTimerMap, MenuItemTimerMapViewModel>(Model.MenuItemTimerMaps, Workspace);
+            MapController = new MapController<ProdcutTimerMap, ProductTimerMapViewModel>(Model.ProductTimerMaps, Workspace);
         }
     }
 }

@@ -38,8 +38,8 @@ namespace Samba.Domain.Models.Tickets
         public string CreatingUserName { get; set; }
         public DateTime CreatedDateTime { get; set; }
         public int AccountTransactionTemplateId { get; set; }
-        public int? MenuItemTimerValueId { get; set; }
-        public virtual MenuItemTimerValue MenuItemTimerValue { get; set; }
+        public int? ProductTimerValueId { get; set; }
+        public virtual ProductTimerValue ProductTimerValue { get; set; }
 
         [StringLength(10)]
         public string PriceTag { get; set; }
@@ -77,7 +77,7 @@ namespace Samba.Domain.Models.Tickets
         }
 
         private static Order _null;
-        public static Order Null { get { return _null ?? (_null = new Order { MenuItemTimerValue = new MenuItemTimerValue() }); } }
+        public static Order Null { get { return _null ?? (_null = new Order { ProductTimerValue = new ProductTimerValue() }); } }
 
         public void UpdateMenuItem(string userName, MenuItem menuItem, MenuItemPortion portion, string priceTag, int quantity)
         {
@@ -262,8 +262,8 @@ namespace Samba.Domain.Models.Tickets
         {
             var result = Price;
             if (TaxIncluded) result += TaxAmount;
-            if (MenuItemTimerValue != null)
-                result = MenuItemTimerValue.GetPrice(result);
+            if (ProductTimerValue != null)
+                result = ProductTimerValue.GetPrice(result);
             return result;
         }
 
@@ -388,13 +388,13 @@ namespace Samba.Domain.Models.Tickets
 
         public string OrderKey { get { return string.Join("", OrderTagValues.OrderBy(x => x.OrderKey).Select(x => x.OrderKey)); } }
 
-        public void UpdateProductTimer(MenuItemTimer timer)
+        public void UpdateProductTimer(ProductTimer timer)
         {
             if (timer != null)
             {
-                MenuItemTimerValue = new MenuItemTimerValue
+                ProductTimerValue = new ProductTimerValue
                                          {
-                                             MenuItemTimerId = timer.Id,
+                                             ProductTimerId = timer.Id,
                                              MinTime = timer.MinTime,
                                              PriceType = timer.PriceType,
                                              PriceDuration = timer.PriceDuration,
@@ -403,10 +403,10 @@ namespace Samba.Domain.Models.Tickets
             }
         }
 
-        public void StopMenuItemTimer()
+        public void StopProductTimer()
         {
-            if (MenuItemTimerValue != null)
-                MenuItemTimerValue.Stop();
+            if (ProductTimerValue != null)
+                ProductTimerValue.Stop();
         }
     }
 }

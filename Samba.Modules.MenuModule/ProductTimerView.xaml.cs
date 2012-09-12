@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace Samba.Modules.MenuModule
 {
     /// <summary>
-    /// Interaction logic for MenuItemTimerView.xaml
+    /// Interaction logic for ProductTimerView.xaml
     /// </summary>
-    public partial class MenuItemTimerView : UserControl
+    public partial class ProductTimerView : UserControl
     {
-        public MenuItemTimerView()
+        public ProductTimerView()
         {
             InitializeComponent();
         }

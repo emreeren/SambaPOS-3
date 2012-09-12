@@ -6,9 +6,9 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Menus
 {
-    public class MenuItemTimerMap : AbstractMap
+    public class ProdcutTimerMap : AbstractMap
     {
-        public int MenuItemTimerId { get; set; }
+        public int ProductTimerId { get; set; }
         public string MenuItemGroupCode { get; set; }
         public int MenuItemId { get; set; }
     }

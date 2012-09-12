@@ -4178,15 +4178,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Menu Item Timer.
-        /// </summary>
-        public static string MenuItemTimer {
-            get {
-                return ResourceManager.GetString("MenuItemTimer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Menu List.
         /// </summary>
         public static string MenuList {
@@ -5506,6 +5497,15 @@ namespace Samba.Localization.Properties {
         public static string Products {
             get {
                 return ResourceManager.GetString("Products", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Product Timer.
+        /// </summary>
+        public static string ProductTimer {
+            get {
+                return ResourceManager.GetString("ProductTimer", resourceCulture);
             }
         }
         

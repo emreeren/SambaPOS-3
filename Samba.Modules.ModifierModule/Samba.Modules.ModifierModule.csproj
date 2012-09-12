@@ -53,10 +53,10 @@
   <ItemGroup>
     <Compile Include="GroupedOrderTagButtonViewModel.cs" />
     <Compile Include="GroupedOrderTagViewModel.cs" />
-    <Compile Include="MenuItemTimerEditorView.xaml.cs">
-      <DependentUpon>MenuItemTimerEditorView.xaml</DependentUpon>
+    <Compile Include="ProductTimerEditorView.xaml.cs">
+      <DependentUpon>ProductTimerEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MenuItemTimerEditorViewModel.cs" />
+    <Compile Include="ProductTimerEditorViewModel.cs" />
     <Compile Include="OrderTagEditorView.xaml.cs">
       <DependentUpon>OrderTagEditorView.xaml</DependentUpon>
     </Compile>
@@ -84,7 +84,7 @@
     <Compile Include="TicketTagEditorViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="MenuItemTimerEditorView.xaml">
+    <Page Include="ProductTimerEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

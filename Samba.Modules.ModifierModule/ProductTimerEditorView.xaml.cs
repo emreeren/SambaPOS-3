@@ -16,14 +16,14 @@ using System.Windows.Shapes;
 namespace Samba.Modules.ModifierModule
 {
     /// <summary>
-    /// Interaction logic for MenuItemTimerEditorView.xaml
+    /// Interaction logic for ProductTimerEditorView.xaml
     /// </summary>
     
     [Export]
-    public partial class MenuItemTimerEditorView : UserControl
+    public partial class ProductTimerEditorView : UserControl
     {
         [ImportingConstructor]
-        public MenuItemTimerEditorView(MenuItemTimerEditorViewModel viewModel)
+        public ProductTimerEditorView(ProductTimerEditorViewModel viewModel)
         {
             DataContext = viewModel;
             InitializeComponent();

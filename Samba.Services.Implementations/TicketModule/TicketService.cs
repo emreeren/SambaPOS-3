@@ -112,7 +112,7 @@ namespace Samba.Services.Implementations.TicketModule
                              ? CreateTicket()
                              : Dao.Load<Ticket>(ticketId,
                              x => x.Orders.Select(y => y.OrderTagValues),
-                             x => x.Orders.Select(y => y.MenuItemTimerValue),
+                             x => x.Orders.Select(y => y.ProductTimerValue),
                              x => x.TicketResources,
                              x => x.Calculations,
                              x => x.Payments);
@@ -538,10 +538,10 @@ namespace Samba.Services.Implementations.TicketModule
             var portion = _cacheService.GetMenuItemPortion(menuItemId, portionName);
             if (portion == null) return null;
             var priceTag = _applicationState.CurrentDepartment.PriceTag;
-            var menuItemTimer = _cacheService.GetMenuItemTimer(menuItemId);
+            var productTimer = _cacheService.GetProductTimer(menuItemId);
             var order = ticket.AddOrder(
                 _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate,
-                _applicationState.CurrentLoggedInUser.Name, menuItem, portion, priceTag, menuItemTimer);
+                _applicationState.CurrentLoggedInUser.Name, menuItem, portion, priceTag, productTimer);
 
             order.Quantity = quantity > 9 ? decimal.Round(quantity / portion.Multiplier, LocalSettings.Decimals) : quantity;
 

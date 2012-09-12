@@ -4,15 +4,15 @@ using Samba.Infrastructure.Settings;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class MenuItemTimerValue : Value
+    public class ProductTimerValue : Value
     {
-        public MenuItemTimerValue()
+        public ProductTimerValue()
         {
             Start = DateTime.Now;
             End = Start;
         }
 
-        public int MenuItemTimerId { get; set; }
+        public int ProductTimerId { get; set; }
         public int PriceType { get; set; } //0 min, 1 hr, 2 day
         public decimal PriceDuration { get; set; }
         public decimal MinTime { get; set; }

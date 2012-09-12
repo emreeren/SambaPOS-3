@@ -418,7 +418,7 @@ namespace Samba.Modules.PaymentModule
 
             if (sum == 0) return;
 
-            SelectedTicket.Orders.Where(x => x.CalculatePrice && (x.MenuItemTimerValue == null || !x.MenuItemTimerValue.IsActive))
+            SelectedTicket.Orders.Where(x => x.CalculatePrice && (x.ProductTimerValue == null || !x.ProductTimerValue.IsActive))
                 .ToList().ForEach(x => CreateMergedItem(SelectedTicket.GetPlainSum(), x, serviceAmount));
 
             var ra = _settingService.ProgramSettings.AutoRoundDiscount;
