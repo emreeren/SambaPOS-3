@@ -73,7 +73,7 @@
                                         </Grid.RowDefinitions>
 
                                         <TextBlock FontWeight="{Binding FontWeight}" TextDecorations="{Binding TextDecoration}" Grid.Column="0"
-                                                         Padding="1" Foreground="{Binding Foreground}" FontSize="21"  Text="{Binding Quantity,StringFormat='0.##'}"
+                                                         Padding="1" Foreground="{Binding Foreground}" FontSize="21"  Text="{Binding Quantity,StringFormat='0.###'}"
                                                          Margin="5,5,6,5" />
 
                                         <TextBlock FontWeight="{Binding FontWeight}" TextDecorations="{Binding TextDecoration}" Grid.Column="1"

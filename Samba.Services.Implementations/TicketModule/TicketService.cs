@@ -543,7 +543,7 @@ namespace Samba.Services.Implementations.TicketModule
                 _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate,
                 _applicationState.CurrentLoggedInUser.Name, menuItem, portion, priceTag, productTimer);
 
-            order.Quantity = quantity > 9 ? decimal.Round(quantity / portion.Multiplier, LocalSettings.Decimals) : quantity;
+            order.Quantity = quantity > 9 ? decimal.Round(quantity / portion.Multiplier, 3, MidpointRounding.AwayFromZero) : quantity;
 
             if (template != null) template.OrderTagTemplateValues.ToList().ForEach(x => order.ToggleOrderTag(x.OrderTagGroup, x.OrderTag, 0));
             RecalculateTicket(ticket);

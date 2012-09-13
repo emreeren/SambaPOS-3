@@ -173,7 +173,7 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<Recipe>().Property(x => x.FixedCost).HasPrecision(precision, scale);
 
             //CostItem
-            modelBuilder.Entity<CostItem>().Property(x => x.Quantity).HasPrecision(precision, scale);
+            modelBuilder.Entity<CostItem>().Property(x => x.Quantity).HasPrecision(precision, 3);
             modelBuilder.Entity<CostItem>().Property(x => x.CostPrediction).HasPrecision(precision, scale);
             modelBuilder.Entity<CostItem>().Property(x => x.Cost).HasPrecision(precision, scale);
 
@@ -186,11 +186,11 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<PeriodicConsumptionItem>().Property(x => x.UnitMultiplier).HasPrecision(precision, scale);
 
             //RecipeItem
-            modelBuilder.Entity<RecipeItem>().Property(x => x.Quantity).HasPrecision(precision, scale);
+            modelBuilder.Entity<RecipeItem>().Property(x => x.Quantity).HasPrecision(precision, 3);
 
             //TransactionItem
             modelBuilder.Entity<InventoryTransactionItem>().Property(x => x.Price).HasPrecision(precision, scale);
-            modelBuilder.Entity<InventoryTransactionItem>().Property(x => x.Quantity).HasPrecision(precision, scale);
+            modelBuilder.Entity<InventoryTransactionItem>().Property(x => x.Quantity).HasPrecision(precision, 3);
 
             //WorkPeriod
             modelBuilder.Entity<WorkPeriod>().Property(x => x.CashAmount).HasPrecision(precision, scale);
@@ -198,16 +198,16 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<WorkPeriod>().Property(x => x.TicketAmount).HasPrecision(precision, scale);
 
             //PaidItem
-            modelBuilder.Entity<PaidItem>().Property(x => x.Quantity).HasPrecision(precision, scale);
+            modelBuilder.Entity<PaidItem>().Property(x => x.Quantity).HasPrecision(precision, 3);
             modelBuilder.Entity<PaidItem>().Property(x => x.Price).HasPrecision(precision, scale);
 
             //OrderTagValue
             modelBuilder.Entity<OrderTagValue>().Property(x => x.Price).HasPrecision(precision, scale);
-            modelBuilder.Entity<OrderTagValue>().Property(x => x.Quantity).HasPrecision(precision, scale);
+            modelBuilder.Entity<OrderTagValue>().Property(x => x.Quantity).HasPrecision(precision, 3);
             modelBuilder.Entity<OrderTagValue>().Property(x => x.TaxAmount).HasPrecision(precision, scale);
 
             //Order
-            modelBuilder.Entity<Order>().Property(x => x.Quantity).HasPrecision(precision, scale);
+            modelBuilder.Entity<Order>().Property(x => x.Quantity).HasPrecision(precision, 3);
             modelBuilder.Entity<Order>().Property(x => x.Price).HasPrecision(precision, scale);
             modelBuilder.Entity<Order>().Property(x => x.TaxRate).HasPrecision(precision, scale);
             modelBuilder.Entity<Order>().Property(x => x.TaxAmount).HasPrecision(precision, scale);

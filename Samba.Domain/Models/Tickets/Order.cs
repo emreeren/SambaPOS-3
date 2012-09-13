@@ -245,7 +245,7 @@ namespace Samba.Domain.Models.Tickets
 
         public decimal GetItemValue()
         {
-            return Quantity * GetItemPrice();
+            return decimal.Round(Quantity * GetItemPrice(), 2, MidpointRounding.AwayFromZero);
         }
 
         public decimal GetSelectedValue()
