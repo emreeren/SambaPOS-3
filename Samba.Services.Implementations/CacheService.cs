@@ -39,7 +39,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<ProductTimer> _productTimers;
         public IEnumerable<ProductTimer> ProductTimers
         {
-            get { return _productTimers ?? (_productTimers = Dao.Query<ProductTimer>( x => x.ProductTimerMaps)); }
+            get { return _productTimers ?? (_productTimers = Dao.Query<ProductTimer>(x => x.ProductTimerMaps)); }
         }
 
         private ProductTimer GetProductTimer(IEnumerable<ProductTimer> productTimers, int menuItemId)
@@ -54,7 +54,7 @@ namespace Samba.Services.Implementations
                 .Where(x => x.MenuItemId == 0 || x.MenuItemId == mi.Id);
             return tgl.Where(x => maps.Any(y => y.ProductTimerId == x.Id)).FirstOrDefault();
         }
-        
+
         public ProductTimer GetProductTimer(int menuItemId)
         {
             return GetProductTimer(ProductTimers, menuItemId);
@@ -251,7 +251,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<PaymentTemplate> _paymentTemplates;
         public IEnumerable<PaymentTemplate> PaymentTemplates
         {
-            get { return _paymentTemplates ?? (_paymentTemplates = Dao.Query<PaymentTemplate>(x => x.PaymentTemplateMaps, x => x.AccountTransactionTemplate, x => x.Account)); }
+            get { return _paymentTemplates ?? (_paymentTemplates = Dao.Query<PaymentTemplate>(x => x.PaymentTemplateMaps, x => x.AccountTransactionTemplate, x => x.Account, x => x.ForeignCurrency)); }
         }
 
         public IEnumerable<PaymentTemplate> GetUnderTicketPaymentTemplates()
@@ -392,8 +392,20 @@ namespace Samba.Services.Implementations
             _ticketTagGroups = null;
         }
 
+        private IEnumerable<ForeignCurrency> _foreignCurrencies;
+        public IEnumerable<ForeignCurrency> ForeignCurrencies
+        {
+            get { return _foreignCurrencies ?? (_foreignCurrencies = Dao.Query<ForeignCurrency>()); }
+        }
+
+        public IEnumerable<ForeignCurrency> GetForeignCurrencies()
+        {
+            return ForeignCurrencies;
+        }
+
         public override void Reset()
         {
+            _foreignCurrencies = null;
             _productTimers = null;
             _menuItems = null;
             _screenMenus = null;

@@ -1778,6 +1778,24 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Currency.
+        /// </summary>
+        public static string Currency {
+            get {
+                return ResourceManager.GetString("Currency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Currency Symbol.
+        /// </summary>
+        public static string CurrencySymbol {
+            get {
+                return ResourceManager.GetString("CurrencySymbol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Current Cost.
         /// </summary>
         public static string CurrentCost {
@@ -2817,6 +2835,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exchange Rate.
+        /// </summary>
+        public static string ExchangeRate {
+            get {
+                return ResourceManager.GetString("ExchangeRate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Excluded.
         /// </summary>
         public static string Excluded {
@@ -3084,6 +3111,15 @@ namespace Samba.Localization.Properties {
         public static string ForChangingPriceTypeAPrice {
             get {
                 return ResourceManager.GetString("ForChangingPriceTypeAPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Foreign Currency.
+        /// </summary>
+        public static string ForeignCurrency {
+            get {
+                return ResourceManager.GetString("ForeignCurrency", resourceCulture);
             }
         }
         

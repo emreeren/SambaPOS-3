@@ -17,6 +17,7 @@ namespace Samba.Domain.Models.Tickets
         public string ButtonColor { get; set; }
         public virtual AccountTransactionTemplate AccountTransactionTemplate { get; set; }
         public virtual Account Account { get; set; }
+        public virtual ForeignCurrency ForeignCurrency { get; set; }
         
         private readonly IList<PaymentTemplateMap> _paymentTemplateMaps;
         public virtual IList<PaymentTemplateMap> PaymentTemplateMaps

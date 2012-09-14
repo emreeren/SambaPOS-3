@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using FluentValidation;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
@@ -11,13 +12,11 @@ using Samba.Presentation.Common.ModelBase;
 namespace Samba.Modules.TicketModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class PaymentTemplateViewModel : EntityViewModelBaseWithMap<PaymentTemplate,PaymentTemplateMap,PaymentTemplateMapViewModel>
+    public class PaymentTemplateViewModel : EntityViewModelBaseWithMap<PaymentTemplate, PaymentTemplateMap, PaymentTemplateMapViewModel>
     {
-      
         [ImportingConstructor]
         public PaymentTemplateViewModel()
         {
-
         }
 
         private IEnumerable<AccountTransactionTemplate> _accountTransactionTemplates;
@@ -61,6 +60,22 @@ namespace Samba.Modules.TicketModule
             {
                 Model.Account = value;
                 RaisePropertyChanged(() => Account);
+            }
+        }
+
+        private IEnumerable<ForeignCurrency> _foreignCurrencies;
+        public IEnumerable<ForeignCurrency> ForeignCurrencies
+        {
+            get { return _foreignCurrencies ?? (_foreignCurrencies = Workspace.All<ForeignCurrency>().ToList()); }
+        }
+
+        public ForeignCurrency ForeignCurrency
+        {
+            get { return Model.ForeignCurrency; }
+            set
+            {
+                Model.ForeignCurrency = value;
+                RaisePropertyChanged(() => ForeignCurrency);
             }
         }
 

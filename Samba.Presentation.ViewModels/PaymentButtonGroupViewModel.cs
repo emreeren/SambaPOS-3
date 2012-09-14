@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
@@ -33,14 +34,14 @@ namespace Samba.Presentation.ViewModels
         private readonly ICaptionCommand _settleCommand;
         private readonly ICaptionCommand _closeCommand;
 
-        public void UpdatePaymentButtons(IEnumerable<PaymentTemplate> paymentTemplates)
+        public void UpdatePaymentButtons(IEnumerable<PaymentTemplate> paymentTemplates, ForeignCurrency foreignCurrency)
         {
             _paymentTemplates = paymentTemplates;
             _paymentButtons.Clear();
-            _paymentButtons.AddRange(CreatePaymentButtons());
+            _paymentButtons.AddRange(CreatePaymentButtons(foreignCurrency));
         }
 
-        private IEnumerable<CommandButtonViewModel<PaymentTemplate>> CreatePaymentButtons()
+        private IEnumerable<CommandButtonViewModel<PaymentTemplate>> CreatePaymentButtons(ForeignCurrency foreignCurrency)
         {
             var result = new List<CommandButtonViewModel<PaymentTemplate>>();
             if (_settleCommand != null)
@@ -52,8 +53,8 @@ namespace Samba.Presentation.ViewModels
                 });
             }
 
-            result.AddRange(
-                PaymentTemplates
+            var pts = foreignCurrency == null ? PaymentTemplates.Where(x => x.ForeignCurrency == null) : PaymentTemplates.Where(x => x.ForeignCurrency != null && x.ForeignCurrency.Id == foreignCurrency.Id);
+            result.AddRange(pts
                 .OrderBy(x => x.Order)
                 .Select(x => new CommandButtonViewModel<PaymentTemplate>
                 {

@@ -45,8 +45,9 @@ namespace Samba.Services
         IEnumerable<AccountTemplate> GetAccountTemplatesByName(IEnumerable<string> accountTemplateNames);
         IEnumerable<AccountScreen> GetAccountScreens();
         PaymentTemplate GetPaymentTemplateById(int paymentTemplateId);
+        IEnumerable<ForeignCurrency> GetForeignCurrencies();
+
         void ResetOrderTagCache();
         void ResetTicketTagCache();
-
     }
 }

@@ -3230,4 +3230,16 @@ Continue without adding details?</value>
   <data name="ProductTimer">
     <value xml:space="preserve">Product Timer</value>
   </data>
+  <data name="Currency">
+    <value xml:space="preserve">Currency</value>
+  </data>
+  <data name="ForeignCurrency">
+    <value xml:space="preserve">Foreign Currency</value>
+  </data>
+  <data name="ExchangeRate">
+    <value xml:space="preserve">Exchange Rate</value>
+  </data>
+  <data name="CurrencySymbol">
+    <value xml:space="preserve">Currency Symbol</value>
+  </data>
 </root>

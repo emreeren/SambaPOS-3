@@ -80,6 +80,7 @@ namespace Samba.Persistance.Data
         public DbSet<CalculationSelector> CalculationSelectors { get; set; }
         public DbSet<CalculationSelectorMap> CalculationTemplateMaps { get; set; }
         public DbSet<Calculation> Calculations { get; set; }
+        public DbSet<ForeignCurrency> ForeignCurrencies { get; set; }
         public DbSet<PaymentTemplate> PaymentTemplates { get; set; }
         public DbSet<PaymentTemplateMap> PaymentTemplateMaps { get; set; }
         public DbSet<Payment> Payments { get; set; }

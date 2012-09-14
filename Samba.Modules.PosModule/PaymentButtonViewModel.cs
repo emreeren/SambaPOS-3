@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel.Composition;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
@@ -34,7 +30,7 @@ namespace Samba.Modules.PosModule
 
                 if (SelectedDepartment != null && _selectedTicket != Ticket.Empty)
                 {
-                    PaymentButtonGroup.UpdatePaymentButtons(_cacheService.GetUnderTicketPaymentTemplates());
+                    PaymentButtonGroup.UpdatePaymentButtons(_cacheService.GetUnderTicketPaymentTemplates(), null);
                 }
                 RaisePropertyChanged(() => PaymentButtonGroup);
                 RaisePropertyChanged(() => SelectedTicket);
@@ -60,7 +56,7 @@ namespace Samba.Modules.PosModule
 
         private void OnDepartmentChanged(EventParameters<Department> obj)
         {
-            PaymentButtonGroup.UpdatePaymentButtons(_cacheService.GetUnderTicketPaymentTemplates());
+            PaymentButtonGroup.UpdatePaymentButtons(_cacheService.GetUnderTicketPaymentTemplates(), null);
             RaisePropertyChanged(() => PaymentButtonGroup);
         }
 

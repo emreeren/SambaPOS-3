@@ -4,11 +4,6 @@ namespace Samba.Presentation.ViewModels
 {
     public class CommandButtonViewModel<T> : ObservableObject
     {
-        public CommandButtonViewModel()
-        {
- 
-        }
-
         public ICaptionCommand Command { get; set; }
         public string Caption { get; set; }
         public T Parameter { get; set; }
