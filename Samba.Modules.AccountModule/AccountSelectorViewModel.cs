@@ -6,7 +6,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.Practices.Prism.Events;
 using Samba.Domain.Models.Accounts;
-using Samba.Infrastructure;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
@@ -17,17 +16,29 @@ namespace Samba.Modules.AccountModule
 {
     public class AccountRowData
     {
-        public AccountRowData(string name, decimal balance, int accountId)
+        public AccountRowData(string name, decimal balance, decimal exchange, int accountId, string currencyFormat)
         {
             Name = name;
             Balance = balance;
+            if (!string.IsNullOrEmpty(currencyFormat)) Exchange = exchange;
+            CurrencyFormat = currencyFormat;
             AccountId = accountId;
         }
 
+        protected string CurrencyFormat { get; set; }
         public int AccountId { get; set; }
-        public string BalanceStr { get { return Balance.ToString(LocalSettings.DefaultCurrencyFormat); } }
+        public string BalanceStr
+        {
+            get
+            {
+               // if (!string.IsNullOrEmpty(ExchangeStr)) return ExchangeStr;
+                return Balance.ToString(LocalSettings.DefaultCurrencyFormat);
+            }
+        }
+        public string ExchangeStr { get { return Exchange != Balance ? string.Format(CurrencyFormat, Exchange) : ""; } }
         public string Name { get; set; }
         public decimal Balance { get; set; }
+        public decimal Exchange { get; set; }
         public string Fill { get; set; }
     }
 
@@ -79,6 +90,11 @@ namespace Samba.Modules.AccountModule
             UpdateAccountScreen(accountScreen);
         }
 
+        private string GetCurrencyFormat(int currencyId)
+        {
+            return currencyId == 0 ? "" : _cacheService.GetForeignCurrencies().Single(x => x.Id == currencyId).CurrencySymbol;
+        }
+
         private void UpdateAccountScreen(AccountScreen accountScreen)
         {
             if (accountScreen == null) return;
@@ -87,10 +103,10 @@ namespace Samba.Modules.AccountModule
             _accounts.Clear();
 
             var detailedTemplateNames = accountScreen.AccountScreenValues.Where(x => x.DisplayDetails).Select(x => x.AccountTemplateId);
-            _accountService.GetAccountBalances(detailedTemplateNames.ToList(), GetFilter()).ToList().ForEach(x => _accounts.Add(new AccountRowData(x.Key.Name, x.Value, x.Key.Id)));
+            _accountService.GetAccountBalances(detailedTemplateNames.ToList(), GetFilter()).ToList().ForEach(x => _accounts.Add(new AccountRowData(x.Key.Name, x.Value.Balance, x.Value.Exchange, x.Key.Id, GetCurrencyFormat(x.Key.ForeignCurrencyId))));
 
             var templateTotals = accountScreen.AccountScreenValues.Where(x => !x.DisplayDetails).Select(x => x.AccountTemplateId);
-            _accountService.GetAccountTemplateBalances(templateTotals.ToList(), GetFilter()).ToList().ForEach(x => _accounts.Add(new AccountRowData(x.Key.Name, x.Value, 0)));
+            _accountService.GetAccountTemplateBalances(templateTotals.ToList(), GetFilter()).ToList().ForEach(x => _accounts.Add(new AccountRowData(x.Key.Name, x.Value.Balance, x.Value.Exchange, 0, "")));
 
             RaisePropertyChanged(() => BatchDocumentButtons);
             RaisePropertyChanged(() => AccountButtons);
@@ -134,7 +150,7 @@ namespace Samba.Modules.AccountModule
 
         private void OnShowAccountDetails(object obj)
         {
-             CommonEventPublisher.PublishEntityOperation(new AccountData { AccountId = SelectedAccount.AccountId }, EventTopicNames.DisplayAccountTransactions, EventTopicNames.ActivateAccountSelector);
+            CommonEventPublisher.PublishEntityOperation(new AccountData { AccountId = SelectedAccount.AccountId }, EventTopicNames.DisplayAccountTransactions, EventTopicNames.ActivateAccountSelector);
         }
 
         public void Refresh()

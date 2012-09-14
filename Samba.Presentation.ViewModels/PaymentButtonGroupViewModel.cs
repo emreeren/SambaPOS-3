@@ -53,7 +53,7 @@ namespace Samba.Presentation.ViewModels
                 });
             }
 
-            var pts = foreignCurrency == null ? PaymentTemplates.Where(x => x.ForeignCurrency == null) : PaymentTemplates.Where(x => x.ForeignCurrency != null && x.ForeignCurrency.Id == foreignCurrency.Id);
+            var pts = foreignCurrency == null ? PaymentTemplates.Where(x => x.Account == null || x.Account.ForeignCurrencyId == 0) : PaymentTemplates.Where(x => x.Account != null && x.Account.ForeignCurrencyId == foreignCurrency.Id);
             result.AddRange(pts
                 .OrderBy(x => x.Order)
                 .Select(x => new CommandButtonViewModel<PaymentTemplate>

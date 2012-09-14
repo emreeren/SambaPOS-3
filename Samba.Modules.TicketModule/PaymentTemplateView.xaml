@@ -25,9 +25,6 @@
                     <Label HorizontalAlignment="Left" Content="{LocText Account,Suffix=':'}" />
                     <ComboBox HorizontalAlignment="Left" MinWidth="200" ItemsSource="{Binding Accounts}"
                         SelectedItem="{Binding Account}" DisplayMemberPath="Name" />
-                    <Label HorizontalAlignment="Left" Content="{LocText Currency,Suffix=':'}" />
-                    <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="200" ItemsSource="{Binding ForeignCurrencies}"
-                        SelectedItem="{Binding ForeignCurrency}" DisplayMemberPath="Name" />
                     <Label HorizontalAlignment="Left" Content="{LocText ButtonColor,Suffix=':'}" />
                     <PropertyEditorLibrary:ColorPicker2 HorizontalAlignment="Left" MinWidth="150" SelectedColor="{Binding ButtonColor}" />
                 </StackPanel>

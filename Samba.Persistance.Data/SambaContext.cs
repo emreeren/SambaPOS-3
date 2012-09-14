@@ -44,7 +44,7 @@ namespace Samba.Persistance.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderTag> OrderTags { get; set; }
         public DbSet<OrderTagGroup> OrderTagGroups { get; set; }
-        public DbSet<OrderTagMap> OrderTagMaps { get; set; }        
+        public DbSet<OrderTagMap> OrderTagMaps { get; set; }
         public DbSet<OrderState> OrderStates { get; set; }
         public DbSet<OrderStateGroup> OrderStateGroups { get; set; }
         public DbSet<OrderStateMap> OrderStateMaps { get; set; }
@@ -108,7 +108,7 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<Ticket>().Property(x => x.TicketTags).IsMaxLength();
             modelBuilder.Entity<PrinterTemplate>().Property(x => x.Template).IsMaxLength();
             modelBuilder.Entity<TicketResource>().Property(x => x.ResourceCustomData).IsMaxLength();
-            
+
             modelBuilder.Entity<Department>().HasMany(p => p.ResourceScreens).WithMany();
             modelBuilder.Entity<ResourceScreen>().HasMany(p => p.ScreenItems).WithMany();
             modelBuilder.Entity<CalculationSelector>().HasMany(x => x.CalculationTemplates).WithMany();
@@ -219,8 +219,10 @@ namespace Samba.Persistance.Data
 
             //Account Transaction
             modelBuilder.Entity<AccountTransaction>().Property(x => x.Amount).HasPrecision(precision, scale);
+            modelBuilder.Entity<AccountTransaction>().Property(x => x.ExchangeRate).HasPrecision(precision, scale);
             modelBuilder.Entity<AccountTransactionValue>().Property(x => x.Debit).HasPrecision(precision, scale);
             modelBuilder.Entity<AccountTransactionValue>().Property(x => x.Credit).HasPrecision(precision, scale);
+            modelBuilder.Entity<AccountTransactionValue>().Property(x => x.Exchange).HasPrecision(precision, scale);
 
             //MenuItem Timer
             modelBuilder.Entity<ProductTimer>().Property(x => x.PriceDuration).HasPrecision(precision, scale);

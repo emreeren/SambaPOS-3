@@ -9,7 +9,7 @@ namespace Samba.Domain.Models.Accounts
     public class Account : Entity
     {
         public int AccountTemplateId { get; set; }
-
+        public int ForeignCurrencyId { get; set; }
         private static Account _null;
         public static Account Null { get { return _null ?? (_null = new Account { Name = "*" }); } }
     }

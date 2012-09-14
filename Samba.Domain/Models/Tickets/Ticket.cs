@@ -26,6 +26,7 @@ namespace Samba.Domain.Models.Tickets
             LastPaymentDate = DateTime.Now;
             LastOrderDate = DateTime.Now;
             LastUpdateTime = DateTime.Now;
+            ExchangeRate = 1;
 
             _orders = new List<Order>();
             _paidItems = new List<PaidItem>();
@@ -78,6 +79,8 @@ namespace Samba.Domain.Models.Tickets
         public string AccountName { get; set; }
 
         public string TicketTags { get; set; }
+
+        public decimal ExchangeRate { get; set; }
 
         public virtual AccountTransactionDocument TransactionDocument { get; set; }
 
@@ -148,9 +151,9 @@ namespace Samba.Domain.Models.Tickets
             return order;
         }
 
-        public void AddPayment(PaymentTemplate paymentTemplate, Account account, decimal amount, int userId)
+        public void AddPayment(PaymentTemplate paymentTemplate, Account account, decimal amount, decimal exchangeRate, int userId)
         {
-            var transaction = TransactionDocument.AddNewTransaction(paymentTemplate.AccountTransactionTemplate, AccountTemplateId, AccountId, account, amount);
+            var transaction = TransactionDocument.AddNewTransaction(paymentTemplate.AccountTransactionTemplate, AccountTemplateId, AccountId, account, amount, exchangeRate);
             var payment = new Payment { AccountTransaction = transaction, Amount = amount, Name = account.Name, PaymentTemplateId = paymentTemplate.Id };
             Payments.Add(payment);
             LastPaymentDate = DateTime.Now;
@@ -314,7 +317,7 @@ namespace Samba.Domain.Models.Tickets
 
         public void UpdateCalculationTransaction(Calculation calculation, decimal amount)
         {
-            TransactionDocument.UpdateSingletonTransactionAmount(calculation.AccountTransactionTemplateId, calculation.Name, amount);
+            TransactionDocument.UpdateSingletonTransactionAmount(calculation.AccountTransactionTemplateId, calculation.Name, amount, ExchangeRate);
             if (amount == 0)
             {
                 TransactionDocument.AccountTransactions.Remove(
@@ -432,7 +435,7 @@ namespace Samba.Domain.Models.Tickets
             _shouldLock = false;
         }
 
-        public static Ticket Create(Department department, Account account, IEnumerable<CalculationTemplate> calculationTemplates)
+        public static Ticket Create(Department department, Account account, decimal exchangeRate, IEnumerable<CalculationTemplate> calculationTemplates)
         {
             var ticket = new Ticket
                              {
@@ -441,7 +444,8 @@ namespace Samba.Domain.Models.Tickets
                                  TransactionDocument = new AccountTransactionDocument()
                              };
 
-            ticket.UpdateAccount(account);
+            ticket.UpdateAccount(account, exchangeRate);
+
             foreach (var calculationTemplate in calculationTemplates.OrderBy(x => x.Order))
             {
                 ticket.AddCalculation(calculationTemplate, calculationTemplate.Amount);
@@ -507,7 +511,7 @@ namespace Samba.Domain.Models.Tickets
                 TicketResources.Remove(r);
         }
 
-        public void UpdateAccount(Account account)
+        public void UpdateAccount(Account account, decimal exchangeRate)
         {
             if (account == null) return;
             foreach (var transaction in TransactionDocument.AccountTransactions)
@@ -517,6 +521,7 @@ namespace Samba.Domain.Models.Tickets
             AccountId = account.Id;
             AccountTemplateId = account.AccountTemplateId;
             AccountName = account.Name;
+            ExchangeRate = exchangeRate;
         }
 
         public void Recalculate()
@@ -530,7 +535,7 @@ namespace Samba.Domain.Models.Tickets
                     var transaction = TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTemplateId == t.Key);
                     var amount = t.Sum(x => x.GetTotal());
                     transaction.UpdateAccounts(AccountTemplateId, AccountId);
-                    transaction.UpdateAmount(amount);
+                    transaction.UpdateAmount(amount, ExchangeRate);
                 }
 
                 var taxGroup = Orders.Where(x => x.TaxTempleteAccountTransactionTemplateId > 0).GroupBy(x => x.TaxTempleteAccountTransactionTemplateId);
@@ -540,7 +545,7 @@ namespace Samba.Domain.Models.Tickets
                     var tg = taxGroupItem;
                     var transaction = TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTemplateId == tg.Key);
                     transaction.UpdateAccounts(AccountTemplateId, AccountId);
-                    transaction.UpdateAmount(tg.Sum(x => x.GetTotalTaxAmount(GetPlainSum(), GetPreTaxServicesTotal())));
+                    transaction.UpdateAmount(tg.Sum(x => x.GetTotalTaxAmount(GetPlainSum(), GetPreTaxServicesTotal())), ExchangeRate);
                 }
             }
 

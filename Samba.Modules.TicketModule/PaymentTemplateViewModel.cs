@@ -63,22 +63,6 @@ namespace Samba.Modules.TicketModule
             }
         }
 
-        private IEnumerable<ForeignCurrency> _foreignCurrencies;
-        public IEnumerable<ForeignCurrency> ForeignCurrencies
-        {
-            get { return _foreignCurrencies ?? (_foreignCurrencies = Workspace.All<ForeignCurrency>().ToList()); }
-        }
-
-        public ForeignCurrency ForeignCurrency
-        {
-            get { return Model.ForeignCurrency; }
-            set
-            {
-                Model.ForeignCurrency = value;
-                RaisePropertyChanged(() => ForeignCurrency);
-            }
-        }
-
         public string ButtonColor { get { return Model.ButtonColor; } set { Model.ButtonColor = value; } }
 
         public override Type GetViewType()

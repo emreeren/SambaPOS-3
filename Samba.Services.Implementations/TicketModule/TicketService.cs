@@ -45,6 +45,12 @@ namespace Samba.Services.Implementations.TicketModule
             ValidatorRegistry.RegisterConcurrencyValidator(new TicketConcurrencyValidator());
         }
 
+        public decimal GetExchangeRate(Account account)
+        {
+            if (account.ForeignCurrencyId == 0) return 1;
+            return _cacheService.GetForeignCurrencies().Single(x => x.Id == account.ForeignCurrencyId).ExchangeRate;
+        }
+
         public void UpdateAccount(Ticket ticket, Account account)
         {
             Debug.Assert(ticket != null);
@@ -54,7 +60,7 @@ namespace Samba.Services.Implementations.TicketModule
                         x => x.Id == _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.Id);
                 account = _cacheService.GetAccountById(template.DefaultTargetAccountId);
             }
-            ticket.UpdateAccount(account);
+            ticket.UpdateAccount(account, GetExchangeRate(account));
             _automationService.NotifyEvent(RuleEventNames.AccountSelectedForTicket,
                     new
                     {
@@ -125,7 +131,8 @@ namespace Samba.Services.Implementations.TicketModule
         private Ticket CreateTicket()
         {
             var account = _cacheService.GetAccountById(_applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.DefaultTargetAccountId);
-            return Ticket.Create(_applicationState.CurrentDepartment.Model, account, _cacheService.GetCalculationSelectors().Where(x => string.IsNullOrEmpty(x.ButtonHeader)).SelectMany(y => y.CalculationTemplates));
+
+            return Ticket.Create(_applicationState.CurrentDepartment.Model, account, GetExchangeRate(account), _cacheService.GetCalculationSelectors().Where(x => string.IsNullOrEmpty(x.ButtonHeader)).SelectMany(y => y.CalculationTemplates));
         }
 
         public TicketCommitResult CloseTicket(Ticket ticket)
@@ -201,7 +208,7 @@ namespace Samba.Services.Implementations.TicketModule
             if (account == null) return;
             var remainingAmount = ticket.GetRemainingAmount();
             var changeAmount = tenderedAmount > remainingAmount ? tenderedAmount - remainingAmount : 0;
-            ticket.AddPayment(paymentTemplate, account, tenderedAmount, _applicationState.CurrentLoggedInUser.Id);
+            ticket.AddPayment(paymentTemplate, account, tenderedAmount, GetExchangeRate(account), _applicationState.CurrentLoggedInUser.Id);
             _automationService.NotifyEvent(RuleEventNames.PaymentProcessed,
                 new
                 {
@@ -250,7 +257,11 @@ namespace Samba.Services.Implementations.TicketModule
 
             var ticket = OpenTicket(0);
             clonedOrders.ForEach(ticket.Orders.Add);
-            clonedPayments.ForEach(x => ticket.AddPayment(_cacheService.GetPaymentTemplateById(x.PaymentTemplateId), _accountService.GetAccountById(x.AccountTransaction.TargetTransactionValue.AccountId), x.Amount, 0));
+            foreach (var cp in clonedPayments)
+            {
+                var account = _accountService.GetAccountById(cp.AccountTransaction.TargetTransactionValue.AccountId);
+                ticket.AddPayment(_cacheService.GetPaymentTemplateById(cp.PaymentTemplateId), account, cp.Amount, GetExchangeRate(account), 0);
+            }
             clonedResources.ForEach(x => ticket.UpdateResource(x.ResourceTemplateId, x.ResourceId, x.ResourceName, x.AccountId, x.ResourceCustomData));
             clonedTags.ForEach(x => ticket.SetTagValue(x.TagName, x.TagValue));
 

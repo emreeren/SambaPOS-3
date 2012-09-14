@@ -79,20 +79,7 @@
                 </ItemsControl>
             </ScrollViewer>
             <Grid Grid.Row="2">
-                <ItemsControl ItemsSource="{Binding ForeignCurrencyButtons}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Rows="1"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <FxButton:FlexButton FontSize="40" Focusable="False" Command="{Binding Command}" 
-                                         CommandParameter="{Binding Parameter}" Margin="5" Content="{Binding Caption}">
-                            </FxButton:FlexButton>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                
             </Grid>
             <Grid Grid.Row="3" Margin="5">
                 <Grid.Resources>
@@ -208,22 +195,38 @@
         </Grid>
         <Grid Grid.Column="1" Margin="5">
             <Grid.RowDefinitions>
-                <RowDefinition Height="105" />
+                <RowDefinition Height="auto" />
                 <RowDefinition Height="6*" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <UniformGrid Grid.Row="0" Columns="2" Rows="2" Margin="5">
-                <Label FontSize="28">
-                    <LocText ResourceIdentifierKey="Total" Suffix=':'/>
-                </Label>
-                <TextBox FontWeight="Bold" TextAlignment="Right" FontSize="30" Text="{Binding PaymentAmount, Mode=TwoWay}"
+            <StackPanel Grid.Row="0">
+                <UniformGrid  Columns="2" Rows="2" Margin="5">
+                    <Label FontSize="28">
+                        <LocText ResourceIdentifierKey="Total" Suffix=':'/>
+                    </Label>
+                    <TextBox FontWeight="Bold" TextAlignment="Right" FontSize="30" Text="{Binding PaymentAmount, Mode=TwoWay}"
                      IsReadOnly="True" />
-                <Label FontSize="28">
-                    <LocText ResourceIdentifierKey="ChargedAmount" Suffix=':'/>
-                </Label>
-                <TextBox FontWeight="Bold" TextAlignment="Right" FontSize="30" Text="{Binding TenderedAmount, Mode=TwoWay}"
+                    <Label FontSize="28">
+                        <LocText ResourceIdentifierKey="ChargedAmount" Suffix=':'/>
+                    </Label>
+                    <TextBox FontWeight="Bold" TextAlignment="Right" FontSize="30" Text="{Binding TenderedAmount, Mode=TwoWay}"
                      IsReadOnly="True" />
-            </UniformGrid>
+                </UniformGrid>
+                <ItemsControl ItemsSource="{Binding ForeignCurrencyButtons}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="1"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <FxButton:FlexButton FontSize="40" Focusable="False" Command="{Binding Command}" 
+                                         CommandParameter="{Binding Parameter}" Margin="5" Content="{Binding Caption}">
+                            </FxButton:FlexButton>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
             <Border Grid.Row="0" VerticalAlignment="Stretch" Background="Red" BorderBrush="WhiteSmoke"
                  BorderThickness="2" CornerRadius="5" Visibility="{Binding ReturningAmountVisibility}">
                 <Viewbox>

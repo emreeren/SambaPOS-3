@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using FluentValidation;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
@@ -37,6 +38,25 @@ namespace Samba.Modules.AccountModule.Dashboard
         }
 
         public string GroupValue { get { return NameCache.GetName<AccountTemplate>(Model.AccountTemplateId); } }
+
+        private IEnumerable<ForeignCurrency> _foreignCurrencies;
+        public IEnumerable<ForeignCurrency> ForeignCurrencies
+        {
+            get { return _foreignCurrencies ?? (_foreignCurrencies = Workspace.All<ForeignCurrency>().ToList()); }
+        }
+
+        public ForeignCurrency ForeignCurrency
+        {
+            get
+            {
+                return ForeignCurrencies.SingleOrDefault(x => x.Id == Model.ForeignCurrencyId);
+            }
+            set
+            {
+                Model.ForeignCurrencyId = value != null ? value.Id : 0;
+                RaisePropertyChanged(() => ForeignCurrency);
+            }
+        }
 
         public override Type GetViewType()
         {

@@ -10,10 +10,11 @@ namespace Samba.Modules.PaymentModule
     {
         public int MenuItemId { get; set; }
         private decimal _quantity;
-        public decimal Quantity { get { return _quantity; } set { _quantity = value; RaisePropertyChanged(() => Quantity); } }
+        public decimal Quantity { get { return _quantity; } set { _quantity = value; RaisePropertyChanged(() => Quantity); RaisePropertyChanged(() => TotalLabel); } }
         public string Description { get; set; }
         public string Label { get { return GetPaidItemsQuantity() > 0 ? string.Format("{0} ({1:#.##})", Description, GetPaidItemsQuantity()) : Description; } }
-        public decimal Price { get; set; }
+        private decimal _price;
+        public decimal Price { get { return _price; } set { _price = value; NewPaidItems.ForEach(x => x.Price = value); RaisePropertyChanged(() => TotalLabel); } }
         public decimal Total { get { return (Price * Quantity) - PaidItems.Sum(x => x.Price * x.Quantity); } }
         public string TotalLabel { get { return Total > 0 ? Total.ToString("#,#0.00") : ""; } }
         public List<PaidItem> PaidItems { get; set; }
@@ -30,6 +31,11 @@ namespace Samba.Modules.PaymentModule
         private decimal GetPaidItemsQuantity()
         {
             return PaidItems.Sum(x => x.Quantity) + NewPaidItems.Sum(x => x.Quantity);
+        }
+
+        public decimal GetNewTotal()
+        {
+            return NewPaidItems.Sum(x => x.Quantity * x.Price);
         }
 
         public decimal RemainingQuantity { get { return Quantity - GetPaidItemsQuantity(); } }
@@ -74,6 +80,7 @@ namespace Samba.Modules.PaymentModule
             RaisePropertyChanged(() => Label);
             RaisePropertyChanged(() => TotalLabel);
             RaisePropertyChanged(() => FontWeight);
+            RaisePropertyChanged(() => Price);
         }
     }
 }

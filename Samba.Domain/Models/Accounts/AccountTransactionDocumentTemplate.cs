@@ -49,7 +49,7 @@ namespace Samba.Domain.Models.Accounts
             get { return Name; }
         }
 
-        public AccountTransactionDocument CreateDocument(Account account, string description, decimal amount, IList<Account> accounts)
+        public AccountTransactionDocument CreateDocument(Account account, string description, decimal amount, decimal exchangeRate, IList<Account> accounts)
         {
             // <pex>
             if (account == null)
@@ -63,7 +63,7 @@ namespace Samba.Domain.Models.Accounts
             {
                 var transaction = AccountTransaction.Create(accountTransactionTemplate);
                 transaction.Name = description;
-                transaction.UpdateAmount(amount);
+                transaction.UpdateAmount(amount, exchangeRate);
                 transaction.UpdateAccounts(MasterAccountTemplateId, account.Id);
                 if (accounts != null && accounts.Count > 0)
                 {

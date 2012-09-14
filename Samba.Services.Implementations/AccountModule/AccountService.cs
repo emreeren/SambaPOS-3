@@ -6,7 +6,6 @@ using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Resources;
-using Samba.Infrastructure;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
@@ -18,9 +17,12 @@ namespace Samba.Services.Implementations.AccountModule
     [Export(typeof(IAccountService))]
     public class AccountService : AbstractService, IAccountService
     {
+        private readonly ICacheService _cacheService;
+
         [ImportingConstructor]
-        public AccountService()
+        public AccountService(ICacheService cacheService)
         {
+            _cacheService = cacheService;
             ValidatorRegistry.RegisterDeleteValidator(new AccountDeleteValidator());
             ValidatorRegistry.RegisterDeleteValidator(new AccountTemplateDeleteValidator());
             ValidatorRegistry.RegisterDeleteValidator<AccountTransactionTemplate>(x => Dao.Exists<AccountTransactionDocumentTemplate>(y => y.TransactionTemplates.Any(z => z.Id == x.Id)), Resources.AccountTransactionTemplate, Resources.DocumentTemplate);
@@ -40,7 +42,7 @@ namespace Samba.Services.Implementations.AccountModule
         {
             using (var w = WorkspaceFactory.Create())
             {
-                var document = documentTemplate.CreateDocument(selectedAccount, description, amount, accounts != null ? accounts.ToList() : null);
+                var document = documentTemplate.CreateDocument(selectedAccount, description, amount, GetExchangeRate(selectedAccount), accounts != null ? accounts.ToList() : null);
                 w.Add(document);
                 w.CommitChanges();
             }
@@ -51,7 +53,7 @@ namespace Samba.Services.Implementations.AccountModule
             return Dao.Sum<AccountTransactionValue>(x => x.Debit - x.Credit, x => x.AccountId == accountId);
         }
 
-        public Dictionary<Account, decimal> GetAccountBalances(IList<int> accountTemplateIds, Expression<Func<AccountTransactionValue, bool>> filter)
+        public Dictionary<Account, BalanceValue> GetAccountBalances(IList<int> accountTemplateIds, Expression<Func<AccountTransactionValue, bool>> filter)
         {
             using (var w = WorkspaceFactory.CreateReadOnly())
             {
@@ -61,14 +63,14 @@ namespace Samba.Services.Implementations.AccountModule
                 var transactionValues = w.Queryable<AccountTransactionValue>()
                     .Where(func)
                     .GroupBy(x => x.AccountId)
-                    .Select(x => new { Id = x.Key, Amount = x.Sum(y => y.Debit - y.Credit) })
-                    .ToDictionary(x => x.Id, x => x.Amount);
+                    .Select(x => new { Id = x.Key, Amount = x.Sum(y => y.Debit - y.Credit), Exchange = x.Sum(y => y.Exchange) })
+                    .ToDictionary(x => x.Id, x => new BalanceValue { Balance = x.Amount, Exchange = x.Exchange });
 
-                return w.Queryable<Account>().Where(x => accountTemplateIds.Contains(x.AccountTemplateId)).ToDictionary(x => x, x => transactionValues.ContainsKey(x.Id) ? transactionValues[x.Id] : 0);
+                return w.Queryable<Account>().Where(x => accountTemplateIds.Contains(x.AccountTemplateId)).ToDictionary(x => x, x => transactionValues.ContainsKey(x.Id) ? transactionValues[x.Id] : BalanceValue.Empty);
             }
         }
 
-        public Dictionary<AccountTemplate, decimal> GetAccountTemplateBalances(IList<int> accountTemplateIds, Expression<Func<AccountTransactionValue, bool>> filter)
+        public Dictionary<AccountTemplate, BalanceValue> GetAccountTemplateBalances(IList<int> accountTemplateIds, Expression<Func<AccountTransactionValue, bool>> filter)
         {
             using (var w = WorkspaceFactory.CreateReadOnly())
             {
@@ -77,9 +79,9 @@ namespace Samba.Services.Implementations.AccountModule
                 var transactionValues = w.Queryable<AccountTransactionValue>()
                     .Where(func)
                     .GroupBy(x => x.AccountTemplateId)
-                    .Select(x => new { Id = x.Key, Amount = x.Sum(y => y.Debit - y.Credit) })
-                    .ToDictionary(x => x.Id, x => x.Amount);
-                return w.Queryable<AccountTemplate>().Where(x => accountTemplateIds.Contains(x.Id)).ToDictionary(x => x, x => transactionValues.ContainsKey(x.Id) ? transactionValues[x.Id] : 0);
+                    .Select(x => new { Id = x.Key, Amount = x.Sum(y => y.Debit - y.Credit), Exchange = x.Sum(y => y.Exchange) })
+                    .ToDictionary(x => x.Id, x => new BalanceValue { Balance = x.Amount, Exchange = x.Exchange });
+                return w.Queryable<AccountTemplate>().Where(x => accountTemplateIds.Contains(x.Id)).ToDictionary(x => x, x => transactionValues.ContainsKey(x.Id) ? transactionValues[x.Id] : BalanceValue.Empty);
             }
         }
 
@@ -191,6 +193,12 @@ namespace Samba.Services.Implementations.AccountModule
                 w.CommitChanges();
                 return account.Id;
             }
+        }
+
+        public decimal GetExchangeRate(Account account)
+        {
+            if (account.ForeignCurrencyId == 0) return 1;
+            return _cacheService.GetForeignCurrencies().Single(x => x.Id == account.ForeignCurrencyId).ExchangeRate;
         }
 
         public override void Reset()

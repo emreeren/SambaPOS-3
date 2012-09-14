@@ -55,6 +55,13 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
+                        <GridViewColumn Header="Exchange">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ExchangeStr}" TextAlignment="Right" MinWidth="150" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                     </GridView.Columns>
                 </GridView>
             </ListView.View>

@@ -251,7 +251,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<PaymentTemplate> _paymentTemplates;
         public IEnumerable<PaymentTemplate> PaymentTemplates
         {
-            get { return _paymentTemplates ?? (_paymentTemplates = Dao.Query<PaymentTemplate>(x => x.PaymentTemplateMaps, x => x.AccountTransactionTemplate, x => x.Account, x => x.ForeignCurrency)); }
+            get { return _paymentTemplates ?? (_paymentTemplates = Dao.Query<PaymentTemplate>(x => x.PaymentTemplateMaps, x => x.AccountTransactionTemplate, x => x.Account)); }
         }
 
         public IEnumerable<PaymentTemplate> GetUnderTicketPaymentTemplates()

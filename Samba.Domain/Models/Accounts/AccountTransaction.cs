@@ -34,6 +34,24 @@ namespace Samba.Domain.Models.Accounts
             }
         }
 
+        private decimal _exchangeRate;
+        public decimal ExchangeRate
+        {
+            get { return _exchangeRate; }
+            set
+            {
+                _exchangeRate = value;
+                if (SourceTransactionValue != null)
+                {
+                    SourceTransactionValue.UpdateExchange(_exchangeRate);
+                }
+                if (TargetTransactionValue != null)
+                {
+                    TargetTransactionValue.UpdateExchange(_exchangeRate);
+                }
+            }
+        }
+
         public int AccountTransactionDocumentId { get; set; }
         public int AccountTransactionTemplateId { get; set; }
         public int SourceAccountTemplateId { get; set; }
@@ -152,7 +170,7 @@ namespace Samba.Domain.Models.Accounts
             transaction.IsReversed = true;
         }
 
-        public void UpdateAmount(decimal amount)
+        public void UpdateAmount(decimal amount, decimal exchangeRate)
         {
             if (amount < 0 && CanReverse())
                 Reverse();
@@ -162,6 +180,7 @@ namespace Samba.Domain.Models.Accounts
                 IsReversed = false;
             }
             Amount = Math.Abs(amount);
+            ExchangeRate = exchangeRate;
         }
 
         private bool CanReverse()

@@ -63,6 +63,7 @@ namespace Samba.Modules.PaymentModule
             Totals = totals;
 
             PaymentButtonGroup = new PaymentButtonGroupViewModel(_makePaymentCommand, null, ClosePaymentScreenCommand);
+            ForeignCurrencyButtons = new List<CommandButtonViewModel<ForeignCurrency>>();
 
             LastTenderedAmount = "1";
 
@@ -109,7 +110,7 @@ namespace Samba.Modules.PaymentModule
                 }
                 if (SelectedTicket != null)
                 {
-                    PrepareMergedItems();
+                    UpdateMergedItems();
                     RefreshValues();
                 }
             }
@@ -151,7 +152,16 @@ namespace Samba.Modules.PaymentModule
 
         private IEnumerable<CommandButtonViewModel<ForeignCurrency>> CreateForeignCurrencyButtons()
         {
-            return _cacheService.GetForeignCurrencies().Select(x => new CommandButtonViewModel<ForeignCurrency>() { Caption = x.CurrencySymbol, Command = _foreignCurrencySelectedCommand, Parameter = x });
+            return _cacheService.GetForeignCurrencies().Select(x => new CommandButtonViewModel<ForeignCurrency> { Caption = x.CurrencySymbol, Command = _foreignCurrencySelectedCommand, Parameter = x }).ToList();
+        }
+
+        private void UpdateCurrencyButtons()
+        {
+            foreach (var commandButtonViewModel in ForeignCurrencyButtons)
+            {
+                var pm = GetPaymentValue() / commandButtonViewModel.Parameter.ExchangeRate;
+                commandButtonViewModel.Caption = string.Format(commandButtonViewModel.Parameter.CurrencySymbol, pm);
+            }
         }
 
         public IEnumerable<object> CommandButtons { get; set; }
@@ -207,7 +217,7 @@ namespace Samba.Modules.PaymentModule
             {
                 var amount = calculationTemplate.Amount;
                 if (amount == 0) amount = GetTenderedValue();
-                if (calculationTemplate.CalculationMethod == 0) amount = amount / ExchangeRate;
+                if (calculationTemplate.CalculationMethod == 0 || calculationTemplate.CalculationMethod == 1) amount = amount / ExchangeRate;
                 SelectedTicket.AddCalculation(calculationTemplate, amount);
             }
             UpdatePaymentAmount(0);
@@ -277,7 +287,7 @@ namespace Samba.Modules.PaymentModule
             obj = obj.Replace(".", dc);
 
             decimal value = Convert.ToDecimal(obj);
-            var remainingTicketAmount = GetRemainingAmount();
+            var remainingTicketAmount = GetPaymentValue() / ExchangeRate;
 
             if (value > 0)
             {
@@ -352,14 +362,14 @@ namespace Samba.Modules.PaymentModule
         {
             decimal result;
             decimal.TryParse(TenderedAmount, out result);
-            return result * ExchangeRate;
+            return decimal.Round(result * ExchangeRate, 2);
         }
 
         private decimal GetPaymentValue()
         {
             decimal result;
             decimal.TryParse(PaymentAmount, out result);
-            return result * ExchangeRate;
+            return decimal.Round(result * ExchangeRate, 2);
         }
 
         private void SubmitPayment(PaymentTemplate paymentTemplate)
@@ -377,7 +387,7 @@ namespace Samba.Modules.PaymentModule
 
             if (tenderedAmount != 0)
             {
-                if (tenderedAmount > GetRemainingAmount())
+                if (tenderedAmount > GetRemainingAmount() || Math.Abs(tenderedAmount - GetRemainingAmount()) <= 0.01m)
                     tenderedAmount = GetRemainingAmount();
                 var account = paymentTemplate.Account ?? GetAccountForTransaction(paymentTemplate, SelectedTicket.TicketResources);
                 _ticketService.AddPayment(SelectedTicket, paymentTemplate, account, tenderedAmount);
@@ -455,16 +465,41 @@ namespace Samba.Modules.PaymentModule
         {
             MergedItems.Clear();
             UpdatePaymentAmount(0);
-            _selectedTotal = 0;
+
+            if (SelectedTicket.GetSum() == 0) return;
 
             var serviceAmount = SelectedTicket.GetPreTaxServicesTotal() + SelectedTicket.GetPostTaxServicesTotal();
-            var sum = SelectedTicket.GetSum();
-
-            if (sum == 0) return;
-
             SelectedTicket.Orders.Where(x => x.CalculatePrice && (x.ProductTimerValue == null || !x.ProductTimerValue.IsActive))
                 .ToList().ForEach(x => CreateMergedItem(SelectedTicket.GetPlainSum(), x, serviceAmount));
 
+            RoundMergedItems();
+
+            foreach (var paidItem in SelectedTicket.PaidItems)
+            {
+                var item = paidItem;
+                var mi = MergedItems.SingleOrDefault(x => x.MenuItemId == item.MenuItemId && x.Price == item.Price);
+                if (mi != null)
+                    mi.PaidItems.Add(paidItem);
+            }
+        }
+
+        public void UpdateMergedItems()
+        {
+            if (SelectedTicket.GetSum() == 0) return;
+            var serviceAmount = SelectedTicket.GetPreTaxServicesTotal() + SelectedTicket.GetPostTaxServicesTotal();
+
+            MergedItems.ToList().ForEach(x => x.Quantity = 0);
+            SelectedTicket.Orders.Where(x => x.CalculatePrice && (x.ProductTimerValue == null || !x.ProductTimerValue.IsActive))
+                .ToList().ForEach(x => CreateMergedItem(SelectedTicket.GetPlainSum(), x, serviceAmount));
+
+            RoundMergedItems();
+
+            PaymentAmount = MergedItems.Sum(x => x.GetNewTotal()).ToString("#,#0.00");
+            RaisePropertyChanged(() => MergedItems);
+        }
+
+        private void RoundMergedItems()
+        {
             var ra = _settingService.ProgramSettings.AutoRoundDiscount;
             if (ra != 0)
             {
@@ -476,16 +511,8 @@ namespace Samba.Modules.PaymentModule
                     mergedItem.Price = newPrice;
                     amount += (newPrice * mergedItem.Quantity);
                 }
-                var mLast = MergedItems.Last();
+                var mLast = MergedItems.OrderBy(x => x.Total).First();
                 mLast.Price += (SelectedTicket.GetSum() / ExchangeRate) - amount;
-            }
-
-            foreach (var paidItem in SelectedTicket.PaidItems)
-            {
-                var item = paidItem;
-                var mi = MergedItems.SingleOrDefault(x => x.MenuItemId == item.MenuItemId && x.Price == item.Price);
-                if (mi != null)
-                    mi.PaidItems.Add(paidItem);
             }
         }
 
@@ -495,14 +522,15 @@ namespace Samba.Modules.PaymentModule
             price += (price * serviceAmount) / sum;
             if (!item.TaxIncluded) price += item.TaxAmount;
             price = price / ExchangeRate;
-            var mitem = MergedItems.SingleOrDefault(x => x.MenuItemId == item.MenuItemId && x.Price == price);
+            //todo:fiyata göre ürün eşleştirmeyi kontrol et
+            var mitem = MergedItems.SingleOrDefault(x => x.MenuItemId == item.MenuItemId);
             if (mitem == null)
             {
                 mitem = new MergedItem();
                 try
                 {
                     mitem.Description = item.MenuItemName + item.GetPortionDesc();
-                    mitem.Price = price;
+
                     mitem.MenuItemId = item.MenuItemId;
                     MergedItems.Add(mitem);
                 }
@@ -511,6 +539,7 @@ namespace Samba.Modules.PaymentModule
                     mitem.Dispose();
                 }
             }
+            mitem.Price = price;
             mitem.Quantity += item.Quantity;
         }
 
@@ -561,6 +590,7 @@ namespace Samba.Modules.PaymentModule
             PaymentButtonGroup.UpdatePaymentButtons(_cacheService.GetPaymentScreenPaymentTemplates(), ForeignCurrency);
             RaisePropertyChanged(() => PaymentButtonGroup);
             ForeignCurrencyButtons = CreateForeignCurrencyButtons();
+            UpdateCurrencyButtons();
             RaisePropertyChanged(() => ForeignCurrencyButtons);
         }
 
@@ -581,6 +611,7 @@ namespace Samba.Modules.PaymentModule
         {
             if (value != 0) value = value / ExchangeRate;
             PaymentAmount = value == 0 ? "" : value.ToString("#,#0.00");
+            UpdateCurrencyButtons();
         }
     }
 }
