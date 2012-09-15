@@ -37,6 +37,7 @@ namespace Samba.Services
         PrintJob GetPrintJobByName(string name);
         IEnumerable<PaymentTemplate> GetUnderTicketPaymentTemplates();
         IEnumerable<PaymentTemplate> GetPaymentScreenPaymentTemplates();
+        IEnumerable<ChangePaymentTemplate> GetChangePaymentTemplates();
         IEnumerable<TicketTagGroup> GetTicketTagGroups();
         IEnumerable<AutomationCommandData> GetAutomationCommands();
         IEnumerable<CalculationSelector> GetCalculationSelectors();
@@ -45,9 +46,11 @@ namespace Samba.Services
         IEnumerable<AccountTemplate> GetAccountTemplatesByName(IEnumerable<string> accountTemplateNames);
         IEnumerable<AccountScreen> GetAccountScreens();
         PaymentTemplate GetPaymentTemplateById(int paymentTemplateId);
+        ChangePaymentTemplate GetChangePaymentTemplateById(int id);
         IEnumerable<ForeignCurrency> GetForeignCurrencies();
 
         void ResetOrderTagCache();
         void ResetTicketTagCache();
+        
     }
 }

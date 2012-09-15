@@ -32,6 +32,7 @@ namespace Samba.Domain.Models.Tickets
             _paidItems = new List<PaidItem>();
             _calculations = new List<Calculation>();
             _payments = new List<Payment>();
+            _changePayments = new List<ChangePayment>();
             _ticketResources = new List<TicketResource>();
         }
 
@@ -112,6 +113,13 @@ namespace Samba.Domain.Models.Tickets
             set { _payments = value; }
         }
 
+        private IList<ChangePayment> _changePayments;
+        public virtual IList<ChangePayment> ChangePayments
+        {
+            get { return _changePayments; }
+            set { _changePayments = value; }
+        }
+
         private IList<PaidItem> _paidItems;
         public virtual IList<PaidItem> PaidItems
         {
@@ -164,6 +172,13 @@ namespace Samba.Domain.Models.Tickets
             }
         }
 
+        public void AddChangePayment(ChangePaymentTemplate changePaymentTemplate, Account account, decimal amount, decimal exchangeRate, int userId)
+        {
+            var transaction = TransactionDocument.AddNewTransaction(changePaymentTemplate.AccountTransactionTemplate, AccountTemplateId, AccountId, account, amount, exchangeRate);
+            var payment = new ChangePayment { AccountTransaction = transaction, Amount = amount, Name = account.Name, ChangePaymentTemplateId = changePaymentTemplate.Id };
+            ChangePayments.Add(payment);
+        }
+
         public void RemoveOrder(Order order)
         {
             var transactionId = order.AccountTransactionTemplateId;
@@ -178,6 +193,12 @@ namespace Samba.Domain.Models.Tickets
         public void RemovePayment(Payment py)
         {
             Payments.Remove(py);
+            TransactionDocument.AccountTransactions.Where(x => x.Id == py.AccountTransaction.Id).ToList().ForEach(x => TransactionDocument.AccountTransactions.Remove(x));
+        }
+
+        public void RemoveChangePayment(ChangePayment py)
+        {
+            ChangePayments.Remove(py);
             TransactionDocument.AccountTransactions.Where(x => x.Id == py.AccountTransaction.Id).ToList().ForEach(x => TransactionDocument.AccountTransactions.Remove(x));
         }
 
@@ -335,11 +356,17 @@ namespace Samba.Domain.Models.Tickets
             return Payments.Sum(x => x.Amount);
         }
 
+        public decimal GetChangeAmount()
+        {
+            return ChangePayments.Sum(x => x.Amount);
+        }
+
         public decimal GetRemainingAmount()
         {
             var sum = GetSum();
             var payment = GetPaymentAmount();
-            return decimal.Round(sum - payment, LocalSettings.Decimals);
+            var changePayment = GetChangeAmount();
+            return decimal.Round(sum - payment + changePayment, LocalSettings.Decimals);
         }
 
         public string UserString

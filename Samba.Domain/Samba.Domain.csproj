@@ -81,6 +81,9 @@
     <Compile Include="Models\Menus\ProductTimer.cs" />
     <Compile Include="Models\Menus\ProdcutTimerMap.cs" />
     <Compile Include="Models\Settings\ForeignCurrency.cs" />
+    <Compile Include="Models\Tickets\ChangePayment.cs" />
+    <Compile Include="Models\Tickets\ChangePaymentTemplate.cs" />
+    <Compile Include="Models\Tickets\ChangePaymentTemplateMap.cs" />
     <Compile Include="Models\Tickets\ProductTimerValue.cs" />
     <Compile Include="Models\Resources\Widget.cs" />
     <Compile Include="Models\Resources\ResourceCustomField.cs" />

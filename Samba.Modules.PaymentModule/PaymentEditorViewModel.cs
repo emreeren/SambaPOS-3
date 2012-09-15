@@ -381,16 +381,29 @@ namespace Samba.Modules.PaymentModule
 
             if (tenderedAmount > remainingTicketAmount)
             {
-                returningAmount = tenderedAmount - remainingTicketAmount;
-                tenderedAmount = remainingTicketAmount;
+                returningAmount = (tenderedAmount - remainingTicketAmount) / ExchangeRate;
             }
 
             if (tenderedAmount != 0)
             {
-                if (tenderedAmount > GetRemainingAmount() || Math.Abs(tenderedAmount - GetRemainingAmount()) <= 0.01m)
-                    tenderedAmount = GetRemainingAmount();
+                var remainingAmount = GetRemainingAmount();
+                if (Math.Abs(tenderedAmount - remainingAmount) <= 0.01m)
+                    tenderedAmount = remainingAmount;
+                if (tenderedAmount > remainingAmount)
+                {
+                    if (_cacheService.GetChangePaymentTemplates().Count() == 0)
+                        tenderedAmount = remainingAmount;
+                }
+
                 var account = paymentTemplate.Account ?? GetAccountForTransaction(paymentTemplate, SelectedTicket.TicketResources);
                 _ticketService.AddPayment(SelectedTicket, paymentTemplate, account, tenderedAmount);
+
+                if (tenderedAmount > remainingAmount)
+                {
+                    var changeTemplate = _cacheService.GetChangePaymentTemplates().First();
+                    _ticketService.AddChangePayment(SelectedTicket, changeTemplate, changeTemplate.Account, tenderedAmount - remainingAmount);
+                }
+
                 UpdatePaymentAmount(GetPaymentValue() - tenderedAmount);
 
                 LastTenderedAmount = tenderedAmount <= GetRemainingAmount()

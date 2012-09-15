@@ -1461,6 +1461,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change Payment Template.
+        /// </summary>
+        public static string ChangePaymentTemplate {
+            get {
+                return ResourceManager.GetString("ChangePaymentTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change Price.
         /// </summary>
         public static string ChangePrice {

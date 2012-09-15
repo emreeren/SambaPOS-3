@@ -274,6 +274,21 @@ namespace Samba.Services.Implementations
             return PaymentTemplates.Where(x => maps.Any(y => y.PaymentTemplateId == x.Id)).OrderBy(x => x.Order);
         }
 
+        private IEnumerable<ChangePaymentTemplate> _changePaymentTemplates;
+        public IEnumerable<ChangePaymentTemplate> ChangePaymentTemplates
+        {
+            get { return _changePaymentTemplates ?? (_changePaymentTemplates = Dao.Query<ChangePaymentTemplate>(x => x.ChangePaymentTemplateMaps, x => x.AccountTransactionTemplate, x => x.Account)); }
+        }
+
+        public IEnumerable<ChangePaymentTemplate> GetChangePaymentTemplates()
+        {
+            var maps = ChangePaymentTemplates.SelectMany(x => x.ChangePaymentTemplateMaps)
+                .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
+                .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
+                .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
+            return ChangePaymentTemplates.Where(x => maps.Any(y => y.ChangePaymentTemplateId == x.Id)).OrderBy(x => x.Order);
+        }
+
         private IEnumerable<TicketTagGroup> _ticketTagGroups;
         public IEnumerable<TicketTagGroup> TicketTagGroups
         {
@@ -344,7 +359,10 @@ namespace Samba.Services.Implementations
             return PaymentTemplates.Single(x => x.Id == paymentTemplateId);
         }
 
-
+        public ChangePaymentTemplate GetChangePaymentTemplateById(int id)
+        {
+            return ChangePaymentTemplates.Single(x => x.Id == id);
+        }
 
         public int GetResourceTemplateIdByEntityName(string entityName)
         {
@@ -422,6 +440,7 @@ namespace Samba.Services.Implementations
             _resourceStates = null;
             _printJobs = null;
             _paymentTemplates = null;
+            _changePaymentTemplates = null;
             _ticketTagGroups = null;
             Dao.ResetCache();
         }

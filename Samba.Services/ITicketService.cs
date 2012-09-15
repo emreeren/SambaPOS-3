@@ -56,6 +56,7 @@ namespace Samba.Services
         TicketCommitResult MergeTickets(IEnumerable<int> ticketIds);
         Order AddOrder(Ticket ticket, int menuItemId, decimal quantity, string portionName, OrderTagTemplate template);
         void AddPayment(Ticket ticket, PaymentTemplate paymentTemplate, Account account, decimal tenderedAmount);
+        void AddChangePayment(Ticket ticket, ChangePaymentTemplate paymentTemplate, Account account, decimal amount);
         void PayTicket(Ticket ticket, PaymentTemplate template);
         void UpdateTicketNumber(Ticket ticket, Numerator numerator);
         void UpdateAccount(Ticket ticket, Account account);

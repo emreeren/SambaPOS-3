@@ -84,6 +84,9 @@ namespace Samba.Persistance.Data
         public DbSet<PaymentTemplate> PaymentTemplates { get; set; }
         public DbSet<PaymentTemplateMap> PaymentTemplateMaps { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<ChangePayment> ChangePayments { get; set; }
+        public DbSet<ChangePaymentTemplate> ChangePaymentTemplates { get; set; }
+        public DbSet<ChangePaymentTemplateMap> ChangePaymentTemplateMaps { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<AccountTemplate> AccountTemplates { get; set; }
         public DbSet<AccountScreen> AccountScreens { get; set; }
@@ -133,6 +136,10 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<Payment>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<Ticket>().HasMany(p => p.Payments).WithRequired().HasForeignKey(x => x.TicketId);
 
+            modelBuilder.Entity<ChangePayment>().HasKey(p => new { p.Id, p.TicketId });
+            modelBuilder.Entity<ChangePayment>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<Ticket>().HasMany(p => p.ChangePayments).WithRequired().HasForeignKey(x => x.TicketId);
+            
             modelBuilder.Entity<Order>().HasKey(p => new { p.Id, p.TicketId });
             modelBuilder.Entity<Order>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<Ticket>().HasMany(p => p.Orders).WithRequired().HasForeignKey(x => x.TicketId);

@@ -81,6 +81,10 @@
       <DependentUpon>CalculationSelectorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="CalculationSelectorViewModel.cs" />
+    <Compile Include="ChangePaymentTemplateView.xaml.cs">
+      <DependentUpon>ChangePaymentTemplateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ChangePaymentTemplateViewModel.cs" />
     <Compile Include="OrderStateMapViewModel.cs" />
     <Compile Include="OrderStateGroupView.xaml.cs">
       <DependentUpon>OrderStateGroupView.xaml</DependentUpon>
@@ -122,6 +126,10 @@
     <Page Include="CalculationSelectorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ChangePaymentTemplateView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="OrderStateGroupView.xaml">
       <Generator>MSBuild:Compile</Generator>

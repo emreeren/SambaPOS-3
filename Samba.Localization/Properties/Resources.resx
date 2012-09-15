@@ -3242,4 +3242,7 @@ Continue without adding details?</value>
   <data name="CurrencySymbol">
     <value xml:space="preserve">Currency Symbol</value>
   </data>
+  <data name="ChangePaymentTemplate">
+    <value xml:space="preserve">Change Payment Template</value>
+  </data>
 </root>

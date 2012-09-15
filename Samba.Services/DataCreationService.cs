@@ -541,6 +541,8 @@ namespace Samba.Services
 
                 foreach (var item in values)
                 {
+                    if (string.IsNullOrWhiteSpace(item)) continue;
+                    
                     if (item.StartsWith("#"))
                     {
                         currentCategory = item.Trim('#', ' ');

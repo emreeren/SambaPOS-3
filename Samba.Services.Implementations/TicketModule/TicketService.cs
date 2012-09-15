@@ -121,7 +121,8 @@ namespace Samba.Services.Implementations.TicketModule
                              x => x.Orders.Select(y => y.ProductTimerValue),
                              x => x.TicketResources,
                              x => x.Calculations,
-                             x => x.Payments);
+                             x => x.Payments,
+                             x => x.ChangePayments);
 
             _automationService.NotifyEvent(RuleEventNames.TicketOpened, new { Ticket = ticket, OrderCount = ticket.Orders.Count });
 
@@ -221,6 +222,12 @@ namespace Samba.Services.Implementations.TicketModule
                 });
         }
 
+        public void AddChangePayment(Ticket ticket, ChangePaymentTemplate paymentTemplate, Account account, decimal amount)
+        {
+            if (account == null) return;
+            ticket.AddChangePayment(paymentTemplate, account, amount, GetExchangeRate(account), _applicationState.CurrentLoggedInUser.Id);
+        }
+
         public void PayTicket(Ticket ticket, PaymentTemplate template)
         {
             AddPayment(ticket, template, template.Account, ticket.GetRemainingAmount());
@@ -246,11 +253,13 @@ namespace Samba.Services.Implementations.TicketModule
 
             var clonedOrders = ticketList.SelectMany(x => x.Orders).Select(ObjectCloner.Clone).ToList();
             var clonedPayments = ticketList.SelectMany(x => x.Payments).Select(ObjectCloner.Clone2).ToList();
+            var clonedChangePayments = ticketList.SelectMany(x => x.ChangePayments).Select(ObjectCloner.Clone2).ToList();
             var clonedTags = ticketList.SelectMany(x => x.GetTicketTagValues()).Select(ObjectCloner.Clone).ToList();
             var clonedResources = ticketList.SelectMany(x => x.TicketResources).Select(ObjectCloner.Clone).ToList();
 
             ticketList.ForEach(x => x.Orders.ToList().ForEach(x.RemoveOrder));
             ticketList.ForEach(x => x.Payments.ToList().ForEach(x.RemovePayment));
+            ticketList.ForEach(x => x.ChangePayments.ToList().ForEach(x.RemoveChangePayment));
             ticketList.ForEach(x => x.Calculations.ToList().ForEach(x.RemoveCalculation));
 
             ticketList.ForEach(x => CloseTicket(x));
@@ -262,6 +271,12 @@ namespace Samba.Services.Implementations.TicketModule
                 var account = _accountService.GetAccountById(cp.AccountTransaction.TargetTransactionValue.AccountId);
                 ticket.AddPayment(_cacheService.GetPaymentTemplateById(cp.PaymentTemplateId), account, cp.Amount, GetExchangeRate(account), 0);
             }
+            foreach (var cp in clonedChangePayments)
+            {
+                var account = _accountService.GetAccountById(cp.AccountTransaction.TargetTransactionValue.AccountId);
+                ticket.AddChangePayment(_cacheService.GetChangePaymentTemplateById(cp.ChangePaymentTemplateId), account, cp.Amount, GetExchangeRate(account), 0);
+            }
+
             clonedResources.ForEach(x => ticket.UpdateResource(x.ResourceTemplateId, x.ResourceId, x.ResourceName, x.AccountId, x.ResourceCustomData));
             clonedTags.ForEach(x => ticket.SetTagValue(x.TagName, x.TagValue));
 
