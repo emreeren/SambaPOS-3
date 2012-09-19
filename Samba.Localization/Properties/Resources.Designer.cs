@@ -333,15 +333,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Credit.
-        /// </summary>
-        public static string AddLiability_r {
-            get {
-                return ResourceManager.GetString("AddLiability_r", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Adding New {0}.
         /// </summary>
         public static string AddModel_f {
@@ -392,15 +383,6 @@ namespace Samba.Localization.Properties {
         public static string AddPropertyPriceToProductPrice {
             get {
                 return ResourceManager.GetString("AddPropertyPriceToProductPrice", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Debit.
-        /// </summary>
-        public static string AddReceivable_r {
-            get {
-                return ResourceManager.GetString("AddReceivable_r", resourceCulture);
             }
         }
         
@@ -1117,15 +1099,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can make credit or debit transaction.
-        /// </summary>
-        public static string CanMakeCreditOrDeptTransaction {
-            get {
-                return ResourceManager.GetString("CanMakeCreditOrDeptTransaction", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Can Make Discount.
         /// </summary>
         public static string CanMakeDiscount {
@@ -1475,6 +1448,15 @@ namespace Samba.Localization.Properties {
         public static string ChangePrice {
             get {
                 return ResourceManager.GetString("ChangePrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change Total.
+        /// </summary>
+        public static string ChangeTotal {
+            get {
+                return ResourceManager.GetString("ChangeTotal", resourceCulture);
             }
         }
         
@@ -3205,16 +3187,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Get
-        ///Payment.
-        /// </summary>
-        public static string GetPayment_r {
-            get {
-                return ResourceManager.GetString("GetPayment_r", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Gift.
         /// </summary>
         public static string Gift {
@@ -4114,16 +4086,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Make
-        ///Payment.
-        /// </summary>
-        public static string MakePayment_r {
-            get {
-                return ResourceManager.GetString("MakePayment_r", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Manage.
         /// </summary>
         public static string Management {
@@ -4466,15 +4428,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New Credit Transaction.
-        /// </summary>
-        public static string NewLiabilityTransaction {
-            get {
-                return ResourceManager.GetString("NewLiabilityTransaction", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to New Order.
         /// </summary>
         public static string NewOrder {
@@ -4489,15 +4442,6 @@ namespace Samba.Localization.Properties {
         public static string NewProperty {
             get {
                 return ResourceManager.GetString("NewProperty", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to New Debit Transaction.
-        /// </summary>
-        public static string NewReceivableTransaction {
-            get {
-                return ResourceManager.GetString("NewReceivableTransaction", resourceCulture);
             }
         }
         

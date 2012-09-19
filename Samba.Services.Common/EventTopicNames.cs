@@ -51,8 +51,6 @@
         public const string ShellInitialized = "Shell Initialized";
         public const string ResetCache = "Reset Cache";
         public const string ScreenMenuItemDataSelected = "Screen Menu Item Data Selected";
-        public const string AddLiabilityAmount = "Add Liability Amount";
-        public const string AddReceivableAmount = "Add Receivable Amount";
         public const string ExecuteEvent = "ExecuteEvent";
         public const string UpdateDepartment = "Update Department";
         public const string PopupClicked = "Popup Clicked";
@@ -86,8 +84,6 @@
         public const string RefreshSelectedTicket = "Refresh Selected Ticket";
         public const string EditTicketNote = "Edit Ticket Note";
         public const string PaymentRequestedForTicket = "Payment Requested For Ticket";
-        public const string GetPaymentFromAccount = "Get Payment From Account";
-        public const string MakePaymentToAccount = "Make Payment To Account";
         public const string ActivateAccountSelector = "Activate Account Selector";
     }
 }

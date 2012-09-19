@@ -272,14 +272,6 @@ Hareketi</value>
   <data name="ResetAccount" xml:space="preserve">
     <value>Hesap İptal</value>
   </data>
-  <data name="GetPayment_r" xml:space="preserve">
-    <value>Ödeme
-Al</value>
-  </data>
-  <data name="MakePayment_r" xml:space="preserve">
-    <value>Ödeme
-Yap</value>
-  </data>
   <data name="TicketNumber_f" xml:space="preserve">
     <value>{0} numaralı adisyon</value>
   </data>
@@ -2424,20 +2416,6 @@ Yer: {2}</value>
   <data name="LocationChangedRetryLastOperation_f" xml:space="preserve">
     <value>{0} yerinde değişiklik var. Son işlemi tekrar yapın.</value>
   </data>
-  <data name="NewLiabilityTransaction" xml:space="preserve">
-    <value>Yeni Alacaklandırma Hareketi</value>
-  </data>
-  <data name="NewReceivableTransaction" xml:space="preserve">
-    <value>Yeni Borçlandırma Hareketi</value>
-  </data>
-  <data name="AddLiability_r" xml:space="preserve">
-    <value>Hesabı
-Alacaklandır</value>
-  </data>
-  <data name="AddReceivable_r" xml:space="preserve">
-    <value>Hesabı
-Borçlandır</value>
-  </data>
   <data name="VoidOrders" xml:space="preserve">
     <value>Adisyon siparişlerini iptal et</value>
   </data>
@@ -2463,9 +2441,6 @@ Borçlandır</value>
   </data>
   <data name="CanMakeCashTransaction" xml:space="preserve">
     <value>Kasa hareketi yapabilir</value>
-  </data>
-  <data name="CanMakeCreditOrDeptTransaction" xml:space="preserve">
-    <value>Hesap alacaklandırabilir veya borçlandırabilir</value>
   </data>
   <data name="CanMakeAccountTransaction" xml:space="preserve">
     <value>Ödeme alabilir veya tahsilat yapabilir</value>

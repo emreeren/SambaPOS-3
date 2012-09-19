@@ -49,6 +49,16 @@ namespace Samba.Presentation.ViewModels
             }
         }
 
+        private List<ChangePaymentViewModel> _changePayments;
+        public List<ChangePaymentViewModel> ChangePayments
+        {
+            get
+            {
+                return _changePayments ?? (_changePayments = new List<ChangePaymentViewModel>(
+                    Model.ChangePayments.Select(x => new ChangePaymentViewModel(x))));
+            }
+        }
+
         private List<ServiceViewModel> _preServices;
         public List<ServiceViewModel> PreServices
         {
@@ -68,11 +78,13 @@ namespace Samba.Presentation.ViewModels
         public decimal TicketTaxValue { get { return Model.CalculateTax(Model.GetPlainSum(), Model.GetPreTaxServicesTotal()); } }
         public decimal TicketSubTotalValue { get { return Model.GetPlainSum() + Model.GetPreTaxServicesTotal(); } }
         public decimal TicketPaymentValue { get { return Model.GetPaymentAmount(); } }
+        public decimal TicketChangePaymentValue { get { return Model.GetChangeAmount(); } }
         public decimal TicketRemainingValue { get { return Model.GetRemainingAmount(); } }
         public decimal TicketPlainTotalValue { get { return Model.GetPlainSum(); } }
 
         public bool IsTicketTotalVisible { get { return TicketPaymentValue > 0 && TicketTotalValue > 0; } }
         public bool IsTicketPaymentVisible { get { return TicketPaymentValue > 0; } }
+        public bool IsTicketChangePaymentVisible { get { return TicketChangePaymentValue > 0; } }
         public bool IsTicketRemainingVisible { get { return TicketRemainingValue > 0; } }
         public bool IsTicketTaxTotalVisible { get { return TicketTaxValue > 0; } }
         public bool IsPlainTotalVisible { get { return PostServicesList.Count() > 0 || PreServicesList.Count() > 0 || IsTicketTaxTotalVisible; } }
@@ -83,6 +95,7 @@ namespace Samba.Presentation.ViewModels
         public string TicketTaxLabel { get { return TicketTaxValue.ToString(LocalSettings.DefaultCurrencyFormat); } }
         public string TicketSubTotalLabel { get { return TicketSubTotalValue.ToString(LocalSettings.DefaultCurrencyFormat); } }
         public string TicketPaymentLabel { get { return TicketPaymentValue.ToString(LocalSettings.DefaultCurrencyFormat); } }
+        public string TicketChangePaymentLabel { get { return TicketChangePaymentValue.ToString(LocalSettings.DefaultCurrencyFormat); } }
         public string TicketRemainingLabel { get { return TicketRemainingValue.ToString(LocalSettings.DefaultCurrencyFormat); } }
 
         public string Title
@@ -107,6 +120,7 @@ namespace Samba.Presentation.ViewModels
 
         public void ResetCache()
         {
+            _changePayments = null;
             _payments = null;
             _preServices = null;
             _postServices = null;
@@ -122,6 +136,7 @@ namespace Samba.Presentation.ViewModels
             RaisePropertyChanged(() => Title);
             RaisePropertyChanged(() => TicketRemainingLabel);
             RaisePropertyChanged(() => TicketPaymentLabel);
+            RaisePropertyChanged(() => TicketChangePaymentLabel);
             RaisePropertyChanged(() => TicketSubTotalLabel);
             RaisePropertyChanged(() => TicketTaxLabel);
             RaisePropertyChanged(() => TicketTotalLabel);
@@ -132,11 +147,13 @@ namespace Samba.Presentation.ViewModels
             RaisePropertyChanged(() => IsTicketTaxTotalVisible);
             RaisePropertyChanged(() => IsTicketRemainingVisible);
             RaisePropertyChanged(() => IsTicketPaymentVisible);
+            RaisePropertyChanged(() => IsTicketChangePaymentVisible);
             RaisePropertyChanged(() => IsTicketTotalVisible);
 
             RaisePropertyChanged(() => TicketPlainTotalValue);
             RaisePropertyChanged(() => TicketRemainingValue);
             RaisePropertyChanged(() => TicketPaymentValue);
+            RaisePropertyChanged(() => TicketChangePaymentValue);
             RaisePropertyChanged(() => TicketSubTotalValue);
             RaisePropertyChanged(() => TicketTaxValue);
             RaisePropertyChanged(() => TicketTotalValue);
@@ -146,6 +163,7 @@ namespace Samba.Presentation.ViewModels
             RaisePropertyChanged(() => PreServicesList);
             RaisePropertyChanged(() => PostServicesList);
             RaisePropertyChanged(() => Payments);
+            RaisePropertyChanged(() => ChangePayments);
 
             PostServices.ForEach(x => x.Refresh());
             PreServices.ForEach(x => x.Refresh());

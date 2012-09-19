@@ -10,7 +10,7 @@
 
         <StackPanel.Resources>
             <Style TargetType="TextBlock">
-                <Setter Property="FontSize" Value="22" />
+                <Setter Property="FontSize" Value="18" />
             </Style>
         </StackPanel.Resources>
 
@@ -28,9 +28,9 @@
                             <ColumnDefinition Width="auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Foreground="DarkGreen" Margin="10,0,0,0" FontSize="18"
+                        <TextBlock Grid.Column="0" Foreground="DarkGreen" Margin="10,0,0,0" FontSize="16"
                                      TextAlignment="Left" Text="{Binding Name}" />
-                        <TextBlock Grid.Column="1" Foreground="DarkGreen" Margin="5,0,0,0" FontSize="18" TextAlignment="Right"
+                        <TextBlock Grid.Column="1" Foreground="DarkGreen" Margin="5,0,0,0" FontSize="16" TextAlignment="Right"
                                      Text="{Binding Amount}" />
                     </Grid>
                 </DataTemplate>
@@ -59,9 +59,9 @@
                             <ColumnDefinition Width="auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Foreground="DarkGreen" Margin="10,0,0,0" FontSize="18"
+                        <TextBlock Grid.Column="0" Foreground="DarkGreen" Margin="10,0,0,0" FontSize="16"
                                      TextAlignment="Left" Text="{Binding Name}" />
-                        <TextBlock Grid.Column="1" Foreground="DarkGreen" Margin="5,0,0,0" FontSize="18" TextAlignment="Right"
+                        <TextBlock Grid.Column="1" Foreground="DarkGreen" Margin="5,0,0,0" FontSize="16" TextAlignment="Right"
                                      Text="{Binding Amount}" />
                     </Grid>
                 </DataTemplate>
@@ -82,9 +82,16 @@
         </DockPanel>
 
         <DockPanel>
-            <TextBlock FontWeight="Bold" Foreground="Red" Text="{LocText Balance,Suffix=':'}"
+            <TextBlock Text="{LocText ChangeTotal,Suffix=':'}"
+                         Visibility="{Binding IsTicketChangePaymentVisible,Converter={StaticResource VisibilityConverter}}" />
+            <TextBlock TextAlignment="Right" Text="{Binding TicketChangePaymentLabel}"
+                         Visibility="{Binding IsTicketChangePaymentVisible,Converter={StaticResource VisibilityConverter}}" />
+        </DockPanel>
+
+        <DockPanel>
+            <TextBlock FontSize="22" FontWeight="Bold" Foreground="Red" Text="{LocText Balance,Suffix=':'}"
                          Visibility="{Binding IsTicketRemainingVisible,Converter={StaticResource VisibilityConverter}}" />
-            <TextBlock FontWeight="Bold" Foreground="Red" TextAlignment="Right"
+            <TextBlock FontSize="22" FontWeight="Bold" Foreground="Red" TextAlignment="Right"
                          Text="{Binding TicketRemainingLabel}" Visibility="{Binding IsTicketRemainingVisible,Converter={StaticResource VisibilityConverter}}" />
         </DockPanel>
     </StackPanel>

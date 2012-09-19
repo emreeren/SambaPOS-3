@@ -29,7 +29,6 @@ namespace Samba.Services
         public static string ChangeReportDate = "ChangeReportDate";
         public static string DisplayOldTickets = "DisplayOldTickets";
         public static string MakeCashTransaction = "MakeCashTransaction";
-        public static string CreditOrDeptAccount = "CreditOrDeptAccount";
         public static string MakeAccountTransaction = "MakeAccountTransaction";
         public static string CreateAccount = "CreateAccount";
     }

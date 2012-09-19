@@ -136,10 +136,14 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<Payment>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<Ticket>().HasMany(p => p.Payments).WithRequired().HasForeignKey(x => x.TicketId);
 
+            modelBuilder.Entity<PaidItem>().HasKey(p => new { p.Id, p.TicketId });
+            modelBuilder.Entity<PaidItem>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<Ticket>().HasMany(p => p.PaidItems).WithRequired().HasForeignKey(x => x.TicketId);
+
             modelBuilder.Entity<ChangePayment>().HasKey(p => new { p.Id, p.TicketId });
             modelBuilder.Entity<ChangePayment>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<Ticket>().HasMany(p => p.ChangePayments).WithRequired().HasForeignKey(x => x.TicketId);
-            
+
             modelBuilder.Entity<Order>().HasKey(p => new { p.Id, p.TicketId });
             modelBuilder.Entity<Order>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<Ticket>().HasMany(p => p.Orders).WithRequired().HasForeignKey(x => x.TicketId);
@@ -207,7 +211,6 @@ namespace Samba.Persistance.Data
 
             //PaidItem
             modelBuilder.Entity<PaidItem>().Property(x => x.Quantity).HasPrecision(precision, 3);
-            modelBuilder.Entity<PaidItem>().Property(x => x.Price).HasPrecision(precision, scale);
 
             //OrderTagValue
             modelBuilder.Entity<OrderTagValue>().Property(x => x.Price).HasPrecision(precision, scale);

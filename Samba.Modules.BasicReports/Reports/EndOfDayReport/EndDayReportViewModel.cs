@@ -318,7 +318,7 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
             {
                 if (serviceSum != 0)
                 {
-                    ReportContext.Tickets.SelectMany(x => x.Calculations).Where(x => x.IncludeTax).GroupBy(x => x.ServiceId).ToList().ForEach(
+                    ReportContext.Tickets.SelectMany(x => x.Calculations).Where(x => x.IncludeTax).GroupBy(x => x.CalculationTemplateId).ToList().ForEach(
                         x =>
                         {
                             var template = ReportContext.CalculationTemplates.SingleOrDefault(y => y.Id == x.Key);

@@ -14,8 +14,9 @@ namespace Samba.Modules.PaymentModule
         public string Description { get; set; }
         public string Label { get { return GetPaidItemsQuantity() > 0 ? string.Format("{0} ({1:#.##})", Description, GetPaidItemsQuantity()) : Description; } }
         private decimal _price;
-        public decimal Price { get { return _price; } set { _price = value; NewPaidItems.ForEach(x => x.Price = value); RaisePropertyChanged(() => TotalLabel); } }
-        public decimal Total { get { return (Price * Quantity) - PaidItems.Sum(x => x.Price * x.Quantity); } }
+        public string Key;
+        public decimal Price { get { return _price; } set { _price = value; RaisePropertyChanged(() => TotalLabel); } }
+        public decimal Total { get { return (Quantity - PaidItems.Sum(x => x.Quantity)) * Price; } }
         public string TotalLabel { get { return Total > 0 ? Total.ToString("#,#0.00") : ""; } }
         public List<PaidItem> PaidItems { get; set; }
         public List<PaidItem> NewPaidItems { get; set; }
@@ -33,16 +34,16 @@ namespace Samba.Modules.PaymentModule
             return PaidItems.Sum(x => x.Quantity) + NewPaidItems.Sum(x => x.Quantity);
         }
 
-        public decimal GetNewTotal()
+        public decimal GetNewQuantity()
         {
-            return NewPaidItems.Sum(x => x.Quantity * x.Price);
+            return NewPaidItems.Sum(x => x.Quantity);
         }
 
         public decimal RemainingQuantity { get { return Quantity - GetPaidItemsQuantity(); } }
 
         public void IncQuantity(decimal quantity)
         {
-            var pitem = new PaidItem { MenuItemId = MenuItemId, Price = Price };
+            var pitem = new PaidItem {Key = Key };
             NewPaidItems.Add(pitem);
             pitem.Quantity += quantity;
             FontWeight = FontWeights.Bold;
@@ -55,7 +56,7 @@ namespace Samba.Modules.PaymentModule
             {
                 var item = newPaidItem;
                 var pitem = PaidItems.SingleOrDefault(
-                    x => x.MenuItemId == item.MenuItemId && x.Price == item.Price);
+                    x => x.Key == item.Key);
                 if (pitem != null)
                 {
                     pitem.Quantity += newPaidItem.Quantity;

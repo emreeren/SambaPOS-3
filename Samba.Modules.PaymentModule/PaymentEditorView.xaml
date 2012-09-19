@@ -78,10 +78,23 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </ScrollViewer>
-            <Grid Grid.Row="2">
-                
+            <Grid Grid.Row="3">
+                <ItemsControl ItemsSource="{Binding ForeignCurrencyButtons}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="1"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <FxButton:FlexButton FontSize="40" Focusable="False" Command="{Binding Command}" 
+                                         CommandParameter="{Binding Parameter}" Margin="5" Content="{Binding Caption}">
+                            </FxButton:FlexButton>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Grid>
-            <Grid Grid.Row="3" Margin="5">
+            <Grid Grid.Row="2" Margin="5">
                 <Grid.Resources>
                     <Style TargetType="TextBlock">
                         <Setter Property="FontSize" Value="16" />
@@ -92,6 +105,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
@@ -159,13 +173,12 @@
                      Visibility="{Binding Totals.IsTicketTotalVisible,Converter={StaticResource VisibilityConverter}}" />
                 <TextBlock Grid.Column="1" Grid.Row="6" TextAlignment="Right" Text="{Binding Totals.TicketTotalLabel}"
                      Visibility="{Binding Totals.IsTicketTotalVisible,Converter={StaticResource VisibilityConverter}}" />
+
                 <TextBlock Grid.Column="0" Grid.Row="7" Text="{LocText PaymentTotal,Suffix=':'}"
                      Visibility="{Binding Totals.IsTicketPaymentVisible,Converter={StaticResource VisibilityConverter}}" />
-
-
                 <TextBlock Grid.Column="1" Grid.Row="7" TextAlignment="Right" Text="{Binding Totals.TicketPaymentLabel}"
                      Visibility="{Binding Totals.IsTicketPaymentVisible,Converter={StaticResource VisibilityConverter}}" />
-
+                
                 <ItemsControl Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="2" ItemsSource="{Binding Totals.Payments}"
                      HorizontalContentAlignment="Stretch" Visibility="{Binding Totals.IsTicketPaymentVisible,Converter={StaticResource VisibilityConverter}}">
                     <ItemsControl.ItemTemplate>
@@ -187,17 +200,22 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
-                <TextBlock Grid.Column="0" FontSize="20" Grid.Row="9" FontWeight="Bold" Foreground="Red"
+                <TextBlock Grid.Column="0" Grid.Row="9" Text="{LocText ChangeTotal,Suffix=':'}"
+                     Visibility="{Binding Totals.IsTicketChangePaymentVisible,Converter={StaticResource VisibilityConverter}}" />
+                <TextBlock Grid.Column="1" Grid.Row="9" TextAlignment="Right" Text="{Binding Totals.TicketChangePaymentLabel}"
+                     Visibility="{Binding Totals.IsTicketChangePaymentVisible,Converter={StaticResource VisibilityConverter}}" />
+
+                <TextBlock Grid.Column="0" FontSize="20" Grid.Row="10" FontWeight="Bold" Foreground="Red"
                      Text="{LocText Balance,Suffix=':'}" Visibility="{Binding Totals.IsTicketRemainingVisible,Converter={StaticResource VisibilityConverter}}" />
-                <TextBlock Grid.Column="1" FontSize="20" Grid.Row="9" FontWeight="Bold" Foreground="Red"
+                <TextBlock Grid.Column="1" FontSize="20" Grid.Row="10" FontWeight="Bold" Foreground="Red"
                      TextAlignment="Right" Text="{Binding Totals.TicketRemainingLabel}" Visibility="{Binding Totals.IsTicketRemainingVisible,Converter={StaticResource VisibilityConverter}}" />
             </Grid>
         </Grid>
         <Grid Grid.Column="1" Margin="5">
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
+                <RowDefinition Height="105" />
                 <RowDefinition Height="6*" />
-                <RowDefinition Height="*" />
+                <RowDefinition Height="*" MinHeight="60" MaxHeight="100"  />
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0">
                 <UniformGrid  Columns="2" Rows="2" Margin="5">
@@ -212,20 +230,7 @@
                     <TextBox FontWeight="Bold" TextAlignment="Right" FontSize="30" Text="{Binding TenderedAmount, Mode=TwoWay}"
                      IsReadOnly="True" />
                 </UniformGrid>
-                <ItemsControl ItemsSource="{Binding ForeignCurrencyButtons}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Rows="1"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <FxButton:FlexButton FontSize="40" Focusable="False" Command="{Binding Command}" 
-                                         CommandParameter="{Binding Parameter}" Margin="5" Content="{Binding Caption}">
-                            </FxButton:FlexButton>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+
             </StackPanel>
             <Border Grid.Row="0" VerticalAlignment="Stretch" Background="Red" BorderBrush="WhiteSmoke"
                  BorderThickness="2" CornerRadius="5" Visibility="{Binding ReturningAmountVisibility}">
@@ -311,7 +316,7 @@
             <ItemsControl Grid.Row="2" Grid.ColumnSpan="3"  ItemsSource="{Binding CommandButtons}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <UniformGrid Rows="1" MinHeight="60" />
+                        <UniformGrid Rows="1" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>

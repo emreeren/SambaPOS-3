@@ -4,15 +4,12 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Linq.Expressions;
 using Samba.Domain.Models.Accounts;
-using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Tickets;
-using Samba.Infrastructure;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Persistance.Data.Specification;
 using Samba.Presentation.Common;
-using Samba.Presentation.ViewModels;
 using Samba.Services;
 using Samba.Services.Common;
 
@@ -21,22 +18,16 @@ namespace Samba.Modules.AccountModule
     [Export]
     public class AccountDetailsViewModel : ObservableObject
     {
-        private readonly IUserService _userService;
         private readonly IApplicationState _applicationState;
         private readonly ICacheService _cacheService;
         private readonly IAccountService _accountService;
 
         [ImportingConstructor]
-        public AccountDetailsViewModel(IUserService userService, IApplicationState applicationState, ICacheService cacheService, IAccountService accountService)
+        public AccountDetailsViewModel(IApplicationState applicationState, ICacheService cacheService, IAccountService accountService)
         {
-            _userService = userService;
             _applicationState = applicationState;
             _cacheService = cacheService;
             _accountService = accountService;
-            MakePaymentToAccountCommand = new CaptionCommand<string>(Resources.MakePayment_r, OnMakePaymentToAccountCommand, CanMakePaymentToAccount);
-            GetPaymentFromAccountCommand = new CaptionCommand<string>(Resources.GetPayment_r, OnGetPaymentFromAccountCommand, CanMakePaymentToAccount);
-            AddLiabilityCommand = new CaptionCommand<string>(Resources.AddLiability_r, OnAddLiability, CanAddLiability);
-            AddReceivableCommand = new CaptionCommand<string>(Resources.AddReceivable_r, OnAddReceivable, CanAddLiability);
             CloseAccountScreenCommand = new CaptionCommand<string>(Resources.Close, OnCloseAccountScreen);
             DisplayTicketCommand = new CaptionCommand<string>(Resources.FindTicket, OnDisplayTicket);
             AccountDetails = new ObservableCollection<AccountDetailViewModel>();
@@ -86,10 +77,6 @@ namespace Samba.Modules.AccountModule
 
         public string TotalBalance { get { return AccountDetails.Sum(x => x.Debit - x.Credit).ToString(LocalSettings.DefaultCurrencyFormat); } }
 
-        public ICaptionCommand GetPaymentFromAccountCommand { get; set; }
-        public ICaptionCommand MakePaymentToAccountCommand { get; set; }
-        public ICaptionCommand AddReceivableCommand { get; set; }
-        public ICaptionCommand AddLiabilityCommand { get; set; }
         public ICaptionCommand CloseAccountScreenCommand { get; set; }
         public ICaptionCommand DisplayTicketCommand { get; set; }
 
@@ -166,16 +153,6 @@ namespace Samba.Modules.AccountModule
             }
         }
 
-        private bool CanAddLiability(string arg)
-        {
-            return _userService.IsUserPermittedFor(PermissionNames.CreditOrDeptAccount);
-        }
-
-        private bool CanMakePaymentToAccount(string arg)
-        {
-            return _userService.IsUserPermittedFor(PermissionNames.MakeAccountTransaction);
-        }
-
         private void OnCloseAccountScreen(string obj)
         {
             AccountDetails.Clear();
@@ -193,26 +170,5 @@ namespace Samba.Modules.AccountModule
                     ExtensionMethods.PublishIdEvent(ticket.Id, EventTopicNames.DisplayTicket);
             }
         }
-
-        private void OnAddReceivable(string obj)
-        {
-            SelectedAccount.PublishEvent(EventTopicNames.AddReceivableAmount);
-        }
-
-        private void OnAddLiability(string obj)
-        {
-            SelectedAccount.PublishEvent(EventTopicNames.AddLiabilityAmount);
-        }
-
-        private void OnGetPaymentFromAccountCommand(string obj)
-        {
-            SelectedAccount.PublishEvent(EventTopicNames.GetPaymentFromAccount);
-        }
-
-        private void OnMakePaymentToAccountCommand(string obj)
-        {
-            SelectedAccount.PublishEvent(EventTopicNames.MakePaymentToAccount);
-        }
-
-    }
+   }
 }

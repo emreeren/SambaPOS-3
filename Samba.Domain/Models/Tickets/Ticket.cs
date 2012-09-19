@@ -305,7 +305,7 @@ namespace Samba.Domain.Models.Tickets
 
         public void AddCalculation(CalculationTemplate template, decimal amount)
         {
-            var t = Calculations.SingleOrDefault(x => x.ServiceId == template.Id) ??
+            var t = Calculations.SingleOrDefault(x => x.CalculationTemplateId == template.Id) ??
                     Calculations.SingleOrDefault(x => x.AccountTransactionTemplateId == template.AccountTransactionTemplate.Id);
             if (t == null)
             {
@@ -314,7 +314,7 @@ namespace Samba.Domain.Models.Tickets
                             Amount = amount,
                             Name = template.Name,
                             CalculationType = template.CalculationMethod,
-                            ServiceId = template.Id,
+                            CalculationTemplateId = template.Id,
                             IncludeTax = template.IncludeTax,
                             DecreaseAmount = template.DecreaseAmount,
                             Order = template.Order,
@@ -431,7 +431,7 @@ namespace Samba.Domain.Models.Tickets
                     mergedOrders.SingleOrDefault(
                         x =>
                         x.OrderTagValues.Count == 0 && x.MenuItemId == ti.MenuItemId &&
-                        x.PortionName == ti.PortionName && x.CalculatePrice == ti.CalculatePrice);
+                        x.PortionName == ti.PortionName && x.CalculatePrice == ti.CalculatePrice && x.Price == ti.Price);
                 if (item == null) mergedOrders.Add(order);
                 else item.Quantity += order.Quantity;
             }
