@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
@@ -28,5 +29,6 @@ namespace Samba.Domain.Models.Tickets
             ChangePaymentTemplateMaps.Add(map);
             return map;
         }
+
     }
 }
