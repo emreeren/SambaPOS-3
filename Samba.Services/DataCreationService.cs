@@ -797,6 +797,7 @@ namespace Samba.Services
         private static void CreateDefaultCurrenciesIfNeeded()
         {
             LocalSettings.DefaultCurrencyFormat = "#,0.00;(#,0.00);-";
+            LocalSettings.DefaultQuantityFormat = "#.##;-#.##;-";
         }
     }
 }

@@ -23,6 +23,9 @@ namespace Samba.Domain.Models.Tickets
         private static Department _all;
         public static Department All { get { return _all ?? (_all = new Department { Name = "*" }); } }
 
+        private static Department _default;
+        public static Department Default { get { return _default ?? (_default = new Department { TicketTemplate = TicketTemplate.Default }); } }
+
         public Department()
         {
             _resourceScreens = new List<ResourceScreen>();

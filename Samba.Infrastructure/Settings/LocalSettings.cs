@@ -144,6 +144,7 @@ html
         public static string SettingsFileName { get { return File.Exists(UserSettingsFileName) ? UserSettingsFileName : CommonSettingsFileName; } }
 
         public static string DefaultCurrencyFormat { get; set; }
+        public static string DefaultQuantityFormat { get; set; }
         public static string CurrencySymbol { get { return CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol; } }
 
         public static int DbVersion { get { return 1; } }

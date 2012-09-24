@@ -4,7 +4,7 @@
      xmlns:ComponentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase" mc:Ignorable="d"
      d:DesignHeight="600" d:DesignWidth="800" xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common">
     <UserControl.Resources>
-        <CollectionViewSource Source="{Binding MergedItems}" x:Key="cvs">
+        <CollectionViewSource Source="{Binding OrderSelector.Selectors}" x:Key="cvs">
             <CollectionViewSource.SortDescriptions>
                 <ComponentModel:SortDescription PropertyName="Description" />
             </CollectionViewSource.SortDescriptions>
@@ -59,9 +59,9 @@
                                         <TextBlock FontWeight="{Binding FontWeight}" Padding="1" FontSize="20" Grid.Column="0"
                                              Text="{Binding Quantity, StringFormat=#.##}" Margin="3,3,6,3" />
                                         <TextBlock FontWeight="{Binding FontWeight}" Padding="1" FontSize="20" Grid.Column="1"
-                                             Text="{Binding Label}" Margin="3" />
+                                             Text="{Binding Description}" Margin="3" />
                                         <TextBlock FontWeight="{Binding FontWeight}" Padding="1" FontSize="20" Grid.Column="2"
-                                             Text="{Binding TotalLabel}" Margin="3" HorizontalAlignment="Right" />
+                                             Text="{Binding Total}" Margin="3" HorizontalAlignment="Right" />
                                     </Grid>
                                 </Border>
                             </Button>
