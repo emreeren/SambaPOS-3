@@ -27,6 +27,12 @@ namespace Samba.Modules.PaymentModule
             Refresh();
         }
 
+        public void PersistSelectedItems()
+        {
+            Model.PersistSelectedItems();
+            Refresh();
+        }
+
         public void PersistTicket()
         {
             Model.PersistTicket();
@@ -48,6 +54,11 @@ namespace Samba.Modules.PaymentModule
         private void Refresh()
         {
             Selectors.ToList().ForEach(x => x.Refresh());
+        }
+
+        public void UpdateAutoRoundValue(decimal autoRoundDiscount)
+        {
+            Model.UpdateAutoRoundValue(autoRoundDiscount);
         }
     }
 }

@@ -91,6 +91,7 @@ namespace Samba.Modules.PaymentModule.Tests
             orderSelector.UpdateTicket(ticket);
             orderSelector.Select(1, 5);
             orderSelector.Select(2, 6);
+            orderSelector.PersistSelectedItems();
             orderSelector.PersistTicket();
             Assert.AreEqual(2, ticket.PaidItems.Sum(x => x.Quantity));
         }
@@ -123,6 +124,7 @@ namespace Samba.Modules.PaymentModule.Tests
             orderSelector.UpdateTicket(ticket);
             orderSelector.Select(1, 5);
             orderSelector.Select(2, 6);
+            orderSelector.PersistSelectedItems();
             orderSelector.PersistTicket();
 
             orderSelector = new OrderSelector();
@@ -180,6 +182,20 @@ namespace Samba.Modules.PaymentModule.Tests
             orderSelector.Select(1, 5);
             orderSelector.PersistSelectedItems();
             Assert.AreEqual(23, orderSelector.RemainingTotal);
+        }
+
+        [Test]
+        public void CanRoundSelectors()
+        {
+            var orderSelector = SetupOrderSelector();
+            Assert.AreEqual(28, orderSelector.RemainingTotal);
+            orderSelector.UpdateExchangeRate(2.12m);
+            Assert.AreEqual(decimal.Round(28 / 2.12m, 2), orderSelector.RemainingTotal);
+            Assert.AreEqual(7.08m, decimal.Round(orderSelector.Selectors[0].RemainingPrice, 2));
+
+            orderSelector.UpdateAutoRoundValue(0.05m);
+            Assert.AreEqual(7.05m, orderSelector.Selectors[0].RemainingPrice);
+            Assert.AreEqual(decimal.Round(28 / 2.12m, 2), orderSelector.RemainingTotal);
         }
     }
 }

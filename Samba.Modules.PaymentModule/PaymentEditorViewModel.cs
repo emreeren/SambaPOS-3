@@ -120,11 +120,13 @@ namespace Samba.Modules.PaymentModule
                     _foreignCurrency = null;
                     ExchangeRate = 1;
                 }
+                OrderSelector.UpdateExchangeRate(ExchangeRate);
                 if (SelectedTicket != null)
                 {
-                    OrderSelector.UpdateExchangeRate(ExchangeRate);
-                    PaymentAmount = OrderSelector.RemainingTotal.ToString("#,#0.00");
-                    RefreshValues();
+                    var selected = OrderSelector.SelectedTotal * ExchangeRate;
+                    var remaining = GetRemainingAmount();
+                    if (selected == 0 || selected > remaining) selected = remaining;
+                    UpdatePaymentAmount(selected);
                 }
             }
         }
@@ -542,7 +544,7 @@ namespace Samba.Modules.PaymentModule
             }
             else
             {
-                OrderSelector.PersistTicket();
+                OrderSelector.PersistSelectedItems();
                 RefreshValues();
             }
         }
@@ -685,7 +687,11 @@ namespace Samba.Modules.PaymentModule
         private void OnMergedItemSelected(SelectorViewModel obj)
         {
             obj.Select();
-            UpdatePaymentAmount(OrderSelector.SelectedTotal * ExchangeRate);
+            var paymentAmount = OrderSelector.SelectedTotal;
+            var remaining = decimal.Round(GetRemainingAmount() / ExchangeRate, 2);
+            if (Math.Abs(remaining - paymentAmount) <= 0.01m)
+                paymentAmount = remaining;
+            UpdatePaymentAmount(paymentAmount * ExchangeRate);
             TenderedAmount = "";
             _resetAmount = true;
             ReturningAmountVisibility = Visibility.Collapsed;
@@ -730,7 +736,9 @@ namespace Samba.Modules.PaymentModule
             Totals.Model = selectedTicket;
             SelectedTicket = selectedTicket;
             TicketRemainingValue = GetRemainingAmount();
+            UpdatePaymentAmount(0);
             OrderSelector.UpdateTicket(selectedTicket);
+            OrderSelector.UpdateAutoRoundValue(_settingService.ProgramSettings.AutoRoundDiscount);
             RefreshValues();
             LastTenderedAmount = PaymentAmount;
             CreateButtons(selectedTicket);
@@ -738,7 +746,8 @@ namespace Samba.Modules.PaymentModule
 
         public void UpdatePaymentAmount(decimal value)
         {
-            if (value == 0) value = GetRemainingAmount();
+            var remaining = GetRemainingAmount();
+            if (value == 0 || value > remaining) value = remaining;
             value /= ExchangeRate;
             PaymentAmount = value.ToString("#,#0.00");
             UpdateCurrencyButtons();

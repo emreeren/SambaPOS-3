@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Tickets;
 
@@ -13,6 +13,7 @@ namespace Samba.Modules.PaymentModule
         {
             Selectors = new List<Selector>();
             ExchangeRate = 1;
+            SelectedTicket = Ticket.Empty;
         }
 
         protected decimal ExchangeRate { get; set; }
@@ -20,17 +21,20 @@ namespace Samba.Modules.PaymentModule
         public IList<Selector> Selectors { get; set; }
         public decimal SelectedTotal { get { return decimal.Round(Selectors.Sum(x => x.SelectedQuantity * x.Price), 2); } }
         public decimal RemainingTotal { get { return decimal.Round(Selectors.Sum(x => x.RemainingQuantity * x.Price), 2); } }
+        protected decimal AutoRoundValue { get; set; }
 
         public void UpdateTicket(Ticket ticket)
         {
             SelectedTicket = ticket;
             Selectors.Clear();
-            UpdateSelectors();
-
-            foreach (var paidItem in SelectedTicket.PaidItems)
+            if (SelectedTicket.RemainingAmount > 0)
             {
-                var mi = Selectors.SingleOrDefault(x => x.Key == paidItem.Key);
-                if (mi != null) mi.AddPaidItem(paidItem);
+                UpdateSelectors();
+                foreach (var paidItem in SelectedTicket.PaidItems)
+                {
+                    var mi = Selectors.SingleOrDefault(x => x.Key == paidItem.Key);
+                    if (mi != null) mi.AddPaidItem(paidItem);
+                }
             }
         }
 
@@ -81,7 +85,6 @@ namespace Samba.Modules.PaymentModule
 
         public void PersistTicket()
         {
-            PersistSelectedItems();
             SelectedTicket.PaidItems.Clear();
             Selectors.SelectMany(x => x.GetPaidItems()).ToList().ForEach(x => SelectedTicket.PaidItems.Add(x));
         }
@@ -102,6 +105,8 @@ namespace Samba.Modules.PaymentModule
             {
                 UpdateSelector(order, serviceAmount, sum);
             }
+
+            RoundSelectors();
         }
 
         public void ClearSelection()
@@ -109,6 +114,29 @@ namespace Samba.Modules.PaymentModule
             foreach (var selector in Selectors)
             {
                 selector.ClearSelection();
+            }
+        }
+
+        public void UpdateAutoRoundValue(decimal d)
+        {
+            AutoRoundValue = d;
+            RoundSelectors();
+        }
+
+        private void RoundSelectors()
+        {
+            if (AutoRoundValue != 0 && RemainingTotal > 0)
+            {
+                var amount = 0m;
+                foreach (var selector in Selectors)
+                {
+                    var price = selector.Price;
+                    var newPrice = decimal.Round(price / AutoRoundValue, MidpointRounding.AwayFromZero) * AutoRoundValue;
+                    selector.Price = newPrice;
+                    amount += (newPrice * selector.RemainingQuantity);
+                }
+                var mLast = Selectors.Where(x => x.RemainingQuantity > 0).OrderBy(x => x.RemainingPrice).First();
+                mLast.Price += (SelectedTicket.GetRemainingAmount() / ExchangeRate) - amount;
             }
         }
     }
