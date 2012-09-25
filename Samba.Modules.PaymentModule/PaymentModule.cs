@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.Composition;
-using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Regions;
 using Samba.Domain.Models.Tickets;

@@ -52,9 +52,13 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MergedItem.cs" />
+    <Compile Include="NumberPadView.xaml.cs">
+      <DependentUpon>NumberPadView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NumberPadViewModel.cs" />
     <Compile Include="OrderSelector.cs" />
     <Compile Include="OrderSelectorViewModel.cs" />
+    <Compile Include="PaymentData.cs" />
     <Compile Include="PaymentEditorView.xaml.cs">
       <DependentUpon>PaymentEditorView.xaml</DependentUpon>
     </Compile>
@@ -65,6 +69,10 @@
     <Compile Include="SelectorViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="NumberPadView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PaymentEditorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

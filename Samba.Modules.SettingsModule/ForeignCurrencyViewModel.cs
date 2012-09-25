@@ -32,6 +32,13 @@ namespace Samba.Modules.SettingsModule
             set { Model.ExchangeRate = value; }
         }
 
+        [LocalizedDisplayName("Rounding")]
+        public decimal Rounding
+        {
+            get { return Model.Rounding; }
+            set { Model.Rounding = value; }
+        }
+
         public override Type GetViewType()
         {
             return typeof(GenericEntityView);

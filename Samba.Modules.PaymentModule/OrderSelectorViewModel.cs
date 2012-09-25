@@ -1,5 +1,8 @@
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
+using Microsoft.Practices.Prism.Commands;
 using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Common;
 
@@ -7,11 +10,17 @@ namespace Samba.Modules.PaymentModule
 {
     public class OrderSelectorViewModel : ObservableObject
     {
-        public OrderSelectorViewModel(OrderSelector model)
+        private readonly NumberPadViewModel _numberPadViewModel;
+
+        public OrderSelectorViewModel(OrderSelector model, NumberPadViewModel numberPadViewModel)
         {
+            _numberPadViewModel = numberPadViewModel;
             Model = model;
             Selectors = new ObservableCollection<SelectorViewModel>();
+            SelectMergedItemCommand = new DelegateCommand<SelectorViewModel>(OnMergedItemSelected);
         }
+
+        public DelegateCommand<SelectorViewModel> SelectMergedItemCommand { get; set; }
 
         protected OrderSelector Model { get; set; }
         public ObservableCollection<SelectorViewModel> Selectors { get; set; }
@@ -59,6 +68,18 @@ namespace Samba.Modules.PaymentModule
         public void UpdateAutoRoundValue(decimal autoRoundDiscount)
         {
             Model.UpdateAutoRoundValue(autoRoundDiscount);
+        }
+
+        private void OnMergedItemSelected(SelectorViewModel obj)
+        {
+            obj.Select();
+            var paymentAmount = SelectedTotal;
+            var remaining = decimal.Round(Model.GetRemainingAmount() / Model.ExchangeRate, 2);
+            if (Math.Abs(remaining - paymentAmount) <= 0.01m)
+                paymentAmount = remaining;
+            _numberPadViewModel.PaymentDueAmount = paymentAmount.ToString("#,#0.00");
+            _numberPadViewModel.TenderedAmount = "";
+            _numberPadViewModel.ResetAmount = true;
         }
     }
 }

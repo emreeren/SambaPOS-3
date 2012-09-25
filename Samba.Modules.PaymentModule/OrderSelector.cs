@@ -16,7 +16,7 @@ namespace Samba.Modules.PaymentModule
             SelectedTicket = Ticket.Empty;
         }
 
-        protected decimal ExchangeRate { get; set; }
+        public decimal ExchangeRate { get; set; }
         public Ticket SelectedTicket { get; set; }
         public IList<Selector> Selectors { get; set; }
         public decimal SelectedTotal { get { return decimal.Round(Selectors.Sum(x => x.SelectedQuantity * x.Price), 2); } }
@@ -136,8 +136,13 @@ namespace Samba.Modules.PaymentModule
                     amount += (newPrice * selector.RemainingQuantity);
                 }
                 var mLast = Selectors.Where(x => x.RemainingQuantity > 0).OrderBy(x => x.RemainingPrice).First();
-                mLast.Price += (SelectedTicket.GetRemainingAmount() / ExchangeRate) - amount;
+                mLast.Price += ((SelectedTicket.GetRemainingAmount() / ExchangeRate) - amount) / mLast.RemainingQuantity;
             }
+        }
+
+        public decimal GetRemainingAmount()
+        {
+            return SelectedTicket.GetRemainingAmount();
         }
     }
 }

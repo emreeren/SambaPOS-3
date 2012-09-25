@@ -10,5 +10,6 @@ namespace Samba.Domain.Models.Settings
     {
         public string CurrencySymbol { get; set; }
         public decimal ExchangeRate { get; set; }
+        public decimal Rounding { get; set; }
     }
 }

@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using System.Windows;
-using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Events;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Settings;
@@ -21,18 +19,9 @@ using Samba.Services.Common;
 
 namespace Samba.Modules.PaymentModule
 {
-    public class PaymentData
-    {
-        public PaymentTemplate PaymentTemplate { get; set; }
-        public ChangePaymentTemplate ChangePaymentTemplate { get; set; }
-        public decimal PaymentDueAmount { get; set; }
-        public decimal TenderedAmount { get; set; }
-    }
-
     [Export]
     public class PaymentEditorViewModel : ObservableObject
     {
-        private bool _resetAmount;
         private readonly ITicketService _ticketService;
         private readonly ICacheService _cacheService;
         private readonly IAccountService _accountService;
@@ -61,22 +50,19 @@ namespace Samba.Modules.PaymentModule
             _foreignCurrencySelectedCommand = new CaptionCommand<ForeignCurrency>("", OnForeignCurrencySelected);
 
             ClosePaymentScreenCommand = new CaptionCommand<string>(Resources.Close, OnClosePaymentScreen, CanClosePaymentScreen);
-            TenderAllCommand = new CaptionCommand<string>(Resources.All, OnTenderAllCommand);
-            TypeValueCommand = new DelegateCommand<string>(OnTypeValueExecuted);
-            SetValueCommand = new DelegateCommand<string>(OnSetValue);
-            DivideValueCommand = new DelegateCommand<string>(OnDivideValue);
-            SelectMergedItemCommand = new DelegateCommand<SelectorViewModel>(OnMergedItemSelected);
 
             ChangeTemplates = new ObservableCollection<CommandButtonViewModel<PaymentData>>();
-            //MergedItems = new ObservableCollection<MergedItem>();
             ReturningAmountVisibility = Visibility.Collapsed;
 
             Totals = totals;
 
-            OrderSelector = new OrderSelectorViewModel(new OrderSelector());
             PaymentButtonGroup = new PaymentButtonGroupViewModel(_makePaymentCommand, null, ClosePaymentScreenCommand);
             ForeignCurrencyButtons = new List<CommandButtonViewModel<ForeignCurrency>>();
-
+            NumberPadViewModel = new NumberPadViewModel();
+            NumberPadViewModel.TypedValueChanged += NumberPadViewModelTypedValueChanged;
+            NumberPadViewModel.ResetValue += NumberPadViewModelResetValue;
+            NumberPadViewModel.PaymentDueChanged += NumberPadViewModelPaymentDueChanged;
+            OrderSelector = new OrderSelectorViewModel(new OrderSelector(), NumberPadViewModel);
             LastTenderedAmount = "1";
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(x =>
@@ -88,18 +74,34 @@ namespace Samba.Modules.PaymentModule
             });
         }
 
+        void NumberPadViewModelPaymentDueChanged(object sender, EventArgs e)
+        {
+            RaisePropertyChanged(() => PaymentAmount);
+            UpdateCurrencyButtons();
+        }
+
+        void NumberPadViewModelTypedValueChanged(object sender, EventArgs e)
+        {
+            ReturningAmountVisibility = Visibility.Collapsed;
+            RaisePropertyChanged(() => TenderedAmount);
+        }
+
+        void NumberPadViewModelResetValue(object sender, EventArgs e)
+        {
+            UpdatePaymentAmount(0);
+            OrderSelector.ClearSelection();
+            RefreshValues();
+            RaisePropertyChanged(() => PaymentAmount);
+            RaisePropertyChanged(() => TenderedAmount);
+        }
+
+        public NumberPadViewModel NumberPadViewModel { get; set; }
         public TicketTotalsViewModel Totals { get; set; }
         public PaymentButtonGroupViewModel PaymentButtonGroup { get; set; }
 
         public CaptionCommand<string> ClosePaymentScreenCommand { get; set; }
-        public CaptionCommand<string> TenderAllCommand { get; set; }
-        public DelegateCommand<string> TypeValueCommand { get; set; }
-        public DelegateCommand<string> SetValueCommand { get; set; }
-        public DelegateCommand<string> DivideValueCommand { get; set; }
-        public DelegateCommand<SelectorViewModel> SelectMergedItemCommand { get; set; }
 
         public OrderSelectorViewModel OrderSelector { get; set; }
-        // public ObservableCollection<MergedItem> MergedItems { get; set; }
         public ObservableCollection<CommandButtonViewModel<PaymentData>> ChangeTemplates { get; set; }
 
         public string SelectedTicketTitle { get { return SelectedTicket != null ? Totals.Title : ""; } }
@@ -120,7 +122,9 @@ namespace Samba.Modules.PaymentModule
                     _foreignCurrency = null;
                     ExchangeRate = 1;
                 }
+                OrderSelector.UpdateAutoRoundValue(ForeignCurrency != null ? ForeignCurrency.Rounding : _settingService.ProgramSettings.AutoRoundDiscount);
                 OrderSelector.UpdateExchangeRate(ExchangeRate);
+                NumberPadViewModel.UpdateExchangeRate(ExchangeRate);
                 if (SelectedTicket != null)
                 {
                     var selected = OrderSelector.SelectedTotal * ExchangeRate;
@@ -133,18 +137,16 @@ namespace Samba.Modules.PaymentModule
 
         protected decimal ExchangeRate;
 
-        private string _paymentAmount;
         public string PaymentAmount
         {
-            get { return _paymentAmount; }
-            set { _paymentAmount = value; RaisePropertyChanged(() => PaymentAmount); }
+            get { return NumberPadViewModel.PaymentDueAmount; }
+            set { NumberPadViewModel.PaymentDueAmount = value; RaisePropertyChanged(() => PaymentAmount); }
         }
 
-        private string _tenderedAmount;
         public string TenderedAmount
         {
-            get { return _tenderedAmount; }
-            set { _tenderedAmount = value; RaisePropertyChanged(() => TenderedAmount); }
+            get { return NumberPadViewModel.TenderedAmount; }
+            set { NumberPadViewModel.TenderedAmount = value; RaisePropertyChanged(() => TenderedAmount); }
         }
 
         private string _lastTenderedAmount;
@@ -154,7 +156,11 @@ namespace Samba.Modules.PaymentModule
             set { _lastTenderedAmount = value; RaisePropertyChanged(() => LastTenderedAmount); }
         }
 
-        public string ReturningAmount { get; set; }
+        public string ReturningAmount
+        {
+            get { return _returningAmount; }
+            set { _returningAmount = value; RaisePropertyChanged(() => ReturningAmount); }
+        }
 
         private Visibility _returningAmountVisibility;
         public Visibility ReturningAmountVisibility
@@ -174,7 +180,25 @@ namespace Samba.Modules.PaymentModule
             }
         }
 
+        private Ticket _selectedTicket;
+        private string _returningAmount;
+
+        public Ticket SelectedTicket
+        {
+            get { return _selectedTicket; }
+            private set
+            {
+                _selectedTicket = value;
+                RaisePropertyChanged(() => SelectedTicket);
+                RaisePropertyChanged(() => SelectedTicketTitle);
+            }
+        }
+
+        public decimal TicketRemainingValue { get; set; }
+
         public IList<CommandButtonViewModel<ForeignCurrency>> ForeignCurrencyButtons { get; set; }
+
+        public IEnumerable<CommandButtonViewModel<object>> CommandButtons { get; set; }
 
         private IEnumerable<CommandButtonViewModel<ForeignCurrency>> CreateForeignCurrencyButtons()
         {
@@ -194,8 +218,6 @@ namespace Samba.Modules.PaymentModule
                 commandButtonViewModel.Caption = string.Format(commandButtonViewModel.Parameter.CurrencySymbol, pm);
             }
         }
-
-        public IEnumerable<object> CommandButtons { get; set; }
 
         private IEnumerable<CommandButtonViewModel<object>> CreateCommandButtons()
         {
@@ -303,72 +325,6 @@ namespace Samba.Modules.PaymentModule
             return string.IsNullOrEmpty(TenderedAmount) || (SelectedTicket != null && GetRemainingAmount() == 0);
         }
 
-        private void OnTenderAllCommand(string obj)
-        {
-            TenderedAmount = PaymentAmount;
-            _resetAmount = true;
-        }
-
-        private void OnDivideValue(string obj)
-        {
-            decimal tenderedValue = GetTenderedValue();
-            OrderSelector.ClearSelection();
-            _resetAmount = true;
-            string dc = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
-            obj = obj.Replace(",", dc);
-            obj = obj.Replace(".", dc);
-
-            decimal value = Convert.ToDecimal(obj);
-            var remainingTicketAmount = GetPaymentDueValue() / ExchangeRate;
-
-            if (value > 0)
-            {
-                var amount = remainingTicketAmount / value;
-                if (amount > remainingTicketAmount) amount = remainingTicketAmount;
-                TenderedAmount = amount.ToString("#,#0.00");
-            }
-            else
-            {
-                value = tenderedValue;
-                if (value > 0)
-                {
-                    var amount = remainingTicketAmount / value;
-                    if (amount > remainingTicketAmount) amount = remainingTicketAmount;
-                    TenderedAmount = (amount).ToString("#,#0.00");
-                }
-            }
-        }
-
-        private void OnSetValue(string obj)
-        {
-            _resetAmount = true;
-            ReturningAmountVisibility = Visibility.Collapsed;
-            if (string.IsNullOrEmpty(obj))
-            {
-                TenderedAmount = "";
-                UpdatePaymentAmount(0);
-                OrderSelector.ClearSelection();
-                RefreshValues();
-                return;
-            }
-
-            var value = Convert.ToDecimal(obj);
-            if (string.IsNullOrEmpty(TenderedAmount))
-                TenderedAmount = "0";
-            var tenderedValue = Convert.ToDecimal(TenderedAmount.Replace(
-                CultureInfo.CurrentCulture.NumberFormat.NumberGroupSeparator, ""));
-            tenderedValue += value;
-            TenderedAmount = tenderedValue.ToString("#,#0.00");
-        }
-
-        private void OnTypeValueExecuted(string obj)
-        {
-            if (_resetAmount) TenderedAmount = "";
-            _resetAmount = false;
-            ReturningAmountVisibility = Visibility.Collapsed;
-            TenderedAmount = Helpers.AddTypedValue(TenderedAmount, obj, "#,#0.");
-        }
-
         private void OnClosePaymentScreen(string obj)
         {
             ClosePaymentScreen();
@@ -377,13 +333,6 @@ namespace Samba.Modules.PaymentModule
         private void ClosePaymentScreen()
         {
             OrderSelector.PersistTicket();
-            //var paidItems = MergedItems.SelectMany(x => x.PaidItems);
-
-            //SelectedTicket.PaidItems.Clear();
-            //foreach (var paidItem in paidItems)
-            //{
-            //    SelectedTicket.PaidItems.Add(paidItem);
-            //}
 
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.CloseTicketRequested);
             TenderedAmount = "";
@@ -487,17 +436,17 @@ namespace Samba.Modules.PaymentModule
                     var currency =
                         _cacheService.GetForeignCurrencies().SingleOrDefault(
                             x => x.Id == changeTemplate.Account.ForeignCurrencyId);
-                    if (currency != null)
-                    {
-                        returningAmount = returningAmount / currency.ExchangeRate;
-                        ReturningAmount = string.Format(currency.CurrencySymbol, returningAmount);
-                    }
+                    
+                    ReturningAmount = string.Format(Resources.ChangeAmount_f,
+                            currency != null
+                                ? string.Format(currency.CurrencySymbol, returningAmount / currency.ExchangeRate)
+                                : returningAmount.ToString(LocalSettings.DefaultCurrencyFormat));
                 }
             }
 
             if (string.IsNullOrEmpty(ReturningAmount))
                 ReturningAmount = string.Format(Resources.ChangeAmount_f,
-                                                returningAmount.ToString(LocalSettings.DefaultCurrencyFormat));
+                    (returningAmount / ExchangeRate).ToString(LocalSettings.DefaultCurrencyFormat));
 
             ReturningAmountVisibility = returningAmount > 0 ? Visibility.Visible : Visibility.Collapsed;
 
@@ -517,11 +466,10 @@ namespace Samba.Modules.PaymentModule
 
         private void SubmitPaymentAmount(PaymentTemplate paymentTemplate, ChangePaymentTemplate changeTemplate, decimal paymentDueAmount, decimal tenderedAmount)
         {
+            var returningAmount = DisplayReturningAmount(tenderedAmount, paymentDueAmount, changeTemplate);
+            if (changeTemplate == null) tenderedAmount -= returningAmount;
 
             var paymentAccount = paymentTemplate.Account ?? GetAccountForTransaction(paymentTemplate, SelectedTicket.TicketResources);
-
-            if (tenderedAmount > paymentDueAmount && changeTemplate == null)
-                tenderedAmount = paymentDueAmount;
 
             _ticketService.AddPayment(SelectedTicket, paymentTemplate, paymentAccount, tenderedAmount);
 
@@ -534,7 +482,7 @@ namespace Samba.Modules.PaymentModule
                                      ? (tenderedAmount - paymentDueAmount).ToString("#,#0.00")
                                      : GetRemainingAmount().ToString("#,#0.00");
 
-            var returningAmount = DisplayReturningAmount(tenderedAmount, paymentDueAmount, changeTemplate);
+
 
             UpdatePaymentAmount(GetRemainingAmount());
 
@@ -554,20 +502,6 @@ namespace Samba.Modules.PaymentModule
             if (ForeignCurrency == null) return new List<ChangePaymentTemplate>();
             return _cacheService.GetChangePaymentTemplates().ToList();
         }
-
-        private Ticket _selectedTicket;
-        public Ticket SelectedTicket
-        {
-            get { return _selectedTicket; }
-            private set
-            {
-                _selectedTicket = value;
-                RaisePropertyChanged(() => SelectedTicket);
-                RaisePropertyChanged(() => SelectedTicketTitle);
-            }
-        }
-
-        public decimal TicketRemainingValue { get; set; }
 
         public void RefreshValues()
         {
@@ -602,122 +536,6 @@ namespace Samba.Modules.PaymentModule
             TenderedAmount = "";
         }
 
-        //public void PrepareMergedItems()
-        //{
-        //    MergedItems.Clear();
-        //    UpdatePaymentAmount(0);
-
-        //    if (SelectedTicket.GetSum() == 0) return;
-
-        //    var serviceAmount = SelectedTicket.GetPreTaxServicesTotal() + SelectedTicket.GetPostTaxServicesTotal();
-        //    SelectedTicket.Orders.Where(x => x.CalculatePrice && (x.ProductTimerValue == null || !x.ProductTimerValue.IsActive))
-        //        .ToList().ForEach(x => CreateMergedItem(SelectedTicket.GetPlainSum(), x, serviceAmount));
-
-        //    RoundMergedItems();
-
-        //    foreach (var paidItem in SelectedTicket.PaidItems)
-        //    {
-        //        var item = paidItem;
-        //        var mi = MergedItems.SingleOrDefault(x => x.Key == item.Key);
-        //        if (mi != null)
-        //            mi.PaidItems.Add(paidItem);
-        //    }
-        //}
-
-        //public void UpdateMergedItems()
-        //{
-        //    if (SelectedTicket.GetSum() == 0) return;
-        //    var serviceAmount = SelectedTicket.GetPreTaxServicesTotal() + SelectedTicket.GetPostTaxServicesTotal();
-
-        //    MergedItems.ToList().ForEach(x => x.Quantity = 0);
-        //    SelectedTicket.Orders.Where(x => x.CalculatePrice && (x.ProductTimerValue == null || !x.ProductTimerValue.IsActive))
-        //        .ToList().ForEach(x => CreateMergedItem(SelectedTicket.GetPlainSum(), x, serviceAmount));
-
-        //    RoundMergedItems();
-
-        //    PaymentAmount = MergedItems.Sum(x => x.GetNewQuantity() * x.Price).ToString("#,#0.00");
-        //    RaisePropertyChanged(() => MergedItems);
-        //}
-
-        //private void RoundMergedItems()
-        //{
-        //    var ra = _settingService.ProgramSettings.AutoRoundDiscount;
-        //    if (ra != 0)
-        //    {
-        //        var amount = 0m;
-        //        foreach (var mergedItem in MergedItems)
-        //        {
-        //            var price = mergedItem.Price;
-        //            var newPrice = decimal.Round(price / ra, MidpointRounding.AwayFromZero) * ra;
-        //            mergedItem.Price = newPrice;
-        //            amount += (newPrice * mergedItem.Quantity);
-        //        }
-        //        var mLast = MergedItems.OrderBy(x => x.Total).First();
-        //        mLast.Price += (SelectedTicket.GetSum() / ExchangeRate) - amount;
-        //    }
-        //}
-
-        //private void CreateMergedItem(decimal sum, Order item, decimal serviceAmount)
-        //{
-        //    var price = item.GetItemPrice();
-        //    price += (price * serviceAmount) / sum;
-        //    if (!item.TaxIncluded) price += item.TaxAmount;
-        //    price = price / ExchangeRate;
-        //    //todo:fiyata göre ürün eşleştirmeyi kontrol et
-        //    var mitem = MergedItems.SingleOrDefault(x => x.Key == item.MenuItemId + "-" + item.GetItemPrice());
-        //    if (mitem == null)
-        //    {
-        //        mitem = new MergedItem();
-        //        try
-        //        {
-        //            mitem.Description = item.MenuItemName + item.GetPortionDesc();
-        //            mitem.Key = item.MenuItemId + "-" + item.GetItemPrice();
-        //            mitem.MenuItemId = item.MenuItemId;
-        //            MergedItems.Add(mitem);
-        //        }
-        //        finally
-        //        {
-        //            mitem.Dispose();
-        //        }
-        //    }
-        //    mitem.Price = price;
-        //    mitem.Quantity += item.Quantity;
-        //}
-
-        private void OnMergedItemSelected(SelectorViewModel obj)
-        {
-            obj.Select();
-            var paymentAmount = OrderSelector.SelectedTotal;
-            var remaining = decimal.Round(GetRemainingAmount() / ExchangeRate, 2);
-            if (Math.Abs(remaining - paymentAmount) <= 0.01m)
-                paymentAmount = remaining;
-            UpdatePaymentAmount(paymentAmount * ExchangeRate);
-            TenderedAmount = "";
-            _resetAmount = true;
-            ReturningAmountVisibility = Visibility.Collapsed;
-        }
-
-        //private void PersistMergedItems()
-        //{
-        //    _selectedTotal = 0;
-        //    foreach (var mergedItem in MergedItems)
-        //    {
-        //        mergedItem.PersistPaidItems();
-        //    }
-        //    RefreshValues();
-        //}
-
-        //private void CancelMergedItems()
-        //{
-        //    _selectedTotal = 0;
-        //    foreach (var mergedItem in MergedItems)
-        //    {
-        //        mergedItem.CancelPaidItems();
-        //    }
-        //    RefreshValues();
-        //    ReturningAmountVisibility = Visibility.Collapsed;
-        //}
-
         public void CreateButtons(Ticket selectedTicket)
         {
             CommandButtons = CreateCommandButtons();
@@ -738,7 +556,6 @@ namespace Samba.Modules.PaymentModule
             TicketRemainingValue = GetRemainingAmount();
             UpdatePaymentAmount(0);
             OrderSelector.UpdateTicket(selectedTicket);
-            OrderSelector.UpdateAutoRoundValue(_settingService.ProgramSettings.AutoRoundDiscount);
             RefreshValues();
             LastTenderedAmount = PaymentAmount;
             CreateButtons(selectedTicket);
