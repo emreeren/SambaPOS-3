@@ -63,7 +63,6 @@ namespace Samba.Modules.PaymentModule
             NumberPadViewModel.ResetValue += NumberPadViewModelResetValue;
             NumberPadViewModel.PaymentDueChanged += NumberPadViewModelPaymentDueChanged;
             OrderSelector = new OrderSelectorViewModel(new OrderSelector(), NumberPadViewModel);
-            LastTenderedAmount = "1";
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(x =>
             {
@@ -147,13 +146,6 @@ namespace Samba.Modules.PaymentModule
         {
             get { return NumberPadViewModel.TenderedAmount; }
             set { NumberPadViewModel.TenderedAmount = value; RaisePropertyChanged(() => TenderedAmount); }
-        }
-
-        private string _lastTenderedAmount;
-        public string LastTenderedAmount
-        {
-            get { return _lastTenderedAmount; }
-            set { _lastTenderedAmount = value; RaisePropertyChanged(() => LastTenderedAmount); }
         }
 
         public string ReturningAmount
@@ -436,7 +428,7 @@ namespace Samba.Modules.PaymentModule
                     var currency =
                         _cacheService.GetForeignCurrencies().SingleOrDefault(
                             x => x.Id == changeTemplate.Account.ForeignCurrencyId);
-                    
+
                     ReturningAmount = string.Format(Resources.ChangeAmount_f,
                             currency != null
                                 ? string.Format(currency.CurrencySymbol, returningAmount / currency.ExchangeRate)
@@ -478,11 +470,7 @@ namespace Samba.Modules.PaymentModule
                 _ticketService.AddChangePayment(SelectedTicket, changeTemplate, changeTemplate.Account, tenderedAmount - paymentDueAmount);
             }
 
-            LastTenderedAmount = tenderedAmount - paymentDueAmount <= GetRemainingAmount()
-                                     ? (tenderedAmount - paymentDueAmount).ToString("#,#0.00")
-                                     : GetRemainingAmount().ToString("#,#0.00");
-
-
+            NumberPadViewModel.LastTenderedAmount = (tenderedAmount / ExchangeRate).ToString("#,#0.00");
 
             UpdatePaymentAmount(GetRemainingAmount());
 
@@ -557,7 +545,7 @@ namespace Samba.Modules.PaymentModule
             UpdatePaymentAmount(0);
             OrderSelector.UpdateTicket(selectedTicket);
             RefreshValues();
-            LastTenderedAmount = PaymentAmount;
+            NumberPadViewModel.LastTenderedAmount = PaymentAmount;
             CreateButtons(selectedTicket);
         }
 

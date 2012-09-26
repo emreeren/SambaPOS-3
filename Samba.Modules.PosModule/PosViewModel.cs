@@ -34,6 +34,7 @@ namespace Samba.Modules.PosModule
         private readonly TicketOrdersViewModel _ticketOrdersViewModel;
 
         private Resource _lastSelectedResource;
+        protected Action ExpectedAction { get; set; }
 
         private Ticket _selectedTicket;
         public Ticket SelectedTicket
@@ -80,7 +81,7 @@ namespace Samba.Modules.PosModule
             if (obj.Topic == EventTopicNames.ActivateTicketList)
             {
                 _ticketListViewModel.UpdateListByTicketTagGroup(obj.Value);
-                if (_ticketListViewModel.Tickets.Count() > 0)
+                if (_ticketListViewModel.Tickets.Any())
                     DisplayTicketList();
                 else DisplayTickets();
             }
@@ -105,14 +106,14 @@ namespace Samba.Modules.PosModule
                 if (SelectedTicket != null)
                 {
                     _ticketService.UpdateResource(SelectedTicket, eventParameters.Value.SelectedEntity);
-                    if (_applicationState.SelectedResourceScreen != null &&SelectedTicket.Orders.Count > 0 && eventParameters.Value.SelectedEntity.Id > 0 && eventParameters.Value.SelectedEntity.ResourceTemplateId == _applicationState.SelectedResourceScreen.ResourceTemplateId)
+                    if (_applicationState.SelectedResourceScreen != null && SelectedTicket.Orders.Count > 0 && eventParameters.Value.SelectedEntity.Id > 0 && eventParameters.Value.SelectedEntity.ResourceTemplateId == _applicationState.SelectedResourceScreen.ResourceTemplateId)
                         CloseTicket();
                     else DisplaySingleTicket();
                 }
                 else
                 {
                     var openTickets = _ticketService.GetOpenTicketIds(eventParameters.Value.SelectedEntity.Id).ToList();
-                    if (openTickets.Count() == 0)
+                    if (!openTickets.Any())
                     {
                         OpenTicket(0);
                         _ticketService.UpdateResource(SelectedTicket, eventParameters.Value.SelectedEntity);
@@ -139,6 +140,7 @@ namespace Samba.Modules.PosModule
             {
                 if (SelectedTicket != null) CloseTicket();
                 if (SelectedTicket != null) return;
+                ExpectedAction = obj.ExpectedAction;
                 OpenTicket(obj.Value);
                 EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
             }
@@ -311,8 +313,15 @@ namespace Samba.Modules.PosModule
             {
                 _userService.LogoutUser(false);
             }
-            else EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
-
+            else
+            {
+                if (ExpectedAction != null)
+                {
+                    ExpectedAction.Invoke();
+                }
+                else EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
+            }
+            ExpectedAction = null;
             AppServices.MessagingService.SendMessage(Messages.TicketRefreshMessage, result.TicketId.ToString());
             _applicationStateSetter.SetApplicationLocked(false);
         }

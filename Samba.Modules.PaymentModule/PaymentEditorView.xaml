@@ -33,6 +33,13 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <DataTemplate.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                                            <Setter Property="FontWeight" Value="Bold" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
                                 <Storyboard x:Key="ButtonClick">
                                     <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
                                          Storyboard.TargetName="border">
@@ -57,11 +64,11 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="auto" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock FontWeight="{Binding FontWeight}" Padding="1" FontSize="20" Grid.Column="0"
-                                             Text="{Binding Quantity, StringFormat=#.##}" Margin="3,3,6,3" />
-                                        <TextBlock FontWeight="{Binding FontWeight}" Padding="1" FontSize="20" Grid.Column="1"
+                                        <TextBlock Padding="1" FontSize="20" Grid.Column="0"
+                                             Text="{Binding Quantity}" Margin="3,3,6,3" />
+                                        <TextBlock Padding="1" FontSize="20" Grid.Column="1"
                                              Text="{Binding Description}" Margin="3" />
-                                        <TextBlock FontWeight="{Binding FontWeight}" Padding="1" FontSize="20" Grid.Column="2"
+                                        <TextBlock Padding="1" FontSize="20" Grid.Column="2"
                                              Text="{Binding Total}" Margin="3" HorizontalAlignment="Right" />
                                     </Grid>
                                 </Border>

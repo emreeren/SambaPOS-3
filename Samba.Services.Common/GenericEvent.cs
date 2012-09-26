@@ -1,4 +1,5 @@
-﻿using Microsoft.Practices.Prism.Events;
+﻿using System;
+using Microsoft.Practices.Prism.Events;
 
 namespace Samba.Services.Common
 {
@@ -8,6 +9,7 @@ namespace Samba.Services.Common
     public class EventParameters<TValue>
     {
         public string Topic { get; set; }
+        public Action ExpectedAction { get; set; }
         public TValue Value { get; set; }
     }
 }

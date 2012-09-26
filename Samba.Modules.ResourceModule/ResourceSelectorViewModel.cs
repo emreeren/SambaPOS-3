@@ -101,7 +101,7 @@ namespace Samba.Modules.ResourceModule
         {
             var stateFilter = resourceScreen.DisplayMode == 0 ? resourceScreen.StateFilterId : 0;
             var resourceData = GetResourceScreenItems(resourceScreen, stateFilter);
-            if (ResourceScreenItems != null && (ResourceScreenItems.Count() == 0 || ResourceScreenItems.Count != resourceData.Count() || ResourceScreenItems.First().Name != resourceData.First().Name)) ResourceScreenItems = null;
+            if (ResourceScreenItems != null && (!ResourceScreenItems.Any() || ResourceScreenItems.Count != resourceData.Count() || ResourceScreenItems.First().Name != resourceData.First().Name)) ResourceScreenItems = null;
 
             UpdateResourceButtons(resourceData);
 

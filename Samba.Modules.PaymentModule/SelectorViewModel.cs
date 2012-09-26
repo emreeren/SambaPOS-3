@@ -14,6 +14,7 @@ namespace Samba.Modules.PaymentModule
         public string Quantity { get { return Model.RemainingQuantity.ToString(LocalSettings.DefaultQuantityFormat); } }
         public string Total { get { return Model.RemainingPrice.ToString(LocalSettings.DefaultCurrencyFormat); } }
         public string Description { get { return Model.IsSelected ? string.Format("{0} ({1:#.###})", Model.Description, Model.SelectedQuantity) : Model.Description; } }
+        public bool IsSelected { get { return Model.IsSelected; } }
 
         public void Select()
         {
@@ -26,6 +27,7 @@ namespace Samba.Modules.PaymentModule
             RaisePropertyChanged(() => Quantity);
             RaisePropertyChanged(() => Description);
             RaisePropertyChanged(() => Total);
+            RaisePropertyChanged(() => IsSelected);
         }
     }
 }

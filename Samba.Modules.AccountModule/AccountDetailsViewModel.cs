@@ -29,7 +29,7 @@ namespace Samba.Modules.AccountModule
             _cacheService = cacheService;
             _accountService = accountService;
             CloseAccountScreenCommand = new CaptionCommand<string>(Resources.Close, OnCloseAccountScreen);
-            DisplayTicketCommand = new CaptionCommand<string>(Resources.FindTicket, OnDisplayTicket);
+            DisplayTicketCommand = new CaptionCommand<string>(Resources.FindTicket.Replace(" ", "\r"), OnDisplayTicket);
             AccountDetails = new ObservableCollection<AccountDetailViewModel>();
             DocumentTemplates = new ObservableCollection<DocumentTemplateButtonViewModel>();
             AccountSummaries = new ObservableCollection<AccountSummaryViewModel>();
@@ -149,7 +149,7 @@ namespace Samba.Modules.AccountModule
                 var account = _accountService.GetAccountById(obj.Value.SelectedEntity.AccountId);
                 if (obj.Value != null && !string.IsNullOrEmpty(obj.Value.GetExpectedEvent()))
                     _currentOperationRequest = obj.Value;
-                SelectedAccount = account;//= new ResourceSearchResultViewModel(obj.Value.SelectedEntity, _cacheService.GetResourceTemplateById(obj.Value.SelectedEntity.AccountTemplateId));
+                SelectedAccount = account;
             }
         }
 
@@ -167,8 +167,16 @@ namespace Samba.Modules.AccountModule
                 var did = FocusedAccountTransaction.Model.AccountTransactionDocumentId;
                 var ticket = Dao.Single<Ticket>(x => x.TransactionDocument.Id == did);
                 if (ticket != null)
-                    ExtensionMethods.PublishIdEvent(ticket.Id, EventTopicNames.DisplayTicket);
+                {
+                    string expectedEvent = _currentOperationRequest != null
+                                               ? _currentOperationRequest.GetExpectedEvent()
+                                               : EventTopicNames.DisplayAccountTransactions;
+
+                    ExtensionMethods.PublishIdEvent(ticket.Id,
+                        EventTopicNames.DisplayTicket,
+                        () => CommonEventPublisher.PublishEntityOperation(new AccountData { AccountId = SelectedAccount.Id }, EventTopicNames.DisplayAccountTransactions, expectedEvent));
+                }
             }
         }
-   }
+    }
 }

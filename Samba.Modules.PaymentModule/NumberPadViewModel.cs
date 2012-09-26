@@ -10,7 +10,7 @@ using Samba.Presentation.Common;
 
 namespace Samba.Modules.PaymentModule
 {
-    public class NumberPadViewModel
+    public class NumberPadViewModel : ObservableObject
     {
         private decimal _exchangeRate;
         private string _paymentDueAmount;
@@ -59,6 +59,13 @@ namespace Samba.Modules.PaymentModule
                     OnPaymentDueChanged();
                 }
             }
+        }
+
+        private string _lastTenderedAmount;
+        public string LastTenderedAmount
+        {
+            get { return _lastTenderedAmount; }
+            set { _lastTenderedAmount = value; RaisePropertyChanged(() => LastTenderedAmount); }
         }
 
         public CaptionCommand<string> TenderAllCommand { get; set; }
