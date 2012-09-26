@@ -3228,4 +3228,7 @@ Continue without adding details?</value>
   <data name="LastPaidOrders">
     <value xml:space="preserve">Last Paid Orders</value>
   </data>
+  <data name="WindowsPrinter">
+    <value xml:space="preserve">Windows Printer</value>
+  </data>
 </root>

@@ -21,15 +21,19 @@ namespace Samba.Modules.AccountModule
         private readonly IApplicationState _applicationState;
         private readonly ICacheService _cacheService;
         private readonly IAccountService _accountService;
+        private readonly IPrinterService _printerService;
 
         [ImportingConstructor]
-        public AccountDetailsViewModel(IApplicationState applicationState, ICacheService cacheService, IAccountService accountService)
+        public AccountDetailsViewModel(IApplicationState applicationState, ICacheService cacheService, 
+            IAccountService accountService,IPrinterService printerService)
         {
             _applicationState = applicationState;
             _cacheService = cacheService;
             _accountService = accountService;
+            _printerService = printerService;
             CloseAccountScreenCommand = new CaptionCommand<string>(Resources.Close, OnCloseAccountScreen);
             DisplayTicketCommand = new CaptionCommand<string>(Resources.FindTicket.Replace(" ", "\r"), OnDisplayTicket);
+            PrintAccountCommand = new CaptionCommand<string>(Resources.Print, OnPrintAccount);
             AccountDetails = new ObservableCollection<AccountDetailViewModel>();
             DocumentTemplates = new ObservableCollection<DocumentTemplateButtonViewModel>();
             AccountSummaries = new ObservableCollection<AccountSummaryViewModel>();
@@ -79,6 +83,7 @@ namespace Samba.Modules.AccountModule
 
         public ICaptionCommand CloseAccountScreenCommand { get; set; }
         public ICaptionCommand DisplayTicketCommand { get; set; }
+        public ICaptionCommand PrintAccountCommand { get; set; }
 
         private void UpdateTemplates()
         {
@@ -177,6 +182,11 @@ namespace Samba.Modules.AccountModule
                         () => CommonEventPublisher.PublishEntityOperation(new AccountData { AccountId = SelectedAccount.Id }, EventTopicNames.DisplayAccountTransactions, expectedEvent));
                 }
             }
+        }
+
+        private void OnPrintAccount(string obj)
+        {
+           
         }
     }
 }

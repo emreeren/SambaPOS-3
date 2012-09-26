@@ -8321,6 +8321,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Windows Printer.
+        /// </summary>
+        public static string WindowsPrinter {
+            get {
+                return ResourceManager.GetString("WindowsPrinter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Work Period.
         /// </summary>
         public static string WorkPeriod {

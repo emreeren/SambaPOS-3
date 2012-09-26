@@ -14,6 +14,8 @@ namespace Samba.Services.Implementations.PrinterModule.PrintJobs
                 return new PortPrinterJob(printer);
             if (printer.PrinterType == 4)
                 return new DemoPrinterJob(printer);
+            if (printer.PrinterType == 5)
+                return new WindowsPrinterJob(printer);
             return new SlipPrinterJob(printer);
         }
     }

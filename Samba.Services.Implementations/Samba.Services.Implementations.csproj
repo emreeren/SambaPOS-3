@@ -73,6 +73,7 @@
     <Compile Include="CacheService.cs" />
     <Compile Include="DepartmentModule\DepartmentService.cs" />
     <Compile Include="InventoryModule\InventoryService.cs" />
+    <Compile Include="PrinterModule\PrintJobs\WindowsPrinterJob.cs" />
     <Compile Include="PrinterModule\ValueChangers\AbstractValueChanger.cs" />
     <Compile Include="PrinterModule\ValueChangers\PostCalculationValueChanger.cs" />
     <Compile Include="PrinterModule\ValueChangers\PreCalculationValueChanger.cs" />
