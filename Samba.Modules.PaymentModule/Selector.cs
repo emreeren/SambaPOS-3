@@ -54,5 +54,10 @@ namespace Samba.Modules.PaymentModule
         {
             _selectedItems.Clear();
         }
+
+        public IEnumerable<PaidItem> GetSelectedItems()
+        {
+            return _selectedItems;
+        }
     }
 }

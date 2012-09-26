@@ -49,7 +49,6 @@ namespace Samba.Presentation.Common.Services
         }
 
         private IEnumerable<WorkPeriod> _lastTwoWorkPeriods;
-
         public IEnumerable<WorkPeriod> LastTwoWorkPeriods
         {
             get { return _lastTwoWorkPeriods ?? (_lastTwoWorkPeriods = Dao.Last<WorkPeriod>(2)); }
@@ -113,6 +112,13 @@ namespace Samba.Presentation.Common.Services
             _settingService.ReadLocalSetting("NUMBERPAD").StringValue = value;
         }
 
+        public IEnumerable<PaidItem> LastPaidItems { get; private set; }
+
+        public void SetLastPaidItems(IEnumerable<PaidItem> paidItems)
+        {
+            LastPaidItems = paidItems;
+        }
+        
         public string NumberPadValue
         {
             get { return _settingService.ReadLocalSetting("NUMBERPAD").StringValue; }

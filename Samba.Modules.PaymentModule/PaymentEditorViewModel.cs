@@ -32,16 +32,18 @@ namespace Samba.Modules.PaymentModule
         private readonly ICaptionCommand _serviceSelectedCommand;
         private readonly ICaptionCommand _foreignCurrencySelectedCommand;
         private readonly IAutomationService _automationService;
+        private readonly IApplicationStateSetter _applicationStateSetter;
 
         [ImportingConstructor]
         public PaymentEditorViewModel(ITicketService ticketService, ICacheService cacheService, IAccountService accountService,
-            ISettingService settingService, IAutomationService automationService, TicketTotalsViewModel totals)
+            ISettingService settingService, IAutomationService automationService, TicketTotalsViewModel totals, IApplicationStateSetter applicationStateSetter)
         {
             _ticketService = ticketService;
             _cacheService = cacheService;
             _accountService = accountService;
             _settingService = settingService;
             _automationService = automationService;
+            _applicationStateSetter = applicationStateSetter;
 
             _executeAutomationCommand = new CaptionCommand<AutomationCommandData>("", OnExecuteAutomationCommand, CanExecuteAutomationCommand);
             _makePaymentCommand = new CaptionCommand<PaymentTemplate>("", OnMakePayment, CanMakePayment);
@@ -458,6 +460,8 @@ namespace Samba.Modules.PaymentModule
 
         private void SubmitPaymentAmount(PaymentTemplate paymentTemplate, ChangePaymentTemplate changeTemplate, decimal paymentDueAmount, decimal tenderedAmount)
         {
+            _applicationStateSetter.SetLastPaidItems(OrderSelector.GetSelectedItems());
+
             var returningAmount = DisplayReturningAmount(tenderedAmount, paymentDueAmount, changeTemplate);
             if (changeTemplate == null) tenderedAmount -= returningAmount;
 
@@ -539,6 +543,7 @@ namespace Samba.Modules.PaymentModule
         {
             ForeignCurrency = null;
             Debug.Assert(SelectedTicket == null);
+            _applicationStateSetter.SetLastPaidItems(new List<PaidItem>());
             Totals.Model = selectedTicket;
             SelectedTicket = selectedTicket;
             TicketRemainingValue = GetRemainingAmount();

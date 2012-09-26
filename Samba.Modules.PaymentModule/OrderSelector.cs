@@ -144,5 +144,10 @@ namespace Samba.Modules.PaymentModule
         {
             return SelectedTicket.GetRemainingAmount();
         }
+
+        public IEnumerable<PaidItem> GetSelectedItems()
+        {
+            return Selectors.SelectMany(x => x.GetSelectedItems());
+        }
     }
 }

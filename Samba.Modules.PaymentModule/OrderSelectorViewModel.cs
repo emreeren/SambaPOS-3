@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -80,6 +81,11 @@ namespace Samba.Modules.PaymentModule
             _numberPadViewModel.PaymentDueAmount = paymentAmount.ToString("#,#0.00");
             _numberPadViewModel.TenderedAmount = "";
             _numberPadViewModel.ResetAmount = true;
+        }
+
+        public IEnumerable<PaidItem> GetSelectedItems()
+        {
+            return Model.GetSelectedItems();
         }
     }
 }

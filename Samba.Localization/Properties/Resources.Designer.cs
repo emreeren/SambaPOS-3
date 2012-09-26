@@ -3779,6 +3779,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Last Paid Orders.
+        /// </summary>
+        public static string LastPaidOrders {
+            get {
+                return ResourceManager.GetString("LastPaidOrders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last Payment.
         /// </summary>
         public static string LastPaymentTime {

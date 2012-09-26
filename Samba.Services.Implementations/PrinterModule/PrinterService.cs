@@ -126,7 +126,10 @@ namespace Samba.Services.Implementations.PrinterModule
                     ti = GroupLinesByValue(ticket, x => x.Tag ?? "", Resources.UndefinedWithBrackets);
                     break;
                 case (int)WhatToPrintTypes.LastLinesByPrinterLineCount:
-                    ti = ticket.Orders.OrderBy(x => x.Id).Take(1); // todo: make it configurable
+                    ti = GetLastOrders(ticket, printJob);
+                    break;
+                case (int)WhatToPrintTypes.LastPaidOrders:
+                    ti = GetLastPaidOrders(ticket);
                     break;
                 default:
                     ti = ticket.Orders.OrderBy(x => x.Id).ToList();
@@ -146,6 +149,32 @@ namespace Samba.Services.Implementations.PrinterModule
                             AppServices.LogError(e, "Yazdırma işlemi sırasında bir sorun meydana geldi. Lütfen yazıcı ve şablon ayarlarını kontrol ediniz.\r\n\r\nMesaj:\r\n" + e.Message);
                         }
                     }));
+        }
+
+        private IEnumerable<Order> GetLastPaidOrders(Ticket ticket)
+        {
+            IEnumerable<PaidItem> paidItems = _applicationState.LastPaidItems.ToList();
+            var result = paidItems.Select(x => ticket.Orders.First(y => y.MenuItemId + "_" + y.Price == x.Key)).ToList();
+            foreach (var order in result)
+            {
+                order.Quantity = paidItems.First(x => x.Key == order.MenuItemId + "_" + order.Price).Quantity;
+            }
+            return result;
+        }
+
+        private IEnumerable<Order> GetLastOrders(Ticket ticket, PrintJob printJob)
+        {
+            if (ticket.Orders.Count > 1)
+            {
+                var printMap = printJob.PrinterMaps.Count == 1 ? printJob.PrinterMaps[0]
+                    : GetPrinterMapForItem(printJob.PrinterMaps, ticket.Orders.Last().MenuItemId);
+                var result = ticket.Orders.OrderByDescending(x => x.CreatedDateTime).ToList();
+                var printer = PrinterById(printMap.PrinterId);
+                if (printer.PageHeight > 0)
+                    result = result.Take(printer.PageHeight).ToList();
+                return result;
+            }
+            return ticket.Orders.ToList();
         }
 
         private IEnumerable<Order> GroupLinesByValue(Ticket ticket, Func<MenuItem, object> selector, string defaultValue, bool calcDiscounts = false)

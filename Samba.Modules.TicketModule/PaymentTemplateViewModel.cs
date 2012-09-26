@@ -4,7 +4,6 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using FluentValidation;
 using Samba.Domain.Models.Accounts;
-using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;

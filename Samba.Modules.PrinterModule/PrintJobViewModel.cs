@@ -16,17 +16,14 @@ namespace Samba.Modules.PrinterModule
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     class PrintJobViewModel : EntityViewModelBase<PrintJob>
     {
-        private readonly IDepartmentService _departmentService;
         private readonly IMenuService _menuService;
         private readonly IPrinterService _printerService;
         private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public PrintJobViewModel(IDepartmentService departmentService, IMenuService menuService,
-            IPrinterService printerService, ICacheService cacheService)
+        public PrintJobViewModel(IMenuService menuService, IPrinterService printerService, ICacheService cacheService)
         {
             _newPrinterMaps = new List<PrinterMap>();
-            _departmentService = departmentService;
             _menuService = menuService;
             _printerService = printerService;
             _cacheService = cacheService;
@@ -37,7 +34,7 @@ namespace Samba.Modules.PrinterModule
         public ICaptionCommand AddPrinterMapCommand { get; set; }
         public ICaptionCommand DeletePrinterMapCommand { get; set; }
 
-        private readonly IList<string> _whatToPrintTypes = new[] { Resources.AllLines, Resources.OnlyNewLines, Resources.LinesGroupedByBarcode, Resources.LinesGroupedByGroupCode, Resources.LinesGroupedByTag, Resources.LastLinesByPrinterLineCount };
+        private readonly IList<string> _whatToPrintTypes = new[] { Resources.AllLines, Resources.OnlyNewLines, Resources.LinesGroupedByBarcode, Resources.LinesGroupedByGroupCode, Resources.LinesGroupedByTag, Resources.LastLinesByPrinterLineCount, Resources.LastPaidOrders };
         public IList<string> WhatToPrintTypes { get { return _whatToPrintTypes; } }
 
         public IEnumerable<Department> Departments { get { return GetAllDepartments(); } }
@@ -55,7 +52,7 @@ namespace Samba.Modules.PrinterModule
         public bool LocksTicket { get { return Model.LocksTicket; } set { Model.LocksTicket = value; } }
         public bool UseForPaidTickets { get { return Model.UseForPaidTickets; } set { Model.UseForPaidTickets = value; } }
         public bool ExcludeTax { get { return Model.ExcludeTax; } set { Model.ExcludeTax = value; } }
-        
+
         private IEnumerable<Department> GetAllDepartments()
         {
             IList<Department> result = new List<Department>(Workspace.All<Department>().OrderBy(x => x.Name));

@@ -44,6 +44,7 @@ namespace Samba.Services
         bool IsCurrentWorkPeriodOpen { get; }
         bool IsLocked { get; }
         Terminal CurrentTerminal { get; }
+        IEnumerable<PaidItem> LastPaidItems { get; }
         void ResetState();
     }
 }
