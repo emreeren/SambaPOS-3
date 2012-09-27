@@ -38,7 +38,7 @@
                     </Label>
                     <ComboBox HorizontalAlignment="Left" Margin="0,1,0,5" MinWidth="150" SelectedItem="{Binding DataType}"
                  ItemsSource="{Binding DataTypes}" />
-                    <GroupBox Header="{LocText ButtonColors}" Padding="5"
+                    <GroupBox Header="{LocText ButtonColor}" Padding="5"
                  HorizontalAlignment="Left">
                         <StackPanel>
                             <Label>
