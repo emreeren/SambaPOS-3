@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
 using Samba.Localization.Properties;
+using Samba.Presentation.Common;
 using Samba.Services;
 
 namespace Samba.Modules.BasicReports.Reports.AccountReport
@@ -86,17 +87,17 @@ namespace Samba.Modules.BasicReports.Reports.AccountReport
             report.AddHeader(reportHeader);
             report.AddHeader(string.Format(Resources.As_f, DateTime.Now));
 
-            var accounts = GetBalancedAccounts(selectInternalAccounts);
+            var accounts = GetBalancedAccounts(selectInternalAccounts).ToList();
             if (returnReceivables != null)
                 accounts = returnReceivables.GetValueOrDefault(false) ?
-                                accounts.Where(x => x.Amount < 0) :
-                                accounts.Where(x => x.Amount > 0);
+                                accounts.Where(x => x.Amount < 0).ToList() :
+                                accounts.Where(x => x.Amount > 0).ToList();
 
             report.AddColumTextAlignment("Tablo", TextAlignment.Left, TextAlignment.Left, TextAlignment.Right);
             report.AddColumnLength("Tablo", "35*", "35*", "30*");
 
 
-            if (accounts.Count() > 0)
+            if (accounts.Any())
             {
                 report.AddTable("Tablo", Resources.Accounts, "", "");
 
@@ -106,7 +107,7 @@ namespace Samba.Modules.BasicReports.Reports.AccountReport
                     total += Math.Abs(account.Amount);
                     report.AddRow("Tablo", account.PhoneNumber, account.AccountName, Math.Abs(account.Amount).ToString(ReportContext.CurrencyFormat));
                 }
-                report.AddRow("Tablo", Resources.GrandTotal, "", total);
+                report.AddRow("Tablo", Resources.GrandTotal, "", total.ToString(ReportContext.CurrencyFormat));
             }
             else
             {

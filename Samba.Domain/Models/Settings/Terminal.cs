@@ -8,7 +8,6 @@ namespace Samba.Domain.Models.Settings
         public bool IsDefault { get; set; }
         public bool AutoLogout { get; set; }
         
-        public virtual Printer SlipReportPrinter { get; set; }
         public virtual Printer ReportPrinter { get; set; }
 
         private static Terminal _defaultTerminal;

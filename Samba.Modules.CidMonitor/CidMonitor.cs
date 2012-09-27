@@ -40,14 +40,14 @@ namespace Samba.Modules.CidMonitor
             pn = pn.TrimStart('9');
             pn = pn.TrimStart('0');
 
-            var c = Dao.Query<Resource>(x => x.SearchString == pn);
-            if (c.Count() == 0)
-                c = Dao.Query<Resource>(x => x.SearchString.Contains(pn));
+            var c = Dao.Query<Resource>(x => x.SearchString == pn).ToList();
+            if (!c.Any())
+                c = Dao.Query<Resource>(x => x.SearchString.Contains(pn)).ToList();
             if (c.Count() == 1)
             {
-                var account = c.First();
-                InteractionService.UserIntraction.DisplayPopup(account.Name, account.Name + " " + Resources.Calling + ".\r" + account.SearchString + "\r",
-                                                            account.SearchString, EventTopicNames.SelectResource);
+                var resource = c.First();
+                InteractionService.UserIntraction.DisplayPopup(resource.Name, resource.Name + " " + Resources.Calling + ".\r" + resource.SearchString + "\r",
+                                                            resource.SearchString, EventTopicNames.SelectResource);
             }
             else
                 InteractionService.UserIntraction.DisplayPopup(e.phoneNumber, e.phoneNumber + " " + Resources.Calling + "...",

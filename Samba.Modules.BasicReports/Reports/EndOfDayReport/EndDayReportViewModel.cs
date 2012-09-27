@@ -5,7 +5,9 @@ using System.Windows;
 using System.Windows.Documents;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
+using Samba.Presentation.Common;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 {
@@ -45,7 +47,7 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 
             CreateDepartmentInfo(report, ReportContext.Tickets.Where(x => x.TotalAmount >= 0), Resources.Sales);
             var refundTickets = ReportContext.Tickets.Where(x => x.TotalAmount < 0).ToList();
-            if (refundTickets.Count() > 0)
+            if (refundTickets.Any())
                 CreateDepartmentInfo(report, refundTickets, "Returns");
             //---------------
 
@@ -94,7 +96,7 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
             {
                 foreach (var departmentInfo in ticketGropus)
                 {
-                    report.AddRow("Bilgi", departmentInfo.DepartmentName, departmentInfo.TicketCount);
+                    report.AddRow("Bilgi", departmentInfo.DepartmentName, departmentInfo.TicketCount.ToString());
                 }
             }
 
@@ -108,7 +110,7 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 
             var ticketCount = ticketGropus.Sum(x => x.TicketCount);
 
-            report.AddRow("Bilgi", Resources.TicketCount, ticketCount);
+            report.AddRow("Bilgi", Resources.TicketCount, ticketCount.ToString());
 
             report.AddRow("Bilgi", Resources.SalesDivTicket, ticketCount > 0
                 ? (ticketGropus.Sum(x => x.Amount) / ticketGropus.Sum(x => x.TicketCount)).ToString(ReportContext.CurrencyFormat)
@@ -151,7 +153,7 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 
             //--
 
-            if (ReportContext.Tickets.Select(x => x.GetTagData()).Where(x => !string.IsNullOrEmpty(x)).Distinct().Count() > 0)
+            if (ReportContext.Tickets.Select(x => x.GetTagData()).Where(x => !string.IsNullOrEmpty(x)).Distinct().Any())
             {
                 var dict = new Dictionary<string, List<Ticket>>();
 
@@ -188,7 +190,7 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
                         var amnt = grp.Sum(x => x.Amount);
                         var rate = tSum / amnt;
                         report.AddRow("Etiket", string.Format(Resources.TotalAmount_f, tag.Name), "", tSum.ToString(ReportContext.CurrencyFormat));
-                        report.AddRow("Etiket", Resources.TicketCount, "", tCount);
+                        report.AddRow("Etiket", Resources.TicketCount, "", tCount.ToString());
                         report.AddRow("Etiket", Resources.TicketTotal, "", amnt.ToString(ReportContext.CurrencyFormat));
                         report.AddRow("Etiket", Resources.Rate, "", rate.ToString("%#0.##"));
                         continue;
@@ -198,7 +200,7 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
                     {
                         report.AddRow("Etiket",
                             ticketTagInfo.TagName.Split(':')[1],
-                            ticketTagInfo.TicketCount,
+                            ticketTagInfo.TicketCount.ToString(),
                             ticketTagInfo.Amount.ToString(ReportContext.CurrencyFormat));
                     }
 
@@ -253,7 +255,7 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
             var refundOwners = ReportContext.Tickets.SelectMany(ticket => ticket.Orders.Where(x => x.IncreaseInventory).Select(order => new { Ticket = ticket, Order = order }))
                 .GroupBy(x => new { x.Order.CreatingUserName })
                 .Select(x => new UserInfo { UserName = x.Key.CreatingUserName, Amount = x.Sum(y => MenuGroupBuilder.CalculateOrderTotal(y.Ticket, y.Order)) }).ToList();
-            if (refundOwners.Count() > 0)
+            if (refundOwners.Any())
             {
                 report.AddColumTextAlignment("Garsonİade", TextAlignment.Left, TextAlignment.Right);
                 report.AddColumnLength("Garsonİade", "65*", "35*");

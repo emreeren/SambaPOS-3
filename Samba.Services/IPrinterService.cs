@@ -11,7 +11,6 @@ namespace Samba.Services
         IEnumerable<string> GetPrinterNames();
         void PrintTicket(Ticket ticket, PrintJob printer);
         void PrintReport(FlowDocument document);
-        void PrintSlipReport(FlowDocument document);
         void ExecutePrintJob(PrintJob printJob);
         IDictionary<string, string> GetTagDescriptions();
         IEnumerable<Printer> GetPrinters();

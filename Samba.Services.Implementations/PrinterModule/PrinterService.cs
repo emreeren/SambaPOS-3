@@ -260,13 +260,6 @@ namespace Samba.Services.Implementations.PrinterModule
             PrintJobFactory.CreatePrintJob(printer).DoPrint(document);
         }
 
-        public void PrintSlipReport(FlowDocument document)
-        {
-            var printer = _applicationState.CurrentTerminal.SlipReportPrinter;
-            if (printer == null || string.IsNullOrEmpty(printer.ShareName)) return;
-            PrintJobFactory.CreatePrintJob(printer).DoPrint(document);
-        }
-
         public void ExecutePrintJob(PrintJob printJob)
         {
             if (printJob.PrinterMaps.Count > 0)
@@ -288,7 +281,7 @@ namespace Samba.Services.Implementations.PrinterModule
     {
         public override string GetErrorMessage(Printer model)
         {
-            if (Dao.Exists<Terminal>(x => x.ReportPrinter.Id == model.Id || x.SlipReportPrinter.Id == model.Id))
+            if (Dao.Exists<Terminal>(x => x.ReportPrinter.Id == model.Id))
                 return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Printer, Resources.Terminal);
             if (Dao.Exists<PrinterMap>(x => x.PrinterId == model.Id))
                 return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Printer, Resources.PrintJob);

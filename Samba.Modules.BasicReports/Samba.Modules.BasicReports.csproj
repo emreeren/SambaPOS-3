@@ -86,7 +86,6 @@
       <DependentUpon>ReportView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ReportViewModelBase.cs" />
-    <Compile Include="SimpleReport.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="BasicReportView.xaml">

@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Documents;
 using Samba.Localization.Properties;
+using Samba.Presentation.Common;
 using Samba.Services;
 
 namespace Samba.Modules.BasicReports.Reports.ProductReport
@@ -19,7 +20,7 @@ namespace Samba.Modules.BasicReports.Reports.ProductReport
 
             AddDefaultReportHeader(report, ReportContext.CurrentWorkPeriod, Resources.ItemSalesReport);
 
-            var menuGroups = MenuGroupBuilder.CalculateMenuGroups(ReportContext.Tickets, ReportContext.MenuItems);
+            var menuGroups = MenuGroupBuilder.CalculateMenuGroups(ReportContext.Tickets, ReportContext.MenuItems).ToList();
 
             report.AddColumTextAlignment("ÜrünGrubu", TextAlignment.Left, TextAlignment.Right, TextAlignment.Right);
             report.AddColumnLength("ÜrünGrubu", "40*", "Auto", "35*");
@@ -75,7 +76,7 @@ namespace Samba.Modules.BasicReports.Reports.ProductReport
 
             var returnedMenuItems = MenuGroupBuilder.CalculateReturnedItems(ReportContext.Tickets, ReportContext.MenuItems)
                 .OrderByDescending(x => x.Quantity);
-            if (returnedMenuItems.Count() > 0)
+            if (returnedMenuItems.Any())
             {
                 report.AddColumTextAlignment("IadeTablosu", TextAlignment.Left, TextAlignment.Right, TextAlignment.Right);
                 report.AddColumnLength("IadeTablosu", "50*", "Auto", "25*");
@@ -146,9 +147,9 @@ namespace Samba.Modules.BasicReports.Reports.ProductReport
                 .SelectMany(x => x.Orders.Where(y => y.OrderTagValues.Count > 0))
                 .SelectMany(x => x.OrderTagValues.Where(y => y.MenuItemId == 0).Select(y => new { y.Name, x.Quantity }))
                 .GroupBy(x => new { x.Name })
-                .Select(x => new { x.Key.Name, Quantity = x.Sum(y => y.Quantity) });
+                .Select(x => new { x.Key.Name, Quantity = x.Sum(y => y.Quantity) }).ToList();
 
-            if (properties.Count() > 0)
+            if (properties.Any())
             {
 
                 report.AddColumTextAlignment("ÖzelliklerTablosu", TextAlignment.Left, TextAlignment.Right);

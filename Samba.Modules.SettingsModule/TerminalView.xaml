@@ -14,26 +14,11 @@
                 <CheckBox Margin="0,5" IsChecked="{Binding AutoLogout, Mode=TwoWay}">
                     <LocText ResourceIdentifierKey="AutoLogout"/>
                 </CheckBox>
-                <GroupBox Header="{LocText PrinterOptions}"
-                     MaxWidth="500" HorizontalAlignment="Left">
-                    <UniformGrid Columns="2">
-                        <UniformGrid.Resources>
-                            <Style TargetType="ComboBox">
-                                <Setter Property="Margin" Value="3" />
-                            </Style>
-                        </UniformGrid.Resources>
-                        <Label>
-                            <LocText ResourceIdentifierKey="SlipReportPrinter" Suffix=":"/>
-                        </Label>
-                        <ComboBox HorizontalAlignment="Left" MinWidth="200" IsEditable="True" SelectedItem="{Binding SlipReportPrinter}"
+                <Label>
+                    <LocText ResourceIdentifierKey="ReportPrinter" Suffix=":"/>
+                </Label>
+                <ComboBox HorizontalAlignment="Left" MinWidth="200" IsEditable="True" SelectedItem="{Binding ReportPrinter}"
                              ItemsSource="{Binding Printers}" DisplayMemberPath="Name" />
-                        <Label>
-                            <LocText ResourceIdentifierKey="ReportPrinter" Suffix=":"/>
-                        </Label>
-                        <ComboBox HorizontalAlignment="Left" MinWidth="200" IsEditable="True" SelectedItem="{Binding ReportPrinter}"
-                             ItemsSource="{Binding Printers}" DisplayMemberPath="Name" />
-                    </UniformGrid>
-                </GroupBox>
                 <Button HorizontalAlignment="Left" Margin="0,10" MinWidth="70" Content="{Binding SaveCommand.Caption}"
                      Command="{Binding SaveCommand}" />
                 <Label Content="{Binding Error}" Foreground="Red" />

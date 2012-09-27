@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Windows;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Settings;
@@ -24,8 +25,8 @@ namespace Samba.Modules.AccountModule
         private readonly IPrinterService _printerService;
 
         [ImportingConstructor]
-        public AccountDetailsViewModel(IApplicationState applicationState, ICacheService cacheService, 
-            IAccountService accountService,IPrinterService printerService)
+        public AccountDetailsViewModel(IApplicationState applicationState, ICacheService cacheService,
+            IAccountService accountService, IPrinterService printerService)
         {
             _applicationState = applicationState;
             _cacheService = cacheService;
@@ -186,7 +187,24 @@ namespace Samba.Modules.AccountModule
 
         private void OnPrintAccount(string obj)
         {
-           
+            var report = new SimpleReport("");
+            report.AddParagraph("Header");
+            report.AddParagraphLine("Header", "Account Transactions", true);
+            report.AddParagraphLine("Header", "");
+            report.AddParagraphLine("Header", "Account Name: " + SelectedAccount.Name);
+            report.AddParagraphLine("Header", "Balance: " + TotalBalance);
+            report.AddParagraphLine("Header", "");
+
+            report.AddColumnLength("Transactions", "15*", "35*", "15*", "15*", "20*");
+            report.AddColumTextAlignment("Transactions", TextAlignment.Left, TextAlignment.Left, TextAlignment.Right, TextAlignment.Right, TextAlignment.Right);
+            report.AddTable("Transactions", "Date", "Description", "Credit", "Debit", "Balance");
+
+            foreach (var ad in AccountDetails)
+            {
+                report.AddRow("Transactions", ad.Date.ToShortDateString(), ad.Name, ad.CreditStr, ad.DebitStr, ad.BalanceStr);
+            }
+
+            _printerService.PrintReport(report.Document);
         }
     }
 }

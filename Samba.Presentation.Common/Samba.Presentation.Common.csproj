@@ -131,6 +131,7 @@
     <Compile Include="CommonEventPublisher.cs" />
     <Compile Include="Converters\NullValueConverter.cs" />
     <Compile Include="Converters\VisibilityConverter.cs" />
+    <Compile Include="SimpleReport.cs" />
     <Compile Include="UIControls\DiagramCanvas.cs" />
     <Compile Include="DialogCloser.cs" />
     <Compile Include="ErrorReport\ErrorReportView.xaml.cs">

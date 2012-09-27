@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using Samba.Domain.Models.Settings;
@@ -19,16 +16,38 @@ namespace Samba.Services.Implementations.PrinterModule.PrintJobs
 
         public override void DoPrint(string[] lines)
         {
-            var q = PrinterInfo.GetPrinter(Printer.ShareName);
             var text = new FormattedDocument(lines, Printer.CharsPerLine).GetFormattedText();
-            PrintFlowDocument(q, new FlowDocument(new Paragraph(new Run(text))));
+            DoPrint(new FlowDocument(new Paragraph(new Run(text))));
         }
 
         public override void DoPrint(FlowDocument document)
         {
-            var pd = new PrintDialog();
-            if (pd.ShowDialog().GetValueOrDefault(false))
+            var ph = document.PageHeight;
+            var pw = document.PageWidth;
+            var pp = document.PagePadding;
+            var cg = document.ColumnGap;
+            var cw = document.ColumnWidth;
+
+            var q = PrinterInfo.GetPrinter(Printer.ShareName);
+            var pd = new PrintDialog { PrintQueue = q };
+            if (pd.PrintQueue.FullName == Printer.ShareName || pd.ShowDialog().GetValueOrDefault(false))
+            {
+                document.PageHeight = pd.PrintableAreaHeight;
+                document.PageWidth = pd.PrintableAreaWidth;
+                document.PagePadding = new Thickness(25);
+                document.ColumnGap = 0;
+                document.ColumnWidth = (document.PageWidth -
+                                       document.ColumnGap -
+                                       document.PagePadding.Left -
+                                       document.PagePadding.Right);
                 pd.PrintDocument(((IDocumentPaginatorSource)document).DocumentPaginator, "");
+            }
+
+            document.PageHeight = ph;
+            document.PageWidth = pw;
+            document.PagePadding = pp;
+            document.ColumnGap = cg;
+            document.ColumnWidth = cw;
         }
     }
 }

@@ -313,7 +313,7 @@ namespace Samba.Services
             {
                 IsDefault = true,
                 Name = Resources.Server,
-                SlipReportPrinter = printer1,
+                ReportPrinter = printer1,
             };
 
             var pm1 = new PrinterMap { PrinterId = printer1.Id, PrinterTemplateId = ticketPrinterTemplate.Id };

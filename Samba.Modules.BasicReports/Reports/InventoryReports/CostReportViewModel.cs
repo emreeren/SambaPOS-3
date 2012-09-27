@@ -2,7 +2,9 @@
 using System.Windows;
 using System.Windows.Documents;
 using Samba.Localization.Properties;
+using Samba.Presentation.Common;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.BasicReports.Reports.InventoryReports
 {
@@ -26,9 +28,9 @@ namespace Samba.Modules.BasicReports.Reports.InventoryReports
 
             var costItems = ReportContext.PeriodicConsumptions.SelectMany(x => x.CostItems)
                 .GroupBy(x => new { ItemName = x.Name, PortionName = x.Portion.Name })
-                .Select(x => new { x.Key.ItemName, x.Key.PortionName, TotalQuantity = x.Sum(y => y.Quantity), TotalCost = x.Sum(y => y.Cost * y.Quantity) });
+                .Select(x => new { x.Key.ItemName, x.Key.PortionName, TotalQuantity = x.Sum(y => y.Quantity), TotalCost = x.Sum(y => y.Cost * y.Quantity) }).ToList();
 
-            if (costItems.Count() > 0)
+            if (costItems.Any())
             {
                 report.AddColumTextAlignment("Maliyet", TextAlignment.Left, TextAlignment.Left, TextAlignment.Right, TextAlignment.Right);
                 report.AddColumnLength("Maliyet", "38*", "20*", "17*", "25*");

@@ -2,7 +2,9 @@
 using System.Windows;
 using System.Windows.Documents;
 using Samba.Localization.Properties;
+using Samba.Presentation.Common;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.BasicReports.Reports.InventoryReports
 {

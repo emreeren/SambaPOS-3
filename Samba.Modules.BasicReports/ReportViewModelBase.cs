@@ -18,6 +18,7 @@ using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ErrorReport;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.BasicReports
 {
@@ -170,7 +171,7 @@ namespace Samba.Modules.BasicReports
 
         private void OnPrintDocument(string obj)
         {
-            ReportContext.PrinterService.PrintSlipReport(Document);
+            ReportContext.PrinterService.PrintReport(Document);
         }
 
         public void RefreshReport()

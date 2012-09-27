@@ -3,7 +3,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
 using Samba.Localization.Properties;
+using Samba.Presentation.Common;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.BasicReports.Reports.InventoryReports
 {
@@ -32,7 +34,7 @@ namespace Samba.Modules.BasicReports.Reports.InventoryReports
 
             var consumptionItems = lastPeriodicConsumption.PeriodicConsumptionItems;
 
-            if (consumptionItems.Count() > 0)
+            if (consumptionItems.Any())
             {
                 report.AddColumTextAlignment("InventoryTable", TextAlignment.Left, TextAlignment.Left, TextAlignment.Right);
                 report.AddColumnLength("InventoryTable", "45*", "30*", "35*");

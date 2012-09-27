@@ -35,14 +35,25 @@ namespace Samba.Modules.PrinterModule
         public string PrinterType
         {
             get { return PrinterTypes[Model.PrinterType]; }
-            set { Model.PrinterType = PrinterTypes.IndexOf(value); }
+            set
+            {
+                Model.PrinterType = PrinterTypes.IndexOf(value);
+                Description = GetPrinterTypeDescription(Model.PrinterType);
+            }
         }
 
         public int CodePage { get { return Model.CodePage; } set { Model.CodePage = value; } }
         public int CharsPerLine { get { return Model.CharsPerLine; } set { Model.CharsPerLine = value; } }
         public int PageHeight { get { return Model.PageHeight; } set { Model.PageHeight = value; } }
+        public string Description
+        {
+            get { return _description; }
+            set { _description = value; RaisePropertyChanged(() => Description); }
+        }
 
         private IEnumerable<string> _printerNames;
+        private string _description;
+
         public IEnumerable<string> PrinterNames
         {
             get { return _printerNames ?? (_printerNames = GetPrinterNames()); }
@@ -66,6 +77,20 @@ namespace Samba.Modules.PrinterModule
         protected override AbstractValidator<Printer> GetValidator()
         {
             return new PrinterValidator();
+        }
+
+        private string GetPrinterTypeDescription(int printerType)
+        {
+            switch (printerType)
+            {
+                case 0: return "Ticket Printer: Sends output to a ESC/POS Emulated thermal ticket printer. It won't work with other printer types such as inkjet or laser printers";
+                case 1: return "Text Printer: Use for text only formatting. Useful for dot matrix printers.";
+                case 2: return "HTML Printer: Uses HTML tags for formatting document. Also useful for printing tickets with an inkjet or laser printer.";
+                case 3: return "Port Printer: Sends output directly to a com port. Useful for controlling devices such as customer displays or cash drawers.";
+                case 4: return "Demo Printer: Enter a fake printer name and open Notepad application. Printout will directly appear in notepad so you can test your templates without wasting paper. If you enter a File Name it will save output in that file.";
+                case 5: return "Windows Printer: Choose a printer to print with driver page settings. If there is no printer matches with selected printer name windows print dialog displays. You can enter a fake printer name for forcing print dialog display.";
+                default: return "";
+            }
         }
     }
 }

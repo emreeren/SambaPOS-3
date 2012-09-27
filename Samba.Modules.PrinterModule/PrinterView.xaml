@@ -17,6 +17,7 @@
             </Label>
             <ComboBox HorizontalAlignment="Left" MinWidth="150" ItemsSource="{Binding PrinterTypes}"
                  SelectedItem="{Binding PrinterType}" />
+            
             <Label>
                 <LocText ResourceIdentifierKey="CharacterSet" Suffix=":"/>
             </Label>
@@ -32,6 +33,7 @@
             <Button HorizontalAlignment="Left" Margin="0,10" MinWidth="70" Content="{Binding SaveCommand.Caption}"
                  Command="{Binding SaveCommand}" />
             <Label Content="{Binding Error}" Foreground="Red" />
+            <TextBlock Text="{Binding Description}" MaxWidth="250" HorizontalAlignment="Left" TextWrapping="WrapWithOverflow"></TextBlock>
         </StackPanel>
     </Grid>
 </UserControl>
