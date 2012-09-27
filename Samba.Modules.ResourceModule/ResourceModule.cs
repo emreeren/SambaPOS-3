@@ -34,12 +34,6 @@ namespace Samba.Modules.ResourceModule
             AddDashboardCommand<EntityCollectionViewModelBase<ResourceTemplateViewModel, ResourceTemplate>>(string.Format(Resources.List_f, Resources.ResourceTemplate), Resources.Resourceses, 40);
             AddDashboardCommand<EntityCollectionViewModelBase<ResourceStateViewModel, ResourceState>>(string.Format(Resources.List_f, Resources.ResourceState), Resources.Resourceses, 40);
             AddDashboardCommand<EntityCollectionViewModelBase<ResourceScreenViewModel, ResourceScreen>>(string.Format(Resources.List_f, Resources.ResourceScreen), Resources.Resourceses, 41);
-
-            PermissionRegistry.RegisterPermission(PermissionNames.OpenLocations, PermissionCategories.Navigation, Resources.CanOpenLocationList);
-            PermissionRegistry.RegisterPermission(PermissionNames.ChangeLocation, PermissionCategories.Ticket, Resources.CanChangeLocation);
-
-           // WidgetCreatorRegistry.RegisterWidgetCreator(new ResourceButtonWidgetCreator());
-
         }
 
         protected override void OnInitialization()

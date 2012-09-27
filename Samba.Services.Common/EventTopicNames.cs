@@ -12,7 +12,6 @@
         public const string ApplicationStarted = "ApplicationStarted";
         public const string ChangeAmountChanged = "ChangeAmountChanged";
         public const string TicketLineAdded = "TicketLineAdded";
-        public const string TicketLocationChanged = "TicketLocationChanged";
         public const string TriggerExecuted = "TriggerExecuted";
         public const string TicketTotalChanged = "TicketTotalChanged";
         public const string TicketTagSelected = "TicketTagSelected";

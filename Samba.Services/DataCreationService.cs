@@ -353,7 +353,7 @@ namespace Samba.Services
             _workspace.Add(orderTag2);
 
             const string parameterFormat = "[{{\"Key\":\"{0}\",\"Value\":\"{1}\"}}]";
-            const string doubleParameterFormat = "[{{\"Key\":\"{0}\",\"Value\":\"{1}\"}},{{\"Key\":\"{2}\",\"Value\":\"{3}\"}}]";
+            //const string doubleParameterFormat = "[{{\"Key\":\"{0}\",\"Value\":\"{1}\"}},{{\"Key\":\"{2}\",\"Value\":\"{3}\"}}]";
 
             var newOrderState = new ResourceState { Name = "New Orders", Color = "Orange" };
             _workspace.Add(newOrderState);

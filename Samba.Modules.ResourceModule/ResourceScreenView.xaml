@@ -23,7 +23,7 @@
                 <ComboBox HorizontalAlignment="Left" MinWidth="150" SelectedValue="{Binding ResourceTemplateId}"
                      ItemsSource="{Binding ResourceTemplates}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
                 <Label>
-                    <LocText ResourceIdentifierKey="LocationViewMode" Suffix=":"/>
+                    <LocText ResourceIdentifierKey="ResourceViewMode" Suffix=":"/>
                 </Label>
                 <ComboBox HorizontalAlignment="Left" MinWidth="150" SelectedItem="{Binding DisplayMode}"
                      ItemsSource="{Binding DisplayModes}" />

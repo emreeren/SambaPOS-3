@@ -56,7 +56,7 @@ namespace Samba.Presentation.Common
                                ? Activator.CreateInstance<TView>()
                                : ServiceLocator.Current.GetInstance<TView>());
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     Update(typeof(TView), Activator.CreateInstance<TView>());
                 }

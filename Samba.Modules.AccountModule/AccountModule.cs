@@ -49,7 +49,6 @@ namespace Samba.Modules.AccountModule
             AddDashboardCommand<EntityCollectionViewModelBase<AccountTransactionDocumentTemplateViewModel, AccountTransactionDocumentTemplate>>(Resources.DocumentTemplate.ToPlural(), Resources.Accounts, 40);
 
             PermissionRegistry.RegisterPermission(PermissionNames.NavigateAccountView, PermissionCategories.Navigation, Resources.CanNavigateCash);
-            PermissionRegistry.RegisterPermission(PermissionNames.MakeAccountTransaction, PermissionCategories.Cash, Resources.CanMakeAccountTransaction);
             PermissionRegistry.RegisterPermission(PermissionNames.CreateAccount, PermissionCategories.Account, Resources.CanCreateAccount);
 
             SetNavigationCommand(Resources.Accounts, Resources.Common, "Images/Xls.png", 70);

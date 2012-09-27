@@ -25,7 +25,7 @@ namespace Samba.Infrastructure.Data.SQL
             {
                 _context.SaveChanges();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw;
             }

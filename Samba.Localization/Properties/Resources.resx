@@ -490,10 +490,6 @@ Transaction</value>
     <value>Terminal Menu</value>
     <comment>Label content</comment>
   </data>
-  <data name="LocationView" xml:space="preserve">
-    <value>Location View</value>
-    <comment>Label content</comment>
-  </data>
   <data name="ColumnCount" xml:space="preserve">
     <value>Column Count</value>
     <comment>Label content</comment>
@@ -501,18 +497,6 @@ Transaction</value>
   <data name="DepartmentType" xml:space="preserve">
     <value>Department Type</value>
     <comment>GroupBox.Header</comment>
-  </data>
-  <data name="FastFood" xml:space="preserve">
-    <value>Fast-Food</value>
-    <comment>CheckBox content</comment>
-  </data>
-  <data name="ALaCarte" xml:space="preserve">
-    <value>A-la Carte</value>
-    <comment>CheckBox content</comment>
-  </data>
-  <data name="Delivery" xml:space="preserve">
-    <value>Delivery</value>
-    <comment>CheckBox content</comment>
   </data>
   <data name="Numerators" xml:space="preserve">
     <value>Number Generators</value>
@@ -559,10 +543,6 @@ Transaction</value>
   </data>
   <data name="MultipleSelection" xml:space="preserve">
     <value>Multiple Selection</value>
-    <comment>CheckBox.Content</comment>
-  </data>
-  <data name="AddPropertyPriceToProductPrice" xml:space="preserve">
-    <value>Add Modifier Price to Product Price</value>
     <comment>CheckBox.Content</comment>
   </data>
   <data name="POSView" xml:space="preserve">
@@ -748,14 +728,6 @@ Transaction</value>
     <value>Number Generator</value>
     <comment>Label content</comment>
   </data>
-  <data name="CanUseOnPOS" xml:space="preserve">
-    <value>Use on POS</value>
-    <comment>CheckBox content</comment>
-  </data>
-  <data name="CanUseOnTerminal" xml:space="preserve">
-    <value>Use on Terminal</value>
-    <comment>CheckBox content</comment>
-  </data>
   <data name="SelectionRequired" xml:space="preserve">
     <value>Selection Required</value>
     <comment>CheckBox content</comment>
@@ -767,10 +739,6 @@ Transaction</value>
   <data name="FreeTagging" xml:space="preserve">
     <value>Free Tagging</value>
     <comment>CheckBox content</comment>
-  </data>
-  <data name="ButtonColors" xml:space="preserve">
-    <value>Button Colors</value>
-    <comment>GroupBox.Header</comment>
   </data>
   <data name="WhenTagSelected" xml:space="preserve">
     <value>When Tagged</value>
@@ -821,22 +789,6 @@ Transaction</value>
   </data>
   <data name="InternetBrowser" xml:space="preserve">
     <value>Internet Browser</value>
-  </data>
-  <data name="BatchCreateGiftReasons" xml:space="preserve">
-    <value>Batch Create Gift Reasons</value>
-  </data>
-  <data name="BatchCreateReasonsHint" xml:space="preserve">
-    <value>Add one line for each reason you want to add</value>
-  </data>
-  <data name="DeleteErrorGiftReasonInUse" xml:space="preserve">
-    <value>Can't delete because this Gift Reason used in a Ticket</value>
-  </data>
-  <data name="GiftReasonName" xml:space="preserve">
-    <value>Gift Reason Name</value>
-    <comment>Label.Content</comment>
-  </data>
-  <data name="GiftReason" xml:space="preserve">
-    <value>Gift Reason</value>
   </data>
   <data name="NumeratorFormat" xml:space="preserve">
     <value>Number Format</value>
@@ -1036,14 +988,6 @@ Transaction</value>
     <value>Printing Content</value>
     <comment>Label content</comment>
   </data>
-  <data name="AutoPrintWhen" xml:space="preserve">
-    <value>Auto Print After</value>
-    <comment>Label content</comment>
-  </data>
-  <data name="AutoPrintPaymentType" xml:space="preserve">
-    <value>Auto Print for Payment Types</value>
-    <comment>GroupBox.Header</comment>
-  </data>
   <data name="MenuItemGroup" xml:space="preserve">
     <value>Product Group</value>
     <comment>GridViewColumn.Header</comment>
@@ -1199,22 +1143,6 @@ Transaction</value>
   <data name="SelectPrintJobsForTerminalHint_f" xml:space="preserve">
     <value>Select printing jobs that you want to add {0} terminal</value>
   </data>
-  <data name="BatchAddVoidReasons" xml:space="preserve">
-    <value>Add multiple Void Reasons</value>
-  </data>
-  <data name="BatchAddVoidReasonsDialogHint" xml:space="preserve">
-    <value>Add one line for each reason you want to add</value>
-  </data>
-  <data name="DeleteErrorVoidReasonUsed" xml:space="preserve">
-    <value>Can't delete because this reason used in a ticket</value>
-  </data>
-  <data name="VoidReasonName" xml:space="preserve">
-    <value>Void Reason Name</value>
-    <comment>Label.Content</comment>
-  </data>
-  <data name="VoidReason" xml:space="preserve">
-    <value>Void Reason</value>
-  </data>
   <data name="CashContent" xml:space="preserve">
     <value>Cash Content</value>
     <comment>GroupBox.Header</comment>
@@ -1251,35 +1179,7 @@ Transaction</value>
     <value>There are {0} open tickets.
 Can't end Work Period while tickets open</value>
   </data>
-  <data name="Location" xml:space="preserve">
-    <value>Location</value>
-  </data>
-  <data name="AddMultipleLocations" xml:space="preserve">
-    <value>Add Multiple Locations</value>
-  </data>
-  <data name="AddMultipleLocationHint" xml:space="preserve">
-    <value>Add one line for each location Name. Start Categories with # character.</value>
-  </data>
-  <data name="DeleteErrorTicketAssignedToLocation" xml:space="preserve">
-    <value>Can't delete because there is a ticket assigned to that location</value>
-  </data>
-  <data name="LocationViews" xml:space="preserve">
-    <value>Location Views</value>
-  </data>
-  <data name="Locations" xml:space="preserve">
-    <value>Locations</value>
-  </data>
-  <data name="CanOpenLocationList" xml:space="preserve">
-    <value>Can display Location List</value>
-  </data>
-  <data name="CanChangeLocation" xml:space="preserve">
-    <value>Can change Location of a Ticket</value>
-  </data>
-  <data name="LocationViewName" xml:space="preserve">
-    <value>View Name</value>
-    <comment>Label content</comment>
-  </data>
-  <data name="LocationViewMode" xml:space="preserve">
+  <data name="ResourceViewMode" xml:space="preserve">
     <value>View Mode</value>
     <comment>Label content</comment>
   </data>
@@ -1289,18 +1189,6 @@ Can't end Work Period while tickets open</value>
   </data>
   <data name="BackgroundImage" xml:space="preserve">
     <value>Background Image</value>
-    <comment>Label content</comment>
-  </data>
-  <data name="EmptyLocationColor" xml:space="preserve">
-    <value>Empty Location Color</value>
-    <comment>Label content</comment>
-  </data>
-  <data name="UnavailableLocationColor" xml:space="preserve">
-    <value>Full Location Color</value>
-    <comment>Label content</comment>
-  </data>
-  <data name="LockedLocationColor" xml:space="preserve">
-    <value>Locked Location Color</value>
     <comment>Label content</comment>
   </data>
   <data name="NumeratorHeight" xml:space="preserve">
@@ -1320,9 +1208,6 @@ Can't end Work Period while tickets open</value>
   <data name="Hidden" xml:space="preserve">
     <value>Hidden</value>
   </data>
-  <data name="SelectLocationDialogHint_f" xml:space="preserve">
-    <value>Select locations you want to add to {0} view</value>
-  </data>
   <data name="EditMode" xml:space="preserve">
     <value>Design Mode</value>
     <comment>MenuItem.Header</comment>
@@ -1333,36 +1218,12 @@ Can't end Work Period while tickets open</value>
   <data name="PreviousPage" xml:space="preserve">
     <value>Previous Page</value>
   </data>
-  <data name="LocationsMerged_f" xml:space="preserve">
-    <value>{0} ticket
-merged with {1} location.</value>
-  </data>
-  <data name="TicketMergedToLocation_f" xml:space="preserve">
-    <value>Ticket merged with {0} location.</value>
-  </data>
-  <data name="TicketMovedToLocation_f" xml:space="preserve">
-    <value>{0} ticket
-moved to {1} location.</value>
-  </data>
-  <data name="SelectLocationThatYouWantToMoveTicket_f" xml:space="preserve">
-    <value>Select new location for {0} ticket.</value>
-  </data>
-  <data name="SelectLocationForTicket" xml:space="preserve">
-    <value>Select location for ticket.</value>
-  </data>
-  <data name="SelectLocationForOperation" xml:space="preserve">
-    <value>Select the location you want to add orders.</value>
-  </data>
   <data name="FindProduct" xml:space="preserve">
     <value>Find Product</value>
     <comment>FxButton:FlexButton content</comment>
   </data>
   <data name="FindTicket" xml:space="preserve">
     <value>Find Ticket</value>
-    <comment>FxButton:FlexButton content</comment>
-  </data>
-  <data name="FindLocation" xml:space="preserve">
-    <value>Find Location</value>
     <comment>FxButton:FlexButton content</comment>
   </data>
   <data name="DiscountTotal" xml:space="preserve">
@@ -1448,20 +1309,8 @@ Card</value>
   <data name="NewTicket" xml:space="preserve">
     <value>New Ticket</value>
   </data>
-  <data name="ChangeLocation_r" xml:space="preserve">
-    <value>Change
-Location</value>
-  </data>
-  <data name="SelectLocation_r" xml:space="preserve">
-    <value>Select
-Location</value>
-  </data>
   <data name="ChangeAmount_f" xml:space="preserve">
     <value>Change Due: {0}</value>
-  </data>
-  <data name="AccountBalance_r" xml:space="preserve">
-    <value>Account
-Balance</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>All</value>
@@ -1481,12 +1330,6 @@ Balance</value>
   <data name="CanRemoveTicketTag" xml:space="preserve">
     <value>Can Remove Ticket Tag</value>
   </data>
-  <data name="CanGiftItems" xml:space="preserve">
-    <value>Can Gift Items</value>
-  </data>
-  <data name="CanVoidItems" xml:space="preserve">
-    <value>Can Void Items</value>
-  </data>
   <data name="CanMoveTicketLines" xml:space="preserve">
     <value>Can Move Items</value>
   </data>
@@ -1501,15 +1344,6 @@ Balance</value>
   </data>
   <data name="CanUpdateExtraModifiers" xml:space="preserve">
     <value>Can Update Extra Modifiers</value>
-  </data>
-  <data name="CanMakeDiscount" xml:space="preserve">
-    <value>Can Make Discount</value>
-  </data>
-  <data name="CanRoundTicketTotal" xml:space="preserve">
-    <value>Can Round Ticket Total</value>
-  </data>
-  <data name="CanFlattenTicketTotal" xml:space="preserve">
-    <value>Can Auto Round Ticket Total</value>
   </data>
   <data name="OnlyOpenTickets" xml:space="preserve">
     <value>Open Tickets Only</value>
@@ -1612,20 +1446,11 @@ Visit Reports section and create Work Period Reports</value>
   <data name="Open" xml:space="preserve">
     <value>Open</value>
   </data>
-  <data name="AutoFlatten_ab" xml:space="preserve">
-    <value>Auto Rounding</value>
-  </data>
   <data name="Rounding" xml:space="preserve">
-    <value>Rounding</value>
-  </data>
-  <data name="Flattening" xml:space="preserve">
     <value>Rounding</value>
   </data>
   <data name="AccountBalance" xml:space="preserve">
     <value>Account Balance</value>
-  </data>
-  <data name="UndefinedPaymentType" xml:space="preserve">
-    <value>Undefined Payment Type</value>
   </data>
   <data name="Angle" xml:space="preserve">
     <value>Angle</value>
@@ -1638,12 +1463,6 @@ Visit Reports section and create Work Period Reports</value>
   </data>
   <data name="Width" xml:space="preserve">
     <value>Width</value>
-  </data>
-  <data name="Gift_ab" xml:space="preserve">
-    <value>[Gift] </value>
-  </data>
-  <data name="Void_ab" xml:space="preserve">
-    <value>[Void] </value>
   </data>
   <data name="OrderNumber_f" xml:space="preserve">
     <value>Ord.No: {0:0} - {1}</value>
@@ -1660,21 +1479,8 @@ Visit Reports section and create Work Period Reports</value>
   <data name="TicketTimeDisplay_f" xml:space="preserve">
     <value>{0} ({1} min.)</value>
   </data>
-  <data name="Location_f" xml:space="preserve">
-    <value>Location: {0}</value>
-  </data>
   <data name="Account_f" xml:space="preserve">
     <value>Account: {0}</value>
-  </data>
-  <data name="TicketNumberAndLocation_f" xml:space="preserve">
-    <value># {0} Location: {1}</value>
-  </data>
-  <data name="TicketNumberAndAccount_f" xml:space="preserve">
-    <value># {0} Account: {1}</value>
-  </data>
-  <data name="AccountNameAndLocationName_f" xml:space="preserve">
-    <value># {0} Account: {1}
-Location: {2}</value>
   </data>
   <data name="CantCompleteOperationWhenThereIsZeroPricedProduct" xml:space="preserve">
     <value>Can't complete this operation while zero priced orders exists.</value>
@@ -1862,9 +1668,6 @@ Location: {2}</value>
   <data name="Tickets" xml:space="preserve">
     <value>Tickets</value>
   </data>
-  <data name="ByPersonnel_f" xml:space="preserve">
-    <value>{0} by User</value>
-  </data>
   <data name="NoPurchaseTransactionInCurrentDateRange" xml:space="preserve">
     <value>There are no purchase transactions in date range.</value>
   </data>
@@ -1876,50 +1679,6 @@ Location: {2}</value>
   </data>
   <data name="InvoicePrinterTemplate" xml:space="preserve">
     <value>Invoice Template</value>
-  </data>
-  <data name="TicketTemplateHeaderValue" xml:space="preserve">
-    <value>&lt;T&gt;TICKET
-&lt;L00&gt;Date:{TICKET DATE}
-&lt;L00&gt;Time:{TIME}
-&lt;L00&gt;Location No:{LOCATION}
-&lt;L00&gt;Ticket No:{TICKET NO}
-&lt;F&gt;-</value>
-  </data>
-  <data name="TicketTemplateFooterValue" xml:space="preserve">
-    <value>&lt;F&gt;=
-&lt;EB&gt;
-&lt;J10&gt;{IF DISCOUNT}
-&lt;J10&gt;[Total Gift:|{GIFT TOTAL}]
-&lt;J10&gt;Total:|{TICKET TOTAL}
-{IF PAID}
-&lt;DB&gt;
-&lt;F&gt;=
-&lt;C10&gt;T H A N K    Y O U</value>
-  </data>
-  <data name="KitchenTemplateHeaderValue" xml:space="preserve">
-    <value>&lt;T&gt;{LOCATION USER}
-&lt;F&gt;-
-&lt;L00&gt;Date:{TICKET DATE}
-&lt;L00&gt;Time:{TIME}
-&lt;L00&gt;Location No:{LOCATION}
-&lt;L00&gt;Ticket No:{TICKET NO}
-&lt;F&gt;-</value>
-  </data>
-  <data name="KitchenTemplateVoidedLineTemplateValue" xml:space="preserve">
-    <value>&lt;L00&gt;**VOID**{QUANTITY} {NAME}
-        * {PROPERTIES}</value>
-  </data>
-  <data name="KitchenTemplateLineTemplateValue" xml:space="preserve">
-    <value>&lt;L00&gt;{QUANTITY} {NAME}
-        * {PROPERTIES}</value>
-  </data>
-  <data name="InvoiceTemplateHeaderValue" xml:space="preserve">
-    <value>&lt;T&gt;INVOICE
-&lt;L00&gt;Date:{TICKET DATE}
-&lt;L00&gt;Time:{TIME}
-&lt;L00&gt;Location No:{LOCATION}
-&lt;L00&gt;Ticket No:{TICKET NO}
-&lt;F&gt;-</value>
   </data>
   <data name="KitchenPrinter" xml:space="preserve">
     <value>Kitchen Printer</value>
@@ -1936,9 +1695,6 @@ Location: {2}</value>
   <data name="PrintOrdersToKitchenPrinter" xml:space="preserve">
     <value>Print Orders to Kitchen Printer</value>
   </data>
-  <data name="AllLocations" xml:space="preserve">
-    <value>All Locations</value>
-  </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
   </data>
@@ -1947,12 +1703,6 @@ Location: {2}</value>
   </data>
   <data name="CIDSettings" xml:space="preserve">
     <value>CID Settings</value>
-  </data>
-  <data name="Voucher_r" xml:space="preserve">
-    <value>Voucher</value>
-  </data>
-  <data name="TicketTemplateGiftedLineTemplateValue" xml:space="preserve">
-    <value>&lt;L00&gt;{QUANTITY} {NAME} |GIFT</value>
   </data>
   <data name="NavigationPermissions" xml:space="preserve">
     <value>Navigation Permissions</value>
@@ -1968,25 +1718,6 @@ Location: {2}</value>
   </data>
   <data name="ReportPermissions" xml:space="preserve">
     <value>Reporting Permissions</value>
-  </data>
-  <data name="NoTicketsFoundForTag" xml:space="preserve">
-    <value>No tickets found tagged with {0} tag.</value>
-  </data>
-  <data name="RemainingAmountIfPaidValue_f" xml:space="preserve">
-    <value>Paid:|{0}
-&lt;J&gt;Grand TOTAL:|{1}</value>
-  </data>
-  <data name="DiscountTotalAndTicketTotalValue_f" xml:space="preserve">
-    <value>Ticket TOTAL:|{0}
-&lt;J&gt;Discount:|{1}</value>
-  </data>
-  <data name="TicketTempleteLineTemplateValue" xml:space="preserve">
-    <value>&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
-        * {PROPERTIES}</value>
-  </data>
-  <data name="InvoiceTemplateLineTemplateValue" xml:space="preserve">
-    <value>&lt;L00&gt;{QUANTITY} {NAME}
-        * {PROPERTIES}</value>
   </data>
   <data name="Restaurant" xml:space="preserve">
     <value>Restaurant</value>
@@ -2024,16 +1755,8 @@ Location: {2}</value>
   <data name="ShowMessage" xml:space="preserve">
     <value>Show Message</value>
   </data>
-  <data name="ActionName" xml:space="preserve">
-    <value>Action Name</value>
-    <comment>Label.Content</comment>
-  </data>
   <data name="ActionType" xml:space="preserve">
     <value>Action Type</value>
-    <comment>Label.Content</comment>
-  </data>
-  <data name="ActionParameter" xml:space="preserve">
-    <value>Action Parameter</value>
     <comment>Label.Content</comment>
   </data>
   <data name="Parameters" xml:space="preserve">
@@ -2078,17 +1801,11 @@ Location: {2}</value>
   <data name="Action" xml:space="preserve">
     <value>Action</value>
   </data>
-  <data name="ActionList" xml:space="preserve">
-    <value>Action List</value>
-  </data>
   <data name="SelectActions" xml:space="preserve">
     <value>Select Actions</value>
   </data>
   <data name="TagValue" xml:space="preserve">
     <value>Tag Value</value>
-  </data>
-  <data name="AccountNote" xml:space="preserve">
-    <value>Account Note</value>
   </data>
   <data name="GiftTotal" xml:space="preserve">
     <value>Gift Total</value>
@@ -2392,15 +2109,6 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="AddTag" xml:space="preserve">
     <value>Add Tag</value>
   </data>
-  <data name="Delete_ab" xml:space="preserve">
-    <value>Del</value>
-  </data>
-  <data name="Divide_ab" xml:space="preserve">
-    <value>Div</value>
-  </data>
-  <data name="Print_ab" xml:space="preserve">
-    <value>Prn</value>
-  </data>
   <data name="TicketMovedRetryLastOperation_f" xml:space="preserve">
     <value>Ticket moved to {0}. Your latest changes not saved.</value>
   </data>
@@ -2412,9 +2120,6 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   </data>
   <data name="TicketPaidLastChangesNotSaved" xml:space="preserve">
     <value>Ticket paid. Your latest changes not saved.</value>
-  </data>
-  <data name="LocationChangedRetryLastOperation_f" xml:space="preserve">
-    <value>{0} location changed. Your latest changes not saved.</value>
   </data>
   <data name="VoidOrders" xml:space="preserve">
     <value>Void Orders</value>
@@ -2438,12 +2143,6 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   </data>
   <data name="CashPermissions" xml:space="preserve">
     <value>Cash Permissions</value>
-  </data>
-  <data name="CanMakeCashTransaction" xml:space="preserve">
-    <value>Can make cash transaction</value>
-  </data>
-  <data name="CanMakeAccountTransaction" xml:space="preserve">
-    <value>Can make account transaction</value>
   </data>
   <data name="SubButtonHeight" xml:space="preserve">
     <value>Sub Button Height</value>
@@ -2658,9 +2357,6 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="TextWrittenTotalValue" xml:space="preserve">
     <value>Text written total value</value>
   </data>
-  <data name="TicketLocationChanged" xml:space="preserve">
-    <value>Ticket Location Changed</value>
-  </data>
   <data name="UpdateTicketAccount" xml:space="preserve">
     <value>Update Ticket Account</value>
   </data>
@@ -2755,9 +2451,6 @@ Continue without adding details?</value>
   </data>
   <data name="SubMenuTags" xml:space="preserve">
     <value>Sub Menu Tags</value>
-  </data>
-  <data name="AccountTemplateName" xml:space="preserve">
-    <value>Account Template Name</value>
   </data>
   <data name="AccountTemplate" xml:space="preserve">
     <value>Account Template</value>
@@ -2860,9 +2553,6 @@ Continue without adding details?</value>
   </data>
   <data name="PaymentTemplates" xml:space="preserve">
     <value>Payment Templates</value>
-  </data>
-  <data name="ChangeAccount" xml:space="preserve">
-    <value>Change Account</value>
   </data>
   <data name="Debit" xml:space="preserve">
     <value>Debit</value>
@@ -3137,7 +2827,8 @@ Continue without adding details?</value>
 -- Customer resource format
 &lt;J00&gt;Customer: {RESOURCE NAME} | {RESOURCE DATA:Phone}</value>
   </data>
-  <data name="AddTagPriceToOrderPrice" xml:space="preserve">
+
+<data name="AddTagPriceToOrderPrice" xml:space="preserve">
     <value>Add Tag Price To Order Price</value>
     <comment>CheckBox.Content</comment>
   </data>
@@ -3204,31 +2895,31 @@ Continue without adding details?</value>
     <value>Order States</value>
     <comment>TabItem.Header</comment>
   </data>
-  <data name="ProductTimer">
-    <value xml:space="preserve">Product Timer</value>
+  <data name="ProductTimer" xml:space="preserve">
+    <value>Product Timer</value>
   </data>
-  <data name="Currency">
-    <value xml:space="preserve">Currency</value>
+  <data name="Currency" xml:space="preserve">
+    <value>Currency</value>
   </data>
-  <data name="ForeignCurrency">
-    <value xml:space="preserve">Foreign Currency</value>
+  <data name="ForeignCurrency" xml:space="preserve">
+    <value>Foreign Currency</value>
   </data>
-  <data name="ExchangeRate">
-    <value xml:space="preserve">Exchange Rate</value>
+  <data name="ExchangeRate" xml:space="preserve">
+    <value>Exchange Rate</value>
   </data>
-  <data name="CurrencySymbol">
-    <value xml:space="preserve">Currency Symbol</value>
+  <data name="CurrencySymbol" xml:space="preserve">
+    <value>Currency Symbol</value>
   </data>
-  <data name="ChangePaymentTemplate">
-    <value xml:space="preserve">Change Payment Template</value>
+  <data name="ChangePaymentTemplate" xml:space="preserve">
+    <value>Change Payment Template</value>
   </data>
-  <data name="ChangeTotal">
-    <value xml:space="preserve">Change Total</value>
+  <data name="ChangeTotal" xml:space="preserve">
+    <value>Change Total</value>
   </data>
-  <data name="LastPaidOrders">
-    <value xml:space="preserve">Last Paid Orders</value>
+  <data name="LastPaidOrders" xml:space="preserve">
+    <value>Last Paid Orders</value>
   </data>
-  <data name="WindowsPrinter">
-    <value xml:space="preserve">Windows Printer</value>
+  <data name="WindowsPrinter" xml:space="preserve">
+    <value>Windows Printer</value>
   </data>
 </root>

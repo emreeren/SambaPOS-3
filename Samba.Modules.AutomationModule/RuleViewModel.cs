@@ -33,7 +33,7 @@ namespace Samba.Modules.AutomationModule
             var selectedIds = selectedValues.Select(x => ((ActionContainer)x).AppActionId);
             IList<IOrderable> values = new List<IOrderable>(Workspace.All<AppAction>(x => !selectedIds.Contains(x.Id)).Select(x => new ActionContainer(x)));
 
-            var choosenValues = InteractionService.UserIntraction.ChooseValuesFrom(values, selectedValues, Resources.ActionList,
+            var choosenValues = InteractionService.UserIntraction.ChooseValuesFrom(values, selectedValues, string.Format(Resources.List_f, Resources.Action),
                                                                                    Resources.SelectActions, Resources.Action, Resources.Actions);
 
             foreach (var action in Model.Actions.ToList())

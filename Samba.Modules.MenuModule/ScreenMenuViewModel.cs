@@ -65,7 +65,7 @@ namespace Samba.Modules.MenuModule
             {
                 Categories.Add(new ScreenMenuCategoryViewModel(Model.AddCategory(val)));
             }
-            if (values.Count() > 0)
+            if (values.Any())
             {
                 bool answer = InteractionService.UserIntraction.AskQuestion(
                         Resources.AutoSelectProductsQuestion);

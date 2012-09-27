@@ -54,7 +54,7 @@ namespace Samba.Modules.BasicReports.Reports.InventoryReports
                 .GroupBy(x => new { x.InventoryItem.Name, x.Unit })
                 .Select(x => new { ItemName = x.Key.Name, Quantity = x.Sum(y => y.Quantity), x.Key.Unit, Total = x.Sum(y => y.Price * y.Quantity) });
 
-            if (transactionItems.Count() > 0)
+            if (transactionItems.Any())
             {
                 report.AddColumTextAlignment("Alımlar", TextAlignment.Left, TextAlignment.Right, TextAlignment.Left, TextAlignment.Right);
                 report.AddColumnLength("Alımlar", "40*", "20*", "15*", "25*");
