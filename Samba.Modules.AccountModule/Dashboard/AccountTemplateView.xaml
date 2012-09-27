@@ -15,7 +15,7 @@
         </Grid.RowDefinitions>
         <StackPanel >
             <Label>
-                <LocText ResourceIdentifierKey="AccountTemplateName" Suffix=":"/>
+                <LocText ResourceIdentifierKey="Name" Suffix=":"/>
             </Label>
             <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
             <Label>
