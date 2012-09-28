@@ -2,11 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Microsoft.Practices.ServiceLocation;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
-using Samba.Infrastructure;
 using Samba.Localization.Properties;
 
 namespace Samba.Services.Implementations.PrinterModule.ValueChangers
@@ -80,6 +78,10 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             //PAYMENTS
             RegisterFunction<Payment>("{PAYMENT AMOUNT}", (x, d) => x.Amount.ToString("#,#0.00"), "Payment Amount", x => x.Amount > 0);
             RegisterFunction<Payment>("{PAYMENT NAME}", (x, d) => x.Name, "Payment Name");
+
+            //CHANGE PAYMENTS
+            RegisterFunction<ChangePayment>("{CHANGE PAYMENT AMOUNT}", (x, d) => x.Amount.ToString("#,#0.00"), "Change Payment Amount", x => x.Amount > 0);
+            RegisterFunction<ChangePayment>("{CHANGE PAYMENT NAME}", (x, d) => x.Name, "Change Payment Name");
 
             //TAXES
             RegisterFunction<TaxValue>("{TAX AMOUNT}", (x, d) => x.TaxAmount.ToString("#,#0.00"), "Tax Amount", x => x.TaxAmount > 0);

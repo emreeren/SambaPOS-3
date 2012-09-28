@@ -32,7 +32,8 @@
       <Word>{TAXES}</Word>
       <Word>{DISCOUNTS}</Word>
       <Word>{SERVICES}</Word>
-      <Word>{PAYMENTS}</Word>      
+      <Word>{PAYMENTS}</Word>
+      <Word>{CHANGES}</Word>
     </Keywords>
     
     <!--<Rule color="Punctuation">

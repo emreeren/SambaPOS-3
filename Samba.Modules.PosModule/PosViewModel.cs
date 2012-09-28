@@ -158,8 +158,6 @@ namespace Samba.Modules.PosModule
 
                 Debug.Assert(SelectedTicket != null);
                 _ticketOrdersViewModel.AddOrder(obj.Value);
-                //_ticketViewModel.RefreshSelectedTicket();
-                //_ticketViewModel.RefreshSelectedItems();
                 DisplaySingleTicket();
             }
         }

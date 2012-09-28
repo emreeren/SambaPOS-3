@@ -53,6 +53,7 @@ namespace Samba.Modules.PrinterModule
             result.Add("{DISCOUNTS}", "Discount List");
             result.Add("{SERVICES}", "Service List");
             result.Add("{PAYMENTS}", "Payment List");
+            result.Add("{CHANGES}", "Change Payment List");
 
             foreach (var tagDescription in _printerService.GetTagDescriptions())
             {

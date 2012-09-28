@@ -75,6 +75,7 @@
     <Compile Include="InventoryModule\InventoryService.cs" />
     <Compile Include="PrinterModule\PrintJobs\WindowsPrinterJob.cs" />
     <Compile Include="PrinterModule\ValueChangers\AbstractValueChanger.cs" />
+    <Compile Include="PrinterModule\ValueChangers\ChangePaymentValueChanger.cs" />
     <Compile Include="PrinterModule\ValueChangers\PostCalculationValueChanger.cs" />
     <Compile Include="PrinterModule\ValueChangers\PreCalculationValueChanger.cs" />
     <Compile Include="PrinterModule\ValueChangers\FunctionData.cs" />
