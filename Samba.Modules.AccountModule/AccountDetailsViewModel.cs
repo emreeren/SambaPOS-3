@@ -91,7 +91,8 @@ namespace Samba.Modules.AccountModule
             DocumentTemplates.Clear();
             if (SelectedAccount != null)
             {
-                var templates = _cacheService.GetAccountTransactionDocumentTemplates(SelectedAccount.AccountTemplateId);
+                var templates = _cacheService.GetAccountTransactionDocumentTemplates(SelectedAccount.AccountTemplateId)
+                    .Where(x => !string.IsNullOrEmpty(x.ButtonHeader));
                 DocumentTemplates.AddRange(templates.Select(x => new DocumentTemplateButtonViewModel(x, SelectedAccount)));
             }
         }

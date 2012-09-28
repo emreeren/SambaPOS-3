@@ -31,7 +31,7 @@ namespace Samba.Modules.AccountModule
         {
             get
             {
-               // if (!string.IsNullOrEmpty(ExchangeStr)) return ExchangeStr;
+                // if (!string.IsNullOrEmpty(ExchangeStr)) return ExchangeStr;
                 return Balance.ToString(LocalSettings.DefaultCurrencyFormat);
             }
         }
@@ -81,7 +81,8 @@ namespace Samba.Modules.AccountModule
                     (_batchDocumentButtons =
                     _selectedAccountScreen != null
                     ? _cacheService.GetBatchDocumentTemplates(_selectedAccountScreen.AccountScreenValues.Select(x => x.AccountTemplateName))
-                         .Select(x => new DocumentTemplateButtonViewModel(x, null)) : null);
+                            .Where(x => !string.IsNullOrEmpty(x.ButtonHeader))
+                            .Select(x => new DocumentTemplateButtonViewModel(x, null)) : null);
             }
         }
 

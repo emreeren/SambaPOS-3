@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Samba.Infrastructure.Data;
-using Samba.Domain.Models.Accounts;
 using System;
 
 namespace Samba.Domain.Models.Accounts
@@ -13,6 +11,7 @@ namespace Samba.Domain.Models.Accounts
         {
             _transactionTemplates = new List<AccountTransactionTemplate>();
             _accountTransactionDocumentTemplateMaps = new List<AccountTransactionDocumentTemplateMap>();
+            _accountTransactionDocumentAccountMaps = new List<AccountTransactionDocumentAccountMap>();
         }
 
         public string ButtonHeader { get; set; }
@@ -36,6 +35,13 @@ namespace Samba.Domain.Models.Accounts
         public virtual IList<AccountTransactionDocumentTemplateMap> AccountTransactionDocumentTemplateMaps
         {
             get { return _accountTransactionDocumentTemplateMaps; }
+        }
+
+        private IList<AccountTransactionDocumentAccountMap> _accountTransactionDocumentAccountMaps;
+        public virtual IList<AccountTransactionDocumentAccountMap> AccountTransactionDocumentAccountMaps
+        {
+            get { return _accountTransactionDocumentAccountMaps; }
+            set { _accountTransactionDocumentAccountMaps = value; }
         }
 
         public string DefaultAmount { get; set; }

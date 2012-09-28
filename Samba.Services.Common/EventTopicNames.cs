@@ -18,6 +18,7 @@
         public const string AccountSelectedForTicket = "AccountSelectedForTicket";
         public const string WorkPeriodStarts = "WorkPeriodStarts";
         public const string WorkPeriodEnds = "WorkPeriodEnds";
+        public const string BeforeWorkPeriodEnds = "BeforeWorkPeriodEnds";
         public const string UserLoggedOut = "UserLoggedOut";
         public const string UserLoggedIn = "UserLoggedIn";
         public const string MessageReceived = "MessageReceived";

@@ -47,7 +47,7 @@ namespace Samba.Modules.AccountModule.Dashboard
         private void OnAddScreenFilter(string obj)
         {
             var selectedItems = Model.AccountScreenValues;
-            var values = AccountTemplates.Where(x => !selectedItems.Any(y => y.AccountTemplateName == x.Name)).Select(x => new AccountScreenValue { AccountTemplateName = x.Name, AccountTemplateId = x.Id }).ToList<IOrderable>();
+            var values = AccountTemplates.Where(x => selectedItems.All(y => y.AccountTemplateName != x.Name)).Select(x => new AccountScreenValue { AccountTemplateName = x.Name, AccountTemplateId = x.Id }).ToList<IOrderable>();
 
             var selectedValues = InteractionService.UserIntraction.ChooseValuesFrom(
                 values,

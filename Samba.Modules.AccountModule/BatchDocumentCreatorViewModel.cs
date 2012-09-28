@@ -3,72 +3,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using Samba.Domain.Models.Accounts;
-using Samba.Infrastructure.Settings;
+using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Services;
 using Samba.Services.Common;
 
 namespace Samba.Modules.AccountModule
 {
-    public class AccountRowViewModel : ObservableObject
-    {
-        private readonly Account _account;
-
-        public AccountRowViewModel(Account account, AccountTransactionDocumentTemplate documentTemplate, IAccountService accountService, ICacheService cacheService)
-        {
-            _account = account;
-            Amount = accountService.GetDefaultAmount(documentTemplate, account);
-            Description = accountService.GetDescription(documentTemplate, account);
-            TargetAccounts = documentTemplate.GetNeededAccountTemplates().Select(x => new AccountSelectViewModel(accountService, cacheService.GetAccountTemplateById(x))).ToList();
-        }
-
-        public AccountSelectViewModel this[int accountTemplateId] { get { return TargetAccounts.Single(x => x.AccountTemplate.Id == accountTemplateId); } }
-
-        public Account Account
-        {
-            get { return _account; }
-        }
-
-        public IList<AccountSelectViewModel> TargetAccounts { get; set; }
-
-        private string _description;
-        public string Description
-        {
-            get { return _description; }
-            set
-            {
-                _description = value;
-                RaisePropertyChanged(() => Description);
-            }
-        }
-
-        private decimal _amount;
-        public decimal Amount
-        {
-            get { return _amount; }
-            set
-            {
-                _amount = value;
-                IsSelected = _amount != 0;
-                RaisePropertyChanged(() => Amount);
-            }
-        }
-
-        private bool _isSelected;
-        public bool IsSelected
-        {
-            get { return _isSelected; }
-            set
-            {
-                _isSelected = value;
-                RaisePropertyChanged(() => IsSelected);
-            }
-        }
-    }
-
     [Export]
     public class BatchDocumentCreatorViewModel : ObservableObject
     {
@@ -81,6 +23,7 @@ namespace Samba.Modules.AccountModule
 
         private readonly IAccountService _accountService;
         private readonly ICacheService _cacheService;
+        private AccountTransactionDocumentTemplate _selectedDocumentTemplate;
 
         public CaptionCommand<string> CreateDocuments { get; set; }
 
@@ -90,7 +33,7 @@ namespace Samba.Modules.AccountModule
             Accounts = new ObservableCollection<AccountRowViewModel>();
             _accountService = accountService;
             _cacheService = cacheService;
-            CreateDocuments = new CaptionCommand<string>("Create Documents", OnCreateDocuments, CanCreateDocument);
+            CreateDocuments = new CaptionCommand<string>(string.Format(Resources.Create_f, "").Trim(), OnCreateDocuments, CanCreateDocument);
         }
 
         public IEnumerable<AccountTemplate> GetNeededAccountTemplates()
@@ -101,7 +44,7 @@ namespace Samba.Modules.AccountModule
 
         private void OnCreateDocuments(string obj)
         {
-            if (Accounts.Where(x=>x.IsSelected).Any(x => x.TargetAccounts.Any(y => y.SelectedAccountId == 0))) return;
+            if (Accounts.Where(x => x.IsSelected).Any(x => x.TargetAccounts.Any(y => y.SelectedAccountId == 0))) return;
             Accounts
                 .Where(x => x.IsSelected && x.Amount != 0)
                 .AsParallel()
@@ -119,9 +62,7 @@ namespace Samba.Modules.AccountModule
         {
             SelectedDocumentTemplate = value;
             Accounts.Clear();
-            var accounts = SelectedDocumentTemplate.Filter == 1
-                ? _accountService.GetBalancedAccounts(value.MasterAccountTemplateId)
-                : (_accountService.GetAccounts(value.MasterAccountTemplateId));
+            var accounts = GetAccounts(value);
             Accounts.AddRange(accounts
                 .AsParallel()
                 .SetCulture()
@@ -129,8 +70,26 @@ namespace Samba.Modules.AccountModule
             OnOnUpdate(EventArgs.Empty);
         }
 
+        private IEnumerable<Account> GetAccounts(AccountTransactionDocumentTemplate documentTemplate)
+        {
+            return _accountService.GetDocumentAccounts(documentTemplate);
+        }
+
+        public string Title { get { return SelectedDocumentTemplate != null ? SelectedDocumentTemplate.Name : ""; } }
         public string Description { get; set; }
-        public AccountTransactionDocumentTemplate SelectedDocumentTemplate { get; set; }
         public ObservableCollection<AccountRowViewModel> Accounts { get; set; }
+
+        public AccountTransactionDocumentTemplate SelectedDocumentTemplate
+        {
+            get { return _selectedDocumentTemplate; }
+            set
+            {
+                if (Equals(value, _selectedDocumentTemplate)) return;
+                _selectedDocumentTemplate = value;
+                RaisePropertyChanged(() => SelectedDocumentTemplate);
+                RaisePropertyChanged(() => Title);
+            }
+        }
+
     }
 }

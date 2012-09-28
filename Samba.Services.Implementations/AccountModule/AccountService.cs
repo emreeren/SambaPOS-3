@@ -145,7 +145,7 @@ namespace Samba.Services.Implementations.AccountModule
 
         public IEnumerable<Account> GetAccounts(params AccountTemplate[] accountTemplates)
         {
-            if (accountTemplates.Count() == 0) return Dao.Query<Account>();
+            if (!accountTemplates.Any()) return Dao.Query<Account>();
             var ids = accountTemplates.Select(x => x.Id);
             return Dao.Query<Account>(x => ids.Contains(x.AccountTemplateId));
         }
@@ -153,6 +153,12 @@ namespace Samba.Services.Implementations.AccountModule
         public IEnumerable<Account> GetAccounts(int accountTemplateId)
         {
             return Dao.Query<Account>(x => x.AccountTemplateId == accountTemplateId);
+        }
+
+        public IEnumerable<Account> GetAccounts(IEnumerable<int> accountIds)
+        {
+            var ids = accountIds.ToList();
+            return ids.Any() ? Dao.Query<Account>(x => ids.Contains(x.Id)) : new List<Account>();
         }
 
         public IEnumerable<Account> GetBalancedAccounts(int accountTemplateId)
@@ -192,6 +198,16 @@ namespace Samba.Services.Implementations.AccountModule
                 w.Add(account);
                 w.CommitChanges();
                 return account.Id;
+            }
+        }
+
+        public IEnumerable<Account> GetDocumentAccounts(AccountTransactionDocumentTemplate documentTemplate)
+        {
+            switch (documentTemplate.Filter)
+            {
+                case 1: return GetBalancedAccounts(documentTemplate.MasterAccountTemplateId);
+                case 2: return GetAccounts(documentTemplate.AccountTransactionDocumentAccountMaps.Select(x => x.AccountId));
+                default: return GetAccounts(documentTemplate.MasterAccountTemplateId);
             }
         }
 

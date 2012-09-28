@@ -75,7 +75,60 @@
                     <Label Margin="0,5,0,0" MinWidth="120" Content="{LocText Filter,Suffix=':'}"/>
                     <ComboBox HorizontalAlignment="Left" MinWidth="150" ItemsSource="{Binding FilterDescriptions}" 
                               SelectedItem="{Binding FilterStr}" IsEnabled="{Binding BatchCreateDocuments}"/>
-
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <DataGrid ItemsSource="{Binding AccountTransactionDocumentAccountMaps}" SelectedItem="{Binding SelectedAccountMap,Mode=TwoWay}"
+                              HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3" MinWidth="170"
+                              AutoGenerateColumns="False" CanUserSortColumns="False" 
+                              Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}"
+                                  PreviewTextInput="DataGrid_PreviewTextInput">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="{LocText Account}" MinWidth="150">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Margin="5" Text="{Binding AccountSelector.AccountName}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <Grid FocusManager.FocusedElement="{Binding ElementName=tb1}">
+                                                <ComboBox Name="tb1" MinWidth="150" IsEditable="True"
+                                                          ItemsSource="{Binding AccountSelector.AccountNames}" 
+                                                          Text="{Binding AccountSelector.AccountName,UpdateSourceTrigger=PropertyChanged}"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Mapped Account" MinWidth="150">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Margin="5" Text="{Binding MappedAccountSelector.AccountName}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <Grid FocusManager.FocusedElement="{Binding ElementName=tb2}">
+                                                <ComboBox Name="tb2" MinWidth="150" IsEditable="True"
+                                                          ItemsSource="{Binding MappedAccountSelector.AccountNames}" 
+                                                          Text="{Binding MappedAccountSelector.AccountName,UpdateSourceTrigger=PropertyChanged}" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <StackPanel Margin="10">
+                            <TextBlock Margin="2,3">
+                                        <Hyperlink Command="{Binding AddAccountMapCommand}">
+                                            <TextBlock Text="{Binding Path=AddAccountMapCommand.Caption}" />
+                                        </Hyperlink>
+                                    </TextBlock>
+                            <TextBlock Margin="2,3">
+                                        <Hyperlink Command="{Binding DeleteAccountMapCommand}">
+                                            <TextBlock Text="{Binding Path=DeleteAccountMapCommand.Caption}" />
+                                        </Hyperlink>
+                                    </TextBlock>
+                        </StackPanel>
+                    </StackPanel>
                 </StackPanel>
             </TabItem>
             <TabItem Header="{LocText Mappings}">

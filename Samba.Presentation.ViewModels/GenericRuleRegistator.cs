@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Windows.Media;
 using Microsoft.Practices.ServiceLocation;
+using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Actions;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Resources;
@@ -31,6 +33,7 @@ namespace Samba.Presentation.ViewModels
         private static readonly IAutomationService AutomationService = ServiceLocator.Current.GetInstance<IAutomationService>();
         private static readonly ICacheService CacheService = ServiceLocator.Current.GetInstance<ICacheService>();
         private static readonly IResourceService ResourceService = ServiceLocator.Current.GetInstance<IResourceService>();
+        private static readonly IAccountService AccountService = ServiceLocator.Current.GetInstance<IAccountService>();
 
         private static bool _registered;
         public static void RegisterOnce()
@@ -70,6 +73,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType("CreateTicket", "Create Ticket");
             AutomationService.RegisterActionType("DisplayTicket", "Display Ticket", new { TicketId = 0 });
             AutomationService.RegisterActionType("DisplayPaymentScreen", "Display Payment Screen");
+            AutomationService.RegisterActionType("CreateAccountTransactionDocument", "Create Account Transaction Document", new { AccountTransactionDocumentName = "" });
         }
 
         private static void RegisterRules()
@@ -77,6 +81,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterEvent(RuleEventNames.UserLoggedIn, Resources.UserLogin, new { RoleName = "" });
             AutomationService.RegisterEvent(RuleEventNames.UserLoggedOut, Resources.UserLogout, new { RoleName = "" });
             AutomationService.RegisterEvent(RuleEventNames.WorkPeriodStarts, Resources.WorkPeriodStarted);
+            AutomationService.RegisterEvent(RuleEventNames.BeforeWorkPeriodEnds, "Before Work Period Ends");
             AutomationService.RegisterEvent(RuleEventNames.WorkPeriodEnds, Resources.WorkPeriodEnded);
             AutomationService.RegisterEvent(RuleEventNames.TriggerExecuted, Resources.TriggerExecuted, new { TriggerName = "" });
             AutomationService.RegisterEvent(RuleEventNames.TicketOpened, "Ticket Opened", new { OrderCount = 0 });
@@ -115,6 +120,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterParameterSoruce("AutomationCommandName", () => Dao.Distinct<AutomationCommand>(x => x.Name));
             AutomationService.RegisterParameterSoruce("PrintJobName", () => Dao.Distinct<PrintJob>(x => x.Name));
             AutomationService.RegisterParameterSoruce("PaymentTemplateName", () => Dao.Distinct<PaymentTemplate>(x => x.Name));
+            AutomationService.RegisterParameterSoruce("AccountTransactionDocumentName", () => Dao.Distinct<AccountTransactionDocumentTemplate>(x => x.Name));
         }
 
         private static void ResetCache()
@@ -128,6 +134,30 @@ namespace Samba.Presentation.ViewModels
         {
             EventServiceFactory.EventService.GetEvent<GenericEvent<IActionData>>().Subscribe(x =>
             {
+                if (x.Value.Action.ActionType == "CreateAccountTransactionDocument")
+                {
+                    var documentName = x.Value.GetAsString("AccountTransactionDocumentName");
+                    if (!string.IsNullOrEmpty(documentName))
+                    {
+                        var document = CacheService.GetAccountTransactionDocumentTemplateByName(documentName);
+                        if (document != null)
+                        {
+                            var accounts = AccountService.GetDocumentAccounts(document);
+                            foreach (var account in accounts)
+                            {
+                                var map = document.AccountTransactionDocumentAccountMaps.FirstOrDefault(
+                                        y => y.AccountId == account.Id);
+                                if (map != null && map.MappedAccountId > 0)
+                                {
+                                    var targetAccount = new Account { Id = map.MappedAccountId, Name = map.MappedAccountName };
+                                    var amount = AccountService.GetDefaultAmount(document, account);
+                                    if (amount != 0)
+                                        AccountService.CreateNewTransactionDocument(account, document, "", amount, new List<Account> { targetAccount });
+                                }
+                            }
+                        }
+                    }
+                }
                 if (x.Value.Action.ActionType == "DisplayPaymentScreen")
                 {
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");

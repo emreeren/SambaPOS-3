@@ -16,10 +16,9 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Column="0">
-            <Label>Batch Document Creator</Label>
-        </StackPanel>
-        <FlexButton:FlexButton Grid.Column="1" Command="{Binding CreateDocuments}" Content="{Binding CreateDocuments.Caption}">
+        
+        <Label HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Content="{Binding Title}" FontWeight="Bold" FontSize="20"/>
+        <FlexButton:FlexButton Grid.Column="1" Margin="5" Padding="5" Command="{Binding CreateDocuments}" Content="{Binding CreateDocuments.Caption}">
 
         </FlexButton:FlexButton>
         <DataGrid Name="MainDataGrid" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding Accounts}" HorizontalAlignment="Stretch" 

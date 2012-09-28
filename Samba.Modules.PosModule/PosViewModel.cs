@@ -197,6 +197,7 @@ namespace Samba.Modules.PosModule
                     }
                     break;
                 case EventTopicNames.RefreshSelectedTicket:
+                    DisplayMenuScreen();
                     DisplaySingleTicket();
                     break;
                 case EventTopicNames.CloseTicketRequested:

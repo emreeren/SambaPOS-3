@@ -2922,4 +2922,16 @@ Continue without adding details?</value>
   <data name="WindowsPrinter" xml:space="preserve">
     <value>Windows Printer</value>
   </data>
+  <data name="AccountMap">
+    <value xml:space="preserve">Account Map</value>
+  </data>
+  <data name="BalancedAccounts">
+    <value xml:space="preserve">Balanced Accounts</value>
+  </data>
+  <data name="MappedAccounts">
+    <value xml:space="preserve">Mapped Accounts</value>
+  </data>
+  <data name="ActionName">
+    <value xml:space="preserve">Action Name</value>
+  </data>
 </root>

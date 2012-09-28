@@ -97,6 +97,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account Map.
+        /// </summary>
+        public static string AccountMap {
+            get {
+                return ResourceManager.GetString("AccountMap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account Name.
         /// </summary>
         public static string AccountName {
@@ -201,6 +210,15 @@ namespace Samba.Localization.Properties {
         public static string Action {
             get {
                 return ResourceManager.GetString("Action", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Action Name.
+        /// </summary>
+        public static string ActionName {
+            get {
+                return ResourceManager.GetString("ActionName", resourceCulture);
             }
         }
         
@@ -616,6 +634,15 @@ namespace Samba.Localization.Properties {
         public static string Balance {
             get {
                 return ResourceManager.GetString("Balance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Balanced Accounts.
+        /// </summary>
+        public static string BalancedAccounts {
+            get {
+                return ResourceManager.GetString("BalancedAccounts", resourceCulture);
             }
         }
         
@@ -3523,6 +3550,15 @@ namespace Samba.Localization.Properties {
         public static string Manual {
             get {
                 return ResourceManager.GetString("Manual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mapped Accounts.
+        /// </summary>
+        public static string MappedAccounts {
+            get {
+                return ResourceManager.GetString("MappedAccounts", resourceCulture);
             }
         }
         

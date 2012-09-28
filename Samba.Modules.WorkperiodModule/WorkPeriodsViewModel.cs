@@ -125,6 +125,7 @@ namespace Samba.Modules.WorkperiodModule
 
         private void OnEndOfDayExecute(string obj)
         {
+            _automationService.NotifyEvent(RuleEventNames.BeforeWorkPeriodEnds, new { WorkPeriod = _applicationState.CurrentWorkPeriod });
             _workPeriodService.StopWorkPeriod(EndDescription);
             Refresh();
             _applicationState.CurrentWorkPeriod.PublishEvent(EventTopicNames.WorkPeriodStatusChanged);

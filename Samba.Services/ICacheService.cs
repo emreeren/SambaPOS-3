@@ -31,6 +31,7 @@ namespace Samba.Services
         Resource GetResourceById(int resourceId);
         IEnumerable<AccountTransactionDocumentTemplate> GetAccountTransactionDocumentTemplates(int accountTemplateId);
         IEnumerable<AccountTransactionDocumentTemplate> GetBatchDocumentTemplates(IEnumerable<string> accountTemplateNamesList);
+        AccountTransactionDocumentTemplate GetAccountTransactionDocumentTemplateByName(string documentName);
         ResourceState GetResourceStateById(int resourceStateId);
         ResourceState GetResourceStateByName(string stateName);
         IEnumerable<ResourceState> GetResourceStates();
@@ -51,6 +52,5 @@ namespace Samba.Services
 
         void ResetOrderTagCache();
         void ResetTicketTagCache();
-        
     }
 }

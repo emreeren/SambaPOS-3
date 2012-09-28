@@ -32,10 +32,19 @@ namespace Samba.Modules.AccountModule
             DocumentTemplate = obj.Value.DocumentTemplate;
             Description = _accountService.GetDescription(obj.Value.DocumentTemplate, obj.Value.Account);
             Amount = _accountService.GetDefaultAmount(obj.Value.DocumentTemplate, obj.Value.Account);
-            AccountSelectors = DocumentTemplate.GetNeededAccountTemplates().Select(x => new AccountSelectViewModel(_accountService, _cacheService.GetAccountTemplateById(x))).ToList();
+            AccountSelectors = GetAccountSelectors().ToList();
+
             RaisePropertyChanged(() => Description);
             RaisePropertyChanged(() => Amount);
             RaisePropertyChanged(() => AccountName);
+        }
+
+        private IEnumerable<AccountSelectViewModel> GetAccountSelectors()
+        {
+            var map = DocumentTemplate.AccountTransactionDocumentAccountMaps.FirstOrDefault(x => x.AccountId == SelectedAccount.Id);
+            return map != null 
+                ? DocumentTemplate.GetNeededAccountTemplates().Select(x => new AccountSelectViewModel(_accountService, _cacheService.GetAccountTemplateById(x), map.MappedAccountId, map.MappedAccountName)) 
+                : DocumentTemplate.GetNeededAccountTemplates().Select(x => new AccountSelectViewModel(_accountService, _cacheService.GetAccountTemplateById(x)));
         }
 
         public string AccountName

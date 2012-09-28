@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Samba.Domain.Models.Accounts;
 using Samba.Presentation.Common;
 using Samba.Services;
@@ -14,6 +16,22 @@ namespace Samba.Modules.AccountModule
             _accountService = accountService;
             AccountTemplate = accountTemplate;
         }
+
+        public AccountSelectViewModel(IAccountService accountService, AccountTemplate accountTemplate, int accountId, string accountName)
+            : this(accountService, accountTemplate)
+        {
+            _accountName = accountName;
+            _selectedAccountId = accountId;
+        }
+
+        public AccountSelectViewModel(IAccountService accountService, AccountTemplate accountTemplate, string accountName, Action<string, int> updateAction)
+            : this(accountService, accountTemplate)
+        {
+            _accountName = accountName;
+            UpdateAction = updateAction;
+        }
+
+        protected Action<string, int> UpdateAction { get; set; }
 
         private string _accountName;
         public string AccountName
@@ -40,6 +58,8 @@ namespace Samba.Modules.AccountModule
         }
 
         private AccountTemplate _accountTemplate;
+        private int _selectedAccountId;
+
         public AccountTemplate AccountTemplate
         {
             get { return _accountTemplate; }
@@ -51,7 +71,17 @@ namespace Samba.Modules.AccountModule
             }
         }
 
-        public int SelectedAccountId { get; set; }
+        public int SelectedAccountId
+        {
+            get { return _selectedAccountId; }
+            set
+            {
+                _selectedAccountId = value;
+                if (UpdateAction != null)
+                    UpdateAction.Invoke(AccountName, value);
+            }
+        }
+
         public string TemplateName { get { return AccountTemplate == null ? "" : string.Format("{0}:", AccountTemplate.Name); } }
     }
 }

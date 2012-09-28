@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Samba.Presentation.Common;
 
 namespace Samba.Modules.AccountModule.Dashboard
 {
@@ -22,6 +23,16 @@ namespace Samba.Modules.AccountModule.Dashboard
         public AccountTransactionDocumentTemplateView()
         {
             InitializeComponent();
+        }
+
+        private void DataGrid_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            var dg = sender as DataGrid;
+            if (dg != null && dg.CurrentColumn is DataGridTemplateColumn)
+            {
+                if (!dg.IsEditing())
+                    dg.BeginEdit();
+            }
         }
     }
 }

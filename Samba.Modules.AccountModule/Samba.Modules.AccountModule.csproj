@@ -64,6 +64,7 @@
       <DependentUpon>AccountDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AccountDetailsViewModel.cs" />
+    <Compile Include="AccountRowViewModel.cs" />
     <Compile Include="AccountSelectViewModel.cs" />
     <Compile Include="BatchDocumentCreatorView.xaml.cs">
       <DependentUpon>BatchDocumentCreatorView.xaml</DependentUpon>
@@ -79,6 +80,7 @@
     <Compile Include="AccountSelectorViewModel.cs" />
     <Compile Include="AccountSummaryViewModel.cs" />
     <Compile Include="AccountModule.cs" />
+    <Compile Include="Dashboard\AccountTransactionDocumentAccountMapViewModel.cs" />
     <Compile Include="Dashboard\AccountTransactionDocumentTemplateView.xaml.cs">
       <DependentUpon>AccountTransactionDocumentTemplateView.xaml</DependentUpon>
     </Compile>
@@ -202,7 +204,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
