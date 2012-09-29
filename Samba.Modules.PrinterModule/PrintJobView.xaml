@@ -22,7 +22,7 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
-            <Label Content="{LocText PrintJobName}"/>
+            <Label Content="{LocText Name_f,FormatSegment1={LocText PrintJob},Suffix=':'}"/>
             <TextBox HorizontalAlignment="Left" Width="250" Text="{Binding Name}" />
             <Label Content="{LocText PrintContent}"/>
             <ComboBox HorizontalAlignment="Left" MinWidth="230" SelectedItem="{Binding WhatToPrint}"

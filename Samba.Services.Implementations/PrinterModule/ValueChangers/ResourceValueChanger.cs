@@ -21,8 +21,8 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
         protected override string GetModelName(TicketResource model)
         {
-            var resourceTemplate = CacheService.GetResourceTemplateById(model.ResourceTemplateId);
-            return resourceTemplate == null ? "" : resourceTemplate.EntityName;
+            var ResourceType = CacheService.GetResourceTypeById(model.ResourceTypeId);
+            return ResourceType == null ? "" : ResourceType.EntityName;
         }
     }
 }

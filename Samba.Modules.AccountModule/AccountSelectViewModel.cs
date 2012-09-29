@@ -11,21 +11,21 @@ namespace Samba.Modules.AccountModule
     {
         private readonly IAccountService _accountService;
 
-        public AccountSelectViewModel(IAccountService accountService, AccountTemplate accountTemplate)
+        public AccountSelectViewModel(IAccountService accountService, AccountType AccountType)
         {
             _accountService = accountService;
-            AccountTemplate = accountTemplate;
+            AccountType = AccountType;
         }
 
-        public AccountSelectViewModel(IAccountService accountService, AccountTemplate accountTemplate, int accountId, string accountName)
-            : this(accountService, accountTemplate)
+        public AccountSelectViewModel(IAccountService accountService, AccountType AccountType, int accountId, string accountName)
+            : this(accountService, AccountType)
         {
             _accountName = accountName;
             _selectedAccountId = accountId;
         }
 
-        public AccountSelectViewModel(IAccountService accountService, AccountTemplate accountTemplate, string accountName, Action<string, int> updateAction)
-            : this(accountService, accountTemplate)
+        public AccountSelectViewModel(IAccountService accountService, AccountType AccountType, string accountName, Action<string, int> updateAction)
+            : this(accountService, AccountType)
         {
             _accountName = accountName;
             UpdateAction = updateAction;
@@ -52,21 +52,21 @@ namespace Samba.Modules.AccountModule
         {
             get
             {
-                if (AccountTemplate == null) return null;
-                return _accountService.GetCompletingAccountNames(AccountTemplate.Id, AccountName);
+                if (AccountType == null) return null;
+                return _accountService.GetCompletingAccountNames(AccountType.Id, AccountName);
             }
         }
 
-        private AccountTemplate _accountTemplate;
+        private AccountType _AccountType;
         private int _selectedAccountId;
 
-        public AccountTemplate AccountTemplate
+        public AccountType AccountType
         {
-            get { return _accountTemplate; }
+            get { return _AccountType; }
             set
             {
-                _accountTemplate = value;
-                RaisePropertyChanged(() => AccountTemplate);
+                _AccountType = value;
+                RaisePropertyChanged(() => AccountType);
                 RaisePropertyChanged(() => TemplateName);
             }
         }
@@ -82,6 +82,6 @@ namespace Samba.Modules.AccountModule
             }
         }
 
-        public string TemplateName { get { return AccountTemplate == null ? "" : string.Format("{0}:", AccountTemplate.Name); } }
+        public string TemplateName { get { return AccountType == null ? "" : string.Format("{0}:", AccountType.Name); } }
     }
 }

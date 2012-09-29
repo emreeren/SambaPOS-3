@@ -22,13 +22,13 @@ namespace Samba.Modules.PaymentModule.Tests
         {
             var tost = new MenuItem("Tost") { Id = 1 };
             var hamburger = new MenuItem("Hamburger") { Id = 2 };
-            var ticket = Ticket.Create(Department.Default, Account.Null, 1, new List<CalculationTemplate>());
-            var order = ticket.AddOrder(AccountTransactionTemplate.Default, "Emre", tost, new MenuItemPortion { Price = 5, Name = "Adet" }, "", null);
+            var ticket = Ticket.Create(Department.Default, Account.Null, 1, new List<CalculationType>());
+            var order = ticket.AddOrder(AccountTransactionType.Default, "Emre", tost, new MenuItemPortion { Price = 5, Name = "Adet" }, "", null);
             order.Quantity = 2;
             order.PortionCount = 2;
-            ticket.AddOrder(AccountTransactionTemplate.Default, "Emre", tost, new MenuItemPortion { Price = 5, Name = "Adet" }, "", null);
-            ticket.AddOrder(AccountTransactionTemplate.Default, "Emre", hamburger, new MenuItemPortion { Price = 7, Name = "Adet" }, "", null);
-            ticket.AddOrder(AccountTransactionTemplate.Default, "Emre", hamburger, new MenuItemPortion { Price = 6, Name = "Adet" }, "", null);
+            ticket.AddOrder(AccountTransactionType.Default, "Emre", tost, new MenuItemPortion { Price = 5, Name = "Adet" }, "", null);
+            ticket.AddOrder(AccountTransactionType.Default, "Emre", hamburger, new MenuItemPortion { Price = 7, Name = "Adet" }, "", null);
+            ticket.AddOrder(AccountTransactionType.Default, "Emre", hamburger, new MenuItemPortion { Price = 6, Name = "Adet" }, "", null);
             return ticket;
         }
 
@@ -61,12 +61,12 @@ namespace Samba.Modules.PaymentModule.Tests
         public void DoesTicketDiscountsWorks()
         {
             var ticket = SetupTicket();
-            var calculationTemplate = new CalculationTemplate
+            var CalculationType = new CalculationType
                                           {
-                                              AccountTransactionTemplate = AccountTransactionTemplate.Default,
+                                              AccountTransactionType = AccountTransactionType.Default,
                                               DecreaseAmount = true
                                           };
-            ticket.AddCalculation(calculationTemplate, 10);
+            ticket.AddCalculation(CalculationType, 10);
             var orderSelector = new OrderSelector();
             orderSelector.UpdateTicket(ticket);
             Assert.AreEqual(28 - 2.8, orderSelector.Selectors.Sum(x => x.TotalPrice));

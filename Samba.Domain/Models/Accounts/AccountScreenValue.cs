@@ -4,13 +4,13 @@ namespace Samba.Domain.Models.Accounts
 {
     public class AccountScreenValue : Value, IOrderable
     {
-        public int AccountTemplateId { get; set; }
-        public string AccountTemplateName { get; set; }
+        public int AccountTypeId { get; set; }
+        public string AccountTypeName { get; set; }
         public bool DisplayDetails { get; set; }
 
         public string Name
         {
-            get { return AccountTemplateName; }
+            get { return AccountTypeName; }
         }
 
         public int Order { get; set; }

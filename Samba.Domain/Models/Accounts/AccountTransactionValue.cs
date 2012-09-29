@@ -11,7 +11,7 @@ namespace Samba.Domain.Models.Accounts
             Date = DateTime.Now;
         }
 
-        public int AccountTemplateId { get; set; }
+        public int AccountTypeId { get; set; }
         public int AccountId { get; set; }
         public DateTime Date { get; set; }
         public decimal Debit { get; set; }

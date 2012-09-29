@@ -6,7 +6,7 @@ namespace Samba.Domain.Models.Resources
 {
     public class Resource : Entity, ICacheable
     {
-        public int ResourceTemplateId { get; set; }
+        public int ResourceTypeId { get; set; }
         public DateTime LastUpdateTime { get; set; }
         public string SearchString { get; set; }
         public string CustomData { get; set; }
@@ -20,10 +20,10 @@ namespace Samba.Domain.Models.Resources
         private static Resource _null;
         public static Resource Null { get { return _null ?? (_null = new Resource { Name = "*" }); } }
 
-        public static Resource GetNullResource(int resourceTemplateId)
+        public static Resource GetNullResource(int resourceTypeId)
         {
             var result = Null;
-            result.ResourceTemplateId = resourceTemplateId;
+            result.ResourceTypeId = resourceTypeId;
             return Null;
         }
 

@@ -20,13 +20,13 @@ namespace Samba.Modules.MenuModule
             }
         }
 
-        private IEnumerable<AccountTransactionTemplate> _accountTransactionTemplates;
-        public IEnumerable<AccountTransactionTemplate> AccountTransactionTemplates
+        private IEnumerable<AccountTransactionType> _accountTransactionTypes;
+        public IEnumerable<AccountTransactionType> AccountTransactionTypes
         {
-            get { return _accountTransactionTemplates ?? (_accountTransactionTemplates = Workspace.All<AccountTransactionTemplate>()); }
+            get { return _accountTransactionTypes ?? (_accountTransactionTypes = Workspace.All<AccountTransactionType>()); }
         }
 
-        public AccountTransactionTemplate AccountTransactionTemplate { get { return Model.AccountTransactionTemplate; } set { Model.AccountTransactionTemplate = value; } }
+        public AccountTransactionType AccountTransactionType { get { return Model.AccountTransactionType; } set { Model.AccountTransactionType = value; } }
 
         public decimal Rate { get { return Model.Rate; } set { Model.Rate = value; } }
 
@@ -47,7 +47,7 @@ namespace Samba.Modules.MenuModule
     {
         public TaxTemplateValidator()
         {
-            RuleFor(x => x.AccountTransactionTemplate).NotNull();
+            RuleFor(x => x.AccountTransactionType).NotNull();
         }
     }
 }

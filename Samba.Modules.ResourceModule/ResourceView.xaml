@@ -15,11 +15,11 @@
             </Label>
             <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
             <Label>
-                <LocText ResourceIdentifierKey="ResourceTemplate" Suffix=":"/>
+                <LocText ResourceIdentifierKey="ResourceType" Suffix=":"/>
             </Label>
             <ComboBox HorizontalAlignment="Left" MinWidth="150" 
-                      ItemsSource="{Binding ResourceTemplates}" 
-                      SelectedItem="{Binding ResourceTemplate}" DisplayMemberPath="Name"/>
+                      ItemsSource="{Binding ResourceTypes}" 
+                      SelectedItem="{Binding ResourceType}" DisplayMemberPath="Name"/>
 
             <Label Content="{LocText Account,Suffix=':'}"/>
             <ComboBox ItemsSource="{Binding AccountNames}" Text="{Binding AccountName}" IsEditable="True" HorizontalAlignment="Left" MinWidth="150"/>

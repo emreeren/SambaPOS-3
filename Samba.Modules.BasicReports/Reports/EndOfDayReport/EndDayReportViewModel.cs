@@ -173,7 +173,7 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 
                 report.AddColumTextAlignment("Etiket", TextAlignment.Left, TextAlignment.Right, TextAlignment.Right);
                 report.AddColumnLength("Etiket", "45*", "Auto", "35*");
-                report.AddTable("Etiket", Resources.TicketTags, "", "");
+                report.AddTable("Etiket", Resources.TicketTag.ToPlural(), "", "");
 
                 foreach (var grp in tagGrp)
                 {
@@ -320,10 +320,10 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
             {
                 if (serviceSum != 0)
                 {
-                    ReportContext.Tickets.SelectMany(x => x.Calculations).Where(x => x.IncludeTax).GroupBy(x => x.CalculationTemplateId).ToList().ForEach(
+                    ReportContext.Tickets.SelectMany(x => x.Calculations).Where(x => x.IncludeTax).GroupBy(x => x.CalculationTypeId).ToList().ForEach(
                         x =>
                         {
-                            var template = ReportContext.CalculationTemplates.SingleOrDefault(y => y.Id == x.Key);
+                            var template = ReportContext.CalculationTypes.SingleOrDefault(y => y.Id == x.Key);
                             var title = template != null ? template.Name : Resources.UndefinedWithBrackets;
                             report.AddRow(rpKey, title,
                                           x.Sum(y => y.CalculationAmount).ToString(ReportContext.CurrencyFormat));

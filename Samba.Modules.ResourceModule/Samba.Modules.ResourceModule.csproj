@@ -79,10 +79,10 @@
       <DependentUpon>ResourceSwitcherView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ResourceSwitcherViewModel.cs" />
-    <Compile Include="ResourceTemplateView.xaml.cs">
-      <DependentUpon>ResourceTemplateView.xaml</DependentUpon>
+    <Compile Include="ResourceTypeView.xaml.cs">
+      <DependentUpon>ResourceTypeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ResourceTemplateViewModel.cs" />
+    <Compile Include="ResourceTypeViewModel.cs" />
     <Compile Include="ResourceStateView.xaml.cs">
       <DependentUpon>ResourceStateView.xaml</DependentUpon>
     </Compile>
@@ -122,7 +122,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ResourceTemplateView.xaml">
+    <Page Include="ResourceTypeView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -55,13 +55,13 @@ namespace Samba.Services
         TicketCommitResult MoveOrders(Ticket ticket, Order[] selectedOrders, int targetTicketId);
         TicketCommitResult MergeTickets(IEnumerable<int> ticketIds);
         Order AddOrder(Ticket ticket, int menuItemId, decimal quantity, string portionName, OrderTagTemplate template);
-        void AddPayment(Ticket ticket, PaymentTemplate paymentTemplate, Account account, decimal tenderedAmount);
-        void AddChangePayment(Ticket ticket, ChangePaymentTemplate paymentTemplate, Account account, decimal amount);
-        void PayTicket(Ticket ticket, PaymentTemplate template);
+        void AddPayment(Ticket ticket, PaymentType PaymentType, Account account, decimal tenderedAmount);
+        void AddChangePayment(Ticket ticket, ChangePaymentType PaymentType, Account account, decimal amount);
+        void PayTicket(Ticket ticket, PaymentType template);
         void UpdateTicketNumber(Ticket ticket, Numerator numerator);
         void UpdateAccount(Ticket ticket, Account account);
         void UpdateResource(Ticket ticket, Resource resource);
-        void UpdateResource(Ticket ticket, int resourceTemplateId, int resourceId, string resourceName, int accountId,string resourceCustomData);
+        void UpdateResource(Ticket ticket, int ResourceTypeId, int resourceId, string resourceName, int accountId,string resourceCustomData);
         void RecalculateTicket(Ticket ticket);
         void RegenerateTaxRates(Ticket ticket);
         void UpdateTag(Ticket ticket, TicketTagGroup tagGroup, TicketTag ticketTag);

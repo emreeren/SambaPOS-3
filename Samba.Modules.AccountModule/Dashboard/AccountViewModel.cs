@@ -15,29 +15,29 @@ namespace Samba.Modules.AccountModule.Dashboard
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class AccountViewModel : EntityViewModelBase<Account>, IEntityCreator<Account>
     {
-        private IEnumerable<AccountTemplate> _accountTemplates;
-        public IEnumerable<AccountTemplate> AccountTemplates
+        private IEnumerable<AccountType> _AccountTypes;
+        public IEnumerable<AccountType> AccountTypes
         {
-            get { return _accountTemplates ?? (_accountTemplates = Workspace.All<AccountTemplate>()); }
+            get { return _AccountTypes ?? (_AccountTypes = Workspace.All<AccountType>()); }
         }
 
-        private AccountTemplate _accountTemplate;
-        public AccountTemplate AccountTemplate
+        private AccountType _AccountType;
+        public AccountType AccountType
         {
             get
             {
-                return _accountTemplate ??
-                       (_accountTemplate = Workspace.Single<AccountTemplate>(x => x.Id == Model.AccountTemplateId));
+                return _AccountType ??
+                       (_AccountType = Workspace.Single<AccountType>(x => x.Id == Model.AccountTypeId));
             }
             set
             {
-                Model.AccountTemplateId = value.Id;
-                _accountTemplate = null;
-                RaisePropertyChanged(() => AccountTemplate);
+                Model.AccountTypeId = value.Id;
+                _AccountType = null;
+                RaisePropertyChanged(() => AccountType);
             }
         }
 
-        public string GroupValue { get { return NameCache.GetName<AccountTemplate>(Model.AccountTemplateId); } }
+        public string GroupValue { get { return NameCache.GetName<AccountType>(Model.AccountTypeId); } }
 
         private IEnumerable<ForeignCurrency> _foreignCurrencies;
         public IEnumerable<ForeignCurrency> ForeignCurrencies
@@ -83,7 +83,7 @@ namespace Samba.Modules.AccountModule.Dashboard
     {
         public AccountValidator()
         {
-            RuleFor(x => x.AccountTemplateId).GreaterThan(0);
+            RuleFor(x => x.AccountTypeId).GreaterThan(0);
         }
     }
 }

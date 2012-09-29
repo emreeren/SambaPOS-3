@@ -15,10 +15,8 @@
         </Grid.RowDefinitions>
         <TabControl Margin="-6,-6,0,0" Grid.Row="0" HorizontalAlignment="Stretch" Template="{StaticResource OfficeTabControl}">
             <TabItem Header="{LocText GeneralSettings}">
-                <StackPanel Margin="0,-3,0,3">
-                    <Label>
-                        <LocText ResourceIdentifierKey="TicketTagName" Suffix=":" />
-                    </Label>
+                <StackPanel Margin="0,0,0,3">
+                    <Label Content="{LocText Name_f,FormatSegment1={LocText TicketTag},Suffix=':'}"/>
                     <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name,Mode=TwoWay}" />
                     <CheckBox Margin="0,1" IsChecked="{Binding ForceValue}">
                         <LocText ResourceIdentifierKey="SelectionRequired"/>

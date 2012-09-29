@@ -9,9 +9,9 @@ namespace Samba.Domain.Models.Tickets
     {
         public virtual Numerator TicketNumerator { get; set; }
         public virtual Numerator OrderNumerator { get; set; }
-        public virtual AccountTransactionTemplate SaleTransactionTemplate { get; set; }
+        public virtual AccountTransactionType SaleTransactionType { get; set; }
 
         private static TicketTemplate _default;
-        public static TicketTemplate Default { get { return _default ?? (_default = new TicketTemplate { SaleTransactionTemplate = AccountTransactionTemplate.Default }); } }
+        public static TicketTemplate Default { get { return _default ?? (_default = new TicketTemplate { SaleTransactionType = AccountTransactionType.Default }); } }
     }
 }

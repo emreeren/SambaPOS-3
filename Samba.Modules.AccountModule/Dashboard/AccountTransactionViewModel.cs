@@ -17,14 +17,14 @@ namespace Samba.Modules.AccountModule.Dashboard
             Model = model ?? AccountTransaction.Null;
             _document = document;
             _workspace = workspace;
-            _accountTransactionTemplate =
-                AccountTransactionTemplates.SingleOrDefault(x => x.Id == Model.AccountTransactionTemplateId);
+            _accountTransactionType =
+                AccountTransactionTypes.SingleOrDefault(x => x.Id == Model.AccountTransactionTypeId);
         }
 
-        private IEnumerable<AccountTransactionTemplate> _accountTransactionTemplates;
-        public IEnumerable<AccountTransactionTemplate> AccountTransactionTemplates
+        private IEnumerable<AccountTransactionType> _accountTransactionTypes;
+        public IEnumerable<AccountTransactionType> AccountTransactionTypes
         {
-            get { return _accountTransactionTemplates ?? (_accountTransactionTemplates = _workspace.All<AccountTransactionTemplate>().ToList()); }
+            get { return _accountTransactionTypes ?? (_accountTransactionTypes = _workspace.All<AccountTransactionType>().ToList()); }
         }
 
         private IEnumerable<Account> _sourceAccounts;
@@ -32,8 +32,8 @@ namespace Samba.Modules.AccountModule.Dashboard
         {
             get
             {
-                if (AccountTransactionTemplate == null) return new List<Account>();
-                return _sourceAccounts ?? (_sourceAccounts = _workspace.All<Account>(x => x.AccountTemplateId == Model.SourceAccountTemplateId).ToList());
+                if (AccountTransactionType == null) return new List<Account>();
+                return _sourceAccounts ?? (_sourceAccounts = _workspace.All<Account>(x => x.AccountTypeId == Model.SourceAccountTypeId).ToList());
             }
         }
 
@@ -42,24 +42,24 @@ namespace Samba.Modules.AccountModule.Dashboard
         {
             get
             {
-                if (AccountTransactionTemplate == null) return new List<Account>();
-                return _targetAccounts ?? (_targetAccounts = _workspace.All<Account>(x => x.AccountTemplateId == Model.TargetAccountTemplateId).ToList());
+                if (AccountTransactionType == null) return new List<Account>();
+                return _targetAccounts ?? (_targetAccounts = _workspace.All<Account>(x => x.AccountTypeId == Model.TargetAccountTypeId).ToList());
             }
         }
 
-        private AccountTransactionTemplate _accountTransactionTemplate;
-        public AccountTransactionTemplate AccountTransactionTemplate
+        private AccountTransactionType _accountTransactionType;
+        public AccountTransactionType AccountTransactionType
         {
-            get { return _accountTransactionTemplate; }
+            get { return _accountTransactionType; }
             set
             {
-                _accountTransactionTemplate = value;
+                _accountTransactionType = value;
                 if (Model == AccountTransaction.Null)
                 {
                     Model = AccountTransaction.Create(value);
                     _document.AccountTransactions.Add(Model);
                 }
-                RaisePropertyChanged(() => AccountTransactionTemplate);
+                RaisePropertyChanged(() => AccountTransactionType);
                 RaisePropertyChanged(() => SourceAccount);
                 RaisePropertyChanged(() => TargetAccount);
             }

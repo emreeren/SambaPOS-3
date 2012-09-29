@@ -107,7 +107,7 @@ namespace Samba.Presentation.ViewModels
                 if (Model.Id > 0) sb.AppendFormat("# {0} ", Model.TicketNumber);
                 foreach (var ticketResource in Model.TicketResources)
                 {
-                    var rs = _cacheService.GetResourceTemplateById(ticketResource.ResourceTemplateId);
+                    var rs = _cacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
                     sb.AppendLine(string.Format("{0}: {1}", rs.EntityName, ticketResource.ResourceName));
                 }
                 var selectedTicketTitle = sb.ToString().Trim(new[] { '\r', '\n' });

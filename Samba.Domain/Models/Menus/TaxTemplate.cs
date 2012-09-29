@@ -7,6 +7,6 @@ namespace Samba.Domain.Models.Menus
     {
         public decimal Rate { get; set; }
         public bool TaxIncluded { get; set; }
-        public virtual AccountTransactionTemplate AccountTransactionTemplate { get; set; }
+        public virtual AccountTransactionType AccountTransactionType { get; set; }
     }
 }

@@ -3,13 +3,13 @@
      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common" mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <StackPanel>
-            <Label HorizontalAlignment="Left" Content="{LocText TaxTemplateName,Suffix=':'}" />
+            <Label HorizontalAlignment="Left" Content="{LocText Name,Suffix=':'}" />
             <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
-            <Label HorizontalAlignment="Left" Content="{LocText AccountTransactionTemplate,Suffix=':'}" />
+            <Label HorizontalAlignment="Left" Content="{LocText AccountTransactionType,Suffix=':'}" />
             <ComboBox HorizontalAlignment="Left" MinWidth="200" 
-                      ItemsSource="{Binding AccountTransactionTemplates}"
+                      ItemsSource="{Binding AccountTransactionTypes}"
                       DisplayMemberPath="Name"
-                      SelectedItem="{Binding AccountTransactionTemplate}" />
+                      SelectedItem="{Binding AccountTransactionType}" />
             <Label HorizontalAlignment="Left" Content="{LocText Rate,Suffix=':'}">
             </Label>
             <UIControls:FilteredTextBox HorizontalAlignment="Left" Type="Number" MinWidth="50" Text="{Binding Rate}" />

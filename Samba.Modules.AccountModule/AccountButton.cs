@@ -20,6 +20,6 @@ namespace Samba.Modules.AccountModule
         public AccountScreen Model { get { return _accountScreen; } }
         public string ButtonColor { get { return "Gainsboro"; } }
 
-        public IEnumerable<AccountTemplate> AccountTemplates { get { return _cacheService.GetAccountTemplatesByName(_accountScreen.AccountScreenValues.Select(x => x.AccountTemplateName)); } }
+        public IEnumerable<AccountType> AccountTypes { get { return _cacheService.GetAccountTypesByName(_accountScreen.AccountScreenValues.Select(x => x.AccountTypeName)); } }
     }
 }

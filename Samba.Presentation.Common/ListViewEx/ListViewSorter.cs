@@ -148,24 +148,24 @@ namespace Samba.Presentation.Common.ListViewEx
 
                 Sort(header, direction);
 
-                string resourceTemplateName = String.Empty;
+                string ResourceTypeName = String.Empty;
                 DataTemplate tmpTemplate;
 
                 //if (_lastHeaderClicked != null)
                 //{
-                //    resourceTemplateName = "HeaderTemplateSortNon";
-                //    tmpTemplate = lv.TryFindResource(resourceTemplateName) as DataTemplate;
+                //    ResourceTypeName = "HeaderTemplateSortNon";
+                //    tmpTemplate = lv.TryFindResource(ResourceTypeName) as DataTemplate;
                 //    _lastHeaderClicked.Column.HeaderTemplate = tmpTemplate;
 
                 //}             
 
                 switch (direction)
                 {
-                    case ListSortDirection.Ascending: resourceTemplateName = "HeaderTemplateSortAsc"; break;
-                    case ListSortDirection.Descending: resourceTemplateName = "HeaderTemplateSortDesc"; break;
+                    case ListSortDirection.Ascending: ResourceTypeName = "HeaderTemplateSortAsc"; break;
+                    case ListSortDirection.Descending: ResourceTypeName = "HeaderTemplateSortDesc"; break;
                 }
                 
-                tmpTemplate = lv.TryFindResource(resourceTemplateName) as DataTemplate;
+                tmpTemplate = lv.TryFindResource(ResourceTypeName) as DataTemplate;
                 if (tmpTemplate != null)
                 {
                     headerClicked.Column.HeaderTemplate = tmpTemplate;

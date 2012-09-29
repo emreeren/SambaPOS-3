@@ -22,33 +22,33 @@ namespace Samba.Domain.Models.Accounts
             get { return _accountTransactions; }
         }
 
-        public AccountTransaction AddNewTransaction(AccountTransactionTemplate template, int accountTemplateId, int accountId)
+        public AccountTransaction AddNewTransaction(AccountTransactionType template, int AccountTypeId, int accountId)
         {
-            var transaction = AccountTransaction.Create(template, accountTemplateId, accountId);
+            var transaction = AccountTransaction.Create(template, AccountTypeId, accountId);
             AccountTransactions.Add(transaction);
             return transaction;
         }
 
-        public AccountTransaction AddNewTransaction(AccountTransactionTemplate template, int accountTemplateId, int accountId, Account account, decimal amount, decimal exchangeRate)
+        public AccountTransaction AddNewTransaction(AccountTransactionType template, int AccountTypeId, int accountId, Account account, decimal amount, decimal exchangeRate)
         {
-            var transaction = AccountTransaction.Create(template, accountTemplateId, accountId);
-            transaction.UpdateAccounts(account.AccountTemplateId, account.Id);
+            var transaction = AccountTransaction.Create(template, AccountTypeId, accountId);
+            transaction.UpdateAccounts(account.AccountTypeId, account.Id);
             transaction.UpdateAmount(amount, exchangeRate);
             AccountTransactions.Add(transaction);
             return transaction;
         }
 
-        public void AddSingletonTransaction(int transactionTemplateId, AccountTransactionTemplate template, int accountTemplateId, int accountId)
+        public void AddSingletonTransaction(int TransactionTypeId, AccountTransactionType template, int AccountTypeId, int accountId)
         {
-            if (AccountTransactions.SingleOrDefault(x => x.AccountTransactionTemplateId == transactionTemplateId) == null)
+            if (AccountTransactions.SingleOrDefault(x => x.AccountTransactionTypeId == TransactionTypeId) == null)
             {
-                AddNewTransaction(template, accountTemplateId, accountId);
+                AddNewTransaction(template, AccountTypeId, accountId);
             }
         }
 
-        public void UpdateSingletonTransactionAmount(int transactionTemplateId, string transactionName, decimal amount, decimal exchangeRate)
+        public void UpdateSingletonTransactionAmount(int TransactionTypeId, string transactionName, decimal amount, decimal exchangeRate)
         {
-            var t = AccountTransactions.SingleOrDefault(x => x.AccountTransactionTemplateId == transactionTemplateId);
+            var t = AccountTransactions.SingleOrDefault(x => x.AccountTransactionTypeId == TransactionTypeId);
             if (t != null)
             {
                 t.Name = transactionName;

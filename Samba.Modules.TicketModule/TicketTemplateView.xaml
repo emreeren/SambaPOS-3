@@ -6,7 +6,7 @@
              mc:Ignorable="d">
     
     <StackPanel>
-        <Label HorizontalAlignment="Left" Content="Ticket Template Name" />
+        <Label HorizontalAlignment="Left" Content="{LocText Name_f,FormatSegment1={LocText TicketTemplate},Suffix=':'}" />
         <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
 
         <Label MinWidth="120">
@@ -20,9 +20,9 @@
         <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding Numerators}"
                                      SelectedItem="{Binding OrderNumerator}" />
 
-        <Label MinWidth="120">Transaction Template</Label>
-        <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTransactionTemplates}"
-                                     SelectedItem="{Binding SaleTransactionTemplate}" />
+        <Label MinWidth="120">Transaction Type</Label>
+        <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTransactionTypes}"
+                                     SelectedItem="{Binding SaleTransactionType}" />
         <Button HorizontalAlignment="Left" Margin="0,10,3,0" MinWidth="70" Content="{Binding SaveCommand.Caption}"
                  Command="{Binding SaveCommand}" />
         <Label Content="{Binding Error}" Foreground="Red" />

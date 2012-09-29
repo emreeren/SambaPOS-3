@@ -45,7 +45,7 @@ namespace Samba.Modules.PosModule
         public ICaptionCommand RemoveTicketTagCommand { get; set; }
         public ICaptionCommand ChangePriceCommand { get; set; }
 
-        public DelegateCommand<ResourceTemplate> SelectResourceCommand { get; set; }
+        public DelegateCommand<ResourceType> SelectResourceCommand { get; set; }
         public DelegateCommand<CommandContainerButton> ExecuteAutomationCommnand { get; set; }
 
         private ObservableCollection<ResourceButton> _resourceButtons;
@@ -58,7 +58,7 @@ namespace Samba.Modules.PosModule
                     _resourceButtons = new ObservableCollection<ResourceButton>(
                         SelectedDepartment.ResourceScreens
                         .OrderBy(x => x.Order)
-                        .Select(x => _cacheService.GetResourceTemplateById(x.ResourceTemplateId))
+                        .Select(x => _cacheService.GetResourceTypeById(x.ResourceTypeId))
                         .Distinct()
                         .Select(x => new ResourceButton(x, SelectedTicket)));
                 }
@@ -103,12 +103,12 @@ namespace Samba.Modules.PosModule
             get { return _applicationState.CurrentDepartment != null ? _applicationState.CurrentDepartment.Model : null; }
         }
 
-        public bool IsItemsSelected { get { return SelectedOrders.Count() > 0; } }
-        public bool IsItemsSelectedAndUnlocked { get { return SelectedOrders.Count() > 0 && SelectedOrders.Count(x => x.Locked) == 0; } }
-        public bool IsItemsSelectedAndLocked { get { return SelectedOrders.Count() > 0 && SelectedOrders.Count(x => !x.Locked) == 0; } }
-        public bool IsNothingSelected { get { return SelectedOrders.Count() == 0; } }
-        public bool IsNothingSelectedAndTicketLocked { get { return SelectedOrders.Count() == 0 && SelectedTicket.Locked; } }
-        public bool IsNothingSelectedAndTicketTagged { get { return SelectedOrders.Count() == 0 && SelectedTicket.IsTagged; } }
+        public bool IsItemsSelected { get { return SelectedOrders.Any(); } }
+        public bool IsItemsSelectedAndUnlocked { get { return SelectedOrders.Any() && SelectedOrders.Count(x => x.Locked) == 0; } }
+        public bool IsItemsSelectedAndLocked { get { return SelectedOrders.Any() && SelectedOrders.Count(x => !x.Locked) == 0; } }
+        public bool IsNothingSelected { get { return !SelectedOrders.Any(); } }
+        public bool IsNothingSelectedAndTicketLocked { get { return !SelectedOrders.Any() && SelectedTicket.Locked; } }
+        public bool IsNothingSelectedAndTicketTagged { get { return !SelectedOrders.Any() && SelectedTicket.IsTagged; } }
         public bool IsTicketSelected { get { return SelectedTicket != Ticket.Empty; } }
 
         public OrderViewModel LastSelectedOrder { get; set; }
@@ -139,7 +139,7 @@ namespace Samba.Modules.PosModule
         {
             get
             {
-                if (SelectedOrders.Count() > 0)
+                if (SelectedOrders.Any())
                 {
                     return _cacheService.GetOrderStateGroupsForItems(SelectedOrders.Select(x => x.MenuItemId))
                         .Where(x => !string.IsNullOrEmpty(x.ButtonHeader))
@@ -153,7 +153,7 @@ namespace Samba.Modules.PosModule
         {
             get
             {
-                if (SelectedOrders.Count() > 0)
+                if (SelectedOrders.Any())
                 {
                     return _cacheService.GetOrderTagGroupsForItems(SelectedOrders.Select(x => x.MenuItemId))
                         .Where(x => !string.IsNullOrEmpty(x.ButtonHeader))
@@ -179,7 +179,7 @@ namespace Samba.Modules.PosModule
             _ticketInfo = ticketInfoViewModel;
             _paymentButtonViewModel = paymentButtonViewModel;
 
-            SelectResourceCommand = new DelegateCommand<ResourceTemplate>(OnSelectResource, CanSelectResource);
+            SelectResourceCommand = new DelegateCommand<ResourceType>(OnSelectResource, CanSelectResource);
             ExecuteAutomationCommnand = new DelegateCommand<CommandContainerButton>(OnExecuteAutomationCommand, CanExecuteAutomationCommand);
 
             IncQuantityCommand = new CaptionCommand<string>("+", OnIncQuantityCommand, CanIncQuantity);
@@ -230,14 +230,14 @@ namespace Samba.Modules.PosModule
             RefreshSelectedItems();
         }
 
-        private bool CanSelectResource(ResourceTemplate arg)
+        private bool CanSelectResource(ResourceType arg)
         {
-            return !SelectedTicket.Locked && SelectedTicket.CanSubmit && _applicationState.CurrentDepartment.ResourceScreens.Any(x => x.ResourceTemplateId == arg.Id);
+            return !SelectedTicket.Locked && SelectedTicket.CanSubmit && _applicationState.CurrentDepartment.ResourceScreens.Any(x => x.ResourceTypeId == arg.Id);
         }
 
-        private void OnSelectResource(ResourceTemplate obj)
+        private void OnSelectResource(ResourceType obj)
         {
-            var ticketResource = SelectedTicket.TicketResources.SingleOrDefault(x => x.ResourceTemplateId == obj.Id);
+            var ticketResource = SelectedTicket.TicketResources.SingleOrDefault(x => x.ResourceTypeId == obj.Id);
             var selectedResource = ticketResource != null ? _cacheService.GetResourceById(ticketResource.ResourceId) : Resource.GetNullResource(obj.Id);
             EntityOperationRequest<Resource>.Publish(selectedResource, EventTopicNames.SelectResource, EventTopicNames.ResourceSelected);
         }
@@ -355,7 +355,7 @@ namespace Samba.Modules.PosModule
                 }
 
                 LastSelectedOrder = obj.Value.Selected ? obj.Value : null;
-                if (SelectedOrders.Count() == 0) LastSelectedOrder = null;
+                if (!SelectedOrders.Any()) LastSelectedOrder = null;
                 _ticketOrdersViewModel.UpdateLastSelectedOrder(LastSelectedOrder);
 
                 RefreshSelectedItems();
@@ -398,7 +398,7 @@ namespace Samba.Modules.PosModule
 
         private bool CanShowOrderStatesExecute(OrderStateGroup arg)
         {
-            if (SelectedOrders.Count() == 0) return false;
+            if (!SelectedOrders.Any()) return false;
             if (!arg.DecreaseOrderInventory && !arg.IncreaseOrderInventory && SelectedOrders.Any(x => !x.Locked && !x.IsStateApplied(arg))) return false;
             if (!arg.CalculateOrderPrice && !SelectedTicket.CanRemoveSelectedOrders(SelectedOrders)) return false;
             if (SelectedOrders.Any(x => !x.DecreaseInventory && !x.IsStateApplied(arg))) return false;
@@ -418,8 +418,7 @@ namespace Samba.Modules.PosModule
 
         private bool CanShowOrderTagsExecute(OrderTagGroup arg)
         {
-            if (SelectedOrders.Count() == 0) return false;
-            return true;
+            return SelectedOrders.Any();
         }
 
         private bool CanChangePrice(string arg)

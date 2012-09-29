@@ -28,7 +28,7 @@ namespace Samba.Modules.PaymentModule
         private readonly ISettingService _settingService;
         private readonly ICaptionCommand _executeAutomationCommand;
         private readonly ICaptionCommand _makePaymentCommand;
-        private readonly ICaptionCommand _selectChangePaymentTemplateCommand;
+        private readonly ICaptionCommand _selectChangePaymentTypeCommand;
         private readonly ICaptionCommand _serviceSelectedCommand;
         private readonly ICaptionCommand _foreignCurrencySelectedCommand;
         private readonly IAutomationService _automationService;
@@ -46,8 +46,8 @@ namespace Samba.Modules.PaymentModule
             _applicationStateSetter = applicationStateSetter;
 
             _executeAutomationCommand = new CaptionCommand<AutomationCommandData>("", OnExecuteAutomationCommand, CanExecuteAutomationCommand);
-            _makePaymentCommand = new CaptionCommand<PaymentTemplate>("", OnMakePayment, CanMakePayment);
-            _selectChangePaymentTemplateCommand = new CaptionCommand<PaymentData>("", OnSelectChangePaymentTemplate);
+            _makePaymentCommand = new CaptionCommand<PaymentType>("", OnMakePayment, CanMakePayment);
+            _selectChangePaymentTypeCommand = new CaptionCommand<PaymentData>("", OnSelectChangePaymentType);
             _serviceSelectedCommand = new CaptionCommand<CalculationSelector>("", OnSelectCalculationSelector, CanSelectCalculationSelector);
             _foreignCurrencySelectedCommand = new CaptionCommand<ForeignCurrency>("", OnForeignCurrencySelected);
 
@@ -260,12 +260,12 @@ namespace Samba.Modules.PaymentModule
 
         private void OnSelectCalculationSelector(CalculationSelector calculationSelector)
         {
-            foreach (var calculationTemplate in calculationSelector.CalculationTemplates)
+            foreach (var calculationType in calculationSelector.CalculationTypes)
             {
-                var amount = calculationTemplate.Amount;
+                var amount = calculationType.Amount;
                 if (amount == 0) amount = GetTenderedValue();
-                if (calculationTemplate.CalculationMethod == 0 || calculationTemplate.CalculationMethod == 1) amount = amount / ExchangeRate;
-                SelectedTicket.AddCalculation(calculationTemplate, amount);
+                if (calculationType.CalculationMethod == 0 || calculationType.CalculationMethod == 1) amount = amount / ExchangeRate;
+                SelectedTicket.AddCalculation(calculationType, amount);
             }
             UpdatePaymentAmount(0);
             OrderSelector.UpdateTicket(SelectedTicket);
@@ -275,11 +275,11 @@ namespace Samba.Modules.PaymentModule
         private bool CanSelectCalculationSelector(CalculationSelector calculationSelector)
         {
             if (SelectedTicket != null && (SelectedTicket.Locked || SelectedTicket.IsClosed)) return false;
-            if (GetPaymentDueValue() == 0 && SelectedTicket != null && !calculationSelector.CalculationTemplates.Any(x => SelectedTicket.Calculations.Any(y => y.CalculationTemplateId == x.Id))) return false;
-            return calculationSelector == null || !calculationSelector.CalculationTemplates.Any(x => x.MaxAmount > 0 && GetTenderedValue() > x.MaxAmount);
+            if (GetPaymentDueValue() == 0 && SelectedTicket != null && !calculationSelector.CalculationTypes.Any(x => SelectedTicket.Calculations.Any(y => y.CalculationTypeId == x.Id))) return false;
+            return calculationSelector == null || !calculationSelector.CalculationTypes.Any(x => x.MaxAmount > 0 && GetTenderedValue() > x.MaxAmount);
         }
 
-        private bool CanMakePayment(PaymentTemplate arg)
+        private bool CanMakePayment(PaymentType arg)
         {
             return SelectedTicket != null
                 && !SelectedTicket.IsClosed
@@ -293,23 +293,23 @@ namespace Samba.Modules.PaymentModule
             return SelectedTicket.GetRemainingAmount();
         }
 
-        private bool CanMakeAccountTransaction(TicketResource ticketResource, PaymentTemplate paymentTemplate)
+        private bool CanMakeAccountTransaction(TicketResource ticketResource, PaymentType paymentType)
         {
             if (ticketResource.AccountId == 0) return false;
-            var resourceTemplate = _cacheService.GetResourceTemplateById(ticketResource.ResourceTemplateId);
-            if (resourceTemplate.AccountTemplateId != paymentTemplate.AccountTransactionTemplate.TargetAccountTemplateId) return false;
+            var resourceType = _cacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
+            if (resourceType.AccountTypeId != paymentType.AccountTransactionType.TargetAccountTypeId) return false;
             return true;
         }
 
-        private Account GetAccountForTransaction(PaymentTemplate paymentTemplate, IEnumerable<TicketResource> ticketResources)
+        private Account GetAccountForTransaction(PaymentType paymentType, IEnumerable<TicketResource> ticketResources)
         {
-            var rt = _cacheService.GetResourceTemplates().Where(
-                x => x.AccountTemplateId == paymentTemplate.AccountTransactionTemplate.TargetAccountTemplateId).Select(x => x.Id);
-            var tr = ticketResources.FirstOrDefault(x => rt.Contains(x.ResourceTemplateId));
+            var rt = _cacheService.GetResourceTypes().Where(
+                x => x.AccountTypeId == paymentType.AccountTransactionType.TargetAccountTypeId).Select(x => x.Id);
+            var tr = ticketResources.FirstOrDefault(x => rt.Contains(x.ResourceTypeId));
             return tr != null ? _accountService.GetAccountById(tr.AccountId) : null;
         }
 
-        private void OnMakePayment(PaymentTemplate obj)
+        private void OnMakePayment(PaymentType obj)
         {
             SubmitPayment(obj);
         }
@@ -350,7 +350,7 @@ namespace Samba.Modules.PaymentModule
             return decimal.Round(result * ExchangeRate, 2);
         }
 
-        private void SubmitPayment(PaymentTemplate paymentTemplate)
+        private void SubmitPayment(PaymentType paymentType)
         {
             var paymentDueAmount = GetPaymentDueValue();
             var tenderedAmount = GetTenderedValue();
@@ -363,14 +363,14 @@ namespace Samba.Modules.PaymentModule
 
             if (tenderedAmount <= paymentDueAmount)
             {
-                SubmitPaymentAmount(paymentTemplate, null, paymentDueAmount, tenderedAmount);
+                SubmitPaymentAmount(paymentType, null, paymentDueAmount, tenderedAmount);
                 return;
             }
 
-            var changeTemplates = GetChangePaymentTemplates();
+            var changeTemplates = GetChangePaymentTypes();
             if (changeTemplates.Count() < 2)
             {
-                SubmitPaymentAmount(paymentTemplate, changeTemplates.SingleOrDefault(), paymentDueAmount, tenderedAmount);
+                SubmitPaymentAmount(paymentType, changeTemplates.SingleOrDefault(), paymentDueAmount, tenderedAmount);
             }
             else
             {
@@ -380,25 +380,25 @@ namespace Samba.Modules.PaymentModule
                     Caption = GetChangeAmountCaption(paymentDueAmount, tenderedAmount, x),
                     Parameter = new PaymentData
                     {
-                        ChangePaymentTemplate = x,
+                        ChangePaymentType = x,
                         PaymentDueAmount = paymentDueAmount,
                         TenderedAmount = tenderedAmount,
-                        PaymentTemplate = paymentTemplate
+                        PaymentType = paymentType
                     },
-                    Command = _selectChangePaymentTemplateCommand
+                    Command = _selectChangePaymentTypeCommand
                 }));
                 IsChangeOptionsVisible = true;
             }
         }
 
-        private void OnSelectChangePaymentTemplate(PaymentData paymentData)
+        private void OnSelectChangePaymentType(PaymentData paymentData)
         {
-            SubmitPaymentAmount(paymentData.PaymentTemplate, paymentData.ChangePaymentTemplate,
+            SubmitPaymentAmount(paymentData.PaymentType, paymentData.ChangePaymentType,
                 paymentData.PaymentDueAmount, paymentData.TenderedAmount);
             IsChangeOptionsVisible = false;
         }
 
-        private string GetChangeAmountCaption(decimal paymentDueAmount, decimal tenderedAmount, ChangePaymentTemplate changeTemplate)
+        private string GetChangeAmountCaption(decimal paymentDueAmount, decimal tenderedAmount, ChangePaymentType changeTemplate)
         {
             var returningAmount = (tenderedAmount - paymentDueAmount);
             if (changeTemplate != null)
@@ -417,7 +417,7 @@ namespace Samba.Modules.PaymentModule
         }
 
         private decimal DisplayReturningAmount(decimal tenderedAmount, decimal paymentDueAmount,
-                                               ChangePaymentTemplate changeTemplate)
+                                               ChangePaymentType changeTemplate)
         {
             var returningAmount = 0m;
 
@@ -458,16 +458,16 @@ namespace Samba.Modules.PaymentModule
             return returningAmount;
         }
 
-        private void SubmitPaymentAmount(PaymentTemplate paymentTemplate, ChangePaymentTemplate changeTemplate, decimal paymentDueAmount, decimal tenderedAmount)
+        private void SubmitPaymentAmount(PaymentType paymentType, ChangePaymentType changeTemplate, decimal paymentDueAmount, decimal tenderedAmount)
         {
             _applicationStateSetter.SetLastPaidItems(OrderSelector.GetSelectedItems());
 
             var returningAmount = DisplayReturningAmount(tenderedAmount, paymentDueAmount, changeTemplate);
             if (changeTemplate == null) tenderedAmount -= returningAmount;
 
-            var paymentAccount = paymentTemplate.Account ?? GetAccountForTransaction(paymentTemplate, SelectedTicket.TicketResources);
+            var paymentAccount = paymentType.Account ?? GetAccountForTransaction(paymentType, SelectedTicket.TicketResources);
 
-            _ticketService.AddPayment(SelectedTicket, paymentTemplate, paymentAccount, tenderedAmount);
+            _ticketService.AddPayment(SelectedTicket, paymentType, paymentAccount, tenderedAmount);
 
             if (tenderedAmount > paymentDueAmount && changeTemplate != null)
             {
@@ -489,10 +489,10 @@ namespace Samba.Modules.PaymentModule
             }
         }
 
-        private IList<ChangePaymentTemplate> GetChangePaymentTemplates()
+        private IList<ChangePaymentType> GetChangePaymentTypes()
         {
-            if (ForeignCurrency == null) return new List<ChangePaymentTemplate>();
-            return _cacheService.GetChangePaymentTemplates().ToList();
+            if (ForeignCurrency == null) return new List<ChangePaymentType>();
+            return _cacheService.GetChangePaymentTypes().ToList();
         }
 
         public void RefreshValues()
@@ -504,9 +504,9 @@ namespace Samba.Modules.PaymentModule
             {
                 foreach (var cSelector in _cacheService.GetCalculationSelectors().Where(x => !string.IsNullOrEmpty(x.ButtonHeader)))
                 {
-                    foreach (var ctemplate in cSelector.CalculationTemplates)
+                    foreach (var ctemplate in cSelector.CalculationTypes)
                     {
-                        while (SelectedTicket.Calculations.Any(x => x.CalculationTemplateId == ctemplate.Id))
+                        while (SelectedTicket.Calculations.Any(x => x.CalculationTypeId == ctemplate.Id))
                             SelectedTicket.AddCalculation(ctemplate, 0);
                     }
                 }
@@ -532,7 +532,7 @@ namespace Samba.Modules.PaymentModule
         {
             CommandButtons = CreateCommandButtons();
             RaisePropertyChanged(() => CommandButtons);
-            PaymentButtonGroup.UpdatePaymentButtons(_cacheService.GetPaymentScreenPaymentTemplates(), ForeignCurrency);
+            PaymentButtonGroup.UpdatePaymentButtons(_cacheService.GetPaymentScreenPaymentTypes(), ForeignCurrency);
             RaisePropertyChanged(() => PaymentButtonGroup);
             ForeignCurrencyButtons = CreateForeignCurrencyButtons().ToList();
             UpdateCurrencyButtons();

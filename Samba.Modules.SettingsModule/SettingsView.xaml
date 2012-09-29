@@ -5,7 +5,7 @@
         <Grid>
             <StackPanel>
                 <Label>
-                    <LocText ResourceIdentifierKey="TerminalName" Suffix=":"/>
+                    <LocText ResourceIdentifierKey="Name_f" FormatSegment1="{LocText Terminal}" Suffix=":"/>
                 </Label>
                 <ComboBox HorizontalAlignment="Left" Width="200" ItemsSource="{Binding TerminalNames}"
                      Text="{Binding TerminalName}" />

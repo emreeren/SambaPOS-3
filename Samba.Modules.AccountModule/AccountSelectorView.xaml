@@ -72,7 +72,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding ButtonHeader}"
-								 ButtonColor="{Binding ButtonColor}" Command="{Binding SelectDocumentTemplateCommand}" />
+								 ButtonColor="{Binding ButtonColor}" Command="{Binding SelectDocumentTypeCommand}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

@@ -15,17 +15,17 @@ namespace Samba.Presentation.ViewModels
             _makePaymentCommand = makePaymentCommand;
             _settleCommand = settleCommand;
             _closeCommand = closeCommand;
-            _paymentButtons = new ObservableCollection<CommandButtonViewModel<PaymentTemplate>>();
+            _paymentButtons = new ObservableCollection<CommandButtonViewModel<PaymentType>>();
         }
 
-        private IEnumerable<PaymentTemplate> _paymentTemplates;
-        public IEnumerable<PaymentTemplate> PaymentTemplates
+        private IEnumerable<PaymentType> _paymentTypes;
+        public IEnumerable<PaymentType> PaymentTypes
         {
-            get { return _paymentTemplates; }
+            get { return _paymentTypes; }
         }
 
-        private readonly ObservableCollection<CommandButtonViewModel<PaymentTemplate>> _paymentButtons;
-        public ObservableCollection<CommandButtonViewModel<PaymentTemplate>> PaymentButtons
+        private readonly ObservableCollection<CommandButtonViewModel<PaymentType>> _paymentButtons;
+        public ObservableCollection<CommandButtonViewModel<PaymentType>> PaymentButtons
         {
             get { return _paymentButtons; }
         }
@@ -34,29 +34,29 @@ namespace Samba.Presentation.ViewModels
         private readonly ICaptionCommand _settleCommand;
         private readonly ICaptionCommand _closeCommand;
 
-        public void UpdatePaymentButtons(IEnumerable<PaymentTemplate> paymentTemplates, ForeignCurrency foreignCurrency)
+        public void UpdatePaymentButtons(IEnumerable<PaymentType> paymentTypes, ForeignCurrency foreignCurrency)
         {
-            _paymentTemplates = paymentTemplates;
+            _paymentTypes = paymentTypes;
             _paymentButtons.Clear();
             _paymentButtons.AddRange(CreatePaymentButtons(foreignCurrency));
         }
 
-        private IEnumerable<CommandButtonViewModel<PaymentTemplate>> CreatePaymentButtons(ForeignCurrency foreignCurrency)
+        private IEnumerable<CommandButtonViewModel<PaymentType>> CreatePaymentButtons(ForeignCurrency foreignCurrency)
         {
-            var result = new List<CommandButtonViewModel<PaymentTemplate>>();
+            var result = new List<CommandButtonViewModel<PaymentType>>();
             if (_settleCommand != null)
             {
-                result.Add(new CommandButtonViewModel<PaymentTemplate>
+                result.Add(new CommandButtonViewModel<PaymentType>
                 {
                     Caption = Resources.Settle,
                     Command = _settleCommand,
                 });
             }
 
-            var pts = foreignCurrency == null ? PaymentTemplates.Where(x => x.Account == null || x.Account.ForeignCurrencyId == 0) : PaymentTemplates.Where(x => x.Account != null && x.Account.ForeignCurrencyId == foreignCurrency.Id);
+            var pts = foreignCurrency == null ? PaymentTypes.Where(x => x.Account == null || x.Account.ForeignCurrencyId == 0) : PaymentTypes.Where(x => x.Account != null && x.Account.ForeignCurrencyId == foreignCurrency.Id);
             result.AddRange(pts
                 .OrderBy(x => x.Order)
-                .Select(x => new CommandButtonViewModel<PaymentTemplate>
+                .Select(x => new CommandButtonViewModel<PaymentType>
                 {
                     Caption = x.Name.Replace(" ", "\r"),
                     Command = _makePaymentCommand,
@@ -66,7 +66,7 @@ namespace Samba.Presentation.ViewModels
 
             if (_closeCommand != null)
             {
-                result.Add(new CommandButtonViewModel<PaymentTemplate>
+                result.Add(new CommandButtonViewModel<PaymentType>
                 {
                     Caption = Resources.Close,
                     Command = _closeCommand,

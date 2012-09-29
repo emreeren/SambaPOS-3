@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
@@ -10,7 +7,7 @@ namespace Samba.Domain.Models.Tickets
     {
         public CalculationSelector()
         {
-            _calculationTemplates = new List<CalculationTemplate>();
+            _calculationTypes = new List<CalculationType>();
             _calculationSelectorMaps = new List<CalculationSelectorMap>();
         }
 
@@ -20,10 +17,10 @@ namespace Samba.Domain.Models.Tickets
         public int Order { get; set; }
         public string UserString { get { return Name; } }
        
-        private readonly IList<CalculationTemplate> _calculationTemplates;
-        public virtual IList<CalculationTemplate> CalculationTemplates
+        private readonly IList<CalculationType> _calculationTypes;
+        public virtual IList<CalculationType> CalculationTypes
         {
-            get { return _calculationTemplates; }
+            get { return _calculationTypes; }
         }
 
         private readonly IList<CalculationSelectorMap> _calculationSelectorMaps;

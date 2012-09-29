@@ -9,13 +9,13 @@ namespace Samba.Modules.AccountModule
 {
     class DocumentCreationData
     {
-        public DocumentCreationData(Account account,AccountTransactionDocumentTemplate documentTemplate)
+        public DocumentCreationData(Account account,AccountTransactionDocumentType DocumentType)
         {
             Account = account;
-            DocumentTemplate = documentTemplate;
+            DocumentType = DocumentType;
         }
 
         public Account Account { get; set; }
-        public AccountTransactionDocumentTemplate DocumentTemplate { get; set; }
+        public AccountTransactionDocumentType DocumentType { get; set; }
     }
 }

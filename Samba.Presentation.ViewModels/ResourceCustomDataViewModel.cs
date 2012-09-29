@@ -22,7 +22,7 @@ namespace Samba.Presentation.ViewModels
     public class ResourceCustomDataViewModel : ObservableObject
     {
         public Resource Model { get; set; }
-        private readonly ResourceTemplate _template;
+        private readonly ResourceType _template;
 
         public string GetValue(string name)
         {
@@ -31,7 +31,7 @@ namespace Samba.Presentation.ViewModels
                 : string.Empty;
         }
 
-        public ResourceCustomDataViewModel(Resource model, ResourceTemplate template)
+        public ResourceCustomDataViewModel(Resource model, ResourceType template)
         {
             _template = template;
             Model = model;

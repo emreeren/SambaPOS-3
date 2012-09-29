@@ -37,7 +37,7 @@ namespace Samba.Domain.Models.Tickets
         public int OrderNumber { get; set; }
         public string CreatingUserName { get; set; }
         public DateTime CreatedDateTime { get; set; }
-        public int AccountTransactionTemplateId { get; set; }
+        public int AccountTransactionTypeId { get; set; }
         public int? ProductTimerValueId { get; set; }
         public virtual ProductTimerValue ProductTimerValue { get; set; }
 
@@ -50,7 +50,7 @@ namespace Samba.Domain.Models.Tickets
         public string TaxTemplateName { get; set; }
         public int TaxTemplateId { get; set; }
         public bool TaxIncluded { get; set; }
-        public int TaxTempleteAccountTransactionTemplateId { get; set; }
+        public int TaxTempleteAccountTransactionTypeId { get; set; }
 
         private IList<OrderTagValue> _orderTagValues;
         public virtual IList<OrderTagValue> OrderTagValues
@@ -102,7 +102,7 @@ namespace Samba.Domain.Models.Tickets
                 TaxIncluded = taxTemplate.TaxIncluded;
                 TaxTemplateId = taxTemplate.Id;
                 TaxTemplateName = taxTemplate.Name;
-                TaxTempleteAccountTransactionTemplateId = taxTemplate.AccountTransactionTemplate.Id;
+                TaxTempleteAccountTransactionTypeId = taxTemplate.AccountTransactionType.Id;
             }
 
             if (!string.IsNullOrEmpty(priceTag))
@@ -189,8 +189,8 @@ namespace Samba.Domain.Models.Tickets
             DecreaseInventory = orderStateGroup.DecreaseOrderInventory;
             IncreaseInventory = orderStateGroup.IncreaseOrderInventory;
             if (orderStateGroup.UnlocksOrder) Locked = false;
-            if (orderStateGroup.AccountTransactionTemplateId > 0)
-                AccountTransactionTemplateId = orderStateGroup.AccountTransactionTemplateId;
+            if (orderStateGroup.AccountTransactionTypeId > 0)
+                AccountTransactionTypeId = orderStateGroup.AccountTransactionTypeId;
             if (IncreaseInventory && Quantity > 0) Quantity = 0 - Quantity;
             if (!IncreaseInventory && Quantity < 0) Quantity = 0 - Quantity;
             OrderState = orderState.Name;

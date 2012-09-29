@@ -28,7 +28,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<MenuItem> _menuItems;
         public IEnumerable<MenuItem> MenuItems
         {
-            get { return _menuItems ?? (_menuItems = Dao.Query<MenuItem>(x => x.TaxTemplate.AccountTransactionTemplate, x => x.Portions.Select(y => y.Prices))); }
+            get { return _menuItems ?? (_menuItems = Dao.Query<MenuItem>(x => x.TaxTemplate.AccountTransactionType, x => x.Portions.Select(y => y.Prices))); }
         }
 
         public MenuItem GetMenuItem(Expression<Func<MenuItem, bool>> expression)
@@ -52,7 +52,7 @@ namespace Samba.Services.Implementations
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id)
                 .Where(x => x.MenuItemGroupCode == null || x.MenuItemGroupCode == mi.GroupCode)
                 .Where(x => x.MenuItemId == 0 || x.MenuItemId == mi.Id);
-            return tgl.Where(x => maps.Any(y => y.ProductTimerId == x.Id)).FirstOrDefault();
+            return tgl.FirstOrDefault(x => maps.Any(y => y.ProductTimerId == x.Id));
         }
 
         public ProductTimer GetProductTimer(int menuItemId)
@@ -135,15 +135,15 @@ namespace Samba.Services.Implementations
             return TicketTagGroups.FirstOrDefault(x => x.Id == id);
         }
 
-        private IEnumerable<AccountTransactionTemplate> _accountTransactionTemplates;
-        public IEnumerable<AccountTransactionTemplate> AccountTransactionTemplates
+        private IEnumerable<AccountTransactionType> _accountTransactionTypes;
+        public IEnumerable<AccountTransactionType> AccountTransactionTypes
         {
-            get { return _accountTransactionTemplates ?? (_accountTransactionTemplates = Dao.Query<AccountTransactionTemplate>()); }
+            get { return _accountTransactionTypes ?? (_accountTransactionTypes = Dao.Query<AccountTransactionType>()); }
         }
 
-        public AccountTransactionTemplate GetAccountTransactionTemplateById(int id)
+        public AccountTransactionType GetAccountTransactionTypeById(int id)
         {
-            return AccountTransactionTemplates.Single(x => x.Id == id);
+            return AccountTransactionTypes.Single(x => x.Id == id);
         }
 
         private IEnumerable<Resource> _resources;
@@ -154,34 +154,34 @@ namespace Samba.Services.Implementations
 
         public IEnumerable<Resource> GetResourcesByTemplateId(int templateId)
         {
-            return Resources.Where(x => x.ResourceTemplateId == templateId);
+            return Resources.Where(x => x.ResourceTypeId == templateId);
         }
 
-        private IEnumerable<ResourceTemplate> _resourceTemplates;
-        public IEnumerable<ResourceTemplate> ResourceTemplates
+        private IEnumerable<ResourceType> _resourceTypes;
+        public IEnumerable<ResourceType> ResourceTypes
         {
-            get { return _resourceTemplates ?? (_resourceTemplates = Dao.Query<ResourceTemplate>(x => x.ResoruceCustomFields).OrderBy(x => x.Order)); }
+            get { return _resourceTypes ?? (_resourceTypes = Dao.Query<ResourceType>(x => x.ResoruceCustomFields).OrderBy(x => x.Order)); }
         }
 
-        private IEnumerable<AccountTemplate> _accountTemplates;
-        public IEnumerable<AccountTemplate> AccountTemplates
+        private IEnumerable<AccountType> _accountTypes;
+        public IEnumerable<AccountType> AccountTypes
         {
-            get { return _accountTemplates ?? (_accountTemplates = Dao.Query<AccountTemplate>()); }
+            get { return _accountTypes ?? (_accountTypes = Dao.Query<AccountType>()); }
         }
 
-        public IEnumerable<ResourceTemplate> GetResourceTemplates()
+        public IEnumerable<ResourceType> GetResourceTypes()
         {
-            return ResourceTemplates;
+            return ResourceTypes;
         }
 
-        public ResourceTemplate GetResourceTemplateById(int resourceTemplateId)
+        public ResourceType GetResourceTypeById(int resourceTypeId)
         {
-            return ResourceTemplates.Single(x => x.Id == resourceTemplateId);
+            return ResourceTypes.Single(x => x.Id == resourceTypeId);
         }
 
-        public AccountTemplate GetAccountTemplateById(int accountTemplateId)
+        public AccountType GetAccountTypeById(int accountTypeId)
         {
-            return AccountTemplates.Single(x => x.Id == accountTemplateId);
+            return AccountTypes.Single(x => x.Id == accountTypeId);
         }
 
         public Account GetAccountById(int accountId)
@@ -194,31 +194,31 @@ namespace Samba.Services.Implementations
             return Dao.SingleWithCache<Resource>(x => x.Id == accountId);
         }
 
-        private IEnumerable<AccountTransactionDocumentTemplate> _documentTemplates;
-        public IEnumerable<AccountTransactionDocumentTemplate> DocumentTemplates { get { return _documentTemplates ?? (_documentTemplates = Dao.Query<AccountTransactionDocumentTemplate>(x => x.TransactionTemplates, x => x.AccountTransactionDocumentTemplateMaps, x => x.AccountTransactionDocumentAccountMaps)); } }
+        private IEnumerable<AccountTransactionDocumentType> _documentTypes;
+        public IEnumerable<AccountTransactionDocumentType> DocumentTypes { get { return _documentTypes ?? (_documentTypes = Dao.Query<AccountTransactionDocumentType>(x => x.TransactionTypes, x => x.AccountTransactionDocumentTypeMaps, x => x.AccountTransactionDocumentAccountMaps)); } }
 
-        public IEnumerable<AccountTransactionDocumentTemplate> GetAccountTransactionDocumentTemplates(int accountTemplateId)
+        public IEnumerable<AccountTransactionDocumentType> GetAccountTransactionDocumentTypes(int accountTypeId)
         {
-            var maps = DocumentTemplates.Where(x => x.MasterAccountTemplateId == accountTemplateId)
-               .SelectMany(x => x.AccountTransactionDocumentTemplateMaps)
+            var maps = DocumentTypes.Where(x => x.MasterAccountTypeId == accountTypeId)
+               .SelectMany(x => x.AccountTransactionDocumentTypeMaps)
                .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
                .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
-            return DocumentTemplates.Where(x => maps.Any(y => y.AccountTransactionDocumentTemplateId == x.Id)).OrderBy(x => x.Order);
+            return DocumentTypes.Where(x => maps.Any(y => y.AccountTransactionDocumentTypeId == x.Id)).OrderBy(x => x.Order);
         }
 
-        public IEnumerable<AccountTransactionDocumentTemplate> GetBatchDocumentTemplates(IEnumerable<string> accountTemplateNamesList)
+        public IEnumerable<AccountTransactionDocumentType> GetBatchDocumentTypes(IEnumerable<string> accountTypeNamesList)
         {
-            var ids = GetAccountTemplatesByName(accountTemplateNamesList).Select(x => x.Id);
-            var maps = DocumentTemplates.Where(x => x.BatchCreateDocuments && ids.Contains(x.MasterAccountTemplateId))
-               .SelectMany(x => x.AccountTransactionDocumentTemplateMaps)
+            var ids = GetAccountTypesByName(accountTypeNamesList).Select(x => x.Id);
+            var maps = DocumentTypes.Where(x => x.BatchCreateDocuments && ids.Contains(x.MasterAccountTypeId))
+               .SelectMany(x => x.AccountTransactionDocumentTypeMaps)
                .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
                .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
-            return DocumentTemplates.Where(x => maps.Any(y => y.AccountTransactionDocumentTemplateId == x.Id)).OrderBy(x => x.Order);
+            return DocumentTypes.Where(x => maps.Any(y => y.AccountTransactionDocumentTypeId == x.Id)).OrderBy(x => x.Order);
         }
 
-        public AccountTransactionDocumentTemplate GetAccountTransactionDocumentTemplateByName(string documentName)
+        public AccountTransactionDocumentType GetAccountTransactionDocumentTypeByName(string documentName)
         {
-            return DocumentTemplates.SingleOrDefault(x => x.Name == documentName);
+            return DocumentTypes.SingleOrDefault(x => x.Name == documentName);
         }
 
         private IEnumerable<ResourceState> _resourceStates;
@@ -253,45 +253,45 @@ namespace Samba.Services.Implementations
             return PrintJobs.SingleOrDefault(x => x.Name == name);
         }
 
-        private IEnumerable<PaymentTemplate> _paymentTemplates;
-        public IEnumerable<PaymentTemplate> PaymentTemplates
+        private IEnumerable<PaymentType> _paymentTypes;
+        public IEnumerable<PaymentType> PaymentTypes
         {
-            get { return _paymentTemplates ?? (_paymentTemplates = Dao.Query<PaymentTemplate>(x => x.PaymentTemplateMaps, x => x.AccountTransactionTemplate, x => x.Account)); }
+            get { return _paymentTypes ?? (_paymentTypes = Dao.Query<PaymentType>(x => x.PaymentTypeMaps, x => x.AccountTransactionType, x => x.Account)); }
         }
 
-        public IEnumerable<PaymentTemplate> GetUnderTicketPaymentTemplates()
+        public IEnumerable<PaymentType> GetUnderTicketPaymentTypes()
         {
-            var maps = PaymentTemplates.SelectMany(x => x.PaymentTemplateMaps)
+            var maps = PaymentTypes.SelectMany(x => x.PaymentTypeMaps)
                 .Where(x => x.DisplayUnderTicket)
                 .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
-            return PaymentTemplates.Where(x => maps.Any(y => y.PaymentTemplateId == x.Id)).OrderBy(x => x.Order);
+            return PaymentTypes.Where(x => maps.Any(y => y.PaymentTypeId == x.Id)).OrderBy(x => x.Order);
         }
 
-        public IEnumerable<PaymentTemplate> GetPaymentScreenPaymentTemplates()
+        public IEnumerable<PaymentType> GetPaymentScreenPaymentTypes()
         {
-            var maps = PaymentTemplates.SelectMany(x => x.PaymentTemplateMaps)
+            var maps = PaymentTypes.SelectMany(x => x.PaymentTypeMaps)
                 .Where(x => x.DisplayAtPaymentScreen)
                 .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
-            return PaymentTemplates.Where(x => maps.Any(y => y.PaymentTemplateId == x.Id)).OrderBy(x => x.Order);
+            return PaymentTypes.Where(x => maps.Any(y => y.PaymentTypeId == x.Id)).OrderBy(x => x.Order);
         }
 
-        private IEnumerable<ChangePaymentTemplate> _changePaymentTemplates;
-        public IEnumerable<ChangePaymentTemplate> ChangePaymentTemplates
+        private IEnumerable<ChangePaymentType> _changePaymentTypes;
+        public IEnumerable<ChangePaymentType> ChangePaymentTypes
         {
-            get { return _changePaymentTemplates ?? (_changePaymentTemplates = Dao.Query<ChangePaymentTemplate>(x => x.ChangePaymentTemplateMaps, x => x.AccountTransactionTemplate, x => x.Account)); }
+            get { return _changePaymentTypes ?? (_changePaymentTypes = Dao.Query<ChangePaymentType>(x => x.ChangePaymentTypeMaps, x => x.AccountTransactionType, x => x.Account)); }
         }
 
-        public IEnumerable<ChangePaymentTemplate> GetChangePaymentTemplates()
+        public IEnumerable<ChangePaymentType> GetChangePaymentTypes()
         {
-            var maps = ChangePaymentTemplates.SelectMany(x => x.ChangePaymentTemplateMaps)
+            var maps = ChangePaymentTypes.SelectMany(x => x.ChangePaymentTypeMaps)
                 .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
-            return ChangePaymentTemplates.Where(x => maps.Any(y => y.ChangePaymentTemplateId == x.Id)).OrderBy(x => x.Order);
+            return ChangePaymentTypes.Where(x => maps.Any(y => y.ChangePaymentTypeId == x.Id)).OrderBy(x => x.Order);
         }
 
         private IEnumerable<TicketTagGroup> _ticketTagGroups;
@@ -331,7 +331,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<CalculationSelector> _calculationSelectors;
         public IEnumerable<CalculationSelector> CalculationSelectors
         {
-            get { return _calculationSelectors ?? (_calculationSelectors = Dao.Query<CalculationSelector>(x => x.CalculationSelectorMaps, x => x.CalculationTemplates.Select(y => y.AccountTransactionTemplate))); }
+            get { return _calculationSelectors ?? (_calculationSelectors = Dao.Query<CalculationSelector>(x => x.CalculationSelectorMaps, x => x.CalculationTypes.Select(y => y.AccountTransactionType))); }
         }
 
         public IEnumerable<CalculationSelector> GetCalculationSelectors()
@@ -343,9 +343,9 @@ namespace Samba.Services.Implementations
             return CalculationSelectors.Where(x => maps.Any(y => y.CalculationSelectorId == x.Id)).OrderBy(x => x.Order);
         }
 
-        public IEnumerable<AccountTemplate> GetAccountTemplates()
+        public IEnumerable<AccountType> GetAccountTypes()
         {
-            return AccountTemplates;
+            return AccountTypes;
         }
 
         private IEnumerable<AccountScreen> _accountScreens;
@@ -359,25 +359,25 @@ namespace Samba.Services.Implementations
             return AccountScreens;
         }
 
-        public PaymentTemplate GetPaymentTemplateById(int paymentTemplateId)
+        public PaymentType GetPaymentTypeById(int paymentTypeId)
         {
-            return PaymentTemplates.Single(x => x.Id == paymentTemplateId);
+            return PaymentTypes.Single(x => x.Id == paymentTypeId);
         }
 
-        public ChangePaymentTemplate GetChangePaymentTemplateById(int id)
+        public ChangePaymentType GetChangePaymentTypeById(int id)
         {
-            return ChangePaymentTemplates.Single(x => x.Id == id);
+            return ChangePaymentTypes.Single(x => x.Id == id);
         }
 
-        public int GetResourceTemplateIdByEntityName(string entityName)
+        public int GetResourceTypeIdByEntityName(string entityName)
         {
-            var rt = ResourceTemplates.FirstOrDefault(x => x.EntityName == entityName);
+            var rt = ResourceTypes.FirstOrDefault(x => x.EntityName == entityName);
             return rt != null ? rt.Id : 0;
         }
 
-        public IEnumerable<AccountTemplate> GetAccountTemplatesByName(IEnumerable<string> accountTemplateNames)
+        public IEnumerable<AccountType> GetAccountTypesByName(IEnumerable<string> accountTypeNames)
         {
-            return AccountTemplates.Where(x => accountTemplateNames.Contains(x.Name));
+            return AccountTypes.Where(x => accountTypeNames.Contains(x.Name));
         }
 
         public MenuItemPortion GetMenuItemPortion(int menuItemId, string portionName)
@@ -432,20 +432,20 @@ namespace Samba.Services.Implementations
             _productTimers = null;
             _menuItems = null;
             _screenMenus = null;
-            _accountTransactionTemplates = null;
+            _accountTransactionTypes = null;
             _accountScreens = null;
             _calculationSelectors = null;
             _automationCommands = null;
             _orderTagGroups = null;
             _orderStateGroups = null;
-            _resourceTemplates = null;
-            _accountTemplates = null;
+            _resourceTypes = null;
+            _accountTypes = null;
             _resources = null;
-            _documentTemplates = null;
+            _documentTypes = null;
             _resourceStates = null;
             _printJobs = null;
-            _paymentTemplates = null;
-            _changePaymentTemplates = null;
+            _paymentTypes = null;
+            _changePaymentTypes = null;
             _ticketTagGroups = null;
             Dao.ResetCache();
         }

@@ -143,10 +143,6 @@
     <value>Admin PIN: 1234
 Changing PIN will hide this hint</value>
   </data>
-  <data name="AccountName" xml:space="preserve">
-    <value>Account Name</value>
-    <comment>TextBlock content</comment>
-  </data>
   <data name="Address" xml:space="preserve">
     <value>Address</value>
     <comment>TextBlock content</comment>
@@ -199,40 +195,11 @@ Changing PIN will hide this hint</value>
     <value>Voucher</value>
     <comment>GridViewColumn.Header</comment>
   </data>
-  <data name="CreditCard_ab" xml:space="preserve">
-    <value>C.Card</value>
-    <comment>GridViewColumn.Header</comment>
-  </data>
-  <data name="Voucher_ab" xml:space="preserve">
-    <value>Vochr</value>
-    <comment>GridViewColumn.Header</comment>
-  </data>
-  <data name="OperationIncome" xml:space="preserve">
-    <value>Operation Income</value>
-  </data>
   <data name="StartOfDay" xml:space="preserve">
     <value>Begining of Work Period</value>
   </data>
-  <data name="NewIncomeTransaction" xml:space="preserve">
-    <value>New Income Transaction</value>
-  </data>
-  <data name="NewExpenseTransaction" xml:space="preserve">
-    <value>New Expense Transaction</value>
-  </data>
-  <data name="IncomeTransaction_r" xml:space="preserve">
-    <value>Income
-Transaction</value>
-  </data>
-  <data name="ExpenseTransaction_r" xml:space="preserve">
-    <value>Expense
-Transaction</value>
-  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
-  </data>
-  <data name="InternalAccount" xml:space="preserve">
-    <value>Internal Account</value>
-    <comment>CheckBox content</comment>
   </data>
   <data name="Ticket" xml:space="preserve">
     <value>Ticket</value>
@@ -439,10 +406,6 @@ Transaction</value>
     <value>Unit</value>
     <comment>DataGridTemplateColumn.Header</comment>
   </data>
-  <data name="RecipeName" xml:space="preserve">
-    <value>Recipe Name</value>
-    <comment>Label content</comment>
-  </data>
   <data name="Product" xml:space="preserve">
     <value>Product</value>
     <comment>Label content</comment>
@@ -486,10 +449,6 @@ Transaction</value>
     <value>POS Menu</value>
     <comment>Label content</comment>
   </data>
-  <data name="TerminalMenu" xml:space="preserve">
-    <value>Terminal Menu</value>
-    <comment>Label content</comment>
-  </data>
   <data name="ColumnCount" xml:space="preserve">
     <value>Column Count</value>
     <comment>Label content</comment>
@@ -510,19 +469,8 @@ Transaction</value>
     <value>Order Number Generator</value>
     <comment>Label content</comment>
   </data>
-  <data name="TicketTags" xml:space="preserve">
-    <value>Ticket Tags</value>
-    <comment>GroupBox.Header</comment>
-  </data>
-  <data name="TicketTagGroups" xml:space="preserve">
-    <value>Tag Groups</value>
-    <comment>DataGridTextColumn.Header</comment>
-  </data>
   <data name="TicketTagGroup" xml:space="preserve">
     <value>Tag Group</value>
-  </data>
-  <data name="ChooseTagsForDepartmentHint" xml:space="preserve">
-    <value>Select tags for using at {0} template.</value>
   </data>
   <data name="Department" xml:space="preserve">
     <value>Department</value>
@@ -569,10 +517,6 @@ Transaction</value>
     <value>Price</value>
     <comment>DataGridTextColumn.Header</comment>
   </data>
-  <data name="PB" xml:space="preserve">
-    <value>C</value>
-    <comment>DataGridTextColumn.Header</comment>
-  </data>
   <data name="PropertyGroup" xml:space="preserve">
     <value>Property Group</value>
   </data>
@@ -587,13 +531,6 @@ Transaction</value>
   <data name="Multiplier" xml:space="preserve">
     <value>Multiplier</value>
     <comment>DataGridTextColumn.Header</comment>
-  </data>
-  <data name="PropertyGroups" xml:space="preserve">
-    <value>Property Groups</value>
-    <comment>GroupBox.Header</comment>
-  </data>
-  <data name="SelectPropertyGroupsHint_f" xml:space="preserve">
-    <value>Select Property Groups for {0} Product.</value>
   </data>
   <data name="Departments" xml:space="preserve">
     <value>Departments</value>
@@ -720,10 +657,6 @@ Transaction</value>
   <data name="SortCategoriesDialogHint_f" xml:space="preserve">
     <value>Drag {0} menu categories to change order.</value>
   </data>
-  <data name="TicketTagName" xml:space="preserve">
-    <value>Ticket Tag Name</value>
-    <comment>Label content</comment>
-  </data>
   <data name="Numerator" xml:space="preserve">
     <value>Number Generator</value>
     <comment>Label content</comment>
@@ -796,26 +729,6 @@ Transaction</value>
   </data>
   <data name="TemplateName" xml:space="preserve">
     <value>Template Name</value>
-    <comment>Label content</comment>
-  </data>
-  <data name="HeaderTemplate" xml:space="preserve">
-    <value>Header Template</value>
-    <comment>Label content</comment>
-  </data>
-  <data name="LineTemplate" xml:space="preserve">
-    <value>Line Template</value>
-    <comment>Label content</comment>
-  </data>
-  <data name="GiftLineTemplate" xml:space="preserve">
-    <value>Gift Line Template</value>
-    <comment>Label content</comment>
-  </data>
-  <data name="VoidLineTemplate" xml:space="preserve">
-    <value>Void Line Template</value>
-    <comment>Label content</comment>
-  </data>
-  <data name="SubLineTemplate" xml:space="preserve">
-    <value>Line Properties Template</value>
     <comment>Label content</comment>
   </data>
   <data name="MergeLines" xml:space="preserve">
@@ -952,28 +865,12 @@ Transaction</value>
   <data name="Printer" xml:space="preserve">
     <value>Printer</value>
   </data>
-  <data name="PrintJobName" xml:space="preserve">
-    <value>Print Job Name</value>
-    <comment>Label content</comment>
-  </data>
   <data name="ButtonHeader" xml:space="preserve">
     <value>Button Header</value>
     <comment>Label content</comment>
   </data>
   <data name="LockTicket" xml:space="preserve">
     <value>Lock Ticket</value>
-    <comment>CheckBox content</comment>
-  </data>
-  <data name="UseAtPosScreen" xml:space="preserve">
-    <value>Display at POS Screen</value>
-    <comment>CheckBox content</comment>
-  </data>
-  <data name="UseAtPaymentScreen" xml:space="preserve">
-    <value>Display at Payment Screen</value>
-    <comment>CheckBox content</comment>
-  </data>
-  <data name="UseAtTerminal" xml:space="preserve">
-    <value>Display At Terminal</value>
     <comment>CheckBox content</comment>
   </data>
   <data name="UseAtOldTickets" xml:space="preserve">
@@ -1063,15 +960,6 @@ Transaction</value>
   <data name="Terminals" xml:space="preserve">
     <value>Terminals</value>
   </data>
-  <data name="Printers" xml:space="preserve">
-    <value>Printers</value>
-  </data>
-  <data name="PrintJobs" xml:space="preserve">
-    <value>Print Jobs</value>
-  </data>
-  <data name="PrinterTemplates" xml:space="preserve">
-    <value>Printer Templates</value>
-  </data>
   <data name="SambaPosWebsite" xml:space="preserve">
     <value>SambaPOS Website</value>
   </data>
@@ -1080,10 +968,6 @@ Transaction</value>
   </data>
   <data name="CanStartEndOfDay" xml:space="preserve">
     <value>Can Start End of Day</value>
-  </data>
-  <data name="TerminalName" xml:space="preserve">
-    <value>Terminal Name</value>
-    <comment>Label content</comment>
   </data>
   <data name="ProgramLanguage" xml:space="preserve">
     <value>Program Language</value>
@@ -1677,9 +1561,6 @@ Visit Reports section and create Work Period Reports</value>
   <data name="KitchenOrderTemplate" xml:space="preserve">
     <value>Kitchen Orders Template</value>
   </data>
-  <data name="InvoicePrinterTemplate" xml:space="preserve">
-    <value>Invoice Template</value>
-  </data>
   <data name="KitchenPrinter" xml:space="preserve">
     <value>Kitchen Printer</value>
   </data>
@@ -2153,15 +2034,8 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="SortType" xml:space="preserve">
     <value>Sort Type</value>
   </data>
-  <data name="TaxTemplates" xml:space="preserve">
-    <value>Tax Templates</value>
-  </data>
   <data name="TaxTemplate" xml:space="preserve">
     <value>Tax Template</value>
-  </data>
-  <data name="TaxTemplateName" xml:space="preserve">
-    <value>Tax Template Name</value>
-    <comment>Label.Content</comment>
   </data>
   <data name="Rate" xml:space="preserve">
     <value>Rate</value>
@@ -2299,7 +2173,7 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>Rounding Total</value>
   </data>
   <data name="ChoosePaymentsForTicketTemplate_f" xml:space="preserve">
-    <value>Select Payment Templates for using at {0} template.</value>
+    <value>Select Payment Types for using at {0} template.</value>
   </data>
   <data name="CalculationMethod" xml:space="preserve">
     <value>Calculation Method</value>
@@ -2351,8 +2225,8 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="TaxTotal" xml:space="preserve">
     <value>Tax Total</value>
   </data>
-  <data name="TotalsGroupedByCalculationTemplate" xml:space="preserve">
-    <value>Totals grouped by Calculation template</value>
+  <data name="TotalsGroupedByCalculationType" xml:space="preserve">
+    <value>Totals grouped by Calculation Type</value>
   </data>
   <data name="TextWrittenTotalValue" xml:space="preserve">
     <value>Text written total value</value>
@@ -2406,14 +2280,8 @@ Continue without adding details?</value>
   <data name="OrderTagGroup" xml:space="preserve">
     <value>Order Tag Group</value>
   </data>
-  <data name="OrderTagGroupName" xml:space="preserve">
-    <value>Order Tag Group Name</value>
-  </data>
   <data name="OrderTagGroups" xml:space="preserve">
     <value>Order Tag Groups</value>
-  </data>
-  <data name="OrderTags" xml:space="preserve">
-    <value>Order Tags</value>
   </data>
   <data name="APortionShouldSelected" xml:space="preserve">
     <value>A portion should selected</value>
@@ -2430,21 +2298,8 @@ Continue without adding details?</value>
   <data name="TaggingType" xml:space="preserve">
     <value>Tagging Type</value>
   </data>
-  <data name="OrderTagMapping" xml:space="preserve">
-    <value>Order Tag Mapping</value>
-    <comment>Label content</comment>
-  </data>
   <data name="OrderTagTemplate" xml:space="preserve">
     <value>Order Tag Template</value>
-  </data>
-  <data name="OrderTagTemplates" xml:space="preserve">
-    <value>Order Tag Templates</value>
-  </data>
-  <data name="OrderTagTemplateName" xml:space="preserve">
-    <value>Order Tag Template Name</value>
-  </data>
-  <data name="DefaultOrderTags" xml:space="preserve">
-    <value>Default Order Tags</value>
   </data>
   <data name="DefaultOrderTag" xml:space="preserve">
     <value>Default Order Tag</value>
@@ -2452,10 +2307,10 @@ Continue without adding details?</value>
   <data name="SubMenuTags" xml:space="preserve">
     <value>Sub Menu Tags</value>
   </data>
-  <data name="AccountTemplate" xml:space="preserve">
-    <value>Account Template</value>
+  <data name="AccountType" xml:space="preserve">
+    <value>Account Type</value>
   </data>
-  <data name="DeleteErrorAccountTemplateAssignedtoAccounts" xml:space="preserve">
+  <data name="DeleteErrorAccountTypeAssignedtoAccounts" xml:space="preserve">
     <value>Can't delete because this template assigned to accounts</value>
   </data>
   <data name="CustomField" xml:space="preserve">
@@ -2484,9 +2339,6 @@ Continue without adding details?</value>
   </data>
   <data name="Values" xml:space="preserve">
     <value>Values</value>
-  </data>
-  <data name="TicketTemplates" xml:space="preserve">
-    <value>Ticket Templates</value>
   </data>
   <data name="LastLinesByPrinterLineCount" xml:space="preserve">
     <value>Last Lines by Printer Line Count</value>
@@ -2521,11 +2373,8 @@ Continue without adding details?</value>
   <data name="SearchString" xml:space="preserve">
     <value>Search String</value>
   </data>
-  <data name="CalculationTemplates" xml:space="preserve">
-    <value>Calculation Templates</value>
-  </data>
-  <data name="CalculationTemplate" xml:space="preserve">
-    <value>Calculation Template</value>
+  <data name="CalculationType" xml:space="preserve">
+    <value>Calculation Type</value>
   </data>
   <data name="SaveErrorDuplicateItemName_f" xml:space="preserve">
     <value>There is already a {0} with that name.</value>
@@ -2536,8 +2385,8 @@ Continue without adding details?</value>
   <data name="Order" xml:space="preserve">
     <value>Order</value>
   </data>
-  <data name="AccountTransactionTemplate" xml:space="preserve">
-    <value>Account Transaction Template</value>
+  <data name="AccountTransactionType" xml:space="preserve">
+    <value>Account Transaction Type</value>
     <comment>Label content</comment>
   </data>
   <data name="IncludeTax" xml:space="preserve">
@@ -2548,11 +2397,8 @@ Continue without adding details?</value>
     <value>Decrease Amount</value>
     <comment>CheckBox content</comment>
   </data>
-  <data name="PaymentTemplate" xml:space="preserve">
-    <value>Payment Template</value>
-  </data>
-  <data name="PaymentTemplates" xml:space="preserve">
-    <value>Payment Templates</value>
+  <data name="PaymentType" xml:space="preserve">
+    <value>Payment Type</value>
   </data>
   <data name="Debit" xml:space="preserve">
     <value>Debit</value>
@@ -2566,8 +2412,8 @@ Continue without adding details?</value>
   <data name="Time" xml:space="preserve">
     <value>Time</value>
   </data>
-  <data name="DocumentTemplate" xml:space="preserve">
-    <value>Document Template</value>
+  <data name="DocumentType" xml:space="preserve">
+    <value>Document Type</value>
   </data>
   <data name="DefaultAmount" xml:space="preserve">
     <value>Default Amount</value>
@@ -2619,8 +2465,8 @@ Continue without adding details?</value>
   <data name="Resource" xml:space="preserve">
     <value>Resource</value>
   </data>
-  <data name="ResourceTemplate" xml:space="preserve">
-    <value>Resource Template</value>
+  <data name="ResourceType" xml:space="preserve">
+    <value>Resource Type</value>
   </data>
   <data name="ResourceScreen" xml:space="preserve">
     <value>Resource Screen</value>
@@ -2643,8 +2489,8 @@ Continue without adding details?</value>
   <data name="Resourceses" xml:space="preserve">
     <value>Resources</value>
   </data>
-  <data name="ResourceTemplates" xml:space="preserve">
-    <value>Resource Templates</value>
+  <data name="ResourceTypes" xml:space="preserve">
+    <value>Resource Types</value>
   </data>
   <data name="SelectItemsFor_f" xml:space="preserve">
     <value>Select {0} for using with {1} {2}</value>
@@ -2682,8 +2528,8 @@ Continue without adding details?</value>
   <data name="BatchCreateInfo_f" xml:space="preserve">
     <value>We'll create {0} for each line you entered here.</value>
   </data>
-  <data name="TransactionTemplate" xml:space="preserve">
-    <value>Transaction Template</value>
+  <data name="TransactionType" xml:space="preserve">
+    <value>Transaction Type</value>
   </data>
   <data name="FixedAmountFromTicketTotal" xml:space="preserve">
     <value>Fixed amount from ticket total</value>
@@ -2891,10 +2737,6 @@ Continue without adding details?</value>
     <value>Increase Inventory</value>
     <comment>CheckBox.Content</comment>
   </data>
-  <data name="OrderStates" xml:space="preserve">
-    <value>Order States</value>
-    <comment>TabItem.Header</comment>
-  </data>
   <data name="ProductTimer" xml:space="preserve">
     <value>Product Timer</value>
   </data>
@@ -2910,8 +2752,8 @@ Continue without adding details?</value>
   <data name="CurrencySymbol" xml:space="preserve">
     <value>Currency Symbol</value>
   </data>
-  <data name="ChangePaymentTemplate" xml:space="preserve">
-    <value>Change Payment Template</value>
+  <data name="ChangePaymentType" xml:space="preserve">
+    <value>Change Payment Type</value>
   </data>
   <data name="ChangeTotal" xml:space="preserve">
     <value>Change Total</value>
@@ -2933,5 +2775,14 @@ Continue without adding details?</value>
   </data>
   <data name="ActionName">
     <value xml:space="preserve">Action Name</value>
+  </data>
+  <data name="AccountTransactionDocument">
+    <value xml:space="preserve">Account Transaction Document</value>
+  </data>
+  <data name="Mapping_f">
+    <value xml:space="preserve">{0} Mapping</value>
+  </data>
+  <data name="Name_f">
+    <value xml:space="preserve">{0} Name</value>
   </data>
 </root>

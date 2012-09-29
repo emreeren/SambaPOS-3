@@ -24,11 +24,11 @@ namespace Samba.Services.Implementations.ResourceModule
             _resourceScreenItemCount = Dao.Count<ResourceScreenItem>();
 
             ValidatorRegistry.RegisterDeleteValidator<Resource>(x => Dao.Exists<TicketResource>(y => y.ResourceId == x.Id), Resources.Resource, Resources.Ticket);
-            ValidatorRegistry.RegisterDeleteValidator<ResourceTemplate>(x => Dao.Exists<Resource>(y => y.ResourceTemplateId == x.Id), Resources.ResourceTemplate, Resources.Resource);
+            ValidatorRegistry.RegisterDeleteValidator<ResourceType>(x => Dao.Exists<Resource>(y => y.ResourceTypeId == x.Id), Resources.ResourceType, Resources.Resource);
             ValidatorRegistry.RegisterDeleteValidator<ResourceScreenItem>(x => Dao.Exists<ResourceScreen>(y => y.ScreenItems.Any(z => z.Id == x.Id)), Resources.ResourceScreenItem, Resources.ResourceScreen);
             ValidatorRegistry.RegisterDeleteValidator<ResourceScreen>(x => Dao.Exists<Department>(y => y.ResourceScreens.Any(z => z.Id == x.Id)), Resources.ResourceScreen, Resources.Department);
             ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<Resource>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.Resource)));
-            ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<ResourceTemplate>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.ResourceTemplate)));
+            ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<ResourceType>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.ResourceType)));
             ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<ResourceScreenItem>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.ResourceScreenItem)));
         }
 
@@ -78,14 +78,14 @@ namespace Samba.Services.Implementations.ResourceModule
             return new List<ResourceScreenItem>();
         }
 
-        public IEnumerable<Resource> GetResourcesByState(int resourceStateId, int resourceTemplateId)
+        public IEnumerable<Resource> GetResourcesByState(int resourceStateId, int ResourceTypeId)
         {
             using (var w = WorkspaceFactory.CreateReadOnly())
             {
                 var ids = w.Queryable<ResourceStateValue>().GroupBy(x => x.ResoruceId).Select(x => x.Max(y => y.Id));
                 var vids = w.Queryable<ResourceStateValue>().Where(x => ids.Contains(x.Id) && (x.StateId == resourceStateId)).Select(x => x.ResoruceId).ToList();
                 if (vids.Count > 0)
-                    return w.Queryable<Resource>().Where(x => x.ResourceTemplateId == resourceTemplateId && vids.Contains(x.Id)).ToList();
+                    return w.Queryable<Resource>().Where(x => x.ResourceTypeId == ResourceTypeId && vids.Contains(x.Id)).ToList();
                 return _emptyResourceList;
             }
         }
@@ -119,9 +119,9 @@ namespace Samba.Services.Implementations.ResourceModule
             _resoureceWorkspace.CommitChanges();
         }
 
-        public List<Resource> SearchResources(string searchString, ResourceTemplate selectedResourceTemplate, int stateFilter)
+        public List<Resource> SearchResources(string searchString, ResourceType selectedResourceType, int stateFilter)
         {
-            var templateId = selectedResourceTemplate != null ? selectedResourceTemplate.Id : 0;
+            var templateId = selectedResourceType != null ? selectedResourceType.Id : 0;
             var searchValue = searchString.ToLower();
 
             using (var w = WorkspaceFactory.CreateReadOnly())
@@ -129,11 +129,11 @@ namespace Samba.Services.Implementations.ResourceModule
                 var result =
                     w.Query<Resource>(
                         x =>
-                        x.ResourceTemplateId == templateId &&
+                        x.ResourceTypeId == templateId &&
                         (x.CustomData.Contains(searchString) || x.Name.ToLower().Contains(searchValue))).Take(250).ToList();
 
-                if (selectedResourceTemplate != null)
-                    result = result.Where(x => selectedResourceTemplate.GetMatchingFields(x, searchString).Any(y => !y.Hidden) || x.Name.ToLower().Contains(searchValue)).ToList();
+                if (selectedResourceType != null)
+                    result = result.Where(x => selectedResourceType.GetMatchingFields(x, searchString).Any(y => !y.Hidden) || x.Name.ToLower().Contains(searchValue)).ToList();
 
 
                 if (stateFilter > 0)

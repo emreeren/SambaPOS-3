@@ -31,7 +31,7 @@ namespace Samba.Modules.ResourceModule
         public int ColumnCount { get { return Model.ColumnCount; } set { Model.ColumnCount = value; } }
         public int RowCount { get { return Model.RowCount; } set { Model.RowCount = value; } }
         public int ButtonHeight { get { return Model.ButtonHeight; } set { Model.ButtonHeight = value; } }
-        public int ResourceTemplateId { get { return Model.ResourceTemplateId; } set { Model.ResourceTemplateId = value; } }
+        public int ResourceTypeId { get { return Model.ResourceTypeId; } set { Model.ResourceTypeId = value; } }
         public int? StateFilterId { get { return Model.StateFilterId; } set { Model.StateFilterId = value.GetValueOrDefault(0); } }
 
         public ResourceScreenViewModel()
@@ -39,10 +39,10 @@ namespace Samba.Modules.ResourceModule
             SelectScreenItemsCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.ScreenItem), OnSelectScreenItems);
         }
 
-        private IEnumerable<ResourceTemplate> _resourceTemplates;
-        public IEnumerable<ResourceTemplate> ResourceTemplates
+        private IEnumerable<ResourceType> _ResourceTypes;
+        public IEnumerable<ResourceType> ResourceTypes
         {
-            get { return _resourceTemplates ?? (_resourceTemplates = Workspace.All<ResourceTemplate>()); }
+            get { return _ResourceTypes ?? (_ResourceTypes = Workspace.All<ResourceType>()); }
         }
 
         private IEnumerable<ResourceState> _resourceStates;
@@ -56,7 +56,7 @@ namespace Samba.Modules.ResourceModule
             var items = Model.ScreenItems.ToList();
 
             IList<IOrderable> values = new List<IOrderable>(Workspace
-                .All<Resource>(x => x.ResourceTemplateId == ResourceTemplateId)
+                .All<Resource>(x => x.ResourceTypeId == ResourceTypeId)
                 .Where(x => items.FirstOrDefault(y => y.ResourceId == x.Id) == null)
                 .OrderBy(x => x.Name)
                 .Select(x => new ResourceScreenItem { ResourceId = x.Id, Name = x.Name }));
@@ -95,7 +95,7 @@ namespace Samba.Modules.ResourceModule
     {
         public ResourceScreenValidator()
         {
-            RuleFor(x => x.ResourceTemplateId).GreaterThan(0);
+            RuleFor(x => x.ResourceTypeId).GreaterThan(0);
         }
     }
 }

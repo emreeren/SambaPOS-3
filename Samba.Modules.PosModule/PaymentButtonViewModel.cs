@@ -18,7 +18,7 @@ namespace Samba.Modules.PosModule
         public PaymentButtonGroupViewModel PaymentButtonGroup { get; set; }
         public CaptionCommand<string> CloseTicketCommand { get; set; }
         public CaptionCommand<string> MakePaymentCommand { get; set; }
-        public CaptionCommand<PaymentTemplate> MakeFastPaymentCommand { get; set; }
+        public CaptionCommand<PaymentType> MakeFastPaymentCommand { get; set; }
 
         private Ticket _selectedTicket;
         public Ticket SelectedTicket
@@ -30,7 +30,7 @@ namespace Samba.Modules.PosModule
 
                 if (SelectedDepartment != null && _selectedTicket != Ticket.Empty)
                 {
-                    PaymentButtonGroup.UpdatePaymentButtons(_cacheService.GetUnderTicketPaymentTemplates(), null);
+                    PaymentButtonGroup.UpdatePaymentButtons(_cacheService.GetUnderTicketPaymentTypes(), null);
                 }
                 RaisePropertyChanged(() => PaymentButtonGroup);
                 RaisePropertyChanged(() => SelectedTicket);
@@ -46,7 +46,7 @@ namespace Samba.Modules.PosModule
 
             CloseTicketCommand = new CaptionCommand<string>(Resources.CloseTicket_r, OnCloseTicketExecute, CanCloseTicket);
             MakePaymentCommand = new CaptionCommand<string>(Resources.Settle, OnMakePaymentExecute, CanMakePayment);
-            MakeFastPaymentCommand = new CaptionCommand<PaymentTemplate>("[FastPayment]", OnMakeFastPaymentExecute, CanMakeFastPayment);
+            MakeFastPaymentCommand = new CaptionCommand<PaymentType>("[FastPayment]", OnMakeFastPaymentExecute, CanMakeFastPayment);
 
             PaymentButtonGroup = new PaymentButtonGroupViewModel(MakeFastPaymentCommand, MakePaymentCommand, CloseTicketCommand);
             SelectedTicket = Ticket.Empty;
@@ -56,7 +56,7 @@ namespace Samba.Modules.PosModule
 
         private void OnDepartmentChanged(EventParameters<Department> obj)
         {
-            PaymentButtonGroup.UpdatePaymentButtons(_cacheService.GetUnderTicketPaymentTemplates(), null);
+            PaymentButtonGroup.UpdatePaymentButtons(_cacheService.GetUnderTicketPaymentTypes(), null);
             RaisePropertyChanged(() => PaymentButtonGroup);
         }
 
@@ -71,14 +71,14 @@ namespace Samba.Modules.PosModule
                 && (SelectedTicket.GetRemainingAmount() > 0 || SelectedTicket.Orders.Count > 0);
         }
 
-        private void OnMakeFastPaymentExecute(PaymentTemplate obj)
+        private void OnMakeFastPaymentExecute(PaymentType obj)
         {
             if (!CanCloseTicket()) return;
             _ticketService.PayTicket(SelectedTicket, obj);
             CloseTicket();
         }
 
-        private bool CanMakeFastPayment(PaymentTemplate arg)
+        private bool CanMakeFastPayment(PaymentType arg)
         {
             return SelectedTicket != Ticket.Empty && SelectedTicket.GetRemainingAmount() > 0;
         }

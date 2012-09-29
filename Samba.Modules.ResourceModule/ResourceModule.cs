@@ -30,10 +30,10 @@ namespace Samba.Modules.ResourceModule
             _resourceEditorView = resourceEditorView;
             _regionManager = regionManager;
 
-            AddDashboardCommand<EntityCollectionViewModelBase<ResourceViewModel, Resource>>(string.Format(Resources.List_f, Resources.Resource), Resources.Resourceses, 40);
-            AddDashboardCommand<EntityCollectionViewModelBase<ResourceTemplateViewModel, ResourceTemplate>>(string.Format(Resources.List_f, Resources.ResourceTemplate), Resources.Resourceses, 40);
-            AddDashboardCommand<EntityCollectionViewModelBase<ResourceStateViewModel, ResourceState>>(string.Format(Resources.List_f, Resources.ResourceState), Resources.Resourceses, 40);
-            AddDashboardCommand<EntityCollectionViewModelBase<ResourceScreenViewModel, ResourceScreen>>(string.Format(Resources.List_f, Resources.ResourceScreen), Resources.Resourceses, 41);
+            AddDashboardCommand<EntityCollectionViewModelBase<ResourceTypeViewModel, ResourceType>>(Resources.ResourceType.ToPlural(), Resources.Resourceses, 40);
+            AddDashboardCommand<EntityCollectionViewModelBase<ResourceViewModel, Resource>>(Resources.Resource.ToPlural(), Resources.Resourceses, 40);
+            AddDashboardCommand<EntityCollectionViewModelBase<ResourceStateViewModel, ResourceState>>(Resources.ResourceState.ToPlural(), Resources.Resourceses, 40);
+            AddDashboardCommand<EntityCollectionViewModelBase<ResourceScreenViewModel, ResourceScreen>>(Resources.ResourceScreen.ToPlural(), Resources.Resourceses, 41);
         }
 
         protected override void OnInitialization()
@@ -42,7 +42,7 @@ namespace Samba.Modules.ResourceModule
             _regionManager.RegisterViewWithRegion(RegionNames.ResourceScreenRegion, typeof(ResourceSelectorView));
             _regionManager.RegisterViewWithRegion(RegionNames.ResourceScreenRegion, typeof(ResourceSearchView));
             _regionManager.RegisterViewWithRegion(RegionNames.ResourceScreenRegion, typeof(ResourceEditorView));
-            _regionManager.RegisterViewWithRegion(RegionNames.ResourceScreenRegion, typeof (ResourceDashboardView));
+            _regionManager.RegisterViewWithRegion(RegionNames.ResourceScreenRegion, typeof(ResourceDashboardView));
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Resource>>>().Subscribe(x =>
             {

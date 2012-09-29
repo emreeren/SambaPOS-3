@@ -11,9 +11,9 @@ namespace Samba.Domain.Models.Tickets
     {
         public string Name { get; set; }
         public int Order { get; set; }
-        public int CalculationTemplateId { get; set; }
+        public int CalculationTypeId { get; set; }
         public int TicketId { get; set; }
-        public int AccountTransactionTemplateId { get; set; }
+        public int AccountTransactionTypeId { get; set; }
         public int CalculationType { get; set; }
         public bool IncludeTax { get; set; }
         public bool DecreaseAmount { get; set; }

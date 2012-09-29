@@ -4,8 +4,8 @@ namespace Samba.Modules.PaymentModule
 {
     public class PaymentData
     {
-        public PaymentTemplate PaymentTemplate { get; set; }
-        public ChangePaymentTemplate ChangePaymentTemplate { get; set; }
+        public PaymentType PaymentType { get; set; }
+        public ChangePaymentType ChangePaymentType { get; set; }
         public decimal PaymentDueAmount { get; set; }
         public decimal TenderedAmount { get; set; }
     }

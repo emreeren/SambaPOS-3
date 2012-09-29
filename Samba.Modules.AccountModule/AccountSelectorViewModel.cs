@@ -72,17 +72,17 @@ namespace Samba.Modules.AccountModule
             });
         }
 
-        private IEnumerable<DocumentTemplateButtonViewModel> _batchDocumentButtons;
-        public IEnumerable<DocumentTemplateButtonViewModel> BatchDocumentButtons
+        private IEnumerable<DocumentTypeButtonViewModel> _batchDocumentButtons;
+        public IEnumerable<DocumentTypeButtonViewModel> BatchDocumentButtons
         {
             get
             {
                 return _batchDocumentButtons ??
                     (_batchDocumentButtons =
                     _selectedAccountScreen != null
-                    ? _cacheService.GetBatchDocumentTemplates(_selectedAccountScreen.AccountScreenValues.Select(x => x.AccountTemplateName))
+                    ? _cacheService.GetBatchDocumentTypes(_selectedAccountScreen.AccountScreenValues.Select(x => x.AccountTypeName))
                             .Where(x => !string.IsNullOrEmpty(x.ButtonHeader))
-                            .Select(x => new DocumentTemplateButtonViewModel(x, null)) : null);
+                            .Select(x => new DocumentTypeButtonViewModel(x, null)) : null);
             }
         }
 
@@ -103,11 +103,11 @@ namespace Samba.Modules.AccountModule
             _selectedAccountScreen = accountScreen;
             _accounts.Clear();
 
-            var detailedTemplateNames = accountScreen.AccountScreenValues.Where(x => x.DisplayDetails).Select(x => x.AccountTemplateId);
+            var detailedTemplateNames = accountScreen.AccountScreenValues.Where(x => x.DisplayDetails).Select(x => x.AccountTypeId);
             _accountService.GetAccountBalances(detailedTemplateNames.ToList(), GetFilter()).ToList().ForEach(x => _accounts.Add(new AccountRowData(x.Key.Name, x.Value.Balance, x.Value.Exchange, x.Key.Id, GetCurrencyFormat(x.Key.ForeignCurrencyId))));
 
-            var templateTotals = accountScreen.AccountScreenValues.Where(x => !x.DisplayDetails).Select(x => x.AccountTemplateId);
-            _accountService.GetAccountTemplateBalances(templateTotals.ToList(), GetFilter()).ToList().ForEach(x => _accounts.Add(new AccountRowData(x.Key.Name, x.Value.Balance, x.Value.Exchange, 0, "")));
+            var templateTotals = accountScreen.AccountScreenValues.Where(x => !x.DisplayDetails).Select(x => x.AccountTypeId);
+            _accountService.GetAccountTypeBalances(templateTotals.ToList(), GetFilter()).ToList().ForEach(x => _accounts.Add(new AccountRowData(x.Key.Name, x.Value.Balance, x.Value.Exchange, 0, "")));
 
             RaisePropertyChanged(() => BatchDocumentButtons);
             RaisePropertyChanged(() => AccountButtons);

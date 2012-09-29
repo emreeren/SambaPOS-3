@@ -5,13 +5,13 @@ namespace Samba.Modules.AccountModule.Dashboard
 {
     internal class AccountTransactionDocumentAccountMapViewModel
     {
-        public AccountTransactionDocumentAccountMapViewModel(IAccountService accountService, AccountTransactionDocumentAccountMap accountTransactionDocumentAccountMap, AccountTemplate masterAccountTemplate, AccountTemplate mappingAccountTemplate)
+        public AccountTransactionDocumentAccountMapViewModel(IAccountService accountService, AccountTransactionDocumentAccountMap accountTransactionDocumentAccountMap, AccountType masterAccountType, AccountType mappingAccountType)
         {
             Model = accountTransactionDocumentAccountMap;
-            AccountSelector = new AccountSelectViewModel(accountService, masterAccountTemplate, Model.AccountName, (x, y) => { Model.AccountId = y; Model.AccountName = x; });
-            if (mappingAccountTemplate != null)
+            AccountSelector = new AccountSelectViewModel(accountService, masterAccountType, Model.AccountName, (x, y) => { Model.AccountId = y; Model.AccountName = x; });
+            if (mappingAccountType != null)
             {
-                MappedAccountSelector = new AccountSelectViewModel(accountService, mappingAccountTemplate, Model.MappedAccountName, (x, y) => { Model.MappedAccountId = y; Model.MappedAccountName = x; });
+                MappedAccountSelector = new AccountSelectViewModel(accountService, mappingAccountType, Model.MappedAccountName, (x, y) => { Model.MappedAccountId = y; Model.MappedAccountName = x; });
             }
         }
 

@@ -20,15 +20,15 @@
                 <DataGridTemplateColumn Header="Transaction">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Margin="3" Text="{Binding AccountTransactionTemplate.Name}" />
+                            <TextBlock Margin="3" Text="{Binding AccountTransactionType.Name}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                     <DataGridTemplateColumn.CellEditingTemplate>
                         <DataTemplate>
                             <Grid FocusManager.FocusedElement="{Binding ElementName=cb}">
                                 <ComboBox Name="cb" IsEditable="True" 
-                                          ItemsSource="{Binding AccountTransactionTemplates}" 
-                                          SelectedItem="{Binding AccountTransactionTemplate}" 
+                                          ItemsSource="{Binding AccountTransactionTypes}" 
+                                          SelectedItem="{Binding AccountTransactionType}" 
                                           DisplayMemberPath="Name" />
                             </Grid>
                         </DataTemplate>

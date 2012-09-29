@@ -84,9 +84,9 @@ namespace Samba.Modules.PosModule.WidgetCreators
             }
         }
 
-        public IEnumerable<ResourceTemplate> ResourceTemplates
+        public IEnumerable<ResourceType> ResourceTypes
         {
-            get { return _cacheService.GetResourceTemplates(); }
+            get { return _cacheService.GetResourceTypes(); }
         }
 
         public TicketExplorerRowData SelectedRow { get; set; }

@@ -23,7 +23,7 @@ namespace Samba.Modules.AccountModule
 
         private readonly IAccountService _accountService;
         private readonly ICacheService _cacheService;
-        private AccountTransactionDocumentTemplate _selectedDocumentTemplate;
+        private AccountTransactionDocumentType _selectedDocumentType;
 
         public CaptionCommand<string> CreateDocuments { get; set; }
 
@@ -36,10 +36,10 @@ namespace Samba.Modules.AccountModule
             CreateDocuments = new CaptionCommand<string>(string.Format(Resources.Create_f, "").Trim(), OnCreateDocuments, CanCreateDocument);
         }
 
-        public IEnumerable<AccountTemplate> GetNeededAccountTemplates()
+        public IEnumerable<AccountType> GetNeededAccountTypes()
         {
             return
-                SelectedDocumentTemplate.GetNeededAccountTemplates().Select(x => _cacheService.GetAccountTemplateById(x));
+                SelectedDocumentType.GetNeededAccountTypes().Select(x => _cacheService.GetAccountTypeById(x));
         }
 
         private void OnCreateDocuments(string obj)
@@ -49,8 +49,8 @@ namespace Samba.Modules.AccountModule
                 .Where(x => x.IsSelected && x.Amount != 0)
                 .AsParallel()
                 .SetCulture()
-                .ForAll(x => _accountService.CreateNewTransactionDocument(x.Account, SelectedDocumentTemplate, x.Description, x.Amount, x.TargetAccounts.Select(y => new Account { Id = y.SelectedAccountId, AccountTemplateId = y.AccountTemplate.Id })));
-            SelectedDocumentTemplate.PublishEvent(EventTopicNames.BatchDocumentsCreated);
+                .ForAll(x => _accountService.CreateNewTransactionDocument(x.Account, SelectedDocumentType, x.Description, x.Amount, x.TargetAccounts.Select(y => new Account { Id = y.SelectedAccountId, AccountTypeId = y.AccountType.Id })));
+            SelectedDocumentType.PublishEvent(EventTopicNames.BatchDocumentsCreated);
         }
 
         private bool CanCreateDocument(string arg)
@@ -58,9 +58,9 @@ namespace Samba.Modules.AccountModule
             return Accounts.Any(x => x.IsSelected);
         }
 
-        public void Update(AccountTransactionDocumentTemplate value)
+        public void Update(AccountTransactionDocumentType value)
         {
-            SelectedDocumentTemplate = value;
+            SelectedDocumentType = value;
             Accounts.Clear();
             var accounts = GetAccounts(value);
             Accounts.AddRange(accounts
@@ -70,23 +70,23 @@ namespace Samba.Modules.AccountModule
             OnOnUpdate(EventArgs.Empty);
         }
 
-        private IEnumerable<Account> GetAccounts(AccountTransactionDocumentTemplate documentTemplate)
+        private IEnumerable<Account> GetAccounts(AccountTransactionDocumentType DocumentType)
         {
-            return _accountService.GetDocumentAccounts(documentTemplate);
+            return _accountService.GetDocumentAccounts(DocumentType);
         }
 
-        public string Title { get { return SelectedDocumentTemplate != null ? SelectedDocumentTemplate.Name : ""; } }
+        public string Title { get { return SelectedDocumentType != null ? SelectedDocumentType.Name : ""; } }
         public string Description { get; set; }
         public ObservableCollection<AccountRowViewModel> Accounts { get; set; }
 
-        public AccountTransactionDocumentTemplate SelectedDocumentTemplate
+        public AccountTransactionDocumentType SelectedDocumentType
         {
-            get { return _selectedDocumentTemplate; }
+            get { return _selectedDocumentType; }
             set
             {
-                if (Equals(value, _selectedDocumentTemplate)) return;
-                _selectedDocumentTemplate = value;
-                RaisePropertyChanged(() => SelectedDocumentTemplate);
+                if (Equals(value, _selectedDocumentType)) return;
+                _selectedDocumentType = value;
+                RaisePropertyChanged(() => SelectedDocumentType);
                 RaisePropertyChanged(() => Title);
             }
         }

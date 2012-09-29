@@ -15,7 +15,7 @@ namespace Samba.Domain.Models.Tickets
         public bool CalculateOrderPrice { get; set; }
         public bool DecreaseOrderInventory { get; set; }
         public bool IncreaseOrderInventory { get; set; }
-        public int AccountTransactionTemplateId { get; set; }
+        public int AccountTransactionTypeId { get; set; }
 
         private readonly IList<OrderState> _orderStates;
         public virtual IList<OrderState> OrderStates

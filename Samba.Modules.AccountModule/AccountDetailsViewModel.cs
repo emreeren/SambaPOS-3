@@ -36,12 +36,12 @@ namespace Samba.Modules.AccountModule
             DisplayTicketCommand = new CaptionCommand<string>(Resources.FindTicket.Replace(" ", "\r"), OnDisplayTicket);
             PrintAccountCommand = new CaptionCommand<string>(Resources.Print, OnPrintAccount);
             AccountDetails = new ObservableCollection<AccountDetailViewModel>();
-            DocumentTemplates = new ObservableCollection<DocumentTemplateButtonViewModel>();
+            DocumentTypes = new ObservableCollection<DocumentTypeButtonViewModel>();
             AccountSummaries = new ObservableCollection<AccountSummaryViewModel>();
             EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<AccountData>>>().Subscribe(OnDisplayAccountTransactions);
         }
 
-        public AccountTemplate SelectedAccountTemplate { get; set; }
+        public AccountType SelectedAccountType { get; set; }
         public AccountDetailViewModel FocusedAccountTransaction { get; set; }
 
         private Account _selectedAccount;
@@ -51,17 +51,17 @@ namespace Samba.Modules.AccountModule
             set
             {
                 _selectedAccount = value;
-                if (SelectedAccountTemplate == null || SelectedAccountTemplate.Id != _selectedAccount.AccountTemplateId)
+                if (SelectedAccountType == null || SelectedAccountType.Id != _selectedAccount.AccountTypeId)
                 {
-                    SelectedAccountTemplate = _cacheService.GetAccountTemplateById(value.AccountTemplateId);
+                    SelectedAccountType = _cacheService.GetAccountTypeById(value.AccountTypeId);
                 }
                 RaisePropertyChanged(() => SelectedAccount);
-                FilterType = FilterTypes[SelectedAccountTemplate.DefaultFilterType];
+                FilterType = FilterTypes[SelectedAccountType.DefaultFilterType];
                 UpdateTemplates();
             }
         }
 
-        public ObservableCollection<DocumentTemplateButtonViewModel> DocumentTemplates { get; set; }
+        public ObservableCollection<DocumentTypeButtonViewModel> DocumentTypes { get; set; }
         public ObservableCollection<AccountDetailViewModel> AccountDetails { get; set; }
         public ObservableCollection<AccountSummaryViewModel> AccountSummaries { get; set; }
 
@@ -88,12 +88,12 @@ namespace Samba.Modules.AccountModule
 
         private void UpdateTemplates()
         {
-            DocumentTemplates.Clear();
+            DocumentTypes.Clear();
             if (SelectedAccount != null)
             {
-                var templates = _cacheService.GetAccountTransactionDocumentTemplates(SelectedAccount.AccountTemplateId)
+                var templates = _cacheService.GetAccountTransactionDocumentTypes(SelectedAccount.AccountTypeId)
                     .Where(x => !string.IsNullOrEmpty(x.ButtonHeader));
-                DocumentTemplates.AddRange(templates.Select(x => new DocumentTemplateButtonViewModel(x, SelectedAccount)));
+                DocumentTypes.AddRange(templates.Select(x => new DocumentTypeButtonViewModel(x, SelectedAccount)));
             }
         }
 

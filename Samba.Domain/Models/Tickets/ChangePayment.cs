@@ -14,7 +14,7 @@ namespace Samba.Domain.Models.Tickets
             Date = DateTime.Now;
         }
 
-        public int ChangePaymentTemplateId { get; set; }
+        public int ChangePaymentTypeId { get; set; }
         public int TicketId { get; set; }
         public string Name { get; set; }
         public DateTime Date { get; set; }

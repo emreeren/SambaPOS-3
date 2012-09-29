@@ -7,7 +7,7 @@ namespace Samba.Services
     public interface IResourceService : IService
     {
         IEnumerable<ResourceScreenItem> GetCurrentResourceScreenItems(ResourceScreen resourceScreen, int currentPageNo, int resourceStateFilter);
-        IEnumerable<Resource> GetResourcesByState(int resourceStateId, int resourceTemplateId);
+        IEnumerable<Resource> GetResourcesByState(int resourceStateId, int ResourceTypeId);
         IList<ResourceScreenItem> LoadResourceScreenItems(string selectedResourceScreen);
         IList<Widget> LoadWidgets(string selectedResourceScreen);
         void SaveResourceScreenItems();
@@ -17,6 +17,6 @@ namespace Samba.Services
         void AddWidgetToResourceScreen(string resourceScreenName, Widget widget);
         void UpdateResourceScreen(ResourceScreen resourceScreen);
         void RemoveWidget(Widget widget);
-        List<Resource> SearchResources(string searchString, ResourceTemplate selectedResourceTemplate, int stateFilter);
+        List<Resource> SearchResources(string searchString, ResourceType selectedResourceType, int stateFilter);
     }
 }

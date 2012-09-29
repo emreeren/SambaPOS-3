@@ -23,34 +23,34 @@ namespace Samba.Modules.ResourceModule
             _accountService = accountService;
         }
 
-        private IEnumerable<ResourceTemplate> _resourceTemplatesTemplates;
-        public IEnumerable<ResourceTemplate> ResourceTemplates
+        private IEnumerable<ResourceType> _ResourceTypesTemplates;
+        public IEnumerable<ResourceType> ResourceTypes
         {
-            get { return _resourceTemplatesTemplates ?? (_resourceTemplatesTemplates = Workspace.All<ResourceTemplate>()); }
+            get { return _ResourceTypesTemplates ?? (_ResourceTypesTemplates = Workspace.All<ResourceType>()); }
         }
 
-        private ResourceTemplate _resoureTemplate;
-        public ResourceTemplate ResourceTemplate
+        private ResourceType _resoureTemplate;
+        public ResourceType ResourceType
         {
             get
             {
                 return _resoureTemplate ??
-                       (_resoureTemplate = Workspace.Single<ResourceTemplate>(x => x.Id == Model.ResourceTemplateId));
+                       (_resoureTemplate = Workspace.Single<ResourceType>(x => x.Id == Model.ResourceTypeId));
             }
             set
             {
-                Model.ResourceTemplateId = value.Id;
+                Model.ResourceTypeId = value.Id;
                 _resoureTemplate = null;
                 _customDataViewModel = null;
                 RaisePropertyChanged(() => CustomDataViewModel);
-                RaisePropertyChanged(() => ResourceTemplate);
+                RaisePropertyChanged(() => ResourceType);
             }
         }
 
         private ResourceCustomDataViewModel _customDataViewModel;
         public ResourceCustomDataViewModel CustomDataViewModel
         {
-            get { return _customDataViewModel ?? (_customDataViewModel = Model != null ? new ResourceCustomDataViewModel(Model, ResourceTemplate) : null); }
+            get { return _customDataViewModel ?? (_customDataViewModel = Model != null ? new ResourceCustomDataViewModel(Model, ResourceType) : null); }
         }
 
         private string _accountName;
@@ -72,12 +72,12 @@ namespace Samba.Modules.ResourceModule
         {
             get
             {
-                if (ResourceTemplate == null) return null;
-                return _accountService.GetCompletingAccountNames(ResourceTemplate.AccountTemplateId, AccountName);
+                if (ResourceType == null) return null;
+                return _accountService.GetCompletingAccountNames(ResourceType.AccountTypeId, AccountName);
             }
         }
 
-        public string GroupValue { get { return NameCache.GetName<ResourceTemplate>(Model.ResourceTemplateId); } }
+        public string GroupValue { get { return NameCache.GetName<ResourceType>(Model.ResourceTypeId); } }
 
         public override Type GetViewType()
         {
@@ -112,7 +112,7 @@ namespace Samba.Modules.ResourceModule
     {
         public ResourceValidator()
         {
-            RuleFor(x => x.ResourceTemplateId).GreaterThan(0);
+            RuleFor(x => x.ResourceTypeId).GreaterThan(0);
         }
     }
 }

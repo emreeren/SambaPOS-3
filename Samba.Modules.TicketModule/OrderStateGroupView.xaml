@@ -31,10 +31,10 @@
                     <CheckBox Margin="5,5,0,0" Content="{LocText IncreaseInventory}"
                          IsChecked="{Binding IncreaseOrderInventory}" />
                     <Label MinWidth="120">
-                        <LocText ResourceIdentifierKey="TransactionTemplate"/>
+                        <LocText ResourceIdentifierKey="TransactionType"/>
                     </Label>
                     <ComboBox HorizontalAlignment="Left" MinWidth="170" IsEditable="True" DisplayMemberPath="Name"
-                         ItemsSource="{Binding AccountTransactionTemplates}" SelectedItem="{Binding AccountTransactionTemplate}" />
+                         ItemsSource="{Binding AccountTransactionTypes}" SelectedItem="{Binding AccountTransactionType}" />
                     <GroupBox Header="{LocText DisplaySettings}" Margin="0,5,0,0" HorizontalAlignment="Left">
                         <UniformGrid HorizontalAlignment="Left">
                             <Label>
@@ -51,7 +51,7 @@
                     </GroupBox>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="{LocText OrderStates}">
+            <TabItem Header="{LocText List_f,FormatSegment1={LocText OrderState}}">
                 <Grid HorizontalAlignment="Left">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />

@@ -16,9 +16,9 @@ namespace Samba.Modules.PrinterModule
         [ImportingConstructor]
         public PrinterModule()
         {
-            AddDashboardCommand<EntityCollectionViewModelBase<PrinterViewModel, Printer>>(Resources.Printers, Resources.Settings, 20);
-            AddDashboardCommand<EntityCollectionViewModelBase<PrintJobViewModel, PrintJob>>(Resources.PrintJobs, Resources.Settings, 20);
-            AddDashboardCommand<EntityCollectionViewModelBase<PrinterTemplateViewModel, PrinterTemplate>>(Resources.PrinterTemplates, Resources.Settings, 20);
+            AddDashboardCommand<EntityCollectionViewModelBase<PrinterViewModel, Printer>>(Resources.Printer.ToPlural(), Resources.Settings, 20);
+            AddDashboardCommand<EntityCollectionViewModelBase<PrintJobViewModel, PrintJob>>(Resources.PrintJob.ToPlural(), Resources.Settings, 20);
+            AddDashboardCommand<EntityCollectionViewModelBase<PrinterTemplateViewModel, PrinterTemplate>>(Resources.PrinterTemplate.ToPlural(), Resources.Settings, 20);
 
             HighlightingManager.Instance.RegisterHighlighting("Template", null, () => LoadHighlightingDefinition("Template.xshd"));
         }

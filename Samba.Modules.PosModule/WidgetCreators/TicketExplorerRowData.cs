@@ -40,7 +40,7 @@ namespace Samba.Modules.PosModule.WidgetCreators
         {
             get
             {
-                var resource = Model.TicketResources.FirstOrDefault(x => x.ResourceTemplateId == templateId);
+                var resource = Model.TicketResources.FirstOrDefault(x => x.ResourceTypeId == templateId);
                 return resource != null ? resource.ResourceName : "";
             }
         }

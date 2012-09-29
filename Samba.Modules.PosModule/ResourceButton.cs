@@ -8,19 +8,19 @@ namespace Samba.Modules.PosModule
     public class ResourceButton
     {
         private readonly Ticket _selectedTicket;
-        public ResourceButton(ResourceTemplate model, Ticket selectedTicket)
+        public ResourceButton(ResourceType model, Ticket selectedTicket)
         {
             _selectedTicket = selectedTicket;
             Model = model;
         }
 
-        public ResourceTemplate Model { get; set; }
+        public ResourceType Model { get; set; }
         public string Name
         {
             get
             {
                 var format = Resources.Select_f;
-                if (_selectedTicket != null && _selectedTicket.TicketResources.Any(x => x.ResourceTemplateId == Model.Id))
+                if (_selectedTicket != null && _selectedTicket.TicketResources.Any(x => x.ResourceTypeId == Model.Id))
                     format = Resources.Change_f;
                 return string.Format(format, Model.EntityName);
             }

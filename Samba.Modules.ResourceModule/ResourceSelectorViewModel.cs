@@ -117,7 +117,7 @@ namespace Samba.Modules.ResourceModule
             if (resourceScreen.ScreenItems.Count > 0)
                 return _resourceService.GetCurrentResourceScreenItems(resourceScreen, CurrentPageNo, stateFilter).OrderBy(x => x.Order).ToList();
             return
-                _resourceService.GetResourcesByState(stateFilter, resourceScreen.ResourceTemplateId).Select(x => new ResourceScreenItem { ResourceId = x.Id, Name = x.Name, ResourceStateId = stateFilter }).ToList();
+                _resourceService.GetResourcesByState(stateFilter, resourceScreen.ResourceTypeId).Select(x => new ResourceScreenItem { ResourceId = x.Id, Name = x.Name, ResourceStateId = stateFilter }).ToList();
         }
 
         private void UpdateResourceButtons(ICollection<ResourceScreenItem> resourceData)

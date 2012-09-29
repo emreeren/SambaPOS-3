@@ -51,7 +51,7 @@ namespace Samba.Modules.TicketModule
 
         private void OnSortPropertyExecuted(string obj)
         {
-            InteractionService.UserIntraction.SortItems(Model.OrderTags, string.Format(Resources.Sort_f, Resources.OrderTags), "");
+            InteractionService.UserIntraction.SortItems(Model.OrderTags, string.Format(Resources.Sort_f, Resources.OrderTag.ToPlural()), "");
             _orderTags = null;
             RaisePropertyChanged(() => OrderTags);
         }

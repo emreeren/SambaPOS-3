@@ -31,10 +31,10 @@ namespace Samba.Modules.AccountModule.Dashboard
 
         public CaptionCommand<string> AddScreenFilterCommand { get; set; }
 
-        private IEnumerable<AccountTemplate> _accountTemplates;
-        public IEnumerable<AccountTemplate> AccountTemplates
+        private IEnumerable<AccountType> _AccountTypes;
+        public IEnumerable<AccountType> AccountTypes
         {
-            get { return _accountTemplates ?? (_accountTemplates = _accountService.GetAccountTemplates()); }
+            get { return _AccountTypes ?? (_AccountTypes = _accountService.GetAccountTypes()); }
         }
 
 
@@ -47,15 +47,15 @@ namespace Samba.Modules.AccountModule.Dashboard
         private void OnAddScreenFilter(string obj)
         {
             var selectedItems = Model.AccountScreenValues;
-            var values = AccountTemplates.Where(x => selectedItems.All(y => y.AccountTemplateName != x.Name)).Select(x => new AccountScreenValue { AccountTemplateName = x.Name, AccountTemplateId = x.Id }).ToList<IOrderable>();
+            var values = AccountTypes.Where(x => selectedItems.All(y => y.AccountTypeName != x.Name)).Select(x => new AccountScreenValue { AccountTypeName = x.Name, AccountTypeId = x.Id }).ToList<IOrderable>();
 
             var selectedValues = InteractionService.UserIntraction.ChooseValuesFrom(
                 values,
                 selectedItems.ToList<IOrderable>(),
-                Resources.AccountTemplate.ToPlural(),
-                string.Format(Resources.SelectItemsFor_f, Resources.AccountTemplate.ToPlural(), Model.Name, Resources.AccountScreen),
-                Resources.AccountTemplate,
-                Resources.AccountTemplate.ToPlural());
+                Resources.AccountType.ToPlural(),
+                string.Format(Resources.SelectItemsFor_f, Resources.AccountType.ToPlural(), Model.Name, Resources.AccountScreen),
+                Resources.AccountType,
+                Resources.AccountType.ToPlural());
 
             Model.InjectFrom<EntityInjection>(new { AccountScreenValues = selectedValues.Cast<AccountScreenValue>().ToList() });
 

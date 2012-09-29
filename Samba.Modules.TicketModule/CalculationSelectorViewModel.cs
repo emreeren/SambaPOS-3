@@ -8,7 +8,6 @@ using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Common.Services;
-using Samba.Presentation.ViewModels;
 
 namespace Samba.Modules.TicketModule
 {
@@ -18,49 +17,49 @@ namespace Samba.Modules.TicketModule
         [ImportingConstructor]
         public CalculationSelectorViewModel()
         {
-            AddCalculationTemplateCommand = new CaptionCommand<string>(Resources.Add, OnAddCalculationTemplate);
-            DeleteCalculationTemplateCommand = new CaptionCommand<string>(Resources.Delete, OnDeleteCalculationTemplate, CanDeleteCalculationTemplate);
+            AddCalculationTypeCommand = new CaptionCommand<string>(Resources.Add, OnAddCalculationType);
+            DeleteCalculationTypeCommand = new CaptionCommand<string>(Resources.Delete, OnDeleteCalculationType, CanDeleteCalculationType);
         }
 
-        public CalculationTemplate SelectedCalculationTemplate { get; set; }
-        public ICaptionCommand AddCalculationTemplateCommand { get; set; }
-        public ICaptionCommand DeleteCalculationTemplateCommand { get; set; }
+        public CalculationType SelectedCalculationType { get; set; }
+        public ICaptionCommand AddCalculationTypeCommand { get; set; }
+        public ICaptionCommand DeleteCalculationTypeCommand { get; set; }
 
         public string ButtonHeader { get { return Model.ButtonHeader; } set { Model.ButtonHeader = value; } }
         public string ButtonColor { get { return Model.ButtonColor; } set { Model.ButtonColor = value; } }
 
-        private ObservableCollection<CalculationTemplate> _calculationTemplates;
-        public ObservableCollection<CalculationTemplate> CalculationTemplates
+        private ObservableCollection<CalculationType> _calculationTypes;
+        public ObservableCollection<CalculationType> CalculationTypes
         {
-            get { return _calculationTemplates ?? (_calculationTemplates = new ObservableCollection<CalculationTemplate>(Model.CalculationTemplates)); }
+            get { return _calculationTypes ?? (_calculationTypes = new ObservableCollection<CalculationType>(Model.CalculationTypes)); }
         }
 
-        private bool CanDeleteCalculationTemplate(string arg)
+        private bool CanDeleteCalculationType(string arg)
         {
-            return SelectedCalculationTemplate != null;
+            return SelectedCalculationType != null;
         }
 
-        private void OnDeleteCalculationTemplate(string obj)
+        private void OnDeleteCalculationType(string obj)
         {
-            Model.CalculationTemplates.Remove(SelectedCalculationTemplate);
-            CalculationTemplates.Remove(SelectedCalculationTemplate);
+            Model.CalculationTypes.Remove(SelectedCalculationType);
+            CalculationTypes.Remove(SelectedCalculationType);
         }
 
-        private void OnAddCalculationTemplate(string obj)
+        private void OnAddCalculationType(string obj)
         {
             var selectedValues =
-                 InteractionService.UserIntraction.ChooseValuesFrom(Workspace.All<CalculationTemplate>().ToList<IOrderable>(),
-                 Model.CalculationTemplates.ToList<IOrderable>(), Resources.TicketTags, string.Format(Resources.SelectItemsFor_f, Resources.CalculationTemplate, Model.Name, Resources.CalculationSelector),
-                 Resources.CalculationTemplate, Resources.CalculationTemplate.ToPlural());
+                 InteractionService.UserIntraction.ChooseValuesFrom(Workspace.All<CalculationType>().ToList<IOrderable>(),
+                 Model.CalculationTypes.ToList<IOrderable>(), Resources.TicketTag.ToPlural(), string.Format(Resources.SelectItemsFor_f, Resources.CalculationType, Model.Name, Resources.CalculationSelector),
+                 Resources.CalculationType, Resources.CalculationType.ToPlural());
 
-            foreach (CalculationTemplate selectedValue in selectedValues)
+            foreach (CalculationType selectedValue in selectedValues)
             {
-                if (!Model.CalculationTemplates.Contains(selectedValue))
-                    Model.CalculationTemplates.Add(selectedValue);
+                if (!Model.CalculationTypes.Contains(selectedValue))
+                    Model.CalculationTypes.Add(selectedValue);
             }
 
-            _calculationTemplates = null;
-            RaisePropertyChanged(() => CalculationTemplates);
+            _calculationTypes = null;
+            RaisePropertyChanged(() => CalculationTypes);
         }
 
         public override Type GetViewType()

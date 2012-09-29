@@ -41,13 +41,13 @@ namespace Samba.Modules.AccountModule
             _batchDocumentCreatorView = batchDocumentCreatorView;
             _batchDocumentCreatorViewModel = batchDocumentCreatorViewModel;
 
-            AddDashboardCommand<EntityCollectionViewModelBase<AccountTemplateViewModel, AccountTemplate>>(Resources.AccountTemplate.ToPlural(), Resources.Accounts, 40);
+            AddDashboardCommand<EntityCollectionViewModelBase<AccountTypeViewModel, AccountType>>(Resources.AccountType.ToPlural(), Resources.Accounts, 40);
             AddDashboardCommand<EntityCollectionViewModelBase<AccountViewModel, Account>>(Resources.Account.ToPlural(), Resources.Accounts, 40);
             AddDashboardCommand<EntityCollectionViewModelBase<AccountScreenViewModel, AccountScreen>>(Resources.AccountScreen.ToPlural(), Resources.Accounts, 40);
-            AddDashboardCommand<EntityCollectionViewModelBase<AccountTransactionTemplateViewModel, AccountTransactionTemplate>>(Resources.TransactionTemplate.ToPlural(), Resources.Accounts, 40);
+            AddDashboardCommand<EntityCollectionViewModelBase<AccountTransactionTypeViewModel, AccountTransactionType>>(Resources.TransactionType.ToPlural(), Resources.Accounts, 40);
+            AddDashboardCommand<EntityCollectionViewModelBase<AccountTransactionDocumentTypeViewModel, AccountTransactionDocumentType>>(Resources.DocumentType.ToPlural(), Resources.Accounts, 40);
             AddDashboardCommand<EntityCollectionViewModelBase<AccountTransactionDocumentViewModel, AccountTransactionDocument>>(Resources.TransactionDocument.ToPlural(), Resources.Accounts, 40);
-            AddDashboardCommand<EntityCollectionViewModelBase<AccountTransactionDocumentTemplateViewModel, AccountTransactionDocumentTemplate>>(Resources.DocumentTemplate.ToPlural(), Resources.Accounts, 40);
-
+            
             PermissionRegistry.RegisterPermission(PermissionNames.NavigateAccountView, PermissionCategories.Navigation, Resources.CanNavigateCash);
             PermissionRegistry.RegisterPermission(PermissionNames.CreateAccount, PermissionCategories.Account, Resources.CanCreateAccount);
 
@@ -61,7 +61,7 @@ namespace Samba.Modules.AccountModule
             _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(DocumentCreatorView));
             _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(BatchDocumentCreatorView));
 
-            EventServiceFactory.EventService.GetEvent<GenericEvent<AccountTransactionDocumentTemplate>>().Subscribe(
+            EventServiceFactory.EventService.GetEvent<GenericEvent<AccountTransactionDocumentType>>().Subscribe(
                 x =>
                 {
                     if (x.Topic == EventTopicNames.BatchCreateDocument)

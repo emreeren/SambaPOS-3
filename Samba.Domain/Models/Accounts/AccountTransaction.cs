@@ -53,9 +53,9 @@ namespace Samba.Domain.Models.Accounts
         }
 
         public int AccountTransactionDocumentId { get; set; }
-        public int AccountTransactionTemplateId { get; set; }
-        public int SourceAccountTemplateId { get; set; }
-        public int TargetAccountTemplateId { get; set; }
+        public int AccountTransactionTypeId { get; set; }
+        public int SourceAccountTypeId { get; set; }
+        public int TargetAccountTypeId { get; set; }
         public bool IsReversed { get; set; }
         public bool Reversable { get; set; }
 
@@ -67,7 +67,7 @@ namespace Samba.Domain.Models.Accounts
 
         public AccountTransactionValue SourceTransactionValue
         {
-            get { return AccountTransactionValues.SingleOrDefault(x => x.AccountTemplateId == SourceAccountTemplateId); }
+            get { return AccountTransactionValues.SingleOrDefault(x => x.AccountTypeId == SourceAccountTypeId); }
             set
             {
                 if (SourceTransactionValue != value)
@@ -81,7 +81,7 @@ namespace Samba.Domain.Models.Accounts
 
         public AccountTransactionValue TargetTransactionValue
         {
-            get { return AccountTransactionValues.SingleOrDefault(x => x.AccountTemplateId == TargetAccountTemplateId); }
+            get { return AccountTransactionValues.SingleOrDefault(x => x.AccountTypeId == TargetAccountTypeId); }
             set
             {
                 if (TargetTransactionValue != value)
@@ -106,7 +106,7 @@ namespace Samba.Domain.Models.Accounts
             }
         }
 
-        public static AccountTransaction Create(AccountTransactionTemplate template)
+        public static AccountTransaction Create(AccountTransactionType template)
         {
             // <pex>
             if (template == null)
@@ -116,41 +116,41 @@ namespace Samba.Domain.Models.Accounts
             var result = new AccountTransaction
                              {
                                  Name = template.Name,
-                                 AccountTransactionTemplateId = template.Id,
-                                 SourceTransactionValue = new AccountTransactionValue { AccountId = template.DefaultSourceAccountId, AccountTemplateId = template.SourceAccountTemplateId, Name = template.Name },
-                                 TargetTransactionValue = new AccountTransactionValue { AccountId = template.DefaultTargetAccountId, AccountTemplateId = template.TargetAccountTemplateId, Name = template.Name },
-                                 SourceAccountTemplateId = template.SourceAccountTemplateId,
-                                 TargetAccountTemplateId = template.TargetAccountTemplateId
+                                 AccountTransactionTypeId = template.Id,
+                                 SourceTransactionValue = new AccountTransactionValue { AccountId = template.DefaultSourceAccountId, AccountTypeId = template.SourceAccountTypeId, Name = template.Name },
+                                 TargetTransactionValue = new AccountTransactionValue { AccountId = template.DefaultTargetAccountId, AccountTypeId = template.TargetAccountTypeId, Name = template.Name },
+                                 SourceAccountTypeId = template.SourceAccountTypeId,
+                                 TargetAccountTypeId = template.TargetAccountTypeId
                              };
 
 
             return result;
         }
 
-        public static AccountTransaction Create(AccountTransactionTemplate template, int accountTemplateId, int accountId)
+        public static AccountTransaction Create(AccountTransactionType template, int AccountTypeId, int accountId)
         {
             var result = Create(template);
-            result.UpdateAccounts(accountTemplateId, accountId);
+            result.UpdateAccounts(AccountTypeId, accountId);
             return result;
         }
 
-        public void SetSourceAccount(int accountTemplateId, int accountId)
+        public void SetSourceAccount(int AccountTypeId, int accountId)
         {
-            Debug.Assert(SourceAccountTemplateId == accountTemplateId);
+            Debug.Assert(SourceAccountTypeId == AccountTypeId);
             SourceTransactionValue.AccountId = accountId;
         }
 
-        public void SetTargetAccount(int accountTemplateId, int accountId)
+        public void SetTargetAccount(int AccountTypeId, int accountId)
         {
-            Debug.Assert(TargetAccountTemplateId == accountTemplateId);
+            Debug.Assert(TargetAccountTypeId == AccountTypeId);
             TargetTransactionValue.AccountId = accountId;
         }
 
-        public void UpdateAccounts(int accountTemplateId, int accountId)
+        public void UpdateAccounts(int AccountTypeId, int accountId)
         {
-            if (SourceAccountTemplateId == accountTemplateId)
+            if (SourceAccountTypeId == AccountTypeId)
                 SourceTransactionValue.AccountId = accountId;
-            else if (TargetAccountTemplateId == accountTemplateId)
+            else if (TargetAccountTypeId == AccountTypeId)
                 TargetTransactionValue.AccountId = accountId;
         }
 
@@ -161,11 +161,11 @@ namespace Samba.Domain.Models.Accounts
 
         private static void ReverseTransaction(AccountTransaction transaction)
         {
-            var ti = transaction.SourceAccountTemplateId;
+            var ti = transaction.SourceAccountTypeId;
             var tv = transaction.SourceTransactionValue;
-            transaction.SourceAccountTemplateId = transaction.TargetAccountTemplateId;
+            transaction.SourceAccountTypeId = transaction.TargetAccountTypeId;
             transaction.SourceTransactionValue = transaction.TargetTransactionValue;
-            transaction.TargetAccountTemplateId = ti;
+            transaction.TargetAccountTypeId = ti;
             transaction.TargetTransactionValue = tv;
             transaction.IsReversed = true;
         }

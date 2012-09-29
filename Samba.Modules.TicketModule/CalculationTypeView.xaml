@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="Samba.Modules.TicketModule.CalculationTypeView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common" xmlns:PropertyEditorLibrary="clr-namespace:PropertyTools.Wpf;assembly=PropertyTools.Wpf" mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+
+    <Grid>
+        <Grid.RowDefinitions >
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel>
+            <Label HorizontalAlignment="Left" Content="{LocText TemplateName,Suffix=':'}" />
+            <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
+            <Label MinWidth="120" Content="{LocText AccountTransactionType,Suffix=':'}"/>
+            <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTransactionTypes}"
+                 SelectedItem="{Binding AccountTransactionType}" />
+            <Label HorizontalAlignment="Left" Content="{LocText CalculationMethod,Suffix=':'}" />
+            <ComboBox HorizontalAlignment="Left" MinWidth="250" ItemsSource="{Binding CalculationMethods}"
+                 SelectedItem="{Binding SelectedCalculationMethod}">
+            </ComboBox>
+            <Label HorizontalAlignment="Left" Content="{LocText RateOrAmount,Suffix=':'}" />
+            <UIControls:FilteredTextBox HorizontalAlignment="Left" MinWidth="50" Type="Number"
+                 Text="{Binding Amount}" />
+            <Label HorizontalAlignment="Left" Content="Max Amount:" />
+            <UIControls:FilteredTextBox HorizontalAlignment="Left" MinWidth="50" Type="Number"
+                 Text="{Binding MaxAmount}" />
+            <CheckBox Margin="0,5,0,0" IsChecked="{Binding IncludeTax}">
+                <LocText ResourceIdentifierKey="IncludeTax"/>
+            </CheckBox>
+            <CheckBox IsChecked="{Binding DecreaseAmount}">
+                <LocText ResourceIdentifierKey="DecreaseAmount"/>
+            </CheckBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1">
+            <StackPanel Orientation="Horizontal">
+                <Button HorizontalAlignment="Left" Margin="0,10,3,0" MinWidth="70" Content="{Binding SaveCommand.Caption}"
+                 Command="{Binding SaveCommand}" />
+            </StackPanel>
+            <Label Content="{Binding Error}" Foreground="Red" />
+        </StackPanel>
+
+    </Grid>
+</UserControl>

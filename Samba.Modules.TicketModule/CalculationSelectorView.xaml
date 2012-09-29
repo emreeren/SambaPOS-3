@@ -31,29 +31,29 @@
                     <PropertyEditorLibrary:ColorPicker2 HorizontalAlignment="Left" MinWidth="150"
                          SelectedColor="{Binding ButtonColor}" />
                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                        <DataGrid MinWidth="170" ItemsSource="{Binding CalculationTemplates}" SelectedItem="{Binding SelectedCalculationTemplate, Mode=TwoWay}"
+                        <DataGrid MinWidth="170" ItemsSource="{Binding CalculationTypes}" SelectedItem="{Binding SelectedCalculationType, Mode=TwoWay}"
                                      HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3" CanUserDeleteRows="False" CanUserAddRows="False"
                                      AutoGenerateColumns="False" CanUserSortColumns="False" IsReadOnly="True" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="{LocText CalculationTemplate}"
+                                <DataGridTextColumn Header="{LocText CalculationType}"
                                              MinWidth="100" Binding="{Binding Name}" />
                             </DataGrid.Columns>
                             <DataGrid.ContextMenu>
                                 <ContextMenu>
-                                    <MenuItem Command="{Binding AddCalculationTemplateCommand}" Header="{Binding AddCalculationTemplateCommand.Caption}" />
-                                    <MenuItem Command="{Binding DeleteCalculationTemplateCommand}" Header="{Binding DeleteCalculationTemplateCommand.Caption}" />
+                                    <MenuItem Command="{Binding AddCalculationTypeCommand}" Header="{Binding AddCalculationTypeCommand.Caption}" />
+                                    <MenuItem Command="{Binding DeleteCalculationTypeCommand}" Header="{Binding DeleteCalculationTypeCommand.Caption}" />
                                 </ContextMenu>
                             </DataGrid.ContextMenu>
                         </DataGrid>
                         <StackPanel Margin="10">
                             <TextBlock Margin="2,3">
-                                        <Hyperlink Command="{Binding AddCalculationTemplateCommand}">
-                                            <TextBlock Text="{Binding Path=AddCalculationTemplateCommand.Caption}" />
+                                        <Hyperlink Command="{Binding AddCalculationTypeCommand}">
+                                            <TextBlock Text="{Binding Path=AddCalculationTypeCommand.Caption}" />
                                         </Hyperlink>
                                     </TextBlock>
                             <TextBlock Margin="2,3">
-                                        <Hyperlink Command="{Binding DeleteCalculationTemplateCommand}">
-                                            <TextBlock Text="{Binding Path=DeleteCalculationTemplateCommand.Caption}" />
+                                        <Hyperlink Command="{Binding DeleteCalculationTypeCommand}">
+                                            <TextBlock Text="{Binding Path=DeleteCalculationTypeCommand.Caption}" />
                                         </Hyperlink>
                                     </TextBlock>
                         </StackPanel>

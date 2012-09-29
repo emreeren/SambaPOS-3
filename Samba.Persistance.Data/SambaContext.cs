@@ -76,28 +76,28 @@ namespace Samba.Persistance.Data
         public DbSet<MenuItemPriceDefinition> MenuItemPriceDefinitions { get; set; }
         public DbSet<MenuItemPrice> MenuItemPrices { get; set; }
         public DbSet<TaxTemplate> TaxTemplates { get; set; }
-        public DbSet<CalculationTemplate> CalculationTemplates { get; set; }
+        public DbSet<CalculationType> CalculationTypes { get; set; }
         public DbSet<CalculationSelector> CalculationSelectors { get; set; }
-        public DbSet<CalculationSelectorMap> CalculationTemplateMaps { get; set; }
+        public DbSet<CalculationSelectorMap> CalculationTypeMaps { get; set; }
         public DbSet<Calculation> Calculations { get; set; }
         public DbSet<ForeignCurrency> ForeignCurrencies { get; set; }
-        public DbSet<PaymentTemplate> PaymentTemplates { get; set; }
-        public DbSet<PaymentTemplateMap> PaymentTemplateMaps { get; set; }
+        public DbSet<PaymentType> PaymentTypes { get; set; }
+        public DbSet<PaymentTypeMap> PaymentTypeMaps { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<ChangePayment> ChangePayments { get; set; }
-        public DbSet<ChangePaymentTemplate> ChangePaymentTemplates { get; set; }
-        public DbSet<ChangePaymentTemplateMap> ChangePaymentTemplateMaps { get; set; }
+        public DbSet<ChangePaymentType> ChangePaymentTypes { get; set; }
+        public DbSet<ChangePaymentTypeMap> ChangePaymentTypeMaps { get; set; }
         public DbSet<Account> Accounts { get; set; }
-        public DbSet<AccountTemplate> AccountTemplates { get; set; }
+        public DbSet<AccountType> AccountTypes { get; set; }
         public DbSet<AccountScreen> AccountScreens { get; set; }
         public DbSet<AccountTransaction> AccountTransactions { get; set; }
         public DbSet<AccountTransactionValue> AccountTransactionValues { get; set; }
-        public DbSet<AccountTransactionTemplate> AccountTransactionTemplates { get; set; }
-        public DbSet<AccountTransactionDocumentTemplateMap> AccountTransactionDocumentTemplateMaps { get; set; }
+        public DbSet<AccountTransactionType> AccountTransactionTypes { get; set; }
+        public DbSet<AccountTransactionDocumentTypeMap> AccountTransactionDocumentTypeMaps { get; set; }
         public DbSet<AccountTransactionDocument> AccountTransactionDocuments { get; set; }
-        public DbSet<AccountTransactionDocumentTemplate> AccountTransactionDocumentTemplates { get; set; }
+        public DbSet<AccountTransactionDocumentType> AccountTransactionDocumentTypes { get; set; }
         public DbSet<Resource> Resources { get; set; }
-        public DbSet<ResourceTemplate> ResourceTemplates { get; set; }
+        public DbSet<ResourceType> ResourceTypes { get; set; }
         public DbSet<ResourceCustomField> ResourceCustomFields { get; set; }
         public DbSet<ResourceScreenItem> ResourceScreenItems { get; set; }
         public DbSet<ResourceScreen> ResourceScreens { get; set; }
@@ -114,8 +114,8 @@ namespace Samba.Persistance.Data
 
             modelBuilder.Entity<Department>().HasMany(p => p.ResourceScreens).WithMany();
             modelBuilder.Entity<ResourceScreen>().HasMany(p => p.ScreenItems).WithMany();
-            modelBuilder.Entity<CalculationSelector>().HasMany(x => x.CalculationTemplates).WithMany();
-            modelBuilder.Entity<AccountTransactionDocumentTemplate>().HasMany(x => x.TransactionTemplates).WithMany();
+            modelBuilder.Entity<CalculationSelector>().HasMany(x => x.CalculationTypes).WithMany();
+            modelBuilder.Entity<AccountTransactionDocumentType>().HasMany(x => x.TransactionTypes).WithMany();
 
             modelBuilder.Entity<AccountTransaction>().Ignore(p => p.SourceTransactionValue);
             modelBuilder.Entity<AccountTransaction>().Ignore(p => p.TargetTransactionValue);
@@ -159,8 +159,8 @@ namespace Samba.Persistance.Data
             const int scale = 2;
             const int precision = 16;
 
-            //CalculationTemplate
-            modelBuilder.Entity<CalculationTemplate>().Property(x => x.Amount).HasPrecision(precision, scale);
+            //CalculationType
+            modelBuilder.Entity<CalculationType>().Property(x => x.Amount).HasPrecision(precision, scale);
 
             //Calculation
             modelBuilder.Entity<Calculation>().Property(x => x.Amount).HasPrecision(precision, scale);

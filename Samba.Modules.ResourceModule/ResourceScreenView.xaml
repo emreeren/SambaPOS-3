@@ -18,10 +18,10 @@
                 </Label>
                 <TextBox HorizontalAlignment="Left" MinWidth="250" Text="{Binding Name}" />
                 <Label>
-                    <LocText ResourceIdentifierKey="ResourceTemplate" Suffix=":"/>
+                    <LocText ResourceIdentifierKey="ResourceType" Suffix=":"/>
                 </Label>
-                <ComboBox HorizontalAlignment="Left" MinWidth="150" SelectedValue="{Binding ResourceTemplateId}"
-                     ItemsSource="{Binding ResourceTemplates}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
+                <ComboBox HorizontalAlignment="Left" MinWidth="150" SelectedValue="{Binding ResourceTypeId}"
+                     ItemsSource="{Binding ResourceTypes}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
                 <Label>
                     <LocText ResourceIdentifierKey="ResourceViewMode" Suffix=":"/>
                 </Label>

@@ -56,8 +56,8 @@ namespace Samba.Services.Implementations.TicketModule
             Debug.Assert(ticket != null);
             if (account == Account.Null)
             {
-                var template = Dao.Single<AccountTransactionTemplate>(
-                        x => x.Id == _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.Id);
+                var template = Dao.Single<AccountTransactionType>(
+                        x => x.Id == _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionType.Id);
                 account = _cacheService.GetAccountById(template.DefaultTargetAccountId);
             }
             ticket.UpdateAccount(account, GetExchangeRate(account));
@@ -69,25 +69,25 @@ namespace Samba.Services.Implementations.TicketModule
                     });
         }
 
-        public void UpdateResource(Ticket ticket, int resourceTemplateId, int resourceId, string resourceName, int accountId, string resourceCustomData)
+        public void UpdateResource(Ticket ticket, int ResourceTypeId, int resourceId, string resourceName, int accountId, string resourceCustomData)
         {
-            var currentResource = ticket.TicketResources.SingleOrDefault(x => x.ResourceTemplateId == resourceTemplateId);
+            var currentResource = ticket.TicketResources.SingleOrDefault(x => x.ResourceTypeId == ResourceTypeId);
             var currentResourceId = currentResource != null ? currentResource.ResourceId : 0;
             var newResourceName = resourceName;
             var oldResourceName = currentResource != null ? currentResource.ResourceName : "";
             if (currentResource != null && currentResource.ResourceId != resourceId)
             {
-                var resourceTemplate = _cacheService.GetResourceTemplateById(currentResource.ResourceTemplateId);
+                var ResourceType = _cacheService.GetResourceTypeById(currentResource.ResourceTypeId);
                 _automationService.NotifyEvent(RuleEventNames.ResourceUpdated, new
                 {
-                    currentResource.ResourceTemplateId,
+                    currentResource.ResourceTypeId,
                     currentResource.ResourceId,
-                    ResourceTemplateName = resourceTemplate.Name,
+                    ResourceTypeName = ResourceType.Name,
                     OpenTicketCount = GetOpenTicketIds(currentResource.ResourceId).Count() - (ticket.Id > 0 ? 1 : 0)
                 });
             }
 
-            ticket.UpdateResource(resourceTemplateId, resourceId, resourceName, accountId, resourceCustomData);
+            ticket.UpdateResource(ResourceTypeId, resourceId, resourceName, accountId, resourceCustomData);
 
             if (currentResourceId != resourceId)
             {
@@ -95,7 +95,7 @@ namespace Samba.Services.Implementations.TicketModule
                     new
                     {
                         Ticket = ticket,
-                        ResourceTemplateId = resourceTemplateId,
+                        ResourceTypeId = ResourceTypeId,
                         ResourceId = resourceId,
                         OldResourceName = oldResourceName,
                         NewResourceName = newResourceName,
@@ -107,7 +107,7 @@ namespace Samba.Services.Implementations.TicketModule
         public void UpdateResource(Ticket ticket, Resource resource)
         {
             if (resource == null) return;
-            UpdateResource(ticket, resource.ResourceTemplateId, resource.Id, resource.Name, resource.AccountId, resource.CustomData);
+            UpdateResource(ticket, resource.ResourceTypeId, resource.Id, resource.Name, resource.AccountId, resource.CustomData);
         }
 
         public Ticket OpenTicket(int ticketId)
@@ -131,9 +131,9 @@ namespace Samba.Services.Implementations.TicketModule
 
         private Ticket CreateTicket()
         {
-            var account = _cacheService.GetAccountById(_applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate.DefaultTargetAccountId);
+            var account = _cacheService.GetAccountById(_applicationState.CurrentDepartment.TicketTemplate.SaleTransactionType.DefaultTargetAccountId);
 
-            return Ticket.Create(_applicationState.CurrentDepartment.Model, account, GetExchangeRate(account), _cacheService.GetCalculationSelectors().Where(x => string.IsNullOrEmpty(x.ButtonHeader)).SelectMany(y => y.CalculationTemplates));
+            return Ticket.Create(_applicationState.CurrentDepartment.Model, account, GetExchangeRate(account), _cacheService.GetCalculationSelectors().Where(x => string.IsNullOrEmpty(x.ButtonHeader)).SelectMany(y => y.CalculationTypes));
         }
 
         public TicketCommitResult CloseTicket(Ticket ticket)
@@ -189,12 +189,12 @@ namespace Samba.Services.Implementations.TicketModule
             {
                 foreach (var ticketResource in ticket.TicketResources)
                 {
-                    var resourceTemplate = _cacheService.GetResourceTemplateById(ticketResource.ResourceTemplateId);
+                    var ResourceType = _cacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
                     _automationService.NotifyEvent(RuleEventNames.ResourceUpdated, new
                                                                                        {
-                                                                                           ticketResource.ResourceTemplateId,
+                                                                                           ticketResource.ResourceTypeId,
                                                                                            ticketResource.ResourceId,
-                                                                                           ResourceTemplateName = resourceTemplate.Name,
+                                                                                           ResourceTypeName = ResourceType.Name,
                                                                                            OpenTicketCount = GetOpenTicketIds(ticketResource.ResourceId).Count()
                                                                                        });
                 }
@@ -204,17 +204,17 @@ namespace Samba.Services.Implementations.TicketModule
             return result;
         }
 
-        public void AddPayment(Ticket ticket, PaymentTemplate paymentTemplate, Account account, decimal tenderedAmount)
+        public void AddPayment(Ticket ticket, PaymentType PaymentType, Account account, decimal tenderedAmount)
         {
             if (account == null) return;
             var remainingAmount = ticket.GetRemainingAmount();
             var changeAmount = tenderedAmount > remainingAmount ? tenderedAmount - remainingAmount : 0;
-            ticket.AddPayment(paymentTemplate, account, tenderedAmount, GetExchangeRate(account), _applicationState.CurrentLoggedInUser.Id);
+            ticket.AddPayment(PaymentType, account, tenderedAmount, GetExchangeRate(account), _applicationState.CurrentLoggedInUser.Id);
             _automationService.NotifyEvent(RuleEventNames.PaymentProcessed,
                 new
                 {
                     Ticket = ticket,
-                    PaymentTemplateName = paymentTemplate.Name,
+                    PaymentTypeName = PaymentType.Name,
                     Tenderedamount = tenderedAmount,
                     ProcessedAmount = tenderedAmount - changeAmount,
                     ChangeAmount = changeAmount,
@@ -222,13 +222,13 @@ namespace Samba.Services.Implementations.TicketModule
                 });
         }
 
-        public void AddChangePayment(Ticket ticket, ChangePaymentTemplate paymentTemplate, Account account, decimal amount)
+        public void AddChangePayment(Ticket ticket, ChangePaymentType PaymentType, Account account, decimal amount)
         {
             if (account == null) return;
-            ticket.AddChangePayment(paymentTemplate, account, amount, GetExchangeRate(account), _applicationState.CurrentLoggedInUser.Id);
+            ticket.AddChangePayment(PaymentType, account, amount, GetExchangeRate(account), _applicationState.CurrentLoggedInUser.Id);
         }
 
-        public void PayTicket(Ticket ticket, PaymentTemplate template)
+        public void PayTicket(Ticket ticket, PaymentType template)
         {
             AddPayment(ticket, template, template.Account, ticket.GetRemainingAmount());
         }
@@ -248,7 +248,7 @@ namespace Samba.Services.Implementations.TicketModule
             if (ticketList.Any(x => x.Calculations.Count() > 0))
                 return new TicketCommitResult { ErrorMessage = string.Format("Can't merge tickets\r{0}", "contains calculations") };
 
-            var resourcesUnMatches = ticketList.SelectMany(x => x.TicketResources).GroupBy(x => x.ResourceTemplateId).Any(x => x.Select(y => y.ResourceId).Distinct().Count() > 1);
+            var resourcesUnMatches = ticketList.SelectMany(x => x.TicketResources).GroupBy(x => x.ResourceTypeId).Any(x => x.Select(y => y.ResourceId).Distinct().Count() > 1);
             if (resourcesUnMatches) return new TicketCommitResult { ErrorMessage = string.Format("Can't merge tickets\r{0}", "Resources doesn't match") };
 
             var clonedOrders = ticketList.SelectMany(x => x.Orders).Select(ObjectCloner.Clone).ToList();
@@ -269,22 +269,22 @@ namespace Samba.Services.Implementations.TicketModule
             foreach (var cp in clonedPayments)
             {
                 var account = _accountService.GetAccountById(cp.AccountTransaction.TargetTransactionValue.AccountId);
-                ticket.AddPayment(_cacheService.GetPaymentTemplateById(cp.PaymentTemplateId), account, cp.Amount, GetExchangeRate(account), 0);
+                ticket.AddPayment(_cacheService.GetPaymentTypeById(cp.PaymentTypeId), account, cp.Amount, GetExchangeRate(account), 0);
             }
             foreach (var cp in clonedChangePayments)
             {
                 var account = _accountService.GetAccountById(cp.AccountTransaction.TargetTransactionValue.AccountId);
-                ticket.AddChangePayment(_cacheService.GetChangePaymentTemplateById(cp.ChangePaymentTemplateId), account, cp.Amount, GetExchangeRate(account), 0);
+                ticket.AddChangePayment(_cacheService.GetChangePaymentTypeById(cp.ChangePaymentTypeId), account, cp.Amount, GetExchangeRate(account), 0);
             }
 
-            clonedResources.ForEach(x => ticket.UpdateResource(x.ResourceTemplateId, x.ResourceId, x.ResourceName, x.AccountId, x.ResourceCustomData));
+            clonedResources.ForEach(x => ticket.UpdateResource(x.ResourceTypeId, x.ResourceId, x.ResourceName, x.AccountId, x.ResourceCustomData));
             clonedTags.ForEach(x => ticket.SetTagValue(x.TagName, x.TagValue));
 
-            foreach (var template in from order in clonedOrders.GroupBy(x => x.AccountTransactionTemplateId)
-                                     where !ticket.TransactionDocument.AccountTransactions.Any(x => x.AccountTransactionTemplateId == order.Key)
-                                     select _cacheService.GetAccountTransactionTemplateById(order.Key))
+            foreach (var template in from order in clonedOrders.GroupBy(x => x.AccountTransactionTypeId)
+                                     where !ticket.TransactionDocument.AccountTransactions.Any(x => x.AccountTransactionTypeId == order.Key)
+                                     select _cacheService.GetAccountTransactionTypeById(order.Key))
             {
-                ticket.TransactionDocument.AddNewTransaction(template, ticket.AccountTemplateId, ticket.AccountId);
+                ticket.TransactionDocument.AddNewTransaction(template, ticket.AccountTypeId, ticket.AccountId);
             }
 
             var result = CloseTicket(ticket);
@@ -306,11 +306,11 @@ namespace Samba.Services.Implementations.TicketModule
                 ticket.Orders.Add(clonedOrder);
             }
 
-            foreach (var template in from order in clonedOrders.GroupBy(x => x.AccountTransactionTemplateId)
-                                     where !ticket.TransactionDocument.AccountTransactions.Any(x => x.AccountTransactionTemplateId == order.Key)
-                                     select _cacheService.GetAccountTransactionTemplateById(order.Key))
+            foreach (var template in from order in clonedOrders.GroupBy(x => x.AccountTransactionTypeId)
+                                     where !ticket.TransactionDocument.AccountTransactions.Any(x => x.AccountTransactionTypeId == order.Key)
+                                     select _cacheService.GetAccountTransactionTypeById(order.Key))
             {
-                ticket.TransactionDocument.AddNewTransaction(template, ticket.AccountTemplateId, ticket.AccountId);
+                ticket.TransactionDocument.AddNewTransaction(template, ticket.AccountTypeId, ticket.AccountId);
             }
 
             ticket.LastOrderDate = DateTime.Now;
@@ -537,11 +537,11 @@ namespace Samba.Services.Implementations.TicketModule
 
         public void RefreshAccountTransactions(Ticket ticket)
         {
-            foreach (var template in from order in ticket.Orders.GroupBy(x => x.AccountTransactionTemplateId)
-                                     where !ticket.TransactionDocument.AccountTransactions.Any(x => x.AccountTransactionTemplateId == order.Key)
-                                     select _cacheService.GetAccountTransactionTemplateById(order.Key))
+            foreach (var template in from order in ticket.Orders.GroupBy(x => x.AccountTransactionTypeId)
+                                     where !ticket.TransactionDocument.AccountTransactions.Any(x => x.AccountTransactionTypeId == order.Key)
+                                     select _cacheService.GetAccountTransactionTypeById(order.Key))
             {
-                var transaction = ticket.TransactionDocument.AddNewTransaction(template, ticket.AccountTemplateId, ticket.AccountId);
+                var transaction = ticket.TransactionDocument.AddNewTransaction(template, ticket.AccountTypeId, ticket.AccountId);
                 transaction.Reversable = false;
             }
         }
@@ -549,10 +549,10 @@ namespace Samba.Services.Implementations.TicketModule
         public void UpdateOrderStates(Ticket selectedTicket, IEnumerable<Order> selectedOrders, OrderStateGroup orderStateGroup, OrderState orderState)
         {
             var so = selectedOrders.ToList();
-            var accountTransactionTemplateIds = so.GroupBy(x => x.AccountTransactionTemplateId).Select(x => x.Key).ToList();
+            var accountTransactionTypeIds = so.GroupBy(x => x.AccountTransactionTypeId).Select(x => x.Key).ToList();
             so.ForEach(x => x.UpdateOrderState(orderStateGroup, orderState, _applicationState.CurrentLoggedInUser.Id));
-            accountTransactionTemplateIds.Where(x => !so.Any(y => y.AccountTransactionTemplateId == x)).ToList()
-                .ForEach(x => selectedTicket.TransactionDocument.AccountTransactions.Where(y => y.AccountTransactionTemplateId == x).ToList().ForEach(y => selectedTicket.TransactionDocument.AccountTransactions.Remove(y)));
+            accountTransactionTypeIds.Where(x => !so.Any(y => y.AccountTransactionTypeId == x)).ToList()
+                .ForEach(x => selectedTicket.TransactionDocument.AccountTransactions.Where(y => y.AccountTransactionTypeId == x).ToList().ForEach(y => selectedTicket.TransactionDocument.AccountTransactions.Remove(y)));
             RefreshAccountTransactions(selectedTicket);
         }
 
@@ -566,7 +566,7 @@ namespace Samba.Services.Implementations.TicketModule
             var priceTag = _applicationState.CurrentDepartment.PriceTag;
             var productTimer = _cacheService.GetProductTimer(menuItemId);
             var order = ticket.AddOrder(
-                _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionTemplate,
+                _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionType,
                 _applicationState.CurrentLoggedInUser.Name, menuItem, portion, priceTag, productTimer);
 
             order.Quantity = quantity > 9 ? decimal.Round(quantity / portion.Multiplier, 3, MidpointRounding.AwayFromZero) : quantity;

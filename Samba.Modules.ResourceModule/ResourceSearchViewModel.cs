@@ -19,11 +19,11 @@ namespace Samba.Modules.ResourceModule
     [Export]
     public class ResourceSearchViewModel : ObservableObject
     {
-        public event EventHandler SelectedResourceTemplateChanged;
+        public event EventHandler SelectedResourceTypeChanged;
 
-        private void InvokeSelectedResourceTemplateChanged(EventArgs e)
+        private void InvokeSelectedResourceTypeChanged(EventArgs e)
         {
-            var handler = SelectedResourceTemplateChanged;
+            var handler = SelectedResourceTypeChanged;
             if (handler != null) handler(this, e);
         }
 
@@ -76,28 +76,28 @@ namespace Samba.Modules.ResourceModule
 
         protected int StateFilter { get; set; }
 
-        public IEnumerable<ResourceTemplate> ResourceTemplates { get { return _cacheService.GetResourceTemplates(); } }
+        public IEnumerable<ResourceType> ResourceTypes { get { return _cacheService.GetResourceTypes(); } }
 
-        private ResourceTemplate _selectedResourceTemplate;
-        public ResourceTemplate SelectedResourceTemplate
+        private ResourceType _selectedResourceType;
+        public ResourceType SelectedResourceType
         {
-            get { return _selectedResourceTemplate; }
+            get { return _selectedResourceType; }
             set
             {
-                _selectedResourceTemplate = value;
+                _selectedResourceType = value;
                 ClearSearchValues();
-                RaisePropertyChanged(() => SelectedResourceTemplate);
+                RaisePropertyChanged(() => SelectedResourceType);
                 RaisePropertyChanged(() => SelectResourceCommandCaption);
                 RaisePropertyChanged(() => CreateResourceCommandCaption);
                 RaisePropertyChanged(() => EditResourceCommandCaption);
                 RaisePropertyChanged(() => RemoveResourceCommandCaption);
-                InvokeSelectedResourceTemplateChanged(EventArgs.Empty);
+                InvokeSelectedResourceTypeChanged(EventArgs.Empty);
             }
         }
 
         private string SelectedEntityName()
         {
-            return SelectedResourceTemplate != null ? SelectedResourceTemplate.EntityName : Resources.Resource;
+            return SelectedResourceType != null ? SelectedResourceType.EntityName : Resources.Resource;
         }
 
         public ObservableCollection<ResourceSearchResultViewModel> FoundResources { get; set; }
@@ -164,7 +164,7 @@ namespace Samba.Modules.ResourceModule
 
         private void OnRemoveResource(string obj)
         {
-            _currentResourceSelectionRequest.Publish(Resource.GetNullResource(SelectedResourceTemplate.Id));
+            _currentResourceSelectionRequest.Publish(Resource.GetNullResource(SelectedResourceType.Id));
         }
 
         private bool CanRemoveResource(string arg)
@@ -177,7 +177,7 @@ namespace Samba.Modules.ResourceModule
 
         private bool CanCreateResource(string arg)
         {
-            return SelectedResourceTemplate != null && CanCreateNewResource;
+            return SelectedResourceType != null && CanCreateNewResource;
         }
 
         private void OnCreateResource(string obj)
@@ -185,7 +185,7 @@ namespace Samba.Modules.ResourceModule
             var targetEvent = _currentResourceSelectionRequest != null
                                   ? _currentResourceSelectionRequest.GetExpectedEvent()
                                   : EventTopicNames.SelectResource;
-            var newResource = new Resource { ResourceTemplateId = SelectedResourceTemplate.Id, Name = SearchString };
+            var newResource = new Resource { ResourceTypeId = SelectedResourceType.Id, Name = SearchString };
             ClearSearchValues();
             CommonEventPublisher.PublishEntityOperation(newResource, EventTopicNames.EditResourceDetails, targetEvent);
         }
@@ -218,13 +218,13 @@ namespace Samba.Modules.ResourceModule
                 ClearSearchValues();
                 if (_currentResourceSelectionRequest.SelectedEntity.Name != "*")
                 {
-                    FoundResources.Add(new ResourceSearchResultViewModel(_currentResourceSelectionRequest.SelectedEntity, SelectedResourceTemplate));
+                    FoundResources.Add(new ResourceSearchResultViewModel(_currentResourceSelectionRequest.SelectedEntity, SelectedResourceType));
                 }
             }
 
-            RaisePropertyChanged(() => SelectedResourceTemplate);
+            RaisePropertyChanged(() => SelectedResourceType);
             RaisePropertyChanged(() => SelectedResource);
-            RaisePropertyChanged(() => ResourceTemplates);
+            RaisePropertyChanged(() => ResourceTypes);
         }
 
         private void ClearSearchValues()
@@ -260,7 +260,7 @@ namespace Samba.Modules.ResourceModule
             {
                 worker.DoWork += delegate
                                      {
-                                         result = _resourceService.SearchResources(SearchString, SelectedResourceTemplate, StateFilter);
+                                         result = _resourceService.SearchResources(SearchString, SelectedResourceType, StateFilter);
                                      };
 
                 worker.RunWorkerCompleted +=
@@ -271,7 +271,7 @@ namespace Samba.Modules.ResourceModule
                                delegate
                                {
                                    FoundResources.Clear();
-                                   FoundResources.AddRange(result.Select(x => new ResourceSearchResultViewModel(x, SelectedResourceTemplate)));
+                                   FoundResources.AddRange(result.Select(x => new ResourceSearchResultViewModel(x, SelectedResourceType)));
 
                                    if (SelectedResource != null && SearchString == SelectedResource.PhoneNumber)
                                    {
@@ -291,7 +291,7 @@ namespace Samba.Modules.ResourceModule
         public void Refresh(ResourceScreen resourceScreen, EntityOperationRequest<Resource> currentOperationRequest)
         {
             StateFilter = resourceScreen.StateFilterId;
-            SelectedResourceTemplate = _cacheService.GetResourceTemplateById(resourceScreen.ResourceTemplateId);
+            SelectedResourceType = _cacheService.GetResourceTypeById(resourceScreen.ResourceTypeId);
             RefreshSelectedResource(currentOperationRequest);
         }
     }

@@ -29,9 +29,9 @@ namespace Samba.Modules.AccountModule
         private void OnDocumentCreation(EventParameters<DocumentCreationData> obj)
         {
             SelectedAccount = obj.Value.Account;
-            DocumentTemplate = obj.Value.DocumentTemplate;
-            Description = _accountService.GetDescription(obj.Value.DocumentTemplate, obj.Value.Account);
-            Amount = _accountService.GetDefaultAmount(obj.Value.DocumentTemplate, obj.Value.Account);
+            DocumentType = obj.Value.DocumentType;
+            Description = _accountService.GetDescription(obj.Value.DocumentType, obj.Value.Account);
+            Amount = _accountService.GetDefaultAmount(obj.Value.DocumentType, obj.Value.Account);
             AccountSelectors = GetAccountSelectors().ToList();
 
             RaisePropertyChanged(() => Description);
@@ -41,10 +41,10 @@ namespace Samba.Modules.AccountModule
 
         private IEnumerable<AccountSelectViewModel> GetAccountSelectors()
         {
-            var map = DocumentTemplate.AccountTransactionDocumentAccountMaps.FirstOrDefault(x => x.AccountId == SelectedAccount.Id);
+            var map = DocumentType.AccountTransactionDocumentAccountMaps.FirstOrDefault(x => x.AccountId == SelectedAccount.Id);
             return map != null 
-                ? DocumentTemplate.GetNeededAccountTemplates().Select(x => new AccountSelectViewModel(_accountService, _cacheService.GetAccountTemplateById(x), map.MappedAccountId, map.MappedAccountName)) 
-                : DocumentTemplate.GetNeededAccountTemplates().Select(x => new AccountSelectViewModel(_accountService, _cacheService.GetAccountTemplateById(x)));
+                ? DocumentType.GetNeededAccountTypes().Select(x => new AccountSelectViewModel(_accountService, _cacheService.GetAccountTypeById(x), map.MappedAccountId, map.MappedAccountName)) 
+                : DocumentType.GetNeededAccountTypes().Select(x => new AccountSelectViewModel(_accountService, _cacheService.GetAccountTypeById(x)));
         }
 
         public string AccountName
@@ -56,7 +56,7 @@ namespace Samba.Modules.AccountModule
         }
 
         public Account SelectedAccount { get; set; }
-        public AccountTransactionDocumentTemplate DocumentTemplate { get; set; }
+        public AccountTransactionDocumentType DocumentType { get; set; }
         public string Description { get; set; }
         public decimal Amount { get; set; }
         public ICaptionCommand SaveCommand { get; set; }
@@ -81,7 +81,7 @@ namespace Samba.Modules.AccountModule
         private void OnSave(string obj)
         {
             if (AccountSelectors.Any(x => x.SelectedAccountId == 0)) return;
-            _accountService.CreateNewTransactionDocument(SelectedAccount, DocumentTemplate, Description, Amount, AccountSelectors.Select(x => new Account { Id = x.SelectedAccountId, AccountTemplateId = x.AccountTemplate.Id }));
+            _accountService.CreateNewTransactionDocument(SelectedAccount, DocumentType, Description, Amount, AccountSelectors.Select(x => new Account { Id = x.SelectedAccountId, AccountTypeId = x.AccountType.Id }));
             CommonEventPublisher.PublishEntityOperation(new AccountData { AccountId = SelectedAccount.Id }, EventTopicNames.DisplayAccountTransactions);
         }
     }

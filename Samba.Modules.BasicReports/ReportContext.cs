@@ -50,10 +50,10 @@ namespace Samba.Modules.BasicReports
                           };
         }
 
-        private static IEnumerable<PaymentTemplate> _paymentTemplates;
-        public static IEnumerable<PaymentTemplate> PaymentTemplates
+        private static IEnumerable<PaymentType> _paymentTypes;
+        public static IEnumerable<PaymentType> PaymentTypes
         {
-            get { return _paymentTemplates ?? (_paymentTemplates = Dao.Query<PaymentTemplate>()); }
+            get { return _paymentTypes ?? (_paymentTypes = Dao.Query<PaymentType>()); }
         }
 
         private static IEnumerable<Ticket> _tickets;
@@ -86,10 +86,10 @@ namespace Samba.Modules.BasicReports
             get { return _workPeriods ?? (_workPeriods = Dao.Query<WorkPeriod>()); }
         }
 
-        private static IEnumerable<CalculationTemplate> _calculationTemplates;
-        public static IEnumerable<CalculationTemplate> CalculationTemplates
+        private static IEnumerable<CalculationType> _calculationTypes;
+        public static IEnumerable<CalculationType> CalculationTypes
         {
-            get { return _calculationTemplates ?? (_calculationTemplates = Dao.Query<CalculationTemplate>()); }
+            get { return _calculationTypes ?? (_calculationTypes = Dao.Query<CalculationType>()); }
         }
 
         private static IEnumerable<AccountTransactionValue> _accountTransactionValues;
@@ -164,7 +164,7 @@ namespace Samba.Modules.BasicReports
 
         private static IEnumerable<Department> GetDepartments()
         {
-            return Dao.Query<Department>(x => x.TicketTemplate.SaleTransactionTemplate);
+            return Dao.Query<Department>(x => x.TicketTemplate.SaleTransactionType);
         }
 
         private static IEnumerable<Ticket> GetTickets()
@@ -205,8 +205,8 @@ namespace Samba.Modules.BasicReports
             _yesterdayWorkPeriod = null;
             _todayWorkPeriod = null;
             _workPeriods = null;
-            _calculationTemplates = null;
-            _paymentTemplates = null;
+            _calculationTypes = null;
+            _paymentTypes = null;
         }
 
         private static WorkPeriod _thisMonthWorkPeriod;
@@ -292,18 +292,18 @@ namespace Samba.Modules.BasicReports
         public static IEnumerable<WorkPeriod> GetWorkPeriods(DateTime startDate, DateTime endDate)
         {
             var wp = WorkPeriods.Where(x => x.EndDate >= endDate && x.StartDate < startDate);
-            if (wp.Count() == 0)
+            if (!wp.Any())
                 wp = WorkPeriods.Where(x => x.StartDate >= startDate && x.StartDate < endDate);
-            if (wp.Count() == 0)
+            if (!wp.Any())
                 wp = WorkPeriods.Where(x => x.EndDate >= startDate && x.EndDate < endDate);
-            if (wp.Count() == 0 && ApplicationState.CurrentWorkPeriod.StartDate < startDate)
+            if (!wp.Any() && ApplicationState.CurrentWorkPeriod.StartDate < startDate)
                 wp = new List<WorkPeriod> { ApplicationState.CurrentWorkPeriod };
             return wp.OrderBy(x => x.StartDate);
         }
 
         public static WorkPeriod CreateCustomWorkPeriod(string name, DateTime startDate, DateTime endDate)
         {
-            var periods = GetWorkPeriods(startDate, endDate);
+            var periods = GetWorkPeriods(startDate, endDate).ToList();
             var startPeriod = periods.FirstOrDefault();
             var endPeriod = periods.LastOrDefault();
             var start = startPeriod != null ? startPeriod.StartDate : startDate;
@@ -330,8 +330,8 @@ namespace Samba.Modules.BasicReports
             var groups = Tickets
                 .SelectMany(x => x.Payments)
                 .Where(x => x.Amount >= 0)
-                .GroupBy(x => x.PaymentTemplateId)
-                .Select(x => new TenderedAmount { PaymentName = GetPaymentTemplateName(x.Key), Amount = x.Sum(y => y.Amount) });
+                .GroupBy(x => x.PaymentTypeId)
+                .Select(x => new TenderedAmount { PaymentName = GetPaymentTypeName(x.Key), Amount = x.Sum(y => y.Amount) });
             return new AmountCalculator(groups);
         }
 
@@ -340,14 +340,14 @@ namespace Samba.Modules.BasicReports
             var groups = Tickets
                 .SelectMany(x => x.Payments)
                 .Where(x => x.Amount < 0)
-                .GroupBy(x => x.PaymentTemplateId)
-                .Select(x => new TenderedAmount { PaymentName = GetPaymentTemplateName(x.Key), Amount = x.Sum(y => y.Amount) });
+                .GroupBy(x => x.PaymentTypeId)
+                .Select(x => new TenderedAmount { PaymentName = GetPaymentTypeName(x.Key), Amount = x.Sum(y => y.Amount) });
             return new AmountCalculator(groups);
         }
 
-        private static string GetPaymentTemplateName(int paymentTemplateId)
+        private static string GetPaymentTypeName(int paymentTypeId)
         {
-            var pt = PaymentTemplates.SingleOrDefault(x => x.Id == paymentTemplateId);
+            var pt = PaymentTypes.SingleOrDefault(x => x.Id == paymentTypeId);
             return pt != null ? pt.Name : "";
         }
 

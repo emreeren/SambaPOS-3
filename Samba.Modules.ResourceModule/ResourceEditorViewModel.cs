@@ -38,14 +38,14 @@ namespace Samba.Modules.ResourceModule
             if (CustomDataViewModel == null) return false;
             if (!_userService.IsUserPermittedFor(PermissionNames.CreateAccount)) return false;
             CustomDataViewModel.Update();
-            return SelectedResource != null && SelectedResource.Model.AccountId == 0 && SelectedResource.ResourceTemplate.AccountTemplateId > 0 && !string.IsNullOrEmpty(SelectedResource.ResourceTemplate.GetAccountName(SelectedResource.Model));
+            return SelectedResource != null && SelectedResource.Model.AccountId == 0 && SelectedResource.ResourceType.AccountTypeId > 0 && !string.IsNullOrEmpty(SelectedResource.ResourceType.GetAccountName(SelectedResource.Model));
         }
 
         private void OnCreateAccount(string obj)
         {
             if (SelectedResource.Model.Id == 0) SaveSelectedResource();
-            var accountName = SelectedResource.ResourceTemplate.GetAccountName(SelectedResource.Model);
-            var accountId = _accountService.CreateAccount(accountName, SelectedResource.ResourceTemplate.AccountTemplateId);
+            var accountName = SelectedResource.ResourceType.GetAccountName(SelectedResource.Model);
+            var accountId = _accountService.CreateAccount(accountName, SelectedResource.ResourceType.AccountTypeId);
             SelectedResource.Model.AccountId = accountId;
             SaveSelectedResource();
             _ticketService.UpdateAccountOfOpenTickets(SelectedResource.Model);
@@ -82,9 +82,9 @@ namespace Samba.Modules.ResourceModule
             if (obj.Topic == EventTopicNames.EditResourceDetails)
             {
                 _operationRequest = obj.Value;
-                var resourceTemplate = _cacheService.GetResourceTemplateById(obj.Value.SelectedEntity.ResourceTemplateId);
-                SelectedResource = new ResourceSearchResultViewModel(obj.Value.SelectedEntity, resourceTemplate);
-                CustomDataViewModel = new ResourceCustomDataViewModel(obj.Value.SelectedEntity, resourceTemplate);
+                var ResourceType = _cacheService.GetResourceTypeById(obj.Value.SelectedEntity.ResourceTypeId);
+                SelectedResource = new ResourceSearchResultViewModel(obj.Value.SelectedEntity, ResourceType);
+                CustomDataViewModel = new ResourceCustomDataViewModel(obj.Value.SelectedEntity, ResourceType);
                 SelectedResource.UpdateDetailedInfo();
                 RaisePropertyChanged(() => CustomDataViewModel);
             }
@@ -94,7 +94,7 @@ namespace Samba.Modules.ResourceModule
 
         private string SelectedEntityName()
         {
-            return SelectedResource != null ? SelectedResource.ResourceTemplate.EntityName : Resources.Resource;
+            return SelectedResource != null ? SelectedResource.ResourceType.EntityName : Resources.Resource;
         }
 
         private ResourceSearchResultViewModel _selectedResource;

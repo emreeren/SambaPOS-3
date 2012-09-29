@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Windows.Markup;
 using Samba.Localization.BaseExtensions;
 using Samba.Localization.Engine;
@@ -197,7 +198,7 @@ namespace Samba.Localization.Extensions
             {
                 return obj;
             }
-            
+
             if (obj.GetType().Equals(typeof(string)))
             {
                 return this.FormatOutput(obj);
@@ -251,23 +252,22 @@ namespace Samba.Localization.Extensions
             // get the main text as string xor string.empty
             string textMain = input as string ?? string.Empty;
 
-            //try
-            //{
-            //    // add some format segments, in case that the main text contains format place holders like {0}
-            //    textMain = string.Format(
-            //        LocalizeDictionary.Instance.SpecificCulture,
-            //        textMain,
-            //        this.formatSegments[0] ?? string.Empty,
-            //        this.formatSegments[1] ?? string.Empty,
-            //        this.formatSegments[2] ?? string.Empty,
-            //        this.formatSegments[3] ?? string.Empty,
-            //        this.formatSegments[4] ?? string.Empty);
-            //}
-            //catch (FormatException)
-            //{
-            //    // if a format exception was thrown, change the text to an error string
-            //    textMain = "TextFormatError: Max 5 Format PlaceHolders! {0} to {4}";
-            //}
+            if (formatSegments.Any())
+            {
+                try
+                {
+                    // add some format segments, in case that the main text contains format place holders like {0}
+                    textMain = string.Format(
+                        LocalizeDictionary.Instance.SpecificCulture,
+                        textMain,
+                        this.formatSegments[0] ?? string.Empty);
+                }
+                catch (FormatException)
+                {
+                    // if a format exception was thrown, change the text to an error string
+                    textMain = "TextFormatError: Max 5 Format PlaceHolders! {0} to {4}";
+                }
+            }
 
             // get the prefix
             string textPrefix = this.GetAppendText(TextAppendType.Prefix);

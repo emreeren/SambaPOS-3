@@ -14,7 +14,7 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Column="0">
-            <Label Margin="0,0,2,2" MinWidth="100" Content="{LocText AccountName,Suffix=':'}" />
+            <Label Margin="0,0,2,2" MinWidth="100" Content="{LocText Name_f,FormatSegment1={LocText Account},Suffix=':'}" />
             <TextBlock FontWeight="Bold" Margin="5,0" Text="{Binding AccountName}"/>
             <Label Margin="0,0,2,2" MinWidth="100" Content="{LocText Description,Suffix=':'}" />
             <TextBox Name="DescriptionEdit" HorizontalAlignment="Left" MinWidth="300" Margin="5,0" Text="{Binding Description,UpdateSourceTrigger=PropertyChanged}" />

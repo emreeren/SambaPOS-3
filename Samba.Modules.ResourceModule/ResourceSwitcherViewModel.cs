@@ -75,11 +75,11 @@ namespace Samba.Modules.ResourceModule
             if (value != null && value.SelectedEntity != null && _applicationState.CurrentDepartment != null)
             {
                 if (_applicationState.IsLocked)
-                    _resourceScreens = _resourceScreens.Where(x => x.ResourceTemplateId == value.SelectedEntity.ResourceTemplateId).OrderBy(x => x.Order);
+                    _resourceScreens = _resourceScreens.Where(x => x.ResourceTypeId == value.SelectedEntity.ResourceTypeId).OrderBy(x => x.Order);
                 if (_resourceScreens.Count() == 0)
                     return _applicationState.CurrentDepartment.ResourceScreens.ElementAt(0);
-                if (selectedScreen == null || selectedScreen.ResourceTemplateId != value.SelectedEntity.ResourceTemplateId)
-                    selectedScreen = _resourceScreens.Where(x => x.ResourceTemplateId == value.SelectedEntity.ResourceTemplateId).First();
+                if (selectedScreen == null || selectedScreen.ResourceTypeId != value.SelectedEntity.ResourceTypeId)
+                    selectedScreen = _resourceScreens.Where(x => x.ResourceTypeId == value.SelectedEntity.ResourceTypeId).First();
                 if (selectedScreen == null) selectedScreen = _resourceScreens.ElementAt(0);
             }
             return selectedScreen ?? ResourceScreens.ElementAt(0);

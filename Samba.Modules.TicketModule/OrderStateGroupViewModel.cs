@@ -35,22 +35,22 @@ namespace Samba.Modules.TicketModule
         public bool CalculateOrderPrice { get { return Model.CalculateOrderPrice; } set { Model.CalculateOrderPrice = value; } }
         public bool DecreaseOrderInventory { get { return Model.DecreaseOrderInventory; } set { Model.DecreaseOrderInventory = value; } }
         public bool IncreaseOrderInventory { get { return Model.IncreaseOrderInventory; } set { Model.IncreaseOrderInventory = value; } }
-        public int AccountTransactionTemplateId { get { return Model.AccountTransactionTemplateId; } set { Model.AccountTransactionTemplateId = value; } }
+        public int AccountTransactionTypeId { get { return Model.AccountTransactionTypeId; } set { Model.AccountTransactionTypeId = value; } }
 
         public OrderStateViewModel SelectedOrderState { get; set; }
 
-        private IEnumerable<AccountTransactionTemplate> _accountTransactionTemplates;
-        public IEnumerable<AccountTransactionTemplate> AccountTransactionTemplates { get { return _accountTransactionTemplates ?? (_accountTransactionTemplates = Workspace.All<AccountTransactionTemplate>()); } }
+        private IEnumerable<AccountTransactionType> _accountTransactionTypes;
+        public IEnumerable<AccountTransactionType> AccountTransactionTypes { get { return _accountTransactionTypes ?? (_accountTransactionTypes = Workspace.All<AccountTransactionType>()); } }
 
-        public AccountTransactionTemplate AccountTransactionTemplate
+        public AccountTransactionType AccountTransactionType
         {
             get
             {
-                return AccountTransactionTemplateId == 0 ? null : AccountTransactionTemplates.FirstOrDefault(x => x.Id == AccountTransactionTemplateId);
+                return AccountTransactionTypeId == 0 ? null : AccountTransactionTypes.FirstOrDefault(x => x.Id == AccountTransactionTypeId);
             }
             set
             {
-                AccountTransactionTemplateId = value != null ? value.Id : 0;
+                AccountTransactionTypeId = value != null ? value.Id : 0;
             }
         }
 
@@ -104,7 +104,7 @@ namespace Samba.Modules.TicketModule
     {
         public OrderStateGroupValidator()
         {
-            RuleFor(x => x.AccountTransactionTemplateId).GreaterThan(0).When(x => x.IncreaseOrderInventory);
+            RuleFor(x => x.AccountTransactionTypeId).GreaterThan(0).When(x => x.IncreaseOrderInventory);
             RuleFor(x => x.DecreaseOrderInventory).Equal(false).When(x => x.IncreaseOrderInventory);
         }
     }

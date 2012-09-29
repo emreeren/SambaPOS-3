@@ -5,7 +5,7 @@ namespace Samba.Domain.Models.Resources
 {
     public class ResourceScreen : Entity, IOrderable
     {
-        public int ResourceTemplateId { get; set; }
+        public int ResourceTypeId { get; set; }
         public int Order { get; set; }
         public int DisplayMode { get; set; }
         public string BackgroundColor { get; set; }

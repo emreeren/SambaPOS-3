@@ -106,7 +106,7 @@ namespace Samba.Modules.PosModule
                 if (SelectedTicket != null)
                 {
                     _ticketService.UpdateResource(SelectedTicket, eventParameters.Value.SelectedEntity);
-                    if (_applicationState.SelectedResourceScreen != null && SelectedTicket.Orders.Count > 0 && eventParameters.Value.SelectedEntity.Id > 0 && eventParameters.Value.SelectedEntity.ResourceTemplateId == _applicationState.SelectedResourceScreen.ResourceTemplateId)
+                    if (_applicationState.SelectedResourceScreen != null && SelectedTicket.Orders.Count > 0 && eventParameters.Value.SelectedEntity.Id > 0 && eventParameters.Value.SelectedEntity.ResourceTypeId == _applicationState.SelectedResourceScreen.ResourceTypeId)
                         CloseTicket();
                     else DisplaySingleTicket();
                 }
@@ -175,7 +175,7 @@ namespace Samba.Modules.PosModule
             OpenTicket(0);
             foreach (var ticketResource in tr)
             {
-                _ticketService.UpdateResource(SelectedTicket, ticketResource.ResourceTemplateId, ticketResource.ResourceId, ticketResource.ResourceName, ticketResource.AccountId, ticketResource.ResourceCustomData);
+                _ticketService.UpdateResource(SelectedTicket, ticketResource.ResourceTypeId, ticketResource.ResourceId, ticketResource.ResourceName, ticketResource.AccountId, ticketResource.ResourceCustomData);
             }
         }
 

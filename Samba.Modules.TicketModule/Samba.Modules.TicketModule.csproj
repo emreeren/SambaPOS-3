@@ -81,10 +81,10 @@
       <DependentUpon>CalculationSelectorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="CalculationSelectorViewModel.cs" />
-    <Compile Include="ChangePaymentTemplateView.xaml.cs">
-      <DependentUpon>ChangePaymentTemplateView.xaml</DependentUpon>
+    <Compile Include="ChangePaymentTypeView.xaml.cs">
+      <DependentUpon>ChangePaymentTypeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ChangePaymentTemplateViewModel.cs" />
+    <Compile Include="ChangePaymentTypeViewModel.cs" />
     <Compile Include="OrderStateMapViewModel.cs" />
     <Compile Include="OrderStateGroupView.xaml.cs">
       <DependentUpon>OrderStateGroupView.xaml</DependentUpon>
@@ -102,16 +102,16 @@
     </Compile>
     <Compile Include="OrderTagTemplateViewModel.cs" />
     <Compile Include="OrderTagViewModel.cs" />
-    <Compile Include="PaymentTemplateMapViewModel.cs" />
-    <Compile Include="PaymentTemplateView.xaml.cs">
-      <DependentUpon>PaymentTemplateView.xaml</DependentUpon>
+    <Compile Include="PaymentTypeMapViewModel.cs" />
+    <Compile Include="PaymentTypeView.xaml.cs">
+      <DependentUpon>PaymentTypeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PaymentTemplateViewModel.cs" />
+    <Compile Include="PaymentTypeViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CalculationTemplateView.xaml.cs">
-      <DependentUpon>CalculationTemplateView.xaml</DependentUpon>
+    <Compile Include="CalculationTypeView.xaml.cs">
+      <DependentUpon>CalculationTypeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CalculationTemplateViewModel.cs" />
+    <Compile Include="CalculationTypeViewModel.cs" />
     <Compile Include="TicketModule.cs" />
     <Compile Include="TicketTagGroupView.xaml.cs">
       <DependentUpon>TicketTagGroupView.xaml</DependentUpon>
@@ -127,7 +127,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ChangePaymentTemplateView.xaml">
+    <Page Include="ChangePaymentTypeView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -143,11 +143,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CalculationTemplateView.xaml">
+    <Page Include="CalculationTypeView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="PaymentTemplateView.xaml">
+    <Page Include="PaymentTypeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

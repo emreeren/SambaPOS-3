@@ -14,15 +14,15 @@ namespace Samba.Modules.TicketModule
         [ImportingConstructor]
         public TicketModule()
         {
-            AddDashboardCommand<EntityCollectionViewModelBase<TicketTemplateViewModel, TicketTemplate>>(Resources.TicketTemplates, Resources.Tickets, 35);
-            AddDashboardCommand<EntityCollectionViewModelBase<TicketTagGroupViewModel, TicketTagGroup>>(Resources.TicketTags, Resources.Tickets, 35);
+            AddDashboardCommand<EntityCollectionViewModelBase<TicketTemplateViewModel, TicketTemplate>>(Resources.TicketTemplate.ToPlural(), Resources.Tickets, 35);
+            AddDashboardCommand<EntityCollectionViewModelBase<TicketTagGroupViewModel, TicketTagGroup>>(Resources.TicketTag.ToPlural(), Resources.Tickets, 35);
             AddDashboardCommand<EntityCollectionViewModelBase<OrderStateGroupViewModel, OrderStateGroup>>(Resources.OrderState.ToPlural(), Resources.Tickets, 35);
-            AddDashboardCommand<EntityCollectionViewModelBase<OrderTagGroupViewModel, OrderTagGroup>>(Resources.OrderTags, Resources.Tickets, 35);
-            AddDashboardCommand<EntityCollectionViewModelBase<OrderTagTemplateViewModel, OrderTagTemplate>>(Resources.OrderTagTemplates, Resources.Tickets, 35);
-            AddDashboardCommand<EntityCollectionViewModelBase<CalculationTemplateViewModel, CalculationTemplate>>(Resources.CalculationTemplates, Resources.Tickets, 35);
+            AddDashboardCommand<EntityCollectionViewModelBase<OrderTagTemplateViewModel, OrderTagTemplate>>(Resources.OrderTagTemplate.ToPlural(), Resources.Tickets, 35);
+            AddDashboardCommand<EntityCollectionViewModelBase<OrderTagGroupViewModel, OrderTagGroup>>(Resources.OrderTag.ToPlural(), Resources.Tickets, 35);
+            AddDashboardCommand<EntityCollectionViewModelBase<PaymentTypeViewModel, PaymentType>>(Resources.PaymentType.ToPlural(), Resources.Tickets, 35);
+            AddDashboardCommand<EntityCollectionViewModelBase<ChangePaymentTypeViewModel, ChangePaymentType>>(Resources.ChangePaymentType.ToPlural(), Resources.Tickets, 35);
+            AddDashboardCommand<EntityCollectionViewModelBase<CalculationTypeViewModel, CalculationType>>(Resources.CalculationType.ToPlural(), Resources.Tickets, 35);
             AddDashboardCommand<EntityCollectionViewModelBase<CalculationSelectorViewModel, CalculationSelector>>(Resources.CalculationSelector.ToPlural(), Resources.Tickets, 35);
-            AddDashboardCommand<EntityCollectionViewModelBase<PaymentTemplateViewModel, PaymentTemplate>>(Resources.PaymentTemplates, Resources.Tickets, 35);
-            AddDashboardCommand<EntityCollectionViewModelBase<ChangePaymentTemplateViewModel, ChangePaymentTemplate>>(Resources.ChangePaymentTemplate.ToPlural(), Resources.Tickets, 35);
 
             PermissionRegistry.RegisterPermission(PermissionNames.AddItemsToLockedTickets, PermissionCategories.Ticket, Resources.CanReleaseTicketLock);
             PermissionRegistry.RegisterPermission(PermissionNames.RemoveTicketTag, PermissionCategories.Ticket, Resources.CanRemoveTicketTag);

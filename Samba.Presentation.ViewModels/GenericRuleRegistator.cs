@@ -63,10 +63,10 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType("UpdateProgramSetting", Resources.UpdateProgramSetting, new { SettingName = "", SettingValue = "", UpdateType = Resources.Update, IsLocal = true });
             AutomationService.RegisterActionType("UpdateTicketTax", Resources.UpdateTicketTax, new { TaxTemplate = "" });
             AutomationService.RegisterActionType("RegenerateTicketTax", Resources.RegenerateTicketTax);
-            AutomationService.RegisterActionType("UpdateTicketService", Resources.UpdateTicketService, new { CalculationTemplate = "", Amount = 0m });
+            AutomationService.RegisterActionType("UpdateTicketService", Resources.UpdateTicketService, new { CalculationType = "", Amount = 0m });
             AutomationService.RegisterActionType("UpdateTicketAccount", Resources.UpdateTicketAccount, new { AccountPhone = "", AccountName = "", Note = "" });
             AutomationService.RegisterActionType("ExecutePrintJob", "Execute Print Job", new { PrintJobName = "" });
-            AutomationService.RegisterActionType("UpdateResourceState", "Update Resource State", new { ResourceTemplateName = "", ResourceState = "" });
+            AutomationService.RegisterActionType("UpdateResourceState", "Update Resource State", new { ResourceTypeName = "", ResourceState = "" });
             AutomationService.RegisterActionType("CloseActiveTicket", "Close Active Ticket");
             AutomationService.RegisterActionType("LockTicket", "Lock Ticket");
             AutomationService.RegisterActionType("UnlockTicket", "Unlock Ticket");
@@ -87,7 +87,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterEvent(RuleEventNames.TicketOpened, "Ticket Opened", new { OrderCount = 0 });
             AutomationService.RegisterEvent(RuleEventNames.TicketClosing, "Ticket Closing", new { TicketId = 0, NewOrderCount = 0 });
             AutomationService.RegisterEvent(RuleEventNames.TicketsMerged, "Tickets Merged");
-            AutomationService.RegisterEvent(RuleEventNames.PaymentProcessed, "Payment Processed", new { PaymentTemplateName = "", Tenderedamount = 0m, ProcessedAmount = 0m, ChangeAmount = 0m, RemainingAmount = 0m });
+            AutomationService.RegisterEvent(RuleEventNames.PaymentProcessed, "Payment Processed", new { PaymentTypeName = "", Tenderedamount = 0m, ProcessedAmount = 0m, ChangeAmount = 0m, RemainingAmount = 0m });
             AutomationService.RegisterEvent(RuleEventNames.TicketResourceChanged, "Ticket Resource Changed", new { OrderCount = 0, OldResourceName = "", NewResourceName = "" });
             AutomationService.RegisterEvent(RuleEventNames.TicketTagSelected, Resources.TicketTagSelected, new { TagName = "", TagValue = "", NumericValue = 0, TicketTag = "" });
             AutomationService.RegisterEvent(RuleEventNames.OrderTagged, "Order Tagged", new { OrderTagName = "", OrderTagValue = "" });
@@ -98,7 +98,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterEvent(RuleEventNames.TicketLineAdded, "Line Added to Ticket", new { MenuItemName = "" });
             AutomationService.RegisterEvent(RuleEventNames.ChangeAmountChanged, "Change Amount Updated", new { TicketAmount = 0, ChangeAmount = 0, TenderedAmount = 0 });
             AutomationService.RegisterEvent(RuleEventNames.ApplicationStarted, "Application Started");
-            AutomationService.RegisterEvent(RuleEventNames.ResourceUpdated, "Resource Updated", new { ResourceTemplateName = "", OpenTicketCount = 0 });
+            AutomationService.RegisterEvent(RuleEventNames.ResourceUpdated, "Resource Updated", new { ResourceTypeName = "", OpenTicketCount = 0 });
             AutomationService.RegisterEvent(RuleEventNames.AutomationCommandExecuted, "Automation Command Exeucted", new { AutomationCommandName = "", Value = "" });
         }
 
@@ -112,15 +112,15 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterParameterSoruce("PriceTag", () => Dao.Distinct<MenuItemPriceDefinition>(x => x.PriceTag));
             AutomationService.RegisterParameterSoruce("Color", () => typeof(Colors).GetProperties(BindingFlags.Public | BindingFlags.Static).Select(x => x.Name));
             AutomationService.RegisterParameterSoruce("TaxTemplate", () => Dao.Distinct<TaxTemplate>(x => x.Name));
-            AutomationService.RegisterParameterSoruce("CalculationTemplate", () => Dao.Distinct<CalculationTemplate>(x => x.Name));
+            AutomationService.RegisterParameterSoruce("CalculationType", () => Dao.Distinct<CalculationType>(x => x.Name));
             AutomationService.RegisterParameterSoruce("TagName", () => Dao.Distinct<TicketTagGroup>(x => x.Name));
             AutomationService.RegisterParameterSoruce("OrderTagName", () => Dao.Distinct<OrderTagGroup>(x => x.Name));
             AutomationService.RegisterParameterSoruce("ResourceState", () => Dao.Distinct<ResourceState>(x => x.Name));
-            AutomationService.RegisterParameterSoruce("ResourceTemplateName", () => Dao.Distinct<ResourceTemplate>(x => x.Name));
+            AutomationService.RegisterParameterSoruce("ResourceTypeName", () => Dao.Distinct<ResourceType>(x => x.Name));
             AutomationService.RegisterParameterSoruce("AutomationCommandName", () => Dao.Distinct<AutomationCommand>(x => x.Name));
             AutomationService.RegisterParameterSoruce("PrintJobName", () => Dao.Distinct<PrintJob>(x => x.Name));
-            AutomationService.RegisterParameterSoruce("PaymentTemplateName", () => Dao.Distinct<PaymentTemplate>(x => x.Name));
-            AutomationService.RegisterParameterSoruce("AccountTransactionDocumentName", () => Dao.Distinct<AccountTransactionDocumentTemplate>(x => x.Name));
+            AutomationService.RegisterParameterSoruce("PaymentTypeName", () => Dao.Distinct<PaymentType>(x => x.Name));
+            AutomationService.RegisterParameterSoruce("AccountTransactionDocumentName", () => Dao.Distinct<AccountTransactionDocumentType>(x => x.Name));
         }
 
         private static void ResetCache()
@@ -139,7 +139,7 @@ namespace Samba.Presentation.ViewModels
                     var documentName = x.Value.GetAsString("AccountTransactionDocumentName");
                     if (!string.IsNullOrEmpty(documentName))
                     {
-                        var document = CacheService.GetAccountTransactionDocumentTemplateByName(documentName);
+                        var document = CacheService.GetAccountTransactionDocumentTypeByName(documentName);
                         if (document != null)
                         {
                             var accounts = AccountService.GetDocumentAccounts(document);
@@ -203,12 +203,12 @@ namespace Samba.Presentation.ViewModels
                 if (x.Value.Action.ActionType == "UpdateResourceState")
                 {
                     var resourceId = x.Value.GetDataValueAsInt("ResourceId");
-                    var resourceTemplateId = x.Value.GetDataValueAsInt("ResourceTemplateId");
+                    var ResourceTypeId = x.Value.GetDataValueAsInt("ResourceTypeId");
                     var stateName = x.Value.GetAsString("ResourceState");
                     var state = CacheService.GetResourceStateByName(stateName);
                     if (state != null)
                     {
-                        if (resourceId > 0 && resourceTemplateId > 0)
+                        if (resourceId > 0 && ResourceTypeId > 0)
                         {
                             ResourceService.UpdateResourceState(resourceId, state.Id);
                         }
@@ -217,11 +217,11 @@ namespace Samba.Presentation.ViewModels
                             var ticket = x.Value.GetDataValue<Ticket>("Ticket");
                             if (ticket != null)
                             {
-                                var resourceTemplateName = x.Value.GetDataValueAsString("ResourceTemplateName");
+                                var ResourceTypeName = x.Value.GetDataValueAsString("ResourceTypeName");
                                 foreach (var ticketResource in ticket.TicketResources)
                                 {
-                                    var resourceTemplate = CacheService.GetResourceTemplateById(ticketResource.ResourceTemplateId);
-                                    if (string.IsNullOrEmpty(resourceTemplateName.Trim()) || resourceTemplate.Name == resourceTemplateName)
+                                    var ResourceType = CacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
+                                    if (string.IsNullOrEmpty(ResourceTypeName.Trim()) || ResourceType.Name == ResourceTypeName)
                                         ResourceService.UpdateResourceState(ticketResource.ResourceId, state.Id);
                                 }
                             }
@@ -364,12 +364,12 @@ namespace Samba.Presentation.ViewModels
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
                     if (ticket != null)
                     {
-                        var calculationTemplateName = x.Value.GetAsString("CalculationTemplate");
-                        var calculationTemplate = SettingService.GetCalculationTemplateByName(calculationTemplateName);
-                        if (calculationTemplate != null)
+                        var CalculationTypeName = x.Value.GetAsString("CalculationType");
+                        var CalculationType = SettingService.GetCalculationTypeByName(CalculationTypeName);
+                        if (CalculationType != null)
                         {
                             var amount = x.Value.GetAsDecimal("Amount");
-                            ticket.AddCalculation(calculationTemplate, amount);
+                            ticket.AddCalculation(CalculationType, amount);
                             TicketService.RecalculateTicket(ticket);
                         }
                     }

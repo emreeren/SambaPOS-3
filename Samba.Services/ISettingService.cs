@@ -7,8 +7,8 @@ namespace Samba.Services
 {
     public interface ISettingService
     {
-        CalculationTemplate GetCalculationTemplateById(int id);
-        CalculationTemplate GetCalculationTemplateByName(string name);
+        CalculationType GetCalculationTypeById(int id);
+        CalculationType GetCalculationTypeByName(string name);
         TaxTemplate GetTaxTemplateById(int id);
         TaxTemplate GetTaxTemplateByName(string name);
         Terminal GetTerminalByName(string name);

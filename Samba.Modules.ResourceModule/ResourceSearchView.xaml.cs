@@ -20,19 +20,19 @@ namespace Samba.Modules.ResourceModule
         public ResourceSearchView(ResourceSearchViewModel viewModel)
         {
             DataContext = viewModel;
-            viewModel.SelectedResourceTemplateChanged += viewModel_SelectedAccountTemplateChanged;
+            viewModel.SelectedResourceTypeChanged += viewModel_SelectedAccountTypeChanged;
             InitializeComponent();
         }
 
-        void viewModel_SelectedAccountTemplateChanged(object sender, System.EventArgs e)
+        void viewModel_SelectedAccountTypeChanged(object sender, System.EventArgs e)
         {
             var gridView = MainListView.View as GridView;
             var selector = sender as ResourceSearchViewModel;
             if (selector != null && gridView != null)
             {
                 gridView.Columns.Where(x => x.Header.ToString() != "Name").ToList().ForEach(x => gridView.Columns.Remove(x));
-                if (selector.SelectedResourceTemplate != null)
-                    selector.SelectedResourceTemplate.ResoruceCustomFields.Where(x => !x.Hidden).Select(CreateColumn).ToList().ForEach(x => gridView.Columns.Add(x));
+                if (selector.SelectedResourceType != null)
+                    selector.SelectedResourceType.ResoruceCustomFields.Where(x => !x.Hidden).Select(CreateColumn).ToList().ForEach(x => gridView.Columns.Add(x));
                 MainListView.RaiseEvent(new RoutedEventArgs(LoadedEvent, MainListView));
             }
         }
