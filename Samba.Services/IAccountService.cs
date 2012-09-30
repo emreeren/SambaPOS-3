@@ -27,8 +27,6 @@ namespace Samba.Services
 
     public interface IAccountService
     {
-        int GetAccountCount();
-        void CreateNewTransactionDocument(Account account, AccountTransactionDocumentType documentType, string description, decimal amount, IEnumerable<Account> accounts);
         decimal GetAccountBalance(int accountId);
         Dictionary<Account, BalanceValue> GetAccountBalances(IList<int> accountTypeIds, Expression<Func<AccountTransactionValue, bool>> filter);
         Dictionary<AccountType, BalanceValue> GetAccountTypeBalances(IList<int> accountTypeIds, Expression<Func<AccountTransactionValue, bool>> filter);
@@ -36,14 +34,13 @@ namespace Samba.Services
         decimal GetDefaultAmount(AccountTransactionDocumentType documentType, Account account);
         string GetAccountNameById(int accountId);
         int GetAccountIdByName(string accountName);
-        IEnumerable<Account> GetAccounts(params AccountType[] accountTypes);
-        IEnumerable<Account> GetAccounts(int accountTypeId);
-        IEnumerable<Account> GetAccounts(IEnumerable<int> accountIds);
         IEnumerable<Account> GetBalancedAccounts(int accountTypeId);
         IEnumerable<string> GetCompletingAccountNames(int accountTypeId, string accountName);
         Account GetAccountById(int accountId);
         IEnumerable<AccountType> GetAccountTypes();
-        int CreateAccount(string accountName, int accountTypeId);
+        int CreateAccount(int accountTypeId, string accountName);
         IEnumerable<Account> GetDocumentAccounts(AccountTransactionDocumentType documentType);
+        void CreateBatchAccountTransactionDocument(string documentName);
+        void CreateTransactionDocument(Account account, AccountTransactionDocumentType documentType, string description, decimal amount, IEnumerable<Account> accounts);
     }
 }

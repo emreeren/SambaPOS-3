@@ -2204,8 +2204,8 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="RegenerateTicketTax" xml:space="preserve">
     <value>Regenerate Ticket Tax</value>
   </data>
-  <data name="UpdateTicketService" xml:space="preserve">
-    <value>Update Ticket Service</value>
+  <data name="UpdateTicketCalculation" xml:space="preserve">
+    <value>Update Ticket Calculation</value>
   </data>
   <data name="Included" xml:space="preserve">
     <value>Included</value>
@@ -2838,5 +2838,68 @@ Message:
   </data>
   <data name="DeleteSelectedItems">
     <value xml:space="preserve">Delete Selected Items</value>
+  </data>
+  <data name="TagOrder">
+    <value xml:space="preserve">Tag Order</value>
+  </data>
+  <data name="UntagOrder">
+    <value xml:space="preserve">Untag Order</value>
+  </data>
+  <data name="RemoveOrderTag">
+    <value xml:space="preserve">Remove OrderTag</value>
+  </data>
+  <data name="MoveTaggedOrders">
+    <value xml:space="preserve">Move Tagged Orders</value>
+  </data>
+  <data name="ExecutePrintJob">
+    <value xml:space="preserve">Execute Print Job</value>
+  </data>
+  <data name="UpdateResourceState">
+    <value xml:space="preserve">Update Resource State</value>
+  </data>
+  <data name="DisplayTicket">
+    <value xml:space="preserve">Display Ticket</value>
+  </data>
+  <data name="DisplayPaymentScreen">
+    <value xml:space="preserve">Display Payment Screen</value>
+  </data>
+  <data name="BeforeWorkPeriodEnds">
+    <value xml:space="preserve">Before Work Period Ends</value>
+  </data>
+  <data name="TicketOpened">
+    <value xml:space="preserve">Ticket Opened</value>
+  </data>
+  <data name="TicketClosing">
+    <value xml:space="preserve">Ticket Closing</value>
+  </data>
+  <data name="TicketsMerged">
+    <value xml:space="preserve">Tickets Merged</value>
+  </data>
+  <data name="PaymentProcessed">
+    <value xml:space="preserve">Payment Processed</value>
+  </data>
+  <data name="TicketResourceChanged">
+    <value xml:space="preserve">Ticket Resource Changed</value>
+  </data>
+  <data name="OrderTagged">
+    <value xml:space="preserve">Order Tagged</value>
+  </data>
+  <data name="OrderUntagged">
+    <value xml:space="preserve">Order Untagged</value>
+  </data>
+  <data name="ResourceUpdated">
+    <value xml:space="preserve">Resource Updated</value>
+  </data>
+  <data name="OrderAddedToTicket">
+    <value xml:space="preserve">Order Added to Ticket</value>
+  </data>
+  <data name="ChangeAmountUpdated">
+    <value xml:space="preserve">Change Amount Updated</value>
+  </data>
+  <data name="ApplicationStarted">
+    <value xml:space="preserve">Application Started</value>
+  </data>
+  <data name="AutomationCommandExecuted">
+    <value xml:space="preserve">Automation Command Exeucted</value>
   </data>
 </root>

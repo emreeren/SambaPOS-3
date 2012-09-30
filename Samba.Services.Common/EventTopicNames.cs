@@ -1,5 +1,34 @@
 ﻿namespace Samba.Services.Common
 {
+    public static class ActionNames
+    {
+        public const string UpdateTicketTag = "UpdateTicketTag";
+        public const string TagOrder = "TagOrder";
+        public const string UntagOrder = "UntagOrder";
+        public const string RemoveOrderTag = "RemoveOrderTag";
+        public const string MoveTaggedOrders = "MoveTaggedOrders";
+        public const string UpdatePriceTag = "UpdatePriceTag";
+        public const string RefreshCache = "RefreshCache";
+        public const string SendMessage = "SendMessage";
+        public const string UpdateProgramSetting = "UpdateProgramSetting";
+        public const string UpdateTicketTax = "UpdateTicketTax";
+        public const string RegenerateTicketTax = "RegenerateTicketTax";
+        public const string UpdateTicketCalculation = "UpdateTicketService";
+        public const string UpdateTicketAccount = "UpdateTicketAccount";
+        public const string ExecutePrintJob = "ExecutePrintJob";
+        public const string UpdateResourceState = "UpdateResourceState";
+        public const string CloseActiveTicket = "CloseActiveTicket";
+        public const string LockTicket = "LockTicket";
+        public const string UnlockTicket = "UnlockTicket";
+        public const string CreateTicket = "CreateTicket";
+        public const string DisplayTicket = "DisplayTicket";
+        public const string DisplayPaymentScreen = "DisplayPaymentScreen";
+        public const string CreateAccountTransactionDocument = "CreateAccountTransactionDocument";
+        public const string Addticketdiscount = "AddTicketDiscount";
+        public const string Addorder = "AddOrder";
+        public const string SendEmail = "SendEmail";
+    }
+
     public static class RuleEventNames
     {
         public const string TicketsMerged = "TicketsMerged";

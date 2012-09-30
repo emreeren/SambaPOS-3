@@ -82,7 +82,7 @@ namespace Samba.Modules.AccountModule
         private void OnSave(string obj)
         {
             if (AccountSelectors.Any(x => x.SelectedAccountId == 0)) return;
-            _accountService.CreateNewTransactionDocument(SelectedAccount, DocumentType, Description, Amount, AccountSelectors.Select(x => new Account { Id = x.SelectedAccountId, AccountTypeId = x.AccountType.Id }));
+            _accountService.CreateTransactionDocument(SelectedAccount, DocumentType, Description, Amount, AccountSelectors.Select(x => new Account { Id = x.SelectedAccountId, AccountTypeId = x.AccountType.Id }));
             CommonEventPublisher.PublishEntityOperation(new AccountData { AccountId = SelectedAccount.Id }, EventTopicNames.DisplayAccountTransactions);
         }
     }

@@ -50,7 +50,7 @@ namespace Samba.Modules.AccountModule
                 .Where(x => x.IsSelected && x.Amount != 0)
                 .AsParallel()
                 .SetCulture()
-                .ForAll(x => _accountService.CreateNewTransactionDocument(x.Account, SelectedDocumentType, x.Description, x.Amount, x.TargetAccounts.Select(y => new Account { Id = y.SelectedAccountId, AccountTypeId = y.AccountType.Id })));
+                .ForAll(x => _accountService.CreateTransactionDocument(x.Account, SelectedDocumentType, x.Description, x.Amount, x.TargetAccounts.Select(y => new Account { Id = y.SelectedAccountId, AccountTypeId = y.AccountType.Id })));
             SelectedDocumentType.PublishEvent(EventTopicNames.BatchDocumentsCreated);
         }
 

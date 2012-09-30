@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.Composition;
+﻿using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.Linq;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Regions;
 using Samba.Domain.Models.Accounts;
@@ -16,6 +18,7 @@ namespace Samba.Modules.AccountModule
     {
         private readonly IRegionManager _regionManager;
         private readonly IUserService _userService;
+        private readonly IAccountService _accountService;
         private readonly AccountSelectorView _accountSelectorView;
         private readonly AccountSelectorViewModel _accountSelectorViewModel;
         private readonly AccountDetailsView _accountDetailsView;
@@ -26,14 +29,16 @@ namespace Samba.Modules.AccountModule
         [ImportingConstructor]
         public AccountModule(IRegionManager regionManager,
             IUserService userService,
+            IAccountService accountService,
             AccountSelectorView accountSelectorView, AccountSelectorViewModel accountSelectorViewModel,
             AccountDetailsView accountDetailsView,
             DocumentCreatorView documentCreatorView,
-            BatchDocumentCreatorView batchDocumentCreatorView,BatchDocumentCreatorViewModel batchDocumentCreatorViewModel)
+            BatchDocumentCreatorView batchDocumentCreatorView, BatchDocumentCreatorViewModel batchDocumentCreatorViewModel)
             : base(regionManager, AppScreens.AccountList)
         {
             _regionManager = regionManager;
             _userService = userService;
+            _accountService = accountService;
             _accountSelectorView = accountSelectorView;
             _accountSelectorViewModel = accountSelectorViewModel;
             _accountDetailsView = accountDetailsView;
@@ -47,7 +52,7 @@ namespace Samba.Modules.AccountModule
             AddDashboardCommand<EntityCollectionViewModelBase<AccountTransactionTypeViewModel, AccountTransactionType>>(Resources.TransactionType.ToPlural(), Resources.Accounts, 40);
             AddDashboardCommand<EntityCollectionViewModelBase<AccountTransactionDocumentTypeViewModel, AccountTransactionDocumentType>>(Resources.DocumentType.ToPlural(), Resources.Accounts, 40);
             AddDashboardCommand<EntityCollectionViewModelBase<AccountTransactionDocumentViewModel, AccountTransactionDocument>>(Resources.TransactionDocument.ToPlural(), Resources.Accounts, 40);
-            
+
             PermissionRegistry.RegisterPermission(PermissionNames.NavigateAccountView, PermissionCategories.Navigation, Resources.CanNavigateCash);
             PermissionRegistry.RegisterPermission(PermissionNames.CreateAccount, PermissionCategories.Account, Resources.CanCreateAccount);
 
@@ -61,40 +66,50 @@ namespace Samba.Modules.AccountModule
             _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(DocumentCreatorView));
             _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(BatchDocumentCreatorView));
 
-            EventServiceFactory.EventService.GetEvent<GenericEvent<AccountTransactionDocumentType>>().Subscribe(
-                x =>
-                {
-                    if (x.Topic == EventTopicNames.BatchCreateDocument)
-                    {
-                        _batchDocumentCreatorViewModel.Update(x.Value);
-                        ActivateBatchDocumentCreator();
-                    }
-                    if (x.Topic == EventTopicNames.BatchDocumentsCreated)
-                    {
-                        ActivateAccountSelector();
-                    }
-                });
+            EventServiceFactory.EventService.GetEvent<GenericEvent<AccountTransactionDocumentType>>().Subscribe(OnTransactionDocumentEvent);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<DocumentCreationData>>().Subscribe(OnDocumentCreationData);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<AccountData>>>().Subscribe(OnAccountDataEvent);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<IActionData>>().Subscribe(OnActionData);
+        }
 
-            EventServiceFactory.EventService.GetEvent<GenericEvent<DocumentCreationData>>().Subscribe(x =>
-                {
-                    if (x.Topic == EventTopicNames.AccountTransactionDocumentSelected)
-                    {
-                        ActivateDocumentCreator();
-                    }
-                });
+        private void OnActionData(EventParameters<IActionData> ep)
+        {
+            if (ep.Value.Action.ActionType == ActionNames.CreateAccountTransactionDocument)
+            {
+                var documentName = ep.Value.GetAsString("AccountTransactionDocumentName");
+                _accountService.CreateBatchAccountTransactionDocument(documentName);
+            }
+        }
 
-            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<AccountData>>>().Subscribe(
-                x =>
-                {
-                    if (x.Topic == EventTopicNames.DisplayAccountTransactions)
-                    {
-                        ActivateAccountTransactions();
-                    }
-                    if (x.Topic == EventTopicNames.ActivateAccountSelector)
-                    {
-                        ActivateAccountSelector();
-                    }
-                });
+        private void OnTransactionDocumentEvent(EventParameters<AccountTransactionDocumentType> ep)
+        {
+            switch (ep.Topic)
+            {
+                case EventTopicNames.BatchCreateDocument:
+                    _batchDocumentCreatorViewModel.Update(ep.Value);
+                    ActivateBatchDocumentCreator();
+                    break;
+                case EventTopicNames.BatchDocumentsCreated:
+                    ActivateAccountSelector();
+                    break;
+            }
+        }
+
+        private void OnDocumentCreationData(EventParameters<DocumentCreationData> ep)
+        {
+            if (ep.Topic == EventTopicNames.AccountTransactionDocumentSelected)
+            {
+                ActivateDocumentCreator();
+            }
+        }
+
+        private void OnAccountDataEvent(EventParameters<EntityOperationRequest<AccountData>> ep)
+        {
+            switch (ep.Topic)
+            {
+                case EventTopicNames.DisplayAccountTransactions: ActivateAccountTransactions(); break;
+                case EventTopicNames.ActivateAccountSelector: ActivateAccountSelector(); break;
+            }
         }
 
         private void ActivateBatchDocumentCreator()

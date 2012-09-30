@@ -46,7 +46,7 @@ namespace Samba.Modules.ResourceModule
         {
             if (SelectedResource.Model.Id == 0) SaveSelectedResource();
             var accountName = SelectedResource.ResourceType.GetAccountName(SelectedResource.Model);
-            var accountId = _accountService.CreateAccount(accountName, SelectedResource.ResourceType.AccountTypeId);
+            var accountId = _accountService.CreateAccount(SelectedResource.ResourceType.AccountTypeId, accountName);
             SelectedResource.Model.AccountId = accountId;
             SaveSelectedResource();
             _ticketService.UpdateAccountOfOpenTickets(SelectedResource.Model);

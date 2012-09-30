@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Samba.Infrastructure.Settings;
+﻿using Samba.Infrastructure.Settings;
 using Samba.Presentation.Common;
 
 namespace Samba.Modules.AccountModule

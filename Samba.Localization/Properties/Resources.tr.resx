@@ -2203,9 +2203,6 @@ Raporlar bölümünden gün sonu raporlarınızı alınız.</value>
   <data name="RegenerateTicketTax" xml:space="preserve">
     <value>Adisyon KDV oranlarını baştan oluştur</value>
   </data>
-  <data name="UpdateTicketService" xml:space="preserve">
-    <value>Adisyon Hizmeti Ekle</value>
-  </data>
   <data name="Included" xml:space="preserve">
     <value>Dahil</value>
   </data>

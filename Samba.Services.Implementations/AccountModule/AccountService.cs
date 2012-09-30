@@ -33,13 +33,7 @@ namespace Samba.Services.Implementations.AccountModule
             ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<AccountTransactionDocumentType>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.DocumentType)));
         }
 
-        private int? _accountCount;
-        public int GetAccountCount()
-        {
-            return (int)(_accountCount ?? (_accountCount = Dao.Count<Resource>()));
-        }
-
-        public void CreateNewTransactionDocument(Account selectedAccount, AccountTransactionDocumentType documentType, string description, decimal amount, IEnumerable<Account> accounts)
+        public void CreateTransactionDocument(Account selectedAccount, AccountTransactionDocumentType documentType, string description, decimal amount, IEnumerable<Account> accounts)
         {
             using (var w = WorkspaceFactory.Create())
             {
@@ -131,24 +125,15 @@ namespace Samba.Services.Implementations.AccountModule
 
         public string GetAccountNameById(int accountId)
         {
-            if (Dao.Exists<Account>(x => x.Id == accountId))
-                return Dao.Select<Account, string>(x => x.Name, x => x.Id == accountId).First();
-            return "";
+            return Dao.Exists<Account>(x => x.Id == accountId) 
+                ? Dao.Select<Account, string>(x => x.Name, x => x.Id == accountId).First() : "";
         }
 
         public int GetAccountIdByName(string accountName)
         {
             var acName = accountName.ToLower();
-            if (Dao.Exists<Account>(x => x.Name.ToLower() == acName))
-                return Dao.Select<Account, int>(x => x.Id, x => x.Name.ToLower() == acName).FirstOrDefault();
-            return 0;
-        }
-
-        public IEnumerable<Account> GetAccounts(params AccountType[] accountTypes)
-        {
-            if (!accountTypes.Any()) return Dao.Query<Account>();
-            var ids = accountTypes.Select(x => x.Id);
-            return Dao.Query<Account>(x => ids.Contains(x.AccountTypeId));
+            return Dao.Exists<Account>(x => x.Name.ToLower() == acName) 
+                ? Dao.Select<Account, int>(x => x.Id, x => x.Name.ToLower() == acName).FirstOrDefault() : 0;
         }
 
         public IEnumerable<Account> GetAccounts(int accountTypeId)
@@ -189,7 +174,7 @@ namespace Samba.Services.Implementations.AccountModule
             return Dao.Query<AccountType>().OrderBy(x => x.Order);
         }
 
-        public int CreateAccount(string accountName, int accountTypeId)
+        public int CreateAccount(int accountTypeId, string accountName)
         {
             if (accountTypeId == 0 || string.IsNullOrEmpty(accountName)) return 0;
             if (Dao.Exists<Account>(x => x.Name == accountName)) return 0;
@@ -212,6 +197,31 @@ namespace Samba.Services.Implementations.AccountModule
             }
         }
 
+        public void CreateBatchAccountTransactionDocument(string documentName)
+        {
+            if (!string.IsNullOrEmpty(documentName))
+            {
+                var document = _cacheService.GetAccountTransactionDocumentTypeByName(documentName);
+                if (document != null)
+                {
+                    var accounts = GetDocumentAccounts(document);
+                    foreach (var account in accounts)
+                    {
+                        var map = document.AccountTransactionDocumentAccountMaps.FirstOrDefault(
+                            y => y.AccountId == account.Id);
+                        if (map != null && map.MappedAccountId > 0)
+                        {
+                            var targetAccount = new Account { Id = map.MappedAccountId, Name = map.MappedAccountName };
+                            var amount = GetDefaultAmount(document, account);
+                            if (amount != 0)
+                                CreateTransactionDocument(account, document, "", amount,
+                                                                             new List<Account> { targetAccount });
+                        }
+                    }
+                }
+            }
+        }
+
         public decimal GetExchangeRate(Account account)
         {
             if (account.ForeignCurrencyId == 0) return 1;
@@ -220,7 +230,7 @@ namespace Samba.Services.Implementations.AccountModule
 
         public override void Reset()
         {
-            _accountCount = null;
+            
         }
     }
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
@@ -33,9 +32,9 @@ namespace Samba.Presentation.ViewModels
         private static readonly IAutomationService AutomationService = ServiceLocator.Current.GetInstance<IAutomationService>();
         private static readonly ICacheService CacheService = ServiceLocator.Current.GetInstance<ICacheService>();
         private static readonly IResourceService ResourceService = ServiceLocator.Current.GetInstance<IResourceService>();
-        private static readonly IAccountService AccountService = ServiceLocator.Current.GetInstance<IAccountService>();
 
         private static bool _registered;
+
         public static void RegisterOnce()
         {
             Debug.Assert(_registered == false);
@@ -49,31 +48,31 @@ namespace Samba.Presentation.ViewModels
 
         private static void RegisterActions()
         {
-            AutomationService.RegisterActionType("SendEmail", Resources.SendEmail, new { SMTPServer = "", SMTPUser = "", SMTPPassword = "", SMTPPort = 0, ToEMailAddress = "", Subject = "", CCEmailAddresses = "", FromEMailAddress = "", EMailMessage = "", FileName = "", DeleteFile = false, BypassSslErrors = false });
-            AutomationService.RegisterActionType("AddTicketDiscount", Resources.AddTicketDiscount, new { DiscountPercentage = 0m });
-            AutomationService.RegisterActionType("AddOrder", Resources.AddOrder, new { MenuItemName = "", PortionName = "", Quantity = 0, Tag = "" });
-            AutomationService.RegisterActionType("UpdateTicketTag", Resources.UpdateTicketTag, new { TagName = "", TagValue = "" });
-            AutomationService.RegisterActionType("TagOrder", "Tag Order", new { OrderTagName = "", OrderTagValue = "" });
-            AutomationService.RegisterActionType("UntagOrder", "Untag Order", new { OrderTagName = "", OrderTagValue = "" });
-            AutomationService.RegisterActionType("RemoveOrderTag", "Remove OrderTag", new { OrderTagName = "" });
-            AutomationService.RegisterActionType("MoveTaggedOrders", "Move Tagged Orders", new { OrderTagName = "", OrderTagValue = "" });
-            AutomationService.RegisterActionType("UpdatePriceTag", Resources.UpdatePriceTag, new { DepartmentName = "", PriceTag = "" });
-            AutomationService.RegisterActionType("RefreshCache", Resources.RefreshCache);
-            AutomationService.RegisterActionType("SendMessage", Resources.BroadcastMessage, new { Command = "" });
-            AutomationService.RegisterActionType("UpdateProgramSetting", Resources.UpdateProgramSetting, new { SettingName = "", SettingValue = "", UpdateType = Resources.Update, IsLocal = true });
-            AutomationService.RegisterActionType("UpdateTicketTax", Resources.UpdateTicketTax, new { TaxTemplate = "" });
-            AutomationService.RegisterActionType("RegenerateTicketTax", Resources.RegenerateTicketTax);
-            AutomationService.RegisterActionType("UpdateTicketService", Resources.UpdateTicketService, new { CalculationType = "", Amount = 0m });
-            AutomationService.RegisterActionType("UpdateTicketAccount", Resources.UpdateTicketAccount, new { AccountPhone = "", AccountName = "", Note = "" });
-            AutomationService.RegisterActionType("ExecutePrintJob", "Execute Print Job", new { PrintJobName = "" });
-            AutomationService.RegisterActionType("UpdateResourceState", "Update Resource State", new { ResourceTypeName = "", ResourceState = "" });
-            AutomationService.RegisterActionType("CloseActiveTicket", "Close Active Ticket");
-            AutomationService.RegisterActionType("LockTicket", "Lock Ticket");
-            AutomationService.RegisterActionType("UnlockTicket", "Unlock Ticket");
-            AutomationService.RegisterActionType("CreateTicket", "Create Ticket");
-            AutomationService.RegisterActionType("DisplayTicket", "Display Ticket", new { TicketId = 0 });
-            AutomationService.RegisterActionType("DisplayPaymentScreen", "Display Payment Screen");
-            AutomationService.RegisterActionType("CreateAccountTransactionDocument", "Create Account Transaction Document", new { AccountTransactionDocumentName = "" });
+            AutomationService.RegisterActionType(ActionNames.SendEmail, Resources.SendEmail, new { SMTPServer = "", SMTPUser = "", SMTPPassword = "", SMTPPort = 0, ToEMailAddress = "", Subject = "", CCEmailAddresses = "", FromEMailAddress = "", EMailMessage = "", FileName = "", DeleteFile = false, BypassSslErrors = false });
+            AutomationService.RegisterActionType(ActionNames.Addticketdiscount, Resources.AddTicketDiscount, new { DiscountPercentage = 0m });
+            AutomationService.RegisterActionType(ActionNames.Addorder, Resources.AddOrder, new { MenuItemName = "", PortionName = "", Quantity = 0, Tag = "" });
+            AutomationService.RegisterActionType(ActionNames.UpdateTicketTag, Resources.UpdateTicketTag, new { TagName = "", TagValue = "" });
+            AutomationService.RegisterActionType(ActionNames.TagOrder, Resources.TagOrder, new { OrderTagName = "", OrderTagValue = "" });
+            AutomationService.RegisterActionType(ActionNames.UntagOrder, Resources.UntagOrder, new { OrderTagName = "", OrderTagValue = "" });
+            AutomationService.RegisterActionType(ActionNames.RemoveOrderTag, Resources.RemoveOrderTag, new { OrderTagName = "" });
+            AutomationService.RegisterActionType(ActionNames.MoveTaggedOrders, Resources.MoveTaggedOrders, new { OrderTagName = "", OrderTagValue = "" });
+            AutomationService.RegisterActionType(ActionNames.UpdatePriceTag, Resources.UpdatePriceTag, new { DepartmentName = "", PriceTag = "" });
+            AutomationService.RegisterActionType(ActionNames.RefreshCache, Resources.RefreshCache);
+            AutomationService.RegisterActionType(ActionNames.SendMessage, Resources.BroadcastMessage, new { Command = "" });
+            AutomationService.RegisterActionType(ActionNames.UpdateProgramSetting, Resources.UpdateProgramSetting, new { SettingName = "", SettingValue = "", UpdateType = Resources.Update, IsLocal = true });
+            AutomationService.RegisterActionType(ActionNames.UpdateTicketTax, Resources.UpdateTicketTax, new { TaxTemplate = "" });
+            AutomationService.RegisterActionType(ActionNames.RegenerateTicketTax, Resources.RegenerateTicketTax);
+            AutomationService.RegisterActionType(ActionNames.UpdateTicketCalculation, Resources.UpdateTicketCalculation, new { CalculationType = "", Amount = 0m });
+            AutomationService.RegisterActionType(ActionNames.UpdateTicketAccount, Resources.UpdateTicketAccount, new { AccountPhone = "", AccountName = "", Note = "" });
+            AutomationService.RegisterActionType(ActionNames.ExecutePrintJob, Resources.ExecutePrintJob, new { PrintJobName = "" });
+            AutomationService.RegisterActionType(ActionNames.UpdateResourceState, Resources.UpdateResourceState, new { ResourceTypeName = "", ResourceState = "" });
+            AutomationService.RegisterActionType(ActionNames.CloseActiveTicket, Resources.CloseTicket);
+            AutomationService.RegisterActionType(ActionNames.LockTicket, Resources.LockTicket);
+            AutomationService.RegisterActionType(ActionNames.UnlockTicket, Resources.UnlockTicket);
+            AutomationService.RegisterActionType(ActionNames.CreateTicket, string.Format(Resources.Create_f, Resources.Ticket));
+            AutomationService.RegisterActionType(ActionNames.DisplayTicket, Resources.DisplayTicket, new { TicketId = 0 });
+            AutomationService.RegisterActionType(ActionNames.DisplayPaymentScreen, Resources.DisplayPaymentScreen);
+            AutomationService.RegisterActionType(ActionNames.CreateAccountTransactionDocument, string.Format(Resources.Create_f, Resources.AccountTransactionDocument), new { AccountTransactionDocumentName = "" });
         }
 
         private static void RegisterRules()
@@ -81,25 +80,25 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterEvent(RuleEventNames.UserLoggedIn, Resources.UserLogin, new { RoleName = "" });
             AutomationService.RegisterEvent(RuleEventNames.UserLoggedOut, Resources.UserLogout, new { RoleName = "" });
             AutomationService.RegisterEvent(RuleEventNames.WorkPeriodStarts, Resources.WorkPeriodStarted);
-            AutomationService.RegisterEvent(RuleEventNames.BeforeWorkPeriodEnds, "Before Work Period Ends");
+            AutomationService.RegisterEvent(RuleEventNames.BeforeWorkPeriodEnds, Resources.BeforeWorkPeriodEnds);
             AutomationService.RegisterEvent(RuleEventNames.WorkPeriodEnds, Resources.WorkPeriodEnded);
             AutomationService.RegisterEvent(RuleEventNames.TriggerExecuted, Resources.TriggerExecuted, new { TriggerName = "" });
-            AutomationService.RegisterEvent(RuleEventNames.TicketOpened, "Ticket Opened", new { OrderCount = 0 });
-            AutomationService.RegisterEvent(RuleEventNames.TicketClosing, "Ticket Closing", new { TicketId = 0, NewOrderCount = 0 });
-            AutomationService.RegisterEvent(RuleEventNames.TicketsMerged, "Tickets Merged");
-            AutomationService.RegisterEvent(RuleEventNames.PaymentProcessed, "Payment Processed", new { PaymentTypeName = "", Tenderedamount = 0m, ProcessedAmount = 0m, ChangeAmount = 0m, RemainingAmount = 0m });
-            AutomationService.RegisterEvent(RuleEventNames.TicketResourceChanged, "Ticket Resource Changed", new { OrderCount = 0, OldResourceName = "", NewResourceName = "" });
+            AutomationService.RegisterEvent(RuleEventNames.TicketOpened, Resources.TicketOpened, new { OrderCount = 0 });
+            AutomationService.RegisterEvent(RuleEventNames.TicketClosing, Resources.TicketClosing, new { TicketId = 0, NewOrderCount = 0 });
+            AutomationService.RegisterEvent(RuleEventNames.TicketsMerged, Resources.TicketsMerged);
+            AutomationService.RegisterEvent(RuleEventNames.PaymentProcessed, Resources.PaymentProcessed, new { PaymentTypeName = "", Tenderedamount = 0m, ProcessedAmount = 0m, ChangeAmount = 0m, RemainingAmount = 0m });
+            AutomationService.RegisterEvent(RuleEventNames.TicketResourceChanged, Resources.TicketResourceChanged, new { OrderCount = 0, OldResourceName = "", NewResourceName = "" });
             AutomationService.RegisterEvent(RuleEventNames.TicketTagSelected, Resources.TicketTagSelected, new { TagName = "", TagValue = "", NumericValue = 0, TicketTag = "" });
-            AutomationService.RegisterEvent(RuleEventNames.OrderTagged, "Order Tagged", new { OrderTagName = "", OrderTagValue = "" });
-            AutomationService.RegisterEvent(RuleEventNames.OrderUntagged, "Order Untagged", new { OrderTagName = "", OrderTagValue = "" });
+            AutomationService.RegisterEvent(RuleEventNames.OrderTagged, Resources.OrderTagged, new { OrderTagName = "", OrderTagValue = "" });
+            AutomationService.RegisterEvent(RuleEventNames.OrderUntagged, Resources.OrderUntagged, new { OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterEvent(RuleEventNames.AccountSelectedForTicket, Resources.AccountSelectedForTicket, new { AccountName = "", PhoneNumber = "", AccountNote = "" });
             AutomationService.RegisterEvent(RuleEventNames.TicketTotalChanged, Resources.TicketTotalChanged, new { TicketTotal = 0m, PreviousTotal = 0m, DiscountTotal = 0m, DiscountAmount = 0m, TipAmount = 0m });
             AutomationService.RegisterEvent(RuleEventNames.MessageReceived, Resources.MessageReceived, new { Command = "" });
-            AutomationService.RegisterEvent(RuleEventNames.TicketLineAdded, "Line Added to Ticket", new { MenuItemName = "" });
-            AutomationService.RegisterEvent(RuleEventNames.ChangeAmountChanged, "Change Amount Updated", new { TicketAmount = 0, ChangeAmount = 0, TenderedAmount = 0 });
-            AutomationService.RegisterEvent(RuleEventNames.ApplicationStarted, "Application Started");
-            AutomationService.RegisterEvent(RuleEventNames.ResourceUpdated, "Resource Updated", new { ResourceTypeName = "", OpenTicketCount = 0 });
-            AutomationService.RegisterEvent(RuleEventNames.AutomationCommandExecuted, "Automation Command Exeucted", new { AutomationCommandName = "", Value = "" });
+            AutomationService.RegisterEvent(RuleEventNames.TicketLineAdded, Resources.OrderAddedToTicket, new { MenuItemName = "" });
+            AutomationService.RegisterEvent(RuleEventNames.ChangeAmountChanged, Resources.ChangeAmountUpdated, new { TicketAmount = 0, ChangeAmount = 0, TenderedAmount = 0 });
+            AutomationService.RegisterEvent(RuleEventNames.ApplicationStarted, Resources.ApplicationStarted);
+            AutomationService.RegisterEvent(RuleEventNames.ResourceUpdated, Resources.ResourceUpdated, new { ResourceTypeName = "", OpenTicketCount = 0 });
+            AutomationService.RegisterEvent(RuleEventNames.AutomationCommandExecuted, Resources.AutomationCommandExecuted, new { AutomationCommandName = "", Value = "" });
         }
 
         private static void RegisterParameterSources()
@@ -134,31 +133,8 @@ namespace Samba.Presentation.ViewModels
         {
             EventServiceFactory.EventService.GetEvent<GenericEvent<IActionData>>().Subscribe(x =>
             {
-                if (x.Value.Action.ActionType == "CreateAccountTransactionDocument")
-                {
-                    var documentName = x.Value.GetAsString("AccountTransactionDocumentName");
-                    if (!string.IsNullOrEmpty(documentName))
-                    {
-                        var document = CacheService.GetAccountTransactionDocumentTypeByName(documentName);
-                        if (document != null)
-                        {
-                            var accounts = AccountService.GetDocumentAccounts(document);
-                            foreach (var account in accounts)
-                            {
-                                var map = document.AccountTransactionDocumentAccountMaps.FirstOrDefault(
-                                        y => y.AccountId == account.Id);
-                                if (map != null && map.MappedAccountId > 0)
-                                {
-                                    var targetAccount = new Account { Id = map.MappedAccountId, Name = map.MappedAccountName };
-                                    var amount = AccountService.GetDefaultAmount(document, account);
-                                    if (amount != 0)
-                                        AccountService.CreateNewTransactionDocument(account, document, "", amount, new List<Account> { targetAccount });
-                                }
-                            }
-                        }
-                    }
-                }
-                if (x.Value.Action.ActionType == "DisplayPaymentScreen")
+
+                if (x.Value.Action.ActionType == ActionNames.DisplayPaymentScreen)
                 {
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
                     if (ticket != null)
@@ -167,7 +143,7 @@ namespace Samba.Presentation.ViewModels
                     }
                 }
 
-                if (x.Value.Action.ActionType == "LockTicket")
+                if (x.Value.Action.ActionType == ActionNames.LockTicket)
                 {
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
                     if (ticket != null)
@@ -176,31 +152,31 @@ namespace Samba.Presentation.ViewModels
                     }
                 }
 
-                if (x.Value.Action.ActionType == "DisplayTicket")
+                if (x.Value.Action.ActionType == ActionNames.DisplayTicket)
                 {
                     var ticketId = x.Value.GetAsInteger("TicketId");
                     if (ticketId > 0)
                         ExtensionMethods.PublishIdEvent(ticketId, EventTopicNames.DisplayTicket);
                 }
 
-                if (x.Value.Action.ActionType == "CreateTicket")
+                if (x.Value.Action.ActionType == ActionNames.CreateTicket)
                 {
                     EventServiceFactory.EventService.PublishEvent(EventTopicNames.CreateTicket);
                 }
 
-                if (x.Value.Action.ActionType == "UnlockTicket")
+                if (x.Value.Action.ActionType == ActionNames.UnlockTicket)
                 {
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
                     if (ticket != null) ticket.Locked = false;
                     EventServiceFactory.EventService.PublishEvent(EventTopicNames.UnlockTicketRequested);
                 }
 
-                if (x.Value.Action.ActionType == "CloseActiveTicket")
+                if (x.Value.Action.ActionType == ActionNames.CloseActiveTicket)
                 {
                     EventServiceFactory.EventService.PublishEvent(EventTopicNames.CloseTicketRequested, true);
                 }
 
-                if (x.Value.Action.ActionType == "UpdateResourceState")
+                if (x.Value.Action.ActionType == ActionNames.UpdateResourceState)
                 {
                     var resourceId = x.Value.GetDataValueAsInt("ResourceId");
                     var resourceTypeId = x.Value.GetDataValueAsInt("ResourceTypeId");
@@ -229,7 +205,7 @@ namespace Samba.Presentation.ViewModels
                     }
                 }
 
-                if (x.Value.Action.ActionType == "UpdateTicketAccount")
+                if (x.Value.Action.ActionType == ActionNames.UpdateTicketAccount)
                 {
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
                     if (ticket != null)
@@ -261,7 +237,7 @@ namespace Samba.Presentation.ViewModels
                     }
                 }
 
-                if (x.Value.Action.ActionType == "UpdateProgramSetting")
+                if (x.Value.Action.ActionType == ActionNames.UpdateProgramSetting)
                 {
                     var settingName = x.Value.GetAsString("SettingName");
                     var updateType = x.Value.GetAsString("UpdateType");
@@ -317,17 +293,17 @@ namespace Samba.Presentation.ViewModels
                     }
                 }
 
-                if (x.Value.Action.ActionType == "RefreshCache")
+                if (x.Value.Action.ActionType == ActionNames.RefreshCache)
                 {
                     MethodQueue.Queue("ResetCache", ResetCache);
                 }
 
-                if (x.Value.Action.ActionType == "SendMessage")
+                if (x.Value.Action.ActionType == ActionNames.SendMessage)
                 {
                     AppServices.MessagingService.SendMessage("ActionMessage", x.Value.GetAsString("Command"));
                 }
 
-                if (x.Value.Action.ActionType == "SendEmail")
+                if (x.Value.Action.ActionType == ActionNames.SendEmail)
                 {
                     EMailService.SendEMailAsync(x.Value.GetAsString("SMTPServer"),
                         x.Value.GetAsString("SMTPUser"),
@@ -343,7 +319,7 @@ namespace Samba.Presentation.ViewModels
                         x.Value.GetAsBoolean("BypassSslErrors"));
                 }
 
-                if (x.Value.Action.ActionType == "UpdateTicketTax")
+                if (x.Value.Action.ActionType == ActionNames.UpdateTicketTax)
                 {
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
                     if (ticket != null)
@@ -359,7 +335,7 @@ namespace Samba.Presentation.ViewModels
                     }
                 }
 
-                if (x.Value.Action.ActionType == "UpdateTicketService")
+                if (x.Value.Action.ActionType == ActionNames.UpdateTicketCalculation)
                 {
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
                     if (ticket != null)
@@ -375,7 +351,7 @@ namespace Samba.Presentation.ViewModels
                     }
                 }
 
-                if (x.Value.Action.ActionType == "RegenerateTicketTax")
+                if (x.Value.Action.ActionType == ActionNames.RegenerateTicketTax)
                 {
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
                     if (ticket != null)
@@ -386,7 +362,7 @@ namespace Samba.Presentation.ViewModels
                     }
                 }
 
-                if (x.Value.Action.ActionType == "AddTicketDiscount")
+                if (x.Value.Action.ActionType == ActionNames.Addticketdiscount)
                 {
                     //var ticket = x.Value.GetDataValue<Ticket>("Ticket");
                     //if (ticket != null)
@@ -397,7 +373,7 @@ namespace Samba.Presentation.ViewModels
                     //}
                 }
 
-                if (x.Value.Action.ActionType == "AddOrder")
+                if (x.Value.Action.ActionType == ActionNames.Addorder)
                 {
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
 
@@ -413,7 +389,7 @@ namespace Samba.Presentation.ViewModels
                     }
                 }
 
-                if (x.Value.Action.ActionType == "UpdateTicketTag")
+                if (x.Value.Action.ActionType == ActionNames.UpdateTicketTag)
                 {
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
                     if (ticket != null)
@@ -426,7 +402,7 @@ namespace Samba.Presentation.ViewModels
                     }
                 }
 
-                if (x.Value.Action.ActionType == "TagOrder" || x.Value.Action.ActionType == "UntagOrder" || x.Value.Action.ActionType == "RemoveOrderTag")
+                if (x.Value.Action.ActionType == ActionNames.TagOrder || x.Value.Action.ActionType == ActionNames.UntagOrder || x.Value.Action.ActionType == ActionNames.RemoveOrderTag)
                 {
                     var order = x.Value.GetDataValue<Order>("Order");
                     if (order != null)
@@ -436,7 +412,7 @@ namespace Samba.Presentation.ViewModels
 
                         if (orderTag != null)
                         {
-                            if (x.Value.Action.ActionType == "RemoveOrderTag")
+                            if (x.Value.Action.ActionType == ActionNames.RemoveOrderTag)
                             {
                                 var tags = order.OrderTagValues.Where(y => y.OrderTagGroupId == orderTag.Id);
                                 tags.ToList().ForEach(y => order.OrderTagValues.Remove(y));
@@ -446,16 +422,16 @@ namespace Samba.Presentation.ViewModels
                             var orderTagValue = orderTag.OrderTags.SingleOrDefault(y => y.Name == tagValue);
                             if (orderTagValue != null)
                             {
-                                if (x.Value.Action.ActionType == "TagOrder")
+                                if (x.Value.Action.ActionType == ActionNames.TagOrder)
                                     order.TagIfNotTagged(orderTag, orderTagValue, ApplicationState.CurrentLoggedInUser.Id);
-                                if (x.Value.Action.ActionType == "UntagOrder")
+                                if (x.Value.Action.ActionType == ActionNames.UntagOrder)
                                     order.UntagIfTagged(orderTag, orderTagValue);
                             }
                         }
                     }
                 }
 
-                if (x.Value.Action.ActionType == "MoveTaggedOrders")
+                if (x.Value.Action.ActionType == ActionNames.MoveTaggedOrders)
                 {
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
                     var orderTagName = x.Value.GetAsString("OrderTagName");
@@ -481,7 +457,7 @@ namespace Samba.Presentation.ViewModels
                     }
                 }
 
-                if (x.Value.Action.ActionType == "UpdatePriceTag")
+                if (x.Value.Action.ActionType == ActionNames.UpdatePriceTag)
                 {
                     using (var workspace = WorkspaceFactory.Create())
                     {
@@ -497,7 +473,7 @@ namespace Samba.Presentation.ViewModels
                     }
                 }
 
-                if (x.Value.Action.ActionType == "ExecutePrintJob")
+                if (x.Value.Action.ActionType == ActionNames.ExecutePrintJob)
                 {
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
                     var pjName = x.Value.GetAsString("PrintJobName");

@@ -275,9 +275,10 @@ namespace Samba.Modules.PaymentModule
 
         private bool CanSelectCalculationSelector(CalculationSelector calculationSelector)
         {
+            if (calculationSelector == null) return false;
             if (SelectedTicket != null && (SelectedTicket.Locked || SelectedTicket.IsClosed)) return false;
             if (GetPaymentDueValue() == 0 && SelectedTicket != null && !calculationSelector.CalculationTypes.Any(x => SelectedTicket.Calculations.Any(y => y.CalculationTypeId == x.Id))) return false;
-            return calculationSelector == null || !calculationSelector.CalculationTypes.Any(x => x.MaxAmount > 0 && GetTenderedValue() > x.MaxAmount);
+            return !calculationSelector.CalculationTypes.Any(x => x.MaxAmount > 0 && GetTenderedValue() > x.MaxAmount);
         }
 
         private bool CanMakePayment(PaymentType arg)
