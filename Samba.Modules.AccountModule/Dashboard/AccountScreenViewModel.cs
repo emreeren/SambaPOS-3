@@ -32,10 +32,10 @@ namespace Samba.Modules.AccountModule.Dashboard
 
         public CaptionCommand<string> AddScreenFilterCommand { get; set; }
 
-        private IEnumerable<AccountType> _AccountTypes;
+        private IEnumerable<AccountType> _accountTypes;
         public IEnumerable<AccountType> AccountTypes
         {
-            get { return _AccountTypes ?? (_AccountTypes = _accountService.GetAccountTypes()); }
+            get { return _accountTypes ?? (_accountTypes = _accountService.GetAccountTypes()); }
         }
 
 

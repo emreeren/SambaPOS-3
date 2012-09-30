@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Samba.Domain.Models.Accounts;
-using Samba.Domain.Models.Resources;
+﻿using Samba.Domain.Models.Accounts;
 
 namespace Samba.Modules.AccountModule
 {
     class DocumentCreationData
     {
-        public DocumentCreationData(Account account,AccountTransactionDocumentType DocumentType)
+        public DocumentCreationData(Account account,AccountTransactionDocumentType documentType)
         {
             Account = account;
-            DocumentType = DocumentType;
+            DocumentType = documentType;
         }
 
         public Account Account { get; set; }

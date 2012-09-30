@@ -10,15 +10,15 @@ namespace Samba.Modules.AccountModule
     {
         private readonly Account _account;
 
-        public AccountRowViewModel(Account account, AccountTransactionDocumentType DocumentType, IAccountService accountService, ICacheService cacheService)
+        public AccountRowViewModel(Account account, AccountTransactionDocumentType documentType, IAccountService accountService, ICacheService cacheService)
         {
             _account = account;
-            Amount = accountService.GetDefaultAmount(DocumentType, account);
-            Description = accountService.GetDescription(DocumentType, account);
-            TargetAccounts = GetAccountSelectors(DocumentType, account, accountService, cacheService).ToList();
+            Amount = accountService.GetDefaultAmount(documentType, account);
+            Description = accountService.GetDescription(documentType, account);
+            TargetAccounts = GetAccountSelectors(documentType, account, accountService, cacheService).ToList();
         }
 
-        public AccountSelectViewModel this[int AccountTypeId] { get { return TargetAccounts.Single(x => x.AccountType.Id == AccountTypeId); } }
+        public AccountSelectViewModel this[int accountTypeId] { get { return TargetAccounts.Single(x => x.AccountType.Id == accountTypeId); } }
 
         public Account Account
         {
@@ -61,12 +61,12 @@ namespace Samba.Modules.AccountModule
             }
         }
 
-        private IEnumerable<AccountSelectViewModel> GetAccountSelectors(AccountTransactionDocumentType DocumentType, Account selectedAccount, IAccountService accountService, ICacheService cacheService)
+        private IEnumerable<AccountSelectViewModel> GetAccountSelectors(AccountTransactionDocumentType documentType, Account selectedAccount, IAccountService accountService, ICacheService cacheService)
         {
-            var accountMap = DocumentType.AccountTransactionDocumentAccountMaps.FirstOrDefault(x => x.AccountId == selectedAccount.Id);
+            var accountMap = documentType.AccountTransactionDocumentAccountMaps.FirstOrDefault(x => x.AccountId == selectedAccount.Id);
             return accountMap != null
-                       ? DocumentType.GetNeededAccountTypes().Select(x => new AccountSelectViewModel(accountService, cacheService.GetAccountTypeById(x), accountMap.MappedAccountId, accountMap.MappedAccountName))
-                       : DocumentType.GetNeededAccountTypes().Select(x => new AccountSelectViewModel(accountService, cacheService.GetAccountTypeById(x)));
+                       ? documentType.GetNeededAccountTypes().Select(x => new AccountSelectViewModel(accountService, cacheService.GetAccountTypeById(x), accountMap.MappedAccountId, accountMap.MappedAccountName))
+                       : documentType.GetNeededAccountTypes().Select(x => new AccountSelectViewModel(accountService, cacheService.GetAccountTypeById(x)));
         }
     }
 }

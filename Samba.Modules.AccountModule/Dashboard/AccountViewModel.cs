@@ -15,24 +15,24 @@ namespace Samba.Modules.AccountModule.Dashboard
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class AccountViewModel : EntityViewModelBase<Account>, IEntityCreator<Account>
     {
-        private IEnumerable<AccountType> _AccountTypes;
+        private IEnumerable<AccountType> _accountTypes;
         public IEnumerable<AccountType> AccountTypes
         {
-            get { return _AccountTypes ?? (_AccountTypes = Workspace.All<AccountType>()); }
+            get { return _accountTypes ?? (_accountTypes = Workspace.All<AccountType>()); }
         }
 
-        private AccountType _AccountType;
+        private AccountType _accountType;
         public AccountType AccountType
         {
             get
             {
-                return _AccountType ??
-                       (_AccountType = Workspace.Single<AccountType>(x => x.Id == Model.AccountTypeId));
+                return _accountType ??
+                       (_accountType = Workspace.Single<AccountType>(x => x.Id == Model.AccountTypeId));
             }
             set
             {
                 Model.AccountTypeId = value.Id;
-                _AccountType = null;
+                _accountType = null;
                 RaisePropertyChanged(() => AccountType);
             }
         }

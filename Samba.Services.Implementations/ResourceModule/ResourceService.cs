@@ -78,14 +78,14 @@ namespace Samba.Services.Implementations.ResourceModule
             return new List<ResourceScreenItem>();
         }
 
-        public IEnumerable<Resource> GetResourcesByState(int resourceStateId, int ResourceTypeId)
+        public IEnumerable<Resource> GetResourcesByState(int resourceStateId, int resourceTypeId)
         {
             using (var w = WorkspaceFactory.CreateReadOnly())
             {
                 var ids = w.Queryable<ResourceStateValue>().GroupBy(x => x.ResoruceId).Select(x => x.Max(y => y.Id));
                 var vids = w.Queryable<ResourceStateValue>().Where(x => ids.Contains(x.Id) && (x.StateId == resourceStateId)).Select(x => x.ResoruceId).ToList();
                 if (vids.Count > 0)
-                    return w.Queryable<Resource>().Where(x => x.ResourceTypeId == ResourceTypeId && vids.Contains(x.Id)).ToList();
+                    return w.Queryable<Resource>().Where(x => x.ResourceTypeId == resourceTypeId && vids.Contains(x.Id)).ToList();
                 return _emptyResourceList;
             }
         }

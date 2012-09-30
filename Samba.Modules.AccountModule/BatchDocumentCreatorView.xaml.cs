@@ -32,15 +32,15 @@ namespace Samba.Modules.AccountModule
             if (d != null)
             {
                 var i = 2;
-                foreach (var AccountType in d.GetNeededAccountTypes())
+                foreach (var accountType in d.GetNeededAccountTypes())
                 {
-                    var accountNameBinding = new Binding(string.Format("[{0}].AccountName", AccountType.Id)) { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged };
-                    var itemsSourceBinding = new Binding(string.Format("[{0}].AccountNames", AccountType.Id));
+                    var accountNameBinding = new Binding(string.Format("[{0}].AccountName", accountType.Id)) { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged };
+                    var itemsSourceBinding = new Binding(string.Format("[{0}].AccountNames", accountType.Id));
 
                     var dgtc = new DataGridTemplateColumn
                                    {
                                        MinWidth = 59,
-                                       Header = AccountType.Name,
+                                       Header = accountType.Name,
                                    };
 
                     var ct = new FrameworkElementFactory(typeof(TextBlock));

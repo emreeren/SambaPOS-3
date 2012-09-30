@@ -9,8 +9,10 @@
 
 using System;
 using System.Collections;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.ComponentModel;
 
@@ -53,7 +55,7 @@ namespace Samba.Presentation.Common.ListViewEx
             "IsListviewSortable",
             typeof(Boolean),
             typeof(ListViewSorter),
-            new FrameworkPropertyMetadata(false, new PropertyChangedCallback (OnRegisterSortableGrid)));
+            new FrameworkPropertyMetadata(false, OnRegisterSortableGrid));
 
         public static Boolean GetIsListviewSortable(DependencyObject obj)
         {
@@ -66,17 +68,17 @@ namespace Samba.Presentation.Common.ListViewEx
             obj.SetValue(IsListviewSortableProperty, value);
         }
 
-        private static GridViewColumnHeader _lastHeaderClicked = null;
+        private static GridViewColumnHeader _lastHeaderClicked;
         private static ListSortDirection _lastDirection = ListSortDirection.Ascending;
-        private static ListView lv = null;
+        private static ListView _lv;
 
         private static void OnRegisterSortableGrid(DependencyObject obj,
           DependencyPropertyChangedEventArgs args)
         {
-            ListView grid = obj as ListView;
+            var grid = obj as ListView;
             if (grid != null)
             {
-                lv = grid;
+                _lv = grid;
                 RegisterSortableGridView(grid, args);
             }
         }
@@ -87,12 +89,12 @@ namespace Samba.Presentation.Common.ListViewEx
         
             if (args.NewValue is Boolean && (Boolean)args.NewValue)
             {
-                grid.AddHandler(GridViewColumnHeader.ClickEvent,
+                grid.AddHandler(ButtonBase.ClickEvent,
                     new RoutedEventHandler(GridViewColumnHeaderClickedHandler));
             }
             else
             {
-                grid.AddHandler(GridViewColumnHeader.ClickEvent,
+                grid.AddHandler(ButtonBase.ClickEvent,
                  new RoutedEventHandler(GridViewColumnHeaderClickedHandler));
             }
         }
@@ -100,13 +102,12 @@ namespace Samba.Presentation.Common.ListViewEx
         private static void GridViewColumnHeaderClickedHandler(object sender, RoutedEventArgs e)
         {
 
-            GridViewColumnHeader headerClicked = e.OriginalSource as GridViewColumnHeader;
-            ListSortDirection direction;           
+            var headerClicked = e.OriginalSource as GridViewColumnHeader;
 
             if (headerClicked != null)
             {
-
-                if (headerClicked != _lastHeaderClicked)
+                ListSortDirection direction;
+                if (!Equals(headerClicked, _lastHeaderClicked))
                 {
 
                     direction = ListSortDirection.Ascending;
@@ -116,19 +117,7 @@ namespace Samba.Presentation.Common.ListViewEx
                 else
                 {
 
-                    if (_lastDirection == ListSortDirection.Ascending)
-                    {
-
-                        direction = ListSortDirection.Descending;
-
-                    }
-
-                    else
-                    {
-
-                        direction = ListSortDirection.Ascending;
-
-                    }
+                    direction = _lastDirection == ListSortDirection.Ascending ? ListSortDirection.Descending : ListSortDirection.Ascending;
 
                 }
 
@@ -136,11 +125,10 @@ namespace Samba.Presentation.Common.ListViewEx
 
                 try
                 {                  
-                    header = ((Binding)ListViewSorter.GetSortBindingMember(headerClicked.Column)).Path.Path;
+                    header = ((Binding)GetSortBindingMember(headerClicked.Column)).Path.Path;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    string msg = ex.Message;
                 }
 
                 if (header == String.Empty)
@@ -148,8 +136,7 @@ namespace Samba.Presentation.Common.ListViewEx
 
                 Sort(header, direction);
 
-                string ResourceTypeName = String.Empty;
-                DataTemplate tmpTemplate;
+                string resourceTypeName = String.Empty;
 
                 //if (_lastHeaderClicked != null)
                 //{
@@ -161,11 +148,11 @@ namespace Samba.Presentation.Common.ListViewEx
 
                 switch (direction)
                 {
-                    case ListSortDirection.Ascending: ResourceTypeName = "HeaderTemplateSortAsc"; break;
-                    case ListSortDirection.Descending: ResourceTypeName = "HeaderTemplateSortDesc"; break;
+                    case ListSortDirection.Ascending: resourceTypeName = "HeaderTemplateSortAsc"; break;
+                    case ListSortDirection.Descending: resourceTypeName = "HeaderTemplateSortDesc"; break;
                 }
                 
-                tmpTemplate = lv.TryFindResource(ResourceTypeName) as DataTemplate;
+                var tmpTemplate = _lv.TryFindResource(resourceTypeName) as DataTemplate;
                 if (tmpTemplate != null)
                 {
                     headerClicked.Column.HeaderTemplate = tmpTemplate;
@@ -181,13 +168,13 @@ namespace Samba.Presentation.Common.ListViewEx
         private static void Sort(string sortBy, ListSortDirection direction)
         {     
 
-            ListCollectionView  view = (ListCollectionView ) CollectionViewSource.GetDefaultView(lv.ItemsSource);
+            var  view = (ListCollectionView ) CollectionViewSource.GetDefaultView(_lv.ItemsSource);
 
             if (view != null)
             {
                 try
                 {
-                    ListViewCustomComparer sorter = (ListViewCustomComparer)ListViewSorter.GetCustomSorter(lv);
+                    var sorter = (ListViewCustomComparer)GetCustomSorter(_lv);
                    if (sorter != null)
                    {
                        // measuring timing of custom sort
@@ -196,13 +183,13 @@ namespace Samba.Presentation.Common.ListViewEx
                        sorter.AddSort(sortBy, direction);
                   
                        view.CustomSort = sorter;
-                       lv.Items.Refresh();
+                       _lv.Items.Refresh();
 
                        int tick2 = Environment.TickCount;
 
                        double elapsed1 = (tick2 - tick1)/1000.0;
 
-                       MessageBox.Show(elapsed1.ToString() + " seconds.");
+                       MessageBox.Show(elapsed1.ToString(CultureInfo.InvariantCulture) + " seconds.");
                     
                    }
                    else
@@ -210,24 +197,23 @@ namespace Samba.Presentation.Common.ListViewEx
                        //measuring timem of SortDescriptions sort
                        int tick3 = Environment.TickCount;
 
-                       lv.Items.SortDescriptions.Clear();
+                       _lv.Items.SortDescriptions.Clear();
 
-                       SortDescription sd = new SortDescription(sortBy, direction);
+                       var sd = new SortDescription(sortBy, direction);
                                           
-                       lv.Items.SortDescriptions.Add(sd);
-                       lv.Items.Refresh();
+                       _lv.Items.SortDescriptions.Add(sd);
+                       _lv.Items.Refresh();
 
                        int tick4 = Environment.TickCount;
 
                        double elapsed2 = (tick4 - tick3) / 1000.0;
 
-                       MessageBox.Show(elapsed2.ToString() + " seconds.");
+                       MessageBox.Show(elapsed2.ToString(CultureInfo.InvariantCulture) + " seconds.");
 
                    }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    string msg = ex.Message;
                 }
 
             }

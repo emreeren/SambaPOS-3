@@ -48,12 +48,12 @@ namespace Samba.Modules.PosModule.WidgetCreators
             var d = DataContext as TicketExplorerViewModel;
             if (d != null)
             {
-                foreach (var ResourceType in d.ResourceTypes)
+                foreach (var resourceType in d.ResourceTypes)
                 {
                     DataGridColumn dgtc = new DataGridTextColumn
                                               {
-                                                  Header = ResourceType.EntityName,
-                                                  Binding = new Binding("[" + ResourceType.Id + "]"),
+                                                  Header = resourceType.EntityName,
+                                                  Binding = new Binding("[" + resourceType.Id + "]"),
                                                   MinWidth = 60,
                                               };
                     DataGrid.Columns.Insert(i + 1, dgtc);

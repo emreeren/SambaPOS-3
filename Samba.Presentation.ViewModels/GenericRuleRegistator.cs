@@ -203,12 +203,12 @@ namespace Samba.Presentation.ViewModels
                 if (x.Value.Action.ActionType == "UpdateResourceState")
                 {
                     var resourceId = x.Value.GetDataValueAsInt("ResourceId");
-                    var ResourceTypeId = x.Value.GetDataValueAsInt("ResourceTypeId");
+                    var resourceTypeId = x.Value.GetDataValueAsInt("ResourceTypeId");
                     var stateName = x.Value.GetAsString("ResourceState");
                     var state = CacheService.GetResourceStateByName(stateName);
                     if (state != null)
                     {
-                        if (resourceId > 0 && ResourceTypeId > 0)
+                        if (resourceId > 0 && resourceTypeId > 0)
                         {
                             ResourceService.UpdateResourceState(resourceId, state.Id);
                         }
@@ -217,11 +217,11 @@ namespace Samba.Presentation.ViewModels
                             var ticket = x.Value.GetDataValue<Ticket>("Ticket");
                             if (ticket != null)
                             {
-                                var ResourceTypeName = x.Value.GetDataValueAsString("ResourceTypeName");
+                                var resourceTypeName = x.Value.GetDataValueAsString("ResourceTypeName");
                                 foreach (var ticketResource in ticket.TicketResources)
                                 {
-                                    var ResourceType = CacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
-                                    if (string.IsNullOrEmpty(ResourceTypeName.Trim()) || ResourceType.Name == ResourceTypeName)
+                                    var resourceType = CacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
+                                    if (string.IsNullOrEmpty(resourceTypeName.Trim()) || resourceType.Name == resourceTypeName)
                                         ResourceService.UpdateResourceState(ticketResource.ResourceId, state.Id);
                                 }
                             }
@@ -364,12 +364,12 @@ namespace Samba.Presentation.ViewModels
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
                     if (ticket != null)
                     {
-                        var CalculationTypeName = x.Value.GetAsString("CalculationType");
-                        var CalculationType = SettingService.GetCalculationTypeByName(CalculationTypeName);
-                        if (CalculationType != null)
+                        var calculationTypeName = x.Value.GetAsString("CalculationType");
+                        var calculationType = SettingService.GetCalculationTypeByName(calculationTypeName);
+                        if (calculationType != null)
                         {
                             var amount = x.Value.GetAsDecimal("Amount");
-                            ticket.AddCalculation(CalculationType, amount);
+                            ticket.AddCalculation(calculationType, amount);
                             TicketService.RecalculateTicket(ticket);
                         }
                     }

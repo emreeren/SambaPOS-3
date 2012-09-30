@@ -113,7 +113,7 @@
                 </Setter>
             </Style>
         </ControlTemplate.Resources>
-        <Grid>
+        <Grid Margin="-6,-6,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition/>
@@ -130,7 +130,7 @@
             <ContentPresenter 
                 Content="{TemplateBinding SelectedContent}" 
                 Grid.Column="1" 
-                Margin="15,0,0,0" />
+                Margin="15,5,0,0" />
         </Grid>
     </ControlTemplate>
 </ResourceDictionary>

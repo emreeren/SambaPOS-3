@@ -71,9 +71,9 @@ namespace Samba.Modules.AccountModule
             OnOnUpdate(EventArgs.Empty);
         }
 
-        private IEnumerable<Account> GetAccounts(AccountTransactionDocumentType DocumentType)
+        private IEnumerable<Account> GetAccounts(AccountTransactionDocumentType documentType)
         {
-            return _accountService.GetDocumentAccounts(DocumentType);
+            return _accountService.GetDocumentAccounts(documentType);
         }
 
         public string Title { get { return SelectedDocumentType != null ? SelectedDocumentType.Name : ""; } }

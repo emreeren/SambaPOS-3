@@ -127,30 +127,30 @@ namespace Samba.Domain.Models.Accounts
             return result;
         }
 
-        public static AccountTransaction Create(AccountTransactionType template, int AccountTypeId, int accountId)
+        public static AccountTransaction Create(AccountTransactionType template, int accountTypeId, int accountId)
         {
             var result = Create(template);
-            result.UpdateAccounts(AccountTypeId, accountId);
+            result.UpdateAccounts(accountTypeId, accountId);
             return result;
         }
 
-        public void SetSourceAccount(int AccountTypeId, int accountId)
+        public void SetSourceAccount(int accountTypeId, int accountId)
         {
-            Debug.Assert(SourceAccountTypeId == AccountTypeId);
+            Debug.Assert(SourceAccountTypeId == accountTypeId);
             SourceTransactionValue.AccountId = accountId;
         }
 
-        public void SetTargetAccount(int AccountTypeId, int accountId)
+        public void SetTargetAccount(int accountTypeId, int accountId)
         {
-            Debug.Assert(TargetAccountTypeId == AccountTypeId);
+            Debug.Assert(TargetAccountTypeId == accountTypeId);
             TargetTransactionValue.AccountId = accountId;
         }
 
-        public void UpdateAccounts(int AccountTypeId, int accountId)
+        public void UpdateAccounts(int accountTypeId, int accountId)
         {
-            if (SourceAccountTypeId == AccountTypeId)
+            if (SourceAccountTypeId == accountTypeId)
                 SourceTransactionValue.AccountId = accountId;
-            else if (TargetAccountTypeId == AccountTypeId)
+            else if (TargetAccountTypeId == accountTypeId)
                 TargetTransactionValue.AccountId = accountId;
         }
 

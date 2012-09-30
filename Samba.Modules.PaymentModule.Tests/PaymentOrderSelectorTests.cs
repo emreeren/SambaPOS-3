@@ -61,12 +61,12 @@ namespace Samba.Modules.PaymentModule.Tests
         public void DoesTicketDiscountsWorks()
         {
             var ticket = SetupTicket();
-            var CalculationType = new CalculationType
+            var calculationType = new CalculationType
                                           {
                                               AccountTransactionType = AccountTransactionType.Default,
                                               DecreaseAmount = true
                                           };
-            ticket.AddCalculation(CalculationType, 10);
+            ticket.AddCalculation(calculationType, 10);
             var orderSelector = new OrderSelector();
             orderSelector.UpdateTicket(ticket);
             Assert.AreEqual(28 - 2.8, orderSelector.Selectors.Sum(x => x.TotalPrice));

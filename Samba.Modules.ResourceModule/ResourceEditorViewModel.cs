@@ -83,9 +83,9 @@ namespace Samba.Modules.ResourceModule
             if (obj.Topic == EventTopicNames.EditResourceDetails)
             {
                 _operationRequest = obj.Value;
-                var ResourceType = _cacheService.GetResourceTypeById(obj.Value.SelectedEntity.ResourceTypeId);
-                SelectedResource = new ResourceSearchResultViewModel(obj.Value.SelectedEntity, ResourceType);
-                CustomDataViewModel = new ResourceCustomDataViewModel(obj.Value.SelectedEntity, ResourceType);
+                var resourceType = _cacheService.GetResourceTypeById(obj.Value.SelectedEntity.ResourceTypeId);
+                SelectedResource = new ResourceSearchResultViewModel(obj.Value.SelectedEntity, resourceType);
+                CustomDataViewModel = new ResourceCustomDataViewModel(obj.Value.SelectedEntity, resourceType);
                 SelectedResource.UpdateDetailedInfo();
                 RaisePropertyChanged(() => CustomDataViewModel);
             }

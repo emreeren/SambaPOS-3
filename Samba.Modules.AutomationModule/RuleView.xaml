@@ -17,7 +17,7 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <TabControl Margin="-6,-6,0,0" Template="{StaticResource OfficeTabControl}">
+        <TabControl Template="{StaticResource OfficeTabControl}">
             <TabItem Header="General Settings">
                 <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
                     <StackPanel>

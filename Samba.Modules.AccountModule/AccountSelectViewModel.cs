@@ -11,21 +11,21 @@ namespace Samba.Modules.AccountModule
     {
         private readonly IAccountService _accountService;
 
-        public AccountSelectViewModel(IAccountService accountService, AccountType AccountType)
+        public AccountSelectViewModel(IAccountService accountService, AccountType accountType)
         {
             _accountService = accountService;
-            AccountType = AccountType;
+            AccountType = accountType;
         }
 
-        public AccountSelectViewModel(IAccountService accountService, AccountType AccountType, int accountId, string accountName)
-            : this(accountService, AccountType)
+        public AccountSelectViewModel(IAccountService accountService, AccountType accountType, int accountId, string accountName)
+            : this(accountService, accountType)
         {
             _accountName = accountName;
             _selectedAccountId = accountId;
         }
 
-        public AccountSelectViewModel(IAccountService accountService, AccountType AccountType, string accountName, Action<string, int> updateAction)
-            : this(accountService, AccountType)
+        public AccountSelectViewModel(IAccountService accountService, AccountType accountType, string accountName, Action<string, int> updateAction)
+            : this(accountService, accountType)
         {
             _accountName = accountName;
             UpdateAction = updateAction;
@@ -57,15 +57,15 @@ namespace Samba.Modules.AccountModule
             }
         }
 
-        private AccountType _AccountType;
+        private AccountType _accountType;
         private int _selectedAccountId;
 
         public AccountType AccountType
         {
-            get { return _AccountType; }
+            get { return _accountType; }
             set
             {
-                _AccountType = value;
+                _accountType = value;
                 RaisePropertyChanged(() => AccountType);
                 RaisePropertyChanged(() => TemplateName);
             }

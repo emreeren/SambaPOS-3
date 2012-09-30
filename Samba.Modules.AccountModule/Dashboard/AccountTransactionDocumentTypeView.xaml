@@ -20,7 +20,7 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <TabControl Margin="-6,-6,0,0" Template="{StaticResource OfficeTabControl}">
+        <TabControl Template="{StaticResource OfficeTabControl}">
             <TabItem Header="General Settings">
                 <StackPanel >
                     <Label HorizontalAlignment="Left" Content="Template Name" />
@@ -70,7 +70,7 @@
                 </StackPanel>
             </TabItem>
             <TabItem Header="Batch Create">
-                <StackPanel Margin="5,15,0,0">
+                <StackPanel>
                     <CheckBox Content="Batch Create Documents" IsChecked="{Binding BatchCreateDocuments,Mode=TwoWay}"/>
                     <Label Margin="0,5,0,0" MinWidth="120" Content="{LocText Filter,Suffix=':'}"/>
                     <ComboBox HorizontalAlignment="Left" MinWidth="150" ItemsSource="{Binding FilterDescriptions}" 

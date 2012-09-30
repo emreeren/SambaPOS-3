@@ -3,9 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:FlexButton="clr-namespace:FlexButton;assembly=FlexButton"
-             xmlns:ListViewLM="clr-namespace:Samba.Presentation.Common.ListViewLM;assembly=Samba.Presentation.Common"
-             mc:Ignorable="d" 
+             xmlns:FlexButton="clr-namespace:FlexButton;assembly=FlexButton" mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" FontSize="16">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -29,7 +27,6 @@
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>
-        <!--<ListBox   DisplayMemberPath="Name" ></ListBox>-->
         <ListView FontSize="20" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Accounts}" SelectedItem="{Binding SelectedAccount}"
                    ItemContainerStyle="{StaticResource ListViewItemExContainerStyle}">
             <ListView.View>
@@ -67,8 +64,8 @@
             </ListView.View>
         </ListView>
         <StackPanel Grid.Column="1" Grid.Row="1" Background="LightGray">
-            <FlexButton:FlexButton Height="60" Margin="2" Command="{Binding ShowAccountDetailsCommand}" Content="{Binding ShowAccountDetailsCommand.Caption}"/>
-            <FlexButton:FlexButton Height="60" Margin="2" Command="{Binding PrintCommand}" Content="{Binding PrintCommand.Caption}"/>
+            <FlexButton:FlexButton Height="60" FontSize="20" Margin="2" Command="{Binding ShowAccountDetailsCommand}" Content="{Binding ShowAccountDetailsCommand.Caption}"/>
+            <FlexButton:FlexButton Height="60" FontSize="20" Margin="2" Command="{Binding PrintCommand}" Content="{Binding PrintCommand.Caption}"/>
             <ItemsControl ItemsSource="{Binding BatchDocumentButtons}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>

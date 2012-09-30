@@ -6,7 +6,6 @@ using FluentValidation;
 using Samba.Domain.Models.Resources;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
-using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Common.Services;
@@ -40,10 +39,10 @@ namespace Samba.Modules.ResourceModule
             SelectScreenItemsCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.ScreenItem), OnSelectScreenItems);
         }
 
-        private IEnumerable<ResourceType> _ResourceTypes;
+        private IEnumerable<ResourceType> _resourceTypes;
         public IEnumerable<ResourceType> ResourceTypes
         {
-            get { return _ResourceTypes ?? (_ResourceTypes = Workspace.All<ResourceType>()); }
+            get { return _resourceTypes ?? (_resourceTypes = Workspace.All<ResourceType>()); }
         }
 
         private IEnumerable<ResourceState> _resourceStates;

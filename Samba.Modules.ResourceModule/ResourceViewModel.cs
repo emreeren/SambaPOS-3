@@ -23,10 +23,10 @@ namespace Samba.Modules.ResourceModule
             _accountService = accountService;
         }
 
-        private IEnumerable<ResourceType> _ResourceTypesTemplates;
+        private IEnumerable<ResourceType> _resourceTypes;
         public IEnumerable<ResourceType> ResourceTypes
         {
-            get { return _ResourceTypesTemplates ?? (_ResourceTypesTemplates = Workspace.All<ResourceType>()); }
+            get { return _resourceTypes ?? (_resourceTypes = Workspace.All<ResourceType>()); }
         }
 
         private ResourceType _resoureTemplate;

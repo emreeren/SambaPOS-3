@@ -9,7 +9,7 @@ namespace Samba.Domain.Models.Accounts
     {
         public AccountTransactionDocumentType()
         {
-            _TransactionTypes = new List<AccountTransactionType>();
+            _transactionTypes = new List<AccountTransactionType>();
             _accountTransactionDocumentTypeMaps = new List<AccountTransactionDocumentTypeMap>();
             _accountTransactionDocumentAccountMaps = new List<AccountTransactionDocumentAccountMap>();
         }
@@ -25,10 +25,10 @@ namespace Samba.Domain.Models.Accounts
 
         public int MasterAccountTypeId { get; set; }
 
-        private readonly IList<AccountTransactionType> _TransactionTypes;
+        private readonly IList<AccountTransactionType> _transactionTypes;
         public virtual IList<AccountTransactionType> TransactionTypes
         {
-            get { return _TransactionTypes; }
+            get { return _transactionTypes; }
         }
 
         private readonly IList<AccountTransactionDocumentTypeMap> _accountTransactionDocumentTypeMaps;
