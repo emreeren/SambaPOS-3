@@ -1,5 +1,6 @@
 ﻿using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.ServiceLocation;
+using Samba.Presentation.Common.Commands;
 using Samba.Services;
 using Samba.Services.Common;
 

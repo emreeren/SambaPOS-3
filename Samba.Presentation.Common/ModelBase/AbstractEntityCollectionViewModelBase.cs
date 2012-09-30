@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Samba.Localization.Properties;
+using Samba.Presentation.Common.Commands;
 
 namespace Samba.Presentation.Common.ModelBase
 {
@@ -41,7 +42,7 @@ namespace Samba.Presentation.Common.ModelBase
             EditItemCommand = new CaptionCommand<object>(string.Format(Resources.Edit_f, ModelTitle), OnEditItem, CanEditItem);
             DeleteItemCommand = new CaptionCommand<object>(string.Format(Resources.Delete_f, ModelTitle), OnDeleteItem, CanDeleteItem);
             DuplicateItemCommand = new CaptionCommand<object>(string.Format(Resources.Clone_f, ModelTitle), OnDuplicateItem, CanDuplicateItem);
-            DeleteSelectedItemsCommand = new CaptionCommand<IEnumerable>("Delete Selected Items", OnDeleteSelectedItems, CanDeleteSelectedItems);
+            DeleteSelectedItemsCommand = new CaptionCommand<IEnumerable>(Resources.DeleteSelectedItems, OnDeleteSelectedItems, CanDeleteSelectedItems);
 
             CustomCommands = new List<ICaptionCommand>();
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Samba.Presentation.Common.Commands;
 using Samba.Services.Common;
 
 namespace Samba.Presentation.Common.Services

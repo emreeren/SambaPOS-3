@@ -68,6 +68,7 @@
         </ListView>
         <StackPanel Grid.Column="1" Grid.Row="1" Background="LightGray">
             <FlexButton:FlexButton Height="60" Margin="2" Command="{Binding ShowAccountDetailsCommand}" Content="{Binding ShowAccountDetailsCommand.Caption}"/>
+            <FlexButton:FlexButton Height="60" Margin="2" Command="{Binding PrintCommand}" Content="{Binding PrintCommand.Caption}"/>
             <ItemsControl ItemsSource="{Binding BatchDocumentButtons}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>

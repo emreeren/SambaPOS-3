@@ -2785,4 +2785,58 @@ Continue without adding details?</value>
   <data name="Name_f">
     <value xml:space="preserve">{0} Name</value>
   </data>
+  <data name="ErrorLogMessage">
+    <value xml:space="preserve">There is a problem.
+
+Message:
+</value>
+  </data>
+  <data name="Receivables">
+    <value xml:space="preserve">Receivables</value>
+  </data>
+  <data name="General">
+    <value xml:space="preserve">General</value>
+  </data>
+  <data name="Customer">
+    <value xml:space="preserve">Customer</value>
+  </data>
+  <data name="Customers">
+    <value xml:space="preserve">Customers</value>
+  </data>
+  <data name="Tables">
+    <value xml:space="preserve">Tables</value>
+  </data>
+  <data name="Phone">
+    <value xml:space="preserve">Phone</value>
+  </data>
+  <data name="UnlockTicket">
+    <value xml:space="preserve">Unlock Ticket</value>
+  </data>
+  <data name="Payment">
+    <value xml:space="preserve">Payment</value>
+  </data>
+  <data name="Accounts_f">
+    <value xml:space="preserve">{0} Accounts</value>
+  </data>
+  <data name="CustomerAccount">
+    <value xml:space="preserve">Customer Account</value>
+  </data>
+  <data name="Payment_f">
+    <value xml:space="preserve">{0} Payment</value>
+  </data>
+  <data name="Transaction_f">
+    <value xml:space="preserve">{0} Transaction</value>
+  </data>
+  <data name="Sale">
+    <value xml:space="preserve">Sale</value>
+  </data>
+  <data name="RemoveLimit">
+    <value xml:space="preserve">Remove Limit</value>
+  </data>
+  <data name="ChangeSortOrderHint">
+    <value xml:space="preserve">Change sort order by dragging items</value>
+  </data>
+  <data name="DeleteSelectedItems">
+    <value xml:space="preserve">Delete Selected Items</value>
+  </data>
 </root>

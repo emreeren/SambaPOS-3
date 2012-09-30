@@ -5,8 +5,9 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class Department : Entity
+    public class Department : Entity, IOrderable
     {
+        public int Order { get; set; }
         public string UserString { get { return Name; } }
         public int ScreenMenuId { get; set; }
         [StringLength(10)]

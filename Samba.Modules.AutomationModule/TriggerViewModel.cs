@@ -7,6 +7,7 @@ using System.Windows;
 using Samba.Infrastructure.Cron;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
+using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Services;
 using Trigger = Samba.Domain.Models.Settings.Trigger;

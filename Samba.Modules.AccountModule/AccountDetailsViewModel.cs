@@ -11,6 +11,7 @@ using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Persistance.Data.Specification;
 using Samba.Presentation.Common;
+using Samba.Presentation.Common.Commands;
 using Samba.Services;
 using Samba.Services.Common;
 
@@ -190,15 +191,15 @@ namespace Samba.Modules.AccountModule
         {
             var report = new SimpleReport("");
             report.AddParagraph("Header");
-            report.AddParagraphLine("Header", "Account Transactions", true);
+            report.AddParagraphLine("Header", Resources.AccountTransaction.ToPlural(), true);
             report.AddParagraphLine("Header", "");
-            report.AddParagraphLine("Header", "Account Name: " + SelectedAccount.Name);
-            report.AddParagraphLine("Header", "Balance: " + TotalBalance);
+            report.AddParagraphLine("Header", string.Format("{0}: {1}", string.Format(Resources.Name_f, Resources.Account), SelectedAccount.Name));
+            report.AddParagraphLine("Header", string.Format("{0}: {1}", Resources.Balance, TotalBalance));
             report.AddParagraphLine("Header", "");
 
             report.AddColumnLength("Transactions", "15*", "35*", "15*", "15*", "20*");
             report.AddColumTextAlignment("Transactions", TextAlignment.Left, TextAlignment.Left, TextAlignment.Right, TextAlignment.Right, TextAlignment.Right);
-            report.AddTable("Transactions", "Date", "Description", "Credit", "Debit", "Balance");
+            report.AddTable("Transactions", Resources.Date, Resources.Description, Resources.Credit, Resources.Debit, Resources.Balance);
 
             foreach (var ad in AccountDetails)
             {

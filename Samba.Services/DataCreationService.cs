@@ -38,11 +38,11 @@ namespace Samba.Services
 
             if (!ShouldCreateData()) return;
 
-            var saleAccountType = new AccountType { Name = "Sales Accounts" };
-            var receivableAccountType = new AccountType { Name = "Receivable Accounts" };
-            var paymentAccountType = new AccountType { Name = "Payment Accounts" };
-            var discountAccountType = new AccountType { Name = "Discount Accounts" };
-            var customerAccountType = new AccountType { Name = "Customer Accounts" };
+            var saleAccountType = new AccountType { Name = string.Format(Resources.Accounts_f, Resources.Sales) };
+            var receivableAccountType = new AccountType { Name = string.Format(Resources.Accounts_f, Resources.Receiveable) };
+            var paymentAccountType = new AccountType { Name = string.Format(Resources.Accounts_f, Resources.Payment) };
+            var discountAccountType = new AccountType { Name = string.Format(Resources.Accounts_f, Resources.Discount) };
+            var customerAccountType = new AccountType { Name = string.Format(Resources.Accounts_f, Resources.Customer) };
 
             _workspace.Add(receivableAccountType);
             _workspace.Add(saleAccountType);
@@ -51,29 +51,29 @@ namespace Samba.Services
             _workspace.Add(customerAccountType);
             _workspace.CommitChanges();
 
-            var customerResourceType = new ResourceType { Name = "Customers", EntityName = "Customer", AccountTypeId = customerAccountType.Id };
-            customerResourceType.ResoruceCustomFields.Add(new ResourceCustomField { EditingFormat = "(###) ### ####", FieldType = 0, Name = "Phone" });
+            var customerResourceType = new ResourceType { Name = Resources.Customers, EntityName = Resources.Customer, AccountTypeId = customerAccountType.Id };
+            customerResourceType.ResoruceCustomFields.Add(new ResourceCustomField { EditingFormat = "(###) ### ####", FieldType = 0, Name = Resources.Phone });
             customerResourceType.AccountNameTemplate = "[Name]-[Phone]";
-            var tableResourceType = new ResourceType { Name = "Tables", EntityName = Resources.Table };
+            var tableResourceType = new ResourceType { Name = Resources.Tables, EntityName = Resources.Table };
 
             _workspace.Add(customerResourceType);
             _workspace.Add(tableResourceType);
 
             _workspace.CommitChanges();
 
-            var accountScreen = new AccountScreen { Name = "General" };
+            var accountScreen = new AccountScreen { Name = Resources.General };
             accountScreen.AccountScreenValues.Add(new AccountScreenValue { AccountTypeName = saleAccountType.Name, AccountTypeId = saleAccountType.Id, DisplayDetails = true });
             accountScreen.AccountScreenValues.Add(new AccountScreenValue { AccountTypeName = receivableAccountType.Name, AccountTypeId = receivableAccountType.Id, DisplayDetails = true });
             accountScreen.AccountScreenValues.Add(new AccountScreenValue { AccountTypeName = discountAccountType.Name, AccountTypeId = discountAccountType.Id, DisplayDetails = true });
             accountScreen.AccountScreenValues.Add(new AccountScreenValue { AccountTypeName = paymentAccountType.Name, AccountTypeId = paymentAccountType.Id, DisplayDetails = true });
             _workspace.Add(accountScreen);
 
-            var defaultSaleAccount = new Account { AccountTypeId = saleAccountType.Id, Name = "Sales" };
-            var defaultReceivableAccount = new Account { AccountTypeId = receivableAccountType.Id, Name = "Receivables" };
+            var defaultSaleAccount = new Account { AccountTypeId = saleAccountType.Id, Name = Resources.Sales };
+            var defaultReceivableAccount = new Account { AccountTypeId = receivableAccountType.Id, Name = Resources.Receivables };
             var cashAccount = new Account { AccountTypeId = paymentAccountType.Id, Name = Resources.Cash };
             var creditCardAccount = new Account { AccountTypeId = paymentAccountType.Id, Name = Resources.CreditCard };
             var voucherAccount = new Account { AccountTypeId = paymentAccountType.Id, Name = Resources.Voucher };
-            var defaultDiscountAccount = new Account { AccountTypeId = discountAccountType.Id, Name = "Discount" };
+            var defaultDiscountAccount = new Account { AccountTypeId = discountAccountType.Id, Name = Resources.Discount };
             var defaultRoundingAccount = new Account { AccountTypeId = discountAccountType.Id, Name = Resources.Rounding };
 
             _workspace.Add(defaultSaleAccount);
@@ -88,7 +88,7 @@ namespace Samba.Services
 
             var discountTransactionType = new AccountTransactionType
             {
-                Name = "Discount Transaction",
+                Name = string.Format(Resources.Transaction_f, Resources.Discount),
                 SourceAccountTypeId = receivableAccountType.Id,
                 TargetAccountTypeId = discountAccountType.Id,
                 DefaultSourceAccountId = defaultReceivableAccount.Id,
@@ -97,7 +97,7 @@ namespace Samba.Services
 
             var roundingTransactionType = new AccountTransactionType
             {
-                Name = "Rounding Transaction",
+                Name = string.Format(Resources.Transaction_f, Resources.Rounding),
                 SourceAccountTypeId = receivableAccountType.Id,
                 TargetAccountTypeId = discountAccountType.Id,
                 DefaultSourceAccountId = defaultReceivableAccount.Id,
@@ -106,7 +106,7 @@ namespace Samba.Services
 
             var saleTransactionType = new AccountTransactionType
             {
-                Name = "Sale Transaction",
+                Name = string.Format(Resources.Transaction_f, Resources.Sale),
                 SourceAccountTypeId = saleAccountType.Id,
                 TargetAccountTypeId = receivableAccountType.Id,
                 DefaultSourceAccountId = defaultSaleAccount.Id,
@@ -115,7 +115,7 @@ namespace Samba.Services
 
             var paymentTransactionType = new AccountTransactionType
             {
-                Name = "Payment Transaction",
+                Name = string.Format(Resources.Transaction_f, Resources.Payment),
                 SourceAccountTypeId = receivableAccountType.Id,
                 TargetAccountTypeId = paymentAccountType.Id,
                 DefaultSourceAccountId = defaultReceivableAccount.Id,
@@ -157,9 +157,9 @@ namespace Samba.Services
             var customerCashDocument = new AccountTransactionDocumentType
             {
                 Name = "Customer Cash",
-                ButtonHeader = "Cash",
-                DefaultAmount = "[Balance]",
-                DescriptionTemplate = "Cash Payment",
+                ButtonHeader = Resources.Cash,
+                DefaultAmount = string.Format("[{0}]", Resources.Balance),
+                DescriptionTemplate = string.Format(Resources.Payment_f, Resources.Cash),
                 MasterAccountTypeId = customerAccountType.Id
             };
             customerCashDocument.AddAccountTransactionDocumentTypeMap();
@@ -168,9 +168,9 @@ namespace Samba.Services
             var customerCreditCardDocument = new AccountTransactionDocumentType
             {
                 Name = "Customer Credit Card",
-                ButtonHeader = "Credit Card",
-                DefaultAmount = "[Balance]",
-                DescriptionTemplate = "Credit Card Payment",
+                ButtonHeader = Resources.CreditCard,
+                DefaultAmount = string.Format("[{0}]", Resources.Balance),
+                DescriptionTemplate = string.Format(Resources.Payment_f, Resources.CreditCard),
                 MasterAccountTypeId = customerAccountType.Id
             };
             customerCreditCardDocument.AddAccountTransactionDocumentTypeMap();
@@ -223,11 +223,11 @@ namespace Samba.Services
             printBillAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { VisualBehaviour = 1 });
             _workspace.Add(printBillAutomation);
 
-            var unlockTicketAutomation = new AutomationCommand { Name = "Unlock Ticket", ButtonHeader = "Unlock Ticket" };
+            var unlockTicketAutomation = new AutomationCommand { Name = Resources.UnlockTicket, ButtonHeader = Resources.UnlockTicket };
             unlockTicketAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { VisualBehaviour = 2 });
             _workspace.Add(unlockTicketAutomation);
 
-            var addTicketAutomation = new AutomationCommand { Name = "Add Ticket", ButtonHeader = "Add Ticket" };
+            var addTicketAutomation = new AutomationCommand { Name = string.Format(Resources.Add_f, Resources.Ticket), ButtonHeader = string.Format(Resources.Add_f, Resources.Ticket) };
             addTicketAutomation.AddAutomationCommandMap();
             _workspace.Add(addTicketAutomation);
 
@@ -268,7 +268,7 @@ namespace Samba.Services
             var accountPayment = new PaymentType
             {
                 AccountTransactionType = customerAccountTransactionType,
-                Name = "Customer Account"
+                Name = Resources.CustomerAccount
             };
             accountPayment.PaymentTypeMaps.Add(new PaymentTypeMap { DisplayAtPaymentScreen = true });
 
@@ -370,15 +370,15 @@ namespace Samba.Services
             _workspace.Add(availableAction);
             var billRequestedAction = new AppAction { ActionType = "UpdateResourceState", Name = "Update Bill Requested State", Parameter = string.Format(parameterFormat, "ResourceState", "Bill Requested") };
             _workspace.Add(billRequestedAction);
-            var createTicketAction = new AppAction { ActionType = "CreateTicket", Name = "Create New Ticket", Parameter = "" };
+            var createTicketAction = new AppAction { ActionType = "CreateTicket", Name = string.Format(Resources.Create_f, Resources.Ticket), Parameter = "" };
             _workspace.Add(createTicketAction);
-            var closeTicketAction = new AppAction { ActionType = "CloseActiveTicket", Name = "Close Ticket", Parameter = "" };
+            var closeTicketAction = new AppAction { ActionType = "CloseActiveTicket", Name = Resources.CloseTicket, Parameter = "" };
             _workspace.Add(closeTicketAction);
             var printBillAction = new AppAction { ActionType = "ExecutePrintJob", Name = "Execute Bill Print Job", Parameter = string.Format(parameterFormat, "PrintJobName", Resources.PrintBill) };
             _workspace.Add(printBillAction);
             var printKitchenOrdersAction = new AppAction { ActionType = "ExecutePrintJob", Name = "Execute Kitchen Orders Print Job", Parameter = string.Format(parameterFormat, "PrintJobName", Resources.PrintOrdersToKitchenPrinter) };
             _workspace.Add(printKitchenOrdersAction);
-            var unlockTicketAction = new AppAction { ActionType = "UnlockTicket", Name = "Unlock Ticket", Parameter = "" };
+            var unlockTicketAction = new AppAction { ActionType = "UnlockTicket", Name = Resources.UnlockTicket, Parameter = "" };
             _workspace.Add(unlockTicketAction);
             _workspace.CommitChanges();
 
@@ -542,7 +542,7 @@ namespace Samba.Services
                 foreach (var item in values)
                 {
                     if (string.IsNullOrWhiteSpace(item)) continue;
-                    
+
                     if (item.StartsWith("#"))
                     {
                         currentCategory = item.Trim('#', ' ');

@@ -4,11 +4,13 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Windows;
 using Microsoft.Practices.Prism.Events;
 using Samba.Domain.Models.Accounts;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
+using Samba.Presentation.Common.Commands;
 using Samba.Services;
 using Samba.Services.Common;
 
@@ -48,16 +50,20 @@ namespace Samba.Modules.AccountModule
         private readonly IAccountService _accountService;
         private readonly ICacheService _cacheService;
         private readonly IApplicationState _applicationState;
+        private readonly IPrinterService _printerService;
         private AccountScreen _selectedAccountScreen;
 
         [ImportingConstructor]
-        public AccountSelectorViewModel(IAccountService accountService, ICacheService cacheService, IApplicationState applicationState)
+        public AccountSelectorViewModel(IAccountService accountService, ICacheService cacheService, IApplicationState applicationState,
+            IPrinterService printerService)
         {
             _accounts = new ObservableCollection<AccountRowData>();
             _accountService = accountService;
             _cacheService = cacheService;
             _applicationState = applicationState;
+            _printerService = printerService;
             ShowAccountDetailsCommand = new CaptionCommand<string>(Resources.AccountDetails.Replace(' ', '\r'), OnShowAccountDetails, CanShowAccountDetails);
+            PrintCommand = new CaptionCommand<string>(Resources.Print, OnPrint);
             AccountButtonSelectedCommand = new CaptionCommand<AccountScreen>("", OnAccountScreenSelected);
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(
@@ -131,6 +137,7 @@ namespace Samba.Modules.AccountModule
         }
 
         public ICaptionCommand ShowAccountDetailsCommand { get; set; }
+        public ICaptionCommand PrintCommand { get; set; }
         public ICaptionCommand AccountButtonSelectedCommand { get; set; }
 
         public AccountRowData SelectedAccount { get; set; }
@@ -157,6 +164,25 @@ namespace Samba.Modules.AccountModule
         public void Refresh()
         {
             UpdateAccountScreen(_selectedAccountScreen ?? (_selectedAccountScreen = AccountScreens.FirstOrDefault()));
+        }
+
+        private void OnPrint(string obj)
+        {
+            var report = new SimpleReport("");
+            report.AddParagraph("Header");
+            report.AddParagraphLine("Header", string.Format(_selectedAccountScreen.Name), true);
+            report.AddParagraphLine("Header", "");
+
+            report.AddColumnLength("Transactions", "60*", "40*");
+            report.AddColumTextAlignment("Transactions", TextAlignment.Left, TextAlignment.Right);
+            report.AddTable("Transactions", string.Format(Resources.Name_f, Resources.Account), Resources.Balance);
+
+            foreach (var ad in Accounts)
+            {
+                report.AddRow("Transactions", ad.Name, ad.BalanceStr);
+            }
+
+            _printerService.PrintReport(report.Document);
         }
     }
 }

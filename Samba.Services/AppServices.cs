@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Threading;
 using Samba.Infrastructure.ExceptionReporter;
 using Samba.Infrastructure.Settings;
+using Samba.Localization.Properties;
 
 namespace Samba.Services
 {
@@ -20,16 +21,16 @@ namespace Samba.Services
         {
             return LocalSettings.CurrentDbVersion <= 0 || LocalSettings.CurrentDbVersion == LocalSettings.DbVersion;
         }
-        
+
         public static void LogError(Exception e)
         {
-            MessageBox.Show("Bir sorun tespit ettik.\r\n\r\nProgram çalışmaya devam edecek ancak en kısa zamanda teknik destek almanız önerilir. Lütfen teknik destek için program danışmanınız ile irtibat kurunuz.\r\n\r\nMesaj:\r\n" + e.Message, "Bilgi", MessageBoxButton.OK, MessageBoxImage.Stop);
+            MessageBox.Show(Resources.ErrorLogMessage + e.Message, Resources.Information, MessageBoxButton.OK, MessageBoxImage.Stop);
             Logger.Log(e);
         }
 
         public static void LogError(Exception e, string userMessage)
         {
-            MessageBox.Show(userMessage, "Bilgi", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show(userMessage, Resources.Information, MessageBoxButton.OK, MessageBoxImage.Information);
             Logger.Log(e);
         }
 

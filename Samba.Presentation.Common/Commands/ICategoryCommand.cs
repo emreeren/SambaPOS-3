@@ -1,4 +1,4 @@
-﻿namespace Samba.Presentation.Common
+﻿namespace Samba.Presentation.Common.Commands
 {
     public interface ICategoryCommand : ICaptionCommand
     {

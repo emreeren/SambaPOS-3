@@ -133,6 +133,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} Accounts.
+        /// </summary>
+        public static string Accounts_f {
+            get {
+                return ResourceManager.GetString("Accounts_f", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account Screen.
         /// </summary>
         public static string AccountScreen {
@@ -1161,6 +1170,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change sort order by dragging items.
+        /// </summary>
+        public static string ChangeSortOrderHint {
+            get {
+                return ResourceManager.GetString("ChangeSortOrderHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change Total.
         /// </summary>
         public static string ChangeTotal {
@@ -1514,6 +1532,33 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Customer.
+        /// </summary>
+        public static string Customer {
+            get {
+                return ResourceManager.GetString("Customer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Customer Account.
+        /// </summary>
+        public static string CustomerAccount {
+            get {
+                return ResourceManager.GetString("CustomerAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Customers.
+        /// </summary>
+        public static string Customers {
+            get {
+                return ResourceManager.GetString("Customers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Custom Field.
         /// </summary>
         public static string CustomField {
@@ -1771,6 +1816,15 @@ namespace Samba.Localization.Properties {
         public static string DeleteSelectedCategoryQuestion {
             get {
                 return ResourceManager.GetString("DeleteSelectedCategoryQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Selected Items.
+        /// </summary>
+        public static string DeleteSelectedItems {
+            get {
+                return ResourceManager.GetString("DeleteSelectedItems", resourceCulture);
             }
         }
         
@@ -2230,6 +2284,18 @@ namespace Samba.Localization.Properties {
         public static string ErrorInExpression {
             get {
                 return ResourceManager.GetString("ErrorInExpression", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is a problem.
+        ///
+        ///Message:
+        ///.
+        /// </summary>
+        public static string ErrorLogMessage {
+            get {
+                return ResourceManager.GetString("ErrorLogMessage", resourceCulture);
             }
         }
         
@@ -2728,6 +2794,15 @@ namespace Samba.Localization.Properties {
         public static string From {
             get {
                 return ResourceManager.GetString("From", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        public static string General {
+            get {
+                return ResourceManager.GetString("General", resourceCulture);
             }
         }
         
@@ -4335,6 +4410,24 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Payment.
+        /// </summary>
+        public static string Payment {
+            get {
+                return ResourceManager.GetString("Payment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} Payment.
+        /// </summary>
+        public static string Payment_f {
+            get {
+                return ResourceManager.GetString("Payment_f", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Payment Total.
         /// </summary>
         public static string PaymentTotal {
@@ -4358,6 +4451,15 @@ namespace Samba.Localization.Properties {
         public static string Permissions {
             get {
                 return ResourceManager.GetString("Permissions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone.
+        /// </summary>
+        public static string Phone {
+            get {
+                return ResourceManager.GetString("Phone", resourceCulture);
             }
         }
         
@@ -4875,6 +4977,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Receivables.
+        /// </summary>
+        public static string Receivables {
+            get {
+                return ResourceManager.GetString("Receivables", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Receiveable.
         /// </summary>
         public static string Receiveable {
@@ -4943,6 +5054,15 @@ namespace Samba.Localization.Properties {
         public static string Remove {
             get {
                 return ResourceManager.GetString("Remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove Limit.
+        /// </summary>
+        public static string RemoveLimit {
+            get {
+                return ResourceManager.GetString("RemoveLimit", resourceCulture);
             }
         }
         
@@ -5195,6 +5315,15 @@ namespace Samba.Localization.Properties {
         public static string Rules {
             get {
                 return ResourceManager.GetString("Rules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sale.
+        /// </summary>
+        public static string Sale {
+            get {
+                return ResourceManager.GetString("Sale", resourceCulture);
             }
         }
         
@@ -5825,6 +5954,15 @@ namespace Samba.Localization.Properties {
         public static string Table {
             get {
                 return ResourceManager.GetString("Table", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tables.
+        /// </summary>
+        public static string Tables {
+            get {
+                return ResourceManager.GetString("Tables", resourceCulture);
             }
         }
         
@@ -6626,6 +6764,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} Transaction.
+        /// </summary>
+        public static string Transaction_f {
+            get {
+                return ResourceManager.GetString("Transaction_f", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Transaction Document.
         /// </summary>
         public static string TransactionDocument {
@@ -6857,6 +7004,15 @@ namespace Samba.Localization.Properties {
         public static string UnlocksOrder {
             get {
                 return ResourceManager.GetString("UnlocksOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unlock Ticket.
+        /// </summary>
+        public static string UnlockTicket {
+            get {
+                return ResourceManager.GetString("UnlockTicket", resourceCulture);
             }
         }
         

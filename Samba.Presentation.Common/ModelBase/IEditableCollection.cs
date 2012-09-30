@@ -1,4 +1,6 @@
-﻿namespace Samba.Presentation.Common.ModelBase
+﻿using Samba.Presentation.Common.Commands;
+
+namespace Samba.Presentation.Common.ModelBase
 {
     public interface IEditableCollection
     {

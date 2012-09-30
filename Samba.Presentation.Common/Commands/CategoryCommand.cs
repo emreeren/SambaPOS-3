@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Samba.Presentation.Common
+namespace Samba.Presentation.Common.Commands
 {
     public class CategoryCommand<T> : CaptionCommand<T>, ICategoryCommand
     {

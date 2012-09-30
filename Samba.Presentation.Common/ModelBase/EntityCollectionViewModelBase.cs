@@ -12,6 +12,7 @@ using Samba.Infrastructure.Data.Serializer;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
+using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.Services;
 using Samba.Services.Common;
 
@@ -25,11 +26,11 @@ namespace Samba.Presentation.Common.ModelBase
         [ImportingConstructor]
         public EntityCollectionViewModelBase()
         {
-            Limit =  LocalSettings.DefaultRecordLimit;
+            Limit = LocalSettings.DefaultRecordLimit;
             OpenViewModels = new List<EntityViewModelBase<TModel>>();
             BatchCreateItemsCommand = new CaptionCommand<TModel>(string.Format(Resources.BatchCreate_f, PluralModelTitle), OnBatchCreateItems, CanBatchCreateItems);
             SortItemsCommand = new CaptionCommand<TModel>(string.Format(Resources.Sort_f, PluralModelTitle), OnSortItems);
-            RemoveLimitCommand = new CaptionCommand<TModel>("Remove Limit", OnRemoveLimit);
+            RemoveLimitCommand = new CaptionCommand<TModel>(Resources.RemoveLimit, OnRemoveLimit);
 
             if (typeof(TViewModel).GetInterfaces().Any(x => x == typeof(IEntityCreator<TModel>)))
                 CustomCommands.Add(BatchCreateItemsCommand);
@@ -82,7 +83,7 @@ namespace Samba.Presentation.Common.ModelBase
         private void OnSortItems(TModel obj)
         {
             var list = Items.Select(x => x.Model).ToList();
-            InteractionService.UserIntraction.SortItems(list.Cast<IOrderable>(), "Test", "Test");  // todo fix titles
+            InteractionService.UserIntraction.SortItems(list.Cast<IOrderable>(), string.Format(Resources.Sort_f, PluralModelTitle), Resources.ChangeSortOrderHint);
             Workspace.CommitChanges();
             _items = null;
             RaisePropertyChanged(() => Items);
@@ -245,6 +246,7 @@ namespace Samba.Presentation.Common.ModelBase
 
         protected override void OnDeleteSelectedItems(IEnumerable obj)
         {
+            if (MessageBox.Show(Resources.DeleteSelectedItems + "?", Resources.Confirmation, MessageBoxButton.YesNo) != MessageBoxResult.Yes) return;
             obj.Cast<TViewModel>().ToList().ForEach(
                 model =>
                 {
@@ -287,7 +289,7 @@ namespace Samba.Presentation.Common.ModelBase
         protected ObservableCollection<TViewModel> BuildViewModelList(IEnumerable<TModel> itemsList)
         {
             if (typeof(TModel).GetInterfaces().Any(x => x == typeof(IOrderable)))
-                return new ObservableCollection<TViewModel>(itemsList.OrderBy(x => ((IOrderable)x).Order).Select(InternalCreateNewViewModel));
+                return new ObservableCollection<TViewModel>(itemsList.OrderBy(x => ((IOrderable)x).Order).ThenBy(x => x.Id).Select(InternalCreateNewViewModel));
             return new ObservableCollection<TViewModel>(itemsList.Select(InternalCreateNewViewModel));
         }
 

@@ -28,22 +28,22 @@ namespace Samba.Services
     public interface IAccountService
     {
         int GetAccountCount();
-        void CreateNewTransactionDocument(Account account, AccountTransactionDocumentType DocumentType, string description, decimal amount, IEnumerable<Account> accounts);
+        void CreateNewTransactionDocument(Account account, AccountTransactionDocumentType documentType, string description, decimal amount, IEnumerable<Account> accounts);
         decimal GetAccountBalance(int accountId);
-        Dictionary<Account, BalanceValue> GetAccountBalances(IList<int> AccountTypeIds, Expression<Func<AccountTransactionValue, bool>> filter);
-        Dictionary<AccountType, BalanceValue> GetAccountTypeBalances(IList<int> AccountTypeIds, Expression<Func<AccountTransactionValue, bool>> filter);
-        string GetDescription(AccountTransactionDocumentType DocumentType, Account account);
-        decimal GetDefaultAmount(AccountTransactionDocumentType DocumentType, Account account);
+        Dictionary<Account, BalanceValue> GetAccountBalances(IList<int> accountTypeIds, Expression<Func<AccountTransactionValue, bool>> filter);
+        Dictionary<AccountType, BalanceValue> GetAccountTypeBalances(IList<int> accountTypeIds, Expression<Func<AccountTransactionValue, bool>> filter);
+        string GetDescription(AccountTransactionDocumentType documentType, Account account);
+        decimal GetDefaultAmount(AccountTransactionDocumentType documentType, Account account);
         string GetAccountNameById(int accountId);
         int GetAccountIdByName(string accountName);
-        IEnumerable<Account> GetAccounts(params AccountType[] AccountTypes);
-        IEnumerable<Account> GetAccounts(int AccountTypeId);
+        IEnumerable<Account> GetAccounts(params AccountType[] accountTypes);
+        IEnumerable<Account> GetAccounts(int accountTypeId);
         IEnumerable<Account> GetAccounts(IEnumerable<int> accountIds);
-        IEnumerable<Account> GetBalancedAccounts(int AccountTypeId);
-        IEnumerable<string> GetCompletingAccountNames(int AccountTypeId, string accountName);
+        IEnumerable<Account> GetBalancedAccounts(int accountTypeId);
+        IEnumerable<string> GetCompletingAccountNames(int accountTypeId, string accountName);
         Account GetAccountById(int accountId);
         IEnumerable<AccountType> GetAccountTypes();
-        int CreateAccount(string accountName, int AccountTypeId);
-        IEnumerable<Account> GetDocumentAccounts(AccountTransactionDocumentType DocumentType);
+        int CreateAccount(string accountName, int accountTypeId);
+        IEnumerable<Account> GetDocumentAccounts(AccountTransactionDocumentType documentType);
     }
 }

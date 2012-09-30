@@ -8,6 +8,7 @@ using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
+using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
 
 namespace Samba.Modules.TicketModule

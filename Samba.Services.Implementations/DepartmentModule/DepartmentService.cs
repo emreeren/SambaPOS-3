@@ -30,13 +30,12 @@ namespace Samba.Services.Implementations.DepartmentModule
         private IEnumerable<Department> _departments;
         public IEnumerable<Department> Departments
         {
-            get { return _departments ?? (_departments = Workspace.All<Department>()); }
+            get { return _departments ?? (_departments = Workspace.All<Department>().OrderBy(x => x.Order).ThenBy(x => x.Id)); }
         }
 
         public Department GetDepartment(int id)
         {
-            if (id == 0) return null;
-            return Departments.First(x => x.Id == id);
+            return id == 0 ? null : Departments.First(x => x.Id == id);
         }
 
         public IEnumerable<string> GetDepartmentNames()

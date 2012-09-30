@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
@@ -38,11 +39,11 @@ namespace Samba.Services.Implementations.AccountModule
             return (int)(_accountCount ?? (_accountCount = Dao.Count<Resource>()));
         }
 
-        public void CreateNewTransactionDocument(Account selectedAccount, AccountTransactionDocumentType DocumentType, string description, decimal amount, IEnumerable<Account> accounts)
+        public void CreateNewTransactionDocument(Account selectedAccount, AccountTransactionDocumentType documentType, string description, decimal amount, IEnumerable<Account> accounts)
         {
             using (var w = WorkspaceFactory.Create())
             {
-                var document = DocumentType.CreateDocument(selectedAccount, description, amount, GetExchangeRate(selectedAccount), accounts != null ? accounts.ToList() : null);
+                var document = documentType.CreateDocument(selectedAccount, description, amount, GetExchangeRate(selectedAccount), accounts != null ? accounts.ToList() : null);
                 w.Add(document);
                 w.CommitChanges();
             }
@@ -53,11 +54,11 @@ namespace Samba.Services.Implementations.AccountModule
             return Dao.Sum<AccountTransactionValue>(x => x.Debit - x.Credit, x => x.AccountId == accountId);
         }
 
-        public Dictionary<Account, BalanceValue> GetAccountBalances(IList<int> AccountTypeIds, Expression<Func<AccountTransactionValue, bool>> filter)
+        public Dictionary<Account, BalanceValue> GetAccountBalances(IList<int> accountTypeIds, Expression<Func<AccountTransactionValue, bool>> filter)
         {
             using (var w = WorkspaceFactory.CreateReadOnly())
             {
-                var accountIds = w.Queryable<Account>().Where(x => AccountTypeIds.Contains(x.AccountTypeId)).Select(x => x.Id);
+                var accountIds = w.Queryable<Account>().Where(x => accountTypeIds.Contains(x.AccountTypeId)).Select(x => x.Id);
                 Expression<Func<AccountTransactionValue, bool>> func = x => accountIds.Contains(x.AccountId);
                 if (filter != null) func = func.And(filter);
                 var transactionValues = w.Queryable<AccountTransactionValue>()
@@ -66,22 +67,22 @@ namespace Samba.Services.Implementations.AccountModule
                     .Select(x => new { Id = x.Key, Amount = x.Sum(y => y.Debit - y.Credit), Exchange = x.Sum(y => y.Exchange) })
                     .ToDictionary(x => x.Id, x => new BalanceValue { Balance = x.Amount, Exchange = x.Exchange });
 
-                return w.Queryable<Account>().Where(x => AccountTypeIds.Contains(x.AccountTypeId)).ToDictionary(x => x, x => transactionValues.ContainsKey(x.Id) ? transactionValues[x.Id] : BalanceValue.Empty);
+                return w.Queryable<Account>().Where(x => accountTypeIds.Contains(x.AccountTypeId)).ToDictionary(x => x, x => transactionValues.ContainsKey(x.Id) ? transactionValues[x.Id] : BalanceValue.Empty);
             }
         }
 
-        public Dictionary<AccountType, BalanceValue> GetAccountTypeBalances(IList<int> AccountTypeIds, Expression<Func<AccountTransactionValue, bool>> filter)
+        public Dictionary<AccountType, BalanceValue> GetAccountTypeBalances(IList<int> accountTypeIds, Expression<Func<AccountTransactionValue, bool>> filter)
         {
             using (var w = WorkspaceFactory.CreateReadOnly())
             {
-                Expression<Func<AccountTransactionValue, bool>> func = x => AccountTypeIds.Contains(x.AccountTypeId);
+                Expression<Func<AccountTransactionValue, bool>> func = x => accountTypeIds.Contains(x.AccountTypeId);
                 if (filter != null) func = func.And(filter);
                 var transactionValues = w.Queryable<AccountTransactionValue>()
                     .Where(func)
                     .GroupBy(x => x.AccountTypeId)
                     .Select(x => new { Id = x.Key, Amount = x.Sum(y => y.Debit - y.Credit), Exchange = x.Sum(y => y.Exchange) })
                     .ToDictionary(x => x.Id, x => new BalanceValue { Balance = x.Amount, Exchange = x.Exchange });
-                return w.Queryable<AccountType>().Where(x => AccountTypeIds.Contains(x.Id)).ToDictionary(x => x, x => transactionValues.ContainsKey(x.Id) ? transactionValues[x.Id] : BalanceValue.Empty);
+                return w.Queryable<AccountType>().Where(x => accountTypeIds.Contains(x.Id)).ToDictionary(x => x, x => transactionValues.ContainsKey(x.Id) ? transactionValues[x.Id] : BalanceValue.Empty);
             }
         }
 
@@ -91,9 +92,9 @@ namespace Samba.Services.Implementations.AccountModule
             return string.IsNullOrEmpty(cd) ? "" : Resource.GetCustomData(cd, fieldName);
         }
 
-        public string GetDescription(AccountTransactionDocumentType DocumentType, Account account)
+        public string GetDescription(AccountTransactionDocumentType documentType, Account account)
         {
-            var result = DocumentType.DescriptionTemplate;
+            var result = documentType.DescriptionTemplate;
             if (string.IsNullOrEmpty(result)) return result;
             while (Regex.IsMatch(result, "\\[:([^\\]]+)\\]"))
             {
@@ -102,19 +103,19 @@ namespace Samba.Services.Implementations.AccountModule
             }
             if (result.Contains("[MONTH]")) result = result.Replace("[MONTH]", DateTime.Now.ToMonthName());
             if (result.Contains("[NEXT MONTH]")) result = result.Replace("[NEXT MONTH]", DateTime.Now.ToNextMonthName());
-            if (result.Contains("[WEEK]")) result = result.Replace("[WEEK]", DateTime.Now.WeekOfYear().ToString());
-            if (result.Contains("[NEXT WEEK]")) result = result.Replace("[NEXT WEEK]", (DateTime.Now.NextWeekOfYear()).ToString());
-            if (result.Contains("[YEAR]")) result = result.Replace("[YEAR]", (DateTime.Now.Year).ToString());
+            if (result.Contains("[WEEK]")) result = result.Replace("[WEEK]", DateTime.Now.WeekOfYear().ToString(CultureInfo.CurrentCulture));
+            if (result.Contains("[NEXT WEEK]")) result = result.Replace("[NEXT WEEK]", (DateTime.Now.NextWeekOfYear()).ToString(CultureInfo.CurrentCulture));
+            if (result.Contains("[YEAR]")) result = result.Replace("[YEAR]", (DateTime.Now.Year).ToString(CultureInfo.CurrentCulture));
             if (result.Contains("[ACCOUNT NAME]")) result = result.Replace("[ACCOUNT NAME]", account.Name);
             return result;
         }
 
-        public decimal GetDefaultAmount(AccountTransactionDocumentType DocumentType, Account account)
+        public decimal GetDefaultAmount(AccountTransactionDocumentType documentType, Account account)
         {
             decimal result = 0;
-            if (!string.IsNullOrEmpty(DocumentType.DefaultAmount))
+            if (!string.IsNullOrEmpty(documentType.DefaultAmount))
             {
-                var da = DocumentType.DefaultAmount;
+                var da = documentType.DefaultAmount;
                 if (Regex.IsMatch(da, "\\[:([^\\]]+)\\]"))
                 {
                     var match = Regex.Match(da, "\\[:([^\\]]+)\\]");
@@ -143,16 +144,16 @@ namespace Samba.Services.Implementations.AccountModule
             return 0;
         }
 
-        public IEnumerable<Account> GetAccounts(params AccountType[] AccountTypes)
+        public IEnumerable<Account> GetAccounts(params AccountType[] accountTypes)
         {
-            if (!AccountTypes.Any()) return Dao.Query<Account>();
-            var ids = AccountTypes.Select(x => x.Id);
+            if (!accountTypes.Any()) return Dao.Query<Account>();
+            var ids = accountTypes.Select(x => x.Id);
             return Dao.Query<Account>(x => ids.Contains(x.AccountTypeId));
         }
 
-        public IEnumerable<Account> GetAccounts(int AccountTypeId)
+        public IEnumerable<Account> GetAccounts(int accountTypeId)
         {
-            return Dao.Query<Account>(x => x.AccountTypeId == AccountTypeId);
+            return Dao.Query<Account>(x => x.AccountTypeId == accountTypeId);
         }
 
         public IEnumerable<Account> GetAccounts(IEnumerable<int> accountIds)
@@ -161,21 +162,21 @@ namespace Samba.Services.Implementations.AccountModule
             return ids.Any() ? Dao.Query<Account>(x => ids.Contains(x.Id)) : new List<Account>();
         }
 
-        public IEnumerable<Account> GetBalancedAccounts(int AccountTypeId)
+        public IEnumerable<Account> GetBalancedAccounts(int accountTypeId)
         {
             using (var w = WorkspaceFactory.CreateReadOnly())
             {
                 var q1 = w.Queryable<AccountTransactionValue>().GroupBy(x => x.AccountId).Where(
                         x => x.Sum(y => y.Debit - y.Credit) != 0).Select(x => x.Key);
-                return w.Queryable<Account>().Where(x => x.AccountTypeId == AccountTypeId && q1.Contains(x.Id)).ToList();
+                return w.Queryable<Account>().Where(x => x.AccountTypeId == accountTypeId && q1.Contains(x.Id)).ToList();
             }
         }
 
-        public IEnumerable<string> GetCompletingAccountNames(int AccountTypeId, string accountName)
+        public IEnumerable<string> GetCompletingAccountNames(int accountTypeId, string accountName)
         {
             if (string.IsNullOrWhiteSpace(accountName)) return null;
             var lacn = accountName.ToLower();
-            return Dao.Select<Account, string>(x => x.Name, x => x.AccountTypeId == AccountTypeId && x.Name.ToLower().Contains(lacn));
+            return Dao.Select<Account, string>(x => x.Name, x => x.AccountTypeId == accountTypeId && x.Name.ToLower().Contains(lacn));
         }
 
         public Account GetAccountById(int accountId)
@@ -188,26 +189,26 @@ namespace Samba.Services.Implementations.AccountModule
             return Dao.Query<AccountType>().OrderBy(x => x.Order);
         }
 
-        public int CreateAccount(string accountName, int AccountTypeId)
+        public int CreateAccount(string accountName, int accountTypeId)
         {
-            if (AccountTypeId == 0 || string.IsNullOrEmpty(accountName)) return 0;
+            if (accountTypeId == 0 || string.IsNullOrEmpty(accountName)) return 0;
             if (Dao.Exists<Account>(x => x.Name == accountName)) return 0;
             using (var w = WorkspaceFactory.Create())
             {
-                var account = new Account { AccountTypeId = AccountTypeId, Name = accountName };
+                var account = new Account { AccountTypeId = accountTypeId, Name = accountName };
                 w.Add(account);
                 w.CommitChanges();
                 return account.Id;
             }
         }
 
-        public IEnumerable<Account> GetDocumentAccounts(AccountTransactionDocumentType DocumentType)
+        public IEnumerable<Account> GetDocumentAccounts(AccountTransactionDocumentType documentType)
         {
-            switch (DocumentType.Filter)
+            switch (documentType.Filter)
             {
-                case 1: return GetBalancedAccounts(DocumentType.MasterAccountTypeId);
-                case 2: return GetAccounts(DocumentType.AccountTransactionDocumentAccountMaps.Select(x => x.AccountId));
-                default: return GetAccounts(DocumentType.MasterAccountTypeId);
+                case 1: return GetBalancedAccounts(documentType.MasterAccountTypeId);
+                case 2: return GetAccounts(documentType.AccountTransactionDocumentAccountMaps.Select(x => x.AccountId));
+                default: return GetAccounts(documentType.MasterAccountTypeId);
             }
         }
 

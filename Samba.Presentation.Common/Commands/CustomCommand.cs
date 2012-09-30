@@ -2,7 +2,7 @@
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 
-namespace Samba.Presentation.Common
+namespace Samba.Presentation.Common.Commands
 {
     public class CustomCommand : DelegateCommand<object>, ICaptionCommand
     {

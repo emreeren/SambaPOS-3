@@ -5,6 +5,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using Samba.Presentation.Common;
+using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.Services;
 
 namespace Samba.Modules.NavigationModule

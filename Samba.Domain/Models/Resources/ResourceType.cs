@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Samba.Infrastructure.Data;
@@ -48,7 +49,7 @@ namespace Samba.Domain.Models.Resources
             if (string.IsNullOrEmpty(resource.Name)) return "";
 
             var result = AccountNameTemplate;
-            result = result.Replace("[Id]", resource.Id.ToString());
+            result = result.Replace("[Id]", resource.Id.ToString(CultureInfo.InvariantCulture));
             result = result.Replace("[Name]", resource.Name);
             while (Regex.IsMatch(result, "\\[([^\\]]+)\\]"))
             {

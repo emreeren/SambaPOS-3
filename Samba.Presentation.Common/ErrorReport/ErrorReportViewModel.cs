@@ -8,6 +8,7 @@ using System.Windows;
 using Microsoft.Win32;
 using Samba.Infrastructure.ExceptionReporter;
 using Samba.Localization.Properties;
+using Samba.Presentation.Common.Commands;
 
 namespace Samba.Presentation.Common.ErrorReport
 {

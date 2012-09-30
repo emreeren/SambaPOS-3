@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Practices.ServiceLocation;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
+using Samba.Presentation.Common.Commands;
 using Samba.Services;
 
 namespace Samba.Presentation.Common.ModelBase
