@@ -351,7 +351,7 @@ namespace Samba.Services.Implementations.TicketModule
         {
             ticket.SetTagValue(tagGroup.Name, ticketTag.Name);
 
-            if (tagGroup.SaveFreeTags)
+            if (tagGroup.FreeTagging && tagGroup.SaveFreeTags)
             {
                 SaveFreeTicketTag(tagGroup.Id, ticketTag.Name);
             }
@@ -414,7 +414,7 @@ namespace Samba.Services.Implementations.TicketModule
             {
                 var tt = workspace.Single<TicketTagGroup>(x => x.Id == id);
                 Debug.Assert(tt != null);
-                var tag = tt.TicketTags.SingleOrDefault(x => x.Name.ToLower() == freeTag.ToLower());
+                var tag = tt.TicketTags.FirstOrDefault(x => x.Name.ToLower() == freeTag.ToLower());
 
                 if (tag != null) return;
                 tag = new TicketTag { Name = freeTag };

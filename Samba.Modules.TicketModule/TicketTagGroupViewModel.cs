@@ -13,7 +13,7 @@ using Samba.Presentation.ViewModels;
 namespace Samba.Modules.TicketModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class TicketTagGroupViewModel : EntityViewModelBaseWithMap<TicketTagGroup,TicketTagMap,AbstractMapViewModel<TicketTagMap>>
+    public class TicketTagGroupViewModel : EntityViewModelBaseWithMap<TicketTagGroup, TicketTagMap, AbstractMapViewModel<TicketTagMap>>
     {
         private readonly IList<string> _tagTypes = new[] { Resources.Alphanumeric, Resources.Numeric, Resources.Price };
         public IList<string> DataTypes { get { return _tagTypes; } }
@@ -73,7 +73,6 @@ namespace Samba.Modules.TicketModule
         private void OnAddTicketTagExecuted(string obj)
         {
             var ti = new TicketTag { Name = Resources.NewTag };
-            Workspace.Add(ti);
             Model.TicketTags.Add(ti);
             TicketTags.Add(new TicketTagViewModel(ti));
         }
@@ -104,8 +103,11 @@ namespace Samba.Modules.TicketModule
                     return Resources.NumericTagsShouldBeNumbersErrorMessage;
                 }
             }
+            if (TicketTags.Count != TicketTags.GroupBy(x => x.Name).Count())
+                return "Ticket tag names should be unique";
             return base.GetSaveErrorMessage();
         }
+
         protected override void Initialize()
         {
             base.Initialize();
