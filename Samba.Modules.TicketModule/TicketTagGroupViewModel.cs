@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.Linq;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
-using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.ViewModels;
@@ -86,10 +86,10 @@ namespace Samba.Modules.TicketModule
                     var str = ticketTag.Model.Name;
 
                     if (Model.IsDecimal)
-                        str = Convert.ToDecimal(ticketTag.Model.Name).ToString();
+                        str = Convert.ToDecimal(ticketTag.Model.Name).ToString(CultureInfo.CurrentCulture);
 
                     if (Model.IsInteger)
-                        str = Convert.ToInt32(ticketTag.Model.Name).ToString();
+                        str = Convert.ToInt32(ticketTag.Model.Name).ToString(CultureInfo.CurrentCulture);
 
                     if (str != ticketTag.Model.Name)
                         return Resources.NumericTagsShouldBeNumbersErrorMessage;
@@ -103,8 +103,8 @@ namespace Samba.Modules.TicketModule
                     return Resources.NumericTagsShouldBeNumbersErrorMessage;
                 }
             }
-            if (TicketTags.Count != TicketTags.GroupBy(x => x.Name).Count())
-                return "Ticket tag names should be unique";
+            if (TicketTags.Count != TicketTags.GroupBy(x => x.Name.ToLower()).Count())
+                return Resources.TagsShouldBeUniqueErrorMessage;
             return base.GetSaveErrorMessage();
         }
 

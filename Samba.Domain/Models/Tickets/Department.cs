@@ -15,21 +15,10 @@ namespace Samba.Domain.Models.Tickets
         public int TicketCreationMethod { get; set; }
         public virtual TicketTemplate TicketTemplate { get; set; }
 
-        private readonly IList<ResourceScreen> _resourceScreens;
-        public virtual IList<ResourceScreen> ResourceScreens
-        {
-            get { return _resourceScreens; }
-        }
-
         private static Department _all;
         public static Department All { get { return _all ?? (_all = new Department { Name = "*" }); } }
 
         private static Department _default;
         public static Department Default { get { return _default ?? (_default = new Department { TicketTemplate = TicketTemplate.Default }); } }
-
-        public Department()
-        {
-            _resourceScreens = new List<ResourceScreen>();
-        }
     }
 }

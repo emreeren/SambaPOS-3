@@ -15,6 +15,7 @@ namespace Samba.Modules.ResourceModule
     public class ResourceSwitcherViewModel : ObservableObject
     {
         private readonly IRegionManager _regionManager;
+        private readonly ICacheService _cacheService;
         private readonly IApplicationState _applicationState;
         private readonly IApplicationStateSetter _applicationStateSetter;
         private readonly ResourceSelectorView _resourceSelectorView;
@@ -27,12 +28,13 @@ namespace Samba.Modules.ResourceModule
         private EntityOperationRequest<Resource> _currentOperationRequest;
 
         [ImportingConstructor]
-        public ResourceSwitcherViewModel(IRegionManager regionManager, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
+        public ResourceSwitcherViewModel(IRegionManager regionManager, ICacheService cacheService, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
             ResourceSelectorView resourceSelectorView, ResourceSelectorViewModel resourceSelectorViewModel,
             ResourceSearchView resourceSearchView, ResourceSearchViewModel resourceSearchViewModel,
             ResourceDashboardView resourceDashboardView, ResourceDashboardViewModel resourceDashboardViewModel)
         {
             _regionManager = regionManager;
+            _cacheService = cacheService;
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
             _resourceSelectorView = resourceSelectorView;
@@ -68,18 +70,19 @@ namespace Samba.Modules.ResourceModule
 
         private ResourceScreen UpdateResourceScreens(EntityOperationRequest<Resource> value)
         {
-            if (_applicationState.CurrentDepartment.ResourceScreens.Count == 0) return null;
-            _resourceScreens = _applicationState.CurrentDepartment.ResourceScreens.OrderBy(x => x.Order).ToList();
+            var resourceScreens = _cacheService.GetResourceScreens().ToList();
+            if (!resourceScreens.Any()) return null;
+            _resourceScreens = resourceScreens.OrderBy(x => x.Order).ToList();
             _resourceSwitcherButtons = null;
             var selectedScreen = _applicationState.SelectedResourceScreen;
             if (value != null && value.SelectedEntity != null && _applicationState.CurrentDepartment != null)
             {
                 if (_applicationState.IsLocked)
                     _resourceScreens = _resourceScreens.Where(x => x.ResourceTypeId == value.SelectedEntity.ResourceTypeId).OrderBy(x => x.Order);
-                if (_resourceScreens.Count() == 0)
-                    return _applicationState.CurrentDepartment.ResourceScreens.ElementAt(0);
+                if (!_resourceScreens.Any())
+                    return resourceScreens.ElementAt(0);
                 if (selectedScreen == null || selectedScreen.ResourceTypeId != value.SelectedEntity.ResourceTypeId)
-                    selectedScreen = _resourceScreens.Where(x => x.ResourceTypeId == value.SelectedEntity.ResourceTypeId).First();
+                    selectedScreen = _resourceScreens.First(x => x.ResourceTypeId == value.SelectedEntity.ResourceTypeId);
                 if (selectedScreen == null) selectedScreen = _resourceScreens.ElementAt(0);
             }
             return selectedScreen ?? ResourceScreens.ElementAt(0);
@@ -93,7 +96,7 @@ namespace Samba.Modules.ResourceModule
             get
             {
                 if (_applicationState.CurrentDepartment == null) return new List<ResourceScreen>();
-                return _resourceScreens ?? (_resourceScreens = _applicationState.CurrentDepartment.ResourceScreens.OrderBy(x => x.Order));
+                return _resourceScreens ?? (_resourceScreens = _cacheService.GetResourceScreens().OrderBy(x => x.Order));
             }
         }
 

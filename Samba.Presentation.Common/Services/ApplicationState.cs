@@ -153,10 +153,6 @@ namespace Samba.Presentation.Common.Services
             var did = CurrentDepartment.Id;
             CurrentDepartment = null;
             SetCurrentDepartment(did);
-
-            var rid = SelectedResourceScreen.Id;
-            if (CurrentDepartment != null)
-                SelectedResourceScreen = CurrentDepartment.ResourceScreens.Single(x => x.Id == rid);
         }
     }
 }

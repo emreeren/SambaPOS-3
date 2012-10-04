@@ -16,6 +16,12 @@ namespace Samba.Domain.Models.Resources
         public int ButtonHeight { get; set; }
         public int StateFilterId { get; set; }
 
+        private readonly IList<ResourceScreenMap> _resourceScreenMaps;
+        public virtual IList<ResourceScreenMap> ResourceScreenMaps
+        {
+            get { return _resourceScreenMaps; }
+        }
+
         private readonly IList<ResourceScreenItem> _screenItems;
         public virtual IList<ResourceScreenItem> ScreenItems
         {
@@ -37,6 +43,7 @@ namespace Samba.Domain.Models.Resources
 
         public ResourceScreen()
         {
+            _resourceScreenMaps = new List<ResourceScreenMap>();
             _screenItems = new List<ResourceScreenItem>();
             _widgets = new List<Widget>();
             BackgroundColor = "Transparent";

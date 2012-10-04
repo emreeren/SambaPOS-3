@@ -13,7 +13,7 @@ using Samba.Presentation.Common.Services;
 namespace Samba.Modules.ResourceModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class ResourceScreenViewModel : EntityViewModelBase<ResourceScreen>
+    public class ResourceScreenViewModel : EntityViewModelBaseWithMap<ResourceScreen, ResourceScreenMap, AbstractMapViewModel<ResourceScreenMap>>
     {
         public ICaptionCommand SelectScreenItemsCommand { get; set; }
 
@@ -88,6 +88,12 @@ namespace Samba.Modules.ResourceModule
         protected override AbstractValidator<ResourceScreen> GetValidator()
         {
             return new ResourceScreenValidator();
+        }
+
+        protected override void Initialize()
+        {
+            base.Initialize();
+            MapController = new MapController<ResourceScreenMap, AbstractMapViewModel<ResourceScreenMap>>(Model.ResourceScreenMaps, Workspace);
         }
     }
 

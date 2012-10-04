@@ -82,6 +82,7 @@
     <Compile Include="Models\Actions\AutomationCommandMap.cs" />
     <Compile Include="Models\Menus\ProductTimer.cs" />
     <Compile Include="Models\Menus\ProdcutTimerMap.cs" />
+    <Compile Include="Models\Resources\ResourceScreenMap.cs" />
     <Compile Include="Models\Settings\ForeignCurrency.cs" />
     <Compile Include="Models\Tickets\ChangePayment.cs" />
     <Compile Include="Models\Tickets\ChangePaymentType.cs" />

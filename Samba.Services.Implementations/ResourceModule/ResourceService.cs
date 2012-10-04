@@ -26,7 +26,6 @@ namespace Samba.Services.Implementations.ResourceModule
             ValidatorRegistry.RegisterDeleteValidator<Resource>(x => Dao.Exists<TicketResource>(y => y.ResourceId == x.Id), Resources.Resource, Resources.Ticket);
             ValidatorRegistry.RegisterDeleteValidator<ResourceType>(x => Dao.Exists<Resource>(y => y.ResourceTypeId == x.Id), Resources.ResourceType, Resources.Resource);
             ValidatorRegistry.RegisterDeleteValidator<ResourceScreenItem>(x => Dao.Exists<ResourceScreen>(y => y.ScreenItems.Any(z => z.Id == x.Id)), Resources.ResourceScreenItem, Resources.ResourceScreen);
-            ValidatorRegistry.RegisterDeleteValidator<ResourceScreen>(x => Dao.Exists<Department>(y => y.ResourceScreens.Any(z => z.Id == x.Id)), Resources.ResourceScreen, Resources.Department);
             ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<Resource>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.Resource)));
             ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<ResourceType>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.ResourceType)));
             ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<ResourceScreenItem>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.ResourceScreenItem)));

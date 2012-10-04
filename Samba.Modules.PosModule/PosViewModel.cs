@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.Regions;
@@ -223,7 +224,7 @@ namespace Samba.Modules.PosModule
 
             Debug.Assert(_applicationState.CurrentDepartment != null);
 
-            if (SelectedTicket != null || _applicationState.CurrentDepartment.ResourceScreens.Count == 0 || _applicationState.CurrentDepartment.TicketCreationMethod == 1)
+            if (SelectedTicket != null || !_cacheService.GetResourceScreens().Any() || _applicationState.CurrentDepartment.TicketCreationMethod == 1)
             {
                 DisplaySingleTicket();
                 return;
@@ -321,7 +322,7 @@ namespace Samba.Modules.PosModule
                 else EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
             }
             ExpectedAction = null;
-            AppServices.MessagingService.SendMessage(Messages.TicketRefreshMessage, result.TicketId.ToString());
+            AppServices.MessagingService.SendMessage(Messages.TicketRefreshMessage, result.TicketId.ToString(CultureInfo.InvariantCulture));
             _applicationStateSetter.SetApplicationLocked(false);
         }
 

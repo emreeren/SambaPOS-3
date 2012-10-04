@@ -72,7 +72,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType(ActionNames.CreateTicket, string.Format(Resources.Create_f, Resources.Ticket));
             AutomationService.RegisterActionType(ActionNames.DisplayTicket, Resources.DisplayTicket, new { TicketId = 0 });
             AutomationService.RegisterActionType(ActionNames.DisplayPaymentScreen, Resources.DisplayPaymentScreen);
-            AutomationService.RegisterActionType(ActionNames.CreateAccountTransactionDocument, string.Format(Resources.Create_f, Resources.AccountTransactionDocument), new { AccountTransactionDocumentName = "" });
+           
         }
 
         private static void RegisterRules()

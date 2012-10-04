@@ -405,6 +405,21 @@ namespace Samba.Services.Implementations
             return ScreenMenus.Single(x => x.Id == screenMenuId);
         }
 
+        private IEnumerable<ResourceScreen> _resourceScreens;
+        public IEnumerable<ResourceScreen> ResourceScreens
+        {
+            get { return _resourceScreens ?? (_resourceScreens = Dao.Query<ResourceScreen>(x => x.ResourceScreenMaps, x => x.ScreenItems, x => x.Widgets)); }
+        }
+
+        public IEnumerable<ResourceScreen> GetResourceScreens()
+        {
+            var maps = ResourceScreens.SelectMany(x => x.ResourceScreenMaps)
+               .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
+               .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
+               .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
+            return ResourceScreens.Where(x => maps.Any(y => y.ResourceScreenId == x.Id)).OrderBy(x => x.Order);
+        }
+
         public void ResetOrderTagCache()
         {
             _orderTagGroups = null;

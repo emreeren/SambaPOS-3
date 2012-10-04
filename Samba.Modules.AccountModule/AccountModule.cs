@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
+﻿using System.ComponentModel.Composition;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Regions;
 using Samba.Domain.Models.Accounts;
@@ -28,6 +26,7 @@ namespace Samba.Modules.AccountModule
 
         [ImportingConstructor]
         public AccountModule(IRegionManager regionManager,
+            IAutomationService automationService,
             IUserService userService,
             IAccountService accountService,
             AccountSelectorView accountSelectorView, AccountSelectorViewModel accountSelectorViewModel,
@@ -57,6 +56,9 @@ namespace Samba.Modules.AccountModule
             PermissionRegistry.RegisterPermission(PermissionNames.CreateAccount, PermissionCategories.Account, Resources.CanCreateAccount);
 
             SetNavigationCommand(Resources.Accounts, Resources.Common, "Images/Xls.png", 70);
+
+            automationService.RegisterActionType(ActionNames.CreateAccountTransactionDocument, string.Format(Resources.Create_f, Resources.AccountTransactionDocument), new { AccountTransactionDocumentName = "" });
+
         }
 
         protected override void OnInitialization()

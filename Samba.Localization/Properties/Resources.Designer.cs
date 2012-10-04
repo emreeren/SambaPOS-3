@@ -6147,6 +6147,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ticket tag names should be unique.
+        /// </summary>
+        public static string TagsShouldBeUniqueErrorMessage {
+            get {
+                return ResourceManager.GetString("TagsShouldBeUniqueErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tag Value.
         /// </summary>
         public static string TagValue {

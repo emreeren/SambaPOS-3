@@ -49,6 +49,7 @@ namespace Samba.Services
         PaymentType GetPaymentTypeById(int paymentTypeId);
         ChangePaymentType GetChangePaymentTypeById(int id);
         IEnumerable<ForeignCurrency> GetForeignCurrencies();
+        IEnumerable<ResourceScreen> GetResourceScreens();
 
         void ResetOrderTagCache();
         void ResetTicketTagCache();

@@ -112,7 +112,6 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<PrinterTemplate>().Property(x => x.Template).IsMaxLength();
             modelBuilder.Entity<TicketResource>().Property(x => x.ResourceCustomData).IsMaxLength();
 
-            modelBuilder.Entity<Department>().HasMany(p => p.ResourceScreens).WithMany();
             modelBuilder.Entity<ResourceScreen>().HasMany(p => p.ScreenItems).WithMany();
             modelBuilder.Entity<CalculationSelector>().HasMany(x => x.CalculationTypes).WithMany();
             modelBuilder.Entity<AccountTransactionDocumentType>().HasMany(x => x.TransactionTypes).WithMany();

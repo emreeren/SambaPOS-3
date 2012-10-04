@@ -423,16 +423,16 @@ namespace Samba.Services
             _workspace.Add(updateMergedTicket);
 
             ImportMenus(screen);
-            ImportTableResources(department, tableResourceType, availableState.Id);
+            ImportTableResources(tableResourceType, availableState.Id);
 
             var customerScreen = new ResourceScreen { Name = "Customer Search", DisplayMode = 2, ResourceTypeId = customerResourceType.Id };
+            customerScreen.ResourceScreenMaps.Add(new ResourceScreenMap());
             _workspace.Add(customerScreen);
 
             var customerTicketScreen = new ResourceScreen { Name = "Customer Tickets", DisplayMode = 0, ResourceTypeId = customerResourceType.Id, StateFilterId = newOrderState.Id, ColumnCount = 6, RowCount = 6 };
+            customerTicketScreen.ResourceScreenMaps.Add(new ResourceScreenMap());
             _workspace.Add(customerTicketScreen);
 
-            department.ResourceScreens.Add(customerScreen);
-            department.ResourceScreens.Add(customerTicketScreen);
 
             ImportItems(BatchCreateResources);
             ImportItems(BatchCreateTransactionTypes);
@@ -454,7 +454,7 @@ namespace Samba.Services
             _workspace.CommitChanges();
         }
 
-        private void ImportTableResources(Department department, ResourceType tableTemplate, int defaultStateId)
+        private void ImportTableResources(ResourceType tableTemplate, int defaultStateId)
         {
             var fileName = string.Format("{0}/Imports/table{1}.txt", LocalSettings.AppPath, "_" + LocalSettings.CurrentLanguage);
 
@@ -470,6 +470,7 @@ namespace Samba.Services
             _workspace.CommitChanges();
 
             var screen = new ResourceScreen { Name = "All Tables", ColumnCount = 7, ResourceTypeId = tableTemplate.Id };
+            screen.ResourceScreenMaps.Add(new ResourceScreenMap());
             _workspace.Add(screen);
 
             foreach (var resource in items)
@@ -481,8 +482,6 @@ namespace Samba.Services
             }
 
             _workspace.CommitChanges();
-
-            department.ResourceScreens.Add(screen);
         }
 
         private void ImportMenus(ScreenMenu screenMenu)

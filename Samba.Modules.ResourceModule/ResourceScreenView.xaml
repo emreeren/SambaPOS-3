@@ -1,86 +1,156 @@
 ﻿<UserControl x:Class="Samba.Modules.ResourceModule.ResourceScreenView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-     xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common" mc:Ignorable="d" d:DesignWidth="478">
+     xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common" mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Samba.Presentation.Common;component/Themes/OfficeTab.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="auto" />
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel Grid.Row="0" Margin="0,0,20,0">
-                <Label>
-                    <LocText ResourceIdentifierKey="Name" Suffix=":"/>
-                </Label>
-                <TextBox HorizontalAlignment="Left" MinWidth="250" Text="{Binding Name}" />
-                <Label>
-                    <LocText ResourceIdentifierKey="ResourceType" Suffix=":"/>
-                </Label>
-                <ComboBox HorizontalAlignment="Left" MinWidth="150" SelectedValue="{Binding ResourceTypeId}"
-                     ItemsSource="{Binding ResourceTypes}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
-                <Label>
-                    <LocText ResourceIdentifierKey="ResourceViewMode" Suffix=":"/>
-                </Label>
-                <ComboBox HorizontalAlignment="Left" MinWidth="150" SelectedItem="{Binding DisplayMode}"
-                     ItemsSource="{Binding DisplayModes}" />
-                <Label>
-                    <LocText ResourceIdentifierKey="BackgroundImage" Suffix=":"/>
-                </Label>
-                <TextBox HorizontalAlignment="Left" MinWidth="250" Text="{Binding BackgroundImage}" />
-                <Label>
-                    <LocText ResourceIdentifierKey="StateFilter" Suffix=":"/>
-                </Label>
-                <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="150" SelectedValue="{Binding StateFilterId}"
-                     ItemsSource="{Binding ResourceStates}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
-                <UniformGrid Columns="2" Margin="0,5,0,0">
-                    <Label Margin="0,5,0,0">
-                        <LocText ResourceIdentifierKey="ColumnCount" Suffix=":"/>
-                    </Label>
-                    <UIControls:FilteredTextBox Type="Digits" Margin="0,5,0,0" HorizontalAlignment="Left"
-                         MinWidth="50" Text="{Binding ColumnCount}" />
-                    <Label Margin="0,5,0,0">
-                        <LocText ResourceIdentifierKey="RowCount" Suffix=":"/>
-                    </Label>
-                    <UIControls:FilteredTextBox Type="Digits" Margin="0,5,0,0" HorizontalAlignment="Left"
-                         MinWidth="50" Text="{Binding RowCount}" />
-                    <Label Margin="0,5,0,0">
-                        <LocText ResourceIdentifierKey="ButtonHeight" Suffix=":"/>
-                    </Label>
-                    <UIControls:FilteredTextBox Type="Digits" Margin="0,5,0,0" HorizontalAlignment="Left"
-                         MinWidth="50" Text="{Binding ButtonHeight}" />
-                    <Label Margin="0,5,0,0">
-                        <LocText ResourceIdentifierKey=":PageCount" Suffix=":"/>
-                    </Label>
-                    <UIControls:FilteredTextBox Type="Digits" Margin="0,5,0,0" HorizontalAlignment="Left"
-                         MinWidth="50" Text="{Binding PageCount}" />
-                </UniformGrid>
-            </StackPanel>
-        </ScrollViewer>
-        <Grid Grid.Row="0" Margin="10,0,10,5" Grid.Column="1" Grid.RowSpan="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" Orientation="Horizontal">
-                <Label>
-                    <LocText ResourceIdentifierKey="Resourceses" Suffix=":"/>
-                </Label>
-                <TextBlock Margin="2,5">
+        <TabControl Grid.Row="0" HorizontalAlignment="Stretch" Template="{StaticResource OfficeTabControl}">
+            <TabItem Header="{LocText GeneralSettings}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Grid.Row="0" Margin="0,0,20,0">
+                        <Label>
+                            <LocText ResourceIdentifierKey="Name" Suffix=":"/>
+                        </Label>
+                        <TextBox HorizontalAlignment="Left" MinWidth="250" Text="{Binding Name}" />
+                        <Label>
+                            <LocText ResourceIdentifierKey="ResourceType" Suffix=":"/>
+                        </Label>
+                        <ComboBox HorizontalAlignment="Left" MinWidth="150" SelectedValue="{Binding ResourceTypeId}"
+                                ItemsSource="{Binding ResourceTypes}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
+                        <Label>
+                            <LocText ResourceIdentifierKey="ResourceViewMode" Suffix=":"/>
+                        </Label>
+                        <ComboBox HorizontalAlignment="Left" MinWidth="150" SelectedItem="{Binding DisplayMode}"
+                                ItemsSource="{Binding DisplayModes}" />
+                        <Label>
+                            <LocText ResourceIdentifierKey="BackgroundImage" Suffix=":"/>
+                        </Label>
+                        <TextBox HorizontalAlignment="Left" MinWidth="250" Text="{Binding BackgroundImage}" />
+                        <Label>
+                            <LocText ResourceIdentifierKey="StateFilter" Suffix=":"/>
+                        </Label>
+                        <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="150" SelectedValue="{Binding StateFilterId}"
+                                ItemsSource="{Binding ResourceStates}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
+                        <UniformGrid Columns="2" Margin="0,5,0,0">
+                            <Label Margin="0,5,0,0">
+                                <LocText ResourceIdentifierKey="ColumnCount" Suffix=":"/>
+                            </Label>
+                            <UIControls:FilteredTextBox Type="Digits" Margin="0,5,0,0" HorizontalAlignment="Left"
+                                    MinWidth="50" Text="{Binding ColumnCount}" />
+                            <Label Margin="0,5,0,0">
+                                <LocText ResourceIdentifierKey="RowCount" Suffix=":"/>
+                            </Label>
+                            <UIControls:FilteredTextBox Type="Digits" Margin="0,5,0,0" HorizontalAlignment="Left"
+                                    MinWidth="50" Text="{Binding RowCount}" />
+                            <Label Margin="0,5,0,0">
+                                <LocText ResourceIdentifierKey="ButtonHeight" Suffix=":"/>
+                            </Label>
+                            <UIControls:FilteredTextBox Type="Digits" Margin="0,5,0,0" HorizontalAlignment="Left"
+                                    MinWidth="50" Text="{Binding ButtonHeight}" />
+                            <Label Margin="0,5,0,0">
+                                <LocText ResourceIdentifierKey=":PageCount" Suffix=":"/>
+                            </Label>
+                            <UIControls:FilteredTextBox Type="Digits" Margin="0,5,0,0" HorizontalAlignment="Left"
+                                    MinWidth="50" Text="{Binding PageCount}" />
+                        </UniformGrid>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="{LocText List_f,FormatSegment1={LocText ScreenItem}}">
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <Label>
+                            <LocText ResourceIdentifierKey="Resourceses" Suffix=":"/>
+                        </Label>
+                        <TextBlock Margin="2,5">
                     <Hyperlink Command="{Binding SelectScreenItemsCommand}">
                         <TextBlock Text="{Binding Path=SelectScreenItemsCommand.Caption}" />
                     </Hyperlink>
                 </TextBlock>
-            </StackPanel>
-            <ListBox Grid.Row="1" ItemsSource="{Binding ResourceScreenItems,Mode=OneWay}" DisplayMemberPath="Name" MinHeight="150"
+                    </StackPanel>
+                    <ListBox Grid.Row="1" ItemsSource="{Binding ResourceScreenItems,Mode=OneWay}" DisplayMemberPath="Name" MinHeight="150"
                          MinWidth="150" BorderThickness="1" />
-        </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="{LocText Mappings}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <DockPanel Grid.Row="0">
+                        <Label>
+                            <LocText ResourceIdentifierKey="Mappings" Suffix=":"/>
+                        </Label>
+                        <TextBlock Margin="2,5">
+                            <Hyperlink Command="{Binding MapController.AddMapCommand}">
+                                <TextBlock Text="{Binding Path=MapController.AddMapCommand.Caption}" />
+                            </Hyperlink>
+                        </TextBlock>
+                        <TextBlock Margin="2,5">
+                            <Hyperlink Command="{Binding MapController.DeleteMapCommand}">
+                                <TextBlock Text="{Binding Path=MapController.DeleteMapCommand.Caption}" />
+                            </Hyperlink>
+                        </TextBlock>
+                    </DockPanel>
+
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding MapController.Maps}" SelectedItem="{Binding MapController.SelectedMap}" 
+                              HorizontalAlignment="Left" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3" MinWidth="300"
+                              AutoGenerateColumns="False" CanUserSortColumns="False" CanUserDeleteRows="False" CanUserAddRows="False"
+                              Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="{LocText UserRole}" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="3" Text="{Binding UserRoleName}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Grid FocusManager.FocusedElement="{Binding ElementName=cbUserRole}">
+                                            <ComboBox Name="cbUserRole"  HorizontalAlignment="Stretch" SelectedItem="{Binding UserRoleName, UpdateSourceTrigger=PropertyChanged}"
+                                                          ItemsSource="{Binding UserRoleNames}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{LocText Department}" Width="2*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="3" Text="{Binding DepartmentName}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Grid FocusManager.FocusedElement="{Binding ElementName=cbDepartment}">
+                                            <ComboBox Name="cbDepartment"  HorizontalAlignment="Stretch" SelectedItem="{Binding DepartmentName, UpdateSourceTrigger=PropertyChanged}" 
+                                                  ItemsSource="{Binding DepartmentNames}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+        </TabControl>
         <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
             <Button HorizontalAlignment="Left" Margin="0,10" MinWidth="70" Content="{Binding SaveCommand.Caption}"
-                 Command="{Binding SaveCommand}" />
+                            Command="{Binding SaveCommand}" />
             <Label Content="{Binding Error}" Foreground="Red" />
         </StackPanel>
     </Grid>
