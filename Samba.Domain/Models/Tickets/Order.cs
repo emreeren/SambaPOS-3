@@ -182,6 +182,7 @@ namespace Samba.Domain.Models.Tickets
                 OrderState = "";
                 OrderStateGroupName = "";
                 OrderStateGroupId = 0;
+                if (Quantity < 0) Quantity = 0 - Quantity;
                 if (orderStateGroup.UnlocksOrder && Id > 0) Locked = true;
                 return;
             }

@@ -229,9 +229,9 @@ namespace Samba.Presentation.ViewModels
 
                         if (qFilter != null)
                         {
-                            var account = Dao.Query(qFilter).FirstOrDefault();
-                            if (account != null)
-                                TicketService.UpdateResource(ticket, account);
+                            var resource = Dao.Query(qFilter).FirstOrDefault();
+                            if (resource != null)
+                                TicketService.UpdateResource(ticket, resource);
                         }
                         else TicketService.UpdateResource(ticket, Resource.Null);
                     }

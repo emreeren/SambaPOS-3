@@ -329,8 +329,9 @@ namespace Samba.Modules.PaymentModule
         private void ClosePaymentScreen()
         {
             OrderSelector.PersistTicket();
-
-            EventServiceFactory.EventService.PublishEvent(EventTopicNames.CloseTicketRequested);
+            EventServiceFactory.EventService.PublishEvent(SelectedTicket.RemainingAmount > 0
+                                                              ? EventTopicNames.RefreshSelectedTicket
+                                                              : EventTopicNames.CloseTicketRequested);
             TenderedAmount = "";
             ReturningAmount = "";
             ReturningAmountVisibility = Visibility.Collapsed;
