@@ -19,12 +19,6 @@ namespace Samba.Presentation.ViewModels
             _paymentButtons = new ObservableCollection<CommandButtonViewModel<PaymentType>>();
         }
 
-        private IEnumerable<PaymentType> _paymentTypes;
-        public IEnumerable<PaymentType> PaymentTypes
-        {
-            get { return _paymentTypes; }
-        }
-
         private readonly ObservableCollection<CommandButtonViewModel<PaymentType>> _paymentButtons;
         public ObservableCollection<CommandButtonViewModel<PaymentType>> PaymentButtons
         {
@@ -37,12 +31,11 @@ namespace Samba.Presentation.ViewModels
 
         public void UpdatePaymentButtons(IEnumerable<PaymentType> paymentTypes, ForeignCurrency foreignCurrency)
         {
-            _paymentTypes = paymentTypes;
             _paymentButtons.Clear();
-            _paymentButtons.AddRange(CreatePaymentButtons(foreignCurrency));
+            _paymentButtons.AddRange(CreatePaymentButtons(paymentTypes, foreignCurrency));
         }
 
-        private IEnumerable<CommandButtonViewModel<PaymentType>> CreatePaymentButtons(ForeignCurrency foreignCurrency)
+        private IEnumerable<CommandButtonViewModel<PaymentType>> CreatePaymentButtons(IEnumerable<PaymentType> paymentTypes, ForeignCurrency foreignCurrency)
         {
             var result = new List<CommandButtonViewModel<PaymentType>>();
             if (_settleCommand != null)
@@ -54,7 +47,7 @@ namespace Samba.Presentation.ViewModels
                 });
             }
 
-            var pts = foreignCurrency == null ? PaymentTypes.Where(x => x.Account == null || x.Account.ForeignCurrencyId == 0) : PaymentTypes.Where(x => x.Account != null && x.Account.ForeignCurrencyId == foreignCurrency.Id);
+            var pts = foreignCurrency == null ? paymentTypes.Where(x => x.Account == null || x.Account.ForeignCurrencyId == 0) : paymentTypes.Where(x => x.Account != null && x.Account.ForeignCurrencyId == foreignCurrency.Id);
             result.AddRange(pts
                 .OrderBy(x => x.Order)
                 .Select(x => new CommandButtonViewModel<PaymentType>

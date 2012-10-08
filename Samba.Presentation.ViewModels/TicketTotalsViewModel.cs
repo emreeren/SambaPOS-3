@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
@@ -16,11 +15,13 @@ namespace Samba.Presentation.ViewModels
     public class TicketTotalsViewModel : ObservableObject
     {
         private readonly ICacheService _cacheService;
+        private readonly IAccountService _accountService;
 
         [ImportingConstructor]
-        public TicketTotalsViewModel(ICacheService cacheService)
+        public TicketTotalsViewModel(ICacheService cacheService, IAccountService accountService)
         {
             _cacheService = cacheService;
+            _accountService = accountService;
             ResetCache();
             _model = Ticket.Empty;
         }
@@ -87,8 +88,8 @@ namespace Samba.Presentation.ViewModels
         public bool IsTicketChangePaymentVisible { get { return TicketChangePaymentValue > 0; } }
         public bool IsTicketRemainingVisible { get { return TicketRemainingValue > 0; } }
         public bool IsTicketTaxTotalVisible { get { return TicketTaxValue > 0; } }
-        public bool IsPlainTotalVisible { get { return PostServicesList.Count() > 0 || PreServicesList.Count() > 0 || IsTicketTaxTotalVisible; } }
-        public bool IsTicketSubTotalVisible { get { return PostServicesList.Count() > 0 && PreServicesList.Count() > 0; } }
+        public bool IsPlainTotalVisible { get { return PostServicesList.Any() || PreServicesList.Any() || IsTicketTaxTotalVisible; } }
+        public bool IsTicketSubTotalVisible { get { return PostServicesList.Any() && PreServicesList.Any(); } }
 
         public string TicketPlainTotalLabel { get { return TicketPlainTotalValue.ToString(LocalSettings.DefaultCurrencyFormat); } }
         public string TicketTotalLabel { get { return TicketTotalValue.ToString(LocalSettings.DefaultCurrencyFormat); } }
@@ -108,7 +109,18 @@ namespace Samba.Presentation.ViewModels
                 foreach (var ticketResource in Model.TicketResources)
                 {
                     var rs = _cacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
-                    sb.AppendLine(string.Format("{0}: {1}", rs.EntityName, ticketResource.ResourceName));
+                    var resourceName = ticketResource.ResourceName;
+                    if (ticketResource.AccountId > 0)
+                    {
+                        var resourceType = _cacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
+                        if (_cacheService.GetPaymentScreenPaymentTypes().Any(x => x.AccountTransactionType.TargetAccountTypeId == resourceType.AccountTypeId))
+                        {
+                            var balance = _accountService.GetAccountBalance(ticketResource.AccountId);
+                            if (balance != 0)
+                                resourceName = resourceName + " [" + balance.ToString(LocalSettings.DefaultCurrencyFormat) + "]";
+                        }
+                    }
+                    sb.AppendLine(string.Format("{0}: {1}", rs.EntityName, resourceName));
                 }
                 var selectedTicketTitle = sb.ToString().Trim(new[] { '\r', '\n' });
 
