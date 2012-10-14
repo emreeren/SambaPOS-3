@@ -12,5 +12,13 @@
         public const string TicketPaymentRegion = "TicketPaymentRegion";
         public const string ResourceScreenRegion = "ResourceScreenRegion";
         public const string TicketTotalsRegion = "TicketTotalsRegion";
+
+        public const string PaymentOrderSelectorRegion = "PaymentOrderSelectorRegion";
+        public const string PaymentNumberPadRegion = "PaymentNumberPadRegion";
+        public const string PaymentForeignCurrencyRegion = "PaymentForeignCurrencyRegion";
+        public const string PaymentButtonsRegion = "PaymentButtonsRegion";
+        public const string PaymentCommandButtonsRegion = "PaymentCommandButtonsRegion";
+        public const string PaymentTotalsRegion = "PaymentTotalsRegion";
+        public const string PaymentTenderedValueRegion = "PaymentTenderedValueRegion";
     }
 }

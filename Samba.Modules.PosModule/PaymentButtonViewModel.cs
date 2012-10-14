@@ -31,7 +31,7 @@ namespace Samba.Modules.PosModule
 
                 if (SelectedDepartment != null && _selectedTicket != Ticket.Empty)
                 {
-                    PaymentButtonGroup.UpdatePaymentButtons(_cacheService.GetUnderTicketPaymentTypes(), null);
+                    PaymentButtonGroup.Update(_cacheService.GetUnderTicketPaymentTypes(), null);
                 }
                 RaisePropertyChanged(() => PaymentButtonGroup);
                 RaisePropertyChanged(() => SelectedTicket);
@@ -49,7 +49,8 @@ namespace Samba.Modules.PosModule
             MakePaymentCommand = new CaptionCommand<string>(Resources.Settle, OnMakePaymentExecute, CanMakePayment);
             MakeFastPaymentCommand = new CaptionCommand<PaymentType>("[FastPayment]", OnMakeFastPaymentExecute, CanMakeFastPayment);
 
-            PaymentButtonGroup = new PaymentButtonGroupViewModel(MakeFastPaymentCommand, MakePaymentCommand, CloseTicketCommand);
+            PaymentButtonGroup = new PaymentButtonGroupViewModel();
+            PaymentButtonGroup.SetButtonCommands(MakeFastPaymentCommand, MakePaymentCommand, CloseTicketCommand);
             SelectedTicket = Ticket.Empty;
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<Department>>().Subscribe(OnDepartmentChanged);
@@ -57,7 +58,7 @@ namespace Samba.Modules.PosModule
 
         private void OnDepartmentChanged(EventParameters<Department> obj)
         {
-            PaymentButtonGroup.UpdatePaymentButtons(_cacheService.GetUnderTicketPaymentTypes(), null);
+            PaymentButtonGroup.Update(_cacheService.GetUnderTicketPaymentTypes(), null);
             RaisePropertyChanged(() => PaymentButtonGroup);
         }
 

@@ -43,6 +43,21 @@ namespace Samba.Services.Implementations.AccountModule
             }
         }
 
+        public void CreateAccountTransaction(Account sourceAccount, Account targetAccount, decimal amount, decimal exchangeRate)
+        {
+            var transactionType = _cacheService.FindAccountTransactionType(sourceAccount.AccountTypeId, targetAccount.AccountTypeId);
+            if (transactionType != null)
+            {
+                using (var w = WorkspaceFactory.Create())
+                {
+                    var doc = new AccountTransactionDocument();
+                    w.Add(doc);
+                    doc.AddNewTransaction(transactionType, sourceAccount.AccountTypeId, sourceAccount.Id, targetAccount, amount, exchangeRate);
+                    w.CommitChanges();
+                }
+            }
+        }
+
         public decimal GetAccountBalance(int accountId)
         {
             return Dao.Sum<AccountTransactionValue>(x => x.Debit - x.Credit, x => x.AccountId == accountId);
@@ -125,14 +140,14 @@ namespace Samba.Services.Implementations.AccountModule
 
         public string GetAccountNameById(int accountId)
         {
-            return Dao.Exists<Account>(x => x.Id == accountId) 
+            return Dao.Exists<Account>(x => x.Id == accountId)
                 ? Dao.Select<Account, string>(x => x.Name, x => x.Id == accountId).First() : "";
         }
 
         public int GetAccountIdByName(string accountName)
         {
             var acName = accountName.ToLower();
-            return Dao.Exists<Account>(x => x.Name.ToLower() == acName) 
+            return Dao.Exists<Account>(x => x.Name.ToLower() == acName)
                 ? Dao.Select<Account, int>(x => x.Id, x => x.Name.ToLower() == acName).FirstOrDefault() : 0;
         }
 
@@ -230,7 +245,7 @@ namespace Samba.Services.Implementations.AccountModule
 
         public override void Reset()
         {
-            
+
         }
     }
 

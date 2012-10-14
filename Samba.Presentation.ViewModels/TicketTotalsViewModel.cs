@@ -15,13 +15,11 @@ namespace Samba.Presentation.ViewModels
     public class TicketTotalsViewModel : ObservableObject
     {
         private readonly ICacheService _cacheService;
-        private readonly IAccountService _accountService;
 
         [ImportingConstructor]
-        public TicketTotalsViewModel(ICacheService cacheService, IAccountService accountService)
+        public TicketTotalsViewModel(ICacheService cacheService)
         {
             _cacheService = cacheService;
-            _accountService = accountService;
             ResetCache();
             _model = Ticket.Empty;
         }
@@ -110,16 +108,6 @@ namespace Samba.Presentation.ViewModels
                 {
                     var rs = _cacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
                     var resourceName = ticketResource.ResourceName;
-                    if (ticketResource.AccountId > 0)
-                    {
-                        var resourceType = _cacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
-                        if (_cacheService.GetPaymentScreenPaymentTypes().Any(x => x.AccountTransactionType.TargetAccountTypeId == resourceType.AccountTypeId))
-                        {
-                            var balance = _accountService.GetAccountBalance(ticketResource.AccountId);
-                            if (balance != 0)
-                                resourceName = resourceName + " [" + balance.ToString(LocalSettings.DefaultCurrencyFormat) + "]";
-                        }
-                    }
                     sb.AppendLine(string.Format("{0}: {1}", rs.EntityName, resourceName));
                 }
                 var selectedTicketTitle = sb.ToString().Trim(new[] { '\r', '\n' });

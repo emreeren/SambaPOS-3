@@ -62,9 +62,11 @@
             <FxButton:FlexButton Grid.Column="2" Grid.Row="3" Command="{Binding SetValueCommand}"
                          CommandParameter="" Margin="2" ButtonColor="Black">C</FxButton:FlexButton>
         </Grid>
-        <UniformGrid Grid.Column="2" Rows="6">
+        <UniformGrid Grid.Column="2" Rows="7">
             <FxButton:FlexButton Margin="2" ButtonColor="Purple" Command="{Binding TenderAllCommand}"
                          Content="{Binding TenderAllCommand.Caption}" />
+            <FxButton:FlexButton Margin="2" ButtonColor="Purple" Command="{Binding TenderAllBalanceCommand}"
+                         Content="{Binding TenderAllBalanceCommand.Caption}" />
             <FxButton:FlexButton Margin="2" ButtonColor="RoyalBlue" Command="{Binding DivideValueCommand}"
                          CommandParameter="2" Foreground="WhiteSmoke">1/2</FxButton:FlexButton>
             <FxButton:FlexButton Margin="2" ButtonColor="RoyalBlue" Command="{Binding DivideValueCommand}"

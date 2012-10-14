@@ -16,14 +16,14 @@ using System.Windows.Shapes;
 namespace Samba.Modules.PaymentModule
 {
     /// <summary>
-    /// Interaction logic for NumberPadView.xaml
+    /// Interaction logic for TenderedValueView.xaml
     /// </summary>
     
     [Export]
-    public partial class NumberPadView : UserControl
+    public partial class TenderedValueView : UserControl
     {
         [ImportingConstructor]
-        public NumberPadView(NumberPadViewModel viewModel)
+        public TenderedValueView(TenderedValueViewModel viewModel)
         {
             DataContext = viewModel;
             InitializeComponent();

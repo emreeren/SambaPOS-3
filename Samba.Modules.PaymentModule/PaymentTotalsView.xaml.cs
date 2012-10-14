@@ -12,18 +12,19 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Samba.Presentation.ViewModels;
 
 namespace Samba.Modules.PaymentModule
 {
     /// <summary>
-    /// Interaction logic for NumberPadView.xaml
+    /// Interaction logic for PaymentTotalsView.xaml
     /// </summary>
-    
+
     [Export]
-    public partial class NumberPadView : UserControl
+    public partial class PaymentTotalsView : UserControl
     {
         [ImportingConstructor]
-        public NumberPadView(NumberPadViewModel viewModel)
+        public PaymentTotalsView(TicketTotalsViewModel viewModel)
         {
             DataContext = viewModel;
             InitializeComponent();

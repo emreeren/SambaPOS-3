@@ -420,6 +420,12 @@ namespace Samba.Services.Implementations
             return ResourceScreens.Where(x => maps.Any(y => y.ResourceScreenId == x.Id)).OrderBy(x => x.Order);
         }
 
+        public AccountTransactionType FindAccountTransactionType(int sourceAccountTypeId, int targetAccountTypeId)
+        {
+            return AccountTransactionTypes.FirstOrDefault(x => x.SourceAccountTypeId == sourceAccountTypeId &&
+                                                          x.TargetAccountTypeId == targetAccountTypeId);
+        }
+
         public void ResetOrderTagCache()
         {
             _orderTagGroups = null;

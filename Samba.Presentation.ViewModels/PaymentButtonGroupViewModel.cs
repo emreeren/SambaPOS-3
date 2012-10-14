@@ -11,11 +11,8 @@ namespace Samba.Presentation.ViewModels
 {
     public class PaymentButtonGroupViewModel : ObservableObject
     {
-        public PaymentButtonGroupViewModel(ICaptionCommand makePaymentCommand, ICaptionCommand settleCommand, ICaptionCommand closeCommand)
+        public PaymentButtonGroupViewModel()
         {
-            _makePaymentCommand = makePaymentCommand;
-            _settleCommand = settleCommand;
-            _closeCommand = closeCommand;
             _paymentButtons = new ObservableCollection<CommandButtonViewModel<PaymentType>>();
         }
 
@@ -25,11 +22,18 @@ namespace Samba.Presentation.ViewModels
             get { return _paymentButtons; }
         }
 
-        private readonly ICaptionCommand _makePaymentCommand;
-        private readonly ICaptionCommand _settleCommand;
-        private readonly ICaptionCommand _closeCommand;
+        private ICaptionCommand _makePaymentCommand;
+        private ICaptionCommand _settleCommand;
+        private ICaptionCommand _closeCommand;
 
-        public void UpdatePaymentButtons(IEnumerable<PaymentType> paymentTypes, ForeignCurrency foreignCurrency)
+        public void SetButtonCommands(ICaptionCommand makePaymentCommand, ICaptionCommand settleCommand, ICaptionCommand closeCommand)
+        {
+            _makePaymentCommand = makePaymentCommand;
+            _settleCommand = settleCommand;
+            _closeCommand = closeCommand;
+        }
+
+        public void Update(IEnumerable<PaymentType> paymentTypes, ForeignCurrency foreignCurrency)
         {
             _paymentButtons.Clear();
             _paymentButtons.AddRange(CreatePaymentButtons(paymentTypes, foreignCurrency));

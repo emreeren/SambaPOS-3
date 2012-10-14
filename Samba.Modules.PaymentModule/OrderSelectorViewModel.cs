@@ -1,22 +1,27 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
 using System.Linq;
-using System.Windows;
 using Microsoft.Practices.Prism.Commands;
 using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Common;
+using Samba.Services;
 
 namespace Samba.Modules.PaymentModule
 {
+    [Export]
     public class OrderSelectorViewModel : ObservableObject
     {
-        private readonly NumberPadViewModel _numberPadViewModel;
+        private readonly TenderedValueViewModel _tenderedValueViewModel;
+        private readonly IApplicationStateSetter _applicationStateSetter;
 
-        public OrderSelectorViewModel(OrderSelector model, NumberPadViewModel numberPadViewModel)
+        [ImportingConstructor]
+        public OrderSelectorViewModel(TenderedValueViewModel tenderedValueViewModel,IApplicationStateSetter applicationStateSetter)
         {
-            _numberPadViewModel = numberPadViewModel;
-            Model = model;
+            _tenderedValueViewModel = tenderedValueViewModel;
+            _applicationStateSetter = applicationStateSetter;
+            Model = new OrderSelector();
             Selectors = new ObservableCollection<SelectorViewModel>();
             SelectMergedItemCommand = new DelegateCommand<SelectorViewModel>(OnMergedItemSelected);
         }
@@ -31,6 +36,7 @@ namespace Samba.Modules.PaymentModule
 
         public void UpdateTicket(Ticket ticket)
         {
+            _applicationStateSetter.SetLastPaidItems(GetSelectedItems());
             Model.UpdateTicket(ticket);
             Selectors.Clear();
             Selectors.AddRange(Model.Selectors.Select(x => new SelectorViewModel(x)));
@@ -39,6 +45,7 @@ namespace Samba.Modules.PaymentModule
 
         public void PersistSelectedItems()
         {
+            _applicationStateSetter.SetLastPaidItems(GetSelectedItems());
             Model.PersistSelectedItems();
             Refresh();
         }
@@ -78,9 +85,8 @@ namespace Samba.Modules.PaymentModule
             var remaining = decimal.Round(Model.GetRemainingAmount() / Model.ExchangeRate, 2);
             if (Math.Abs(remaining - paymentAmount) <= 0.01m)
                 paymentAmount = remaining;
-            _numberPadViewModel.PaymentDueAmount = paymentAmount.ToString("#,#0.00");
-            _numberPadViewModel.TenderedAmount = "";
-            _numberPadViewModel.ResetAmount = true;
+            _tenderedValueViewModel.PaymentDueAmount = paymentAmount.ToString("#,#0.00");
+            _tenderedValueViewModel.TenderedAmount = "";
         }
 
         public IEnumerable<PaidItem> GetSelectedItems()

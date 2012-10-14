@@ -1,0 +1,80 @@
+﻿<UserControl x:Class="Samba.Modules.PaymentModule.OrderSelectorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common"
+             xmlns:ComponentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase" mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <CollectionViewSource Source="{Binding Selectors}" x:Key="cvs">
+            <CollectionViewSource.SortDescriptions>
+                <ComponentModel:SortDescription PropertyName="Description" />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+    </UserControl.Resources>
+    
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="3" UIControls:KineticBehaviour.HandleKineticScrolling="True">
+        <ItemsControl ItemsSource="{Binding Source={StaticResource cvs}}" HorizontalContentAlignment="Stretch"
+                     BorderBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" 
+                     Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}"
+                     BorderThickness="1">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <DataTemplate.Resources>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                                    <Setter Property="FontWeight" Value="Bold" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                        <Storyboard x:Key="ButtonClick">
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
+                                         Storyboard.TargetName="border">
+                                <EasingColorKeyFrame KeyTime="0" Value="Silver" />
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Key="Release">
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
+                                         Storyboard.TargetName="border">
+                                <EasingColorKeyFrame KeyTime="0" Value="Silver" />
+                                <EasingColorKeyFrame KeyTime="0:0:0.5" Value="Transparent" />
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </DataTemplate.Resources>
+                    <Button MinHeight="45" x:Name="button" Style="{StaticResource ItemsControlButtonStyle}"
+                                 Command="{Binding DataContext.SelectMergedItemCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}, Mode=FindAncestor}}"
+                                 CommandParameter="{Binding}">
+                        <Border x:Name="border" BorderThickness="0,0,0,1" BorderBrush="Silver" Background="Transparent">
+                            <Grid VerticalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Padding="1" FontSize="20" Grid.Column="0"
+                                             Text="{Binding Quantity}" Margin="3,3,6,3" />
+                                <TextBlock Padding="1" FontSize="20" Grid.Column="1"
+                                             Text="{Binding Description}" Margin="3" />
+                                <TextBlock Padding="1" FontSize="20" Grid.Column="2"
+                                             Text="{Binding Total}" Margin="3" HorizontalAlignment="Right" />
+                            </Grid>
+                        </Border>
+                    </Button>
+                    <DataTemplate.Triggers>
+                        <Trigger Property="IsPressed" Value="True" SourceName="button">
+                            <Trigger.ExitActions>
+                                <BeginStoryboard x:Name="Release_BeginStoryboard" Storyboard="{StaticResource Release}" />
+                            </Trigger.ExitActions>
+                            <Trigger.EnterActions>
+                                <BeginStoryboard Storyboard="{StaticResource ButtonClick}" />
+                            </Trigger.EnterActions>
+                        </Trigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </ScrollViewer>
+
+</UserControl>

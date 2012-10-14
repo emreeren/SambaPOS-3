@@ -42,5 +42,6 @@ namespace Samba.Services
         IEnumerable<Account> GetDocumentAccounts(AccountTransactionDocumentType documentType);
         void CreateBatchAccountTransactionDocument(string documentName);
         void CreateTransactionDocument(Account account, AccountTransactionDocumentType documentType, string description, decimal amount, IEnumerable<Account> accounts);
+        void CreateAccountTransaction(Account sourceAccount, Account targetAccount, decimal amount, decimal exchangeRate);
     }
 }

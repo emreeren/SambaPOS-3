@@ -1,25 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Windows;
 using Microsoft.Practices.Prism.Commands;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
+using Samba.Presentation.ViewModels;
 
 namespace Samba.Modules.PaymentModule
 {
+    [Export]
     public class NumberPadViewModel : ObservableObject
     {
-        private decimal _exchangeRate;
-        private string _paymentDueAmount;
+        private readonly PaymentEditor _paymentEditor;
+        private readonly TenderedValueViewModel _tenderedValueViewModel;
+        private readonly OrderSelectorViewModel _orderSelectorViewModel;
+        private readonly AccountBalances _accountBalances;
+        private readonly ForeignCurrencyButtonsViewModel _foreignCurrencyButtonsViewModel;
+        private readonly TicketTotalsViewModel _paymentTotals;
 
-        public NumberPadViewModel()
+        [ImportingConstructor]
+        public NumberPadViewModel(PaymentEditor paymentEditor, TenderedValueViewModel tenderedValueViewModel,
+            OrderSelectorViewModel orderSelectorViewModel, AccountBalances accountBalances,
+            ForeignCurrencyButtonsViewModel foreignCurrencyButtonsViewModel,TicketTotalsViewModel paymentTotals)
         {
-            _exchangeRate = 1;
+            _paymentEditor = paymentEditor;
+            _tenderedValueViewModel = tenderedValueViewModel;
+            _orderSelectorViewModel = orderSelectorViewModel;
+            _accountBalances = accountBalances;
+            _foreignCurrencyButtonsViewModel = foreignCurrencyButtonsViewModel;
+            _paymentTotals = paymentTotals;
             TenderAllCommand = new CaptionCommand<string>(Resources.All, OnTenderAllCommand);
+            TenderAllBalanceCommand = new CaptionCommand<string>(Resources.Balance, OnTenderAllBalanceCommand);
             TypeValueCommand = new DelegateCommand<string>(OnTypeValueExecuted);
             SetValueCommand = new DelegateCommand<string>(OnSetValue);
             DivideValueCommand = new DelegateCommand<string>(OnDivideValue);
@@ -32,35 +44,7 @@ namespace Samba.Modules.PaymentModule
             if (handler != null) handler(this, EventArgs.Empty);
         }
 
-        public event EventHandler ResetValue;
-        private void OnResetValue()
-        {
-            EventHandler handler = ResetValue;
-            if (handler != null) handler(this, EventArgs.Empty);
-        }
-
-        public event EventHandler PaymentDueChanged;
-        public void OnPaymentDueChanged()
-        {
-            EventHandler handler = PaymentDueChanged;
-            if (handler != null) handler(this, EventArgs.Empty);
-        }
-
         public bool ResetAmount { get; set; }
-        public string TenderedAmount { get; set; }
-
-        public string PaymentDueAmount
-        {
-            get { return _paymentDueAmount; }
-            set
-            {
-                if (_paymentDueAmount != value)
-                {
-                    _paymentDueAmount = value;
-                    OnPaymentDueChanged();
-                }
-            }
-        }
 
         private string _lastTenderedAmount;
         public string LastTenderedAmount
@@ -70,47 +54,46 @@ namespace Samba.Modules.PaymentModule
         }
 
         public CaptionCommand<string> TenderAllCommand { get; set; }
+        public CaptionCommand<string> TenderAllBalanceCommand { get; set; }
         public DelegateCommand<string> TypeValueCommand { get; set; }
         public DelegateCommand<string> SetValueCommand { get; set; }
         public DelegateCommand<string> DivideValueCommand { get; set; }
 
-        private decimal GetTenderedValue()
+        private void OnTenderAllBalanceCommand(string obj)
         {
-            decimal result;
-            decimal.TryParse(TenderedAmount, out result);
-            return decimal.Round(result * _exchangeRate, 2);
-        }
-
-        private decimal GetPaymentDueValue()
-        {
-            decimal result;
-            decimal.TryParse(PaymentDueAmount, out result);
-            return decimal.Round(result * _exchangeRate, 2);
+            ResetValues();
+            _orderSelectorViewModel.ClearSelection();
+            var remaining = _paymentEditor.GetRemainingAmount();
+            var accountBalance = _accountBalances.GetActiveAccountBalance();
+            var paymentDue = (remaining + accountBalance) / _paymentEditor.ExchangeRate;
+            _tenderedValueViewModel.PaymentDueAmount = paymentDue.ToString("#,#0.00");
+            _tenderedValueViewModel.TenderedAmount = _tenderedValueViewModel.PaymentDueAmount;
+            _foreignCurrencyButtonsViewModel.UpdateCurrencyButtons();
         }
 
         private void OnTenderAllCommand(string obj)
         {
-            TenderedAmount = PaymentDueAmount;
+            _tenderedValueViewModel.TenderedAmount = _tenderedValueViewModel.PaymentDueAmount;
             ResetAmount = true;
             OnTypedValueChanged();
         }
 
         private void OnDivideValue(string obj)
         {
-            decimal tenderedValue = GetTenderedValue();
+            decimal tenderedValue = _tenderedValueViewModel.GetTenderedValue();
             ResetAmount = true;
             string dc = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
             obj = obj.Replace(",", dc);
             obj = obj.Replace(".", dc);
 
             decimal value = Convert.ToDecimal(obj);
-            var remainingTicketAmount = GetPaymentDueValue() / _exchangeRate;
+            var remainingTicketAmount = _tenderedValueViewModel.GetPaymentDueValue() / _paymentEditor.ExchangeRate;
 
             if (value > 0)
             {
                 var amount = remainingTicketAmount / value;
                 if (amount > remainingTicketAmount) amount = remainingTicketAmount;
-                TenderedAmount = amount.ToString("#,#0.00");
+                _tenderedValueViewModel.TenderedAmount = amount.ToString("#,#0.00");
             }
             else
             {
@@ -119,7 +102,7 @@ namespace Samba.Modules.PaymentModule
                 {
                     var amount = remainingTicketAmount / value;
                     if (amount > remainingTicketAmount) amount = remainingTicketAmount;
-                    TenderedAmount = (amount).ToString("#,#0.00");
+                    _tenderedValueViewModel.TenderedAmount = (amount).ToString("#,#0.00");
                 }
             }
             OnTypedValueChanged();
@@ -130,33 +113,41 @@ namespace Samba.Modules.PaymentModule
             ResetAmount = true;
             if (string.IsNullOrEmpty(obj))
             {
-                TenderedAmount = "";
-                PaymentDueAmount = "";
-                OnResetValue();
+                _orderSelectorViewModel.ClearSelection();
+                ResetValues();
                 return;
             }
 
             var value = Convert.ToDecimal(obj);
-            if (string.IsNullOrEmpty(TenderedAmount))
-                TenderedAmount = "0";
-            var tenderedValue = Convert.ToDecimal(TenderedAmount.Replace(
+            if (string.IsNullOrEmpty(_tenderedValueViewModel.TenderedAmount))
+                _tenderedValueViewModel.TenderedAmount = "0";
+            var tenderedValue = Convert.ToDecimal(_tenderedValueViewModel.TenderedAmount.Replace(
                 CultureInfo.CurrentCulture.NumberFormat.NumberGroupSeparator, ""));
             tenderedValue += value;
-            TenderedAmount = tenderedValue.ToString("#,#0.00");
+            _tenderedValueViewModel.TenderedAmount = tenderedValue.ToString("#,#0.00");
             OnTypedValueChanged();
         }
 
         private void OnTypeValueExecuted(string obj)
         {
-            if (ResetAmount) TenderedAmount = "";
+            if (ResetAmount) _tenderedValueViewModel.TenderedAmount = "";
             ResetAmount = false;
-            TenderedAmount = Helpers.AddTypedValue(TenderedAmount, obj, "#,#0.");
+            _tenderedValueViewModel.TenderedAmount = Helpers.AddTypedValue(_tenderedValueViewModel.TenderedAmount, obj, "#,#0.");
             OnTypedValueChanged();
         }
 
-        public void UpdateExchangeRate(decimal exchangeRate)
+        public void ResetValues()
         {
-            _exchangeRate = exchangeRate;
+            _paymentEditor.UpdateCalculations();
+
+            if (_tenderedValueViewModel.GetPaymentDueValue() <= 0)
+                _tenderedValueViewModel.UpdatePaymentAmount(0);
+
+            _paymentTotals.ResetCache();
+            _paymentTotals.Refresh();
+            _accountBalances.Refresh();
+            _tenderedValueViewModel.TenderedAmount = "";
         }
+
     }
 }
