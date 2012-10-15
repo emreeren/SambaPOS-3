@@ -51,11 +51,14 @@ namespace Samba.Modules.PaymentModule
             }
         }
 
+        public bool AccountMode { get; set; }
         public decimal ExchangeRate { get; set; }
 
         public decimal GetRemainingAmount()
         {
-            return SelectedTicket.GetRemainingAmount();
+            return AccountMode
+                       ? SelectedTicket.GetRemainingAmount() + _accountBalances.GetActiveAccountBalance()
+                       : SelectedTicket.GetRemainingAmount();
         }
 
         public IEnumerable<ForeignCurrency> GetForeignCurrencies()
@@ -67,25 +70,31 @@ namespace Samba.Modules.PaymentModule
         {
             var paymentAccount = paymentType.Account ?? GetAccountForTransaction(paymentType, SelectedTicket.TicketResources);
 
-            if (paymentDueAmount > GetRemainingAmount())
+            if (paymentDueAmount > SelectedTicket.GetRemainingAmount() && tenderedAmount > SelectedTicket.GetRemainingAmount())
             {
                 var account = _accountBalances.GetActiveAccount();
                 if (account != null)
                 {
-                    var accountAmount = tenderedAmount - GetRemainingAmount();
-                    _accountService.CreateAccountTransaction(account, paymentAccount, accountAmount, ExchangeRate);
+                    var ticketAmount = SelectedTicket.GetRemainingAmount();
+                    var accountAmount = tenderedAmount - ticketAmount;
+                    if (ticketAmount > 0)
+                        _ticketService.AddPayment(SelectedTicket, paymentType, paymentAccount, ticketAmount);
+                    if (accountAmount > 0)
+                        _accountService.CreateAccountTransaction(account, paymentAccount, accountAmount, ExchangeRate);
                 }
-                tenderedAmount = GetRemainingAmount();
-                paymentDueAmount = tenderedAmount;
+                _accountBalances.Refresh();
             }
-
-            _ticketService.AddPayment(SelectedTicket, paymentType, paymentAccount, tenderedAmount);
-
-            if (tenderedAmount > paymentDueAmount && changeTemplate != null)
+            else
             {
-                _ticketService.AddChangePayment(SelectedTicket, changeTemplate, changeTemplate.Account,
-                                                tenderedAmount - paymentDueAmount);
+                _ticketService.AddPayment(SelectedTicket, paymentType, paymentAccount, tenderedAmount);
+                if (tenderedAmount > paymentDueAmount && changeTemplate != null)
+                {
+                    _ticketService.AddChangePayment(SelectedTicket, changeTemplate, changeTemplate.Account,
+                                                    tenderedAmount - paymentDueAmount);
+                }
             }
+
+
         }
 
         private Account GetAccountForTransaction(PaymentType paymentType, IEnumerable<TicketResource> ticketResources)
@@ -118,7 +127,7 @@ namespace Samba.Modules.PaymentModule
 
         public void Close()
         {
-            
+
             EventServiceFactory.EventService.PublishEvent(SelectedTicket.RemainingAmount > 0
                                                               ? EventTopicNames.RefreshSelectedTicket
                                                               : EventTopicNames.CloseTicketRequested);

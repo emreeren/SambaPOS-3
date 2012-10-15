@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Documents;
 using Samba.Domain.Models.Settings;
+using Samba.Infrastructure;
 using Samba.Services.Implementations.PrinterModule.Formatters;
 using Samba.Services.Implementations.PrinterModule.Tools;
 
@@ -25,7 +26,7 @@ namespace Samba.Services.Implementations.PrinterModule.PrintJobs
         {
             Debug.Assert(!string.IsNullOrEmpty(Printer.ShareName));
             var text = new FormattedDocument(lines, Printer.CharsPerLine).GetFormattedText();
-            if (!IsValidFile(Printer.ShareName) || !SaveToFile(Printer.ShareName, text))
+            if (!Utility.IsValidFile(Printer.ShareName) || !SaveToFile(Printer.ShareName, text))
                 SendToNotepad(Printer, text);
         }
 
@@ -54,27 +55,7 @@ namespace Samba.Services.Implementations.PrinterModule.PrintJobs
             }
         }
 
-        private static bool IsValidFile(string fileName)
-        {
-            fileName = fileName.Trim();
-            if (fileName == "." || !fileName.Contains(".")) return false;
-            var result = false;
-            try
-            {
-                new FileInfo(fileName);
-                result = true;
-            }
-            catch (ArgumentException)
-            {
-            }
-            catch (PathTooLongException)
-            {
-            }
-            catch (NotSupportedException)
-            {
-            }
-            return result;
-        }
+
 
         private static bool SaveToFile(string fileName, string text)
         {

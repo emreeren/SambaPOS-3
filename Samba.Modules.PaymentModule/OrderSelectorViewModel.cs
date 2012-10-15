@@ -17,7 +17,7 @@ namespace Samba.Modules.PaymentModule
         private readonly IApplicationStateSetter _applicationStateSetter;
 
         [ImportingConstructor]
-        public OrderSelectorViewModel(TenderedValueViewModel tenderedValueViewModel,IApplicationStateSetter applicationStateSetter)
+        public OrderSelectorViewModel(TenderedValueViewModel tenderedValueViewModel, IApplicationStateSetter applicationStateSetter)
         {
             _tenderedValueViewModel = tenderedValueViewModel;
             _applicationStateSetter = applicationStateSetter;

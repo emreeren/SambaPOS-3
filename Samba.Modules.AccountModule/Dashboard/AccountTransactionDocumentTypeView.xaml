@@ -37,7 +37,9 @@
                     <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="170" ItemsSource="{Binding DefaultAmounts}" Text="{Binding DefaultAmount}" />
                     <Label MinWidth="120" Content="{LocText DescriptionTemplate,Suffix=':'}"/>
                     <TextBox HorizontalAlignment="Left" MinWidth="170" Text="{Binding DescriptionTemplate}" />
-
+                    <Label MinWidth="120" Content="{LocText ExchangeRate,Suffix=':'}"/>
+                    <TextBox HorizontalAlignment="Left" MinWidth="170" Text="{Binding ExchangeTemplate}" />
+                    
                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                         <DataGrid MinWidth="170" ItemsSource="{Binding TransactionTypes}" SelectedItem="{Binding SelectedTransactionType, Mode=TwoWay}"
                                      HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"

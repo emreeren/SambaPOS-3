@@ -52,6 +52,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
+    <Reference Include="System.Management.Automation" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountBalances.cs" />

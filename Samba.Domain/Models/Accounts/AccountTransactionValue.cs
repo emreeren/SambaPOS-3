@@ -22,7 +22,7 @@ namespace Samba.Domain.Models.Accounts
 
         public void UpdateExchange(decimal exchangeRate)
         {
-            Exchange = decimal.Round((Debit - Credit) / exchangeRate, 2);
+            Exchange = exchangeRate == 0 ? 0 : decimal.Round((Debit - Credit) / exchangeRate, 2);
         }
     }
 }

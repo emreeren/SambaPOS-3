@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Globalization;
 using Microsoft.Practices.Prism.Commands;
+using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
@@ -22,7 +23,7 @@ namespace Samba.Modules.PaymentModule
         [ImportingConstructor]
         public NumberPadViewModel(PaymentEditor paymentEditor, TenderedValueViewModel tenderedValueViewModel,
             OrderSelectorViewModel orderSelectorViewModel, AccountBalances accountBalances,
-            ForeignCurrencyButtonsViewModel foreignCurrencyButtonsViewModel,TicketTotalsViewModel paymentTotals)
+            ForeignCurrencyButtonsViewModel foreignCurrencyButtonsViewModel, TicketTotalsViewModel paymentTotals)
         {
             _paymentEditor = paymentEditor;
             _tenderedValueViewModel = tenderedValueViewModel;
@@ -30,8 +31,8 @@ namespace Samba.Modules.PaymentModule
             _accountBalances = accountBalances;
             _foreignCurrencyButtonsViewModel = foreignCurrencyButtonsViewModel;
             _paymentTotals = paymentTotals;
+
             TenderAllCommand = new CaptionCommand<string>(Resources.All, OnTenderAllCommand);
-            TenderAllBalanceCommand = new CaptionCommand<string>(Resources.Balance, OnTenderAllBalanceCommand);
             TypeValueCommand = new DelegateCommand<string>(OnTypeValueExecuted);
             SetValueCommand = new DelegateCommand<string>(OnSetValue);
             DivideValueCommand = new DelegateCommand<string>(OnDivideValue);
@@ -53,47 +54,71 @@ namespace Samba.Modules.PaymentModule
             set { _lastTenderedAmount = value; RaisePropertyChanged(() => LastTenderedAmount); }
         }
 
+        private bool _balanceMode;
+        public bool BalanceMode
+        {
+            get { return _balanceMode; }
+            set
+            {
+                _balanceMode = value;
+                RaisePropertyChanged(() => TenderAllCaption);
+            }
+        }
+
+        public string TenderAllCaption { get { return BalanceMode ? Resources.Balance : Resources.All; } }
+
         public CaptionCommand<string> TenderAllCommand { get; set; }
-        public CaptionCommand<string> TenderAllBalanceCommand { get; set; }
         public DelegateCommand<string> TypeValueCommand { get; set; }
         public DelegateCommand<string> SetValueCommand { get; set; }
         public DelegateCommand<string> DivideValueCommand { get; set; }
 
-        private void OnTenderAllBalanceCommand(string obj)
-        {
-            ResetValues();
-            _orderSelectorViewModel.ClearSelection();
-            var remaining = _paymentEditor.GetRemainingAmount();
-            var accountBalance = _accountBalances.GetActiveAccountBalance();
-            var paymentDue = (remaining + accountBalance) / _paymentEditor.ExchangeRate;
-            _tenderedValueViewModel.PaymentDueAmount = paymentDue.ToString("#,#0.00");
-            _tenderedValueViewModel.TenderedAmount = _tenderedValueViewModel.PaymentDueAmount;
-            _foreignCurrencyButtonsViewModel.UpdateCurrencyButtons();
-        }
-
         private void OnTenderAllCommand(string obj)
         {
+            if (BalanceMode)
+                TenderAllBalance();
+            else TenderAll();
+        }
+
+        private void TenderAllBalance()
+        {
+            ResetValues();
+            _paymentEditor.AccountMode = true;
+            _orderSelectorViewModel.ClearSelection();
+            var paymentDue = _paymentEditor.GetRemainingAmount() / _paymentEditor.ExchangeRate;
+            _tenderedValueViewModel.PaymentDueAmount = paymentDue.ToString(LocalSettings.DefaultCurrencyFormat);
+            _tenderedValueViewModel.TenderedAmount = _tenderedValueViewModel.PaymentDueAmount;
+            _foreignCurrencyButtonsViewModel.UpdateCurrencyButtons();
+            ResetAmount = true;
+            BalanceMode = false;
+        }
+
+        private void TenderAll()
+        {
+            _paymentEditor.AccountMode = false;
+            if (_tenderedValueViewModel.GetTenderedValue() > _paymentEditor.GetRemainingAmount())
+                _tenderedValueViewModel.UpdatePaymentAmount(0);
             _tenderedValueViewModel.TenderedAmount = _tenderedValueViewModel.PaymentDueAmount;
             ResetAmount = true;
             OnTypedValueChanged();
+            BalanceMode = _accountBalances.GetActiveAccountBalance() > 0;
         }
 
         private void OnDivideValue(string obj)
         {
-            decimal tenderedValue = _tenderedValueViewModel.GetTenderedValue();
+            var tenderedValue = _tenderedValueViewModel.GetTenderedValue();
             ResetAmount = true;
-            string dc = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+            var dc = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
             obj = obj.Replace(",", dc);
             obj = obj.Replace(".", dc);
 
-            decimal value = Convert.ToDecimal(obj);
+            var value = Convert.ToDecimal(obj);
             var remainingTicketAmount = _tenderedValueViewModel.GetPaymentDueValue() / _paymentEditor.ExchangeRate;
 
             if (value > 0)
             {
                 var amount = remainingTicketAmount / value;
                 if (amount > remainingTicketAmount) amount = remainingTicketAmount;
-                _tenderedValueViewModel.TenderedAmount = amount.ToString("#,#0.00");
+                _tenderedValueViewModel.TenderedAmount = amount.ToString(LocalSettings.DefaultCurrencyFormat);
             }
             else
             {
@@ -102,7 +127,7 @@ namespace Samba.Modules.PaymentModule
                 {
                     var amount = remainingTicketAmount / value;
                     if (amount > remainingTicketAmount) amount = remainingTicketAmount;
-                    _tenderedValueViewModel.TenderedAmount = (amount).ToString("#,#0.00");
+                    _tenderedValueViewModel.TenderedAmount = (amount).ToString(LocalSettings.DefaultCurrencyFormat);
                 }
             }
             OnTypedValueChanged();
@@ -114,6 +139,7 @@ namespace Samba.Modules.PaymentModule
             if (string.IsNullOrEmpty(obj))
             {
                 _orderSelectorViewModel.ClearSelection();
+                _tenderedValueViewModel.UpdatePaymentAmount(0);
                 ResetValues();
                 return;
             }
@@ -124,7 +150,7 @@ namespace Samba.Modules.PaymentModule
             var tenderedValue = Convert.ToDecimal(_tenderedValueViewModel.TenderedAmount.Replace(
                 CultureInfo.CurrentCulture.NumberFormat.NumberGroupSeparator, ""));
             tenderedValue += value;
-            _tenderedValueViewModel.TenderedAmount = tenderedValue.ToString("#,#0.00");
+            _tenderedValueViewModel.TenderedAmount = tenderedValue.ToString(LocalSettings.DefaultCurrencyFormat);
             OnTypedValueChanged();
         }
 
@@ -147,6 +173,7 @@ namespace Samba.Modules.PaymentModule
             _paymentTotals.Refresh();
             _accountBalances.Refresh();
             _tenderedValueViewModel.TenderedAmount = "";
+            RaisePropertyChanged(() => TenderAllCaption);
         }
 
     }

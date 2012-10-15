@@ -56,6 +56,7 @@ namespace Samba.Modules.PaymentModule
         }
 
         public CaptionCommand<string> ClosePaymentScreenCommand { get; set; }
+
         public string SelectedTicketTitle { get { return _paymentTotals.Title; } }
 
         private bool CanMakePayment(PaymentType arg)
@@ -168,6 +169,8 @@ namespace Samba.Modules.PaymentModule
             _numberPadViewModel.LastTenderedAmount = _tenderedValueViewModel.PaymentDueAmount;
             _commandButtonsViewModel.Update();
             _foreignCurrencyButtonsViewModel.UpdateCurrencyButtons();
+       
+            RaisePropertyChanged(() => SelectedTicketTitle);
         }
     }
 }

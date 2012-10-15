@@ -41,6 +41,7 @@ namespace Samba.Modules.AccountModule.Dashboard
         public string ButtonColor { get { return Model.ButtonColor; } set { Model.ButtonColor = value; } }
         public string DefaultAmount { get { return Model.DefaultAmount; } set { Model.DefaultAmount = value; RaisePropertyChanged(() => DefaultAmount); } }
         public string DescriptionTemplate { get { return Model.DescriptionTemplate; } set { Model.DescriptionTemplate = value; } }
+        public string ExchangeTemplate { get { return Model.ExchangeTemplate; } set { Model.ExchangeTemplate = value; } }
         public bool BatchCreateDocuments { get { return Model.BatchCreateDocuments; } set { Model.BatchCreateDocuments = value; RaisePropertyChanged(() => BatchCreateDocuments); } }
         public int Filter { get { return Model.Filter; } set { Model.Filter = value; } } //0 All Accounts , 1 Balanced Accounts
         public string FilterStr { get { return FilterDescriptions[Filter]; } set { Filter = Array.IndexOf(FilterDescriptions, value); } }

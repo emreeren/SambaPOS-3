@@ -37,7 +37,8 @@ namespace Samba.Services.Implementations.AccountModule
         {
             using (var w = WorkspaceFactory.Create())
             {
-                var document = documentType.CreateDocument(selectedAccount, description, amount, GetExchangeRate(selectedAccount), accounts != null ? accounts.ToList() : null);
+                var exchangeRate = GetExchangeRate(selectedAccount, documentType.ExchangeTemplate);
+                var document = documentType.CreateDocument(selectedAccount, description, amount, exchangeRate, accounts != null ? accounts.ToList() : null);
                 w.Add(document);
                 w.CommitChanges();
             }
@@ -45,7 +46,8 @@ namespace Samba.Services.Implementations.AccountModule
 
         public void CreateAccountTransaction(Account sourceAccount, Account targetAccount, decimal amount, decimal exchangeRate)
         {
-            var transactionType = _cacheService.FindAccountTransactionType(sourceAccount.AccountTypeId, targetAccount.AccountTypeId);
+            var transactionType = _cacheService.FindAccountTransactionType(sourceAccount.AccountTypeId, targetAccount.AccountTypeId,
+                sourceAccount.Id, targetAccount.Id);
             if (transactionType != null)
             {
                 using (var w = WorkspaceFactory.Create())
@@ -61,6 +63,11 @@ namespace Samba.Services.Implementations.AccountModule
         public decimal GetAccountBalance(int accountId)
         {
             return Dao.Sum<AccountTransactionValue>(x => x.Debit - x.Credit, x => x.AccountId == accountId);
+        }
+
+        public decimal GetAccountExchangeBalance(int accountId)
+        {
+            return Dao.Sum<AccountTransactionValue>(x => x.Exchange, x => x.AccountId == accountId);
         }
 
         public Dictionary<Account, BalanceValue> GetAccountBalances(IList<int> accountTypeIds, Expression<Func<AccountTransactionValue, bool>> filter)
@@ -132,7 +139,16 @@ namespace Samba.Services.Implementations.AccountModule
                     decimal.TryParse(da, out result);
                 }
                 else if (da == string.Format("[{0}]", Resources.Balance))
+                {
                     result = Math.Abs(GetAccountBalance(account.Id));
+                }
+                else if (da == string.Format("[{0}]", "BalanceEx"))
+                {
+                    var er = GetExchangeRate(account, documentType.ExchangeTemplate);
+                    result = er != 1
+                        ? Math.Abs(GetAccountExchangeBalance(account.Id) * er)
+                        : Math.Abs(GetAccountBalance(account.Id));
+                }
                 else decimal.TryParse(da, out result);
             }
             return result;
@@ -237,9 +253,15 @@ namespace Samba.Services.Implementations.AccountModule
             }
         }
 
-        public decimal GetExchangeRate(Account account)
+        public decimal GetExchangeRate(Account account, string template)
         {
             if (account.ForeignCurrencyId == 0) return 1;
+            if (!string.IsNullOrWhiteSpace(template))
+            {
+                decimal d;
+                decimal.TryParse(template, out d);
+                return d;
+            }
             return _cacheService.GetForeignCurrencies().Single(x => x.Id == account.ForeignCurrencyId).ExchangeRate;
         }
 

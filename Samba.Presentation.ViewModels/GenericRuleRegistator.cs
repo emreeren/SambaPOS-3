@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Management.Automation.Runspaces;
 using System.Reflection;
 using System.Windows.Media;
 using Microsoft.Practices.ServiceLocation;
@@ -11,6 +13,7 @@ using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
+using Samba.Infrastructure;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Persistance.Data.Specification;
@@ -72,7 +75,8 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType(ActionNames.CreateTicket, string.Format(Resources.Create_f, Resources.Ticket));
             AutomationService.RegisterActionType(ActionNames.DisplayTicket, Resources.DisplayTicket, new { TicketId = 0 });
             AutomationService.RegisterActionType(ActionNames.DisplayPaymentScreen, Resources.DisplayPaymentScreen);
-           
+            AutomationService.RegisterActionType(ActionNames.ExecutePowershellScript, "Execute Powershell Script", new { Script = "" });
+
         }
 
         private static void RegisterRules()
@@ -133,6 +137,20 @@ namespace Samba.Presentation.ViewModels
         {
             EventServiceFactory.EventService.GetEvent<GenericEvent<IActionData>>().Subscribe(x =>
             {
+                if (x.Value.Action.ActionType == ActionNames.ExecutePowershellScript)
+                {
+                    var script = x.Value.GetAsString("Script");
+                    if (!string.IsNullOrEmpty(script))
+                    {
+                        if (Utility.IsValidFile(script)) script = File.ReadAllText(script);
+                        var runspace = RunspaceFactory.CreateRunspace();
+                        runspace.Open();
+                        runspace.SessionStateProxy.SetVariable("locator", ServiceLocator.Current);
+                        var pipeline = runspace.CreatePipeline(script);
+                        pipeline.Invoke();
+                        runspace.Close();
+                    }
+                }
 
                 if (x.Value.Action.ActionType == ActionNames.DisplayPaymentScreen)
                 {

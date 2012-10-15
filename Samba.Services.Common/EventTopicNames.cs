@@ -27,6 +27,7 @@
         public const string Addticketdiscount = "AddTicketDiscount";
         public const string Addorder = "AddOrder";
         public const string SendEmail = "SendEmail";
+        public const string ExecutePowershellScript = "ExecutePowershellScript";
     }
 
     public static class RuleEventNames
