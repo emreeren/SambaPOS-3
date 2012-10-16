@@ -118,12 +118,13 @@ namespace Samba.Modules.AccountModule
             AccountSummaries.Clear();
 
             var transactions = Dao.Query(GetCurrentRange(x => x.AccountId == SelectedAccount.Id)).OrderBy(x => x.Date);
-            AccountDetails.AddRange(transactions.Select(x => new AccountDetailViewModel(x)));
+            AccountDetails.AddRange(transactions.Select(x => new AccountDetailViewModel(x, SelectedAccount)));
 
             if (FilterType != Resources.All)
             {
                 var pastDebit = Dao.Sum(x => x.Debit, GetPastRange(x => x.AccountId == SelectedAccount.Id));
                 var pastCredit = Dao.Sum(x => x.Credit, GetPastRange(x => x.AccountId == SelectedAccount.Id));
+                var pastExchange = Dao.Sum(x => x.Exchange, GetPastRange(x => x.AccountId == SelectedAccount.Id));
                 if (pastCredit > 0 || pastDebit > 0)
                 {
                     AccountSummaries.Add(new AccountSummaryViewModel(Resources.Total, AccountDetails.Sum(x => x.Debit), AccountDetails.Sum(x => x.Credit)));
@@ -132,8 +133,9 @@ namespace Samba.Modules.AccountModule
                                                        {
                                                            Name = Resources.PastTransactions,
                                                            Credit = pastCredit,
-                                                           Debit = pastDebit
-                                                       });
+                                                           Debit = pastDebit,
+                                                           Exchange = pastExchange
+                                                       }, SelectedAccount);
                     AccountDetails.Insert(0, detailValue);
                     detailValue.IsBold = true;
                 }

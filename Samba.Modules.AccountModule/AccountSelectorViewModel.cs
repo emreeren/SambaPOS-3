@@ -29,7 +29,15 @@ namespace Samba.Modules.AccountModule
 
         protected string CurrencyFormat { get; set; }
         public int AccountId { get; set; }
-        public string BalanceStr { get { return Balance.ToString(LocalSettings.DefaultCurrencyFormat); } }
+        public string BalanceStr
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(ExchangeStr)
+                    ? ExchangeStr
+                    : Balance.ToString(LocalSettings.DefaultCurrencyFormat);
+            }
+        }
         public string ExchangeStr { get { return Exchange != Balance ? string.Format(CurrencyFormat, Exchange) : ""; } }
         public string Name { get; set; }
         public decimal Balance { get; set; }

@@ -7,10 +7,12 @@ namespace Samba.Modules.AccountModule
 {
     public class AccountDetailViewModel : ObservableObject
     {
+        private readonly Account _account;
         public AccountTransactionValue Model { get; set; }
 
-        public AccountDetailViewModel(AccountTransactionValue model)
+        public AccountDetailViewModel(AccountTransactionValue model, Account account)
         {
+            _account = account;
             Model = model;
         }
 
@@ -24,8 +26,8 @@ namespace Samba.Modules.AccountModule
             set { _isBold = value; RaisePropertyChanged(() => IsBold); }
         }
 
-        public decimal Debit { get { return Model.Debit; } }
-        public decimal Credit { get { return Model.Credit; } }
+        public decimal Debit { get { return _account.ForeignCurrencyId > 0 && Model.Exchange > 0 ? Model.Exchange : Model.Debit; } }
+        public decimal Credit { get { return _account.ForeignCurrencyId > 0 && Model.Exchange < 0 ? Model.Exchange : Model.Credit; } }
         public decimal Balance { get; set; }
 
         public string DebitStr { get { return Debit.ToString(LocalSettings.DefaultCurrencyFormat); } }

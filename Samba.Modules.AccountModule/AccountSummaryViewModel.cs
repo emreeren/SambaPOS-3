@@ -5,6 +5,7 @@ namespace Samba.Modules.AccountModule
 {
     public class AccountSummaryViewModel : ObservableObject
     {
+        
         public AccountSummaryViewModel(string caption, decimal debit, decimal credit)
         {
             _caption = caption;
