@@ -73,6 +73,7 @@ namespace Samba.Modules.PaymentModule
         private bool CanMakeAccountTransaction(TicketResource ticketResource, PaymentType paymentType)
         {
             if (ticketResource.AccountId == 0) return false;
+            if (_tenderedValueViewModel.GetTenderedValue() > _paymentEditor.SelectedTicket.GetRemainingAmount()) return false;
             var resourceType = _cacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
             return resourceType.AccountTypeId == paymentType.AccountTransactionType.TargetAccountTypeId;
         }
@@ -167,6 +168,7 @@ namespace Samba.Modules.PaymentModule
             _orderSelectorViewModel.UpdateTicket(selectedTicket);
             _numberPadViewModel.ResetValues();
             _numberPadViewModel.LastTenderedAmount = _tenderedValueViewModel.PaymentDueAmount;
+            _numberPadViewModel.BalanceMode = false;
             _commandButtonsViewModel.Update();
             _foreignCurrencyButtonsViewModel.UpdateCurrencyButtons();
        

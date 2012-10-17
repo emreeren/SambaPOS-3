@@ -64,15 +64,15 @@
         </Grid>
         <UniformGrid Grid.Column="2" Rows="6">
             <FxButton:FlexButton Margin="2" ButtonColor="Purple" Command="{Binding TenderAllCommand}"
-                         Content="{Binding TenderAllCaption}" />
+                         Content="{Binding TenderAllCommand.Caption}" />
             <FxButton:FlexButton Margin="2" ButtonColor="RoyalBlue" Command="{Binding DivideValueCommand}"
                          CommandParameter="2" Foreground="WhiteSmoke">1/2</FxButton:FlexButton>
             <FxButton:FlexButton Margin="2" ButtonColor="RoyalBlue" Command="{Binding DivideValueCommand}"
                          CommandParameter="3" Foreground="WhiteSmoke">1/3</FxButton:FlexButton>
             <FxButton:FlexButton Margin="2" ButtonColor="RoyalBlue" Command="{Binding DivideValueCommand}"
-                         CommandParameter="4" Foreground="WhiteSmoke">1/4</FxButton:FlexButton>
-            <FxButton:FlexButton Margin="2" ButtonColor="RoyalBlue" Command="{Binding DivideValueCommand}"
                          CommandParameter="0" Foreground="WhiteSmoke">1/n</FxButton:FlexButton>
+            <FxButton:FlexButton Margin="2" ButtonColor="Purple" Command="{Binding ChangeBalanceModeCommand}"
+                         Content="{Binding BalanceModeCaption}" />
             <FxButton:FlexButton Command="{Binding SetValueCommand}" CommandParameter="{Binding LastTenderedAmount}"
                          Margin="2" ButtonColor="MediumPurple" Content="{Binding LastTenderedAmount}">
             </FxButton:FlexButton>

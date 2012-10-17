@@ -33,6 +33,7 @@ namespace Samba.Modules.PaymentModule
             _paymentTotals = paymentTotals;
 
             TenderAllCommand = new CaptionCommand<string>(Resources.All, OnTenderAllCommand);
+            ChangeBalanceModeCommand = new DelegateCommand<string>(OnChangeBalanceMode);
             TypeValueCommand = new DelegateCommand<string>(OnTypeValueExecuted);
             SetValueCommand = new DelegateCommand<string>(OnSetValue);
             DivideValueCommand = new DelegateCommand<string>(OnDivideValue);
@@ -61,46 +62,50 @@ namespace Samba.Modules.PaymentModule
             set
             {
                 _balanceMode = value;
-                RaisePropertyChanged(() => TenderAllCaption);
+                _paymentEditor.AccountMode = value;
+                RaisePropertyChanged(() => BalanceModeCaption);
             }
         }
 
-        public string TenderAllCaption { get { return BalanceMode ? Resources.Balance : Resources.All; } }
-
+        public string BalanceModeCaption { get { return BalanceMode ? Resources.Balance : Resources.Ticket; } }
+        public DelegateCommand<string> ChangeBalanceModeCommand { get; set; }
         public CaptionCommand<string> TenderAllCommand { get; set; }
         public DelegateCommand<string> TypeValueCommand { get; set; }
         public DelegateCommand<string> SetValueCommand { get; set; }
         public DelegateCommand<string> DivideValueCommand { get; set; }
 
-        private void OnTenderAllCommand(string obj)
+        private void OnChangeBalanceMode(string obj)
         {
+            BalanceMode = (!BalanceMode || _paymentEditor.SelectedTicket.GetRemainingAmount() == 0) && _accountBalances.GetActiveAccountBalance() > 0;
             if (BalanceMode)
                 TenderAllBalance();
             else TenderAll();
         }
 
+        private void OnTenderAllCommand(string obj)
+        {
+            TenderAll();
+        }
+
         private void TenderAllBalance()
         {
             ResetValues();
-            _paymentEditor.AccountMode = true;
             _orderSelectorViewModel.ClearSelection();
             var paymentDue = _paymentEditor.GetRemainingAmount() / _paymentEditor.ExchangeRate;
             _tenderedValueViewModel.PaymentDueAmount = paymentDue.ToString(LocalSettings.DefaultCurrencyFormat);
             _tenderedValueViewModel.TenderedAmount = _tenderedValueViewModel.PaymentDueAmount;
             _foreignCurrencyButtonsViewModel.UpdateCurrencyButtons();
             ResetAmount = true;
-            BalanceMode = false;
         }
 
         private void TenderAll()
         {
-            _paymentEditor.AccountMode = false;
             if (_tenderedValueViewModel.GetTenderedValue() > _paymentEditor.GetRemainingAmount())
                 _tenderedValueViewModel.UpdatePaymentAmount(0);
+
             _tenderedValueViewModel.TenderedAmount = _tenderedValueViewModel.PaymentDueAmount;
             ResetAmount = true;
             OnTypedValueChanged();
-            BalanceMode = _accountBalances.GetActiveAccountBalance() > 0;
         }
 
         private void OnDivideValue(string obj)
@@ -173,7 +178,7 @@ namespace Samba.Modules.PaymentModule
             _paymentTotals.Refresh();
             _accountBalances.Refresh();
             _tenderedValueViewModel.TenderedAmount = "";
-            RaisePropertyChanged(() => TenderAllCaption);
+            RaisePropertyChanged(() => BalanceModeCaption);
         }
 
     }

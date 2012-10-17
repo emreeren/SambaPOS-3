@@ -127,7 +127,6 @@ namespace Samba.Modules.PaymentModule
 
         public void Close()
         {
-
             EventServiceFactory.EventService.PublishEvent(SelectedTicket.RemainingAmount > 0
                                                               ? EventTopicNames.RefreshSelectedTicket
                                                               : EventTopicNames.CloseTicketRequested);

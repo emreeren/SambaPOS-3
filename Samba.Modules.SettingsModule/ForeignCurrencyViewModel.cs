@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using FluentValidation;
 using Samba.Domain.Models.Settings;
 using Samba.Localization;
 using Samba.Localization.Properties;
@@ -47,6 +48,19 @@ namespace Samba.Modules.SettingsModule
         public override string GetModelTypeString()
         {
             return Resources.ForeignCurrency;
+        }
+
+        protected override AbstractValidator<ForeignCurrency> GetValidator()
+        {
+            return new ForeignCurrencyValidator();
+        }
+
+        internal class ForeignCurrencyValidator : EntityValidator<ForeignCurrency>
+        {
+            public ForeignCurrencyValidator()
+            {
+                RuleFor(x => x.ExchangeRate).GreaterThan(0);
+            }
         }
     }
 }
