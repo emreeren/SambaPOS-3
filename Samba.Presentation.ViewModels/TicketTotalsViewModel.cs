@@ -15,11 +15,13 @@ namespace Samba.Presentation.ViewModels
     public class TicketTotalsViewModel : ObservableObject
     {
         private readonly ICacheService _cacheService;
+        private readonly AccountBalances _accountBalances;
 
         [ImportingConstructor]
-        public TicketTotalsViewModel(ICacheService cacheService)
+        public TicketTotalsViewModel(ICacheService cacheService, AccountBalances accountBalances)
         {
             _cacheService = cacheService;
+            _accountBalances = accountBalances;
             ResetCache();
             _model = Ticket.Empty;
         }
@@ -118,6 +120,33 @@ namespace Samba.Presentation.ViewModels
             }
         }
 
+        public string TitleWithAccountBalances
+        {
+            get
+            {
+                var sb = new StringBuilder();
+                if (Model == null) return "";
+                if (Model.Id > 0) sb.AppendFormat("# {0} ", Model.TicketNumber);
+                foreach (var ticketResource in Model.TicketResources)
+                {
+                    var rs = _cacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
+                    var resourceName = ticketResource.ResourceName;
+                    if (ticketResource.AccountId > 0)
+                    {
+                        var balance = _accountBalances.GetAccountBalance(ticketResource.AccountId);
+                        if (balance > 0)
+                            resourceName = string.Format("{0} [{1}]", resourceName, balance.ToString(LocalSettings.DefaultCurrencyFormat));
+                    }
+                    sb.AppendLine(string.Format("{0}: {1}", rs.EntityName, resourceName));
+                }
+                var selectedTicketTitle = sb.ToString().Trim(new[] { '\r', '\n' });
+
+                if (string.IsNullOrEmpty(selectedTicketTitle)) selectedTicketTitle = string.Format(Resources.New_f, Resources.Ticket);
+
+                return selectedTicketTitle;
+            }
+        }
+
         public void ResetCache()
         {
             _changePayments = null;
@@ -134,6 +163,7 @@ namespace Samba.Presentation.ViewModels
         private void RefreshAll(object state)
         {
             RaisePropertyChanged(() => Title);
+            RaisePropertyChanged(() => TitleWithAccountBalances);
             RaisePropertyChanged(() => TicketRemainingLabel);
             RaisePropertyChanged(() => TicketPaymentLabel);
             RaisePropertyChanged(() => TicketChangePaymentLabel);

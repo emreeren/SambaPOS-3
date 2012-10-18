@@ -79,7 +79,11 @@ namespace Samba.Modules.PaymentModule
             BalanceMode = (!BalanceMode || _paymentEditor.SelectedTicket.GetRemainingAmount() == 0) && _accountBalances.GetActiveAccountBalance() > 0;
             if (BalanceMode)
                 TenderAllBalance();
-            else TenderAll();
+            else
+            {
+                _tenderedValueViewModel.UpdatePaymentAmount(0);
+                TenderAll();
+            }
         }
 
         private void OnTenderAllCommand(string obj)

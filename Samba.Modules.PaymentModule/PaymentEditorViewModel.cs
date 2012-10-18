@@ -57,12 +57,12 @@ namespace Samba.Modules.PaymentModule
 
         public CaptionCommand<string> ClosePaymentScreenCommand { get; set; }
 
-        public string SelectedTicketTitle { get { return _paymentTotals.Title; } }
+        public string SelectedTicketTitle { get { return _paymentTotals.TitleWithAccountBalances; } }
 
         private bool CanMakePayment(PaymentType arg)
         {
             if (arg == null) return false;
-
+            if (_paymentEditor.AccountMode && _tenderedValueViewModel.GetTenderedValue() > _tenderedValueViewModel.GetPaymentDueValue()) return false;
             return _paymentEditor.SelectedTicket != null
                 && !_paymentEditor.SelectedTicket.IsClosed
                 && _tenderedValueViewModel.GetTenderedValue() != 0
@@ -111,7 +111,7 @@ namespace Samba.Modules.PaymentModule
                 return;
             }
 
-            var changeTemplates = GetChangePaymentTypes();
+            var changeTemplates = GetChangePaymentTypes(paymentType);
             if (changeTemplates.Count() < 2)
             {
                 SubmitPaymentAmount(paymentType, changeTemplates.SingleOrDefault(), paymentDueAmount, tenderedAmount);
@@ -150,14 +150,15 @@ namespace Samba.Modules.PaymentModule
                 }
                 _orderSelectorViewModel.PersistSelectedItems();
                 _numberPadViewModel.ResetValues();
+                RaisePropertyChanged(() => SelectedTicketTitle);
             }
         }
 
-        private IList<ChangePaymentType> GetChangePaymentTypes()
+        private IList<ChangePaymentType> GetChangePaymentTypes(PaymentType paymentType)
         {
             return _foreignCurrencyButtonsViewModel.ForeignCurrency == null
                 ? new List<ChangePaymentType>()
-                : _cacheService.GetChangePaymentTypes().ToList();
+                : _cacheService.GetChangePaymentTypes().Where(x => x.AccountTransactionType.TargetAccountTypeId == paymentType.AccountTransactionType.SourceAccountTypeId).ToList();
         }
 
         public void Prepare(Ticket selectedTicket)
@@ -171,7 +172,7 @@ namespace Samba.Modules.PaymentModule
             _numberPadViewModel.BalanceMode = false;
             _commandButtonsViewModel.Update();
             _foreignCurrencyButtonsViewModel.UpdateCurrencyButtons();
-       
+
             RaisePropertyChanged(() => SelectedTicketTitle);
         }
     }

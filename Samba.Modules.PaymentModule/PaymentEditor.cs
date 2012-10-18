@@ -77,6 +77,8 @@ namespace Samba.Modules.PaymentModule
                 {
                     var ticketAmount = SelectedTicket.GetRemainingAmount();
                     var accountAmount = tenderedAmount - ticketAmount;
+                    var accountBalance = _accountBalances.GetAccountBalance(account.Id);
+                    if (accountAmount > accountBalance) accountAmount = accountBalance;
                     if (ticketAmount > 0)
                         _ticketService.AddPayment(SelectedTicket, paymentType, paymentAccount, ticketAmount);
                     if (accountAmount > 0)
@@ -93,8 +95,6 @@ namespace Samba.Modules.PaymentModule
                                                     tenderedAmount - paymentDueAmount);
                 }
             }
-
-
         }
 
         private Account GetAccountForTransaction(PaymentType paymentType, IEnumerable<TicketResource> ticketResources)

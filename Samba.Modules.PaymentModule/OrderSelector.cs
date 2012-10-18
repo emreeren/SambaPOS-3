@@ -136,7 +136,7 @@ namespace Samba.Modules.PaymentModule
                     amount += (newPrice * selector.RemainingQuantity);
                 }
                 var mLast = Selectors.Where(x => x.RemainingQuantity > 0).OrderBy(x => x.RemainingPrice).First();
-                mLast.Price += ((SelectedTicket.GetRemainingAmount() / ExchangeRate) - amount) / mLast.RemainingQuantity;
+                mLast.Price += ((SelectedTicket.GetSum() / ExchangeRate) - amount) / mLast.RemainingQuantity;
             }
         }
 

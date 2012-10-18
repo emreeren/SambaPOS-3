@@ -98,7 +98,7 @@ namespace Samba.Modules.PaymentModule
         {
             if (calculationSelector == null) return false;
             if (_paymentEditor.SelectedTicket != null && (_paymentEditor.SelectedTicket.Locked || _paymentEditor.SelectedTicket.IsClosed)) return false;
-            if (_tenderedValueViewModel.GetPaymentDueValue() == 0 && _paymentEditor.SelectedTicket != null && !calculationSelector.CalculationTypes.Any(x => _paymentEditor.SelectedTicket.Calculations.Any(y => y.CalculationTypeId == x.Id))) return false;
+            if (_paymentEditor.SelectedTicket != null && _paymentEditor.SelectedTicket.GetRemainingAmount() == 0 && _paymentEditor.SelectedTicket != null && !calculationSelector.CalculationTypes.Any(x => _paymentEditor.SelectedTicket.Calculations.Any(y => y.CalculationTypeId == x.Id))) return false;
             return !calculationSelector.CalculationTypes.Any(x => x.MaxAmount > 0 && _tenderedValueViewModel.GetTenderedValue() > x.MaxAmount);
         }
 
