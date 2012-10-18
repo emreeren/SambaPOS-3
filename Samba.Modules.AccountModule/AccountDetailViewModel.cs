@@ -26,8 +26,8 @@ namespace Samba.Modules.AccountModule
             set { _isBold = value; RaisePropertyChanged(() => IsBold); }
         }
 
-        public decimal Debit { get { return _account.ForeignCurrencyId > 0 && Model.Exchange > 0 ? Model.Exchange : Model.Debit; } }
-        public decimal Credit { get { return _account.ForeignCurrencyId > 0 && Model.Exchange < 0 ? Model.Exchange : Model.Credit; } }
+        public decimal Debit { get { return _account.ForeignCurrencyId > 0 && Model.Exchange > 0 ? Math.Abs(Model.Exchange) : Model.Debit; } }
+        public decimal Credit { get { return _account.ForeignCurrencyId > 0 && Model.Exchange < 0 ? Math.Abs(Model.Exchange) : Model.Credit; } }
         public decimal Balance { get; set; }
 
         public string DebitStr { get { return Debit.ToString(LocalSettings.DefaultCurrencyFormat); } }
