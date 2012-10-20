@@ -12,8 +12,6 @@ namespace Samba.Domain.Models.Actions
         public string ActionType { get; set; }
 
         private string _parameter;
-
-        [StringLength(500)]
         public string Parameter
         {
             get { return _parameter; }

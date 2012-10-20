@@ -7,7 +7,6 @@ namespace Samba.Domain.Models.Actions
     public class AppRule : Entity, IOrderable
     {
         public string EventName { get; set; }
-        [StringLength(500)]
         public string EventConstraints { get; set; }
 
         private readonly IList<ActionContainer> _actions;

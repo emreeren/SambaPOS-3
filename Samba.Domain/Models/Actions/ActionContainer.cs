@@ -20,7 +20,6 @@ namespace Samba.Domain.Models.Actions
         public int AppActionId { get; set; }
         public int AppRuleId { get; set; }
         public string Name { get; set; }
-        [StringLength(500)]
         public string ParameterValues { get; set; }
         public int Order { get; set; }
 

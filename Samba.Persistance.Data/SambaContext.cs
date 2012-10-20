@@ -111,6 +111,9 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<Ticket>().Property(x => x.TicketTags).IsMaxLength();
             modelBuilder.Entity<PrinterTemplate>().Property(x => x.Template).IsMaxLength();
             modelBuilder.Entity<TicketResource>().Property(x => x.ResourceCustomData).IsMaxLength();
+            modelBuilder.Entity<ActionContainer>().Property(x => x.ParameterValues).IsMaxLength();
+            modelBuilder.Entity<AppAction>().Property(x => x.Parameter).IsMaxLength();
+            modelBuilder.Entity<AppRule>().Property(x => x.EventConstraints).IsMaxLength();
 
             modelBuilder.Entity<ResourceScreen>().HasMany(p => p.ScreenItems).WithMany();
             modelBuilder.Entity<CalculationSelector>().HasMany(x => x.CalculationTypes).WithMany();
