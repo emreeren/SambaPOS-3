@@ -545,14 +545,24 @@ namespace Samba.Services.Implementations.TicketModule
             }
         }
 
-        public void UpdateOrderStates(Ticket selectedTicket, IEnumerable<Order> selectedOrders, OrderStateGroup orderStateGroup, OrderState orderState)
+        public void UpdateOrderStates(Ticket ticket, IEnumerable<Order> selectedOrders, OrderStateGroup orderStateGroup, OrderState orderState)
         {
             var so = selectedOrders.ToList();
             var accountTransactionTypeIds = so.GroupBy(x => x.AccountTransactionTypeId).Select(x => x.Key).ToList();
             so.ForEach(x => x.UpdateOrderState(orderStateGroup, orderState, _applicationState.CurrentLoggedInUser.Id));
             accountTransactionTypeIds.Where(x => so.All(y => y.AccountTransactionTypeId != x)).ToList()
-                .ForEach(x => selectedTicket.TransactionDocument.AccountTransactions.Where(y => y.AccountTransactionTypeId == x).ToList().ForEach(y => selectedTicket.TransactionDocument.AccountTransactions.Remove(y)));
-            RefreshAccountTransactions(selectedTicket);
+                .ForEach(x => ticket.TransactionDocument.AccountTransactions.Where(y => y.AccountTransactionTypeId == x).ToList().ForEach(y => ticket.TransactionDocument.AccountTransactions.Remove(y)));
+            RefreshAccountTransactions(ticket);
+        }
+
+        public void AddAccountTransaction(Ticket ticket, Account sourceAccount, Account targetAccount, decimal amount, decimal exchangeRate)
+        {
+            var transactionType = _cacheService.FindAccountTransactionType(sourceAccount.AccountTypeId, targetAccount.AccountTypeId,
+                sourceAccount.Id, targetAccount.Id);
+            if (transactionType != null)
+            {
+                ticket.TransactionDocument.AddNewTransaction(transactionType, sourceAccount.AccountTypeId, sourceAccount.Id, targetAccount, amount, exchangeRate);
+            }
         }
 
         public Order AddOrder(Ticket ticket, int menuItemId, decimal quantity, string portionName, OrderTagTemplate template)
@@ -598,10 +608,16 @@ namespace Samba.Services.Implementations.TicketModule
         {
             if (current.Id > 0)
             {
-                //todo fix : Check Resources instead
                 if (current.AccountName != loaded.AccountName)
                 {
                     return ConcurrencyCheckResult.Break(string.Format(Resources.TicketMovedRetryLastOperation_f, loaded.AccountName));
+                }
+
+                if (current.TicketResources.Count != loaded.TicketResources.Count || !current.TicketResources.All(x => loaded.TicketResources.Any(y => x.ResourceId == y.ResourceId)))
+                {
+                    var resource = current.TicketResources.FirstOrDefault(x => !loaded.TicketResources.Any(y => y.ResourceId == x.ResourceId))
+                        ?? loaded.TicketResources.First(x => !current.TicketResources.Any(y => y.ResourceId == x.ResourceId));
+                    return ConcurrencyCheckResult.Break(string.Format(Resources.TicketMovedRetryLastOperation_f, resource.ResourceName));
                 }
 
                 if (current.IsClosed != loaded.IsClosed)

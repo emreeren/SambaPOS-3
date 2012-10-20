@@ -61,7 +61,7 @@ namespace Samba.Services
         void UpdateTicketNumber(Ticket ticket, Numerator numerator);
         void UpdateAccount(Ticket ticket, Account account);
         void UpdateResource(Ticket ticket, Resource resource);
-        void UpdateResource(Ticket ticket, int resourceTypeId, int resourceId, string resourceName, int accountId,string resourceCustomData);
+        void UpdateResource(Ticket ticket, int resourceTypeId, int resourceId, string resourceName, int accountId, string resourceCustomData);
         void RecalculateTicket(Ticket ticket);
         void RegenerateTaxRates(Ticket ticket);
         void UpdateTag(Ticket ticket, TicketTagGroup tagGroup, TicketTag ticketTag);
@@ -81,6 +81,7 @@ namespace Samba.Services
         OrderTagGroup GetMandantoryOrderTagGroup(Order order);
         bool CanCloseTicket(Ticket ticket);
         void RefreshAccountTransactions(Ticket ticket);
-        void UpdateOrderStates(Ticket selectedTicket, IEnumerable<Order> selectedOrders, OrderStateGroup orderStateGroup, OrderState orderState);
+        void UpdateOrderStates(Ticket ticket, IEnumerable<Order> selectedOrders, OrderStateGroup orderStateGroup, OrderState orderState);
+        void AddAccountTransaction(Ticket ticket, Account sourceAccount, Account targetAccount, decimal amount, decimal exchangeRate);
     }
 }

@@ -61,6 +61,11 @@ namespace Samba.Presentation.ViewModels
             return Balances.Count == 1 ? Balances.First().Value : 0;
         }
 
+        public bool ContainsActiveAccount()
+        {
+            return Balances.Count == 1;
+        }
+
         public void Refresh()
         {
             UpdateBalances();
@@ -69,6 +74,11 @@ namespace Samba.Presentation.ViewModels
         public Account GetActiveAccount()
         {
             return Balances.Count == 1 ? _accountService.GetAccountById(Balances.First().Key) : null;
+        }
+
+        public int GetActiveAccountId()
+        {
+            return ContainsActiveAccount() ? Balances.Keys.First() : 0;
         }
     }
 }

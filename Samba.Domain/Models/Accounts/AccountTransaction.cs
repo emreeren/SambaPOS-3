@@ -187,5 +187,10 @@ namespace Samba.Domain.Models.Accounts
         {
             return !IsReversed && Reversable;
         }
+
+        public bool ContainsAccountId(int accountId)
+        {
+            return SourceTransactionValue.AccountId == accountId || TargetTransactionValue.AccountId == accountId;
+        }
     }
 }

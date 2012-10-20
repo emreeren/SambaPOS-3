@@ -56,8 +56,8 @@ namespace Samba.Modules.PaymentModule
 
         public decimal GetRemainingAmount()
         {
-            return AccountMode
-                       ? SelectedTicket.GetRemainingAmount() + _accountBalances.GetActiveAccountBalance()
+            return AccountMode && _accountBalances.ContainsActiveAccount()
+                       ? SelectedTicket.GetRemainingAmount() + _accountBalances.GetActiveAccountBalance() - SelectedTicket.TransactionDocument.AccountTransactions.Where(x => x.ContainsAccountId(_accountBalances.GetActiveAccountId())).Sum(y => y.Amount)
                        : SelectedTicket.GetRemainingAmount();
         }
 
@@ -82,7 +82,7 @@ namespace Samba.Modules.PaymentModule
                     if (ticketAmount > 0)
                         _ticketService.AddPayment(SelectedTicket, paymentType, paymentAccount, ticketAmount);
                     if (accountAmount > 0)
-                        _accountService.CreateAccountTransaction(account, paymentAccount, accountAmount, ExchangeRate);
+                        _ticketService.AddAccountTransaction(SelectedTicket, account, paymentAccount, accountAmount, ExchangeRate);
                 }
                 _accountBalances.Refresh();
             }
