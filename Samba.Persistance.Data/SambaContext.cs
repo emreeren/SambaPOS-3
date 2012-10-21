@@ -206,11 +206,6 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<InventoryTransactionItem>().Property(x => x.Price).HasPrecision(precision, scale);
             modelBuilder.Entity<InventoryTransactionItem>().Property(x => x.Quantity).HasPrecision(precision, 3);
 
-            //WorkPeriod
-            modelBuilder.Entity<WorkPeriod>().Property(x => x.CashAmount).HasPrecision(precision, scale);
-            modelBuilder.Entity<WorkPeriod>().Property(x => x.CreditCardAmount).HasPrecision(precision, scale);
-            modelBuilder.Entity<WorkPeriod>().Property(x => x.TicketAmount).HasPrecision(precision, scale);
-
             //PaidItem
             modelBuilder.Entity<PaidItem>().Property(x => x.Quantity).HasPrecision(precision, 3);
 

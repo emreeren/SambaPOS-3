@@ -52,6 +52,11 @@ namespace Samba.Modules.ResourceModule
             }
         }
 
+        public int FontSize
+        {
+            get { return _screen.FontSize; }
+        }
+
         public double ButtonHeight { get { return _screen.ButtonHeight > 0 ? _screen.ButtonHeight : double.NaN; } }
 
         public ICommand Command
@@ -60,6 +65,8 @@ namespace Samba.Modules.ResourceModule
         }
 
         private bool _isEnabled;
+        private int _fontSize;
+
         public bool IsEnabled
         {
             get { return _isEnabled; }

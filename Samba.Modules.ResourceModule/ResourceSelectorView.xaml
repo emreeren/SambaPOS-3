@@ -15,7 +15,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <FxButton:FlexButton Content="{Binding Name}" Height="{Binding ButtonHeight}" Margin="0,0,4,4"
+                    <FxButton:FlexButton Content="{Binding Name}" Height="{Binding ButtonHeight}" FontSize="{Binding FontSize}" Margin="0,0,4,4"
                              ButtonColor="{Binding ButtonColor,Converter={StaticResource NullBrushConverter}}" IsEnabled="{Binding IsEnabled}" Command="{Binding DataContext.ResourceSelectionCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
                              CommandParameter="{Binding}" />
                 </DataTemplate>

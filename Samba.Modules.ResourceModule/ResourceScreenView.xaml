@@ -41,27 +41,22 @@
                         </Label>
                         <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="150" SelectedValue="{Binding StateFilterId}"
                                 ItemsSource="{Binding ResourceStates}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
-                        <UniformGrid Columns="2" Margin="0,5,0,0">
-                            <Label Margin="0,5,0,0">
-                                <LocText ResourceIdentifierKey="ColumnCount" Suffix=":"/>
-                            </Label>
+                        <UniformGrid Columns="2" Margin="0,5,0,0" HorizontalAlignment="Left">
+                            <Label Margin="0,5,0,0" Content="{LocText ColumnCount,Suffix=':'}"/>
                             <UIControls:FilteredTextBox Type="Digits" Margin="0,5,0,0" HorizontalAlignment="Left"
                                     MinWidth="50" Text="{Binding ColumnCount}" />
-                            <Label Margin="0,5,0,0">
-                                <LocText ResourceIdentifierKey="RowCount" Suffix=":"/>
-                            </Label>
+                            <Label Margin="0,5,0,0" Content="{LocText RowCount,Suffix=':'}"/>
                             <UIControls:FilteredTextBox Type="Digits" Margin="0,5,0,0" HorizontalAlignment="Left"
                                     MinWidth="50" Text="{Binding RowCount}" />
-                            <Label Margin="0,5,0,0">
-                                <LocText ResourceIdentifierKey="ButtonHeight" Suffix=":"/>
-                            </Label>
+                            <Label Margin="0,5,0,0" Content="{LocText ButtonHeight,Suffix=':'}"/>
                             <UIControls:FilteredTextBox Type="Digits" Margin="0,5,0,0" HorizontalAlignment="Left"
                                     MinWidth="50" Text="{Binding ButtonHeight}" />
-                            <Label Margin="0,5,0,0">
-                                <LocText ResourceIdentifierKey=":PageCount" Suffix=":"/>
-                            </Label>
+                            <Label Margin="0,5,0,0" Content="{LocText PageCount,Suffix=':'}"/>
                             <UIControls:FilteredTextBox Type="Digits" Margin="0,5,0,0" HorizontalAlignment="Left"
                                     MinWidth="50" Text="{Binding PageCount}" />
+                            <Label Margin="0,5,0,0" Content="{LocText FontSize,Suffix=':'}"/>
+                            <UIControls:FilteredTextBox Type="Digits" Margin="0,5,0,0" HorizontalAlignment="Left"
+                                    MinWidth="50" Text="{Binding FontSize}" />
                         </UniformGrid>
                     </StackPanel>
                 </ScrollViewer>

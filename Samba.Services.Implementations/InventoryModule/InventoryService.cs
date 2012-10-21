@@ -83,11 +83,6 @@ namespace Samba.Services.Implementations.InventoryModule
             return salesData;
         }
 
-        //private decimal GetQuantity(Order order)
-        //{
-        //    return order.IncreaseInventory ? 0 - order.Quantity : order.Quantity;
-        //}
-
         private void CreatePeriodicConsumptionItems(PeriodicConsumption pc, IWorkspace workspace)
         {
             var previousPc = GetPreviousPeriodicConsumption(workspace);

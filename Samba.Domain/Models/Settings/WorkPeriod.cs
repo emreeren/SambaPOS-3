@@ -9,9 +9,6 @@ namespace Samba.Domain.Models.Settings
         public DateTime EndDate { get; set; }
         public string StartDescription { get; set; }
         public string EndDescription { get; set; }
-        public decimal CashAmount { get; set; }
-        public decimal CreditCardAmount { get; set; }
-        public decimal TicketAmount { get; set; }
 
         public override string ToString()
         {

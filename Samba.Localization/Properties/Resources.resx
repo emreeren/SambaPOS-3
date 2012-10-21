@@ -2905,4 +2905,10 @@ Message:
   <data name="TagsShouldBeUniqueErrorMessage">
     <value xml:space="preserve">Ticket tag names should be unique</value>
   </data>
+  <data name="ExecutePowershellScript">
+    <value xml:space="preserve">Execute Powershell Script</value>
+  </data>
+  <data name="FontSize">
+    <value xml:space="preserve">Font Size</value>
+  </data>
 </root>

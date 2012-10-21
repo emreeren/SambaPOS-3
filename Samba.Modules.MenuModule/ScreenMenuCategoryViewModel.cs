@@ -11,9 +11,9 @@ namespace Samba.Modules.MenuModule
 {
     public enum NumeratorType
     {
-        Yok,
-        Küçük,
-        Büyük
+        NotUsed,
+        Small,
+        Large
     }
 
     public class ScreenMenuCategoryViewModel : ObservableObject
@@ -174,7 +174,7 @@ namespace Samba.Modules.MenuModule
 
         public bool ContainsMenuItem(MenuItem item)
         {
-            return ScreenMenuItems.Where(x => x.MenuItemId == item.Id).Count() > 0;
+            return ScreenMenuItems.Any(x => x.MenuItemId == item.Id);
         }
     }
 }

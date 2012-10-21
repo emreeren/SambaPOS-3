@@ -27,6 +27,7 @@ namespace Samba.Modules.ResourceModule
         public string DisplayMode { get { return DisplayModes[Model.DisplayMode]; } set { Model.DisplayMode = Array.IndexOf(DisplayModes, value); } }
         public string BackgroundImage { get { return string.IsNullOrEmpty(Model.BackgroundImage) ? "/Images/empty.png" : Model.BackgroundImage; } set { Model.BackgroundImage = value; } }
         public string BackgroundColor { get { return string.IsNullOrEmpty(Model.BackgroundColor) ? "Transparent" : Model.BackgroundColor; } set { Model.BackgroundColor = value; } }
+        public int FontSize { get { return Model.FontSize; } set { Model.FontSize = value; } }
         public int PageCount { get { return Model.PageCount; } set { Model.PageCount = value; } }
         public int ColumnCount { get { return Model.ColumnCount; } set { Model.ColumnCount = value; } }
         public int RowCount { get { return Model.RowCount; } set { Model.RowCount = value; } }

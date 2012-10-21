@@ -104,7 +104,7 @@ namespace Samba.Modules.PosModule.WidgetCreators
             }
         }
 
-        public string TotalStr { get { return string.Format("{0}:{1:N}", Resources.Total, Total); } }
+        public string TotalStr { get { return string.Format("{0}: {1:N}", Resources.Total, Total); } }
 
         protected override object CreateSettingsObject()
         {

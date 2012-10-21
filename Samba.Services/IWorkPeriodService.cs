@@ -6,7 +6,7 @@ namespace Samba.Services
 {
     public interface IWorkPeriodService : IService
     {
-        void StartWorkPeriod(string description, decimal cashAmount, decimal creditCardAmount, decimal ticketAmount);
+        void StartWorkPeriod(string description);
         void StopWorkPeriod(string description);
         IEnumerable<WorkPeriod> GetLastWorkPeriods(int count);
     }

@@ -10,6 +10,7 @@ namespace Samba.Domain.Models.Resources
         public int DisplayMode { get; set; }
         public string BackgroundColor { get; set; }
         public string BackgroundImage { get; set; }
+        public int FontSize { get; set; }
         public int PageCount { get; set; }
         public int RowCount { get; set; }
         public int ColumnCount { get; set; }
@@ -60,7 +61,7 @@ namespace Samba.Domain.Models.Resources
                 return itemCount;
             }
         }
-        
+
         public void AddScreenItem(ResourceScreenItem choosenValue)
         {
             if (!ScreenItems.Contains(choosenValue))

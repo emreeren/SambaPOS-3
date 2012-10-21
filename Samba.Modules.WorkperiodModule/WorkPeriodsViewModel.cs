@@ -80,9 +80,6 @@ namespace Samba.Modules.WorkperiodModule
 
         public string StartDescription { get; set; }
         public string EndDescription { get; set; }
-        public decimal CashAmount { get; set; }
-        public decimal CreditCardAmount { get; set; }
-        public decimal TicketAmount { get; set; }
 
         public string LastEndOfDayLabel
         {
@@ -143,7 +140,7 @@ namespace Samba.Modules.WorkperiodModule
 
         private void OnStartOfDayExecute(string obj)
         {
-            _workPeriodService.StartWorkPeriod(StartDescription, CashAmount, CreditCardAmount, TicketAmount);
+            _workPeriodService.StartWorkPeriod(StartDescription);
             Refresh();
             _applicationState.CurrentWorkPeriod.PublishEvent(EventTopicNames.WorkPeriodStatusChanged);
             _automationService.NotifyEvent(RuleEventNames.WorkPeriodStarts, new { WorkPeriod = _applicationState.CurrentWorkPeriod });
@@ -172,9 +169,6 @@ namespace Samba.Modules.WorkperiodModule
 
             StartDescription = "";
             EndDescription = "";
-            CashAmount = 0;
-            CreditCardAmount = 0;
-            TicketAmount = 0;
 
             ActiveScreen = 0;
         }

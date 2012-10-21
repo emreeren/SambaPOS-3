@@ -2582,6 +2582,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Execute Powershell Script.
+        /// </summary>
+        public static string ExecutePowershellScript {
+            get {
+                return ResourceManager.GetString("ExecutePowershellScript", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Execute Print Job.
         /// </summary>
         public static string ExecutePrintJob {
@@ -2785,6 +2794,15 @@ namespace Samba.Localization.Properties {
         public static string FixedCost {
             get {
                 return ResourceManager.GetString("FixedCost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Font Size.
+        /// </summary>
+        public static string FontSize {
+            get {
+                return ResourceManager.GetString("FontSize", resourceCulture);
             }
         }
         

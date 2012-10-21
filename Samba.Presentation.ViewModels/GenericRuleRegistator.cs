@@ -52,8 +52,7 @@ namespace Samba.Presentation.ViewModels
         private static void RegisterActions()
         {
             AutomationService.RegisterActionType(ActionNames.SendEmail, Resources.SendEmail, new { SMTPServer = "", SMTPUser = "", SMTPPassword = "", SMTPPort = 0, ToEMailAddress = "", Subject = "", CCEmailAddresses = "", FromEMailAddress = "", EMailMessage = "", FileName = "", DeleteFile = false, BypassSslErrors = false });
-            AutomationService.RegisterActionType(ActionNames.Addticketdiscount, Resources.AddTicketDiscount, new { DiscountPercentage = 0m });
-            AutomationService.RegisterActionType(ActionNames.Addorder, Resources.AddOrder, new { MenuItemName = "", PortionName = "", Quantity = 0, Tag = "" });
+            AutomationService.RegisterActionType(ActionNames.AddOrder, Resources.AddOrder, new { MenuItemName = "", PortionName = "", Quantity = 0, Tag = "" });
             AutomationService.RegisterActionType(ActionNames.UpdateTicketTag, Resources.UpdateTicketTag, new { TagName = "", TagValue = "" });
             AutomationService.RegisterActionType(ActionNames.TagOrder, Resources.TagOrder, new { OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterActionType(ActionNames.UntagOrder, Resources.UntagOrder, new { OrderTagName = "", OrderTagValue = "" });
@@ -75,7 +74,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType(ActionNames.CreateTicket, string.Format(Resources.Create_f, Resources.Ticket));
             AutomationService.RegisterActionType(ActionNames.DisplayTicket, Resources.DisplayTicket, new { TicketId = 0 });
             AutomationService.RegisterActionType(ActionNames.DisplayPaymentScreen, Resources.DisplayPaymentScreen);
-            AutomationService.RegisterActionType(ActionNames.ExecutePowershellScript, "Execute Powershell Script", new { Script = "" });
+            AutomationService.RegisterActionType(ActionNames.ExecutePowershellScript, Resources.ExecutePowershellScript, new { Script = "" });
 
         }
 
@@ -175,6 +174,7 @@ namespace Samba.Presentation.ViewModels
                     var ticketId = x.Value.GetAsInteger("TicketId");
                     if (ticketId > 0)
                         ExtensionMethods.PublishIdEvent(ticketId, EventTopicNames.DisplayTicket);
+                    else EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
                 }
 
                 if (x.Value.Action.ActionType == ActionNames.CreateTicket)
@@ -380,18 +380,7 @@ namespace Samba.Presentation.ViewModels
                     }
                 }
 
-                if (x.Value.Action.ActionType == ActionNames.Addticketdiscount)
-                {
-                    //var ticket = x.Value.GetDataValue<Ticket>("Ticket");
-                    //if (ticket != null)
-                    //{
-                    //    var percentValue = x.Value.GetAsDecimal("DiscountPercentage");
-                    //    ticket.AddTicketDiscount(DiscountType.Percent, percentValue, ApplicationState.CurrentLoggedInUser.Id);
-                    //    TicketService.RecalculateTicket(ticket);
-                    //}
-                }
-
-                if (x.Value.Action.ActionType == ActionNames.Addorder)
+                if (x.Value.Action.ActionType == ActionNames.AddOrder)
                 {
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
 

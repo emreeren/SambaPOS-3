@@ -24,8 +24,7 @@
         public const string DisplayTicket = "DisplayTicket";
         public const string DisplayPaymentScreen = "DisplayPaymentScreen";
         public const string CreateAccountTransactionDocument = "CreateAccountTransactionDocument";
-        public const string Addticketdiscount = "AddTicketDiscount";
-        public const string Addorder = "AddOrder";
+        public const string AddOrder = "AddOrder";
         public const string SendEmail = "SendEmail";
         public const string ExecutePowershellScript = "ExecutePowershellScript";
     }

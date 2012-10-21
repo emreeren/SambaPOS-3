@@ -22,7 +22,7 @@ namespace Samba.Services.Implementations.WorkPeriodModule
 
         public WorkPeriod CurrentWorkPeriod { get { return _applicationState.CurrentWorkPeriod; } }
 
-        public void StartWorkPeriod(string description, decimal cashAmount, decimal creditCardAmount, decimal ticketAmount)
+        public void StartWorkPeriod(string description)
         {
             using (var workspace = WorkspaceFactory.Create())
             {
@@ -40,9 +40,6 @@ namespace Samba.Services.Implementations.WorkPeriodModule
                     StartDate = now,
                     EndDate = now,
                     StartDescription = description,
-                    CashAmount = cashAmount,
-                    CreditCardAmount = creditCardAmount,
-                    TicketAmount = ticketAmount
                 };
 
                 workspace.Add(newPeriod);

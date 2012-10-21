@@ -469,7 +469,7 @@ namespace Samba.Services
 
             _workspace.CommitChanges();
 
-            var screen = new ResourceScreen { Name = "All Tables", ColumnCount = 7, ResourceTypeId = tableTemplate.Id };
+            var screen = new ResourceScreen { Name = "All Tables", ColumnCount = 7, ResourceTypeId = tableTemplate.Id, FontSize = 50 };
             screen.ResourceScreenMaps.Add(new ResourceScreenMap());
             _workspace.Add(screen);
 
