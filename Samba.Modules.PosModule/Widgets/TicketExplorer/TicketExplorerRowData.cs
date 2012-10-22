@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Samba.Domain.Models.Tickets;
-using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Services;
 using Samba.Services.Common;
 
-namespace Samba.Modules.PosModule.WidgetCreators
+namespace Samba.Modules.PosModule.Widgets.TicketExplorer
 {
     public class TicketExplorerRowData : ObservableObject
     {

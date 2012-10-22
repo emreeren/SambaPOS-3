@@ -3,11 +3,9 @@ using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Regions;
 using Samba.Domain.Models.Resources;
 using Samba.Localization.Properties;
-using Samba.Modules.ResourceModule.WidgetCreators;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Interaction;
 using Samba.Presentation.Common.ModelBase;
-using Samba.Presentation.Common.Widgets;
 using Samba.Services;
 using Samba.Services.Common;
 
@@ -73,7 +71,5 @@ namespace Samba.Modules.ResourceModule
         {
             _regionManager.Regions[RegionNames.MainRegion].Activate(_resourceSwitcherView);
         }
-
-
     }
 }

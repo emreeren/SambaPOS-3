@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using Samba.Presentation.Common.ModelBase;
 
-namespace Samba.Modules.ResourceModule.WidgetCreators
+namespace Samba.Modules.ResourceModule.Widgets.ResourceButton
 {
     public class ResourceNameValue : IValueWithSource
     {
@@ -21,7 +21,7 @@ namespace Samba.Modules.ResourceModule.WidgetCreators
     }
 
 
-    public class ResourceWidgetSettings
+    public class ResourceButtonWidgetSettings
     {
         private ResourceNameValue _resourceNameValue;
         public ResourceNameValue ResourceNameValue

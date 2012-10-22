@@ -97,9 +97,11 @@
     </Compile>
     <Compile Include="ResourceViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WidgetCreators\ResourceButtonWidgetCreator.cs" />
-    <Compile Include="WidgetCreators\ResourceButtonWidgetViewModel.cs" />
-    <Compile Include="WidgetCreators\ResourceWidgetSettings.cs" />
+    <Compile Include="Widgets\ResourceButton\ResourceButtonWidgetCreator.cs" />
+    <Compile Include="Widgets\ResourceButton\ResourceButtonWidgetViewModel.cs" />
+    <Compile Include="Widgets\ResourceButton\ResourceButtonWidgetSettings.cs" />
+    <Compile Include="Widgets\ResourceGrid\ResourceGridWidgetCreator.cs" />
+    <Compile Include="Widgets\ResourceGrid\ResourceGridWidgetViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="..\Samba.Presentation.Common\Themes\OfficeTab.xaml">

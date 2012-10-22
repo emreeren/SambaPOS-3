@@ -7,7 +7,7 @@ using Samba.Presentation.Common.Commands;
 using Samba.Services;
 using Samba.Services.Common;
 
-namespace Samba.Modules.ResourceModule.WidgetCreators
+namespace Samba.Modules.ResourceModule.Widgets.ResourceButton
 {
     public class ResourceButtonWidgetViewModel : WidgetViewModel
     {
@@ -39,7 +39,7 @@ namespace Samba.Modules.ResourceModule.WidgetCreators
 
         protected override object CreateSettingsObject()
         {
-            return JsonHelper.Deserialize<ResourceWidgetSettings>(_model.Properties);
+            return JsonHelper.Deserialize<ResourceButtonWidgetSettings>(_model.Properties);
         }
 
         protected override void BeforeEditSettings()
@@ -56,7 +56,7 @@ namespace Samba.Modules.ResourceModule.WidgetCreators
         }
 
         [Browsable(false)]
-        public ResourceWidgetSettings Settings { get { return SettingsObject as ResourceWidgetSettings; } }
+        public ResourceButtonWidgetSettings Settings { get { return SettingsObject as ResourceButtonWidgetSettings; } }
 
         public ResourceState GetResourceState()
         {

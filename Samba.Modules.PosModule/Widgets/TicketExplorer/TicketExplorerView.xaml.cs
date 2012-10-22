@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace Samba.Modules.PosModule.WidgetCreators
+namespace Samba.Modules.PosModule.Widgets.TicketExplorer
 {
     /// <summary>
     /// Interaction logic for TicketExplorerView.xaml

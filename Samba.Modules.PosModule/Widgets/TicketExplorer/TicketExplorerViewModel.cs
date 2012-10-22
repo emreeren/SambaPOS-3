@@ -8,9 +8,8 @@ using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Services;
 using Samba.Services.Common;
-using Timer = System.Timers.Timer;
 
-namespace Samba.Modules.PosModule.WidgetCreators
+namespace Samba.Modules.PosModule.Widgets.TicketExplorer
 {
     public class TicketExplorerViewModel : WidgetViewModel
     {
