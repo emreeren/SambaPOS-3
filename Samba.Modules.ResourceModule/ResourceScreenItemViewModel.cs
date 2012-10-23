@@ -65,8 +65,6 @@ namespace Samba.Modules.ResourceModule
         }
 
         private bool _isEnabled;
-        private int _fontSize;
-
         public bool IsEnabled
         {
             get { return _isEnabled; }

@@ -77,6 +77,7 @@ namespace Samba.Presentation.Common.UIControls
 
         protected static void AddControl(IDiagram buttonHolder, InkCanvas parentControl)
         {
+            ButtonContextMenu.Tag = buttonHolder;
             var result = WidgetCreatorRegistry.CreateWidgetControl(buttonHolder, ButtonContextMenu);
             if (result != null) parentControl.Children.Add(result);
         }
@@ -109,20 +110,33 @@ namespace Samba.Presentation.Common.UIControls
         void Mi3Click(object sender, RoutedEventArgs e)
         {
             if (EditingMode != InkCanvasEditingMode.None)
-                OnWidgetRemoved(EventArgs.Empty, ((IDiagram)((Control)((ContextMenu)((MenuItem)sender).Parent).PlacementTarget).DataContext));
+            {
+                var diagram = ((Control)((ContextMenu)((MenuItem)sender).Parent).PlacementTarget).DataContext as IDiagram ??
+                              ((ContextMenu)((MenuItem)sender).Parent).Tag as IDiagram;
+                OnWidgetRemoved(EventArgs.Empty, diagram);
+            }
         }
 
         void Mi2Click(object sender, RoutedEventArgs e)
         {
             if (EditingMode != InkCanvasEditingMode.None)
-                ((IDiagram)((Control)((ContextMenu)((MenuItem)sender).Parent).PlacementTarget).DataContext).EditSettings();
+            {
+                var diagram = ((Control)((ContextMenu)((MenuItem)sender).Parent).PlacementTarget).DataContext as IDiagram ??
+                              ((ContextMenu)((MenuItem)sender).Parent).Tag as IDiagram;
+                if (diagram != null)
+                    diagram.EditSettings();
+            }
         }
 
         void MenuItemClick(object sender, RoutedEventArgs e)
         {
             if (EditingMode != InkCanvasEditingMode.None)
-                ((IDiagram)((Control)((ContextMenu)((MenuItem)sender).Parent).PlacementTarget).DataContext).EditProperties();
+            {
+                var diagram = ((Control)((ContextMenu)((MenuItem)sender).Parent).PlacementTarget).DataContext as IDiagram ??
+                              ((ContextMenu)((MenuItem)sender).Parent).Tag as IDiagram;
+                if (diagram != null)
+                    diagram.EditProperties();
+            }
         }
-
     }
 }
