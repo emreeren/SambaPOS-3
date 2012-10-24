@@ -102,6 +102,8 @@
     <Compile Include="Widgets\ResourceButton\ResourceButtonWidgetSettings.cs" />
     <Compile Include="Widgets\ResourceGrid\ResourceGridWidgetCreator.cs" />
     <Compile Include="Widgets\ResourceGrid\ResourceGridWidgetViewModel.cs" />
+    <Compile Include="Widgets\ResourceSearch\ResourceSearchWidgetCreator.cs" />
+    <Compile Include="Widgets\ResourceSearch\ResourceSearchWidgetViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="..\Samba.Presentation.Common\Themes\OfficeTab.xaml">
@@ -192,6 +194,7 @@
       <Name>Samba.Services</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>IF NOT "$(ConfigurationName)"=="Release" GOTO End

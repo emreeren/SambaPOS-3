@@ -3302,25 +3302,30 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [HEADER]
+        ///   Looks up a localized string similar to [LAYOUT]
         ///&lt;T&gt;TICKET
         ///&lt;L00&gt;Date:{TICKET DATE}
         ///&lt;L00&gt;Time:{TIME}
         ///&lt;L00&gt;Location No:{LOCATION}
         ///&lt;L00&gt;Ticket No:{TICKET NO}
         ///&lt;F&gt;-
+        ///{ORDERS}
         ///
-        ///[LINE]
+        ///[ORDERS]
         ///&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
-        ///        * {PROPERTIES}
+        ///{ORDER TAGS}
         ///
-        ///[LINE:GIFT]
+        ///[ORDERS:GIFT]
         ///&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
-        ///        * {PROPERTIES}
+        ///{ORDER TAGS}
         ///
-        ///[LINE:VOID]
+        ///[ORDERS:VOID]
         ///&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
-        ///        * {PROPERTIES}
+        ///{ORDER TAGS}
+        ///
+        ///[ORDER TAGS]
+        ///-- Format for order tags
+        ///&lt;L00&gt;     * {ORDER TAG NAME}
         ///.
         /// </summary>
         public static string KitchenTemplateValue {

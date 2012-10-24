@@ -117,8 +117,7 @@ namespace Samba.Modules.ResourceModule
 
         private void ActivateResourceScreen(ResourceScreen resourceScreen)
         {
-            if (!_applicationState.IsLocked)
-                _applicationStateSetter.SetSelectedResourceScreen(resourceScreen);
+            _applicationStateSetter.SetSelectedResourceScreen(resourceScreen);
 
             if (resourceScreen != null)
             {

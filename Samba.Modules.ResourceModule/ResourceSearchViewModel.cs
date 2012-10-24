@@ -66,6 +66,7 @@ namespace Samba.Modules.ResourceModule
             _cacheService = cacheService;
             _resourceService = resourceService;
 
+            IsKeyboardVisible = true;
             FoundResources = new ObservableCollection<ResourceSearchResultViewModel>();
 
             SelectResourceCommand = new CaptionCommand<string>("", OnSelectResource, CanSelectResource);
@@ -76,6 +77,7 @@ namespace Samba.Modules.ResourceModule
         }
 
         protected int StateFilter { get; set; }
+        public bool IsKeyboardVisible { get; set; }
 
         public IEnumerable<ResourceType> ResourceTypes { get { return _cacheService.GetResourceTypes(); } }
 
