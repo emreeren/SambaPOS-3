@@ -140,7 +140,7 @@ namespace Samba.Modules.ResourceModule
 
         private void ActivateResourceSearcher(ResourceScreen resourceScreen)
         {
-            _resourceSearchViewModel.Refresh(resourceScreen, _currentOperationRequest);
+            _resourceSearchViewModel.Refresh(resourceScreen.ResourceTypeId, resourceScreen.StateFilterId, _currentOperationRequest);
             _regionManager.Regions[RegionNames.ResourceScreenRegion].Activate(_resourceSearchView);
         }
 

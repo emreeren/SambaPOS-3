@@ -4,29 +4,12 @@ using Samba.Presentation.Common.ModelBase;
 
 namespace Samba.Modules.ResourceModule.Widgets.ResourceButton
 {
-    public class ResourceNameValue : IValueWithSource
-    {
-        public string Text { get; set; }
-
-        private IEnumerable<string> _values;
-        public IEnumerable<string> Values
-        {
-            get { return _values ?? (_values = new List<string>(new[] { "a", "b" })); }
-        }
-
-        public void UpdateValues(IEnumerable<string> values)
-        {
-            _values = values;
-        }
-    }
-
-
     public class ResourceButtonWidgetSettings
     {
-        private ResourceNameValue _resourceNameValue;
-        public ResourceNameValue ResourceNameValue
+        private NameWithValue _resourceNameValue;
+        public NameWithValue ResourceNameValue
         {
-            get { return _resourceNameValue ?? (_resourceNameValue = new ResourceNameValue()); }
+            get { return _resourceNameValue ?? (_resourceNameValue = new NameWithValue()); }
         }
 
         [Browsable(false)]

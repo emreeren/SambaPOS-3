@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using Samba.Domain.Models.Resources;
@@ -24,7 +25,8 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceGrid
 
         readonly EntityOperationRequest<Resource> _request = new EntityOperationRequest<Resource>(null, EventTopicNames.ResourceSelected);
 
-        public ResourceSelectorViewModel ResourceSelectorViewModel { get; set; }
+        [Browsable(false)]
+        public ResourceSelectorViewModel ResourceSelectorViewModel { get; private set; }
 
         protected override object CreateSettingsObject()
         {

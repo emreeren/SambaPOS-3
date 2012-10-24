@@ -103,6 +103,7 @@
     <Compile Include="Widgets\ResourceGrid\ResourceGridWidgetCreator.cs" />
     <Compile Include="Widgets\ResourceGrid\ResourceGridWidgetViewModel.cs" />
     <Compile Include="Widgets\ResourceSearch\ResourceSearchWidgetCreator.cs" />
+    <Compile Include="Widgets\ResourceSearch\ResourceSearchWidgetSettings.cs" />
     <Compile Include="Widgets\ResourceSearch\ResourceSearchWidgetViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

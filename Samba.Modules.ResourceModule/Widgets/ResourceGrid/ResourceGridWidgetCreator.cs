@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -46,13 +47,15 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceGrid
         public FrameworkElement CreateWidgetControl(IDiagram widget, ContextMenu contextMenu)
         {
             var viewModel = widget as ResourceGridWidgetViewModel;
+            Debug.Assert(viewModel != null);
+
             if (widget.DesignMode)
             {
                 viewModel.Refresh();
                 viewModel.ResourceSelectorViewModel.ResourceScreenItems.ToList().ForEach(x => x.IsEnabled = false);
             }
 
-            var ret = new ResourceSelectorView(viewModel.ResourceSelectorViewModel) { DataContext = viewModel.ResourceSelectorViewModel, ContextMenu = contextMenu };
+            var ret = new ResourceSelectorView(viewModel.ResourceSelectorViewModel) { DataContext = viewModel.ResourceSelectorViewModel, ContextMenu = contextMenu, Tag = widget };
 
             var heightBinding = new Binding("Height") { Source = viewModel, Mode = BindingMode.TwoWay };
             var widthBinding = new Binding("Width") { Source = viewModel, Mode = BindingMode.TwoWay };

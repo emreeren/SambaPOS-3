@@ -291,10 +291,10 @@ namespace Samba.Modules.ResourceModule
             }
         }
 
-        public void Refresh(ResourceScreen resourceScreen, EntityOperationRequest<Resource> currentOperationRequest)
+        public void Refresh(int resourceType, int stateFilter, EntityOperationRequest<Resource> currentOperationRequest)
         {
-            StateFilter = resourceScreen.StateFilterId;
-            SelectedResourceType = _cacheService.GetResourceTypeById(resourceScreen.ResourceTypeId);
+            StateFilter = stateFilter;
+            SelectedResourceType = _cacheService.GetResourceTypeById(resourceType);
             RefreshSelectedResource(currentOperationRequest);
         }
     }

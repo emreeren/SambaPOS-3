@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel.Composition;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Samba.Domain.Models.Resources;
+using Samba.Infrastructure;
 using Samba.Presentation.Common;
 using Samba.Services;
 
@@ -41,8 +39,9 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceSearch
         public FrameworkElement CreateWidgetControl(IDiagram widget, ContextMenu contextMenu)
         {
             var viewModel = widget as ResourceSearchWidgetViewModel;
-            viewModel.ResourceSearchViewModel.IsKeyboardVisible = false;
-            var ret = new ResourceSearchView(viewModel.ResourceSearchViewModel) { DataContext = viewModel.ResourceSearchViewModel, ContextMenu = contextMenu };
+            Debug.Assert(viewModel != null);
+
+            var ret = new ResourceSearchView(viewModel.ResourceSearchViewModel) { DataContext = viewModel.ResourceSearchViewModel, ContextMenu = contextMenu, Tag = widget };
 
             var heightBinding = new Binding("Height") { Source = viewModel, Mode = BindingMode.TwoWay };
             var widthBinding = new Binding("Width") { Source = viewModel, Mode = BindingMode.TwoWay };
@@ -59,7 +58,8 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceSearch
 
         public Widget CreateNewWidget()
         {
-            return new Widget { CreatorName = GetCreatorName() };
+            var parameters = JsonHelper.Serialize(new ResourceSearchWidgetSettings());
+            return new Widget { Properties = parameters, CreatorName = GetCreatorName() };
         }
 
         public IDiagram CreateWidgetViewModel(Widget widget)
