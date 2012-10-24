@@ -170,11 +170,6 @@ namespace Samba.Services.Implementations.ResourceModule
             }
         }
 
-        public IEnumerable<string> GetCategories()
-        {
-            return Dao.Distinct<ResourceScreenItem>(x => x.Category);
-        }
-
         public void UpdateResourceState(int resourceId, int stateId)
         {
             if (resourceId == 0) return;

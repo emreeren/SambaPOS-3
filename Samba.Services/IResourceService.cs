@@ -12,7 +12,6 @@ namespace Samba.Services
         IList<Widget> LoadWidgets(string selectedResourceScreen);
         void SaveResourceScreenItems();
         int GetResourceScreenItemCount();
-        IEnumerable<string> GetCategories();
         void UpdateResourceState(int resourceId, int stateId);
         void AddWidgetToResourceScreen(string resourceScreenName, Widget widget);
         void UpdateResourceScreen(ResourceScreen resourceScreen);

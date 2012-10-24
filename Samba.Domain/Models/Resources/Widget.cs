@@ -5,6 +5,7 @@ namespace Samba.Domain.Models.Resources
 {
     public class Widget : Value
     {
+        public int ResourceScreenId { get; set; }
         public int XLocation { get; set; }
         public int YLocation { get; set; }
         public int Height { get; set; }

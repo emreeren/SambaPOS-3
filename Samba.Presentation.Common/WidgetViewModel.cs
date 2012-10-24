@@ -1,12 +1,10 @@
 using System;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Media;
 using Samba.Domain.Models.Resources;
 using Samba.Infrastructure;
 using Samba.Localization;
-using Samba.Localization.Properties;
 using Samba.Presentation.Common.Services;
 
 namespace Samba.Presentation.Common
@@ -14,6 +12,7 @@ namespace Samba.Presentation.Common
     public abstract class WidgetViewModel : ObservableObject, IDiagram
     {
         protected readonly Widget _model;
+
         private bool _isEnabled;
 
         protected WidgetViewModel(Widget model)
@@ -67,7 +66,7 @@ namespace Samba.Presentation.Common
         public int Width
         {
             get { return _model.Width; }
-            set { _model.Width = value; RaisePropertyChanged(() => Width); }
+            set { _model.Width =value; RaisePropertyChanged(() => Width); }
         }
 
         [Browsable(false)]

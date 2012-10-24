@@ -115,7 +115,6 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<AppAction>().Property(x => x.Parameter).IsMaxLength();
             modelBuilder.Entity<AppRule>().Property(x => x.EventConstraints).IsMaxLength();
 
-            modelBuilder.Entity<ResourceScreen>().HasMany(p => p.ScreenItems).WithMany();
             modelBuilder.Entity<CalculationSelector>().HasMany(x => x.CalculationTypes).WithMany();
             modelBuilder.Entity<AccountTransactionDocumentType>().HasMany(x => x.TransactionTypes).WithMany();
 

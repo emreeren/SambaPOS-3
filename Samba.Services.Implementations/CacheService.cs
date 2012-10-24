@@ -458,6 +458,7 @@ namespace Samba.Services.Implementations
 
         public override void Reset()
         {
+            _resourceScreens = null;
             _foreignCurrencies = null;
             _productTimers = null;
             _menuItems = null;
