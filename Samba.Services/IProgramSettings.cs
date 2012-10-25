@@ -7,5 +7,6 @@
         string WeightBarcodeItemFormat { get; set; }
         int WeightBarcodeQuantityLength { get; set; }
         decimal AutoRoundDiscount { get; set; }
+        string PaymentScreenValues { get; set; }
     }
 }

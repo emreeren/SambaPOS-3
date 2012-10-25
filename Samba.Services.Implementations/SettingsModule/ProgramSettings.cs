@@ -47,6 +47,18 @@ namespace Samba.Services.Implementations.SettingsModule
             set { GetAutoRoundDiscount().DecimalValue = value; }
         }
 
+        public string PaymentScreenValues
+        {
+            get { return GetPaymentScreenValues().StringValue; }
+            set { GetPaymentScreenValues().StringValue = value; }
+        }
+
+        private ProgramSetting _paymentScreenValues;
+        public ProgramSetting GetPaymentScreenValues()
+        {
+            return _paymentScreenValues ?? (_paymentScreenValues = GetSetting("PaymentScreenValues"));
+        }
+
         private ProgramSetting _weightBarcodePrefix;
         private ProgramSetting GetWeightBarcodePrefix()
         {

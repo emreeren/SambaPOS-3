@@ -132,7 +132,6 @@ namespace Samba.Modules.SettingsModule
         }
 
         private IEnumerable<CultureInfo> _supportedLanguages;
-
         public IEnumerable<CultureInfo> SupportedLanguages
         {
             get

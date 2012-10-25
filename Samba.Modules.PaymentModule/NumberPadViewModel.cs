@@ -7,12 +7,14 @@ using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.ViewModels;
+using Samba.Services;
 
 namespace Samba.Modules.PaymentModule
 {
     [Export]
     public class NumberPadViewModel : ObservableObject
     {
+        private readonly ISettingService _settingService;
         private readonly PaymentEditor _paymentEditor;
         private readonly TenderedValueViewModel _tenderedValueViewModel;
         private readonly OrderSelectorViewModel _orderSelectorViewModel;
@@ -21,10 +23,11 @@ namespace Samba.Modules.PaymentModule
         private readonly TicketTotalsViewModel _paymentTotals;
 
         [ImportingConstructor]
-        public NumberPadViewModel(PaymentEditor paymentEditor, TenderedValueViewModel tenderedValueViewModel,
+        public NumberPadViewModel(ISettingService settingService, PaymentEditor paymentEditor, TenderedValueViewModel tenderedValueViewModel,
             OrderSelectorViewModel orderSelectorViewModel, AccountBalances accountBalances,
             ForeignCurrencyButtonsViewModel foreignCurrencyButtonsViewModel, TicketTotalsViewModel paymentTotals)
         {
+            _settingService = settingService;
             _paymentEditor = paymentEditor;
             _tenderedValueViewModel = tenderedValueViewModel;
             _orderSelectorViewModel = orderSelectorViewModel;
@@ -68,6 +71,21 @@ namespace Samba.Modules.PaymentModule
         }
 
         public string BalanceModeCaption { get { return BalanceMode ? Resources.Balance : Resources.Ticket; } }
+
+        private string[] _paymentScreenValues;
+        public string[] PaymentScreenValues
+        {
+            get { return _paymentScreenValues ?? (_paymentScreenValues = GetPaymentScreenValues()); }
+            set { _paymentScreenValues = value; }
+        }
+
+        private string[] GetPaymentScreenValues()
+        {
+            var result = _settingService.ProgramSettings.PaymentScreenValues;
+            if (string.IsNullOrEmpty(result)) result = "1,5,10,20,50,100";
+            return result.Split(result.Contains(";") ? ';' : ',');
+        }
+
         public DelegateCommand<string> ChangeBalanceModeCommand { get; set; }
         public CaptionCommand<string> TenderAllCommand { get; set; }
         public DelegateCommand<string> TypeValueCommand { get; set; }
@@ -116,11 +134,7 @@ namespace Samba.Modules.PaymentModule
         {
             var tenderedValue = _tenderedValueViewModel.GetTenderedValue();
             ResetAmount = true;
-            var dc = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
-            obj = obj.Replace(",", dc);
-            obj = obj.Replace(".", dc);
-
-            var value = Convert.ToDecimal(obj);
+            var value = ConvertToDecimal(obj);
             var remainingTicketAmount = _tenderedValueViewModel.GetPaymentDueValue() / _paymentEditor.ExchangeRate;
 
             if (value > 0)
@@ -152,8 +166,7 @@ namespace Samba.Modules.PaymentModule
                 ResetValues();
                 return;
             }
-
-            var value = Convert.ToDecimal(obj);
+            var value = ConvertToDecimal(obj);
             if (string.IsNullOrEmpty(_tenderedValueViewModel.TenderedAmount))
                 _tenderedValueViewModel.TenderedAmount = "0";
             var tenderedValue = Convert.ToDecimal(_tenderedValueViewModel.TenderedAmount.Replace(
@@ -161,6 +174,15 @@ namespace Samba.Modules.PaymentModule
             tenderedValue += value;
             _tenderedValueViewModel.TenderedAmount = tenderedValue.ToString(LocalSettings.DefaultCurrencyFormat);
             OnTypedValueChanged();
+        }
+
+        private decimal ConvertToDecimal(string s)
+        {
+            var dc = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+            s = s.Replace(",", dc);
+            s = s.Replace(".", dc);
+            if (s.StartsWith(dc)) s = "0" + s;
+            return Convert.ToDecimal(s);
         }
 
         private void OnTypeValueExecuted(string obj)

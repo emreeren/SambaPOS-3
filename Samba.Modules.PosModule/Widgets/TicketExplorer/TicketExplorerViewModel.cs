@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Collections.Generic;
 using System.Timers;
@@ -37,6 +38,7 @@ namespace Samba.Modules.PosModule.Widgets.TicketExplorer
         }
 
         private IList<ITicketExplorerFilter> _filters;
+        [Browsable(false)]
         public IList<ITicketExplorerFilter> Filters
         {
             get { return _filters; }
@@ -47,14 +49,20 @@ namespace Samba.Modules.PosModule.Widgets.TicketExplorer
             }
         }
 
+        [Browsable(false)]
         public ICaptionCommand PreviousWorkPeriod { get; set; }
+        [Browsable(false)]
         public ICaptionCommand NextWorkPeriod { get; set; }
+        [Browsable(false)]
         public ICaptionCommand RefreshDatesCommand { get; set; }
+        [Browsable(false)]
         public ICaptionCommand CloseCommand { get; set; }
 
+        [Browsable(false)]
         public bool CanChanageDateFilter { get { return _userService.IsUserPermittedFor(PermissionNames.DisplayOldTickets); } }
 
         private DateTime _startDate;
+        [Browsable(false)]
         public DateTime StartDate
         {
             get { return _startDate; }
@@ -67,6 +75,7 @@ namespace Samba.Modules.PosModule.Widgets.TicketExplorer
         }
 
         private DateTime _endDate;
+        [Browsable(false)]
         public DateTime EndDate
         {
             get { return _endDate; }
@@ -74,6 +83,7 @@ namespace Samba.Modules.PosModule.Widgets.TicketExplorer
         }
 
         private IList<TicketExplorerRowData> _tickets;
+        [Browsable(false)]
         public IList<TicketExplorerRowData> Tickets
         {
             get { return _tickets; }
@@ -84,14 +94,17 @@ namespace Samba.Modules.PosModule.Widgets.TicketExplorer
             }
         }
 
+        [Browsable(false)]
         public IEnumerable<ResourceType> ResourceTypes
         {
             get { return _cacheService.GetResourceTypes(); }
         }
 
+        [Browsable(false)]
         public TicketExplorerRowData SelectedRow { get; set; }
 
         private decimal _total;
+        [Browsable(false)]
         public decimal Total
         {
             get { return _total; }
@@ -103,6 +116,7 @@ namespace Samba.Modules.PosModule.Widgets.TicketExplorer
             }
         }
 
+        [Browsable(false)]
         public string TotalStr { get { return string.Format("{0}: {1:N}", Resources.Total, Total); } }
 
         protected override object CreateSettingsObject()

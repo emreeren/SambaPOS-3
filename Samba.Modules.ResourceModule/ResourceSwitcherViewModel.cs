@@ -146,7 +146,7 @@ namespace Samba.Modules.ResourceModule
 
         private void ActivateButtonSelector(ResourceScreen resourceScreen)
         {
-            _resourceSelectorViewModel.Refresh(resourceScreen, _currentOperationRequest);
+            _resourceSelectorViewModel.Refresh(resourceScreen, resourceScreen.StateFilterId, _currentOperationRequest);
             _regionManager.Regions[RegionNames.ResourceScreenRegion].Activate(_resourceSelectorView);
         }
     }

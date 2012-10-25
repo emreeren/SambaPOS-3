@@ -11,7 +11,22 @@
             <ColumnDefinition Width="56*" />
             <ColumnDefinition Width="17*" />
         </Grid.ColumnDefinitions>
-        <UniformGrid Grid.Column="0" Rows="6">
+
+        <ItemsControl Grid.Column="0" ItemsSource="{Binding PaymentScreenValues}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <FxButton:FlexButton ButtonColor="Green" Content="{Binding Path=.}" CommandParameter="{Binding Path=.}" Margin="2"
+                        Command="{Binding DataContext.SetValueCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="1"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+
+        <!--<UniformGrid Grid.Column="0" Rows="6">
             <FxButton:FlexButton Command="{Binding SetValueCommand}" CommandParameter="1" Margin="2"
                          ButtonColor="Green">1</FxButton:FlexButton>
             <FxButton:FlexButton Command="{Binding SetValueCommand}" CommandParameter="5" Margin="2"
@@ -24,7 +39,8 @@
                          ButtonColor="Green">50</FxButton:FlexButton>
             <FxButton:FlexButton Command="{Binding SetValueCommand}" CommandParameter="100" Margin="2"
                          ButtonColor="Green">100</FxButton:FlexButton>
-        </UniformGrid>
+        </UniformGrid>-->
+
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />

@@ -101,6 +101,7 @@
     <Compile Include="Widgets\ResourceButton\ResourceButtonWidgetViewModel.cs" />
     <Compile Include="Widgets\ResourceButton\ResourceButtonWidgetSettings.cs" />
     <Compile Include="Widgets\ResourceGrid\ResourceGridWidgetCreator.cs" />
+    <Compile Include="Widgets\ResourceGrid\ResourceGridWidgetSettings.cs" />
     <Compile Include="Widgets\ResourceGrid\ResourceGridWidgetViewModel.cs" />
     <Compile Include="Widgets\ResourceSearch\ResourceSearchWidgetCreator.cs" />
     <Compile Include="Widgets\ResourceSearch\ResourceSearchWidgetSettings.cs" />

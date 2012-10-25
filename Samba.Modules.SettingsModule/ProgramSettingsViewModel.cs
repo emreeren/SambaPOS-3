@@ -16,6 +16,7 @@ namespace Samba.Modules.SettingsModule
         public string WeightBarcodeItemFormat { get; set; }
         public int WeightBarcodeQuantityLength { get; set; }
         public decimal AutoRoundDiscount { get; set; }
+        public string PaymentScreenValues { get; set; }
 
         public ICaptionCommand SaveCommand { get; set; }
 
@@ -31,6 +32,7 @@ namespace Samba.Modules.SettingsModule
             WeightBarcodeItemFormat = _settingService.ProgramSettings.WeightBarcodeItemFormat;
             WeightBarcodeQuantityLength = _settingService.ProgramSettings.WeightBarcodeQuantityLength;
             AutoRoundDiscount = _settingService.ProgramSettings.AutoRoundDiscount;
+            PaymentScreenValues = _settingService.ProgramSettings.PaymentScreenValues;
         }
 
         private void OnSave(object obj)
@@ -40,6 +42,7 @@ namespace Samba.Modules.SettingsModule
             _settingService.ProgramSettings.WeightBarcodeQuantityLength = WeightBarcodeQuantityLength;
             _settingService.ProgramSettings.AutoRoundDiscount = AutoRoundDiscount;
             _settingService.ProgramSettings.WeightBarcodeItemFormat = WeightBarcodeItemFormat;
+            _settingService.ProgramSettings.PaymentScreenValues = PaymentScreenValues;
             _settingService.SaveProgramSettings();
             CommonEventPublisher.PublishViewClosedEvent(this);
         }

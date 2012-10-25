@@ -1,15 +1,16 @@
 ﻿<UserControl x:Class="Samba.Modules.SettingsModule.ProgramSettingsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:Common="clr-namespace:Samba.Presentation.Common;assembly=Samba.Presentation.Common"
-     mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" xmlns:lex="http://schemas.root-project.org/xaml/presentation" xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common">
+     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300"
+     xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common">
     <Grid>
         <StackPanel>
-            <GroupBox Header="{LocText TicketOptions}" HorizontalAlignment="Left" MinWidth="300">
+            <GroupBox Header="{LocText PaymentScreenSettings}" HorizontalAlignment="Left" MinWidth="300">
                 <StackPanel Margin="5">
-                    <Label>
-                        <LocText ResourceIdentifierKey="AutoRounding" Suffix=":" />
-                    </Label>
+                    <Label Content="{LocText AutoRounding, Suffix=':'}"/>
                     <UIControls:FilteredTextBox Type="Number" HorizontalAlignment="Left" Width="50" Text="{Binding AutoRoundDiscount}" />
+
+                    <Label Content="{LocText PaymentScreenValues, Suffix=':'}"/>
+                    <TextBox HorizontalAlignment="Left" MinWidth="150" Text="{Binding PaymentScreenValues}" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Header="{LocText WeightBarcodes}" HorizontalAlignment="Left" MinWidth="300">

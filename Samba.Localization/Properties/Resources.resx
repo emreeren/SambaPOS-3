@@ -2916,4 +2916,10 @@ Message:
   <data name="FontSize">
     <value xml:space="preserve">Font Size</value>
   </data>
+  <data name="PaymentScreenValues">
+    <value xml:space="preserve">Payment Screen Values</value>
+  </data>
+  <data name="PaymentScreenSettings">
+    <value xml:space="preserve">Payment Screen Settings</value>
+  </data>
 </root>

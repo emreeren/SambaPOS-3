@@ -60,6 +60,8 @@ namespace Samba.Modules.ResourceModule
                 });
         }
 
+        public int StateFilter { get; set; }
+
         public void RefreshResourceScreenItems()
         {
             if (SelectedResourceScreen != null)
@@ -100,7 +102,7 @@ namespace Samba.Modules.ResourceModule
 
         private void UpdateResourceScreenItems(ResourceScreen resourceScreen)
         {
-            var stateFilter = resourceScreen.DisplayMode == 0 || resourceScreen.DisplayMode == 1 ? resourceScreen.StateFilterId : 0;
+            var stateFilter = resourceScreen.DisplayMode == 0 || resourceScreen.DisplayMode == 1 ? StateFilter : 0;
             var resourceData = GetResourceScreenItems(resourceScreen, stateFilter);
             if (ResourceScreenItems != null && (!ResourceScreenItems.Any() || ResourceScreenItems.Count != resourceData.Count() || ResourceScreenItems.First().Name != resourceData.First().Name)) ResourceScreenItems = null;
 
@@ -145,8 +147,9 @@ namespace Samba.Modules.ResourceModule
             }
         }
 
-        public void Refresh(ResourceScreen resourceScreen, EntityOperationRequest<Resource> currentOperationRequest)
+        public void Refresh(ResourceScreen resourceScreen, int stateFilter, EntityOperationRequest<Resource> currentOperationRequest)
         {
+            StateFilter = stateFilter;
             _currentOperationRequest = currentOperationRequest;
             UpdateResourceScreenItems(resourceScreen);
         }

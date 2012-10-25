@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Samba.Domain.Models.Resources;
+using Samba.Infrastructure;
 using Samba.Presentation.Common;
 using Samba.Services;
 
@@ -72,7 +69,8 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceGrid
 
         public Widget CreateNewWidget()
         {
-            return new Widget { CreatorName = GetCreatorName() };
+            var parameters = JsonHelper.Serialize(new ResourceGridWidgetSettings());
+            return new Widget { Properties = parameters, CreatorName = GetCreatorName() };
         }
 
         public IDiagram CreateWidgetViewModel(Widget widget)

@@ -4559,6 +4559,24 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Payment Screen Settings.
+        /// </summary>
+        public static string PaymentScreenSettings {
+            get {
+                return ResourceManager.GetString("PaymentScreenSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Payment Screen Values.
+        /// </summary>
+        public static string PaymentScreenValues {
+            get {
+                return ResourceManager.GetString("PaymentScreenValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Payment Total.
         /// </summary>
         public static string PaymentTotal {
