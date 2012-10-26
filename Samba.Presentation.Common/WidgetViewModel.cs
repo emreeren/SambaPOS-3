@@ -12,7 +12,6 @@ namespace Samba.Presentation.Common
     public abstract class WidgetViewModel : ObservableObject, IDiagram
     {
         protected readonly Widget _model;
-
         private bool _isEnabled;
 
         protected WidgetViewModel(Widget model)
@@ -66,7 +65,7 @@ namespace Samba.Presentation.Common
         public int Width
         {
             get { return _model.Width; }
-            set { _model.Width =value; RaisePropertyChanged(() => Width); }
+            set { _model.Width = value; RaisePropertyChanged(() => Width); }
         }
 
         [Browsable(false)]

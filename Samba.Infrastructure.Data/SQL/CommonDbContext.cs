@@ -12,12 +12,9 @@ namespace Samba.Infrastructure.Data.SQL
 {
     public class CommonDbContext : DbContext
     {
-        private readonly string _name;
-
         public CommonDbContext(string name)
             : base(name)
         {
-            _name = name;
         }
 
         public IQueryable<T> ReadOnly<T>() where T : class
@@ -42,12 +39,6 @@ namespace Samba.Infrastructure.Data.SQL
             ObjContext().Refresh(RefreshMode.StoreWins, item);
         }
 
-        //public void AddObject(object item)
-        //{
-        //    AddObject(item);
-        //    //ObjContext().AddObject(GetEntitySet(item.GetType()).Name, item);
-        //}
-
         public void Detach(object item)
         {
             ObjContext().Detach(item);
@@ -71,19 +62,6 @@ namespace Samba.Infrastructure.Data.SQL
         public void AcceptAllChanges()
         {
             ObjContext().AcceptAllChanges();
-        }
-
-        public EntitySetBase GetEntitySet(Type entityType)
-        {
-            if (entityType == null)
-            {
-                throw new ArgumentNullException("entityType");
-            }
-
-            var container = ObjContext().MetadataWorkspace.GetEntityContainer(ObjContext().DefaultContainerName, DataSpace.CSpace);
-            var entitySet = container.BaseEntitySets.Where(item => item.ElementType.Name.Equals(entityType.Name)).FirstOrDefault();
-
-            return entitySet;
         }
     }
 }

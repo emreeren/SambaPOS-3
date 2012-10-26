@@ -75,14 +75,6 @@ namespace Samba.Infrastructure.Data.Text
                 _storage.Delete<T>(idf.Id);
         }
 
-        public void DeleteAll<T>() where T : class
-        {
-            foreach (var item in All<T>())
-            {
-                Delete(item);
-            }
-        }
-
         public T Single<T>(Expression<Func<T, bool>> expression) where T : class
         {
             return _storage.GetItems(expression).FirstOrDefault();

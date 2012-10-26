@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using Samba.Domain.Models.Resources;
 using Samba.Infrastructure;
+using Samba.Infrastructure.Data.Serializer;
 using Samba.Presentation.Common;
 using Samba.Services;
 using Samba.Services.Common;
@@ -28,6 +29,7 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceGrid
 
         readonly EntityOperationRequest<Resource> _request = new EntityOperationRequest<Resource>(null, EventTopicNames.ResourceSelected);
 
+
         [Browsable(false)]
         public ResourceGridWidgetSettings Settings { get { return SettingsObject as ResourceGridWidgetSettings; } }
         [Browsable(false)]
@@ -40,14 +42,31 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceGrid
 
         protected override void BeforeEditSettings()
         {
+            _resourceScreen = null;
             Settings.StateFilterNameValue.UpdateValues(_cacheService.GetResourceStates().Select(x => x.Name));
+        }
+
+        private ResourceScreen _resourceScreen;
+        public ResourceScreen ResourceScreen
+        {
+            get { return _resourceScreen ?? (_resourceScreen = CloneResourceScreen()); }
+        }
+
+        private ResourceScreen CloneResourceScreen()
+        {
+            var result = ObjectCloner.EntityClone(_applicationState.SelectedResourceScreen);
+            result.RowCount = Settings.Rows;
+            result.ColumnCount = Settings.Columns;
+            result.PageCount = Settings.PageCount > 0 ? Settings.PageCount : 1;
+            result.FontSize = Settings.FontSize;
+            return result;
         }
 
         public override void Refresh()
         {
             var stateFilter = _cacheService.GetResourceStateByName(Settings.StateFilterName);
-            var stateFilterId = stateFilter != null ? stateFilter.Id : _applicationState.SelectedResourceScreen.StateFilterId;
-            ResourceSelectorViewModel.Refresh(_applicationState.SelectedResourceScreen, stateFilterId, _request);
+            var stateFilterId = stateFilter != null ? stateFilter.Id : ResourceScreen.StateFilterId;
+            ResourceSelectorViewModel.Refresh(ResourceScreen, stateFilterId, _request);
         }
     }
 }

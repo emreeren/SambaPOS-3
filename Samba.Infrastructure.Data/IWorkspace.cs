@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace Samba.Infrastructure.Data
@@ -11,12 +9,9 @@ namespace Samba.Infrastructure.Data
         void CommitChanges();
         void Delete<T>(Expression<Func<T, bool>> expression) where T : class;
         void Delete<T>(T item) where T : class;
-        void DeleteAll<T>() where T : class;
-        T Single<T>(Expression<Func<T, bool>> expression) where T : class;
         T Single<T>(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes) where T : class;
         T Last<T>() where T : class, IValue;
         T Last<T>(Expression<Func<T, bool>> expression) where T : class, IValue;
-        IEnumerable<T> All<T>() where T : class;
         IEnumerable<T> All<T>(params Expression<Func<T, object>>[] includes) where T : class;
         IEnumerable<T> All<T>(Expression<Func<T, bool>> expression) where T : class;
 
@@ -31,9 +26,7 @@ namespace Samba.Infrastructure.Data
         void ReloadAll();
         void ResetDatabase();
 
-        void Refresh(IEnumerable collection);
         void Refresh(object item);
-        void Refresh(object item, string property);
 
         void MarkUnchanged<T>(T item) where T : class, IEntity;
     }

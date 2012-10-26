@@ -47,16 +47,6 @@ namespace Samba.Infrastructure.Data.SQL
             MarkUnchanged2(entity != null ? entity.Entity : item);
         }
 
-        public void Refresh(IEnumerable collection)
-        {
-            _context.Refresh(collection);
-        }
-
-        public void Refresh(object item, string property)
-        {
-            _context.LoadProperty(item, property);
-        }
-
         public void Refresh(object item)
         {
             _context.Refresh(item);
@@ -71,17 +61,6 @@ namespace Samba.Infrastructure.Data.SQL
         public void Delete<T>(T item) where T : class
         {
             _context.Set<T>().Remove(item);
-        }
-
-        public void DeleteAll<T>() where T : class
-        {
-            foreach (var item in _context.Set<T>())
-                Delete(item);
-        }
-
-        public T Single<T>(Expression<Func<T, bool>> expression) where T : class
-        {
-            return _context.Set<T>().SingleOrDefault(expression);
         }
 
         public T Single<T>(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes) where T : class
@@ -100,11 +79,6 @@ namespace Samba.Infrastructure.Data.SQL
         public T Last<T>(Expression<Func<T, bool>> expression) where T : class, IValue
         {
             return _context.Set<T>().Where(expression).OrderByDescending(x => x.Id).FirstOrDefault();
-        }
-
-        public IEnumerable<T> All<T>() where T : class
-        {
-            return _context.Set<T>().ToList();
         }
 
         public IEnumerable<T> All<T>(params Expression<Func<T, object>>[] includes) where T : class
