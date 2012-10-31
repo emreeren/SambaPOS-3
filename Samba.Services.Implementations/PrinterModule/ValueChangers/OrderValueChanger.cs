@@ -24,7 +24,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
         protected override string ReplaceTemplateValues(string templatePart, Order model, PrinterTemplate template)
         {
-            return OrderTagValueChanger.Replace(template, templatePart, model.OrderTagValues.Where(x => !x.SubValue));
+            return OrderTagValueChanger.Replace(template, templatePart, model.OrderTagValues.Where(x => !x.IsSubTag));
         }
 
         protected override decimal GetSumSelector(Order x)
@@ -40,7 +40,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
                 if (parts[0] == "ORDER TAG")
                 {
                     var r = arg.GetOrderTagValue(parts[1]);
-                    return new GroupingKey { Key = r.OrderKey, Name = r.Name };
+                    return new GroupingKey { Key = r.OrderKey, Name = r.TagValue };
                 }
             }
             else if (switchValue == "ORDER STATE")
@@ -56,9 +56,9 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             if (!string.IsNullOrEmpty(switchValue) && switchValue.Contains(":"))
             {
                 var parts = switchValue.Split(':');
-                if (parts[0] == "ORDER TAG" && obj.OrderTagValues.Any(x => x.OrderTagGroupName == parts[1]))
+                if (parts[0] == "ORDER TAG" && obj.OrderTagValues.Any(x => x.TagName == parts[1]))
                 {
-                    obj.OrderTagValues.Where(x => x.OrderTagGroupName == parts[1]).ToList().ForEach(x => obj.OrderTagValues.Remove(x));
+                    obj.OrderTagValues.Where(x => x.TagName == parts[1]).ToList().ForEach(x => obj.OrderTagValues.Remove(x));
                 }
             }
         }

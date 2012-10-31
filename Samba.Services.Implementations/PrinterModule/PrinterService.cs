@@ -96,14 +96,14 @@ namespace Samba.Services.Implementations.PrinterModule
             return maps.FirstOrDefault();
         }
 
-        public void PrintTicket(Ticket ticket, PrintJob customPrinter)
+        public void PrintTicket(Ticket ticket, PrintJob customPrinter, Func<Order, bool> orderSelector)
         {
             Debug.Assert(!string.IsNullOrEmpty(ticket.TicketNumber));
             if (customPrinter.LocksTicket) ticket.RequestLock();
-            PrintOrders(customPrinter, ticket);
+            PrintOrders(customPrinter, ticket, orderSelector);
         }
 
-        public void PrintOrders(PrintJob printJob, Ticket ticket)
+        public void PrintOrders(PrintJob printJob, Ticket ticket, Func<Order, bool> orderSelector)
         {
             ticket = ObjectCloner.Clone2(ticket);
             if (printJob.ExcludeTax)
@@ -132,7 +132,7 @@ namespace Samba.Services.Implementations.PrinterModule
                     ti = GetLastPaidOrders(ticket);
                     break;
                 default:
-                    ti = ticket.Orders.OrderBy(x => x.Id).ToList();
+                    ti = ticket.Orders.Where(orderSelector).OrderBy(x => x.Id).ToList();
                     break;
             }
 

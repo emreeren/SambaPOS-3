@@ -32,7 +32,7 @@ namespace Samba.Modules.ModifierModule
             if (current != null) return current;
             var selected = _selectedItem.OrderTagValues.FirstOrDefault(x => x.OrderTagGroupId == OrderTagGroup.Id);
             if (selected == null) return null;
-            return OrderTagGroup.OrderTags.SingleOrDefault(x => x.Name == selected.Name);
+            return OrderTagGroup.OrderTags.SingleOrDefault(x => x.Name == selected.TagValue);
         }
 
         public OrderTagGroup OrderTagGroup { get; set; }

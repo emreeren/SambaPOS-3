@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Windows.Documents;
 using Samba.Domain.Models.Settings;
@@ -9,7 +10,7 @@ namespace Samba.Services
     public interface IPrinterService : IService
     {
         IEnumerable<string> GetPrinterNames();
-        void PrintTicket(Ticket ticket, PrintJob printer);
+        void PrintTicket(Ticket ticket, PrintJob printer, Func<Order, bool> orderSelector);
         void PrintReport(FlowDocument document);
         void ExecutePrintJob(PrintJob printJob);
         IDictionary<string, string> GetTagDescriptions();

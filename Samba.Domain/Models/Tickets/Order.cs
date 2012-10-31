@@ -129,7 +129,7 @@ namespace Samba.Domain.Models.Tickets
 
         public void TagIfNotTagged(OrderTagGroup orderTagGroup, OrderTag orderTag, int userId)
         {
-            if (OrderTagValues.FirstOrDefault(x => x.OrderTagGroupId == orderTagGroup.Id && x.Name == orderTag.Name) == null)
+            if (OrderTagValues.FirstOrDefault(x => x.OrderTagGroupId == orderTagGroup.Id && x.TagValue == orderTag.Name) == null)
             {
                 ToggleOrderTag(orderTagGroup, orderTag, userId);
             }
@@ -137,7 +137,7 @@ namespace Samba.Domain.Models.Tickets
 
         public void UntagIfTagged(OrderTagGroup orderTagGroup, OrderTag orderTag)
         {
-            var value = OrderTagValues.FirstOrDefault(x => x.OrderTagGroupId == orderTagGroup.Id && x.Name == orderTag.Name);
+            var value = OrderTagValues.FirstOrDefault(x => x.OrderTagGroupId == orderTagGroup.Id && x.TagValue == orderTag.Name);
             if (value != null) UntagOrder(value);
         }
 
@@ -145,16 +145,15 @@ namespace Samba.Domain.Models.Tickets
         {
             var otag = new OrderTagValue
                        {
-                           Name = orderTag.Name,
+                           TagValue = orderTag.Name,
                            OrderTagGroupId = orderTagGroup.Id,
-                           OrderTagGroupName = orderTagGroup.Name,
+                           TagName = orderTagGroup.Name,
                            MenuItemId = orderTag.MenuItemId,
                            AddTagPriceToOrderPrice = orderTagGroup.AddTagPriceToOrderPrice,
                            PortionName = PortionName,
-                           SubValue = !string.IsNullOrEmpty(orderTagGroup.ButtonHeader) && orderTag.Price == 0 && orderTagGroup.MaxSelectedItems == 1,
+                           IsSubTag = !string.IsNullOrEmpty(orderTagGroup.ButtonHeader) && orderTag.Price == 0 && orderTagGroup.MaxSelectedItems == 1,
                            UserId = userId,
                            Quantity = 1,
-                           NewTag = true,
                            OrderKey = orderTagGroup.Order.ToString("000") + orderTag.Order.ToString("000")
                        };
 
@@ -202,7 +201,7 @@ namespace Samba.Domain.Models.Tickets
         public bool ToggleOrderTag(OrderTagGroup orderTagGroup, OrderTag orderTag, int userId)
         {
             var result = true;
-            var otag = OrderTagValues.FirstOrDefault(x => x.Name == orderTag.Name);
+            var otag = OrderTagValues.FirstOrDefault(x => x.TagValue == orderTag.Name);
             if (otag == null)
             {
                 if (orderTagGroup.MaxSelectedItems > 1 && OrderTagValues.Count(x => x.OrderTagGroupId == orderTagGroup.Id) >= orderTagGroup.MaxSelectedItems) return false;
@@ -340,7 +339,7 @@ namespace Samba.Domain.Models.Tickets
 
         public bool IsTaggedWith(OrderTag model)
         {
-            return OrderTagValues.Any(x => x.Name == model.Name);
+            return OrderTagValues.Any(x => x.TagValue == model.Name);
         }
 
         public bool IsTaggedWith(OrderTagGroup orderTagGroup)
@@ -374,8 +373,8 @@ namespace Samba.Domain.Models.Tickets
 
         public OrderTagValue GetOrderTagValue(string s)
         {
-            if (OrderTagValues.Any(x => x.OrderTagGroupName == s))
-                return OrderTagValues.First(x => x.OrderTagGroupName == s);
+            if (OrderTagValues.Any(x => x.TagName == s))
+                return OrderTagValues.First(x => x.TagName == s);
             return OrderTagValue.Empty;
         }
 
@@ -383,7 +382,7 @@ namespace Samba.Domain.Models.Tickets
         {
             get
             {
-                return string.Join(", ", OrderTagValues.Where(x => x.SubValue).OrderBy(x => x.OrderKey).Select(x => x.ShortName));
+                return string.Join(", ", OrderTagValues.Where(x => x.IsSubTag).OrderBy(x => x.OrderKey).Select(x => x.ShortName));
             }
         }
 

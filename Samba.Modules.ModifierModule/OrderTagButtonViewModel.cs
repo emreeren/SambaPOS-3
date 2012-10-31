@@ -31,7 +31,7 @@ namespace Samba.Modules.ModifierModule
                 if (_selectedOrders.Any(x => x.OrderTagValues.Any(y => y.OrderTagGroupId == OrderTagGroup.Id)))
                 {
                     var q = _selectedOrders.SelectMany(x => x.OrderTagValues).SingleOrDefault(
-                            x => x.OrderTagGroupId == OrderTagGroup.Id && x.Name == Name);
+                            x => x.OrderTagGroupId == OrderTagGroup.Id && x.TagValue == Name);
                     if (q != null && q.Quantity > 1)
                         return string.Format("{0} x {1}", q.Quantity, Name);
                 }

@@ -8,23 +8,22 @@ namespace Samba.Domain.Models.Tickets
     {
         public OrderTagValue()
         {
-            Name = "";
+            TagValue = "";
         }
 
         public int OrderId { get; set; }
         public int TicketId { get; set; }
-        public string Name { get; set; }
+        public string TagName { get; set; }
+        public string TagValue { get; set; }
+        public bool IsSubTag { get; set; }
         public int UserId { get; set; }
         public decimal Price { get; set; }
         public decimal TaxAmount { get; set; }
         public decimal Quantity { get; set; }
-        public string OrderTagGroupName { get; set; }
         public int OrderTagGroupId { get; set; }
         public int MenuItemId { get; set; }
         public bool AddTagPriceToOrderPrice { get; set; }
         public string PortionName { get; set; }
-        public bool SubValue { get; set; }
-        internal bool NewTag { get; set; }
         public string OrderKey { get; set; }
         public bool FreeTag { get; set; }
 
@@ -44,20 +43,20 @@ namespace Samba.Domain.Models.Tickets
         private string _shortName;
         public string ShortName
         {
-            get { return _shortName ?? (_shortName = ToShort(Name)); }
+            get { return _shortName ?? (_shortName = ToShort(TagValue)); }
         }
 
         private static OrderTagValue _empty;
         public static OrderTagValue Empty
         {
-            get { return _empty ?? (_empty = new OrderTagValue { Name = "" }); }
+            get { return _empty ?? (_empty = new OrderTagValue { TagValue = "" }); }
         }
 
         private string ToShort(string name)
         {
             if (string.IsNullOrEmpty(name)) return "";
-            if (Name.Length < 3) return name;
-            return name.Contains(" ") ? string.Join("", name.Split(' ').Select(x => char.IsNumber(x.ElementAt(0)) ? x : x.ElementAt(0).ToString())) : Name.Substring(0, 2);
+            if (TagValue.Length < 3) return name;
+            return name.Contains(" ") ? string.Join("", name.Split(' ').Select(x => char.IsNumber(x.ElementAt(0)) ? x : x.ElementAt(0).ToString())) : TagValue.Substring(0, 2);
         }
     }
 }

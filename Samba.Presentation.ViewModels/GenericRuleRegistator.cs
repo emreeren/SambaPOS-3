@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -54,7 +55,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType(ActionNames.SendEmail, Resources.SendEmail, new { SMTPServer = "", SMTPUser = "", SMTPPassword = "", SMTPPort = 0, ToEMailAddress = "", Subject = "", CCEmailAddresses = "", FromEMailAddress = "", EMailMessage = "", FileName = "", DeleteFile = false, BypassSslErrors = false });
             AutomationService.RegisterActionType(ActionNames.AddOrder, Resources.AddOrder, new { MenuItemName = "", PortionName = "", Quantity = 0, Tag = "" });
             AutomationService.RegisterActionType(ActionNames.UpdateTicketTag, Resources.UpdateTicketTag, new { TagName = "", TagValue = "" });
-            AutomationService.RegisterActionType(ActionNames.TagOrder, Resources.TagOrder, new { OrderTagName = "", OrderTagValue = "" });
+            AutomationService.RegisterActionType(ActionNames.TagOrder, Resources.TagOrder, new { OrderTagName = "", OldOrderTagValue = "", OrderTagValue = "" });
             AutomationService.RegisterActionType(ActionNames.UntagOrder, Resources.UntagOrder, new { OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterActionType(ActionNames.RemoveOrderTag, Resources.RemoveOrderTag, new { OrderTagName = "" });
             AutomationService.RegisterActionType(ActionNames.MoveTaggedOrders, Resources.MoveTaggedOrders, new { OrderTagName = "", OrderTagValue = "" });
@@ -66,7 +67,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType(ActionNames.RegenerateTicketTax, Resources.RegenerateTicketTax);
             AutomationService.RegisterActionType(ActionNames.UpdateTicketCalculation, Resources.UpdateTicketCalculation, new { CalculationType = "", Amount = 0m });
             AutomationService.RegisterActionType(ActionNames.UpdateTicketAccount, Resources.UpdateTicketAccount, new { AccountPhone = "", AccountName = "", Note = "" });
-            AutomationService.RegisterActionType(ActionNames.ExecutePrintJob, Resources.ExecutePrintJob, new { PrintJobName = "" });
+            AutomationService.RegisterActionType(ActionNames.ExecutePrintJob, Resources.ExecutePrintJob, new { PrintJobName = "", OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterActionType(ActionNames.UpdateResourceState, Resources.UpdateResourceState, new { ResourceTypeName = "", ResourceState = "" });
             AutomationService.RegisterActionType(ActionNames.CloseActiveTicket, Resources.CloseTicket);
             AutomationService.RegisterActionType(ActionNames.LockTicket, Resources.LockTicket);
@@ -411,29 +412,46 @@ namespace Samba.Presentation.ViewModels
 
                 if (x.Value.Action.ActionType == ActionNames.TagOrder || x.Value.Action.ActionType == ActionNames.UntagOrder || x.Value.Action.ActionType == ActionNames.RemoveOrderTag)
                 {
-                    var order = x.Value.GetDataValue<Order>("Order");
-                    if (order != null)
+                    IList<Order> orders = new List<Order>();
+                    var selectedOrder = x.Value.GetDataValue<Order>("Order");
+
+                    if (selectedOrder == null)
+                    {
+                        var ticket = x.Value.GetDataValue<Ticket>("Ticket");
+                        if (ticket != null)
+                            orders = ticket.Orders;
+                    }
+                    else orders.Add(selectedOrder);
+
+                    if (orders.Any())
                     {
                         var tagName = x.Value.GetAsString("OrderTagName");
                         var orderTag = CacheService.GetOrderTagGroupByName(tagName);
 
                         if (orderTag != null)
                         {
-                            if (x.Value.Action.ActionType == ActionNames.RemoveOrderTag)
-                            {
-                                var tags = order.OrderTagValues.Where(y => y.OrderTagGroupId == orderTag.Id);
-                                tags.ToList().ForEach(y => order.OrderTagValues.Remove(y));
-                                return;
-                            }
                             var tagValue = x.Value.GetAsString("OrderTagValue");
+                            var oldTagValue = x.Value.GetAsString("OldOrderTagValue");
                             var orderTagValue = orderTag.OrderTags.SingleOrDefault(y => y.Name == tagValue);
-                            if (orderTagValue != null)
+
+                            foreach (var order in orders)
                             {
-                                if (x.Value.Action.ActionType == ActionNames.TagOrder)
-                                    order.TagIfNotTagged(orderTag, orderTagValue, ApplicationState.CurrentLoggedInUser.Id);
-                                if (x.Value.Action.ActionType == ActionNames.UntagOrder)
-                                    order.UntagIfTagged(orderTag, orderTagValue);
+                                if (x.Value.Action.ActionType == ActionNames.RemoveOrderTag)
+                                {
+                                    var tags = order.OrderTagValues.Where(y => y.OrderTagGroupId == orderTag.Id);
+                                    tags.ToList().ForEach(y => order.OrderTagValues.Remove(y));
+                                    continue;
+                                }
+                                
+                                if (orderTagValue != null && (string.IsNullOrWhiteSpace(oldTagValue) || order.OrderTagValues.Any(y => y.TagName == tagName && y.TagValue == oldTagValue)))
+                                {
+                                    if (x.Value.Action.ActionType == ActionNames.TagOrder)
+                                        order.TagIfNotTagged(orderTag, orderTagValue, ApplicationState.CurrentLoggedInUser.Id);
+                                    if (x.Value.Action.ActionType == ActionNames.UntagOrder)
+                                        order.UntagIfTagged(orderTag, orderTagValue);
+                                }
                             }
+
                         }
                     }
                 }
@@ -445,12 +463,12 @@ namespace Samba.Presentation.ViewModels
                     if (ticket != null && !string.IsNullOrEmpty(orderTagName))
                     {
                         var orderTagValue = x.Value.GetAsString("OrderTagValue");
-                        if (ticket.Orders.Any(y => y.OrderTagValues.Any(z => z.OrderTagGroupName == orderTagName && z.Name == orderTagValue)))
+                        if (ticket.Orders.Any(y => y.OrderTagValues.Any(z => z.TagName == orderTagName && z.TagValue == orderTagValue)))
                         {
                             var tid = ticket.Id;
                             EventServiceFactory.EventService.PublishEvent(EventTopicNames.CloseTicketRequested, true);
                             ticket = TicketService.OpenTicket(tid);
-                            var orders = ticket.Orders.Where(y => y.OrderTagValues.Any(z => z.OrderTagGroupName == orderTagName && z.Name == orderTagValue)).ToArray();
+                            var orders = ticket.Orders.Where(y => y.OrderTagValues.Any(z => z.TagName == orderTagName && z.TagValue == orderTagValue)).ToArray();
                             var commitResult = TicketService.MoveOrders(ticket, orders, 0);
                             if (string.IsNullOrEmpty(commitResult.ErrorMessage) && commitResult.TicketId > 0)
                             {
@@ -492,7 +510,17 @@ namespace Samba.Presentation.ViewModels
                         if (j != null)
                         {
                             if (ticket != null)
-                                PrinterService.PrintTicket(ticket, j);
+                            {
+                                var orderTagName = x.Value.GetAsString("OrderTagName");
+                                var orderTagValue = x.Value.GetAsString("OrderTagValue");
+                                Func<Order, bool> expression = ex => true;
+                                if (!string.IsNullOrWhiteSpace(orderTagName))
+                                {
+                                    expression = ex => ex.OrderTagValues.Any(
+                                            y => y.TagName == orderTagName && y.TagValue == orderTagValue);
+                                }
+                                PrinterService.PrintTicket(ticket, j, expression);
+                            }
                             else
                                 PrinterService.ExecutePrintJob(j);
                         }

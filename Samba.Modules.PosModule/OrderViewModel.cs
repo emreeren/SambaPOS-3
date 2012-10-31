@@ -167,13 +167,13 @@ namespace Samba.Modules.PosModule
         private ObservableCollection<OrderTagValueViewModel> _orderTagValues;
         public ObservableCollection<OrderTagValueViewModel> OrderTagValues
         {
-            get { return _orderTagValues ?? (_orderTagValues = new ObservableCollection<OrderTagValueViewModel>(Model.OrderTagValues.Where(x => !x.SubValue).Select(x => new OrderTagValueViewModel(x)))); }
+            get { return _orderTagValues ?? (_orderTagValues = new ObservableCollection<OrderTagValueViewModel>(Model.OrderTagValues.Where(x => !x.IsSubTag).Select(x => new OrderTagValueViewModel(x)))); }
         }
 
         private ObservableCollection<OrderTagValueViewModel> _subOrderTagValues;
         public ObservableCollection<OrderTagValueViewModel> SubOrderTagValues
         {
-            get { return _subOrderTagValues ?? (_subOrderTagValues = new ObservableCollection<OrderTagValueViewModel>(Model.OrderTagValues.Where(x => x.SubValue).Select(x => new OrderTagValueViewModel(x)))); }
+            get { return _subOrderTagValues ?? (_subOrderTagValues = new ObservableCollection<OrderTagValueViewModel>(Model.OrderTagValues.Where(x => x.IsSubTag).Select(x => new OrderTagValueViewModel(x)))); }
         }
 
         private string _subOrderTags;

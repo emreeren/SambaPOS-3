@@ -18,8 +18,8 @@ namespace Samba.Modules.PosModule
             get
             {
                 if (Model.Quantity > 1)
-                    return Model.Name + " x " + Model.Quantity.ToString("#");
-                return Model.Name;
+                    return Model.TagValue + " x " + Model.Quantity.ToString("#");
+                return Model.TagValue;
             }
         }
 

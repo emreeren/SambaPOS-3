@@ -58,12 +58,12 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<Order>(TagNames.OrderNo, (x, d) => x.OrderNumber.ToString(), Resources.LineOrderNumber);
             RegisterFunction<Order>(TagNames.PriceTag, (x, d) => x.PriceTag, Resources.LinePriceTag);
             RegisterFunction<Order>("{ORDER STATE NAME}", (x, d) => x.OrderStateGroupName, "Order State Name");
-            RegisterFunction<Order>("{ORDER TAG:([^}]+)}", (x, d) => x.GetOrderTagValue(d).Name, "Order Tag Value");
+            RegisterFunction<Order>("{ORDER TAG:([^}]+)}", (x, d) => x.GetOrderTagValue(d).TagValue, "Order Tag Value");
 
             //ORDER TAG VALUES
             RegisterFunction<OrderTagValue>(TagNames.OrderTagPrice, (x, d) => x.AddTagPriceToOrderPrice ? "" : x.Price.ToString("#,#0.00"), Resources.OrderTagPrice, x => x.Price != 0);
             RegisterFunction<OrderTagValue>(TagNames.OrderTagQuantity, (x, d) => x.Quantity.ToString("#.##"), Resources.OrderTagQuantity);
-            RegisterFunction<OrderTagValue>(TagNames.OrderTagName, (x, d) => x.Name, Resources.OrderTagName, x => !string.IsNullOrEmpty(x.Name));
+            RegisterFunction<OrderTagValue>(TagNames.OrderTagName, (x, d) => x.TagValue, Resources.OrderTagName, x => !string.IsNullOrEmpty(x.TagValue));
 
             //TICKET RESOURCES
             RegisterFunction<TicketResource>("{RESOURCE NAME}", (x, d) => x.ResourceName, "Resource Name");

@@ -17,7 +17,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
         protected override string GetModelName(OrderTagValue model)
         {
-            return model.Name;
+            return model.TagValue;
         }
     }
 }
