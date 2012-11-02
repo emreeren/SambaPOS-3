@@ -23,6 +23,7 @@ namespace Samba.Services
         public AutomationCommand AutomationCommand { get; set; }
         public bool DisplayOnTicket { get; set; }
         public bool DisplayOnPayment { get; set; }
+        public bool DisplayOnOrders { get; set; }
         public int VisualBehaviour { get; set; }
     }
 

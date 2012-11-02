@@ -220,15 +220,15 @@ namespace Samba.Services
             _workspace.Add(orderNumerator);
 
             var printBillAutomation = new AutomationCommand { Name = Resources.PrintBill, ButtonHeader = Resources.PrintBill };
-            printBillAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { VisualBehaviour = 1 });
+            printBillAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { VisualBehaviour = 1,DisplayOnTicket = true,DisplayOnPayment = true});
             _workspace.Add(printBillAutomation);
 
             var unlockTicketAutomation = new AutomationCommand { Name = Resources.UnlockTicket, ButtonHeader = Resources.UnlockTicket };
-            unlockTicketAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { VisualBehaviour = 2 });
+            unlockTicketAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { VisualBehaviour = 2 ,DisplayOnTicket = true});
             _workspace.Add(unlockTicketAutomation);
 
             var addTicketAutomation = new AutomationCommand { Name = string.Format(Resources.Add_f, Resources.Ticket), ButtonHeader = string.Format(Resources.Add_f, Resources.Ticket) };
-            addTicketAutomation.AddAutomationCommandMap();
+            addTicketAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { VisualBehaviour = 0, DisplayOnTicket = true });
             _workspace.Add(addTicketAutomation);
 
             _workspace.CommitChanges();

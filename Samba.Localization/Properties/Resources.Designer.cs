@@ -917,6 +917,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can Execute.
+        /// </summary>
+        public static string CanExecute {
+            get {
+                return ResourceManager.GetString("CanExecute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can Merge Tickets.
         /// </summary>
         public static string CanMergeTickets {
@@ -5639,6 +5648,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} Script.
+        /// </summary>
+        public static string Script_f {
+            get {
+                return ResourceManager.GetString("Script_f", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search.
         /// </summary>
         public static string Search {
@@ -6840,6 +6858,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Toggle Values.
+        /// </summary>
+        public static string ToggleValues {
+            get {
+                return ResourceManager.GetString("ToggleValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Top of the hour.
         /// </summary>
         public static string TopOfTheHour {
@@ -7252,6 +7279,15 @@ namespace Samba.Localization.Properties {
         public static string Update {
             get {
                 return ResourceManager.GetString("Update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update Order.
+        /// </summary>
+        public static string UpdateOrder {
+            get {
+                return ResourceManager.GetString("UpdateOrder", resourceCulture);
             }
         }
         

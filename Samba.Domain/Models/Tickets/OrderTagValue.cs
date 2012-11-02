@@ -15,6 +15,7 @@ namespace Samba.Domain.Models.Tickets
         public int TicketId { get; set; }
         public string TagName { get; set; }
         public string TagValue { get; set; }
+        public string TagNote { get; set; }
         public bool IsSubTag { get; set; }
         public int UserId { get; set; }
         public decimal Price { get; set; }
@@ -49,7 +50,7 @@ namespace Samba.Domain.Models.Tickets
         private static OrderTagValue _empty;
         public static OrderTagValue Empty
         {
-            get { return _empty ?? (_empty = new OrderTagValue { TagValue = "" }); }
+            get { return _empty ?? (_empty = new OrderTagValue { TagValue = "", OrderKey = "" }); }
         }
 
         private string ToShort(string name)

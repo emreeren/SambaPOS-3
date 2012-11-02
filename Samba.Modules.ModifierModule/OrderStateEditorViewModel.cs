@@ -38,7 +38,6 @@ namespace Samba.Modules.ModifierModule
                     return;
                 }
                 RaisePropertyChanged(() => OrderStateColumnCount);
-                
             }
         }
 
@@ -78,7 +77,6 @@ namespace Samba.Modules.ModifierModule
                                    };
 
             orderStateData.PublishEvent(EventTopicNames.OrderStateSelected, true);
-
             OrderStates.ToList().ForEach(x => x.Refresh());
         }
 

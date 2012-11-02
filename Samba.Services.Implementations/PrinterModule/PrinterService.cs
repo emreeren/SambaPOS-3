@@ -238,7 +238,7 @@ namespace Samba.Services.Implementations.PrinterModule
         {
             Debug.Assert(lines != null, "lines != null");
             var lns = lines.ToList();
-            if (lns.Count() == 0) return;
+            if (!lns.Any()) return;
             if (p == null)
             {
                 //todo: globalize

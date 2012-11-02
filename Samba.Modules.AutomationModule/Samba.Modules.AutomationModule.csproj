@@ -122,6 +122,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="..\Samba.Presentation.Common\Themes\OfficeTab.xaml">
+      <Link>OfficeTab.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="AutomationCommandView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

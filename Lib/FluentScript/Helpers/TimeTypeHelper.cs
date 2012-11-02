@@ -1,0 +1,106 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace ComLib.Lang.Helpers
+{
+    /// <summary>
+    /// Helper class for time types.
+    /// </summary>
+    public class TimeTypeHelper
+    {
+        /// <summary>
+        /// Whether or not a timespan can be created from the number of arguments supplied.
+        /// </summary>
+        /// <param name="paramCount">The number of parameters</param>
+        /// <returns></returns>
+        public static bool CanCreateTimeFrom(int paramCount)
+        {            
+            // 1. 0 args = new TimeSpan()
+            // 2. 3 args = new TimeSpan(hours, mins, secs)
+            // 3. 4 args = new TimeSpan(days, hours, mins, secs)
+            if (paramCount == 0 || paramCount == 3 || paramCount == 4)
+                return true;
+
+            return false;
+        }
+
+
+        /// <summary>
+        /// Whether or not a timespan can be created from the number of arguments supplied.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static TimeSpan CreateTimeFrom(object[] args)
+        {
+            // Validate
+            if (!CanCreateTimeFrom(args.Length)) 
+                throw new ArgumentException("Incorrect number of inputs for creating time");
+
+            // Convert object into ints
+            int[] timeArgs = LangHelper.ConvertToInts(args);
+            int len = args.Length;
+
+            // 1. 0 args = new TimeSpan()
+            if (len == 0) return new TimeSpan();
+
+            // 2. 3 args = new TimeSpan(hours, mins, secs)
+            if (len == 3) return new TimeSpan(timeArgs[0], timeArgs[1], timeArgs[2]);
+
+            // 3. 4 args = new TimeSpan(days, hours, mins, secs)
+            return new TimeSpan(timeArgs[0], timeArgs[1], timeArgs[2], timeArgs[3]);
+        }
+
+
+        /// <summary>
+        /// Parse the time using Regular expression.
+        /// </summary>
+        /// <param name="strTime">Text with time.</param>
+        /// <returns>Time parse result.</returns>
+        public static Tuple<TimeSpan, bool, string> ParseTime(string strTime)
+        {
+            strTime = strTime.Trim().ToLower();
+            string pattern = @"(?<hours>[0-9]+)((\:)(?<minutes>[0-9]+))?\s*(?<ampm>(am|a\.m\.|a\.m|pm|p\.m\.|p\.m))?\s*";
+            Match match = Regex.Match(strTime, pattern);
+            if (!match.Success)
+                return new Tuple<TimeSpan, bool, string>(TimeSpan.MinValue, false, "Time : " + strTime + " is not a valid time.");
+
+            string strhours = match.Groups["hours"] != null ? match.Groups["hours"].Value : string.Empty;
+            string strminutes = match.Groups["minutes"] != null ? match.Groups["minutes"].Value : string.Empty;
+            string ampm = match.Groups["ampm"] != null ? match.Groups["ampm"].Value : string.Empty;
+            int hours = 0;
+            int minutes = 0;
+
+            if (!string.IsNullOrEmpty(strhours) && !Int32.TryParse(strhours, out hours))
+            {
+                return new Tuple<TimeSpan, bool, string>(TimeSpan.MinValue, false, "Hours are invalid.");
+            }
+            if (!string.IsNullOrEmpty(strminutes) && !Int32.TryParse(strminutes, out minutes))
+            {
+                return new Tuple<TimeSpan, bool, string>(TimeSpan.MinValue, false, "Minutes are invalid.");
+            }
+
+            bool isAm = false;
+            if (string.IsNullOrEmpty(ampm) || ampm == "am" || ampm == "a.m" || ampm == "a.m.")
+                isAm = true;
+            else if (ampm == "pm" || ampm == "p.m" || ampm == "p.m.")
+                isAm = false;
+            else
+            {
+                return new Tuple<TimeSpan, bool, string>(TimeSpan.MinValue, false, "unknown am/pm statement");
+            }
+
+            // Add 12 hours for pm specification.
+            if (hours != 12 && !isAm)
+                hours += 12;
+
+            // Handles 12 12am.
+            if (hours == 12 && isAm)
+                return new Tuple<TimeSpan, bool, string>(new TimeSpan(0, minutes, 0), true, string.Empty);
+
+            return new Tuple<TimeSpan, bool, string>(new TimeSpan(hours, minutes, 0), true, string.Empty);
+        }
+    }
+}

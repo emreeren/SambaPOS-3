@@ -73,12 +73,12 @@ namespace Samba.Infrastructure.Data.SQL
 
         public T Last<T>() where T : class,IValue
         {
-            return _context.Set<T>().OrderByDescending(x => x.Id).FirstOrDefault();
+            return _context.Set<T>().OrderByDescending(x => x.Id).Take(1).FirstOrDefault();
         }
 
         public T Last<T>(Expression<Func<T, bool>> expression) where T : class, IValue
         {
-            return _context.Set<T>().Where(expression).OrderByDescending(x => x.Id).FirstOrDefault();
+            return _context.Set<T>().Where(expression).OrderByDescending(x => x.Id).Take(1).FirstOrDefault();
         }
 
         public IEnumerable<T> All<T>(params Expression<Func<T, object>>[] includes) where T : class

@@ -55,10 +55,11 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType(ActionNames.SendEmail, Resources.SendEmail, new { SMTPServer = "", SMTPUser = "", SMTPPassword = "", SMTPPort = 0, ToEMailAddress = "", Subject = "", CCEmailAddresses = "", FromEMailAddress = "", EMailMessage = "", FileName = "", DeleteFile = false, BypassSslErrors = false });
             AutomationService.RegisterActionType(ActionNames.AddOrder, Resources.AddOrder, new { MenuItemName = "", PortionName = "", Quantity = 0, Tag = "" });
             AutomationService.RegisterActionType(ActionNames.UpdateTicketTag, Resources.UpdateTicketTag, new { TagName = "", TagValue = "" });
-            AutomationService.RegisterActionType(ActionNames.TagOrder, Resources.TagOrder, new { OrderTagName = "", OldOrderTagValue = "", OrderTagValue = "" });
+            AutomationService.RegisterActionType(ActionNames.TagOrder, Resources.TagOrder, new { OrderTagName = "", OldOrderTagValue = "", OrderTagValue = "", OrderTagNote = "" });
             AutomationService.RegisterActionType(ActionNames.UntagOrder, Resources.UntagOrder, new { OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterActionType(ActionNames.RemoveOrderTag, Resources.RemoveOrderTag, new { OrderTagName = "" });
             AutomationService.RegisterActionType(ActionNames.MoveTaggedOrders, Resources.MoveTaggedOrders, new { OrderTagName = "", OrderTagValue = "" });
+            AutomationService.RegisterActionType(ActionNames.UpdateOrder, Resources.UpdateOrder, new { Quantity = 0m, Price = 0m, IncreaseInventory = false, DecreaseInventory = false, CalculatePrice = false, AccountTransactionType = "" });
             AutomationService.RegisterActionType(ActionNames.UpdatePriceTag, Resources.UpdatePriceTag, new { DepartmentName = "", PriceTag = "" });
             AutomationService.RegisterActionType(ActionNames.RefreshCache, Resources.RefreshCache);
             AutomationService.RegisterActionType(ActionNames.SendMessage, Resources.BroadcastMessage, new { Command = "" });
@@ -137,6 +138,27 @@ namespace Samba.Presentation.ViewModels
         {
             EventServiceFactory.EventService.GetEvent<GenericEvent<IActionData>>().Subscribe(x =>
             {
+                if (x.Value.Action.ActionType == ActionNames.UpdateOrder)
+                {
+                    var order = x.Value.GetDataValue<Order>("Order");
+                    var ticket = x.Value.GetDataValue<Ticket>("Ticket");
+                    if (order != null && ticket != null)
+                    {
+                        if (!string.IsNullOrEmpty(x.Value.GetAsString("Quantity")))
+                            order.Quantity = x.Value.GetAsDecimal("Quantity");
+                        if (!string.IsNullOrEmpty(x.Value.GetAsString("Price")))
+                            order.UpdatePrice(x.Value.GetAsDecimal("Price"), "");
+                        if (!string.IsNullOrEmpty(x.Value.GetAsString("IncreaseInventory")))
+                            order.IncreaseInventory = x.Value.GetAsBoolean("IncreaseInventory");
+                        if (!string.IsNullOrEmpty(x.Value.GetAsString("DecreaseInventory")))
+                            order.DecreaseInventory = x.Value.GetAsBoolean("DecreaseInventory");
+                        if (!string.IsNullOrEmpty(x.Value.GetAsString("CalculatePrice")))
+                            order.CalculatePrice = x.Value.GetAsBoolean("CalculatePrice");
+                        if (!string.IsNullOrEmpty(x.Value.GetAsString("AccountTransactionType")))
+                            TicketService.ChangeOrdersAccountTransactionTypeId(ticket, new List<Order> { order }, CacheService.GetAccountTransactionTypeIdByName(x.Value.GetAsString("AccountTransactionType")));
+                    }
+                }
+
                 if (x.Value.Action.ActionType == ActionNames.ExecutePowershellScript)
                 {
                     var script = x.Value.GetAsString("Script");
@@ -412,14 +434,16 @@ namespace Samba.Presentation.ViewModels
 
                 if (x.Value.Action.ActionType == ActionNames.TagOrder || x.Value.Action.ActionType == ActionNames.UntagOrder || x.Value.Action.ActionType == ActionNames.RemoveOrderTag)
                 {
+                    var ticket = x.Value.GetDataValue<Ticket>("Ticket");
                     IList<Order> orders = new List<Order>();
                     var selectedOrder = x.Value.GetDataValue<Order>("Order");
 
                     if (selectedOrder == null)
                     {
-                        var ticket = x.Value.GetDataValue<Ticket>("Ticket");
                         if (ticket != null)
-                            orders = ticket.Orders;
+                        {
+                            orders = ticket.Orders.Any(y => y.IsSelected) ? ticket.Orders.Where(y => y.IsSelected).ToList() : ticket.Orders;
+                        }
                     }
                     else orders.Add(selectedOrder);
 
@@ -432,25 +456,28 @@ namespace Samba.Presentation.ViewModels
                         {
                             var tagValue = x.Value.GetAsString("OrderTagValue");
                             var oldTagValue = x.Value.GetAsString("OldOrderTagValue");
+                            var tagNote = x.Value.GetAsString("OrderTagNote");
                             var orderTagValue = orderTag.OrderTags.SingleOrDefault(y => y.Name == tagValue);
 
-                            foreach (var order in orders)
+                            if (orderTagValue != null)
                             {
-                                if (x.Value.Action.ActionType == ActionNames.RemoveOrderTag)
-                                {
-                                    var tags = order.OrderTagValues.Where(y => y.OrderTagGroupId == orderTag.Id);
-                                    tags.ToList().ForEach(y => order.OrderTagValues.Remove(y));
-                                    continue;
-                                }
-                                
-                                if (orderTagValue != null && (string.IsNullOrWhiteSpace(oldTagValue) || order.OrderTagValues.Any(y => y.TagName == tagName && y.TagValue == oldTagValue)))
-                                {
-                                    if (x.Value.Action.ActionType == ActionNames.TagOrder)
-                                        order.TagIfNotTagged(orderTag, orderTagValue, ApplicationState.CurrentLoggedInUser.Id);
-                                    if (x.Value.Action.ActionType == ActionNames.UntagOrder)
-                                        order.UntagIfTagged(orderTag, orderTagValue);
-                                }
+                                if (!string.IsNullOrEmpty(oldTagValue))
+                                    orders = orders.Where(o => o.OrderTagValues.Any(y => y.OrderTagGroupId == orderTag.Id && y.TagValue == oldTagValue)).ToList();
+                                if (x.Value.Action.ActionType == ActionNames.TagOrder)
+                                    TicketService.TagOrders(ticket, orders, orderTag, orderTagValue, tagNote);
+                                if (x.Value.Action.ActionType == ActionNames.UntagOrder)
+                                    TicketService.UntagOrders(ticket, orders, orderTag, orderTagValue);
                             }
+
+                            //foreach (var order in orders)
+                            //{
+                            //    if (x.Value.Action.ActionType == ActionNames.RemoveOrderTag)
+                            //    {
+                            //        var tags = order.OrderTagValues.Where(y => y.OrderTagGroupId == orderTag.Id);
+                            //        tags.ToList().ForEach(y => order.OrderTagValues.Remove(y));
+                            //        continue;
+                            //    }
+                            //}
 
                         }
                     }

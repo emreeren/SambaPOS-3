@@ -15,7 +15,7 @@ namespace Samba.Modules.PosModule
         {
             _commandContainer = commandContainer;
             _selectedTicket = selectedTicket;
-            if (Values.Count > 0) SelectedValue = Values.ElementAt(0);
+            if (Values.Count > 0 && commandContainer.AutomationCommand.ToggleValues) SelectedValue = Values.ElementAt(0);
         }
 
         public AutomationCommandData CommandContainer { get { return _commandContainer; } }
@@ -24,6 +24,7 @@ namespace Samba.Modules.PosModule
         public string Name { get { return CommandContainer.AutomationCommand.Name; } }
         public string SelectedValue { get; set; }
         public string Display { get { return !string.IsNullOrEmpty(SelectedValue) ? SelectedValue : ButtonHeader; } }
+        public string CanExecuteScript { get { return CommandContainer.AutomationCommand.CanExecuteScript; } }
         public List<string> Values { get { return (CommandContainer.AutomationCommand.Values ?? "").Split('|').ToList(); } }
 
         public bool IsVisible
@@ -41,13 +42,14 @@ namespace Samba.Modules.PosModule
             {
                 if ((_selectedTicket.Locked || _selectedTicket.Orders.Count == 0) && _commandContainer.VisualBehaviour == 1) return false;
                 if (_selectedTicket.Orders.Count > 0 && _commandContainer.VisualBehaviour == 3) return false;
+
                 return true;
             }
         }
 
         public void NextValue()
         {
-            if (Values.Count > 1)
+            if (Values.Count > 1 && _commandContainer.AutomationCommand.ToggleValues)
             {
                 SelectedValue = Values[(Values.IndexOf(SelectedValue) + 1) % Values.Count];
             }

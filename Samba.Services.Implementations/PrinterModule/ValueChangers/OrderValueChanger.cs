@@ -17,6 +17,19 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             return "ORDERS";
         }
 
+        protected override bool FilterMatch(Order model, string key)
+        {
+            if (key.Contains("_"))
+            {
+                var parts = key.Split('_');
+                if (parts.Count() == 2)
+                {
+                    return model.OrderTagValues.Any(x => x.TagName == parts[0] && x.TagValue == parts[1]);
+                }
+            }
+            return model.OrderTagValues.Any(x => x.TagValue.ToLower() == key.ToLower());
+        }
+
         protected override string GetModelName(Order model)
         {
             return model.OrderStateGroupName;

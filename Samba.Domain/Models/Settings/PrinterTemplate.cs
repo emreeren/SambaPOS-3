@@ -42,7 +42,7 @@ namespace Samba.Domain.Models.Settings
             return "";
         }
 
-        private IDictionary<string, StringBuilder> CreateParts(string template)
+        private static IDictionary<string, StringBuilder> CreateParts(string template)
         {
             var result = new Dictionary<string, StringBuilder>();
             var currentSection = "LAYOUT";
@@ -68,7 +68,12 @@ namespace Samba.Domain.Models.Settings
         public string GetSwitch(string s)
         {
             var key = Parts.Keys.FirstOrDefault(x => x.StartsWith(s + "|"));
-            return key != null ? key.Substring(key.IndexOf("|")).Trim('|') : null;
+            return key != null ? key.Substring(key.IndexOf("|", StringComparison.Ordinal)).Trim('|') : null;
+        }
+
+        public Dictionary<string, string> GetFilters(string partName)
+        {
+            return Parts.Where(x => x.Key.StartsWith(partName + ":")).ToDictionary(y => y.Key.Substring(y.Key.IndexOf(":", StringComparison.Ordinal) + 1), y => y.Key);
         }
     }
 }

@@ -6,7 +6,6 @@ using System.Windows.Media;
 using Microsoft.Practices.Prism.Commands;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Tickets;
-using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Services.Common;
@@ -116,11 +115,10 @@ namespace Samba.Modules.PosModule
             get { return Price * Quantity; }
         }
 
-        private bool _selected;
         public bool Selected
         {
-            get { return _selected; }
-            set { _selected = value; UpdateItemColor(); RaisePropertyChanged(() => Selected); }
+            get { return Model.IsSelected; }
+            set { Model.IsSelected = value; UpdateItemColor(); RaisePropertyChanged(() => Selected); }
         }
 
         private Brush _background;
@@ -237,9 +235,9 @@ namespace Samba.Modules.PosModule
 
         public void NotSelected()
         {
-            if (_selected)
+            if (Selected)
             {
-                _selected = false;
+                Selected = false;
                 ResetSelectedQuantity();
                 UpdateItemColor();
                 RaisePropertyChanged(() => Quantity);
@@ -253,12 +251,6 @@ namespace Samba.Modules.PosModule
             RaisePropertyChanged(() => Description);
             RaisePropertyChanged(() => TotalPrice);
         }
-
-        //public void UpdateOrderState(OrderStateGroup orderStateGroup, OrderState selectedOrderState, int userId)
-        //{
-        //    Model.UpdateOrderState(orderStateGroup, selectedOrderState, userId);
-        //    RefreshOrder();
-        //}
 
         public void RefreshOrder()
         {

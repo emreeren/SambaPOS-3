@@ -79,7 +79,7 @@
                 <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
                              Text="{Binding EditTicketNoteCommand.Caption}" />
             </FxButton:FlexButton>
-            <ItemsControl ItemsSource="{Binding AutomationCommands,NotifyOnTargetUpdated=True}"
+            <ItemsControl ItemsSource="{Binding TicketAutomationCommands,NotifyOnTargetUpdated=True}"
                          HorizontalAlignment="Stretch" Visibility="{Binding IsNothingSelected,Converter={StaticResource VisibilityConverter}}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -129,6 +129,22 @@
                                      CommandParameter="{Binding Model}">
                             <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
                                          Text="{Binding Name}" />
+                        </FxButton:FlexButton>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <ItemsControl ItemsSource="{Binding OrderAutomationCommands,NotifyOnTargetUpdated=True}"
+                         HorizontalAlignment="Stretch" Visibility="{Binding IsItemsSelected,Converter={StaticResource VisibilityConverter}}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel VerticalAlignment="Top" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <FxButton:FlexButton Command="{Binding DataContext.ExecuteAutomationCommnand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
+                                     CommandParameter="{Binding .}" ButtonColor="{Binding Color,Converter={StaticResource NullBrushConverter}}" Visibility="{Binding IsVisible,Converter={StaticResource VisibilityConverter}}">
+                            <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding Display}" />
                         </FxButton:FlexButton>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

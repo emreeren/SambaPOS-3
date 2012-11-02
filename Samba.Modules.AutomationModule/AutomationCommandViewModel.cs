@@ -12,7 +12,6 @@ namespace Samba.Modules.AutomationModule
         [ImportingConstructor]
         public AutomationCommandViewModel()
         {
-
         }
 
         public string ButtonHeader { get { return Model.ButtonHeader; } set { Model.ButtonHeader = value; } }
@@ -22,6 +21,9 @@ namespace Samba.Modules.AutomationModule
             get { return (Model.Values ?? "").Replace("|", Environment.NewLine); }
             set { Model.Values = value.Trim(Environment.NewLine.ToCharArray()).Replace(Environment.NewLine, "|"); }
         }
+
+        public bool ToggleValues { get { return Model.ToggleValues; } set { Model.ToggleValues = value; } }
+        public string CanExecuteScript { get { return Model.CanExecuteScript; } set { Model.CanExecuteScript = value; } }
 
         public override Type GetViewType()
         {

@@ -457,11 +457,32 @@ namespace Samba.Services.Implementations.TicketModule
             return Dao.Query<Order>(x => x.TicketId == id);
         }
 
-        public void TagOrders(IEnumerable<Order> selectedOrders, OrderTagGroup orderTagGroup, OrderTag orderTag)
+        public void TagOrders(Ticket ticket, IEnumerable<Order> selectedOrders, OrderTagGroup orderTagGroup, OrderTag orderTag, string tagNote)
         {
-            foreach (var selectedOrder in selectedOrders)
+            var so = selectedOrders.ToList();
+
+            if (orderTagGroup.MaxSelectedItems == 1)
             {
-                var result = selectedOrder.ToggleOrderTag(orderTagGroup, orderTag, _applicationState.CurrentLoggedInUser.Id);
+                foreach (var order in so.Where(x => x.OrderTagValues.Any(y => y.OrderTagGroupId == orderTagGroup.Id && y.TagValue != orderTag.Name)))
+                {
+                    var orderTagValue = order.OrderTagValues.First(x => x.OrderTagGroupId == orderTagGroup.Id);
+                    order.OrderTagValues.Remove(orderTagValue);
+                    _automationService.NotifyEvent(RuleEventNames.OrderUntagged,
+                               new
+                               {
+                                   Ticket = ticket,
+                                   Order = order,
+                                   OrderTagName = orderTagGroup.Name,
+                                   OrderTagValue = orderTagValue.TagValue
+                               });
+
+                }
+            }
+
+            foreach (var selectedOrder in so)
+            {
+                var result = selectedOrder.ToggleOrderTag(orderTagGroup, orderTag, _applicationState.CurrentLoggedInUser.Id, tagNote);
+
                 if (orderTagGroup.SaveFreeTags && orderTagGroup.OrderTags.All(x => x.Name != orderTag.Name))
                 {
                     using (var v = WorkspaceFactory.Create())
@@ -485,6 +506,7 @@ namespace Samba.Services.Implementations.TicketModule
                 _automationService.NotifyEvent(result ? RuleEventNames.OrderTagged : RuleEventNames.OrderUntagged,
                 new
                 {
+                    Ticket = ticket,
                     Order = selectedOrder,
                     OrderTagName = orderTagGroup.Name,
                     OrderTagValue = orderTag.Name
@@ -492,18 +514,18 @@ namespace Samba.Services.Implementations.TicketModule
             }
         }
 
-        public void UntagOrders(IEnumerable<Order> selectedOrders, OrderTagGroup orderTagGroup, OrderTag orderTag)
+        public void UntagOrders(Ticket ticket, IEnumerable<Order> selectedOrders, OrderTagGroup orderTagGroup, OrderTag orderTag)
         {
-            foreach (var selectedOrder in selectedOrders)
+            foreach (var selectedOrder in selectedOrders.Where(selectedOrder => selectedOrder.UntagIfTagged(orderTagGroup, orderTag)))
             {
-                selectedOrder.UntagIfTagged(orderTagGroup, orderTag);
                 _automationService.NotifyEvent(RuleEventNames.OrderUntagged,
-                new
-                {
-                    Order = selectedOrder,
-                    OrderTagName = orderTagGroup.Name,
-                    OrderTagValue = orderTag.Name
-                });
+                                               new
+                                                   {
+                                                       Ticket = ticket,
+                                                       Order = selectedOrder,
+                                                       OrderTagName = orderTagGroup.Name,
+                                                       OrderTagValue = orderTag.Name
+                                                   });
             }
         }
 
@@ -555,6 +577,16 @@ namespace Samba.Services.Implementations.TicketModule
             RefreshAccountTransactions(ticket);
         }
 
+        public void ChangeOrdersAccountTransactionTypeId(Ticket ticket, IEnumerable<Order> selectedOrders, int accountTransactionTypeId)
+        {
+            var so = selectedOrders.ToList();
+            var accountTransactionTypeIds = so.GroupBy(x => x.AccountTransactionTypeId).Select(x => x.Key).ToList();
+            so.ForEach(x => x.AccountTransactionTypeId = accountTransactionTypeId);
+            accountTransactionTypeIds.Where(x => so.All(y => y.AccountTransactionTypeId != x)).ToList()
+                .ForEach(x => ticket.TransactionDocument.AccountTransactions.Where(y => y.AccountTransactionTypeId == x).ToList().ForEach(y => ticket.TransactionDocument.AccountTransactions.Remove(y)));
+            RefreshAccountTransactions(ticket);
+        }
+
         public void AddAccountTransaction(Ticket ticket, Account sourceAccount, Account targetAccount, decimal amount, decimal exchangeRate)
         {
             var transactionType = _cacheService.FindAccountTransactionType(sourceAccount.AccountTypeId, targetAccount.AccountTypeId,
@@ -580,7 +612,7 @@ namespace Samba.Services.Implementations.TicketModule
 
             order.Quantity = quantity > 9 ? decimal.Round(quantity / portion.Multiplier, 3, MidpointRounding.AwayFromZero) : quantity;
 
-            if (template != null) template.OrderTagTemplateValues.ToList().ForEach(x => order.ToggleOrderTag(x.OrderTagGroup, x.OrderTag, 0));
+            if (template != null) template.OrderTagTemplateValues.ToList().ForEach(x => order.ToggleOrderTag(x.OrderTagGroup, x.OrderTag, 0, ""));
             RecalculateTicket(ticket);
 
             order.PublishEvent(EventTopicNames.OrderAdded);
@@ -615,8 +647,8 @@ namespace Samba.Services.Implementations.TicketModule
 
                 if (current.TicketResources.Count != loaded.TicketResources.Count || !current.TicketResources.All(x => loaded.TicketResources.Any(y => x.ResourceId == y.ResourceId)))
                 {
-                    var resource = current.TicketResources.FirstOrDefault(x => !loaded.TicketResources.Any(y => y.ResourceId == x.ResourceId))
-                        ?? loaded.TicketResources.First(x => !current.TicketResources.Any(y => y.ResourceId == x.ResourceId));
+                    var resource = current.TicketResources.FirstOrDefault(x => loaded.TicketResources.All(y => y.ResourceId != x.ResourceId))
+                        ?? loaded.TicketResources.First(x => current.TicketResources.All(y => y.ResourceId != x.ResourceId));
                     return ConcurrencyCheckResult.Break(string.Format(Resources.TicketMovedRetryLastOperation_f, resource.ResourceName));
                 }
 

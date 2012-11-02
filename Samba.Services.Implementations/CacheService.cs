@@ -146,6 +146,11 @@ namespace Samba.Services.Implementations
             return AccountTransactionTypes.Single(x => x.Id == id);
         }
 
+        public int GetAccountTransactionTypeIdByName(string accountTransactionTypeName)
+        {
+            return AccountTransactionTypes.Single(x => x.Name == accountTransactionTypeName).Id;
+        }
+
         private IEnumerable<Resource> _resources;
         public IEnumerable<Resource> Resources
         {
@@ -324,7 +329,7 @@ namespace Samba.Services.Implementations
                 .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == currentDepartmentId)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
-            var result = maps.Select(x => new AutomationCommandData { AutomationCommand = AutomationCommands.First(y => y.Id == x.AutomationCommandId), DisplayOnPayment = x.DisplayOnPayment, DisplayOnTicket = x.DisplayOnTicket, VisualBehaviour = x.VisualBehaviour });
+            var result = maps.Select(x => new AutomationCommandData { AutomationCommand = AutomationCommands.First(y => y.Id == x.AutomationCommandId), DisplayOnPayment = x.DisplayOnPayment, DisplayOnTicket = x.DisplayOnTicket, DisplayOnOrders = x.DisplayOnOrders, VisualBehaviour = x.VisualBehaviour });
             return result.OrderBy(x => x.AutomationCommand.Order);
         }
 

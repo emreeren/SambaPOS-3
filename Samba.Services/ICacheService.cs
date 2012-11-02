@@ -23,6 +23,7 @@ namespace Samba.Services
         IEnumerable<string> GetTicketTagGroupNames();
         TicketTagGroup GetTicketTagGroupById(int id);
         AccountTransactionType GetAccountTransactionTypeById(int id);
+        int GetAccountTransactionTypeIdByName(string accountTransactionTypeName);
         IEnumerable<Resource> GetResourcesByTemplateId(int templateId);
         IEnumerable<ResourceType> GetResourceTypes();
         ResourceType GetResourceTypeById(int resourceTypeId);
@@ -55,6 +56,6 @@ namespace Samba.Services
         void ResetOrderTagCache();
         void ResetTicketTagCache();
 
-        
+
     }
 }

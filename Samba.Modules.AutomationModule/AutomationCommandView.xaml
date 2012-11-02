@@ -29,11 +29,11 @@
                     </Label>
                     <Wpf:ColorPicker2 HorizontalAlignment="Left" MinWidth="150"
                          SelectedColor="{Binding Color}" />
-
-                    <Label>
-                        <LocText ResourceIdentifierKey="Values" Suffix=":"/>
-                    </Label>
-                    <TextBox Text="{Binding Values}" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" MinLines="3"/>
+                    <CheckBox Margin="0,5" IsChecked="{Binding ToggleValues}" Content="{LocText ToggleValues}"/>
+                    <Label Content="{LocText Values,Suffix=':'}"/>
+                    <TextBox Text="{Binding Values}" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" MinLines="3" MinWidth="200" HorizontalAlignment="Left"/>
+                    <Label Content="{LocText CanExecute,FormatSegment1={LocText Script_f},Suffix=':'}"/>
+                    <TextBox Text="{Binding CanExecuteScript}" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" MinLines="3" MinWidth="200" HorizontalAlignment="Left"/>
                 </StackPanel>
             </TabItem>
 

@@ -27,6 +27,7 @@
         public const string AddOrder = "AddOrder";
         public const string SendEmail = "SendEmail";
         public const string ExecutePowershellScript = "ExecutePowershellScript";
+        public const string UpdateOrder = "UpdateOrder";
     }
 
     public static class RuleEventNames
@@ -115,5 +116,7 @@
         public const string PaymentRequestedForTicket = "Payment Requested For Ticket";
         public const string ActivateAccountSelector = "Activate Account Selector";
         public const string Activate = "Activate";
+        public const string HandlerRequested = "HandlerRequested";
+        public const string SelectAutomationCommandValue = "SelectAutomationCommandValue";
     }
 }

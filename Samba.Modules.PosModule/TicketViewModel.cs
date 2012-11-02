@@ -24,6 +24,7 @@ namespace Samba.Modules.PosModule
         private readonly ITicketService _ticketService;
         private readonly IUserService _userService;
         private readonly IApplicationState _applicationState;
+        private readonly IExpressionService _expressionService;
         private readonly IAutomationService _automationService;
         private readonly ICacheService _cacheService;
         private readonly TicketOrdersViewModel _ticketOrdersViewModel;
@@ -74,14 +75,14 @@ namespace Samba.Modules.PosModule
             set
             {
                 _resourceButtons = null;
-                _automationCommands = null;
+                _allAutomationCommands = null;
                 _selectedTicket = value ?? Ticket.Empty;
                 _totals.Model = _selectedTicket;
                 _ticketOrdersViewModel.SelectedTicket = _selectedTicket;
                 _ticketInfo.SelectedTicket = _selectedTicket;
                 _paymentButtonViewModel.SelectedTicket = _selectedTicket;
                 RaisePropertyChanged(() => ResourceButtons);
-                RaisePropertyChanged(() => AutomationCommands);
+                RaisePropertyChanged(() => TicketAutomationCommands);
             }
         }
 
@@ -115,13 +116,25 @@ namespace Samba.Modules.PosModule
         public OrderViewModel LastSelectedOrder { get; set; }
         public bool ClearSelection { get; set; }
 
-        private IEnumerable<CommandContainerButton> _automationCommands;
-        public IEnumerable<CommandContainerButton> AutomationCommands
+        private IEnumerable<CommandContainerButton> _allAutomationCommands;
+        private IEnumerable<CommandContainerButton> AllAutomationCommands
         {
             get
             {
-                return _automationCommands ?? (_automationCommands = _cacheService.GetAutomationCommands().Select(x => new CommandContainerButton(x, SelectedTicket)));
+                return _allAutomationCommands ??
+                 (_allAutomationCommands =
+                  _cacheService.GetAutomationCommands().Select(x => new CommandContainerButton(x, SelectedTicket)).ToList());
             }
+        }
+
+        public IEnumerable<CommandContainerButton> TicketAutomationCommands
+        {
+            get { return AllAutomationCommands.Where(x => x.CommandContainer.DisplayOnTicket); }
+        }
+
+        public IEnumerable<CommandContainerButton> OrderAutomationCommands
+        {
+            get { return AllAutomationCommands.Where(x => x.CommandContainer.DisplayOnOrders); }
         }
 
         public IEnumerable<TicketTagButton> TicketTagButtons
@@ -165,7 +178,7 @@ namespace Samba.Modules.PosModule
         }
 
         [ImportingConstructor]
-        public TicketViewModel(IApplicationState applicationState,
+        public TicketViewModel(IApplicationState applicationState, IExpressionService expressionService,
             ITicketService ticketService, IAccountService accountService, IResourceService locationService, IUserService userService,
             IAutomationService automationService, ICacheService cacheService, TicketOrdersViewModel ticketOrdersViewModel,
             TicketTotalsViewModel totals, TicketInfoViewModel ticketInfoViewModel, PaymentButtonViewModel paymentButtonViewModel)
@@ -173,6 +186,7 @@ namespace Samba.Modules.PosModule
             _ticketService = ticketService;
             _userService = userService;
             _applicationState = applicationState;
+            _expressionService = expressionService;
             _automationService = automationService;
             _cacheService = cacheService;
             _ticketOrdersViewModel = ticketOrdersViewModel;
@@ -204,19 +218,32 @@ namespace Samba.Modules.PosModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<OrderStateData>>().Subscribe(OnOrderStateEvent);
             EventServiceFactory.EventService.GetEvent<GenericEvent<MenuItemPortion>>().Subscribe(OnPortionSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<Department>>().Subscribe(OnDepartmentChanged);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<AutomationCommandValueData>>().Subscribe(OnAutomationCommandValueSelected);
 
             SelectedTicket = Ticket.Empty;
         }
 
         private bool CanExecuteAutomationCommand(CommandContainerButton arg)
         {
-            return arg.IsEnabled;
+            return arg.IsEnabled && _expressionService.EvalTicketCommand(arg.CanExecuteScript,SelectedTicket);
         }
 
         private void OnExecuteAutomationCommand(CommandContainerButton obj)
         {
             obj.NextValue();
-            _automationService.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new { Ticket = SelectedTicket, AutomationCommandName = obj.Name, Value = obj.SelectedValue });
+            if (!string.IsNullOrEmpty(obj.CommandContainer.AutomationCommand.Values) && !obj.CommandContainer.AutomationCommand.ToggleValues)
+                obj.CommandContainer.AutomationCommand.PublishEvent(EventTopicNames.SelectAutomationCommandValue);
+            else
+                _automationService.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new { Ticket = SelectedTicket, AutomationCommandName = obj.Name, Value = obj.SelectedValue });
+        }
+
+        private void OnAutomationCommandValueSelected(EventParameters<AutomationCommandValueData> obj)
+        {
+            _automationService.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new { Ticket = SelectedTicket, AutomationCommandName = obj.Value.AutomationCommand.Name, obj.Value.Value });
+            _ticketOrdersViewModel.RefreshSelectedOrders();
+            ClearSelectedItems();
+            ClearSelection = true;
+            RefreshVisuals();
         }
 
         private void OnDepartmentChanged(EventParameters<Department> obj)
@@ -271,7 +298,7 @@ namespace Samba.Modules.PosModule
             if (obj.Topic == EventTopicNames.OrderTagSelected)
             {
                 _ticketOrdersViewModel.FixSelectedItems();
-                _ticketService.TagOrders(_ticketOrdersViewModel.SelectedOrderModels, obj.Value.OrderTagGroup, obj.Value.SelectedOrderTag);
+                _ticketService.TagOrders(SelectedTicket, _ticketOrdersViewModel.SelectedOrderModels, obj.Value.OrderTagGroup, obj.Value.SelectedOrderTag, "");
                 _ticketOrdersViewModel.RefreshSelectedOrders();
                 if (!string.IsNullOrEmpty(obj.Value.OrderTagGroup.ButtonHeader) && obj.Value.OrderTagGroup.MaxSelectedItems == 1)
                     ClearSelectedItems();
@@ -281,7 +308,7 @@ namespace Samba.Modules.PosModule
 
             if (obj.Topic == EventTopicNames.OrderTagRemoved)
             {
-                _ticketService.UntagOrders(_ticketOrdersViewModel.SelectedOrderModels, obj.Value.OrderTagGroup,
+                _ticketService.UntagOrders(SelectedTicket, _ticketOrdersViewModel.SelectedOrderModels, obj.Value.OrderTagGroup,
                                            obj.Value.SelectedOrderTag);
                 _ticketOrdersViewModel.RefreshSelectedOrders();
                 RefreshVisuals();
@@ -456,7 +483,7 @@ namespace Samba.Modules.PosModule
         {
             SelectedTicket.Locked = false;
             _ticketOrdersViewModel.Refresh();
-            _automationCommands = null;
+            _allAutomationCommands = null;
             RefreshVisuals();
         }
 
@@ -583,7 +610,7 @@ namespace Samba.Modules.PosModule
             RaisePropertyChanged(() => IsNothingSelectedAndTicketLocked);
             RaisePropertyChanged(() => IsNothingSelectedAndTicketTagged);
             RaisePropertyChanged(() => TicketTagButtons);
-            RaisePropertyChanged(() => AutomationCommands);
+            RaisePropertyChanged(() => TicketAutomationCommands);
         }
 
         public void RefreshSelectedItems()
@@ -596,6 +623,7 @@ namespace Samba.Modules.PosModule
             RaisePropertyChanged(() => IsTicketSelected);
             RaisePropertyChanged(() => OrderStateButtons);
             RaisePropertyChanged(() => OrderTagButtons);
+            RaisePropertyChanged(() => OrderAutomationCommands);
         }
     }
 }

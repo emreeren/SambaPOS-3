@@ -40,9 +40,6 @@
       <HintPath>..\Lib\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="NCalc">
-      <HintPath>..\Lib\NCalc.dll</HintPath>
-    </Reference>
     <Reference Include="Omu.ValueInjecter, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -72,6 +69,7 @@
     <Compile Include="AutomationModule\TriggerService.cs" />
     <Compile Include="CacheService.cs" />
     <Compile Include="DepartmentModule\DepartmentService.cs" />
+    <Compile Include="ExpressionService.cs" />
     <Compile Include="InventoryModule\InventoryService.cs" />
     <Compile Include="PrinterModule\PrintJobs\WindowsPrinterJob.cs" />
     <Compile Include="PrinterModule\ValueChangers\AbstractValueChanger.cs" />
@@ -137,6 +135,10 @@
     <Compile Include="WorkPeriodModule\WorkPeriodService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lib\FluentScript\FluentScript.csproj">
+      <Project>{0cdfa1b2-f3a3-45e1-919b-9d1bca26984b}</Project>
+      <Name>FluentScript</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">
       <Project>{2386F6A0-91B2-4D1A-8DBC-92109924AFFE}</Project>
       <Name>Samba.Domain</Name>
@@ -171,7 +173,7 @@
     <PostBuildEvent>IF NOT "$(ConfigurationName)"=="Release" GOTO End
 
 copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)SambaSetup\src"
-copy "$(TargetDir)NCalc.dll" "$(SolutionDir)SambaSetup\src"
+
 :End</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

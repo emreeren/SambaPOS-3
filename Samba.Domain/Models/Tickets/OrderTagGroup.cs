@@ -21,6 +21,7 @@ namespace Samba.Domain.Models.Tickets
         public bool AddTagPriceToOrderPrice { get; set; }
         public bool FreeTagging { get; set; }
         public bool SaveFreeTags { get; set; }
+        public bool IsHidden { get; set; }
         public string GroupTag { get; set; }
 
         private readonly IList<OrderTag> _orderTags;

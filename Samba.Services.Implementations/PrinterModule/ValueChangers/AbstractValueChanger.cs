@@ -20,8 +20,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
         public bool Equals(GroupingKey other)
         {
-            if (other == null) return false;
-            return Name.Equals(other.Name);
+            return other != null && Name.Equals(other.Name);
         }
 
         public override int GetHashCode()
@@ -32,13 +31,12 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
         public override bool Equals(object obj)
         {
             var gk = obj as GroupingKey;
-            if (gk == null) return false;
-            return Name.Equals(gk.Key);
+            return gk != null && Name.Equals(gk.Key);
         }
 
         public int CompareTo(GroupingKey other)
         {
-            return Key.CompareTo(other.Key);
+            return String.Compare(Key, other.Key, StringComparison.Ordinal);
         }
     }
 
@@ -58,13 +56,13 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
                 var groups = models.GroupBy(x => GetGroupSelector(x, groupSwitchValue));
                 foreach (var @group in groups.OrderBy(x => x.Key))
                 {
-                    IGrouping<GroupingKey, T> grp = @group;
+                    var grp = @group;
                     var gtn = string.Format("{0} GROUP{1}", GetTargetTag(), grp.Key.Name != null ? ":" + grp.Key.Name : "");
                     var groupTemplate = (template.GetPart(gtn) ?? "");
                     groupTemplate = Helper.FormatDataIf(grp.Key != null, groupTemplate, "{GROUP KEY}", () => (grp.Key.Name ?? ""));
                     groupTemplate = Helper.FormatDataIf(grp.Key != null, groupTemplate, "{GROUP SUM}", () => grp.Sum(x => GetSumSelector(x)).ToString("#,#0.00"));
                     result += ReplaceValues(groupTemplate, grp.ElementAt(0), template) + "\r\n";
-                    group.ToList().ForEach(x => ProcessItem(x, groupSwitchValue));
+                    //group.ToList().ForEach(x => ProcessItem(x, groupSwitchValue));
                     result += string.Join("\r\n", grp.SelectMany(x => GetValue(template, x).Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)));
                     var ftr = string.Format("{0} FOOTER{1}", GetTargetTag(), grp.Key.Name != null ? ":" + grp.Key.Name : "");
                     var ftrTemplate = template.GetPart(ftr) ?? "";
@@ -94,8 +92,13 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
         public string GetValue(PrinterTemplate template, T model)
         {
-            var modelName = GetModelName(model);
-            var templateName = GetTargetTag() + (!string.IsNullOrEmpty(modelName) ? ":" + modelName : "");
+            var filters = template.GetFilters(GetTargetTag());
+            var templateName = filters.FirstOrDefault(x => FilterMatch(model, x.Key)).Value;
+            if (string.IsNullOrEmpty(templateName))
+            {
+                var modelName = GetModelName(model);
+                templateName = GetTargetTag() + (!string.IsNullOrEmpty(modelName) ? ":" + modelName : "");
+            }
             var templatePart = template.GetPart(templateName);
             return !string.IsNullOrEmpty(templatePart) ? ReplaceValues(templatePart, model, template) : "";
         }
@@ -104,6 +107,11 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
         {
             var result = ReplaceTemplateValues(templatePart, model, printerTemplate);
             return FunctionRegistry.ExecuteFunctions(result, model, printerTemplate);
+        }
+
+        protected virtual bool FilterMatch(T model, string key)
+        {
+            return false;
         }
 
         public virtual string GetTargetTag()

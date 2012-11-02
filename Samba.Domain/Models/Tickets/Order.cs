@@ -19,6 +19,8 @@ namespace Samba.Domain.Models.Tickets
             DecreaseInventory = true;
         }
 
+        public bool IsSelected { get; set; } // Not Stored
+
         public int TicketId { get; set; }
         public int MenuItemId { get; set; }
         public string MenuItemName { get; set; }
@@ -127,27 +129,33 @@ namespace Samba.Domain.Models.Tickets
             }
         }
 
-        public void TagIfNotTagged(OrderTagGroup orderTagGroup, OrderTag orderTag, int userId)
+        public void TagIfNotTagged(OrderTagGroup orderTagGroup, OrderTag orderTag, int userId, string tagNote)
         {
             if (OrderTagValues.FirstOrDefault(x => x.OrderTagGroupId == orderTagGroup.Id && x.TagValue == orderTag.Name) == null)
             {
-                ToggleOrderTag(orderTagGroup, orderTag, userId);
+                ToggleOrderTag(orderTagGroup, orderTag, userId, tagNote);
             }
         }
 
-        public void UntagIfTagged(OrderTagGroup orderTagGroup, OrderTag orderTag)
+        public bool UntagIfTagged(OrderTagGroup orderTagGroup, OrderTag orderTag)
         {
             var value = OrderTagValues.FirstOrDefault(x => x.OrderTagGroupId == orderTagGroup.Id && x.TagValue == orderTag.Name);
-            if (value != null) UntagOrder(value);
+            if (value != null)
+            {
+                UntagOrder(value);
+                return true;
+            }
+            return false;
         }
 
-        private void TagOrder(OrderTagGroup orderTagGroup, OrderTag orderTag, int userId, int tagIndex)
+        private void TagOrder(OrderTagGroup orderTagGroup, OrderTag orderTag, int userId, int tagIndex, string tagNote)
         {
             var otag = new OrderTagValue
                        {
                            TagValue = orderTag.Name,
                            OrderTagGroupId = orderTagGroup.Id,
                            TagName = orderTagGroup.Name,
+                           TagNote = tagNote,
                            MenuItemId = orderTag.MenuItemId,
                            AddTagPriceToOrderPrice = orderTagGroup.AddTagPriceToOrderPrice,
                            PortionName = PortionName,
@@ -198,7 +206,7 @@ namespace Samba.Domain.Models.Tickets
             OrderStateGroupId = orderStateGroup.Id;
         }
 
-        public bool ToggleOrderTag(OrderTagGroup orderTagGroup, OrderTag orderTag, int userId)
+        public bool ToggleOrderTag(OrderTagGroup orderTagGroup, OrderTag orderTag, int userId, string tagNote)
         {
             var result = true;
             var otag = OrderTagValues.FirstOrDefault(x => x.TagValue == orderTag.Name);
@@ -212,7 +220,7 @@ namespace Samba.Domain.Models.Tickets
                     if (sTag != null) tagIndex = OrderTagValues.IndexOf(sTag);
                     OrderTagValues.Where(x => x.OrderTagGroupId == orderTagGroup.Id).ToList().ForEach(x => OrderTagValues.Remove(x));
                 }
-                TagOrder(orderTagGroup, orderTag, userId, tagIndex);
+                TagOrder(orderTagGroup, orderTag, userId, tagIndex, tagNote);
             }
             else
             {

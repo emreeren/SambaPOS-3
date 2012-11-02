@@ -2922,4 +2922,16 @@ Message:
   <data name="PaymentScreenSettings">
     <value xml:space="preserve">Payment Screen Settings</value>
   </data>
+  <data name="UpdateOrder">
+    <value xml:space="preserve">Update Order</value>
+  </data>
+  <data name="ToggleValues">
+    <value xml:space="preserve">Toggle Values</value>
+  </data>
+  <data name="Script_f">
+    <value xml:space="preserve">{0} Script</value>
+  </data>
+  <data name="CanExecute">
+    <value xml:space="preserve">Can Execute</value>
+  </data>
 </root>
