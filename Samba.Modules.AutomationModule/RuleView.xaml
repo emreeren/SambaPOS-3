@@ -65,18 +65,23 @@
                             <ItemsControl ItemsSource="{Binding Actions}" HorizontalAlignment="Left">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Expander Style="{StaticResource MainViewExpander}" Header="{Binding Name}" IsExpanded="False"
-                                     Margin="2">
-                                            <ItemsControl ItemsSource="{Binding ParameterValues}">
-                                                <ItemsControl.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <StackPanel Orientation="Horizontal" Margin="0,3">
-                                                            <Label Content="{Binding Name}" MinWidth="120" />
-                                                            <ComboBox Text="{Binding Value}" MinWidth="80" IsEditable="True" ItemsSource="{Binding ParameterValues}" />
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                </ItemsControl.ItemTemplate>
-                                            </ItemsControl>
+                                        <Expander Style="{StaticResource MainViewExpander}" Header="{Binding Name}" IsExpanded="False" Margin="2">
+                                            <StackPanel>
+                                                <DockPanel>
+                                                    <Label HorizontalAlignment="Left" Content="Constraint:" />
+                                                    <TextBox Text="{Binding CustomConstraint}" MinWidth="80"/>
+                                                </DockPanel>
+                                                <ItemsControl ItemsSource="{Binding ParameterValues}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Horizontal" Margin="0,3">
+                                                                <Label Content="{Binding Name}" MinWidth="120" />
+                                                                <ComboBox Text="{Binding Value}" MinWidth="80" IsEditable="True" ItemsSource="{Binding ParameterValues}" />
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </StackPanel>
                                         </Expander>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>

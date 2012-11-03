@@ -47,5 +47,6 @@ namespace Samba.Services
 
         string Eval(string expression);
         T EvalCommand<T>(string functionName, IEntity entity, object dataObject, T defaultValue = default(T));
+        string ReplaceExpressionValues(string data, string template = "\\[=([^\\]]+)\\]");
     }
 }

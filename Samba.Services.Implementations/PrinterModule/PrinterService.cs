@@ -25,12 +25,15 @@ namespace Samba.Services.Implementations.PrinterModule
     {
         private readonly IApplicationState _applicationState;
         private readonly ICacheService _cacheService;
+        private readonly TicketFormatter _ticketFormatter;
 
         [ImportingConstructor]
-        public PrinterService(IApplicationState applicationState, ICacheService cacheService, IResourceService resourceService)
+        public PrinterService(IApplicationState applicationState, ICacheService cacheService, IResourceService resourceService,
+            IAutomationService automationService, ISettingService settingService)
         {
             _applicationState = applicationState;
             _cacheService = cacheService;
+            _ticketFormatter = new TicketFormatter(automationService, settingService);
             ValidatorRegistry.RegisterDeleteValidator(new PrinterDeleteValidator());
             ValidatorRegistry.RegisterDeleteValidator<PrinterTemplate>(x => Dao.Exists<PrinterMap>(y => y.PrinterTemplateId == x.Id), Resources.PrinterTemplate, Resources.PrintJob);
         }
@@ -248,7 +251,7 @@ namespace Samba.Services.Implementations.PrinterModule
             var printer = PrinterById(p.PrinterId);
             var prinerTemplate = PrinterTemplateById(p.PrinterTemplateId);
             if (printer == null || string.IsNullOrEmpty(printer.ShareName) || prinerTemplate == null) return;
-            var ticketLines = TicketFormatter.GetFormattedTicket(ticket, lns, prinerTemplate);
+            var ticketLines = _ticketFormatter.GetFormattedTicket(ticket, lns, prinerTemplate);
             PrintJobFactory.CreatePrintJob(printer).DoPrint(ticketLines);
         }
 

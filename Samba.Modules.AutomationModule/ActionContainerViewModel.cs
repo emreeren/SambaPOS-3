@@ -87,6 +87,12 @@ namespace Samba.Modules.AutomationModule
             set { Model.Name = value; }
         }
 
+        public string CustomConstraint
+        {
+            get { return Model.CustomConstraint; }
+            set { Model.CustomConstraint = value; }
+        }
+
         public void UpdateParameters()
         {
             Model.ParameterValues = string.Join("#", ParameterValues.Select(x => x.Name + "=" + x.Value));

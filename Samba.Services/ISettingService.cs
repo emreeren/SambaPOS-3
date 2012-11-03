@@ -20,7 +20,7 @@ namespace Samba.Services
         IProgramSetting ReadSetting(string settingName);
         IProgramSetting ReadLocalSetting(string settingName);
         IProgramSetting ReadGlobalSetting(string settingName);
-        ISettingReplacer GetSettingReplacer();
+        string ReplaceSettingValues(string value, string template = "\\{:([^}]+)\\}"); 
         void SaveProgramSettings();
         int GetNextNumber(int numeratorId);
         string GetNextString(int numeratorId);

@@ -1,83 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
-using ComLib.Lang;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 
 namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 {
-    public static class TicketFormatter
+    public class TicketFormatter
     {
-        private static readonly TicketValueChanger TicketValueChanger = new TicketValueChanger();
+        private readonly IAutomationService _automationService;
+        private readonly ISettingService _settingService;
+        private readonly TicketValueChanger _ticketValueChanger = new TicketValueChanger();
 
-        private static Interpreter _interpreter;
-        internal static Interpreter Interpreter { get { return _interpreter ?? (_interpreter = CreateInterpreter()); } }
-
-        private static Interpreter CreateInterpreter()
+        public TicketFormatter(IAutomationService automationService, ISettingService settingService)
         {
-            var result = new Interpreter();
-            result.Context.Plugins.RegisterAllSystem();
-            result.SetFunctionCallback("F", FormatFunction);
-            result.SetFunctionCallback("TN", ToNumberFunction);
-            return result;
+            _automationService = automationService;
+            _settingService = settingService;
         }
 
-        private static object ToNumberFunction(FunctionCallExpr arg)
+        public string[] GetFormattedTicket(Ticket ticket, IEnumerable<Order> lines, PrinterTemplate printerTemplate)
         {
-            double d;
-            double.TryParse(arg.ParamList[0].ToString(), NumberStyles.Any, CultureInfo.CurrentCulture, out d);
-            return d;
-        }
-
-        private static object FormatFunction(FunctionCallExpr arg)
-        {
-            var fmt = arg.ParamList.Count > 1
-                          ? arg.ParamList[1].ToString()
-                          : "#,#0.00";
-            return ((double)arg.ParamList[0]).ToString(fmt);
-        }
-
-        internal static string Eval(string expression)
-        {
-            try
-            {
-                Interpreter.Execute("result = " + expression);
-                return Interpreter.Memory.Get<string>("result");
-            }
-            catch (Exception)
-            {
-                return "";
-            }
-        }
-
-        public static string[] GetFormattedTicket(Ticket ticket, IEnumerable<Order> lines, PrinterTemplate printerTemplate)
-        {
-            var orders = printerTemplate.MergeLines ? MergeLines(lines) : lines;
+            var orders = printerTemplate.MergeLines ? MergeLines(lines.ToList()) : lines;
             ticket.Orders.Clear();
             orders.ToList().ForEach(ticket.Orders.Add);
-            var content = TicketValueChanger.GetValue(printerTemplate, ticket);
+            var content = _ticketValueChanger.GetValue(printerTemplate, ticket);
             content = UpdateExpressions(content);
             return content.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).ToArray();
         }
 
-        private static string UpdateExpressions(string data)
+        private string UpdateExpressions(string data)
         {
-            while (Regex.IsMatch(data, "\\[=[^\\]]+\\]", RegexOptions.Singleline))
-            {
-                var match = Regex.Match(data, "\\[=([^\\]]+)\\]");
-                var tag = match.Groups[0].Value;
-                var expression = match.Groups[1].Value;
-                var result = Eval(expression);
-                data = data.Replace(tag, result);
-            }
-
+            data = _automationService.ReplaceExpressionValues(data);
+            data = _settingService.ReplaceSettingValues(data);
             return data;
         }
 
-        private static IEnumerable<Order> MergeLines(IEnumerable<Order> orders)
+        private static IEnumerable<Order> MergeLines(IList<Order> orders)
         {
             var group = orders.Where(x => x.OrderTagValues.Count(y => y.Price != 0) == 0).GroupBy(x => new
                                                 {

@@ -123,6 +123,7 @@
 
     public static class FunctionNames
     {
+        public const string CanExecuteAction="CanExecuteAction";
         public const string CanExecuteAutomationCommand = "CanExecuteAutomationCommand";
     }
 }

@@ -19,9 +19,12 @@ namespace Samba.Services.Implementations.SettingsModule
         public SettingService()
         {
             ValidatorRegistry.RegisterDeleteValidator(new NumeratorDeleteValidator());
+            _globalSettings = new ProgramSettings();
+            _settingReplacer = new SettingReplacer(_globalSettings);
         }
 
-        private readonly ProgramSettings _globalSettings = new ProgramSettings();
+        private readonly ProgramSettings _globalSettings;
+        private readonly SettingReplacer _settingReplacer;
 
         private static IWorkspace _workspace;
         public static IWorkspace Workspace
@@ -95,6 +98,11 @@ namespace Samba.Services.Implementations.SettingsModule
             return _globalSettings.GetSetting(settingName);
         }
 
+        public string ReplaceSettingValues(string value, string template)
+        {
+            return _settingReplacer.ReplaceSettingValue(template, value);
+        }
+
         public void SaveProgramSettings()
         {
             _globalSettings.SaveChanges();
@@ -113,11 +121,6 @@ namespace Samba.Services.Implementations.SettingsModule
         public IProgramSetting ReadSetting(string settingName)
         {
             return _globalSettings.ReadSetting(settingName);
-        }
-
-        public ISettingReplacer GetSettingReplacer()
-        {
-            return new SettingReplacer(_globalSettings);
         }
 
         public int GetNextNumber(int numeratorId)

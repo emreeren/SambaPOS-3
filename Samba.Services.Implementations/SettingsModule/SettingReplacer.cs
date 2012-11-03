@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace Samba.Services.Implementations.SettingsModule
 {
-    public class SettingReplacer : ISettingReplacer
+    public class SettingReplacer
     {
         private readonly ProgramSettings _settings;
 
@@ -21,17 +21,18 @@ namespace Samba.Services.Implementations.SettingsModule
         public string ReplaceSettingValue(string template, string value)
         {
             if (value == null) return "";
-            while (Regex.IsMatch(value, template, RegexOptions.Singleline))
+            var result = value;
+            while (Regex.IsMatch(result, template, RegexOptions.Singleline))
             {
-                var match = Regex.Match(value, template);
+                var match = Regex.Match(result, template);
                 var tagName = match.Groups[0].Value;
                 var settingName = match.Groups[1].Value;
                 if (!_replaceCache.ContainsKey(settingName))
                     _replaceCache.Add(settingName, _settings.ReadSetting(settingName).StringValue);
                 var settingValue = _replaceCache[settingName];
-                value = value.Replace(tagName, settingValue);
+                result = result.Replace(tagName, settingValue);
             }
-            return value;
+            return result;
         }
     }
 }

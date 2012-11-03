@@ -78,7 +78,6 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType(ActionNames.DisplayPaymentScreen, Resources.DisplayPaymentScreen);
             AutomationService.RegisterActionType(ActionNames.ExecutePowershellScript, Resources.ExecutePowershellScript, new { Script = "" });
             AutomationService.RegisterActionType(ActionNames.ExecuteScript, "Execute Script", new { ScriptName = "" });
-
         }
 
         private static void RegisterRules()
@@ -143,6 +142,8 @@ namespace Samba.Presentation.ViewModels
                 {
                     var order = x.Value.GetDataValue<Order>("Order");
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
+                    if (order == null && ticket != null)
+                        order = ticket.Orders.FirstOrDefault(y => y.IsSelected);
                     if (order != null && ticket != null)
                     {
                         if (!string.IsNullOrEmpty(x.Value.GetAsString("Quantity")))

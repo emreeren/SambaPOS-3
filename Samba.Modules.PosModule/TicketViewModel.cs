@@ -232,7 +232,13 @@ namespace Samba.Modules.PosModule
             if (!string.IsNullOrEmpty(obj.CommandContainer.AutomationCommand.Values) && !obj.CommandContainer.AutomationCommand.ToggleValues)
                 obj.CommandContainer.AutomationCommand.PublishEvent(EventTopicNames.SelectAutomationCommandValue);
             else
+            {
                 _automationService.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new { Ticket = SelectedTicket, AutomationCommandName = obj.Name, Value = obj.SelectedValue });
+                _ticketOrdersViewModel.RefreshSelectedOrders();
+                ClearSelectedItems();
+                ClearSelection = true;
+                RefreshVisuals();
+            }
         }
 
         private void OnAutomationCommandValueSelected(EventParameters<AutomationCommandValueData> obj)

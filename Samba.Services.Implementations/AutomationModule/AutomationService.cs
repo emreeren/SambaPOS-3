@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using ComLib.Lang;
@@ -34,11 +35,17 @@ namespace Samba.Services.Implementations.AutomationModule
 
             _scripts = Dao.Query<Script>().ToDictionary(x => x.HandlerName, x => x.Code);
             _interpreter = new Interpreter();
+            _interpreter.SetFunctionCallback("Call", CallFunction);
+            _interpreter.SetFunctionCallback("F", FormatFunction);
+            _interpreter.SetFunctionCallback("TN", ToNumberFunction);
+
             _interpreter.LexReplace("Ticket", "TicketAccessor");
+            _interpreter.LexReplace("Order", "OrderAccessor");
+            _interpreter.LexReplace("Locator", "ServiceLocator");
             _interpreter.Context.Plugins.RegisterAll();
-            _interpreter.Context.Types.Register(typeof(IServiceLocator), null);
-            _interpreter.Memory.SetValue("Locator", ServiceLocator.Current);
+            _interpreter.Context.Types.Register(typeof(ServiceLocator), null);
             _interpreter.Context.Types.Register(typeof(TicketAccessor), null);
+            _interpreter.Context.Types.Register(typeof(OrderAccessor), null);
         }
 
         private IEnumerable<AppRule> _rules;
@@ -59,11 +66,10 @@ namespace Samba.Services.Implementations.AutomationModule
 
         public void NotifyEvent(string eventName, object dataObject)
         {
-            var settingReplacer = _settingService.GetSettingReplacer();
             var rules = GetAppRules(eventName);
             foreach (var rule in rules.Where(x => string.IsNullOrEmpty(x.EventConstraints) || SatisfiesConditions(x, dataObject)))
             {
-                foreach (var actionContainer in rule.Actions)
+                foreach (var actionContainer in rule.Actions.Where(x => CanExecute(x, dataObject)))
                 {
                     var container = actionContainer;
                     var action = Actions.SingleOrDefault(x => x.Id == container.AppActionId);
@@ -72,13 +78,21 @@ namespace Samba.Services.Implementations.AutomationModule
                     {
                         var clonedAction = ObjectCloner.Clone(action);
                         var containerParameterValues = container.ParameterValues ?? "";
-                        clonedAction.Parameter = settingReplacer.ReplaceSettingValue("\\{:([^}]+)\\}", clonedAction.Parameter);
-                        containerParameterValues = settingReplacer.ReplaceSettingValue("\\{:([^}]+)\\}", containerParameterValues);
+                        clonedAction.Parameter = _settingService.ReplaceSettingValues(clonedAction.Parameter);
+                        containerParameterValues = _settingService.ReplaceSettingValues(containerParameterValues);
+                        clonedAction.Parameter = ReplaceExpressionValues(clonedAction.Parameter);
+                        containerParameterValues = ReplaceExpressionValues(containerParameterValues);
+
                         IActionData data = new ActionData { Action = clonedAction, DataObject = dataObject, ParameterValues = containerParameterValues };
                         data.PublishEvent(EventTopicNames.ExecuteEvent, true);
                     }
                 }
             }
+        }
+
+        private bool CanExecute(ActionContainer actionContainer, object dataObject)
+        {
+            return Eval("result = " + actionContainer.CustomConstraint, dataObject, true);
         }
 
         public void RegisterActionType(string actionType, string actionName, object parameterObject)
@@ -202,10 +216,55 @@ namespace Samba.Services.Implementations.AutomationModule
             return true;
         }
 
+        private static object ToNumberFunction(FunctionCallExpr arg)
+        {
+            double d;
+            double.TryParse(arg.ParamList[0].ToString(), NumberStyles.Any, CultureInfo.CurrentCulture, out d);
+            return d;
+        }
+
+        private static object FormatFunction(FunctionCallExpr arg)
+        {
+            var fmt = arg.ParamList.Count > 1
+                          ? arg.ParamList[1].ToString()
+                          : "#,#0.00";
+            return ((double)arg.ParamList[0]).ToString(fmt);
+        }
+
+        private object CallFunction(FunctionCallExpr arg)
+        {
+            return EvalCommand(arg.ParamList[0].ToString(), null, null, default(object));
+        }
+
         public string Eval(string expression)
         {
-            _interpreter.Execute("result = " + expression);
-            return _interpreter.Memory.Get<string>("result");
+            try
+            {
+                _interpreter.Execute("result = " + expression);
+                return _interpreter.Memory.Get<string>("result");
+            }
+            catch (Exception)
+            {
+                return "";
+            }
+        }
+
+        public T Eval<T>(string expression, object dataObject, T defaultValue = default(T))
+        {
+            try
+            {
+                if (dataObject != null)
+                {
+                    TicketAccessor.Model = GetDataValue<Ticket>(dataObject);
+                    OrderAccessor.Model = GetDataValue<Order>(dataObject);
+                }
+                _interpreter.Execute(expression);
+                return _interpreter.Memory.Get<T>("result");
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
         }
 
         public T EvalCommand<T>(string functionName, IEntity entity, object dataObject, T defaultValue = default(T))
@@ -213,16 +272,20 @@ namespace Samba.Services.Implementations.AutomationModule
             var entityName = entity != null ? "_" + entity.Name : "";
             var script = GetScript(functionName, entityName);
             if (string.IsNullOrEmpty(script)) return defaultValue;
-            try
+            return Eval(script, dataObject, defaultValue);
+        }
+
+        public string ReplaceExpressionValues(string data, string template = "\\[=([^\\]]+)\\]")
+        {
+            var result = data;
+            while (Regex.IsMatch(result, template, RegexOptions.Singleline))
             {
-                TicketAccessor.Model = GetDataValue<Ticket>(dataObject);
-                _interpreter.Execute(script);
-                return _interpreter.Memory.Get<T>("result");
+                var match = Regex.Match(result, template);
+                var tag = match.Groups[0].Value;
+                var expression = match.Groups[1].Value;
+                result = result.Replace(tag, Eval(expression));
             }
-            catch (Exception)
-            {
-                return defaultValue;
-            }
+            return result;
         }
 
         private string GetScript(string functionName, string entityName)
@@ -236,6 +299,7 @@ namespace Samba.Services.Implementations.AutomationModule
 
         private static T GetDataValue<T>(object dataObject) where T : class
         {
+            if (dataObject == null) return null;
             var property = dataObject.GetType().GetProperty(typeof(T).Name);
             if (property != null)
                 return property.GetValue(dataObject, null) as T;
