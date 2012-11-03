@@ -1,0 +1,28 @@
+﻿<?xml version="1.0"?>
+<SyntaxDefinition name="Template" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+  <Color name="String" foreground="Olive" exampleText="string text = &quot;Hello, World!&quot;"/>
+  <Color name="String2" foreground="#993" exampleText="string text = &quot;Hello, World!&quot;"/>
+  <Color name="Comment" foreground="Green" exampleText="string text = &quot;Hello, World!&quot;"/>
+   <Color name="Punctuation" foreground="Red" exampleText="string text = &quot;Hello, World!&quot;"/>
+  <RuleSet  ignoreCase="true">
+
+    <Span color="Punctuation" >
+      <Begin>&lt;</Begin>
+      <End>&gt;</End>
+    </Span>
+    
+    <Span color="String2" multiline="true"  >
+      <Begin>"</Begin>
+      <End>"</End>
+    </Span>
+    
+    <!-- span for escape sequences -->
+    <Span color="Comment" begin="--" end="\n"/>
+    <Span color="Comment"  multiline="true">
+      <Begin>/\*</Begin>
+      <End>\*/</End>
+    </Span>
+
+  </RuleSet>
+
+</SyntaxDefinition>

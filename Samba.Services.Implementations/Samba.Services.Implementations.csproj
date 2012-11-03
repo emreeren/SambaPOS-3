@@ -69,7 +69,7 @@
     <Compile Include="AutomationModule\TriggerService.cs" />
     <Compile Include="CacheService.cs" />
     <Compile Include="DepartmentModule\DepartmentService.cs" />
-    <Compile Include="ExpressionService.cs" />
+    <Compile Include="AutomationModule\Accessors\TicketAccessor.cs" />
     <Compile Include="InventoryModule\InventoryService.cs" />
     <Compile Include="PrinterModule\PrintJobs\WindowsPrinterJob.cs" />
     <Compile Include="PrinterModule\ValueChangers\AbstractValueChanger.cs" />

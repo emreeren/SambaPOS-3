@@ -28,6 +28,7 @@
         public const string SendEmail = "SendEmail";
         public const string ExecutePowershellScript = "ExecutePowershellScript";
         public const string UpdateOrder = "UpdateOrder";
+        public const string ExecuteScript = "ExecuteScript";
     }
 
     public static class RuleEventNames
@@ -118,5 +119,10 @@
         public const string Activate = "Activate";
         public const string HandlerRequested = "HandlerRequested";
         public const string SelectAutomationCommandValue = "SelectAutomationCommandValue";
+    }
+
+    public static class FunctionNames
+    {
+        public const string CanExecuteAutomationCommand = "CanExecuteAutomationCommand";
     }
 }

@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel.Composition;
+using System.Xml;
+using ICSharpCode.AvalonEdit.Highlighting;
+using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
-using Samba.Domain.Models.Actions;
+using Samba.Domain.Models.Automation;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
@@ -21,6 +20,18 @@ namespace Samba.Modules.AutomationModule
             AddDashboardCommand<EntityCollectionViewModelBase<RuleViewModel, AppRule>>(Resources.Rules, Resources.Automation, 45);
             AddDashboardCommand<TriggerListViewModel>(Resources.Triggers, Resources.Automation, 45);
             AddDashboardCommand<EntityCollectionViewModelBase<AutomationCommandViewModel, AutomationCommand>>(Resources.AutomationCommand.ToPlural(), Resources.Automation, 45);
+            AddDashboardCommand<EntityCollectionViewModelBase<ScriptViewModel, Script>>(Resources.Script.ToPlural(), Resources.Automation, 45);
+
+            HighlightingManager.Instance.RegisterHighlighting("SambaDSL", null, () => LoadHighlightingDefinition("SambaDSL.xshd"));
+        }
+
+        public static IHighlightingDefinition LoadHighlightingDefinition(string resourceName)
+        {
+            var type = typeof(AutomationModule);
+            var fullName = type.Namespace + "." + resourceName;
+            using (var stream = type.Assembly.GetManifestResourceStream(fullName))
+            using (var reader = new XmlTextReader(stream))
+                return HighlightingLoader.Load(reader, HighlightingManager.Instance);
         }
     }
 }

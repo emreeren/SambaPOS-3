@@ -2934,4 +2934,13 @@ Message:
   <data name="CanExecute">
     <value xml:space="preserve">Can Execute</value>
   </data>
+  <data name="GeneralPrintErrorMessage">
+    <value xml:space="preserve">There is a problem while printing: Print Map is null</value>
+  </data>
+  <data name="Handler">
+    <value xml:space="preserve">Handler</value>
+  </data>
+  <data name="Script">
+    <value xml:space="preserve">Script</value>
+  </data>
 </root>

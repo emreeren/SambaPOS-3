@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -21,14 +20,7 @@ namespace Samba.Infrastructure.Data.SQL
 
         public void CommitChanges()
         {
-            try
-            {
-                _context.SaveChanges();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            _context.SaveChanges();
         }
 
         public void ResetDatabase()

@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Samba.Domain.Models.Actions;
+using Samba.Domain.Models.Automation;
 using Samba.Presentation.Common;
 using Samba.Services;
 

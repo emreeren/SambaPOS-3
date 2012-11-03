@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.AvalonEdit">
+      <HintPath>..\Samba.Modules.PrinterModule\bin\Debug\ICSharpCode.AvalonEdit.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\Lib\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
@@ -70,6 +73,10 @@
       <DependentUpon>RuleView.xaml</DependentUpon>
     </Compile>
     <Compile Include="RuleViewModel.cs" />
+    <Compile Include="ScriptView.xaml.cs">
+      <DependentUpon>ScriptView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ScriptViewModel.cs" />
     <Compile Include="TriggerListViewModel.cs" />
     <Compile Include="TriggerView.xaml.cs">
       <DependentUpon>TriggerView.xaml</DependentUpon>
@@ -135,6 +142,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="ScriptView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TriggerView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -146,7 +157,9 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="SambaDSL.xshd" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>IF NOT "$(ConfigurationName)"=="Release" GOTO End

@@ -200,8 +200,8 @@ namespace Samba.Modules.PosModule
                     DisplaySingleTicket();
                     break;
                 case EventTopicNames.CloseTicketRequested:
-                    CloseTicket();
                     DisplayMenuScreen();
+                    CloseTicket();
                     break;
             }
         }

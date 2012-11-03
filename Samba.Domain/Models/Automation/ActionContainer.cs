@@ -1,7 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Samba.Infrastructure.Data;
+﻿using Samba.Infrastructure.Data;
 
-namespace Samba.Domain.Models.Actions
+namespace Samba.Domain.Models.Automation
 {
     public class ActionContainer : Value, IOrderable
     {

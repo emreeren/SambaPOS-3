@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Samba.Domain.Models.Actions;
+using ComLib.Lang;
+using Microsoft.Practices.ServiceLocation;
+using Samba.Domain.Models.Automation;
+using Samba.Domain.Models.Tickets;
+using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Data.Serializer;
 using Samba.Persistance.Data;
 using Samba.Services.Common;
+using Samba.Services.Implementations.AutomationModule.Accessors;
 
 namespace Samba.Services.Implementations.AutomationModule
 {
@@ -17,12 +22,23 @@ namespace Samba.Services.Implementations.AutomationModule
         private readonly RuleActionTypeRegistry _ruleActionTypeRegistry;
         private readonly ISettingService _settingService;
 
+        private readonly Interpreter _interpreter;
+        private Dictionary<string, string> _scripts;
+
         [ImportingConstructor]
         public AutomationService(IApplicationState applicationState, ISettingService settingService)
         {
             _applicationState = applicationState;
             _ruleActionTypeRegistry = new RuleActionTypeRegistry();
             _settingService = settingService;
+
+            _scripts = Dao.Query<Script>().ToDictionary(x => x.HandlerName, x => x.Code);
+            _interpreter = new Interpreter();
+            _interpreter.LexReplace("Ticket", "TicketAccessor");
+            _interpreter.Context.Plugins.RegisterAll();
+            _interpreter.Context.Types.Register(typeof(IServiceLocator), null);
+            _interpreter.Memory.SetValue("Locator", ServiceLocator.Current);
+            _interpreter.Context.Types.Register(typeof(TicketAccessor), null);
         }
 
         private IEnumerable<AppRule> _rules;
@@ -186,8 +202,50 @@ namespace Samba.Services.Implementations.AutomationModule
             return true;
         }
 
+        public string Eval(string expression)
+        {
+            _interpreter.Execute("result = " + expression);
+            return _interpreter.Memory.Get<string>("result");
+        }
+
+        public T EvalCommand<T>(string functionName, IEntity entity, object dataObject, T defaultValue = default(T))
+        {
+            var entityName = entity != null ? "_" + entity.Name : "";
+            var script = GetScript(functionName, entityName);
+            if (string.IsNullOrEmpty(script)) return defaultValue;
+            try
+            {
+                TicketAccessor.Model = GetDataValue<Ticket>(dataObject);
+                _interpreter.Execute(script);
+                return _interpreter.Memory.Get<T>("result");
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        private string GetScript(string functionName, string entityName)
+        {
+            if (_scripts.ContainsKey(functionName + entityName))
+                return _scripts[functionName + entityName];
+            if (_scripts.ContainsKey(functionName + "_*"))
+                return _scripts[functionName + "_*"];
+            return "";
+        }
+
+        private static T GetDataValue<T>(object dataObject) where T : class
+        {
+            var property = dataObject.GetType().GetProperty(typeof(T).Name);
+            if (property != null)
+                return property.GetValue(dataObject, null) as T;
+            return null;
+        }
+
         public override void Reset()
         {
+            _scripts.Clear();
+            _scripts = Dao.Query<Script>().ToDictionary(x => x.HandlerName, x => x.Code);
             _rules = null;
             _actions = null;
         }

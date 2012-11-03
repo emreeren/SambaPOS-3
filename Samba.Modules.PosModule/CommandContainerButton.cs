@@ -24,7 +24,6 @@ namespace Samba.Modules.PosModule
         public string Name { get { return CommandContainer.AutomationCommand.Name; } }
         public string SelectedValue { get; set; }
         public string Display { get { return !string.IsNullOrEmpty(SelectedValue) ? SelectedValue : ButtonHeader; } }
-        public string CanExecuteScript { get { return CommandContainer.AutomationCommand.CanExecuteScript; } }
         public List<string> Values { get { return (CommandContainer.AutomationCommand.Values ?? "").Split('|').ToList(); } }
 
         public bool IsVisible

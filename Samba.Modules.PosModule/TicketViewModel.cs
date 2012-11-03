@@ -24,7 +24,6 @@ namespace Samba.Modules.PosModule
         private readonly ITicketService _ticketService;
         private readonly IUserService _userService;
         private readonly IApplicationState _applicationState;
-        private readonly IExpressionService _expressionService;
         private readonly IAutomationService _automationService;
         private readonly ICacheService _cacheService;
         private readonly TicketOrdersViewModel _ticketOrdersViewModel;
@@ -178,7 +177,7 @@ namespace Samba.Modules.PosModule
         }
 
         [ImportingConstructor]
-        public TicketViewModel(IApplicationState applicationState, IExpressionService expressionService,
+        public TicketViewModel(IApplicationState applicationState,
             ITicketService ticketService, IAccountService accountService, IResourceService locationService, IUserService userService,
             IAutomationService automationService, ICacheService cacheService, TicketOrdersViewModel ticketOrdersViewModel,
             TicketTotalsViewModel totals, TicketInfoViewModel ticketInfoViewModel, PaymentButtonViewModel paymentButtonViewModel)
@@ -186,7 +185,6 @@ namespace Samba.Modules.PosModule
             _ticketService = ticketService;
             _userService = userService;
             _applicationState = applicationState;
-            _expressionService = expressionService;
             _automationService = automationService;
             _cacheService = cacheService;
             _ticketOrdersViewModel = ticketOrdersViewModel;
@@ -225,7 +223,7 @@ namespace Samba.Modules.PosModule
 
         private bool CanExecuteAutomationCommand(CommandContainerButton arg)
         {
-            return arg.IsEnabled && _expressionService.EvalTicketCommand(arg.CanExecuteScript,SelectedTicket);
+            return arg.IsEnabled && _automationService.EvalCommand(FunctionNames.CanExecuteAutomationCommand, arg.CommandContainer.AutomationCommand, new { Ticket = SelectedTicket }, true);
         }
 
         private void OnExecuteAutomationCommand(CommandContainerButton obj)

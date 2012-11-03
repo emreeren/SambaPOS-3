@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Windows.Media;
 using Microsoft.Practices.ServiceLocation;
 using Samba.Domain.Models.Accounts;
-using Samba.Domain.Models.Actions;
+using Samba.Domain.Models.Automation;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
@@ -77,6 +77,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType(ActionNames.DisplayTicket, Resources.DisplayTicket, new { TicketId = 0 });
             AutomationService.RegisterActionType(ActionNames.DisplayPaymentScreen, Resources.DisplayPaymentScreen);
             AutomationService.RegisterActionType(ActionNames.ExecutePowershellScript, Resources.ExecutePowershellScript, new { Script = "" });
+            AutomationService.RegisterActionType(ActionNames.ExecuteScript, "Execute Script", new { ScriptName = "" });
 
         }
 
@@ -156,6 +157,15 @@ namespace Samba.Presentation.ViewModels
                             order.CalculatePrice = x.Value.GetAsBoolean("CalculatePrice");
                         if (!string.IsNullOrEmpty(x.Value.GetAsString("AccountTransactionType")))
                             TicketService.ChangeOrdersAccountTransactionTypeId(ticket, new List<Order> { order }, CacheService.GetAccountTransactionTypeIdByName(x.Value.GetAsString("AccountTransactionType")));
+                    }
+                }
+
+                if (x.Value.Action.ActionType == ActionNames.ExecuteScript)
+                {
+                    var script = x.Value.GetAsString("ScriptName");
+                    if (!string.IsNullOrEmpty(script))
+                    {
+                        AutomationService.EvalCommand(script, null, x.Value.DataObject, true);
                     }
                 }
 

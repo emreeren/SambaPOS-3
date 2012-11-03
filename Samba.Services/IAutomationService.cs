@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Samba.Domain.Models.Actions;
+using Samba.Domain.Models.Automation;
+using Samba.Infrastructure.Data;
 
 namespace Samba.Services
 {
@@ -43,5 +44,8 @@ namespace Samba.Services
         IEnumerable<IParameterValue> CreateParameterValues(RuleActionType actionType);
         AppAction GetActionById(int appActionId);
         IEnumerable<string> GetAutomationCommandNames();
+
+        string Eval(string expression);
+        T EvalCommand<T>(string functionName, IEntity entity, object dataObject, T defaultValue = default(T));
     }
 }

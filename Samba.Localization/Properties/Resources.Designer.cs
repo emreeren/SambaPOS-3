@@ -2906,6 +2906,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There is a problem while printing: Print Map is null.
+        /// </summary>
+        public static string GeneralPrintErrorMessage {
+            get {
+                return ResourceManager.GetString("GeneralPrintErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to General Settings.
         /// </summary>
         public static string GeneralSettings {
@@ -2992,6 +3001,15 @@ namespace Samba.Localization.Properties {
         public static string HalfPast {
             get {
                 return ResourceManager.GetString("HalfPast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Handler.
+        /// </summary>
+        public static string Handler {
+            get {
+                return ResourceManager.GetString("Handler", resourceCulture);
             }
         }
         
@@ -5644,6 +5662,15 @@ namespace Samba.Localization.Properties {
         public static string ScreenItem {
             get {
                 return ResourceManager.GetString("ScreenItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Script.
+        /// </summary>
+        public static string Script {
+            get {
+                return ResourceManager.GetString("Script", resourceCulture);
             }
         }
         

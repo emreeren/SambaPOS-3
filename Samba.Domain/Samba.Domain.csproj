@@ -77,9 +77,10 @@
     <Compile Include="Models\Accounts\AccountType.cs" />
     <Compile Include="Models\Accounts\AccountTransactionDocumentAccountMap.cs" />
     <Compile Include="Models\Accounts\AccountTransactionDocumentTypeMap.cs" />
-    <Compile Include="Models\Actions\AppRuleMap.cs" />
-    <Compile Include="Models\Actions\AutomationCommand.cs" />
-    <Compile Include="Models\Actions\AutomationCommandMap.cs" />
+    <Compile Include="Models\Automation\AppRuleMap.cs" />
+    <Compile Include="Models\Automation\AutomationCommand.cs" />
+    <Compile Include="Models\Automation\AutomationCommandMap.cs" />
+    <Compile Include="Models\Automation\Script.cs" />
     <Compile Include="Models\Menus\ProductTimer.cs" />
     <Compile Include="Models\Menus\ProdcutTimerMap.cs" />
     <Compile Include="Models\Resources\ResourceScreenMap.cs" />
@@ -98,9 +99,9 @@
     <Compile Include="Models\Accounts\AccountTransactionValue.cs" />
     <Compile Include="Models\Accounts\AccountTransactionType.cs" />
     <Compile Include="Models\Accounts\AccountTransactionDocumentType.cs" />
-    <Compile Include="Models\Actions\ActionContainer.cs" />
-    <Compile Include="Models\Actions\AppRule.cs" />
-    <Compile Include="Models\Actions\AppAction.cs" />
+    <Compile Include="Models\Automation\ActionContainer.cs" />
+    <Compile Include="Models\Automation\AppRule.cs" />
+    <Compile Include="Models\Automation\AppAction.cs" />
     <Compile Include="Models\Tickets\CalculationSelector.cs" />
     <Compile Include="Models\Tickets\CalculationSelectorMap.cs" />
     <Compile Include="Models\Tickets\OrderState.cs" />

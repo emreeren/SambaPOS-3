@@ -1,4 +1,4 @@
-using Samba.Domain.Models.Actions;
+using Samba.Domain.Models.Automation;
 
 namespace Samba.Presentation.ViewModels
 {

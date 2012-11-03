@@ -241,9 +241,8 @@ namespace Samba.Services.Implementations.PrinterModule
             if (!lns.Any()) return;
             if (p == null)
             {
-                //todo: globalize
-                MessageBox.Show("Yazdırma sırasında bir problem tespit edildi: Yazıcı Haritası null");
-                AppServices.Log("Yazıcı Haritası NULL problemi tespit edildi.");
+                MessageBox.Show(Resources.GeneralPrintErrorMessage);
+                AppServices.Log(Resources.GeneralPrintErrorMessage);
                 return;
             }
             var printer = PrinterById(p.PrinterId);

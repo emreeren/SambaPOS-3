@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="Samba.Modules.AutomationModule.ScriptView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel>
+            <Label Content="{LocText Name,Suffix=':'}" />
+            <TextBox Text="{Binding Name}" MinWidth="200" HorizontalAlignment="Left" />
+            <Label Content="{LocText Handler,FormatSegment1={LocText Name_f},Suffix=':'}" />
+            <TextBox Text="{Binding HandlerName}" MinWidth="200" HorizontalAlignment="Left" />
+            <Label Content="{LocText Script,Suffix=':'}" />
+            <Border BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}">
+                <avalonedit:TextEditor FontFamily="Lucida Console" FontSize="12" Document="{Binding ScriptText}" SyntaxHighlighting="SambaDSL" MinWidth="250" MinHeight="200" 
+                                       HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Visible"/>
+            </Border>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1">
+            <Button HorizontalAlignment="Left" Margin="0,10,3,0" MinWidth="70" Content="{Binding SaveCommand.Caption}"
+             Command="{Binding SaveCommand}" />
+            <Label Content="{Binding Error}" Foreground="Red" />
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using Samba.Domain.Models.Actions;
+using Samba.Domain.Models.Automation;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
 
@@ -23,7 +23,6 @@ namespace Samba.Modules.AutomationModule
         }
 
         public bool ToggleValues { get { return Model.ToggleValues; } set { Model.ToggleValues = value; } }
-        public string CanExecuteScript { get { return Model.CanExecuteScript; } set { Model.CanExecuteScript = value; } }
 
         public override Type GetViewType()
         {

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using Samba.Domain.Models.Accounts;
-using Samba.Domain.Models.Actions;
+using Samba.Domain.Models.Automation;
 using Samba.Domain.Models.Inventories;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Resources;
@@ -104,9 +104,11 @@ namespace Samba.Persistance.Data
         public DbSet<Widget> Widgets { get; set; }
         public DbSet<ResourceState> ResourceStates { get; set; }
         public DbSet<ResourceStateValue> ResourceStateValues { get; set; }
+        public DbSet<Script> Scripts { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Script>().Property(x => x.Code).IsMaxLength();
             modelBuilder.Entity<Resource>().Property(x => x.CustomData).IsMaxLength();
             modelBuilder.Entity<Ticket>().Property(x => x.TicketTags).IsMaxLength();
             modelBuilder.Entity<PrinterTemplate>().Property(x => x.Template).IsMaxLength();

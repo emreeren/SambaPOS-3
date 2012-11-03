@@ -2395,4 +2395,7 @@ Program çalışmaya devam edecek ancak en kısa zamanda teknik destek almanız 
 Mesaj:
 </value>
   </data>
+  <data name="GeneralPrintErrorMessage">
+    <value xml:space="preserve">Yazdırma sırasında bir problem tespit edildi: Yazıcı Haritası null</value>
+  </data>
 </root>
