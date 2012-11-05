@@ -28,6 +28,7 @@ namespace Samba.Presentation.Common.Services
 
         public AppScreens ActiveAppScreen { get; private set; }
         public CurrentDepartmentData CurrentDepartment { get; private set; }
+        public TicketType CurrentTicketType { get; set; }
         public ResourceScreen SelectedResourceScreen { get; private set; }
 
         private Terminal _terminal;
@@ -84,6 +85,7 @@ namespace Samba.Presentation.Common.Services
                 CurrentDepartment = new CurrentDepartmentData { Model = department };
                 CurrentDepartment.Model.PublishEvent(EventTopicNames.SelectedDepartmentChanged);
             }
+            SetCurrentTicketType(CurrentDepartment.Model.TicketType);
         }
 
         public void SetCurrentDepartment(int departmentId)
@@ -118,7 +120,12 @@ namespace Samba.Presentation.Common.Services
         {
             LastPaidItems = paidItems;
         }
-        
+
+        public void SetCurrentTicketType(TicketType ticketType)
+        {
+            CurrentTicketType = ticketType;
+        }
+
         public string NumberPadValue
         {
             get { return _settingService.ReadLocalSetting("NUMBERPAD").StringValue; }

@@ -28,7 +28,6 @@ namespace Samba.Services
         public string Name { get { return Model != null ? Model.Name : ""; } }
         public string PriceTag { get { return Model != null ? Model.PriceTag : ""; } }
         public int TicketCreationMethod { get { return Model != null ? Model.TicketCreationMethod : 0; } }
-        public TicketType TicketType { get { return Model != null ? Model.TicketType : null; } }
     }
 
     public interface IApplicationState
@@ -36,6 +35,7 @@ namespace Samba.Services
         string NumberPadValue { get; }
         User CurrentLoggedInUser { get; }
         CurrentDepartmentData CurrentDepartment { get; }
+        TicketType CurrentTicketType { get; set; }
         AppScreens ActiveAppScreen { get; }
         ResourceScreen SelectedResourceScreen { get; }
         WorkPeriod CurrentWorkPeriod { get; }

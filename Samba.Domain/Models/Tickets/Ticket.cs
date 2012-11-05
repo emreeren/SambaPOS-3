@@ -463,13 +463,13 @@ namespace Samba.Domain.Models.Tickets
             _shouldLock = false;
         }
 
-        public static Ticket Create(Department department,TicketType template, Account account, decimal exchangeRate, IEnumerable<CalculationType> calculationTypes)
+        public static Ticket Create(Department department,TicketType ticketType, Account account, decimal exchangeRate, IEnumerable<CalculationType> calculationTypes)
         {
             var ticket = new Ticket
                              {
-                                 TicketTypeId = template.Id,
+                                 TicketTypeId = ticketType.Id,
                                  DepartmentId = department.Id,
-                                 AccountTypeId = department.TicketType.SaleTransactionType.TargetAccountTypeId,
+                                 AccountTypeId = ticketType.SaleTransactionType.TargetAccountTypeId,
                                  TransactionDocument = new AccountTransactionDocument()
                              };
 

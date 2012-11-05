@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Samba.Domain.Models.Resources;
+﻿using System.ComponentModel.DataAnnotations;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
