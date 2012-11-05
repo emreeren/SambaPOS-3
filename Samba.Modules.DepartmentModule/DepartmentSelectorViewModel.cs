@@ -13,13 +13,16 @@ namespace Samba.Modules.DepartmentModule
     {
         private readonly IApplicationState _applicationState;
         private readonly IUserService _userService;
+        private readonly ICacheService _cacheService;
         private readonly IApplicationStateSetter _applicationStateSetter;
 
-        public DepartmentSelectorViewModel(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter, IUserService userService)
+        public DepartmentSelectorViewModel(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
+            IUserService userService,ICacheService cacheService)
         {
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
             _userService = userService;
+            _cacheService = cacheService;
             EventServiceFactory.EventService.GetEvent<GenericEvent<IApplicationState>>().Subscribe(OnSelectedTicketChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<WorkPeriod>>().Subscribe(OnWorkPeriodChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<User>>().Subscribe(OnUserLoggedIn);
@@ -28,7 +31,6 @@ namespace Samba.Modules.DepartmentModule
         public void UpdateSelectedDepartment(int departmentId)
         {
             _applicationStateSetter.SetSelectedResourceScreen(null);
-            _applicationStateSetter.SetCurrentTicketType(null);
             _applicationStateSetter.SetCurrentDepartment(departmentId);
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
             PermittedDepartments.ToList().ForEach(x => x.Refresh());

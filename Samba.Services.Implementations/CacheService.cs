@@ -441,7 +441,7 @@ namespace Samba.Services.Implementations
                .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
                .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
                .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
-            return ResourceScreens.Where(x => maps.Any(y => y.ResourceScreenId == x.Id)).OrderBy(x => x.Order);
+            return ResourceScreens.Where(x => x.ResourceTypeId > 0 && maps.Any(y => y.ResourceScreenId == x.Id)).OrderBy(x => x.Order);
         }
 
         public AccountTransactionType FindAccountTransactionType(int sourceAccountTypeId, int targetAccountTypeId, int defaultSourceId, int defaultTargetId)
@@ -467,7 +467,7 @@ namespace Samba.Services.Implementations
 
         public TicketType GetTicketTypeById(int ticketTypeId)
         {
-            return TicketTypes.Single(x => x.Id == ticketTypeId);
+            return TicketTypes.SingleOrDefault(x => x.Id == ticketTypeId);
         }
 
         public IEnumerable<TicketType> GetTicketTypes()

@@ -184,8 +184,6 @@ namespace Samba.Services.Implementations.ResourceModule
             }
         }
 
-
-
         public override void Reset()
         {
 

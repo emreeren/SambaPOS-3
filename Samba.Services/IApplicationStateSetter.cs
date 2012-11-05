@@ -10,7 +10,7 @@ namespace Samba.Services
         void SetCurrentLoggedInUser(User user);
         void SetCurrentDepartment(int departmentId);
         void SetCurrentApplicationScreen(AppScreens appScreen);
-        void SetSelectedResourceScreen(ResourceScreen resourceScreen);
+        ResourceScreen SetSelectedResourceScreen(ResourceScreen resourceScreen);
         void SetApplicationLocked(bool isLocked);
         void SetNumberpadValue(string value);
         void SetLastPaidItems(IEnumerable<PaidItem> paidItems);

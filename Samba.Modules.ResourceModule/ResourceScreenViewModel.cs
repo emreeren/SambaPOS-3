@@ -18,12 +18,12 @@ namespace Samba.Modules.ResourceModule
     {
         public ResourceScreenViewModel()
         {
-            SelectScreenItemsCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.ScreenItem), OnSelectScreenItems);
+            SelectScreenItemsCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.Resource), OnSelectScreenItems, CanSelectScreenItems);
         }
 
         public ICaptionCommand SelectScreenItemsCommand { get; set; }
 
-        public string[] DisplayModes { get { return new[] { Resources.Automatic, Resources.Custom, Resources.Search }; } }
+        public string[] DisplayModes { get { return new[] { Resources.Automatic, Resources.Search, Resources.Custom }; } }
         public string DisplayMode { get { return DisplayModes[Model.DisplayMode]; } set { Model.DisplayMode = Array.IndexOf(DisplayModes, value); } }
         public string BackgroundImage { get { return string.IsNullOrEmpty(Model.BackgroundImage) ? "/Images/empty.png" : Model.BackgroundImage; } set { Model.BackgroundImage = value; } }
         public string BackgroundColor { get { return string.IsNullOrEmpty(Model.BackgroundColor) ? "Transparent" : Model.BackgroundColor; } set { Model.BackgroundColor = value; } }
@@ -33,7 +33,7 @@ namespace Samba.Modules.ResourceModule
         public int RowCount { get { return Model.RowCount; } set { Model.RowCount = value; } }
         public int ButtonHeight { get { return Model.ButtonHeight; } set { Model.ButtonHeight = value; } }
         public int TicketTypeId { get { return Model.TicketTypeId; } set { Model.TicketTypeId = value; } }
-        public int ResourceTypeId { get { return Model.ResourceTypeId; } set { Model.ResourceTypeId = value; } }
+        public int? ResourceTypeId { get { return Model.ResourceTypeId; } set { Model.ResourceTypeId = value.GetValueOrDefault(0); } }
         public int? StateFilterId { get { return Model.StateFilterId; } set { Model.StateFilterId = value.GetValueOrDefault(0); } }
 
         private IEnumerable<TicketType> _ticketTypes;
@@ -58,6 +58,11 @@ namespace Samba.Modules.ResourceModule
         public IEnumerable<ResourceState> ResourceStates
         {
             get { return _resourceStates ?? (_resourceStates = Workspace.All<ResourceState>()); }
+        }
+
+        private bool CanSelectScreenItems(string arg)
+        {
+            return Model.ResourceTypeId > 0;
         }
 
         private void OnSelectScreenItems(string obj)
@@ -110,8 +115,8 @@ namespace Samba.Modules.ResourceModule
     {
         public ResourceScreenValidator()
         {
-            RuleFor(x => x.ResourceTypeId).GreaterThan(0);
             RuleFor(x => x.TicketTypeId).GreaterThan(0);
+            RuleFor(x => x.ResourceTypeId).GreaterThan(0).When(x => x.DisplayMode < 2);
         }
     }
 }

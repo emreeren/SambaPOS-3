@@ -18,11 +18,11 @@ namespace Samba.Modules.DepartmentModule
 
         [ImportingConstructor]
         public DepartmentSelectorView(IApplicationStateSetter applicationStateSetter, IApplicationState applicationState,
-             IUserService userService)
+             IUserService userService,ICacheService cacheService)
         {
             InitializeComponent();
             _applicationStateSetter = applicationStateSetter;
-            DataContext = new DepartmentSelectorViewModel(applicationState, _applicationStateSetter, userService);
+            DataContext = new DepartmentSelectorViewModel(applicationState, _applicationStateSetter, userService,cacheService);
         }
     }
 }

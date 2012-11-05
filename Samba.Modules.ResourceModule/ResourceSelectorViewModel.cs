@@ -28,18 +28,16 @@ namespace Samba.Modules.ResourceModule
         public VerticalAlignment ScreenVerticalAlignment { get { return SelectedResourceScreen != null && SelectedResourceScreen.ButtonHeight > 0 ? VerticalAlignment.Top : VerticalAlignment.Stretch; } }
 
         private readonly IApplicationState _applicationState;
-        private readonly IApplicationStateSetter _applicationStateSetter;
         private readonly IResourceService _resourceService;
         private readonly IUserService _userService;
         private readonly ICacheService _cacheService;
         private EntityOperationRequest<Resource> _currentOperationRequest;
 
         [ImportingConstructor]
-        public ResourceSelectorViewModel(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
-            IResourceService resourceService, IUserService userService, ICacheService cacheService)
+        public ResourceSelectorViewModel(IApplicationState applicationState, IResourceService resourceService,
+            IUserService userService, ICacheService cacheService)
         {
             _applicationState = applicationState;
-            _applicationStateSetter = applicationStateSetter;
             _resourceService = resourceService;
             _userService = userService;
             _cacheService = cacheService;
@@ -102,8 +100,7 @@ namespace Samba.Modules.ResourceModule
 
         private void UpdateResourceScreenItems(ResourceScreen resourceScreen)
         {
-            var stateFilter = resourceScreen.DisplayMode == 0 || resourceScreen.DisplayMode == 1 ? StateFilter : 0;
-            var resourceData = GetResourceScreenItems(resourceScreen, stateFilter);
+            var resourceData = GetResourceScreenItems(resourceScreen, StateFilter);
             if (ResourceScreenItems != null && (!ResourceScreenItems.Any() || ResourceScreenItems.Count != resourceData.Count() || ResourceScreenItems.First().Name != resourceData.First().Name)) ResourceScreenItems = null;
 
             UpdateResourceButtons(resourceData);

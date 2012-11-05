@@ -424,7 +424,7 @@ namespace Samba.Services
             ImportMenus(screen);
             ImportTableResources(tableResourceType, ticketType, availableState.Id);
 
-            var customerScreen = new ResourceScreen { Name = "Customer Search", DisplayMode = 2, ResourceTypeId = customerResourceType.Id, TicketTypeId = ticketType.Id };
+            var customerScreen = new ResourceScreen { Name = "Customer Search", DisplayMode = 1, ResourceTypeId = customerResourceType.Id, TicketTypeId = ticketType.Id };
             customerScreen.ResourceScreenMaps.Add(new ResourceScreenMap());
             _workspace.Add(customerScreen);
 

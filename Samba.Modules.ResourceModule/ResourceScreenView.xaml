@@ -28,11 +28,6 @@
                         <ComboBox HorizontalAlignment="Left" MinWidth="170" SelectedValue="{Binding TicketTypeId}"
                                   ItemsSource="{Binding TicketTypes}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
                         <Label>
-                            <LocText ResourceIdentifierKey="ResourceType" Suffix=":"/>
-                        </Label>
-                        <ComboBox HorizontalAlignment="Left" MinWidth="150" SelectedValue="{Binding ResourceTypeId}"
-                                ItemsSource="{Binding ResourceTypes}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
-                        <Label>
                             <LocText ResourceIdentifierKey="ResourceViewMode" Suffix=":"/>
                         </Label>
                         <ComboBox HorizontalAlignment="Left" MinWidth="150" SelectedItem="{Binding DisplayMode}"
@@ -41,11 +36,7 @@
                             <LocText ResourceIdentifierKey="BackgroundImage" Suffix=":"/>
                         </Label>
                         <TextBox HorizontalAlignment="Left" MinWidth="250" Text="{Binding BackgroundImage}" />
-                        <Label>
-                            <LocText ResourceIdentifierKey="StateFilter" Suffix=":"/>
-                        </Label>
-                        <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="150" SelectedValue="{Binding StateFilterId}"
-                                ItemsSource="{Binding ResourceStates}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
+                      
                         <UniformGrid Columns="2" Margin="0,5,0,0" HorizontalAlignment="Left">
                             <Label Margin="0,5,0,0" Content="{LocText ColumnCount,Suffix=':'}"/>
                             <UIControls:FilteredTextBox Type="Digits" Margin="0,5,0,0" HorizontalAlignment="Left"
@@ -66,21 +57,29 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="{LocText List_f,FormatSegment1={LocText ScreenItem}}">
+            <TabItem Header="{LocText List_f,FormatSegment1={LocText Resource}}">
                 <Grid >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="0" Orientation="Horizontal">
-                        <Label>
-                            <LocText ResourceIdentifierKey="Resourceses" Suffix=":"/>
-                        </Label>
-                        <TextBlock Margin="2,5">
-                    <Hyperlink Command="{Binding SelectScreenItemsCommand}">
-                        <TextBlock Text="{Binding Path=SelectScreenItemsCommand.Caption}" />
-                    </Hyperlink>
-                </TextBlock>
+                    <StackPanel>
+                        <StackPanel Grid.Row="0">
+                            <Label Content="{LocText ResourceType,Suffix=':'}"/>
+                            <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="150" SelectedValue="{Binding ResourceTypeId}"
+                                ItemsSource="{Binding ResourceTypes}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
+                            <Label Content="{LocText StateFilter,Suffix=':'}"/>
+                            <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="150" SelectedValue="{Binding StateFilterId}"
+                                ItemsSource="{Binding ResourceStates}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="{LocText Resourceses,Suffix=':'}"/>
+                                <TextBlock Margin="2,5">
+                                <Hyperlink Command="{Binding SelectScreenItemsCommand}">
+                                    <TextBlock Text="{Binding Path=SelectScreenItemsCommand.Caption}" />
+                                </Hyperlink>
+                            </TextBlock>
+                            </StackPanel>
+                        </StackPanel>
                     </StackPanel>
                     <ListBox Grid.Row="1" ItemsSource="{Binding ResourceScreenItems,Mode=OneWay}" DisplayMemberPath="Name" MinHeight="150"
                          MinWidth="150" BorderThickness="1" />

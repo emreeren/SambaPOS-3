@@ -30,6 +30,7 @@ namespace Samba.Presentation.Common.Services
         public CurrentDepartmentData CurrentDepartment { get; private set; }
         public TicketType CurrentTicketType { get; set; }
         public ResourceScreen SelectedResourceScreen { get; private set; }
+        public ResourceScreen ActiveResourceScreen { get; set; }
 
         private Terminal _terminal;
 
@@ -80,6 +81,7 @@ namespace Samba.Presentation.Common.Services
 
         public void SetCurrentDepartment(Department department)
         {
+            SetCurrentTicketType(null);
             if (CurrentDepartment == null || department != CurrentDepartment.Model)
             {
                 CurrentDepartment = new CurrentDepartmentData { Model = department };
@@ -97,9 +99,16 @@ namespace Samba.Presentation.Common.Services
             ActiveAppScreen = appScreen;
         }
 
-        public void SetSelectedResourceScreen(ResourceScreen resourceScreen)
+        public ResourceScreen SetSelectedResourceScreen(ResourceScreen resourceScreen)
         {
+            if (IsLocked && ActiveResourceScreen == null) ActiveResourceScreen = SelectedResourceScreen;
+            else if (!IsLocked && ActiveResourceScreen != null)
+            {
+                resourceScreen = ActiveResourceScreen;
+                ActiveResourceScreen = null;
+            }
             SelectedResourceScreen = resourceScreen;
+            return resourceScreen;
         }
 
         public void SetApplicationLocked(bool isLocked)

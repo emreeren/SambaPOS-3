@@ -18,13 +18,13 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceGrid
         private readonly IApplicationState _applicationState;
         private readonly ICacheService _cacheService;
 
-        public ResourceGridWidgetViewModel(Widget model, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
+        public ResourceGridWidgetViewModel(Widget model, IApplicationState applicationState,
             IResourceService resourceService, IUserService userService, ICacheService cacheService)
             : base(model)
         {
             _applicationState = applicationState;
             _cacheService = cacheService;
-            ResourceSelectorViewModel = new ResourceSelectorViewModel(applicationState, applicationStateSetter, resourceService, userService, cacheService);
+            ResourceSelectorViewModel = new ResourceSelectorViewModel(applicationState, resourceService, userService, cacheService);
         }
 
         readonly EntityOperationRequest<Resource> _request = new EntityOperationRequest<Resource>(null, EventTopicNames.ResourceSelected);

@@ -38,6 +38,7 @@ namespace Samba.Services
         TicketType CurrentTicketType { get; set; }
         AppScreens ActiveAppScreen { get; }
         ResourceScreen SelectedResourceScreen { get; }
+        ResourceScreen ActiveResourceScreen { get; }
         WorkPeriod CurrentWorkPeriod { get; }
         WorkPeriod PreviousWorkPeriod { get; }
         bool IsCurrentWorkPeriodOpen { get; }

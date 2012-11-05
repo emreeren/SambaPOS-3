@@ -75,9 +75,9 @@ namespace Samba.Modules.PaymentModule
 
         private bool CanExecuteAutomationCommand(AutomationCommandData arg)
         {
-            if (_tenderedValueViewModel.GetTenderedValue() <= 0) return false;
-            if (_paymentEditor.SelectedTicket != null && _paymentEditor.SelectedTicket.Locked && arg != null && arg.VisualBehaviour == 1) return false;
-            return true;
+            if (arg == null) return false;
+            if (_paymentEditor.SelectedTicket != null && _paymentEditor.SelectedTicket.Locked && arg.VisualBehaviour == 1) return false;
+            return _automationService.EvalCommand(FunctionNames.CanExecuteAutomationCommand, arg.AutomationCommand, new { Ticket = _paymentEditor.SelectedTicket }, true);
         }
 
         private void OnSelectCalculationSelector(CalculationSelector calculationSelector)

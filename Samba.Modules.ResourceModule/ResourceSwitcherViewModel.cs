@@ -70,7 +70,10 @@ namespace Samba.Modules.ResourceModule
 
         private ResourceScreen UpdateResourceScreens(EntityOperationRequest<Resource> value)
         {
-            var resourceScreens = _cacheService.GetTicketResourceScreens().ToList();
+            var resourceScreens =
+                _applicationState.IsLocked ?
+                _cacheService.GetTicketResourceScreens().ToList() :
+                _cacheService.GetResourceScreens().ToList();
             if (!resourceScreens.Any()) return null;
             _resourceScreens = resourceScreens.OrderBy(x => x.Order).ToList();
             _resourceSwitcherButtons = null;
@@ -117,19 +120,17 @@ namespace Samba.Modules.ResourceModule
 
         private void ActivateResourceScreen(ResourceScreen resourceScreen)
         {
-            _applicationStateSetter.SetSelectedResourceScreen(resourceScreen);
+            resourceScreen = _applicationStateSetter.SetSelectedResourceScreen(resourceScreen);
+            _applicationStateSetter.SetCurrentTicketType(resourceScreen != null ? _cacheService.GetTicketTypeById(resourceScreen.TicketTypeId) : null);
 
             if (resourceScreen != null)
             {
-                _applicationStateSetter.SetCurrentTicketType(_cacheService.GetTicketTypeById(resourceScreen.TicketTypeId));
-
-                if (resourceScreen.DisplayMode == 2)
+                if (resourceScreen.DisplayMode == 1)
                     ActivateResourceSearcher(resourceScreen);
-                else if (resourceScreen.DisplayMode == 1)
+                else if (resourceScreen.DisplayMode == 2)
                     ActivateDashboard(resourceScreen);
                 else ActivateButtonSelector(resourceScreen);
             }
-
             RaisePropertyChanged(() => ResourceSwitcherButtons);
             ResourceSwitcherButtons.ForEach(x => x.Refresh());
         }

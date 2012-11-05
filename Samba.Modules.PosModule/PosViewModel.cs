@@ -72,7 +72,7 @@ namespace Samba.Modules.PosModule
             _menuItemSelectorViewModel = menuItemSelectorViewModel;
             _ticketListViewModel = ticketListViewModel;
             _ticketTagListViewModel = ticketTagListViewModel;
-
+            
             EventServiceFactory.EventService.GetEvent<GenericEvent<Ticket>>().Subscribe(OnTicketEventReceived);
             EventServiceFactory.EventService.GetEvent<GenericEvent<SelectedOrdersData>>().Subscribe(OnSelectedOrdersChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnTicketEvent);
@@ -112,7 +112,10 @@ namespace Samba.Modules.PosModule
                 if (SelectedTicket != null)
                 {
                     _ticketService.UpdateResource(SelectedTicket, eventParameters.Value.SelectedEntity);
-                    if (_applicationState.SelectedResourceScreen != null && SelectedTicket.Orders.Count > 0 && eventParameters.Value.SelectedEntity.Id > 0 && eventParameters.Value.SelectedEntity.ResourceTypeId == _applicationState.SelectedResourceScreen.ResourceTypeId)
+                    if (_applicationState.SelectedResourceScreen != null
+                        && SelectedTicket.Orders.Count > 0 && eventParameters.Value.SelectedEntity.Id > 0
+                        && _applicationState.ActiveResourceScreen != null
+                        && eventParameters.Value.SelectedEntity.ResourceTypeId == _applicationState.ActiveResourceScreen.ResourceTypeId)
                         CloseTicket();
                     else DisplaySingleTicket();
                 }
@@ -223,9 +226,6 @@ namespace Samba.Modules.PosModule
         public void DisplayTickets()
         {
             _lastSelectedResource = null;
-
-            if (_applicationState.CurrentDepartment == null && _applicationState.CurrentLoggedInUser.UserRole.DepartmentId > 0)
-                _applicationStateSetter.SetCurrentDepartment(_applicationState.CurrentLoggedInUser.UserRole.DepartmentId);
 
             Debug.Assert(_applicationState.CurrentDepartment != null);
 
