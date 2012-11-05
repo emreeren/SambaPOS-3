@@ -9,6 +9,12 @@
         <Label HorizontalAlignment="Left" Content="{LocText Name_f,FormatSegment1={LocText TicketTemplate},Suffix=':'}" />
         <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
 
+        <Label>
+            <LocText ResourceIdentifierKey="POSMenu" Suffix=":"/>
+        </Label>
+        <ComboBox HorizontalAlignment="Left" MinWidth="150" ItemsSource="{Binding ScreenMenus}"
+                             DisplayMemberPath="Name" SelectedValuePath="Id" SelectedValue="{Binding ScreenMenuId}" />
+
         <Label MinWidth="120">
             <LocText ResourceIdentifierKey="TicketNumerator" Suffix=":"/>
         </Label>

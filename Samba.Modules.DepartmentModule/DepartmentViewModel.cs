@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using FluentValidation;
-using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
@@ -13,28 +12,17 @@ namespace Samba.Modules.DepartmentModule
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class DepartmentViewModel : EntityViewModelBase<Department>
     {
-        private readonly IMenuService _menuService;
         private readonly IPriceListService _priceListService;
 
         [ImportingConstructor]
         public DepartmentViewModel(IMenuService menuService, IPriceListService priceListService)
         {
-            _menuService = menuService;
             _priceListService = priceListService;
         }
 
         private readonly IList<string> _ticketCreationMethods = new[] { string.Format(Resources.Select_f, Resources.Resource), string.Format(Resources.Create_f, Resources.Ticket) };
         public IList<string> TicketCreationMethods { get { return _ticketCreationMethods; } }
         public string TicketCreationMethod { get { return _ticketCreationMethods[Model.TicketCreationMethod]; } set { Model.TicketCreationMethod = _ticketCreationMethods.IndexOf(value); } }
-
-        public int ScreenMenuId { get { return Model.ScreenMenuId; } set { Model.ScreenMenuId = value; } }
-
-        private IEnumerable<ScreenMenu> _screenMenus;
-        public IEnumerable<ScreenMenu> ScreenMenus
-        {
-            get { return _screenMenus ?? (_screenMenus = _menuService.GetScreenMenus()); }
-            set { _screenMenus = value; }
-        }
 
         private IEnumerable<TicketTemplate> _ticketTemplates;
         public IEnumerable<TicketTemplate> TicketTemplates

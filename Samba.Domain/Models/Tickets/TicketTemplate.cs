@@ -7,6 +7,7 @@ namespace Samba.Domain.Models.Tickets
 {
     public class TicketTemplate : Entity
     {
+        public int ScreenMenuId { get; set; }
         public virtual Numerator TicketNumerator { get; set; }
         public virtual Numerator OrderNumerator { get; set; }
         public virtual AccountTransactionType SaleTransactionType { get; set; }

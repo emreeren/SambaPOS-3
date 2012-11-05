@@ -23,12 +23,6 @@
                                      SelectedItem="{Binding TicketTemplate}" />
 
                 <Label>
-                    <LocText ResourceIdentifierKey="POSMenu" Suffix=":"/>
-                </Label>
-                <ComboBox HorizontalAlignment="Left" MinWidth="150" ItemsSource="{Binding ScreenMenus}"
-                             DisplayMemberPath="Name" SelectedValuePath="Id" SelectedValue="{Binding ScreenMenuId}" />
-
-                <Label>
                     <LocText ResourceIdentifierKey="PriceTag" Suffix=":"/>
                 </Label>
                 <ComboBox HorizontalAlignment="Left" MinWidth="150" IsEditable="True" 

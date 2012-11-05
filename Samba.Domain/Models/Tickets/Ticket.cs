@@ -70,6 +70,7 @@ namespace Samba.Domain.Models.Tickets
         public decimal RemainingAmount { get; set; }
 
         public int DepartmentId { get; set; }
+        public int TicketTemplateId { get; set; }
         public string Note { get; set; }
         public bool Locked { get; set; }
 
@@ -462,10 +463,11 @@ namespace Samba.Domain.Models.Tickets
             _shouldLock = false;
         }
 
-        public static Ticket Create(Department department, Account account, decimal exchangeRate, IEnumerable<CalculationType> calculationTypes)
+        public static Ticket Create(Department department,TicketTemplate template, Account account, decimal exchangeRate, IEnumerable<CalculationType> calculationTypes)
         {
             var ticket = new Ticket
                              {
+                                 TicketTemplateId = template.Id,
                                  DepartmentId = department.Id,
                                  AccountTypeId = department.TicketTemplate.SaleTransactionType.TargetAccountTypeId,
                                  TransactionDocument = new AccountTransactionDocument()

@@ -132,7 +132,7 @@ namespace Samba.Services.Implementations.TicketModule
         {
             var account = _cacheService.GetAccountById(_applicationState.CurrentDepartment.TicketTemplate.SaleTransactionType.DefaultTargetAccountId);
 
-            return Ticket.Create(_applicationState.CurrentDepartment.Model, account, GetExchangeRate(account), _cacheService.GetCalculationSelectors().Where(x => string.IsNullOrEmpty(x.ButtonHeader)).SelectMany(y => y.CalculationTypes));
+            return Ticket.Create(_applicationState.CurrentDepartment.Model, _applicationState.CurrentDepartment.TicketTemplate, account, GetExchangeRate(account), _cacheService.GetCalculationSelectors().Where(x => string.IsNullOrEmpty(x.ButtonHeader)).SelectMany(y => y.CalculationTypes));
         }
 
         public TicketCommitResult CloseTicket(Ticket ticket)

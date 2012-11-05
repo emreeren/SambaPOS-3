@@ -239,6 +239,7 @@ namespace Samba.Services
                                          TicketNumerator = ticketNumerator,
                                          OrderNumerator = orderNumerator,
                                          SaleTransactionType = saleTransactionType,
+                                         ScreenMenuId = screen.Id,
                                      };
 
             var cashPayment = new PaymentType
@@ -282,7 +283,6 @@ namespace Samba.Services
             {
                 Name = Resources.Restaurant,
                 TicketTemplate = ticketTemplate,
-                ScreenMenuId = screen.Id,
             };
 
             _workspace.Add(department);

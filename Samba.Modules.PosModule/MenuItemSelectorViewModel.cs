@@ -93,7 +93,6 @@ namespace Samba.Modules.PosModule
             DecPageNumberCommand = new CaptionCommand<string>("<< " + Localization.Properties.Resources.PreviousPage, OnDecPageNumber, CanDecPageNumber);
             SubCategoryCommand = new CaptionCommand<ScreenSubCategoryButton>(".", OnSubCategoryCommand);
 
-            EventServiceFactory.EventService.GetEvent<GenericEvent<Department>>().Subscribe(OnDepartmentChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnNumeratorReset);
             NumeratorValue = "";
 
@@ -261,28 +260,25 @@ namespace Samba.Modules.PosModule
             }
         }
 
-        private void OnDepartmentChanged(EventParameters<Department> department)
+        public void UpdateCurrentScreenMenu(int screenMenuId)
         {
-            if (department.Topic == EventTopicNames.SelectedDepartmentChanged)
+            if (_currentScreenMenu != null && _currentScreenMenu.Id == screenMenuId) return;
+
+            _currentScreenMenu = _cacheService.GetScreenMenu(screenMenuId);
+
+            Categories = CreateCategoryButtons(_currentScreenMenu);
+            MostUsedItemsCategory = null;
+            MostUsedMenuItems = CreateMostUsedMenuItems(_currentScreenMenu);
+
+            if (Categories != null && Categories.Count == 1)
             {
-                _currentScreenMenu = department.Value != null
-                    ? _cacheService.GetScreenMenu(department.Value.ScreenMenuId)
-                    : null;
-
-                Categories = CreateCategoryButtons(_currentScreenMenu);
-                MostUsedItemsCategory = null;
-                MostUsedMenuItems = CreateMostUsedMenuItems(_currentScreenMenu);
-
-                if (Categories != null && Categories.Count == 1)
-                {
-                    OnCategoryCommandExecute(Categories[0].Category);
-                    Categories.Clear();
-                }
-                RaisePropertyChanged(() => Categories);
-                RaisePropertyChanged(() => CategoriesVerticalAlignment);
-                RaisePropertyChanged(() => MostUsedMenuItems);
-                RaisePropertyChanged(() => MostUsedItemsCategory);
+                OnCategoryCommandExecute(Categories[0].Category);
+                Categories.Clear();
             }
+            RaisePropertyChanged(() => Categories);
+            RaisePropertyChanged(() => CategoriesVerticalAlignment);
+            RaisePropertyChanged(() => MostUsedMenuItems);
+            RaisePropertyChanged(() => MostUsedItemsCategory);
         }
 
         private ObservableCollection<ScreenMenuItemButton> CreateMostUsedMenuItems(ScreenMenu screenMenu)

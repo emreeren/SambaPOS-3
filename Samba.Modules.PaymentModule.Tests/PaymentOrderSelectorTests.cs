@@ -22,7 +22,7 @@ namespace Samba.Modules.PaymentModule.Tests
         {
             var tost = new MenuItem("Tost") { Id = 1 };
             var hamburger = new MenuItem("Hamburger") { Id = 2 };
-            var ticket = Ticket.Create(Department.Default, Account.Null, 1, new List<CalculationType>());
+            var ticket = Ticket.Create(Department.Default, Department.Default.TicketTemplate, Account.Null, 1, new List<CalculationType>());
             var order = ticket.AddOrder(AccountTransactionType.Default, "Emre", tost, new MenuItemPortion { Price = 5, Name = "Adet" }, "", null);
             order.Quantity = 2;
             order.PortionCount = 2;

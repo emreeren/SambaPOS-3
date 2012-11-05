@@ -440,6 +440,17 @@ namespace Samba.Services.Implementations
             return result.FirstOrDefault();
         }
 
+        private IEnumerable<TicketTemplate> _ticketTemplates;
+        public IEnumerable<TicketTemplate> TicketTemplates
+        {
+            get { return _ticketTemplates ?? (_ticketTemplates = Dao.Query<TicketTemplate>(x => x.SaleTransactionType, x => x.OrderNumerator, x => x.TicketNumerator)); }
+        }
+
+        public TicketTemplate GetTicketTemplateById(int ticketTemplateId)
+        {
+            return TicketTemplates.Single(x => x.Id == ticketTemplateId);
+        }
+
         public void ResetOrderTagCache()
         {
             _orderTagGroups = null;
@@ -463,6 +474,7 @@ namespace Samba.Services.Implementations
 
         public override void Reset()
         {
+            _ticketTemplates = null;
             _resourceScreens = null;
             _foreignCurrencies = null;
             _productTimers = null;

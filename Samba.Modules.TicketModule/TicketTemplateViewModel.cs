@@ -3,16 +3,34 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using FluentValidation;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
+using Samba.Services;
 
 namespace Samba.Modules.TicketModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     class TicketTemplateViewModel : EntityViewModelBase<TicketTemplate>
     {
+        private readonly IMenuService _menuService;
+
+        [ImportingConstructor]
+        public TicketTemplateViewModel(IMenuService menuService)
+        {
+            _menuService = menuService;
+        }
+
+        private IEnumerable<ScreenMenu> _screenMenus;
+        public IEnumerable<ScreenMenu> ScreenMenus
+        {
+            get { return _screenMenus ?? (_screenMenus = _menuService.GetScreenMenus()); }
+            set { _screenMenus = value; }
+        }
+
+        public int ScreenMenuId { get { return Model.ScreenMenuId; } set { Model.ScreenMenuId = value; } }
        
         private IEnumerable<Numerator> _numerators;
         public IEnumerable<Numerator> Numerators { get { return _numerators ?? (_numerators = Workspace.All<Numerator>()); } set { _numerators = value; } }

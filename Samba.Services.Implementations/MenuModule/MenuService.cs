@@ -21,7 +21,7 @@ namespace Samba.Services.Implementations.MenuModule
         public MenuService()
         {
             ValidatorRegistry.RegisterDeleteValidator(new MenuItemDeleteValidator());
-            ValidatorRegistry.RegisterDeleteValidator<ScreenMenu>(x => Dao.Exists<Department>(y => y.ScreenMenuId == x.Id),Resources.Menu,Resources.Department);
+            ValidatorRegistry.RegisterDeleteValidator<ScreenMenu>(x => Dao.Exists<TicketTemplate>(y => y.ScreenMenuId == x.Id), Resources.Menu, Resources.TicketTemplate);
         }
 
         public IEnumerable<ScreenMenuItem> GetScreenMenuItems(ScreenMenuCategory category, int currentPageNo, string tag)

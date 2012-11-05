@@ -9,7 +9,7 @@ namespace Samba.Domain.Models.Tickets
     {
         public int Order { get; set; }
         public string UserString { get { return Name; } }
-        public int ScreenMenuId { get; set; }
+
         [StringLength(10)]
         public string PriceTag { get; set; }
         public int TicketCreationMethod { get; set; }

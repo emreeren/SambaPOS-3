@@ -45,6 +45,11 @@ namespace Samba.Modules.PosModule
             {
                 _selectedTicket = value;
                 _ticketViewModel.SelectedTicket = value;
+                if (value != null)
+                {
+                    var template = _cacheService.GetTicketTemplateById(SelectedTicket.TicketTemplateId);
+                    _menuItemSelectorViewModel.UpdateCurrentScreenMenu(template.ScreenMenuId);
+                }
             }
         }
 
