@@ -5,7 +5,6 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using ComLib.Lang;
-using Microsoft.Practices.ServiceLocation;
 using Samba.Domain.Models.Automation;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
@@ -41,9 +40,9 @@ namespace Samba.Services.Implementations.AutomationModule
 
             _interpreter.LexReplace("Ticket", "TicketAccessor");
             _interpreter.LexReplace("Order", "OrderAccessor");
-            _interpreter.LexReplace("Locator", "ServiceLocator");
+            _interpreter.LexReplace("Locator", "LocatorAccessor");
             _interpreter.Context.Plugins.RegisterAll();
-            _interpreter.Context.Types.Register(typeof(ServiceLocator), null);
+            _interpreter.Context.Types.Register(typeof(LocatorAccessor), null);
             _interpreter.Context.Types.Register(typeof(TicketAccessor), null);
             _interpreter.Context.Types.Register(typeof(OrderAccessor), null);
         }
@@ -92,6 +91,7 @@ namespace Samba.Services.Implementations.AutomationModule
 
         private bool CanExecute(ActionContainer actionContainer, object dataObject)
         {
+            if (string.IsNullOrEmpty(actionContainer.CustomConstraint)) return true;
             return Eval("result = " + actionContainer.CustomConstraint, dataObject, true);
         }
 
@@ -186,24 +186,14 @@ namespace Samba.Services.Implementations.AutomationModule
                     if (condition.Name.StartsWith("SN$"))
                     {
                         var settingData = condition.Name.Replace("SN$", "");
-                        while (Regex.IsMatch(settingData, "\\[[^\\]]+\\]"))
+                        while (Regex.IsMatch(settingData, "\\[:[^\\]]+\\]"))
                         {
-                            var paramvalue = Regex.Match(settingData, "\\[[^\\]]+\\]").Groups[0].Value;
-                            var insideValue = paramvalue.Trim(new[] { '[', ']' });
+                            var paramvalue = Regex.Match(settingData, "\\[:[^\\]]+\\]").Groups[0].Value;
+                            var insideValue = paramvalue.Trim(new[] { '[', ']' }).Trim(':');
                             if (parameterNames.Contains(insideValue))
                             {
                                 var v = dataObject.GetType().GetProperty(insideValue).GetValue(dataObject, null).ToString();
                                 settingData = settingData.Replace(paramvalue, v);
-                            }
-                            else
-                            {
-                                if (paramvalue == "[Day]")
-                                    settingData = settingData.Replace(paramvalue, DateTime.Now.Day.ToString());
-                                else if (paramvalue == "[Month]")
-                                    settingData = settingData.Replace(paramvalue, DateTime.Now.Month.ToString());
-                                else if (paramvalue == "[Year]")
-                                    settingData = settingData.Replace(paramvalue, DateTime.Now.Year.ToString());
-                                else settingData = settingData.Replace(paramvalue, "");
                             }
                         }
 
@@ -282,8 +272,12 @@ namespace Samba.Services.Implementations.AutomationModule
             {
                 var match = Regex.Match(result, template);
                 var tag = match.Groups[0].Value;
-                var expression = match.Groups[1].Value;
-                result = result.Replace(tag, Eval(expression));
+                var expression = match.Groups[1].Value.Trim();
+                if (expression.StartsWith("$") && !expression.Trim().Contains(" ") && _interpreter.Memory.Contains(expression.Trim('$')))
+                {
+                    result = result.Replace(tag, _interpreter.Memory.Get<string>(expression.Trim('$')));
+                }
+                else result = result.Replace(tag, Eval(expression));
             }
             return result;
         }

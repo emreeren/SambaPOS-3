@@ -646,6 +646,11 @@ namespace Samba.Domain.Models.Tickets
             return Orders.Where(x => x.ProductTimerValue != null && x.ProductTimerValue.IsActive).Sum(x => x.GetItemValue());
         }
 
+        public bool HasActiveTimers()
+        {
+            return Orders.Any(x => x.ProductTimerValue != null && x.ProductTimerValue.IsActive);
+        }
+
         public void StopActiveTimers()
         {
             Orders.Where(x => x.ProductTimerValue != null && x.ProductTimerValue.IsActive).ToList().ForEach(x => x.StopProductTimer());
@@ -653,7 +658,7 @@ namespace Samba.Domain.Models.Tickets
 
         public void UpdateIsClosed()
         {
-            IsClosed = RemainingAmount == 0 && GetActiveTimerAmount() == 0;
+            IsClosed = RemainingAmount == 0 && !HasActiveTimers();
         }
     }
 }

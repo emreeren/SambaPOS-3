@@ -134,7 +134,6 @@ namespace Samba.Services.Implementations.ResourceModule
                 if (selectedResourceType != null)
                     result = result.Where(x => selectedResourceType.GetMatchingFields(x, searchString).Any(y => !y.Hidden) || x.Name.ToLower().Contains(searchValue)).ToList();
 
-
                 if (stateFilter > 0)
                 {
                     var set = result.Select(x => x.Id).ToList();

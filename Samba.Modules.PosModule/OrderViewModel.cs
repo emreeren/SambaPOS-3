@@ -6,6 +6,7 @@ using System.Windows.Media;
 using Microsoft.Practices.Prism.Commands;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Tickets;
+using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Services.Common;
@@ -114,6 +115,8 @@ namespace Samba.Modules.PosModule
         {
             get { return Price * Quantity; }
         }
+
+        public string TotalPriceStr { get { return TotalPrice.ToString(LocalSettings.DefaultCurrencyFormat); } }
 
         public bool Selected
         {

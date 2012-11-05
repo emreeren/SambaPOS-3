@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountModule\AccountService.cs" />
+    <Compile Include="AutomationModule\Accessors\LocatorAccessor.cs" />
     <Compile Include="AutomationModule\Accessors\OrderAccessor.cs" />
     <Compile Include="AutomationModule\ActionData.cs" />
     <Compile Include="AutomationModule\AutomationService.cs" />

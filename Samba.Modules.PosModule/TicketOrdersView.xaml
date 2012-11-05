@@ -90,7 +90,7 @@
                                         </Border>
 
                                         <TextBlock FontWeight="{Binding FontWeight}" TextDecorations="{Binding TextDecoration}" Grid.Column="4"
-                                                         Padding="1" Foreground="{Binding Foreground}" FontSize="21"  Text="{Binding TotalPrice, StringFormat='#,#0.00'}"
+                                                         Padding="1" Foreground="{Binding Foreground}" FontSize="21"  Text="{Binding TotalPriceStr}"
                                                          Margin="5" HorizontalAlignment="Right" />
 
                                         <TextBlock  Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="1" Visibility="{Binding IsStateVisible,Converter={StaticResource VisibilityConverter}}"

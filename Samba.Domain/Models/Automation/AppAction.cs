@@ -40,28 +40,12 @@ namespace Samba.Domain.Models.Automation
 
         public string Format(string s, object dataObject, string parameterValues)
         {
-            //var propertyNames = dataObject.GetType().GetProperties().Select(x => string.Format("[{0}]", x.Name)).ToList();
 
-            //var parameters = (parameterValues ?? "").Split('#').Select(y => y.Split('='))
-            //    .Where(x => x.Length == 2 && propertyNames.Contains(x[1]))
-            //    .ToDictionary(x => x[0], x => dataObject.GetType().GetProperty(x[1].Trim('[', ']')).GetValue(dataObject, null));
-
-            //foreach (var pVals in (parameterValues ?? "").Split('#').Select(p => p.Split('=')).Where(pVals => pVals.Length == 2 && !parameters.ContainsKey(pVals[0])))
-            //{
-            //    parameters.Add(pVals[0], pVals[1]);
-            //}
-
-            //var matches = Regex.Matches(s, "\\[([^\\]]+)\\]").Cast<Match>()
-            //    .Select(match => match.Groups[1].Value)
-            //    .Where(value => parameters.Keys.Contains(value));
-
-            //return matches.Aggregate(s, (current, value) => current.Replace(string.Format("[{0}]", value), parameters[value].ToString()));
-
-            if (!string.IsNullOrEmpty(parameterValues) && Regex.IsMatch(parameterValues, "\\[([^\\]]+)\\]"))
+            if (!string.IsNullOrEmpty(parameterValues) && Regex.IsMatch(parameterValues, "\\[:([^\\]]+)\\]"))
             {
-                foreach (var propertyName in Regex.Matches(parameterValues, "\\[([^\\]]+)\\]").Cast<Match>().Select(match => match.Groups[1].Value).ToList())
+                foreach (var propertyName in Regex.Matches(parameterValues, "\\[:([^\\]]+)\\]").Cast<Match>().Select(match => match.Groups[1].Value).ToList())
                 {
-                    parameterValues = parameterValues.Replace(string.Format("[{0}]", propertyName),
+                    parameterValues = parameterValues.Replace(string.Format("[:{0}]", propertyName),
                                              dataObject.GetType().GetProperty(propertyName).GetValue(dataObject, null).ToString());
                 }
             }
@@ -72,11 +56,11 @@ namespace Samba.Domain.Models.Automation
                 .Where(x => x.Length > 1)
                 .ToDictionary(x => x[0], x => x[1]);
 
-            var matches = Regex.Matches(s, "\\[([^\\]]+)\\]").Cast<Match>()
+            var matches = Regex.Matches(s, "\\[:([^\\]]+)\\]").Cast<Match>()
                 .Select(match => match.Groups[1].Value)
                 .Where(value => parameters.Keys.Contains(value));
 
-            return matches.Aggregate(s, (current, value) => current.Replace(string.Format("[{0}]", value), parameters[value].ToString()));
+            return matches.Aggregate(s, (current, value) => current.Replace(string.Format("[:{0}]", value), parameters[value].ToString()));
         }
 
         public int Order { get; set; }

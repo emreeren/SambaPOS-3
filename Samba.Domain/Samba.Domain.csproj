@@ -139,9 +139,6 @@
     <Compile Include="Models\Tickets\Department.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Models\Tickets\Discount.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Models\Tickets\PaidItem.cs">
       <SubType>Code</SubType>
     </Compile>

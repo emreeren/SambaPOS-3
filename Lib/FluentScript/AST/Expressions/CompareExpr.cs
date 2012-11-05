@@ -57,15 +57,12 @@ namespace ComLib.Lang
 
             if (left is int || left is long)
                 left = Convert.ToDouble(left);
-            if (right is int || left is long)
+            if (right is int || right is long)
                 right = Convert.ToDouble(right);
-            
+
             // Both double
             if (left is double && right is double)
                 result = CompareNumbers((double)left, (double)right, Op);
-
-            else if (left is int && right is int)
-                result = CompareNumbers(Convert.ToDouble(left), Convert.ToDouble(right), Op);
 
             // Both strings
             else if (left is string && right is string)
@@ -86,7 +83,7 @@ namespace ComLib.Lang
             // 1 or both null
             else if (left == LNull.Instance || right == LNull.Instance)
                 result = CompareNull(left, right, Op);
-            
+
             // Day of week ?
             else if (left is DayOfWeek || right is DayOfWeek)
                 result = CompareDays(left, right, Op);
@@ -95,9 +92,22 @@ namespace ComLib.Lang
             else if (left is LUnit || right is LUnit)
                 result = CompareUnits((LUnit)left, (LUnit)right, Op);
 
+            else if (IsNumeric(left) && IsNumeric(right))
+                result = CompareNumbers(Convert.ToDouble(left), Convert.ToDouble(right), Op);
+
             return result;
         }
 
+        private bool IsNumeric(object value)
+        {
+            if (value is double || value is int || value is uint || value is long || value is ulong || value is short
+                || value is ushort || value is byte || value is sbyte || value is float || value is decimal)
+            {
+                return true;
+            }
+
+            return false;
+        }
 
         private static bool CompareNull(object left, object right, Operator op)
         {
@@ -118,22 +128,22 @@ namespace ComLib.Lang
         {
             if (op == Operator.LessThan) return left < right;
             if (op == Operator.LessThanEqual) return left <= right;
-            if (op == Operator.MoreThan) return left > right;            
-            if (op == Operator.MoreThanEqual) return left >= right;            
-            if (op == Operator.EqualEqual) return left == right;            
-            if (op == Operator.NotEqual) return left != right;            
+            if (op == Operator.MoreThan) return left > right;
+            if (op == Operator.MoreThanEqual) return left >= right;
+            if (op == Operator.EqualEqual) return left == right;
+            if (op == Operator.NotEqual) return left != right;
             return false;
         }
 
 
         private static bool CompareStrings(string left, string right, Operator op)
         {
-            if (op == Operator.EqualEqual) return left == right;            
-            if (op == Operator.NotEqual)   return left != right;            
-            int compareResult = string.Compare(left, right);
-            if (op == Operator.LessThan)      return compareResult == -1;
-            if (op == Operator.LessThanEqual) return compareResult != 1;            
-            if (op == Operator.MoreThan)      return compareResult == 1;
+            if (op == Operator.EqualEqual) return left == right;
+            if (op == Operator.NotEqual) return left != right;
+            int compareResult = String.CompareOrdinal(left, right);
+            if (op == Operator.LessThan) return compareResult == -1;
+            if (op == Operator.LessThanEqual) return compareResult != 1;
+            if (op == Operator.MoreThan) return compareResult == 1;
             if (op == Operator.MoreThanEqual) return compareResult != -1;
 
             return false;
@@ -142,12 +152,12 @@ namespace ComLib.Lang
 
         private static bool CompareDates(DateTime left, DateTime right, Operator op)
         {
-             if (op == Operator.LessThan)      return left < right;            
+            if (op == Operator.LessThan) return left < right;
             if (op == Operator.LessThanEqual) return left <= right;
-            if (op == Operator.MoreThan)      return left > right;
+            if (op == Operator.MoreThan) return left > right;
             if (op == Operator.MoreThanEqual) return left >= right;
-            if (op == Operator.EqualEqual)    return left == right;            
-            if (op == Operator.NotEqual)      return left != right;            
+            if (op == Operator.EqualEqual) return left == right;
+            if (op == Operator.NotEqual) return left != right;
             return false;
         }
 
@@ -182,33 +192,33 @@ namespace ComLib.Lang
             // Dates vs DayOfWeek
             if ((left is DateTime && right is DayOfWeek))
             {
-                int leftDay = (int)((DateTime)left).DayOfWeek;
-                int rightDay = (int)((DayOfWeek)right);
+                var leftDay = (int)((DateTime)left).DayOfWeek;
+                var rightDay = (int)((DayOfWeek)right);
                 result = CompareNumbers(leftDay, rightDay, op);
             }
             else if ((left is DayOfWeek && right is DateTime))
             {
-                int leftDay = (int)((DayOfWeek)left);
-                int rightDay = (int)((DateTime)right).DayOfWeek;
+                var leftDay = (int)((DayOfWeek)left);
+                var rightDay = (int)((DateTime)right).DayOfWeek;
                 result = CompareNumbers(leftDay, rightDay, op);
             }
             else if ((left is double && right is DayOfWeek))
             {
-                int rightDay = (int)((DayOfWeek)right);
+                var rightDay = (int)((DayOfWeek)right);
                 result = CompareNumbers((double)left, rightDay, op);
             }
             else if ((left is DayOfWeek && right is double))
             {
-                int leftDay = (int)((DayOfWeek)left);
+                var leftDay = (int)((DayOfWeek)left);
                 result = CompareNumbers(leftDay, (double)right, op);
             }
             else if (left is DayOfWeek && right is DayOfWeek)
             {
-                int leftDay = (int)((DayOfWeek)left);
-                int rightDay = (int)((DayOfWeek)right);
+                var leftDay = (int)((DayOfWeek)left);
+                var rightDay = (int)((DayOfWeek)right);
                 result = CompareNumbers(leftDay, rightDay, op);
             }
             return result;
         }
-    }    
+    }
 }

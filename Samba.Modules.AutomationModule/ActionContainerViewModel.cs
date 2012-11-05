@@ -31,7 +31,7 @@ namespace Samba.Modules.AutomationModule
             Name = name;
             _value = value;
             ActionContainer = actionContainer;
-            ParameterValues = parameterValues.Select(x => string.Format("[{0}]", x));
+            ParameterValues = parameterValues.Select(x => string.Format("[:{0}]", x));
         }
     }
 
@@ -66,8 +66,8 @@ namespace Samba.Modules.AutomationModule
             {
                 if (string.IsNullOrEmpty(Model.ParameterValues))
                 {
-                    result = Action.Parameters.Values.Where(x => !string.IsNullOrEmpty(x) && Regex.IsMatch(x, "\\[([^\\]]+)\\]"))
-                        .Select(x => new ActionParameterValue(this, x.Trim('[', ']'), "",
+                    result = Action.Parameters.Values.Where(x => !string.IsNullOrEmpty(x) && Regex.IsMatch(x, "\\[:([^\\]]+)\\]"))
+                        .Select(x => new ActionParameterValue(this, Regex.Match(x, "\\[:([^\\]]+)\\]").Groups[1].Value, "",
                                                      _automationService.GetParameterNames(_ruleViewModel.EventName)));
                 }
                 else
