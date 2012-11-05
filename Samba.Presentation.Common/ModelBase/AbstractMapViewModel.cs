@@ -14,6 +14,7 @@ namespace Samba.Presentation.Common.ModelBase
         public IUserService UserService { get; set; }
         public IDepartmentService DepartmentService { get; set; }
         public ISettingService SettingService { get; set; }
+        public ICacheService CacheService { get; set; }
 
         public TModel Model;
 
@@ -66,6 +67,20 @@ namespace Samba.Presentation.Common.ModelBase
         {
             get { return Model.DepartmentId > 0 ? Departments.Single(x => x.Id == Model.DepartmentId).Name : NullLabel; }
             set { Model.DepartmentId = value != NullLabel ? Departments.Single(x => x.Name == value).Id : 0; }
+        }
+
+        private IEnumerable<TicketType> _ticketTypes;
+        public IEnumerable<TicketType> TicketTypes
+        {
+            get { return _ticketTypes ?? (_ticketTypes = CacheService.GetTicketTypes()); }
+        }
+
+        public IEnumerable<string> TicketTypeNames { get { return GetItemSelectionList(TicketTypes.Select(x => x.Name)); } }
+
+        public string TicketTypeName
+        {
+            get { return Model.TicketTypeId > 0 ? TicketTypes.Single(x => x.Id == Model.TicketTypeId).Name : NullLabel; }
+            set { Model.TicketTypeId = value != NullLabel ? TicketTypes.Single(x => x.Name == value).Id : 0; }
         }
 
         public int Id

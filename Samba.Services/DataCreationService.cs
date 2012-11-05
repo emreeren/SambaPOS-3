@@ -424,14 +424,13 @@ namespace Samba.Services
             ImportMenus(screen);
             ImportTableResources(tableResourceType, ticketType, availableState.Id);
 
-            var customerScreen = new ResourceScreen { Name = "Customer Search", DisplayMode = 2, ResourceTypeId = customerResourceType.Id };
+            var customerScreen = new ResourceScreen { Name = "Customer Search", DisplayMode = 2, ResourceTypeId = customerResourceType.Id, TicketTypeId = ticketType.Id };
             customerScreen.ResourceScreenMaps.Add(new ResourceScreenMap());
             _workspace.Add(customerScreen);
 
-            var customerTicketScreen = new ResourceScreen { Name = "Customer Tickets", DisplayMode = 0, ResourceTypeId = customerResourceType.Id, StateFilterId = newOrderState.Id, ColumnCount = 6, RowCount = 6 };
+            var customerTicketScreen = new ResourceScreen { Name = "Customer Tickets", DisplayMode = 0, ResourceTypeId = customerResourceType.Id, StateFilterId = newOrderState.Id, ColumnCount = 6, RowCount = 6, TicketTypeId = ticketType.Id };
             customerTicketScreen.ResourceScreenMaps.Add(new ResourceScreenMap());
             _workspace.Add(customerTicketScreen);
-
 
             ImportItems(BatchCreateResources);
             ImportItems(BatchCreateTransactionTypes);

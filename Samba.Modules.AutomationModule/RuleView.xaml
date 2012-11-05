@@ -92,7 +92,95 @@
             </TabItem>
 
             <TabItem Header="{LocText Mappings}">
-                <ViewModels:MapControllerView DataContext ="{Binding MapController}"/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <DockPanel Grid.Row="0">
+                        <Label>
+                            <LocText ResourceIdentifierKey="Mappings" Suffix=":"/>
+                        </Label>
+                        <TextBlock Margin="2,5">
+                            <Hyperlink Command="{Binding MapController.AddMapCommand}">
+                                <TextBlock Text="{Binding Path=MapController.AddMapCommand.Caption}" />
+                            </Hyperlink>
+                        </TextBlock>
+                        <TextBlock Margin="2,5">
+                            <Hyperlink Command="{Binding MapController.DeleteMapCommand}">
+                                <TextBlock Text="{Binding Path=MapController.DeleteMapCommand.Caption}" />
+                            </Hyperlink>
+                        </TextBlock>
+                    </DockPanel>
+
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding MapController.Maps}" SelectedItem="{Binding MapController.SelectedMap}" 
+                              HorizontalAlignment="Left" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3" MinWidth="300"
+                              AutoGenerateColumns="False" CanUserSortColumns="False"
+                              Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="{LocText Terminal}" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="3" Text="{Binding TerminalName}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Grid FocusManager.FocusedElement="{Binding ElementName=cbTerminal}">
+                                            <ComboBox Name="cbTerminal"  HorizontalAlignment="Stretch" SelectedItem="{Binding TerminalName, UpdateSourceTrigger=PropertyChanged}"
+                                                          ItemsSource="{Binding TerminalNames}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{LocText UserRole}" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="3" Text="{Binding UserRoleName}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Grid FocusManager.FocusedElement="{Binding ElementName=cbUserRole}">
+                                            <ComboBox Name="cbUserRole"  HorizontalAlignment="Stretch" SelectedItem="{Binding UserRoleName, UpdateSourceTrigger=PropertyChanged}"
+                                                          ItemsSource="{Binding UserRoleNames}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{LocText Department}" Width="2*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="3" Text="{Binding DepartmentName}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Grid FocusManager.FocusedElement="{Binding ElementName=cbDepartment}">
+                                            <ComboBox Name="cbDepartment"  HorizontalAlignment="Stretch" SelectedItem="{Binding DepartmentName, UpdateSourceTrigger=PropertyChanged}" 
+                                                  ItemsSource="{Binding DepartmentNames}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{LocText TicketType}" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="3" Text="{Binding TicketTypeName}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Grid FocusManager.FocusedElement="{Binding ElementName=cbTicketType}">
+                                            <ComboBox Name="cbTicketType" HorizontalAlignment="Stretch" SelectedItem="{Binding TicketTypeName, UpdateSourceTrigger=PropertyChanged}"
+                                                 ItemsSource="{Binding TicketTypeNames}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
             </TabItem>
         </TabControl>
         <StackPanel Grid.Row="1">

@@ -28,5 +28,6 @@ namespace Samba.Infrastructure.Data
         public int TerminalId { get; set; }
         public int DepartmentId { get; set; }
         public int UserRoleId { get; set; }
+        public int TicketTypeId { get; set; }
     }
 }

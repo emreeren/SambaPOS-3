@@ -159,6 +159,21 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{LocText TicketType}" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="3" Text="{Binding TicketTypeName}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Grid FocusManager.FocusedElement="{Binding ElementName=cbTicketType}">
+                                            <ComboBox Name="cbTicketType" HorizontalAlignment="Stretch" SelectedItem="{Binding TicketTypeName, UpdateSourceTrigger=PropertyChanged}"
+                                                 ItemsSource="{Binding TicketTypeNames}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
                             <DataGridTemplateColumn Header="{LocText MenuItemGroup}" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>

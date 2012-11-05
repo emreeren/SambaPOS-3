@@ -47,6 +47,7 @@ namespace Samba.Services.Implementations
             var tgl = productTimers.ToList();
             var mi = GetMenuItem(x => x.Id == menuItemId);
             var maps = tgl.SelectMany(x => x.ProductTimerMaps)
+                .Where(x => x.TicketTypeId == 0 || x.TicketTypeId == _applicationState.CurrentTicketType.Id)
                 .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id)
@@ -92,6 +93,7 @@ namespace Samba.Services.Implementations
             var tgl = tagGroups.ToList();
             var mi = GetMenuItem(x => x.Id == menuItemId);
             var maps = tgl.SelectMany(x => x.OrderTagMaps)
+                .Where(x => x.TicketTypeId == 0 || x.TicketTypeId == _applicationState.CurrentTicketType.Id)
                 .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id)
@@ -117,6 +119,7 @@ namespace Samba.Services.Implementations
             var tgl = stateGroups.ToList();
             var mi = GetMenuItem(x => x.Id == menuItemId);
             var maps = tgl.SelectMany(x => x.OrderStateMaps)
+                .Where(x => x.TicketTypeId == 0 || x.TicketTypeId == _applicationState.CurrentTicketType.Id)
                 .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id)
@@ -268,6 +271,7 @@ namespace Samba.Services.Implementations
         {
             var maps = PaymentTypes.SelectMany(x => x.PaymentTypeMaps)
                 .Where(x => x.DisplayUnderTicket)
+                .Where(x => x.TicketTypeId == 0 || x.TicketTypeId == _applicationState.CurrentTicketType.Id)
                 .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
@@ -278,6 +282,7 @@ namespace Samba.Services.Implementations
         {
             var maps = PaymentTypes.SelectMany(x => x.PaymentTypeMaps)
                 .Where(x => x.DisplayAtPaymentScreen)
+                .Where(x => x.TicketTypeId == 0 || x.TicketTypeId == _applicationState.CurrentTicketType.Id)
                 .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
@@ -293,6 +298,7 @@ namespace Samba.Services.Implementations
         public IEnumerable<ChangePaymentType> GetChangePaymentTypes()
         {
             var maps = ChangePaymentTypes.SelectMany(x => x.ChangePaymentTypeMaps)
+                .Where(x => x.TicketTypeId == 0 || x.TicketTypeId == _applicationState.CurrentTicketType.Id)
                 .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
@@ -308,6 +314,7 @@ namespace Samba.Services.Implementations
         public IEnumerable<TicketTagGroup> GetTicketTagGroups()
         {
             var maps = TicketTagGroups.SelectMany(x => x.TicketTagMaps)
+                .Where(x => x.TicketTypeId == 0 || x.TicketTypeId == _applicationState.CurrentTicketType.Id)
                 .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
@@ -326,6 +333,7 @@ namespace Samba.Services.Implementations
                                           ? _applicationState.CurrentDepartment.Id
                                           : -1;
             var maps = AutomationCommands.SelectMany(x => x.AutomationCommandMaps)
+                .Where(x => x.TicketTypeId == 0 || x.TicketTypeId == _applicationState.CurrentTicketType.Id)
                 .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == currentDepartmentId)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
@@ -342,6 +350,7 @@ namespace Samba.Services.Implementations
         public IEnumerable<CalculationSelector> GetCalculationSelectors()
         {
             var maps = CalculationSelectors.SelectMany(x => x.CalculationSelectorMaps)
+                .Where(x => x.TicketTypeId == 0 || x.TicketTypeId == _applicationState.CurrentTicketType.Id)
                 .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
@@ -449,6 +458,11 @@ namespace Samba.Services.Implementations
         public TicketType GetTicketTypeById(int ticketTypeId)
         {
             return TicketTypes.Single(x => x.Id == ticketTypeId);
+        }
+
+        public IEnumerable<TicketType> GetTicketTypes()
+        {
+            return TicketTypes;
         }
 
         public void ResetOrderTagCache()

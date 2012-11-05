@@ -5,5 +5,6 @@ namespace Samba.Infrastructure.Data
         int TerminalId { get; set; }
         int DepartmentId { get; set; }
         int UserRoleId { get; set; }
+        int TicketTypeId { get; set; }
     }
 }
