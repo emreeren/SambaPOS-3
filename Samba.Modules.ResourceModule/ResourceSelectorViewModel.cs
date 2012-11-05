@@ -116,7 +116,6 @@ namespace Samba.Modules.ResourceModule
 
         private List<ResourceScreenItem> GetResourceScreenItems(ResourceScreen resourceScreen, int stateFilter)
         {
-            _applicationStateSetter.SetSelectedResourceScreen(resourceScreen);
             if (resourceScreen.ScreenItems.Count > 0)
                 return _resourceService.GetCurrentResourceScreenItems(resourceScreen, CurrentPageNo, stateFilter).OrderBy(x => x.Order).ToList();
             return

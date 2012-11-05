@@ -24,13 +24,6 @@ namespace Samba.Modules.DepartmentModule
         public IList<string> TicketCreationMethods { get { return _ticketCreationMethods; } }
         public string TicketCreationMethod { get { return _ticketCreationMethods[Model.TicketCreationMethod]; } set { Model.TicketCreationMethod = _ticketCreationMethods.IndexOf(value); } }
 
-        private IEnumerable<TicketType> _ticketTypes;
-        public IEnumerable<TicketType> TicketTypes
-        {
-            get { return _ticketTypes ?? (_ticketTypes = Workspace.All<TicketType>()); }
-        }
-        public TicketType TicketType { get { return Model.TicketType; } set { Model.TicketType = value; } }
-
         public IEnumerable<string> PriceTags { get { return _priceListService.GetTags(); } }
         public string PriceTag { get { return Model.PriceTag; } set { Model.PriceTag = value; } }
 
@@ -43,18 +36,7 @@ namespace Samba.Modules.DepartmentModule
         {
             return Resources.Department;
         }
-
-        protected override AbstractValidator<Department> GetValidator()
-        {
-            return new DepartmentValidator();
-        }
     }
 
-    internal class DepartmentValidator : EntityValidator<Department>
-    {
-        public DepartmentValidator()
-        {
-            RuleFor(x => x.TicketType).NotNull();
-        }
-    }
+
 }

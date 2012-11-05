@@ -121,6 +121,8 @@ namespace Samba.Modules.ResourceModule
 
             if (resourceScreen != null)
             {
+                _applicationStateSetter.SetCurrentTicketType(_cacheService.GetTicketTypeById(resourceScreen.TicketTypeId));
+
                 if (resourceScreen.DisplayMode == 2)
                     ActivateResourceSearcher(resourceScreen);
                 else if (resourceScreen.DisplayMode == 1)

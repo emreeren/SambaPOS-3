@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using FluentValidation;
 using Samba.Domain.Models.Resources;
+using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.Commands;
@@ -15,13 +16,12 @@ namespace Samba.Modules.ResourceModule
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class ResourceScreenViewModel : EntityViewModelBaseWithMap<ResourceScreen, ResourceScreenMap, AbstractMapViewModel<ResourceScreenMap>>
     {
-        public ICaptionCommand SelectScreenItemsCommand { get; set; }
-
-        private IEnumerable<ResourceScreenItem> _resourceScreenItems;
-        public IEnumerable<ResourceScreenItem> ResourceScreenItems
+        public ResourceScreenViewModel()
         {
-            get { return _resourceScreenItems ?? (_resourceScreenItems = new List<ResourceScreenItem>(Model.ScreenItems)); }
+            SelectScreenItemsCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.ScreenItem), OnSelectScreenItems);
         }
+
+        public ICaptionCommand SelectScreenItemsCommand { get; set; }
 
         public string[] DisplayModes { get { return new[] { Resources.Automatic, Resources.Custom, Resources.Search }; } }
         public string DisplayMode { get { return DisplayModes[Model.DisplayMode]; } set { Model.DisplayMode = Array.IndexOf(DisplayModes, value); } }
@@ -32,12 +32,20 @@ namespace Samba.Modules.ResourceModule
         public int ColumnCount { get { return Model.ColumnCount; } set { Model.ColumnCount = value; } }
         public int RowCount { get { return Model.RowCount; } set { Model.RowCount = value; } }
         public int ButtonHeight { get { return Model.ButtonHeight; } set { Model.ButtonHeight = value; } }
+        public int TicketTypeId { get { return Model.TicketTypeId; } set { Model.TicketTypeId = value; } }
         public int ResourceTypeId { get { return Model.ResourceTypeId; } set { Model.ResourceTypeId = value; } }
         public int? StateFilterId { get { return Model.StateFilterId; } set { Model.StateFilterId = value.GetValueOrDefault(0); } }
 
-        public ResourceScreenViewModel()
+        private IEnumerable<TicketType> _ticketTypes;
+        public IEnumerable<TicketType> TicketTypes
         {
-            SelectScreenItemsCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.ScreenItem), OnSelectScreenItems);
+            get { return _ticketTypes ?? (_ticketTypes = Workspace.All<TicketType>()); }
+        }
+
+        private IEnumerable<ResourceScreenItem> _resourceScreenItems;
+        public IEnumerable<ResourceScreenItem> ResourceScreenItems
+        {
+            get { return _resourceScreenItems ?? (_resourceScreenItems = new List<ResourceScreenItem>(Model.ScreenItems)); }
         }
 
         private IEnumerable<ResourceType> _resourceTypes;
@@ -103,6 +111,7 @@ namespace Samba.Modules.ResourceModule
         public ResourceScreenValidator()
         {
             RuleFor(x => x.ResourceTypeId).GreaterThan(0);
+            RuleFor(x => x.TicketTypeId).GreaterThan(0);
         }
     }
 }

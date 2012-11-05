@@ -11,12 +11,11 @@ namespace Samba.Domain.Models.Tickets
         [StringLength(10)]
         public string PriceTag { get; set; }
         public int TicketCreationMethod { get; set; }
-        public virtual TicketType TicketType { get; set; }
-
+        
         private static Department _all;
         public static Department All { get { return _all ?? (_all = new Department { Name = "*" }); } }
 
         private static Department _default;
-        public static Department Default { get { return _default ?? (_default = new Department { TicketType = TicketType.Default }); } }
+        public static Department Default { get { return _default ?? (_default = new Department()); } }
     }
 }

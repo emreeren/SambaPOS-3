@@ -85,7 +85,6 @@ namespace Samba.Presentation.Common.Services
                 CurrentDepartment = new CurrentDepartmentData { Model = department };
                 CurrentDepartment.Model.PublishEvent(EventTopicNames.SelectedDepartmentChanged);
             }
-            SetCurrentTicketType(CurrentDepartment.Model.TicketType);
         }
 
         public void SetCurrentDepartment(int departmentId)

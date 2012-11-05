@@ -220,11 +220,11 @@ namespace Samba.Services
             _workspace.Add(orderNumerator);
 
             var printBillAutomation = new AutomationCommand { Name = Resources.PrintBill, ButtonHeader = Resources.PrintBill };
-            printBillAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { VisualBehaviour = 1,DisplayOnTicket = true,DisplayOnPayment = true});
+            printBillAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { VisualBehaviour = 1, DisplayOnTicket = true, DisplayOnPayment = true });
             _workspace.Add(printBillAutomation);
 
             var unlockTicketAutomation = new AutomationCommand { Name = Resources.UnlockTicket, ButtonHeader = Resources.UnlockTicket };
-            unlockTicketAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { VisualBehaviour = 2 ,DisplayOnTicket = true});
+            unlockTicketAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { VisualBehaviour = 2, DisplayOnTicket = true });
             _workspace.Add(unlockTicketAutomation);
 
             var addTicketAutomation = new AutomationCommand { Name = string.Format(Resources.Add_f, Resources.Ticket), ButtonHeader = string.Format(Resources.Add_f, Resources.Ticket) };
@@ -282,7 +282,6 @@ namespace Samba.Services
             var department = new Department
             {
                 Name = Resources.Restaurant,
-                TicketType = ticketType,
             };
 
             _workspace.Add(department);
@@ -423,7 +422,7 @@ namespace Samba.Services
             _workspace.Add(updateMergedTicket);
 
             ImportMenus(screen);
-            ImportTableResources(tableResourceType, availableState.Id);
+            ImportTableResources(tableResourceType, ticketType, availableState.Id);
 
             var customerScreen = new ResourceScreen { Name = "Customer Search", DisplayMode = 2, ResourceTypeId = customerResourceType.Id };
             customerScreen.ResourceScreenMaps.Add(new ResourceScreenMap());
@@ -454,7 +453,7 @@ namespace Samba.Services
             _workspace.CommitChanges();
         }
 
-        private void ImportTableResources(ResourceType tableTemplate, int defaultStateId)
+        private void ImportTableResources(ResourceType tableTemplate, TicketType ticketType, int defaultStateId)
         {
             var fileName = string.Format("{0}/Imports/table{1}.txt", LocalSettings.AppPath, "_" + LocalSettings.CurrentLanguage);
 
@@ -469,7 +468,7 @@ namespace Samba.Services
 
             _workspace.CommitChanges();
 
-            var screen = new ResourceScreen { Name = "All Tables", ColumnCount = 7, ResourceTypeId = tableTemplate.Id, FontSize = 50 };
+            var screen = new ResourceScreen { Name = "All Tables", TicketTypeId = ticketType.Id, ColumnCount = 7, ResourceTypeId = tableTemplate.Id, FontSize = 50 };
             screen.ResourceScreenMaps.Add(new ResourceScreenMap());
             _workspace.Add(screen);
 

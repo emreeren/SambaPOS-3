@@ -164,7 +164,7 @@ namespace Samba.Modules.BasicReports
 
         private static IEnumerable<Department> GetDepartments()
         {
-            return Dao.Query<Department>(x => x.TicketType.SaleTransactionType);
+            return Dao.Query<Department>();
         }
 
         private static IEnumerable<Ticket> GetTickets()

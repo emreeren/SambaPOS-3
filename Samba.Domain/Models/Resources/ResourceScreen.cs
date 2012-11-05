@@ -5,6 +5,7 @@ namespace Samba.Domain.Models.Resources
 {
     public class ResourceScreen : Entity, IOrderable
     {
+        public int TicketTypeId { get; set; }
         public int ResourceTypeId { get; set; }
         public int Order { get; set; }
         public int DisplayMode { get; set; }

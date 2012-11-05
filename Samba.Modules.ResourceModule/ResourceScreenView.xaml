@@ -23,6 +23,11 @@
                         </Label>
                         <TextBox HorizontalAlignment="Left" MinWidth="250" Text="{Binding Name}" />
                         <Label>
+                            <LocText ResourceIdentifierKey="TicketType" Suffix=":"/>
+                        </Label>
+                        <ComboBox HorizontalAlignment="Left" MinWidth="170" SelectedValue="{Binding TicketTypeId}"
+                                  ItemsSource="{Binding TicketTypes}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
+                        <Label>
                             <LocText ResourceIdentifierKey="ResourceType" Suffix=":"/>
                         </Label>
                         <ComboBox HorizontalAlignment="Left" MinWidth="150" SelectedValue="{Binding ResourceTypeId}"

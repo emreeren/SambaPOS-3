@@ -17,12 +17,6 @@
                 <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name,Mode=TwoWay}" />
 
                 <Label>
-                    <LocText ResourceIdentifierKey="TicketType" Suffix=":"/>
-                </Label>
-                <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding TicketTypes}"
-                                     SelectedItem="{Binding TicketType}" />
-
-                <Label>
                     <LocText ResourceIdentifierKey="PriceTag" Suffix=":"/>
                 </Label>
                 <ComboBox HorizontalAlignment="Left" MinWidth="150" IsEditable="True" 
