@@ -39,13 +39,13 @@ namespace Samba.Modules.ResourceModule
             if (CustomDataViewModel == null) return false;
             if (!_userService.IsUserPermittedFor(PermissionNames.CreateAccount)) return false;
             CustomDataViewModel.Update();
-            return SelectedResource != null && SelectedResource.Model.AccountId == 0 && SelectedResource.ResourceType.AccountTypeId > 0 && !string.IsNullOrEmpty(SelectedResource.ResourceType.GetAccountName(SelectedResource.Model));
+            return SelectedResource != null && SelectedResource.Model.AccountId == 0 && SelectedResource.ResourceType.AccountTypeId > 0 && !string.IsNullOrEmpty(SelectedResource.ResourceType.GenerateAccountName(SelectedResource.Model));
         }
 
         private void OnCreateAccount(string obj)
         {
             if (SelectedResource.Model.Id == 0) SaveSelectedResource();
-            var accountName = SelectedResource.ResourceType.GetAccountName(SelectedResource.Model);
+            var accountName = SelectedResource.ResourceType.GenerateAccountName(SelectedResource.Model);
             var accountId = _accountService.CreateAccount(SelectedResource.ResourceType.AccountTypeId, accountName);
             SelectedResource.Model.AccountId = accountId;
             SaveSelectedResource();

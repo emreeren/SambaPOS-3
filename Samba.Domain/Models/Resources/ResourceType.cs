@@ -44,7 +44,7 @@ namespace Samba.Domain.Models.Resources
             return ResoruceCustomFields;
         }
 
-        public string GetAccountName(Resource resource)
+        public string GenerateAccountName(Resource resource)
         {
             if (string.IsNullOrEmpty(resource.Name)) return "";
 
