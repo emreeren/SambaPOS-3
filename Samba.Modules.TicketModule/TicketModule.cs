@@ -14,7 +14,7 @@ namespace Samba.Modules.TicketModule
         [ImportingConstructor]
         public TicketModule()
         {
-            AddDashboardCommand<EntityCollectionViewModelBase<TicketTemplateViewModel, TicketTemplate>>(Resources.TicketTemplate.ToPlural(), Resources.Tickets, 35);
+            AddDashboardCommand<EntityCollectionViewModelBase<TicketTypeViewModel, TicketType>>(Resources.TicketType.ToPlural(), Resources.Tickets, 35);
             AddDashboardCommand<EntityCollectionViewModelBase<TicketTagGroupViewModel, TicketTagGroup>>(Resources.TicketTag.ToPlural(), Resources.Tickets, 35);
             AddDashboardCommand<EntityCollectionViewModelBase<OrderStateGroupViewModel, OrderStateGroup>>(Resources.OrderState.ToPlural(), Resources.Tickets, 35);
             AddDashboardCommand<EntityCollectionViewModelBase<OrderTagTemplateViewModel, OrderTagTemplate>>(Resources.OrderTagTemplate.ToPlural(), Resources.Tickets, 35);

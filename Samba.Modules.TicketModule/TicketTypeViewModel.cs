@@ -13,12 +13,12 @@ using Samba.Services;
 namespace Samba.Modules.TicketModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    class TicketTemplateViewModel : EntityViewModelBase<TicketTemplate>
+    class TicketTypeViewModel : EntityViewModelBase<TicketType>
     {
         private readonly IMenuService _menuService;
 
         [ImportingConstructor]
-        public TicketTemplateViewModel(IMenuService menuService)
+        public TicketTypeViewModel(IMenuService menuService)
         {
             _menuService = menuService;
         }
@@ -45,23 +45,23 @@ namespace Samba.Modules.TicketModule
 
         public override string GetModelTypeString()
         {
-            return Resources.TicketTemplate;
+            return Resources.TicketType;
         }
 
         public override Type GetViewType()
         {
-            return typeof(TicketTemplateView);
+            return typeof(TicketTypeView);
         }
 
-        protected override AbstractValidator<TicketTemplate> GetValidator()
+        protected override AbstractValidator<TicketType> GetValidator()
         {
-            return new TicketTemplateValidator();
+            return new TicketTypeValidator();
         }
     }
 
-    internal class TicketTemplateValidator : EntityValidator<TicketTemplate>
+    internal class TicketTypeValidator : EntityValidator<TicketType>
     {
-        public TicketTemplateValidator()
+        public TicketTypeValidator()
         {
             RuleFor(x => x.TicketNumerator).NotNull();
             RuleFor(x => x.OrderNumerator).NotNull();

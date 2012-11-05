@@ -6822,6 +6822,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ticket Type.
+        /// </summary>
+        public static string TicketType {
+            get {
+                return ResourceManager.GetString("TicketType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to [Ticket].
         /// </summary>
         public static string TicketWithBrackets {

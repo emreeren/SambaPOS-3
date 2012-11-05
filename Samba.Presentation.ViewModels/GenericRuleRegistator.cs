@@ -542,7 +542,7 @@ namespace Samba.Presentation.ViewModels
                     var pjName = x.Value.GetAsString("PrintJobName");
                     if (!string.IsNullOrEmpty(pjName))
                     {
-                        TicketService.UpdateTicketNumber(ticket, ApplicationState.CurrentDepartment.TicketTemplate.TicketNumerator);
+                        TicketService.UpdateTicketNumber(ticket, ApplicationState.CurrentDepartment.TicketType.TicketNumerator);
                         var j = CacheService.GetPrintJobByName(pjName);
 
                         if (j != null)

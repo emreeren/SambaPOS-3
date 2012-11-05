@@ -52,7 +52,7 @@ namespace Samba.Services
         IEnumerable<ForeignCurrency> GetForeignCurrencies();
         IEnumerable<ResourceScreen> GetResourceScreens();
         AccountTransactionType FindAccountTransactionType(int sourceAccountTypeId, int targetAccountTypeId, int defaultSourceId, int defaultTargetId);
-        TicketTemplate GetTicketTemplateById(int ticketTemplateId);
+        TicketType GetTicketTypeById(int ticketTypeId);
 
         void ResetOrderTagCache();
         void ResetTicketTagCache();

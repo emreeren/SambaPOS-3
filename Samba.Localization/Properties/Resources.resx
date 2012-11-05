@@ -1555,6 +1555,9 @@ Visit Reports section and create Work Period Reports</value>
   <data name="NoPurchaseTransactionInCurrentDateRange" xml:space="preserve">
     <value>There are no purchase transactions in date range.</value>
   </data>
+  <data name="TicketType" xml:space="preserve">
+    <value>Ticket Type</value>
+  </data>
   <data name="TicketTemplate" xml:space="preserve">
     <value>Ticket Template</value>
   </data>

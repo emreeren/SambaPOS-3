@@ -56,7 +56,7 @@ namespace Samba.Services.Implementations.TicketModule
             if (account == Account.Null)
             {
                 var template = Dao.Single<AccountTransactionType>(
-                        x => x.Id == _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionType.Id);
+                        x => x.Id == _applicationState.CurrentDepartment.TicketType.SaleTransactionType.Id);
                 account = _cacheService.GetAccountById(template.DefaultTargetAccountId);
             }
             ticket.UpdateAccount(account, GetExchangeRate(account));
@@ -130,9 +130,9 @@ namespace Samba.Services.Implementations.TicketModule
 
         private Ticket CreateTicket()
         {
-            var account = _cacheService.GetAccountById(_applicationState.CurrentDepartment.TicketTemplate.SaleTransactionType.DefaultTargetAccountId);
+            var account = _cacheService.GetAccountById(_applicationState.CurrentDepartment.TicketType.SaleTransactionType.DefaultTargetAccountId);
 
-            return Ticket.Create(_applicationState.CurrentDepartment.Model, _applicationState.CurrentDepartment.TicketTemplate, account, GetExchangeRate(account), _cacheService.GetCalculationSelectors().Where(x => string.IsNullOrEmpty(x.ButtonHeader)).SelectMany(y => y.CalculationTypes));
+            return Ticket.Create(_applicationState.CurrentDepartment.Model, _applicationState.CurrentDepartment.TicketType, account, GetExchangeRate(account), _cacheService.GetCalculationSelectors().Where(x => string.IsNullOrEmpty(x.ButtonHeader)).SelectMany(y => y.CalculationTypes));
         }
 
         public TicketCommitResult CloseTicket(Ticket ticket)
@@ -156,14 +156,14 @@ namespace Samba.Services.Implementations.TicketModule
 
                     if (ticket.Orders.FirstOrDefault(x => !x.Locked) != null)
                     {
-                        var number = _settingService.GetNextNumber(department.TicketTemplate.OrderNumerator.Id);
+                        var number = _settingService.GetNextNumber(department.TicketType.OrderNumerator.Id);
                         ticket.MergeOrdersAndUpdateOrderNumbers(number);
                         ticket.Orders.Where(x => x.Id == 0).ToList().ForEach(x => x.CreatedDateTime = DateTime.Now);
                     }
 
                     if (ticket.Id == 0)
                     {
-                        UpdateTicketNumber(ticket, department.TicketTemplate.TicketNumerator);
+                        UpdateTicketNumber(ticket, department.TicketType.TicketNumerator);
                         ticket.LastOrderDate = DateTime.Now;
                         Dao.Save(ticket);
                     }
@@ -607,7 +607,7 @@ namespace Samba.Services.Implementations.TicketModule
             var priceTag = _applicationState.CurrentDepartment.PriceTag;
             var productTimer = _cacheService.GetProductTimer(menuItemId);
             var order = ticket.AddOrder(
-                _applicationState.CurrentDepartment.TicketTemplate.SaleTransactionType,
+                _applicationState.CurrentDepartment.TicketType.SaleTransactionType,
                 _applicationState.CurrentLoggedInUser.Name, menuItem, portion, priceTag, productTimer);
 
             order.Quantity = quantity > 9 ? decimal.Round(quantity / portion.Multiplier, 3, MidpointRounding.AwayFromZero) : quantity;

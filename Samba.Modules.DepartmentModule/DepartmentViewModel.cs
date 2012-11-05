@@ -24,12 +24,12 @@ namespace Samba.Modules.DepartmentModule
         public IList<string> TicketCreationMethods { get { return _ticketCreationMethods; } }
         public string TicketCreationMethod { get { return _ticketCreationMethods[Model.TicketCreationMethod]; } set { Model.TicketCreationMethod = _ticketCreationMethods.IndexOf(value); } }
 
-        private IEnumerable<TicketTemplate> _ticketTemplates;
-        public IEnumerable<TicketTemplate> TicketTemplates
+        private IEnumerable<TicketType> _ticketTypes;
+        public IEnumerable<TicketType> TicketTypes
         {
-            get { return _ticketTemplates ?? (_ticketTemplates = Workspace.All<TicketTemplate>()); }
+            get { return _ticketTypes ?? (_ticketTypes = Workspace.All<TicketType>()); }
         }
-        public TicketTemplate TicketTemplate { get { return Model.TicketTemplate; } set { Model.TicketTemplate = value; } }
+        public TicketType TicketType { get { return Model.TicketType; } set { Model.TicketType = value; } }
 
         public IEnumerable<string> PriceTags { get { return _priceListService.GetTags(); } }
         public string PriceTag { get { return Model.PriceTag; } set { Model.PriceTag = value; } }
@@ -54,7 +54,7 @@ namespace Samba.Modules.DepartmentModule
     {
         public DepartmentValidator()
         {
-            RuleFor(x => x.TicketTemplate).NotNull();
+            RuleFor(x => x.TicketType).NotNull();
         }
     }
 }

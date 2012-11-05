@@ -173,10 +173,10 @@ namespace Samba.Services.Implementations.SettingsModule
     {
         public override string GetErrorMessage(Numerator model)
         {
-            if (Dao.Exists<TicketTemplate>(x => x.OrderNumerator.Id == model.Id))
-                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Numerator, Resources.TicketTemplate);
-            if (Dao.Exists<TicketTemplate>(x => x.TicketNumerator.Id == model.Id))
-                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Numerator, Resources.TicketTemplate);
+            if (Dao.Exists<TicketType>(x => x.OrderNumerator.Id == model.Id))
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Numerator, Resources.TicketType);
+            if (Dao.Exists<TicketType>(x => x.TicketNumerator.Id == model.Id))
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Numerator, Resources.TicketType);
             return "";
         }
     }

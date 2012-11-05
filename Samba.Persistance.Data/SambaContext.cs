@@ -26,7 +26,7 @@ namespace Samba.Persistance.Data
         public DbSet<MenuItemPortion> MenuItemPortions { get; set; }
         public DbSet<ScreenMenuCategory> ScreenMenuCategories { get; set; }
         public DbSet<ScreenMenuItem> ScreenMenuItems { get; set; }
-        public DbSet<TicketTemplate> TicketTemplates { get; set; }
+        public DbSet<TicketType> TicketTypes { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }

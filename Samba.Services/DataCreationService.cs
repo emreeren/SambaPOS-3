@@ -233,9 +233,9 @@ namespace Samba.Services
 
             _workspace.CommitChanges();
 
-            var ticketTemplate = new TicketTemplate
+            var ticketType = new TicketType
                                      {
-                                         Name = Resources.TicketTemplate,
+                                         Name = Resources.Ticket,
                                          TicketNumerator = ticketNumerator,
                                          OrderNumerator = orderNumerator,
                                          SaleTransactionType = saleTransactionType,
@@ -276,13 +276,13 @@ namespace Samba.Services
             _workspace.Add(cashPayment);
             _workspace.Add(creditCardPayment);
             _workspace.Add(voucherPayment);
-            _workspace.Add(ticketTemplate);
+            _workspace.Add(ticketType);
             _workspace.Add(accountPayment);
 
             var department = new Department
             {
                 Name = Resources.Restaurant,
-                TicketTemplate = ticketTemplate,
+                TicketType = ticketType,
             };
 
             _workspace.Add(department);

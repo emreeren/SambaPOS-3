@@ -119,7 +119,7 @@
     <Compile Include="Models\Tickets\TicketResource.cs" />
     <Compile Include="Models\Tickets\TicketTagMap.cs" />
     <Compile Include="Models\Tickets\TicketTagValue.cs" />
-    <Compile Include="Models\Tickets\TicketTemplate.cs" />
+    <Compile Include="Models\Tickets\TicketType.cs" />
     <Compile Include="Models\Inventories\CostItem.cs" />
     <Compile Include="Models\Inventories\InventoryItem.cs" />
     <Compile Include="Models\Inventories\Recipe.cs" />

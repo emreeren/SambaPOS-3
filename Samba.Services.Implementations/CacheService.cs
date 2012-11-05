@@ -440,15 +440,15 @@ namespace Samba.Services.Implementations
             return result.FirstOrDefault();
         }
 
-        private IEnumerable<TicketTemplate> _ticketTemplates;
-        public IEnumerable<TicketTemplate> TicketTemplates
+        private IEnumerable<TicketType> _ticketTypes;
+        public IEnumerable<TicketType> TicketTypes
         {
-            get { return _ticketTemplates ?? (_ticketTemplates = Dao.Query<TicketTemplate>(x => x.SaleTransactionType, x => x.OrderNumerator, x => x.TicketNumerator)); }
+            get { return _ticketTypes ?? (_ticketTypes = Dao.Query<TicketType>(x => x.SaleTransactionType, x => x.OrderNumerator, x => x.TicketNumerator)); }
         }
 
-        public TicketTemplate GetTicketTemplateById(int ticketTemplateId)
+        public TicketType GetTicketTypeById(int ticketTypeId)
         {
-            return TicketTemplates.Single(x => x.Id == ticketTemplateId);
+            return TicketTypes.Single(x => x.Id == ticketTypeId);
         }
 
         public void ResetOrderTagCache()
@@ -474,7 +474,7 @@ namespace Samba.Services.Implementations
 
         public override void Reset()
         {
-            _ticketTemplates = null;
+            _ticketTypes = null;
             _resourceScreens = null;
             _foreignCurrencies = null;
             _productTimers = null;
