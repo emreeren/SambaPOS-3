@@ -229,7 +229,7 @@ namespace Samba.Modules.PosModule
 
             Debug.Assert(_applicationState.CurrentDepartment != null);
 
-            if (SelectedTicket != null || !_cacheService.GetResourceScreens().Any() || _applicationState.CurrentDepartment.TicketCreationMethod == 1)
+            if (SelectedTicket != null || !_cacheService.GetTicketResourceScreens().Any() || _applicationState.CurrentDepartment.TicketCreationMethod == 1)
             {
                 DisplaySingleTicket();
                 return;

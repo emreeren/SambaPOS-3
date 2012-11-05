@@ -51,6 +51,8 @@ namespace Samba.Services
         ChangePaymentType GetChangePaymentTypeById(int id);
         IEnumerable<ForeignCurrency> GetForeignCurrencies();
         IEnumerable<ResourceScreen> GetResourceScreens();
+        IEnumerable<ResourceScreen> GetTicketResourceScreens();
+
         AccountTransactionType FindAccountTransactionType(int sourceAccountTypeId, int targetAccountTypeId, int defaultSourceId, int defaultTargetId);
         TicketType GetTicketTypeById(int ticketTypeId);
         IEnumerable<TicketType> GetTicketTypes();

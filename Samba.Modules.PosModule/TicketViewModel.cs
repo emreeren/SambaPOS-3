@@ -57,7 +57,7 @@ namespace Samba.Modules.PosModule
                 if (_resourceButtons == null && SelectedDepartment != null)
                 {
                     _resourceButtons = new ObservableCollection<ResourceButton>(
-                        _cacheService.GetResourceScreens()
+                        _cacheService.GetTicketResourceScreens()
                         .OrderBy(x => x.Order)
                         .Select(x => _cacheService.GetResourceTypeById(x.ResourceTypeId))
                         .Distinct()
@@ -264,7 +264,7 @@ namespace Samba.Modules.PosModule
 
         private bool CanSelectResource(ResourceType arg)
         {
-            return !SelectedTicket.Locked && SelectedTicket.CanSubmit && _cacheService.GetResourceScreens().Any(x => x.ResourceTypeId == arg.Id);
+            return !SelectedTicket.Locked && SelectedTicket.CanSubmit && _cacheService.GetTicketResourceScreens().Any(x => x.ResourceTypeId == arg.Id);
         }
 
         private void OnSelectResource(ResourceType obj)

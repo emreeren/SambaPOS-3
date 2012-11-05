@@ -70,7 +70,7 @@ namespace Samba.Modules.ResourceModule
 
         private ResourceScreen UpdateResourceScreens(EntityOperationRequest<Resource> value)
         {
-            var resourceScreens = _cacheService.GetResourceScreens().ToList();
+            var resourceScreens = _cacheService.GetTicketResourceScreens().ToList();
             if (!resourceScreens.Any()) return null;
             _resourceScreens = resourceScreens.OrderBy(x => x.Order).ToList();
             _resourceSwitcherButtons = null;

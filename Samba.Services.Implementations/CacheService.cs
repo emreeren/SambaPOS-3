@@ -434,6 +434,16 @@ namespace Samba.Services.Implementations
             return ResourceScreens.Where(x => maps.Any(y => y.ResourceScreenId == x.Id)).OrderBy(x => x.Order);
         }
 
+        public IEnumerable<ResourceScreen> GetTicketResourceScreens()
+        {
+            var maps = ResourceScreens.SelectMany(x => x.ResourceScreenMaps)
+               .Where(x => _applicationState.CurrentTicketType == null || x.TicketTypeId == 0 || x.TicketTypeId == _applicationState.CurrentTicketType.Id)
+               .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
+               .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
+               .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
+            return ResourceScreens.Where(x => maps.Any(y => y.ResourceScreenId == x.Id)).OrderBy(x => x.Order);
+        }
+
         public AccountTransactionType FindAccountTransactionType(int sourceAccountTypeId, int targetAccountTypeId, int defaultSourceId, int defaultTargetId)
         {
             var result = AccountTransactionTypes.Where(
