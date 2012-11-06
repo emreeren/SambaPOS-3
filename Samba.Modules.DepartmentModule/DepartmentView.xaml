@@ -11,11 +11,11 @@
         <ScrollViewer Grid.Row="0" UIControls:KineticBehaviour.HandleKineticScrolling="True" VerticalScrollBarVisibility="Auto">
 
             <StackPanel>
-                <Label>
-                    <LocText ResourceIdentifierKey="DepartmentName" Suffix=":"/>
-                </Label>
+                <Label Content="{LocText Name_f, FormatSegment1={LocText Department},Suffix=':'}"/>
                 <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name,Mode=TwoWay}" />
-
+                <Label Content="{LocText Default_f,FormatSegment1={LocText TicketType},Suffix=':'}"/>
+                <ComboBox HorizontalAlignment="Left" MinWidth="170" SelectedValue="{Binding TicketTypeId}"
+                                  ItemsSource="{Binding TicketTypes}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
                 <Label>
                     <LocText ResourceIdentifierKey="PriceTag" Suffix=":"/>
                 </Label>

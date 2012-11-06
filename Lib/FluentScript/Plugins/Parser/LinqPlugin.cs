@@ -216,12 +216,12 @@ namespace ComLib.Lang.Extensions
         public override object Evaluate()
         {
             var array = _source.Evaluate();
-            List<object> items = (array as LArray).Raw;
+            IEnumerable<object> items = array as IEnumerable<Object>;
             List<object> results = new List<object>();
 
-            for (int ndx = 0; ndx < items.Count; ndx++)
+            for (int ndx = 0; ndx < items.Count(); ndx++)
             {
-                var val = items[ndx];
+                var val = items.ElementAt(ndx);
                 this.Ctx.Memory.SetValue(_varName, val);
                 var isMatch = _filter.EvaluateAs<bool>();
                 if (isMatch)

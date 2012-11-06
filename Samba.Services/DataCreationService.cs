@@ -282,6 +282,7 @@ namespace Samba.Services
             var department = new Department
             {
                 Name = Resources.Restaurant,
+                TicketTypeId = ticketType.Id
             };
 
             _workspace.Add(department);

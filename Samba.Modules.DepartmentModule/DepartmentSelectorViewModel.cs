@@ -17,7 +17,7 @@ namespace Samba.Modules.DepartmentModule
         private readonly IApplicationStateSetter _applicationStateSetter;
 
         public DepartmentSelectorViewModel(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
-            IUserService userService,ICacheService cacheService)
+            IUserService userService, ICacheService cacheService)
         {
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
@@ -92,6 +92,7 @@ namespace Samba.Modules.DepartmentModule
                 if (obj.Value.UserRole.DepartmentId > 0)
                 {
                     _applicationStateSetter.SetCurrentDepartment(obj.Value.UserRole.DepartmentId);
+                    _applicationStateSetter.SetCurrentTicketType(_cacheService.GetTicketTypeById(_applicationState.CurrentDepartment.TicketTypeId));
                 }
             }
         }

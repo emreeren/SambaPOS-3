@@ -28,6 +28,7 @@ namespace Samba.Services
         public string Name { get { return Model != null ? Model.Name : ""; } }
         public string PriceTag { get { return Model != null ? Model.PriceTag : ""; } }
         public int TicketCreationMethod { get { return Model != null ? Model.TicketCreationMethod : 0; } }
+        public int TicketTypeId { get { return Model != null ? Model.TicketTypeId : 0; } }
     }
 
     public interface IApplicationState

@@ -72,7 +72,7 @@ namespace Samba.Modules.PosModule
             _menuItemSelectorViewModel = menuItemSelectorViewModel;
             _ticketListViewModel = ticketListViewModel;
             _ticketTagListViewModel = ticketTagListViewModel;
-            
+
             EventServiceFactory.EventService.GetEvent<GenericEvent<Ticket>>().Subscribe(OnTicketEventReceived);
             EventServiceFactory.EventService.GetEvent<GenericEvent<SelectedOrdersData>>().Subscribe(OnSelectedOrdersChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnTicketEvent);
@@ -80,6 +80,15 @@ namespace Samba.Modules.PosModule
             EventServiceFactory.EventService.GetEvent<GenericIdEvent>().Subscribe(OnTicketIdPublished);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Resource>>>().Subscribe(OnResourceSelectedForTicket);
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketTagGroup>>().Subscribe(OnTicketTagSelected);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<Department>>().Subscribe(OnDepartmentChanged);
+        }
+
+        private void OnDepartmentChanged(EventParameters<Department> obj)
+        {
+            if (obj.Topic == EventTopicNames.SelectedDepartmentChanged)
+            {
+                _menuItemSelectorViewModel.UpdateCurrentScreenMenu(obj.Value.TicketTypeId);
+            }
         }
 
         private void OnTicketTagSelected(EventParameters<TicketTagGroup> obj)

@@ -10,6 +10,8 @@ namespace Samba.Domain.Models.Tickets
 
         [StringLength(10)]
         public string PriceTag { get; set; }
+
+        public int TicketTypeId { get; set; }
         public int TicketCreationMethod { get; set; }
         
         private static Department _all;

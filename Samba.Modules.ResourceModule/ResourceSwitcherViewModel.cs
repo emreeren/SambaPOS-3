@@ -80,7 +80,7 @@ namespace Samba.Modules.ResourceModule
             var selectedScreen = _applicationState.SelectedResourceScreen;
             if (value != null && value.SelectedEntity != null && _applicationState.CurrentDepartment != null)
             {
-                if (_applicationState.IsLocked)
+                if (_applicationState.IsLocked || _applicationState.CurrentDepartment.TicketCreationMethod == 1)
                     _resourceScreens = _resourceScreens.Where(x => x.ResourceTypeId == value.SelectedEntity.ResourceTypeId).OrderBy(x => x.Order);
                 if (!_resourceScreens.Any())
                     return resourceScreens.ElementAt(0);

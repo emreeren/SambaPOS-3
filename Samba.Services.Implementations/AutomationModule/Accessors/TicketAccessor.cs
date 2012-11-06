@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using Samba.Domain.Models.Tickets;
 
 namespace Samba.Services.Implementations.AutomationModule.Accessors
@@ -13,5 +15,9 @@ namespace Samba.Services.Implementations.AutomationModule.Accessors
 
         public static int OrderCount { get { return Model.Orders.Count; } }
         public static decimal RemainingAmount { get { return Model.GetRemainingAmount(); } }
+        public static void RemovePayments(List<object> items)
+        {
+            items.Where(x => x is Payment).Cast<Payment>().ToList().ForEach(x => Model.Payments.Remove(x));
+        }
     }
 }

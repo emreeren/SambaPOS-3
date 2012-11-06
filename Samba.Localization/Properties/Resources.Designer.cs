@@ -1748,6 +1748,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Default {0}.
+        /// </summary>
+        public static string Default_f {
+            get {
+                return ResourceManager.GetString("Default_f", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Default Amount.
         /// </summary>
         public static string DefaultAmount {

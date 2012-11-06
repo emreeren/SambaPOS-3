@@ -81,7 +81,6 @@ namespace Samba.Presentation.Common.Services
 
         public void SetCurrentDepartment(Department department)
         {
-            SetCurrentTicketType(null);
             if (CurrentDepartment == null || department != CurrentDepartment.Model)
             {
                 CurrentDepartment = new CurrentDepartmentData { Model = department };

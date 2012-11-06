@@ -27,6 +27,13 @@ namespace Samba.Modules.DepartmentModule
         public IEnumerable<string> PriceTags { get { return _priceListService.GetTags(); } }
         public string PriceTag { get { return Model.PriceTag; } set { Model.PriceTag = value; } }
 
+        private IEnumerable<TicketType> _ticketTypes;
+        public IEnumerable<TicketType> TicketTypes
+        {
+            get { return _ticketTypes ?? (_ticketTypes = Workspace.All<TicketType>()); }
+        }
+        public int TicketTypeId { get { return Model.TicketTypeId; } set { Model.TicketTypeId = value; } }
+
         public override Type GetViewType()
         {
             return typeof(DepartmentView);

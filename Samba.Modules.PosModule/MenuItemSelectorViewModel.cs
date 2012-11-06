@@ -262,6 +262,7 @@ namespace Samba.Modules.PosModule
 
         public void UpdateCurrentScreenMenu(int screenMenuId)
         {
+            if (screenMenuId == 0) return;
             if (_currentScreenMenu != null && _currentScreenMenu.Id == screenMenuId) return;
 
             _currentScreenMenu = _cacheService.GetScreenMenu(screenMenuId);
