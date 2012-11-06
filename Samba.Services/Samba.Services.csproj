@@ -93,6 +93,7 @@
     <Compile Include="IAutomationService.cs" />
     <Compile Include="IProgramSetting.cs" />
     <Compile Include="ISettingService.cs" />
+    <Compile Include="ITaskService.cs" />
     <Compile Include="ITicketExplorerFilter.cs" />
     <Compile Include="ITicketService.cs" />
     <Compile Include="ITriggerService.cs" />

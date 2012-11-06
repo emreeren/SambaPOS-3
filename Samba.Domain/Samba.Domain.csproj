@@ -83,8 +83,11 @@
     <Compile Include="Models\Automation\Script.cs" />
     <Compile Include="Models\Menus\ProductTimer.cs" />
     <Compile Include="Models\Menus\ProdcutTimerMap.cs" />
+    <Compile Include="Models\Tasks\Task.cs" />
     <Compile Include="Models\Resources\ResourceScreenMap.cs" />
     <Compile Include="Models\Settings\ForeignCurrency.cs" />
+    <Compile Include="Models\Tasks\TaskResource.cs" />
+    <Compile Include="Models\Tasks\TaskType.cs" />
     <Compile Include="Models\Tickets\ChangePayment.cs" />
     <Compile Include="Models\Tickets\ChangePaymentType.cs" />
     <Compile Include="Models\Tickets\ChangePaymentTypeMap.cs" />

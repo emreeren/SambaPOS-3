@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Samba.Domain.Models.Settings;
-using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
 using Samba.Presentation.Common;
 using Samba.Services;

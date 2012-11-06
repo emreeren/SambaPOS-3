@@ -131,6 +131,7 @@
     <Compile Include="SettingsModule\ProgramSettings.cs" />
     <Compile Include="SettingsModule\SettingReplacer.cs" />
     <Compile Include="SettingsModule\SettingsService.cs" />
+    <Compile Include="TaskModule\TaskService.cs" />
     <Compile Include="TicketModule\TicketExplorerFilter.cs" />
     <Compile Include="TicketModule\TicketService.cs" />
     <Compile Include="UserModule\UserService.cs" />

@@ -6,6 +6,7 @@ using Samba.Domain.Models.Inventories;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
+using Samba.Domain.Models.Tasks;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
 using Samba.Infrastructure.Data.SQL;
@@ -105,6 +106,9 @@ namespace Samba.Persistance.Data
         public DbSet<ResourceState> ResourceStates { get; set; }
         public DbSet<ResourceStateValue> ResourceStateValues { get; set; }
         public DbSet<Script> Scripts { get; set; }
+        public DbSet<TaskType> TaskTypes { get; set; }
+        public DbSet<Task> Tasks { get; set; }
+        public DbSet<TaskResource> TaskResources { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -117,8 +121,13 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<AppAction>().Property(x => x.Parameter).IsMaxLength();
             modelBuilder.Entity<AppRule>().Property(x => x.EventConstraints).IsMaxLength();
 
+            modelBuilder.Entity<TaskResource>().HasKey(p => new { p.Id, p.TaskId });
+            modelBuilder.Entity<TaskResource>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<Task>().HasMany(p => p.TaskResources).WithRequired().HasForeignKey(x => x.TaskId);
+
             modelBuilder.Entity<CalculationSelector>().HasMany(x => x.CalculationTypes).WithMany();
             modelBuilder.Entity<AccountTransactionDocumentType>().HasMany(x => x.TransactionTypes).WithMany();
+            modelBuilder.Entity<TaskType>().HasMany(x => x.ResourceTypes).WithMany();
 
             modelBuilder.Entity<AccountTransaction>().Ignore(p => p.SourceTransactionValue);
             modelBuilder.Entity<AccountTransaction>().Ignore(p => p.TargetTransactionValue);

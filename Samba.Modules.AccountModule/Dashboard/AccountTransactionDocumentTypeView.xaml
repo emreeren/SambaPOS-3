@@ -23,7 +23,7 @@
         <TabControl Template="{StaticResource OfficeTabControl}">
             <TabItem Header="General Settings">
                 <StackPanel >
-                    <Label HorizontalAlignment="Left" Content="Template Name" />
+                    <Label HorizontalAlignment="Left" Content="{LocText Name}" />
                     <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
 
                     <Label HorizontalAlignment="Left" Content="{LocText ButtonHeader,Suffix=':'}" />

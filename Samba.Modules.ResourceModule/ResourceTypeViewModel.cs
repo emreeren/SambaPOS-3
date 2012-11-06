@@ -6,7 +6,6 @@ using System.Linq;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Resources;
 using Samba.Localization.Properties;
-using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Services;
