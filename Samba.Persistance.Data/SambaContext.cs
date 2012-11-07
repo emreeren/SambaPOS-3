@@ -108,7 +108,7 @@ namespace Samba.Persistance.Data
         public DbSet<Script> Scripts { get; set; }
         public DbSet<TaskType> TaskTypes { get; set; }
         public DbSet<Task> Tasks { get; set; }
-        public DbSet<TaskResource> TaskResources { get; set; }
+        public DbSet<TaskToken> TaskResources { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -121,9 +121,9 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<AppAction>().Property(x => x.Parameter).IsMaxLength();
             modelBuilder.Entity<AppRule>().Property(x => x.EventConstraints).IsMaxLength();
 
-            modelBuilder.Entity<TaskResource>().HasKey(p => new { p.Id, p.TaskId });
-            modelBuilder.Entity<TaskResource>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            modelBuilder.Entity<Task>().HasMany(p => p.TaskResources).WithRequired().HasForeignKey(x => x.TaskId);
+            modelBuilder.Entity<TaskToken>().HasKey(p => new { p.Id, p.TaskId });
+            modelBuilder.Entity<TaskToken>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<Task>().HasMany(p => p.TaskTokens).WithRequired().HasForeignKey(x => x.TaskId);
 
             modelBuilder.Entity<CalculationSelector>().HasMany(x => x.CalculationTypes).WithMany();
             modelBuilder.Entity<AccountTransactionDocumentType>().HasMany(x => x.TransactionTypes).WithMany();

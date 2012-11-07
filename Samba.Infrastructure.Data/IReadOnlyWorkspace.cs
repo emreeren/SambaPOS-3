@@ -18,5 +18,6 @@ namespace Samba.Infrastructure.Data
         T Last<T>(Expression<Func<T, bool>> predictate, Expression<Func<T, object>>[] includes) where T : class,IEntity;
         IEnumerable<T> Last<T>(int recordCount) where T : class,IEntity;
         IQueryable<T> Queryable<T>() where T : class;
+        bool Any<T>(Expression<Func<T, bool>> predictate) where T : class;
     }
 }

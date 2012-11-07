@@ -2952,4 +2952,10 @@ Message:
   <data name="TaskType">
     <value xml:space="preserve">Task Type</value>
   </data>
+  <data name="Task">
+    <value xml:space="preserve">Task</value>
+  </data>
+  <data name="AutoRefreshInterval">
+    <value xml:space="preserve">Auto Refresh Interval</value>
+  </data>
 </root>

@@ -14,16 +14,13 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceGrid
     [Export(typeof(IWidgetCreator))]
     public class ResourceGridWidgetCreator : IWidgetCreator
     {
-        private readonly IApplicationState _applicationState;
         private readonly IResourceService _resourceService;
         private readonly IUserService _userService;
         private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public ResourceGridWidgetCreator(IApplicationState applicationState,
-            IResourceService resourceService, IUserService userService, ICacheService cacheService)
+        public ResourceGridWidgetCreator(IResourceService resourceService, IUserService userService, ICacheService cacheService)
         {
-            _applicationState = applicationState;
             _resourceService = resourceService;
             _userService = userService;
             _cacheService = cacheService;
@@ -71,9 +68,9 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceGrid
             return new Widget { Properties = parameters, CreatorName = GetCreatorName() };
         }
 
-        public IDiagram CreateWidgetViewModel(Widget widget)
+        public IDiagram CreateWidgetViewModel(Widget widget, IApplicationState applicationState)
         {
-            return new ResourceGridWidgetViewModel(widget, _applicationState, _resourceService, _userService, _cacheService);
+            return new ResourceGridWidgetViewModel(widget, applicationState, _resourceService, _userService, _cacheService);
         }
     }
 }

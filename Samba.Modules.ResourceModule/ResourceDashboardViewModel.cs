@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Resources;
+using Samba.Infrastructure;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Widgets;
 using Samba.Services;
@@ -20,6 +21,16 @@ namespace Samba.Modules.ResourceModule
         {
             _applicationState = applicationState;
             _resourceService = resourceService;
+
+            EventServiceFactory.EventService.GetEvent<GenericEvent<Message>>().Subscribe(
+            x =>
+            {
+                if (x.Topic == EventTopicNames.MessageReceivedEvent && x.Value.Command == Messages.WidgetRefreshMessage)
+                {
+                    Widgets.Where(y => y.IsVisible && y.CreatorName == x.Value.Data).ToList().ForEach(y => y.Refresh());
+                }
+            });
+
         }
 
         public void RemoveWidget(IDiagram viewModel)
@@ -54,7 +65,7 @@ namespace Samba.Modules.ResourceModule
             if (_currentResourceScreen != resourceScreen || Widgets == null)
             {
                 _currentResourceScreen = resourceScreen;
-                Widgets = new ObservableCollection<IDiagram>(resourceScreen.Widgets.Select(WidgetCreatorRegistry.CreateWidgetViewModel));
+                Widgets = new ObservableCollection<IDiagram>(resourceScreen.Widgets.Select(x => WidgetCreatorRegistry.CreateWidgetViewModel(x, _applicationState)));
             }
             Widgets.Where(x => x.AutoRefresh).ToList().ForEach(x => x.Refresh());
             RaisePropertyChanged(() => Widgets);
@@ -67,13 +78,13 @@ namespace Samba.Modules.ResourceModule
             widget.Height = 100;
             widget.Width = 100;
             widget.AutoRefresh = true;
-            Widgets.Add(WidgetCreatorRegistry.CreateWidgetViewModel(widget));
+            Widgets.Add(WidgetCreatorRegistry.CreateWidgetViewModel(widget, _applicationState));
         }
 
         public void LoadTrackableResourceScreenItems()
         {
             IsDesignModeActive = true;
-            Widgets = new ObservableCollection<IDiagram>(_resourceService.LoadWidgets(SelectedResourceScreen.Name).Select(WidgetCreatorRegistry.CreateWidgetViewModel));
+            Widgets = new ObservableCollection<IDiagram>(_resourceService.LoadWidgets(SelectedResourceScreen.Name).Select(x => WidgetCreatorRegistry.CreateWidgetViewModel(x, _applicationState)));
             Widgets.ToList().ForEach(x => x.DesignMode = true);
             RaisePropertyChanged(() => Widgets);
         }

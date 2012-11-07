@@ -7,6 +7,7 @@ namespace Samba.Localization
 {
     public static class ResourceStrings
     {
+        public const string AutoRefreshInterval = "AutoRefreshInterval";
         public const string AutoRefresh = "AutoRefresh";
         public const string FontSize = "FontSize";
         public const string OrderTagTemplate = "OrderTagTemplate";

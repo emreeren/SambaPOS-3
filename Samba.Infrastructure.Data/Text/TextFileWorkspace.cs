@@ -269,6 +269,11 @@ namespace Samba.Infrastructure.Data.Text
             return _storage.GetItems<T>().AsQueryable();
         }
 
+        public bool Any<T>(Expression<Func<T, bool>> predictate) where T : class
+        {
+            return _storage.GetItems<T>().Any(predictate.Compile());
+        }
+
         public void ExecSql(string sqlString)
         {
             //

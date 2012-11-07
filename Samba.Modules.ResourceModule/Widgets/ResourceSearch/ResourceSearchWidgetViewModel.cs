@@ -18,7 +18,7 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceSearch
         private EntityOperationRequest<Resource> _request = new EntityOperationRequest<Resource>(null, EventTopicNames.ResourceSelected);
 
         public ResourceSearchWidgetViewModel(Widget model, IApplicationState applicationState, ICacheService cacheService, IResourceService resourceService)
-            : base(model)
+            : base(model, applicationState)
         {
             _applicationState = applicationState;
             _cacheService = cacheService;

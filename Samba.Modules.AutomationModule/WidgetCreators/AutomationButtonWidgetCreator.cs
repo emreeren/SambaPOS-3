@@ -68,9 +68,9 @@ namespace Samba.Modules.AutomationModule.WidgetCreators
             return result;
         }
 
-        public IDiagram CreateWidgetViewModel(Widget widget)
+        public IDiagram CreateWidgetViewModel(Widget widget, IApplicationState applicationState)
         {
-            return new AutomationButtonWidgetViewModel(widget, _automationService);
+            return new AutomationButtonWidgetViewModel(widget, applicationState, _automationService);
         }
     }
 }

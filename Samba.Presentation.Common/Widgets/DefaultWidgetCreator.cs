@@ -2,13 +2,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Samba.Domain.Models.Resources;
+using Samba.Services;
 
 namespace Samba.Presentation.Common.Widgets
 {
     public class DefaultWidgetViewModel : WidgetViewModel
     {
-        public DefaultWidgetViewModel(Widget model)
-            : base(model)
+        public DefaultWidgetViewModel(Widget model, IApplicationState applicationState)
+            : base(model, applicationState)
         {
         }
 
@@ -19,7 +20,7 @@ namespace Samba.Presentation.Common.Widgets
 
         public override void Refresh()
         {
-            
+
         }
     }
 
@@ -46,7 +47,7 @@ namespace Samba.Presentation.Common.Widgets
                               Background = System.Windows.Media.Brushes.White
                           };
 
-            var ret = new Button { DataContext = buttonHolder, ContextMenu = contextMenu ,Content = "New Widget"};
+            var ret = new Button { DataContext = buttonHolder, ContextMenu = contextMenu, Content = "New Widget" };
 
             brd.Child = ret;
 
@@ -70,9 +71,9 @@ namespace Samba.Presentation.Common.Widgets
             return new Widget { CreatorName = GetCreatorName() };
         }
 
-        public IDiagram CreateWidgetViewModel(Widget widget)
+        public IDiagram CreateWidgetViewModel(Widget widget, IApplicationState applicationState)
         {
-            return new DefaultWidgetViewModel(widget);
+            return new DefaultWidgetViewModel(widget, applicationState);
         }
     }
 }

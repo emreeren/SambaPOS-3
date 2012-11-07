@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Samba.Domain.Models.Resources;
+using Samba.Infrastructure;
 using Samba.Presentation.Common;
 using Samba.Services;
 
@@ -12,11 +13,13 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
     class TaskEditorWidgetCreator : IWidgetCreator
     {
         private readonly ITaskService _taskService;
+        private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public TaskEditorWidgetCreator(ITaskService taskService)
+        public TaskEditorWidgetCreator(ITaskService taskService, ICacheService cacheService)
         {
             _taskService = taskService;
+            _cacheService = cacheService;
         }
 
         public string GetCreatorName()
@@ -31,13 +34,14 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
 
         public Widget CreateNewWidget()
         {
-            var result = new Widget { CreatorName = GetCreatorName() };
+            var parameters = JsonHelper.Serialize(new TaskEditorWidgetSettings());
+            var result = new Widget { Properties = parameters, CreatorName = GetCreatorName() };
             return result;
         }
 
-        public IDiagram CreateWidgetViewModel(Widget widget)
+        public IDiagram CreateWidgetViewModel(Widget widget, IApplicationState applicationState)
         {
-            return new TaskEditorViewModel(widget, _taskService);
+            return new TaskEditorViewModel(widget, applicationState, _taskService, _cacheService);
         }
 
         public FrameworkElement CreateWidgetControl(IDiagram widgetViewModel, ContextMenu contextMenu)

@@ -4,19 +4,22 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tasks
 {
-    public class Task : Entity
+    public class Task : Entity, ICacheable
     {
         public Task()
         {
             StartDate = DateTime.Now;
             EndDate = StartDate;
-            _taskResources = new List<TaskResource>();
+            LastUpdateTime = StartDate;
+            _taskTokens = new List<TaskToken>();
         }
 
         public int TaskTypeId { get; set; }
         public string Content { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+
+        private bool _completed;
         public bool Completed
         {
             get { return _completed; }
@@ -27,13 +30,13 @@ namespace Samba.Domain.Models.Tasks
             }
         }
 
-        private IList<TaskResource> _taskResources;
-        private bool _completed;
-
-        public virtual IList<TaskResource> TaskResources
+        private IList<TaskToken> _taskTokens;
+        public virtual IList<TaskToken> TaskTokens
         {
-            get { return _taskResources; }
-            set { _taskResources = value; }
+            get { return _taskTokens; }
+            set { _taskTokens = value; }
         }
+
+        public DateTime LastUpdateTime { get; set; }
     }
 }

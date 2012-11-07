@@ -56,11 +56,10 @@ namespace Samba.Services
         AccountTransactionType FindAccountTransactionType(int sourceAccountTypeId, int targetAccountTypeId, int defaultSourceId, int defaultTargetId);
         TicketType GetTicketTypeById(int ticketTypeId);
         IEnumerable<TicketType> GetTicketTypes();
+        int GetTaskTypeIdByName(string taskTypeName);
+        IEnumerable<string> GetTaskTypeNames();
 
         void ResetOrderTagCache();
         void ResetTicketTagCache();
-
-
-        
     }
 }

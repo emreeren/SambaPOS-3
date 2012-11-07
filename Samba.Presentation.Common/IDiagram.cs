@@ -20,6 +20,7 @@ namespace Samba.Presentation.Common
         Widget GetWidget();
         bool DesignMode { get; set; }
         bool AutoRefresh { get; set; }
+        bool IsVisible { get; }
         void EditProperties();
         void EditSettings();
         void SaveSettings();

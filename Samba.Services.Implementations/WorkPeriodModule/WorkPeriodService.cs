@@ -68,6 +68,11 @@ namespace Samba.Services.Implementations.WorkPeriodModule
             return Dao.Last<WorkPeriod>(count);
         }
 
+        public DateTime GetWorkPeriodStartDate()
+        {
+            return CurrentWorkPeriod.StartDate;
+        }
+
         public override void Reset()
         {
 

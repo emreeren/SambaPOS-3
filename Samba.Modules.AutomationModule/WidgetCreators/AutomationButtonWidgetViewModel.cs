@@ -14,8 +14,8 @@ namespace Samba.Modules.AutomationModule.WidgetCreators
         [Browsable(false)]
         public CaptionCommand<AutomationButtonWidgetViewModel> ItemClickedCommand { get; set; }
 
-        public AutomationButtonWidgetViewModel(Widget widget, IAutomationService automationService)
-            : base(widget)
+        public AutomationButtonWidgetViewModel(Widget widget, IApplicationState applicationState, IAutomationService automationService)
+            : base(widget, applicationState)
         {
             _automationService = automationService;
             ItemClickedCommand = new CaptionCommand<AutomationButtonWidgetViewModel>("", OnItemClicked);

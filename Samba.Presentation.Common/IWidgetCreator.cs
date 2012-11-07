@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using Samba.Domain.Models.Resources;
+using Samba.Services;
 
 namespace Samba.Presentation.Common
 {
@@ -10,6 +11,6 @@ namespace Samba.Presentation.Common
         string GetCreatorDescription();
         FrameworkElement CreateWidgetControl(IDiagram widget, ContextMenu contextMenu);
         Widget CreateNewWidget();
-        IDiagram CreateWidgetViewModel(Widget widget);
+        IDiagram CreateWidgetViewModel(Widget widget, IApplicationState applicationState);
     }
 }

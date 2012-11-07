@@ -19,8 +19,9 @@ namespace Samba.Modules.PosModule.Widgets.TicketExplorer
         private readonly IUserService _userService;
         private readonly ICacheService _cacheService;
 
-        public TicketExplorerViewModel(Widget widget, ITicketService ticketService, IUserService userService, ICacheService cacheService)
-            : base(widget)
+        public TicketExplorerViewModel(Widget widget, IApplicationState applicationState, ITicketService ticketService,
+            IUserService userService, ICacheService cacheService)
+            : base(widget, applicationState)
         {
             _ticketService = ticketService;
             _userService = userService;

@@ -16,6 +16,7 @@ namespace Samba.Domain.Models.Resources
         public string Properties { get; set; }
         public string CreatorName { get; set; }
         public bool AutoRefresh { get; set; }
+        public int AutoRefreshInterval { get; set; }
 
         public void SaveSettings(object settingsObject)
         {

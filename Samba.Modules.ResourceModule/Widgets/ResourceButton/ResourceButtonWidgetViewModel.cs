@@ -19,7 +19,7 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceButton
         public CaptionCommand<ResourceButtonWidgetViewModel> ItemClickedCommand { get; set; }
 
         public ResourceButtonWidgetViewModel(Widget model, ICacheService cacheService, IApplicationState applicationState, IResourceService resourceService)
-            : base(model)
+            : base(model, applicationState)
         {
             _cacheService = cacheService;
             _applicationState = applicationState;

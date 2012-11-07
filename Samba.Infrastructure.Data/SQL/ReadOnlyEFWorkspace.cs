@@ -105,6 +105,11 @@ namespace Samba.Infrastructure.Data.SQL
             return _context.ReadOnly<T>();
         }
 
+        public bool Any<T>(Expression<Func<T, bool>> predictate) where T : class
+        {
+            return _context.ReadOnly<T>().Any(predictate);
+        }
+
         public void Dispose()
         {
             _context.Close();

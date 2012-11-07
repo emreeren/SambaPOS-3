@@ -13,7 +13,6 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceSearch
     [Export(typeof(IWidgetCreator))]
     class ResourceSearchWidgetCreator : IWidgetCreator
     {
-        private readonly IApplicationState _applicationState;
         private readonly IResourceService _resourceService;
         private readonly ICacheService _cacheService;
 
@@ -21,7 +20,6 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceSearch
         public ResourceSearchWidgetCreator(IApplicationState applicationState, IResourceService resourceService,
             ICacheService cacheService)
         {
-            _applicationState = applicationState;
             _resourceService = resourceService;
             _cacheService = cacheService;
         }
@@ -62,9 +60,9 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceSearch
             return new Widget { Properties = parameters, CreatorName = GetCreatorName() };
         }
 
-        public IDiagram CreateWidgetViewModel(Widget widget)
+        public IDiagram CreateWidgetViewModel(Widget widget, IApplicationState applicationState)
         {
-            return new ResourceSearchWidgetViewModel(widget, _applicationState, _cacheService, _resourceService);
+            return new ResourceSearchWidgetViewModel(widget, applicationState, _cacheService, _resourceService);
         }
     }
 }

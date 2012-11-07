@@ -24,7 +24,7 @@ namespace Samba.Persistance.Data
         {
             if (Cache.ContainsKey(typeof(T)))
                 return Cache[typeof(T)].Cast<T>().SingleOrDefault(predictate.Compile());
-            return default(T);   
+            return default(T);
         }
 
         public static void ResetCache()
@@ -121,15 +121,16 @@ namespace Samba.Persistance.Data
             return result;
         }
 
-        public static bool Exists<T>(Expression<Func<T, bool>> predictate) where T : class
+        public static bool Exists<T>(Expression<Func<T, bool>> predictate) where T : class,IValue
         {
             using (var workspace = WorkspaceFactory.CreateReadOnly())
             {
-                return workspace.First(predictate) != null;
+                //return workspace.Any(predictate);
+                return workspace.Select(x => x.Id, predictate).Any();
             }
         }
 
-        public static bool Exists<T>(ISpecification<T> specification) where T : class
+        public static bool Exists<T>(ISpecification<T> specification) where T : class,IValue
         {
             return Exists(specification.SatisfiedBy());
         }

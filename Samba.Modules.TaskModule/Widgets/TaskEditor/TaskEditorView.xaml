@@ -19,7 +19,7 @@
                 <TextBox Grid.RowSpan="2" MinLines="1" TextWrapping="WrapWithOverflow" AutoWordSelection="True" Grid.Column="0" 
                      Text="{Binding NewTask,UpdateSourceTrigger=PropertyChanged}"/>
                 <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
-                    IsDefault="True" MinWidth="60" Margin="3,0,0,0" Grid.Column="1" Command="{Binding AddTaskCommand}" 
+                    IsDefault="True" MinWidth="50" Margin="3,0,0,0" Grid.Column="1" Command="{Binding AddTaskCommand}" 
                     Content="{Binding AddTaskCommand.Caption}"/>
             </Grid>
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
@@ -54,7 +54,8 @@
                                     <Button Command="{Binding ToggleCompletedCommand}" Margin="3" VerticalAlignment="Center" Content="{Binding IsCompletedCaption}" 
                                             FontFamily="wingdings 2">
                                     </Button>
-                                    <TextBlock Margin="3,3,3,5" VerticalAlignment="Top" TextWrapping="WrapWithOverflow" Text="{Binding Content}"/>
+                                    <TextBlock Margin="3,3,3,5" VerticalAlignment="Top" TextWrapping="WrapWithOverflow" Text="{Binding Description}"/>
+                                    
                                 </DockPanel>
                             </Border>
                         </DataTemplate>

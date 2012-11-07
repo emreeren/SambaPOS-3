@@ -1,25 +1,38 @@
 using System;
 using System.ComponentModel;
+using System.Threading;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Threading;
 using Samba.Domain.Models.Resources;
 using Samba.Infrastructure;
 using Samba.Localization;
+using Samba.Localization.Properties;
 using Samba.Presentation.Common.Services;
+using Samba.Services;
 
 namespace Samba.Presentation.Common
 {
     public abstract class WidgetViewModel : ObservableObject, IDiagram
     {
         protected readonly Widget _model;
+        private readonly IApplicationState _applicationState;
         private bool _isEnabled;
+        private bool _disposed;
+        private readonly Timer _timer;
 
-        protected WidgetViewModel(Widget model)
+        protected WidgetViewModel(Widget model, IApplicationState applicationState)
         {
             _model = model;
+            _applicationState = applicationState;
+            if (AutoRefreshInterval > 0 && !DesignMode)
+            {
+                _timer = new Timer(OnTimer, new { }, AutoRefreshInterval * 1000, AutoRefreshInterval * 1000);
+            }
         }
 
         private object _settingsObject;
+
         [Browsable(false)]
         public object SettingsObject
         {
@@ -126,11 +139,28 @@ namespace Samba.Presentation.Common
         [Browsable(false)]
         public bool DesignMode { get; set; }
 
+        [Browsable(false)]
+        public bool IsVisible
+        {
+            get
+            {
+                return _applicationState.SelectedResourceScreen != null &&
+                       _applicationState.SelectedResourceScreen.Widgets.Contains(Model);
+            }
+        }
+
         [LocalizedDisplayName(ResourceStrings.AutoRefresh)]
         public bool AutoRefresh
         {
             get { return Model.AutoRefresh; }
             set { Model.AutoRefresh = value; RaisePropertyChanged(() => AutoRefresh); }
+        }
+
+         [LocalizedDisplayName(ResourceStrings.AutoRefreshInterval)]
+        public int AutoRefreshInterval
+        {
+            get { return Model.AutoRefreshInterval; }
+            set { Model.AutoRefreshInterval = value; }
         }
 
         public void EditProperties()
@@ -158,7 +188,23 @@ namespace Samba.Presentation.Common
                 Model.Properties = JsonHelper.Serialize(SettingsObject);
         }
 
-        public abstract void Refresh();
+        private void OnTimer(object state)
+        {
+            if (!IsVisible) return;
+            if (_disposed) return;
+            AppServices.MainDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(Refresh));
+        }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (_timer != null)
+            {
+                _disposed = true;
+                _timer.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        public abstract void Refresh();
     }
 }

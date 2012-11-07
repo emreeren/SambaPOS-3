@@ -15,14 +15,12 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceButton
     public class ResourceButtonWidgetCreator : IWidgetCreator
     {
         private readonly ICacheService _cacheService;
-        private readonly IApplicationState _applicationState;
         private readonly IResourceService _resourceService;
 
         [ImportingConstructor]
-        public ResourceButtonWidgetCreator(ICacheService cacheService, IApplicationState applicationState, IResourceService resourceService)
+        public ResourceButtonWidgetCreator(ICacheService cacheService, IResourceService resourceService)
         {
             _cacheService = cacheService;
-            _applicationState = applicationState;
             _resourceService = resourceService;
         }
 
@@ -43,9 +41,9 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceButton
             return result;
         }
 
-        public IDiagram CreateWidgetViewModel(Widget widget)
+        public IDiagram CreateWidgetViewModel(Widget widget, IApplicationState applicationState)
         {
-            return new ResourceButtonWidgetViewModel(widget, _cacheService, _applicationState, _resourceService);
+            return new ResourceButtonWidgetViewModel(widget, _cacheService, applicationState, _resourceService);
         }
 
         public FrameworkElement CreateWidgetControl(IDiagram widgetViewModel, ContextMenu contextMenu)

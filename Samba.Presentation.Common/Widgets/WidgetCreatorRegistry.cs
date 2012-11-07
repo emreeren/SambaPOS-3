@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Controls;
 using Samba.Domain.Models.Resources;
+using Samba.Services;
 
 namespace Samba.Presentation.Common.Widgets
 {
@@ -27,9 +28,9 @@ namespace Samba.Presentation.Common.Widgets
             return GetCreator(widget.CreatorName).CreateWidgetControl(widget, contextMenu);
         }
 
-        public static IDiagram CreateWidgetViewModel(Widget widget)
+        public static IDiagram CreateWidgetViewModel(Widget widget, IApplicationState applicationState)
         {
-            return GetCreator(widget.CreatorName).CreateWidgetViewModel(widget);
+            return GetCreator(widget.CreatorName).CreateWidgetViewModel(widget, applicationState);
         }
 
         private static IWidgetCreator GetCreator(string creatorName)

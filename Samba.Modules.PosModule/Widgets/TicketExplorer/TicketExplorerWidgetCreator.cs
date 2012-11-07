@@ -39,9 +39,9 @@ namespace Samba.Modules.PosModule.Widgets.TicketExplorer
             return result;
         }
 
-        public IDiagram CreateWidgetViewModel(Widget widget)
+        public IDiagram CreateWidgetViewModel(Widget widget,IApplicationState applicationState)
         {
-            return new TicketExplorerViewModel(widget, _ticketService, _userService,_cacheService);
+            return new TicketExplorerViewModel(widget,applicationState, _ticketService, _userService,_cacheService);
         }
 
         public FrameworkElement CreateWidgetControl(IDiagram widgetViewModel, ContextMenu contextMenu)

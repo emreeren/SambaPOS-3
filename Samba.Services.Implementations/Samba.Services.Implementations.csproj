@@ -131,7 +131,11 @@
     <Compile Include="SettingsModule\ProgramSettings.cs" />
     <Compile Include="SettingsModule\SettingReplacer.cs" />
     <Compile Include="SettingsModule\SettingsService.cs" />
+    <Compile Include="TaskModule\TaskCache.cs" />
+    <Compile Include="TaskModule\TaskParser.cs" />
     <Compile Include="TaskModule\TaskService.cs" />
+    <Compile Include="TaskModule\TimeParser.cs" />
+    <Compile Include="TaskModule\ITokenParser.cs" />
     <Compile Include="TicketModule\TicketExplorerFilter.cs" />
     <Compile Include="TicketModule\TicketService.cs" />
     <Compile Include="UserModule\UserService.cs" />

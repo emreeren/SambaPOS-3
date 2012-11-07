@@ -575,6 +575,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auto Refresh Interval.
+        /// </summary>
+        public static string AutoRefreshInterval {
+            get {
+                return ResourceManager.GetString("AutoRefreshInterval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Auto Rounding.
         /// </summary>
         public static string AutoRounding {
@@ -6256,6 +6265,15 @@ namespace Samba.Localization.Properties {
         public static string TagValue {
             get {
                 return ResourceManager.GetString("TagValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Task.
+        /// </summary>
+        public static string Task {
+            get {
+                return ResourceManager.GetString("Task", resourceCulture);
             }
         }
         

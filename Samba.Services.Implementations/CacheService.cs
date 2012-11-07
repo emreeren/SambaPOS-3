@@ -8,6 +8,7 @@ using Samba.Domain.Models.Automation;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
+using Samba.Domain.Models.Tasks;
 using Samba.Domain.Models.Tickets;
 using Samba.Persistance.Data;
 using Samba.Services.Common;
@@ -475,6 +476,23 @@ namespace Samba.Services.Implementations
             return TicketTypes;
         }
 
+        private IEnumerable<TaskType> _taskTypes;
+        public IEnumerable<TaskType> TaskTypes
+        {
+            get { return _taskTypes ?? (_taskTypes = Dao.Query<TaskType>(x => x.ResourceTypes)); }
+        }
+
+        public int GetTaskTypeIdByName(string taskTypeName)
+        {
+            var taskType = TaskTypes.FirstOrDefault(x => x.Name == taskTypeName);
+            return taskType != null ? taskType.Id : 0;
+        }
+
+        public IEnumerable<string> GetTaskTypeNames()
+        {
+            return TaskTypes.Select(x => x.Name);
+        }
+
         public void ResetOrderTagCache()
         {
             _orderTagGroups = null;
@@ -498,6 +516,7 @@ namespace Samba.Services.Implementations
 
         public override void Reset()
         {
+            _taskTypes = null;
             _ticketTypes = null;
             _resourceScreens = null;
             _foreignCurrencies = null;
