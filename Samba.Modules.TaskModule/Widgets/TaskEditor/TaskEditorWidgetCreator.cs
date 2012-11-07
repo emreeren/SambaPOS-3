@@ -45,17 +45,17 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
             var buttonHolder = widgetViewModel as TaskEditorViewModel;
 
             var ret = new TaskEditorView { DataContext = buttonHolder, ContextMenu = contextMenu };
-
             var heightBinding = new Binding("Height") { Source = buttonHolder, Mode = BindingMode.TwoWay };
             var widthBinding = new Binding("Width") { Source = buttonHolder, Mode = BindingMode.TwoWay };
             var xBinding = new Binding("X") { Source = buttonHolder, Mode = BindingMode.TwoWay };
             var yBinding = new Binding("Y") { Source = buttonHolder, Mode = BindingMode.TwoWay };
+            var transformBinding = new Binding("ScaleTransform") { Source = buttonHolder, Mode = BindingMode.OneWay };
 
             ret.SetBinding(InkCanvas.LeftProperty, xBinding);
             ret.SetBinding(InkCanvas.TopProperty, yBinding);
             ret.SetBinding(FrameworkElement.HeightProperty, heightBinding);
             ret.SetBinding(FrameworkElement.WidthProperty, widthBinding);
-
+            ret.Border.SetBinding(FrameworkElement.LayoutTransformProperty, transformBinding);
             return ret;
         }
     }

@@ -75,6 +75,13 @@ namespace Samba.Presentation.Common
             set { _model.Angle = ((RotateTransform)value).Angle; }
         }
 
+        [Browsable(false)]
+        public Transform ScaleTransform
+        {
+            get { return new ScaleTransform(Scale, Scale); }
+            set { Scale = ((ScaleTransform)value).ScaleX; }
+        }
+
         [LocalizedDisplayName(ResourceStrings.Angle)]
         public double Angle
         {
@@ -84,6 +91,17 @@ namespace Samba.Presentation.Common
                 _model.Angle = value;
                 RaisePropertyChanged(() => Angle);
                 RaisePropertyChanged(() => RenderTransform);
+            }
+        }
+
+        public double Scale
+        {
+            get { return _model.Scale > 0 ? _model.Scale : 1; }
+            set
+            {
+                _model.Scale = value;
+                RaisePropertyChanged(() => Scale);
+                RaisePropertyChanged(() => ScaleTransform);
             }
         }
 

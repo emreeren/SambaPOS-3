@@ -16,6 +16,7 @@ namespace Samba.Presentation.Common
         bool IsEnabled { get; set; }
         CornerRadius CornerRadius { get; set; }
         Transform RenderTransform { get; set; }
+        Transform ScaleTransform { get; set; }
         Widget GetWidget();
         bool DesignMode { get; set; }
         bool AutoRefresh { get; set; }

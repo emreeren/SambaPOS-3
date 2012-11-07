@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="Samba.Modules.TaskModule.Widgets.TaskEditor.TaskEditorView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="300">
-    <Border BorderThickness="1" BorderBrush="Silver">
+     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="300" FontSize="16">
+    <Border BorderThickness="1" BorderBrush="Silver" Name="Border">
         <Grid Background="White">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
@@ -18,7 +18,8 @@
                 </Grid.RowDefinitions>
                 <TextBox Grid.RowSpan="2" MinLines="1" TextWrapping="WrapWithOverflow" AutoWordSelection="True" Grid.Column="0" 
                      Text="{Binding NewTask,UpdateSourceTrigger=PropertyChanged}"/>
-                <Button IsDefault="True" MinWidth="60" Margin="3,0,0,0" Grid.Column="1" Command="{Binding AddTaskCommand}" 
+                <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
+                    IsDefault="True" MinWidth="60" Margin="3,0,0,0" Grid.Column="1" Command="{Binding AddTaskCommand}" 
                     Content="{Binding AddTaskCommand.Caption}"/>
             </Grid>
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
@@ -26,7 +27,35 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border BorderThickness="0,0,0,1" BorderBrush="Silver" Margin="0,2">
-                                <TextBlock TextWrapping="WrapWithOverflow" Text="{Binding Content}"/>
+                                <Border.Resources>
+                                    <Style TargetType="Button" BasedOn="{StaticResource ItemsControlButtonStyle}">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Foreground" Value="Black"/>
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver" Value="False">
+                                                <Setter Property="Foreground" Value="Gray"/>
+                                            </Trigger>
+                                            <DataTrigger Binding="{Binding Path=IsCompleted}" Value="True">
+                                                <Setter Property="Foreground" Value="Silver"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=IsCompleted}" Value="True">
+                                                <Setter Property="TextDecorations" Value="StrikeThrough"/>
+                                                <Setter Property="Foreground" Value="Silver"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Resources>
+                                <DockPanel>
+                                    <Button Command="{Binding ToggleCompletedCommand}" Margin="3" VerticalAlignment="Center" Content="{Binding IsCompletedCaption}" 
+                                            FontFamily="wingdings 2">
+                                    </Button>
+                                    <TextBlock Margin="3,3,3,5" VerticalAlignment="Top" TextWrapping="WrapWithOverflow" Text="{Binding Content}"/>
+                                </DockPanel>
                             </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

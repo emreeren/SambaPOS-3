@@ -12,6 +12,7 @@ namespace Samba.Domain.Models.Resources
         public int Width { get; set; }
         public int CornerRadius { get; set; }
         public double Angle { get; set; }
+        public double Scale { get; set; }
         public string Properties { get; set; }
         public string CreatorName { get; set; }
         public bool AutoRefresh { get; set; }
