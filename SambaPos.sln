@@ -18,6 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{BE3BEF2C-C
 		Lib\FluentMigrator.dll = Lib\FluentMigrator.dll
 		Lib\FluentMigrator.Runner.dll = Lib\FluentMigrator.Runner.dll
 		Lib\FluentValidation.dll = Lib\FluentValidation.dll
+		Lib\ICSharpCode.AvalonEdit.dll = Lib\ICSharpCode.AvalonEdit.dll
 		Lib\Interop.cidv5callerid.dll = Lib\Interop.cidv5callerid.dll
 		Lib\Microsoft.Practices.ServiceLocation.dll = Lib\Microsoft.Practices.ServiceLocation.dll
 	EndProjectSection
