@@ -181,8 +181,8 @@ namespace ComLib.Lang.Extensions
 
             var text = tokenIt.NextToken.Token.Text;
 
-            if (text != "am" && text != "pm")
-                throw tokenIt.BuildSyntaxExpectedException("am/pm");
+            //if (text != "am" && text != "pm")
+            //    throw tokenIt.BuildSyntaxExpectedException("am/pm");
 
             if (text == "pm" && hours >= 1 && hours <= 11)
                 hours += 12;

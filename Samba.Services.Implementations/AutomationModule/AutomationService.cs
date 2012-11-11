@@ -231,7 +231,7 @@ namespace Samba.Services.Implementations.AutomationModule
             try
             {
                 _interpreter.Execute("result = " + expression);
-                return _interpreter.Memory.Get<string>("result");
+                return _interpreter.Result.Success ? _interpreter.Memory.Get<string>("result") : "";
             }
             catch (Exception)
             {
@@ -249,7 +249,7 @@ namespace Samba.Services.Implementations.AutomationModule
                     OrderAccessor.Model = GetDataValue<Order>(dataObject);
                 }
                 _interpreter.Execute(expression);
-                return _interpreter.Memory.Get<T>("result");
+                return _interpreter.Result.Success ? _interpreter.Memory.Get<T>("result") : defaultValue;
             }
             catch (Exception)
             {

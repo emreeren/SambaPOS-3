@@ -131,7 +131,7 @@ namespace ComLib.Lang.Extensions
                 return new ConstantExpr(dateTime);
             }
 
-            time = TimePlugin.ParseTime(_parser, true, true);
+            time = TimePlugin.ParseTime(_parser, false, true);
             dateTime = new DateTime(dateTime.Year, dateTime.Month, (int)dateTime.Day, time.Hours, time.Minutes, time.Seconds);
             return new ConstantExpr(dateTime);
         }

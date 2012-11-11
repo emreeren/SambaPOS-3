@@ -1474,14 +1474,8 @@ Visit Reports section and create Work Period Reports</value>
   <data name="ItemProperties" xml:space="preserve">
     <value>Extra Item Properties</value>
   </data>
-  <data name="VoidsTotal" xml:space="preserve">
-    <value>Voids Total</value>
-  </data>
   <data name="DiscountsTotal" xml:space="preserve">
     <value>Discounts Total</value>
-  </data>
-  <data name="GiftsTotal" xml:space="preserve">
-    <value>Gifts Total</value>
   </data>
   <data name="TicketCount" xml:space="preserve">
     <value>Ticket Count</value>
@@ -1539,15 +1533,6 @@ Visit Reports section and create Work Period Reports</value>
   </data>
   <data name="QuantitiesByItemGroup" xml:space="preserve">
     <value>Quantities by Item Group</value>
-  </data>
-  <data name="Voids" xml:space="preserve">
-    <value>Voids</value>
-  </data>
-  <data name="Gifts" xml:space="preserve">
-    <value>Gifts</value>
-  </data>
-  <data name="Discounts" xml:space="preserve">
-    <value>Discounts</value>
   </data>
   <data name="Tickets" xml:space="preserve">
     <value>Tickets</value>

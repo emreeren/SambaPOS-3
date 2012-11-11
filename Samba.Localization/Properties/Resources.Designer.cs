@@ -2018,15 +2018,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Discounts.
-        /// </summary>
-        public static string Discounts {
-            get {
-                return ResourceManager.GetString("Discounts", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Discounts Total.
         /// </summary>
         public static string DiscountsTotal {
@@ -2956,24 +2947,6 @@ namespace Samba.Localization.Properties {
         public static string Gift {
             get {
                 return ResourceManager.GetString("Gift", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Gifts.
-        /// </summary>
-        public static string Gifts {
-            get {
-                return ResourceManager.GetString("Gifts", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Gifts Total.
-        /// </summary>
-        public static string GiftsTotal {
-            get {
-                return ResourceManager.GetString("GiftsTotal", resourceCulture);
             }
         }
         
@@ -7558,24 +7531,6 @@ namespace Samba.Localization.Properties {
         public static string VoidOrders {
             get {
                 return ResourceManager.GetString("VoidOrders", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Voids.
-        /// </summary>
-        public static string Voids {
-            get {
-                return ResourceManager.GetString("Voids", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Voids Total.
-        /// </summary>
-        public static string VoidsTotal {
-            get {
-                return ResourceManager.GetString("VoidsTotal", resourceCulture);
             }
         }
         

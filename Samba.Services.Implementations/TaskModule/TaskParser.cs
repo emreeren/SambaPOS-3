@@ -22,7 +22,15 @@ namespace Samba.Services.Implementations.TaskModule
         private TaskToken ParseToken(string part)
         {
             var parser = Parsers.FirstOrDefault(x => x.Accepts(part));
-            return parser != null ? parser.Parse(part) : null;
+            if (parser == null) return null;
+            var result = new ParseResult { Value = part };
+            while (parser != null)
+            {
+                result = parser.Parse(result.Value);
+                parser = Parsers.FirstOrDefault(x => x.Accepts(result.Value));
+            }
+            if (string.IsNullOrEmpty(result.Value)) return null;
+            return new TaskToken { Caption = result.Value, Value = part, Type = result.TaskType };
         }
     }
 }

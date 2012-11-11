@@ -81,7 +81,6 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
         {
             get
             {
-                if (_model.Type == 1) return "Time: {0}";
                 return "{0}";
             }
         }

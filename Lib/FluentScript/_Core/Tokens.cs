@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -27,7 +28,7 @@ namespace ComLib.Lang
         /// </summary>
         public const int Ident = 3;
 
-        
+
         /// <summary>
         /// Comment - single line or multiline
         /// </summary>
@@ -90,81 +91,81 @@ namespace ComLib.Lang
     public class TokenTypes
     {
         // Keywords
-        public const int Var                = 100;
-        public const int If                 = 101;
-        public const int Else               = 102;
-        public const int Break              = 103;
-        public const int Continue           = 104;
-        public const int For                = 105;
-        public const int While              = 106;
-        public const int Function           = 107;
-        public const int Return             = 108;
-        public const int New                = 109;
-        public const int Try                = 110;
-        public const int Catch              = 111;
-        public const int Throw              = 112;
-        public const int In                 = 113;
-        public const int Run                = 114;
-        public const int Then               = 115;
+        public const int Var = 100;
+        public const int If = 101;
+        public const int Else = 102;
+        public const int Break = 103;
+        public const int Continue = 104;
+        public const int For = 105;
+        public const int While = 106;
+        public const int Function = 107;
+        public const int Return = 108;
+        public const int New = 109;
+        public const int Try = 110;
+        public const int Catch = 111;
+        public const int Throw = 112;
+        public const int In = 113;
+        public const int Run = 114;
+        public const int Then = 115;
 
-        public const int True               = 200;
-        public const int False              = 201;
-        public const int Null               = 202;
-        public const int WhiteSpace         = 203;
-        public const int NewLine            = 204;
-        public const int CommentSLine       = 205;
-        public const int CommentMLine       = 206;
-        public const int Ident              = 207;
-        public const int LiteralString      = 208;
-        public const int LiteralNumber      = 209;
-        public const int LiteralDate        = 210;
-        public const int LiteralOther       = 211;
-        public const int LiteralBool        = 212;
-        public const int LiteralVersion     = 213;
+        public const int True = 200;
+        public const int False = 201;
+        public const int Null = 202;
+        public const int WhiteSpace = 203;
+        public const int NewLine = 204;
+        public const int CommentSLine = 205;
+        public const int CommentMLine = 206;
+        public const int Ident = 207;
+        public const int LiteralString = 208;
+        public const int LiteralNumber = 209;
+        public const int LiteralDate = 210;
+        public const int LiteralOther = 211;
+        public const int LiteralBool = 212;
+        public const int LiteralVersion = 213;
 
         // Comparision operators ( < <= > >= == != )
-        public const int Plus               = 300;
-        public const int Minus              = 301;
-        public const int Multiply           = 302;
-        public const int Divide             = 303;
-        public const int Modulo             = 304;
-		public const int LessThan 			= 305;
-        public const int LessThanOrEqual 	= 306;
-        public const int MoreThan 			= 307;
-        public const int MoreThanOrEqual 	= 308;
-        public const int EqualEqual 		= 309;
-        public const int NotEqual 			= 310;
-        public const int LogicalAnd 		= 311;
-        public const int LogicalOr 			= 312;
-        public const int LogicalNot 		= 313;
-        public const int Conditional 		= 314;
-        public const int Increment 			= 315;
-        public const int Decrement 			= 316;
-        public const int IncrementAdd 		= 317;
-        public const int IncrementSubtract 	= 318;
-        public const int IncrementMultiply 	= 319;
-        public const int IncrementDivide 	= 320;
-        public const int LeftBrace 			= 321;
-        public const int RightBrace 		= 322;
-        public const int LeftParenthesis 	= 323;
-        public const int RightParenthesis 	= 324;
-        public const int LeftBracket 		= 325;
-        public const int RightBracket 		= 326;
-        public const int Semicolon 			= 327;
-        public const int Comma 				= 328;
-        public const int Dot 				= 329;
-        public const int Colon 				= 330;
-        public const int Assignment 		= 331;
-        public const int Dollar 			= 332;
-        public const int At 				= 333;
-        public const int Pound 				= 334;
-        public const int Pipe 				= 335;
-        public const int BackSlash 			= 336;
+        public const int Plus = 300;
+        public const int Minus = 301;
+        public const int Multiply = 302;
+        public const int Divide = 303;
+        public const int Modulo = 304;
+        public const int LessThan = 305;
+        public const int LessThanOrEqual = 306;
+        public const int MoreThan = 307;
+        public const int MoreThanOrEqual = 308;
+        public const int EqualEqual = 309;
+        public const int NotEqual = 310;
+        public const int LogicalAnd = 311;
+        public const int LogicalOr = 312;
+        public const int LogicalNot = 313;
+        public const int Conditional = 314;
+        public const int Increment = 315;
+        public const int Decrement = 316;
+        public const int IncrementAdd = 317;
+        public const int IncrementSubtract = 318;
+        public const int IncrementMultiply = 319;
+        public const int IncrementDivide = 320;
+        public const int LeftBrace = 321;
+        public const int RightBrace = 322;
+        public const int LeftParenthesis = 323;
+        public const int RightParenthesis = 324;
+        public const int LeftBracket = 325;
+        public const int RightBracket = 326;
+        public const int Semicolon = 327;
+        public const int Comma = 328;
+        public const int Dot = 329;
+        public const int Colon = 330;
+        public const int Assignment = 331;
+        public const int Dollar = 332;
+        public const int At = 333;
+        public const int Pound = 334;
+        public const int Pipe = 335;
+        public const int BackSlash = 336;
 
-        public const int EOF                = 400;
-        public const int Empty              = 401;
-        public const int Multi              = 402;
-        public const int Unknown            = 403;
+        public const int EOF = 400;
+        public const int Empty = 401;
+        public const int Multi = 402;
+        public const int Unknown = 403;
     }
 
 
@@ -211,7 +212,7 @@ namespace ComLib.Lang
         /// </summary>
         protected int _index;
         #endregion
-        
+
 
         #region Constructors
         /// <summary>
@@ -235,13 +236,13 @@ namespace ComLib.Lang
         /// <summary>
         /// The type of the token.
         /// </summary>
-        public virtual int Type { get { return _type; } } 
+        public virtual int Type { get { return _type; } }
 
 
         /// <summary>
         /// The category of the token.
         /// </summary>
-        public virtual int Kind { get { return _kind; } } 
+        public virtual int Kind { get { return _kind; } }
 
 
         /// <summary>
@@ -256,7 +257,7 @@ namespace ComLib.Lang
         public virtual object Value { get { return _value; } }
         #endregion
 
-        
+
         #region Position Info
         /// <summary>
         /// Line number of the token
@@ -416,80 +417,80 @@ namespace ComLib.Lang
     }
     #endregion
 
-    
+
     /// <summary>
     /// Holds all the tokens in the system.
     /// </summary>
     public class Tokens
-    {        
-        public static readonly Token EndToken           = ToKeyword(TokenTypes.EOF              ,    "EOF"      );
-        public static readonly Token Empty              = ToKeyword(TokenTypes.Empty            ,    "Empty"    );
-        public static readonly Token Unknown            = ToKeyword(TokenTypes.Unknown          ,    "unknown"  );
+    {
+        public static readonly Token EndToken = ToKeyword(TokenTypes.EOF, "EOF");
+        public static readonly Token Empty = ToKeyword(TokenTypes.Empty, "Empty");
+        public static readonly Token Unknown = ToKeyword(TokenTypes.Unknown, "unknown");
         // Keyword tokens
-        public static readonly Token Var                = ToKeyword(TokenTypes.Var              ,    "var"      );
-        public static readonly Token If                 = ToKeyword(TokenTypes.If               ,    "if"       );
-        public static readonly Token Else               = ToKeyword(TokenTypes.Else             ,    "else"     );
-        public static readonly Token Break              = ToKeyword(TokenTypes.Break            ,    "break"    );
-        public static readonly Token Continue           = ToKeyword(TokenTypes.Continue         ,    "continue" );
-        public static readonly Token For                = ToKeyword(TokenTypes.For              ,    "for"      );
-        public static readonly Token While              = ToKeyword(TokenTypes.While            ,    "while"    );
-        public static readonly Token Function           = ToKeyword(TokenTypes.Function         ,    "function" );
-        public static readonly Token Return             = ToKeyword(TokenTypes.Return           ,    "return"   );
-        public static readonly Token New                = ToKeyword(TokenTypes.New              ,    "new"      );
-        public static readonly Token Try                = ToKeyword(TokenTypes.Try              ,    "try"      );
-        public static readonly Token Catch              = ToKeyword(TokenTypes.Catch            ,    "catch"    );
-        public static readonly Token Throw              = ToKeyword(TokenTypes.Throw            ,    "throw"    );
-        public static readonly Token In                 = ToKeyword(TokenTypes.In               ,    "in"       );
-        public static readonly Token Run                = ToKeyword(TokenTypes.Run              ,    "run"      );
-        public static readonly Token Then               = ToKeyword(TokenTypes.Then             ,    "then"     );
+        public static readonly Token Var = ToKeyword(TokenTypes.Var, "var");
+        public static readonly Token If = ToKeyword(TokenTypes.If, "if");
+        public static readonly Token Else = ToKeyword(TokenTypes.Else, "else");
+        public static readonly Token Break = ToKeyword(TokenTypes.Break, "break");
+        public static readonly Token Continue = ToKeyword(TokenTypes.Continue, "continue");
+        public static readonly Token For = ToKeyword(TokenTypes.For, "for");
+        public static readonly Token While = ToKeyword(TokenTypes.While, "while");
+        public static readonly Token Function = ToKeyword(TokenTypes.Function, "function");
+        public static readonly Token Return = ToKeyword(TokenTypes.Return, "return");
+        public static readonly Token New = ToKeyword(TokenTypes.New, "new");
+        public static readonly Token Try = ToKeyword(TokenTypes.Try, "try");
+        public static readonly Token Catch = ToKeyword(TokenTypes.Catch, "catch");
+        public static readonly Token Throw = ToKeyword(TokenTypes.Throw, "throw");
+        public static readonly Token In = ToKeyword(TokenTypes.In, "in");
+        public static readonly Token Run = ToKeyword(TokenTypes.Run, "run");
+        public static readonly Token Then = ToKeyword(TokenTypes.Then, "then");
 
         // Literal tokens.
-        public static readonly Token True               = ToLiteralBool(TokenTypes.True         ,    "true",        true         );
-        public static readonly Token False              = ToLiteralBool(TokenTypes.False        ,    "false",       false        );
-        public static readonly Token Null               = ToLiteralOther(TokenTypes.Null        ,    "null",        null         );
-        public static readonly Token WhiteSpace         = ToLiteralOther(TokenTypes.WhiteSpace  ,    " ",           string.Empty );
-        public static readonly Token NewLine            = ToLiteralOther(TokenTypes.NewLine     ,    "newline",     string.Empty );
-        public static readonly Token CommentSLine       = ToLiteralOther(TokenTypes.CommentSLine,    "comment_sl",  string.Empty );
-        public static readonly Token CommentMLine       = ToLiteralOther(TokenTypes.CommentMLine,    "comment_ml",  string.Empty );
+        public static readonly Token True = ToLiteralBool(TokenTypes.True, "true", true);
+        public static readonly Token False = ToLiteralBool(TokenTypes.False, "false", false);
+        public static readonly Token Null = ToLiteralOther(TokenTypes.Null, "null", null);
+        public static readonly Token WhiteSpace = ToLiteralOther(TokenTypes.WhiteSpace, " ", string.Empty);
+        public static readonly Token NewLine = ToLiteralOther(TokenTypes.NewLine, "newline", string.Empty);
+        public static readonly Token CommentSLine = ToLiteralOther(TokenTypes.CommentSLine, "comment_sl", string.Empty);
+        public static readonly Token CommentMLine = ToLiteralOther(TokenTypes.CommentMLine, "comment_ml", string.Empty);
 
         // Symbols ( Math ( + - * / % ), Compare( < <= > >= != == ), Other( [ { } ] ( ) . , ; # $ )
-        public static readonly Token Plus               = ToSymbol(TokenTypes.Plus              ,    "+"         );
-        public static readonly Token Minus              = ToSymbol(TokenTypes.Minus             ,    "-"         );
-        public static readonly Token Multiply           = ToSymbol(TokenTypes.Multiply          ,    "*"         );
-        public static readonly Token Divide             = ToSymbol(TokenTypes.Divide            ,    "/"         );
-        public static readonly Token Modulo             = ToSymbol(TokenTypes.Modulo            ,    "%"         );
-        public static readonly Token LessThan           = ToSymbol(TokenTypes.LessThan          ,    "<"         );
-        public static readonly Token LessThanOrEqual    = ToSymbol(TokenTypes.LessThanOrEqual   ,    "<="        );
-        public static readonly Token MoreThan           = ToSymbol(TokenTypes.MoreThan          ,    ">"         );
-        public static readonly Token MoreThanOrEqual    = ToSymbol(TokenTypes.MoreThanOrEqual   ,    ">="        );
-        public static readonly Token EqualEqual         = ToSymbol(TokenTypes.EqualEqual        ,    "=="        );
-        public static readonly Token NotEqual           = ToSymbol(TokenTypes.NotEqual          ,    "!="        );
-        public static readonly Token LogicalAnd         = ToSymbol(TokenTypes.LogicalAnd        ,    "&&"        );
-        public static readonly Token LogicalOr          = ToSymbol(TokenTypes.LogicalOr         ,    "||"        );
-        public static readonly Token LogicalNot         = ToSymbol(TokenTypes.LogicalNot        ,    "!"         );
-        public static readonly Token Conditional        = ToSymbol(TokenTypes.Conditional       ,    "?"         );
-        public static readonly Token Increment          = ToSymbol(TokenTypes.Increment         ,    "++"        );
-        public static readonly Token Decrement          = ToSymbol(TokenTypes.Decrement         ,    "--"        );
-        public static readonly Token IncrementAdd       = ToSymbol(TokenTypes.IncrementAdd      ,    "+="        );
-        public static readonly Token IncrementSubtract  = ToSymbol(TokenTypes.IncrementSubtract ,    "-="        );
-        public static readonly Token IncrementMultiply  = ToSymbol(TokenTypes.IncrementMultiply ,    "*="        );
-        public static readonly Token IncrementDivide    = ToSymbol(TokenTypes.IncrementDivide   ,    "/="        );        
-        public static readonly Token LeftBrace          = ToSymbol(TokenTypes.LeftBrace         ,    "{"         );
-        public static readonly Token RightBrace         = ToSymbol(TokenTypes.RightBrace        ,    "}"         );
-        public static readonly Token LeftParenthesis    = ToSymbol(TokenTypes.LeftParenthesis   ,    "("         );
-        public static readonly Token RightParenthesis   = ToSymbol(TokenTypes.RightParenthesis  ,    ")"         );
-        public static readonly Token LeftBracket        = ToSymbol(TokenTypes.LeftBracket       ,    "["         );
-        public static readonly Token RightBracket       = ToSymbol(TokenTypes.RightBracket      ,    "]"         );
-        public static readonly Token Semicolon          = ToSymbol(TokenTypes.Semicolon         ,    ";"         );
-        public static readonly Token Comma              = ToSymbol(TokenTypes.Comma             ,    ","         );
-        public static readonly Token Dot                = ToSymbol(TokenTypes.Dot               ,    "."         );
-        public static readonly Token Colon              = ToSymbol(TokenTypes.Colon             ,    ":"         );
-        public static readonly Token Assignment         = ToSymbol(TokenTypes.Assignment        ,    "="         );
-        public static readonly Token Dollar             = ToSymbol(TokenTypes.Dollar            ,    "$"         );
-        public static readonly Token At                 = ToSymbol(TokenTypes.At                ,    "@"         );
-        public static readonly Token Pound              = ToSymbol(TokenTypes.Pound             ,    "#"         );
-        public static readonly Token Pipe               = ToSymbol(TokenTypes.Pipe              ,    "|"         );
-        public static readonly Token BackSlash          = ToSymbol(TokenTypes.BackSlash         ,    "\\"        ); 
+        public static readonly Token Plus = ToSymbol(TokenTypes.Plus, "+");
+        public static readonly Token Minus = ToSymbol(TokenTypes.Minus, "-");
+        public static readonly Token Multiply = ToSymbol(TokenTypes.Multiply, "*");
+        public static readonly Token Divide = ToSymbol(TokenTypes.Divide, "/");
+        public static readonly Token Modulo = ToSymbol(TokenTypes.Modulo, "%");
+        public static readonly Token LessThan = ToSymbol(TokenTypes.LessThan, "<");
+        public static readonly Token LessThanOrEqual = ToSymbol(TokenTypes.LessThanOrEqual, "<=");
+        public static readonly Token MoreThan = ToSymbol(TokenTypes.MoreThan, ">");
+        public static readonly Token MoreThanOrEqual = ToSymbol(TokenTypes.MoreThanOrEqual, ">=");
+        public static readonly Token EqualEqual = ToSymbol(TokenTypes.EqualEqual, "==");
+        public static readonly Token NotEqual = ToSymbol(TokenTypes.NotEqual, "!=");
+        public static readonly Token LogicalAnd = ToSymbol(TokenTypes.LogicalAnd, "&&");
+        public static readonly Token LogicalOr = ToSymbol(TokenTypes.LogicalOr, "||");
+        public static readonly Token LogicalNot = ToSymbol(TokenTypes.LogicalNot, "!");
+        public static readonly Token Conditional = ToSymbol(TokenTypes.Conditional, "?");
+        public static readonly Token Increment = ToSymbol(TokenTypes.Increment, "++");
+        public static readonly Token Decrement = ToSymbol(TokenTypes.Decrement, "--");
+        public static readonly Token IncrementAdd = ToSymbol(TokenTypes.IncrementAdd, "+=");
+        public static readonly Token IncrementSubtract = ToSymbol(TokenTypes.IncrementSubtract, "-=");
+        public static readonly Token IncrementMultiply = ToSymbol(TokenTypes.IncrementMultiply, "*=");
+        public static readonly Token IncrementDivide = ToSymbol(TokenTypes.IncrementDivide, "/=");
+        public static readonly Token LeftBrace = ToSymbol(TokenTypes.LeftBrace, "{");
+        public static readonly Token RightBrace = ToSymbol(TokenTypes.RightBrace, "}");
+        public static readonly Token LeftParenthesis = ToSymbol(TokenTypes.LeftParenthesis, "(");
+        public static readonly Token RightParenthesis = ToSymbol(TokenTypes.RightParenthesis, ")");
+        public static readonly Token LeftBracket = ToSymbol(TokenTypes.LeftBracket, "[");
+        public static readonly Token RightBracket = ToSymbol(TokenTypes.RightBracket, "]");
+        public static readonly Token Semicolon = ToSymbol(TokenTypes.Semicolon, ";");
+        public static readonly Token Comma = ToSymbol(TokenTypes.Comma, ",");
+        public static readonly Token Dot = ToSymbol(TokenTypes.Dot, ".");
+        public static readonly Token Colon = ToSymbol(TokenTypes.Colon, ":");
+        public static readonly Token Assignment = ToSymbol(TokenTypes.Assignment, "=");
+        public static readonly Token Dollar = ToSymbol(TokenTypes.Dollar, "$");
+        public static readonly Token At = ToSymbol(TokenTypes.At, "@");
+        public static readonly Token Pound = ToSymbol(TokenTypes.Pound, "#");
+        public static readonly Token Pipe = ToSymbol(TokenTypes.Pipe, "|");
+        public static readonly Token BackSlash = ToSymbol(TokenTypes.BackSlash, "\\");
 
 
         internal static IDictionary<string, Token> AllTokens = new Dictionary<string, Token>();
@@ -523,68 +524,68 @@ namespace ComLib.Lang
         {
             // NOTE: May not need these mappings.
             // But leaving it here until refactoring is done.
-            AddToLookup( Var                   );
-            AddToLookup( If                    );
-            AddToLookup( Else                  );
-            AddToLookup( For                   );
-            AddToLookup( While                 );
-            AddToLookup( Function              );
-            AddToLookup( Break                 );
-            AddToLookup( Continue              );
-            AddToLookup( New                   );
-            AddToLookup( Return                );
-            AddToLookup( Try                   );
-            AddToLookup( Catch                 );
-            AddToLookup( Throw                 );
-            AddToLookup( In                    );
-            AddToLookup( Run                   );
-            AddToLookup( Then                  );
-            
-            AddToLookup(  Plus                 );
-            AddToLookup(  Minus                );
-            AddToLookup(  Multiply             );
-            AddToLookup(  Divide               );
-            AddToLookup(  Modulo               );
-            AddToLookup(  LessThan             );
-            AddToLookup(  LessThanOrEqual      );
-            AddToLookup(  MoreThan             );
-            AddToLookup(  MoreThanOrEqual      );
-            AddToLookup(  EqualEqual           );
-            AddToLookup(  NotEqual             );
-            AddToLookup(  LogicalAnd           );
-            AddToLookup(  LogicalOr            );
-            AddToLookup(  LogicalNot           );
-            AddToLookup(  Conditional          );
-            AddToLookup(  Increment            );
-            AddToLookup(  Decrement            );
-            AddToLookup(  IncrementAdd         );
-            AddToLookup(  IncrementSubtract    );
-            AddToLookup(  IncrementMultiply    );
-            AddToLookup(  IncrementDivide      );
-            AddToLookup(  LeftBrace            );
-            AddToLookup(  RightBrace           );
-            AddToLookup(  LeftParenthesis      );
-            AddToLookup(  RightParenthesis     );
-            AddToLookup(  LeftBracket          );
-            AddToLookup(  RightBracket         );
-            AddToLookup(  Semicolon            );
-            AddToLookup(  Comma                );
-            AddToLookup(  Dot                  );
-            AddToLookup(  Colon                );
-            AddToLookup(  Assignment           );
-            AddToLookup(  Dollar               );
-            AddToLookup(  At                   );
-            AddToLookup(  Pound                );
-            AddToLookup(  Pipe                 );
-            AddToLookup(  BackSlash            );
+            AddToLookup(Var);
+            AddToLookup(If);
+            AddToLookup(Else);
+            AddToLookup(For);
+            AddToLookup(While);
+            AddToLookup(Function);
+            AddToLookup(Break);
+            AddToLookup(Continue);
+            AddToLookup(New);
+            AddToLookup(Return);
+            AddToLookup(Try);
+            AddToLookup(Catch);
+            AddToLookup(Throw);
+            AddToLookup(In);
+            AddToLookup(Run);
+            AddToLookup(Then);
 
-            AddToLookup( True                  );
-            AddToLookup( False                 );
-            AddToLookup( Null                  );
-            AddToLookup( WhiteSpace            );
-            AddToLookup( NewLine               );
-            AddToLookup( CommentSLine          );
-            AddToLookup( CommentMLine          );
+            AddToLookup(Plus);
+            AddToLookup(Minus);
+            AddToLookup(Multiply);
+            AddToLookup(Divide);
+            AddToLookup(Modulo);
+            AddToLookup(LessThan);
+            AddToLookup(LessThanOrEqual);
+            AddToLookup(MoreThan);
+            AddToLookup(MoreThanOrEqual);
+            AddToLookup(EqualEqual);
+            AddToLookup(NotEqual);
+            AddToLookup(LogicalAnd);
+            AddToLookup(LogicalOr);
+            AddToLookup(LogicalNot);
+            AddToLookup(Conditional);
+            AddToLookup(Increment);
+            AddToLookup(Decrement);
+            AddToLookup(IncrementAdd);
+            AddToLookup(IncrementSubtract);
+            AddToLookup(IncrementMultiply);
+            AddToLookup(IncrementDivide);
+            AddToLookup(LeftBrace);
+            AddToLookup(RightBrace);
+            AddToLookup(LeftParenthesis);
+            AddToLookup(RightParenthesis);
+            AddToLookup(LeftBracket);
+            AddToLookup(RightBracket);
+            AddToLookup(Semicolon);
+            AddToLookup(Comma);
+            AddToLookup(Dot);
+            AddToLookup(Colon);
+            AddToLookup(Assignment);
+            AddToLookup(Dollar);
+            AddToLookup(At);
+            AddToLookup(Pound);
+            AddToLookup(Pipe);
+            AddToLookup(BackSlash);
+
+            AddToLookup(True);
+            AddToLookup(False);
+            AddToLookup(Null);
+            AddToLookup(WhiteSpace);
+            AddToLookup(NewLine);
+            AddToLookup(CommentSLine);
+            AddToLookup(CommentMLine);
 
             RegisterCompareOps("<", "<=", ">", ">=", "!=", "==");
             RegisterMathOps("*", "/", "+", "-", "%");
@@ -637,7 +638,7 @@ namespace ComLib.Lang
             return CompareTokens.ContainsKey(token.Text);
         }
 
-        
+
         /// <summary>
         /// Checks if the token supplied is a math op ( * / + - % )
         /// </summary>
