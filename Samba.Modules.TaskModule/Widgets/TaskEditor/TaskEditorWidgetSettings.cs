@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel;
 using Samba.Presentation.Common.ModelBase;
 
 namespace Samba.Modules.TaskModule.Widgets.TaskEditor

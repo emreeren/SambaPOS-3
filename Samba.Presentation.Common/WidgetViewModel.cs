@@ -7,9 +7,9 @@ using System.Windows.Threading;
 using Samba.Domain.Models.Resources;
 using Samba.Infrastructure;
 using Samba.Localization;
-using Samba.Localization.Properties;
 using Samba.Presentation.Common.Services;
-using Samba.Services;
+using Samba.Presentation.Services;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Presentation.Common
 {

@@ -8,7 +8,7 @@ using Samba.Domain.Models.Resources;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
-using Samba.Services;
+using Samba.Presentation.Services;
 
 namespace Samba.Modules.ResourceModule
 {

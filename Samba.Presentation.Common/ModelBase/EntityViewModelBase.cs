@@ -4,7 +4,7 @@ using FluentValidation;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.Commands;
-using Samba.Services.Common;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Presentation.Common.ModelBase
 {

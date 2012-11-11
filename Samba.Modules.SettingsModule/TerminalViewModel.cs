@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
-using System.Linq;
 using Samba.Domain.Models.Settings;
-using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
-using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
-using Samba.Presentation.Common.Services;
-using Samba.Services;
+using Samba.Presentation.Services;
 
 namespace Samba.Modules.SettingsModule
 {

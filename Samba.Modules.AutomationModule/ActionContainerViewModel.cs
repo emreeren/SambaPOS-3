@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Samba.Domain.Models.Automation;
 using Samba.Presentation.Common;
-using Samba.Services;
+using Samba.Presentation.Services;
 
 namespace Samba.Modules.AutomationModule
 {

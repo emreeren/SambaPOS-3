@@ -1,8 +1,7 @@
 ﻿using System;
 using Samba.Localization.Properties;
-using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
-using Samba.Services.Common;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Modules.SettingsModule
 {

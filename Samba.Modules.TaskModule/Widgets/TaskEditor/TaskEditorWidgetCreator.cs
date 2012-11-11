@@ -5,7 +5,7 @@ using System.Windows.Data;
 using Samba.Domain.Models.Resources;
 using Samba.Infrastructure;
 using Samba.Presentation.Common;
-using Samba.Services;
+using Samba.Presentation.Services;
 
 namespace Samba.Modules.TaskModule.Widgets.TaskEditor
 {

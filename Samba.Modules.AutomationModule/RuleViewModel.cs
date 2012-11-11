@@ -10,8 +10,8 @@ using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Common.Services;
-using Samba.Presentation.ViewModels;
-using Samba.Services;
+using Samba.Presentation.Services;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Modules.AutomationModule
 {

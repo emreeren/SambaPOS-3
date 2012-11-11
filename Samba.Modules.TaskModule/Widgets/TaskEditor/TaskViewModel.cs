@@ -5,7 +5,7 @@ using Samba.Domain.Models.Tasks;
 using Samba.Infrastructure;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
-using Samba.Services;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Modules.TaskModule.Widgets.TaskEditor
 {

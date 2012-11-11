@@ -3,16 +3,16 @@ using System.Linq;
 using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
-using Samba.Services;
-using Samba.Services.Common;
+using Samba.Presentation.Services;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Modules.PosModule.Widgets.TicketExplorer
 {
     public class TicketExplorerRowData : ObservableObject
     {
-        private readonly ITicketService _ticketService;
+        private readonly ITicketPresentationService _ticketService;
 
-        public TicketExplorerRowData(Ticket model, ITicketService ticketService)
+        public TicketExplorerRowData(Ticket model, ITicketPresentationService ticketService)
         {
             _ticketService = ticketService;
             Model = model;

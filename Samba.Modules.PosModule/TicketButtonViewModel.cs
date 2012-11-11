@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using Microsoft.Practices.Prism.Commands;
 using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Settings;
 using Samba.Presentation.Common;
-using Samba.Services;
-using Samba.Services.Common;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Modules.PosModule
 {

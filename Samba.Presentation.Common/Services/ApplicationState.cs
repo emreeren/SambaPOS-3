@@ -7,8 +7,8 @@ using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
 using Samba.Infrastructure.Settings;
 using Samba.Persistance.Data;
-using Samba.Services;
-using Samba.Services.Common;
+using Samba.Presentation.Services;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Presentation.Common.Services
 {

@@ -1,12 +1,11 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
-using Samba.Services;
-using Samba.Services.Common;
+using Samba.Presentation.Services;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Modules.PaymentModule
 {

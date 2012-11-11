@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using Samba.Domain.Models.Tickets;
@@ -12,8 +10,8 @@ using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.UIControls;
-using Samba.Services;
-using Samba.Services.Common;
+using Samba.Presentation.Services;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Modules.ModifierModule
 {
@@ -21,10 +19,10 @@ namespace Samba.Modules.ModifierModule
     public class TicketTagEditorViewModel : ObservableObject
     {
         private readonly ICacheService _cacheService;
-        private readonly ITicketService _ticketService;
+        private readonly ITicketPresentationService _ticketService;
 
         [ImportingConstructor]
-        public TicketTagEditorViewModel(ICacheService cacheService, ITicketService ticketService)
+        public TicketTagEditorViewModel(ICacheService cacheService, ITicketPresentationService ticketService)
         {
             _cacheService = cacheService;
             _ticketService = ticketService;

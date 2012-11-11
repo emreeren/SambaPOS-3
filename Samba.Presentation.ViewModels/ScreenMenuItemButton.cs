@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Input;
 using Samba.Domain.Models.Menus;
 using Samba.Infrastructure.Settings;

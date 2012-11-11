@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using Samba.Presentation.Services.Common;
 using Samba.Services;
 
 namespace Samba.Modules.AutomationModule

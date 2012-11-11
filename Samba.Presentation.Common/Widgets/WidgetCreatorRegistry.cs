@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using Samba.Domain.Models.Resources;
-using Samba.Services;
+using Samba.Presentation.Services;
 
 namespace Samba.Presentation.Common.Widgets
 {

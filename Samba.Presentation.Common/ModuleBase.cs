@@ -4,7 +4,7 @@ using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.ServiceLocation;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
-using Samba.Services.Common;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Presentation.Common
 {

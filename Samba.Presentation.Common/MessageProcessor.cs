@@ -1,6 +1,4 @@
-﻿using System;
-using Samba.Services;
-using Samba.Services.Common;
+﻿using Samba.Presentation.Services.Common;
 
 namespace Samba.Presentation.Common
 {

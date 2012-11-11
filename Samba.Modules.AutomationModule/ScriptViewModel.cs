@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
 using ICSharpCode.AvalonEdit.Document;
 using Samba.Domain.Models.Automation;
 using Samba.Localization.Properties;

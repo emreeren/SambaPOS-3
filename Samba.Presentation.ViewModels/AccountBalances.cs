@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Tickets;
-using Samba.Services;
+using Samba.Presentation.Services;
 
 namespace Samba.Presentation.ViewModels
 {

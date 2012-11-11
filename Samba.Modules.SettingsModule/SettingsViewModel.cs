@@ -5,11 +5,10 @@ using System.Globalization;
 using System.Linq;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
-using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
-using Samba.Services;
-using Samba.Services.Common;
+using Samba.Presentation.Services;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Modules.SettingsModule
 {

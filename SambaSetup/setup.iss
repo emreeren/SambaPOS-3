@@ -138,6 +138,9 @@ Source: src\AxInterop.cidv5callerid.dll; DestDir: {app}; Flags: ignoreversion; C
 Source: src\Interop.cidv5callerid.dll; DestDir: {app}; Flags: ignoreversion; Components: cid
 Source: src\Samba.Modules.CidMonitor.dll; DestDir: {app}; Flags: ignoreversion; Components: cid
 Source: src\Samba.Presentation.ViewModels.dll; DestDir: {app}; Flags: ignoreversion
+Source: src\Samba.Presentation.Services.dll; DestDir: {app}; Flags: ignoreversion
+Source: src\Samba.Presentation.Services.Common.dll; DestDir: {app}; Flags: ignoreversion
+Source: src\Samba.Presentation.Services.Implementations.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Services.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Services.Common.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Services.Implementations.dll; DestDir: {app}; Flags: ignoreversion

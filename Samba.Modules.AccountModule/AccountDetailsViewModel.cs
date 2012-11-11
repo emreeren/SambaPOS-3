@@ -12,7 +12,8 @@ using Samba.Persistance.Data;
 using Samba.Persistance.Data.Specification;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
-using Samba.Services;
+using Samba.Presentation.Services;
+using Samba.Presentation.Services.Common;
 using Samba.Services.Common;
 
 namespace Samba.Modules.AccountModule

@@ -1,9 +1,6 @@
 ﻿using System.ComponentModel.Composition;
-using System.Windows;
 using System.Windows.Controls;
-using Samba.Domain.Models.Tickets;
-using Samba.Services;
-using Samba.Services.Common;
+using Samba.Presentation.Services;
 
 namespace Samba.Modules.DepartmentModule
 {

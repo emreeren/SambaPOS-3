@@ -5,19 +5,19 @@ using System.Linq;
 using System.Windows.Data;
 using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Common;
+using Samba.Presentation.Services;
+using Samba.Presentation.Services.Common;
 using Samba.Presentation.ViewModels;
-using Samba.Services;
-using Samba.Services.Common;
 
 namespace Samba.Modules.PosModule
 {
     [Export]
     public class TicketOrdersViewModel : ObservableObject
     {
-        private readonly ITicketService _ticketService;
+        private readonly ITicketPresentationService _ticketService;
 
         [ImportingConstructor]
-        public TicketOrdersViewModel(ITicketService ticketService)
+        public TicketOrdersViewModel(ITicketPresentationService ticketService)
         {
             _ticketService = ticketService;
             _orders = new ObservableCollection<OrderViewModel>();

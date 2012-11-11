@@ -7,8 +7,8 @@ using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.Services;
-using Samba.Services;
-using Samba.Services.Common;
+using Samba.Presentation.Services;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Modules.WorkperiodModule
 {
@@ -18,11 +18,11 @@ namespace Samba.Modules.WorkperiodModule
         private readonly IWorkPeriodService _workPeriodService;
         private readonly IApplicationState _applicationState;
         private readonly IAutomationService _automationService;
-        private readonly ITicketService _ticketService;
+        private readonly ITicketPresentationService _ticketService;
 
         [ImportingConstructor]
         public WorkPeriodsViewModel(IWorkPeriodService workPeriodService, IApplicationState applicationState,
-            IAutomationService ruleService, ITicketService ticketService)
+            IAutomationService ruleService, ITicketPresentationService ticketService)
         {
             _workPeriodService = workPeriodService;
             _applicationState = applicationState;

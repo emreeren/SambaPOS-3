@@ -2,7 +2,7 @@
 using Samba.Domain.Models.Inventories;
 using Samba.Infrastructure.Data;
 using Samba.Presentation.Common;
-using Samba.Services;
+using Samba.Presentation.Services;
 
 namespace Samba.Modules.InventoryModule
 {

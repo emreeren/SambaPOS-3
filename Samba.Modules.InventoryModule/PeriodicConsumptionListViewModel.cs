@@ -3,8 +3,8 @@ using System.Linq;
 using Samba.Domain.Models.Inventories;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
-using Samba.Services;
-using Samba.Services.Common;
+using Samba.Presentation.Services;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Modules.InventoryModule
 {

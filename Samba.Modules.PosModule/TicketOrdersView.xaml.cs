@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using Microsoft.Practices.Prism.Events;
 using Samba.Domain.Models.Tickets;
-using Samba.Services.Common;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Modules.PosModule
 {

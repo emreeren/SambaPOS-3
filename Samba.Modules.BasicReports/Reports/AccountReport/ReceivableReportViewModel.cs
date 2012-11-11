@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Documents;
+﻿using System.Windows.Documents;
 using Samba.Localization.Properties;
-using Samba.Services;
+using Samba.Presentation.Services;
 
 namespace Samba.Modules.BasicReports.Reports.AccountReport
 {

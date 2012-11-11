@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Samba.Domain.Models.Resources;
+﻿using Samba.Domain.Models.Resources;
 using Samba.Presentation.Common;
-using Samba.Services;
+using Samba.Presentation.Services;
 
 namespace Samba.Modules.ResourceModule
 {

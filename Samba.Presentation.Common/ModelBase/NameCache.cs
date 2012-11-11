@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Practices.Prism.Events;
 using Samba.Infrastructure.Data;
 using Samba.Persistance.Data;
-using Samba.Services.Common;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Presentation.Common.ModelBase
 {

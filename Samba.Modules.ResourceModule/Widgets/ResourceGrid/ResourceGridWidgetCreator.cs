@@ -7,7 +7,7 @@ using System.Windows.Data;
 using Samba.Domain.Models.Resources;
 using Samba.Infrastructure;
 using Samba.Presentation.Common;
-using Samba.Services;
+using Samba.Presentation.Services;
 
 namespace Samba.Modules.ResourceModule.Widgets.ResourceGrid
 {

@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using Samba.Domain.Models.Resources;
 using Samba.Infrastructure;
 using Samba.Infrastructure.Data.Serializer;
 using Samba.Presentation.Common;
-using Samba.Services;
-using Samba.Services.Common;
+using Samba.Presentation.Services;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Modules.ResourceModule.Widgets.ResourceGrid
 {

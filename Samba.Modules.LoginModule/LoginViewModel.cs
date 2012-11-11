@@ -2,7 +2,7 @@
 using System.IO;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
-using Samba.Services;
+using Samba.Presentation.Services;
 
 namespace Samba.Modules.LoginModule
 {

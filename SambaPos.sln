@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Persistence Layer", "3. 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5. Infrastructure Layer", "5. Infrastructure Layer", "{4E2BB083-56B6-4323-9620-3F53F0774609}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{99E9B82C-E727-4EB2-B6E3-9A9DC955F3F6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.2 Modules", "1.2 Modules", "{99E9B82C-E727-4EB2-B6E3-9A9DC955F3F6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samba.Modules.TicketModule", "Samba.Modules.TicketModule\Samba.Modules.TicketModule.csproj", "{9E6FF3D9-BAE7-4E48-B144-0859BE28C570}"
 EndProject
@@ -35,7 +35,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samba.Modules.UserModule", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samba.Modules.MenuModule", "Samba.Modules.MenuModule\Samba.Modules.MenuModule.csproj", "{8DA03815-ED56-40C5-83CA-6DFBB1F19C4F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Controls", "Controls", "{BF4FA34A-A4C9-4BEC-90C4-AA09483582BB}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.1 Controls", "1.1 Controls", "{BF4FA34A-A4C9-4BEC-90C4-AA09483582BB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samba.Presentation.Common", "Samba.Presentation.Common\Samba.Presentation.Common.csproj", "{FE1A894E-D55E-4CEA-980A-1C678A2453FC}"
 EndProject
@@ -115,6 +115,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentScript", "Lib\FluentScript\FluentScript.csproj", "{0CDFA1B2-F3A3-45E1-919B-9D1BCA26984B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samba.Modules.TaskModule", "Samba.Modules.TaskModule\Samba.Modules.TaskModule.csproj", "{3E45DB85-2314-4874-BC75-44838CB129A4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.3 Presentation Services", "1.3 Presentation Services", "{07AB691A-D4E4-4B3F-93B5-62D3C8788293}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samba.Presentation.Services", "Samba.Presentation.Services\Samba.Presentation.Services.csproj", "{7DD8848C-3ADB-45B3-BD49-10AF3AEE2521}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samba.Presentation.Services.Common", "Samba.Presentation.Services.Common\Samba.Presentation.Services.Common.csproj", "{F2C77290-6806-4F23-BEB7-171C4008D13B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samba.Presentation.Services.Implementations", "Samba.Presentation.Services.Implementations\Samba.Presentation.Services.Implementations.csproj", "{D129FE5D-2C81-4163-BEF4-0C6150FEB766}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -529,6 +537,36 @@ Global
 		{3E45DB85-2314-4874-BC75-44838CB129A4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{3E45DB85-2314-4874-BC75-44838CB129A4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{3E45DB85-2314-4874-BC75-44838CB129A4}.Release|x86.ActiveCfg = Release|Any CPU
+		{7DD8848C-3ADB-45B3-BD49-10AF3AEE2521}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DD8848C-3ADB-45B3-BD49-10AF3AEE2521}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DD8848C-3ADB-45B3-BD49-10AF3AEE2521}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7DD8848C-3ADB-45B3-BD49-10AF3AEE2521}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7DD8848C-3ADB-45B3-BD49-10AF3AEE2521}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7DD8848C-3ADB-45B3-BD49-10AF3AEE2521}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DD8848C-3ADB-45B3-BD49-10AF3AEE2521}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DD8848C-3ADB-45B3-BD49-10AF3AEE2521}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{7DD8848C-3ADB-45B3-BD49-10AF3AEE2521}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{7DD8848C-3ADB-45B3-BD49-10AF3AEE2521}.Release|x86.ActiveCfg = Release|Any CPU
+		{F2C77290-6806-4F23-BEB7-171C4008D13B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2C77290-6806-4F23-BEB7-171C4008D13B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2C77290-6806-4F23-BEB7-171C4008D13B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F2C77290-6806-4F23-BEB7-171C4008D13B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F2C77290-6806-4F23-BEB7-171C4008D13B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F2C77290-6806-4F23-BEB7-171C4008D13B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2C77290-6806-4F23-BEB7-171C4008D13B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2C77290-6806-4F23-BEB7-171C4008D13B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F2C77290-6806-4F23-BEB7-171C4008D13B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F2C77290-6806-4F23-BEB7-171C4008D13B}.Release|x86.ActiveCfg = Release|Any CPU
+		{D129FE5D-2C81-4163-BEF4-0C6150FEB766}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D129FE5D-2C81-4163-BEF4-0C6150FEB766}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D129FE5D-2C81-4163-BEF4-0C6150FEB766}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D129FE5D-2C81-4163-BEF4-0C6150FEB766}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D129FE5D-2C81-4163-BEF4-0C6150FEB766}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D129FE5D-2C81-4163-BEF4-0C6150FEB766}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D129FE5D-2C81-4163-BEF4-0C6150FEB766}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D129FE5D-2C81-4163-BEF4-0C6150FEB766}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D129FE5D-2C81-4163-BEF4-0C6150FEB766}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{D129FE5D-2C81-4163-BEF4-0C6150FEB766}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -539,6 +577,7 @@ Global
 		{BF4FA34A-A4C9-4BEC-90C4-AA09483582BB} = {EBD09D7D-66B5-4DA4-ABB3-3F511769CF7D}
 		{FE1A894E-D55E-4CEA-980A-1C678A2453FC} = {EBD09D7D-66B5-4DA4-ABB3-3F511769CF7D}
 		{04ED7BE0-8768-4A8D-B1ED-C92CB60789EF} = {EBD09D7D-66B5-4DA4-ABB3-3F511769CF7D}
+		{07AB691A-D4E4-4B3F-93B5-62D3C8788293} = {EBD09D7D-66B5-4DA4-ABB3-3F511769CF7D}
 		{2386F6A0-91B2-4D1A-8DBC-92109924AFFE} = {CCCD8759-7910-4C0A-9989-E92253D94703}
 		{B184E8F8-A507-4C3D-B580-184E3776A95C} = {4E2BB083-56B6-4323-9620-3F53F0774609}
 		{A31255F4-E8D8-4D8E-B25A-48FB7ED059F5} = {4E2BB083-56B6-4323-9620-3F53F0774609}
@@ -577,5 +616,8 @@ Global
 		{FC7C3BE1-3464-4AFB-8F1C-9209EF64BE29} = {8090D262-C7F1-4EFE-93F8-1B71BD23B627}
 		{4C8C1254-7615-46F8-B782-C6AA1441B323} = {8090D262-C7F1-4EFE-93F8-1B71BD23B627}
 		{E1C4E4B7-D9F8-4806-ACB9-2774B3C827F6} = {2D4F4DCC-2806-4929-B940-8FF5F74DF126}
+		{7DD8848C-3ADB-45B3-BD49-10AF3AEE2521} = {07AB691A-D4E4-4B3F-93B5-62D3C8788293}
+		{F2C77290-6806-4F23-BEB7-171C4008D13B} = {07AB691A-D4E4-4B3F-93B5-62D3C8788293}
+		{D129FE5D-2C81-4163-BEF4-0C6150FEB766} = {07AB691A-D4E4-4B3F-93B5-62D3C8788293}
 	EndGlobalSection
 EndGlobal

@@ -10,7 +10,7 @@ using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Common.Services;
-using Samba.Services;
+using Samba.Presentation.Services;
 
 namespace Samba.Modules.AccountModule.Dashboard
 {

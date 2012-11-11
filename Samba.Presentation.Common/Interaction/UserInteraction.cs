@@ -9,9 +9,9 @@ using PropertyTools.DataAnnotations;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.Commands;
-using Samba.Services;
+using Samba.Presentation.Services;
+using Samba.Presentation.Services.Common;
 using FlexButton;
-using Samba.Services.Common;
 
 namespace Samba.Presentation.Common.Interaction
 {
@@ -95,6 +95,7 @@ namespace Samba.Presentation.Common.Interaction
     [Export(typeof(IUserInteraction))]
     public class UserInteraction : IUserInteraction
     {
+        private readonly IMethodQueue _methodQueue;
         private readonly PopupDataViewModel _popupDataViewModel;
         private SplashScreenForm _splashScreen;
 
@@ -104,8 +105,9 @@ namespace Samba.Presentation.Common.Interaction
         private PopupWindow _popupWindow;
 
         [ImportingConstructor]
-        public UserInteraction(IAutomationService automationService)
+        public UserInteraction(IAutomationService automationService,IMethodQueue methodQueue)
         {
+            _methodQueue = methodQueue;
             _popupDataViewModel = new PopupDataViewModel();
 
             automationService.RegisterActionType("ShowMessage", Resources.ShowMessage, new { Message = "" });
@@ -281,7 +283,7 @@ namespace Samba.Presentation.Common.Interaction
         {
             _popupDataViewModel.Add(title, content, dataObject, eventMessage, headerColor);
             PopupWindow.Show();
-            MethodQueue.Queue("DisplayPopups", DisplayPopups);
+            _methodQueue.Queue("DisplayPopups", DisplayPopups);
         }
 
         public void DisplayPopups()

@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Samba.Infrastructure.Settings;
-using Samba.Services;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Presentation
 {

@@ -3,8 +3,8 @@ using Samba.Domain.Models.Resources;
 using Samba.Infrastructure;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
-using Samba.Services;
-using Samba.Services.Common;
+using Samba.Presentation.Services;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Modules.AutomationModule.WidgetCreators
 {

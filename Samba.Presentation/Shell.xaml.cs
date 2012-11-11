@@ -12,8 +12,8 @@ using System.Windows.Threading;
 using Samba.Domain.Models.Users;
 using Samba.Infrastructure.Settings;
 using Samba.Presentation.Common;
-using Samba.Services;
-using Samba.Services.Common;
+using Samba.Presentation.Services;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Presentation
 {
@@ -26,11 +26,13 @@ namespace Samba.Presentation
     {
         private readonly DispatcherTimer _timer;
         private readonly IApplicationState _applicationState;
+        private readonly IMethodQueue _methodQueue;
 
         [ImportingConstructor]
-        public Shell(IApplicationState applicationState)
+        public Shell(IApplicationState applicationState,IMethodQueue methodQueue)
         {
             _applicationState = applicationState;
+            _methodQueue = methodQueue;
             InitializeComponent();
             LanguageProperty.OverrideMetadata(
                                   typeof(FrameworkElement),
@@ -77,7 +79,7 @@ namespace Samba.Presentation
         {
             var time = DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToShortTimeString();
             TimeLabel.Text = TimeLabel.Text.Contains(":") ? time.Replace(":", " ") : time;
-            MethodQueue.RunQueue();
+            _methodQueue.RunQueue();
         }
 
         private void MainTabControlSelectedIndexChanged(object sender, EventArgs e)

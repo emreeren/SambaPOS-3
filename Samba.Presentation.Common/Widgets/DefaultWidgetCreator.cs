@@ -2,7 +2,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Samba.Domain.Models.Resources;
-using Samba.Services;
+using Samba.Presentation.Services;
 
 namespace Samba.Presentation.Common.Widgets
 {

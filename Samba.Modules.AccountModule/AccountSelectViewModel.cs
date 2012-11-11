@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Samba.Domain.Models.Accounts;
 using Samba.Presentation.Common;
-using Samba.Services;
+using Samba.Presentation.Services;
 
 namespace Samba.Modules.AccountModule
 {

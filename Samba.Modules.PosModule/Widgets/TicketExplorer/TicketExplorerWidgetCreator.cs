@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using Samba.Domain.Models.Resources;
 using Samba.Presentation.Common;
-using Samba.Services;
+using Samba.Presentation.Services;
 
 namespace Samba.Modules.PosModule.Widgets.TicketExplorer
 {
@@ -12,11 +12,11 @@ namespace Samba.Modules.PosModule.Widgets.TicketExplorer
     class TicketExplorerWidgetCreator : IWidgetCreator
     {
         private readonly IUserService _userService;
-        private readonly ITicketService _ticketService;
+        private readonly ITicketPresentationService _ticketService;
         private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public TicketExplorerWidgetCreator(IUserService userService, ITicketService ticketService,ICacheService cacheService)
+        public TicketExplorerWidgetCreator(IUserService userService, ITicketPresentationService ticketService,ICacheService cacheService)
         {
             _userService = userService;
             _ticketService = ticketService;

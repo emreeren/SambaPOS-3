@@ -4,7 +4,7 @@ using System.ComponentModel.Composition;
 using Samba.Domain.Models.Inventories;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
-using Samba.Services;
+using Samba.Presentation.Services;
 
 namespace Samba.Modules.InventoryModule
 {

@@ -19,15 +19,16 @@ using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Persistance.Data.Specification;
 using Samba.Presentation.Common;
+using Samba.Presentation.Services;
+using Samba.Presentation.Services.Common;
 using Samba.Services;
-using Samba.Services.Common;
 
 namespace Samba.Presentation.ViewModels
 {
     public static class GenericRuleRegistator
     {
         private static readonly IDepartmentService DepartmentService = ServiceLocator.Current.GetInstance<IDepartmentService>();
-        private static readonly ITicketService TicketService = ServiceLocator.Current.GetInstance<ITicketService>();
+        private static readonly ITicketPresentationService TicketService = ServiceLocator.Current.GetInstance<ITicketPresentationService>();
         private static readonly IApplicationState ApplicationState = ServiceLocator.Current.GetInstance<IApplicationState>();
         private static readonly IUserService UserService = ServiceLocator.Current.GetInstance<IUserService>();
         private static readonly ITriggerService TriggerService = ServiceLocator.Current.GetInstance<ITriggerService>();
@@ -36,6 +37,7 @@ namespace Samba.Presentation.ViewModels
         private static readonly IAutomationService AutomationService = ServiceLocator.Current.GetInstance<IAutomationService>();
         private static readonly ICacheService CacheService = ServiceLocator.Current.GetInstance<ICacheService>();
         private static readonly IResourceService ResourceService = ServiceLocator.Current.GetInstance<IResourceService>();
+        private static readonly IMethodQueue MethodQueue = ServiceLocator.Current.GetInstance<IMethodQueue>();
 
         private static bool _registered;
 

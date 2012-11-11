@@ -2,8 +2,8 @@
 using Microsoft.Practices.Prism.Commands;
 using Samba.Domain.Models.Users;
 using Samba.Presentation.Common;
-using Samba.Services;
-using Samba.Services.Common;
+using Samba.Presentation.Services;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Modules.UserModule
 {

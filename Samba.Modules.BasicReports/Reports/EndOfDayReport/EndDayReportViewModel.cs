@@ -6,8 +6,7 @@ using System.Windows.Documents;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
-using Samba.Services;
-using Samba.Services.Common;
+using Samba.Presentation.Services;
 
 namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 {

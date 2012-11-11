@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using Samba.Presentation.Common;
-using Samba.Services;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Modules.LoginModule
 {

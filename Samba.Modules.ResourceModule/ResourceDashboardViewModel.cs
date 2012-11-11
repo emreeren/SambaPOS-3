@@ -5,8 +5,8 @@ using Samba.Domain.Models.Resources;
 using Samba.Infrastructure;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Widgets;
-using Samba.Services;
-using Samba.Services.Common;
+using Samba.Presentation.Services;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Modules.ResourceModule
 {

@@ -1,6 +1,6 @@
 ﻿using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
-using Samba.Services;
+using Samba.Presentation.Services;
 
 namespace Samba.Modules.DepartmentModule
 {

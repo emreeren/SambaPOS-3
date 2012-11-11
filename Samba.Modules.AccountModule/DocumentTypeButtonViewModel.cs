@@ -1,7 +1,7 @@
 ﻿using Microsoft.Practices.Prism.Commands;
 using Samba.Domain.Models.Accounts;
 using Samba.Presentation.Common;
-using Samba.Services.Common;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Modules.AccountModule
 {

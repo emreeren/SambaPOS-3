@@ -1,7 +1,6 @@
-﻿using System;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using Samba.Presentation.Common.ModelBase;
-using Samba.Services.Common;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Presentation.Common
 {

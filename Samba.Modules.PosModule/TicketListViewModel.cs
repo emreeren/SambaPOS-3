@@ -9,18 +9,18 @@ using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.Services;
-using Samba.Services;
-using Samba.Services.Common;
+using Samba.Presentation.Services;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Modules.PosModule
 {
     [Export]
     public class TicketListViewModel : ObservableObject
     {
-        private readonly ITicketService _ticketService;
+        private readonly ITicketPresentationService _ticketService;
 
         [ImportingConstructor]
-        public TicketListViewModel(ITicketService ticketService)
+        public TicketListViewModel(ITicketPresentationService ticketService)
         {
             _ticketService = ticketService;
             _tickets = new List<TicketButtonViewModel>();

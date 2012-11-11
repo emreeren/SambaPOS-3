@@ -15,7 +15,7 @@ using Samba.Modules.BasicReports.Reports.EndOfDayReport;
 using Samba.Modules.BasicReports.Reports.InventoryReports;
 using Samba.Modules.BasicReports.Reports.ProductReport;
 using Samba.Persistance.Data;
-using Samba.Services;
+using Samba.Presentation.Services;
 
 namespace Samba.Modules.BasicReports
 {

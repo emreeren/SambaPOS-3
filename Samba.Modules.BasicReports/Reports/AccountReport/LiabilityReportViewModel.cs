@@ -1,6 +1,6 @@
 ﻿using System.Windows.Documents;
 using Samba.Localization.Properties;
-using Samba.Services;
+using Samba.Presentation.Services;
 
 namespace Samba.Modules.BasicReports.Reports.AccountReport
 {

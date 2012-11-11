@@ -3,8 +3,7 @@ using System.Windows;
 using System.Windows.Documents;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
-using Samba.Services;
-using Samba.Services.Common;
+using Samba.Presentation.Services;
 
 namespace Samba.Modules.BasicReports.Reports.InventoryReports
 {
@@ -29,7 +28,7 @@ namespace Samba.Modules.BasicReports.Reports.InventoryReports
 
             var transactionGroups = ReportContext.Transactions.SelectMany(x => x.TransactionItems)
                 .GroupBy(x => new { x.InventoryItem.GroupCode })
-                .Select(x => new { ItemName = x.Key.GroupCode, Total = x.Sum(y => y.Price * y.Quantity) });
+                .Select(x => new { ItemName = x.Key.GroupCode, Total = x.Sum(y => y.Price * y.Quantity) }).ToList();
 
             if (transactionGroups.Count() > 0)
             {

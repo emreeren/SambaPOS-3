@@ -6,10 +6,9 @@ using System.Linq;
 using System.Windows;
 using Samba.Infrastructure.Cron;
 using Samba.Localization.Properties;
-using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
-using Samba.Services;
+using Samba.Presentation.Services;
 using Trigger = Samba.Domain.Models.Settings.Trigger;
 
 namespace Samba.Modules.AutomationModule
@@ -46,11 +45,13 @@ namespace Samba.Modules.AutomationModule
     class TriggerViewModel : EntityViewModelBase<Trigger>
     {
         private readonly ITriggerService _triggerService;
+        private readonly IMethodQueue _methodQueue;
 
         [ImportingConstructor]
-        public TriggerViewModel(ITriggerService triggerService)
+        public TriggerViewModel(ITriggerService triggerService,IMethodQueue methodQueue)
         {
             _triggerService = triggerService;
+            _methodQueue = methodQueue;
             TestExpressionCommand = new CaptionCommand<string>("Test", OnTestExpression);
         }
 
@@ -318,7 +319,7 @@ namespace Samba.Modules.AutomationModule
         {
             LastTrigger = DateTime.Now;
             base.OnSave(value);
-            MethodQueue.Queue("UpdateCronObjects", _triggerService.UpdateCronObjects);
+            _methodQueue.Queue("UpdateCronObjects", _triggerService.UpdateCronObjects);
         }
 
         protected override string GetSaveErrorMessage()

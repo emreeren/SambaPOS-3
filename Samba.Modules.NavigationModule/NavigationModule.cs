@@ -5,8 +5,9 @@ using Microsoft.Practices.Prism.Regions;
 using Samba.Domain.Models.Users;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
+using Samba.Presentation.Services;
+using Samba.Presentation.Services.Common;
 using Samba.Services;
-using Samba.Services.Common;
 
 namespace Samba.Modules.NavigationModule
 {

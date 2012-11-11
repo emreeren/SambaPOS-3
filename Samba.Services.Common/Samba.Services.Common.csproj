@@ -47,14 +47,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractService.cs" />
     <Compile Include="DateTimeExtensions.cs" />
-    <Compile Include="EntityOperationRequest.cs" />
-    <Compile Include="EventServiceFactory.cs" />
-    <Compile Include="EventTopicNames.cs" />
-    <Compile Include="ExtensionMethods.cs" />
-    <Compile Include="GenericEvent.cs" />
-    <Compile Include="IService.cs" />
     <Compile Include="NonDuplicateSaveValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

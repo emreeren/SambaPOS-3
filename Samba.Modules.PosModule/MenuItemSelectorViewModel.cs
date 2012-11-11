@@ -7,13 +7,12 @@ using System.Windows;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Events;
 using Samba.Domain.Models.Menus;
-using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.Services;
+using Samba.Presentation.Services;
+using Samba.Presentation.Services.Common;
 using Samba.Presentation.ViewModels;
-using Samba.Services;
-using Samba.Services.Common;
 
 namespace Samba.Modules.PosModule
 {

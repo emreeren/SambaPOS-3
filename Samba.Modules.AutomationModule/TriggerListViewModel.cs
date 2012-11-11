@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using Samba.Domain.Models.Settings;
 using Samba.Presentation.Common.ModelBase;
-using Samba.Services;
+using Samba.Presentation.Services;
 
 namespace Samba.Modules.AutomationModule
 {
@@ -9,17 +9,19 @@ namespace Samba.Modules.AutomationModule
     class TriggerListViewModel : EntityCollectionViewModelBase<TriggerViewModel, Trigger>
     {
         private readonly ITriggerService _triggerService;
+        private readonly IMethodQueue _methodQueue;
 
         [ImportingConstructor]
-        public TriggerListViewModel(ITriggerService triggerService)
+        public TriggerListViewModel(ITriggerService triggerService, IMethodQueue methodQueue)
         {
             _triggerService = triggerService;
+            _methodQueue = methodQueue;
         }
 
         protected override void OnDeleteItem(object obj)
         {
             base.OnDeleteItem(obj);
-            MethodQueue.Queue("UpdateCronObjects", _triggerService.UpdateCronObjects);
+            _methodQueue.Queue("UpdateCronObjects", _triggerService.UpdateCronObjects);
         }
     }
 }

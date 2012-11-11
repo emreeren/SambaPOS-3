@@ -12,16 +12,17 @@ using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.Interaction;
 using Samba.Presentation.Common.Services;
+using Samba.Presentation.Services;
+using Samba.Presentation.Services.Common;
 using Samba.Presentation.ViewModels;
 using Samba.Services;
-using Samba.Services.Common;
 
 namespace Samba.Modules.PosModule
 {
     [Export]
     public class TicketViewModel : ObservableObject
     {
-        private readonly ITicketService _ticketService;
+        private readonly ITicketPresentationService _ticketService;
         private readonly IUserService _userService;
         private readonly IApplicationState _applicationState;
         private readonly IAutomationService _automationService;
@@ -178,7 +179,7 @@ namespace Samba.Modules.PosModule
 
         [ImportingConstructor]
         public TicketViewModel(IApplicationState applicationState,
-            ITicketService ticketService, IAccountService accountService, IResourceService locationService, IUserService userService,
+            ITicketPresentationService ticketService, IAccountService accountService, IResourceService locationService, IUserService userService,
             IAutomationService automationService, ICacheService cacheService, TicketOrdersViewModel ticketOrdersViewModel,
             TicketTotalsViewModel totals, TicketInfoViewModel ticketInfoViewModel, PaymentButtonViewModel paymentButtonViewModel)
         {

@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Data.SqlClient;
 using System.Windows;
 using Microsoft.Practices.ServiceLocation;
 using Samba.Infrastructure;
 using Samba.Presentation.Common.ErrorReport;
-using Samba.Services;
+using Samba.Presentation.Services;
 
 namespace Samba.Presentation
 {

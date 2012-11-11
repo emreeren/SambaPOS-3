@@ -3,8 +3,8 @@ using System.Linq;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Users;
 using Samba.Presentation.Common;
-using Samba.Services;
-using Samba.Services.Common;
+using Samba.Presentation.Services;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Modules.DepartmentModule
 {

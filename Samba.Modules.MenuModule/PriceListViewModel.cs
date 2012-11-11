@@ -4,10 +4,10 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Localization.Properties;
-using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
-using Samba.Services;
+using Samba.Presentation.Services;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Modules.MenuModule
 {
@@ -33,7 +33,7 @@ namespace Samba.Modules.MenuModule
 
         private void OnSave(object obj)
         {
-            _priceListService.UpdatePrices(Items.Where(x => x.IsChanged).Select(x => new PriceData(x.Model, x.ItemName)));
+            _priceListService.UpdatePrices(Items.Where(x => x.IsChanged).Select(x => new PriceData(x.Model, x.ItemName)).ToList());
             foreach (var priceViewModel in Items)
             {
                 priceViewModel.IsChanged = false;

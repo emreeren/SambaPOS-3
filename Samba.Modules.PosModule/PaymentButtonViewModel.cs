@@ -4,9 +4,9 @@ using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.Services;
+using Samba.Presentation.Services;
+using Samba.Presentation.Services.Common;
 using Samba.Presentation.ViewModels;
-using Samba.Services;
-using Samba.Services.Common;
 
 namespace Samba.Modules.PosModule
 {
@@ -15,7 +15,7 @@ namespace Samba.Modules.PosModule
     {
         private readonly ICacheService _cacheService;
         private readonly IApplicationState _applicationState;
-        private readonly ITicketService _ticketService;
+        private readonly ITicketPresentationService _ticketService;
         public PaymentButtonGroupViewModel PaymentButtonGroup { get; set; }
         public CaptionCommand<string> CloseTicketCommand { get; set; }
         public CaptionCommand<string> MakePaymentCommand { get; set; }
@@ -39,7 +39,7 @@ namespace Samba.Modules.PosModule
         }
 
         [ImportingConstructor]
-        public PaymentButtonViewModel(ICacheService cacheService, IApplicationState applicationState, ITicketService ticketService)
+        public PaymentButtonViewModel(ICacheService cacheService, IApplicationState applicationState, ITicketPresentationService ticketService)
         {
             _cacheService = cacheService;
             _applicationState = applicationState;

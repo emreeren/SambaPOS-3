@@ -4,8 +4,8 @@ using Samba.Domain.Models.Resources;
 using Samba.Infrastructure;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
-using Samba.Services;
-using Samba.Services.Common;
+using Samba.Presentation.Services;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Modules.ResourceModule.Widgets.ResourceButton
 {
@@ -50,9 +50,7 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceButton
         public override void Refresh()
         {
             var resourceState = GetResourceState();
-            if (resourceState != null)
-                ButtonColor = resourceState.Color;
-            else ButtonColor = "Gainsboro";
+            ButtonColor = resourceState != null ? resourceState.Color : "Gainsboro";
         }
 
         [Browsable(false)]

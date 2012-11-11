@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using Samba.Presentation.Common.Services;
-using Samba.Services;
+using Samba.Presentation.Services;
 
 namespace Samba.Modules.ManagementModule
 {

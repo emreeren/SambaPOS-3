@@ -1,5 +1,5 @@
 using Samba.Domain.Models.Accounts;
-using Samba.Services;
+using Samba.Presentation.Services;
 
 namespace Samba.Modules.AccountModule.Dashboard
 {

@@ -7,8 +7,8 @@ using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
+using Samba.Presentation.Services.Common;
 using Samba.Presentation.ViewModels;
-using Samba.Services.Common;
 
 namespace Samba.Modules.ModifierModule
 {
