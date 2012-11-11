@@ -21,6 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{BE3BEF2C-C
 		Lib\ICSharpCode.AvalonEdit.dll = Lib\ICSharpCode.AvalonEdit.dll
 		Lib\Interop.cidv5callerid.dll = Lib\Interop.cidv5callerid.dll
 		Lib\Microsoft.Practices.ServiceLocation.dll = Lib\Microsoft.Practices.ServiceLocation.dll
+		Lib\Omu.ValueInjecter.dll = Lib\Omu.ValueInjecter.dll
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Persistence Layer", "3. Persistence Layer", "{FEC2F6B9-AF96-49AC-8598-9F66FE8D130D}"
