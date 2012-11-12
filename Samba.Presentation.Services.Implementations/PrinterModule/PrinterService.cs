@@ -9,46 +9,44 @@ using System.Windows.Threading;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
-using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Data.Serializer;
 using Samba.Localization.Properties;
-using Samba.Persistance.Data;
+using Samba.Persistance.DaoClasses;
 using Samba.Presentation.Services.Common;
 using Samba.Presentation.Services.Implementations.PrinterModule.PrintJobs;
 using Samba.Presentation.Services.Implementations.PrinterModule.Tools;
 using Samba.Presentation.Services.Implementations.PrinterModule.ValueChangers;
-using Samba.Services;
 
 namespace Samba.Presentation.Services.Implementations.PrinterModule
 {
     [Export(typeof(IPrinterService))]
     public class PrinterService : AbstractService, IPrinterService
     {
+        private readonly IPrinterDao _printerDao;
         private readonly IApplicationState _applicationState;
         private readonly ICacheService _cacheService;
         private readonly TicketFormatter _ticketFormatter;
 
         [ImportingConstructor]
-        public PrinterService(IApplicationState applicationState, ICacheService cacheService, IResourceService resourceService,
+        public PrinterService(IPrinterDao printerDao, IApplicationState applicationState, ICacheService cacheService, IResourceService resourceService,
             IAutomationService automationService, ISettingService settingService)
         {
+            _printerDao = printerDao;
             _applicationState = applicationState;
             _cacheService = cacheService;
             _ticketFormatter = new TicketFormatter(automationService, settingService);
-            ValidatorRegistry.RegisterDeleteValidator(new PrinterDeleteValidator());
-            ValidatorRegistry.RegisterDeleteValidator<PrinterTemplate>(x => Dao.Exists<PrinterMap>(y => y.PrinterTemplateId == x.Id), Resources.PrinterTemplate, Resources.PrintJob);
         }
 
         private IEnumerable<Printer> _printers;
         public IEnumerable<Printer> Printers
         {
-            get { return _printers ?? (_printers = Dao.Query<Printer>()); }
+            get { return _printers ?? (_printers = _printerDao.GetPrinters()); }
         }
 
         private IEnumerable<PrinterTemplate> _printerTemplates;
         protected IEnumerable<PrinterTemplate> PrinterTemplates
         {
-            get { return _printerTemplates ?? (_printerTemplates = Dao.Query<PrinterTemplate>()); }
+            get { return _printerTemplates ?? (_printerTemplates = GetAllPrinterTemplates()); }
         }
 
         public Printer PrinterById(int id)
@@ -63,7 +61,7 @@ namespace Samba.Presentation.Services.Implementations.PrinterModule
 
         public IEnumerable<PrinterTemplate> GetAllPrinterTemplates()
         {
-            return Dao.Query<PrinterTemplate>();
+            return _printerDao.GetPrinterTemplates();
         }
 
         public IEnumerable<string> GetPrinterNames()
@@ -76,16 +74,9 @@ namespace Samba.Presentation.Services.Implementations.PrinterModule
             return Printers;
         }
 
-        public override void Reset()
+        private PrinterMap GetPrinterMapForItem(IEnumerable<PrinterMap> printerMaps, int menuItemId)
         {
-            _printers = null;
-            _printerTemplates = null;
-            PrinterInfo.ResetCache();
-        }
-
-        private static PrinterMap GetPrinterMapForItem(IEnumerable<PrinterMap> printerMaps, int menuItemId)
-        {
-            var menuItemGroupCode = Dao.Single<MenuItem, string>(menuItemId, x => x.GroupCode);
+            var menuItemGroupCode = _printerDao.GetMenuItemGroupCode(menuItemId);
             Debug.Assert(printerMaps != null);
             var maps = printerMaps.ToList();
 
@@ -278,17 +269,12 @@ namespace Samba.Presentation.Services.Implementations.PrinterModule
         {
             return FunctionRegistry.Descriptions;
         }
-    }
 
-    public class PrinterDeleteValidator : SpecificationValidator<Printer>
-    {
-        public override string GetErrorMessage(Printer model)
+        public override void Reset()
         {
-            if (Dao.Exists<Terminal>(x => x.ReportPrinter.Id == model.Id))
-                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Printer, Resources.Terminal);
-            if (Dao.Exists<PrinterMap>(x => x.PrinterId == model.Id))
-                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Printer, Resources.PrintJob);
-            return "";
+            _printers = null;
+            _printerTemplates = null;
+            PrinterInfo.ResetCache();
         }
     }
 }

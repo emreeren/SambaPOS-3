@@ -1,4 +1,4 @@
-namespace Samba.Presentation.Services.Common
+namespace Samba.Persistance
 {
     public class MenuItemData
     {

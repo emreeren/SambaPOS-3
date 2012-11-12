@@ -60,7 +60,7 @@ namespace Samba.Modules.TicketModule
             if (value > 0)
             {
                 if (MenuItem == null || MenuItem.Id != value)
-                    MenuItem = _menuService.GetMenuItem(x => x.Id == value);
+                    MenuItem = _menuService.GetMenuItemById(value);
             }
         }
     }

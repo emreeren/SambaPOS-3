@@ -1,6 +1,6 @@
 using Samba.Domain.Models.Menus;
 
-namespace Samba.Presentation.Services.Common
+namespace Samba.Persistance
 {
     public class PriceData
     {

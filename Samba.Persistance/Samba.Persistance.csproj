@@ -31,6 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
     <Reference Include="Omu.ValueInjecter">
       <HintPath>..\Samba.Modules.AccountModule\bin\Debug\Omu.ValueInjecter.dll</HintPath>
     </Reference>
@@ -49,16 +50,34 @@
     <Compile Include="DaoClasses\IAutomationDao.cs" />
     <Compile Include="DaoClasses\ICacheDao.cs" />
     <Compile Include="DaoClasses\IInventoryDao.cs" />
+    <Compile Include="DaoClasses\IMenuDao.cs" />
     <Compile Include="DaoClasses\Implementations\AccountDao.cs" />
     <Compile Include="DaoClasses\Implementations\AutomationDao.cs" />
     <Compile Include="DaoClasses\Implementations\CacheDao.cs" />
+    <Compile Include="DaoClasses\Implementations\MenuDao.cs" />
+    <Compile Include="DaoClasses\Implementations\PriceListDao.cs" />
+    <Compile Include="DaoClasses\Implementations\PrinterDao.cs" />
+    <Compile Include="DaoClasses\Implementations\ResourceDao.cs" />
+    <Compile Include="DaoClasses\Implementations\SettingDao.cs" />
+    <Compile Include="DaoClasses\Implementations\TaskDao.cs" />
     <Compile Include="DaoClasses\Implementations\TicketDao.cs" />
     <Compile Include="DaoClasses\Implementations\InventoryDao.cs" />
+    <Compile Include="DaoClasses\Implementations\UserDao.cs" />
+    <Compile Include="DaoClasses\Implementations\WorkPeriodDao.cs" />
+    <Compile Include="DaoClasses\IPriceListDao.cs" />
+    <Compile Include="DaoClasses\IPrinterDao.cs" />
+    <Compile Include="DaoClasses\IResourceDao.cs" />
+    <Compile Include="DaoClasses\ISettingDao.cs" />
+    <Compile Include="DaoClasses\ITaskDao.cs" />
     <Compile Include="DaoClasses\ITicketDao.cs" />
+    <Compile Include="DaoClasses\IUserDao.cs" />
+    <Compile Include="DaoClasses\IWorkPeriodDao.cs" />
     <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="ITicketExplorerFilter.cs" />
+    <Compile Include="MenuItemData.cs" />
     <Compile Include="NonDuplicateSaveValidator.cs" />
     <Compile Include="OpenTicketData.cs" />
+    <Compile Include="PriceData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TicketCommitResult.cs" />
   </ItemGroup>

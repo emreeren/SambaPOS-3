@@ -4,8 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
-using Samba.Infrastructure.Data;
-using Samba.Localization.Properties;
+using Samba.Persistance.DaoClasses;
 using Samba.Persistance.Data;
 using Samba.Presentation.Services.Common;
 
@@ -14,30 +13,21 @@ namespace Samba.Presentation.Services.Implementations.UserModule
     [Export(typeof(IUserService))]
     public class UserService : AbstractService, IUserService
     {
+        private readonly IUserDao _userDao;
         private readonly IApplicationState _applicationState;
         private readonly IApplicationStateSetter _applicationStateSetter;
         private readonly IDepartmentService _departmentService;
         private readonly IAutomationService _automationService;
 
         [ImportingConstructor]
-        public UserService(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
+        public UserService(IUserDao userDao, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
             IDepartmentService departmentService, IAutomationService automationService)
         {
+            _userDao = userDao;
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
             _departmentService = departmentService;
             _automationService = automationService;
-
-            ValidatorRegistry.RegisterDeleteValidator(new UserDeleteValidator());
-            ValidatorRegistry.RegisterDeleteValidator(new UserRoleDeleteValidator());
-            ValidatorRegistry.RegisterSaveValidator(new UserSaveValidator());
-        }
-
-        private static IWorkspace _workspace;
-        public static IWorkspace Workspace
-        {
-            get { return _workspace ?? (_workspace = WorkspaceFactory.Create()); }
-            set { _workspace = value; }
         }
 
         private IEnumerable<User> _users;
@@ -98,14 +88,14 @@ namespace Samba.Presentation.Services.Implementations.UserModule
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ResetCache, true);
         }
 
-        private static User GetUserByPinCode(string pinCode)
+        private User GetUserByPinCode(string pinCode)
         {
-            return Workspace.Single<User>(x => x.PinCode == pinCode);
+            return _userDao.GetUserByPinCode(pinCode);
         }
 
-        private static LoginStatus CheckPinCodeStatus(string pinCode)
+        private LoginStatus CheckPinCodeStatus(string pinCode)
         {
-            var userExists = Dao.Exists<User>(x => x.PinCode == pinCode);
+            var userExists = _userDao.GetIsUserExists(pinCode);
             return userExists ? LoginStatus.CanLogin : LoginStatus.PinNotFound;
         }
 
@@ -122,46 +112,13 @@ namespace Samba.Presentation.Services.Implementations.UserModule
 
         public IEnumerable<UserRole> GetUserRoles()
         {
-            return Dao.Query<UserRole>();
+            return _userDao.GetUserRoles();
         }
 
         public override void Reset()
         {
             _users = null;
             _permittedDepartments = null;
-        }
-    }
-
-    public class UserSaveValidator : SpecificationValidator<User>
-    {
-        public override string GetErrorMessage(User model)
-        {
-            if (Dao.Exists<User>(x => x.PinCode == model.PinCode && x.Id != model.Id))
-                return Resources.SaveErrorThisPinCodeInUse;
-            return "";
-        }
-    }
-
-    public class UserDeleteValidator : SpecificationValidator<User>
-    {
-        public override string GetErrorMessage(User model)
-        {
-            if (model.UserRole.IsAdmin) return Resources.DeleteErrorAdminUser;
-            if (Dao.Count<User>() == 1) return Resources.DeleteErrorLastUser;
-            if (Dao.Exists<Order>(x => x.CreatingUserName == model.Name))
-                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.User, Resources.Order);
-            return "";
-        }
-    }
-
-    public class UserRoleDeleteValidator : SpecificationValidator<UserRole>
-    {
-        public override string GetErrorMessage(UserRole model)
-        {
-            if (model.Id == 1 || model.IsAdmin) return string.Format(Resources.CantDelete_f, Resources.AdminRole);
-            if (Dao.Exists<User>(y => y.UserRole.Id == model.Id))
-                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.UserRole, Resources.User);
-            return "";
         }
     }
 }

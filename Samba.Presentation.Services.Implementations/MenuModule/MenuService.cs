@@ -4,24 +4,21 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
-using Samba.Domain.Models.Inventories;
 using Samba.Domain.Models.Menus;
-using Samba.Domain.Models.Tickets;
-using Samba.Infrastructure.Data;
-using Samba.Localization.Properties;
-using Samba.Persistance.Data;
-using Samba.Presentation.Services.Common;
+using Samba.Persistance;
+using Samba.Persistance.DaoClasses;
 
 namespace Samba.Presentation.Services.Implementations.MenuModule
 {
     [Export(typeof(IMenuService))]
-    public class MenuService : AbstractService, IMenuService
+    public class MenuService : IMenuService
     {
+        private readonly IMenuDao _menuDao;
+
         [ImportingConstructor]
-        public MenuService()
+        public MenuService(IMenuDao menuDao)
         {
-            ValidatorRegistry.RegisterDeleteValidator(new MenuItemDeleteValidator());
-            ValidatorRegistry.RegisterDeleteValidator<ScreenMenu>(x => Dao.Exists<TicketType>(y => y.ScreenMenuId == x.Id), Resources.Menu, Resources.TicketType);
+            _menuDao = menuDao;
         }
 
         public IEnumerable<ScreenMenuItem> GetScreenMenuItems(ScreenMenuCategory category, int currentPageNo, string tag)
@@ -50,64 +47,44 @@ namespace Samba.Presentation.Services.Implementations.MenuModule
                 .Select(x => !string.IsNullOrEmpty(parentTag) ? parentTag + "," + x : x);
         }
 
-        public MenuItem GetMenuItem(Expression<Func<MenuItem, bool>> expression)
-        {
-            return Dao.Single(expression, x => x.TaxTemplate, x => x.Portions.Select(y => y.Prices));
-        }
-
         public IEnumerable<ScreenMenu> GetScreenMenus()
         {
-            return Dao.Query<ScreenMenu>();
+            return _menuDao.GetScreenMenus();
         }
 
         public IEnumerable<string> GetMenuItemNames()
         {
-            return Dao.Select<MenuItem, string>(x => x.Name, null);
+            return _menuDao.GetMenuItemNames();
         }
 
         public IEnumerable<string> GetMenuItemGroupCodes()
         {
-            return Dao.Distinct<MenuItem>(x => x.GroupCode);
+            return _menuDao.GetMenuItemGroupCodes();
         }
 
         public IEnumerable<string> GetMenuItemTags()
         {
-            return Dao.Distinct<MenuItem>(x => x.Tag);
+            return _menuDao.GetMenuItemTags();
+        }
+
+        public MenuItem GetMenuItemById(int id)
+        {
+            return _menuDao.GetMenuItemById(id);
         }
 
         public IEnumerable<MenuItem> GetMenuItemsByGroupCode(string menuItemGroupCode)
         {
-            return Dao.Query<MenuItem>(x => x.GroupCode == menuItemGroupCode);
+            return _menuDao.GetMenuItemsByGroupCode(menuItemGroupCode);
         }
 
         public IEnumerable<MenuItem> GetMenuItems()
         {
-            return Dao.Query<MenuItem>();
+            return _menuDao.GetMenuItems();
         }
 
         public IEnumerable<MenuItemData> GetMenuItemData()
         {
-            return Dao.Select<MenuItem, MenuItemData>(
-                    x => new MenuItemData { Id = x.Id, GroupCode = x.GroupCode, Name = x.Name }, x => x.Id > 0);
-        }
-
-        public override void Reset()
-        {
-
-        }
-    }
-
-    public class MenuItemDeleteValidator : SpecificationValidator<MenuItem>
-    {
-        public override string GetErrorMessage(MenuItem model)
-        {
-            if (Dao.Exists<ScreenMenuItem>(x => x.MenuItemId == model.Id))
-                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.MenuItem, Resources.Menu);
-            if (Dao.Exists<Recipe>(x => x.Portion.MenuItemId == model.Id))
-                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.MenuItem, Resources.Recipe);
-            if (Dao.Exists<OrderTag>(x => x.MenuItemId == model.Id))
-                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.MenuItem, Resources.OrderTag);
-            return "";
+            return _menuDao.GetMenuItemData();
         }
     }
 }

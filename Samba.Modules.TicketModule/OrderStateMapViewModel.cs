@@ -2,10 +2,9 @@
 using System.Linq;
 using Microsoft.Practices.ServiceLocation;
 using Samba.Domain.Models.Tickets;
+using Samba.Persistance;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Services;
-using Samba.Presentation.Services.Common;
-using Samba.Services;
 
 namespace Samba.Modules.TicketModule
 {

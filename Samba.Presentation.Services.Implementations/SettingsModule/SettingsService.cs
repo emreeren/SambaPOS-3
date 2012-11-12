@@ -1,13 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
-using Samba.Infrastructure.Data;
-using Samba.Localization.Properties;
-using Samba.Persistance.Data;
+using Samba.Persistance.DaoClasses;
 using Samba.Presentation.Services.Common;
 
 namespace Samba.Presentation.Services.Implementations.SettingsModule
@@ -15,10 +12,12 @@ namespace Samba.Presentation.Services.Implementations.SettingsModule
     [Export(typeof(ISettingService))]
     class SettingService : AbstractService, ISettingService
     {
+        private readonly ISettingDao _settingDao;
+
         [ImportingConstructor]
-        public SettingService()
+        public SettingService(ISettingDao settingDao)
         {
-            ValidatorRegistry.RegisterDeleteValidator(new NumeratorDeleteValidator());
+            _settingDao = settingDao;
             _globalSettings = new ProgramSettings();
             _settingReplacer = new SettingReplacer(_globalSettings);
         }
@@ -26,26 +25,19 @@ namespace Samba.Presentation.Services.Implementations.SettingsModule
         private readonly ProgramSettings _globalSettings;
         private readonly SettingReplacer _settingReplacer;
 
-        private static IWorkspace _workspace;
-        public static IWorkspace Workspace
-        {
-            get { return _workspace ?? (_workspace = WorkspaceFactory.Create()); }
-            set { _workspace = value; }
-        }
-
-        private static IEnumerable<Terminal> _terminals;
-        public static IEnumerable<Terminal> Terminals { get { return _terminals ?? (_terminals = Workspace.All<Terminal>()); } }
+        private IEnumerable<Terminal> _terminals;
+        public IEnumerable<Terminal> Terminals { get { return _terminals ?? (_terminals = _settingDao.GetTerminals()); } }
 
         private IEnumerable<TaxTemplate> _taxTemplates;
         public IEnumerable<TaxTemplate> TaxTemplates
         {
-            get { return _taxTemplates ?? (_taxTemplates = Dao.Query<TaxTemplate>()); }
+            get { return _taxTemplates ?? (_taxTemplates = _settingDao.GetTaxTemplates()); }
         }
 
         private IEnumerable<CalculationType> _calculationTypes;
         public IEnumerable<CalculationType> CalculationTypes
         {
-            get { return _calculationTypes ?? (_calculationTypes = Dao.Query<CalculationType>()); }
+            get { return _calculationTypes ?? (_calculationTypes = _settingDao.GetCalculationTypes()); }
         }
 
         public CalculationType GetCalculationTypeById(int id)
@@ -125,38 +117,12 @@ namespace Samba.Presentation.Services.Implementations.SettingsModule
 
         public int GetNextNumber(int numeratorId)
         {
-            using (var workspace = WorkspaceFactory.Create())
-            {
-                var numerator = workspace.Single<Numerator>(x => x.Id == numeratorId);
-                numerator.Number++;
-                try
-                {
-                    workspace.CommitChanges();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    return GetNextNumber(numeratorId);
-                }
-                return numerator.Number;
-            }
+            return _settingDao.GetNextNumber(numeratorId);
         }
 
         public string GetNextString(int numeratorId)
         {
-            using (var workspace = WorkspaceFactory.Create())
-            {
-                var numerator = workspace.Single<Numerator>(x => x.Id == numeratorId);
-                numerator.Number++;
-                try
-                {
-                    workspace.CommitChanges();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    return GetNextString(numeratorId);
-                }
-                return numerator.GetNumber();
-            }
+            return _settingDao.GetNextString(numeratorId);
         }
 
         public override void Reset()
@@ -165,19 +131,6 @@ namespace Samba.Presentation.Services.Implementations.SettingsModule
             _calculationTypes = null;
             _terminals = null;
             _globalSettings.ResetCache();
-            Workspace = WorkspaceFactory.Create();
-        }
-    }
-
-    internal class NumeratorDeleteValidator : SpecificationValidator<Numerator>
-    {
-        public override string GetErrorMessage(Numerator model)
-        {
-            if (Dao.Exists<TicketType>(x => x.OrderNumerator.Id == model.Id))
-                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Numerator, Resources.TicketType);
-            if (Dao.Exists<TicketType>(x => x.TicketNumerator.Id == model.Id))
-                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Numerator, Resources.TicketType);
-            return "";
         }
     }
 }
