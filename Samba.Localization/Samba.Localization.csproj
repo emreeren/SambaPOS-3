@@ -110,6 +110,7 @@
 
 copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)SambaSetup\src"
 xcopy /y "$(TargetDir)tr\Samba.Localization.resources.dll" "$(SolutionDir)SambaSetup\src\tr\"
+xcopy /y "$(TargetDir)it\Samba.Localization.resources.dll" "$(SolutionDir)SambaSetup\src\it\"
 
 :End</PostBuildEvent>
   </PropertyGroup>
