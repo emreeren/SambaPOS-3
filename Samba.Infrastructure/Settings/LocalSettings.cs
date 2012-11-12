@@ -150,7 +150,7 @@ html
         public static int DbVersion { get { return 1; } }
         public static string AppVersion { get { return "3.00 [ALPHA]"; } }
         public static string AppName { get { return "SambaPOS3"; } }
-        public static IList<string> SupportedLanguages { get { return new[] { "en" }; } }
+        public static IList<string> SupportedLanguages { get { return new[] { "en", "tr", "it" }; } }
 
         public static long CurrentDbVersion { get; set; }
 

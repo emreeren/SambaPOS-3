@@ -129,6 +129,7 @@ Source: src\Samba.Modules.TicketModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.UserModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.WorkperiodModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Persistance.DBMigration.dll; DestDir: {app}; Flags: ignoreversion
+Source: src\Samba.Persistance.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Persistance.Data.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Presentation.Common.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Presentation.exe; DestDir: {app}; Flags: ignoreversion
@@ -166,6 +167,7 @@ Source: src\migrate.txt; DestDir: {userappdata}\Ozgu Tech\SambaPOS2; Flags: igno
 Source: C:\Windows\Fonts\lucon.ttf; DestDir: {fonts}; Flags: onlyifdoesntexist uninsneveruninstall; FontInstall: Lucida Console
 Source: src\Samba.Localization.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\tr\Samba.Localization.resources.dll; DestDir: {app}\tr\; Flags: ignoreversion
+Source: src\it\Samba.Localization.resources.dll; DestDir: {app}\tr\; Flags: ignoreversion
 
 [Components]
 Name: pos; Description: Samba POS; Types: full compact custom; Flags: fixed
@@ -262,4 +264,5 @@ end;
 Name: {app}\Images
 Name: {app}\Imports
 Name: {app}\tr
+Name: {app}\it
 Name: {commonappdata}\Ozgu Tech\SambaPOS3

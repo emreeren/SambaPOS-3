@@ -1468,14 +1468,8 @@ Raporlar bölümünden gün sonu raporlarınızı alınız.</value>
   <data name="ItemProperties" xml:space="preserve">
     <value>İlave Özellikler</value>
   </data>
-  <data name="VoidsTotal" xml:space="preserve">
-    <value>İptaller Toplamı</value>
-  </data>
   <data name="DiscountsTotal" xml:space="preserve">
     <value>İskontolar Toplamı</value>
-  </data>
-  <data name="GiftsTotal" xml:space="preserve">
-    <value>İkramlar Toplamı</value>
   </data>
   <data name="TicketCount" xml:space="preserve">
     <value>Adisyon Sayısı</value>
@@ -1527,15 +1521,6 @@ Raporlar bölümünden gün sonu raporlarınızı alınız.</value>
   </data>
   <data name="QuantitiesByItemGroup" xml:space="preserve">
     <value>Ürün Grubu Bazında Miktarlar</value>
-  </data>
-  <data name="Voids" xml:space="preserve">
-    <value>İadeler</value>
-  </data>
-  <data name="Gifts" xml:space="preserve">
-    <value>İkramlar</value>
-  </data>
-  <data name="Discounts" xml:space="preserve">
-    <value>İskontolar</value>
   </data>
   <data name="Tickets" xml:space="preserve">
     <value>Adisyonlar</value>

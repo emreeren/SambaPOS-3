@@ -5387,15 +5387,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to View Mode.
-        /// </summary>
-        public static string ResourceViewMode {
-            get {
-                return ResourceManager.GetString("ResourceViewMode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Restaurant.
         /// </summary>
         public static string Restaurant {
