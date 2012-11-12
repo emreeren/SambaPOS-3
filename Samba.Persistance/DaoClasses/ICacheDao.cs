@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Automation;
 using Samba.Domain.Models.Menus;
@@ -10,7 +7,7 @@ using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tasks;
 using Samba.Domain.Models.Tickets;
 
-namespace Samba.Services
+namespace Samba.Persistance.DaoClasses
 {
     public interface ICacheDao
     {

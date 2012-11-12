@@ -2,12 +2,8 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Tickets;
-using Samba.Domain.Models.Users;
-using Samba.Infrastructure.Data;
-using Samba.Localization.Properties;
-using Samba.Persistance.Data;
+using Samba.Persistance.DaoClasses;
 using Samba.Presentation.Services.Common;
-using Samba.Services;
 
 namespace Samba.Presentation.Services.Implementations.DepartmentModule
 {

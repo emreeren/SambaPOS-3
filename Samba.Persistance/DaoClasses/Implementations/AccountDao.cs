@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Resources;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Persistance.Data.Specification;
-using Samba.Services.Common;
 
-namespace Samba.Services.Implementations
+namespace Samba.Persistance.DaoClasses.Implementations
 {
     [Export(typeof(IAccountDao))]
     class AccountDao : IAccountDao

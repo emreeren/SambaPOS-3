@@ -6,6 +6,7 @@ using Microsoft.Practices.Prism.Commands;
 using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Settings;
+using Samba.Persistance;
 using Samba.Presentation.Common;
 using Samba.Presentation.Services.Common;
 using Samba.Services.Common;

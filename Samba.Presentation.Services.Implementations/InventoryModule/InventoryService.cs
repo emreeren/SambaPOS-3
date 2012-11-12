@@ -5,11 +5,9 @@ using Samba.Domain.Models.Inventories;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
-using Samba.Localization.Properties;
+using Samba.Persistance.DaoClasses;
 using Samba.Persistance.Data;
 using Samba.Presentation.Services.Common;
-using Samba.Services;
-using Samba.Services.Common;
 
 namespace Samba.Presentation.Services.Implementations.InventoryModule
 {
@@ -22,39 +20,31 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
     }
 
     [Export(typeof(IInventoryService))]
-    public class InventoryService : AbstractService, IInventoryService
+    public class InventoryService : IInventoryService
     {
+        private readonly IInventoryDao _inventoryDao;
         private readonly IApplicationState _applicationState;
         private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public InventoryService(IApplicationState applicationState, ICacheService cacheService)
+        public InventoryService(IInventoryDao inventoryDao, IApplicationState applicationState, ICacheService cacheService)
         {
+            _inventoryDao = inventoryDao;
             _applicationState = applicationState;
             _cacheService = cacheService;
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<WorkPeriod>>().Subscribe(OnWorkperiodStatusChanged);
-            ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<InventoryItem>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.InventoryItem)));
-            ValidatorRegistry.RegisterDeleteValidator<InventoryItem>(x => Dao.Exists<PeriodicConsumptionItem>(y => y.InventoryItem.Id == x.Id), Resources.InventoryItem, Resources.EndOfDayRecord);
-            ValidatorRegistry.RegisterSaveValidator(new RecipeSaveValidator());
         }
 
         private IEnumerable<InventoryTransactionItem> GetTransactionItems()
         {
-            return Dao.Query<InventoryTransaction>(x =>
-                                                   x.Date > _applicationState.CurrentWorkPeriod.StartDate,
-                                                   x => x.TransactionItems,
-                                                   x => x.TransactionItems.Select(y => y.InventoryItem)).SelectMany(x => x.TransactionItems);
+            return _inventoryDao.GetTransactionItems(_applicationState.CurrentWorkPeriod.StartDate);
         }
 
-        private static IEnumerable<Order> GetOrdersFromRecipes(WorkPeriod workPeriod)
+        private IEnumerable<Order> GetOrdersFromRecipes(WorkPeriod workPeriod)
         {
-            var recipeItemIds = Dao.Select<Recipe, int>(x => x.Portion.MenuItemId, x => x.Portion != null).Distinct();
-            var tickets = Dao.Query<Ticket>(x => x.Date > workPeriod.StartDate,
-                                            x => x.Orders,
-                                            x => x.Orders.Select(y => y.OrderTagValues));
-            return tickets.SelectMany(x => x.Orders)
-                    .Where(x => (x.DecreaseInventory || x.IncreaseInventory) && recipeItemIds.Contains(x.MenuItemId));
+            var startDate = workPeriod.StartDate;
+            return _inventoryDao.GetOrdersFromRecipes(startDate);
         }
 
         private IEnumerable<SalesData> GetSales(WorkPeriod workPeriod)
@@ -173,7 +163,7 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
             foreach (var sale in sales)
             {
                 var lSale = sale;
-                var recipe = Dao.Single<Recipe>(x => x.Portion.Name == lSale.PortionName && x.Portion.MenuItemId == lSale.MenuItemId, x => x.Portion, x => x.RecipeItems, x => x.RecipeItems.Select(y => y.InventoryItem));
+                var recipe = _inventoryDao.GetRecipe(lSale.PortionName, lSale.MenuItemId);
                 if (recipe != null)
                 {
                     var totalcost = recipe.FixedCost;
@@ -196,27 +186,21 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
 
         public IEnumerable<string> GetInventoryItemNames()
         {
-            return Dao.Select<InventoryItem, string>(x => x.Name, x => !string.IsNullOrEmpty(x.Name));
+            return _inventoryDao.GetInventoryItemNames();
         }
 
         public IEnumerable<string> GetGroupCodes()
         {
-            return Dao.Distinct<InventoryItem>(x => x.GroupCode);
+            return _inventoryDao.GetGroupCodes();
         }
 
         private void OnWorkperiodStatusChanged(EventParameters<WorkPeriod> obj)
         {
             if (obj.Topic != EventTopicNames.WorkPeriodStatusChanged) return;
+            if (!_inventoryDao.RecipeExists()) return;
             using (var ws = WorkspaceFactory.Create())
             {
-                if (ws.Count<Recipe>() <= 0) return;
-                if (!_applicationState.IsCurrentWorkPeriodOpen)
-                {
-                    var pc = GetCurrentPeriodicConsumption(ws);
-                    if (pc.Id == 0) ws.Add(pc);
-                    ws.CommitChanges();
-                }
-                else
+                if (_applicationState.IsCurrentWorkPeriodOpen)
                 {
                     if (_applicationState.PreviousWorkPeriod == null) return;
                     var pc = GetPreviousPeriodicConsumption(ws);
@@ -224,29 +208,13 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
                     CalculateCost(pc, _applicationState.PreviousWorkPeriod);
                     ws.CommitChanges();
                 }
+                else
+                {
+                    var pc = GetCurrentPeriodicConsumption(ws);
+                    if (pc.Id == 0) ws.Add(pc);
+                    ws.CommitChanges();
+                }
             }
-        }
-
-        public override void Reset()
-        {
-
-        }
-    }
-
-    public class RecipeSaveValidator : SpecificationValidator<Recipe>
-    {
-        public override string GetErrorMessage(Recipe model)
-        {
-            if (model.RecipeItems.Any(x => x.InventoryItem == null || x.Quantity == 0))
-                return Resources.SaveErrorZeroOrNullInventoryLines;
-            if (model.Portion == null)
-                return Resources.APortionShouldSelected;
-            if (Dao.Exists<Recipe>(x => x.Portion.Id == model.Portion.Id && x.Id != model.Id))
-            {
-                const string mitemName = "[Menu Item Name]"; // todo:fix;
-                return string.Format(Resources.ThereIsAnotherRecipeFor_f, mitemName);
-            }
-            return "";
         }
     }
 }

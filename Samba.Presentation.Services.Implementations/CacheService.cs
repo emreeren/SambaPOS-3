@@ -10,9 +10,9 @@ using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tasks;
 using Samba.Domain.Models.Tickets;
+using Samba.Persistance.DaoClasses;
 using Samba.Persistance.Data;
 using Samba.Presentation.Services.Common;
-using Samba.Services;
 
 namespace Samba.Presentation.Services.Implementations
 {

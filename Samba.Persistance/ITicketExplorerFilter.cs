@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Samba.Domain.Models.Tickets;
 
-namespace Samba.Services.Common
+namespace Samba.Persistance
 {
     public interface ITicketExplorerFilter
     {

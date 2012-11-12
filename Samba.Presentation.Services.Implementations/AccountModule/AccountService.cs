@@ -8,8 +8,8 @@ using System.Text.RegularExpressions;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Resources;
 using Samba.Localization.Properties;
-using Samba.Services;
-using Samba.Services.Common;
+using Samba.Persistance;
+using Samba.Persistance.DaoClasses;
 
 namespace Samba.Presentation.Services.Implementations.AccountModule
 {

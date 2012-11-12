@@ -9,9 +9,9 @@ using Samba.Domain.Models.Automation;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Data.Serializer;
+using Samba.Persistance.DaoClasses;
 using Samba.Presentation.Services.Common;
 using Samba.Presentation.Services.Implementations.AutomationModule.Accessors;
-using Samba.Services;
 
 namespace Samba.Presentation.Services.Implementations.AutomationModule
 {

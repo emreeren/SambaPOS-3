@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Automation;
 using Samba.Domain.Models.Menus;
@@ -15,7 +13,7 @@ using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 
-namespace Samba.Services.Implementations
+namespace Samba.Persistance.DaoClasses.Implementations
 {
     [Export(typeof(ICacheDao))]
     class CacheDao : ICacheDao

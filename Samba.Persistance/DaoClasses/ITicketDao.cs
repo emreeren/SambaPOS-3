@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using Samba.Domain.Models.Tickets;
-using Samba.Services.Common;
 
-namespace Samba.Services
+namespace Samba.Persistance.DaoClasses
 {
     public interface ITicketDao
     {

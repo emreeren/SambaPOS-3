@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using Samba.Domain.Models.Accounts;
-using Samba.Services.Common;
+using Samba.Persistance;
 
 namespace Samba.Presentation.Services
 {

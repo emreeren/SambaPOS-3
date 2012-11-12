@@ -32,6 +32,7 @@ namespace Samba.Presentation
             if (path != null)
             {
                 AggregateCatalog.Catalogs.Add(new DirectoryCatalog(path, "Samba.Modules*"));
+                AggregateCatalog.Catalogs.Add(new DirectoryCatalog(path, "Samba.Persistance.dll"));
                 AggregateCatalog.Catalogs.Add(new DirectoryCatalog(path, "Samba.Presentation*"));
                 AggregateCatalog.Catalogs.Add(new DirectoryCatalog(path, "Samba.Services*"));
             }

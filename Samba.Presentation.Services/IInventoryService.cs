@@ -2,11 +2,10 @@
 using Samba.Domain.Models.Inventories;
 using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Data;
-using Samba.Presentation.Services.Common;
 
 namespace Samba.Presentation.Services
 {
-    public interface IInventoryService : IPresentationService
+    public interface IInventoryService
     {
         PeriodicConsumption GetPreviousPeriodicConsumption(IWorkspace workspace);
         PeriodicConsumption GetCurrentPeriodicConsumption(IWorkspace workspace);

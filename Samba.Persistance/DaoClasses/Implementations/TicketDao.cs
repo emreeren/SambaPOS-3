@@ -10,9 +10,8 @@ using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Persistance.Data.Specification;
-using Samba.Services.Common;
 
-namespace Samba.Services.Implementations
+namespace Samba.Persistance.DaoClasses.Implementations
 {
     [Export(typeof(ITicketDao))]
     class TicketDao : ITicketDao

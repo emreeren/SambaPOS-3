@@ -74,10 +74,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IAccountDao.cs" />
-    <Compile Include="IAutomationDao.cs" />
-    <Compile Include="ICacheDao.cs" />
-    <Compile Include="ITicketDao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

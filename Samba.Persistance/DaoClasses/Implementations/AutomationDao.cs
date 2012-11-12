@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
 using Samba.Domain.Models.Automation;
 using Samba.Persistance.Data;
 
-namespace Samba.Services.Implementations
+namespace Samba.Persistance.DaoClasses.Implementations
 {
     [Export(typeof(IAutomationDao))]
     class AutomationDao : IAutomationDao

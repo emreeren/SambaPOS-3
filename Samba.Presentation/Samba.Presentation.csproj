@@ -292,6 +292,10 @@
       <Project>{3AED3A4C-F3D7-4D29-BF58-85743E4F7AFD}</Project>
       <Name>Samba.Persistance.DBMigration</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Samba.Persistance\Samba.Persistance.csproj">
+      <Project>{9ACA7797-5C2A-4435-B991-E59462ACDAF6}</Project>
+      <Name>Samba.Persistance</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samba.Presentation.Common\Samba.Presentation.Common.csproj">
       <Project>{FE1A894E-D55E-4CEA-980A-1C678A2453FC}</Project>
       <Name>Samba.Presentation.Common</Name>

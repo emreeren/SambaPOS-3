@@ -1,4 +1,4 @@
-namespace Samba.Services.Common
+namespace Samba.Persistance
 {
     public class BalanceValue
     {

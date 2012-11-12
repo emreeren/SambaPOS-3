@@ -5,7 +5,7 @@ using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
-using Samba.Services.Common;
+using Samba.Persistance;
 
 namespace Samba.Presentation.Services
 {

@@ -121,11 +121,18 @@ namespace Samba.Persistance.Data
             return result;
         }
 
+        public static bool Exists<T>() where T : class,IValue
+        {
+            using (var workspace = WorkspaceFactory.CreateReadOnly())
+            {
+                return workspace.Any<T>();
+            }
+        }
+
         public static bool Exists<T>(Expression<Func<T, bool>> predictate) where T : class,IValue
         {
             using (var workspace = WorkspaceFactory.CreateReadOnly())
             {
-                //return workspace.Any(predictate);
                 return workspace.Select(x => x.Id, predictate).Any();
             }
         }

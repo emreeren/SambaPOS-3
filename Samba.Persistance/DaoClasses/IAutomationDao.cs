@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Samba.Domain.Models.Automation;
 
-namespace Samba.Services
+namespace Samba.Persistance.DaoClasses
 {
     public interface IAutomationDao
     {

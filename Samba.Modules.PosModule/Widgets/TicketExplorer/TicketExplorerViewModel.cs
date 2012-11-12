@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Timers;
 using Samba.Domain.Models.Resources;
 using Samba.Localization.Properties;
+using Samba.Persistance;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Services;
