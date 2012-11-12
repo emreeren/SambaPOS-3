@@ -12,6 +12,7 @@ using Samba.Domain.Models.Tasks;
 using Samba.Domain.Models.Tickets;
 using Samba.Persistance.Data;
 using Samba.Presentation.Services.Common;
+using Samba.Services;
 
 namespace Samba.Presentation.Services.Implementations
 {
@@ -19,17 +20,19 @@ namespace Samba.Presentation.Services.Implementations
     class CacheService : AbstractService, ICacheService
     {
         private readonly IApplicationState _applicationState;
+        private readonly ICacheDao _dataService;
 
         [ImportingConstructor]
-        public CacheService(IApplicationState applicationState)
+        public CacheService(IApplicationState applicationState,ICacheDao dataService)
         {
             _applicationState = applicationState;
+            _dataService = dataService;
         }
 
         private IEnumerable<MenuItem> _menuItems;
         public IEnumerable<MenuItem> MenuItems
         {
-            get { return _menuItems ?? (_menuItems = Dao.Query<MenuItem>(x => x.TaxTemplate.AccountTransactionType, x => x.Portions.Select(y => y.Prices))); }
+            get { return _menuItems ?? (_menuItems = _dataService.GetMenuItems()); }
         }
 
         public MenuItem GetMenuItem(Expression<Func<MenuItem, bool>> expression)
@@ -40,7 +43,7 @@ namespace Samba.Presentation.Services.Implementations
         private IEnumerable<ProductTimer> _productTimers;
         public IEnumerable<ProductTimer> ProductTimers
         {
-            get { return _productTimers ?? (_productTimers = Dao.Query<ProductTimer>(x => x.ProductTimerMaps)); }
+            get { return _productTimers ?? (_productTimers = _dataService.GetProductTimers()); }
         }
 
         private ProductTimer GetProductTimer(IEnumerable<ProductTimer> productTimers, int menuItemId)
@@ -86,7 +89,7 @@ namespace Samba.Presentation.Services.Implementations
         private IEnumerable<OrderTagGroup> _orderTagGroups;
         public IEnumerable<OrderTagGroup> OrderTagGroups
         {
-            get { return _orderTagGroups ?? (_orderTagGroups = Dao.Query<OrderTagGroup>(x => x.OrderTags, x => x.OrderTagMaps)); }
+            get { return _orderTagGroups ?? (_orderTagGroups = _dataService.GetOrderTagGroups()); }
         }
 
         private IEnumerable<OrderTagGroup> GetOrderTagGroups(IEnumerable<OrderTagGroup> tagGroups, int menuItemId)
@@ -106,7 +109,7 @@ namespace Samba.Presentation.Services.Implementations
         private IEnumerable<OrderStateGroup> _orderStateGroups;
         public IEnumerable<OrderStateGroup> OrderStateGroups
         {
-            get { return _orderStateGroups ?? (_orderStateGroups = Dao.Query<OrderStateGroup>(x => x.OrderStates, x => x.OrderStateMaps)); }
+            get { return _orderStateGroups ?? (_orderStateGroups = _dataService.GetOrderStateGroups()); }
         }
 
         public IEnumerable<OrderStateGroup> GetOrderStateGroupsForItems(IEnumerable<int> menuItemIds)
@@ -142,7 +145,7 @@ namespace Samba.Presentation.Services.Implementations
         private IEnumerable<AccountTransactionType> _accountTransactionTypes;
         public IEnumerable<AccountTransactionType> AccountTransactionTypes
         {
-            get { return _accountTransactionTypes ?? (_accountTransactionTypes = Dao.Query<AccountTransactionType>()); }
+            get { return _accountTransactionTypes ?? (_accountTransactionTypes = _dataService.GetAccountTransactionTypes()); }
         }
 
         public AccountTransactionType GetAccountTransactionTypeById(int id)
@@ -158,7 +161,7 @@ namespace Samba.Presentation.Services.Implementations
         private IEnumerable<Resource> _resources;
         public IEnumerable<Resource> Resources
         {
-            get { return _resources ?? (_resources = Dao.Query<Resource>()); }
+            get { return _resources ?? (_resources = _dataService.GetResources()); }
         }
 
         public IEnumerable<Resource> GetResourcesByTemplateId(int templateId)
@@ -169,13 +172,13 @@ namespace Samba.Presentation.Services.Implementations
         private IEnumerable<ResourceType> _resourceTypes;
         public IEnumerable<ResourceType> ResourceTypes
         {
-            get { return _resourceTypes ?? (_resourceTypes = Dao.Query<ResourceType>(x => x.ResoruceCustomFields).OrderBy(x => x.Order)); }
+            get { return _resourceTypes ?? (_resourceTypes = _dataService.GetResourceTypes()); }
         }
 
         private IEnumerable<AccountType> _accountTypes;
         public IEnumerable<AccountType> AccountTypes
         {
-            get { return _accountTypes ?? (_accountTypes = Dao.Query<AccountType>()); }
+            get { return _accountTypes ?? (_accountTypes = _dataService.GetAccountTypes()); }
         }
 
         public IEnumerable<ResourceType> GetResourceTypes()
@@ -204,7 +207,7 @@ namespace Samba.Presentation.Services.Implementations
         }
 
         private IEnumerable<AccountTransactionDocumentType> _documentTypes;
-        public IEnumerable<AccountTransactionDocumentType> DocumentTypes { get { return _documentTypes ?? (_documentTypes = Dao.Query<AccountTransactionDocumentType>(x => x.TransactionTypes, x => x.AccountTransactionDocumentTypeMaps, x => x.AccountTransactionDocumentAccountMaps)); } }
+        public IEnumerable<AccountTransactionDocumentType> DocumentTypes { get { return _documentTypes ?? (_documentTypes = _dataService.GetAccountTransactionDocumentTypes()); } }
 
         public IEnumerable<AccountTransactionDocumentType> GetAccountTransactionDocumentTypes(int accountTypeId)
         {
@@ -233,7 +236,7 @@ namespace Samba.Presentation.Services.Implementations
         private IEnumerable<ResourceState> _resourceStates;
         public IEnumerable<ResourceState> ResourceStates
         {
-            get { return _resourceStates ?? (_resourceStates = Dao.Query<ResourceState>()); }
+            get { return _resourceStates ?? (_resourceStates = _dataService.GetResourceStates()); }
         }
 
         public ResourceState GetResourceStateById(int accountStateId)
@@ -254,7 +257,7 @@ namespace Samba.Presentation.Services.Implementations
         private IEnumerable<PrintJob> _printJobs;
         public IEnumerable<PrintJob> PrintJobs
         {
-            get { return _printJobs ?? (_printJobs = Dao.Query<PrintJob>(x => x.PrinterMaps)); }
+            get { return _printJobs ?? (_printJobs = _dataService.GetPrintJobs()); }
         }
 
         public PrintJob GetPrintJobByName(string name)
@@ -265,7 +268,7 @@ namespace Samba.Presentation.Services.Implementations
         private IEnumerable<PaymentType> _paymentTypes;
         public IEnumerable<PaymentType> PaymentTypes
         {
-            get { return _paymentTypes ?? (_paymentTypes = Dao.Query<PaymentType>(x => x.PaymentTypeMaps, x => x.AccountTransactionType, x => x.Account)); }
+            get { return _paymentTypes ?? (_paymentTypes = _dataService.GetPaymentTypes()); }
         }
 
         public IEnumerable<PaymentType> GetUnderTicketPaymentTypes()
@@ -293,7 +296,7 @@ namespace Samba.Presentation.Services.Implementations
         private IEnumerable<ChangePaymentType> _changePaymentTypes;
         public IEnumerable<ChangePaymentType> ChangePaymentTypes
         {
-            get { return _changePaymentTypes ?? (_changePaymentTypes = Dao.Query<ChangePaymentType>(x => x.ChangePaymentTypeMaps, x => x.AccountTransactionType, x => x.Account)); }
+            get { return _changePaymentTypes ?? (_changePaymentTypes = _dataService.GetChangePaymentTypes()); }
         }
 
         public IEnumerable<ChangePaymentType> GetChangePaymentTypes()
@@ -309,7 +312,7 @@ namespace Samba.Presentation.Services.Implementations
         private IEnumerable<TicketTagGroup> _ticketTagGroups;
         public IEnumerable<TicketTagGroup> TicketTagGroups
         {
-            get { return _ticketTagGroups ?? (_ticketTagGroups = Dao.Query<TicketTagGroup>(x => x.TicketTags, x => x.TicketTagMaps)); }
+            get { return _ticketTagGroups ?? (_ticketTagGroups = _dataService.GetTicketTagGroups()); }
         }
 
         public IEnumerable<TicketTagGroup> GetTicketTagGroups()
@@ -325,7 +328,7 @@ namespace Samba.Presentation.Services.Implementations
         private IEnumerable<AutomationCommand> _automationCommands;
         public IEnumerable<AutomationCommand> AutomationCommands
         {
-            get { return _automationCommands ?? (_automationCommands = Dao.Query<AutomationCommand>(x => x.AutomationCommandMaps)); }
+            get { return _automationCommands ?? (_automationCommands = _dataService.GetAutomationCommands()); }
         }
 
         public IEnumerable<AutomationCommandData> GetAutomationCommands()
@@ -345,7 +348,7 @@ namespace Samba.Presentation.Services.Implementations
         private IEnumerable<CalculationSelector> _calculationSelectors;
         public IEnumerable<CalculationSelector> CalculationSelectors
         {
-            get { return _calculationSelectors ?? (_calculationSelectors = Dao.Query<CalculationSelector>(x => x.CalculationSelectorMaps, x => x.CalculationTypes.Select(y => y.AccountTransactionType))); }
+            get { return _calculationSelectors ?? (_calculationSelectors = _dataService.GetCalculationSelectors()); }
         }
 
         public IEnumerable<CalculationSelector> GetCalculationSelectors()
@@ -366,7 +369,7 @@ namespace Samba.Presentation.Services.Implementations
         private IEnumerable<AccountScreen> _accountScreens;
         public IEnumerable<AccountScreen> AccountScreens
         {
-            get { return _accountScreens ?? (_accountScreens = Dao.Query<AccountScreen>(x => x.AccountScreenValues)); }
+            get { return _accountScreens ?? (_accountScreens = _dataService.GetAccountScreens()); }
         }
 
         public IEnumerable<AccountScreen> GetAccountScreens()
@@ -408,10 +411,7 @@ namespace Samba.Presentation.Services.Implementations
             get
             {
                 return _screenMenus ?? (
-                    _screenMenus = Dao.Query<ScreenMenu>(
-                    x => x.Categories,
-                    x => x.Categories.Select(z => z.ScreenMenuItems.Select(w => w.OrderTagTemplate.OrderTagTemplateValues.Select(x1 => x1.OrderTag))),
-                    x => x.Categories.Select(z => z.ScreenMenuItems.Select(w => w.OrderTagTemplate.OrderTagTemplateValues.Select(x1 => x1.OrderTagGroup)))));
+                    _screenMenus = _dataService.GetScreenMenus());
             }
         }
 
@@ -423,7 +423,7 @@ namespace Samba.Presentation.Services.Implementations
         private IEnumerable<ResourceScreen> _resourceScreens;
         public IEnumerable<ResourceScreen> ResourceScreens
         {
-            get { return _resourceScreens ?? (_resourceScreens = Dao.Query<ResourceScreen>(x => x.ResourceScreenMaps, x => x.ScreenItems, x => x.Widgets)); }
+            get { return _resourceScreens ?? (_resourceScreens = _dataService.GetResourceScreens()); }
         }
 
         public IEnumerable<ResourceScreen> GetResourceScreens()
@@ -463,7 +463,7 @@ namespace Samba.Presentation.Services.Implementations
         private IEnumerable<TicketType> _ticketTypes;
         public IEnumerable<TicketType> TicketTypes
         {
-            get { return _ticketTypes ?? (_ticketTypes = Dao.Query<TicketType>(x => x.SaleTransactionType, x => x.OrderNumerator, x => x.TicketNumerator)); }
+            get { return _ticketTypes ?? (_ticketTypes = _dataService.GetTicketTypes()); }
         }
 
         public TicketType GetTicketTypeById(int ticketTypeId)
@@ -479,7 +479,7 @@ namespace Samba.Presentation.Services.Implementations
         private IEnumerable<TaskType> _taskTypes;
         public IEnumerable<TaskType> TaskTypes
         {
-            get { return _taskTypes ?? (_taskTypes = Dao.Query<TaskType>(x => x.ResourceTypes)); }
+            get { return _taskTypes ?? (_taskTypes = _dataService.GetTaskTypes()); }
         }
 
         public int GetTaskTypeIdByName(string taskTypeName)
@@ -506,7 +506,7 @@ namespace Samba.Presentation.Services.Implementations
         private IEnumerable<ForeignCurrency> _foreignCurrencies;
         public IEnumerable<ForeignCurrency> ForeignCurrencies
         {
-            get { return _foreignCurrencies ?? (_foreignCurrencies = Dao.Query<ForeignCurrency>()); }
+            get { return _foreignCurrencies ?? (_foreignCurrencies = _dataService.GetForeignCurrencies()); }
         }
 
         public IEnumerable<ForeignCurrency> GetForeignCurrencies()
@@ -538,7 +538,7 @@ namespace Samba.Presentation.Services.Implementations
             _paymentTypes = null;
             _changePaymentTypes = null;
             _ticketTagGroups = null;
-            Dao.ResetCache();
+            _dataService.ResetCache();
         }
     }
 }

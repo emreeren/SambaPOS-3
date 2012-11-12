@@ -28,7 +28,7 @@ namespace Samba.Presentation.ViewModels
     public static class GenericRuleRegistator
     {
         private static readonly IDepartmentService DepartmentService = ServiceLocator.Current.GetInstance<IDepartmentService>();
-        private static readonly ITicketPresentationService TicketService = ServiceLocator.Current.GetInstance<ITicketPresentationService>();
+        private static readonly ITicketService TicketService = ServiceLocator.Current.GetInstance<ITicketService>();
         private static readonly IApplicationState ApplicationState = ServiceLocator.Current.GetInstance<IApplicationState>();
         private static readonly IUserService UserService = ServiceLocator.Current.GetInstance<IUserService>();
         private static readonly ITriggerService TriggerService = ServiceLocator.Current.GetInstance<ITriggerService>();

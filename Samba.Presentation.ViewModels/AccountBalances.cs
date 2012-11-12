@@ -4,6 +4,7 @@ using System.Linq;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Services;
+using Samba.Services;
 
 namespace Samba.Presentation.ViewModels
 {

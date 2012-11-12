@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using Samba.Domain.Models.Settings;
 using Samba.Persistance.Data;
-using Samba.Presentation.Services.Common;
 
 namespace Samba.Presentation.Services.Implementations.WorkPeriodModule
 {
     [Export(typeof(IWorkPeriodService))]
-    public class WorkPeriodService : AbstractService, IWorkPeriodService
+    public class WorkPeriodService : IWorkPeriodService
     {
         private readonly IApplicationStateSetter _applicationStateSetter;
         private readonly IApplicationState _applicationState;
@@ -71,11 +70,6 @@ namespace Samba.Presentation.Services.Implementations.WorkPeriodModule
         public DateTime GetWorkPeriodStartDate()
         {
             return CurrentWorkPeriod.StartDate;
-        }
-
-        public override void Reset()
-        {
-
         }
     }
 }

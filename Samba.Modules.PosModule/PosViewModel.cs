@@ -15,13 +15,14 @@ using Samba.Presentation.Common.Services;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Presentation.ViewModels;
+using Samba.Services;
 
 namespace Samba.Modules.PosModule
 {
     [Export]
     public class PosViewModel : ObservableObject
     {
-        private readonly ITicketPresentationService _ticketService;
+        private readonly ITicketService _ticketService;
         private readonly IUserService _userService;
         private readonly ICacheService _cacheService;
         private readonly IApplicationState _applicationState;
@@ -55,7 +56,7 @@ namespace Samba.Modules.PosModule
 
         [ImportingConstructor]
         public PosViewModel(IRegionManager regionManager, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
-            ITicketPresentationService ticketService, IUserService userService, ICacheService cacheService,
+            ITicketService ticketService, IUserService userService, ICacheService cacheService,
             TicketListViewModel ticketListViewModel, TicketTagListViewModel ticketTagListViewModel,
             MenuItemSelectorViewModel menuItemSelectorViewModel, MenuItemSelectorView menuItemSelectorView, TicketViewModel ticketViewModel,
             TicketOrdersViewModel ticketOrdersViewModel)

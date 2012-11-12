@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure;
 
-namespace Samba.Presentation.Services.Common
+namespace Samba.Services.Common
 {
     public class OpenTicketData
     {

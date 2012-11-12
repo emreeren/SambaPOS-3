@@ -7,6 +7,7 @@ using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Presentation.ViewModels;
+using Samba.Services;
 
 namespace Samba.Modules.ResourceModule
 {
@@ -16,13 +17,13 @@ namespace Samba.Modules.ResourceModule
         private readonly ICacheService _cacheService;
         private readonly IAccountService _accountService;
         private readonly IUserService _userService;
-        private readonly ITicketPresentationService _ticketService;
+        private readonly ITicketService _ticketService;
         public ICaptionCommand SaveResourceCommand { get; set; }
         public ICaptionCommand SelectResourceCommand { get; set; }
         public ICaptionCommand CreateAccountCommand { get; set; }
 
         [ImportingConstructor]
-        public ResourceEditorViewModel(ICacheService cacheService, IAccountService accountService, IUserService userService, ITicketPresentationService ticketService)
+        public ResourceEditorViewModel(ICacheService cacheService, IAccountService accountService, IUserService userService, ITicketService ticketService)
         {
             _cacheService = cacheService;
             _accountService = accountService;

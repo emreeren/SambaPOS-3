@@ -22,7 +22,7 @@ namespace Samba.Modules.PosModule
     [Export]
     public class TicketViewModel : ObservableObject
     {
-        private readonly ITicketPresentationService _ticketService;
+        private readonly ITicketService _ticketService;
         private readonly IUserService _userService;
         private readonly IApplicationState _applicationState;
         private readonly IAutomationService _automationService;
@@ -179,7 +179,7 @@ namespace Samba.Modules.PosModule
 
         [ImportingConstructor]
         public TicketViewModel(IApplicationState applicationState,
-            ITicketPresentationService ticketService, IAccountService accountService, IResourceService locationService, IUserService userService,
+            ITicketService ticketService, IAccountService accountService, IResourceService locationService, IUserService userService,
             IAutomationService automationService, ICacheService cacheService, TicketOrdersViewModel ticketOrdersViewModel,
             TicketTotalsViewModel totals, TicketInfoViewModel ticketInfoViewModel, PaymentButtonViewModel paymentButtonViewModel)
         {

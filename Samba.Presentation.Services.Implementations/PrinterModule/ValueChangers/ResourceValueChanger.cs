@@ -1,5 +1,6 @@
 ﻿using Microsoft.Practices.ServiceLocation;
 using Samba.Domain.Models.Tickets;
+using Samba.Services;
 
 namespace Samba.Presentation.Services.Implementations.PrinterModule.ValueChangers
 {

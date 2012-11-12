@@ -12,6 +12,9 @@ namespace Samba.Presentation.Services
 {
     public interface ICacheService
     {
+        void ResetOrderTagCache();
+        void ResetTicketTagCache();
+
         ScreenMenu GetScreenMenu(int screenMenuId);
         MenuItem GetMenuItem(Expression<Func<MenuItem, bool>> expression);
         MenuItemPortion GetMenuItemPortion(int menuItemId, string portionName);
@@ -53,14 +56,10 @@ namespace Samba.Presentation.Services
         IEnumerable<ForeignCurrency> GetForeignCurrencies();
         IEnumerable<ResourceScreen> GetResourceScreens();
         IEnumerable<ResourceScreen> GetTicketResourceScreens();
-
         AccountTransactionType FindAccountTransactionType(int sourceAccountTypeId, int targetAccountTypeId, int defaultSourceId, int defaultTargetId);
         TicketType GetTicketTypeById(int ticketTypeId);
         IEnumerable<TicketType> GetTicketTypes();
         int GetTaskTypeIdByName(string taskTypeName);
         IEnumerable<string> GetTaskTypeNames();
-
-        void ResetOrderTagCache();
-        void ResetTicketTagCache();
     }
 }

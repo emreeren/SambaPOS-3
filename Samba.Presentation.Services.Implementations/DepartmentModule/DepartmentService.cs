@@ -7,29 +7,25 @@ using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Presentation.Services.Common;
+using Samba.Services;
 
 namespace Samba.Presentation.Services.Implementations.DepartmentModule
 {
     [Export(typeof(IDepartmentService))]
     public class DepartmentService : AbstractService, IDepartmentService
     {
-        [ImportingConstructor]
-        public DepartmentService()
-        {
-            ValidatorRegistry.RegisterDeleteValidator<Department>(
-                x => Dao.Exists<UserRole>(y => y.DepartmentId == x.Id), Resources.Department, Resources.UserRole);
-        }
+        private readonly ICacheDao _cacheDao;
 
-        private IWorkspace _workspace;
-        public IWorkspace Workspace
+        [ImportingConstructor]
+        public DepartmentService(ICacheDao cacheDao)
         {
-            get { return _workspace ?? (_workspace = WorkspaceFactory.Create()); }
+            _cacheDao = cacheDao;
         }
 
         private IEnumerable<Department> _departments;
         public IEnumerable<Department> Departments
         {
-            get { return _departments ?? (_departments = Workspace.All<Department>().OrderBy(x => x.Order).ThenBy(x => x.Id)); }
+            get { return _departments ?? (_departments = _cacheDao.GetDepartments()); }
         }
 
         public Department GetDepartment(int id)
@@ -49,7 +45,6 @@ namespace Samba.Presentation.Services.Implementations.DepartmentModule
 
         public override void Reset()
         {
-            _workspace = null;
             _departments = null;
         }
     }

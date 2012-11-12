@@ -8,6 +8,7 @@ using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Presentation.Services.Common;
+using Samba.Services;
 using Samba.Services.Common;
 
 namespace Samba.Presentation.Services.Implementations.InventoryModule

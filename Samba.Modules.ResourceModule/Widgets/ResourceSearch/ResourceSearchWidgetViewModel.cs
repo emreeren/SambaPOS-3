@@ -5,6 +5,7 @@ using Samba.Infrastructure;
 using Samba.Presentation.Common;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
+using Samba.Services;
 
 namespace Samba.Modules.ResourceModule.Widgets.ResourceSearch
 {

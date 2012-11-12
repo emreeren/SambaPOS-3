@@ -1,11 +1,12 @@
 using Microsoft.Practices.ServiceLocation;
+using Samba.Services;
 
 namespace Samba.Presentation.Services.Implementations.AutomationModule.Accessors
 {
     public static class LocatorAccessor
     {
         private static IApplicationState _applicationState;
-        private static ITicketPresentationService _ticketService;
+        private static ITicketService _ticketService;
         private static IDepartmentService _departmentService;
         private static IUserService _userService;
         private static IMenuService _menuService;
@@ -17,9 +18,9 @@ namespace Samba.Presentation.Services.Implementations.AutomationModule.Accessors
             get { return _applicationState ?? (_applicationState = ServiceLocator.Current.GetInstance<IApplicationState>()); }
         }
 
-        public static ITicketPresentationService TicketService
+        public static ITicketService TicketService
         {
-            get { return _ticketService ?? (_ticketService = ServiceLocator.Current.GetInstance<ITicketPresentationService>()); }
+            get { return _ticketService ?? (_ticketService = ServiceLocator.Current.GetInstance<ITicketService>()); }
         }
 
         public static IDepartmentService DepartmentService

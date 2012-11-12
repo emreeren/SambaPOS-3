@@ -63,10 +63,8 @@
     <Compile Include="IProgramSettings.cs" />
     <Compile Include="IRuleConstraint.cs" />
     <Compile Include="IPresentationService.cs" />
-    <Compile Include="ITicketExplorerFilter.cs" />
     <Compile Include="MenuItemData.cs" />
     <Compile Include="MessagingService.cs" />
-    <Compile Include="OpenTicketData.cs" />
     <Compile Include="PermissionNames.cs" />
     <Compile Include="PermissionRegistry.cs" />
     <Compile Include="PriceData.cs" />
@@ -74,7 +72,6 @@
     <Compile Include="RuleActionType.cs" />
     <Compile Include="RuleEvent.cs" />
     <Compile Include="SerialPortService.cs" />
-    <Compile Include="TicketCommitResult.cs" />
     <Compile Include="TicketTagData.cs" />
   </ItemGroup>
   <ItemGroup>

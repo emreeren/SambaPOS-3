@@ -12,6 +12,7 @@ using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.UIControls;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
+using Samba.Services;
 
 namespace Samba.Modules.ModifierModule
 {
@@ -19,10 +20,10 @@ namespace Samba.Modules.ModifierModule
     public class TicketTagEditorViewModel : ObservableObject
     {
         private readonly ICacheService _cacheService;
-        private readonly ITicketPresentationService _ticketService;
+        private readonly ITicketService _ticketService;
 
         [ImportingConstructor]
-        public TicketTagEditorViewModel(ICacheService cacheService, ITicketPresentationService ticketService)
+        public TicketTagEditorViewModel(ICacheService cacheService, ITicketService ticketService)
         {
             _cacheService = cacheService;
             _ticketService = ticketService;

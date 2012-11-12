@@ -17,10 +17,10 @@ namespace Samba.Modules.PosModule
     [Export]
     public class TicketListViewModel : ObservableObject
     {
-        private readonly ITicketPresentationService _ticketService;
+        private readonly ITicketService _ticketService;
 
         [ImportingConstructor]
-        public TicketListViewModel(ITicketPresentationService ticketService)
+        public TicketListViewModel(ITicketService ticketService)
         {
             _ticketService = ticketService;
             _tickets = new List<TicketButtonViewModel>();

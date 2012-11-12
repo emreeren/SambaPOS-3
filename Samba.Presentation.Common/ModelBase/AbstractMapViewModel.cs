@@ -5,6 +5,7 @@ using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
 using Samba.Infrastructure.Data;
 using Samba.Presentation.Services;
+using Samba.Services;
 
 namespace Samba.Presentation.Common.ModelBase
 {

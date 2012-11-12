@@ -5,11 +5,11 @@ using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
-using Samba.Presentation.Services.Common;
+using Samba.Services.Common;
 
 namespace Samba.Presentation.Services
 {
-    public interface ITicketPresentationService : IPresentationService
+    public interface ITicketService
     {
         Ticket OpenTicket(int ticketId);
         TicketCommitResult CloseTicket(Ticket ticket);
@@ -20,7 +20,6 @@ namespace Samba.Presentation.Services
         void AddChangePayment(Ticket ticket, ChangePaymentType paymentType, Account account, decimal amount);
         void PayTicket(Ticket ticket, PaymentType template);
         void UpdateTicketNumber(Ticket ticket, Numerator numerator);
-        void UpdateAccount(Ticket ticket, Account account);
         void UpdateResource(Ticket ticket, Resource resource);
         void UpdateResource(Ticket ticket, int resourceTypeId, int resourceId, string resourceName, int accountId, string resourceCustomData);
         void RecalculateTicket(Ticket ticket);

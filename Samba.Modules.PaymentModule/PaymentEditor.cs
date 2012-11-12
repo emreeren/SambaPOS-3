@@ -10,6 +10,7 @@ using Samba.Presentation.Common.Services;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Presentation.ViewModels;
+using Samba.Services;
 
 namespace Samba.Modules.PaymentModule
 {
@@ -17,13 +18,13 @@ namespace Samba.Modules.PaymentModule
     public class PaymentEditor
     {
         private readonly ICacheService _cacheService;
-        private readonly ITicketPresentationService _ticketService;
+        private readonly ITicketService _ticketService;
         private readonly IAccountService _accountService;
         private readonly AccountBalances _accountBalances;
         private Ticket _selectedTicket;
 
         [ImportingConstructor]
-        public PaymentEditor(ICacheService cacheService, ITicketPresentationService ticketService, IAccountService accountService,
+        public PaymentEditor(ICacheService cacheService, ITicketService ticketService, IAccountService accountService,
             AccountBalances accountBalances)
         {
             _cacheService = cacheService;

@@ -10,9 +10,9 @@ namespace Samba.Modules.PosModule.Widgets.TicketExplorer
 {
     public class TicketExplorerRowData : ObservableObject
     {
-        private readonly ITicketPresentationService _ticketService;
+        private readonly ITicketService _ticketService;
 
-        public TicketExplorerRowData(Ticket model, ITicketPresentationService ticketService)
+        public TicketExplorerRowData(Ticket model, ITicketService ticketService)
         {
             _ticketService = ticketService;
             Model = model;

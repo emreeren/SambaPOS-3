@@ -11,19 +11,19 @@ using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Common.Services;
-using Samba.Presentation.Services;
+using Samba.Services;
 
 namespace Samba.Modules.AccountModule.Dashboard
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     class AccountScreenViewModel : EntityViewModelBase<AccountScreen>
     {
-        private readonly IAccountService _accountService;
+        private readonly ICacheDao _dataService;
 
         [ImportingConstructor]
-        public AccountScreenViewModel(IAccountService accountService)
+        public AccountScreenViewModel(ICacheDao dataService)
         {
-            _accountService = accountService;
+            _dataService = dataService;
             AddScreenFilterCommand = new CaptionCommand<string>(Resources.Select, OnAddScreenFilter);
         }
 
@@ -35,9 +35,8 @@ namespace Samba.Modules.AccountModule.Dashboard
         private IEnumerable<AccountType> _accountTypes;
         public IEnumerable<AccountType> AccountTypes
         {
-            get { return _accountTypes ?? (_accountTypes = _accountService.GetAccountTypes()); }
+            get { return _accountTypes ?? (_accountTypes = _dataService.GetAccountTypes()); }
         }
-
 
         private ObservableCollection<AccountScreenValue> _accountScreenFilters;
         public ObservableCollection<AccountScreenValue> AccountScreenFilters

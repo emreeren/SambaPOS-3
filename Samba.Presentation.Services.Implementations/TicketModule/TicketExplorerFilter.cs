@@ -4,7 +4,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
-using Samba.Presentation.Services.Common;
+using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Presentation.Services.Implementations.TicketModule
 {

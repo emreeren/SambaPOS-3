@@ -6,6 +6,7 @@ using Microsoft.Practices.ServiceLocation;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
+using Samba.Services;
 
 namespace Samba.Presentation.Services.Implementations.PrinterModule.ValueChangers
 {

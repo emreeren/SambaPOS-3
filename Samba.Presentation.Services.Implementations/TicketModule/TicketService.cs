@@ -4,25 +4,23 @@ using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
-using Omu.ValueInjecter;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
-using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Data.Serializer;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
-using Samba.Persistance.Data.Specification;
 using Samba.Presentation.Services.Common;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Presentation.Services.Implementations.TicketModule
 {
-    [Export(typeof(ITicketPresentationService))]
-    public class TicketPresentationService : AbstractService, ITicketPresentationService
+    [Export(typeof(ITicketService))]
+    public class TicketService : ITicketService
     {
-        private readonly ITicketService _ticketService;
+        private readonly ITicketDao _ticketDao;
         private readonly IApplicationState _applicationState;
         private readonly IAutomationService _automationService;
         private readonly IUserService _userService;
@@ -31,10 +29,10 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
         private readonly IAccountService _accountService;
 
         [ImportingConstructor]
-        public TicketPresentationService(ITicketService ticketService, IDepartmentService departmentService, IApplicationState applicationState, IAutomationService automationService,
+        public TicketService(ITicketDao ticketDao, IDepartmentService departmentService, IApplicationState applicationState, IAutomationService automationService,
             IUserService userService, ISettingService settingService, ICacheService cacheService, IAccountService accountService)
         {
-            _ticketService = ticketService;
+            _ticketDao = ticketDao;
             _applicationState = applicationState;
             _automationService = automationService;
             _userService = userService;
@@ -47,24 +45,6 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
         {
             if (account.ForeignCurrencyId == 0) return 1;
             return _cacheService.GetForeignCurrencies().Single(x => x.Id == account.ForeignCurrencyId).ExchangeRate;
-        }
-
-        public void UpdateAccount(Ticket ticket, Account account)
-        {
-            Debug.Assert(ticket != null);
-            if (account == Account.Null)
-            {
-                var template = Dao.Single<AccountTransactionType>(
-                        x => x.Id == _applicationState.CurrentTicketType.SaleTransactionType.Id);
-                account = _cacheService.GetAccountById(template.DefaultTargetAccountId);
-            }
-            ticket.UpdateAccount(account, GetExchangeRate(account));
-            _automationService.NotifyEvent(RuleEventNames.AccountSelectedForTicket,
-                    new
-                    {
-                        Ticket = ticket,
-                        AccountName = account.Name,
-                    });
         }
 
         public void UpdateResource(Ticket ticket, int resourceTypeId, int resourceId, string resourceName, int accountId, string resourceCustomData)
@@ -114,13 +94,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
             var ticket = ticketId == 0
                              ? CreateTicket()
-                             : Dao.Load<Ticket>(ticketId,
-                             x => x.Orders.Select(y => y.OrderTagValues),
-                             x => x.Orders.Select(y => y.ProductTimerValue),
-                             x => x.TicketResources,
-                             x => x.Calculations,
-                             x => x.Payments,
-                             x => x.ChangePayments);
+                             : _ticketDao.OpenTicket(ticketId);
 
             _automationService.NotifyEvent(RuleEventNames.TicketOpened, new { Ticket = ticket, OrderCount = ticket.Orders.Count });
 
@@ -135,11 +109,8 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
         public TicketCommitResult CloseTicket(Ticket ticket)
         {
-            var result = new TicketCommitResult();
-
+            var result = _ticketDao.CheckConcurrency(ticket);
             Debug.Assert(ticket != null);
-
-            result.ErrorMessage = Dao.CheckConcurrency(ticket);
             var changed = !string.IsNullOrEmpty(result.ErrorMessage);
             var canSumbitTicket = !changed && ticket.CanSubmit; // Fişi kaydedebilmek için gün sonu yapılmamış ve fişin ödenmemiş olması gerekir.
 
@@ -163,7 +134,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                     {
                         UpdateTicketNumber(ticket, ticketType.TicketNumerator);
                         ticket.LastOrderDate = DateTime.Now;
-                        Dao.Save(ticket);
+                        _ticketDao.Save(ticket);
                     }
 
                     Debug.Assert(!string.IsNullOrEmpty(ticket.TicketNumber));
@@ -176,8 +147,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                     ticket.TransactionDocument.AccountTransactions.Where(x => x.Amount == 0).ToList().ForEach(x => ticket.TransactionDocument.AccountTransactions.Remove(x));
 
                 if (ticket.Id > 0)// eğer adisyonda satır yoksa ID burada 0 olmalı.
-                    Dao.Save(ticket);
-
+                    _ticketDao.Save(ticket);
 
                 Debug.Assert(ticket.Orders.Count(x => x.OrderNumber == 0) == 0);
             }
@@ -206,7 +176,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             if (account == null) return;
             var remainingAmount = ticket.GetRemainingAmount();
             var changeAmount = tenderedAmount > remainingAmount ? tenderedAmount - remainingAmount : 0;
-            _ticketService.AddPayment(ticket, paymentType, account, tenderedAmount, GetExchangeRate(account), _applicationState.CurrentLoggedInUser.Id);
+            ticket.AddPayment(paymentType, account, tenderedAmount, GetExchangeRate(account), _applicationState.CurrentLoggedInUser.Id);
             _automationService.NotifyEvent(RuleEventNames.PaymentProcessed,
                 new
                 {
@@ -261,7 +231,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
             ticketList.ForEach(x => CloseTicket(x));
 
-            var ticket = OpenTicket(0);
+            var ticket = CreateTicket();
             clonedOrders.ForEach(ticket.Orders.Add);
             foreach (var cp in clonedPayments)
             {
@@ -334,14 +304,13 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
         public void RegenerateTaxRates(Ticket ticket)
         {
-            foreach (var order in ticket.Orders)
+            foreach (var o in ticket.Orders)
             {
-                var order1 = order;
-                var mi = _cacheService.GetMenuItem(x => x.Id == order1.MenuItemId);
+                var order = o;
+                var mi = _cacheService.GetMenuItem(x => x.Id == order.MenuItemId);
                 if (mi == null) continue;
-                var item = order1;
-                var portion = mi.Portions.FirstOrDefault(x => x.Name == item.PortionName);
-                if (portion != null) order1.UpdatePortion(portion, order1.PriceTag, mi.TaxTemplate);
+                var portion = mi.Portions.FirstOrDefault(x => x.Name == order.PortionName);
+                if (portion != null) order.UpdatePortion(portion, order.PriceTag, mi.TaxTemplate);
             }
         }
 
@@ -377,12 +346,12 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
         public int GetOpenTicketCount()
         {
-            return Dao.Count<Ticket>(x => !x.IsClosed);
+            return _ticketDao.GetOpenTicketCount();
         }
 
         public IEnumerable<int> GetOpenTicketIds(int resourceId)
         {
-            return Dao.Select<Ticket, int>(x => x.Id, x => !x.IsClosed && x.TicketResources.Any(y => y.ResourceId == resourceId));
+            return _ticketDao.GetOpenTicketIds(resourceId);
         }
 
         public IEnumerable<OpenTicketData> GetOpenTickets(int resourceId)
@@ -392,43 +361,18 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
         public IEnumerable<OpenTicketData> GetOpenTickets(Expression<Func<Ticket, bool>> prediction)
         {
-            return Dao.Select(x => new OpenTicketData
-            {
-                Id = x.Id,
-                LastOrderDate = x.LastOrderDate,
-                TicketNumber = x.TicketNumber,
-                RemainingAmount = x.RemainingAmount,
-                Date = x.Date,
-                TicketResources = x.TicketResources,
-                TicketTags = x.TicketTags
-            }, prediction, x => x.TicketResources);
+            return _ticketDao.GetOpenTickets(prediction);
         }
 
-        public void SaveFreeTicketTag(int id, string freeTag)
+        public void SaveFreeTicketTag(int tagGroupId, string freeTag)
         {
-            if (string.IsNullOrEmpty(freeTag)) return;
-
-            using (var workspace = WorkspaceFactory.Create())
-            {
-                var tt = workspace.Single<TicketTagGroup>(x => x.Id == id);
-                Debug.Assert(tt != null);
-                var tag = tt.TicketTags.FirstOrDefault(x => x.Name.ToLower() == freeTag.ToLower());
-
-                if (tag != null) return;
-                tag = new TicketTag { Name = freeTag };
-                tt.TicketTags.Add(tag);
-                workspace.Add(tag);
-                workspace.CommitChanges();
-                _cacheService.ResetTicketTagCache();
-            }
+            _ticketDao.SaveFreeTicketTag(tagGroupId, freeTag);
+            _cacheService.ResetTicketTagCache();
         }
 
         public IEnumerable<Ticket> GetFilteredTickets(DateTime startDate, DateTime endDate, IList<ITicketExplorerFilter> filters)
         {
-            endDate = endDate.Date.AddDays(1).AddMinutes(-1);
-            Expression<Func<Ticket, bool>> qFilter = x => x.Date >= startDate && x.Date < endDate;
-            qFilter = filters.Aggregate(qFilter, (current, filter) => current.And(filter.GetExpression()));
-            return Dao.Query(qFilter, x => x.TicketResources);
+            return _ticketDao.GetFilteredTickets(startDate, endDate, filters);
         }
 
         public IList<ITicketExplorerFilter> CreateTicketExplorerFilters()
@@ -450,9 +394,9 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             }
         }
 
-        public IEnumerable<Order> GetOrders(int id)
+        public IEnumerable<Order> GetOrders(int ticketId)
         {
-            return Dao.Query<Order>(x => x.TicketId == id);
+            return _ticketDao.GetOrders(ticketId);
         }
 
         public void TagOrders(Ticket ticket, IEnumerable<Order> selectedOrders, OrderTagGroup orderTagGroup, OrderTag orderTag, string tagNote)
@@ -483,23 +427,8 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
                 if (orderTagGroup.SaveFreeTags && orderTagGroup.OrderTags.All(x => x.Name != orderTag.Name))
                 {
-                    using (var v = WorkspaceFactory.Create())
-                    {
-                        var og = v.Single<OrderTagGroup>(x => x.Id == orderTagGroup.Id);
-                        if (og != null)
-                        {
-                            var lvTagName = orderTag.Name.ToLower();
-                            var t = v.Single<OrderTag>(x => x.Name.ToLower() == lvTagName);
-                            if (t == null)
-                            {
-                                var ot = new OrderTag();
-                                ot.InjectFrom<CloneInjection>(orderTag);
-                                og.OrderTags.Add(ot);
-                                v.CommitChanges();
-                                _cacheService.ResetOrderTagCache();
-                            }
-                        }
-                    }
+                    _ticketDao.SaveFreeOrderTag(orderTagGroup.Id, orderTag);
+                    _cacheService.ResetOrderTagCache();
                 }
                 _automationService.NotifyEvent(result ? RuleEventNames.OrderTagged : RuleEventNames.OrderUntagged,
                 new
@@ -587,8 +516,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
         public void AddAccountTransaction(Ticket ticket, Account sourceAccount, Account targetAccount, decimal amount, decimal exchangeRate)
         {
-            var transactionType = _cacheService.FindAccountTransactionType(sourceAccount.AccountTypeId, targetAccount.AccountTypeId,
-                sourceAccount.Id, targetAccount.Id);
+            var transactionType = _cacheService.FindAccountTransactionType(sourceAccount.AccountTypeId, targetAccount.AccountTypeId, sourceAccount.Id, targetAccount.Id);
             if (transactionType != null)
             {
                 ticket.TransactionDocument.AddNewTransaction(transactionType, sourceAccount.AccountTypeId, sourceAccount.Id, targetAccount, amount, exchangeRate);
@@ -625,12 +553,5 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             var newItems = model.ExtractSelectedOrders(selectedItems);
             return newItems;
         }
-
-        public override void Reset()
-        {
-
-        }
     }
-
-   
 }

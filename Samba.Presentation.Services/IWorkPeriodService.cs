@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Samba.Domain.Models.Settings;
-using Samba.Presentation.Services.Common;
 
 namespace Samba.Presentation.Services
 {
-    public interface IWorkPeriodService : IPresentationService
+    public interface IWorkPeriodService 
     {
         void StartWorkPeriod(string description);
         void StopWorkPeriod(string description);

@@ -2,27 +2,13 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using Samba.Domain.Models.Accounts;
+using Samba.Services.Common;
 
 namespace Samba.Presentation.Services
 {
     public class AccountData
     {
         public int AccountId { get; set; }
-    }
-
-    public class BalanceValue
-    {
-        private static BalanceValue _empty;
-        public decimal Balance { get; set; }
-        public decimal Exchange { get; set; }
-
-        public static BalanceValue Empty
-        {
-            get
-            {
-                return _empty ?? (_empty = new BalanceValue());
-            }
-        }
     }
 
     public interface IAccountService
@@ -37,7 +23,6 @@ namespace Samba.Presentation.Services
         IEnumerable<Account> GetBalancedAccounts(int accountTypeId);
         IEnumerable<string> GetCompletingAccountNames(int accountTypeId, string accountName);
         Account GetAccountById(int accountId);
-        IEnumerable<AccountType> GetAccountTypes();
         int CreateAccount(int accountTypeId, string accountName);
         IEnumerable<Account> GetDocumentAccounts(AccountTransactionDocumentType documentType);
         void CreateBatchAccountTransactionDocument(string documentName);

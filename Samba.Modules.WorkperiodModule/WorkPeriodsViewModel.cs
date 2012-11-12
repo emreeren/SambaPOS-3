@@ -18,11 +18,11 @@ namespace Samba.Modules.WorkperiodModule
         private readonly IWorkPeriodService _workPeriodService;
         private readonly IApplicationState _applicationState;
         private readonly IAutomationService _automationService;
-        private readonly ITicketPresentationService _ticketService;
+        private readonly ITicketService _ticketService;
 
         [ImportingConstructor]
         public WorkPeriodsViewModel(IWorkPeriodService workPeriodService, IApplicationState applicationState,
-            IAutomationService ruleService, ITicketPresentationService ticketService)
+            IAutomationService ruleService, ITicketService ticketService)
         {
             _workPeriodService = workPeriodService;
             _applicationState = applicationState;

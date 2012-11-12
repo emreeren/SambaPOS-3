@@ -141,7 +141,7 @@
     <Compile Include="TaskModule\TaskParser.cs" />
     <Compile Include="TaskModule\TaskService.cs" />
     <Compile Include="TicketModule\TicketExplorerFilter.cs" />
-    <Compile Include="TicketModule\TicketPresentationService.cs" />
+    <Compile Include="TicketModule\TicketService.cs" />
     <Compile Include="UserModule\UserService.cs" />
     <Compile Include="WorkPeriodModule\WorkPeriodService.cs" />
   </ItemGroup>

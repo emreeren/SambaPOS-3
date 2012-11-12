@@ -9,30 +9,31 @@ using Samba.Domain.Models.Automation;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Data.Serializer;
-using Samba.Persistance.Data;
 using Samba.Presentation.Services.Common;
 using Samba.Presentation.Services.Implementations.AutomationModule.Accessors;
+using Samba.Services;
 
 namespace Samba.Presentation.Services.Implementations.AutomationModule
 {
     [Export(typeof(IAutomationService))]
     class AutomationService : AbstractService, IAutomationService
     {
+        private readonly IAutomationDao _automationDao;
         private readonly IApplicationState _applicationState;
         private readonly RuleActionTypeRegistry _ruleActionTypeRegistry;
         private readonly ISettingService _settingService;
-
         private readonly Interpreter _interpreter;
         private Dictionary<string, string> _scripts;
 
         [ImportingConstructor]
-        public AutomationService(IApplicationState applicationState, ISettingService settingService)
+        public AutomationService(IAutomationDao automationDao, IApplicationState applicationState, ISettingService settingService)
         {
+            _automationDao = automationDao;
             _applicationState = applicationState;
             _ruleActionTypeRegistry = new RuleActionTypeRegistry();
             _settingService = settingService;
 
-            _scripts = Dao.Query<Script>().ToDictionary(x => x.HandlerName, x => x.Code);
+            _scripts = _automationDao.GetScripts();
             _interpreter = new Interpreter();
             _interpreter.SetFunctionCallback("Call", CallFunction);
             _interpreter.SetFunctionCallback("F", FormatFunction);
@@ -48,9 +49,8 @@ namespace Samba.Presentation.Services.Implementations.AutomationModule
         }
 
         private IEnumerable<AppRule> _rules;
-        public IEnumerable<AppRule> Rules { get { return _rules ?? (_rules = Dao.Query<AppRule>(x => x.Actions, x => x.AppRuleMaps).OrderBy(x => x.Order)); } }
-
-
+        public IEnumerable<AppRule> Rules { get { return _rules ?? (_rules = _automationDao.GetRules()); } }
+        
         public IEnumerable<AppRule> GetAppRules(string eventName)
         {
             var maps = Rules.Where(x => x.EventName == eventName).SelectMany(x => x.AppRuleMaps)
@@ -61,7 +61,7 @@ namespace Samba.Presentation.Services.Implementations.AutomationModule
         }
 
         private IEnumerable<AppAction> _actions;
-        public IEnumerable<AppAction> Actions { get { return _actions ?? (_actions = Dao.Query<AppAction>().OrderBy(x => x.Order)); } }
+        public IEnumerable<AppAction> Actions { get { return _actions ?? (_actions = _automationDao.GetActions()); } }
 
         public void NotifyEvent(string eventName, object dataObject)
         {
@@ -156,12 +156,12 @@ namespace Samba.Presentation.Services.Implementations.AutomationModule
 
         public AppAction GetActionById(int appActionId)
         {
-            return Dao.Single<AppAction>(x => x.Id == appActionId);
+            return _automationDao.GetActionById(appActionId);
         }
 
         public IEnumerable<string> GetAutomationCommandNames()
         {
-            return Dao.Distinct<AutomationCommand>(x => x.Name);
+            return _automationDao.GetAutomationCommandNames();
         }
 
         private bool SatisfiesConditions(AppRule appRule, object dataObject)
@@ -303,7 +303,7 @@ namespace Samba.Presentation.Services.Implementations.AutomationModule
         public override void Reset()
         {
             _scripts.Clear();
-            _scripts = Dao.Query<Script>().ToDictionary(x => x.HandlerName, x => x.Code);
+            _scripts = _automationDao.GetScripts();
             _rules = null;
             _actions = null;
         }

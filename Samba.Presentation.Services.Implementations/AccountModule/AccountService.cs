@@ -7,42 +7,29 @@ using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Resources;
-using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
-using Samba.Persistance.Data;
-using Samba.Presentation.Services.Common;
+using Samba.Services;
 using Samba.Services.Common;
-using Samba.Persistance.Data.Specification;
 
 namespace Samba.Presentation.Services.Implementations.AccountModule
 {
     [Export(typeof(IAccountService))]
-    public class AccountService : AbstractService, IAccountService
+    public class AccountService : IAccountService
     {
         private readonly ICacheService _cacheService;
+        private readonly IAccountDao _accountDao;
 
         [ImportingConstructor]
-        public AccountService(ICacheService cacheService)
+        public AccountService(ICacheService cacheService, IAccountDao accountDao)
         {
             _cacheService = cacheService;
-            ValidatorRegistry.RegisterDeleteValidator(new AccountDeleteValidator());
-            ValidatorRegistry.RegisterDeleteValidator(new AccountTypeDeleteValidator());
-            ValidatorRegistry.RegisterDeleteValidator<AccountTransactionType>(x => Dao.Exists<AccountTransactionDocumentType>(y => y.TransactionTypes.Any(z => z.Id == x.Id)), Resources.AccountTransactionType, Resources.DocumentType);
-            ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<Account>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.Account)));
-            ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<AccountType>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.AccountType)));
-            ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<AccountTransactionType>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.AccountTransactionType)));
-            ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<AccountTransactionDocumentType>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.DocumentType)));
+            _accountDao = accountDao;
         }
 
         public void CreateTransactionDocument(Account selectedAccount, AccountTransactionDocumentType documentType, string description, decimal amount, IEnumerable<Account> accounts)
         {
-            using (var w = WorkspaceFactory.Create())
-            {
-                var exchangeRate = GetExchangeRate(selectedAccount, documentType.ExchangeTemplate);
-                var document = documentType.CreateDocument(selectedAccount, description, amount, exchangeRate, accounts != null ? accounts.ToList() : null);
-                w.Add(document);
-                w.CommitChanges();
-            }
+            var exchangeRate = GetExchangeRate(selectedAccount, documentType.ExchangeTemplate);
+            _accountDao.CreateTransactionDocument(selectedAccount, documentType, description, amount, exchangeRate, accounts);
         }
 
         public void CreateAccountTransaction(Account sourceAccount, Account targetAccount, decimal amount, decimal exchangeRate)
@@ -51,61 +38,33 @@ namespace Samba.Presentation.Services.Implementations.AccountModule
                 sourceAccount.Id, targetAccount.Id);
             if (transactionType != null)
             {
-                using (var w = WorkspaceFactory.Create())
-                {
-                    var doc = new AccountTransactionDocument();
-                    w.Add(doc);
-                    doc.AddNewTransaction(transactionType, sourceAccount.AccountTypeId, sourceAccount.Id, targetAccount, amount, exchangeRate);
-                    w.CommitChanges();
-                }
+                _accountDao.CreateAccountTransaction(transactionType, sourceAccount, targetAccount, amount, exchangeRate);
             }
         }
 
         public decimal GetAccountBalance(int accountId)
         {
-            return Dao.Sum<AccountTransactionValue>(x => x.Debit - x.Credit, x => x.AccountId == accountId);
+            return _accountDao.GetAccountBalance(accountId);
         }
 
         public decimal GetAccountExchangeBalance(int accountId)
         {
-            return Dao.Sum<AccountTransactionValue>(x => x.Exchange, x => x.AccountId == accountId);
+            return _accountDao.GetAccountExchangeBalance(accountId);
         }
 
         public Dictionary<Account, BalanceValue> GetAccountBalances(IList<int> accountTypeIds, Expression<Func<AccountTransactionValue, bool>> filter)
         {
-            using (var w = WorkspaceFactory.CreateReadOnly())
-            {
-                var accountIds = w.Queryable<Account>().Where(x => accountTypeIds.Contains(x.AccountTypeId)).Select(x => x.Id);
-                Expression<Func<AccountTransactionValue, bool>> func = x => accountIds.Contains(x.AccountId);
-                if (filter != null) func = func.And(filter);
-                var transactionValues = w.Queryable<AccountTransactionValue>()
-                    .Where(func)
-                    .GroupBy(x => x.AccountId)
-                    .Select(x => new { Id = x.Key, Amount = x.Sum(y => y.Debit - y.Credit), Exchange = x.Sum(y => y.Exchange) })
-                    .ToDictionary(x => x.Id, x => new BalanceValue { Balance = x.Amount, Exchange = x.Exchange });
-
-                return w.Queryable<Account>().Where(x => accountTypeIds.Contains(x.AccountTypeId)).ToDictionary(x => x, x => transactionValues.ContainsKey(x.Id) ? transactionValues[x.Id] : BalanceValue.Empty);
-            }
+            return _accountDao.GetAccountBalances(accountTypeIds, filter);
         }
 
         public Dictionary<AccountType, BalanceValue> GetAccountTypeBalances(IList<int> accountTypeIds, Expression<Func<AccountTransactionValue, bool>> filter)
         {
-            using (var w = WorkspaceFactory.CreateReadOnly())
-            {
-                Expression<Func<AccountTransactionValue, bool>> func = x => accountTypeIds.Contains(x.AccountTypeId);
-                if (filter != null) func = func.And(filter);
-                var transactionValues = w.Queryable<AccountTransactionValue>()
-                    .Where(func)
-                    .GroupBy(x => x.AccountTypeId)
-                    .Select(x => new { Id = x.Key, Amount = x.Sum(y => y.Debit - y.Credit), Exchange = x.Sum(y => y.Exchange) })
-                    .ToDictionary(x => x.Id, x => new BalanceValue { Balance = x.Amount, Exchange = x.Exchange });
-                return w.Queryable<AccountType>().Where(x => accountTypeIds.Contains(x.Id)).ToDictionary(x => x, x => transactionValues.ContainsKey(x.Id) ? transactionValues[x.Id] : BalanceValue.Empty);
-            }
+            return _accountDao.GetAccountTypeBalances(accountTypeIds, filter);
         }
 
         public string GetCustomData(Account account, string fieldName)
         {
-            var cd = Dao.Select<Resource, string>(x => x.CustomData, x => x.AccountId == account.Id).SingleOrDefault();
+            var cd = _accountDao.GetResourceCustomDataByAccountId(account.Id);
             return string.IsNullOrEmpty(cd) ? "" : Resource.GetCustomData(cd, fieldName);
         }
 
@@ -157,66 +116,47 @@ namespace Samba.Presentation.Services.Implementations.AccountModule
 
         public string GetAccountNameById(int accountId)
         {
-            return Dao.Exists<Account>(x => x.Id == accountId)
-                ? Dao.Select<Account, string>(x => x.Name, x => x.Id == accountId).First() : "";
+            return _accountDao.GetAccountNameById(accountId);
         }
 
         public int GetAccountIdByName(string accountName)
         {
-            var acName = accountName.ToLower();
-            return Dao.Exists<Account>(x => x.Name.ToLower() == acName)
-                ? Dao.Select<Account, int>(x => x.Id, x => x.Name.ToLower() == acName).FirstOrDefault() : 0;
+            return _accountDao.GetAccountIdByName(accountName);
         }
 
         public IEnumerable<Account> GetAccounts(int accountTypeId)
         {
-            return Dao.Query<Account>(x => x.AccountTypeId == accountTypeId);
+            return _accountDao.GetAccountsByTypeId(accountTypeId);
         }
 
         public IEnumerable<Account> GetAccounts(IEnumerable<int> accountIds)
         {
-            var ids = accountIds.ToList();
-            return ids.Any() ? Dao.Query<Account>(x => ids.Contains(x.Id)) : new List<Account>();
+            return _accountDao.GetAccountsByIds(accountIds);
         }
 
         public IEnumerable<Account> GetBalancedAccounts(int accountTypeId)
         {
-            using (var w = WorkspaceFactory.CreateReadOnly())
-            {
-                var q1 = w.Queryable<AccountTransactionValue>().GroupBy(x => x.AccountId).Where(
-                        x => x.Sum(y => y.Debit - y.Credit) != 0).Select(x => x.Key);
-                return w.Queryable<Account>().Where(x => x.AccountTypeId == accountTypeId && q1.Contains(x.Id)).ToList();
-            }
+            return _accountDao.GetBalancedAccountsByAccountTypeId(accountTypeId);
         }
 
         public IEnumerable<string> GetCompletingAccountNames(int accountTypeId, string accountName)
         {
             if (string.IsNullOrWhiteSpace(accountName)) return null;
             var lacn = accountName.ToLower();
-            return Dao.Select<Account, string>(x => x.Name, x => x.AccountTypeId == accountTypeId && x.Name.ToLower().Contains(lacn));
+            Expression<Func<Account, bool>> predictate = x => x.AccountTypeId == accountTypeId && x.Name.ToLower().Contains(lacn);
+            return _accountDao.GetAccountNames(predictate);
         }
 
         public Account GetAccountById(int accountId)
         {
-            return Dao.Single<Account>(x => x.Id == accountId);
-        }
-
-        public IEnumerable<AccountType> GetAccountTypes()
-        {
-            return Dao.Query<AccountType>().OrderBy(x => x.Order);
+            return _accountDao.GetAccountById(accountId);
         }
 
         public int CreateAccount(int accountTypeId, string accountName)
         {
             if (accountTypeId == 0 || string.IsNullOrEmpty(accountName)) return 0;
-            if (Dao.Exists<Account>(x => x.Name == accountName)) return 0;
-            using (var w = WorkspaceFactory.Create())
-            {
-                var account = new Account { AccountTypeId = accountTypeId, Name = accountName };
-                w.Add(account);
-                w.CommitChanges();
-                return account.Id;
-            }
+            if (_accountDao.GetIsAccountNameExists(accountName)) return 0;
+            return _accountDao.CreateAccount(accountTypeId, accountName);
         }
 
         public IEnumerable<Account> GetDocumentAccounts(AccountTransactionDocumentType documentType)
@@ -265,37 +205,5 @@ namespace Samba.Presentation.Services.Implementations.AccountModule
             }
             return _cacheService.GetForeignCurrencies().Single(x => x.Id == account.ForeignCurrencyId).ExchangeRate;
         }
-
-        public override void Reset()
-        {
-
-        }
     }
-
-    public class AccountTypeDeleteValidator : SpecificationValidator<AccountType>
-    {
-        public override string GetErrorMessage(AccountType model)
-        {
-            if (Dao.Exists<Account>(x => x.AccountTypeId == model.Id))
-                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.AccountType, Resources.Account);
-            if (Dao.Exists<AccountTransactionDocumentType>(x => x.MasterAccountTypeId == model.Id))
-                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.AccountType, Resources.DocumentType);
-            return "";
-        }
-    }
-
-    public class AccountDeleteValidator : SpecificationValidator<Account>
-    {
-        public override string GetErrorMessage(Account model)
-        {
-            if (Dao.Exists<Resource>(x => x.AccountId == model.Id))
-                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Account, Resources.Resource);
-            if (Dao.Exists<AccountTransactionValue>(x => x.AccountId == model.Id))
-                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Account, Resources.AccountTransaction);
-            return "";
-        }
-    }
-
-
-
 }

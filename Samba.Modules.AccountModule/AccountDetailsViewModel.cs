@@ -14,6 +14,7 @@ using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
+using Samba.Services;
 using Samba.Services.Common;
 
 namespace Samba.Modules.AccountModule
