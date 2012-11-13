@@ -89,6 +89,7 @@ csx
 *.build.csdef
 
 # Others
+_[Pp]rivate
 [Bb]in
 [Oo]bj
 sql
