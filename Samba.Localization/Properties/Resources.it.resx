@@ -126,6 +126,9 @@
   <data name="ButtonHeader" xml:space="preserve">
     <value>Pulsante Intestazione</value>
   </data>
+  <data name="DisplayTicket" xml:space="preserve">
+    <value>Visualizza Ticket</value>
+  </data>
   <data name="Print" xml:space="preserve">
     <value>Stampa</value>
   </data>
@@ -136,6 +139,9 @@
     <value>Tempo di lavoro totale:
 {0:0} giorni {1:0} ore {2:0} minuti</value>
   </data>
+  <data name="BeforeWorkPeriodEnds" xml:space="preserve">
+    <value>Prima della Fine Periodo di Lavoro</value>
+  </data>
   <data name="Add_f" xml:space="preserve">
     <value>Aggiungi {0}</value>
   </data>
@@ -144,6 +150,9 @@
   </data>
   <data name="Discount" xml:space="preserve">
     <value>Sconto</value>
+  </data>
+  <data name="Currency" xml:space="preserve">
+    <value>Valuta</value>
   </data>
   <data name="ButtonColor" xml:space="preserve">
     <value>Colore Pulsante</value>
@@ -165,6 +174,9 @@
   </data>
   <data name="AccountType" xml:space="preserve">
     <value>Tipo Account</value>
+  </data>
+  <data name="Script" xml:space="preserve">
+    <value>Script</value>
   </data>
   <data name="DocumentType" xml:space="preserve">
     <value>Tipo di Documento</value>
@@ -391,6 +403,9 @@
   <data name="Property" xml:space="preserve">
     <value>Propietà</value>
   </data>
+  <data name="PaymentScreenValues" xml:space="preserve">
+    <value>Valori Schermo Pagamento</value>
+  </data>
   <data name="DataConnection" xml:space="preserve">
     <value>Connessione dati String</value>
   </data>
@@ -433,6 +448,9 @@
   <data name="Action" xml:space="preserve">
     <value>Azione</value>
   </data>
+  <data name="ErrorLogMessage" xml:space="preserve">
+    <value>C'è un problema. ⏎ ⏎ Messaggio:⏎</value>
+  </data>
   <data name="Barcode" xml:space="preserve">
     <value>Codice a Barre</value>
   </data>
@@ -446,7 +464,7 @@
     <value>Nome Utente</value>
   </data>
   <data name="Accounts" xml:space="preserve">
-    <value>Conti</value>
+    <value>Account</value>
   </data>
   <data name="WorkPeriod" xml:space="preserve">
     <value>Periodo di Lavoro</value>
@@ -595,8 +613,14 @@
   <data name="ErrorMessage" xml:space="preserve">
     <value>Messaggio di errore</value>
   </data>
+  <data name="OrderAddedToTicket" xml:space="preserve">
+    <value>Ordine Aggiunto al Ticket</value>
+  </data>
   <data name="TwelveAmMidnight" xml:space="preserve">
     <value>00:00 a mezzanotte</value>
+  </data>
+  <data name="GeneralPrintErrorMessage" xml:space="preserve">
+    <value>C'è un problema durante la stampa: La Mappa della Stampa è Nullo</value>
   </data>
   <data name="NewTicket" xml:space="preserve">
     <value>Nuovo Ticket</value>
@@ -621,6 +645,9 @@
   </data>
   <data name="RateFromTicketAmount" xml:space="preserve">
     <value>Tasso di valore del Ticket</value>
+  </data>
+  <data name="OrderTagged" xml:space="preserve">
+    <value>Ordine Taggato</value>
   </data>
   <data name="DayTime" xml:space="preserve">
     <value>Ora del giorno</value>
@@ -664,6 +691,9 @@ Attiverà dopo {1} giorni, {2} ore, {3} minuti</value>
   </data>
   <data name="Resourceses" xml:space="preserve">
     <value>Risorse</value>
+  </data>
+  <data name="IncreaseInventory" xml:space="preserve">
+    <value>Incremente Inventario</value>
   </data>
   <data name="CategoryName" xml:space="preserve">
     <value>Nome della Categoria</value>
@@ -768,6 +798,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="Today" xml:space="preserve">
     <value>Oggi</value>
   </data>
+  <data name="BalancedAccounts" xml:space="preserve">
+    <value>Bilancia Account</value>
+  </data>
   <data name="FreeTagging" xml:space="preserve">
     <value>Tagging gratuito</value>
   </data>
@@ -776,6 +809,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   </data>
   <data name="TicketTag" xml:space="preserve">
     <value>Ticket Tag</value>
+  </data>
+  <data name="Handler" xml:space="preserve">
+    <value>Handler</value>
   </data>
   <data name="CanMoveTicketLines" xml:space="preserve">
     <value>Elementi possono essere spostati</value>
@@ -801,8 +837,14 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="Incomes" xml:space="preserve">
     <value>Redditi</value>
   </data>
+  <data name="CalculatePrice" xml:space="preserve">
+    <value>Calcola Prezzo</value>
+  </data>
   <data name="DepartmentType" xml:space="preserve">
     <value>Tipo Azienda</value>
+  </data>
+  <data name="ApplicationStarted" xml:space="preserve">
+    <value>Applicazione Avviata</value>
   </data>
   <data name="CloseTicket" xml:space="preserve">
     <value>Criudi Conto</value>
@@ -812,6 +854,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   </data>
   <data name="SettlePermissions" xml:space="preserve">
     <value>Permessi di pagamento</value>
+  </data>
+  <data name="Receivables" xml:space="preserve">
+    <value>Crediti</value>
   </data>
   <data name="Zero" xml:space="preserve">
     <value>Zero</value>
@@ -855,6 +900,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="Phone" xml:space="preserve">
     <value>Telefono</value>
   </data>
+  <data name="DeleteSelectedItems" xml:space="preserve">
+    <value>Elimina Elementi Selezionati</value>
+  </data>
   <data name="NumericTagsShouldBeNumbersErrorMessage" xml:space="preserve">
     <value>Quando "Tagging Numerico" è selezionato tutti i tag devono contenere valori numerici.</value>
   </data>
@@ -894,6 +942,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="ResourceButton" xml:space="preserve">
     <value>Bottone Risorse</value>
   </data>
+  <data name="MoveTaggedOrders" xml:space="preserve">
+    <value>Spostare Ordini Taggati</value>
+  </data>
   <data name="Sixty" xml:space="preserve">
     <value>Sessanta</value>
   </data>
@@ -914,6 +965,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   </data>
   <data name="ChangePrice" xml:space="preserve">
     <value>Variazione del prezzo</value>
+  </data>
+  <data name="UpdateOrder" xml:space="preserve">
+    <value>Aggiorna Ordine</value>
   </data>
   <data name="StartAmount" xml:space="preserve">
     <value>Avviare Importi</value>
@@ -951,6 +1005,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="Update" xml:space="preserve">
     <value>Aggiornare</value>
   </data>
+  <data name="UnlocksOrder" xml:space="preserve">
+    <value>Sblocca Ordine</value>
+  </data>
   <data name="AddTicketDiscount" xml:space="preserve">
     <value>Aggiungi Ticket Sconto</value>
   </data>
@@ -975,6 +1032,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="LineItemQuantity" xml:space="preserve">
     <value># Linea: Articolo Quantità</value>
   </data>
+  <data name="ExchangeRate" xml:space="preserve">
+    <value>Tasso di Cambio</value>
+  </data>
   <data name="Duration" xml:space="preserve">
     <value>Durata</value>
   </data>
@@ -993,14 +1053,23 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="StartClientNow" xml:space="preserve">
     <value>Avviare Client Ora</value>
   </data>
+  <data name="RemoveOrderTag" xml:space="preserve">
+    <value>Rimuovi OrderTag</value>
+  </data>
   <data name="Day" xml:space="preserve">
     <value>Giorno</value>
   </data>
   <data name="TicketMovedRetryLastOperation_f" xml:space="preserve">
     <value>Ticket si trasferì a {0}. Le ultime modifiche non salvate.</value>
   </data>
+  <data name="AutomationCommandExecuted" xml:space="preserve">
+    <value>Comando Automazione Eseguito</value>
+  </data>
   <data name="CanMoveUnlockedTicketLines" xml:space="preserve">
     <value>Può Muovere linee di ticket Bloccate</value>
+  </data>
+  <data name="PaymentScreenSettings" xml:space="preserve">
+    <value>Impostazioni Schermo Pagamento</value>
   </data>
   <data name="Hundred" xml:space="preserve">
     <value>Cento</value>
@@ -1140,6 +1209,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="Cash" xml:space="preserve">
     <value>Contanti</value>
   </data>
+  <data name="Sale" xml:space="preserve">
+    <value>Vendita</value>
+  </data>
   <data name="Purchase" xml:space="preserve">
     <value>Acquisto</value>
   </data>
@@ -1215,6 +1287,12 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="SettingValue" xml:space="preserve">
     <value>Impostazione Valore</value>
   </data>
+  <data name="ChangeSortOrderHint" xml:space="preserve">
+    <value>Modificare Ordine Trascinando gli elementi</value>
+  </data>
+  <data name="UpdateResourceState" xml:space="preserve">
+    <value>Aggiorna Stato Risorse</value>
+  </data>
   <data name="CanMergeTickets" xml:space="preserve">
     <value>Possibile unire Biglietti</value>
   </data>
@@ -1232,6 +1310,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   </data>
   <data name="MergeTickets" xml:space="preserve">
     <value>Unisci Tickets</value>
+  </data>
+  <data name="UntagOrder" xml:space="preserve">
+    <value>Uutag Ordine</value>
   </data>
   <data name="EmptyDiscountRateFeedback" xml:space="preserve">
     <value>Per aggiungere sconti, digitare un tasso di sconto e fare clic sul pulsante. Per rimuovere clic sul pulsante Sconto senza dover digitare un valore.</value>
@@ -1395,6 +1476,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="WeightBarcodes" xml:space="preserve">
     <value>Peso codici a barre</value>
   </data>
+  <data name="AccountMap" xml:space="preserve">
+    <value>Mappa Conto</value>
+  </data>
   <data name="ClickLinksToExportData" xml:space="preserve">
     <value>Seleziona il periodo, aggiornare report e fare clic sul link in materia di esportazione dei dati.</value>
   </data>
@@ -1424,6 +1508,12 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   </data>
   <data name="LineCount" xml:space="preserve">
     <value>Contatore linee</value>
+  </data>
+  <data name="RemoveLimit" xml:space="preserve">
+    <value>Rimuovere Limite</value>
+  </data>
+  <data name="ResourceUpdated" xml:space="preserve">
+    <value>Risorse Aggiornate</value>
   </data>
   <data name="AverageCost" xml:space="preserve">
     <value>Costo medio</value>
@@ -1458,6 +1548,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="TipsTotal" xml:space="preserve">
     <value>Suggerimenti Totale</value>
   </data>
+  <data name="Default_f" xml:space="preserve">
+    <value>Predefinito {0}</value>
+  </data>
   <data name="POSMenu" xml:space="preserve">
     <value>POS Menu</value>
   </data>
@@ -1469,6 +1562,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   </data>
   <data name="Settle" xml:space="preserve">
     <value>Saldare</value>
+  </data>
+  <data name="UnlockTicket" xml:space="preserve">
+    <value>Sblocca Ticket</value>
   </data>
   <data name="EveryOtherMinute" xml:space="preserve">
     <value>Ogni minuto</value>
@@ -1573,11 +1669,17 @@ Continua senza aggiungere dettagli?</value>
   <data name="FirstAndFifteenth" xml:space="preserve">
     <value>1 e 15</value>
   </data>
+  <data name="AccountTransactionDocument" xml:space="preserve">
+    <value>Transizione Account Documento</value>
+  </data>
   <data name="Departments" xml:space="preserve">
     <value>Dipartimenti</value>
   </data>
   <data name="ShareNameAndPortName" xml:space="preserve">
     <value>Nome Stampante Condivisa / Nome Porta</value>
+  </data>
+  <data name="TicketOpened" xml:space="preserve">
+    <value>Ticket Aperto</value>
   </data>
   <data name="Unit" xml:space="preserve">
     <value>Unità</value>
@@ -1600,6 +1702,9 @@ Continua senza aggiungere dettagli?</value>
   <data name="ChoosePaymentsForTicketTemplate_f" xml:space="preserve">
     <value>Selezionare Modalità di Pagamento per l'utilizzo in {0} modello.</value>
   </data>
+  <data name="FontSize" xml:space="preserve">
+    <value>Dimensione Carattere</value>
+  </data>
   <data name="ImagePath" xml:space="preserve">
     <value>Percorso Immagine</value>
   </data>
@@ -1611,6 +1716,12 @@ Continua senza aggiungere dettagli?</value>
   </data>
   <data name="Reports" xml:space="preserve">
     <value>Rapporti</value>
+  </data>
+  <data name="Script_f" xml:space="preserve">
+    <value>{0} Script</value>
+  </data>
+  <data name="AutoRefreshInterval" xml:space="preserve">
+    <value>Intervallo Auto Aggiornamento</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Sì</value>
@@ -1630,8 +1741,14 @@ Continua senza aggiungere dettagli?</value>
   <data name="TicketTagSelected" xml:space="preserve">
     <value>Ticket Tag selezionato</value>
   </data>
+  <data name="CurrencySymbol" xml:space="preserve">
+    <value>Simbolo Valuta</value>
+  </data>
   <data name="TagCantBeEmpty_f" xml:space="preserve">
     <value>Non è possibile lasciare vuota {0}</value>
+  </data>
+  <data name="ExecutePowershellScript" xml:space="preserve">
+    <value>Esegui Powershell Script</value>
   </data>
   <data name="TicketNumber_f" xml:space="preserve">
     <value>Conto Numero: {0}</value>
@@ -1662,6 +1779,9 @@ Continua senza aggiungere dettagli?</value>
   </data>
   <data name="MinTime" xml:space="preserve">
     <value>Minimo Tempo</value>
+  </data>
+  <data name="Task" xml:space="preserve">
+    <value>Task</value>
   </data>
   <data name="CustomField" xml:space="preserve">
     <value>Campo Personalizzato</value>
@@ -1747,6 +1867,9 @@ Continua senza aggiungere dettagli?</value>
   <data name="OrderTagQuantity" xml:space="preserve">
     <value>#OrderTag: Order Tag Quantità</value>
   </data>
+  <data name="LastPaidOrders" xml:space="preserve">
+    <value>Ultimi Ordini Pagati</value>
+  </data>
   <data name="FindTicket" xml:space="preserve">
     <value>Trova Ticket</value>
   </data>
@@ -1764,6 +1887,9 @@ Continua senza aggiungere dettagli?</value>
   </data>
   <data name="UpdateTicketTag" xml:space="preserve">
     <value>Aggiornamento Ticket Tag</value>
+  </data>
+  <data name="DecreaseInventory" xml:space="preserve">
+    <value>Decrementa Inventario</value>
   </data>
   <data name="TuesAndThurs" xml:space="preserve">
     <value>Martedì, giovedì</value>
@@ -1828,6 +1954,9 @@ Continua senza aggiungere dettagli?</value>
   <data name="CalculationMethod" xml:space="preserve">
     <value>Metodo di calcolo</value>
   </data>
+  <data name="PaymentProcessed" xml:space="preserve">
+    <value>Processo di Pagamento</value>
+  </data>
   <data name="Admin" xml:space="preserve">
     <value>Admin</value>
   </data>
@@ -1839,6 +1968,9 @@ Continua senza aggiungere dettagli?</value>
   </data>
   <data name="TicketPaidChangesNotSaved" xml:space="preserve">
     <value>Ticket pagato. Le ultime modifiche non salvate.</value>
+  </data>
+  <data name="TicketsMerged" xml:space="preserve">
+    <value>Ticket Unito</value>
   </data>
   <data name="UserLogout" xml:space="preserve">
     <value>Utente Logout</value>
@@ -1864,8 +1996,8 @@ Continua senza aggiungere dettagli?</value>
   <data name="MenuItemGroup" xml:space="preserve">
     <value>Gruppo di prodotti</value>
   </data>
-  <data name="ApplicationStarted" xml:space="preserve">
-    <value>Applicazione Avviata</value>
+  <data name="ChangeTotal" xml:space="preserve">
+    <value>Variazione Totale</value>
   </data>
   <data name="StopTimer" xml:space="preserve">
     <value>Stop Tempo</value>
@@ -1927,6 +2059,9 @@ Continua senza aggiungere dettagli?</value>
   <data name="Every15Minutes" xml:space="preserve">
     <value>Ogni 15 minuti</value>
   </data>
+  <data name="DisplayPaymentScreen" xml:space="preserve">
+    <value>Visualizza sullo Schermo Pagamento</value>
+  </data>
   <data name="PluralCurrencySuffix" xml:space="preserve">
     <value>e</value>
   </data>
@@ -1947,6 +2082,9 @@ Continua senza aggiungere dettagli?</value>
   </data>
   <data name="WeightBarcodePefix" xml:space="preserve">
     <value>Peso Codici a Barre Prefisso</value>
+  </data>
+  <data name="TicketResourceChanged" xml:space="preserve">
+    <value>Risorse Ticket Cambiato</value>
   </data>
   <data name="MessageReceived" xml:space="preserve">
     <value>Messaggio ricevuto</value>
@@ -1985,6 +2123,12 @@ Ticket</value>
   <data name="ChangeAmountUpdated" xml:space="preserve">
     <value>Cambia importo aggiornato</value>
   </data>
+  <data name="TicketClosing" xml:space="preserve">
+    <value>Ticket Chiuso</value>
+  </data>
+  <data name="MappedAccounts" xml:space="preserve">
+    <value>Mappatura Account</value>
+  </data>
   <data name="Cost" xml:space="preserve">
     <value>Prezzo</value>
   </data>
@@ -2015,6 +2159,9 @@ Ticket</value>
   <data name="Number" xml:space="preserve">
     <value>Numero</value>
   </data>
+  <data name="CanExecute" xml:space="preserve">
+    <value>Può Eseguire</value>
+  </data>
   <data name="CustomCommand" xml:space="preserve">
     <value>Comando Personalizzato</value>
   </data>
@@ -2026,6 +2173,9 @@ Ticket</value>
   </data>
   <data name="AutoRounding" xml:space="preserve">
     <value>Auto Arrotondamento</value>
+  </data>
+  <data name="OrderUntagged" xml:space="preserve">
+    <value>Ordine non Taggato</value>
   </data>
   <data name="TotalWorkTimeHours_f" xml:space="preserve">
     <value>Tempo totale di : {0:0} ore {1:0} minuti</value>
@@ -2108,6 +2258,9 @@ Ticket</value>
   <data name="Default" xml:space="preserve">
     <value>Predefinito</value>
   </data>
+  <data name="TaskType" xml:space="preserve">
+    <value>Tipo di Task</value>
+  </data>
   <data name="Calling" xml:space="preserve">
     <value>Chiamata</value>
   </data>
@@ -2129,11 +2282,17 @@ Ticket</value>
   <data name="Customer" xml:space="preserve">
     <value>Cliente</value>
   </data>
+  <data name="ToggleValues" xml:space="preserve">
+    <value>Valori di Commutazione</value>
+  </data>
   <data name="UpdateTicketAccount" xml:space="preserve">
     <value>Aggiornamento Account Ticket</value>
   </data>
   <data name="Automatic" xml:space="preserve">
     <value>Automatico</value>
+  </data>
+  <data name="Transaction_f" xml:space="preserve">
+    <value>{0} Transazione</value>
   </data>
   <data name="SalesDivTicket" xml:space="preserve">
     <value>Vendite Total / Ticket</value>
@@ -2185,6 +2344,9 @@ Ticket</value>
   </data>
   <data name="EveryOtherMonth" xml:space="preserve">
     <value>Ogni due mesi</value>
+  </data>
+  <data name="TagsShouldBeUniqueErrorMessage" xml:space="preserve">
+    <value>I Nomi dei Tag biglietti Devono essere Univoci</value>
   </data>
   <data name="AutoRefresh" xml:space="preserve">
     <value>Auto Aggiornamento</value>
@@ -2355,8 +2517,14 @@ Non può finire il periodo di lavoro mentre i biglietti aprire</value>
   <data name="DisplayUnderTicket" xml:space="preserve">
     <value>Visualizza sotto Ticket</value>
   </data>
+  <data name="ChangePaymentType" xml:space="preserve">
+    <value>Cambia tipo di Pagamento</value>
+  </data>
   <data name="DepartmentName" xml:space="preserve">
     <value>Nome del reparto</value>
+  </data>
+  <data name="ForeignCurrency" xml:space="preserve">
+    <value>Valuta Estera</value>
   </data>
   <data name="RuleActions" xml:space="preserve">
     <value>Azioni</value>
@@ -2408,6 +2576,9 @@ Non può finire il periodo di lavoro mentre i biglietti aprire</value>
   </data>
   <data name="PrintMapping" xml:space="preserve">
     <value>Stampa Mapping</value>
+  </data>
+  <data name="Mapping_f" xml:space="preserve">
+    <value>{0} Mappatura</value>
   </data>
   <data name="Values" xml:space="preserve">
     <value>Valori</value>

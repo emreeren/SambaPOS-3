@@ -7147,15 +7147,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Triggers.
-        /// </summary>
-        public static string Triggers {
-            get {
-                return ResourceManager.GetString("Triggers", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Next Trigger:{0}
         ///Will Trigger after {1} days, {2} hours, {3} minutes.
         /// </summary>

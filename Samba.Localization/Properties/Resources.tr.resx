@@ -129,6 +129,9 @@
   <data name="Print" xml:space="preserve">
     <value>Yaz</value>
   </data>
+  <data name="Resource" xml:space="preserve">
+    <value>Kaynak</value>
+  </data>
   <data name="TotalWorkTimeDays_f" xml:space="preserve">
     <value>Toplam Çalışma Zamanı:
 {0:0} gün {1:0} saat {2:0} dakika</value>
@@ -424,6 +427,9 @@ Mesaj:
   <data name="Accounts" xml:space="preserve">
     <value>Hesaplar</value>
   </data>
+  <data name="WorkPeriod" xml:space="preserve">
+    <value>Gün Başı</value>
+  </data>
   <data name="Price" xml:space="preserve">
     <value>Fiyat</value>
   </data>
@@ -498,6 +504,9 @@ Mesaj:
   </data>
   <data name="Rate" xml:space="preserve">
     <value>Oran</value>
+  </data>
+  <data name="Debit" xml:space="preserve">
+    <value>Borç</value>
   </data>
   <data name="FindProduct" xml:space="preserve">
     <value>Ürün Bul</value>
@@ -599,6 +608,9 @@ Mesaj:
   <data name="LastOrderDate" xml:space="preserve">
     <value>Son Sipariş Tarihi</value>
   </data>
+  <data name="Credit" xml:space="preserve">
+    <value>Alacak</value>
+  </data>
   <data name="Back" xml:space="preserve">
     <value>Geri</value>
   </data>
@@ -625,6 +637,9 @@ Mesaj:
   </data>
   <data name="Tax" xml:space="preserve">
     <value>KDV</value>
+  </data>
+  <data name="Table" xml:space="preserve">
+    <value>Masa</value>
   </data>
   <data name="SelectPrintJob" xml:space="preserve">
     <value>Görev Seç</value>
@@ -1074,6 +1089,9 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="Multiplier" xml:space="preserve">
     <value>Çarpan</value>
   </data>
+  <data name="DisplayAtPaymentScreen" xml:space="preserve">
+    <value>Ödeme ekranında göster</value>
+  </data>
   <data name="Warning" xml:space="preserve">
     <value>Uyarı</value>
   </data>
@@ -1326,6 +1344,9 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="Parameters" xml:space="preserve">
     <value>Parametreler</value>
   </data>
+  <data name="Settle" xml:space="preserve">
+    <value>Ödeme</value>
+  </data>
   <data name="EveryOtherMinute" xml:space="preserve">
     <value>2 dakikada bir</value>
   </data>
@@ -1510,6 +1531,9 @@ Bilgi eklemeden devam etmek istiyor musunuz?</value>
   <data name="CustomField" xml:space="preserve">
     <value>Özel Alan</value>
   </data>
+  <data name="FilterType" xml:space="preserve">
+    <value>Filtre Tipi</value>
+  </data>
   <data name="EveryOtherDay" xml:space="preserve">
     <value>Her iki günde bir</value>
   </data>
@@ -1573,6 +1597,9 @@ Kartı</value>
   </data>
   <data name="Eighteen" xml:space="preserve">
     <value>Onsekiz</value>
+  </data>
+  <data name="This_f" xml:space="preserve">
+    <value>Bu {0}</value>
   </data>
   <data name="OrderTagQuantity" xml:space="preserve">
     <value>#Etiket: Sipariş Etiketi Miktar</value>
@@ -1720,6 +1747,9 @@ Kartı</value>
   </data>
   <data name="NumeratorValue" xml:space="preserve">
     <value>Numaratör Değeri</value>
+  </data>
+  <data name="AccountTransaction" xml:space="preserve">
+    <value>Hesap Hareketi</value>
   </data>
   <data name="MonThruFri" xml:space="preserve">
     <value>Pzts'den Cumaya</value>
@@ -1869,6 +1899,9 @@ Kapat</value>
   <data name="TicketNote" xml:space="preserve">
     <value>Adisyon notu</value>
   </data>
+  <data name="Week" xml:space="preserve">
+    <value>Hafta</value>
+  </data>
   <data name="CheckDBVersion" xml:space="preserve">
     <value>Veritabanı versiyon numarasını kontrol ediniz</value>
   </data>
@@ -1889,6 +1922,9 @@ Kapat</value>
   </data>
   <data name="Seventy" xml:space="preserve">
     <value>Yetmiş</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Varsayılan</value>
   </data>
   <data name="Calling" xml:space="preserve">
     <value>Arıyor</value>
@@ -1913,6 +1949,9 @@ Kapat</value>
   </data>
   <data name="ProgramLanguage" xml:space="preserve">
     <value>Program Dili</value>
+  </data>
+  <data name="ResourceType" xml:space="preserve">
+    <value>Kaynak Tipi</value>
   </data>
   <data name="SortType" xml:space="preserve">
     <value>Sıralama Tipi</value>
@@ -1967,6 +2006,9 @@ Kapat</value>
   </data>
   <data name="PrinterType" xml:space="preserve">
     <value>Yazıcı Tipi</value>
+  </data>
+  <data name="PastTransactions" xml:space="preserve">
+    <value>Geçmiş Hareketler</value>
   </data>
   <data name="Triggers" xml:space="preserve">
     <value>Tetikleyiciler</value>
@@ -2094,6 +2136,9 @@ Açık adisyon varken gün sonu yapılamaz.</value>
   </data>
   <data name="EveryDay" xml:space="preserve">
     <value>Her gün</value>
+  </data>
+  <data name="DisplayUnderTicket" xml:space="preserve">
+    <value>Adisyon altında göster</value>
   </data>
   <data name="DepartmentName" xml:space="preserve">
     <value>Departman Adı</value>

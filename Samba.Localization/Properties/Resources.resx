@@ -1864,9 +1864,6 @@ Visit Reports section and create Work Period Reports</value>
   <data name="Trigger" xml:space="preserve">
     <value>Trigger</value>
   </data>
-  <data name="Triggers" xml:space="preserve">
-    <value>Triggers</value>
-  </data>
   <data name="ExpressionValid" xml:space="preserve">
     <value>Expression Valid</value>
   </data>
