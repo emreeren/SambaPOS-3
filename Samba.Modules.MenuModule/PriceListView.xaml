@@ -1,6 +1,8 @@
 ﻿<UserControl x:Class="Samba.Modules.MenuModule.PriceListView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:DataGridFilterLibrary="clr-namespace:DataGridFilterLibrary;assembly=DataGridFilterLibrary"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:DataGridFilterLibrary="clr-namespace:Samba.Presentation.Controls.DataGridFilterLibrary;assembly=Samba.Presentation.Controls"
              mc:Ignorable="d" d:DesignHeight="300"
      d:DesignWidth="300">
     <Grid>
@@ -14,7 +16,7 @@
         </Grid.RowDefinitions>
         <DataGrid Name="DataGrid" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Items}"
             AutoGenerateColumns="False" RowHeaderWidth="0" HorizontalAlignment="Left" 
-                  HorizontalGridLinesBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+            HorizontalGridLinesBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}"
             VerticalGridLinesBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}"
             CanUserDeleteRows="False"
             CanUserAddRows="False"
