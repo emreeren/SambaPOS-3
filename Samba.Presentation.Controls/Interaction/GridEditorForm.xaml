@@ -10,7 +10,7 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <GroupBox Header="{LocText Properties, Suffix=':'}" Margin="5" Padding="3">
-            <PropertyEditorLibrary:SimpleGrid Name="MainGrid" AutoSizeColumns="True" CanInsert="False" CanDelete="False" EasyInsert="False" AutoGenerateColumns="False" />
+            <PropertyEditorLibrary:ItemsGrid Name="MainGrid" AutoSizeColumns="True" CanInsert="False" CanDelete="False" AutoGenerateColumns="False" />
         </GroupBox>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5" MinHeight="30">

@@ -132,6 +132,7 @@ Source: src\Samba.Persistance.DBMigration.dll; DestDir: {app}; Flags: ignorevers
 Source: src\Samba.Persistance.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Persistance.Data.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Presentation.Common.dll; DestDir: {app}; Flags: ignoreversion
+Source: src\Samba.Presentation.Controls.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Presentation.exe; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Presentation.exe.config; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Presentation.exe.manifest; DestDir: {app}; Flags: ignoreversion

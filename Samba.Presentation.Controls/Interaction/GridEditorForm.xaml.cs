@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Media;
-using System.Windows.Shapes;
 using PropertyTools.Wpf;
 using Samba.Presentation.Common.Services;
 
@@ -25,7 +22,6 @@ namespace Samba.Presentation.Controls.Interaction
         {
             if (items.Count > 0)
             {
-                MainGrid.ColumnHeaders = new List<string>();
                 var itemType = items[0].GetType();
                 foreach (PropertyDescriptor descriptor in TypeDescriptor.GetProperties(itemType))
                 {
@@ -34,44 +30,21 @@ namespace Samba.Presentation.Controls.Interaction
                         continue;
                     }
 
-                    var cd = new ColumnDefinition() { DataField = descriptor.Name };
+                    var cd = new ColumnDefinition { PropertyName = descriptor.Name };
 
-                    if (descriptor.PropertyType == typeof(Color))
+                    if (descriptor.PropertyType == typeof(Color) || descriptor.PropertyType == typeof(bool))
                     {
-                        var colorDisplayTemplate = new DataTemplate { DataType = typeof(Color) };
-                        var fef = new FrameworkElementFactory(typeof(Rectangle));
-                        fef.SetBinding(Shape.FillProperty, new Binding(descriptor.Name){Converter = new ColorToBrushConverter()});
-                        fef.SetValue(WidthProperty, 12.0);
-                        fef.SetValue(HeightProperty, 12.0);
-                        fef.SetValue(MarginProperty, new Thickness(4, 0, 4, 0));
-                        fef.SetValue(Shape.StrokeThicknessProperty, 1.0);
-                        fef.SetValue(Shape.StrokeProperty, Brushes.Gainsboro);
-                        colorDisplayTemplate.VisualTree = fef;
-                        cd.DisplayTemplate = colorDisplayTemplate;
-
-                        var colorEditTemplate = new DataTemplate { DataType = typeof(Color) };
-                        var fefe = new FrameworkElementFactory(typeof(ColorPicker2));
-                        fefe.SetBinding(ColorPicker2.SelectedColorProperty, new Binding(descriptor.Name));
-                        colorEditTemplate.VisualTree = fefe;
-                        cd.EditTemplate = colorEditTemplate;
-                    }
-
-                    if (descriptor.PropertyType == typeof(string) && descriptor.Name.Contains("Image"))
-                    {
-                        var colorEditTemplate = new DataTemplate { DataType = typeof(string) };
-                        var fefe = new FrameworkElementFactory(typeof(FilePicker));
-                        fefe.SetBinding(FilePicker.FilePathProperty, new Binding(descriptor.Name));
-                        colorEditTemplate.VisualTree = fefe;
-                        cd.EditTemplate = colorEditTemplate;
+                        cd.HorizontalAlignment = HorizontalAlignment.Center;
                     }
 
                     var displayName = descriptor.DisplayName;
+
                     if (!String.IsNullOrEmpty(displayName))
                         cd.Header = descriptor.DisplayName;
-                    
+
                     MainGrid.ColumnDefinitions.Add(cd);
                 }
-                MainGrid.Content = items;
+                MainGrid.ItemsSource = items;
             }
         }
 

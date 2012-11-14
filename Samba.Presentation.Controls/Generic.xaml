@@ -216,7 +216,7 @@
                        Height="15" 
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
-                       Source="/Images/search.png" />
+                       Source="/Samba.Presentation.Controls;component/Images/search.png" />
                             </Border>
                         </Grid>
                     </Border>
@@ -235,9 +235,8 @@
                                 <Condition Property="HasText" Value="True" />
                                 <Condition Property="SearchMode" Value="Instant" />
                             </MultiTrigger.Conditions>
-                            <Setter Property="Source"
-                      TargetName="SearchIcon"
-                      Value="/Images/clear.png" />
+                            <Setter Property="Source" TargetName="SearchIcon" 
+                                    Value="/Samba.Presentation.Controls;component/Images/clear.png" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>

@@ -39,6 +39,12 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="PropertyTools">
+      <HintPath>..\Lib\PropertyTools.dll</HintPath>
+    </Reference>
+    <Reference Include="PropertyTools.Wpf">
+      <HintPath>..\Lib\PropertyTools.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
@@ -195,14 +201,6 @@
       <Project>{434D497A-D439-44C8-84A5-5301B572708F}</Project>
       <Name>FlexButton</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Lib\PropertyTools.Wpf\PropertyTools.Wpf.csproj">
-      <Project>{7168F82F-288A-42C4-9EB1-FBBE5112F211}</Project>
-      <Name>PropertyTools.Wpf</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lib\PropertyTools\PropertyTools.csproj">
-      <Project>{37466829-61F5-47FA-9E3E-9CEDCD9535C0}</Project>
-      <Name>PropertyTools</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">
       <Project>{2386F6A0-91B2-4D1A-8DBC-92109924AFFE}</Project>
       <Name>Samba.Domain</Name>
@@ -260,6 +258,13 @@
     </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>IF NOT "$(ConfigurationName)"=="Release" GOTO End
+
+copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)SambaSetup\src"
+
+:End</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

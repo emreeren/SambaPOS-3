@@ -3,55 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:Wpf="clr-namespace:PropertyTools.Wpf;assembly=PropertyTools.Wpf" 
-             xmlns:ModelBase="clr-namespace:Samba.Presentation.Common.ModelBase" 
-             mc:Ignorable="d" 
+             xmlns:pt="http://propertytools.codeplex.com" mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <UserControl.Resources>
-        <DataTemplate x:Key="CustomCollectionEditor">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-                <DataGrid Grid.Column="0" AutoGenerateColumns="False" ItemsSource='{Binding Value.Items}'
-                  SelectedItem="{Binding Value.SelectedItem, Mode=TwoWay}" HeadersVisibility="Column" GridLinesVisibility="None" 
-                  Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" SelectionUnit="FullRow" 
-                  IsReadOnly="True" ColumnHeaderHeight="0" MouseDoubleClick="MainGrid_MouseDoubleClick" 
-                  PreviewKeyDown="MainGrid_PreviewKeyDown">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="" IsReadOnly="True" Width="*" Binding="{Binding Name}" MinWidth="300"/>
-                    </DataGrid.Columns>
-                    <DataGrid.ContextMenu>
-                        <ContextMenu Name="CM">
-                            <MenuItem Header="{Binding Value.AddItemCommand.Caption}" Command="{Binding Value.AddItemCommand}"/>
-                            <MenuItem Header="{Binding Value.EditItemCommand.Caption}" Command="{Binding Value.EditItemCommand}"/>
-                            <MenuItem Header="{Binding Value.DeleteItemCommand.Caption}" Command="{Binding Value.DeleteItemCommand}"/>
-                        </ContextMenu>
-                    </DataGrid.ContextMenu>
-                </DataGrid>
-                <StackPanel Grid.Column="1">
-                    <Button Command="{Binding Value.AddItemCommand}">Add</Button>
-                    <Button Command="{Binding Value.EditItemCommand}">Edit</Button>
-                    <Button Command="{Binding Value.DeleteItemCommand}">Delete</Button>
-                </StackPanel>
-            </Grid>
-        </DataTemplate>
-        <DataTemplate x:Key="ValueSourceEditor">
-            <ComboBox IsEditable="True" ItemsSource="{Binding Value.Values}" Text="{Binding Value.Text}"></ComboBox>
-        </DataTemplate>
-    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <Wpf:PropertyEditor LabelWidth="150" EnumAsRadioButtonsLimit="0" Grid.Row="0" DeclaredOnly="True" ShowTabs="False" SelectedObject="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}" ShowCategoriesAs="Header" DefaultCategoryName="Properties">
-            <Wpf:PropertyEditor.Editors>
-                <Wpf:TypeEditor EditedType="{x:Type ModelBase:IEditableCollection}" EditorTemplate="{StaticResource CustomCollectionEditor}"/>
-                <Wpf:TypeEditor EditedType="{x:Type ModelBase:IValueWithSource}" EditorTemplate="{StaticResource ValueSourceEditor}"/>
-            </Wpf:PropertyEditor.Editors>
-        </Wpf:PropertyEditor>
+        <pt:PropertyControl EnumAsRadioButtonsLimit="0" Grid.Row="0" SelectedObject="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}"/>
         <StackPanel Grid.Row="1">
             <Button HorizontalAlignment="Left" Margin="0,10" MinWidth="70" Content="{Binding SaveCommand.Caption}"
                  Command="{Binding SaveCommand}" />

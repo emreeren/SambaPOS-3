@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Media;
+using PropertyTools.DataAnnotations;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
@@ -65,6 +66,8 @@ namespace Samba.Modules.MenuModule
             }
         }
 
+        [FilePath(".jpg|.png")]
+        [FilterProperty("Filter")]
         [LocalizedDisplayName(ResourceStrings.ImagePath)]
         public string ImagePath
         {
