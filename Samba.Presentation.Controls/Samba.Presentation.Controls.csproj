@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3C52B602-3CB1-45EE-B9A7-93B24C760A88}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Samba.Presentation.Controls</RootNamespace>
+    <AssemblyName>Samba.Presentation.Controls</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GongSolutions.Wpf.DragDrop">
+      <HintPath>..\Lib\DragDrop\GongSolutions.Wpf.DragDrop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism">
+      <HintPath>..\Lib\Microsoft.Practices.Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Browser\BrowserControl.xaml.cs">
+      <DependentUpon>BrowserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Browser\BrowserExtendedNavigatingEventArgs.cs" />
+    <Compile Include="Browser\ExtendedWebBrowser.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Browser\NativeMethods.cs" />
+    <Compile Include="Browser\UnsafeNativeMethods.cs" />
+    <Compile Include="Browser\UrlContext.cs" />
+    <Compile Include="Browser\Win32API.cs" />
+    <Compile Include="Browser\WinInetAPI.cs" />
+    <Compile Include="Converters\FontWeightConverter.cs" />
+    <Compile Include="Converters\NullBrushConverter.cs" />
+    <Compile Include="Converters\NullValueConverter.cs" />
+    <Compile Include="Converters\VisibilityConverter.cs" />
+    <Compile Include="Interaction\FeedbackWindow.xaml.cs">
+      <DependentUpon>FeedbackWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interaction\GridEditorForm.xaml.cs">
+      <DependentUpon>GridEditorForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interaction\KeyboardWindow.xaml.cs">
+      <DependentUpon>KeyboardWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interaction\ListSorterForm.xaml.cs">
+      <DependentUpon>ListSorterForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interaction\PopupWindow.xaml.cs">
+      <DependentUpon>PopupWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interaction\PropertyEditorForm.xaml.cs">
+      <DependentUpon>PropertyEditorForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interaction\SplashScreenForm.xaml.cs">
+      <DependentUpon>SplashScreenForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interaction\StringGetterForm.xaml.cs">
+      <DependentUpon>StringGetterForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interaction\UserInteraction.cs" />
+    <Compile Include="Interaction\ValueChooserForm.xaml.cs">
+      <DependentUpon>ValueChooserForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ListViewEx\BackgroundConverter.cs" />
+    <Compile Include="ListViewEx\ListViewCustomComparer.cs" />
+    <Compile Include="ListViewEx\ListViewSorter.cs" />
+    <Compile Include="ListViewLM\ConverterGridViewColumn.cs" />
+    <Compile Include="ListViewLM\FixedColumn.cs" />
+    <Compile Include="ListViewLM\ImageGridViewColumn.cs" />
+    <Compile Include="ListViewLM\LayoutColumn.cs" />
+    <Compile Include="ListViewLM\ListViewLayoutManager.cs" />
+    <Compile Include="ListViewLM\ProportionalColumn.cs" />
+    <Compile Include="ListViewLM\RangeColumn.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <DependentUpon>Settings.settings</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="UIControls\BindablePasswordBox.cs" />
+    <Compile Include="UIControls\DiagramCanvas.cs" />
+    <Compile Include="UIControls\FilteredTextBox.cs" />
+    <Compile Include="UIControls\KineticBehaviour.cs" />
+    <Compile Include="UIControls\MaskedTextBox.cs" />
+    <Compile Include="UIControls\SearchTextBox.cs" />
+    <Compile Include="UIControls\TokenizingControl.cs" />
+    <Compile Include="VirtualKeyboard\KeyboardView.xaml.cs">
+      <DependentUpon>KeyboardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VirtualKeyboard\KeyboardView2.xaml.cs">
+      <DependentUpon>KeyboardView2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VirtualKeyboard\KeyboardViewModel.cs" />
+    <Compile Include="VirtualKeyboard\VKey.cs" />
+    <Compile Include="VirtualKeyboard\VKeyboard.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Browser\BrowserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="OfficeTab.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interaction\FeedbackWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interaction\GridEditorForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interaction\KeyboardWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interaction\ListSorterForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interaction\PopupWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interaction\PropertyEditorForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interaction\SplashScreenForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interaction\StringGetterForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interaction\ValueChooserForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="VirtualKeyboard\KeyboardView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="VirtualKeyboard\KeyboardView2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lib\FlexButton\FlexButton.csproj">
+      <Project>{434D497A-D439-44C8-84A5-5301B572708F}</Project>
+      <Name>FlexButton</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lib\PropertyTools.Wpf\PropertyTools.Wpf.csproj">
+      <Project>{7168F82F-288A-42C4-9EB1-FBBE5112F211}</Project>
+      <Name>PropertyTools.Wpf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lib\PropertyTools\PropertyTools.csproj">
+      <Project>{37466829-61F5-47FA-9E3E-9CEDCD9535C0}</Project>
+      <Name>PropertyTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">
+      <Project>{2386F6A0-91B2-4D1A-8DBC-92109924AFFE}</Project>
+      <Name>Samba.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Infrastructure.Data\Samba.Infrastructure.Data.csproj">
+      <Project>{2D64F506-D566-4CA5-A19C-BCB5F9A2E7F4}</Project>
+      <Name>Samba.Infrastructure.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Localization\Samba.Localization.csproj">
+      <Project>{406B96A6-C886-4149-AD88-A2402EDB2B90}</Project>
+      <Name>Samba.Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Presentation.Common\Samba.Presentation.Common.csproj">
+      <Project>{FE1A894E-D55E-4CEA-980A-1C678A2453FC}</Project>
+      <Name>Samba.Presentation.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Presentation.Services.Common\Samba.Presentation.Services.Common.csproj">
+      <Project>{F2C77290-6806-4F23-BEB7-171C4008D13B}</Project>
+      <Name>Samba.Presentation.Services.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Presentation.Services\Samba.Presentation.Services.csproj">
+      <Project>{7DD8848C-3ADB-45B3-BD49-10AF3AEE2521}</Project>
+      <Name>Samba.Presentation.Services</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Interaction\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Browser\Images\103.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Browser\Images\104.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Browser\Images\105.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Browser\Images\106.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\clear.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\search.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

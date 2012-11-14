@@ -1,8 +1,8 @@
 ﻿<UserControl x:Class="Samba.Presentation.ViewModels.ResourceCustomDataEditor"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common" 
-             xmlns:ViewModels="clr-namespace:Samba.Presentation.ViewModels">
+             xmlns:ViewModels="clr-namespace:Samba.Presentation.ViewModels"
+             xmlns:UIControls="clr-namespace:Samba.Presentation.Controls.UIControls;assembly=Samba.Presentation.Controls">
     <UserControl.Resources>
         <DataTemplate x:Key="textTemplate">
             <Grid>

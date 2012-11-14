@@ -4,8 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
-             xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common"
-             xmlns:FlexButton="clr-namespace:FlexButton;assembly=FlexButton" mc:Ignorable="d" FontSize="18"
+             xmlns:FlexButton="clr-namespace:FlexButton;assembly=FlexButton"
+             xmlns:UIControls="clr-namespace:Samba.Presentation.Controls.UIControls;assembly=Samba.Presentation.Controls"
+             mc:Ignorable="d" FontSize="18"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.ColumnDefinitions>

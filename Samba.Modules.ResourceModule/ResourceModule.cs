@@ -4,8 +4,8 @@ using Microsoft.Practices.Prism.Regions;
 using Samba.Domain.Models.Resources;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
-using Samba.Presentation.Common.Interaction;
 using Samba.Presentation.Common.ModelBase;
+using Samba.Presentation.Controls.Interaction;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 

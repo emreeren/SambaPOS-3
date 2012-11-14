@@ -96,8 +96,6 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\NullBrushConverter.cs" />
-    <Compile Include="Converters\FontWeightConverter.cs" />
     <Compile Include="Commands\CustomCommand.cs" />
     <Compile Include="ElementSpy.cs" />
     <Compile Include="IWidgetCreator.cs" />
@@ -113,26 +111,11 @@
     <Compile Include="ObservableObject.cs" />
     <Compile Include="PresentationModule.cs" />
     <Compile Include="Services\ApplicationState.cs" />
-    <Compile Include="Browser\BrowserControl.xaml.cs">
-      <DependentUpon>BrowserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Browser\BrowserExtendedNavigatingEventArgs.cs" />
-    <Compile Include="Browser\ExtendedWebBrowser.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Browser\NativeMethods.cs" />
-    <Compile Include="Browser\UnsafeNativeMethods.cs" />
-    <Compile Include="Browser\UrlContext.cs" />
-    <Compile Include="Browser\Win32API.cs" />
-    <Compile Include="Browser\WinInetAPI.cs" />
     <Compile Include="Commands\CaptionCommand.cs" />
     <Compile Include="Commands\CategoryCommand.cs" />
     <Compile Include="Commands\CommandCategory.cs" />
     <Compile Include="CommonEventPublisher.cs" />
-    <Compile Include="Converters\NullValueConverter.cs" />
-    <Compile Include="Converters\VisibilityConverter.cs" />
     <Compile Include="SimpleReport.cs" />
-    <Compile Include="UIControls\DiagramCanvas.cs" />
     <Compile Include="DialogCloser.cs" />
     <Compile Include="ErrorReport\ErrorReportView.xaml.cs">
       <DependentUpon>ErrorReportView.xaml</DependentUpon>
@@ -140,54 +123,13 @@
     <Compile Include="ErrorReport\ErrorReportViewModel.cs" />
     <Compile Include="ErrorReport\ExceptionReporter.cs" />
     <Compile Include="ExtensionServices.cs" />
-    <Compile Include="UIControls\FilteredTextBox.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="IDiagram.cs" />
     <Compile Include="IModuleInitializationService.cs" />
-    <Compile Include="Interaction\GridEditorForm.xaml.cs">
-      <DependentUpon>GridEditorForm.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Services\InteractionService.cs" />
     <Compile Include="Commands\ICaptionCommand.cs" />
     <Compile Include="Commands\ICategoryCommand.cs" />
-    <Compile Include="Interaction\FeedbackWindow.xaml.cs">
-      <DependentUpon>FeedbackWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Interaction\KeyboardWindow.xaml.cs">
-      <DependentUpon>KeyboardWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Interaction\ListSorterForm.xaml.cs">
-      <DependentUpon>ListSorterForm.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Interaction\PopupWindow.xaml.cs">
-      <DependentUpon>PopupWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Interaction\PropertyEditorForm.xaml.cs">
-      <DependentUpon>PropertyEditorForm.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Interaction\SplashScreenForm.xaml.cs">
-      <DependentUpon>SplashScreenForm.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Interaction\StringGetterForm.xaml.cs">
-      <DependentUpon>StringGetterForm.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Interaction\UserInteraction.cs" />
-    <Compile Include="Interaction\ValueChooserForm.xaml.cs">
-      <DependentUpon>ValueChooserForm.xaml</DependentUpon>
-    </Compile>
     <Compile Include="IUserInteraction.cs" />
-    <Compile Include="UIControls\KineticBehaviour.cs" />
-    <Compile Include="ListViewEx\BackgroundConverter.cs" />
-    <Compile Include="ListViewEx\ListViewCustomComparer.cs" />
-    <Compile Include="ListViewEx\ListViewSorter.cs" />
-    <Compile Include="ListViewLM\ConverterGridViewColumn.cs" />
-    <Compile Include="ListViewLM\FixedColumn.cs" />
-    <Compile Include="ListViewLM\ImageGridViewColumn.cs" />
-    <Compile Include="ListViewLM\LayoutColumn.cs" />
-    <Compile Include="ListViewLM\ListViewLayoutManager.cs" />
-    <Compile Include="ListViewLM\ProportionalColumn.cs" />
-    <Compile Include="ListViewLM\RangeColumn.cs" />
-    <Compile Include="UIControls\MaskedTextBox.cs" />
     <Compile Include="MessageListener.cs" />
     <Compile Include="MessageProcessor.cs" />
     <Compile Include="ModelBase\AbstractEntityCollectionViewModelBase.cs" />
@@ -204,24 +146,7 @@
     <Compile Include="NativeWin32.cs" />
     <Compile Include="Services\PresentationServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
     <Compile Include="RegionNames.cs" />
-    <Compile Include="UIControls\BindablePasswordBox.cs" />
-    <Compile Include="UIControls\SearchTextBox.cs" />
-    <Compile Include="UIControls\TokenizingControl.cs" />
-    <Compile Include="VirtualKeyboard\KeyboardView2.xaml.cs">
-      <DependentUpon>KeyboardView2.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="VirtualKeyboard\VKey.cs" />
-    <Compile Include="VirtualKeyboard\VKeyboard.cs" />
-    <Compile Include="VirtualKeyboard\KeyboardView.xaml.cs">
-      <DependentUpon>KeyboardView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="VirtualKeyboard\KeyboardViewModel.cs" />
     <Compile Include="VisibleModuleBase.cs" />
     <Compile Include="Widgets\DefaultWidgetCreator.cs" />
     <Compile Include="Widgets\WidgetCreatorRegistry.cs" />
@@ -287,47 +212,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Browser\BrowserControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="ErrorReport\ErrorReportView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Interaction\GridEditorForm.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Interaction\PopupWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Interaction\SplashScreenForm.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Interaction\ValueChooserForm.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Interaction\StringGetterForm.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Interaction\PropertyEditorForm.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Interaction\ListSorterForm.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Interaction\FeedbackWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Interaction\KeyboardWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -339,57 +224,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Resource Include="Themes\OfficeTab.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Page Include="Themes\Generic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="VirtualKeyboard\KeyboardView2.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="VirtualKeyboard\KeyboardView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Browser\Images\103.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Browser\Images\104.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Browser\Images\105.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Browser\Images\106.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Interaction\logo.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ErrorReport\Images\warning.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\clear.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\search.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -6,6 +6,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using Samba.Domain.Models.Resources;
 using Samba.Presentation.Common;
+using Samba.Presentation.Controls.ListViewLM;
 
 namespace Samba.Modules.ResourceModule
 {
@@ -44,7 +45,7 @@ namespace Samba.Modules.ResourceModule
             fef.SetBinding(TextBlock.TextProperty, new Binding("[" + customField.Name + "]") { StringFormat = customField.EditingFormat });
             template.VisualTree = fef;
             var c = new GridViewColumn { Header = customField.Name, CellTemplate = template };
-            Presentation.Common.ListViewLM.ProportionalColumn.ApplyWidth(c, 1);
+            ProportionalColumn.ApplyWidth(c, 1);
             return c;
         }
 

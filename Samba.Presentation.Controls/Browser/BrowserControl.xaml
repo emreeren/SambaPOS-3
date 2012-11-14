@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="Samba.Presentation.Controls.Browser.BrowserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" SizeChanged="UserControl_SizeChanged">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <ToolBar Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Name="MainToolbar">
+            <Button Name="btnBack" Click="btnBack_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="Images/106.png" />
+                    <TextBlock Margin="2">Geri</TextBlock>
+                </StackPanel>
+            </Button>
+            <Button Name="btnForward" Click="btnForward_Click">
+                <Image Margin="2" Source="Images/105.png" />
+            </Button>
+            <Separator/>
+            <TextBlock Margin="5">Adres:</TextBlock>
+            <TextBox Width="150" Name="edAddress" KeyDown="edAddress_KeyDown" MinWidth="150">Internet Address</TextBox>
+            <Separator/>
+            <Button Name="btnAddTab" Click="btnAddTab_Click">
+                <Image Source="Images/103.png" ToolTip="Sayfa Ekle" />
+            </Button>
+            <Button Name="btnRemoveTab" Click="btnRemoveTab_Click" >
+                <Image Source="Images/104.png" ToolTip="Sayfa Sil" />
+            </Button>
+        </ToolBar>
+        <TabControl Grid.Row="1" Name="tbMain" SelectionChanged="tbMain_SelectionChanged">
+          
+        </TabControl>
+    </Grid>
+</UserControl>

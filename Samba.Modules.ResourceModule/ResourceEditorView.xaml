@@ -3,7 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:VirtualKeyboard="clr-namespace:Samba.Presentation.Common.VirtualKeyboard;assembly=Samba.Presentation.Common" xmlns:ViewModels="clr-namespace:Samba.Presentation.ViewModels;assembly=Samba.Presentation.ViewModels" xmlns:FlexButton="clr-namespace:FlexButton;assembly=FlexButton" mc:Ignorable="d" 
+             xmlns:ViewModels="clr-namespace:Samba.Presentation.ViewModels;assembly=Samba.Presentation.ViewModels" 
+             xmlns:FlexButton="clr-namespace:FlexButton;assembly=FlexButton"
+             xmlns:VirtualKeyboard="clr-namespace:Samba.Presentation.Controls.VirtualKeyboard;assembly=Samba.Presentation.Controls"
+             mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" FontSize="20" Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <Style TargetType="Label">

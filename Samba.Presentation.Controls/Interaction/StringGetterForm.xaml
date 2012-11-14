@@ -1,0 +1,22 @@
+﻿<Window x:Class="Samba.Presentation.Controls.Interaction.StringGetterForm" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="StringGetterForm" Height="387"
+     Width="300" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow" Activated="Window_Activated"
+     Closing="Window_Closing" xmlns:lex="http://schemas.root-project.org/xaml/presentation">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Name="DescriptionLabel" TextWrapping="Wrap" Margin="3" />
+        <ScrollViewer Grid.Row="1" Margin="10">
+            <TextBox Name="TextBox" AcceptsReturn="True" />
+        </ScrollViewer>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+            <Button Content="{LocText OK}" MinWidth="70"
+                 Margin="3" Click="Button_Click_1" />
+            <Button Content="{LocText Cancel}" MinWidth="70"
+                 Margin="3" Click="Button_Click" />
+        </StackPanel>
+    </Grid>
+</Window>

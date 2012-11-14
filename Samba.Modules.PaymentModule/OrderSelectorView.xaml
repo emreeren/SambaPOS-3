@@ -3,8 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:UIControls="clr-namespace:Samba.Presentation.Common.UIControls;assembly=Samba.Presentation.Common"
-             xmlns:ComponentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase" mc:Ignorable="d" 
+             xmlns:ComponentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             xmlns:UIControls="clr-namespace:Samba.Presentation.Controls.UIControls;assembly=Samba.Presentation.Controls"
+             mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <CollectionViewSource Source="{Binding Selectors}" x:Key="cvs">
