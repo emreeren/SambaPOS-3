@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:FlexButton="clr-namespace:FlexButton;assembly=FlexButton" mc:Ignorable="d" 
+             xmlns:FxButton="clr-namespace:Samba.Presentation.Controls.FxButton;assembly=Samba.Presentation.Controls"
+             mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
@@ -126,9 +127,9 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
         <UniformGrid Grid.Row="2" Rows="1">
-            <FlexButton:FlexButton FontSize="40" Margin="0,0,3,0" Command="{Binding MergeTicketsCommand}" Content="{Binding MergeTicketsCommand.Caption}"/>
-            <FlexButton:FlexButton FontSize="40" Command="{Binding AddTicketCommand}" Content="{Binding AddTicketCommand.Caption}"/>
-            <FlexButton:FlexButton FontSize="40" Margin="3,0,0,0" Command="{Binding CloseCommand}" Content="{Binding CloseCommand.Caption}" ButtonColor="Red"/>
+            <FxButton:FlexButton FontSize="40" Margin="0,0,3,0" Command="{Binding MergeTicketsCommand}" Content="{Binding MergeTicketsCommand.Caption}"/>
+            <FxButton:FlexButton FontSize="40" Command="{Binding AddTicketCommand}" Content="{Binding AddTicketCommand.Caption}"/>
+            <FxButton:FlexButton FontSize="40" Margin="3,0,0,0" Command="{Binding CloseCommand}" Content="{Binding CloseCommand.Caption}" ButtonColor="Red"/>
         </UniformGrid>
     </Grid>
 </UserControl>

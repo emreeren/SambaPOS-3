@@ -4,9 +4,9 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using Samba.Domain.Models.Resources;
-using Samba.Infrastructure;
 using Samba.Infrastructure.Helpers;
 using Samba.Presentation.Common;
+using Samba.Presentation.Controls.FxButton;
 using Samba.Presentation.Services;
 
 namespace Samba.Modules.AutomationModule.WidgetCreators
@@ -36,7 +36,7 @@ namespace Samba.Modules.AutomationModule.WidgetCreators
         {
             var buttonHolder = widget as AutomationButtonWidgetViewModel;
 
-            var ret = new FlexButton.FlexButton { DataContext = buttonHolder, ContextMenu = contextMenu, CommandParameter = buttonHolder };
+            var ret = new FlexButton { DataContext = buttonHolder, ContextMenu = contextMenu, CommandParameter = buttonHolder };
 
             var heightBinding = new Binding("Height") { Source = buttonHolder, Mode = BindingMode.TwoWay };
             var widthBinding = new Binding("Width") { Source = buttonHolder, Mode = BindingMode.TwoWay };
@@ -54,8 +54,8 @@ namespace Samba.Modules.AutomationModule.WidgetCreators
             ret.SetBinding(FrameworkElement.HeightProperty, heightBinding);
             ret.SetBinding(FrameworkElement.WidthProperty, widthBinding);
             ret.SetBinding(ContentControl.ContentProperty, captionBinding);
-            ret.SetBinding(FlexButton.FlexButton.CornerRadiusProperty, radiusBinding);
-            ret.SetBinding(FlexButton.FlexButton.ButtonColorProperty, buttonColorBinding);
+            ret.SetBinding(FlexButton.CornerRadiusProperty, radiusBinding);
+            ret.SetBinding(FlexButton.ButtonColorProperty, buttonColorBinding);
             ret.SetBinding(ButtonBase.CommandProperty, commandBinding);
             ret.SetBinding(UIElement.RenderTransformProperty, transformBinding);
 

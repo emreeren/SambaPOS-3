@@ -82,10 +82,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Lib\FlexButton\FlexButton.csproj">
-      <Project>{434D497A-D439-44C8-84A5-5301B572708F}</Project>
-      <Name>FlexButton</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Samba.Localization\Samba.Localization.csproj">
       <Project>{406B96A6-C886-4149-AD88-A2402EDB2B90}</Project>
       <Name>Samba.Localization</Name>

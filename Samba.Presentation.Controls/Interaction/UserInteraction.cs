@@ -10,9 +10,9 @@ using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
+using Samba.Presentation.Controls.FxButton;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
-using FlexButton;
 
 namespace Samba.Presentation.Controls.Interaction
 {

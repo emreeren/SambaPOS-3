@@ -125,6 +125,7 @@ Source: src\Samba.Modules.PosModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.PrinterModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.ResourceModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.SettingsModule.dll; DestDir: {app}; Flags: ignoreversion
+Source: src\Samba.Modules.TaskModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.TicketModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.UserModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.WorkperiodModule.dll; DestDir: {app}; Flags: ignoreversion

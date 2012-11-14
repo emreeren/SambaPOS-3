@@ -10,6 +10,7 @@ using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Services;
 using Samba.Services;
+using FlexButton = Samba.Presentation.Controls.FxButton.FlexButton;
 
 namespace Samba.Modules.ResourceModule.Widgets.ResourceButton
 {
@@ -52,7 +53,7 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceButton
         {
             var buttonHolder = widgetViewModel as ResourceButtonWidgetViewModel;
 
-            var ret = new FlexButton.FlexButton { DataContext = buttonHolder, ContextMenu = contextMenu, CommandParameter = buttonHolder };
+            var ret = new FlexButton { DataContext = buttonHolder, ContextMenu = contextMenu, CommandParameter = buttonHolder };
 
             var heightBinding = new Binding("Height") { Source = buttonHolder, Mode = BindingMode.TwoWay };
             var widthBinding = new Binding("Width") { Source = buttonHolder, Mode = BindingMode.TwoWay };
@@ -70,8 +71,8 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceButton
             ret.SetBinding(FrameworkElement.HeightProperty, heightBinding);
             ret.SetBinding(FrameworkElement.WidthProperty, widthBinding);
             ret.SetBinding(ContentControl.ContentProperty, captionBinding);
-            ret.SetBinding(FlexButton.FlexButton.CornerRadiusProperty, radiusBinding);
-            ret.SetBinding(FlexButton.FlexButton.ButtonColorProperty, buttonColorBinding);
+            ret.SetBinding(FlexButton.CornerRadiusProperty, radiusBinding);
+            ret.SetBinding(FlexButton.ButtonColorProperty, buttonColorBinding);
             ret.SetBinding(ButtonBase.CommandProperty, commandBinding);
             ret.SetBinding(UIElement.RenderTransformProperty, transformBinding);
             //ret.SetBinding(UIElement.IsEnabledProperty, enabledBinding);
