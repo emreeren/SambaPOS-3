@@ -55,6 +55,7 @@
     <Compile Include="CachedDao.cs" />
     <Compile Include="Dao.cs" />
     <Compile Include="EntitySpecifications.cs" />
+    <Compile Include="NonDuplicateSaveValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SambaContext.cs" />
     <Compile Include="SpecificationDaoExtentions.cs" />

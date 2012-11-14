@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Documents;
 using Samba.Domain.Models.Settings;
 using Samba.Infrastructure;
+using Samba.Infrastructure.Helpers;
 using Samba.Presentation.Services.Implementations.PrinterModule.Formatters;
 using Samba.Presentation.Services.Implementations.PrinterModule.Tools;
 

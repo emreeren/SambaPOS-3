@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Resources;
 using Samba.Infrastructure;
+using Samba.Infrastructure.Helpers;
 using Samba.Presentation.Common;
 
 namespace Samba.Presentation.ViewModels

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 
-namespace Samba.Infrastructure
+namespace Samba.Infrastructure.Helpers
 {
     public static class Utility
     {

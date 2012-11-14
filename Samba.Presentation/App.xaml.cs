@@ -2,6 +2,7 @@
 using System.Windows;
 using Microsoft.Practices.ServiceLocation;
 using Samba.Infrastructure;
+using Samba.Infrastructure.Messaging;
 using Samba.Presentation.Common.ErrorReport;
 using Samba.Presentation.Services;
 

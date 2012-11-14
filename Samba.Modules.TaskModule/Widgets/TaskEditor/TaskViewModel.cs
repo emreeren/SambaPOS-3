@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Samba.Domain.Models.Tasks;
 using Samba.Infrastructure;
+using Samba.Infrastructure.Messaging;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Services.Common;

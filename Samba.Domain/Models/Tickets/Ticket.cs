@@ -7,6 +7,7 @@ using Samba.Domain.Models.Menus;
 using Samba.Infrastructure;
 using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Data.Serializer;
+using Samba.Infrastructure.Helpers;
 using Samba.Infrastructure.Settings;
 
 namespace Samba.Domain.Models.Tickets

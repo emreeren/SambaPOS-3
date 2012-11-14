@@ -76,7 +76,6 @@
     <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="ITicketExplorerFilter.cs" />
     <Compile Include="MenuItemData.cs" />
-    <Compile Include="NonDuplicateSaveValidator.cs" />
     <Compile Include="OpenTicketData.cs" />
     <Compile Include="PriceData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

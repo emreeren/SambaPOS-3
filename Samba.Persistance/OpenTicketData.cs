@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure;
+using Samba.Infrastructure.Helpers;
 
 namespace Samba.Persistance
 {

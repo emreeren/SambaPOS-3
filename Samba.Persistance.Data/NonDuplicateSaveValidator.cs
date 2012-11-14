@@ -1,7 +1,6 @@
 ﻿using Samba.Infrastructure.Data;
-using Samba.Persistance.Data;
 
-namespace Samba.Persistance
+namespace Samba.Persistance.Data
 {
     public class NonDuplicateSaveValidator<T> : SpecificationValidator<T> where T : class, IEntity
     {

@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using Samba.Domain.Models.Resources;
 using Samba.Infrastructure;
+using Samba.Infrastructure.Helpers;
 using Samba.Presentation.Common;
 using Samba.Presentation.Services;
 using Samba.Services;

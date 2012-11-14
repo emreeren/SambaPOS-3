@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Text;
 
-namespace Samba.Infrastructure
+namespace Samba.Infrastructure.Helpers
 {
     public class JsonHelper
     {

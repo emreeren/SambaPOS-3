@@ -70,7 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AlphanumComparator.cs" />
+    <Compile Include="Helpers\AlphanumComparator.cs" />
     <Compile Include="Cron\CronBuilder.cs" />
     <Compile Include="Cron\CronEntryBase.cs" />
     <Compile Include="Cron\CronEntryException.cs" />
@@ -86,21 +86,21 @@
     <Compile Include="Cron\MonthsCronEntry.cs" />
     <Compile Include="IMessageListener.cs" />
     <Compile Include="IStringCompareable.cs" />
-    <Compile Include="JsonHelper.cs" />
-    <Compile Include="Messages.cs" />
-    <Compile Include="MessagingClient.cs" />
-    <Compile Include="MessagingClientObject.cs" />
-    <Compile Include="MessagingServerObject.cs" />
-    <Compile Include="Observer.cs" />
+    <Compile Include="Helpers\JsonHelper.cs" />
+    <Compile Include="Messaging\Messages.cs" />
+    <Compile Include="Messaging\MessagingClient.cs" />
+    <Compile Include="Messaging\MessagingClientObject.cs" />
+    <Compile Include="Messaging\MessagingServerObject.cs" />
+    <Compile Include="Messaging\Observer.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SerializableDictionary.cs" />
+    <Compile Include="Helpers\SerializableDictionary.cs" />
     <Compile Include="Settings\LocalSettings.cs" />
-    <Compile Include="Utility.cs" />
+    <Compile Include="Helpers\Utility.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -6,6 +6,7 @@ using System.Windows;
 using Microsoft.Practices.Prism.Commands;
 using Samba.Domain.Models.Resources;
 using Samba.Infrastructure;
+using Samba.Infrastructure.Messaging;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;

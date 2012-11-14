@@ -1,4 +1,4 @@
-﻿namespace Samba.Infrastructure
+﻿namespace Samba.Infrastructure.Messaging
 {
     public static class Messages
     {

@@ -4,7 +4,7 @@ using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
 using System.Windows.Forms;
-using Samba.Infrastructure;
+using Samba.Infrastructure.Messaging;
 
 namespace Samba.MessagingServer
 {

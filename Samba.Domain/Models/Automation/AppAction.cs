@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Samba.Infrastructure;
 using Samba.Infrastructure.Data;
+using Samba.Infrastructure.Helpers;
 
 namespace Samba.Domain.Models.Automation
 {

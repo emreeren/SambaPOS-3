@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Threading;
 using Samba.Infrastructure;
+using Samba.Infrastructure.Messaging;
 using Samba.Infrastructure.Settings;
 
 namespace Samba.Presentation.Services.Common

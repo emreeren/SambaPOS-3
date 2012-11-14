@@ -43,21 +43,19 @@ namespace Samba.Localization.Pluralization
         private static readonly IList<string> Unpluralizables = new List<string> { "equipment", "information", "rice", "money", "species", "series", "fish", "sheep", "deer" };
         private static readonly IDictionary<string, string> Pluralizations = new Dictionary<string, string>
                                                                                  {
-                                                                                     // Start with the rarest cases, and move to the most common
                                                                                      { "person$", "people" },
                                                                                      { "ox$", "oxen" },
                                                                                      { "child$", "children" },
                                                                                      { "foot$", "feet" },
                                                                                      { "tooth$", "teeth" },
                                                                                      { "goose$", "geese" },
-                                                                                     // And now the more standard rules.
-                                                                                     { "(.*)fe?", "$1ves" },         // ie, wolf, wife
+                                                                                     { "(.*)fe?", "$1ves" },         
                                                                                      { "(.*)man$", "$1men" },
                                                                                      { "(.+[aeiou]y)$", "$1s" },
                                                                                      { "(.+[^aeiou])y$", "$1ies" },
                                                                                      { "(.+z)$", "$1zes" },
                                                                                      { "([m|l])ouse$", "$1ice" },
-                                                                                     { "(.+)(e|i)x$", @"$1ices"},    // ie, Matrix, Index
+                                                                                     { "(.+)(e|i)x$", @"$1ices"},
                                                                                      { "(octop|vir)us$", "$1i"},
                                                                                      { "(.+(s|x|sh|ch))$", @"$1es"},
                                                                                      { "(.+)", @"$1s" }
@@ -83,10 +81,8 @@ namespace Samba.Localization.Pluralization
                                                                                  {
                                                                                      { "(?=^[\\w]+$)(.+[eiöü].?)$", "$1ler" },
                                                                                      { "(?=^[\\w]+$)(.+[aıou].?)$", "$1lar" },
-                                                                                     { "(.+)s[eiöü]$", "$1leri" },
-                                                                                     { "(.+)s[aıou]$", "$1ları" },
-                                                                                     { "(.+)[eiöü]$", "$1leri" },
-                                                                                     { "(.+)[aıou]$", "$1ları" }
+                                                                                     { "(.+)?s[eiöü]$", "$1leri" },
+                                                                                     { "(.+)?s[aıou]$", "$1ları" }
                                                                                  };
 
         public override string Pluralize(string singular)
