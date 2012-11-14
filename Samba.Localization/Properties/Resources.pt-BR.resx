@@ -657,9 +657,6 @@ Continuar sem acrescentar detalhes? </value>
   <data name="UseAtOldTickets" xml:space="preserve">
     <value>Somente para ticketes antigos</value>
   </data>
-  <data name="Triggers" xml:space="preserve">
-    <value>Desencadeia</value>
-  </data>
   <data name="AutoLogout" xml:space="preserve">
     <value>Auto Logout</value>
   </data>

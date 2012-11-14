@@ -499,8 +499,8 @@ Mesaj:
   <data name="Move" xml:space="preserve">
     <value>Taşı</value>
   </data>
-  <data name="Server" xml:space="preserve">
-    <value>Sunucu</value>
+  <data name="Create_f" xml:space="preserve">
+    <value>{0} Oluştur</value>
   </data>
   <data name="Rate" xml:space="preserve">
     <value>Oran</value>
@@ -759,6 +759,9 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="Zero" xml:space="preserve">
     <value>Sıfır</value>
   </data>
+  <data name="Server" xml:space="preserve">
+    <value>Sunucu</value>
+  </data>
   <data name="Numeric" xml:space="preserve">
     <value>Sayısal</value>
   </data>
@@ -794,9 +797,6 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="NumericTagsShouldBeNumbersErrorMessage" xml:space="preserve">
     <value>"Sayısal etiketleme" seçildiğinde etiketlerin tümü sayısal olmalıdır.</value>
-  </data>
-  <data name="Create_f" xml:space="preserve">
-    <value>{0} Oluştur</value>
   </data>
   <data name="Permissions" xml:space="preserve">
     <value>Yetkiler</value>
@@ -2009,9 +2009,6 @@ Kapat</value>
   </data>
   <data name="PastTransactions" xml:space="preserve">
     <value>Geçmiş Hareketler</value>
-  </data>
-  <data name="Triggers" xml:space="preserve">
-    <value>Tetikleyiciler</value>
   </data>
   <data name="MergeLines" xml:space="preserve">
     <value>Satırları Birleştir</value>

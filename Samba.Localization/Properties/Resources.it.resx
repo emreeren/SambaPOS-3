@@ -215,7 +215,7 @@
     <value>Totale Entrate</value>
   </data>
   <data name="AccountDetails" xml:space="preserve">
-    <value>Dettagli account</value>
+    <value>Dettagli Account</value>
   </data>
   <data name="Select" xml:space="preserve">
     <value>Seleziona</value>
@@ -856,7 +856,7 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
     <value>Permessi di pagamento</value>
   </data>
   <data name="Receivables" xml:space="preserve">
-    <value>Crediti</value>
+    <value>Credito</value>
   </data>
   <data name="Zero" xml:space="preserve">
     <value>Zero</value>
@@ -1104,8 +1104,8 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="Receiveable" xml:space="preserve">
     <value>Ricevibile</value>
   </data>
-  <data name="TicketPaidTotal" xml:space="preserve">
-    <value>Ticket Importo versato</value>
+  <data name="New_f" xml:space="preserve">
+    <value>Nuovo {0}</value>
   </data>
   <data name="InvoicePrinter" xml:space="preserve">
     <value>Stampante fattura</value>
@@ -1161,6 +1161,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="KitchenTemplateValue" xml:space="preserve">
     <value>[LAYOUT]⏎ &lt;T&gt;TICKET⏎ &lt;L00&gt;Data:{TICKET DATE}⏎ &lt;L00&gt;Ora:{TIME}⏎ &lt;L00&gt;Location No:{LOCATION}⏎ &lt;L00&gt;Ticket No:{TICKET NO}⏎ &lt;F&gt;-⏎ {ORDERS}⏎ ⏎ [ORDERS]⏎ &lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}⏎ {ORDER TAGS}⏎ ⏎ [ORDERS:GIFT]⏎ &lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}⏎ {ORDER TAGS}⏎ ⏎ [ORDERS:VOID]⏎ &lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}⏎ {ORDER TAGS}⏎ ⏎ [ORDER TAGS]⏎ -- Format for order tags⏎ &lt;L00&gt; * {ORDER TAG NAME}⏎</value>
   </data>
+  <data name="TicketPaidTotal" xml:space="preserve">
+    <value>Ticket Importo versato</value>
+  </data>
   <data name="SaveErrorDuplicateItemName_f" xml:space="preserve">
     <value>Esiste già un {0} con quel nome.</value>
   </data>
@@ -1198,7 +1201,7 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
     <value>Lun, Mer, Ven</value>
   </data>
   <data name="StartOfDay" xml:space="preserve">
-    <value>Inizio del periodo di lavoro</value>
+    <value>Inizio del Periodo di Lavoro</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>Dettagli</value>
@@ -1417,7 +1420,7 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
     <value>Stampante</value>
   </data>
   <data name="AccountsReceivable" xml:space="preserve">
-    <value>Crediti verso clienti</value>
+    <value>Credito verso clienti</value>
   </data>
   <data name="Description" xml:space="preserve">
     <value>Descrizione</value>
@@ -1826,7 +1829,7 @@ Continua senza aggiungere dettagli?</value>
     <value>Tipo di aggiornamento</value>
   </data>
   <data name="AddTagPriceToOrderPrice" xml:space="preserve">
-    <value>Aggiungere Tag Prezzo ad Ordine Prezzo</value>
+    <value>Aggiungere al Prezzo Prodotto il Prezzo Tag</value>
   </data>
   <data name="OnceAnHour" xml:space="preserve">
     <value>Dopo un'ora</value>
@@ -2174,9 +2177,6 @@ Ticket</value>
   <data name="AutoRounding" xml:space="preserve">
     <value>Auto Arrotondamento</value>
   </data>
-  <data name="OrderUntagged" xml:space="preserve">
-    <value>Ordine non Taggato</value>
-  </data>
   <data name="TotalWorkTimeHours_f" xml:space="preserve">
     <value>Tempo totale di : {0:0} ore {1:0} minuti</value>
   </data>
@@ -2366,8 +2366,8 @@ Ticket</value>
   <data name="FieldType" xml:space="preserve">
     <value>Tipo di Campo</value>
   </data>
-  <data name="New_f" xml:space="preserve">
-    <value>Nuovo {0}</value>
+  <data name="OrderUntagged" xml:space="preserve">
+    <value>Ordine non Taggato</value>
   </data>
   <data name="Message" xml:space="preserve">
     <value>Messaggio</value>
@@ -2380,9 +2380,6 @@ Ticket</value>
   </data>
   <data name="PastTransactions" xml:space="preserve">
     <value>Operazioni Precedenti</value>
-  </data>
-  <data name="Triggers" xml:space="preserve">
-    <value>Attivi</value>
   </data>
   <data name="MaxSelectedItems" xml:space="preserve">
     <value>Massimo articoli Selezionati</value>
