@@ -156,8 +156,6 @@ Source: src\Imports\menu.txt; DestDir: {app}\Imports\; Components: veri
 Source: src\Imports\table.txt; DestDir: {app}\Imports\; Components: veri
 Source: src\Imports\menu_tr.txt; DestDir: {app}\Imports\; Components: veri
 Source: src\Imports\table_tr.txt; DestDir: {app}\Imports\; Components: veri
-Source: src\FlexButton.dll; DestDir: {app}; Flags: ignoreversion
-Source: src\DataGridFilterLibrary.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\FluentValidation.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\FluentMigrator.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\FluentMigrator.Runner.dll; DestDir: {app}; Flags: ignoreversion

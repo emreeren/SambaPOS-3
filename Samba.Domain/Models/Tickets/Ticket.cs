@@ -68,15 +68,15 @@ namespace Samba.Domain.Models.Tickets
         public DateTime LastOrderDate { get; set; }
         public DateTime LastPaymentDate { get; set; }
         public bool IsClosed { get; set; }
+        public bool Locked { get; set; }
+
         public decimal RemainingAmount { get; set; }
+        public decimal TotalAmount { get; set; }
 
         public int DepartmentId { get; set; }
         public int TicketTypeId { get; set; }
         public string Note { get; set; }
-        public bool Locked { get; set; }
-
-        public decimal TotalAmount { get; set; }
-
+        
         public int AccountId { get; set; }
         public int AccountTypeId { get; set; }
         public string AccountName { get; set; }
