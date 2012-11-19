@@ -76,36 +76,6 @@
     <Compile Include="Converters\NullBrushConverter.cs" />
     <Compile Include="Converters\NullValueConverter.cs" />
     <Compile Include="Converters\VisibilityConverter.cs" />
-    <Compile Include="DataGridFilterLibrary\DataGridColumnExtensions.cs" />
-    <Compile Include="DataGridFilterLibrary\DataGridColumnFilter.cs" />
-    <Compile Include="DataGridFilterLibrary\DataGridComboBoxColumnWithBindingHack.cs" />
-    <Compile Include="DataGridFilterLibrary\DataGridComboBoxExtensions.cs" />
-    <Compile Include="DataGridFilterLibrary\DataGridExtensions.cs" />
-    <Compile Include="DataGridFilterLibrary\DataGridFilterCommand.cs" />
-    <Compile Include="DataGridFilterLibrary\DataGridHeaderFilterControl.cs" />
-    <Compile Include="DataGridFilterLibrary\Querying\FilteringEventArgs.cs" />
-    <Compile Include="DataGridFilterLibrary\Querying\ParameterCounter.cs" />
-    <Compile Include="DataGridFilterLibrary\Querying\Query.cs" />
-    <Compile Include="DataGridFilterLibrary\Querying\QueryController.cs" />
-    <Compile Include="DataGridFilterLibrary\Querying\QueryControllerFactory.cs" />
-    <Compile Include="DataGridFilterLibrary\Querying\QueryCreator.cs" />
-    <Compile Include="DataGridFilterLibrary\Querying\StringFilterExpressionCreator.cs" />
-    <Compile Include="DataGridFilterLibrary\Support\BooleanToHeightConverter.cs" />
-    <Compile Include="DataGridFilterLibrary\Support\CheckBoxValueConverter.cs" />
-    <Compile Include="DataGridFilterLibrary\Support\ClearFilterButtonVisibilityConverter.cs" />
-    <Compile Include="DataGridFilterLibrary\Support\ComboBoxToQueryStringConverter.cs" />
-    <Compile Include="DataGridFilterLibrary\Support\DatePickerToQueryStringConverter.cs" />
-    <Compile Include="DataGridFilterLibrary\Support\DelayTextBox.cs" />
-    <Compile Include="DataGridFilterLibrary\Support\DisplayStringAttribute.cs" />
-    <Compile Include="DataGridFilterLibrary\Support\DynamicLibrary.cs" />
-    <Compile Include="DataGridFilterLibrary\Support\EnumDisplayer.cs" />
-    <Compile Include="DataGridFilterLibrary\Support\FilterData.cs" />
-    <Compile Include="DataGridFilterLibrary\Support\FilterOperator.cs" />
-    <Compile Include="DataGridFilterLibrary\Support\FilterType.cs" />
-    <Compile Include="DataGridFilterLibrary\Support\FontSizeToHeightConverter.cs" />
-    <Compile Include="DataGridFilterLibrary\Support\MyBooleanToVisibilityConverter.cs" />
-    <Compile Include="DataGridFilterLibrary\Support\MyOppositeBooleanToVisibilityConverter.cs" />
-    <Compile Include="DataGridFilterLibrary\Support\VisibilityToWidthConverter.cs" />
     <Compile Include="FxButton\ButtonContentTemplateSelector.cs" />
     <Compile Include="FxButton\ColorHSL.cs" />
     <Compile Include="FxButton\convertBrightnessToColorWithAlpha.cs" />
@@ -177,10 +147,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Browser\BrowserControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="DataGridFilterLibrary\Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
