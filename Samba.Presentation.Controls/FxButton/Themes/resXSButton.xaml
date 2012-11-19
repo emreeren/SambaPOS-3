@@ -21,7 +21,7 @@
        StringTemplate="{StaticResource stringTemplate}" 
        x:Key="buttonContentTemplateSelector" />
 
-    <Style TargetType="{x:Type FxButton:FlexButton}" >
+  <Style TargetType="{x:Type FxButton:FlexButton}"  BasedOn="{StaticResource {x:Type ToggleButton}}">
 
         <!-- Provide DEFAULT values for some properties -->
         <Setter Property="CornerRadius" Value="4" />
