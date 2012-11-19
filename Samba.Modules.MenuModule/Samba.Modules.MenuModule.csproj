@@ -95,6 +95,10 @@
     <Compile Include="TaxTemplateViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lib\DataGridFilterLibrary\DataGridFilterLibrary.csproj">
+      <Project>{512FD53F-9AD1-46A1-A961-9FABDFAD50C5}</Project>
+      <Name>DataGridFilterLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">
       <Project>{2386F6A0-91B2-4D1A-8DBC-92109924AFFE}</Project>
       <Name>Samba.Domain</Name>

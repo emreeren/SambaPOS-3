@@ -40,7 +40,6 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="PresentationFramework.Aero" />
     <Reference Include="PropertyTools">
       <HintPath>..\Lib\PropertyTools.dll</HintPath>
     </Reference>
