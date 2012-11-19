@@ -1,12 +1,9 @@
-﻿<UserControl x:Class="Samba.Modules.PosModule.TicketView" 
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:cmn="clr-namespace:Samba.Presentation.Common;assembly=Samba.Presentation.Common"
-             xmlns:cal="clr-namespace:Microsoft.Practices.Prism.Regions;assembly=Microsoft.Practices.Prism"
-             xmlns:FxButton="clr-namespace:Samba.Presentation.Controls.FxButton;assembly=Samba.Presentation.Controls"
-             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+﻿<UserControl x:Class="Samba.Modules.PosModule.TicketView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:cmn="clr-namespace:Samba.Presentation.Common;assembly=Samba.Presentation.Common"
+     xmlns:FxButton="clr-namespace:FlexButton;assembly=FlexButton" 
+     xmlns:cal="clr-namespace:Microsoft.Practices.Prism.Regions;assembly=Microsoft.Practices.Prism" 
+     mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -40,7 +37,7 @@
         <!--COMMAND BUTTONS AREA-->
         <StackPanel Grid.Column="0" Grid.RowSpan="5" Grid.Row="0" VerticalAlignment="Top">
             <StackPanel.Resources>
-                <Style TargetType="FxButton:FlexButton" BasedOn="{StaticResource {x:Type FxButton:FlexButton}}">
+                <Style TargetType="FxButton:FlexButton">
                     <Setter Property="Height" Value="60"/>
                     <Setter Property="Margin" Value="0,0,3,3"/>
                 </Style>
@@ -98,9 +95,9 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <FxButton:FlexButton Command="{Binding IncSelectionQuantityCommand}" Content="{Binding IncSelectionQuantityCommand.Caption}" Visibility="{Binding IsItemsSelectedAndLocked,Converter={StaticResource VisibilityConverter}}" />
             <FxButton:FlexButton Command="{Binding IncQuantityCommand}" Content="{Binding IncQuantityCommand.Caption}" Visibility="{Binding IsItemsSelectedAndUnlocked,Converter={StaticResource VisibilityConverter}}" />
             <FxButton:FlexButton Command="{Binding DecQuantityCommand}" Content="{Binding DecQuantityCommand.Caption}" Visibility="{Binding IsItemsSelectedAndUnlocked,Converter={StaticResource VisibilityConverter}}" />
+            <FxButton:FlexButton Command="{Binding IncSelectionQuantityCommand}" Content="{Binding IncSelectionQuantityCommand.Caption}" Visibility="{Binding IsItemsSelectedAndLocked,Converter={StaticResource VisibilityConverter}}" />
             <FxButton:FlexButton Command="{Binding DecSelectionQuantityCommand}" Content="{Binding DecSelectionQuantityCommand.Caption}" Visibility="{Binding IsItemsSelectedAndLocked,Converter={StaticResource VisibilityConverter}}" />
             <ItemsControl ItemsSource="{Binding OrderStateButtons,NotifyOnTargetUpdated=True}"
                          HorizontalAlignment="Stretch" Visibility="{Binding IsItemsSelected,Converter={StaticResource VisibilityConverter}}">

@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:ViewModels="clr-namespace:Samba.Presentation.ViewModels;assembly=Samba.Presentation.ViewModels"
+             xmlns:ViewModels="clr-namespace:Samba.Presentation.ViewModels;assembly=Samba.Presentation.ViewModels" 
+             xmlns:FlexButton="clr-namespace:FlexButton;assembly=FlexButton"
              xmlns:VirtualKeyboard="clr-namespace:Samba.Presentation.Controls.VirtualKeyboard;assembly=Samba.Presentation.Controls"
-             xmlns:FxButton="clr-namespace:Samba.Presentation.Controls.FxButton;assembly=Samba.Presentation.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" FontSize="20" Loaded="UserControl_Loaded">
     <UserControl.Resources>
@@ -97,11 +97,11 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0">
-                <FxButton:FlexButton Margin="2" Height="60" Content="{Binding SaveResourceCommand.Caption}"
+                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding SaveResourceCommand.Caption}"
                          Command="{Binding SaveResourceCommand}" />
-                <FxButton:FlexButton Margin="2" Height="60" Content="{Binding SelectResourceCommandCaption}"
+                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding SelectResourceCommandCaption}"
                          Command="{Binding SelectResourceCommand}" />
-                <FxButton:FlexButton Margin="2" Height="60" Content="{Binding CreateAccountCommand.Caption}"
+                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding CreateAccountCommand.Caption}"
                          Command="{Binding CreateAccountCommand}" />
             </StackPanel>
         </Grid>

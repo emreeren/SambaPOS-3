@@ -2,11 +2,11 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:FlexButton="clr-namespace:FlexButton;assembly=FlexButton" 
              xmlns:ListViewEx="clr-namespace:Samba.Presentation.Controls.ListViewEx;assembly=Samba.Presentation.Controls"
              xmlns:ListViewLM="clr-namespace:Samba.Presentation.Controls.ListViewLM;assembly=Samba.Presentation.Controls"
              xmlns:VirtualKeyboard="clr-namespace:Samba.Presentation.Controls.VirtualKeyboard;assembly=Samba.Presentation.Controls"
-             xmlns:FxButton="clr-namespace:Samba.Presentation.Controls.FxButton;assembly=Samba.Presentation.Controls"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" FontSize="20">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -29,7 +29,7 @@
             <TextBox Margin="3,3,0,3" FontSize="30" Grid.Column="1" Name="SearchString"
                              Text="{Binding SearchString,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                              PreviewKeyDown="SearchStringPreviewKeyDown" Loaded="SearchStringLoaded" />
-            <FxButton:FlexButton Grid.Column="2" Margin="0,3,3,3" Content="X" MinWidth="50" Click="FlexButtonClick" />
+            <FlexButton:FlexButton Grid.Column="2" Margin="0,3,3,3" Content="X" MinWidth="50" Click="FlexButtonClick" />
         </Grid>
 
         <ListView Name="MainListView" Grid.Row="1" Margin="5" Background="LightGray" VirtualizingStackPanel.IsVirtualizing="True"
@@ -60,15 +60,15 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0">
-                <FxButton:FlexButton Margin="2" Height="60" Content="{Binding SelectResourceCommandCaption}"
+                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding SelectResourceCommandCaption}"
                          Command="{Binding SelectResourceCommand}" Name="SelectResourceButton" />
-                <FxButton:FlexButton Margin="2" Height="60" Content="{Binding EditResourceCommandCaption}"
+                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding EditResourceCommandCaption}"
                          Command="{Binding EditResourceCommand}"/>
-                <FxButton:FlexButton Margin="2" Height="60" Content="{Binding CreateResourceCommandCaption}"
+                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding CreateResourceCommandCaption}"
                          Command="{Binding CreateResourceCommand}" Name="CreateResourceButton" />
-                <FxButton:FlexButton Margin="2" Height="60" Content="{Binding RemoveResourceCommandCaption}"
+                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding RemoveResourceCommandCaption}"
                          Command="{Binding RemoveResourceCommand}"/>
-                <FxButton:FlexButton Margin="2" Height="60" Content="{Binding DisplayAccountCommand.Caption}"
+                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding DisplayAccountCommand.Caption}"
                          Command="{Binding DisplayAccountCommand}" />
             </StackPanel>
         </Grid>

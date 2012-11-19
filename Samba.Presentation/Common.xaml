@@ -5,7 +5,6 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Samba.Presentation;component/Themes/MainExpanderResources.xaml" />
         <ResourceDictionary Source="/Samba.Presentation.Controls;component/Generic.xaml" />
-        <ResourceDictionary Source="/Samba.Presentation.Controls;component/FxButton/Themes/resXSButton.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <properties:Settings x:Key="Settings" />

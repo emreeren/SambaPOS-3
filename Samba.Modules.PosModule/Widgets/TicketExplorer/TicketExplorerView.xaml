@@ -1,8 +1,7 @@
 ﻿<UserControl x:Class="Samba.Modules.PosModule.Widgets.TicketExplorer.TicketExplorerView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:FxButton="clr-namespace:Samba.Presentation.Controls.FxButton;assembly=Samba.Presentation.Controls"
-             mc:Ignorable="d">
+     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:FlexButton="clr-namespace:FlexButton;assembly=FlexButton" mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -98,7 +97,7 @@
                             </ScrollViewer>
                         </Border>
                         <UniformGrid Rows="2" Grid.Column="1">
-                            <FxButton:FlexButton Command="{Binding DisplayTicketCommand}" Content="{Binding DisplayTicketCommand.Caption}"/>
+                            <FlexButton:FlexButton Command="{Binding DisplayTicketCommand}" Content="{Binding DisplayTicketCommand.Caption}"/>
                         </UniformGrid>
                     </Grid>
                 </DataTemplate>

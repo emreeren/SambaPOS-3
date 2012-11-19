@@ -56,6 +56,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samba.Modules.BasicReports"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samba.Modules.NavigationModule", "Samba.Modules.NavigationModule\Samba.Modules.NavigationModule.csproj", "{9497C48E-B9B5-4869-820E-09ECE4347632}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlexButton", "Lib\FlexButton\FlexButton.csproj", "{434D497A-D439-44C8-84A5-5301B572708F}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samba.Persistance.DBMigration", "Samba.Persistance.DBMigration\Samba.Persistance.DBMigration.csproj", "{3AED3A4C-F3D7-4D29-BF58-85743E4F7AFD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samba.Presentation.ViewModels", "Samba.Presentation.ViewModels\Samba.Presentation.ViewModels.csproj", "{04ED7BE0-8768-4A8D-B1ED-C92CB60789EF}"
@@ -270,6 +272,16 @@ Global
 		{9497C48E-B9B5-4869-820E-09ECE4347632}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{9497C48E-B9B5-4869-820E-09ECE4347632}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{9497C48E-B9B5-4869-820E-09ECE4347632}.Release|x86.ActiveCfg = Release|Any CPU
+		{434D497A-D439-44C8-84A5-5301B572708F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{434D497A-D439-44C8-84A5-5301B572708F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{434D497A-D439-44C8-84A5-5301B572708F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{434D497A-D439-44C8-84A5-5301B572708F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{434D497A-D439-44C8-84A5-5301B572708F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{434D497A-D439-44C8-84A5-5301B572708F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{434D497A-D439-44C8-84A5-5301B572708F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{434D497A-D439-44C8-84A5-5301B572708F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{434D497A-D439-44C8-84A5-5301B572708F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{434D497A-D439-44C8-84A5-5301B572708F}.Release|x86.ActiveCfg = Release|Any CPU
 		{3AED3A4C-F3D7-4D29-BF58-85743E4F7AFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3AED3A4C-F3D7-4D29-BF58-85743E4F7AFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3AED3A4C-F3D7-4D29-BF58-85743E4F7AFD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU

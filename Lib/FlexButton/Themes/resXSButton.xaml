@@ -1,28 +1,28 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:FxButton="clr-namespace:Samba.Presentation.Controls.FxButton">
+    xmlns:local="clr-namespace:FlexButton">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/Samba.Presentation.Controls;component/FxButton/Themes/resXSButtonStyles.xaml" />
+        <ResourceDictionary Source="/FlexButton;component/Themes/resXSButtonStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <DataTemplate x:Key="stringTemplate">
-        <Viewbox StretchDirection="{Binding FontSize,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type FxButton:FlexButton}},Converter={StaticResource fontSizeToViewBoxDirectionConverter}}">
-            <TextBlock FontSize="{Binding FontSize,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type FxButton:FlexButton}}}" Text="{Binding}" TextAlignment="Center"/>
+        <Viewbox StretchDirection="{Binding FontSize,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:FlexButton}},Converter={StaticResource fontSizeToViewBoxDirectionConverter}}">
+            <TextBlock FontSize="{Binding FontSize,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:FlexButton}}}" Text="{Binding}" TextAlignment="Center"/>
         </Viewbox>
     </DataTemplate>
 
     <DataTemplate x:Key="defaultTemplate">
     </DataTemplate>
 
-    <FxButton:ButtonContentTemplateSelector
+    <local:ButtonContentTemplateSelector
        DefaultTemplate="{StaticResource defaultTemplate}" 
        StringTemplate="{StaticResource stringTemplate}" 
        x:Key="buttonContentTemplateSelector" />
 
-  <Style TargetType="{x:Type FxButton:FlexButton}"  BasedOn="{StaticResource {x:Type ToggleButton}}">
 
+    <Style TargetType="{x:Type local:FlexButton}" >
         <!-- Provide DEFAULT values for some properties -->
         <Setter Property="CornerRadius" Value="4" />
         <Setter Property="Background" Value="{StaticResource brushClearGlass}" />
@@ -38,7 +38,7 @@
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type FxButton:FlexButton}">
+                <ControlTemplate TargetType="{x:Type local:FlexButton}">
 
                     <Border Name="OuterBorder" CornerRadius="{Binding CornerRadius, ElementName=InnerBorder}"
                             BorderBrush="{TemplateBinding OuterBorderBrush}" BorderThickness="{TemplateBinding OuterBorderThickness}" >
@@ -59,15 +59,15 @@
                                 </Border>
 
                                 <Border Name="Highlight" Grid.Row="0" Margin="{Binding HighlightMargin, RelativeSource={RelativeSource Mode=FindAncestor,
-                                    AncestorType={x:Type FxButton:FlexButton}}}" CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource FindAncestor,
+                                    AncestorType={x:Type local:FlexButton}}}" CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource FindAncestor,
                                     AncestorLevel=1, AncestorType={x:Type Border}}, Converter={StaticResource HighlightCornerRadiusConverter}}" >
                                     <Border.Background>
                                         <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1" >
                                             <GradientStop Offset="0" Color="{Binding HighlightBrightness,
-                                                RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type FxButton:FlexButton}},
+                                                RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:FlexButton}},
                                                 Converter={StaticResource BrightnessToColorConverter}}" />
                                             <GradientStop Offset="0.8" Color="{Binding ButtonColor.Color,
-                                                RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type FxButton:FlexButton}}}"/>
+                                                RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:FlexButton}}}"/>
                                         </LinearGradientBrush>
                                     </Border.Background>
                                 </Border>
@@ -79,7 +79,7 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <Image HorizontalAlignment="Left" VerticalAlignment="Center" Name="TopImage" Grid.Column="0" Stretch="Uniform" StretchDirection="DownOnly" Source="{Binding ButtonImage, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type FxButton:FlexButton}}}" Opacity="0.9">
+                                        <Image HorizontalAlignment="Left" VerticalAlignment="Center" Name="TopImage" Grid.Column="0" Stretch="Uniform" StretchDirection="DownOnly" Source="{Binding ButtonImage, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:FlexButton}}}" Opacity="0.9">
                                             <Image.OpacityMask>
                                                 <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                                                     <LinearGradientBrush.RelativeTransform>

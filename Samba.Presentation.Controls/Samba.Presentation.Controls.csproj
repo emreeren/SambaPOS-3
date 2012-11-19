@@ -76,14 +76,6 @@
     <Compile Include="Converters\NullBrushConverter.cs" />
     <Compile Include="Converters\NullValueConverter.cs" />
     <Compile Include="Converters\VisibilityConverter.cs" />
-    <Compile Include="FxButton\ButtonContentTemplateSelector.cs" />
-    <Compile Include="FxButton\ColorHSL.cs" />
-    <Compile Include="FxButton\convertBrightnessToColorWithAlpha.cs" />
-    <Compile Include="FxButton\convertColorToColorWithAlpha.cs" />
-    <Compile Include="FxButton\convertHighlightCornerRadius.cs" />
-    <Compile Include="FxButton\FlexButton.cs" />
-    <Compile Include="FxButton\FlexButtonExtensions.cs" />
-    <Compile Include="FxButton\FontSizeToViewBoxDirectionConverter.cs" />
     <Compile Include="Interaction\FeedbackWindow.xaml.cs">
       <DependentUpon>FeedbackWindow.xaml</DependentUpon>
     </Compile>
@@ -150,14 +142,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="FxButton\Themes\resXSButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="FxButton\Themes\resXSButtonStyles.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -214,6 +198,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lib\FlexButton\FlexButton.csproj">
+      <Project>{434D497A-D439-44C8-84A5-5301B572708F}</Project>
+      <Name>FlexButton</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">
       <Project>{2386F6A0-91B2-4D1A-8DBC-92109924AFFE}</Project>
       <Name>Samba.Domain</Name>
