@@ -78,7 +78,7 @@ namespace Samba.Modules.PaymentModule
         private bool CanExecuteAutomationCommand(AutomationCommandData arg)
         {
             if (arg == null) return false;
-            if (_paymentEditor.SelectedTicket != null && _paymentEditor.SelectedTicket.Locked && arg.VisualBehaviour == 1) return false;
+            if (_paymentEditor.SelectedTicket != null && _paymentEditor.SelectedTicket.IsLocked && arg.VisualBehaviour == 1) return false;
             return _automationService.EvalCommand(FunctionNames.CanExecuteAutomationCommand, arg.AutomationCommand, new { Ticket = _paymentEditor.SelectedTicket }, true);
         }
 
@@ -99,7 +99,7 @@ namespace Samba.Modules.PaymentModule
         private bool CanSelectCalculationSelector(CalculationSelector calculationSelector)
         {
             if (calculationSelector == null) return false;
-            if (_paymentEditor.SelectedTicket != null && (_paymentEditor.SelectedTicket.Locked || _paymentEditor.SelectedTicket.IsClosed)) return false;
+            if (_paymentEditor.SelectedTicket != null && (_paymentEditor.SelectedTicket.IsLocked || _paymentEditor.SelectedTicket.IsClosed)) return false;
             if (_paymentEditor.SelectedTicket != null && _paymentEditor.SelectedTicket.GetRemainingAmount() == 0 && _paymentEditor.SelectedTicket != null && !calculationSelector.CalculationTypes.Any(x => _paymentEditor.SelectedTicket.Calculations.Any(y => y.CalculationTypeId == x.Id))) return false;
             return !calculationSelector.CalculationTypes.Any(x => x.MaxAmount > 0 && _tenderedValueViewModel.GetTenderedValue() > x.MaxAmount);
         }

@@ -109,7 +109,7 @@ namespace Samba.Modules.PosModule
         public bool IsItemsSelectedAndUnlocked { get { return SelectedOrders.Any() && SelectedOrders.Count(x => x.Locked) == 0; } }
         public bool IsItemsSelectedAndLocked { get { return SelectedOrders.Any() && SelectedOrders.Count(x => !x.Locked) == 0; } }
         public bool IsNothingSelected { get { return !SelectedOrders.Any(); } }
-        public bool IsNothingSelectedAndTicketLocked { get { return !SelectedOrders.Any() && SelectedTicket.Locked; } }
+        public bool IsNothingSelectedAndTicketLocked { get { return !SelectedOrders.Any() && SelectedTicket.IsLocked; } }
         public bool IsNothingSelectedAndTicketTagged { get { return !SelectedOrders.Any() && SelectedTicket.IsTagged; } }
         public bool IsTicketSelected { get { return SelectedTicket != Ticket.Empty; } }
 
@@ -265,7 +265,7 @@ namespace Samba.Modules.PosModule
 
         private bool CanSelectResource(ResourceType arg)
         {
-            return !SelectedTicket.Locked && SelectedTicket.CanSubmit && _cacheService.GetTicketResourceScreens().Any(x => x.ResourceTypeId == arg.Id);
+            return !SelectedTicket.IsLocked && SelectedTicket.CanSubmit && _cacheService.GetTicketResourceScreens().Any(x => x.ResourceTypeId == arg.Id);
         }
 
         private void OnSelectResource(ResourceType obj)
@@ -456,7 +456,7 @@ namespace Samba.Modules.PosModule
 
         private bool CanChangePrice(string arg)
         {
-            return !SelectedTicket.Locked
+            return !SelectedTicket.IsLocked
                 && SelectedTicket.CanSubmit
                 && SelectedOrder != null
                 && (SelectedOrder.Price == 0 || _userService.IsUserPermittedFor(PermissionNames.ChangeItemPrice));
@@ -480,13 +480,13 @@ namespace Samba.Modules.PosModule
 
         private bool CanRemoveTicketLock(string arg)
         {
-            return SelectedTicket.Locked &&
+            return SelectedTicket.IsLocked &&
                    _userService.IsUserPermittedFor(PermissionNames.AddItemsToLockedTickets);
         }
 
         private void OnRemoveTicketLock(string obj)
         {
-            SelectedTicket.Locked = false;
+            SelectedTicket.UnLock();
             _ticketOrdersViewModel.Refresh();
             _allAutomationCommands = null;
             RefreshVisuals();
@@ -499,7 +499,7 @@ namespace Samba.Modules.PosModule
 
         private bool CanMoveOrders(string arg)
         {
-            if (SelectedTicket.Locked) return false;
+            if (SelectedTicket.IsLocked) return false;
             if (!SelectedTicket.CanRemoveSelectedOrders(SelectedOrders)) return false;
             if (SelectedOrders.Any(x => x.Id == 0)) return false;
             if (SelectedOrders.Any(x => !x.Locked) && _userService.IsUserPermittedFor(PermissionNames.MoveUnlockedOrders)) return true;

@@ -31,7 +31,7 @@ namespace Samba.Modules.PosModule
         {
             get
             {
-                if (!_selectedTicket.Locked && _commandContainer.VisualBehaviour == 2) return false;
+                if (!_selectedTicket.IsLocked && _commandContainer.VisualBehaviour == 2) return false;
                 if (_selectedTicket.Orders.Count == 0 && _commandContainer.VisualBehaviour == 4) return false;
                 return true;
             }
@@ -40,7 +40,7 @@ namespace Samba.Modules.PosModule
         {
             get
             {
-                if ((_selectedTicket.Locked || _selectedTicket.Orders.Count == 0) && _commandContainer.VisualBehaviour == 1) return false;
+                if ((_selectedTicket.IsLocked || _selectedTicket.Orders.Count == 0) && _commandContainer.VisualBehaviour == 1) return false;
                 if (_selectedTicket.Orders.Count > 0 && _commandContainer.VisualBehaviour == 3) return false;
 
                 return true;

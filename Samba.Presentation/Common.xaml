@@ -5,6 +5,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Samba.Presentation;component/Themes/MainExpanderResources.xaml" />
         <ResourceDictionary Source="/Samba.Presentation.Controls;component/Generic.xaml" />
+        <ResourceDictionary Source="/Samba.Presentation.Controls;component/FxButton/Themes/resXSButton.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <properties:Settings x:Key="Settings" />
@@ -80,10 +81,4 @@
         <GradientStop Color="#FF9097A3" Offset="0"/>
         <GradientStop Color="#FF444D5B" Offset="1"/>
     </LinearGradientBrush>
-
-   
-
-
-
-
 </ResourceDictionary>

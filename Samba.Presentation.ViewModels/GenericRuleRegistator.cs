@@ -221,7 +221,7 @@ namespace Samba.Presentation.ViewModels
                 if (x.Value.Action.ActionType == ActionNames.UnlockTicket)
                 {
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
-                    if (ticket != null) ticket.Locked = false;
+                    if (ticket != null) ticket.UnLock();
                     EventServiceFactory.EventService.PublishEvent(EventTopicNames.UnlockTicketRequested);
                 }
 

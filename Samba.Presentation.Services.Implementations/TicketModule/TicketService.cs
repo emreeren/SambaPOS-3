@@ -118,7 +118,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             if (canSumbitTicket)
             {
                 RecalculateTicket(ticket);
-                ticket.UpdateIsClosed();
+                ticket.Close();
 
                 if (ticket.Orders.Count > 0)
                 {
@@ -479,7 +479,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
         public bool CanCloseTicket(Ticket ticket)
         {
-            if (!ticket.Locked)
+            if (!ticket.IsLocked)
                 return CanDeselectOrders(ticket.Orders);
             return true;
         }
@@ -526,7 +526,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
         public Order AddOrder(Ticket ticket, int menuItemId, decimal quantity, string portionName, OrderTagTemplate template)
         {
-            if (ticket.Locked && !_userService.IsUserPermittedFor(PermissionNames.AddItemsToLockedTickets)) return null;
+            if (ticket.IsLocked && !_userService.IsUserPermittedFor(PermissionNames.AddItemsToLockedTickets)) return null;
             if (!ticket.CanSubmit) return null;
             var menuItem = _cacheService.GetMenuItem(x => x.Id == menuItemId);
             var portion = _cacheService.GetMenuItemPortion(menuItemId, portionName);

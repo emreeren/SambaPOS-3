@@ -46,12 +46,12 @@ namespace Samba.Persistance.DaoClasses.Implementations
 
         public int GetOpenTicketCount()
         {
-            return Dao.Count<Ticket>(x => !x.IsClosed);
+            return Dao.Count<Ticket>(x => x.State < 2);
         }
 
         public IEnumerable<int> GetOpenTicketIds(int resourceId)
         {
-            return Dao.Select<Ticket, int>(x => x.Id, x => !x.IsClosed && x.TicketResources.Any(y => y.ResourceId == resourceId));
+            return Dao.Select<Ticket, int>(x => x.Id, x => x.State < 2 && x.TicketResources.Any(y => y.ResourceId == resourceId));
         }
 
         public IEnumerable<OpenTicketData> GetOpenTickets(Expression<Func<Ticket, bool>> prediction)

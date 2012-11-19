@@ -9,11 +9,17 @@ using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Data.Serializer;
 using Samba.Infrastructure.Helpers;
 using Samba.Infrastructure.Settings;
+using Stateless;
 
 namespace Samba.Domain.Models.Tickets
 {
     public class Ticket : Entity, ICacheable
     {
+        private bool _shouldLock;
+        private enum States { Unlocked, Locked, Closed };
+        private enum Triggers { Unlock, Lock, Close };
+        private readonly StateMachine<States, Triggers> _sm;
+
         public Ticket()
             : this(0)
         {
@@ -35,6 +41,14 @@ namespace Samba.Domain.Models.Tickets
             _payments = new List<Payment>();
             _changePayments = new List<ChangePayment>();
             _ticketResources = new List<TicketResource>();
+
+            _sm = new StateMachine<States, Triggers>(() => (States)State, state => State = (int)state);
+            _sm.Configure(States.Unlocked)
+                .Permit(Triggers.Lock, States.Locked)
+                .Permit(Triggers.Close, States.Closed);
+            _sm.Configure(States.Locked)
+                .Permit(Triggers.Unlock, States.Unlocked)
+                .Permit(Triggers.Close, States.Closed);
         }
 
         private static Ticket _emptyTicket;
@@ -49,7 +63,6 @@ namespace Samba.Domain.Models.Tickets
             }
         }
 
-        private bool _shouldLock;
         public DateTime LastUpdateTime { get; set; }
 
         private string _ticketNumber;
@@ -67,8 +80,18 @@ namespace Samba.Domain.Models.Tickets
         public DateTime Date { get; set; }
         public DateTime LastOrderDate { get; set; }
         public DateTime LastPaymentDate { get; set; }
-        public bool IsClosed { get; set; }
-        public bool Locked { get; set; }
+
+        public int State { get; set; }
+
+        public bool IsClosed { get { return State == (int)States.Closed; } }
+        public bool IsLocked { get { return State == (int)States.Locked; } }
+        public void UnLock() { _sm.Fire(Triggers.Unlock); }
+        public void Lock() { _sm.Fire(Triggers.Lock); }
+        public void Close()
+        {
+            if (RemainingAmount == 0 && !HasActiveTimers())
+                _sm.Fire(Triggers.Close);
+        }
 
         public decimal RemainingAmount { get; set; }
         public decimal TotalAmount { get; set; }
@@ -76,7 +99,7 @@ namespace Samba.Domain.Models.Tickets
         public int DepartmentId { get; set; }
         public int TicketTypeId { get; set; }
         public string Note { get; set; }
-        
+
         public int AccountId { get; set; }
         public int AccountTypeId { get; set; }
         public string AccountName { get; set; }
@@ -142,7 +165,7 @@ namespace Samba.Domain.Models.Tickets
 
         public Order AddOrder(AccountTransactionType template, string userName, MenuItem menuItem, MenuItemPortion portion, string priceTag, ProductTimer timer)
         {
-            Locked = false;
+            UnLock();
             var order = new Order();
             order.UpdateMenuItem(userName, menuItem, portion, priceTag, 1);
             order.AccountTransactionTypeId = template.Id;
@@ -388,7 +411,7 @@ namespace Samba.Domain.Models.Tickets
 
         public void CancelOrders(IEnumerable<Order> orders)
         {
-            Locked = false;
+            UnLock();
             foreach (var order in orders.Where(order => order.Id == 0))
             {
                 RemoveOrder(order);
@@ -460,11 +483,11 @@ namespace Samba.Domain.Models.Tickets
             {
                 order.Locked = true;
             }
-            if (_shouldLock || IsClosed) Locked = true;
+            if (_shouldLock || IsClosed) Lock();
             _shouldLock = false;
         }
 
-        public static Ticket Create(Department department,TicketType ticketType, Account account, decimal exchangeRate, IEnumerable<CalculationType> calculationTypes)
+        public static Ticket Create(Department department, TicketType ticketType, Account account, decimal exchangeRate, IEnumerable<CalculationType> calculationTypes)
         {
             var ticket = new Ticket
                              {
@@ -657,11 +680,6 @@ namespace Samba.Domain.Models.Tickets
         public void StopActiveTimers()
         {
             Orders.Where(x => x.ProductTimerValue != null && x.ProductTimerValue.IsActive).ToList().ForEach(x => x.StopProductTimer());
-        }
-
-        public void UpdateIsClosed()
-        {
-            IsClosed = RemainingAmount == 0 && !HasActiveTimers();
         }
     }
 }
