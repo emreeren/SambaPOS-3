@@ -31,10 +31,11 @@ namespace Samba.Presentation
             var path = System.IO.Path.GetDirectoryName(Application.ResourceAssembly.Location);
             if (path != null)
             {
-                AggregateCatalog.Catalogs.Add(new DirectoryCatalog(path, "Samba.Modules*"));
                 AggregateCatalog.Catalogs.Add(new DirectoryCatalog(path, "Samba.Persistance.dll"));
+                AggregateCatalog.Catalogs.Add(new DirectoryCatalog(path, "Samba.Modules*"));
                 AggregateCatalog.Catalogs.Add(new DirectoryCatalog(path, "Samba.Presentation*"));
                 AggregateCatalog.Catalogs.Add(new DirectoryCatalog(path, "Samba.Services*"));
+                
             }
             LocalSettings.AppPath = path;
         }

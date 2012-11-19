@@ -26,17 +26,17 @@
                 <ColumnDefinition Width ="Auto" />
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column ="0"  HorizontalAlignment="Center" 
-						   VerticalAlignment ="Center"
-						   x:Name ="HeaderText" 
-						   TextTrimming="CharacterEllipsis" TextWrapping ="Wrap" 
-						   Text="{Binding}" ToolTipService.ToolTip ="{Binding}" />
+                           VerticalAlignment ="Center"
+                           x:Name ="HeaderText" 
+                           TextTrimming="CharacterEllipsis" TextWrapping ="Wrap" 
+                           Text="{Binding}" ToolTipService.ToolTip ="{Binding}" />
             <Path x:Name="arrow"
-				   Grid.Column ="1"
-					Opacity ="0.7"
-				   Fill ="{Binding ElementName=HeaderText, Path= Foreground}"
-				   VerticalAlignment ="Center"
-				   StrokeThickness = "1"
-				   Data            = "M 5,10 L 15,10 L 10,5 L 5,10">
+                   Grid.Column ="1"
+                    Opacity ="0.7"
+                   Fill ="{Binding ElementName=HeaderText, Path= Foreground}"
+                   VerticalAlignment ="Center"
+                   StrokeThickness = "1"
+                   Data            = "M 5,10 L 15,10 L 10,5 L 5,10">
             </Path>
         </Grid>
     </DataTemplate>
@@ -48,17 +48,17 @@
                 <ColumnDefinition Width ="Auto" />
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column ="0"  HorizontalAlignment="Center"
-						   VerticalAlignment ="Center"
-							x:Name ="HeaderText"
-						   TextTrimming="CharacterEllipsis" TextWrapping ="Wrap"
-						   Text="{Binding }" ToolTipService.ToolTip ="{Binding}"/>
+                           VerticalAlignment ="Center"
+                            x:Name ="HeaderText"
+                           TextTrimming="CharacterEllipsis" TextWrapping ="Wrap"
+                           Text="{Binding }" ToolTipService.ToolTip ="{Binding}"/>
             <Path x:Name="arrow"
-					  Grid.Column ="1"
-					  VerticalAlignment ="Center"                      
-					  StrokeThickness = "1"
-					  Opacity ="0.7" 
-					   Fill ="{Binding ElementName=HeaderText, Path= Foreground}" 
-					  Data            = "M 5,5 L 10,10 L 15,5 L 5,5">
+                      Grid.Column ="1"
+                      VerticalAlignment ="Center"                      
+                      StrokeThickness = "1"
+                      Opacity ="0.7" 
+                       Fill ="{Binding ElementName=HeaderText, Path= Foreground}" 
+                      Data            = "M 5,5 L 10,10 L 15,5 L 5,5">
             </Path>
         </Grid>
     </DataTemplate>
@@ -66,8 +66,8 @@
     <DataTemplate x:Key="HeaderTemplateSortNon">
         <DockPanel Height ="30">
             <TextBlock HorizontalAlignment="Center" TextTrimming="CharacterEllipsis"
-						   VerticalAlignment ="Center"
-						   TextWrapping ="Wrap" Text="{Binding }" ToolTipService.ToolTip ="{Binding}" />
+                           VerticalAlignment ="Center"
+                           TextWrapping ="Wrap" Text="{Binding }" ToolTipService.ToolTip ="{Binding}" />
         </DockPanel>
     </DataTemplate>
 
@@ -89,16 +89,16 @@
     <DataTemplate x:Key ="WrappedHeaderTemplate" >
         <DockPanel Height ="30">
             <TextBlock HorizontalAlignment="Center" TextTrimming="CharacterEllipsis"
-							   VerticalAlignment ="Center"
-							   TextWrapping ="Wrap" Text="{Binding }" ToolTipService.ToolTip ="{Binding}" />
+                               VerticalAlignment ="Center"
+                               TextWrapping ="Wrap" Text="{Binding }" ToolTipService.ToolTip ="{Binding}" />
         </DockPanel>
     </DataTemplate>
 
     <DataTemplate x:Key ="WrappedFooterTemplate" >
         <DockPanel Height ="25">
             <TextBlock HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis"
-								VerticalAlignment ="Center" FontSize="16" FontWeight="Bold"
-								TextWrapping ="Wrap" Text="{Binding }" ToolTipService.ToolTip ="{Binding}" />
+                                VerticalAlignment ="Center" FontSize="16" FontWeight="Bold"
+                                TextWrapping ="Wrap" Text="{Binding }" ToolTipService.ToolTip ="{Binding}" />
         </DockPanel>
     </DataTemplate>
 
@@ -184,39 +184,39 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type UIControls:SearchTextBox}">
                     <Border x:Name="Border"
-					  Background="{TemplateBinding Background}"
-					  BorderBrush="{TemplateBinding BorderBrush}"
-					  BorderThickness="{TemplateBinding BorderThickness}">
+                      Background="{TemplateBinding Background}"
+                      BorderBrush="{TemplateBinding BorderBrush}"
+                      BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid x:Name="LayoutGrid">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="{Binding RelativeSource={RelativeSource TemplatedParent},
-												  Path=ActualHeight}" />
+                                                  Path=ActualHeight}" />
                             </Grid.ColumnDefinitions>
                             <ScrollViewer Margin="2" x:Name="PART_ContentHost" Grid.Column="0" />
                             <Label x:Name="LabelText"
-					 Margin="2"
-					 Grid.Column="0"
-					 Foreground="{Binding RelativeSource={RelativeSource TemplatedParent},
-										  Path=LabelTextColor}"
-					 Content="{Binding RelativeSource={RelativeSource TemplatedParent},
-									   Path=LabelText}"
-					 Padding="2,0,0,0"
-					 FontStyle="Italic" />
+                     Margin="2"
+                     Grid.Column="0"
+                     Foreground="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                          Path=LabelTextColor}"
+                     Content="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                       Path=LabelText}"
+                     Padding="2,0,0,0"
+                     FontStyle="Italic" />
                             <Border x:Name="PART_SearchIconBorder"
-					  Grid.Column="1"
-					  BorderThickness="1"
-					  VerticalAlignment="Stretch"
-					  HorizontalAlignment="Stretch"
-					  BorderBrush="{StaticResource SearchTextBox_SearchIconBorder}"
-					  Background="{StaticResource SearchTextBox_SearchIconBackground}">
+                      Grid.Column="1"
+                      BorderThickness="1"
+                      VerticalAlignment="Stretch"
+                      HorizontalAlignment="Stretch"
+                      BorderBrush="{StaticResource SearchTextBox_SearchIconBorder}"
+                      Background="{StaticResource SearchTextBox_SearchIconBackground}">
                                 <Image x:Name="SearchIcon"
-					   Stretch="None"
-					   Width="15"
-					   Height="15" 
-					   HorizontalAlignment="Center"
-					   VerticalAlignment="Center"
-					   Source="/Samba.Presentation.Controls;component/Images/search.png" />
+                       Stretch="None"
+                       Width="15"
+                       Height="15" 
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Source="/Samba.Presentation.Controls;component/Images/search.png" />
                             </Border>
                         </Grid>
                     </Border>
@@ -236,21 +236,21 @@
                                 <Condition Property="SearchMode" Value="Instant" />
                             </MultiTrigger.Conditions>
                             <Setter Property="Source" TargetName="SearchIcon" 
-									Value="/Samba.Presentation.Controls;component/Images/clear.png" />
+                                    Value="/Samba.Presentation.Controls;component/Images/clear.png" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver"
-						   SourceName="PART_SearchIconBorder"
-						   Value="True" />
+                           SourceName="PART_SearchIconBorder"
+                           Value="True" />
                                 <Condition Property="HasText" Value="True" />
                             </MultiTrigger.Conditions>
                             <Setter Property="BorderBrush"
-					  TargetName="PART_SearchIconBorder"
-					  Value="{StaticResource SearchTextBox_SearchIconBorder_MouseOver}" />
+                      TargetName="PART_SearchIconBorder"
+                      Value="{StaticResource SearchTextBox_SearchIconBorder_MouseOver}" />
                             <Setter Property="Background"
-					  TargetName="PART_SearchIconBorder"
-					  Value="{StaticResource SearchTextBox_SearchIconBackground_MouseOver}" />
+                      TargetName="PART_SearchIconBorder"
+                      Value="{StaticResource SearchTextBox_SearchIconBackground_MouseOver}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -259,14 +259,14 @@
                                 <Condition Property="HasText" Value="True" />
                             </MultiTrigger.Conditions>
                             <Setter Property="Padding"
-					  TargetName="PART_SearchIconBorder"
-					  Value="2,0,0,0" />
+                      TargetName="PART_SearchIconBorder"
+                      Value="2,0,0,0" />
                             <Setter Property="BorderBrush"
-					  TargetName="PART_SearchIconBorder"
-					  Value="{StaticResource SearchTextBox_SearchIconBorder_MouseOver}" />
+                      TargetName="PART_SearchIconBorder"
+                      Value="{StaticResource SearchTextBox_SearchIconBorder_MouseOver}" />
                             <Setter Property="Background"
-					  TargetName="PART_SearchIconBorder"
-					  Value="{StaticResource SearchTextBox_SearchIconBackground_MouseOver}" />
+                      TargetName="PART_SearchIconBorder"
+                      Value="{StaticResource SearchTextBox_SearchIconBackground_MouseOver}" />
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
