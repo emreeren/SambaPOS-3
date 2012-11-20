@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
-using Samba.Infrastructure;
 using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Data.Serializer;
 using Samba.Infrastructure.Helpers;
@@ -85,11 +84,12 @@ namespace Samba.Domain.Models.Tickets
 
         public bool IsClosed { get { return State == (int)States.Closed; } }
         public bool IsLocked { get { return State == (int)States.Locked; } }
-        public void UnLock() { _sm.Fire(Triggers.Unlock); }
-        public void Lock() { _sm.Fire(Triggers.Lock); }
+        public bool IsUnLocked { get { return State == (int)States.Unlocked; } }
+        public void UnLock() { if (!IsUnLocked) _sm.Fire(Triggers.Unlock); }
+        public void Lock() { if (IsUnLocked) _sm.Fire(Triggers.Lock); }
         public void Close()
         {
-            if (RemainingAmount == 0 && !HasActiveTimers())
+            if (!IsClosed && RemainingAmount == 0 && !HasActiveTimers())
                 _sm.Fire(Triggers.Close);
         }
 
@@ -483,7 +483,7 @@ namespace Samba.Domain.Models.Tickets
             {
                 order.Locked = true;
             }
-            if (_shouldLock || IsClosed) Lock();
+            if (_shouldLock) Lock();
             _shouldLock = false;
         }
 
