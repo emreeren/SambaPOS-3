@@ -70,8 +70,6 @@ namespace Samba.Presentation
             if (LocalSettings.StartMessagingClient)
                 AppServices.MessagingService.StartMessagingClient();
 
-           
-
             PresentationServices.Initialize();
 
             base.InitializeShell();

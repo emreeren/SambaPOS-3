@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{67EBDE4C-87F7-406D-8379-074A0E21ED7F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Samba.ApiServer</RootNamespace>
+    <AssemblyName>Samba.ApiServer</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.SelfHost">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.SelfHost.4.0.20918.0\lib\net40\System.Web.Http.SelfHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controllers\TicketsController.cs" />
+    <Compile Include="FrmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmMain.Designer.cs">
+      <DependentUpon>FrmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MefBootstrapper.cs" />
+    <Compile Include="MefDependencyResolver.cs" />
+    <Compile Include="Controllers\ResourcesController.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FrmMain.resx">
+      <DependentUpon>FrmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">
+      <Project>{2386F6A0-91B2-4D1A-8DBC-92109924AFFE}</Project>
+      <Name>Samba.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Infrastructure.Data\Samba.Infrastructure.Data.csproj">
+      <Project>{2D64F506-D566-4CA5-A19C-BCB5F9A2E7F4}</Project>
+      <Name>Samba.Infrastructure.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Persistance\Samba.Persistance.csproj">
+      <Project>{9ACA7797-5C2A-4435-B991-E59462ACDAF6}</Project>
+      <Name>Samba.Persistance</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Presentation.Services.Common\Samba.Presentation.Services.Common.csproj">
+      <Project>{F2C77290-6806-4F23-BEB7-171C4008D13B}</Project>
+      <Name>Samba.Presentation.Services.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Presentation.Services.Implementations\Samba.Presentation.Services.Implementations.csproj">
+      <Project>{D129FE5D-2C81-4163-BEF4-0C6150FEB766}</Project>
+      <Name>Samba.Presentation.Services.Implementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Presentation.Services\Samba.Presentation.Services.csproj">
+      <Project>{7DD8848C-3ADB-45B3-BD49-10AF3AEE2521}</Project>
+      <Name>Samba.Presentation.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Services.Common\Samba.Services.Common.csproj">
+      <Project>{4C8C1254-7615-46F8-B782-C6AA1441B323}</Project>
+      <Name>Samba.Services.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Services.Implementations\Samba.Services.Implementations.csproj">
+      <Project>{FC7C3BE1-3464-4AFB-8F1C-9209EF64BE29}</Project>
+      <Name>Samba.Services.Implementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Services\Samba.Services.csproj">
+      <Project>{413B698C-0D7D-4FCD-9F16-AF51AED4E647}</Project>
+      <Name>Samba.Services</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -106,5 +106,10 @@ namespace Samba.Persistance.DaoClasses.Implementations
                 }
             }
         }
+
+        public Resource GetResourceById(int id)
+        {
+            return Dao.Single<Resource>(x => x.Id == id);
+        }
     }
 }

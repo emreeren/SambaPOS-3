@@ -12,5 +12,6 @@ namespace Samba.Persistance.DaoClasses
         IEnumerable<Resource> GetResourcesByState(int resourceStateId, int resourceTypeId);
         List<Resource> FindResources(ResourceType resourceType, string searchString, int stateFilter);
         void UpdateResourceState(int resourceId, int stateId);
+        Resource GetResourceById(int id);
     }
 }
