@@ -15,10 +15,10 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
     class TaskEditorWidgetCreator : IWidgetCreator
     {
         private readonly ITaskService _taskService;
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
 
         [ImportingConstructor]
-        public TaskEditorWidgetCreator(ITaskService taskService, ICacheService cacheService)
+        public TaskEditorWidgetCreator(ITaskService taskService, IPresentationCacheService cacheService)
         {
             _taskService = taskService;
             _cacheService = cacheService;

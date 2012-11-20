@@ -17,14 +17,14 @@ namespace Samba.Modules.PaymentModule
     [Export]
     public class PaymentEditor
     {
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
         private readonly ITicketService _ticketService;
         private readonly IAccountService _accountService;
         private readonly AccountBalances _accountBalances;
         private Ticket _selectedTicket;
 
         [ImportingConstructor]
-        public PaymentEditor(ICacheService cacheService, ITicketService ticketService, IAccountService accountService,
+        public PaymentEditor(IPresentationCacheService cacheService, ITicketService ticketService, IAccountService accountService,
             AccountBalances accountBalances)
         {
             _cacheService = cacheService;

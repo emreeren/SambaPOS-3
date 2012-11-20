@@ -14,10 +14,10 @@ namespace Samba.Modules.PosModule.Widgets.TicketExplorer
     {
         private readonly IUserService _userService;
         private readonly ITicketService _ticketService;
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
 
         [ImportingConstructor]
-        public TicketExplorerWidgetCreator(IUserService userService, ITicketService ticketService,ICacheService cacheService)
+        public TicketExplorerWidgetCreator(IUserService userService, ITicketService ticketService,IPresentationCacheService cacheService)
         {
             _userService = userService;
             _ticketService = ticketService;

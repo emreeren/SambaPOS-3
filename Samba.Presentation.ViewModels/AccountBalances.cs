@@ -11,11 +11,11 @@ namespace Samba.Presentation.ViewModels
     [Export]
     public class AccountBalances
     {
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
         private readonly IAccountService _accountService;
 
         [ImportingConstructor]
-        public AccountBalances(ICacheService cacheService, IAccountService accountService)
+        public AccountBalances(IPresentationCacheService cacheService, IAccountService accountService)
         {
             _cacheService = cacheService;
             _accountService = accountService;

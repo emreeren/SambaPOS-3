@@ -17,9 +17,9 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
     public class TaskEditorViewModel : WidgetViewModel
     {
         private readonly ITaskService _taskService;
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
 
-        public TaskEditorViewModel(Widget widget, IApplicationState applicationState, ITaskService taskService, ICacheService cacheService)
+        public TaskEditorViewModel(Widget widget, IApplicationState applicationState, ITaskService taskService, IPresentationCacheService cacheService)
             : base(widget, applicationState)
         {
             _taskService = taskService;

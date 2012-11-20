@@ -24,13 +24,13 @@ namespace Samba.Modules.AccountModule
         }
 
         private readonly IAccountService _accountService;
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
         private AccountTransactionDocumentType _selectedDocumentType;
 
         public CaptionCommand<string> CreateDocuments { get; set; }
 
         [ImportingConstructor]
-        public BatchDocumentCreatorViewModel(IAccountService accountService, ICacheService cacheService)
+        public BatchDocumentCreatorViewModel(IAccountService accountService, IPresentationCacheService cacheService)
         {
             Accounts = new ObservableCollection<AccountRowViewModel>();
             _accountService = accountService;

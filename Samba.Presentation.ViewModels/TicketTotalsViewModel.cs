@@ -15,11 +15,11 @@ namespace Samba.Presentation.ViewModels
     [Export]
     public class TicketTotalsViewModel : ObservableObject
     {
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
         private readonly AccountBalances _accountBalances;
 
         [ImportingConstructor]
-        public TicketTotalsViewModel(ICacheService cacheService, AccountBalances accountBalances)
+        public TicketTotalsViewModel(IPresentationCacheService cacheService, AccountBalances accountBalances)
         {
             _cacheService = cacheService;
             _accountBalances = accountBalances;

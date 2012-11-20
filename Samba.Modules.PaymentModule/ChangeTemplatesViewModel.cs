@@ -15,10 +15,10 @@ namespace Samba.Modules.PaymentModule
     [Export]
     public class ChangeTemplatesViewModel : ObservableObject
     {
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
 
         [ImportingConstructor]
-        public ChangeTemplatesViewModel(ICacheService cacheService)
+        public ChangeTemplatesViewModel(IPresentationCacheService cacheService)
         {
             _cacheService = cacheService;
             ChangeTemplates = new ObservableCollection<CommandButtonViewModel<PaymentData>>();

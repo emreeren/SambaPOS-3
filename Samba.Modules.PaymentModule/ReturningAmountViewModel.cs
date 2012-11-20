@@ -13,12 +13,12 @@ namespace Samba.Modules.PaymentModule
     [Export]
     public class ReturningAmountViewModel : ObservableObject
     {
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
         private readonly IAutomationService _automationService;
         private readonly PaymentEditor _paymentEditor;
 
         [ImportingConstructor]
-        public ReturningAmountViewModel(ICacheService cacheService, IAutomationService automationService,
+        public ReturningAmountViewModel(IPresentationCacheService cacheService, IAutomationService automationService,
              PaymentEditor paymentEditor)
         {
             _cacheService = cacheService;

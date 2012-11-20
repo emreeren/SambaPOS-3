@@ -14,10 +14,10 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceGrid
     public class ResourceGridWidgetViewModel : WidgetViewModel
     {
         private readonly IApplicationState _applicationState;
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
 
         public ResourceGridWidgetViewModel(Widget model, IApplicationState applicationState,
-            IResourceService resourceService, IUserService userService, ICacheService cacheService)
+            IResourceService resourceService, IUserService userService, IPresentationCacheService cacheService)
             : base(model, applicationState)
         {
             _applicationState = applicationState;

@@ -24,10 +24,10 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
     {
         private readonly IInventoryDao _inventoryDao;
         private readonly IApplicationState _applicationState;
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
 
         [ImportingConstructor]
-        public InventoryService(IInventoryDao inventoryDao, IApplicationState applicationState, ICacheService cacheService)
+        public InventoryService(IInventoryDao inventoryDao, IApplicationState applicationState, IPresentationCacheService cacheService)
         {
             _inventoryDao = inventoryDao;
             _applicationState = applicationState;

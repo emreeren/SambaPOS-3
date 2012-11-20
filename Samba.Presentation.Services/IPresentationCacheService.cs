@@ -10,21 +10,18 @@ using Samba.Presentation.Services.Common;
 
 namespace Samba.Presentation.Services
 {
-    public interface ICacheService
+    public interface IPresentationCacheService
     {
         void ResetOrderTagCache();
         void ResetTicketTagCache();
 
         ScreenMenu GetScreenMenu(int screenMenuId);
-        MenuItem GetMenuItem(Expression<Func<MenuItem, bool>> expression);
+        MenuItem GetMenuItem(Func<MenuItem, bool> expression);
         MenuItemPortion GetMenuItemPortion(int menuItemId, string portionName);
         ProductTimer GetProductTimer(int menuItemId);
-        IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(int menuItemId);
-        IEnumerable<OrderTagGroup> GetOrderTagGroupsForItems(IEnumerable<int> menuItemIds);
-        IEnumerable<OrderStateGroup> GetOrderStateGroupsForItems(IEnumerable<int> menuItemIds);
-        OrderTagGroup GetOrderTagGroupByName(string tagName);
+        IEnumerable<OrderTagGroup> GetOrderTagGroups(params int[] menuItemIds);
+        IEnumerable<OrderStateGroup> GetOrderStateGroups(params int[] menuItemIds);
         IEnumerable<MenuItemPortion> GetMenuItemPortions(int menuItemId);
-        IEnumerable<string> GetTicketTagGroupNames();
         TicketTagGroup GetTicketTagGroupById(int id);
         AccountTransactionType GetAccountTransactionTypeById(int id);
         int GetAccountTransactionTypeIdByName(string accountTransactionTypeName);
@@ -36,7 +33,6 @@ namespace Samba.Presentation.Services
         Resource GetResourceById(int resourceId);
         IEnumerable<AccountTransactionDocumentType> GetAccountTransactionDocumentTypes(int accountTypeId);
         IEnumerable<AccountTransactionDocumentType> GetBatchDocumentTypes(IEnumerable<string> accountTypeNamesList);
-        AccountTransactionDocumentType GetAccountTransactionDocumentTypeByName(string documentName);
         ResourceState GetResourceStateById(int resourceStateId);
         ResourceState GetResourceStateByName(string stateName);
         IEnumerable<ResourceState> GetResourceStates();

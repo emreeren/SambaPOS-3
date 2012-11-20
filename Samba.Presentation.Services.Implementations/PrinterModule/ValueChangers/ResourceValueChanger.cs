@@ -6,7 +6,7 @@ namespace Samba.Presentation.Services.Implementations.PrinterModule.ValueChanger
 {
     public class ResourceValueChanger : AbstractValueChanger<TicketResource>
     {
-        private static readonly ICacheService CacheService = ServiceLocator.Current.GetInstance<ICacheService>();
+        private static readonly IPresentationCacheService CacheService = ServiceLocator.Current.GetInstance<IPresentationCacheService>();
 
         public override string GetTargetTag()
         {

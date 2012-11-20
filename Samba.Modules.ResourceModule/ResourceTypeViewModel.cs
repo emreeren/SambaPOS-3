@@ -16,10 +16,10 @@ namespace Samba.Modules.ResourceModule
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class ResourceTypeViewModel : EntityViewModelBase<ResourceType>
     {
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
 
         [ImportingConstructor]
-        public ResourceTypeViewModel(ICacheService cacheService)
+        public ResourceTypeViewModel(IPresentationCacheService cacheService)
         {
             _cacheService = cacheService;
             AddCustomFieldCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.CustomField), OnAddCustomField);

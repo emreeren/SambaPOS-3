@@ -10,18 +10,21 @@ using Samba.Domain.Models.Resources;
 using Samba.Localization.Properties;
 using Samba.Persistance;
 using Samba.Persistance.DaoClasses;
+using Samba.Services;
 
 namespace Samba.Presentation.Services.Implementations.AccountModule
 {
     [Export(typeof(IAccountService))]
     public class AccountService : IAccountService
     {
+        private readonly IPresentationCacheService _presentationCacheService;
         private readonly ICacheService _cacheService;
         private readonly IAccountDao _accountDao;
 
         [ImportingConstructor]
-        public AccountService(ICacheService cacheService, IAccountDao accountDao)
+        public AccountService(IPresentationCacheService presentationCacheService, ICacheService cacheService, IAccountDao accountDao)
         {
+            _presentationCacheService = presentationCacheService;
             _cacheService = cacheService;
             _accountDao = accountDao;
         }
@@ -34,7 +37,7 @@ namespace Samba.Presentation.Services.Implementations.AccountModule
 
         public void CreateAccountTransaction(Account sourceAccount, Account targetAccount, decimal amount, decimal exchangeRate)
         {
-            var transactionType = _cacheService.FindAccountTransactionType(sourceAccount.AccountTypeId, targetAccount.AccountTypeId,
+            var transactionType = _presentationCacheService.FindAccountTransactionType(sourceAccount.AccountTypeId, targetAccount.AccountTypeId,
                 sourceAccount.Id, targetAccount.Id);
             if (transactionType != null)
             {
@@ -203,7 +206,7 @@ namespace Samba.Presentation.Services.Implementations.AccountModule
                 decimal.TryParse(template, out d);
                 return d;
             }
-            return _cacheService.GetForeignCurrencies().Single(x => x.Id == account.ForeignCurrencyId).ExchangeRate;
+            return _presentationCacheService.GetForeignCurrencies().Single(x => x.Id == account.ForeignCurrencyId).ExchangeRate;
         }
     }
 }

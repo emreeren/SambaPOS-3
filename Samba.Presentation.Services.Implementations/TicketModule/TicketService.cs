@@ -26,12 +26,12 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
         private readonly IAutomationService _automationService;
         private readonly IUserService _userService;
         private readonly ISettingService _settingService;
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
         private readonly IAccountService _accountService;
 
         [ImportingConstructor]
         public TicketService(ITicketDao ticketDao, IDepartmentService departmentService, IApplicationState applicationState, IAutomationService automationService,
-            IUserService userService, ISettingService settingService, ICacheService cacheService, IAccountService accountService)
+            IUserService userService, ISettingService settingService, IPresentationCacheService cacheService, IAccountService accountService)
         {
             _ticketDao = ticketDao;
             _applicationState = applicationState;
@@ -465,14 +465,14 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
         public bool CanDeselectOrder(Order order)
         {
             if (!order.DecreaseInventory) return true;
-            var ots = _cacheService.GetOrderTagGroupsForItem(order.MenuItemId);
+            var ots = _cacheService.GetOrderTagGroups(order.MenuItemId);
             if (order.Locked) ots = ots.Where(x => !string.IsNullOrEmpty(x.ButtonHeader));
             return ots.Where(x => x.MinSelectedItems > 0).All(orderTagGroup => order.OrderTagValues.Count(x => x.OrderTagGroupId == orderTagGroup.Id) >= orderTagGroup.MinSelectedItems);
         }
 
         public OrderTagGroup GetMandantoryOrderTagGroup(Order order)
         {
-            var ots = _cacheService.GetOrderTagGroupsForItem(order.MenuItemId);
+            var ots = _cacheService.GetOrderTagGroups(order.MenuItemId);
             if (order.Locked) ots = ots.Where(x => !string.IsNullOrEmpty(x.ButtonHeader));
             return ots.Where(x => x.MinSelectedItems > 0).FirstOrDefault(orderTagGroup => order.OrderTagValues.Count(x => x.OrderTagGroupId == orderTagGroup.Id) < orderTagGroup.MinSelectedItems);
         }

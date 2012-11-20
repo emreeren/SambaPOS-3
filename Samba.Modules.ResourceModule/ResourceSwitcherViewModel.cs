@@ -16,7 +16,7 @@ namespace Samba.Modules.ResourceModule
     public class ResourceSwitcherViewModel : ObservableObject
     {
         private readonly IRegionManager _regionManager;
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
         private readonly IApplicationState _applicationState;
         private readonly IApplicationStateSetter _applicationStateSetter;
         private readonly ResourceSelectorView _resourceSelectorView;
@@ -29,7 +29,7 @@ namespace Samba.Modules.ResourceModule
         private EntityOperationRequest<Resource> _currentOperationRequest;
 
         [ImportingConstructor]
-        public ResourceSwitcherViewModel(IRegionManager regionManager, ICacheService cacheService, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
+        public ResourceSwitcherViewModel(IRegionManager regionManager, IPresentationCacheService cacheService, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
             ResourceSelectorView resourceSelectorView, ResourceSelectorViewModel resourceSelectorViewModel,
             ResourceSearchView resourceSearchView, ResourceSearchViewModel resourceSearchViewModel,
             ResourceDashboardView resourceDashboardView, ResourceDashboardViewModel resourceDashboardViewModel)

@@ -18,10 +18,10 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceGrid
     {
         private readonly IResourceService _resourceService;
         private readonly IUserService _userService;
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
 
         [ImportingConstructor]
-        public ResourceGridWidgetCreator(IResourceService resourceService, IUserService userService, ICacheService cacheService)
+        public ResourceGridWidgetCreator(IResourceService resourceService, IUserService userService, IPresentationCacheService cacheService)
         {
             _resourceService = resourceService;
             _userService = userService;

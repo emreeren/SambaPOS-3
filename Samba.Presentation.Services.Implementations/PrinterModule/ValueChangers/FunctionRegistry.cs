@@ -15,7 +15,7 @@ namespace Samba.Presentation.Services.Implementations.PrinterModule.ValueChanger
         private static readonly IAccountService AccountService = ServiceLocator.Current.GetInstance<IAccountService>();
         private static readonly IDepartmentService DepartmentService = ServiceLocator.Current.GetInstance<IDepartmentService>();
         private static readonly ISettingService SettingService = ServiceLocator.Current.GetInstance<ISettingService>();
-        private static readonly ICacheService CacheService = ServiceLocator.Current.GetInstance<ICacheService>();
+        private static readonly IPresentationCacheService CacheService = ServiceLocator.Current.GetInstance<IPresentationCacheService>();
 
         public static IDictionary<Type, ArrayList> Functions = new Dictionary<Type, ArrayList>();
         public static IDictionary<string, string> Descriptions = new Dictionary<string, string>();

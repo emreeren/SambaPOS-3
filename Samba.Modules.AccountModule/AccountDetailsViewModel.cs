@@ -24,12 +24,12 @@ namespace Samba.Modules.AccountModule
     public class AccountDetailsViewModel : ObservableObject
     {
         private readonly IApplicationState _applicationState;
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
         private readonly IAccountService _accountService;
         private readonly IPrinterService _printerService;
 
         [ImportingConstructor]
-        public AccountDetailsViewModel(IApplicationState applicationState, ICacheService cacheService,
+        public AccountDetailsViewModel(IApplicationState applicationState, IPresentationCacheService cacheService,
             IAccountService accountService, IPrinterService printerService)
         {
             _applicationState = applicationState;

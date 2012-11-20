@@ -19,10 +19,10 @@ namespace Samba.Modules.ModifierModule
     [Export]
     public class OrderTagGroupEditorViewModel : ObservableObject
     {
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
 
         [ImportingConstructor]
-        public OrderTagGroupEditorViewModel(IUserService userService, ICacheService cacheService)
+        public OrderTagGroupEditorViewModel(IUserService userService, IPresentationCacheService cacheService)
         {
             _cacheService = cacheService;
             ToggleRemoveModeCommand = new CaptionCommand<string>(Resources.Remove, OnToggleRemoveMode);
@@ -192,7 +192,7 @@ namespace Samba.Modules.ModifierModule
 
                 RaisePropertyChanged(() => IsPortionsVisible);
 
-                var orderTagGroups = _cacheService.GetOrderTagGroupsForItem(SelectedOrder.MenuItemId).ToList();
+                var orderTagGroups = _cacheService.GetOrderTagGroups(SelectedOrder.MenuItemId).ToList();
 
                 OrderTagGroups.AddRange(
                     orderTagGroups

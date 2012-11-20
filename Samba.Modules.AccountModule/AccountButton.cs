@@ -9,9 +9,9 @@ namespace Samba.Modules.AccountModule
     public class AccountButton
     {
         private readonly AccountScreen _accountScreen;
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
 
-        public AccountButton(AccountScreen accountScreen, ICacheService cacheService)
+        public AccountButton(AccountScreen accountScreen, IPresentationCacheService cacheService)
         {
             _accountScreen = accountScreen;
             _cacheService = cacheService;

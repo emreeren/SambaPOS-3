@@ -11,7 +11,7 @@ namespace Samba.Presentation.Services.Implementations.AutomationModule.Accessors
         private static IUserService _userService;
         private static IMenuService _menuService;
         private static IPrinterService _printerService;
-        private static ICacheService _cacheService;
+        private static IPresentationCacheService _cacheService;
 
         public static IApplicationState ApplicationState
         {
@@ -43,9 +43,9 @@ namespace Samba.Presentation.Services.Implementations.AutomationModule.Accessors
             get { return _printerService ?? (_printerService = ServiceLocator.Current.GetInstance<IPrinterService>()); }
         }
 
-        public static ICacheService CacheService
+        public static IPresentationCacheService CacheService
         {
-            get { return _cacheService ?? (_cacheService = ServiceLocator.Current.GetInstance<ICacheService>()); }
+            get { return _cacheService ?? (_cacheService = ServiceLocator.Current.GetInstance<IPresentationCacheService>()); }
         }
     }
 }

@@ -11,10 +11,10 @@ namespace Samba.Modules.PaymentModule
     [Export]
     public class PaymentButtonsViewModel : ObservableObject
     {
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
 
         [ImportingConstructor]
-        public PaymentButtonsViewModel(ICacheService cacheService)
+        public PaymentButtonsViewModel(IPresentationCacheService cacheService)
         {
             _cacheService = cacheService;
             PaymentButtonGroup = new PaymentButtonGroupViewModel();

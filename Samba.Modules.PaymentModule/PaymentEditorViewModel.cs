@@ -16,7 +16,7 @@ namespace Samba.Modules.PaymentModule
     [Export]
     public class PaymentEditorViewModel : ObservableObject
     {
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
 
         private readonly ICaptionCommand _makePaymentCommand;
         private readonly ICaptionCommand _selectChangePaymentTypeCommand;
@@ -32,7 +32,7 @@ namespace Samba.Modules.PaymentModule
         private readonly ChangeTemplatesViewModel _changeTemplatesViewModel;
 
         [ImportingConstructor]
-        public PaymentEditorViewModel(ICacheService cacheService, TicketTotalsViewModel paymentTotals,
+        public PaymentEditorViewModel(IPresentationCacheService cacheService, TicketTotalsViewModel paymentTotals,
             PaymentEditor paymentEditor, NumberPadViewModel numberPadViewModel, OrderSelectorViewModel orderSelectorViewModel,
             ForeignCurrencyButtonsViewModel foreignCurrencyButtonsViewModel, PaymentButtonsViewModel paymentButtonsViewModel,
             CommandButtonsViewModel commandButtonsViewModel, TenderedValueViewModel tenderedValueViewModel,

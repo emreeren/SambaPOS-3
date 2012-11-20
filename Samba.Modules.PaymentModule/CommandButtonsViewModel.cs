@@ -19,14 +19,14 @@ namespace Samba.Modules.PaymentModule
         private readonly ICaptionCommand _serviceSelectedCommand;
 
         private readonly PaymentEditor _paymentEditor;
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
         private readonly IAutomationService _automationService;
         private readonly TenderedValueViewModel _tenderedValueViewModel;
         private readonly OrderSelectorViewModel _orderSelectorViewModel;
         private readonly NumberPadViewModel _numberPadViewModel;
 
         [ImportingConstructor]
-        public CommandButtonsViewModel(PaymentEditor paymentEditor, ICacheService cacheService, IAutomationService automationService,
+        public CommandButtonsViewModel(PaymentEditor paymentEditor, IPresentationCacheService cacheService, IAutomationService automationService,
             TenderedValueViewModel tenderedValueViewModel, OrderSelectorViewModel orderSelectorViewModel, NumberPadViewModel numberPadViewModel)
         {
             _paymentEditor = paymentEditor;

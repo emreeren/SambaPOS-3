@@ -16,11 +16,11 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceButton
     [Export(typeof(IWidgetCreator))]
     public class ResourceButtonWidgetCreator : IWidgetCreator
     {
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
         private readonly IResourceService _resourceService;
 
         [ImportingConstructor]
-        public ResourceButtonWidgetCreator(ICacheService cacheService, IResourceService resourceService)
+        public ResourceButtonWidgetCreator(IPresentationCacheService cacheService, IResourceService resourceService)
         {
             _cacheService = cacheService;
             _resourceService = resourceService;

@@ -16,11 +16,11 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceSearch
     class ResourceSearchWidgetCreator : IWidgetCreator
     {
         private readonly IResourceService _resourceService;
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
 
         [ImportingConstructor]
         public ResourceSearchWidgetCreator(IApplicationState applicationState, IResourceService resourceService,
-            ICacheService cacheService)
+            IPresentationCacheService cacheService)
         {
             _resourceService = resourceService;
             _cacheService = cacheService;

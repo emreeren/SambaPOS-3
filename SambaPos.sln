@@ -21,9 +21,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{BE3BEF2C-C
 		Lib\ICSharpCode.AvalonEdit.dll = Lib\ICSharpCode.AvalonEdit.dll
 		Lib\Interop.cidv5callerid.dll = Lib\Interop.cidv5callerid.dll
 		Lib\Microsoft.Practices.ServiceLocation.dll = Lib\Microsoft.Practices.ServiceLocation.dll
+		Lib\Newtonsoft.Json.dll = Lib\Newtonsoft.Json.dll
 		Lib\Omu.ValueInjecter.dll = Lib\Omu.ValueInjecter.dll
 		Lib\PropertyTools.dll = Lib\PropertyTools.dll
 		Lib\PropertyTools.Wpf.dll = Lib\PropertyTools.Wpf.dll
+		Lib\System.Net.Http.dll = Lib\System.Net.Http.dll
+		Lib\System.Net.Http.Formatting.dll = Lib\System.Net.Http.Formatting.dll
+		Lib\System.Net.Http.WebRequest.dll = Lib\System.Net.Http.WebRequest.dll
+		Lib\System.Web.Http.dll = Lib\System.Web.Http.dll
+		Lib\System.Web.Http.SelfHost.dll = Lib\System.Web.Http.SelfHost.dll
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Persistence Layer", "3. Persistence Layer", "{FEC2F6B9-AF96-49AC-8598-9F66FE8D130D}"

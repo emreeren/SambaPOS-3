@@ -26,7 +26,7 @@ namespace Samba.Modules.PosModule
         private readonly IUserService _userService;
         private readonly IApplicationState _applicationState;
         private readonly IAutomationService _automationService;
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
         private readonly TicketOrdersViewModel _ticketOrdersViewModel;
         private readonly TicketTotalsViewModel _totals;
 
@@ -155,7 +155,7 @@ namespace Samba.Modules.PosModule
             {
                 if (SelectedOrders.Any())
                 {
-                    return _cacheService.GetOrderStateGroupsForItems(SelectedOrders.Select(x => x.MenuItemId))
+                    return _cacheService.GetOrderStateGroups(SelectedOrders.Select(x => x.MenuItemId).ToArray())
                         .Where(x => !string.IsNullOrEmpty(x.ButtonHeader))
                         .Select(x => new OrderStateButton(x));
                 }
@@ -169,7 +169,7 @@ namespace Samba.Modules.PosModule
             {
                 if (SelectedOrders.Any())
                 {
-                    return _cacheService.GetOrderTagGroupsForItems(SelectedOrders.Select(x => x.MenuItemId))
+                    return _cacheService.GetOrderTagGroups(SelectedOrders.Select(x => x.MenuItemId).ToArray())
                         .Where(x => !string.IsNullOrEmpty(x.ButtonHeader))
                         .Select(x => new OrderTagButton(x));
                 }
@@ -180,7 +180,7 @@ namespace Samba.Modules.PosModule
         [ImportingConstructor]
         public TicketViewModel(IApplicationState applicationState,
             ITicketService ticketService, IAccountService accountService, IResourceService locationService, IUserService userService,
-            IAutomationService automationService, ICacheService cacheService, TicketOrdersViewModel ticketOrdersViewModel,
+            IAutomationService automationService, IPresentationCacheService cacheService, TicketOrdersViewModel ticketOrdersViewModel,
             TicketTotalsViewModel totals, TicketInfoViewModel ticketInfoViewModel, PaymentButtonViewModel paymentButtonViewModel)
         {
             _ticketService = ticketService;

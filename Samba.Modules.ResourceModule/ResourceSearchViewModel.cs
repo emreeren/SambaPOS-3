@@ -42,7 +42,7 @@ namespace Samba.Modules.ResourceModule
         public string EditResourceCommandCaption { get { return string.Format(Resources.Edit_f, SelectedEntityName()).Replace(" ", "\r"); } }
         public string RemoveResourceCommandCaption { get { return string.Format(Resources.No_f, SelectedEntityName()).Replace(" ", "\r"); } }
         private readonly IApplicationState _applicationState;
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
         private readonly IResourceService _resourceService;
         private readonly Timer _updateTimer;
 
@@ -58,7 +58,7 @@ namespace Samba.Modules.ResourceModule
         }
 
         [ImportingConstructor]
-        public ResourceSearchViewModel(IApplicationState applicationState, ICacheService cacheService, IResourceService resourceService)
+        public ResourceSearchViewModel(IApplicationState applicationState, IPresentationCacheService cacheService, IResourceService resourceService)
         {
             _updateTimer = new Timer(500);
             _updateTimer.Elapsed += UpdateTimerElapsed;

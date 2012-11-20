@@ -35,9 +35,10 @@ namespace Samba.Presentation.ViewModels
         private static readonly IPrinterService PrinterService = ServiceLocator.Current.GetInstance<IPrinterService>();
         private static readonly ISettingService SettingService = ServiceLocator.Current.GetInstance<ISettingService>();
         private static readonly IAutomationService AutomationService = ServiceLocator.Current.GetInstance<IAutomationService>();
-        private static readonly ICacheService CacheService = ServiceLocator.Current.GetInstance<ICacheService>();
+        private static readonly IPresentationCacheService PresentationCacheService = ServiceLocator.Current.GetInstance<IPresentationCacheService>();
         private static readonly IResourceService ResourceService = ServiceLocator.Current.GetInstance<IResourceService>();
         private static readonly IMethodQueue MethodQueue = ServiceLocator.Current.GetInstance<IMethodQueue>();
+        private static readonly ICacheService CacheService = ServiceLocator.Current.GetInstance<ICacheService>();
 
         private static bool _registered;
 
@@ -159,7 +160,7 @@ namespace Samba.Presentation.ViewModels
                         if (!string.IsNullOrEmpty(x.Value.GetAsString("CalculatePrice")))
                             order.CalculatePrice = x.Value.GetAsBoolean("CalculatePrice");
                         if (!string.IsNullOrEmpty(x.Value.GetAsString("AccountTransactionType")))
-                            TicketService.ChangeOrdersAccountTransactionTypeId(ticket, new List<Order> { order }, CacheService.GetAccountTransactionTypeIdByName(x.Value.GetAsString("AccountTransactionType")));
+                            TicketService.ChangeOrdersAccountTransactionTypeId(ticket, new List<Order> { order }, PresentationCacheService.GetAccountTransactionTypeIdByName(x.Value.GetAsString("AccountTransactionType")));
                     }
                 }
 
@@ -235,7 +236,7 @@ namespace Samba.Presentation.ViewModels
                     var resourceId = x.Value.GetDataValueAsInt("ResourceId");
                     var resourceTypeId = x.Value.GetDataValueAsInt("ResourceTypeId");
                     var stateName = x.Value.GetAsString("ResourceState");
-                    var state = CacheService.GetResourceStateByName(stateName);
+                    var state = PresentationCacheService.GetResourceStateByName(stateName);
                     if (state != null)
                     {
                         if (resourceId > 0 && resourceTypeId > 0)
@@ -250,7 +251,7 @@ namespace Samba.Presentation.ViewModels
                                 var resourceTypeName = x.Value.GetDataValueAsString("ResourceTypeName");
                                 foreach (var ticketResource in ticket.TicketResources)
                                 {
-                                    var resourceType = CacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
+                                    var resourceType = PresentationCacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
                                     if (string.IsNullOrEmpty(resourceTypeName.Trim()) || resourceType.Name == resourceTypeName)
                                         ResourceService.UpdateResourceState(ticketResource.ResourceId, state.Id);
                                 }
@@ -423,7 +424,7 @@ namespace Samba.Presentation.ViewModels
                     if (ticket != null)
                     {
                         var menuItemName = x.Value.GetAsString("MenuItemName");
-                        var menuItem = CacheService.GetMenuItem(y => y.Name == menuItemName);
+                        var menuItem = PresentationCacheService.GetMenuItem(y => y.Name == menuItemName);
                         var portionName = x.Value.GetAsString("PortionName");
                         var quantity = x.Value.GetAsDecimal("Quantity");
                         var tag = x.Value.GetAsString("Tag");
@@ -545,7 +546,7 @@ namespace Samba.Presentation.ViewModels
                     if (!string.IsNullOrEmpty(pjName))
                     {
                         TicketService.UpdateTicketNumber(ticket, ApplicationState.CurrentTicketType.TicketNumerator);
-                        var j = CacheService.GetPrintJobByName(pjName);
+                        var j = PresentationCacheService.GetPrintJobByName(pjName);
 
                         if (j != null)
                         {

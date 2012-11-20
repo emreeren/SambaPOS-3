@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Linq.Expressions;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Automation;
 using Samba.Domain.Models.Menus;
@@ -13,72 +12,28 @@ using Samba.Domain.Models.Tickets;
 using Samba.Persistance.DaoClasses;
 using Samba.Persistance.Data;
 using Samba.Presentation.Services.Common;
+using Samba.Services;
 
 namespace Samba.Presentation.Services.Implementations
 {
-    [Export(typeof(ICacheService))]
-    class CacheService : AbstractService, ICacheService
+    [Export(typeof(IPresentationCacheService))]
+    class PresentationCacheService : AbstractService, IPresentationCacheService
     {
         private readonly IApplicationState _applicationState;
         private readonly ICacheDao _dataService;
+        private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public CacheService(IApplicationState applicationState,ICacheDao dataService)
+        public PresentationCacheService(IApplicationState applicationState, ICacheDao dataService, ICacheService cacheService)
         {
             _applicationState = applicationState;
             _dataService = dataService;
+            _cacheService = cacheService;
         }
 
-        private IEnumerable<MenuItem> _menuItems;
-        public IEnumerable<MenuItem> MenuItems
+        public MenuItem GetMenuItem(Func<MenuItem, bool> expression)
         {
-            get { return _menuItems ?? (_menuItems = _dataService.GetMenuItems()); }
-        }
-
-        public MenuItem GetMenuItem(Expression<Func<MenuItem, bool>> expression)
-        {
-            return MenuItems.Single(expression.Compile());
-        }
-
-        private IEnumerable<ProductTimer> _productTimers;
-        public IEnumerable<ProductTimer> ProductTimers
-        {
-            get { return _productTimers ?? (_productTimers = _dataService.GetProductTimers()); }
-        }
-
-        private ProductTimer GetProductTimer(IEnumerable<ProductTimer> productTimers, int menuItemId)
-        {
-            var tgl = productTimers.ToList();
-            var mi = GetMenuItem(x => x.Id == menuItemId);
-            var maps = tgl.SelectMany(x => x.ProductTimerMaps)
-                .Where(x => x.TicketTypeId == 0 || x.TicketTypeId == _applicationState.CurrentTicketType.Id)
-                .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
-                .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
-                .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id)
-                .Where(x => x.MenuItemGroupCode == null || x.MenuItemGroupCode == mi.GroupCode)
-                .Where(x => x.MenuItemId == 0 || x.MenuItemId == mi.Id);
-            return tgl.FirstOrDefault(x => maps.Any(y => y.ProductTimerId == x.Id));
-        }
-
-        public ProductTimer GetProductTimer(int menuItemId)
-        {
-            return GetProductTimer(ProductTimers, menuItemId);
-        }
-
-        public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItem(int menuItemId)
-        {
-            return GetOrderTagGroups(OrderTagGroups, menuItemId);
-        }
-
-        public IEnumerable<OrderTagGroup> GetOrderTagGroupsForItems(IEnumerable<int> menuItemIds)
-        {
-            IEnumerable<OrderTagGroup> orderTags = OrderTagGroups.OrderBy(y => y.Order);
-            return menuItemIds.Aggregate(orderTags, GetOrderTagGroups);
-        }
-
-        public OrderTagGroup GetOrderTagGroupByName(string tagName)
-        {
-            return OrderTagGroups.FirstOrDefault(x => x.Name == tagName);
+            return _cacheService.GetMenuItem(expression);
         }
 
         public IEnumerable<MenuItemPortion> GetMenuItemPortions(int menuItemId)
@@ -86,60 +41,31 @@ namespace Samba.Presentation.Services.Implementations
             return GetMenuItem(x => x.Id == menuItemId).Portions;
         }
 
-        private IEnumerable<OrderTagGroup> _orderTagGroups;
-        public IEnumerable<OrderTagGroup> OrderTagGroups
+        public ProductTimer GetProductTimer(int menuItemId)
         {
-            get { return _orderTagGroups ?? (_orderTagGroups = _dataService.GetOrderTagGroups()); }
+            return _cacheService.GetProductTimer(_applicationState.CurrentTicketType.Id,
+                                                 _applicationState.CurrentTerminal.Id,
+                                                 _applicationState.CurrentDepartment.Id,
+                                                 _applicationState.CurrentLoggedInUser.UserRole.Id,
+                                                 menuItemId);
         }
 
-        private IEnumerable<OrderTagGroup> GetOrderTagGroups(IEnumerable<OrderTagGroup> tagGroups, int menuItemId)
+        public IEnumerable<OrderTagGroup> GetOrderTagGroups(params int[] menuItemIds)
         {
-            var tgl = tagGroups.ToList();
-            var mi = GetMenuItem(x => x.Id == menuItemId);
-            var maps = tgl.SelectMany(x => x.OrderTagMaps)
-                .Where(x => x.TicketTypeId == 0 || x.TicketTypeId == _applicationState.CurrentTicketType.Id)
-                .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
-                .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
-                .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id)
-                .Where(x => x.MenuItemGroupCode == null || x.MenuItemGroupCode == mi.GroupCode)
-                .Where(x => x.MenuItemId == 0 || x.MenuItemId == mi.Id);
-            return tgl.Where(x => maps.Any(y => y.OrderTagGroupId == x.Id)).OrderBy(x => x.Order);
+            return _cacheService.GetOrderTagGroups(_applicationState.CurrentTicketType.Id,
+                         _applicationState.CurrentTerminal.Id,
+                         _applicationState.CurrentDepartment.Id,
+                         _applicationState.CurrentLoggedInUser.UserRole.Id,
+                         menuItemIds);
         }
 
-        private IEnumerable<OrderStateGroup> _orderStateGroups;
-        public IEnumerable<OrderStateGroup> OrderStateGroups
+        public IEnumerable<OrderStateGroup> GetOrderStateGroups(params int[] menuItemIds)
         {
-            get { return _orderStateGroups ?? (_orderStateGroups = _dataService.GetOrderStateGroups()); }
-        }
-
-        public IEnumerable<OrderStateGroup> GetOrderStateGroupsForItems(IEnumerable<int> menuItemIds)
-        {
-            IEnumerable<OrderStateGroup> orderStates = OrderStateGroups.OrderBy(y => y.Order);
-            return menuItemIds.Aggregate(orderStates, GetOrderStateGroups);
-        }
-
-        private IEnumerable<OrderStateGroup> GetOrderStateGroups(IEnumerable<OrderStateGroup> stateGroups, int menuItemId)
-        {
-            var tgl = stateGroups.ToList();
-            var mi = GetMenuItem(x => x.Id == menuItemId);
-            var maps = tgl.SelectMany(x => x.OrderStateMaps)
-                .Where(x => x.TicketTypeId == 0 || x.TicketTypeId == _applicationState.CurrentTicketType.Id)
-                .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
-                .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
-                .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id)
-                .Where(x => x.MenuItemGroupCode == null || x.MenuItemGroupCode == mi.GroupCode)
-                .Where(x => x.MenuItemId == 0 || x.MenuItemId == mi.Id);
-            return tgl.Where(x => maps.Any(y => y.OrderStateGroupId == x.Id)).OrderBy(x => x.Order);
-        }
-
-        public IEnumerable<string> GetTicketTagGroupNames()
-        {
-            return TicketTagGroups.Select(x => x.Name).Distinct();
-        }
-
-        public TicketTagGroup GetTicketTagGroupById(int id)
-        {
-            return TicketTagGroups.FirstOrDefault(x => x.Id == id);
+            return _cacheService.GetOrderStateGroups(_applicationState.CurrentTicketType.Id,
+                 _applicationState.CurrentTerminal.Id,
+                 _applicationState.CurrentDepartment.Id,
+                 _applicationState.CurrentLoggedInUser.UserRole.Id,
+                 menuItemIds);
         }
 
         private IEnumerable<AccountTransactionType> _accountTransactionTypes;
@@ -206,31 +132,18 @@ namespace Samba.Presentation.Services.Implementations
             return Dao.SingleWithCache<Resource>(x => x.Id == accountId);
         }
 
-        private IEnumerable<AccountTransactionDocumentType> _documentTypes;
-        public IEnumerable<AccountTransactionDocumentType> DocumentTypes { get { return _documentTypes ?? (_documentTypes = _dataService.GetAccountTransactionDocumentTypes()); } }
-
         public IEnumerable<AccountTransactionDocumentType> GetAccountTransactionDocumentTypes(int accountTypeId)
         {
-            var maps = DocumentTypes.Where(x => x.MasterAccountTypeId == accountTypeId)
-               .SelectMany(x => x.AccountTransactionDocumentTypeMaps)
-               .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
-               .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
-            return DocumentTypes.Where(x => maps.Any(y => y.AccountTransactionDocumentTypeId == x.Id)).OrderBy(x => x.Order);
+            return _cacheService.GetAccountTransactionDocumentTypes(accountTypeId,
+                                                                    _applicationState.CurrentTerminal.Id,
+                                                                    _applicationState.CurrentLoggedInUser.UserRole.Id);
         }
 
         public IEnumerable<AccountTransactionDocumentType> GetBatchDocumentTypes(IEnumerable<string> accountTypeNamesList)
         {
             var ids = GetAccountTypesByName(accountTypeNamesList).Select(x => x.Id);
-            var maps = DocumentTypes.Where(x => x.BatchCreateDocuments && ids.Contains(x.MasterAccountTypeId))
-               .SelectMany(x => x.AccountTransactionDocumentTypeMaps)
-               .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
-               .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
-            return DocumentTypes.Where(x => maps.Any(y => y.AccountTransactionDocumentTypeId == x.Id)).OrderBy(x => x.Order);
-        }
-
-        public AccountTransactionDocumentType GetAccountTransactionDocumentTypeByName(string documentName)
-        {
-            return DocumentTypes.SingleOrDefault(x => x.Name == documentName);
+            return _cacheService.GetBatchDocumentTypes(ids, _applicationState.CurrentTerminal.Id,
+                                                       _applicationState.CurrentLoggedInUser.UserRole.Id);
         }
 
         private IEnumerable<ResourceState> _resourceStates;
@@ -309,20 +222,18 @@ namespace Samba.Presentation.Services.Implementations
             return ChangePaymentTypes.Where(x => maps.Any(y => y.ChangePaymentTypeId == x.Id)).OrderBy(x => x.Order);
         }
 
-        private IEnumerable<TicketTagGroup> _ticketTagGroups;
-        public IEnumerable<TicketTagGroup> TicketTagGroups
-        {
-            get { return _ticketTagGroups ?? (_ticketTagGroups = _dataService.GetTicketTagGroups()); }
-        }
 
         public IEnumerable<TicketTagGroup> GetTicketTagGroups()
         {
-            var maps = TicketTagGroups.SelectMany(x => x.TicketTagMaps)
-                .Where(x => x.TicketTypeId == 0 || x.TicketTypeId == _applicationState.CurrentTicketType.Id)
-                .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
-                .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
-                .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
-            return TicketTagGroups.Where(x => maps.Any(y => y.TicketTagGroupId == x.Id)).OrderBy(x => x.Order);
+            return _cacheService.GetTicketTagGroups(_applicationState.CurrentTicketType.Id,
+                                                    _applicationState.CurrentTerminal.Id,
+                                                    _applicationState.CurrentDepartment.Id,
+                                                    _applicationState.CurrentLoggedInUser.UserRole.Id);
+        }
+
+        public TicketTagGroup GetTicketTagGroupById(int id)
+        {
+            return _cacheService.GetTicketTagGroupById(id);
         }
 
         private IEnumerable<AutomationCommand> _automationCommands;
@@ -495,12 +406,12 @@ namespace Samba.Presentation.Services.Implementations
 
         public void ResetOrderTagCache()
         {
-            _orderTagGroups = null;
+            _cacheService.ResetOrderTagCache();
         }
 
         public void ResetTicketTagCache()
         {
-            _ticketTagGroups = null;
+            _cacheService.ResetTicketTagCache();
         }
 
         private IEnumerable<ForeignCurrency> _foreignCurrencies;
@@ -516,29 +427,30 @@ namespace Samba.Presentation.Services.Implementations
 
         public override void Reset()
         {
-            _taskTypes = null;
-            _ticketTypes = null;
-            _resourceScreens = null;
-            _foreignCurrencies = null;
-            _productTimers = null;
-            _menuItems = null;
-            _screenMenus = null;
-            _accountTransactionTypes = null;
-            _accountScreens = null;
-            _calculationSelectors = null;
-            _automationCommands = null;
-            _orderTagGroups = null;
-            _orderStateGroups = null;
-            _resourceTypes = null;
-            _accountTypes = null;
-            _resources = null;
-            _documentTypes = null;
-            _resourceStates = null;
-            _printJobs = null;
-            _paymentTypes = null;
-            _changePaymentTypes = null;
-            _ticketTagGroups = null;
-            _dataService.ResetCache();
+            _cacheService.ResetCache();
+            //_taskTypes = null;
+            //_ticketTypes = null;
+            //_resourceScreens = null;
+            //_foreignCurrencies = null;
+            //_productTimers = null;
+            //_menuItems = null;
+            //_screenMenus = null;
+            //_accountTransactionTypes = null;
+            //_accountScreens = null;
+            //_calculationSelectors = null;
+            //_automationCommands = null;
+            //_orderTagGroups = null;
+            //_orderStateGroups = null;
+            //_resourceTypes = null;
+            //_accountTypes = null;
+            //_resources = null;
+            //_documentTypes = null;
+            //_resourceStates = null;
+            //_printJobs = null;
+            //_paymentTypes = null;
+            //_changePaymentTypes = null;
+            //_ticketTagGroups = null;
+            //_dataService.ResetCache();
         }
     }
 }

@@ -10,9 +10,9 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 {
     public class TicketExplorerFilter : ITicketExplorerFilter
     {
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
 
-        public TicketExplorerFilter(ICacheService cacheService)
+        public TicketExplorerFilter(IPresentationCacheService cacheService)
         {
             _cacheService = cacheService;
             FilterValues = new List<string>();

@@ -16,12 +16,12 @@ namespace Samba.Modules.PosModule
     public class TicketTagListViewModel : ObservableObject
     {
         private Ticket _selectedTicket;
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
         public DelegateCommand<TicketTagGroup> SelectionCommand { get; set; }
         public CaptionCommand<string> CloseCommand { get; set; }
 
         [ImportingConstructor]
-        public TicketTagListViewModel(ICacheService cacheService)
+        public TicketTagListViewModel(IPresentationCacheService cacheService)
         {
             _cacheService = cacheService;
             SelectionCommand = new DelegateCommand<TicketTagGroup>(OnSelectTicketTagGroup);

@@ -14,7 +14,7 @@ namespace Samba.Modules.PosModule
     [Export]
     public class PaymentButtonViewModel : ObservableObject
     {
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
         private readonly IApplicationState _applicationState;
         private readonly ITicketService _ticketService;
         public PaymentButtonGroupViewModel PaymentButtonGroup { get; set; }
@@ -40,7 +40,7 @@ namespace Samba.Modules.PosModule
         }
 
         [ImportingConstructor]
-        public PaymentButtonViewModel(ICacheService cacheService, IApplicationState applicationState, ITicketService ticketService)
+        public PaymentButtonViewModel(IPresentationCacheService cacheService, IApplicationState applicationState, ITicketService ticketService)
         {
             _cacheService = cacheService;
             _applicationState = applicationState;

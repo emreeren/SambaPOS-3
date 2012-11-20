@@ -52,13 +52,13 @@ namespace Samba.Modules.AccountModule
     public class AccountSelectorViewModel : ObservableObject
     {
         private readonly IAccountService _accountService;
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
         private readonly IApplicationState _applicationState;
         private readonly IPrinterService _printerService;
         private AccountScreen _selectedAccountScreen;
 
         [ImportingConstructor]
-        public AccountSelectorViewModel(IAccountService accountService, ICacheService cacheService, IApplicationState applicationState,
+        public AccountSelectorViewModel(IAccountService accountService, IPresentationCacheService cacheService, IApplicationState applicationState,
             IPrinterService printerService)
         {
             _accounts = new ObservableCollection<AccountRowData>();

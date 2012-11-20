@@ -18,11 +18,11 @@ namespace Samba.Modules.ModifierModule
     [Export]
     public class TicketTagEditorViewModel : ObservableObject
     {
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
         private readonly ITicketService _ticketService;
 
         [ImportingConstructor]
-        public TicketTagEditorViewModel(ICacheService cacheService, ITicketService ticketService)
+        public TicketTagEditorViewModel(IPresentationCacheService cacheService, ITicketService ticketService)
         {
             _cacheService = cacheService;
             _ticketService = ticketService;

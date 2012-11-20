@@ -19,10 +19,10 @@ namespace Samba.Modules.AccountModule.Dashboard
     class AccountTransactionDocumentTypeViewModel : EntityViewModelBaseWithMap<AccountTransactionDocumentType, AccountTransactionDocumentTypeMap, AbstractMapViewModel<AccountTransactionDocumentTypeMap>>
     {
         private readonly IAccountService _accountService;
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
 
         [ImportingConstructor]
-        public AccountTransactionDocumentTypeViewModel(IAccountService accountService, ICacheService cacheService)
+        public AccountTransactionDocumentTypeViewModel(IAccountService accountService, IPresentationCacheService cacheService)
         {
             _accountService = accountService;
             _cacheService = cacheService;

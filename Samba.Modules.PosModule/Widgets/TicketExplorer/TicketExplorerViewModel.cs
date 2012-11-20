@@ -20,10 +20,10 @@ namespace Samba.Modules.PosModule.Widgets.TicketExplorer
         private readonly Timer _timer;
         private readonly ITicketService _ticketService;
         private readonly IUserService _userService;
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
 
         public TicketExplorerViewModel(Widget widget, IApplicationState applicationState, ITicketService ticketService,
-            IUserService userService, ICacheService cacheService)
+            IUserService userService, IPresentationCacheService cacheService)
             : base(widget, applicationState)
         {
             _ticketService = ticketService;

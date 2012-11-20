@@ -13,10 +13,10 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceSearch
     class ResourceSearchWidgetViewModel : WidgetViewModel
     {
         private readonly IApplicationState _applicationState;
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
         private EntityOperationRequest<Resource> _request = new EntityOperationRequest<Resource>(null, EventTopicNames.ResourceSelected);
 
-        public ResourceSearchWidgetViewModel(Widget model, IApplicationState applicationState, ICacheService cacheService, IResourceService resourceService)
+        public ResourceSearchWidgetViewModel(Widget model, IApplicationState applicationState, IPresentationCacheService cacheService, IResourceService resourceService)
             : base(model, applicationState)
         {
             _applicationState = applicationState;

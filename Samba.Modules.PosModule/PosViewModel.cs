@@ -25,7 +25,7 @@ namespace Samba.Modules.PosModule
     {
         private readonly ITicketService _ticketService;
         private readonly IUserService _userService;
-        private readonly ICacheService _cacheService;
+        private readonly IPresentationCacheService _cacheService;
         private readonly IApplicationState _applicationState;
         private readonly IApplicationStateSetter _applicationStateSetter;
         private readonly IRegionManager _regionManager;
@@ -57,7 +57,7 @@ namespace Samba.Modules.PosModule
 
         [ImportingConstructor]
         public PosViewModel(IRegionManager regionManager, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
-            ITicketService ticketService, IUserService userService, ICacheService cacheService,
+            ITicketService ticketService, IUserService userService, IPresentationCacheService cacheService,
             TicketListViewModel ticketListViewModel, TicketTagListViewModel ticketTagListViewModel,
             MenuItemSelectorViewModel menuItemSelectorViewModel, MenuItemSelectorView menuItemSelectorView, TicketViewModel ticketViewModel,
             TicketOrdersViewModel ticketOrdersViewModel)
