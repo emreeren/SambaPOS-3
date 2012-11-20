@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Threading;
@@ -24,16 +25,14 @@ namespace Samba.Presentation.Services.Implementations.PrinterModule
     {
         private readonly IPrinterDao _printerDao;
         private readonly IApplicationState _applicationState;
-        private readonly ICacheService _cacheService;
         private readonly TicketFormatter _ticketFormatter;
 
         [ImportingConstructor]
-        public PrinterService(IPrinterDao printerDao, IApplicationState applicationState, ICacheService cacheService, IResourceService resourceService,
+        public PrinterService(IPrinterDao printerDao, IApplicationState applicationState, IResourceService resourceService,
             IAutomationService automationService, ISettingService settingService)
         {
             _printerDao = printerDao;
             _applicationState = applicationState;
-            _cacheService = cacheService;
             _ticketFormatter = new TicketFormatter(automationService, settingService);
         }
 
@@ -172,7 +171,7 @@ namespace Samba.Presentation.Services.Implementations.PrinterModule
             return ticket.Orders.ToList();
         }
 
-        private IEnumerable<Order> GroupLinesByValue(Ticket ticket, Func<MenuItem, object> selector, string defaultValue, bool calcDiscounts = false)
+        private IEnumerable<Order> GroupLinesByValue(Ticket ticket, Expression<Func<MenuItem, string>> selector, string defaultValue, bool calcDiscounts = false)
         {
             var discounts = calcDiscounts ? ticket.GetPreTaxServicesTotal() : 0;
             var di = discounts > 0 ? discounts / ticket.GetPlainSum() : 0;
@@ -180,7 +179,8 @@ namespace Samba.Presentation.Services.Implementations.PrinterModule
             foreach (var order in ticket.Orders.OrderBy(x => x.Id).ToList())
             {
                 var item = order;
-                var value = selector(_cacheService.GetMenuItem(x => x.Id == item.MenuItemId)).ToString();
+                var value = _printerDao.GetMenuItemData(item.MenuItemId, selector);
+                //var value = selector(_cacheService.GetMenuItem(x => x.Id == item.MenuItemId)).ToString();
                 if (string.IsNullOrEmpty(value)) value = defaultValue;
                 if (!cache.ContainsKey(value))
                     cache.Add(value, 0);
@@ -247,9 +247,8 @@ namespace Samba.Presentation.Services.Implementations.PrinterModule
             PrintJobFactory.CreatePrintJob(printer).DoPrint(ticketLines);
         }
 
-        public void PrintReport(FlowDocument document)
+        public void PrintReport(FlowDocument document,Printer printer)
         {
-            var printer = _applicationState.CurrentTerminal.ReportPrinter;
             if (printer == null || string.IsNullOrEmpty(printer.ShareName)) return;
             PrintJobFactory.CreatePrintJob(printer).DoPrint(document);
         }

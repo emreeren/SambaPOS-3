@@ -172,7 +172,7 @@ namespace Samba.Modules.BasicReports
 
         private void OnPrintDocument(string obj)
         {
-            ReportContext.PrinterService.PrintReport(Document);
+            ReportContext.PrinterService.PrintReport(Document, ApplicationState.CurrentTerminal.ReportPrinter);
         }
 
         public void RefreshReport()

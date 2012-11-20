@@ -186,7 +186,7 @@ namespace Samba.Modules.AccountModule
                 report.AddRow("Transactions", ad.Name, ad.BalanceStr);
             }
 
-            _printerService.PrintReport(report.Document);
+            _printerService.PrintReport(report.Document, _applicationState.CurrentTerminal.ReportPrinter);
         }
     }
 }

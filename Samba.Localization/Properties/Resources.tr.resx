@@ -617,6 +617,9 @@ Mesaj:
   <data name="OrderNumerator" xml:space="preserve">
     <value>Sipariş Numaratörü</value>
   </data>
+  <data name="Resourceses" xml:space="preserve">
+    <value>Kaynaklar</value>
+  </data>
   <data name="CategoryName" xml:space="preserve">
     <value>Kategori Adı</value>
   </data>
@@ -863,6 +866,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="ItemProperties" xml:space="preserve">
     <value>İlave Özellikler</value>
+  </data>
+  <data name="Change_f" xml:space="preserve">
+    <value>{0} Değiştir</value>
   </data>
   <data name="GrandTotal" xml:space="preserve">
     <value>Bakiye</value>
@@ -1232,6 +1238,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="To" xml:space="preserve">
     <value>Son</value>
+  </data>
+  <data name="ResourceScreen" xml:space="preserve">
+    <value>Kaynak Ekranı</value>
   </data>
   <data name="TransacitonUnitMultiplier" xml:space="preserve">
     <value>Hareket Birimi Çarpanı</value>
@@ -2160,6 +2169,9 @@ Açık adisyon varken gün sonu yapılamaz.</value>
   </data>
   <data name="DisplayFormat" xml:space="preserve">
     <value>Gösterim Formatı</value>
+  </data>
+  <data name="ResourceScreens" xml:space="preserve">
+    <value>Kaynak Ekranları</value>
   </data>
   <data name="DisplayUserPath" xml:space="preserve">
     <value>Kullanıcı Klasörü</value>

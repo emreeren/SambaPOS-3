@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
@@ -33,7 +34,12 @@ namespace Samba.Persistance.DaoClasses.Implementations
 
         public string GetMenuItemGroupCode(int menuItemId)
         {
-            return Dao.Single<MenuItem, string>(menuItemId, x => x.GroupCode);
+            return GetMenuItemData(menuItemId, x => x.GroupCode);
+        }
+
+        public string GetMenuItemData(int menuItemId, Expression<Func<MenuItem, string>> selector)
+        {
+            return Dao.Single(menuItemId, selector);
         }
     }
 
