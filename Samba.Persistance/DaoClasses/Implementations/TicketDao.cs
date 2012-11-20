@@ -85,6 +85,26 @@ namespace Samba.Persistance.DaoClasses.Implementations
             }
         }
 
+        public IEnumerable<Ticket> GetAllTickets()
+        {
+            return Dao.Query<Ticket>(x => x.Orders.Select(y => y.OrderTagValues),
+                             x => x.Orders.Select(y => y.ProductTimerValue),
+                             x => x.TicketResources,
+                             x => x.Calculations,
+                             x => x.Payments,
+                             x => x.ChangePayments);
+        }
+
+        Ticket ITicketDao.GetTicketById(int id)
+        {
+            return Dao.Single<Ticket>(x => x.Id == id, x => x.Orders.Select(y => y.OrderTagValues),
+                             x => x.Orders.Select(y => y.ProductTimerValue),
+                             x => x.TicketResources,
+                             x => x.Calculations,
+                             x => x.Payments,
+                             x => x.ChangePayments);
+        }
+        
         public IEnumerable<Ticket> GetFilteredTickets(DateTime startDate, DateTime endDate, IList<ITicketExplorerFilter> filters)
         {
             endDate = endDate.Date.AddDays(1).AddMinutes(-1);

@@ -17,5 +17,7 @@ namespace Samba.Persistance.DaoClasses
         IEnumerable<Order> GetOrders(int ticketId);
         void SaveFreeOrderTag(int orderTagGroupId, OrderTag orderTag);
         void SaveFreeTicketTag(int ticketTagGroupId, string freeTag);
+        IEnumerable<Ticket> GetAllTickets();
+        Ticket GetTicketById(int id);
     }
 }
