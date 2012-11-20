@@ -15,6 +15,7 @@ namespace Samba.Services.Implementations
     {
         private readonly ICacheDao _dataService;
 
+        [ImportingConstructor]
         public CacheService(ICacheDao dataService)
         {
             _dataService = dataService;
