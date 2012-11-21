@@ -19,14 +19,14 @@ namespace Samba.Modules.ModifierModule
     [Export]
     public class TicketTagEditorViewModel : ObservableObject
     {
-        private readonly IPresentationCacheService _presentationCacheService;
+        private readonly IApplicationState _applicationState;
         private readonly ICacheService _cacheService;
         private readonly ITicketService _ticketService;
 
         [ImportingConstructor]
-        public TicketTagEditorViewModel(IPresentationCacheService presentationCacheService, ICacheService cacheService, ITicketService ticketService)
+        public TicketTagEditorViewModel(IApplicationState applicationState, ICacheService cacheService, ITicketService ticketService)
         {
-            _presentationCacheService = presentationCacheService;
+            _applicationState = applicationState;
             _cacheService = cacheService;
             _ticketService = ticketService;
 
@@ -128,7 +128,7 @@ namespace Samba.Modules.ModifierModule
             }
             else
             {
-                ticketTags = _presentationCacheService.GetTicketTagGroups().Where(
+                ticketTags = _applicationState.GetTicketTagGroups().Where(
                        x => x.Name == tagGroup.Name).SelectMany(x => x.TicketTags).ToList();
             }
 

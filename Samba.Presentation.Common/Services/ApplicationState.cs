@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
@@ -9,6 +11,8 @@ using Samba.Infrastructure.Settings;
 using Samba.Persistance.Data;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
+using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Presentation.Common.Services
 {
@@ -18,12 +22,16 @@ namespace Samba.Presentation.Common.Services
     {
         private readonly IDepartmentService _departmentService;
         private readonly ISettingService _settingService;
+        private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public ApplicationState(IDepartmentService departmentService, ISettingService settingService)
+        public ApplicationState(IDepartmentService departmentService, ISettingService settingService,
+            ICacheService cacheService)
         {
             _departmentService = departmentService;
             _settingService = settingService;
+            _cacheService = cacheService;
+            CurrentTicketType = TicketType.Default;
         }
 
         public AppScreens ActiveAppScreen { get; private set; }
@@ -130,7 +138,7 @@ namespace Samba.Presentation.Common.Services
 
         public void SetCurrentTicketType(TicketType ticketType)
         {
-            CurrentTicketType = ticketType;
+            CurrentTicketType = ticketType??TicketType.Default;
         }
 
         public string NumberPadValue
@@ -156,8 +164,112 @@ namespace Samba.Presentation.Common.Services
 
         public override void Reset()
         {
+            _cacheService.ResetCache();
             _lastTwoWorkPeriods = null;
             _terminal = null;
+        }
+
+        public ProductTimer GetProductTimer(int menuItemId)
+        {
+            return _cacheService.GetProductTimer(CurrentTicketType.Id,
+                                                 CurrentTerminal.Id,
+                                                 CurrentDepartment.Id,
+                                                 CurrentLoggedInUser.UserRole.Id,
+                                                 menuItemId);
+        }
+
+        public IEnumerable<OrderTagGroup> GetOrderTagGroups(params int[] menuItemIds)
+        {
+            return _cacheService.GetOrderTagGroups(CurrentTicketType.Id,
+                                                   CurrentTerminal.Id,
+                                                   CurrentDepartment.Id,
+                                                   CurrentLoggedInUser.UserRole.Id,
+                                                   menuItemIds);
+        }
+
+        public IEnumerable<OrderStateGroup> GetOrderStateGroups(params int[] menuItemIds)
+        {
+            return _cacheService.GetOrderStateGroups(CurrentTicketType.Id,
+                                                     CurrentTerminal.Id,
+                                                     CurrentDepartment.Id,
+                                                     CurrentLoggedInUser.UserRole.Id,
+                                                     menuItemIds);
+        }
+
+        public IEnumerable<AccountTransactionDocumentType> GetAccountTransactionDocumentTypes(int accountTypeId)
+        {
+            return _cacheService.GetAccountTransactionDocumentTypes(accountTypeId,
+                                                                    CurrentTerminal.Id,
+                                                                    CurrentLoggedInUser.UserRole.Id);
+        }
+
+        public IEnumerable<AccountTransactionDocumentType> GetBatchDocumentTypes(IEnumerable<string> accountTypeNamesList)
+        {
+            return _cacheService.GetBatchDocumentTypes(accountTypeNamesList, CurrentTerminal.Id,
+                                                       CurrentLoggedInUser.UserRole.Id);
+        }
+
+        public IEnumerable<PaymentType> GetUnderTicketPaymentTypes()
+        {
+            return _cacheService.GetUnderTicketPaymentTypes(CurrentTicketType.Id,
+                                                            CurrentTerminal.Id,
+                                                            CurrentDepartment.Id,
+                                                            CurrentLoggedInUser.UserRole.Id);
+        }
+
+        public IEnumerable<PaymentType> GetPaymentScreenPaymentTypes()
+        {
+            return _cacheService.GetPaymentScreenPaymentTypes(CurrentTicketType.Id,
+                                                            CurrentTerminal.Id,
+                                                            CurrentDepartment.Id,
+                                                            CurrentLoggedInUser.UserRole.Id);
+        }
+
+        public IEnumerable<ChangePaymentType> GetChangePaymentTypes()
+        {
+            return _cacheService.GetChangePaymentTypes(CurrentTicketType.Id,
+                                                       CurrentTerminal.Id,
+                                                       CurrentDepartment.Id,
+                                                       CurrentLoggedInUser.UserRole.Id);
+        }
+
+        public IEnumerable<TicketTagGroup> GetTicketTagGroups()
+        {
+            return _cacheService.GetTicketTagGroups(CurrentTicketType.Id,
+                                                    CurrentTerminal.Id,
+                                                    CurrentDepartment.Id,
+                                                    CurrentLoggedInUser.UserRole.Id);
+        }
+
+        public IEnumerable<AutomationCommandData> GetAutomationCommands()
+        {
+            return _cacheService.GetAutomationCommands(CurrentTicketType.Id,
+                                                       CurrentTerminal.Id,
+                                                       CurrentDepartment != null ? CurrentDepartment.Id : -1,
+                                                       CurrentLoggedInUser.UserRole.Id);
+        }
+
+        public IEnumerable<CalculationSelector> GetCalculationSelectors()
+        {
+            return _cacheService.GetCalculationSelectors(CurrentTicketType.Id,
+                                                         CurrentTerminal.Id,
+                                                         CurrentDepartment.Id,
+                                                         CurrentLoggedInUser.UserRole.Id);
+        }
+
+        public IEnumerable<ResourceScreen> GetResourceScreens()
+        {
+            return _cacheService.GetResourceScreens(CurrentTerminal.Id,
+                                                    CurrentDepartment.Id,
+                                                    CurrentLoggedInUser.UserRole.Id);
+        }
+
+        public IEnumerable<ResourceScreen> GetTicketResourceScreens()
+        {
+            return _cacheService.GetTicketResourceScreens(CurrentTicketType != null ? CurrentTicketType.Id : 0,
+                                                       CurrentTerminal.Id,
+                                                       CurrentDepartment.Id,
+                                                       CurrentLoggedInUser.UserRole.Id);
         }
 
         public void ResetState()

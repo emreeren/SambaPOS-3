@@ -16,7 +16,7 @@ namespace Samba.Modules.PaymentModule
     [Export]
     public class PaymentEditor
     {
-        private readonly IPresentationCacheService _presentationCacheService;
+        private readonly IApplicationState _applicationState;
         private readonly ICacheService _cacheService;
         private readonly ITicketService _ticketService;
         private readonly IAccountService _accountService;
@@ -24,10 +24,10 @@ namespace Samba.Modules.PaymentModule
         private Ticket _selectedTicket;
 
         [ImportingConstructor]
-        public PaymentEditor(IPresentationCacheService presentationCacheService, ICacheService cacheService, ITicketService ticketService, IAccountService accountService,
+        public PaymentEditor(IApplicationState applicationState, ICacheService cacheService, ITicketService ticketService, IAccountService accountService,
             AccountBalances accountBalances)
         {
-            _presentationCacheService = presentationCacheService;
+            _applicationState = applicationState;
             _cacheService = cacheService;
             _ticketService = ticketService;
             _accountService = accountService;
@@ -107,7 +107,7 @@ namespace Samba.Modules.PaymentModule
             _ticketService.RecalculateTicket(SelectedTicket);
             if (GetRemainingAmount() < 0)
             {
-                foreach (var cSelector in _presentationCacheService.GetCalculationSelectors().Where(x => !string.IsNullOrEmpty(x.ButtonHeader)))
+                foreach (var cSelector in _applicationState.GetCalculationSelectors().Where(x => !string.IsNullOrEmpty(x.ButtonHeader)))
                 {
                     foreach (var ctemplate in cSelector.CalculationTypes)
                     {

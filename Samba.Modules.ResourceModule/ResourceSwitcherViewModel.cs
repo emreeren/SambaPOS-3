@@ -16,7 +16,6 @@ namespace Samba.Modules.ResourceModule
     public class ResourceSwitcherViewModel : ObservableObject
     {
         private readonly IRegionManager _regionManager;
-        private readonly IPresentationCacheService _presentationCacheService;
         private readonly IApplicationState _applicationState;
         private readonly IApplicationStateSetter _applicationStateSetter;
         private readonly ICacheService _cacheService;
@@ -30,14 +29,13 @@ namespace Samba.Modules.ResourceModule
         private EntityOperationRequest<Resource> _currentOperationRequest;
 
         [ImportingConstructor]
-        public ResourceSwitcherViewModel(IRegionManager regionManager, IPresentationCacheService presentationCacheService, 
+        public ResourceSwitcherViewModel(IRegionManager regionManager, 
             IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,ICacheService cacheService,
             ResourceSelectorView resourceSelectorView, ResourceSelectorViewModel resourceSelectorViewModel,
             ResourceSearchView resourceSearchView, ResourceSearchViewModel resourceSearchViewModel,
             ResourceDashboardView resourceDashboardView, ResourceDashboardViewModel resourceDashboardViewModel)
         {
             _regionManager = regionManager;
-            _presentationCacheService = presentationCacheService;
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
             _cacheService = cacheService;
@@ -76,8 +74,8 @@ namespace Samba.Modules.ResourceModule
         {
             var resourceScreens =
                 _applicationState.IsLocked ?
-                _presentationCacheService.GetTicketResourceScreens().ToList() :
-                _presentationCacheService.GetResourceScreens().ToList();
+                _applicationState.GetTicketResourceScreens().ToList() :
+                _applicationState.GetResourceScreens().ToList();
             if (!resourceScreens.Any()) return null;
             _resourceScreens = resourceScreens.OrderBy(x => x.Order).ToList();
             _resourceSwitcherButtons = null;
@@ -103,7 +101,7 @@ namespace Samba.Modules.ResourceModule
             get
             {
                 if (_applicationState.CurrentDepartment == null) return new List<ResourceScreen>();
-                return _resourceScreens ?? (_resourceScreens = _presentationCacheService.GetResourceScreens().OrderBy(x => x.Order));
+                return _resourceScreens ?? (_resourceScreens = _applicationState.GetResourceScreens().OrderBy(x => x.Order));
             }
         }
 

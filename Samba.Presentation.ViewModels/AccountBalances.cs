@@ -11,14 +11,14 @@ namespace Samba.Presentation.ViewModels
     [Export]
     public class AccountBalances
     {
-        private readonly IPresentationCacheService _presentationCacheService;
+        private readonly IApplicationState _applicationState;
         private readonly ICacheService _cacheService;
         private readonly IAccountService _accountService;
 
         [ImportingConstructor]
-        public AccountBalances(IPresentationCacheService presentationCacheService,ICacheService cacheService, IAccountService accountService)
+        public AccountBalances(IApplicationState applicationState,ICacheService cacheService, IAccountService accountService)
         {
-            _presentationCacheService = presentationCacheService;
+            _applicationState = applicationState;
             _cacheService = cacheService;
             _accountService = accountService;
             Balances = new Dictionary<int, decimal>();
@@ -43,7 +43,7 @@ namespace Samba.Presentation.ViewModels
                 if (ticketResource.AccountId > 0)
                 {
                     var resourceType = _cacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
-                    if (_presentationCacheService.GetPaymentScreenPaymentTypes().Any(x => x.AccountTransactionType.TargetAccountTypeId == resourceType.AccountTypeId))
+                    if (_applicationState.GetPaymentScreenPaymentTypes().Any(x => x.AccountTransactionType.TargetAccountTypeId == resourceType.AccountTypeId))
                     {
                         var balance = _accountService.GetAccountBalance(ticketResource.AccountId);
                         Balances.Add(ticketResource.AccountId, balance);

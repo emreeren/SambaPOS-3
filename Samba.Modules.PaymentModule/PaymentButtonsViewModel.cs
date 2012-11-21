@@ -11,12 +11,12 @@ namespace Samba.Modules.PaymentModule
     [Export]
     public class PaymentButtonsViewModel : ObservableObject
     {
-        private readonly IPresentationCacheService _cacheService;
+        private readonly IApplicationState _applicationState;
 
         [ImportingConstructor]
-        public PaymentButtonsViewModel(IPresentationCacheService cacheService)
+        public PaymentButtonsViewModel(IApplicationState applicationState)
         {
-            _cacheService = cacheService;
+            _applicationState = applicationState;
             PaymentButtonGroup = new PaymentButtonGroupViewModel();
         }
 
@@ -24,7 +24,7 @@ namespace Samba.Modules.PaymentModule
 
         public void Update(ForeignCurrency foreignCurrency)
         {
-            PaymentButtonGroup.Update(_cacheService.GetPaymentScreenPaymentTypes(), foreignCurrency);
+            PaymentButtonGroup.Update(_applicationState.GetPaymentScreenPaymentTypes(), foreignCurrency);
             RaisePropertyChanged(() => PaymentButtonGroup);
         }
 

@@ -26,21 +26,19 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
         private readonly IAutomationService _automationService;
         private readonly IUserService _userService;
         private readonly ISettingService _settingService;
-        private readonly IPresentationCacheService _presentationCacheService;
         private readonly IAccountService _accountService;
         private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public TicketService(ITicketDao ticketDao, IDepartmentService departmentService, IApplicationState applicationState, IAutomationService automationService,
-            IUserService userService, ISettingService settingService, IPresentationCacheService presentationCacheService, IAccountService accountService,
-            ICacheService cacheService)
+        public TicketService(ITicketDao ticketDao, IDepartmentService departmentService, IApplicationState applicationState,
+            IAutomationService automationService, IUserService userService, ISettingService settingService,
+            IAccountService accountService, ICacheService cacheService)
         {
             _ticketDao = ticketDao;
             _applicationState = applicationState;
             _automationService = automationService;
             _userService = userService;
             _settingService = settingService;
-            _presentationCacheService = presentationCacheService;
             _accountService = accountService;
             _cacheService = cacheService;
         }
@@ -108,7 +106,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
         private Ticket CreateTicket()
         {
             var account = _cacheService.GetAccountById(_applicationState.CurrentTicketType.SaleTransactionType.DefaultTargetAccountId);
-            return Ticket.Create(_applicationState.CurrentDepartment.Model, _applicationState.CurrentTicketType, account, GetExchangeRate(account), _presentationCacheService.GetCalculationSelectors().Where(x => string.IsNullOrEmpty(x.ButtonHeader)).SelectMany(y => y.CalculationTypes));
+            return Ticket.Create(_applicationState.CurrentDepartment.Model, _applicationState.CurrentTicketType, account, GetExchangeRate(account), _applicationState.GetCalculationSelectors().Where(x => string.IsNullOrEmpty(x.ButtonHeader)).SelectMany(y => y.CalculationTypes));
         }
 
         public TicketCommitResult CloseTicket(Ticket ticket)
@@ -468,14 +466,14 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
         public bool CanDeselectOrder(Order order)
         {
             if (!order.DecreaseInventory) return true;
-            var ots = _presentationCacheService.GetOrderTagGroups(order.MenuItemId);
+            var ots = _applicationState.GetOrderTagGroups(order.MenuItemId);
             if (order.Locked) ots = ots.Where(x => !string.IsNullOrEmpty(x.ButtonHeader));
             return ots.Where(x => x.MinSelectedItems > 0).All(orderTagGroup => order.OrderTagValues.Count(x => x.OrderTagGroupId == orderTagGroup.Id) >= orderTagGroup.MinSelectedItems);
         }
 
         public OrderTagGroup GetMandantoryOrderTagGroup(Order order)
         {
-            var ots = _presentationCacheService.GetOrderTagGroups(order.MenuItemId);
+            var ots = _applicationState.GetOrderTagGroups(order.MenuItemId);
             if (order.Locked) ots = ots.Where(x => !string.IsNullOrEmpty(x.ButtonHeader));
             return ots.Where(x => x.MinSelectedItems > 0).FirstOrDefault(orderTagGroup => order.OrderTagValues.Count(x => x.OrderTagGroupId == orderTagGroup.Id) < orderTagGroup.MinSelectedItems);
         }
@@ -535,7 +533,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             var portion = _cacheService.GetMenuItemPortion(menuItemId, portionName);
             if (portion == null) return null;
             var priceTag = _applicationState.CurrentDepartment.PriceTag;
-            var productTimer = _presentationCacheService.GetProductTimer(menuItemId);
+            var productTimer = _applicationState.GetProductTimer(menuItemId);
             var order = ticket.AddOrder(
                 _applicationState.CurrentTicketType.SaleTransactionType,
                 _applicationState.CurrentLoggedInUser.Name, menuItem, portion, priceTag, productTimer);

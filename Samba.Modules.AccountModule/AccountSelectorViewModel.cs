@@ -51,19 +51,17 @@ namespace Samba.Modules.AccountModule
     public class AccountSelectorViewModel : ObservableObject
     {
         private readonly IAccountService _accountService;
-        private readonly IPresentationCacheService _presentationCacheService;
         private readonly ICacheService _cacheService;
         private readonly IApplicationState _applicationState;
         private readonly IPrinterService _printerService;
         private AccountScreen _selectedAccountScreen;
 
         [ImportingConstructor]
-        public AccountSelectorViewModel(IAccountService accountService, IPresentationCacheService presentationCacheService,
-            ICacheService cacheService, IApplicationState applicationState, IPrinterService printerService)
+        public AccountSelectorViewModel(IAccountService accountService, ICacheService cacheService, IApplicationState applicationState, 
+            IPrinterService printerService)
         {
             _accounts = new ObservableCollection<AccountRowData>();
             _accountService = accountService;
-            _presentationCacheService = presentationCacheService;
             _cacheService = cacheService;
             _applicationState = applicationState;
             _printerService = printerService;
@@ -91,7 +89,7 @@ namespace Samba.Modules.AccountModule
                 return _batchDocumentButtons ??
                     (_batchDocumentButtons =
                     _selectedAccountScreen != null
-                    ? _presentationCacheService.GetBatchDocumentTypes(_selectedAccountScreen.AccountScreenValues.Select(x => x.AccountTypeName))
+                    ? _applicationState.GetBatchDocumentTypes(_selectedAccountScreen.AccountScreenValues.Select(x => x.AccountTypeName))
                             .Where(x => !string.IsNullOrEmpty(x.ButtonHeader))
                             .Select(x => new DocumentTypeButtonViewModel(x, null)) : null);
             }

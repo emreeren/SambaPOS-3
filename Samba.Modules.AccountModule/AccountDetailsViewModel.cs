@@ -23,17 +23,15 @@ namespace Samba.Modules.AccountModule
     public class AccountDetailsViewModel : ObservableObject
     {
         private readonly IApplicationState _applicationState;
-        private readonly IPresentationCacheService _presentationCacheService;
         private readonly IAccountService _accountService;
         private readonly IPrinterService _printerService;
         private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public AccountDetailsViewModel(IApplicationState applicationState, IPresentationCacheService presentationCacheService,
-            IAccountService accountService, IPrinterService printerService,ICacheService cacheService)
+        public AccountDetailsViewModel(IApplicationState applicationState, IAccountService accountService,
+            IPrinterService printerService, ICacheService cacheService)
         {
             _applicationState = applicationState;
-            _presentationCacheService = presentationCacheService;
             _accountService = accountService;
             _printerService = printerService;
             _cacheService = cacheService;
@@ -96,7 +94,7 @@ namespace Samba.Modules.AccountModule
             DocumentTypes.Clear();
             if (SelectedAccount != null)
             {
-                var templates = _presentationCacheService.GetAccountTransactionDocumentTypes(SelectedAccount.AccountTypeId)
+                var templates = _applicationState.GetAccountTransactionDocumentTypes(SelectedAccount.AccountTypeId)
                     .Where(x => !string.IsNullOrEmpty(x.ButtonHeader));
                 DocumentTypes.AddRange(templates.Select(x => new DocumentTypeButtonViewModel(x, SelectedAccount)));
             }

@@ -7,14 +7,12 @@ using Samba.Presentation.Common.Services;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Presentation.ViewModels;
-using Samba.Services;
 
 namespace Samba.Modules.PosModule
 {
     [Export]
     public class PaymentButtonViewModel : ObservableObject
     {
-        private readonly IPresentationCacheService _cacheService;
         private readonly IApplicationState _applicationState;
         private readonly ITicketService _ticketService;
         public PaymentButtonGroupViewModel PaymentButtonGroup { get; set; }
@@ -32,7 +30,7 @@ namespace Samba.Modules.PosModule
 
                 if (SelectedDepartment != null && _selectedTicket != Ticket.Empty)
                 {
-                    PaymentButtonGroup.Update(_cacheService.GetUnderTicketPaymentTypes(), null);
+                    PaymentButtonGroup.Update(_applicationState.GetUnderTicketPaymentTypes(), null);
                 }
                 RaisePropertyChanged(() => PaymentButtonGroup);
                 RaisePropertyChanged(() => SelectedTicket);
@@ -40,9 +38,8 @@ namespace Samba.Modules.PosModule
         }
 
         [ImportingConstructor]
-        public PaymentButtonViewModel(IPresentationCacheService cacheService, IApplicationState applicationState, ITicketService ticketService)
+        public PaymentButtonViewModel(IApplicationState applicationState, ITicketService ticketService)
         {
-            _cacheService = cacheService;
             _applicationState = applicationState;
             _ticketService = ticketService;
 
@@ -59,7 +56,7 @@ namespace Samba.Modules.PosModule
 
         private void OnDepartmentChanged(EventParameters<Department> obj)
         {
-            PaymentButtonGroup.Update(_cacheService.GetUnderTicketPaymentTypes(), null);
+            PaymentButtonGroup.Update(_applicationState.GetUnderTicketPaymentTypes(), null);
             RaisePropertyChanged(() => PaymentButtonGroup);
         }
 

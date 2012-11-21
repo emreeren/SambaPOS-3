@@ -9,19 +9,6 @@ namespace Samba.Presentation.Services
 {
     public interface IPresentationCacheService
     {
-        ProductTimer GetProductTimer(int menuItemId);
-        IEnumerable<OrderTagGroup> GetOrderTagGroups(params int[] menuItemIds);
-        IEnumerable<OrderStateGroup> GetOrderStateGroups(params int[] menuItemIds);
-        IEnumerable<AccountTransactionDocumentType> GetAccountTransactionDocumentTypes(int accountTypeId);
-        IEnumerable<AccountTransactionDocumentType> GetBatchDocumentTypes(IEnumerable<string> accountTypeNamesList);
-        IEnumerable<PaymentType> GetUnderTicketPaymentTypes();
-        IEnumerable<PaymentType> GetPaymentScreenPaymentTypes();
-        IEnumerable<ChangePaymentType> GetChangePaymentTypes();
-        IEnumerable<TicketTagGroup> GetTicketTagGroups();
-        IEnumerable<AutomationCommandData> GetAutomationCommands();
-        IEnumerable<CalculationSelector> GetCalculationSelectors();
-        IEnumerable<ResourceScreen> GetResourceScreens();
-        IEnumerable<ResourceScreen> GetTicketResourceScreens();
 
     }
 }

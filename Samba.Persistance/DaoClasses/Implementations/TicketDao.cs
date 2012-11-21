@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using Omu.ValueInjecter;
+using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
@@ -19,6 +20,7 @@ namespace Samba.Persistance.DaoClasses.Implementations
         [ImportingConstructor]
         public TicketDao()
         {
+            ValidatorRegistry.RegisterDeleteValidator<TicketType>(x => Dao.Exists<ResourceScreen>(y => y.TicketTypeId == x.Id), Resources.TicketType, Resources.ResourceScreen);
             ValidatorRegistry.RegisterConcurrencyValidator(new TicketConcurrencyValidator());
         }
 
@@ -104,7 +106,7 @@ namespace Samba.Persistance.DaoClasses.Implementations
                              x => x.Payments,
                              x => x.ChangePayments);
         }
-        
+
         public IEnumerable<Ticket> GetFilteredTickets(DateTime startDate, DateTime endDate, IList<ITicketExplorerFilter> filters)
         {
             endDate = endDate.Date.AddDays(1).AddMinutes(-1);

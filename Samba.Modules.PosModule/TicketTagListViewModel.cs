@@ -16,14 +16,14 @@ namespace Samba.Modules.PosModule
     public class TicketTagListViewModel : ObservableObject
     {
         private Ticket _selectedTicket;
-        private readonly IPresentationCacheService _cacheService;
+        private readonly IApplicationState _applicationState;
         public DelegateCommand<TicketTagGroup> SelectionCommand { get; set; }
         public CaptionCommand<string> CloseCommand { get; set; }
 
         [ImportingConstructor]
-        public TicketTagListViewModel(IPresentationCacheService cacheService)
+        public TicketTagListViewModel(IApplicationState applicationState)
         {
-            _cacheService = cacheService;
+            _applicationState = applicationState;
             SelectionCommand = new DelegateCommand<TicketTagGroup>(OnSelectTicketTagGroup);
             CloseCommand = new CaptionCommand<string>(Resources.Close, OnClose);
             TicketTagValueViewModels = new ObservableCollection<TicketTagValueViewModel>();
@@ -50,7 +50,7 @@ namespace Samba.Modules.PosModule
         {
             _selectedTicket = selectedTicket;
             TicketTagValueViewModels.Clear();
-            TicketTagValueViewModels.AddRange(_cacheService.GetTicketTagGroups().Where(x => x.AskBeforeCreatingTicket).Select(x => new TicketTagValueViewModel(x, selectedTicket)));
+            TicketTagValueViewModels.AddRange(_applicationState.GetTicketTagGroups().Where(x => x.AskBeforeCreatingTicket).Select(x => new TicketTagValueViewModel(x, selectedTicket)));
             RaisePropertyChanged(() => RowCount);
         }
 

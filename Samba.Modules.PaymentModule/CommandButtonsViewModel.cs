@@ -7,7 +7,6 @@ using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Presentation.ViewModels;
-using Samba.Services;
 using Samba.Services.Common;
 
 namespace Samba.Modules.PaymentModule
@@ -19,18 +18,18 @@ namespace Samba.Modules.PaymentModule
         private readonly ICaptionCommand _serviceSelectedCommand;
 
         private readonly PaymentEditor _paymentEditor;
-        private readonly IPresentationCacheService _cacheService;
+        private readonly IApplicationState _applicationState;
         private readonly IAutomationService _automationService;
         private readonly TenderedValueViewModel _tenderedValueViewModel;
         private readonly OrderSelectorViewModel _orderSelectorViewModel;
         private readonly NumberPadViewModel _numberPadViewModel;
 
         [ImportingConstructor]
-        public CommandButtonsViewModel(PaymentEditor paymentEditor, IPresentationCacheService cacheService, IAutomationService automationService,
+        public CommandButtonsViewModel(PaymentEditor paymentEditor, IApplicationState applicationState, IAutomationService automationService,
             TenderedValueViewModel tenderedValueViewModel, OrderSelectorViewModel orderSelectorViewModel, NumberPadViewModel numberPadViewModel)
         {
             _paymentEditor = paymentEditor;
-            _cacheService = cacheService;
+            _applicationState = applicationState;
             _automationService = automationService;
             _tenderedValueViewModel = tenderedValueViewModel;
 
@@ -49,7 +48,7 @@ namespace Samba.Modules.PaymentModule
 
             if (_paymentEditor.SelectedTicket != null)
             {
-                result.AddRange(_cacheService.GetCalculationSelectors().Where(x => !string.IsNullOrEmpty(x.ButtonHeader))
+                result.AddRange(_applicationState.GetCalculationSelectors().Where(x => !string.IsNullOrEmpty(x.ButtonHeader))
                     .Select(x => new CommandButtonViewModel<object>
                     {
                         Caption = x.ButtonHeader,
@@ -58,7 +57,7 @@ namespace Samba.Modules.PaymentModule
                         Parameter = x
                     }));
 
-                result.AddRange(_cacheService.GetAutomationCommands().Where(x => x.DisplayOnPayment)
+                result.AddRange(_applicationState.GetAutomationCommands().Where(x => x.DisplayOnPayment)
                     .Select(x => new CommandButtonViewModel<object>
                     {
                         Caption = x.AutomationCommand.Name,

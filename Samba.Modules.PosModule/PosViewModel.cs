@@ -24,7 +24,6 @@ namespace Samba.Modules.PosModule
     {
         private readonly ITicketService _ticketService;
         private readonly IUserService _userService;
-        private readonly IPresentationCacheService _presentationCacheService;
         private readonly ICacheService _cacheService;
         private readonly IApplicationState _applicationState;
         private readonly IApplicationStateSetter _applicationStateSetter;
@@ -50,21 +49,19 @@ namespace Samba.Modules.PosModule
                 if (value != null)
                 {
                     var template = _cacheService.GetTicketTypeById(SelectedTicket.TicketTypeId);
-                    _menuItemSelectorViewModel.UpdateCurrentScreenMenu(template.ScreenMenuId);
+                    if (template != null) _menuItemSelectorViewModel.UpdateCurrentScreenMenu(template.ScreenMenuId);
                 }
             }
         }
 
         [ImportingConstructor]
         public PosViewModel(IRegionManager regionManager, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
-            ITicketService ticketService, IUserService userService, IPresentationCacheService presentationCacheService,ICacheService cacheService,
-            TicketListViewModel ticketListViewModel, TicketTagListViewModel ticketTagListViewModel,
-            MenuItemSelectorViewModel menuItemSelectorViewModel, MenuItemSelectorView menuItemSelectorView, TicketViewModel ticketViewModel,
-            TicketOrdersViewModel ticketOrdersViewModel)
+            ITicketService ticketService, IUserService userService, ICacheService cacheService, TicketListViewModel ticketListViewModel,
+            TicketTagListViewModel ticketTagListViewModel, MenuItemSelectorViewModel menuItemSelectorViewModel, MenuItemSelectorView menuItemSelectorView,
+            TicketViewModel ticketViewModel, TicketOrdersViewModel ticketOrdersViewModel)
         {
             _ticketService = ticketService;
             _userService = userService;
-            _presentationCacheService = presentationCacheService;
             _cacheService = cacheService;
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
@@ -90,7 +87,9 @@ namespace Samba.Modules.PosModule
         {
             if (obj.Topic == EventTopicNames.SelectedDepartmentChanged)
             {
-                _menuItemSelectorViewModel.UpdateCurrentScreenMenu(obj.Value.TicketTypeId);
+                var ticketType = _cacheService.GetTicketTypeById(obj.Value.TicketTypeId);
+                if (ticketType != null)
+                    _menuItemSelectorViewModel.UpdateCurrentScreenMenu(ticketType.ScreenMenuId);
             }
         }
 
@@ -241,7 +240,7 @@ namespace Samba.Modules.PosModule
 
             Debug.Assert(_applicationState.CurrentDepartment != null);
 
-            if (SelectedTicket != null || !_presentationCacheService.GetTicketResourceScreens().Any() || _applicationState.CurrentDepartment.TicketCreationMethod == 1)
+            if (SelectedTicket != null || !_applicationState.GetTicketResourceScreens().Any() || _applicationState.CurrentDepartment.TicketCreationMethod == 1)
             {
                 DisplaySingleTicket();
                 return;
@@ -251,7 +250,7 @@ namespace Samba.Modules.PosModule
 
         private void DisplaySingleTicket()
         {
-            if (SelectedTicket != null && SelectedTicket.Orders.Count == 0 && _presentationCacheService.GetTicketTagGroups().Count(x => x.AskBeforeCreatingTicket && !SelectedTicket.IsTaggedWith(x.Name)) > 0)
+            if (SelectedTicket != null && SelectedTicket.Orders.Count == 0 && _applicationState.GetTicketTagGroups().Count(x => x.AskBeforeCreatingTicket && !SelectedTicket.IsTaggedWith(x.Name)) > 0)
             {
                 _ticketTagListViewModel.Update(SelectedTicket);
                 DisplayTicketTagList();
@@ -349,8 +348,8 @@ namespace Samba.Modules.PosModule
                 return Resources.CantCompleteOperationWhenThereIsZeroPricedProduct;
             if (!SelectedTicket.IsClosed && SelectedTicket.Orders.Count > 0)
             {
-                if (_presentationCacheService.GetTicketTagGroups().Any(x => x.ForceValue && !_ticketViewModel.IsTaggedWith(x.Name)))
-                    return string.Format(Resources.TagCantBeEmpty_f, _presentationCacheService.GetTicketTagGroups().First(x => x.ForceValue && !_ticketViewModel.IsTaggedWith(x.Name)).Name);
+                if (_applicationState.GetTicketTagGroups().Any(x => x.ForceValue && !_ticketViewModel.IsTaggedWith(x.Name)))
+                    return string.Format(Resources.TagCantBeEmpty_f, _applicationState.GetTicketTagGroups().First(x => x.ForceValue && !_ticketViewModel.IsTaggedWith(x.Name)).Name);
             }
             return "";
         }

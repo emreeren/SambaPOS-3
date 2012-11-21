@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
+using System.Text;
 using System.Windows;
 using System.Linq;
 using Microsoft.Practices.Prism.Events;
@@ -246,18 +247,28 @@ namespace Samba.Presentation.Common.ModelBase
 
         protected override void OnDeleteSelectedItems(IEnumerable obj)
         {
+            var errors = new StringBuilder();
+
             if (MessageBox.Show(Resources.DeleteSelectedItems + "?", Resources.Confirmation, MessageBoxButton.YesNo) != MessageBoxResult.Yes) return;
             obj.Cast<TViewModel>().ToList().ForEach(
                 model =>
                 {
-                    if (model.Model.Id > 0)
+                    var errorMessage = CanDeleteItem(model.Model);
+                    if (!string.IsNullOrEmpty(errorMessage))
+                        errors.AppendLine(errorMessage);
+                    else
                     {
-                        BeforeDeleteItem(model.Model);
-                        Workspace.Delete(model.Model);
+                        if (model.Model.Id > 0)
+                        {
+                            BeforeDeleteItem(model.Model);
+                            Workspace.Delete(model.Model);
+                        }
+                        Items.Remove(model);
                     }
-                    Items.Remove(model);
                 });
             Workspace.CommitChanges();
+            if (!string.IsNullOrEmpty(errors.ToString()))
+                MessageBox.Show(errors.ToString());
         }
 
         protected override bool CanDeleteSelectedItems(IEnumerable arg)
