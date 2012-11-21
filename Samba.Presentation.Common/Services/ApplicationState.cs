@@ -24,14 +24,16 @@ namespace Samba.Presentation.Common.Services
         private readonly IDepartmentService _departmentService;
         private readonly ISettingService _settingService;
         private readonly ICacheService _cacheService;
+        private readonly IPrinterService _printerService;
 
         [ImportingConstructor]
         public ApplicationState(IDepartmentService departmentService, ISettingService settingService,
-            ICacheService cacheService)
+            ICacheService cacheService, IPrinterService printerService)
         {
             _departmentService = departmentService;
             _settingService = settingService;
             _cacheService = cacheService;
+            _printerService = printerService;
             CurrentTicketType = TicketType.Default;
         }
 
@@ -140,7 +142,7 @@ namespace Samba.Presentation.Common.Services
 
         public void SetCurrentTicketType(TicketType ticketType)
         {
-            CurrentTicketType = ticketType??TicketType.Default;
+            CurrentTicketType = ticketType ?? TicketType.Default;
         }
 
         public string NumberPadValue
@@ -166,6 +168,7 @@ namespace Samba.Presentation.Common.Services
 
         public override void Reset()
         {
+            _printerService.ResetCache();
             _cacheService.ResetCache();
             _departmentService.ResetCache();
             _settingService.ResetCache();

@@ -51,6 +51,7 @@
     <Compile Include="IProgramSetting.cs" />
     <Compile Include="IProgramSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SerialPortService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">
