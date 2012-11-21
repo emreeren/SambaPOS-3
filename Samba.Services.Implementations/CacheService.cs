@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
+using Samba.Domain.Models.Resources;
+using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Persistance.DaoClasses;
 
@@ -161,6 +163,138 @@ namespace Samba.Services.Implementations
             return DocumentTypes.SingleOrDefault(x => x.Name == documentName);
         }
 
+        private IEnumerable<PaymentType> _paymentTypes;
+        public IEnumerable<PaymentType> PaymentTypes
+        {
+            get { return _paymentTypes ?? (_paymentTypes = _dataService.GetPaymentTypes()); }
+        }
+
+        public IEnumerable<PaymentType> GetUnderTicketPaymentTypes(int ticketTypeId, int terminalId, int departmentId, int userRoleId)
+        {
+            var maps = PaymentTypes.SelectMany(x => x.PaymentTypeMaps)
+                .Where(x => x.DisplayUnderTicket)
+                .Where(x => x.TicketTypeId == 0 || x.TicketTypeId == ticketTypeId)
+                .Where(x => x.TerminalId == 0 || x.TerminalId == terminalId)
+                .Where(x => x.DepartmentId == 0 || x.DepartmentId == departmentId)
+                .Where(x => x.UserRoleId == 0 || x.UserRoleId == userRoleId);
+            return PaymentTypes.Where(x => maps.Any(y => y.PaymentTypeId == x.Id)).OrderBy(x => x.Order);
+        }
+
+        public IEnumerable<PaymentType> GetPaymentScreenPaymentTypes(int ticketTypeId, int terminalId, int departmentId, int userRoleId)
+        {
+            var maps = PaymentTypes.SelectMany(x => x.PaymentTypeMaps)
+                .Where(x => x.DisplayAtPaymentScreen)
+                .Where(x => x.TicketTypeId == 0 || x.TicketTypeId == ticketTypeId)
+                .Where(x => x.TerminalId == 0 || x.TerminalId == terminalId)
+                .Where(x => x.DepartmentId == 0 || x.DepartmentId == departmentId)
+                .Where(x => x.UserRoleId == 0 || x.UserRoleId == userRoleId);
+            return PaymentTypes.Where(x => maps.Any(y => y.PaymentTypeId == x.Id)).OrderBy(x => x.Order);
+        }
+
+        public PaymentType GetPaymentTypeById(int paymentTypeId)
+        {
+            return PaymentTypes.Single(x => x.Id == paymentTypeId);
+        }
+
+        private IEnumerable<AccountTransactionType> _accountTransactionTypes;
+        public IEnumerable<AccountTransactionType> AccountTransactionTypes
+        {
+            get { return _accountTransactionTypes ?? (_accountTransactionTypes = _dataService.GetAccountTransactionTypes()); }
+        }
+
+        public AccountTransactionType GetAccountTransactionTypeById(int id)
+        {
+            return AccountTransactionTypes.Single(x => x.Id == id);
+        }
+
+        public int GetAccountTransactionTypeIdByName(string accountTransactionTypeName)
+        {
+            return AccountTransactionTypes.Single(x => x.Name == accountTransactionTypeName).Id;
+        }
+
+        public AccountTransactionType FindAccountTransactionType(int sourceAccountTypeId, int targetAccountTypeId, int defaultSourceId, int defaultTargetId)
+        {
+            var result = AccountTransactionTypes.Where(
+                x => x.SourceAccountTypeId == sourceAccountTypeId
+                    && x.TargetAccountTypeId == targetAccountTypeId).ToList();
+
+            if (defaultSourceId > 0 && result.Any(x => x.DefaultSourceAccountId == defaultSourceId))
+                result = result.Where(x => x.DefaultSourceAccountId == defaultSourceId).ToList();
+
+            if (defaultTargetId > 0 && result.Any(x => x.DefaultTargetAccountId == defaultTargetId))
+                result = result.Where(x => x.DefaultTargetAccountId == defaultTargetId).ToList();
+
+            return result.FirstOrDefault();
+        }
+
+        private IEnumerable<ResourceScreen> _resourceScreens;
+        public IEnumerable<ResourceScreen> ResourceScreens
+        {
+            get { return _resourceScreens ?? (_resourceScreens = _dataService.GetResourceScreens()); }
+        }
+
+        public IEnumerable<ResourceScreen> GetResourceScreens(int terminalId, int departmentId, int userRoleId)
+        {
+            var maps = ResourceScreens.SelectMany(x => x.ResourceScreenMaps)
+                .Where(x => x.TerminalId == 0 || x.TerminalId == terminalId)
+                .Where(x => x.DepartmentId == 0 || x.DepartmentId == departmentId)
+                .Where(x => x.UserRoleId == 0 || x.UserRoleId == userRoleId);
+            return ResourceScreens.Where(x => maps.Any(y => y.ResourceScreenId == x.Id)).OrderBy(x => x.Order);
+        }
+
+        public IEnumerable<ResourceScreen> GetTicketResourceScreens(int ticketTypeId, int terminalId, int departmentId, int userRoleId)
+        {
+            var maps = ResourceScreens.SelectMany(x => x.ResourceScreenMaps)
+                .Where(x => ticketTypeId == 0 || x.TicketTypeId == 0 || x.TicketTypeId == ticketTypeId)
+                .Where(x => x.TerminalId == 0 || x.TerminalId == terminalId)
+                .Where(x => x.DepartmentId == 0 || x.DepartmentId == departmentId)
+                .Where(x => x.UserRoleId == 0 || x.UserRoleId == userRoleId);
+            return ResourceScreens.Where(x => x.ResourceTypeId > 0 && maps.Any(y => y.ResourceScreenId == x.Id)).OrderBy(x => x.Order);
+        }
+
+        private IEnumerable<AccountScreen> _accountScreens;
+        public IEnumerable<AccountScreen> AccountScreens
+        {
+            get { return _accountScreens ?? (_accountScreens = _dataService.GetAccountScreens()); }
+        }
+
+        public IEnumerable<AccountScreen> GetAccountScreens()
+        {
+            return AccountScreens;
+        }
+
+        private IEnumerable<ForeignCurrency> _foreignCurrencies;
+        public IEnumerable<ForeignCurrency> ForeignCurrencies
+        {
+            get { return _foreignCurrencies ?? (_foreignCurrencies = _dataService.GetForeignCurrencies()); }
+        }
+
+        public IEnumerable<ForeignCurrency> GetForeignCurrencies()
+        {
+            return ForeignCurrencies;
+        }
+
+        public string GetCurrencySymbol(int currencyId)
+        {
+            return currencyId == 0 ? "" : GetForeignCurrencies().Single(x => x.Id == currencyId).CurrencySymbol;
+        }
+
+        public ForeignCurrency GetCurrencyById(int currencyId)
+        {
+            return GetForeignCurrencies().SingleOrDefault(x => x.Id == currencyId);
+        }
+
+        private IEnumerable<ScreenMenu> _screenMenus;
+        public IEnumerable<ScreenMenu> ScreenMenus
+        {
+            get { return _screenMenus ?? (_screenMenus = _dataService.GetScreenMenus()); }
+        }
+
+        public ScreenMenu GetScreenMenu(int screenMenuId)
+        {
+            return ScreenMenus.Single(x => x.Id == screenMenuId);
+        }
+
         public void ResetTicketTagCache()
         {
             _ticketTagGroups = null;
@@ -173,6 +307,12 @@ namespace Samba.Services.Implementations
 
         public void ResetCache()
         {
+            _screenMenus = null;
+            _foreignCurrencies = null;
+            _accountScreens = null;
+            _resourceScreens = null;
+            _accountTransactionTypes = null;
+            _paymentTypes = null;
             _documentTypes = null;
             _ticketTagGroups = null;
             _orderStateGroups = null;

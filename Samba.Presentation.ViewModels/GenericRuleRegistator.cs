@@ -160,7 +160,7 @@ namespace Samba.Presentation.ViewModels
                         if (!string.IsNullOrEmpty(x.Value.GetAsString("CalculatePrice")))
                             order.CalculatePrice = x.Value.GetAsBoolean("CalculatePrice");
                         if (!string.IsNullOrEmpty(x.Value.GetAsString("AccountTransactionType")))
-                            TicketService.ChangeOrdersAccountTransactionTypeId(ticket, new List<Order> { order }, PresentationCacheService.GetAccountTransactionTypeIdByName(x.Value.GetAsString("AccountTransactionType")));
+                            TicketService.ChangeOrdersAccountTransactionTypeId(ticket, new List<Order> { order }, CacheService.GetAccountTransactionTypeIdByName(x.Value.GetAsString("AccountTransactionType")));
                     }
                 }
 
@@ -424,7 +424,7 @@ namespace Samba.Presentation.ViewModels
                     if (ticket != null)
                     {
                         var menuItemName = x.Value.GetAsString("MenuItemName");
-                        var menuItem = PresentationCacheService.GetMenuItem(y => y.Name == menuItemName);
+                        var menuItem = CacheService.GetMenuItem(y => y.Name == menuItemName);
                         var portionName = x.Value.GetAsString("PortionName");
                         var quantity = x.Value.GetAsDecimal("Quantity");
                         var tag = x.Value.GetAsString("Tag");

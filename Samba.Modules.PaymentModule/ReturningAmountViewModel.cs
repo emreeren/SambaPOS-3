@@ -13,12 +13,12 @@ namespace Samba.Modules.PaymentModule
     [Export]
     public class ReturningAmountViewModel : ObservableObject
     {
-        private readonly IPresentationCacheService _cacheService;
+        private readonly ICacheService _cacheService;
         private readonly IAutomationService _automationService;
         private readonly PaymentEditor _paymentEditor;
 
         [ImportingConstructor]
-        public ReturningAmountViewModel(IPresentationCacheService cacheService, IAutomationService automationService,
+        public ReturningAmountViewModel(ICacheService cacheService, IAutomationService automationService,
              PaymentEditor paymentEditor)
         {
             _cacheService = cacheService;
@@ -43,9 +43,7 @@ namespace Samba.Modules.PaymentModule
                 returningAmount = (tenderedAmount - paymentDueAmount);
                 if (changeTemplate != null)
                 {
-                    var currency = _cacheService.GetForeignCurrencies()
-                        .SingleOrDefault(x => x.Id == changeTemplate.Account.ForeignCurrencyId);
-
+                    var currency = _cacheService.GetCurrencyById(changeTemplate.Account.ForeignCurrencyId);
                     ReturningAmount = string.Format(Resources.ChangeAmount_f,
                             currency != null
                                 ? string.Format(currency.CurrencySymbol, returningAmount / currency.ExchangeRate)

@@ -8,6 +8,7 @@ using Samba.Infrastructure.Data;
 using Samba.Persistance.DaoClasses;
 using Samba.Persistance.Data;
 using Samba.Presentation.Services.Common;
+using Samba.Services;
 
 namespace Samba.Presentation.Services.Implementations.InventoryModule
 {
@@ -24,10 +25,10 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
     {
         private readonly IInventoryDao _inventoryDao;
         private readonly IApplicationState _applicationState;
-        private readonly IPresentationCacheService _cacheService;
+        private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public InventoryService(IInventoryDao inventoryDao, IApplicationState applicationState, IPresentationCacheService cacheService)
+        public InventoryService(IInventoryDao inventoryDao, IApplicationState applicationState, ICacheService cacheService)
         {
             _inventoryDao = inventoryDao;
             _applicationState = applicationState;

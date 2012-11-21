@@ -71,11 +71,11 @@ namespace Samba.Modules.PosModule
         private readonly IApplicationStateSetter _applicationStateSetter;
         private readonly IMenuService _menuService;
         private readonly ISettingService _settingService;
-        private readonly IPresentationCacheService _cacheService;
+        private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
         public MenuItemSelectorViewModel(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter, IMenuService menuService,
-            ISettingService settingService, IPresentationCacheService cacheService)
+            ISettingService settingService, ICacheService cacheService)
         {
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;

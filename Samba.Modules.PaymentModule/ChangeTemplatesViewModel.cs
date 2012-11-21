@@ -6,19 +6,19 @@ using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Settings;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
-using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Presentation.ViewModels;
+using Samba.Services;
 
 namespace Samba.Modules.PaymentModule
 {
     [Export]
     public class ChangeTemplatesViewModel : ObservableObject
     {
-        private readonly IPresentationCacheService _cacheService;
+        private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public ChangeTemplatesViewModel(IPresentationCacheService cacheService)
+        public ChangeTemplatesViewModel(ICacheService cacheService)
         {
             _cacheService = cacheService;
             ChangeTemplates = new ObservableCollection<CommandButtonViewModel<PaymentData>>();
@@ -50,9 +50,8 @@ namespace Samba.Modules.PaymentModule
             var returningAmount = (tenderedAmount - paymentDueAmount);
             if (changeTemplate != null)
             {
-                var currency =
-                    _cacheService.GetForeignCurrencies().SingleOrDefault(
-                        x => x.Id == changeTemplate.Account.ForeignCurrencyId);
+                var currency =_cacheService.GetCurrencyById(changeTemplate.Account.ForeignCurrencyId);
+             
                 if (currency != null)
                 {
                     returningAmount = returningAmount / currency.ExchangeRate;

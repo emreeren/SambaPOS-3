@@ -52,17 +52,19 @@ namespace Samba.Modules.AccountModule
     public class AccountSelectorViewModel : ObservableObject
     {
         private readonly IAccountService _accountService;
-        private readonly IPresentationCacheService _cacheService;
+        private readonly IPresentationCacheService _presentationCacheService;
+        private readonly ICacheService _cacheService;
         private readonly IApplicationState _applicationState;
         private readonly IPrinterService _printerService;
         private AccountScreen _selectedAccountScreen;
 
         [ImportingConstructor]
-        public AccountSelectorViewModel(IAccountService accountService, IPresentationCacheService cacheService, IApplicationState applicationState,
-            IPrinterService printerService)
+        public AccountSelectorViewModel(IAccountService accountService, IPresentationCacheService presentationCacheService,
+            ICacheService cacheService, IApplicationState applicationState,IPrinterService printerService)
         {
             _accounts = new ObservableCollection<AccountRowData>();
             _accountService = accountService;
+            _presentationCacheService = presentationCacheService;
             _cacheService = cacheService;
             _applicationState = applicationState;
             _printerService = printerService;
@@ -90,7 +92,7 @@ namespace Samba.Modules.AccountModule
                 return _batchDocumentButtons ??
                     (_batchDocumentButtons =
                     _selectedAccountScreen != null
-                    ? _cacheService.GetBatchDocumentTypes(_selectedAccountScreen.AccountScreenValues.Select(x => x.AccountTypeName))
+                    ? _presentationCacheService.GetBatchDocumentTypes(_selectedAccountScreen.AccountScreenValues.Select(x => x.AccountTypeName))
                             .Where(x => !string.IsNullOrEmpty(x.ButtonHeader))
                             .Select(x => new DocumentTypeButtonViewModel(x, null)) : null);
             }
@@ -103,7 +105,7 @@ namespace Samba.Modules.AccountModule
 
         private string GetCurrencyFormat(int currencyId)
         {
-            return currencyId == 0 ? "" : _cacheService.GetForeignCurrencies().Single(x => x.Id == currencyId).CurrencySymbol;
+            return _cacheService.GetCurrencySymbol(currencyId);
         }
 
         private void UpdateAccountScreen(AccountScreen accountScreen)
@@ -131,7 +133,7 @@ namespace Samba.Modules.AccountModule
         private IEnumerable<AccountButton> _accountButtons;
         public IEnumerable<AccountButton> AccountButtons
         {
-            get { return _accountButtons ?? (_accountButtons = AccountScreens.Select(x => new AccountButton(x, _cacheService))); }
+            get { return _accountButtons ?? (_accountButtons = AccountScreens.Select(x => new AccountButton(x, _presentationCacheService))); }
         }
 
         private readonly ObservableCollection<AccountRowData> _accounts;

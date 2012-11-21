@@ -53,36 +53,21 @@ namespace Samba.Presentation.Services.Implementations
         public IEnumerable<OrderTagGroup> GetOrderTagGroups(params int[] menuItemIds)
         {
             return _cacheService.GetOrderTagGroups(_applicationState.CurrentTicketType.Id,
-                         _applicationState.CurrentTerminal.Id,
-                         _applicationState.CurrentDepartment.Id,
-                         _applicationState.CurrentLoggedInUser.UserRole.Id,
-                         menuItemIds);
+                                                   _applicationState.CurrentTerminal.Id,
+                                                   _applicationState.CurrentDepartment.Id,
+                                                   _applicationState.CurrentLoggedInUser.UserRole.Id,
+                                                   menuItemIds);
         }
 
         public IEnumerable<OrderStateGroup> GetOrderStateGroups(params int[] menuItemIds)
         {
             return _cacheService.GetOrderStateGroups(_applicationState.CurrentTicketType.Id,
-                 _applicationState.CurrentTerminal.Id,
-                 _applicationState.CurrentDepartment.Id,
-                 _applicationState.CurrentLoggedInUser.UserRole.Id,
-                 menuItemIds);
+                                                     _applicationState.CurrentTerminal.Id,
+                                                     _applicationState.CurrentDepartment.Id,
+                                                     _applicationState.CurrentLoggedInUser.UserRole.Id,
+                                                     menuItemIds);
         }
 
-        private IEnumerable<AccountTransactionType> _accountTransactionTypes;
-        public IEnumerable<AccountTransactionType> AccountTransactionTypes
-        {
-            get { return _accountTransactionTypes ?? (_accountTransactionTypes = _dataService.GetAccountTransactionTypes()); }
-        }
-
-        public AccountTransactionType GetAccountTransactionTypeById(int id)
-        {
-            return AccountTransactionTypes.Single(x => x.Id == id);
-        }
-
-        public int GetAccountTransactionTypeIdByName(string accountTransactionTypeName)
-        {
-            return AccountTransactionTypes.Single(x => x.Name == accountTransactionTypeName).Id;
-        }
 
         private IEnumerable<Resource> _resources;
         public IEnumerable<Resource> Resources
@@ -178,32 +163,20 @@ namespace Samba.Presentation.Services.Implementations
             return PrintJobs.SingleOrDefault(x => x.Name == name);
         }
 
-        private IEnumerable<PaymentType> _paymentTypes;
-        public IEnumerable<PaymentType> PaymentTypes
-        {
-            get { return _paymentTypes ?? (_paymentTypes = _dataService.GetPaymentTypes()); }
-        }
-
         public IEnumerable<PaymentType> GetUnderTicketPaymentTypes()
         {
-            var maps = PaymentTypes.SelectMany(x => x.PaymentTypeMaps)
-                .Where(x => x.DisplayUnderTicket)
-                .Where(x => x.TicketTypeId == 0 || x.TicketTypeId == _applicationState.CurrentTicketType.Id)
-                .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
-                .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
-                .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
-            return PaymentTypes.Where(x => maps.Any(y => y.PaymentTypeId == x.Id)).OrderBy(x => x.Order);
+            return _cacheService.GetUnderTicketPaymentTypes(_applicationState.CurrentTicketType.Id,
+                                                            _applicationState.CurrentTerminal.Id,
+                                                            _applicationState.CurrentDepartment.Id,
+                                                            _applicationState.CurrentLoggedInUser.UserRole.Id);
         }
 
         public IEnumerable<PaymentType> GetPaymentScreenPaymentTypes()
         {
-            var maps = PaymentTypes.SelectMany(x => x.PaymentTypeMaps)
-                .Where(x => x.DisplayAtPaymentScreen)
-                .Where(x => x.TicketTypeId == 0 || x.TicketTypeId == _applicationState.CurrentTicketType.Id)
-                .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
-                .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
-                .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
-            return PaymentTypes.Where(x => maps.Any(y => y.PaymentTypeId == x.Id)).OrderBy(x => x.Order);
+            return _cacheService.GetPaymentScreenPaymentTypes(_applicationState.CurrentTicketType.Id,
+                                                            _applicationState.CurrentTerminal.Id,
+                                                            _applicationState.CurrentDepartment.Id,
+                                                            _applicationState.CurrentLoggedInUser.UserRole.Id);
         }
 
         private IEnumerable<ChangePaymentType> _changePaymentTypes;
@@ -277,22 +250,6 @@ namespace Samba.Presentation.Services.Implementations
             return AccountTypes;
         }
 
-        private IEnumerable<AccountScreen> _accountScreens;
-        public IEnumerable<AccountScreen> AccountScreens
-        {
-            get { return _accountScreens ?? (_accountScreens = _dataService.GetAccountScreens()); }
-        }
-
-        public IEnumerable<AccountScreen> GetAccountScreens()
-        {
-            return AccountScreens;
-        }
-
-        public PaymentType GetPaymentTypeById(int paymentTypeId)
-        {
-            return PaymentTypes.Single(x => x.Id == paymentTypeId);
-        }
-
         public ChangePaymentType GetChangePaymentTypeById(int id)
         {
             return ChangePaymentTypes.Single(x => x.Id == id);
@@ -316,59 +273,21 @@ namespace Samba.Presentation.Services.Implementations
             return mi.Portions.FirstOrDefault(x => x.Name == portionName) ?? mi.Portions[0];
         }
 
-        private IEnumerable<ScreenMenu> _screenMenus;
-        public IEnumerable<ScreenMenu> ScreenMenus
-        {
-            get
-            {
-                return _screenMenus ?? (
-                    _screenMenus = _dataService.GetScreenMenus());
-            }
-        }
-
-        public ScreenMenu GetScreenMenu(int screenMenuId)
-        {
-            return ScreenMenus.Single(x => x.Id == screenMenuId);
-        }
-
-        private IEnumerable<ResourceScreen> _resourceScreens;
-        public IEnumerable<ResourceScreen> ResourceScreens
-        {
-            get { return _resourceScreens ?? (_resourceScreens = _dataService.GetResourceScreens()); }
-        }
-
         public IEnumerable<ResourceScreen> GetResourceScreens()
         {
-            var maps = ResourceScreens.SelectMany(x => x.ResourceScreenMaps)
-               .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
-               .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
-               .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
-            return ResourceScreens.Where(x => maps.Any(y => y.ResourceScreenId == x.Id)).OrderBy(x => x.Order);
+            return _cacheService.GetResourceScreens(_applicationState.CurrentTerminal.Id,
+                                                    _applicationState.CurrentDepartment.Id,
+                                                    _applicationState.CurrentLoggedInUser.UserRole.Id);
         }
 
         public IEnumerable<ResourceScreen> GetTicketResourceScreens()
         {
-            var maps = ResourceScreens.SelectMany(x => x.ResourceScreenMaps)
-               .Where(x => _applicationState.CurrentTicketType == null || x.TicketTypeId == 0 || x.TicketTypeId == _applicationState.CurrentTicketType.Id)
-               .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
-               .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
-               .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
-            return ResourceScreens.Where(x => x.ResourceTypeId > 0 && maps.Any(y => y.ResourceScreenId == x.Id)).OrderBy(x => x.Order);
-        }
-
-        public AccountTransactionType FindAccountTransactionType(int sourceAccountTypeId, int targetAccountTypeId, int defaultSourceId, int defaultTargetId)
-        {
-            var result = AccountTransactionTypes.Where(
-                x => x.SourceAccountTypeId == sourceAccountTypeId
-                    && x.TargetAccountTypeId == targetAccountTypeId).ToList();
-
-            if (defaultSourceId > 0 && result.Any(x => x.DefaultSourceAccountId == defaultSourceId))
-                result = result.Where(x => x.DefaultSourceAccountId == defaultSourceId).ToList();
-
-            if (defaultTargetId > 0 && result.Any(x => x.DefaultTargetAccountId == defaultTargetId))
-                result = result.Where(x => x.DefaultTargetAccountId == defaultTargetId).ToList();
-
-            return result.FirstOrDefault();
+            return
+                _cacheService.GetTicketResourceScreens(
+                    _applicationState.CurrentTicketType != null ? _applicationState.CurrentTicketType.Id : 0,
+                    _applicationState.CurrentTerminal.Id,
+                    _applicationState.CurrentDepartment.Id,
+                    _applicationState.CurrentLoggedInUser.UserRole.Id);
         }
 
         private IEnumerable<TicketType> _ticketTypes;
@@ -414,43 +333,20 @@ namespace Samba.Presentation.Services.Implementations
             _cacheService.ResetTicketTagCache();
         }
 
-        private IEnumerable<ForeignCurrency> _foreignCurrencies;
-        public IEnumerable<ForeignCurrency> ForeignCurrencies
-        {
-            get { return _foreignCurrencies ?? (_foreignCurrencies = _dataService.GetForeignCurrencies()); }
-        }
-
-        public IEnumerable<ForeignCurrency> GetForeignCurrencies()
-        {
-            return ForeignCurrencies;
-        }
-
         public override void Reset()
         {
             _cacheService.ResetCache();
-            //_taskTypes = null;
-            //_ticketTypes = null;
-            //_resourceScreens = null;
-            //_foreignCurrencies = null;
-            //_productTimers = null;
-            //_menuItems = null;
-            //_screenMenus = null;
-            //_accountTransactionTypes = null;
-            //_accountScreens = null;
-            //_calculationSelectors = null;
-            //_automationCommands = null;
-            //_orderTagGroups = null;
-            //_orderStateGroups = null;
-            //_resourceTypes = null;
-            //_accountTypes = null;
-            //_resources = null;
-            //_documentTypes = null;
-            //_resourceStates = null;
-            //_printJobs = null;
-            //_paymentTypes = null;
-            //_changePaymentTypes = null;
-            //_ticketTagGroups = null;
-            //_dataService.ResetCache();
+            _taskTypes = null;
+            _ticketTypes = null;
+            _calculationSelectors = null;
+            _automationCommands = null;
+            _resourceTypes = null;
+            _accountTypes = null;
+            _resources = null;
+            _resourceStates = null;
+            _printJobs = null;
+            _changePaymentTypes = null;
+            _dataService.ResetCache();
         }
     }
 }

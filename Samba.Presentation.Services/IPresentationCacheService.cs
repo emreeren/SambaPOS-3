@@ -15,7 +15,6 @@ namespace Samba.Presentation.Services
         void ResetOrderTagCache();
         void ResetTicketTagCache();
 
-        ScreenMenu GetScreenMenu(int screenMenuId);
         MenuItem GetMenuItem(Func<MenuItem, bool> expression);
         MenuItemPortion GetMenuItemPortion(int menuItemId, string portionName);
         ProductTimer GetProductTimer(int menuItemId);
@@ -23,8 +22,6 @@ namespace Samba.Presentation.Services
         IEnumerable<OrderStateGroup> GetOrderStateGroups(params int[] menuItemIds);
         IEnumerable<MenuItemPortion> GetMenuItemPortions(int menuItemId);
         TicketTagGroup GetTicketTagGroupById(int id);
-        AccountTransactionType GetAccountTransactionTypeById(int id);
-        int GetAccountTransactionTypeIdByName(string accountTransactionTypeName);
         IEnumerable<Resource> GetResourcesByTemplateId(int templateId);
         IEnumerable<ResourceType> GetResourceTypes();
         ResourceType GetResourceTypeById(int resourceTypeId);
@@ -46,13 +43,10 @@ namespace Samba.Presentation.Services
         AccountType GetAccountTypeById(int accountTypeId);
         IEnumerable<AccountType> GetAccountTypes();
         IEnumerable<AccountType> GetAccountTypesByName(IEnumerable<string> accountTypeNames);
-        IEnumerable<AccountScreen> GetAccountScreens();
-        PaymentType GetPaymentTypeById(int paymentTypeId);
         ChangePaymentType GetChangePaymentTypeById(int id);
-        IEnumerable<ForeignCurrency> GetForeignCurrencies();
+        
         IEnumerable<ResourceScreen> GetResourceScreens();
         IEnumerable<ResourceScreen> GetTicketResourceScreens();
-        AccountTransactionType FindAccountTransactionType(int sourceAccountTypeId, int targetAccountTypeId, int defaultSourceId, int defaultTargetId);
         TicketType GetTicketTypeById(int ticketTypeId);
         IEnumerable<TicketType> GetTicketTypes();
         int GetTaskTypeIdByName(string taskTypeName);

@@ -3,14 +3,12 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Microsoft.Practices.Prism.Events;
 using Samba.Domain.Models.Accounts;
-using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.Services;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Presentation.ViewModels;
-using Samba.Services;
 
 namespace Samba.Modules.PaymentModule
 {
@@ -60,11 +58,6 @@ namespace Samba.Modules.PaymentModule
             return AccountMode && _accountBalances.ContainsActiveAccount()
                        ? SelectedTicket.GetRemainingAmount() + _accountBalances.GetActiveAccountBalance() - SelectedTicket.TransactionDocument.AccountTransactions.Where(x => x.ContainsAccountId(_accountBalances.GetActiveAccountId())).Sum(y => y.Amount)
                        : SelectedTicket.GetRemainingAmount();
-        }
-
-        public IEnumerable<ForeignCurrency> GetForeignCurrencies()
-        {
-            return _cacheService.GetForeignCurrencies();
         }
 
         public void UpdateTicketPayment(PaymentType paymentType, ChangePaymentType changeTemplate, decimal paymentDueAmount, decimal tenderedAmount)

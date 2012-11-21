@@ -275,8 +275,10 @@ namespace Samba.Presentation.Services.Common
             _workspace.Add(cashPayment);
             _workspace.Add(creditCardPayment);
             _workspace.Add(voucherPayment);
-            _workspace.Add(ticketType);
             _workspace.Add(accountPayment);
+            _workspace.Add(ticketType);
+            
+            _workspace.CommitChanges();
 
             var department = new Department
             {

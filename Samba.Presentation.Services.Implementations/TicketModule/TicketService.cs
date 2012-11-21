@@ -26,26 +26,29 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
         private readonly IAutomationService _automationService;
         private readonly IUserService _userService;
         private readonly ISettingService _settingService;
-        private readonly IPresentationCacheService _cacheService;
+        private readonly IPresentationCacheService _presentationCacheService;
         private readonly IAccountService _accountService;
+        private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
         public TicketService(ITicketDao ticketDao, IDepartmentService departmentService, IApplicationState applicationState, IAutomationService automationService,
-            IUserService userService, ISettingService settingService, IPresentationCacheService cacheService, IAccountService accountService)
+            IUserService userService, ISettingService settingService, IPresentationCacheService presentationCacheService, IAccountService accountService,
+            ICacheService cacheService)
         {
             _ticketDao = ticketDao;
             _applicationState = applicationState;
             _automationService = automationService;
             _userService = userService;
             _settingService = settingService;
-            _cacheService = cacheService;
+            _presentationCacheService = presentationCacheService;
             _accountService = accountService;
+            _cacheService = cacheService;
         }
 
         public decimal GetExchangeRate(Account account)
         {
             if (account.ForeignCurrencyId == 0) return 1;
-            return _cacheService.GetForeignCurrencies().Single(x => x.Id == account.ForeignCurrencyId).ExchangeRate;
+            return _cacheService.GetCurrencyById(account.ForeignCurrencyId).ExchangeRate;
         }
 
         public void UpdateResource(Ticket ticket, int resourceTypeId, int resourceId, string resourceName, int accountId, string resourceCustomData)
@@ -56,7 +59,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             var oldResourceName = currentResource != null ? currentResource.ResourceName : "";
             if (currentResource != null && currentResource.ResourceId != resourceId)
             {
-                var resourceType = _cacheService.GetResourceTypeById(currentResource.ResourceTypeId);
+                var resourceType = _presentationCacheService.GetResourceTypeById(currentResource.ResourceTypeId);
                 _automationService.NotifyEvent(RuleEventNames.ResourceUpdated, new
                 {
                     currentResource.ResourceTypeId,
@@ -104,8 +107,8 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
         private Ticket CreateTicket()
         {
-            var account = _cacheService.GetAccountById(_applicationState.CurrentTicketType.SaleTransactionType.DefaultTargetAccountId);
-            return Ticket.Create(_applicationState.CurrentDepartment.Model, _applicationState.CurrentTicketType, account, GetExchangeRate(account), _cacheService.GetCalculationSelectors().Where(x => string.IsNullOrEmpty(x.ButtonHeader)).SelectMany(y => y.CalculationTypes));
+            var account = _presentationCacheService.GetAccountById(_applicationState.CurrentTicketType.SaleTransactionType.DefaultTargetAccountId);
+            return Ticket.Create(_applicationState.CurrentDepartment.Model, _applicationState.CurrentTicketType, account, GetExchangeRate(account), _presentationCacheService.GetCalculationSelectors().Where(x => string.IsNullOrEmpty(x.ButtonHeader)).SelectMany(y => y.CalculationTypes));
         }
 
         public TicketCommitResult CloseTicket(Ticket ticket)
@@ -122,7 +125,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
                 if (ticket.Orders.Count > 0)
                 {
-                    var ticketType = _cacheService.GetTicketTypeById(ticket.TicketTypeId);
+                    var ticketType = _presentationCacheService.GetTicketTypeById(ticket.TicketTypeId);
 
                     if (ticket.Orders.FirstOrDefault(x => !x.Locked) != null)
                     {
@@ -157,7 +160,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             {
                 foreach (var ticketResource in ticket.TicketResources)
                 {
-                    var resourceType = _cacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
+                    var resourceType = _presentationCacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
                     _automationService.NotifyEvent(RuleEventNames.ResourceUpdated, new
                                                                                        {
                                                                                            ticketResource.ResourceTypeId,
@@ -242,7 +245,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             foreach (var cp in clonedChangePayments)
             {
                 var account = _accountService.GetAccountById(cp.AccountTransaction.TargetTransactionValue.AccountId);
-                ticket.AddChangePayment(_cacheService.GetChangePaymentTypeById(cp.ChangePaymentTypeId), account, cp.Amount, GetExchangeRate(account), 0);
+                ticket.AddChangePayment(_presentationCacheService.GetChangePaymentTypeById(cp.ChangePaymentTypeId), account, cp.Amount, GetExchangeRate(account), 0);
             }
 
             clonedResources.ForEach(x => ticket.UpdateResource(x.ResourceTypeId, x.ResourceId, x.ResourceName, x.AccountId, x.ResourceCustomData));
@@ -368,7 +371,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
         public void SaveFreeTicketTag(int tagGroupId, string freeTag)
         {
             _ticketDao.SaveFreeTicketTag(tagGroupId, freeTag);
-            _cacheService.ResetTicketTagCache();
+            _presentationCacheService.ResetTicketTagCache();
         }
 
         public IEnumerable<Ticket> GetFilteredTickets(DateTime startDate, DateTime endDate, IList<ITicketExplorerFilter> filters)
@@ -378,7 +381,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
         public IList<ITicketExplorerFilter> CreateTicketExplorerFilters()
         {
-            var item = new TicketExplorerFilter(_cacheService) { FilterType = Resources.OnlyOpenTickets };
+            var item = new TicketExplorerFilter(_presentationCacheService) { FilterType = Resources.OnlyOpenTickets };
             return new List<ITicketExplorerFilter> { item };
         }
 
@@ -429,7 +432,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                 if (orderTagGroup.SaveFreeTags && orderTagGroup.OrderTags.All(x => x.Name != orderTag.Name))
                 {
                     _ticketDao.SaveFreeOrderTag(orderTagGroup.Id, orderTag);
-                    _cacheService.ResetOrderTagCache();
+                    _presentationCacheService.ResetOrderTagCache();
                 }
                 _automationService.NotifyEvent(result ? RuleEventNames.OrderTagged : RuleEventNames.OrderUntagged,
                 new
@@ -465,14 +468,14 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
         public bool CanDeselectOrder(Order order)
         {
             if (!order.DecreaseInventory) return true;
-            var ots = _cacheService.GetOrderTagGroups(order.MenuItemId);
+            var ots = _presentationCacheService.GetOrderTagGroups(order.MenuItemId);
             if (order.Locked) ots = ots.Where(x => !string.IsNullOrEmpty(x.ButtonHeader));
             return ots.Where(x => x.MinSelectedItems > 0).All(orderTagGroup => order.OrderTagValues.Count(x => x.OrderTagGroupId == orderTagGroup.Id) >= orderTagGroup.MinSelectedItems);
         }
 
         public OrderTagGroup GetMandantoryOrderTagGroup(Order order)
         {
-            var ots = _cacheService.GetOrderTagGroups(order.MenuItemId);
+            var ots = _presentationCacheService.GetOrderTagGroups(order.MenuItemId);
             if (order.Locked) ots = ots.Where(x => !string.IsNullOrEmpty(x.ButtonHeader));
             return ots.Where(x => x.MinSelectedItems > 0).FirstOrDefault(orderTagGroup => order.OrderTagValues.Count(x => x.OrderTagGroupId == orderTagGroup.Id) < orderTagGroup.MinSelectedItems);
         }
@@ -529,10 +532,10 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             if (ticket.IsLocked && !_userService.IsUserPermittedFor(PermissionNames.AddItemsToLockedTickets)) return null;
             if (!ticket.CanSubmit) return null;
             var menuItem = _cacheService.GetMenuItem(x => x.Id == menuItemId);
-            var portion = _cacheService.GetMenuItemPortion(menuItemId, portionName);
+            var portion = _presentationCacheService.GetMenuItemPortion(menuItemId, portionName);
             if (portion == null) return null;
             var priceTag = _applicationState.CurrentDepartment.PriceTag;
-            var productTimer = _cacheService.GetProductTimer(menuItemId);
+            var productTimer = _presentationCacheService.GetProductTimer(menuItemId);
             var order = ticket.AddOrder(
                 _applicationState.CurrentTicketType.SaleTransactionType,
                 _applicationState.CurrentLoggedInUser.Name, menuItem, portion, priceTag, productTimer);

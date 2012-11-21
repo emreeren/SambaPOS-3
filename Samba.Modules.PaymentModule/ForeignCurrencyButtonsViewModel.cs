@@ -6,6 +6,7 @@ using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Services;
 using Samba.Presentation.ViewModels;
+using Samba.Services;
 
 namespace Samba.Modules.PaymentModule
 {
@@ -15,22 +16,24 @@ namespace Samba.Modules.PaymentModule
         private readonly ICaptionCommand _foreignCurrencySelectedCommand;
         private readonly PaymentEditor _paymentEditor;
         private readonly OrderSelectorViewModel _orderSelectorViewModel;
+        private readonly ICacheService _cacheService;
         private readonly PaymentButtonsViewModel _paymentButtonsViewModel;
         private readonly ISettingService _settingService;
         private readonly TenderedValueViewModel _tenderedValueViewModel;
 
         [ImportingConstructor]
         public ForeignCurrencyButtonsViewModel(PaymentEditor paymentEditor, OrderSelectorViewModel orderSelectorViewModel,
-            PaymentButtonsViewModel paymentButtonsViewModel, ISettingService settingService, TenderedValueViewModel tenderedValueViewModel)
+            ICacheService cacheService, PaymentButtonsViewModel paymentButtonsViewModel, ISettingService settingService, TenderedValueViewModel tenderedValueViewModel)
         {
             _paymentEditor = paymentEditor;
             _orderSelectorViewModel = orderSelectorViewModel;
+            _cacheService = cacheService;
             _paymentButtonsViewModel = paymentButtonsViewModel;
             _settingService = settingService;
             _tenderedValueViewModel = tenderedValueViewModel;
             _tenderedValueViewModel.PaymentDueChanged += TenderedValueViewModelPaymentDueChanged;
             _foreignCurrencySelectedCommand = new CaptionCommand<ForeignCurrency>("", OnForeignCurrencySelected);
-            ForeignCurrencyButtons = new ObservableCollection<CommandButtonViewModel<ForeignCurrency>>(_paymentEditor.GetForeignCurrencies().Select(x => new CommandButtonViewModel<ForeignCurrency> { Caption = x.CurrencySymbol, Command = _foreignCurrencySelectedCommand, Parameter = x }));
+            ForeignCurrencyButtons = new ObservableCollection<CommandButtonViewModel<ForeignCurrency>>(_cacheService.GetForeignCurrencies().Select(x => new CommandButtonViewModel<ForeignCurrency> { Caption = x.CurrencySymbol, Command = _foreignCurrencySelectedCommand, Parameter = x }));
         }
 
         void TenderedValueViewModelPaymentDueChanged(object sender, System.EventArgs e)
