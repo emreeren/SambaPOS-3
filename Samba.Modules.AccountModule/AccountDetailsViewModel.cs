@@ -16,7 +16,6 @@ using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Services;
-using Samba.Services.Common;
 
 namespace Samba.Modules.AccountModule
 {
@@ -24,18 +23,20 @@ namespace Samba.Modules.AccountModule
     public class AccountDetailsViewModel : ObservableObject
     {
         private readonly IApplicationState _applicationState;
-        private readonly IPresentationCacheService _cacheService;
+        private readonly IPresentationCacheService _presentationCacheService;
         private readonly IAccountService _accountService;
         private readonly IPrinterService _printerService;
+        private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public AccountDetailsViewModel(IApplicationState applicationState, IPresentationCacheService cacheService,
-            IAccountService accountService, IPrinterService printerService)
+        public AccountDetailsViewModel(IApplicationState applicationState, IPresentationCacheService presentationCacheService,
+            IAccountService accountService, IPrinterService printerService,ICacheService cacheService)
         {
             _applicationState = applicationState;
-            _cacheService = cacheService;
+            _presentationCacheService = presentationCacheService;
             _accountService = accountService;
             _printerService = printerService;
+            _cacheService = cacheService;
             CloseAccountScreenCommand = new CaptionCommand<string>(Resources.Close, OnCloseAccountScreen);
             DisplayTicketCommand = new CaptionCommand<string>(Resources.FindTicket.Replace(" ", "\r"), OnDisplayTicket);
             PrintAccountCommand = new CaptionCommand<string>(Resources.Print, OnPrintAccount);
@@ -95,7 +96,7 @@ namespace Samba.Modules.AccountModule
             DocumentTypes.Clear();
             if (SelectedAccount != null)
             {
-                var templates = _cacheService.GetAccountTransactionDocumentTypes(SelectedAccount.AccountTypeId)
+                var templates = _presentationCacheService.GetAccountTransactionDocumentTypes(SelectedAccount.AccountTypeId)
                     .Where(x => !string.IsNullOrEmpty(x.ButtonHeader));
                 DocumentTypes.AddRange(templates.Select(x => new DocumentTypeButtonViewModel(x, SelectedAccount)));
             }

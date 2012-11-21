@@ -8,7 +8,6 @@ using Samba.Domain.Models.Resources;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
-using Samba.Presentation.Services;
 using Samba.Services;
 
 namespace Samba.Modules.ResourceModule
@@ -16,10 +15,10 @@ namespace Samba.Modules.ResourceModule
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class ResourceTypeViewModel : EntityViewModelBase<ResourceType>
     {
-        private readonly IPresentationCacheService _cacheService;
+        private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public ResourceTypeViewModel(IPresentationCacheService cacheService)
+        public ResourceTypeViewModel(ICacheService cacheService)
         {
             _cacheService = cacheService;
             AddCustomFieldCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.CustomField), OnAddCustomField);

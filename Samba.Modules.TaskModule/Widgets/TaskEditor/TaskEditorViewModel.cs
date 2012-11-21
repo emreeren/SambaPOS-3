@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Linq;
 using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Tasks;
-using Samba.Infrastructure;
 using Samba.Infrastructure.Helpers;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
@@ -17,9 +16,10 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
     public class TaskEditorViewModel : WidgetViewModel
     {
         private readonly ITaskService _taskService;
-        private readonly IPresentationCacheService _cacheService;
+        private readonly ICacheService _cacheService;
 
-        public TaskEditorViewModel(Widget widget, IApplicationState applicationState, ITaskService taskService, IPresentationCacheService cacheService)
+        public TaskEditorViewModel(Widget widget, IApplicationState applicationState, ITaskService taskService, 
+            ICacheService cacheService)
             : base(widget, applicationState)
         {
             _taskService = taskService;

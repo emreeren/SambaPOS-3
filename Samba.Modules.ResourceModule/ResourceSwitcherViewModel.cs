@@ -16,9 +16,10 @@ namespace Samba.Modules.ResourceModule
     public class ResourceSwitcherViewModel : ObservableObject
     {
         private readonly IRegionManager _regionManager;
-        private readonly IPresentationCacheService _cacheService;
+        private readonly IPresentationCacheService _presentationCacheService;
         private readonly IApplicationState _applicationState;
         private readonly IApplicationStateSetter _applicationStateSetter;
+        private readonly ICacheService _cacheService;
         private readonly ResourceSelectorView _resourceSelectorView;
         private readonly ResourceSelectorViewModel _resourceSelectorViewModel;
         private readonly ResourceSearchView _resourceSearchView;
@@ -29,15 +30,17 @@ namespace Samba.Modules.ResourceModule
         private EntityOperationRequest<Resource> _currentOperationRequest;
 
         [ImportingConstructor]
-        public ResourceSwitcherViewModel(IRegionManager regionManager, IPresentationCacheService cacheService, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
+        public ResourceSwitcherViewModel(IRegionManager regionManager, IPresentationCacheService presentationCacheService, 
+            IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,ICacheService cacheService,
             ResourceSelectorView resourceSelectorView, ResourceSelectorViewModel resourceSelectorViewModel,
             ResourceSearchView resourceSearchView, ResourceSearchViewModel resourceSearchViewModel,
             ResourceDashboardView resourceDashboardView, ResourceDashboardViewModel resourceDashboardViewModel)
         {
             _regionManager = regionManager;
-            _cacheService = cacheService;
+            _presentationCacheService = presentationCacheService;
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
+            _cacheService = cacheService;
             _resourceSelectorView = resourceSelectorView;
             _resourceSelectorViewModel = resourceSelectorViewModel;
             _resourceSearchView = resourceSearchView;
@@ -73,8 +76,8 @@ namespace Samba.Modules.ResourceModule
         {
             var resourceScreens =
                 _applicationState.IsLocked ?
-                _cacheService.GetTicketResourceScreens().ToList() :
-                _cacheService.GetResourceScreens().ToList();
+                _presentationCacheService.GetTicketResourceScreens().ToList() :
+                _presentationCacheService.GetResourceScreens().ToList();
             if (!resourceScreens.Any()) return null;
             _resourceScreens = resourceScreens.OrderBy(x => x.Order).ToList();
             _resourceSwitcherButtons = null;
@@ -100,7 +103,7 @@ namespace Samba.Modules.ResourceModule
             get
             {
                 if (_applicationState.CurrentDepartment == null) return new List<ResourceScreen>();
-                return _resourceScreens ?? (_resourceScreens = _cacheService.GetResourceScreens().OrderBy(x => x.Order));
+                return _resourceScreens ?? (_resourceScreens = _presentationCacheService.GetResourceScreens().OrderBy(x => x.Order));
             }
         }
 

@@ -12,18 +12,21 @@ using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Controls.UIControls;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
+using Samba.Services;
 
 namespace Samba.Modules.ModifierModule
 {
     [Export]
     public class TicketTagEditorViewModel : ObservableObject
     {
-        private readonly IPresentationCacheService _cacheService;
+        private readonly IPresentationCacheService _presentationCacheService;
+        private readonly ICacheService _cacheService;
         private readonly ITicketService _ticketService;
 
         [ImportingConstructor]
-        public TicketTagEditorViewModel(IPresentationCacheService cacheService, ITicketService ticketService)
+        public TicketTagEditorViewModel(IPresentationCacheService presentationCacheService, ICacheService cacheService, ITicketService ticketService)
         {
+            _presentationCacheService = presentationCacheService;
             _cacheService = cacheService;
             _ticketService = ticketService;
 
@@ -125,7 +128,7 @@ namespace Samba.Modules.ModifierModule
             }
             else
             {
-                ticketTags = _cacheService.GetTicketTagGroups().Where(
+                ticketTags = _presentationCacheService.GetTicketTagGroups().Where(
                        x => x.Name == tagGroup.Name).SelectMany(x => x.TicketTags).ToList();
             }
 

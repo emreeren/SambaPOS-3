@@ -85,6 +85,10 @@
       <Project>{F2C77290-6806-4F23-BEB7-171C4008D13B}</Project>
       <Name>Samba.Presentation.Services.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Samba.Services.Common\Samba.Services.Common.csproj">
+      <Project>{4C8C1254-7615-46F8-B782-C6AA1441B323}</Project>
+      <Name>Samba.Services.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -49,7 +49,6 @@
   <ItemGroup>
     <Compile Include="AbstractService.cs" />
     <Compile Include="AppServices.cs" />
-    <Compile Include="AutomationCommandData.cs" />
     <Compile Include="DataCreationService.cs" />
     <Compile Include="EMailService.cs" />
     <Compile Include="EntityOperationRequest.cs" />

@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Samba.Domain.Models.Resources;
-using Samba.Infrastructure;
 using Samba.Infrastructure.Helpers;
 using Samba.Presentation.Common;
 using Samba.Presentation.Services;
@@ -16,11 +15,11 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceSearch
     class ResourceSearchWidgetCreator : IWidgetCreator
     {
         private readonly IResourceService _resourceService;
-        private readonly IPresentationCacheService _cacheService;
+        private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
         public ResourceSearchWidgetCreator(IApplicationState applicationState, IResourceService resourceService,
-            IPresentationCacheService cacheService)
+            ICacheService cacheService)
         {
             _resourceService = resourceService;
             _cacheService = cacheService;

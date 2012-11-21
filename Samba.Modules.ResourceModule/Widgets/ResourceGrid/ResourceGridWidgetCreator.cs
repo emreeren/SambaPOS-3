@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Samba.Domain.Models.Resources;
-using Samba.Infrastructure;
 using Samba.Infrastructure.Helpers;
 using Samba.Presentation.Common;
 using Samba.Presentation.Services;
@@ -18,10 +17,10 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceGrid
     {
         private readonly IResourceService _resourceService;
         private readonly IUserService _userService;
-        private readonly IPresentationCacheService _cacheService;
+        private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public ResourceGridWidgetCreator(IResourceService resourceService, IUserService userService, IPresentationCacheService cacheService)
+        public ResourceGridWidgetCreator(IResourceService resourceService, IUserService userService, ICacheService cacheService)
         {
             _resourceService = resourceService;
             _userService = userService;

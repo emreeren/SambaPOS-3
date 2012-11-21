@@ -24,9 +24,10 @@ namespace Samba.Modules.PosModule
     {
         private readonly ITicketService _ticketService;
         private readonly IUserService _userService;
+        private readonly ICacheService _cacheService;
         private readonly IApplicationState _applicationState;
         private readonly IAutomationService _automationService;
-        private readonly IPresentationCacheService _cacheService;
+        private readonly IPresentationCacheService _presentationCacheService;
         private readonly TicketOrdersViewModel _ticketOrdersViewModel;
         private readonly TicketTotalsViewModel _totals;
 
@@ -58,7 +59,7 @@ namespace Samba.Modules.PosModule
                 if (_resourceButtons == null && SelectedDepartment != null)
                 {
                     _resourceButtons = new ObservableCollection<ResourceButton>(
-                        _cacheService.GetTicketResourceScreens()
+                        _presentationCacheService.GetTicketResourceScreens()
                         .OrderBy(x => x.Order)
                         .Select(x => _cacheService.GetResourceTypeById(x.ResourceTypeId))
                         .Distinct()
@@ -123,7 +124,7 @@ namespace Samba.Modules.PosModule
             {
                 return _allAutomationCommands ??
                  (_allAutomationCommands =
-                  _cacheService.GetAutomationCommands().Select(x => new CommandContainerButton(x, SelectedTicket)).ToList());
+                  _presentationCacheService.GetAutomationCommands().Select(x => new CommandContainerButton(x, SelectedTicket)).ToList());
             }
         }
 
@@ -142,7 +143,7 @@ namespace Samba.Modules.PosModule
             get
             {
                 return _applicationState.CurrentDepartment != null
-                    ? _cacheService.GetTicketTagGroups()
+                    ? _presentationCacheService.GetTicketTagGroups()
                     .OrderBy(x => x.Order)
                     .Select(x => new TicketTagButton(x, SelectedTicket))
                     : null;
@@ -155,7 +156,7 @@ namespace Samba.Modules.PosModule
             {
                 if (SelectedOrders.Any())
                 {
-                    return _cacheService.GetOrderStateGroups(SelectedOrders.Select(x => x.MenuItemId).ToArray())
+                    return _presentationCacheService.GetOrderStateGroups(SelectedOrders.Select(x => x.MenuItemId).ToArray())
                         .Where(x => !string.IsNullOrEmpty(x.ButtonHeader))
                         .Select(x => new OrderStateButton(x));
                 }
@@ -169,7 +170,7 @@ namespace Samba.Modules.PosModule
             {
                 if (SelectedOrders.Any())
                 {
-                    return _cacheService.GetOrderTagGroups(SelectedOrders.Select(x => x.MenuItemId).ToArray())
+                    return _presentationCacheService.GetOrderTagGroups(SelectedOrders.Select(x => x.MenuItemId).ToArray())
                         .Where(x => !string.IsNullOrEmpty(x.ButtonHeader))
                         .Select(x => new OrderTagButton(x));
                 }
@@ -179,15 +180,16 @@ namespace Samba.Modules.PosModule
 
         [ImportingConstructor]
         public TicketViewModel(IApplicationState applicationState,
-            ITicketService ticketService, IAccountService accountService, IResourceService locationService, IUserService userService,
-            IAutomationService automationService, IPresentationCacheService cacheService, TicketOrdersViewModel ticketOrdersViewModel,
+            ITicketService ticketService, IAccountService accountService, IResourceService locationService, IUserService userService, ICacheService cacheService,
+            IAutomationService automationService, IPresentationCacheService presentationCacheService, TicketOrdersViewModel ticketOrdersViewModel,
             TicketTotalsViewModel totals, TicketInfoViewModel ticketInfoViewModel, PaymentButtonViewModel paymentButtonViewModel)
         {
             _ticketService = ticketService;
             _userService = userService;
+            _cacheService = cacheService;
             _applicationState = applicationState;
             _automationService = automationService;
-            _cacheService = cacheService;
+            _presentationCacheService = presentationCacheService;
             _ticketOrdersViewModel = ticketOrdersViewModel;
             _totals = totals;
             _ticketInfo = ticketInfoViewModel;
@@ -265,7 +267,7 @@ namespace Samba.Modules.PosModule
 
         private bool CanSelectResource(ResourceType arg)
         {
-            return !SelectedTicket.IsLocked && SelectedTicket.CanSubmit && _cacheService.GetTicketResourceScreens().Any(x => x.ResourceTypeId == arg.Id);
+            return !SelectedTicket.IsLocked && SelectedTicket.CanSubmit && _presentationCacheService.GetTicketResourceScreens().Any(x => x.ResourceTypeId == arg.Id);
         }
 
         private void OnSelectResource(ResourceType obj)

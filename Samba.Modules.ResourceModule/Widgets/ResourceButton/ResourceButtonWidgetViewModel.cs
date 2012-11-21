@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using System.Linq;
 using Samba.Domain.Models.Resources;
-using Samba.Infrastructure;
 using Samba.Infrastructure.Helpers;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
@@ -13,14 +12,14 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceButton
 {
     public class ResourceButtonWidgetViewModel : WidgetViewModel
     {
-        private readonly IPresentationCacheService _cacheService;
+        private readonly ICacheService _cacheService;
         private readonly IApplicationState _applicationState;
         private readonly IResourceService _resourceService;
 
         [Browsable(false)]
         public CaptionCommand<ResourceButtonWidgetViewModel> ItemClickedCommand { get; set; }
 
-        public ResourceButtonWidgetViewModel(Widget model, IPresentationCacheService cacheService, IApplicationState applicationState, IResourceService resourceService)
+        public ResourceButtonWidgetViewModel(Widget model, ICacheService cacheService, IApplicationState applicationState, IResourceService resourceService)
             : base(model, applicationState)
         {
             _cacheService = cacheService;

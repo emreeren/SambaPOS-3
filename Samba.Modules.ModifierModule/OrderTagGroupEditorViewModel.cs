@@ -19,11 +19,13 @@ namespace Samba.Modules.ModifierModule
     [Export]
     public class OrderTagGroupEditorViewModel : ObservableObject
     {
-        private readonly IPresentationCacheService _cacheService;
+        private readonly IPresentationCacheService _presentationCacheService;
+        private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public OrderTagGroupEditorViewModel(IUserService userService, IPresentationCacheService cacheService)
+        public OrderTagGroupEditorViewModel(IUserService userService, IPresentationCacheService presentationCacheService, ICacheService cacheService)
         {
+            _presentationCacheService = presentationCacheService;
             _cacheService = cacheService;
             ToggleRemoveModeCommand = new CaptionCommand<string>(Resources.Remove, OnToggleRemoveMode);
             CloseCommand = new CaptionCommand<string>(Resources.Close, OnCloseCommandExecuted);
@@ -192,7 +194,7 @@ namespace Samba.Modules.ModifierModule
 
                 RaisePropertyChanged(() => IsPortionsVisible);
 
-                var orderTagGroups = _cacheService.GetOrderTagGroups(SelectedOrder.MenuItemId).ToList();
+                var orderTagGroups = _presentationCacheService.GetOrderTagGroups(SelectedOrder.MenuItemId).ToList();
 
                 OrderTagGroups.AddRange(
                     orderTagGroups

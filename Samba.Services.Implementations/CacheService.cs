@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Automation;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
+using Samba.Domain.Models.Tasks;
 using Samba.Domain.Models.Tickets;
 using Samba.Persistance.DaoClasses;
+using Samba.Persistance.Data;
+using Samba.Services.Common;
 
 namespace Samba.Services.Implementations
 {
@@ -23,6 +26,16 @@ namespace Samba.Services.Implementations
             _dataService = dataService;
         }
 
+        public Account GetAccountById(int accountId)
+        {
+            return Dao.SingleWithCache<Account>(x => x.Id == accountId);
+        }
+
+        public Resource GetResourceById(int accountId)
+        {
+            return Dao.SingleWithCache<Resource>(x => x.Id == accountId);
+        }
+
         private IEnumerable<MenuItem> _menuItems;
         public IEnumerable<MenuItem> MenuItems
         {
@@ -32,6 +45,18 @@ namespace Samba.Services.Implementations
         public MenuItem GetMenuItem(Func<MenuItem, bool> expression)
         {
             return MenuItems.Single(expression);
+        }
+
+        public IEnumerable<MenuItemPortion> GetMenuItemPortions(int menuItemId)
+        {
+            return GetMenuItem(x => x.Id == menuItemId).Portions;
+        }
+
+        public MenuItemPortion GetMenuItemPortion(int menuItemId, string portionName)
+        {
+            var mi = GetMenuItem(x => x.Id == menuItemId);
+            if (mi.Portions.Count == 0) return null;
+            return mi.Portions.FirstOrDefault(x => x.Name == portionName) ?? mi.Portions[0];
         }
 
         private IEnumerable<ProductTimer> _productTimers;
@@ -158,9 +183,36 @@ namespace Samba.Services.Implementations
             return DocumentTypes.Where(x => maps.Any(y => y.AccountTransactionDocumentTypeId == x.Id)).OrderBy(x => x.Order);
         }
 
+        public IEnumerable<AccountTransactionDocumentType> GetBatchDocumentTypes(IEnumerable<string> accountTypeNamesList, int terminalId, int userRoleId)
+        {
+            var ids = GetAccountTypesByName(accountTypeNamesList).Select(x => x.Id);
+            return GetBatchDocumentTypes(ids, terminalId, userRoleId);
+        }
+
         public AccountTransactionDocumentType GetAccountTransactionDocumentTypeByName(string documentName)
         {
             return DocumentTypes.SingleOrDefault(x => x.Name == documentName);
+        }
+
+        private IEnumerable<ChangePaymentType> _changePaymentTypes;
+        public IEnumerable<ChangePaymentType> ChangePaymentTypes
+        {
+            get { return _changePaymentTypes ?? (_changePaymentTypes = _dataService.GetChangePaymentTypes()); }
+        }
+
+        public IEnumerable<ChangePaymentType> GetChangePaymentTypes(int ticketTypeId, int terminalId, int departmentId, int userRoleId)
+        {
+            var maps = ChangePaymentTypes.SelectMany(x => x.ChangePaymentTypeMaps)
+                .Where(x => x.TicketTypeId == 0 || x.TicketTypeId == ticketTypeId)
+                .Where(x => x.TerminalId == 0 || x.TerminalId == terminalId)
+                .Where(x => x.DepartmentId == 0 || x.DepartmentId == departmentId)
+                .Where(x => x.UserRoleId == 0 || x.UserRoleId == userRoleId);
+            return ChangePaymentTypes.Where(x => maps.Any(y => y.ChangePaymentTypeId == x.Id)).OrderBy(x => x.Order);
+        }
+
+        public ChangePaymentType GetChangePaymentTypeById(int id)
+        {
+            return ChangePaymentTypes.Single(x => x.Id == id);
         }
 
         private IEnumerable<PaymentType> _paymentTypes;
@@ -295,6 +347,147 @@ namespace Samba.Services.Implementations
             return ScreenMenus.Single(x => x.Id == screenMenuId);
         }
 
+        private IEnumerable<TaskType> _taskTypes;
+        public IEnumerable<TaskType> TaskTypes
+        {
+            get { return _taskTypes ?? (_taskTypes = _dataService.GetTaskTypes()); }
+        }
+
+        public int GetTaskTypeIdByName(string taskTypeName)
+        {
+            var taskType = TaskTypes.FirstOrDefault(x => x.Name == taskTypeName);
+            return taskType != null ? taskType.Id : 0;
+        }
+
+        public IEnumerable<string> GetTaskTypeNames()
+        {
+            return TaskTypes.Select(x => x.Name);
+        }
+
+        private IEnumerable<TicketType> _ticketTypes;
+        public IEnumerable<TicketType> TicketTypes
+        {
+            get { return _ticketTypes ?? (_ticketTypes = _dataService.GetTicketTypes()); }
+        }
+
+        public TicketType GetTicketTypeById(int ticketTypeId)
+        {
+            return TicketTypes.SingleOrDefault(x => x.Id == ticketTypeId);
+        }
+
+        public IEnumerable<TicketType> GetTicketTypes()
+        {
+            return TicketTypes;
+        }
+
+        private IEnumerable<CalculationSelector> _calculationSelectors;
+        public IEnumerable<CalculationSelector> CalculationSelectors
+        {
+            get { return _calculationSelectors ?? (_calculationSelectors = _dataService.GetCalculationSelectors()); }
+        }
+
+        public IEnumerable<CalculationSelector> GetCalculationSelectors(int ticketTypeId, int terminalId, int departmentId, int userRoleId)
+        {
+            var maps = CalculationSelectors.SelectMany(x => x.CalculationSelectorMaps)
+                .Where(x => x.TicketTypeId == 0 || x.TicketTypeId == ticketTypeId)
+                .Where(x => x.TerminalId == 0 || x.TerminalId == terminalId)
+                .Where(x => x.DepartmentId == 0 || x.DepartmentId == departmentId)
+                .Where(x => x.UserRoleId == 0 || x.UserRoleId == userRoleId);
+            return CalculationSelectors.Where(x => maps.Any(y => y.CalculationSelectorId == x.Id)).OrderBy(x => x.Order);
+        }
+
+        private IEnumerable<AutomationCommand> _automationCommands;
+        public IEnumerable<AutomationCommand> AutomationCommands
+        {
+            get { return _automationCommands ?? (_automationCommands = _dataService.GetAutomationCommands()); }
+        }
+
+        public IEnumerable<AutomationCommandData> GetAutomationCommands(int ticketTypeId, int terminalId, int departmentId, int userRoleId)
+        {
+            var maps = AutomationCommands.SelectMany(x => x.AutomationCommandMaps)
+                .Where(x => x.TicketTypeId == 0 || x.TicketTypeId == ticketTypeId)
+                .Where(x => x.TerminalId == 0 || x.TerminalId == terminalId)
+                .Where(x => x.DepartmentId == 0 || x.DepartmentId == departmentId)
+                .Where(x => x.UserRoleId == 0 || x.UserRoleId == userRoleId);
+            var result = maps.Select(x => new AutomationCommandData { AutomationCommand = AutomationCommands.First(y => y.Id == x.AutomationCommandId), DisplayOnPayment = x.DisplayOnPayment, DisplayOnTicket = x.DisplayOnTicket, DisplayOnOrders = x.DisplayOnOrders, VisualBehaviour = x.VisualBehaviour });
+            return result.OrderBy(x => x.AutomationCommand.Order);
+        }
+
+        private IEnumerable<AccountType> _accountTypes;
+        public IEnumerable<AccountType> AccountTypes
+        {
+            get { return _accountTypes ?? (_accountTypes = _dataService.GetAccountTypes()); }
+        }
+
+        public AccountType GetAccountTypeById(int accountTypeId)
+        {
+            return AccountTypes.Single(x => x.Id == accountTypeId);
+        }
+
+        public IEnumerable<AccountType> GetAccountTypes()
+        {
+            return AccountTypes;
+        }
+
+        public IEnumerable<AccountType> GetAccountTypesByName(IEnumerable<string> accountTypeNames)
+        {
+            return AccountTypes.Where(x => accountTypeNames.Contains(x.Name));
+        }
+
+        private IEnumerable<PrintJob> _printJobs;
+        public IEnumerable<PrintJob> PrintJobs
+        {
+            get { return _printJobs ?? (_printJobs = _dataService.GetPrintJobs()); }
+        }
+
+        public PrintJob GetPrintJobByName(string name)
+        {
+            return PrintJobs.SingleOrDefault(x => x.Name == name);
+        }
+
+        private IEnumerable<ResourceType> _resourceTypes;
+        public IEnumerable<ResourceType> ResourceTypes
+        {
+            get { return _resourceTypes ?? (_resourceTypes = _dataService.GetResourceTypes()); }
+        }
+
+        public IEnumerable<ResourceType> GetResourceTypes()
+        {
+            return ResourceTypes;
+        }
+
+        public ResourceType GetResourceTypeById(int resourceTypeId)
+        {
+            return ResourceTypes.Single(x => x.Id == resourceTypeId);
+        }
+
+        public int GetResourceTypeIdByEntityName(string entityName)
+        {
+            var rt = ResourceTypes.FirstOrDefault(x => x.EntityName == entityName);
+            return rt != null ? rt.Id : 0;
+        }
+
+        private IEnumerable<ResourceState> _resourceStates;
+        public IEnumerable<ResourceState> ResourceStates
+        {
+            get { return _resourceStates ?? (_resourceStates = _dataService.GetResourceStates()); }
+        }
+
+        public ResourceState GetResourceStateById(int accountStateId)
+        {
+            return ResourceStates.SingleOrDefault(x => x.Id == accountStateId);
+        }
+
+        public ResourceState GetResourceStateByName(string stateName)
+        {
+            return ResourceStates.FirstOrDefault(x => x.Name == stateName);
+        }
+
+        public IEnumerable<ResourceState> GetResourceStates()
+        {
+            return ResourceStates;
+        }
+
         public void ResetTicketTagCache()
         {
             _ticketTagGroups = null;
@@ -307,12 +500,22 @@ namespace Samba.Services.Implementations
 
         public void ResetCache()
         {
+            _dataService.ResetCache();
+            _resourceStates = null;
+            _resourceTypes = null;
+            _printJobs = null;
+            _accountTypes = null;
+            _automationCommands = null;
+            _calculationSelectors = null;
+            _ticketTypes = null;
+            _taskTypes = null;
             _screenMenus = null;
             _foreignCurrencies = null;
             _accountScreens = null;
             _resourceScreens = null;
             _accountTransactionTypes = null;
             _paymentTypes = null;
+            _changePaymentTypes = null;
             _documentTypes = null;
             _ticketTagGroups = null;
             _orderStateGroups = null;

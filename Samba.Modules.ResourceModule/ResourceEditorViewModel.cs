@@ -14,7 +14,7 @@ namespace Samba.Modules.ResourceModule
     [Export]
     public class ResourceEditorViewModel : ObservableObject
     {
-        private readonly IPresentationCacheService _cacheService;
+        private readonly ICacheService _cacheService;
         private readonly IAccountService _accountService;
         private readonly IUserService _userService;
         private readonly ITicketService _ticketService;
@@ -23,7 +23,7 @@ namespace Samba.Modules.ResourceModule
         public ICaptionCommand CreateAccountCommand { get; set; }
 
         [ImportingConstructor]
-        public ResourceEditorViewModel(IPresentationCacheService cacheService, IAccountService accountService, IUserService userService, ITicketService ticketService)
+        public ResourceEditorViewModel(ICacheService cacheService, IAccountService accountService, IUserService userService, ITicketService ticketService)
         {
             _cacheService = cacheService;
             _accountService = accountService;

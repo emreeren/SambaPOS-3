@@ -13,11 +13,11 @@ namespace Samba.Modules.DepartmentModule
     {
         private readonly IApplicationState _applicationState;
         private readonly IUserService _userService;
-        private readonly IPresentationCacheService _cacheService;
+        private readonly ICacheService _cacheService;
         private readonly IApplicationStateSetter _applicationStateSetter;
 
         public DepartmentSelectorViewModel(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
-            IUserService userService, IPresentationCacheService cacheService)
+            IUserService userService, ICacheService cacheService)
         {
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;

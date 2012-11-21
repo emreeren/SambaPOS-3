@@ -4,7 +4,6 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using Samba.Domain.Models.Resources;
-using Samba.Infrastructure;
 using Samba.Infrastructure.Helpers;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
@@ -16,11 +15,11 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceButton
     [Export(typeof(IWidgetCreator))]
     public class ResourceButtonWidgetCreator : IWidgetCreator
     {
-        private readonly IPresentationCacheService _cacheService;
+        private readonly ICacheService _cacheService;
         private readonly IResourceService _resourceService;
 
         [ImportingConstructor]
-        public ResourceButtonWidgetCreator(IPresentationCacheService cacheService, IResourceService resourceService)
+        public ResourceButtonWidgetCreator(ICacheService cacheService, IResourceService resourceService)
         {
             _cacheService = cacheService;
             _resourceService = resourceService;

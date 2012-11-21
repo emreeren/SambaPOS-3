@@ -15,7 +15,7 @@ namespace Samba.Presentation.Common.ModelBase
         public IUserService UserService { get; set; }
         public IDepartmentService DepartmentService { get; set; }
         public ISettingService SettingService { get; set; }
-        public IPresentationCacheService CacheService { get; set; }
+        public ICacheService CacheService { get; set; }
 
         public TModel Model;
 

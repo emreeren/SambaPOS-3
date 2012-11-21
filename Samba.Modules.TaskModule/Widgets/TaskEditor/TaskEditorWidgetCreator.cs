@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Samba.Domain.Models.Resources;
-using Samba.Infrastructure;
 using Samba.Infrastructure.Helpers;
 using Samba.Presentation.Common;
 using Samba.Presentation.Services;
@@ -15,10 +14,10 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
     class TaskEditorWidgetCreator : IWidgetCreator
     {
         private readonly ITaskService _taskService;
-        private readonly IPresentationCacheService _cacheService;
+        private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public TaskEditorWidgetCreator(ITaskService taskService, IPresentationCacheService cacheService)
+        public TaskEditorWidgetCreator(ITaskService taskService, ICacheService cacheService)
         {
             _taskService = taskService;
             _cacheService = cacheService;

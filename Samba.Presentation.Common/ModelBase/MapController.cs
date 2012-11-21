@@ -19,7 +19,7 @@ namespace Samba.Presentation.Common.ModelBase
         private readonly IUserService _userService;
         private readonly ISettingService _settingService;
         private readonly IDepartmentService _departmentService;
-        private readonly IPresentationCacheService _cacheService;
+        private readonly ICacheService _cacheService;
         
         private ObservableCollection<TViewModel> _maps;
         
@@ -33,7 +33,7 @@ namespace Samba.Presentation.Common.ModelBase
             _userService = ServiceLocator.Current.GetInstance<IUserService>();
             _settingService = ServiceLocator.Current.GetInstance<ISettingService>();
             _departmentService = ServiceLocator.Current.GetInstance<IDepartmentService>();
-            _cacheService = ServiceLocator.Current.GetInstance<IPresentationCacheService>();
+            _cacheService = ServiceLocator.Current.GetInstance<ICacheService>();
 
             AddMapCommand = new CaptionCommand<string>(Resources.Add, OnAddMap);
             DeleteMapCommand = new CaptionCommand<string>(Resources.Delete, OnDeleteMap, CanDeleteMap);

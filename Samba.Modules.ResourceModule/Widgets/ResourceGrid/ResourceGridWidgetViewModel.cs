@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Linq;
 using Samba.Domain.Models.Resources;
-using Samba.Infrastructure;
 using Samba.Infrastructure.Data.Serializer;
 using Samba.Infrastructure.Helpers;
 using Samba.Presentation.Common;
@@ -14,10 +13,10 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceGrid
     public class ResourceGridWidgetViewModel : WidgetViewModel
     {
         private readonly IApplicationState _applicationState;
-        private readonly IPresentationCacheService _cacheService;
+        private readonly ICacheService _cacheService;
 
         public ResourceGridWidgetViewModel(Widget model, IApplicationState applicationState,
-            IResourceService resourceService, IUserService userService, IPresentationCacheService cacheService)
+            IResourceService resourceService, IUserService userService, ICacheService cacheService)
             : base(model, applicationState)
         {
             _applicationState = applicationState;

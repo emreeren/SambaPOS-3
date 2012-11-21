@@ -11,7 +11,7 @@ namespace Samba.Modules.AccountModule
     {
         private readonly Account _account;
 
-        public AccountRowViewModel(Account account, AccountTransactionDocumentType documentType, IAccountService accountService, IPresentationCacheService cacheService)
+        public AccountRowViewModel(Account account, AccountTransactionDocumentType documentType, IAccountService accountService, ICacheService cacheService)
         {
             _account = account;
             Amount = accountService.GetDefaultAmount(documentType, account);
@@ -62,7 +62,7 @@ namespace Samba.Modules.AccountModule
             }
         }
 
-        private IEnumerable<AccountSelectViewModel> GetAccountSelectors(AccountTransactionDocumentType documentType, Account selectedAccount, IAccountService accountService, IPresentationCacheService cacheService)
+        private IEnumerable<AccountSelectViewModel> GetAccountSelectors(AccountTransactionDocumentType documentType, Account selectedAccount, IAccountService accountService, ICacheService cacheService)
         {
             var accountMap = documentType.AccountTransactionDocumentAccountMaps.FirstOrDefault(x => x.AccountId == selectedAccount.Id);
             return accountMap != null

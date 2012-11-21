@@ -15,7 +15,6 @@ using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Services;
-using Samba.Services.Common;
 
 namespace Samba.Modules.AccountModule
 {
@@ -60,7 +59,7 @@ namespace Samba.Modules.AccountModule
 
         [ImportingConstructor]
         public AccountSelectorViewModel(IAccountService accountService, IPresentationCacheService presentationCacheService,
-            ICacheService cacheService, IApplicationState applicationState,IPrinterService printerService)
+            ICacheService cacheService, IApplicationState applicationState, IPrinterService printerService)
         {
             _accounts = new ObservableCollection<AccountRowData>();
             _accountService = accountService;
@@ -133,7 +132,7 @@ namespace Samba.Modules.AccountModule
         private IEnumerable<AccountButton> _accountButtons;
         public IEnumerable<AccountButton> AccountButtons
         {
-            get { return _accountButtons ?? (_accountButtons = AccountScreens.Select(x => new AccountButton(x, _presentationCacheService))); }
+            get { return _accountButtons ?? (_accountButtons = AccountScreens.Select(x => new AccountButton(x, _cacheService))); }
         }
 
         private readonly ObservableCollection<AccountRowData> _accounts;

@@ -7,7 +7,6 @@ using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
-using Samba.Presentation.Services;
 using Samba.Services;
 
 namespace Samba.Presentation.ViewModels
@@ -15,11 +14,11 @@ namespace Samba.Presentation.ViewModels
     [Export]
     public class TicketTotalsViewModel : ObservableObject
     {
-        private readonly IPresentationCacheService _cacheService;
+        private readonly ICacheService _cacheService;
         private readonly AccountBalances _accountBalances;
 
         [ImportingConstructor]
-        public TicketTotalsViewModel(IPresentationCacheService cacheService, AccountBalances accountBalances)
+        public TicketTotalsViewModel(ICacheService cacheService, AccountBalances accountBalances)
         {
             _cacheService = cacheService;
             _accountBalances = accountBalances;

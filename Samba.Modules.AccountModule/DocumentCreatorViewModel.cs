@@ -16,10 +16,10 @@ namespace Samba.Modules.AccountModule
     public class DocumentCreatorViewModel : ObservableObject
     {
         private readonly IAccountService _accountService;
-        private readonly IPresentationCacheService _cacheService;
+        private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public DocumentCreatorViewModel(IAccountService accountService, IPresentationCacheService cacheService)
+        public DocumentCreatorViewModel(IAccountService accountService, ICacheService cacheService)
         {
             _accountService = accountService;
             _cacheService = cacheService;

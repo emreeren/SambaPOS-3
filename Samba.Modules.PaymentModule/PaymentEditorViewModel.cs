@@ -16,7 +16,8 @@ namespace Samba.Modules.PaymentModule
     [Export]
     public class PaymentEditorViewModel : ObservableObject
     {
-        private readonly IPresentationCacheService _cacheService;
+        private readonly IPresentationCacheService _presentationCacheService;
+        private readonly ICacheService _cacheService;
 
         private readonly ICaptionCommand _makePaymentCommand;
         private readonly ICaptionCommand _selectChangePaymentTypeCommand;
@@ -32,12 +33,13 @@ namespace Samba.Modules.PaymentModule
         private readonly ChangeTemplatesViewModel _changeTemplatesViewModel;
 
         [ImportingConstructor]
-        public PaymentEditorViewModel(IPresentationCacheService cacheService, TicketTotalsViewModel paymentTotals,
+        public PaymentEditorViewModel(IPresentationCacheService presentationCacheService, ICacheService cacheService, TicketTotalsViewModel paymentTotals,
             PaymentEditor paymentEditor, NumberPadViewModel numberPadViewModel, OrderSelectorViewModel orderSelectorViewModel,
             ForeignCurrencyButtonsViewModel foreignCurrencyButtonsViewModel, PaymentButtonsViewModel paymentButtonsViewModel,
             CommandButtonsViewModel commandButtonsViewModel, TenderedValueViewModel tenderedValueViewModel,
             ReturningAmountViewModel returningAmountViewModel, ChangeTemplatesViewModel changeTemplatesViewModel)
         {
+            _presentationCacheService = presentationCacheService;
             _cacheService = cacheService;
             _paymentTotals = paymentTotals;
             _paymentEditor = paymentEditor;
@@ -159,7 +161,7 @@ namespace Samba.Modules.PaymentModule
         {
             return _foreignCurrencyButtonsViewModel.ForeignCurrency == null
                 ? new List<ChangePaymentType>()
-                : _cacheService.GetChangePaymentTypes().Where(x => x.AccountTransactionType.TargetAccountTypeId == paymentType.AccountTransactionType.SourceAccountTypeId).ToList();
+                : _presentationCacheService.GetChangePaymentTypes().Where(x => x.AccountTransactionType.TargetAccountTypeId == paymentType.AccountTransactionType.SourceAccountTypeId).ToList();
         }
 
         public void Prepare(Ticket selectedTicket)

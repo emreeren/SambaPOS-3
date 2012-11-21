@@ -8,7 +8,6 @@ using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.Regions;
 using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Tickets;
-using Samba.Infrastructure;
 using Samba.Infrastructure.Messaging;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
@@ -25,7 +24,8 @@ namespace Samba.Modules.PosModule
     {
         private readonly ITicketService _ticketService;
         private readonly IUserService _userService;
-        private readonly IPresentationCacheService _cacheService;
+        private readonly IPresentationCacheService _presentationCacheService;
+        private readonly ICacheService _cacheService;
         private readonly IApplicationState _applicationState;
         private readonly IApplicationStateSetter _applicationStateSetter;
         private readonly IRegionManager _regionManager;
@@ -57,13 +57,14 @@ namespace Samba.Modules.PosModule
 
         [ImportingConstructor]
         public PosViewModel(IRegionManager regionManager, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
-            ITicketService ticketService, IUserService userService, IPresentationCacheService cacheService,
+            ITicketService ticketService, IUserService userService, IPresentationCacheService presentationCacheService,ICacheService cacheService,
             TicketListViewModel ticketListViewModel, TicketTagListViewModel ticketTagListViewModel,
             MenuItemSelectorViewModel menuItemSelectorViewModel, MenuItemSelectorView menuItemSelectorView, TicketViewModel ticketViewModel,
             TicketOrdersViewModel ticketOrdersViewModel)
         {
             _ticketService = ticketService;
             _userService = userService;
+            _presentationCacheService = presentationCacheService;
             _cacheService = cacheService;
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
@@ -240,7 +241,7 @@ namespace Samba.Modules.PosModule
 
             Debug.Assert(_applicationState.CurrentDepartment != null);
 
-            if (SelectedTicket != null || !_cacheService.GetTicketResourceScreens().Any() || _applicationState.CurrentDepartment.TicketCreationMethod == 1)
+            if (SelectedTicket != null || !_presentationCacheService.GetTicketResourceScreens().Any() || _applicationState.CurrentDepartment.TicketCreationMethod == 1)
             {
                 DisplaySingleTicket();
                 return;
@@ -250,7 +251,7 @@ namespace Samba.Modules.PosModule
 
         private void DisplaySingleTicket()
         {
-            if (SelectedTicket != null && SelectedTicket.Orders.Count == 0 && _cacheService.GetTicketTagGroups().Count(x => x.AskBeforeCreatingTicket && !SelectedTicket.IsTaggedWith(x.Name)) > 0)
+            if (SelectedTicket != null && SelectedTicket.Orders.Count == 0 && _presentationCacheService.GetTicketTagGroups().Count(x => x.AskBeforeCreatingTicket && !SelectedTicket.IsTaggedWith(x.Name)) > 0)
             {
                 _ticketTagListViewModel.Update(SelectedTicket);
                 DisplayTicketTagList();
@@ -348,8 +349,8 @@ namespace Samba.Modules.PosModule
                 return Resources.CantCompleteOperationWhenThereIsZeroPricedProduct;
             if (!SelectedTicket.IsClosed && SelectedTicket.Orders.Count > 0)
             {
-                if (_cacheService.GetTicketTagGroups().Any(x => x.ForceValue && !_ticketViewModel.IsTaggedWith(x.Name)))
-                    return string.Format(Resources.TagCantBeEmpty_f, _cacheService.GetTicketTagGroups().First(x => x.ForceValue && !_ticketViewModel.IsTaggedWith(x.Name)).Name);
+                if (_presentationCacheService.GetTicketTagGroups().Any(x => x.ForceValue && !_ticketViewModel.IsTaggedWith(x.Name)))
+                    return string.Format(Resources.TagCantBeEmpty_f, _presentationCacheService.GetTicketTagGroups().First(x => x.ForceValue && !_ticketViewModel.IsTaggedWith(x.Name)).Name);
             }
             return "";
         }

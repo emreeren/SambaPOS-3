@@ -32,12 +32,12 @@ namespace Samba.Modules.ResourceModule
         private readonly IApplicationState _applicationState;
         private readonly IResourceService _resourceService;
         private readonly IUserService _userService;
-        private readonly IPresentationCacheService _cacheService;
+        private readonly ICacheService _cacheService;
         private EntityOperationRequest<Resource> _currentOperationRequest;
 
         [ImportingConstructor]
         public ResourceSelectorViewModel(IApplicationState applicationState, IResourceService resourceService,
-            IUserService userService, IPresentationCacheService cacheService)
+            IUserService userService, ICacheService cacheService)
         {
             _applicationState = applicationState;
             _resourceService = resourceService;

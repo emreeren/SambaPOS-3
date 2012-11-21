@@ -236,7 +236,7 @@ namespace Samba.Presentation.ViewModels
                     var resourceId = x.Value.GetDataValueAsInt("ResourceId");
                     var resourceTypeId = x.Value.GetDataValueAsInt("ResourceTypeId");
                     var stateName = x.Value.GetAsString("ResourceState");
-                    var state = PresentationCacheService.GetResourceStateByName(stateName);
+                    var state = CacheService.GetResourceStateByName(stateName);
                     if (state != null)
                     {
                         if (resourceId > 0 && resourceTypeId > 0)
@@ -251,7 +251,7 @@ namespace Samba.Presentation.ViewModels
                                 var resourceTypeName = x.Value.GetDataValueAsString("ResourceTypeName");
                                 foreach (var ticketResource in ticket.TicketResources)
                                 {
-                                    var resourceType = PresentationCacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
+                                    var resourceType = CacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
                                     if (string.IsNullOrEmpty(resourceTypeName.Trim()) || resourceType.Name == resourceTypeName)
                                         ResourceService.UpdateResourceState(ticketResource.ResourceId, state.Id);
                                 }
@@ -546,7 +546,7 @@ namespace Samba.Presentation.ViewModels
                     if (!string.IsNullOrEmpty(pjName))
                     {
                         TicketService.UpdateTicketNumber(ticket, ApplicationState.CurrentTicketType.TicketNumerator);
-                        var j = PresentationCacheService.GetPrintJobByName(pjName);
+                        var j = CacheService.GetPrintJobByName(pjName);
 
                         if (j != null)
                         {

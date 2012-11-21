@@ -11,7 +11,6 @@ using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Services;
-using Samba.Services.Common;
 
 namespace Samba.Modules.PosModule.Widgets.TicketExplorer
 {
@@ -20,10 +19,10 @@ namespace Samba.Modules.PosModule.Widgets.TicketExplorer
         private readonly Timer _timer;
         private readonly ITicketService _ticketService;
         private readonly IUserService _userService;
-        private readonly IPresentationCacheService _cacheService;
+        private readonly ICacheService _cacheService;
 
         public TicketExplorerViewModel(Widget widget, IApplicationState applicationState, ITicketService ticketService,
-            IUserService userService, IPresentationCacheService cacheService)
+            IUserService userService, ICacheService cacheService)
             : base(widget, applicationState)
         {
             _ticketService = ticketService;

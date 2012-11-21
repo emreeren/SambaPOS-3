@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Samba.Domain.Models.Accounts;
-using Samba.Presentation.Services;
 using Samba.Services;
 
 namespace Samba.Modules.AccountModule
@@ -9,9 +8,9 @@ namespace Samba.Modules.AccountModule
     public class AccountButton
     {
         private readonly AccountScreen _accountScreen;
-        private readonly IPresentationCacheService _cacheService;
+        private readonly ICacheService _cacheService;
 
-        public AccountButton(AccountScreen accountScreen, IPresentationCacheService cacheService)
+        public AccountButton(AccountScreen accountScreen, ICacheService cacheService)
         {
             _accountScreen = accountScreen;
             _cacheService = cacheService;

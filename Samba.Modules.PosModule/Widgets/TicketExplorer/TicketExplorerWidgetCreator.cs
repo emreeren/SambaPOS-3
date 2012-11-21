@@ -14,10 +14,10 @@ namespace Samba.Modules.PosModule.Widgets.TicketExplorer
     {
         private readonly IUserService _userService;
         private readonly ITicketService _ticketService;
-        private readonly IPresentationCacheService _cacheService;
+        private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public TicketExplorerWidgetCreator(IUserService userService, ITicketService ticketService,IPresentationCacheService cacheService)
+        public TicketExplorerWidgetCreator(IUserService userService, ITicketService ticketService, ICacheService cacheService)
         {
             _userService = userService;
             _ticketService = ticketService;
@@ -40,9 +40,9 @@ namespace Samba.Modules.PosModule.Widgets.TicketExplorer
             return result;
         }
 
-        public IDiagram CreateWidgetViewModel(Widget widget,IApplicationState applicationState)
+        public IDiagram CreateWidgetViewModel(Widget widget, IApplicationState applicationState)
         {
-            return new TicketExplorerViewModel(widget,applicationState, _ticketService, _userService,_cacheService);
+            return new TicketExplorerViewModel(widget, applicationState, _ticketService, _userService, _cacheService);
         }
 
         public FrameworkElement CreateWidgetControl(IDiagram widgetViewModel, ContextMenu contextMenu)
