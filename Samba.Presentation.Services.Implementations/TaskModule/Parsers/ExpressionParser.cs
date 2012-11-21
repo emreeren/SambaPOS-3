@@ -1,18 +1,19 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Globalization;
+using Samba.Services;
 
 namespace Samba.Presentation.Services.Implementations.TaskModule.Parsers
 {
     [Export(typeof(ITokenParser))]
     public class ExpressionParser : TokenParser, ITokenParser
     {
-        private readonly IAutomationService _automationService;
+        private readonly IExpressionService _expressionService;
 
         [ImportingConstructor]
-        public ExpressionParser(IAutomationService automationService)
+        public ExpressionParser(IExpressionService expressionService)
         {
-            _automationService = automationService;
+            _expressionService = expressionService;
         }
 
         public override string GetAcceptPattern()
@@ -27,7 +28,7 @@ namespace Samba.Presentation.Services.Implementations.TaskModule.Parsers
 
         public override string GetValue(string part)
         {
-            var result = _automationService.Eval(part);
+            var result = _expressionService.Eval(part);
             if (string.IsNullOrEmpty(result)) return "@" + part;
             if (IsDate(result)) return "@" + result;
             return result;

@@ -3,12 +3,11 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Tickets;
 using Samba.Persistance.DaoClasses;
-using Samba.Presentation.Services.Common;
 
-namespace Samba.Presentation.Services.Implementations.DepartmentModule
+namespace Samba.Services.Implementations.DepartmentModule
 {
     [Export(typeof(IDepartmentService))]
-    public class DepartmentService : AbstractService, IDepartmentService
+    public class DepartmentService : IDepartmentService
     {
         private readonly ICacheDao _cacheDao;
 
@@ -39,7 +38,7 @@ namespace Samba.Presentation.Services.Implementations.DepartmentModule
             return Departments;
         }
 
-        public override void Reset()
+        public void ResetCache()
         {
             _departments = null;
         }

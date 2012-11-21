@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace Samba.Presentation.Services.Implementations.SettingsModule
+namespace Samba.Services.Implementations.SettingsModule
 {
     public class SettingReplacer
     {

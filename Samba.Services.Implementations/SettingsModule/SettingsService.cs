@@ -5,12 +5,12 @@ using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Persistance.DaoClasses;
-using Samba.Presentation.Services.Common;
+using Samba.Services.Common;
 
-namespace Samba.Presentation.Services.Implementations.SettingsModule
+namespace Samba.Services.Implementations.SettingsModule
 {
     [Export(typeof(ISettingService))]
-    class SettingService : AbstractService, ISettingService
+    class SettingService : ISettingService
     {
         private readonly ISettingDao _settingDao;
 
@@ -125,7 +125,7 @@ namespace Samba.Presentation.Services.Implementations.SettingsModule
             return _settingDao.GetNextString(numeratorId);
         }
 
-        public override void Reset()
+        public void ResetCache()
         {
             _taxTemplates = null;
             _calculationTypes = null;

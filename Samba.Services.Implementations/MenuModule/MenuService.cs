@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using Samba.Domain.Models.Menus;
 using Samba.Persistance;
 using Samba.Persistance.DaoClasses;
 
-namespace Samba.Presentation.Services.Implementations.MenuModule
+namespace Samba.Services.Implementations.MenuModule
 {
     [Export(typeof(IMenuService))]
     public class MenuService : IMenuService

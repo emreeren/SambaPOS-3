@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using Samba.Domain.Models.Accounts;
 using Samba.Persistance;
 
-namespace Samba.Presentation.Services
+namespace Samba.Services
 {
     public class AccountData
     {

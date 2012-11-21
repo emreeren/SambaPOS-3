@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Resources;
@@ -7,7 +6,7 @@ using Samba.Infrastructure.Data;
 using Samba.Persistance.DaoClasses;
 using Samba.Persistance.Data;
 
-namespace Samba.Presentation.Services.Implementations.ResourceModule
+namespace Samba.Services.Implementations.ResourceModule
 {
     [Export(typeof(IResourceService))]
     public class ResourceService : IResourceService

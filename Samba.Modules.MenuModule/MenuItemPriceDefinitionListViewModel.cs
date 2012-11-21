@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using Samba.Domain.Models.Menus;
 using Samba.Presentation.Common.ModelBase;
-using Samba.Presentation.Services;
+using Samba.Services;
 
 namespace Samba.Modules.MenuModule
 {

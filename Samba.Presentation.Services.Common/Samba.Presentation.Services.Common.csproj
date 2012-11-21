@@ -58,8 +58,6 @@
     <Compile Include="GenericEvent.cs" />
     <Compile Include="IActionData.cs" />
     <Compile Include="IParameterValue.cs" />
-    <Compile Include="IProgramSetting.cs" />
-    <Compile Include="IProgramSettings.cs" />
     <Compile Include="IRuleConstraint.cs" />
     <Compile Include="IPresentationService.cs" />
     <Compile Include="MessagingService.cs" />

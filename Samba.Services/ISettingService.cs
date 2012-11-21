@@ -2,9 +2,9 @@
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
-using Samba.Presentation.Services.Common;
+using Samba.Services.Common;
 
-namespace Samba.Presentation.Services
+namespace Samba.Services
 {
     public interface ISettingService
     {
@@ -25,5 +25,6 @@ namespace Samba.Presentation.Services
         void SaveProgramSettings();
         int GetNextNumber(int numeratorId);
         string GetNextString(int numeratorId);
+        void ResetCache();
     }
 }

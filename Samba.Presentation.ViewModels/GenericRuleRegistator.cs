@@ -35,10 +35,11 @@ namespace Samba.Presentation.ViewModels
         private static readonly IPrinterService PrinterService = ServiceLocator.Current.GetInstance<IPrinterService>();
         private static readonly ISettingService SettingService = ServiceLocator.Current.GetInstance<ISettingService>();
         private static readonly IAutomationService AutomationService = ServiceLocator.Current.GetInstance<IAutomationService>();
-        private static readonly IPresentationCacheService PresentationCacheService = ServiceLocator.Current.GetInstance<IPresentationCacheService>();
         private static readonly IResourceService ResourceService = ServiceLocator.Current.GetInstance<IResourceService>();
         private static readonly IMethodQueue MethodQueue = ServiceLocator.Current.GetInstance<IMethodQueue>();
         private static readonly ICacheService CacheService = ServiceLocator.Current.GetInstance<ICacheService>();
+        private static readonly IExpressionService ExpressionService = ServiceLocator.Current.GetInstance<IExpressionService>();
+
 
         private static bool _registered;
 
@@ -169,7 +170,7 @@ namespace Samba.Presentation.ViewModels
                     var script = x.Value.GetAsString("ScriptName");
                     if (!string.IsNullOrEmpty(script))
                     {
-                        AutomationService.EvalCommand(script, null, x.Value.DataObject, true);
+                        ExpressionService.EvalCommand(script, null, x.Value.DataObject, true);
                     }
                 }
 

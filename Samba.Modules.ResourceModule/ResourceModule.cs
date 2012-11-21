@@ -8,6 +8,7 @@ using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Controls.Interaction;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
+using Samba.Services;
 
 namespace Samba.Modules.ResourceModule
 {

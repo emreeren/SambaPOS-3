@@ -7,8 +7,8 @@ using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
-using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
+using Samba.Services;
 
 namespace Samba.Modules.SettingsModule
 {

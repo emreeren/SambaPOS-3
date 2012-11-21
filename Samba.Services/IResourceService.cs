@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Samba.Domain.Models.Resources;
 
-namespace Samba.Presentation.Services
+namespace Samba.Services
 {
     public interface IResourceService
     {

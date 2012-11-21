@@ -4,7 +4,7 @@ using Microsoft.Practices.ServiceLocation;
 using Samba.Domain.Models.Menus;
 using Samba.Persistance;
 using Samba.Presentation.Common.ModelBase;
-using Samba.Presentation.Services;
+using Samba.Services;
 
 namespace Samba.Modules.MenuModule
 {

@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
+using Samba.Services;
 
 namespace Samba.Presentation.Services.Implementations.PrinterModule.ValueChangers
 {
     public class TicketFormatter
     {
-        private readonly IAutomationService _automationService;
+        private readonly IExpressionService _expressionService;
         private readonly ISettingService _settingService;
         private readonly TicketValueChanger _ticketValueChanger = new TicketValueChanger();
 
-        public TicketFormatter(IAutomationService automationService, ISettingService settingService)
+        public TicketFormatter(IExpressionService expressionService, ISettingService settingService)
         {
-            _automationService = automationService;
+            _expressionService = expressionService;
             _settingService = settingService;
         }
 
@@ -30,7 +31,7 @@ namespace Samba.Presentation.Services.Implementations.PrinterModule.ValueChanger
 
         private string UpdateExpressions(string data)
         {
-            data = _automationService.ReplaceExpressionValues(data);
+            data = _expressionService.ReplaceExpressionValues(data);
             data = _settingService.ReplaceSettingValues(data);
             return data;
         }

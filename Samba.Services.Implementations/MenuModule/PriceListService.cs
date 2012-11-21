@@ -5,7 +5,7 @@ using Samba.Domain.Models.Menus;
 using Samba.Persistance;
 using Samba.Persistance.DaoClasses;
 
-namespace Samba.Presentation.Services.Implementations.MenuModule
+namespace Samba.Services.Implementations.MenuModule
 {
     [Export(typeof(IPriceListService))]
     class PriceListService : IPriceListService

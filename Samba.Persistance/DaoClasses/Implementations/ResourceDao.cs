@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
 using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;

@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using Samba.Domain.Models.Tickets;
-using Samba.Presentation.Services.Common;
 
-namespace Samba.Presentation.Services
+namespace Samba.Services
 {
-    public interface IDepartmentService : IPresentationService
+    public interface IDepartmentService 
     {
         Department GetDepartment(int id);
         IEnumerable<string> GetDepartmentNames();
         IEnumerable<Department> GetDepartments();
+        void ResetCache();
     }
 }

@@ -16,6 +16,7 @@ using Samba.Modules.BasicReports.Reports.InventoryReports;
 using Samba.Modules.BasicReports.Reports.ProductReport;
 using Samba.Persistance.Data;
 using Samba.Presentation.Services;
+using Samba.Services;
 
 namespace Samba.Modules.BasicReports
 {

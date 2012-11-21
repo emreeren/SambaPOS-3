@@ -74,7 +74,14 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IAccountService.cs" />
     <Compile Include="ICacheService.cs" />
+    <Compile Include="IDepartmentService.cs" />
+    <Compile Include="IExpressionService.cs" />
+    <Compile Include="IMenuService.cs" />
+    <Compile Include="IPriceListService.cs" />
+    <Compile Include="IResourceService.cs" />
+    <Compile Include="ISettingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -101,6 +108,10 @@
     <ProjectReference Include="..\Samba.Persistance.Data\Samba.Persistance.Data.csproj">
       <Project>{FEDA2199-91CD-4AF1-B571-4AA2E8371A18}</Project>
       <Name>Samba.Persistance.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Persistance\Samba.Persistance.csproj">
+      <Project>{9ACA7797-5C2A-4435-B991-E59462ACDAF6}</Project>
+      <Name>Samba.Persistance</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Presentation.Services\Samba.Presentation.Services.csproj">
       <Project>{7DD8848C-3ADB-45B3-BD49-10AF3AEE2521}</Project>

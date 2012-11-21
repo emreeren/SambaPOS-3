@@ -10,9 +10,8 @@ using Samba.Domain.Models.Resources;
 using Samba.Localization.Properties;
 using Samba.Persistance;
 using Samba.Persistance.DaoClasses;
-using Samba.Services;
 
-namespace Samba.Presentation.Services.Implementations.AccountModule
+namespace Samba.Services.Implementations.AccountModule
 {
     [Export(typeof(IAccountService))]
     public class AccountService : IAccountService

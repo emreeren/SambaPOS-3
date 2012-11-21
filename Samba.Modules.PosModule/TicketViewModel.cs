@@ -26,6 +26,7 @@ namespace Samba.Modules.PosModule
         private readonly IUserService _userService;
         private readonly ICacheService _cacheService;
         private readonly IApplicationState _applicationState;
+        private readonly IExpressionService _expressionService;
         private readonly IAutomationService _automationService;
         private readonly TicketOrdersViewModel _ticketOrdersViewModel;
         private readonly TicketTotalsViewModel _totals;
@@ -178,7 +179,7 @@ namespace Samba.Modules.PosModule
         }
 
         [ImportingConstructor]
-        public TicketViewModel(IApplicationState applicationState,
+        public TicketViewModel(IApplicationState applicationState, IExpressionService expressionService,
             ITicketService ticketService, IAccountService accountService, IResourceService locationService, IUserService userService,
             ICacheService cacheService, IAutomationService automationService, TicketOrdersViewModel ticketOrdersViewModel,
             TicketTotalsViewModel totals, TicketInfoViewModel ticketInfoViewModel, PaymentButtonViewModel paymentButtonViewModel)
@@ -187,6 +188,7 @@ namespace Samba.Modules.PosModule
             _userService = userService;
             _cacheService = cacheService;
             _applicationState = applicationState;
+            _expressionService = expressionService;
             _automationService = automationService;
             _ticketOrdersViewModel = ticketOrdersViewModel;
             _totals = totals;
@@ -224,7 +226,7 @@ namespace Samba.Modules.PosModule
 
         private bool CanExecuteAutomationCommand(CommandContainerButton arg)
         {
-            return arg.IsEnabled && _automationService.EvalCommand(FunctionNames.CanExecuteAutomationCommand, arg.CommandContainer.AutomationCommand, new { Ticket = SelectedTicket }, true);
+            return arg.IsEnabled && _expressionService.EvalCommand(FunctionNames.CanExecuteAutomationCommand, arg.CommandContainer.AutomationCommand, new { Ticket = SelectedTicket }, true);
         }
 
         private void OnExecuteAutomationCommand(CommandContainerButton obj)

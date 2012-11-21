@@ -12,7 +12,5 @@ namespace Samba.Persistance.DaoClasses
     {
         IEnumerable<Printer> GetPrinters();
         IEnumerable<PrinterTemplate> GetPrinterTemplates();
-        string GetMenuItemGroupCode(int menuItemId);
-        string GetMenuItemData(int menuItemId, Expression<Func<MenuItem, string>> selector);
     }
 }

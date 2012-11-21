@@ -7,6 +7,7 @@ using Samba.Domain.Models.Users;
 using Samba.Persistance.DaoClasses;
 using Samba.Persistance.Data;
 using Samba.Presentation.Services.Common;
+using Samba.Services;
 
 namespace Samba.Presentation.Services.Implementations.UserModule
 {

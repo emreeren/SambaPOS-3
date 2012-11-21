@@ -4,6 +4,7 @@ using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Services;
+using Samba.Services;
 
 namespace Samba.Modules.InventoryModule
 {

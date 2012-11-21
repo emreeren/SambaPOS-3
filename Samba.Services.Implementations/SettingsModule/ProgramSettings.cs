@@ -2,9 +2,9 @@
 using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Data;
 using Samba.Persistance.Data;
-using Samba.Presentation.Services.Common;
+using Samba.Services.Common;
 
-namespace Samba.Presentation.Services.Implementations.SettingsModule
+namespace Samba.Services.Implementations.SettingsModule
 {
     public class ProgramSettings : IProgramSettings
     {

@@ -165,6 +165,8 @@ namespace Samba.Presentation.Common.Services
         public override void Reset()
         {
             _cacheService.ResetCache();
+            _departmentService.ResetCache();
+            _settingService.ResetCache();
             _lastTwoWorkPeriods = null;
             _terminal = null;
         }
@@ -274,8 +276,7 @@ namespace Samba.Presentation.Common.Services
 
         public void ResetState()
         {
-            _departmentService.Reset();
-
+            _departmentService.ResetCache();
             var did = CurrentDepartment.Id;
             CurrentDepartment = null;
             SetCurrentDepartment(did);

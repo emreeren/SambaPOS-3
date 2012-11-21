@@ -31,16 +31,6 @@ namespace Samba.Persistance.DaoClasses.Implementations
         {
             return Dao.Query<PrinterTemplate>();
         }
-
-        public string GetMenuItemGroupCode(int menuItemId)
-        {
-            return GetMenuItemData(menuItemId, x => x.GroupCode);
-        }
-
-        public string GetMenuItemData(int menuItemId, Expression<Func<MenuItem, string>> selector)
-        {
-            return Dao.Single(menuItemId, selector);
-        }
     }
 
     public class PrinterDeleteValidator : SpecificationValidator<Printer>

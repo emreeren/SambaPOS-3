@@ -13,7 +13,7 @@ using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Common.Services;
-using Samba.Presentation.Services;
+using Samba.Services;
 
 namespace Samba.Modules.TicketModule
 {

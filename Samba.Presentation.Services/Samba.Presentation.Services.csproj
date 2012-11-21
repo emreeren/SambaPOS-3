@@ -44,19 +44,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IAccountService.cs" />
     <Compile Include="IApplicationState.cs" />
     <Compile Include="IApplicationStateSetter.cs" />
     <Compile Include="IAutomationService.cs" />
-    <Compile Include="IPresentationCacheService.cs" />
-    <Compile Include="IDepartmentService.cs" />
     <Compile Include="IInventoryService.cs" />
-    <Compile Include="IMenuService.cs" />
     <Compile Include="IMethodQueue.cs" />
-    <Compile Include="IPriceListService.cs" />
     <Compile Include="IPrinterService.cs" />
-    <Compile Include="IResourceService.cs" />
-    <Compile Include="ISettingService.cs" />
     <Compile Include="ITaskService.cs" />
     <Compile Include="ITicketService.cs" />
     <Compile Include="ITriggerService.cs" />

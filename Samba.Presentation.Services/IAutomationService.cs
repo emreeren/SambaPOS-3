@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Samba.Domain.Models.Automation;
-using Samba.Infrastructure.Data;
 using Samba.Presentation.Services.Common;
 
 namespace Samba.Presentation.Services
@@ -22,9 +21,5 @@ namespace Samba.Presentation.Services
         IEnumerable<IParameterValue> CreateParameterValues(RuleActionType actionType);
         AppAction GetActionById(int appActionId);
         IEnumerable<string> GetAutomationCommandNames();
-
-        string Eval(string expression);
-        T EvalCommand<T>(string functionName, IEntity entity, object dataObject, T defaultValue = default(T));
-        string ReplaceExpressionValues(string data, string template = "\\[=([^\\]]+)\\]");
     }
 }

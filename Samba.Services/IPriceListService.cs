@@ -2,7 +2,7 @@
 using Samba.Domain.Models.Menus;
 using Samba.Persistance;
 
-namespace Samba.Presentation.Services
+namespace Samba.Services
 {
     public interface IPriceListService
     {

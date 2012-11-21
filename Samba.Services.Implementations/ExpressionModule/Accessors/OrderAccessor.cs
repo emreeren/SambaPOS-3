@@ -1,6 +1,6 @@
 using Samba.Domain.Models.Tickets;
 
-namespace Samba.Presentation.Services.Implementations.AutomationModule.Accessors
+namespace Samba.Services.Implementations.ExpressionModule.Accessors
 {
     public static class OrderAccessor
     {

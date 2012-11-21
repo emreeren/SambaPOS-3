@@ -7,6 +7,7 @@ using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Presentation.ViewModels;
+using Samba.Services;
 using Samba.Services.Common;
 
 namespace Samba.Modules.PaymentModule
@@ -23,10 +24,12 @@ namespace Samba.Modules.PaymentModule
         private readonly TenderedValueViewModel _tenderedValueViewModel;
         private readonly OrderSelectorViewModel _orderSelectorViewModel;
         private readonly NumberPadViewModel _numberPadViewModel;
+        private readonly IExpressionService _expressionService;
 
         [ImportingConstructor]
         public CommandButtonsViewModel(PaymentEditor paymentEditor, IApplicationState applicationState, IAutomationService automationService,
-            TenderedValueViewModel tenderedValueViewModel, OrderSelectorViewModel orderSelectorViewModel, NumberPadViewModel numberPadViewModel)
+            TenderedValueViewModel tenderedValueViewModel, OrderSelectorViewModel orderSelectorViewModel, NumberPadViewModel numberPadViewModel,
+            IExpressionService expressionService)
         {
             _paymentEditor = paymentEditor;
             _applicationState = applicationState;
@@ -35,6 +38,7 @@ namespace Samba.Modules.PaymentModule
 
             _orderSelectorViewModel = orderSelectorViewModel;
             _numberPadViewModel = numberPadViewModel;
+            _expressionService = expressionService;
 
             _executeAutomationCommand = new CaptionCommand<AutomationCommandData>("", OnExecuteAutomationCommand, CanExecuteAutomationCommand);
             _serviceSelectedCommand = new CaptionCommand<CalculationSelector>("", OnSelectCalculationSelector, CanSelectCalculationSelector);
@@ -78,7 +82,7 @@ namespace Samba.Modules.PaymentModule
         {
             if (arg == null) return false;
             if (_paymentEditor.SelectedTicket != null && _paymentEditor.SelectedTicket.IsLocked && arg.VisualBehaviour == 1) return false;
-            return _automationService.EvalCommand(FunctionNames.CanExecuteAutomationCommand, arg.AutomationCommand, new { Ticket = _paymentEditor.SelectedTicket }, true);
+            return _expressionService.EvalCommand(FunctionNames.CanExecuteAutomationCommand, arg.AutomationCommand, new { Ticket = _paymentEditor.SelectedTicket }, true);
         }
 
         private void OnSelectCalculationSelector(CalculationSelector calculationSelector)

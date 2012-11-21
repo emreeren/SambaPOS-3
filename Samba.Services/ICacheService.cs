@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
@@ -20,6 +21,7 @@ namespace Samba.Services
         Resource GetResourceById(int resourceId);
         ScreenMenu GetScreenMenu(int screenMenuId);
         MenuItem GetMenuItem(Func<MenuItem, bool> expression);
+        string GetMenuItemData(int menuItemId, Func<MenuItem, string> selector);
         MenuItemPortion GetMenuItemPortion(int menuItemId, string portionName);
         IEnumerable<MenuItemPortion> GetMenuItemPortions(int menuItemId);
         ProductTimer GetProductTimer(int ticketTypeId, int terminalId, int departmentId, int userRoleId, int menuItemId);

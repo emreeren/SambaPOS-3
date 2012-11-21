@@ -48,6 +48,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutomationCommandData.cs" />
+    <Compile Include="IProgramSetting.cs" />
+    <Compile Include="IProgramSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

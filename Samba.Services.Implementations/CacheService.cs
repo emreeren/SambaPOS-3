@@ -47,6 +47,11 @@ namespace Samba.Services.Implementations
             return MenuItems.Single(expression);
         }
 
+        public string GetMenuItemData(int menuItemId, Func<MenuItem, string> selector)
+        {
+            return MenuItems.Where(x => x.Id == menuItemId).Select(selector).FirstOrDefault();
+        }
+
         public IEnumerable<MenuItemPortion> GetMenuItemPortions(int menuItemId)
         {
             return GetMenuItem(x => x.Id == menuItemId).Portions;

@@ -1,8 +1,8 @@
 ﻿using System;
 using Samba.Domain.Models.Settings;
-using Samba.Presentation.Services.Common;
+using Samba.Services.Common;
 
-namespace Samba.Presentation.Services.Implementations.SettingsModule
+namespace Samba.Services.Implementations.SettingsModule
 {
     public class ProgramSetting : IProgramSetting
     {

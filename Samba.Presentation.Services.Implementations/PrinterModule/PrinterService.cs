@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Threading;
@@ -17,6 +16,7 @@ using Samba.Presentation.Services.Common;
 using Samba.Presentation.Services.Implementations.PrinterModule.PrintJobs;
 using Samba.Presentation.Services.Implementations.PrinterModule.Tools;
 using Samba.Presentation.Services.Implementations.PrinterModule.ValueChangers;
+using Samba.Services;
 
 namespace Samba.Presentation.Services.Implementations.PrinterModule
 {
@@ -25,15 +25,17 @@ namespace Samba.Presentation.Services.Implementations.PrinterModule
     {
         private readonly IPrinterDao _printerDao;
         private readonly IApplicationState _applicationState;
+        private readonly ICacheService _cacheService;
         private readonly TicketFormatter _ticketFormatter;
 
         [ImportingConstructor]
         public PrinterService(IPrinterDao printerDao, IApplicationState applicationState, IResourceService resourceService,
-            IAutomationService automationService, ISettingService settingService)
+            ISettingService settingService, ICacheService cacheService, IExpressionService expressionService)
         {
             _printerDao = printerDao;
             _applicationState = applicationState;
-            _ticketFormatter = new TicketFormatter(automationService, settingService);
+            _cacheService = cacheService;
+            _ticketFormatter = new TicketFormatter(expressionService, settingService);
         }
 
         private IEnumerable<Printer> _printers;
@@ -75,7 +77,7 @@ namespace Samba.Presentation.Services.Implementations.PrinterModule
 
         private PrinterMap GetPrinterMapForItem(IEnumerable<PrinterMap> printerMaps, int menuItemId)
         {
-            var menuItemGroupCode = _printerDao.GetMenuItemGroupCode(menuItemId);
+            var menuItemGroupCode = _cacheService.GetMenuItemData(menuItemId, x => x.GroupCode);
             Debug.Assert(printerMaps != null);
             var maps = printerMaps.ToList();
 
@@ -171,7 +173,7 @@ namespace Samba.Presentation.Services.Implementations.PrinterModule
             return ticket.Orders.ToList();
         }
 
-        private IEnumerable<Order> GroupLinesByValue(Ticket ticket, Expression<Func<MenuItem, string>> selector, string defaultValue, bool calcDiscounts = false)
+        private IEnumerable<Order> GroupLinesByValue(Ticket ticket, Func<MenuItem, string> selector, string defaultValue, bool calcDiscounts = false)
         {
             var discounts = calcDiscounts ? ticket.GetPreTaxServicesTotal() : 0;
             var di = discounts > 0 ? discounts / ticket.GetPlainSum() : 0;
@@ -179,7 +181,7 @@ namespace Samba.Presentation.Services.Implementations.PrinterModule
             foreach (var order in ticket.Orders.OrderBy(x => x.Id).ToList())
             {
                 var item = order;
-                var value = _printerDao.GetMenuItemData(item.MenuItemId, selector);
+                var value = _cacheService.GetMenuItemData(item.MenuItemId, selector);
                 //var value = selector(_cacheService.GetMenuItem(x => x.Id == item.MenuItemId)).ToString();
                 if (string.IsNullOrEmpty(value)) value = defaultValue;
                 if (!cache.ContainsKey(value))
@@ -247,7 +249,7 @@ namespace Samba.Presentation.Services.Implementations.PrinterModule
             PrintJobFactory.CreatePrintJob(printer).DoPrint(ticketLines);
         }
 
-        public void PrintReport(FlowDocument document,Printer printer)
+        public void PrintReport(FlowDocument document, Printer printer)
         {
             if (printer == null || string.IsNullOrEmpty(printer.ShareName)) return;
             PrintJobFactory.CreatePrintJob(printer).DoPrint(document);
