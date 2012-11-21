@@ -357,7 +357,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
         public IEnumerable<OpenTicketData> GetOpenTickets(int resourceId)
         {
-            return GetOpenTickets(x => !x.IsClosed && x.TicketResources.Any(y => y.ResourceId == resourceId));
+            return GetOpenTickets(x => x.State < 2 && x.TicketResources.Any(y => y.ResourceId == resourceId));
         }
 
         public IEnumerable<OpenTicketData> GetOpenTickets(Expression<Func<Ticket, bool>> prediction)

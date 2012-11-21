@@ -7499,6 +7499,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to View Mode.
+        /// </summary>
+        public static string ViewMode {
+            get {
+                return ResourceManager.GetString("ViewMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Void.
         /// </summary>
         public static string Void {

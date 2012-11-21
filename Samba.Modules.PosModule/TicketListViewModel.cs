@@ -24,7 +24,7 @@ namespace Samba.Modules.PosModule
         {
             _ticketService = ticketService;
             _tickets = new List<TicketButtonViewModel>();
-            AddTicketCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.Ticket).Replace(" ","\r"), OnAddTicket);
+            AddTicketCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.Ticket).Replace(" ", "\r"), OnAddTicket);
             MergeTicketsCommand = new CaptionCommand<string>(Resources.MergeTickets.Replace(" ", "\r"), OnMergeTickets, CanMergeTickets);
             CloseCommand = new CaptionCommand<string>(Resources.Close.Replace(" ", "\r"), OnCloseCommand);
         }
@@ -61,7 +61,7 @@ namespace Samba.Modules.PosModule
             if (!string.IsNullOrEmpty(result.ErrorMessage))
             {
                 InteractionService.UserIntraction.GiveFeedback(result.ErrorMessage);
-                Tickets.ForEach(x=>x.IsSelected = false);
+                Tickets.ForEach(x => x.IsSelected = false);
             }
             else
                 ExtensionMethods.PublishIdEvent(result.TicketId, EventTopicNames.DisplayTicket);
@@ -88,7 +88,7 @@ namespace Samba.Modules.PosModule
         {
             SelectedEntity = tagGroup;
             var tagValue = string.Format("\"TagName\":\"{0}\"", tagGroup.Name);
-            _tickets = _ticketService.GetOpenTickets(x => !x.IsClosed && x.TicketTags.Contains(tagValue)).Select(x => new TicketButtonViewModel(x, null)).ToList();
+            _tickets = _ticketService.GetOpenTickets(x => x.State < 2 && x.TicketTags.Contains(tagValue)).Select(x => new TicketButtonViewModel(x, null)).ToList();
             Refresh();
         }
 

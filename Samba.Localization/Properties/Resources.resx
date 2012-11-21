@@ -2936,4 +2936,7 @@ Message:
   <data name="AutoRefreshInterval">
     <value xml:space="preserve">Auto Refresh Interval</value>
   </data>
+  <data name="ViewMode">
+    <value xml:space="preserve">View Mode</value>
+  </data>
 </root>
