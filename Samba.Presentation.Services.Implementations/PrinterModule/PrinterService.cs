@@ -24,17 +24,17 @@ namespace Samba.Presentation.Services.Implementations.PrinterModule
     public class PrinterService : AbstractService, IPrinterService
     {
         private readonly IPrinterDao _printerDao;
-        private readonly IApplicationState _applicationState;
         private readonly ICacheService _cacheService;
+        private readonly ILogService _logService;
         private readonly TicketFormatter _ticketFormatter;
 
         [ImportingConstructor]
-        public PrinterService(IPrinterDao printerDao, IApplicationState applicationState, IResourceService resourceService,
-            ISettingService settingService, ICacheService cacheService, IExpressionService expressionService)
+        public PrinterService(IPrinterDao printerDao, IResourceService resourceService, ISettingService settingService,
+            ICacheService cacheService, IExpressionService expressionService, ILogService logService)
         {
             _printerDao = printerDao;
-            _applicationState = applicationState;
             _cacheService = cacheService;
+            _logService = logService;
             _ticketFormatter = new TicketFormatter(expressionService, settingService);
         }
 
@@ -142,14 +142,14 @@ namespace Samba.Presentation.Services.Implementations.PrinterModule
                         }
                         catch (Exception e)
                         {
-                            AppServices.LogError(e, "Yazdırma işlemi sırasında bir sorun meydana geldi. Lütfen yazıcı ve şablon ayarlarını kontrol ediniz.\r\n\r\nMesaj:\r\n" + e.Message);
+                            _logService.LogError(e, Resources.PrintErrorMessage + e.Message);
                         }
                     }));
         }
 
         private IEnumerable<Order> GetLastPaidOrders(Ticket ticket)
         {
-            IEnumerable<PaidItem> paidItems = _applicationState.LastPaidItems.ToList();
+            IEnumerable<PaidItem> paidItems = ticket.GetPaidItems().ToList();
             var result = paidItems.Select(x => ticket.Orders.First(y => y.MenuItemId + "_" + y.Price == x.Key)).ToList();
             foreach (var order in result)
             {
@@ -182,7 +182,6 @@ namespace Samba.Presentation.Services.Implementations.PrinterModule
             {
                 var item = order;
                 var value = _cacheService.GetMenuItemData(item.MenuItemId, selector);
-                //var value = selector(_cacheService.GetMenuItem(x => x.Id == item.MenuItemId)).ToString();
                 if (string.IsNullOrEmpty(value)) value = defaultValue;
                 if (!cache.ContainsKey(value))
                     cache.Add(value, 0);
@@ -239,7 +238,7 @@ namespace Samba.Presentation.Services.Implementations.PrinterModule
             if (p == null)
             {
                 MessageBox.Show(Resources.GeneralPrintErrorMessage);
-                AppServices.Log(Resources.GeneralPrintErrorMessage);
+                _logService.Log(Resources.GeneralPrintErrorMessage);
                 return;
             }
             var printer = PrinterById(p.PrinterId);

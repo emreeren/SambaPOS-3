@@ -14,13 +14,11 @@ namespace Samba.Modules.PaymentModule
     public class OrderSelectorViewModel : ObservableObject
     {
         private readonly TenderedValueViewModel _tenderedValueViewModel;
-        private readonly IApplicationStateSetter _applicationStateSetter;
-
+        
         [ImportingConstructor]
-        public OrderSelectorViewModel(TenderedValueViewModel tenderedValueViewModel, IApplicationStateSetter applicationStateSetter)
+        public OrderSelectorViewModel(TenderedValueViewModel tenderedValueViewModel)
         {
             _tenderedValueViewModel = tenderedValueViewModel;
-            _applicationStateSetter = applicationStateSetter;
             Model = new OrderSelector();
             Selectors = new ObservableCollection<SelectorViewModel>();
             SelectMergedItemCommand = new DelegateCommand<SelectorViewModel>(OnMergedItemSelected);
@@ -36,7 +34,6 @@ namespace Samba.Modules.PaymentModule
 
         public void UpdateTicket(Ticket ticket)
         {
-            _applicationStateSetter.SetLastPaidItems(GetSelectedItems());
             Model.UpdateTicket(ticket);
             Selectors.Clear();
             Selectors.AddRange(Model.Selectors.Select(x => new SelectorViewModel(x)));
@@ -45,7 +42,6 @@ namespace Samba.Modules.PaymentModule
 
         public void PersistSelectedItems()
         {
-            _applicationStateSetter.SetLastPaidItems(GetSelectedItems());
             Model.PersistSelectedItems();
             Refresh();
         }
@@ -92,6 +88,11 @@ namespace Samba.Modules.PaymentModule
         public IEnumerable<PaidItem> GetSelectedItems()
         {
             return Model.GetSelectedItems();
+        }
+
+        public void UpdateSelectedTicketPaidItems()
+        {
+            Model.UpdateSelectedTicketPaidItems();
         }
     }
 }

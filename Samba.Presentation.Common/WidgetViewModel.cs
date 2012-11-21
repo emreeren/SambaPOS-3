@@ -193,7 +193,7 @@ namespace Samba.Presentation.Common
         {
             if (!IsVisible) return;
             if (_disposed) return;
-            AppServices.MainDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(Refresh));
+            _applicationState.MainDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(Refresh));
         }
 
         protected override void Dispose(bool disposing)

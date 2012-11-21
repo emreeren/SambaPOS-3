@@ -6,13 +6,14 @@ using System.Windows.Documents;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Services;
+using Samba.Services;
 
 namespace Samba.Modules.BasicReports.Reports.CSVBuilder
 {
     class CsvBuilderViewModel : ReportViewModelBase
     {
-        public CsvBuilderViewModel(IUserService userService, IApplicationState applicationState)
-            : base(userService, applicationState)
+        public CsvBuilderViewModel(IUserService userService, IApplicationState applicationState, ILogService logService)
+            : base(userService, applicationState,logService)
         {
         }
 

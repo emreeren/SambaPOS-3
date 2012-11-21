@@ -50,7 +50,6 @@
     <Compile Include="AbstractService.cs" />
     <Compile Include="AppServices.cs" />
     <Compile Include="DataCreationService.cs" />
-    <Compile Include="EMailService.cs" />
     <Compile Include="EntityOperationRequest.cs" />
     <Compile Include="EventServiceFactory.cs" />
     <Compile Include="EventTopicNames.cs" />

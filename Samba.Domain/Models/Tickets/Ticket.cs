@@ -681,5 +681,10 @@ namespace Samba.Domain.Models.Tickets
         {
             Orders.Where(x => x.ProductTimerValue != null && x.ProductTimerValue.IsActive).ToList().ForEach(x => x.StopProductTimer());
         }
+
+        public IEnumerable<PaidItem> GetPaidItems()
+        {
+            return _paidItems;
+        }
     }
 }

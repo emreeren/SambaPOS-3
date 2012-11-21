@@ -271,7 +271,7 @@ namespace Samba.Modules.ResourceModule
                     delegate
                     {
 
-                        AppServices.MainDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(
+                        _applicationState.MainDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(
                                delegate
                                {
                                    FoundResources.Clear();

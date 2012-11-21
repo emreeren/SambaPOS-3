@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Windows.Threading;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Resources;
@@ -34,6 +35,7 @@ namespace Samba.Presentation.Common.Services
             CurrentTicketType = TicketType.Default;
         }
 
+        public Dispatcher MainDispatcher { get; set; }
         public AppScreens ActiveAppScreen { get; private set; }
         public CurrentDepartmentData CurrentDepartment { get; private set; }
         public TicketType CurrentTicketType { get; set; }

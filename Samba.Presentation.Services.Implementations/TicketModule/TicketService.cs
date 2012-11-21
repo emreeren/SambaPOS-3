@@ -184,9 +184,10 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                 {
                     Ticket = ticket,
                     PaymentTypeName = paymentType.Name,
-                    Tenderedamount = tenderedAmount,
+                    TenderedAmount = tenderedAmount,
                     ProcessedAmount = tenderedAmount - changeAmount,
                     ChangeAmount = changeAmount,
+                    SelectedQuantity = ticket.PaidItems.Sum(x => x.Quantity),
                     RemainingAmount = ticket.GetRemainingAmount()
                 });
         }

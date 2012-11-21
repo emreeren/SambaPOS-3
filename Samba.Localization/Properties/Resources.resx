@@ -2939,4 +2939,10 @@ Message:
   <data name="ViewMode">
     <value xml:space="preserve">View Mode</value>
   </data>
+  <data name="PrintErrorMessage">
+    <value xml:space="preserve">There is a problem while printing. Check printer and printer template settings.
+
+Error Message:
+</value>
+  </data>
 </root>

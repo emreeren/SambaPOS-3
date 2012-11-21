@@ -39,7 +39,7 @@ namespace Samba.Presentation.ViewModels
         private static readonly IMethodQueue MethodQueue = ServiceLocator.Current.GetInstance<IMethodQueue>();
         private static readonly ICacheService CacheService = ServiceLocator.Current.GetInstance<ICacheService>();
         private static readonly IExpressionService ExpressionService = ServiceLocator.Current.GetInstance<IExpressionService>();
-
+        private static readonly IEmailService EmailService = ServiceLocator.Current.GetInstance<IEmailService>();
 
         private static bool _registered;
 
@@ -95,7 +95,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterEvent(RuleEventNames.TicketOpened, Resources.TicketOpened, new { OrderCount = 0 });
             AutomationService.RegisterEvent(RuleEventNames.TicketClosing, Resources.TicketClosing, new { TicketId = 0, NewOrderCount = 0 });
             AutomationService.RegisterEvent(RuleEventNames.TicketsMerged, Resources.TicketsMerged);
-            AutomationService.RegisterEvent(RuleEventNames.PaymentProcessed, Resources.PaymentProcessed, new { PaymentTypeName = "", Tenderedamount = 0m, ProcessedAmount = 0m, ChangeAmount = 0m, RemainingAmount = 0m });
+            AutomationService.RegisterEvent(RuleEventNames.PaymentProcessed, Resources.PaymentProcessed, new { PaymentTypeName = "", TenderedAmount = 0m, ProcessedAmount = 0m, ChangeAmount = 0m, RemainingAmount = 0m, SelectedQuantity = 0m });
             AutomationService.RegisterEvent(RuleEventNames.TicketResourceChanged, Resources.TicketResourceChanged, new { OrderCount = 0, OldResourceName = "", NewResourceName = "" });
             AutomationService.RegisterEvent(RuleEventNames.TicketTagSelected, Resources.TicketTagSelected, new { TagName = "", TagValue = "", NumericValue = 0, TicketTag = "" });
             AutomationService.RegisterEvent(RuleEventNames.OrderTagged, Resources.OrderTagged, new { OrderTagName = "", OrderTagValue = "" });
@@ -361,7 +361,7 @@ namespace Samba.Presentation.ViewModels
 
                 if (x.Value.Action.ActionType == ActionNames.SendEmail)
                 {
-                    EMailService.SendEMailAsync(x.Value.GetAsString("SMTPServer"),
+                    EmailService.SendEMailAsync(x.Value.GetAsString("SMTPServer"),
                         x.Value.GetAsString("SMTPUser"),
                         x.Value.GetAsString("SMTPPassword"),
                         x.Value.GetAsInteger("SMTPPort"),

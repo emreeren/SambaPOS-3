@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows.Threading;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Resources;
@@ -36,11 +37,13 @@ namespace Samba.Presentation.Services
 
     public interface IApplicationState
     {
+        Dispatcher MainDispatcher { get; set; }
+        AppScreens ActiveAppScreen { get; }
+
         string NumberPadValue { get; }
         User CurrentLoggedInUser { get; }
         CurrentDepartmentData CurrentDepartment { get; }
         TicketType CurrentTicketType { get; set; }
-        AppScreens ActiveAppScreen { get; }
         ResourceScreen SelectedResourceScreen { get; }
         ResourceScreen ActiveResourceScreen { get; }
         WorkPeriod CurrentWorkPeriod { get; }
@@ -48,7 +51,6 @@ namespace Samba.Presentation.Services
         bool IsCurrentWorkPeriodOpen { get; }
         bool IsLocked { get; }
         Terminal CurrentTerminal { get; }
-        IEnumerable<PaidItem> LastPaidItems { get; }
 
         ProductTimer GetProductTimer(int menuItemId);
         IEnumerable<OrderTagGroup> GetOrderTagGroups(params int[] menuItemIds);

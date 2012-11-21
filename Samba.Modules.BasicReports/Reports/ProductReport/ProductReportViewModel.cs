@@ -4,13 +4,14 @@ using System.Windows.Documents;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Services;
+using Samba.Services;
 
 namespace Samba.Modules.BasicReports.Reports.ProductReport
 {
     public class ProductReportViewModel : ReportViewModelBase
     {
-        public ProductReportViewModel(IUserService userService, IApplicationState applicationState)
-            : base(userService, applicationState)
+        public ProductReportViewModel(IUserService userService, IApplicationState applicationState, ILogService logService)
+            : base(userService, applicationState, logService)
         {
         }
 

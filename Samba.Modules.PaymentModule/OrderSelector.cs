@@ -83,6 +83,12 @@ namespace Samba.Modules.PaymentModule
             }
         }
 
+        public void UpdateSelectedTicketPaidItems()
+        {
+            SelectedTicket.PaidItems.Clear();
+            Selectors.SelectMany(x => x.GetSelectedItems()).ToList().ForEach(x => SelectedTicket.PaidItems.Add(x));
+        }
+
         public void PersistTicket()
         {
             SelectedTicket.PaidItems.Clear();

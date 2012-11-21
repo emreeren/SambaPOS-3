@@ -20,6 +20,7 @@ using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ErrorReport;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
+using Samba.Services;
 
 namespace Samba.Modules.BasicReports
 {
@@ -57,11 +58,13 @@ namespace Samba.Modules.BasicReports
 
         public bool CanUserChangeDates { get { return UserService.IsUserPermittedFor(PermissionNames.ChangeReportDate); } }
 
+        private readonly ILogService _logService;
         public IUserService UserService { get; set; }
         public IApplicationState ApplicationState { get; set; }
 
-        protected ReportViewModelBase(IUserService userService, IApplicationState applicationState)
+        protected ReportViewModelBase(IUserService userService, IApplicationState applicationState,ILogService logService)
         {
+            _logService = logService;
             _links = new List<string>();
             UserService = userService;
             ApplicationState = applicationState;
@@ -83,7 +86,7 @@ namespace Samba.Modules.BasicReports
                 }
                 catch (Exception e)
                 {
-                    AppServices.LogError(e);
+                    _logService.LogError(e);
                 }
             }
         }

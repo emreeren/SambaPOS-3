@@ -4883,6 +4883,18 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There is a problem while printing. Check printer and printer template settings.
+        ///
+        ///Error Message:
+        ///.
+        /// </summary>
+        public static string PrintErrorMessage {
+            get {
+                return ResourceManager.GetString("PrintErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Printer Template.
         /// </summary>
         public static string PrinterTemplate {

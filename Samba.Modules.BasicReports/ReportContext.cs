@@ -28,6 +28,7 @@ namespace Samba.Modules.BasicReports
         public static IPrinterService PrinterService { get; set; }
         public static IUserService UserService { get; set; }
         public static IApplicationState ApplicationState { get; set; }
+        public static ILogService LogService { get; set; }
 
         private static IList<ReportViewModelBase> _reports;
         public static IList<ReportViewModelBase> Reports
@@ -39,15 +40,15 @@ namespace Samba.Modules.BasicReports
         {
             return new List<ReportViewModelBase>
                           {
-                              new EndDayReportViewModel(UserService,ApplicationState),
-                              new ProductReportViewModel(UserService,ApplicationState),
-                              new LiabilityReportViewModel(UserService,ApplicationState),
-                              new ReceivableReportViewModel(UserService,ApplicationState),
-                              new InternalAccountsViewModel(UserService,ApplicationState),
-                              new PurchaseReportViewModel(UserService,ApplicationState),
-                              new InventoryReportViewModel(UserService,ApplicationState),
-                              new CostReportViewModel(UserService,ApplicationState),
-                              new CsvBuilderViewModel(UserService,ApplicationState)
+                              new EndDayReportViewModel(UserService,ApplicationState,LogService),
+                              new ProductReportViewModel(UserService,ApplicationState,LogService),
+                              new LiabilityReportViewModel(UserService,ApplicationState,LogService),
+                              new ReceivableReportViewModel(UserService,ApplicationState,LogService),
+                              new InternalAccountsViewModel(UserService,ApplicationState,LogService),
+                              new PurchaseReportViewModel(UserService,ApplicationState,LogService),
+                              new InventoryReportViewModel(UserService,ApplicationState,LogService),
+                              new CostReportViewModel(UserService,ApplicationState,LogService),
+                              new CsvBuilderViewModel(UserService,ApplicationState,LogService)
                           };
         }
 

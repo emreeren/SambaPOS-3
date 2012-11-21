@@ -12,7 +12,7 @@ namespace Samba.Modules.PaymentModule
         public decimal Price { get; set; }
         public decimal Quantity { get; set; }
         public decimal TotalPrice { get { return Quantity * Price; } }
-        public decimal RemainingPrice { get { return RemainingQuantity*Price; } }
+        public decimal RemainingPrice { get { return RemainingQuantity * Price; } }
         public decimal SelectedQuantity { get { return _selectedItems.Sum(x => x.Quantity); } }
         public string Description { get; set; }
         public decimal RemainingQuantity { get { return Quantity - PaidQuantitiy; } }
@@ -36,7 +36,6 @@ namespace Samba.Modules.PaymentModule
                 }
                 else _paidItems.Add(selectedItem);
             }
-
             _selectedItems.Clear();
         }
 

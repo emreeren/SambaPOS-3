@@ -19,9 +19,9 @@ namespace Samba.Modules.BasicReports
 
         [ImportingConstructor]
         public BasicReportModule(IRegionManager regionManager, BasicReportView basicReportView,
-            IWorkPeriodService workPeriodService, IPrinterService printerService, 
+            IWorkPeriodService workPeriodService, IPrinterService printerService,
             IDepartmentService departmentService, IInventoryService inventoryService, IUserService userService,
-            IApplicationState applicationState,IAutomationService automationService)
+            IApplicationState applicationState, IAutomationService automationService, ILogService logService)
             : base(regionManager, AppScreens.ReportScreen)
         {
             ReportContext.PrinterService = printerService;
@@ -30,7 +30,8 @@ namespace Samba.Modules.BasicReports
             ReportContext.InventoryService = inventoryService;
             ReportContext.UserService = userService;
             ReportContext.ApplicationState = applicationState;
-            
+            ReportContext.LogService = logService;
+
             _userService = userService;
 
             _regionManager = regionManager;
@@ -70,7 +71,7 @@ namespace Samba.Modules.BasicReports
 
         protected override bool CanNavigate(string arg)
         {
-            return (_userService.IsUserPermittedFor(PermissionNames.OpenReports) 
+            return (_userService.IsUserPermittedFor(PermissionNames.OpenReports)
                 && ReportContext.ApplicationState.CurrentWorkPeriod != null);
         }
 

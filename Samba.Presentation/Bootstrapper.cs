@@ -12,6 +12,7 @@ using Samba.Presentation.Common.Services;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Presentation.ViewModels;
+using Samba.Services;
 
 namespace Samba.Presentation
 {
@@ -35,7 +36,7 @@ namespace Samba.Presentation
                 AggregateCatalog.Catalogs.Add(new DirectoryCatalog(path, "Samba.Modules*"));
                 AggregateCatalog.Catalogs.Add(new DirectoryCatalog(path, "Samba.Presentation*"));
                 AggregateCatalog.Catalogs.Add(new DirectoryCatalog(path, "Samba.Services*"));
-                
+
             }
             LocalSettings.AppPath = path;
         }
@@ -63,8 +64,8 @@ namespace Samba.Presentation
             InteractionService.UserIntraction = ServiceLocator.Current.GetInstance<IUserInteraction>();
             InteractionService.UserIntraction.ToggleSplashScreen();
 
-            AppServices.MainDispatcher = Application.Current.Dispatcher;
-
+            ServiceLocator.Current.GetInstance<IApplicationState>().MainDispatcher = Application.Current.Dispatcher;
+            var logger = ServiceLocator.Current.GetInstance<ILogService>();
             AppServices.MessagingService.RegisterMessageListener(new MessageListener());
 
             if (LocalSettings.StartMessagingClient)
@@ -96,11 +97,11 @@ namespace Samba.Presentation
                     if (!string.IsNullOrEmpty(cs))
                         LocalSettings.ConnectionString = cs.Trim();
 
-                    AppServices.LogError(e, "Programı yeniden başlatınız. Mevcut problem log dosyasına kaydedildi.");
+                    logger.LogError(e, "Programı yeniden başlatınız. Mevcut problem log dosyasına kaydedildi.");
                 }
                 else
                 {
-                    AppServices.LogError(e);
+                    logger.LogError(e);
                     LocalSettings.ConnectionString = "";
                 }
                 LocalSettings.SaveSettings();

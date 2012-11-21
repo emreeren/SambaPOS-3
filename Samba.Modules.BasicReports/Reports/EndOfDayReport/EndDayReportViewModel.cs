@@ -7,13 +7,14 @@ using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Services;
+using Samba.Services;
 
 namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 {
     public class EndDayReportViewModel : ReportViewModelBase
     {
-        public EndDayReportViewModel(IUserService userService, IApplicationState applicationState)
-            : base(userService, applicationState)
+        public EndDayReportViewModel(IUserService userService, IApplicationState applicationState, ILogService logService)
+            : base(userService, applicationState, logService)
         {
 
         }
@@ -333,7 +334,7 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
                 {
                     report.AddRow(rpKey, Resources.SubTotal.ToUpper(),
                                   ticketGropus.Sum(x => x.Amount + x.Services).ToString(ReportContext.CurrencyFormat));
-                    
+
                     report.AddRow(rpKey, Resources.TaxTotal.ToUpper(), vatSum.ToString(ReportContext.CurrencyFormat));
                 }
 

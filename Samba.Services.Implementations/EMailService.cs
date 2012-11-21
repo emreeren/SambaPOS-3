@@ -1,15 +1,25 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Threading;
 
-namespace Samba.Presentation.Services.Common
+namespace Samba.Services.Implementations
 {
-    public static class EMailService
+    [Export(typeof(IEmailService))]
+    public class EMailService : IEmailService
     {
-        public static void SendEmail(string smtpServerAddress, string smtpUser, string smtpPassword, int smtpPort, string toEmailAddress, string ccEmailAddresses, string fromEmailAddress, string subject, string body, string fileName, bool deleteFile, bool bypassSslErrors)
+        private readonly ILogService _logService;
+
+        [ImportingConstructor]
+        public EMailService(ILogService logService)
+        {
+            _logService = logService;
+        }
+
+        public void SendEmail(string smtpServerAddress, string smtpUser, string smtpPassword, int smtpPort, string toEmailAddress, string ccEmailAddresses, string fromEmailAddress, string subject, string body, string fileName, bool deleteFile, bool bypassSslErrors)
         {
             var mail = new MailMessage();
             var smtpServer = new SmtpClient(smtpServerAddress);
@@ -32,7 +42,7 @@ namespace Samba.Presentation.Services.Common
             }
             catch (Exception e)
             {
-                AppServices.LogError(e);
+                _logService.LogError(e);
             }
             finally
             {
@@ -54,7 +64,7 @@ namespace Samba.Presentation.Services.Common
             }
         }
 
-        public static void SendEMailAsync(string smtpServerAddress, string smtpUser, string smtpPassword, int smtpPort, string toEmailAddress, string ccEmailAddresses, string fromEmailAddress, string subject, string body, string fileName, bool deleteFile, bool byPassSslErrors)
+        public void SendEMailAsync(string smtpServerAddress, string smtpUser, string smtpPassword, int smtpPort, string toEmailAddress, string ccEmailAddresses, string fromEmailAddress, string subject, string body, string fileName, bool deleteFile, bool byPassSslErrors)
         {
             var thread = new Thread(() => SendEmail(smtpServerAddress, smtpUser, smtpPassword, smtpPort, toEmailAddress, ccEmailAddresses, fromEmailAddress, subject, body, fileName, deleteFile, byPassSslErrors));
             thread.Start();
