@@ -114,7 +114,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             var result = _ticketDao.CheckConcurrency(ticket);
             Debug.Assert(ticket != null);
             var changed = !string.IsNullOrEmpty(result.ErrorMessage);
-            var canSumbitTicket = !changed && ticket.CanSubmit; // Fişi kaydedebilmek için gün sonu yapılmamış ve fişin ödenmemiş olması gerekir.
+            var canSumbitTicket = !changed && ticket.CanSubmit; 
 
             if (canSumbitTicket)
             {
@@ -129,13 +129,11 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                     {
                         var number = _settingService.GetNextNumber(ticketType.OrderNumerator.Id);
                         ticket.MergeOrdersAndUpdateOrderNumbers(number);
-                        ticket.Orders.Where(x => x.Id == 0).ToList().ForEach(x => x.CreatedDateTime = DateTime.Now);
                     }
 
                     if (ticket.Id == 0)
                     {
                         UpdateTicketNumber(ticket, ticketType.TicketNumerator);
-                        ticket.LastOrderDate = DateTime.Now;
                         _ticketDao.Save(ticket);
                     }
 
@@ -145,8 +143,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                     ticket.LockTicket();
                 }
 
-                if (ticket.IsClosed)
-                    ticket.TransactionDocument.AccountTransactions.Where(x => x.Amount == 0).ToList().ForEach(x => ticket.TransactionDocument.AccountTransactions.Remove(x));
+                ticket.RemoveZeroAmountAccountTransactions();
 
                 if (ticket.Id > 0)// eğer adisyonda satır yoksa ID burada 0 olmalı.
                     _ticketDao.Save(ticket);
@@ -209,6 +206,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             {
                 ticket.TicketNumber = _settingService.GetNextString(numerator.Id);
             }
+            ticket.LastOrderDate = DateTime.Now;
         }
 
         public TicketCommitResult MergeTickets(IEnumerable<int> ticketIds)

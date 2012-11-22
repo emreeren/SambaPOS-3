@@ -439,7 +439,6 @@ namespace Samba.Domain.Models.Tickets
             LastOrderDate = DateTime.Now;
             IList<Order> newOrders = Orders.Where(x => !x.Locked && x.Id == 0).ToList();
 
-            //sadece quantity = 1 olan satırlar birleştirilecek.
             var mergedOrders = newOrders.Where(x => x.Quantity != 1).ToList();
             var ids = mergedOrders.Select(x => x.MenuItemId).Distinct().ToArray();
             mergedOrders.AddRange(newOrders.Where(x => ids.Contains(x.MenuItemId) && x.Quantity == 1));
@@ -470,6 +469,8 @@ namespace Samba.Domain.Models.Tickets
             {
                 item.OrderNumber = orderNumber;
             }
+
+            Orders.Where(x => x.Id == 0).ToList().ForEach(x => x.CreatedDateTime = DateTime.Now);
         }
 
         public void RequestLock()
@@ -685,6 +686,12 @@ namespace Samba.Domain.Models.Tickets
         public IEnumerable<PaidItem> GetPaidItems()
         {
             return _paidItems;
+        }
+
+        public void RemoveZeroAmountAccountTransactions()
+        {
+            if (!IsClosed) return;
+            TransactionDocument.AccountTransactions.Where(x => x.Amount == 0).ToList().ForEach(x => TransactionDocument.AccountTransactions.Remove(x));
         }
     }
 }

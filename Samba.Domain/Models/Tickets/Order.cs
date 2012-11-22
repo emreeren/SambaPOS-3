@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Diagnostics;
 using Samba.Domain.Models.Menus;
@@ -43,7 +42,6 @@ namespace Samba.Domain.Models.Tickets
         public int? ProductTimerValueId { get; set; }
         public virtual ProductTimerValue ProductTimerValue { get; set; }
 
-        [StringLength(10)]
         public string PriceTag { get; set; }
         public string Tag { get; set; }
 
@@ -244,13 +242,6 @@ namespace Samba.Domain.Models.Tickets
             return 0;
         }
 
-        //public decimal GetTotal()
-        //{
-        //    var val = GetTransactionTotal();
-        //    if (IncreaseInventory) val = 0 - val;
-        //    return val;
-        //}
-
         public decimal GetItemValue()
         {
             return decimal.Round(Quantity * GetItemPrice(), 2, MidpointRounding.AwayFromZero);
@@ -360,14 +351,9 @@ namespace Samba.Domain.Models.Tickets
             return OrderStateGroupId == orderStateGroup.Id;
         }
 
-        //var plainSum = GetPlainSum();
-        //var postServices = CalculateServices(Calculations.Where(x => !x.IncludeTax), plainSum);
-        //var tax = CalculateTax(plainSum, postServices);
-
         public decimal GetTaxAmount()
         {
             var result = CalculatePrice && (DecreaseInventory || IncreaseInventory) ? (TaxAmount + OrderTagValues.Sum(x => x.TaxAmount)) * Quantity : 0;
-            //if (IncreaseInventory) result = 0 - result;
             return result;
         }
 
