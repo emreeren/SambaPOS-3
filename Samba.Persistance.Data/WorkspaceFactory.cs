@@ -18,11 +18,11 @@ namespace Samba.Persistance.Data
     public static class WorkspaceFactory
     {
         private static TextFileWorkspace _textFileWorkspace;
-        private static string _connectionString = LocalSettings.ConnectionString;
+        private static string _connectionString;
 
         static WorkspaceFactory()
         {
-            UpdateConnection(_connectionString);
+            UpdateConnection(LocalSettings.ConnectionString);
         }
 
         public static void UpdateConnection(string connectionString)
@@ -30,25 +30,25 @@ namespace Samba.Persistance.Data
             _connectionString = connectionString;
             Database.SetInitializer(new Initializer());
 
-            if (string.IsNullOrEmpty(LocalSettings.ConnectionString))
+            if (string.IsNullOrEmpty(_connectionString))
             {
                 if (IsSqlce40Installed())
-                    LocalSettings.ConnectionString = string.Format("data source={0}\\{1}.sdf", LocalSettings.DocumentPath,
+                    _connectionString = string.Format("data source={0}\\{1}.sdf", LocalSettings.DocumentPath,
                                                                    LocalSettings.AppName);
-                else LocalSettings.ConnectionString = GetTextFileName();
+                else _connectionString = GetTextFileName();
             }
-            if (LocalSettings.ConnectionString.EndsWith(".sdf"))
+            if (_connectionString.EndsWith(".sdf"))
             {
                 Database.DefaultConnectionFactory =
                     new SqlCeConnectionFactory("System.Data.SqlServerCe.4.0", "", LocalSettings.ConnectionString);
             }
-            else if (LocalSettings.ConnectionString.EndsWith(".txt"))
+            else if (_connectionString.EndsWith(".txt"))
             {
                 _textFileWorkspace = GetTextFileWorkspace();
             }
             else if (!string.IsNullOrEmpty(LocalSettings.ConnectionString))
             {
-                var cs = LocalSettings.ConnectionString;
+                var cs = _connectionString;
                 if (!cs.Trim().EndsWith(";"))
                     cs += ";";
                 if (!cs.ToLower().Contains("multipleactiveresultsets"))

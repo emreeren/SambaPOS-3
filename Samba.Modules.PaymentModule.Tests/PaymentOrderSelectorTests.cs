@@ -29,6 +29,7 @@ namespace Samba.Modules.PaymentModule.Tests
             ticket.AddOrder(AccountTransactionType.Default, "Emre", tost, new MenuItemPortion { Price = 5, Name = "Adet" }, "", null);
             ticket.AddOrder(AccountTransactionType.Default, "Emre", hamburger, new MenuItemPortion { Price = 7, Name = "Adet" }, "", null);
             ticket.AddOrder(AccountTransactionType.Default, "Emre", hamburger, new MenuItemPortion { Price = 6, Name = "Adet" }, "", null);
+            ticket.Recalculate();
             return ticket;
         }
 

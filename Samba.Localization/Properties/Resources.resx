@@ -1163,13 +1163,11 @@ Can't end Work Period while tickets open</value>
     <value>Close
 Ticket</value>
   </data>
-  <data name="CashPayment_r" xml:space="preserve">
-    <value>Cash
-Payment</value>
+  <data name="CashPayment" xml:space="preserve">
+    <value>Cash Payment</value>
   </data>
-  <data name="CreditCard_r" xml:space="preserve">
-    <value>Credit
-Card</value>
+  <data name="CreditCardPayment" xml:space="preserve">
+    <value>Credit Card Payment</value>
   </data>
   <data name="Void" xml:space="preserve">
     <value>Void</value>
@@ -2944,5 +2942,11 @@ Message:
 
 Error Message:
 </value>
+  </data>
+  <data name="Customer_f">
+    <value xml:space="preserve">Customer {0}</value>
+  </data>
+  <data name="All Tables">
+    <value xml:space="preserve">All Tables</value>
   </data>
 </root>

@@ -181,7 +181,6 @@ namespace Samba.Domain.Models.Tickets
 
             order.UpdateProductTimer(timer);
             Orders.Add(order);
-            Recalculate();
             return order;
         }
 

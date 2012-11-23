@@ -123,7 +123,7 @@ namespace Samba.Presentation.Services.Common
 
             var customerAccountTransactionType = new AccountTransactionType
             {
-                Name = "Customer Account Transaction",
+                Name = string.Format(Resources.Customer_f, Resources.AccountTransaction),
                 SourceAccountTypeId = receivableAccountType.Id,
                 TargetAccountTypeId = customerAccountType.Id,
                 DefaultSourceAccountId = defaultReceivableAccount.Id
@@ -131,7 +131,7 @@ namespace Samba.Presentation.Services.Common
 
             var customerCashPaymentType = new AccountTransactionType
             {
-                Name = "Customer Cash Payment",
+                Name = string.Format(Resources.Customer_f, Resources.CashPayment),
                 SourceAccountTypeId = customerAccountType.Id,
                 TargetAccountTypeId = paymentAccountType.Id,
                 DefaultTargetAccountId = cashAccount.Id
@@ -139,7 +139,7 @@ namespace Samba.Presentation.Services.Common
 
             var customerCreditCardPaymentType = new AccountTransactionType
             {
-                Name = "Customer Credit Card Payment",
+                Name = string.Format(Resources.Customer_f, Resources.CreditCardPayment),
                 SourceAccountTypeId = customerAccountType.Id,
                 TargetAccountTypeId = paymentAccountType.Id,
                 DefaultTargetAccountId = creditCardAccount.Id
@@ -155,7 +155,7 @@ namespace Samba.Presentation.Services.Common
 
             var customerCashDocument = new AccountTransactionDocumentType
             {
-                Name = "Customer Cash",
+                Name = string.Format(Resources.Customer_f, Resources.Cash),
                 ButtonHeader = Resources.Cash,
                 DefaultAmount = string.Format("[{0}]", Resources.Balance),
                 DescriptionTemplate = string.Format(Resources.Payment_f, Resources.Cash),
@@ -166,7 +166,7 @@ namespace Samba.Presentation.Services.Common
 
             var customerCreditCardDocument = new AccountTransactionDocumentType
             {
-                Name = "Customer Credit Card",
+                Name = string.Format(Resources.Customer_f, Resources.CreditCard),
                 ButtonHeader = Resources.CreditCard,
                 DefaultAmount = string.Format("[{0}]", Resources.Balance),
                 DescriptionTemplate = string.Format(Resources.Payment_f, Resources.CreditCard),
@@ -277,7 +277,7 @@ namespace Samba.Presentation.Services.Common
             _workspace.Add(voucherPayment);
             _workspace.Add(accountPayment);
             _workspace.Add(ticketType);
-            
+
             _workspace.CommitChanges();
 
             var department = new Department
@@ -413,7 +413,7 @@ namespace Samba.Presentation.Services.Common
             unlockTicketRule.AddRuleMap();
             _workspace.Add(unlockTicketRule);
 
-            var createTicketRule = new AppRule { Name = "Create Ticket Rule", EventName = RuleEventNames.AutomationCommandExecuted, EventConstraints = "AutomationCommandName;=;Add Ticket" };
+            var createTicketRule = new AppRule { Name = "Create Ticket Rule", EventName = RuleEventNames.AutomationCommandExecuted, EventConstraints = "AutomationCommandName;=;" + string.Format(Resources.Add_f, Resources.Ticket) };
             createTicketRule.Actions.Add(new ActionContainer(createTicketAction));
             createTicketRule.AddRuleMap();
             _workspace.Add(createTicketRule);
@@ -426,11 +426,11 @@ namespace Samba.Presentation.Services.Common
             ImportMenus(screen);
             ImportTableResources(tableResourceType, ticketType, availableState.Id);
 
-            var customerScreen = new ResourceScreen { Name = "Customer Search", DisplayMode = 1, ResourceTypeId = customerResourceType.Id, TicketTypeId = ticketType.Id };
+            var customerScreen = new ResourceScreen { Name = string.Format(Resources.Customer_f, Resources.Search), DisplayMode = 1, ResourceTypeId = customerResourceType.Id, TicketTypeId = ticketType.Id };
             customerScreen.ResourceScreenMaps.Add(new ResourceScreenMap());
             _workspace.Add(customerScreen);
 
-            var customerTicketScreen = new ResourceScreen { Name = "Customer Tickets", DisplayMode = 0, ResourceTypeId = customerResourceType.Id, StateFilterId = newOrderState.Id, ColumnCount = 6, RowCount = 6, TicketTypeId = ticketType.Id };
+            var customerTicketScreen = new ResourceScreen { Name = string.Format(Resources.Customer_f, Resources.Tickets), DisplayMode = 0, ResourceTypeId = customerResourceType.Id, StateFilterId = newOrderState.Id, ColumnCount = 6, RowCount = 6, TicketTypeId = ticketType.Id };
             customerTicketScreen.ResourceScreenMaps.Add(new ResourceScreenMap());
             _workspace.Add(customerTicketScreen);
 
@@ -469,7 +469,7 @@ namespace Samba.Presentation.Services.Common
 
             _workspace.CommitChanges();
 
-            var screen = new ResourceScreen { Name = "All Tables", TicketTypeId = ticketType.Id, ColumnCount = 7, ResourceTypeId = tableTemplate.Id, FontSize = 50 };
+            var screen = new ResourceScreen { Name = Resources.All_Tables, TicketTypeId = ticketType.Id, ColumnCount = 7, ResourceTypeId = tableTemplate.Id, FontSize = 50 };
             screen.ResourceScreenMaps.Add(new ResourceScreenMap());
             _workspace.Add(screen);
 

@@ -395,6 +395,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All Tables.
+        /// </summary>
+        public static string All_Tables {
+            get {
+                return ResourceManager.GetString("All Tables", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All Categories.
         /// </summary>
         public static string AllCategories {
@@ -1079,12 +1088,11 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cash
-        ///Payment.
+        ///   Looks up a localized string similar to Cash Payment.
         /// </summary>
-        public static string CashPayment_r {
+        public static string CashPayment {
             get {
-                return ResourceManager.GetString("CashPayment_r", resourceCulture);
+                return ResourceManager.GetString("CashPayment", resourceCulture);
             }
         }
         
@@ -1513,12 +1521,11 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Credit
-        ///Card.
+        ///   Looks up a localized string similar to Credit Card Payment.
         /// </summary>
-        public static string CreditCard_r {
+        public static string CreditCardPayment {
             get {
-                return ResourceManager.GetString("CreditCard_r", resourceCulture);
+                return ResourceManager.GetString("CreditCardPayment", resourceCulture);
             }
         }
         
@@ -1591,6 +1598,15 @@ namespace Samba.Localization.Properties {
         public static string Customer {
             get {
                 return ResourceManager.GetString("Customer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Customer {0}.
+        /// </summary>
+        public static string Customer_f {
+            get {
+                return ResourceManager.GetString("Customer_f", resourceCulture);
             }
         }
         
