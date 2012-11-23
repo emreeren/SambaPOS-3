@@ -17,12 +17,12 @@ namespace Samba.Services.Implementations.ExpressionModule
         private readonly IAutomationDao _automationDao;
         private readonly Interpreter _interpreter;
         private Dictionary<string, string> _scripts;
+        private Dictionary<string, string> Scripts { get { return _scripts ?? (_scripts = _automationDao.GetScripts()); } }
 
         [ImportingConstructor]
         public ExpressionService(IAutomationDao automationDao)
         {
             _automationDao = automationDao;
-            _scripts = _automationDao.GetScripts();
             _interpreter = new Interpreter();
             _interpreter.SetFunctionCallback("Call", CallFunction);
             _interpreter.SetFunctionCallback("F", FormatFunction);
@@ -115,10 +115,10 @@ namespace Samba.Services.Implementations.ExpressionModule
 
         private string GetScript(string functionName, string entityName)
         {
-            if (_scripts.ContainsKey(functionName + entityName))
-                return _scripts[functionName + entityName];
-            if (_scripts.ContainsKey(functionName + "_*"))
-                return _scripts[functionName + "_*"];
+            if (Scripts.ContainsKey(functionName + entityName))
+                return Scripts[functionName + entityName];
+            if (Scripts.ContainsKey(functionName + "_*"))
+                return Scripts[functionName + "_*"];
             return "";
         }
 
@@ -133,8 +133,7 @@ namespace Samba.Services.Implementations.ExpressionModule
 
         public void ResetCache()
         {
-            _scripts.Clear();
-            _scripts = _automationDao.GetScripts();
+            _scripts = null;
         }
     }
 }

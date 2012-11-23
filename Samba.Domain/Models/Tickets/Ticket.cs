@@ -181,6 +181,7 @@ namespace Samba.Domain.Models.Tickets
 
             order.UpdateProductTimer(timer);
             Orders.Add(order);
+            Recalculate();
             return order;
         }
 
@@ -499,10 +500,12 @@ namespace Samba.Domain.Models.Tickets
                              };
 
             ticket.UpdateAccount(account, exchangeRate);
-
-            foreach (var calculationType in calculationTypes.OrderBy(x => x.Order))
+            if (calculationTypes != null)
             {
-                ticket.AddCalculation(calculationType, calculationType.Amount);
+                foreach (var calculationType in calculationTypes.OrderBy(x => x.Order))
+                {
+                    ticket.AddCalculation(calculationType, calculationType.Amount);
+                }
             }
             return ticket;
         }

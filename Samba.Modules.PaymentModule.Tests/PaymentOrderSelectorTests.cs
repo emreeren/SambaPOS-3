@@ -197,5 +197,19 @@ namespace Samba.Modules.PaymentModule.Tests
             Assert.AreEqual(7.05m, orderSelector.Selectors[0].RemainingPrice);
             Assert.AreEqual(decimal.Round(28 / 2.12m, 2), orderSelector.RemainingTotal);
         }
+
+        [Test]
+        public void CanStoreLastItems()
+        {
+            var orderSelector = SetupOrderSelector();
+            orderSelector.Select(1, 5);
+            Assert.AreEqual(5, orderSelector.SelectedTotal);
+            orderSelector.UpdateSelectedTicketPaidItems();
+            Assert.AreEqual(1, orderSelector.SelectedTicket.PaidItems.Count);
+            orderSelector.Select(1, 5);
+            orderSelector.UpdateSelectedTicketPaidItems();
+            Assert.AreEqual(2, orderSelector.SelectedTicket.PaidItems.Count);
+            Assert.AreEqual(2, orderSelector.SelectedTicket.PaidItems.Sum(x => x.Quantity));
+        }
     }
 }

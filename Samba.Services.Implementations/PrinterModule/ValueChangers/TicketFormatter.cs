@@ -10,7 +10,6 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
     {
         private readonly IExpressionService _expressionService;
         private readonly ISettingService _settingService;
-        private readonly TicketValueChanger _ticketValueChanger = new TicketValueChanger();
 
         public TicketFormatter(IExpressionService expressionService, ISettingService settingService)
         {
@@ -18,12 +17,22 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             _settingService = settingService;
         }
 
+        private TicketValueChanger _ticketValueChanger;
+        private TicketValueChanger TicketValueChanger
+        {
+            get
+            {
+                return _ticketValueChanger ??
+                    (_ticketValueChanger = new TicketValueChanger());
+            }
+        }
+
         public string[] GetFormattedTicket(Ticket ticket, IEnumerable<Order> lines, PrinterTemplate printerTemplate)
         {
             var orders = printerTemplate.MergeLines ? MergeLines(lines.ToList()) : lines;
             ticket.Orders.Clear();
             orders.ToList().ForEach(ticket.Orders.Add);
-            var content = _ticketValueChanger.GetValue(printerTemplate, ticket);
+            var content = TicketValueChanger.GetValue(printerTemplate, ticket);
             content = UpdateExpressions(content);
             return content.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).ToArray();
         }

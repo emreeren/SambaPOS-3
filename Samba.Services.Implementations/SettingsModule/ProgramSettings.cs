@@ -11,11 +11,7 @@ namespace Samba.Services.Implementations.SettingsModule
         private readonly IDictionary<string, ProgramSettingValue> _settingCache = new Dictionary<string, ProgramSettingValue>();
         private readonly IDictionary<string, ProgramSetting> _customSettingCache = new Dictionary<string, ProgramSetting>();
         private IWorkspace _workspace;
-
-        public ProgramSettings()
-        {
-            _workspace = WorkspaceFactory.Create();
-        }
+        private IWorkspace Workspace { get { return _workspace ?? (_workspace = WorkspaceFactory.Create()); } }
 
         public string WeightBarcodePrefix
         {
@@ -124,7 +120,7 @@ namespace Samba.Services.Implementations.SettingsModule
 
         public ProgramSetting GetSetting(string valueName)
         {
-            var setting = _workspace.Single<ProgramSettingValue>(x => x.Name == valueName);
+            var setting = Workspace.Single<ProgramSettingValue>(x => x.Name == valueName);
             if (_settingCache.ContainsKey(valueName))
             {
                 if (setting == null)
@@ -135,20 +131,20 @@ namespace Samba.Services.Implementations.SettingsModule
             {
                 setting = new ProgramSettingValue { Name = valueName };
                 _settingCache.Add(valueName, setting);
-                _workspace.Add(setting);
+                Workspace.Add(setting);
             }
             return new ProgramSetting(setting);
         }
 
         public void SaveChanges()
         {
-            _workspace.CommitChanges();
-            _workspace = WorkspaceFactory.Create();
+            Workspace.CommitChanges();
+            _workspace = null;
         }
 
         public void ResetCache()
         {
-            _workspace = WorkspaceFactory.Create();
+            _workspace = null;
             _customSettingCache.Clear();
         }
     }

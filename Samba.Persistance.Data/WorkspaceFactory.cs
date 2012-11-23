@@ -22,12 +22,19 @@ namespace Samba.Persistance.Data
 
         static WorkspaceFactory()
         {
+            UpdateConnection(_connectionString);
+        }
+
+        public static void UpdateConnection(string connectionString)
+        {
+            _connectionString = connectionString;
             Database.SetInitializer(new Initializer());
 
             if (string.IsNullOrEmpty(LocalSettings.ConnectionString))
             {
                 if (IsSqlce40Installed())
-                    LocalSettings.ConnectionString = string.Format("data source={0}\\{1}.sdf", LocalSettings.DocumentPath, LocalSettings.AppName);
+                    LocalSettings.ConnectionString = string.Format("data source={0}\\{1}.sdf", LocalSettings.DocumentPath,
+                                                                   LocalSettings.AppName);
                 else LocalSettings.ConnectionString = GetTextFileName();
             }
             if (LocalSettings.ConnectionString.EndsWith(".sdf"))
@@ -46,9 +53,11 @@ namespace Samba.Persistance.Data
                     cs += ";";
                 if (!cs.ToLower().Contains("multipleactiveresultsets"))
                     cs += " MultipleActiveResultSets=True;";
-                if (!cs.ToLower(CultureInfo.InvariantCulture).Contains("user id") && (!cs.ToLower(CultureInfo.InvariantCulture).Contains("integrated security")))
+                if (!cs.ToLower(CultureInfo.InvariantCulture).Contains("user id") &&
+                    (!cs.ToLower(CultureInfo.InvariantCulture).Contains("integrated security")))
                     cs += " Integrated Security=True;";
-                if (cs.ToLower(CultureInfo.InvariantCulture).Contains("user id") && !cs.ToLower().Contains("persist security info"))
+                if (cs.ToLower(CultureInfo.InvariantCulture).Contains("user id") &&
+                    !cs.ToLower().Contains("persist security info"))
                     cs += " Persist Security Info=True;";
                 Database.DefaultConnectionFactory =
                     new SqlConnectionFactory(cs);

@@ -124,7 +124,7 @@
     <Compile Include="SettingsModule\ProgramSetting.cs" />
     <Compile Include="SettingsModule\ProgramSettings.cs" />
     <Compile Include="SettingsModule\SettingReplacer.cs" />
-    <Compile Include="SettingsModule\SettingsService.cs" />
+    <Compile Include="SettingsModule\SettingService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lib\FluentScript\FluentScript.csproj">

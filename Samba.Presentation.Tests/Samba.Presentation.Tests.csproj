@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E1C4E4B7-D9F8-4806-ACB9-2774B3C827F6}</ProjectGuid>
+    <ProjectGuid>{C59A1FB9-413A-4528-B4C1-BB0CEEF30366}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Samba.Modules.PaymentModule.Tests</RootNamespace>
-    <AssemblyName>Samba.Modules.PaymentModule.Tests</AssemblyName>
+    <RootNamespace>Samba.Presentation.Tests</RootNamespace>
+    <AssemblyName>Samba.Presentation.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,6 +36,7 @@
       <HintPath>..\Lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -43,7 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PaymentOrderSelectorTests.cs" />
+    <Compile Include="InventoryTests.cs" />
+    <Compile Include="MefBootstrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -55,9 +58,41 @@
       <Project>{2D64F506-D566-4CA5-A19C-BCB5F9A2E7F4}</Project>
       <Name>Samba.Infrastructure.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Samba.Modules.PaymentModule\Samba.Modules.PaymentModule.csproj">
-      <Project>{F30AA5E9-0C10-438D-9DC7-5A8F3FC5D95D}</Project>
-      <Name>Samba.Modules.PaymentModule</Name>
+    <ProjectReference Include="..\Samba.Infrastructure\Samba.Infrastructure.csproj">
+      <Project>{B184E8F8-A507-4C3D-B580-184E3776A95C}</Project>
+      <Name>Samba.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Persistance.Data\Samba.Persistance.Data.csproj">
+      <Project>{FEDA2199-91CD-4AF1-B571-4AA2E8371A18}</Project>
+      <Name>Samba.Persistance.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Persistance\Samba.Persistance.csproj">
+      <Project>{9ACA7797-5C2A-4435-B991-E59462ACDAF6}</Project>
+      <Name>Samba.Persistance</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Presentation.Common\Samba.Presentation.Common.csproj">
+      <Project>{FE1A894E-D55E-4CEA-980A-1C678A2453FC}</Project>
+      <Name>Samba.Presentation.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Presentation.Services.Common\Samba.Presentation.Services.Common.csproj">
+      <Project>{F2C77290-6806-4F23-BEB7-171C4008D13B}</Project>
+      <Name>Samba.Presentation.Services.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Presentation.Services.Implementations\Samba.Presentation.Services.Implementations.csproj">
+      <Project>{D129FE5D-2C81-4163-BEF4-0C6150FEB766}</Project>
+      <Name>Samba.Presentation.Services.Implementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Presentation.Services\Samba.Presentation.Services.csproj">
+      <Project>{7DD8848C-3ADB-45B3-BD49-10AF3AEE2521}</Project>
+      <Name>Samba.Presentation.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Services.Implementations\Samba.Services.Implementations.csproj">
+      <Project>{fc7c3be1-3464-4afb-8f1c-9209ef64be29}</Project>
+      <Name>Samba.Services.Implementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Services\Samba.Services.csproj">
+      <Project>{413B698C-0D7D-4FCD-9F16-AF51AED4E647}</Project>
+      <Name>Samba.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

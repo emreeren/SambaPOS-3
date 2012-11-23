@@ -10,7 +10,7 @@ using Samba.Services.Common;
 namespace Samba.Services.Implementations.SettingsModule
 {
     [Export(typeof(ISettingService))]
-    class SettingService : ISettingService
+    public class SettingService : ISettingService
     {
         private readonly ISettingDao _settingDao;
 
