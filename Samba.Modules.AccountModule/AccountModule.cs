@@ -34,7 +34,7 @@ namespace Samba.Modules.AccountModule
             AccountDetailsView accountDetailsView,
             DocumentCreatorView documentCreatorView,
             BatchDocumentCreatorView batchDocumentCreatorView, BatchDocumentCreatorViewModel batchDocumentCreatorViewModel)
-            : base(regionManager, AppScreens.AccountList)
+            : base(regionManager, AppScreens.AccountView)
         {
             _regionManager = regionManager;
             _userService = userService;

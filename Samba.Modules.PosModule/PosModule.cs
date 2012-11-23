@@ -24,7 +24,7 @@ namespace Samba.Modules.PosModule
         public PosModule(IRegionManager regionManager, IApplicationState applicationState,
             PosView posView, TicketView ticketView, TicketListView ticketListView, TicketTagListView ticketTagListView,
             MenuItemSelectorView menuItemSelectorView)
-            : base(regionManager, AppScreens.TicketList)
+            : base(regionManager, AppScreens.TicketView)
         {
             SetNavigationCommand("POS", Resources.Common, "Images/Network.png", 10);
 

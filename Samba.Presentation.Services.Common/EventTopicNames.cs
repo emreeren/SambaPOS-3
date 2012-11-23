@@ -33,6 +33,7 @@
 
     public static class RuleEventNames
     {
+        public const string ApplicationScreenChanged = "ApplicationScreenChanged";
         public const string TicketsMerged = "TicketsMerged";
         public const string PaymentProcessed = "PaymentProcessed";
         public const string TicketResourceChanged = "TicketResourceChanged";
@@ -59,6 +60,7 @@
 
     public static class EventTopicNames
     {
+        public const string Changed = "Changed";
         public const string OrderTagRemoved = "Order Tag Removed";
         public const string BatchDocumentsCreated = "Batch Documents Created";
         public const string BatchCreateDocument = "Batch Create Document";
@@ -123,7 +125,7 @@
 
     public static class FunctionNames
     {
-        public const string CanExecuteAction="CanExecuteAction";
+        public const string CanExecuteAction = "CanExecuteAction";
         public const string CanExecuteAutomationCommand = "CanExecuteAutomationCommand";
     }
 }

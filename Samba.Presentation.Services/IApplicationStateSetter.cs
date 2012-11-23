@@ -2,6 +2,7 @@
 using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Presentation.Services
 {

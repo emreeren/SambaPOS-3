@@ -6,25 +6,11 @@ using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
+using Samba.Presentation.Services.Common;
 using Samba.Services.Common;
 
 namespace Samba.Presentation.Services
 {
-    public enum AppScreens
-    {
-        LoginScreen,
-        Navigation,
-        SingleTicket,
-        TicketList,
-        Payment,
-        ResourceView,
-        AccountList,
-        WorkPeriods,
-        Dashboard,
-        AccountView,
-        ReportScreen
-    }
-
     public class CurrentDepartmentData
     {
         public Department Model { get; set; }

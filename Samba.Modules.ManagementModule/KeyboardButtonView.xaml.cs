@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Samba.Presentation.Common.Services;
 using Samba.Presentation.Services;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Modules.ManagementModule
 {
@@ -19,7 +20,7 @@ namespace Samba.Modules.ManagementModule
         private readonly IApplicationState _applicationState;
 
         [ImportingConstructor]
-        public KeyboardButtonView(IApplicationState applicationState,ManagementView dashboardView)
+        public KeyboardButtonView(IApplicationState applicationState, ManagementView dashboardView)
         {
             InitializeComponent();
             _dashboardView = dashboardView;
@@ -33,7 +34,7 @@ namespace Samba.Modules.ManagementModule
 
         private void ToggleKeyboard()
         {
-            if (_applicationState.ActiveAppScreen == AppScreens.Dashboard)
+            if (_applicationState.ActiveAppScreen == AppScreens.Management)
             {
                 if (_dashboardView.Splitter.Height == _zeroGridLength)
                 {

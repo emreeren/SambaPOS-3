@@ -86,6 +86,7 @@ namespace Samba.Presentation.ViewModels
 
         private static void RegisterRules()
         {
+            AutomationService.RegisterEvent(RuleEventNames.ApplicationScreenChanged, "Application Screen Changed", new { PreviousScreen = "", CurrentScreen = "" });
             AutomationService.RegisterEvent(RuleEventNames.UserLoggedIn, Resources.UserLogin, new { RoleName = "" });
             AutomationService.RegisterEvent(RuleEventNames.UserLoggedOut, Resources.UserLogout, new { RoleName = "" });
             AutomationService.RegisterEvent(RuleEventNames.WorkPeriodStarts, Resources.WorkPeriodStarted);
@@ -108,7 +109,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterEvent(RuleEventNames.ApplicationStarted, Resources.ApplicationStarted);
             AutomationService.RegisterEvent(RuleEventNames.ResourceUpdated, Resources.ResourceUpdated, new { ResourceTypeName = "", OpenTicketCount = 0 });
             AutomationService.RegisterEvent(RuleEventNames.AutomationCommandExecuted, Resources.AutomationCommandExecuted, new { AutomationCommandName = "", Value = "" });
-        }
+            }
 
         private static void RegisterParameterSources()
         {

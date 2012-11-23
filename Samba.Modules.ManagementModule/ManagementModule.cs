@@ -18,7 +18,7 @@ namespace Samba.Modules.ManagementModule
 
         [ImportingConstructor]
         public ManagementModule(IRegionManager regionManager, ManagementView dashboardView, IUserService userService)
-            : base(regionManager, AppScreens.Dashboard)
+            : base(regionManager, AppScreens.Management)
         {
             _regionManager = regionManager;
             _dashboardView = dashboardView;

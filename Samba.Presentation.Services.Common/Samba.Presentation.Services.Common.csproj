@@ -48,6 +48,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractService.cs" />
+    <Compile Include="AppScreenChangeData.cs" />
+    <Compile Include="AppScreens.cs" />
     <Compile Include="AppServices.cs" />
     <Compile Include="DataCreationService.cs" />
     <Compile Include="EntityOperationRequest.cs" />

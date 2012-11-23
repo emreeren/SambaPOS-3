@@ -16,18 +16,20 @@ namespace Samba.Modules.ResourceModule
     class ResourceModule : ModuleBase
     {
         private readonly IRegionManager _regionManager;
+        private readonly IApplicationStateSetter _applicationStateSetter;
         private readonly ResourceEditorView _resourceEditorView;
         private readonly ResourceSwitcherView _resourceSwitcherView;
 
         [ImportingConstructor]
         public ResourceModule(IRegionManager regionManager,
-            IUserService userService,
+            IUserService userService,IApplicationStateSetter applicationStateSetter,
             ResourceSwitcherView resourceSwitcherView,
             ResourceEditorView resourceEditorView)
         {
             _resourceSwitcherView = resourceSwitcherView;
             _resourceEditorView = resourceEditorView;
             _regionManager = regionManager;
+            _applicationStateSetter = applicationStateSetter;
 
             AddDashboardCommand<EntityCollectionViewModelBase<ResourceTypeViewModel, ResourceType>>(Resources.ResourceType.ToPlural(), Resources.Resourceses, 40);
             AddDashboardCommand<EntityCollectionViewModelBase<ResourceViewModel, Resource>>(Resources.Resource.ToPlural(), Resources.Resourceses, 40);
@@ -65,11 +67,13 @@ namespace Samba.Modules.ResourceModule
 
         private void ActivateResourceEditor()
         {
+            _applicationStateSetter.SetCurrentApplicationScreen(AppScreens.ResourceView);
             _regionManager.Regions[RegionNames.ResourceScreenRegion].Activate(_resourceEditorView);
         }
 
         private void ActivateResourceSwitcher()
         {
+            _applicationStateSetter.SetCurrentApplicationScreen(AppScreens.ResourceView);
             _regionManager.Regions[RegionNames.MainRegion].Activate(_resourceSwitcherView);
         }
     }

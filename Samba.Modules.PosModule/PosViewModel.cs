@@ -237,11 +237,10 @@ namespace Samba.Modules.PosModule
         public void DisplayTickets()
         {
             _lastSelectedResource = null;
-
             Debug.Assert(_applicationState.CurrentDepartment != null);
-
             if (SelectedTicket != null || !_applicationState.GetTicketResourceScreens().Any() || _applicationState.CurrentDepartment.TicketCreationMethod == 1)
             {
+                _applicationStateSetter.SetCurrentApplicationScreen(AppScreens.TicketView);
                 DisplaySingleTicket();
                 return;
             }
@@ -250,13 +249,13 @@ namespace Samba.Modules.PosModule
 
         private void DisplaySingleTicket()
         {
+            _applicationStateSetter.SetCurrentApplicationScreen(AppScreens.TicketView);
             if (SelectedTicket != null && SelectedTicket.Orders.Count == 0 && _applicationState.GetTicketTagGroups().Count(x => x.AskBeforeCreatingTicket && !SelectedTicket.IsTaggedWith(x.Name)) > 0)
             {
                 _ticketTagListViewModel.Update(SelectedTicket);
                 DisplayTicketTagList();
                 return;
             }
-
             _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
             _regionManager.RequestNavigate(RegionNames.PosMainRegion, new Uri("TicketView", UriKind.Relative));
             _ticketViewModel.RefreshSelectedItems();
@@ -265,12 +264,14 @@ namespace Samba.Modules.PosModule
 
         private void DisplayTicketList()
         {
+            _applicationStateSetter.SetCurrentApplicationScreen(AppScreens.TicketView);
             _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
             _regionManager.RequestNavigate(RegionNames.PosMainRegion, new Uri("TicketListView", UriKind.Relative));
         }
 
         private void DisplayTicketTagList()
         {
+            _applicationStateSetter.SetCurrentApplicationScreen(AppScreens.TicketView);
             _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
             _regionManager.RequestNavigate(RegionNames.PosMainRegion, new Uri("TicketTagListView", UriKind.Relative));
         }

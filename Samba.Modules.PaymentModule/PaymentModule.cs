@@ -22,7 +22,7 @@ namespace Samba.Modules.PaymentModule
         [ImportingConstructor]
         public PaymentModule(IRegionManager regionManager, PaymentEditorView paymentEditorView, TenderedValueView tenderedValueView,
             ReturningAmountView returningAmountView, NumberPadViewModel numberPadViewModel, ChangeTemplatesView changeTemplatesView)
-            : base(regionManager, AppScreens.Payment)
+            : base(regionManager, AppScreens.PaymentView)
         {
             _regionManager = regionManager;
             _paymentEditorView = paymentEditorView;

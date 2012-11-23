@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Regions;
@@ -17,14 +18,17 @@ namespace Samba.Modules.NavigationModule
         private readonly IRegionManager _regionManager;
         private readonly NavigationView _navigationView;
         private readonly IUserService _userService;
+        private readonly IAutomationService _automationService;
 
         [ImportingConstructor]
-        public NavigationModule(IRegionManager regionManager, NavigationView navigationView, IUserService userService)
+        public NavigationModule(IRegionManager regionManager, NavigationView navigationView, IUserService userService,
+            IAutomationService automationService)
             : base(regionManager, AppScreens.Navigation)
         {
             _regionManager = regionManager;
             _navigationView = navigationView;
             _userService = userService;
+            _automationService = automationService;
 
             PermissionRegistry.RegisterPermission(PermissionNames.OpenNavigation, PermissionCategories.Navigation, Resources.CanOpenNavigation);
 
@@ -40,6 +44,20 @@ namespace Samba.Modules.NavigationModule
                 {
                     if (x.Topic == EventTopicNames.ActivateNavigation)
                         ActivateNavigation();
+                });
+
+            EventServiceFactory.EventService.GetEvent<GenericEvent<AppScreenChangeData>>().Subscribe(
+                x =>
+                {
+                    if (x.Topic == EventTopicNames.Changed)
+                    {
+                        _automationService.NotifyEvent(RuleEventNames.ApplicationScreenChanged,
+                            new
+                                {
+                                    PreviousScreen = Enum.GetName(typeof(AppScreens), x.Value.PreviousScreen),
+                                    CurrentScreen = Enum.GetName(typeof(AppScreens), x.Value.CurrentScreen)
+                                });
+                    }
                 });
         }
 

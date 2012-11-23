@@ -62,7 +62,7 @@ namespace Samba.Presentation.Services.Implementations.AutomationModule
                 {
                     trigger.LastTrigger = DateTime.Now;
                     workspace.CommitChanges();
-                    if (_applicationState.ActiveAppScreen != AppScreens.Dashboard)
+                    if (_applicationState.ActiveAppScreen != AppScreens.Management)
                         _automationService.NotifyEvent(RuleEventNames.TriggerExecuted, new { TriggerName = trigger.Name });
                 }
                 else e.CronObject.Stop();

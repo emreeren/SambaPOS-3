@@ -22,7 +22,7 @@ namespace Samba.Modules.BasicReports
             IWorkPeriodService workPeriodService, IPrinterService printerService,
             IDepartmentService departmentService, IInventoryService inventoryService, IUserService userService,
             IApplicationState applicationState, IAutomationService automationService, ILogService logService)
-            : base(regionManager, AppScreens.ReportScreen)
+            : base(regionManager, AppScreens.ReportView)
         {
             ReportContext.PrinterService = printerService;
             ReportContext.WorkPeriodService = workPeriodService;

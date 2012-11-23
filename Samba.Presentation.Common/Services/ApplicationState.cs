@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Threading;
@@ -14,6 +15,7 @@ using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Services;
 using Samba.Services.Common;
+using Stateless;
 
 namespace Samba.Presentation.Common.Services
 {
@@ -25,11 +27,14 @@ namespace Samba.Presentation.Common.Services
         private readonly ISettingService _settingService;
         private readonly ICacheService _cacheService;
         private readonly IPrinterService _printerService;
+        private readonly StateMachine<AppScreens, AppScreens> _screenState;
 
         [ImportingConstructor]
         public ApplicationState(IDepartmentService departmentService, ISettingService settingService,
             ICacheService cacheService, IPrinterService printerService)
         {
+            _screenState = new StateMachine<AppScreens, AppScreens>(() => ActiveAppScreen, state => ActiveAppScreen = state);
+            _screenState.OnUnhandledTrigger(HandleTrigger);
             _departmentService = departmentService;
             _settingService = settingService;
             _cacheService = cacheService;
@@ -44,18 +49,16 @@ namespace Samba.Presentation.Common.Services
         public ResourceScreen SelectedResourceScreen { get; private set; }
         public ResourceScreen ActiveResourceScreen { get; set; }
 
-        private Terminal _terminal;
-
         private bool _isLocked;
         public bool IsLocked
         {
             get { return _isLocked; }
         }
 
+        private Terminal _terminal;
         public Terminal CurrentTerminal { get { return _terminal ?? (_terminal = GetCurrentTerminal()); } set { _terminal = value; } }
 
         private User _currentLoggedInUser;
-
         public User CurrentLoggedInUser
         {
             get { return _currentLoggedInUser ?? User.Nobody; }
@@ -107,7 +110,13 @@ namespace Samba.Presentation.Common.Services
 
         public void SetCurrentApplicationScreen(AppScreens appScreen)
         {
-            ActiveAppScreen = appScreen;
+            _screenState.Fire(appScreen);
+        }
+
+        private void HandleTrigger(AppScreens arg1, AppScreens arg2)
+        {
+            ActiveAppScreen = arg2;
+            if (arg1 != arg2) new AppScreenChangeData(arg1, arg2).PublishEvent(EventTopicNames.Changed);
         }
 
         public ResourceScreen SetSelectedResourceScreen(ResourceScreen resourceScreen)
