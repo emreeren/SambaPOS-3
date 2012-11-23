@@ -81,8 +81,8 @@ namespace Samba.Localization.Pluralization
                                                                                  {
                                                                                      { "(?=^[\\w]+$)(.+[eiöü].?)$", "$1ler" },
                                                                                      { "(?=^[\\w]+$)(.+[aıou].?)$", "$1lar" },
-                                                                                     { "(.+)?s[eiöü]$", "$1leri" },
-                                                                                     { "(.+)?s[aıou]$", "$1ları" }
+                                                                                     { "(.+)s?[eiöü]$", "$1leri" },
+                                                                                     { "(.+)s?[aıou]$", "$1ları" }
                                                                                  };
 
         public override string Pluralize(string singular)

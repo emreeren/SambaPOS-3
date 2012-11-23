@@ -224,7 +224,7 @@
     <value>Impostazioni CID</value>
   </data>
   <data name="WorkPeriodReport" xml:space="preserve">
-    <value>Report Periodo di Lavoro</value>
+    <value>Rapporto Periodo di Lavoro</value>
   </data>
   <data name="AddCategoryHint" xml:space="preserve">
     <value>Inserisci categorie che si desidera aggiungere</value>
@@ -263,7 +263,7 @@
     <value>Euro</value>
   </data>
   <data name="BatchPriceList" xml:space="preserve">
-    <value>Prezzo Editor Lista</value>
+    <value>Editor Prezzo</value>
   </data>
   <data name="Numerators" xml:space="preserve">
     <value>Numeratore</value>
@@ -965,31 +965,31 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   </data>
   <data name="TicketTemplateValue" xml:space="preserve">
     <value>[LAYOUT]
--- General layout
+-- Layout Generale
 &lt;T&gt;TICKET
-&lt;L00&gt;Date:{TICKET DATE}
-&lt;L00&gt;Time:{TIME}
+&lt;L00&gt;Data:{TICKET DATE}
+&lt;L00&gt;Ora:{TIME}
 {RESOURCES}
-&lt;L00&gt;Ticket No:{TICKET NO}
+&lt;L00&gt;Ticket N°:{TICKET NO}
 &lt;F&gt;-
 {ORDERS}
 &lt;F&gt;=
 &lt;EB&gt;
 &lt;J10&gt;{IF DISCOUNT}
-&lt;J10&gt;Total Gift:|{GIFT TOTAL}
-&lt;J10&gt;Total:|{TICKET TOTAL}
+&lt;J10&gt;Totale Offerto:|{GIFT TOTAL}
+&lt;J10&gt;Totale:|{TICKET TOTAL}
 {IF PAID}
 &lt;DB&gt;
 &lt;F&gt;=
-&lt;C10&gt;T H A N K    Y O U
+&lt;C10&gt;G R A Z I E ! ! !
 
 [ORDERS]
--- Default format for orders
+-- Default Formato Ordine
 &lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
 {ORDER TAGS}
 
 [ORDERS:GIFT]
--- Format for gifted orders
+-- Formato Ordine Offerto
 &lt;J00&gt;- {QUANTITY} {NAME}|**GIFT**
 {ORDER TAGS}
 
@@ -1001,11 +1001,11 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
 &lt;J00&gt;     * {ORDER TAG NAME} | {ORDER TAG PRICE}
 
 [RESOURCES:Table]
--- Table resource format
-&lt;L00&gt;Table: {RESOURCE NAME}
+-- Formato Tavoli
+&lt;L00&gt;Tavolo: {RESOURCE NAME}
 
 [RESOURCES:Customer]
--- Customer resource format
+-- Cliente Formato Risorsa
 &lt;J00&gt;Customer: {RESOURCE NAME} | {RESOURCE DATA:Phone}</value>
   </data>
   <data name="ChangePrice" xml:space="preserve">
@@ -1153,7 +1153,7 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
     <value>Nuovo {0}</value>
   </data>
   <data name="InvoicePrinter" xml:space="preserve">
-    <value>Stampante fattura</value>
+    <value>Stampante Fattura</value>
   </data>
   <data name="RegenerateTicketTax" xml:space="preserve">
     <value>Rigenerare Tassa Ticket</value>
@@ -1206,10 +1206,10 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="KitchenTemplateValue" xml:space="preserve">
     <value>[LAYOUT]
 &lt;T&gt;TICKET
-&lt;L00&gt;Date:{TICKET DATE}
-&lt;L00&gt;Time:{TIME}
-&lt;L00&gt;Location No:{LOCATION}
-&lt;L00&gt;Ticket No:{TICKET NO}
+&lt;L00&gt;Data:{TICKET DATE}
+&lt;L00&gt;Ora:{TIME}
+&lt;L00&gt;Locazione:{LOCATION}
+&lt;L00&gt;Ticket N°:{TICKET NO}
 &lt;F&gt;-
 {ORDERS}
 
@@ -1413,6 +1413,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="LineOrderNumber" xml:space="preserve">
     <value># Linea: Numero Ordine</value>
   </data>
+  <data name="ViewMode" xml:space="preserve">
+    <value>Modalità di Visualizzazione</value>
+  </data>
   <data name="TicketPrinter" xml:space="preserve">
     <value>Stampante Ticket</value>
   </data>
@@ -1510,7 +1513,7 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
     <value>Cinque</value>
   </data>
   <data name="DayOperations" xml:space="preserve">
-    <value>Periodi di lavoro</value>
+    <value>Periodo di Lavoro</value>
   </data>
   <data name="AddAndSave" xml:space="preserve">
     <value>Aggiungere e Salvare</value>
@@ -1552,7 +1555,7 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
     <value>Mappa Conto</value>
   </data>
   <data name="ClickLinksToExportData" xml:space="preserve">
-    <value>Seleziona il periodo, aggiornare report e fare clic sul link in materia di esportazione dei dati.</value>
+    <value>Seleziona il Periodo, aggiornare report e fare clic sul link in materia di esportazione dei dati.</value>
   </data>
   <data name="BatchCreate_f" xml:space="preserve">
     <value>Crea in Gruppo {0}</value>
@@ -1685,7 +1688,7 @@ Visita la sezione di report e creare report periodo di lavoro</value>
     <value>Tutti i biglietti</value>
   </data>
   <data name="Terminals" xml:space="preserve">
-    <value>Terminali</value>
+    <value>Terminale</value>
   </data>
   <data name="Selected" xml:space="preserve">
     <value>Selezionato</value>
@@ -1700,7 +1703,7 @@ Si prega di fornire alcuni dettagli su come sia successo.
 Continua senza aggiungere dettagli?</value>
   </data>
   <data name="SortCategoriesDialogHint_f" xml:space="preserve">
-    <value>Trascinare {0} categorie di menu per cambiare l'ordine.</value>
+    <value>Trascinare {0} Categorie di menu per cambiare l'ordine.</value>
   </data>
   <data name="InventoryConsumption" xml:space="preserve">
     <value>Inventario Consumo</value>
@@ -1713,6 +1716,12 @@ Continua senza aggiungere dettagli?</value>
   </data>
   <data name="Totals" xml:space="preserve">
     <value>Totali</value>
+  </data>
+  <data name="PrintErrorMessage" xml:space="preserve">
+    <value>C'è un problema durante la stampa. Controllare le impostazioni del modello di stampante e della stampante.
+
+Messaggio di errore:
+</value>
   </data>
   <data name="Six" xml:space="preserve">
     <value>Sei</value>
@@ -1745,7 +1754,7 @@ Continua senza aggiungere dettagli?</value>
     <value>Transizione Account Documento</value>
   </data>
   <data name="Departments" xml:space="preserve">
-    <value>Dipartimenti</value>
+    <value>Reparto</value>
   </data>
   <data name="ShareNameAndPortName" xml:space="preserve">
     <value>Nome Stampante Condivisa / Nome Porta</value>
@@ -2274,7 +2283,7 @@ Ticket</value>
     <value>In Magazzino</value>
   </data>
   <data name="MenuItemName" xml:space="preserve">
-    <value>Voce di menu Nome</value>
+    <value>Voce di Menu Nome</value>
   </data>
   <data name="SearchString" xml:space="preserve">
     <value>Cerca Stringa</value>
@@ -2316,7 +2325,7 @@ Ticket</value>
     <value>Tasti alfanumerici</value>
   </data>
   <data name="KitchenOrderTemplate" xml:space="preserve">
-    <value>Cucina Ordini Sagoma</value>
+    <value>Modello Ordini Cucina</value>
   </data>
   <data name="Command" xml:space="preserve">
     <value>Comando</value>
@@ -2406,7 +2415,7 @@ Ticket</value>
     <value>Mese</value>
   </data>
   <data name="InventoryPurchaseReport" xml:space="preserve">
-    <value>Inventario Acquisto Rapporto</value>
+    <value>Rapporto Aquisti</value>
   </data>
   <data name="TerminalView" xml:space="preserve">
     <value>Terminal Vista</value>
@@ -2484,8 +2493,8 @@ Ticket</value>
     <value>Non lasciare {0} nome vuoto.</value>
   </data>
   <data name="ThereAreOpenTicketsWarning_f" xml:space="preserve">
-    <value>Ci sono {0} Ticket aperti.
-Non può finire il periodo di lavoro mentre i biglietti aprire</value>
+    <value>Ci sono {0} Ticket Aperti.
+Non può finire il periodo di lavoro mentre ci sono Ticket aperti.</value>
   </data>
   <data name="HalfPast" xml:space="preserve">
     <value>E mezza</value>
@@ -2632,7 +2641,7 @@ Non può finire il periodo di lavoro mentre i biglietti aprire</value>
     <value>Il presente Codice Pin è utilizzato da un altro account utente.</value>
   </data>
   <data name="CreditCard" xml:space="preserve">
-    <value>Carta di Credito</value>
+    <value>Carta</value>
   </data>
   <data name="CashReport" xml:space="preserve">
     <value>Transazioni in contanti Segnalata</value>
@@ -2653,7 +2662,7 @@ Non può finire il periodo di lavoro mentre i biglietti aprire</value>
     <value>Bilione</value>
   </data>
   <data name="MainMenu" xml:space="preserve">
-    <value>Menu Principale</value>
+    <value>Menu</value>
   </data>
   <data name="Tags" xml:space="preserve">
     <value>Tags</value>
