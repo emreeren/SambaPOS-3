@@ -49,10 +49,5 @@ namespace Samba.Presentation.Common
             amnt = Convert.ToDecimal(amount + typedValue);
             return (amnt).ToString(rfmt);
         }
-
-        public static string ToPlural(this string singular)
-        {
-            return Pluralizer.ToPlural(singular);
-        }
     }
 }

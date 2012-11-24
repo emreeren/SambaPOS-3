@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.Commands;
+using Samba.Presentation.Services.Common;
 
 namespace Samba.Presentation.Common.ModelBase
 {

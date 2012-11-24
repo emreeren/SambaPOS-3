@@ -2949,4 +2949,7 @@ Error Message:
   <data name="All Tables">
     <value xml:space="preserve">All Tables</value>
   </data>
+  <data name="CustomerTickets">
+    <value xml:space="preserve">Customer Tickets</value>
+  </data>
 </root>

@@ -397,10 +397,6 @@
   <data name="DisplayOpenTickets" xml:space="preserve">
     <value>Açık Adisyonları Göster</value>
   </data>
-  <data name="CashPayment_r" xml:space="preserve">
-    <value>Nakit
-Ödeme</value>
-  </data>
   <data name="ProductTimer" xml:space="preserve">
     <value>Ürün Sayacı</value>
   </data>
@@ -703,6 +699,9 @@ Mesaj:
   </data>
   <data name="Tax" xml:space="preserve">
     <value>KDV</value>
+  </data>
+  <data name="Customer_f" xml:space="preserve">
+    <value>Müşteri {0}</value>
   </data>
   <data name="Table" xml:space="preserve">
     <value>Masa</value>
@@ -1708,10 +1707,6 @@ Hata Mesajı:
   <data name="LinePriceTag" xml:space="preserve">
     <value>#Satır: Fiyat Etiketi</value>
   </data>
-  <data name="CreditCard_r" xml:space="preserve">
-    <value>Kredi
-Kartı</value>
-  </data>
   <data name="MessageServerName" xml:space="preserve">
     <value>Mesaj Sunucusu Adı</value>
   </data>
@@ -2511,5 +2506,8 @@ Açık adisyon varken gün sonu yapılamaz.</value>
   </data>
   <data name="EditingFormat" xml:space="preserve">
     <value>Düzenleme Formatı</value>
+  </data>
+  <data name="CustomerTickets">
+    <value xml:space="preserve">Müşteri Adisyonları</value>
   </data>
 </root>

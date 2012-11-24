@@ -217,14 +217,8 @@ Não é possível acabar com período de trabalho, porque tem tickets abertos </
   <data name="WeightBarcodePefix" xml:space="preserve">
     <value>Prefixo Barcode Peso</value>
   </data>
-  <data name="Dollar" xml:space="preserve">
-    <value>Dólar</value>
-  </data>
   <data name="ProductProperties" xml:space="preserve">
     <value>Propriedades do produto</value>
-  </data>
-  <data name="InventoryItems" xml:space="preserve">
-    <value>Itens de inventário</value>
   </data>
   <data name="SalesDivTicket" xml:space="preserve">
     <value>Total de Vendas / Ticket</value>
@@ -435,8 +429,8 @@ Continuar sem acrescentar detalhes? </value>
   <data name="EveryWeekday" xml:space="preserve">
     <value>Cada dia da semana</value>
   </data>
-  <data name="DefaultProperties" xml:space="preserve">
-    <value>Propriedades Padrão</value>
+  <data name="AllTickets" xml:space="preserve">
+    <value>Todos os tickets</value>
   </data>
   <data name="PropertyGroupName" xml:space="preserve">
     <value>Nome do Grupo de Propriedade</value>
@@ -516,8 +510,8 @@ Continuar sem acrescentar detalhes? </value>
   <data name="SortOrder" xml:space="preserve">
     <value>Ordenar</value>
   </data>
-  <data name="CreditCard_r" xml:space="preserve">
-    <value>Cartão de credito</value>
+  <data name="InventoryItems" xml:space="preserve">
+    <value>Itens de inventário</value>
   </data>
   <data name="BatchCreteProducts" xml:space="preserve">
     <value>Criar lote de produtos</value>
@@ -756,8 +750,8 @@ Continuar sem acrescentar detalhes? </value>
   <data name="Angle" xml:space="preserve">
     <value>Ângulo</value>
   </data>
-  <data name="WorkPeriodStarted" xml:space="preserve">
-    <value>Período do trabalho iniciado</value>
+  <data name="DefaultProperties" xml:space="preserve">
+    <value>Propriedades Padrão</value>
   </data>
   <data name="OneHundred" xml:space="preserve">
     <value>Cem</value>
@@ -789,8 +783,8 @@ Continuar sem acrescentar detalhes? </value>
   <data name="CashContent" xml:space="preserve">
     <value>Conteúdo Dinheiro</value>
   </data>
-  <data name="SettingValue" xml:space="preserve">
-    <value>Configuração Valor</value>
+  <data name="WorkPeriodStarted" xml:space="preserve">
+    <value>Período do trabalho iniciado</value>
   </data>
   <data name="Warning" xml:space="preserve">
     <value>Aviso</value>
@@ -800,6 +794,9 @@ Continuar sem acrescentar detalhes? </value>
   </data>
   <data name="TwiceAnHour" xml:space="preserve">
     <value>Duas vezes por hora</value>
+  </data>
+  <data name="SettingValue" xml:space="preserve">
+    <value>Configuração Valor</value>
   </data>
   <data name="OnlyOpenTickets" xml:space="preserve">
     <value>Somente os tickets abertos</value>
@@ -977,9 +974,6 @@ Continuar sem acrescentar detalhes? </value>
   </data>
   <data name="Properties" xml:space="preserve">
     <value>Propriedades</value>
-  </data>
-  <data name="AllTickets" xml:space="preserve">
-    <value>Todos os tickets</value>
   </data>
   <data name="DisplayUserPath" xml:space="preserve">
     <value>Mostrar caminho do usuário</value>
@@ -1946,9 +1940,8 @@ Visite a seção Relatórios e crie relatório do período de trabalho </value>
   <data name="TagValue" xml:space="preserve">
     <value>Valor do Tag</value>
   </data>
-  <data name="CashPayment_r" xml:space="preserve">
-    <value>Cash
-Pagamento </value>
+  <data name="Dollar" xml:space="preserve">
+    <value>Dólar</value>
   </data>
   <data name="Rule" xml:space="preserve">
     <value>Regra</value>

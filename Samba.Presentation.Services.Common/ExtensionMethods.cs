@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using Samba.Localization.Pluralization;
 
 namespace Samba.Presentation.Services.Common
 {
@@ -38,6 +39,11 @@ namespace Samba.Presentation.Services.Common
         {
             var e = EventServiceFactory.EventService.GetEvent<GenericIdEvent>();
             e.Publish(new EventParameters<int> { Topic = eventTopic, Value = id, ExpectedAction = expectedAction });
+        }
+
+        public static string ToPlural(this string singular)
+        {
+            return Pluralizer.ToPlural(singular);
         }
     }
 }

@@ -1629,6 +1629,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Customer Tickets.
+        /// </summary>
+        public static string CustomerTickets {
+            get {
+                return ResourceManager.GetString("CustomerTickets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Custom Field.
         /// </summary>
         public static string CustomField {

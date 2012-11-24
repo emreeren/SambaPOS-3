@@ -430,7 +430,7 @@ namespace Samba.Presentation.Services.Common
             customerScreen.ResourceScreenMaps.Add(new ResourceScreenMap());
             _workspace.Add(customerScreen);
 
-            var customerTicketScreen = new ResourceScreen { Name = string.Format(Resources.Customer_f, Resources.Tickets), DisplayMode = 0, ResourceTypeId = customerResourceType.Id, StateFilterId = newOrderState.Id, ColumnCount = 6, RowCount = 6, TicketTypeId = ticketType.Id };
+            var customerTicketScreen = new ResourceScreen { Name = Resources.CustomerTickets, DisplayMode = 0, ResourceTypeId = customerResourceType.Id, StateFilterId = newOrderState.Id, ColumnCount = 6, RowCount = 6, TicketTypeId = ticketType.Id };
             customerTicketScreen.ResourceScreenMaps.Add(new ResourceScreenMap());
             _workspace.Add(customerTicketScreen);
 

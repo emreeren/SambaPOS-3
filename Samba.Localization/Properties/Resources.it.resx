@@ -412,9 +412,6 @@
   <data name="DisplayOpenTickets" xml:space="preserve">
     <value>Visualizza Ticket Aperti</value>
   </data>
-  <data name="CashPayment_r" xml:space="preserve">
-    <value>Pagamento Contanti</value>
-  </data>
   <data name="ProductTimer" xml:space="preserve">
     <value>Prodotti a Tempo</value>
   </data>
@@ -556,8 +553,8 @@
   <data name="Move" xml:space="preserve">
     <value>Spostare</value>
   </data>
-  <data name="Server" xml:space="preserve">
-    <value>Server</value>
+  <data name="Create_f" xml:space="preserve">
+    <value>Creare {0}</value>
   </data>
   <data name="Rate" xml:space="preserve">
     <value>Tasso</value>
@@ -864,6 +861,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="Zero" xml:space="preserve">
     <value>Zero</value>
   </data>
+  <data name="Server" xml:space="preserve">
+    <value>Server</value>
+  </data>
   <data name="Numeric" xml:space="preserve">
     <value>Numerico</value>
   </data>
@@ -900,17 +900,14 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="Product" xml:space="preserve">
     <value>Prodotto</value>
   </data>
-  <data name="Phone" xml:space="preserve">
-    <value>Telefono</value>
-  </data>
   <data name="DeleteSelectedItems" xml:space="preserve">
     <value>Elimina Elementi Selezionati</value>
   </data>
   <data name="NumericTagsShouldBeNumbersErrorMessage" xml:space="preserve">
     <value>Quando "Tagging Numerico" è selezionato tutti i tag devono contenere valori numerici.</value>
   </data>
-  <data name="Create_f" xml:space="preserve">
-    <value>Creare {0}</value>
+  <data name="Phone" xml:space="preserve">
+    <value>Telefono</value>
   </data>
   <data name="Permissions" xml:space="preserve">
     <value>Autorizzazioni</value>
@@ -1878,9 +1875,6 @@ Messaggio di errore:
   </data>
   <data name="LinePriceTag" xml:space="preserve">
     <value># Linea: Prezzo Tag</value>
-  </data>
-  <data name="CreditCard_r" xml:space="preserve">
-    <value>Carta</value>
   </data>
   <data name="MessageServerName" xml:space="preserve">
     <value>Server Message Nome</value>
