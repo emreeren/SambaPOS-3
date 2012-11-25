@@ -15,8 +15,8 @@ namespace Samba.Domain.Models.Tickets
     public class Ticket : Entity, ICacheable
     {
         private bool _shouldLock;
-        private enum States { Unlocked, Locked, Closed };
-        private enum Triggers { Unlock, Lock, Close };
+        public enum States { Unlocked, Locked, Closed };
+        public enum Triggers { Unlock, Lock, Close };
         private readonly StateMachine<States, Triggers> _sm;
 
         public Ticket()

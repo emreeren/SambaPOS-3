@@ -5,6 +5,7 @@ using System.IO;
 using System.Threading;
 using System.Xml;
 using System.Xml.Serialization;
+using Microsoft.Win32;
 using Samba.Infrastructure.Helpers;
 
 namespace Samba.Infrastructure.Settings
@@ -162,8 +163,15 @@ html
                 if (ConnectionString.ToLower().Contains(".sdf")) return "CE";
                 if (ConnectionString.ToLower().Contains("data source")) return "SQ";
                 if (ConnectionString.ToLower().StartsWith("mongodb://")) return "MG";
+                if (string.IsNullOrEmpty(ConnectionString) && IsSqlce40Installed()) return "CE";
                 return "TX";
             }
+        }
+
+        public static bool IsSqlce40Installed()
+        {
+            var rk = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Microsoft SQL Server Compact Edition\\v4.0");
+            return rk != null;
         }
 
         public static void SaveSettings()

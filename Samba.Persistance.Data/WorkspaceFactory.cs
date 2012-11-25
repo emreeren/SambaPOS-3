@@ -32,7 +32,7 @@ namespace Samba.Persistance.Data
 
             if (string.IsNullOrEmpty(_connectionString))
             {
-                if (IsSqlce40Installed())
+                if (LocalSettings.IsSqlce40Installed())
                     _connectionString = string.Format("data source={0}\\{1}.sdf", LocalSettings.DocumentPath,
                                                                    LocalSettings.AppName);
                 else _connectionString = GetTextFileName();
@@ -62,12 +62,6 @@ namespace Samba.Persistance.Data
                 Database.DefaultConnectionFactory =
                     new SqlConnectionFactory(cs);
             }
-        }
-
-        private static bool IsSqlce40Installed()
-        {
-            var rk = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Microsoft SQL Server Compact Edition\\v4.0");
-            return rk != null;
         }
 
         public static IWorkspace Create()

@@ -114,7 +114,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             var result = _ticketDao.CheckConcurrency(ticket);
             Debug.Assert(ticket != null);
             var changed = !string.IsNullOrEmpty(result.ErrorMessage);
-            var canSumbitTicket = !changed && ticket.CanSubmit; 
+            var canSumbitTicket = !changed && ticket.CanSubmit;
 
             if (canSumbitTicket)
             {
@@ -139,7 +139,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
                     Debug.Assert(!string.IsNullOrEmpty(ticket.TicketNumber));
                     Debug.Assert(ticket.Id > 0);
-                    _automationService.NotifyEvent(RuleEventNames.TicketClosing, new { Ticket = ticket, TicketId = ticket.Id, NewOrderCount = ticket.GetUnlockedOrders().Count() });
+                    _automationService.NotifyEvent(RuleEventNames.TicketClosing, new { Ticket = ticket, TicketId = ticket.Id, NewOrderCount = ticket.GetUnlockedOrders().Count(), State = TicketStateToString(ticket.State) });
                     ticket.LockTicket();
                 }
 
@@ -553,6 +553,20 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             var selectedItems = selectedOrders.Where(x => x.SelectedQuantity > 0 && x.SelectedQuantity < x.Quantity).ToList();
             var newItems = model.ExtractSelectedOrders(selectedItems);
             return newItems;
+        }
+
+        private static string TicketStateToString(int state)
+        {
+            switch ((Ticket.States)state)
+            {
+                case Ticket.States.Closed:
+                    return "Closed";
+                case Ticket.States.Locked:
+                    return "Locked";
+                case Ticket.States.Unlocked:
+                    return "Unlocked";
+            }
+            return "Unknown";
         }
     }
 }
