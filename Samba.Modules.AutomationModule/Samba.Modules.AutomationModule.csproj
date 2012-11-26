@@ -81,6 +81,10 @@
       <DependentUpon>ScriptView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ScriptViewModel.cs" />
+    <Compile Include="StateControllerView.xaml.cs">
+      <DependentUpon>StateControllerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StateControllerViewModel.cs" />
     <Compile Include="TriggerListViewModel.cs" />
     <Compile Include="TriggerView.xaml.cs">
       <DependentUpon>TriggerView.xaml</DependentUpon>
@@ -152,6 +156,10 @@
     <Page Include="ScriptView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StateControllerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="TriggerView.xaml">
       <Generator>MSBuild:Compile</Generator>

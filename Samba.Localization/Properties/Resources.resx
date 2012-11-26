@@ -2952,4 +2952,10 @@ Error Message:
   <data name="CustomerTickets">
     <value xml:space="preserve">Customer Tickets</value>
   </data>
+  <data name="StateController" xml:space="preserve">
+    <value>State Controller</value>
+  </data>
+  <data name="StateDefinition" xml:space="preserve">
+    <value>State Definition</value>
+  </data>
 </root>

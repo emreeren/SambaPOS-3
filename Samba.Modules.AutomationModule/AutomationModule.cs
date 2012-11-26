@@ -22,6 +22,7 @@ namespace Samba.Modules.AutomationModule
             AddDashboardCommand<TriggerListViewModel>(Resources.Trigger.ToPlural(), Resources.Automation, 45);
             AddDashboardCommand<EntityCollectionViewModelBase<AutomationCommandViewModel, AutomationCommand>>(Resources.AutomationCommand.ToPlural(), Resources.Automation, 45);
             AddDashboardCommand<EntityCollectionViewModelBase<ScriptViewModel, Script>>(Resources.Script.ToPlural(), Resources.Automation, 45);
+            AddDashboardCommand<EntityCollectionViewModelBase<StateControllerViewModel, StateController>>(Resources.StateController.ToPlural(), Resources.Automation, 45);
 
             HighlightingManager.Instance.RegisterHighlighting("SambaDSL", null, () => LoadHighlightingDefinition("SambaDSL.xshd"));
         }
