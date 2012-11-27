@@ -31,13 +31,6 @@
                                 <LocText ResourceIdentifierKey="ExecuteActionsIf" Suffix=":" />
                             </GroupBox.Header>
                             <StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <Label Content="{LocText SettingCheck,Suffix=':'}" MinWidth="150" />
-                                    <TextBox MinWidth="80" Margin="2" Text="{Binding SettingConstraintName}" />
-                                    <ComboBox Margin="3,0" MinWidth="45" IsEditable="True" Text="{Binding SettingConstraintOperation}" 
-                                                  ItemsSource="{Binding Operations}"/>
-                                    <TextBox MinWidth="80" Margin="2" Text="{Binding SettingConstraintValue}" />
-                                </StackPanel>
                                 <Label Content="{LocText CustomConstraint,Suffix=':'}" MinWidth="150" />
                                 <TextBox MinWidth="150" Margin="2" Text="{Binding CustomConstraint}" />
                                 <ItemsControl Grid.IsSharedSizeScope="True" ItemsSource="{Binding Constraints}" HorizontalAlignment="Left">

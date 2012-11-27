@@ -5874,15 +5874,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Setting Check.
-        /// </summary>
-        public static string SettingCheck {
-            get {
-                return ResourceManager.GetString("SettingCheck", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Setting Name.
         /// </summary>
         public static string SettingName {

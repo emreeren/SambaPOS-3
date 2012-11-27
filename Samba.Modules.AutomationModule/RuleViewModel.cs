@@ -72,9 +72,6 @@ namespace Samba.Modules.AutomationModule
             }
         }
 
-        public string SettingConstraintName { get; set; }
-        public string SettingConstraintOperation { get; set; }
-        public string SettingConstraintValue { get; set; }
         public string CustomConstraint { get { return Model.CustomConstraint; } set { Model.CustomConstraint = value; } }
 
         public IEnumerable<string> Operations { get { return new[] { "=", ">", "<", "!=" }; } }
@@ -108,13 +105,6 @@ namespace Samba.Modules.AutomationModule
             Model.EventConstraints = string.Join("#", Constraints
                 .Where(x => x.Value != null)
                 .Select(x => x.GetConstraintData()));
-            if (!string.IsNullOrEmpty(SettingConstraintName))
-            {
-                if (!string.IsNullOrEmpty(Model.EventConstraints))
-                    Model.EventConstraints = Model.EventConstraints + "#";
-                Model.EventConstraints += "SN$" + SettingConstraintName + ";" + (SettingConstraintOperation ?? "=") + ";" + SettingConstraintValue;
-            }
-
             base.OnSave(value);
         }
 
@@ -127,19 +117,6 @@ namespace Samba.Modules.AutomationModule
             if (!string.IsNullOrEmpty(Model.EventConstraints))
             {
                 Constraints.AddRange(_automationService.CreateRuleConstraints(Model.EventConstraints));
-
-                var settingData = Model.EventConstraints.Split('#').Where(x => x.StartsWith("SN$")).FirstOrDefault();
-
-                if (!string.IsNullOrEmpty(settingData))
-                {
-                    var settingParts = settingData.Split(';');
-                    if (settingParts.Length == 3)
-                    {
-                        SettingConstraintName = settingParts[0].Replace("SN$", "");
-                        SettingConstraintOperation = settingParts[1];
-                        SettingConstraintValue = settingParts[2];
-                    }
-                }
             }
 
             base.Initialize();

@@ -1994,10 +1994,6 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>Weight Barcode Item Id Format</value>
     <comment>Label content</comment>
   </data>
-  <data name="SettingCheck" xml:space="preserve">
-    <value>Setting Check</value>
-    <comment>Label.Content</comment>
-  </data>
   <data name="UpdateProgramSetting" xml:space="preserve">
     <value>Update Program Setting</value>
   </data>

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Samba.Domain.Models.Automation;
 using Samba.Infrastructure.Data.Serializer;
 using Samba.Persistance.DaoClasses;
@@ -75,12 +74,14 @@ namespace Samba.Presentation.Services.Implementations.AutomationModule
         private bool CanExecuteRule(AppRule appRule, object dataObject)
         {
             if (string.IsNullOrEmpty(appRule.CustomConstraint)) return true;
+            _settingService.ReplaceSettingValues(appRule.CustomConstraint);
             return _expressionService.Eval("result = " + appRule.CustomConstraint, dataObject, true);
         }
 
         private bool CanExecuteAction(ActionContainer actionContainer, object dataObject)
         {
             if (string.IsNullOrEmpty(actionContainer.CustomConstraint)) return true;
+            _settingService.ReplaceSettingValues(actionContainer.CustomConstraint);
             return _expressionService.Eval("result = " + actionContainer.CustomConstraint, dataObject, true);
         }
 
@@ -132,7 +133,6 @@ namespace Samba.Presentation.Services.Implementations.AutomationModule
         public IEnumerable<IRuleConstraint> CreateRuleConstraints(string eventConstraints)
         {
             return eventConstraints.Split('#')
-                .Where(x => !x.StartsWith("SN$"))
                 .Select(x => new RuleConstraint(x));
         }
 
@@ -169,26 +169,6 @@ namespace Samba.Presentation.Services.Implementations.AutomationModule
                     var property = dataObject.GetType().GetProperty(parameterName);
                     var parameterValue = property.GetValue(dataObject, null) ?? "";
                     if (!condition.ValueEquals(parameterValue)) return false;
-                }
-                else
-                {
-                    if (condition.Name.StartsWith("SN$"))
-                    {
-                        var settingData = condition.Name.Replace("SN$", "");
-                        while (Regex.IsMatch(settingData, "\\[:[^\\]]+\\]"))
-                        {
-                            var paramvalue = Regex.Match(settingData, "\\[:[^\\]]+\\]").Groups[0].Value;
-                            var insideValue = paramvalue.Trim(new[] { '[', ']' }).Trim(':');
-                            if (parameterNames.Contains(insideValue))
-                            {
-                                var v = dataObject.GetType().GetProperty(insideValue).GetValue(dataObject, null).ToString();
-                                settingData = settingData.Replace(paramvalue, v);
-                            }
-                        }
-
-                        var customSettingValue = _settingService.ReadSetting(settingData).StringValue ?? "";
-                        if (!condition.ValueEquals(customSettingValue)) return false;
-                    }
                 }
             }
 
