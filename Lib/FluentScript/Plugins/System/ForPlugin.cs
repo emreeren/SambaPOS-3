@@ -6,7 +6,14 @@ using System.Text.RegularExpressions;
 using System.Collections;
 
 
-namespace ComLib.Lang
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Types;
+using ComLib.Lang.Parsing;
+// </lang:using>
+
+namespace ComLib.Lang.Plugins
 {
     /* *************************************************************************
     <doc:example>	
@@ -118,6 +125,7 @@ namespace ComLib.Lang
         public ForExpr()
             : this(null, null, null)
         {
+            this.Nodetype = NodeTypes.SysFor;
         }
 
 
@@ -130,6 +138,7 @@ namespace ComLib.Lang
         public ForExpr(Expr start, Expr condition, Expr inc)
             : base(condition)
         {
+            this.Nodetype = NodeTypes.SysFor;
             InitBoundary(true, "}");
             Init(start, condition, inc);
         }
@@ -166,7 +175,7 @@ namespace ComLib.Lang
         /// Execute each expression.
         /// </summary>
         /// <returns></returns>
-        public override object Evaluate()
+        public override object DoEvaluate()
         {
             Start.Evaluate();
             _continueRunning = true;
@@ -204,7 +213,7 @@ namespace ComLib.Lang
                 Increment.Evaluate();
                 _continueRunning = Condition.EvaluateAs<bool>();
             }
-            return LNull.Instance;
+            return LObjects.Null;
         }
     } 
 
@@ -227,6 +236,7 @@ namespace ComLib.Lang
         public ForEachExpr(string varname, string sourceName)
             : base(null)
         {
+            this.Nodetype = NodeTypes.SysForEach;
             _varName = varname;
             _sourceName = sourceName;
         }
@@ -244,20 +254,19 @@ namespace ComLib.Lang
 
             // for(user in users)
             // Push scope for var name 
-            object source = Ctx.Memory.Get<object>(_sourceName);
+            var source = Ctx.Memory.Get<object>(_sourceName) as LObject;
 
             IEnumerator enumerator = null;
-            if (source is LArray) enumerator = ((LArray)source).Raw.GetEnumerator();
-            else if (source is IList) enumerator = ((IList)source).GetEnumerator();
-            else if (source is Array) enumerator = ((Array)source).GetEnumerator();
-            else if (source is LMap) enumerator = ((LMap)source).Raw.GetEnumerator();
+            if (source.Type == LTypes.Array) enumerator = ((IList)source.GetValue()).GetEnumerator();
+            else if (source.Type == LTypes.Map) enumerator = ((IDictionary)source.GetValue()).GetEnumerator();
 
             _continueRunning = enumerator.MoveNext();
 
             while (_continueRunning)
             {
                 // Set the next value of "x" in for(x in y).
-                Ctx.Memory.SetValue(_varName, enumerator.Current);
+                var current = enumerator.Current is LObject ? enumerator.Current : new LClass(enumerator.Current);
+                Ctx.Memory.SetValue(_varName, current);
 
                 if (_statements != null && _statements.Count > 0)
                 {
@@ -287,7 +296,7 @@ namespace ComLib.Lang
                 // Increment.
                 _continueRunning = enumerator.MoveNext();
             }
-            return LNull.Instance;
+            return LObjects.Null;
         }
     }    
 }

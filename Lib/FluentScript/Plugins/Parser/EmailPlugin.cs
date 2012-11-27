@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -75,10 +79,10 @@ namespace ComLib.Lang.Extensions
         {
             var currentWord = _lexer.LastToken.Text;
 
-            var nextWord = _lexer.PeekWordWithChar('@', false, 25, '@', '.');
-            if (!nextWord.Key) return false;
+            var peekResult = _lexer.Scanner.PeekCustomLimitedWord(false, '@', 25, '@', '.');
+            if (!peekResult.Success) return false;
 
-            var possibleEmail = currentWord + nextWord.Value;
+            var possibleEmail = currentWord + peekResult.Text;
             if (Regex.IsMatch(possibleEmail, _emailRegex))
                 return true;
             return false;
@@ -93,11 +97,11 @@ namespace ComLib.Lang.Extensions
         {
             // http https ftp ftps www 
             var takeoverToken = _lexer.LastTokenData;
-            var line = _lexer.LineNumber;
-            var pos = _lexer.LineCharPos;
-            var lineTokenPart = _lexer.ReadWordWithExtra('@', '.');
+            var line = _lexer.State.Line;
+            var pos = _lexer.State.LineCharPosition;
+            var lineTokenPart = _lexer.ReadCustomWord('@', '.');
             var finalText = takeoverToken.Token.Text + lineTokenPart.Text;
-            var lineToken = ComLib.Lang.Tokens.ToLiteralString(finalText);
+            var lineToken = ComLib.Lang.Core.Tokens.ToLiteralString(finalText);
             var t = new TokenData() { Token = lineToken, Line = line, LineCharPos = pos };
             _lexer.ParsedTokens.Add(t);
             return new Token[] { lineToken };

@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Collections;
 using System.Reflection;
 
+// <lang:using>
+using ComLib.Lang.Core;
+// </lang:using>
 
-namespace ComLib.Lang
+namespace ComLib.Lang.AST
 {    
 
     /// <summary>
@@ -26,6 +24,7 @@ namespace ComLib.Lang
             this.MemberName = memberName;
         }
 
+        
         /// <summary>
         /// The variable expression representing the list.
         /// </summary>
@@ -64,21 +63,6 @@ namespace ComLib.Lang
             string funcName = variableName + "." + MemberName;
             if (Ctx.ExternalFunctions.Contains(funcName))
                 return true;
-            return false;
-        }
-
-
-        /// <summary>
-        /// Whether or not the object is a core fluentscript type.
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        protected bool IsCoreType(object obj)
-        {
-            if (obj is LMap) return true;
-            if (obj is LArray) return true;
-            if (obj is DateTime) return true;
-            if (obj is string) return true;
             return false;
         }
 
@@ -215,7 +199,7 @@ namespace ComLib.Lang
             // Method
             else if (result.MemberType == MemberTypes.Method)
             {
-                string name = (VariableExp is VariableExpr) ? ((VariableExpr)VariableExp).Name : null;
+                string name = (VariableExp.IsNodeType(NodeTypes.SysVariable)) ? ((VariableExpr)VariableExp).Name : null;
                 member.Name = name;                
                 member.Method = type.GetMethod(memberNameCaseIgnorant);
             }

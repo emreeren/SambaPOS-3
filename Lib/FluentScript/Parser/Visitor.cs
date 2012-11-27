@@ -3,7 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ComLib.Lang
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Helpers;
+using ComLib.Lang.Plugins;
+// </lang:using>
+
+
+namespace ComLib.Lang.Parsing
 {
     /// <summary>
     /// Class that visits each ast node in the trees.
@@ -13,7 +21,8 @@ namespace ComLib.Lang
         /// <summary>
         /// Callback 
         /// </summary>
-        private Action<AstNode> _callBack;
+        private Action<AstNode> _callBackOnNodeStart;
+        private Action<AstNode> _callBackOnNodeEnd;
 
 
         /// <summary>
@@ -21,16 +30,18 @@ namespace ComLib.Lang
         /// </summary>
         public AstVisitor()
         {
-            _callBack = null;
+            _callBackOnNodeStart = null;
+            _callBackOnNodeEnd = null;
         }
 
 
         /// <summary>
         /// Initialize
         /// </summary>
-        public AstVisitor(Action<AstNode> callBack)
+        public AstVisitor(Action<AstNode> callBackOnNodeStart, Action<AstNode> callBackOnNodeEnd)
         {
-            _callBack = callBack;
+            _callBackOnNodeStart = callBackOnNodeStart;
+            _callBackOnNodeEnd = callBackOnNodeEnd;
         }
 
 
@@ -53,34 +64,40 @@ namespace ComLib.Lang
         /// <param name="exp"></param>
         public void Visit( Expr exp)
         {
-            if (exp is AssignExpr)
-                Var(exp as AssignExpr);
+            if (exp.IsNodeType(NodeTypes.SysAssign))
+                VarSingle(exp as AssignExpr);
 
-            else if (exp is ForExpr)
+            if (exp.IsNodeType(NodeTypes.SysAssignMulti))
+                VarMulti(exp as MultiAssignExpr);
+
+            else if (exp.IsNodeType(NodeTypes.SysFor))
                 For(exp as ForExpr);
 
-            else if (exp is ForEachExpr)
+            else if (exp.IsNodeType(NodeTypes.SysForEach))
                 ForEach(exp as ForEachExpr);
 
-            else if (exp is IfExpr)
+            else if (exp.IsNodeType(NodeTypes.SysIf))
                 If(exp as IfExpr);
 
-            else if (exp is TryCatchExpr)
+            else if (exp.IsNodeType(NodeTypes.SysTryCatch))
                 Try(exp as TryCatchExpr);
 
-            else if (exp is WhileExpr)
+            else if (exp.IsNodeType(NodeTypes.SysWhile))
                 While(exp as WhileExpr);
 
-            else if (exp is BinaryExpr)
+            else if (exp.IsNodeType(NodeTypes.SysBinary))
                 Binary(exp as BinaryExpr);
 
-            else if (exp is CompareExpr)
+            else if (exp.IsNodeType(NodeTypes.SysCompare))
                 Compare(exp as CompareExpr);
 
-            else if (exp is ConditionExpr)
+            else if (exp.IsNodeType(NodeTypes.SysCondition))
                 Condition(exp as ConditionExpr);
 
-            else if (exp is FunctionCallExpr)
+            else if (exp.IsNodeType(NodeTypes.SysFunctionDeclare))
+                FunctionDeclare(exp as FuncDeclareExpr);
+
+            else if (exp.IsNodeType(NodeTypes.SysFunctionCall))
                 FunctionCall(exp as FunctionCallExpr);
         }
 
@@ -89,14 +106,25 @@ namespace ComLib.Lang
         /// Visits the var statement tree.
         /// </summary>
         /// <param name="assignExpr"></param>
-        public void Var(AssignExpr assignExpr)
+        public void VarMulti(MultiAssignExpr assignExpr)
         {
-            _callBack(assignExpr);
-            foreach (var decl in assignExpr._declarations)
+            _callBackOnNodeStart(assignExpr);
+            foreach (var decl in assignExpr._assignments)
             {
-                Visit(decl.Item1);
-                Visit(decl.Item2);
+                VarSingle(decl);
             }
+        }
+
+
+        /// <summary>
+        /// Visits the var statement tree.
+        /// </summary>
+        /// <param name="assignExpr"></param>
+        public void VarSingle(AssignExpr assignExpr)
+        {
+            _callBackOnNodeStart(assignExpr);
+            Visit(assignExpr.VarExp);
+            Visit(assignExpr.ValueExp);
         }
 
 
@@ -106,7 +134,7 @@ namespace ComLib.Lang
         /// <param name="forExpr"></param>
         public void For(ForExpr forExpr)
         {
-            _callBack(forExpr);
+            _callBackOnNodeStart(forExpr);
             Visit(forExpr.Start);
             Visit(forExpr.Condition);
             Visit(forExpr.Increment);
@@ -123,7 +151,7 @@ namespace ComLib.Lang
         /// <param name="forExpr"></param>
         public void ForEach(ForEachExpr forExpr)
         {
-            _callBack(forExpr);
+            _callBackOnNodeStart(forExpr);
             Visit(forExpr.Condition);
             foreach (var stmt in forExpr.Statements)
             {
@@ -138,7 +166,7 @@ namespace ComLib.Lang
         /// <param name="ifExpr"></param>
         public void If(IfExpr ifExpr)
         {
-            _callBack(ifExpr);
+            _callBackOnNodeStart(ifExpr);
             Visit(ifExpr.Condition);
             foreach (var stmt in ifExpr.Statements)
             {
@@ -154,7 +182,7 @@ namespace ComLib.Lang
         /// <param name="tryExpr"></param>
         public void Try(TryCatchExpr tryExpr)
         {
-            _callBack(tryExpr);
+            _callBackOnNodeStart(tryExpr);
             foreach (var stmt in tryExpr.Statements)
             {
                 Visit(stmt);
@@ -169,7 +197,7 @@ namespace ComLib.Lang
         /// <param name="whileExpr"></param>
         public void While(WhileExpr whileExpr)
         {
-            _callBack(whileExpr);
+            _callBackOnNodeStart(whileExpr);
             Visit(whileExpr.Condition);
             foreach (var stmt in whileExpr.Statements)
             {
@@ -184,9 +212,9 @@ namespace ComLib.Lang
         /// <param name="exp"></param>
         public void Binary(BinaryExpr exp)
         {
-            _callBack(exp);
-            _callBack(exp.Left);
-            _callBack(exp.Right);
+            _callBackOnNodeStart(exp);
+            _callBackOnNodeStart(exp.Left);
+            _callBackOnNodeStart(exp.Right);
         }
 
 
@@ -196,9 +224,9 @@ namespace ComLib.Lang
         /// <param name="exp"></param>
         public void Compare(CompareExpr exp)
         {
-            _callBack(exp);
-            _callBack(exp.Left);
-            _callBack(exp.Right);
+            _callBackOnNodeStart(exp);
+            _callBackOnNodeStart(exp.Left);
+            _callBackOnNodeStart(exp.Right);
         }
 
 
@@ -208,9 +236,9 @@ namespace ComLib.Lang
         /// <param name="exp"></param>
         public void Condition(ConditionExpr exp)
         {
-            _callBack(exp);
-            _callBack(exp.Left);
-            _callBack(exp.Right);
+            _callBackOnNodeStart(exp);
+            _callBackOnNodeStart(exp.Left);
+            _callBackOnNodeStart(exp.Right);
         }
 
 
@@ -218,11 +246,28 @@ namespace ComLib.Lang
         /// Visits the function call expression tree
         /// </summary>
         /// <param name="exp"></param>
+        public void FunctionDeclare(FuncDeclareExpr exp)
+        {
+            _callBackOnNodeStart(exp);
+            for(var ndx = 0; ndx < exp.Function.Statements.Count; ndx++)
+            {
+                var stmt = exp.Function.Statements[ndx];
+                Visit(stmt);
+            }
+            _callBackOnNodeEnd(exp);
+        }
+        
+        
+        /// <summary>
+        /// Visits the function call expression tree
+        /// </summary>
+        /// <param name="exp"></param>
         public void FunctionCall(FunctionCallExpr exp)
         {
-            _callBack(exp);
+            _callBackOnNodeStart(exp);
             foreach (var paramExp in exp.ParamListExpressions)
-                _callBack(paramExp);
+                _callBackOnNodeStart(paramExp);
+            _callBackOnNodeEnd(exp);
         }
     }
 }

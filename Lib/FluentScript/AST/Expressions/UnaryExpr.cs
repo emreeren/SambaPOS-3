@@ -5,8 +5,14 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.Types;
+using ComLib.Lang.Parsing;
+using ComLib.Lang.Helpers;
+// </lang:using>
 
-namespace ComLib.Lang
+namespace ComLib.Lang.AST
 {
     /// <summary>
     /// Variable expression data
@@ -27,6 +33,7 @@ namespace ComLib.Lang
         /// </summary>
         public UnaryExpr()
         {
+            this.Nodetype = NodeTypes.SysUnary;
         }
 
 
@@ -39,6 +46,7 @@ namespace ComLib.Lang
         /// <param name="ctx">Context of the script</param>
         public UnaryExpr(string name, double incValue, Operator op, Context ctx)
         {
+            this.Nodetype = NodeTypes.SysUnary;
             this.Name = name;
             this.Op = op;
             this.Increment = incValue;
@@ -72,94 +80,83 @@ namespace ComLib.Lang
             if (Op == Operator.LogicalNot)
                 return HandleLogicalNot();
 
-            object valobj = this.Ctx.Memory.Get<object>(this.Name);
+            var valobj = (LObject)this.Ctx.Memory.Get<object>(this.Name);
 
             // Double ? 
-            if (valobj is double || valobj is int) return IncrementNumber(Convert.ToDouble(valobj));
+            if (valobj.Type == LTypes.Number ) 
+                return IncrementNumber((LNumber)valobj);
 
             // String ?
-            if (valobj is string) return IncrementString((string)valobj);
+            if (valobj.Type == LTypes.String) 
+                return IncrementString((LString)valobj);
 
             throw new LangException("Syntax Error", "Unexpected operation", Ref.ScriptName, Ref.Line, Ref.CharPos);
         }
 
 
-        private string IncrementString(string sourceVal)
+        private LString IncrementString(LString sourceVal)
         {
+            // Check 1: Can only do += on strings.
             if (Op != Operator.PlusEqual)
                 throw new LangException("Syntax Error", "string operation with " + Op.ToString() + " not supported", Ref.ScriptName, Ref.Line, Ref.CharPos);
 
             this.DataType = typeof(string);
-            string val = this.Expression.EvaluateAs<string>();
+            var val = this.Expression.Evaluate() as LObject;
 
-            // Check limit
-            Ctx.Limits.CheckStringLength(this, sourceVal, val);
+            // Check 2: Check for null
+            if (val == LObjects.Null)
+                return sourceVal;
 
-            string appended = sourceVal + val;
+            // Check 3: Limit size if string
+            Ctx.Limits.CheckStringLength(this, sourceVal.Value, val.GetValue().ToString());
+
+            // Finally do the appending.
+            string appended = sourceVal.Value + val.GetValue().ToString();
+            sourceVal.Value = appended;
             this.Value = appended;
-            this.Ctx.Memory.SetValue(this.Name, appended);
-            return appended;
+            this.Ctx.Memory.SetValue(this.Name, sourceVal);
+            return sourceVal;
         }
 
 
-        private double IncrementNumber(double val)
+        private LNumber IncrementNumber(LNumber val)
         {
             this.DataType = typeof(double);
+            var inc = this.Increment == 0 ? 1 : this.Increment;
             if (this.Expression != null)
-                Increment = this.Expression.EvaluateAs<double>();
-            else if (Increment == 0)
-                Increment = 1;
+            {
+                var incval = this.Expression.Evaluate();
+                // TODO: Check if null and throw langexception?
+                inc = ((LNumber)incval).Value;
+            }
 
-            if (Op == Operator.PlusPlus)
-            {
-                val++;
-            }
-            else if (Op == Operator.MinusMinus)
-            {
-                val--;
-            }
-            else if (Op == Operator.PlusEqual)
-            {
-                val = val + Increment;
-            }
-            else if (Op == Operator.MinusEqual)
-            {
-                val = val - Increment;
-            }
-            else if (Op == Operator.MultEqual)
-            {
-                val = val * Increment;
-            }
-            else if (Op == Operator.DivEqual)
-            {
-                val = val / Increment;
-            }            
-            
-            // Set the value back into scope
+            // 1. Calculate the unary value
+            val = EvalHelper.CalcUnary(val, Op, inc);
+
+            // 2. Set the value back into scope
             this.Value = val;
             this.Ctx.Memory.SetValue(this.Name, val);
-
             return val;
         }
 
 
         private object HandleLogicalNot()
         {
-            object result = this.Expression.Evaluate();
+            var result = this.Expression.Evaluate() as LObject;
+            
+            // Check 1:  This is actually an assert and should not happen.
             if (result == null)
-                return false;
-            if (result.GetType() == typeof(double))
-                return false;
-            if (result.GetType() == typeof(string))
-                return false;
-            if (result.GetType() == typeof(DateTime))
-                return false;
-            if (result.GetType() == typeof(bool))
-                return !((bool)result);
-            if (result == LNull.Instance)
-                return true;
+                throw this.BuildRunTimeException("Null value encountered");
 
-            return false;
+            var retVal = false;
+            
+            // Only handle bool for logical not !true !false
+            if (result.Type == LTypes.Bool)
+                retVal = !((LBool)result).Value;
+            else if (result == LObjects.Null)
+                retVal = true;
+
+            return new LBool(retVal);
         }
     }
 }

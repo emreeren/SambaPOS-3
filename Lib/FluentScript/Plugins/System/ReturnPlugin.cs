@@ -2,10 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Helpers;
+using ComLib.Lang.Types;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
-namespace ComLib.Lang
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -95,10 +101,10 @@ namespace ComLib.Lang
             var parent = this.FindParent<FunctionExpr>();
             if (parent == null) throw new LangException("syntax error", "unable to return, parent not found", string.Empty, 0);
 
-            object result = Exp == null ? null : Exp.Evaluate();
+            object result = this.Exp == null ? LObjects.Null : Exp.Evaluate();
             bool hasReturnVal = Exp != null;
             parent.Return(result, hasReturnVal);
-            return LNull.Instance;
+            return LObjects.Null;
         }
     }
 }

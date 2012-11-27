@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
-using ComLib.Lang;
-using ComLib.Lang.Helpers;
 
-namespace ComLib.Lang.Extensions
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Helpers;
+using ComLib.Lang.Parsing;
+using ComLib.Lang.Types;
+// </lang:using>
+
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -157,7 +163,7 @@ namespace ComLib.Lang.Extensions
 
                 // c. Create a constant expr from the wildcard
                 // as it will be part of an array of strings passed to function
-                var partExp = new ConstantExpr(part);
+                var partExp = new ConstantExpr(new LString(part));
                 _parser.SetScriptPosition(partExp, _tokenIt.NextToken);
                 parts.Add(partExp);
 
@@ -171,7 +177,7 @@ namespace ComLib.Lang.Extensions
 
             var exp = new FunctionCallExpr();
             remainderOfFuncName = remainderOfFuncName.Trim();
-            ConstantExpr fullWildCard = new ConstantExpr(string.Empty);
+            ConstantExpr fullWildCard = new ConstantExpr(new LString(string.Empty));
             _parser.SetScriptPosition(fullWildCard, fnameToken);
 
             // 2. Create a constant expr representing the full wildcard              

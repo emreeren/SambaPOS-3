@@ -5,9 +5,13 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.Types;
 using ComLib.Lang.Helpers;
+// </lang:using>
 
-namespace ComLib.Lang
+namespace ComLib.Lang.AST
 {
     /// <summary>
     /// For loop Expression data
@@ -55,7 +59,7 @@ namespace ComLib.Lang
         public override object  DoEvaluate()
         {
             LangHelper.Evaluate(this._statements, this.Parent);
-            return LNull.Instance;
+            return LObjects.Null;
         }
 
 
@@ -64,7 +68,7 @@ namespace ComLib.Lang
         /// </summary>
         protected virtual object ExecuteBlock()
         {
-            object result = LNull.Instance;
+            object result = LObjects.Null;
             try
             {
                 OnBlockEnter();

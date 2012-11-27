@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Collections;
 
 
-namespace ComLib.Lang
+namespace ComLib.Lang.AST
 {
     /// <summary>
     /// Variable expression data
@@ -18,6 +18,7 @@ namespace ComLib.Lang
         /// </summary>
         public VariableExpr()
         {
+            this.Nodetype = NodeTypes.SysVariable;
         }
 
 
@@ -27,6 +28,7 @@ namespace ComLib.Lang
         /// <param name="name">Variable name</param>
         public VariableExpr(string name)
         {
+            this.Nodetype = NodeTypes.SysVariable;
             this.Name = name;
         }
 
@@ -37,8 +39,11 @@ namespace ComLib.Lang
         /// <returns></returns>
         public override object DoEvaluate()
         {
+            if (!this.Ctx.Memory.Contains(this.Name))
+                throw this.BuildRunTimeException("variable : " + this.Name + " does not exist");
+
             this.Value = this.Ctx.Memory.Get<object>(this.Name);
-            this.DataType = this.Value.GetType();
+            //this.DataType = this.Value.GetType();
             return this.Value;
         }
 

@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
     /* *************************************************************************
     <doc:example>	
@@ -47,8 +51,8 @@ namespace ComLib.Lang.Extensions
         /// <returns></returns>
         public override bool CanHandle(Token current)
         {
-            string nextWord = _lexer.PeekWord();
-            if (MarkerPlugin._markers.ContainsKey(nextWord))
+            var peekResult = _lexer.Scanner.PeekWord(false);
+            if (peekResult.Success && MarkerPlugin._markers.ContainsKey(peekResult.Text))
                 return true;
 
             return false;
@@ -63,19 +67,18 @@ namespace ComLib.Lang.Extensions
         {
             // print no quotes needed!
             var takeoverToken = _lexer.LastTokenData;
-            _lexer.ReadChar();
-            int line = _lexer.LineNumber;
-            int pos = _lexer.LineCharPos;
+            int line = _lexer.State.Line;
+            int pos = _lexer.State.LineCharPosition;
 
             // What is the next word?                        
             var marker = _lexer.ReadWord();
             var m = new TokenData() { Token = marker, Line = line, LineCharPos = pos };
-            
-            _lexer.ReadChar();
-            _lexer.ConsumeWhiteSpace(false, true);
+
+            _lexer.Scanner.ReadChar();
+            _lexer.Scanner.ConsumeWhiteSpace(false, true);
             Token token = null;
-            line = _lexer.LineNumber;
-            pos = _lexer.LineCharPos;            
+            line = _lexer.State.Line;
+            pos = _lexer.State.LineCharPosition;            
             
             char c = _lexer.State.CurrentChar;
             if (c == '\'' || c == '"')

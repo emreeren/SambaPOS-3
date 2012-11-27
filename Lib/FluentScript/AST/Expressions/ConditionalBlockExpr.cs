@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Collections;
 
 
-namespace ComLib.Lang
+namespace ComLib.Lang.AST
 {
     /// <summary>
     /// Conditional based block statement used in ifs/elses/while

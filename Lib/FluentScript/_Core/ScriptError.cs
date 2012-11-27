@@ -3,8 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ComLib.Lang
+namespace ComLib.Lang.Core
 {
+
+    /// <summary>
+    /// Language validation result type. info, warn, compile error.
+    /// </summary>
+    public enum ScriptErrorType
+    {
+        /// <summary>
+        /// Information
+        /// </summary>
+        Info,
+
+
+        /// <summary>
+        /// Warning
+        /// </summary>
+        Warning,
+
+
+        /// <summary>
+        /// Error
+        /// </summary>
+        Error
+    }
+
+
+
     /// <summary>
     /// Class to store information about an error.
     /// </summary>
@@ -41,8 +67,14 @@ namespace ComLib.Lang
 
 
         /// <summary>
-        /// The type of the error. syntax/limit.
+        /// The type of the error. syntax/limit/error/warning.
         /// </summary>
         public string ErrorType;
+
+
+        /// <summary>
+        /// A distinct error code.
+        /// </summary>
+        public string ErrorCode;
     }
 }

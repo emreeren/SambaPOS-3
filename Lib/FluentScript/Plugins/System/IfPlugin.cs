@@ -4,9 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections;
-using ComLib.Lang.Helpers;
 
-namespace ComLib.Lang
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Types;
+using ComLib.Lang.Helpers;
+using ComLib.Lang.Parsing;
+// </lang:using>
+
+namespace ComLib.Lang.Plugins
 {
     /// <summary>
     /// Plugin for throwing errors from the script.
@@ -102,7 +109,10 @@ namespace ComLib.Lang
         /// <summary>
         /// Create new instance
         /// </summary>
-        public IfExpr() : base(null, null) { }
+        public IfExpr() : base(null, null)
+        {
+            this.Nodetype = NodeTypes.SysIf;
+        }
 
 
         /// <summary>
@@ -112,6 +122,7 @@ namespace ComLib.Lang
         public IfExpr(Expr condition)
             : base(condition, null)
         {
+            this.Nodetype = NodeTypes.SysIf;
             InitBoundary(true, "}");            
         }
 
@@ -129,7 +140,7 @@ namespace ComLib.Lang
         public override object DoEvaluate()
         {
             // Case 1: If is true
-            if (Condition.EvaluateAs<bool>())
+            if (this.Condition.EvaluateAs<bool>())
             {
                 LangHelper.Evaluate(_statements, this);
             }
@@ -138,7 +149,7 @@ namespace ComLib.Lang
             {
                 Else.Evaluate();
             }
-            return LNull.Instance;
+            return LObjects.Null;
         }
     }    
 }

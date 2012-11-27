@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Types;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
-namespace ComLib.Lang
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -105,7 +110,10 @@ namespace ComLib.Lang
             if (Exp != null)
                 message = Exp.Evaluate();
 
-            var text = message == null || message == LNull.Instance ? string.Empty : message.ToString();
+            var text = (message == null || message == LObjects.Null)
+                     ? ""
+                     : ((LObject)message).GetValue().ToString();
+
             throw new LangFailException(text, this.Ref.ScriptName, this.Ref.Line);
         }
     }

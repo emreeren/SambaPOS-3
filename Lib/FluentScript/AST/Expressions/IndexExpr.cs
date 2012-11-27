@@ -1,20 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Collections;
-using System.Reflection;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.Types;
+using ComLib.Lang.Helpers;
+// </lang:using>
 
-namespace ComLib.Lang
+namespace ComLib.Lang.AST
 {
     /// <summary>
     /// Member access expressions for "." property or "." method.
     /// </summary>
     public class IndexExpr : Expr
     {
-       
         /// <summary>
         /// Initialize
         /// </summary>
@@ -23,10 +21,11 @@ namespace ComLib.Lang
         /// <param name="isAssignment">Whether or not this is part of an assigment</param>
         public IndexExpr(Expr variableExp, Expr indexExp, bool isAssignment)
         {
-            InitBoundary(true, "]");
-            VariableExp = variableExp;
-            IndexExp = indexExp;
-            IsAssignment = isAssignment;
+            this.Nodetype = NodeTypes.SysIndex;
+            this.InitBoundary(true, "]");
+            this.VariableExp = variableExp;
+            this.IndexExp = indexExp;
+            this.IsAssignment = isAssignment;
         }
 
 
@@ -60,70 +59,32 @@ namespace ComLib.Lang
         /// <returns></returns>
         public override object DoEvaluate()
         {
-            object result = null;
-            object ndxVal = IndexExp.Evaluate();
-            
-            // Either get from scope or from exp.
-            if (VariableExp is VariableExpr)
-                ListObject = Ctx.Memory.Get<object>(((VariableExpr)VariableExp).Name);
-            else
-                ListObject = VariableExp.Evaluate();
+            var ndxVal = IndexExp.Evaluate();
+            this.ListObject = VariableExp.Evaluate();
 
+            // Check for empty objects.
+            ExceptionHelper.NotNull(this, this.ListObject, "indexing");
+            ExceptionHelper.NotNull(this, ndxVal, "indexing");
+
+            var lobj = (LObject)this.ListObject;
+
+            // CASE 1. Access 
+            //      e.g. Array: users[0] 
+            //      e.g. Map:   users['total']
             if(!this.IsAssignment)
             {
-                // Is the index value a number ? Indicates that the object is an array.
-                if (ndxVal is int || ndxVal is double )
-                {
-                    result = GetArrayValue(Convert.ToInt32(ndxVal));
-                    return result;    
-                }
-                // If the index is a string. Then object is a map/dictionary.
-                else if (ndxVal is string)
-                {
-                    string memberName = ndxVal as string;
-                    // Check if property exists.
-                    if (!((LMap)ListObject).HasProperty(memberName))
-                        throw this.BuildRunTimeException("Property does not exist : '" + memberName + "'");
-                    return ((LMap)ListObject).ExecuteMethod(memberName, null);
-                }       
+                var result = EvalHelper.AccessIndex(this.Ctx.Methods, this, lobj, (LObject)ndxVal);
+                return result;
             }
-            if (ndxVal is int || ndxVal is double)
-            {
-                return new Tuple<object, int>(ListObject, Convert.ToInt32(ndxVal));
-            }
-            return new Tuple<LMap, string>((LMap)ListObject, (string)ndxVal);          
-        }
 
-
-        private object GetArrayValue(int ndx)
-        {
-            MethodInfo method = null;
-            object result = null;           
-            // 1. Array
-            if (ListObject is Array)
-            {
-                method = ListObject.GetType().GetMethod("GetValue", new Type[] { typeof(int) });
-            }
-            // 2. LArray
-            else if (ListObject is LArray)
-            {
-                method = ListObject.GetType().GetMethod("GetByIndex");
-            }
-            // 3. IList
-            else
-            {
-                method = ListObject.GetType().GetMethod("get_Item");
-            }
-            // Getting value?                
-            try
-            {
-                result = method.Invoke(ListObject, new object[] { ndx });
-            }
-            catch (Exception)
-            {
-                throw BuildRunTimeException("Access of list item at position " + ndx + " is out of range");
-            }
-            return result;
+            // CASE 2.  Assignment
+            //      e.g. Array: users[0]        = 'john'
+            //      e.g. Map:   users['total']  = 200
+            // NOTE: In this case of assignment, return back a MemberAccess object descripting what is assign
+            var indexAccess = new IndexAccess();
+            indexAccess.Instance = lobj;
+            indexAccess.MemberName = (LObject) ndxVal;
+            return indexAccess;
         }
     }    
 }

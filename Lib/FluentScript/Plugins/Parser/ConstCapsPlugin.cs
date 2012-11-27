@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Types;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -28,7 +33,7 @@ namespace ComLib.Lang.Extensions
     // but right now there is a bug where a constant can be assigned a date.
     </doc:example>
     ***************************************************************************/
-
+    // <fs:plugin-autogenerate>
     /// <summary>
     /// Combinator for handling days of the week.
     /// </summary>
@@ -73,6 +78,7 @@ namespace ComLib.Lang.Extensions
                 };
             }
         }
+        // </fs:plugin-autogenerate>
 
 
         /// <summary>
@@ -147,8 +153,8 @@ namespace ComLib.Lang.Extensions
             var constStmt = node as ConstStmt;
             foreach (var pair in constStmt.Assignments)
             {
-                object constVal = pair.Value.Evaluate();
-                _parser.Context.Symbols.DefineConstant(pair.Key, constVal);
+                var constVal = pair.Value.Evaluate() as LObject;
+                _parser.Context.Symbols.DefineConstant(pair.Key, constVal.Type, constVal);
             }
         }
 
@@ -158,13 +164,13 @@ namespace ComLib.Lang.Extensions
             var ctx = _parser.Context;
             if (ctx.Symbols.Contains(constName) && ctx.Symbols.IsConst(constName))
                 throw _tokenIt.BuildSyntaxException("Can not reassign constant", exp);
-            if (exp is NewExpr)
+            if (exp.IsNodeType(NodeTypes.SysNew))
             {
                 var nexp = exp as NewExpr;
                 if(nexp.TypeName != "Date" && nexp.TypeName != "Time" )
                     throw _tokenIt.BuildSyntaxException("Const : " + constName + " must have a const value");
             }
-            else if (!(exp is ConstantExpr))
+            else if (!(exp.IsNodeType(NodeTypes.SysConstant)))
                 throw _tokenIt.BuildSyntaxException("Const : " + constName + " must have a const value");                
         }
 
@@ -215,7 +221,7 @@ namespace ComLib.Lang.Extensions
                 object val = pair.Value.Evaluate();
                 this.Ctx.Memory.SetValue(pair.Key, val);
             }
-            return LNull.Instance;
+            return LObjects.Null;
         }
     }
 }

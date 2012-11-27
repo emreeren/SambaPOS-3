@@ -1,7 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
+
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
 namespace ComLib.Lang.Helpers
 {
@@ -34,8 +39,7 @@ namespace ComLib.Lang.Helpers
         /// <summary>
         /// Finds a matching script function name from the list of strings representing identifiers.
         /// </summary>
-        /// <param name="symbols">Symbol Scope</param>
-        /// <param name="funcs">The list of external functions.</param>
+        /// <param name="ctx">The context of the script</param>
         /// <param name="ids">List of strings representing identifier tokens</param>
         /// <returns></returns>
         public static FunctionLookupResult MatchFunctionName(Context ctx, List<Tuple<string,int>> ids)
@@ -112,7 +116,7 @@ namespace ComLib.Lang.Helpers
         /// <param name="meta">The function meta for checking parameters</param>
         /// <param name="expectParenthesis">Whether or not to expect parenthis to designate the start of the parameters.</param>
         /// <param name="enableNewLineAsEnd">Whether or not to treat a newline as end</param>
-        public static void ParseFuncParameters(List<Expr> args, TokenIterator tokenIt, bool expectParenthesis, bool enableNewLineAsEnd, Parser parser, FunctionMetaData meta)
+        public static void ParseFuncParameters(List<Expr> args, TokenIterator tokenIt, Parser parser, bool expectParenthesis, bool enableNewLineAsEnd, FunctionMetaData meta)
         {
             int totalParameters = 0;
             if (tokenIt.NextToken.Token == Tokens.LeftParenthesis)
@@ -136,28 +140,36 @@ namespace ComLib.Lang.Helpers
                 
                 if (tokenIt.NextToken.Token == Tokens.Comma) 
                     tokenIt.Advance();
-
+                
                 var token = tokenIt.NextToken.Token;
                 var peek = tokenIt.Peek().Token;
 
                 var isVar = parser.Context.Symbols.Contains(token.Text);
-                
+                var isParamNameMatch = hasMetaArguments && meta.ArgumentsLookup.ContainsKey(token.Text);
+                var isKeywordParamName = token.Kind == TokenKind.Keyword && isParamNameMatch;
+
                 // CASE 1: Named params for external c# object method calls                
                 // CASE 2: Named params for internal script functions ( where we have access to its param metadata )
-                if ( (meta == null && token.Kind == TokenKind.Ident && peek == Tokens.Colon ) ||
-                     (hasMetaArguments && token.Kind == TokenKind.Ident && meta.ArgumentsLookup.ContainsKey(token.Text) && !isVar))
+                if (   (meta == null && token.Kind == TokenKind.Ident && peek == Tokens.Colon ) 
+                    || (token.Kind == TokenKind.Ident && isParamNameMatch && !isVar) 
+                    || (token.Kind == TokenKind.Ident && !isParamNameMatch && !isVar && peek == Tokens.Colon)
+                    || (isKeywordParamName && !isVar ) )
                 {         
                     string paramName = token.Text;
+                    var namedParamToken = tokenIt.NextToken;
                     tokenIt.Advance();
 
                     // Advance and check if ":"
                     if (tokenIt.NextToken.Token == Tokens.Colon)
                         tokenIt.Advance();
-
+                    
                     exp = parser.ParseExpression(endTokens, true, false, true, passNewLine, true);
 
                     // Store named param
                     exp = new NamedParamExpr(paramName, exp);
+                    exp.Ctx = parser.Context;
+                    parser.SetScriptPosition(exp, namedParamToken );
+
                     args.Add(exp);
                     totalNamedParams++;
                 }

@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Types;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -155,9 +160,9 @@ namespace ComLib.Lang.Extensions
             // 2. books where
             // In this case autocreate variable "book" using variable name.
             _source = _parser.ParseIdExpression();
-            if (_source is VariableExpr)
+            if (_source.IsNodeType(NodeTypes.SysVariable))
                 _variableName = ((VariableExpr)_source).Name;
-            else if (_source is MemberAccessExpr)
+            else if (_source.IsNodeType(NodeTypes.SysMemberAccess))
                 _variableName = ((MemberAccessExpr)_source).MemberName;
 
             // get "book" from "books".
@@ -190,6 +195,7 @@ namespace ComLib.Lang.Extensions
         /// </summary>
         public LinqExpr()
         {
+            this.Nodetype = "FSExtLinq";
         }
 
 
@@ -202,6 +208,7 @@ namespace ComLib.Lang.Extensions
         /// <param name="sorts">The sorting to apply after filtering.</param>
         public LinqExpr(string varName, Expr source, Expr filter, List<Expr> sorts)
         {
+            this.Nodetype = "FSExtLinq";
             _varName = varName;
             _sorts = sorts;
             _source = source;
@@ -210,18 +217,31 @@ namespace ComLib.Lang.Extensions
 
 
         /// <summary>
+        /// Whether or not this is of the node type supplied.
+        /// </summary>
+        /// <param name="nodeType"></param>
+        /// <returns></returns>
+        public override bool IsNodeType(string nodeType)
+        {
+            if (nodeType == "FSExtLinq")
+                return true;
+            return base.IsNodeType(nodeType);
+        }
+
+
+        /// <summary>
         /// Evaluate the linq expression.
         /// </summary>
         /// <returns></returns>
-        public override object Evaluate()
+        public override object DoEvaluate()
         {
-            var array = _source.Evaluate();
-            IEnumerable<object> items = array as IEnumerable<Object>;
-            List<object> results = new List<object>();
+            var array = _source.Evaluate() as LObject;
+            var items = array.GetValue() as List<object>;
+            var results = new List<object>();
 
-            for (int ndx = 0; ndx < items.Count(); ndx++)
+            for (int ndx = 0; ndx < items.Count; ndx++)
             {
-                var val = items.ElementAt(ndx);
+                var val = items[ndx];
                 this.Ctx.Memory.SetValue(_varName, val);
                 var isMatch = _filter.EvaluateAs<bool>();
                 if (isMatch)
@@ -229,7 +249,7 @@ namespace ComLib.Lang.Extensions
                     results.Add(val);
                 }
             }
-            return new LArray(this.Ctx, results);
+            return new LArray(results);
         }
     }
 }

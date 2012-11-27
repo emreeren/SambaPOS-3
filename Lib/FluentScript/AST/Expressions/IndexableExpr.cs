@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Collections;
 
 
-namespace ComLib.Lang
+namespace ComLib.Lang.AST
 {
     /// <summary>
     /// Marker class for constant or variables expressions that are indexable.
@@ -14,5 +14,16 @@ namespace ComLib.Lang
     /// </summary>
     public class IndexableExpr : Expr
     {
+        /// <summary>
+        /// Whether or not this is of the node type supplied.
+        /// </summary>
+        /// <param name="nodeType"></param>
+        /// <returns></returns>
+        public override bool IsNodeType(string nodeType)
+        {
+            if (nodeType == NodeTypes.SysIndexable)
+                return true;
+            return base.IsNodeType(nodeType);
+        }
     }
 }

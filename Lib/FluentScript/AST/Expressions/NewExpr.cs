@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ComLib.Lang.Helpers;
 
-namespace ComLib.Lang
+// <lang:using>
+using ComLib.Lang.Types;
+using ComLib.Lang.Helpers;
+// </lang:using>
+
+namespace ComLib.Lang.AST
 {
     /// <summary>
     /// New instance creation.
@@ -16,9 +18,10 @@ namespace ComLib.Lang
         /// </summary>
         public NewExpr()
         {
-            InitBoundary(true, ")");
-            ParamList = new List<object>();
-            ParamListExpressions = new List<Expr>();
+            this.Nodetype = NodeTypes.SysNew;
+            this.InitBoundary(true, ")");
+            this.ParamList = new List<object>();
+            this.ParamListExpressions = new List<Expr>();
         }
 
 
@@ -51,20 +54,28 @@ namespace ComLib.Lang
             if (ParamListExpressions != null && ParamListExpressions.Count > 0)
             {
                 ParamList = new List<object>();
-                FunctionHelper.ResolveParameters(ParamListExpressions, ParamList);
+                ParamHelper.ResolveNonNamedParameters(ParamListExpressions, ParamList);
                 constructorArgs = ParamList.ToArray();
             }
-            if (string.Compare(TypeName, "Date", StringComparison.InvariantCultureIgnoreCase) == 0)
+
+            // CASE 1: Built in basic system types ( string, date, time, etc )
+            if(LTypesLookup.IsBasicTypeShortName(this.TypeName))
             {
-                DateTime result = LDate.CreateFrom(constructorArgs);
+                // TODO: Move this check to Semacts later
+                var langType = LTypesLookup.GetLType(this.TypeName);
+                var methods = this.Ctx.Methods.Get(langType);
+                var canCreate = methods.CanCreateFromArgs(constructorArgs);
+                if (!canCreate)
+                    throw BuildRunTimeException("Can not create " + this.TypeName + " from parameters");
+
+                // Allow built in type methods to create it.
+                var result = methods.CreateFromArgs(constructorArgs);
                 return result;
             }
-            else if (string.Compare(TypeName, "Time", StringComparison.InvariantCultureIgnoreCase) == 0)
-            {
-                TimeSpan result = TimeTypeHelper.CreateTimeFrom(constructorArgs);
-                return result;
-            }
-            return Ctx.Types.Create(TypeName, constructorArgs);
+            // CASE 2: Custom types e.g. custom classes.
+            var hostLangArgs = LangTypeHelper.ConvertToArrayOfHostLangValues(constructorArgs);
+            var instance = Ctx.Types.Create(this.TypeName, hostLangArgs);
+            return new LClass(instance);
         }
     }
 }

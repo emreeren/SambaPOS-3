@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+// <lang:using>
+using ComLib.Lang.Core;
+// </lang:using>
 
-namespace ComLib.Lang
+
+namespace ComLib.Lang.Parsing
 {
     /// <summary>
     /// Converts script from a series of characters into a series of tokens.
-    /// Main method is NextToken();
+    /// Main method is NextToken(), PeekToken(), it internally uses and exposes 
+    /// the scanner for char/text based access the the source code as well.
     /// A script can be broken down into a sequence of tokens.
     /// e.g.
     /// 
@@ -25,7 +30,7 @@ namespace ComLib.Lang
     ///  "kishore"   literal
     ///  ;           operator
     /// </summary>
-    public class Lexer : LexerBase
+    public class Lexer 
     {
         enum TokenLengthCalcMode
         {
@@ -58,9 +63,11 @@ namespace ComLib.Lang
         private Context _ctx;      
         private Token _lastToken;
         private TokenData _lastTokenData;
+        private TokenData _endTokenData;
         private int _tokenIndex = -1;
         private bool _hasReplacementsOrRemovals = false;
         private char _interpolatedStartChar = '#';
+        private Scanner _scanner;
         
         private List<TokenData> _tokens;
         private Dictionary<string, string> _replacements = new Dictionary<string, string>();
@@ -87,8 +94,10 @@ namespace ComLib.Lang
         /// Initialize
         /// </summary>
         /// <param name="text">The text to parse</param>
-        public Lexer(string text) : this(new Context(), text)
+        public Lexer(string text)
         {
+            this._ctx = new Context();
+            this.Init(text);
         }
 
 
@@ -99,19 +108,47 @@ namespace ComLib.Lang
         /// <param name="text">The source code text to lex</param>
         public Lexer(Context ctx, string text)
         {
-            _ctx = ctx;
-            Init(text, '\\', new char[] { SQUOTE, DQUOTE }, new char[] { ' ', '\t' });
+            this._ctx = ctx;
+            this.Init(text);
         }
 
 
         /// <summary>
-        /// Initialize with the text.
+        /// Initialize with script.
         /// </summary>
-        /// <param name="text"></param>
-        public void Init(string text)
+        /// <param name="script"></param>
+        public void Init(string script)
         {
-            Init(text, '\\', new char[] { SQUOTE, DQUOTE }, new char[] { ' ', '\t' });
-        }        
+            this._scanner = new Scanner();
+            this._scanner.Init(script, '\\', new char[] { '\'', '"' }, new char[] { ' ', '\t' });
+            this.LAST_POSITION = this._scanner.LAST_POSITION;
+            this.State = this._scanner.State;
+            this.Scanner = this._scanner;
+        }
+
+
+        /// <summary>
+        /// The context of the program.
+        /// </summary>
+        public void SetContext(Context ctx) { _ctx = ctx; }
+
+
+        /// <summary>
+        /// Last char position of script.
+        /// </summary>
+        public int LAST_POSITION;
+
+
+        /// <summary>
+        /// The scan state
+        /// </summary>
+        public ScanState State;
+
+
+        /// <summary>
+        /// The instance of the scanner for public use
+        /// </summary>
+        public Scanner Scanner;
 
         
         /// <summary>
@@ -119,7 +156,7 @@ namespace ComLib.Lang
         /// </summary>
         public char IntepolatedStartChar { get { return _interpolatedStartChar; } set { _interpolatedStartChar = value; } }
 
-       
+
         /// <summary>
         /// Replaces a token with another token.
         /// </summary>
@@ -265,7 +302,7 @@ namespace ComLib.Lang
 
                 //DEBUG.ASSERT. Did not progress somehow.
                 if(last == token)
-                    throw new LangException("Syntax Error", "Unexpected token", string.Empty, _pos.Line, _pos.LineCharPosition);
+                    throw new LangException("Syntax Error", "Unexpected token", string.Empty, _scanner.State.Line, _scanner.State.LineCharPosition);
                 last = token;
             }
             return _tokens;
@@ -280,48 +317,48 @@ namespace ComLib.Lang
         {
             // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             // LEXER ALWAYS READS NEXT CHAR
-            char c = _pos.CurrentChar;
-            char n = PeekChar();
-            var tokenLengthCalcMode = TokenLengthCalcMode.Direct;
+            var c = _scanner.State.CurrentChar;
+            var n = _scanner.PeekChar();
+            //var tokenLengthCalcMode = TokenLengthCalcMode.Direct;
 
-            int pos = _pos.Pos;
-            int line = _pos.Line;
-            int tokenLength = 0;
-            int cpos = _pos.LineCharPosition;
+            var pos = _scanner.State.Pos;
+            var line = _scanner.State.Line;
+            var tokenLength = 0;
+            var cpos = _scanner.State.LineCharPosition;
             
-            if (IsEnded())
+            if (_scanner.IsEnded())
             {
                 _lastToken = Tokens.EndToken;
             }
             // Empty space.
             else if (c == ' ' || c == '\t')
             {
-                ConsumeWhiteSpace(false, true);
+                _scanner.ConsumeWhiteSpace(false, true);
                 _lastToken = Tokens.WhiteSpace;
-                tokenLength = (_pos.Pos - pos) + 1;
-                tokenLengthCalcMode = TokenLengthCalcMode.WhiteSpace;
+                tokenLength = (_scanner.State.Pos - pos) + 1;
+                //tokenLengthCalcMode = TokenLengthCalcMode.WhiteSpace;
             }
             // Variable
-            else if (IsIdStartChar(c))
+            else if (_scanner.IsIdentStart(c))
             {
                 _lastToken = ReadWord();
             }
             // Single line
             else if (c == '/' && n == '/')
             {
-                MoveChars(2);
-                var result = ScanToNewLine(false, true);
-                tokenLengthCalcMode = TokenLengthCalcMode.String;
-                tokenLength = (_pos.Pos - pos) + 1;
+                _scanner.MoveChars(2);
+                var result = _scanner.ScanToNewLine(false, true);
+                //tokenLengthCalcMode = TokenLengthCalcMode.String;
+                tokenLength = (_scanner.State.Pos - pos) + 1;
                 _lastToken = Tokens.ToComment(false, result.Text);
             }
             // Multi-line
             else if (c == '/' && n == '*')
             {
-                MoveChars(2);
-                var result = ScanUntilChars(false, '*', '/', true);
-                tokenLengthCalcMode = TokenLengthCalcMode.MultilineComment;
-                tokenLength = _pos.LineCharPosition;
+                _scanner.MoveChars(2);
+                var result = _scanner.ScanUntilChars(false, '*', '/', false, true);
+                //tokenLengthCalcMode = TokenLengthCalcMode.MultilineComment;
+                tokenLength = _scanner.State.LineCharPosition;
                 _lastToken = Tokens.ToComment(true, result.Text);
             }
             else if (c == '|' && n != '|')
@@ -329,7 +366,7 @@ namespace ComLib.Lang
                 _lastToken = Tokens.Pipe;
             }
             // Operator ( Math, Compare, Increment ) * / + -, < < > >= ! =
-            else if (IsOp(c) == true)
+            else if (_scanner.IsOp(c) == true)
             {
                 _lastToken = ReadOperator();
             }
@@ -393,11 +430,11 @@ namespace ComLib.Lang
             else if (c == '"' || c == '\'')
             {
                 _lastToken = ReadString( c == '"');
-                tokenLengthCalcMode = TokenLengthCalcMode.String;
+                //tokenLengthCalcMode = TokenLengthCalcMode.String;
                 if (_lastToken.Kind == TokenKind.Multi)
                 {
-                    tokenLength = (_pos.Pos - pos) -2;
-                    string text = _pos.Text.Substring(pos + 1, tokenLength);
+                    tokenLength = (_scanner.State.Pos - pos) -2;
+                    string text = _scanner.State.Text.Substring(pos + 1, tokenLength);
                     _lastToken.SetText(text);
                 }
                 else
@@ -405,7 +442,7 @@ namespace ComLib.Lang
                     tokenLength = _lastToken.Text.Length + 2;
                 }
             }
-            else if (IsNumeric(c))
+            else if (_scanner.IsNumeric(c))
             {
                 _lastToken = ReadNumber();
             }
@@ -422,25 +459,8 @@ namespace ComLib.Lang
             _lastTokenData = t;
 
             // Single char symbol - char advancement was not made.
-            if ((t.Token.Kind == TokenKind.Symbol || t.Token.Type == TokenTypes.Unknown || t.Token.Type == TokenTypes.WhiteSpace) && _pos.Pos == pos)
-                ReadChar();
-
-            // Before returning, set the next line char position.
-            //if (_pos.LineCharPosition != 0 && _lastToken != null)
-            //{
-            //    if (_pos.LineCharPosition > 0)
-            //    {
-            //        var lineCharPos = 0;
-            //        if (tokenLengthCalcMode == TokenLengthCalcMode.Direct)
-            //            lineCharPos = _pos.LineCharPosition - 1 + _lastToken.Text.Length;
-
-            //        else if (tokenLengthCalcMode == TokenLengthCalcMode.MultilineComment)
-            //            lineCharPos = tokenLength;
-            //        else
-            //            lineCharPos = _pos.LineCharPosition - 1 + tokenLength;
-            //        _pos.LineCharPosition = lineCharPos;
-            //    }
-            //}
+            if ((t.Token.Kind == TokenKind.Symbol || t.Token.Type == TokenTypes.Unknown || t.Token.Type == TokenTypes.WhiteSpace) && _scanner.State.Pos == pos)
+                _scanner.ReadChar();
             return t;
         }
 
@@ -452,13 +472,24 @@ namespace ComLib.Lang
         /// <returns></returns>
         public TokenData PeekToken(bool allowSpace = false)
         {
-            var line = _pos.Line;
-            var linepos = _pos.LineCharPosition;
+            // Check if ended
+            if (_scanner.State.Pos >= _scanner.State.Text.Length)
+            {
+                // Store this perhaps?
+                if (_endTokenData != null) return _endTokenData;
+                
+                // Create endToken data.
+                _endTokenData = new TokenData() { Token = Tokens.EndToken, Line = _scanner.State.Line, Pos = _scanner.State.Pos, LineCharPos = _scanner.State.LineCharPosition };
+                return _endTokenData;             
+            }
+
+            var line = _scanner.State.Line;
+            var linepos = _scanner.State.LineCharPosition;
             var lastToken = _lastToken;
             var lastTokenData = _lastTokenData;
             var iSc = _interpolatedStartChar;
-            var pos = _pos.Pos;
-
+            var pos = _scanner.State.Pos;
+            
             // Get the next token.
             var token = NextToken();
             if (!allowSpace && token.Token == Tokens.WhiteSpace)
@@ -469,152 +500,13 @@ namespace ComLib.Lang
                 }
             }
             // Reset the data back to the last token.
-            _pos.Line = line;
-            _pos.LineCharPosition = linepos;
+            _scanner.State.Line = line;
+            _scanner.State.LineCharPosition = linepos;
             _lastToken = lastToken;
             _lastTokenData = lastTokenData;
             _interpolatedStartChar = iSc;
-            SetPosition(pos);
+            _scanner.ResetPos(pos, true);
             return token;
-        }
-
-        
-        /// <summary>
-        /// Peeks at the next word that does not include a space.
-        /// </summary>
-        /// <returns></returns>
-        public string PeekWord()
-        {
-            string text = _pos.Text;
-            int currentPos = _pos.Pos + 1;
-
-            string word = "";
-            while (true && currentPos <= LAST_POSITION)
-            {
-                char c = text[currentPos];
-                if (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z') ||
-                     ('0' <= c && c <= '9') || (c == '_' || c == '-'))
-                {
-                    word += c;
-                }
-                else
-                    break;
-
-                currentPos++;
-            }
-            return word;
-        }
-
-
-        /// <summary>
-        /// Peeks at the next word that does not include a space.
-        /// </summary>
-        /// <returns></returns>
-        public string PeekPostiveNumber()
-        {
-            string text = _pos.Text;
-            int currentPos = _pos.Pos + 1;
-
-            string word = "";
-
-            // TODO: Does not properly handle checking against multiple "."
-            while (true && currentPos <= LAST_POSITION)
-            {
-                char c = text[currentPos];
-                if (('0' <= c && c <= '9') || (c == '.'))
-                {                    
-                    word += c;
-                }
-                else
-                    break;
-
-                currentPos++;
-            }
-            return word;
-        }
-
-
-        /// <summary>
-        /// Peeks at the next word that does not include a space or new line
-        /// </summary>
-        /// <param name="extra1">An extra character that is allowed to be part of the word in addition to the allowed chars</param>
-        /// <param name="extra2">A second extra character that is allowed to be part of word in addition to the allowed chars</param>
-        /// <param name="startPos">The starting positing to peek word from</param>
-        /// <returns></returns>
-        public KeyValuePair<int, string> PeekWord(int startPos = -1, char extra1 = char.MinValue, char extra2 = char.MinValue)
-        {
-            string text = _pos.Text;
-            int currentPos = startPos == -1
-                           ? _pos.Pos + 1
-                           : _pos.Pos + startPos;
-
-            string word = "";
-            bool hasExtra1 = extra1 != char.MinValue;
-            bool hasExtra2 = extra2 != char.MinValue;
-
-            while (true && currentPos <= LAST_POSITION)
-            {
-                char c = text[currentPos];
-
-                if (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z') ||
-                     ('0' <= c && c <= '9') || (c == '_' || c == '-'))
-                {
-                    word += c;
-                }
-                else if ((hasExtra1 && c == extra1) || (hasExtra2 && c == extra2))
-                    word += c;
-                else
-                    break;
-
-                currentPos++;
-            }
-            return new KeyValuePair<int, string>(currentPos, word);
-        }
-
-
-        /// <summary>
-        /// Peeks at the next word that does not include a space or new line
-        /// </summary>
-        /// <param name="expectChar">A char to expect while peeking at the next word.</param>
-        /// <param name="maxAdvancesBeforeExpected">The maximum number of advances that the expectChar should appear by</param>        
-        /// <param name="extra1">An extra character that is allowed to be part of the word in addition to the allowed chars</param>
-        /// <param name="extra2">A second extra character that is allowed to be part of word in addition to the allowed chars</param>
-        /// <returns></returns>
-        public KeyValuePair<bool, string> PeekWordWithChar(char expectChar, bool startAtNextChar, int maxAdvancesBeforeExpected, char extra1 = char.MinValue, char extra2 = char.MinValue)
-        {
-            string text = _pos.Text;
-            int currentPos = startAtNextChar ? _pos.Pos + 1 : _pos.Pos;
-            bool found = false;
-            int totalCharsRead = 0;
-
-            string word = "";
-            bool hasExtra1 = extra1 != char.MinValue;
-            bool hasExtra2 = extra2 != char.MinValue;
-            
-            while (true && currentPos <= LAST_POSITION)
-            {
-                char c = text[currentPos];
-                totalCharsRead++;
-
-                if (c == expectChar)
-                    found = true;
-
-                if (totalCharsRead >= maxAdvancesBeforeExpected && !found)
-                    break;
-
-                if (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z') ||
-                     ('0' <= c && c <= '9') || (c == '_' || c == '-'))
-                {
-                    word += c;
-                }
-                else if ((hasExtra1 && c == extra1) || (hasExtra2 && c == extra2))
-                    word += c;
-                else
-                    break;
-
-                currentPos++;
-            }
-            return new KeyValuePair<bool, string>(found, word);
         }
         #endregion
 
@@ -627,7 +519,7 @@ namespace ComLib.Lang
         /// <returns></returns>
         public Token ReadWord()
         {
-            var result = ScanId(false, true);
+            var result = _scanner.ScanId(false, true);
 
             // true / false / null
             if (Tokens.IsLiteral(result.Text))
@@ -647,7 +539,7 @@ namespace ComLib.Lang
         /// <returns></returns>
         public Token ReadUri()
         {
-            var result = ScanUri(false, true);
+            var result = _scanner.ScanUri(false, true);
             return Tokens.ToLiteralString(result.Text);
         }
 
@@ -658,9 +550,9 @@ namespace ComLib.Lang
         /// <param name="extra1">An extra character that is allowed to be part of the word in addition to the allowed chars</param>
         /// <param name="extra2">A second extra character that is allowed to be part of word in addition to the allowed chars</param>
         /// <returns></returns>
-        public Token ReadWordWithExtra(char extra1 = char.MinValue, char extra2 = char.MinValue)
+        public Token ReadCustomWord(char extra1, char extra2)
         {
-            var result = ScanWordUntilChars(false, true, extra1, extra2);
+            var result = _scanner.ScanWordUntilChars(false, true, extra1, extra2);
             return Tokens.ToLiteralString(result.Text);
         }
 
@@ -671,7 +563,7 @@ namespace ComLib.Lang
         /// <returns></returns>
         public Token ReadNumber()
         {
-            var result = ScanNumber(false, true);
+            var result = _scanner.ScanNumber(false, true);
             return Tokens.ToLiteralNumber(result.Text);
         }
 
@@ -682,7 +574,7 @@ namespace ComLib.Lang
         /// <returns></returns>
         public Token ReadOperator()
         {
-            var result = ScanChars(_opChars, false, true);
+            var result = _scanner.ScanChars(_opChars, false, true);
             return Tokens.Lookup(result.Text);
         }
 
@@ -693,19 +585,19 @@ namespace ComLib.Lang
         /// <returns></returns>
         public Token ReadString(bool handleInterpolation = true)
         {
-            char quote = _pos.CurrentChar;
+            var quote = _scanner.State.CurrentChar;
                 
             // 1. Starts with either ' or "
             // 2. Handles interpolation "homepage of ${user.name} is ${url}"
             if (!handleInterpolation)
             {
-                var result = ScanCodeString(quote, setPosAfterToken: true);
+                var result = _scanner.ScanCodeString(quote, true, true);
                 if(!result.Success)
-                    throw new LangException("Syntax Error", "Unterminated string", string.Empty, _pos.Line, _pos.LineCharPosition);
+                    throw new LangException("Syntax Error", "Unterminated string", string.Empty, _scanner.State.Line, _scanner.State.LineCharPosition);
 
                 return Tokens.ToLiteralString(result.Text);
             }
-            return ReadInterpolatedString(quote, false, true, true);
+            return this.ReadInterpolatedString(quote, false, true, true);
         }
 
 
@@ -716,7 +608,7 @@ namespace ComLib.Lang
         /// <returns></returns>
         public Token ReadToPosition(int pos)
         {
-            var result = ScanToPosition(true, pos);
+            var result = _scanner.ScanToPosition(true, pos, true);
             return Tokens.ToLiteralString(result.Text);
         }
 
@@ -727,7 +619,7 @@ namespace ComLib.Lang
         /// <returns></returns>
         public Token ReadLine(bool includeNewLine)
         {
-            return ReadInterpolatedString(Char.MinValue, true, includeNewLine, true);
+            return this.ReadInterpolatedString(Char.MinValue, true, includeNewLine, true);
         }
 
 
@@ -737,7 +629,7 @@ namespace ComLib.Lang
         /// <returns></returns>
         public Token ReadLineRaw(bool includeNewLine)
         {
-            var result = ScanToNewLine(false, true);
+            var result = _scanner.ScanToNewLine(false, true);
             var token = Tokens.ToLiteralString(result.Text);
             return token;
         }        
@@ -761,33 +653,29 @@ namespace ComLib.Lang
             // 3. math ops ( + - / * %)
             // "name" 'name' "name\"s" 'name\'"
             var buffer = new StringBuilder();
-            char curr = ReadChar();
-            char next = PeekChar();
-            bool matched = false;
-            char escapeChar = '\\';
+            var curr = _scanner.ReadChar();
+            var next = _scanner.PeekChar();
+            var matched = false;
+            var escapeChar = '\\';
             Token token = null;
-            while (_pos.Pos <= LAST_POSITION)
+            while (_scanner.State.Pos <= _scanner.LAST_POSITION)
             {
                 // End string " or '
                 if (!readLine && curr == quote)
                 {
                     matched = true;
-                    MoveChars(1);
+                    _scanner.MoveChars(1);
                     break;
                 }
                 // End of line.
-                if (readLine && curr == '\r' )
+                if (readLine && ( curr == '\r' || curr == '\n' ))
                 {
                     matched = true;
                     if (!includeNewLine) break;
-
-                    bool is2CharNewLine = next == '\n';
-                    IncrementLine(is2CharNewLine);
+                    var is2CharNewLine = _scanner.ScanNewLine(curr);
+                    var newline = is2CharNewLine ? "\r\n" : "\n";
+                    buffer.Append(newline);
                     token = Tokens.NewLine;
-                    if (is2CharNewLine)
-                        buffer.Append("\r\n");
-                    else
-                        buffer.Append("\n"); 
                     break;
                 }
                 // Interpolation.
@@ -795,19 +683,19 @@ namespace ComLib.Lang
                 {
                     // Keep track of interpolations and their start positions.
                     interpolationCount++;
-                    int interpolatedStringStartPos = LineCharPos + 2;
-                    int interpolatedStringLinePos = LineNumber;
+                    int interpolatedStringStartPos = _scanner.State.LineCharPosition + 2;
+                    int interpolatedStringLinePos = _scanner.State.Line;
 
                     // Add any existing text before the interpolation as a token.
                     if (buffer.Length > 0)
                     {
                         string text = buffer.ToString();
                         token = Tokens.ToLiteralString(text);
-                        var t = new TokenData() { Token = token, LineCharPos = 0, Line = LineNumber };
+                        var t = new TokenData() { Token = token, LineCharPos = 0, Line = _scanner.State.Line };
                         allTokens.Add(t);
                         buffer.Clear();
                     }
-                    MoveChars(1);
+                    _scanner.MoveChars(1);
                     var tokens = ReadInterpolatedTokens();
                     token = Tokens.ToInterpolated(string.Empty, tokens);
                     var iTokenData = new TokenData() { Token = token, LineCharPos = interpolatedStringStartPos, Line = interpolatedStringLinePos };
@@ -821,37 +709,34 @@ namespace ComLib.Lang
                 // Escape \
                 else if (curr == escapeChar)
                 {
-                    if (next == quote) buffer.Append(quote);
-                    else if (next == '\\') buffer.Append("\\");
-                    else if (next == 'r') buffer.Append('\r');
-                    else if (next == 'n') buffer.Append('\n');
-                    else if (next == 't') buffer.Append('\t');
-                    MoveChars(1);
+                    var result = _scanner.ScanEscape(quote, false);
+                    buffer.Append(result.Text);
+                    _scanner.MoveChars(1);
                 }
 
-                curr = ReadChar();
-                next = PeekChar();
+                curr = _scanner.ReadChar();
+                next = _scanner.PeekChar();
             }
             
             // Error: Unterminated string constant.
-            if (!matched && !readLine && _pos.Pos >= LAST_POSITION)
+            if (!matched && !readLine && _scanner.State.Pos >= _scanner.LAST_POSITION)
             {
-                throw new LangException("Syntax Error", "Unterminated string", string.Empty, _pos.Line, _pos.LineCharPosition);
+                throw new LangException("Syntax Error", "Unterminated string", string.Empty, _scanner.State.Line, _scanner.State.LineCharPosition);
             }
 
             // At this point the pos is already after token.
             // If matched and need to set at end of token, move back 1 char
-            if (matched && !setPositionAfterToken) MoveChars(-1);
+            if (matched && !setPositionAfterToken) _scanner.MoveChars(-1);
             if (interpolationCount == 0)
             {
-                string text = buffer.ToString();
+                var text = buffer.ToString();
                 return Tokens.ToLiteralString(text);
             }
             if (buffer.Length > 0)
             {
-                string text = buffer.ToString();
+                var text = buffer.ToString();
                 token = Tokens.ToLiteralString(text);
-                allTokens.Add(new TokenData() { Token = token, LineCharPos = 0, Line = LineNumber });
+                allTokens.Add(new TokenData() { Token = token, LineCharPos = 0, Line = _scanner.State.Line });
             }
             return Tokens.ToInterpolated(string.Empty, allTokens);
         }
@@ -864,27 +749,24 @@ namespace ComLib.Lang
         /// Increments the line number
         /// </summary>
         /// <param name="is2CharNewLine"></param>
-        protected override void IncrementLine(bool is2CharNewLine)
+        public void IncrementLine(bool is2CharNewLine)
         {
-            base.IncrementLine(is2CharNewLine);
+            _scanner.IncrementLine(is2CharNewLine);
             _lastToken = Tokens.NewLine;
         }
 
 
         private List<TokenData> ReadInterpolatedTokens()
         {
-            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            // LEXER ALWAYS READS NEXT CHAR
-            char c = ReadChar();
-            char n = PeekChar();
-            List<TokenData> tokens = new List<TokenData>();
+            var c = _scanner.ReadChar();
+            var n = _scanner.PeekChar();
+            var tokens = new List<TokenData>();
 
-            while (c != '}' && !IsAtEnd())
+            while (c != '}' && !_scanner.IsAtEnd())
             {
-                int pos = _pos.Pos;
-            
+                var pos = _scanner.State.Pos;
                 // Variable
-                if (IsIdStartChar(c))
+                if (_scanner.IsIdentStart(c))
                 {
                     _lastToken = ReadWord();
                 }
@@ -893,7 +775,7 @@ namespace ComLib.Lang
                 {
                     _lastToken = Tokens.WhiteSpace;
                 }
-                else if (IsOp(c) == true)
+                else if (_scanner.IsOp(c) == true)
                 {
                     _lastToken = ReadOperator();
                 }
@@ -925,7 +807,7 @@ namespace ComLib.Lang
                 {
                     _lastToken = Tokens.Colon;
                 }
-                else if (IsNumeric(c))
+                else if (_scanner.IsNumeric(c))
                 {
                     _lastToken = ReadNumber();
                 }
@@ -936,23 +818,17 @@ namespace ComLib.Lang
                 }
                 else
                 {
-                    throw new LangException("syntax", "unexpected text in string", string.Empty, _pos.Line, _pos.LineCharPosition);
+                    throw new LangException("syntax", "unexpected text in string", string.Empty, _scanner.State.Line, _scanner.State.LineCharPosition);
                 }
 
-                var t = new TokenData() { Token = _lastToken, Line = _pos.Line, LineCharPos = _pos.LineCharPosition, Pos = pos };
+                var t = new TokenData() { Token = _lastToken, Line = _scanner.State.Line, LineCharPos = _scanner.State.LineCharPosition, Pos = pos };
                 tokens.Add(t);
 
                 // Single char symbol - char advancement was not made.
-                if ( (t.Token.Kind == TokenKind.Symbol || t.Token.Type == TokenTypes.WhiteSpace) && _pos.Pos == pos  )
-                    ReadChar();
-
-                // Before returning, set the next line char position.
-                //if (_pos.LineCharPosition != -1 && _lastToken != null && !string.IsNullOrEmpty(_lastToken.Text))
-                //{
-                //    _pos.LineCharPosition += _lastToken.Text.Length;
-                //}
-                c = _pos.CurrentChar;
-                n = PeekChar();
+                if ( (t.Token.Kind == TokenKind.Symbol || t.Token.Type == TokenTypes.WhiteSpace) && _scanner.State.Pos == pos  )
+                    _scanner.ReadChar();
+                c = _scanner.State.CurrentChar;
+                n = _scanner.PeekChar();
             }
             return tokens;
         }

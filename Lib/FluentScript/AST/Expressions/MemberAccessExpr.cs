@@ -1,41 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.Helpers;
+using ComLib.Lang.Types;
+// </lang:using>
 
-namespace ComLib.Lang
-{
+namespace ComLib.Lang.AST
+{   
     /// <summary>
-    /// Represents the member access mode
+    /// Information for an index access operation.
     /// </summary>
-    public enum MemberMode
+    public class IndexAccess
     {
         /// <summary>
-        /// External function
+        /// Instance of the member
         /// </summary>
-        FunctionExternal,
+        public LObject Instance;
 
 
         /// <summary>
-        /// Internal function
+        /// The name of the member being accessed
         /// </summary>
-        FunctionScript,
-
-
-        /// <summary>
-        /// Instance method on class
-        /// </summary>
-        CustObjMethodInstance,
-
-
-        /// <summary>
-        /// Static method on class
-        /// </summary>
-        CustObjMethodStatic
+        public LObject MemberName;
     }
 
 
@@ -86,6 +76,12 @@ namespace ComLib.Lang
 
 
         /// <summary>
+        /// The type if the member access is on a built in a fluentscript type.
+        /// </summary>
+        public LType Type;
+
+
+        /// <summary>
         /// The method represetning the member.
         /// </summary>
         public MethodInfo Method;
@@ -114,6 +110,26 @@ namespace ComLib.Lang
         {
             return Mode == MemberMode.FunctionExternal || Mode == MemberMode.FunctionScript;
         }
+
+
+        /// <summary>
+        /// Whether or not this represents a property access on a basic built in type (date, array, etc )
+        /// </summary>
+        /// <returns></returns>
+        public bool IsPropertyAccessOnBuiltInType()
+        {
+            return this.Type != null && this.Mode == MemberMode.PropertyMember;
+        }
+
+
+        /// <summary>
+        /// Whether or not this is a property access on a custom object.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsPropertyAccessOnClass()
+        {
+            return this.DataType != null && this.Property != null;
+        }
     }
 
 
@@ -122,9 +138,6 @@ namespace ComLib.Lang
     /// </summary>
     public class MemberAccessExpr : MemberExpr
     {
-        private static LDate _dateTypeForMethodCheck = new LDate(null, null);
-
-
         /// <summary>
         /// Initialize
         /// </summary>
@@ -133,6 +146,7 @@ namespace ComLib.Lang
         /// <param name="isAssignment">Whether or not this is part of an assigment</param>
         public MemberAccessExpr(Expr variableExp, string memberName, bool isAssignment) : base(variableExp, memberName)
         {
+            this.Nodetype = NodeTypes.SysMemberAccess;
             this.IsAssignment = isAssignment;
         }
 
@@ -149,88 +163,24 @@ namespace ComLib.Lang
         /// <returns></returns>
         public override object DoEvaluate()
         {
-            MemberAccess memberAccess = GetMemberAccess();
+            var memberAccess = MemberHelper.GetMemberAccess(this, this.Ctx, this.VariableExp, this.MemberName);
             if (IsAssignment)
                 return memberAccess;
 
-            // Get property value ( either static or instance )
-            if (memberAccess.Property != null)
+            // NOTES:
+            // 1. If property on a built in type && not assignment then just return the value of the property
+            // 2. It's done here instead because there is no function/method call on a property.
+            if (memberAccess.IsPropertyAccessOnBuiltInType())
             {
-                return memberAccess.Property.GetValue(memberAccess.Instance, null);
+                var result = FunctionHelper.CallMemberOnBasicType(this.Ctx, this, memberAccess, null, null);
+                return result;
             }
-            if (memberAccess.DataType == typeof(LMap))
+            if (memberAccess.IsPropertyAccessOnClass())
             {
-                // 2. Non-Assignment - Validate property exists.
-                if (!((LMap)memberAccess.Instance).HasProperty(MemberName)) 
-                    throw this.BuildRunTimeException("Property does not exist : '" + MemberName + "'"); 
-                
-                return ((LMap)memberAccess.Instance).ExecuteMethod(MemberName, null);
-            }           
+                var result = FunctionHelper.CallMemberOnClass(this.Ctx, this, memberAccess, null, null);
+                return result;
+            }
             return memberAccess;
-        }
-
-
-        private MemberAccess GetMemberAccess()
-        {
-            Type type = null;
-            bool isVariableExp = VariableExp is VariableExpr;
-            string variableName = isVariableExp ? ((VariableExpr)VariableExp).Name : string.Empty;
-            
-            // CASE 1: External function call "user.create"
-            if (isVariableExp && IsExternalFunctionCall(variableName))
-                return new MemberAccess(MemberMode.FunctionExternal) { Name = variableName, MemberName = MemberName };
-            
-            // CASE 2. Static method call: "Person.Create" 
-            if(isVariableExp )
-            { 
-                var result = IsMemberStaticAccess(variableName);
-                if (result.Success)
-                    return GetStaticMemberAccess(result.Item as Type);
-            }
-
-            object obj = VariableExp.Evaluate();
-            type = obj.GetType();
-
-            // Case 3: LDate, LArray, String,
-            bool isCoreType = IsCoreType(obj);
-            if ( isCoreType )
-            {
-                // 1. Map or Array
-                if (obj is LMap)
-                {
-                    // 2. Non-Assignment - Validate property exists.
-                    if (!((LMap)obj).HasProperty(MemberName)) 
-                        throw this.BuildRunTimeException("Property does not exist : '" + MemberName + "'"); 
-                
-                    return new MemberAccess(MemberMode.CustObjMethodInstance) { Name = type.Name, DataType = type, Instance = obj, MemberName = MemberName };
-                }
-                if (obj is LArray)
-                {
-                    MemberName = LArray.MapMethod(MemberName);
-                    return GetInstanceMemberAccess(obj);
-                }
-                // Case 2a: string.Method
-                if (obj is string)
-                {
-                    return new MemberAccess(MemberMode.CustObjMethodInstance) { Name = type.Name, DataType = type, Instance = obj, MemberName = MemberName };
-                }
-                // Case 2b: date.Method
-                if (obj is DateTime)
-                {
-                    if (_dateTypeForMethodCheck.HasMethod(MemberName) || _dateTypeForMethodCheck.HasProperty(MemberName))
-                        return new MemberAccess(MemberMode.CustObjMethodInstance) { Name = variableName, DataType = typeof(LDate), Instance = obj, MemberName = MemberName };
-                    
-                    var prop = typeof(DateTime).GetProperty(MemberName);
-                    if(prop != null)
-                        return new MemberAccess(MemberMode.CustObjMethodInstance) { Name = type.Name, DataType = type, Instance = obj, MemberName = MemberName, Property = prop };
-
-                    return new MemberAccess(MemberMode.CustObjMethodInstance) { Name = type.Name, DataType = type, Instance = obj, MemberName = MemberName };
-                }
-            }
-
-            // CASE 3: Custom object type
-            var member = GetInstanceMemberAccess(obj);
-            return member;
         }
     }    
 }

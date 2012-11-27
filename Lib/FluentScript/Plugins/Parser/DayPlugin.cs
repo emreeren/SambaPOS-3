@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Parsing;
+using ComLib.Lang.Types;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -121,19 +126,18 @@ namespace ComLib.Lang.Extensions
 
             // 1. Day of week : "monday" or "Monday" etc.
             if (_days.ContainsKey(name))
-                return new ConstantExpr(_days[name]);
+                return new ConstantExpr(new LDayOfWeek(_days[name]));
 
             // 2. DateTime ( today, yesterday, tommorrow )
             var dateTime = _dayAliases[name]();
-            TimeSpan time = TimeSpan.MinValue;
             if (_tokenIt.NextToken.Token.Text != "at")
             {                
-                return new ConstantExpr(dateTime);
+                return new ConstantExpr(new LDate(dateTime));
             }
 
-            time = TimePlugin.ParseTime(_parser, false, true);
+            var time = TimeExprPlugin.ParseTime(_parser, true, true);
             dateTime = new DateTime(dateTime.Year, dateTime.Month, (int)dateTime.Day, time.Hours, time.Minutes, time.Seconds);
-            return new ConstantExpr(dateTime);
+            return new ConstantExpr(new LDate(dateTime));
         }
     }
 }

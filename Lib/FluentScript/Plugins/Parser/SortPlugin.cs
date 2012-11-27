@@ -2,10 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Helpers;
+using ComLib.Lang.Types;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -118,16 +124,16 @@ namespace ComLib.Lang.Extensions
             }
             else
             {
-                if (_source is VariableExpr)
+                if (_source.IsNodeType(NodeTypes.SysVariable))
                 {
                     _variableName = ((VariableExpr)_source).Name;
                 }
-                else if(_source is MemberAccessExpr)
+                else if(_source.IsNodeType(NodeTypes.SysMemberAccess))
                 {
                     _variableName = ((MemberAccessExpr)_source).MemberName;
                     _variableName = _variableName.Substring(0, _variableName.Length - 1);
                 }
-                else if (_source is DataTypeExpr)
+                else if (_source.IsNodeType(NodeTypes.SysDataType))
                 {
                     _variableName = "temps";
                 }
@@ -183,6 +189,7 @@ namespace ComLib.Lang.Extensions
         /// <param name="isAsc">Whether or to sort in ascending order.</param>
         public SortExpr(string varName, Expr source, Expr filter, bool isAsc)
         {
+            this.Nodetype = "FSExtSort";
             _varName = varName;
             _isAsc = isAsc;
             _source = source;
@@ -191,16 +198,32 @@ namespace ComLib.Lang.Extensions
 
 
         /// <summary>
+        /// Whether or not this is of the node type supplied.
+        /// </summary>
+        /// <param name="nodeType"></param>
+        /// <returns></returns>
+        public override bool IsNodeType(string nodeType)
+        {
+            if (nodeType == "FSExtSort")
+                return true;
+            return base.IsNodeType(nodeType);
+        }
+
+
+        /// <summary>
         /// Evaluate the linq expression.
         /// </summary>
         /// <returns></returns>
-        public override object Evaluate()
+        public override object DoEvaluate()
         {
-            var array = _source.Evaluate();
-            List<object> items = (array as LArray).Raw;
+            var obj = _source.Evaluate();
+            ExceptionHelper.NotNullType(this, obj, "sort", LTypes.Array);
+
+            var array = obj as LArray;
+            var items = array.Value as List<object>;
 
             // 1. Basic datatypes string, bool, number, date.
-            if (!(_filter is MemberAccessExpr))
+            if (!(_filter != null && _filter.IsNodeType(NodeTypes.SysMemberAccess)))
             {
                 items.Sort(delegate(object x, object y)
                 {
@@ -216,9 +239,9 @@ namespace ComLib.Lang.Extensions
                     // Now do the actual comparison of values
                     int result = 0;
                     if (_isAsc)
-                        result = ((IComparable)x).CompareTo(y);
+                        result = CompareObjects(x, y);
                     else
-                        result = ((IComparable)y).CompareTo(x);
+                        result = CompareObjects(y, x);
                     return result;
                 });
                 return array;
@@ -247,13 +270,22 @@ namespace ComLib.Lang.Extensions
 
                 int result = 0;
                 if (_isAsc)
-                    result = ((IComparable)a).CompareTo(b);
+                    result = CompareObjects(a, b);
                 else
-                    result = ((IComparable)b).CompareTo(a);
+                    result = CompareObjects(b, a);
                 return result;
             });
             Ctx.Memory.Remove(_varName);
             return array;
+        }
+
+
+        private int CompareObjects(object x, object y)
+        {
+            var a = ((LObject)x).GetValue();
+            var b = ((LObject)y).GetValue();
+            var result = ((IComparable)a).CompareTo(b);
+            return result;
         }
     }
 }

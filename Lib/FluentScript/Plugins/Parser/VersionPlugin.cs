@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -31,8 +35,21 @@ namespace ComLib.Lang.Extensions
     /// </summary>
     public class VersionPlugin : LexPlugin
     {
-        private const string _versionRegex = "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}(\\.[0-9]{1,3})?";
-
+        private const string _versionRegex = "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}(\\.[0-9]{1,4})?";
+        private static IDictionary<char, bool> _numbers = new Dictionary<char, bool>()
+        {
+            { '0', true},
+            { '1', true},
+            { '2', true},
+            { '3', true},
+            { '4', true},
+            { '5', true},
+            { '6', true},
+            { '7', true},
+            { '8', true},
+            { '9', true},
+            { '.', true}             
+        };
 
         /// <summary>
         /// Initialize
@@ -50,7 +67,7 @@ namespace ComLib.Lang.Extensions
         {
             get
             {
-                return "[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}(\\.[0-9]{1,3})?";
+                return "[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}(\\.[0-9]{1,4})?";
             }
         }
 
@@ -82,9 +99,10 @@ namespace ComLib.Lang.Extensions
             // Given 2.1.5.82
             // Current = 2.1
             if (_lexer.State.CurrentChar != '.') return false;
-            var result = _lexer.PeekPostiveNumber();
+            var result = _lexer.Scanner.PeekCustomWord(_numbers, false);
+            if (!result.Success) return false;
 
-            var versionText = current.Text + "." + result;
+            var versionText = current.Text + result.Text;
             if (Regex.IsMatch(versionText, _versionRegex))
                 return true;
 
@@ -100,13 +118,13 @@ namespace ComLib.Lang.Extensions
         {
             // http https ftp ftps www 
             var takeoverToken = _lexer.LastTokenData;
-            var line = _lexer.LineNumber;
-            var pos = _lexer.LineCharPos;
+            var line = _lexer.State.Line;
+            var pos = _lexer.State.LineCharPosition;
 
-            _lexer.ReadChar();
+            _lexer.Scanner.ReadChar();
             var token = _lexer.ReadNumber();
             var finalText = takeoverToken.Token.Text + "." + token.Text;
-            var lineToken = ComLib.Lang.Tokens.ToLiteralVersion(finalText);
+            var lineToken = ComLib.Lang.Core.Tokens.ToLiteralVersion(finalText);
             var t = new TokenData() { Token = lineToken, Line = line, LineCharPos = pos };
             _lexer.ParsedTokens.Add(t);
             return new Token[] { lineToken };

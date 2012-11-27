@@ -7,15 +7,15 @@ namespace Stateless
 {
     public partial class StateMachine<TState, TTrigger>
     {
-        private Func<string> func;
-        private Action<string> action;
+        //private Func<string> func;
+        //private Action<string> action;
 
-        public StateMachine(Func<string> func, Action<string> action)
-        {
-            // TODO: Complete member initialization
-            this.func = func;
-            this.action = action;
-        }
+        //public StateMachine(Func<string> func, Action<string> action)
+        //{
+        //    // TODO: Complete member initialization
+        //    this.func = func;
+        //    this.action = action;
+        //}
         internal class DynamicTriggerBehaviour : TriggerBehaviour
         {
             readonly Func<object[], TState> _destination;

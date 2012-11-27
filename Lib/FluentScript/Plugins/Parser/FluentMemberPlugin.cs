@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
-using ComLib.Lang;
-using ComLib.Lang.Helpers;
 
-namespace ComLib.Lang.Extensions
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Helpers;
+using ComLib.Lang.Parsing;
+// </lang:using>
+
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -349,7 +354,7 @@ namespace ComLib.Lang.Extensions
 
         private Expr ParseParams(Expr exp)
         {
-            return _parser.ParseFuncExpression(exp);
+            return _parser.ParseFuncExpression(exp, null);
         }
 
 

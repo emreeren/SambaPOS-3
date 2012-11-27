@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
-namespace ComLib.Lang
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -75,7 +79,8 @@ namespace ComLib.Lang
                 if (_tokenIt.IsEndOfStmtOrBlock())
                     break;
             }
-            var exp = new NewExpr() { TypeName = typeName };
+            var exp = new NewExpr();
+            exp.TypeName = typeName;
             _parser.State.FunctionCall++;
             _parser.ParseParameters(exp, true, false);
             _parser.State.FunctionCall--;

@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Parsing;
+using ComLib.Lang.Types;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -123,7 +128,7 @@ namespace ComLib.Lang.Extensions
             }
             // Finally move past this plugin.
             _tokenIt.Advance();
-            return new ConstantExpr(date);
+            return new ConstantExpr(new LDate(date));
         }
     }
 }

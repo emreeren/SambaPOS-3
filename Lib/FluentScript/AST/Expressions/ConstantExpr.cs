@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Collections;
 
+// <lang:using>
+using ComLib.Lang.Types;
+using ComLib.Lang.Helpers;
+// </lang:using>
 
-namespace ComLib.Lang
+namespace ComLib.Lang.AST
 {
     /// <summary>
     /// Variable expression data
@@ -19,6 +18,7 @@ namespace ComLib.Lang
         /// <param name="val"></param>
         public ConstantExpr(object val)
         {
+            this.Nodetype = NodeTypes.SysConstant;
             this.Value = val;
             this.DataType = val.GetType();
         }
@@ -30,7 +30,16 @@ namespace ComLib.Lang
         /// <returns></returns>
         public override object DoEvaluate()
         {
-            return this.Value;
+            // 1. Null
+            if (this.Value == LObjects.Null)
+                return this.Value;
+
+            if (this.Value is LObject)
+                return this.Value;
+
+            // 2. Actual value.
+            var ltype = LangTypeHelper.ConvertToLangValue(this.Value);
+            return ltype;
         }
     }
 }

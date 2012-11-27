@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Collections;
-using System.Reflection;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.Types;
 using ComLib.Lang.Helpers;
+// </lang:using>
 
-namespace ComLib.Lang
+namespace ComLib.Lang.AST
 {        
     /// <summary>
     /// Function call expression data.
@@ -20,9 +20,10 @@ namespace ComLib.Lang
         /// </summary>
         public FunctionCallExpr()
         {
-            InitBoundary(true, ")");
-            ParamList = new List<object>();
-            ParamListExpressions = new List<Expr>();
+            this.Nodetype = NodeTypes.SysFunctionCall;
+            this.InitBoundary(true, ")");
+            this.ParamList = new List<object>();
+            this.ParamListExpressions = new List<Expr>();
         } 
 
 
@@ -51,6 +52,12 @@ namespace ComLib.Lang
 
 
         /// <summary>
+        /// The function expression.
+        /// </summary>
+        public FunctionExpr Function;
+
+
+        /// <summary>
         /// Whether or not this is a method call or a member access.
         /// </summary>
         public bool IsScopeVariable { get { return _isScopeVariable; } set { _isScopeVariable = value; } }
@@ -66,39 +73,39 @@ namespace ComLib.Lang
             bool isNameEmpty = string.IsNullOrEmpty(_name);
             
             // CASE 1: Exp is variable -> internal/external script. "getuser()".            
-            if (NameExp is VariableExpr)
+            if (this.NameExp.IsNodeType(NodeTypes.SysVariable))
             {
-                return CallInternalOrExternalFunction();
+                return FunctionHelper.CallFunction(this.Ctx, this, null, true);
             }
 
             // At this point, is a method call on an object.
-            object member = this.NameExp.Evaluate();
+            var member = this.NameExp.Evaluate();
             result = member;
-            bool isMemberAccessType = member is MemberAccess;
+            var isMemberAccessType = member is MemberAccess;
             if (!isMemberAccessType) return result;
 
-            string callStackName = this.NameExp.ToQualifiedName();
-            MemberAccess maccess = member as MemberAccess;
+            var callStackName = this.NameExp.ToQualifiedName();
+            var maccess = member as MemberAccess;
             if (!IsMemberCall(maccess)) return result;
 
-            Ctx.State.Stack.Push(callStackName, this);
+            this.Ctx.State.Stack.Push(callStackName, this);
             // CASE 3: object "." method call from script is a external/internal function e.g log.error -> external c# callback.
             if (maccess.IsInternalExternalFunctionCall())
             {
-                result = FunctionHelper.FunctionCall(Ctx, maccess.FullMemberName as string, this);
+                result = FunctionHelper.CallFunction(Ctx, this, maccess.FullMemberName, false);
             }
-            // CASE 4: string method call or date method call
-            else if (maccess.DataType == typeof(string) || maccess.DataType == typeof(LDate))
+            // CASE 4: Method call / Property on Language types
+            else if (maccess.Type != null)
             {
-                result = FunctionHelper.MemberCall(Ctx, maccess.Instance.GetType(), maccess.Instance, maccess.Name, maccess.MemberName, null, this.ParamListExpressions, this.ParamList);
+                result = FunctionHelper.CallMemberOnBasicType(this.Ctx, this, maccess, this.ParamListExpressions, this.ParamList);
             }
             // CASE 5: Member call via "." : either static or instance method call. e.g. Person.Create() or instance1.FullName() e.g.
             else if (maccess.Mode == MemberMode.CustObjMethodStatic || maccess.Mode == MemberMode.CustObjMethodInstance)
             {
-                result = FunctionHelper.MemberCall(Ctx, maccess.DataType, maccess.Instance, maccess.Name, maccess.MemberName, maccess.Method, this.ParamListExpressions, this.ParamList);
+                result = FunctionHelper.CallMemberOnClass(this.Ctx, this, maccess, this.ParamListExpressions, this.ParamList);
             }
             // Pop the function name off the call stack.
-            Ctx.State.Stack.Pop();
+            this.Ctx.State.Stack.Pop();
             return result;
         }
 
@@ -106,7 +113,7 @@ namespace ComLib.Lang
         private bool IsMemberCall(MemberAccess maccess)
         {
             if (maccess.IsInternalExternalFunctionCall()
-                || maccess.DataType == typeof(string) || maccess.DataType == typeof(LDate)
+                || (maccess.Mode == MemberMode.MethodMember || maccess.Mode == MemberMode.PropertyMember && maccess.Type != null)
                 || maccess.Mode == MemberMode.CustObjMethodInstance || maccess.Mode == MemberMode.CustObjMethodStatic
               )
                 return true;
@@ -114,22 +121,10 @@ namespace ComLib.Lang
         }
 
 
-        private object CallInternalOrExternalFunction()
-        {
-            string name = NameExp.ToQualifiedName();
-            if (!FunctionHelper.IsInternalOrExternalFunction(Ctx, name, null))
-                throw BuildRunTimeException("Function does not exist : '" + name + "'");
-
-            Ctx.State.Stack.Push(name, this);
-            var result = FunctionHelper.FunctionCall(Ctx, name, this);
-            Ctx.State.Stack.Pop();
-            return result;
-        }
-
-
         private bool _isScopeVariable;
         private string _name;
         private string _member;
+        
         /// <summary>
         /// Get the name of the function.
         /// </summary>
@@ -140,7 +135,7 @@ namespace ComLib.Lang
                 if (_name != null)
                     return _name;
 
-                if (NameExp is VariableExpr)
+                if (NameExp.IsNodeType(NodeTypes.SysVariable))
                     return ((VariableExpr)NameExp).Name;
 
                 object name = NameExp.Evaluate();

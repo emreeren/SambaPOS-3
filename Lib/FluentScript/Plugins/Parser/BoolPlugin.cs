@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -29,15 +33,15 @@ namespace ComLib.Lang.Extensions
         /// Initialize
         /// </summary>
         public BoolPlugin()
-            : base("yes", ComLib.Lang.Tokens.True)
+            : base("yes", ComLib.Lang.Core.Tokens.True)
         {
-            Register("Yes", ComLib.Lang.Tokens.True);
-            Register("on",  ComLib.Lang.Tokens.True);
-            Register("On",  ComLib.Lang.Tokens.True);
-            Register("no",  ComLib.Lang.Tokens.False);
-            Register("No",  ComLib.Lang.Tokens.False); 
-            Register("off", ComLib.Lang.Tokens.False);
-            Register("Off", ComLib.Lang.Tokens.False);            
+            Register("Yes", ComLib.Lang.Core.Tokens.True);
+            Register("on",  ComLib.Lang.Core.Tokens.True);
+            Register("On",  ComLib.Lang.Core.Tokens.True);
+            Register("no",  ComLib.Lang.Core.Tokens.False);
+            Register("No",  ComLib.Lang.Core.Tokens.False); 
+            Register("off", ComLib.Lang.Core.Tokens.False);
+            Register("Off", ComLib.Lang.Core.Tokens.False);            
             _tokens = new string[] { "yes", "Yes", "no", "No", "on", "On", "off", "Off" };
         }
     }

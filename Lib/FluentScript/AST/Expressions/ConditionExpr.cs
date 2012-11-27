@@ -5,8 +5,12 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.Types;
+// </lang:using>
 
-namespace ComLib.Lang
+namespace ComLib.Lang.AST
 {
     /// <summary>
     /// Condition expression less, less than equal, more, more than equal etc.
@@ -21,9 +25,12 @@ namespace ComLib.Lang
         /// <param name="right">Right expression</param>
         public ConditionExpr(Expr left, Operator op, Expr right)
         {
-            Left = left;
-            Right = right;
-            Op = op;
+            this.Nodetype = NodeTypes.SysCondition;
+            this.Left = left;
+            this.Right = right;
+            this.AddChild(left);
+            this.AddChild(right);
+            this.Op = op;
         }
 
 
@@ -55,9 +62,13 @@ namespace ComLib.Lang
             if (Op != Operator.And && Op != Operator.Or)
                 throw new ArgumentException("Only && || supported");
 
-            bool result = false;
-            bool left = Left.EvaluateAs<bool>();
-            bool right = Right.EvaluateAs<bool>();
+            var result = false;
+            var lhs = Left.Evaluate();
+            var rhs = Right.Evaluate();
+            var left = false;
+            var right = false;
+            if (lhs != null) left = ((LBool) lhs).Value;
+            if (rhs != null) right = ((LBool)rhs).Value;
 
             if (Op == Operator.Or)
             {
@@ -67,7 +78,7 @@ namespace ComLib.Lang
             {
                 result = left && right;
             }
-            return result;
+            return new LBool(result);
         }
     }    
 }

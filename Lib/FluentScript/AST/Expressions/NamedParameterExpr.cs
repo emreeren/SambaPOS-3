@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Collections;
 
 
-namespace ComLib.Lang
+namespace ComLib.Lang.AST
 {
     /// <summary>
     /// Variable expression data
@@ -36,6 +36,7 @@ namespace ComLib.Lang
         /// </summary>
         public NamedParamExpr() : this(null, null)
         {
+            this.Nodetype = NodeTypes.SysNamedParameter;
         }
 
 
@@ -46,6 +47,7 @@ namespace ComLib.Lang
         /// <param name="value">The expression representing the value of the parameter.</param>
         public NamedParamExpr(string name, Expr value)
         {
+            this.Nodetype = NodeTypes.SysNamedParameter;
             this.Name = name;
             this.Value = value;
         }

@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ComLib.Lang
+// <lang:using>
+using ComLib.Lang.Core;
+// </lang:using>
+
+namespace ComLib.Lang.Parsing
 {
     /// <summary>
     /// Iterates over a series of tokens in a script using a lexer.

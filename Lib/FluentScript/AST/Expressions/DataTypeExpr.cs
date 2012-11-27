@@ -5,8 +5,12 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.Types;
+// </lang:using>
 
-namespace ComLib.Lang
+namespace ComLib.Lang.AST
 {
     /// <summary>
     /// Variable expression data
@@ -22,6 +26,7 @@ namespace ComLib.Lang
         /// </summary>
         public DataTypeExpr(List<Expr> expressions)
         {
+            this.Nodetype = NodeTypes.SysDataType;
             // Used for lists/arrays
             InitBoundary(true, "]");
             _arrayExpressions = expressions;
@@ -33,9 +38,23 @@ namespace ComLib.Lang
         /// </summary>
         public DataTypeExpr(List<Tuple<string, Expr>> expressions)
         {
+            this.Nodetype = NodeTypes.SysDataType;
             // Used for maps
             InitBoundary(true, "}");
             _mapExpressions = expressions;
+        }
+
+
+        /// <summary>
+        /// Whether or not this is of the node type supplied.
+        /// </summary>
+        /// <param name="nodeType"></param>
+        /// <returns></returns>
+        public override bool IsNodeType(string nodeType)
+        {
+            if (nodeType == NodeTypes.SysDataType)
+                return true;
+            return base.IsNodeType(nodeType);
         }
 
 
@@ -48,14 +67,14 @@ namespace ComLib.Lang
             // Case 1: array type
             if (_arrayExpressions != null)
             {
-                List<object> items = new List<object>();
+                var items = new List<object>();
 
                 foreach (var exp in _arrayExpressions)
                 {
                     object result = exp == null ? null : exp.Evaluate();
                     items.Add(result);
                 }
-                LArray array = new LArray(items);
+                var array = new LArray(items);
                 return array;
             }
 

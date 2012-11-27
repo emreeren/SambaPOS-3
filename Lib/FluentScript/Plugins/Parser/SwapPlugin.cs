@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -113,8 +117,8 @@ namespace ComLib.Lang.Extensions
             // var temp = a;
             // a = b;
             // b = temp;
-            object val1 = this.Ctx.Memory.Get<object>(_name1);
-            object val2 = this.Ctx.Memory.Get<object>(_name2);
+            var val1 = this.Ctx.Memory.Get<object>(_name1);
+            var val2 = this.Ctx.Memory.Get<object>(_name2);
             this.Ctx.Memory.SetValue(_name1, val2);
             this.Ctx.Memory.SetValue(_name2, val1);
             return val2;

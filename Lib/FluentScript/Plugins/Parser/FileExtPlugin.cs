@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using ComLib.Lang;
+
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
 using ComLib.Lang.Helpers;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -87,11 +92,11 @@ namespace ComLib.Lang.Extensions
         /// <summary>
         /// Whether or not this uri plugin can handle the current token.
         /// </summary>
-        /// <param name="current"></param>
+        /// <param name="token"></param>
         /// <returns></returns>
         public override bool CanHandle(Token token)
         {
-            var next = _lexer.PeekChar();
+            var next = _lexer.Scanner.PeekChar();
             var curr = _lexer.State.CurrentChar;
             var last = ' ';
             if(_lexer.State.Pos - 2 >= 0)
@@ -103,16 +108,18 @@ namespace ComLib.Lang.Extensions
             if (token.Text == "." && !Char.IsLetter(curr)) return false;
 
             // *.
-            if (token == ComLib.Lang.Tokens.Multiply && curr == '.')
+            if (token == ComLib.Lang.Core.Tokens.Multiply && curr == '.')
             {
-                var result = _lexer.PeekWord(1);
-                if (_extLookup.ContainsKey(result.Value))
+                var result = _lexer.Scanner.PeekWord(true);
+                if (!result.Success) return false;
+                if (_extLookup.ContainsKey(result.Text))
                     return true;
             }
-            else if (token == ComLib.Lang.Tokens.Dot)
+            else if (token == ComLib.Lang.Core.Tokens.Dot)
             {
-                var result = _lexer.PeekWord(0);
-                if (_extLookup.ContainsKey(result.Value))
+                var result = _lexer.Scanner.PeekWord(false);
+                if (!result.Success) return false;
+                if (_extLookup.ContainsKey(result.Text))
                     return true;
             }
             return false;
@@ -128,20 +135,20 @@ namespace ComLib.Lang.Extensions
             // *.xml .xml .doc *.doc
             var takeoverToken = _lexer.LastTokenData;
             var pretext = takeoverToken.Token.Text;
-            var line = _lexer.LineNumber;
-            var pos = _lexer.LineCharPos;
+            var line = _lexer.State.Line;
+            var pos = _lexer.State.LineCharPosition;
 
             // 1. Check if starts with "*" in which case its really "*."
             if (_lexer.State.CurrentChar == '.')
             {
-                _lexer.ReadChar();
+                _lexer.Scanner.ReadChar();
                 pretext += ".";
             }
 
             // 2. Get the file extension name.
             var lineTokenPart = _lexer.ReadWord();
             var finalText = pretext + lineTokenPart.Text;
-            var token = ComLib.Lang.Tokens.ToLiteralString(finalText);
+            var token = ComLib.Lang.Core.Tokens.ToLiteralString(finalText);
             var t = new TokenData() { Token = token, Line = line, LineCharPos = pos };
             _lexer.ParsedTokens.Add(t);
             return new Token[] { token };

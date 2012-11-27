@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
 using ComLib.Lang.Helpers;
+using ComLib.Lang.Plugins;
+// </lang:using>
 
-namespace ComLib.Lang
+namespace ComLib.Lang.Parsing
 {
     /// <summary>
     /// Base class for the parser
@@ -103,9 +108,10 @@ namespace ComLib.Lang
         /// </summary>
         public ParserBase(Context context)
         {
-            _parseErrors = new List<LangException>();
             _context = context;
-            _lexer = new Lexer(_context, string.Empty);
+            _parseErrors = new List<LangException>();
+            _lexer = new Lexer(string.Empty);
+            _lexer.SetContext(_context);
         }
 
 
@@ -165,11 +171,11 @@ namespace ComLib.Lang
 
         #region Public methods
         /// <summary>
-        /// Intialize.
+        /// Intializ with script and optional memory object for reruns.
         /// </summary>
         /// <param name="script"></param>
         /// <param name="memory"></param>
-        protected virtual void Init(string script, Memory memory)
+        public virtual void Init(string script, Memory memory)
         {
             _script = script;
             _scriptPath = string.Empty;
@@ -177,9 +183,28 @@ namespace ComLib.Lang
             _memory = _memory == null ? new Memory() : memory;
             _lexer.Init(script);
             _parseErrors.Clear();
-            _state = new ParserState();            
+            _state = new ParserState(); 
+           
             if (_comments != null) _comments.Clear();
             else _comments = new List<Token>();
+        }
+
+
+        /// <summary>
+        /// Collects an unexpected token error and advances to next token.
+        /// </summary>
+        public void CollectError()
+        {
+            // Should not be here if script ended.
+            if (_tokenIt.IsEnded)
+                throw _tokenIt.BuildEndOfScriptException();
+
+            // Store the error.
+            var ex = _tokenIt.BuildSyntaxUnexpectedTokenException();
+            this._parseErrors.Add(ex);
+
+            // Now advance to next token to continue parsing.
+            _tokenIt.Advance();
         }
         #endregion
 
@@ -191,10 +216,6 @@ namespace ComLib.Lang
         protected void Tokenize()
         {
             _lexer.IntepolatedStartChar = _settings.InterpolatedStartChar;
-
-            // Initialize the plugins.
-            _context.Plugins.ForEach<ILexPlugin>( plugin => plugin.Init(_lexer));
-            _tokenIt = new TokenIterator();
             _tokenIt.Init((llk) => _lexer.GetTokenBatch(llk), 6, null);
         }        
 
@@ -319,7 +340,7 @@ namespace ComLib.Lang
         protected void ApplyDocTagsToFunction(Expr stmt)
         {
             if (!_hasSummaryComments) return;
-            if (!(stmt is FuncDeclareExpr))
+            if (!(stmt.IsNodeType(NodeTypes.SysFunctionDeclare)))
             {
                 throw _tokenIt.BuildSyntaxUnexpectedTokenException(_lastCommentToken);
             }
@@ -334,6 +355,9 @@ namespace ComLib.Lang
             // Associate all the argument specifications to the function metadata
             foreach (var arg in tags.Item1.Args)
             {
+                if (string.IsNullOrEmpty(arg.Name))
+                    continue;
+
                 if (!func.Meta.ArgumentsLookup.ContainsKey(arg.Name))
                     _tokenIt.BuildSyntaxException("Doc argument name : '" + arg.Name + "' does not exist in function : " + func.Name);
 

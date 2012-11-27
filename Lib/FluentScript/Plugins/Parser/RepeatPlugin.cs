@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Parsing;
+using ComLib.Lang.Types;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -144,7 +149,7 @@ namespace ComLib.Lang.Extensions
             if (_tokenIt.NextToken.Token.Text == "to")
             {
                 var result = ParseTo();
-                startVal = new ConstantExpr(1.0);
+                startVal = new ConstantExpr(new LNumber(1.0));
                 _parser.SetScriptPosition(startVal, startToken);
                 op = result.Item1;
                 endVal = result.Item2;
@@ -155,7 +160,7 @@ namespace ComLib.Lang.Extensions
             {
                 var num = _tokenIt.ExpectNumber();
                 var result = ParseTo();
-                startVal = new ConstantExpr(num);
+                startVal = new ConstantExpr(new LNumber(num));
                 _parser.SetScriptPosition(startVal, startToken);
                 op = result.Item1;
                 endVal = result.Item2;
@@ -176,7 +181,7 @@ namespace ComLib.Lang.Extensions
                 }
                 else
                 {
-                    startVal = new ConstantExpr(0);
+                    startVal = new ConstantExpr(new LNumber(0));
                     _parser.SetScriptPosition(startVal, startToken);
                 }
                 var result = ParseTo();
@@ -246,7 +251,7 @@ namespace ComLib.Lang.Extensions
             }
             else
             {
-                incVal = new ConstantExpr(1.0);
+                incVal = new ConstantExpr(new LNumber(1));
                 _parser.SetScriptPosition(incVal, currentToken);
             }
             return new Tuple<Operator, Expr, Expr>(op, end, incVal);

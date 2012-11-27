@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
-using ComLib.Lang;
-using ComLib.Lang.Helpers;
 
-namespace ComLib.Lang.Extensions
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Helpers;
+using ComLib.Lang.Parsing;
+// </lang:using>
+
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -93,7 +98,7 @@ namespace ComLib.Lang.Extensions
             // 1. Is it a function call?
             _tokenIt.Advance(_result.TokenCount);
             var nameExp = new VariableExpr(_result.Name);
-            var exp = _parser.ParseFuncExpression(nameExp);
+            var exp = _parser.ParseFuncExpression(nameExp, null);
             return exp;
         }
     }

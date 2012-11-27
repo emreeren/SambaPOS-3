@@ -32,6 +32,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Boo.Lang">
+      <HintPath>..\Lib\Boo.Lang.dll</HintPath>
+    </Reference>
+    <Reference Include="Boo.Lang.Compiler">
+      <HintPath>..\Lib\Boo.Lang.Compiler.dll</HintPath>
+    </Reference>
+    <Reference Include="Boo.Lang.Parser">
+      <HintPath>..\Lib\Boo.Lang.Parser.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
     <Reference Include="FluentValidation">
       <HintPath>..\Samba.Modules.TicketModule\bin\Debug\FluentValidation.dll</HintPath>
@@ -44,6 +53,9 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="ReachFramework" />
+    <Reference Include="Rhino.DSL">
+      <HintPath>..\Lib\Rhino.DSL.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
@@ -130,6 +142,10 @@
     <ProjectReference Include="..\Lib\FluentScript\FluentScript.csproj">
       <Project>{0cdfa1b2-f3a3-45e1-919b-9d1bca26984b}</Project>
       <Name>FluentScript</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lib\Stateless\Stateless.csproj">
+      <Project>{FFFDB2DE-6D0E-4C1E-B14D-B64057EEAF6D}</Project>
+      <Name>Stateless</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">
       <Project>{2386F6A0-91B2-4D1A-8DBC-92109924AFFE}</Project>

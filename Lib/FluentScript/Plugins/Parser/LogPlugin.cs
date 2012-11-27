@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using ComLib.Lang;
-using ComLib.Lang.Helpers;
 
-namespace ComLib.Lang.Extensions
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Types;
+using ComLib.Lang.Helpers;
+using ComLib.Lang.Parsing;
+// </lang:using>
+
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -62,17 +68,17 @@ namespace ComLib.Lang.Extensions
         private static Dictionary<string, int> _methodMap;
 
         // Error levels
-        internal const int Put = 6; 
-        internal const int Fatal = 5;
-        internal const int Error = 4;
-        internal const int Warn  = 3;
-        internal const int Info  = 2;
-        internal const int Debug = 1;
+        public const int Put = 6; 
+        public const int Fatal = 5;
+        public const int Error = 4;
+        public const int Warn  = 3;
+        public const int Info  = 2;
+        public const int Debug = 1;
 
         // For output modes
-        internal const int Console = 1;
-        internal const int File = 2;
-        internal const int Callback = 3;
+        public const int Console = 1;
+        public const int File = 2;
+        public const int Callback = 3;
 
 
         static LogPluginConstants()
@@ -306,15 +312,16 @@ namespace ComLib.Lang.Extensions
             }
 
             // 1. Resolve the parameters.
-            FunctionHelper.ResolveParameters(ParamListExpressions, ParamList);
+            ParamHelper.ResolveNonNamedParameters(ParamListExpressions, ParamList);
             
             if (Mode == "log")
             {
                 Log(settings);
+                return LObjects.EmptyString;
             }
             else if (Mode == "level")
             {
-                return settings.LogLevelName;
+                return new LString(settings.LogLevelName);
             }
             else if (Mode == "level_check")
             {
@@ -329,19 +336,23 @@ namespace ComLib.Lang.Extensions
             else if (Mode == "configure")
             {
                 Configure(settings);
+                return LObjects.EmptyString;
             }
-            return string.Empty;
+            return LObjects.EmptyString;
         }
 
 
         private void Configure(LogSettings settings)
         {
+            ExceptionHelper.NotNullType(this, this.ParamList[0], "log level not supplied", LTypes.String);
+            ExceptionHelper.NotNullType(this, this.ParamList[1], "console or log not supplied", LTypes.String);
+
             // Param 1: Error level
-            settings.LogLevelName = Convert.ToString(ParamList[0]);
+            settings.LogLevelName = ((LString)this.ParamList[0]).Value;
             settings.LogLevelValue = LogPluginConstants.LevelFor(settings.LogLevelName);
 
             // Param 2: Console or file?
-            string output = Convert.ToString(ParamList[1]);
+            var output = ((LString)this.ParamList[1]).Value;
             if (string.Compare(output, "console", StringComparison.InvariantCultureIgnoreCase) == 0)
             {
                 settings.OutputMode = LogPluginConstants.Console;
@@ -363,14 +374,14 @@ namespace ComLib.Lang.Extensions
         private void Log(LogSettings settings)
         {
             // Only log if the log level is appropriate
-            int level = LogPluginConstants.LevelFor(LogLevel);
+            var level = LogPluginConstants.LevelFor(LogLevel);
 
             // Validate: log.debug but level is Warn
             if (level < settings.LogLevelValue)
                 return;
 
             // Good to log.
-            string message = FunctionHelper.BuildMessage(ParamList);
+            string message = LogHelper.BuildMessage(ParamList);
             if (settings.OutputMode == LogPluginConstants.Console)
                 Console.WriteLine(LogLevel + " : " + message);
             else if (settings.OutputMode == LogPluginConstants.Callback)
@@ -385,9 +396,9 @@ namespace ComLib.Lang.Extensions
             settings.OutputMode = LogPluginConstants.File;
 
             // 1st param
-            string filename = Convert.ToString(ParamList[1]);
-            FileInfo file = new FileInfo(filename);
-            string name = file.Name.Replace(file.Extension, string.Empty);
+            var filename = ((LString)ParamList[1]).Value;
+            var file = new FileInfo(filename);
+            var name = file.Name.Replace(file.Extension, string.Empty);
 
             if (ParamList.Count > 2)
             {

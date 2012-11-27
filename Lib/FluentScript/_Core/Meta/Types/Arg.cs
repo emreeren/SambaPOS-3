@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 
-namespace ComLib.Lang
+namespace ComLib.Lang.Core
 {
     /// <summary>
     /// Information about parameters to a function.
     /// </summary>
-    public class Arg
+    public class ArgAttribute : Attribute
     {
         /// <summary>
         /// Initialize.
         /// </summary>
-        public Arg()
+        public ArgAttribute()
         {
             Examples = new List<string>();
         }

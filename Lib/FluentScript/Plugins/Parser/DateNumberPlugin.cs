@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -126,14 +130,14 @@ namespace ComLib.Lang.Extensions
         {
             // 04/20/1979
             var lastToken = _lexer.LastTokenData;
-            var line = _lexer.LineNumber;
-            var pos = _lexer.LineCharPos;
+            var line = _lexer.State.Line;
+            var pos = _lexer.State.LineCharPosition;
             var separator = _lexer.State.CurrentChar;
             var textToken = _lexer.ReadToPosition(_endPos);
             var dateText = lastToken.Token.Text + separator + textToken.Text;
             dateText = dateText.Replace("-", "/");
             dateText = dateText.Replace("\\", "/");
-            var dateToken = ComLib.Lang.Tokens.ToLiteralDate(dateText);
+            var dateToken = ComLib.Lang.Core.Tokens.ToLiteralDate(dateText);
             var t = new TokenData() { Token = dateToken, Line = line, LineCharPos = pos };
             _lexer.ParsedTokens.Add(t);
             return new Token[] { dateToken };

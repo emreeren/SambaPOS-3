@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -25,7 +29,7 @@ namespace ComLib.Lang.Extensions
         /// <summary>
         /// Initialize
         /// </summary>
-        public SetPlugin() : base("set", ComLib.Lang.Tokens.Var )
+        public SetPlugin() : base("set", ComLib.Lang.Core.Tokens.Var )
         {
         }
     }

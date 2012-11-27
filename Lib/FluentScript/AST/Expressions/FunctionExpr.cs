@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+// <lang:using>
+using ComLib.Lang.Core;
 using ComLib.Lang.Docs;
+using ComLib.Lang.Helpers;
+using ComLib.Lang.Types;
+// </lang:using>
 
-
-namespace ComLib.Lang
+namespace ComLib.Lang.AST
 {
     /// <summary>
     /// Represents a function call statement
@@ -24,6 +28,7 @@ namespace ComLib.Lang
         /// </summary>
         public FunctionExpr() 
         {
+            this.Nodetype = NodeTypes.SysFunction;
             Init(null, null);
         }
 
@@ -35,6 +40,7 @@ namespace ComLib.Lang
         /// <param name="argumentNames"></param>
         public FunctionExpr(string name, List<string> argumentNames)
         {
+            this.Nodetype = NodeTypes.SysFunction;
             Init(name, argumentNames);
         }
 
@@ -122,12 +128,12 @@ namespace ComLib.Lang
                     if (!_continueRunning) break;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 _errorCount++;
-                throw;
+                throw ex;
             }
-            return LNull.Instance;
+            return LObjects.Null;
         }
 
 
@@ -158,6 +164,12 @@ namespace ComLib.Lang
             // Add function arguments to scope.
             for (int ndx = 0; ndx < this.Meta.Arguments.Count; ndx++)
             {
+                var val = this.ArgumentValues[ndx] as LObject;
+                if(val.Type.IsPrimitiveType())
+                {
+                    var copied = val.Clone();
+                    this.ArgumentValues[ndx] = copied;
+                }
                 Ctx.Memory.SetValue(this.Meta.Arguments[ndx].Name, this.ArgumentValues[ndx]);
             }
 
@@ -165,8 +177,8 @@ namespace ComLib.Lang
             // NOTE: Any extra arguments will be part of the implicit "arguments" array.
             if(!hasParameterNamedArguments)
             {
-                var array = new LArray(this.ArgumentValues);
-                Ctx.Memory.SetValue("arguments", array);
+                var argArray = new LArray(this.ArgumentValues);
+                Ctx.Memory.SetValue("arguments", argArray);
             }
         }
 

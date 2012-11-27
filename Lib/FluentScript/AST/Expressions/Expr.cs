@@ -5,14 +5,25 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.Types;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
-namespace ComLib.Lang
+namespace ComLib.Lang.AST
 {
     /// <summary>
     /// Base class for Expressions
     /// </summary>
     public class Expr : AstNode
     {
+        /// <summary>
+        /// Context information of the script.
+        /// </summary>
+        public Context Ctx;
+
+
         /// <summary>
         /// Empty expr.
         /// </summary>
@@ -61,8 +72,10 @@ namespace ComLib.Lang
             object result = Evaluate();
 
             // Evalulate<bool>() converting null to true.
-            if (result == LNull.Instance && typeof(T) == typeof(bool))
+            if (result == LObjects.Null && typeof(T) == typeof(bool))
                 return default(T);
+            if (result is LObject)
+                return (T)Convert.ChangeType(((LObject) result).GetValue(), typeof(T), null);
 
             return (T)Convert.ChangeType(result, typeof(T), null);
         }

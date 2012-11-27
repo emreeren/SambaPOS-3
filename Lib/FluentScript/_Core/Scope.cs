@@ -2,11 +2,14 @@
 using System.Collections;
 using System.Collections.Specialized;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 
-namespace ComLib.Lang
+// <lang:using>
+using ComLib.Lang.Types;
+// </lang:using>
+
+namespace ComLib.Lang.Core
 {
     /// <summary>
     /// Block scope.
@@ -29,7 +32,7 @@ namespace ComLib.Lang
             if (typeof(T) == typeof(object))
             {
                 return (T)variable.Value;
-            }
+            }            
 
             return (T)Convert.ChangeType(variable.Value, typeof(T), null);
         }
@@ -45,6 +48,9 @@ namespace ComLib.Lang
         /// in an outer scope. In this case, we should not search for the variable name.</param>
         public void SetValue(string name, object val, bool declare = false)
         {
+            // Assert failure
+            var lval = (LObject) val;
+
             Variable variable = null;
             bool add = false;
             int addVal = 0;
@@ -57,25 +63,25 @@ namespace ComLib.Lang
             {
                 variable = this[name] as Variable;
                 variable.Value = val;
-                if (val.GetType() == typeof(string))
-                    addVal = ((string)variable.Value).Length;
+                if (lval.Type == LTypes.String)
+                    addVal = ((LString) lval).Value.Length;
             }
-            variable.IsInitialized = val != LNull.Instance && val != null;
-            variable.DataType = val != null ? val.GetType() : typeof(LNull);
+            variable.IsInitialized = val != LObjects.Null && val != null;
+            variable.DataType = val != null ? val.GetType() : typeof(LNullType);
             this[name] = variable;
 
             // Case 1: Adding new string value.
-            bool isString = (val is string);
+            bool isString = (lval.Type == LTypes.String);
             if (add && isString)
             {
-                _totalStringLength += ((string)val).Length;
+                _totalStringLength += ((LString)lval).Value.Length;
             }
             // Case 2: Changed datatype
             if (!add)
             {
                 _totalStringLength -= addVal;
                 if (isString)
-                    _totalStringLength += ((string)val).Length;
+                    _totalStringLength += ((LString)lval).Value.Length;
             }
         }
 
@@ -166,6 +172,23 @@ namespace ComLib.Lang
 
 
         /// <summary>
+        /// Get the variable value associated with name from the scope
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="name">Name of the varibale to get</param>
+        /// <returns></returns>
+        public T GetAs<T>(string name) where T: class
+        {
+            int stackIndex = Find(name);
+            // Not found?
+            if (stackIndex == -1) throw new KeyNotFoundException("variable : " + name + " was not found");
+
+            var obj = _stack[stackIndex].Get<object>(name);
+            return (T)obj;
+        }
+
+
+        /// <summary>
         /// Sets a value into the current scope.
         /// </summary>
         /// <param name="name">The name of the variable.</param>
@@ -216,7 +239,7 @@ namespace ComLib.Lang
         /// <summary>
         /// Push another scope into the script.
         /// </summary>
-        internal void Push()
+        public void Push()
         {
             _stack.Add(new Block());
             _currentStackIndex++;
@@ -226,7 +249,7 @@ namespace ComLib.Lang
         /// <summary>
         /// Remove the current scope from the script.
         /// </summary>
-        internal void Pop()
+        public void Pop()
         {
             if (_stack.Count == 1) return;
 

@@ -1,7 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Parsing;
+using ComLib.Lang.Types;
+// </lang:using>
+
 
 namespace ComLib.Lang.Helpers
 {
@@ -11,39 +17,19 @@ namespace ComLib.Lang.Helpers
     public class LangHelper
     {
         /// <summary>
-        /// Whether or not the type supplied is a basic type.
+        /// Converts a list of items to a dictionary with the items.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public static bool IsBasicType(object obj)
+        /// <typeparam name="T">Type of items to use.</typeparam>
+        /// <param name="items">List of items.</param>
+        /// <returns>Converted list as dictionary.</returns>
+        public static IDictionary<T, T> ToDictionary<T>(IList<T> items)
         {
-            if (obj == null) throw new ArgumentNullException("obj");
-
-            Type type = obj.GetType();
-            if (type == typeof(int)) return true;
-            if (type == typeof(long)) return true;
-            if (type == typeof(double)) return true;
-            if (type == typeof(bool)) return true;
-            if (type == typeof(string)) return true;
-            if (type == typeof(DateTime)) return true;
-
-            return false;
-        }
-
-
-        /// <summary>
-        /// Converts each item in the parameters object array to an integer.
-        /// </summary>
-        /// <param name="parameters"></param>
-        public static int[] ConvertToInts(object[] parameters)
-        {
-            // Convert all parameters to int            
-            int[] args = new int[parameters.Length];
-            for (int ndx = 0; ndx < parameters.Length; ndx++)
+            var dict = new Dictionary<T, T>();
+            foreach (T item in items)
             {
-                args[ndx] = Convert.ToInt32(parameters[ndx]);
+                dict[item] = item;
             }
-            return args;
+            return dict;
         }
 
 
@@ -53,9 +39,9 @@ namespace ComLib.Lang.Helpers
         /// <typeparam name="T">Type of items to use.</typeparam>
         /// <param name="items">List of items.</param>
         /// <returns>Converted list as dictionary.</returns>
-        public static IDictionary<T, T> ToDictionary<T>(IList<T> items)
+        public static IDictionary<T, T> ToDictionaryFiltered<T>(IList<T> items )
         {
-            IDictionary<T, T> dict = new Dictionary<T, T>();
+            var dict = new Dictionary<T, T>();
             foreach (T item in items)
             {
                 dict[item] = item;
@@ -63,23 +49,6 @@ namespace ComLib.Lang.Helpers
             return dict;
         }
 
-        /*
-        /// <summary>
-        /// Executes the statements.
-        /// </summary>
-        /// <param name="statements"></param>
-        /// <param name="parent"></param>
-        public static void Execute(List<Stmt> statements, Stmt parent)
-        {
-            if (statements != null && statements.Count > 0)
-            {
-                foreach (var stmt in statements)
-                {
-                    stmt.Execute();
-                }
-            }
-        }
-        */
 
         /// <summary>
         /// Executes the statements.
@@ -150,6 +119,43 @@ namespace ComLib.Lang.Helpers
             }
             finalExp = stack[0] as Expr;
             return finalExp;
+        }
+
+
+        /// <summary>
+        /// Executes an action.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="exceptionMessageFetcher"></param>
+        public static RunResult Execute(Action action, Func<string> exceptionMessageFetcher = null)
+        {
+            DateTime start = DateTime.Now;
+            bool success = true;
+            string message = string.Empty;
+            Exception scriptError = null;
+            try
+            {
+                action();
+            }
+            catch (Exception ex)
+            {
+                success = false;
+                if (ex is LangException)
+                {
+                    LangException lex = ex as LangException;
+                    const string langerror = "{0} : {1} at line : {2}, position: {3}";
+                    message = string.Format(langerror, lex.Error.ErrorType, lex.Message, lex.Error.Line, lex.Error.Column);
+                }
+                else message = ex.Message;
+
+                scriptError = ex;
+                if (exceptionMessageFetcher != null)
+                    message += exceptionMessageFetcher();
+            }
+            DateTime end = DateTime.Now;
+            var runResult = new RunResult(start, end, success, message);
+            runResult.Ex = scriptError;
+            return runResult;
         }
     }
 }

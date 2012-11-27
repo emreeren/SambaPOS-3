@@ -2,9 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang.Helpers;
 
-namespace ComLib.Lang
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Types;
+using ComLib.Lang.Helpers;
+using ComLib.Lang.Parsing;
+// </lang:using>
+
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -87,6 +94,7 @@ namespace ComLib.Lang
         /// </summary>
         public TryCatchExpr()
         {
+            this.Nodetype = NodeTypes.SysTryCatch;
             InitBoundary(true, "}");
             Catch = new BlockExpr();
         }
@@ -155,7 +163,7 @@ namespace ComLib.Lang
 
                 // Push the scope in the catch block
                 Ctx.Memory.Push();
-                Ctx.Memory.SetValue(ErrorName, LError.FromException(ex));
+                Ctx.Memory.SetValue(ErrorName, new LClass(LError.FromException(ex)));
 
                 // Run statements in catch block.
                 if (Catch != null && Catch.Statements.Count > 0)
@@ -170,7 +178,7 @@ namespace ComLib.Lang
                 // Pop the catch scope in case there was an error.
                 if (!catchScopePopped) Ctx.Memory.Remove(ErrorName);
             }
-            return LNull.Instance;
+            return LObjects.Null;
         }
     }    
 }

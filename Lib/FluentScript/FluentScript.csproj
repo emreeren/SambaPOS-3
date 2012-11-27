@@ -7,8 +7,8 @@
     <ProjectGuid>{0CDFA1B2-F3A3-45E1-919B-9D1BCA26984B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FluentScript</RootNamespace>
-    <AssemblyName>FluentScript</AssemblyName>
+    <RootNamespace>Fluentscript.Lib</RootNamespace>
+    <AssemblyName>Fluentscript</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
@@ -46,54 +46,63 @@
     <Compile Include="AST\Expressions\ConditionalBlockExpr.cs" />
     <Compile Include="AST\Expressions\ConditionExpr.cs" />
     <Compile Include="AST\Expressions\ConstantExpr.cs" />
+    <Compile Include="AST\Expressions\MultiAssignExpr.cs" />
     <Compile Include="AST\Expressions\DataTypeExpr.cs" />
+    <Compile Include="AST\Expressions\EmptyExpr.cs" />
     <Compile Include="AST\Expressions\EvaluatableExpr.cs" />
     <Compile Include="AST\Expressions\Expr.cs" />
     <Compile Include="AST\Expressions\FunctionCallExpr.cs" />
     <Compile Include="AST\Expressions\FunctionExpr.cs" />
+    <Compile Include="AST\Expressions\ILoop.cs" />
     <Compile Include="AST\Expressions\IndexableExpr.cs" />
     <Compile Include="AST\Expressions\IndexExpr.cs" />
     <Compile Include="AST\Expressions\InterpolatedExpr.cs" />
+    <Compile Include="AST\Expressions\IParameterExpression.cs" />
+    <Compile Include="AST\Expressions\LiteralExpr.cs" />
     <Compile Include="AST\Expressions\MemberAccessExpr.cs" />
     <Compile Include="AST\Expressions\MemberExpr.cs" />
     <Compile Include="AST\Expressions\NamedParameterExpr.cs" />
     <Compile Include="AST\Expressions\NewExpr.cs" />
+    <Compile Include="AST\Expressions\ParameterExpr.cs" />
     <Compile Include="AST\Expressions\UnaryExpr.cs" />
     <Compile Include="AST\Expressions\ValueExpr.cs" />
     <Compile Include="AST\Expressions\VariableExpr.cs" />
-    <Compile Include="DataTypes\LArray.cs" />
-    <Compile Include="DataTypes\LBaseType.cs" />
-    <Compile Include="DataTypes\LBool.cs" />
-    <Compile Include="DataTypes\LDate.cs" />
-    <Compile Include="DataTypes\LError.cs" />
-    <Compile Include="DataTypes\LFunction.cs" />
-    <Compile Include="DataTypes\LMap.cs" />
-    <Compile Include="DataTypes\LNull.cs" />
-    <Compile Include="DataTypes\LNumber.cs" />
-    <Compile Include="DataTypes\LObject.cs" />
-    <Compile Include="DataTypes\LString.cs" />
-    <Compile Include="DataTypes\LUnit.cs" />
-    <Compile Include="DataTypes\LVersion.cs" />
-    <Compile Include="Entities\FunctionLookupResult.cs" />
-    <Compile Include="Extensions\MethodExtensions.cs" />
+    <Compile Include="AST\Expressions\AssignExpr.cs" />
+    <Compile Include="AST\NodeTypes.cs" />
     <Compile Include="Helpers\ArgsFetcher.cs" />
+    <Compile Include="Helpers\AssignHelper.cs" />
+    <Compile Include="Helpers\ConversionHelper.cs" />
+    <Compile Include="Helpers\TokenHelper.cs" />
     <Compile Include="Helpers\DocHelper.cs" />
+    <Compile Include="Helpers\EvalHelper.cs" />
+    <Compile Include="Helpers\ExceptionHelper.cs" />
     <Compile Include="Helpers\FluentHelper.cs" />
     <Compile Include="Helpers\FunctionHelper.cs" />
     <Compile Include="Helpers\LangHelper.cs" />
+    <Compile Include="Helpers\LogHelper.cs" />
+    <Compile Include="Helpers\MemberHelper.cs" />
+    <Compile Include="Helpers\ParamHelper.cs" />
     <Compile Include="Helpers\TimeTypeHelper.cs" />
-    <Compile Include="Integration\ExternalFunctions.cs" />
-    <Compile Include="Integration\Plugins.cs" />
-    <Compile Include="Integration\RegisteredFunctions.cs" />
-    <Compile Include="Integration\RegisteredTypes.cs" />
-    <Compile Include="Integration\RegisteredWords.cs" />
-    <Compile Include="Integration\Units.cs" />
+    <Compile Include="Helpers\TypeHelper.cs" />
+    <Compile Include="Parser\Scanner.cs" />
+    <Compile Include="Parser\Core\Callbacks.cs" />
+    <Compile Include="Parser\Core\Context.cs" />
+    <Compile Include="Parser\Core\LangState.cs" />
+    <Compile Include="Parser\Core\Limits.cs" />
+    <Compile Include="Parser\ErrorCodes.cs" />
+    <Compile Include="Parser\Integration\ExternalFunctions.cs" />
+    <Compile Include="Parser\Integration\IPhase.cs" />
+    <Compile Include="Parser\Integration\PhaseContext.cs" />
+    <Compile Include="Parser\Integration\PhaseResult.cs" />
+    <Compile Include="Parser\Integration\Plugins.cs" />
+    <Compile Include="Parser\Integration\RegisteredFunctions.cs" />
+    <Compile Include="Parser\Integration\RegisteredTypes.cs" />
+    <Compile Include="Parser\Integration\RegisteredWords.cs" />
     <Compile Include="Parser\Interpreter.cs" />
+    <Compile Include="Parser\IParser.cs" />
     <Compile Include="Parser\Lexer.cs" />
-    <Compile Include="Parser\LexerBase.cs" />
     <Compile Include="Parser\Parser.cs" />
     <Compile Include="Parser\ParserBase.cs" />
-    <Compile Include="Parser\ParserExtensions.cs" />
     <Compile Include="Parser\ParserState.cs" />
     <Compile Include="Parser\PluginSupport\ExprBlockPlugin.cs" />
     <Compile Include="Parser\PluginSupport\ExprPlugin.cs" />
@@ -106,7 +115,15 @@
     <Compile Include="Parser\Terminators.cs" />
     <Compile Include="Parser\TokenIterator.cs" />
     <Compile Include="Parser\Visitor.cs" />
+    <Compile Include="Phases\LintPhase.cs" />
+    <Compile Include="Phases\ExecutionPhase.cs" />
+    <Compile Include="Phases\ParsePhase.cs" />
+    <Compile Include="Phases\Phase.cs" />
+    <Compile Include="Phases\PhaseExecutor.cs" />
+    <Compile Include="Phases\ShutdownPhase.cs" />
+    <Compile Include="Phases\TranslateToJsPhase.cs" />
     <Compile Include="Plugins\Core\AliasTokenPlugin.cs" />
+    <Compile Include="Plugins\Core\CustomFunctionPlugin.cs" />
     <Compile Include="Plugins\Core\LexReplacePlugin.cs" />
     <Compile Include="Plugins\Core\LineReaderPlugin.cs" />
     <Compile Include="Plugins\Core\TakeoverPlugin.cs" />
@@ -117,8 +134,10 @@
     <Compile Include="Plugins\Parser\BoolPlugin.cs" />
     <Compile Include="Plugins\Parser\ComparePlugin.cs" />
     <Compile Include="Plugins\Parser\ConstCapsPlugin.cs" />
+    <Compile Include="Plugins\Parser\NamedIndexPlugin.cs" />
     <Compile Include="Plugins\Parser\DateNumberPlugin.cs" />
     <Compile Include="Plugins\Parser\DatePlugin.cs" />
+    <Compile Include="Plugins\Parser\DateTimeCombinerPlugin.cs" />
     <Compile Include="Plugins\Parser\DayPlugin.cs" />
     <Compile Include="Plugins\Parser\DefPlugin.cs" />
     <Compile Include="Plugins\Parser\EmailPlugin.cs" />
@@ -137,6 +156,7 @@
     <Compile Include="Plugins\Parser\LogPlugin.cs" />
     <Compile Include="Plugins\Parser\MachineInfoPlugin.cs" />
     <Compile Include="Plugins\Parser\MarkerPlugin.cs" />
+    <Compile Include="Plugins\Parser\ModulePlugin.cs" />
     <Compile Include="Plugins\Parser\MoneyPlugin.cs" />
     <Compile Include="Plugins\Parser\PercentPlugin.cs" />
     <Compile Include="Plugins\Parser\PrintPlugin.cs" />
@@ -147,8 +167,10 @@
     <Compile Include="Plugins\Parser\SetPlugin.cs" />
     <Compile Include="Plugins\Parser\SortPlugin.cs" />
     <Compile Include="Plugins\Parser\StepPlugin.cs" />
+    <Compile Include="Plugins\Parser\StringLiteralPlugin.cs" />
     <Compile Include="Plugins\Parser\SuffixPlugin.cs" />
     <Compile Include="Plugins\Parser\SwapPlugin.cs" />
+    <Compile Include="Plugins\Parser\Time2Plugin.cs" />
     <Compile Include="Plugins\Parser\TimePlugin.cs" />
     <Compile Include="Plugins\Parser\TypeOfPlugin.cs" />
     <Compile Include="Plugins\Parser\TypeOperationsPlugin.cs" />
@@ -173,20 +195,48 @@
     <Compile Include="Templating\ITemplateEngine.cs" />
     <Compile Include="Templating\TemplateEngineDefault.cs" />
     <Compile Include="Templating\Templater.cs" />
+    <Compile Include="Types\ConvertSpec.cs" />
+    <Compile Include="Types\ITypeMethods.cs" />
+    <Compile Include="Types\Javascript\LJSArrayMethods.cs" />
+    <Compile Include="Types\Javascript\LJSDateMethods.cs" />
+    <Compile Include="Types\Javascript\LJSMapMethods.cs" />
+    <Compile Include="Types\Javascript\LJSStringMethods.cs" />
+    <Compile Include="Types\Javascript\LJSTimeMethods.cs" />
+    <Compile Include="Types\LArray.cs" />
+    <Compile Include="Types\LBaseType.cs" />
+    <Compile Include="Types\LBool.cs" />
+    <Compile Include="Types\LClass.cs" />
+    <Compile Include="Types\LDate.cs" />
+    <Compile Include="Types\LDayOfWeek.cs" />
+    <Compile Include="Types\LError.cs" />
+    <Compile Include="Types\LFunction.cs" />
+    <Compile Include="Types\LMap.cs" />
+    <Compile Include="Types\LModule.cs" />
+    <Compile Include="Types\LNull.cs" />
+    <Compile Include="Types\LNumber.cs" />
+    <Compile Include="Types\LObject.cs" />
+    <Compile Include="Types\LString.cs" />
+    <Compile Include="Types\LTime.cs" />
+    <Compile Include="Types\LTypeMethods.cs" />
+    <Compile Include="Types\LTypes.cs" />
+    <Compile Include="Types\LTypesLookup.cs" />
+    <Compile Include="Types\LUnit.cs" />
+    <Compile Include="Types\LVersion.cs" />
+    <Compile Include="Types\RegisteredMethods.cs" />
+    <Compile Include="Types\Units.cs" />
     <Compile Include="_Core\AstNode.cs" />
     <Compile Include="_Core\BoolMsgObj.cs" />
-    <Compile Include="_Core\Callbacks.cs" />
     <Compile Include="_Core\CallStack.cs" />
-    <Compile Include="_Core\Context.cs" />
+    <Compile Include="_Core\CompilerState.cs" />
+    <Compile Include="_Core\Constants.cs" />
+    <Compile Include="_Core\DotAccess.cs" />
+    <Compile Include="_Core\FunctionLookupResult.cs" />
     <Compile Include="_Core\IAstWalk.cs" />
+    <Compile Include="_Core\IFunction.cs" />
     <Compile Include="_Core\IFunctionStore.cs" />
-    <Compile Include="_Core\ILoop.cs" />
-    <Compile Include="_Core\IParser.cs" />
     <Compile Include="_Core\LangException.cs" />
     <Compile Include="_Core\LangSettings.cs" />
-    <Compile Include="_Core\LangState.cs" />
-    <Compile Include="_Core\LangUtils.cs" />
-    <Compile Include="_Core\Limits.cs" />
+    <Compile Include="_Core\MemberMode.cs" />
     <Compile Include="_Core\Memory.cs" />
     <Compile Include="_Core\Meta\Docs\DocTags.cs" />
     <Compile Include="_Core\Meta\Docs\Example.cs" />
@@ -202,13 +252,6 @@
     <Compile Include="_Core\Tokens.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>IF NOT "$(ConfigurationName)"=="Release" GOTO End
-
-copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)SambaSetup\src"
-
-:End</PostBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

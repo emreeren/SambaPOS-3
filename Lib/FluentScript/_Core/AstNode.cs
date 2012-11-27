@@ -3,47 +3,61 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ComLib.Lang
+namespace ComLib.Lang.Core
 {
     /// <summary>
     /// Abstract syntax tree node.
     /// </summary>
     public class AstNode
     {
+        private List<AstNode> _children;
+
+
         /// <summary>
         /// Reference to the script.
         /// </summary>
         public ScriptRef Ref;
 
-
+        
         /// <summary>
-        /// Context information of the script.
+        /// The node type.
         /// </summary>
-        public Context Ctx;
-
-
-        /// <summary>
-        /// Whether or not this expression supports using parenthesis "( )" e.g. function calls.
-        /// </summary>
-        protected bool _supportsBoundary;
+        public string Nodetype;
 
 
         /// <summary>
-        /// The text representing the end of the boundary. e.g. ), }, ]
+        /// Number of children in this node.
         /// </summary>
-        protected string _boundaryText;
+        /// <returns></returns>
+        public int ChildCount()
+        {
+            if (_children == null) return 0;
+            return _children.Count;
+        }
 
 
         /// <summary>
-        /// Whether or not this expression supports using parenthesis "( )" e.g. function calls.
+        /// Adds a child to this node.
         /// </summary>
-        public bool SupportsBoundary { get { return _supportsBoundary; } set { _supportsBoundary = value; } }
+        /// <param name="node"></param>
+        public void AddChild(AstNode node)
+        {
+            if (_children == null)
+                _children = new List<AstNode>();
+            _children.Add(node);
+        }
 
 
         /// <summary>
-        /// The character used for the end of the boundry e.g. ) ] }
+        /// Get a child at the specified index.
         /// </summary>
-        public string BoundaryText { get { return _boundaryText; } set { _boundaryText = value; } }
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public AstNode GetChild(int index)
+        {
+            if (_children == null || _children.Count == 0) return null;
+            return _children[index];
+        }
 
 
         /// <summary>
@@ -53,8 +67,19 @@ namespace ComLib.Lang
         /// <param name="boundaryText"></param>
         public virtual void InitBoundary(bool supportsBoundary, string boundaryText)
         {
-            _supportsBoundary = supportsBoundary;
-            _boundaryText = boundaryText;
+            //_supportsBoundary = supportsBoundary;
+            //_boundaryText = boundaryText;
+        }
+
+
+        /// <summary>
+        /// Whether or not this is the same type as the nodeType supplied.
+        /// </summary>
+        /// <param name="nodeType"></param>
+        /// <returns></returns>
+        public virtual bool IsNodeType(string nodeType)
+        {
+            return this.Nodetype == nodeType;
         }
 
 

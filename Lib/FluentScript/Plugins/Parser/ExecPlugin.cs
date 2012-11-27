@@ -2,10 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Types;
+using ComLib.Lang.Parsing;
+using ComLib.Lang.Helpers;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -23,21 +29,22 @@ namespace ComLib.Lang.Extensions
 	    print Thank god it's Friday
     </doc:example>
     ***************************************************************************/
-
     /// <summary>
     /// Combinator for handling days of the week.
     /// </summary>
-    public class ExecPlugin : ExprPlugin, ISetupPlugin
+    public class ExecPlugin : CustomFunctionPluginBase
     {
         /// <summary>
         /// Initialize
         /// </summary>
-        public ExecPlugin()
+        public ExecPlugin() 
         {
-            this.StartTokens = new string[] { "exec" };
-            this.IsStatement = true;
-            this.IsEndOfStatementRequired = true;
-            this.IsAutoMatched = true;
+            this.Init("exec");
+            _funcMeta = new FunctionMetaData("exec", null);
+            _funcMeta.AddArg("program",    "string",  true,  "",   string.Empty, @"c:\tools\nunit\nunit.exe", "program to launch");
+            _funcMeta.AddArg("workingdir", "string", false, "in", string.Empty, @"c:\tools\nunit\", "working directory to launch in");
+            _funcMeta.AddArg("args",       "list",   false, "",   string.Empty, "", "arguments to the program");
+            _funcMeta.AddArg("failOnError","bool",   false, "", false, "", "arguments to the program");
         }
 
 
@@ -67,21 +74,7 @@ namespace ComLib.Lang.Extensions
                     "exec msbuildhome\\msbuild.exe in: 'c:\\myapp\\build' [ 'arg-a', 'arg-b', 'arg-c' ]"
                 };
             }
-        }
-
-
-        /// <summary>
-        /// Setup the exec plugin.
-        /// </summary>
-        /// <param name="ctx"></param>
-        public void Setup(Context ctx)
-        {
-            var func = new FunctionExpr("exec", null);
-            func.Meta.AddArg( "program",    "program to launch",              "",   "string", true,  string.Empty, @"c:\tools\nunit\nunit.exe");
-            func.Meta.AddArg( "workingdir", "working directory to launch in", "in", "string", false, string.Empty, @"c:\tools\nunit\");
-		    func.Meta.AddArg( "args",       "arguments to the program",       "",   "list",   false, string.Empty, "");            
-            ctx.Functions.Register("exec", func);
-        }        
+        }       
 
 
         /// <summary>
@@ -91,10 +84,12 @@ namespace ComLib.Lang.Extensions
         /// <returns></returns>
         public override Expr Parse()
         {
-            _tokenIt.ExpectIdText("exec");
-            var execExpr = new ExecExpr();            
-            var expr = _parser.ParseFuncExpression(null);
-            return null;
+            var expr = new ExecExpr(_funcMeta);
+            base.ParseFunction(expr);
+
+            if (expr.ParamListExpressions.Count == 0)
+                throw _tokenIt.BuildSyntaxExpectedException("exec plugin requires at least 1 parameter");
+            return expr;
         }
     }
 
@@ -103,8 +98,18 @@ namespace ComLib.Lang.Extensions
     /// <summary>
     /// Variable expression data
     /// </summary>
-    public class ExecExpr : Expr
+    public class ExecExpr : ParameterExpr
     {
+        /// <summary>
+        /// Metadata about the function.
+        /// </summary>
+        /// <param name="meta"></param>
+        public ExecExpr(FunctionMetaData meta)
+        {
+            Init(meta);
+        }
+
+
         /// <summary>
         /// Evaluate
         /// </summary>
@@ -113,28 +118,52 @@ namespace ComLib.Lang.Extensions
         {
             var exePath = "";
             var workingDir = "";
-            var failOnError = false;            
-            var args = "";
-
+            var failOnError = false;
+            LArray args = null;
+            var exitcode = -1;
             try
             {
+                this.ResolveParams();
+                exePath = this.GetParamValueString(0, false, string.Empty);
+                workingDir = this.GetParamValueString(1, true, string.Empty);
+                args = this.GetParamValue(2, true, null) as LArray;
+                failOnError = this.GetParamValueBool(3, true, false);
+
+                // Convert the items in the array to strings.
+                // TODO: type-changes
+                //var list = args.Raw;
+                var list = new List<object>();
+                var stringArgs = "";
+                if (args != null && args.Value != null)
+                {
+                    foreach (var item in args.Value)
+                    {
+                        var lobj = (LObject)item;
+                        stringArgs += Convert.ToString(lobj.GetValue()) + " ";
+                    }
+                }
                 var p = new System.Diagnostics.Process();
                 p.StartInfo.FileName = exePath;
-                p.StartInfo.Arguments = args;
+                p.StartInfo.Arguments = stringArgs;
+                p.StartInfo.UseShellExecute = false;
                 p.StartInfo.CreateNoWindow = true;
-                p.StartInfo.WorkingDirectory = workingDir;
+                p.StartInfo.WorkingDirectory = workingDir;                
                 p.Start();
+                // TODO: Set up options on this plugin to configure wait time ( indefinite | milliseconds )
+                p.WaitForExit();
+                exitcode = p.ExitCode;
             }
             catch (Exception ex)
             {
+                exitcode = 1;
                 if (failOnError)
                 { 
                     var error = string.Format("An error occurred executing external application '{0}', in '{1}', with '{2}'.\r\n"
                               + "message: {3}", exePath, workingDir, args, ex.Message);
-                    throw BuildRunTimeException(error);
+                    throw new LangFailException(error, this.Ref.ScriptName, this.Ref.Line);
                 }
             }
-            return LNull.Instance;
+            return new LNumber(Convert.ToDouble(exitcode));
         }
     }
 }

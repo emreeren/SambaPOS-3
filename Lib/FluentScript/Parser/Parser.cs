@@ -3,9 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Types;
 using ComLib.Lang.Helpers;
+using ComLib.Lang.Plugins;
+// </lang:using>
 
-namespace ComLib.Lang
+namespace ComLib.Lang.Parsing
 {
     /// <summary>
     /// Uses the Lexer to parse script in terms of sequences of Statements and Expressions;
@@ -29,17 +35,29 @@ namespace ComLib.Lang
         /// <param name="context"></param>
         public Parser(Context context) : base(context)
         {
+            _tokenIt = new TokenIterator();   
         }
 
 
         #region Public API
-        /*
-            TODO:
-            - fluent call - 4 parts
-            - order by for linq
-            - scanner performance improvements
-            - lexer line tracking
-        */
+        /// <summary>
+        /// Initializes the parser with the script and setups various components.
+        /// </summary>
+        /// <param name="script"></param>
+        /// <param name="memory"></param>
+        public override void Init(string script, Memory memory)
+        {
+            // 1. Initalize data members
+            base.Init(script, memory);
+
+            // 3. Convert script to sequence of tokens.
+            Tokenize();
+
+            // 4. Move to first token
+            _tokenIt.Advance();
+        }
+
+
         /// <summary>
         /// Parses the script into statements and expressions.
         /// </summary>
@@ -47,20 +65,7 @@ namespace ComLib.Lang
         /// <param name="memory">Memory scope object</param>
         public List<Expr> Parse(string script, Memory memory = null)
         {
-            // 1. Initalize data members
             Init(script, memory);
-
-            // 2. Convert script to sequence of tokens.
-            Tokenize();
-
-            // 3. Initialize the combinators.
-            //_context.Plugins.RegisterAllSystem();
-            _context.Plugins.ForEach<IExprPlugin>(plugin =>  plugin.Init(this, _tokenIt));
-            _context.Plugins.ForEach<ITokenPlugin>(plugin => plugin.Init(this, _tokenIt));
-            _context.Plugins.ExecuteSetupPlugins(_context);
-            
-            // 4. Move to first token
-            _tokenIt.Advance();
 
             while (true)
             {
@@ -89,25 +94,6 @@ namespace ComLib.Lang
 
 
         /// <summary>
-        /// Executes all the statements in the script.
-        /// </summary>
-        public void Execute()
-        {
-            // Check number of statements.
-            if (_statements == null || _statements.Count == 0) return;
-
-            // Reset the lang state ( loop limits, recursion limits etc. )
-            this._context.State.Reset();
-            foreach (var stmt in _statements)
-            {
-                stmt.Evaluate();
-            }
-            // Allow plugins to dispose of themselves.
-            _context.Plugins.Dispose();
-        }
-
-
-        /// <summary>
         /// Parses a statement.
         /// </summary>
         /// <returns></returns>
@@ -125,7 +111,7 @@ namespace ComLib.Lang
             // The loop is here for new lines and comments.
             while (stmt == null && !_tokenIt.IsEnded)
             {
-                if (nexttoken == Tokens.EndToken)
+                if (nexttoken == Tokens.EndToken || nexttoken == Tokens.RightBrace)
                     break;
 
                 // Token replacements                
@@ -159,8 +145,11 @@ namespace ComLib.Lang
                 {
                     _tokenIt.Advance();
                 }
-                else if ( nexttoken != Tokens.CommentMLine || nexttoken.Type == TokenTypes.Unknown )
+                else if (nexttoken != Tokens.CommentMLine || nexttoken.Type == TokenTypes.Unknown)
+                {
+                    CollectError();
                     throw _tokenIt.BuildSyntaxUnexpectedTokenException();
+                }
                 if (stmt != null)
                 {
                     // 1. Assign the symbol scope for this statement.
@@ -174,7 +163,7 @@ namespace ComLib.Lang
                     _state.StatementNested--;
 
                     // If function statement apply doc tags.
-                    if (stmt is FuncDeclareExpr)
+                    if (stmt.IsNodeType(NodeTypes.SysFunctionDeclare))
                         ApplyDocTagsToFunction(stmt);
                 }
                 stmtToken = _tokenIt.NextToken;
@@ -257,16 +246,10 @@ namespace ComLib.Lang
                 // Case 1: user.  -> member access
                 // Case 2: user[  -> array index access
                 // Case 3: user = -> assignment
-                var okToCheckPlugins = !IsExplicitIdentExpression(token);
-
-                // PREVENT PLUGIN TAKEOVER ON IDENT BASED ENDTOKENS
-                var next = _tokenIt.Peek();
-                if (enableIdentTokenTextAsEndToken && next.Token.Kind == TokenKind.Ident && identEndTokens.ContainsKey(next.Token.Text))
-                    okToCheckPlugins = false;
+                var okToCheckPlugins = !IsExplicitIdentQualifierExpression(token);
 
                 // Token replacements                
-                if (okToCheckPlugins && enablePlugins && hasTokenReplacePlugins && ( token.Kind == TokenKind.Ident )
-                    && _context.Plugins.CanHandleTok(token, true))
+                if (okToCheckPlugins && enablePlugins && hasTokenReplacePlugins && _context.Plugins.CanHandleTok(token, true))
                 {
                     var plugin = _context.Plugins.LastMatchedTokenPlugin;                    
                     token = plugin.Parse();
@@ -274,6 +257,12 @@ namespace ComLib.Lang
                     _tokenIt.NextToken.Token = token;
                 }
 
+                // PREVENT PLUGIN TAKEOVER ON IDENT BASED ENDTOKENS
+                var next = _tokenIt.Peek();
+                if (enableIdentTokenTextAsEndToken && next.Token.Kind == TokenKind.Ident && identEndTokens.ContainsKey(next.Token.Text))
+                    okToCheckPlugins = false;
+
+                
                 // 1. Check for combinators.
                 if (okToCheckPlugins && enablePlugins && hasPlugins && _context.Plugins.CanHandleExp(token))
                 {
@@ -284,7 +273,7 @@ namespace ComLib.Lang
                 // CASE: array access on an indexable expression
                 // description: this involves an index access on an expression that was initially not an identifier
                 // examples: "abcd".length, [0, 1, 3].<method>
-                else if (token == Tokens.LeftBracket && exp != null && (exp is IndexableExpr))
+                else if (token == Tokens.LeftBracket && exp != null && (exp.IsNodeType(NodeTypes.SysIndexable)))
                 {
                     _state.ExpressionCount++;
                     exp = ParseIdExpression(null, exp, true);
@@ -311,8 +300,8 @@ namespace ComLib.Lang
                 else if (token.IsLiteralAny())
                 {
                     exp = token == Tokens.Null
-                        ? new ConstantExpr(LNull.Instance)
-                        : new ConstantExpr(token.Value);
+                        ? new ConstantExpr(LObjects.Null)
+                        : new ConstantExpr(TokenHelper.ConvertToLangLiteral(token));
                     _state.ExpressionCount++;
                     var expPosix = ParsePostfix(exp, enablePlugins, hasTokenReplacePlugins);
 
@@ -419,9 +408,10 @@ namespace ComLib.Lang
                 if (token.IsLiteralAny())
                 {
                     exp = token == Tokens.Null
-                        ? new ConstantExpr(LNull.Instance)
-                        : new ConstantExpr(token.Value);
+                        ? new ConstantExpr(LObjects.Null)
+                        : new ConstantExpr(TokenHelper.ConvertToLangLiteral(token));
                     exp.Ctx = _context;
+                    SetScriptPosition(exp, tokenData);
                     _state.ExpressionCount++;
                 }
                 // 2. ${first + 'abc'} or ${ result / 2 + max }
@@ -494,12 +484,14 @@ namespace ComLib.Lang
                 }
 
                 var stmt = ParseStatement();
+                if (stmt != null)
+                {
+                    stmt.Parent = block;
+                    stmt.Ctx = _context;
 
-                stmt.Parent = block;
-                stmt.Ctx = _context;
-
-                // Parse statement by statement.
-                block.Statements.Add(stmt);
+                    // Parse statement by statement.
+                    block.Statements.Add(stmt);
+                }
             }
 
             Expect(Tokens.RightBrace);
@@ -589,31 +581,6 @@ namespace ComLib.Lang
 
 
         #region Parse Statments
-        /*
-        private Stmt ParseStmt(Func<Stmt> action)
-        {
-            Stmt stmt = null;
-            try
-            {
-                stmt = action();
-            }
-            catch (LangException ex)
-            {
-                _parseErrors.Add(ex);
-                
-                // Recover from error.
-                // try going to the next end of statement ; newline end of script
-                while(!_tokenIt.IsEndOfStmt())
-                {
-                    _tokenIt.Advance();
-                }
-                // Move past the new line
-                _tokenIt.Advance();
-            }
-            return stmt;
-        }
-        */
-
         private Expr ParseSystemStatement()
         {
             var token = _tokenIt.NextToken.Token;
@@ -660,7 +627,7 @@ namespace ComLib.Lang
 
             if (_tokenIt.NextToken.Token == Tokens.Assignment)
             {
-                if (result is MemberAccessExpr)
+                if (result.IsNodeType(NodeTypes.SysMemberAccess))
                     ((MemberAccessExpr)result).IsAssignment = true;
                 result = ParseAssignment(result);
             }
@@ -692,7 +659,7 @@ namespace ComLib.Lang
             var tokenData = _tokenIt.NextToken;
             string name = tokenData.Token.Text;
             Expr exp = ParseIdExpression();
-            if (exp is FunctionCallExpr)
+            if (exp.IsNodeType(NodeTypes.SysFunctionCall))
             {
                 _tokenIt.ExpectEndOfStmt();
                 return exp;
@@ -1008,10 +975,11 @@ namespace ComLib.Lang
                 if (IsEndOfStatementOrEndOfScript(Tokens.RightBrace))
                     break;
 
-                if (_tokenIt.NextToken.Token == Tokens.NewLine)
+                var token = _tokenIt.NextToken.Token;
+                if (token == Tokens.NewLine || token == Tokens.WhiteSpace)
                     _tokenIt.Advance();
 
-                var token = _tokenIt.NextToken.Token;
+                token = _tokenIt.NextToken.Token;
 
                 // Check for error: Format must be <key> : <value>
                 // Example 1: "Name" : "kishore" 
@@ -1046,8 +1014,9 @@ namespace ComLib.Lang
         /// 3. getUserByNameOrEmail("user01", "kishore@company.com")
         /// </summary>
         /// <param name="nameExp">Expression representing the function name.</param>
+        /// <param name="members">The individual members if function call on a member expression e.g. math.min(1,2);</param>
         /// <returns></returns>
-        public Expr ParseFuncExpression(Expr nameExp)
+        public Expr ParseFuncExpression(Expr nameExp, List<string> members)
         {
             // Validate
             var funcExp = new FunctionCallExpr();
@@ -1062,17 +1031,47 @@ namespace ComLib.Lang
 
             // Handle named parameters only for internal functions right now.
             string fname = nameExp.ToQualifiedName();
+            var hasMemberAccess = false; // members != null && members.Count > 1;
+
+            // Case 1: External c# function.
             if (_context.ExternalFunctions.Contains(fname))
             {
                 ParseParameters(funcExp, expectParenthesis, false, !expectParenthesis);
             }
-            else
+            // Case 2: Internal function in global namespace.
+            else if(!hasMemberAccess)
             {
                 FunctionMetaData meta = null;
                 if(_context.Functions.Contains(fname))
                     meta = _context.Functions.GetByName(fname).Meta;
-                FluentHelper.ParseFuncParameters(funcExp.ParamListExpressions, _tokenIt, expectParenthesis, !expectParenthesis, this, meta);
-            }            
+                FluentHelper.ParseFuncParameters(funcExp.ParamListExpressions, _tokenIt, this, expectParenthesis, !expectParenthesis, meta);
+            }
+            // Case 3: Member acccess
+            else if (hasMemberAccess)
+            {
+                var symScope = this._context.Symbols.Current;
+                FunctionMetaData meta = null;
+                FunctionExpr fexpr = null;
+                for (var ndx = 0; ndx < members.Count; ndx++)
+                {
+                    var member = members[ndx];
+                    
+                    // module ?
+                    var sym = symScope.GetSymbol(member);
+                    if( sym.Category == SymbolCategory.CustomScope)
+                    {
+                        symScope = ((SymbolModule)sym).Scope;
+                    }
+                    // last one ?
+                    else if (sym.Category == SymbolCategory.Func)
+                    {
+                        meta = ((SymbolFunction)sym).Meta;
+                        break;
+                    }
+                }
+                funcExp.Function = fexpr;
+                FluentHelper.ParseFuncParameters(funcExp.ParamListExpressions, _tokenIt, this, expectParenthesis, !expectParenthesis, meta); 
+            }
             _state.FunctionCall--;
             return funcExp;
         }
@@ -1102,23 +1101,24 @@ namespace ComLib.Lang
         {
             Expr exp = existing;
             var aheadToken = isCurrentTokenAMember ? _tokenIt.NextToken : _tokenIt.Peek();
-
+            var currentName = "";
             if (existing == null)
             {
-                var currentName = string.IsNullOrEmpty(name) ? _tokenIt.NextToken.Token.Text : name;
+                currentName = string.IsNullOrEmpty(name) ? _tokenIt.NextToken.Token.Text : name;
                 exp = new VariableExpr(currentName);
+                exp.SymScope = _context.Symbols.Current;
                 exp.Ctx = _context;
             }
             if(!isCurrentTokenAMember)
                 _tokenIt.Advance();   
              
             int memberAccess = 0;
-            bool isFunction = (exp is VariableExpr && _context.Symbols.IsFunc(((VariableExpr)exp).Name));
+            bool isFunction = (exp.IsNodeType(NodeTypes.SysVariable) && _context.Symbols.IsFunc(((VariableExpr)exp).Name));
             
             // CASE 1: function call without out parenthesis.
             if (isFunction && aheadToken.Token != Tokens.LeftParenthesis)
             {
-                exp = ParseFuncExpression(exp);
+                exp = ParseFuncExpression(exp, null);
                 exp.Ctx = _context;
                 return exp;
             }
@@ -1137,12 +1137,15 @@ namespace ComLib.Lang
             // 3. add( 2, 3 )   : Function access/call
             var tokenData = _tokenIt.NextToken;
             var token = _tokenIt.NextToken.Token;
+            var members = new List<string>();
+            members.Add(exp.ToQualifiedName());
+
             while (token == Tokens.LeftParenthesis || token == Tokens.LeftBracket || token == Tokens.Dot)
             {
                 // Case 2: "("- function call
                 if (token == Tokens.LeftParenthesis)
                 {
-                    exp = ParseFuncExpression(exp); 
+                    exp = ParseFuncExpression(exp, members); 
                 }
 
                 // Case 3: "[" - indexing
@@ -1168,10 +1171,15 @@ namespace ComLib.Lang
                     _tokenIt.Advance();
                     var member = _tokenIt.ExpectId();
 
+                    // Keep list of each member name.
+                    members.Add(member);
+
                     // Note: if = sign then property access should return a property info.
                     // otherwise get the value of the property.
                     bool isAssignment = _tokenIt.NextToken.Token == Tokens.Assignment;
+                    SetScriptPosition(exp, tokenData);
                     exp = new MemberAccessExpr(exp, member, isAssignment);
+                    //exp.SymScope = _context.Symbols.Current;
                 }
                 exp.Ctx = _context;
                 SetScriptPosition(exp, tokenData);
@@ -1183,6 +1191,43 @@ namespace ComLib.Lang
                 token = tokenData.Token;
             }
             return exp;
+        }
+
+
+        /// <summary>
+        /// Parses all the dot "." members. e.g. "user.address.name"
+        /// </summary>
+        /// <param name="rootName"></param>
+        /// <returns></returns>
+        public DotAccess ParseDotAccess(string rootName)
+        {
+            var tokenData = _tokenIt.NextToken;
+            var token = tokenData.Token;
+            var dotAccess = new DotAccess();
+            dotAccess.RootName = rootName;
+            dotAccess.RootScope = _context.Symbols.Global;
+
+            // Keep processing members until "." is not there.
+            while (token == Tokens.Dot && !_tokenIt.IsEnded )
+            {                
+                // 1. Move past "."
+                _tokenIt.Advance();
+
+                // 2. Expect an identifier.
+                var member = _tokenIt.ExpectId();
+
+                // 3. Keep list of each member name ( after the first one )
+                dotAccess.Members.Add(member);
+
+                // 4. if = sign then property access should return a property info.
+                // otherwise get the value of the property.
+                bool isAssignment = _tokenIt.NextToken.Token == Tokens.Assignment;
+
+                // 5. Reference the next tokens.
+                tokenData = _tokenIt.NextToken;
+                token = tokenData.Token;
+            }
+            return dotAccess;
         }
         #endregion
 
@@ -1258,7 +1303,7 @@ namespace ComLib.Lang
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        public bool IsExplicitIdentExpression(Token token)
+        public bool IsExplicitIdentQualifierExpression(Token token)
         {            
             if (!(token.Kind == TokenKind.Ident)) return false;
             

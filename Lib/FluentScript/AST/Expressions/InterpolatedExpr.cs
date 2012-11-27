@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ComLib.Lang
+using ComLib.Lang.Types;
+
+namespace ComLib.Lang.AST
 {
 
     /// <summary>
@@ -12,6 +14,15 @@ namespace ComLib.Lang
     public class InterpolatedExpr : Expr
     {
         private List<Expr> _expressions;
+
+
+        /// <summary>
+        /// Initialize
+        /// </summary>
+        public InterpolatedExpr()
+        {
+            this.Nodetype = NodeTypes.SysInterpolated;
+        }
 
 
         /// <summary>
@@ -49,10 +60,16 @@ namespace ComLib.Lang
             string total = "";
             foreach (var exp in _expressions)
             {
-                if(exp != null)
-                    total += exp.Evaluate().ToString();
+                if (exp != null)
+                {
+                    var val = exp.Evaluate();
+                    var text = "";
+                    var lobj = (LObject)val;
+                    text = lobj.GetValue().ToString();
+                    total += text;
+                }
             }
-            return total;
+            return new LString(total);
         }
     }
 }

@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using ComLib.Lang.Docs;
+using ComLib.Lang.Types;
 
 
-namespace ComLib.Lang
+namespace ComLib.Lang.Core
 {
     /// <summary>
     /// Meta data about function.
@@ -27,7 +26,7 @@ namespace ComLib.Lang
         /// <param name="name"></param>
         /// <param name="argNames"></param>
         public FunctionMetaData(string name, List<string> argNames)
-        {
+        {            
             Init(name, argNames);
         }
 
@@ -40,15 +39,16 @@ namespace ComLib.Lang
         public void Init(string name, List<string> argNames)
         {
             this.Name = name;
+            this.Arguments = new List<ArgAttribute>();
+            this.ArgumentNames = new Dictionary<string, string>();
+            this.ArgumentsLookup = new Dictionary<string, ArgAttribute>();
+
             if (argNames != null && argNames.Count > 0)
             {
-                this.Arguments = new List<Arg>();
-                this.ArgumentNames = new Dictionary<string, string>();
-                this.ArgumentsLookup = new Dictionary<string, Arg>();
                 for(int ndx = 0; ndx < argNames.Count; ndx++)
                 {
                     var argName = argNames[ndx];
-                    var arg = new Arg() { Name = argName };
+                    var arg = new ArgAttribute() { Name = argName };
                     arg.Index = ndx;
                     this.Arguments.Add(arg);
                     this.ArgumentsLookup[argName] = arg;
@@ -68,15 +68,17 @@ namespace ComLib.Lang
         /// <param name="required">Whether or not arg is required</param>
         /// <param name="defaultVal">Default value of arg</param>
         /// <param name="examples">Examples of arg</param>
-        public void AddArg(string name, string desc, string alias, string type, bool required, object defaultVal, string examples)
+        public void AddArg(string name, string type, bool required, string alias, object defaultVal, string examples, string desc)
         {
-            var arg = new Arg();
+            var arg = new ArgAttribute();
             arg.Name = name;
             arg.Desc = desc;
             arg.Type = type;
             arg.Required = required;
+            arg.DefaultValue = defaultVal;
             arg.Alias = alias;
             arg.Examples = new List<string>() { examples };
+            arg.Index = this.Arguments.Count;
             this.Arguments.Add(arg);
             this.ArgumentsLookup[arg.Name] = arg;
             this.ArgumentsLookup[arg.Alias] = arg;
@@ -106,7 +108,7 @@ namespace ComLib.Lang
         /// <summary>
         /// Lookup for all the arguments.
         /// </summary>
-        public IDictionary<string, Arg> ArgumentsLookup;
+        public IDictionary<string, ArgAttribute> ArgumentsLookup;
 
 
         /// <summary>
@@ -118,7 +120,7 @@ namespace ComLib.Lang
         /// <summary>
         /// Names of the parameters
         /// </summary>
-        public List<Arg> Arguments;
+        public List<ArgAttribute> Arguments;
 
 
         /// <summary>
@@ -144,7 +146,7 @@ namespace ComLib.Lang
         /// <summary>
         /// The return type of the function.
         /// </summary>
-        public Type ReturnType { get; set; }
+        public LType ReturnType { get; set; }
 
 
         /// <summary>
@@ -153,6 +155,21 @@ namespace ComLib.Lang
         public int TotalArgs
         {
             get { return Arguments == null ? 0 : Arguments.Count; }
+        }
+
+
+        /// <summary>
+        /// Getst the total required arguments.
+        /// </summary>
+        /// <returns></returns>
+        public int GetTotalRequiredArgs()
+        {
+            if (this.Arguments == null || this.Arguments.Count == 0) return 0;
+            int totalRequired = 0;
+            foreach (var arg in Arguments)
+                if (arg.Required)
+                    totalRequired++;
+            return totalRequired;
         }
     }
 }

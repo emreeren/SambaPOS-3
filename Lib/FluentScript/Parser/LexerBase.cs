@@ -3,20 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+// <lang:using>
+using ComLib.Lang.Core;
+// </lang:using>
 
-namespace ComLib.Lang
+namespace ComLib.Lang.Parsing
 {
     /// <summary>
     /// The result of a scan for a specific token
     /// </summary>
-    public class ScanTokenResult
+    public class ScanResult
     {
         /// <summary>
         /// Initialize
         /// </summary>
         /// <param name="success"></param>
         /// <param name="text"></param>
-        public ScanTokenResult(bool success, string text)
+        public ScanResult(bool success, string text)
             : this(success, text, 0)
         {
         }
@@ -28,12 +31,33 @@ namespace ComLib.Lang
         /// <param name="success"></param>
         /// <param name="text">The parsed text</param>
         /// <param name="totalNewLines">The total number of new lines</param>
-        public ScanTokenResult(bool success, string text, int totalNewLines)
+        public ScanResult(bool success, string text, int totalNewLines)
         {
-            Success = success;
-            Text = text;
-            Lines = totalNewLines;
+            this.Success = success;
+            this.Text = text;
+            this.Lines = totalNewLines;
         }
+
+
+        /// <summary>
+        /// Initialize
+        /// </summary>
+        /// <param name="success"></param>
+        /// <param name="text">The parsed text</param>
+        /// <param name="totalNewLines">The total number of new lines</param>
+        public ScanResult(bool success, int start, string text, int totalNewLines)
+        {
+            this.Start = start;
+            this.Success = success;
+            this.Text = text;
+            this.Lines = totalNewLines;
+        }
+
+
+        /// <summary>
+        /// Start position.
+        /// </summary>
+        public readonly int Start;
 
 
         /// <summary>
@@ -57,59 +81,74 @@ namespace ComLib.Lang
 
 
     /// <summary>
+    /// Stores the lexical position
+    /// </summary>
+    public class ScanState
+    {
+        /// <summary>
+        /// Current position in text.
+        /// </summary>
+        public int Pos;
+
+
+        /// <summary>
+        /// Line number
+        /// </summary>
+        public int Line;
+
+
+        /// <summary>
+        /// Line char position.
+        /// </summary>
+        public int LineCharPosition;
+
+
+        /// <summary>
+        /// The source code.
+        /// </summary>
+        public string Text;
+
+
+        /// <summary>
+        /// The last char parsed.
+        /// </summary>
+        public char LastChar;
+
+
+        /// <summary>
+        /// The current char
+        /// </summary>
+        public char CurrentChar;
+
+
+        /// <summary>
+        /// The next char.
+        /// </summary>
+        public char NextChar;
+
+
+        /// <summary>
+        /// Extracts the text from the start to end inclusive of the positions.
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public string ExtractInclusive(int start, int end)
+        {
+            var length = end - start + 1;
+            var text = this.Text.Substring(start, length);
+            return text;
+        }
+    }
+
+
+
+    /// <summary>
     /// Base class for the language lexer... this does not know anything about tokens.
     /// This class only has methods to readchars, peekchars, read words, numbers etc.
     /// </summary>
-    public class LexerBase
+    public class Scanner
     {
-        /// <summary>
-        /// Stores the lexical position
-        /// </summary>
-        public class LexerState
-        {
-            /// <summary>
-            /// Current position in text.
-            /// </summary>
-            public int Pos;
-
-
-            /// <summary>
-            /// Line number
-            /// </summary>
-            public int Line;
-
-
-            /// <summary>
-            /// Line char position.
-            /// </summary>
-            public int LineCharPosition;
-
-
-            /// <summary>
-            /// The source code.
-            /// </summary>
-            public string Text;
-
-
-            /// <summary>
-            /// The last char parsed.
-            /// </summary>
-            public char LastChar; 
-
-
-            /// <summary>
-            /// The current char
-            /// </summary>
-            public char CurrentChar;
-
-
-            /// <summary>
-            /// The next char.
-            /// </summary>
-            public char NextChar;
-        }
-
-
         /// <summary>
         /// Single quote
         /// </summary>
@@ -137,25 +176,25 @@ namespace ComLib.Lang
         /// <summary>
         /// End char
         /// </summary>
-        protected const char END_CHAR = ' ';
+        protected const char END_CHAR = char.MinValue;
 
 
         /// <summary>
         /// The escape character. e.g. \
         /// </summary>
         protected char _escapeChar;
-        
-        
+
+
+        /// <summary>
+        /// Whitespace characters
+        /// </summary>
+        protected IDictionary<char, char> _whiteSpaceChars; 
+
+
         /// <summary>
         /// The current state of the lexers position in the source text.
         /// </summary>
-        protected LexerState _pos;
-        
-
-        /// <summary>
-        /// White space character lookups
-        /// </summary>
-        protected IDictionary<char, char> _whiteSpaceChars;
+        protected ScanState _pos;
 
 
         /// <summary>
@@ -179,7 +218,7 @@ namespace ComLib.Lang
         /// <summary>
         /// Get the positional state of the lexer
         /// </summary>
-        public LexerState State { get { return _pos; } }
+        public ScanState State { get { return _pos; } }
 
 
 
@@ -204,31 +243,11 @@ namespace ComLib.Lang
 
 
         /// <summary>
-        /// Sets the current position
-        /// </summary>
-        /// <param name="pos"></param>
-        internal void SetPosition(int pos)
-        {
-            // Pos can never be more than 1 + last index position.
-            // e.g. "common"
-            // 1. length = 6
-            // 2. LAST_POSITION = 5;
-            // 3. _state can not be more than 6. 6 indicating that it's past end
-            // 4. _state == 5 Indicating it's at end.
-            if (pos >= LAST_POSITION) throw new Lang.LangException("Lexical Error", "Can not set position to : " + pos, "", -1, -1);
-            if (pos < 0) throw new Lang.LangException("Lexical Error", "Can not set position before 0 : " + pos, "", -1, -1);
-
-            _pos.Pos = pos;
-            _pos.CurrentChar = _pos.Text[_pos.Pos];
-        }
-
-
-        /// <summary>
         /// Reset reader for parsing again.
         /// </summary>
         public void Reset()
         {
-            _pos = new LexerState();
+            _pos = new ScanState();
             _pos.Pos = -1;
             _pos.Line = 1;
             _pos.Text = string.Empty;
@@ -238,35 +257,48 @@ namespace ComLib.Lang
 
 
         /// <summary>
-        /// Resets the position.
-        /// </summary>
-        /// <param name="pos"></param>
-        public void ResetPos(int pos)
-        {
-            ResetTo(pos);
-        }
-
-
-        /// <summary>
         /// Resets the scanner position to 
         /// </summary>
         /// <param name="pos"></param>
         /// <param name="handleNewLine"></param>
-        public void ResetTo(int pos, bool handleNewLine = true)
+        public void ResetPos(int pos, bool handleNewLine)
         {
-            if (pos >= 0)
+            if (pos > LAST_POSITION) throw new Lang.Core.LangException("Lexical Error", "Can not set position to : " + pos, "", -1, -1);
+            if (pos < 0) throw new Lang.Core.LangException("Lexical Error", "Can not set position before 0 : " + pos, "", -1, -1);
+
+            _pos.Pos = pos;
+            _pos.CurrentChar = _pos.Text[pos];
+            _pos.LastChar = _pos.Text[pos - 1];
+            if (handleNewLine)
             {
-                _pos.Pos = pos;
-                _pos.CurrentChar = _pos.Text[pos];
-                if (handleNewLine)
+                if (_pos.CurrentChar == '\n' && (pos - 1 >= 0) && _pos.Text[pos - 1] == '\r')
                 {
-                    if (_pos.CurrentChar == '\n' && (pos - 1 >= 0) && _pos.Text[pos - 1] == '\r')
-                    {
-                        _pos.Pos--;
-                        _pos.CurrentChar = _pos.Text[pos];
-                    }
+                    _pos.Pos--;
+                    _pos.CurrentChar = _pos.Text[pos];
                 }
             }
+        }
+
+
+        /// <summary>
+        /// Updates the current char/next char and line number due to direct changes to position
+        /// rather than calling ReadChar(), MoveChars().
+        /// </summary>
+        public void UpdateLineState(int startPos)
+        {
+            var currentPos = _pos.Pos;
+            if (currentPos <= LAST_POSITION)
+            {
+                _pos.CurrentChar = _pos.Text[currentPos];
+                _pos.LastChar = _pos.Text[currentPos - 1];
+            }
+            else
+            {
+                _pos.CurrentChar = _pos.Text[currentPos -1];
+                _pos.LastChar = _pos.Text[currentPos - 2];
+            }
+            var diff = currentPos - startPos;
+            _pos.LineCharPosition += diff;
         }
         #endregion
 
@@ -304,7 +336,7 @@ namespace ComLib.Lang
         {
             // Validate.
             if (_pos.Pos >= LAST_POSITION)
-                return char.MinValue;
+                return END_CHAR;
 
             _pos.NextChar = _pos.Text[_pos.Pos + 1];
             return _pos.NextChar;
@@ -332,11 +364,13 @@ namespace ComLib.Lang
         /// </summary>
         /// <param name="count">Number of characters.</param>
         /// <returns>Range of chars as string or string.empty if end of text.</returns>
-        public string PeekChars(int count)
+        public string PeekMaxChars(int count)
         {
-            // Validate.
+            // Validate... if too much, return remainder of text.
             if (_pos.Pos + count > LAST_POSITION)
-                return string.Empty;
+            {
+                return _pos.Text.Substring(_pos.Pos + 1);
+            }
 
             return _pos.Text.Substring(_pos.Pos + 1, count);
         }
@@ -349,7 +383,7 @@ namespace ComLib.Lang
         public char ReadChar()
         {
             // NEVER GO PAST 1 INDEX POSITION AFTER CHAR
-            if (_pos.Pos > LAST_POSITION) return END_CHAR;
+            if (_pos.Pos > LAST_POSITION) return char.MinValue;
 
             _pos.Pos++;
             _pos.LineCharPosition++;
@@ -361,6 +395,7 @@ namespace ComLib.Lang
                 _pos.CurrentChar = _pos.Text[_pos.Pos];
                 return _pos.CurrentChar;
             }
+            _pos.LastChar = _pos.CurrentChar;
             _pos.CurrentChar = END_CHAR;
             return END_CHAR;
         }
@@ -380,20 +415,26 @@ namespace ComLib.Lang
             // 4. _state == 5 Indicating it's at end.
             if (_pos.Pos > LAST_POSITION && count > 0) return;
 
+            var endPos = _pos.Pos + count;
             // Move past end? Move it just 1 position more than last index.
-            if (_pos.Pos + count > LAST_POSITION)
+            if (endPos == LAST_POSITION + 1)
             {
                 _pos.Pos = LAST_POSITION + 1;
                 _pos.LineCharPosition += count;
+                _pos.LastChar = _pos.Text[LAST_POSITION];
                 _pos.CurrentChar = END_CHAR;
                 return;
             }
-
+            if (endPos > LAST_POSITION + 1)
+                throw new LangException("Syntax", "Can not move past end position of script", "", _pos.Line, _pos.LineCharPosition);
+            
             // Can move forward count chars
             _pos.Pos += count;
             _pos.LineCharPosition += count;
+            _pos.LastChar = _pos.Text[_pos.Pos - 1];
             _pos.CurrentChar = _pos.Text[_pos.Pos];
         }
+
 
         /// <summary>
         /// Consume all white space.
@@ -403,11 +444,11 @@ namespace ComLib.Lang
         /// <param name="readFirst">True to read a character
         /// before consuming the whitepsace.</param>
         /// <param name="setPosAfterWhiteSpace">True to move position to after whitespace</param>
-        public void ConsumeWhiteSpace(bool readFirst, bool setPosAfterWhiteSpace = true)
+        public void ConsumeWhiteSpace(bool readFirst, bool setPosAfterWhiteSpace)
         {
             if (readFirst) ReadChar();
 
-            bool matched = false;
+            var matched = false;
             while (_pos.Pos <= LAST_POSITION)
             {
                 if (!_whiteSpaceChars.ContainsKey(_pos.CurrentChar))
@@ -422,6 +463,19 @@ namespace ComLib.Lang
             // If matched and need to set at end of token, move back 1 char
             if (matched && !setPosAfterWhiteSpace) MoveChars(-1);
         }
+
+
+        /// <summary>
+        /// Increments the line number
+        /// </summary>
+        /// <param name="is2CharNewLine"></param>
+        public virtual void IncrementLine(bool is2CharNewLine)
+        {
+            int count = is2CharNewLine ? 2 : 1;
+            MoveChars(count);
+            _pos.Line++;
+            _pos.LineCharPosition = 1;
+        }
         #endregion
 
 
@@ -433,42 +487,30 @@ namespace ComLib.Lang
         /// <param name="advanceFirst"></param>
         /// <param name="setPosAfterToken">True to move position to after id, otherwise 2 chars past</param>
         /// <returns></returns>
-        public ScanTokenResult ScanId(bool advanceFirst, bool setPosAfterToken = true)
+        public ScanResult ScanId(bool advanceFirst, bool setPosAfterToken)
         {
-            // while for function
-            var buffer = new StringBuilder();
-            if (advanceFirst) ReadChar();
+            if (advanceFirst) this.ReadChar();
 
-            bool matched = false;
-            bool valid = true;
+            var start = _pos.Pos;
+            var first = true;
             while (_pos.Pos <= LAST_POSITION)
             {
-                if (('a' <= _pos.CurrentChar && _pos.CurrentChar <= 'z') ||
-                        ('A' <= _pos.CurrentChar && _pos.CurrentChar <= 'Z') ||
-                         _pos.CurrentChar == '$' || _pos.CurrentChar == '_' ||
-                        ('0' <= _pos.CurrentChar && _pos.CurrentChar <= '9')
-                   )
-                    buffer.Append(_pos.CurrentChar);
-                else
+                var ch = _pos.Text[_pos.Pos];
+                var isValidChar = (('a' <= ch && ch <= 'z') || ('A' <= ch && ch <= 'Z') || ch == '$' || ch == '_' 
+                                    || (!first && '0' <= ch && ch <= '9')
+                                  );
+                if(!isValidChar)
                 {
-                    matched = true;
-                    valid = false;
                     break;
                 }
-                ReadChar();
-                if (_pos.Pos < LAST_POSITION)
-                    _pos.NextChar = _pos.Text[_pos.Pos + 1];
+                _pos.Pos++;
+                first = false;
             }
-            // Either 
-            // 1. Matched the token
-            // 2. Did not match but valid && end_of_file
-            bool success = matched || (valid && _pos.Pos > LAST_POSITION);
-
-            // At this point the pos is already after token.
-            // If matched and need to set at end of token, move back 1 char
-            if (success && !setPosAfterToken) MoveChars(-1);
-
-            return new ScanTokenResult(success, buffer.ToString());
+            var text = _pos.ExtractInclusive(start, _pos.Pos - 1);
+            if(!setPosAfterToken) this.MoveChars(-1);
+            this.UpdateLineState(start);
+            var result = new ScanResult(true, start, text, 0);
+            return result;
         }
 
 
@@ -478,53 +520,42 @@ namespace ComLib.Lang
         /// <param name="advanceFirst">Whether or not to advance position first</param>
         /// <param name="setPosAfterToken">True to move position to end space, otherwise past end space.</param>
         /// <returns>Contents of token read.</returns>
-        public ScanTokenResult ScanNumber(bool advanceFirst, bool setPosAfterToken = true)
+        public ScanResult ScanNumber(bool advanceFirst, bool setPosAfterToken)
         {
-            string sign = "";
-            if (advanceFirst) ReadChar();
-            if (_pos.CurrentChar == '+' || _pos.CurrentChar == '-') { sign = _pos.CurrentChar.ToString(); ReadChar(); }
+            if (advanceFirst) this.ReadChar();
+            var start = _pos.Pos;
+            if (_pos.CurrentChar == '+' || _pos.CurrentChar == '-')
+                _pos.Pos++;
 
-            // while for function
-            var buffer = new StringBuilder();
-            if (advanceFirst) ReadChar();
-
-            bool matched = false;
-            bool valid = true;
-            bool handledDecimal = false;
+            var handledDecimal = false;
+            
+            // Handles .9, 0.9, 1.9
             while (_pos.Pos <= LAST_POSITION)
             {
-                if (!handledDecimal && _pos.CurrentChar == '.')
+                var ch = _pos.Text[_pos.Pos];
+
+                if (ch == '.')
                 {
-                    buffer.Append(_pos.CurrentChar);
-                    handledDecimal = true;
+                    // 1st decimal
+                    if (!handledDecimal)
+                        handledDecimal = true;
+
+                    // 2nd decimal 
+                    else
+                        break;
                 }
-                else if ('0' <= _pos.CurrentChar && _pos.CurrentChar <= '9')
-                    buffer.Append(_pos.CurrentChar);
-                else
+                else if (!('0' <= ch && ch <= '9'))
                 {
-                    matched = true;
-                    valid = false;
                     break;
                 }
-                ReadChar();
-                if (_pos.Pos < LAST_POSITION)
-                    _pos.NextChar = _pos.Text[_pos.Pos + 1];
+                _pos.Pos++;
             }
-            // Either 
-            // 1. Matched the token
-            // 2. Did not match but valid && end_of_file
-            bool success = matched || (valid && _pos.Pos > LAST_POSITION);
 
-            // At this point the pos is already after token.
-            // If matched and need to set at end of token, move back 1 char
-            if (success && !setPosAfterToken) MoveChars(-1);
-
-            //return new ScanTokenResult(success, buffer.ToString());            
-            var text = buffer.ToString();
-
-            var finalresult = new ScanTokenResult(success, sign + text);
-            finalresult.Lines = 0;
-            return finalresult;
+            var text = _pos.ExtractInclusive(start, _pos.Pos - 1);
+            if (!setPosAfterToken) this.MoveChars(-1);
+            this.UpdateLineState(start);
+            var result = new ScanResult(true, text, 0);
+            return result;
         }
 
 
@@ -536,48 +567,52 @@ namespace ComLib.Lang
         /// <param name="advanceFirst">True to advance position first before reading string.</param>
         /// <param name="setPosAfterToken">True to move position to end quote, otherwise past end quote.</param>
         /// <returns>Contents of token read.</returns>
-        public ScanTokenResult ScanCodeString(char quoteChar, char escapeChar = '\\', bool advanceFirst = true, bool setPosAfterToken = true)
+        public ScanResult ScanCodeString(char quoteChar, bool advanceFirst, bool setPosAfterToken)
         {
             // "name" 'name' "name\"s" 'name\'"
-            var buffer = new StringBuilder();
-            int totalNewLines = 0;
-            char curr = advanceFirst ? ReadChar() : _pos.CurrentChar;
-            char next = PeekChar();
-            bool matched = false;
+            var text = "";
+            var initialLineNum = _pos.Line;
+            var matched = false;
+            if(advanceFirst) this.ReadChar();
             while (_pos.Pos <= LAST_POSITION)
             {
-                // End string " or '
-                if (curr == quoteChar)
+                var ch = _pos.Text[_pos.Pos];
+                
+                // Case 1: End of string.
+                if (ch == quoteChar)
                 {
                     matched = true;
-                    MoveChars(1);
                     break;
                 }
-                // Not an \ for escaping so just append.
-                else if (curr != escapeChar)
+                // Case 2: New line
+                else if (ch == '\r' || ch == '\n')
                 {
-                    if (curr == '\r') totalNewLines++;
-
-                    buffer.Append(curr);
+                    var is2CharNewLine = this.ScanNewLine(ch);
+                    text += is2CharNewLine ? "\r\n" : "\n";
                 }
-                // Escape \
-                else if (curr == escapeChar)
+                // Case 3: Escape \
+                else if (ch == _escapeChar)
                 {
-                    if (next == quoteChar) buffer.Append(quoteChar);
-                    else if (next == '\\') buffer.Append("\\");
-                    else if (next == 'r') buffer.Append('\r');
-                    else if (next == 'n') buffer.Append('\n');
-                    else if (next == 't') buffer.Append('\t');
-                    MoveChars(1);
+                    var next = this.PeekChar();
+                    if (next == quoteChar) text += quoteChar;
+                    else if (next == '\\') text += "\\";
+                    else if (next == 'r') text += '\r';
+                    else if (next == 'n') text += '\n';
+                    else if (next == 't') text += '\t';
+                    _pos.Pos += 2;
+                    _pos.LineCharPosition += 2;
                 }
-
-                curr = ReadChar(); next = PeekChar();
+                else
+                {
+                    text += ch;
+                    _pos.Pos++;
+                    _pos.LineCharPosition++;
+                }
             }
-            // At this point the pos is already after token.
-            // If matched and need to set at end of token, move back 1 char
-            if (matched && !setPosAfterToken) MoveChars(-1);
 
-            return new ScanTokenResult(matched, buffer.ToString(), totalNewLines);
+            if (setPosAfterToken) this.MoveChars(1);
+            var totalNewLines = _pos.Line - initialLineNum;            
+            return new ScanResult(matched, text, totalNewLines);
         }
 
 
@@ -587,78 +622,62 @@ namespace ComLib.Lang
         /// <param name="advanceFirst">Whether or not to advance curr position first </param>
         /// <param name="setPosAfterToken">Whether or not to advance to position after chars</param>
         /// <returns>String read.</returns>
-        public ScanTokenResult ScanUri(bool advanceFirst, bool setPosAfterToken = true)
+        public ScanResult ScanUri(bool advanceFirst, bool setPosAfterToken)
         {
-            var buffer = new StringBuilder();
-            var currentChar = advanceFirst ? ReadChar() : _pos.CurrentChar;
-            if (currentChar == SPACE || currentChar == TAB)
-                return new ScanTokenResult(true, string.Empty);
+            var ch = advanceFirst ? this.ReadChar() : _pos.CurrentChar;
+            var start = _pos.Pos;
+            if (ch == SPACE || ch == TAB)
+                return new ScanResult(true, start, string.Empty, 0);
 
-            var nextChar = PeekChar();
-            bool matched = false;
             while (_pos.Pos <= LAST_POSITION)
             {
-                buffer.Append(currentChar);
-                if (nextChar == SPACE || nextChar == TAB || nextChar == '(' || nextChar == ')'
-                    || nextChar == ',' || nextChar == ';' || nextChar == '[' || nextChar == ']'
-                    || nextChar == '\r' || nextChar == '\n' || nextChar == '\t')
+                ch = _pos.Text[_pos.Pos];
+                if (ch == SPACE || ch == TAB || ch == '(' || ch == ')'
+                    || ch == ',' || ch == ';' || ch == '[' || ch == ']'
+                    || ch == '\r' || ch == '\n' || ch == '{' || ch == '}')
                 {
-                    matched = true;
                     break;
                 }
-                currentChar = ReadChar();
-                nextChar = PeekChar();
+                _pos.Pos++;
             }
-            string text = buffer.ToString();
-            if (matched && setPosAfterToken)
-            {
-                MoveChars(1);
-            }
-
-            return new ScanTokenResult(matched, text);
+            var text = _pos.ExtractInclusive(start, _pos.Pos - 1);
+            if (!setPosAfterToken) this.MoveChars(-1);
+            this.UpdateLineState(start); 
+            return new ScanResult(true, start, text, 0);
         }
 
 
         /// <summary>
-        /// Reads entire line from curr position
+        /// Reads entire line from curr position, does not include the newline in result.
         /// </summary>
         /// <param name="advanceFirst">Whether or not to advance curr position first </param>
         /// <param name="setPosAfterToken">Whether or not to move curr position to starting of new line or after</param>
         /// <returns>String read.</returns>
-        public ScanTokenResult ScanToNewLine(bool advanceFirst, bool setPosAfterToken = true)
+        public ScanResult ScanToNewLine(bool advanceFirst, bool setPosAfterToken)
         {
-            // while for function
-            var buffer = new StringBuilder();
-            if (advanceFirst) ReadChar();
+            if (advanceFirst) this.ReadChar();
 
-            bool matched = false;
-            bool is2CharNewLine = false;
+            var start = _pos.Pos;
+            var is2CharNewLine = false;
             while (_pos.Pos <= LAST_POSITION)
             {
-                if (_pos.CurrentChar == '\r')
+                var ch = _pos.Text[_pos.Pos];
+                if (ch == '\r')
                 {
-                    char nextChar = PeekChar();
-                    is2CharNewLine = nextChar == '\n';
-                    matched = true;
+                    var n1 = this.PeekChar();
+                    is2CharNewLine = n1 == '\n';
                     break;
                 }
-                else
-                    buffer.Append(_pos.CurrentChar);
-
-                ReadChar();
+                if(ch == '\n')
+                {
+                    break;
+                }
+                _pos.Pos++;
             }
-            // Either 
-            // 1. Matched the token
-            // 2. Did not match but valid && end_of_file
-            bool success = matched || _pos.Pos > LAST_POSITION;
-
-            if (success)
-            {
-                if (!setPosAfterToken)
-                    MoveChars(-1);
-            }
-
-            return new ScanTokenResult(success, buffer.ToString());
+            var text = _pos.ExtractInclusive(start, _pos.Pos - 1);
+            if (!setPosAfterToken) this.MoveChars(-1);
+            this.UpdateLineState(start);
+            return new ScanResult(true, start, text, 0);
         }
 
 
@@ -669,20 +688,16 @@ namespace ComLib.Lang
         /// <param name="endPos"></param>
         /// <param name="setPosAfterToken">Whether or not to set the position after the token.</param>
         /// <returns></returns>
-        public ScanTokenResult ScanToPosition(bool from1CharForward, int endPos, bool setPosAfterToken = true)
+        public ScanResult ScanToPosition(bool startAtNextChar, int endPos, bool setPosAfterToken)
         {
-            int start = from1CharForward
-                      ? _pos.Pos + 1
-                      : _pos.Pos;
-
-            int length = (endPos - start) + 1;
-            string word = _pos.Text.Substring(start, length);
+            var start = _pos.Pos;
+            var actualStartPos = startAtNextChar ? _pos.Pos + 1 : _pos.Pos;
+            var word = _pos.ExtractInclusive(actualStartPos, endPos);
 
             // Update the position and 
-            MoveChars(endPos - _pos.Pos);
-            if (setPosAfterToken)
-                MoveChars(1);
-            return new ScanTokenResult(true, word);
+            this.ResetPos(endPos, false);
+            if (setPosAfterToken) this.ReadChar();
+            return new ScanResult(true, actualStartPos, word, 0);
         }
 
 
@@ -694,47 +709,31 @@ namespace ComLib.Lang
         /// <param name="extra1">An extra character that is allowed to be part of the word in addition to the allowed chars</param>
         /// <param name="extra2">A second extra character that is allowed to be part of word in addition to the allowed chars</param>        
         /// <returns></returns>
-        public ScanTokenResult ScanWordUntilChars(bool advanceFirst, bool setPosAfterToken = true, char extra1 = char.MinValue, char extra2 = char.MinValue)
+        public ScanResult ScanWordUntilChars(bool advanceFirst, bool setPosAfterToken, char extra1, char extra2)
         {
-            // while for function
-            var buffer = new StringBuilder();
-            if (advanceFirst) ReadChar();
-
-            bool matched = false;
-            bool valid = true;
-            bool hasExtra1 = extra1 != char.MinValue;
-            bool hasExtra2 = extra2 != char.MinValue;
-
+            if (advanceFirst) this.ReadChar();
+            var start = _pos.Pos;
+            int initialNewLines = _pos.Line;
+            var first = true;
             while (_pos.Pos <= LAST_POSITION)
             {
-                var c = _pos.CurrentChar;
-                if (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z') ||
-                     ('0' <= c && c <= '9') || (c == '_' || c == '-'))
+                var ch = _pos.Text[_pos.Pos];
+                if ( ('a' <= ch && ch <= 'z') || ('A' <= ch && ch <= 'Z') ||
+                     ('0' <= ch && ch <= '9') ||  ch == '_' || (!first && ch == '-') 
+                    || ch == extra1 || ch == extra2 )
                 {
-                    buffer.Append(c);
+                    _pos.Pos++;
                 }
-                else if ((hasExtra1 && c == extra1) || (hasExtra2 && c == extra2))
-                    buffer.Append(c);
                 else
                 {
-                    matched = true;
-                    valid = false;
                     break;
                 }
-                ReadChar();
-                if (_pos.Pos < LAST_POSITION)
-                    _pos.NextChar = _pos.Text[_pos.Pos + 1];
+                first = false;
             }
-            // Either 
-            // 1. Matched the token
-            // 2. Did not match but valid && end_of_file
-            bool success = matched || (valid && _pos.Pos > LAST_POSITION);
-
-            // At this point the pos is already after token.
-            // If matched and need to set at end of token, move back 1 char
-            if (success && !setPosAfterToken) MoveChars(-1);
-
-            return new ScanTokenResult(success, buffer.ToString());
+            var text = _pos.ExtractInclusive(start, _pos.Pos - 1);
+            if (!setPosAfterToken) this.MoveChars(-1);
+            this.UpdateLineState(start);
+            return new ScanResult(true, start, text, 0);
         }
 
 
@@ -746,58 +745,43 @@ namespace ComLib.Lang
         /// <param name="second">The second char expected</param>
         /// <param name="setPosAfterToken">Whether or not to advance to position after chars</param>
         /// <returns>String read.</returns>
-        public ScanTokenResult ScanUntilChars(bool advanceFirst, char first, char second, bool setPosAfterToken = true)
+        public ScanResult ScanUntilChars(bool advanceFirst, char first, char second, bool includeChars, bool setPosAfterToken)
         {
-            // while for function
-            var buffer = new StringBuilder();
-            if (advanceFirst) ReadChar();
-
-            bool matched = false;
-            bool valid = true;
+            if (advanceFirst) this.ReadChar();
+            var start = _pos.Pos;
+            var lineStartPos = _pos.Pos;         
             int initialNewLines = _pos.Line;
-            while (_pos.Pos <= LAST_POSITION)
+            while (_pos.Pos <= LAST_POSITION - 1)
             {
-                if (_pos.CurrentChar == '\r')
+                var ch = _pos.Text[_pos.Pos];
+                // Case 1: Matching
+                if(ch == first)
                 {
-                    char nextChar = PeekChar();
-                    var is2CharNewLine = nextChar == '\n';
-                    IncrementLine(is2CharNewLine);
-                    if (is2CharNewLine) buffer.Append("\r\n");
-                    else buffer.Append("\n");
+                    var n1 = this.PeekChar();
+                    if (n1 == second)
+                    {
+                        _pos.Pos += 2;
+                        break;
+                    }
+                    _pos.Pos++;
                 }
-                else if(_pos.CurrentChar == first && _pos.NextChar == second)
+                // Case 2: New line
+                else if (ch == '\r' || ch == '\n')
                 {
-                    matched = true;
-                    valid = false;
-                    break;
+                    this.ScanNewLine(ch);
+                    lineStartPos = _pos.Pos;
                 }
                 else
                 {
-                    buffer.Append(_pos.CurrentChar);
-                    ReadChar();
-                }                
-                PeekChar();
-                if (_pos.Pos < LAST_POSITION)
-                    _pos.NextChar = _pos.Text[_pos.Pos + 1];
+                    _pos.Pos++;
+                }
             }
-            // Either 
-            // 1. Matched the token
-            // 2. Did not match but valid && end_of_file
-            bool success = matched || (valid && _pos.Pos > LAST_POSITION);
-
-            // At this point the pos is already after token.
-            // If matched and need to set at end of token, move back 1 char
-            if (success && !setPosAfterToken)
-            {
-                MoveChars(-1);
-            }
-            else if (success && setPosAfterToken)
-            {
-                MoveChars(2);
-            }
-
-            int totalNewLines = _pos.Line - initialNewLines;
-            return new ScanTokenResult(success, buffer.ToString(), totalNewLines);
+            var endPos = includeChars ? _pos.Pos - 1 : _pos.Pos - 3;
+            var text = _pos.ExtractInclusive(start, endPos);
+            if (!setPosAfterToken) this.MoveChars(-1);
+            this.UpdateLineState(lineStartPos);
+            var totalNewLines = _pos.Line - initialNewLines;
+            return new ScanResult(true, start, text, totalNewLines);
         }
 
 
@@ -808,54 +792,44 @@ namespace ComLib.Lang
         /// <param name="advanceFirst">Whether or not to advance position first</param>
         /// <param name="setPosAfterToken">True to move position to end space, otherwise past end space.</param>
         /// <returns>Contents of token read.</returns>
-        public ScanTokenResult ScanChars(IDictionary<char, bool> validChars, bool advanceFirst, bool setPosAfterToken = true)
+        public ScanResult ScanChars(IDictionary<char, bool> validChars, bool advanceFirst, bool setPosAfterToken)
         {
-            // while for function
-            var buffer = new StringBuilder();
-            if (advanceFirst) ReadChar();
+            if (advanceFirst) this.ReadChar();
+            var start = _pos.Pos;
 
-            bool matched = false;
-            bool valid = true;
             while (_pos.Pos <= LAST_POSITION)
             {
-                if (validChars.ContainsKey(_pos.CurrentChar))
-                    buffer.Append(_pos.CurrentChar);
-                else
+                var ch = _pos.Text[_pos.Pos];
+                if (!validChars.ContainsKey(ch))
                 {
-                    matched = true;
-                    valid = false;
                     break;
                 }
-                ReadChar();
-                if (_pos.Pos < LAST_POSITION)
-                    _pos.NextChar = _pos.Text[_pos.Pos + 1];
+                _pos.Pos++;
             }
-
-            // At this point the pos is already after token.
-            // If matched and need to set at end of token, move back 1 char
-            if (matched && !setPosAfterToken) MoveChars(-1);
-
-            // Either 
-            // 1. Matched the token
-            // 2. Did not match but valid && end_of_file
-            bool success = matched || (valid && _pos.Pos > LAST_POSITION);
-            return new ScanTokenResult(success, buffer.ToString());
+            var text = _pos.ExtractInclusive(start, _pos.Pos - 1);
+            if (!setPosAfterToken) this.MoveChars(-1);
+            this.UpdateLineState(start);
+            return new ScanResult(true, start, text, 0);
         }
-        #endregion
 
 
-
-        #region Misc Helpers
         /// <summary>
-        /// Increments the line number
+        /// Scans past the new line after tracking line counts
         /// </summary>
-        /// <param name="is2CharNewLine"></param>
-        protected virtual void IncrementLine(bool is2CharNewLine)
+        public bool ScanNewLine(char ch)
         {
-            int count = is2CharNewLine ? 2 : 1;
-            MoveChars(count);
-            _pos.Line++;
-            _pos.LineCharPosition = 1;
+            var is2CharNewLine = false;
+            if (ch == '\r')
+            {
+                var n1 = this.PeekChar();
+                is2CharNewLine = n1 == '\n';
+                this.IncrementLine(is2CharNewLine);                
+            }
+            else if (ch == '\n')
+            {
+                this.IncrementLine(false);
+            }
+            return is2CharNewLine;
         }
         #endregion
 
@@ -867,7 +841,7 @@ namespace ComLib.Lang
         /// </summary>
         /// <param name="c"></param>
         /// <returns></returns>
-        public static bool IsIdStartChar(int c)
+        public static bool IsIdentStart(int c)
         {
             return c == '_' || ('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z');
         }
@@ -886,42 +860,6 @@ namespace ComLib.Lang
                 return true;
 
             return false;
-
-            // Avoid 3 function calls.
-            //return IsMathOp(c) || IsCompareOp(c) || IsLogicOp(c);
-        }
-
-
-        /// <summary>
-        /// Whether char is a math operator * / + - %
-        /// </summary>
-        /// <param name="c"></param>
-        /// <returns></returns>
-        public static bool IsMathOp(char c)
-        {
-            return c == '*' || c == '/' || c == '+' || c == '-' || c == '%';
-        }
-
-
-        /// <summary>
-        /// Whether char is a logical operator 
-        /// </summary>
-        /// <param name="c"></param>
-        /// <returns></returns>
-        public static bool IsLogicOp(char c)
-        {
-            return c == '&' || c == '|';
-        }
-
-
-        /// <summary>
-        /// Whether char is a compare operator 
-        /// </summary>
-        /// <param name="c"></param>
-        /// <returns></returns>
-        public static bool IsCompareOp(char c)
-        {
-            return c == '<' || c == '>' || c == '!' || c == '=';
         }
 
 
@@ -937,7 +875,7 @@ namespace ComLib.Lang
 
 
         /// <summary>
-        /// Whether char is a quote for start of strings.
+        /// Wheter or not this the start of the string
         /// </summary>
         /// <param name="c"></param>
         /// <returns></returns>

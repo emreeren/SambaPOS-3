@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Parsing;
+using ComLib.Lang.Types;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
     /* *************************************************************************
     <doc:example>	
@@ -95,21 +100,21 @@ namespace ComLib.Lang.Extensions
         /// <returns></returns>
         public override Expr Parse(object context)
         {
-            ConstantExpr constExp = context as ConstantExpr;
+            var constExp = context as ConstantExpr;
             var ctx = _parser.Context;
 
             var percentToken = _tokenIt.Peek(1);
-
+            var numberVal = (LObject)constExp.Value;
             // Validate 
-            if (!(constExp.Value is double))
+            if (numberVal.Type != LTypes.Number)
                 throw _tokenIt.BuildSyntaxException("number required when percentage( % ) : " + percentToken.Token.Text, percentToken);
 
             // Move past the current "%" token.
             var t = _tokenIt.Advance(2);
 
-            double val = (double)constExp.Value;
+            var val = ((LNumber)numberVal).Value;
             val = val / 100;
-            var finalExp = new ConstantExpr(val);
+            var finalExp = new ConstantExpr(new LNumber(val));
             return finalExp;
         }
     }

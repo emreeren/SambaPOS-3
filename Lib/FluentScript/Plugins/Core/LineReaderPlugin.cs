@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
     /// <summary>
     /// Combinator for handling comparisons.
@@ -40,8 +44,8 @@ namespace ComLib.Lang.Extensions
         {
             // print no quotes needed!
             var takeoverToken = _lexer.LastTokenData;
-            int line = _lexer.LineNumber;
-            int pos  = _lexer.LineCharPos;
+            int line = _lexer.State.Line;
+            int pos  = _lexer.State.LineCharPosition;
 
             // This stops on the last char before the newline.
             // So move forward one.

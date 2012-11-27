@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
     
     /// <summary>
@@ -213,7 +217,7 @@ namespace ComLib.Lang.Extensions
                 if (_matchedAdvanceCount > 1)
                     _tokenIt.Advance(_matchedAdvanceCount - 1);                
             }
-            var token = ComLib.Lang.Tokens.AllTokens[_replacementToken];
+            var token = ComLib.Lang.Core.Tokens.AllTokens[_replacementToken];
             return token;
         }
 
@@ -224,7 +228,7 @@ namespace ComLib.Lang.Extensions
         /// <returns></returns>
         public override Token Peek()
         {
-            var token = ComLib.Lang.Tokens.AllTokens[_replacementToken];
+            var token = ComLib.Lang.Core.Tokens.AllTokens[_replacementToken];
             return token;
         }
 

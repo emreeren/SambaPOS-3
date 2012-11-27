@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+// <lang:using>
+using ComLib.Lang.Core;
 using ComLib.Lang.Docs;
+// </lang:using>
 
 
 namespace ComLib.Lang.Helpers
@@ -78,10 +81,10 @@ namespace ComLib.Lang.Helpers
         /// </summary>
         /// <param name="argText">@arg: date,   The date to buy the stock,   date  , on,     July 10th 2012 | 7/10/2012</param>
         /// <returns></returns>
-        private static Arg ParseArg(string argText)
+        private static ArgAttribute ParseArg(string argText)
         {
             if (string.IsNullOrEmpty(argText))
-                return new Arg();
+                return new ArgAttribute();
 
             argText = StripArgDocTag(argText);
 
@@ -98,10 +101,10 @@ namespace ComLib.Lang.Helpers
         /// </summary>
         /// <param name="argText"></param>
         /// <returns></returns>
-        private static Arg ParseArgByNamedProperties(string argText)
+        private static ArgAttribute ParseArgByNamedProperties(string argText)
         {
             // Remove the @arg: from the argText            
-            var arg = new Arg();
+            var arg = new ArgAttribute();
             // NOTE: Do a simple split on "," for the 1st version of fluentscript.
             string[] fields = argText.Split(',');
             int totalFields = fields.Length;
@@ -130,9 +133,9 @@ namespace ComLib.Lang.Helpers
         /// </summary>
         /// <param name="argText"></param>
         /// <returns></returns>
-        private static Arg ParseArgByPositionProperties(string argText)
+        private static ArgAttribute ParseArgByPositionProperties(string argText)
         {
-            var arg = new Arg();
+            var arg = new ArgAttribute();
             // NOTE: Do a simple split on "," for the 1st version of fluentscript.
             string[] fields = argText.Split(',');
             int totalFields = fields.Length;
@@ -180,10 +183,10 @@ namespace ComLib.Lang.Helpers
             example.Desc = exText.Substring(9, ndxFirstComma - 9).Trim();
             example.Code = exText.Substring(ndxFirstQuote + 1, (ndxLastQuote - ndxFirstQuote) -1).Trim();
             return example;
-        }        
+        }
 
 
-        private static void ParseExamples(Arg arg, string example)
+        private static void ParseExamples(ArgAttribute arg, string example)
         {
             if (!example.Contains("|"))
                 arg.Examples.Add(example);

@@ -5,8 +5,14 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Types;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
-namespace ComLib.Lang
+namespace ComLib.Lang.Plugins
 {
     /* *************************************************************************
     <doc:example>	
@@ -109,6 +115,7 @@ namespace ComLib.Lang
         public WhileExpr(Expr condition)
             : base(condition, null)
         {
+            this.Nodetype = NodeTypes.SysWhile;
             InitBoundary(true, "}");
         }
 
@@ -152,7 +159,7 @@ namespace ComLib.Lang
 
                 _continueRunning = Condition.EvaluateAs<bool>();
             }
-            return LNull.Instance;
+            return LObjects.Null;
         }
 
 

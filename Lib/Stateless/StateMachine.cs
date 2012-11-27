@@ -168,7 +168,7 @@ namespace Stateless
             Enforce.ArgumentNotNull(trigger, "trigger");
             InternalFire(trigger.Trigger, arg0, arg1, arg2);
         }
-        
+
         void InternalFire(TTrigger trigger, params object[] args)
         {
             TriggerWithParameters configuration;

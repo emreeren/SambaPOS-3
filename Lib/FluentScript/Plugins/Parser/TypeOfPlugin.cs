@@ -2,10 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Helpers;
+using ComLib.Lang.Types;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -84,10 +90,10 @@ namespace ComLib.Lang.Extensions
             _tokenIt.Advance(1, false);
             var exp = _parser.ParseExpression(null, false, true, true, false);
             var typeExp = new TypeOfExpr(exp);
-            if (exp is NewExpr && _tokenIt.NextToken.Token == Tokens.RightParenthesis)
+            if (exp.IsNodeType(NodeTypes.SysNew) && _tokenIt.NextToken.Token == Tokens.RightParenthesis)
             {
-                typeExp.SupportsBoundary = true;
-                typeExp.BoundaryText = ")";
+                //typeExp.SupportsBoundary = true;
+                //typeExp.BoundaryText = ")";
             }
 
             return typeExp;
@@ -120,32 +126,25 @@ namespace ComLib.Lang.Extensions
         public override object Evaluate()
         {
             // 1. Check for function ( currently does not support functions as first class types )
-            if (_exp is VariableExpr || _exp is FunctionCallExpr)
+            if (_exp.IsNodeType(NodeTypes.SysVariable) || _exp.IsNodeType(NodeTypes.SysFunctionCall))
             {
                 var name = _exp.ToQualifiedName();
                 if (Ctx.Functions.Contains(name))
-                    return "function:" + name;
+                    return new LString("function:" + name);
             }
             var obj = _exp.Evaluate();
-            object result = null;
-            if (obj == null)
-                return typeof(LNull);
+            ExceptionHelper.NotNull(this, obj, "typeof");
+            var lobj = (LObject) obj;
+            var typename = lobj.Type.Name;
 
-            if (obj is string) result = "string";
-            else if (obj is DateTime) result = "datetime";
-            else if (obj is TimeSpan) result = "time";
-            else if (obj is bool) result = "boolean";
-            else if (obj is int || obj is long) result = "number";
-            else if (obj is float || obj is double || obj is decimal) result = "number";
-            else if (obj is LArray) result = "object:list";
-            else if (obj is LMap) result = "object:map";
-            else
-            {
-                var fullname = obj.GetType().FullName;
-                result = "object:" + fullname;
-            }
+            if (lobj.Type == LTypes.Array || lobj.Type == LTypes.Map)
+                typename = "object:" + typename;
+            else if (lobj.Type == LTypes.Bool)
+                typename = "boolean";
+            else if (lobj.Type.TypeVal == TypeConstants.LClass)
+                typename = "object:" + lobj.Type.FullName;
 
-            return result;
+            return new LString(typename);
         }
     }
 }

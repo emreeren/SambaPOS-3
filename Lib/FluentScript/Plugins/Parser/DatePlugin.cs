@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Parsing;
+using ComLib.Lang.Types;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -31,45 +36,12 @@ namespace ComLib.Lang.Extensions
 	    print Still have time to buy gifts
     </doc:example>
     ***************************************************************************/
-
+    // <fs:plugin-autogenerate>
     /// <summary>
     /// Combinator for handling dates.
     /// </summary>
     public class DatePlugin : ExprPlugin
     {
-        private static Dictionary<string, int> _months;
-
-
-        static DatePlugin()
-        {
-            _months = new Dictionary<string, int>();
-            _months["jan"] = 1;
-            _months["feb"] = 2;
-            _months["mar"] = 3;
-            _months["apr"] = 4;
-            _months["may"] = 5;
-            _months["jun"] = 6;
-            _months["jul"] = 7;
-            _months["aug"] = 8;
-            _months["sep"] = 9;
-            _months["oct"] = 10;
-            _months["nov"] = 11;
-            _months["dec"] = 12;
-            _months["january"] = 1;
-            _months["february"] = 2;
-            _months["march"] = 3;
-            _months["april"] = 4;
-            _months["may"] = 5;
-            _months["june"] = 6;
-            _months["july"] = 7;
-            _months["august"] = 8;
-            _months["september"] = 9;
-            _months["october"] = 10;
-            _months["november"] = 11;
-            _months["december"] = 12;
-        }
-
-
         /// <summary>
         /// Initialize
         /// </summary>
@@ -129,6 +101,39 @@ namespace ComLib.Lang.Extensions
                 };
             }
         }
+        // </fs:plugin-autogenerate>
+
+        private static Dictionary<string, int> _months;
+
+
+        static DatePlugin()
+        {
+            _months = new Dictionary<string, int>();
+            _months["jan"] = 1;
+            _months["feb"] = 2;
+            _months["mar"] = 3;
+            _months["apr"] = 4;
+            _months["may"] = 5;
+            _months["jun"] = 6;
+            _months["jul"] = 7;
+            _months["aug"] = 8;
+            _months["sep"] = 9;
+            _months["oct"] = 10;
+            _months["nov"] = 11;
+            _months["dec"] = 12;
+            _months["january"] = 1;
+            _months["february"] = 2;
+            _months["march"] = 3;
+            _months["april"] = 4;
+            _months["may"] = 5;
+            _months["june"] = 6;
+            _months["july"] = 7;
+            _months["august"] = 8;
+            _months["september"] = 9;
+            _months["october"] = 10;
+            _months["november"] = 11;
+            _months["december"] = 12;
+        }
 
 
         /// <summary>
@@ -162,8 +167,8 @@ namespace ComLib.Lang.Extensions
         /// <returns></returns>
         public override Expr Parse()
         {
-            DateTime date = ParseDate(this);
-            Expr exp = new ConstantExpr(date);
+            var date = ParseDate(this);
+            var exp = new ConstantExpr(new LDate(date));
             return exp;
         }
 
@@ -175,10 +180,10 @@ namespace ComLib.Lang.Extensions
         /// <returns></returns>
         public static DateTime ParseDate(ILangParser parser)
         {
-            int year = DateTime.Now.Year;
-            int month = DateTime.Now.Month;
+            var year = DateTime.Now.Year;
+            var month = DateTime.Now.Month;
             double day = DateTime.Now.Day;
-            TimeSpan time = new TimeSpan(0, 0, 0);
+            var time = new TimeSpan(0, 0, 0);
             var tokenIt = parser.TokenIt;
             TokenData n = null;
             if (tokenIt.NextToken.Token.Kind == TokenKind.LiteralDate)
@@ -227,11 +232,11 @@ namespace ComLib.Lang.Extensions
             // 8. Now check for time.
             n = tokenIt.Peek();
             if (n.Token.Text == "at")
-                time = TimePlugin.ParseTime(parser, true, true);
+                time = TimeExprPlugin.ParseTime(parser, true, true);
             else            
                 tokenIt.Advance();
 
-            DateTime date = new DateTime(year, month, (int)day, time.Hours, time.Minutes, time.Seconds);
+            var date = new DateTime(year, month, (int)day, time.Hours, time.Minutes, time.Seconds);
             return date;
         }
     }

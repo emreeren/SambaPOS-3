@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ComLib.Lang
+namespace ComLib.Lang.Core
 {
    /// <summary>
     /// Combines a boolean succes/fail flag with a error/status message and an object.

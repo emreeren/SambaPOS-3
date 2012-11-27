@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -70,11 +74,11 @@ namespace ComLib.Lang.Extensions
         {
             // http https ftp ftps www 
             var takeoverToken = _lexer.LastTokenData;
-            var line = _lexer.LineNumber;
-            var pos = _lexer.LineCharPos;
-            var n = _lexer.ReadChar();
+            var line = _lexer.State.Line;
+            var pos = _lexer.State.LineCharPosition;
+            //var n = _lexer.ReadChar();
             var token = _lexer.ReadLineRaw(false);
-            token = ComLib.Lang.Tokens.ToComment(false, token.Text);
+            token = ComLib.Lang.Core.Tokens.ToComment(false, token.Text);
             var t = new TokenData() { Token = token, Line = line, LineCharPos = pos };
             _lexer.ParsedTokens.Add(t);
             return new Token[] { token };

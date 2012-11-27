@@ -3,85 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Types;
 using ComLib.Lang.Helpers;
+using ComLib.Lang.Plugins;
+// </lang:using>
 
-namespace ComLib.Lang
+namespace ComLib.Lang.Parsing
 {
-    /// <summary>
-    /// Language validation result type. info, warn, compile error.
-    /// </summary>
-    public enum SemActsValidationType
+    public enum SemanticCheckResult
     {
         /// <summary>
-        /// Information
+        /// Valid node
         /// </summary>
-        Info,
+        Valid, 
 
 
         /// <summary>
-        /// Warning
+        /// Error on node but can still continue processing other parts of the node.
         /// </summary>
-        Warning,
+        ErrorContinue,
 
 
         /// <summary>
-        /// Error
+        /// Error on node and stop processing other parts of node.
         /// </summary>
-        Error
-    }
-
-
-
-    /// <summary>
-    /// Stores both the error and the type ( e.g. warning, error etc )
-    /// </summary>
-    public class SemActsResult
-    {
-        /// <summary>
-        /// The error text
-        /// </summary>
-        public string Error;
-
-
-        /// <summary>
-        /// Validation type
-        /// </summary>
-        public SemActsValidationType Type;
-    }
-
-
-
-    /// <summary>
-    /// Stores both the error and the type ( e.g. warning, error etc )
-    /// </summary>
-    public class SemActsResults
-    {
-        /// <summary>
-        /// Intiailzie with the success flag.
-        /// </summary>
-        /// <param name="success"></param>
-        public SemActsResults(bool success)
-        {
-            Success = success;
-        }
-
-
-        /// <summary>
-        /// Whether or not the semantic actions / analysis was successful ( did not have any errors )
-        /// </summary>
-        public readonly bool Success;
-
-
-        /// <summary>
-        /// Any results( validation errors, warnings from the analyser )
-        /// </summary>
-        public List<SemActsResult> Results;
-
-
-        /// <summary>
-        /// Whether or not there were any results.
-        /// </summary>
-        public bool HasResults { get { return Results != null && Results.Count > 0; } }
+        ErrorStop,
     }
 
 
@@ -91,10 +40,11 @@ namespace ComLib.Lang
     /// </summary>
     public class SemActs
     {
-        private SemActsResults _results = new SemActsResults(false);
-        private List<SemActsResult> _errors;
-        private Dictionary<string, List<Action<SemActs, AstNode>>> _validators;
+        private RunResult _results = null;
+        private List<ScriptError> _errors;
+        private Dictionary<string, List<Func<SemActs, AstNode, SemanticCheckResult>>> _validators;
         private ISymbols _currentSymScope;
+        private ParseStackManager _parseStk;
         private Context _ctx;
 
         /// <summary>
@@ -102,20 +52,20 @@ namespace ComLib.Lang
         /// </summary>
         public SemActs()
         {
-            _errors = new List<SemActsResult>();
-            _validators = new Dictionary<string, List<Action<SemActs, AstNode>>>();         
-            AddCheck<BinaryExpr>((semacts, node) => CheckDivisionByZero(semacts, (BinaryExpr)node));
-            AddCheck<NewExpr>((semacts, node) => CheckNewExpression(semacts, (NewExpr)node));
-            AddCheck<VariableExpr>((semacts, node) => CheckVariable(semacts, (VariableExpr)node));
-            AddCheck<FunctionCallExpr>((semacts, node) => CheckFunctionCall(semacts, (FunctionCallExpr)node));
-            AddCheck<IfExpr>((semacts, node) => CheckIfFalse(semacts, node));
+            _validators = new Dictionary<string, List<Func<SemActs, AstNode, SemanticCheckResult>>>();         
+            AddCheck(NodeTypes.SysBinary,          (semacts, node) => CheckDivisionByZero(semacts, (BinaryExpr)node));
+            AddCheck(NodeTypes.SysNew,             (semacts, node) => CheckNewExpression(semacts, (NewExpr)node));
+            AddCheck(NodeTypes.SysVariable,        (semacts, node) => CheckVariable(semacts, (VariableExpr)node));
+            AddCheck(NodeTypes.SysFunctionCall,    (semacts, node) => CheckFunctionCall(semacts, (FunctionCallExpr)node));
+            AddCheck(NodeTypes.SysIf,              (semacts, node) => CheckIfFalse(semacts, node));
+            AddCheck(NodeTypes.SysFunctionDeclare, (semacts, node) => CheckFunctionDeclaration(semacts, (FuncDeclareExpr)node));
         }
 
 
         /// <summary>
         /// The results
         /// </summary>
-        public SemActsResults Results
+        public RunResult Results
         {
             get { return _results; }
         }
@@ -126,26 +76,28 @@ namespace ComLib.Lang
         /// </summary>
         /// <param name="stmts">Statements to validate</param>
         /// <returns></returns>
-        public bool Validate(List<Expr> stmts)
+        public RunResult Validate(List<Expr> stmts)
         {
+            var start = DateTime.Now;
             if (stmts == null || stmts.Count == 0)
-                return true;
+                return new RunResult(start, start, true, "No nodes to validate");
 
             _ctx = stmts[0].Ctx;
 
             // Reset the errors.
-            _errors.Clear();
-            _errors = new List<SemActsResult>();
+            _errors = new List<ScriptError>();
+            _parseStk = new ParseStackManager();
 
             // Use the visitor to walk the AST tree of statements/expressions
-            var visitor = new AstVisitor((astnode) => Validate(astnode));
+            var visitor = new AstVisitor((astnode1) => Validate(astnode1), (astnode2) =>OnNodeEnd(astnode2));
             visitor.Visit(stmts);
 
+            var end = DateTime.Now;
             // Now check for success.
             bool success = _errors.Count == 0;
-            _results = new SemActsResults(success);
-            _results.Results = _errors;
-            return success;
+            _results = new RunResult(start, end, success, _errors);
+            _results.Errors = _errors;
+            return _results;
         }
 
 
@@ -160,9 +112,10 @@ namespace ComLib.Lang
             {
                 _currentSymScope = ((Expr)node).SymScope;
             }
+            OnNodeStart(node);
 
             int initialErrorCount = _errors.Count;
-            string name = node.GetType().Name;
+            string name = node.Nodetype;
             if(!_validators.ContainsKey(name))
                 return true;
 
@@ -173,23 +126,42 @@ namespace ComLib.Lang
             }
             return initialErrorCount == _errors.Count;
         }
-        
+
+
+        public void OnNodeStart(AstNode node)
+        {
+            if (node.IsNodeType(NodeTypes.SysFunctionDeclare))
+            {
+                _parseStk.PushNamed("function_declares", NodeTypes.SysFunctionDeclare);
+                var count = _parseStk.CountOf("function_declares");
+                var name = node.ToQualifiedName();
+                if (count > 1)
+                    AddErrorCode(ErrorCodes.Func1001, node, name);
+            }    
+        }
+
+
+        public void OnNodeEnd(AstNode node)
+        {
+            if(node.IsNodeType(NodeTypes.SysFunctionDeclare))
+                _parseStk.PopNamed("function_declares", NodeTypes.SysFunctionDeclare);
+        }
+
 
         #region Add warnings / errors
         /// <summary>
         /// Add a rule to the validation process
         /// </summary>
         /// <param name="rule"></param>
-        private void AddCheck<T>(Action<SemActs,AstNode> rule)
+        private void AddCheck(string nodeType, Func<SemActs,AstNode, SemanticCheckResult> rule)
         {
-            string nodeName = typeof(T).Name;
-            List<Action<SemActs, AstNode>> rules = null;
-            if (_validators.ContainsKey(nodeName))
-                rules = _validators[nodeName];
+            List<Func<SemActs, AstNode, SemanticCheckResult>> rules = null;
+            if (_validators.ContainsKey(nodeType))
+                rules = _validators[nodeType];
             else
             {
-                rules = new List<Action<SemActs, AstNode>>();
-                _validators[nodeName] = rules;
+                rules = new List<Func<SemActs, AstNode, SemanticCheckResult>>();
+                _validators[nodeType] = rules;
             }
             rules.Add(rule);
         }
@@ -200,9 +172,36 @@ namespace ComLib.Lang
         /// </summary>
         /// <param name="errorText">Error text</param>
         /// <param name="node">The expression associated with the error</param>
-        private void AddError(string errorText, AstNode node)
+        private SemanticCheckResult AddError(string errorText, AstNode node)
         {
-            AddValidationResult(errorText, node, SemActsValidationType.Error);
+            AddSemanticError("", errorText, node, ScriptErrorType.Error);
+            return SemanticCheckResult.ErrorContinue;
+        }
+
+
+        /// <summary>
+        /// Add the specified error and source position of the expression
+        /// </summary>
+        /// <param name="errorText">Error text</param>
+        /// <param name="node">The expression associated with the error</param>
+        private SemanticCheckResult NodeError(string errorText, AstNode node)
+        {
+            AddSemanticError("", errorText, node, ScriptErrorType.Error);
+            return SemanticCheckResult.ErrorStop;
+        }
+
+
+        /// <summary>
+        /// Add the specified error and source position of the expression
+        /// </summary>
+        /// <param name="code">The error code from ErrorCodes class</param>
+        /// <param name="node">The expression associated with the error</param>
+        private SemanticCheckResult AddErrorCode(string code, AstNode node, string arg1 = null, string arg2 = null)
+        {
+            var error = ErrorCodes.GetError(code);
+            var errorText = error.SupportsParams ? error.Format(arg1) : error.Message;
+            AddSemanticError(code, errorText, node, ScriptErrorType.Error);
+            return SemanticCheckResult.ErrorContinue;
         }
 
 
@@ -213,20 +212,28 @@ namespace ComLib.Lang
         /// <param name="node">The expression associated with the warning</param>
         private void AddWarning(string warningText, AstNode node)
         {
-            AddValidationResult(warningText, node, SemActsValidationType.Warning);
+            AddSemanticError("", warningText, node, ScriptErrorType.Warning);
         }
 
 
         /// <summary>
         /// Add the specified error and source position of the expression
         /// </summary>
+        /// <param name="errorCode">The distinct error code.</param>
         /// <param name="errorText">Error text</param>
         /// <param name="node">The expression associated with the warning</param>
-        /// <param name="type">Type of validation result error or warning.</param>
-        private void AddValidationResult(string errorText, AstNode node, SemActsValidationType type)
+        /// <param name="errorType">Type of error.</param>
+        private void AddSemanticError(string errorCode, string errorText, AstNode node, ScriptErrorType errorType)
         {
-            string error = errorText + " at line : " + node.Ref.Line + ", pos : " + node.Ref.CharPos;
-            _errors.Add(new SemActsResult() { Error = error, Type = type });
+            string errormsg = errorText + " at line : " + node.Ref.Line + ", pos : " + node.Ref.CharPos;
+            var error = new ScriptError();
+            error.Line = node.Ref.Line;
+            error.File = node.Ref.ScriptName;
+            error.Column = node.Ref.CharPos;
+            error.ErrorType = errorType.ToString();
+            error.ErrorCode = errorCode;
+            error.Message = errormsg;
+            _errors.Add(error);
         }
         #endregion
 
@@ -237,18 +244,19 @@ namespace ComLib.Lang
         /// </summary>
         /// <param name="semActs"></param>
         /// <param name="exp"></param>
-        private void CheckDivisionByZero(SemActs semActs, BinaryExpr exp)
+        private SemanticCheckResult CheckDivisionByZero(SemActs semActs, BinaryExpr exp)
         {
-            if(exp.Op != Operator.Divide) return;
-            if (!(exp.Right is ConstantExpr)) return;
+            if(exp.Op != Operator.Divide) return SemanticCheckResult.Valid;
+            if (!(exp.Right.IsNodeType(NodeTypes.SysConstant))) return SemanticCheckResult.Valid;
 
-            object val = ((ConstantExpr)exp.Right).Value;
-            if (val is int || val is double)
+            var val = (LObject)((ConstantExpr)exp.Right).Value;
+            if (val.Type == LTypes.Number)
             {
-                var d = Convert.ToDouble(val);
+                var d = ((LNumber)val).Value;
                 if (d == 0)
                     AddError("Division by zero", exp.Right);
             }
+            return SemanticCheckResult.Valid;
         }
 
 
@@ -257,17 +265,44 @@ namespace ComLib.Lang
         /// </summary>
         /// <param name="semActs"></param>
         /// <param name="node"></param>
-        private void CheckIfFalse(SemActs semActs, AstNode node)
+        private SemanticCheckResult CheckIfFalse(SemActs semActs, AstNode node)
         {
             var stmt = node as IfExpr;
-            if (!(stmt.Condition is ConstantExpr)) return;
+            if (!(stmt.Condition.IsNodeType(NodeTypes.SysConstant))) 
+                return SemanticCheckResult.Valid;
 
             var exp = stmt.Condition as ConstantExpr;
-            if (!(exp.Value is bool)) return;
+            if (!(exp.Value is bool)) return SemanticCheckResult.Valid;
             bool val = (bool)exp.Value;
             if (val == false)
-                AddError("If statement condition is always false", stmt);
+                return AddError("If statement condition is always false", stmt);
+
+            return SemanticCheckResult.Valid;
         }
+
+
+        private SemanticCheckResult CheckFunctionDeclaration(SemActs semActs, FuncDeclareExpr exp)
+        {
+            // 1. Number of params
+            var func = exp.Function;
+            var initialErrorCount = _errors.Count;
+
+            if (func.Meta.Arguments.Count > 12)
+                AddErrorCode(ErrorCodes.Func1004, exp);
+
+            // 2. Too many aliases on function
+            if (func.Meta.Aliases != null && func.Meta.Aliases.Count > 5)
+                AddError(ErrorCodes.Func1005, exp);
+
+            // 3. Parameter named arguments?
+            if (func.Meta.ArgumentsLookup.ContainsKey("arguments"))
+                AddErrorCode(ErrorCodes.Func1003, exp);
+
+            return initialErrorCount == _errors.Count
+                       ? SemanticCheckResult.Valid
+                       : SemanticCheckResult.ErrorContinue;
+        }
+
 
 
         /// <summary>
@@ -275,13 +310,28 @@ namespace ComLib.Lang
         /// </summary>
         /// <param name="semActs">The semantic analyser</param>
         /// <param name="exp">The functioncallexpression</param>
-        private void CheckFunctionCall(SemActs semActs, FunctionCallExpr exp)
+        private SemanticCheckResult CheckFunctionCall(SemActs semActs, FunctionCallExpr exp)
         {
-            var func = _ctx.Functions.GetByName(exp.Name);
-
-            // 1. Number of params
-            if(func.Meta.Arguments.Count < exp.ParamListExpressions.Count)
-                AddError("Function parameters do not match", exp);
+            var functionName = exp.ToQualifiedName();
+            var exists = _ctx.Functions.Contains(functionName);
+            
+            // 1. Function does not exist.
+            if (!exists)
+            {
+                return AddErrorCode(ErrorCodes.Func1000, exp, functionName);
+            }
+            var func = _ctx.Functions.GetByName(functionName);
+            // 5. Check that named parameters exist.
+            foreach(var argExpr in exp.ParamListExpressions)
+            {
+                if(argExpr.IsNodeType(NodeTypes.SysNamedParameter))
+                {
+                    var argName = ((NamedParamExpr) argExpr).Name;
+                    if (!func.Meta.ArgumentsLookup.ContainsKey(argName))
+                        AddErrorCode(ErrorCodes.Func1002, exp, argName);
+                }
+            }
+            return SemanticCheckResult.Valid;
         }
 
 
@@ -290,22 +340,23 @@ namespace ComLib.Lang
         /// </summary>
         /// <param name="semActs">The semantic analyser</param>
         /// <param name="exp">The newexpression</param>
-        private void CheckNewExpression(SemActs semActs, NewExpr exp)
+        private SemanticCheckResult CheckNewExpression(SemActs semActs, NewExpr exp)
         {
             var typeName = exp.TypeName;
 
             // 1. Check # params to Date 
             if (string.Compare(typeName, "Date", StringComparison.InvariantCultureIgnoreCase) == 0)
             {
-                if (!LDate.CanCreateFrom(exp.ParamListExpressions.Count))
-                    AddError("Unexpected number of inputs when creating date", exp);
+                if (!LDateType.CanCreateFrom(exp.ParamListExpressions.Count))
+                    return AddError("Unexpected number of inputs when creating date", exp);
             }
             // 2. Check # params to Time
             else if (string.Compare(typeName, "Time", StringComparison.InvariantCultureIgnoreCase) == 0)
             {
-                if (!TimeTypeHelper.CanCreateTimeFrom(exp.ParamListExpressions.Count))
-                    AddError("Unexpected number of inputs when creating time", exp);
+                if (!DateTimeTypeHelper.CanCreateTimeFrom(exp.ParamListExpressions.Count))
+                    return AddError("Unexpected number of inputs when creating time", exp);
             }
+            return SemanticCheckResult.Valid;
         }
 
 
@@ -314,10 +365,12 @@ namespace ComLib.Lang
         /// </summary>
         /// <param name="semActs">The semantic analyser</param>
         /// <param name="exp">The variable expression</param>
-        private void CheckVariable(SemActs semActs, VariableExpr exp)
+        private SemanticCheckResult CheckVariable(SemActs semActs, VariableExpr exp)
         {   
             if(!_currentSymScope.Contains(exp.Name))
-                AddError("Variable " + exp.Name + " does not exist", exp);
+                return NodeError("Variable " + exp.Name + " does not exist", exp);
+
+            return SemanticCheckResult.Valid;
         }
         #endregion
     }

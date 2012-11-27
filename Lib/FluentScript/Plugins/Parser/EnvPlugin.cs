@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Parsing;
+using ComLib.Lang.Types;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -127,11 +132,11 @@ namespace ComLib.Lang.Extensions
             // env.sys.<ident>
             // env.user.<ident>
             var takeoverToken = _lexer.LastTokenData;
-            int line = _lexer.LineNumber;
-            int pos = _lexer.LineCharPos;            
+            int line = _lexer.State.Line;
+            int pos = _lexer.State.LineCharPosition;
 
             // First "."
-            _lexer.ReadChar();
+            _lexer.Scanner.ReadChar();
 
             // Read the next part.
             // Case 1: variable env.path
@@ -144,7 +149,7 @@ namespace ComLib.Lang.Extensions
                 || string.Compare(part.Text, "user", StringComparison.InvariantCultureIgnoreCase) == 0)
             {
                 // Second "."
-                _lexer.ReadChar();
+                _lexer.Scanner.ReadChar();
 
                 // "env. (sys | user )
                 scope = part.Text.ToLower();
@@ -226,13 +231,13 @@ namespace ComLib.Lang.Extensions
             if (string.IsNullOrEmpty(_scope))
             {
                 val = System.Environment.GetEnvironmentVariable(_varName);
-                return val;
+                return new LString(val);
             }
             EnvironmentVariableTarget target = (_scope == "sys")
                                                 ? EnvironmentVariableTarget.Machine
                                                 : EnvironmentVariableTarget.User;
-            val = System.Environment.GetEnvironmentVariable(_varName, target);           
-            return val;
+            val = System.Environment.GetEnvironmentVariable(_varName, target);
+            return new LString(val);
         }
     }
 }

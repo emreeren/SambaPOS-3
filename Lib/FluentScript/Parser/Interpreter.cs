@@ -6,32 +6,17 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
 using ComLib.Lang.Helpers;
+using ComLib.Lang.Parsing;
+using ComLib.Lang.Types;
+using ComLib.Lang.Phases;
+// </lang:using>
 
 namespace ComLib.Lang
 {
-    /*
-    ConstCapsPlugin 		- $Identifier
-    DatePlugin 				- $DateToken
-    DateNumberPlugin 		- $NumberToken
-    EmailPlugin 			- $IdToken
-    FluentFuncPlugin 		- $IdToken
-    FluentMemberPlugin 		- $IdToken
-    FuncWildCardPlugin 		- $IdToken
-    LinqPlugin 				- $IdToken
-    MoneyPlugin 			- $
-    PercentPlugin 			- $Suffix
-    SuffixPlugin 			- $Suffix
-    TimePlugin 				- $NumberToken
-    UnitsPlugin 			- $Suffix
-    UriPlugin 				- $IdToken
-    VariablePathPlugin 		- $IdToken
-    WordsInterpretPlugin 	- $IdToken
-
-    $Kind:Identifier
-    $Kind:Number
-    $Kind:Date
-    */
     /// <summary>
     /// Light version of javascript with some "sandbox" features coming up.
     /// </summary>
@@ -53,13 +38,15 @@ namespace ComLib.Lang
         private Context _context;
         private LangSettings _settings;
         private RunResult _runResult;
+        private PhaseContext _phaseCtx;
+        private bool _pluginsInitialized;
 
 
         /// <summary>
         /// Initialize
         /// </summary>
         public Interpreter()
-        {
+        {            
             _settings = new LangSettings();
             
             // Initialzie the context.
@@ -127,11 +114,8 @@ namespace ComLib.Lang
         /// <param name="scriptPath">Path to the script</param>
         public void ParseFile(string scriptPath)
         {
-            Execute(() =>
-            {
-                var script = ReadFile(scriptPath);
-                Parse(script);
-            });
+            var script = ReadFile(scriptPath);
+            Parse(script);
         }
 
 
@@ -141,11 +125,28 @@ namespace ComLib.Lang
         /// <param name="script"></param>
         public void Parse(string script)
         {
-            Execute(() =>
-            {
-                _context.Limits.CheckScriptLength(script);
-                _parser.Parse(script, _memory);
-            });
+            this.Execute(script, true, true, new ParsePhase(_parser), new ShutdownPhase());
+        }
+
+
+        /// <summary>
+        /// Parses the script but does not execute it.
+        /// </summary>
+        /// <param name="scriptPath">Path to the script</param>
+        public void LintFile(string scriptPath)
+        {
+            var script = ReadFile(scriptPath);
+            Lint(script);
+        }
+
+
+        /// <summary>
+        /// Parses the script but does not execute it.
+        /// </summary>
+        /// <param name="script"></param>
+        public void Lint(string script)
+        {
+            this.Execute(script, true, true, new ParsePhase(_parser), new LintPhase(true), new ShutdownPhase());
         }
 
 
@@ -155,11 +156,8 @@ namespace ComLib.Lang
         /// <param name="scriptPath">Path to the script</param>
         public void ExecuteFile(string scriptPath)
         {
-            Execute(() =>
-            {
-                var script = ReadFile(scriptPath);
-                Execute(script);
-            });
+            var script = ReadFile(scriptPath);
+            Execute(script);
         }
 
 
@@ -169,12 +167,116 @@ namespace ComLib.Lang
         /// <param name="script">Script text</param>
         public void Execute(string script)
         {
-            Execute(() =>
+            this.Execute(script, true, true, new ParsePhase(_parser), new ExecutionPhase(true), new ShutdownPhase());
+        }
+
+
+        /// <summary>
+        /// Executes existing already parsed.
+        /// </summary>
+        public void Execute()
+        {
+            this.Execute(string.Empty, false, false, new ExecutionPhase(true));
+        }
+
+
+        /// <summary>
+        /// Runs this instance of the interpreter in interactive mode.
+        /// </summary>
+        public void Interactive()
+        {
+            this.InitPlugins();
+
+            // 1. read line of code from console.
+            var script = Console.ReadLine();
+            script = script.Trim();
+            if (string.Compare(script, "exit", StringComparison.InvariantCultureIgnoreCase) == 0)
+                return;
+
+            this.Execute(script);
+            
+            // 2. Check success of line
+            if (!this._runResult.Success)
+                return;
+
+            while (true)
             {
-                _context.Limits.CheckScriptLength(script);
-                _parser.Parse(script, _memory);
-                _parser.Execute();
-            });
+                // Now keep looping
+                // 3. Read successive lines of code and append
+                script = Console.ReadLine();
+
+                // 4. Check for exit flag.
+                if (   string.Compare(script, "exit", StringComparison.InvariantCultureIgnoreCase) == 0
+                    || string.Compare(script, "Exit", StringComparison.InvariantCultureIgnoreCase) == 0
+                    || string.Compare(script, "EXIT", StringComparison.InvariantCultureIgnoreCase) == 0 )
+                    break;
+
+                // 5. Only process if not empty
+                if (!string.IsNullOrEmpty(script))
+                {
+                    this.AppendExecute(script);
+
+                    // 6. if error break;
+                    if (!_runResult.Success)
+                        break;
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Executes the script
+        /// </summary>
+        /// <param name="script">Script text</param>
+        /// <param name="target">The target language to translate the code to.</param>
+        public void Translate(string script, string target)
+        {
+            this.Execute(script, true, true, new ParsePhase(_parser), new TranslateToJsPhase(), new ShutdownPhase());
+        }
+
+
+        /// <summary>
+        /// Appends the script to the existing parsed scripts
+        /// </summary>
+        /// <param name="script"></param>
+        public void Append(string script)
+        {
+            this.Execute(script, false, true, new ParsePhase(_parser));
+        }
+
+
+        /// <summary>
+        /// Append the script to the existing code and executes only the new code.
+        /// </summary>
+        /// <param name="script"></param>
+        public void AppendExecute(string script)
+        {
+            this.Execute(script, false, true, new ParsePhase(_parser), new ExecutionPhase(false));
+        }
+
+
+        /// <summary>
+        /// Executes the script
+        /// </summary>
+        /// <param name="script">Script text</param>
+        /// <param name="clearExistingCode">Whether or not to clear existing parsed code and start fresh.</param>
+        public void Execute(string script, bool clearExistingCode, bool resetScript, params IPhase[] phases)
+        {
+            this.InitPlugins();
+            var phaseExecutor = new PhaseExecutor();
+
+            // 1. Create the execution phase
+            if (clearExistingCode)
+            {
+                _phaseCtx = new PhaseContext();
+                _phaseCtx.Ctx = _context;
+            }
+            if (resetScript)
+                _phaseCtx.ScriptText = script;
+
+            var phasesList = phases.ToList();
+            var result = phaseExecutor.Execute(script, _phaseCtx, _context, phasesList);
+            this._runResult = result.Result;
         }
 
 
@@ -182,13 +284,13 @@ namespace ComLib.Lang
         /// Call a fluent script function from c#.
         /// </summary>
         /// <param name="functionName">The name of the function to call</param>
-        /// <param name="convertApplicableTypes">Whether or not to convert applicable c# types to fluentscript types, eg. ints and longs to double, List(object) to LArray and Dictionary(string, object) to LMap</param>
+        /// <param name="convertApplicableTypes">Whether or not to convert applicable c# types to fluentscript types, eg. ints and longs to double, List(object) to LArrayType and Dictionary(string, object) to LMapType</param>
         /// <param name="args"></param>
         public object Call(string functionName, bool convertApplicableTypes, params object[] args)
         {
             var argsList = args.ToList<object>();
             if(convertApplicableTypes)
-                FunctionHelper.ConvertToFluentScriptTypes(argsList);
+                LangTypeHelper.ConvertToLangTypeValues(argsList);
             var result = _context.Functions.CallByName(functionName, null, argsList, false);
             return result;
         }
@@ -240,13 +342,13 @@ namespace ComLib.Lang
             {
                 script = File.ReadAllText(script);
             }
-            var lexer = new Lexer(_context, script);
-
+            var lexer = new Lexer(script);
+            lexer.SetContext(_context);
             Execute(() =>
             {
                 tokens = lexer.Tokenize();
             },
-            () => string.Format("Last token: {0}, Line : {1}, Pos : {2} ", lexer.LastToken.Text, lexer.LineNumber, lexer.LineCharPos));
+            () => string.Format("Last token: {0}, Line : {1}, Pos : {2} ", lexer.LastToken.Text, lexer.State.Line, lexer.State.LineCharPosition));
             return tokens;
         }
 
@@ -362,12 +464,40 @@ namespace ComLib.Lang
         }
 
 
+        private void InitPlugins()
+        {
+            if (_pluginsInitialized) return;
+
+            var tokenIt = _parser.TokenIt;
+            var lexer = _parser.Lexer;
+
+            // 2. Register default methods if not present.
+            Tokens.Default();
+            ErrorCodes.Init();
+            LTypesLookup.Init();
+            _context.Methods.RegisterIfNotPresent(LTypes.Array, new LJSArrayMethods());
+            _context.Methods.RegisterIfNotPresent(LTypes.Date, new LJSDateMethods());
+            _context.Methods.RegisterIfNotPresent(LTypes.String, new LJSStringMethods());
+            _context.Methods.RegisterIfNotPresent(LTypes.Time, new LJSTimeMethods());
+            _context.Methods.RegisterIfNotPresent(LTypes.Map, new LJSMapMethods());
+
+            // 3. Initialize the plugins.
+            _context.Plugins.RegisterAllSystem();
+            _context.Plugins.ForEach<IExprPlugin>(plugin => { plugin.Init(_parser, tokenIt); plugin.Ctx = _context; });
+            _context.Plugins.ForEach<ITokenPlugin>(plugin => { plugin.Init(_parser, tokenIt); });
+            _context.Plugins.ForEach<ILexPlugin>(plugin => { plugin.Init(lexer); });
+            _context.Plugins.ExecuteSetupPlugins(_context);
+            
+            _pluginsInitialized = true;
+        }
+
+
         private void InitSystemFunctions()
         {
             // Print and log functions.
-            _parser.Context.ExternalFunctions.Register("print",  (exp) => FunctionHelper.Print(_settings, exp, false));
-            _parser.Context.ExternalFunctions.Register("printl", (exp) => FunctionHelper.Print(_settings, exp, true));
-            _parser.Context.ExternalFunctions.Register("log.*",  (exp) => FunctionHelper.Log(_settings, exp));
+            _parser.Context.ExternalFunctions.Register("print",  (exp) => LogHelper.Print(_settings, exp, false));
+            _parser.Context.ExternalFunctions.Register("println", (exp) => LogHelper.Print(_settings, exp, true));
+            _parser.Context.ExternalFunctions.Register("log.*",  (exp) => LogHelper.Log(_settings, exp));
         }
         #endregion
     }

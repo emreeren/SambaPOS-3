@@ -2,10 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Helpers;
+using ComLib.Lang.Types;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -31,7 +37,7 @@ namespace ComLib.Lang.Extensions
     result = count( numbers );    
     </doc:example>
     ***************************************************************************/
-
+    // <fs:plugin-autogenerate>
     /// <summary>
     /// Combinator for handling comparisons.
     /// </summary>
@@ -50,19 +56,6 @@ namespace ComLib.Lang.Extensions
             };
         }
 
-
-        /// <summary>
-        /// Whether or not this parser can handle the supplied token.
-        /// </summary>
-        /// <param name="current"></param>
-        /// <returns></returns>
-        public override bool CanHandle(Token current)
-        {
-            var next = _tokenIt.Peek().Token;
-            if (next == Tokens.LeftParenthesis || string.Compare(next.Text, "of", StringComparison.InvariantCultureIgnoreCase) == 0)
-                return true;
-            return false;
-        }
 
 
         /// <summary>
@@ -89,6 +82,21 @@ namespace ComLib.Lang.Extensions
                     "Min of numbers"
                 };
             }
+        }
+        // </fs:plugin-autogenerate>
+
+
+        /// <summary>
+        /// Whether or not this parser can handle the supplied token.
+        /// </summary>
+        /// <param name="current"></param>
+        /// <returns></returns>
+        public override bool CanHandle(Token current)
+        {
+            var next = _tokenIt.Peek().Token;
+            if (next == Tokens.LeftParenthesis || string.Compare(next.Text, "of", StringComparison.InvariantCultureIgnoreCase) == 0)
+                return true;
+            return false;
         }
 
 
@@ -141,9 +149,10 @@ namespace ComLib.Lang.Extensions
         /// <param name="source"></param>
         public AggregateExpr(string aggregateType, Expr source)
         {
-            InitBoundary(true, ")");
-            _aggregateType = aggregateType;
-            _source = source;
+            this.Nodetype = "FSExtAggregate";
+            this.InitBoundary(true, ")");
+            this._aggregateType = aggregateType;
+            this._source = source;
         }
 
 
@@ -153,34 +162,47 @@ namespace ComLib.Lang.Extensions
         /// <returns></returns>
         public override object Evaluate()
         {
-            object dataSource = _source.Evaluate();
+            var dataSource = _source.Evaluate() as LObject;
+            ExceptionHelper.NotNull(this, dataSource, "aggregation(min/max)");
+            
             List<object> items = null;
 
             // Get the right type of list.
-            if (dataSource is LArray)
-                items = ((LArray)dataSource).Raw;
-            else if (dataSource is List<object>)
-                items = dataSource as List<object>;
+            if (dataSource.Type == LTypes.Array)
+                items = dataSource.GetValue() as List<object>;
             else
                 throw new NotSupportedException(_aggregateType + " not supported for list type of " + dataSource.GetType());
 
             double val = 0;
             if (_aggregateType == "sum")
-                val = items.Sum(item => item == null ? 0 : Convert.ToDouble(item));
+                val = items.Sum(item => GetValue(item));
 
             else if (_aggregateType == "avg")
-                val = items.Average(item => item == null ? 0 : Convert.ToDouble(item));
+                val = items.Average(item => GetValue(item));
 
             else if (_aggregateType == "min")
-                val = items.Min(item => item == null ? 0 : Convert.ToDouble(item));
+                val = items.Min(item => GetValue(item));
 
             else if (_aggregateType == "max")
-                val = items.Max(item => item == null ? 0 : Convert.ToDouble(item));
+                val = items.Max(item => GetValue(item));
 
             else if (_aggregateType == "count" || _aggregateType == "number")
                 val = items.Count;
-            
-            return val;
+
+            return new LNumber(val);
+        }
+
+
+        private double GetValue(object item)
+        {
+            // Check 1: Null
+            if (item == LObjects.Null) return 0;
+            var lobj = (LObject) item;
+
+            // Check 2: Number ? ok
+            if (lobj.Type == LTypes.Number) return ((LNumber) lobj).Value;
+
+            return 0;
         }
     }
 }

@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -18,6 +22,7 @@ namespace ComLib.Lang.Extensions
     var url3 = http://www.yahoo.com?user=kishore%20&id=123;
     var file1 = c:\users\kishore\settings.ini;
     var file2 = c:/data/blogposts.xml;
+    var printer = \\printnetwork1\printer1
     
     // Since this file has a space in it... you have to surround in quotes.
     var file3 = 'c:/data/blog posts.xml';
@@ -50,7 +55,7 @@ namespace ComLib.Lang.Extensions
         /// </summary>
         public UriPlugin()
         {
-            _tokens = new string[] { "http", "https", "ftp", "www", "$IdToken" };
+            _tokens = new string[] { "http", "https", "ftp", "www", "$IdToken", "\\" };
             _canHandleToken = true;
         }
 
@@ -94,14 +99,18 @@ namespace ComLib.Lang.Extensions
         /// <returns></returns>
         public override bool  CanHandle(Token current)
         {
-            char n = _lexer.State.CurrentChar;
-            char n2 = _lexer.PeekChar();
+            var n = _lexer.State.CurrentChar;
+            var n2 = _lexer.Scanner.PeekChar();
             
             // c:\folder\file.txt
             // c:/folder/file.txt
             if (n == ':' && (n2 == '/' || n2 == '\\'))
                 return true;
-                        
+            
+            // server name e.g. \\server1\share\user1
+            if (current.Text == "\\" && n == '\\')
+                return true;
+
             // http https ftp ftps www
             if (!_keywords.ContainsKey(current.Text))
                 return false;
@@ -121,12 +130,12 @@ namespace ComLib.Lang.Extensions
         {
             // http https ftp ftps www 
             var takeoverToken = _lexer.LastTokenData;
-            var line = _lexer.LineNumber;
-            var pos = _lexer.LineCharPos;
+            var line = _lexer.State.Line;
+            var pos = _lexer.State.LineCharPosition;
             var letter = _lexer.State.CurrentChar;
             var lineTokenPart = _lexer.ReadUri();
             var finalText = takeoverToken.Token.Text + lineTokenPart.Text;
-            var lineToken = ComLib.Lang.Tokens.ToLiteralString(finalText);
+            var lineToken = ComLib.Lang.Core.Tokens.ToLiteralString(finalText);
             var t = new TokenData() { Token = lineToken, Line = line, LineCharPos = pos };
             _lexer.ParsedTokens.Add(t);
             return new Token[] { lineToken };

@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -26,9 +30,9 @@ namespace ComLib.Lang.Extensions
         /// <summary>
         /// Initialize
         /// </summary>
-        public AndOrPlugin() : base("and", ComLib.Lang.Tokens.LogicalAnd )
+        public AndOrPlugin() : base("and", ComLib.Lang.Core.Tokens.LogicalAnd )
         {
-            Register("or", ComLib.Lang.Tokens.LogicalOr);
+            Register("or", ComLib.Lang.Core.Tokens.LogicalOr);
             _tokens = new string[] { "and", "or" };
         }
     }

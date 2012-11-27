@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Parsing;
+using ComLib.Lang.Types;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -15,6 +20,7 @@ namespace ComLib.Lang.Extensions
     // They are basically an alternative to not having to surround text in double quotes
     // Only 
     @words( nasdaq, fluent script )
+    @words  IBM, MSFT, APPL
     
     if ( "fluent script" == fluent script ) then
         print( "works" )
@@ -88,31 +94,37 @@ namespace ComLib.Lang.Extensions
         public override Expr Parse()
         {
             _tokenIt.Advance(2, false);
-            _tokenIt.Expect(Tokens.LeftParenthesis);
+            var hasParens = _tokenIt.NextToken.Token == Tokens.LeftParenthesis;
+            if(hasParens)
+                _tokenIt.Expect(Tokens.LeftParenthesis);
             var words = new List<string>();
 
             var token = _tokenIt.NextToken;
 
             // Loop through to register all words separated by comma.
-            while (token.Token != Tokens.RightParenthesis)
+            while (token.Token != Tokens.RightParenthesis && token.Token != Tokens.NewLine)
             {
                 if (_tokenIt.IsEnded)
                     break;
 
-                string word = GetNextWord();
+                if (!hasParens && token.Token == Tokens.Semicolon)
+                    break;
+
+                string word = GetNextWord(hasParens);
                 this._parser.Context.Words.Register(word);
 
                 token = _tokenIt.Advance(1, false);
                 if (token.Token == Tokens.Comma)
                     token = _tokenIt.Advance(1, false);
             }
-            _tokenIt.Expect(Tokens.RightParenthesis);
+            if(hasParens)
+                _tokenIt.Expect(Tokens.RightParenthesis);
             
             return new Expr();
         }
 
 
-        private string GetNextWord()
+        private string GetNextWord(bool hasParens)
         {
             var ahead = _tokenIt.Peek(1, false);
             var current = _tokenIt.NextToken;
@@ -122,6 +134,10 @@ namespace ComLib.Lang.Extensions
             while (ahead.Token != Tokens.Comma && ahead.Token != Tokens.RightParenthesis 
                 && ahead.Token != Tokens.EndToken)
             {
+                // Stop at new line if no parenthesis
+                if (!hasParens && (ahead.Token == Tokens.NewLine || ahead.Token == Tokens.Semicolon))
+                    break;
+
                 current = _tokenIt.Advance(1, false);
                 word += " " + current.Token.Text;
                 ahead = _tokenIt.Peek(1, false);
@@ -213,7 +229,7 @@ namespace ComLib.Lang.Extensions
 
             // Finally move past this plugin.
             _tokenIt.Advance();
-            return new ConstantExpr(_word);
+            return new ConstantExpr(new LString(_word));
         }
     }
 }

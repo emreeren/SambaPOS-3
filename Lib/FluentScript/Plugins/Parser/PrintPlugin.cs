@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Parsing;
+using ComLib.Lang.Types;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -43,7 +48,7 @@ namespace ComLib.Lang.Extensions
         public override bool CanHandle(Token current)
         {
             var nextToken = _lexer.PeekToken();
-            if (nextToken.Token == ComLib.Lang.Tokens.LeftParenthesis || nextToken.Token.Text == "\"")
+            if (nextToken.Token == ComLib.Lang.Core.Tokens.LeftParenthesis || nextToken.Token.Text == "\"")
                 return false;
             return true;
         }
@@ -55,10 +60,18 @@ namespace ComLib.Lang.Extensions
         /// <returns></returns>
         public override Token[] Parse()
         {
-            var includeNewLine = false;
-            if (_lexer.LastTokenData.Token.Text == "println")
-                includeNewLine = true;
-            return base.ParseLine(includeNewLine);
+            bool includeNewLine = _lexer.LastTokenData.Token.Text == "println";
+            var resultTokens = base.ParseLine(includeNewLine);
+
+            // Add new line to end if using "println"
+            if(resultTokens.Length == 2 && includeNewLine)
+            {
+                var first = resultTokens[1];
+                if(first.Kind != TokenKind.Multi)
+                    first.SetTextAndValue(first.Text, first.Text + Environment.NewLine);
+                
+            }
+            return resultTokens;
         }
     }
 
@@ -107,10 +120,10 @@ namespace ComLib.Lang.Extensions
             if (lineToken.Kind == TokenKind.Multi)
                 lineExp = _parser.ParseInterpolatedExpression(lineToken);
             else
-                lineExp = new ConstantExpr(lineToken.Value);
+                lineExp = new ConstantExpr(new LString((string)lineToken.Value));
 
             var exp = new FunctionCallExpr();
-            exp.NameExp = new VariableExpr("print");   
+            exp.NameExp = new VariableExpr(printToken.Token.Text);   
             exp.ParamListExpressions.Add(lineExp);
             _parser.SetScriptPosition(exp, printToken);
 

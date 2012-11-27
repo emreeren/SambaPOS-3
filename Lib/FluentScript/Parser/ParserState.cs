@@ -3,7 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ComLib.Lang
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Helpers;
+// </lang:using>
+
+namespace ComLib.Lang.Parsing
 {
     /// <summary>
     /// Used to hold the state of the parser.

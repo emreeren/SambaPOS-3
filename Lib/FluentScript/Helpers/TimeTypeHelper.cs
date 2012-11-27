@@ -9,7 +9,7 @@ namespace ComLib.Lang.Helpers
     /// <summary>
     /// Helper class for time types.
     /// </summary>
-    public class TimeTypeHelper
+    public class DateTimeTypeHelper
     {
         /// <summary>
         /// Whether or not a timespan can be created from the number of arguments supplied.
@@ -40,7 +40,7 @@ namespace ComLib.Lang.Helpers
                 throw new ArgumentException("Incorrect number of inputs for creating time");
 
             // Convert object into ints
-            int[] timeArgs = LangHelper.ConvertToInts(args);
+            int[] timeArgs = LangTypeHelper.ConvertToInts(args);
             int len = args.Length;
 
             // 1. 0 args = new TimeSpan()
@@ -62,17 +62,18 @@ namespace ComLib.Lang.Helpers
         public static Tuple<TimeSpan, bool, string> ParseTime(string strTime)
         {
             strTime = strTime.Trim().ToLower();
-            string pattern = @"(?<hours>[0-9]+)((\:)(?<minutes>[0-9]+))?\s*(?<ampm>(am|a\.m\.|a\.m|pm|p\.m\.|p\.m))?\s*";
-            Match match = Regex.Match(strTime, pattern);
+            var pattern = @"(?<hours>[0-9]+)((\:)(?<minutes>[0-9]{2}))?((\:)(?<seconds>[0-9]{2}))?\s*(?<ampm>(am|a\.m\.|a\.m|pm|p\.m\.|p\.m))?\s*";
+            var match = Regex.Match(strTime, pattern);
             if (!match.Success)
                 return new Tuple<TimeSpan, bool, string>(TimeSpan.MinValue, false, "Time : " + strTime + " is not a valid time.");
 
-            string strhours = match.Groups["hours"] != null ? match.Groups["hours"].Value : string.Empty;
-            string strminutes = match.Groups["minutes"] != null ? match.Groups["minutes"].Value : string.Empty;
-            string ampm = match.Groups["ampm"] != null ? match.Groups["ampm"].Value : string.Empty;
-            int hours = 0;
-            int minutes = 0;
-
+            var strhours = match.Groups["hours"] != null ? match.Groups["hours"].Value : string.Empty;
+            var strminutes = match.Groups["minutes"] != null ? match.Groups["minutes"].Value : string.Empty;
+            var strseconds = match.Groups["seconds"] != null ? match.Groups["seconds"].Value : string.Empty;
+            var ampm = match.Groups["ampm"] != null ? match.Groups["ampm"].Value : string.Empty;
+            var hours = 0;
+            var minutes = 0;
+            var seconds = 0;
             if (!string.IsNullOrEmpty(strhours) && !Int32.TryParse(strhours, out hours))
             {
                 return new Tuple<TimeSpan, bool, string>(TimeSpan.MinValue, false, "Hours are invalid.");
@@ -81,8 +82,12 @@ namespace ComLib.Lang.Helpers
             {
                 return new Tuple<TimeSpan, bool, string>(TimeSpan.MinValue, false, "Minutes are invalid.");
             }
+            if (!string.IsNullOrEmpty(strseconds) && !Int32.TryParse(strseconds, out seconds))
+            {
+                return new Tuple<TimeSpan, bool, string>(TimeSpan.MinValue, false, "Seconds are invalid.");
+            }
 
-            bool isAm = false;
+            var isAm = false;
             if (string.IsNullOrEmpty(ampm) || ampm == "am" || ampm == "a.m" || ampm == "a.m.")
                 isAm = true;
             else if (ampm == "pm" || ampm == "p.m" || ampm == "p.m.")
@@ -98,9 +103,38 @@ namespace ComLib.Lang.Helpers
 
             // Handles 12 12am.
             if (hours == 12 && isAm)
-                return new Tuple<TimeSpan, bool, string>(new TimeSpan(0, minutes, 0), true, string.Empty);
+                return new Tuple<TimeSpan, bool, string>(new TimeSpan(0, minutes, seconds), true, string.Empty);
 
-            return new Tuple<TimeSpan, bool, string>(new TimeSpan(hours, minutes, 0), true, string.Empty);
+            return new Tuple<TimeSpan, bool, string>(new TimeSpan(hours, minutes, seconds), true, string.Empty);
+        }
+
+
+        public static TimeSpan ParseTimeWithoutColons(string numericPart, bool isAm)
+        {
+            var time = Convert.ToInt32(numericPart);
+            var hours = 0;
+            var minutes = 0;
+            
+            // 1pm || 12am
+            if(time <= 12)
+            {
+                hours = time;
+            }
+            // 130 - 930    am|pm
+            else if (time < 1000)
+            {
+                hours = Convert.ToInt32(numericPart[0].ToString());
+                minutes = Convert.ToInt32(numericPart.Substring(1));
+            }
+            // 1030 - 1230  am|pm                
+            else
+            {
+                hours = Convert.ToInt32(numericPart.Substring(0, 2));
+                minutes = Convert.ToInt32(numericPart.Substring(2));
+            }
+            if (!isAm && hours < 12)
+                hours += 12;
+            return new TimeSpan(0, hours, minutes, 0);
         }
     }
 }

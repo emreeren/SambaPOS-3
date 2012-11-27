@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Parsing;
+using ComLib.Lang.Types;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -96,16 +101,17 @@ namespace ComLib.Lang.Extensions
         /// <returns></returns>
         public override Expr Parse(object context)
         {
-            ConstantExpr constExp = context as ConstantExpr;
+            var constExp = context as ConstantExpr;
             var ctx = _parser.Context;
             var t = _tokenIt.Advance();
-
+            var lobj = (LObject)constExp.Value;
             // Validate.
-            if (!(constExp.Value is double))
+            if (lobj.Type != LTypes.Number)
                 throw _tokenIt.BuildSyntaxException("number required when using units : " + t.Token.Text, t);
 
-            var result = ctx.Units.ConvertToUnits((double)constExp.Value, t.Token.Text);
-            var finalExp = new ConstantExpr(result);
+            var lval = ((LNumber)lobj).Value;
+            var result = ctx.Units.ConvertToUnits(lval, t.Token.Text);
+            var finalExp = new ConstantExpr(new LClass(result));
             
             // Move past the plugin.
             _tokenIt.Advance();

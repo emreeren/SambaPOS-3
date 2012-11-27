@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ComLib.Lang
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+// </lang:using>
+
+namespace ComLib.Lang.Parsing
 {
     /// <summary>
     /// A combinator to extend the parser

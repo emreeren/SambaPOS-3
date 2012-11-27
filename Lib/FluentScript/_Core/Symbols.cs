@@ -5,12 +5,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ComLib.Lang
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.Types;
+using ComLib.Lang.Helpers;
+// </lang:using>
+
+namespace ComLib.Lang.Core
 {
     /// <summary>
     /// Constants for various symbol type names
     /// </summary>
-    public class SymbolConstants
+    public class SymbolCategory
     {
         /// <summary>
         /// Variable
@@ -28,6 +34,12 @@ namespace ComLib.Lang
         /// Function
         /// </summary>
         public const string Func = "func";
+
+
+        /// <summary>
+        /// Module level scope.
+        /// </summary>
+        public const string CustomScope = "scope";
     }
 
 
@@ -35,7 +47,7 @@ namespace ComLib.Lang
     /// <summary>
     /// Represents a symbol definition in the language.
     /// </summary>
-    public class SymbolType
+    public class Symbol
     {
         /// <summary>
         /// Name of the symbol
@@ -52,7 +64,7 @@ namespace ComLib.Lang
         /// <summary>
         /// Datatype of the symbol ( not used for now since fluentscript is a dynamic language.
         /// </summary>
-        public Type DataType { get; set; }
+        public LType DataType { get; set; }
 
 
         /// <summary>
@@ -66,7 +78,7 @@ namespace ComLib.Lang
     /// <summary>
     /// Symbol type for const.
     /// </summary>
-    public class SymbolTypeConst : SymbolType
+    public class SymbolConstant : Symbol
     {
         /// <summary>
         /// Value for the constant.
@@ -77,20 +89,39 @@ namespace ComLib.Lang
 
 
     /// <summary>
+    /// Symbol type for const.
+    /// </summary>
+    public class SymbolModule : Symbol
+    {
+        /// <summary>
+        /// Value for the constant.
+        /// </summary>
+        public ISymbols Scope { get; set; }
+
+
+        /// <summary>
+        /// The parent scope.
+        /// </summary>
+        public ISymbols ParentScope { get; set; }
+    }
+
+
+
+    /// <summary>
     /// Symbol type for function.
     /// </summary>
-    public class SymbolTypeFunc : SymbolType
+    public class SymbolFunction : Symbol
     {        
         /// <summary>
         /// Initialize with function metadata
         /// </summary>
         /// <param name="meta"></param>
-        public SymbolTypeFunc(FunctionMetaData meta)
+        public SymbolFunction(FunctionMetaData meta)
         {
             Name = meta.Name;
             Meta = meta;
-            Category = SymbolConstants.Func;
-            DataType = typeof(LFunction);
+            Category = SymbolCategory.Func;
+            DataType = new LFunctionType(meta.Name);
         }
 
 
@@ -98,6 +129,12 @@ namespace ComLib.Lang
         /// Function metadata
         /// </summary>
         public FunctionMetaData Meta { get; set; }
+
+
+        /// <summary>
+        /// The function expression.
+        /// </summary>
+        public object FuncExpr { get; set; }
     }
 
 
@@ -128,11 +165,20 @@ namespace ComLib.Lang
 
 
         /// <summary>
+        /// Whether or not the type of the symbol supplied matches the typename 
+        /// </summary>
+        /// <param name="name">The name of the symbol</param>
+        /// <param name="categoryName">The category of the symbol</param>
+        /// <returns></returns>
+        bool IsCategory(string name, string typename);
+
+
+        /// <summary>
         /// Gets the symbol with the supplied name.
         /// </summary>
         /// <param name="name">Name of the symbol to get.</param>
         /// <returns></returns>
-        SymbolType GetSymbol(string name);
+        Symbol GetSymbol(string name);
 
 
         /// <summary>
@@ -144,10 +190,33 @@ namespace ComLib.Lang
 
 
         /// <summary>
-        /// Defines a variable in the current symbol scope.
+        /// Define the supplied symbol to this instance of symbol table.
+        /// </summary>
+        /// <param name="symbol"></param>
+        void Define(Symbol symbol);
+
+
+        /// <summary>
+        /// Defines a variable in the current symbol scope with type object
         /// </summary>
         /// <param name="name">Name of the variable</param>
         void DefineVariable(string name);
+        
+        
+        /// <summary>
+        /// Defines a variable in the current symbol scope.
+        /// </summary>
+        /// <param name="name">Name of the variable</param>
+        /// <param name="type">Type of the variable</param>
+        void DefineVariable(string name, LType type);
+
+
+        /// <summary>
+        /// Create an alias to reference another existing symbol.
+        /// </summary>
+        /// <param name="alias">The alias</param>
+        /// <param name="symbol">The symbol to map the alias to</param>
+        void DefineAlias(string alias, string existingName);
 
 
         /// <summary>
@@ -155,23 +224,14 @@ namespace ComLib.Lang
         /// </summary>
         /// <param name="name">Name of the constant</param>
         /// <param name="value">The value of the constant</param>
-        void DefineConstant(string name, object value);
+        void DefineConstant(string name, LType type, object value);
 
 
         /// <summary>
-        /// Defines a variable in the current symbol scope.
+        /// Define a function symbol within this scope.
         /// </summary>
-        /// <param name="name">Name of the variable</param>
-        /// <param name="type">Type of the variable</param>
-        void DefineVariable(string name, Type type);
-
-
-        /// <summary>
-        /// Defines an alias name for the existing name supplied.
-        /// </summary>
-        /// <param name="existingName">The existing symbol name to define the alias for</param>
-        /// <param name="alias">The alias</param>
-        void DefineAlias(string existingName, string alias);
+        /// <param name="func">The function metadata</param>
+        void DefineFunction(FunctionMetaData func);
     }    
 
 
@@ -196,7 +256,7 @@ namespace ComLib.Lang
         /// <summary>
         /// Map of the registered symbols in this scope.
         /// </summary>
-        protected IDictionary<string, SymbolType> _symbols;
+        protected IDictionary<string, Symbol> _symbols;
 
 
         /// <summary>
@@ -208,7 +268,7 @@ namespace ComLib.Lang
         {
             _name = name;
             _parent = parent;
-            _symbols = new Dictionary<string, SymbolType>();
+            _symbols = new Dictionary<string, Symbol>();
 
         }
 
@@ -223,78 +283,15 @@ namespace ComLib.Lang
         /// Gets the parent symbol scope of this scope.
         /// </summary>
         public virtual ISymbols ParentScope { get { return _parent; } set { _parent = value;} }
-
+        
 
         /// <summary>
-        /// Define the symbol within this scope.
+        /// Gets the symbol table for this symbol scope
         /// </summary>
-        /// <param name="name">Name of the varaible</param>
-        public virtual void DefineVariable(string name)
+        /// <returns></returns>
+        public virtual IDictionary<string, Symbol> Symbols
         {
-            Symbols[name] = new SymbolType() { Name = name, Category = SymbolConstants.Var,  DataType = typeof(object) };
-        }
-
-
-        /// <summary>
-        /// Define the symbol within this scope.
-        /// </summary>
-        /// <param name="name">Name of the varaible</param>
-        /// <param name="type">The type of the variable</param>
-        public virtual void DefineVariable(string name, Type type)
-        {
-            Symbols[name] = new SymbolType() { Name = name, Category = SymbolConstants.Var, DataTypeName = type.Name, DataType = type };
-        }
-
-
-        /// <summary>
-        /// Define a function symbol within this scope.
-        /// </summary>
-        /// <param name="name">Name of the varaible</param>
-        /// <param name="totalNumberOfArgs">The total number of arguments</param>
-        /// <param name="argNames">The names of the arguments</param>
-        /// <param name="returnType">The return type of the function</param>
-        public virtual void DefineFunction(string name, int totalNumberOfArgs, string[] argNames, Type returnType)
-        {
-            var meta = new FunctionMetaData(name, argNames.ToList());
-            meta.ReturnType = returnType;
-            Symbols[name] = new SymbolTypeFunc(meta);
-        }
-
-
-        /// <summary>
-        /// Define a function symbol within this scope.
-        /// </summary>
-        /// <param name="func">The function metadata</param>
-        public virtual void DefineFunction(FunctionMetaData func)
-        {            
-            Symbols[func.Name] = new SymbolTypeFunc(func);
-        }
-
-
-        /// <summary>
-        /// Defines an alias name for the existing name supplied.
-        /// </summary>
-        /// <param name="existingName">The existing symbol name to define the alias for</param>
-        /// <param name="alias">The alias</param>
-        public virtual void DefineAlias(string existingName, string alias)
-        {
-            var symType = Symbols[existingName];
-            Symbols[alias] = symType;
-        }
-
-
-        /// <summary>
-        /// Define the symbol within this scope.
-        /// </summary>
-        /// <param name="name">Name of the constant</param>
-        /// <param name="value">The value of constant</param>
-        public virtual void DefineConstant(string name, object value)
-        {               
-            if(value == null) 
-            {                
-                throw new ArgumentException("Constant value not supplied for : " + name);
-            }
-            Symbols[name] = new SymbolTypeConst() { Name = name, Category = SymbolConstants.Const, DataType = value.GetType(), Value = value };
+            get { return _symbols; }
         }
 
 
@@ -305,7 +302,21 @@ namespace ComLib.Lang
         /// <returns></returns>
         public virtual bool Contains(string name)
         {
-            return Symbols.ContainsKey(name);
+            return this.Symbols.ContainsKey(name);
+        }
+
+
+        /// <summary>
+        /// Whether or not the type of the symbol supplied matches the typename 
+        /// </summary>
+        /// <param name="name">The name of the symbol</param>
+        /// <param name="categoryName">The category of the symbol</param>
+        /// <returns></returns>
+        public virtual bool IsCategory(string name, string typename)
+        {
+            var sym = this.GetSymbol(name);
+            if (sym == null) return false;
+            return sym.Category == typename;
         }
 
 
@@ -314,9 +325,9 @@ namespace ComLib.Lang
         /// </summary>
         /// <param name="name">Name of the symbol</param>
         /// <returns></returns>
-        public virtual SymbolType GetSymbol(string name)
+        public virtual Symbol GetSymbol(string name)
         {
-            if (Symbols.ContainsKey(name))
+            if (this.Symbols.ContainsKey(name))
                 return Symbols[name];
 
             return null;
@@ -328,9 +339,9 @@ namespace ComLib.Lang
         /// </summary>
         /// <param name="name">Name of the symbol</param>
         /// <returns></returns>
-        public virtual T GetSymbol<T>(string name) where T: class
+        public virtual T GetSymbol<T>(string name) where T : class
         {
-            object sym = GetSymbol(name);
+            object sym = this.GetSymbol(name);
             if (sym == null)
                 return default(T);
 
@@ -339,12 +350,72 @@ namespace ComLib.Lang
 
 
         /// <summary>
-        /// Gets the symbol table for this symbol scope
+        /// Define the supplied symbol to this instance of symbol table.
         /// </summary>
-        /// <returns></returns>
-        protected virtual IDictionary<string, SymbolType> Symbols
+        /// <param name="symbol"></param>
+        public virtual void Define(Symbol symbol)
         {
-            get { return _symbols; }
+            this.Symbols[symbol.Name] = symbol;
+        }
+
+
+        /// <summary>
+        /// Define the symbol within this scope with default type of object.
+        /// </summary>
+        /// <param name="name">Name of the varaible</param>
+        public virtual void DefineVariable(string name)
+        {
+            this.DefineVariable(name, LTypes.Object);
+        }
+        
+        
+        /// <summary>
+        /// Define the symbol within this scope.
+        /// </summary>
+        /// <param name="name">Name of the varaible</param>
+        /// <param name="type">The type of the variable</param>
+        public virtual void DefineVariable(string name, LType type)
+        {
+            var symbol = new Symbol() { Name = name, Category = SymbolCategory.Var, DataTypeName = type.Name, DataType = type };
+            this.Define(symbol);
+        }
+
+
+        /// <summary>
+        /// Define the symbol within this scope.
+        /// </summary>
+        /// <param name="name">Name of the constant</param>
+        /// <param name="value">The value of constant</param>
+        public virtual void DefineConstant(string name, LType type, object value)
+        {
+            if (value == null)
+                throw new ArgumentException("Constant value not supplied for : " + name);
+
+            var symbol = new SymbolConstant() { Name = name, Category = SymbolCategory.Const, DataType = LTypes.Object, Value = value };
+            this.Define(symbol);
+        }
+
+
+        /// <summary>
+        /// Create an alias to reference another existing symbol.
+        /// </summary>
+        /// <param name="alias">The alias</param>
+        /// <param name="symbol">The symbol to map the alias to</param>
+        public virtual void DefineAlias(string alias, string existing)
+        {
+            var symbol = this.GetSymbol(existing);
+            this.Symbols[alias] = symbol;
+        }
+
+
+        /// <summary>
+        /// Define a function symbol within this scope.
+        /// </summary>
+        /// <param name="func">The function metadata</param>
+        public virtual void DefineFunction(FunctionMetaData func)
+        {
+            var symbol = new SymbolFunction(func);
+            this.Define(symbol);
         }
     }
 
@@ -407,9 +478,9 @@ namespace ComLib.Lang
         /// </summary>
         /// <param name="name">Name of the symbol</param>
         /// <returns></returns>
-        public override SymbolType GetSymbol(string name)
+        public override Symbol GetSymbol(string name)
         {
-            SymbolType symbol = base.GetSymbol(name);
+            Symbol symbol = base.GetSymbol(name);
             if (symbol == null && _parent != null)
                 symbol = _parent.GetSymbol(name);
 
@@ -515,7 +586,7 @@ namespace ComLib.Lang
         /// </summary>
         /// <param name="name">Name of the symbol</param>
         /// <returns></returns>
-        public SymbolType GetSymbol(string name)
+        public Symbol GetSymbol(string name)
         {
             return _current.GetSymbol(name);
         }
@@ -533,34 +604,13 @@ namespace ComLib.Lang
 
 
         /// <summary>
-        /// Define the symbol within this scope.
-        /// </summary>
-        /// <param name="name">Name of the varaible</param>
-        public void DefineVariable(string name)
-        {
-            _current.DefineVariable(name);
-        }
-
-
-        /// <summary>
-        /// Define the symbol within this scope.
-        /// </summary>
-        /// <param name="name">Name of the constant</param>
-        /// <param name="val">Value of the constant</param>
-        public void DefineConstant(string name, object val)
-        {
-            _current.DefineConstant(name, val);
-        }
-
-
-        /// <summary>
         /// Whether or not the name of the symbol supplied is a variable
         /// </summary>
         /// <param name="name">The name of the variable symbol</param>
         /// <returns></returns>
         public bool IsVar(string name)
         {
-            return IsType(name, SymbolConstants.Var);
+            return IsCategory(name, SymbolCategory.Var);
         }
 
 
@@ -571,7 +621,7 @@ namespace ComLib.Lang
         /// <returns></returns>
         public bool IsConst(string name)
         {
-            return IsType(name, SymbolConstants.Const);
+            return IsCategory(name, SymbolCategory.Const);
         }
 
 
@@ -582,7 +632,7 @@ namespace ComLib.Lang
         /// <returns></returns>
         public bool IsFunc(string name)
         {
-            return IsType(name, SymbolConstants.Func);
+            return IsCategory(name, SymbolCategory.Func);
         }
 
         
@@ -590,13 +640,75 @@ namespace ComLib.Lang
         /// Whether or not the type of the symbol supplied matches the typename 
         /// </summary>
         /// <param name="name">The name of the symbol</param>
-        /// <param name="typename">The name of the type</param>
+        /// <param name="categoryName">The category of the symbol</param>
         /// <returns></returns>
-        public bool IsType(string name, string typename)
+        public bool IsCategory(string name, string categoryName)
         {
-            SymbolType sym = this.GetSymbol(name);
-            if (sym == null) return false;
-            return sym.Category == typename;
+            return _current.IsCategory(name, categoryName);
+        }
+
+
+        /// <summary>
+        /// Define the symbol on the current scope.
+        /// </summary>
+        /// <param name="symbol"></param>
+        public void Define(Symbol symbol)
+        {
+            _current.Define(symbol);
+        }
+
+
+        /// <summary>
+        /// Define the symbol within current scope with default type of object
+        /// </summary>
+        /// <param name="name">Name of the varaible</param>
+        public void DefineVariable(string name)
+        {
+            _current.DefineVariable(name, LTypes.Object);
+        }
+        
+        
+        /// <summary>
+        /// Define the symbol within current scope.
+        /// </summary>
+        /// <param name="name">Name of the varaible</param>
+        /// <param name="type">The type of the variable</param>
+        public void DefineVariable(string name, LType type)
+        {
+            _current.DefineVariable(name, type);
+        }
+
+
+        /// <summary>
+        /// Defines an alias name for the existing name supplied.
+        /// </summary>
+        /// <param name="existingName">The existing symbol name to define the alias for</param>
+        /// <param name="alias">The alias</param>
+        public void DefineAlias(string alias, string existingName)
+        {
+            _current.DefineAlias(alias, existingName);
+        }
+
+
+        /// <summary>
+        /// Define the symbol within this scope.
+        /// </summary>
+        /// <param name="name">Name of the constant</param>
+        /// <param name="type">The type of the constant</param>
+        /// <param name="value">The value of constant</param>
+        public void DefineConstant(string name, LType type, object value)
+        {
+            _current.DefineConstant(name, type, value);
+        }        
+
+
+        /// <summary>
+        /// Define a function symbol within this scope.
+        /// </summary>
+        /// <param name="func">The function metadata</param>
+        public void DefineFunction(FunctionMetaData func)
+        {            
+            _current.DefineFunction(func);
         }
     }
 }

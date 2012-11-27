@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Types;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -20,7 +25,8 @@ namespace ComLib.Lang.Extensions
     var result2 = 2
     
     </doc:example>
-    ***************************************************************************/  
+    ***************************************************************************/
+    // <fs:plugin-autogenerate>
     /// <summary>
     /// Combinator for handling days of the week.
     /// </summary>
@@ -64,6 +70,7 @@ namespace ComLib.Lang.Extensions
                 };
             }
         }
+        // </fs:plugin-autogenerate>
 
 
         /// <summary>
@@ -133,7 +140,7 @@ namespace ComLib.Lang.Extensions
         /// </summary>
         public override object DoEvaluate()
         {
-            return LNull.Instance;
+            return LObjects.Null;
             // This is executed during parse phase.
             // But this statement exists so it can be represented in the AST.
 

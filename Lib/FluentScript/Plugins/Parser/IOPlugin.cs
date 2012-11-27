@@ -4,10 +4,16 @@ using System.Reflection;
 using System.IO;
 using System.Linq;
 using System.Text;
-using ComLib.Lang;
-using ComLib.Lang.Helpers;
 
-namespace ComLib.Lang.Extensions
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Types;
+using ComLib.Lang.Helpers;
+using ComLib.Lang.Parsing;
+// </lang:using>
+
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -55,12 +61,13 @@ namespace ComLib.Lang.Extensions
         /// <summary>
         /// Executes further Registration actions
         /// </summary>
-        /// <param name="i">The instance of the interpreter</param>
         /// <param name="ctx">The context of the interperter</param>
         public override void Setup(Context ctx)
         {
             ctx.Types.Register(typeof(File), null);
+            ctx.Types.Register(typeof(Files), null);
             ctx.Types.Register(typeof(Dir),  null);
+            ctx.Types.Register(typeof(Dirs), null);
         }
     }
 

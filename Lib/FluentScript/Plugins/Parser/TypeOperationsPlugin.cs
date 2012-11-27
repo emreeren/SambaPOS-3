@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using ComLib.Lang;
+
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Types;
+using ComLib.Lang.Parsing;
 using ComLib.Lang.Helpers;
+// </lang:using>
 
-
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -148,129 +153,41 @@ namespace ComLib.Lang.Extensions
         private static int CONVERT_MODE_TOSTRING = 1;
         private static int CONVERT_MODE_LAMBDA   = 2;
         private static int CONVERT_MODE_NA       = 3;
-
-        /// <summary>
-        /// Internal class for specifying what conversions can take place.
-        /// </summary>
-        class ConvertSpec
-        {
-            /// <summary>
-            /// Initialize
-            /// </summary>
-            /// <param name="sourceType">The source type</param>
-            /// <param name="destType">The destination type</param>
-            /// <param name="canChange">Whether or not the conversion change can occur with these types</param>
-            /// <param name="isCaseSensitive">Whether or not the conversion is case sensitive.</param>
-            /// <param name="convertMode">The mode of conversion.</param>
-            /// <param name="regex">A regex pattern if mode involves regular expression checks.</param>
-            /// <param name="allowedVals">A list of allowed values of source value</param>
-            /// <param name="handler">A method to perform the conversion for complex conversions.</param>
-            public ConvertSpec(string sourceType, string destType, bool canChange, bool isCaseSensitive, 
-                               int convertMode, string regex, Func<ConvertSpec, object, object> handler, List<string> allowedVals)
-            {
-                SourceType = sourceType;
-                DestType = destType;
-                CanChange = canChange;
-                IsCaseSensitive = isCaseSensitive;
-                ConvertMode = convertMode;
-                RegexPattern = regex;
-                Handler = handler;
-                AllowedVals = allowedVals;
-            }
-
-
-            /// <summary>
-            /// Source type. e.g. "string"
-            /// </summary>
-	        public string SourceType 		{ get; set; }
-
-
-            /// <summary>
-            /// Destination type e.g. "bool"
-            /// </summary>
-	        public string DestType   		{ get; set; }
-
-
-            /// <summary>
-            /// Whether or not a change can take place.
-            /// </summary>
-	        public bool CanChange    		{ get; set; }
-
-
-            /// <summary>
-            /// Whether or not the change is case sensitive
-            /// </summary>
-	        public bool IsCaseSensitive 	{ get; set; }
-
-
-            /// <summary>
-            /// The conversion mode from "direct", "regex", "handler", "list"
-            /// </summary>
-	        public int ConvertMode 		{ get; set; }
-
-
-            /// <summary>
-            /// The regex pattern to use for conversion checking.
-            /// </summary>
-	        public string RegexPattern 		{ get; set; }
-
-
-            /// <summary>
-            /// The list of allowed source values
-            /// </summary>
-	        public List<string> AllowedVals { get; set; }
-
-
-            /// <summary>
-            /// A method handler for more complex conversions.
-            /// </summary>
-	        public Func<ConvertSpec, object, object> Handler { get; set;}
-
-
-            /// <summary>
-            /// Lookup key
-            /// </summary>
-            /// <returns></returns>
-            public string LookupKey()
-            {
-                return this.SourceType + "-" + this.DestType;
-            }
-        }
-
+        
 
         private static Dictionary<string, ConvertSpec> _conversionLookup = new Dictionary<string, ConvertSpec>();
         private static List<ConvertSpec> _conversionSpecs = new List<ConvertSpec>()
         {
 	        // 				source		dest	   can change		case sensitive	convert mode	regex	handler,  	allowedvalues
-	        new ConvertSpec("string",	"string" , true ,			true , 		  	CONVERT_MODE_DIRECT,  	"",  	null, 		                null),
-	        new ConvertSpec("string",	"bool"   , true ,			false, 			CONVERT_MODE_LAMBDA, 	"",  	Convert_String_To_Bool,     null),
-	        new ConvertSpec("string",	"number" , true ,			false, 			CONVERT_MODE_LAMBDA,  	"",  	Convert_String_To_Number,   null),
-	        new ConvertSpec("string",	"date"   , true ,			false, 			CONVERT_MODE_LAMBDA,  	"",  	Convert_String_To_Date,     null),
-	        new ConvertSpec("string",	"time"   , true ,			false, 			CONVERT_MODE_LAMBDA,  	"",  	Convert_String_To_Time,     null),
+	        new ConvertSpec("string",	"string" , true ,			true , 		  	CONVERT_MODE_DIRECT,  	"",  	null, 		                                null),
+	        new ConvertSpec("string",	"bool"   , true ,			false, 			CONVERT_MODE_LAMBDA, 	"",  	ConversionHelper.Convert_String_To_Bool,    null),
+	        new ConvertSpec("string",	"number" , true ,			false, 			CONVERT_MODE_LAMBDA,  	"",  	ConversionHelper.Convert_String_To_Number,  null),
+	        new ConvertSpec("string",	"date"   , true ,			false, 			CONVERT_MODE_LAMBDA,  	"",  	ConversionHelper.Convert_String_To_Date,    null),
+	        new ConvertSpec("string",	"time"   , true ,			false, 			CONVERT_MODE_LAMBDA,  	"",  	ConversionHelper.Convert_String_To_Time,    null),
 	        
-            new ConvertSpec("bool"  ,	"string" , true ,			false, 			CONVERT_MODE_TOSTRING,  "",  	null, 		                null),
-	        new ConvertSpec("bool"  ,	"bool"   , true ,			false, 			CONVERT_MODE_DIRECT,  	"",  	null, 		                null),
-	        new ConvertSpec("bool"  ,	"number" , true ,			false, 			CONVERT_MODE_LAMBDA,  	"",  	Convert_Bool_To_Number,     null),
-	        new ConvertSpec("bool"  ,	"date"   , false,			false, 			CONVERT_MODE_NA,     	"",  	null, 		                null),
-	        new ConvertSpec("bool"  ,	"time"   , false,			false, 			CONVERT_MODE_NA,     	"",  	null, 		                null),
+            new ConvertSpec("bool"  ,	"string" , true ,			false, 			CONVERT_MODE_TOSTRING,  "",  	null, 		                                null),
+	        new ConvertSpec("bool"  ,	"bool"   , true ,			false, 			CONVERT_MODE_DIRECT,  	"",  	null, 		                                null),
+	        new ConvertSpec("bool"  ,	"number" , true ,			false, 			CONVERT_MODE_LAMBDA,  	"",  	ConversionHelper.Convert_Bool_To_Number,    null),
+	        new ConvertSpec("bool"  ,	"date"   , false,			false, 			CONVERT_MODE_NA,     	"",  	null, 		                                null),
+	        new ConvertSpec("bool"  ,	"time"   , false,			false, 			CONVERT_MODE_NA,     	"",  	null, 		                                null),
 	        
-            new ConvertSpec("number",	"string" , true ,			false, 			CONVERT_MODE_TOSTRING,  "",  	null, 		                null),
-	        new ConvertSpec("number",	"bool"   , true ,			false, 			CONVERT_MODE_LAMBDA,  	"",  	Convert_Number_To_Bool,     null),
-	        new ConvertSpec("number",	"number" , true ,			false, 			CONVERT_MODE_DIRECT,  	"",  	null, 		                null),
-	        new ConvertSpec("number",	"date"   , false,			false, 			CONVERT_MODE_NA,    	"",  	null, /*Convert_Number_To_Date*/ 	null),
-	        new ConvertSpec("number",	"time"   , false,			false, 			CONVERT_MODE_NA,    	"",  	null, /*Convert_Number_To_Time*/    null),
+            new ConvertSpec("number",	"string" , true ,			false, 			CONVERT_MODE_TOSTRING,  "",  	null, 		                                null),
+	        new ConvertSpec("number",	"bool"   , true ,			false, 			CONVERT_MODE_LAMBDA,  	"",  	ConversionHelper.Convert_Number_To_Bool,    null),
+	        new ConvertSpec("number",	"number" , true ,			false, 			CONVERT_MODE_DIRECT,  	"",  	null, 		                                null),
+	        new ConvertSpec("number",	"date"   , false,			false, 			CONVERT_MODE_NA,    	"",  	null, /*Convert_Number_To_Date*/ 	        null),
+	        new ConvertSpec("number",	"time"   , false,			false, 			CONVERT_MODE_NA,    	"",  	null, /*Convert_Number_To_Time*/            null),
 	        
-            new ConvertSpec("date"  ,	"string" , true ,			false, 			CONVERT_MODE_LAMBDA,    "",  	Convert_Date_To_String,     null),
-	        new ConvertSpec("date"  ,	"bool"   , false,			false, 			CONVERT_MODE_NA,     	"",  	null, 		                null),
-	        new ConvertSpec("date"  ,	"number" , false ,			false, 			CONVERT_MODE_NA,  	    "",  	null, /*Convert_Date_To_Number*/    null),
-	        new ConvertSpec("date"  ,	"date"   , true ,			false, 			CONVERT_MODE_DIRECT,  	"",  	null, 		                null),
-	        new ConvertSpec("date"  ,	"time"   , true ,			false, 			CONVERT_MODE_LAMBDA,  	"",  	Convert_Date_To_Time,       null),
+            new ConvertSpec("date"  ,	"string" , true ,			false, 			CONVERT_MODE_LAMBDA,    "",  	ConversionHelper.Convert_Date_To_String,    null),
+	        new ConvertSpec("date"  ,	"bool"   , false,			false, 			CONVERT_MODE_NA,     	"",  	null, 		                                null),
+	        new ConvertSpec("date"  ,	"number" , false ,			false, 			CONVERT_MODE_NA,  	    "",  	null, /*Convert_Date_To_Number*/            null),
+	        new ConvertSpec("date"  ,	"date"   , true ,			false, 			CONVERT_MODE_DIRECT,  	"",  	null, 		                                null),
+	        new ConvertSpec("date"  ,	"time"   , true ,			false, 			CONVERT_MODE_LAMBDA,  	"",  	ConversionHelper.Convert_Date_To_Time,      null),
 	        
-            new ConvertSpec("time"  ,	"string" , true ,			false, 			CONVERT_MODE_LAMBDA,    "",  	Convert_Time_To_String,     null),
-	        new ConvertSpec("time"  ,	"bool"   , false,			false, 			CONVERT_MODE_NA,  	    "",  	null, 		                null),
-	        new ConvertSpec("time"  ,	"number" , false ,			false, 			CONVERT_MODE_NA,  	    "",  	null, /*Convert_Time_To_Number*/    null),
-	        new ConvertSpec("time"  ,	"date"   , true ,			false, 			CONVERT_MODE_LAMBDA,  	"",  	Convert_Time_To_Date,       null),
-	        new ConvertSpec("time"  ,	"time"   , true ,			false, 			CONVERT_MODE_DIRECT,  	"",  	null, 		                null),
+            new ConvertSpec("time"  ,	"string" , true ,			false, 			CONVERT_MODE_LAMBDA,    "",  	ConversionHelper.Convert_Time_To_String,    null),
+	        new ConvertSpec("time"  ,	"bool"   , false,			false, 			CONVERT_MODE_NA,  	    "",  	null, 		                                null),
+	        new ConvertSpec("time"  ,	"number" , false ,			false, 			CONVERT_MODE_NA,  	    "",  	null, /*Convert_Time_To_Number*/            null),
+	        new ConvertSpec("time"  ,	"date"   , true ,			false, 			CONVERT_MODE_LAMBDA,  	"",  	ConversionHelper.Convert_Time_To_Date,      null),
+	        new ConvertSpec("time"  ,	"time"   , true ,			false, 			CONVERT_MODE_DIRECT,  	"",  	null, 		                                null),
         };
 
 
@@ -304,7 +221,7 @@ namespace ComLib.Lang.Extensions
         /// Evaluate the type check/conversion operation.
         /// </summary>
         /// <returns></returns>
-        public override object Evaluate()
+        public override object DoEvaluate()
         {
             if (_isConversion)
                 return ConvertValue();
@@ -324,18 +241,19 @@ namespace ComLib.Lang.Extensions
         private object CheckExplicitType()
         {
             var val = _exp.Evaluate();
-            if (val == null)
-                return LNull.Instance;
+            if (val == null || val == LObjects.Null)
+                return new LBool(false);
 
+            var lobj = val as LObject;
             var result = false;
-            if (     _destinationType == "string" ) result = val.GetType() == typeof(string)  ;
-            else if (_destinationType == "number" ) result = val.GetType() == typeof(double)  ;
-            else if (_destinationType == "bool"   ) result = val.GetType() == typeof(bool)    ;
-            else if (_destinationType == "date"   ) result = val.GetType() == typeof(DateTime);
-            else if (_destinationType == "time"   ) result = val.GetType() == typeof(TimeSpan);
-            else if (_destinationType == "list"   ) result = val.GetType() == typeof(LArray)  ;
-            else if (_destinationType == "map"    ) result = val.GetType() == typeof(LMap)    ;
-            return result;
+            if (     _destinationType == "string" ) result = lobj.Type == LTypes.String;
+            else if (_destinationType == "number" ) result = lobj.Type == LTypes.Number;
+            else if (_destinationType == "bool"   ) result = lobj.Type == LTypes.Bool;
+            else if (_destinationType == "date"   ) result = lobj.Type == LTypes.Date;
+            else if (_destinationType == "time"   ) result = lobj.Type == LTypes.Time;
+            else if (_destinationType == "list"   ) result = lobj.Type == LTypes.Array;
+            else if (_destinationType == "map"    ) result = lobj.Type == LTypes.Map;
+            return new LBool(result);
         }
 
         /// <summary>
@@ -346,18 +264,18 @@ namespace ComLib.Lang.Extensions
         {
             var val = _exp.Evaluate();
             if (val == null)
-                return false;
+                return new LBool(false);
             var canConvert = false;
             try
             {
                 var result = DoConvertValue(_destinationType, val, false);
-                if(result != LNull.Instance)
+                if (result != LObjects.Null)
                     canConvert = true;
             }
             catch (Exception)
             {
             }
-            return canConvert;
+            return new LBool(canConvert);
         }
 
 
@@ -369,7 +287,7 @@ namespace ComLib.Lang.Extensions
         {
             var val = _exp.Evaluate();
             if (val == null)
-                return LNull.Instance;
+                return LObjects.Null;
             var result = DoConvertValue(_destinationType, val, true);
             return result;
         }
@@ -377,16 +295,18 @@ namespace ComLib.Lang.Extensions
 
         private object DoConvertValue(string destinationType, object val, bool handleError)
         {
+            var lobj = (LObject)val;
+
             // get the source type
             var sourceType = GetTypeName(val);
             var key = sourceType + "-" + destinationType;
 
             // 1. Check if conversion even exists
-            if (!_conversionLookup.ContainsKey(key)) return LNull.Instance;
+            if (!_conversionLookup.ContainsKey(key)) return LObjects.Null;
 
             // 2. Get the conversion and check it source can be converted to dest.
             var spec = _conversionLookup[key];
-            if (!spec.CanChange) return LNull.Instance;
+            if (!spec.CanChange) return LObjects.Null;
 
             // 3a. See if there can be a direct conversion.
             if (spec.ConvertMode == CONVERT_MODE_DIRECT)
@@ -394,7 +314,7 @@ namespace ComLib.Lang.Extensions
 
             // 3b. ToString
             if (spec.ConvertMode == CONVERT_MODE_TOSTRING)
-                return val.ToString();
+                return new LString(lobj.GetValue().ToString());
 
             // 3c. Conversion method
             object result = null;
@@ -420,48 +340,10 @@ namespace ComLib.Lang.Extensions
 
         private static string GetTypeName(object val)
         {
-            if( val.GetType() == typeof(string)   ) return "string";
-            if( val.GetType() == typeof(double)   ) return "number";
-            if( val.GetType() == typeof(bool)     ) return "bool";
-            if( val.GetType() == typeof(DateTime) ) return "date";
-            if( val.GetType() == typeof(TimeSpan) ) return "time";
-            if( val.GetType() == typeof(LArray)   ) return "list";
-            if( val.GetType() == typeof(LMap)     ) return "map";
-            return "unknown";
+            var typename = ((LObject)val).Type.Name;
+            if (typename == LTypes.Date.Name)
+                typename = "date";
+            return typename;
         }
-
-
-        private static object Convert_Bool_To_Number  (ConvertSpec spec, object val) { return ((bool)val) == true ? 1 : 0; }
-        private static object Convert_Number_To_Bool  (ConvertSpec spec, object val) { return ((double)val) > 0 ? true : false; }
-        private static object Convert_Date_To_String  (ConvertSpec spec, object val) { return ((DateTime)val).ToString("MM/DD/yyyy hh:mm tt"); }
-        private static object Convert_Date_To_Time    (ConvertSpec spec, object val) { return ((DateTime)val).TimeOfDay; }
-        private static object Convert_Time_To_String  (ConvertSpec spec, object val) { return ((TimeSpan)val).ToString("hh:mm tt"); }
-        //private static object Convert_Number_To_Date(ConvertSpec spec, object val) { return new DateTime(Convert.ToInt64(val)); }
-        //private static object Convert_Number_To_Time(ConvertSpec spec, object val) { return new TimeSpan(Convert.ToInt64(val)); }
-        //private static object Convert_Date_To_Number(ConvertSpec spec, object val) { return Convert.ToDouble(((DateTime)val).Ticks); }
-        //private static object Convert_Time_To_Number(ConvertSpec spec, object val) { return Convert.ToDouble(((TimeSpan)val).Ticks); }
-        private static object Convert_Time_To_Date    (ConvertSpec spec, object val) 
-        {
-            var t = (TimeSpan)val;
-            var d = DateTime.Today;            
-            return new DateTime(d.Year, d.Month, d.Day, t.Hours, t.Minutes, t.Seconds);
-        }
-        private static object Convert_String_To_Number(ConvertSpec spec, object val) { return Convert.ChangeType(val, typeof(double), null); }
-        private static object Convert_String_To_Date(ConvertSpec spec, object val) { return Convert.ChangeType(val, typeof(DateTime), null); }
-        private static object Convert_String_To_Time(ConvertSpec spec, object val) 
-        {
-            string txt = ((string)val).ToLower();
-            var result = TimeTypeHelper.ParseTime(txt);
-            if (!result.Item2)
-                return LNull.Instance;
-            return result.Item1;
-        }
-        private static object Convert_String_To_Bool(ConvertSpec spec, object val)
-        {
-            var s = ((string)val).ToLower();
-            if (s == "yes" || s == "true" || s == "1" || s == "ok" || s == "on")
-                return true;
-            return false;
-        }        
     }
 }

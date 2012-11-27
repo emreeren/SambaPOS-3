@@ -4,10 +4,15 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Reflection;
-using ComLib.Lang;
 
+// <lang:using>
+using ComLib.Lang.Core;
+using ComLib.Lang.AST;
+using ComLib.Lang.Types;
+using ComLib.Lang.Parsing;
+// </lang:using>
 
-namespace ComLib.Lang.Extensions
+namespace ComLib.Lang.Plugins
 {
 
     /* *************************************************************************
@@ -189,7 +194,7 @@ namespace ComLib.Lang.Extensions
             scriptParser.Parse(script);
             Parser parser = null;
             parser.Statements.AddRange(scriptParser.Statements);
-            return LNull.Instance;
+            return LObjects.Null;
         }        
     }
 }
