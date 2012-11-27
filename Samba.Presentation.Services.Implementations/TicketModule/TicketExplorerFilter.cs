@@ -50,9 +50,9 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             else if (FilterType == Resources.OnlyOpenTickets)
                 if (!string.IsNullOrEmpty(FilterValue))
                 {
-                    result = x => x.State < 2 && x.Orders.Any(y => y.MenuItemName.ToLower().Contains(fv));
+                    result = x => !x.IsClosed && x.Orders.Any(y => y.MenuItemName.ToLower().Contains(fv));
                 }
-                else result = x => x.State < 2;
+                else result = x => !x.IsClosed;
             else
             {
                 var tid = 0;

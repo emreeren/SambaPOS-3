@@ -81,12 +81,13 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType(ActionNames.DisplayTicket, Resources.DisplayTicket, new { TicketId = 0 });
             AutomationService.RegisterActionType(ActionNames.DisplayPaymentScreen, Resources.DisplayPaymentScreen);
             AutomationService.RegisterActionType(ActionNames.ExecutePowershellScript, Resources.ExecutePowershellScript, new { Script = "" });
-            AutomationService.RegisterActionType(ActionNames.ExecuteScript, "Execute Script", new { ScriptName = "" });
+            AutomationService.RegisterActionType(ActionNames.ExecuteScript, Resources.ExecuteScript, new { ScriptName = "" });
+            AutomationService.RegisterActionType(ActionNames.UpdateTicketState, Resources.UpdateTicketState, new { StateGroup = "", State = "", StateValue = "", Quantity = 0 });
         }
 
         private static void RegisterRules()
         {
-            AutomationService.RegisterEvent(RuleEventNames.ApplicationScreenChanged, "Application Screen Changed", new { PreviousScreen = "", CurrentScreen = "" });
+            AutomationService.RegisterEvent(RuleEventNames.ApplicationScreenChanged, Resources.ApplicationScreenChanged, new { PreviousScreen = "", CurrentScreen = "" });
             AutomationService.RegisterEvent(RuleEventNames.UserLoggedIn, Resources.UserLogin, new { RoleName = "" });
             AutomationService.RegisterEvent(RuleEventNames.UserLoggedOut, Resources.UserLogout, new { RoleName = "" });
             AutomationService.RegisterEvent(RuleEventNames.WorkPeriodStarts, Resources.WorkPeriodStarted);
@@ -99,6 +100,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterEvent(RuleEventNames.PaymentProcessed, Resources.PaymentProcessed, new { PaymentTypeName = "", TenderedAmount = 0m, ProcessedAmount = 0m, ChangeAmount = 0m, RemainingAmount = 0m, SelectedQuantity = 0m });
             AutomationService.RegisterEvent(RuleEventNames.TicketResourceChanged, Resources.TicketResourceChanged, new { OrderCount = 0, OldResourceName = "", NewResourceName = "" });
             AutomationService.RegisterEvent(RuleEventNames.TicketTagSelected, Resources.TicketTagSelected, new { TagName = "", TagValue = "", NumericValue = 0, TicketTag = "" });
+            AutomationService.RegisterEvent(RuleEventNames.TicketStateUpdated, Resources.TicketStateUpdated, new { GroupName = "", State = "", StateValue = "", Quantity = 0, TicketState = "" });
             AutomationService.RegisterEvent(RuleEventNames.OrderTagged, Resources.OrderTagged, new { OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterEvent(RuleEventNames.OrderUntagged, Resources.OrderUntagged, new { OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterEvent(RuleEventNames.AccountSelectedForTicket, Resources.AccountSelectedForTicket, new { AccountName = "", PhoneNumber = "", AccountNote = "" });
@@ -445,6 +447,19 @@ namespace Samba.Presentation.ViewModels
                         ticket.SetTagValue(tagName, tagValue);
                         var tagData = new TicketTagData { TagName = tagName, TagValue = tagValue };
                         tagData.PublishEvent(EventTopicNames.TicketTagSelected);
+                    }
+                }
+
+                if (x.Value.Action.ActionType == ActionNames.UpdateTicketState)
+                {
+                    var ticket = x.Value.GetDataValue<Ticket>("Ticket");
+                    if (ticket != null)
+                    {
+                        var groupName = x.Value.GetAsString("GroupName");
+                        var state = x.Value.GetAsString("State");
+                        var stateValue = x.Value.GetAsString("StateValue");
+                        var quantity = x.Value.GetAsInteger("Quantity");
+                        TicketService.UpdateState(ticket, groupName, state, stateValue, quantity);
                     }
                 }
 

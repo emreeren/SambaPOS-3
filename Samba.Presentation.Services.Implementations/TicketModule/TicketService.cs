@@ -139,7 +139,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
                     Debug.Assert(!string.IsNullOrEmpty(ticket.TicketNumber));
                     Debug.Assert(ticket.Id > 0);
-                    _automationService.NotifyEvent(RuleEventNames.TicketClosing, new { Ticket = ticket, TicketId = ticket.Id, NewOrderCount = ticket.GetUnlockedOrders().Count(), State = TicketStateToString(ticket.State) });
+                    _automationService.NotifyEvent(RuleEventNames.TicketClosing, new { Ticket = ticket, TicketId = ticket.Id, NewOrderCount = ticket.GetUnlockedOrders().Count() });
                     ticket.LockTicket();
                 }
 
@@ -315,6 +315,25 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             }
         }
 
+        public void UpdateState(Ticket ticket, string group, string state, string stateValue, int quantity = 0)
+        {
+            var sv = ticket.GetStateValue(group);
+            if (sv != null && sv.GroupName == group && sv.StateValue == stateValue && sv.Quantity == quantity && sv.State == state) return;
+
+            ticket.SetStateValue(group, state, stateValue, quantity);
+
+            _automationService.NotifyEvent(RuleEventNames.TicketStateUpdated,
+            new
+            {
+                Ticket = ticket,
+                GroupName = group,
+                State = state,
+                StateValue = stateValue,
+                Quantity = quantity,
+                TicketState = ticket.GetStateData()
+            });
+        }
+
         public void UpdateTag(Ticket ticket, TicketTagGroup tagGroup, TicketTag ticketTag)
         {
             ticket.SetTagValue(tagGroup.Name, ticketTag.Name);
@@ -357,7 +376,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
         public IEnumerable<OpenTicketData> GetOpenTickets(int resourceId)
         {
-            return GetOpenTickets(x => x.State < 2 && x.TicketResources.Any(y => y.ResourceId == resourceId));
+            return GetOpenTickets(x => !x.IsClosed && x.TicketResources.Any(y => y.ResourceId == resourceId));
         }
 
         public IEnumerable<OpenTicketData> GetOpenTickets(Expression<Func<Ticket, bool>> prediction)
@@ -553,20 +572,6 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             var selectedItems = selectedOrders.Where(x => x.SelectedQuantity > 0 && x.SelectedQuantity < x.Quantity).ToList();
             var newItems = model.ExtractSelectedOrders(selectedItems);
             return newItems;
-        }
-
-        private static string TicketStateToString(int state)
-        {
-            switch ((Ticket.States)state)
-            {
-                case Ticket.States.Closed:
-                    return "Closed";
-                case Ticket.States.Locked:
-                    return "Locked";
-                case Ticket.States.Unlocked:
-                    return "Unlocked";
-            }
-            return "Unknown";
         }
     }
 }

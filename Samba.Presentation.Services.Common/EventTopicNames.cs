@@ -29,6 +29,7 @@
         public const string ExecutePowershellScript = "ExecutePowershellScript";
         public const string UpdateOrder = "UpdateOrder";
         public const string ExecuteScript = "ExecuteScript";
+        public const string UpdateTicketState = "UpdateTicketState";
     }
 
     public static class RuleEventNames
@@ -56,6 +57,7 @@
         public const string MessageReceived = "MessageReceived";
         public const string OrderTagged = "OrderTagged";
         public const string OrderUntagged = "OrderUntagged";
+        public const string TicketStateUpdated = "TicketStateUpdated";
     }
 
     public static class EventTopicNames

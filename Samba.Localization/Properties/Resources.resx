@@ -2958,4 +2958,16 @@ Error Message:
   <data name="StateDefinition" xml:space="preserve">
     <value>State Definition</value>
   </data>
+  <data name="ExecuteScript" xml:space="preserve">
+    <value>Execute Script</value>
+  </data>
+  <data name="UpdateTicketState" xml:space="preserve">
+    <value>Update Ticket State</value>
+  </data>
+  <data name="ApplicationScreenChanged" xml:space="preserve">
+    <value>Application Screen Changed</value>
+  </data>
+  <data name="TicketStateUpdated" xml:space="preserve">
+    <value>Ticket State Updated</value>
+  </data>
 </root>

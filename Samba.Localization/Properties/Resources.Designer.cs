@@ -512,6 +512,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Application Screen Changed.
+        /// </summary>
+        public static string ApplicationScreenChanged {
+            get {
+                return ResourceManager.GetString("ApplicationScreenChanged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Application Started.
         /// </summary>
         public static string ApplicationStarted {
@@ -2639,6 +2648,15 @@ namespace Samba.Localization.Properties {
         public static string ExecutePrintJob {
             get {
                 return ResourceManager.GetString("ExecutePrintJob", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Execute Script.
+        /// </summary>
+        public static string ExecuteScript {
+            get {
+                return ResourceManager.GetString("ExecuteScript", resourceCulture);
             }
         }
         
@@ -6730,6 +6748,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ticket State Updated.
+        /// </summary>
+        public static string TicketStateUpdated {
+            get {
+                return ResourceManager.GetString("TicketStateUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ticket Sub Total.
         /// </summary>
         public static string TicketSubTotal {
@@ -7415,6 +7442,15 @@ namespace Samba.Localization.Properties {
         public static string UpdateTicketCalculation {
             get {
                 return ResourceManager.GetString("UpdateTicketCalculation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update Ticket State.
+        /// </summary>
+        public static string UpdateTicketState {
+            get {
+                return ResourceManager.GetString("UpdateTicketState", resourceCulture);
             }
         }
         

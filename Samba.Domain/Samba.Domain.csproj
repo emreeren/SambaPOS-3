@@ -117,6 +117,7 @@
     <Compile Include="Models\Tickets\PaymentType..cs" />
     <Compile Include="Models\Tickets\PaymentTypeMap.cs" />
     <Compile Include="Models\Tickets\TicketResource.cs" />
+    <Compile Include="Models\Tickets\TicketStateValue.cs" />
     <Compile Include="Models\Tickets\TicketTagMap.cs" />
     <Compile Include="Models\Tickets\TicketTagValue.cs" />
     <Compile Include="Models\Tickets\TicketType.cs" />

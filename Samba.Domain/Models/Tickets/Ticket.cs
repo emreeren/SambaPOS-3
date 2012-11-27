@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
@@ -8,16 +9,12 @@ using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Data.Serializer;
 using Samba.Infrastructure.Helpers;
 using Samba.Infrastructure.Settings;
-using Stateless;
 
 namespace Samba.Domain.Models.Tickets
 {
     public class Ticket : Entity, ICacheable
     {
         private bool _shouldLock;
-        public enum States { Unlocked, Locked, Closed };
-        public enum Triggers { Unlock, Lock, Close };
-        private readonly StateMachine<States, Triggers> _sm;
 
         public Ticket()
             : this(0)
@@ -40,14 +37,6 @@ namespace Samba.Domain.Models.Tickets
             _payments = new List<Payment>();
             _changePayments = new List<ChangePayment>();
             _ticketResources = new List<TicketResource>();
-
-            _sm = new StateMachine<States, Triggers>(() => (States)State, state => State = (int)state);
-            _sm.Configure(States.Unlocked)
-                .Permit(Triggers.Lock, States.Locked)
-                .Permit(Triggers.Close, States.Closed);
-            _sm.Configure(States.Locked)
-                .Permit(Triggers.Unlock, States.Unlocked)
-                .Permit(Triggers.Close, States.Closed);
         }
 
         private static Ticket _emptyTicket;
@@ -80,17 +69,15 @@ namespace Samba.Domain.Models.Tickets
         public DateTime LastOrderDate { get; set; }
         public DateTime LastPaymentDate { get; set; }
 
-        public int State { get; set; }
-
-        public bool IsClosed { get { return State == (int)States.Closed; } }
-        public bool IsLocked { get { return State == (int)States.Locked; } }
-        public bool IsUnLocked { get { return State == (int)States.Unlocked; } }
-        public void UnLock() { if (!IsUnLocked) _sm.Fire(Triggers.Unlock); }
-        public void Lock() { if (IsUnLocked) _sm.Fire(Triggers.Lock); }
+        public bool IsClosed { get; set; }
+        public bool IsLocked { get; set; }
+        public bool IsUnLocked { get { return !IsLocked && !IsClosed; } }
+        public void UnLock() { if (!IsClosed) IsLocked = false; }
+        public void Lock() { IsLocked = true; }
         public void Close()
         {
             if (!IsClosed && RemainingAmount == 0 && !HasActiveTimers())
-                _sm.Fire(Triggers.Close);
+                IsClosed = true;
         }
 
         public decimal RemainingAmount { get; set; }
@@ -105,6 +92,7 @@ namespace Samba.Domain.Models.Tickets
         public string AccountName { get; set; }
 
         public string TicketTags { get; set; }
+        public string TicketStates { get; set; }
 
         public decimal ExchangeRate { get; set; }
 
@@ -156,6 +144,12 @@ namespace Samba.Domain.Models.Tickets
         internal IList<TicketTagValue> TicketTagValues
         {
             get { return _ticketTagValues ?? (_ticketTagValues = JsonHelper.Deserialize<List<TicketTagValue>>(TicketTags)); }
+        }
+
+        private IList<TicketStateValue> _ticketStateValues;
+        public IList<TicketStateValue> TicketStateValues
+        {
+            get { return _ticketStateValues ?? (_ticketStateValues = JsonHelper.Deserialize<List<TicketStateValue>>(TicketStates)); }
         }
 
         public IList<TicketTagValue> GetTicketTagValues()
@@ -520,6 +514,37 @@ namespace Samba.Domain.Models.Tickets
             return result;
         }
 
+        public TicketStateValue GetStateValue(string groupName)
+        {
+            return TicketStateValues.SingleOrDefault(x => x.GroupName == groupName) ?? TicketStateValue.Default;
+        }
+
+        public void SetStateValue(string groupName, string state, string stateValue, int quantity = 0)
+        {
+            var sv = TicketStateValues.SingleOrDefault(x => x.GroupName == groupName);
+            if (sv == null)
+            {
+                sv = new TicketStateValue { GroupName = groupName, State = state, StateValue = stateValue, Quantity = quantity };
+                TicketStateValues.Add(sv);
+            }
+            else
+            {
+                sv.State = state;
+                sv.StateValue = stateValue;
+                sv.Quantity = quantity;
+            }
+            if (string.IsNullOrEmpty(sv.State))
+                TicketStateValues.Remove(sv);
+
+            TicketStates = JsonHelper.Serialize(TicketStateValues);
+            _ticketStateValues = null;
+        }
+
+        public string GetStateData()
+        {
+            return string.Join("\r", TicketStateValues.Where(x => !string.IsNullOrEmpty(x.State)).Select(x => string.Format("{0}{1}: {2} {3}", x.Quantity > 0 ? string.Format("{0} ", x.Quantity.ToString(CultureInfo.CurrentCulture)) : "", x.GroupName, x.State, !string.IsNullOrEmpty(x.StateValue) ? string.Format("[{0}]", x.StateValue) : "")));
+        }
+
         public string GetTagValue(string tagName)
         {
             var tag = TicketTagValues.SingleOrDefault(x => x.TagName == tagName);
@@ -608,8 +633,6 @@ namespace Samba.Domain.Models.Tickets
             RemainingAmount = GetRemainingAmount();
             TotalAmount = GetSum();
         }
-
-
 
         public IEnumerable<Order> ExtractSelectedOrders(IEnumerable<Order> selectedOrders)
         {
