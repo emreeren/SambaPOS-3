@@ -354,7 +354,7 @@ namespace Samba.Presentation.Services.Common
             _workspace.Add(orderTag2);
 
             const string parameterFormat = "[{{\"Key\":\"{0}\",\"Value\":\"{1}\"}}]";
-            //const string doubleParameterFormat = "[{{\"Key\":\"{0}\",\"Value\":\"{1}\"}},{{\"Key\":\"{2}\",\"Value\":\"{3}\"}}]";
+            const string doubleParameterFormat = "[{{\"Key\":\"{0}\",\"Value\":\"{1}\"}},{{\"Key\":\"{2}\",\"Value\":\"{3}\"}}]";
 
             var newOrderState = new ResourceState { Name = "New Orders", Color = "Orange" };
             _workspace.Add(newOrderState);
@@ -365,6 +365,8 @@ namespace Samba.Presentation.Services.Common
             var billRequestedState = new ResourceState { Name = "Bill Requested", Color = "Maroon" };
             _workspace.Add(billRequestedState);
 
+            var updateTicketStatusAction = new AppAction { ActionType = "UpdateTicketState", Name = "Update Ticket Status", Parameter = string.Format(doubleParameterFormat, "StateGroup", "Status", "State", "[:Status]") };
+            _workspace.Add(updateTicketStatusAction);
             var newOrderAction = new AppAction { ActionType = "UpdateResourceState", Name = "Update New Order State", Parameter = string.Format(parameterFormat, "ResourceState", "New Orders") };
             _workspace.Add(newOrderAction);
             var availableAction = new AppAction { ActionType = "UpdateResourceState", Name = "Update Available State", Parameter = string.Format(parameterFormat, "ResourceState", "Available") };
@@ -383,7 +385,12 @@ namespace Samba.Presentation.Services.Common
             _workspace.Add(unlockTicketAction);
             _workspace.CommitChanges();
 
-            var newOrderRule = new AppRule { Name = "Update New Order Resource Color", EventName = "TicketClosing", EventConstraints = "NewOrderCount;>;0" };
+            var newTicketRule = new AppRule { Name = "New Ticket Creating Rule", EventName = RuleEventNames.TicketCreated };
+            newTicketRule.Actions.Add(new ActionContainer(updateTicketStatusAction) { ParameterValues = "Status=Unpaid" });
+            newTicketRule.AddRuleMap();
+            _workspace.Add(newTicketRule);
+
+            var newOrderRule = new AppRule { Name = "Update New Order Resource Color", EventName = RuleEventNames.TicketClosing, EventConstraints = "NewOrderCount;>;0" };
             newOrderRule.Actions.Add(new ActionContainer(printKitchenOrdersAction));
             newOrderRule.Actions.Add(new ActionContainer(newOrderAction));
             newOrderRule.AddRuleMap();

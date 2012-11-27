@@ -46,6 +46,9 @@ namespace ComLib.Lang.Helpers
             
             if (type == typeof(double))
                 return new LNumber((double)val);
+
+            if (type == typeof(decimal))
+                return new LNumber(Convert.ToDouble(val));
             
             if (type == typeof(string))
                 return new LString((string)val);

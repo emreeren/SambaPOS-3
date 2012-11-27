@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
@@ -115,7 +116,8 @@ namespace Samba.Presentation.ViewModels
                 var selectedTicketTitle = sb.ToString().Trim(new[] { '\r', '\n' });
 
                 if (string.IsNullOrEmpty(selectedTicketTitle)) selectedTicketTitle = string.Format(Resources.New_f, Resources.Ticket);
-
+                var state = Model.GetStateData();
+                if (!string.IsNullOrEmpty(state)) selectedTicketTitle += Environment.NewLine + state;
                 return selectedTicketTitle;
             }
         }

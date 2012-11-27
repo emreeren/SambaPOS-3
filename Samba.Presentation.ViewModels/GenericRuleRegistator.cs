@@ -63,7 +63,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType(ActionNames.UntagOrder, Resources.UntagOrder, new { OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterActionType(ActionNames.RemoveOrderTag, Resources.RemoveOrderTag, new { OrderTagName = "" });
             AutomationService.RegisterActionType(ActionNames.MoveTaggedOrders, Resources.MoveTaggedOrders, new { OrderTagName = "", OrderTagValue = "" });
-            AutomationService.RegisterActionType(ActionNames.UpdateOrder, Resources.UpdateOrder, new { Quantity = 0m, Price = 0m, IncreaseInventory = false, DecreaseInventory = false, CalculatePrice = false, AccountTransactionType = "" });
+            AutomationService.RegisterActionType(ActionNames.UpdateOrder, Resources.UpdateOrder, new { Quantity = 0m, Price = 0m, IncreaseInventory = false, DecreaseInventory = false, CalculatePrice = false, Locked = false, AccountTransactionType = "" });
             AutomationService.RegisterActionType(ActionNames.UpdatePriceTag, Resources.UpdatePriceTag, new { DepartmentName = "", PriceTag = "" });
             AutomationService.RegisterActionType(ActionNames.RefreshCache, Resources.RefreshCache);
             AutomationService.RegisterActionType(ActionNames.SendMessage, Resources.BroadcastMessage, new { Command = "" });
@@ -94,8 +94,9 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterEvent(RuleEventNames.BeforeWorkPeriodEnds, Resources.BeforeWorkPeriodEnds);
             AutomationService.RegisterEvent(RuleEventNames.WorkPeriodEnds, Resources.WorkPeriodEnded);
             AutomationService.RegisterEvent(RuleEventNames.TriggerExecuted, Resources.TriggerExecuted, new { TriggerName = "" });
+            AutomationService.RegisterEvent(RuleEventNames.TicketCreated, Resources.TicketCreated);
             AutomationService.RegisterEvent(RuleEventNames.TicketOpened, Resources.TicketOpened, new { OrderCount = 0 });
-            AutomationService.RegisterEvent(RuleEventNames.TicketClosing, Resources.TicketClosing, new { TicketId = 0, NewOrderCount = 0, State = "" });
+            AutomationService.RegisterEvent(RuleEventNames.TicketClosing, Resources.TicketClosing, new { TicketId = 0, NewOrderCount = 0 });
             AutomationService.RegisterEvent(RuleEventNames.TicketsMerged, Resources.TicketsMerged);
             AutomationService.RegisterEvent(RuleEventNames.PaymentProcessed, Resources.PaymentProcessed, new { PaymentTypeName = "", TenderedAmount = 0m, ProcessedAmount = 0m, ChangeAmount = 0m, RemainingAmount = 0m, SelectedQuantity = 0m });
             AutomationService.RegisterEvent(RuleEventNames.TicketResourceChanged, Resources.TicketResourceChanged, new { OrderCount = 0, OldResourceName = "", NewResourceName = "" });
@@ -161,6 +162,8 @@ namespace Samba.Presentation.ViewModels
                             order.IncreaseInventory = x.Value.GetAsBoolean("IncreaseInventory");
                         if (!string.IsNullOrEmpty(x.Value.GetAsString("DecreaseInventory")))
                             order.DecreaseInventory = x.Value.GetAsBoolean("DecreaseInventory");
+                        if (!string.IsNullOrEmpty(x.Value.GetAsString("Locked")))
+                            order.Locked = x.Value.GetAsBoolean("Locked");
                         if (!string.IsNullOrEmpty(x.Value.GetAsString("CalculatePrice")))
                             order.CalculatePrice = x.Value.GetAsBoolean("CalculatePrice");
                         if (!string.IsNullOrEmpty(x.Value.GetAsString("AccountTransactionType")))
@@ -455,7 +458,7 @@ namespace Samba.Presentation.ViewModels
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
                     if (ticket != null)
                     {
-                        var groupName = x.Value.GetAsString("GroupName");
+                        var groupName = x.Value.GetAsString("StateGroup");
                         var state = x.Value.GetAsString("State");
                         var stateValue = x.Value.GetAsString("StateValue");
                         var quantity = x.Value.GetAsInteger("Quantity");

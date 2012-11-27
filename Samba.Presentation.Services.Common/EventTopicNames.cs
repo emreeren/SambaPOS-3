@@ -58,6 +58,7 @@
         public const string OrderTagged = "OrderTagged";
         public const string OrderUntagged = "OrderUntagged";
         public const string TicketStateUpdated = "TicketStateUpdated";
+        public const string TicketCreated = "TicketCreated";
     }
 
     public static class EventTopicNames

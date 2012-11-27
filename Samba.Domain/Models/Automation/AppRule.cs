@@ -7,6 +7,7 @@ namespace Samba.Domain.Models.Automation
     {
         public string EventName { get; set; }
         public string EventConstraints { get; set; }
+        public string CustomConstraint { get; set; }
 
         private readonly IList<ActionContainer> _actions;
         public virtual IList<ActionContainer> Actions

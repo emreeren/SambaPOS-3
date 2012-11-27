@@ -106,7 +106,9 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
         private Ticket CreateTicket()
         {
             var account = _cacheService.GetAccountById(_applicationState.CurrentTicketType.SaleTransactionType.DefaultTargetAccountId);
-            return Ticket.Create(_applicationState.CurrentDepartment.Model, _applicationState.CurrentTicketType, account, GetExchangeRate(account), _applicationState.GetCalculationSelectors().Where(x => string.IsNullOrEmpty(x.ButtonHeader)).SelectMany(y => y.CalculationTypes));
+            var result= Ticket.Create(_applicationState.CurrentDepartment.Model, _applicationState.CurrentTicketType, account, GetExchangeRate(account), _applicationState.GetCalculationSelectors().Where(x => string.IsNullOrEmpty(x.ButtonHeader)).SelectMany(y => y.CalculationTypes));
+            _automationService.NotifyEvent(RuleEventNames.TicketCreated, new { Ticket = result });
+            return result;
         }
 
         public TicketCommitResult CloseTicket(Ticket ticket)

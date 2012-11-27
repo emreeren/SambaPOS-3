@@ -40,13 +40,13 @@ namespace Samba.Persistance.Data
             if (_connectionString.EndsWith(".sdf"))
             {
                 Database.DefaultConnectionFactory =
-                    new SqlCeConnectionFactory("System.Data.SqlServerCe.4.0", "", LocalSettings.ConnectionString);
+                    new SqlCeConnectionFactory("System.Data.SqlServerCe.4.0", "", _connectionString);
             }
             else if (_connectionString.EndsWith(".txt"))
             {
                 _textFileWorkspace = GetTextFileWorkspace();
             }
-            else if (!string.IsNullOrEmpty(LocalSettings.ConnectionString))
+            else if (!string.IsNullOrEmpty(_connectionString))
             {
                 var cs = _connectionString;
                 if (!cs.Trim().EndsWith(";"))

@@ -75,6 +75,8 @@ namespace Samba.Modules.AutomationModule
         public string SettingConstraintName { get; set; }
         public string SettingConstraintOperation { get; set; }
         public string SettingConstraintValue { get; set; }
+        public string CustomConstraint { get { return Model.CustomConstraint; } set { Model.CustomConstraint = value; } }
+
         public IEnumerable<string> Operations { get { return new[] { "=", ">", "<", "!=" }; } }
 
         public IEnumerable<RuleEvent> Events { get { return _automationService.GetRuleEvents(); } }

@@ -1602,6 +1602,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Custom Constraint.
+        /// </summary>
+        public static string CustomConstraint {
+            get {
+                return ResourceManager.GetString("CustomConstraint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Customer.
         /// </summary>
         public static string Customer {
@@ -4485,7 +4494,7 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to #OrderTag: Order Tag Name.
+        ///   Looks up a localized string similar to Order Tag Name.
         /// </summary>
         public static string OrderTagName {
             get {
@@ -4494,7 +4503,7 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to #OrderTag: Order Tag Price.
+        ///   Looks up a localized string similar to Order Tag Price.
         /// </summary>
         public static string OrderTagPrice {
             get {
@@ -4503,7 +4512,7 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to #OrderTag: Order Tag Quantity.
+        ///   Looks up a localized string similar to Order Tag Quantity.
         /// </summary>
         public static string OrderTagQuantity {
             get {
@@ -6573,6 +6582,15 @@ namespace Samba.Localization.Properties {
         public static string TicketCount {
             get {
                 return ResourceManager.GetString("TicketCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ticket Created.
+        /// </summary>
+        public static string TicketCreated {
+            get {
+                return ResourceManager.GetString("TicketCreated", resourceCulture);
             }
         }
         

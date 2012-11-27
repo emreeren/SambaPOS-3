@@ -71,12 +71,11 @@ namespace Samba.Domain.Models.Tickets
 
         public bool IsClosed { get; set; }
         public bool IsLocked { get; set; }
-        public bool IsUnLocked { get { return !IsLocked && !IsClosed; } }
         public void UnLock() { if (!IsClosed) IsLocked = false; }
         public void Lock() { IsLocked = true; }
         public void Close()
         {
-            if (!IsClosed && RemainingAmount == 0 && !HasActiveTimers())
+            if (RemainingAmount == 0 && !HasActiveTimers())
                 IsClosed = true;
         }
 
@@ -147,7 +146,7 @@ namespace Samba.Domain.Models.Tickets
         }
 
         private IList<TicketStateValue> _ticketStateValues;
-        public IList<TicketStateValue> TicketStateValues
+        internal IList<TicketStateValue> TicketStateValues
         {
             get { return _ticketStateValues ?? (_ticketStateValues = JsonHelper.Deserialize<List<TicketStateValue>>(TicketStates)); }
         }
@@ -401,6 +400,12 @@ namespace Samba.Domain.Models.Tickets
         public bool IsTagged
         {
             get { return TicketTagValues.Any(x => !string.IsNullOrEmpty(x.TagValue)); }
+        }
+
+        public bool IsInState(string groupName, string state)
+        {
+            var sv = GetStateValue(groupName);
+            return sv != null && sv.State == state;
         }
 
         public void CancelOrders(IEnumerable<Order> orders)

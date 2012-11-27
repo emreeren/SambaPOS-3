@@ -38,16 +38,24 @@
                                                   ItemsSource="{Binding Operations}"/>
                                     <TextBox MinWidth="80" Margin="2" Text="{Binding SettingConstraintValue}" />
                                 </StackPanel>
-                                <ItemsControl ItemsSource="{Binding Constraints}" HorizontalAlignment="Left">
+                                <Label Content="{LocText CustomConstraint,Suffix=':'}" MinWidth="150" />
+                                <TextBox MinWidth="150" Margin="2" Text="{Binding CustomConstraint}" />
+                                <ItemsControl Grid.IsSharedSizeScope="True" ItemsSource="{Binding Constraints}" HorizontalAlignment="Left">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <StackPanel Orientation="Horizontal" Margin="0,3">
-                                                <Label Content="{Binding NameDisplay}" MinWidth="150" />
-                                                <ComboBox Margin="3,0" MinWidth="45" IsEditable="True" Text="{Binding Operation}" 
+                                            <Grid Margin="0,3" >
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" SharedSizeGroup="Constraints"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Column="0" Content="{Binding NameDisplay}" MinWidth="150" />
+                                                <ComboBox Grid.Column="1" Margin="3,0" MinWidth="45" IsEditable="True" Text="{Binding Operation}" 
                                                   ItemsSource="{Binding Operations}"/>
-                                                <ComboBox MinWidth="80" IsEditable="True" 
+                                                <ComboBox Grid.Column="2" MinWidth="80" IsEditable="True" 
                                                   ItemsSource="{Binding Values}" Text="{Binding Value}"/>
-                                            </StackPanel>
+
+                                            </Grid>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>

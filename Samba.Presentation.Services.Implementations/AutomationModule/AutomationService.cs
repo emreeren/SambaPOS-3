@@ -19,7 +19,7 @@ namespace Samba.Presentation.Services.Implementations.AutomationModule
         private readonly RuleActionTypeRegistry _ruleActionTypeRegistry;
         private readonly ISettingService _settingService;
         private readonly IExpressionService _expressionService;
-        
+
         [ImportingConstructor]
         public AutomationService(IAutomationDao automationDao, IApplicationState applicationState, ISettingService settingService, IExpressionService expressionService)
         {
@@ -50,7 +50,8 @@ namespace Samba.Presentation.Services.Implementations.AutomationModule
             var rules = GetAppRules(eventName);
             foreach (var rule in rules.Where(x => string.IsNullOrEmpty(x.EventConstraints) || SatisfiesConditions(x, dataObject)))
             {
-                foreach (var actionContainer in rule.Actions.Where(x => CanExecute(x, dataObject)))
+                if (!CanExecuteRule(rule, dataObject)) continue;
+                foreach (var actionContainer in rule.Actions.Where(x => CanExecuteAction(x, dataObject)))
                 {
                     var container = actionContainer;
                     var action = Actions.SingleOrDefault(x => x.Id == container.AppActionId);
@@ -71,7 +72,13 @@ namespace Samba.Presentation.Services.Implementations.AutomationModule
             }
         }
 
-        private bool CanExecute(ActionContainer actionContainer, object dataObject)
+        private bool CanExecuteRule(AppRule appRule, object dataObject)
+        {
+            if (string.IsNullOrEmpty(appRule.CustomConstraint)) return true;
+            return _expressionService.Eval("result = " + appRule.CustomConstraint, dataObject, true);
+        }
+
+        private bool CanExecuteAction(ActionContainer actionContainer, object dataObject)
         {
             if (string.IsNullOrEmpty(actionContainer.CustomConstraint)) return true;
             return _expressionService.Eval("result = " + actionContainer.CustomConstraint, dataObject, true);

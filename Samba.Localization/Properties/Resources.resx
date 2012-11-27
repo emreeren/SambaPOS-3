@@ -800,13 +800,13 @@ Changing PIN will hide this hint</value>
     <comment>Paragraph content</comment>
   </data>
   <data name="OrderTagName" xml:space="preserve">
-    <value>#OrderTag: Order Tag Name</value>
+    <value>Order Tag Name</value>
   </data>
   <data name="OrderTagPrice" xml:space="preserve">
-    <value>#OrderTag: Order Tag Price</value>
+    <value>Order Tag Price</value>
   </data>
   <data name="OrderTagQuantity" xml:space="preserve">
-    <value>#OrderTag: Order Tag Quantity</value>
+    <value>Order Tag Quantity</value>
   </data>
   <data name="LineOrderNumber" xml:space="preserve">
     <value>#Line: Order Number</value>
@@ -2969,5 +2969,11 @@ Error Message:
   </data>
   <data name="TicketStateUpdated" xml:space="preserve">
     <value>Ticket State Updated</value>
+  </data>
+  <data name="CustomConstraint" xml:space="preserve">
+    <value>Custom Constraint</value>
+  </data>
+  <data name="TicketCreated" xml:space="preserve">
+    <value>Ticket Created</value>
   </data>
 </root>

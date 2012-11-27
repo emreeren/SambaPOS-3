@@ -87,8 +87,9 @@ namespace Samba.Modules.PosModule
             }
         }
 
-        private readonly TicketInfoViewModel _ticketInfo;
         private readonly PaymentButtonViewModel _paymentButtonViewModel;
+
+        private readonly TicketInfoViewModel _ticketInfo;
         public TicketInfoViewModel TicketInfo { get { return _ticketInfo; } }
 
         public IList<Order> SelectedOrders { get { return _ticketOrdersViewModel.SelectedOrderModels; } }

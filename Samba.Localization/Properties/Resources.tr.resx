@@ -571,7 +571,7 @@ Mesaj:
     <value>Etiket</value>
   </data>
   <data name="OrderTagPrice" xml:space="preserve">
-    <value>#Etiket: Sipariş Etiketi Fiyatı</value>
+    <value>Sipariş Etiketi Fiyatı</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>Tarih</value>
@@ -1197,7 +1197,7 @@ Gizlemek için pin kodunu değiştirin</value>
     <value>CSV Üretici</value>
   </data>
   <data name="OrderTagName" xml:space="preserve">
-    <value>#Etiket: Sipariş Etiketi Adı</value>
+    <value>Sipariş Etiketi Adı</value>
   </data>
   <data name="ExecuteActionsIf" xml:space="preserve">
     <value>Koşullar</value>
@@ -1768,7 +1768,7 @@ Hata Mesajı:
     <value>Bu {0}</value>
   </data>
   <data name="OrderTagQuantity" xml:space="preserve">
-    <value>#Etiket: Sipariş Etiketi Miktar</value>
+    <value>Sipariş Etiketi Miktar</value>
   </data>
   <data name="FindTicket" xml:space="preserve">
     <value>Adisyon Bul</value>
