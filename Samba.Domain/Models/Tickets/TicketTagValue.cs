@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Samba.Infrastructure.Data;
+﻿using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Samba.Domain.Models.Tickets
 {
+    [DataContract]
     public class TicketTagValue
     {
+        [DataMember(Name = "TN")]
         public string TagName { get; set; }
-        public string TagNameShort { get { return string.Join("", TagName.Where(char.IsUpper)); } }
+        [DataMember(Name = "TV")]
         public string TagValue { get; set; }
+        public string TagNameShort { get { return string.Join("", TagName.Where(char.IsUpper)); } }
     }
 }

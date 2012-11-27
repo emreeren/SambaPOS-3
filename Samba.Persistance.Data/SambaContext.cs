@@ -115,12 +115,13 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<Script>().Property(x => x.Code).IsMaxLength();
             modelBuilder.Entity<Resource>().Property(x => x.CustomData).IsMaxLength();
             modelBuilder.Entity<Ticket>().Property(x => x.TicketTags).IsMaxLength();
+            modelBuilder.Entity<Ticket>().Property(x => x.TicketStates).IsMaxLength();
             modelBuilder.Entity<PrinterTemplate>().Property(x => x.Template).IsMaxLength();
             modelBuilder.Entity<TicketResource>().Property(x => x.ResourceCustomData).IsMaxLength();
             modelBuilder.Entity<ActionContainer>().Property(x => x.ParameterValues).IsMaxLength();
             modelBuilder.Entity<AppAction>().Property(x => x.Parameter).IsMaxLength();
             modelBuilder.Entity<AppRule>().Property(x => x.EventConstraints).IsMaxLength();
-
+            
             modelBuilder.Entity<TaskToken>().HasKey(p => new { p.Id, p.TaskId });
             modelBuilder.Entity<TaskToken>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<Task>().HasMany(p => p.TaskTokens).WithRequired().HasForeignKey(x => x.TaskId);

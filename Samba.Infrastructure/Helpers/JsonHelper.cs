@@ -19,11 +19,10 @@ namespace Samba.Infrastructure.Helpers
 
         public static T Deserialize<T>(string json) where T : new()
         {
-            if(string.IsNullOrEmpty(json)) return new T();
-            var obj = Activator.CreateInstance<T>();
+            if (string.IsNullOrEmpty(json)) return new T();
             var ms = new MemoryStream(Encoding.UTF8.GetBytes(json));
-            var serializer = new DataContractJsonSerializer(obj.GetType());
-            obj = (T)serializer.ReadObject(ms);
+            var serializer = new DataContractJsonSerializer(typeof(T));
+            var obj = (T)serializer.ReadObject(ms);
             ms.Close();
             ms.Dispose();
             return obj;
