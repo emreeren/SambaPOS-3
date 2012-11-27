@@ -47,9 +47,9 @@ namespace Samba.Modules.ModifierModule
                 if (obj.Value.SelectedOrders.Count() == 1 && obj.Value.OrderTagGroup.FreeTagging)
                 {
                     var so = obj.Value.SelectedOrders.ElementAt(0);
-                    if (so.OrderTagValues.Where(x => x.OrderTagGroupId == obj.Value.OrderTagGroup.Id).Any(x => OrderTags.All(y => y.Name != x.TagValue)))
+                    if (so.GetOrderTagValues(x => x.OrderTagGroupId == obj.Value.OrderTagGroup.Id).Any(x => OrderTags.All(y => y.Name != x.TagValue)))
                     {
-                        var ov = so.OrderTagValues.Where(x => x.OrderTagGroupId == obj.Value.OrderTagGroup.Id && OrderTags.All(y => y.Name != x.TagValue));
+                        var ov = so.GetOrderTagValues(x => x.OrderTagGroupId == obj.Value.OrderTagGroup.Id && OrderTags.All(y => y.Name != x.TagValue));
                         foreach (var orderTagValue in ov)
                         {
                             OrderTags.Add(new OrderTagButtonViewModel(obj.Value.SelectedOrders, obj.Value.OrderTagGroup,

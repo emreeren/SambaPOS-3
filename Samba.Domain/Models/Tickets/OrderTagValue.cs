@@ -1,31 +1,43 @@
 ﻿using System;
 using System.Linq;
-using Samba.Infrastructure.Data;
+using System.Runtime.Serialization;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class OrderTagValue : Value
+    [DataContract]
+    public class OrderTagValue
     {
         public OrderTagValue()
         {
             TagValue = "";
         }
-
-        public int OrderId { get; set; }
-        public int TicketId { get; set; }
+        [DataMember(Name = "TN")]
         public string TagName { get; set; }
+        [DataMember(Name = "TV")]
         public string TagValue { get; set; }
+        [DataMember(Name = "TO", EmitDefaultValue = false)]
         public string TagNote { get; set; }
+        [DataMember(Name = "SU", EmitDefaultValue = false)]
         public bool IsSubTag { get; set; }
+        [DataMember(Name = "UI")]
         public int UserId { get; set; }
+        [DataMember(Name = "PR", EmitDefaultValue = false)]
         public decimal Price { get; set; }
+        [DataMember(Name = "TA", EmitDefaultValue = false)]
         public decimal TaxAmount { get; set; }
+        [DataMember(Name = "Q", EmitDefaultValue = false)]
         public decimal Quantity { get; set; }
+        [DataMember(Name = "OI")]
         public int OrderTagGroupId { get; set; }
+        [DataMember(Name = "MI", EmitDefaultValue = false)]
         public int MenuItemId { get; set; }
+        [DataMember(Name = "AP", EmitDefaultValue = false)]
         public bool AddTagPriceToOrderPrice { get; set; }
+        [DataMember(Name = "PN", EmitDefaultValue = false)]
         public string PortionName { get; set; }
+        [DataMember(Name = "OK")]
         public string OrderKey { get; set; }
+        [DataMember(Name = "FT", EmitDefaultValue = false)]
         public bool FreeTag { get; set; }
 
         public void UpdatePrice(bool taxIncluded, decimal taxRate, decimal orderTagPrice)
@@ -39,6 +51,7 @@ namespace Samba.Domain.Models.Tickets
             }
             else if (taxRate > 0) TaxAmount = (orderTagPrice * taxRate) / 100;
             else TaxAmount = 0;
+            TaxAmount = decimal.Round(TaxAmount, 2);
         }
 
         private string _shortName;

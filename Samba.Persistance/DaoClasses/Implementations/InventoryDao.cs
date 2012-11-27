@@ -33,8 +33,7 @@ namespace Samba.Persistance.DaoClasses.Implementations
         {
             var recipeItemIds = Dao.Select<Recipe, int>(x => x.Portion.MenuItemId, x => x.Portion != null).Distinct();
             var tickets = Dao.Query<Ticket>(x => x.Date > startDate,
-                                            x => x.Orders,
-                                            x => x.Orders.Select(y => y.OrderTagValues));
+                                            x => x.Orders);
             return tickets.SelectMany(x => x.Orders)
                     .Where(x => (x.DecreaseInventory || x.IncreaseInventory) && recipeItemIds.Contains(x.MenuItemId));
         }

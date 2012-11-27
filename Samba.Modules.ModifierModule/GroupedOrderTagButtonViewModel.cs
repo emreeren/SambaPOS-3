@@ -30,7 +30,7 @@ namespace Samba.Modules.ModifierModule
         private OrderTag GetCurrentTag(OrderTag current)
         {
             if (current != null) return current;
-            var selected = _selectedItem.OrderTagValues.FirstOrDefault(x => x.OrderTagGroupId == OrderTagGroup.Id);
+            var selected = _selectedItem.GetOrderTagValues().FirstOrDefault(x => x.OrderTagGroupId == OrderTagGroup.Id);
             if (selected == null) return null;
             return OrderTagGroup.OrderTags.SingleOrDefault(x => x.Name == selected.TagValue);
         }

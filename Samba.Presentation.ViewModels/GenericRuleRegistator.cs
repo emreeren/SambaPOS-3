@@ -496,7 +496,7 @@ namespace Samba.Presentation.ViewModels
                             if (orderTagValue != null)
                             {
                                 if (!string.IsNullOrEmpty(oldTagValue))
-                                    orders = orders.Where(o => o.OrderTagValues.Any(y => y.OrderTagGroupId == orderTag.Id && y.TagValue == oldTagValue)).ToList();
+                                    orders = orders.Where(o => o.OrderTagExists(y => y.OrderTagGroupId == orderTag.Id && y.TagValue == oldTagValue)).ToList();
                                 if (x.Value.Action.ActionType == ActionNames.TagOrder)
                                     TicketService.TagOrders(ticket, orders, orderTag, orderTagValue, tagNote);
                                 if (x.Value.Action.ActionType == ActionNames.UntagOrder)
@@ -524,12 +524,12 @@ namespace Samba.Presentation.ViewModels
                     if (ticket != null && !string.IsNullOrEmpty(orderTagName))
                     {
                         var orderTagValue = x.Value.GetAsString("OrderTagValue");
-                        if (ticket.Orders.Any(y => y.OrderTagValues.Any(z => z.TagName == orderTagName && z.TagValue == orderTagValue)))
+                        if (ticket.Orders.Any(y => y.OrderTagExists(z => z.TagName == orderTagName && z.TagValue == orderTagValue)))
                         {
                             var tid = ticket.Id;
                             EventServiceFactory.EventService.PublishEvent(EventTopicNames.CloseTicketRequested, true);
                             ticket = TicketService.OpenTicket(tid);
-                            var orders = ticket.Orders.Where(y => y.OrderTagValues.Any(z => z.TagName == orderTagName && z.TagValue == orderTagValue)).ToArray();
+                            var orders = ticket.Orders.Where(y => y.OrderTagExists(z => z.TagName == orderTagName && z.TagValue == orderTagValue)).ToArray();
                             var commitResult = TicketService.MoveOrders(ticket, orders, 0);
                             if (string.IsNullOrEmpty(commitResult.ErrorMessage) && commitResult.TicketId > 0)
                             {
@@ -577,8 +577,7 @@ namespace Samba.Presentation.ViewModels
                                 Func<Order, bool> expression = ex => true;
                                 if (!string.IsNullOrWhiteSpace(orderTagName))
                                 {
-                                    expression = ex => ex.OrderTagValues.Any(
-                                            y => y.TagName == orderTagName && y.TagValue == orderTagValue);
+                                    expression = ex => ex.OrderTagExists(y => y.TagName == orderTagName && y.TagValue == orderTagValue);
                                 }
                                 PrinterService.PrintTicket(ticket, j, expression);
                             }

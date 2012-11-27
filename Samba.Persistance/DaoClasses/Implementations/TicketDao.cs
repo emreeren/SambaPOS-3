@@ -38,7 +38,6 @@ namespace Samba.Persistance.DaoClasses.Implementations
         {
             if (ticketId == 0) throw new ArgumentException("Ticket Id should be more than 0");
             return Dao.Load<Ticket>(ticketId,
-                             x => x.Orders.Select(y => y.OrderTagValues),
                              x => x.Orders.Select(y => y.ProductTimerValue),
                              x => x.TicketResources,
                              x => x.Calculations,
@@ -89,8 +88,7 @@ namespace Samba.Persistance.DaoClasses.Implementations
 
         public IEnumerable<Ticket> GetAllTickets()
         {
-            return Dao.Query<Ticket>(x => x.Orders.Select(y => y.OrderTagValues),
-                             x => x.Orders.Select(y => y.ProductTimerValue),
+            return Dao.Query<Ticket>(x => x.Orders.Select(y => y.ProductTimerValue),
                              x => x.TicketResources,
                              x => x.Calculations,
                              x => x.Payments,
@@ -99,7 +97,7 @@ namespace Samba.Persistance.DaoClasses.Implementations
 
         Ticket ITicketDao.GetTicketById(int id)
         {
-            return Dao.Single<Ticket>(x => x.Id == id, x => x.Orders.Select(y => y.OrderTagValues),
+            return Dao.Single<Ticket>(x => x.Id == id,
                              x => x.Orders.Select(y => y.ProductTimerValue),
                              x => x.TicketResources,
                              x => x.Calculations,

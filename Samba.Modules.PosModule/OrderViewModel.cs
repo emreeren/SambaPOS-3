@@ -11,7 +11,6 @@ using Samba.Localization.Properties;
 using Samba.Persistance;
 using Samba.Presentation.Common;
 using Samba.Presentation.Services.Common;
-using Samba.Services.Common;
 
 namespace Samba.Modules.PosModule
 {
@@ -170,13 +169,13 @@ namespace Samba.Modules.PosModule
         private ObservableCollection<OrderTagValueViewModel> _orderTagValues;
         public ObservableCollection<OrderTagValueViewModel> OrderTagValues
         {
-            get { return _orderTagValues ?? (_orderTagValues = new ObservableCollection<OrderTagValueViewModel>(Model.OrderTagValues.Where(x => !x.IsSubTag).Select(x => new OrderTagValueViewModel(x)))); }
+            get { return _orderTagValues ?? (_orderTagValues = new ObservableCollection<OrderTagValueViewModel>(Model.GetOrderTagValues(x => !x.IsSubTag).Select(x => new OrderTagValueViewModel(x)))); }
         }
 
         private ObservableCollection<OrderTagValueViewModel> _subOrderTagValues;
         public ObservableCollection<OrderTagValueViewModel> SubOrderTagValues
         {
-            get { return _subOrderTagValues ?? (_subOrderTagValues = new ObservableCollection<OrderTagValueViewModel>(Model.OrderTagValues.Where(x => x.IsSubTag).Select(x => new OrderTagValueViewModel(x)))); }
+            get { return _subOrderTagValues ?? (_subOrderTagValues = new ObservableCollection<OrderTagValueViewModel>(Model.GetOrderTagValues(x => x.IsSubTag).Select(x => new OrderTagValueViewModel(x)))); }
         }
 
         private string _subOrderTags;

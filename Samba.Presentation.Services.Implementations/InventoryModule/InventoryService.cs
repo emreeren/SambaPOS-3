@@ -54,7 +54,7 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
             var salesData = orders.GroupBy(x => new { x.MenuItemName, x.MenuItemId, x.PortionName })
                     .Select(x => new SalesData { MenuItemName = x.Key.MenuItemName, MenuItemId = x.Key.MenuItemId, PortionName = x.Key.PortionName, Total = x.Sum(y => y.Quantity) }).ToList();
 
-            var orderTagValues = orders.SelectMany(x => x.OrderTagValues, (ti, pr) => new { OrderTagValues = pr, ti.Quantity })
+            var orderTagValues = orders.SelectMany(x => x.GetOrderTagValues(), (ti, pr) => new { OrderTagValues = pr, ti.Quantity })
                     .Where(x => x.OrderTagValues.MenuItemId > 0)
                     .GroupBy(x => new { x.OrderTagValues.MenuItemId, x.OrderTagValues.PortionName });
 

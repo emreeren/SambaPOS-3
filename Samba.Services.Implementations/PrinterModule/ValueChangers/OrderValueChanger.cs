@@ -20,10 +20,10 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
                 var parts = key.Split('_');
                 if (parts.Count() == 2)
                 {
-                    return model.OrderTagValues.Any(x => x.TagName == parts[0] && x.TagValue == parts[1]);
+                    return model.OrderTagExists(x => x.TagName == parts[0] && x.TagValue == parts[1]);
                 }
             }
-            return model.OrderTagValues.Any(x => x.TagValue.ToLower() == key.ToLower());
+            return model.OrderTagExists(x => x.TagValue.ToLower() == key.ToLower());
         }
 
         protected override string GetModelName(Order model)
@@ -33,7 +33,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
         protected override string ReplaceTemplateValues(string templatePart, Order model, PrinterTemplate template)
         {
-            return OrderTagValueChanger.Replace(template, templatePart, model.OrderTagValues.Where(x => !x.IsSubTag));
+            return OrderTagValueChanger.Replace(template, templatePart, model.GetOrderTagValues(x => !x.IsSubTag));
         }
 
         protected override decimal GetSumSelector(Order x)
@@ -65,9 +65,9 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             if (!string.IsNullOrEmpty(switchValue) && switchValue.Contains(":"))
             {
                 var parts = switchValue.Split(':');
-                if (parts[0] == "ORDER TAG" && obj.OrderTagValues.Any(x => x.TagName == parts[1]))
+                if (parts[0] == "ORDER TAG" && obj.OrderTagExists(x => x.TagName == parts[1]))
                 {
-                    obj.OrderTagValues.Where(x => x.TagName == parts[1]).ToList().ForEach(x => obj.OrderTagValues.Remove(x));
+                    obj.GetOrderTagValues(x => x.TagName == parts[1]).ToList().ForEach(obj.UntagOrder);
                 }
             }
         }

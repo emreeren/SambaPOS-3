@@ -145,8 +145,8 @@ namespace Samba.Modules.BasicReports.Reports.ProductReport
             //----------------------
 
             var properties = ReportContext.Tickets
-                .SelectMany(x => x.Orders.Where(y => y.OrderTagValues.Count > 0))
-                .SelectMany(x => x.OrderTagValues.Where(y => y.MenuItemId == 0).Select(y => new { Name = y.TagValue, x.Quantity }))
+                .SelectMany(x => x.Orders.Where(y => !string.IsNullOrEmpty(y.OrderTags)))
+                .SelectMany(x => x.GetOrderTagValues(y => y.MenuItemId == 0).Select(y => new { Name = y.TagValue, x.Quantity }))
                 .GroupBy(x => new { x.Name })
                 .Select(x => new { x.Key.Name, Quantity = x.Sum(y => y.Quantity) }).ToList();
 

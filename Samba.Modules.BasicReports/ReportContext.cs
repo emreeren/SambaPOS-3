@@ -175,12 +175,12 @@ namespace Samba.Modules.BasicReports
                 return Dao.Query<Ticket>(
                     x => x.LastPaymentDate >= CurrentWorkPeriod.StartDate,
                     x => x.TransactionDocument.AccountTransactions,
-                    x => x.Payments.Select(y => y.AccountTransaction), x => x.Calculations, x => x.Orders, x => x.Orders.Select(y => y.OrderTagValues));
+                    x => x.Payments.Select(y => y.AccountTransaction), x => x.Calculations, x => x.Orders);
 
             return Dao.Query<Ticket>(
                     x => x.LastPaymentDate >= CurrentWorkPeriod.StartDate && x.LastPaymentDate < CurrentWorkPeriod.EndDate,
                     x => x.TransactionDocument.AccountTransactions,
-                    x => x.Payments.Select(y => y.AccountTransaction), x => x.Calculations, x => x.Orders.Select(y => y.OrderTagValues));
+                    x => x.Payments.Select(y => y.AccountTransaction), x => x.Calculations, x => x.Orders);
         }
 
         private static IEnumerable<AccountTransactionValue> GetAccountTransactionValues()

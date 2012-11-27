@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
+using Samba.Infrastructure.Helpers;
 
 namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 {
@@ -46,7 +47,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
         private static IEnumerable<Order> MergeLines(IList<Order> orders)
         {
-            var group = orders.Where(x => x.OrderTagValues.Count(y => y.Price != 0) == 0).GroupBy(x => new
+            var group = orders.Where(x => x.GetOrderTagValues().Count(y => y.Price != 0) == 0).GroupBy(x => new
                                                 {
                                                     x.MenuItemId,
                                                     x.MenuItemName,
@@ -85,11 +86,11 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
                                         OrderState = x.Key.OrderState,
                                         OrderStateGroupName = x.Key.OrderStateGroupName,
                                         OrderStateGroupId = x.Key.OrderStateGroupId,
-                                        OrderTagValues = x.SelectMany(y => y.OrderTagValues).Distinct(OrderTagValueComparer).ToList(),
+                                        OrderTags = JsonHelper.Serialize(x.SelectMany(y => y.GetOrderTagValues()).Distinct(OrderTagValueComparer).ToList()),
                                         Quantity = x.Sum(y => y.Quantity)
                                     });
 
-            result = result.Union(orders.Where(x => x.OrderTagValues.Count(y => y.Price != 0) > 0)).OrderBy(x => x.CreatedDateTime);
+            result = result.Union(orders.Where(x => x.GetOrderTagValues().Count(y => y.Price != 0) > 0)).OrderBy(x => x.CreatedDateTime);
 
             return result;
         }

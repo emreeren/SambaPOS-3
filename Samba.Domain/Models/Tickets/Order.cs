@@ -4,6 +4,7 @@ using System.Linq;
 using System.Diagnostics;
 using Samba.Domain.Models.Menus;
 using Samba.Infrastructure.Data;
+using Samba.Infrastructure.Helpers;
 
 namespace Samba.Domain.Models.Tickets
 {
@@ -12,7 +13,6 @@ namespace Samba.Domain.Models.Tickets
         public Order()
         {
             _selectedQuantity = 0;
-            _orderTagValues = new List<OrderTagValue>();
             CreatedDateTime = DateTime.Now;
             CalculatePrice = true;
             DecreaseInventory = true;
@@ -51,13 +51,7 @@ namespace Samba.Domain.Models.Tickets
         public int TaxTemplateId { get; set; }
         public bool TaxIncluded { get; set; }
         public int TaxTempleteAccountTransactionTypeId { get; set; }
-
-        private IList<OrderTagValue> _orderTagValues;
-        public virtual IList<OrderTagValue> OrderTagValues
-        {
-            get { return _orderTagValues; }
-            set { _orderTagValues = value; }
-        }
+        public string OrderTags { get; set; }
 
         private decimal _selectedQuantity;
         public decimal SelectedQuantity
@@ -74,6 +68,27 @@ namespace Samba.Domain.Models.Tickets
                     desc = string.Format("({0:#.##}) {1}", SelectedQuantity, desc);
                 return desc;
             }
+        }
+
+        private IList<OrderTagValue> _orderTagValues;
+        internal IList<OrderTagValue> OrderTagValues
+        {
+            get { return _orderTagValues ?? (_orderTagValues = JsonHelper.Deserialize<List<OrderTagValue>>(OrderTags)); }
+        }
+
+        public bool OrderTagExists(Func<OrderTagValue, bool> prediction)
+        {
+            return OrderTagValues.Any(prediction);
+        }
+
+        public IEnumerable<OrderTagValue> GetOrderTagValues(Func<OrderTagValue, bool> prediction)
+        {
+            return OrderTagValues.Where(prediction);
+        }
+
+        public IEnumerable<OrderTagValue> GetOrderTagValues()
+        {
+            return OrderTagValues;
         }
 
         private static Order _null;
@@ -121,9 +136,14 @@ namespace Samba.Domain.Models.Tickets
                 UpdatePrice(portion.Price, "");
             }
 
-            foreach (var orderTagValue in OrderTagValues)
+            if (OrderTagValues.Any(x => x.MenuItemId > 0 && x.PortionName != portion.Name))
             {
-                orderTagValue.PortionName = portion.Name;
+                foreach (var orderTagValue in OrderTagValues.Where(x => x.MenuItemId > 0))
+                {
+                    orderTagValue.PortionName = portion.Name;
+                }
+                OrderTags = JsonHelper.Serialize(OrderTagValues);
+                _orderTagValues = null;
             }
         }
 
@@ -153,10 +173,10 @@ namespace Samba.Domain.Models.Tickets
                            TagValue = orderTag.Name,
                            OrderTagGroupId = orderTagGroup.Id,
                            TagName = orderTagGroup.Name,
-                           TagNote = tagNote,
+                           TagNote = !string.IsNullOrEmpty(tagNote) ? tagNote : null,
                            MenuItemId = orderTag.MenuItemId,
                            AddTagPriceToOrderPrice = orderTagGroup.AddTagPriceToOrderPrice,
-                           PortionName = PortionName,
+                           PortionName = orderTag.MenuItemId > 0 ? PortionName : null,
                            IsSubTag = !string.IsNullOrEmpty(orderTagGroup.ButtonHeader) && orderTag.Price == 0 && orderTagGroup.MaxSelectedItems == 1,
                            UserId = userId,
                            Quantity = 1,
@@ -169,11 +189,15 @@ namespace Samba.Domain.Models.Tickets
                 OrderTagValues.Insert(tagIndex, otag);
             else
                 OrderTagValues.Add(otag);
+            OrderTags = JsonHelper.Serialize(OrderTagValues);
+            _orderTagValues = null;
         }
 
-        private void UntagOrder(OrderTagValue orderTagValue)
+        public void UntagOrder(OrderTagValue orderTagValue)
         {
             OrderTagValues.Remove(orderTagValue);
+            OrderTags = JsonHelper.Serialize(OrderTagValues);
+            _orderTagValues = null;
         }
 
         public void UpdateOrderState(OrderStateGroup orderStateGroup, OrderState orderState, int userId)
@@ -402,5 +426,7 @@ namespace Samba.Domain.Models.Tickets
             if (ProductTimerValue != null)
                 ProductTimerValue.Stop();
         }
+
+
     }
 }

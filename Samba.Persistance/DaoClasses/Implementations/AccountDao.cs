@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Resources;
+using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
@@ -172,6 +173,8 @@ namespace Samba.Persistance.DaoClasses.Implementations
     {
         public override string GetErrorMessage(Account model)
         {
+            if (Dao.Exists<PaymentType>(x => x.Account.Id == model.Id))
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Account, Resources.PaymentType);
             if (Dao.Exists<Resource>(x => x.AccountId == model.Id))
                 return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Account, Resources.Resource);
             if (Dao.Exists<AccountTransactionValue>(x => x.AccountId == model.Id))

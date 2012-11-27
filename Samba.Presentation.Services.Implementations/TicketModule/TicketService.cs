@@ -427,10 +427,10 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
             if (orderTagGroup.MaxSelectedItems == 1)
             {
-                foreach (var order in so.Where(x => x.OrderTagValues.Any(y => y.OrderTagGroupId == orderTagGroup.Id && y.TagValue != orderTag.Name)))
+                foreach (var order in so.Where(x => x.OrderTagExists(y => y.OrderTagGroupId == orderTagGroup.Id && y.TagValue != orderTag.Name)))
                 {
-                    var orderTagValue = order.OrderTagValues.First(x => x.OrderTagGroupId == orderTagGroup.Id);
-                    order.OrderTagValues.Remove(orderTagValue);
+                    var orderTagValue = order.GetOrderTagValues().First(x => x.OrderTagGroupId == orderTagGroup.Id);
+                    order.UntagOrder(orderTagValue);
                     _automationService.NotifyEvent(RuleEventNames.OrderUntagged,
                                new
                                {
@@ -488,14 +488,14 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             if (!order.DecreaseInventory) return true;
             var ots = _applicationState.GetOrderTagGroups(order.MenuItemId);
             if (order.Locked) ots = ots.Where(x => !string.IsNullOrEmpty(x.ButtonHeader));
-            return ots.Where(x => x.MinSelectedItems > 0).All(orderTagGroup => order.OrderTagValues.Count(x => x.OrderTagGroupId == orderTagGroup.Id) >= orderTagGroup.MinSelectedItems);
+            return ots.Where(x => x.MinSelectedItems > 0).All(orderTagGroup => order.GetOrderTagValues(x => x.OrderTagGroupId == orderTagGroup.Id).Count() >= orderTagGroup.MinSelectedItems);
         }
 
         public OrderTagGroup GetMandantoryOrderTagGroup(Order order)
         {
             var ots = _applicationState.GetOrderTagGroups(order.MenuItemId);
             if (order.Locked) ots = ots.Where(x => !string.IsNullOrEmpty(x.ButtonHeader));
-            return ots.Where(x => x.MinSelectedItems > 0).FirstOrDefault(orderTagGroup => order.OrderTagValues.Count(x => x.OrderTagGroupId == orderTagGroup.Id) < orderTagGroup.MinSelectedItems);
+            return ots.Where(x => x.MinSelectedItems > 0).FirstOrDefault(orderTagGroup => order.GetOrderTagValues(x => x.OrderTagGroupId == orderTagGroup.Id).Count() < orderTagGroup.MinSelectedItems);
         }
 
         public bool CanCloseTicket(Ticket ticket)
