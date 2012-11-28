@@ -106,7 +106,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
         private Ticket CreateTicket()
         {
             var account = _cacheService.GetAccountById(_applicationState.CurrentTicketType.SaleTransactionType.DefaultTargetAccountId);
-            var result= Ticket.Create(_applicationState.CurrentDepartment.Model, _applicationState.CurrentTicketType, account, GetExchangeRate(account), _applicationState.GetCalculationSelectors().Where(x => string.IsNullOrEmpty(x.ButtonHeader)).SelectMany(y => y.CalculationTypes));
+            var result = Ticket.Create(_applicationState.CurrentDepartment.Model, _applicationState.CurrentTicketType, account, GetExchangeRate(account), _applicationState.GetCalculationSelectors().Where(x => string.IsNullOrEmpty(x.ButtonHeader)).SelectMany(y => y.CalculationTypes));
             _automationService.NotifyEvent(RuleEventNames.TicketCreated, new { Ticket = result });
             return result;
         }
@@ -317,18 +317,20 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             }
         }
 
-        public void UpdateState(Ticket ticket, string group, string state, string stateValue, int quantity = 0)
+        public void UpdateTicketState(Ticket ticket, string stateName, string currentState, string state, string stateValue, int quantity = 0)
         {
-            var sv = ticket.GetStateValue(group);
-            if (sv != null && sv.GroupName == group && sv.StateValue == stateValue && sv.Quantity == quantity && sv.State == state) return;
+            var sv = ticket.GetStateValue(stateName);
+            if (!string.IsNullOrEmpty(currentState) && sv.State != currentState) return;
 
-            ticket.SetStateValue(group, state, stateValue, quantity);
+            if (sv != null && sv.GroupName == stateName && sv.StateValue == stateValue && sv.Quantity == quantity && sv.State == state) return;
+
+            ticket.SetStateValue(stateName, state, stateValue, quantity);
 
             _automationService.NotifyEvent(RuleEventNames.TicketStateUpdated,
             new
             {
                 Ticket = ticket,
-                GroupName = group,
+                StateName = stateName,
                 State = state,
                 StateValue = stateValue,
                 Quantity = quantity,
@@ -524,6 +526,26 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             accountTransactionTypeIds.Where(x => so.All(y => y.AccountTransactionTypeId != x)).ToList()
                 .ForEach(x => ticket.TransactionDocument.AccountTransactions.Where(y => y.AccountTransactionTypeId == x).ToList().ForEach(y => ticket.TransactionDocument.AccountTransactions.Remove(y)));
             RefreshAccountTransactions(ticket);
+        }
+
+        public void UpdateOrderStates2(Ticket ticket, IList<Order> orders, string stateName, string currentState, int groupOrder, string state, int stateOrder,
+                                       string stateValue)
+        {
+            var so = orders.Where(x => string.IsNullOrEmpty(currentState) || x.IsInState(stateName, currentState)).ToList();
+            foreach (var order in so)
+            {
+                if (order.IsInState(stateName, state) && (string.IsNullOrEmpty(stateValue) || order.IsInState(stateValue))) continue;
+                order.SetStateValue(stateName, groupOrder, state, stateOrder, stateValue);
+                _automationService.NotifyEvent(RuleEventNames.OrderStateUpdated,
+                                               new
+                                                   {
+                                                       Ticket = ticket,
+                                                       Order = order,
+                                                       StateName = stateName,
+                                                       State = state,
+                                                       StateValue = stateValue,
+                                                   });
+            }
         }
 
         public void ChangeOrdersAccountTransactionTypeId(Ticket ticket, IEnumerable<Order> selectedOrders, int accountTransactionTypeId)

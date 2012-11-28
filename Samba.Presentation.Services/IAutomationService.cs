@@ -21,5 +21,6 @@ namespace Samba.Presentation.Services
         IEnumerable<IParameterValue> CreateParameterValues(RuleActionType actionType);
         AppAction GetActionById(int appActionId);
         IEnumerable<string> GetAutomationCommandNames();
+
     }
 }

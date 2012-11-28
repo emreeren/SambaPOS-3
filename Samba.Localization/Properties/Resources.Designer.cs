@@ -4458,6 +4458,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Order State Updated.
+        /// </summary>
+        public static string OrderStateUpdated {
+            get {
+                return ResourceManager.GetString("OrderStateUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Order Tag.
         /// </summary>
         public static string OrderTag {
@@ -7406,6 +7415,15 @@ namespace Samba.Localization.Properties {
         public static string UpdateOrder {
             get {
                 return ResourceManager.GetString("UpdateOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update Order State.
+        /// </summary>
+        public static string UpdateOrderState {
+            get {
+                return ResourceManager.GetString("UpdateOrderState", resourceCulture);
             }
         }
         

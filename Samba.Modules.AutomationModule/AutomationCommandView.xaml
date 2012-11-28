@@ -122,6 +122,8 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Enabled States" Binding="{Binding EnabledStates}"/>
+                            <DataGridTextColumn Header="Visible States" Binding="{Binding VisibleStates}"/>
                             <DataGridTemplateColumn Header="Visibility" Width="2*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>

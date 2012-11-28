@@ -89,6 +89,7 @@
     <Compile Include="Models\Tickets\ChangePayment.cs" />
     <Compile Include="Models\Tickets\ChangePaymentType.cs" />
     <Compile Include="Models\Tickets\ChangePaymentTypeMap.cs" />
+    <Compile Include="Models\Tickets\OrderStateValue.cs" />
     <Compile Include="Models\Tickets\ProductTimerValue.cs" />
     <Compile Include="Models\Resources\Widget.cs" />
     <Compile Include="Models\Resources\ResourceCustomField.cs" />

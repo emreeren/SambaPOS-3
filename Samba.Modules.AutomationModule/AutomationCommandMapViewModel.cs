@@ -20,6 +20,8 @@ namespace Samba.Modules.AutomationModule
         private readonly IList<string> _screens = new[] { "Ticket Screen", "Payment Screen", "Ticket + Payment Screens", "Orders" };
         public IList<string> Screens { get { return _screens; } }
         public string Screen { get { return Screens[ScreenId]; } set { ScreenId = Screens.IndexOf(value); } }
+        public string EnabledStates { get { return Model.EnabledStates; } set { Model.EnabledStates = value; } }
+        public string VisibleStates { get { return Model.VisibleStates; } set { Model.VisibleStates = value; } }
 
         public int ScreenId
         {

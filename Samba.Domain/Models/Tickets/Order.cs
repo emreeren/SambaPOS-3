@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Diagnostics;
 using Samba.Domain.Models.Menus;
@@ -52,6 +53,7 @@ namespace Samba.Domain.Models.Tickets
         public bool TaxIncluded { get; set; }
         public int TaxTempleteAccountTransactionTypeId { get; set; }
         public string OrderTags { get; set; }
+        public string OrderStates { get; set; }
 
         private decimal _selectedQuantity;
         public decimal SelectedQuantity
@@ -74,6 +76,13 @@ namespace Samba.Domain.Models.Tickets
         internal IList<OrderTagValue> OrderTagValues
         {
             get { return _orderTagValues ?? (_orderTagValues = JsonHelper.Deserialize<List<OrderTagValue>>(OrderTags)); }
+        }
+
+
+        private IList<OrderStateValue> _orderStateValues;
+        internal IList<OrderStateValue> OrderStateValues
+        {
+            get { return _orderStateValues ?? (_orderStateValues = JsonHelper.Deserialize<List<OrderStateValue>>(OrderStates)); }
         }
 
         public bool OrderTagExists(Func<OrderTagValue, bool> prediction)
@@ -200,34 +209,6 @@ namespace Samba.Domain.Models.Tickets
             _orderTagValues = null;
         }
 
-        public void UpdateOrderState(OrderStateGroup orderStateGroup, OrderState orderState, int userId)
-        {
-            if (orderStateGroup.Id == OrderStateGroupId && orderState.Name == OrderState && Locked && orderStateGroup.UnlocksOrder) return;
-            if (orderState == null || (orderStateGroup.Id == OrderStateGroupId && orderState.Name == OrderState))
-            {
-                CalculatePrice = true;
-                DecreaseInventory = true;
-                IncreaseInventory = false;
-                OrderState = "";
-                OrderStateGroupName = "";
-                OrderStateGroupId = 0;
-                if (Quantity < 0) Quantity = 0 - Quantity;
-                if (orderStateGroup.UnlocksOrder && Id > 0) Locked = true;
-                return;
-            }
-            CalculatePrice = orderStateGroup.CalculateOrderPrice;
-            DecreaseInventory = orderStateGroup.DecreaseOrderInventory;
-            IncreaseInventory = orderStateGroup.IncreaseOrderInventory;
-            if (orderStateGroup.UnlocksOrder) Locked = false;
-            if (orderStateGroup.AccountTransactionTypeId > 0)
-                AccountTransactionTypeId = orderStateGroup.AccountTransactionTypeId;
-            if (IncreaseInventory && Quantity > 0) Quantity = 0 - Quantity;
-            if (!IncreaseInventory && Quantity < 0) Quantity = 0 - Quantity;
-            OrderState = orderState.Name;
-            OrderStateGroupName = orderStateGroup.Name;
-            OrderStateGroupId = orderStateGroup.Id;
-        }
-
         public bool ToggleOrderTag(OrderTagGroup orderTagGroup, OrderTag orderTag, int userId, string tagNote)
         {
             var result = true;
@@ -254,6 +235,65 @@ namespace Samba.Domain.Models.Tickets
                 }
             }
             return result;
+        }
+
+        public OrderStateValue GetStateValue(string groupName)
+        {
+            return OrderStateValues.SingleOrDefault(x => x.GroupName == groupName) ?? OrderStateValue.Default;
+        }
+
+        public void SetStateValue(string groupName, int groupOrder, string state, int stateOrder, string stateValue)
+        {
+            var sv = OrderStateValues.SingleOrDefault(x => x.GroupName == groupName);
+            if (sv == null)
+            {
+                sv = new OrderStateValue { GroupName = groupName, State = state, StateValue = stateValue };
+                OrderStateValues.Add(sv);
+            }
+            else
+            {
+                sv.State = state;
+                sv.StateValue = stateValue;
+                sv.OrderKey = groupOrder.ToString("000") + stateOrder.ToString("000");
+            }
+            if (string.IsNullOrEmpty(sv.State))
+                OrderStateValues.Remove(sv);
+
+            OrderStates = JsonHelper.Serialize(OrderStateValues);
+            _orderStateValues = null;
+        }
+
+        public string GetStateData()
+        {
+            return string.Join("\r", OrderStateValues.Where(x => !string.IsNullOrEmpty(x.State)).OrderBy(x => x.OrderKey).Select(x => string.Format("{0} {1}", x.State, !string.IsNullOrEmpty(x.StateValue) ? string.Format("[{0}]", x.StateValue) : "")));
+        }
+
+        public void UpdateOrderState(OrderStateGroup orderStateGroup, OrderState orderState, int userId)
+        {
+            if (orderStateGroup.Id == OrderStateGroupId && orderState.Name == OrderState && Locked && orderStateGroup.UnlocksOrder) return;
+            if (orderState == null || (orderStateGroup.Id == OrderStateGroupId && orderState.Name == OrderState))
+            {
+                CalculatePrice = true;
+                DecreaseInventory = true;
+                IncreaseInventory = false;
+                OrderState = "";
+                OrderStateGroupName = "";
+                OrderStateGroupId = 0;
+                if (Quantity < 0) Quantity = 0 - Quantity;
+                if (orderStateGroup.UnlocksOrder && Id > 0) Locked = true;
+                return;
+            }
+            CalculatePrice = orderStateGroup.CalculateOrderPrice;
+            DecreaseInventory = orderStateGroup.DecreaseOrderInventory;
+            IncreaseInventory = orderStateGroup.IncreaseOrderInventory;
+            if (orderStateGroup.UnlocksOrder) Locked = false;
+            if (orderStateGroup.AccountTransactionTypeId > 0)
+                AccountTransactionTypeId = orderStateGroup.AccountTransactionTypeId;
+            if (IncreaseInventory && Quantity > 0) Quantity = 0 - Quantity;
+            if (!IncreaseInventory && Quantity < 0) Quantity = 0 - Quantity;
+            OrderState = orderState.Name;
+            OrderStateGroupName = orderStateGroup.Name;
+            OrderStateGroupId = orderStateGroup.Id;
         }
 
         public decimal GetTotal()
@@ -428,5 +468,15 @@ namespace Samba.Domain.Models.Tickets
         }
 
 
+        public bool IsInState(string groupName, string state)
+        {
+            if (groupName == "*") return OrderStateValues.Any(x => x.State == state);
+            return OrderStateValues.Any(x => x.GroupName == groupName && x.State == state);
+        }
+
+        public bool IsInState(string stateValue)
+        {
+            return OrderStateValues.Any(x => x.StateValue == stateValue);
+        }
     }
 }

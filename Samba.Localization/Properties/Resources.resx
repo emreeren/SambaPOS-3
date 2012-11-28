@@ -2972,4 +2972,10 @@ Error Message:
   <data name="TicketCreated" xml:space="preserve">
     <value>Ticket Created</value>
   </data>
+  <data name="OrderStateUpdated" xml:space="preserve">
+    <value>Order State Updated</value>
+  </data>
+  <data name="UpdateOrderState" xml:space="preserve">
+    <value>Update Order State</value>
+  </data>
 </root>

@@ -404,8 +404,10 @@ namespace Samba.Domain.Models.Tickets
 
         public bool IsInState(string groupName, string state)
         {
-            var sv = GetStateValue(groupName);
-            return sv != null && sv.State == state;
+            if (groupName == "*") return TicketStateValues.Any(x => x.State == state);
+            return TicketStateValues.Any(x => x.GroupName == groupName && x.State == state);
+            //var sv = GetStateValue(groupName);
+            //return sv != null && sv.State == state;
         }
 
         public void CancelOrders(IEnumerable<Order> orders)

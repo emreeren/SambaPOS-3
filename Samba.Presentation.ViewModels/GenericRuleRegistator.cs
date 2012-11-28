@@ -72,7 +72,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType(ActionNames.RegenerateTicketTax, Resources.RegenerateTicketTax);
             AutomationService.RegisterActionType(ActionNames.UpdateTicketCalculation, Resources.UpdateTicketCalculation, new { CalculationType = "", Amount = 0m });
             AutomationService.RegisterActionType(ActionNames.UpdateTicketAccount, Resources.UpdateTicketAccount, new { AccountPhone = "", AccountName = "", Note = "" });
-            AutomationService.RegisterActionType(ActionNames.ExecutePrintJob, Resources.ExecutePrintJob, new { PrintJobName = "", OrderTagName = "", OrderTagValue = "" });
+            AutomationService.RegisterActionType(ActionNames.ExecutePrintJob, Resources.ExecutePrintJob, new { PrintJobName = "", OrderStateName = "", OrderState = "", OrderStateValue = "", OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterActionType(ActionNames.UpdateResourceState, Resources.UpdateResourceState, new { ResourceTypeName = "", ResourceState = "" });
             AutomationService.RegisterActionType(ActionNames.CloseActiveTicket, Resources.CloseTicket);
             AutomationService.RegisterActionType(ActionNames.LockTicket, Resources.LockTicket);
@@ -82,7 +82,8 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType(ActionNames.DisplayPaymentScreen, Resources.DisplayPaymentScreen);
             AutomationService.RegisterActionType(ActionNames.ExecutePowershellScript, Resources.ExecutePowershellScript, new { Script = "" });
             AutomationService.RegisterActionType(ActionNames.ExecuteScript, Resources.ExecuteScript, new { ScriptName = "" });
-            AutomationService.RegisterActionType(ActionNames.UpdateTicketState, Resources.UpdateTicketState, new { StateGroup = "", State = "", StateValue = "", Quantity = 0 });
+            AutomationService.RegisterActionType(ActionNames.UpdateTicketState, Resources.UpdateTicketState, new { StateName = "", CurrentState = "", State = "", StateValue = "", Quantity = 0 });
+            AutomationService.RegisterActionType(ActionNames.UpdateOrderState, Resources.UpdateOrderState, new { StateName = "", GroupOrder = 0, CurrentState = "", State = "", StateOrder = 0, StateValue = "" });
         }
 
         private static void RegisterRules()
@@ -101,9 +102,10 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterEvent(RuleEventNames.PaymentProcessed, Resources.PaymentProcessed, new { PaymentTypeName = "", TenderedAmount = 0m, ProcessedAmount = 0m, ChangeAmount = 0m, RemainingAmount = 0m, SelectedQuantity = 0m });
             AutomationService.RegisterEvent(RuleEventNames.TicketResourceChanged, Resources.TicketResourceChanged, new { OrderCount = 0, OldResourceName = "", NewResourceName = "" });
             AutomationService.RegisterEvent(RuleEventNames.TicketTagSelected, Resources.TicketTagSelected, new { TagName = "", TagValue = "", NumericValue = 0, TicketTag = "" });
-            AutomationService.RegisterEvent(RuleEventNames.TicketStateUpdated, Resources.TicketStateUpdated, new { GroupName = "", State = "", StateValue = "", Quantity = 0, TicketState = "" });
+            AutomationService.RegisterEvent(RuleEventNames.TicketStateUpdated, Resources.TicketStateUpdated, new { StateName = "", State = "", StateValue = "", Quantity = 0, TicketState = "" });
             AutomationService.RegisterEvent(RuleEventNames.OrderTagged, Resources.OrderTagged, new { OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterEvent(RuleEventNames.OrderUntagged, Resources.OrderUntagged, new { OrderTagName = "", OrderTagValue = "" });
+            AutomationService.RegisterEvent(RuleEventNames.OrderStateUpdated, Resources.OrderStateUpdated, new { StateName = "", State = "", StateValue = "" });
             AutomationService.RegisterEvent(RuleEventNames.AccountSelectedForTicket, Resources.AccountSelectedForTicket, new { AccountName = "", PhoneNumber = "", AccountNote = "" });
             AutomationService.RegisterEvent(RuleEventNames.TicketTotalChanged, Resources.TicketTotalChanged, new { TicketTotal = 0m, PreviousTotal = 0m, DiscountTotal = 0m, DiscountAmount = 0m, TipAmount = 0m });
             AutomationService.RegisterEvent(RuleEventNames.MessageReceived, Resources.MessageReceived, new { Command = "" });
@@ -458,11 +460,39 @@ namespace Samba.Presentation.ViewModels
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
                     if (ticket != null)
                     {
-                        var groupName = x.Value.GetAsString("StateGroup");
+                        var stateName = x.Value.GetAsString("StateName");
+                        var currentState = x.Value.GetAsString("CurrentState");
                         var state = x.Value.GetAsString("State");
                         var stateValue = x.Value.GetAsString("StateValue");
                         var quantity = x.Value.GetAsInteger("Quantity");
-                        TicketService.UpdateState(ticket, groupName, state, stateValue, quantity);
+                        TicketService.UpdateTicketState(ticket, stateName, currentState, state, stateValue, quantity);
+                    }
+                }
+
+                if (x.Value.Action.ActionType == ActionNames.UpdateOrderState)
+                {
+                    var ticket = x.Value.GetDataValue<Ticket>("Ticket");
+                    IList<Order> orders = new List<Order>();
+                    var selectedOrder = x.Value.GetDataValue<Order>("Order");
+
+                    if (selectedOrder == null)
+                    {
+                        if (ticket != null)
+                        {
+                            orders = ticket.Orders.Any(y => y.IsSelected) ? ticket.Orders.Where(y => y.IsSelected).ToList() : ticket.Orders;
+                        }
+                    }
+                    else orders.Add(selectedOrder);
+                    if (orders.Any())
+                    {
+                        var stateName = x.Value.GetAsString("StateName");
+                        var currentState = x.Value.GetAsString("CurrentState");
+                        var groupOrder = x.Value.GetAsInteger("GroupOrder");
+                        var state = x.Value.GetAsString("State");
+                        var stateOrder = x.Value.GetAsInteger("StateOrder");
+                        var stateValue = x.Value.GetAsString("StateValue");
+
+                        TicketService.UpdateOrderStates2(ticket, orders, stateName, currentState, groupOrder, state, stateOrder, stateValue);
                     }
                 }
 
@@ -574,12 +604,21 @@ namespace Samba.Presentation.ViewModels
                             {
                                 var orderTagName = x.Value.GetAsString("OrderTagName");
                                 var orderTagValue = x.Value.GetAsString("OrderTagValue");
-                                Func<Order, bool> expression = ex => true;
+                                var orderStateName = x.Value.GetAsString("OrderStateName");
+                                var orderState = x.Value.GetAsString("OrderState");
+                                var orderStateValue = x.Value.GetAsString("OrderStateValue");
+                                Expression<Func<Order, bool>> expression = ex => true;
                                 if (!string.IsNullOrWhiteSpace(orderTagName))
                                 {
                                     expression = ex => ex.OrderTagExists(y => y.TagName == orderTagName && y.TagValue == orderTagValue);
                                 }
-                                PrinterService.PrintTicket(ticket, j, expression);
+                                if (!string.IsNullOrWhiteSpace(orderStateName))
+                                {
+                                    expression = expression.And(ex => ex.IsInState(orderStateName, orderState));
+                                    if (!string.IsNullOrWhiteSpace(orderStateValue))
+                                        expression = expression.And(ex => ex.IsInState(orderStateValue));
+                                }
+                                PrinterService.PrintTicket(ticket, j, expression.Compile());
                             }
                             else
                                 PrinterService.ExecutePrintJob(j);

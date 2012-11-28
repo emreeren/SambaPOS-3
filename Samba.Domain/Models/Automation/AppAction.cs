@@ -61,7 +61,14 @@ namespace Samba.Domain.Models.Automation
                 .Select(match => match.Groups[1].Value)
                 .Where(value => parameters.Keys.Contains(value));
 
-            return matches.Aggregate(s, (current, value) => current.Replace(string.Format("[:{0}]", value), parameters[value].ToString()));
+            s = matches.Aggregate(s, (current, value) => current.Replace(string.Format("[:{0}]", value), parameters[value].ToString()));
+
+            var matches2 = Regex.Matches(s, "\\[:([^\\]]+)\\]").Cast<Match>()
+                .Select(match => match.Groups[1].Value)
+                .Where(value => !parameters.Keys.Contains(value));
+
+            return matches2.Aggregate(s, (current, value) => current.Replace(string.Format("[:{0}]", value), ""));
+
         }
 
         public int Order { get; set; }

@@ -12,6 +12,7 @@ using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
 using Samba.Infrastructure.Data;
+using Samba.Infrastructure.Helpers;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
@@ -353,9 +354,6 @@ namespace Samba.Presentation.Services.Common
             orderTag2.AddOrderStateMap();
             _workspace.Add(orderTag2);
 
-            const string parameterFormat = "[{{\"Key\":\"{0}\",\"Value\":\"{1}\"}}]";
-            const string doubleParameterFormat = "[{{\"Key\":\"{0}\",\"Value\":\"{1}\"}},{{\"Key\":\"{2}\",\"Value\":\"{3}\"}}]";
-
             var newOrderState = new ResourceState { Name = "New Orders", Color = "Orange" };
             _workspace.Add(newOrderState);
 
@@ -365,23 +363,25 @@ namespace Samba.Presentation.Services.Common
             var billRequestedState = new ResourceState { Name = "Bill Requested", Color = "Maroon" };
             _workspace.Add(billRequestedState);
 
-            var updateTicketStatusAction = new AppAction { ActionType = "UpdateTicketState", Name = "Update Ticket Status", Parameter = string.Format(doubleParameterFormat, "StateGroup", "Status", "State", "[:Status]") };
+            var updateTicketStatusAction = new AppAction { ActionType = ActionNames.UpdateTicketState, Name = "Update Ticket Status", Parameter = Params().Add("StateName", "Status").Add("State", "[:Status]").Add("CurrentState", "[:Current Status]").ToString() };
             _workspace.Add(updateTicketStatusAction);
-            var newOrderAction = new AppAction { ActionType = "UpdateResourceState", Name = "Update New Order State", Parameter = string.Format(parameterFormat, "ResourceState", "New Orders") };
+            var updateOrderStatusAction = new AppAction { ActionType = ActionNames.UpdateOrderState, Name = "Update Order Status", Parameter = Params().Add("StateName", "Status").Add("State", "[:Status]").Add("CurrentState", "[:Current Status]").ToString() };
+            _workspace.Add(updateOrderStatusAction);
+            var newOrderAction = new AppAction { ActionType = ActionNames.UpdateResourceState, Name = "Update New Order State", Parameter = Params().Add("ResourceState", "New Orders").ToString() };
             _workspace.Add(newOrderAction);
-            var availableAction = new AppAction { ActionType = "UpdateResourceState", Name = "Update Available State", Parameter = string.Format(parameterFormat, "ResourceState", "Available") };
+            var availableAction = new AppAction { ActionType = ActionNames.UpdateResourceState, Name = "Update Available State", Parameter = Params().Add("ResourceState", "Available").ToString() };
             _workspace.Add(availableAction);
-            var billRequestedAction = new AppAction { ActionType = "UpdateResourceState", Name = "Update Bill Requested State", Parameter = string.Format(parameterFormat, "ResourceState", "Bill Requested") };
+            var billRequestedAction = new AppAction { ActionType = ActionNames.UpdateResourceState, Name = "Update Bill Requested State", Parameter = Params().Add("ResourceState", "Bill Requested").ToString() };
             _workspace.Add(billRequestedAction);
-            var createTicketAction = new AppAction { ActionType = "CreateTicket", Name = string.Format(Resources.Create_f, Resources.Ticket), Parameter = "" };
+            var createTicketAction = new AppAction { ActionType = ActionNames.CreateTicket, Name = string.Format(Resources.Create_f, Resources.Ticket), Parameter = "" };
             _workspace.Add(createTicketAction);
-            var closeTicketAction = new AppAction { ActionType = "CloseActiveTicket", Name = Resources.CloseTicket, Parameter = "" };
+            var closeTicketAction = new AppAction { ActionType = ActionNames.CloseActiveTicket, Name = Resources.CloseTicket, Parameter = "" };
             _workspace.Add(closeTicketAction);
-            var printBillAction = new AppAction { ActionType = "ExecutePrintJob", Name = "Execute Bill Print Job", Parameter = string.Format(parameterFormat, "PrintJobName", Resources.PrintBill) };
+            var printBillAction = new AppAction { ActionType = ActionNames.ExecutePrintJob, Name = "Execute Bill Print Job", Parameter = Params().Add("PrintJobName", Resources.PrintBill).ToString() };
             _workspace.Add(printBillAction);
-            var printKitchenOrdersAction = new AppAction { ActionType = "ExecutePrintJob", Name = "Execute Kitchen Orders Print Job", Parameter = string.Format(parameterFormat, "PrintJobName", Resources.PrintOrdersToKitchenPrinter) };
+            var printKitchenOrdersAction = new AppAction { ActionType = ActionNames.ExecutePrintJob, Name = "Execute Kitchen Orders Print Job", Parameter = Params().Add("PrintJobName", Resources.PrintOrdersToKitchenPrinter).ToString() };
             _workspace.Add(printKitchenOrdersAction);
-            var unlockTicketAction = new AppAction { ActionType = "UnlockTicket", Name = Resources.UnlockTicket, Parameter = "" };
+            var unlockTicketAction = new AppAction { ActionType = ActionNames.UnlockTicket, Name = Resources.UnlockTicket, Parameter = "" };
             _workspace.Add(unlockTicketAction);
             _workspace.CommitChanges();
 
@@ -396,7 +396,7 @@ namespace Samba.Presentation.Services.Common
             newOrderRule.AddRuleMap();
             _workspace.Add(newOrderRule);
 
-            var availableRule = new AppRule { Name = "Update Available Resource Color", EventName = "ResourceUpdated", EventConstraints = "OpenTicketCount;=;0" };
+            var availableRule = new AppRule { Name = "Update Available Resource Color", EventName = RuleEventNames.ResourceUpdated, EventConstraints = "OpenTicketCount;=;0" };
             var ac2 = new ActionContainer(availableAction);
             availableRule.Actions.Add(ac2);
             availableRule.AddRuleMap();
@@ -804,6 +804,26 @@ namespace Samba.Presentation.Services.Common
         {
             LocalSettings.DefaultCurrencyFormat = "#,0.00;(#,0.00);-";
             LocalSettings.DefaultQuantityFormat = "#.##;-#.##;-";
+        }
+
+        private ParameterBuilder Params()
+        {
+            return new ParameterBuilder();
+        }
+    }
+
+    internal class ParameterBuilder
+    {
+        private readonly IDictionary<string, string> _values = new Dictionary<string, string>();
+        public ParameterBuilder Add(string key, string value)
+        {
+            _values.Add(key, value);
+            return this;
+        }
+
+        public override string ToString()
+        {
+            return JsonHelper.Serialize(_values);
         }
     }
 }

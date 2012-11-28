@@ -131,12 +131,12 @@ namespace Samba.Modules.PosModule
 
         public IEnumerable<CommandContainerButton> TicketAutomationCommands
         {
-            get { return AllAutomationCommands.Where(x => x.CommandContainer.DisplayOnTicket); }
+            get { return AllAutomationCommands.Where(x => x.CommandContainer.DisplayOnTicket && x.CommandContainer.CanDisplay(SelectedTicket)); }
         }
 
         public IEnumerable<CommandContainerButton> OrderAutomationCommands
         {
-            get { return AllAutomationCommands.Where(x => x.CommandContainer.DisplayOnOrders); }
+            get { return AllAutomationCommands.Where(x => x.CommandContainer.DisplayOnOrders && x.CommandContainer.CanDisplay(SelectedTicket)); }
         }
 
         public IEnumerable<TicketTagButton> TicketTagButtons
@@ -227,7 +227,7 @@ namespace Samba.Modules.PosModule
 
         private bool CanExecuteAutomationCommand(CommandContainerButton arg)
         {
-            return arg.IsEnabled && _expressionService.EvalCommand(FunctionNames.CanExecuteAutomationCommand, arg.CommandContainer.AutomationCommand, new { Ticket = SelectedTicket }, true);
+            return arg.IsEnabled && arg.CommandContainer.CanExecute(SelectedTicket) && _expressionService.EvalCommand(FunctionNames.CanExecuteAutomationCommand, arg.CommandContainer.AutomationCommand, new { Ticket = SelectedTicket }, true);
         }
 
         private void OnExecuteAutomationCommand(CommandContainerButton obj)

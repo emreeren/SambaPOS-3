@@ -61,7 +61,7 @@ namespace Samba.Modules.PaymentModule
                         Parameter = x
                     }));
 
-                result.AddRange(_applicationState.GetAutomationCommands().Where(x => x.DisplayOnPayment)
+                result.AddRange(_applicationState.GetAutomationCommands().Where(x => x.DisplayOnPayment && x.CanDisplay(_paymentEditor.SelectedTicket))
                     .Select(x => new CommandButtonViewModel<object>
                     {
                         Caption = x.AutomationCommand.Name,
@@ -82,6 +82,7 @@ namespace Samba.Modules.PaymentModule
         {
             if (arg == null) return false;
             if (_paymentEditor.SelectedTicket != null && _paymentEditor.SelectedTicket.IsLocked && arg.VisualBehaviour == 1) return false;
+            if (!arg.CanExecute(_paymentEditor.SelectedTicket)) return false;
             return _expressionService.EvalCommand(FunctionNames.CanExecuteAutomationCommand, arg.AutomationCommand, new { Ticket = _paymentEditor.SelectedTicket }, true);
         }
 

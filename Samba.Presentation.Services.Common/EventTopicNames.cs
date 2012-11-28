@@ -30,6 +30,7 @@
         public const string UpdateOrder = "UpdateOrder";
         public const string ExecuteScript = "ExecuteScript";
         public const string UpdateTicketState = "UpdateTicketState";
+        public const string UpdateOrderState = "UpdateOrderState";
     }
 
     public static class RuleEventNames
@@ -59,6 +60,7 @@
         public const string OrderUntagged = "OrderUntagged";
         public const string TicketStateUpdated = "TicketStateUpdated";
         public const string TicketCreated = "TicketCreated";
+        public const string OrderStateUpdated = "OrderStateUpdated";
     }
 
     public static class EventTopicNames
