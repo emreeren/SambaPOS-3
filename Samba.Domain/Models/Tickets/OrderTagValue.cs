@@ -11,6 +11,7 @@ namespace Samba.Domain.Models.Tickets
         {
             TagValue = "";
         }
+
         [DataMember(Name = "TN")]
         public string TagName { get; set; }
         [DataMember(Name = "TV")]

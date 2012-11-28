@@ -51,7 +51,6 @@ namespace Samba.Persistance.Data
         public DbSet<OrderStateMap> OrderStateMaps { get; set; }
         public DbSet<OrderTagTemplate> OrderTagTemplates { get; set; }
         public DbSet<OrderTagTemplateValue> OrderTagTemplateValues { get; set; }
-        //public DbSet<OrderTagValue> OrderTagValues { get; set; }
         public DbSet<ProductTimer> Productimers { get; set; }
         public DbSet<ProdcutTimerMap> ProductTimerMaps { get; set; }
         public DbSet<ProductTimerValue> ProductTimerValues { get; set; }
@@ -163,10 +162,6 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<Order>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<Ticket>().HasMany(p => p.Orders).WithRequired().HasForeignKey(x => x.TicketId);
 
-            //modelBuilder.Entity<OrderTagValue>().HasKey(p => new { p.Id, p.OrderId, p.TicketId });
-            //modelBuilder.Entity<OrderTagValue>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            //modelBuilder.Entity<Order>().HasMany(p => p.OrderTagValues).WithRequired().HasForeignKey(x => new { x.OrderId, x.TicketId });
-
             modelBuilder.Entity<MenuItemPrice>().HasKey(p => new { p.Id, p.MenuItemPortionId });
             modelBuilder.Entity<MenuItemPrice>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<MenuItemPortion>().HasMany(p => p.Prices).WithRequired().HasForeignKey(x => x.MenuItemPortionId);
@@ -221,11 +216,6 @@ namespace Samba.Persistance.Data
 
             //PaidItem
             modelBuilder.Entity<PaidItem>().Property(x => x.Quantity).HasPrecision(precision, 3);
-
-            ////OrderTagValue
-            //modelBuilder.Entity<OrderTagValue>().Property(x => x.Price).HasPrecision(precision, scale);
-            //modelBuilder.Entity<OrderTagValue>().Property(x => x.Quantity).HasPrecision(precision, 3);
-            //modelBuilder.Entity<OrderTagValue>().Property(x => x.TaxAmount).HasPrecision(precision, scale);
 
             //Order
             modelBuilder.Entity<Order>().Property(x => x.Quantity).HasPrecision(precision, 3);
