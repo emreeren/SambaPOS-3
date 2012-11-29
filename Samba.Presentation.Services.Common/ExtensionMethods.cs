@@ -21,8 +21,10 @@ namespace Samba.Presentation.Services.Common
 
         public static void PublishEvent<TEventsubject>(this TEventsubject eventArgs, string eventTopic, bool wait)
         {
-            if (wait) Application.Current.Dispatcher.Invoke(new PublishEventDelegate<TEventsubject>(Publish), eventArgs, eventTopic, null);
-            else Application.Current.Dispatcher.BeginInvoke(new PublishEventDelegate<TEventsubject>(Publish), eventArgs, eventTopic, null);
+            if (wait)
+                Application.Current.Dispatcher.Invoke(new PublishEventDelegate<TEventsubject>(Publish), eventArgs, eventTopic, null);
+            else
+                Application.Current.Dispatcher.BeginInvoke(new PublishEventDelegate<TEventsubject>(Publish), eventArgs, eventTopic, null);
         }
 
         public static void PublishIdEvent(int id, string eventTopic)

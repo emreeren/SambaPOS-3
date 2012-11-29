@@ -2978,4 +2978,19 @@ Error Message:
   <data name="UpdateOrderState" xml:space="preserve">
     <value>Update Order State</value>
   </data>
+  <data name="New" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Unpaid" xml:space="preserve">
+    <value>Unpaid</value>
+  </data>
+  <data name="Locked" xml:space="preserve">
+    <value>Locked</value>
+  </data>
+  <data name="OrderLine" xml:space="preserve">
+    <value>Order Line</value>
+  </data>
 </root>

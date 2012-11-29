@@ -3639,6 +3639,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Locked.
+        /// </summary>
+        public static string Locked {
+            get {
+                return ResourceManager.GetString("Locked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Lock Ticket.
         /// </summary>
         public static string LockTicket {
@@ -4013,6 +4022,15 @@ namespace Samba.Localization.Properties {
         public static string Negative {
             get {
                 return ResourceManager.GetString("Negative", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New.
+        /// </summary>
+        public static string New {
+            get {
+                return ResourceManager.GetString("New", resourceCulture);
             }
         }
         
@@ -4418,6 +4436,15 @@ namespace Samba.Localization.Properties {
         public static string OrderAddedToTicket {
             get {
                 return ResourceManager.GetString("OrderAddedToTicket", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order Line.
+        /// </summary>
+        public static string OrderLine {
+            get {
+                return ResourceManager.GetString("OrderLine", resourceCulture);
             }
         }
         
@@ -6180,6 +6207,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        public static string Status {
+            get {
+                return ResourceManager.GetString("Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Stop Timer.
         /// </summary>
         public static string StopTimer {
@@ -7388,6 +7424,15 @@ namespace Samba.Localization.Properties {
         public static string UnlockTicket {
             get {
                 return ResourceManager.GetString("UnlockTicket", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unpaid.
+        /// </summary>
+        public static string Unpaid {
+            get {
+                return ResourceManager.GetString("Unpaid", resourceCulture);
             }
         }
         

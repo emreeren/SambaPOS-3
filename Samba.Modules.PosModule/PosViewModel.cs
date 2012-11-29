@@ -205,6 +205,7 @@ namespace Samba.Modules.PosModule
             {
                 case EventTopicNames.CreateTicket:
                     CreateTicket();
+                    EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
                     break;
                 case EventTopicNames.ActivatePosView:
                     if (_ticketService.CanDeselectOrders(_ticketOrdersViewModel.SelectedOrderModels))

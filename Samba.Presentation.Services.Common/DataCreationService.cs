@@ -220,15 +220,15 @@ namespace Samba.Presentation.Services.Common
             _workspace.Add(orderNumerator);
 
             var printBillAutomation = new AutomationCommand { Name = Resources.PrintBill, ButtonHeader = Resources.PrintBill };
-            printBillAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { VisualBehaviour = 1, DisplayOnTicket = true, DisplayOnPayment = true });
+            printBillAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { EnabledStates = Resources.Unpaid, VisibleStates = "*", DisplayOnTicket = true, DisplayOnPayment = true });
             _workspace.Add(printBillAutomation);
 
             var unlockTicketAutomation = new AutomationCommand { Name = Resources.UnlockTicket, ButtonHeader = Resources.UnlockTicket };
-            unlockTicketAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { VisualBehaviour = 2, DisplayOnTicket = true });
+            unlockTicketAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { EnabledStates = Resources.Locked, VisibleStates = Resources.Locked, DisplayOnTicket = true });
             _workspace.Add(unlockTicketAutomation);
 
             var addTicketAutomation = new AutomationCommand { Name = string.Format(Resources.Add_f, Resources.Ticket), ButtonHeader = string.Format(Resources.Add_f, Resources.Ticket) };
-            addTicketAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { VisualBehaviour = 0, DisplayOnTicket = true });
+            addTicketAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { EnabledStates = string.Format("{0},{1}", Resources.Unpaid, Resources.Locked), VisibleStates = "*", DisplayOnTicket = true });
             _workspace.Add(addTicketAutomation);
 
             _workspace.CommitChanges();
@@ -363,9 +363,9 @@ namespace Samba.Presentation.Services.Common
             var billRequestedState = new ResourceState { Name = "Bill Requested", Color = "Maroon" };
             _workspace.Add(billRequestedState);
 
-            var updateTicketStatusAction = new AppAction { ActionType = ActionNames.UpdateTicketState, Name = "Update Ticket Status", Parameter = Params().Add("StateName", "Status").Add("State", "[:Status]").Add("CurrentState", "[:Current Status]").ToString() };
+            var updateTicketStatusAction = new AppAction { ActionType = ActionNames.UpdateTicketState, Name = "Update Ticket Status", Parameter = Params().Add("StateName", Resources.Status).Add("State", "[:Status]").Add("CurrentState", "[:Current Status]").ToString() };
             _workspace.Add(updateTicketStatusAction);
-            var updateOrderStatusAction = new AppAction { ActionType = ActionNames.UpdateOrderState, Name = "Update Order Status", Parameter = Params().Add("StateName", "Status").Add("State", "[:Status]").Add("CurrentState", "[:Current Status]").ToString() };
+            var updateOrderStatusAction = new AppAction { ActionType = ActionNames.UpdateOrderState, Name = "Update Order Status", Parameter = Params().Add("StateName", Resources.Status).Add("State", "[:Status]").Add("CurrentState", "[:Current Status]").ToString() };
             _workspace.Add(updateOrderStatusAction);
             var newOrderAction = new AppAction { ActionType = ActionNames.UpdateResourceState, Name = "Update New Order State", Parameter = Params().Add("ResourceState", "New Orders").ToString() };
             _workspace.Add(newOrderAction);
@@ -386,9 +386,14 @@ namespace Samba.Presentation.Services.Common
             _workspace.CommitChanges();
 
             var newTicketRule = new AppRule { Name = "New Ticket Creating Rule", EventName = RuleEventNames.TicketCreated };
-            newTicketRule.Actions.Add(new ActionContainer(updateTicketStatusAction) { ParameterValues = "Status=Unpaid" });
+            newTicketRule.Actions.Add(new ActionContainer(updateTicketStatusAction) { ParameterValues = string.Format("{0}={1}", Resources.Status, Resources.New) });
             newTicketRule.AddRuleMap();
             _workspace.Add(newTicketRule);
+
+            var newOrderAddingRule = new AppRule { Name = "New Order Adding Rule", EventName = RuleEventNames.TicketLineAdded };
+            newOrderAddingRule.Actions.Add(new ActionContainer(updateTicketStatusAction) { ParameterValues = string.Format("Status={0}#Current Status={1}", Resources.Unpaid, Resources.New) });
+            newOrderAddingRule.AddRuleMap();
+            _workspace.Add(newOrderAddingRule);
 
             var newOrderRule = new AppRule { Name = "Update New Order Resource Color", EventName = RuleEventNames.TicketClosing, EventConstraints = "NewOrderCount;>;0" };
             newOrderRule.Actions.Add(new ActionContainer(printKitchenOrdersAction));
@@ -411,6 +416,7 @@ namespace Samba.Presentation.Services.Common
             var printBillRule = new AppRule { Name = "Print Bill Rule", EventName = RuleEventNames.AutomationCommandExecuted, EventConstraints = "AutomationCommandName;=;" + Resources.PrintBill };
             printBillRule.Actions.Add(new ActionContainer(printBillAction));
             printBillRule.Actions.Add(new ActionContainer(billRequestedAction));
+            printBillRule.Actions.Add(new ActionContainer(updateTicketStatusAction) { ParameterValues = string.Format("Status={0}", Resources.Locked) });
             printBillRule.Actions.Add(new ActionContainer(closeTicketAction));
             printBillRule.AddRuleMap();
             _workspace.Add(printBillRule);

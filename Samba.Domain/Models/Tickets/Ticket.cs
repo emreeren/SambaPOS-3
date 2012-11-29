@@ -402,12 +402,10 @@ namespace Samba.Domain.Models.Tickets
             get { return TicketTagValues.Any(x => !string.IsNullOrEmpty(x.TagValue)); }
         }
 
-        public bool IsInState(string groupName, string state)
+        public bool IsInState(string stateName, string state)
         {
-            if (groupName == "*") return TicketStateValues.Any(x => x.State == state);
-            return TicketStateValues.Any(x => x.GroupName == groupName && x.State == state);
-            //var sv = GetStateValue(groupName);
-            //return sv != null && sv.State == state;
+            if (stateName == "*") return TicketStateValues.Any(x => x.State == state);
+            return TicketStateValues.Any(x => x.GroupName == stateName && x.State == state);
         }
 
         public void CancelOrders(IEnumerable<Order> orders)

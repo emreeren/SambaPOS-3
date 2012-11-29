@@ -72,7 +72,6 @@ namespace Samba.Modules.PosModule
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.CreateTicket, true);
             var r = SelectedEntity as Resource;
             new EntityOperationRequest<Resource>(r, null).PublishEvent(EventTopicNames.ResourceSelected, true);
-            EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
         }
 
         public void UpdateListByResource(Resource resource)

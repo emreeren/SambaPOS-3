@@ -468,10 +468,10 @@ namespace Samba.Domain.Models.Tickets
         }
 
 
-        public bool IsInState(string groupName, string state)
+        public bool IsInState(string stateName, string state)
         {
-            if (groupName == "*") return OrderStateValues.Any(x => x.State == state);
-            return OrderStateValues.Any(x => x.GroupName == groupName && x.State == state);
+            if (stateName == "*") return OrderStateValues.Any(x => x.State == state);
+            return OrderStateValues.Any(x => x.GroupName == stateName && x.State == state);
         }
 
         public bool IsInState(string stateValue)

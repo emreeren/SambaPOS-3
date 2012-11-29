@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Management.Automation.Runspaces;
 using System.Reflection;
 using System.Windows.Media;
+using System.Windows.Threading;
 using Microsoft.Practices.ServiceLocation;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Automation;

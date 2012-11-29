@@ -257,9 +257,9 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                 ticket.TransactionDocument.AddNewTransaction(template, ticket.AccountTypeId, ticket.AccountId);
             }
 
-            var result = CloseTicket(ticket);
+          
             _automationService.NotifyEvent(RuleEventNames.TicketsMerged, new { Ticket = ticket });
-            return result;
+            return CloseTicket(ticket);
         }
 
         public TicketCommitResult MoveOrders(Ticket ticket, Order[] selectedOrders, int targetTicketId)

@@ -139,21 +139,6 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTemplateColumn Header="Visual State" Width="2*">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Margin="3" Text="{Binding VisualBehaviour}" />
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                                <DataGridTemplateColumn.CellEditingTemplate>
-                                    <DataTemplate>
-                                        <Grid FocusManager.FocusedElement="{Binding ElementName=cbVisual}">
-                                            <ComboBox Name="cbVisual" IsEditable="False" ItemsSource="{Binding VisualBehaviours}" 
-                                                              SelectedItem="{Binding Path=VisualBehaviour, UpdateSourceTrigger=PropertyChanged}" />
-                                        </Grid>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellEditingTemplate>
-                            </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
