@@ -5,12 +5,10 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Samba.Domain.Models.Resources;
-using Samba.Infrastructure;
 using Samba.Infrastructure.Helpers;
 using Samba.Localization;
 using Samba.Presentation.Common.Services;
 using Samba.Presentation.Services;
-using Samba.Presentation.Services.Common;
 
 namespace Samba.Presentation.Common
 {

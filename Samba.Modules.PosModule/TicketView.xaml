@@ -11,7 +11,7 @@
             <RowDefinition Height="8*"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="*" MinHeight="60" MaxHeight="80" />
+            <RowDefinition Height="67"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -21,10 +21,10 @@
         <Label Name="TitleLabel" Grid.Row="0" Grid.Column="1" Content="{Binding SelectedTicketTitle}"
                      FontWeight="Bold" FontSize="18" Background="DarkGray" Foreground="WhiteSmoke" BorderThickness="0">
         </Label>
-        
+
         <!--ORDERS AREA-->
         <ContentControl Grid.Row="1" Grid.Column="1" cal:RegionManager.RegionName="{x:Static cmn:RegionNames.TicketOrdersRegion}"/>
-        
+
         <!--TICKET INFO AREA-->
         <ContentControl Grid.Row="2" Grid.Column="1" cal:RegionManager.RegionName="{x:Static cmn:RegionNames.TicketInfoRegion}"/>
 
@@ -38,8 +38,9 @@
         <StackPanel Grid.Column="0" Grid.RowSpan="5" Grid.Row="0" VerticalAlignment="Top">
             <StackPanel.Resources>
                 <Style TargetType="FxButton:FlexButton">
-                    <Setter Property="Height" Value="60"/>
+                    <Setter Property="Height" Value="65"/>
                     <Setter Property="Margin" Value="0,0,3,3"/>
+                    <Setter Property="FontSize" Value="18"/>
                 </Style>
             </StackPanel.Resources>
             <ItemsControl ItemsSource="{Binding ResourceButtons,NotifyOnTargetUpdated=True}"
@@ -52,9 +53,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <FxButton:FlexButton Command="{Binding DataContext.SelectResourceCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
-                                     CommandParameter="{Binding Model}">
-                            <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding Name}" />
-                        </FxButton:FlexButton>
+                                     CommandParameter="{Binding Model}" Content="{Binding Name}"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
@@ -68,17 +67,13 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <FxButton:FlexButton Command="{Binding DataContext.ShowTicketTagsCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
-                                     CommandParameter="{Binding Model}" ButtonColor="{Binding ButtonColor,Converter={StaticResource NullBrushConverter}}">
-                            <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding Caption}" />
-                        </FxButton:FlexButton>
+                                             CommandParameter="{Binding Model}" Content="{Binding Caption}"
+                                             ButtonColor="{Binding ButtonColor,Converter={StaticResource NullBrushConverter}}"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <FxButton:FlexButton Command="{Binding EditTicketNoteCommand}"
-                         Visibility="{Binding IsNothingSelected,Converter={StaticResource VisibilityConverter}}">
-                <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
-                             Text="{Binding EditTicketNoteCommand.Caption}" />
-            </FxButton:FlexButton>
+            <FxButton:FlexButton Command="{Binding EditTicketNoteCommand}" Content="{Binding EditTicketNoteCommand.Caption}"
+                         Visibility="{Binding IsNothingSelected,Converter={StaticResource VisibilityConverter}}"/>
             <ItemsControl ItemsSource="{Binding TicketAutomationCommands,NotifyOnTargetUpdated=True}"
                          HorizontalAlignment="Stretch" Visibility="{Binding IsNothingSelected,Converter={StaticResource VisibilityConverter}}">
                 <ItemsControl.ItemsPanel>
@@ -89,9 +84,9 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <FxButton:FlexButton Command="{Binding DataContext.ExecuteAutomationCommnand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
-                                     CommandParameter="{Binding .}" ButtonColor="{Binding Color,Converter={StaticResource NullBrushConverter}}" Visibility="{Binding IsVisible,Converter={StaticResource VisibilityConverter}}">
-                            <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding Display}" />
-                        </FxButton:FlexButton>
+                                             CommandParameter="{Binding .}" Content="{Binding Display}"
+                                             ButtonColor="{Binding Color,Converter={StaticResource NullBrushConverter}}" 
+                                             Visibility="{Binding IsVisible,Converter={StaticResource VisibilityConverter}}"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
@@ -165,4 +160,5 @@
             </FxButton:FlexButton>
         </StackPanel>
     </Grid>
+
 </UserControl>

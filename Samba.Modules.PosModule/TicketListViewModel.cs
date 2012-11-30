@@ -87,7 +87,7 @@ namespace Samba.Modules.PosModule
         public void UpdateListByTicketTagGroup(TicketTagGroup tagGroup)
         {
             SelectedEntity = tagGroup;
-            var tagValue = string.Format("\"TagName\":\"{0}\"", tagGroup.Name);
+            var tagValue = string.Format("\"TN\":\"{0}\"", tagGroup.Name);
             _tickets = _ticketService.GetOpenTickets(x => !x.IsClosed && x.TicketTags.Contains(tagValue)).Select(x => new TicketButtonViewModel(x, null)).ToList();
             Refresh();
         }

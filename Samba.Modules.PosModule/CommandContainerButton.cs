@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Samba.Domain.Models.Tickets;
@@ -24,7 +25,8 @@ namespace Samba.Modules.PosModule
         public string ButtonHeader { get { return CommandContainer.AutomationCommand.ButtonHeader; } }
         public string Name { get { return CommandContainer.AutomationCommand.Name; } }
         public string SelectedValue { get; set; }
-        public string Display { get { return !string.IsNullOrEmpty(SelectedValue) ? SelectedValue : ButtonHeader; } }
+        public string Caption { get { return !string.IsNullOrEmpty(SelectedValue) ? SelectedValue : ButtonHeader; } }
+        public string Display { get { return Caption.Replace(" ", Environment.NewLine); } }
         public List<string> Values { get { return (CommandContainer.AutomationCommand.Values ?? "").Split('|').ToList(); } }
 
         public bool IsVisible

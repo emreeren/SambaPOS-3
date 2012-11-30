@@ -12,7 +12,7 @@ namespace FlexButton
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (double)value > 16 ? StretchDirection.DownOnly : StretchDirection.Both;
+            return (double)value > 15 ? StretchDirection.DownOnly : StretchDirection.Both;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

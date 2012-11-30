@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
@@ -22,7 +23,7 @@ namespace Samba.Modules.PosModule
                 var format = Resources.Select_f;
                 if (_selectedTicket != null && _selectedTicket.TicketResources.Any(x => x.ResourceTypeId == Model.Id))
                     format = Resources.Change_f;
-                return string.Format(format, Model.EntityName);
+                return string.Format(format, Model.EntityName).Replace(" ", Environment.NewLine);
             }
         }
     }

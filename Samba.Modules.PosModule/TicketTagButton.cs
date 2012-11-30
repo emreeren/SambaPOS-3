@@ -1,4 +1,5 @@
-﻿using Samba.Domain.Models.Tickets;
+﻿using System;
+using Samba.Domain.Models.Tickets;
 
 namespace Samba.Modules.PosModule
 {
@@ -8,7 +9,7 @@ namespace Samba.Modules.PosModule
         public TicketTagButton(TicketTagGroup ticketTagGroup, Ticket ticket)
         {
             Model = ticketTagGroup;
-            Caption = Model.Name;
+            Caption = Model.Name.Replace(" ", Environment.NewLine);
             _ticket = ticket;
         }
 

@@ -29,5 +29,11 @@ namespace Samba.Modules.ModifierModule
             DataContext = viewModel;
             InitializeComponent();
         }
+
+        private void TicketNoteEditorView_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            TicketNote.BackgroundFocus();
+            TicketNote.CaretIndex = TicketNote.Text.Length;
+        }
     }
 }
