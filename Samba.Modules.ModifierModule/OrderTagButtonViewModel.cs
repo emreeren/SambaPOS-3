@@ -22,7 +22,7 @@ namespace Samba.Modules.ModifierModule
         }
 
         public string Name { get { return Model.Name; } set { Model.Name = value; } }
-        public string Color { get { return _selectedOrders != null && _selectedOrders.All(x => x.IsTaggedWith(Model)) ? "Red" : "Transparent"; } }
+        public string Color { get { return _selectedOrders != null && _selectedOrders.All(x => x.IsTaggedWith(Model)) ? "Red" : "Gainsboro"; } }
         public string DisplayText
         {
             get

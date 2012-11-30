@@ -20,8 +20,6 @@
                 <StackPanel>
                     <Label Content="{LocText Name,Suffix=':'}" />
                     <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name,Mode=TwoWay}" />
-                    <Label Content="{LocText ButtonHeader,Suffix=':'}" />
-                    <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding ButtonHeader,Mode=TwoWay}" />
                     <Label Content="{LocText MinSelectedItems,Suffix=':'}" />
                     <UIControls:FilteredTextBox HorizontalAlignment="Left" MinWidth="50" Text="{Binding MinSelectedItems}"
                          Type="Digits" />

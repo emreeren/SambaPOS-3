@@ -65,14 +65,8 @@ namespace Samba.Modules.PosModule
         public string TimerColor { get { return IsTimerVisible && Model.ProductTimerValue.IsActive ? "Blue" : "Gray"; } }
 
         public bool IsStateVisible { get { return !String.IsNullOrEmpty(State); } }
-        public string State
-        {
-            get
-            {
-                return Model.GetStateDesc();
-                //return !String.IsNullOrEmpty(Model.OrderStateGroupName) ? String.Format("[{0}]", Model.OrderStateGroupName + (!String.IsNullOrEmpty(Model.OrderState) && Model.OrderState != Model.OrderStateGroupName ? ": " + Model.OrderState : "")) : "";
-            }
-        }
+        
+        public string State { get { return Model.GetStateDesc(); } }
 
         public decimal SelectedQuantity { get { return Model.SelectedQuantity; } }
 
@@ -170,22 +164,11 @@ namespace Samba.Modules.PosModule
         private ObservableCollection<OrderTagValueViewModel> _orderTagValues;
         public ObservableCollection<OrderTagValueViewModel> OrderTagValues
         {
-            get { return _orderTagValues ?? (_orderTagValues = new ObservableCollection<OrderTagValueViewModel>(Model.GetOrderTagValues(x => !x.IsSubTag).Select(x => new OrderTagValueViewModel(x)))); }
+            get { return _orderTagValues ?? (_orderTagValues = new ObservableCollection<OrderTagValueViewModel>(Model.GetOrderTagValues().Select(x => new OrderTagValueViewModel(x)))); }
         }
-
-        private ObservableCollection<OrderTagValueViewModel> _subOrderTagValues;
-        public ObservableCollection<OrderTagValueViewModel> SubOrderTagValues
-        {
-            get { return _subOrderTagValues ?? (_subOrderTagValues = new ObservableCollection<OrderTagValueViewModel>(Model.GetOrderTagValues(x => x.IsSubTag).Select(x => new OrderTagValueViewModel(x)))); }
-        }
-
-        private string _subOrderTags;
-        public string SubOrderTags { get { return _subOrderTags ?? (_subOrderTags = Model.SubOrderTags); } }
 
         private string _orderKey;
         public string OrderKey { get { return _orderKey ?? (_orderKey = Model.OrderKey); } }
-
-        public bool IsSuborderTagVisible { get { return !String.IsNullOrEmpty(Model.SubOrderTags); } }
 
         public bool IsLocked { get { return Model.Locked; } }
 
@@ -270,11 +253,8 @@ namespace Samba.Modules.PosModule
         private void RefreshProperties()
         {
             _orderTagValues = null;
-            _subOrderTags = null;
             _orderKey = null;
             RaisePropertyChanged(() => OrderTagValues);
-            RaisePropertyChanged(() => SubOrderTags);
-            RaisePropertyChanged(() => IsSuborderTagVisible);
             RaisePropertyChanged(() => OrderKey);
         }
 

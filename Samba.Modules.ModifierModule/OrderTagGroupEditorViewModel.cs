@@ -198,14 +198,14 @@ namespace Samba.Modules.ModifierModule
 
                 OrderTagGroups.AddRange(
                     orderTagGroups
-                    .Where(x => string.IsNullOrEmpty(x.ButtonHeader) && string.IsNullOrEmpty(x.GroupTag))
+                    .Where(x => string.IsNullOrEmpty(x.GroupTag))
                     .Select(x => new OrderTagGroupViewModel(x, so)));
 
                 if (SelectedOrder != null)
                 {
                     GroupedOrderTagGroups.AddRange(
                         orderTagGroups
-                        .Where(x => string.IsNullOrEmpty(x.ButtonHeader) && !string.IsNullOrEmpty(x.GroupTag) && x.OrderTags.Count > 1)
+                        .Where(x => !string.IsNullOrEmpty(x.GroupTag) && x.OrderTags.Count > 1)
                         .GroupBy(x => x.GroupTag)
                         .Select(x => new GroupedOrderTagViewModel(SelectedOrder, x)));
                 }

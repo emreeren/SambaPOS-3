@@ -257,7 +257,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                 ticket.TransactionDocument.AddNewTransaction(template, ticket.AccountTypeId, ticket.AccountId);
             }
 
-          
+
             _automationService.NotifyEvent(RuleEventNames.TicketsMerged, new { Ticket = ticket });
             return CloseTicket(ticket);
         }
@@ -487,16 +487,15 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
         public bool CanDeselectOrder(Order order)
         {
-            if (!order.DecreaseInventory) return true;
+            if (!order.DecreaseInventory || order.Locked) return true;
             var ots = _applicationState.GetOrderTagGroups(order.MenuItemId);
-            if (order.Locked) ots = ots.Where(x => !string.IsNullOrEmpty(x.ButtonHeader));
             return ots.Where(x => x.MinSelectedItems > 0).All(orderTagGroup => order.GetOrderTagValues(x => x.OrderTagGroupId == orderTagGroup.Id).Count() >= orderTagGroup.MinSelectedItems);
         }
 
         public OrderTagGroup GetMandantoryOrderTagGroup(Order order)
         {
+            if (order.Locked) return null;
             var ots = _applicationState.GetOrderTagGroups(order.MenuItemId);
-            if (order.Locked) ots = ots.Where(x => !string.IsNullOrEmpty(x.ButtonHeader));
             return ots.Where(x => x.MinSelectedItems > 0).FirstOrDefault(orderTagGroup => order.GetOrderTagValues(x => x.OrderTagGroupId == orderTagGroup.Id).Count() < orderTagGroup.MinSelectedItems);
         }
 

@@ -42,7 +42,6 @@ namespace Samba.Modules.PosModule
         public ICaptionCommand DecSelectionQuantityCommand { get; set; }
         public ICaptionCommand ShowTicketTagsCommand { get; set; }
         public ICaptionCommand ShowOrderStatesCommand { get; set; }
-        public ICaptionCommand ShowOrderTagsCommand { get; set; }
         public ICaptionCommand CancelItemCommand { get; set; }
         public ICaptionCommand EditTicketNoteCommand { get; set; }
         public ICaptionCommand RemoveTicketLockCommand { get; set; }
@@ -166,20 +165,6 @@ namespace Samba.Modules.PosModule
             }
         }
 
-        public IEnumerable<OrderTagButton> OrderTagButtons
-        {
-            get
-            {
-                if (SelectedOrders.Any())
-                {
-                    return _applicationState.GetOrderTagGroups(SelectedOrders.Select(x => x.MenuItemId).ToArray())
-                        .Where(x => !string.IsNullOrEmpty(x.ButtonHeader))
-                        .Select(x => new OrderTagButton(x));
-                }
-                return null;
-            }
-        }
-
         [ImportingConstructor]
         public TicketViewModel(IApplicationState applicationState, IExpressionService expressionService,
             ITicketService ticketService, IAccountService accountService, IResourceService locationService, IUserService userService,
@@ -206,7 +191,6 @@ namespace Samba.Modules.PosModule
             DecSelectionQuantityCommand = new CaptionCommand<string>("(-)", OnDecSelectionQuantityCommand, CanDecSelectionQuantity);
             ShowTicketTagsCommand = new CaptionCommand<TicketTagGroup>(Resources.Tag, OnShowTicketsTagExecute, CanExecuteShowTicketTags);
             ShowOrderStatesCommand = new CaptionCommand<OrderStateGroup>(Resources.Tag, OnShowOrderStatesExecute, CanShowOrderStatesExecute);
-            ShowOrderTagsCommand = new CaptionCommand<OrderTagGroup>(Resources.Tag, OnShowOrderTagsExecute, CanShowOrderTagsExecute);
             CancelItemCommand = new CaptionCommand<string>(Resources.Cancel, OnCancelItemCommand);
             MoveOrdersCommand = new CaptionCommand<string>(Resources.MoveTicketLine, OnMoveOrders, CanMoveOrders);
             EditTicketNoteCommand = new CaptionCommand<string>(Resources.TicketNote.Replace(" ", Environment.NewLine), OnEditTicketNote, CanEditTicketNote);
@@ -309,8 +293,6 @@ namespace Samba.Modules.PosModule
                 _ticketOrdersViewModel.FixSelectedItems();
                 _ticketService.TagOrders(SelectedTicket, _ticketOrdersViewModel.SelectedOrderModels, obj.Value.OrderTagGroup, obj.Value.SelectedOrderTag, "");
                 _ticketOrdersViewModel.RefreshSelectedOrders();
-                if (!string.IsNullOrEmpty(obj.Value.OrderTagGroup.ButtonHeader) && obj.Value.OrderTagGroup.MaxSelectedItems == 1)
-                    ClearSelectedItems();
                 ClearSelection = true;
                 RefreshVisuals();
             }
@@ -440,22 +422,6 @@ namespace Samba.Modules.PosModule
             if (!arg.CalculateOrderPrice && !SelectedTicket.CanRemoveSelectedOrders(SelectedOrders)) return false;
             if (SelectedOrders.Any(x => !x.DecreaseInventory && !x.IsStateApplied(arg))) return false;
             return !arg.UnlocksOrder || !SelectedOrders.Any(x => x.Locked && x.OrderStateGroupId == arg.Id);
-        }
-
-        private void OnShowOrderTagsExecute(OrderTagGroup orderTagGroup)
-        {
-            var orderTagData = new OrderTagData
-            {
-                SelectedOrders = SelectedOrders,
-                OrderTagGroup = orderTagGroup,
-                Ticket = SelectedTicket
-            };
-            orderTagData.PublishEvent(EventTopicNames.SelectOrderTag);
-        }
-
-        private bool CanShowOrderTagsExecute(OrderTagGroup arg)
-        {
-            return SelectedOrders.Any();
         }
 
         private bool CanChangePrice(string arg)
@@ -631,7 +597,6 @@ namespace Samba.Modules.PosModule
             RaisePropertyChanged(() => IsItemsSelectedAndLocked);
             RaisePropertyChanged(() => IsTicketSelected);
             RaisePropertyChanged(() => OrderStateButtons);
-            RaisePropertyChanged(() => OrderTagButtons);
             RaisePropertyChanged(() => OrderAutomationCommands);
         }
     }

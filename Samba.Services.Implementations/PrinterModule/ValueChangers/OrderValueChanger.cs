@@ -33,7 +33,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
         protected override string ReplaceTemplateValues(string templatePart, Order model, PrinterTemplate template)
         {
-            return OrderTagValueChanger.Replace(template, templatePart, model.GetOrderTagValues(x => !x.IsSubTag));
+            return OrderTagValueChanger.Replace(template, templatePart, model.GetOrderTagValues());
         }
 
         protected override decimal GetSumSelector(Order x)

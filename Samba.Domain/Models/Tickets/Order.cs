@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Diagnostics;
 using Samba.Domain.Models.Menus;
@@ -186,7 +185,6 @@ namespace Samba.Domain.Models.Tickets
                            MenuItemId = orderTag.MenuItemId,
                            AddTagPriceToOrderPrice = orderTagGroup.AddTagPriceToOrderPrice,
                            PortionName = orderTag.MenuItemId > 0 ? PortionName : null,
-                           IsSubTag = !string.IsNullOrEmpty(orderTagGroup.ButtonHeader) && orderTag.Price == 0 && orderTagGroup.MaxSelectedItems == 1,
                            UserId = userId,
                            Quantity = 1,
                            OrderKey = orderTagGroup.Order.ToString("000") + orderTag.Order.ToString("000")
@@ -447,14 +445,6 @@ namespace Samba.Domain.Models.Tickets
             if (OrderTagValues.Any(x => x.TagName == s))
                 return OrderTagValues.First(x => x.TagName == s);
             return OrderTagValue.Empty;
-        }
-
-        public string SubOrderTags
-        {
-            get
-            {
-                return string.Join(", ", OrderTagValues.Where(x => x.IsSubTag).OrderBy(x => x.OrderKey).Select(x => x.ShortName));
-            }
         }
 
         public string OrderKey { get { return string.Join("", OrderTagValues.OrderBy(x => x.OrderKey).Select(x => x.OrderKey)); } }

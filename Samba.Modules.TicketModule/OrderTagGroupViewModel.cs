@@ -9,7 +9,6 @@ using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
-using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Common.Services;
@@ -39,7 +38,6 @@ namespace Samba.Modules.TicketModule
         public ICaptionCommand DeleteOrderTagCommand { get; set; }
         public ICaptionCommand SortOrderTagsCommand { get; set; }
 
-        public string ButtonHeader { get { return Model.ButtonHeader; } set { Model.ButtonHeader = value; } }
         public bool AddTagPriceToOrderPrice { get { return Model.AddTagPriceToOrderPrice; } set { Model.AddTagPriceToOrderPrice = value; } }
         public int ButtonHeight { get { return Model.ButtonHeight; } set { Model.ButtonHeight = value; } }
         public int ColumnCount { get { return Model.ColumnCount; } set { Model.ColumnCount = value; } }

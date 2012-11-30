@@ -13,7 +13,6 @@ namespace Samba.Domain.Models.Tickets
             get { return Name; }
         }
 
-        public string ButtonHeader { get; set; }
         public int ColumnCount { get; set; }
         public int ButtonHeight { get; set; }
         public int MaxSelectedItems { get; set; }
@@ -21,7 +20,6 @@ namespace Samba.Domain.Models.Tickets
         public bool AddTagPriceToOrderPrice { get; set; }
         public bool FreeTagging { get; set; }
         public bool SaveFreeTags { get; set; }
-        public bool IsHidden { get; set; }
         public string GroupTag { get; set; }
 
         private readonly IList<OrderTag> _orderTags;

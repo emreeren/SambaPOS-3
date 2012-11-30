@@ -18,8 +18,6 @@ namespace Samba.Domain.Models.Tickets
         public string TagValue { get; set; }
         [DataMember(Name = "TO", EmitDefaultValue = false)]
         public string TagNote { get; set; }
-        [DataMember(Name = "SU", EmitDefaultValue = false)]
-        public bool IsSubTag { get; set; }
         [DataMember(Name = "UI")]
         public int UserId { get; set; }
         [DataMember(Name = "PR", EmitDefaultValue = false)]

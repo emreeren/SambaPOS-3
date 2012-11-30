@@ -94,7 +94,6 @@
         public const string PopupClicked = "Popup Clicked";
         public const string SelectTicketTag = "Select Ticket Tag";
         public const string TicketTagSelected = "Ticket Tag Selected";
-        public const string SelectOrderTag = "Select Order Tag";
         public const string SelectOrderState = "Select Order State";
         public const string LogData = "Log Data";
         public const string ResetNumerator = "Reset Numerator";
