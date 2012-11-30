@@ -47,7 +47,7 @@ namespace Samba.Domain.Models.Automation
                 foreach (var propertyName in Regex.Matches(parameterValues, "\\[:([^\\]]+)\\]").Cast<Match>().Select(match => match.Groups[1].Value).ToList())
                 {
                     parameterValues = parameterValues.Replace(string.Format("[:{0}]", propertyName),
-                                             dataObject.GetType().GetProperty(propertyName).GetValue(dataObject, null).ToString());
+                                             SafeToString(dataObject.GetType().GetProperty(propertyName).GetValue(dataObject, null)));
                 }
             }
 
@@ -69,6 +69,11 @@ namespace Samba.Domain.Models.Automation
 
             return matches2.Aggregate(s, (current, value) => current.Replace(string.Format("[:{0}]", value), ""));
 
+        }
+
+        public string SafeToString(object o)
+        {
+            return o != null ? o.ToString() : "";
         }
 
         public int Order { get; set; }

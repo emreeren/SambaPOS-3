@@ -7,7 +7,6 @@ using System.Linq.Expressions;
 using System.Management.Automation.Runspaces;
 using System.Reflection;
 using System.Windows.Media;
-using System.Windows.Threading;
 using Microsoft.Practices.ServiceLocation;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Automation;
@@ -151,26 +150,31 @@ namespace Samba.Presentation.ViewModels
             {
                 if (x.Value.Action.ActionType == ActionNames.UpdateOrder)
                 {
-                    var order = x.Value.GetDataValue<Order>("Order");
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
-                    if (order == null && ticket != null)
-                        order = ticket.Orders.FirstOrDefault(y => y.IsSelected);
-                    if (order != null && ticket != null)
+                    var orders = GetOrders(x.Value, ticket);
+                    if (orders.Any())
                     {
-                        if (!string.IsNullOrEmpty(x.Value.GetAsString("Quantity")))
-                            order.Quantity = x.Value.GetAsDecimal("Quantity");
-                        if (!string.IsNullOrEmpty(x.Value.GetAsString("Price")))
-                            order.UpdatePrice(x.Value.GetAsDecimal("Price"), "");
-                        if (!string.IsNullOrEmpty(x.Value.GetAsString("IncreaseInventory")))
-                            order.IncreaseInventory = x.Value.GetAsBoolean("IncreaseInventory");
-                        if (!string.IsNullOrEmpty(x.Value.GetAsString("DecreaseInventory")))
-                            order.DecreaseInventory = x.Value.GetAsBoolean("DecreaseInventory");
-                        if (!string.IsNullOrEmpty(x.Value.GetAsString("Locked")))
-                            order.Locked = x.Value.GetAsBoolean("Locked");
-                        if (!string.IsNullOrEmpty(x.Value.GetAsString("CalculatePrice")))
-                            order.CalculatePrice = x.Value.GetAsBoolean("CalculatePrice");
-                        if (!string.IsNullOrEmpty(x.Value.GetAsString("AccountTransactionType")))
-                            TicketService.ChangeOrdersAccountTransactionTypeId(ticket, new List<Order> { order }, CacheService.GetAccountTransactionTypeIdByName(x.Value.GetAsString("AccountTransactionType")));
+                        foreach (var order in orders)
+                        {
+                            if (!string.IsNullOrEmpty(x.Value.GetAsString("Quantity")))
+                                order.Quantity = x.Value.GetAsDecimal("Quantity");
+                            if (!string.IsNullOrEmpty(x.Value.GetAsString("Price")))
+                                order.UpdatePrice(x.Value.GetAsDecimal("Price"), "");
+                            if (!string.IsNullOrEmpty(x.Value.GetAsString("IncreaseInventory")))
+                                order.IncreaseInventory = x.Value.GetAsBoolean("IncreaseInventory");
+                            if (!string.IsNullOrEmpty(x.Value.GetAsString("DecreaseInventory")))
+                                order.DecreaseInventory = x.Value.GetAsBoolean("DecreaseInventory");
+                            if (!string.IsNullOrEmpty(x.Value.GetAsString("Locked")))
+                                order.Locked = x.Value.GetAsBoolean("Locked");
+                            if (!string.IsNullOrEmpty(x.Value.GetAsString("CalculatePrice")))
+                                order.CalculatePrice = x.Value.GetAsBoolean("CalculatePrice");
+                            if (!string.IsNullOrEmpty(x.Value.GetAsString("AccountTransactionType")))
+                                TicketService.ChangeOrdersAccountTransactionTypeId(ticket, new List<Order> { order },
+                                                                                   CacheService.
+                                                                                       GetAccountTransactionTypeIdByName
+                                                                                       (x.Value.GetAsString(
+                                                                                           "AccountTransactionType")));
+                        }
                     }
                 }
 
@@ -473,17 +477,7 @@ namespace Samba.Presentation.ViewModels
                 if (x.Value.Action.ActionType == ActionNames.UpdateOrderState)
                 {
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
-                    IList<Order> orders = new List<Order>();
-                    var selectedOrder = x.Value.GetDataValue<Order>("Order");
-
-                    if (selectedOrder == null)
-                    {
-                        if (ticket != null)
-                        {
-                            orders = ticket.Orders.Any(y => y.IsSelected) ? ticket.Orders.Where(y => y.IsSelected).ToList() : ticket.Orders;
-                        }
-                    }
-                    else orders.Add(selectedOrder);
+                    var orders = GetOrders(x.Value, ticket);
                     if (orders.Any())
                     {
                         var stateName = x.Value.GetAsString("StateName");
@@ -493,25 +487,14 @@ namespace Samba.Presentation.ViewModels
                         var stateOrder = x.Value.GetAsInteger("StateOrder");
                         var stateValue = x.Value.GetAsString("StateValue");
 
-                        TicketService.UpdateOrderStates2(ticket, orders, stateName, currentState, groupOrder, state, stateOrder, stateValue);
+                        TicketService.UpdateOrderStates2(ticket, orders.ToList(), stateName, currentState, groupOrder, state, stateOrder, stateValue);
                     }
                 }
 
                 if (x.Value.Action.ActionType == ActionNames.TagOrder || x.Value.Action.ActionType == ActionNames.UntagOrder || x.Value.Action.ActionType == ActionNames.RemoveOrderTag)
                 {
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
-                    IList<Order> orders = new List<Order>();
-                    var selectedOrder = x.Value.GetDataValue<Order>("Order");
-
-                    if (selectedOrder == null)
-                    {
-                        if (ticket != null)
-                        {
-                            orders = ticket.Orders.Any(y => y.IsSelected) ? ticket.Orders.Where(y => y.IsSelected).ToList() : ticket.Orders;
-                        }
-                    }
-                    else orders.Add(selectedOrder);
-
+                    var orders = GetOrders(x.Value, ticket);
                     if (orders.Any())
                     {
                         var tagName = x.Value.GetAsString("OrderTagName");
@@ -627,6 +610,23 @@ namespace Samba.Presentation.ViewModels
                     }
                 }
             });
+        }
+
+        private static IEnumerable<Order> GetOrders(IActionData x, Ticket ticket)
+        {
+            IList<Order> orders = new List<Order>();
+            var selectedOrder = x.GetDataValue<Order>("Order");
+            if (selectedOrder == null)
+            {
+                if (ticket != null)
+                {
+                    orders = ticket.Orders.Any(y => y.IsSelected)
+                                 ? ticket.Orders.Where(y => y.IsSelected).ToList()
+                                 : ticket.Orders;
+                }
+            }
+            else orders.Add(selectedOrder);
+            return orders;
         }
 
         private static void RegisterNotifiers()

@@ -69,7 +69,7 @@ namespace Samba.Modules.PosModule
         {
             get
             {
-                return Model.GetStateData();
+                return Model.GetStateDesc();
                 //return !String.IsNullOrEmpty(Model.OrderStateGroupName) ? String.Format("[{0}]", Model.OrderStateGroupName + (!String.IsNullOrEmpty(Model.OrderState) && Model.OrderState != Model.OrderStateGroupName ? ": " + Model.OrderState : "")) : "";
             }
         }

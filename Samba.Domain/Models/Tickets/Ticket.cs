@@ -405,6 +405,7 @@ namespace Samba.Domain.Models.Tickets
         public bool IsInState(string stateName, string state)
         {
             if (stateName == "*") return TicketStateValues.Any(x => x.State == state);
+            if (string.IsNullOrEmpty(state)) return !TicketStateValues.Any(x => x.GroupName == stateName);
             return TicketStateValues.Any(x => x.GroupName == stateName && x.State == state);
         }
 

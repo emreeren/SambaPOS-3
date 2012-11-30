@@ -18,7 +18,7 @@ namespace Samba.Services.Common
         {
             if (string.IsNullOrEmpty(EnabledStates)) return false;
             if (EnabledStates == "*") return true;
-            if (DisplayOnOrders) return selectedTicket.Orders.All(x => IsInState(x, EnabledStates));
+            if (DisplayOnOrders) return selectedTicket.Orders.Where(x => x.IsSelected).All(x => IsInState(x, EnabledStates));
             return IsInState(selectedTicket, EnabledStates);
         }
 
@@ -26,7 +26,7 @@ namespace Samba.Services.Common
         {
             if (string.IsNullOrEmpty(VisibleStates)) return false;
             if (VisibleStates == "*") return true;
-            if (DisplayOnOrders) return selectedTicket.Orders.All(x => IsInState(x, VisibleStates));
+            if (DisplayOnOrders) return selectedTicket.Orders.Where(x => x.IsSelected).All(x => IsInState(x, VisibleStates));
             return IsInState(selectedTicket, VisibleStates);
         }
 

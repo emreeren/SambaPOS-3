@@ -231,6 +231,23 @@ namespace Samba.Presentation.Services.Common
             addTicketAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { EnabledStates = string.Format("{0},{1}", Resources.Unpaid, Resources.Locked), VisibleStates = "*", DisplayOnTicket = true });
             _workspace.Add(addTicketAutomation);
 
+            var giftItemAutomation = new AutomationCommand { Name = Resources.Gift, ButtonHeader = Resources.Gift };
+            giftItemAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { EnabledStates = "GStatus=", VisibleStates = "GStatus=", DisplayOnOrders = true });
+            _workspace.Add(giftItemAutomation);
+
+            var cancelGiftItemAutomation = new AutomationCommand { Name = string.Format(Resources.Cancel_f, Resources.Gift), ButtonHeader = string.Format(Resources.Cancel_f, Resources.Gift) };
+            cancelGiftItemAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { EnabledStates = Resources.Gift, VisibleStates = Resources.Gift, DisplayOnOrders = true });
+            _workspace.Add(cancelGiftItemAutomation);
+
+            var voidItemAutomation = new AutomationCommand { Name = Resources.Void, ButtonHeader = Resources.Void };
+            voidItemAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { EnabledStates = string.Format("GStatus={0}," + Resources.Submitted, Resources.Gift), VisibleStates = string.Format("GStatus=,GStatus={0}", Resources.Gift), DisplayOnOrders = true });
+            _workspace.Add(voidItemAutomation);
+
+            var cancelVoidItemAutomation = new AutomationCommand { Name = string.Format(Resources.Cancel_f, Resources.Void), ButtonHeader = string.Format(Resources.Cancel_f, Resources.Void) };
+            cancelVoidItemAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { EnabledStates = Resources.New, VisibleStates = Resources.Void, DisplayOnOrders = true });
+            _workspace.Add(cancelVoidItemAutomation);
+
+
             _workspace.CommitChanges();
 
             var ticketType = new TicketType
@@ -335,23 +352,23 @@ namespace Samba.Presentation.Services.Common
             var pj2 = new PrintJob
             {
                 Name = Resources.PrintOrdersToKitchenPrinter,
-                WhatToPrint = (int)WhatToPrintTypes.NewLines,
+                WhatToPrint = (int)WhatToPrintTypes.Everything,
             };
             pj2.PrinterMaps.Add(pm2);
 
             _workspace.Add(pj2);
             _workspace.Add(t);
 
-            var orderTag1 = new OrderStateGroup { Name = Resources.Gift, ButtonHeader = Resources.Gift, CalculateOrderPrice = false, DecreaseOrderInventory = true };
-            orderTag1.OrderStates.Add(new OrderState { Name = Resources.Gift });
-            orderTag1.AddOrderStateMap();
-            _workspace.Add(orderTag1);
+            //var orderTag1 = new OrderStateGroup { Name = Resources.Gift, ButtonHeader = Resources.Gift, CalculateOrderPrice = false, DecreaseOrderInventory = true };
+            //orderTag1.OrderStates.Add(new OrderState { Name = Resources.Gift });
+            //orderTag1.AddOrderStateMap();
+            //_workspace.Add(orderTag1);
 
-            var orderTag2 = new OrderStateGroup { Name = Resources.Void, ButtonHeader = Resources.Void, CalculateOrderPrice = false, DecreaseOrderInventory = false };
-            orderTag2.OrderStates.Add(new OrderState { Name = Resources.Void });
-            orderTag2.UnlocksOrder = true;
-            orderTag2.AddOrderStateMap();
-            _workspace.Add(orderTag2);
+            //var orderTag2 = new OrderStateGroup { Name = Resources.Void, ButtonHeader = Resources.Void, CalculateOrderPrice = false, DecreaseOrderInventory = false };
+            //orderTag2.OrderStates.Add(new OrderState { Name = Resources.Void });
+            //orderTag2.UnlocksOrder = true;
+            //orderTag2.AddOrderStateMap();
+            //_workspace.Add(orderTag2);
 
             var newOrderState = new ResourceState { Name = "New Orders", Color = "Orange" };
             _workspace.Add(newOrderState);
@@ -362,10 +379,31 @@ namespace Samba.Presentation.Services.Common
             var billRequestedState = new ResourceState { Name = "Bill Requested", Color = "Maroon" };
             _workspace.Add(billRequestedState);
 
+            var updateOrderAction = new AppAction
+                                        {
+                                            ActionType = ActionNames.UpdateOrder,
+                                            Name = "Update Order",
+                                            Parameter = Params()
+                                                .Add("IncreaseInventory", "[:Increase]").Add("DecreaseInventory", "[:Decrease]")
+                                                .Add("CalculatePrice", "[:Calculate Price]").Add("Locked", "[:Locked]").
+                                                ToString()
+                                        };
+            _workspace.Add(updateOrderAction);
             var updateTicketStatusAction = new AppAction { ActionType = ActionNames.UpdateTicketState, Name = "Update Ticket Status", Parameter = Params().Add("StateName", Resources.Status).Add("State", "[:Status]").Add("CurrentState", "[:Current Status]").ToString() };
             _workspace.Add(updateTicketStatusAction);
             var updateOrderStatusAction = new AppAction { ActionType = ActionNames.UpdateOrderState, Name = "Update Order Status", Parameter = Params().Add("StateName", Resources.Status).Add("State", "[:Status]").Add("CurrentState", "[:Current Status]").ToString() };
             _workspace.Add(updateOrderStatusAction);
+            var updateOrderGiftStatusAction = new AppAction
+                                                  {
+                                                      ActionType = ActionNames.UpdateOrderState,
+                                                      Name = "Update Order Gift State",
+                                                      Parameter = Params()
+                                                        .Add("StateName", "GStatus").Add("GroupOrder", "1")
+                                                        .Add("CurrentState", "[:Current Status]").Add("State", "[:Status]")
+                                                        .Add("StateOrder", "1").Add("StateValue", "[:Value]")
+                                                      .ToString()
+                                                  };
+            _workspace.Add(updateOrderGiftStatusAction);
             var newOrderAction = new AppAction { ActionType = ActionNames.UpdateResourceState, Name = "Update New Order State", Parameter = Params().Add("ResourceState", "New Orders").ToString() };
             _workspace.Add(newOrderAction);
             var availableAction = new AppAction { ActionType = ActionNames.UpdateResourceState, Name = "Update Available State", Parameter = Params().Add("ResourceState", "Available").ToString() };
@@ -378,7 +416,7 @@ namespace Samba.Presentation.Services.Common
             _workspace.Add(closeTicketAction);
             var printBillAction = new AppAction { ActionType = ActionNames.ExecutePrintJob, Name = "Execute Bill Print Job", Parameter = Params().Add("PrintJobName", Resources.PrintBill).ToString() };
             _workspace.Add(printBillAction);
-            var printKitchenOrdersAction = new AppAction { ActionType = ActionNames.ExecutePrintJob, Name = "Execute Kitchen Orders Print Job", Parameter = Params().Add("PrintJobName", Resources.PrintOrdersToKitchenPrinter).ToString() };
+            var printKitchenOrdersAction = new AppAction { ActionType = ActionNames.ExecutePrintJob, Name = "Execute Kitchen Orders Print Job", Parameter = Params().Add("PrintJobName", Resources.PrintOrdersToKitchenPrinter).Add("OrderStateName", Resources.Status).Add("OrderState", Resources.New).ToString() };
             _workspace.Add(printKitchenOrdersAction);
             var lockTicketAction = new AppAction { ActionType = ActionNames.LockTicket, Name = Resources.LockTicket, Parameter = "" };
             _workspace.Add(lockTicketAction);
@@ -393,11 +431,39 @@ namespace Samba.Presentation.Services.Common
 
             var newOrderAddingRule = new AppRule { Name = "New Order Adding Rule", EventName = RuleEventNames.TicketLineAdded };
             newOrderAddingRule.Actions.Add(new ActionContainer(updateTicketStatusAction) { ParameterValues = string.Format("Status={0}#Current Status={1}", Resources.Unpaid, Resources.New) });
+            newOrderAddingRule.Actions.Add(new ActionContainer(updateOrderStatusAction) { ParameterValues = string.Format("Status={0}", Resources.New) });
             newOrderAddingRule.AddRuleMap();
             _workspace.Add(newOrderAddingRule);
 
-            var newOrderRule = new AppRule { Name = "Update New Order Resource Color", EventName = RuleEventNames.TicketClosing, EventConstraints = "NewOrderCount;>;0" };
+            var giftOrderRule = new AppRule { Name = string.Format(Resources.Rule_f, Resources.Gift), EventName = RuleEventNames.AutomationCommandExecuted, EventConstraints = string.Format("AutomationCommandName;=;{0}", giftItemAutomation.Name) };
+            giftOrderRule.Actions.Add(new ActionContainer(updateOrderAction) { ParameterValues = "Decrease=True#Calculate Price=False" });
+            giftOrderRule.Actions.Add(new ActionContainer(updateOrderGiftStatusAction) { ParameterValues = string.Format("Status={0}#Value=[:Value]", Resources.Gift) });
+            giftOrderRule.AddRuleMap();
+            _workspace.Add(giftOrderRule);
+
+            var cancelGiftOrderRule = new AppRule { Name = string.Format(Resources.Rule_f, string.Format(Resources.Cancel_f, Resources.Gift)), EventName = RuleEventNames.AutomationCommandExecuted, EventConstraints = string.Format("AutomationCommandName;=;{0}", cancelGiftItemAutomation.Name) };
+            cancelGiftOrderRule.Actions.Add(new ActionContainer(updateOrderAction) { ParameterValues = "Decrease=True#Calculate Price=True" });
+            cancelGiftOrderRule.Actions.Add(new ActionContainer(updateOrderGiftStatusAction) { ParameterValues = string.Format("Current Status={0}#Status=#Value=", Resources.Gift) });
+            cancelGiftOrderRule.AddRuleMap();
+            _workspace.Add(cancelGiftOrderRule);
+
+            var voidOrderRule = new AppRule { Name = string.Format(Resources.Rule_f, Resources.Void), EventName = RuleEventNames.AutomationCommandExecuted, EventConstraints = string.Format("AutomationCommandName;=;{0}", voidItemAutomation.Name) };
+            voidOrderRule.Actions.Add(new ActionContainer(updateOrderAction) { ParameterValues = "Decrease=False#Calculate Price=False" });
+            voidOrderRule.Actions.Add(new ActionContainer(updateOrderGiftStatusAction) { ParameterValues = string.Format("Status={0}#Value=[:Value]", Resources.Void) });
+            voidOrderRule.Actions.Add(new ActionContainer(updateOrderStatusAction) { ParameterValues = string.Format("Status={0}", Resources.New) });
+            voidOrderRule.AddRuleMap();
+            _workspace.Add(voidOrderRule);
+
+            var cancelVoidOrderRule = new AppRule { Name = string.Format(Resources.Rule_f, string.Format(Resources.Cancel_f, Resources.Void)), EventName = RuleEventNames.AutomationCommandExecuted, EventConstraints = string.Format("AutomationCommandName;=;{0}", cancelVoidItemAutomation.Name) };
+            cancelVoidOrderRule.Actions.Add(new ActionContainer(updateOrderAction) { ParameterValues = "Decrease=True#Calculate Price=True" });
+            cancelVoidOrderRule.Actions.Add(new ActionContainer(updateOrderGiftStatusAction) { ParameterValues = string.Format("Current Status={0}#Status=#Value=", Resources.Void) });
+            cancelVoidOrderRule.Actions.Add(new ActionContainer(updateOrderStatusAction) { ParameterValues = string.Format("Status={0}", Resources.Submitted) });
+            cancelVoidOrderRule.AddRuleMap();
+            _workspace.Add(cancelVoidOrderRule);
+
+            var newOrderRule = new AppRule { Name = "Update New Order Resource Color", EventName = RuleEventNames.TicketClosing };
             newOrderRule.Actions.Add(new ActionContainer(printKitchenOrdersAction));
+            newOrderRule.Actions.Add(new ActionContainer(updateOrderStatusAction) { ParameterValues = string.Format("Status={0}#Current Status={1}", Resources.Submitted, Resources.New) });
             newOrderRule.Actions.Add(new ActionContainer(newOrderAction));
             newOrderRule.AddRuleMap();
             _workspace.Add(newOrderRule);

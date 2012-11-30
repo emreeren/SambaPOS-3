@@ -213,7 +213,7 @@ namespace FlexButton
             var gColor = new SolidColorBrush(fColor.Color.Lerp(Colors.White, 0.65f));
 
             btn.InnerBorderBrush = new LinearGradientBrush(Colors.White, Colors.Transparent, 90) { Opacity = 0.5 };
-            btn.OuterBorderBrush = new SolidColorBrush(fColor.Color.Lerp(Colors.Black, Brightness(fColor.Color) > 150 ? 0.3f : 0.15f));
+            btn.OuterBorderBrush = new SolidColorBrush(fColor.Color.Lerp(Colors.Black, Brightness(fColor.Color) > 150 ? 0.3f : 0f));
 
             UpdateForeground(fColor, btn);
 

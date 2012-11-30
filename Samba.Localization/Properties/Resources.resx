@@ -2993,4 +2993,13 @@ Error Message:
   <data name="OrderLine" xml:space="preserve">
     <value>Order Line</value>
   </data>
+  <data name="Cancel_f">
+    <value xml:space="preserve">Cancel {0}</value>
+  </data>
+  <data name="Rule_f">
+    <value xml:space="preserve">{0} Rule</value>
+  </data>
+  <data name="Submitted">
+    <value xml:space="preserve">Submitted</value>
+  </data>
 </root>

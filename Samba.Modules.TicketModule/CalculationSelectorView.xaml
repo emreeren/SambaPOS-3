@@ -85,7 +85,7 @@
 
                     <DataGrid Grid.Row="1" ItemsSource="{Binding MapController.Maps}" SelectedItem="{Binding MapController.SelectedMap}" 
                               HorizontalAlignment="Left" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3" MinWidth="300"
-                              AutoGenerateColumns="False" CanUserSortColumns="False"
+                              AutoGenerateColumns="False" CanUserSortColumns="False" CanUserAddRows="False" CanUserDeleteRows="False"
                               Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="{LocText UserRole}" Width="*">

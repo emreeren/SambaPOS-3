@@ -254,13 +254,26 @@ namespace Samba.Domain.Models.Tickets
             {
                 sv.State = state;
                 sv.StateValue = stateValue;
-                sv.OrderKey = groupOrder.ToString("000") + stateOrder.ToString("000");
             }
+
+            sv.OrderKey = groupOrder.ToString("000") + stateOrder.ToString("000");
+
             if (string.IsNullOrEmpty(sv.State))
                 OrderStateValues.Remove(sv);
 
             OrderStates = JsonHelper.Serialize(OrderStateValues);
             _orderStateValues = null;
+        }
+
+        public string GetStateDesc()
+        {
+            return string.Join(", ",
+                           OrderStateValues.OrderBy(x => x.OrderKey).Where(x => !string.IsNullOrEmpty(x.State)).Select(
+                               x =>
+                               string.Format("{0} {1}", x.State,
+                                             !string.IsNullOrEmpty(x.StateValue)
+                                                 ? string.Format(" :{0}", x.StateValue)
+                                                 : "")));
         }
 
         public string GetStateData()
@@ -471,6 +484,7 @@ namespace Samba.Domain.Models.Tickets
         public bool IsInState(string stateName, string state)
         {
             if (stateName == "*") return OrderStateValues.Any(x => x.State == state);
+            if (string.IsNullOrEmpty(state)) return !OrderStateValues.Any(x => x.GroupName == stateName);
             return OrderStateValues.Any(x => x.GroupName == stateName && x.State == state);
         }
 
