@@ -73,7 +73,7 @@
                                             <RowDefinition />
                                         </Grid.RowDefinitions>
 
-                                        <TextBlock FontWeight="{Binding FontWeight}" TextDecorations="{Binding TextDecoration}" Grid.Column="0"
+                                        <TextBlock FontWeight="{Binding FontWeight}" TextDecorations="{Binding TextDecoration}" Grid.Column="0" 
                                                          Padding="1" Foreground="{Binding Foreground}" FontSize="21"  Text="{Binding Quantity,StringFormat='0.###'}"
                                                          Margin="5,5,6,5" />
 
@@ -94,8 +94,8 @@
                                                          Padding="1" Foreground="{Binding Foreground}" FontSize="21"  Text="{Binding TotalPriceStr}"
                                                          Margin="5" HorizontalAlignment="Right" />
 
-                                        <TextBlock  Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="1" Visibility="{Binding IsStateVisible,Converter={StaticResource VisibilityConverter}}"
-                                                         Margin="5,-5,5,2" FontWeight="Bold" FontSize="12" Text="{Binding State}"
+                                        <TextBlock  Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1" Visibility="{Binding IsStateVisible,Converter={StaticResource VisibilityConverter}}"
+                                                         Margin="8,-7,5,2" FontWeight="Bold" FontSize="12" Text="{Binding State}"
                                                          HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="{Binding Foreground}"/>
                                     </Grid>
                                     <TextBlock Foreground="{Binding TimerColor}" FontSize="14" FontWeight="Bold" Margin="30,-2,0,2"

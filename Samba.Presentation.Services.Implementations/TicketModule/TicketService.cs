@@ -322,7 +322,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             var sv = ticket.GetStateValue(stateName);
             if (!string.IsNullOrEmpty(currentState) && sv.State != currentState) return;
 
-            if (sv != null && sv.GroupName == stateName && sv.StateValue == stateValue && sv.Quantity == quantity && sv.State == state) return;
+            if (sv != null && sv.StateName == stateName && sv.StateValue == stateValue && sv.Quantity == quantity && sv.State == state) return;
 
             ticket.SetStateValue(stateName, state, stateValue, quantity);
 

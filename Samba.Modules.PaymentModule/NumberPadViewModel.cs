@@ -169,8 +169,16 @@ namespace Samba.Modules.PaymentModule
             var value = ConvertToDecimal(obj);
             if (string.IsNullOrEmpty(_tenderedValueViewModel.TenderedAmount))
                 _tenderedValueViewModel.TenderedAmount = "0";
-            var tenderedValue = Convert.ToDecimal(_tenderedValueViewModel.TenderedAmount.Replace(
-                CultureInfo.CurrentCulture.NumberFormat.NumberGroupSeparator, ""));
+            decimal tenderedValue;
+            try
+            {
+                tenderedValue = Convert.ToDecimal(_tenderedValueViewModel.TenderedAmount.Replace(
+                    CultureInfo.CurrentCulture.NumberFormat.NumberGroupSeparator, ""));
+            }
+            catch (Exception)
+            {
+                tenderedValue = 0m;
+            }
             tenderedValue += value;
             _tenderedValueViewModel.TenderedAmount = tenderedValue.ToString(LocalSettings.DefaultCurrencyFormat);
             OnTypedValueChanged();

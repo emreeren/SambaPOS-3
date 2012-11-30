@@ -239,15 +239,15 @@ namespace Samba.Domain.Models.Tickets
 
         public OrderStateValue GetStateValue(string groupName)
         {
-            return OrderStateValues.SingleOrDefault(x => x.GroupName == groupName) ?? OrderStateValue.Default;
+            return OrderStateValues.SingleOrDefault(x => x.StateName == groupName) ?? OrderStateValue.Default;
         }
 
         public void SetStateValue(string groupName, int groupOrder, string state, int stateOrder, string stateValue)
         {
-            var sv = OrderStateValues.SingleOrDefault(x => x.GroupName == groupName);
+            var sv = OrderStateValues.SingleOrDefault(x => x.StateName == groupName);
             if (sv == null)
             {
-                sv = new OrderStateValue { GroupName = groupName, State = state, StateValue = stateValue };
+                sv = new OrderStateValue { StateName = groupName, State = state, StateValue = stateValue };
                 OrderStateValues.Add(sv);
             }
             else
@@ -484,8 +484,8 @@ namespace Samba.Domain.Models.Tickets
         public bool IsInState(string stateName, string state)
         {
             if (stateName == "*") return OrderStateValues.Any(x => x.State == state);
-            if (string.IsNullOrEmpty(state)) return !OrderStateValues.Any(x => x.GroupName == stateName);
-            return OrderStateValues.Any(x => x.GroupName == stateName && x.State == state);
+            if (string.IsNullOrEmpty(state)) return !OrderStateValues.Any(x => x.StateName == stateName);
+            return OrderStateValues.Any(x => x.StateName == stateName && x.State == state);
         }
 
         public bool IsInState(string stateValue)

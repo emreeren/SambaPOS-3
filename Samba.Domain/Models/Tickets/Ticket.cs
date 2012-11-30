@@ -405,8 +405,8 @@ namespace Samba.Domain.Models.Tickets
         public bool IsInState(string stateName, string state)
         {
             if (stateName == "*") return TicketStateValues.Any(x => x.State == state);
-            if (string.IsNullOrEmpty(state)) return !TicketStateValues.Any(x => x.GroupName == stateName);
-            return TicketStateValues.Any(x => x.GroupName == stateName && x.State == state);
+            if (string.IsNullOrEmpty(state)) return !TicketStateValues.Any(x => x.StateName == stateName);
+            return TicketStateValues.Any(x => x.StateName == stateName && x.State == state);
         }
 
         public void CancelOrders(IEnumerable<Order> orders)
@@ -522,15 +522,15 @@ namespace Samba.Domain.Models.Tickets
 
         public TicketStateValue GetStateValue(string groupName)
         {
-            return TicketStateValues.SingleOrDefault(x => x.GroupName == groupName) ?? TicketStateValue.Default;
+            return TicketStateValues.SingleOrDefault(x => x.StateName == groupName) ?? TicketStateValue.Default;
         }
 
-        public void SetStateValue(string groupName, string state, string stateValue, int quantity = 0)
+        public void SetStateValue(string stateName, string state, string stateValue, int quantity = 0)
         {
-            var sv = TicketStateValues.SingleOrDefault(x => x.GroupName == groupName);
+            var sv = TicketStateValues.SingleOrDefault(x => x.StateName == stateName);
             if (sv == null)
             {
-                sv = new TicketStateValue { GroupName = groupName, State = state, StateValue = stateValue, Quantity = quantity };
+                sv = new TicketStateValue { StateName = stateName, State = state, StateValue = stateValue, Quantity = quantity };
                 TicketStateValues.Add(sv);
             }
             else
@@ -548,7 +548,7 @@ namespace Samba.Domain.Models.Tickets
 
         public string GetStateData()
         {
-            return string.Join("\r", TicketStateValues.Where(x => !string.IsNullOrEmpty(x.State)).Select(x => string.Format("{0}{1}: {2} {3}", x.Quantity > 0 ? string.Format("{0} ", x.Quantity.ToString(CultureInfo.CurrentCulture)) : "", x.GroupName, x.State, !string.IsNullOrEmpty(x.StateValue) ? string.Format("[{0}]", x.StateValue) : "")));
+            return string.Join("\r", TicketStateValues.Where(x => !string.IsNullOrEmpty(x.State)).Select(x => string.Format("{0}{1}: {2} {3}", x.Quantity > 0 ? string.Format("{0} ", x.Quantity.ToString(CultureInfo.CurrentCulture)) : "", x.StateName, x.State, !string.IsNullOrEmpty(x.StateValue) ? string.Format("[{0}]", x.StateValue) : "")));
         }
 
         public string GetTagValue(string tagName)
@@ -615,7 +615,7 @@ namespace Samba.Domain.Models.Tickets
         {
             if (Orders.Count > 0)
             {
-                var transactionGroup = Orders.GroupBy(x => x.AccountTransactionTypeId);
+                var transactionGroup = Orders.Where(x=>x.CalculatePrice).GroupBy(x => x.AccountTransactionTypeId);
                 foreach (var transactionItem in transactionGroup)
                 {
                     var t = transactionItem;

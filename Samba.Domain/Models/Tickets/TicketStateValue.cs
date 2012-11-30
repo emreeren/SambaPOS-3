@@ -5,8 +5,8 @@ namespace Samba.Domain.Models.Tickets
     [DataContract]
     public class TicketStateValue
     {
-        [DataMember(Name = "GN")]
-        public string GroupName { get; set; }
+        [DataMember(Name = "SN")]
+        public string StateName { get; set; }
         [DataMember(Name = "S")]
         public string State { get; set; }
         [DataMember(Name = "SV", EmitDefaultValue = false)]
