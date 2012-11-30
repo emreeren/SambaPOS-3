@@ -50,7 +50,6 @@ namespace Samba.Modules.PrinterModule
         public PrinterMapViewModel SelectedPrinterMap { get; set; }
 
         public string WhatToPrint { get { return _whatToPrintTypes[Model.WhatToPrint]; } set { Model.WhatToPrint = _whatToPrintTypes.IndexOf(value); } }
-        public bool LocksTicket { get { return Model.LocksTicket; } set { Model.LocksTicket = value; } }
         public bool UseForPaidTickets { get { return Model.UseForPaidTickets; } set { Model.UseForPaidTickets = value; } }
         public bool ExcludeTax { get { return Model.ExcludeTax; } set { Model.ExcludeTax = value; } }
 

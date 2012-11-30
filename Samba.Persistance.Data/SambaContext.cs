@@ -121,6 +121,7 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<AppAction>().Property(x => x.Parameter).IsMaxLength();
             modelBuilder.Entity<AppRule>().Property(x => x.EventConstraints).IsMaxLength();
             modelBuilder.Entity<Order>().Property(x => x.OrderTags).IsMaxLength();
+            modelBuilder.Entity<Order>().Property(x => x.OrderStates).IsMaxLength();
             
             modelBuilder.Entity<TaskToken>().HasKey(p => new { p.Id, p.TaskId });
             modelBuilder.Entity<TaskToken>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);

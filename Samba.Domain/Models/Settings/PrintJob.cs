@@ -17,7 +17,6 @@ namespace Samba.Domain.Models.Settings
     public class PrintJob : Entity
     {
         public int WhatToPrint { get; set; }
-        public bool LocksTicket { get; set; }
         public bool UseForPaidTickets { get; set; }
         public bool ExcludeTax { get; set; }
 

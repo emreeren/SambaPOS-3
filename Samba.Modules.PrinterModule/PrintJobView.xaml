@@ -28,8 +28,7 @@
             <Label Content="{LocText PrintContent}"/>
             <ComboBox HorizontalAlignment="Left" MinWidth="230" SelectedItem="{Binding WhatToPrint}"
                  ItemsSource="{Binding WhatToPrintTypes}" />
-            <CheckBox IsChecked="{Binding LocksTicket}" Margin="0,5,0,2" Content="{LocText LockTicket}"/>
-            <CheckBox IsChecked="{Binding ExcludeTax}" Margin="0,2" Content="{LocText AlwaysExcludeTax}"/>
+            <CheckBox IsChecked="{Binding ExcludeTax}" Margin="0,5,0,2" Content="{LocText AlwaysExcludeTax}"/>
             <CheckBox IsChecked="{Binding UseForPaidTickets}" Margin="0,2,0,5" Content="{LocText UseAtOldTickets}"/>
             <StackPanel Orientation="Horizontal">
                 <Label>

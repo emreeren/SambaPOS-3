@@ -93,7 +93,6 @@ namespace Samba.Services.Implementations.PrinterModule
         public void PrintTicket(Ticket ticket, PrintJob customPrinter, Func<Order, bool> orderSelector)
         {
             Debug.Assert(!string.IsNullOrEmpty(ticket.TicketNumber));
-            if (customPrinter.LocksTicket) ticket.RequestLock();
             PrintOrders(customPrinter, ticket, orderSelector);
         }
 

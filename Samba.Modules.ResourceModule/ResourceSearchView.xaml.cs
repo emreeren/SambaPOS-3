@@ -31,7 +31,7 @@ namespace Samba.Modules.ResourceModule
             var selector = sender as ResourceSearchViewModel;
             if (selector != null && gridView != null)
             {
-                gridView.Columns.Where(x => x.Header.ToString() != "Name").ToList().ForEach(x => gridView.Columns.Remove(x));
+                gridView.Columns.Where(x => x.Header.ToString() != Localization.Properties.Resources.Name).ToList().ForEach(x => gridView.Columns.Remove(x));
                 if (selector.SelectedResourceType != null)
                     selector.SelectedResourceType.ResoruceCustomFields.Where(x => !x.Hidden).Select(CreateColumn).ToList().ForEach(x => gridView.Columns.Add(x));
                 MainListView.RaiseEvent(new RoutedEventArgs(LoadedEvent, MainListView));

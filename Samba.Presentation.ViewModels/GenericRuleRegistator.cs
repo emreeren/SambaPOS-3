@@ -212,7 +212,7 @@ namespace Samba.Presentation.ViewModels
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
                     if (ticket != null)
                     {
-                        ticket.LockTicket();
+                        ticket.RequestLock();
                     }
                 }
 

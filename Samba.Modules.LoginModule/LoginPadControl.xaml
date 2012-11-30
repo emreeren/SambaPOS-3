@@ -28,6 +28,7 @@
             <Setter Property="HorizontalContentAlignment" Value="Center" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="Padding" Value="1" />
+            <Setter Property="Focusable" Value="False"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -151,7 +152,7 @@
             <Setter Property="OpacityMask" Value="{x:Null}" />
         </Style>
     </UserControl.Resources>
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Focusable="False">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
@@ -188,7 +189,7 @@
              Grid.Column="0" Margin="3" Style="{DynamicResource GreenButtonStyle}" Click="Button_Click_11" />
         <Button Content="0" Grid.Row="4" Grid.Column="1" Margin="3" Style="{DynamicResource GreenButtonStyle}"
              Click="Button_Click_10" />
-        <Button Content="{LocText Login}" Grid.Row="4"
+        <Button Content="{LocText Login}" Grid.Row="4" Focusable="False"
              Grid.Column="2" Margin="3" Style="{DynamicResource SubmitButtonStyle}" Click="Button_Click" />
     </Grid>
 </UserControl>

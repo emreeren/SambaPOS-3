@@ -32,7 +32,6 @@
         <Setter Property="InnerBorderThickness" Value="1" />
         <Setter Property="GlowColor" Value="{StaticResource brushGlow}" />
         <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="HighlightMargin" Value="1,1,0,0" />
         <Setter Property="HighlightBrightness" Value="184" />
 
@@ -40,11 +39,11 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:FlexButton}">
 
-                    <Border Name="OuterBorder" CornerRadius="{Binding CornerRadius, ElementName=InnerBorder}"
+                    <Border  Name="OuterBorder" CornerRadius="{Binding CornerRadius, ElementName=InnerBorder}" Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding OuterBorderBrush}" BorderThickness="{TemplateBinding OuterBorderThickness}" >
 
-                        <Border Name="InnerBorder" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}"
-                                BorderBrush="{TemplateBinding InnerBorderBrush}" BorderThickness="{TemplateBinding InnerBorderThickness}">
+                        <Border Name="InnerBorder" CornerRadius="{TemplateBinding CornerRadius}"
+                                BorderBrush="{TemplateBinding InnerBorderBrush}" BorderThickness="0">
 
                             <Grid>
                                 <Border Name="Glow" Opacity="0" CornerRadius="{Binding CornerRadius, ElementName=InnerBorder}">
@@ -58,11 +57,10 @@
                                     </Border.Background>
                                 </Border>
 
-                                <Border Name="Highlight" Grid.Row="0" Margin="{Binding HighlightMargin, RelativeSource={RelativeSource Mode=FindAncestor,
-                                    AncestorType={x:Type local:FlexButton}}}" CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource FindAncestor,
+                                <Border Name="Highlight" Grid.Row="0" Margin="0" CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource FindAncestor,
                                     AncestorLevel=1, AncestorType={x:Type Border}}, Converter={StaticResource HighlightCornerRadiusConverter}}" >
                                     <Border.Background>
-                                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1" >
+                                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1.5" >
                                             <GradientStop Offset="0" Color="{Binding HighlightBrightness,
                                                 RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:FlexButton}},
                                                 Converter={StaticResource BrightnessToColorConverter}}" />

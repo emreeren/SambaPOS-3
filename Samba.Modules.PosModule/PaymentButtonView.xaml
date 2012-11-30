@@ -16,7 +16,7 @@
             <DataTemplate>
                 <FxButton:FlexButton FontSize="40" Content="{Binding Caption}" ButtonColor="{Binding Color}" 
                                              Focusable="False" Command="{Binding Command}" 
-                                             CommandParameter="{Binding Parameter}" Margin="0,0,3,0">
+                                             CommandParameter="{Binding Parameter}" Margin="2,0,1,2">
                 </FxButton:FlexButton>
             </DataTemplate>
         </ItemsControl.ItemTemplate>

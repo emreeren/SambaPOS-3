@@ -324,7 +324,6 @@ namespace Samba.Presentation.Services.Common
             var pj1 = new PrintJob
             {
                 Name = Resources.PrintBill,
-                LocksTicket = true,
                 WhatToPrint = (int)WhatToPrintTypes.Everything,
             };
             pj1.PrinterMaps.Add(pm1);
@@ -381,6 +380,8 @@ namespace Samba.Presentation.Services.Common
             _workspace.Add(printBillAction);
             var printKitchenOrdersAction = new AppAction { ActionType = ActionNames.ExecutePrintJob, Name = "Execute Kitchen Orders Print Job", Parameter = Params().Add("PrintJobName", Resources.PrintOrdersToKitchenPrinter).ToString() };
             _workspace.Add(printKitchenOrdersAction);
+            var lockTicketAction = new AppAction { ActionType = ActionNames.LockTicket, Name = Resources.LockTicket, Parameter = "" };
+            _workspace.Add(lockTicketAction);
             var unlockTicketAction = new AppAction { ActionType = ActionNames.UnlockTicket, Name = Resources.UnlockTicket, Parameter = "" };
             _workspace.Add(unlockTicketAction);
             _workspace.CommitChanges();
@@ -415,6 +416,7 @@ namespace Samba.Presentation.Services.Common
 
             var printBillRule = new AppRule { Name = "Print Bill Rule", EventName = RuleEventNames.AutomationCommandExecuted, EventConstraints = "AutomationCommandName;=;" + Resources.PrintBill };
             printBillRule.Actions.Add(new ActionContainer(printBillAction));
+            printBillRule.Actions.Add(new ActionContainer(lockTicketAction));
             printBillRule.Actions.Add(new ActionContainer(billRequestedAction));
             printBillRule.Actions.Add(new ActionContainer(updateTicketStatusAction) { ParameterValues = string.Format("Status={0}", Resources.Locked) });
             printBillRule.Actions.Add(new ActionContainer(closeTicketAction));
@@ -423,6 +425,7 @@ namespace Samba.Presentation.Services.Common
 
             var unlockTicketRule = new AppRule { Name = "Unlock Ticket Rule", EventName = RuleEventNames.AutomationCommandExecuted, EventConstraints = "AutomationCommandName;=;Unlock Ticket" };
             unlockTicketRule.Actions.Add(new ActionContainer(unlockTicketAction));
+            unlockTicketRule.Actions.Add(new ActionContainer(updateTicketStatusAction) { ParameterValues = string.Format("Status={0}", Resources.Unpaid) });
             unlockTicketRule.AddRuleMap();
             _workspace.Add(unlockTicketRule);
 
