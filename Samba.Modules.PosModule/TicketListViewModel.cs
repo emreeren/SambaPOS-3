@@ -24,9 +24,14 @@ namespace Samba.Modules.PosModule
         {
             _ticketService = ticketService;
             _tickets = new List<TicketButtonViewModel>();
-            AddTicketCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.Ticket).Replace(" ", "\r"), OnAddTicket);
+            AddTicketCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.Ticket).Replace(" ", "\r"), OnAddTicket, CanAddTicket);
             MergeTicketsCommand = new CaptionCommand<string>(Resources.MergeTickets.Replace(" ", "\r"), OnMergeTickets, CanMergeTickets);
             CloseCommand = new CaptionCommand<string>(Resources.Close.Replace(" ", "\r"), OnCloseCommand);
+        }
+
+        private bool CanAddTicket(string arg)
+        {
+            return SelectedEntity != null;
         }
 
         private List<TicketButtonViewModel> _tickets;
@@ -92,6 +97,14 @@ namespace Samba.Modules.PosModule
             Refresh();
         }
 
+        public void UpdateListByTicketState(TicketStateData value)
+        {
+            SelectedEntity = null;
+            var stateValue = string.Format("\"S\":\"{0}\"", value.StateName);
+            _tickets = _ticketService.GetOpenTickets(x => x.TicketStates.Contains(stateValue)).Select(x => new TicketButtonViewModel(x, null)).ToList();
+            Refresh();
+        }
+
         private void Refresh()
         {
             _tickets.ForEach(x => x.SelectionChanged = ItemSelectionChanged);
@@ -105,5 +118,6 @@ namespace Samba.Modules.PosModule
         {
             RaisePropertyChanged(() => SelectedItemsCount);
         }
+
     }
 }

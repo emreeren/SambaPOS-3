@@ -80,6 +80,7 @@ namespace Samba.Modules.PosModule
             EventServiceFactory.EventService.GetEvent<GenericIdEvent>().Subscribe(OnTicketIdPublished);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Resource>>>().Subscribe(OnResourceSelectedForTicket);
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketTagGroup>>().Subscribe(OnTicketTagSelected);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<TicketStateData>>().Subscribe(OnTicketStateSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<Department>>().Subscribe(OnDepartmentChanged);
         }
 
@@ -93,10 +94,23 @@ namespace Samba.Modules.PosModule
             }
         }
 
+        private void OnTicketStateSelected(EventParameters<TicketStateData> obj)
+        {
+            if (obj.Topic == EventTopicNames.ActivateTicketList)
+            {
+                if (SelectedTicket != null) CloseTicket();
+                _ticketListViewModel.UpdateListByTicketState(obj.Value);
+                if (_ticketListViewModel.Tickets.Any())
+                    DisplayTicketList();
+                else DisplayTickets();
+            }
+        }
+
         private void OnTicketTagSelected(EventParameters<TicketTagGroup> obj)
         {
             if (obj.Topic == EventTopicNames.ActivateTicketList)
             {
+                if (SelectedTicket != null) CloseTicket();
                 _ticketListViewModel.UpdateListByTicketTagGroup(obj.Value);
                 if (_ticketListViewModel.Tickets.Any())
                     DisplayTicketList();

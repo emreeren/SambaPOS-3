@@ -2,6 +2,7 @@
 {
     public static class ActionNames
     {
+        public const string DisplayTicketList = "DisplayTicketList";
         public const string UpdateTicketTag = "UpdateTicketTag";
         public const string TagOrder = "TagOrder";
         public const string UntagOrder = "UntagOrder";

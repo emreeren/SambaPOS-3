@@ -79,6 +79,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType(ActionNames.UnlockTicket, Resources.UnlockTicket);
             AutomationService.RegisterActionType(ActionNames.CreateTicket, string.Format(Resources.Create_f, Resources.Ticket));
             AutomationService.RegisterActionType(ActionNames.DisplayTicket, Resources.DisplayTicket, new { TicketId = 0 });
+            AutomationService.RegisterActionType(ActionNames.DisplayTicketList, "Display Ticket List", new { TicketTagName = "", TicketStateName = "" });
             AutomationService.RegisterActionType(ActionNames.DisplayPaymentScreen, Resources.DisplayPaymentScreen);
             AutomationService.RegisterActionType(ActionNames.ExecutePowershellScript, Resources.ExecutePowershellScript, new { Script = "" });
             AutomationService.RegisterActionType(ActionNames.ExecuteScript, Resources.ExecuteScript, new { ScriptName = "" });
@@ -226,6 +227,24 @@ namespace Samba.Presentation.ViewModels
                     if (ticketId > 0)
                         ExtensionMethods.PublishIdEvent(ticketId, EventTopicNames.DisplayTicket);
                     else EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
+                }
+
+                if (x.Value.Action.ActionType == ActionNames.DisplayTicketList)
+                {
+                    var ticketTagName = x.Value.GetAsString("TicketTagName");
+                    var ticketStateName = x.Value.GetAsString("TicketStateName");
+
+                    if (!string.IsNullOrEmpty(ticketStateName))
+                    {
+                        var dt = new TicketStateData() { StateName = ticketStateName };
+                        dt.PublishEvent(EventTopicNames.ActivateTicketList);
+                    }
+                    else if (!string.IsNullOrEmpty(ticketTagName))
+                    {
+                        var dt = new TicketTagGroup { Name = ticketTagName };
+                        dt.PublishEvent(EventTopicNames.ActivateTicketList);
+                    }
+
                 }
 
                 if (x.Value.Action.ActionType == ActionNames.CreateTicket)

@@ -18,6 +18,7 @@ namespace Samba.Presentation.Controls.Interaction
             InitializeComponent();
             Height = Properties.Settings.Default.PEHeight;
             Width = Properties.Settings.Default.PEWidth;
+            PropertyEditorControl.PropertyControlFactory = new PropertyControlFactory();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

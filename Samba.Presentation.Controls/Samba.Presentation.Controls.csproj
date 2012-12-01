@@ -91,6 +91,7 @@
     <Compile Include="Interaction\PopupWindow.xaml.cs">
       <DependentUpon>PopupWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Interaction\PropertyControlFactory.cs" />
     <Compile Include="Interaction\PropertyEditorForm.xaml.cs">
       <DependentUpon>PropertyEditorForm.xaml</DependentUpon>
     </Compile>
