@@ -3002,4 +3002,7 @@ Error Message:
   <data name="Submitted">
     <value xml:space="preserve">Submitted</value>
   </data>
+  <data name="NewOrders" xml:space="preserve">
+    <value>New Orders</value>
+  </data>
 </root>
