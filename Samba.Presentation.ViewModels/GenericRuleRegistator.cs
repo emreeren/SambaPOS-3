@@ -22,6 +22,7 @@ using Samba.Presentation.Common;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Presentation.ViewModels
 {
@@ -505,8 +506,7 @@ namespace Samba.Presentation.ViewModels
                         var state = x.Value.GetAsString("State");
                         var stateOrder = x.Value.GetAsInteger("StateOrder");
                         var stateValue = x.Value.GetAsString("StateValue");
-
-                        TicketService.UpdateOrderStates2(ticket, orders.ToList(), stateName, currentState, groupOrder, state, stateOrder, stateValue);
+                        TicketService.UpdateOrderStates(ticket, orders.ToList(), stateName, currentState, groupOrder, state, stateOrder, stateValue);
                     }
                 }
 
@@ -639,6 +639,7 @@ namespace Samba.Presentation.ViewModels
             {
                 if (ticket != null)
                 {
+                    ticket.PublishEvent(EventTopicNames.FixSelectedOrders, true);
                     orders = ticket.Orders.Any(y => y.IsSelected)
                                  ? ticket.Orders.Where(y => y.IsSelected).ToList()
                                  : ticket.Orders;

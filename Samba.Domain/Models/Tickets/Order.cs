@@ -279,34 +279,6 @@ namespace Samba.Domain.Models.Tickets
             return string.Join("\r", OrderStateValues.Where(x => !string.IsNullOrEmpty(x.State)).OrderBy(x => x.OrderKey).Select(x => string.Format("{0} {1}", x.State, !string.IsNullOrEmpty(x.StateValue) ? string.Format("[{0}]", x.StateValue) : "")));
         }
 
-        public void UpdateOrderState(OrderStateGroup orderStateGroup, OrderState orderState, int userId)
-        {
-            if (orderStateGroup.Id == OrderStateGroupId && orderState.Name == OrderState && Locked && orderStateGroup.UnlocksOrder) return;
-            if (orderState == null || (orderStateGroup.Id == OrderStateGroupId && orderState.Name == OrderState))
-            {
-                CalculatePrice = true;
-                DecreaseInventory = true;
-                IncreaseInventory = false;
-                OrderState = "";
-                OrderStateGroupName = "";
-                OrderStateGroupId = 0;
-                if (Quantity < 0) Quantity = 0 - Quantity;
-                if (orderStateGroup.UnlocksOrder && Id > 0) Locked = true;
-                return;
-            }
-            CalculatePrice = orderStateGroup.CalculateOrderPrice;
-            DecreaseInventory = orderStateGroup.DecreaseOrderInventory;
-            IncreaseInventory = orderStateGroup.IncreaseOrderInventory;
-            if (orderStateGroup.UnlocksOrder) Locked = false;
-            if (orderStateGroup.AccountTransactionTypeId > 0)
-                AccountTransactionTypeId = orderStateGroup.AccountTransactionTypeId;
-            if (IncreaseInventory && Quantity > 0) Quantity = 0 - Quantity;
-            if (!IncreaseInventory && Quantity < 0) Quantity = 0 - Quantity;
-            OrderState = orderState.Name;
-            OrderStateGroupName = orderStateGroup.Name;
-            OrderStateGroupId = orderStateGroup.Id;
-        }
-
         public decimal GetTotal()
         {
             if (CalculatePrice)
@@ -419,11 +391,6 @@ namespace Samba.Domain.Models.Tickets
         public bool IsTaggedWith(OrderTagGroup orderTagGroup)
         {
             return OrderTagValues.FirstOrDefault(x => x.OrderTagGroupId == orderTagGroup.Id) != null;
-        }
-
-        public bool IsStateApplied(OrderStateGroup orderStateGroup)
-        {
-            return OrderStateGroupId == orderStateGroup.Id;
         }
 
         public decimal GetTaxAmount()

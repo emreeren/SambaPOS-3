@@ -50,8 +50,11 @@
     <Compile Include="AutomationCommandData.cs" />
     <Compile Include="IProgramSetting.cs" />
     <Compile Include="IProgramSettings.cs" />
+    <Compile Include="OrderTagData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerialPortService.cs" />
+    <Compile Include="TicketStateData.cs" />
+    <Compile Include="TicketTagData.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">

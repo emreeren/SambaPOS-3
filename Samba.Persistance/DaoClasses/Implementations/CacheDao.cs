@@ -45,11 +45,6 @@ namespace Samba.Persistance.DaoClasses.Implementations
             return Dao.Query<OrderTagGroup>(x => x.OrderTags, x => x.OrderTagMaps);
         }
 
-        public IEnumerable<OrderStateGroup> GetOrderStateGroups()
-        {
-            return Dao.Query<OrderStateGroup>(x => x.OrderStates, x => x.OrderStateMaps);
-        }
-
         public IEnumerable<AccountTransactionType> GetAccountTransactionTypes()
         {
             return Dao.Query<AccountTransactionType>();

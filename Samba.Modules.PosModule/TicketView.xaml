@@ -94,23 +94,6 @@
             <FxButton:FlexButton Command="{Binding DecQuantityCommand}" Content="{Binding DecQuantityCommand.Caption}" Visibility="{Binding IsItemsSelectedAndUnlocked,Converter={StaticResource VisibilityConverter}}" />
             <FxButton:FlexButton Command="{Binding IncSelectionQuantityCommand}" Content="{Binding IncSelectionQuantityCommand.Caption}" Visibility="{Binding IsItemsSelectedAndLocked,Converter={StaticResource VisibilityConverter}}" />
             <FxButton:FlexButton Command="{Binding DecSelectionQuantityCommand}" Content="{Binding DecSelectionQuantityCommand.Caption}" Visibility="{Binding IsItemsSelectedAndLocked,Converter={StaticResource VisibilityConverter}}" />
-            <ItemsControl ItemsSource="{Binding OrderStateButtons,NotifyOnTargetUpdated=True}"
-                         HorizontalAlignment="Stretch" Visibility="{Binding IsItemsSelected,Converter={StaticResource VisibilityConverter}}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel VerticalAlignment="Top" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <FxButton:FlexButton Command="{Binding DataContext.ShowOrderStatesCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
-                                     CommandParameter="{Binding Model}">
-                            <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
-                                         Text="{Binding Name}" />
-                        </FxButton:FlexButton>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
             <ItemsControl ItemsSource="{Binding OrderTagButtons,NotifyOnTargetUpdated=True}"
                          HorizontalAlignment="Stretch" Visibility="{Binding IsItemsSelected,Converter={StaticResource VisibilityConverter}}">
                 <ItemsControl.ItemsPanel>

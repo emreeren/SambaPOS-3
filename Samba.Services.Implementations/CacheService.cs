@@ -115,32 +115,6 @@ namespace Samba.Services.Implementations
             return OrderTagGroups.FirstOrDefault(x => x.Name == tagName);
         }
 
-        private IEnumerable<OrderStateGroup> _orderStateGroups;
-        public IEnumerable<OrderStateGroup> OrderStateGroups
-        {
-            get { return _orderStateGroups ?? (_orderStateGroups = _dataService.GetOrderStateGroups()); }
-        }
-
-        public IEnumerable<OrderStateGroup> GetOrderStateGroups(int ticketTypeId, int terminalId, int departmentId, int userRoleId, params int[] menuItemIds)
-        {
-            IEnumerable<OrderStateGroup> orderStates = OrderStateGroups.OrderBy(y => y.Order);
-            return menuItemIds.Aggregate(orderStates, (x, y) => InternalGetOrderStateGroups(ticketTypeId, terminalId, departmentId, userRoleId, y));
-        }
-
-        private IEnumerable<OrderStateGroup> InternalGetOrderStateGroups(int ticketTypeId, int terminalId, int departmentId, int userRoleId, int menuItemId)
-        {
-            var menuItem = GetMenuItem(x => x.Id == menuItemId);
-            var tgl = OrderStateGroups.ToList();
-            var maps = tgl.SelectMany(x => x.OrderStateMaps)
-                .Where(x => x.TicketTypeId == 0 || x.TicketTypeId == ticketTypeId)
-                .Where(x => x.TerminalId == 0 || x.TerminalId == terminalId)
-                .Where(x => x.DepartmentId == 0 || x.DepartmentId == departmentId)
-                .Where(x => x.UserRoleId == 0 || x.UserRoleId == userRoleId)
-                .Where(x => x.MenuItemGroupCode == null || x.MenuItemGroupCode == menuItem.GroupCode)
-                .Where(x => x.MenuItemId == 0 || x.MenuItemId == menuItemId);
-            return tgl.Where(x => maps.Any(y => y.OrderStateGroupId == x.Id)).OrderBy(x => x.Order);
-        }
-
         private IEnumerable<TicketTagGroup> _ticketTagGroups;
         public IEnumerable<TicketTagGroup> TicketTagGroups
         {
@@ -531,7 +505,6 @@ namespace Samba.Services.Implementations
             _changePaymentTypes = null;
             _documentTypes = null;
             _ticketTagGroups = null;
-            _orderStateGroups = null;
             _orderTagGroups = null;
             _productTimers = null;
             _menuItems = null;

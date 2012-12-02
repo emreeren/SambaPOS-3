@@ -62,11 +62,6 @@
       <DependentUpon>ProductTimerEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ProductTimerEditorViewModel.cs" />
-    <Compile Include="OrderStateButtonViewModel.cs" />
-    <Compile Include="OrderStateEditorView.xaml.cs">
-      <DependentUpon>OrderStateEditorView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="OrderStateEditorViewModel.cs" />
     <Compile Include="ModifierModule.cs" />
     <Compile Include="OrderTagButtonViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -92,10 +87,6 @@
     <Page Include="ProductTimerEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="OrderStateEditorView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="OrderTagGroupEditorView.xaml">
       <Generator>MSBuild:Compile</Generator>

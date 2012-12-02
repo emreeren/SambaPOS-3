@@ -10,7 +10,7 @@ using Samba.Presentation.Common;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Presentation.ViewModels;
-using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.ModifierModule
 {
@@ -30,13 +30,11 @@ namespace Samba.Modules.ModifierModule
         private readonly TicketNoteEditorViewModel _ticketNoteEditorViewModel;
         private readonly TicketTagEditorView _ticketTagEditorView;
         private readonly TicketTagEditorViewModel _ticketTagEditorViewModel;
-        private readonly OrderStateEditorView _orderStateEditorView;
 
         [ImportingConstructor]
         public ModifierModule(IRegionManager regionManager, IUserService userService,
             TicketNoteEditorView ticketNoteEditorView, TicketNoteEditorViewModel ticketNoteEditorViewModel,
             TicketTagEditorView ticketTagEditorView, TicketTagEditorViewModel ticketTagEditorViewModel,
-            OrderStateEditorView orderStateEditorView,
             OrderTagGroupEditorView selectedOrdersView, OrderTagGroupEditorViewModel selectedOrdersViewModel,
             AutomationCommandSelectorView automationCommandSelectorView, AutomationCommandSelectorViewModel automationCommandSelectorViewModel,
             ProductTimerEditorView productTimerEditorView, ProductTimerEditorViewModel productTimerEditorViewModel)
@@ -50,14 +48,12 @@ namespace Samba.Modules.ModifierModule
             _ticketNoteEditorViewModel = ticketNoteEditorViewModel;
             _ticketTagEditorView = ticketTagEditorView;
             _ticketTagEditorViewModel = ticketTagEditorViewModel;
-            _orderStateEditorView = orderStateEditorView;
 
             _regionManager = regionManager;
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<SelectedOrdersData>>().Subscribe(OnSelectedOrdersDataEvent);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnDisplayTicketDetailsScreen);
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketTagData>>().Subscribe(OnTicketTagDataSelected);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<OrderStateData>>().Subscribe(OnOrderStateDataSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<Ticket>>().Subscribe(OnTicketEvent);
             EventServiceFactory.EventService.GetEvent<GenericEvent<AutomationCommand>>().Subscribe(OnAutomationCommandEvent);
         }
@@ -67,14 +63,6 @@ namespace Samba.Modules.ModifierModule
             if(obj.Topic == EventTopicNames.SelectAutomationCommandValue)
             {
                 DisplayAutomationCommandValueSelector();
-            }
-        }
-
-        private void OnOrderStateDataSelected(EventParameters<OrderStateData> obj)
-        {
-            if (obj.Topic == EventTopicNames.SelectOrderState)
-            {
-                DisplayOrderStateEditor();
             }
         }
 
@@ -107,7 +95,6 @@ namespace Samba.Modules.ModifierModule
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(OrderTagGroupEditorView));
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(TicketNoteEditorView));
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(TicketTagEditorView));
-            _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(OrderStateEditorView));
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(ProductTimerEditorView));
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof (AutomationCommandSelectorView));
         }
@@ -131,11 +118,6 @@ namespace Samba.Modules.ModifierModule
         public void DisplayTicketTagEditor()
         {
             _regionManager.Regions[RegionNames.PosSubRegion].Activate(_ticketTagEditorView);
-        }
-
-        private void DisplayOrderStateEditor()
-        {
-            _regionManager.Regions[RegionNames.PosSubRegion].Activate(_orderStateEditorView);
         }
 
         private void DisplayProdcutTimerEdior(Order selectedOrder)

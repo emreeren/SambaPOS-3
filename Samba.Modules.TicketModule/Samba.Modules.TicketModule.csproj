@@ -88,12 +88,6 @@
       <DependentUpon>ChangePaymentTypeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ChangePaymentTypeViewModel.cs" />
-    <Compile Include="OrderStateMapViewModel.cs" />
-    <Compile Include="OrderStateGroupView.xaml.cs">
-      <DependentUpon>OrderStateGroupView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="OrderStateGroupViewModel.cs" />
-    <Compile Include="OrderStateViewModel.cs" />
     <Compile Include="OrderTagGroupView.xaml.cs">
       <DependentUpon>OrderTagGroupView.xaml</DependentUpon>
     </Compile>
@@ -131,10 +125,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ChangePaymentTypeView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="OrderStateGroupView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

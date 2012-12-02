@@ -95,7 +95,6 @@
         public const string PopupClicked = "Popup Clicked";
         public const string SelectTicketTag = "Select Ticket Tag";
         public const string TicketTagSelected = "Ticket Tag Selected";
-        public const string SelectOrderState = "Select Order State";
         public const string LogData = "Log Data";
         public const string ResetNumerator = "Reset Numerator";
         public const string WorkPeriodStatusChanged = "WorkPeriod Status Changed";
@@ -126,6 +125,7 @@
         public const string Activate = "Activate";
         public const string HandlerRequested = "HandlerRequested";
         public const string SelectAutomationCommandValue = "SelectAutomationCommandValue";
+        public const string FixSelectedOrders = "FixSelectedOrders";
     }
 
     public static class FunctionNames

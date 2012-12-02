@@ -1,6 +1,6 @@
 using Samba.Domain.Models.Tickets;
 
-namespace Samba.Services
+namespace Samba.Services.Common
 {
     public class TicketTagData
     {

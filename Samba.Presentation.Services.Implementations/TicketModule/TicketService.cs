@@ -15,6 +15,7 @@ using Samba.Persistance.DaoClasses;
 using Samba.Persistance.Data;
 using Samba.Presentation.Services.Common;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Presentation.Services.Implementations.TicketModule
 {
@@ -517,17 +518,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             }
         }
 
-        public void UpdateOrderStates(Ticket ticket, IEnumerable<Order> selectedOrders, OrderStateGroup orderStateGroup, OrderState orderState)
-        {
-            var so = selectedOrders.ToList();
-            var accountTransactionTypeIds = so.GroupBy(x => x.AccountTransactionTypeId).Select(x => x.Key).ToList();
-            so.ForEach(x => x.UpdateOrderState(orderStateGroup, orderState, _applicationState.CurrentLoggedInUser.Id));
-            accountTransactionTypeIds.Where(x => so.All(y => y.AccountTransactionTypeId != x)).ToList()
-                .ForEach(x => ticket.TransactionDocument.AccountTransactions.Where(y => y.AccountTransactionTypeId == x).ToList().ForEach(y => ticket.TransactionDocument.AccountTransactions.Remove(y)));
-            RefreshAccountTransactions(ticket);
-        }
-
-        public void UpdateOrderStates2(Ticket ticket, IList<Order> orders, string stateName, string currentState, int groupOrder, string state, int stateOrder,
+        public void UpdateOrderStates(Ticket ticket, IList<Order> orders, string stateName, string currentState, int groupOrder, string state, int stateOrder,
                                        string stateValue)
         {
             var so = orders.Where(x => string.IsNullOrEmpty(currentState) || x.IsInState(stateName, currentState)).ToList();
@@ -588,13 +579,6 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             _automationService.NotifyEvent(RuleEventNames.TicketLineAdded, new { Ticket = ticket, Order = order, order.MenuItemName });
 
             return order;
-        }
-
-        public IEnumerable<Order> ExtractSelectedOrders(Ticket model, IEnumerable<Order> selectedOrders)
-        {
-            var selectedItems = selectedOrders.Where(x => x.SelectedQuantity > 0 && x.SelectedQuantity < x.Quantity).ToList();
-            var newItems = model.ExtractSelectedOrders(selectedItems);
-            return newItems;
         }
     }
 }

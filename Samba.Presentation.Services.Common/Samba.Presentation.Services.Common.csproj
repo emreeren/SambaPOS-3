@@ -67,8 +67,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuleActionType.cs" />
     <Compile Include="RuleEvent.cs" />
-    <Compile Include="TicketStateData.cs" />
-    <Compile Include="TicketTagData.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">

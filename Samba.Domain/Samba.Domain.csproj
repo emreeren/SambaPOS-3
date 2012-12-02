@@ -106,9 +106,6 @@
     <Compile Include="Models\Automation\AppAction.cs" />
     <Compile Include="Models\Tickets\CalculationSelector.cs" />
     <Compile Include="Models\Tickets\CalculationSelectorMap.cs" />
-    <Compile Include="Models\Tickets\OrderState.cs" />
-    <Compile Include="Models\Tickets\OrderStateGroup.cs" />
-    <Compile Include="Models\Tickets\OrderStateMap.cs" />
     <Compile Include="Models\Tickets\OrderTagMap.cs" />
     <Compile Include="Models\Tickets\OrderTagTemplate.cs" />
     <Compile Include="Models\Tickets\OrderTagTemplateValue.cs" />

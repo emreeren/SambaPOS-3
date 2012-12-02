@@ -65,7 +65,7 @@ namespace Samba.Modules.PosModule
         public string TimerColor { get { return IsTimerVisible && Model.ProductTimerValue.IsActive ? "Blue" : "Gray"; } }
 
         public bool IsStateVisible { get { return !String.IsNullOrEmpty(State); } }
-        
+
         public string State { get { return Model.GetStateDesc(); } }
 
         public decimal SelectedQuantity { get { return Model.SelectedQuantity; } }
@@ -228,8 +228,7 @@ namespace Samba.Modules.PosModule
                 Selected = false;
                 ResetSelectedQuantity();
                 UpdateItemColor();
-                RaisePropertyChanged(() => Quantity);
-                RaisePropertyChanged(() => TotalPrice);
+                RefreshOrder();
             }
         }
 
@@ -237,13 +236,14 @@ namespace Samba.Modules.PosModule
         {
             _model.UpdatePortion(portion, priceTag, taxTemplate);
             RaisePropertyChanged(() => Description);
-            RaisePropertyChanged(() => TotalPrice);
+            RaisePropertyChanged(() => TotalPriceStr);
         }
 
         public void RefreshOrder()
         {
             RefreshProperties();
-            RaisePropertyChanged(() => TotalPrice);
+            RaisePropertyChanged(() => State);
+            RaisePropertyChanged(() => TotalPriceStr);
             RaisePropertyChanged(() => Quantity);
             RaisePropertyChanged(() => Description);
             RaisePropertyChanged(() => FontWeight);

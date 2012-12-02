@@ -25,7 +25,6 @@ namespace Samba.Presentation.Services
         void RecalculateTicket(Ticket ticket);
         void RegenerateTaxRates(Ticket ticket);
         void UpdateTag(Ticket ticket, TicketTagGroup tagGroup, TicketTag ticketTag);
-        IEnumerable<Order> ExtractSelectedOrders(Ticket model, IEnumerable<Order> selectedOrders);
         int GetOpenTicketCount();
         IEnumerable<OpenTicketData> GetOpenTickets(Expression<Func<Ticket, bool>> prediction);
         IEnumerable<OpenTicketData> GetOpenTickets(int resourceId);
@@ -41,8 +40,7 @@ namespace Samba.Presentation.Services
         OrderTagGroup GetMandantoryOrderTagGroup(Order order);
         bool CanCloseTicket(Ticket ticket);
         void RefreshAccountTransactions(Ticket ticket);
-        void UpdateOrderStates(Ticket ticket, IEnumerable<Order> selectedOrders, OrderStateGroup orderStateGroup, OrderState orderState);
-        void UpdateOrderStates2(Ticket ticket, IList<Order> orders, string stateName, string currentState, int groupOrder, string state, int stateOrder, string stateValue);
+        void UpdateOrderStates(Ticket ticket, IList<Order> orders, string stateName, string currentState, int groupOrder, string state, int stateOrder, string stateValue);
         void UpdateTicketState(Ticket ticket, string stateName,string currentState, string state, string stateValue, int quantity = 0);
         void ChangeOrdersAccountTransactionTypeId(Ticket ticket, IEnumerable<Order> selectedOrders, int accountTransactionTypeId);
         void AddAccountTransaction(Ticket ticket, Account sourceAccount, Account targetAccount, decimal amount, decimal exchangeRate);

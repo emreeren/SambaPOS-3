@@ -61,7 +61,6 @@
     <Compile Include="MapControllerView.xaml.cs">
       <DependentUpon>MapControllerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OrderStateData.cs" />
     <Compile Include="ResourceCustomDataEditor.xaml.cs">
       <DependentUpon>ResourceCustomDataEditor.xaml</DependentUpon>
     </Compile>
@@ -72,7 +71,6 @@
     <Compile Include="ServiceViewModel.cs" />
     <Compile Include="GenericRuleRegistator.cs" />
     <Compile Include="MenuItemPortionViewModel.cs" />
-    <Compile Include="OrderTagData.cs" />
     <Compile Include="PaymentViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScreenCategoryButton.cs" />

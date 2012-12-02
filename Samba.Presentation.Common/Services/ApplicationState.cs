@@ -203,15 +203,6 @@ namespace Samba.Presentation.Common.Services
                                                    menuItemIds);
         }
 
-        public IEnumerable<OrderStateGroup> GetOrderStateGroups(params int[] menuItemIds)
-        {
-            return _cacheService.GetOrderStateGroups(CurrentTicketType.Id,
-                                                     CurrentTerminal.Id,
-                                                     CurrentDepartment.Id,
-                                                     CurrentLoggedInUser.UserRole.Id,
-                                                     menuItemIds);
-        }
-
         public IEnumerable<AccountTransactionDocumentType> GetAccountTransactionDocumentTypes(int accountTypeId)
         {
             return _cacheService.GetAccountTransactionDocumentTypes(accountTypeId,

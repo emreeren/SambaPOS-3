@@ -95,7 +95,7 @@ namespace Samba.Modules.PosModule
             var selectedItems = SelectedOrderModels.Where(x => x.SelectedQuantity > 0 && x.SelectedQuantity < x.Quantity).ToList();
             if (selectedItems.Count > 0)
             {
-                var newItems = _ticketService.ExtractSelectedOrders(SelectedTicket, selectedItems);
+                var newItems = SelectedTicket.ExtractSelectedOrders(SelectedOrderModels);
                 _orders.ToList().ForEach(x => x.NotSelected());
                 foreach (var newItem in newItems)
                 {

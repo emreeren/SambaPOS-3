@@ -15,7 +15,6 @@ namespace Samba.Persistance.DaoClasses
         IEnumerable<MenuItem> GetMenuItems();
         IEnumerable<ProductTimer> GetProductTimers();
         IEnumerable<OrderTagGroup> GetOrderTagGroups();
-        IEnumerable<OrderStateGroup> GetOrderStateGroups();
         IEnumerable<AccountTransactionType> GetAccountTransactionTypes();
         IEnumerable<Resource> GetResources();
         IEnumerable<ResourceType> GetResourceTypes();

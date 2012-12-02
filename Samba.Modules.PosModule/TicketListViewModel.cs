@@ -11,6 +11,7 @@ using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.Services;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
+using Samba.Services.Common;
 
 namespace Samba.Modules.PosModule
 {

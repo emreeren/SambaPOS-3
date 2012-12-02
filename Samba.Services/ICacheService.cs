@@ -27,7 +27,6 @@ namespace Samba.Services
         ProductTimer GetProductTimer(int ticketTypeId, int terminalId, int departmentId, int userRoleId, int menuItemId);
         IEnumerable<OrderTagGroup> GetOrderTagGroups(int ticketTypeId, int terminalId, int departmentId, int userRoleId, params int[] menuItemIds);
         OrderTagGroup GetOrderTagGroupByName(string tagName);
-        IEnumerable<OrderStateGroup> GetOrderStateGroups(int ticketTypeId, int terminalId, int departmentId, int userRoleId, params int[] menuItemIds);
         IEnumerable<TicketTagGroup> GetTicketTagGroups(int ticketTypeId, int terminalId, int departmentId, int userRoleId);
         IEnumerable<string> GetTicketTagGroupNames();
         TicketTagGroup GetTicketTagGroupById(int id);

@@ -644,7 +644,7 @@ namespace Samba.Domain.Models.Tickets
         {
             var newItems = new List<Order>();
 
-            foreach (var order in selectedOrders)
+            foreach (var order in selectedOrders.Where(x => x.SelectedQuantity > 0 && x.SelectedQuantity < x.Quantity))
             {
                 Debug.Assert(order.SelectedQuantity > 0);
                 Debug.Assert(Orders.Contains(order));
@@ -721,5 +721,7 @@ namespace Samba.Domain.Models.Tickets
             if (!IsClosed) return;
             TransactionDocument.AccountTransactions.Where(x => x.Amount == 0).ToList().ForEach(x => TransactionDocument.AccountTransactions.Remove(x));
         }
+
+
     }
 }
