@@ -491,6 +491,8 @@ namespace Samba.Presentation.ViewModels
                         var stateValue = x.Value.GetAsString("StateValue");
                         var quantity = x.Value.GetAsInteger("Quantity");
                         TicketService.UpdateTicketState(ticket, stateName, currentState, state, stateValue, quantity);
+                        //ticket.PublishEvent(EventTopicNames.RefreshSelectedTicket);
+                        EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
                     }
                 }
 
@@ -507,6 +509,8 @@ namespace Samba.Presentation.ViewModels
                         var stateOrder = x.Value.GetAsInteger("StateOrder");
                         var stateValue = x.Value.GetAsString("StateValue");
                         TicketService.UpdateOrderStates(ticket, orders.ToList(), stateName, currentState, groupOrder, state, stateOrder, stateValue);
+                        //ticket.PublishEvent(EventTopicNames.RefreshSelectedTicket);
+                        EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
                     }
                 }
 
@@ -631,7 +635,7 @@ namespace Samba.Presentation.ViewModels
             });
         }
 
-        private static IEnumerable<Order> GetOrders(IActionData x, Ticket ticket)
+        private static IList<Order> GetOrders(IActionData x, Ticket ticket)
         {
             IList<Order> orders = new List<Order>();
             var selectedOrder = x.GetDataValue<Order>("Order");
@@ -639,9 +643,8 @@ namespace Samba.Presentation.ViewModels
             {
                 if (ticket != null)
                 {
-                    ticket.PublishEvent(EventTopicNames.FixSelectedOrders, true);
                     orders = ticket.Orders.Any(y => y.IsSelected)
-                                 ? ticket.Orders.Where(y => y.IsSelected).ToList()
+                                 ? ticket.ExtractSelectedOrders().ToList()
                                  : ticket.Orders;
                 }
             }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using System.Linq;
 using System.Windows.Controls;
 using Microsoft.Practices.Prism.Events;
 using Samba.Domain.Models.Tickets;
@@ -29,7 +30,7 @@ namespace Samba.Modules.PosModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(
                 x =>
                 {
-                    if (x.Topic == EventTopicNames.ActivatePosView && ((TicketOrdersViewModel)DataContext).SelectedOrderModels.Count == 0)
+                    if (x.Topic == EventTopicNames.ActivatePosView && !((TicketOrdersViewModel)DataContext).SelectedOrders.Any())
                         Scroller.ScrollToEnd();
                 });
         }

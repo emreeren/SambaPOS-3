@@ -123,8 +123,7 @@ namespace Samba.Modules.PosModule
         {
             if (obj.Topic == EventTopicNames.MoveSelectedOrders)
             {
-                _ticketOrdersViewModel.FixSelectedItems();
-                var newTicketId = _ticketService.MoveOrders(SelectedTicket, _ticketOrdersViewModel.SelectedOrderModels.ToArray(), 0).TicketId;
+                var newTicketId = _ticketService.MoveOrders(SelectedTicket, SelectedTicket.ExtractSelectedOrders().ToArray(), 0).TicketId;
                 SelectedTicket = null;
                 OpenTicket(newTicketId);
                 DisplaySingleTicket();
@@ -223,7 +222,7 @@ namespace Samba.Modules.PosModule
                     EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
                     break;
                 case EventTopicNames.ActivatePosView:
-                    if (_ticketService.CanDeselectOrders(_ticketOrdersViewModel.SelectedOrderModels))
+                    if (SelectedTicket == null || _ticketService.CanDeselectOrders(SelectedTicket.SelectedOrders))
                     {
                         DisplayTickets();
                         DisplayMenuScreen();

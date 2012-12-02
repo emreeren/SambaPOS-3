@@ -24,7 +24,6 @@ namespace Samba.Modules.PosModule
         }
 
         public IEnumerable<OrderViewModel> SelectedOrders { get { return Orders.Where(x => x.Selected); } }
-        public IList<Order> SelectedOrderModels { get { return SelectedOrders.Select(x => x.Model).ToList(); } }
 
         private ObservableCollection<OrderViewModel> _orders;
         public ObservableCollection<OrderViewModel> Orders
@@ -67,7 +66,7 @@ namespace Samba.Modules.PosModule
 
         public void CancelSelectedOrders()
         {
-            var selectedOrders = SelectedOrderModels;
+            var selectedOrders = SelectedTicket.SelectedOrders;
             ClearSelectedOrders();
             SelectedTicket.CancelOrders(selectedOrders);
             Orders.Clear();
@@ -80,28 +79,14 @@ namespace Samba.Modules.PosModule
             {
                 foreach (var item in Orders.Where(x => x.Selected))
                     item.NotSelected();
-                var so = new SelectedOrdersData { SelectedOrders = SelectedOrderModels, Ticket = SelectedTicket };
+                var so = new SelectedOrdersData { SelectedOrders = SelectedTicket.SelectedOrders, Ticket = SelectedTicket };
                 so.PublishEvent(EventTopicNames.SelectedOrdersChanged);
             }
         }
 
         public bool CanCancelSelectedOrders()
         {
-            return SelectedTicket.CanCancelSelectedOrders(SelectedOrderModels);
-        }
-
-        public void FixSelectedItems()
-        {
-            var selectedItems = SelectedOrderModels.Where(x => x.SelectedQuantity > 0 && x.SelectedQuantity < x.Quantity).ToList();
-            if (selectedItems.Count > 0)
-            {
-                var newItems = SelectedTicket.ExtractSelectedOrders(SelectedOrderModels);
-                _orders.ToList().ForEach(x => x.NotSelected());
-                foreach (var newItem in newItems)
-                {
-                    _orders.Add(new OrderViewModel(newItem) { Selected = true });
-                }
-            }
+            return SelectedTicket.CanCancelSelectedOrders(SelectedTicket.SelectedOrders);
         }
 
         public void Refresh()

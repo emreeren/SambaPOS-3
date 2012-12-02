@@ -405,7 +405,7 @@ namespace Samba.Domain.Models.Tickets
         public bool IsInState(string stateName, string state)
         {
             if (stateName == "*") return TicketStateValues.Any(x => x.State == state);
-            if (string.IsNullOrEmpty(state)) return !TicketStateValues.Any(x => x.StateName == stateName);
+            if (string.IsNullOrEmpty(state)) return TicketStateValues.All(x => x.StateName != stateName);
             return TicketStateValues.Any(x => x.StateName == stateName && x.State == state);
         }
 
@@ -615,7 +615,7 @@ namespace Samba.Domain.Models.Tickets
         {
             if (Orders.Count > 0)
             {
-                var transactionGroup = Orders.Where(x=>x.CalculatePrice).GroupBy(x => x.AccountTransactionTypeId);
+                var transactionGroup = Orders.Where(x => x.CalculatePrice).GroupBy(x => x.AccountTransactionTypeId);
                 foreach (var transactionItem in transactionGroup)
                 {
                     var t = transactionItem;
@@ -640,11 +640,24 @@ namespace Samba.Domain.Models.Tickets
             TotalAmount = GetSum();
         }
 
-        public IEnumerable<Order> ExtractSelectedOrders(IEnumerable<Order> selectedOrders)
+        public IEnumerable<Order> SelectedOrders { get { return Orders.Where(x => x.IsSelected); } }
+
+        public IEnumerable<Order> ExtractSelectedOrders()
+        {
+            if (Orders.Any(x => x.SelectedQuantity > 0 && x.SelectedQuantity < x.Quantity))
+            {
+                Orders.ToList().ForEach(x => x.IsSelected = false);
+                var newOrders = FixSelectedOrders();
+                newOrders.ToList().ForEach(x => x.IsSelected = true);
+            }
+            return SelectedOrders;
+        }
+
+        private IEnumerable<Order> FixSelectedOrders()
         {
             var newItems = new List<Order>();
 
-            foreach (var order in selectedOrders.Where(x => x.SelectedQuantity > 0 && x.SelectedQuantity < x.Quantity))
+            foreach (var order in Orders.Where(x => x.SelectedQuantity > 0 && x.SelectedQuantity < x.Quantity).ToList())
             {
                 Debug.Assert(order.SelectedQuantity > 0);
                 Debug.Assert(Orders.Contains(order));
@@ -653,6 +666,7 @@ namespace Samba.Domain.Models.Tickets
                 newItem.Id = 0;
                 newItem.Quantity = order.SelectedQuantity;
                 order.Quantity -= order.SelectedQuantity;
+                order.ResetSelectedQuantity();
                 newItems.Add(newItem);
             }
             return newItems;

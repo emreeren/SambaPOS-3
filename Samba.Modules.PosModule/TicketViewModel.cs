@@ -93,13 +93,13 @@ namespace Samba.Modules.PosModule
         private readonly TicketInfoViewModel _ticketInfo;
         public TicketInfoViewModel TicketInfo { get { return _ticketInfo; } }
 
-        public IList<Order> SelectedOrders { get { return _ticketOrdersViewModel.SelectedOrderModels; } }
+        public IEnumerable<Order> SelectedOrders { get { return SelectedTicket.SelectedOrders; } }
 
         public Order SelectedOrder
         {
             get
             {
-                return _ticketOrdersViewModel != null && SelectedOrders.Count == 1 ? SelectedOrders[0] : null;
+                return _ticketOrdersViewModel != null && SelectedOrders.Count() == 1 ? SelectedOrders.ElementAt(0) : null;
             }
         }
 
@@ -188,10 +188,10 @@ namespace Samba.Modules.PosModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnRefreshTicket);
             EventServiceFactory.EventService.GetEvent<GenericEvent<PopupData>>().Subscribe(OnAccountSelectedFromPopup);
             EventServiceFactory.EventService.GetEvent<GenericEvent<OrderTagData>>().Subscribe(OnOrderTagEvent);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<Ticket>>().Subscribe(OnTicketEvent);
             EventServiceFactory.EventService.GetEvent<GenericEvent<MenuItemPortion>>().Subscribe(OnPortionSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<Department>>().Subscribe(OnDepartmentChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<AutomationCommandValueData>>().Subscribe(OnAutomationCommandValueSelected);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<Ticket>>().Subscribe(OnTicketEvent);
 
             SelectedTicket = Ticket.Empty;
         }
@@ -209,10 +209,10 @@ namespace Samba.Modules.PosModule
             else
             {
                 _automationService.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new { Ticket = SelectedTicket, AutomationCommandName = obj.Name, Value = obj.SelectedValue });
-                _ticketOrdersViewModel.RefreshSelectedOrders();
-                ClearSelectedItems();
-                ClearSelection = true;
-                RefreshVisuals();
+                //_ticketOrdersViewModel.RefreshSelectedOrders();
+                //ClearSelectedItems();
+                //ClearSelection = true;
+                //RefreshVisuals();
             }
         }
 
@@ -258,31 +258,32 @@ namespace Samba.Modules.PosModule
             }
         }
 
+        private void OnTicketEvent(EventParameters<Ticket> obj)
+        {
+            if (obj.Topic == EventTopicNames.RefreshSelectedTicket)
+            {
+                _ticketOrdersViewModel.SelectedTicket = SelectedTicket;
+                ClearSelection = true;
+                RefreshVisuals();
+            }
+        }
+
         private void OnOrderTagEvent(EventParameters<OrderTagData> obj)
         {
             if (obj.Topic == EventTopicNames.OrderTagSelected)
             {
-                _ticketOrdersViewModel.FixSelectedItems();
-                _ticketService.TagOrders(SelectedTicket, _ticketOrdersViewModel.SelectedOrderModels, obj.Value.OrderTagGroup, obj.Value.SelectedOrderTag, "");
-                _ticketOrdersViewModel.RefreshSelectedOrders();
+                _ticketService.TagOrders(SelectedTicket, SelectedTicket.ExtractSelectedOrders(), obj.Value.OrderTagGroup, obj.Value.SelectedOrderTag, "");
+                _ticketOrdersViewModel.SelectedTicket = SelectedTicket;
                 ClearSelection = true;
                 RefreshVisuals();
             }
 
             if (obj.Topic == EventTopicNames.OrderTagRemoved)
             {
-                _ticketService.UntagOrders(SelectedTicket, _ticketOrdersViewModel.SelectedOrderModels, obj.Value.OrderTagGroup,
+                _ticketService.UntagOrders(SelectedTicket, SelectedTicket.ExtractSelectedOrders(), obj.Value.OrderTagGroup,
                                            obj.Value.SelectedOrderTag);
                 _ticketOrdersViewModel.RefreshSelectedOrders();
                 RefreshVisuals();
-            }
-        }
-
-        private void OnTicketEvent(EventParameters<Ticket> obj)
-        {
-            if (obj.Topic == EventTopicNames.FixSelectedOrders)
-            {
-                _ticketOrdersViewModel.FixSelectedItems();
             }
         }
 
