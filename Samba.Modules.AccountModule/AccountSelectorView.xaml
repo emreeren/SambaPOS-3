@@ -17,8 +17,9 @@
 		<ItemsControl ItemsSource="{Binding AccountButtons}" Background="LightGray" Grid.ColumnSpan="2">
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<FlexButton:FlexButton Margin="2" Content="{Binding Caption}" Command="{Binding DataContext.AccountButtonSelectedCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
-							 CommandParameter="{Binding Model}" ButtonColor="{Binding ButtonColor}"/>
+					<FlexButton:FlexButton Margin="2" Content="{Binding Caption}" FontSize="26"
+                                           Command="{Binding DataContext.AccountButtonSelectedCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
+                                           CommandParameter="{Binding Model}" ButtonColor="{Binding ButtonColor}"/>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 			<ItemsControl.ItemsPanel>
