@@ -121,6 +121,7 @@
     <Compile Include="PrinterModule\ValueChangers\Helper.cs" />
     <Compile Include="PrinterModule\ValueChangers\HumanFriendlyInteger.cs" />
     <Compile Include="PrinterModule\ValueChangers\IValueChanger.cs" />
+    <Compile Include="PrinterModule\ValueChangers\OrderStateValueChanger.cs" />
     <Compile Include="PrinterModule\ValueChangers\OrderTagValueChanger.cs" />
     <Compile Include="PrinterModule\ValueChangers\OrderValueChanger.cs" />
     <Compile Include="PrinterModule\ValueChangers\PaymentValueChanger.cs" />

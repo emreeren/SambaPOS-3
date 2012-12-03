@@ -357,7 +357,7 @@ namespace Samba.Domain.Models.Tickets
         public void UpdateCalculationTransaction(Calculation calculation, decimal amount)
         {
             TransactionDocument.UpdateSingletonTransactionAmount(calculation.AccountTransactionTypeId, calculation.Name, amount, ExchangeRate);
-            if (amount == 0)
+            if (amount == 0 && TransactionDocument.AccountTransactions.Any(x => x.AccountTransactionTypeId == calculation.AccountTransactionTypeId))
             {
                 TransactionDocument.AccountTransactions.Remove(
                     TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == calculation.AccountTransactionTypeId));
@@ -707,7 +707,7 @@ namespace Samba.Domain.Models.Tickets
 
         public decimal GetOrderStateTotal(string s)
         {
-            return Orders.Where(x => x.OrderStateGroupName == s).Sum(x => x.GetItemValue());
+            return Orders.Where(x => x.IsInState("*", s)).Sum(x => x.GetItemValue());
         }
 
         public decimal GetActiveTimerAmount()
@@ -736,6 +736,10 @@ namespace Samba.Domain.Models.Tickets
             TransactionDocument.AccountTransactions.Where(x => x.Amount == 0).ToList().ForEach(x => TransactionDocument.AccountTransactions.Remove(x));
         }
 
-
+        public string GetStateStr(string s)
+        {
+            var sv = GetStateValue(s);
+            return sv != null ? sv.State : "";
+        }
     }
 }

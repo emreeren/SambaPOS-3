@@ -191,7 +191,6 @@ namespace Samba.Modules.PosModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<MenuItemPortion>>().Subscribe(OnPortionSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<Department>>().Subscribe(OnDepartmentChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<AutomationCommandValueData>>().Subscribe(OnAutomationCommandValueSelected);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<Ticket>>().Subscribe(OnTicketEvent);
 
             SelectedTicket = Ticket.Empty;
         }
@@ -209,20 +208,21 @@ namespace Samba.Modules.PosModule
             else
             {
                 _automationService.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new { Ticket = SelectedTicket, AutomationCommandName = obj.Name, Value = obj.SelectedValue });
-                //_ticketOrdersViewModel.RefreshSelectedOrders();
-                //ClearSelectedItems();
-                //ClearSelection = true;
-                //RefreshVisuals();
+                _ticketOrdersViewModel.SelectedTicket = SelectedTicket;
+                ClearSelectedItems();
+                ClearSelection = true;
+                RefreshVisuals();
+                EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
             }
         }
 
         private void OnAutomationCommandValueSelected(EventParameters<AutomationCommandValueData> obj)
         {
             _automationService.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new { Ticket = SelectedTicket, AutomationCommandName = obj.Value.AutomationCommand.Name, obj.Value.Value });
-            _ticketOrdersViewModel.RefreshSelectedOrders();
+            _ticketOrdersViewModel.SelectedTicket = SelectedTicket;
             ClearSelectedItems();
             ClearSelection = true;
-            RefreshVisuals();
+            EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
         }
 
         private void OnDepartmentChanged(EventParameters<Department> obj)
@@ -255,16 +255,6 @@ namespace Samba.Modules.PosModule
             {
                 var taxTemplate = _cacheService.GetMenuItem(x => x.Id == obj.Value.MenuItemId).TaxTemplate;
                 SelectedOrder.UpdatePortion(obj.Value, _applicationState.CurrentDepartment.PriceTag, taxTemplate);
-            }
-        }
-
-        private void OnTicketEvent(EventParameters<Ticket> obj)
-        {
-            if (obj.Topic == EventTopicNames.RefreshSelectedTicket)
-            {
-                _ticketOrdersViewModel.SelectedTicket = SelectedTicket;
-                ClearSelection = true;
-                RefreshVisuals();
             }
         }
 

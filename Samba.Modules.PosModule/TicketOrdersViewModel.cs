@@ -21,11 +21,13 @@ namespace Samba.Modules.PosModule
         {
             _ticketService = ticketService;
             _orders = new ObservableCollection<OrderViewModel>();
+            _itemsViewSource = new CollectionViewSource { Source = _orders };
+            _itemsViewSource.GroupDescriptions.Add(new PropertyGroupDescription("GroupObject"));
         }
 
         public IEnumerable<OrderViewModel> SelectedOrders { get { return Orders.Where(x => x.Selected); } }
 
-        private ObservableCollection<OrderViewModel> _orders;
+        private readonly ObservableCollection<OrderViewModel> _orders;
         public ObservableCollection<OrderViewModel> Orders
         {
             get { return _orders; }
@@ -55,11 +57,9 @@ namespace Samba.Modules.PosModule
             set
             {
                 _selectedTicket = value;
-                _orders = new ObservableCollection<OrderViewModel>(_selectedTicket.Orders.Select(x => new OrderViewModel(x)).OrderBy(x => x.Model.CreatedDateTime).ThenBy(x => x.OrderNumber).ThenBy(x => x.OrderKey).ThenBy(x => x.Model.Id));
-                _itemsViewSource = new CollectionViewSource { Source = _orders };
-                _itemsViewSource.GroupDescriptions.Add(new PropertyGroupDescription("GroupObject"));
+                _orders.Clear();
+                _orders.AddRange(_selectedTicket.Orders.Select(x => new OrderViewModel(x)).OrderBy(x => x.Model.CreatedDateTime).ThenBy(x => x.OrderNumber).ThenBy(x => x.OrderKey).ThenBy(x => x.Model.Id));
                 RaisePropertyChanged(() => SelectedTicket);
-                RaisePropertyChanged(() => ItemsViewSource);
                 Refresh();
             }
         }

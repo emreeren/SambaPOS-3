@@ -7,6 +7,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
     public class OrderValueChanger : AbstractValueChanger<Order>
     {
         private static readonly OrderTagValueChanger OrderTagValueChanger = new OrderTagValueChanger();
+        private static readonly OrderStateValueChanger OrderStateValueChanger = new OrderStateValueChanger();
 
         public override string GetTargetTag()
         {
@@ -15,25 +16,21 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
         protected override bool FilterMatch(Order model, string key)
         {
-            if (key.Contains("_"))
+            if (key.Contains("="))
             {
-                var parts = key.Split('_');
+                var parts = key.Split('=');
                 if (parts.Count() == 2)
                 {
-                    return model.OrderTagExists(x => x.TagName == parts[0] && x.TagValue == parts[1]);
+                    return model.IsInState(parts[0], parts[1]);
                 }
             }
-            return model.OrderTagExists(x => x.TagValue.ToLower() == key.ToLower());
-        }
-
-        protected override string GetModelName(Order model)
-        {
-            return model.OrderStateGroupName;
+            return model.IsInState("*", key);
         }
 
         protected override string ReplaceTemplateValues(string templatePart, Order model, PrinterTemplate template)
         {
-            return OrderTagValueChanger.Replace(template, templatePart, model.GetOrderTagValues());
+            var result = OrderStateValueChanger.Replace(template, templatePart, model.GetOrderStateValues());
+            return OrderTagValueChanger.Replace(template, result, model.GetOrderTagValues());
         }
 
         protected override decimal GetSumSelector(Order x)
@@ -51,12 +48,12 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
                     var r = arg.GetOrderTagValue(parts[1]);
                     return new GroupingKey { Key = r.OrderKey, Name = r.TagValue };
                 }
+                if (parts[0] == "ORDER STATE")
+                {
+                    var r = arg.GetStateValue(parts[1]);
+                    return new GroupingKey { Key = r.OrderKey, Name = r.StateValue };
+                }
             }
-            else if (switchValue == "ORDER STATE")
-            {
-                return new GroupingKey { Name = arg.OrderStateGroupName ?? "", Key = arg.OrderStateGroupName ?? "" };
-            }
-
             return base.GetGroupSelector(arg, switchValue);
         }
 

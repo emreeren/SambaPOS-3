@@ -60,9 +60,6 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
                                                     x.TaxIncluded,
                                                     x.PortionName,
                                                     x.PortionCount,
-                                                    x.OrderState,
-                                                    x.OrderStateGroupName,
-                                                    x.OrderStateGroupId,
                                                     x.OrderKey
                                                 });
 
@@ -83,10 +80,8 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
                                         TicketId = x.Last().TicketId,
                                         PortionName = x.Key.PortionName,
                                         PortionCount = x.Key.PortionCount,
-                                        OrderState = x.Key.OrderState,
-                                        OrderStateGroupName = x.Key.OrderStateGroupName,
-                                        OrderStateGroupId = x.Key.OrderStateGroupId,
                                         OrderTags = JsonHelper.Serialize(x.SelectMany(y => y.GetOrderTagValues()).Distinct(OrderTagValueComparer).ToList()),
+                                        OrderStates = JsonHelper.Serialize(x.SelectMany(y => y.GetOrderStateValues()).Distinct().ToList()),
                                         Quantity = x.Sum(y => y.Quantity)
                                     });
 

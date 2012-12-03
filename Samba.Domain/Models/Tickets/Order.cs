@@ -31,10 +31,6 @@ namespace Samba.Domain.Models.Tickets
         public bool CalculatePrice { get; set; }
         public bool DecreaseInventory { get; set; }
         public bool IncreaseInventory { get; set; }
-        public int OrderStateGroupId { get; set; }
-        public string OrderStateGroupName { get; set; }
-        public string OrderState { get; set; }
-        public int OrderStateUserId { get; set; }
         public int OrderNumber { get; set; }
         public string CreatingUserName { get; set; }
         public DateTime CreatedDateTime { get; set; }
@@ -441,13 +437,18 @@ namespace Samba.Domain.Models.Tickets
         public bool IsInState(string stateName, string state)
         {
             if (stateName == "*") return OrderStateValues.Any(x => x.State == state);
-            if (string.IsNullOrEmpty(state)) return !OrderStateValues.Any(x => x.StateName == stateName);
+            if (string.IsNullOrEmpty(state)) return OrderStateValues.All(x => x.StateName != stateName);
             return OrderStateValues.Any(x => x.StateName == stateName && x.State == state);
         }
 
         public bool IsInState(string stateValue)
         {
             return OrderStateValues.Any(x => x.StateValue == stateValue);
+        }
+
+        public IEnumerable<OrderStateValue> GetOrderStateValues()
+        {
+            return OrderStateValues;
         }
     }
 }

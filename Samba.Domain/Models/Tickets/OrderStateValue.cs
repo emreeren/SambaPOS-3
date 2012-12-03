@@ -1,9 +1,10 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace Samba.Domain.Models.Tickets
 {
     [DataContract]
-    public class OrderStateValue
+    public class OrderStateValue : IEquatable<OrderStateValue>
     {
         [DataMember(Name = "SN")]
         public string StateName { get; set; }
@@ -18,6 +19,23 @@ namespace Samba.Domain.Models.Tickets
         public static OrderStateValue Default
         {
             get { return _default ?? (_default = new OrderStateValue()); }
+        }
+
+        public bool Equals(OrderStateValue other)
+        {
+            if (other == null) return false;
+            return other.State == State && other.StateName == StateName;
+        }
+
+        public override int GetHashCode()
+        {
+            return (StateName + "_" + StateValue).GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            var item = obj as OrderStateValue;
+            return item != null && Equals(item);
         }
     }
 }

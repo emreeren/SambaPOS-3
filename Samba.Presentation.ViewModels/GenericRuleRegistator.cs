@@ -491,8 +491,6 @@ namespace Samba.Presentation.ViewModels
                         var stateValue = x.Value.GetAsString("StateValue");
                         var quantity = x.Value.GetAsInteger("Quantity");
                         TicketService.UpdateTicketState(ticket, stateName, currentState, state, stateValue, quantity);
-                        //ticket.PublishEvent(EventTopicNames.RefreshSelectedTicket);
-                        EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
                     }
                 }
 
@@ -509,8 +507,6 @@ namespace Samba.Presentation.ViewModels
                         var stateOrder = x.Value.GetAsInteger("StateOrder");
                         var stateValue = x.Value.GetAsString("StateValue");
                         TicketService.UpdateOrderStates(ticket, orders.ToList(), stateName, currentState, groupOrder, state, stateOrder, stateValue);
-                        //ticket.PublishEvent(EventTopicNames.RefreshSelectedTicket);
-                        EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
                     }
                 }
 
