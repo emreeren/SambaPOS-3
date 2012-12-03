@@ -20,7 +20,7 @@ namespace Samba.Persistance.DaoClasses
         IEnumerable<ResourceType> GetResourceTypes();
         IEnumerable<AccountType> GetAccountTypes();
         IEnumerable<AccountTransactionDocumentType> GetAccountTransactionDocumentTypes();
-        IEnumerable<ResourceState> GetResourceStates();
+        IEnumerable<State> GetResourceStates();
         IEnumerable<PrintJob> GetPrintJobs();
         IEnumerable<PaymentType> GetPaymentTypes();
         IEnumerable<ChangePaymentType> GetChangePaymentTypes();

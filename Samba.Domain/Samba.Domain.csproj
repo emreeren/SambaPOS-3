@@ -95,7 +95,7 @@
     <Compile Include="Models\Resources\Widget.cs" />
     <Compile Include="Models\Resources\ResourceCustomField.cs" />
     <Compile Include="Models\Resources\ResourceStateValue.cs" />
-    <Compile Include="Models\Resources\ResourceState.cs" />
+    <Compile Include="Models\Settings\State.cs" />
     <Compile Include="Models\Resources\ResourceType.cs" />
     <Compile Include="Models\Accounts\AccountTransaction.cs" />
     <Compile Include="Models\Accounts\AccountTransactionDocument.cs" />

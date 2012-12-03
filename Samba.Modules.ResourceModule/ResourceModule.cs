@@ -2,6 +2,7 @@
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Regions;
 using Samba.Domain.Models.Resources;
+using Samba.Domain.Models.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
@@ -33,7 +34,6 @@ namespace Samba.Modules.ResourceModule
 
             AddDashboardCommand<EntityCollectionViewModelBase<ResourceTypeViewModel, ResourceType>>(Resources.ResourceType.ToPlural(), Resources.Resourceses, 40);
             AddDashboardCommand<EntityCollectionViewModelBase<ResourceViewModel, Resource>>(Resources.Resource.ToPlural(), Resources.Resourceses, 40);
-            AddDashboardCommand<EntityCollectionViewModelBase<ResourceStateViewModel, ResourceState>>(Resources.ResourceState.ToPlural(), Resources.Resourceses, 40);
             AddDashboardCommand<EntityCollectionViewModelBase<ResourceScreenViewModel, ResourceScreen>>(Resources.ResourceScreen.ToPlural(), Resources.Resourceses, 41);
         }
 

@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using FluentValidation;
 using Samba.Domain.Models.Resources;
+using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
@@ -55,10 +56,10 @@ namespace Samba.Modules.ResourceModule
             get { return _resourceTypes ?? (_resourceTypes = Workspace.All<ResourceType>()); }
         }
 
-        private IEnumerable<ResourceState> _resourceStates;
-        public IEnumerable<ResourceState> ResourceStates
+        private IEnumerable<State> _resourceStates;
+        public IEnumerable<State> ResourceStates
         {
-            get { return _resourceStates ?? (_resourceStates = Workspace.All<ResourceState>()); }
+            get { return _resourceStates ?? (_resourceStates = Workspace.All<State>()); }
         }
 
         private bool CanSelectScreenItems(string arg)

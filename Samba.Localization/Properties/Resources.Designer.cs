@@ -6243,6 +6243,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} State.
+        /// </summary>
+        public static string State_f {
+            get {
+                return ResourceManager.GetString("State_f", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to State Controller.
         /// </summary>
         public static string StateController {
@@ -6266,6 +6275,15 @@ namespace Samba.Localization.Properties {
         public static string StateFilter {
             get {
                 return ResourceManager.GetString("StateFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to State Type.
+        /// </summary>
+        public static string StateType {
+            get {
+                return ResourceManager.GetString("StateType", resourceCulture);
             }
         }
         

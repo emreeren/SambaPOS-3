@@ -32,6 +32,11 @@ namespace Samba.Infrastructure.Data.SQL
             return _context.ReadOnly<T>().Select(expression).Distinct().Where(x => !string.IsNullOrEmpty(x)).ToList();
         }
 
+        public IEnumerable<string> Distinct<T>(Expression<Func<T, string>> expression, Expression<Func<T, bool>> prediction) where T : class
+        {
+            return _context.ReadOnly<T>().Where(prediction).Select(expression).Distinct().Where(x => !string.IsNullOrEmpty(x)).ToList();
+        }
+
         public T Single<T>(Expression<Func<T, bool>> predictate, params Expression<Func<T, object>>[] includes) where T : class
         {
             return includes.Aggregate(_context.ReadOnly<T>(), (current, include) => current.Include(include)).SingleOrDefault(predictate);

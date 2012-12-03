@@ -99,7 +99,7 @@ namespace Samba.Persistance.Data
         public DbSet<ResourceScreenItem> ResourceScreenItems { get; set; }
         public DbSet<ResourceScreen> ResourceScreens { get; set; }
         public DbSet<Widget> Widgets { get; set; }
-        public DbSet<ResourceState> ResourceStates { get; set; }
+        public DbSet<State> States { get; set; }
         public DbSet<ResourceStateValue> ResourceStateValues { get; set; }
         public DbSet<Script> Scripts { get; set; }
         public DbSet<TaskType> TaskTypes { get; set; }

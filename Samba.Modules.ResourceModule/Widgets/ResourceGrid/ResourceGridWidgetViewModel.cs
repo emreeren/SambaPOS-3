@@ -40,7 +40,7 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceGrid
         protected override void BeforeEditSettings()
         {
             _resourceScreen = null;
-            Settings.StateFilterNameValue.UpdateValues(_cacheService.GetResourceStates().Select(x => x.Name));
+            Settings.StateFilterNameValue.UpdateValues(_cacheService.GetStates(0).Select(x => x.Name));
         }
 
         private ResourceScreen _resourceScreen;

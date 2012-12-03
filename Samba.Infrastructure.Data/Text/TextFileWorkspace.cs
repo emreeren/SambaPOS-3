@@ -211,6 +211,11 @@ namespace Samba.Infrastructure.Data.Text
             return _storage.GetItems<T>().Select(expression.Compile()).Distinct().Where(x => !string.IsNullOrEmpty(x)).ToList();
         }
 
+        public IEnumerable<string> Distinct<T>(Expression<Func<T, string>> expression, Expression<Func<T, bool>> prediction) where T : class
+        {
+            return _storage.GetItems<T>().Where(prediction.Compile()).Select(expression.Compile()).Distinct().Where(x => !string.IsNullOrEmpty(x)).ToList();
+        }
+
         public TResult Single<TSource, TResult>(int id, Expression<Func<TSource, TResult>> expression) where TSource : class, IEntity
         {
             return _storage.GetItems<TSource>().Where(x => x.Id == id).Select(expression.Compile()).SingleOrDefault();

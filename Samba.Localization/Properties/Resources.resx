@@ -3017,4 +3017,10 @@ Error Message:
   <data name="DisplayState">
     <value xml:space="preserve">Display State</value>
   </data>
+  <data name="State_f">
+    <value xml:space="preserve">{0} State</value>
+  </data>
+  <data name="StateType">
+    <value xml:space="preserve">State Type</value>
+  </data>
 </root>

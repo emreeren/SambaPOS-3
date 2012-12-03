@@ -76,6 +76,14 @@ namespace Samba.Persistance.Data
             }
         }
 
+        public static IEnumerable<string> Distinct<T>(Expression<Func<T, string>> expression, Expression<Func<T, bool>> prediction) where T : class
+        {
+            using (var workspace = WorkspaceFactory.CreateReadOnly())
+            {
+                return workspace.Distinct(expression,prediction).ToList();
+            }
+        }
+
         public static IEnumerable<T> Query<T>(ISpecification<T> specification, params Expression<Func<T, object>>[] includes) where T : class
         {
             return Query(specification.SatisfiedBy());

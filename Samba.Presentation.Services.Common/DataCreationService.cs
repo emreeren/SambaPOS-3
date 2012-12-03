@@ -53,7 +53,7 @@ namespace Samba.Presentation.Services.Common
 
             var customerResourceType = new ResourceType { Name = Resources.Customers, EntityName = Resources.Customer, AccountTypeId = customerAccountType.Id };
             customerResourceType.ResoruceCustomFields.Add(new ResourceCustomField { EditingFormat = "(###) ### ####", FieldType = 0, Name = Resources.Phone });
-            customerResourceType.AccountNameTemplate = "[Name]-[Phone]";
+            customerResourceType.AccountNameTemplate = "[Name]-[" + Resources.Phone + "]";
             var tableResourceType = new ResourceType { Name = Resources.Tables, EntityName = Resources.Table };
 
             _workspace.Add(customerResourceType);
@@ -359,13 +359,13 @@ namespace Samba.Presentation.Services.Common
             _workspace.Add(pj2);
             _workspace.Add(t);
 
-            var newOrderState = new ResourceState { Name = Resources.NewOrders, Color = "Orange" };
+            var newOrderState = new State { Name = Resources.NewOrders, Color = "Orange", GroupName = "Status" };
             _workspace.Add(newOrderState);
 
-            var availableState = new ResourceState { Name = "Available", Color = "White" };
+            var availableState = new State { Name = "Available", Color = "White", GroupName = "Status" };
             _workspace.Add(availableState);
 
-            var billRequestedState = new ResourceState { Name = "Bill Requested", Color = "Maroon" };
+            var billRequestedState = new State { Name = "Bill Requested", Color = "Maroon", GroupName = "Status" };
             _workspace.Add(billRequestedState);
 
             var updateOrderAction = new AppAction
@@ -394,7 +394,7 @@ namespace Samba.Presentation.Services.Common
                                                   };
             _workspace.Add(updateOrderGiftStatusAction);
 
-            var updateResourceStateAction = new AppAction { ActionType = ActionNames.UpdateResourceState, Name = "Update Resource State", Parameter = Params().Add("StateName", "Status").Add("State", "[:Status]").ToString() };
+            var updateResourceStateAction = new AppAction { ActionType = ActionNames.UpdateResourceState, Name = "Update Resource State", Parameter = Params().Add("ResourceStateName", "Status").Add("ResourceState", "[:Status]").ToString() };
             _workspace.Add(updateResourceStateAction);
 
             var createTicketAction = new AppAction { ActionType = ActionNames.CreateTicket, Name = string.Format(Resources.Create_f, Resources.Ticket), Parameter = "" };

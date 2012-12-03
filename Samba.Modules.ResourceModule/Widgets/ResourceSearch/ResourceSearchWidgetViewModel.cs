@@ -43,7 +43,7 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceSearch
         protected override void BeforeEditSettings()
         {
             Settings.ResourceTypeNameValue.UpdateValues(_cacheService.GetResourceTypes().Select(x => x.EntityName));
-            Settings.StateFilterNameValue.UpdateValues(_cacheService.GetResourceStates().Select(x => x.Name));
+            Settings.StateFilterNameValue.UpdateValues(_cacheService.GetStates(0).Select(x => x.Name));
         }
 
         public override void Refresh()

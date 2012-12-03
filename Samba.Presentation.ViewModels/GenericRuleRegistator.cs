@@ -83,7 +83,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType(ActionNames.DisplayPaymentScreen, Resources.DisplayPaymentScreen);
             AutomationService.RegisterActionType(ActionNames.ExecutePowershellScript, Resources.ExecutePowershellScript, new { Script = "" });
             AutomationService.RegisterActionType(ActionNames.ExecuteScript, Resources.ExecuteScript, new { ScriptName = "" });
-            AutomationService.RegisterActionType(ActionNames.UpdateResourceState, Resources.UpdateResourceState, new { ResourceTypeName = "", StateName = "", CurrentState = "", State = "" });
+            AutomationService.RegisterActionType(ActionNames.UpdateResourceState, Resources.UpdateResourceState, new { ResourceTypeName = "", ResourceStateName = "", CurrentState = "", ResourceState = "" });
             AutomationService.RegisterActionType(ActionNames.UpdateTicketState, Resources.UpdateTicketState, new { StateName = "", CurrentState = "", State = "", StateValue = "", Quantity = 0 });
             AutomationService.RegisterActionType(ActionNames.UpdateOrderState, Resources.UpdateOrderState, new { StateName = "", GroupOrder = 0, CurrentState = "", State = "", StateOrder = 0, StateValue = "" });
         }
@@ -132,7 +132,14 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterParameterSoruce("CalculationType", () => Dao.Distinct<CalculationType>(x => x.Name));
             AutomationService.RegisterParameterSoruce("TagName", () => Dao.Distinct<TicketTagGroup>(x => x.Name));
             AutomationService.RegisterParameterSoruce("OrderTagName", () => Dao.Distinct<OrderTagGroup>(x => x.Name));
-            AutomationService.RegisterParameterSoruce("ResourceState", () => Dao.Distinct<ResourceState>(x => x.Name));
+            AutomationService.RegisterParameterSoruce("State", () => Dao.Distinct<State>(x => x.Name));
+            AutomationService.RegisterParameterSoruce("ResourceState", () => Dao.Distinct<State>(x => x.Name, x => x.StateType == 0));
+            AutomationService.RegisterParameterSoruce("TicketState", () => Dao.Distinct<State>(x => x.Name, x => x.StateType == 1));
+            AutomationService.RegisterParameterSoruce("OrderState", () => Dao.Distinct<State>(x => x.Name, x => x.StateType == 2));
+            AutomationService.RegisterParameterSoruce("StateName", () => Dao.Distinct<State>(x => x.GroupName));
+            AutomationService.RegisterParameterSoruce("ResourceStateName", () => Dao.Distinct<State>(x => x.GroupName, x => x.StateType == 0));
+            AutomationService.RegisterParameterSoruce("TicketStateName", () => Dao.Distinct<State>(x => x.GroupName, x => x.StateType == 1));
+            AutomationService.RegisterParameterSoruce("OrderStateName", () => Dao.Distinct<State>(x => x.GroupName, x => x.StateType == 2));
             AutomationService.RegisterParameterSoruce("ResourceTypeName", () => Dao.Distinct<ResourceType>(x => x.EntityName));
             AutomationService.RegisterParameterSoruce("AutomationCommandName", () => Dao.Distinct<AutomationCommand>(x => x.Name));
             AutomationService.RegisterParameterSoruce("PrintJobName", () => Dao.Distinct<PrintJob>(x => x.Name));
@@ -294,8 +301,8 @@ namespace Samba.Presentation.ViewModels
 
                     var resourceId = x.Value.GetDataValueAsInt("ResourceId");
                     var resourceTypeId = x.Value.GetDataValueAsInt("ResourceTypeId");
-                    var stateName = x.Value.GetAsString("StateName");
-                    var state = x.Value.GetAsString("State");
+                    var stateName = x.Value.GetAsString("ResourceStateName");
+                    var state = x.Value.GetAsString("ResourceState");
                     if (state != null)
                     {
                         if (resourceId > 0 && resourceTypeId > 0)

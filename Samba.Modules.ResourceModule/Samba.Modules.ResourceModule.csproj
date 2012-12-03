@@ -87,10 +87,6 @@
       <DependentUpon>ResourceTypeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ResourceTypeViewModel.cs" />
-    <Compile Include="ResourceStateView.xaml.cs">
-      <DependentUpon>ResourceStateView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ResourceStateViewModel.cs" />
     <Compile Include="ResourceScreenView.xaml.cs">
       <DependentUpon>ResourceScreenView.xaml</DependentUpon>
     </Compile>
@@ -133,10 +129,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ResourceTypeView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ResourceStateView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

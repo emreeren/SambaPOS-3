@@ -70,9 +70,9 @@ namespace Samba.Persistance.DaoClasses.Implementations
             return Dao.Query<AccountTransactionDocumentType>(x => x.TransactionTypes, x => x.AccountTransactionDocumentTypeMaps, x => x.AccountTransactionDocumentAccountMaps);
         }
 
-        public IEnumerable<ResourceState> GetResourceStates()
+        public IEnumerable<State> GetResourceStates()
         {
-            return Dao.Query<ResourceState>();
+            return Dao.Query<State>();
         }
 
         public IEnumerable<PrintJob> GetPrintJobs()

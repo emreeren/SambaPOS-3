@@ -60,9 +60,7 @@ namespace Samba.Services
         IEnumerable<ResourceType> GetResourceTypes();
         ResourceType GetResourceTypeById(int resourceTypeId);
         int GetResourceTypeIdByEntityName(string entityName);
-        ResourceState GetResourceStateById(int resourceStateId);
-        ResourceState GetResourceStateByName(string stateName);
-        IEnumerable<ResourceState> GetResourceStates();
+        IEnumerable<State> GetStates(int stateType);
         string GetStateColor(string resourceState);
     }
 }

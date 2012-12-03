@@ -454,30 +454,20 @@ namespace Samba.Services.Implementations
             return rt != null ? rt.Id : 0;
         }
 
-        private IEnumerable<ResourceState> _resourceStates;
-        public IEnumerable<ResourceState> ResourceStates
+        private IEnumerable<State> _states;
+        public IEnumerable<State> States
         {
-            get { return _resourceStates ?? (_resourceStates = _dataService.GetResourceStates()); }
+            get { return _states ?? (_states = _dataService.GetResourceStates()); }
         }
 
-        public ResourceState GetResourceStateById(int accountStateId)
+        public IEnumerable<State> GetStates(int stateType)
         {
-            return ResourceStates.SingleOrDefault(x => x.Id == accountStateId);
-        }
-
-        public ResourceState GetResourceStateByName(string stateName)
-        {
-            return ResourceStates.FirstOrDefault(x => x.Name == stateName);
-        }
-
-        public IEnumerable<ResourceState> GetResourceStates()
-        {
-            return ResourceStates;
+            return States.Where(x => x.StateType == stateType);
         }
 
         public string GetStateColor(string state)
         {
-            return ResourceStates.Any(x => x.Name == state) ? ResourceStates.Single(x => x.Name == state).Color : "Transparent";
+            return States.Any(x => x.Name == state) ? States.Single(x => x.Name == state).Color : "Transparent";
         }
 
         public void ResetTicketTagCache()
@@ -493,7 +483,7 @@ namespace Samba.Services.Implementations
         public void ResetCache()
         {
             _dataService.ResetCache();
-            _resourceStates = null;
+            _states = null;
             _resourceTypes = null;
             _printJobs = null;
             _accountTypes = null;
