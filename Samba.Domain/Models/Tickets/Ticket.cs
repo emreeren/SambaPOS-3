@@ -741,5 +741,10 @@ namespace Samba.Domain.Models.Tickets
             var sv = GetStateValue(s);
             return sv != null ? sv.State : "";
         }
+
+        public IEnumerable<TicketStateValue> GetTicketStateValues()
+        {
+            return TicketStateValues;
+        }
     }
 }

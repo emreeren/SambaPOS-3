@@ -101,27 +101,40 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
                 }
             }
 
-            var stateValues = ReportContext.Tickets
-                                           .SelectMany(x => x.Orders)
-                                           .SelectMany(x => x.GetOrderStateValues()).Distinct();
+            var orderStates = ReportContext.Tickets
+                               .SelectMany(x => x.Orders)
+                               .SelectMany(x => x.GetOrderStateValues()).Distinct().ToList();
 
-            foreach (var orderStateValue in stateValues)
+            if (orderStates.Any())
             {
-                OrderStateValue value = orderStateValue;
-                var items =
-                    ReportContext.Tickets.SelectMany(x => x.Orders).Where(x => x.IsInState(value.StateName, value.State)).ToList();
-                var amount = items.Sum(x => x.GetItemValue());
-                var count = items.Count();
-                report.AddRow("Bilgi", string.Format("{0} ({1})", orderStateValue.State, count), amount.ToString(ReportContext.CurrencyFormat));
+                report.AddBoldRow("Bilgi", Resources.Orders, "");
+
+                foreach (var orderStateValue in orderStates)
+                {
+                    var value = orderStateValue;
+                    var items =
+                        ReportContext.Tickets.SelectMany(x => x.Orders).Where(x => x.IsInState(value.StateName, value.State)).ToList();
+                    var amount = items.Sum(x => x.GetItemValue());
+                    var count = items.Count();
+                    report.AddRow("Bilgi", string.Format("{0} ({1})", orderStateValue.State, count), amount.ToString(ReportContext.CurrencyFormat));
+                }
             }
 
-            //ReportContext.Tickets
-            //    .SelectMany(x => x.Orders)
-            //    .Where(x => !string.IsNullOrEmpty(x.OrderStateGroupName))
-            //    .GroupBy(x => x.OrderStateGroupName)
-            //    .Select(x => new { Name = string.Format(Resources.Total_f, x.Key), Amount = x.Sum(y => y.GetItemValue()) })
-            //    .ToList()
-            //    .ForEach(x => report.AddRow("Bilgi", x.Name, x.Amount.ToString(ReportContext.CurrencyFormat)));
+            var ticketStates = ReportContext.Tickets
+                .SelectMany(x => x.GetTicketStateValues()).Distinct().ToList();
+
+            if (ticketStates.Any())
+            {
+                report.AddBoldRow("Bilgi", Resources.Tickets, "");
+                foreach (var ticketStateValue in ticketStates)
+                {
+                    TicketStateValue value = ticketStateValue;
+                    var items = ReportContext.Tickets.Where(x => x.IsInState(value.StateName, value.State)).ToList();
+                    var amount = items.Sum(x => x.GetSum());
+                    var count = items.Count();
+                    report.AddRow("Bilgi", string.Format("{0} ({1})", ticketStateValue.State, count), amount.ToString(ReportContext.CurrencyFormat));
+                }
+            }
 
             var ticketCount = ticketGropus.Sum(x => x.TicketCount);
 

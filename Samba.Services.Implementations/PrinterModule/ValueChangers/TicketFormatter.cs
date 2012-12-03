@@ -80,7 +80,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
                                         TicketId = x.Last().TicketId,
                                         PortionName = x.Key.PortionName,
                                         PortionCount = x.Key.PortionCount,
-                                        OrderTags = JsonHelper.Serialize(x.SelectMany(y => y.GetOrderTagValues()).Distinct(OrderTagValueComparer).ToList()),
+                                        OrderTags = JsonHelper.Serialize(x.SelectMany(y => y.GetOrderTagValues()).Distinct().ToList()),
                                         OrderStates = JsonHelper.Serialize(x.SelectMany(y => y.GetOrderStateValues()).Distinct().ToList()),
                                         Quantity = x.Sum(y => y.Quantity)
                                     });
@@ -88,25 +88,6 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             result = result.Union(orders.Where(x => x.GetOrderTagValues().Count(y => y.Price != 0) > 0)).OrderBy(x => x.CreatedDateTime);
 
             return result;
-        }
-
-        private static IEqualityComparer<OrderTagValue> _orderTagValueComparer;
-        static IEqualityComparer<OrderTagValue> OrderTagValueComparer
-        {
-            get { return _orderTagValueComparer ?? (_orderTagValueComparer = new OrderTagComparer()); }
-        }
-    }
-
-    internal class OrderTagComparer : IEqualityComparer<OrderTagValue>
-    {
-        public bool Equals(OrderTagValue x, OrderTagValue y)
-        {
-            return x.TagName == y.TagName && x.TagValue == y.TagValue;
-        }
-
-        public int GetHashCode(OrderTagValue obj)
-        {
-            return (obj.TagName + "_" + obj.TagValue).GetHashCode();
         }
     }
 }

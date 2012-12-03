@@ -359,17 +359,6 @@ namespace Samba.Presentation.Services.Common
             _workspace.Add(pj2);
             _workspace.Add(t);
 
-            //var orderTag1 = new OrderStateGroup { Name = Resources.Gift, ButtonHeader = Resources.Gift, CalculateOrderPrice = false, DecreaseOrderInventory = true };
-            //orderTag1.OrderStates.Add(new OrderState { Name = Resources.Gift });
-            //orderTag1.AddOrderStateMap();
-            //_workspace.Add(orderTag1);
-
-            //var orderTag2 = new OrderStateGroup { Name = Resources.Void, ButtonHeader = Resources.Void, CalculateOrderPrice = false, DecreaseOrderInventory = false };
-            //orderTag2.OrderStates.Add(new OrderState { Name = Resources.Void });
-            //orderTag2.UnlocksOrder = true;
-            //orderTag2.AddOrderStateMap();
-            //_workspace.Add(orderTag2);
-
             var newOrderState = new ResourceState { Name = Resources.NewOrders, Color = "Orange" };
             _workspace.Add(newOrderState);
 
@@ -408,13 +397,6 @@ namespace Samba.Presentation.Services.Common
             var updateResourceStateAction = new AppAction { ActionType = ActionNames.UpdateResourceState, Name = "Update Resource State", Parameter = Params().Add("ResourceState", "[:Resource State]").ToString() };
             _workspace.Add(updateResourceStateAction);
 
-            //var newOrderAction = new AppAction { ActionType = ActionNames.UpdateResourceState, Name = "Update New Order State", Parameter = Params().Add("ResourceState", "New Orders").ToString() };
-            //_workspace.Add(newOrderAction);
-            //var availableAction = new AppAction { ActionType = ActionNames.UpdateResourceState, Name = "Update Available State", Parameter = Params().Add("ResourceState", "Available").ToString() };
-            //_workspace.Add(availableAction);
-            //var billRequestedAction = new AppAction { ActionType = ActionNames.UpdateResourceState, Name = "Update Bill Requested State", Parameter = Params().Add("ResourceState", "Bill Requested").ToString() };
-            //_workspace.Add(billRequestedAction);
-
             var createTicketAction = new AppAction { ActionType = ActionNames.CreateTicket, Name = string.Format(Resources.Create_f, Resources.Ticket), Parameter = "" };
             _workspace.Add(createTicketAction);
             var closeTicketAction = new AppAction { ActionType = ActionNames.CloseActiveTicket, Name = Resources.CloseTicket, Parameter = "" };
@@ -446,6 +428,11 @@ namespace Samba.Presentation.Services.Common
             ticketClosingRule.Actions.Add(new ActionContainer(updateOrderStatusAction) { ParameterValues = string.Format("Status={0}#Current Status={1}", Resources.Submitted, Resources.New) });
             ticketClosingRule.AddRuleMap();
             _workspace.Add(ticketClosingRule);
+
+            var ticketPayRule = new AppRule { Name = "Ticket Paying Rule", EventName = RuleEventNames.PaymentProcessed, EventConstraints = "RemainingAmount;=;0" };
+            ticketPayRule.Actions.Add(new ActionContainer(updateTicketStatusAction) { ParameterValues = "Status=" + Resources.Paid });
+            ticketPayRule.AddRuleMap();
+            _workspace.Add(ticketPayRule);
 
             var giftOrderRule = new AppRule { Name = string.Format(Resources.Rule_f, Resources.Gift), EventName = RuleEventNames.AutomationCommandExecuted, EventConstraints = string.Format("AutomationCommandName;=;{0}", giftItemAutomation.Name) };
             giftOrderRule.Actions.Add(new ActionContainer(updateOrderAction) { ParameterValues = "Decrease=True#Calculate Price=False" });

@@ -3005,4 +3005,7 @@ Error Message:
   <data name="NewOrders" xml:space="preserve">
     <value>New Orders</value>
   </data>
+  <data name="Orders">
+    <value xml:space="preserve">Orders</value>
+  </data>
 </root>
