@@ -2169,6 +2169,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Display Ticket List.
+        /// </summary>
+        public static string DisplayTicketList {
+            get {
+                return ResourceManager.GetString("DisplayTicketList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Display under ticket.
         /// </summary>
         public static string DisplayUnderTicket {
@@ -5483,6 +5492,15 @@ namespace Samba.Localization.Properties {
         public static string ResourceState {
             get {
                 return ResourceManager.GetString("ResourceState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resource State Updated.
+        /// </summary>
+        public static string ResourceStateUpdated {
+            get {
+                return ResourceManager.GetString("ResourceStateUpdated", resourceCulture);
             }
         }
         

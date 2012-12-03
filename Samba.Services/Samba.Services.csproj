@@ -82,8 +82,6 @@
     <Compile Include="ILogService.cs" />
     <Compile Include="IMenuService.cs" />
     <Compile Include="IPriceListService.cs" />
-    <Compile Include="IPrinterService.cs" />
-    <Compile Include="IResourceService.cs" />
     <Compile Include="ISettingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

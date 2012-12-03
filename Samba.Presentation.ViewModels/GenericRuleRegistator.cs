@@ -74,16 +74,16 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType(ActionNames.UpdateTicketCalculation, Resources.UpdateTicketCalculation, new { CalculationType = "", Amount = 0m });
             AutomationService.RegisterActionType(ActionNames.UpdateTicketAccount, Resources.UpdateTicketAccount, new { AccountPhone = "", AccountName = "", Note = "" });
             AutomationService.RegisterActionType(ActionNames.ExecutePrintJob, Resources.ExecutePrintJob, new { PrintJobName = "", OrderStateName = "", OrderState = "", OrderStateValue = "", OrderTagName = "", OrderTagValue = "" });
-            AutomationService.RegisterActionType(ActionNames.UpdateResourceState, Resources.UpdateResourceState, new { ResourceTypeName = "", ResourceState = "" });
             AutomationService.RegisterActionType(ActionNames.CloseActiveTicket, Resources.CloseTicket);
             AutomationService.RegisterActionType(ActionNames.LockTicket, Resources.LockTicket);
             AutomationService.RegisterActionType(ActionNames.UnlockTicket, Resources.UnlockTicket);
             AutomationService.RegisterActionType(ActionNames.CreateTicket, string.Format(Resources.Create_f, Resources.Ticket));
             AutomationService.RegisterActionType(ActionNames.DisplayTicket, Resources.DisplayTicket, new { TicketId = 0 });
-            AutomationService.RegisterActionType(ActionNames.DisplayTicketList, "Display Ticket List", new { TicketTagName = "", TicketStateName = "" });
+            AutomationService.RegisterActionType(ActionNames.DisplayTicketList, Resources.DisplayTicketList, new { TicketTagName = "", TicketStateName = "" });
             AutomationService.RegisterActionType(ActionNames.DisplayPaymentScreen, Resources.DisplayPaymentScreen);
             AutomationService.RegisterActionType(ActionNames.ExecutePowershellScript, Resources.ExecutePowershellScript, new { Script = "" });
             AutomationService.RegisterActionType(ActionNames.ExecuteScript, Resources.ExecuteScript, new { ScriptName = "" });
+            AutomationService.RegisterActionType(ActionNames.UpdateResourceState, Resources.UpdateResourceState, new { ResourceTypeName = "", StateName = "", CurrentState = "", State = "" });
             AutomationService.RegisterActionType(ActionNames.UpdateTicketState, Resources.UpdateTicketState, new { StateName = "", CurrentState = "", State = "", StateValue = "", Quantity = 0 });
             AutomationService.RegisterActionType(ActionNames.UpdateOrderState, Resources.UpdateOrderState, new { StateName = "", GroupOrder = 0, CurrentState = "", State = "", StateOrder = 0, StateValue = "" });
         }
@@ -105,6 +105,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterEvent(RuleEventNames.TicketResourceChanged, Resources.TicketResourceChanged, new { OrderCount = 0, OldResourceName = "", NewResourceName = "" });
             AutomationService.RegisterEvent(RuleEventNames.TicketTagSelected, Resources.TicketTagSelected, new { TagName = "", TagValue = "", NumericValue = 0, TicketTag = "" });
             AutomationService.RegisterEvent(RuleEventNames.TicketStateUpdated, Resources.TicketStateUpdated, new { StateName = "", State = "", StateValue = "", Quantity = 0, TicketState = "" });
+            AutomationService.RegisterEvent(RuleEventNames.ResourceStateUpdated, Resources.ResourceStateUpdated, new { StateName = "", State = "", ResourceState = "" });
             AutomationService.RegisterEvent(RuleEventNames.OrderTagged, Resources.OrderTagged, new { OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterEvent(RuleEventNames.OrderUntagged, Resources.OrderUntagged, new { OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterEvent(RuleEventNames.OrderStateUpdated, Resources.OrderStateUpdated, new { StateName = "", State = "", StateValue = "" });
@@ -132,7 +133,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterParameterSoruce("TagName", () => Dao.Distinct<TicketTagGroup>(x => x.Name));
             AutomationService.RegisterParameterSoruce("OrderTagName", () => Dao.Distinct<OrderTagGroup>(x => x.Name));
             AutomationService.RegisterParameterSoruce("ResourceState", () => Dao.Distinct<ResourceState>(x => x.Name));
-            AutomationService.RegisterParameterSoruce("ResourceTypeName", () => Dao.Distinct<ResourceType>(x => x.Name));
+            AutomationService.RegisterParameterSoruce("ResourceTypeName", () => Dao.Distinct<ResourceType>(x => x.EntityName));
             AutomationService.RegisterParameterSoruce("AutomationCommandName", () => Dao.Distinct<AutomationCommand>(x => x.Name));
             AutomationService.RegisterParameterSoruce("PrintJobName", () => Dao.Distinct<PrintJob>(x => x.Name));
             AutomationService.RegisterParameterSoruce("PaymentTypeName", () => Dao.Distinct<PaymentType>(x => x.Name));
@@ -267,31 +268,55 @@ namespace Samba.Presentation.ViewModels
 
                 if (x.Value.Action.ActionType == ActionNames.UpdateResourceState)
                 {
-                    var resourceId = x.Value.GetDataValueAsInt("ResourceId");
-                    var resourceTypeId = x.Value.GetDataValueAsInt("ResourceTypeId");
-                    var stateName = x.Value.GetAsString("ResourceState");
-                    var state = CacheService.GetResourceStateByName(stateName);
-                    if (state != null)
+                    var resource = x.Value.GetDataValue<Resource>("Resource");
+                    var stateName = x.Value.GetDataValueAsString("StateName");
+                    var currentState = x.Value.GetDataValueAsString("CurrentState");
+                    var state = x.Value.GetDataValueAsString("State");
+                    if (resource != null)
                     {
-                        if (resourceId > 0 && resourceTypeId > 0)
+                        ResourceService.UpdateResourceState2(resource, stateName, currentState, state);
+                    }
+                    else
+                    {
+                        var ticket = x.Value.GetDataValue<Ticket>("Ticket");
+                        if (ticket != null)
                         {
-                            ResourceService.UpdateResourceState(resourceId, state.Id);
-                        }
-                        else
-                        {
-                            var ticket = x.Value.GetDataValue<Ticket>("Ticket");
-                            if (ticket != null)
+                            var resourceTypeName = x.Value.GetDataValueAsString("ResourceTypeName");
+                            var resourceTypeId = CacheService.GetResourceTypeIdByEntityName(resourceTypeName);
+                            foreach (var ticketResource in ticket.TicketResources)
                             {
-                                var resourceTypeName = x.Value.GetDataValueAsString("ResourceTypeName");
-                                foreach (var ticketResource in ticket.TicketResources)
-                                {
-                                    var resourceType = CacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
-                                    if (string.IsNullOrEmpty(resourceTypeName.Trim()) || resourceType.Name == resourceTypeName)
-                                        ResourceService.UpdateResourceState(ticketResource.ResourceId, state.Id);
-                                }
+                                resource = CacheService.GetResourceById(ticketResource.ResourceId);
+                                if (resource.ResourceTypeId == resourceTypeId)
+                                    ResourceService.UpdateResourceState2(resource, stateName, currentState, state);
                             }
                         }
                     }
+
+                    //var resourceId = x.Value.GetDataValueAsInt("ResourceId");
+                    //var resourceTypeId = x.Value.GetDataValueAsInt("ResourceTypeId");
+                    //var stateName = x.Value.GetAsString("ResourceState");
+                    //var state = CacheService.GetResourceStateByName(stateName);
+                    //if (state != null)
+                    //{
+                    //    if (resourceId > 0 && resourceTypeId > 0)
+                    //    {
+                    //        ResourceService.UpdateResourceState(resourceId, state.Id);
+                    //    }
+                    //    else
+                    //    {
+                    //        var ticket = x.Value.GetDataValue<Ticket>("Ticket");
+                    //        if (ticket != null)
+                    //        {
+                    //            var resourceTypeName = x.Value.GetDataValueAsString("ResourceTypeName");
+                    //            foreach (var ticketResource in ticket.TicketResources)
+                    //            {
+                    //                var resourceType = CacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
+                    //                if (string.IsNullOrEmpty(resourceTypeName.Trim()) || resourceType.Name == resourceTypeName)
+                    //                    ResourceService.UpdateResourceState(ticketResource.ResourceId, state.Id);
+                    //            }
+                    //        }
+                    //    }
+                    //}
                 }
 
                 if (x.Value.Action.ActionType == ActionNames.UpdateTicketAccount)

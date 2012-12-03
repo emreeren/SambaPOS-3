@@ -3008,4 +3008,10 @@ Error Message:
   <data name="Orders">
     <value xml:space="preserve">Orders</value>
   </data>
+  <data name="ResourceStateUpdated">
+    <value xml:space="preserve">Resource State Updated</value>
+  </data>
+  <data name="DisplayTicketList">
+    <value xml:space="preserve">Display Ticket List</value>
+  </data>
 </root>

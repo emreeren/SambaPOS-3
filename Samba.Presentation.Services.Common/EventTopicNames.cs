@@ -36,6 +36,7 @@
 
     public static class RuleEventNames
     {
+        public const string ResourceStateUpdated = "ResourceStateUpdated";
         public const string ApplicationScreenChanged = "ApplicationScreenChanged";
         public const string TicketsMerged = "TicketsMerged";
         public const string PaymentProcessed = "PaymentProcessed";

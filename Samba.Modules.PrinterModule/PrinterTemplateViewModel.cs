@@ -5,6 +5,7 @@ using ICSharpCode.AvalonEdit.Document;
 using Samba.Domain.Models.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
+using Samba.Presentation.Services;
 using Samba.Services;
 
 namespace Samba.Modules.PrinterModule
