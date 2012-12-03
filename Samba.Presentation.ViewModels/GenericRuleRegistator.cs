@@ -268,55 +268,55 @@ namespace Samba.Presentation.ViewModels
 
                 if (x.Value.Action.ActionType == ActionNames.UpdateResourceState)
                 {
-                    var resource = x.Value.GetDataValue<Resource>("Resource");
-                    var stateName = x.Value.GetDataValueAsString("StateName");
-                    var currentState = x.Value.GetDataValueAsString("CurrentState");
-                    var state = x.Value.GetDataValueAsString("State");
-                    if (resource != null)
-                    {
-                        ResourceService.UpdateResourceState2(resource, stateName, currentState, state);
-                    }
-                    else
-                    {
-                        var ticket = x.Value.GetDataValue<Ticket>("Ticket");
-                        if (ticket != null)
-                        {
-                            var resourceTypeName = x.Value.GetDataValueAsString("ResourceTypeName");
-                            var resourceTypeId = CacheService.GetResourceTypeIdByEntityName(resourceTypeName);
-                            foreach (var ticketResource in ticket.TicketResources)
-                            {
-                                resource = CacheService.GetResourceById(ticketResource.ResourceId);
-                                if (resource.ResourceTypeId == resourceTypeId)
-                                    ResourceService.UpdateResourceState2(resource, stateName, currentState, state);
-                            }
-                        }
-                    }
-
-                    //var resourceId = x.Value.GetDataValueAsInt("ResourceId");
-                    //var resourceTypeId = x.Value.GetDataValueAsInt("ResourceTypeId");
-                    //var stateName = x.Value.GetAsString("ResourceState");
-                    //var state = CacheService.GetResourceStateByName(stateName);
-                    //if (state != null)
+                    //var resource = x.Value.GetDataValue<Resource>("Resource");
+                    //var stateName = x.Value.GetDataValueAsString("StateName");
+                    //var currentState = x.Value.GetDataValueAsString("CurrentState");
+                    //var state = x.Value.GetDataValueAsString("State");
+                    //if (resource != null)
                     //{
-                    //    if (resourceId > 0 && resourceTypeId > 0)
+                    //    ResourceService.UpdateResourceState2(resource, stateName, currentState, state);
+                    //}
+                    //else
+                    //{
+                    //    var ticket = x.Value.GetDataValue<Ticket>("Ticket");
+                    //    if (ticket != null)
                     //    {
-                    //        ResourceService.UpdateResourceState(resourceId, state.Id);
-                    //    }
-                    //    else
-                    //    {
-                    //        var ticket = x.Value.GetDataValue<Ticket>("Ticket");
-                    //        if (ticket != null)
+                    //        var resourceTypeName = x.Value.GetDataValueAsString("ResourceTypeName");
+                    //        var resourceTypeId = CacheService.GetResourceTypeIdByEntityName(resourceTypeName);
+                    //        foreach (var ticketResource in ticket.TicketResources)
                     //        {
-                    //            var resourceTypeName = x.Value.GetDataValueAsString("ResourceTypeName");
-                    //            foreach (var ticketResource in ticket.TicketResources)
-                    //            {
-                    //                var resourceType = CacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
-                    //                if (string.IsNullOrEmpty(resourceTypeName.Trim()) || resourceType.Name == resourceTypeName)
-                    //                    ResourceService.UpdateResourceState(ticketResource.ResourceId, state.Id);
-                    //            }
+                    //            resource = CacheService.GetResourceById(ticketResource.ResourceId);
+                    //            if (resource.ResourceTypeId == resourceTypeId)
+                    //                ResourceService.UpdateResourceState2(resource, stateName, currentState, state);
                     //        }
                     //    }
                     //}
+
+                    var resourceId = x.Value.GetDataValueAsInt("ResourceId");
+                    var resourceTypeId = x.Value.GetDataValueAsInt("ResourceTypeId");
+                    var stateName = x.Value.GetAsString("StateName");
+                    var state = x.Value.GetAsString("State");
+                    if (state != null)
+                    {
+                        if (resourceId > 0 && resourceTypeId > 0)
+                        {
+                            ResourceService.UpdateResourceState(resourceId, stateName, state);
+                        }
+                        else
+                        {
+                            var ticket = x.Value.GetDataValue<Ticket>("Ticket");
+                            if (ticket != null)
+                            {
+                                var resourceTypeName = x.Value.GetDataValueAsString("ResourceTypeName");
+                                foreach (var ticketResource in ticket.TicketResources)
+                                {
+                                    var resourceType = CacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
+                                    if (string.IsNullOrEmpty(resourceTypeName.Trim()) || resourceType.Name == resourceTypeName)
+                                        ResourceService.UpdateResourceState(ticketResource.ResourceId, stateName, state);
+                                }
+                            }
+                        }
+                    }
                 }
 
                 if (x.Value.Action.ActionType == ActionNames.UpdateTicketAccount)

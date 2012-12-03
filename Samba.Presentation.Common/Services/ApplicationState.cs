@@ -26,19 +26,17 @@ namespace Samba.Presentation.Common.Services
         private readonly IDepartmentService _departmentService;
         private readonly ISettingService _settingService;
         private readonly ICacheService _cacheService;
-        private readonly IPrinterService _printerService;
         private readonly StateMachine<AppScreens, AppScreens> _screenState;
 
         [ImportingConstructor]
         public ApplicationState(IDepartmentService departmentService, ISettingService settingService,
-            ICacheService cacheService, IPrinterService printerService)
+            ICacheService cacheService)
         {
             _screenState = new StateMachine<AppScreens, AppScreens>(() => ActiveAppScreen, state => ActiveAppScreen = state);
             _screenState.OnUnhandledTrigger(HandleTrigger);
             _departmentService = departmentService;
             _settingService = settingService;
             _cacheService = cacheService;
-            _printerService = printerService;
             CurrentTicketType = TicketType.Default;
         }
 
@@ -177,7 +175,6 @@ namespace Samba.Presentation.Common.Services
 
         public override void Reset()
         {
-            _printerService.ResetCache();
             _cacheService.ResetCache();
             _departmentService.ResetCache();
             _settingService.ResetCache();

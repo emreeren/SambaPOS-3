@@ -45,24 +45,24 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceButton
 
         protected override void BeforeEditSettings()
         {
-            Settings.ResourceNameValue.UpdateValues(_resourceService.GetCurrentResourceScreenItems(_applicationState.SelectedResourceScreen, 0, 0).Select(x => x.Name));
+            Settings.ResourceNameValue.UpdateValues(_resourceService.GetCurrentResourceScreenItems(_applicationState.SelectedResourceScreen, 0, "").Select(x => x.Name));
         }
 
         public override void Refresh()
         {
             var resourceState = GetResourceState();
-            ButtonColor = resourceState != null ? resourceState.Color : "Gainsboro";
+            ButtonColor = _cacheService.GetStateColor(resourceState); 
         }
 
         [Browsable(false)]
         public ResourceButtonWidgetSettings Settings { get { return SettingsObject as ResourceButtonWidgetSettings; } }
 
-        public ResourceState GetResourceState()
+        public string GetResourceState()
         {
             if (_applicationState.SelectedResourceScreen == null) return null;
             var si = _applicationState.SelectedResourceScreen.ScreenItems.SingleOrDefault(x => x.Name == Settings.ResourceName);
             if (si == null) return null;
-            return _cacheService.GetResourceStateById(si.ResourceStateId);
+            return si.ResourceState;
         }
 
         private string _buttonColor;

@@ -51,9 +51,8 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceSearch
             ResourceSearchViewModel.IsKeyboardVisible = Settings.IsKeyboardVisible;
             var resourceTypeId = _cacheService.GetResourceTypeIdByEntityName(Settings.ResourceTypeName);
             if (resourceTypeId == 0) resourceTypeId = _applicationState.SelectedResourceScreen.ResourceTypeId;
-            var stateFilter = _cacheService.GetResourceStateByName(Settings.StateFilterName);
-            var stateFilterId = stateFilter != null ? stateFilter.Id : _applicationState.SelectedResourceScreen.StateFilterId;
-            ResourceSearchViewModel.Refresh(resourceTypeId, stateFilterId, _request);
+            var stateFilter = !string.IsNullOrEmpty(Settings.StateFilterName) ? (Settings.StateFilterName) : _applicationState.SelectedResourceScreen.StateFilter;
+            ResourceSearchViewModel.Refresh(resourceTypeId, stateFilter, _request);
         }
     }
 }

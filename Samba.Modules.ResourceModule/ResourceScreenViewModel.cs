@@ -34,7 +34,8 @@ namespace Samba.Modules.ResourceModule
         public int ButtonHeight { get { return Model.ButtonHeight; } set { Model.ButtonHeight = value; } }
         public int TicketTypeId { get { return Model.TicketTypeId; } set { Model.TicketTypeId = value; } }
         public int? ResourceTypeId { get { return Model.ResourceTypeId; } set { Model.ResourceTypeId = value.GetValueOrDefault(0); } }
-        public int? StateFilterId { get { return Model.StateFilterId; } set { Model.StateFilterId = value.GetValueOrDefault(0); } }
+        public string StateFilter { get { return Model.StateFilter; } set { Model.StateFilter = value; } }
+        public string DisplayState { get { return Model.DisplayState; } set { Model.DisplayState = value; } }
 
         private IEnumerable<TicketType> _ticketTypes;
         public IEnumerable<TicketType> TicketTypes

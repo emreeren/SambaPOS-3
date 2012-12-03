@@ -2160,6 +2160,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Display State.
+        /// </summary>
+        public static string DisplayState {
+            get {
+                return ResourceManager.GetString("DisplayState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Display Ticket.
         /// </summary>
         public static string DisplayTicket {

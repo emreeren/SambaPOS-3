@@ -61,9 +61,10 @@ namespace Samba.Modules.ResourceModule.Widgets.ResourceGrid
 
         public override void Refresh()
         {
-            var stateFilter = _cacheService.GetResourceStateByName(Settings.StateFilterName);
-            var stateFilterId = stateFilter != null ? stateFilter.Id : ResourceScreen.StateFilterId;
-            ResourceSelectorViewModel.Refresh(ResourceScreen, stateFilterId, _request);
+            var stateFilter = !string.IsNullOrEmpty(Settings.StateFilterName)
+                                  ? Settings.StateFilterName
+                                  : ResourceScreen.StateFilter;
+            ResourceSelectorViewModel.Refresh(ResourceScreen, stateFilter, _request);
         }
     }
 }

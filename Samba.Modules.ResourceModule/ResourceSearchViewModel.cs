@@ -77,7 +77,7 @@ namespace Samba.Modules.ResourceModule
             RemoveResourceCommand = new CaptionCommand<string>("", OnRemoveResource, CanRemoveResource);
         }
 
-        protected int StateFilter { get; set; }
+        protected string StateFilter { get; set; }
         public bool IsKeyboardVisible { get; set; }
 
         public IEnumerable<ResourceType> ResourceTypes { get { return _cacheService.GetResourceTypes(); } }
@@ -292,7 +292,7 @@ namespace Samba.Modules.ResourceModule
             }
         }
 
-        public void Refresh(int resourceType, int stateFilter, EntityOperationRequest<Resource> currentOperationRequest)
+        public void Refresh(int resourceType, string stateFilter, EntityOperationRequest<Resource> currentOperationRequest)
         {
             StateFilter = stateFilter;
             SelectedResourceType = _cacheService.GetResourceTypeById(resourceType);

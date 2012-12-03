@@ -16,7 +16,8 @@ namespace Samba.Domain.Models.Resources
         public int RowCount { get; set; }
         public int ColumnCount { get; set; }
         public int ButtonHeight { get; set; }
-        public int StateFilterId { get; set; }
+        public string DisplayState { get; set; }
+        public string StateFilter { get; set; }
 
         private readonly IList<ResourceScreenMap> _resourceScreenMaps;
         public virtual IList<ResourceScreenMap> ResourceScreenMaps

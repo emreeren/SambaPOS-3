@@ -60,7 +60,7 @@ namespace Samba.Modules.ResourceModule
                 });
         }
 
-        public int StateFilter { get; set; }
+        public string StateFilter { get; set; }
 
         public void RefreshResourceScreenItems()
         {
@@ -113,12 +113,12 @@ namespace Samba.Modules.ResourceModule
             RaisePropertyChanged(() => ScreenVerticalAlignment);
         }
 
-        private List<ResourceScreenItem> GetResourceScreenItems(ResourceScreen resourceScreen, int stateFilter)
+        private List<ResourceScreenItem> GetResourceScreenItems(ResourceScreen resourceScreen, string stateFilter)
         {
             if (resourceScreen.ScreenItems.Count > 0)
                 return _resourceService.GetCurrentResourceScreenItems(resourceScreen, CurrentPageNo, stateFilter).OrderBy(x => x.Order).ToList();
             return
-                _resourceService.GetResourcesByState(stateFilter, resourceScreen.ResourceTypeId).Select(x => new ResourceScreenItem { ResourceId = x.Id, Name = x.Name, ResourceStateId = stateFilter }).ToList();
+                _resourceService.GetResourcesByState(stateFilter, resourceScreen.ResourceTypeId).Select(x => new ResourceScreenItem { ResourceId = x.Id, Name = x.Name, ResourceState = stateFilter }).ToList();
         }
 
         private void UpdateResourceButtons(ICollection<ResourceScreenItem> resourceData)
@@ -129,23 +129,19 @@ namespace Samba.Modules.ResourceModule
                     SelectedResourceScreen.RowCount = 0;
                 ResourceScreenItems = new ObservableCollection<ResourceScreenItemViewModel>();
                 ResourceScreenItems.AddRange(resourceData.Select(x => new
-                    ResourceScreenItemViewModel(x, SelectedResourceScreen, ResourceSelectionCommand,
-                    _currentOperationRequest.SelectedEntity != null, _userService.IsUserPermittedFor(PermissionNames.MergeTickets),
-                    _cacheService.GetResourceStateById(x.ResourceStateId))));
+                    ResourceScreenItemViewModel(_cacheService, x, SelectedResourceScreen, ResourceSelectionCommand,
+                    _currentOperationRequest.SelectedEntity != null, _userService.IsUserPermittedFor(PermissionNames.MergeTickets))));
             }
             else
             {
                 for (var i = 0; i < resourceData.Count(); i++)
                 {
-                    var acs = ResourceScreenItems[i].ResourceState;
-                    if (acs == null || acs.Id != resourceData.ElementAt(i).ResourceStateId)
-                        ResourceScreenItems[i].ResourceState = _cacheService.GetResourceStateById(resourceData.ElementAt(i).ResourceStateId);
                     ResourceScreenItems[i].Model = resourceData.ElementAt(i);
                 }
             }
         }
 
-        public void Refresh(ResourceScreen resourceScreen, int stateFilter, EntityOperationRequest<Resource> currentOperationRequest)
+        public void Refresh(ResourceScreen resourceScreen, string stateFilter, EntityOperationRequest<Resource> currentOperationRequest)
         {
             StateFilter = stateFilter;
             _currentOperationRequest = currentOperationRequest;

@@ -31,7 +31,7 @@
                                 ItemsSource="{Binding DisplayModes}" />
                         <Label Content="{LocText BackgroundImage,Suffix=':'}"/>
                         <TextBox HorizontalAlignment="Left" MinWidth="250" Text="{Binding BackgroundImage}" />
-                      
+
                         <UniformGrid Columns="2" Margin="0,5,0,0" HorizontalAlignment="Left">
                             <Label Margin="0,5,0,0" Content="{LocText ColumnCount,Suffix=':'}"/>
                             <UIControls:FilteredTextBox Type="Digits" Margin="0,5,0,0" HorizontalAlignment="Left"
@@ -63,9 +63,13 @@
                             <Label Content="{LocText ResourceType,Suffix=':'}"/>
                             <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="150" SelectedValue="{Binding ResourceTypeId}"
                                 ItemsSource="{Binding ResourceTypes}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
+                            <Label Content="{LocText DisplayState,Suffix=':'}"/>
+                            <!--<ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="150" SelectedValue="{Binding DisplayState}"
+                                ItemsSource="{Binding ResourceStates}" SelectedValuePath="Name" DisplayMemberPath="Name"/>-->
+                            <TextBox Text="{Binding DisplayState}" HorizontalAlignment="Left" MinWidth="150"></TextBox>
                             <Label Content="{LocText StateFilter,Suffix=':'}"/>
-                            <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="150" SelectedValue="{Binding StateFilterId}"
-                                ItemsSource="{Binding ResourceStates}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
+                            <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="150" SelectedValue="{Binding StateFilter}"
+                                ItemsSource="{Binding ResourceStates}" SelectedValuePath="Name" DisplayMemberPath="Name"/>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="{LocText Resourceses,Suffix=':'}"/>
                                 <TextBlock Margin="2,5">

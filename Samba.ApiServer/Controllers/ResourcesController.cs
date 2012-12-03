@@ -21,7 +21,7 @@ namespace Samba.ApiServer.Controllers
 
         public IEnumerable<Resource> GetAllResources()
         {
-            return _resourceDao.GetResourcesByState(2, 2);
+            return _resourceDao.GetResourcesByState("Available", 2);
         }
 
         public Resource GetResourceById(int id)
@@ -36,7 +36,7 @@ namespace Samba.ApiServer.Controllers
 
         public IEnumerable<Resource> GetResourcesByCategory(string category)
         {
-            return _resourceDao.FindResources(null, category, 0);
+            return _resourceDao.FindResources(null, category, "");
         }
     }
 }

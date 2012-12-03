@@ -1,6 +1,7 @@
 ﻿using System.Windows.Input;
 using Samba.Domain.Models.Resources;
 using Samba.Presentation.Common;
+using Samba.Services;
 
 namespace Samba.Modules.ResourceModule
 {
@@ -8,20 +9,21 @@ namespace Samba.Modules.ResourceModule
     {
         private readonly bool _isTicketSelected;
         private readonly bool _userPermittedToMerge;
+        private readonly ICacheService _cacheService;
         private readonly ICommand _actionCommand;
 
-        public ResourceScreenItemViewModel(ResourceScreenItem model, ResourceScreen screen,
-            ICommand actionCommand, bool isTicketSelected, bool userPermittedToMerge, ResourceState state)
+        public ResourceScreenItemViewModel(ICacheService cacheService, ResourceScreenItem model, ResourceScreen screen,
+            ICommand actionCommand, bool isTicketSelected, bool userPermittedToMerge)
         {
+            _cacheService = cacheService;
             _actionCommand = actionCommand;
             _screen = screen;
             _isTicketSelected = isTicketSelected;
             _userPermittedToMerge = userPermittedToMerge;
-            ResourceState = state;
             Model = model;
         }
 
-        public ResourceState ResourceState { get; set; }
+        public string ResourceState { get { return Model.ResourceState; } }
 
         private readonly ResourceScreen _screen;
 
@@ -75,7 +77,7 @@ namespace Samba.Modules.ResourceModule
         {
             IsEnabled = Model.ResourceId != 0 || !_isTicketSelected;
             if (_isTicketSelected && !_userPermittedToMerge) IsEnabled = false;
-            if (ResourceState != null) ButtonColor = ResourceState.Color;
+            if (ResourceState != null) ButtonColor = _cacheService.GetStateColor(ResourceState);
         }
     }
 }

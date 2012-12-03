@@ -29,28 +29,27 @@ namespace Samba.Presentation.Services.Implementations.ResourceModule
             _resourceDao.UpdateResourceScreenItems(resourceScreen, pageNo);
         }
 
-        public IEnumerable<ResourceScreenItem> GetCurrentResourceScreenItems(ResourceScreen resourceScreen, int currentPageNo, int resourceStateFilter)
+        public IEnumerable<ResourceScreenItem> GetCurrentResourceScreenItems(ResourceScreen resourceScreen, int currentPageNo, string resourceStateFilter)
         {
             UpdateResourceScreenItems(resourceScreen, currentPageNo);
-
             if (resourceScreen != null)
             {
                 if (resourceScreen.PageCount > 1)
                 {
                     return resourceScreen.ScreenItems
                          .OrderBy(x => x.Order)
-                         .Where(x => x.ResourceStateId == resourceStateFilter || resourceStateFilter == 0)
+                         .Where(x => string.IsNullOrEmpty(resourceStateFilter) || x.ResourceState == resourceStateFilter)
                          .Skip(resourceScreen.ItemCountPerPage * currentPageNo)
                          .Take(resourceScreen.ItemCountPerPage);
                 }
-                return resourceScreen.ScreenItems.Where(x => x.ResourceStateId == resourceStateFilter || resourceStateFilter == 0);
+                return resourceScreen.ScreenItems.Where(x => string.IsNullOrEmpty(resourceStateFilter) || x.ResourceState == resourceStateFilter);
             }
             return new List<ResourceScreenItem>();
         }
 
-        public IEnumerable<Resource> GetResourcesByState(int resourceStateId, int resourceTypeId)
+        public IEnumerable<Resource> GetResourcesByState(string state, int resourceTypeId)
         {
-            return _resourceDao.GetResourcesByState(resourceStateId, resourceTypeId);
+            return _resourceDao.GetResourcesByState(state, resourceTypeId);
         }
 
         public IList<Widget> LoadWidgets(string selectedResourceScreen)
@@ -82,28 +81,9 @@ namespace Samba.Presentation.Services.Implementations.ResourceModule
             _resoureceWorkspace.CommitChanges();
         }
 
-        public List<Resource> SearchResources(string searchString, ResourceType selectedResourceType, int stateFilter)
+        public List<Resource> SearchResources(string searchString, ResourceType selectedResourceType, string stateFilter)
         {
             return _resourceDao.FindResources(selectedResourceType, searchString, stateFilter);
-        }
-
-        public void UpdateResourceState2(Resource resource, string stateName, string currentState, string state)
-        {
-            var sv = resource.GetStateValue(stateName);
-            if (!string.IsNullOrEmpty(currentState) && sv.State != currentState) return;
-
-            if (sv != null && sv.StateName == stateName && sv.State == state) return;
-
-            resource.SetStateValue(stateName, state);
-
-            _automationService.NotifyEvent(RuleEventNames.ResourceStateUpdated,
-            new
-            {
-                Resource = resource,
-                StateName = stateName,
-                State = state,
-                ResourceState = resource.GetStateData()
-            });
         }
 
         public IList<ResourceScreenItem> LoadResourceScreenItems(string selectedResourceScreen)
@@ -125,9 +105,9 @@ namespace Samba.Presentation.Services.Implementations.ResourceModule
             }
         }
 
-        public void UpdateResourceState(int resourceId, int stateId)
+        public void UpdateResourceState(int resourceId, string stateName, string state)
         {
-            _resourceDao.UpdateResourceState(resourceId, stateId);
+            _resourceDao.UpdateResourceState(resourceId, stateName, state);
         }
     }
 }

@@ -145,13 +145,13 @@ namespace Samba.Modules.ResourceModule
 
         private void ActivateResourceSearcher(ResourceScreen resourceScreen)
         {
-            _resourceSearchViewModel.Refresh(resourceScreen.ResourceTypeId, resourceScreen.StateFilterId, _currentOperationRequest);
+            _resourceSearchViewModel.Refresh(resourceScreen.ResourceTypeId, resourceScreen.StateFilter, _currentOperationRequest);
             _regionManager.Regions[RegionNames.ResourceScreenRegion].Activate(_resourceSearchView);
         }
 
         private void ActivateButtonSelector(ResourceScreen resourceScreen)
         {
-            _resourceSelectorViewModel.Refresh(resourceScreen, resourceScreen.StateFilterId, _currentOperationRequest);
+            _resourceSelectorViewModel.Refresh(resourceScreen, resourceScreen.StateFilter, _currentOperationRequest);
             _regionManager.Regions[RegionNames.ResourceScreenRegion].Activate(_resourceSelectorView);
         }
     }

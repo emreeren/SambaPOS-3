@@ -475,6 +475,11 @@ namespace Samba.Services.Implementations
             return ResourceStates;
         }
 
+        public string GetStateColor(string state)
+        {
+            return ResourceStates.Any(x => x.Name == state) ? ResourceStates.Single(x => x.Name == state).Color : "Transparent";
+        }
+
         public void ResetTicketTagCache()
         {
             _ticketTagGroups = null;

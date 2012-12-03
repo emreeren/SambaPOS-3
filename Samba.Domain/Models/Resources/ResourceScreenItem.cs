@@ -8,7 +8,7 @@ namespace Samba.Domain.Models.Resources
         public string Name { get; set; }
         public int ResourceScreenId { get; set; }
         public int ResourceId { get; set; }
-        public int ResourceStateId { get; set; }
+        public string ResourceState { get; set; }
         public int Order { get; set; }
         public DateTime LastUpdateTime { get; set; }
 

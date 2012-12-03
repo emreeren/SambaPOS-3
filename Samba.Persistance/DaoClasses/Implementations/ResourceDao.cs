@@ -42,29 +42,29 @@ namespace Samba.Persistance.DaoClasses.Implementations
             else set = resourceScreen.ScreenItems.OrderBy(x => x.Order).Select(x => x.ResourceId);
             using (var w = WorkspaceFactory.CreateReadOnly())
             {
-                var ids = w.Queryable<ResourceStateValue>().Where(x => set.Contains(x.ResoruceId)).GroupBy(x => x.ResoruceId).Select(x => x.Max(y => y.Id));
-                var result = w.Queryable<ResourceStateValue>().Where(x => ids.Contains(x.Id)).Select(x => new { AccountId = x.ResoruceId, x.StateId });
+                var result = w.Queryable<ResourceStateValue>().Where(x => set.Contains(x.ResoruceId));
                 result.ToList().ForEach(x =>
                 {
-                    var location = resourceScreen.ScreenItems.Single(y => y.ResourceId == x.AccountId);
-                    location.ResourceStateId = x.StateId;
+                    var screeenItem = resourceScreen.ScreenItems.Single(y => y.ResourceId == x.ResoruceId);
+                    screeenItem.ResourceState = x.GetStateValue(resourceScreen.DisplayState);
                 });
             }
         }
 
-        public IEnumerable<Resource> GetResourcesByState(int resourceStateId, int resourceTypeId)
+        public IEnumerable<Resource> GetResourcesByState(string state, int resourceTypeId)
         {
+            var sv = string.Format("\"S\":\"{0}\"", state);
             using (var w = WorkspaceFactory.CreateReadOnly())
             {
                 var ids = w.Queryable<ResourceStateValue>().GroupBy(x => x.ResoruceId).Select(x => x.Max(y => y.Id));
-                var vids = w.Queryable<ResourceStateValue>().Where(x => ids.Contains(x.Id) && (x.StateId == resourceStateId)).Select(x => x.ResoruceId).ToList();
+                var vids = w.Queryable<ResourceStateValue>().Where(x => ids.Contains(x.Id) && (x.ResourceStates.Contains(sv))).Select(x => x.ResoruceId).ToList();
                 if (vids.Count > 0)
                     return w.Queryable<Resource>().Where(x => x.ResourceTypeId == resourceTypeId && vids.Contains(x.Id)).ToList();
                 return _emptyResourceList;
             }
         }
 
-        public List<Resource> FindResources(ResourceType resourceType, string searchString, int stateFilter)
+        public List<Resource> FindResources(ResourceType resourceType, string searchString, string stateFilter)
         {
             var templateId = resourceType != null ? resourceType.Id : 0;
             var searchValue = searchString.ToLower();
@@ -80,10 +80,11 @@ namespace Samba.Persistance.DaoClasses.Implementations
                 if (resourceType != null)
                     result = result.Where(x => resourceType.GetMatchingFields(x, searchString).Any(y => !y.Hidden) || x.Name.ToLower().Contains(searchValue)).ToList();
 
-                if (stateFilter > 0)
+                if (!string.IsNullOrEmpty(stateFilter))
                 {
+                    var sv = string.Format("\"S\":\"{0}\"", stateFilter);
                     var set = result.Select(x => x.Id).ToList();
-                    var ids = w.Queryable<ResourceStateValue>().Where(x => set.Contains(x.ResoruceId) && x.StateId == stateFilter).GroupBy(x => x.ResoruceId).Select(x => x.Max(y => y.Id));
+                    var ids = w.Queryable<ResourceStateValue>().Where(x => set.Contains(x.ResoruceId) && x.ResourceStates.Contains(sv)).GroupBy(x => x.ResoruceId).Select(x => x.Max(y => y.Id));
                     var resourceIds = w.Queryable<ResourceStateValue>().Where(x => ids.Contains(x.Id)).Select(x => x.ResoruceId).ToList();
                     result = result.Where(x => resourceIds.Contains(x.Id)).ToList();
                 }
@@ -91,18 +92,19 @@ namespace Samba.Persistance.DaoClasses.Implementations
             }
         }
 
-        public void UpdateResourceState(int resourceId, int stateId)
+        public void UpdateResourceState(int resourceId, string stateName, string state)
         {
             if (resourceId == 0) return;
             using (var w = WorkspaceFactory.Create())
             {
-                var csid = w.Last<ResourceStateValue>(x => x.ResoruceId == resourceId);
-                if (csid == null || csid.StateId != stateId)
+                var stateValue = w.Single<ResourceStateValue>(x => x.ResoruceId == resourceId);
+                if (stateValue == null)
                 {
-                    var v = new ResourceStateValue { ResoruceId = resourceId, Date = DateTime.Now, StateId = stateId };
-                    w.Add(v);
-                    w.CommitChanges();
+                    stateValue = new ResourceStateValue { ResoruceId = resourceId, Date = DateTime.Now };
+                    w.Add(stateValue);
                 }
+                stateValue.SetStateValue(stateName, state);
+                w.CommitChanges();
             }
         }
 
