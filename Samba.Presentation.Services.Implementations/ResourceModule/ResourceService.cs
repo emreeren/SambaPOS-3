@@ -108,6 +108,7 @@ namespace Samba.Presentation.Services.Implementations.ResourceModule
         public void UpdateResourceState(int resourceId, string stateName, string state)
         {
             _resourceDao.UpdateResourceState(resourceId, stateName, state);
+            _automationService.NotifyEvent(RuleEventNames.ResourceStateUpdated, new { ResourceId = resourceId, StateName = stateName, State = state });
         }
     }
 }

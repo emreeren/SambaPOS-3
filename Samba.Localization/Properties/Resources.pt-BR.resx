@@ -1191,9 +1191,6 @@ Continuar sem acrescentar detalhes? </value>
   <data name="LastPaymentTime" xml:space="preserve">
     <value>Último pagamento</value>
   </data>
-  <data name="SettingCheck" xml:space="preserve">
-    <value>Definir Verificação</value>
-  </data>
   <data name="CanMoveTicketLines" xml:space="preserve">
     <value>Pode mover itens</value>
   </data>

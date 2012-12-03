@@ -190,9 +190,6 @@
   <data name="LineItemTotalAndQuantity" xml:space="preserve">
     <value># Linea: Articolo Quantità x Totale</value>
   </data>
-  <data name="SettingCheck" xml:space="preserve">
-    <value>Impostazione Controllo</value>
-  </data>
   <data name="StartWorkPeriod" xml:space="preserve">
     <value>Inizio periodo di lavoro</value>
   </data>
@@ -259,6 +256,9 @@
   <data name="MenuProperties" xml:space="preserve">
     <value>Proprietà Menu</value>
   </data>
+  <data name="CustomConstraint" xml:space="preserve">
+    <value>Vincolo Personalizzato</value>
+  </data>
   <data name="Dollar" xml:space="preserve">
     <value>Euro</value>
   </data>
@@ -273,6 +273,9 @@
   </data>
   <data name="Liability" xml:space="preserve">
     <value>Debito</value>
+  </data>
+  <data name="UpdateTicketState" xml:space="preserve">
+    <value>AggiornaStato Ticket</value>
   </data>
   <data name="Nineteen" xml:space="preserve">
     <value>Diciannove</value>
@@ -400,6 +403,9 @@
   <data name="Cancel" xml:space="preserve">
     <value>Annullare</value>
   </data>
+  <data name="ApplicationScreenChanged" xml:space="preserve">
+    <value>Applica Cambiamenti Schermo</value>
+  </data>
   <data name="Property" xml:space="preserve">
     <value>Propietà</value>
   </data>
@@ -411,6 +417,9 @@
   </data>
   <data name="DisplayOpenTickets" xml:space="preserve">
     <value>Visualizza Ticket Aperti</value>
+  </data>
+  <data name="CustomerTickets" xml:space="preserve">
+    <value>Ticket Cliente</value>
   </data>
   <data name="ProductTimer" xml:space="preserve">
     <value>Prodotti a Tempo</value>
@@ -429,6 +438,9 @@
   </data>
   <data name="TotalsGroupedByCalculationType" xml:space="preserve">
     <value>Totali raggruppati per tipo di Calcolo</value>
+  </data>
+  <data name="Cancel_f" xml:space="preserve">
+    <value>Annullare: {0}</value>
   </data>
   <data name="NumeratorFormat" xml:space="preserve">
     <value>Formato Numero</value>
@@ -450,6 +462,9 @@
  
  Messaggio:
 </value>
+  </data>
+  <data name="OrderLine" xml:space="preserve">
+    <value>Riga Ordine</value>
   </data>
   <data name="Barcode" xml:space="preserve">
     <value>Codice a Barre</value>
@@ -598,6 +613,9 @@
   <data name="CustomerAccount" xml:space="preserve">
     <value>Account Cliente</value>
   </data>
+  <data name="TicketStateUpdated" xml:space="preserve">
+    <value>Stato Ticket Aggiornato</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>Cancellare</value>
   </data>
@@ -719,6 +737,9 @@ Attiverà dopo {1} giorni, {2} ore, {3} minuti</value>
   <data name="Tax" xml:space="preserve">
     <value>Tassa</value>
   </data>
+  <data name="Customer_f" xml:space="preserve">
+    <value>Cliente: {0}</value>
+  </data>
   <data name="Table" xml:space="preserve">
     <value>Tavolo</value>
   </data>
@@ -830,6 +851,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   </data>
   <data name="CommandType" xml:space="preserve">
     <value>Tipo Comando</value>
+  </data>
+  <data name="Rule_f" xml:space="preserve">
+    <value>{0} Ruolo</value>
   </data>
   <data name="PrinterOptions" xml:space="preserve">
     <value>Impostazioni stampante</value>
@@ -1152,6 +1176,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="InvoicePrinter" xml:space="preserve">
     <value>Stampante Fattura</value>
   </data>
+  <data name="New" xml:space="preserve">
+    <value>Nuovo</value>
+  </data>
   <data name="RegenerateTicketTax" xml:space="preserve">
     <value>Rigenerare Tassa Ticket</value>
   </data>
@@ -1166,6 +1193,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   </data>
   <data name="Hour" xml:space="preserve">
     <value>Ora</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Stato</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Salva</value>
@@ -1286,6 +1316,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   </data>
   <data name="SelectItemsFor_f" xml:space="preserve">
     <value>Selezionare {0} per l'utilizzo con {1} {2}</value>
+  </data>
+  <data name="TicketCreated" xml:space="preserve">
+    <value>Ticket Creato</value>
   </data>
   <data name="PrintOrdersToKitchenPrinter" xml:space="preserve">
     <value>Ordini di stampa alla stampante Cucina</value>
@@ -1410,6 +1443,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="LineOrderNumber" xml:space="preserve">
     <value># Linea: Numero Ordine</value>
   </data>
+  <data name="UpdateOrderState" xml:space="preserve">
+    <value>Aggiornamento Stato Ordine</value>
+  </data>
   <data name="ViewMode" xml:space="preserve">
     <value>Modalità di Visualizzazione</value>
   </data>
@@ -1418,6 +1454,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   </data>
   <data name="Amount" xml:space="preserve">
     <value>Quantità</value>
+  </data>
+  <data name="Locked" xml:space="preserve">
+    <value>Bloccato</value>
   </data>
   <data name="AddProductsToCategoryHint_f" xml:space="preserve">
     <value>Selezionare prodotti per {0} categoria</value>
@@ -1520,6 +1559,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>No</value>
+  </data>
+  <data name="All Tables" xml:space="preserve">
+    <value>Tutti i Tavoli</value>
   </data>
   <data name="DeleteErrorAccountTypeAssignedtoAccounts" xml:space="preserve">
     <value>Impossibile eliminare, perché questo modello è assegnato agli account</value>
@@ -1756,6 +1798,9 @@ Messaggio di errore:
   <data name="ShareNameAndPortName" xml:space="preserve">
     <value>Nome Stampante Condivisa / Nome Porta</value>
   </data>
+  <data name="OrderStateUpdated" xml:space="preserve">
+    <value>Stato Ordine Aggiornato</value>
+  </data>
   <data name="TicketOpened" xml:space="preserve">
     <value>Ticket Aperto</value>
   </data>
@@ -1788,6 +1833,9 @@ Messaggio di errore:
   </data>
   <data name="Selected_f" xml:space="preserve">
     <value>Selezionato {0}</value>
+  </data>
+  <data name="Submitted" xml:space="preserve">
+    <value>Inserita</value>
   </data>
   <data name="ItemSalesReport" xml:space="preserve">
     <value>Rapporto di vendita Articolo</value>
@@ -1951,6 +1999,9 @@ Messaggio di errore:
   <data name="TicketTipTotalAmount" xml:space="preserve">
     <value>Totale biglietti importo punta</value>
   </data>
+  <data name="Unpaid" xml:space="preserve">
+    <value>Da Pagare</value>
+  </data>
   <data name="SubButtonHeight" xml:space="preserve">
     <value>Altezza pulsante Sottomenu</value>
   </data>
@@ -2079,6 +2130,10 @@ Messaggio di errore:
   </data>
   <data name="Html" xml:space="preserve">
     <value>HTML</value>
+  </data>
+  <data name="NewOrders" xml:space="preserve">
+    <value>Nuovi Ordini
+</value>
   </data>
   <data name="SalesByItemGroup" xml:space="preserve">
     <value>Vendite per Gruppo</value>
@@ -2285,6 +2340,9 @@ Ticket</value>
   <data name="DisplayAllValues" xml:space="preserve">
     <value>Visualizzare tutti i valori</value>
   </data>
+  <data name="CashPayment" xml:space="preserve">
+    <value>Pagamento in Contanti</value>
+  </data>
   <data name="OrderStateGroup" xml:space="preserve">
     <value>Stato Ordine Gruppo</value>
   </data>
@@ -2317,6 +2375,9 @@ Ticket</value>
   </data>
   <data name="AlphanumericButtons" xml:space="preserve">
     <value>Tasti alfanumerici</value>
+  </data>
+  <data name="CreditCardPayment" xml:space="preserve">
+    <value>Pagamento con Carta di Credito</value>
   </data>
   <data name="KitchenOrderTemplate" xml:space="preserve">
     <value>Modello Ordini Cucina</value>
@@ -2416,6 +2477,9 @@ Ticket</value>
   </data>
   <data name="EveryOtherMonth" xml:space="preserve">
     <value>Ogni due mesi</value>
+  </data>
+  <data name="StateController" xml:space="preserve">
+    <value>Controllo di Stato</value>
   </data>
   <data name="TagsShouldBeUniqueErrorMessage" xml:space="preserve">
     <value>I Nomi dei Tag biglietti Devono essere Univoci</value>
@@ -2619,6 +2683,9 @@ Non può finire il periodo di lavoro mentre ci sono Ticket aperti.</value>
   <data name="ResourceScreens" xml:space="preserve">
     <value>Schermi Risorse</value>
   </data>
+  <data name="StateDefinition" xml:space="preserve">
+    <value>Definizione di Stato</value>
+  </data>
   <data name="DisplayUserPath" xml:space="preserve">
     <value>Visualizza percorso dell'utente</value>
   </data>
@@ -2723,6 +2790,9 @@ Non può finire il periodo di lavoro mentre ci sono Ticket aperti.</value>
   </data>
   <data name="Mappings" xml:space="preserve">
     <value>Mappatura</value>
+  </data>
+  <data name="ExecuteScript" xml:space="preserve">
+    <value>Eseguire Script</value>
   </data>
   <data name="TaxTotal" xml:space="preserve">
     <value>Totale IVA</value>
