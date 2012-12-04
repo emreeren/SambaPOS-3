@@ -76,7 +76,7 @@ namespace Samba.Domain.Models.Automation
             return o != null ? o.ToString() : "";
         }
 
-        public int Order { get; set; }
+        public int SortOrder { get; set; }
 
         public string UserString
         {

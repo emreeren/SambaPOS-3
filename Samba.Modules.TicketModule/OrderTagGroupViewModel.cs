@@ -77,7 +77,7 @@ namespace Samba.Modules.TicketModule
 
         private IEnumerable<OrderTagViewModel> GetOrderTags(OrderTagGroup baseModel)
         {
-            return baseModel.OrderTags.OrderBy(x => x.Order).Select(item => new OrderTagViewModel(item, _menuService));
+            return baseModel.OrderTags.OrderBy(x => x.SortOrder).Select(item => new OrderTagViewModel(item, _menuService));
         }
 
         public override string GetModelTypeString()
@@ -98,7 +98,7 @@ namespace Samba.Modules.TicketModule
 
         protected override void OnSave(string value)
         {
-            ReorderItems(Model.OrderTags.OrderBy(x => x.Order).ThenBy(x => x.Id));
+            ReorderItems(Model.OrderTags.OrderBy(x => x.SortOrder).ThenBy(x => x.Id));
             base.OnSave(value);
         }
 
@@ -107,7 +107,7 @@ namespace Samba.Modules.TicketModule
             var order = 10;
             foreach (var orderable in list)
             {
-                orderable.Order = order;
+                orderable.SortOrder = order;
                 order += 10;
             }
         }

@@ -539,6 +539,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ask Before Creating Ticket.
+        /// </summary>
+        public static string AskBeforeCreatingTicket {
+            get {
+                return ResourceManager.GetString("AskBeforeCreatingTicket", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Auto Logout.
         /// </summary>
         public static string AutoLogout {
@@ -5433,6 +5442,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Required.
+        /// </summary>
+        public static string Required {
+            get {
+                return ResourceManager.GetString("Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reset Account.
         /// </summary>
         public static string ResetAccount {
@@ -5492,15 +5510,6 @@ namespace Samba.Localization.Properties {
         public static string Resourceses {
             get {
                 return ResourceManager.GetString("Resourceses", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Resource State.
-        /// </summary>
-        public static string ResourceState {
-            get {
-                return ResourceManager.GetString("ResourceState", resourceCulture);
             }
         }
         
@@ -6239,6 +6248,15 @@ namespace Samba.Localization.Properties {
         public static string StartWorkPeriodToEnablePos {
             get {
                 return ResourceManager.GetString("StartWorkPeriodToEnablePos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to State.
+        /// </summary>
+        public static string State {
+            get {
+                return ResourceManager.GetString("State", resourceCulture);
             }
         }
         

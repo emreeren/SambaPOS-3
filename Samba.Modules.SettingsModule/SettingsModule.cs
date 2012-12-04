@@ -18,7 +18,7 @@ namespace Samba.Modules.SettingsModule
             AddDashboardCommand<TerminalListViewModel>(Resources.Terminals, Resources.Settings, 21);
             AddDashboardCommand<EntityCollectionViewModelBase<NumeratorViewModel, Numerator>>(Resources.Numerators, Resources.Settings, 21);
             AddDashboardCommand<EntityCollectionViewModelBase<ForeignCurrencyViewModel, ForeignCurrency>>(string.Format(Resources.List_f, Resources.Currency), Resources.Settings, 21);
-            AddDashboardCommand<EntityCollectionViewModelBase<StateViewModel, State>>(Resources.ResourceState.ToPlural(), Resources.Settings, 21);
+            AddDashboardCommand<EntityCollectionViewModelBase<StateViewModel, State>>(Resources.State.ToPlural(), Resources.Settings, 21);
             AddDashboardCommand<ProgramSettingsViewModel>(Resources.ProgramSettings, Resources.Settings, 22);
             AddDashboardCommand<BrowserViewModel>(Resources.SambaPosWebsite, Resources.SambaNetwork, 99);
         }

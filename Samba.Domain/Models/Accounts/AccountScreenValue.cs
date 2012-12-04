@@ -13,7 +13,7 @@ namespace Samba.Domain.Models.Accounts
             get { return AccountTypeName; }
         }
 
-        public int Order { get; set; }
+        public int SortOrder { get; set; }
 
         public string UserString
         {

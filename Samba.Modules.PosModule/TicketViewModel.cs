@@ -60,10 +60,7 @@ namespace Samba.Modules.PosModule
                 if (_resourceButtons == null && SelectedDepartment != null)
                 {
                     _resourceButtons = new ObservableCollection<ResourceButton>(
-                        _applicationState.GetTicketResourceScreens()
-                        .OrderBy(x => x.Order)
-                        .Select(x => _cacheService.GetResourceTypeById(x.ResourceTypeId))
-                        .Distinct()
+                        _applicationState.GetTicketResources()
                         .Select(x => new ResourceButton(x, SelectedTicket)));
                 }
                 return _resourceButtons;
@@ -146,7 +143,7 @@ namespace Samba.Modules.PosModule
             {
                 return _applicationState.CurrentDepartment != null
                     ? _applicationState.GetTicketTagGroups()
-                    .OrderBy(x => x.Order)
+                    .OrderBy(x => x.SortOrder)
                     .Select(x => new TicketTagButton(x, SelectedTicket))
                     : null;
             }

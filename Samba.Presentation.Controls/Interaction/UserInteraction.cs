@@ -185,7 +185,7 @@ namespace Samba.Presentation.Controls.Interaction
             string singularName,
             string pluralName)
         {
-            selectedValues = new ObservableCollection<IOrderable>(selectedValues.OrderBy(x => x.Order));
+            selectedValues = new ObservableCollection<IOrderable>(selectedValues.OrderBy(x => x.SortOrder));
 
             ReorderItems(selectedValues);
 
@@ -218,7 +218,7 @@ namespace Samba.Presentation.Controls.Interaction
 
         public void SortItems(IEnumerable<IOrderable> list, string caption, string description)
         {
-            var items = new ObservableCollection<IOrderable>(list.OrderBy(x => x.Order));
+            var items = new ObservableCollection<IOrderable>(list.OrderBy(x => x.SortOrder));
 
             ReorderItems(items);
             var form = new ListSorterForm
@@ -297,7 +297,7 @@ namespace Samba.Presentation.Controls.Interaction
             var order = 10;
             foreach (var orderable in list)
             {
-                orderable.Order = order;
+                orderable.SortOrder = order;
                 order += 10;
             }
         }

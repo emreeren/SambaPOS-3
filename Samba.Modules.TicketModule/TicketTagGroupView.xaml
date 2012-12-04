@@ -23,9 +23,7 @@
                         <LocText ResourceIdentifierKey="SelectionRequired"/>
                     </CheckBox>
 
-                    <CheckBox Margin="0,1" IsChecked="{Binding AskBeforeCreatingTicket}">
-                        Ask Before Creating Ticket
-                    </CheckBox>
+                    <CheckBox Margin="0,1" IsChecked="{Binding AskBeforeCreatingTicket}" Content="{LocText AskBeforeCreatingTicket}"/>
                     <CheckBox Margin="0,1" IsChecked="{Binding FreeTagging}">
                         <LocText ResourceIdentifierKey="FreeTagging"/>
                     </CheckBox>

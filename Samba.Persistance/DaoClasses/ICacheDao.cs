@@ -12,15 +12,15 @@ namespace Samba.Persistance.DaoClasses
     public interface ICacheDao
     {
         void ResetCache();
+        IEnumerable<Resource> GetResources(int resourceTypeId);
         IEnumerable<MenuItem> GetMenuItems();
         IEnumerable<ProductTimer> GetProductTimers();
         IEnumerable<OrderTagGroup> GetOrderTagGroups();
         IEnumerable<AccountTransactionType> GetAccountTransactionTypes();
-        IEnumerable<Resource> GetResources();
         IEnumerable<ResourceType> GetResourceTypes();
         IEnumerable<AccountType> GetAccountTypes();
         IEnumerable<AccountTransactionDocumentType> GetAccountTransactionDocumentTypes();
-        IEnumerable<State> GetResourceStates();
+        IEnumerable<State> GetStates();
         IEnumerable<PrintJob> GetPrintJobs();
         IEnumerable<PaymentType> GetPaymentTypes();
         IEnumerable<ChangePaymentType> GetChangePaymentTypes();

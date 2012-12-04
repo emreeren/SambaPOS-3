@@ -12,7 +12,7 @@ namespace Samba.Domain.Models.Tickets
             _changePaymentTypeMaps = new List<ChangePaymentTypeMap>();
         }
 
-        public int Order { get; set; }
+        public int SortOrder { get; set; }
         public string UserString { get { return Name; } }
         public virtual AccountTransactionType AccountTransactionType { get; set; }
         public virtual Account Account { get; set; }

@@ -55,7 +55,7 @@ namespace Samba.Modules.MenuModule
 
         private static IEnumerable<ScreenMenuCategoryViewModel> GetCategories(ScreenMenu baseModel)
         {
-            return baseModel.Categories.Select(item => new ScreenMenuCategoryViewModel(item)).OrderBy(x => x.Model.Order).ToList();
+            return baseModel.Categories.Select(item => new ScreenMenuCategoryViewModel(item)).OrderBy(x => x.Model.SortOrder).ToList();
         }
 
         private void OnAddCategory(string value)
@@ -150,7 +150,7 @@ namespace Samba.Modules.MenuModule
 
         private void OnSortCategoryItems(string obj)
         {
-            InteractionService.UserIntraction.SortItems(SelectedCategory.ScreenMenuItems.OrderBy(x => x.Order), Resources.SortCategoryProducts,
+            InteractionService.UserIntraction.SortItems(SelectedCategory.ScreenMenuItems.OrderBy(x => x.SortOrder), Resources.SortCategoryProducts,
                 string.Format(Resources.SortCategoryProductsDialogHint_f, SelectedCategory.Name));
         }
 
@@ -158,7 +158,7 @@ namespace Samba.Modules.MenuModule
         {
             InteractionService.UserIntraction.SortItems(Model.Categories, Resources.SortCategories,
                 string.Format(Resources.SortCategoriesDialogHint_f, Model.Name));
-            Categories = new ObservableCollection<ScreenMenuCategoryViewModel>(Categories.OrderBy(x => x.Model.Order));
+            Categories = new ObservableCollection<ScreenMenuCategoryViewModel>(Categories.OrderBy(x => x.Model.SortOrder));
             RaisePropertyChanged(() => Categories);
         }
 

@@ -11,7 +11,7 @@ namespace Samba.Domain.Models.Tickets
             _paymentTypeMaps = new List<PaymentTypeMap>();
         }
 
-        public int Order { get; set; }
+        public int SortOrder { get; set; }
         public string UserString { get { return Name; } }
         public string ButtonColor { get; set; }
         public virtual AccountTransactionType AccountTransactionType { get; set; }

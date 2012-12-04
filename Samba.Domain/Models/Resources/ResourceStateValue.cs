@@ -9,7 +9,6 @@ namespace Samba.Domain.Models.Resources
     public class ResourceStateValue : Value
     {
         public int ResoruceId { get; set; }
-        public DateTime Date { get; set; }
         public string ResourceStates { get; set; }
 
         private IList<ResourceStateVal> _resourceStateValues;
@@ -47,6 +46,15 @@ namespace Samba.Domain.Models.Resources
         public string GetStateData()
         {
             return string.Join("\r", ResourceStateValues.Where(x => !string.IsNullOrEmpty(x.State)).Select(x => string.Format("{0}:{1}", x.StateName, x.State)));
+        }
+
+        public bool IsInState(string stateName, string state)
+        {
+            if (string.IsNullOrEmpty(stateName)) return true;
+            if (stateName == "*") return ResourceStateValues.Any(x => x.State == state);
+            if (string.IsNullOrEmpty(state)) return ResourceStateValues.All(x => x.StateName != stateName);
+            return ResourceStateValues.Any(x => x.StateName == stateName && x.State == state);
+
         }
     }
 }

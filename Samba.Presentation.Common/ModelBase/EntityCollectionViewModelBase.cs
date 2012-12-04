@@ -300,7 +300,7 @@ namespace Samba.Presentation.Common.ModelBase
         protected ObservableCollection<TViewModel> BuildViewModelList(IEnumerable<TModel> itemsList)
         {
             if (typeof(TModel).GetInterfaces().Any(x => x == typeof(IOrderable)))
-                return new ObservableCollection<TViewModel>(itemsList.OrderBy(x => ((IOrderable)x).Order).ThenBy(x => x.Id).Select(InternalCreateNewViewModel));
+                return new ObservableCollection<TViewModel>(itemsList.OrderBy(x => ((IOrderable)x).SortOrder).ThenBy(x => x.Id).Select(InternalCreateNewViewModel));
             return new ObservableCollection<TViewModel>(itemsList.Select(InternalCreateNewViewModel));
         }
 

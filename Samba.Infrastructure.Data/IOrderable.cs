@@ -3,7 +3,7 @@
     public interface IOrderable
     {
         string Name { get; }
-        int Order { get; set; }
+        int SortOrder { get; set; }
         string UserString { get; }
     }
 }

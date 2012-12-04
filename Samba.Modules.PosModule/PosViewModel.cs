@@ -32,6 +32,7 @@ namespace Samba.Modules.PosModule
         private readonly MenuItemSelectorViewModel _menuItemSelectorViewModel;
         private readonly TicketListViewModel _ticketListViewModel;
         private readonly TicketTagListViewModel _ticketTagListViewModel;
+        private readonly TicketResourceListViewModel _ticketResourceListViewModel;
         private readonly MenuItemSelectorView _menuItemSelectorView;
         private readonly TicketViewModel _ticketViewModel;
         private readonly TicketOrdersViewModel _ticketOrdersViewModel;
@@ -59,7 +60,7 @@ namespace Samba.Modules.PosModule
         public PosViewModel(IRegionManager regionManager, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
             ITicketService ticketService, IUserService userService, ICacheService cacheService, TicketListViewModel ticketListViewModel,
             TicketTagListViewModel ticketTagListViewModel, MenuItemSelectorViewModel menuItemSelectorViewModel, MenuItemSelectorView menuItemSelectorView,
-            TicketViewModel ticketViewModel, TicketOrdersViewModel ticketOrdersViewModel)
+            TicketViewModel ticketViewModel, TicketOrdersViewModel ticketOrdersViewModel,TicketResourceListViewModel ticketResourceListViewModel)
         {
             _ticketService = ticketService;
             _userService = userService;
@@ -73,6 +74,7 @@ namespace Samba.Modules.PosModule
             _menuItemSelectorViewModel = menuItemSelectorViewModel;
             _ticketListViewModel = ticketListViewModel;
             _ticketTagListViewModel = ticketTagListViewModel;
+            _ticketResourceListViewModel = ticketResourceListViewModel;
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<Ticket>>().Subscribe(OnTicketEventReceived);
             EventServiceFactory.EventService.GetEvent<GenericEvent<SelectedOrdersData>>().Subscribe(OnSelectedOrdersChanged);
@@ -265,6 +267,12 @@ namespace Samba.Modules.PosModule
         private void DisplaySingleTicket()
         {
             _applicationStateSetter.SetCurrentApplicationScreen(AppScreens.TicketView);
+            if (SelectedTicket != null && SelectedTicket.Orders.Count == 0 && _cacheService.GetTicketTypeById(SelectedTicket.TicketTypeId).ResourceTypeAssignments.Any(x => x.AskBeforeCreatingTicket && !SelectedTicket.TicketResources.Any(y => y.ResourceTypeId == x.ResourceTypeId)))
+            {
+                _ticketResourceListViewModel.Update(SelectedTicket);
+                DisplayTicketResourceList();
+                return;
+            }
             if (SelectedTicket != null && SelectedTicket.Orders.Count == 0 && _applicationState.GetTicketTagGroups().Count(x => x.AskBeforeCreatingTicket && !SelectedTicket.IsTaggedWith(x.Name)) > 0)
             {
                 _ticketTagListViewModel.Update(SelectedTicket);
@@ -289,6 +297,13 @@ namespace Samba.Modules.PosModule
             _applicationStateSetter.SetCurrentApplicationScreen(AppScreens.TicketView);
             _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
             _regionManager.RequestNavigate(RegionNames.PosMainRegion, new Uri("TicketTagListView", UriKind.Relative));
+        }
+
+        private void DisplayTicketResourceList()
+        {
+            _applicationStateSetter.SetCurrentApplicationScreen(AppScreens.TicketView);
+            _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
+            _regionManager.RequestNavigate(RegionNames.PosMainRegion, new Uri("TicketResourceListView", UriKind.Relative));
         }
 
         public void DisplayMenuScreen()

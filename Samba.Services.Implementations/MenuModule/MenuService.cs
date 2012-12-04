@@ -31,7 +31,7 @@ namespace Samba.Services.Implementations.MenuModule
                     .Take(category.ItemCountPerPage);
             }
 
-            return items.OrderBy(x => x.Order);
+            return items.OrderBy(x => x.SortOrder);
         }
 
         public IEnumerable<string> GetScreenMenuCategories(ScreenMenuCategory category, string parentTag)

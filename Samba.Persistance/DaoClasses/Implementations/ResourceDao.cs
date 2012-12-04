@@ -34,12 +34,12 @@ namespace Samba.Persistance.DaoClasses.Implementations
             if (resourceScreen.PageCount > 1)
             {
                 set = resourceScreen.ScreenItems
-                    .OrderBy(x => x.Order)
+                    .OrderBy(x => x.SortOrder)
                     .Skip(pageNo * resourceScreen.ItemCountPerPage)
                     .Take(resourceScreen.ItemCountPerPage)
                     .Select(x => x.ResourceId);
             }
-            else set = resourceScreen.ScreenItems.OrderBy(x => x.Order).Select(x => x.ResourceId);
+            else set = resourceScreen.ScreenItems.OrderBy(x => x.SortOrder).Select(x => x.ResourceId);
             using (var w = WorkspaceFactory.CreateReadOnly())
             {
                 var result = w.Queryable<ResourceStateValue>().Where(x => set.Contains(x.ResoruceId));
@@ -100,7 +100,7 @@ namespace Samba.Persistance.DaoClasses.Implementations
                 var stateValue = w.Single<ResourceStateValue>(x => x.ResoruceId == resourceId);
                 if (stateValue == null)
                 {
-                    stateValue = new ResourceStateValue { ResoruceId = resourceId, Date = DateTime.Now };
+                    stateValue = new ResourceStateValue { ResoruceId = resourceId };
                     w.Add(stateValue);
                 }
                 stateValue.SetStateValue(stateName, state);

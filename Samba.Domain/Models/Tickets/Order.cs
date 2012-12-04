@@ -183,7 +183,7 @@ namespace Samba.Domain.Models.Tickets
                            PortionName = orderTag.MenuItemId > 0 ? PortionName : null,
                            UserId = userId,
                            Quantity = 1,
-                           OrderKey = orderTagGroup.Order.ToString("000") + orderTag.Order.ToString("000")
+                           OrderKey = orderTagGroup.SortOrder.ToString("000") + orderTag.SortOrder.ToString("000")
                        };
 
             otag.UpdatePrice(TaxIncluded, TaxRate, orderTag.Price);

@@ -21,7 +21,7 @@ namespace Samba.Domain.Models.Menus
 
         public int ScreenMenuCategoryId { get; set; }
         public int MenuItemId { get; set; }
-        public int Order { get; set; }
+        public int SortOrder { get; set; }
         public bool AutoSelect { get; set; }
         public string ButtonColor { get; set; }
         public int Quantity { get; set; }

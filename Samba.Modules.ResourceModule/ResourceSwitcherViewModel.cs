@@ -77,13 +77,13 @@ namespace Samba.Modules.ResourceModule
                 _applicationState.GetTicketResourceScreens().ToList() :
                 _applicationState.GetResourceScreens().ToList();
             if (!resourceScreens.Any()) return null;
-            _resourceScreens = resourceScreens.OrderBy(x => x.Order).ToList();
+            _resourceScreens = resourceScreens.OrderBy(x => x.SortOrder).ToList();
             _resourceSwitcherButtons = null;
             var selectedScreen = _applicationState.SelectedResourceScreen;
             if (value != null && value.SelectedEntity != null && _applicationState.CurrentDepartment != null)
             {
                 if (_applicationState.IsLocked || _applicationState.CurrentDepartment.TicketCreationMethod == 1)
-                    _resourceScreens = _resourceScreens.Where(x => x.ResourceTypeId == value.SelectedEntity.ResourceTypeId).OrderBy(x => x.Order);
+                    _resourceScreens = _resourceScreens.Where(x => x.ResourceTypeId == value.SelectedEntity.ResourceTypeId).OrderBy(x => x.SortOrder);
                 if (!_resourceScreens.Any())
                     return resourceScreens.ElementAt(0);
                 if (selectedScreen == null || selectedScreen.ResourceTypeId != value.SelectedEntity.ResourceTypeId)
@@ -101,7 +101,7 @@ namespace Samba.Modules.ResourceModule
             get
             {
                 if (_applicationState.CurrentDepartment == null) return new List<ResourceScreen>();
-                return _resourceScreens ?? (_resourceScreens = _applicationState.GetResourceScreens().OrderBy(x => x.Order));
+                return _resourceScreens ?? (_resourceScreens = _applicationState.GetResourceScreens().OrderBy(x => x.SortOrder));
             }
         }
 

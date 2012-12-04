@@ -9,7 +9,7 @@ namespace Samba.Domain.Models.Accounts
     public class AccountType : Entity,IOrderable
     {
         public int DefaultFilterType { get; set; }
-        public int Order { get; set; }
+        public int SortOrder { get; set; }
         public string UserString { get { return Name; } }
         public string Tags { get; set; }
     }

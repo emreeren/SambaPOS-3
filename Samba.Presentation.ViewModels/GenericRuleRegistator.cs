@@ -245,7 +245,7 @@ namespace Samba.Presentation.ViewModels
 
                     if (!string.IsNullOrEmpty(ticketStateName))
                     {
-                        var dt = new TicketStateData() { StateName = ticketStateName };
+                        var dt = new TicketStateData { StateName = ticketStateName };
                         dt.PublishEvent(EventTopicNames.ActivateTicketList);
                     }
                     else if (!string.IsNullOrEmpty(ticketTagName))
@@ -253,7 +253,6 @@ namespace Samba.Presentation.ViewModels
                         var dt = new TicketTagGroup { Name = ticketTagName };
                         dt.PublishEvent(EventTopicNames.ActivateTicketList);
                     }
-
                 }
 
                 if (x.Value.Action.ActionType == ActionNames.CreateTicket)
@@ -275,30 +274,6 @@ namespace Samba.Presentation.ViewModels
 
                 if (x.Value.Action.ActionType == ActionNames.UpdateResourceState)
                 {
-                    //var resource = x.Value.GetDataValue<Resource>("Resource");
-                    //var stateName = x.Value.GetDataValueAsString("StateName");
-                    //var currentState = x.Value.GetDataValueAsString("CurrentState");
-                    //var state = x.Value.GetDataValueAsString("State");
-                    //if (resource != null)
-                    //{
-                    //    ResourceService.UpdateResourceState2(resource, stateName, currentState, state);
-                    //}
-                    //else
-                    //{
-                    //    var ticket = x.Value.GetDataValue<Ticket>("Ticket");
-                    //    if (ticket != null)
-                    //    {
-                    //        var resourceTypeName = x.Value.GetDataValueAsString("ResourceTypeName");
-                    //        var resourceTypeId = CacheService.GetResourceTypeIdByEntityName(resourceTypeName);
-                    //        foreach (var ticketResource in ticket.TicketResources)
-                    //        {
-                    //            resource = CacheService.GetResourceById(ticketResource.ResourceId);
-                    //            if (resource.ResourceTypeId == resourceTypeId)
-                    //                ResourceService.UpdateResourceState2(resource, stateName, currentState, state);
-                    //        }
-                    //    }
-                    //}
-
                     var resourceId = x.Value.GetDataValueAsInt("ResourceId");
                     var resourceTypeId = x.Value.GetDataValueAsInt("ResourceTypeId");
                     var stateName = x.Value.GetAsString("ResourceStateName");

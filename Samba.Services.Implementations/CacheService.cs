@@ -19,11 +19,13 @@ namespace Samba.Services.Implementations
     class CacheService : ICacheService
     {
         private readonly ICacheDao _dataService;
+        private readonly ResourceCache _resourceCache;
 
         [ImportingConstructor]
         public CacheService(ICacheDao dataService)
         {
             _dataService = dataService;
+            _resourceCache = new ResourceCache();
         }
 
         public Account GetAccountById(int accountId)
@@ -101,12 +103,12 @@ namespace Samba.Services.Implementations
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == userRoleId)
                 .Where(x => x.MenuItemGroupCode == null || x.MenuItemGroupCode == menuItem.GroupCode)
                 .Where(x => x.MenuItemId == 0 || x.MenuItemId == menuItemId);
-            return tgl.Where(x => maps.Any(y => y.OrderTagGroupId == x.Id)).OrderBy(x => x.Order);
+            return tgl.Where(x => maps.Any(y => y.OrderTagGroupId == x.Id)).OrderBy(x => x.SortOrder);
         }
 
         public IEnumerable<OrderTagGroup> GetOrderTagGroups(int ticketTypeId, int terminalId, int departmentId, int userRoleId, params int[] menuItemIds)
         {
-            IEnumerable<OrderTagGroup> orderTags = OrderTagGroups.OrderBy(y => y.Order);
+            IEnumerable<OrderTagGroup> orderTags = OrderTagGroups.OrderBy(y => y.SortOrder);
             return menuItemIds.Aggregate(orderTags, (x, y) => InternalGetOrderTagGroups(ticketTypeId, terminalId, departmentId, userRoleId, y));
         }
 
@@ -128,7 +130,7 @@ namespace Samba.Services.Implementations
                 .Where(x => x.TerminalId == 0 || x.TerminalId == terminalId)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == departmentId)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == userRoleId);
-            return TicketTagGroups.Where(x => maps.Any(y => y.TicketTagGroupId == x.Id)).OrderBy(x => x.Order);
+            return TicketTagGroups.Where(x => maps.Any(y => y.TicketTagGroupId == x.Id)).OrderBy(x => x.SortOrder);
         }
 
         public IEnumerable<string> GetTicketTagGroupNames()
@@ -150,7 +152,7 @@ namespace Samba.Services.Implementations
            .SelectMany(x => x.AccountTransactionDocumentTypeMaps)
            .Where(x => x.TerminalId == 0 || x.TerminalId == terminalId)
            .Where(x => x.UserRoleId == 0 || x.UserRoleId == userRoleId);
-            return DocumentTypes.Where(x => maps.Any(y => y.AccountTransactionDocumentTypeId == x.Id)).OrderBy(x => x.Order);
+            return DocumentTypes.Where(x => maps.Any(y => y.AccountTransactionDocumentTypeId == x.Id)).OrderBy(x => x.SortOrder);
         }
 
         public IEnumerable<AccountTransactionDocumentType> GetBatchDocumentTypes(IEnumerable<int> accountTypeIds, int terminalId, int userRoleId)
@@ -159,7 +161,7 @@ namespace Samba.Services.Implementations
               .SelectMany(x => x.AccountTransactionDocumentTypeMaps)
               .Where(x => x.TerminalId == 0 || x.TerminalId == terminalId)
               .Where(x => x.UserRoleId == 0 || x.UserRoleId == userRoleId);
-            return DocumentTypes.Where(x => maps.Any(y => y.AccountTransactionDocumentTypeId == x.Id)).OrderBy(x => x.Order);
+            return DocumentTypes.Where(x => maps.Any(y => y.AccountTransactionDocumentTypeId == x.Id)).OrderBy(x => x.SortOrder);
         }
 
         public IEnumerable<AccountTransactionDocumentType> GetBatchDocumentTypes(IEnumerable<string> accountTypeNamesList, int terminalId, int userRoleId)
@@ -186,7 +188,7 @@ namespace Samba.Services.Implementations
                 .Where(x => x.TerminalId == 0 || x.TerminalId == terminalId)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == departmentId)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == userRoleId);
-            return ChangePaymentTypes.Where(x => maps.Any(y => y.ChangePaymentTypeId == x.Id)).OrderBy(x => x.Order);
+            return ChangePaymentTypes.Where(x => maps.Any(y => y.ChangePaymentTypeId == x.Id)).OrderBy(x => x.SortOrder);
         }
 
         public ChangePaymentType GetChangePaymentTypeById(int id)
@@ -208,7 +210,7 @@ namespace Samba.Services.Implementations
                 .Where(x => x.TerminalId == 0 || x.TerminalId == terminalId)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == departmentId)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == userRoleId);
-            return PaymentTypes.Where(x => maps.Any(y => y.PaymentTypeId == x.Id)).OrderBy(x => x.Order);
+            return PaymentTypes.Where(x => maps.Any(y => y.PaymentTypeId == x.Id)).OrderBy(x => x.SortOrder);
         }
 
         public IEnumerable<PaymentType> GetPaymentScreenPaymentTypes(int ticketTypeId, int terminalId, int departmentId, int userRoleId)
@@ -219,7 +221,7 @@ namespace Samba.Services.Implementations
                 .Where(x => x.TerminalId == 0 || x.TerminalId == terminalId)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == departmentId)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == userRoleId);
-            return PaymentTypes.Where(x => maps.Any(y => y.PaymentTypeId == x.Id)).OrderBy(x => x.Order);
+            return PaymentTypes.Where(x => maps.Any(y => y.PaymentTypeId == x.Id)).OrderBy(x => x.SortOrder);
         }
 
         public PaymentType GetPaymentTypeById(int paymentTypeId)
@@ -270,7 +272,7 @@ namespace Samba.Services.Implementations
                 .Where(x => x.TerminalId == 0 || x.TerminalId == terminalId)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == departmentId)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == userRoleId);
-            return ResourceScreens.Where(x => maps.Any(y => y.ResourceScreenId == x.Id)).OrderBy(x => x.Order);
+            return ResourceScreens.Where(x => maps.Any(y => y.ResourceScreenId == x.Id)).OrderBy(x => x.SortOrder);
         }
 
         public IEnumerable<ResourceScreen> GetTicketResourceScreens(int ticketTypeId, int terminalId, int departmentId, int userRoleId)
@@ -280,7 +282,7 @@ namespace Samba.Services.Implementations
                 .Where(x => x.TerminalId == 0 || x.TerminalId == terminalId)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == departmentId)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == userRoleId);
-            return ResourceScreens.Where(x => x.ResourceTypeId > 0 && maps.Any(y => y.ResourceScreenId == x.Id)).OrderBy(x => x.Order);
+            return ResourceScreens.Where(x => x.ResourceTypeId > 0 && maps.Any(y => y.ResourceScreenId == x.Id)).OrderBy(x => x.SortOrder);
         }
 
         private IEnumerable<AccountScreen> _accountScreens;
@@ -372,7 +374,7 @@ namespace Samba.Services.Implementations
                 .Where(x => x.TerminalId == 0 || x.TerminalId == terminalId)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == departmentId)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == userRoleId);
-            return CalculationSelectors.Where(x => maps.Any(y => y.CalculationSelectorId == x.Id)).OrderBy(x => x.Order);
+            return CalculationSelectors.Where(x => maps.Any(y => y.CalculationSelectorId == x.Id)).OrderBy(x => x.SortOrder);
         }
 
         private IEnumerable<AutomationCommand> _automationCommands;
@@ -397,7 +399,7 @@ namespace Samba.Services.Implementations
                     EnabledStates = x.EnabledStates,
                     VisibleStates = x.VisibleStates
                 });
-            return result.OrderBy(x => x.AutomationCommand.Order);
+            return result.OrderBy(x => x.AutomationCommand.SortOrder);
         }
 
         private IEnumerable<AccountType> _accountTypes;
@@ -457,7 +459,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<State> _states;
         public IEnumerable<State> States
         {
-            get { return _states ?? (_states = _dataService.GetResourceStates()); }
+            get { return _states ?? (_states = _dataService.GetStates()); }
         }
 
         public IEnumerable<State> GetStates(int stateType)
@@ -468,6 +470,11 @@ namespace Samba.Services.Implementations
         public string GetStateColor(string state)
         {
             return States.Any(x => x.Name == state) ? States.Single(x => x.Name == state).Color : "Transparent";
+        }
+
+        public IEnumerable<Resource> GetResources(int resourceTypeId, string stateData)
+        {
+            return _resourceCache.GetResources(resourceTypeId, stateData);
         }
 
         public void ResetTicketTagCache()
@@ -503,6 +510,55 @@ namespace Samba.Services.Implementations
             _orderTagGroups = null;
             _productTimers = null;
             _menuItems = null;
+            _resourceCache.Reset();
+        }
+    }
+
+    internal class ResourceCache
+    {
+        private readonly IDictionary<int, IEnumerable<Resource>> _cache = new Dictionary<int, IEnumerable<Resource>>();
+
+        public IEnumerable<Resource> GetResources(int resourceTypeId, string stateData)
+        {
+            if (!_cache.ContainsKey(resourceTypeId))
+            {
+                var resources = Dao.Query<Resource>(x => x.ResourceTypeId == resourceTypeId);
+                _cache.Add(resourceTypeId, resources);
+            }
+
+            var stateName = "";
+            var state = "";
+            if (!string.IsNullOrEmpty(stateData))
+            {
+                if (stateData.Contains("="))
+                {
+                    var parts = stateData.Split('=');
+                    stateName = parts[0];
+                    state = parts[1];
+                }
+                else
+                {
+                    stateName = "*";
+                    state = stateData;
+                }
+            }
+
+            if (string.IsNullOrEmpty(stateName)) return _cache[resourceTypeId];
+
+            using (var w = WorkspaceFactory.CreateReadOnly())
+            {
+                var ids = w.Queryable<Resource>().Where(x => x.ResourceTypeId == resourceTypeId).Select(y => y.Id);
+                var resourceStates = w.Queryable<ResourceStateValue>().Where(x => ids.Contains(x.ResoruceId)).ToList();
+                return
+                    _cache[resourceTypeId].Where(
+                        x =>
+                        resourceStates.Where(y => y.IsInState(stateName, state)).Select(y => y.ResoruceId).Contains(x.Id));
+            }
+        }
+
+        public void Reset()
+        {
+            _cache.Clear();
         }
     }
 }

@@ -276,6 +276,14 @@ namespace Samba.Presentation.Common.Services
                                                        CurrentLoggedInUser.UserRole.Id);
         }
 
+        public IEnumerable<ResourceType> GetTicketResources()
+        {
+            return GetTicketResourceScreens()
+                .OrderBy(x => x.SortOrder)
+                .Select(x => _cacheService.GetResourceTypeById(x.ResourceTypeId))
+                .Distinct();
+        }
+
         public void ResetState()
         {
             _departmentService.ResetCache();

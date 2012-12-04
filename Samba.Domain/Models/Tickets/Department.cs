@@ -5,7 +5,7 @@ namespace Samba.Domain.Models.Tickets
 {
     public class Department : Entity, IOrderable
     {
-        public int Order { get; set; }
+        public int SortOrder { get; set; }
         public string UserString { get { return Name; } }
 
         [StringLength(10)]

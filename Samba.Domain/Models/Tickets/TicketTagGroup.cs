@@ -12,7 +12,7 @@ namespace Samba.Domain.Models.Tickets
 
     public class TicketTagGroup : Entity, IOrderable
     {
-        public int Order { get; set; }
+        public int SortOrder { get; set; }
 
         public bool FreeTagging { get; set; }
         public bool SaveFreeTags { get; set; }

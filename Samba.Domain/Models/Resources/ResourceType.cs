@@ -9,7 +9,7 @@ namespace Samba.Domain.Models.Resources
 {
     public class ResourceType : Entity, IOrderable
     {
-        public int Order { get; set; }
+        public int SortOrder { get; set; }
         public string EntityName { get; set; }
         public int AccountTypeId { get; set; }
         public string AccountNameTemplate { get; set; }

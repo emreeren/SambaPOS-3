@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Linq.Expressions;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Automation;
 using Samba.Domain.Models.Menus;
@@ -50,19 +52,19 @@ namespace Samba.Persistance.DaoClasses.Implementations
             return Dao.Query<AccountTransactionType>();
         }
 
-        public IEnumerable<Resource> GetResources()
+        public IEnumerable<Resource> GetResources(int resourceTypeId)
         {
-            return Dao.Query<Resource>();
+            return Dao.Query<Resource>(x => x.ResourceTypeId == resourceTypeId);
         }
 
         public IEnumerable<ResourceType> GetResourceTypes()
         {
-            return Dao.Query<ResourceType>(x => x.ResoruceCustomFields).OrderBy(x => x.Order);
+            return Dao.Query<ResourceType>(x => x.ResoruceCustomFields).OrderBy(x => x.SortOrder);
         }
 
         public IEnumerable<AccountType> GetAccountTypes()
         {
-            return Dao.Query<AccountType>().OrderBy(x => x.Order);
+            return Dao.Query<AccountType>().OrderBy(x => x.SortOrder);
         }
 
         public IEnumerable<AccountTransactionDocumentType> GetAccountTransactionDocumentTypes()
@@ -70,7 +72,7 @@ namespace Samba.Persistance.DaoClasses.Implementations
             return Dao.Query<AccountTransactionDocumentType>(x => x.TransactionTypes, x => x.AccountTransactionDocumentTypeMaps, x => x.AccountTransactionDocumentAccountMaps);
         }
 
-        public IEnumerable<State> GetResourceStates()
+        public IEnumerable<State> GetStates()
         {
             return Dao.Query<State>();
         }
@@ -125,7 +127,7 @@ namespace Samba.Persistance.DaoClasses.Implementations
 
         public IEnumerable<TicketType> GetTicketTypes()
         {
-            return Dao.Query<TicketType>(x => x.SaleTransactionType, x => x.OrderNumerator, x => x.TicketNumerator);
+            return Dao.Query<TicketType>(x => x.SaleTransactionType, x => x.OrderNumerator, x => x.TicketNumerator, x => x.ResourceTypeAssignments);
         }
 
         public IEnumerable<TaskType> GetTaskTypes()
@@ -140,7 +142,7 @@ namespace Samba.Persistance.DaoClasses.Implementations
 
         public IEnumerable<Department> GetDepartments()
         {
-            return Dao.Query<Department>().OrderBy(x => x.Order).ThenBy(x => x.Id);
+            return Dao.Query<Department>().OrderBy(x => x.SortOrder).ThenBy(x => x.Id);
         }
     }
 }

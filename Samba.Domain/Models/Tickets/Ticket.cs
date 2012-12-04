@@ -335,7 +335,7 @@ namespace Samba.Domain.Models.Tickets
                             CalculationTypeId = template.Id,
                             IncludeTax = template.IncludeTax,
                             DecreaseAmount = template.DecreaseAmount,
-                            Order = template.Order,
+                            Order = template.SortOrder,
                             AccountTransactionTypeId = template.AccountTransactionType.Id
                         };
                 Calculations.Add(t);
@@ -501,7 +501,7 @@ namespace Samba.Domain.Models.Tickets
             ticket.UpdateAccount(account, exchangeRate);
             if (calculationTypes != null)
             {
-                foreach (var calculationType in calculationTypes.OrderBy(x => x.Order))
+                foreach (var calculationType in calculationTypes.OrderBy(x => x.SortOrder))
                 {
                     ticket.AddCalculation(calculationType, calculationType.Amount);
                 }

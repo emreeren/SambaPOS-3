@@ -31,10 +31,10 @@ namespace Samba.Modules.MenuModule
         [LocalizedDisplayName(ResourceStrings.SortOrder)]
         public int Order
         {
-            get { return Model.Order; }
+            get { return Model.SortOrder; }
             set
             {
-                Model.Order = value;
+                Model.SortOrder = value;
                 RaisePropertyChanged(() => Order);
             }
         }

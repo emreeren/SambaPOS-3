@@ -290,7 +290,7 @@ namespace Samba.Modules.PosModule
                 if (MostUsedItemsCategory != null)
                 {
                     return new ObservableCollection<ScreenMenuItemButton>(
-                    MostUsedItemsCategory.ScreenMenuItems.OrderBy(x => x.Order).Select(x => new ScreenMenuItemButton(x, MenuItemCommand, MostUsedItemsCategory)));
+                    MostUsedItemsCategory.ScreenMenuItems.OrderBy(x => x.SortOrder).Select(x => new ScreenMenuItemButton(x, MenuItemCommand, MostUsedItemsCategory)));
                 }
             }
             return null;
@@ -320,7 +320,7 @@ namespace Samba.Modules.PosModule
 
                 if (category.MaxItems > 0)
                 {
-                    IEnumerable<ScreenMenuItem> sitems = category.ScreenMenuItems.OrderBy(x => x.Order);
+                    IEnumerable<ScreenMenuItem> sitems = category.ScreenMenuItems.OrderBy(x => x.SortOrder);
                     if (SubCategories.Count == 0)
                     {
                         sitems = Categories.Select(x => x.Category).SelectMany(x => x.ScreenMenuItems);
@@ -382,7 +382,7 @@ namespace Samba.Modules.PosModule
                 _currentScreenMenu = screenMenu;
                 var result = new ObservableCollection<ScreenCategoryButton>();
 
-                foreach (var category in screenMenu.Categories.OrderBy(x => x.Order).Where(x => !x.MostUsedItemsCategory))
+                foreach (var category in screenMenu.Categories.OrderBy(x => x.SortOrder).Where(x => !x.MostUsedItemsCategory))
                 {
                     var sButton = new ScreenCategoryButton(category, CategoryCommand);
                     result.Add(sButton);

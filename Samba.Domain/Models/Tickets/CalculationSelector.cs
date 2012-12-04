@@ -14,7 +14,7 @@ namespace Samba.Domain.Models.Tickets
         public string ButtonHeader { get; set; }
         public string ButtonColor { get; set; }
         
-        public int Order { get; set; }
+        public int SortOrder { get; set; }
         public string UserString { get { return Name; } }
        
         private readonly IList<CalculationType> _calculationTypes;

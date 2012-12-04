@@ -14,7 +14,7 @@ namespace Samba.Domain.Models.Automation
         public string Color { get; set; }
         public string Values { get; set; }
         public bool ToggleValues { get; set; }
-        public int Order { get; set; }
+        public int SortOrder { get; set; }
 
         private readonly IList<AutomationCommandMap> _automationCommandMaps;
         public virtual IList<AutomationCommandMap> AutomationCommandMaps

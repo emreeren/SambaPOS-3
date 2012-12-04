@@ -50,6 +50,7 @@ namespace Samba.Presentation.Services
         IEnumerable<CalculationSelector> GetCalculationSelectors();
         IEnumerable<ResourceScreen> GetResourceScreens();
         IEnumerable<ResourceScreen> GetTicketResourceScreens();
+        IEnumerable<ResourceType> GetTicketResources(); 
 
         void ResetState();
     }

@@ -42,13 +42,15 @@ namespace Samba.Modules.AccountModule.Dashboard
         private ObservableCollection<AccountScreenValue> _accountScreenFilters;
         public ObservableCollection<AccountScreenValue> AccountScreenFilters
         {
-            get { return _accountScreenFilters ?? (_accountScreenFilters = new ObservableCollection<AccountScreenValue>(Model.AccountScreenValues.OrderBy(x => x.Order))); }
+            get { return _accountScreenFilters ?? (_accountScreenFilters = new ObservableCollection<AccountScreenValue>(Model.AccountScreenValues.OrderBy(x => x.SortOrder))); }
         }
 
         private void OnAddScreenFilter(string obj)
         {
             var selectedItems = Model.AccountScreenValues;
-            var values = AccountTypes.Where(x => selectedItems.All(y => y.AccountTypeName != x.Name)).Select(x => new AccountScreenValue { AccountTypeName = x.Name, AccountTypeId = x.Id }).ToList<IOrderable>();
+            var values = AccountTypes.Where(x => selectedItems.All(y => y.AccountTypeName != x.Name))
+                .Select(x => new AccountScreenValue { AccountTypeName = x.Name, AccountTypeId = x.Id })
+                .ToList<IOrderable>();
 
             var selectedValues = InteractionService.UserIntraction.ChooseValuesFrom(
                 values,

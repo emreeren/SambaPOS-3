@@ -53,7 +53,7 @@ namespace Samba.Presentation.ViewModels
 
             var pts = foreignCurrency == null ? paymentTypes.Where(x => x.Account == null || x.Account.ForeignCurrencyId == 0) : paymentTypes.Where(x => x.Account != null && x.Account.ForeignCurrencyId == foreignCurrency.Id);
             result.AddRange(pts
-                .OrderBy(x => x.Order)
+                .OrderBy(x => x.SortOrder)
                 .Select(x => new CommandButtonViewModel<PaymentType>
                 {
                     Caption = x.Name.Replace(" ", "\r"),

@@ -34,7 +34,7 @@ namespace Samba.Modules.SettingsModule
 
         public override string GetModelTypeString()
         {
-            return Resources.ResourceState;
+            return Resources.State;
         }
     }
 }

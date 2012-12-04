@@ -29,6 +29,29 @@
         <Label MinWidth="120">Transaction Type</Label>
         <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTransactionTypes}"
                                      SelectedItem="{Binding SaleTransactionType}" />
+
+        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+            <TextBlock Margin="2,3" Text="{LocText ResourceType, Suffix=':'}"/>
+            <TextBlock Margin="4,3">
+                                        <Hyperlink Command="{Binding AddResourceTypeCommand}">
+                                            <TextBlock Text="{Binding Path=AddResourceTypeCommand.Caption}" />
+                                        </Hyperlink>
+                                    </TextBlock>
+        </StackPanel>
+        <DataGrid ItemsSource="{Binding ResourceTypeAssignments}" HorizontalAlignment="Left" 
+                  GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3" 
+                  CanUserAddRows="False" CanUserDeleteRows="False"
+                  AutoGenerateColumns="False" CanUserSortColumns="False" 
+                  Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="{LocText ResourceType}" IsReadOnly="True"
+                                             MinWidth="100" Binding="{Binding ResourceTypeName}" />
+                <DataGridTextColumn Header="{LocText State}" MinWidth="100" Binding="{Binding State}" />
+                <DataGridCheckBoxColumn Header="{LocText AskBeforeCreatingTicket}" Binding="{Binding AskBeforeCreatingTicket}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        
         <Button HorizontalAlignment="Left" Margin="0,10,3,0" MinWidth="70" Content="{Binding SaveCommand.Caption}"
                  Command="{Binding SaveCommand}" />
         <Label Content="{Binding Error}" Foreground="Red" />

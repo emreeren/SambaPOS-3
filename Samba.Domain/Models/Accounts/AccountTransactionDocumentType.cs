@@ -49,7 +49,7 @@ namespace Samba.Domain.Models.Accounts
         public string ExchangeTemplate { get; set; }
         public bool BatchCreateDocuments { get; set; }
         public int Filter { get; set; }
-        public int Order { get; set; }
+        public int SortOrder { get; set; }
 
         public string UserString
         {

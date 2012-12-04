@@ -37,7 +37,7 @@ namespace Samba.Presentation.Services.Implementations.ResourceModule
                 if (resourceScreen.PageCount > 1)
                 {
                     return resourceScreen.ScreenItems
-                         .OrderBy(x => x.Order)
+                         .OrderBy(x => x.SortOrder)
                          .Where(x => string.IsNullOrEmpty(resourceStateFilter) || x.ResourceState == resourceStateFilter)
                          .Skip(resourceScreen.ItemCountPerPage * currentPageNo)
                          .Take(resourceScreen.ItemCountPerPage);

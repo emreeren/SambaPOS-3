@@ -21,7 +21,7 @@ namespace Samba.Domain.Models.Automation
         public string Name { get; set; }
         public string ParameterValues { get; set; }
         public string CustomConstraint { get; set; }
-        public int Order { get; set; }
+        public int SortOrder { get; set; }
 
         public string UserString
         {

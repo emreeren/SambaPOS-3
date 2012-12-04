@@ -27,7 +27,7 @@ namespace Samba.Domain.Models.Automation
             _appRuleMaps = new List<AppRuleMap>();
         }
 
-        public int Order { get; set; }
+        public int SortOrder { get; set; }
 
         public string UserString
         {

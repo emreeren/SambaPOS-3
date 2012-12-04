@@ -16,12 +16,12 @@ namespace Samba.Persistance.DaoClasses.Implementations
 
         public IEnumerable<AppRule> GetRules()
         {
-            return Dao.Query<AppRule>(x => x.Actions, x => x.AppRuleMaps).OrderBy(x => x.Order);
+            return Dao.Query<AppRule>(x => x.Actions, x => x.AppRuleMaps).OrderBy(x => x.SortOrder);
         }
 
         public IEnumerable<AppAction> GetActions()
         {
-            return Dao.Query<AppAction>().OrderBy(x => x.Order);
+            return Dao.Query<AppAction>().OrderBy(x => x.SortOrder);
         }
 
         public AppAction GetActionById(int appActionId)

@@ -38,7 +38,7 @@ namespace Samba.Presentation.Services.Implementations.AutomationModule
                 .Where(x => x.TerminalId == 0 || x.TerminalId == _applicationState.CurrentTerminal.Id)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == _applicationState.CurrentDepartment.Id)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == _applicationState.CurrentLoggedInUser.UserRole.Id);
-            return Rules.Where(x => maps.Any(y => y.AppRuleId == x.Id)).OrderBy(x => x.Order);
+            return Rules.Where(x => maps.Any(y => y.AppRuleId == x.Id)).OrderBy(x => x.SortOrder);
         }
 
         private IEnumerable<AppAction> _actions;

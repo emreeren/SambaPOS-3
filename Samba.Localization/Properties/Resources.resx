@@ -2455,8 +2455,8 @@ Continue without adding details?</value>
   <data name="ResourceScreenItem" xml:space="preserve">
     <value>Resource Screen Item</value>
   </data>
-  <data name="ResourceState" xml:space="preserve">
-    <value>Resource State</value>
+  <data name="State" xml:space="preserve">
+    <value>State</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
@@ -3022,5 +3022,11 @@ Error Message:
   </data>
   <data name="StateType">
     <value xml:space="preserve">State Type</value>
+  </data>
+  <data name="Required">
+    <value xml:space="preserve">Required</value>
+  </data>
+  <data name="AskBeforeCreatingTicket">
+    <value xml:space="preserve">Ask Before Creating Ticket</value>
   </data>
 </root>

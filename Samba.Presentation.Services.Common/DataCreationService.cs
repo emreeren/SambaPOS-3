@@ -556,7 +556,7 @@ namespace Samba.Presentation.Services.Common
             {
                 resource.ResourceTypeId = tableTemplate.Id;
                 screen.AddScreenItem(new ResourceScreenItem { Name = resource.Name, ResourceId = resource.Id });
-                var state = new ResourceStateValue { Date = DateTime.Now, ResoruceId = resource.Id };
+                var state = new ResourceStateValue { ResoruceId = resource.Id };
                 state.SetStateValue("Status", "Available");
                 _workspace.Add(state);
             }
