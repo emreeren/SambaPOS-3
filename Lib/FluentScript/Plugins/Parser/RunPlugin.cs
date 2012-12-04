@@ -117,7 +117,7 @@ namespace ComLib.Lang.Plugins
             if (!(_tokenIt.NextToken.Token.IsLiteralAny() || _tokenIt.NextToken.Token.Kind == TokenKind.Ident))
                 _tokenIt.BuildSyntaxExpectedException("identifier or string");
 
-            string name = _tokenIt.NextToken.Token.Text;
+            var name = _tokenIt.NextToken.Token.Text;
 
             // Case 1: run 'step1';
             // Case 2: run step1;
@@ -125,7 +125,7 @@ namespace ComLib.Lang.Plugins
             if (next.Token != Tokens.LeftParenthesis && next.Token != Tokens.Dot)
             {
                 var funcExp = new FunctionCallExpr();
-                funcExp.NameExp = new VariableExpr(name);
+                funcExp.NameExp = _parser.ToIdentExpr(name, null);
                 _parser.State.FunctionCall++;
                 
                 //Ctx.Limits.CheckParserFuncCallNested(_tokenIt.NextToken, _parser.State.FunctionCall);

@@ -61,7 +61,7 @@ namespace ComLib.Lang.Plugins
         /// <returns></returns>
         public override Expr Parse()
         {            
-            IfExpr stmt = new IfExpr();
+            var stmt = new IfExpr();
             var statements = new List<Expr>();
 
             // While ( condition expression )
@@ -69,12 +69,14 @@ namespace ComLib.Lang.Plugins
 
             // Parse the if
             ParseConditionalBlock(stmt);
+            _tokenIt.AdvancePastNewLines();
 
             // Handle "else if" and/or else
             if (_tokenIt.NextToken.Token == Tokens.Else)
             {
                 // _tokenIt.NextToken = "else"
                 _tokenIt.Advance();
+                _tokenIt.AdvancePastNewLines();
 
                 // What's after else? 
                 // 1. "if"      = else if statement
@@ -90,9 +92,8 @@ namespace ComLib.Lang.Plugins
                 {
                     var elseStmt = new BlockExpr();
                     ParseBlock(elseStmt);
-                    elseStmt.Ctx = Ctx;
-                    stmt.Else = elseStmt;
-                    _parser.SetScriptPosition(stmt.Else, token);
+                    _parser.SetupContext(elseStmt, token);
+                    stmt.Else = elseStmt;                    
                 }
             }
             return stmt;

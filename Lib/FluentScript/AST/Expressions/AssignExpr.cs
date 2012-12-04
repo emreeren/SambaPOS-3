@@ -50,24 +50,7 @@ namespace ComLib.Lang.Plugins
         /// <returns></returns>
         public override object DoEvaluate()
         {
-            // CASE 1: Assign variable.  a = 1
-            if (this.VarExp.IsNodeType(NodeTypes.SysVariable))
-            {
-                AssignHelper.SetVariableValue(this.Ctx, this, _isDeclaration, this.VarExp, this.ValueExp);
-            }
-            // CASE 2: Assign member.    
-            //      e.g. dictionary       :  user.name = 'kishore'
-            //      e.g. property on class:  user.age  = 20
-            else if (this.VarExp.IsNodeType(NodeTypes.SysMemberAccess))
-            {
-                AssignHelper.SetMemberValue(this.Ctx, this, this.VarExp, this.ValueExp);
-            }
-            // Case 3: Assign value to index: "users[0]" = <expression>;
-            else if (this.VarExp.IsNodeType(NodeTypes.SysIndex))
-            {
-                AssignHelper.SetIndexValue(this.Ctx, this, this.VarExp, this.ValueExp);
-            }
-            return LObjects.Null;
+            return AssignHelper.AssignValue(this, this.VarExp, this.ValueExp, this._isDeclaration);
         }
     }
 }

@@ -23,8 +23,8 @@ namespace ComLib.Lang.Helpers
         /// <returns></returns>
         public static MemberAccess GetMemberAccess(AstNode node, Context ctx, Expr varExp, string memberName)
         {
-            bool isVariableExp = varExp.IsNodeType(NodeTypes.SysVariable);
-            string variableName = isVariableExp ? ((VariableExpr) varExp).Name : string.Empty;
+            var isVariableExp = varExp.IsNodeType(NodeTypes.SysVariable);
+            var variableName = isVariableExp ? ((VariableExpr) varExp).Name : string.Empty;
 
             // CASE 1: External function call "user.create"
             if (isVariableExp && FunctionHelper.IsExternalFunction(ctx.ExternalFunctions, variableName, memberName))
@@ -37,9 +37,26 @@ namespace ComLib.Lang.Helpers
                 if (result.Success)
                     return MemberHelper.GetExternalTypeMember(node, (Type) result.Item, variableName, null, memberName, true);
             }
+            
+            // CASE 3: Module
+            if (varExp.IsNodeType(NodeTypes.SysVariable))
+            {
+                var name = varExp.ToQualifiedName();
+                if (!ctx.Memory.Contains(name))
+                {
+                    var modresult = ResolveSymbol(varExp.SymScope, name);
+                    if (modresult != null) return modresult;
+                }
+            }
 
-            var obj = varExp.Evaluate() as LObject;
+            // CASE 4: Nested member.
+            var res = varExp.Evaluate();
+            if (res is MemberAccess )
+            {
+                return res as MemberAccess;
+            }
 
+            var obj = res as LObject;
             // Check for empty objects.
             ExceptionHelper.NotNull(node,  obj, "member access");
 
@@ -58,6 +75,40 @@ namespace ComLib.Lang.Helpers
             var lclassType = lclass.Type as LClassType;
             var member = MemberHelper.GetExternalTypeMember(node, lclassType.DataType, variableName, lclass.Value, memberName, false);
             return member;
+        }
+
+
+        /// <summary>
+        /// Resolve a symbol that is either a module or function.
+        /// </summary>
+        /// <param name="symscope"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static MemberAccess ResolveSymbol(ISymbols symscope, string name)
+        {
+            var symbol = symscope.GetSymbol(name);
+
+            // Case 2: Module.
+            if (symbol.Category == SymbolCategory.CustomScope)
+            {
+                var msym = symbol as SymbolModule;
+                var mem = new MemberAccess(MemberMode.Module);
+                mem.Type = msym.DataType;
+                mem.Scope = msym.Scope;
+                return mem;
+            }
+
+            // Case 3: Function.
+            if (symbol.Category == SymbolCategory.Func)
+            {
+                var sfunc = symbol as SymbolFunction;
+                var mem = new MemberAccess(MemberMode.FunctionScript);
+                mem.MemberName = name;
+                mem.Type = sfunc.DataType;
+                mem.Expr = sfunc.FuncExpr as Expr;
+                return mem;
+            }
+            return null;
         }
 
 

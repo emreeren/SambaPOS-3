@@ -9,6 +9,7 @@ using ComLib.Lang.AST;
 using ComLib.Lang.Types;
 using ComLib.Lang.Helpers;
 using ComLib.Lang.Plugins;
+using ComLib.Lang.Types;
 // </lang:using>
 
 namespace ComLib.Lang.Parsing
@@ -58,7 +59,7 @@ namespace ComLib.Lang.Parsing
             AddCheck(NodeTypes.SysVariable,        (semacts, node) => CheckVariable(semacts, (VariableExpr)node));
             AddCheck(NodeTypes.SysFunctionCall,    (semacts, node) => CheckFunctionCall(semacts, (FunctionCallExpr)node));
             AddCheck(NodeTypes.SysIf,              (semacts, node) => CheckIfFalse(semacts, node));
-            AddCheck(NodeTypes.SysFunctionDeclare, (semacts, node) => CheckFunctionDeclaration(semacts, (FuncDeclareExpr)node));
+            AddCheck(NodeTypes.SysFunctionDeclare, (semacts, node) => CheckFunctionDeclaration(semacts, (FunctionDeclareExpr)node));
         }
 
 
@@ -281,7 +282,7 @@ namespace ComLib.Lang.Parsing
         }
 
 
-        private SemanticCheckResult CheckFunctionDeclaration(SemActs semActs, FuncDeclareExpr exp)
+        private SemanticCheckResult CheckFunctionDeclaration(SemActs semActs, FunctionDeclareExpr exp)
         {
             // 1. Number of params
             var func = exp.Function;
@@ -313,14 +314,16 @@ namespace ComLib.Lang.Parsing
         private SemanticCheckResult CheckFunctionCall(SemActs semActs, FunctionCallExpr exp)
         {
             var functionName = exp.ToQualifiedName();
-            var exists = _ctx.Functions.Contains(functionName);
+            var exists = exp.SymScope.IsFunction(functionName);
             
             // 1. Function does not exist.
             if (!exists)
             {
                 return AddErrorCode(ErrorCodes.Func1000, exp, functionName);
             }
-            var func = _ctx.Functions.GetByName(functionName);
+            var sym = exp.SymScope.GetSymbol(functionName) as SymbolFunction;
+            var func = sym.FuncExpr as FunctionExpr;
+
             // 5. Check that named parameters exist.
             foreach(var argExpr in exp.ParamListExpressions)
             {

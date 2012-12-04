@@ -291,7 +291,12 @@ namespace ComLib.Lang
             var argsList = args.ToList<object>();
             if(convertApplicableTypes)
                 LangTypeHelper.ConvertToLangTypeValues(argsList);
-            var result = _context.Functions.CallByName(functionName, null, argsList, false);
+            var exists = _context.Symbols.IsFunc(functionName);
+            if (!exists)
+                return null;
+            var sym = _context.Symbols.GetSymbol(functionName) as SymbolFunction;
+            var expr = sym.FuncExpr as FunctionExpr;
+            var result = FunctionHelper.CallFunctionInScript(_context, expr, functionName, null, argsList, false);
             return result;
         }
 

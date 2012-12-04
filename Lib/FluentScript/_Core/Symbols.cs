@@ -174,6 +174,14 @@ namespace ComLib.Lang.Core
 
 
         /// <summary>
+        /// Whether or not the symbol name supplied is a function.
+        /// </summary>
+        /// <param name="name">Name of the function</param>
+        /// <returns></returns>
+        bool IsFunction(string name);
+        
+
+        /// <summary>
         /// Gets the symbol with the supplied name.
         /// </summary>
         /// <param name="name">Name of the symbol to get.</param>
@@ -231,7 +239,8 @@ namespace ComLib.Lang.Core
         /// Define a function symbol within this scope.
         /// </summary>
         /// <param name="func">The function metadata</param>
-        void DefineFunction(FunctionMetaData func);
+        /// <param name="functionExpr">The function expression object that can execute the function</param>
+        void DefineFunction(FunctionMetaData func, object functionExpr);
     }    
 
 
@@ -312,11 +321,24 @@ namespace ComLib.Lang.Core
         /// <param name="name">The name of the symbol</param>
         /// <param name="categoryName">The category of the symbol</param>
         /// <returns></returns>
-        public virtual bool IsCategory(string name, string typename)
+        public virtual bool IsCategory(string name, string categoryName)
         {
             var sym = this.GetSymbol(name);
             if (sym == null) return false;
-            return sym.Category == typename;
+            return sym.Category == categoryName;
+        }
+
+
+        /// <summary>
+        /// Whether or not the symbol name supplied is a function.
+        /// </summary>
+        /// <param name="name">Name of the function</param>
+        /// <returns></returns>
+        public virtual bool IsFunction(string name)
+        {
+            var sym = this.GetSymbol(name);
+            if (sym == null) return false;
+            return sym.Category == SymbolCategory.Func;
         }
 
 
@@ -400,7 +422,7 @@ namespace ComLib.Lang.Core
         /// Create an alias to reference another existing symbol.
         /// </summary>
         /// <param name="alias">The alias</param>
-        /// <param name="symbol">The symbol to map the alias to</param>
+        /// <param name="existing">The symbol to map the alias to</param>
         public virtual void DefineAlias(string alias, string existing)
         {
             var symbol = this.GetSymbol(existing);
@@ -412,9 +434,11 @@ namespace ComLib.Lang.Core
         /// Define a function symbol within this scope.
         /// </summary>
         /// <param name="func">The function metadata</param>
-        public virtual void DefineFunction(FunctionMetaData func)
+        /// <param name="functionExpr">The function expression object that can execute the function</param>
+        public virtual void DefineFunction(FunctionMetaData func, object functionExpr)
         {
             var symbol = new SymbolFunction(func);
+            symbol.FuncExpr = functionExpr;
             this.Define(symbol);
         }
     }
@@ -699,16 +723,17 @@ namespace ComLib.Lang.Core
         public void DefineConstant(string name, LType type, object value)
         {
             _current.DefineConstant(name, type, value);
-        }        
+        }
 
 
         /// <summary>
         /// Define a function symbol within this scope.
         /// </summary>
         /// <param name="func">The function metadata</param>
-        public void DefineFunction(FunctionMetaData func)
+        /// <param name="functionExpr">The function expression object that can execute the function</param>
+        public virtual void DefineFunction(FunctionMetaData func, object functionExpr)
         {            
-            _current.DefineFunction(func);
+            _current.DefineFunction(func, functionExpr);
         }
     }
 }

@@ -86,7 +86,7 @@ namespace ComLib.Lang.Parsing
         /// <returns></returns>
         public object Call(FunctionCallExpr exp)
         {
-            return CallByName(exp.Name, exp.ParamListExpressions, exp.ParamList, true);
+            return CallByName(exp.ToQualifiedName(), exp.ParamListExpressions, exp.ParamList, true);
         }
 
 

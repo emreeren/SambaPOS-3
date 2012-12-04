@@ -18,6 +18,12 @@ namespace ComLib.Lang.Core
         /// </summary>
         public ScriptRef Ref;
 
+
+        /// <summary>
+        /// The referencing token.
+        /// </summary>
+        public TokenData Token;
+
         
         /// <summary>
         /// The node type.

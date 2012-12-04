@@ -95,7 +95,7 @@ namespace ComLib.Lang.Parsing
                 Condition(exp as ConditionExpr);
 
             else if (exp.IsNodeType(NodeTypes.SysFunctionDeclare))
-                FunctionDeclare(exp as FuncDeclareExpr);
+                FunctionDeclare(exp as FunctionDeclareExpr);
 
             else if (exp.IsNodeType(NodeTypes.SysFunctionCall))
                 FunctionCall(exp as FunctionCallExpr);
@@ -246,7 +246,7 @@ namespace ComLib.Lang.Parsing
         /// Visits the function call expression tree
         /// </summary>
         /// <param name="exp"></param>
-        public void FunctionDeclare(FuncDeclareExpr exp)
+        public void FunctionDeclare(FunctionDeclareExpr exp)
         {
             _callBackOnNodeStart(exp);
             for(var ndx = 0; ndx < exp.Function.Statements.Count; ndx++)

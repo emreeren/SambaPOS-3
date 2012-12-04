@@ -94,6 +94,18 @@ namespace ComLib.Lang.AST
 
 
         /// <summary>
+        /// The scope to use.
+        /// </summary>
+        public ISymbols Scope;
+
+
+        /// <summary>
+        /// An expression, currently used for functions.
+        /// </summary>
+        public Expr Expr;
+
+
+        /// <summary>
         /// The full member name.
         /// </summary>
         public string FullMemberName
@@ -130,6 +142,16 @@ namespace ComLib.Lang.AST
         {
             return this.DataType != null && this.Property != null;
         }
+
+
+        /// <summary>
+        /// Whether or not this is a property access on a custom object.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsModuleAccess()
+        {
+            return this.Mode == MemberMode.Module;
+        }
     }
 
 
@@ -138,6 +160,15 @@ namespace ComLib.Lang.AST
     /// </summary>
     public class MemberAccessExpr : MemberExpr
     {
+        /// <summary>
+        /// Default setup.
+        /// </summary>
+        public MemberAccessExpr() : base(null, string.Empty)
+        {
+            this.Nodetype = NodeTypes.SysMemberAccess;
+        }
+
+
         /// <summary>
         /// Initialize
         /// </summary>
@@ -178,6 +209,11 @@ namespace ComLib.Lang.AST
             if (memberAccess.IsPropertyAccessOnClass())
             {
                 var result = FunctionHelper.CallMemberOnClass(this.Ctx, this, memberAccess, null, null);
+                return result;
+            }
+            if (memberAccess.IsModuleAccess())
+            {
+                var result = MemberHelper.ResolveSymbol(memberAccess.Scope, this.MemberName);
                 return result;
             }
             return memberAccess;

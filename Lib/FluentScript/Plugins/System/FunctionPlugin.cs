@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,12 +16,12 @@ namespace ComLib.Lang.Plugins
     /// <summary>
     /// Plugin for throwing errors from the script.
     /// </summary>
-    public class FuncDeclarePlugin : ExprBlockPlugin, IParserCallbacks
+    public class FunctionDeclarePlugin : ExprBlockPlugin, IParserCallbacks
     {
         /// <summary>
         /// Intialize.
         /// </summary>
-        public FuncDeclarePlugin()
+        public FunctionDeclarePlugin()
         {
             this.ConfigureAsSystemStatement(true, false, "function");
         }
@@ -74,9 +75,8 @@ namespace ComLib.Lang.Plugins
         /// <returns></returns>
         public Expr Parse(TokenData token, bool expectToken)
         {
-            var stmt = new FuncDeclareExpr();
-            stmt.Function.Ctx = Ctx;
-            _parser.SetScriptPosition(stmt.Function, token);
+            var stmt = new FunctionDeclareExpr();
+            _parser.SetupContext(stmt.Function, token);
 
             if (expectToken) _tokenIt.Expect(token.Token);
             else _tokenIt.Advance();
@@ -145,6 +145,7 @@ namespace ComLib.Lang.Plugins
                     this.Ctx.Symbols.DefineAlias(alias, fs.Meta.Name);
             
             // 3. Push the current scope.
+            stmt.SymScope = this.Ctx.Symbols.Current;
             this.Ctx.Symbols.Push(new SymbolsFunction(fs.Name), true);
 
             // 4. Register the parameter names in the symbol scope.
@@ -152,7 +153,6 @@ namespace ComLib.Lang.Plugins
                 foreach(var arg in fs.Meta.Arguments)
                     this.Ctx.Symbols.DefineVariable(arg.Name, LTypes.Object);
 
-            stmt.SymScope = this.Ctx.Symbols.Current;
             _parser.ParseBlock(stmt);
             this.Ctx.Symbols.Pop();
         }
@@ -164,17 +164,30 @@ namespace ComLib.Lang.Plugins
         /// <param name="node">The node returned by this implementations Parse method</param>
         public void OnParseComplete(AstNode node)        
         {
-            var function = (node as FuncDeclareExpr).Function;
-            Ctx.Functions.Register(function.Name, function);
+            var function = (node as FunctionDeclareExpr).Function;
+            
+            // 1. Register the function as a symbol
+            this.Ctx.Symbols.DefineFunction(function.Meta, function);
 
-            // Register the functions aliases.
+            // 2. Now register the aliases
             if (function.Meta.Aliases != null && function.Meta.Aliases.Count > 0)
             {
                 foreach (string alias in function.Meta.Aliases)
                 {
-                    Ctx.Functions.Register(alias, function);
+                    this.Ctx.Symbols.DefineAlias(alias, function.Name);
                 }
             }
+
+            // FEATURE-MOD-START-REMOVE-CODE
+            //this.Ctx.Functions.Register(function.Name, function);
+            //if (function.Meta.Aliases != null && function.Meta.Aliases.Count > 0)
+            //{
+            //    foreach (string alias in function.Meta.Aliases)
+            //    {
+            //        this.Ctx.Functions.Register(alias, function);
+            //    }
+            //}
+            // END-REMOVE-CODE
         }
     }
 
@@ -183,7 +196,7 @@ namespace ComLib.Lang.Plugins
     /// <summary>
     /// Represents a function declaration
     /// </summary>
-    public class FuncDeclareExpr : BlockExpr
+    public class FunctionDeclareExpr : BlockExpr
     {
         private FunctionExpr _function = new FunctionExpr();
 
@@ -191,7 +204,7 @@ namespace ComLib.Lang.Plugins
         /// <summary>
         /// Initialize
         /// </summary>
-        public FuncDeclareExpr()
+        public FunctionDeclareExpr()
         {
             this.Nodetype = NodeTypes.SysFunctionDeclare;
         }

@@ -109,8 +109,7 @@ namespace ComLib.Lang.Helpers
                 else if (Operators.IsCompare(op))
                     exp = new CompareExpr(left, op, right);
 
-                exp.Ctx = context;
-                parser.SetScriptPosition(exp, tdata);
+                parser.SetupContext(exp, tdata);
                 stack.RemoveRange(index - 2, 2);
                 index = index - 2;
                 stack[index] = exp;

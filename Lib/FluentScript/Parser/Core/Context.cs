@@ -22,7 +22,7 @@ namespace ComLib.Lang.Parsing
         {
             Types = new RegisteredTypes();
             ExternalFunctions = new ExternalFunctions();
-            Functions = new RegisteredFunctions();
+            //Functions = new RegisteredFunctions();
             Words = new RegisteredWords();
             Plugins = new RegisteredPlugins();
             Symbols = new Symbols();
@@ -53,7 +53,7 @@ namespace ComLib.Lang.Parsing
         /// <summary>
         /// Script functions
         /// </summary>
-        public RegisteredFunctions Functions;
+        //public RegisteredFunctions Functions;
 
 
         /// <summary>

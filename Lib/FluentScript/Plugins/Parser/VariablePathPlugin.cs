@@ -196,8 +196,7 @@ namespace ComLib.Lang.Plugins
             
             var start = isConstant  ? new ConstantExpr(new LString(text)) as Expr
                                     : new VariableExpr(text) as Expr;
-            start.Ctx = _parser.Context;
-            _parser.SetScriptPosition(start, token);
+            _parser.SetupContext(start, token);
             pathExps.Add(start);
         }
 
@@ -233,8 +232,9 @@ namespace ComLib.Lang.Plugins
         {
             // Case 1: Simple addition of @home and "\build\script.xml" as in "@home\build\script.xml"
             if (pathExps.Count == 2)
-                return new BinaryExpr(pathExps[0], Operator.Add, pathExps[1]);
-
+            {
+                return _parser.ToBinaryExpr(pathExps[0], Operator.Add, pathExps[1], pathExps[0].Token);
+            }
             // Case 2: Add up all the expressions.
             // Start with the last 2 and keep adding backwards.
             // e.g. 0 1 2 3 
@@ -243,16 +243,14 @@ namespace ComLib.Lang.Plugins
             // Exp3: Bin( 0, Exp2 )
             // e.g.  Bin( 0, add, Bin( 1, add, Bin( 2, add, 3 ) ) )
             var lastIndex = pathExps.Count - 1;
-            var exp = new BinaryExpr(pathExps[lastIndex - 1], Operator.Add, pathExps[lastIndex]);
-            exp.Ctx = _parser.Context;
-            _parser.SetScriptPositionFromNode(exp, pathExps[lastIndex - 1]);
-
+            var left =  pathExps[lastIndex - 1];
+            var right = pathExps[lastIndex];
+            var exp = _parser.ToBinaryExpr(left, Operator.Add, right, left.Token);
+            
             for (var ndx = lastIndex - 2; ndx >= 0; ndx--)
             {
-                var currentExp = pathExps[ndx];
-                exp = new BinaryExpr(currentExp, Operator.Add, exp);
-                exp.Ctx = _parser.Context;
-                _parser.SetScriptPositionFromNode(exp, currentExp);
+                left = pathExps[ndx];
+                exp = _parser.ToBinaryExpr(left, Operator.Add, exp, left.Token);
             }
             return exp;
         }

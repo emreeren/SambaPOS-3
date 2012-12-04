@@ -286,29 +286,6 @@ namespace ComLib.Lang.Parsing
             }
             return names;
         }
-
-
-        /// <summary>
-        /// Sets the script position of the node.
-        /// </summary>
-        /// <param name="node"></param>
-        /// <param name="token"></param>
-        public void SetScriptPosition(AstNode node, TokenData token = null)
-        {
-            if (token == null) token = _tokenIt.NextToken;
-            node.Ref = new ScriptRef(ScriptName, token.Line, token.LineCharPos);
-        }
-
-
-        /// <summary>
-        /// Sets the script position of the node.
-        /// </summary>
-        /// <param name="node"></param>
-        /// <param name="node2"></param>
-        public void SetScriptPositionFromNode(AstNode node, AstNode node2 = null)
-        {
-            node.Ref = new ScriptRef(ScriptName, node2.Ref.Line, node2.Ref.CharPos);
-        }
         #endregion
 
 
@@ -348,7 +325,7 @@ namespace ComLib.Lang.Parsing
             // Get the function associated w/ the declaration.
             // Parse the doc tags.
             // Apply the doc tags to the function.
-            var func = ((FuncDeclareExpr)stmt).Function;
+            var func = ((FunctionDeclareExpr)stmt).Function;
             var tags = DocHelper.ParseDocTags(_comments);
             func.Meta.Doc = tags.Item1;
             

@@ -42,9 +42,9 @@ namespace ComLib.Lang.Helpers
         public static string Log(LangSettings settings, FunctionCallExpr exp)
         {
             if (!settings.EnableLogging) return string.Empty;
-
-            string severity = exp.Name.Substring(exp.Name.IndexOf(".") + 1);
-            string message = BuildMessage(exp.ParamList);
+            var funcname = exp.ToQualifiedName();
+            var severity =funcname.Substring(funcname.IndexOf(".") + 1);
+            var message = BuildMessage(exp.ParamList);
             Console.WriteLine(severity.ToUpper() + " : " + message);
             return message;
         }

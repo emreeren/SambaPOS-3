@@ -17,6 +17,39 @@ namespace ComLib.Lang.Helpers
     public class AssignHelper
     {
         /// <summary>
+        /// Assign a value to an expression.
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="varExpr"></param>
+        /// <param name="valueExpr"></param>
+        /// <param name="isDeclaration"></param>
+        /// <returns></returns>
+        public static LObject AssignValue(AstNode node, Expr varExpr, Expr valueExpr, bool isDeclaration)
+        {
+            var ctx = varExpr.Ctx;
+
+            // CASE 1: Assign variable.  a = 1
+            if (varExpr.IsNodeType(NodeTypes.SysVariable))
+            {
+                AssignHelper.SetVariableValue(ctx, node, isDeclaration, varExpr, valueExpr);
+            }
+            // CASE 2: Assign member.    
+            //      e.g. dictionary       :  user.name = 'kishore'
+            //      e.g. property on class:  user.age  = 20
+            else if (varExpr.IsNodeType(NodeTypes.SysMemberAccess))
+            {
+                AssignHelper.SetMemberValue(ctx, node, varExpr, valueExpr);
+            }
+            // Case 3: Assign value to index: "users[0]" = <expression>;
+            else if (varExpr.IsNodeType(NodeTypes.SysIndex))
+            {
+                AssignHelper.SetIndexValue(ctx, node, varExpr, valueExpr);
+            }
+            return LObjects.Null;
+        }
+
+
+        /// <summary>
         /// Sets a value on a member of a basic type.
         /// </summary>
         /// <param name="ctx">The context of the runtime</param>

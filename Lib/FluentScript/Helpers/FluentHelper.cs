@@ -86,8 +86,9 @@ namespace ComLib.Lang.Helpers
             // CASE 2: Single word function
             if ((found && tokenCount == 1) && memberMode == MemberMode.FunctionScript)
             {
-                var func = ctx.Functions.GetByName(foundFuncName);
-
+                var sym = ctx.Symbols.GetSymbol(foundFuncName) as SymbolFunction;
+                var func = sym.FuncExpr as FunctionExpr;
+                //var func = ctx.Functions.GetByName(foundFuncName);
                 // If wildcard return true;
                 if (func.Meta.HasWildCard)
                     return new FunctionLookupResult(true, foundFuncName, memberMode) { TokenCount = tokenCount };
@@ -155,7 +156,7 @@ namespace ComLib.Lang.Helpers
                     || (token.Kind == TokenKind.Ident && !isParamNameMatch && !isVar && peek == Tokens.Colon)
                     || (isKeywordParamName && !isVar ) )
                 {         
-                    string paramName = token.Text;
+                    var paramName = token.Text;
                     var namedParamToken = tokenIt.NextToken;
                     tokenIt.Advance();
 
@@ -164,11 +165,7 @@ namespace ComLib.Lang.Helpers
                         tokenIt.Advance();
                     
                     exp = parser.ParseExpression(endTokens, true, false, true, passNewLine, true);
-
-                    // Store named param
-                    exp = new NamedParamExpr(paramName, exp);
-                    exp.Ctx = parser.Context;
-                    parser.SetScriptPosition(exp, namedParamToken );
+                    exp = parser.ToNamedParamExpr(paramName, exp, namedParamToken);
 
                     args.Add(exp);
                     totalNamedParams++;
@@ -180,7 +177,11 @@ namespace ComLib.Lang.Helpers
                     if (totalNamedParams > 0)
                         throw tokenIt.BuildSyntaxException("Un-named parameters must come before named parameters");
 
-                    exp = parser.ParseIdExpression();
+                    var next = tokenIt.Peek();
+                    if (next.Token.Kind == TokenKind.Symbol)
+                        exp = parser.ParseExpression(endTokens, true, false, true, passNewLine, false);
+                    else
+                        exp = parser.ParseIdExpression();
                     args.Add(exp);
                 }
                 // CASE 3: Normal param

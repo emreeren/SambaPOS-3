@@ -26,17 +26,13 @@ namespace ComLib.Lang.Core
         /// <param name="name">Name of the varibale to get</param>
         /// <returns></returns>
         public T Get<T>(string name)
-        {
-            var variable = this[name] as Variable;
-            if (variable != null && variable.Value is LObject)
-            {
-                return (T)Convert.ChangeType(((LObject)variable.Value).GetValue(), typeof(T), null);
-            }
+        {            
+            Variable variable = this[name] as Variable;
             // Convert to correct type if basic type.
             if (typeof(T) == typeof(object))
             {
                 return (T)variable.Value;
-            }
+            }            
 
             return (T)Convert.ChangeType(variable.Value, typeof(T), null);
         }
@@ -53,14 +49,14 @@ namespace ComLib.Lang.Core
         public void SetValue(string name, object val, bool declare = false)
         {
             // Assert failure
-            var lval = (LObject)val;
+            var lval = (LObject) val;
 
             Variable variable = null;
             bool add = false;
             int addVal = 0;
             if (!this.ContainsKey(name))
             {
-                variable = new Variable() { Name = name, Value = val };
+                variable = new Variable() { Name = name, Value = val };                
                 add = true;
             }
             else
@@ -68,7 +64,7 @@ namespace ComLib.Lang.Core
                 variable = this[name] as Variable;
                 variable.Value = val;
                 if (lval.Type == LTypes.String)
-                    addVal = ((LString)lval).Value.Length;
+                    addVal = ((LString) lval).Value.Length;
             }
             variable.IsInitialized = val != LObjects.Null && val != null;
             variable.DataType = val != null ? val.GetType() : typeof(LNullType);
@@ -104,8 +100,8 @@ namespace ComLib.Lang.Core
     /// <summary>
     /// Used to store local variables.
     /// </summary>
-    public class Scope
-    {
+    public class Scope 
+    {        
         private List<Block> _stack;
         private int _currentStackIndex = 0;
         private int _total = 0;
@@ -181,7 +177,7 @@ namespace ComLib.Lang.Core
         /// <typeparam name="T"></typeparam>
         /// <param name="name">Name of the varibale to get</param>
         /// <returns></returns>
-        public T GetAs<T>(string name) where T : class
+        public T GetAs<T>(string name) where T: class
         {
             int stackIndex = Find(name);
             // Not found?
@@ -216,7 +212,7 @@ namespace ComLib.Lang.Core
 
             // LIMITS: Increment total vars and string length;
             _total += 1;
-            _totalStringLength += (-oldTotalStringLength + newTotalStringLength);
+            _totalStringLength += (-oldTotalStringLength + newTotalStringLength);             
         }
 
 
@@ -259,7 +255,7 @@ namespace ComLib.Lang.Core
 
             var frameIndex = _stack.Count - 1;
             var frame = _stack[frameIndex];
-
+            
             // LIMITS: Decrement total vars and string length;
             _total -= frame.Count;
             _totalStringLength -= frame.TotalStringSize;
@@ -279,9 +275,9 @@ namespace ComLib.Lang.Core
                 return;
 
             int oldTotalStringLength = _stack[_currentStackIndex].TotalStringSize;
-            object val = _stack[_currentStackIndex][name];
+             object val = _stack[_currentStackIndex][name];
             _stack[_currentStackIndex].Remove(name);
-            int newTotalStringLength = _stack[_currentStackIndex].TotalStringSize;
+            int newTotalStringLength = _stack[_currentStackIndex].TotalStringSize;           
 
             // LIMITS: Decrement total vars and string length;
             _total -= 1;
@@ -314,7 +310,7 @@ namespace ComLib.Lang.Core
         /// Clear the scope.
         /// </summary>
         public void Clear()
-        {
+        {            
             _currentStackIndex = 0;
             _total = 0;
             _totalStringLength = 0;

@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 // <lang:using>
 using ComLib.Lang.Core;
 using ComLib.Lang.Docs;
-using ComLib.Lang.Helpers;
 using ComLib.Lang.Types;
 // </lang:using>
 
@@ -170,7 +167,7 @@ namespace ComLib.Lang.AST
                     var copied = val.Clone();
                     this.ArgumentValues[ndx] = copied;
                 }
-                Ctx.Memory.SetValue(this.Meta.Arguments[ndx].Name, this.ArgumentValues[ndx]);
+                this.Ctx.Memory.SetValue(this.Meta.Arguments[ndx].Name, this.ArgumentValues[ndx]);
             }
 
             // Finally add the arguments.
@@ -178,7 +175,7 @@ namespace ComLib.Lang.AST
             if(!hasParameterNamedArguments)
             {
                 var argArray = new LArray(this.ArgumentValues);
-                Ctx.Memory.SetValue("arguments", argArray);
+                this.Ctx.Memory.SetValue("arguments", argArray);
             }
         }
 

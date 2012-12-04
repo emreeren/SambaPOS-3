@@ -97,23 +97,18 @@ namespace ComLib.Lang.Plugins
         /// <returns></returns>
         public override Expr Parse(object context)
         {
-            ConstantExpr constExp = context as ConstantExpr;
-            var ctx = _parser.Context;
+            var constExp = context as ConstantExpr;            
             var c = _tokenIt.NextToken;
             var t = _tokenIt.Advance();
+            _parser.SetupContext(constExp, c);
 
             // Get the function symbol.
             var fce = new FunctionCallExpr();
-            fce.NameExp = new VariableExpr(t.Token.Text);
+            fce.NameExp = _parser.ToIdentExpr(t.Token.Text, t);
             fce.ParamListExpressions.Add(constExp);
 
-            // Set the position of the exp.
-            _parser.SetScriptPosition(constExp, c);
-            constExp.Ctx = _parser.Context;
-            
             // Move the postfix token.
             _tokenIt.Advance();
-
             return fce;
         }
     }

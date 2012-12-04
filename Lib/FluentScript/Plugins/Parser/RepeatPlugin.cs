@@ -138,8 +138,14 @@ namespace ComLib.Lang.Plugins
         public override Expr Parse()
         {
             var startToken = _tokenIt.NextToken;
+            var conditionToken = startToken;
+            var assignToken = startToken;
+            var incToken = startToken;
+            var loopToken = startToken;
+            var varToken = startToken;
+
             _tokenIt.ExpectIdText("repeat");
-            Expr varname = null;
+            Expr varnameExpr = null;
             Expr startVal = null;
             Expr endVal = null;
             Expr incVal = null;
@@ -149,8 +155,7 @@ namespace ComLib.Lang.Plugins
             if (_tokenIt.NextToken.Token.Text == "to")
             {
                 var result = ParseTo();
-                startVal = new ConstantExpr(new LNumber(1.0));
-                _parser.SetScriptPosition(startVal, startToken);
+                startVal = _parser.ToConstExpr(new LNumber(1.0), startToken);
                 op = result.Item1;
                 endVal = result.Item2;
                 incVal = result.Item3;
@@ -160,8 +165,7 @@ namespace ComLib.Lang.Plugins
             {
                 var num = _tokenIt.ExpectNumber();
                 var result = ParseTo();
-                startVal = new ConstantExpr(new LNumber(num));
-                _parser.SetScriptPosition(startVal, startToken);
+                startVal = _parser.ToConstExpr(new LNumber(num), startToken);
                 op = result.Item1;
                 endVal = result.Item2;
                 incVal = result.Item3;
@@ -170,8 +174,7 @@ namespace ComLib.Lang.Plugins
             else if (_tokenIt.NextToken.Token.Kind == TokenKind.Ident)
             {
                 var variableName = _tokenIt.ExpectId();
-                varname = new VariableExpr(variableName);
-                _parser.SetScriptPosition(varname, startToken);
+                varnameExpr = _parser.ToIdentExpr(variableName, _tokenIt.LastToken);
                 if (_tokenIt.NextToken.Token.Type == TokenTypes.Assignment)
                 {
                     _tokenIt.Advance();
@@ -181,8 +184,7 @@ namespace ComLib.Lang.Plugins
                 }
                 else
                 {
-                    startVal = new ConstantExpr(new LNumber(0));
-                    _parser.SetScriptPosition(startVal, startToken);
+                    startVal = _parser.ToConstExpr(new LNumber(0), startToken);
                 }
                 var result = ParseTo();
                 op = result.Item1;
@@ -190,31 +192,18 @@ namespace ComLib.Lang.Plugins
                 incVal = result.Item3;
             }
             // auto-create variable name.
-            if (varname == null)
+            if (varnameExpr == null)
             {
-                varname = new VariableExpr("it");
-                _parser.SetScriptPosition(varname, startToken);                
+                varnameExpr = _parser.ToIdentExpr("it", _tokenIt.LastToken);
             }            
 
             // Now setup the stmts
-            var ctx = _parser.Context;
-            var startStmt = new AssignExpr(true, varname, startVal);
-            _parser.SetScriptPositionFromNode(startStmt, varname);
-            startStmt.Ctx = ctx;
-
-            var condition = new CompareExpr(varname, op, endVal);
-            _parser.SetScriptPositionFromNode(condition, endVal);
-            varname.Ctx = ctx;
-            condition.Ctx = ctx;
-
-            var incExp = new UnaryExpr(varname.ToQualifiedName(), incVal, Operator.PlusEqual, _parser.Context);
-            _parser.SetScriptPositionFromNode(incExp, incVal);
-            var incStmt = new AssignExpr(false, new VariableExpr(varname.ToQualifiedName()), incExp);
-            _parser.SetScriptPositionFromNode(incStmt, incExp);
-            incStmt.Ctx = ctx;
-
-            var loopStmt = new ForExpr(startStmt, condition, incStmt);
-            ParseBlock(loopStmt);            
+            var start     = _parser.ToAssignExpr(true, varnameExpr, startVal, varToken);
+            var condition = _parser.ToCompareExpr(varnameExpr, op, endVal, varToken);            
+            var incExp    = _parser.ToUnaryExpr(varnameExpr.ToQualifiedName(), incVal, 0, Operator.PlusEqual, incToken);
+            var incStmt   = _parser.ToAssignExpr(false, varnameExpr, incExp, assignToken);
+            var loopStmt  = _parser.ToForExpr(start, condition, incStmt, loopToken);
+            ParseBlock(loopStmt as BlockExpr);            
             return loopStmt;
         }
 
@@ -251,8 +240,7 @@ namespace ComLib.Lang.Plugins
             }
             else
             {
-                incVal = new ConstantExpr(new LNumber(1));
-                _parser.SetScriptPosition(incVal, currentToken);
+                incVal = _parser.ToConstExpr(new LNumber(1), _tokenIt.NextToken);
             }
             return new Tuple<Operator, Expr, Expr>(op, end, incVal);
         }

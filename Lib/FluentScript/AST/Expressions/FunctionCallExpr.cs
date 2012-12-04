@@ -70,7 +70,6 @@ namespace ComLib.Lang.AST
         public override object DoEvaluate()
         {
             object result = null;
-            bool isNameEmpty = string.IsNullOrEmpty(_name);
             
             // CASE 1: Exp is variable -> internal/external script. "getuser()".            
             if (this.NameExp.IsNodeType(NodeTypes.SysVariable))
@@ -89,8 +88,14 @@ namespace ComLib.Lang.AST
             if (!IsMemberCall(maccess)) return result;
 
             this.Ctx.State.Stack.Push(callStackName, this);
+            // CASE 2: Module.Function
+            if (maccess.Mode == MemberMode.FunctionScript && maccess.Expr != null)
+            {
+                var fexpr = maccess.Expr as FunctionExpr;
+                result = FunctionHelper.CallFunctionInScript(this.Ctx, fexpr, fexpr.Name, this.ParamListExpressions, this.ParamList, true);
+            }
             // CASE 3: object "." method call from script is a external/internal function e.g log.error -> external c# callback.
-            if (maccess.IsInternalExternalFunctionCall())
+            else if (maccess.IsInternalExternalFunctionCall())
             {
                 result = FunctionHelper.CallFunction(Ctx, this, maccess.FullMemberName, false);
             }
@@ -125,36 +130,7 @@ namespace ComLib.Lang.AST
         private string _name;
         private string _member;
         
-        /// <summary>
-        /// Get the name of the function.
-        /// </summary>
-        public string Name
-        {
-            get
-            {
-                if (_name != null)
-                    return _name;
-
-                if (NameExp.IsNodeType(NodeTypes.SysVariable))
-                    return ((VariableExpr)NameExp).Name;
-
-                object name = NameExp.Evaluate();
-                if (name is string) return (string)name;
-                if (name is MemberAccess) return ((MemberAccess)name).FullMemberName;
-                return string.Empty;
-            }
-            set
-            {
-                _name = value;
-                if (_name.Contains("."))
-                {
-                    int ndxDot = _name.IndexOf(".");
-                    _member = _name.Substring(ndxDot + 1); 
-                    _name = _name.Substring(0, ndxDot);                    
-                }
-                _isScopeVariable = true;
-            }
-        }
+        
 
 
         /// <summary>

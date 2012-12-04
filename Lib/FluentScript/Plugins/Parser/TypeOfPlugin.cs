@@ -129,7 +129,8 @@ namespace ComLib.Lang.Plugins
             if (_exp.IsNodeType(NodeTypes.SysVariable) || _exp.IsNodeType(NodeTypes.SysFunctionCall))
             {
                 var name = _exp.ToQualifiedName();
-                if (Ctx.Functions.Contains(name))
+                var exists = _exp.SymScope.IsFunction(name);
+                if (exists)
                     return new LString("function:" + name);
             }
             var obj = _exp.Evaluate();

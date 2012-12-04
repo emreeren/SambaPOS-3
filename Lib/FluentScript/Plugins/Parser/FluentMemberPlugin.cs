@@ -297,9 +297,10 @@ namespace ComLib.Lang.Plugins
 
         private Tuple<bool, Expr> IsMatch(FluentPluginHelper helper, Type type, Token klass, Token instance, Token prop, Token method)
         {
-            string memberName = null;
-            string rootVar = null;
-            bool match = false;
+            var memberName = string.Empty;
+            var rootVar = string.Empty;
+            var match = false;
+            var nameToken = klass;
 
             // 1. Class property
             if (klass != null && prop != null)
@@ -329,6 +330,7 @@ namespace ComLib.Lang.Plugins
                 {
                     memberName = prop.Text;
                     match = true;
+                    nameToken = instance;
                 }
             }
             // 4. Instance method
@@ -339,15 +341,14 @@ namespace ComLib.Lang.Plugins
                 {
                     memberName = method.Text;
                     match = true;
+                    nameToken = instance;
                 }
             }
             if (!match)
                 return new Tuple<bool, Expr>(false, null);
 
-            var varExp = new VariableExpr(rootVar);
-            varExp.Ctx = _parser.Context;
-            var memExp = new MemberAccessExpr(varExp, memberName, false);
-            memExp.Ctx = _parser.Context;
+            var varExp = _parser.ToIdentExpr(rootVar, null);
+            var memExp = _parser.ToMemberAccessExpr(varExp, memberName, false, null);
             return new Tuple<bool, Expr>(memberName != null, memExp);
         }
 

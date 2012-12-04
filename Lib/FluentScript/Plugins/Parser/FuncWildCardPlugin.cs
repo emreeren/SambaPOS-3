@@ -104,7 +104,9 @@ namespace ComLib.Lang.Plugins
             if (_result.FunctionMode != MemberMode.FunctionScript) return false;
             
             // 3. Has wildcard flag must be turned on.
-            var func = _parser.Context.Functions.GetByName(_result.Name);
+            var sym = _parser.Context.Symbols.GetSymbol(_result.Name) as SymbolFunction;
+            var func = sym.FuncExpr as FunctionExpr;
+            //var func = _parser.Context.Functions.GetByName(_result.Name);
             if (!func.Meta.HasWildCard) return false;
 
             return true;
@@ -114,9 +116,12 @@ namespace ComLib.Lang.Plugins
         private bool CheckIfSingleIdentWildCard(List<Tuple<string, int>> tokens)
         {
             var first = tokens[0].Item1;
-            if (_parser.Context.Functions.Contains(first))
+            var isfunc = _parser.Context.Symbols.IsFunc(first);
+            if (isfunc)
             {
-                var func = _parser.Context.Functions.GetByName(first);
+                var sym = _parser.Context.Symbols.GetSymbol(_result.Name) as SymbolFunction;
+                var func = sym.FuncExpr as FunctionExpr;
+                //var func = _parser.Context.Functions.GetByName(first);
                 if (func.Meta.HasWildCard)
                 {
                     _result = new FunctionLookupResult(true, first, MemberMode.FunctionScript) { TokenCount = 1 };
@@ -163,8 +168,7 @@ namespace ComLib.Lang.Plugins
 
                 // c. Create a constant expr from the wildcard
                 // as it will be part of an array of strings passed to function
-                var partExp = new ConstantExpr(new LString(part));
-                _parser.SetScriptPosition(partExp, _tokenIt.NextToken);
+                var partExp = _parser.ToConstExpr(new LString(part), _tokenIt.NextToken);
                 parts.Add(partExp);
 
                 // d. Move to the next token for another possible wildcard.
@@ -177,14 +181,13 @@ namespace ComLib.Lang.Plugins
 
             var exp = new FunctionCallExpr();
             remainderOfFuncName = remainderOfFuncName.Trim();
-            ConstantExpr fullWildCard = new ConstantExpr(new LString(string.Empty));
-            _parser.SetScriptPosition(fullWildCard, fnameToken);
+            var fullWildCard = _parser.ToConstExpr(new LString(string.Empty), fnameToken) as ConstantExpr;
 
             // 2. Create a constant expr representing the full wildcard              
             if(!string.IsNullOrEmpty(remainderOfFuncName))
             {
                 fullWildCard.Value = remainderOfFuncName;
-                _parser.SetScriptPosition(fullWildCard, firstPart);
+                _parser.SetupContext(fullWildCard, firstPart);
             }   
 
             var token = _tokenIt.NextToken.Token;
@@ -200,7 +203,7 @@ namespace ComLib.Lang.Plugins
                 _tokenIt.Advance();
                 _parser.ParseParameters(exp, false, false, true);
             }
-            exp.NameExp = new VariableExpr(_result.Name);
+            exp.NameExp = _parser.ToIdentExpr(_result.Name, fnameToken);
             
             // Have to restructure the arguments.
             // 1. const expr     , fullwildcard,   "name role"

@@ -66,7 +66,7 @@ namespace ComLib.Lang.Parsing
             _sysMap["Break"]           =  new BreakPlugin();
             _sysMap["Continue"]        =  new ContinuePlugin();
             _sysMap["For"]             =  new ForLoopPlugin();
-            _sysMap["FuncDeclare"]     =  new FuncDeclarePlugin();
+            _sysMap["FuncDeclare"]     =  new FunctionDeclarePlugin();
             _sysMap["If"]              =  new IfPlugin();
             _sysMap["New"]             =  new NewPlugin();
             _sysMap["Return"]          =  new ReturnPlugin();
@@ -125,7 +125,7 @@ namespace ComLib.Lang.Parsing
             _extMap["Version"]         =  new VersionPlugin();
             _extMap["Words"]           =  new WordsPlugin();
             _extMap["WordsInterpret"]  =  new WordsInterpretPlugin();
-            SerializePluginMetadata();
+            //SerializePluginMetadata();
         }
 
 

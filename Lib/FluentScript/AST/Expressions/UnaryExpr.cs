@@ -19,8 +19,17 @@ namespace ComLib.Lang.AST
     /// </summary>
     public class UnaryExpr : VariableExpr
     {
-        private double Increment;
-        private Operator Op;
+        /// <summary>
+        /// The increment value.
+        /// </summary>
+        public double Increment;
+
+
+        /// <summary>
+        /// The operator.
+        /// </summary>
+        public Operator Op;
+
 
         /// <summary>
         /// The expression to apply a unary symbol on. e.g. !
@@ -34,39 +43,6 @@ namespace ComLib.Lang.AST
         public UnaryExpr()
         {
             this.Nodetype = NodeTypes.SysUnary;
-        }
-
-
-        /// <summary>
-        /// Initialize
-        /// </summary>
-        /// <param name="incValue">Value to increment</param>
-        /// <param name="op">The unary operator</param>
-        /// <param name="name">Variable name</param>
-        /// <param name="ctx">Context of the script</param>
-        public UnaryExpr(string name, double incValue, Operator op, Context ctx)
-        {
-            this.Nodetype = NodeTypes.SysUnary;
-            this.Name = name;
-            this.Op = op;
-            this.Increment = incValue;
-            this.Ctx = ctx;
-        }
-
-
-        /// <summary>
-        /// Initialize
-        /// </summary>
-        /// <param name="exp">Expression representing value to increment by</param>
-        /// <param name="op">The unary operator</param>
-        /// <param name="name">Variable name</param>
-        /// <param name="ctx">Context of the script</param>
-        public UnaryExpr(string name, Expr exp, Operator op, Context ctx)
-        {
-            this.Name = name;
-            this.Op = op;
-            this.Expression = exp;
-            this.Ctx = ctx;
         }
         
 

@@ -122,11 +122,10 @@ namespace ComLib.Lang.Plugins
             else
                 lineExp = new ConstantExpr(new LString((string)lineToken.Value));
 
-            var exp = new FunctionCallExpr();
-            exp.NameExp = new VariableExpr(printToken.Token.Text);   
+            var nameExp = _parser.ToIdentExpr(printToken.Token.Text, printToken);
+            var exp = (FunctionCallExpr)_parser.ToFunctionCallExpr(nameExp, null, printToken);
             exp.ParamListExpressions.Add(lineExp);
-            _parser.SetScriptPosition(exp, printToken);
-
+            
             // Move past this plugin.
             _tokenIt.Advance();
             return exp;

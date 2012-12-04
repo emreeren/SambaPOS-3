@@ -30,23 +30,32 @@ namespace ComLib.Lang.Helpers
             if(string.IsNullOrEmpty(functionName))
                 functionName = fexpr.NameExp.ToQualifiedName();
 
-            if (!FunctionHelper.IsInternalOrExternalFunction(ctx, functionName, null))
+            // 1. Check if script func or extern func.
+            var isScriptFunc = fexpr.SymScope.IsFunction(functionName);
+            var isExternFunc = ctx.ExternalFunctions.Contains(functionName);
+
+            // 2. If neither, this is an error scenario.
+            if (!isScriptFunc && !isExternFunc)
                 throw ExceptionHelper.BuildRunTimeException(fexpr, "Function does not exist : '" + functionName + "'");
 
-            // 1. Push the name of the function on teh call stack
+            // 3. Push the name of the function on teh call stack
             if(pushCallStack)
                 ctx.State.Stack.Push(functionName, fexpr);
 
-            // 2. Call the function.
+            // 4. Call the function.
             object result = null;
             // Case 1: Custom C# function blog.create blog.*
-            if (ctx.ExternalFunctions.Contains(functionName))
+            if (isExternFunc)
                 result = ctx.ExternalFunctions.Call(functionName, fexpr);
 
             // Case 2: Script functions "createUser('john');" 
-            else 
-                result = FunctionHelper.CallFunctionInScript(ctx, functionName, fexpr.ParamListExpressions, fexpr.ParamList, true);
-
+            else
+            {
+                var sym = fexpr.SymScope.GetSymbol(functionName) as SymbolFunction;
+                var func = sym.FuncExpr as FunctionExpr;
+                result = FunctionHelper.CallFunctionInScript(ctx, func, functionName, fexpr.ParamListExpressions,
+                                                             fexpr.ParamList, true);
+            }
             // 3. Finnaly pop the call stact.
             if(pushCallStack)
                 ctx.State.Stack.Pop();
@@ -136,20 +145,16 @@ namespace ComLib.Lang.Helpers
         /// resolveParams is false, the list is assumed to have the values for the paramters to the function.</param>
         /// <param name="resolveParams">Whether or not to resolve the list of parameter expression objects</param>
         /// <returns></returns>
-        public static object CallFunctionInScript(Context ctx, string functionName, List<Expr> paramListExpressions, List<object> paramVals, bool resolveParams)
+        public static object CallFunctionInScript(Context ctx, FunctionExpr function, string functionName, List<Expr> paramListExpressions, List<object> paramVals, bool resolveParams)
         {
-
-            // 1. Get the function definition
-            var function = ctx.Functions.GetByName(functionName);
-
-            // 2. Determine if any parameters provided.
+            // 1. Determine if any parameters provided.
             var hasParams = paramListExpressions != null && paramListExpressions.Count > 0;
 
-            // 3. Resolve parameters if necessary
+            // 2. Resolve parameters if necessary
             if (resolveParams && function != null && (function.HasArguments || hasParams))
                 ParamHelper.ResolveParametersForScriptFunction(function.Meta, paramListExpressions, paramVals);
 
-            // 4. Assign the argument values to the function and evaluate.
+            // 3. Assign the argument values to the function and evaluate.
             function.ArgumentValues = paramVals;
             function.Evaluate();
 
@@ -169,18 +174,18 @@ namespace ComLib.Lang.Helpers
         /// <param name="name">Object name "Log"</param>
         /// <param name="member">Member name "Info" as in "Log.Info"</param>
         /// <returns></returns>
-        public static bool IsInternalOrExternalFunction(Context ctx, string name, string member)
-        {
-            string fullName = name;
-            if (!string.IsNullOrEmpty(member))
-                fullName += "." + member;
-
-            // Case 1: getuser() script function
-            if (ctx.Functions.Contains(fullName) || ctx.ExternalFunctions.Contains(fullName))
-                return true;
-
-            return false;
-        }
+        //public static bool IsInternalOrExternalFunction2(Context ctx, string name, string member)
+        //{
+        //    string fullName = name;
+        //    if (!string.IsNullOrEmpty(member))
+        //        fullName += "." + member;
+        //
+        //    // Case 1: getuser() script function
+        //    if (ctx.Functions.Contains(fullName) || ctx.ExternalFunctions.Contains(fullName))
+        //        return true;
+        //
+        //    return false;
+        //}
 
 
         /// <summary>

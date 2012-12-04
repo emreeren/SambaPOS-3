@@ -39,12 +39,18 @@ namespace ComLib.Lang.AST
         /// <returns></returns>
         public override object DoEvaluate()
         {
-            if (!this.Ctx.Memory.Contains(this.Name))
-                throw this.BuildRunTimeException("variable : " + this.Name + " does not exist");
-
-            this.Value = this.Ctx.Memory.Get<object>(this.Name);
-            //this.DataType = this.Value.GetType();
-            return this.Value;
+            // Case 1: memory variable has highest precendence
+            if (this.Ctx.Memory.Contains(this.Name))
+            {
+                this.Value = this.Ctx.Memory.Get<object>(this.Name);
+                return this.Value;
+            }
+            // Case 2: check function now.
+            if (this.SymScope.IsFunction(this.Name))
+            {
+                
+            }
+            throw this.BuildRunTimeException("variable : " + this.Name + " does not exist");
         }
 
 

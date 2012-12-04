@@ -108,22 +108,24 @@ namespace ComLib.Lang.Plugins
                 varExp = ParseVariable();
             }
 
+            var assignToken = _tokenIt.NextToken;
             // Case 1: var name;
             if (_tokenIt.IsEndOfStmtOrBlock())
             {
-                AddAssignment(expectVar, varExp, null, declarations);
+                AddAssignment(expectVar, varExp, null, declarations, _tokenIt.NextToken);
                 return new MultiAssignExpr(expectVar, declarations);
             }
 
             // Case 2: var name = <expression>
             Expr valueExp = null;
+            assignToken = _tokenIt.NextToken;
             if (_tokenIt.NextToken.Token == Tokens.Assignment)
             {
                 _tokenIt.Advance();
                 valueExp = _parser.ParseExpression(Terminators.ExpVarDeclarationEnd, passNewLine: false);
             }
 
-            AddAssignment(expectVar, varExp, valueExp, declarations);
+            AddAssignment(expectVar, varExp, valueExp, declarations, assignToken);
             if (_tokenIt.IsEndOfStmtOrBlock())
                 return new MultiAssignExpr(expectVar, declarations);
 
@@ -134,13 +136,15 @@ namespace ComLib.Lang.Plugins
             {
                 varExp = ParseVariable();
                 valueExp = null;
+                assignToken = _tokenIt.NextToken;
+            
                 // , or expression?
                 if (_tokenIt.NextToken.Token == Tokens.Assignment)
                 {
                     _tokenIt.Advance();
                     valueExp = _parser.ParseExpression(Terminators.ExpVarDeclarationEnd, passNewLine: false);
                 }
-                AddAssignment(expectVar, varExp, valueExp, declarations);
+                AddAssignment(expectVar, varExp, valueExp, declarations, assignToken);
 
                 if (_tokenIt.IsEndOfStmtOrBlock())
                     break;
@@ -155,18 +159,13 @@ namespace ComLib.Lang.Plugins
         {
             var nameToken = _tokenIt.NextToken;
             var name = _tokenIt.ExpectId();
-            var varExpr = new VariableExpr(name);
-            varExpr.Ctx = _parser.Context;
-            _parser.SetScriptPosition(varExpr, nameToken);
-            return varExpr;
+            return _parser.ToIdentExpr(name, nameToken) as VariableExpr;
         }
 
         
-        private void AddAssignment(bool expectVar, Expr varExp, Expr valExp, List<AssignExpr> declarations)
+        private void AddAssignment(bool expectVar, Expr varExp, Expr valExp, List<AssignExpr> declarations, TokenData token)
         {
-            var a = new AssignExpr(expectVar, varExp, valExp);
-            a.Ctx = _parser.Context;
-            _parser.SetScriptPosition(a);
+            var a = (AssignExpr)_parser.ToAssignExpr(expectVar, varExp, valExp, token);
             declarations.Add(a);
         }
 

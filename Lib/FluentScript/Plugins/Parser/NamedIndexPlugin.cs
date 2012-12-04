@@ -103,22 +103,16 @@ namespace ComLib.Lang.Plugins
         public override Expr Parse()
         {
             // 1. index number: it's 1 based so substract 1.
-            var index = Convert.ToDouble(_tokenIt.NextToken.Token.Text);
-            index = index - 1;
-            var indexExpr = new ConstantExpr(new LNumber(index));
-            indexExpr.Ctx = this.Ctx;
-            _parser.SetScriptPosition(indexExpr);
+            var index = Convert.ToDouble(_tokenIt.NextToken.Token.Text) - 1;
+            var indexExpr = _parser.ToConstExpr(new LNumber(index), _tokenIt.NextToken);
             _tokenIt.Advance();
 
             // 2. "st" or "nd" or "rd" or "th"
             _tokenIt.Advance();
 
             // 3. identifier
-            var ident = _tokenIt.NextToken.Token.Text;
-            ident = ident + "s";
-            var identExpr = new VariableExpr(ident);
-            identExpr.Ctx = this.Ctx;
-            _parser.SetScriptPosition(identExpr);
+            var ident = _tokenIt.NextToken.Token.Text + "s";
+            var identExpr = _parser.ToIdentExpr(ident, _tokenIt.NextToken);
             _tokenIt.Advance();
 
             return new IndexExpr(identExpr, indexExpr, false);

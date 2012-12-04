@@ -280,56 +280,6 @@ namespace ComLib.Lang.Parsing
         }
 
 
-        /*
-        /// <summary>
-        /// Stores the position of the current token so any advances can be rewinded back to last position stored in this mark call.
-        /// </summary>
-        public void Mark()
-        {
-            _marks.Push(CurrentIndex);
-        }
-
-
-        /// <summary>
-        /// Rewinds the iterator back to the last position stored by call to mark
-        /// </summary>
-        public void Rewind()
-        {
-            var ndx = _marks.Pop();
-            if (ndx < 0 || ndx >= TokenList.Count)
-                return;
-
-            CurrentIndex = ndx;
-            NextToken = TokenList[CurrentIndex];
-            LastToken = TokenList[CurrentIndex - 1];
-        }
-
-
-        /// <summary>
-        /// Rewinds the iterator by 1 token.
-        /// </summary>
-        public void Rewind1()
-        {
-            if (!_isLLKEnabled)
-            {
-                CurrentIndex--;
-                NextToken = TokenList[CurrentIndex];
-                LastToken = TokenList[CurrentIndex - 1];
-            }
-            else
-            {
-                // Add last one from rewind batch to beggining of tokenbatch
-                TokenList.Insert(0, _rewindBatch[_rewindBatch.Count - 1]);
-
-                // Keep the TokenList same size.
-                // e.g. Multiple calls to rewind will keep growing the size of the tokenlist
-                var lastToken = TokenList[TokenList.Count - 1];
-                _resetPosExecutor(lastToken.Pos - 1);
-            }
-        }
-        */
-
-
         /// <summary>
         /// Advance to the next token and expect the token supplied.
         /// </summary>
@@ -368,7 +318,7 @@ namespace ComLib.Lang.Parsing
             if (NextToken.Token != Tokens.NewLine)
                 return;
 
-            while(NextToken.Token == Tokens.NewLine)
+            while(NextToken.Token == Tokens.NewLine && !IsEnded)
             {
                 Advance();    
             }
