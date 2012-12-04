@@ -738,7 +738,7 @@ Attiverà dopo {1} giorni, {2} ore, {3} minuti</value>
     <value>Tassa</value>
   </data>
   <data name="Customer_f" xml:space="preserve">
-    <value>Cliente: {0}</value>
+    <value>Cliente {0}</value>
   </data>
   <data name="Table" xml:space="preserve">
     <value>Tavolo</value>
