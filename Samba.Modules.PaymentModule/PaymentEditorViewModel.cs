@@ -31,13 +31,14 @@ namespace Samba.Modules.PaymentModule
         private readonly TenderedValueViewModel _tenderedValueViewModel;
         private readonly ReturningAmountViewModel _returningAmountViewModel;
         private readonly ChangeTemplatesViewModel _changeTemplatesViewModel;
+        private readonly AccountBalances _accountBalances;
 
         [ImportingConstructor]
         public PaymentEditorViewModel(IApplicationState applicationState, ICacheService cacheService, TicketTotalsViewModel paymentTotals,
             PaymentEditor paymentEditor, NumberPadViewModel numberPadViewModel, OrderSelectorViewModel orderSelectorViewModel,
             ForeignCurrencyButtonsViewModel foreignCurrencyButtonsViewModel, PaymentButtonsViewModel paymentButtonsViewModel,
             CommandButtonsViewModel commandButtonsViewModel, TenderedValueViewModel tenderedValueViewModel,
-            ReturningAmountViewModel returningAmountViewModel, ChangeTemplatesViewModel changeTemplatesViewModel)
+            ReturningAmountViewModel returningAmountViewModel, ChangeTemplatesViewModel changeTemplatesViewModel, AccountBalances accountBalances)
         {
             _applicationState = applicationState;
             _cacheService = cacheService;
@@ -50,6 +51,7 @@ namespace Samba.Modules.PaymentModule
             _tenderedValueViewModel = tenderedValueViewModel;
             _returningAmountViewModel = returningAmountViewModel;
             _changeTemplatesViewModel = changeTemplatesViewModel;
+            _accountBalances = accountBalances;
 
             _makePaymentCommand = new CaptionCommand<PaymentType>("", OnMakePayment, CanMakePayment);
             _selectChangePaymentTypeCommand = new CaptionCommand<PaymentData>("", OnSelectChangePaymentType);
@@ -78,7 +80,18 @@ namespace Samba.Modules.PaymentModule
             if (ticketResource.AccountId == 0) return false;
             if (_tenderedValueViewModel.GetTenderedValue() > _paymentEditor.SelectedTicket.GetRemainingAmount()) return false;
             var resourceType = _cacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
-            return resourceType.AccountTypeId == paymentType.AccountTransactionType.TargetAccountTypeId;
+            var result = resourceType.AccountTypeId == paymentType.AccountTransactionType.TargetAccountTypeId;
+            if (result)
+            {
+                var accountType = _cacheService.GetAccountTypeById(resourceType.AccountTypeId);
+                if (accountType.WorkingRule != 0)
+                {
+                    var targetBalance = _accountBalances.GetAccountBalance(ticketResource.AccountId) + _tenderedValueViewModel.GetTenderedValue();
+                    if (accountType.WorkingRule == 1 && targetBalance < 0) return false; //disallow debit
+                    if (accountType.WorkingRule == 2 && targetBalance > 0) return false; //disallow credit
+                }
+            }
+            return result;
         }
 
         private void OnMakePayment(PaymentType obj)

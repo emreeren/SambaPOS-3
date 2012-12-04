@@ -23,6 +23,10 @@
             </Label>
             <ComboBox ItemsSource="{Binding FilterTypes}" SelectedItem="{Binding FilterType}" HorizontalAlignment="Left" MinWidth="200"/>
             <Label>
+                <LocText ResourceIdentifierKey="Rules" Suffix=":"/>
+            </Label>
+            <ComboBox ItemsSource="{Binding WorkingRules}" SelectedItem="{Binding WorkingRule}" HorizontalAlignment="Left" MinWidth="200"/>
+            <Label>
                 <LocText ResourceIdentifierKey="Tags" Suffix=":"/>
             </Label>
         </StackPanel>

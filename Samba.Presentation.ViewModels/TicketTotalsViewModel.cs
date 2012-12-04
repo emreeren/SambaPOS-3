@@ -136,8 +136,8 @@ namespace Samba.Presentation.ViewModels
                     if (ticketResource.AccountId > 0)
                     {
                         var balance = _accountBalances.GetAccountBalance(ticketResource.AccountId);
-                        if (balance > 0)
-                            resourceName = string.Format("{0} [{1}]", resourceName, balance.ToString(LocalSettings.DefaultCurrencyFormat));
+                        if (balance != 0)
+                            resourceName = string.Format("{0} {1}", resourceName, balance.ToString(LocalSettings.DefaultCurrencyFormat));
                     }
                     sb.AppendLine(string.Format("{0}: {1}", rs.EntityName, resourceName));
                 }
