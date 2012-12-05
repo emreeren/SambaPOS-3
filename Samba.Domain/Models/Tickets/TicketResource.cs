@@ -28,5 +28,12 @@ namespace Samba.Domain.Models.Tickets
             var result = GetCustomData(fieldName.Trim());
             return !string.IsNullOrEmpty(result) ? string.Format(format, result) : "";
         }
+
+        public decimal GetCustomDataAsDecimal(string fieldName)
+        {
+            decimal result;
+            decimal.TryParse(GetCustomData(fieldName), out result);
+            return result;
+        }
     }
 }

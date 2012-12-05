@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Tickets;
+using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
@@ -18,6 +19,7 @@ namespace Samba.Modules.PaymentModule
     {
         private readonly IApplicationState _applicationState;
         private readonly ICacheService _cacheService;
+        private readonly IExpressionService _expressionService;
 
         private readonly ICaptionCommand _makePaymentCommand;
         private readonly ICaptionCommand _selectChangePaymentTypeCommand;
@@ -34,14 +36,16 @@ namespace Samba.Modules.PaymentModule
         private readonly AccountBalances _accountBalances;
 
         [ImportingConstructor]
-        public PaymentEditorViewModel(IApplicationState applicationState, ICacheService cacheService, TicketTotalsViewModel paymentTotals,
-            PaymentEditor paymentEditor, NumberPadViewModel numberPadViewModel, OrderSelectorViewModel orderSelectorViewModel,
+        public PaymentEditorViewModel(IApplicationState applicationState, ICacheService cacheService, IExpressionService expressionService,
+            TicketTotalsViewModel paymentTotals, PaymentEditor paymentEditor, NumberPadViewModel numberPadViewModel,
+            OrderSelectorViewModel orderSelectorViewModel,
             ForeignCurrencyButtonsViewModel foreignCurrencyButtonsViewModel, PaymentButtonsViewModel paymentButtonsViewModel,
             CommandButtonsViewModel commandButtonsViewModel, TenderedValueViewModel tenderedValueViewModel,
             ReturningAmountViewModel returningAmountViewModel, ChangeTemplatesViewModel changeTemplatesViewModel, AccountBalances accountBalances)
         {
             _applicationState = applicationState;
             _cacheService = cacheService;
+            _expressionService = expressionService;
             _paymentTotals = paymentTotals;
             _paymentEditor = paymentEditor;
             _numberPadViewModel = numberPadViewModel;
@@ -88,7 +92,7 @@ namespace Samba.Modules.PaymentModule
                 {
                     var targetBalance = _accountBalances.GetAccountBalance(ticketResource.AccountId) + _tenderedValueViewModel.GetTenderedValue();
                     if (accountType.WorkingRule == 1 && targetBalance < 0) return false; //disallow debit
-                    if (accountType.WorkingRule == 2 && targetBalance > 0) return false; //disallow credit
+                    if (accountType.WorkingRule == 2 && targetBalance > ticketResource.GetCustomDataAsDecimal(Resources.CreditLimit)) return false; //disallow credit
                 }
             }
             return result;
@@ -151,7 +155,7 @@ namespace Samba.Modules.PaymentModule
             if (changeTemplate == null) tenderedAmount -= returningAmount;
             _orderSelectorViewModel.UpdateSelectedTicketPaidItems();
             _paymentEditor.UpdateTicketPayment(paymentType, changeTemplate, paymentDueAmount, tenderedAmount);
-            _numberPadViewModel.LastTenderedAmount = (tenderedAmount / _paymentEditor.ExchangeRate).ToString("#,#0.00");
+            _numberPadViewModel.LastTenderedAmount = (tenderedAmount / _paymentEditor.ExchangeRate).ToString(LocalSettings.DefaultCurrencyFormat);
             _tenderedValueViewModel.UpdatePaymentAmount(_paymentEditor.GetRemainingAmount());
 
             if (returningAmount == 0 && _paymentEditor.GetRemainingAmount() == 0)

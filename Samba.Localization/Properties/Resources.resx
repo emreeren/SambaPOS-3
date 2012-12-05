@@ -3029,4 +3029,7 @@ Error Message:
   <data name="AskBeforeCreatingTicket">
     <value xml:space="preserve">Ask Before Creating Ticket</value>
   </data>
+  <data name="CreditLimit" xml:space="preserve">
+    <value>Credit Limit</value>
+  </data>
 </root>
