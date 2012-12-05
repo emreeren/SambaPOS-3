@@ -511,6 +511,9 @@
   <data name="OrderState" xml:space="preserve">
     <value>Stato Ordine</value>
   </data>
+  <data name="ResourceStateUpdated" xml:space="preserve">
+    <value>Stato Risorse Aggiornato</value>
+  </data>
   <data name="DeleteErrorAdminUser" xml:space="preserve">
     <value>Non è possibile eliminare l'utente admin.</value>
   </data>
@@ -752,6 +755,9 @@ Attiverà dopo {1} giorni, {2} ore, {3} minuti</value>
   <data name="CanOpenNavigation" xml:space="preserve">
     <value>Può accedere alla schermata di navigazione</value>
   </data>
+  <data name="Required" xml:space="preserve">
+    <value>Obbligatorio</value>
+  </data>
   <data name="TotalAmount_f" xml:space="preserve">
     <value>{0} Importo Totale:</value>
   </data>
@@ -899,6 +905,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   </data>
   <data name="TicketOptions" xml:space="preserve">
     <value>Ticket Impostazioni</value>
+  </data>
+  <data name="AskBeforeCreatingTicket" xml:space="preserve">
+    <value>Chiedi prima di creare il Ticket</value>
   </data>
   <data name="ProductName" xml:space="preserve">
     <value>Nome Prodotto</value>
@@ -1164,9 +1173,6 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="NumeratorHeight" xml:space="preserve">
     <value>Numero Altezza</value>
   </data>
-  <data name="ResourceState" xml:space="preserve">
-    <value>Stato Risorsa</value>
-  </data>
   <data name="Receiveable" xml:space="preserve">
     <value>Ricevibile</value>
   </data>
@@ -1419,6 +1425,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="EmptyDiscountRateFeedback" xml:space="preserve">
     <value>Per aggiungere sconti, digitare un tasso di sconto e fare clic sul pulsante. Per rimuovere clic sul pulsante Sconto senza dover digitare un valore.</value>
   </data>
+  <data name="Submitted" xml:space="preserve">
+    <value>Inserita</value>
+  </data>
   <data name="Account_f" xml:space="preserve">
     <value>Account: {0}</value>
   </data>
@@ -1487,6 +1496,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   </data>
   <data name="Confirmation" xml:space="preserve">
     <value>Conferma</value>
+  </data>
+  <data name="DisplayTicketList" xml:space="preserve">
+    <value>Elenco Visualizzazione Ticket</value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>Accesso</value>
@@ -1795,6 +1807,9 @@ Messaggio di errore:
   <data name="Departments" xml:space="preserve">
     <value>Reparto</value>
   </data>
+  <data name="DisplayState" xml:space="preserve">
+    <value>Stato Visualizzazione</value>
+  </data>
   <data name="ShareNameAndPortName" xml:space="preserve">
     <value>Nome Stampante Condivisa / Nome Porta</value>
   </data>
@@ -1834,8 +1849,8 @@ Messaggio di errore:
   <data name="Selected_f" xml:space="preserve">
     <value>Selezionato {0}</value>
   </data>
-  <data name="Submitted" xml:space="preserve">
-    <value>Inserita</value>
+  <data name="State" xml:space="preserve">
+    <value>Stato</value>
   </data>
   <data name="ItemSalesReport" xml:space="preserve">
     <value>Rapporto di vendita Articolo</value>
@@ -1972,6 +1987,9 @@ Messaggio di errore:
   <data name="DocumentNo" xml:space="preserve">
     <value>Documento N</value>
   </data>
+  <data name="State_f" xml:space="preserve">
+    <value>{0} Stato</value>
+  </data>
   <data name="Products" xml:space="preserve">
     <value>Prodotti</value>
   </data>
@@ -1998,6 +2016,9 @@ Messaggio di errore:
   </data>
   <data name="TicketTipTotalAmount" xml:space="preserve">
     <value>Totale biglietti importo punta</value>
+  </data>
+  <data name="Orders" xml:space="preserve">
+    <value>Ordini</value>
   </data>
   <data name="Unpaid" xml:space="preserve">
     <value>Da Pagare</value>
@@ -2132,8 +2153,7 @@ Messaggio di errore:
     <value>HTML</value>
   </data>
   <data name="NewOrders" xml:space="preserve">
-    <value>Nuovi Ordini
-</value>
+    <value>Nuovi Ordini</value>
   </data>
   <data name="SalesByItemGroup" xml:space="preserve">
     <value>Vendite per Gruppo</value>
@@ -2683,6 +2703,9 @@ Non può finire il periodo di lavoro mentre ci sono Ticket aperti.</value>
   <data name="ResourceScreens" xml:space="preserve">
     <value>Schermi Risorse</value>
   </data>
+  <data name="CreditLimit" xml:space="preserve">
+    <value>Limite di Credito</value>
+  </data>
   <data name="StateDefinition" xml:space="preserve">
     <value>Definizione di Stato</value>
   </data>
@@ -2724,6 +2747,9 @@ Non può finire il periodo di lavoro mentre ci sono Ticket aperti.</value>
   </data>
   <data name="MainMenu" xml:space="preserve">
     <value>Menu</value>
+  </data>
+  <data name="StateType" xml:space="preserve">
+    <value>Tipo Stato</value>
   </data>
   <data name="Tags" xml:space="preserve">
     <value>Tags</value>

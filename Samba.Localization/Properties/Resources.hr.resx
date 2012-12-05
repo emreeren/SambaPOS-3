@@ -1140,9 +1140,6 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="NumeratorHeight" xml:space="preserve">
     <value>Numberpad Height</value>
   </data>
-  <data name="ResourceState" xml:space="preserve">
-    <value>Resource State</value>
-  </data>
   <data name="Receiveable" xml:space="preserve">
     <value>Receiveable</value>
   </data>

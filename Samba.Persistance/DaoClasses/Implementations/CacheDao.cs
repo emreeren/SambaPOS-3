@@ -144,5 +144,10 @@ namespace Samba.Persistance.DaoClasses.Implementations
         {
             return Dao.Query<Department>().OrderBy(x => x.SortOrder).ThenBy(x => x.Id);
         }
+
+        public Resource GetResourceByName(int resourceTypeId, string resourceName)
+        {
+            return Dao.SingleWithCache<Resource>(x => x.Name == resourceName && x.ResourceTypeId == resourceTypeId);
+        }
     }
 }

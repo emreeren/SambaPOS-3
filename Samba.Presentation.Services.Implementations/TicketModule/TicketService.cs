@@ -56,6 +56,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             var currentResourceId = currentResource != null ? currentResource.ResourceId : 0;
             var newResourceName = resourceName;
             var oldResourceName = currentResource != null ? currentResource.ResourceName : "";
+
             if (currentResource != null && currentResource.ResourceId != resourceId)
             {
                 var resourceType = _cacheService.GetResourceTypeById(currentResource.ResourceTypeId);
@@ -72,12 +73,14 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
             if (currentResourceId != resourceId)
             {
+                var resourceType = _cacheService.GetResourceTypeById(resourceTypeId);
                 _automationService.NotifyEvent(RuleEventNames.TicketResourceChanged,
                     new
                     {
                         Ticket = ticket,
                         ResourceTypeId = resourceTypeId,
                         ResourceId = resourceId,
+                        ResourceTypeName = resourceType.Name,
                         OldResourceName = oldResourceName,
                         NewResourceName = newResourceName,
                         OrderCount = ticket.Orders.Count
@@ -142,7 +145,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
                     Debug.Assert(!string.IsNullOrEmpty(ticket.TicketNumber));
                     Debug.Assert(ticket.Id > 0);
-                    _automationService.NotifyEvent(RuleEventNames.TicketClosing, new { Ticket = ticket, TicketId = ticket.Id, NewOrderCount = ticket.GetUnlockedOrders().Count() });
+                    _automationService.NotifyEvent(RuleEventNames.TicketClosing, new { Ticket = ticket, TicketId = ticket.Id });
                     ticket.LockTicket();
                 }
 
@@ -301,7 +304,8 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                         PreviousTotal = total,
                         TicketTotal = ticket.GetSum(),
                         DiscountTotal = ticket.GetPreTaxServicesTotal(),
-                        PaymentTotal = ticket.GetPaymentAmount()
+                        PaymentTotal = ticket.GetPaymentAmount(),
+                        RemainingAmount = ticket.GetRemainingAmount()
                     });
             }
         }
@@ -576,7 +580,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             RecalculateTicket(ticket);
 
             order.PublishEvent(EventTopicNames.OrderAdded);
-            _automationService.NotifyEvent(RuleEventNames.TicketLineAdded, new { Ticket = ticket, Order = order, order.MenuItemName });
+            _automationService.NotifyEvent(RuleEventNames.OrderAdded, new { Ticket = ticket, Order = order, order.MenuItemName });
 
             return order;
         }

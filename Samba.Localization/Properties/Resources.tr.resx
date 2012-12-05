@@ -139,6 +139,9 @@
     <value>Toplam Çalışma Zamanı:
 {0:0} gün {1:0} saat {2:0} dakika</value>
   </data>
+  <data name="BeforeWorkPeriodEnds" xml:space="preserve">
+    <value>Gün Sonu Yapılmadan Önce</value>
+  </data>
   <data name="Add_f" xml:space="preserve">
     <value>{0} Ekle</value>
   </data>
@@ -503,6 +506,9 @@ Mesaj:
   </data>
   <data name="OrderState" xml:space="preserve">
     <value>Sipariş Durumu</value>
+  </data>
+  <data name="ResourceStateUpdated" xml:space="preserve">
+    <value>Kaynak Durumu Güncellendi</value>
   </data>
   <data name="DeleteErrorAdminUser" xml:space="preserve">
     <value>Admin kullanıcı silinemez.</value>
@@ -1100,9 +1106,6 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="NumeratorHeight" xml:space="preserve">
     <value>Numaratör Yüksekliği</value>
   </data>
-  <data name="ResourceState" xml:space="preserve">
-    <value>Kaynak Durumu</value>
-  </data>
   <data name="Receiveable" xml:space="preserve">
     <value>Alacak</value>
   </data>
@@ -1216,6 +1219,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="Cash" xml:space="preserve">
     <value>Nakit</value>
+  </data>
+  <data name="Sale" xml:space="preserve">
+    <value>Satış</value>
   </data>
   <data name="Purchase" xml:space="preserve">
     <value>Alım</value>
@@ -1387,6 +1393,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="Confirmation" xml:space="preserve">
     <value>Onay</value>
+  </data>
+  <data name="DisplayTicketList" xml:space="preserve">
+    <value>Belge Listesini Göster</value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>Giriş</value>
@@ -1686,8 +1695,14 @@ Hata Mesajı:
   <data name="FirstAndFifteenth" xml:space="preserve">
     <value>1'i ve 15'i</value>
   </data>
+  <data name="AccountTransactionDocument" xml:space="preserve">
+    <value>Hesap Hareketi Dökümanı</value>
+  </data>
   <data name="Departments" xml:space="preserve">
     <value>Departmanlar</value>
+  </data>
+  <data name="DisplayState" xml:space="preserve">
+    <value>Görünüm Durumu</value>
   </data>
   <data name="ShareNameAndPortName" xml:space="preserve">
     <value>Paylaşım Adı / Port Adı</value>
@@ -1760,6 +1775,9 @@ Hata Mesajı:
   </data>
   <data name="TicketTagSelected" xml:space="preserve">
     <value>Adisyon Etiketi Seçildi</value>
+  </data>
+  <data name="CurrencySymbol" xml:space="preserve">
+    <value>Para Birimi Sembolü</value>
   </data>
   <data name="TagCantBeEmpty_f" xml:space="preserve">
     <value>{0} boş bırakılamaz</value>
@@ -1860,6 +1878,9 @@ Hata Mesajı:
   <data name="DocumentNo" xml:space="preserve">
     <value>Belge No</value>
   </data>
+  <data name="State_f" xml:space="preserve">
+    <value>{0} Durumu</value>
+  </data>
   <data name="Products" xml:space="preserve">
     <value>Ürünler</value>
   </data>
@@ -1878,11 +1899,17 @@ Hata Mesajı:
   <data name="OrderTagQuantity" xml:space="preserve">
     <value>#Etiket: Sipariş Etiketi Miktar</value>
   </data>
+  <data name="LastPaidOrders" xml:space="preserve">
+    <value>Son Ödenen Siparişler</value>
+  </data>
   <data name="FindTicket" xml:space="preserve">
     <value>Adisyon Bul</value>
   </data>
   <data name="TicketTipTotalAmount" xml:space="preserve">
     <value>Belge Garsoniye Toplamı</value>
+  </data>
+  <data name="Orders" xml:space="preserve">
+    <value>Siparişler</value>
   </data>
   <data name="Unpaid" xml:space="preserve">
     <value>Ödenmedi</value>
@@ -2091,6 +2118,9 @@ Hata Mesajı:
   <data name="WeightBarcodePefix" xml:space="preserve">
     <value>Gramaj Barkodu Öneki</value>
   </data>
+  <data name="TicketResourceChanged" xml:space="preserve">
+    <value>Belge Kaynağı Değişti</value>
+  </data>
   <data name="MessageReceived" xml:space="preserve">
     <value>Mesaj Alındı</value>
   </data>
@@ -2280,6 +2310,9 @@ Kapat</value>
   </data>
   <data name="Customer" xml:space="preserve">
     <value>Müşteri</value>
+  </data>
+  <data name="ToggleValues" xml:space="preserve">
+    <value>Değerleri Değiştir</value>
   </data>
   <data name="UpdateTicketAccount" xml:space="preserve">
     <value>Adisyon Hesabını Değiştir</value>
@@ -2578,6 +2611,9 @@ Açık adisyon varken gün sonu yapılamaz.</value>
   </data>
   <data name="MainMenu" xml:space="preserve">
     <value>Ana Menü</value>
+  </data>
+  <data name="StateType" xml:space="preserve">
+    <value>Durum Tipi</value>
   </data>
   <data name="Tags" xml:space="preserve">
     <value>Etiketler</value>

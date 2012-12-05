@@ -477,6 +477,12 @@ namespace Samba.Services.Implementations
             return _resourceCache.GetResources(resourceTypeId, stateData);
         }
 
+        public Resource GetResourceByName(string resourceTypeName, string resourceName)
+        {
+            var rt = ResourceTypes.Single(x => x.Name == resourceTypeName);
+            return _dataService.GetResourceByName(rt.Id, resourceName);
+        }
+
         public void ResetTicketTagCache()
         {
             _ticketTagGroups = null;

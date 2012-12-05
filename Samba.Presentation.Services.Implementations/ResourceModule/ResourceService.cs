@@ -15,13 +15,15 @@ namespace Samba.Presentation.Services.Implementations.ResourceModule
     {
         private readonly IResourceDao _resourceDao;
         private readonly IAutomationService _automationService;
+        private readonly ICacheService _cacheService;
         private IWorkspace _resoureceWorkspace;
 
         [ImportingConstructor]
-        public ResourceService(IResourceDao resourceDao, IAutomationService automationService)
+        public ResourceService(IResourceDao resourceDao, IAutomationService automationService, ICacheService cacheService)
         {
             _resourceDao = resourceDao;
             _automationService = automationService;
+            _cacheService = cacheService;
         }
 
         public void UpdateResourceScreenItems(ResourceScreen resourceScreen, int pageNo)
@@ -105,10 +107,11 @@ namespace Samba.Presentation.Services.Implementations.ResourceModule
             }
         }
 
-        public void UpdateResourceState(int resourceId, string stateName, string state)
+        public void UpdateResourceState(int resourceId, int resourceTypeId, string stateName, string state)
         {
             _resourceDao.UpdateResourceState(resourceId, stateName, state);
-            _automationService.NotifyEvent(RuleEventNames.ResourceStateUpdated, new { ResourceId = resourceId, StateName = stateName, State = state });
+            var rt = _cacheService.GetResourceTypeById(resourceTypeId);
+            _automationService.NotifyEvent(RuleEventNames.ResourceStateUpdated, new { ResourceId = resourceId, ResourceTypeName = rt.Name, StateName = stateName, State = state });
         }
     }
 }

@@ -59,64 +59,63 @@ namespace Samba.Presentation.ViewModels
         {
             AutomationService.RegisterActionType(ActionNames.SendEmail, Resources.SendEmail, new { SMTPServer = "", SMTPUser = "", SMTPPassword = "", SMTPPort = 0, ToEMailAddress = "", Subject = "", CCEmailAddresses = "", FromEMailAddress = "", EMailMessage = "", FileName = "", DeleteFile = false, BypassSslErrors = false });
             AutomationService.RegisterActionType(ActionNames.AddOrder, Resources.AddOrder, new { MenuItemName = "", PortionName = "", Quantity = 0, Tag = "" });
-            AutomationService.RegisterActionType(ActionNames.UpdateTicketTag, Resources.UpdateTicketTag, new { TagName = "", TagValue = "" });
             AutomationService.RegisterActionType(ActionNames.TagOrder, Resources.TagOrder, new { OrderTagName = "", OldOrderTagValue = "", OrderTagValue = "", OrderTagNote = "" });
             AutomationService.RegisterActionType(ActionNames.UntagOrder, Resources.UntagOrder, new { OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterActionType(ActionNames.RemoveOrderTag, Resources.RemoveOrderTag, new { OrderTagName = "" });
             AutomationService.RegisterActionType(ActionNames.MoveTaggedOrders, Resources.MoveTaggedOrders, new { OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterActionType(ActionNames.UpdateOrder, Resources.UpdateOrder, new { Quantity = 0m, Price = 0m, IncreaseInventory = false, DecreaseInventory = false, CalculatePrice = false, Locked = false, AccountTransactionType = "" });
-            AutomationService.RegisterActionType(ActionNames.UpdatePriceTag, Resources.UpdatePriceTag, new { DepartmentName = "", PriceTag = "" });
-            AutomationService.RegisterActionType(ActionNames.RefreshCache, Resources.RefreshCache);
-            AutomationService.RegisterActionType(ActionNames.SendMessage, Resources.BroadcastMessage, new { Command = "" });
+            AutomationService.RegisterActionType(ActionNames.UpdateOrderState, Resources.UpdateOrderState, new { StateName = "", GroupOrder = 0, CurrentState = "", State = "", StateOrder = 0, StateValue = "" });
+            AutomationService.RegisterActionType(ActionNames.UpdateResourceState, Resources.UpdateResourceState, new { ResourceTypeName = "", ResourceStateName = "", CurrentState = "", ResourceState = "" });
             AutomationService.RegisterActionType(ActionNames.UpdateProgramSetting, Resources.UpdateProgramSetting, new { SettingName = "", SettingValue = "", UpdateType = Resources.Update, IsLocal = true });
+            AutomationService.RegisterActionType(ActionNames.UpdateTicketTag, Resources.UpdateTicketTag, new { TagName = "", TagValue = "" });
             AutomationService.RegisterActionType(ActionNames.UpdateTicketTax, Resources.UpdateTicketTax, new { TaxTemplate = "" });
+            AutomationService.RegisterActionType(ActionNames.ChangeTicketResource, Resources.ChangeTicketResource, new { ResourceTypeName = "", ResourceName = "" });
             AutomationService.RegisterActionType(ActionNames.RegenerateTicketTax, Resources.RegenerateTicketTax);
             AutomationService.RegisterActionType(ActionNames.UpdateTicketCalculation, Resources.UpdateTicketCalculation, new { CalculationType = "", Amount = 0m });
-            AutomationService.RegisterActionType(ActionNames.UpdateTicketAccount, Resources.UpdateTicketAccount, new { AccountPhone = "", AccountName = "", Note = "" });
-            AutomationService.RegisterActionType(ActionNames.ExecutePrintJob, Resources.ExecutePrintJob, new { PrintJobName = "", OrderStateName = "", OrderState = "", OrderStateValue = "", OrderTagName = "", OrderTagValue = "" });
+            AutomationService.RegisterActionType(ActionNames.UpdateTicketState, Resources.UpdateTicketState, new { StateName = "", CurrentState = "", State = "", StateValue = "", Quantity = 0 });
             AutomationService.RegisterActionType(ActionNames.CloseActiveTicket, Resources.CloseTicket);
-            AutomationService.RegisterActionType(ActionNames.LockTicket, Resources.LockTicket);
-            AutomationService.RegisterActionType(ActionNames.UnlockTicket, Resources.UnlockTicket);
             AutomationService.RegisterActionType(ActionNames.CreateTicket, string.Format(Resources.Create_f, Resources.Ticket));
             AutomationService.RegisterActionType(ActionNames.DisplayTicket, Resources.DisplayTicket, new { TicketId = 0 });
             AutomationService.RegisterActionType(ActionNames.DisplayTicketList, Resources.DisplayTicketList, new { TicketTagName = "", TicketStateName = "" });
+            AutomationService.RegisterActionType(ActionNames.LockTicket, Resources.LockTicket);
+            AutomationService.RegisterActionType(ActionNames.UnlockTicket, Resources.UnlockTicket);
             AutomationService.RegisterActionType(ActionNames.DisplayPaymentScreen, Resources.DisplayPaymentScreen);
+            AutomationService.RegisterActionType(ActionNames.UpdatePriceTag, Resources.UpdatePriceTag, new { DepartmentName = "", PriceTag = "" });
+            AutomationService.RegisterActionType(ActionNames.RefreshCache, Resources.RefreshCache);
+            AutomationService.RegisterActionType(ActionNames.ExecutePrintJob, Resources.ExecutePrintJob, new { PrintJobName = "", OrderStateName = "", OrderState = "", OrderStateValue = "", OrderTagName = "", OrderTagValue = "" });
+            AutomationService.RegisterActionType(ActionNames.SendMessage, Resources.BroadcastMessage, new { Command = "" });
             AutomationService.RegisterActionType(ActionNames.ExecutePowershellScript, Resources.ExecutePowershellScript, new { Script = "" });
             AutomationService.RegisterActionType(ActionNames.ExecuteScript, Resources.ExecuteScript, new { ScriptName = "" });
-            AutomationService.RegisterActionType(ActionNames.UpdateResourceState, Resources.UpdateResourceState, new { ResourceTypeName = "", ResourceStateName = "", CurrentState = "", ResourceState = "" });
-            AutomationService.RegisterActionType(ActionNames.UpdateTicketState, Resources.UpdateTicketState, new { StateName = "", CurrentState = "", State = "", StateValue = "", Quantity = 0 });
-            AutomationService.RegisterActionType(ActionNames.UpdateOrderState, Resources.UpdateOrderState, new { StateName = "", GroupOrder = 0, CurrentState = "", State = "", StateOrder = 0, StateValue = "" });
         }
 
         private static void RegisterRules()
         {
             AutomationService.RegisterEvent(RuleEventNames.ApplicationScreenChanged, Resources.ApplicationScreenChanged, new { PreviousScreen = "", CurrentScreen = "" });
+            AutomationService.RegisterEvent(RuleEventNames.AutomationCommandExecuted, Resources.AutomationCommandExecuted, new { AutomationCommandName = "", Value = "" });
+            AutomationService.RegisterEvent(RuleEventNames.TriggerExecuted, Resources.TriggerExecuted, new { TriggerName = "" });
             AutomationService.RegisterEvent(RuleEventNames.UserLoggedIn, Resources.UserLogin, new { RoleName = "" });
             AutomationService.RegisterEvent(RuleEventNames.UserLoggedOut, Resources.UserLogout, new { RoleName = "" });
             AutomationService.RegisterEvent(RuleEventNames.WorkPeriodStarts, Resources.WorkPeriodStarted);
             AutomationService.RegisterEvent(RuleEventNames.BeforeWorkPeriodEnds, Resources.BeforeWorkPeriodEnds);
             AutomationService.RegisterEvent(RuleEventNames.WorkPeriodEnds, Resources.WorkPeriodEnded);
-            AutomationService.RegisterEvent(RuleEventNames.TriggerExecuted, Resources.TriggerExecuted, new { TriggerName = "" });
             AutomationService.RegisterEvent(RuleEventNames.TicketCreated, Resources.TicketCreated);
             AutomationService.RegisterEvent(RuleEventNames.TicketOpened, Resources.TicketOpened, new { OrderCount = 0 });
-            AutomationService.RegisterEvent(RuleEventNames.TicketClosing, Resources.TicketClosing, new { TicketId = 0, NewOrderCount = 0 });
+            AutomationService.RegisterEvent(RuleEventNames.TicketClosing, Resources.TicketClosing, new { TicketId = 0 });
             AutomationService.RegisterEvent(RuleEventNames.TicketsMerged, Resources.TicketsMerged);
-            AutomationService.RegisterEvent(RuleEventNames.PaymentProcessed, Resources.PaymentProcessed, new { PaymentTypeName = "", TenderedAmount = 0m, ProcessedAmount = 0m, ChangeAmount = 0m, RemainingAmount = 0m, SelectedQuantity = 0m });
-            AutomationService.RegisterEvent(RuleEventNames.TicketResourceChanged, Resources.TicketResourceChanged, new { OrderCount = 0, OldResourceName = "", NewResourceName = "" });
+            AutomationService.RegisterEvent(RuleEventNames.TicketResourceChanged, Resources.TicketResourceChanged, new { ResourceTypeName = "", OrderCount = 0, OldResourceName = "", NewResourceName = "" });
             AutomationService.RegisterEvent(RuleEventNames.TicketTagSelected, Resources.TicketTagSelected, new { TagName = "", TagValue = "", NumericValue = 0, TicketTag = "" });
             AutomationService.RegisterEvent(RuleEventNames.TicketStateUpdated, Resources.TicketStateUpdated, new { StateName = "", State = "", StateValue = "", Quantity = 0, TicketState = "" });
-            AutomationService.RegisterEvent(RuleEventNames.ResourceStateUpdated, Resources.ResourceStateUpdated, new { StateName = "", State = "" });
+            AutomationService.RegisterEvent(RuleEventNames.TicketTotalChanged, Resources.TicketTotalChanged, new { PreviousTotal = 0m, TicketTotal = 0m, RemainingAmount = 0m, DiscountTotal = 0m, PaymentTotal = 0m });
+            AutomationService.RegisterEvent(RuleEventNames.PaymentProcessed, Resources.PaymentProcessed, new { PaymentTypeName = "", TenderedAmount = 0m, ProcessedAmount = 0m, ChangeAmount = 0m, RemainingAmount = 0m, SelectedQuantity = 0m });
+            AutomationService.RegisterEvent(RuleEventNames.ChangeAmountChanged, Resources.ChangeAmountUpdated, new { TicketAmount = 0, ChangeAmount = 0, TenderedAmount = 0 });
+            AutomationService.RegisterEvent(RuleEventNames.OrderAdded, Resources.OrderAddedToTicket, new { MenuItemName = "" });
             AutomationService.RegisterEvent(RuleEventNames.OrderTagged, Resources.OrderTagged, new { OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterEvent(RuleEventNames.OrderUntagged, Resources.OrderUntagged, new { OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterEvent(RuleEventNames.OrderStateUpdated, Resources.OrderStateUpdated, new { StateName = "", State = "", StateValue = "" });
-            AutomationService.RegisterEvent(RuleEventNames.AccountSelectedForTicket, Resources.AccountSelectedForTicket, new { AccountName = "", PhoneNumber = "", AccountNote = "" });
-            AutomationService.RegisterEvent(RuleEventNames.TicketTotalChanged, Resources.TicketTotalChanged, new { TicketTotal = 0m, PreviousTotal = 0m, DiscountTotal = 0m, DiscountAmount = 0m, TipAmount = 0m });
-            AutomationService.RegisterEvent(RuleEventNames.MessageReceived, Resources.MessageReceived, new { Command = "" });
-            AutomationService.RegisterEvent(RuleEventNames.TicketLineAdded, Resources.OrderAddedToTicket, new { MenuItemName = "" });
-            AutomationService.RegisterEvent(RuleEventNames.ChangeAmountChanged, Resources.ChangeAmountUpdated, new { TicketAmount = 0, ChangeAmount = 0, TenderedAmount = 0 });
-            AutomationService.RegisterEvent(RuleEventNames.ApplicationStarted, Resources.ApplicationStarted);
             AutomationService.RegisterEvent(RuleEventNames.ResourceUpdated, Resources.ResourceUpdated, new { ResourceTypeName = "", OpenTicketCount = 0 });
-            AutomationService.RegisterEvent(RuleEventNames.AutomationCommandExecuted, Resources.AutomationCommandExecuted, new { AutomationCommandName = "", Value = "" });
+            AutomationService.RegisterEvent(RuleEventNames.ResourceStateUpdated, Resources.ResourceStateUpdated, new { ResourceTypeName = "", StateName = "", State = "" });
+            AutomationService.RegisterEvent(RuleEventNames.MessageReceived, Resources.MessageReceived, new { Command = "" });
+            AutomationService.RegisterEvent(RuleEventNames.ApplicationStarted, Resources.ApplicationStarted);
         }
 
         private static void RegisterParameterSources()
@@ -158,6 +157,22 @@ namespace Samba.Presentation.ViewModels
         {
             EventServiceFactory.EventService.GetEvent<GenericEvent<IActionData>>().Subscribe(x =>
             {
+                if (x.Value.Action.ActionType == ActionNames.ChangeTicketResource)
+                {
+                    var ticket = x.Value.GetDataValue<Ticket>("Ticket");
+                    if (ticket != null)
+                    {
+                        var resourceTypeName = x.Value.GetAsString("ResourceTypeName");
+                        var resourceName = x.Value.GetAsString("ResourceName");
+                        if (!string.IsNullOrEmpty(resourceTypeName))
+                        {
+                            var resource = CacheService.GetResourceByName(resourceTypeName, resourceName);
+                            if (resource != null)
+                                TicketService.UpdateResource(ticket, resource);
+                        }
+                    }
+                }
+
                 if (x.Value.Action.ActionType == ActionNames.UpdateOrder)
                 {
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
@@ -282,7 +297,7 @@ namespace Samba.Presentation.ViewModels
                     {
                         if (resourceId > 0 && resourceTypeId > 0)
                         {
-                            ResourceService.UpdateResourceState(resourceId, stateName, state);
+                            ResourceService.UpdateResourceState(resourceId, resourceTypeId, stateName, state);
                         }
                         else
                         {
@@ -294,42 +309,10 @@ namespace Samba.Presentation.ViewModels
                                 {
                                     var resourceType = CacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
                                     if (string.IsNullOrEmpty(resourceTypeName.Trim()) || resourceType.Name == resourceTypeName)
-                                        ResourceService.UpdateResourceState(ticketResource.ResourceId, stateName, state);
+                                        ResourceService.UpdateResourceState(ticketResource.ResourceId, ticketResource.ResourceTypeId, stateName, state);
                                 }
                             }
                         }
-                    }
-                }
-
-                if (x.Value.Action.ActionType == ActionNames.UpdateTicketAccount)
-                {
-                    var ticket = x.Value.GetDataValue<Ticket>("Ticket");
-                    if (ticket != null)
-                    {
-                        Expression<Func<Resource, bool>> qFilter = null;
-
-                        var phoneNumber = x.Value.GetAsString("AccountPhone");
-                        var accountName = x.Value.GetAsString("AccountName");
-                        var note = x.Value.GetAsString("Note");
-
-                        if (!string.IsNullOrEmpty(phoneNumber))
-                        {
-                            qFilter = y => y.SearchString == phoneNumber;
-                        }
-
-                        if (!string.IsNullOrEmpty(accountName))
-                        {
-                            if (qFilter == null) qFilter = y => y.Name == accountName;
-                            else qFilter = qFilter.And(y => y.Name == accountName);
-                        }
-
-                        if (qFilter != null)
-                        {
-                            var resource = Dao.Query(qFilter).FirstOrDefault();
-                            if (resource != null)
-                                TicketService.UpdateResource(ticket, resource);
-                        }
-                        else TicketService.UpdateResource(ticket, Resource.Null);
                     }
                 }
 

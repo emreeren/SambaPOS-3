@@ -2,6 +2,7 @@
 {
     public static class ActionNames
     {
+        public const string ChangeTicketResource = "ChangeTicketResource";
         public const string DisplayTicketList = "DisplayTicketList";
         public const string UpdateTicketTag = "UpdateTicketTag";
         public const string TagOrder = "TagOrder";
@@ -15,7 +16,6 @@
         public const string UpdateTicketTax = "UpdateTicketTax";
         public const string RegenerateTicketTax = "RegenerateTicketTax";
         public const string UpdateTicketCalculation = "UpdateTicketService";
-        public const string UpdateTicketAccount = "UpdateTicketAccount";
         public const string ExecutePrintJob = "ExecutePrintJob";
         public const string UpdateResourceState = "UpdateResourceState";
         public const string CloseActiveTicket = "CloseActiveTicket";
@@ -47,11 +47,10 @@
         public const string ResourceUpdated = "ResourceUpdated";
         public const string ApplicationStarted = "ApplicationStarted";
         public const string ChangeAmountChanged = "ChangeAmountChanged";
-        public const string TicketLineAdded = "TicketLineAdded";
+        public const string OrderAdded = "OrderAdded";
         public const string TriggerExecuted = "TriggerExecuted";
         public const string TicketTotalChanged = "TicketTotalChanged";
         public const string TicketTagSelected = "TicketTagSelected";
-        public const string AccountSelectedForTicket = "AccountSelectedForTicket";
         public const string WorkPeriodStarts = "WorkPeriodStarts";
         public const string WorkPeriodEnds = "WorkPeriodEnds";
         public const string BeforeWorkPeriodEnds = "BeforeWorkPeriodEnds";

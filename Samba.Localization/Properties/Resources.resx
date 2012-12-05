@@ -1682,9 +1682,6 @@ Visit Reports section and create Work Period Reports</value>
   <data name="TicketTagSelected" xml:space="preserve">
     <value>Ticket Tag Selected</value>
   </data>
-  <data name="AccountSelectedForTicket" xml:space="preserve">
-    <value>Account Selected for Ticket</value>
-  </data>
   <data name="TicketTotalChanged" xml:space="preserve">
     <value>Ticket Total Changed</value>
   </data>
@@ -2205,9 +2202,6 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   </data>
   <data name="TextWrittenTotalValue" xml:space="preserve">
     <value>Text written total value</value>
-  </data>
-  <data name="UpdateTicketAccount" xml:space="preserve">
-    <value>Update Ticket Account</value>
   </data>
   <data name="TransactionMultiplierError" xml:space="preserve">
     <value>Transaction multiplier should not be zero</value>
@@ -3031,5 +3025,8 @@ Error Message:
   </data>
   <data name="CreditLimit" xml:space="preserve">
     <value>Credit Limit</value>
+  </data>
+  <data name="ChangeTicketResource">
+    <value xml:space="preserve">Change Ticket Resource</value>
   </data>
 </root>

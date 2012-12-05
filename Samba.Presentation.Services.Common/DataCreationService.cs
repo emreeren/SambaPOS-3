@@ -416,7 +416,7 @@ namespace Samba.Presentation.Services.Common
             newTicketRule.AddRuleMap();
             _workspace.Add(newTicketRule);
 
-            var newOrderAddingRule = new AppRule { Name = "New Order Adding Rule", EventName = RuleEventNames.TicketLineAdded };
+            var newOrderAddingRule = new AppRule { Name = "New Order Adding Rule", EventName = RuleEventNames.OrderAdded };
             newOrderAddingRule.Actions.Add(new ActionContainer(updateTicketStatusAction) { ParameterValues = string.Format("Status={0}", Resources.NewOrders) });
             newOrderAddingRule.Actions.Add(new ActionContainer(updateOrderStatusAction) { ParameterValues = string.Format("Status={0}", Resources.New) });
             newOrderAddingRule.AddRuleMap();

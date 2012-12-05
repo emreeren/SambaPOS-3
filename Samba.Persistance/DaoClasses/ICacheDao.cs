@@ -34,5 +34,6 @@ namespace Samba.Persistance.DaoClasses
         IEnumerable<TaskType> GetTaskTypes();
         IEnumerable<ForeignCurrency> GetForeignCurrencies();
         IEnumerable<Department> GetDepartments();
+        Resource GetResourceByName(int resourceTypeId, string resourceName);
     }
 }

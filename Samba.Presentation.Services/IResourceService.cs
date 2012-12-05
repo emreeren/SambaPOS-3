@@ -10,7 +10,7 @@ namespace Samba.Presentation.Services
         IList<ResourceScreenItem> LoadResourceScreenItems(string selectedResourceScreen);
         IList<Widget> LoadWidgets(string selectedResourceScreen);
         void SaveResourceScreenItems();
-        void UpdateResourceState(int resourceId, string stateName, string state);
+        void UpdateResourceState(int resourceId, int resourceType, string stateName, string state);
         void AddWidgetToResourceScreen(string resourceScreenName, Widget widget);
         void UpdateResourceScreen(ResourceScreen resourceScreen);
         void RemoveWidget(Widget widget);
