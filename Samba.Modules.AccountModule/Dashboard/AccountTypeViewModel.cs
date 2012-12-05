@@ -16,7 +16,7 @@ namespace Samba.Modules.AccountModule.Dashboard
         {
         }
 
-        private readonly string[] _workingRules = new[] { Resources.Default, Resources.Credit, Resources.Debit };
+        private readonly string[] _workingRules = new[] { Resources.Default, Resources.Debit, Resources.Credit };
         public string[] WorkingRules
         {
             get { return _workingRules; }

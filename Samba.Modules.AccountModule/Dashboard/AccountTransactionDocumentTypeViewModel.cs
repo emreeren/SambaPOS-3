@@ -6,11 +6,9 @@ using System.Linq;
 using Samba.Domain.Models.Accounts;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
-using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Common.Services;
-using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Services;
 
@@ -131,7 +129,7 @@ namespace Samba.Modules.AccountModule.Dashboard
 
         private bool CanAddAccountMap(string arg)
         {
-            return MasterAccountType != null;
+            return Model != null && Model.MasterAccountTypeId > 0;
         }
 
         private void OnAddAccountMap(string obj)

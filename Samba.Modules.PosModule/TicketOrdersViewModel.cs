@@ -66,7 +66,7 @@ namespace Samba.Modules.PosModule
 
         public void CancelSelectedOrders()
         {
-            var selectedOrders = SelectedTicket.SelectedOrders;
+            var selectedOrders = SelectedTicket.SelectedOrders.ToList();
             ClearSelectedOrders();
             SelectedTicket.CancelOrders(selectedOrders);
             Orders.Clear();

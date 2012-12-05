@@ -107,7 +107,7 @@ namespace Samba.Modules.PaymentModule
             var serviceAmount = SelectedTicket.GetPreTaxServicesTotal() + SelectedTicket.GetPostTaxServicesTotal();
             var sum = SelectedTicket.GetPlainSum();
 
-            foreach (var order in SelectedTicket.Orders)
+            foreach (var order in SelectedTicket.Orders.Where(x => x.CalculatePrice))
             {
                 UpdateSelector(order, serviceAmount, sum);
             }

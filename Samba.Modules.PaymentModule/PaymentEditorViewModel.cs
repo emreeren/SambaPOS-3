@@ -91,8 +91,8 @@ namespace Samba.Modules.PaymentModule
                 if (accountType.WorkingRule != 0)
                 {
                     var targetBalance = _accountBalances.GetAccountBalance(ticketResource.AccountId) + _tenderedValueViewModel.GetTenderedValue();
-                    if (accountType.WorkingRule == 1 && targetBalance < 0) return false; //disallow debit
-                    if (accountType.WorkingRule == 2 && targetBalance > ticketResource.GetCustomDataAsDecimal(Resources.CreditLimit)) return false; //disallow credit
+                    if (accountType.WorkingRule == 1 && targetBalance < 0) return false; //disallow credit
+                    if (accountType.WorkingRule == 2 && targetBalance > ticketResource.GetCustomDataAsDecimal(Resources.CreditLimit)) return false; //disallow debit
                 }
             }
             return result;
