@@ -44,6 +44,6 @@ namespace Samba.Presentation.Services
         void UpdateTicketState(Ticket ticket, string stateName,string currentState, string state, string stateValue, int quantity = 0);
         void ChangeOrdersAccountTransactionTypeId(Ticket ticket, IEnumerable<Order> selectedOrders, int accountTransactionTypeId);
         void AddAccountTransaction(Ticket ticket, Account sourceAccount, Account targetAccount, decimal amount, decimal exchangeRate);
-      
+        bool CanMakeAccountTransaction(TicketResource ticketResource, AccountTransactionType accountTransactionType, decimal targetBalance);
     }
 }

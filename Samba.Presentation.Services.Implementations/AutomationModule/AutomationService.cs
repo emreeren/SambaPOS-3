@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Samba.Domain.Models.Automation;
 using Samba.Infrastructure.Data.Serializer;
 using Samba.Persistance.DaoClasses;
@@ -61,14 +62,33 @@ namespace Samba.Presentation.Services.Implementations.AutomationModule
                         var containerParameterValues = container.ParameterValues ?? "";
                         clonedAction.Parameter = _settingService.ReplaceSettingValues(clonedAction.Parameter);
                         containerParameterValues = _settingService.ReplaceSettingValues(containerParameterValues);
-                        clonedAction.Parameter = _expressionService.ReplaceExpressionValues(clonedAction.Parameter);
-                        containerParameterValues = _expressionService.ReplaceExpressionValues(containerParameterValues);
+
+                        //clonedAction.Parameter = ReplaceParameterValues(clonedAction.Parameter, dataObject);
+                        containerParameterValues = ReplaceParameterValues(containerParameterValues, dataObject);
+
+                        clonedAction.Parameter = _expressionService.ReplaceExpressionValues(clonedAction.Parameter); //[{"Key":"AccountTransactionTypeName","Value":"Puan Yüklemesi"},{"Key":"Amount","Value":"[:Tutar]"}]
+                        containerParameterValues = _expressionService.ReplaceExpressionValues(containerParameterValues);//Tutar=[=[:ProcessedAmount]*0.05] 
 
                         IActionData data = new ActionData { Action = clonedAction, DataObject = dataObject, ParameterValues = containerParameterValues };
                         data.PublishEvent(EventTopicNames.ExecuteEvent, true);
                     }
                 }
             }
+        }
+
+        private string ReplaceParameterValues(string parameterValues, object dataObject)
+        {
+            if (!string.IsNullOrEmpty(parameterValues) && Regex.IsMatch(parameterValues, "\\[:([^\\]]+)\\]"))
+            {
+                foreach (var propertyName in Regex.Matches(parameterValues, "\\[:([^\\]]+)\\]").Cast<Match>().Select(match => match.Groups[1].Value).ToList())
+                {
+                    var prop = dataObject.GetType().GetProperty(propertyName);
+                    if (prop == null) continue;
+                    var val = prop.GetValue(dataObject, null);
+                    parameterValues = parameterValues.Replace(string.Format("[:{0}]", propertyName), val != null ? val.ToString() : "");
+                }
+            }
+            return parameterValues;
         }
 
         private bool CanExecuteRule(AppRule appRule, object dataObject)

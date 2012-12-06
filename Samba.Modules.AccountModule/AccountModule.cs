@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.Composition;
+using System.Linq;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Regions;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Modules.AccountModule.Dashboard;
 using Samba.Presentation.Common;
@@ -18,6 +20,8 @@ namespace Samba.Modules.AccountModule
         private readonly IRegionManager _regionManager;
         private readonly IUserService _userService;
         private readonly IAccountService _accountService;
+        private readonly ITicketService _ticketService;
+        private readonly ICacheService _cacheService;
         private readonly AccountSelectorView _accountSelectorView;
         private readonly AccountSelectorViewModel _accountSelectorViewModel;
         private readonly AccountDetailsView _accountDetailsView;
@@ -30,6 +34,8 @@ namespace Samba.Modules.AccountModule
             IAutomationService automationService,
             IUserService userService,
             IAccountService accountService,
+            ITicketService ticketService,
+            ICacheService cacheService,
             AccountSelectorView accountSelectorView, AccountSelectorViewModel accountSelectorViewModel,
             AccountDetailsView accountDetailsView,
             DocumentCreatorView documentCreatorView,
@@ -39,6 +45,8 @@ namespace Samba.Modules.AccountModule
             _regionManager = regionManager;
             _userService = userService;
             _accountService = accountService;
+            _ticketService = ticketService;
+            _cacheService = cacheService;
             _accountSelectorView = accountSelectorView;
             _accountSelectorViewModel = accountSelectorViewModel;
             _accountDetailsView = accountDetailsView;
@@ -59,6 +67,7 @@ namespace Samba.Modules.AccountModule
             SetNavigationCommand(Resources.Accounts, Resources.Common, "Images/Xls.png", 70);
 
             automationService.RegisterActionType(ActionNames.CreateAccountTransactionDocument, string.Format(Resources.Create_f, Resources.AccountTransactionDocument), new { AccountTransactionDocumentName = "" });
+            automationService.RegisterActionType(ActionNames.CreateAccountTransaction, string.Format(Resources.Create_f, Resources.AccountTransaction), new { AccountTransactionTypeName = "", Amount = 0m });
 
         }
 
@@ -81,6 +90,30 @@ namespace Samba.Modules.AccountModule
             {
                 var documentName = ep.Value.GetAsString("AccountTransactionDocumentName");
                 _accountService.CreateBatchAccountTransactionDocument(documentName);
+            }
+            if (ep.Value.Action.ActionType == ActionNames.CreateAccountTransaction)
+            {
+                var ticket = ep.Value.GetDataValue<Ticket>("Ticket");
+                if (ticket != null)
+                {
+                    var amount = ep.Value.GetAsDecimal("Amount");
+                    var transactionName = ep.Value.GetAsString("AccountTransactionTypeName");
+                    if (!string.IsNullOrEmpty(transactionName))
+                    {
+                        var accountTransactionType = _cacheService.GetAccountTransactionTypeByName(transactionName);
+                        if (accountTransactionType != null)
+                        {
+                            var ts = ticket.TicketResources.FirstOrDefault(x => _ticketService.CanMakeAccountTransaction(x, accountTransactionType, 0));
+                            if (ts != null)
+                            {
+                                var account = _cacheService.GetAccountById(ts.AccountId);
+                                ticket.TransactionDocument.AddNewTransaction(accountTransactionType,
+                                                                             ticket.AccountTypeId, ticket.AccountId,
+                                                                             account, amount, 1);
+                            }
+                        }
+                    }
+                }
             }
         }
 

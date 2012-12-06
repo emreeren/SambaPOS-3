@@ -240,6 +240,11 @@ namespace Samba.Services.Implementations
             return AccountTransactionTypes.Single(x => x.Id == id);
         }
 
+        public AccountTransactionType GetAccountTransactionTypeByName(string name)
+        {
+            return AccountTransactionTypes.SingleOrDefault(x => x.Name == name);
+        }
+
         public int GetAccountTransactionTypeIdByName(string accountTransactionTypeName)
         {
             return AccountTransactionTypes.Single(x => x.Name == accountTransactionTypeName).Id;

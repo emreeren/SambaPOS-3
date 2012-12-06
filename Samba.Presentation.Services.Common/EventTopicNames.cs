@@ -2,6 +2,7 @@
 {
     public static class ActionNames
     {
+        public const string CreateAccountTransaction = "CreateAccountTransaction";
         public const string ChangeTicketResource = "ChangeTicketResource";
         public const string DisplayTicketList = "DisplayTicketList";
         public const string UpdateTicketTag = "UpdateTicketTag";

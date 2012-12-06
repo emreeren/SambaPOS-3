@@ -93,6 +93,7 @@ namespace ComLib.Lang.Parsing
             _tokensFetcher = tokenFetcher;
             _resetPosExecutor = resetPosExecutor;
             _LLK = llK;
+            _isEnded = false;
 
             // Validate inputs
             if (llK < 4) 

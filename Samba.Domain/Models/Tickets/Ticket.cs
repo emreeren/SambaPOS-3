@@ -321,32 +321,32 @@ namespace Samba.Domain.Models.Tickets
             return decimal.Round(totalAmount, LocalSettings.Decimals);
         }
 
-        public void AddCalculation(CalculationType template, decimal amount)
+        public void AddCalculation(CalculationType calculationType, decimal amount)
         {
-            var t = Calculations.SingleOrDefault(x => x.CalculationTypeId == template.Id) ??
-                    Calculations.SingleOrDefault(x => x.AccountTransactionTypeId == template.AccountTransactionType.Id);
+            var t = Calculations.SingleOrDefault(x => x.CalculationTypeId == calculationType.Id) ??
+                    Calculations.SingleOrDefault(x => x.AccountTransactionTypeId == calculationType.AccountTransactionType.Id);
             if (t == null)
             {
                 t = new Calculation
                         {
                             Amount = amount,
-                            Name = template.Name,
-                            CalculationType = template.CalculationMethod,
-                            CalculationTypeId = template.Id,
-                            IncludeTax = template.IncludeTax,
-                            DecreaseAmount = template.DecreaseAmount,
-                            Order = template.SortOrder,
-                            AccountTransactionTypeId = template.AccountTransactionType.Id
+                            Name = calculationType.Name,
+                            CalculationType = calculationType.CalculationMethod,
+                            CalculationTypeId = calculationType.Id,
+                            IncludeTax = calculationType.IncludeTax,
+                            DecreaseAmount = calculationType.DecreaseAmount,
+                            Order = calculationType.SortOrder,
+                            AccountTransactionTypeId = calculationType.AccountTransactionType.Id
                         };
                 Calculations.Add(t);
-                TransactionDocument.AddSingletonTransaction(t.AccountTransactionTypeId, template.AccountTransactionType, AccountTypeId, AccountId);
+                TransactionDocument.AddSingletonTransaction(t.AccountTransactionTypeId, calculationType.AccountTransactionType, AccountTypeId, AccountId);
             }
             else if (t.Amount == amount)
             {
                 amount = 0;
             }
             else t.Amount = amount;
-            t.Name = template.Name;
+            t.Name = calculationType.Name;
             if (amount == 0)
             {
                 Calculations.Remove(t);

@@ -69,7 +69,7 @@ namespace ComLib.Lang.Parsing
 
             while (true)
             {
-                if (_tokenIt.NextToken.Token == Tokens.EndToken)
+                if (_tokenIt.NextToken.Token == Tokens.EndToken )
                     break;
 
                 if (_tokenIt.NextToken.Token != Tokens.NewLine)

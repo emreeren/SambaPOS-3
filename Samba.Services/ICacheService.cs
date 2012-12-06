@@ -38,6 +38,7 @@ namespace Samba.Services
         PaymentType GetPaymentTypeById(int paymentTypeId);
         AccountTransactionType FindAccountTransactionType(int sourceAccountTypeId, int targetAccountTypeId, int defaultSourceId, int defaultTargetId);
         AccountTransactionType GetAccountTransactionTypeById(int id);
+        AccountTransactionType GetAccountTransactionTypeByName(string name);
         int GetAccountTransactionTypeIdByName(string accountTransactionTypeName);
         IEnumerable<ResourceScreen> GetResourceScreens(int terminalId, int departmentId, int userRoleId);
         IEnumerable<ResourceScreen> GetTicketResourceScreens(int ticketTypeId, int terminalId, int departmentId, int userRoleId);
@@ -64,5 +65,6 @@ namespace Samba.Services
         string GetStateColor(string resourceState);
         IEnumerable<Resource> GetResources(int resourceTypeId,string stateData);
         Resource GetResourceByName(string resourceTypeName, string resourceName);
+        
     }
 }

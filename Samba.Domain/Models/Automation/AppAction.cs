@@ -41,7 +41,6 @@ namespace Samba.Domain.Models.Automation
 
         public string Format(string s, object dataObject, string parameterValues)
         {
-
             if (!string.IsNullOrEmpty(parameterValues) && Regex.IsMatch(parameterValues, "\\[:([^\\]]+)\\]"))
             {
                 foreach (var propertyName in Regex.Matches(parameterValues, "\\[:([^\\]]+)\\]").Cast<Match>().Select(match => match.Groups[1].Value).ToList())

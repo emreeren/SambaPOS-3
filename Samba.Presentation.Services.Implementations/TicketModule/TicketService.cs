@@ -561,6 +561,27 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             }
         }
 
+        public bool CanMakeAccountTransaction(TicketResource ticketResource, AccountTransactionType accountTransactionType, decimal targetBalance)
+        {
+            if (ticketResource.AccountId == 0) return false;
+            var resourceType = _cacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
+            var typeId = accountTransactionType.TargetAccountTypeId;
+            if (accountTransactionType.DefaultSourceAccountId == 0) 
+                typeId = accountTransactionType.SourceAccountTypeId;
+            var result = resourceType.AccountTypeId == typeId;
+            if (result)
+            {
+                var accountType = _cacheService.GetAccountTypeById(resourceType.AccountTypeId);
+                if (accountType.WorkingRule != 0)
+                {
+                    if (accountType.WorkingRule == 1 && targetBalance < 0) return false; //disallow credit
+                    if (accountType.WorkingRule == 2 && targetBalance > ticketResource.GetCustomDataAsDecimal(Resources.CreditLimit)) return false; //disallow debit
+                }
+            }
+            return result;
+        }
+
+
         public Order AddOrder(Ticket ticket, int menuItemId, decimal quantity, string portionName, OrderTagTemplate template)
         {
             if (ticket.IsLocked && !_userService.IsUserPermittedFor(PermissionNames.AddItemsToLockedTickets)) return null;

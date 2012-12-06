@@ -73,7 +73,7 @@ namespace Samba.Modules.AutomationModule
                 else
                 {
                     result = Model.ParameterValues.Split('#').Select(
-                    x => new ActionParameterValue(this, x.Split('=')[0], x.Split('=')[1], _automationService.GetParameterNames(_ruleViewModel.EventName)));
+                    x => new ActionParameterValue(this, x.Split(new[] { '=' }, 2)[0], x.Split(new[] { '=' }, 2)[1], _automationService.GetParameterNames(_ruleViewModel.EventName)));
                 }
             }
             else result = new List<ActionParameterValue>();
