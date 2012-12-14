@@ -27,7 +27,7 @@ namespace Samba.Modules.PosModule
         {
             get
             {
-                return Model.Price != 0 && !Model.AddTagPriceToOrderPrice ? ((Model.Price + Model.TaxAmount) * Model.Quantity).ToString("#,#0.00") : "";
+                return Model.Price != 0 && !Model.AddTagPriceToOrderPrice ? ((Model.Price) * Model.Quantity).ToString("#,#0.00") : "";
             }
         }
 

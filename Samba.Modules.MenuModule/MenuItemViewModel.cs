@@ -15,7 +15,7 @@ using Samba.Services;
 namespace Samba.Modules.MenuModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class MenuItemViewModel : EntityViewModelBase<MenuItem>,IEntityCreator<MenuItem>
+    public class MenuItemViewModel : EntityViewModelBase<MenuItem>, IEntityCreator<MenuItem>
     {
         private readonly IMenuService _menuService;
 
@@ -38,14 +38,6 @@ namespace Samba.Modules.MenuModule
         {
             get { return _portions ?? (_portions = new ObservableCollection<PortionViewModel>(GetPortions(Model))); }
         }
-
-        private IEnumerable<dynamic> _taxTemplates;
-        public IEnumerable<dynamic> TaxTemplates
-        {
-            get { return _taxTemplates ?? (_taxTemplates = Workspace.All<TaxTemplate>().Select(x => new { Model = x, DisplayName = string.Format("{0} - {1}", x.Name, (x.TaxIncluded ? Resources.Included : Resources.Excluded)) })); }
-        }
-
-        public TaxTemplate TaxTemplate { get { return Model.TaxTemplate; } set { Model.TaxTemplate = value; } }
 
         public PortionViewModel SelectedPortion { get; set; }
 

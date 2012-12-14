@@ -250,7 +250,7 @@ namespace Samba.Modules.PosModule
         {
             if (obj.Topic == EventTopicNames.PortionSelected)
             {
-                var taxTemplate = _cacheService.GetMenuItem(x => x.Id == obj.Value.MenuItemId).TaxTemplate;
+                var taxTemplate = _applicationState.GetTaxTemplates(obj.Value.MenuItemId);
                 SelectedOrder.UpdatePortion(obj.Value, _applicationState.CurrentDepartment.PriceTag, taxTemplate);
             }
         }

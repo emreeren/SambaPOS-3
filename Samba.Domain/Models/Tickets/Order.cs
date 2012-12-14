@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
+using System.Runtime.Serialization;
 using Samba.Domain.Models.Menus;
 using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Helpers;
@@ -41,12 +42,7 @@ namespace Samba.Domain.Models.Tickets
         public string PriceTag { get; set; }
         public string Tag { get; set; }
 
-        public decimal TaxRate { get; set; }
-        public decimal TaxAmount { get; set; }
-        public string TaxTemplateName { get; set; }
-        public int TaxTemplateId { get; set; }
-        public bool TaxIncluded { get; set; }
-        public int TaxTempleteAccountTransactionTypeId { get; set; }
+        public string Taxes { get; set; }
         public string OrderTags { get; set; }
         public string OrderStates { get; set; }
 
@@ -80,6 +76,12 @@ namespace Samba.Domain.Models.Tickets
             get { return _orderStateValues ?? (_orderStateValues = JsonHelper.Deserialize<List<OrderStateValue>>(OrderStates)); }
         }
 
+        private IList<TaxValue> _taxValues;
+        internal IList<TaxValue> TaxValues
+        {
+            get { return _taxValues ?? (_taxValues = JsonHelper.Deserialize<List<TaxValue>>(Taxes)); }
+        }
+
         public bool OrderTagExists(Func<OrderTagValue, bool> prediction)
         {
             return OrderTagValues.Any(prediction);
@@ -98,12 +100,12 @@ namespace Samba.Domain.Models.Tickets
         private static Order _null;
         public static Order Null { get { return _null ?? (_null = new Order { ProductTimerValue = new ProductTimerValue() }); } }
 
-        public void UpdateMenuItem(string userName, MenuItem menuItem, MenuItemPortion portion, string priceTag, int quantity)
+        public void UpdateMenuItem(string userName, MenuItem menuItem, IEnumerable<TaxTemplate> taxTemplates, MenuItemPortion portion, string priceTag, int quantity)
         {
             MenuItemId = menuItem.Id;
             MenuItemName = menuItem.Name;
             Debug.Assert(portion != null);
-            UpdatePortion(portion, priceTag, menuItem.TaxTemplate);
+            UpdatePortion(portion, priceTag, taxTemplates);
             Quantity = quantity;
             _selectedQuantity = quantity;
             PortionCount = menuItem.Portions.Count;
@@ -111,18 +113,11 @@ namespace Samba.Domain.Models.Tickets
             CreatedDateTime = DateTime.Now;
         }
 
-        public void UpdatePortion(MenuItemPortion portion, string priceTag, TaxTemplate taxTemplate)
+        public void UpdatePortion(MenuItemPortion portion, string priceTag, IEnumerable<TaxTemplate> taxTemplates)
         {
             PortionName = portion.Name;
 
-            if (taxTemplate != null)
-            {
-                TaxRate = taxTemplate.Rate;
-                TaxIncluded = taxTemplate.TaxIncluded;
-                TaxTemplateId = taxTemplate.Id;
-                TaxTemplateName = taxTemplate.Name;
-                TaxTempleteAccountTransactionTypeId = taxTemplate.AccountTransactionType.Id;
-            }
+            UpdateTaxTemplates(taxTemplates);
 
             if (!string.IsNullOrEmpty(priceTag))
             {
@@ -186,7 +181,7 @@ namespace Samba.Domain.Models.Tickets
                            OrderKey = orderTagGroup.SortOrder.ToString("000") + orderTag.SortOrder.ToString("000")
                        };
 
-            otag.UpdatePrice(TaxIncluded, TaxRate, orderTag.Price);
+            otag.UpdatePrice(orderTag.Price);
 
             if (tagIndex > -1)
                 OrderTagValues.Insert(tagIndex, otag);
@@ -275,58 +270,14 @@ namespace Samba.Domain.Models.Tickets
             return string.Join("\r", OrderStateValues.Where(x => !string.IsNullOrEmpty(x.State)).OrderBy(x => x.OrderKey).Select(x => string.Format("{0} {1}", x.State, !string.IsNullOrEmpty(x.StateValue) ? string.Format("[{0}]", x.StateValue) : "")));
         }
 
-        public decimal GetTotal()
-        {
-            if (CalculatePrice)
-            {
-                var tax = TaxIncluded ? GetTaxAmount() : 0;
-                return GetItemValue() - tax;
-            }
-            return 0;
-        }
-
-        public decimal GetItemValue()
-        {
-            return decimal.Round(Quantity * GetItemPrice(), 2, MidpointRounding.AwayFromZero);
-        }
-
-        public decimal GetSelectedValue()
-        {
-            return SelectedQuantity > 0 ? SelectedQuantity * GetItemPrice() : GetItemValue();
-        }
-
-        public decimal GetItemPrice()
-        {
-            return GetPlainPrice() + GetTotalOrderTagPrice();
-        }
-
-        public decimal GetPlainPrice()
-        {
-            var result = Price;
-            if (TaxIncluded) result += TaxAmount;
-            if (ProductTimerValue != null)
-                result = ProductTimerValue.GetPrice(result);
-            return result;
-        }
-
-        public decimal GetTotalOrderTagPrice()
-        {
-            return GetOrderTagSum(OrderTagValues, TaxIncluded);
-        }
-
         public decimal GetOrderTagPrice()
         {
-            return GetOrderTagSum(OrderTagValues.Where(x => !x.AddTagPriceToOrderPrice), TaxIncluded);
+            return GetOrderTagSum(OrderTagValues.Where(x => !x.AddTagPriceToOrderPrice));
         }
 
-        public decimal GetMenuItemOrderTagPrice()
+        private static decimal GetOrderTagSum(IEnumerable<OrderTagValue> orderTags)
         {
-            return GetOrderTagSum(OrderTagValues.Where(x => x.AddTagPriceToOrderPrice), TaxIncluded);
-        }
-
-        private static decimal GetOrderTagSum(IEnumerable<OrderTagValue> orderTags, bool vatIncluded)
-        {
-            return orderTags.Sum(orderTag => (orderTag.Price + (vatIncluded ? orderTag.TaxAmount : 0)) * orderTag.Quantity);
+            return orderTags.Sum(orderTag => orderTag.Price * orderTag.Quantity);
         }
 
         public void IncSelectedQuantity()
@@ -360,23 +311,30 @@ namespace Samba.Domain.Models.Tickets
         {
             Price = value;
             PriceTag = priceTag;
-            if (TaxIncluded && TaxRate > 0)
-            {
-                Price = Price / ((100 + TaxRate) / 100);
-                Price = decimal.Round(Price, 2);
-                TaxAmount = value - Price;
-            }
-            else if (TaxRate > 0) TaxAmount = (Price * TaxRate) / 100;
-            else TaxAmount = 0;
+            var newPrice = GetPrice();
+            TaxValues.ToList().ForEach(x => x.UpdateTaxAmount(newPrice, TaxValues.Sum(y => y.TaxRate)));
         }
 
-        public void UpdateTaxTemplate(TaxTemplate taxTemplate)
+        public void UpdateTaxTemplates(IEnumerable<TaxTemplate> taxTemplates)
         {
-            TaxRate = taxTemplate.Rate;
-            TaxTemplateId = taxTemplate.Id;
-            TaxTemplateName = taxTemplate.Name;
-            TaxIncluded = taxTemplate.TaxIncluded;
-            UpdatePrice(Price, PriceTag);
+            if (taxTemplates == null) return;
+            TaxValues.Clear();
+            foreach (var template in taxTemplates)
+            {
+                TaxValues.Add(new TaxValue(template));
+            }
+            Taxes = JsonHelper.Serialize(TaxValues);
+            _taxValues = null;
+        }
+
+        public void ExcludeTax()
+        {
+            foreach (var taxValue in TaxValues)
+            {
+                taxValue.TaxIncluded = false;
+            }
+            Taxes = JsonHelper.Serialize(TaxValues);
+            _taxValues = null;
         }
 
         public bool IsTaggedWith(OrderTag model)
@@ -389,15 +347,9 @@ namespace Samba.Domain.Models.Tickets
             return OrderTagValues.FirstOrDefault(x => x.OrderTagGroupId == orderTagGroup.Id) != null;
         }
 
-        public decimal GetTaxAmount()
-        {
-            var result = CalculatePrice && (DecreaseInventory || IncreaseInventory) ? (TaxAmount + OrderTagValues.Sum(x => x.TaxAmount)) * Quantity : 0;
-            return result;
-        }
-
         public decimal GetTotalTaxAmount(decimal plainSum, decimal preTaxServices)
         {
-            var result = CalculatePrice && (DecreaseInventory || IncreaseInventory) ? (TaxAmount + OrderTagValues.Sum(x => x.TaxAmount)) * Quantity : 0;
+            var result = CalculatePrice ? TaxValues.Sum(x => x.TaxAmount) * Quantity : 0;
             if (preTaxServices != 0)
                 result += (result * preTaxServices) / plainSum;
             return result;
@@ -449,6 +401,117 @@ namespace Samba.Domain.Models.Tickets
         public IEnumerable<OrderStateValue> GetOrderStateValues()
         {
             return OrderStateValues;
+        }
+
+        public decimal GetTax()
+        {
+            return
+                TaxValues.Where(x => !x.TaxIncluded).Sum(x => x.TaxAmount) -
+                TaxValues.Where(x => x.TaxIncluded).Sum(x => x.TaxAmount);
+        }
+
+        // Vergi etkilemiş fiyat
+        public decimal GetFinalPrice()
+        {
+            var result = GetPrice();
+            result += GetTax();
+            return result;
+        }
+
+        //Vergi etkilememiş fiyat
+        public decimal GetPrice()
+        {
+            var result = Price + OrderTagValues.Sum(x => x.Price * x.Quantity);
+            if (ProductTimerValue != null)
+                result = ProductTimerValue.GetPrice(result);
+            return result;
+        }
+
+        //Görünen fiyat
+        public decimal GetVisiblePrice()
+        {
+            var result = Price + OrderTagValues.Where(x => x.AddTagPriceToOrderPrice).Sum(x => x.Price * x.Quantity);
+            if (ProductTimerValue != null)
+                result = ProductTimerValue.GetPrice(result + GetOrderTagPrice());
+            return result;
+        }
+
+        public decimal GetVisibleValue()
+        {
+            return GetVisiblePrice() * Quantity;
+        }
+
+        public decimal GetFinalValue()
+        {
+            return decimal.Round(GetFinalPrice() * Quantity, 2, MidpointRounding.AwayFromZero);
+        }
+
+        public decimal GetSelectedValue()
+        {
+            return SelectedQuantity > 0 ? SelectedQuantity * GetFinalPrice() : GetFinalValue();
+        }
+
+        public decimal GetTotalTax()
+        {
+            return TaxValues.Sum(x => x.TaxAmount) * Quantity;
+        }
+
+        public decimal GetTotal()
+        {
+            if (CalculatePrice)
+            {
+                return GetFinalValue();
+            }
+            return 0;
+        }
+    }
+
+    [DataContract]
+    internal class TaxValue
+    {
+        public TaxValue()
+        {
+
+        }
+
+        public TaxValue(TaxTemplate taxTemplate)
+        {
+            TaxRate = taxTemplate.Rate;
+            TaxTemplateId = taxTemplate.Id;
+            TaxTemplateName = taxTemplate.Name;
+            TaxIncluded = taxTemplate.TaxIncluded;
+            TaxTempleteAccountTransactionTypeId = taxTemplate.AccountTransactionType.Id;
+        }
+
+        [DataMember(Name = "TR")]
+        public decimal TaxRate { get; set; }
+        [DataMember(Name = "TA")]
+        public decimal TaxAmount { get; set; }
+        [DataMember(Name = "TN")]
+        public string TaxTemplateName { get; set; }
+        [DataMember(Name = "TT")]
+        public int TaxTemplateId { get; set; }
+        [DataMember(Name = "TI")]
+        public bool TaxIncluded { get; set; }
+        [DataMember(Name = "AT")]
+        public int TaxTempleteAccountTransactionTypeId { get; set; }
+
+        public void UpdateTaxAmount(decimal price, decimal totalRate)
+        {
+            if (TaxIncluded && totalRate > 0)
+            {
+                TaxAmount = decimal.Round((price * TaxRate) / (100 + totalRate), 2, MidpointRounding.AwayFromZero);
+            }
+            else if (TaxRate > 0) TaxAmount = (price * TaxRate) / 100;
+            else TaxAmount = 0;
+        }
+
+        public decimal GetTaxAmount(decimal plainSum, decimal preTaxServices)
+        {
+            var result = TaxAmount;
+            if (preTaxServices != 0)
+                result += (result * preTaxServices) / plainSum;
+            return result;
         }
     }
 }

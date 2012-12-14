@@ -284,6 +284,15 @@ namespace Samba.Presentation.Common.Services
                 .Distinct();
         }
 
+        public IEnumerable<TaxTemplate> GetTaxTemplates(int menuItemId)
+        {
+            return _cacheService.GetTaxTemplates(CurrentTicketType.Id,
+                                                 CurrentTerminal.Id,
+                                                 CurrentDepartment.Id,
+                                                 CurrentLoggedInUser.UserRole.Id,
+                                                 menuItemId);
+        }
+
         public void ResetState()
         {
             _departmentService.ResetCache();

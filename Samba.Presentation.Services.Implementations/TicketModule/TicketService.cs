@@ -310,18 +310,6 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             }
         }
 
-        public void RegenerateTaxRates(Ticket ticket)
-        {
-            foreach (var o in ticket.Orders)
-            {
-                var order = o;
-                var mi = _cacheService.GetMenuItem(x => x.Id == order.MenuItemId);
-                if (mi == null) continue;
-                var portion = mi.Portions.FirstOrDefault(x => x.Name == order.PortionName);
-                if (portion != null) order.UpdatePortion(portion, order.PriceTag, mi.TaxTemplate);
-            }
-        }
-
         public void UpdateTicketState(Ticket ticket, string stateName, string currentState, string state, string stateValue, int quantity = 0)
         {
             var sv = ticket.GetStateValue(stateName);
@@ -566,7 +554,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             if (ticketResource.AccountId == 0) return false;
             var resourceType = _cacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
             var typeId = accountTransactionType.TargetAccountTypeId;
-            if (accountTransactionType.DefaultSourceAccountId == 0) 
+            if (accountTransactionType.DefaultSourceAccountId == 0)
                 typeId = accountTransactionType.SourceAccountTypeId;
             var result = resourceType.AccountTypeId == typeId;
             if (result)
@@ -593,7 +581,8 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             var productTimer = _applicationState.GetProductTimer(menuItemId);
             var order = ticket.AddOrder(
                 _applicationState.CurrentTicketType.SaleTransactionType,
-                _applicationState.CurrentLoggedInUser.Name, menuItem, portion, priceTag, productTimer);
+                _applicationState.CurrentLoggedInUser.Name, menuItem,
+                _applicationState.GetTaxTemplates(menuItem.Id).ToList(), portion, priceTag, productTimer);
 
             order.Quantity = quantity > 9 ? decimal.Round(quantity / portion.Multiplier, 3, MidpointRounding.AwayFromZero) : quantity;
 

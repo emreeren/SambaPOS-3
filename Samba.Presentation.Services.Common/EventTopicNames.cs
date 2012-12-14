@@ -14,8 +14,6 @@
         public const string RefreshCache = "RefreshCache";
         public const string SendMessage = "SendMessage";
         public const string UpdateProgramSetting = "UpdateProgramSetting";
-        public const string UpdateTicketTax = "UpdateTicketTax";
-        public const string RegenerateTicketTax = "RegenerateTicketTax";
         public const string UpdateTicketCalculation = "UpdateTicketService";
         public const string ExecutePrintJob = "ExecutePrintJob";
         public const string UpdateResourceState = "UpdateResourceState";

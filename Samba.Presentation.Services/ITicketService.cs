@@ -23,7 +23,6 @@ namespace Samba.Presentation.Services
         void UpdateResource(Ticket ticket, Resource resource);
         void UpdateResource(Ticket ticket, int resourceTypeId, int resourceId, string resourceName, int accountId, string resourceCustomData);
         void RecalculateTicket(Ticket ticket);
-        void RegenerateTaxRates(Ticket ticket);
         void UpdateTag(Ticket ticket, TicketTagGroup tagGroup, TicketTag ticketTag);
         int GetOpenTicketCount();
         IEnumerable<OpenTicketData> GetOpenTickets(Expression<Func<Ticket, bool>> prediction);

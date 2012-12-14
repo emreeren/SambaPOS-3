@@ -102,7 +102,7 @@ namespace Samba.Presentation.Services.Implementations.PrinterModule
             ticket = ObjectCloner.Clone2(ticket);
             if (printJob.ExcludeTax)
             {
-                ticket.Orders.ToList().ForEach(x => x.TaxIncluded = false);
+                ticket.Orders.ToList().ForEach(x => x.ExcludeTax());
             }
             IEnumerable<Order> ti;
             switch (printJob.WhatToPrint)

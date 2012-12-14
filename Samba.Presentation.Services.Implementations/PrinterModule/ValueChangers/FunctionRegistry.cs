@@ -53,8 +53,8 @@ namespace Samba.Presentation.Services.Implementations.PrinterModule.ValueChanger
             RegisterFunction<Order>(TagNames.Quantity, (x, d) => x.Quantity.ToString("#,#0.##"), Resources.LineItemQuantity);
             RegisterFunction<Order>(TagNames.Name, (x, d) => x.MenuItemName + x.GetPortionDesc(), Resources.LineItemName);
             RegisterFunction<Order>(TagNames.Price, (x, d) => x.Price.ToString("#,#0.00"), Resources.LineItemPrice);
-            RegisterFunction<Order>(TagNames.Total, (x, d) => x.GetItemPrice().ToString("#,#0.00"), Resources.LineItemTotal);
-            RegisterFunction<Order>(TagNames.TotalAmount, (x, d) => x.GetItemValue().ToString("#,#0.00"), Resources.LineItemTotalAndQuantity);
+            RegisterFunction<Order>(TagNames.Total, (x, d) => x.GetFinalPrice().ToString("#,#0.00"), Resources.LineItemTotal);
+            RegisterFunction<Order>(TagNames.TotalAmount, (x, d) => x.GetFinalValue().ToString("#,#0.00"), Resources.LineItemTotalAndQuantity);
             RegisterFunction<Order>(TagNames.Cents, (x, d) => (x.Price * 100).ToString("#,##"), Resources.LineItemPriceCents);
             RegisterFunction<Order>(TagNames.LineAmount, (x, d) => x.GetTotal().ToString("#,#0.00"), Resources.LineItemTotalWithoutGifts);
             RegisterFunction<Order>(TagNames.OrderNo, (x, d) => x.OrderNumber.ToString(), Resources.LineOrderNumber);

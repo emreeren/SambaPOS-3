@@ -117,6 +117,26 @@ namespace Samba.Services.Implementations
             return OrderTagGroups.FirstOrDefault(x => x.Name == tagName);
         }
 
+        private IEnumerable<TaxTemplate> _taxTemplates;
+        public IEnumerable<TaxTemplate> TaxTemplates
+        {
+            get { return _taxTemplates ?? (_taxTemplates = _dataService.GetTaxTemplates()); }
+        }
+
+        public IEnumerable<TaxTemplate> GetTaxTemplates(int ticketTypeId, int terminalId, int departmentId, int userRoleId, int menuItemId)
+        {
+            var menuItem = GetMenuItem(x => x.Id == menuItemId);
+            var tgl = TaxTemplates.ToList();
+            var maps = tgl.SelectMany(x => x.TaxTemplateMaps)
+                .Where(x => x.TicketTypeId == 0 || x.TicketTypeId == ticketTypeId)
+                .Where(x => x.TerminalId == 0 || x.TerminalId == terminalId)
+                .Where(x => x.DepartmentId == 0 || x.DepartmentId == departmentId)
+                .Where(x => x.UserRoleId == 0 || x.UserRoleId == userRoleId)
+                .Where(x => x.MenuItemGroupCode == null || x.MenuItemGroupCode == menuItem.GroupCode)
+                .Where(x => x.MenuItemId == 0 || x.MenuItemId == menuItemId);
+            return tgl.Where(x => maps.Any(y => y.TaxTemplateId == x.Id)).OrderBy(x => x.SortOrder);
+        }
+
         private IEnumerable<TicketTagGroup> _ticketTagGroups;
         public IEnumerable<TicketTagGroup> TicketTagGroups
         {

@@ -2020,9 +2020,6 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="Tax" xml:space="preserve">
     <value>Tax</value>
   </data>
-  <data name="UpdateTicketTax" xml:space="preserve">
-    <value>Update Ticket Tax</value>
-  </data>
   <data name="One" xml:space="preserve">
     <value>One</value>
   </data>
@@ -2172,9 +2169,6 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   </data>
   <data name="SaveFreeTags" xml:space="preserve">
     <value>Save Free Tags</value>
-  </data>
-  <data name="RegenerateTicketTax" xml:space="preserve">
-    <value>Regenerate Ticket Tax</value>
   </data>
   <data name="UpdateTicketCalculation" xml:space="preserve">
     <value>Update Ticket Calculation</value>

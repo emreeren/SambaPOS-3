@@ -60,7 +60,7 @@ namespace Samba.Persistance.DaoClasses.Implementations
 
         public MenuItem GetMenuItemById(int id)
         {
-            return Dao.Single<MenuItem>(x => x.Id == id, x => x.TaxTemplate, x => x.Portions.Select(y => y.Prices));
+            return Dao.Single<MenuItem>(x => x.Id == id, x => x.Portions.Select(y => y.Prices));
         }
     }
 

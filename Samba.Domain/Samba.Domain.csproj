@@ -81,6 +81,7 @@
     <Compile Include="Models\Automation\Script.cs" />
     <Compile Include="Models\Menus\ProductTimer.cs" />
     <Compile Include="Models\Menus\ProdcutTimerMap.cs" />
+    <Compile Include="Models\Menus\TaxTemplateMap.cs" />
     <Compile Include="Models\Resources\ResourceStateVal.cs" />
     <Compile Include="Models\Tasks\Task.cs" />
     <Compile Include="Models\Resources\ResourceScreenMap.cs" />

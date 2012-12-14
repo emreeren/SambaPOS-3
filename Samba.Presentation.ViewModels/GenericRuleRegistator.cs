@@ -68,9 +68,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType(ActionNames.UpdateResourceState, Resources.UpdateResourceState, new { ResourceTypeName = "", ResourceStateName = "", CurrentState = "", ResourceState = "" });
             AutomationService.RegisterActionType(ActionNames.UpdateProgramSetting, Resources.UpdateProgramSetting, new { SettingName = "", SettingValue = "", UpdateType = Resources.Update, IsLocal = true });
             AutomationService.RegisterActionType(ActionNames.UpdateTicketTag, Resources.UpdateTicketTag, new { TagName = "", TagValue = "" });
-            AutomationService.RegisterActionType(ActionNames.UpdateTicketTax, Resources.UpdateTicketTax, new { TaxTemplate = "" });
             AutomationService.RegisterActionType(ActionNames.ChangeTicketResource, Resources.ChangeTicketResource, new { ResourceTypeName = "", ResourceName = "" });
-            AutomationService.RegisterActionType(ActionNames.RegenerateTicketTax, Resources.RegenerateTicketTax);
             AutomationService.RegisterActionType(ActionNames.UpdateTicketCalculation, Resources.UpdateTicketCalculation, new { CalculationType = "", Amount = 0m });
             AutomationService.RegisterActionType(ActionNames.UpdateTicketState, Resources.UpdateTicketState, new { StateName = "", CurrentState = "", State = "", StateValue = "", Quantity = 0 });
             AutomationService.RegisterActionType(ActionNames.CloseActiveTicket, Resources.CloseTicket);
@@ -399,22 +397,6 @@ namespace Samba.Presentation.ViewModels
                         x.Value.GetAsBoolean("BypassSslErrors"));
                 }
 
-                if (x.Value.Action.ActionType == ActionNames.UpdateTicketTax)
-                {
-                    var ticket = x.Value.GetDataValue<Ticket>("Ticket");
-                    if (ticket != null)
-                    {
-                        var taxTemplateName = x.Value.GetAsString("TaxTemplate");
-                        var taxTemplate = SettingService.GetTaxTemplateByName(taxTemplateName);
-                        if (taxTemplate != null)
-                        {
-                            ticket.UpdateTax(taxTemplate);
-                            TicketService.RecalculateTicket(ticket);
-                            EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
-                        }
-                    }
-                }
-
                 if (x.Value.Action.ActionType == ActionNames.UpdateTicketCalculation)
                 {
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
@@ -428,17 +410,6 @@ namespace Samba.Presentation.ViewModels
                             ticket.AddCalculation(calculationType, amount);
                             TicketService.RecalculateTicket(ticket);
                         }
-                    }
-                }
-
-                if (x.Value.Action.ActionType == ActionNames.RegenerateTicketTax)
-                {
-                    var ticket = x.Value.GetDataValue<Ticket>("Ticket");
-                    if (ticket != null)
-                    {
-                        TicketService.RegenerateTaxRates(ticket);
-                        TicketService.RecalculateTicket(ticket);
-                        EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
                     }
                 }
 

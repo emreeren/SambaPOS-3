@@ -58,7 +58,7 @@ namespace Samba.Modules.ModifierModule
         private string GetValueDescription()
         {
             var mi = SelectedOrder.ProductTimerValue;
-            return string.Format("{0:#} {1} {2}: {3:N}", mi.GetTime(), GetTimeDescription(mi.PriceType), Resources.Price, SelectedOrder.GetPlainPrice());
+            return string.Format("{0:#} {1} {2}: {3:N}", mi.GetTime(), GetTimeDescription(mi.PriceType), Resources.Price, SelectedOrder.GetPrice());
         }
 
         public static string GetTimeDescription(int priceType)

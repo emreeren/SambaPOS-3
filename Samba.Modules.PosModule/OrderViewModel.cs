@@ -104,7 +104,7 @@ namespace Samba.Modules.PosModule
 
         public decimal Price
         {
-            get { return Model.GetPlainPrice() + Model.GetMenuItemOrderTagPrice(); }
+            get { return Model.GetVisiblePrice(); }
         }
 
         public decimal TotalPrice
@@ -230,13 +230,6 @@ namespace Samba.Modules.PosModule
                 UpdateItemColor();
                 RefreshOrder();
             }
-        }
-
-        public void UpdatePortion(MenuItemPortion portion, string priceTag, TaxTemplate taxTemplate)
-        {
-            _model.UpdatePortion(portion, priceTag, taxTemplate);
-            RaisePropertyChanged(() => Description);
-            RaisePropertyChanged(() => TotalPriceStr);
         }
 
         public void RefreshOrder()

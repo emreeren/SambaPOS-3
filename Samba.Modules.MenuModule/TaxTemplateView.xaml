@@ -2,25 +2,134 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:UIControls="clr-namespace:Samba.Presentation.Controls.UIControls;assembly=Samba.Presentation.Controls"
-             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Samba.Presentation.Controls;component/OfficeTab.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
-        <StackPanel>
-            <Label HorizontalAlignment="Left" Content="{LocText Name,Suffix=':'}" />
-            <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
-            <Label HorizontalAlignment="Left" Content="{LocText AccountTransactionType,Suffix=':'}" />
-            <ComboBox HorizontalAlignment="Left" MinWidth="200" 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <TabControl Grid.Row="0" HorizontalAlignment="Stretch" Template="{StaticResource OfficeTabControl}">
+            <TabItem Header="{LocText GeneralSettings}">
+                <StackPanel>
+                    <Label HorizontalAlignment="Left" Content="{LocText Name,Suffix=':'}" />
+                    <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
+                    <Label HorizontalAlignment="Left" Content="{LocText AccountTransactionType,Suffix=':'}" />
+                    <ComboBox HorizontalAlignment="Left" MinWidth="200" 
                       ItemsSource="{Binding AccountTransactionTypes}"
                       DisplayMemberPath="Name"
                       SelectedItem="{Binding AccountTransactionType}" />
-            <Label HorizontalAlignment="Left" Content="{LocText Rate,Suffix=':'}">
-            </Label>
-            <UIControls:FilteredTextBox HorizontalAlignment="Left" Type="Number" MinWidth="50" Text="{Binding Rate}" />
-            <CheckBox IsChecked="{Binding TaxIncluded }" Margin="0,5">
-                <LocText ResourceIdentifierKey="TaxIncludedToPrice" Suffix=":"/>
-            </CheckBox>
-            <Button HorizontalAlignment="Left" Margin="0,10,3,0" MinWidth="70" Content="{Binding SaveCommand.Caption}"
+                    <Label HorizontalAlignment="Left" Content="{LocText Rate,Suffix=':'}">
+                    </Label>
+                    <UIControls:FilteredTextBox HorizontalAlignment="Left" Type="Number" MinWidth="50" Text="{Binding Rate}" />
+                    <CheckBox IsChecked="{Binding TaxIncluded }" Margin="0,5">
+                        <LocText ResourceIdentifierKey="TaxIncludedToPrice" Suffix=":"/>
+                    </CheckBox>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="{LocText Mappings}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <DockPanel Grid.Row="0">
+                        <Label Content="{LocText Mapping_f,FormatSegment1={LocText TaxTemplate},Suffix=':'}"/>
+                        <TextBlock Margin="2,5">
+                            <Hyperlink Command="{Binding MapController.AddMapCommand}">
+                                <TextBlock Text="{Binding Path=MapController.AddMapCommand.Caption}" />
+                            </Hyperlink>
+                        </TextBlock>
+                        <TextBlock Margin="2,5">
+                            <Hyperlink Command="{Binding MapController.DeleteMapCommand}">
+                                <TextBlock Text="{Binding Path=MapController.DeleteMapCommand.Caption}" />
+                            </Hyperlink>
+                        </TextBlock>
+                    </DockPanel>
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding MapController.Maps}" SelectedItem="{Binding MapController.SelectedMap}"
+                         HorizontalAlignment="Left" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
+                         MinWidth="300" AutoGenerateColumns="False" CanUserSortColumns="False" CanUserDeleteRows="False"
+                         CanUserAddRows="False" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
+                        <DataGrid.Columns>
+                           
+                            <DataGridTemplateColumn Header="{LocText Department}" Width="2*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="3" Text="{Binding DepartmentName}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Grid FocusManager.FocusedElement="{Binding ElementName=cbDepartment}">
+                                            <ComboBox Name="cbDepartment" HorizontalAlignment="Stretch" SelectedItem="{Binding DepartmentName, UpdateSourceTrigger=PropertyChanged}"
+                                                 ItemsSource="{Binding DepartmentNames}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{LocText TicketType}" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="3" Text="{Binding TicketTypeName}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Grid FocusManager.FocusedElement="{Binding ElementName=cbTicketType}">
+                                            <ComboBox Name="cbTicketType" HorizontalAlignment="Stretch" SelectedItem="{Binding TicketTypeName, UpdateSourceTrigger=PropertyChanged}"
+                                                 ItemsSource="{Binding TicketTypeNames}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{LocText MenuItemGroup}" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="3" Text="{Binding MenuItemGroupCodeLabel}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Grid FocusManager.FocusedElement="{Binding ElementName=cbMenuItemGroupCode}">
+                                            <ComboBox Name="cbMenuItemGroupCode" HorizontalAlignment="Stretch" SelectedItem="{Binding MenuItemGroupCode, UpdateSourceTrigger=PropertyChanged}"
+                                                 ItemsSource="{Binding MenuItemGroupCodes}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{LocText MenuItem}" Width="2*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="3" Text="{Binding MenuItemLabel}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Grid FocusManager.FocusedElement="{Binding ElementName=cbMenuItem}">
+                                            <ComboBox Name="cbMenuItem" HorizontalAlignment="Stretch" DisplayMemberPath="Name"
+                                                 SelectedValuePath="Id" SelectedValue="{Binding MenuItemId, UpdateSourceTrigger=PropertyChanged}"
+                                                 ItemsSource="{Binding MenuItems}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <StackPanel Grid.Row="1">
+            <Button HorizontalAlignment="Left" Margin="0,10" MinWidth="70" Content="{Binding SaveCommand.Caption}"
                  Command="{Binding SaveCommand}" />
             <Label Content="{Binding Error}" Foreground="Red" />
         </StackPanel>
+
     </Grid>
 </UserControl>

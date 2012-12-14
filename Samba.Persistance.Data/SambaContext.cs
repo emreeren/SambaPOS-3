@@ -119,6 +119,7 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<AppRule>().Property(x => x.EventConstraints).IsMaxLength();
             modelBuilder.Entity<Order>().Property(x => x.OrderTags).IsMaxLength();
             modelBuilder.Entity<Order>().Property(x => x.OrderStates).IsMaxLength();
+            modelBuilder.Entity<Order>().Property(x => x.Taxes).IsMaxLength();
             
             modelBuilder.Entity<TaskToken>().HasKey(p => new { p.Id, p.TaskId });
             modelBuilder.Entity<TaskToken>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
@@ -218,8 +219,6 @@ namespace Samba.Persistance.Data
             //Order
             modelBuilder.Entity<Order>().Property(x => x.Quantity).HasPrecision(precision, 3);
             modelBuilder.Entity<Order>().Property(x => x.Price).HasPrecision(precision, scale);
-            modelBuilder.Entity<Order>().Property(x => x.TaxRate).HasPrecision(precision, scale);
-            modelBuilder.Entity<Order>().Property(x => x.TaxAmount).HasPrecision(precision, scale);
 
             //Ticket
             modelBuilder.Entity<Ticket>().Property(x => x.RemainingAmount).HasPrecision(precision, scale);

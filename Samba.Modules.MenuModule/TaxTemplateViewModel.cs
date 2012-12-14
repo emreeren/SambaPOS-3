@@ -10,7 +10,7 @@ using Samba.Presentation.Common.ModelBase;
 namespace Samba.Modules.MenuModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class TaxTemplateViewModel : EntityViewModelBase<TaxTemplate>
+    public class TaxTemplateViewModel : EntityViewModelBaseWithMap<TaxTemplate, TaxTemplateMap, TaxTemplateMapViewModel>
     {
         public string DisplayName
         {
@@ -40,6 +40,12 @@ namespace Samba.Modules.MenuModule
         public override string GetModelTypeString()
         {
             return Resources.TaxTemplate;
+        }
+
+        protected override void Initialize()
+        {
+            base.Initialize();
+            MapController = new MapController<TaxTemplateMap, TaxTemplateMapViewModel>(Model.TaxTemplateMaps, Workspace);
         }
     }
 

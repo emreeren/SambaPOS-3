@@ -35,7 +35,7 @@ namespace Samba.Presentation.Services.Implementations.PrinterModule.ValueChanger
 
         protected override decimal GetSumSelector(Order x)
         {
-            return x.GetItemValue();
+            return x.GetFinalValue();
         }
 
         protected override GroupingKey GetGroupSelector(Order arg, string switchValue)

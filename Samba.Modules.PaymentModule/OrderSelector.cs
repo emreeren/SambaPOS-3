@@ -53,16 +53,16 @@ namespace Samba.Modules.PaymentModule
 
         private decimal GetPrice(Order order, decimal serviceAmount, decimal sum, decimal exchangeRate)
         {
-            var result = order.GetItemPrice();
+            var result = order.GetFinalPrice();
             if (serviceAmount != 0 && sum != 0) result += (result * serviceAmount) / sum;
-            if (!order.TaxIncluded) result += order.TaxAmount;
+            result += order.GetTax();
             result = result / exchangeRate;
             return result;
         }
 
         private static string GetKey(Order order)
         {
-            return string.Format(Keyformat, order.MenuItemId, order.GetItemPrice());
+            return string.Format(Keyformat, order.MenuItemId, order.GetFinalPrice());
         }
 
         public void Select(Selector selector)

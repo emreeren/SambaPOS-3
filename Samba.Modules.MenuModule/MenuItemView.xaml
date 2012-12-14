@@ -19,12 +19,6 @@
                         <LocText ResourceIdentifierKey="Barcode" Suffix=":"/>
                     </Label>
                     <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Barcode,Mode=TwoWay}" />
-                    <Label>
-                        <LocText ResourceIdentifierKey="TaxTemplate" Suffix=":"/>
-                    </Label>
-                    <ComboBox IsEditable="true" HorizontalAlignment="Left" MinWidth="150"
-                     ItemsSource="{Binding TaxTemplates}" SelectedValue="{Binding TaxTemplate}" DisplayMemberPath="DisplayName" SelectedValuePath="Model">
-                    </ComboBox>
                 </StackPanel>
                 <StackPanel Grid.Column="1">
                     <Label>

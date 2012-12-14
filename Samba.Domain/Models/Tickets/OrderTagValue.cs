@@ -22,8 +22,6 @@ namespace Samba.Domain.Models.Tickets
         public int UserId { get; set; }
         [DataMember(Name = "PR", EmitDefaultValue = false)]
         public decimal Price { get; set; }
-        [DataMember(Name = "TA", EmitDefaultValue = false)]
-        public decimal TaxAmount { get; set; }
         [DataMember(Name = "Q", EmitDefaultValue = false)]
         public decimal Quantity { get; set; }
         [DataMember(Name = "OI")]
@@ -39,18 +37,9 @@ namespace Samba.Domain.Models.Tickets
         [DataMember(Name = "FT", EmitDefaultValue = false)]
         public bool FreeTag { get; set; }
 
-        public void UpdatePrice(bool taxIncluded, decimal taxRate, decimal orderTagPrice)
+        public void UpdatePrice(decimal orderTagPrice)
         {
             Price = orderTagPrice;
-            if (taxIncluded && taxRate > 0)
-            {
-                Price = orderTagPrice / ((100 + taxRate) / 100);
-                Price = decimal.Round(Price, 2);
-                TaxAmount = orderTagPrice - Price;
-            }
-            else if (taxRate > 0) TaxAmount = (orderTagPrice * taxRate) / 100;
-            else TaxAmount = 0;
-            TaxAmount = decimal.Round(TaxAmount, 2);
         }
 
         private string _shortName;

@@ -74,9 +74,9 @@ namespace Samba.Presentation.Tests
 
             var ticket = Ticket.Create(Department.Default, TicketType.Default, Account.Null, 1, null);
             workspace.Add(ticket);
-            ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, iskender.Portions[0], "", null);
-            ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, iskender.Portions[0], "", null);
-            ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
 
             var pc = InventoryService.GetCurrentPeriodicConsumption(workspace);
             workspace.Add(pc);
@@ -151,8 +151,8 @@ namespace Samba.Presentation.Tests
 
             var ticket = Ticket.Create(Department.Default, TicketType.Default, Account.Null, 1, null);
             workspace.Add(ticket);
-            ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, iskender.Portions[0], "", null);
-            ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
 
             var transaction2 = new InventoryTransaction { Date = DateTime.Now, Name = "1" };
             workspace.Add(transaction2);
@@ -195,8 +195,8 @@ namespace Samba.Presentation.Tests
 
             ticket = Ticket.Create(Department.Default, TicketType.Default, Account.Null, 1, null);
             workspace.Add(ticket);
-            ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, iskender.Portions[0], "", null);
-            ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
 
             pc = InventoryService.GetCurrentPeriodicConsumption(workspace);
             workspace.Add(pc);
@@ -222,8 +222,8 @@ namespace Samba.Presentation.Tests
 
             ticket = Ticket.Create(Department.Default, TicketType.Default, Account.Null, 1, null);
             workspace.Add(ticket);
-            ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, iskender.Portions[0], "", null);
-            ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
 
             pc = InventoryService.GetCurrentPeriodicConsumption(workspace);
             workspace.Add(pc);

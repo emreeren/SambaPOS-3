@@ -51,7 +51,7 @@ namespace Samba.Modules.PosModule.Widgets.TicketExplorer
         {
             if (Details == null)
             {
-                Details = _ticketService.GetOrders(Model.Id).Select(x => string.Format("{0:#} {1} {2}", x.Quantity, x.Description, x.GetItemPrice()));
+                Details = _ticketService.GetOrders(Model.Id).Select(x => string.Format("{0:#} {1} {2}", x.Quantity, x.Description, x.GetVisiblePrice()));
                 RaisePropertyChanged(() => Details);
             }
         }

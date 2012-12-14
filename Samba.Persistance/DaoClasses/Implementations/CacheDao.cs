@@ -34,7 +34,7 @@ namespace Samba.Persistance.DaoClasses.Implementations
 
         public IEnumerable<MenuItem> GetMenuItems()
         {
-            return Dao.Query<MenuItem>(x => x.TaxTemplate.AccountTransactionType, x => x.Portions.Select(y => y.Prices));
+            return Dao.Query<MenuItem>(x => x.Portions.Select(y => y.Prices));
         }
 
         public IEnumerable<ProductTimer> GetProductTimers()
@@ -148,6 +148,11 @@ namespace Samba.Persistance.DaoClasses.Implementations
         public Resource GetResourceByName(int resourceTypeId, string resourceName)
         {
             return Dao.SingleWithCache<Resource>(x => x.Name == resourceName && x.ResourceTypeId == resourceTypeId);
+        }
+
+        public IEnumerable<TaxTemplate> GetTaxTemplates()
+        {
+            return Dao.Query<TaxTemplate>(x => x.AccountTransactionType);
         }
     }
 }

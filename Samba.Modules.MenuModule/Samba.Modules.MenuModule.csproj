@@ -66,6 +66,7 @@
     </Compile>
     <Compile Include="MenuItemPriceDefinitionViewModel.cs" />
     <Compile Include="MenuItemPriceViewModel.cs" />
+    <Compile Include="TaxTemplateMapViewModel.cs" />
     <Compile Include="ProductTimerView.xaml.cs">
       <DependentUpon>ProductTimerView.xaml</DependentUpon>
     </Compile>
