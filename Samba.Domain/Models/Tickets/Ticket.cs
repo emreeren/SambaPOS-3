@@ -95,6 +95,8 @@ namespace Samba.Domain.Models.Tickets
 
         public decimal ExchangeRate { get; set; }
 
+        public bool TaxIncluded { get; set; }
+
         public virtual AccountTransactionDocument TransactionDocument { get; set; }
 
         private IList<TicketResource> _ticketResources;
@@ -243,7 +245,17 @@ namespace Samba.Domain.Models.Tickets
         {
             var plainSum = GetPlainSum();
             var services = CalculateServices(Calculations.Where(x => !x.IncludeTax), plainSum);
-            var tax = CalculateTax(plainSum, services);
+            var tax = TaxIncluded ? 0 : CalculateTax(plainSum, services);
+            plainSum = plainSum + services + tax;
+            services = CalculateServices(Calculations.Where(x => x.IncludeTax), plainSum);
+            return (plainSum + services);
+        }
+
+        public decimal GetTaxExcludedSum(Order order)
+        {
+            var plainSum = order.GetTotal();
+            var services = CalculateServices(Calculations.Where(x => !x.IncludeTax), plainSum);
+            var tax = TaxIncluded ? 0 - order.GetTotalTaxAmount(TaxIncluded,plainSum,services) : 0;
             plainSum = plainSum + services + tax;
             services = CalculateServices(Calculations.Where(x => x.IncludeTax), plainSum);
             return (plainSum + services);
@@ -265,7 +277,7 @@ namespace Samba.Domain.Models.Tickets
 
         public decimal CalculateTax(decimal plainSum, decimal preTaxServices)
         {
-            var result = Orders.Where(x => x.CalculatePrice).Sum(x => x.GetTotalTaxAmount(plainSum, preTaxServices));
+            var result = Orders.Where(x => x.CalculatePrice).Sum(x => x.GetTotalTaxAmount(TaxIncluded, plainSum, preTaxServices));
             return result;
         }
 
@@ -496,6 +508,7 @@ namespace Samba.Domain.Models.Tickets
                                  TicketTypeId = ticketType.Id,
                                  DepartmentId = department.Id,
                                  AccountTypeId = ticketType.SaleTransactionType.TargetAccountTypeId,
+                                 TaxIncluded = ticketType.TaxIncluded,
                                  TransactionDocument = new AccountTransactionDocument()
                              };
 
@@ -616,12 +629,12 @@ namespace Samba.Domain.Models.Tickets
         {
             if (Orders.Count > 0)
             {
-                var transactionGroup = Orders.Where(x => x.CalculatePrice).GroupBy(x => x.AccountTransactionTypeId);
-                foreach (var transactionItem in transactionGroup)
+                var orderGroup = Orders.Where(x => x.CalculatePrice).GroupBy(x => x.AccountTransactionTypeId);
+                foreach (var orders in orderGroup)
                 {
-                    var t = transactionItem;
-                    var transaction = TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == t.Key);
-                    var amount = t.Sum(x => x.GetTotal());
+                    var o = orders;
+                    var transaction = TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == o.Key);
+                    var amount = o.Sum(x => GetTaxExcludedSum(x));
                     transaction.UpdateAccounts(AccountTypeId, AccountId);
                     transaction.UpdateAmount(amount, ExchangeRate);
                 }
@@ -649,13 +662,13 @@ namespace Samba.Domain.Models.Tickets
 
         public decimal GetTaxTotal(int taxTemplateAccountTransactionTypeId, decimal preTaxServicesTotal, decimal plainSum)
         {
-            var result =
-                Orders.Sum(
-                    x =>
-                    x.Quantity *
-                    x.TaxValues.Where(y => y.TaxTempleteAccountTransactionTypeId == taxTemplateAccountTransactionTypeId).Sum(y => y.TaxAmount));
-            if (preTaxServicesTotal != 0)
-                result += (result * preTaxServicesTotal) / plainSum;
+            var result = Orders.Sum(x => x.GetTotalTaxAmount(TaxIncluded, plainSum, preTaxServicesTotal, taxTemplateAccountTransactionTypeId));
+            return result;
+        }
+
+        public decimal GetTaxTotal()
+        {
+            var result = Orders.Sum(x => x.GetTotalTaxAmount(TaxIncluded, GetPlainSum(), GetPreTaxServicesTotal()));
             return result;
         }
 
@@ -721,12 +734,12 @@ namespace Samba.Domain.Models.Tickets
 
         public decimal GetOrderStateTotal(string s)
         {
-            return Orders.Where(x => x.IsInState("*", s)).Sum(x => x.GetFinalValue());
+            return Orders.Where(x => x.IsInState("*", s)).Sum(x => x.GetValue());
         }
 
         public decimal GetActiveTimerAmount()
         {
-            return Orders.Where(x => x.ProductTimerValue != null && x.ProductTimerValue.IsActive).Sum(x => x.GetFinalValue());
+            return Orders.Where(x => x.ProductTimerValue != null && x.ProductTimerValue.IsActive).Sum(x => x.GetValue());
         }
 
         public bool HasActiveTimers()

@@ -12,14 +12,6 @@ namespace Samba.Modules.MenuModule
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class TaxTemplateViewModel : EntityViewModelBaseWithMap<TaxTemplate, TaxTemplateMap, TaxTemplateMapViewModel>
     {
-        public string DisplayName
-        {
-            get
-            {
-                return string.Format("{0} - {1}", Name, (TaxIncluded ? Resources.Included : Resources.Excluded));
-            }
-        }
-
         private IEnumerable<AccountTransactionType> _accountTransactionTypes;
         public IEnumerable<AccountTransactionType> AccountTransactionTypes
         {
@@ -29,8 +21,6 @@ namespace Samba.Modules.MenuModule
         public AccountTransactionType AccountTransactionType { get { return Model.AccountTransactionType; } set { Model.AccountTransactionType = value; } }
 
         public decimal Rate { get { return Model.Rate; } set { Model.Rate = value; } }
-
-        public bool TaxIncluded { get { return Model.TaxIncluded; } set { Model.TaxIncluded = value; } }
 
         public override Type GetViewType()
         {

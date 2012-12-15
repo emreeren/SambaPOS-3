@@ -2013,8 +2013,8 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>Rate</value>
     <comment>Label.Content</comment>
   </data>
-  <data name="TaxIncludedToPrice" xml:space="preserve">
-    <value>Tax Included to Price</value>
+  <data name="TaxIncluded" xml:space="preserve">
+    <value>Tax Included</value>
     <comment>CheckBox content</comment>
   </data>
   <data name="Tax" xml:space="preserve">

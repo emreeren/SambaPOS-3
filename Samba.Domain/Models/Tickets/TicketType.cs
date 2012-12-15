@@ -16,6 +16,7 @@ namespace Samba.Domain.Models.Tickets
         public virtual Numerator TicketNumerator { get; set; }
         public virtual Numerator OrderNumerator { get; set; }
         public virtual AccountTransactionType SaleTransactionType { get; set; }
+        public bool TaxIncluded { get; set; }
 
         private readonly IList<ResourceTypeAssignment> _resourceTypeAssignments;
         public virtual IList<ResourceTypeAssignment> ResourceTypeAssignments

@@ -43,8 +43,7 @@ namespace Samba.Modules.PaymentModule
             var selector = Selectors.FirstOrDefault(x => x.Key == GetKey(order));
             if (selector == null)
             {
-                selector = new Selector { Key = GetKey(order) };
-                selector.Description = order.MenuItemName + order.GetPortionDesc();
+                selector = new Selector {Key = GetKey(order), Description = order.MenuItemName + order.GetPortionDesc()};
                 Selectors.Add(selector);
             }
             selector.Quantity += order.Quantity;
@@ -53,16 +52,15 @@ namespace Samba.Modules.PaymentModule
 
         private decimal GetPrice(Order order, decimal serviceAmount, decimal sum, decimal exchangeRate)
         {
-            var result = order.GetFinalPrice();
+            var result = order.GetPrice();
             if (serviceAmount != 0 && sum != 0) result += (result * serviceAmount) / sum;
-            result += order.GetTax();
             result = result / exchangeRate;
             return result;
         }
 
         private static string GetKey(Order order)
         {
-            return string.Format(Keyformat, order.MenuItemId, order.GetFinalPrice());
+            return string.Format(Keyformat, order.MenuItemId, order.GetPrice());
         }
 
         public void Select(Selector selector)

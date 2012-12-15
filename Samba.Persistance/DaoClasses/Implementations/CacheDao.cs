@@ -152,7 +152,7 @@ namespace Samba.Persistance.DaoClasses.Implementations
 
         public IEnumerable<TaxTemplate> GetTaxTemplates()
         {
-            return Dao.Query<TaxTemplate>(x => x.AccountTransactionType);
+            return Dao.Query<TaxTemplate>(x => x.AccountTransactionType, x => x.TaxTemplateMaps);
         }
     }
 }

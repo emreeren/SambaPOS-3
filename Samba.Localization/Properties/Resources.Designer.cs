@@ -6486,11 +6486,11 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tax Included to Price.
+        ///   Looks up a localized string similar to Tax Included.
         /// </summary>
-        public static string TaxIncludedToPrice {
+        public static string TaxIncluded {
             get {
-                return ResourceManager.GetString("TaxIncludedToPrice", resourceCulture);
+                return ResourceManager.GetString("TaxIncluded", resourceCulture);
             }
         }
         

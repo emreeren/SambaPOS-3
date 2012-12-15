@@ -28,9 +28,7 @@
                     <Label HorizontalAlignment="Left" Content="{LocText Rate,Suffix=':'}">
                     </Label>
                     <UIControls:FilteredTextBox HorizontalAlignment="Left" Type="Number" MinWidth="50" Text="{Binding Rate}" />
-                    <CheckBox IsChecked="{Binding TaxIncluded }" Margin="0,5">
-                        <LocText ResourceIdentifierKey="TaxIncludedToPrice" Suffix=":"/>
-                    </CheckBox>
+
                 </StackPanel>
             </TabItem>
 

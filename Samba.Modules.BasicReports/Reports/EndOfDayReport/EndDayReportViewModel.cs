@@ -114,7 +114,7 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
                     var value = orderStateValue;
                     var items =
                         ReportContext.Tickets.SelectMany(x => x.Orders).Where(x => x.IsInState(value.StateName, value.State)).ToList();
-                    var amount = items.Sum(x => x.GetFinalValue());
+                    var amount = items.Sum(x => x.GetValue());
                     var count = items.Count();
                     report.AddRow("Bilgi", string.Format("{0} ({1})", orderStateValue.State, count), amount.ToString(ReportContext.CurrencyFormat));
                 }

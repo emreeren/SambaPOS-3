@@ -311,8 +311,6 @@ namespace Samba.Domain.Models.Tickets
         {
             Price = value;
             PriceTag = priceTag;
-            var newPrice = GetPrice();
-            TaxValues.ToList().ForEach(x => x.UpdateTaxAmount(newPrice, TaxValues.Sum(y => y.TaxRate)));
         }
 
         public void UpdateTaxTemplates(IEnumerable<TaxTemplate> taxTemplates)
@@ -322,16 +320,6 @@ namespace Samba.Domain.Models.Tickets
             foreach (var template in taxTemplates)
             {
                 TaxValues.Add(new TaxValue(template));
-            }
-            Taxes = JsonHelper.Serialize(TaxValues);
-            _taxValues = null;
-        }
-
-        public void ExcludeTax()
-        {
-            foreach (var taxValue in TaxValues)
-            {
-                taxValue.TaxIncluded = false;
             }
             Taxes = JsonHelper.Serialize(TaxValues);
             _taxValues = null;
@@ -347,11 +335,21 @@ namespace Samba.Domain.Models.Tickets
             return OrderTagValues.FirstOrDefault(x => x.OrderTagGroupId == orderTagGroup.Id) != null;
         }
 
-        public decimal GetTotalTaxAmount(decimal plainSum, decimal preTaxServices)
+        public decimal GetTotalTaxAmount(bool taxIncluded, decimal plainSum, decimal preTaxServices)
+        {            
+            var result = CalculatePrice ? TaxValues.Sum(x => x.GetTaxAmount(taxIncluded, Price, TaxValues.Sum(y => y.TaxRate), plainSum, preTaxServices)) * Quantity : 0;
+            return decimal.Round(result, 2, MidpointRounding.AwayFromZero);
+        }
+
+        public decimal GetTotalTaxAmount(bool taxIncluded, decimal plainSum, decimal preTaxServices, int taxTemplateId)
         {
-            var result = CalculatePrice ? TaxValues.Sum(x => x.TaxAmount) * Quantity : 0;
-            if (preTaxServices != 0)
-                result += (result * preTaxServices) / plainSum;
+            var result = CalculatePrice ? TaxValues.Where(x => x.TaxTempleteAccountTransactionTypeId == taxTemplateId)
+                .Sum(x => x.GetTaxAmount(taxIncluded, Price, TaxValues.Sum(y => y.TaxRate), plainSum, preTaxServices)) * Quantity : 0;
+            //if (preTaxServices != 0)
+            //{
+            //    var val = (result * preTaxServices) / plainSum;
+            //    result += decimal.Round(val, 2, MidpointRounding.AwayFromZero);
+            //}
             return result;
         }
 
@@ -403,21 +401,6 @@ namespace Samba.Domain.Models.Tickets
             return OrderStateValues;
         }
 
-        public decimal GetTax()
-        {
-            return
-                TaxValues.Where(x => !x.TaxIncluded).Sum(x => x.TaxAmount) -
-                TaxValues.Where(x => x.TaxIncluded).Sum(x => x.TaxAmount);
-        }
-
-        // Vergi etkilemiş fiyat
-        public decimal GetFinalPrice()
-        {
-            var result = GetPrice();
-            result += GetTax();
-            return result;
-        }
-
         //Vergi etkilememiş fiyat
         public decimal GetPrice()
         {
@@ -425,6 +408,11 @@ namespace Samba.Domain.Models.Tickets
             if (ProductTimerValue != null)
                 result = ProductTimerValue.GetPrice(result);
             return result;
+        }
+
+        public decimal GetValue()
+        {
+            return GetPrice() * Quantity;
         }
 
         //Görünen fiyat
@@ -441,26 +429,16 @@ namespace Samba.Domain.Models.Tickets
             return GetVisiblePrice() * Quantity;
         }
 
-        public decimal GetFinalValue()
-        {
-            return decimal.Round(GetFinalPrice() * Quantity, 2, MidpointRounding.AwayFromZero);
-        }
-
         public decimal GetSelectedValue()
         {
-            return SelectedQuantity > 0 ? SelectedQuantity * GetFinalPrice() : GetFinalValue();
-        }
-
-        public decimal GetTotalTax()
-        {
-            return TaxValues.Sum(x => x.TaxAmount) * Quantity;
+            return SelectedQuantity > 0 ? SelectedQuantity * GetPrice() : GetValue();
         }
 
         public decimal GetTotal()
         {
             if (CalculatePrice)
             {
-                return GetFinalValue();
+                return GetValue();
             }
             return 0;
         }
@@ -479,38 +457,35 @@ namespace Samba.Domain.Models.Tickets
             TaxRate = taxTemplate.Rate;
             TaxTemplateId = taxTemplate.Id;
             TaxTemplateName = taxTemplate.Name;
-            TaxIncluded = taxTemplate.TaxIncluded;
             TaxTempleteAccountTransactionTypeId = taxTemplate.AccountTransactionType.Id;
         }
 
         [DataMember(Name = "TR")]
         public decimal TaxRate { get; set; }
-        [DataMember(Name = "TA")]
-        public decimal TaxAmount { get; set; }
         [DataMember(Name = "TN")]
         public string TaxTemplateName { get; set; }
         [DataMember(Name = "TT")]
         public int TaxTemplateId { get; set; }
-        [DataMember(Name = "TI")]
-        public bool TaxIncluded { get; set; }
         [DataMember(Name = "AT")]
         public int TaxTempleteAccountTransactionTypeId { get; set; }
 
-        public void UpdateTaxAmount(decimal price, decimal totalRate)
+        public decimal GetTax(bool taxIncluded, decimal price, decimal totalRate)
         {
-            if (TaxIncluded && totalRate > 0)
+            decimal result;
+            if (taxIncluded && totalRate > 0)
             {
-                TaxAmount = decimal.Round((price * TaxRate) / (100 + totalRate), 2, MidpointRounding.AwayFromZero);
+                result = decimal.Round((price * TaxRate) / (100 + totalRate), 2, MidpointRounding.AwayFromZero);
             }
-            else if (TaxRate > 0) TaxAmount = (price * TaxRate) / 100;
-            else TaxAmount = 0;
+            else if (TaxRate > 0) result = (price * TaxRate) / 100;
+            else result = 0;
+            return result;
         }
 
-        public decimal GetTaxAmount(decimal plainSum, decimal preTaxServices)
+        public decimal GetTaxAmount(bool taxIncluded, decimal price, decimal totalRate, decimal plainSum, decimal preTaxServices)
         {
-            var result = TaxAmount;
             if (preTaxServices != 0)
-                result += (result * preTaxServices) / plainSum;
+                price += (price * preTaxServices) / plainSum;
+            var result = GetTax(taxIncluded, price, totalRate);
             return result;
         }
     }

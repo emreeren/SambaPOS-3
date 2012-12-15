@@ -436,11 +436,13 @@ namespace Samba.Modules.PosModule
         private void OnDecQuantityCommand(string obj)
         {
             LastSelectedOrder.Quantity--;
+            RefreshSelectedOrders();
         }
 
         private void OnIncQuantityCommand(string obj)
         {
             LastSelectedOrder.Quantity++;
+            RefreshSelectedOrders();
         }
 
         private bool CanDecQuantity(string arg)
@@ -466,6 +468,7 @@ namespace Samba.Modules.PosModule
         private void OnDecSelectionQuantityCommand(string obj)
         {
             LastSelectedOrder.DecSelectedQuantity();
+            RefreshSelectedOrders();
         }
 
         private bool CanIncSelectionQuantity(string arg)
@@ -478,6 +481,7 @@ namespace Samba.Modules.PosModule
         private void OnIncSelectionQuantityCommand(string obj)
         {
             LastSelectedOrder.IncSelectedQuantity();
+            RefreshSelectedOrders();
         }
 
         private void OnCancelItemCommand(string obj)
@@ -544,6 +548,12 @@ namespace Samba.Modules.PosModule
             RaisePropertyChanged(() => IsItemsSelectedAndLocked);
             RaisePropertyChanged(() => IsTicketSelected);
             RaisePropertyChanged(() => OrderAutomationCommands);
+        }
+
+        private void RefreshSelectedOrders()
+        {
+            _ticketOrdersViewModel.RefreshSelectedOrders();
+            RefreshVisuals();
         }
     }
 }
