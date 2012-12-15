@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Tickets;
-using Samba.Infrastructure.Data.Serializer;
 
 namespace Samba.Domain.Tests
 {
@@ -27,8 +23,6 @@ namespace Samba.Domain.Tests
             Pizza = CreateMenuItem(1, "Pizza", 10);
             Cola = CreateMenuItem(2, "Cola", 5);
             Beer = CreateMenuItem(3, "Beer", 10);
-
-
 
             var saleAccountType = new AccountType { Name = "Sales Accounts", Id = 1 };
             var taxAccountType = new AccountType { Name = "Tax Accounts", Id = 2 };
@@ -152,24 +146,6 @@ namespace Samba.Domain.Tests
             Assert.AreEqual(12.5, ticket.TransactionDocument.AccountTransactions.Where(x => x.TargetAccountTypeId == 3).Sum(x => x.Amount));
         }
 
-
-
-        [Test]
-        public void CanCalculateMultipleTax()
-        {
-            var ticket = Ticket.Create(Department.Default, TicketType, ReceivableAccount, 1, null);
-            var order = ticket.AddOrder(AccountTransactionType.Default, "Emre", Beer, GetTaxTemplates(Beer.Id), Pizza.Portions[0], "", null);
-            ticket.Recalculate();
-            const decimal expTax = 2.18m;
-            const decimal expStTax = 1.95m;
-            const decimal expLcTax = 0.23m;
-            //Assert.AreEqual(expStTax, order.TaxValues.Single(x => x.TaxTemplateName == "State Tax").TaxAmount);
-            //Assert.AreEqual(expLcTax, order.TaxValues.Single(x => x.TaxTemplateName == "Local Tax").TaxAmount);
-            //Assert.AreEqual(10 - expTax, order.GetFinalValue());
-            Assert.AreEqual(10, order.GetVisibleValue());
-            Assert.AreEqual(10, ticket.GetSum());
-        }
-
         [Test]
         public void CanCalculateDoubleMultipleTax()
         {
@@ -216,7 +192,7 @@ namespace Samba.Domain.Tests
             var ticket = Ticket.Create(Department.Default, TicketType, ReceivableAccount, 1, null);
             var order1 = ticket.AddOrder(TicketType.SaleTransactionType, "Emre", Beer, GetTaxTemplates(Beer.Id), Pizza.Portions[0], "", null);
             var order2 = ticket.AddOrder(TicketType.SaleTransactionType, "Emre", Pizza, GetTaxTemplates(Pizza.Id), Pizza.Portions[0], "", null);
-            order2.ToggleOrderTag(new OrderTagGroup() { AddTagPriceToOrderPrice = true }, new OrderTag() { Price = 5 }, 1, "");
+            order2.ToggleOrderTag(new OrderTagGroup { AddTagPriceToOrderPrice = true }, new OrderTag { Price = 5 }, 1, "");
             order2.UpdatePrice(5, "");
             ticket.Recalculate();
             const decimal expTax = 2.18m + 2;
@@ -238,8 +214,8 @@ namespace Samba.Domain.Tests
             var ticket = Ticket.Create(Department.Default, TicketType, ReceivableAccount, 1, null);
             var order1 = ticket.AddOrder(TicketType.SaleTransactionType, "Emre", Beer, GetTaxTemplates(Beer.Id), Pizza.Portions[0], "", null);
             var order2 = ticket.AddOrder(TicketType.SaleTransactionType, "Emre", Pizza, GetTaxTemplates(Pizza.Id), Pizza.Portions[0], "", null);
-            order2.ToggleOrderTag(new OrderTagGroup() { Name = "OT1", Id = 1, AddTagPriceToOrderPrice = true }, new OrderTag { Name = "t1", Id = 1, Price = 5 }, 1, "");
-            order2.ToggleOrderTag(new OrderTagGroup() { Name = "OT2", Id = 2, AddTagPriceToOrderPrice = false }, new OrderTag { Name = "t2", Id = 2, Price = 5 }, 1, "");
+            order2.ToggleOrderTag(new OrderTagGroup { Name = "OT1", Id = 1, AddTagPriceToOrderPrice = true }, new OrderTag { Name = "t1", Id = 1, Price = 5 }, 1, "");
+            order2.ToggleOrderTag(new OrderTagGroup { Name = "OT2", Id = 2, AddTagPriceToOrderPrice = false }, new OrderTag { Name = "t2", Id = 2, Price = 5 }, 1, "");
             order2.UpdatePrice(5, "");
             ticket.Recalculate();
             const decimal expTax = 2.18m + 3;

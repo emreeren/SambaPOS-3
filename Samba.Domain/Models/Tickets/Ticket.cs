@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -255,7 +256,7 @@ namespace Samba.Domain.Models.Tickets
         {
             var plainSum = order.GetTotal();
             var services = CalculateServices(Calculations.Where(x => !x.IncludeTax), plainSum);
-            var tax = TaxIncluded ? 0 - order.GetTotalTaxAmount(TaxIncluded,plainSum,services) : 0;
+            var tax = TaxIncluded ? 0 - order.GetTotalTaxAmount(TaxIncluded, plainSum, services) : 0;
             plainSum = plainSum + services + tax;
             services = CalculateServices(Calculations.Where(x => x.IncludeTax), plainSum);
             return (plainSum + services);
@@ -625,6 +626,14 @@ namespace Samba.Domain.Models.Tickets
             ExchangeRate = exchangeRate;
         }
 
+        public IList<int> GetTaxIds()
+        {
+            return Orders.SelectMany(x => x.TaxValues)
+                               .Where(x => x.TaxTempleteAccountTransactionTypeId > 0)
+                               .Select(x => x.TaxTempleteAccountTransactionTypeId)
+                               .Distinct().ToList();
+        }
+
         public void Recalculate()
         {
             if (Orders.Count > 0)
@@ -639,10 +648,7 @@ namespace Samba.Domain.Models.Tickets
                     transaction.UpdateAmount(amount, ExchangeRate);
                 }
 
-                var taxIds = Orders.SelectMany(x => x.TaxValues)
-                          .Where(x => x.TaxTempleteAccountTransactionTypeId > 0)
-                          .Select(x => x.TaxTempleteAccountTransactionTypeId)
-                          .Distinct().ToList();
+                var taxIds = GetTaxIds();
                 if (taxIds.Any())
                 {
                     var plainSum = GetPlainSum();
@@ -773,5 +779,7 @@ namespace Samba.Domain.Models.Tickets
         {
             return TicketStateValues;
         }
+
+
     }
 }

@@ -254,13 +254,14 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             clonedResources.ForEach(x => ticket.UpdateResource(x.ResourceTypeId, x.ResourceId, x.ResourceName, x.AccountId, x.ResourceCustomData));
             clonedTags.ForEach(x => ticket.SetTagValue(x.TagName, x.TagValue));
 
-            foreach (var template in from order in clonedOrders.GroupBy(x => x.AccountTransactionTypeId)
-                                     where ticket.TransactionDocument.AccountTransactions.All(x => x.AccountTransactionTypeId != order.Key)
-                                     select _cacheService.GetAccountTransactionTypeById(order.Key))
-            {
-                ticket.TransactionDocument.AddNewTransaction(template, ticket.AccountTypeId, ticket.AccountId);
-            }
+            //foreach (var template in from order in clonedOrders.GroupBy(x => x.AccountTransactionTypeId)
+            //                         where ticket.TransactionDocument.AccountTransactions.All(x => x.AccountTransactionTypeId != order.Key)
+            //                         select _cacheService.GetAccountTransactionTypeById(order.Key))
+            //{
+            //    ticket.TransactionDocument.AddNewTransaction(template, ticket.AccountTypeId, ticket.AccountId);
+            //}
 
+            RefreshAccountTransactions(ticket);
 
             _automationService.NotifyEvent(RuleEventNames.TicketsMerged, new { Ticket = ticket });
             return CloseTicket(ticket);
@@ -280,12 +281,14 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                 ticket.Orders.Add(clonedOrder);
             }
 
-            foreach (var template in from order in clonedOrders.GroupBy(x => x.AccountTransactionTypeId)
-                                     where ticket.TransactionDocument.AccountTransactions.All(x => x.AccountTransactionTypeId != order.Key)
-                                     select _cacheService.GetAccountTransactionTypeById(order.Key))
-            {
-                ticket.TransactionDocument.AddNewTransaction(template, ticket.AccountTypeId, ticket.AccountId);
-            }
+            //foreach (var template in from order in clonedOrders.GroupBy(x => x.AccountTransactionTypeId)
+            //                         where ticket.TransactionDocument.AccountTransactions.All(x => x.AccountTransactionTypeId != order.Key)
+            //                         select _cacheService.GetAccountTransactionTypeById(order.Key))
+            //{
+            //    ticket.TransactionDocument.AddNewTransaction(template, ticket.AccountTypeId, ticket.AccountId);
+            //}
+
+            RefreshAccountTransactions(ticket);
 
             ticket.LastOrderDate = DateTime.Now;
             return CloseTicket(ticket);
@@ -403,7 +406,8 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             var openTicketDataList = GetOpenTickets(resource.Id);
             using (var w = WorkspaceFactory.Create())
             {
-                foreach (var ticket in openTicketDataList.Select(data => w.Single<Ticket>(x => x.Id == data.Id, x => x.TicketResources)))
+                var tickets = openTicketDataList.Select(data => w.Single<Ticket>(x => x.Id == data.Id, x => x.TicketResources)).ToList();
+                foreach (var ticket in tickets)
                 {
                     ticket.TicketResources.Where(x => x.ResourceId == resource.Id).ToList().ForEach(x => x.AccountId = resource.AccountId);
                     w.CommitChanges();
@@ -507,6 +511,13 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             {
                 var transaction = ticket.TransactionDocument.AddNewTransaction(template, ticket.AccountTypeId, ticket.AccountId);
                 transaction.Reversable = false;
+            }
+
+            foreach (var taxTransactionTemplate in ticket.GetTaxIds().Select(x => _cacheService.GetAccountTransactionTypeById(x)))
+            {
+                ticket.TransactionDocument.AddSingletonTransaction(taxTransactionTemplate.Id,
+                       taxTransactionTemplate,
+                       ticket.AccountTypeId, ticket.AccountId);
             }
         }
 
