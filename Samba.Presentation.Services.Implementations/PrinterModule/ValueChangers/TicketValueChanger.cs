@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 
@@ -26,9 +27,28 @@ namespace Samba.Presentation.Services.Implementations.PrinterModule.ValueChanger
             result = PaymentValueChanger.Replace(template, result, model.Payments);
             result = ChangePaymentValueChanger.Replace(template, result, model.ChangePayments);
             result = ResourceValueChanger.Replace(template, result, model.TicketResources);
-            //result = TaxValueChanger.Replace(template, result, model.Orders.GroupBy(x => x.TaxTemplateName).Select(x => new TaxValue { Name = x.Key, Amount = x.Average(y => y.TaxRate), OrderAmount = x.Sum(y => y.GetItemValue() + (!y.TaxIncluded ? y.GetTotalTaxAmount(model.GetPlainSum(), model.GetPreTaxServicesTotal()) : 0)), TaxAmount = x.Sum(y => y.GetTotalTaxAmount(model.GetPlainSum(), model.GetPreTaxServicesTotal())) }));
+            result = TaxValueChanger.Replace(template, result, GetTaxValues(model));
             result = OrderValueChanger.Replace(template, result, model.Orders);
             return result;
+
+        }
+
+        internal IEnumerable<TaxValue> GetTaxValues(Ticket ticket)
+        {
+            var taxValues = ticket.Orders.SelectMany(x => x.GetTaxValues())
+                      .GroupBy(x => new { x.TaxTempleteAccountTransactionTypeId, x.TaxTemplateName }).ToList();
+            var totalTax = ticket.GetTaxTotal();
+            return taxValues.Select(x => new TaxValue
+                {
+                    TotalTax = totalTax,
+                    TaxIncluded = ticket.TaxIncluded,
+                    Name = x.Key.TaxTemplateName,
+                    Amount = x.Average(y => y.TaxRate),
+                    OrderTotal = ticket.GetSum(x.Key.TaxTempleteAccountTransactionTypeId),
+                    TaxAmount =
+                        ticket.GetTaxTotal(x.Key.TaxTempleteAccountTransactionTypeId, ticket.GetPreTaxServicesTotal(),
+                                           ticket.GetPlainSum()),
+                });
         }
     }
 }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
-using System.Runtime.Serialization;
 using Samba.Domain.Models.Menus;
 using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Helpers;
@@ -226,6 +225,16 @@ namespace Samba.Domain.Models.Tickets
             return result;
         }
 
+        public bool IsTaggedWith(OrderTag orderTag)
+        {
+            return OrderTagValues.Any(x => x.TagValue == orderTag.Name);
+        }
+
+        public bool IsTaggedWith(OrderTagGroup orderTagGroup)
+        {
+            return OrderTagValues.FirstOrDefault(x => x.OrderTagGroupId == orderTagGroup.Id) != null;
+        }
+
         public OrderStateValue GetStateValue(string groupName)
         {
             return OrderStateValues.SingleOrDefault(x => x.StateName == groupName) ?? OrderStateValue.Default;
@@ -325,16 +334,6 @@ namespace Samba.Domain.Models.Tickets
             _taxValues = null;
         }
 
-        public bool IsTaggedWith(OrderTag model)
-        {
-            return OrderTagValues.Any(x => x.TagValue == model.Name);
-        }
-
-        public bool IsTaggedWith(OrderTagGroup orderTagGroup)
-        {
-            return OrderTagValues.FirstOrDefault(x => x.OrderTagGroupId == orderTagGroup.Id) != null;
-        }
-
         public decimal GetTotalTaxAmount(bool taxIncluded, decimal plainSum, decimal preTaxServices)
         {            
             var result = CalculatePrice ? TaxValues.Sum(x => x.GetTaxAmount(taxIncluded, GetPrice(), TaxValues.Sum(y => y.TaxRate), plainSum, preTaxServices)) * Quantity : 0;
@@ -377,7 +376,6 @@ namespace Samba.Domain.Models.Tickets
             if (ProductTimerValue != null)
                 ProductTimerValue.Stop();
         }
-
 
         public bool IsInState(string stateName, string state)
         {
@@ -437,51 +435,10 @@ namespace Samba.Domain.Models.Tickets
             }
             return 0;
         }
-    }
 
-    [DataContract]
-    internal class TaxValue
-    {
-        public TaxValue()
+        public IEnumerable<TaxValue> GetTaxValues()
         {
-
-        }
-
-        public TaxValue(TaxTemplate taxTemplate)
-        {
-            TaxRate = taxTemplate.Rate;
-            TaxTemplateId = taxTemplate.Id;
-            TaxTemplateName = taxTemplate.Name;
-            TaxTempleteAccountTransactionTypeId = taxTemplate.AccountTransactionType.Id;
-        }
-
-        [DataMember(Name = "TR")]
-        public decimal TaxRate { get; set; }
-        [DataMember(Name = "TN")]
-        public string TaxTemplateName { get; set; }
-        [DataMember(Name = "TT")]
-        public int TaxTemplateId { get; set; }
-        [DataMember(Name = "AT")]
-        public int TaxTempleteAccountTransactionTypeId { get; set; }
-
-        public decimal GetTax(bool taxIncluded, decimal price, decimal totalRate)
-        {
-            decimal result;
-            if (taxIncluded && totalRate > 0)
-            {
-                result = decimal.Round((price * TaxRate) / (100 + totalRate), 2, MidpointRounding.AwayFromZero);
-            }
-            else if (TaxRate > 0) result = (price * TaxRate) / 100;
-            else result = 0;
-            return result;
-        }
-
-        public decimal GetTaxAmount(bool taxIncluded, decimal price, decimal totalRate, decimal plainSum, decimal preTaxServices)
-        {
-            if (preTaxServices != 0)
-                price += (price * preTaxServices) / plainSum;
-            var result = GetTax(taxIncluded, price, totalRate);
-            return result;
+            return TaxValues;
         }
     }
 }

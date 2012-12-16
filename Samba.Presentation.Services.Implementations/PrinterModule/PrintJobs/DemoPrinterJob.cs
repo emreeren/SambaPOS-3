@@ -55,8 +55,6 @@ namespace Samba.Presentation.Services.Implementations.PrinterModule.PrintJobs
             }
         }
 
-
-
         private static bool SaveToFile(string fileName, string text)
         {
             try

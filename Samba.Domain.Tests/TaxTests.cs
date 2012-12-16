@@ -130,7 +130,27 @@ namespace Samba.Domain.Tests
             var order = ticket.AddOrder(AccountTransactionType.Default, "Emre", Pizza, GetTaxTemplates(Pizza.Id), Pizza.Portions[0], "", null);
             ticket.Recalculate();
             Assert.AreEqual(10, order.GetVisibleValue());
+            Assert.AreEqual(2, ticket.GetTaxTotal());
             Assert.AreEqual(10, ticket.GetSum());
+        }
+
+        [Test]
+        public void CanCalculateTaxWhenVoidExists()
+        {
+            var ticket = Ticket.Create(Department.Default, TicketType, ReceivableAccount, 1, null);
+            ticket.AddOrder(AccountTransactionType.Default, "Emre", Pizza, GetTaxTemplates(Pizza.Id), Pizza.Portions[0], "", null);
+            ticket.Recalculate();
+            Assert.AreEqual(2, ticket.GetTaxTotal());
+            Assert.AreEqual(10, ticket.GetSum());
+            var order2 = ticket.AddOrder(AccountTransactionType.Default, "Emre", Pizza, GetTaxTemplates(Pizza.Id), Pizza.Portions[0], "", null);
+            ticket.Recalculate();
+            Assert.AreEqual(4, ticket.GetTaxTotal());
+            Assert.AreEqual(20, ticket.GetSum());
+            order2.CalculatePrice = false;
+            ticket.Recalculate();
+            Assert.AreEqual(2, ticket.GetTaxTotal());
+            Assert.AreEqual(10, ticket.GetSum());
+            Assert.AreEqual(10, order2.GetVisibleValue());
         }
 
         [Test]

@@ -88,7 +88,8 @@ namespace Samba.Presentation.Services.Implementations.PrinterModule.ValueChanger
             //TAXES
             RegisterFunction<TaxValue>("{TAX AMOUNT}", (x, d) => x.TaxAmount.ToString("#,#0.00"), "Tax Amount", x => x.TaxAmount > 0);
             RegisterFunction<TaxValue>("{TAX RATE}", (x, d) => x.Amount.ToString("#,#0.##"), "Tax Rate", x => x.Amount > 0);
-            RegisterFunction<TaxValue>("{TAXABLE AMOUNT}", (x, d) => x.OrderAmount.ToString("#,#0.00"), "Taxable Amount Total", x => x.OrderAmount > 0);
+            RegisterFunction<TaxValue>("{TAXABLE AMOUNT}", (x, d) => x.OrderAmount.ToString("#,#0.00"), "Taxable Amount", x => x.OrderAmount > 0);
+            RegisterFunction<TaxValue>("{TOTAL TAXABLE AMOUNT}", (x, d) => x.TotalAmount.ToString("#,#0.00"), "Total Taxable Amount", x => x.TotalAmount > 0);
             RegisterFunction<TaxValue>("{TAX NAME}", (x, d) => x.Name, "Tax Template Name");
         }
 

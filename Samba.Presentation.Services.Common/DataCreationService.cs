@@ -486,7 +486,7 @@ namespace Samba.Presentation.Services.Common
             printBillRule.AddRuleMap();
             _workspace.Add(printBillRule);
 
-            var unlockTicketRule = new AppRule { Name = string.Format(Resources.Rule_f, Resources.UnlockTicket), EventName = RuleEventNames.AutomationCommandExecuted, EventConstraints = "AutomationCommandName;=;Unlock Ticket" };
+            var unlockTicketRule = new AppRule { Name = string.Format(Resources.Rule_f, Resources.UnlockTicket), EventName = RuleEventNames.AutomationCommandExecuted, EventConstraints = "AutomationCommandName;=;" + Resources.UnlockTicket };
             unlockTicketRule.Actions.Add(new ActionContainer(unlockTicketAction));
             unlockTicketRule.Actions.Add(new ActionContainer(updateTicketStatusAction) { ParameterValues = string.Format("Status={0}", Resources.Unpaid) });
             unlockTicketRule.AddRuleMap();
@@ -643,7 +643,6 @@ namespace Samba.Presentation.Services.Common
             }
             return result;
         }
-
 
         public IEnumerable<Account> BatchCreateAccounts(string[] values, IWorkspace workspace)
         {

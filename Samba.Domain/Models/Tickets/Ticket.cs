@@ -252,6 +252,16 @@ namespace Samba.Domain.Models.Tickets
             return (plainSum + services);
         }
 
+        public decimal GetSum(int taxTempleteAccountTransactionTypeId)
+        {
+            var plainSum = GetPlainSum(taxTempleteAccountTransactionTypeId);
+            var services = CalculateServices(Calculations.Where(x => !x.IncludeTax), plainSum);
+            var tax = TaxIncluded ? 0 : CalculateTax(plainSum, services);
+            plainSum = plainSum + services + tax;
+            services = CalculateServices(Calculations.Where(x => x.IncludeTax), plainSum);
+            return (plainSum + services);
+        }
+
         public decimal GetTaxExcludedSum(Order order)
         {
             var plainSum = order.GetTotal();
@@ -381,6 +391,15 @@ namespace Samba.Domain.Models.Tickets
         public decimal GetPlainSum()
         {
             return Orders.Sum(item => item.GetTotal());
+        }
+
+        private decimal GetPlainSum(int taxTempleteAccountTransactionTypeId)
+        {
+            return
+            Orders.Where(
+                x =>
+                x.GetTaxValues().Any(y => y.TaxTempleteAccountTransactionTypeId == taxTempleteAccountTransactionTypeId))
+                  .Sum(x => x.GetTotal());
         }
 
         public decimal GetPaymentAmount()
