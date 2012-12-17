@@ -175,6 +175,9 @@
   <data name="AccountType" xml:space="preserve">
     <value>Tipo Account</value>
   </data>
+  <data name="ChangeTicketResource" xml:space="preserve">
+    <value>Modifica Risorsa Ticket</value>
+  </data>
   <data name="Script" xml:space="preserve">
     <value>Script</value>
   </data>
@@ -204,9 +207,6 @@
   </data>
   <data name="UpdatePriceTag" xml:space="preserve">
     <value>Cambia Listino Prezzi</value>
-  </data>
-  <data name="AllCategories" xml:space="preserve">
-    <value>Tutte le categorie</value>
   </data>
   <data name="TotalIncome" xml:space="preserve">
     <value>Totale Entrate</value>
@@ -286,8 +286,8 @@
   <data name="Copy" xml:space="preserve">
     <value>Copia</value>
   </data>
-  <data name="AccountScreen" xml:space="preserve">
-    <value>Schermo Account</value>
+  <data name="TaxIncluded" xml:space="preserve">
+    <value>Tassa inclusa</value>
   </data>
   <data name="EveryOtherHour" xml:space="preserve">
     <value>Ogni ora gli altri</value>
@@ -334,9 +334,6 @@
   <data name="StateFilter" xml:space="preserve">
     <value>Stato Filtri</value>
   </data>
-  <data name="UpdateTicketTax" xml:space="preserve">
-    <value>Aggiorna Ticket Tassa</value>
-  </data>
   <data name="SubTotal" xml:space="preserve">
     <value>Subtotale</value>
   </data>
@@ -348,9 +345,6 @@
   </data>
   <data name="ReportName" xml:space="preserve">
     <value>Nome rapporto</value>
-  </data>
-  <data name="TaxIncludedToPrice" xml:space="preserve">
-    <value>Tassa inclusa nel Prezzo</value>
   </data>
   <data name="Every3Hours" xml:space="preserve">
     <value>Ogni 3 ore</value>
@@ -1185,9 +1179,6 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="New" xml:space="preserve">
     <value>Nuovo</value>
   </data>
-  <data name="RegenerateTicketTax" xml:space="preserve">
-    <value>Rigenerare Tassa Ticket</value>
-  </data>
   <data name="LockTicket" xml:space="preserve">
     <value>Bloccare Ticket</value>
   </data>
@@ -1530,6 +1521,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="SambaPOSReporter" xml:space="preserve">
     <value>SambaPOS Reporter</value>
   </data>
+  <data name="AccountScreen" xml:space="preserve">
+    <value>Schermo Account</value>
+  </data>
   <data name="ExtraModifiers" xml:space="preserve">
     <value>Modificatori Extra</value>
   </data>
@@ -1806,9 +1800,6 @@ Messaggio di errore:
   </data>
   <data name="Departments" xml:space="preserve">
     <value>Reparto</value>
-  </data>
-  <data name="DisplayState" xml:space="preserve">
-    <value>Stato Visualizzazione</value>
   </data>
   <data name="ShareNameAndPortName" xml:space="preserve">
     <value>Nome Stampante Condivisa / Nome Porta</value>
@@ -2255,8 +2246,8 @@ Ticket</value>
   <data name="BroadcastMessage" xml:space="preserve">
     <value>Trasmetti Messaggio</value>
   </data>
-  <data name="AccountSelectedForTicket" xml:space="preserve">
-    <value>Selezionato per  Ticket Conto</value>
+  <data name="AllCategories" xml:space="preserve">
+    <value>Tutte le categorie</value>
   </data>
   <data name="General" xml:space="preserve">
     <value>Generale</value>
@@ -2438,8 +2429,8 @@ Ticket</value>
   <data name="ToggleValues" xml:space="preserve">
     <value>Valori di Commutazione</value>
   </data>
-  <data name="UpdateTicketAccount" xml:space="preserve">
-    <value>Aggiornamento Account Ticket</value>
+  <data name="DisplayState" xml:space="preserve">
+    <value>Stato Visualizzazione</value>
   </data>
   <data name="Automatic" xml:space="preserve">
     <value>Automatico</value>

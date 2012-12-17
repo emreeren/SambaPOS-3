@@ -645,9 +645,6 @@ Continuar sem acrescentar detalhes? </value>
   <data name="Customer" xml:space="preserve">
     <value>Cliente</value>
   </data>
-  <data name="UpdateTicketAccount" xml:space="preserve">
-    <value>Atualize Conta Bilheteira</value>
-  </data>
   <data name="UseAtOldTickets" xml:space="preserve">
     <value>Somente para ticketes antigos</value>
   </data>

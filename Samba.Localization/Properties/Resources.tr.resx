@@ -205,9 +205,6 @@
   <data name="UpdatePriceTag" xml:space="preserve">
     <value>Fiyat listesini değiştir</value>
   </data>
-  <data name="AllCategories" xml:space="preserve">
-    <value>Tüm Kategoriler</value>
-  </data>
   <data name="TotalIncome" xml:space="preserve">
     <value>Toplam Gelir</value>
   </data>
@@ -331,9 +328,6 @@
   <data name="StateFilter" xml:space="preserve">
     <value>Durum Filtresi</value>
   </data>
-  <data name="UpdateTicketTax" xml:space="preserve">
-    <value>KDV Güncelle</value>
-  </data>
   <data name="SubTotal" xml:space="preserve">
     <value>Ara Toplam</value>
   </data>
@@ -345,9 +339,6 @@
   </data>
   <data name="ReportName" xml:space="preserve">
     <value>Rapor Adı</value>
-  </data>
-  <data name="TaxIncludedToPrice" xml:space="preserve">
-    <value>KDV Fiyata Dahil</value>
   </data>
   <data name="Every3Hours" xml:space="preserve">
     <value>3 saatte bir</value>
@@ -1118,9 +1109,6 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="New" xml:space="preserve">
     <value>Yeni</value>
   </data>
-  <data name="RegenerateTicketTax" xml:space="preserve">
-    <value>Adisyon KDV oranlarını baştan oluştur</value>
-  </data>
   <data name="LockTicket" xml:space="preserve">
     <value>Adisyonu Kilitle</value>
   </data>
@@ -1496,6 +1484,9 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="ReportPermissions" xml:space="preserve">
     <value>Rapor İzinleri</value>
   </data>
+  <data name="TicketTagSelected" xml:space="preserve">
+    <value>Adisyon Etiketi Seçildi</value>
+  </data>
   <data name="WeightBarcodes" xml:space="preserve">
     <value>Gramaj Barkodları</value>
   </data>
@@ -1701,9 +1692,6 @@ Hata Mesajı:
   <data name="Departments" xml:space="preserve">
     <value>Departmanlar</value>
   </data>
-  <data name="DisplayState" xml:space="preserve">
-    <value>Görünüm Durumu</value>
-  </data>
   <data name="ShareNameAndPortName" xml:space="preserve">
     <value>Paylaşım Adı / Port Adı</value>
   </data>
@@ -1773,8 +1761,8 @@ Hata Mesajı:
   <data name="Hidden" xml:space="preserve">
     <value>Gizli</value>
   </data>
-  <data name="TicketTagSelected" xml:space="preserve">
-    <value>Adisyon Etiketi Seçildi</value>
+  <data name="LastLinesByPrinterLineCount" xml:space="preserve">
+    <value>Satır Sayısına göre Son Eklenen Satırlar</value>
   </data>
   <data name="CurrencySymbol" xml:space="preserve">
     <value>Para Birimi Sembolü</value>
@@ -2137,8 +2125,8 @@ Kapat</value>
   <data name="BroadcastMessage" xml:space="preserve">
     <value>Mesaj yayınla</value>
   </data>
-  <data name="AccountSelectedForTicket" xml:space="preserve">
-    <value>Adisyona Hesap Seçildi</value>
+  <data name="AllCategories" xml:space="preserve">
+    <value>Tüm Kategoriler</value>
   </data>
   <data name="General" xml:space="preserve">
     <value>Genel</value>
@@ -2314,8 +2302,8 @@ Kapat</value>
   <data name="ToggleValues" xml:space="preserve">
     <value>Değerleri Değiştir</value>
   </data>
-  <data name="UpdateTicketAccount" xml:space="preserve">
-    <value>Adisyon Hesabını Değiştir</value>
+  <data name="DisplayState" xml:space="preserve">
+    <value>Görünüm Durumu</value>
   </data>
   <data name="Automatic" xml:space="preserve">
     <value>Otomatik</value>
@@ -2497,9 +2485,6 @@ Açık adisyon varken gün sonu yapılamaz.</value>
   </data>
   <data name="CantDeletePastEndOfDayRecords" xml:space="preserve">
     <value>Geçmiş günsonu belgeleri silinemez.</value>
-  </data>
-  <data name="LastLinesByPrinterLineCount" xml:space="preserve">
-    <value>Satır Sayısına göre Son Eklenen Satırlar</value>
   </data>
   <data name="CanDisplayOldTickets" xml:space="preserve">
     <value>Eski Adisyonları görüntüleyebilir</value>
@@ -2685,7 +2670,7 @@ Açık adisyon varken gün sonu yapılamaz.</value>
     <value>Script Çalıştır</value>
   </data>
   <data name="TaxTotal" xml:space="preserve">
-    <value>Hizmet Toplamı</value>
+    <value>KDV Toplamı</value>
   </data>
   <data name="DepartmentPermissions" xml:space="preserve">
     <value>Departman İzinleri</value>
