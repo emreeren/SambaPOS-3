@@ -246,6 +246,7 @@ copy "$(TargetDir)System.Windows.Interactivity.dll" "$(SolutionDir)SambaSetup\sr
 copy "$(TargetDir)FluentValidation.dll" "$(SolutionDir)SambaSetup\src"
 copy "$(TargetDir)Omu.ValueInjecter.dll" "$(SolutionDir)SambaSetup\src"
 copy "$(TargetDir)ICSharpCode.AvalonEdit.dll" "$(SolutionDir)SambaSetup\src"
+copy "$(TargetDir)nunit.framework.dll" "$(SolutionDir)SambaSetup\src"
 
 :End</PostBuildEvent>
   </PropertyGroup>
