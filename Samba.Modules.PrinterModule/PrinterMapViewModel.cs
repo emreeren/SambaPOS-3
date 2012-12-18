@@ -2,8 +2,8 @@
 using System.Linq;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
+using Samba.Persistance.DaoClasses;
 using Samba.Presentation.Common;
-using Samba.Presentation.Services;
 using Samba.Services;
 
 namespace Samba.Modules.PrinterModule
@@ -14,23 +14,27 @@ namespace Samba.Modules.PrinterModule
         private const string NullLabel = "*";
         private static readonly string NullPrinterLabel = string.Format("- {0} -", Localization.Properties.Resources.Select);
         private readonly IMenuService _menuService;
-        private readonly IPrinterService _printerService;
+        private readonly IPrinterDao _printerDao;
         private readonly ICacheService _cacheService;
 
-        public PrinterMapViewModel(PrinterMap model,
-            IMenuService menuService, IPrinterService printerService, ICacheService cacheService)
+        public PrinterMapViewModel(PrinterMap model, IMenuService menuService, IPrinterDao printerDao, ICacheService cacheService)
         {
             Model = model;
             _menuService = menuService;
-            _printerService = printerService;
+            _printerDao = printerDao;
             _cacheService = cacheService;
         }
 
+        private IEnumerable<PrinterTemplate> _printerTemplates;
+        public IEnumerable<PrinterTemplate> PrinterTemplates { get { return _printerTemplates ?? (_printerTemplates = _printerDao.GetPrinterTemplates()); } }
+
+        private IEnumerable<Printer> _printers;
+        public IEnumerable<Printer> Printers { get { return _printers ?? (_printers = _printerDao.GetPrinters()); } }
+
         public IEnumerable<MenuItem> MenuItems { get { return GetAllMenuItems(MenuItemGroupCode); } }
-        public IEnumerable<Printer> Printers { get { return _printerService.GetPrinters(); } }
         public IEnumerable<string> TicketTags { get { return GetTicketTags(); } }
         public IEnumerable<string> MenuItemGroupCodes { get { return GetAllMenuItemGroupCodes(); } }
-        public IEnumerable<PrinterTemplate> PrinterTemplates { get { return _printerService.GetAllPrinterTemplates(); } }
+
 
         private IEnumerable<string> GetAllMenuItemGroupCodes()
         {

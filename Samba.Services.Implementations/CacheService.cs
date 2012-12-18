@@ -19,12 +19,14 @@ namespace Samba.Services.Implementations
     class CacheService : ICacheService
     {
         private readonly ICacheDao _dataService;
+        private readonly IPrinterDao _printerDao;
         private readonly ResourceCache _resourceCache;
 
         [ImportingConstructor]
-        public CacheService(ICacheDao dataService)
+        public CacheService(ICacheDao dataService, IPrinterDao printerDao)
         {
             _dataService = dataService;
+            _printerDao = printerDao;
             _resourceCache = new ResourceCache();
         }
 
@@ -481,6 +483,21 @@ namespace Samba.Services.Implementations
             return rt != null ? rt.Id : 0;
         }
 
+        private IEnumerable<Printer> _printers;
+        public IEnumerable<Printer> Printers
+        {
+            get { return _printers ?? (_printers = _printerDao.GetPrinters()); }
+        }
+
+        private IEnumerable<PrinterTemplate> _printerTemplates;
+        protected IEnumerable<PrinterTemplate> PrinterTemplates
+        {
+            get { return _printerTemplates ?? (_printerTemplates = _printerDao.GetPrinterTemplates()); }
+        }
+
+        public IEnumerable<PrinterTemplate> GetPrinterTemplates() { return PrinterTemplates; }
+        public IEnumerable<Printer> GetPrinters() { return Printers; }
+
         private IEnumerable<State> _states;
         public IEnumerable<State> States
         {
@@ -521,6 +538,8 @@ namespace Samba.Services.Implementations
         public void ResetCache()
         {
             _dataService.ResetCache();
+            _printers = null;
+            _printerTemplates = null;
             _states = null;
             _resourceTypes = null;
             _printJobs = null;

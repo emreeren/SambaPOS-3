@@ -6,10 +6,10 @@ using System.Linq;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
+using Samba.Persistance.DaoClasses;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Common.Services;
-using Samba.Presentation.Services;
 using Samba.Services;
 
 namespace Samba.Modules.PrinterModule
@@ -18,15 +18,15 @@ namespace Samba.Modules.PrinterModule
     class PrintJobViewModel : EntityViewModelBase<PrintJob>
     {
         private readonly IMenuService _menuService;
-        private readonly IPrinterService _printerService;
+        private readonly IPrinterDao _printerDao;
         private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public PrintJobViewModel(IMenuService menuService, IPrinterService printerService, ICacheService cacheService)
+        public PrintJobViewModel(IMenuService menuService, IPrinterDao printerDao, ICacheService cacheService)
         {
             _newPrinterMaps = new List<PrinterMap>();
             _menuService = menuService;
-            _printerService = printerService;
+            _printerDao = printerDao;
             _cacheService = cacheService;
             AddPrinterMapCommand = new CaptionCommand<string>(Resources.Add, OnAddPrinterMap);
             DeletePrinterMapCommand = new CaptionCommand<string>(Resources.Delete, OnDelete, CanDelete);
@@ -64,7 +64,7 @@ namespace Samba.Modules.PrinterModule
         {
             return new ObservableCollection<PrinterMapViewModel>(
                     Model.PrinterMaps.Select(
-                    printerMap => new PrinterMapViewModel(printerMap, _menuService, _printerService, _cacheService)));
+                    printerMap => new PrinterMapViewModel(printerMap, _menuService, _printerDao, _cacheService)));
         }
 
         public override Type GetViewType()
@@ -121,7 +121,7 @@ namespace Samba.Modules.PrinterModule
         private void OnAddPrinterMap(object obj)
         {
             var map = new PrinterMap { MenuItemId = 0, MenuItemGroupCode = "*" };
-            var mapModel = new PrinterMapViewModel(map, _menuService, _printerService, _cacheService);
+            var mapModel = new PrinterMapViewModel(map, _menuService, _printerDao, _cacheService);
             Model.PrinterMaps.Add(map);
             PrinterMaps.Add(mapModel);
             _newPrinterMaps.Add(map);

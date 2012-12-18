@@ -66,6 +66,8 @@ namespace Samba.Services
         string GetStateColor(string resourceState);
         IEnumerable<Resource> GetResources(int resourceTypeId,string stateData);
         Resource GetResourceByName(string resourceTypeName, string resourceName);
-        
+        IEnumerable<PrinterTemplate> GetPrinterTemplates();
+        IEnumerable<Printer> GetPrinters();
+
     }
 }

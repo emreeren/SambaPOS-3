@@ -49,7 +49,6 @@
     <Compile Include="IAutomationService.cs" />
     <Compile Include="IInventoryService.cs" />
     <Compile Include="IMethodQueue.cs" />
-    <Compile Include="IPrinterService.cs" />
     <Compile Include="IResourceService.cs" />
     <Compile Include="ITaskService.cs" />
     <Compile Include="ITicketService.cs" />
