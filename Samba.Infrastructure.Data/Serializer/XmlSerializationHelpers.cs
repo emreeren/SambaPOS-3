@@ -17,7 +17,7 @@ namespace Samba.Infrastructure.Data.Serializer
   /// <P>This struct records relevant object information.
   /// </summary>
   /// <remarks>
-  /// Strings in a struct? Strings are reference types and structs should not contain types like this. TODO!
+  /// Strings in a struct? Strings are reference types and structs should not contain types like this.
   /// </remarks>
   internal struct ObjectInfo
   {

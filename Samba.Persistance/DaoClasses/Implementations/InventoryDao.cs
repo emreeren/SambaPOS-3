@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Inventories;
+using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
@@ -69,8 +70,8 @@ namespace Samba.Persistance.DaoClasses.Implementations
                 return Resources.APortionShouldSelected;
             if (Dao.Exists<Recipe>(x => x.Portion.Id == model.Portion.Id && x.Id != model.Id))
             {
-                const string mitemName = "[Menu Item Name]"; // todo:fix;
-                return string.Format(Resources.ThereIsAnotherRecipeFor_f, mitemName);
+                var mitemName = Dao.Single<MenuItem, string>(model.Portion.MenuItemId, x => x.Name);
+                return string.Format(Resources.ThereIsAnotherRecipeFor_f, mitemName + " " + model.Portion.Name);
             }
             return "";
         }

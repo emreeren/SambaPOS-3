@@ -67,17 +67,16 @@ namespace Samba.Modules.MenuModule
             }
             if (values.Any())
             {
-                bool answer = InteractionService.UserIntraction.AskQuestion(
+                var answer = InteractionService.UserIntraction.AskQuestion(
                         Resources.AutoSelectProductsQuestion);
                 if (answer)
                 {
                     foreach (var val in values)
                     {
-                        //TODO EF ile çalışırken tolist yapmazsak count sql sorgusu üretiyor mu kontrol et.
-                        var menuItems = GetMenuItemsByGroupCode(val).ToList();
-                        if (menuItems.Count > 0)
+                        var menuItems = GetMenuItemsByGroupCode(val);
+                        if (menuItems.Any())
                         {
-                            Model.AddItemsToCategory(val, menuItems);
+                            Model.AddItemsToCategory(val, menuItems.ToList());
                         }
                     }
                 }

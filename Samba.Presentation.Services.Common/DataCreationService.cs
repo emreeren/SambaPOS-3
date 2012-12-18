@@ -503,7 +503,7 @@ namespace Samba.Presentation.Services.Common
             _workspace.Add(updateMergedTicket);
 
             ImportMenus(screen);
-            ImportTableResources(tableResourceType, ticketType, availableState.Id);
+            ImportTableResources(tableResourceType, ticketType);
 
             var customerScreen = new ResourceScreen { Name = string.Format(Resources.Customer_f, Resources.Search), DisplayMode = 1, ResourceTypeId = customerResourceType.Id, TicketTypeId = ticketType.Id };
             customerScreen.ResourceScreenMaps.Add(new ResourceScreenMap());
@@ -533,7 +533,7 @@ namespace Samba.Presentation.Services.Common
             _workspace.CommitChanges();
         }
 
-        private void ImportTableResources(ResourceType tableTemplate, TicketType ticketType, int defaultStateId)
+        private void ImportTableResources(ResourceType tableTemplate, TicketType ticketType)
         {
             var fileName = string.Format("{0}/Imports/table{1}.txt", LocalSettings.AppPath, "_" + LocalSettings.CurrentLanguage);
 

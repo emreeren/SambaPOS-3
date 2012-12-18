@@ -54,7 +54,7 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
             var salesData = orders.GroupBy(x => new { x.MenuItemName, x.MenuItemId, x.PortionName })
                     .Select(x => new SalesData { MenuItemName = x.Key.MenuItemName, MenuItemId = x.Key.MenuItemId, PortionName = x.Key.PortionName, Total = x.Sum(y => y.Quantity) }).ToList();
 
-            var orderTagValues = orders.SelectMany(x => x.GetOrderTagValues(), (ti, pr) => new { OrderTagValues = pr, ti.Quantity })
+            var orderTagValues = orders.SelectMany(x => x.GetOrderTagValues(), (order, ot) => new { OrderTagValues = ot, order.Quantity })
                     .Where(x => x.OrderTagValues.MenuItemId > 0)
                     .GroupBy(x => new { x.OrderTagValues.MenuItemId, x.OrderTagValues.PortionName });
 
@@ -75,70 +75,26 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
             return salesData;
         }
 
-        private void CreatePeriodicConsumptionItems(PeriodicConsumption pc, IWorkspace workspace)
-        {
-            var previousPc = GetPreviousPeriodicConsumption(workspace);
-            var transactionItems = GetTransactionItems().ToList();
-            foreach (var inventoryItem in workspace.All<InventoryItem>())
-            {
-                var iItem = inventoryItem;
-                var pci = new PeriodicConsumptionItem { InventoryItem = inventoryItem };
-                pci.UnitMultiplier = pci.InventoryItem.TransactionUnitMultiplier > 0 ? pci.InventoryItem.TransactionUnitMultiplier : 1;
-                pc.PeriodicConsumptionItems.Add(pci);
-                var previousCost = 0m;
-                if (previousPc != null)
-                {
-                    var previousPci = previousPc.PeriodicConsumptionItems.SingleOrDefault(x => x.InventoryItem.Id == iItem.Id);
-                    if (previousPci != null) pci.InStock =
-                        previousPci.PhysicalInventory != null
-                        ? previousPci.PhysicalInventory.GetValueOrDefault(0)
-                        : previousPci.GetInventoryPrediction();
-                    if (previousPci != null)
-                        previousCost = previousPci.Cost * pci.InStock;
-                }
-                var tim = transactionItems.Where(x => x.InventoryItem.Id == iItem.Id).ToList();
-                pci.Purchase = tim.Sum(x => x.Quantity * x.Multiplier) / pci.UnitMultiplier;
-                var totalPrice = tim.Sum(x => x.Price * x.Quantity);
-                if (pci.InStock > 0 || pci.Purchase > 0)
-                    pci.Cost = decimal.Round((totalPrice + previousCost) / (pci.InStock + pci.Purchase), 2);
-            }
-        }
-
         private void UpdateConsumption(PeriodicConsumption pc, IWorkspace workspace)
         {
             var sales = GetSales(_applicationState.CurrentWorkPeriod);
-
             foreach (var sale in sales)
             {
-                var lSale = sale;
-                var recipe = workspace.Single<Recipe>(x => x.Portion.Name == lSale.PortionName && x.Portion.MenuItemId == lSale.MenuItemId);
-                if (recipe != null)
-                {
-                    var cost = 0m;
-                    foreach (var recipeItem in recipe.RecipeItems.Where(x => x.InventoryItem != null && x.Quantity > 0))
-                    {
-                        var item = recipeItem;
-                        var pci = pc.PeriodicConsumptionItems.Single(x => x.InventoryItem.Id == item.InventoryItem.Id);
-                        pci.Consumption += (item.Quantity * sale.Total) / pci.UnitMultiplier;
-                        cost += recipeItem.Quantity * (pci.Cost / pci.UnitMultiplier);
-                    }
-                    pc.CostItems.Add(new CostItem { Name = sale.MenuItemName, Portion = recipe.Portion, CostPrediction = cost, Quantity = sale.Total });
-                }
+                var portionName = sale.PortionName;
+                var menuItemId = sale.MenuItemId;
+                var recipe = workspace.Single<Recipe>(x => x.Portion.Name == portionName && x.Portion.MenuItemId == menuItemId);
+                pc.UpdateConsumption(recipe, sale.MenuItemName, sale.Total);
             }
         }
 
         private PeriodicConsumption CreateNewPeriodicConsumption(IWorkspace workspace)
         {
-            var pc = new PeriodicConsumption
-            {
-                WorkPeriodId = _applicationState.CurrentWorkPeriod.Id,
-                Name = _applicationState.CurrentWorkPeriod.StartDate + " - " +
-                       _applicationState.CurrentWorkPeriod.EndDate,
-                StartDate = _applicationState.CurrentWorkPeriod.StartDate,
-                EndDate = _applicationState.CurrentWorkPeriod.EndDate
-            };
+            var previousPc = GetPreviousPeriodicConsumption(workspace);
+            var transactionItems = GetTransactionItems().ToList();
+            var inventoryItems = workspace.All<InventoryItem>();
 
-            CreatePeriodicConsumptionItems(pc, workspace);
+            var pc = PeriodicConsumption.Create(_applicationState.CurrentWorkPeriod);
+            pc.CreatePeriodicConsumptionItems(inventoryItems, previousPc, transactionItems);
             UpdateConsumption(pc, workspace);
             CalculateCost(pc, _applicationState.CurrentWorkPeriod);
             return pc;
@@ -160,29 +116,8 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
 
         public void CalculateCost(PeriodicConsumption pc, WorkPeriod workPeriod)
         {
-            var sales = GetSales(workPeriod);
-            foreach (var sale in sales)
-            {
-                var lSale = sale;
-                var recipe = _inventoryDao.GetRecipe(lSale.PortionName, lSale.MenuItemId);
-                if (recipe != null)
-                {
-                    var totalcost = recipe.FixedCost;
-                    foreach (var recipeItem in recipe.RecipeItems.Where(x => x.InventoryItem != null && x.Quantity > 0))
-                    {
-                        var item = recipeItem;
-                        var pci = pc.PeriodicConsumptionItems.SingleOrDefault(x => x.InventoryItem.Id == item.InventoryItem.Id);
-                        if (pci != null && pci.GetPredictedConsumption() > 0)
-                        {
-                            var cost = recipeItem.Quantity * (pci.Cost / pci.UnitMultiplier);
-                            cost = (pci.GetConsumption() * cost) / pci.GetPredictedConsumption();
-                            totalcost += cost;
-                        }
-                    }
-                    var ci = pc.CostItems.SingleOrDefault(x => x.Portion.Id == recipe.Portion.Id);
-                    if (ci != null) ci.Cost = decimal.Round(totalcost, 2);
-                }
-            }
+            var recipes = GetSales(workPeriod).Select(sale => _inventoryDao.GetRecipe(sale.PortionName, sale.MenuItemId));
+            pc.UpdateCost(recipes);            
         }
 
         public IEnumerable<string> GetInventoryItemNames()

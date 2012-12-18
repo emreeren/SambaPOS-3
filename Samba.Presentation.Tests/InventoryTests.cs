@@ -253,6 +253,7 @@ namespace Samba.Presentation.Tests
             WorkspaceFactory.UpdateConnection(filePath);
             var dataCreationService = new DataCreationService();
             dataCreationService.CreateData();
+            Thread.Sleep(1);
             var workspace = WorkspaceFactory.Create();
             return workspace;
         }

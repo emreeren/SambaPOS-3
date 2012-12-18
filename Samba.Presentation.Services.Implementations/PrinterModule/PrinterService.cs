@@ -28,7 +28,7 @@ namespace Samba.Presentation.Services.Implementations.PrinterModule
         private readonly TicketFormatter _ticketFormatter;
 
         [ImportingConstructor]
-        public PrinterService(IPrinterDao printerDao, IResourceService resourceService, ISettingService settingService,
+        public PrinterService(IPrinterDao printerDao, ISettingService settingService,
             ICacheService cacheService, IExpressionService expressionService, ILogService logService)
         {
             _printerDao = printerDao;

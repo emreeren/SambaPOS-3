@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Samba.Domain.Models.Menus;
 using Samba.Infrastructure.Data;
 
@@ -17,6 +19,13 @@ namespace Samba.Domain.Models.Inventories
         public Recipe()
         {
             _recipeItems = new List<RecipeItem>();
+        }
+
+        public IList<RecipeItem> GetValidRecipeItems()
+        {
+            var result= 
+                RecipeItems.Where(x => x.InventoryItem != null && x.Quantity > 0);
+            return result.ToList();
         }
     }
 }

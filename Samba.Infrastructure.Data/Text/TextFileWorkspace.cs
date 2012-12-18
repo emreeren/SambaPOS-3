@@ -19,7 +19,7 @@ namespace Samba.Infrastructure.Data.Text
         private readonly bool _asyncSave;
 
         public TextFileWorkspace()
-            : this(GetDefaultDbFileName(), true)
+            : this(GetDefaultDbFileName(), false)
         {
 
         }

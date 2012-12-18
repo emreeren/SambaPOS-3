@@ -33,5 +33,14 @@ namespace Samba.Domain.Models.Inventories
             if (PhysicalInventory == null) return GetPredictedConsumption();
             return (InStock + Purchase) - PhysicalInventory.GetValueOrDefault(0);
         }
+
+        public static PeriodicConsumptionItem Create(InventoryItem inventoryItem)
+        {
+            var pci = new PeriodicConsumptionItem { InventoryItem = inventoryItem };
+            pci.UnitMultiplier = pci.InventoryItem.TransactionUnitMultiplier > 0
+                                     ? pci.InventoryItem.TransactionUnitMultiplier
+                                     : 1;
+            return pci;
+        }
     }
 }

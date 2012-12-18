@@ -1358,7 +1358,6 @@ namespace Samba.Infrastructure.Data.BinarySerializer
                         try
                         {
                             // if the property is nullable enum we need to handle it differently because a straight ChangeType doesn't work
-                            // TODO maybe adjust persistence to have a nullable bit in propertyindex?
                             Type type = Nullable.GetUnderlyingType(entry.Setter.Info.PropertyType);
                             if (type != null && type.IsEnum)
                             {

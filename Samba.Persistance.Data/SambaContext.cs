@@ -165,6 +165,7 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<MenuItemPrice>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<MenuItemPortion>().HasMany(p => p.Prices).WithRequired().HasForeignKey(x => x.MenuItemPortionId);
 
+            const int qscale = 3;
             const int scale = 2;
             const int precision = 16;
 
@@ -194,30 +195,30 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<Recipe>().Property(x => x.FixedCost).HasPrecision(precision, scale);
 
             //CostItem
-            modelBuilder.Entity<CostItem>().Property(x => x.Quantity).HasPrecision(precision, 3);
+            modelBuilder.Entity<CostItem>().Property(x => x.Quantity).HasPrecision(precision, qscale);
             modelBuilder.Entity<CostItem>().Property(x => x.CostPrediction).HasPrecision(precision, scale);
             modelBuilder.Entity<CostItem>().Property(x => x.Cost).HasPrecision(precision, scale);
 
             //PeriodicConsumptionIntem
-            modelBuilder.Entity<PeriodicConsumptionItem>().Property(x => x.InStock).HasPrecision(precision, scale);
-            modelBuilder.Entity<PeriodicConsumptionItem>().Property(x => x.Purchase).HasPrecision(precision, scale);
-            modelBuilder.Entity<PeriodicConsumptionItem>().Property(x => x.Consumption).HasPrecision(precision, scale);
-            modelBuilder.Entity<PeriodicConsumptionItem>().Property(x => x.PhysicalInventory).HasPrecision(precision, scale);
+            modelBuilder.Entity<PeriodicConsumptionItem>().Property(x => x.InStock).HasPrecision(precision, qscale);
+            modelBuilder.Entity<PeriodicConsumptionItem>().Property(x => x.Purchase).HasPrecision(precision, qscale);
+            modelBuilder.Entity<PeriodicConsumptionItem>().Property(x => x.Consumption).HasPrecision(precision, qscale);
+            modelBuilder.Entity<PeriodicConsumptionItem>().Property(x => x.PhysicalInventory).HasPrecision(precision, qscale);
             modelBuilder.Entity<PeriodicConsumptionItem>().Property(x => x.Cost).HasPrecision(precision, scale);
             modelBuilder.Entity<PeriodicConsumptionItem>().Property(x => x.UnitMultiplier).HasPrecision(precision, scale);
 
             //RecipeItem
-            modelBuilder.Entity<RecipeItem>().Property(x => x.Quantity).HasPrecision(precision, 3);
+            modelBuilder.Entity<RecipeItem>().Property(x => x.Quantity).HasPrecision(precision, qscale);
 
             //TransactionItem
             modelBuilder.Entity<InventoryTransactionItem>().Property(x => x.Price).HasPrecision(precision, scale);
-            modelBuilder.Entity<InventoryTransactionItem>().Property(x => x.Quantity).HasPrecision(precision, 3);
+            modelBuilder.Entity<InventoryTransactionItem>().Property(x => x.Quantity).HasPrecision(precision, qscale);
 
             //PaidItem
-            modelBuilder.Entity<PaidItem>().Property(x => x.Quantity).HasPrecision(precision, 3);
+            modelBuilder.Entity<PaidItem>().Property(x => x.Quantity).HasPrecision(precision, qscale);
 
             //Order
-            modelBuilder.Entity<Order>().Property(x => x.Quantity).HasPrecision(precision, 3);
+            modelBuilder.Entity<Order>().Property(x => x.Quantity).HasPrecision(precision, qscale);
             modelBuilder.Entity<Order>().Property(x => x.Price).HasPrecision(precision, scale);
 
             //Ticket
