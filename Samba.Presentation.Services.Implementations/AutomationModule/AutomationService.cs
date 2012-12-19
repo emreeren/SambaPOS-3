@@ -54,24 +54,17 @@ namespace Samba.Presentation.Services.Implementations.AutomationModule
                 foreach (var actionContainer in rule.Actions.Where(x => CanExecuteAction(x, dataObject)))
                 {
                     var container = actionContainer;
-                    var action = Actions.SingleOrDefault(x => x.Id == container.AppActionId);
+                    var action = Actions.Single(x => x.Id == container.AppActionId);
+                    var clonedAction = ObjectCloner.Clone(action);
+                    var containerParameterValues = container.ParameterValues ?? "";
+                    clonedAction.Parameter = _settingService.ReplaceSettingValues(clonedAction.Parameter);
+                    containerParameterValues = _settingService.ReplaceSettingValues(containerParameterValues);
+                    containerParameterValues = ReplaceParameterValues(containerParameterValues, dataObject);
+                    clonedAction.Parameter = _expressionService.ReplaceExpressionValues(clonedAction.Parameter);
+                    containerParameterValues = _expressionService.ReplaceExpressionValues(containerParameterValues);
 
-                    if (action != null)
-                    {
-                        var clonedAction = ObjectCloner.Clone(action);
-                        var containerParameterValues = container.ParameterValues ?? "";
-                        clonedAction.Parameter = _settingService.ReplaceSettingValues(clonedAction.Parameter);
-                        containerParameterValues = _settingService.ReplaceSettingValues(containerParameterValues);
-
-                        //clonedAction.Parameter = ReplaceParameterValues(clonedAction.Parameter, dataObject);
-                        containerParameterValues = ReplaceParameterValues(containerParameterValues, dataObject);
-
-                        clonedAction.Parameter = _expressionService.ReplaceExpressionValues(clonedAction.Parameter); //[{"Key":"AccountTransactionTypeName","Value":"Puan Yüklemesi"},{"Key":"Amount","Value":"[:Tutar]"}]
-                        containerParameterValues = _expressionService.ReplaceExpressionValues(containerParameterValues);//Tutar=[=[:ProcessedAmount]*0.05] 
-
-                        IActionData data = new ActionData { Action = clonedAction, DataObject = dataObject, ParameterValues = containerParameterValues };
-                        data.PublishEvent(EventTopicNames.ExecuteEvent, true);
-                    }
+                    IActionData data = new ActionData { Action = clonedAction, DataObject = dataObject, ParameterValues = containerParameterValues };
+                    data.PublishEvent(EventTopicNames.ExecuteEvent, true);
                 }
             }
         }
@@ -130,11 +123,6 @@ namespace Samba.Presentation.Services.Implementations.AutomationModule
             return _ruleActionTypeRegistry.RuleEvents.Values;
         }
 
-        public IEnumerable<string> GetParameterSource(string parameterName)
-        {
-            return ParameterSources.GetParameterSource(parameterName);
-        }
-
         IEnumerable<string> IAutomationService.GetParameterNames(string eventName)
         {
             return _ruleActionTypeRegistry.GetParameterNames(eventName);
@@ -175,8 +163,7 @@ namespace Samba.Presentation.Services.Implementations.AutomationModule
 
         private bool SatisfiesConditions(AppRule appRule, object dataObject)
         {
-            var conditions = appRule.EventConstraints.Split('#')
-                .Select(x => new RuleConstraint(x));
+            var conditions = appRule.EventConstraints.Split('#').Select(x => new RuleConstraint(x));
 
             var parameterNames = dataObject.GetType().GetProperties().Select(x => x.Name).ToList();
 

@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Localization.Properties;
 using Samba.Presentation.Services.Common;
 
 namespace Samba.Presentation.Services.Implementations.AutomationModule
 {
-    [Export(typeof(IRuleConstraint))]
-    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class RuleConstraint : IRuleConstraint
     {
         public RuleConstraint()

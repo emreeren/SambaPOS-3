@@ -13,14 +13,13 @@ namespace Samba.Presentation.Services
         void RegisterParameterSoruce(string username, Func<IEnumerable<string>> func);
 
         IEnumerable<IRuleConstraint> GetEventConstraints(string eventName);
+        IEnumerable<IRuleConstraint> CreateRuleConstraints(string eventConstraints);
         IEnumerable<RuleEvent> GetRuleEvents();
         IEnumerable<string> GetParameterNames(string eventName);
         RuleActionType GetActionType(string value);
         IEnumerable<RuleActionType> GetActionTypes();
-        IEnumerable<IRuleConstraint> CreateRuleConstraints(string eventConstraints);
         IEnumerable<IParameterValue> CreateParameterValues(RuleActionType actionType);
         AppAction GetActionById(int appActionId);
         IEnumerable<string> GetAutomationCommandNames();
-
     }
 }

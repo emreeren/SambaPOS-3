@@ -302,7 +302,7 @@ namespace Samba.Modules.PosModule
 
             SubCategories.Clear();
             SubCategories.AddRange(
-                _menuService.GetScreenMenuCategories(category, CurrentTag)
+                category.GetScreenMenuCategories(CurrentTag)
                 .Select(x => new ScreenSubCategoryButton(x, SubCategoryCommand, category.MainButtonColor, category.MainFontSize, category.SubButtonHeight)));
 
             if (!string.IsNullOrEmpty(CurrentTag))
@@ -366,7 +366,7 @@ namespace Samba.Modules.PosModule
         {
             SelectedCategory = category;
 
-            var screenMenuItems = _menuService.GetScreenMenuItems(category, pageNo, tag);
+            var screenMenuItems = category.GetScreenMenuItems(pageNo, tag);
             var result = new ObservableCollection<ScreenMenuItemButton>();
             var items = screenMenuItems.Select(x => new ScreenMenuItemButton(x, MenuItemCommand, category));
             result.AddRange(items);

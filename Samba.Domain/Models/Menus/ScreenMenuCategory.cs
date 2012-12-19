@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Menus
@@ -72,7 +74,7 @@ namespace Samba.Domain.Models.Menus
 
         public void AddMenuItem(MenuItem menuItem)
         {
-            var smi = new ScreenMenuItem {MenuItemId = menuItem.Id, Name = menuItem.Name};
+            var smi = new ScreenMenuItem { MenuItemId = menuItem.Id, Name = menuItem.Name };
             ScreenMenuItems.Add(smi);
         }
 
@@ -86,5 +88,29 @@ namespace Samba.Domain.Models.Menus
             }
         }
 
+        public IEnumerable<ScreenMenuItem> GetScreenMenuItems(int currentPageNo, string tag)
+        {
+            var items = ScreenMenuItems.Where(x => x.SubMenuTag == tag || (string.IsNullOrEmpty(tag) && string.IsNullOrEmpty(x.SubMenuTag)));
+
+            if (PageCount > 1)
+            {
+                items = items
+                    .Skip(ItemCountPerPage * currentPageNo)
+                    .Take(ItemCountPerPage);
+            }
+
+            return items.OrderBy(x => x.SortOrder);
+        }
+
+        public IEnumerable<string> GetScreenMenuCategories(string parentTag)
+        {
+            return ScreenMenuItems.Where(x => !string.IsNullOrEmpty(x.SubMenuTag))
+                .Select(x => x.SubMenuTag)
+                .Distinct()
+                .Where(x => string.IsNullOrEmpty(parentTag) || (x.StartsWith(parentTag) && x != parentTag))
+                .Select(x => Regex.Replace(x, "^" + parentTag + ",", ""))
+                .Where(x => !x.Contains(","))
+                .Select(x => !string.IsNullOrEmpty(parentTag) ? parentTag + "," + x : x);
+        }
     }
 }

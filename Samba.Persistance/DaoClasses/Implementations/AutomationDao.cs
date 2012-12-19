@@ -2,6 +2,8 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Automation;
+using Samba.Infrastructure.Data;
+using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 
 namespace Samba.Persistance.DaoClasses.Implementations
@@ -9,6 +11,12 @@ namespace Samba.Persistance.DaoClasses.Implementations
     [Export(typeof(IAutomationDao))]
     class AutomationDao : IAutomationDao
     {
+        [ImportingConstructor]
+        public AutomationDao()
+        {
+            ValidatorRegistry.RegisterDeleteValidator<AppAction>(x => Dao.Exists<ActionContainer>(y => y.AppActionId == x.Id), Resources.Action, Resources.Rule);
+        }
+
         public Dictionary<string, string> GetScripts()
         {
             return Dao.Query<Script>().ToDictionary(x => x.HandlerName, x => x.Code);

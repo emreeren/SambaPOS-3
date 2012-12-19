@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Automation
