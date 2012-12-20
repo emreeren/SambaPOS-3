@@ -355,8 +355,7 @@ namespace Samba.Modules.BasicReports
 
         public static PeriodicConsumption GetCurrentPeriodicConsumption()
         {
-            var workspace = WorkspaceFactory.Create();
-            return InventoryService.GetCurrentPeriodicConsumption(workspace);
+            return InventoryService.GetCurrentPeriodicConsumption();
         }
     }
 }

@@ -58,6 +58,16 @@ namespace Samba.Persistance.DaoClasses.Implementations
         {
             return Dao.Exists<Recipe>();
         }
+
+        public IEnumerable<InventoryItem> GetInventoryItems()
+        {
+            return Dao.Query<InventoryItem>();
+        }
+
+        public PeriodicConsumption GetPeriodicConsumptionByWorkPeriodId(int workPeriodId)
+        {
+            return Dao.Single<PeriodicConsumption>(x => x.WorkPeriodId == workPeriodId, x => x.PeriodicConsumptionItems, x => x.CostItems);
+        }
     }
 
     public class RecipeSaveValidator : SpecificationValidator<Recipe>

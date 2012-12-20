@@ -6,11 +6,12 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Inventories
 {
-    public class PeriodicConsumption : Entity
+    public class PeriodicConsumption : Entity, ICacheable
     {
         public int WorkPeriodId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public DateTime LastUpdateTime { get; set; }
 
         private readonly IList<PeriodicConsumptionItem> _periodicConsumptionItems;
         public virtual IList<PeriodicConsumptionItem> PeriodicConsumptionItems
@@ -28,6 +29,7 @@ namespace Samba.Domain.Models.Inventories
         {
             _periodicConsumptionItems = new List<PeriodicConsumptionItem>();
             _costItems = new List<CostItem>();
+            LastUpdateTime = DateTime.Now;
         }
 
         private decimal GetCost(RecipeItem recipeItem)
@@ -120,5 +122,6 @@ namespace Samba.Domain.Models.Inventories
                 CreatePeriodicConsumptionItem(inventoryItem, previousPc, transactionItems);
             }
         }
+
     }
 }

@@ -120,7 +120,15 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<Order>().Property(x => x.OrderTags).IsMaxLength();
             modelBuilder.Entity<Order>().Property(x => x.OrderStates).IsMaxLength();
             modelBuilder.Entity<Order>().Property(x => x.Taxes).IsMaxLength();
-            
+
+            modelBuilder.Entity<PeriodicConsumptionItem>().HasKey(p => new { p.Id, p.PeriodicConsumptionId });
+            modelBuilder.Entity<PeriodicConsumptionItem>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<PeriodicConsumption>().HasMany(p => p.PeriodicConsumptionItems).WithRequired().HasForeignKey(x => x.PeriodicConsumptionId);
+
+            modelBuilder.Entity<CostItem>().HasKey(p => new { p.Id, p.PeriodicConsumptionId });
+            modelBuilder.Entity<CostItem>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<PeriodicConsumption>().HasMany(p => p.CostItems).WithRequired().HasForeignKey(x => x.PeriodicConsumptionId);
+
             modelBuilder.Entity<TaskToken>().HasKey(p => new { p.Id, p.TaskId });
             modelBuilder.Entity<TaskToken>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<Task>().HasMany(p => p.TaskTokens).WithRequired().HasForeignKey(x => x.TaskId);

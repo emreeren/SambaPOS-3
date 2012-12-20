@@ -24,7 +24,7 @@ namespace Samba.Modules.InventoryModule
 
         protected override void OnAddItem(object obj)
         {
-            var pc = _inventoryService.GetCurrentPeriodicConsumption(Workspace);
+            var pc = _inventoryService.GetCurrentPeriodicConsumption();
             VisibleViewModelBase wm = Items.SingleOrDefault(x => x.Name == pc.Name) ?? InternalCreateNewViewModel(pc);
             wm.PublishEvent(EventTopicNames.ViewAdded);
         }

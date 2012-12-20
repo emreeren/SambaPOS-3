@@ -15,5 +15,7 @@ namespace Samba.Persistance.DaoClasses
         IEnumerable<string> GetGroupCodes();
         IEnumerable<string> GetInventoryItemNames();
         bool RecipeExists();
+        IEnumerable<InventoryItem> GetInventoryItems();
+        PeriodicConsumption GetPeriodicConsumptionByWorkPeriodId(int workPeriodId);
     }
 }

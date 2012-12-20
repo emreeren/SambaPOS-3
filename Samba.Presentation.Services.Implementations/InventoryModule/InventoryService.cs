@@ -4,7 +4,6 @@ using System.Linq;
 using Samba.Domain.Models.Inventories;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
-using Samba.Infrastructure.Data;
 using Samba.Persistance.DaoClasses;
 using Samba.Persistance.Data;
 using Samba.Presentation.Services.Common;
@@ -87,11 +86,11 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
             }
         }
 
-        private PeriodicConsumption CreateNewPeriodicConsumption(IWorkspace workspace)
+        private PeriodicConsumption CreateNewPeriodicConsumption()
         {
-            var previousPc = GetPreviousPeriodicConsumption(workspace);
+            var previousPc = GetPreviousPeriodicConsumption();
             var transactionItems = GetTransactionItems().ToList();
-            var inventoryItems = workspace.All<InventoryItem>();
+            var inventoryItems = _inventoryDao.GetInventoryItems();
 
             var pc = PeriodicConsumption.Create(_applicationState.CurrentWorkPeriod);
             pc.CreatePeriodicConsumptionItems(inventoryItems, previousPc, transactionItems);
@@ -100,24 +99,25 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
             return pc;
         }
 
-        public PeriodicConsumption GetPreviousPeriodicConsumption(IWorkspace workspace)
+        public PeriodicConsumption GetPreviousPeriodicConsumption()
         {
-            return _applicationState.PreviousWorkPeriod == null ? null :
-               workspace.Single<PeriodicConsumption>(x => x.WorkPeriodId == _applicationState.PreviousWorkPeriod.Id);
+            return _applicationState.PreviousWorkPeriod == null
+                       ? null
+                       : _inventoryDao.GetPeriodicConsumptionByWorkPeriodId(_applicationState.PreviousWorkPeriod.Id);
+
         }
 
-        public PeriodicConsumption GetCurrentPeriodicConsumption(IWorkspace workspace)
+        public PeriodicConsumption GetCurrentPeriodicConsumption()
         {
-            var pc = workspace.Single<PeriodicConsumption>(x =>
-                x.WorkPeriodId == _applicationState.CurrentWorkPeriod.Id) ??
-                     CreateNewPeriodicConsumption(workspace);
+            var pc = _inventoryDao.GetPeriodicConsumptionByWorkPeriodId(_applicationState.CurrentWorkPeriod.Id)
+                ?? CreateNewPeriodicConsumption();
             return pc;
         }
 
         public void CalculateCost(PeriodicConsumption pc, WorkPeriod workPeriod)
         {
             var recipes = GetSales(workPeriod).Select(sale => _inventoryDao.GetRecipe(sale.PortionName, sale.MenuItemId));
-            pc.UpdateCost(recipes);            
+            pc.UpdateCost(recipes);
         }
 
         public IEnumerable<string> GetInventoryItemNames()
@@ -130,26 +130,27 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
             return _inventoryDao.GetGroupCodes();
         }
 
+        public void SavePeriodicConsumption(PeriodicConsumption pc)
+        {
+            Dao.Save(pc);
+        }
+
         private void OnWorkperiodStatusChanged(EventParameters<WorkPeriod> obj)
         {
             if (obj.Topic != EventTopicNames.WorkPeriodStatusChanged) return;
             if (!_inventoryDao.RecipeExists()) return;
-            using (var ws = WorkspaceFactory.Create())
+            if (_applicationState.IsCurrentWorkPeriodOpen)
             {
-                if (_applicationState.IsCurrentWorkPeriodOpen)
-                {
-                    if (_applicationState.PreviousWorkPeriod == null) return;
-                    var pc = GetPreviousPeriodicConsumption(ws);
-                    if (pc == null) return;
-                    CalculateCost(pc, _applicationState.PreviousWorkPeriod);
-                    ws.CommitChanges();
-                }
-                else
-                {
-                    var pc = GetCurrentPeriodicConsumption(ws);
-                    if (pc.Id == 0) ws.Add(pc);
-                    ws.CommitChanges();
-                }
+                if (_applicationState.PreviousWorkPeriod == null) return;
+                var pc = GetPreviousPeriodicConsumption();
+                if (pc == null) return;
+                CalculateCost(pc, _applicationState.PreviousWorkPeriod);
+                SavePeriodicConsumption(pc);
+            }
+            else
+            {
+                var pc = GetCurrentPeriodicConsumption();
+                SavePeriodicConsumption(pc);
             }
         }
     }
