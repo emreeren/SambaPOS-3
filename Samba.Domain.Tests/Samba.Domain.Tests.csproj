@@ -62,6 +62,7 @@
     <PostBuildEvent>IF NOT "$(ConfigurationName)"=="Release" GOTO End
 
 copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)SambaSetup\src"
+copy "$(TargetDir)nunit.framework.dll" "$(SolutionDir)SambaSetup\src"
 
 :End</PostBuildEvent>
   </PropertyGroup>
