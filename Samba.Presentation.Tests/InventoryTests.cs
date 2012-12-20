@@ -81,7 +81,7 @@ namespace Samba.Presentation.Tests
             var pc = InventoryService.GetCurrentPeriodicConsumption(workspace);
             workspace.Add(pc);
 
-            var iskenderCostItem = pc.CostItems.Single(x => x.Portion.MenuItemId == iskender.Id);
+            var iskenderCostItem = pc.CostItems.Single(x => x.MenuItemId == iskender.Id);
             Assert.AreEqual(iskenderCostItem.Quantity, 3);
 
             var etCost = ((16m / 1000m) * 120m);
@@ -91,10 +91,10 @@ namespace Samba.Presentation.Tests
             var iskenderCost = decimal.Round(etCost + pideCost + yogurtCost + zeytinYagiCost, 2);
 
             Assert.AreEqual(iskenderCost, iskenderCostItem.CostPrediction);
-            var etpc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItem.Id == donerEti.Id);
-            var pidepc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItem.Id == pide.Id);
-            var yogurtpc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItem.Id == yogurt.Id);
-            var zeytinYagipc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItem.Id == zeytinYagi.Id);
+            var etpc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == donerEti.Id);
+            var pidepc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == pide.Id);
+            var yogurtpc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == yogurt.Id);
+            var zeytinYagipc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == zeytinYagi.Id);
 
             etpc.PhysicalInventory = 9.5m;
             yogurtpc.PhysicalInventory = 28;
@@ -161,20 +161,20 @@ namespace Samba.Presentation.Tests
             var pc = InventoryService.GetCurrentPeriodicConsumption(workspace);
             workspace.Add(pc);
 
-            var etpc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItem.Id == donerEti.Id);
+            var etpc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == donerEti.Id);
             Assert.IsNotNull(etpc);
             Assert.AreEqual(etpc.InStock, 0);
             Assert.AreEqual(etpc.Purchase, 20);
             Assert.AreEqual(etpc.Consumption, 0.24m);
             Assert.AreEqual(etpc.Cost, 15.5m);
 
-            var yogurtpc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItem.Id == yogurt.Id);
+            var yogurtpc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == yogurt.Id);
             Assert.IsNotNull(yogurtpc);
             Assert.AreEqual(yogurtpc.InStock, 0);
             Assert.AreEqual(yogurtpc.Purchase, 30);
             Assert.AreEqual(yogurtpc.Consumption, 0.1m);
 
-            var pidepc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItem.Id == pide.Id);
+            var pidepc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == pide.Id);
             Assert.IsNotNull(pidepc);
             Assert.AreEqual(pidepc.InStock, 0);
             Assert.AreEqual(pidepc.Purchase, 50);
@@ -200,7 +200,7 @@ namespace Samba.Presentation.Tests
 
             pc = InventoryService.GetCurrentPeriodicConsumption(workspace);
             workspace.Add(pc);
-            var etpc2 = pc.PeriodicConsumptionItems.Single(x => x.InventoryItem.Id == donerEti.Id);
+            var etpc2 = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == donerEti.Id);
             Assert.IsNotNull(etpc2);
             Assert.AreEqual(etpc2.InStock, etpc.GetInventoryPrediction());
             Assert.AreEqual(etpc2.Purchase, etAlimMiktari);
@@ -227,7 +227,7 @@ namespace Samba.Presentation.Tests
 
             pc = InventoryService.GetCurrentPeriodicConsumption(workspace);
             workspace.Add(pc);
-            var etpc3 = pc.PeriodicConsumptionItems.Single(x => x.InventoryItem.Id == donerEti.Id);
+            var etpc3 = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == donerEti.Id);
             Assert.IsNotNull(etpc3);
             Assert.AreEqual(etpc3.InStock, etpc2.GetInventoryPrediction());
             Assert.AreEqual(etpc3.Purchase, etAlimMiktari);

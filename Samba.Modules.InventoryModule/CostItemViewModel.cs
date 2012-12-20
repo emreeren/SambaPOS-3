@@ -17,7 +17,7 @@ namespace Samba.Modules.InventoryModule
         private readonly MenuItem _menuItem;
         public MenuItem MenuItem { get { return _menuItem; } }
         public string MenuItemName { get { return MenuItem.Name; } }
-        public string PortionName { get { return Model.Portion.Name; } }
+        public string PortionName { get { return Model.PortionName; } }
         public decimal Quantity { get { return Model.Quantity; } }
         public decimal CostPrediction { get { return Model.CostPrediction; } }
         public decimal Cost { get { return Model.Cost; } }

@@ -5,7 +5,9 @@ namespace Samba.Domain.Models.Inventories
     public class PeriodicConsumptionItem : Value
     {
         public int PeriodicConsumptionId { get; set; }
-        public virtual InventoryItem InventoryItem { get; set; }
+        public int InventoryItemId { get; set; }
+        public string InventoryItemName { get; set; }
+        public string UnitName { get; set; }
         public decimal UnitMultiplier { get; set; }
         public decimal InStock { get; set; }
         public decimal Purchase { get; set; }
@@ -36,11 +38,15 @@ namespace Samba.Domain.Models.Inventories
 
         public static PeriodicConsumptionItem Create(InventoryItem inventoryItem)
         {
-            var pci = new PeriodicConsumptionItem { InventoryItem = inventoryItem };
-            pci.UnitMultiplier = pci.InventoryItem.TransactionUnitMultiplier > 0
-                                     ? pci.InventoryItem.TransactionUnitMultiplier
-                                     : 1;
-            return pci;
+            return new PeriodicConsumptionItem
+                {
+                    InventoryItemId = inventoryItem.Id,
+                    InventoryItemName = inventoryItem.Name,
+                    UnitName = inventoryItem.TransactionUnit ?? inventoryItem.BaseUnit,
+                    UnitMultiplier = inventoryItem.TransactionUnitMultiplier > 0
+                                         ? inventoryItem.TransactionUnitMultiplier
+                                         : 1
+                };
         }
     }
 }

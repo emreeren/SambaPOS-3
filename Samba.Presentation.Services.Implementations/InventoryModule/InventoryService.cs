@@ -75,14 +75,14 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
             return salesData;
         }
 
-        private void UpdateConsumption(PeriodicConsumption pc, IWorkspace workspace)
+        private void UpdateConsumption(PeriodicConsumption pc)
         {
             var sales = GetSales(_applicationState.CurrentWorkPeriod);
             foreach (var sale in sales)
             {
                 var portionName = sale.PortionName;
                 var menuItemId = sale.MenuItemId;
-                var recipe = workspace.Single<Recipe>(x => x.Portion.Name == portionName && x.Portion.MenuItemId == menuItemId);
+                var recipe = _inventoryDao.GetRecipe(portionName, menuItemId);
                 pc.UpdateConsumption(recipe, sale.MenuItemName, sale.Total);
             }
         }
@@ -95,7 +95,7 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
 
             var pc = PeriodicConsumption.Create(_applicationState.CurrentWorkPeriod);
             pc.CreatePeriodicConsumptionItems(inventoryItems, previousPc, transactionItems);
-            UpdateConsumption(pc, workspace);
+            UpdateConsumption(pc);
             CalculateCost(pc, _applicationState.CurrentWorkPeriod);
             return pc;
         }

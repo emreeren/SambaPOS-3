@@ -18,7 +18,7 @@ namespace Samba.Persistance.DaoClasses.Implementations
         public InventoryDao()
         {
             ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<InventoryItem>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.InventoryItem)));
-            ValidatorRegistry.RegisterDeleteValidator<InventoryItem>(x => Dao.Exists<PeriodicConsumptionItem>(y => y.InventoryItem.Id == x.Id), Resources.InventoryItem, Resources.EndOfDayRecord);
+            ValidatorRegistry.RegisterDeleteValidator<InventoryItem>(x => Dao.Exists<PeriodicConsumptionItem>(y => y.InventoryItemId == x.Id), Resources.InventoryItem, Resources.EndOfDayRecord);
             ValidatorRegistry.RegisterSaveValidator(new RecipeSaveValidator());
         }
 

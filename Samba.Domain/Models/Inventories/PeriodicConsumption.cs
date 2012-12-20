@@ -32,7 +32,7 @@ namespace Samba.Domain.Models.Inventories
 
         private decimal GetCost(RecipeItem recipeItem)
         {
-            var pci = PeriodicConsumptionItems.Single(x => x.InventoryItem.Id == recipeItem.InventoryItem.Id);
+            var pci = PeriodicConsumptionItems.Single(x => x.InventoryItemId == recipeItem.InventoryItem.Id);
             if (pci.GetPredictedConsumption() > 0)
             {
                 var cost = recipeItem.Quantity * (pci.Cost / pci.UnitMultiplier);
@@ -45,7 +45,7 @@ namespace Samba.Domain.Models.Inventories
         private void UpdateCost(Recipe recipe)
         {
             if (recipe == null) return;
-            var ci = CostItems.SingleOrDefault(x => x.Portion.Id == recipe.Portion.Id);
+            var ci = CostItems.SingleOrDefault(x => x.PortionId == recipe.Portion.Id);
             if (ci == null) return;
             var totalcost = recipe.FixedCost + recipe.GetValidRecipeItems().Sum(recipeItem => GetCost(recipeItem));
             ci.Cost = decimal.Round(totalcost, 2);
@@ -58,7 +58,7 @@ namespace Samba.Domain.Models.Inventories
 
         private decimal UpdateConsumption(RecipeItem recipeItem, decimal saleTotal)
         {
-            var pci = PeriodicConsumptionItems.Single(x => x.InventoryItem.Id == recipeItem.InventoryItem.Id);
+            var pci = PeriodicConsumptionItems.Single(x => x.InventoryItemId == recipeItem.InventoryItem.Id);
             pci.Consumption += (recipeItem.Quantity * saleTotal) / pci.UnitMultiplier;
             return recipeItem.Quantity * (pci.Cost / pci.UnitMultiplier);
         }
@@ -70,7 +70,9 @@ namespace Samba.Domain.Models.Inventories
             CostItems.Add(new CostItem
             {
                 Name = menuItemName,
-                Portion = recipe.Portion,
+                PortionId = recipe.Portion.Id,
+                MenuItemId = recipe.Portion.MenuItemId,
+                PortionName = recipe.Portion.Name,
                 CostPrediction = totalCost,
                 Quantity = saleTotal
             });
@@ -83,7 +85,7 @@ namespace Samba.Domain.Models.Inventories
             var previousCost = 0m;
             if (previousPc != null)
             {
-                var previousPci = previousPc.PeriodicConsumptionItems.SingleOrDefault(x => x.InventoryItem.Id == inventoryItem.Id);
+                var previousPci = previousPc.PeriodicConsumptionItems.SingleOrDefault(x => x.InventoryItemId == inventoryItem.Id);
                 if (previousPci != null)
                     pci.InStock =
                         previousPci.PhysicalInventory != null

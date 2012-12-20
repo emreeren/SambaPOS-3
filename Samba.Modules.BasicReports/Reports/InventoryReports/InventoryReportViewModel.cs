@@ -43,8 +43,8 @@ namespace Samba.Modules.BasicReports.Reports.InventoryReports
                 foreach (var costItem in consumptionItems)
                 {
                     report.AddRow("InventoryTable",
-                        costItem.InventoryItem.Name,
-                        costItem.InventoryItem.TransactionUnit ?? costItem.InventoryItem.BaseUnit,
+                        costItem.InventoryItemName,
+                        costItem.UnitName,
                         costItem.GetPhysicalInventory().ToString("#,#0.##"));
                 }
             }

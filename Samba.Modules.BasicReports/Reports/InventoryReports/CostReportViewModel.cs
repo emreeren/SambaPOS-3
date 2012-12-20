@@ -27,7 +27,7 @@ namespace Samba.Modules.BasicReports.Reports.InventoryReports
             AddDefaultReportHeader(report, ReportContext.CurrentWorkPeriod, Resources.CostReport);
 
             var costItems = ReportContext.PeriodicConsumptions.SelectMany(x => x.CostItems)
-                .GroupBy(x => new { ItemName = x.Name, PortionName = x.Portion.Name })
+                .GroupBy(x => new { ItemName = x.Name, x.PortionName })
                 .Select(x => new { x.Key.ItemName, x.Key.PortionName, TotalQuantity = x.Sum(y => y.Quantity), TotalCost = x.Sum(y => y.Cost * y.Quantity) }).ToList();
 
             if (costItems.Any())

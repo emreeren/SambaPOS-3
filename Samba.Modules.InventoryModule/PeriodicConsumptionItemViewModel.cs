@@ -15,8 +15,8 @@ namespace Samba.Modules.InventoryModule
         }
         public PeriodicConsumptionItem Model { get; set; }
 
-        public string ItemName { get { return Model.InventoryItem.Name; } }
-        public string UnitName { get { return Model.InventoryItem.TransactionUnitMultiplier > 0 ? Model.InventoryItem.TransactionUnit : Model.InventoryItem.BaseUnit; } }
+        public string ItemName { get { return Model.InventoryItemName; } }
+        public string UnitName { get { return Model.UnitName; } }
         public decimal InStock { get { return Model.InStock; } }
         public decimal Purchase { get { return Model.Purchase; } }
         public decimal Cost { get { return Model.Cost; } }
