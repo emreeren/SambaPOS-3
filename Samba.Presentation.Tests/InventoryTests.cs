@@ -63,6 +63,7 @@ namespace Samba.Presentation.Tests
             rp.RecipeItems.Add(new RecipeItem { InventoryItem = zeytinYagi, Quantity = 1 });
 
             WorkPeriodService.StartWorkPeriod("");
+            Thread.Sleep(1);
 
             var transaction = new InventoryTransaction { Date = DateTime.Now, Name = "1" };
             workspace.Add(transaction);
@@ -138,6 +139,7 @@ namespace Samba.Presentation.Tests
             rp.RecipeItems.Add(new RecipeItem { InventoryItem = pide, Quantity = 2 });
 
             WorkPeriodService.StartWorkPeriod("");
+            Thread.Sleep(1);
 
             var transaction = new InventoryTransaction { Date = DateTime.Now, Name = "1" };
             workspace.Add(transaction);
@@ -163,22 +165,22 @@ namespace Samba.Presentation.Tests
 
             var etpc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == donerEti.Id);
             Assert.IsNotNull(etpc);
-            Assert.AreEqual(etpc.InStock, 0);
-            Assert.AreEqual(etpc.Purchase, 20);
-            Assert.AreEqual(etpc.Consumption, 0.24m);
-            Assert.AreEqual(etpc.Cost, 15.5m);
+            Assert.AreEqual(0, etpc.InStock);
+            Assert.AreEqual(20, etpc.Purchase);
+            Assert.AreEqual(0.24m, etpc.Consumption);
+            Assert.AreEqual(15.5m, etpc.Cost);
 
             var yogurtpc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == yogurt.Id);
             Assert.IsNotNull(yogurtpc);
-            Assert.AreEqual(yogurtpc.InStock, 0);
-            Assert.AreEqual(yogurtpc.Purchase, 30);
-            Assert.AreEqual(yogurtpc.Consumption, 0.1m);
+            Assert.AreEqual(0, yogurtpc.InStock);
+            Assert.AreEqual(30, yogurtpc.Purchase);
+            Assert.AreEqual(0.1m, yogurtpc.Consumption);
 
             var pidepc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == pide.Id);
             Assert.IsNotNull(pidepc);
-            Assert.AreEqual(pidepc.InStock, 0);
-            Assert.AreEqual(pidepc.Purchase, 50);
-            Assert.AreEqual(pidepc.Consumption, 2);
+            Assert.AreEqual(0, pidepc.InStock);
+            Assert.AreEqual(50, pidepc.Purchase);
+            Assert.AreEqual(2, pidepc.Consumption);
 
             Assert.AreEqual(pc.CostItems.Count(), 1);
 
