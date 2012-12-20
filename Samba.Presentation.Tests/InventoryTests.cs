@@ -78,7 +78,7 @@ namespace Samba.Presentation.Tests
             ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
             ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
 
-            var pc = InventoryService.GetCurrentPeriodicConsumption(workspace);
+            var pc = InventoryService.GetCurrentPeriodicConsumption();
             workspace.Add(pc);
 
             var iskenderCostItem = pc.CostItems.Single(x => x.MenuItemId == iskender.Id);
@@ -158,7 +158,7 @@ namespace Samba.Presentation.Tests
             workspace.Add(transaction2);
             transaction2.TransactionItems.Add(new InventoryTransactionItem { InventoryItem = donerEti, Multiplier = 1000, Price = 15, Quantity = 10, Unit = "KG" });
 
-            var pc = InventoryService.GetCurrentPeriodicConsumption(workspace);
+            var pc = InventoryService.GetCurrentPeriodicConsumption();
             workspace.Add(pc);
 
             var etpc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == donerEti.Id);
@@ -198,7 +198,7 @@ namespace Samba.Presentation.Tests
             ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
             ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
 
-            pc = InventoryService.GetCurrentPeriodicConsumption(workspace);
+            pc = InventoryService.GetCurrentPeriodicConsumption();
             workspace.Add(pc);
             var etpc2 = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == donerEti.Id);
             Assert.IsNotNull(etpc2);
@@ -225,7 +225,7 @@ namespace Samba.Presentation.Tests
             ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
             ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
 
-            pc = InventoryService.GetCurrentPeriodicConsumption(workspace);
+            pc = InventoryService.GetCurrentPeriodicConsumption();
             workspace.Add(pc);
             var etpc3 = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == donerEti.Id);
             Assert.IsNotNull(etpc3);
