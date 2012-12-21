@@ -12,5 +12,10 @@ namespace Samba.Domain.Models.Accounts
         public int ForeignCurrencyId { get; set; }
         private static Account _null;
         public static Account Null { get { return _null ?? (_null = new Account { Name = "*" }); } }
+
+        public static Account Create(int accountTypeId)
+        {
+            return new Account { AccountTypeId = accountTypeId };
+        }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.Composition;
-using Samba.Domain.Models.Inventories;
+using Samba.Domain.Models.Inventory;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Services;
 

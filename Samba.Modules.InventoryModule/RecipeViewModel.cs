@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
-using Samba.Domain.Models.Inventories;
+using Samba.Domain.Models.Inventory;
 using Samba.Domain.Models.Menus;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.Commands;

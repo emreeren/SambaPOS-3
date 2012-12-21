@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Samba.Domain.Models.Inventories;
+using Samba.Domain.Models.Inventory;
 using Samba.Infrastructure.Data;
 using Samba.Presentation.Common;
 using Samba.Presentation.Services;

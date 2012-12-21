@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using System.Linq;
-using Samba.Domain.Models.Inventories;
+using Samba.Domain.Models.Inventory;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Services;

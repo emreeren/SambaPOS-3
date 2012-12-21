@@ -1,7 +1,6 @@
-﻿using Samba.Domain.Models.Menus;
-using Samba.Infrastructure.Data;
+﻿using Samba.Infrastructure.Data;
 
-namespace Samba.Domain.Models.Inventories
+namespace Samba.Domain.Models.Inventory
 {
     public class CostItem : Entity
     {
