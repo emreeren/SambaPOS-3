@@ -11,8 +11,10 @@ namespace Samba.Persistance.DaoClasses
     {
         IEnumerable<InventoryTransactionItem> GetTransactionItems(DateTime workperiodStartDate);
         IEnumerable<InventoryTransactionItem> GetTransactionItems(DateTime workPeriodStartDate, InventoryItem inventoryItem);
+        IEnumerable<InventoryTransactionItem> GetTransactionItems(DateTime workPeriodStartDate, int inventoryItemId, int warehouseId);
         IEnumerable<Order> GetOrdersFromRecipes(DateTime startDate);
         IEnumerable<Order> GetOrdersFromRecipesByInventoryItem(DateTime startDate, InventoryItem inventoryItem);
+        IEnumerable<Order> GetOrdersFromRecipesByInventoryItem(DateTime startDate, InventoryItem inventoryItem, Warehouse warehouse);
         Recipe GetRecipe(string portionName, int menuItemId);
         IEnumerable<string> GetGroupCodes();
         IEnumerable<string> GetInventoryItemNames();
@@ -20,5 +22,6 @@ namespace Samba.Persistance.DaoClasses
         IEnumerable<InventoryItem> GetInventoryItems();
         PeriodicConsumption GetPeriodicConsumptionByWorkPeriodId(int workPeriodId);
         PeriodicConsumptionItem GetPeriodConsumptionItem(int workPeriodId, int inventoryItemId);
+        PeriodicConsumptionItem GetPeriodConsumptionItem(int workPeriodId, int inventoryItemId, int warehouseId);
     }
 }

@@ -592,6 +592,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             var productTimer = _applicationState.GetProductTimer(menuItemId);
             var order = ticket.AddOrder(
                 _applicationState.CurrentTicketType.SaleTransactionType,
+                _applicationState.CurrentDepartment.Model,
                 _applicationState.CurrentLoggedInUser.Name, menuItem,
                 _applicationState.GetTaxTemplates(menuItem.Id).ToList(), portion, priceTag, productTimer);
 

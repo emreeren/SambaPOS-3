@@ -159,13 +159,14 @@ namespace Samba.Domain.Models.Tickets
             return TicketTagValues;
         }
 
-        public Order AddOrder(AccountTransactionType template, string userName, MenuItem menuItem, IList<TaxTemplate> taxTemplates, MenuItemPortion portion, string priceTag, ProductTimer timer)
+        public Order AddOrder(AccountTransactionType template, Department department, string userName, MenuItem menuItem, IList<TaxTemplate> taxTemplates, MenuItemPortion portion, string priceTag, ProductTimer timer)
         {
             UnLock();
             var order = new Order();
             order.UpdateMenuItem(userName, menuItem, taxTemplates, portion, priceTag, 1);
             order.AccountTransactionTypeId = template.Id;
-
+            order.WarehouseId = department.WarehouseId;
+            order.DepartmentId = department.Id;
             TransactionDocument.AddSingletonTransaction(template.Id, template, AccountTypeId, AccountId);
 
             if (taxTemplates != null)

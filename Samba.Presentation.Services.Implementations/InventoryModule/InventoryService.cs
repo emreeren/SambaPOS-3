@@ -43,12 +43,51 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
                 : _inventoryDao.GetTransactionItems(_applicationState.CurrentWorkPeriod.StartDate);
         }
 
+        private IEnumerable<InventoryTransactionItem> GetTransactionItems(InventoryItem inventoryItem, Warehouse warehouse)
+        {
+            return _inventoryDao.GetTransactionItems(_applicationState.CurrentWorkPeriod.StartDate, inventoryItem.Id, warehouse.Id);
+        }
+
         private IEnumerable<Order> GetOrdersFromRecipes(WorkPeriod workPeriod, InventoryItem inventoryItem)
         {
             var startDate = workPeriod.StartDate;
             return inventoryItem != null
                 ? _inventoryDao.GetOrdersFromRecipesByInventoryItem(startDate, inventoryItem)
                 : _inventoryDao.GetOrdersFromRecipes(startDate);
+        }
+
+        private IEnumerable<Order> GetOrdersFromRecipes(WorkPeriod workPeriod, InventoryItem inventoryItem, Warehouse warehouse)
+        {
+            return _inventoryDao.GetOrdersFromRecipesByInventoryItem(workPeriod.StartDate, inventoryItem, warehouse);
+        }
+
+        //todo refactor
+        private IEnumerable<SalesData> GetSales(WorkPeriod workPeriod, InventoryItem inventoryItem, Warehouse warehouse)
+        {
+            var orders = GetOrdersFromRecipes(workPeriod, inventoryItem,warehouse).ToList();
+
+            var salesData = orders.GroupBy(x => new { x.MenuItemName, x.MenuItemId, x.PortionName })
+                    .Select(x => new SalesData { MenuItemName = x.Key.MenuItemName, MenuItemId = x.Key.MenuItemId, PortionName = x.Key.PortionName, Total = x.Sum(y => y.Quantity) }).ToList();
+
+            var orderTagValues = orders.SelectMany(x => x.GetOrderTagValues(), (order, ot) => new { OrderTagValues = ot, order.Quantity })
+                    .Where(x => x.OrderTagValues.MenuItemId > 0)
+                    .GroupBy(x => new { x.OrderTagValues.MenuItemId, x.OrderTagValues.PortionName });
+
+            foreach (var orderTagValue in orderTagValues)
+            {
+                var tip = orderTagValue;
+                var mi = _cacheService.GetMenuItem(x => x.Id == tip.Key.MenuItemId);
+                var port = mi.Portions.FirstOrDefault(x => x.Name == tip.Key.PortionName) ?? mi.Portions[0];
+                var sd = salesData.SingleOrDefault(x => x.MenuItemId == mi.Id && x.MenuItemName == mi.Name && x.PortionName == port.Name) ?? new SalesData();
+                sd.MenuItemId = mi.Id;
+                sd.MenuItemName = mi.Name;
+                sd.PortionName = port.Name;
+                sd.Total += tip.Sum(x => x.OrderTagValues.Quantity * x.Quantity);
+                if (!salesData.Contains(sd))
+                    salesData.Add(sd);
+            }
+
+            return salesData;
         }
 
         private IEnumerable<SalesData> GetSales(WorkPeriod workPeriod, InventoryItem inventoryItem = null)
@@ -160,6 +199,28 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
 
             return previousInventory + transactions - currentConsumption;
         }
+
+        public decimal GetInventory(InventoryItem inventoryItem, Warehouse warehouse)
+        {
+            var previousInventory = 0m;
+            if (_applicationState.PreviousWorkPeriod != null)
+            {
+                var ppci = _inventoryDao.GetPeriodConsumptionItem(_applicationState.PreviousWorkPeriod.Id, inventoryItem.Id, warehouse.Id);
+                previousInventory = ppci.GetPhysicalInventory();
+            }
+            var transactions = GetTransactionItems(inventoryItem, warehouse).Sum(y => (y.Quantity * y.Multiplier) / inventoryItem.Multiplier);
+
+            var currentConsumption = (
+                from sale in GetSales(_applicationState.CurrentWorkPeriod, inventoryItem, warehouse)
+                let recipe = _inventoryDao.GetRecipe(sale.PortionName, sale.MenuItemId)
+                let rip = recipe.RecipeItems.Where(x => x.InventoryItem.Id == inventoryItem.Id)
+                select (rip.Sum(x => x.Quantity) * sale.Total) / (inventoryItem.Multiplier)).Sum();
+
+            return previousInventory + transactions - currentConsumption;
+        }
+
+
+
 
         private void OnWorkperiodStatusChanged(EventParameters<WorkPeriod> obj)
         {

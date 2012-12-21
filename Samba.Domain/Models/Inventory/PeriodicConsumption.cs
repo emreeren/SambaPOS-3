@@ -9,6 +9,7 @@ namespace Samba.Domain.Models.Inventory
     public class PeriodicConsumption : Entity, ICacheable
     {
         public int WorkPeriodId { get; set; }
+        public int WarehouseId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public DateTime LastUpdateTime { get; set; }

@@ -11,6 +11,7 @@ namespace Samba.Domain.Models.Tickets
         [StringLength(10)]
         public string PriceTag { get; set; }
 
+        public int WarehouseId { get; set; }
         public int TicketTypeId { get; set; }
         public int TicketCreationMethod { get; set; }
         
@@ -19,5 +20,6 @@ namespace Samba.Domain.Models.Tickets
 
         private static Department _default;
         public static Department Default { get { return _default ?? (_default = new Department()); } }
+
     }
 }

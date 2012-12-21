@@ -75,9 +75,9 @@ namespace Samba.Presentation.Tests
 
             var ticket = Ticket.Create(Department.Default, TicketType.Default, Account.Null, 1, null);
             workspace.Add(ticket);
-            ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
-            ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
-            ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
 
             var pc = InventoryService.GetCurrentPeriodicConsumption();
             workspace.Add(pc);
@@ -153,8 +153,8 @@ namespace Samba.Presentation.Tests
 
             var ticket = Ticket.Create(Department.Default, TicketType.Default, Account.Null, 1, null);
             workspace.Add(ticket);
-            ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
-            ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
 
             var transaction2 = new InventoryTransaction { Date = DateTime.Now, Name = "1" };
             workspace.Add(transaction2);
@@ -197,8 +197,8 @@ namespace Samba.Presentation.Tests
 
             ticket = Ticket.Create(Department.Default, TicketType.Default, Account.Null, 1, null);
             workspace.Add(ticket);
-            ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
-            ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
 
             pc = InventoryService.GetCurrentPeriodicConsumption();
             workspace.Add(pc);
@@ -224,8 +224,8 @@ namespace Samba.Presentation.Tests
 
             ticket = Ticket.Create(Department.Default, TicketType.Default, Account.Null, 1, null);
             workspace.Add(ticket);
-            ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
-            ticket.AddOrder(AccountTransactionType.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
 
             pc = InventoryService.GetCurrentPeriodicConsumption();
             workspace.Add(pc);
@@ -268,40 +268,71 @@ namespace Samba.Presentation.Tests
 
             Assert.AreEqual(4, inventoryTransaction1.TransactionItems.Count);
             Assert.AreEqual(10, InventoryService.GetInventory(testContext.DonerEti));
+            Assert.AreEqual(50, InventoryService.GetInventory(testContext.Pide));
+            Assert.AreEqual(30, InventoryService.GetInventory(testContext.Yogurt));
+            Assert.AreEqual(5, InventoryService.GetInventory(testContext.ZeytinYagi));
 
             inventoryTransaction1.Add(testContext.DonerEti, 16, 15, "KG", 1000);
             Assert.AreEqual(25, InventoryService.GetInventory(testContext.DonerEti));
 
             var ticket = Ticket.Create(Department.Default, TicketType.Default, Account.Null, 1, null);
             workspace.Add(ticket);
-            ticket.AddOrder(AccountTransactionType.Default, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
-            ticket.AddOrder(AccountTransactionType.Default, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
-            ticket.AddOrder(AccountTransactionType.Default, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
 
             Assert.AreEqual(25 - ((120m * 3) / 1000m), InventoryService.GetInventory(testContext.DonerEti));
+
+            RestartWorkperiod(workspace);
+
+            ticket = Ticket.Create(Department.Default, TicketType.Default, Account.Null, 1, null);
+            workspace.Add(ticket);
+            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
+            Assert.AreEqual(25 - ((120m * 6) / 1000m), InventoryService.GetInventory(testContext.DonerEti));
+            Assert.AreEqual(50 - (2 * 6) / 2, InventoryService.GetInventory(testContext.Pide));
+        }
+
+        [Test]
+        public void CanAssignWarehouse()
+        {
+            var workspace = PrepareMenu("sd5.txt");
+            var testContext = new WarehouseTestContext();
+            CreateWarehouseTestContext(testContext, workspace);
+            var inventoryTransaction1 = InventoryTransaction.Create(testContext.PurchaseTransactionType);
+            inventoryTransaction1.SetSourceWarehouse(testContext.Seller1Warehouse);
+            inventoryTransaction1.Add(testContext.DonerEti, 16, 10, "KG", 1000);
+            inventoryTransaction1.Add(testContext.Pide, 1, 50, "Adet", 2);
+            inventoryTransaction1.Add(testContext.Yogurt, 4, 30, "KG", 1000);
+            inventoryTransaction1.Add(testContext.ZeytinYagi, 5, 5, "Litre", 100);
+            workspace.Add(inventoryTransaction1);
+
+            Assert.AreEqual(testContext.LocalWarehouse.Id, inventoryTransaction1.TargetWarehouseId);
+            Assert.AreEqual(testContext.Seller1Warehouse.Id, inventoryTransaction1.SourceWarehouseId);
+            Assert.AreEqual(10, InventoryService.GetInventory(testContext.DonerEti));
+            Assert.AreEqual(10, InventoryService.GetInventory(testContext.DonerEti, testContext.LocalWarehouse));
+        }
+
+        private void RestartWorkperiod(IWorkspace workspace)
+        {
             WorkPeriodService.StopWorkPeriod("");
             var pc = InventoryService.GetCurrentPeriodicConsumption();
             InventoryService.SavePeriodicConsumption(pc);
             pc.PeriodicConsumptionItems.ToList().ForEach(x =>
-                                                             {
-                                                                 x.PeriodicConsumptionId = pc.Id;
-                                                                 workspace.Add(x);
-                                                             });
+            {
+                x.PeriodicConsumptionId = pc.Id;
+                workspace.Add(x);
+            });
             Thread.Sleep(1);
             WorkPeriodService.StartWorkPeriod("");
             Thread.Sleep(1);
-
-            ticket = Ticket.Create(Department.Default, TicketType.Default, Account.Null, 1, null);
-            workspace.Add(ticket);
-            ticket.AddOrder(AccountTransactionType.Default, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
-            ticket.AddOrder(AccountTransactionType.Default, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
-            ticket.AddOrder(AccountTransactionType.Default, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
-
-            Assert.AreEqual(25 - ((120m * 6) / 1000m), InventoryService.GetInventory(testContext.DonerEti));
         }
 
         private static void CreateWarehouseTestContext(WarehouseTestContext testContext, IWorkspace workspace)
         {
+            testContext.Department = workspace.Single<Department>(x => x.Name == "Restoran");
+
             testContext.Iskender = workspace.Single<MenuItem>(x => x.Name == "İskender");
             testContext.Iskender.Portions[0].MenuItemId = testContext.Iskender.Id;
 
@@ -428,6 +459,6 @@ namespace Samba.Presentation.Tests
         public Warehouse Seller2Warehouse { get; set; }
         public InventoryTransactionType PurchaseTransactionType { get; set; }
 
-
+        public Department Department { get; set; }
     }
 }

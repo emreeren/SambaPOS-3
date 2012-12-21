@@ -21,6 +21,8 @@ namespace Samba.Domain.Models.Tickets
         public bool IsSelected { get; set; } // Not Stored
 
         public int TicketId { get; set; }
+        public int WarehouseId { get; set; }
+        public int DepartmentId { get; set; }
         public int MenuItemId { get; set; }
         public string MenuItemName { get; set; }
         public string PortionName { get; set; }
