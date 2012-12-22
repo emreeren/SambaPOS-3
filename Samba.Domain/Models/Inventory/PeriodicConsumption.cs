@@ -104,7 +104,7 @@ namespace Samba.Domain.Models.Inventory
                 pci.Cost = decimal.Round((totalPrice + previousCost) / (pci.InStock + pci.Purchase), 2);
         }
 
-        public static PeriodicConsumption Create(WorkPeriod currentWorkPeriod)
+        public static PeriodicConsumption Create(WorkPeriod currentWorkPeriod, int warehouseId)
         {
             return new PeriodicConsumption
             {
@@ -112,7 +112,8 @@ namespace Samba.Domain.Models.Inventory
                 Name = currentWorkPeriod.StartDate + " - " +
                        currentWorkPeriod.EndDate,
                 StartDate = currentWorkPeriod.StartDate,
-                EndDate = currentWorkPeriod.EndDate
+                EndDate = currentWorkPeriod.EndDate,
+                WarehouseId = warehouseId
             };
         }
 

@@ -12,7 +12,6 @@ namespace Samba.Presentation.Services
         IEnumerable<string> GetInventoryItemNames();
         IEnumerable<string> GetGroupCodes();
         void SavePeriodicConsumption(PeriodicConsumption pc);
-        decimal GetInventory(InventoryItem inventoryItem);
         decimal GetInventory(InventoryItem inventoryItem, Warehouse warehouse);
     }
 }
