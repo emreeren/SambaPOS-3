@@ -22,23 +22,6 @@ namespace Samba.Persistance.DaoClasses.Implementations
             ValidatorRegistry.RegisterSaveValidator(new RecipeSaveValidator());
         }
 
-        public IEnumerable<InventoryTransactionItem> GetTransactionItems(DateTime workPeriodStartDate)
-        {
-            return Dao.Query<InventoryTransaction>(x =>
-                                       x.Date > workPeriodStartDate,
-                                       x => x.TransactionItems.Select(y => y.InventoryItem)).SelectMany(x => x.TransactionItems);
-        }
-
-        public IEnumerable<InventoryTransactionItem> GetTransactionItems(DateTime workPeriodStartDate, InventoryItem inventoryItem)
-        {
-            return Dao.Query<InventoryTransaction>(x =>
-                                                   x.Date > workPeriodStartDate &&
-                                                   x.TransactionItems.Any(y => y.InventoryItem.Id == inventoryItem.Id),
-                                                   x => x.TransactionItems.Select(y => y.InventoryItem))
-                .SelectMany(x => x.TransactionItems)
-                .Where(x => x.InventoryItem.Id == inventoryItem.Id);
-        }
-
         public IEnumerable<InventoryTransactionData> GetTransactionItems(DateTime workPeriodStartDate, int inventoryItemId, int warehouseId)
         {
             return Dao.Query<InventoryTransaction>(x =>
@@ -55,31 +38,34 @@ namespace Samba.Persistance.DaoClasses.Implementations
                       .Where(x => x.InventoryTransactionItem.InventoryItem.Id == inventoryItemId);
         }
 
-        public IEnumerable<Order> GetOrdersFromRecipes(DateTime startDate)
+        public IEnumerable<InventoryTransactionData> GetTransactionItems(DateTime workPeriodStartDate, int warehouseId)
+        {
+            return Dao.Query<InventoryTransaction>(x =>
+                                                   x.Date > workPeriodStartDate
+                                                   && (x.TargetWarehouseId == warehouseId || x.SourceWarehouseId == warehouseId),
+                                                   x => x.TransactionItems.Select(y => y.InventoryItem))
+                      .SelectMany(x => x.TransactionItems, (transaction, item) => new InventoryTransactionData
+                          {
+                              InventoryTransactionItem = item,
+                              SourceWarehouseId = transaction.SourceWarehouseId,
+                              TargetWarehouseId = transaction.TargetWarehouseId
+                          });
+        }
+
+        public IEnumerable<Order> GetOrdersFromRecipes(DateTime startDate, int inventoryItemId, int warehouseId)
+        {
+            var recipeItemIds = Dao.Select<Recipe, int>(x => x.Portion.MenuItemId, x => x.Portion != null && x.RecipeItems.Any(y => y.InventoryItem.Id == inventoryItemId)).Distinct();
+            var tickets = Dao.Query<Ticket>(x => x.Date > startDate, x => x.Orders);
+            return tickets.SelectMany(x => x.Orders)
+                    .Where(x => (x.DecreaseInventory || x.IncreaseInventory) && x.WarehouseId == warehouseId && recipeItemIds.Contains(x.MenuItemId));
+        }
+
+        public IEnumerable<Order> GetOrdersFromRecipes(DateTime startDate, int warehouseId)
         {
             var recipeItemIds = Dao.Select<Recipe, int>(x => x.Portion.MenuItemId, x => x.Portion != null).Distinct();
-            var tickets = Dao.Query<Ticket>(x => x.Date > startDate,
-                                            x => x.Orders);
+            var tickets = Dao.Query<Ticket>(x => x.Date > startDate, x => x.Orders);
             return tickets.SelectMany(x => x.Orders)
-                    .Where(x => (x.DecreaseInventory || x.IncreaseInventory) && recipeItemIds.Contains(x.MenuItemId));
-        }
-
-        public IEnumerable<Order> GetOrdersFromRecipesByInventoryItem(DateTime startDate, InventoryItem inventoryItem)
-        {
-            var recipeItemIds = Dao.Select<Recipe, int>(x => x.Portion.MenuItemId, x => x.Portion != null && x.RecipeItems.Any(y => y.InventoryItem.Id == inventoryItem.Id)).Distinct();
-            var tickets = Dao.Query<Ticket>(x => x.Date > startDate,
-                                            x => x.Orders);
-            return tickets.SelectMany(x => x.Orders)
-                    .Where(x => (x.DecreaseInventory || x.IncreaseInventory) && recipeItemIds.Contains(x.MenuItemId));
-        }
-
-        public IEnumerable<Order> GetOrdersFromRecipesByInventoryItem(DateTime startDate, InventoryItem inventoryItem, Warehouse warehouse)
-        {
-            var recipeItemIds = Dao.Select<Recipe, int>(x => x.Portion.MenuItemId, x => x.Portion != null && x.RecipeItems.Any(y => y.InventoryItem.Id == inventoryItem.Id)).Distinct();
-            var tickets = Dao.Query<Ticket>(x => x.Date > startDate,
-                                            x => x.Orders);
-            return tickets.SelectMany(x => x.Orders)
-                    .Where(x => (x.DecreaseInventory || x.IncreaseInventory) && x.WarehouseId == warehouse.Id && recipeItemIds.Contains(x.MenuItemId));
+                    .Where(x => (x.DecreaseInventory || x.IncreaseInventory) && x.WarehouseId == warehouseId && recipeItemIds.Contains(x.MenuItemId));
         }
 
         public Recipe GetRecipe(string portionName, int menuItemId)
@@ -107,9 +93,9 @@ namespace Samba.Persistance.DaoClasses.Implementations
             return Dao.Query<InventoryItem>();
         }
 
-        public PeriodicConsumption GetPeriodicConsumptionByWorkPeriodId(int workPeriodId)
+        public PeriodicConsumption GetPeriodicConsumptionByWorkPeriodId(int workPeriodId, int warehouseId)
         {
-            return Dao.Single<PeriodicConsumption>(x => x.WorkPeriodId == workPeriodId, x => x.PeriodicConsumptionItems, x => x.CostItems);
+            return Dao.Single<PeriodicConsumption>(x => x.WorkPeriodId == workPeriodId && x.WarehouseId == warehouseId, x => x.PeriodicConsumptionItems, x => x.CostItems);
         }
 
         public PeriodicConsumptionItem GetPeriodConsumptionItem(int workPeriodId, int inventoryItemId, int warehouseId)
@@ -120,6 +106,12 @@ namespace Samba.Persistance.DaoClasses.Implementations
                 var pci = w.Single<PeriodicConsumptionItem>(x => x.InventoryItemId == inventoryItemId && x.PeriodicConsumptionId == ok.FirstOrDefault());
                 return pci;
             }
+        }
+
+        public IEnumerable<PeriodicConsumption> GetPeriodicConsumptions(int workperiodId)
+        {
+            return Dao.Query<PeriodicConsumption>(x => x.WorkPeriodId == workperiodId, x => x.PeriodicConsumptionItems,
+                                                  x => x.CostItems);
         }
     }
 

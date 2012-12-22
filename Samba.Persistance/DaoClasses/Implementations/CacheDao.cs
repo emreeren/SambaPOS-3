@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Automation;
+using Samba.Domain.Models.Inventory;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
@@ -153,6 +154,11 @@ namespace Samba.Persistance.DaoClasses.Implementations
         public IEnumerable<TaxTemplate> GetTaxTemplates()
         {
             return Dao.Query<TaxTemplate>(x => x.AccountTransactionType, x => x.TaxTemplateMaps);
+        }
+
+        public IEnumerable<Warehouse> GetWarehouses()
+        {
+            return Dao.Query<Warehouse>().OrderBy(x => x.SortOrder).ThenBy(x => x.Id);
         }
     }
 }

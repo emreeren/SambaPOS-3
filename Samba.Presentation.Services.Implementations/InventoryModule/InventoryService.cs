@@ -36,11 +36,9 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<WorkPeriod>>().Subscribe(OnWorkperiodStatusChanged);
         }
 
-        private IEnumerable<InventoryTransactionItem> GetTransactionItems(InventoryItem inventoryItem = null)
+        private IEnumerable<InventoryTransactionData> GetTransactionItems(int warehouseId)
         {
-            return inventoryItem != null
-                ? _inventoryDao.GetTransactionItems(_applicationState.CurrentWorkPeriod.StartDate, inventoryItem)
-                : _inventoryDao.GetTransactionItems(_applicationState.CurrentWorkPeriod.StartDate);
+            return _inventoryDao.GetTransactionItems(_applicationState.CurrentWorkPeriod.StartDate, warehouseId);
         }
 
         private IEnumerable<InventoryTransactionData> GetTransactionItems(InventoryItem inventoryItem, Warehouse warehouse)
@@ -48,37 +46,55 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
             return _inventoryDao.GetTransactionItems(_applicationState.CurrentWorkPeriod.StartDate, inventoryItem.Id, warehouse.Id);
         }
 
-        private IEnumerable<Order> GetOrdersFromRecipes(WorkPeriod workPeriod, InventoryItem inventoryItem)
+        private IEnumerable<Order> GetOrdersFromRecipes(WorkPeriod workPeriod, int warehouseId)
         {
-            var startDate = workPeriod.StartDate;
-            return inventoryItem != null
-                ? _inventoryDao.GetOrdersFromRecipesByInventoryItem(startDate, inventoryItem)
-                : _inventoryDao.GetOrdersFromRecipes(startDate);
+            return _inventoryDao.GetOrdersFromRecipes(workPeriod.StartDate, warehouseId);
         }
 
-        private IEnumerable<Order> GetOrdersFromRecipes(WorkPeriod workPeriod, InventoryItem inventoryItem, Warehouse warehouse)
+        private IEnumerable<Order> GetOrdersFromRecipes(WorkPeriod workPeriod, int inventoryItemId, int warehouseId)
         {
-            return _inventoryDao.GetOrdersFromRecipesByInventoryItem(workPeriod.StartDate, inventoryItem, warehouse);
+            return _inventoryDao.GetOrdersFromRecipes(workPeriod.StartDate, inventoryItemId, warehouseId);
         }
 
-        //todo refactor
-        private IEnumerable<SalesData> GetSales(WorkPeriod workPeriod, InventoryItem inventoryItem, Warehouse warehouse)
+        private IEnumerable<SalesData> GetSales(WorkPeriod workPeriod, int inventoryItemId, int warehouseId)
         {
-            var orders = GetOrdersFromRecipes(workPeriod, inventoryItem, warehouse).ToList();
+            var orders = GetOrdersFromRecipes(workPeriod, inventoryItemId, warehouseId).ToList();
+            return GetSaleTransactions(orders);
+        }
 
+        private IEnumerable<SalesData> GetSales(WorkPeriod workPeriod, int warehouseId)
+        {
+            var orders = GetOrdersFromRecipes(workPeriod, warehouseId).ToList();
+            return GetSaleTransactions(orders);
+        }
+
+        private IEnumerable<SalesData> GetSaleTransactions(List<Order> orders)
+        {
             var salesData = orders.GroupBy(x => new { x.MenuItemName, x.MenuItemId, x.PortionName })
-                    .Select(x => new SalesData { MenuItemName = x.Key.MenuItemName, MenuItemId = x.Key.MenuItemId, PortionName = x.Key.PortionName, Total = x.Sum(y => y.Quantity) }).ToList();
+                                  .Select(
+                                      x =>
+                                      new SalesData
+                                      {
+                                          MenuItemName = x.Key.MenuItemName,
+                                          MenuItemId = x.Key.MenuItemId,
+                                          PortionName = x.Key.PortionName,
+                                          Total = x.Sum(y => y.Quantity)
+                                      }).ToList();
 
-            var orderTagValues = orders.SelectMany(x => x.GetOrderTagValues(), (order, ot) => new { OrderTagValues = ot, order.Quantity })
-                    .Where(x => x.OrderTagValues.MenuItemId > 0)
-                    .GroupBy(x => new { x.OrderTagValues.MenuItemId, x.OrderTagValues.PortionName });
+            var orderTagValues = orders.SelectMany(x => x.GetOrderTagValues(),
+                                                   (order, ot) => new { OrderTagValues = ot, order.Quantity })
+                                       .Where(x => x.OrderTagValues.MenuItemId > 0)
+                                       .GroupBy(x => new { x.OrderTagValues.MenuItemId, x.OrderTagValues.PortionName });
 
             foreach (var orderTagValue in orderTagValues)
             {
                 var tip = orderTagValue;
                 var mi = _cacheService.GetMenuItem(x => x.Id == tip.Key.MenuItemId);
                 var port = mi.Portions.FirstOrDefault(x => x.Name == tip.Key.PortionName) ?? mi.Portions[0];
-                var sd = salesData.SingleOrDefault(x => x.MenuItemId == mi.Id && x.MenuItemName == mi.Name && x.PortionName == port.Name) ?? new SalesData();
+                var sd =
+                    salesData.SingleOrDefault(
+                        x => x.MenuItemId == mi.Id && x.MenuItemName == mi.Name && x.PortionName == port.Name) ??
+                    new SalesData();
                 sd.MenuItemId = mi.Id;
                 sd.MenuItemName = mi.Name;
                 sd.PortionName = port.Name;
@@ -90,37 +106,9 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
             return salesData;
         }
 
-        private IEnumerable<SalesData> GetSales(WorkPeriod workPeriod, InventoryItem inventoryItem = null)
+        private void UpdateConsumption(PeriodicConsumption pc, int warehouseId)
         {
-            var orders = GetOrdersFromRecipes(workPeriod, inventoryItem).ToList();
-
-            var salesData = orders.GroupBy(x => new { x.MenuItemName, x.MenuItemId, x.PortionName })
-                    .Select(x => new SalesData { MenuItemName = x.Key.MenuItemName, MenuItemId = x.Key.MenuItemId, PortionName = x.Key.PortionName, Total = x.Sum(y => y.Quantity) }).ToList();
-
-            var orderTagValues = orders.SelectMany(x => x.GetOrderTagValues(), (order, ot) => new { OrderTagValues = ot, order.Quantity })
-                    .Where(x => x.OrderTagValues.MenuItemId > 0)
-                    .GroupBy(x => new { x.OrderTagValues.MenuItemId, x.OrderTagValues.PortionName });
-
-            foreach (var orderTagValue in orderTagValues)
-            {
-                var tip = orderTagValue;
-                var mi = _cacheService.GetMenuItem(x => x.Id == tip.Key.MenuItemId);
-                var port = mi.Portions.FirstOrDefault(x => x.Name == tip.Key.PortionName) ?? mi.Portions[0];
-                var sd = salesData.SingleOrDefault(x => x.MenuItemId == mi.Id && x.MenuItemName == mi.Name && x.PortionName == port.Name) ?? new SalesData();
-                sd.MenuItemId = mi.Id;
-                sd.MenuItemName = mi.Name;
-                sd.PortionName = port.Name;
-                sd.Total += tip.Sum(x => x.OrderTagValues.Quantity * x.Quantity);
-                if (!salesData.Contains(sd))
-                    salesData.Add(sd);
-            }
-
-            return salesData;
-        }
-
-        private void UpdateConsumption(PeriodicConsumption pc)
-        {
-            var sales = GetSales(_applicationState.CurrentWorkPeriod);
+            var sales = GetSales(_applicationState.CurrentWorkPeriod, warehouseId);
             foreach (var sale in sales)
             {
                 var portionName = sale.PortionName;
@@ -130,37 +118,42 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
             }
         }
 
-        private PeriodicConsumption CreateNewPeriodicConsumption()
+        private PeriodicConsumption CreateNewPeriodicConsumption(int warehouseId)
         {
-            var previousPc = GetPreviousPeriodicConsumption();
-            var transactionItems = GetTransactionItems().ToList();
+            var previousPc = GetPreviousPeriodicConsumption(warehouseId);
+            var transactionItems = GetTransactionItems(warehouseId).ToList();
             var inventoryItems = _inventoryDao.GetInventoryItems();
 
-            var pc = PeriodicConsumption.Create(_applicationState.CurrentWorkPeriod, _applicationState.CurrentDepartment.Model.WarehouseId);
+            var pc = PeriodicConsumption.Create(_applicationState.CurrentWorkPeriod, warehouseId);
             pc.CreatePeriodicConsumptionItems(inventoryItems, previousPc, transactionItems);
-            UpdateConsumption(pc);
+            UpdateConsumption(pc, warehouseId);
             CalculateCost(pc, _applicationState.CurrentWorkPeriod);
             return pc;
         }
 
-        public PeriodicConsumption GetPreviousPeriodicConsumption()
+        public PeriodicConsumption GetPreviousPeriodicConsumption(int warehouseId)
         {
             return _applicationState.PreviousWorkPeriod == null
                        ? null
-                       : _inventoryDao.GetPeriodicConsumptionByWorkPeriodId(_applicationState.PreviousWorkPeriod.Id);
+                       : _inventoryDao.GetPeriodicConsumptionByWorkPeriodId(_applicationState.PreviousWorkPeriod.Id, warehouseId);
 
         }
 
-        public PeriodicConsumption GetCurrentPeriodicConsumption()
+        public PeriodicConsumption GetCurrentPeriodicConsumption(int warehouseId)
         {
-            var pc = _inventoryDao.GetPeriodicConsumptionByWorkPeriodId(_applicationState.CurrentWorkPeriod.Id)
-                ?? CreateNewPeriodicConsumption();
+            var pc = _inventoryDao.GetPeriodicConsumptionByWorkPeriodId(_applicationState.CurrentWorkPeriod.Id, warehouseId)
+                ?? CreateNewPeriodicConsumption(warehouseId);
             return pc;
+        }
+
+        public IEnumerable<PeriodicConsumption> GetCurrentPeriodicConsumptions()
+        {
+            return _inventoryDao.GetPeriodicConsumptions(_applicationState.CurrentWorkPeriod.Id);
         }
 
         public void CalculateCost(PeriodicConsumption pc, WorkPeriod workPeriod)
         {
-            var recipes = GetSales(workPeriod).Select(sale => _inventoryDao.GetRecipe(sale.PortionName, sale.MenuItemId));
+            var recipes = GetSales(workPeriod, pc.WarehouseId).Select(sale => _inventoryDao.GetRecipe(sale.PortionName, sale.MenuItemId));
             pc.UpdateCost(recipes);
         }
 
@@ -192,7 +185,7 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
             var negativeSum = transactions.Where(x => x.SourceWarehouseId == warehouse.Id).Sum(y => (y.InventoryTransactionItem.Quantity * y.InventoryTransactionItem.Multiplier) / inventoryItem.Multiplier);
 
             var currentConsumption = (
-                from sale in GetSales(_applicationState.CurrentWorkPeriod, inventoryItem, warehouse)
+                from sale in GetSales(_applicationState.CurrentWorkPeriod, inventoryItem.Id, warehouse.Id)
                 let recipe = _inventoryDao.GetRecipe(sale.PortionName, sale.MenuItemId)
                 let rip = recipe.RecipeItems.Where(x => x.InventoryItem.Id == inventoryItem.Id)
                 select (rip.Sum(x => x.Quantity) * sale.Total) / (inventoryItem.Multiplier)).Sum();
@@ -203,20 +196,47 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
         private void OnWorkperiodStatusChanged(EventParameters<WorkPeriod> obj)
         {
             if (obj.Topic != EventTopicNames.WorkPeriodStatusChanged) return;
-            if (!_inventoryDao.RecipeExists()) return;
             if (_applicationState.IsCurrentWorkPeriodOpen)
             {
-                if (_applicationState.PreviousWorkPeriod == null) return;
-                var pc = GetPreviousPeriodicConsumption();
-                if (pc == null) return;
-                CalculateCost(pc, _applicationState.PreviousWorkPeriod);
-                SavePeriodicConsumption(pc);
+                DoWorkPeriodStart();
             }
             else
             {
-                var pc = GetCurrentPeriodicConsumption();
-                SavePeriodicConsumption(pc);
+                DoWorkPeriodEnd();
             }
+        }
+
+        public void DoWorkPeriodStart()
+        {
+            if (_applicationState.PreviousWorkPeriod == null) return;
+            if (!_inventoryDao.RecipeExists()) return;
+            foreach (var warehouse in _cacheService.GetWarehouses())
+            {
+                UpdatePeriodicConsumptionCost(warehouse.Id);
+            }
+        }
+
+        public void DoWorkPeriodEnd()
+        {
+            if (!_inventoryDao.RecipeExists()) return;
+            foreach (var warehouse in _cacheService.GetWarehouses())
+            {
+                CreatePeriodicConsumption(warehouse.Id);
+            }
+        }
+
+        private void UpdatePeriodicConsumptionCost(int warehouseId)
+        {
+            var pc = GetPreviousPeriodicConsumption(warehouseId);
+            if (pc == null) return;
+            CalculateCost(pc, _applicationState.PreviousWorkPeriod);
+            SavePeriodicConsumption(pc);
+        }
+
+        private void CreatePeriodicConsumption(int warehouseId)
+        {
+            var pc = GetCurrentPeriodicConsumption(warehouseId);
+            SavePeriodicConsumption(pc);
         }
     }
 }

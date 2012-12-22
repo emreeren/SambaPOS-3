@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Inventory;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
@@ -68,6 +69,6 @@ namespace Samba.Services
         Resource GetResourceByName(string resourceTypeName, string resourceName);
         IEnumerable<PrinterTemplate> GetPrinterTemplates();
         IEnumerable<Printer> GetPrinters();
-
+        IEnumerable<Warehouse> GetWarehouses();
     }
 }

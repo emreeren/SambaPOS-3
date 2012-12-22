@@ -38,53 +38,28 @@ namespace Samba.Presentation.Tests
         public void TestCost()
         {
             var workspace = PrepareMenu("sd1.txt");
-            Assert.IsTrue(workspace.All<MenuItem>().Any());
+            var testContext = new WarehouseTestContext();
+            CreateWarehouseTestContext(testContext, workspace);
 
-            var iskender = workspace.Single<MenuItem>(x => x.Name == "İskender");
-            iskender.Portions[0].MenuItemId = iskender.Id;
-
-            Assert.IsNotNull(iskender);
-            Assert.IsTrue(iskender.Portions.Count == 1);
-
-            var donerEti = new InventoryItem { Name = "Döner Eti", BaseUnit = "GR", GroupCode = "", TransactionUnit = "KG", TransactionUnitMultiplier = 1000 };
-            var yogurt = new InventoryItem { Name = "Yoğurt", BaseUnit = "GR", GroupCode = "", TransactionUnit = "KG", TransactionUnitMultiplier = 1000 };
-            var pide = new InventoryItem { Name = "Pide", BaseUnit = "Yarım", GroupCode = "", TransactionUnit = "Adet", TransactionUnitMultiplier = 2 };
-            var zeytinYagi = new InventoryItem { Name = "Zeytin Yağı", BaseUnit = "Ölçü", GroupCode = "", TransactionUnit = "Litre", TransactionUnitMultiplier = 100 };
-
-            workspace.Add(donerEti);
-            workspace.Add(yogurt);
-            workspace.Add(pide);
-            workspace.Add(zeytinYagi);
-
-            var rp = new Recipe { Name = "İskender Reçetesi", Portion = iskender.Portions[0] };
-            workspace.Add(rp);
-
-            rp.RecipeItems.Add(new RecipeItem { InventoryItem = donerEti, Quantity = 120 });
-            rp.RecipeItems.Add(new RecipeItem { InventoryItem = yogurt, Quantity = 50 });
-            rp.RecipeItems.Add(new RecipeItem { InventoryItem = pide, Quantity = 2 });
-            rp.RecipeItems.Add(new RecipeItem { InventoryItem = zeytinYagi, Quantity = 1 });
-
-            WorkPeriodService.StartWorkPeriod("");
-            Thread.Sleep(1);
-
-            var transaction = new InventoryTransaction { Date = DateTime.Now, Name = "1" };
+            var transaction = InventoryTransaction.Create(testContext.PurchaseTransactionType);
+            transaction.SetSourceWarehouse(testContext.Seller1Warehouse);
             workspace.Add(transaction);
 
-            transaction.TransactionItems.Add(new InventoryTransactionItem { InventoryItem = donerEti, Multiplier = 1000, Price = 16, Quantity = 10, Unit = "KG" });
-            transaction.TransactionItems.Add(new InventoryTransactionItem { InventoryItem = pide, Multiplier = 2, Price = 1, Quantity = 50, Unit = "Adet" });
-            transaction.TransactionItems.Add(new InventoryTransactionItem { InventoryItem = yogurt, Multiplier = 1000, Price = 4, Quantity = 30, Unit = "KG" });
-            transaction.TransactionItems.Add(new InventoryTransactionItem { InventoryItem = zeytinYagi, Multiplier = 100, Price = 5, Quantity = 5, Unit = "Litre" });
+            transaction.Add(testContext.DonerEti, 16, 10, "KG", 1000);
+            transaction.Add(testContext.Pide, 1, 50, "Adet", 2);
+            transaction.Add(testContext.Yogurt, 4, 30, "KG", 1000);
+            transaction.Add(testContext.ZeytinYagi, 5, 5, "Litre", 100);
 
-            var ticket = Ticket.Create(Department.Default, TicketType.Default, Account.Null, 1, null);
+            var ticket = Ticket.Create(testContext.Department, TicketType.Default, Account.Null, 1, null);
             workspace.Add(ticket);
-            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
-            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
-            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
 
-            var pc = InventoryService.GetCurrentPeriodicConsumption();
+            var pc = InventoryService.GetCurrentPeriodicConsumption(testContext.LocalWarehouse.Id);
             workspace.Add(pc);
 
-            var iskenderCostItem = pc.CostItems.Single(x => x.MenuItemId == iskender.Id);
+            var iskenderCostItem = pc.CostItems.Single(x => x.MenuItemId == testContext.Iskender.Id);
             Assert.AreEqual(iskenderCostItem.Quantity, 3);
 
             var etCost = ((16m / 1000m) * 120m);
@@ -94,10 +69,10 @@ namespace Samba.Presentation.Tests
             var iskenderCost = decimal.Round(etCost + pideCost + yogurtCost + zeytinYagiCost, 2);
 
             Assert.AreEqual(iskenderCost, iskenderCostItem.CostPrediction);
-            var etpc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == donerEti.Id);
-            var pidepc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == pide.Id);
-            var yogurtpc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == yogurt.Id);
-            var zeytinYagipc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == zeytinYagi.Id);
+            var etpc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == testContext.DonerEti.Id);
+            var pidepc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == testContext.Pide.Id);
+            var yogurtpc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == testContext.Yogurt.Id);
+            var zeytinYagipc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == testContext.ZeytinYagi.Id);
 
             etpc.PhysicalInventory = 9.5m;
             yogurtpc.PhysicalInventory = 28;
@@ -118,67 +93,47 @@ namespace Samba.Presentation.Tests
         {
             var workspace = PrepareMenu("sd2.txt");
 
-            var iskender = workspace.Single<MenuItem>(x => x.Name.ToLower().Contains("iskender"));
-            iskender.Portions[0].MenuItemId = iskender.Id;
+            var testContext = new WarehouseTestContext();
+            CreateWarehouseTestContext(testContext, workspace);
 
-            Assert.IsTrue(workspace.All<MenuItem>().Any());
-            Assert.IsNotNull(iskender);
-            Assert.IsTrue(iskender.Portions.Count == 1);
-
-            var donerEti = new InventoryItem { Name = "Döner Eti", BaseUnit = "GR", GroupCode = "", TransactionUnit = "KG", TransactionUnitMultiplier = 1000 };
-            var yogurt = new InventoryItem { Name = "Yoğurt", BaseUnit = "GR", GroupCode = "", TransactionUnit = "KG", TransactionUnitMultiplier = 1000 };
-            var pide = new InventoryItem { Name = "Pide", BaseUnit = "Yarım", GroupCode = "", TransactionUnit = "Adet", TransactionUnitMultiplier = 2 };
-
-            workspace.Add(donerEti);
-            workspace.Add(yogurt);
-            workspace.Add(pide);
-
-            var rp = new Recipe { Name = "İskender Reçetesi", Portion = iskender.Portions[0] };
-            workspace.Add(rp);
-
-            rp.RecipeItems.Add(new RecipeItem { InventoryItem = donerEti, Quantity = 120 });
-            rp.RecipeItems.Add(new RecipeItem { InventoryItem = yogurt, Quantity = 50 });
-            rp.RecipeItems.Add(new RecipeItem { InventoryItem = pide, Quantity = 2 });
-
-            WorkPeriodService.StartWorkPeriod("");
-            Thread.Sleep(1);
-
-            var transaction = new InventoryTransaction { Date = DateTime.Now, Name = "1" };
+            var transaction = InventoryTransaction.Create(testContext.PurchaseTransactionType);
+            transaction.SetSourceWarehouse(testContext.Seller1Warehouse);
             workspace.Add(transaction);
 
-            transaction.TransactionItems.Add(new InventoryTransactionItem { InventoryItem = donerEti, Multiplier = 1000, Price = 16, Quantity = 10, Unit = "KG" });
-            transaction.TransactionItems.Add(new InventoryTransactionItem { InventoryItem = pide, Multiplier = 2, Price = 1, Quantity = 50, Unit = "Adet" });
-            transaction.TransactionItems.Add(new InventoryTransactionItem { InventoryItem = yogurt, Multiplier = 1000, Price = 4, Quantity = 30, Unit = "KG" });
+            transaction.TransactionItems.Add(new InventoryTransactionItem { InventoryItem = testContext.DonerEti, Multiplier = 1000, Price = 16, Quantity = 10, Unit = "KG" });
+            transaction.TransactionItems.Add(new InventoryTransactionItem { InventoryItem = testContext.Pide, Multiplier = 2, Price = 1, Quantity = 50, Unit = "Adet" });
+            transaction.TransactionItems.Add(new InventoryTransactionItem { InventoryItem = testContext.Yogurt, Multiplier = 1000, Price = 4, Quantity = 30, Unit = "KG" });
 
             var transactionTotal = transaction.TransactionItems.Sum(x => x.Price * x.Quantity);
             Assert.AreEqual(transactionTotal, (16 * 10) + (50 * 1) + (30 * 4));
 
-            var ticket = Ticket.Create(Department.Default, TicketType.Default, Account.Null, 1, null);
+            var ticket = Ticket.Create(testContext.Department, TicketType.Default, Account.Null, 1, null);
             workspace.Add(ticket);
-            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
-            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
 
-            var transaction2 = new InventoryTransaction { Date = DateTime.Now, Name = "1" };
+            var transaction2 = InventoryTransaction.Create(testContext.PurchaseTransactionType);
+            transaction.SetSourceWarehouse(testContext.Seller1Warehouse);
             workspace.Add(transaction2);
-            transaction2.TransactionItems.Add(new InventoryTransactionItem { InventoryItem = donerEti, Multiplier = 1000, Price = 15, Quantity = 10, Unit = "KG" });
+            transaction2.TransactionItems.Add(new InventoryTransactionItem { InventoryItem = testContext.DonerEti, Multiplier = 1000, Price = 15, Quantity = 10, Unit = "KG" });
 
-            var pc = InventoryService.GetCurrentPeriodicConsumption();
+            var pc = InventoryService.GetCurrentPeriodicConsumption(testContext.LocalWarehouse.Id);
             workspace.Add(pc);
 
-            var etpc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == donerEti.Id);
+            var etpc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == testContext.DonerEti.Id);
             Assert.IsNotNull(etpc);
             Assert.AreEqual(0, etpc.InStock);
             Assert.AreEqual(20, etpc.Purchase);
             Assert.AreEqual(0.24m, etpc.Consumption);
             Assert.AreEqual(15.5m, etpc.Cost);
 
-            var yogurtpc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == yogurt.Id);
+            var yogurtpc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == testContext.Yogurt.Id);
             Assert.IsNotNull(yogurtpc);
             Assert.AreEqual(0, yogurtpc.InStock);
             Assert.AreEqual(30, yogurtpc.Purchase);
             Assert.AreEqual(0.1m, yogurtpc.Consumption);
 
-            var pidepc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == pide.Id);
+            var pidepc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == testContext.Pide.Id);
             Assert.IsNotNull(pidepc);
             Assert.AreEqual(0, pidepc.InStock);
             Assert.AreEqual(50, pidepc.Purchase);
@@ -186,25 +141,23 @@ namespace Samba.Presentation.Tests
 
             Assert.AreEqual(pc.CostItems.Count(), 1);
 
-            WorkPeriodService.StopWorkPeriod("");
-            Thread.Sleep(1);
-            WorkPeriodService.StartWorkPeriod("");
-            Thread.Sleep(1);
+            RestartWorkperiod(workspace);
 
-            transaction = new InventoryTransaction { Date = DateTime.Now, Name = "1" };
+            transaction = InventoryTransaction.Create(testContext.PurchaseTransactionType);
+            transaction.SetSourceWarehouse(testContext.Seller1Warehouse);
             workspace.Add(transaction);
             const int etAlimMiktari = 50;
-            var ti = new InventoryTransactionItem { InventoryItem = donerEti, Multiplier = 1000, Price = 12, Quantity = etAlimMiktari, Unit = "KG" };
+            var ti = new InventoryTransactionItem { InventoryItem = testContext.DonerEti, Multiplier = 1000, Price = 12, Quantity = etAlimMiktari, Unit = "KG" };
             transaction.TransactionItems.Add(ti);
 
-            ticket = Ticket.Create(Department.Default, TicketType.Default, Account.Null, 1, null);
+            ticket = Ticket.Create(testContext.Department, TicketType.Default, Account.Null, 1, null);
             workspace.Add(ticket);
-            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
-            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
 
-            pc = InventoryService.GetCurrentPeriodicConsumption();
+            pc = InventoryService.GetCurrentPeriodicConsumption(testContext.LocalWarehouse.Id);
             workspace.Add(pc);
-            var etpc2 = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == donerEti.Id);
+            var etpc2 = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == testContext.DonerEti.Id);
             Assert.IsNotNull(etpc2);
             Assert.AreEqual(etpc2.InStock, etpc.GetInventoryPrediction());
             Assert.AreEqual(etpc2.Purchase, etAlimMiktari);
@@ -214,24 +167,22 @@ namespace Samba.Presentation.Tests
             cost = decimal.Round(cost, 2);
             Assert.AreEqual(etpc2.Cost, cost);
 
-            WorkPeriodService.StopWorkPeriod("");
-            Thread.Sleep(1);
-            WorkPeriodService.StartWorkPeriod("");
-            Thread.Sleep(1);
+            RestartWorkperiod(workspace);
 
-            transaction = new InventoryTransaction { Date = DateTime.Now, Name = "1" };
+            transaction = InventoryTransaction.Create(testContext.PurchaseTransactionType);
+            transaction.SetSourceWarehouse(testContext.Seller1Warehouse);
             workspace.Add(transaction);
-            ti = new InventoryTransactionItem { InventoryItem = donerEti, Multiplier = 1000, Price = 10, Quantity = etAlimMiktari, Unit = "KG" };
+            ti = new InventoryTransactionItem { InventoryItem = testContext.DonerEti, Multiplier = 1000, Price = 10, Quantity = etAlimMiktari, Unit = "KG" };
             transaction.TransactionItems.Add(ti);
 
-            ticket = Ticket.Create(Department.Default, TicketType.Default, Account.Null, 1, null);
+            ticket = Ticket.Create(testContext.Department, TicketType.Default, Account.Null, 1, null);
             workspace.Add(ticket);
-            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
-            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", iskender, null, iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
+            ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
 
-            pc = InventoryService.GetCurrentPeriodicConsumption();
+            pc = InventoryService.GetCurrentPeriodicConsumption(testContext.LocalWarehouse.Id);
             workspace.Add(pc);
-            var etpc3 = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == donerEti.Id);
+            var etpc3 = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == testContext.DonerEti.Id);
             Assert.IsNotNull(etpc3);
             Assert.AreEqual(etpc3.InStock, etpc2.GetInventoryPrediction());
             Assert.AreEqual(etpc3.Purchase, etAlimMiktari);
@@ -325,16 +276,22 @@ namespace Samba.Presentation.Tests
         private void RestartWorkperiod(IWorkspace workspace)
         {
             WorkPeriodService.StopWorkPeriod("");
-            var pc = InventoryService.GetCurrentPeriodicConsumption();
-            InventoryService.SavePeriodicConsumption(pc);
-            pc.PeriodicConsumptionItems.ToList().ForEach(x =>
-            {
-                x.PeriodicConsumptionId = pc.Id;
-                workspace.Add(x);
-            });
             Thread.Sleep(1);
+            InventoryService.DoWorkPeriodEnd();
+            var pc = InventoryService.GetCurrentPeriodicConsumptions();
+            foreach (var periodicConsumption in pc)
+            {
+                InventoryService.SavePeriodicConsumption(periodicConsumption);
+                periodicConsumption.PeriodicConsumptionItems.ToList().ForEach(x =>
+                {
+                    x.PeriodicConsumptionId = periodicConsumption.Id;
+                    workspace.Add(x);
+                });
+            }
+
             WorkPeriodService.StartWorkPeriod("");
             Thread.Sleep(1);
+            InventoryService.DoWorkPeriodStart();
         }
 
         private static void CreateWarehouseTestContext(WarehouseTestContext testContext, IWorkspace workspace)

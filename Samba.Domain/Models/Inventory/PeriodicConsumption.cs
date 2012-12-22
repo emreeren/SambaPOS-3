@@ -81,7 +81,7 @@ namespace Samba.Domain.Models.Inventory
             });
         }
 
-        public void CreatePeriodicConsumptionItem(InventoryItem inventoryItem, PeriodicConsumption previousPc, IEnumerable<InventoryTransactionItem> transactionItems)
+        public void CreatePeriodicConsumptionItem(InventoryItem inventoryItem, PeriodicConsumption previousPc, IEnumerable<InventoryTransactionData> transactionItems)
         {
             var pci = PeriodicConsumptionItem.Create(inventoryItem);
             PeriodicConsumptionItems.Add(pci);
@@ -97,9 +97,10 @@ namespace Samba.Domain.Models.Inventory
                 if (previousPci != null)
                     previousCost = previousPci.Cost * pci.InStock;
             }
-            var tim = transactionItems.Where(x => x.InventoryItem.Id == inventoryItem.Id).ToList();
-            pci.Purchase = tim.Sum(x => x.Quantity * x.Multiplier) / pci.UnitMultiplier;
-            var totalPrice = tim.Sum(x => x.Price * x.Quantity);
+            var tim = transactionItems.Where(x => x.InventoryTransactionItem.InventoryItem.Id == inventoryItem.Id).ToList();
+            pci.Purchase = tim.Where(x => x.TargetWarehouseId == WarehouseId).Sum(x => x.InventoryTransactionItem.Quantity * x.InventoryTransactionItem.Multiplier) / pci.UnitMultiplier;
+            pci.Purchase -= tim.Where(x => x.SourceWarehouseId == WarehouseId).Sum(x => x.InventoryTransactionItem.Quantity * x.InventoryTransactionItem.Multiplier) / pci.UnitMultiplier;
+            var totalPrice = tim.Sum(x => x.InventoryTransactionItem.Price * x.InventoryTransactionItem.Quantity);
             if (pci.InStock > 0 || pci.Purchase > 0)
                 pci.Cost = decimal.Round((totalPrice + previousCost) / (pci.InStock + pci.Purchase), 2);
         }
@@ -117,7 +118,7 @@ namespace Samba.Domain.Models.Inventory
             };
         }
 
-        public void CreatePeriodicConsumptionItems(IEnumerable<InventoryItem> inventoryItems, PeriodicConsumption previousPc, List<InventoryTransactionItem> transactionItems)
+        public void CreatePeriodicConsumptionItems(IEnumerable<InventoryItem> inventoryItems, PeriodicConsumption previousPc, List<InventoryTransactionData> transactionItems)
         {
             foreach (var inventoryItem in inventoryItems)
             {

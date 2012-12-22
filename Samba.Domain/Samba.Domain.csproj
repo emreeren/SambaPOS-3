@@ -79,6 +79,7 @@
     <Compile Include="Models\Automation\AutomationCommand.cs" />
     <Compile Include="Models\Automation\AutomationCommandMap.cs" />
     <Compile Include="Models\Automation\Script.cs" />
+    <Compile Include="Models\Inventory\InventoryTransactionData.cs" />
     <Compile Include="Models\Inventory\InventoryTransactionType.cs" />
     <Compile Include="Models\Inventory\Warehouse.cs" />
     <Compile Include="Models\Inventory\WarehouseType.cs" />

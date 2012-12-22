@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Automation;
+using Samba.Domain.Models.Inventory;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
@@ -489,6 +490,8 @@ namespace Samba.Services.Implementations
             get { return _printers ?? (_printers = _printerDao.GetPrinters()); }
         }
 
+        public IEnumerable<Printer> GetPrinters() { return Printers; }
+
         private IEnumerable<PrinterTemplate> _printerTemplates;
         protected IEnumerable<PrinterTemplate> PrinterTemplates
         {
@@ -496,7 +499,18 @@ namespace Samba.Services.Implementations
         }
 
         public IEnumerable<PrinterTemplate> GetPrinterTemplates() { return PrinterTemplates; }
-        public IEnumerable<Printer> GetPrinters() { return Printers; }
+
+
+        private IEnumerable<Warehouse> _warehouses;
+        protected IEnumerable<Warehouse> Warehouses
+        {
+            get { return _warehouses ?? (_warehouses = _dataService.GetWarehouses()); }
+        }
+
+        public IEnumerable<Warehouse> GetWarehouses()
+        {
+            return Warehouses;
+        }
 
         private IEnumerable<State> _states;
         public IEnumerable<State> States
@@ -538,6 +552,7 @@ namespace Samba.Services.Implementations
         public void ResetCache()
         {
             _dataService.ResetCache();
+            _warehouses = null;
             _printers = null;
             _printerTemplates = null;
             _states = null;
