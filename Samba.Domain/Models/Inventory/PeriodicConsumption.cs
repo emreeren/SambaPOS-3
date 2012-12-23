@@ -33,7 +33,21 @@ namespace Samba.Domain.Models.Inventory
             LastUpdateTime = DateTime.Now;
         }
 
-        private decimal GetCost(RecipeItem recipeItem)
+        public void UpdateFinalCost(IEnumerable<Recipe> recipes)
+        {
+            recipes.ToList().ForEach(UpdateFinalCost);
+        }
+
+        private void UpdateFinalCost(Recipe recipe)
+        {
+            if (recipe == null) return;
+            var ci = CostItems.SingleOrDefault(x => x.PortionId == recipe.Portion.Id);
+            if (ci == null) return;
+            var totalcost = recipe.FixedCost + recipe.GetValidRecipeItems().Sum(recipeItem => GetFinalCost(recipeItem));
+            ci.Cost = decimal.Round(totalcost, 2);
+        }
+
+        private decimal GetFinalCost(RecipeItem recipeItem)
         {
             var pci = PeriodicConsumptionItems.Single(x => x.InventoryItemId == recipeItem.InventoryItem.Id);
             if (pci.GetPredictedConsumption() > 0)
@@ -45,31 +59,30 @@ namespace Samba.Domain.Models.Inventory
             return 0;
         }
 
-        private void UpdateCost(Recipe recipe)
-        {
-            if (recipe == null) return;
-            var ci = CostItems.SingleOrDefault(x => x.PortionId == recipe.Portion.Id);
-            if (ci == null) return;
-            var totalcost = recipe.FixedCost + recipe.GetValidRecipeItems().Sum(recipeItem => GetCost(recipeItem));
-            ci.Cost = decimal.Round(totalcost, 2);
-        }
-
-        public void UpdateCost(IEnumerable<Recipe> recipes)
-        {
-            recipes.ToList().ForEach(UpdateCost);
-        }
-
-        private decimal UpdateConsumption(RecipeItem recipeItem, decimal saleTotal)
+        private decimal GetPredictedCost(RecipeItem recipeItem)
         {
             var pci = PeriodicConsumptionItems.Single(x => x.InventoryItemId == recipeItem.InventoryItem.Id);
-            pci.Consumption += (recipeItem.Quantity * saleTotal) / pci.UnitMultiplier;
             return recipeItem.Quantity * (pci.Cost / pci.UnitMultiplier);
         }
 
-        public void UpdateConsumption(Recipe recipe, string menuItemName, decimal saleTotal)
+        public void UpdateConsumption(Recipe recipe, decimal saleTotal)
+        {
+            var recipeItems = recipe.GetValidRecipeItems().ToList();
+            recipeItems.ForEach(x => UpdateConsumption(x, saleTotal));
+        }
+
+        public void UpdateConsumption(RecipeItem recipeItem, decimal saleTotal)
+        {
+            var pci = PeriodicConsumptionItems.Single(x => x.InventoryItemId == recipeItem.InventoryItem.Id);
+            pci.Consumption += (recipeItem.Quantity * saleTotal) / pci.UnitMultiplier;
+        }
+
+        public void CreateCostItem(Recipe recipe, string menuItemName, decimal saleTotal)
         {
             if (recipe == null) return;
-            var totalCost = recipe.GetValidRecipeItems().Sum(recipeItem => UpdateConsumption(recipeItem, saleTotal));
+            var recipeItems = recipe.GetValidRecipeItems().ToList();
+            var totalCost = recipeItems.Sum(recipeItem => GetPredictedCost(recipeItem));
+
             CostItems.Add(new CostItem
             {
                 Name = menuItemName,
@@ -125,6 +138,5 @@ namespace Samba.Domain.Models.Inventory
                 CreatePeriodicConsumptionItem(inventoryItem, previousPc, transactionItems);
             }
         }
-
     }
 }

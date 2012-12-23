@@ -114,7 +114,8 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
                 var portionName = sale.PortionName;
                 var menuItemId = sale.MenuItemId;
                 var recipe = _inventoryDao.GetRecipe(portionName, menuItemId);
-                pc.UpdateConsumption(recipe, sale.MenuItemName, sale.Total);
+                pc.CreateCostItem(recipe, sale.MenuItemName, sale.Total);
+                pc.UpdateConsumption(recipe, sale.Total);
             }
         }
 
@@ -154,7 +155,7 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
         public void CalculateCost(PeriodicConsumption pc, WorkPeriod workPeriod)
         {
             var recipes = GetSales(workPeriod, pc.WarehouseId).Select(sale => _inventoryDao.GetRecipe(sale.PortionName, sale.MenuItemId));
-            pc.UpdateCost(recipes);
+            pc.UpdateFinalCost(recipes);
         }
 
         public IEnumerable<string> GetInventoryItemNames()
