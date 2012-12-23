@@ -34,7 +34,7 @@ namespace Samba.Domain.Models.Inventory
         }
 
 
-        public void Add(InventoryItem inventoryItem, decimal price, decimal quantity, string unit, int multiplier)
+        public InventoryTransactionItem Add(InventoryItem inventoryItem, decimal price, decimal quantity, string unit, int multiplier)
         {
             var result = new InventoryTransactionItem
                              {
@@ -46,6 +46,7 @@ namespace Samba.Domain.Models.Inventory
                              };
 
             TransactionItems.Add(result);
+            return result;
         }
 
         public void SetSourceWarehouse(Warehouse warehouse)

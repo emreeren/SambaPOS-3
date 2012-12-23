@@ -355,7 +355,7 @@ namespace Samba.Modules.BasicReports
 
         public static PeriodicConsumption GetCurrentPeriodicConsumption()
         {
-            return InventoryService.GetCurrentPeriodicConsumption();
+            return InventoryService.GetCurrentPeriodicConsumption(0);
         }
     }
 }

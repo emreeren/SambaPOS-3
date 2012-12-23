@@ -100,9 +100,9 @@ namespace Samba.Presentation.Tests
             transaction.SetSourceWarehouse(testContext.Seller1Warehouse);
             workspace.Add(transaction);
 
-            transaction.TransactionItems.Add(new InventoryTransactionItem { InventoryItem = testContext.DonerEti, Multiplier = 1000, Price = 16, Quantity = 10, Unit = "KG" });
-            transaction.TransactionItems.Add(new InventoryTransactionItem { InventoryItem = testContext.Pide, Multiplier = 2, Price = 1, Quantity = 50, Unit = "Adet" });
-            transaction.TransactionItems.Add(new InventoryTransactionItem { InventoryItem = testContext.Yogurt, Multiplier = 1000, Price = 4, Quantity = 30, Unit = "KG" });
+            transaction.Add(testContext.DonerEti, 16, 10, "KG", 1000);
+            transaction.Add(testContext.Pide, 1, 50, "Adet", 2);
+            transaction.Add(testContext.Yogurt, 4, 30, "KG", 1000);
 
             var transactionTotal = transaction.TransactionItems.Sum(x => x.Price * x.Quantity);
             Assert.AreEqual(transactionTotal, (16 * 10) + (50 * 1) + (30 * 4));
@@ -147,8 +147,8 @@ namespace Samba.Presentation.Tests
             transaction.SetSourceWarehouse(testContext.Seller1Warehouse);
             workspace.Add(transaction);
             const int etAlimMiktari = 50;
-            var ti = new InventoryTransactionItem { InventoryItem = testContext.DonerEti, Multiplier = 1000, Price = 12, Quantity = etAlimMiktari, Unit = "KG" };
-            transaction.TransactionItems.Add(ti);
+
+            var ti = transaction.Add(testContext.DonerEti, 12, etAlimMiktari, "KG", 1000);
 
             ticket = Ticket.Create(testContext.Department, TicketType.Default, Account.Null, 1, null);
             workspace.Add(ticket);
@@ -162,8 +162,7 @@ namespace Samba.Presentation.Tests
             Assert.AreEqual(etpc2.InStock, etpc.GetInventoryPrediction());
             Assert.AreEqual(etpc2.Purchase, etAlimMiktari);
             Assert.AreEqual(etpc2.GetInventoryPrediction(), etpc.GetInventoryPrediction() + etAlimMiktari - 0.24m);
-            var cost = ((etpc.Cost * etpc.GetInventoryPrediction()) + (ti.Price * ti.Quantity)) /
-                       (etpc2.InStock + etpc2.Purchase);
+            var cost = ((etpc.Cost * etpc.GetInventoryPrediction()) + (ti.Price * ti.Quantity)) / (etpc2.InStock + etpc2.Purchase);
             cost = decimal.Round(cost, 2);
             Assert.AreEqual(etpc2.Cost, cost);
 
@@ -172,8 +171,7 @@ namespace Samba.Presentation.Tests
             transaction = InventoryTransaction.Create(testContext.PurchaseTransactionType);
             transaction.SetSourceWarehouse(testContext.Seller1Warehouse);
             workspace.Add(transaction);
-            ti = new InventoryTransactionItem { InventoryItem = testContext.DonerEti, Multiplier = 1000, Price = 10, Quantity = etAlimMiktari, Unit = "KG" };
-            transaction.TransactionItems.Add(ti);
+            ti = transaction.Add(testContext.DonerEti, 10, etAlimMiktari, "KG", 1000);
 
             ticket = Ticket.Create(testContext.Department, TicketType.Default, Account.Null, 1, null);
             workspace.Add(ticket);
@@ -187,8 +185,7 @@ namespace Samba.Presentation.Tests
             Assert.AreEqual(etpc3.InStock, etpc2.GetInventoryPrediction());
             Assert.AreEqual(etpc3.Purchase, etAlimMiktari);
             Assert.AreEqual(etpc3.GetInventoryPrediction(), etpc2.GetInventoryPrediction() + etAlimMiktari - 0.24m);
-            cost = ((etpc2.Cost * etpc2.GetInventoryPrediction()) + (ti.Price * ti.Quantity)) /
-                       (etpc3.InStock + etpc3.Purchase);
+            cost = ((etpc2.Cost * etpc2.GetInventoryPrediction()) + (ti.Price * ti.Quantity)) / (etpc3.InStock + etpc3.Purchase);
             cost = decimal.Round(cost, 2);
             Assert.AreEqual(etpc3.Cost, cost);
         }
