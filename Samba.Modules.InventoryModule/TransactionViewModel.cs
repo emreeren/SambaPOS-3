@@ -79,7 +79,7 @@ namespace Samba.Modules.InventoryModule
 
         private bool CanAddTransactionItem(string arg)
         {
-            return TransactionItems.Count() == 0 || CanSave(arg);
+            return !TransactionItems.Any() || CanSave(arg);
         }
 
         protected override bool CanSave(string arg)

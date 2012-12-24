@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
+using FluentValidation;
 using Samba.Domain.Models.Inventory;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
@@ -69,6 +70,11 @@ namespace Samba.Modules.InventoryModule
             }
         }
 
+        protected override AbstractValidator<Warehouse> GetValidator()
+        {
+            return new WarehouseValidator();
+        }
+
         public override Type GetViewType()
         {
             return typeof(WarehouseView);
@@ -77,6 +83,14 @@ namespace Samba.Modules.InventoryModule
         public override string GetModelTypeString()
         {
             return Resources.Warehouse;
+        }
+    }
+
+    internal class WarehouseValidator : EntityValidator<Warehouse>
+    {
+        public WarehouseValidator()
+        {
+            RuleFor(x => x.WarehouseTypeId).GreaterThan(0);
         }
     }
 }

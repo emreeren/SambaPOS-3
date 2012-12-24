@@ -230,6 +230,11 @@ namespace Samba.Presentation.Common.ModelBase
         protected override void OnAddItem(object obj)
         {
             var model = new TModel();
+            PublishViewModel(model);
+        }
+
+        public void PublishViewModel(TModel model)
+        {
             VisibleViewModelBase wm = InternalCreateNewViewModel(model);
             if (wm != null) OpenViewModels.Add(wm as EntityViewModelBase<TModel>);
             wm.PublishEvent(EventTopicNames.ViewAdded);

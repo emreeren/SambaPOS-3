@@ -10,12 +10,17 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Margin="0,5,0,10" Text="{Binding Name,StringFormat='Dönem: {0}'}" />
-        <TabControl Grid.Row="1" ItemsSource="{Binding WarehouseConsumptions}">
+        <TabControl Grid.Row="1" ItemsSource="{Binding WarehouseConsumptions}" SelectedItem="{Binding SelectedWarehouseConsumption}">
             <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding Name}"></Label>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
                 <DataTemplate>
                     <TabControl SelectionChanged="TabControl_SelectionChanged">
                         <TabItem Header="{LocText InventoryItems}">
-                            <DataGrid ItemsSource="{Binding PeriodicConsumptionItems}" SelectedItem="{Binding SelectedPeriodicConsumptionItem, Mode=TwoWay}"
+                            <DataGrid ItemsSource="{Binding PeriodicConsumptionItems}"
                                  HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
                                  AutoGenerateColumns="False" CanUserSortColumns="False" CanUserDeleteRows="False" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}"
                                  PreviewKeyDown="DataGrid_PreviewKeyDown" PreviewTextInput="DataGrid_PreviewTextInput"
@@ -174,7 +179,7 @@
                         </TabItem>
                     </TabControl>
                 </DataTemplate>
-            </TabControl.ItemTemplate>
+            </TabControl.ContentTemplate>
 
         </TabControl>
         <StackPanel Grid.Row="2">

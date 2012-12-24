@@ -28,55 +28,35 @@ namespace Samba.Modules.InventoryModule
             UpdateCalculationCommand = new CaptionCommand<string>(Resources.CalculateCost, OnUpdateCalculation);
         }
 
-        private ObservableCollection<WarehouseConsumption> _warehouseConsumptions;
-        public ObservableCollection<WarehouseConsumption> WarehouseConsumptions
+        private ObservableCollection<WarehouseConsumptionViewModel> _warehouseConsumptions;
+        public ObservableCollection<WarehouseConsumptionViewModel> WarehouseConsumptions
         {
-            get { return _warehouseConsumptions ?? (_warehouseConsumptions = new ObservableCollection<WarehouseConsumption>(Model.WarehouseConsumptions)); }
+            get
+            {
+                return _warehouseConsumptions ?? (_warehouseConsumptions =
+                    new ObservableCollection<WarehouseConsumptionViewModel>(Model.WarehouseConsumptions.Select(x => new WarehouseConsumptionViewModel(x, _cacheService))));
+            }
         }
 
-        private WarehouseConsumption _selectedWarehouseConsumption;
-        public WarehouseConsumption SelectedWarehouseConsumption
+        private WarehouseConsumptionViewModel _selectedWarehouseConsumption;
+        public WarehouseConsumptionViewModel SelectedWarehouseConsumption
         {
             get { return _selectedWarehouseConsumption; }
             set
             {
                 _selectedWarehouseConsumption = value;
-                _periodicConsumptionItems = null;
-                _costItems = null;
-                RaisePropertyChanged(() => PeriodicConsumptionItems);
-                RaisePropertyChanged(() => CostItems);
+                _selectedWarehouseConsumption.Refresh();
+                RaisePropertyChanged(() => SelectedWarehouseConsumption);
             }
         }
 
         public ICaptionCommand UpdateCalculationCommand { get; set; }
 
-        private ObservableCollection<PeriodicConsumptionItemViewModel> _periodicConsumptionItems;
-        public ObservableCollection<PeriodicConsumptionItemViewModel> PeriodicConsumptionItems
-        {
-            get { return _periodicConsumptionItems ?? (_periodicConsumptionItems = new ObservableCollection<PeriodicConsumptionItemViewModel>(SelectedWarehouseConsumption.PeriodicConsumptionItems.Select(x => new PeriodicConsumptionItemViewModel(x)))); }
-        }
-
-        private ObservableCollection<CostItemViewModel> _costItems;
-        public ObservableCollection<CostItemViewModel> CostItems
-        {
-            get { return _costItems ?? (_costItems = new ObservableCollection<CostItemViewModel>(SelectedWarehouseConsumption.CostItems.Select(x => new CostItemViewModel(x, _cacheService.GetMenuItem(y => y.Id == x.MenuItemId))))); }
-        }
-
-        private PeriodicConsumptionItemViewModel _selectedPeriodicConsumptionItem;
-        public PeriodicConsumptionItemViewModel SelectedPeriodicConsumptionItem
-        {
-            get { return _selectedPeriodicConsumptionItem; }
-            set
-            {
-                _selectedPeriodicConsumptionItem = value;
-                RaisePropertyChanged(() => SelectedPeriodicConsumptionItem);
-            }
-        }
-
         protected override bool CanSave(string arg)
         {
-            return _applicationState.IsCurrentWorkPeriodOpen && _periodicConsumptionItems.Count > 0
-                && Model.WorkPeriodId == _applicationState.CurrentWorkPeriod.Id && base.CanSave(arg);
+            return false;
+            //return _applicationState.IsCurrentWorkPeriodOpen && PeriodicConsumptionItems.Count > 0
+            //    && Model.WorkPeriodId == _applicationState.CurrentWorkPeriod.Id && base.CanSave(arg);
         }
 
         private void OnUpdateCalculation(string obj)
@@ -87,15 +67,14 @@ namespace Samba.Modules.InventoryModule
         public void UpdateCost()
         {
             _inventoryService.CalculateCost(Model, _applicationState.CurrentWorkPeriod);
-            _costItems = null;
-            RaisePropertyChanged(() => CostItems);
+            SelectedWarehouseConsumption.Refresh();
         }
 
         protected override void Initialize()
         {
             base.Initialize();
-            if (Model.WarehouseConsumptions.Any())
-                SelectedWarehouseConsumption = Model.WarehouseConsumptions.First();
+            if (WarehouseConsumptions.Any())
+                SelectedWarehouseConsumption = WarehouseConsumptions.First();
         }
 
         public override Type GetViewType()

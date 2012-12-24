@@ -43,7 +43,7 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Margin="5">
-                        <Hyperlink Command="{Binding}">
+                        <Hyperlink Command="{Binding}" CommandParameter="{Binding DataObject}">
                             <TextBlock Text="{Binding Caption}" />
                         </Hyperlink>
                     </TextBlock>

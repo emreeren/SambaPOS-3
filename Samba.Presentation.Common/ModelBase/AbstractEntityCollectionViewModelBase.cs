@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Services.Common;
@@ -23,11 +24,10 @@ namespace Samba.Presentation.Common.ModelBase
         private string _pluralModelTitle;
         public string PluralModelTitle { get { return _pluralModelTitle ?? (_pluralModelTitle = ModelTitle.ToPlural()); } }
 
-        private IEnumerable<ICaptionCommand> _allCommands;
-
-        public IEnumerable<ICaptionCommand> AllCommands
+        private IList<ICaptionCommand> _allCommands;
+        public IList<ICaptionCommand> AllCommands
         {
-            get { return _allCommands ?? (_allCommands = GetCommands()); }
+            get { return _allCommands ?? (_allCommands = GetCommands().ToList()); }
         }
 
         private IEnumerable<ICaptionCommand> GetCommands()
@@ -35,6 +35,24 @@ namespace Samba.Presentation.Common.ModelBase
             var result = new List<ICaptionCommand> { AddItemCommand, EditItemCommand, DeleteItemCommand };
             result.AddRange(CustomCommands);
             return result;
+        }
+
+        public void RemoveCommand(ICaptionCommand command)
+        {
+            if (AllCommands.Contains(command))
+            {
+                AllCommands.Remove(command);
+                RaisePropertyChanged(() => AllCommands);
+            }
+        }
+
+        public void InsertCommand(ICaptionCommand command, int index = -1)
+        {
+            if (index > -1)
+            {
+                AllCommands.Insert(index, command);
+            }
+            else AllCommands.Add(command);
         }
 
         protected AbstractEntityCollectionViewModelBase()

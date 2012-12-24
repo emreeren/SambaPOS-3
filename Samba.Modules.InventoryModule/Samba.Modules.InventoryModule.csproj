@@ -85,6 +85,7 @@
       <DependentUpon>TransactionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TransactionViewModel.cs" />
+    <Compile Include="WarehouseConsumptionViewModel.cs" />
     <Compile Include="WarehouseTypeView.xaml.cs">
       <DependentUpon>WarehouseTypeView.xaml</DependentUpon>
     </Compile>
