@@ -329,7 +329,7 @@ Changing PIN will hide this hint</value>
   <data name="Recipes" xml:space="preserve">
     <value>Recipes</value>
   </data>
-  <data name="Transactions" xml:space="preserve">
+  <data name="Transaction" xml:space="preserve">
     <value>Transaction</value>
   </data>
   <data name="EndOfDayRecords" xml:space="preserve">
@@ -3034,5 +3034,20 @@ Error Message:
   </data>
   <data name="Target_f" xml:space="preserve">
     <value>Target {0}</value>
+  </data>
+  <data name="LocalWarehouses">
+    <value xml:space="preserve">Local Warehouses</value>
+  </data>
+  <data name="SellerWarehouses">
+    <value xml:space="preserve">Seller Warehouses</value>
+  </data>
+  <data name="LocalWarehouse">
+    <value xml:space="preserve">Local Warehouse</value>
+  </data>
+  <data name="SellerWarehouse">
+    <value xml:space="preserve">Seller Warehouse</value>
+  </data>
+  <data name="PurchaseTransaction">
+    <value xml:space="preserve">Purchase Transaction</value>
   </data>
 </root>

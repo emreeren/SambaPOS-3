@@ -297,31 +297,49 @@ namespace Samba.Presentation.Services.Common
             _workspace.Add(accountPayment);
             _workspace.Add(ticketType);
 
-            var warehouseType = new WarehouseType()
-                {
-                    Name = "Local Warehouses"
-                };
+            var localWarehouseType = new WarehouseType { Name = Resources.LocalWarehouses };
+            var sellerWarehouseType = new WarehouseType { Name = Resources.SellerWarehouses };
 
-            _workspace.Add(warehouseType);
+            _workspace.Add(localWarehouseType);
+            _workspace.Add(sellerWarehouseType);
             _workspace.CommitChanges();
 
-            var warehouse = new Warehouse
+            var localWarehouse = new Warehouse
             {
-                Name = "Central Warehouse",
+                Name = Resources.LocalWarehouse,
                 LocalWarehouse = true,
-                WarehouseTypeId = warehouseType.Id
+                WarehouseTypeId = localWarehouseType.Id
             };
-            _workspace.Add(warehouse);
+
+            var sellerWarehouse = new Warehouse
+            {
+                Name = Resources.SellerWarehouse,
+                LocalWarehouse = false,
+                WarehouseTypeId = sellerWarehouseType.Id
+            };
+
+            _workspace.Add(localWarehouse);
+            _workspace.Add(sellerWarehouse);
             _workspace.CommitChanges();
 
             var department = new Department
             {
                 Name = Resources.Restaurant,
                 TicketTypeId = ticketType.Id,
-                WarehouseId = warehouse.Id
+                WarehouseId = localWarehouse.Id
             };
-
             _workspace.Add(department);
+
+            var transactionType = new InventoryTransactionType
+                                      {
+                                          Name = Resources.PurchaseTransaction,
+                                          SourceWarehouseTypeId = sellerWarehouseType.Id,
+                                          DefaultSourceWarehouseId = sellerWarehouse.Id,
+                                          TargetWarehouseTypeId = localWarehouseType.Id,
+                                          DefaultTargetWarehouseId = localWarehouse.Id
+                                      };
+
+            _workspace.Add(transactionType);
 
             var role = new UserRole("Admin") { IsAdmin = true, DepartmentId = 1 };
             _workspace.Add(role);

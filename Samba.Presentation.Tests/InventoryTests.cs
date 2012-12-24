@@ -144,6 +144,13 @@ namespace Samba.Presentation.Tests
 
             RestartWorkperiod(workspace);
 
+            pc = InventoryService.GetCurrentPeriodicConsumption();
+            whc = pc.WarehouseConsumptions.Single(x => x.WarehouseId == testContext.LocalWarehouse.Id);
+            etpc = whc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == testContext.DonerEti.Id);
+            Assert.AreEqual(20 - 0.24m, etpc.InStock);
+            Assert.AreEqual(0, etpc.Purchase);
+            Assert.AreEqual(0, etpc.Consumption);
+
             transaction = InventoryTransaction.Create(testContext.PurchaseTransactionType);
             transaction.SetSourceWarehouse(testContext.Seller1Warehouse);
             workspace.Add(transaction);
