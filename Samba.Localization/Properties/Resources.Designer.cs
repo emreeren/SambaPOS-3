@@ -6189,6 +6189,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Source {0}.
+        /// </summary>
+        public static string Source_f {
+            get {
+                return ResourceManager.GetString("Source_f", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Click here for information about working with SQL Databases.
         /// </summary>
         public static string SqlHint {
@@ -6455,6 +6464,15 @@ namespace Samba.Localization.Properties {
         public static string TagValue {
             get {
                 return ResourceManager.GetString("TagValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Target {0}.
+        /// </summary>
+        public static string Target_f {
+            get {
+                return ResourceManager.GetString("Target_f", resourceCulture);
             }
         }
         
@@ -7784,6 +7802,24 @@ namespace Samba.Localization.Properties {
         public static string Voucher {
             get {
                 return ResourceManager.GetString("Voucher", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warehouse.
+        /// </summary>
+        public static string Warehouse {
+            get {
+                return ResourceManager.GetString("Warehouse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warehouse Type.
+        /// </summary>
+        public static string WarehouseType {
+            get {
+                return ResourceManager.GetString("WarehouseType", resourceCulture);
             }
         }
         

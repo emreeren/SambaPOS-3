@@ -18,31 +18,32 @@ namespace Samba.Modules.ResourceModule
     public class ResourceViewModel : EntityViewModelBase<Resource>, IEntityCreator<Resource>
     {
         private readonly IAccountService _accountService;
+        private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public ResourceViewModel(IAccountService accountService)
+        public ResourceViewModel(IAccountService accountService, ICacheService cacheService)
         {
             _accountService = accountService;
+            _cacheService = cacheService;
         }
 
         private IEnumerable<ResourceType> _resourceTypes;
         public IEnumerable<ResourceType> ResourceTypes
         {
-            get { return _resourceTypes ?? (_resourceTypes = Workspace.All<ResourceType>()); }
+            get { return _resourceTypes ?? (_resourceTypes = _cacheService.GetResourceTypes()); }
         }
 
-        private ResourceType _resoureTemplate;
+        private ResourceType _resoureType;
         public ResourceType ResourceType
         {
             get
             {
-                return _resoureTemplate ??
-                       (_resoureTemplate = Workspace.Single<ResourceType>(x => x.Id == Model.ResourceTypeId));
+                return _resoureType ?? (_resoureType = _cacheService.GetResourceTypeById(Model.ResourceTypeId));
             }
             set
             {
                 Model.ResourceTypeId = value.Id;
-                _resoureTemplate = null;
+                _resoureType = null;
                 _customDataViewModel = null;
                 RaisePropertyChanged(() => CustomDataViewModel);
                 RaisePropertyChanged(() => ResourceType);

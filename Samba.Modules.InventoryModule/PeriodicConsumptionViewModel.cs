@@ -28,18 +28,38 @@ namespace Samba.Modules.InventoryModule
             UpdateCalculationCommand = new CaptionCommand<string>(Resources.CalculateCost, OnUpdateCalculation);
         }
 
+        private ObservableCollection<WarehouseConsumption> _warehouseConsumptions;
+        public ObservableCollection<WarehouseConsumption> WarehouseConsumptions
+        {
+            get { return _warehouseConsumptions ?? (_warehouseConsumptions = new ObservableCollection<WarehouseConsumption>(Model.WarehouseConsumptions)); }
+        }
+
+        private WarehouseConsumption _selectedWarehouseConsumption;
+        public WarehouseConsumption SelectedWarehouseConsumption
+        {
+            get { return _selectedWarehouseConsumption; }
+            set
+            {
+                _selectedWarehouseConsumption = value;
+                _periodicConsumptionItems = null;
+                _costItems = null;
+                RaisePropertyChanged(() => PeriodicConsumptionItems);
+                RaisePropertyChanged(() => CostItems);
+            }
+        }
+
         public ICaptionCommand UpdateCalculationCommand { get; set; }
 
         private ObservableCollection<PeriodicConsumptionItemViewModel> _periodicConsumptionItems;
         public ObservableCollection<PeriodicConsumptionItemViewModel> PeriodicConsumptionItems
         {
-            get { return _periodicConsumptionItems ?? (_periodicConsumptionItems = new ObservableCollection<PeriodicConsumptionItemViewModel>(Model.PeriodicConsumptionItems.Select(x => new PeriodicConsumptionItemViewModel(x)))); }
+            get { return _periodicConsumptionItems ?? (_periodicConsumptionItems = new ObservableCollection<PeriodicConsumptionItemViewModel>(SelectedWarehouseConsumption.PeriodicConsumptionItems.Select(x => new PeriodicConsumptionItemViewModel(x)))); }
         }
 
         private ObservableCollection<CostItemViewModel> _costItems;
         public ObservableCollection<CostItemViewModel> CostItems
         {
-            get { return _costItems ?? (_costItems = new ObservableCollection<CostItemViewModel>(Model.CostItems.Select(x => new CostItemViewModel(x, _cacheService.GetMenuItem(y => y.Id == x.MenuItemId))))); }
+            get { return _costItems ?? (_costItems = new ObservableCollection<CostItemViewModel>(SelectedWarehouseConsumption.CostItems.Select(x => new CostItemViewModel(x, _cacheService.GetMenuItem(y => y.Id == x.MenuItemId))))); }
         }
 
         private PeriodicConsumptionItemViewModel _selectedPeriodicConsumptionItem;
@@ -69,6 +89,13 @@ namespace Samba.Modules.InventoryModule
             _inventoryService.CalculateCost(Model, _applicationState.CurrentWorkPeriod);
             _costItems = null;
             RaisePropertyChanged(() => CostItems);
+        }
+
+        protected override void Initialize()
+        {
+            base.Initialize();
+            if (Model.WarehouseConsumptions.Any())
+                SelectedWarehouseConsumption = Model.WarehouseConsumptions.First();
         }
 
         public override Type GetViewType()

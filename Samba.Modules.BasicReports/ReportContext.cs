@@ -155,8 +155,8 @@ namespace Samba.Modules.BasicReports
         private static IEnumerable<PeriodicConsumption> GetPeriodicConsumtions()
         {
             if (CurrentWorkPeriod.StartDate != CurrentWorkPeriod.EndDate)
-                return Dao.Query<PeriodicConsumption>(x => x.StartDate >= CurrentWorkPeriod.StartDate && x.EndDate <= CurrentWorkPeriod.EndDate, x => x.CostItems, x => x.PeriodicConsumptionItems, x => x.PeriodicConsumptionItems);
-            return Dao.Query<PeriodicConsumption>(x => x.StartDate >= CurrentWorkPeriod.StartDate, x => x.CostItems,  x => x.PeriodicConsumptionItems);
+                return Dao.Query<PeriodicConsumption>(x => x.StartDate >= CurrentWorkPeriod.StartDate && x.EndDate <= CurrentWorkPeriod.EndDate, x => x.WarehouseConsumptions.Select(y => y.CostItems), x => x.WarehouseConsumptions.Select(y => y.PeriodicConsumptionItems));
+            return Dao.Query<PeriodicConsumption>(x => x.StartDate >= CurrentWorkPeriod.StartDate, x => x.WarehouseConsumptions.Select(y => y.CostItems), x => x.WarehouseConsumptions.Select(y => y.PeriodicConsumptionItems));
         }
 
         private static IEnumerable<MenuItem> GetMenuItems()
@@ -355,7 +355,7 @@ namespace Samba.Modules.BasicReports
 
         public static PeriodicConsumption GetCurrentPeriodicConsumption()
         {
-            return InventoryService.GetCurrentPeriodicConsumption(0);
+            return InventoryService.GetCurrentPeriodicConsumption();
         }
     }
 }

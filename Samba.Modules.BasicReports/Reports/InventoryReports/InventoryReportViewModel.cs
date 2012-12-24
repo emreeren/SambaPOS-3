@@ -32,7 +32,7 @@ namespace Samba.Modules.BasicReports.Reports.InventoryReports
 
             var lastPeriodicConsumption = ReportContext.GetCurrentPeriodicConsumption();
 
-            var consumptionItems = lastPeriodicConsumption.PeriodicConsumptionItems;
+            var consumptionItems = lastPeriodicConsumption.WarehouseConsumptions.SelectMany(x=>x.PeriodicConsumptionItems);
 
             if (consumptionItems.Any())
             {

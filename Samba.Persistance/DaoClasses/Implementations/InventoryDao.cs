@@ -93,25 +93,20 @@ namespace Samba.Persistance.DaoClasses.Implementations
             return Dao.Query<InventoryItem>();
         }
 
-        public PeriodicConsumption GetPeriodicConsumptionByWorkPeriodId(int workPeriodId, int warehouseId)
+        public PeriodicConsumption GetPeriodicConsumptionByWorkPeriodId(int workPeriodId)
         {
-            return Dao.Single<PeriodicConsumption>(x => x.WorkPeriodId == workPeriodId && x.WarehouseId == warehouseId, x => x.PeriodicConsumptionItems, x => x.CostItems);
+            return Dao.Single<PeriodicConsumption>(x => x.WorkPeriodId == workPeriodId, x => x.WarehouseConsumptions.Select(y => y.PeriodicConsumptionItems), x => x.WarehouseConsumptions.Select(y => y.CostItems));
         }
 
         public PeriodicConsumptionItem GetPeriodConsumptionItem(int workPeriodId, int inventoryItemId, int warehouseId)
         {
             using (var w = WorkspaceFactory.CreateReadOnly())
             {
-                var ok = w.Queryable<PeriodicConsumption>().Where(y => y.WorkPeriodId == workPeriodId && y.WarehouseId == warehouseId).Select(y => y.Id);
-                var pci = w.Single<PeriodicConsumptionItem>(x => x.InventoryItemId == inventoryItemId && x.PeriodicConsumptionId == ok.FirstOrDefault());
+                var pcId = w.Queryable<PeriodicConsumption>().Where(y => y.WorkPeriodId == workPeriodId).Select(y => y.Id);
+                var wcId = w.Queryable<WarehouseConsumption>().Where(x => x.WarehouseId == warehouseId && x.PeriodicConsumptionId == pcId.FirstOrDefault()).Select(x=>x.Id);
+                var pci = w.Single<PeriodicConsumptionItem>(x => x.InventoryItemId == inventoryItemId && x.WarehouseConsumptionId == wcId.FirstOrDefault());
                 return pci;
             }
-        }
-
-        public IEnumerable<PeriodicConsumption> GetPeriodicConsumptions(int workperiodId)
-        {
-            return Dao.Query<PeriodicConsumption>(x => x.WorkPeriodId == workperiodId, x => x.PeriodicConsumptionItems,
-                                                  x => x.CostItems);
         }
     }
 

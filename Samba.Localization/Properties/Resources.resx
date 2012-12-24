@@ -3023,4 +3023,16 @@ Error Message:
   <data name="ChangeTicketResource">
     <value xml:space="preserve">Change Ticket Resource</value>
   </data>
+  <data name="Warehouse" xml:space="preserve">
+    <value>Warehouse</value>
+  </data>
+  <data name="WarehouseType" xml:space="preserve">
+    <value>Warehouse Type</value>
+  </data>
+  <data name="Source_f" xml:space="preserve">
+    <value>Source {0}</value>
+  </data>
+  <data name="Target_f" xml:space="preserve">
+    <value>Target {0}</value>
+  </data>
 </root>

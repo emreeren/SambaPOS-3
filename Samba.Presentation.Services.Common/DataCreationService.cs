@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Automation;
+using Samba.Domain.Models.Inventory;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
@@ -296,12 +297,28 @@ namespace Samba.Presentation.Services.Common
             _workspace.Add(accountPayment);
             _workspace.Add(ticketType);
 
+            var warehouseType = new WarehouseType()
+                {
+                    Name = "Local Warehouses"
+                };
+
+            _workspace.Add(warehouseType);
+            _workspace.CommitChanges();
+
+            var warehouse = new Warehouse
+            {
+                Name = "Central Warehouse",
+                LocalWarehouse = true,
+                WarehouseTypeId = warehouseType.Id
+            };
+            _workspace.Add(warehouse);
             _workspace.CommitChanges();
 
             var department = new Department
             {
                 Name = Resources.Restaurant,
-                TicketTypeId = ticketType.Id
+                TicketTypeId = ticketType.Id,
+                WarehouseId = warehouse.Id
             };
 
             _workspace.Add(department);

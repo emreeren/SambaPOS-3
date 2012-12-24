@@ -160,5 +160,10 @@ namespace Samba.Persistance.DaoClasses.Implementations
         {
             return Dao.Query<Warehouse>().OrderBy(x => x.SortOrder).ThenBy(x => x.Id);
         }
+
+        public IEnumerable<WarehouseType> GetWarehouseTypes()
+        {
+            return Dao.Query<WarehouseType>();
+        }
     }
 }

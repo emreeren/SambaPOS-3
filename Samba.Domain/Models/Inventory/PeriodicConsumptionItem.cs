@@ -5,6 +5,7 @@ namespace Samba.Domain.Models.Inventory
     public class PeriodicConsumptionItem : Value
     {
         public int PeriodicConsumptionId { get; set; }
+        public int WarehouseConsumptionId { get; set; }
         public int InventoryItemId { get; set; }
         public string InventoryItemName { get; set; }
         public string UnitName { get; set; }

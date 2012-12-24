@@ -56,10 +56,12 @@ namespace Samba.Presentation.Tests
             ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
             ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
 
-            var pc = InventoryService.GetCurrentPeriodicConsumption(testContext.LocalWarehouse.Id);
+            var pc = InventoryService.GetCurrentPeriodicConsumption();
             workspace.Add(pc);
 
-            var iskenderCostItem = pc.CostItems.Single(x => x.MenuItemId == testContext.Iskender.Id);
+            var whc = pc.WarehouseConsumptions.Single(x => x.WarehouseId == testContext.LocalWarehouse.Id);
+
+            var iskenderCostItem = whc.CostItems.Single(x => x.MenuItemId == testContext.Iskender.Id);
             Assert.AreEqual(iskenderCostItem.Quantity, 3);
 
             var etCost = ((16m / 1000m) * 120m);
@@ -69,10 +71,10 @@ namespace Samba.Presentation.Tests
             var iskenderCost = decimal.Round(etCost + pideCost + yogurtCost + zeytinYagiCost, 2);
 
             Assert.AreEqual(iskenderCost, iskenderCostItem.CostPrediction);
-            var etpc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == testContext.DonerEti.Id);
-            var pidepc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == testContext.Pide.Id);
-            var yogurtpc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == testContext.Yogurt.Id);
-            var zeytinYagipc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == testContext.ZeytinYagi.Id);
+            var etpc = whc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == testContext.DonerEti.Id);
+            var pidepc = whc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == testContext.Pide.Id);
+            var yogurtpc = whc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == testContext.Yogurt.Id);
+            var zeytinYagipc = whc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == testContext.ZeytinYagi.Id);
 
             etpc.PhysicalInventory = 9.5m;
             yogurtpc.PhysicalInventory = 28;
@@ -117,29 +119,28 @@ namespace Samba.Presentation.Tests
             workspace.Add(transaction2);
             transaction2.TransactionItems.Add(new InventoryTransactionItem { InventoryItem = testContext.DonerEti, Multiplier = 1000, Price = 15, Quantity = 10, Unit = "KG" });
 
-            var pc = InventoryService.GetCurrentPeriodicConsumption(testContext.LocalWarehouse.Id);
+            var pc = InventoryService.GetCurrentPeriodicConsumption();
             workspace.Add(pc);
+            var whc = pc.WarehouseConsumptions.Single(x => x.WarehouseId == testContext.LocalWarehouse.Id);
 
-            var etpc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == testContext.DonerEti.Id);
+            var etpc = whc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == testContext.DonerEti.Id);
             Assert.IsNotNull(etpc);
             Assert.AreEqual(0, etpc.InStock);
             Assert.AreEqual(20, etpc.Purchase);
             Assert.AreEqual(0.24m, etpc.Consumption);
             Assert.AreEqual(15.5m, etpc.Cost);
 
-            var yogurtpc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == testContext.Yogurt.Id);
+            var yogurtpc = whc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == testContext.Yogurt.Id);
             Assert.IsNotNull(yogurtpc);
             Assert.AreEqual(0, yogurtpc.InStock);
             Assert.AreEqual(30, yogurtpc.Purchase);
             Assert.AreEqual(0.1m, yogurtpc.Consumption);
 
-            var pidepc = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == testContext.Pide.Id);
+            var pidepc = whc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == testContext.Pide.Id);
             Assert.IsNotNull(pidepc);
             Assert.AreEqual(0, pidepc.InStock);
             Assert.AreEqual(50, pidepc.Purchase);
             Assert.AreEqual(2, pidepc.Consumption);
-
-            Assert.AreEqual(pc.CostItems.Count(), 1);
 
             RestartWorkperiod(workspace);
 
@@ -155,9 +156,11 @@ namespace Samba.Presentation.Tests
             ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
             ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
 
-            pc = InventoryService.GetCurrentPeriodicConsumption(testContext.LocalWarehouse.Id);
+            pc = InventoryService.GetCurrentPeriodicConsumption();
             workspace.Add(pc);
-            var etpc2 = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == testContext.DonerEti.Id);
+            whc = pc.WarehouseConsumptions.Single(x => x.WarehouseId == testContext.LocalWarehouse.Id);
+
+            var etpc2 = whc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == testContext.DonerEti.Id);
             Assert.IsNotNull(etpc2);
             Assert.AreEqual(etpc2.InStock, etpc.GetInventoryPrediction());
             Assert.AreEqual(etpc2.Purchase, etAlimMiktari);
@@ -178,9 +181,11 @@ namespace Samba.Presentation.Tests
             ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
             ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
 
-            pc = InventoryService.GetCurrentPeriodicConsumption(testContext.LocalWarehouse.Id);
+            pc = InventoryService.GetCurrentPeriodicConsumption();
             workspace.Add(pc);
-            var etpc3 = pc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == testContext.DonerEti.Id);
+            whc = pc.WarehouseConsumptions.Single(x => x.WarehouseId == testContext.LocalWarehouse.Id);
+
+            var etpc3 = whc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == testContext.DonerEti.Id);
             Assert.IsNotNull(etpc3);
             Assert.AreEqual(etpc3.InStock, etpc2.GetInventoryPrediction());
             Assert.AreEqual(etpc3.Purchase, etAlimMiktari);
@@ -275,13 +280,13 @@ namespace Samba.Presentation.Tests
             WorkPeriodService.StopWorkPeriod("");
             Thread.Sleep(1);
             InventoryService.DoWorkPeriodEnd();
-            var pc = InventoryService.GetCurrentPeriodicConsumptions();
-            foreach (var periodicConsumption in pc)
+            var pc = InventoryService.GetCurrentPeriodicConsumption();
+            InventoryService.SavePeriodicConsumption(pc);
+            foreach (var warehouseConsumption in pc.WarehouseConsumptions)
             {
-                InventoryService.SavePeriodicConsumption(periodicConsumption);
-                periodicConsumption.PeriodicConsumptionItems.ToList().ForEach(x =>
+                warehouseConsumption.PeriodicConsumptionItems.ToList().ForEach(x =>
                 {
-                    x.PeriodicConsumptionId = periodicConsumption.Id;
+                    x.WarehouseConsumptionId = warehouseConsumption.Id;
                     workspace.Add(x);
                 });
             }
@@ -323,12 +328,12 @@ namespace Samba.Presentation.Tests
             testContext.LocalWarehouseType = new WarehouseType
                 {
                     Name = "Local Warehouse",
-                    AccountTpeId = testContext.LocalWarehouseAccountType.Id
+                    AccountTypeId = testContext.LocalWarehouseAccountType.Id
                 };
             testContext.SellerWarehouseType = new WarehouseType
                 {
                     Name = "Seller Warehouse",
-                    AccountTpeId = testContext.SellerWarehouseAccountType.Id
+                    AccountTypeId = testContext.SellerWarehouseAccountType.Id
                 };
 
             workspace.Add(testContext.LocalWarehouseType);

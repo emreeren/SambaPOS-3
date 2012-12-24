@@ -19,8 +19,7 @@ namespace Samba.Persistance.DaoClasses
         IEnumerable<string> GetInventoryItemNames();
         bool RecipeExists();
         IEnumerable<InventoryItem> GetInventoryItems();
-        PeriodicConsumption GetPeriodicConsumptionByWorkPeriodId(int workPeriodId,int warehouseId);
+        PeriodicConsumption GetPeriodicConsumptionByWorkPeriodId(int workPeriodId);
         PeriodicConsumptionItem GetPeriodConsumptionItem(int workPeriodId, int inventoryItemId, int warehouseId);
-        IEnumerable<PeriodicConsumption> GetPeriodicConsumptions(int workperiodId);
     }
 }

@@ -507,12 +507,29 @@ namespace Samba.Services.Implementations
             get { return _warehouses ?? (_warehouses = _dataService.GetWarehouses()); }
         }
 
-        public IEnumerable<Warehouse> GetWarehouses()
+        public IEnumerable<Warehouse> GetLocalWarehouses()
         {
             return Warehouses;
         }
 
+        public IEnumerable<WarehouseType> WarehouseTypes
+        {
+            get { return _warehouseTypes??(_warehouseTypes = _dataService.GetWarehouseTypes()); }
+        }
+
+        public IEnumerable<WarehouseType> GetWarehouseTypes()
+        {
+            return WarehouseTypes;
+        }
+
+        public WarehouseType GetWarehouseTypeById(int warehouseTypeId)
+        {
+            return WarehouseTypes.SingleOrDefault(x => x.Id == warehouseTypeId);
+        }
+
         private IEnumerable<State> _states;
+        private IEnumerable<WarehouseType> _warehouseTypes;
+
         public IEnumerable<State> States
         {
             get { return _states ?? (_states = _dataService.GetStates()); }
@@ -552,6 +569,7 @@ namespace Samba.Services.Implementations
         public void ResetCache()
         {
             _dataService.ResetCache();
+            _warehouseTypes = null;
             _warehouses = null;
             _printers = null;
             _printerTemplates = null;

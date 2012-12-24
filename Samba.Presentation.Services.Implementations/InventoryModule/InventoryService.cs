@@ -114,48 +114,49 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
                 var portionName = sale.PortionName;
                 var menuItemId = sale.MenuItemId;
                 var recipe = _inventoryDao.GetRecipe(portionName, menuItemId);
-                pc.CreateCostItem(recipe, sale.MenuItemName, sale.Total);
-                pc.UpdateConsumption(recipe, sale.Total);
+                pc.UpdateConsumption(recipe, sale.Total, warehouseId);
+                pc.CreateCostItem(recipe, sale.MenuItemName, sale.Total, warehouseId);
             }
         }
 
-        private PeriodicConsumption CreateNewPeriodicConsumption(int warehouseId)
+        private PeriodicConsumption CreateNewPeriodicConsumption()
         {
-            var previousPc = GetPreviousPeriodicConsumption(warehouseId);
-            var transactionItems = GetTransactionItems(warehouseId).ToList();
-            var inventoryItems = _inventoryDao.GetInventoryItems();
-
-            var pc = PeriodicConsumption.Create(_applicationState.CurrentWorkPeriod, warehouseId);
-            pc.CreatePeriodicConsumptionItems(inventoryItems, previousPc, transactionItems);
-            UpdateConsumption(pc, warehouseId);
-            CalculateCost(pc, _applicationState.CurrentWorkPeriod);
+            var wids = _cacheService.GetLocalWarehouses().Select(x => x.Id).ToList();
+            var previousPc = GetPreviousPeriodicConsumption();
+            var pc = PeriodicConsumption.Create(_applicationState.CurrentWorkPeriod, wids);
+            var inventoryItems = _inventoryDao.GetInventoryItems().ToList();
+            foreach (var wid in wids)
+            {
+                var transactionItems = GetTransactionItems(wid).ToList();
+                pc.CreatePeriodicConsumptionItems(wid, inventoryItems, previousPc, transactionItems);
+                UpdateConsumption(pc, wid);
+                CalculateCost(pc, _applicationState.CurrentWorkPeriod);
+            }
             return pc;
         }
 
-        public PeriodicConsumption GetPreviousPeriodicConsumption(int warehouseId)
+        public PeriodicConsumption GetPreviousPeriodicConsumption()
         {
             return _applicationState.PreviousWorkPeriod == null
                        ? null
-                       : _inventoryDao.GetPeriodicConsumptionByWorkPeriodId(_applicationState.PreviousWorkPeriod.Id, warehouseId);
+                       : _inventoryDao.GetPeriodicConsumptionByWorkPeriodId(_applicationState.PreviousWorkPeriod.Id);
 
         }
 
-        public PeriodicConsumption GetCurrentPeriodicConsumption(int warehouseId)
+        public PeriodicConsumption GetCurrentPeriodicConsumption()
         {
-            var pc = _inventoryDao.GetPeriodicConsumptionByWorkPeriodId(_applicationState.CurrentWorkPeriod.Id, warehouseId)
-                ?? CreateNewPeriodicConsumption(warehouseId);
+            var pc = _inventoryDao.GetPeriodicConsumptionByWorkPeriodId(_applicationState.CurrentWorkPeriod.Id)
+                ?? CreateNewPeriodicConsumption();
             return pc;
-        }
-
-        public IEnumerable<PeriodicConsumption> GetCurrentPeriodicConsumptions()
-        {
-            return _inventoryDao.GetPeriodicConsumptions(_applicationState.CurrentWorkPeriod.Id);
         }
 
         public void CalculateCost(PeriodicConsumption pc, WorkPeriod workPeriod)
         {
-            var recipes = GetSales(workPeriod, pc.WarehouseId).Select(sale => _inventoryDao.GetRecipe(sale.PortionName, sale.MenuItemId));
-            pc.UpdateFinalCost(recipes);
+            foreach (var warehouseConsumption in pc.WarehouseConsumptions)
+            {
+                var recipes = GetSales(workPeriod, warehouseConsumption.WarehouseId).Select(sale => _inventoryDao.GetRecipe(sale.PortionName, sale.MenuItemId));
+                pc.UpdateFinalCost(recipes.ToList(), warehouseConsumption.WarehouseId);
+            }
         }
 
         public IEnumerable<string> GetInventoryItemNames()
@@ -211,32 +212,26 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
         {
             if (_applicationState.PreviousWorkPeriod == null) return;
             if (!_inventoryDao.RecipeExists()) return;
-            foreach (var warehouse in _cacheService.GetWarehouses())
-            {
-                UpdatePeriodicConsumptionCost(warehouse.Id);
-            }
+            UpdatePeriodicConsumptionCost();
         }
 
         public void DoWorkPeriodEnd()
         {
             if (!_inventoryDao.RecipeExists()) return;
-            foreach (var warehouse in _cacheService.GetWarehouses())
-            {
-                CreatePeriodicConsumption(warehouse.Id);
-            }
+            CreatePeriodicConsumption();
         }
 
-        private void UpdatePeriodicConsumptionCost(int warehouseId)
+        private void UpdatePeriodicConsumptionCost()
         {
-            var pc = GetPreviousPeriodicConsumption(warehouseId);
+            var pc = GetPreviousPeriodicConsumption();
             if (pc == null) return;
             CalculateCost(pc, _applicationState.PreviousWorkPeriod);
             SavePeriodicConsumption(pc);
         }
 
-        private void CreatePeriodicConsumption(int warehouseId)
+        private void CreatePeriodicConsumption()
         {
-            var pc = GetCurrentPeriodicConsumption(warehouseId);
+            var pc = GetCurrentPeriodicConsumption();
             SavePeriodicConsumption(pc);
         }
     }

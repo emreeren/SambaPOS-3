@@ -62,6 +62,10 @@
     </Compile>
     <Compile Include="InventoryItemViewModel.cs" />
     <Compile Include="InventoryModule.cs" />
+    <Compile Include="TransactionTypeView.xaml.cs">
+      <DependentUpon>TransactionTypeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TransactionTypeViewModel.cs" />
     <Compile Include="MaterialViewModel.cs" />
     <Compile Include="PeriodicConsumptionItemViewModel.cs" />
     <Compile Include="PeriodicConsumptionListViewModel.cs" />
@@ -81,6 +85,14 @@
       <DependentUpon>TransactionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TransactionViewModel.cs" />
+    <Compile Include="WarehouseTypeView.xaml.cs">
+      <DependentUpon>WarehouseTypeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WarehouseTypeViewModel.cs" />
+    <Compile Include="WarehouseView.xaml.cs">
+      <DependentUpon>WarehouseView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WarehouseViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="InventoryItemView.xaml">
@@ -95,7 +107,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="TransactionTypeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TransactionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WarehouseTypeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WarehouseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

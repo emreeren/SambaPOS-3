@@ -69,6 +69,8 @@ namespace Samba.Services
         Resource GetResourceByName(string resourceTypeName, string resourceName);
         IEnumerable<PrinterTemplate> GetPrinterTemplates();
         IEnumerable<Printer> GetPrinters();
-        IEnumerable<Warehouse> GetWarehouses();
+        IEnumerable<Warehouse> GetLocalWarehouses();
+        IEnumerable<WarehouseType> GetWarehouseTypes();
+        WarehouseType GetWarehouseTypeById(int warehouseTypeId);
     }
 }

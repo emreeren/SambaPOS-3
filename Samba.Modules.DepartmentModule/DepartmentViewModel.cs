@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using FluentValidation;
+using Samba.Domain.Models.Inventory;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
-using Samba.Presentation.Services;
 using Samba.Services;
 
 namespace Samba.Modules.DepartmentModule
@@ -13,11 +14,13 @@ namespace Samba.Modules.DepartmentModule
     public class DepartmentViewModel : EntityViewModelBase<Department>
     {
         private readonly IPriceListService _priceListService;
+        private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public DepartmentViewModel(IMenuService menuService, IPriceListService priceListService)
+        public DepartmentViewModel(IMenuService menuService, IPriceListService priceListService, ICacheService cacheService)
         {
             _priceListService = priceListService;
+            _cacheService = cacheService;
         }
 
         private readonly IList<string> _ticketCreationMethods = new[] { string.Format(Resources.Select_f, Resources.Resource), string.Format(Resources.Create_f, Resources.Ticket) };
@@ -30,9 +33,23 @@ namespace Samba.Modules.DepartmentModule
         private IEnumerable<TicketType> _ticketTypes;
         public IEnumerable<TicketType> TicketTypes
         {
-            get { return _ticketTypes ?? (_ticketTypes = Workspace.All<TicketType>()); }
+            get { return _ticketTypes ?? (_ticketTypes = _cacheService.GetTicketTypes()); }
         }
+
         public int TicketTypeId { get { return Model.TicketTypeId; } set { Model.TicketTypeId = value; } }
+
+        private IEnumerable<Warehouse> _warehouses;
+        public IEnumerable<Warehouse> Warehouses
+        {
+            get { return _warehouses ?? (_warehouses = _cacheService.GetLocalWarehouses()); }
+        }
+
+        public int WarehouseId { get { return Model.WarehouseId; } set { Model.WarehouseId = value; } }
+
+        protected override AbstractValidator<Department> GetValidator()
+        {
+            return new DepartmentValidator();
+        }
 
         public override Type GetViewType()
         {
@@ -45,5 +62,13 @@ namespace Samba.Modules.DepartmentModule
         }
     }
 
+    internal class DepartmentValidator : EntityValidator<Department>
+    {
+        public DepartmentValidator()
+        {
+            RuleFor(x => x.TicketTypeId).GreaterThan(0);
+            RuleFor(x => x.WarehouseId).GreaterThan(0);
+        }
+    }
 
 }

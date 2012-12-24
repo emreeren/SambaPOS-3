@@ -4,6 +4,6 @@ namespace Samba.Domain.Models.Inventory
 {
     public class WarehouseType : Entity
     {
-        public int AccountTpeId { get; set; }
+        public int AccountTypeId { get; set; }
     }
 }

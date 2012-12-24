@@ -56,11 +56,15 @@ namespace Samba.Persistance.Data
         public DbSet<InventoryItem> InventoryItems { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<RecipeItem> RecipeItems { get; set; }
-        public DbSet<InventoryTransaction> Transactions { get; set; }
-        public DbSet<InventoryTransactionItem> TransactionItems { get; set; }
+        public DbSet<InventoryTransactionType> InventoryTransactionTypes { get; set; }
+        public DbSet<InventoryTransaction> InventoryTransactions { get; set; }
+        public DbSet<InventoryTransactionItem> InventoryTransactionItems { get; set; }
         public DbSet<PeriodicConsumption> PeriodicConsumptions { get; set; }
+        public DbSet<WarehouseConsumption> WarehouseConsumptions { get; set; }
         public DbSet<PeriodicConsumptionItem> PeriodicConsumptionItems { get; set; }
         public DbSet<CostItem> CostItems { get; set; }
+        public DbSet<Warehouse> Warehouses { get; set; }
+        public DbSet<WarehouseType> WarehouseTypes { get; set; }
         public DbSet<TicketTag> TicketTags { get; set; }
         public DbSet<TicketTagGroup> TicketTagGroups { get; set; }
         public DbSet<TicketTagMap> TicketTagMaps { get; set; }
@@ -121,13 +125,17 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<Order>().Property(x => x.OrderStates).IsMaxLength();
             modelBuilder.Entity<Order>().Property(x => x.Taxes).IsMaxLength();
 
-            modelBuilder.Entity<PeriodicConsumptionItem>().HasKey(p => new { p.Id, p.PeriodicConsumptionId });
-            modelBuilder.Entity<PeriodicConsumptionItem>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            modelBuilder.Entity<PeriodicConsumption>().HasMany(p => p.PeriodicConsumptionItems).WithRequired().HasForeignKey(x => x.PeriodicConsumptionId);
+            modelBuilder.Entity<WarehouseConsumption>().HasKey(p => new { p.Id, p.PeriodicConsumptionId });
+            modelBuilder.Entity<WarehouseConsumption>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<PeriodicConsumption>().HasMany(p => p.WarehouseConsumptions).WithRequired().HasForeignKey(x => x.PeriodicConsumptionId);
 
-            modelBuilder.Entity<CostItem>().HasKey(p => new { p.Id, p.PeriodicConsumptionId });
+            modelBuilder.Entity<PeriodicConsumptionItem>().HasKey(p => new { p.Id, p.WarehouseConsumptionId, p.PeriodicConsumptionId });
+            modelBuilder.Entity<PeriodicConsumptionItem>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<WarehouseConsumption>().HasMany(p => p.PeriodicConsumptionItems).WithRequired().HasForeignKey(x => new { x.PeriodicConsumptionId, x.WarehouseConsumptionId });
+
+            modelBuilder.Entity<CostItem>().HasKey(p => new { p.Id, p.WarehouseConsumptionId, p.PeriodicConsumptionId });
             modelBuilder.Entity<CostItem>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            modelBuilder.Entity<PeriodicConsumption>().HasMany(p => p.CostItems).WithRequired().HasForeignKey(x => x.PeriodicConsumptionId);
+            modelBuilder.Entity<WarehouseConsumption>().HasMany(p => p.CostItems).WithRequired().HasForeignKey(x => new { x.PeriodicConsumptionId, x.WarehouseConsumptionId });
 
             modelBuilder.Entity<TaskToken>().HasKey(p => new { p.Id, p.TaskId });
             modelBuilder.Entity<TaskToken>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
