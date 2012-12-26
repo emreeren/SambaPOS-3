@@ -55,5 +55,10 @@ namespace Samba.Domain.Models.Accounts
                 t.UpdateAmount(amount, exchangeRate);
             }
         }
+
+        public decimal GetAmount()
+        {
+            return AccountTransactions.Sum(x => x.Amount);
+        }
     }
 }

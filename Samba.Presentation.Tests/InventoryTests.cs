@@ -282,6 +282,36 @@ namespace Samba.Presentation.Tests
             Assert.AreEqual(5, InventoryService.GetInventory(testContext.DonerEti, testContext.LocalWarehouse));
         }
 
+        [Test]
+        public void CanMakeAccountTransaction()
+        {
+            var workspace = PrepareMenu("sd6.txt");
+            var testContext = new WarehouseTestContext();
+            CreateWarehouseTestContext(testContext, workspace);
+            var inventoryTransaction1 = InventoryTransaction.Create(testContext.PurchaseTransactionType);
+            inventoryTransaction1.SetSourceWarehouse(testContext.Seller1Warehouse);
+            inventoryTransaction1.SetTargetWarehouse(testContext.LocalWarehouse);
+            inventoryTransaction1.Add(testContext.DonerEti, 16, 10, "KG", 1000);
+            inventoryTransaction1.Add(testContext.Pide, 1, 50, "Adet", 2);
+            inventoryTransaction1.Add(testContext.Yogurt, 4, 30, "KG", 1000);
+            inventoryTransaction1.Add(testContext.ZeytinYagi, 5, 5, "Litre", 100);
+            inventoryTransaction1.Recalculate();
+            workspace.Add(inventoryTransaction1);
+            const decimal total = 355;
+            Assert.AreEqual(total, inventoryTransaction1.GetSum());
+            Assert.AreEqual(total, inventoryTransaction1.TransactionDocument.GetAmount());
+            Assert.AreEqual(1, inventoryTransaction1.TransactionDocument.AccountTransactions.Count);
+            var ti = inventoryTransaction1.TransactionDocument.AccountTransactions.First();
+            Assert.AreEqual(testContext.Seller1Account.Id, ti.SourceTransactionValue.AccountId);
+            Assert.AreEqual(testContext.LocalWarehouseAccount.Id, ti.TargetTransactionValue.AccountId);
+            inventoryTransaction1.Add(testContext.DonerEti, 5, 1, "KG", 1000);
+            inventoryTransaction1.Recalculate();
+            Assert.AreEqual(1, inventoryTransaction1.TransactionDocument.AccountTransactions.Count);
+            Assert.AreEqual(total + 5, inventoryTransaction1.GetSum());
+            Assert.AreEqual(total + 5, inventoryTransaction1.TransactionDocument.GetAmount());
+
+        }
+
         private void RestartWorkperiod(IWorkspace workspace)
         {
             WorkPeriodService.StopWorkPeriod("");
@@ -379,13 +409,26 @@ namespace Samba.Presentation.Tests
             workspace.Add(testContext.Seller1Warehouse);
             workspace.Add(testContext.Seller2Warehouse);
 
+            testContext.PurchaseAccountTransactionType = new AccountTransactionType
+                                                             {
+                                                                 SourceAccountTypeId =
+                                                                     testContext.SellerWarehouseAccountType.Id,
+                                                                 TargetAccountTypeId =
+                                                                     testContext.LocalWarehouseAccountType.Id,
+                                                                 DefaultTargetAccountId =
+                                                                     testContext.LocalWarehouseAccount.Id
+                                                             };
+
+            workspace.Add(testContext.PurchaseAccountTransactionType);
+
             testContext.PurchaseTransactionType = new InventoryTransactionType
                 {
                     Name = "PurchaseTransaction",
                     SourceWarehouseTypeId = testContext.SellerWarehouseType.Id,
                     TargetWarehouseTypeId = testContext.LocalWarehouseType.Id,
                     DefaultSourceWarehouseId = 0,
-                    DefaultTargetWarehouseId = testContext.LocalWarehouse.Id
+                    DefaultTargetWarehouseId = testContext.LocalWarehouse.Id,
+                    AccountTransactionType = testContext.PurchaseAccountTransactionType
                 };
 
             testContext.BarTransferTransactionType = new InventoryTransactionType
@@ -454,5 +497,6 @@ namespace Samba.Presentation.Tests
 
         public Department Department { get; set; }
 
+        public AccountTransactionType PurchaseAccountTransactionType { get; set; }
     }
 }

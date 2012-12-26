@@ -18,7 +18,7 @@ namespace Samba.Modules.InventoryModule
         {
             _applicationState = applicationState;
             RemoveCommand(AddItemCommand);
-            foreach (var transactionType in Workspace.All<InventoryTransactionType>().OrderByDescending(x => x.SortOrder))
+            foreach (var transactionType in Workspace.All<InventoryTransactionType>(x => x.AccountTransactionType).OrderByDescending(x => x.SortOrder))
             {
                 InsertCommand(new CustomCommand(string.Format(Resources.Add_f, transactionType.Name), OnExecute, transactionType, CanExecute), 0);
             }

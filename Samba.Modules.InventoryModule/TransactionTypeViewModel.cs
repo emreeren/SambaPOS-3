@@ -2,30 +2,29 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
 using FluentValidation;
+using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Inventory;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
-using Samba.Services;
 
 namespace Samba.Modules.InventoryModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     class TransactionTypeViewModel : EntityViewModelBase<InventoryTransactionType>
     {
-        private readonly ICacheService _cacheService;
-
-        [ImportingConstructor]
-        public TransactionTypeViewModel(ICacheService cacheService)
+        private IEnumerable<AccountTransactionType> _accountTransactionTypes;
+        public IEnumerable<AccountTransactionType> AccountTransactionTypes
         {
-            _cacheService = cacheService;
+            get { return _accountTransactionTypes ?? (_accountTransactionTypes = Workspace.All<AccountTransactionType>()); }
         }
+
+        public AccountTransactionType AccountTransactionType { get { return Model.AccountTransactionType; } set { Model.AccountTransactionType = value; } }
 
         private IEnumerable<WarehouseType> _warehouseTypes;
         public IEnumerable<WarehouseType> WarehouseTypes
         {
-            get { return _warehouseTypes ?? (_warehouseTypes = _cacheService.GetWarehouseTypes()); }
+            get { return _warehouseTypes ?? (_warehouseTypes = Workspace.All<WarehouseType>()); }
         }
 
         private WarehouseType _sourceWarehouseType;
@@ -34,7 +33,7 @@ namespace Samba.Modules.InventoryModule
             get
             {
                 return _sourceWarehouseType ??
-                       (_sourceWarehouseType = _cacheService.GetWarehouseTypeById(Model.SourceWarehouseTypeId));
+                       (_sourceWarehouseType = WarehouseTypes.SingleOrDefault(x => x.Id == Model.SourceWarehouseTypeId));
             }
             set
             {
@@ -52,7 +51,7 @@ namespace Samba.Modules.InventoryModule
             get
             {
                 return _targetWarehouseType ??
-                       (_targetWarehouseType = _cacheService.GetWarehouseTypeById(Model.TargetWarehouseTypeId));
+                       (_targetWarehouseType = WarehouseTypes.SingleOrDefault(x => x.Id == Model.TargetWarehouseTypeId));
             }
             set
             {

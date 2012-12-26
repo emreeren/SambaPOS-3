@@ -140,7 +140,6 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
             return _applicationState.PreviousWorkPeriod == null
                        ? null
                        : _inventoryDao.GetPeriodicConsumptionByWorkPeriodId(_applicationState.PreviousWorkPeriod.Id);
-
         }
 
         public PeriodicConsumption GetCurrentPeriodicConsumption()

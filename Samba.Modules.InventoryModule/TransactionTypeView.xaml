@@ -27,6 +27,10 @@
             <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="150" 
                       ItemsSource="{Binding TargetWarehouses}" 
                       SelectedValue="{Binding DefaultTargetWarehouseId}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
+            <Label Content="{LocText AccountTransactionType, Suffix=':'}"/>
+            <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="150" 
+                      ItemsSource="{Binding AccountTransactionTypes}" 
+                      SelectedItem="{Binding AccountTransactionType}" DisplayMemberPath="Name"/>
 
             <Button HorizontalAlignment="Left" Margin="0,10" MinWidth="70" Content="{Binding SaveCommand.Caption}"
                  Command="{Binding SaveCommand}" />

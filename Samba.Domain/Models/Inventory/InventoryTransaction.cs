@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Samba.Domain.Models.Accounts;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Inventory
@@ -10,6 +12,10 @@ namespace Samba.Domain.Models.Inventory
         public int InventoryTransactionTypeId { get; set; }
         public int SourceWarehouseId { get; set; }
         public int TargetWarehouseId { get; set; }
+        public virtual AccountTransactionType AccountTransactionType { get; set; }
+        public int SourceAccountId { get; set; }
+        public int TargetAccountId { get; set; }
+        public virtual AccountTransactionDocument TransactionDocument { get; set; }
 
         private readonly IList<InventoryTransactionItem> _transactionItems;
         public virtual IList<InventoryTransactionItem> TransactionItems
@@ -29,10 +35,10 @@ namespace Samba.Domain.Models.Inventory
                        {
                            InventoryTransactionTypeId = transactionType.Id,
                            SourceWarehouseId = transactionType.DefaultSourceWarehouseId,
-                           TargetWarehouseId = transactionType.DefaultTargetWarehouseId
+                           TargetWarehouseId = transactionType.DefaultTargetWarehouseId,
+                           AccountTransactionType = transactionType.AccountTransactionType
                        };
         }
-
 
         public InventoryTransactionItem Add(InventoryItem inventoryItem, decimal price, decimal quantity, string unit, int multiplier)
         {
@@ -52,11 +58,36 @@ namespace Samba.Domain.Models.Inventory
         public void SetSourceWarehouse(Warehouse warehouse)
         {
             SourceWarehouseId = warehouse.Id;
+            SourceAccountId = warehouse.AccountId;
         }
 
         public void SetTargetWarehouse(Warehouse warehouse)
         {
             TargetWarehouseId = warehouse.Id;
+            TargetAccountId = warehouse.AccountId;
+        }
+
+        public decimal GetSum()
+        {
+            return _transactionItems.Sum(x => x.Price * x.Quantity);
+        }
+
+        public void Recalculate()
+        {
+            if (AccountTransactionType == null) return;
+            if (SourceAccountId == 0 || TargetAccountId == 0) return;
+
+            if (TransactionDocument == null) TransactionDocument = new AccountTransactionDocument();
+            var transaction = TransactionDocument.AccountTransactions.SingleOrDefault(x => x.AccountTransactionTypeId == AccountTransactionType.Id);
+            if (transaction == null)
+            {
+                transaction = TransactionDocument.AddNewTransaction(AccountTransactionType,
+                                                                    AccountTransactionType.SourceAccountTypeId,
+                                                                    SourceAccountId);
+            }
+            transaction.UpdateAccounts(AccountTransactionType.SourceAccountTypeId, SourceAccountId);
+            transaction.UpdateAccounts(AccountTransactionType.TargetAccountTypeId, TargetAccountId);
+            transaction.UpdateAmount(GetSum(), 1);
         }
     }
 }
