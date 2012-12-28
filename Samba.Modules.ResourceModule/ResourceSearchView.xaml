@@ -61,15 +61,21 @@
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0">
                 <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding SelectResourceCommandCaption}"
-                         Command="{Binding SelectResourceCommand}" Name="SelectResourceButton" />
+                                       Command="{Binding SelectResourceCommand}" Name="SelectResourceButton" 
+                                       Visibility="{Binding IsResourceSelectorVisible,Converter={StaticResource VisibilityConverter}}"/>
                 <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding EditResourceCommandCaption}"
-                         Command="{Binding EditResourceCommand}"/>
+                                       Command="{Binding EditResourceCommand}"/>
                 <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding CreateResourceCommandCaption}"
-                         Command="{Binding CreateResourceCommand}" Name="CreateResourceButton" />
+                                       Command="{Binding CreateResourceCommand}" Name="CreateResourceButton" />
                 <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding RemoveResourceCommandCaption}"
-                         Command="{Binding RemoveResourceCommand}"/>
+                                       Command="{Binding RemoveResourceCommand}"
+                                       Visibility="{Binding IsResourceSelectorVisible,Converter={StaticResource VisibilityConverter}}"/>
                 <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding DisplayAccountCommand.Caption}"
-                         Command="{Binding DisplayAccountCommand}" />
+                                       Command="{Binding DisplayAccountCommand}" />
+                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding DisplayInventoryCommand.Caption}"
+                                       Command="{Binding DisplayInventoryCommand}" 
+                                       Visibility="{Binding IsInventorySelectorVisible,Converter={StaticResource VisibilityConverter}}"/>
+
             </StackPanel>
         </Grid>
 

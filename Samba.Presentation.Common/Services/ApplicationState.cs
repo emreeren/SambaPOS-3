@@ -276,14 +276,6 @@ namespace Samba.Presentation.Common.Services
                                                        CurrentLoggedInUser.UserRole.Id);
         }
 
-        public IEnumerable<ResourceType> GetTicketResources()
-        {
-            return GetTicketResourceScreens()
-                .OrderBy(x => x.SortOrder)
-                .Select(x => _cacheService.GetResourceTypeById(x.ResourceTypeId))
-                .Distinct();
-        }
-
         public IEnumerable<TaxTemplate> GetTaxTemplates(int menuItemId)
         {
             return _cacheService.GetTaxTemplates(CurrentTicketType.Id,

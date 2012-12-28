@@ -62,11 +62,14 @@
     </Compile>
     <Compile Include="InventoryItemViewModel.cs" />
     <Compile Include="InventoryModule.cs" />
+    <Compile Include="ResourceInventoryView.xaml.cs">
+      <DependentUpon>ResourceInventoryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ResourceInventoryViewModel.cs" />
     <Compile Include="TransactionTypeView.xaml.cs">
       <DependentUpon>TransactionTypeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TransactionTypeViewModel.cs" />
-    <Compile Include="MaterialViewModel.cs" />
     <Compile Include="PeriodicConsumptionItemViewModel.cs" />
     <Compile Include="PeriodicConsumptionListViewModel.cs" />
     <Compile Include="PeriodicConsumptionView.xaml.cs">
@@ -86,14 +89,6 @@
     </Compile>
     <Compile Include="TransactionViewModel.cs" />
     <Compile Include="WarehouseConsumptionViewModel.cs" />
-    <Compile Include="WarehouseTypeView.xaml.cs">
-      <DependentUpon>WarehouseTypeView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="WarehouseTypeViewModel.cs" />
-    <Compile Include="WarehouseView.xaml.cs">
-      <DependentUpon>WarehouseView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="WarehouseViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="InventoryItemView.xaml">
@@ -108,19 +103,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ResourceInventoryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TransactionTypeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TransactionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="WarehouseTypeView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="WarehouseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -149,6 +140,10 @@
     <ProjectReference Include="..\Samba.Presentation.Services.Common\Samba.Presentation.Services.Common.csproj">
       <Project>{F2C77290-6806-4F23-BEB7-171C4008D13B}</Project>
       <Name>Samba.Presentation.Services.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Presentation.Services.Implementations\Samba.Presentation.Services.Implementations.csproj">
+      <Project>{D129FE5D-2C81-4163-BEF4-0C6150FEB766}</Project>
+      <Name>Samba.Presentation.Services.Implementations</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Presentation.Services\Samba.Presentation.Services.csproj">
       <Project>{7DD8848C-3ADB-45B3-BD49-10AF3AEE2521}</Project>

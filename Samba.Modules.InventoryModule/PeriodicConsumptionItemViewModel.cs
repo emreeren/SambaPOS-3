@@ -7,7 +7,7 @@ using Samba.Presentation.Common;
 
 namespace Samba.Modules.InventoryModule
 {
-    class PeriodicConsumptionItemViewModel : ObservableObject
+    public class PeriodicConsumptionItemViewModel : ObservableObject
     {
         public PeriodicConsumptionItemViewModel(PeriodicConsumptionItem model)
         {

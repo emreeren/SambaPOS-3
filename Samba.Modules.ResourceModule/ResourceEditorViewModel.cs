@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using System.Linq;
 using Samba.Domain.Models.Resources;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
@@ -18,21 +19,36 @@ namespace Samba.Modules.ResourceModule
         private readonly IAccountService _accountService;
         private readonly IUserService _userService;
         private readonly ITicketService _ticketService;
+        private readonly IApplicationState _applicationState;
         public ICaptionCommand SaveResourceCommand { get; set; }
         public ICaptionCommand SelectResourceCommand { get; set; }
         public ICaptionCommand CreateAccountCommand { get; set; }
 
         [ImportingConstructor]
-        public ResourceEditorViewModel(ICacheService cacheService, IAccountService accountService, IUserService userService, ITicketService ticketService)
+        public ResourceEditorViewModel(ICacheService cacheService, IAccountService accountService, IUserService userService, ITicketService ticketService, IApplicationState applicationState)
         {
             _cacheService = cacheService;
             _accountService = accountService;
             _userService = userService;
             _ticketService = ticketService;
+            _applicationState = applicationState;
             SaveResourceCommand = new CaptionCommand<string>(Resources.Save, OnSaveResource, CanSelectResource);
             SelectResourceCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.Resource).Replace(" ", "\r"), OnSelectResource, CanSelectResource);
             CreateAccountCommand = new CaptionCommand<string>(string.Format(Resources.Create_f, Resources.Account).Replace(" ", "\r"), OnCreateAccount, CanCreateAccount);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Resource>>>().Subscribe(OnEditResource);
+        }
+
+        public bool IsResourceSelectorVisible
+        {
+            get
+            {
+                if (_applicationState.SelectedResourceScreen != null)
+                {
+                    var ticketType = _cacheService.GetTicketTypeById(_applicationState.SelectedResourceScreen.TicketTypeId);
+                    return ticketType.ResourceTypeAssignments.Any(x => x.ResourceTypeId == SelectedResource.ResourceType.Id);
+                }
+                return false;
+            }
         }
 
         private bool CanCreateAccount(string arg)
@@ -89,6 +105,7 @@ namespace Samba.Modules.ResourceModule
                 CustomDataViewModel = new ResourceCustomDataViewModel(obj.Value.SelectedEntity, resourceType);
                 SelectedResource.UpdateDetailedInfo();
                 RaisePropertyChanged(() => CustomDataViewModel);
+                RaisePropertyChanged(() => IsResourceSelectorVisible);
             }
         }
 

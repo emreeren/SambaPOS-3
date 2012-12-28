@@ -5,6 +5,7 @@ using System.Linq;
 using FluentValidation;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Inventory;
+using Samba.Domain.Models.Resources;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
 
@@ -21,71 +22,71 @@ namespace Samba.Modules.InventoryModule
 
         public AccountTransactionType AccountTransactionType { get { return Model.AccountTransactionType; } set { Model.AccountTransactionType = value; } }
 
-        private IEnumerable<WarehouseType> _warehouseTypes;
-        public IEnumerable<WarehouseType> WarehouseTypes
+        private IEnumerable<ResourceType> _resourceTypes;
+        public IEnumerable<ResourceType> ResourceTypes
         {
-            get { return _warehouseTypes ?? (_warehouseTypes = Workspace.All<WarehouseType>()); }
+            get { return _resourceTypes ?? (_resourceTypes = Workspace.All<ResourceType>()); }
         }
 
-        private WarehouseType _sourceWarehouseType;
-        public WarehouseType SourceWarehouseType
+        private ResourceType _sourceResourceType;
+        public ResourceType SourceResourceType
         {
             get
             {
-                return _sourceWarehouseType ??
-                       (_sourceWarehouseType = WarehouseTypes.SingleOrDefault(x => x.Id == Model.SourceWarehouseTypeId));
+                return _sourceResourceType ??
+                       (_sourceResourceType = ResourceTypes.SingleOrDefault(x => x.Id == Model.SourceResourceTypeId));
             }
             set
             {
-                Model.SourceWarehouseTypeId = value.Id;
-                _sourceWarehouseType = null;
-                _sourceWarehouses = null;
-                RaisePropertyChanged(() => SourceWarehouseType);
-                RaisePropertyChanged(() => SourceWarehouses);
+                Model.SourceResourceTypeId = value.Id;
+                _sourceResourceType = null;
+                _sourceResources = null;
+                RaisePropertyChanged(() => SourceResourceType);
+                RaisePropertyChanged(() => SourceResources);
             }
         }
 
-        private WarehouseType _targetWarehouseType;
-        public WarehouseType TargetWarehouseType
+        private ResourceType _targetResourceType;
+        public ResourceType TargetResourceType
         {
             get
             {
-                return _targetWarehouseType ??
-                       (_targetWarehouseType = WarehouseTypes.SingleOrDefault(x => x.Id == Model.TargetWarehouseTypeId));
+                return _targetResourceType ??
+                       (_targetResourceType = ResourceTypes.SingleOrDefault(x => x.Id == Model.TargetResourceTypeId));
             }
             set
             {
-                Model.TargetWarehouseTypeId = value.Id;
-                _targetWarehouseType = null;
-                _targetWarehouses = null;
-                RaisePropertyChanged(() => TargetWarehouseType);
-                RaisePropertyChanged(() => TargetWarehouses);
+                Model.TargetResourceTypeId = value.Id;
+                _targetResourceType = null;
+                _targetResources = null;
+                RaisePropertyChanged(() => TargetResourceType);
+                RaisePropertyChanged(() => TargetResources);
             }
         }
 
-        public int? DefaultSourceWarehouseId { get { return Model.DefaultSourceWarehouseId; } set { Model.DefaultSourceWarehouseId = value.GetValueOrDefault(0); } }
-        public int? DefaultTargetWarehouseId { get { return Model.DefaultTargetWarehouseId; } set { Model.DefaultTargetWarehouseId = value.GetValueOrDefault(0); } }
+        public int? DefaultSourceResourceId { get { return Model.DefaultSourceResourceId; } set { Model.DefaultSourceResourceId = value.GetValueOrDefault(0); } }
+        public int? DefaultTargetResourceId { get { return Model.DefaultTargetResourceId; } set { Model.DefaultTargetResourceId = value.GetValueOrDefault(0); } }
 
-        private IEnumerable<Warehouse> _sourceWarehouses;
-        public IEnumerable<Warehouse> SourceWarehouses
+        private IEnumerable<Resource> _sourceResources;
+        public IEnumerable<Resource> SourceResources
         {
-            get { return _sourceWarehouses ?? (_sourceWarehouses = GetSoruceWarehouses()); }
+            get { return _sourceResources ?? (_sourceResources = GetSoruceResources()); }
         }
 
-        private IEnumerable<Warehouse> _targetWarehouses;
-        public IEnumerable<Warehouse> TargetWarehouses
+        private IEnumerable<Resource> _targetResources;
+        public IEnumerable<Resource> TargetResources
         {
-            get { return _targetWarehouses ?? (_targetWarehouses = GetTargetWarehouses()); }
+            get { return _targetResources ?? (_targetResources = GetTargetResources()); }
         }
 
-        private IEnumerable<Warehouse> GetSoruceWarehouses()
+        private IEnumerable<Resource> GetSoruceResources()
         {
-            return SourceWarehouseType != null ? Workspace.All<Warehouse>(x => x.WarehouseTypeId == SourceWarehouseType.Id).ToList() : null;
+            return SourceResourceType != null ? Workspace.All<Resource>(x => x.ResourceTypeId == SourceResourceType.Id).ToList() : null;
         }
 
-        private IEnumerable<Warehouse> GetTargetWarehouses()
+        private IEnumerable<Resource> GetTargetResources()
         {
-            return TargetWarehouseType != null ? Workspace.All<Warehouse>(x => x.WarehouseTypeId == TargetWarehouseType.Id).ToList() : null;
+            return TargetResourceType != null ? Workspace.All<Resource>(x => x.ResourceTypeId == TargetResourceType.Id).ToList() : null;
         }
 
         protected override AbstractValidator<InventoryTransactionType> GetValidator()
@@ -104,15 +105,14 @@ namespace Samba.Modules.InventoryModule
         }
     }
 
-
     internal class TransactionTypeValidator : EntityValidator<InventoryTransactionType>
     {
         public TransactionTypeValidator()
         {
-            RuleFor(x => x.SourceWarehouseTypeId).GreaterThan(0);
-            RuleFor(x => x.TargetWarehouseTypeId).GreaterThan(0);
-            RuleFor(x => x.DefaultSourceWarehouseId).NotEqual(x => x.DefaultTargetWarehouseId).When(
-                x => x.DefaultSourceWarehouseId > 0 && x.DefaultTargetWarehouseId > 0);
+            RuleFor(x => x.SourceResourceTypeId).GreaterThan(0);
+            RuleFor(x => x.TargetResourceTypeId).GreaterThan(0);
+            RuleFor(x => x.DefaultSourceResourceId).NotEqual(x => x.DefaultTargetResourceId).When(
+                x => x.DefaultSourceResourceId > 0 && x.DefaultTargetResourceId > 0);
         }
     }
 }

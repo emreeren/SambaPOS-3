@@ -65,12 +65,13 @@ namespace Samba.Services
         int GetResourceTypeIdByEntityName(string entityName);
         IEnumerable<State> GetStates(int stateType);
         string GetStateColor(string resourceState);
+        IEnumerable<ResourceType> GetResourceTypesByTicketType(int ticketTypeId);
         IEnumerable<Resource> GetResources(int resourceTypeId,string stateData);
         Resource GetResourceByName(string resourceTypeName, string resourceName);
         IEnumerable<PrinterTemplate> GetPrinterTemplates();
         IEnumerable<Printer> GetPrinters();
-        IEnumerable<Warehouse> GetLocalWarehouses();
-        IEnumerable<WarehouseType> GetWarehouseTypes();
-        WarehouseType GetWarehouseTypeById(int warehouseTypeId);
+        IEnumerable<Resource> GetWarehouseResources();
+        IEnumerable<int> GetWarehouseResourceTypeIds();
+        
     }
 }

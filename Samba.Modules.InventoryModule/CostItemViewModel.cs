@@ -4,7 +4,7 @@ using Samba.Presentation.Common;
 
 namespace Samba.Modules.InventoryModule
 {
-    class CostItemViewModel : ObservableObject
+    public class CostItemViewModel : ObservableObject
     {
         public CostItem Model { get; set; }
 

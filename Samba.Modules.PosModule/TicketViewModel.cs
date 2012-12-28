@@ -57,10 +57,10 @@ namespace Samba.Modules.PosModule
         {
             get
             {
-                if (_resourceButtons == null && SelectedDepartment != null)
+                if (_resourceButtons == null && SelectedDepartment != null && SelectedTicket != null && SelectedTicket.TicketTypeId > 0)
                 {
                     _resourceButtons = new ObservableCollection<ResourceButton>(
-                        _applicationState.GetTicketResources()
+                        _cacheService.GetResourceTypesByTicketType(SelectedTicket.TicketTypeId)
                         .Select(x => new ResourceButton(x, SelectedTicket)));
                 }
                 return _resourceButtons;

@@ -297,25 +297,20 @@ namespace Samba.Presentation.Services.Common
             _workspace.Add(accountPayment);
             _workspace.Add(ticketType);
 
-            var localWarehouseType = new WarehouseType { Name = Resources.LocalWarehouses };
-            var sellerWarehouseType = new WarehouseType { Name = Resources.SellerWarehouses };
-
-            _workspace.Add(localWarehouseType);
-            _workspace.Add(sellerWarehouseType);
+            var warehouseType = new ResourceType { Name = "Warehouses", EntityName = Resources.Warehouse };
+            _workspace.Add(warehouseType);
             _workspace.CommitChanges();
 
-            var localWarehouse = new Warehouse
+            var localWarehouse = new Resource
             {
                 Name = Resources.LocalWarehouse,
-                LocalWarehouse = true,
-                WarehouseTypeId = localWarehouseType.Id
+                ResourceTypeId = warehouseType.Id
             };
 
-            var sellerWarehouse = new Warehouse
+            var sellerWarehouse = new Resource
             {
                 Name = Resources.SellerWarehouse,
-                LocalWarehouse = false,
-                WarehouseTypeId = sellerWarehouseType.Id
+                ResourceTypeId = warehouseType.Id
             };
 
             _workspace.Add(localWarehouse);
@@ -333,10 +328,10 @@ namespace Samba.Presentation.Services.Common
             var transactionType = new InventoryTransactionType
                                       {
                                           Name = Resources.PurchaseTransaction,
-                                          SourceWarehouseTypeId = sellerWarehouseType.Id,
-                                          DefaultSourceWarehouseId = sellerWarehouse.Id,
-                                          TargetWarehouseTypeId = localWarehouseType.Id,
-                                          DefaultTargetWarehouseId = localWarehouse.Id
+                                          SourceResourceTypeId = warehouseType.Id,
+                                          DefaultSourceResourceId = sellerWarehouse.Id,
+                                          TargetResourceTypeId = warehouseType.Id,
+                                          DefaultTargetResourceId = localWarehouse.Id
                                       };
 
             _workspace.Add(transactionType);

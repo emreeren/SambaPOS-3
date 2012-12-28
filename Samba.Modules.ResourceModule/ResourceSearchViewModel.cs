@@ -36,6 +36,7 @@ namespace Samba.Modules.ResourceModule
         public DelegateCommand<string> EditResourceCommand { get; set; }
         public DelegateCommand<string> RemoveResourceCommand { get; set; }
         public ICaptionCommand DisplayAccountCommand { get; set; }
+        public ICaptionCommand DisplayInventoryCommand { get; set; }
 
         public string SelectResourceCommandCaption { get { return string.Format(Resources.Select_f, SelectedEntityName()).Replace(" ", "\r"); } }
         public string CreateResourceCommandCaption { get { return string.Format(Resources.New_f, SelectedEntityName()).Replace(" ", "\r"); } }
@@ -74,7 +75,18 @@ namespace Samba.Modules.ResourceModule
             EditResourceCommand = new CaptionCommand<string>("", OnEditResource, CanEditResource);
             CreateResourceCommand = new CaptionCommand<string>("", OnCreateResource, CanCreateResource);
             DisplayAccountCommand = new CaptionCommand<string>(Resources.AccountDetails.Replace(" ", "\r"), OnDisplayAccount, CanDisplayAccount);
+            DisplayInventoryCommand = new CaptionCommand<string>(Resources.Inventory, OnDisplayInventory, CanDisplayInventory);
             RemoveResourceCommand = new CaptionCommand<string>("", OnRemoveResource, CanRemoveResource);
+        }
+
+        private bool CanDisplayInventory(string arg)
+        {
+            return SelectedResource != null && _cacheService.GetWarehouseResourceTypeIds().Contains(SelectedResourceType.Id);
+        }
+
+        private void OnDisplayInventory(string obj)
+        {
+            SelectedResource.Model.PublishEvent(EventTopicNames.DisplayInventory);
         }
 
         protected string StateFilter { get; set; }
@@ -95,6 +107,8 @@ namespace Samba.Modules.ResourceModule
                 RaisePropertyChanged(() => CreateResourceCommandCaption);
                 RaisePropertyChanged(() => EditResourceCommandCaption);
                 RaisePropertyChanged(() => RemoveResourceCommandCaption);
+                RaisePropertyChanged(() => IsResourceSelectorVisible);
+                RaisePropertyChanged(() => IsInventorySelectorVisible);
                 InvokeSelectedResourceTypeChanged(EventArgs.Empty);
             }
         }
@@ -138,6 +152,31 @@ namespace Samba.Modules.ResourceModule
                     RaisePropertyChanged(() => SearchString);
                     ResetTimer();
                 }
+            }
+        }
+
+        public bool IsResourceSelectorVisible
+        {
+            get
+            {
+                if (_applicationState.SelectedResourceScreen != null)
+                {
+                    var ticketType = _cacheService.GetTicketTypeById(_applicationState.SelectedResourceScreen.TicketTypeId);
+                    return ticketType.ResourceTypeAssignments.Any(x => x.ResourceTypeId == SelectedResourceType.Id);
+                }
+                return false;
+            }
+        }
+
+        public bool IsInventorySelectorVisible
+        {
+            get
+            {
+                if (SelectedResourceType != null)
+                {
+                    if (_cacheService.GetWarehouseResourceTypeIds().Contains(SelectedResourceType.Id)) return true;
+                }
+                return false;
             }
         }
 
@@ -220,7 +259,7 @@ namespace Samba.Modules.ResourceModule
             if (_currentResourceSelectionRequest != null && _currentResourceSelectionRequest.SelectedEntity != null && !string.IsNullOrEmpty(_currentResourceSelectionRequest.SelectedEntity.Name))
             {
                 ClearSearchValues();
-                if (_currentResourceSelectionRequest.SelectedEntity.Name != "*")
+                if (_currentResourceSelectionRequest.SelectedEntity.Name != "*" && _currentResourceSelectionRequest.SelectedEntity.ResourceTypeId == SelectedResourceType.Id)
                 {
                     FoundResources.Add(new ResourceSearchResultViewModel(_currentResourceSelectionRequest.SelectedEntity, SelectedResourceType));
                 }

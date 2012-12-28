@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Samba.Domain.Models.Inventory;
+using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 
 namespace Samba.Presentation.Services
@@ -12,7 +13,7 @@ namespace Samba.Presentation.Services
         IEnumerable<string> GetInventoryItemNames();
         IEnumerable<string> GetGroupCodes();
         void SavePeriodicConsumption(PeriodicConsumption pc);
-        decimal GetInventory(InventoryItem inventoryItem, Warehouse warehouse);
+        decimal GetInventory(InventoryItem inventoryItem, Resource resource);
         void DoWorkPeriodStart();
         void DoWorkPeriodEnd();
     }

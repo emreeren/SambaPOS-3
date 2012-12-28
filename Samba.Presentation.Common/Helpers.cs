@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using Samba.Localization.Pluralization;
 
 namespace Samba.Presentation.Common
 {

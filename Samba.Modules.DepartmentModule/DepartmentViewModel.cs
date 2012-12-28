@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using FluentValidation;
 using Samba.Domain.Models.Inventory;
+using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
@@ -38,10 +39,10 @@ namespace Samba.Modules.DepartmentModule
 
         public int TicketTypeId { get { return Model.TicketTypeId; } set { Model.TicketTypeId = value; } }
 
-        private IEnumerable<Warehouse> _warehouses;
-        public IEnumerable<Warehouse> Warehouses
+        private IEnumerable<Resource> _warehouses;
+        public IEnumerable<Resource> Warehouses
         {
-            get { return _warehouses ?? (_warehouses = _cacheService.GetLocalWarehouses()); }
+            get { return _warehouses ?? (_warehouses = _cacheService.GetWarehouseResources()); }
         }
 
         public int WarehouseId { get { return Model.WarehouseId; } set { Model.WarehouseId = value; } }

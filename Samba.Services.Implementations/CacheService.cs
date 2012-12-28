@@ -484,13 +484,29 @@ namespace Samba.Services.Implementations
             return rt != null ? rt.Id : 0;
         }
 
+        private IEnumerable<InventoryTransactionType> _inventoryTransactionTypes;
+        public IEnumerable<InventoryTransactionType> InventoryTransactionTypes
+        {
+            get { return _inventoryTransactionTypes ?? (_inventoryTransactionTypes = _dataService.GetInventoryTransactionTypes()); }
+        }
+
+        public IEnumerable<Printer> GetPrinters() { return Printers; }
+        public IEnumerable<Resource> GetWarehouseResources()
+        {
+            var resourceTypeIds = InventoryTransactionTypes.Select(x => x.SourceResourceTypeId).Distinct();
+            return _resourceCache.GetResourcesByTypeIds(resourceTypeIds);
+        }
+
+        public IEnumerable<int> GetWarehouseResourceTypeIds()
+        {
+            return InventoryTransactionTypes.Select(x => x.SourceResourceTypeId).Distinct();
+        }
+
         private IEnumerable<Printer> _printers;
         public IEnumerable<Printer> Printers
         {
             get { return _printers ?? (_printers = _printerDao.GetPrinters()); }
         }
-
-        public IEnumerable<Printer> GetPrinters() { return Printers; }
 
         private IEnumerable<PrinterTemplate> _printerTemplates;
         protected IEnumerable<PrinterTemplate> PrinterTemplates
@@ -500,36 +516,7 @@ namespace Samba.Services.Implementations
 
         public IEnumerable<PrinterTemplate> GetPrinterTemplates() { return PrinterTemplates; }
 
-
-        private IEnumerable<Warehouse> _warehouses;
-        protected IEnumerable<Warehouse> Warehouses
-        {
-            get { return _warehouses ?? (_warehouses = _dataService.GetWarehouses()); }
-        }
-
-        public IEnumerable<Warehouse> GetLocalWarehouses()
-        {
-            return Warehouses;
-        }
-
-        public IEnumerable<WarehouseType> WarehouseTypes
-        {
-            get { return _warehouseTypes??(_warehouseTypes = _dataService.GetWarehouseTypes()); }
-        }
-
-        public IEnumerable<WarehouseType> GetWarehouseTypes()
-        {
-            return WarehouseTypes;
-        }
-
-        public WarehouseType GetWarehouseTypeById(int warehouseTypeId)
-        {
-            return WarehouseTypes.SingleOrDefault(x => x.Id == warehouseTypeId);
-        }
-
         private IEnumerable<State> _states;
-        private IEnumerable<WarehouseType> _warehouseTypes;
-
         public IEnumerable<State> States
         {
             get { return _states ?? (_states = _dataService.GetStates()); }
@@ -543,6 +530,14 @@ namespace Samba.Services.Implementations
         public string GetStateColor(string state)
         {
             return States.Any(x => x.Name == state) ? States.Single(x => x.Name == state).Color : "Transparent";
+        }
+
+        public IEnumerable<ResourceType> GetResourceTypesByTicketType(int ticketTypeId)
+        {
+            return TicketTypes.Single(x => x.Id == ticketTypeId)
+                .ResourceTypeAssignments
+                .OrderBy(x => x.SortOrder)
+                .Select(x => GetResourceTypeById(x.ResourceTypeId));
         }
 
         public IEnumerable<Resource> GetResources(int resourceTypeId, string stateData)
@@ -569,8 +564,7 @@ namespace Samba.Services.Implementations
         public void ResetCache()
         {
             _dataService.ResetCache();
-            _warehouseTypes = null;
-            _warehouses = null;
+            _inventoryTransactionTypes = null;
             _printers = null;
             _printerTemplates = null;
             _states = null;
@@ -600,6 +594,16 @@ namespace Samba.Services.Implementations
     internal class ResourceCache
     {
         private readonly IDictionary<int, IEnumerable<Resource>> _cache = new Dictionary<int, IEnumerable<Resource>>();
+
+        public IEnumerable<Resource> GetResourcesByTypeIds(IEnumerable<int> resourceTypeIds)
+        {
+            var result = new List<Resource>();
+            foreach (var resourceTypeId in resourceTypeIds)
+            {
+                result.AddRange(GetResources(resourceTypeId, ""));
+            }
+            return result;
+        }
 
         public IEnumerable<Resource> GetResources(int resourceTypeId, string stateData)
         {
@@ -643,5 +647,7 @@ namespace Samba.Services.Implementations
         {
             _cache.Clear();
         }
+
+
     }
 }

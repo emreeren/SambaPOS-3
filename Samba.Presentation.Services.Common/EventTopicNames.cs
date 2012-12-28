@@ -124,6 +124,8 @@
         public const string Activate = "Activate";
         public const string HandlerRequested = "HandlerRequested";
         public const string SelectAutomationCommandValue = "SelectAutomationCommandValue";
+        public const string DisplayInventory = "DisplayInventory";
+   
     }
 
     public static class FunctionNames

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Linq.Expressions;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Automation;
 using Samba.Domain.Models.Inventory;
@@ -156,14 +154,9 @@ namespace Samba.Persistance.DaoClasses.Implementations
             return Dao.Query<TaxTemplate>(x => x.AccountTransactionType, x => x.TaxTemplateMaps);
         }
 
-        public IEnumerable<Warehouse> GetWarehouses()
+        public IEnumerable<InventoryTransactionType> GetInventoryTransactionTypes()
         {
-            return Dao.Query<Warehouse>().OrderBy(x => x.SortOrder).ThenBy(x => x.Id);
-        }
-
-        public IEnumerable<WarehouseType> GetWarehouseTypes()
-        {
-            return Dao.Query<WarehouseType>();
+            return Dao.Query<InventoryTransactionType>(x => x.AccountTransactionType);
         }
     }
 }

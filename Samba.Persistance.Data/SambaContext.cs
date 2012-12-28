@@ -63,8 +63,6 @@ namespace Samba.Persistance.Data
         public DbSet<WarehouseConsumption> WarehouseConsumptions { get; set; }
         public DbSet<PeriodicConsumptionItem> PeriodicConsumptionItems { get; set; }
         public DbSet<CostItem> CostItems { get; set; }
-        public DbSet<Warehouse> Warehouses { get; set; }
-        public DbSet<WarehouseType> WarehouseTypes { get; set; }
         public DbSet<TicketTag> TicketTags { get; set; }
         public DbSet<TicketTagGroup> TicketTagGroups { get; set; }
         public DbSet<TicketTagMap> TicketTagMaps { get; set; }

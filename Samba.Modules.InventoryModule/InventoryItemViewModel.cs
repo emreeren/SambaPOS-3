@@ -8,11 +8,11 @@ using Samba.Presentation.Services;
 
 namespace Samba.Modules.InventoryModule
 {
-    [Export,PartCreationPolicy(CreationPolicy.NonShared)]
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class InventoryItemViewModel : EntityViewModelBase<InventoryItem>
     {
         private readonly IInventoryService _inventoryService;
-        
+
         [ImportingConstructor]
         public InventoryItemViewModel(IInventoryService inventoryService)
         {
@@ -43,8 +43,8 @@ namespace Samba.Modules.InventoryModule
             get { return Model.BaseUnit; }
             set
             {
-                Model.BaseUnit = value; RaisePropertyChanged(()=>BaseUnit);
-                RaisePropertyChanged(()=>PredictionUnit);
+                Model.BaseUnit = value; RaisePropertyChanged(() => BaseUnit);
+                RaisePropertyChanged(() => PredictionUnit);
             }
         }
 
@@ -54,8 +54,8 @@ namespace Samba.Modules.InventoryModule
             set
             {
                 Model.TransactionUnit = value;
-                RaisePropertyChanged(()=>TransactionUnit);
-                RaisePropertyChanged(()=>PredictionUnit);
+                RaisePropertyChanged(() => TransactionUnit);
+                RaisePropertyChanged(() => PredictionUnit);
             }
         }
 
@@ -65,8 +65,8 @@ namespace Samba.Modules.InventoryModule
             set
             {
                 Model.TransactionUnitMultiplier = value;
-                RaisePropertyChanged(()=>TransactionUnitMultiplier);
-                RaisePropertyChanged(()=>PredictionUnit);
+                RaisePropertyChanged(() => TransactionUnitMultiplier);
+                RaisePropertyChanged(() => PredictionUnit);
             }
         }
 

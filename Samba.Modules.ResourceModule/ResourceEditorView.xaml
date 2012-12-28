@@ -100,7 +100,8 @@
                 <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding SaveResourceCommand.Caption}"
                          Command="{Binding SaveResourceCommand}" />
                 <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding SelectResourceCommandCaption}"
-                         Command="{Binding SelectResourceCommand}" />
+                         Command="{Binding SelectResourceCommand}" 
+                                       Visibility="{Binding IsResourceSelectorVisible,Converter={StaticResource VisibilityConverter}}"/>
                 <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding CreateAccountCommand.Caption}"
                          Command="{Binding CreateAccountCommand}" />
             </StackPanel>

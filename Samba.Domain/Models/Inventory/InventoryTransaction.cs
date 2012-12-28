@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Resources;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Inventory
@@ -10,8 +11,8 @@ namespace Samba.Domain.Models.Inventory
     {
         public DateTime Date { get; set; }
         public int InventoryTransactionTypeId { get; set; }
-        public int SourceWarehouseId { get; set; }
-        public int TargetWarehouseId { get; set; }
+        public int SourceResourceId { get; set; }
+        public int TargetResourceId { get; set; }
         public virtual AccountTransactionType AccountTransactionType { get; set; }
         public int SourceAccountId { get; set; }
         public int TargetAccountId { get; set; }
@@ -34,8 +35,8 @@ namespace Samba.Domain.Models.Inventory
             return new InventoryTransaction
                        {
                            InventoryTransactionTypeId = transactionType.Id,
-                           SourceWarehouseId = transactionType.DefaultSourceWarehouseId,
-                           TargetWarehouseId = transactionType.DefaultTargetWarehouseId,
+                           SourceResourceId = transactionType.DefaultSourceResourceId,
+                           TargetResourceId = transactionType.DefaultTargetResourceId,
                            AccountTransactionType = transactionType.AccountTransactionType
                        };
         }
@@ -55,16 +56,16 @@ namespace Samba.Domain.Models.Inventory
             return result;
         }
 
-        public void SetSourceWarehouse(Warehouse warehouse)
+        public void SetSourceResource(Resource resource)
         {
-            SourceWarehouseId = warehouse.Id;
-            SourceAccountId = warehouse.AccountId;
+            SourceResourceId = resource.Id;
+            SourceAccountId = resource.AccountId;
         }
 
-        public void SetTargetWarehouse(Warehouse warehouse)
+        public void SetTargetResource(Resource resource)
         {
-            TargetWarehouseId = warehouse.Id;
-            TargetAccountId = warehouse.AccountId;
+            TargetResourceId = resource.Id;
+            TargetAccountId = resource.AccountId;
         }
 
         public decimal GetSum()
@@ -78,13 +79,11 @@ namespace Samba.Domain.Models.Inventory
             if (SourceAccountId == 0 || TargetAccountId == 0) return;
 
             if (TransactionDocument == null) TransactionDocument = new AccountTransactionDocument();
-            var transaction = TransactionDocument.AccountTransactions.SingleOrDefault(x => x.AccountTransactionTypeId == AccountTransactionType.Id);
-            if (transaction == null)
-            {
-                transaction = TransactionDocument.AddNewTransaction(AccountTransactionType,
-                                                                    AccountTransactionType.SourceAccountTypeId,
-                                                                    SourceAccountId);
-            }
+
+            var transaction = 
+                TransactionDocument.AccountTransactions.SingleOrDefault(x => x.AccountTransactionTypeId == AccountTransactionType.Id)
+                ?? TransactionDocument.AddNewTransaction(AccountTransactionType, AccountTransactionType.SourceAccountTypeId, SourceAccountId);
+
             transaction.UpdateAccounts(AccountTransactionType.SourceAccountTypeId, SourceAccountId);
             transaction.UpdateAccounts(AccountTransactionType.TargetAccountTypeId, TargetAccountId);
             transaction.UpdateAmount(GetSum(), 1);
