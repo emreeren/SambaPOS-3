@@ -75,10 +75,7 @@ namespace Samba.Infrastructure.Data.Text
                 _storage.Delete<T>(idf.Id);
         }
 
-        public T Single<T>(Expression<Func<T, bool>> expression) where T : class
-        {
-            return _storage.GetItems(expression).FirstOrDefault();
-        }
+
 
         public T Last<T>() where T : class,IValue
         {
@@ -90,19 +87,14 @@ namespace Samba.Infrastructure.Data.Text
             return _storage.GetItems<T>().AsQueryable().Where(expression).LastOrDefault();
         }
 
-        public IEnumerable<T> All<T>() where T : class
-        {
-            return _storage.GetItems<T>();
-        }
-
         public IEnumerable<T> All<T>(params Expression<Func<T, object>>[] includes) where T : class
         {
             return _storage.GetItems<T>();
         }
 
-        public IEnumerable<T> All<T>(Expression<Func<T, bool>> expression) where T : class
+        public IEnumerable<T> All<T>(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes) where T : class
         {
-            return _storage.GetItems(expression);
+                return _storage.GetItems(expression);
         }
 
         public IEnumerable<T> Query<T>(Expression<Func<T, bool>> expression, int limit = 0) where T : class
@@ -184,11 +176,6 @@ namespace Samba.Infrastructure.Data.Text
             //gerekmiyor..
         }
 
-        public T SingleUc<T>(Expression<Func<T, bool>> expression) where T : class
-        {
-            return Single(expression);
-        }
-
         public IEnumerable<T> Query<T>(params string[] includes) where T : class
         {
             return All<T>();
@@ -228,7 +215,7 @@ namespace Samba.Infrastructure.Data.Text
 
         public T Single<T>(Expression<Func<T, bool>> predictate, params Expression<Func<T, object>>[] includes) where T : class
         {
-            return Single(predictate);
+            return _storage.GetItems(predictate).FirstOrDefault();
         }
 
         public T First<T>(Expression<Func<T, bool>> predictate, params Expression<Func<T, object>>[] includes) where T : class

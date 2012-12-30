@@ -5,12 +5,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:uiControls="clr-namespace:Samba.Presentation.Controls.UIControls;assembly=Samba.Presentation.Controls"
              xmlns:System="clr-namespace:System;assembly=mscorlib" mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <TabControl SelectionChanged="TabControl_SelectionChanged">
+             d:DesignHeight="300" d:DesignWidth="600" FontSize="20">
+    <Grid Margin="3">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" FontWeight="Bold" Content="{Binding SelectedResource.Name}" Margin="3"/>
+        <TabControl Grid.Row="1" SelectionChanged="TabControl_SelectionChanged">
             <TabItem Header="{LocText InventoryItems}">
                 <DataGrid ItemsSource="{Binding PeriodicConsumptionItems}"
-                                 HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
+                                 HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="5"
                                  AutoGenerateColumns="False" CanUserSortColumns="False" CanUserDeleteRows="False" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}"
                                  PreviewKeyDown="DataGrid_PreviewKeyDown" PreviewTextInput="DataGrid_PreviewTextInput"
                                  PreparingCellForEdit="DataGrid_PreparingCellForEdit">
@@ -29,7 +34,7 @@
                         </Style>
                     </DataGrid.Resources>
                     <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="{LocText InventoryItemName}"
+                        <DataGridTemplateColumn Width="2*" Header="{LocText InventoryItemName}"
                              IsReadOnly="True" MinWidth="100" CellStyle="{StaticResource LeftAlignedGridCell}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -37,7 +42,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="{LocText Unit}" IsReadOnly="True"
+                        <DataGridTemplateColumn Width="*" Header="{LocText Unit}" IsReadOnly="True"
                              CellStyle="{StaticResource LeftAlignedGridCell}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -45,48 +50,48 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="{LocText InStock}"
-                             Width="60" IsReadOnly="True" CellStyle="{StaticResource RightAlignedGridCell}">
+                        <DataGridTemplateColumn Width="*" Header="{LocText InStock}"
+                            MinWidth="60" IsReadOnly="True" CellStyle="{StaticResource RightAlignedGridCell}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Margin="3" Text="{Binding Path=InStock,StringFormat='#,#0.##;-#,#0.##;-'}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="{LocText Purchase}"
-                             Width="60" IsReadOnly="True" CellStyle="{StaticResource RightAlignedGridCell}">
+                        <DataGridTemplateColumn Width="*" Header="{LocText Purchase}"
+                             MinWidth="60" IsReadOnly="True" CellStyle="{StaticResource RightAlignedGridCell}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Margin="3" Text="{Binding Path=Purchase,StringFormat='#,#0.##;-#,#0.##;-'}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="{LocText Cost}"
-                             Width="60" IsReadOnly="True" CellStyle="{StaticResource RightAlignedGridCell}">
+                        <DataGridTemplateColumn Width="*" Header="{LocText Cost}"
+                             MinWidth="60" IsReadOnly="True" CellStyle="{StaticResource RightAlignedGridCell}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Margin="3" Text="{Binding Path=Cost,StringFormat='#,#0.00'}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="{LocText InventoryConsumption}"
-                             Width="60" IsReadOnly="True" CellStyle="{StaticResource RightAlignedGridCell}">
+                        <DataGridTemplateColumn Width="*" Header="{LocText InventoryConsumption}"
+                             MinWidth="60" IsReadOnly="True" CellStyle="{StaticResource RightAlignedGridCell}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Margin="3" Text="{Binding Path=Consumption,StringFormat='#,#0.##;-#,#0.##;-'}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="{LocText PredictedInventory}"
-                             Width="60" IsReadOnly="True" CellStyle="{StaticResource RightAlignedGridCell}">
+                        <DataGridTemplateColumn Width="*" Header="{LocText PredictedInventory}"
+                             MinWidth="60" IsReadOnly="True" CellStyle="{StaticResource RightAlignedGridCell}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Margin="3" Text="{Binding Path=InventoryPrediction,StringFormat='#,#0.##'}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="{LocText CurrentInventory}"
-                             Width="60" CellStyle="{StaticResource RightAlignedGridCell}">
+                        <DataGridTemplateColumn Width="*" Header="{LocText CurrentInventory}"
+                             MinWidth="60" CellStyle="{StaticResource RightAlignedGridCell}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Margin="3" Text="{Binding Path=PhysicalInventory,StringFormat='#,#0.##'}" />
@@ -106,7 +111,7 @@
             </TabItem>
             <TabItem Header="{LocText Costs}">
                 <DataGrid ItemsSource="{Binding CostItems}" HorizontalAlignment="Stretch" GridLinesVisibility="None"
-                     RowHeaderWidth="0" Margin="0,3" AutoGenerateColumns="False" CanUserSortColumns="False"
+                     RowHeaderWidth="0" Margin="5" AutoGenerateColumns="False" CanUserSortColumns="False"
                      CanUserDeleteRows="False" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
                     <DataGrid.Resources>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
@@ -123,7 +128,7 @@
                         </Style>
                     </DataGrid.Resources>
                     <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="{LocText ProductName}"
+                        <DataGridTemplateColumn Width="2*" Header="{LocText ProductName}"
                              IsReadOnly="True" MinWidth="100" CellStyle="{StaticResource LeftAlignedGridCell}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -131,7 +136,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="{LocText Portion}"
+                        <DataGridTemplateColumn Width="*" Header="{LocText Portion}"
                              IsReadOnly="True" CellStyle="{StaticResource LeftAlignedGridCell}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -139,24 +144,24 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="{LocText SellAmount}"
-                             Width="60" IsReadOnly="True" CellStyle="{StaticResource RightAlignedGridCell}">
+                        <DataGridTemplateColumn Width="*" Header="{LocText SellAmount}"
+                             MinWidth="60" IsReadOnly="True" CellStyle="{StaticResource RightAlignedGridCell}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Margin="3" Text="{Binding Path=Quantity,StringFormat='#,#0.##;-#,#0.##;-'}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="{LocText CostPrediction}"
-                             Width="60" IsReadOnly="True" CellStyle="{StaticResource RightAlignedGridCell}">
+                        <DataGridTemplateColumn Width="*" Header="{LocText CostPrediction}"
+                             MinWidth="60" IsReadOnly="True" CellStyle="{StaticResource RightAlignedGridCell}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Margin="3" Text="{Binding Path=CostPrediction,StringFormat='#,#0.00'}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="{LocText CurrentCost}"
-                             Width="60" IsReadOnly="True" CellStyle="{StaticResource RightAlignedGridCell}">
+                        <DataGridTemplateColumn Width="*" Header="{LocText CurrentCost}"
+                             MinWidth="60" IsReadOnly="True" CellStyle="{StaticResource RightAlignedGridCell}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Margin="3" Text="{Binding Path=Cost,StringFormat='#,#0.00'}" />

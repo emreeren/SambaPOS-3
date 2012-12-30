@@ -44,7 +44,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             _cacheService = cacheService;
         }
 
-        public decimal GetExchangeRate(Account account)
+        private decimal GetExchangeRate(Account account)
         {
             if (account.ForeignCurrencyId == 0) return 1;
             return _cacheService.GetCurrencyById(account.ForeignCurrencyId).ExchangeRate;
@@ -254,13 +254,6 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             clonedResources.ForEach(x => ticket.UpdateResource(x.ResourceTypeId, x.ResourceId, x.ResourceName, x.AccountId, x.ResourceCustomData));
             clonedTags.ForEach(x => ticket.SetTagValue(x.TagName, x.TagValue));
 
-            //foreach (var template in from order in clonedOrders.GroupBy(x => x.AccountTransactionTypeId)
-            //                         where ticket.TransactionDocument.AccountTransactions.All(x => x.AccountTransactionTypeId != order.Key)
-            //                         select _cacheService.GetAccountTransactionTypeById(order.Key))
-            //{
-            //    ticket.TransactionDocument.AddNewTransaction(template, ticket.AccountTypeId, ticket.AccountId);
-            //}
-
             RefreshAccountTransactions(ticket);
 
             _automationService.NotifyEvent(RuleEventNames.TicketsMerged, new { Ticket = ticket });
@@ -280,13 +273,6 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                 clonedOrder.TicketId = 0;
                 ticket.Orders.Add(clonedOrder);
             }
-
-            //foreach (var template in from order in clonedOrders.GroupBy(x => x.AccountTransactionTypeId)
-            //                         where ticket.TransactionDocument.AccountTransactions.All(x => x.AccountTransactionTypeId != order.Key)
-            //                         select _cacheService.GetAccountTransactionTypeById(order.Key))
-            //{
-            //    ticket.TransactionDocument.AddNewTransaction(template, ticket.AccountTypeId, ticket.AccountId);
-            //}
 
             RefreshAccountTransactions(ticket);
 
@@ -403,15 +389,15 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
         public void UpdateAccountOfOpenTickets(Resource resource)
         {
-            var openTicketDataList = GetOpenTickets(resource.Id);
+            var openTicketDataList = GetOpenTickets(resource.Id).Select(x => x.Id);
             using (var w = WorkspaceFactory.Create())
             {
-                var tickets = openTicketDataList.Select(data => w.Single<Ticket>(x => x.Id == data.Id, x => x.TicketResources)).ToList();
+                var tickets = w.All<Ticket>(x => openTicketDataList.Contains(x.Id), x => x.TicketResources);
                 foreach (var ticket in tickets)
                 {
                     ticket.TicketResources.Where(x => x.ResourceId == resource.Id).ToList().ForEach(x => x.AccountId = resource.AccountId);
-                    w.CommitChanges();
                 }
+                w.CommitChanges();
             }
         }
 

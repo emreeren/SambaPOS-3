@@ -31,10 +31,11 @@ namespace Samba.Modules.InventoryModule
             _costItems = null;
             RaisePropertyChanged(() => PeriodicConsumptionItems);
             RaisePropertyChanged(() => CostItems);
+            RaisePropertyChanged(() => SelectedResource);
         }
 
         public WarehouseConsumption SelectedWarehouseConsumption { get; set; }
-        protected Resource SelectedResource { get; set; }
+        public Resource SelectedResource { get; set; }
 
         private ObservableCollection<PeriodicConsumptionItemViewModel> _periodicConsumptionItems;
         public ObservableCollection<PeriodicConsumptionItemViewModel> PeriodicConsumptionItems

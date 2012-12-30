@@ -78,9 +78,16 @@ namespace Samba.Infrastructure.Data.SQL
             return includes.Aggregate(_context.Trackable<T>(), (current, include) => current.Include(include));
         }
 
-        public IEnumerable<T> All<T>(Expression<Func<T, bool>> expression) where T : class
+        //public IEnumerable<T> All<T>(Expression<Func<T, bool>> expression) where T : class
+        //{
+        //    return _context.Set<T>().Where(expression);
+        //}
+
+        public IEnumerable<T> All<T>(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes) where T : class
         {
-            return _context.Set<T>().Where(expression);
+            if (includes == null || includes.Length < 1)
+                return _context.Trackable<T>().Where(expression);
+            return includes.Aggregate(_context.Trackable<T>(), (current, include) => current.Include(include)).Where(expression);
         }
 
         public IEnumerable<T> Query<T>(int limit = 0) where T : class

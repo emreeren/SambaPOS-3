@@ -260,6 +260,9 @@ namespace Samba.Presentation.Services.Common
                                          ScreenMenuId = screen.Id,
                                      };
 
+            ticketType.ResourceTypeAssignments.Add(new ResourceTypeAssignment { ResourceTypeId = tableResourceType.Id, ResourceTypeName = tableResourceType.Name, SortOrder = 10 });
+            ticketType.ResourceTypeAssignments.Add(new ResourceTypeAssignment { ResourceTypeId = customerResourceType.Id, ResourceTypeName = customerResourceType.Name, SortOrder = 20 });
+
             var cashPayment = new PaymentType
             {
                 AccountTransactionType = paymentTransactionType,

@@ -13,7 +13,7 @@ namespace Samba.Infrastructure.Data
         T Last<T>() where T : class, IValue;
         T Last<T>(Expression<Func<T, bool>> expression) where T : class, IValue;
         IEnumerable<T> All<T>(params Expression<Func<T, object>>[] includes) where T : class;
-        IEnumerable<T> All<T>(Expression<Func<T, bool>> expression) where T : class;
+        IEnumerable<T> All<T>(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes) where T : class;
 
         IEnumerable<T> Query<T>(int limit = 0) where T : class;
         IEnumerable<T> Query<T>(Expression<Func<T, bool>> expression, int limit = 0) where T : class;

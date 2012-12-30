@@ -19,8 +19,6 @@ namespace Samba.Domain.Models.Menus
             _categories = new List<ScreenMenuCategory>();
         }
 
-        public byte[] LastUpdateTime { get; set; }
-
         private readonly IList<ScreenMenuCategory> _categories;
         public virtual IList<ScreenMenuCategory> Categories
         {
