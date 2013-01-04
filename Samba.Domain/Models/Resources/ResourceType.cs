@@ -12,6 +12,7 @@ namespace Samba.Domain.Models.Resources
         public int SortOrder { get; set; }
         public string EntityName { get; set; }
         public int AccountTypeId { get; set; }
+        public int WarehouseTypeId { get; set; }
         public string AccountNameTemplate { get; set; }
 
         private readonly IList<ResourceCustomField> _resourceCustomFields;

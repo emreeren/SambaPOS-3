@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Inventory;
 using Samba.Domain.Models.Resources;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.Commands;
@@ -15,12 +16,9 @@ namespace Samba.Modules.ResourceModule
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class ResourceTypeViewModel : EntityViewModelBase<ResourceType>
     {
-        private readonly ICacheService _cacheService;
-
         [ImportingConstructor]
-        public ResourceTypeViewModel(ICacheService cacheService)
+        public ResourceTypeViewModel()
         {
-            _cacheService = cacheService;
             AddCustomFieldCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.CustomField), OnAddCustomField);
             DeleteCustomFieldCommand = new CaptionCommand<ResourceCustomFieldViewModel>(string.Format(Resources.Delete_f, Resources.CustomField), OnDeleteCustomField, CanDeleteCustomField);
         }
@@ -28,12 +26,26 @@ namespace Samba.Modules.ResourceModule
         public string AccountNameTemplate { get { return Model.AccountNameTemplate; } set { Model.AccountNameTemplate = value; } }
         public string EntityName { get { return Model.EntityName; } set { Model.EntityName = value; } }
 
+        private IEnumerable<AccountType> _accountTypes;
+        public IEnumerable<AccountType> AccountTypes { get { return _accountTypes ?? (_accountTypes = Workspace.All<AccountType>()); } }
+
         public AccountType AccountType
         {
-            get { return Model.AccountTypeId > 0 ? _cacheService.GetAccountTypeById(Model.AccountTypeId) : null; }
+            get { return AccountTypes.SingleOrDefault(x => x.Id == Model.AccountTypeId); }
             set { Model.AccountTypeId = value != null ? value.Id : 0; }
         }
-        public IEnumerable<AccountType> AccountTypes { get { return _cacheService.GetAccountTypes(); } }
+
+        private IEnumerable<WarehouseType> _warehouseTypes;
+        public IEnumerable<WarehouseType> WarehouseTypes
+        {
+            get { return _warehouseTypes ?? (_warehouseTypes = Workspace.All<WarehouseType>()); }
+        }
+
+        public WarehouseType WarehouseType
+        {
+            get { return WarehouseTypes.SingleOrDefault(x => x.Id == Model.WarehouseTypeId); }
+            set { Model.WarehouseTypeId = value != null ? value.Id : 0; }
+        }
 
         public ICaptionCommand AddCustomFieldCommand { get; set; }
         public ICaptionCommand DeleteCustomFieldCommand { get; set; }

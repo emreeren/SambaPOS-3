@@ -53,6 +53,8 @@ namespace Samba.Persistance.Data
         public DbSet<ProductTimerValue> ProductTimerValues { get; set; }
         public DbSet<ScreenMenu> ScreenMenus { get; set; }
         public DbSet<Permission> Permissions { get; set; }
+        public DbSet<WarehouseType> WarehouseTypes { get; set; }
+        public DbSet<Warehouse> Warehouses { get; set; }
         public DbSet<InventoryItem> InventoryItems { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<RecipeItem> RecipeItems { get; set; }

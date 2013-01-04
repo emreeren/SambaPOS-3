@@ -89,6 +89,14 @@
     </Compile>
     <Compile Include="TransactionViewModel.cs" />
     <Compile Include="WarehouseConsumptionViewModel.cs" />
+    <Compile Include="WarehouseTypeView.xaml.cs">
+      <DependentUpon>WarehouseTypeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WarehouseTypeViewModel.cs" />
+    <Compile Include="WarehouseView.xaml.cs">
+      <DependentUpon>WarehouseView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WarehouseViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="InventoryItemView.xaml">
@@ -112,6 +120,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TransactionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WarehouseTypeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WarehouseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
