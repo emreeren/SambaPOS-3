@@ -81,7 +81,7 @@ namespace Samba.Modules.ResourceModule
 
         private bool CanDisplayInventory(string arg)
         {
-            return SelectedResource != null && _cacheService.GetWarehouseResourceTypeIds().Contains(SelectedResourceType.Id);
+            return SelectedResource != null && SelectedResource.Model.WarehouseId > 0;
         }
 
         private void OnDisplayInventory(string obj)
@@ -172,11 +172,7 @@ namespace Samba.Modules.ResourceModule
         {
             get
             {
-                if (SelectedResourceType != null)
-                {
-                    if (_cacheService.GetWarehouseResourceTypeIds().Contains(SelectedResourceType.Id)) return true;
-                }
-                return false;
+                return SelectedResourceType != null && SelectedResourceType.WarehouseTypeId > 0;
             }
         }
 

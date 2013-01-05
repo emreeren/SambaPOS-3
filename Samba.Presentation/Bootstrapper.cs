@@ -113,6 +113,12 @@ namespace Samba.Presentation
             rm.RegisterViewWithRegion("MessageRegion", typeof(MessageClientStatusView));
 
             Application.Current.MainWindow = (Shell)Shell;
+
+            if (LocalizeDictionary.Instance.Culture.TextInfo.IsRightToLeft)
+            {
+                Application.Current.MainWindow.FlowDirection = FlowDirection.RightToLeft;
+            }
+
             Application.Current.MainWindow.Show();
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ShellInitialized);
             InteractionService.UserIntraction.ToggleSplashScreen();

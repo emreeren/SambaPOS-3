@@ -300,20 +300,20 @@ namespace Samba.Presentation.Services.Common
             _workspace.Add(accountPayment);
             _workspace.Add(ticketType);
 
-            var warehouseType = new ResourceType { Name = "Warehouses", EntityName = Resources.Warehouse };
+            var warehouseType = new WarehouseType { Name = "Warehouses" };
             _workspace.Add(warehouseType);
             _workspace.CommitChanges();
 
-            var localWarehouse = new Resource
+            var localWarehouse = new Warehouse
             {
                 Name = Resources.LocalWarehouse,
-                ResourceTypeId = warehouseType.Id
+                WarehouseTypeId = warehouseType.Id
             };
 
-            var sellerWarehouse = new Resource
+            var sellerWarehouse = new Warehouse
             {
                 Name = Resources.SellerWarehouse,
-                ResourceTypeId = warehouseType.Id
+                WarehouseTypeId = warehouseType.Id
             };
 
             _workspace.Add(localWarehouse);
@@ -331,10 +331,10 @@ namespace Samba.Presentation.Services.Common
             var transactionType = new InventoryTransactionType
                                       {
                                           Name = Resources.PurchaseTransaction,
-                                          SourceResourceTypeId = warehouseType.Id,
-                                          DefaultSourceResourceId = sellerWarehouse.Id,
-                                          TargetResourceTypeId = warehouseType.Id,
-                                          DefaultTargetResourceId = localWarehouse.Id
+                                          SourceWarehouseTypeId = warehouseType.Id,
+                                          DefaultSourceWarehouseId = sellerWarehouse.Id,
+                                          TargetWarehouseTypeId = warehouseType.Id,
+                                          DefaultTargetWarehouseId = localWarehouse.Id
                                       };
 
             _workspace.Add(transactionType);

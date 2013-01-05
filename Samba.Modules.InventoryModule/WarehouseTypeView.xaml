@@ -5,7 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-            
-    </Grid>
+    <StackPanel >
+        <Label Content="{LocText Name,Suffix=':'}"/>
+        <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
+        <Button HorizontalAlignment="Left" Margin="0,10" MinWidth="70" Content="{Binding SaveCommand.Caption}"
+                 Command="{Binding SaveCommand}" />
+        <Label Content="{Binding Error}" Foreground="Red" />
+    </StackPanel>
 </UserControl>

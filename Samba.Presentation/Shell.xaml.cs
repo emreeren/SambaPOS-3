@@ -61,6 +61,8 @@ namespace Samba.Presentation
 
                 });
 
+
+
             UserRegion.Visibility = Visibility.Collapsed;
             RightUserRegion.Visibility = Visibility.Collapsed;
             Height = Properties.Settings.Default.ShellHeight;

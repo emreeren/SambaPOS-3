@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using FluentValidation;
+using Samba.Domain.Models.Inventory;
 using Samba.Domain.Models.Resources;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
@@ -77,6 +78,21 @@ namespace Samba.Modules.ResourceModule
             {
                 if (ResourceType == null) return null;
                 return _accountService.GetCompletingAccountNames(ResourceType.AccountTypeId, AccountName);
+            }
+        }
+
+        public Warehouse Warehouse
+        {
+            get { return Warehouses.SingleOrDefault(x => x.Id == Model.WarehouseId); }
+            set { Model.WarehouseId = value != null ? value.Id : 0; }
+        }
+
+        public IEnumerable<Warehouse> Warehouses
+        {
+            get
+            {
+                var whId = ResourceType != null ? ResourceType.WarehouseTypeId : 0;
+                return Workspace.Query<Warehouse>(x => x.WarehouseTypeId == whId);
             }
         }
 

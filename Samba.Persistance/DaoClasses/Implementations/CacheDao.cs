@@ -154,9 +154,9 @@ namespace Samba.Persistance.DaoClasses.Implementations
             return Dao.Query<TaxTemplate>(x => x.AccountTransactionType, x => x.TaxTemplateMaps);
         }
 
-        public IEnumerable<InventoryTransactionType> GetInventoryTransactionTypes()
+        public IEnumerable<Warehouse> GetWarehouses()
         {
-            return Dao.Query<InventoryTransactionType>(x => x.AccountTransactionType);
+            return Dao.Query<Warehouse>();
         }
     }
 }

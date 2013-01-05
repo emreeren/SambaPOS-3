@@ -26,14 +26,14 @@ namespace Samba.Persistance.DaoClasses.Implementations
         {
             return Dao.Query<InventoryTransaction>(x =>
                                                    x.Date > workPeriodStartDate
-                                                   && (x.TargetResourceId == warehouseId || x.SourceResourceId == warehouseId)
+                                                   && (x.TargetWarehouseId == warehouseId || x.SourceWarehouseId == warehouseId)
                                                    && x.TransactionItems.Any(y => y.InventoryItem.Id == inventoryItemId),
                                                    x => x.TransactionItems.Select(y => y.InventoryItem))
                       .SelectMany(x => x.TransactionItems, (transaction, item) => new InventoryTransactionData
                           {
                               InventoryTransactionItem = item,
-                              SourceWarehouseId = transaction.SourceResourceId,
-                              TargetWarehouseId = transaction.TargetResourceId
+                              SourceWarehouseId = transaction.SourceWarehouseId,
+                              TargetWarehouseId = transaction.TargetWarehouseId
                           })
                       .Where(x => x.InventoryTransactionItem.InventoryItem.Id == inventoryItemId);
         }
@@ -42,13 +42,13 @@ namespace Samba.Persistance.DaoClasses.Implementations
         {
             return Dao.Query<InventoryTransaction>(x =>
                                                    x.Date > workPeriodStartDate
-                                                   && (x.TargetResourceId == warehouseId || x.SourceResourceId == warehouseId),
+                                                   && (x.TargetWarehouseId == warehouseId || x.SourceWarehouseId == warehouseId),
                                                    x => x.TransactionItems.Select(y => y.InventoryItem))
                       .SelectMany(x => x.TransactionItems, (transaction, item) => new InventoryTransactionData
                           {
                               InventoryTransactionItem = item,
-                              SourceWarehouseId = transaction.SourceResourceId,
-                              TargetWarehouseId = transaction.TargetResourceId
+                              SourceWarehouseId = transaction.SourceWarehouseId,
+                              TargetWarehouseId = transaction.TargetWarehouseId
                           });
         }
 

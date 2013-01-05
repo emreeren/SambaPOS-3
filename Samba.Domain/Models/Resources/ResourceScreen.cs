@@ -5,6 +5,7 @@ namespace Samba.Domain.Models.Resources
 {
     public class ResourceScreen : Entity, IOrderable
     {
+        //todo direk referansları bul ve departman ayarlarını da içerecek şekilde state'den oku.
         public int TicketTypeId { get; set; }
         public int ResourceTypeId { get; set; }
         public int SortOrder { get; set; }

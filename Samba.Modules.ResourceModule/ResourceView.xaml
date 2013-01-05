@@ -10,16 +10,21 @@
     </UserControl.Resources>
     <Grid>
         <StackPanel>
-            <Label>
-                <LocText ResourceIdentifierKey="Name" Suffix=":"/>
-            </Label>
+            <Label Content="{LocText Name,Suffix=':'}"/>
             <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
-            <Label>
-                <LocText ResourceIdentifierKey="ResourceType" Suffix=":"/>
-            </Label>
+
+            <Label Content="{LocText ResourceType,Suffix=':'}"/>
+
             <ComboBox HorizontalAlignment="Left" MinWidth="150" 
                       ItemsSource="{Binding ResourceTypes}" 
                       SelectedItem="{Binding ResourceType}" DisplayMemberPath="Name"/>
+
+            <Label Content="{LocText Warehouse,Suffix=':'}"/>
+
+            <ComboBox HorizontalAlignment="Left" MinWidth="150" IsEditable="True"
+                      ItemsSource="{Binding Warehouses}" 
+                      SelectedItem="{Binding Warehouse}" DisplayMemberPath="Name"/>
+
 
             <Label Content="{LocText Account,Suffix=':'}"/>
             <ComboBox ItemsSource="{Binding AccountNames}" Text="{Binding AccountName}" IsEditable="True" HorizontalAlignment="Left" MinWidth="150"/>

@@ -13,7 +13,7 @@ namespace Samba.Presentation.Services
         IEnumerable<string> GetInventoryItemNames();
         IEnumerable<string> GetGroupCodes();
         void SavePeriodicConsumption(PeriodicConsumption pc);
-        decimal GetInventory(InventoryItem inventoryItem, Resource resource);
+        decimal GetInventory(InventoryItem inventoryItem, Warehouse warehouse);
         void DoWorkPeriodStart();
         void DoWorkPeriodEnd();
     }

@@ -37,6 +37,6 @@ namespace Samba.Persistance.DaoClasses
         IEnumerable<Department> GetDepartments();
         Resource GetResourceByName(int resourceTypeId, string resourceName);
         IEnumerable<TaxTemplate> GetTaxTemplates();
-        IEnumerable<InventoryTransactionType> GetInventoryTransactionTypes();
+        IEnumerable<Warehouse> GetWarehouses();
     }
 }

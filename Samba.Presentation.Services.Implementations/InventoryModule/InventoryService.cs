@@ -42,9 +42,9 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
             return _inventoryDao.GetTransactionItems(_applicationState.CurrentWorkPeriod.StartDate, warehouseId);
         }
 
-        private IEnumerable<InventoryTransactionData> GetTransactionItems(InventoryItem inventoryItem, Resource resource)
+        private IEnumerable<InventoryTransactionData> GetTransactionItems(InventoryItem inventoryItem, Warehouse warehouse)
         {
-            return _inventoryDao.GetTransactionItems(_applicationState.CurrentWorkPeriod.StartDate, inventoryItem.Id, resource.Id);
+            return _inventoryDao.GetTransactionItems(_applicationState.CurrentWorkPeriod.StartDate, inventoryItem.Id, warehouse.Id);
         }
 
         private IEnumerable<Order> GetOrdersFromRecipes(WorkPeriod workPeriod, int warehouseId)
@@ -122,7 +122,7 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
 
         private PeriodicConsumption CreateNewPeriodicConsumption()
         {
-            var wids = _cacheService.GetWarehouseResources().Select(x => x.Id).ToList();
+            var wids = _cacheService.GetWarehouses().Select(x => x.Id).ToList();
             var previousPc = GetPreviousPeriodicConsumption();
             var pc = PeriodicConsumption.Create(_applicationState.CurrentWorkPeriod, wids);
             var inventoryItems = _inventoryDao.GetInventoryItems().ToList();
@@ -174,20 +174,20 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
             Dao.Save(pc);
         }
 
-        public decimal GetInventory(InventoryItem inventoryItem, Resource resource)
+        public decimal GetInventory(InventoryItem inventoryItem, Warehouse warehouse)
         {
             var previousInventory = 0m;
             if (_applicationState.PreviousWorkPeriod != null)
             {
-                var ppci = _inventoryDao.GetPeriodConsumptionItem(_applicationState.PreviousWorkPeriod.Id, inventoryItem.Id, resource.Id);
+                var ppci = _inventoryDao.GetPeriodConsumptionItem(_applicationState.PreviousWorkPeriod.Id, inventoryItem.Id, warehouse.Id);
                 previousInventory = ppci.GetPhysicalInventory();
             }
-            var transactions = GetTransactionItems(inventoryItem, resource).ToList();
-            var positiveSum = transactions.Where(x => x.TargetWarehouseId == resource.Id).Sum(y => (y.InventoryTransactionItem.Quantity * y.InventoryTransactionItem.Multiplier) / inventoryItem.Multiplier);
-            var negativeSum = transactions.Where(x => x.SourceWarehouseId == resource.Id).Sum(y => (y.InventoryTransactionItem.Quantity * y.InventoryTransactionItem.Multiplier) / inventoryItem.Multiplier);
+            var transactions = GetTransactionItems(inventoryItem, warehouse).ToList();
+            var positiveSum = transactions.Where(x => x.TargetWarehouseId == warehouse.Id).Sum(y => (y.InventoryTransactionItem.Quantity * y.InventoryTransactionItem.Multiplier) / inventoryItem.Multiplier);
+            var negativeSum = transactions.Where(x => x.SourceWarehouseId == warehouse.Id).Sum(y => (y.InventoryTransactionItem.Quantity * y.InventoryTransactionItem.Multiplier) / inventoryItem.Multiplier);
 
             var currentConsumption = (
-                from sale in GetSales(_applicationState.CurrentWorkPeriod, inventoryItem.Id, resource.Id)
+                from sale in GetSales(_applicationState.CurrentWorkPeriod, inventoryItem.Id, warehouse.Id)
                 let recipe = _inventoryDao.GetRecipe(sale.PortionName, sale.MenuItemId)
                 let rip = recipe.RecipeItems.Where(x => x.InventoryItem.Id == inventoryItem.Id)
                 select (rip.Sum(x => x.Quantity) * sale.Total) / (inventoryItem.Multiplier)).Sum();

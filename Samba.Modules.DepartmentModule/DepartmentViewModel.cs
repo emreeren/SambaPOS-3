@@ -39,10 +39,10 @@ namespace Samba.Modules.DepartmentModule
 
         public int TicketTypeId { get { return Model.TicketTypeId; } set { Model.TicketTypeId = value; } }
 
-        private IEnumerable<Resource> _warehouses;
-        public IEnumerable<Resource> Warehouses
+        private IEnumerable<Warehouse> _warehouses;
+        public IEnumerable<Warehouse> Warehouses
         {
-            get { return _warehouses ?? (_warehouses = _cacheService.GetWarehouseResources()); }
+            get { return _warehouses ?? (_warehouses = Workspace.All<Warehouse>()); }
         }
 
         public int WarehouseId { get { return Model.WarehouseId; } set { Model.WarehouseId = value; } }

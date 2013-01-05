@@ -20,7 +20,5 @@ namespace Samba.Domain.Models.Tickets
 
         private static Department _default;
         public static Department Default { get { return _default ?? (_default = new Department()); } }
-
-
     }
 }

@@ -20,7 +20,7 @@ namespace Samba.Modules.InventoryModule
         }
 
         private string _name;
-        public string Name { get { return _name ?? (_name = _cacheService.GetWarehouseResources().Single(x => x.Id == Model.WarehouseId).Name); } }
+        public string Name { get { return _name ?? (_name = _cacheService.GetWarehouses().Single(x => x.Id == Model.WarehouseId).Name); } }
 
         protected WarehouseConsumption Model { get; set; }
 

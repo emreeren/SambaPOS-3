@@ -11,6 +11,7 @@ namespace Samba.Domain.Models.Resources
         public string SearchString { get; set; }
         public string CustomData { get; set; }
         public int AccountId { get; set; }
+        public int WarehouseId { get; set; }
 
         public string GetCustomData(string fieldName)
         {

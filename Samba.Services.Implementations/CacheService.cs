@@ -484,22 +484,15 @@ namespace Samba.Services.Implementations
             return rt != null ? rt.Id : 0;
         }
 
-        private IEnumerable<InventoryTransactionType> _inventoryTransactionTypes;
-        public IEnumerable<InventoryTransactionType> InventoryTransactionTypes
+        private IEnumerable<Warehouse> _warehouses;
+        public IEnumerable<Warehouse> Warehouses
         {
-            get { return _inventoryTransactionTypes ?? (_inventoryTransactionTypes = _dataService.GetInventoryTransactionTypes()); }
+            get { return _warehouses ?? (_warehouses = _dataService.GetWarehouses()); }
         }
 
-        public IEnumerable<Printer> GetPrinters() { return Printers; }
-        public IEnumerable<Resource> GetWarehouseResources()
+        public IEnumerable<Warehouse> GetWarehouses()
         {
-            var resourceTypeIds = InventoryTransactionTypes.Select(x => x.SourceResourceTypeId).Distinct();
-            return _resourceCache.GetResourcesByTypeIds(resourceTypeIds);
-        }
-
-        public IEnumerable<int> GetWarehouseResourceTypeIds()
-        {
-            return InventoryTransactionTypes.Select(x => x.SourceResourceTypeId).Distinct();
+            return Warehouses;
         }
 
         private IEnumerable<Printer> _printers;
@@ -507,6 +500,8 @@ namespace Samba.Services.Implementations
         {
             get { return _printers ?? (_printers = _printerDao.GetPrinters()); }
         }
+
+        public IEnumerable<Printer> GetPrinters() { return Printers; }
 
         private IEnumerable<PrinterTemplate> _printerTemplates;
         protected IEnumerable<PrinterTemplate> PrinterTemplates
@@ -564,7 +559,7 @@ namespace Samba.Services.Implementations
         public void ResetCache()
         {
             _dataService.ResetCache();
-            _inventoryTransactionTypes = null;
+            _warehouses = null;
             _printers = null;
             _printerTemplates = null;
             _states = null;
@@ -594,16 +589,6 @@ namespace Samba.Services.Implementations
     internal class ResourceCache
     {
         private readonly IDictionary<int, IEnumerable<Resource>> _cache = new Dictionary<int, IEnumerable<Resource>>();
-
-        public IEnumerable<Resource> GetResourcesByTypeIds(IEnumerable<int> resourceTypeIds)
-        {
-            var result = new List<Resource>();
-            foreach (var resourceTypeId in resourceTypeIds)
-            {
-                result.AddRange(GetResources(resourceTypeId, ""));
-            }
-            return result;
-        }
 
         public IEnumerable<Resource> GetResources(int resourceTypeId, string stateData)
         {

@@ -11,11 +11,13 @@ namespace Samba.Domain.Models.Inventory
     {
         public DateTime Date { get; set; }
         public int InventoryTransactionTypeId { get; set; }
-        public int SourceResourceId { get; set; }
-        public int TargetResourceId { get; set; }
+        public int SourceWarehouseId { get; set; }
+        public int TargetWarehouseId { get; set; }
         public virtual AccountTransactionType AccountTransactionType { get; set; }
         public int SourceAccountId { get; set; }
         public int TargetAccountId { get; set; }
+        public int SourceResourceId { get; set; }
+        public int TargetResourceId { get; set; }
         public virtual AccountTransactionDocument TransactionDocument { get; set; }
 
         private readonly IList<InventoryTransactionItem> _transactionItems;
@@ -35,8 +37,8 @@ namespace Samba.Domain.Models.Inventory
             return new InventoryTransaction
                        {
                            InventoryTransactionTypeId = transactionType.Id,
-                           SourceResourceId = transactionType.DefaultSourceResourceId,
-                           TargetResourceId = transactionType.DefaultTargetResourceId,
+                           SourceWarehouseId = transactionType.DefaultSourceWarehouseId,
+                           TargetWarehouseId = transactionType.DefaultTargetWarehouseId,
                            AccountTransactionType = transactionType.AccountTransactionType
                        };
         }
@@ -56,15 +58,27 @@ namespace Samba.Domain.Models.Inventory
             return result;
         }
 
+        public void SetSourceWarehouse(Warehouse warehouse)
+        {
+            SourceWarehouseId = warehouse.Id;
+        }
+
+        public void SetTargetWarehouse(Warehouse warehouse)
+        {
+            TargetWarehouseId = warehouse.Id;
+        }
+
         public void SetSourceResource(Resource resource)
         {
             SourceResourceId = resource.Id;
+            SourceWarehouseId = resource.WarehouseId;
             SourceAccountId = resource.AccountId;
         }
 
         public void SetTargetResource(Resource resource)
         {
             TargetResourceId = resource.Id;
+            TargetWarehouseId = resource.WarehouseId;
             TargetAccountId = resource.AccountId;
         }
 
@@ -80,7 +94,7 @@ namespace Samba.Domain.Models.Inventory
 
             if (TransactionDocument == null) TransactionDocument = new AccountTransactionDocument();
 
-            var transaction = 
+            var transaction =
                 TransactionDocument.AccountTransactions.SingleOrDefault(x => x.AccountTransactionTypeId == AccountTransactionType.Id)
                 ?? TransactionDocument.AddNewTransaction(AccountTransactionType, AccountTransactionType.SourceAccountTypeId, SourceAccountId);
 

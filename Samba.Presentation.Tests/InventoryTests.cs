@@ -43,7 +43,7 @@ namespace Samba.Presentation.Tests
             CreateWarehouseTestContext(testContext, workspace);
 
             var transaction = InventoryTransaction.Create(testContext.PurchaseTransactionType);
-            transaction.SetSourceResource(testContext.Seller1Warehouse);
+            transaction.SetSourceWarehouse(testContext.Seller1Warehouse);
             workspace.Add(transaction);
 
             transaction.Add(testContext.DonerEti, 16, 10, "KG", 1000);
@@ -100,7 +100,7 @@ namespace Samba.Presentation.Tests
             CreateWarehouseTestContext(testContext, workspace);
 
             var transaction = InventoryTransaction.Create(testContext.PurchaseTransactionType);
-            transaction.SetSourceResource(testContext.Seller1Warehouse);
+            transaction.SetSourceWarehouse(testContext.Seller1Warehouse);
             workspace.Add(transaction);
 
             transaction.Add(testContext.DonerEti, 16, 10, "KG", 1000);
@@ -116,7 +116,7 @@ namespace Samba.Presentation.Tests
             ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
 
             var transaction2 = InventoryTransaction.Create(testContext.PurchaseTransactionType);
-            transaction.SetSourceResource(testContext.Seller1Warehouse);
+            transaction.SetSourceWarehouse(testContext.Seller1Warehouse);
             workspace.Add(transaction2);
             transaction2.TransactionItems.Add(new InventoryTransactionItem { InventoryItem = testContext.DonerEti, Multiplier = 1000, Price = 15, Quantity = 10, Unit = "KG" });
 
@@ -153,7 +153,7 @@ namespace Samba.Presentation.Tests
             Assert.AreEqual(0, etpc.Consumption);
 
             transaction = InventoryTransaction.Create(testContext.PurchaseTransactionType);
-            transaction.SetSourceResource(testContext.Seller1Warehouse);
+            transaction.SetSourceWarehouse(testContext.Seller1Warehouse);
             workspace.Add(transaction);
             const int etAlimMiktari = 50;
 
@@ -180,7 +180,7 @@ namespace Samba.Presentation.Tests
             RestartWorkperiod(workspace);
 
             transaction = InventoryTransaction.Create(testContext.PurchaseTransactionType);
-            transaction.SetSourceResource(testContext.Seller1Warehouse);
+            transaction.SetSourceWarehouse(testContext.Seller1Warehouse);
             workspace.Add(transaction);
             ti = transaction.Add(testContext.DonerEti, 10, etAlimMiktari, "KG", 1000);
 
@@ -210,9 +210,9 @@ namespace Samba.Presentation.Tests
             var testContext = new WarehouseTestContext();
             CreateWarehouseTestContext(testContext, workspace);
             var inventoryTransaction1 = InventoryTransaction.Create(testContext.PurchaseTransactionType);
-            inventoryTransaction1.SetSourceResource(testContext.Seller1Warehouse);
+            inventoryTransaction1.SetSourceWarehouse(testContext.Seller1Warehouse);
             Assert.AreNotEqual(0, testContext.LocalWarehouse.Id);
-            Assert.AreEqual(testContext.LocalWarehouse.Id, inventoryTransaction1.TargetResourceId);
+            Assert.AreEqual(testContext.LocalWarehouse.Id, inventoryTransaction1.TargetWarehouseId);
         }
 
         [Test]
@@ -222,7 +222,7 @@ namespace Samba.Presentation.Tests
             var testContext = new WarehouseTestContext();
             CreateWarehouseTestContext(testContext, workspace);
             var inventoryTransaction1 = InventoryTransaction.Create(testContext.PurchaseTransactionType);
-            inventoryTransaction1.SetSourceResource(testContext.Seller1Warehouse);
+            inventoryTransaction1.SetSourceWarehouse(testContext.Seller1Warehouse);
             inventoryTransaction1.Add(testContext.DonerEti, 16, 10, "KG", 1000);
             inventoryTransaction1.Add(testContext.Pide, 1, 50, "Adet", 2);
             inventoryTransaction1.Add(testContext.Yogurt, 4, 30, "KG", 1000);
@@ -264,15 +264,18 @@ namespace Samba.Presentation.Tests
             var testContext = new WarehouseTestContext();
             CreateWarehouseTestContext(testContext, workspace);
             var inventoryTransaction1 = InventoryTransaction.Create(testContext.PurchaseTransactionType);
-            inventoryTransaction1.SetSourceResource(testContext.Seller1Warehouse);
+            inventoryTransaction1.SetSourceResource(testContext.Seller1WarehouseResource);
+            inventoryTransaction1.SetTargetResource(testContext.LocalWarehouseResource);
             inventoryTransaction1.Add(testContext.DonerEti, 16, 10, "KG", 1000);
             inventoryTransaction1.Add(testContext.Pide, 1, 50, "Adet", 2);
             inventoryTransaction1.Add(testContext.Yogurt, 4, 30, "KG", 1000);
             inventoryTransaction1.Add(testContext.ZeytinYagi, 5, 5, "Litre", 100);
             workspace.Add(inventoryTransaction1);
 
-            Assert.AreEqual(testContext.LocalWarehouse.Id, inventoryTransaction1.TargetResourceId);
-            Assert.AreEqual(testContext.Seller1Warehouse.Id, inventoryTransaction1.SourceResourceId);
+            Assert.AreEqual(testContext.LocalWarehouse.Id, inventoryTransaction1.TargetWarehouseId);
+            Assert.AreEqual(testContext.Seller1Warehouse.Id, inventoryTransaction1.SourceWarehouseId);
+            Assert.AreEqual(testContext.LocalWarehouseResource.Id, inventoryTransaction1.TargetResourceId);
+            Assert.AreEqual(testContext.Seller1WarehouseResource.Id, inventoryTransaction1.SourceResourceId);
             Assert.AreEqual(10, InventoryService.GetInventory(testContext.DonerEti, testContext.LocalWarehouse));
 
             var inventoryTransaction2 = InventoryTransaction.Create(testContext.BarTransferTransactionType);
@@ -290,8 +293,8 @@ namespace Samba.Presentation.Tests
             var testContext = new WarehouseTestContext();
             CreateWarehouseTestContext(testContext, workspace);
             var inventoryTransaction1 = InventoryTransaction.Create(testContext.PurchaseTransactionType);
-            inventoryTransaction1.SetSourceResource(testContext.Seller1Warehouse);
-            inventoryTransaction1.SetTargetResource(testContext.LocalWarehouse);
+            inventoryTransaction1.SetSourceResource(testContext.Seller1WarehouseResource);
+            inventoryTransaction1.SetTargetResource(testContext.LocalWarehouseResource);
             inventoryTransaction1.Add(testContext.DonerEti, 16, 10, "KG", 1000);
             inventoryTransaction1.Add(testContext.Pide, 1, 50, "Adet", 2);
             inventoryTransaction1.Add(testContext.Yogurt, 4, 30, "KG", 1000);
@@ -310,7 +313,6 @@ namespace Samba.Presentation.Tests
             Assert.AreEqual(1, inventoryTransaction1.TransactionDocument.AccountTransactions.Count);
             Assert.AreEqual(total + 5, inventoryTransaction1.GetSum());
             Assert.AreEqual(total + 5, inventoryTransaction1.TransactionDocument.GetAmount());
-
         }
 
         private void RestartWorkperiod(IWorkspace workspace)
@@ -368,7 +370,9 @@ namespace Samba.Presentation.Tests
             workspace.Add(testContext.LocalWarehouseAccountType);
             workspace.Add(testContext.SellerWarehouseAccountType);
 
-            testContext.WarehouseResourceType = workspace.Single<ResourceType>(x => x.Name == "Warehouses");
+            testContext.WarehouseType = workspace.Single<WarehouseType>(x => x.Name == "Warehouses");
+            testContext.WarehouseResourceType = new ResourceType { Name = "Warehouse Resource Type" };
+            workspace.Add(testContext.WarehouseResourceType);
 
             testContext.LocalWarehouseAccount = new Account { AccountTypeId = testContext.LocalWarehouseAccountType.Id };
             testContext.Seller1Account = new Account { AccountTypeId = testContext.SellerWarehouseAccountType.Id };
@@ -378,30 +382,56 @@ namespace Samba.Presentation.Tests
             workspace.Add(testContext.Seller1Account);
             workspace.Add(testContext.Seller2Account);
 
-            testContext.LocalWarehouse = new Resource
+            testContext.LocalWarehouse = new Warehouse
                 {
-                    ResourceTypeId = testContext.WarehouseResourceType.Id,
-                    AccountId = testContext.LocalWarehouseAccount.Id
+                    WarehouseTypeId = testContext.WarehouseType.Id
                 };
-            testContext.BarWarehouse = new Resource
+            testContext.BarWarehouse = new Warehouse
                 {
-                    ResourceTypeId = testContext.WarehouseResourceType.Id
+                    WarehouseTypeId = testContext.WarehouseType.Id
                 };
-            testContext.Seller1Warehouse = new Resource
+            testContext.Seller1Warehouse = new Warehouse
                 {
-                    ResourceTypeId = testContext.WarehouseResourceType.Id,
-                    AccountId = testContext.Seller1Account.Id
+                    WarehouseTypeId = testContext.WarehouseType.Id
                 };
-            testContext.Seller2Warehouse = new Resource
+            testContext.Seller2Warehouse = new Warehouse
                 {
-                    ResourceTypeId = testContext.WarehouseResourceType.Id,
-                    AccountId = testContext.Seller2Account.Id
+                    WarehouseTypeId = testContext.WarehouseType.Id
                 };
 
             workspace.Add(testContext.LocalWarehouse);
             workspace.Add(testContext.BarWarehouse);
             workspace.Add(testContext.Seller1Warehouse);
             workspace.Add(testContext.Seller2Warehouse);
+
+            testContext.LocalWarehouseResource = new Resource
+                {
+                    WarehouseId = testContext.LocalWarehouse.Id,
+                    ResourceTypeId = testContext.WarehouseResourceType.Id,
+                    AccountId = testContext.LocalWarehouseAccount.Id
+                };
+            testContext.BarWarehouseResource = new Resource
+                {
+                    WarehouseId = testContext.BarWarehouse.Id,
+                    ResourceTypeId = testContext.WarehouseResourceType.Id
+                };
+            testContext.Seller1WarehouseResource = new Resource
+                {
+                    WarehouseId = testContext.Seller1Warehouse.Id,
+                    ResourceTypeId = testContext.WarehouseResourceType.Id,
+                    AccountId = testContext.Seller1Account.Id
+                };
+            testContext.Seller2WarehouseResource = new Resource
+                {
+                    WarehouseId = testContext.Seller2Warehouse.Id,
+                    ResourceTypeId = testContext.WarehouseResourceType.Id,
+                    AccountId = testContext.Seller2Account.Id
+                };
+
+            workspace.Add(testContext.LocalWarehouseResource);
+            workspace.Add(testContext.BarWarehouseResource);
+            workspace.Add(testContext.Seller1WarehouseResource);
+            workspace.Add(testContext.Seller2WarehouseResource);
 
             testContext.PurchaseAccountTransactionType = new AccountTransactionType
                                                              {
@@ -418,20 +448,20 @@ namespace Samba.Presentation.Tests
             testContext.PurchaseTransactionType = new InventoryTransactionType
                 {
                     Name = "PurchaseTransaction",
-                    SourceResourceTypeId = testContext.WarehouseResourceType.Id,
-                    TargetResourceTypeId = testContext.WarehouseResourceType.Id,
-                    DefaultSourceResourceId = 0,
-                    DefaultTargetResourceId = testContext.LocalWarehouse.Id,
+                    SourceWarehouseTypeId = testContext.WarehouseType.Id,
+                    TargetWarehouseTypeId = testContext.WarehouseType.Id,
+                    DefaultSourceWarehouseId = 0,
+                    DefaultTargetWarehouseId = testContext.LocalWarehouse.Id,
                     AccountTransactionType = testContext.PurchaseAccountTransactionType
                 };
 
             testContext.BarTransferTransactionType = new InventoryTransactionType
                 {
                     Name = "Bar Transfer",
-                    SourceResourceTypeId = testContext.WarehouseResourceType.Id,
-                    TargetResourceTypeId = testContext.WarehouseResourceType.Id,
-                    DefaultSourceResourceId = testContext.LocalWarehouse.Id,
-                    DefaultTargetResourceId = testContext.BarWarehouse.Id
+                    SourceWarehouseTypeId = testContext.WarehouseType.Id,
+                    TargetWarehouseTypeId = testContext.WarehouseType.Id,
+                    DefaultSourceWarehouseId = testContext.LocalWarehouse.Id,
+                    DefaultTargetWarehouseId = testContext.BarWarehouse.Id
                 };
 
             workspace.Add(testContext.PurchaseTransactionType);
@@ -477,14 +507,24 @@ namespace Samba.Presentation.Tests
 
         public AccountType LocalWarehouseAccountType { get; set; }
         public AccountType SellerWarehouseAccountType { get; set; }
-        public ResourceType WarehouseResourceType { get; set; }
         public Account LocalWarehouseAccount { get; set; }
         public Account Seller1Account { get; set; }
         public Account Seller2Account { get; set; }
-        public Resource LocalWarehouse { get; set; }
-        public Resource BarWarehouse { get; set; }
-        public Resource Seller1Warehouse { get; set; }
-        public Resource Seller2Warehouse { get; set; }
+
+        public WarehouseType WarehouseType { get; set; }
+        public Warehouse LocalWarehouse { get; set; }
+        public Warehouse BarWarehouse { get; set; }
+        public Warehouse Seller1Warehouse { get; set; }
+        public Warehouse Seller2Warehouse { get; set; }
+
+        public ResourceType WarehouseResourceType { get; set; }
+        public Resource LocalWarehouseResource { get; set; }
+        public Resource BarWarehouseResource { get; set; }
+        public Resource Seller1WarehouseResource { get; set; }
+        public Resource Seller2WarehouseResource { get; set; }
+
+
+
         public InventoryTransactionType PurchaseTransactionType { get; set; }
         public InventoryTransactionType BarTransferTransactionType { get; set; }
 
