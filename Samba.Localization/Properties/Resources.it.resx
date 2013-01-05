@@ -139,6 +139,9 @@
     <value>Tempo di lavoro totale:
 {0:0} giorni {1:0} ore {2:0} minuti</value>
   </data>
+  <data name="Settle" xml:space="preserve">
+    <value>Saldare</value>
+  </data>
   <data name="BeforeWorkPeriodEnds" xml:space="preserve">
     <value>Prima della Fine Periodo di Lavoro</value>
   </data>
@@ -207,6 +210,9 @@
   </data>
   <data name="UpdatePriceTag" xml:space="preserve">
     <value>Cambia Listino Prezzi</value>
+  </data>
+  <data name="Warehouse" xml:space="preserve">
+    <value>Magazzino</value>
   </data>
   <data name="TotalIncome" xml:space="preserve">
     <value>Totale Entrate</value>
@@ -306,6 +312,9 @@
   </data>
   <data name="ExpenseTransactions" xml:space="preserve">
     <value>Operazioni di Spesa</value>
+  </data>
+  <data name="PurchaseTransaction" xml:space="preserve">
+    <value>Transazione d' acquisto</value>
   </data>
   <data name="AutoSelect" xml:space="preserve">
     <value>Selezione automatica</value>
@@ -1092,6 +1101,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="LineItemTotalWithoutGifts" xml:space="preserve">
     <value># Linea: Totale Prodotti (Offerto escluso)</value>
   </data>
+  <data name="LocalWarehouses" xml:space="preserve">
+    <value>Magazzini Locali</value>
+  </data>
   <data name="DeleteErrorUsedBy_f" xml:space="preserve">
     <value>Impossibile eliminare perché questa {0} è utilizzato da un {1}</value>
   </data>
@@ -1172,6 +1184,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   </data>
   <data name="New_f" xml:space="preserve">
     <value>Nuovo {0}</value>
+  </data>
+  <data name="SellerWarehouses" xml:space="preserve">
+    <value>Magazzini delle Vendite</value>
   </data>
   <data name="InvoicePrinter" xml:space="preserve">
     <value>Stampante Fattura</value>
@@ -1355,6 +1370,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   </data>
   <data name="OrderTagName" xml:space="preserve">
     <value># OrderTag: Order Tag Nome</value>
+  </data>
+  <data name="WarehouseType" xml:space="preserve">
+    <value>Tipo di Magazzino</value>
   </data>
   <data name="ExecuteActionsIf" xml:space="preserve">
     <value>Condizioni</value>
@@ -1680,8 +1698,8 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="Parameters" xml:space="preserve">
     <value>Parametri</value>
   </data>
-  <data name="Settle" xml:space="preserve">
-    <value>Saldare</value>
+  <data name="Transaction" xml:space="preserve">
+    <value>Transazione</value>
   </data>
   <data name="UnlockTicket" xml:space="preserve">
     <value>Sblocca Ticket</value>
@@ -1740,6 +1758,9 @@ Visita la sezione di report e creare report periodo di lavoro</value>
   </data>
   <data name="Divide" xml:space="preserve">
     <value>Dividere</value>
+  </data>
+  <data name="Target_f" xml:space="preserve">
+    <value>Destinazione: {0}</value>
   </data>
   <data name="ErrorReportWithoutFeedback" xml:space="preserve">
     <value>Si invia segnalazione di errore senza il tuo feedback.
@@ -1845,6 +1866,9 @@ Messaggio di errore:
   </data>
   <data name="ItemSalesReport" xml:space="preserve">
     <value>Rapporto di vendita Articolo</value>
+  </data>
+  <data name="LocalWarehouse" xml:space="preserve">
+    <value>Magazzino Locale</value>
   </data>
   <data name="Reports" xml:space="preserve">
     <value>Rapporti</value>
@@ -1959,9 +1983,6 @@ Messaggio di errore:
   </data>
   <data name="OnceAnHour" xml:space="preserve">
     <value>Dopo un'ora</value>
-  </data>
-  <data name="Transactions" xml:space="preserve">
-    <value>Transazione</value>
   </data>
   <data name="Common" xml:space="preserve">
     <value>Comune</value>
@@ -2148,6 +2169,9 @@ Messaggio di errore:
   </data>
   <data name="SalesByItemGroup" xml:space="preserve">
     <value>Vendite per Gruppo</value>
+  </data>
+  <data name="Source_f" xml:space="preserve">
+    <value>Fonte: {0}</value>
   </data>
   <data name="Select_f" xml:space="preserve">
     <value>Seleziona {0}</value>
@@ -2554,6 +2578,9 @@ Ticket</value>
   </data>
   <data name="TicketSubTotal" xml:space="preserve">
     <value>Totale del biglietto Sub</value>
+  </data>
+  <data name="SellerWarehouse" xml:space="preserve">
+    <value>Magazzino delle Vendite</value>
   </data>
   <data name="GiftTotal" xml:space="preserve">
     <value>Offerto totale</value>

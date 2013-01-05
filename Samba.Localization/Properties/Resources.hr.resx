@@ -1536,6 +1536,9 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="ReportPermissions" xml:space="preserve">
     <value>Dopuštenja izvještaja</value>
   </data>
+  <data name="TicketTagSelected" xml:space="preserve">
+    <value>Ticket Tag Selected</value>
+  </data>
   <data name="WeightBarcodes" xml:space="preserve">
     <value>Weight Barcodes</value>
   </data>
@@ -1806,8 +1809,8 @@ Greška:
   <data name="Hidden" xml:space="preserve">
     <value>Sakriven</value>
   </data>
-  <data name="TicketTagSelected" xml:space="preserve">
-    <value>Ticket Tag Selected</value>
+  <data name="LastLinesByPrinterLineCount" xml:space="preserve">
+    <value>Last Lines by Printer Line Count</value>
   </data>
   <data name="CurrencySymbol" xml:space="preserve">
     <value>Valutni simbol</value>
@@ -1895,9 +1898,6 @@ Greška:
   </data>
   <data name="OnceAnHour" xml:space="preserve">
     <value>Jednom u satu</value>
-  </data>
-  <data name="Transactions" xml:space="preserve">
-    <value>Transaction</value>
   </data>
   <data name="Common" xml:space="preserve">
     <value>Zajedničko</value>
@@ -2535,9 +2535,6 @@ Can't end Work Period while tickets open</value>
   </data>
   <data name="CantDeletePastEndOfDayRecords" xml:space="preserve">
     <value>Ne može izbrisati podatke iza radnog vremena</value>
-  </data>
-  <data name="LastLinesByPrinterLineCount" xml:space="preserve">
-    <value>Last Lines by Printer Line Count</value>
   </data>
   <data name="CanDisplayOldTickets" xml:space="preserve">
     <value>Može prikazati stare kartice</value>

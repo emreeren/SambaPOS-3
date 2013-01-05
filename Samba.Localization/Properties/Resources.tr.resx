@@ -139,6 +139,9 @@
     <value>Toplam Çalışma Zamanı:
 {0:0} gün {1:0} saat {2:0} dakika</value>
   </data>
+  <data name="Settle" xml:space="preserve">
+    <value>Ödeme</value>
+  </data>
   <data name="BeforeWorkPeriodEnds" xml:space="preserve">
     <value>Gün Sonu Yapılmadan Önce</value>
   </data>
@@ -207,6 +210,9 @@
   </data>
   <data name="UpdatePriceTag" xml:space="preserve">
     <value>Fiyat listesini değiştir</value>
+  </data>
+  <data name="Warehouse" xml:space="preserve">
+    <value>Depo</value>
   </data>
   <data name="TotalIncome" xml:space="preserve">
     <value>Toplam Gelir</value>
@@ -303,6 +309,9 @@
   </data>
   <data name="ExpenseTransactions" xml:space="preserve">
     <value>Giderler</value>
+  </data>
+  <data name="PurchaseTransaction" xml:space="preserve">
+    <value>Alım Fişi</value>
   </data>
   <data name="AutoSelect" xml:space="preserve">
     <value>Oto Seç</value>
@@ -1082,6 +1091,9 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="LineItemTotalWithoutGifts" xml:space="preserve">
     <value>#Satır: Ürün Tutarı (İkram hariç)</value>
   </data>
+  <data name="LocalWarehouses" xml:space="preserve">
+    <value>Yerel Depolar</value>
+  </data>
   <data name="DeleteErrorUsedBy_f" xml:space="preserve">
     <value>Bu {0} bir {1} kaydında kullanıldığı için silinemez.</value>
   </data>
@@ -1162,6 +1174,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="New_f" xml:space="preserve">
     <value>Yeni {0}</value>
+  </data>
+  <data name="SellerWarehouses" xml:space="preserve">
+    <value>Satıcı Depoları</value>
   </data>
   <data name="InvoicePrinter" xml:space="preserve">
     <value>Fatura Yazıcısı</value>
@@ -1343,6 +1358,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="OrderTagName" xml:space="preserve">
     <value>#Etiket: Sipariş Etiketi Adı</value>
+  </data>
+  <data name="WarehouseType" xml:space="preserve">
+    <value>Depo Tipi</value>
   </data>
   <data name="ExecuteActionsIf" xml:space="preserve">
     <value>Koşullar</value>
@@ -1668,8 +1686,8 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="Parameters" xml:space="preserve">
     <value>Parametreler</value>
   </data>
-  <data name="Settle" xml:space="preserve">
-    <value>Ödeme</value>
+  <data name="Transaction" xml:space="preserve">
+    <value>Hareket</value>
   </data>
   <data name="UnlockTicket" xml:space="preserve">
     <value>Kilidi Kaldır</value>
@@ -1728,6 +1746,9 @@ Raporlar bölümünden gün sonu raporlarınızı alınız.</value>
   </data>
   <data name="Divide" xml:space="preserve">
     <value>Böl</value>
+  </data>
+  <data name="Target_f" xml:space="preserve">
+    <value>Hedef {0}</value>
   </data>
   <data name="ErrorReportWithoutFeedback" xml:space="preserve">
     <value>Raporu herhangi bir bilgi eklemeden gönderiyorsunuz.
@@ -1833,6 +1854,9 @@ Hata Mesajı:
   </data>
   <data name="ItemSalesReport" xml:space="preserve">
     <value>Ürün Satış Raporu</value>
+  </data>
+  <data name="LocalWarehouse" xml:space="preserve">
+    <value>Yerel Depo</value>
   </data>
   <data name="Reports" xml:space="preserve">
     <value>Raporlar</value>
@@ -1947,9 +1971,6 @@ Hata Mesajı:
   </data>
   <data name="OnceAnHour" xml:space="preserve">
     <value>Saatte bir defa</value>
-  </data>
-  <data name="Transaction" xml:space="preserve">
-    <value>Hareket</value>
   </data>
   <data name="Common" xml:space="preserve">
     <value>Genel</value>
@@ -2136,6 +2157,9 @@ Hata Mesajı:
   </data>
   <data name="SalesByItemGroup" xml:space="preserve">
     <value>Ürün Grubu Bazında Satışlar</value>
+  </data>
+  <data name="Source_f" xml:space="preserve">
+    <value>Kaynak {0}</value>
   </data>
   <data name="Select_f" xml:space="preserve">
     <value>{0} Seç</value>
@@ -2533,6 +2557,9 @@ Kapat</value>
   </data>
   <data name="TicketSubTotal" xml:space="preserve">
     <value>Adisyon ara toplamı</value>
+  </data>
+  <data name="SellerWarehouse" xml:space="preserve">
+    <value>Satıcı Deposu</value>
   </data>
   <data name="GiftTotal" xml:space="preserve">
     <value>İkram Toplamı</value>

@@ -1508,9 +1508,6 @@ Visite a seção Relatórios e crie relatório do período de trabalho </value>
   <data name="TotalIncome" xml:space="preserve">
     <value>Renda Total</value>
   </data>
-  <data name="Transactions" xml:space="preserve">
-    <value>Transação</value>
-  </data>
   <data name="One" xml:space="preserve">
     <value>Um</value>
   </data>
