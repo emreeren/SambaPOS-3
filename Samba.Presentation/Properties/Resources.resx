@@ -117,4 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="RestartAppError" xml:space="preserve">
+    <value>Please restart application. Current problem saved to log file.</value>
+  </data>
+  <data name="ConnectionStringError" xml:space="preserve">
+    <value>Can't connect to database with current setting. You can check and modify the connection string shown below.
+
+Error Message:
+{0}</value>
+  </data>
 </root>

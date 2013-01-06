@@ -9,6 +9,7 @@ using Samba.Infrastructure.Settings;
 using Samba.Localization.Engine;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Services;
+using Samba.Presentation.Properties;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Presentation.ViewModels;
@@ -88,8 +89,7 @@ namespace Samba.Presentation
                     var connectionString =
                         InteractionService.UserIntraction.GetStringFromUser(
                         "Connection String",
-                        "Şu anki bağlantı ayarları ile veri tabanına bağlanılamıyor. Lütfen aşağıdaki bağlantı bilgisini kontrol ederek tekrar deneyiniz.\r\r" +
-                        "Hata Mesajı:\r" + e.Message,
+                        string.Format(Resources.ConnectionStringError, e.Message),
                         LocalSettings.ConnectionString);
 
                     var cs = String.Join(" ", connectionString);
@@ -97,7 +97,7 @@ namespace Samba.Presentation
                     if (!string.IsNullOrEmpty(cs))
                         LocalSettings.ConnectionString = cs.Trim();
 
-                    logger.LogError(e, "Programı yeniden başlatınız. Mevcut problem log dosyasına kaydedildi.");
+                    logger.LogError(e, Resources.RestartAppError);
                 }
                 else
                 {
