@@ -10,7 +10,6 @@ using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Presentation.ViewModels;
-using Samba.Services;
 
 namespace Samba.Modules.PaymentModule
 {
@@ -18,8 +17,6 @@ namespace Samba.Modules.PaymentModule
     public class PaymentEditorViewModel : ObservableObject
     {
         private readonly IApplicationState _applicationState;
-        private readonly ICacheService _cacheService;
-        private readonly IExpressionService _expressionService;
 
         private readonly ICaptionCommand _makePaymentCommand;
         private readonly ICaptionCommand _selectChangePaymentTypeCommand;
@@ -37,7 +34,7 @@ namespace Samba.Modules.PaymentModule
         private readonly AccountBalances _accountBalances;
 
         [ImportingConstructor]
-        public PaymentEditorViewModel(IApplicationState applicationState, ICacheService cacheService, IExpressionService expressionService,
+        public PaymentEditorViewModel(IApplicationState applicationState,
             TicketTotalsViewModel paymentTotals, PaymentEditor paymentEditor, NumberPadViewModel numberPadViewModel,
             OrderSelectorViewModel orderSelectorViewModel, ITicketService ticketService,
             ForeignCurrencyButtonsViewModel foreignCurrencyButtonsViewModel, PaymentButtonsViewModel paymentButtonsViewModel,
@@ -45,8 +42,6 @@ namespace Samba.Modules.PaymentModule
             ReturningAmountViewModel returningAmountViewModel, ChangeTemplatesViewModel changeTemplatesViewModel, AccountBalances accountBalances)
         {
             _applicationState = applicationState;
-            _cacheService = cacheService;
-            _expressionService = expressionService;
             _paymentTotals = paymentTotals;
             _paymentEditor = paymentEditor;
             _numberPadViewModel = numberPadViewModel;
@@ -74,10 +69,11 @@ namespace Samba.Modules.PaymentModule
         {
             if (arg == null) return false;
             if (_paymentEditor.AccountMode && _tenderedValueViewModel.GetTenderedValue() > _tenderedValueViewModel.GetPaymentDueValue()) return false;
+            if (_paymentEditor.AccountMode && arg.Account == null) return false;
             return _paymentEditor.SelectedTicket != null
                 && !_paymentEditor.SelectedTicket.IsClosed
                 && _tenderedValueViewModel.GetTenderedValue() != 0
-                && _tenderedValueViewModel.GetTenderedValue() <= _paymentEditor.SelectedTicket.GetRemainingAmount()
+                //&& _tenderedValueViewModel.GetTenderedValue() <= _paymentEditor.SelectedTicket.GetRemainingAmount()
                 && _paymentEditor.GetRemainingAmount() != 0
                 && (arg.Account != null || _paymentEditor.SelectedTicket.TicketResources.Any(x =>
                     _ticketService.CanMakeAccountTransaction(x, arg.AccountTransactionType, _accountBalances.GetAccountBalance(x.AccountId) + _tenderedValueViewModel.GetTenderedValue())));

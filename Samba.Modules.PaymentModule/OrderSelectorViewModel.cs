@@ -29,7 +29,7 @@ namespace Samba.Modules.PaymentModule
         protected OrderSelector Model { get; set; }
         public ObservableCollection<SelectorViewModel> Selectors { get; set; }
 
-        public decimal SelectedTotal { get { return Model.SelectedTotal; } }
+        public decimal SelectedTotal { get { return Model.GetSelectedAmount(); } }
         public decimal RemainingTotal { get { return Model.RemainingTotal; } }
 
         public void UpdateTicket(Ticket ticket)

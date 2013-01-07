@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
 using FluentValidation;
 using Samba.Domain.Models.Inventory;
 using Samba.Localization.Properties;
@@ -24,7 +23,7 @@ namespace Samba.Modules.InventoryModule
         {
             get
             {
-                return _warehouseType ?? (_warehouseType = WarehouseTypes.Single(x => x.Id == Model.WarehouseTypeId));
+                return _warehouseType ?? (_warehouseType = WarehouseTypes.SingleOrDefault(x => x.Id == Model.WarehouseTypeId));
             }
             set
             {

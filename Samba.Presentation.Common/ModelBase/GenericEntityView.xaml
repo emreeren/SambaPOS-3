@@ -10,7 +10,8 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <pt:PropertyControl EnumAsRadioButtonsLimit="0" Grid.Row="0" SelectedObject="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}"/>
+        <pt:PropertyControl EnumAsRadioButtonsLimit="0" Grid.Row="0" 
+                            SelectedObject="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}" ShowDeclaredOnly="True" UseTabs="False" />
         <StackPanel Grid.Row="1">
             <Button HorizontalAlignment="Left" Margin="0,10" MinWidth="70" Content="{Binding SaveCommand.Caption}"
                  Command="{Binding SaveCommand}" />

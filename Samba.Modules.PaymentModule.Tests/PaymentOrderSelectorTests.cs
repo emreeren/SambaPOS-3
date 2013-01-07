@@ -212,5 +212,17 @@ namespace Samba.Modules.PaymentModule.Tests
             Assert.AreEqual(2, orderSelector.SelectedTicket.PaidItems.Count);
             Assert.AreEqual(2, orderSelector.SelectedTicket.PaidItems.Sum(x => x.Quantity));
         }
+
+        [Test]
+        public void ShouldNotExceedTicketTotal()
+        {
+            var orderSelector = SetupOrderSelector();
+            Assert.AreEqual(28, orderSelector.SelectedTicket.GetSum());
+            orderSelector.SelectedTicket.AddPayment(new PaymentType() { AccountTransactionType = AccountTransactionType.Default }, new Account(), 20, 1, 0);
+            Assert.AreEqual(8, orderSelector.SelectedTicket.GetRemainingAmount());
+            orderSelector.Select(1, 5);
+            orderSelector.Select(1, 5);
+            Assert.AreEqual(8,orderSelector.GetSelectedAmount());
+        }
     }
 }

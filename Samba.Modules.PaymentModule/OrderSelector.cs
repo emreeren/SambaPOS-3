@@ -43,7 +43,7 @@ namespace Samba.Modules.PaymentModule
             var selector = Selectors.FirstOrDefault(x => x.Key == GetKey(order));
             if (selector == null)
             {
-                selector = new Selector {Key = GetKey(order), Description = order.MenuItemName + order.GetPortionDesc()};
+                selector = new Selector { Key = GetKey(order), Description = order.MenuItemName + order.GetPortionDesc() };
                 Selectors.Add(selector);
             }
             selector.Quantity += order.Quantity;
@@ -152,6 +152,14 @@ namespace Samba.Modules.PaymentModule
         public IEnumerable<PaidItem> GetSelectedItems()
         {
             return Selectors.SelectMany(x => x.GetSelectedItems());
+        }
+
+        public decimal GetSelectedAmount()
+        {
+            var result = SelectedTotal;
+            var remaining = GetRemainingAmount();
+            if (result > remaining) result = remaining;
+            return result;
         }
     }
 }
