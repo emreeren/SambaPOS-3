@@ -2,7 +2,6 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Inventory;
-using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Persistance.DaoClasses;
@@ -37,12 +36,12 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<WorkPeriod>>().Subscribe(OnWorkperiodStatusChanged);
         }
 
-        private IEnumerable<InventoryTransactionData> GetTransactionItems(int warehouseId)
+        private IEnumerable<InventoryTransactionItem> GetTransactionItems(int warehouseId)
         {
             return _inventoryDao.GetTransactionItems(_applicationState.CurrentWorkPeriod.StartDate, warehouseId);
         }
 
-        private IEnumerable<InventoryTransactionData> GetTransactionItems(InventoryItem inventoryItem, Warehouse warehouse)
+        private IEnumerable<InventoryTransactionItem> GetTransactionItems(InventoryItem inventoryItem, Warehouse warehouse)
         {
             return _inventoryDao.GetTransactionItems(_applicationState.CurrentWorkPeriod.StartDate, inventoryItem.Id, warehouse.Id);
         }
@@ -183,8 +182,8 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
                 previousInventory = ppci.GetPhysicalInventory();
             }
             var transactions = GetTransactionItems(inventoryItem, warehouse).ToList();
-            var positiveSum = transactions.Where(x => x.TargetWarehouseId == warehouse.Id).Sum(y => (y.InventoryTransactionItem.Quantity * y.InventoryTransactionItem.Multiplier) / inventoryItem.Multiplier);
-            var negativeSum = transactions.Where(x => x.SourceWarehouseId == warehouse.Id).Sum(y => (y.InventoryTransactionItem.Quantity * y.InventoryTransactionItem.Multiplier) / inventoryItem.Multiplier);
+            var positiveSum = transactions.Where(x => x.TargetWarehouseId == warehouse.Id).Sum(y => (y.Quantity * y.Multiplier) / inventoryItem.Multiplier);
+            var negativeSum = transactions.Where(x => x.SourceWarehouseId == warehouse.Id).Sum(y => (y.Quantity * y.Multiplier) / inventoryItem.Multiplier);
 
             var currentConsumption = (
                 from sale in GetSales(_applicationState.CurrentWorkPeriod, inventoryItem.Id, warehouse.Id)

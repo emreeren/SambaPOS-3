@@ -118,7 +118,7 @@ namespace Samba.Presentation.Tests
             var transaction2 = InventoryTransaction.Create(testContext.PurchaseTransactionType);
             transaction.SetSourceWarehouse(testContext.Seller1Warehouse);
             workspace.Add(transaction2);
-            transaction2.TransactionItems.Add(new InventoryTransactionItem { InventoryItem = testContext.DonerEti, Multiplier = 1000, Price = 15, Quantity = 10, Unit = "KG" });
+            transaction2.Add(testContext.DonerEti, 15, 10, "KG", 1000);
 
             var pc = InventoryService.GetCurrentPeriodicConsumption();
             workspace.Add(pc);

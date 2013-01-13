@@ -74,7 +74,9 @@ namespace Samba.Infrastructure.Data.Text
             if (idt != null)
             {
                 if (idt.Id == 0) idt.Id = CreateIdNumber(idt.GetType());
-                list.Add(idt.Id, idt);
+                if (list.ContainsKey(idt.Id))
+                    Update(idt);
+                else list.Add(idt.Id, idt);
             }
             else
             {

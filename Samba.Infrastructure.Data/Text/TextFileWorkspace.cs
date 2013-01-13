@@ -94,7 +94,7 @@ namespace Samba.Infrastructure.Data.Text
 
         public IEnumerable<T> All<T>(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes) where T : class
         {
-                return _storage.GetItems(expression);
+            return _storage.GetItems(expression);
         }
 
         public IEnumerable<T> Query<T>(Expression<Func<T, bool>> expression, int limit = 0) where T : class

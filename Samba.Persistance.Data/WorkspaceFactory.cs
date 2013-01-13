@@ -99,6 +99,7 @@ namespace Samba.Persistance.Data
 
     public class Initializer : IDatabaseInitializer<SambaContext>
     {
+        
         public void InitializeDatabase(SambaContext context)
         {
             if (!context.Database.Exists())

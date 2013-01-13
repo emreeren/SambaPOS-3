@@ -47,6 +47,9 @@ namespace Samba.Domain.Models.Inventory
         {
             var result = new InventoryTransactionItem
                              {
+                                 Date = DateTime.Now,
+                                 SourceWarehouseId = SourceWarehouseId,
+                                 TargetWarehouseId = TargetWarehouseId,
                                  InventoryItem = inventoryItem,
                                  Multiplier = multiplier,
                                  Price = price,

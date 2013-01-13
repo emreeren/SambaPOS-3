@@ -66,7 +66,7 @@ namespace Samba.Domain.Models.Inventory
             }
         }
 
-        public void CreatePeriodicConsumptionItems(int warehouseId, IList<InventoryItem> inventoryItems, PeriodicConsumption previousPc, List<InventoryTransactionData> transactionItems)
+        public void CreatePeriodicConsumptionItems(int warehouseId, IList<InventoryItem> inventoryItems, PeriodicConsumption previousPc, List<InventoryTransactionItem> transactionItems)
         {
             var warehouseConsumption = WarehouseConsumptions.Single(x => x.WarehouseId == warehouseId);
             var previousWhc = previousPc != null

@@ -1,10 +1,14 @@
-﻿using Samba.Infrastructure.Data;
+﻿using System;
+using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Inventory
 {
     public class InventoryTransactionItem : Value
     {
         public int TransactionId { get; set; }
+        public int SourceWarehouseId { get; set; }
+        public int TargetWarehouseId { get; set; }
+        public DateTime Date { get; set; }
         public virtual InventoryItem InventoryItem { get; set; }
         public string Unit { get; set; }
         public int Multiplier { get; set; }
