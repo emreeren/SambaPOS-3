@@ -26,7 +26,7 @@ namespace Samba.Modules.InventoryModule
         {
             SelectedResource = resource;
             var pc = _inventoryService.GetCurrentPeriodicConsumption();
-            SelectedWarehouseConsumption = pc.WarehouseConsumptions.Single(x => x.WarehouseId == SelectedResource.Id);
+            SelectedWarehouseConsumption = pc.WarehouseConsumptions.Single(x => x.WarehouseId == SelectedResource.WarehouseId);
             _periodicConsumptionItems = null;
             _costItems = null;
             RaisePropertyChanged(() => PeriodicConsumptionItems);

@@ -328,7 +328,7 @@ namespace Samba.Presentation.Services.Common
             };
             _workspace.Add(department);
 
-            var transactionType = new InventoryTransactionType
+            var transactionType = new InventoryTransactionDocumentType
                                       {
                                           Name = Resources.PurchaseTransaction,
                                           SourceWarehouseTypeId = warehouseType.Id,

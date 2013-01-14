@@ -11,14 +11,14 @@ namespace Samba.Modules.InventoryModule
         private readonly IWorkspace _workspace;
         private readonly IInventoryService _inventoryService;
 
-        public TransactionItemViewModel(InventoryTransactionItem model, IWorkspace workspace, IInventoryService inventoryService)
+        public TransactionItemViewModel(InventoryTransaction model, IWorkspace workspace, IInventoryService inventoryService)
         {
             _workspace = workspace;
             _inventoryService = inventoryService;
             Model = model;
         }
 
-        public InventoryTransactionItem Model { get; set; }
+        public InventoryTransaction Model { get; set; }
 
         public InventoryItem InventoryItem
         {

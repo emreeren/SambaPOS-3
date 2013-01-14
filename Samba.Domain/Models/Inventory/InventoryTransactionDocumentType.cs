@@ -3,7 +3,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Inventory
 {
-    public class InventoryTransactionType : Entity, IOrderable
+    public class InventoryTransactionDocumentType : Entity, IOrderable
     {
         public int SourceWarehouseTypeId { get; set; }
         public int TargetWarehouseTypeId { get; set; }

@@ -11,7 +11,7 @@ using Samba.Presentation.Common.ModelBase;
 namespace Samba.Modules.InventoryModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    class TransactionTypeViewModel : EntityViewModelBase<InventoryTransactionType>
+    class TransactionTypeViewModel : EntityViewModelBase<InventoryTransactionDocumentType>
     {
         private IEnumerable<AccountTransactionType> _accountTransactionTypes;
         public IEnumerable<AccountTransactionType> AccountTransactionTypes
@@ -88,7 +88,7 @@ namespace Samba.Modules.InventoryModule
             return TargetWarehouseType != null ? Workspace.All<Warehouse>(x => x.WarehouseTypeId == TargetWarehouseType.Id).ToList() : null;
         }
 
-        protected override AbstractValidator<InventoryTransactionType> GetValidator()
+        protected override AbstractValidator<InventoryTransactionDocumentType> GetValidator()
         {
             return new TransactionTypeValidator();
         }
@@ -104,7 +104,7 @@ namespace Samba.Modules.InventoryModule
         }
     }
 
-    internal class TransactionTypeValidator : EntityValidator<InventoryTransactionType>
+    internal class TransactionTypeValidator : EntityValidator<InventoryTransactionDocumentType>
     {
         public TransactionTypeValidator()
         {

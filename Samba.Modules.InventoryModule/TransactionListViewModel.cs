@@ -9,7 +9,7 @@ using Samba.Presentation.Services;
 namespace Samba.Modules.InventoryModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    class TransactionListViewModel : EntityCollectionViewModelBase<TransactionViewModel, InventoryTransaction>
+    class TransactionListViewModel : EntityCollectionViewModelBase<TransactionViewModel, InventoryTransactionDocument>
     {
         private readonly IApplicationState _applicationState;
 
@@ -18,7 +18,7 @@ namespace Samba.Modules.InventoryModule
         {
             _applicationState = applicationState;
             RemoveCommand(AddItemCommand);
-            foreach (var transactionType in Workspace.All<InventoryTransactionType>(x => x.AccountTransactionType).OrderByDescending(x => x.SortOrder))
+            foreach (var transactionType in Workspace.All<InventoryTransactionDocumentType>(x => x.AccountTransactionType).OrderByDescending(x => x.SortOrder))
             {
                 InsertCommand(new CustomCommand(string.Format(Resources.Add_f, transactionType.Name), OnExecute, transactionType, CanExecute), 0);
             }
@@ -31,8 +31,8 @@ namespace Samba.Modules.InventoryModule
 
         private void OnExecute(object obj)
         {
-            var transactionType = obj as InventoryTransactionType;
-            var result = InventoryTransaction.Create(transactionType);
+            var transactionType = obj as InventoryTransactionDocumentType;
+            var result = InventoryTransactionDocument.Create(transactionType);
             PublishViewModel(result);
         }
 

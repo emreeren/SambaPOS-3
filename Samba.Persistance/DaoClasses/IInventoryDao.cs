@@ -10,8 +10,8 @@ namespace Samba.Persistance.DaoClasses
 
     public interface IInventoryDao
     {
-        IEnumerable<InventoryTransactionItem> GetTransactionItems(DateTime workPeriodStartDate, int warehouseId);
-        IEnumerable<InventoryTransactionItem> GetTransactionItems(DateTime workPeriodStartDate, int inventoryItemId, int warehouseId);
+        IEnumerable<InventoryTransaction> GetTransactionItems(DateTime workPeriodStartDate, int warehouseId);
+        IEnumerable<InventoryTransaction> GetTransactionItems(DateTime workPeriodStartDate, int inventoryItemId, int warehouseId);
         IEnumerable<Order> GetOrdersFromRecipes(DateTime startDate, int inventoryItemId, int warehouseId);
         IEnumerable<Order> GetOrdersFromRecipes(DateTime startDate, int warehouseId);
         Recipe GetRecipe(string portionName, int menuItemId);

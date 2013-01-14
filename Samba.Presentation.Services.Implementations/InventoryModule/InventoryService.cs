@@ -36,12 +36,12 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<WorkPeriod>>().Subscribe(OnWorkperiodStatusChanged);
         }
 
-        private IEnumerable<InventoryTransactionItem> GetTransactionItems(int warehouseId)
+        private IEnumerable<InventoryTransaction> GetTransactionItems(int warehouseId)
         {
             return _inventoryDao.GetTransactionItems(_applicationState.CurrentWorkPeriod.StartDate, warehouseId);
         }
 
-        private IEnumerable<InventoryTransactionItem> GetTransactionItems(InventoryItem inventoryItem, Warehouse warehouse)
+        private IEnumerable<InventoryTransaction> GetTransactionItems(InventoryItem inventoryItem, Warehouse warehouse)
         {
             return _inventoryDao.GetTransactionItems(_applicationState.CurrentWorkPeriod.StartDate, inventoryItem.Id, warehouse.Id);
         }

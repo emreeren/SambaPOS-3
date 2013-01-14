@@ -13,7 +13,7 @@ using Samba.Services;
 namespace Samba.Modules.InventoryModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    class TransactionViewModel : EntityViewModelBase<InventoryTransaction>
+    class TransactionViewModel : EntityViewModelBase<InventoryTransactionDocument>
     {
         private readonly IApplicationState _applicationState;
         private readonly IInventoryService _inventoryService;
@@ -89,7 +89,7 @@ namespace Samba.Modules.InventoryModule
 
         private void OnAddTransactionItem(string obj)
         {
-            var ti = new InventoryTransactionItem();
+            var ti = new InventoryTransaction();
             var tiv = new TransactionItemViewModel(ti, Workspace, _inventoryService);
             Model.TransactionItems.Add(ti);
             TransactionItems.Add(tiv);
@@ -123,13 +123,13 @@ namespace Samba.Modules.InventoryModule
             return Resources.TransactionDocument;
         }
 
-        protected override AbstractValidator<InventoryTransaction> GetValidator()
+        protected override AbstractValidator<InventoryTransactionDocument> GetValidator()
         {
             return new TransactionValidator(_applicationState);
         }
     }
 
-    internal class TransactionValidator : EntityValidator<InventoryTransaction>
+    internal class TransactionValidator : EntityValidator<InventoryTransactionDocument>
     {
         public TransactionValidator(IApplicationState applicationState)
         {

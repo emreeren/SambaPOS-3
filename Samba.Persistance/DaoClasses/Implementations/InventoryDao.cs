@@ -22,11 +22,11 @@ namespace Samba.Persistance.DaoClasses.Implementations
             ValidatorRegistry.RegisterSaveValidator(new RecipeSaveValidator());
         }
 
-        public IEnumerable<InventoryTransactionItem> GetTransactionItems(DateTime workPeriodStartDate, int inventoryItemId, int warehouseId)
+        public IEnumerable<InventoryTransaction> GetTransactionItems(DateTime workPeriodStartDate, int inventoryItemId, int warehouseId)
         {
             //return Dao.Query<InventoryTransactionItem>(x => x.InventoryItem.Id == inventoryItemId && x.Date > workPeriodStartDate && (x.TargetWarehouseId == warehouseId || x.SourceWarehouseId == warehouseId));
 
-            return Dao.Query<InventoryTransaction>(x =>
+            return Dao.Query<InventoryTransactionDocument>(x =>
                                                    x.Date > workPeriodStartDate
                                                    && (x.TargetWarehouseId == warehouseId || x.SourceWarehouseId == warehouseId)
                                                    && x.TransactionItems.Any(y => y.InventoryItem.Id == inventoryItemId),
@@ -35,10 +35,10 @@ namespace Samba.Persistance.DaoClasses.Implementations
                       .Where(x => x.InventoryItem.Id == inventoryItemId);
         }
 
-        public IEnumerable<InventoryTransactionItem> GetTransactionItems(DateTime workPeriodStartDate, int warehouseId)
+        public IEnumerable<InventoryTransaction> GetTransactionItems(DateTime workPeriodStartDate, int warehouseId)
         {
             //return Dao.Query<InventoryTransactionItem>(x => x.Date > workPeriodStartDate && (x.TargetWarehouseId == warehouseId || x.SourceWarehouseId == warehouseId));
-            return Dao.Query<InventoryTransaction>(x =>
+            return Dao.Query<InventoryTransactionDocument>(x =>
                                                    x.Date > workPeriodStartDate
                                                    && (x.TargetWarehouseId == warehouseId || x.SourceWarehouseId == warehouseId),
                                                    x => x.TransactionItems.Select(y => y.InventoryItem))
