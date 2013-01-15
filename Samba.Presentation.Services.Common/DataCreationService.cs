@@ -328,9 +328,9 @@ namespace Samba.Presentation.Services.Common
             };
             _workspace.Add(department);
 
-            var transactionType = new InventoryTransactionDocumentType
+            var transactionType = new InventoryTransactionType
                                       {
-                                          Name = Resources.PurchaseTransaction,
+                                          Name = Resources.PurchaseTransactionType,
                                           SourceWarehouseTypeId = warehouseType.Id,
                                           DefaultSourceWarehouseId = sellerWarehouse.Id,
                                           TargetWarehouseTypeId = warehouseType.Id,
@@ -338,6 +338,14 @@ namespace Samba.Presentation.Services.Common
                                       };
 
             _workspace.Add(transactionType);
+
+            var transactionDocumentType = new InventoryTransactionDocumentType
+                {
+                    Name = Resources.PurchaseTransaction,
+                    InventoryTransactionType = transactionType
+                };
+
+            _workspace.Add(transactionDocumentType);
 
             var role = new UserRole("Admin") { IsAdmin = true, DepartmentId = 1 };
             _workspace.Add(role);

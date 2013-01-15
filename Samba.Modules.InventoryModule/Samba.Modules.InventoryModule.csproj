@@ -66,6 +66,10 @@
       <DependentUpon>ResourceInventoryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ResourceInventoryViewModel.cs" />
+    <Compile Include="TransactionDocumentTypeView.xaml.cs">
+      <DependentUpon>TransactionDocumentTypeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TransactionDocumentTypeViewModel.cs" />
     <Compile Include="TransactionTypeView.xaml.cs">
       <DependentUpon>TransactionTypeView.xaml</DependentUpon>
     </Compile>
@@ -112,6 +116,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ResourceInventoryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TransactionDocumentTypeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

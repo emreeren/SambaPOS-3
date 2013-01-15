@@ -58,9 +58,10 @@ namespace Samba.Persistance.Data
         public DbSet<InventoryItem> InventoryItems { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<RecipeItem> RecipeItems { get; set; }
-        public DbSet<InventoryTransactionDocumentType> InventoryTransactionTypes { get; set; }
-        public DbSet<InventoryTransactionDocument> InventoryTransactions { get; set; }
-        public DbSet<InventoryTransaction> InventoryTransactionItems { get; set; }
+        public DbSet<InventoryTransactionType> InventoryTransactionTypes { get; set; }
+        public DbSet<InventoryTransactionDocumentType> InventoryTransactionDocumentTypes { get; set; }
+        public DbSet<InventoryTransactionDocument> InventoryTransactionsDocuments { get; set; }
+        public DbSet<InventoryTransaction> InventoryTransactions { get; set; }
         public DbSet<PeriodicConsumption> PeriodicConsumptions { get; set; }
         public DbSet<WarehouseConsumption> WarehouseConsumptions { get; set; }
         public DbSet<PeriodicConsumptionItem> PeriodicConsumptionItems { get; set; }

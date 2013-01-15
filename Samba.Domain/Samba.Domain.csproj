@@ -80,6 +80,7 @@
     <Compile Include="Models\Automation\AutomationCommandMap.cs" />
     <Compile Include="Models\Automation\Script.cs" />
     <Compile Include="Models\Inventory\InventoryTransactionDocumentType.cs" />
+    <Compile Include="Models\Inventory\InventoryTransactionType.cs" />
     <Compile Include="Models\Inventory\Warehouse.cs" />
     <Compile Include="Models\Inventory\WarehouseConsumption.cs" />
     <Compile Include="Models\Inventory\WarehouseType.cs" />

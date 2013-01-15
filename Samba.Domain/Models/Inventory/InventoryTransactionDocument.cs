@@ -37,8 +37,10 @@ namespace Samba.Domain.Models.Inventory
             return new InventoryTransactionDocument
                        {
                            InventoryTransactionDocumentTypeId = transactionType.Id,
-                           SourceWarehouseId = transactionType.DefaultSourceWarehouseId,
-                           TargetWarehouseId = transactionType.DefaultTargetWarehouseId,
+                           SourceWarehouseId = transactionType.InventoryTransactionType.DefaultSourceWarehouseId,
+                           TargetWarehouseId = transactionType.InventoryTransactionType.DefaultTargetWarehouseId,
+                           SourceResourceId = transactionType.DefaultSourceResourceId,
+                           TargetResourceId = transactionType.DefaultTargetResourceId,
                            AccountTransactionType = transactionType.AccountTransactionType
                        };
         }

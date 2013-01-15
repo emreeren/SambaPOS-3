@@ -3050,4 +3050,10 @@ Error Message:
   <data name="PurchaseTransaction">
     <value xml:space="preserve">Purchase Transaction</value>
   </data>
+  <data name="InventoryTransactionType" xml:space="preserve">
+    <value>Inventory Transaction Type</value>
+  </data>
+  <data name="PurchaseTransactionType" xml:space="preserve">
+    <value>Purchase Transaction Type</value>
+  </data>
 </root>
