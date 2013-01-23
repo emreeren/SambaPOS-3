@@ -12,7 +12,7 @@ using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Services;
 
-namespace Samba.Modules.PosModule.Widgets.TicketExplorer
+namespace Samba.Modules.TicketModule.Widgets.TicketExplorer
 {
     public class TicketExplorerViewModel : WidgetViewModel
     {

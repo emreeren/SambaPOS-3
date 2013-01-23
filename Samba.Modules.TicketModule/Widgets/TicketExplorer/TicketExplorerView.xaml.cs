@@ -1,15 +1,12 @@
 ﻿using System.ComponentModel.Composition;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace Samba.Modules.PosModule.Widgets.TicketExplorer
+namespace Samba.Modules.TicketModule.Widgets.TicketExplorer
 {
-    /// <summary>
-    /// Interaction logic for TicketExplorerView.xaml
-    /// </summary>
-    /// 
     [Export]
     public partial class TicketExplorerView : UserControl
     {
@@ -20,10 +17,21 @@ namespace Samba.Modules.PosModule.Widgets.TicketExplorer
             InitializeComponent();
         }
 
+        private void DisplayTicket()
+        {
+            var tex = DataContext as TicketExplorerViewModel;
+            if (tex != null)
+            {
+                tex.QueueDisplayTicket();
+            }
+        }
+
         private void DataGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (!_scrolled)
-                (DataContext as TicketExplorerViewModel).QueueDisplayTicket();
+            {
+                DisplayTicket();
+            }
         }
 
         private void DataGrid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -39,26 +47,28 @@ namespace Samba.Modules.PosModule.Widgets.TicketExplorer
         private void DataGrid_PreviewKeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Up || e.Key == Key.Down)
-                (DataContext as TicketExplorerViewModel).QueueDisplayTicket();
+            {
+                DisplayTicket();
+            }
         }
 
         private void DataGrid_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             var i = 0;
             var d = DataContext as TicketExplorerViewModel;
-            if (d != null)
-            {
-                foreach (var resourceType in d.ResourceTypes)
+            if (d == null) return;
+
+            var resourceTypes = d.ResourceTypes.Select(resourceType => new DataGridTextColumn
                 {
-                    DataGridColumn dgtc = new DataGridTextColumn
-                                              {
-                                                  Header = resourceType.EntityName,
-                                                  Binding = new Binding("[" + resourceType.Id + "]"),
-                                                  MinWidth = 60,
-                                              };
-                    DataGrid.Columns.Insert(i + 1, dgtc);
-                    i++;
-                }
+                    Header = resourceType.EntityName,
+                    Binding = new Binding("[" + resourceType.Id + "]"),
+                    MinWidth = 60,
+                });
+
+            foreach (var dgtc in resourceTypes)
+            {
+                DataGrid.Columns.Insert(i + 1, dgtc);
+                i++;
             }
         }
     }

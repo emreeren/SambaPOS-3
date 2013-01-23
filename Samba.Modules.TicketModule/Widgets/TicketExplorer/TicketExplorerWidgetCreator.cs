@@ -7,7 +7,7 @@ using Samba.Presentation.Common;
 using Samba.Presentation.Services;
 using Samba.Services;
 
-namespace Samba.Modules.PosModule.Widgets.TicketExplorer
+namespace Samba.Modules.TicketModule.Widgets.TicketExplorer
 {
     [Export(typeof(IWidgetCreator))]
     class TicketExplorerWidgetCreator : IWidgetCreator

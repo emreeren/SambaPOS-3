@@ -79,11 +79,6 @@
       <DependentUpon>TicketTagListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TicketTagListViewModel.cs" />
-    <Compile Include="Widgets\TicketExplorer\TicketExplorerRowData.cs" />
-    <Compile Include="Widgets\TicketExplorer\TicketExplorerView.xaml.cs">
-      <DependentUpon>TicketExplorerView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Widgets\TicketExplorer\TicketExplorerViewModel.cs" />
     <Compile Include="TicketInfoView.xaml.cs">
       <DependentUpon>TicketInfoView.xaml</DependentUpon>
     </Compile>
@@ -104,7 +99,6 @@
     </Compile>
     <Compile Include="TicketOrdersViewModel.cs" />
     <Compile Include="TicketTagButton.cs" />
-    <Compile Include="Widgets\TicketExplorer\TicketExplorerWidgetCreator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lib\FlexButton\FlexButton.csproj">
@@ -200,12 +194,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="MenuItemSelectorView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Widgets\TicketExplorer\TicketExplorerView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
