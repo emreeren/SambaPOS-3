@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -15,12 +16,16 @@ using System.Windows.Shapes;
 namespace Samba.Modules.InventoryModule
 {
     /// <summary>
-    /// Interaction logic for TransactionDocumentTypeView.xaml
+    /// Interaction logic for InventoryModuleView.xaml
     /// </summary>
-    public partial class TransactionDocumentTypeView : UserControl
+
+    [Export]
+    public partial class InventoryModuleView : UserControl
     {
-        public TransactionDocumentTypeView()
+        [ImportingConstructor]
+        public InventoryModuleView(InventoryModuleViewModel viewModel)
         {
+            DataContext = viewModel;
             InitializeComponent();
         }
     }

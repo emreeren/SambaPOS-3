@@ -11,27 +11,28 @@ using Samba.Presentation.Services.Common;
 namespace Samba.Modules.InventoryModule
 {
     [ModuleExport(typeof(InventoryModule))]
-    public class InventoryModule : ModuleBase
+    public class InventoryModule : VisibleModuleBase
     {
         private readonly IRegionManager _regionManager;
+        private readonly InventoryModuleView _inventoryModuleView;
         private readonly ResourceInventoryView _resourceInventoryView;
         private readonly ResourceInventoryViewModel _resourceInventoryViewModel;
 
         [ImportingConstructor]
-        public InventoryModule(IRegionManager regionManager, ResourceInventoryView resourceInventoryView, ResourceInventoryViewModel resourceInventoryViewModel)
+        public InventoryModule(IRegionManager regionManager, InventoryModuleView inventoryModuleView,
+            ResourceInventoryView resourceInventoryView, ResourceInventoryViewModel resourceInventoryViewModel)
+            : base(regionManager, AppScreens.InventoryView)
         {
             _regionManager = regionManager;
+            _inventoryModuleView = inventoryModuleView;
             _resourceInventoryView = resourceInventoryView;
             _resourceInventoryViewModel = resourceInventoryViewModel;
 
-            AddDashboardCommand<EntityCollectionViewModelBase<WarehouseTypeViewModel, WarehouseType>>(Resources.WarehouseType.ToPlural(), Resources.Inventory, 35);
-            AddDashboardCommand<EntityCollectionViewModelBase<WarehouseViewModel, Warehouse>>(Resources.Warehouse.ToPlural(), Resources.Inventory, 35);
             AddDashboardCommand<EntityCollectionViewModelBase<InventoryItemViewModel, InventoryItem>>(Resources.InventoryItems, Resources.Inventory, 35);
             AddDashboardCommand<EntityCollectionViewModelBase<RecipeViewModel, Recipe>>(Resources.Recipes, Resources.Inventory, 35);
-            AddDashboardCommand<EntityCollectionViewModelBase<TransactionTypeViewModel, InventoryTransactionType>>(Resources.TransactionType.ToPlural(), Resources.Inventory, 35);
-            AddDashboardCommand<EntityCollectionViewModelBase<TransactionDocumentTypeViewModel, InventoryTransactionDocumentType>>(Resources.DocumentType.ToPlural(), Resources.Inventory, 35);
-            AddDashboardCommand<TransactionListViewModel>(Resources.Transaction.ToPlural(), Resources.Inventory, 35);
             AddDashboardCommand<PeriodicConsumptionListViewModel>(Resources.EndOfDayRecords, Resources.Inventory, 36);
+
+            SetNavigationCommand(Resources.Inventory, Resources.Common, "Images/box.png",40);
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<Resource>>().Subscribe(OnResourceEvent);
         }
@@ -47,12 +48,18 @@ namespace Samba.Modules.InventoryModule
 
         protected override void OnInitialization()
         {
+            _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(InventoryModuleView));
             _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(ResourceInventoryView));
         }
 
         private void ActivateInventoryView()
         {
             _regionManager.Regions[RegionNames.MainRegion].Activate(_resourceInventoryView);
+        }
+
+        public override object GetVisibleView()
+        {
+            return _inventoryModuleView;
         }
     }
 }

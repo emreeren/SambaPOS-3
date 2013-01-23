@@ -23,7 +23,7 @@ namespace Samba.Modules.ManagementModule
             _regionManager = regionManager;
             _dashboardView = dashboardView;
             _userService = userService;
-            SetNavigationCommand(Resources.Management, Resources.Common, "Images/Tools.png", 90);
+            SetNavigationCommand(Resources.Management, Resources.Common, "Images/Tools.png", 70);
             PermissionRegistry.RegisterPermission(PermissionNames.OpenDashboard, PermissionCategories.Navigation, Resources.CanOpenDashboard);
         }
 

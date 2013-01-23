@@ -4,7 +4,7 @@ using Samba.Infrastructure.Data;
 using Samba.Presentation.Common;
 using Samba.Presentation.Services;
 
-namespace Samba.Modules.InventoryModule
+namespace Samba.Modules.WarehouseModule
 {
     class TransactionItemViewModel : ObservableObject
     {

@@ -64,7 +64,7 @@ namespace Samba.Modules.AccountModule
             PermissionRegistry.RegisterPermission(PermissionNames.NavigateAccountView, PermissionCategories.Navigation, Resources.CanNavigateCash);
             PermissionRegistry.RegisterPermission(PermissionNames.CreateAccount, PermissionCategories.Account, Resources.CanCreateAccount);
 
-            SetNavigationCommand(Resources.Accounts, Resources.Common, "Images/Xls.png", 70);
+            SetNavigationCommand(Resources.Accounts, Resources.Common, "Images/Xls.png", 50);
 
             automationService.RegisterActionType(ActionNames.CreateAccountTransactionDocument, string.Format(Resources.Create_f, Resources.AccountTransactionDocument), new { AccountTransactionDocumentName = "" });
             automationService.RegisterActionType(ActionNames.CreateAccountTransaction, string.Format(Resources.Create_f, Resources.AccountTransaction), new { AccountTransactionTypeName = "", Amount = 0m });

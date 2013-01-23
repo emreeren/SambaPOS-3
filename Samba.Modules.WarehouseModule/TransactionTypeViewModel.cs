@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using FluentValidation;
-using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Inventory;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
 
-namespace Samba.Modules.InventoryModule
+namespace Samba.Modules.WarehouseModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     class TransactionTypeViewModel : EntityViewModelBase<InventoryTransactionType>

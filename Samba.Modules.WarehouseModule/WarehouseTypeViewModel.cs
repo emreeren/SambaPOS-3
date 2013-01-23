@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
 using Samba.Domain.Models.Inventory;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
 
-namespace Samba.Modules.InventoryModule
+namespace Samba.Modules.WarehouseModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     class WarehouseTypeViewModel : EntityViewModelBase<WarehouseType>

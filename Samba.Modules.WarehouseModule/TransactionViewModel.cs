@@ -8,9 +8,8 @@ using Samba.Localization.Properties;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Services;
-using Samba.Services;
 
-namespace Samba.Modules.InventoryModule
+namespace Samba.Modules.WarehouseModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     class TransactionViewModel : EntityViewModelBase<InventoryTransactionDocument>

@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Inventory;
 using Samba.Domain.Models.Resources;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
 
-namespace Samba.Modules.InventoryModule
+namespace Samba.Modules.WarehouseModule
 {
     class TransactionDocumentTypeViewModel : EntityViewModelBase<InventoryTransactionDocumentType>
     {

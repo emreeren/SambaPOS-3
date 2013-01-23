@@ -11,6 +11,9 @@ namespace Samba.Presentation.Services.Common
         AccountView,
         WorkPeriods,
         Management,
-        ReportView
+        ReportView,
+        WarehouseView,
+        InventoryView,
+        TicketListView
     }
 }

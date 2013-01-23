@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
+using Microsoft.Practices.Prism.Regions;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
@@ -10,11 +11,17 @@ using Samba.Services;
 namespace Samba.Modules.TicketModule
 {
     [ModuleExport(typeof(TicketModule))]
-    public class TicketModule : ModuleBase
+    public class TicketModule : VisibleModuleBase
     {
+        private readonly IRegionManager _regionManager;
+        private readonly TicketModuleView _ticketModuleView;
+
         [ImportingConstructor]
-        public TicketModule()
+        public TicketModule(IRegionManager regionManager, TicketModuleView ticketModuleView)
+            : base(regionManager, AppScreens.TicketListView)
         {
+            _regionManager = regionManager;
+            _ticketModuleView = ticketModuleView;
             AddDashboardCommand<EntityCollectionViewModelBase<TicketTypeViewModel, TicketType>>(Resources.TicketType.ToPlural(), Resources.Tickets, 35);
             AddDashboardCommand<EntityCollectionViewModelBase<TicketTagGroupViewModel, TicketTagGroup>>(Resources.TicketTag.ToPlural(), Resources.Tickets, 35);
             AddDashboardCommand<EntityCollectionViewModelBase<OrderTagTemplateViewModel, OrderTagTemplate>>(Resources.OrderTagTemplate.ToPlural(), Resources.Tickets, 35);
@@ -31,12 +38,18 @@ namespace Samba.Modules.TicketModule
             PermissionRegistry.RegisterPermission(PermissionNames.DisplayOldTickets, PermissionCategories.Ticket, Resources.CanDisplayOldTickets);
             PermissionRegistry.RegisterPermission(PermissionNames.MoveUnlockedOrders, PermissionCategories.Ticket, Resources.CanMoveUnlockedTicketLines);
             PermissionRegistry.RegisterPermission(PermissionNames.ChangeExtraProperty, PermissionCategories.Ticket, Resources.CanUpdateExtraModifiers);
+
+            SetNavigationCommand(Resources.Tickets, Resources.Common, "Images/note.png", 20);
         }
 
         protected override void OnInitialization()
         {
-
+            _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(TicketModuleView));
         }
 
+        public override object GetVisibleView()
+        {
+            return _ticketModuleView;
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -12,15 +13,19 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Samba.Modules.InventoryModule
+namespace Samba.Modules.TicketModule
 {
     /// <summary>
-    /// Interaction logic for WarehouseTypeView.xaml
+    /// Interaction logic for TicketModuleView.xaml
     /// </summary>
-    public partial class WarehouseTypeView : UserControl
+    
+    [Export]
+    public partial class TicketModuleView : UserControl
     {
-        public WarehouseTypeView()
+        [ImportingConstructor]
+        public TicketModuleView(TicketModuleViewModel viewModel)
         {
+            DataContext = viewModel;
             InitializeComponent();
         }
     }

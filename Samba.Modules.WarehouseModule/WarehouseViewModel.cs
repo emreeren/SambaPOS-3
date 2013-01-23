@@ -7,7 +7,7 @@ using Samba.Domain.Models.Inventory;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
 
-namespace Samba.Modules.InventoryModule
+namespace Samba.Modules.WarehouseModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     class WarehouseViewModel : EntityViewModelBase<Warehouse>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.Linq;
 using System.Timers;
 using System.Windows.Input;
@@ -224,7 +225,7 @@ namespace Samba.Modules.ResourceModule
             var targetEvent = _currentResourceSelectionRequest != null
                                   ? _currentResourceSelectionRequest.GetExpectedEvent()
                                   : EventTopicNames.SelectResource;
-            var newResource = new Resource { ResourceTypeId = SelectedResourceType.Id, Name = SearchString };
+            var newResource = new Resource { ResourceTypeId = SelectedResourceType.Id, Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(SearchString) };
             ClearSearchValues();
             CommonEventPublisher.PublishEntityOperation(newResource, EventTopicNames.EditResourceDetails, targetEvent);
         }

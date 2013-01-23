@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -12,15 +14,19 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Samba.Modules.InventoryModule
+namespace Samba.Modules.WarehouseModule
 {
     /// <summary>
-    /// Interaction logic for WarehouseView.xaml
+    /// Interaction logic for WarehouseModuleView.xaml
     /// </summary>
-    public partial class WarehouseView : UserControl
+   
+    [Export]
+    public partial class WarehouseModuleView : UserControl
     {
-        public WarehouseView()
+        [ImportingConstructor]
+        public WarehouseModuleView(WarehouseModuleViewModel viewModel)
         {
+            DataContext = viewModel;
             InitializeComponent();
         }
     }
