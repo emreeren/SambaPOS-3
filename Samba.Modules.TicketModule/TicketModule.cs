@@ -15,13 +15,17 @@ namespace Samba.Modules.TicketModule
     {
         private readonly IRegionManager _regionManager;
         private readonly TicketModuleView _ticketModuleView;
+        private readonly TicketExplorerView _ticketExplorerView;
+        private readonly TicketExplorerViewModel _ticketExplorerViewModel;
 
         [ImportingConstructor]
-        public TicketModule(IRegionManager regionManager, TicketModuleView ticketModuleView)
+        public TicketModule(IRegionManager regionManager, TicketModuleView ticketModuleView, TicketExplorerView ticketExplorerView, TicketExplorerViewModel ticketExplorerViewModel)
             : base(regionManager, AppScreens.TicketListView)
         {
             _regionManager = regionManager;
             _ticketModuleView = ticketModuleView;
+            _ticketExplorerView = ticketExplorerView;
+            _ticketExplorerViewModel = ticketExplorerViewModel;
             AddDashboardCommand<EntityCollectionViewModelBase<TicketTypeViewModel, TicketType>>(Resources.TicketType.ToPlural(), Resources.Tickets, 35);
             AddDashboardCommand<EntityCollectionViewModelBase<TicketTagGroupViewModel, TicketTagGroup>>(Resources.TicketTag.ToPlural(), Resources.Tickets, 35);
             AddDashboardCommand<EntityCollectionViewModelBase<OrderTagTemplateViewModel, OrderTagTemplate>>(Resources.OrderTagTemplate.ToPlural(), Resources.Tickets, 35);
@@ -40,16 +44,23 @@ namespace Samba.Modules.TicketModule
             PermissionRegistry.RegisterPermission(PermissionNames.ChangeExtraProperty, PermissionCategories.Ticket, Resources.CanUpdateExtraModifiers);
 
             SetNavigationCommand(Resources.Tickets, Resources.Common, "Images/note.png", 20);
+            ticketExplorerView.DataContext = ticketExplorerViewModel;
+        }
+
+        protected override void OnNavigate(string obj)
+        {
+            base.OnNavigate(obj);
+            _ticketExplorerViewModel.Refresh();
         }
 
         protected override void OnInitialization()
         {
-            _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(TicketModuleView));
+            _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(TicketExplorerView));
         }
 
         public override object GetVisibleView()
         {
-            return _ticketModuleView;
+            return _ticketExplorerView;
         }
     }
 }

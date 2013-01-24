@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Collections.Generic;
 using System.Timers;
@@ -12,18 +13,19 @@ using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Services;
 
-namespace Samba.Modules.TicketModule.Widgets.TicketExplorer
+namespace Samba.Modules.TicketModule
 {
-    public class TicketExplorerViewModel : WidgetViewModel
+    [Export]
+    public class TicketExplorerViewModel : ObservableObject
     {
         private readonly Timer _timer;
         private readonly ITicketService _ticketService;
         private readonly IUserService _userService;
         private readonly ICacheService _cacheService;
 
-        public TicketExplorerViewModel(Widget widget, IApplicationState applicationState, ITicketService ticketService,
+        [ImportingConstructor]
+        public TicketExplorerViewModel(ITicketService ticketService,
             IUserService userService, ICacheService cacheService)
-            : base(widget, applicationState)
         {
             _ticketService = ticketService;
             _userService = userService;
@@ -122,12 +124,7 @@ namespace Samba.Modules.TicketModule.Widgets.TicketExplorer
         [Browsable(false)]
         public string TotalStr { get { return string.Format("{0}: {1:N}", Resources.Total, Total); } }
 
-        protected override object CreateSettingsObject()
-        {
-            return null;
-        }
-
-        public override void Refresh()
+        public void Refresh()
         {
             if (StartDate.Year == 1)
             {

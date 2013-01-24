@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace Samba.Modules.TicketModule.Widgets.TicketExplorer
+namespace Samba.Modules.TicketModule
 {
     [Export]
     public partial class TicketExplorerView : UserControl

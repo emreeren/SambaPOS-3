@@ -8,6 +8,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Markup;
+using System.Windows.Media;
 using System.Windows.Threading;
 using Samba.Domain.Models.Users;
 using Samba.Infrastructure.Settings;
@@ -30,8 +31,9 @@ namespace Samba.Presentation
         private readonly IMethodQueue _methodQueue;
 
         [ImportingConstructor]
-        public Shell(IApplicationState applicationState,IMethodQueue methodQueue)
+        public Shell(IApplicationState applicationState, IMethodQueue methodQueue)
         {
+
             _applicationState = applicationState;
             _methodQueue = methodQueue;
             InitializeComponent();
@@ -47,7 +49,7 @@ namespace Samba.Presentation
             EventServiceFactory.EventService.GetEvent<GenericEvent<User>>().Subscribe(x =>
             {
                 if (x.Topic == EventTopicNames.UserLoggedIn) UserLoggedIn(x.Value);
-                if (x.Topic == EventTopicNames.UserLoggedOut) {UserLoggedOut(x.Value);}
+                if (x.Topic == EventTopicNames.UserLoggedOut) { UserLoggedOut(x.Value); }
             });
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<UserControl>>().Subscribe(
@@ -67,6 +69,12 @@ namespace Samba.Presentation
             RightUserRegion.Visibility = Visibility.Collapsed;
             Height = Properties.Settings.Default.ShellHeight;
             Width = Properties.Settings.Default.ShellWidth;
+
+            if (Properties.Settings.Default.WindowScale > 0)
+            {
+                (MainGrid.LayoutTransform as ScaleTransform).ScaleX = Properties.Settings.Default.WindowScale;
+                (MainGrid.LayoutTransform as ScaleTransform).ScaleY = Properties.Settings.Default.WindowScale;
+            }
 
             _timer = new DispatcherTimer();
             _timer.Tick += TimerTick;
@@ -132,6 +140,8 @@ namespace Samba.Presentation
                 Properties.Settings.Default.ShellHeight = Height;
                 Properties.Settings.Default.ShellWidth = Width;
             }
+
+            Properties.Settings.Default.WindowScale = (MainGrid.LayoutTransform as ScaleTransform).ScaleX;
             Properties.Settings.Default.Save();
         }
 
@@ -165,6 +175,15 @@ namespace Samba.Presentation
             var top = Topmost;
             Topmost = true;
             Topmost = top;
+        }
+
+        private void UIElement_OnMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            var val = e.Delta / 3000d;
+            var sc = MainGrid.LayoutTransform as ScaleTransform;
+            if (sc == null || sc.ScaleX + val < 0.05) return;
+            sc.ScaleX += val;
+            sc.ScaleY += val;
         }
     }
 }

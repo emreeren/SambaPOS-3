@@ -123,12 +123,13 @@
       <DependentUpon>TicketTypeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TicketTypeViewModel.cs" />
-    <Compile Include="Widgets\TicketExplorer\TicketExplorerRowData.cs" />
-    <Compile Include="Widgets\TicketExplorer\TicketExplorerView.xaml.cs">
+    <Compile Include="TicketExplorerRowData.cs" />
+    <Compile Include="TicketExplorerView.xaml.cs">
       <DependentUpon>TicketExplorerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Widgets\TicketExplorer\TicketExplorerViewModel.cs" />
+    <Compile Include="TicketExplorerViewModel.cs" />
     <Compile Include="Widgets\TicketExplorer\TicketExplorerWidgetCreator.cs" />
+    <Compile Include="Widgets\TicketExplorer\TicketExplorerWidgetViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="CalculationSelectorView.xaml">
@@ -167,7 +168,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Widgets\TicketExplorer\TicketExplorerView.xaml">
+    <Page Include="TicketExplorerView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -208,6 +209,10 @@
     <ProjectReference Include="..\Samba.Presentation.Services.Common\Samba.Presentation.Services.Common.csproj">
       <Project>{F2C77290-6806-4F23-BEB7-171C4008D13B}</Project>
       <Name>Samba.Presentation.Services.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Presentation.Services.Implementations\Samba.Presentation.Services.Implementations.csproj">
+      <Project>{D129FE5D-2C81-4163-BEF4-0C6150FEB766}</Project>
+      <Name>Samba.Presentation.Services.Implementations</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Presentation.Services\Samba.Presentation.Services.csproj">
       <Project>{7DD8848C-3ADB-45B3-BD49-10AF3AEE2521}</Project>

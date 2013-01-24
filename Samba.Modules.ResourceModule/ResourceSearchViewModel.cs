@@ -225,7 +225,7 @@ namespace Samba.Modules.ResourceModule
             var targetEvent = _currentResourceSelectionRequest != null
                                   ? _currentResourceSelectionRequest.GetExpectedEvent()
                                   : EventTopicNames.SelectResource;
-            var newResource = new Resource { ResourceTypeId = SelectedResourceType.Id, Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(SearchString) };
+            var newResource = new Resource { ResourceTypeId = SelectedResourceType.Id, Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(SearchString ?? "") };
             ClearSearchValues();
             CommonEventPublisher.PublishEntityOperation(newResource, EventTopicNames.EditResourceDetails, targetEvent);
         }

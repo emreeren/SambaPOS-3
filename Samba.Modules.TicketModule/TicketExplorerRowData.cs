@@ -6,7 +6,7 @@ using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 
-namespace Samba.Modules.TicketModule.Widgets.TicketExplorer
+namespace Samba.Modules.TicketModule
 {
     public class TicketExplorerRowData : ObservableObject
     {

@@ -6,6 +6,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-            <Label>Ticket Module</Label>
+        <DataGrid ItemsSource="{Binding Tickets}"></DataGrid>
     </Grid>
 </UserControl>

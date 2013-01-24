@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -42,19 +43,20 @@ namespace Samba.Modules.TicketModule.Widgets.TicketExplorer
 
         public IDiagram CreateWidgetViewModel(Widget widget, IApplicationState applicationState)
         {
-            return new TicketExplorerViewModel(widget, applicationState, _ticketService, _userService, _cacheService);
+            return new TicketExplorerWidgetViewModel(widget, applicationState, _ticketService, _userService, _cacheService);
         }
 
         public FrameworkElement CreateWidgetControl(IDiagram widgetViewModel, ContextMenu contextMenu)
         {
-            var buttonHolder = widgetViewModel as TicketExplorerViewModel;
+            var viewModel = widgetViewModel as TicketExplorerWidgetViewModel;
+            Debug.Assert(viewModel != null);
 
-            var ret = new TicketExplorerView { DataContext = buttonHolder, ContextMenu = contextMenu };
+            var ret = new TicketExplorerView { DataContext = viewModel.TicketExplorerViewModel, ContextMenu = contextMenu };
 
-            var heightBinding = new Binding("Height") { Source = buttonHolder, Mode = BindingMode.TwoWay };
-            var widthBinding = new Binding("Width") { Source = buttonHolder, Mode = BindingMode.TwoWay };
-            var xBinding = new Binding("X") { Source = buttonHolder, Mode = BindingMode.TwoWay };
-            var yBinding = new Binding("Y") { Source = buttonHolder, Mode = BindingMode.TwoWay };
+            var heightBinding = new Binding("Height") { Source = viewModel, Mode = BindingMode.TwoWay };
+            var widthBinding = new Binding("Width") { Source = viewModel, Mode = BindingMode.TwoWay };
+            var xBinding = new Binding("X") { Source = viewModel, Mode = BindingMode.TwoWay };
+            var yBinding = new Binding("Y") { Source = viewModel, Mode = BindingMode.TwoWay };
 
             ret.SetBinding(InkCanvas.LeftProperty, xBinding);
             ret.SetBinding(InkCanvas.TopProperty, yBinding);

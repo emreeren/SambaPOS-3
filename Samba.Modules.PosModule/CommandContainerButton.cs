@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Common;
-using Samba.Presentation.Services.Common;
 using Samba.Services.Common;
 
 namespace Samba.Modules.PosModule
