@@ -3056,4 +3056,7 @@ Error Message:
   <data name="PurchaseTransactionType" xml:space="preserve">
     <value>Purchase Transaction Type</value>
   </data>
+  <data name="Warehouses" xml:space="preserve">
+    <value>Warehouses</value>
+  </data>
 </root>

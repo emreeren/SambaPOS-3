@@ -7878,6 +7878,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Warehouses.
+        /// </summary>
+        public static string Warehouses {
+            get {
+                return ResourceManager.GetString("Warehouses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Warehouse Type.
         /// </summary>
         public static string WarehouseType {

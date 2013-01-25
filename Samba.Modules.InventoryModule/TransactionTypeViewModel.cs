@@ -7,7 +7,7 @@ using Samba.Domain.Models.Inventory;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
 
-namespace Samba.Modules.WarehouseModule
+namespace Samba.Modules.InventoryModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     class TransactionTypeViewModel : EntityViewModelBase<InventoryTransactionType>

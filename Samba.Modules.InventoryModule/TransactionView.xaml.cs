@@ -2,7 +2,7 @@
 using Samba.Presentation.Common;
 using System.Windows.Controls;
 
-namespace Samba.Modules.WarehouseModule
+namespace Samba.Modules.InventoryModule
 {
     /// <summary>
     /// Interaction logic for TransactionView.xaml

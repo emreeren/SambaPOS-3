@@ -62,10 +62,6 @@
     </Compile>
     <Compile Include="InventoryItemViewModel.cs" />
     <Compile Include="InventoryModule.cs" />
-    <Compile Include="InventoryModuleView.xaml.cs">
-      <DependentUpon>InventoryModuleView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="InventoryModuleViewModel.cs" />
     <Compile Include="PeriodicConsumptionItemViewModel.cs" />
     <Compile Include="PeriodicConsumptionListViewModel.cs" />
     <Compile Include="PeriodicConsumptionView.xaml.cs">
@@ -78,18 +74,36 @@
       <DependentUpon>RecipeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="RecipeViewModel.cs" />
-    <Compile Include="ResourceInventoryView.xaml.cs">
-      <DependentUpon>ResourceInventoryView.xaml</DependentUpon>
+    <Compile Include="WarehouseInventoryView.xaml.cs">
+      <DependentUpon>WarehouseInventoryView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ResourceInventoryViewModel.cs" />
+    <Compile Include="WarehouseInventoryViewModel.cs" />
+    <Compile Include="TransactionDocumentTypeView.xaml.cs">
+      <DependentUpon>TransactionDocumentTypeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TransactionDocumentTypeViewModel.cs" />
+    <Compile Include="TransactionItemViewModel.cs" />
+    <Compile Include="TransactionListViewModel.cs" />
+    <Compile Include="TransactionTypeView.xaml.cs">
+      <DependentUpon>TransactionTypeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TransactionTypeViewModel.cs" />
+    <Compile Include="TransactionView.xaml.cs">
+      <DependentUpon>TransactionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TransactionViewModel.cs" />
     <Compile Include="WarehouseConsumptionViewModel.cs" />
+    <Compile Include="WarehouseTypeView.xaml.cs">
+      <DependentUpon>WarehouseTypeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WarehouseTypeViewModel.cs" />
+    <Compile Include="WarehouseView.xaml.cs">
+      <DependentUpon>WarehouseView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WarehouseViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="InventoryItemView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="InventoryModuleView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -101,12 +115,36 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ResourceInventoryView.xaml">
+    <Page Include="WarehouseInventoryView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TransactionDocumentTypeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TransactionTypeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TransactionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WarehouseTypeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WarehouseView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lib\FlexButton\FlexButton.csproj">
+      <Project>{434D497A-D439-44C8-84A5-5301B572708F}</Project>
+      <Name>FlexButton</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">
       <Project>{2386F6A0-91B2-4D1A-8DBC-92109924AFFE}</Project>
       <Name>Samba.Domain</Name>

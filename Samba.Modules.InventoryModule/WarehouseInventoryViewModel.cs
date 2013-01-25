@@ -1,41 +1,70 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Inventory;
-using Samba.Domain.Models.Resources;
 using Samba.Presentation.Common;
+using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Services;
 using Samba.Services;
 
 namespace Samba.Modules.InventoryModule
 {
     [Export]
-    public class ResourceInventoryViewModel : ObservableObject
+    public class WarehouseInventoryViewModel : ObservableObject
     {
         private readonly IInventoryService _inventoryService;
         private readonly ICacheService _cacheService;
 
+        public ICaptionCommand WarehouseButtonSelectedCommand { get; set; }
+
         [ImportingConstructor]
-        public ResourceInventoryViewModel(IInventoryService inventoryService, ICacheService cacheService)
+        public WarehouseInventoryViewModel(IInventoryService inventoryService, ICacheService cacheService)
         {
             _inventoryService = inventoryService;
             _cacheService = cacheService;
+            WarehouseButtonSelectedCommand = new CaptionCommand<Warehouse>("", OnWarehouseSelected);
         }
 
-        public void Refresh(Resource resource)
+        private void OnWarehouseSelected(Warehouse obj)
         {
-            SelectedResource = resource;
+            UpdateSelectedWarehouse(obj.Id);
+        }
+
+        public void Refresh(int warehouseId)
+        {
+            _warehouses = null;
+            _warehouseButtons = null;
+            UpdateSelectedWarehouse(warehouseId);
+            RaisePropertyChanged(() => WarehouseButtons);
+        }
+
+        private void UpdateSelectedWarehouse(int warehouseId)
+        {
+            SelectedWarehouse = Warehouses.Single(x => x.Id == warehouseId);
             var pc = _inventoryService.GetCurrentPeriodicConsumption();
-            SelectedWarehouseConsumption = pc.WarehouseConsumptions.Single(x => x.WarehouseId == SelectedResource.WarehouseId);
+            SelectedWarehouseConsumption = pc.WarehouseConsumptions.Single(x => x.WarehouseId == SelectedWarehouse.Id);
             _periodicConsumptionItems = null;
             _costItems = null;
             RaisePropertyChanged(() => PeriodicConsumptionItems);
             RaisePropertyChanged(() => CostItems);
-            RaisePropertyChanged(() => SelectedResource);
+            RaisePropertyChanged(() => SelectedWarehouse);
+        }
+
+        private IEnumerable<Warehouse> _warehouses;
+        public IEnumerable<Warehouse> Warehouses
+        {
+            get { return _warehouses ?? (_warehouses = _cacheService.GetWarehouses()); }
+        }
+
+        private IEnumerable<WarehouseButton> _warehouseButtons;
+        public IEnumerable<WarehouseButton> WarehouseButtons
+        {
+            get { return _warehouseButtons ?? (_warehouseButtons = Warehouses.Select(x => new WarehouseButton(x))); }
         }
 
         public WarehouseConsumption SelectedWarehouseConsumption { get; set; }
-        public Resource SelectedResource { get; set; }
+        public Warehouse SelectedWarehouse { get; set; }
 
         private ObservableCollection<PeriodicConsumptionItemViewModel> _periodicConsumptionItems;
         public ObservableCollection<PeriodicConsumptionItemViewModel> PeriodicConsumptionItems
@@ -65,5 +94,16 @@ namespace Samba.Modules.InventoryModule
                     SelectedWarehouseConsumption.PeriodicConsumptionItems.Select(
                         x => new PeriodicConsumptionItemViewModel(x)));
         }
+    }
+
+    public class WarehouseButton
+    {
+        public Warehouse Model { get; set; }
+        public WarehouseButton(Warehouse model)
+        {
+            Model = model;
+        }
+
+        public string Caption { get { return Model.Name; } }
     }
 }

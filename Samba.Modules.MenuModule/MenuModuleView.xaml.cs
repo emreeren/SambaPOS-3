@@ -13,17 +13,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Samba.Modules.InventoryModule
+namespace Samba.Modules.MenuModule
 {
     /// <summary>
-    /// Interaction logic for InventoryModuleView.xaml
+    /// Interaction logic for MenuModuleView.xaml
     /// </summary>
-
+    
     [Export]
-    public partial class InventoryModuleView : UserControl
+    public partial class MenuModuleView : UserControl
     {
         [ImportingConstructor]
-        public InventoryModuleView(InventoryModuleViewModel viewModel)
+        public MenuModuleView(MenuModuleViewModel viewModel)
         {
             DataContext = viewModel;
             InitializeComponent();

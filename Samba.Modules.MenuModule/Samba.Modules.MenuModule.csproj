@@ -66,6 +66,10 @@
     </Compile>
     <Compile Include="MenuItemPriceDefinitionViewModel.cs" />
     <Compile Include="MenuItemPriceViewModel.cs" />
+    <Compile Include="MenuModuleView.xaml.cs">
+      <DependentUpon>MenuModuleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MenuModuleViewModel.cs" />
     <Compile Include="TaxTemplateMapViewModel.cs" />
     <Compile Include="ProductTimerView.xaml.cs">
       <DependentUpon>ProductTimerView.xaml</DependentUpon>
@@ -151,6 +155,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="MenuItemPriceDefinitionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MenuModuleView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

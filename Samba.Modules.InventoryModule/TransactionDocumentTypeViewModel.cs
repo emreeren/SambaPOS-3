@@ -7,7 +7,7 @@ using Samba.Domain.Models.Resources;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
 
-namespace Samba.Modules.WarehouseModule
+namespace Samba.Modules.InventoryModule
 {
     class TransactionDocumentTypeViewModel : EntityViewModelBase<InventoryTransactionDocumentType>
     {

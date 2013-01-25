@@ -9,10 +9,10 @@ namespace Samba.Modules.InventoryModule
     /// </summary>
     
     [Export]
-    public partial class ResourceInventoryView : UserControl
+    public partial class WarehouseInventoryView : UserControl
     {
         [ImportingConstructor]
-        public ResourceInventoryView(ResourceInventoryViewModel viewModel)
+        public WarehouseInventoryView(WarehouseInventoryViewModel viewModel)
         {
             DataContext = viewModel;
             InitializeComponent();

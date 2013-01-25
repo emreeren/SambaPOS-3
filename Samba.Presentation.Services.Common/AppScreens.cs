@@ -14,6 +14,7 @@ namespace Samba.Presentation.Services.Common
         ReportView,
         WarehouseView,
         InventoryView,
-        TicketListView
+        TicketListView,
+        ProductView
     }
 }
