@@ -110,22 +110,7 @@ namespace Samba.Presentation
             RightUserRegion.Visibility = Visibility.Collapsed;
         }
 
-        private void TextBlockMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ClickCount == 2)
-            {
-                if (WindowStyle != WindowStyle.SingleBorderWindow)
-                {
-                    WindowStyle = WindowStyle.SingleBorderWindow;
-                    WindowState = WindowState.Normal;
-                }
-                else
-                {
-                    WindowStyle = WindowStyle.None;
-                    WindowState = WindowState.Maximized;
-                }
-            }
-        }
+
 
         private void WindowClosing(object sender, CancelEventArgs e)
         {
@@ -177,8 +162,35 @@ namespace Samba.Presentation
             Topmost = top;
         }
 
+        private void TextBlockMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 2)
+            {
+                if (Keyboard.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift))
+                {
+                    (MainGrid.LayoutTransform as ScaleTransform).ScaleX = 1;
+                    (MainGrid.LayoutTransform as ScaleTransform).ScaleY = 1;
+                    return;
+                }
+
+                if (WindowStyle != WindowStyle.SingleBorderWindow)
+                {
+                    WindowStyle = WindowStyle.SingleBorderWindow;
+                    WindowState = WindowState.Normal;
+                }
+                else
+                {
+                    WindowStyle = WindowStyle.None;
+                    WindowState = WindowState.Maximized;
+                }
+            }
+        }
+
         private void UIElement_OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
+            if (Keyboard.Modifiers != (ModifierKeys.Control | ModifierKeys.Shift)) return;
+            //if ((Keyboard.Modifiers & ModifierKeys.Shift) == 0) return;
+            //if ((Keyboard.Modifiers & ModifierKeys.Control) == 0) return;
             var val = e.Delta / 3000d;
             var sc = MainGrid.LayoutTransform as ScaleTransform;
             if (sc == null || sc.ScaleX + val < 0.05) return;

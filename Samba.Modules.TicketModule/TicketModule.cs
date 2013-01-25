@@ -14,18 +14,19 @@ namespace Samba.Modules.TicketModule
     public class TicketModule : VisibleModuleBase
     {
         private readonly IRegionManager _regionManager;
-        private readonly TicketModuleView _ticketModuleView;
         private readonly TicketExplorerView _ticketExplorerView;
         private readonly TicketExplorerViewModel _ticketExplorerViewModel;
 
         [ImportingConstructor]
-        public TicketModule(IRegionManager regionManager, TicketModuleView ticketModuleView, TicketExplorerView ticketExplorerView, TicketExplorerViewModel ticketExplorerViewModel)
+        public TicketModule(IRegionManager regionManager, TicketExplorerView ticketExplorerView, TicketExplorerViewModel ticketExplorerViewModel)
             : base(regionManager, AppScreens.TicketListView)
         {
             _regionManager = regionManager;
-            _ticketModuleView = ticketModuleView;
+
             _ticketExplorerView = ticketExplorerView;
             _ticketExplorerViewModel = ticketExplorerViewModel;
+            _ticketExplorerViewModel.TicketAction = () => OnNavigate("");
+
             AddDashboardCommand<EntityCollectionViewModelBase<TicketTypeViewModel, TicketType>>(Resources.TicketType.ToPlural(), Resources.Tickets, 35);
             AddDashboardCommand<EntityCollectionViewModelBase<TicketTagGroupViewModel, TicketTagGroup>>(Resources.TicketTag.ToPlural(), Resources.Tickets, 35);
             AddDashboardCommand<EntityCollectionViewModelBase<OrderTagTemplateViewModel, OrderTagTemplate>>(Resources.OrderTagTemplate.ToPlural(), Resources.Tickets, 35);

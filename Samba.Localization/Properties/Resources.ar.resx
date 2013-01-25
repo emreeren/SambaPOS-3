@@ -117,1462 +117,2725 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ProductList" xml:space="preserve">
-    <value>قائمة المنتجات</value>
+  <data name="AccountBalance" xml:space="preserve">
+    <value>رصيد الحساب</value>
   </data>
-  <data name="Product" xml:space="preserve">
-    <value>منتج</value>
-  </data>
-  <data name="PinCode" xml:space="preserve">
-    <value>الرمز السري</value>
-  </data>
-  <data name="One" xml:space="preserve">
-    <value>واحد</value>
-  </data>
-  <data name="Rounding" xml:space="preserve">
-    <value>تقريب</value>
-  </data>
-  <data name="ExtraModifiers" xml:space="preserve">
-    <value>طلبات جانبية</value>
-  </data>
-  <data name="ResetAccount" xml:space="preserve">
-    <value>إعادة ضبط الحساب</value>
-  </data>
-  <data name="FooterTemplate" xml:space="preserve">
-    <value>قالب تذييل الصفحة</value>
-  </data>
-  <data name="MenuList" xml:space="preserve">
-    <value>قائمة القوائم</value>
-  </data>
-  <data name="AddOrder" xml:space="preserve">
-    <value>إضافة طلب</value>
-  </data>
-  <data name="Settings" xml:space="preserve">
-    <value>إعدادات</value>
+  <data name="FixedAmount" xml:space="preserve">
+    <value>مبلغ ثابت</value>
   </data>
   <data name="ButtonHeader" xml:space="preserve">
     <value>عنوان الزر</value>
   </data>
-  <data name="PastWeek" xml:space="preserve">
-    <value>الاسبوع الماضي</value>
+  <data name="DisplayTicket" xml:space="preserve">
+    <value>عرض التذكرة</value>
   </data>
-  <data name="MessageReceived" xml:space="preserve">
-    <value>تم تلقي رسالة</value>
+  <data name="Print" xml:space="preserve">
+    <value>طباعة</value>
   </data>
-  <data name="LocalSettings" xml:space="preserve">
-    <value>إعدادات محلية</value>
+  <data name="Resource" xml:space="preserve">
+    <value>مورد</value>
   </data>
-  <data name="InventoryItemName" xml:space="preserve">
-    <value>اسم قطعة المخزون</value>
+  <data name="TotalWorkTimeDays_f" xml:space="preserve">
+    <value>إجمالي وقت العمل: {0:0} يوم {1:0} ساعة {2:0} دقيقة</value>
   </data>
-  <data name="Costs" xml:space="preserve">
-    <value>تكاليف</value>
+  <data name="Settle" xml:space="preserve">
+    <value>تسوية</value>
+  </data>
+  <data name="BeforeWorkPeriodEnds" xml:space="preserve">
+    <value>قبل إنهاء فترة العمل</value>
+  </data>
+  <data name="Add_f" xml:space="preserve">
+    <value>إضافة  {0}</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>مجموعة</value>
+  </data>
+  <data name="Discount" xml:space="preserve">
+    <value>تخفيض</value>
+  </data>
+  <data name="Currency" xml:space="preserve">
+    <value>العملة</value>
+  </data>
+  <data name="ButtonColor" xml:space="preserve">
+    <value>لون الزر</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>مخصص</value>
+  </data>
+  <data name="EveryMonth" xml:space="preserve">
+    <value>كل شهر</value>
+  </data>
+  <data name="TagValue" xml:space="preserve">
+    <value>قيمة العلامة</value>
+  </data>
+  <data name="Round" xml:space="preserve">
+    <value>تقريب</value>
+  </data>
+  <data name="PropertyEditor" xml:space="preserve">
+    <value>معدل الخصائص</value>
+  </data>
+  <data name="AccountType" xml:space="preserve">
+    <value>نوع الحساب</value>
+  </data>
+  <data name="ChangeTicketResource" xml:space="preserve">
+    <value>تغيير مورد التذكرة</value>
+  </data>
+  <data name="Script" xml:space="preserve">
+    <value>البرنامج النصي</value>
+  </data>
+  <data name="DocumentType" xml:space="preserve">
+    <value>نوع المستند</value>
+  </data>
+  <data name="CashStatus" xml:space="preserve">
+    <value>الوضع النقدي</value>
+  </data>
+  <data name="Inventory" xml:space="preserve">
+    <value>مخزون</value>
+  </data>
+  <data name="LineItemTotalAndQuantity" xml:space="preserve">
+    <value>#Line: المجموع × الكمية</value>
+  </data>
+  <data name="StartWorkPeriod" xml:space="preserve">
+    <value>بدء فترة العمل</value>
+  </data>
+  <data name="Fourteen" xml:space="preserve">
+    <value>أربعة عشر</value>
+  </data>
+  <data name="UserRoleList" xml:space="preserve">
+    <value>قائمة الوظائف</value>
+  </data>
+  <data name="ClearFilter" xml:space="preserve">
+    <value>إلغاء تطبيق عامل التصفية</value>
+  </data>
+  <data name="UpdatePriceTag" xml:space="preserve">
+    <value>تغيير قائمة الأسعار</value>
+  </data>
+  <data name="Warehouse" xml:space="preserve">
+    <value>مستودع</value>
+  </data>
+  <data name="TotalIncome" xml:space="preserve">
+    <value>مجموع الإيرادات</value>
+  </data>
+  <data name="AccountDetails" xml:space="preserve">
+    <value>تفاصيل الحساب</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>اختر</value>
+  </data>
+  <data name="CIDSettings" xml:space="preserve">
+    <value>إعدادات CID</value>
+  </data>
+  <data name="WorkPeriodReport" xml:space="preserve">
+    <value>تقرير الفترة العمل</value>
+  </data>
+  <data name="AddCategoryHint" xml:space="preserve">
+    <value>أدخل المجموعات التي تريد إضافتها</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>معلومات</value>
+  </data>
+  <data name="StartWorkPeriodToEnablePos" xml:space="preserve">
+    <value>ابدأ "فترة العمل" لتفعيل نقطة البيع</value>
+  </data>
+  <data name="Rules" xml:space="preserve">
+    <value>قواعد</value>
+  </data>
+  <data name="TicketWithBrackets" xml:space="preserve">
+    <value>[التذكرة]</value>
+  </data>
+  <data name="Numerator" xml:space="preserve">
+    <value>مولد الأرقام</value>
+  </data>
+  <data name="EditModel_f" xml:space="preserve">
+    <value>تعديل  {0} ({1})</value>
+  </data>
+  <data name="Every6Hours" xml:space="preserve">
+    <value>كل 6 ساعات</value>
+  </data>
+  <data name="TriggerExecuted" xml:space="preserve">
+    <value>تم تنفيذ المشغل</value>
+  </data>
+  <data name="MinSelectedItems" xml:space="preserve">
+    <value>أدنى العناصر المحددة</value>
+  </data>
+  <data name="MenuProperties" xml:space="preserve">
+    <value>خصائص القائمة</value>
+  </data>
+  <data name="CustomConstraint" xml:space="preserve">
+    <value>القيد المخصص</value>
+  </data>
+  <data name="Dollar" xml:space="preserve">
+    <value>الدولار</value>
+  </data>
+  <data name="BatchPriceList" xml:space="preserve">
+    <value>محرر قائمة الأسعار</value>
+  </data>
+  <data name="Numerators" xml:space="preserve">
+    <value>منشئ الارقام</value>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>حساب</value>
+  </data>
+  <data name="Liability" xml:space="preserve">
+    <value>مطالبة</value>
+  </data>
+  <data name="UpdateTicketState" xml:space="preserve">
+    <value>تحديث حالة التذاكر</value>
+  </data>
+  <data name="Nineteen" xml:space="preserve">
+    <value>تسعة عشر</value>
+  </data>
+  <data name="List_f" xml:space="preserve">
+    <value> {0} قائمة</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>نسخ</value>
+  </data>
+  <data name="TaxIncluded" xml:space="preserve">
+    <value>شامل الضرائب</value>
+  </data>
+  <data name="EveryOtherHour" xml:space="preserve">
+    <value>كل ساعة أخرى</value>
+  </data>
+  <data name="DiscountsTotal" xml:space="preserve">
+    <value>إجمالي الخصومات</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>بحث</value>
+  </data>
+  <data name="AveragePrice_ab" xml:space="preserve">
+    <value>متوسط السعر</value>
+  </data>
+  <data name="EnterPin" xml:space="preserve">
+    <value>ادخل الرمز</value>
+  </data>
+  <data name="ExpenseTransactions" xml:space="preserve">
+    <value>عمليات مصاريف</value>
+  </data>
+  <data name="PurchaseTransaction" xml:space="preserve">
+    <value>تعاملات الشراء</value>
+  </data>
+  <data name="AutoSelect" xml:space="preserve">
+    <value>اختيار تلقائي</value>
+  </data>
+  <data name="TemplateName" xml:space="preserve">
+    <value>اسم القالب</value>
+  </data>
+  <data name="PropertyGroupName" xml:space="preserve">
+    <value>اسم مجموعة الخصائص</value>
+  </data>
+  <data name="AddModel_f" xml:space="preserve">
+    <value>إضافة {0} جديد</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>المستخدمون</value>
+  </data>
+  <data name="GetPayment" xml:space="preserve">
+    <value>الدفع</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>ارتفاع</value>
+  </data>
+  <data name="Payment_f" xml:space="preserve">
+    <value>الدفع: {0}</value>
+  </data>
+  <data name="StateFilter" xml:space="preserve">
+    <value>تصفية الحالة</value>
+  </data>
+  <data name="SubTotal" xml:space="preserve">
+    <value>المجموع الفرعي</value>
+  </data>
+  <data name="CanUpdateExtraModifiers" xml:space="preserve">
+    <value>يستطيع تحديث الطلبات الجانبية</value>
+  </data>
+  <data name="GeneralInformation" xml:space="preserve">
+    <value>معلومات عامة</value>
+  </data>
+  <data name="ReportName" xml:space="preserve">
+    <value>اسم التقرير</value>
+  </data>
+  <data name="Every3Hours" xml:space="preserve">
+    <value>كل 3 ساعات</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>عنوان</value>
+  </data>
+  <data name="CashContent" xml:space="preserve">
+    <value>محتوى النقد</value>
+  </data>
+  <data name="Selection_f" xml:space="preserve">
+    <value>التحديد: {0}</value>
+  </data>
+  <data name="KitchenPrinter" xml:space="preserve">
+    <value>طابعة المطبخ</value>
+  </data>
+  <data name="ErrorInExpression" xml:space="preserve">
+    <value>خطأ في التعبير</value>
+  </data>
+  <data name="NewOrder" xml:space="preserve">
+    <value>طلب جديد</value>
+  </data>
+  <data name="PriceDuration" xml:space="preserve">
+    <value>مدة السعر</value>
+  </data>
+  <data name="Multiple" xml:space="preserve">
+    <value>متعددة</value>
+  </data>
+  <data name="LineItemPriceCents" xml:space="preserve">
+    <value>#Line: Item Price On Cents</value>
+  </data>
+  <data name="UserLogin" xml:space="preserve">
+    <value>تسجيل دخول المستخدم</value>
+  </data>
+  <data name="Recipe" xml:space="preserve">
+    <value>وصفة</value>
+  </data>
+  <data name="CurrentCost" xml:space="preserve">
+    <value>التكلفة الحالية</value>
+  </data>
+  <data name="VoidOrders" xml:space="preserve">
+    <value>إلغاء الطلبات</value>
+  </data>
+  <data name="AccountNameTemplate" xml:space="preserve">
+    <value>قالب اسم الحساب</value>
+  </data>
+  <data name="TotalsGroupedByTaxTemplate" xml:space="preserve">
+    <value>المجاميع التي تم تجميعها بواسطة قالب الضريبة</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>إلغاء</value>
+  </data>
+  <data name="ApplicationScreenChanged" xml:space="preserve">
+    <value>شاشة التطبيق تغيرت</value>
+  </data>
+  <data name="Property" xml:space="preserve">
+    <value>خاصية</value>
+  </data>
+  <data name="PaymentScreenValues" xml:space="preserve">
+    <value>قيم شاشة الدفع</value>
+  </data>
+  <data name="DataConnection" xml:space="preserve">
+    <value>توصيل قاعدة البيانات</value>
+  </data>
+  <data name="DisplayOpenTickets" xml:space="preserve">
+    <value>عرض التذاكر المفتوحة</value>
+  </data>
+  <data name="CustomerTickets" xml:space="preserve">
+    <value>تذاكر العملاء</value>
+  </data>
+  <data name="ProductTimer" xml:space="preserve">
+    <value>مؤقت المنتج</value>
+  </data>
+  <data name="MenuName" xml:space="preserve">
+    <value>اسم القائمة</value>
+  </data>
+  <data name="LineItemName" xml:space="preserve">
+    <value>#Line: الاسم</value>
+  </data>
+  <data name="LastOrder" xml:space="preserve">
+    <value>آخر طلب</value>
+  </data>
+  <data name="RefreshCache" xml:space="preserve">
+    <value>تحديث ذاكرة التخزين المؤقت</value>
+  </data>
+  <data name="TotalsGroupedByCalculationType" xml:space="preserve">
+    <value>المجاميع التي تم تجميعها حسب "نوع الحساب"</value>
+  </data>
+  <data name="Cancel_f" xml:space="preserve">
+    <value>إلغاء {0}</value>
+  </data>
+  <data name="NumeratorFormat" xml:space="preserve">
+    <value>صيغة الرقم</value>
+  </data>
+  <data name="OnceAMonth" xml:space="preserve">
+    <value>مرة في الشهر</value>
+  </data>
+  <data name="UnitPrice" xml:space="preserve">
+    <value>سعر الوحدة</value>
+  </data>
+  <data name="UiLanguage" xml:space="preserve">
+    <value>لغة واجهة المستخدم</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>إجراء</value>
+  </data>
+  <data name="ErrorLogMessage" xml:space="preserve">
+    <value>هناك مشكلة.
+
+رسالة:
+</value>
+  </data>
+  <data name="OrderLine" xml:space="preserve">
+    <value>سطر الطلب</value>
+  </data>
+  <data name="Barcode" xml:space="preserve">
+    <value>باركود</value>
+  </data>
+  <data name="DeleteSelectedCategoryQuestion" xml:space="preserve">
+    <value>حذف الصنف المحدد؟</value>
+  </data>
+  <data name="EndOfDayRecords" xml:space="preserve">
+    <value>سجلات آخر اليوم</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>اسم المستخدم</value>
+  </data>
+  <data name="Accounts" xml:space="preserve">
+    <value>حسابات</value>
+  </data>
+  <data name="WorkPeriod" xml:space="preserve">
+    <value>فترة العمل</value>
+  </data>
+  <data name="Payment" xml:space="preserve">
+    <value>الدفع</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>سعر</value>
+  </data>
+  <data name="LineItemTotal" xml:space="preserve">
+    <value>#Line: المجموع</value>
+  </data>
+  <data name="MenuList" xml:space="preserve">
+    <value>قائمة القوائم</value>
+  </data>
+  <data name="ProductList" xml:space="preserve">
+    <value>قائمة المنتجات</value>
+  </data>
+  <data name="AlphanumericButtonValues" xml:space="preserve">
+    <value>قيم الازرار الحرفية الرقمية</value>
+  </data>
+  <data name="DescriptionTemplate" xml:space="preserve">
+    <value>قالب الوصف </value>
+  </data>
+  <data name="TotalSales" xml:space="preserve">
+    <value>إجمالي المبيعات</value>
+  </data>
+  <data name="OrderState" xml:space="preserve">
+    <value>حالة الطلب</value>
+  </data>
+  <data name="ResourceStateUpdated" xml:space="preserve">
+    <value>تم تحديث حالة المورد</value>
+  </data>
+  <data name="DeleteErrorAdminUser" xml:space="preserve">
+    <value>لا تستطيع حذف المستخدم الرئيسي</value>
+  </data>
+  <data name="UseAtOldTickets" xml:space="preserve">
+    <value>للتذاكر السابقة فقط</value>
+  </data>
+  <data name="ResetAccount" xml:space="preserve">
+    <value>إعادة ضبط الحساب</value>
+  </data>
+  <data name="OrderTag" xml:space="preserve">
+    <value>علامة الطلب</value>
+  </data>
+  <data name="RoleName" xml:space="preserve">
+    <value>اسم الدور</value>
+  </data>
+  <data name="ThereAreNoCostTransactionsInThisPeriod" xml:space="preserve">
+    <value>لا توجد تكاليف في فترة العمل.</value>
+  </data>
+  <data name="MenuItem" xml:space="preserve">
+    <value>منتج</value>
+  </data>
+  <data name="ThereIsAnotherRecipeFor_f" xml:space="preserve">
+    <value>هناك وصفه أخرى ل {0}</value>
+  </data>
+  <data name="OneThousand" xml:space="preserve">
+    <value>ألف</value>
+  </data>
+  <data name="PrinterTemplate" xml:space="preserve">
+    <value>قالب الطابعة</value>
+  </data>
+  <data name="InventoryItems" xml:space="preserve">
+    <value>مواد المخزون</value>
+  </data>
+  <data name="Single" xml:space="preserve">
+    <value>واحد</value>
+  </data>
+  <data name="CalculationSelector" xml:space="preserve">
+    <value>محدد حساب</value>
+  </data>
+  <data name="PredictedInventory" xml:space="preserve">
+    <value>تقدير المخزون</value>
   </data>
   <data name="EndWorkPeriod" xml:space="preserve">
     <value>إنهاء فترة العمل</value>
   </data>
-  <data name="Address" xml:space="preserve">
-    <value>عنوان</value>
-  </data>
   <data name="ProductProperties" xml:space="preserve">
     <value>خصائص المنتج</value>
   </data>
-  <data name="DepartmentName" xml:space="preserve">
-    <value>اسم القسم</value>
+  <data name="TransactionType" xml:space="preserve">
+    <value>نوع العملية</value>
   </data>
-  <data name="BackgroundColor" xml:space="preserve">
-    <value>لون الخلفية</value>
+  <data name="Time" xml:space="preserve">
+    <value>الوقت</value>
   </data>
-  <data name="AddAndSave" xml:space="preserve">
-    <value>إضافة وحفظ</value>
+  <data name="Move" xml:space="preserve">
+    <value>نقل</value>
   </data>
-  <data name="Delete_f" xml:space="preserve">
-    <value>حذف  {0}</value>
+  <data name="Create_f" xml:space="preserve">
+    <value>إنشاء {0}</value>
   </data>
-  <data name="MenuItemGroup" xml:space="preserve">
-    <value>مجموعة المنتج</value>
+  <data name="Rate" xml:space="preserve">
+    <value>معدل</value>
   </data>
-  <data name="PriceDefinition" xml:space="preserve">
-    <value>تعريف السعر</value>
+  <data name="Debit" xml:space="preserve">
+    <value>الخصم</value>
+  </data>
+  <data name="FindProduct" xml:space="preserve">
+    <value>بحث عن منتج</value>
+  </data>
+  <data name="Every5Minutes" xml:space="preserve">
+    <value>كل 5 دقائق</value>
+  </data>
+  <data name="Rule" xml:space="preserve">
+    <value>قاعدة</value>
+  </data>
+  <data name="LastOrderStatus" xml:space="preserve">
+    <value>حالة آخر طلب</value>
+  </data>
+  <data name="Thirty" xml:space="preserve">
+    <value>ثلاثين</value>
+  </data>
+  <data name="Incomes_f" xml:space="preserve">
+    <value>الدخل: {0}</value>
+  </data>
+  <data name="TicketCreationMethod" xml:space="preserve">
+    <value>طريقة إنشاء التذكرة</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>علامة</value>
+  </data>
+  <data name="OrderTagPrice" xml:space="preserve">
+    <value>سعر علامة الطلب</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>تاريخ</value>
+  </data>
+  <data name="Tables" xml:space="preserve">
+    <value>الطاولات</value>
+  </data>
+  <data name="CustomerAccount" xml:space="preserve">
+    <value>حساب العميل</value>
+  </data>
+  <data name="TicketStateUpdated" xml:space="preserve">
+    <value>حالة التذاكر تحديث</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="Sort_f" xml:space="preserve">
+    <value>ترتيب {0}</value>
+  </data>
+  <data name="NoAction" xml:space="preserve">
+    <value>لا إجراء</value>
+  </data>
+  <data name="PropertyGroup" xml:space="preserve">
+    <value>مجموعة الخاصية</value>
+  </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>رسالة خطأ</value>
+  </data>
+  <data name="OrderAddedToTicket" xml:space="preserve">
+    <value>تم إضاف الطلب للتذكرة</value>
+  </data>
+  <data name="TwelveAmMidnight" xml:space="preserve">
+    <value> 12:00 منتصف الليل</value>
+  </data>
+  <data name="GeneralPrintErrorMessage" xml:space="preserve">
+    <value>هناك مشكلة أثناء الطباعة: "طباعة التعيين" غير معرفة</value>
+  </data>
+  <data name="NewTicket" xml:space="preserve">
+    <value>تذكرة جديدة</value>
+  </data>
+  <data name="UserSales" xml:space="preserve">
+    <value>مبيعات مستخدم</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>لوحة المعلومات</value>
+  </data>
+  <data name="ExpressionValid" xml:space="preserve">
+    <value>التعبير صحيح</value>
+  </data>
+  <data name="WeightBarcodeItemIdLength" xml:space="preserve">
+    <value>طول معرف عنصر وزن الباركود</value>
+  </data>
+  <data name="SendEmail" xml:space="preserve">
+    <value>إرسال البريد الإلكتروني</value>
+  </data>
+  <data name="EveryWeekday" xml:space="preserve">
+    <value>يومياً</value>
+  </data>
+  <data name="RateFromTicketAmount" xml:space="preserve">
+    <value>معدل من مبلغ التذكرة</value>
+  </data>
+  <data name="OrderTagged" xml:space="preserve">
+    <value>علم الطلب</value>
+  </data>
+  <data name="DayTime" xml:space="preserve">
+    <value>وقت اليوم</value>
+  </data>
+  <data name="TriggerTestResultMessage_f" xml:space="preserve">
+    <value>القادح القادم  :{0} سوف يؤدى بعد {1}  يوم {2} ساعة {3} دقيقة</value>
+  </data>
+  <data name="WeightBarcodeItemIdFormat" xml:space="preserve">
+    <value>تنسيق معرف عنصر وزن الباركود</value>
+  </data>
+  <data name="Angle" xml:space="preserve">
+    <value>زاوية</value>
+  </data>
+  <data name="OnlyNewLines" xml:space="preserve">
+    <value>الأسطر الجديدة فقط</value>
+  </data>
+  <data name="CanChangeReportFilter" xml:space="preserve">
+    <value>يستطيع تغيير تاريخ التقرير</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>مستخدم</value>
+  </data>
+  <data name="Eleven" xml:space="preserve">
+    <value>أحد عشر</value>
+  </data>
+  <data name="CanOpenDashboard" xml:space="preserve">
+    <value>يطلع على الرئيسية</value>
+  </data>
+  <data name="LastOrderDate" xml:space="preserve">
+    <value>تاريخ آخر طلب</value>
+  </data>
+  <data name="Credit" xml:space="preserve">
+    <value>الائتمان</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>الرجوع</value>
+  </data>
+  <data name="OrderNumerator" xml:space="preserve">
+    <value>منشئ رقم الطلب</value>
+  </data>
+  <data name="Resourceses" xml:space="preserve">
+    <value>موارد</value>
+  </data>
+  <data name="IncreaseInventory" xml:space="preserve">
+    <value>زيادة المخزون</value>
+  </data>
+  <data name="CategoryName" xml:space="preserve">
+    <value>اسم المجموعة</value>
+  </data>
+  <data name="SatAndSun" xml:space="preserve">
+    <value>السبت والاحد</value>
+  </data>
+  <data name="LinesGroupedByBarcode" xml:space="preserve">
+    <value>تجميع الأسطر من خلال الباركود</value>
+  </data>
+  <data name="ThisWeek" xml:space="preserve">
+    <value>هذا الاسبوع</value>
+  </data>
+  <data name="PrintContent" xml:space="preserve">
+    <value>طباعة المحتوى</value>
+  </data>
+  <data name="TicketCommand" xml:space="preserve">
+    <value>أمر التذكرة</value>
+  </data>
+  <data name="PastWeek" xml:space="preserve">
+    <value>الاسبوع الماضي</value>
+  </data>
+  <data name="Tax" xml:space="preserve">
+    <value>الضرائب</value>
+  </data>
+  <data name="Customer_f" xml:space="preserve">
+    <value>العميل: {0}</value>
+  </data>
+  <data name="Table" xml:space="preserve">
+    <value>طاولة</value>
+  </data>
+  <data name="SelectPrintJob" xml:space="preserve">
+    <value>اختر عملية الطباعة</value>
+  </data>
+  <data name="CallerIdDriverError" xml:space="preserve">
+    <value>لتتمكن من استخدام خاصية اظهار رقم المتصل فإنك تحتاج إلى تحميل برنامج مشغل للجهاز</value>
+  </data>
+  <data name="CanOpenNavigation" xml:space="preserve">
+    <value>يستطيع الدخول لشاشة التنقل</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>مطلوب</value>
+  </data>
+  <data name="TotalAmount_f" xml:space="preserve">
+    <value> المبلغ الإجمالي: {0}</value>
+  </data>
+  <data name="SaveFreeTags" xml:space="preserve">
+    <value>حفظ العلامات الحرة</value>
+  </data>
+  <data name="OrderTagGroups" xml:space="preserve">
+    <value>مجموعات علامة الطلب</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>عنوان</value>
+  </data>
+  <data name="CanRemoveTicketTag" xml:space="preserve">
+    <value>يستطيع إلغاء علامة التذكرة</value>
+  </data>
+  <data name="CashTransactions" xml:space="preserve">
+    <value>المعاملات النقدية</value>
+  </data>
+  <data name="RoundTicketTotal" xml:space="preserve">
+    <value>مجموع التقريب التذكرة</value>
+  </data>
+  <data name="DeleteErrorShouldHaveAtLeastOneTerminal" xml:space="preserve">
+    <value>لا يمكن الحذف. يجب أن يكون هناك على الأقل جهاز طرفي واحد.</value>
+  </data>
+  <data name="UpdateProgramSetting" xml:space="preserve">
+    <value>تحديث إعداد البرنامج</value>
+  </data>
+  <data name="OrderTagGroup" xml:space="preserve">
+    <value>مجموعة علامة الطلب</value>
+  </data>
+  <data name="DateRangeIsNotActiveWorkPeriod" xml:space="preserve">
+    <value>نطاق التاريخ ليس في فترة العمل النشطة</value>
+  </data>
+  <data name="TransactionMultiplierError" xml:space="preserve">
+    <value>لا ينبغي أن يكون مضاعف الحركة صفر</value>
+  </data>
+  <data name="Costs" xml:space="preserve">
+    <value>تكاليف</value>
+  </data>
+  <data name="Expenses" xml:space="preserve">
+    <value>المصاريف</value>
+  </data>
+  <data name="CanStartEndOfDay" xml:space="preserve">
+    <value>يستطيع بدئ اليوم وإنهائه</value>
+  </data>
+  <data name="PaymentType" xml:space="preserve">
+    <value>نوع الدفع</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>إعدادات</value>
   </data>
   <data name="AdminPasswordHint" xml:space="preserve">
     <value>رمز المشرف: 1234
 سيتم إخفاء هذه الملاحظة عند تغيير الرمز</value>
   </data>
-  <data name="Cost" xml:space="preserve">
-    <value>تكلفة</value>
-  </data>
-  <data name="Liability" xml:space="preserve">
-    <value>مطالبة</value>
-  </data>
-  <data name="NewTag" xml:space="preserve">
-    <value>علامة جديدة</value>
-  </data>
-  <data name="InventoryConsumption" xml:space="preserve">
-    <value>استهلاك المخزون</value>
-  </data>
-  <data name="StartClientNow" xml:space="preserve">
-    <value>تشغيل البرنامج الآن</value>
-  </data>
-  <data name="DetailedReport" xml:space="preserve">
-    <value>تقرير مفصل</value>
-  </data>
-  <data name="Edit_f" xml:space="preserve">
-    <value>تعديل  {0}</value>
-  </data>
-  <data name="Move" xml:space="preserve">
-    <value>نقل</value>
-  </data>
-  <data name="AutoRounding" xml:space="preserve">
-    <value>تقريب تلقائي</value>
-  </data>
-  <data name="CanDisplayReports" xml:space="preserve">
-    <value>يستطيع عرض التقارير</value>
-  </data>
-  <data name="Description" xml:space="preserve">
-    <value>الوصف</value>
-  </data>
-  <data name="TicketTagSelected" xml:space="preserve">
-    <value>علامة التذكرة المختارة</value>
-  </data>
-  <data name="OrderTagQuantity" xml:space="preserve">
-    <value>كمية علامة الطلب</value>
-  </data>
-  <data name="Clear" xml:space="preserve">
-    <value>مسح</value>
-  </data>
-  <data name="AddTicketDiscount" xml:space="preserve">
-    <value>إضافة خصم التذكرة</value>
-  </data>
-  <data name="AccountPermissions" xml:space="preserve">
-    <value>أذونات حساب</value>
-  </data>
-  <data name="UserRole" xml:space="preserve">
-    <value>وظيفة المستخدم</value>
-  </data>
-  <data name="CanReleaseTicketLock" xml:space="preserve">
-    <value>يستطيع إلغاء قفل التذكرة</value>
-  </data>
-  <data name="Multiplier" xml:space="preserve">
-    <value>مضاعف</value>
-  </data>
-  <data name="PriceTag" xml:space="preserve">
-    <value>علامة السعر</value>
-  </data>
-  <data name="CanChangeReportFilter" xml:space="preserve">
-    <value>يستطيع تغيير تاريخ التقرير</value>
-  </data>
-  <data name="UserName" xml:space="preserve">
-    <value>اسم المستخدم</value>
-  </data>
-  <data name="Note" xml:space="preserve">
-    <value>ملاحظة</value>
-  </data>
-  <data name="Terminals" xml:space="preserve">
-    <value>الأجهزة</value>
-  </data>
-  <data name="MoveTicketLine" xml:space="preserve">
-    <value>نقل</value>
-  </data>
-  <data name="RuleName" xml:space="preserve">
-    <value>اسم القاعدة</value>
-  </data>
-  <data name="CanDisplayOldTickets" xml:space="preserve">
-    <value>يستطيع عرض التذاكر السابقة</value>
-  </data>
-  <data name="AccountBalance" xml:space="preserve">
-    <value>رصيد الحساب</value>
-  </data>
-  <data name="TerminalView" xml:space="preserve">
-    <value>عرض الجهاز</value>
-  </data>
-  <data name="Receiveable" xml:space="preserve">
-    <value>مستحقة</value>
-  </data>
-  <data name="OverrideWindowsRegionalSettings" xml:space="preserve">
-    <value>تجاوز إعدادات Windows الإقليمية</value>
-  </data>
-  <data name="LineItemName" xml:space="preserve">
-    <value>#Line: الاسم</value>
-  </data>
-  <data name="Common" xml:space="preserve">
-    <value>عام</value>
-  </data>
-  <data name="RateOrAmount" xml:space="preserve">
-    <value>معدل أو مبلغ</value>
-  </data>
-  <data name="ClearFilter" xml:space="preserve">
-    <value>إلغاء تطبيق عامل التصفية</value>
-  </data>
-  <data name="PredictedInventory" xml:space="preserve">
-    <value>تقدير المخزون</value>
-  </data>
-  <data name="FixedCost" xml:space="preserve">
-    <value>تكلفة ثابتة</value>
-  </data>
-  <data name="CustomFields" xml:space="preserve">
-    <value>حقول مخصصة</value>
-  </data>
-  <data name="CallerIdDriverError" xml:space="preserve">
-    <value>لتتمكن من استخدام خاصية اظهار رقم المتصل فإنك تحتاج إلى تحميل برنامج مشغل للجهاز</value>
-  </data>
-  <data name="EditingFormat" xml:space="preserve">
-    <value>تنسيق التحرير</value>
-  </data>
-  <data name="Select" xml:space="preserve">
-    <value>اختر</value>
-  </data>
-  <data name="ResourceScreenItem" xml:space="preserve">
-    <value>عنصر شاشة الموارد</value>
-  </data>
-  <data name="AllTickets" xml:space="preserve">
-    <value>كل التذاكر</value>
-  </data>
-  <data name="NumeratorFormat" xml:space="preserve">
-    <value>صيغة الرقم</value>
-  </data>
-  <data name="Multiple" xml:space="preserve">
-    <value>متعددة</value>
-  </data>
-  <data name="CanStartEndOfDay" xml:space="preserve">
-    <value>يستطيع بدئ اليوم وإنهائه</value>
-  </data>
-  <data name="LastOrder" xml:space="preserve">
-    <value>آخر طلب</value>
-  </data>
-  <data name="UpdateProgramSetting" xml:space="preserve">
-    <value>تحديث إعداد البرنامج</value>
-  </data>
-  <data name="Search" xml:space="preserve">
-    <value>بحث</value>
-  </data>
-  <data name="Name" xml:space="preserve">
-    <value>اسم</value>
-  </data>
-  <data name="PrintBill" xml:space="preserve">
-    <value>طباعة فاتورة</value>
-  </data>
-  <data name="OK" xml:space="preserve">
-    <value>موافق</value>
-  </data>
-  <data name="SambaPOSReporter" xml:space="preserve">
-    <value>مراسل SambaPOS </value>
-  </data>
-  <data name="TicketTimeDisplay_f" xml:space="preserve">
-    <value>{0} ({1} دقيقة.)</value>
-  </data>
-  <data name="No" xml:space="preserve">
-    <value>لا</value>
-  </data>
-  <data name="TaxTotal" xml:space="preserve">
-    <value>مجموع الضريبة</value>
-  </data>
-  <data name="LinesGroupedByGroupCode" xml:space="preserve">
-    <value>تجميع الأسطر من خلال رمز المجموعة</value>
-  </data>
-  <data name="AddModel_f" xml:space="preserve">
-    <value>إضافة {0} جديد</value>
-  </data>
-  <data name="Automatic" xml:space="preserve">
-    <value>تلقائي</value>
-  </data>
-  <data name="List" xml:space="preserve">
-    <value>قائمة</value>
-  </data>
-  <data name="LineItemTotal" xml:space="preserve">
-    <value>#Line: المجموع</value>
-  </data>
-  <data name="Rate" xml:space="preserve">
-    <value>معدل</value>
-  </data>
-  <data name="SortOrder" xml:space="preserve">
-    <value>ترتيب الطلب</value>
-  </data>
-  <data name="InventoryItems" xml:space="preserve">
-    <value>مواد المخزون</value>
-  </data>
-  <data name="BatchCreteProducts" xml:space="preserve">
-    <value>انشاء منتجات - دفعة واحدة</value>
-  </data>
-  <data name="PortionPrices" xml:space="preserve">
-    <value>أسعار الأجزاء</value>
-  </data>
-  <data name="SaveFreeTags" xml:space="preserve">
-    <value>حفظ العلامات الحرة</value>
-  </data>
-  <data name="SubButtonHeight" xml:space="preserve">
-    <value>ارتفاع الزر الفرعي</value>
-  </data>
-  <data name="Save" xml:space="preserve">
-    <value>حفظ</value>
-  </data>
-  <data name="PrintOrdersToKitchenPrinter" xml:space="preserve">
-    <value>طباعة الطلبات إلى طابعة المطبخ</value>
-  </data>
-  <data name="Sort_f" xml:space="preserve">
-    <value>ترتيب {0}</value>
-  </data>
-  <data name="TicketTipTotal" xml:space="preserve">
-    <value>مجموع الإكرامية</value>
-  </data>
-  <data name="TipsTotal" xml:space="preserve">
-    <value>مجموع الإكراميات</value>
-  </data>
-  <data name="TicketOptions" xml:space="preserve">
-    <value>إعدادات التذكرة</value>
-  </data>
-  <data name="InternetBrowser" xml:space="preserve">
-    <value>متصفح الانترنت</value>
-  </data>
-  <data name="Unit" xml:space="preserve">
-    <value>وحدة</value>
-  </data>
-  <data name="Terminal" xml:space="preserve">
-    <value>الجهاز</value>
-  </data>
-  <data name="Printer" xml:space="preserve">
-    <value>طابعة</value>
-  </data>
-  <data name="As_f" xml:space="preserve">
-    <value>كما هو من {0}</value>
-  </data>
-  <data name="Yes" xml:space="preserve">
-    <value>نعم</value>
-  </data>
-  <data name="Admin" xml:space="preserve">
-    <value>مشرف</value>
-  </data>
-  <data name="PageCount" xml:space="preserve">
-    <value>عدد الصفحات</value>
-  </data>
-  <data name="UnitPrice" xml:space="preserve">
-    <value>سعر الوحدة</value>
-  </data>
-  <data name="TransactionUnit" xml:space="preserve">
-    <value>وحدة العملية</value>
-  </data>
-  <data name="Voucher" xml:space="preserve">
-    <value>قسيمة</value>
-  </data>
-  <data name="Parameters" xml:space="preserve">
-    <value>المعلمات</value>
-  </data>
-  <data name="ReportName" xml:space="preserve">
-    <value>اسم التقرير</value>
-  </data>
-  <data name="Purchase" xml:space="preserve">
-    <value>شراء</value>
-  </data>
-  <data name="Clone_f" xml:space="preserve">
-    <value>استنساخ {0}</value>
-  </data>
-  <data name="LockTicket" xml:space="preserve">
-    <value>إقفال التذكرة</value>
-  </data>
-  <data name="CategoryProducts" xml:space="preserve">
-    <value>منتجات المجموعة</value>
-  </data>
-  <data name="LinesGroupedByTag" xml:space="preserve">
-    <value>أسطر مجمعة حسب العلامة</value>
-  </data>
-  <data name="AddTag" xml:space="preserve">
-    <value>إضافة علامة</value>
-  </data>
-  <data name="RuleActions" xml:space="preserve">
-    <value>الإجراءات</value>
-  </data>
-  <data name="FilterType" xml:space="preserve">
-    <value>نوع عامل التصفية</value>
-  </data>
-  <data name="LinePriceTag" xml:space="preserve">
-    <value>#Line: علامة السعر</value>
-  </data>
-  <data name="FastMenu" xml:space="preserve">
-    <value>القائمة السريعة</value>
-  </data>
-  <data name="MenuCategories" xml:space="preserve">
-    <value>مجموعات القائمة</value>
-  </data>
-  <data name="Accounts" xml:space="preserve">
-    <value>حسابات</value>
-  </data>
-  <data name="UseAtOldTickets" xml:space="preserve">
-    <value>للتذاكر السابقة فقط</value>
-  </data>
-  <data name="AutoLogout" xml:space="preserve">
-    <value>تسجيل خروج تلقائي</value>
-  </data>
-  <data name="Select_f" xml:space="preserve">
-    <value>اختر  {0}</value>
-  </data>
-  <data name="Color" xml:space="preserve">
-    <value>لون</value>
-  </data>
-  <data name="UpdatePriceTag" xml:space="preserve">
-    <value>تغيير قائمة الأسعار</value>
-  </data>
-  <data name="Departments" xml:space="preserve">
-    <value>أقسام</value>
-  </data>
-  <data name="DayTime" xml:space="preserve">
-    <value>وقت اليوم</value>
-  </data>
-  <data name="ProductName" xml:space="preserve">
-    <value>اسم المنتج</value>
-  </data>
-  <data name="POSMenu" xml:space="preserve">
-    <value>قائمة نقاط البيع</value>
-  </data>
-  <data name="Resourceses" xml:space="preserve">
-    <value>موارد</value>
-  </data>
-  <data name="Previous" xml:space="preserve">
-    <value>السابق</value>
-  </data>
-  <data name="AllCategories" xml:space="preserve">
-    <value>كل المجموعات</value>
-  </data>
-  <data name="Selected" xml:space="preserve">
-    <value>مختارة</value>
-  </data>
-  <data name="ExportSalesData" xml:space="preserve">
-    <value>تصدير بيانات المبيعات</value>
-  </data>
-  <data name="MaxItems" xml:space="preserve">
-    <value>سقف العناصر</value>
-  </data>
-  <data name="CantSave" xml:space="preserve">
-    <value>لا يمكن الحفظ</value>
-  </data>
-  <data name="CustomField" xml:space="preserve">
-    <value>حقل مخصص</value>
-  </data>
-  <data name="MenuItem" xml:space="preserve">
-    <value>منتج</value>
-  </data>
-  <data name="WorkPeriodStarted" xml:space="preserve">
-    <value>تم بدء فترة العمل</value>
-  </data>
-  <data name="Excluded" xml:space="preserve">
-    <value>غير مشمولة</value>
-  </data>
-  <data name="NumeratorProperties" xml:space="preserve">
-    <value>خصائص لوحة الأرقام</value>
-  </data>
-  <data name="DemoPrinter" xml:space="preserve">
-    <value>طابعة تجريبية (المفكرة)</value>
-  </data>
-  <data name="Paid" xml:space="preserve">
-    <value>مدفوعة</value>
-  </data>
-  <data name="FixedAmount" xml:space="preserve">
-    <value>مبلغ ثابت</value>
-  </data>
-  <data name="Settle" xml:space="preserve">
-    <value>تسوية</value>
-  </data>
-  <data name="Management" xml:space="preserve">
-    <value>إدارة</value>
-  </data>
-  <data name="TicketTag" xml:space="preserve">
-    <value>علامة التذكرة</value>
-  </data>
-  <data name="MenuProperties" xml:space="preserve">
-    <value>خصائص القائمة</value>
-  </data>
-  <data name="Angle" xml:space="preserve">
-    <value>زاوية</value>
-  </data>
-  <data name="DefaultProperties" xml:space="preserve">
-    <value>الخصائص الافتراضية</value>
-  </data>
-  <data name="ImagePath" xml:space="preserve">
-    <value>عنوان الصورة</value>
-  </data>
-  <data name="Copy" xml:space="preserve">
-    <value>نسخ</value>
-  </data>
-  <data name="TicketTotalChanged" xml:space="preserve">
-    <value>تم تغيير مجموع التذكرة </value>
-  </data>
-  <data name="GetPayment" xml:space="preserve">
-    <value>الدفع</value>
-  </data>
-  <data name="PrinterOptions" xml:space="preserve">
-    <value>إعدادات الطابعة</value>
-  </data>
-  <data name="OnlyNewLines" xml:space="preserve">
-    <value>الأسطر الجديدة فقط</value>
-  </data>
-  <data name="CanNavigateCash" xml:space="preserve">
-    <value>يستطيع الدخول لشاشة النقد</value>
-  </data>
-  <data name="CashContent" xml:space="preserve">
-    <value>محتوى النقد</value>
-  </data>
-  <data name="Warning" xml:space="preserve">
-    <value>إنذار</value>
-  </data>
-  <data name="OnlyOpenTickets" xml:space="preserve">
-    <value>التذاكر المفتوحة فقط</value>
-  </data>
-  <data name="From" xml:space="preserve">
-    <value>من:</value>
-  </data>
-  <data name="DontForgetEndingWorkPeriod" xml:space="preserve">
-    <value>لا تنسى إنهاء فترة العمل</value>
-  </data>
-  <data name="ResourceScreen" xml:space="preserve">
-    <value>شاشة المورد</value>
-  </data>
-  <data name="Tax" xml:space="preserve">
-    <value>الضرائب</value>
+  <data name="OnceADay" xml:space="preserve">
+    <value>مرة في اليوم</value>
   </data>
   <data name="EditMode" xml:space="preserve">
     <value>نمط التصميم</value>
   </data>
-  <data name="ChangePrice" xml:space="preserve">
-    <value>تغيير السعر</value>
-  </data>
-  <data name="TicketNote" xml:space="preserve">
-    <value>ملاحظة تذكرة</value>
-  </data>
-  <data name="Exit" xml:space="preserve">
-    <value>خروج</value>
-  </data>
-  <data name="ExecuteActionsIf" xml:space="preserve">
-    <value>شروط</value>
-  </data>
-  <data name="AlphanumericButtons" xml:space="preserve">
-    <value>أزرار حرفية ورقمية</value>
-  </data>
-  <data name="CurrentInventory" xml:space="preserve">
-    <value>المخزون الحالي</value>
-  </data>
-  <data name="TotalSales" xml:space="preserve">
-    <value>إجمالي المبيعات</value>
-  </data>
-  <data name="Reports" xml:space="preserve">
-    <value>تقارير</value>
-  </data>
-  <data name="BatchCreateProductsDialogHint" xml:space="preserve">
-    <value>انشئ سطر لكل منتج يحتوى على  [اسم المنتج] [السعر]. ابدأ كل اسم مجموعة بـ #.</value>
-  </data>
-  <data name="UserRoleName" xml:space="preserve">
-    <value>اسم الوظيفة</value>
-  </data>
-  <data name="CantDeletePastEndOfDayRecords" xml:space="preserve">
-    <value>لا يمكن حذف سجلات نهاية اليوم الماضية</value>
-  </data>
   <data name="DiscountTotal" xml:space="preserve">
     <value>مجموع التخفيض</value>
-  </data>
-  <data name="Included" xml:space="preserve">
-    <value>مشمولة</value>
-  </data>
-  <data name="AddCategoryHint" xml:space="preserve">
-    <value>أدخل المجموعات التي تريد إضافتها</value>
   </data>
   <data name="Today" xml:space="preserve">
     <value>اليوم</value>
   </data>
-  <data name="SettlePermissions" xml:space="preserve">
-    <value>أذونات الدفع</value>
+  <data name="BalancedAccounts" xml:space="preserve">
+    <value>حسابات متوازنة</value>
   </data>
-  <data name="Menu" xml:space="preserve">
-    <value>القائمة</value>
+  <data name="FreeTagging" xml:space="preserve">
+    <value>تعليمات حرة</value>
   </data>
-  <data name="Html" xml:space="preserve">
-    <value>HTML</value>
+  <data name="CostReport" xml:space="preserve">
+    <value>تقرير التكلفة</value>
   </data>
-  <data name="DisplayAppPath" xml:space="preserve">
-    <value>عرض مسار التطبيق</value>
+  <data name="TicketTag" xml:space="preserve">
+    <value>علامة التذكرة</value>
   </data>
-  <data name="To" xml:space="preserve">
-    <value>إلى:</value>
-  </data>
-  <data name="MenuItemName" xml:space="preserve">
-    <value>اسم عنصر القائمة</value>
-  </data>
-  <data name="SelectPrintJob" xml:space="preserve">
-    <value>اختر عملية الطباعة</value>
-  </data>
-  <data name="OrderTag" xml:space="preserve">
-    <value>علامة الطلب</value>
-  </data>
-  <data name="TicketTotal" xml:space="preserve">
-    <value>مجموع التذكرة</value>
-  </data>
-  <data name="CantCompleteOperationWhenThereIsZeroPricedProduct" xml:space="preserve">
-    <value>لا يمكن اتمام هذه العملية لعدم وجود سعر للطلبات.</value>
-  </data>
-  <data name="PortionName" xml:space="preserve">
-    <value>اسم جزء</value>
-  </data>
-  <data name="Selected_f" xml:space="preserve">
-    <value> {0} مختارة</value>
-  </data>
-  <data name="CloseTicket" xml:space="preserve">
-    <value>إغلاق التذكرة</value>
-  </data>
-  <data name="Permissions" xml:space="preserve">
-    <value>الصلاحيات</value>
-  </data>
-  <data name="ReleaseLock" xml:space="preserve">
-    <value>إزالة القفل</value>
-  </data>
-  <data name="Details" xml:space="preserve">
-    <value>تفاصيل</value>
-  </data>
-  <data name="GeneralSettings" xml:space="preserve">
-    <value>الإعدادات العامة</value>
-  </data>
-  <data name="ActionType" xml:space="preserve">
-    <value>نوع الإجراء</value>
-  </data>
-  <data name="SortType" xml:space="preserve">
-    <value>نوع الترتيب</value>
-  </data>
-  <data name="CheckDBVersion" xml:space="preserve">
-    <value>تحقق من إصدار قاعدة البيانات</value>
-  </data>
-  <data name="POSView" xml:space="preserve">
-    <value>عرض نقاط البيع</value>
-  </data>
-  <data name="DayDate" xml:space="preserve">
-    <value>تاريخ اليوم</value>
-  </data>
-  <data name="List_f" xml:space="preserve">
-    <value> {0} قائمة</value>
-  </data>
-  <data name="Properties" xml:space="preserve">
-    <value>خصائص</value>
-  </data>
-  <data name="DisplayUserPath" xml:space="preserve">
-    <value>عرض مسار المستخدم</value>
-  </data>
-  <data name="Print" xml:space="preserve">
-    <value>طباعة</value>
-  </data>
-  <data name="Gift" xml:space="preserve">
-    <value>هدية</value>
-  </data>
-  <data name="UpdateTicketCalculation" xml:space="preserve">
-    <value>تحديث حساب التذكرة</value>
-  </data>
-  <data name="NumeratorType" xml:space="preserve">
-    <value>نوع لوحة الأرقام</value>
-  </data>
-  <data name="TicketTime" xml:space="preserve">
-    <value>وقت التذكرة</value>
-  </data>
-  <data name="NewTicket" xml:space="preserve">
-    <value>تذكرة جديدة</value>
-  </data>
-  <data name="EnterPin" xml:space="preserve">
-    <value>ادخل الرمز</value>
-  </data>
-  <data name="Height" xml:space="preserve">
-    <value>ارتفاع</value>
-  </data>
-  <data name="Next" xml:space="preserve">
-    <value>التالي</value>
-  </data>
-  <data name="SellAmount" xml:space="preserve">
-    <value>قيمة المباع</value>
-  </data>
-  <data name="DepartmentPermissions" xml:space="preserve">
-    <value>أذونات القسم</value>
-  </data>
-  <data name="TicketNumber" xml:space="preserve">
-    <value>رقم التذكرة</value>
-  </data>
-  <data name="CashPermissions" xml:space="preserve">
-    <value>أذونات النقد</value>
-  </data>
-  <data name="AutoStartMessageClient" xml:space="preserve">
-    <value>تشغيل تلقائي لبرنامج الرسائل</value>
-  </data>
-  <data name="LineOrderNumber" xml:space="preserve">
-    <value>#Line: رقم الطلب</value>
-  </data>
-  <data name="Alphanumeric" xml:space="preserve">
-    <value>حرفية رقمية</value>
-  </data>
-  <data name="ErrorMessage" xml:space="preserve">
-    <value>رسالة خطأ</value>
-  </data>
-  <data name="SendEmail" xml:space="preserve">
-    <value>إرسال البريد الإلكتروني</value>
-  </data>
-  <data name="Portion" xml:space="preserve">
-    <value>جزء</value>
-  </data>
-  <data name="Width" xml:space="preserve">
-    <value>عرض</value>
-  </data>
-  <data name="CalculateCost" xml:space="preserve">
-    <value>احسب التكلفة</value>
-  </data>
-  <data name="OrderNumerator" xml:space="preserve">
-    <value>منشئ رقم الطلب</value>
-  </data>
-  <data name="User" xml:space="preserve">
-    <value>مستخدم</value>
-  </data>
-  <data name="NewOrder" xml:space="preserve">
-    <value>طلب جديد</value>
-  </data>
-  <data name="FindProduct" xml:space="preserve">
-    <value>بحث عن منتج</value>
-  </data>
-  <data name="UserRoleList" xml:space="preserve">
-    <value>قائمة الوظائف</value>
-  </data>
-  <data name="CostPrediction" xml:space="preserve">
-    <value>تقدير التكلفة</value>
-  </data>
-  <data name="BackgroundImage" xml:space="preserve">
-    <value>صورة خلفية</value>
-  </data>
-  <data name="NavigationPermissions" xml:space="preserve">
-    <value>أذونات التنقل</value>
-  </data>
-  <data name="Account" xml:space="preserve">
-    <value>حساب</value>
-  </data>
-  <data name="Barcode" xml:space="preserve">
-    <value>باركود</value>
-  </data>
-  <data name="OptionalTicketTag" xml:space="preserve">
-    <value>علامة تذكرة اختيارية</value>
-  </data>
-  <data name="Single" xml:space="preserve">
-    <value>واحد</value>
-  </data>
-  <data name="Tags" xml:space="preserve">
-    <value>العلامات</value>
-  </data>
-  <data name="InventoryItem" xml:space="preserve">
-    <value>مادة مخزون</value>
-  </data>
-  <data name="PaymentTotal" xml:space="preserve">
-    <value>مجموع المدفوع</value>
-  </data>
-  <data name="TransacitonUnitMultiplier" xml:space="preserve">
-    <value>مضاعف وحدة العملية</value>
-  </data>
-  <data name="Number" xml:space="preserve">
-    <value>رقم</value>
-  </data>
-  <data name="ThisWeek" xml:space="preserve">
-    <value>هذا الاسبوع</value>
-  </data>
-  <data name="Action" xml:space="preserve">
-    <value>إجراء</value>
-  </data>
-  <data name="Account_f" xml:space="preserve">
-    <value>حساب:  {0}</value>
-  </data>
-  <data name="DisplayFormat" xml:space="preserve">
-    <value>تنسيق العرض</value>
-  </data>
-  <data name="SaveReportToFile" xml:space="preserve">
-    <value>حفظ التقرير إلى ملف</value>
-  </data>
-  <data name="Recipe" xml:space="preserve">
-    <value>وصفة</value>
-  </data>
-  <data name="PriceDefinitions" xml:space="preserve">
-    <value>تعريفات السعر</value>
-  </data>
-  <data name="EditModel_f" xml:space="preserve">
-    <value>تعديل  {0} ({1})</value>
-  </data>
-  <data name="UserLogout" xml:space="preserve">
-    <value>تسجيل خروج المستخدم</value>
-  </data>
-  <data name="NumeratorValue" xml:space="preserve">
-    <value>قيمة لوحة الأرقام</value>
-  </data>
-  <data name="TriggerExecuted" xml:space="preserve">
-    <value>تم تنفيذ المشغل</value>
-  </data>
-  <data name="TicketDate" xml:space="preserve">
-    <value>تاريخ التذكرة</value>
-  </data>
-  <data name="TagName" xml:space="preserve">
-    <value>اسم العلامة</value>
-  </data>
-  <data name="EmptyNameError" xml:space="preserve">
-    <value>لا تدع اسم {0} فارغ</value>
-  </data>
-  <data name="Calling" xml:space="preserve">
-    <value>يتصل</value>
-  </data>
-  <data name="RefreshCache" xml:space="preserve">
-    <value>تحديث ذاكرة التخزين المؤقت</value>
-  </data>
-  <data name="PropertyEditor" xml:space="preserve">
-    <value>معدل الخصائص</value>
-  </data>
-  <data name="UiLanguage" xml:space="preserve">
-    <value>لغة واجهة المستخدم</value>
-  </data>
-  <data name="Custom" xml:space="preserve">
-    <value>مخصص</value>
-  </data>
-  <data name="LastPaymentTime" xml:space="preserve">
-    <value>آخر دفعة</value>
-  </data>
-  <data name="Create_f" xml:space="preserve">
-    <value>إنشاء {0}</value>
+  <data name="Handler" xml:space="preserve">
+    <value>معالج</value>
   </data>
   <data name="CanMoveTicketLines" xml:space="preserve">
     <value>يستطيع تحريك المواد</value>
   </data>
-  <data name="AccountScreen" xml:space="preserve">
-    <value>شاشة حساب</value>
-  </data>
-  <data name="WrapText" xml:space="preserve">
-    <value>إلتفاف النص</value>
-  </data>
-  <data name="Title" xml:space="preserve">
-    <value>عنوان</value>
-  </data>
-  <data name="SqlHint" xml:space="preserve">
-    <value>للمزيد من المعلومات حول التعامل مع قواعد بيانات SQL اضغط هنا</value>
-  </data>
-  <data name="TicketPrinter" xml:space="preserve">
-    <value>طابعة التذاكر</value>
-  </data>
-  <data name="Values" xml:space="preserve">
-    <value>قيم</value>
-  </data>
-  <data name="DeleteErrorAdminUser" xml:space="preserve">
-    <value>لا تستطيع حذف المستخدم الرئيسي</value>
-  </data>
-  <data name="StateFilter" xml:space="preserve">
-    <value>تصفية الحالة</value>
-  </data>
-  <data name="OrderTagGroups" xml:space="preserve">
-    <value>مجموعات علامة الطلب</value>
-  </data>
-  <data name="Automation" xml:space="preserve">
-    <value>تلقائي</value>
-  </data>
-  <data name="PriceDefinitonName" xml:space="preserve">
-    <value>اسم تعريف السعر</value>
-  </data>
-  <data name="Amount" xml:space="preserve">
-    <value>القيمة</value>
-  </data>
-  <data name="PrintJobList" xml:space="preserve">
-    <value>قائمة علمليات الطباعة</value>
-  </data>
-  <data name="Manual" xml:space="preserve">
-    <value>يدوي</value>
-  </data>
-  <data name="Income" xml:space="preserve">
-    <value>الدخل</value>
-  </data>
-  <data name="Send" xml:space="preserve">
-    <value>إرسال</value>
-  </data>
-  <data name="SambaNetwork" xml:space="preserve">
-    <value>شبكة Samba</value>
-  </data>
-  <data name="SelectActions" xml:space="preserve">
-    <value>حدد الإجراءات</value>
-  </data>
-  <data name="CommandType" xml:space="preserve">
-    <value>نوع الأمر</value>
-  </data>
-  <data name="CIDSettings" xml:space="preserve">
-    <value>إعدادات CID</value>
-  </data>
-  <data name="ChargedAmount" xml:space="preserve">
-    <value>المطلوب</value>
-  </data>
-  <data name="RateFromTicketAmount" xml:space="preserve">
-    <value>معدل من مبلغ التذكرة</value>
-  </data>
-  <data name="Categories" xml:space="preserve">
-    <value>مجموعات</value>
-  </data>
-  <data name="Portions" xml:space="preserve">
-    <value>أجزاء</value>
-  </data>
-  <data name="New_f" xml:space="preserve">
-    <value>جديد: {0}</value>
-  </data>
-  <data name="Discount" xml:space="preserve">
-    <value>تخفيض</value>
-  </data>
-  <data name="CustomFieldName" xml:space="preserve">
-    <value>اسم الحقل المخصص</value>
-  </data>
-  <data name="PropertyGroup" xml:space="preserve">
-    <value>مجموعة الخاصية</value>
-  </data>
-  <data name="Information" xml:space="preserve">
-    <value>معلومات</value>
-  </data>
-  <data name="StartWorkPeriod" xml:space="preserve">
-    <value>بدء فترة العمل</value>
-  </data>
-  <data name="DiscountPercentage" xml:space="preserve">
-    <value>النسبة المئوية للخصم</value>
-  </data>
-  <data name="StartOfDay" xml:space="preserve">
-    <value>بداية فترة العمل</value>
-  </data>
-  <data name="CanOpenDashboard" xml:space="preserve">
-    <value>يطلع على الرئيسية</value>
-  </data>
-  <data name="Balance" xml:space="preserve">
-    <value>الحساب</value>
-  </data>
-  <data name="PortPrinter" xml:space="preserve">
-    <value>طابعة Port</value>
-  </data>
-  <data name="CantDelete_f" xml:space="preserve">
-    <value>لا يمكن حذف {0}</value>
-  </data>
-  <data name="LastOrderDate" xml:space="preserve">
-    <value>تاريخ آخر طلب</value>
-  </data>
-  <data name="Empty" xml:space="preserve">
-    <value>فارغ</value>
-  </data>
-  <data name="Rules" xml:space="preserve">
-    <value>قواعد</value>
-  </data>
-  <data name="ResourceScreens" xml:space="preserve">
-    <value>شاشات الموارد</value>
-  </data>
-  <data name="Actions" xml:space="preserve">
-    <value>الإجراءات</value>
-  </data>
-  <data name="CanUpdateExtraModifiers" xml:space="preserve">
-    <value>يستطيع تحديث الطلبات الجانبية</value>
-  </data>
-  <data name="All" xml:space="preserve">
-    <value>الكل</value>
-  </data>
-  <data name="OrderTagPrice" xml:space="preserve">
-    <value>سعر علامة الطلب</value>
-  </data>
-  <data name="NewProperty" xml:space="preserve">
-    <value>خاصية جديدة</value>
-  </data>
-  <data name="CloseTicket_r" xml:space="preserve">
-    <value>إغلاق
-تذكرة</value>
-  </data>
-  <data name="CornerRadius" xml:space="preserve">
-    <value>قطر الزاوية</value>
-  </data>
-  <data name="Resource" xml:space="preserve">
-    <value>مورد</value>
-  </data>
-  <data name="MessageServerPort" xml:space="preserve">
-    <value>منفذ خادم الرسائل</value>
-  </data>
-  <data name="PreviousPage" xml:space="preserve">
-    <value>الصفحة السابقة</value>
-  </data>
-  <data name="ThisMonth" xml:space="preserve">
-    <value>هذا الشهر</value>
+  <data name="FixedCost" xml:space="preserve">
+    <value>تكلفة ثابتة</value>
   </data>
   <data name="CategoryProperties" xml:space="preserve">
     <value>خصائص المجموعة</value>
   </data>
-  <data name="LineItemPriceCents" xml:space="preserve">
-    <value>#Line: Item Price On Cents</value>
+  <data name="LineItemPrice" xml:space="preserve">
+    <value>#Line: السعر</value>
   </data>
-  <data name="PrintJob" xml:space="preserve">
-    <value>عملية الطباعة</value>
+  <data name="StartingWorkPeriodCompleted" xml:space="preserve">
+    <value>تم بدء فترة العمل.</value>
   </data>
-  <data name="ProgramSettings" xml:space="preserve">
-    <value>إعدادات البرنامج</value>
+  <data name="CommandType" xml:space="preserve">
+    <value>نوع الأمر</value>
   </data>
-  <data name="Refresh" xml:space="preserve">
-    <value>تحديث</value>
+  <data name="Rule_f" xml:space="preserve">
+    <value>القاعدة: {0}</value>
   </data>
-  <data name="OrderTagName" xml:space="preserve">
-    <value>اسم علامة الطلب</value>
+  <data name="PrinterOptions" xml:space="preserve">
+    <value>إعدادات الطابعة</value>
   </data>
-  <data name="IncomeTransactions" xml:space="preserve">
-    <value>عمليات دخل</value>
+  <data name="Incomes" xml:space="preserve">
+    <value>دخل</value>
   </data>
-  <data name="ReportPermissions" xml:space="preserve">
-    <value>أذونات التقارير</value>
+  <data name="CalculatePrice" xml:space="preserve">
+    <value>حساب السعر</value>
   </data>
-  <data name="Tag" xml:space="preserve">
-    <value>علامة</value>
+  <data name="DepartmentType" xml:space="preserve">
+    <value>نوع القسم</value>
+  </data>
+  <data name="ApplicationStarted" xml:space="preserve">
+    <value>بدء تشغيل التطبيق</value>
+  </data>
+  <data name="CloseTicket" xml:space="preserve">
+    <value>إغلاق التذكرة</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>مجموعات</value>
+  </data>
+  <data name="SettlePermissions" xml:space="preserve">
+    <value>أذونات الدفع</value>
+  </data>
+  <data name="Receivables" xml:space="preserve">
+    <value>المستحقات</value>
+  </data>
+  <data name="Zero" xml:space="preserve">
+    <value>صفر</value>
+  </data>
+  <data name="Server" xml:space="preserve">
+    <value>خادم</value>
+  </data>
+  <data name="Numeric" xml:space="preserve">
+    <value>رقمية</value>
+  </data>
+  <data name="SubTags" xml:space="preserve">
+    <value>علامات فرعية</value>
+  </data>
+  <data name="GroupTag" xml:space="preserve">
+    <value>مجموعة العلامة</value>
+  </data>
+  <data name="TicketOptions" xml:space="preserve">
+    <value>إعدادات التذكرة</value>
+  </data>
+  <data name="AskBeforeCreatingTicket" xml:space="preserve">
+    <value>اسأل قبل إنشاء تذكرة</value>
+  </data>
+  <data name="ProductName" xml:space="preserve">
+    <value>اسم المنتج</value>
+  </data>
+  <data name="DontForgetEndingWorkPeriod" xml:space="preserve">
+    <value>لا تنسى إنهاء فترة العمل</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>ملاحظة</value>
+  </data>
+  <data name="GeneralSettings" xml:space="preserve">
+    <value>الإعدادات العامة</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>مسح</value>
+  </data>
+  <data name="DisplayAppPath" xml:space="preserve">
+    <value>عرض مسار التطبيق</value>
+  </data>
+  <data name="NewTag" xml:space="preserve">
+    <value>علامة جديدة</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>منتج</value>
+  </data>
+  <data name="DeleteSelectedItems" xml:space="preserve">
+    <value>حذف العناصر المحددة</value>
+  </data>
+  <data name="NumericTagsShouldBeNumbersErrorMessage" xml:space="preserve">
+    <value>عند تحديد "تعليمات رقمية" ينبغي أن تحتوي كل العلامات على قيم رقمية.</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>الهاتف</value>
+  </data>
+  <data name="Permissions" xml:space="preserve">
+    <value>الصلاحيات</value>
+  </data>
+  <data name="Accounts_f" xml:space="preserve">
+    <value>حسابات {0}</value>
+  </data>
+  <data name="BatchCreateProductsDialogHint" xml:space="preserve">
+    <value>انشئ سطر لكل منتج يحتوى على  [اسم المنتج] [السعر]. ابدأ كل اسم مجموعة بـ #.</value>
+  </data>
+  <data name="Properties" xml:space="preserve">
+    <value>خصائص</value>
+  </data>
+  <data name="TwiceADay" xml:space="preserve">
+    <value>مرتين في اليوم</value>
+  </data>
+  <data name="DefaultTerminal" xml:space="preserve">
+    <value>الجهاز الافتراضي</value>
+  </data>
+  <data name="InventoryGroup" xml:space="preserve">
+    <value>مجموعة المخزون</value>
+  </data>
+  <data name="Drawer" xml:space="preserve">
+    <value>درج الأوراق النقدية</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>إرسال</value>
+  </data>
+  <data name="InternetBrowser" xml:space="preserve">
+    <value>متصفح الانترنت</value>
+  </data>
+  <data name="ResourceButton" xml:space="preserve">
+    <value>زر المورد</value>
+  </data>
+  <data name="MoveTaggedOrders" xml:space="preserve">
+    <value>نقل الطلبات المعلمة</value>
+  </data>
+  <data name="Sixty" xml:space="preserve">
+    <value>ستين</value>
+  </data>
+  <data name="NoTransactionsFoundFor_f" xml:space="preserve">
+    <value>لا يوجد عمليات لـ {0}</value>
+  </data>
+  <data name="CanChangeDepartment" xml:space="preserve">
+    <value>يستطيع تغيير القسم</value>
+  </data>
+  <data name="EndOfDayRecord" xml:space="preserve">
+    <value>سجل آخر اليوم</value>
+  </data>
+  <data name="SortCategories" xml:space="preserve">
+    <value>ترتيب الأصناف</value>
+  </data>
+  <data name="TicketTemplateValue" xml:space="preserve">
+    <value>[LAYOUT]
+ -- التنسيق العام
+ &lt;T&gt;التذكرة
+ &lt;L00&gt;التاريخ:{TICKET DATE}
+ &lt;L00&gt;الوقت:{TIME}
+ {RESOURCES}
+ &lt;L00&gt;رقم التذكرة:{TICKET NO}
+ &lt;F&gt;-
+ {ORDERS}
+ &lt;F&gt;=
+ &lt;EB&gt;
+ &lt;J10&gt;{IF DISCOUNT}
+ &lt;J10&gt;مجموع الهدية:|{GIFT TOTAL}
+ &lt;J10&gt;المجموع:|{TICKET TOTAL}
+ {IF PAID}
+ &lt;DB&gt;
+ &lt;F&gt;=
+ &lt;C10&gt;شكراً لك
+ 
+ [ORDERS]
+ -- التنسيق الافتراضي للطلبات
+ &lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
+ {ORDER TAGS}
+ 
+ [ORDERS:GIFT]
+ -- التنسيق للطلبات الهدية
+ &lt;J00&gt;- {QUANTITY} {NAME}|**GIFT**
+ {ORDER TAGS}
+ [ORDERS:VOID]
+ -- لن يطبع أي سطر من العطلبات الملغية
+ [ORDER TAGS]
+ -- تنسيق علامات الطلبات
+ &lt;J00&gt; * {ORDER TAG NAME} | {ORDER TAG PRICE}
+
+ [RESOURCES:Table]
+ -- تنسيق موارد الطاولات
+ &lt;L00&gt;طاولة: {RESOURCE NAME}
+ [RESOURCES:Customer]
+ -- تنسيق موارد الزبون
+ &lt;J00&gt;العميل: {RESOURCE NAME} | {RESOURCE DATA:Phone}</value>
+  </data>
+  <data name="ChangePrice" xml:space="preserve">
+    <value>تغيير السعر</value>
+  </data>
+  <data name="UpdateOrder" xml:space="preserve">
+    <value>تحديث الطلب</value>
+  </data>
+  <data name="StartAmount" xml:space="preserve">
+    <value>مبالغ البداية</value>
+  </data>
+  <data name="TicketOpeningTime" xml:space="preserve">
+    <value>فتح تذكرة</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>عرض</value>
+  </data>
+  <data name="TaxTemplate" xml:space="preserve">
+    <value>قالب الضريبة</value>
+  </data>
+  <data name="Million" xml:space="preserve">
+    <value>مليون</value>
+  </data>
+  <data name="Eighty" xml:space="preserve">
+    <value>ثمانين</value>
+  </data>
+  <data name="ItemProperties" xml:space="preserve">
+    <value>خصائص عنصر إضافي</value>
+  </data>
+  <data name="Change_f" xml:space="preserve">
+    <value>الصرف: {0}</value>
+  </data>
+  <data name="GrandTotal" xml:space="preserve">
+    <value>المجموع الكلي</value>
+  </data>
+  <data name="TransactionsEmptyError" xml:space="preserve">
+    <value>المعاملات يجب أن لا يكون فارغاً</value>
+  </data>
+  <data name="TotalExpense" xml:space="preserve">
+    <value>إجمالي المصروفات</value>
   </data>
   <data name="Update" xml:space="preserve">
     <value>تحديث</value>
   </data>
-  <data name="IfNegativeDiscountValue_f" xml:space="preserve">
-    <value>&lt;J&gt;التقريب: | {0}</value>
+  <data name="UnlocksOrder" xml:space="preserve">
+    <value>فتح الطلب</value>
   </data>
-  <data name="BroadcastMessage" xml:space="preserve">
-    <value>بث رسالة</value>
+  <data name="AddTicketDiscount" xml:space="preserve">
+    <value>إضافة خصم التذكرة</value>
   </data>
-  <data name="CanOpenNavigation" xml:space="preserve">
-    <value>يستطيع الدخول لشاشة التنقل</value>
+  <data name="SaveErrorMultipleDefaultTerminals" xml:space="preserve">
+    <value>لا تنشأ أكثر من جهاز طرفي أفتراضي واحد</value>
+  </data>
+  <data name="WorkPeriodEnded" xml:space="preserve">
+    <value>تم إنهاء فترة العمل</value>
+  </data>
+  <data name="UndefinedWithBrackets" xml:space="preserve">
+    <value>[غير معروف]</value>
+  </data>
+  <data name="LineItemTotalWithoutGifts" xml:space="preserve">
+    <value>#Line:  المجموع (بدون الهدايا)</value>
+  </data>
+  <data name="LocalWarehouses" xml:space="preserve">
+    <value>المخازن المحلية</value>
+  </data>
+  <data name="DeleteErrorUsedBy_f" xml:space="preserve">
+    <value>يتعذر حذف ال{0} لانها مستخدمة من قبل {1}</value>
+  </data>
+  <data name="Decrease" xml:space="preserve">
+    <value>النقصان</value>
+  </data>
+  <data name="LineItemQuantity" xml:space="preserve">
+    <value>#Line: الكمية</value>
+  </data>
+  <data name="ExchangeRate" xml:space="preserve">
+    <value>سعر الصرف</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>المدة</value>
+  </data>
+  <data name="Minute" xml:space="preserve">
+    <value>دقيقة</value>
+  </data>
+  <data name="OptionalTicketTag" xml:space="preserve">
+    <value>علامة تذكرة اختيارية</value>
+  </data>
+  <data name="TicketCount" xml:space="preserve">
+    <value>عدد التذاكر</value>
+  </data>
+  <data name="DefaultAmount" xml:space="preserve">
+    <value>المبلغ الافتراضي</value>
+  </data>
+  <data name="StartClientNow" xml:space="preserve">
+    <value>تشغيل البرنامج الآن</value>
+  </data>
+  <data name="RemoveOrderTag" xml:space="preserve">
+    <value>إزالة تعليم الطلب</value>
+  </data>
+  <data name="Day" xml:space="preserve">
+    <value>يوم</value>
+  </data>
+  <data name="TicketMovedRetryLastOperation_f" xml:space="preserve">
+    <value>نقلت التذكرة إلى {0}. لم يتم حفظ التغييرات الأخيرة.</value>
+  </data>
+  <data name="AutomationCommandExecuted" xml:space="preserve">
+    <value>أتمتة الأوامر التنفيذ</value>
+  </data>
+  <data name="CanMoveUnlockedTicketLines" xml:space="preserve">
+    <value>يستطيع تحريك أسطر التذاكر الغير مقفلة</value>
+  </data>
+  <data name="PaymentScreenSettings" xml:space="preserve">
+    <value>إعدادات شاشة الدفع</value>
+  </data>
+  <data name="Hundred" xml:space="preserve">
+    <value>مئة</value>
+  </data>
+  <data name="ThereIsAnotherPriceDefinition_f" xml:space="preserve">
+    <value>هناك تعريف سعر آخر  مع العلامة {0}</value>
+  </data>
+  <data name="PrintJob" xml:space="preserve">
+    <value>عملية الطباعة</value>
+  </data>
+  <data name="Terminal" xml:space="preserve">
+    <value>الجهاز</value>
+  </data>
+  <data name="MaxQuantity" xml:space="preserve">
+    <value>أقصى كمية</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>عامل التصفية</value>
+  </data>
+  <data name="TicketChangedRetryLastOperation" xml:space="preserve">
+    <value>تغييرت التذكرة. لم يتم حفظ التغييرات الأخيرة.</value>
+  </data>
+  <data name="UserRole" xml:space="preserve">
+    <value>وظيفة المستخدم</value>
+  </data>
+  <data name="NumeratorHeight" xml:space="preserve">
+    <value>ارتفاع لوحة الأرقام</value>
+  </data>
+  <data name="Receiveable" xml:space="preserve">
+    <value>مستحقة</value>
+  </data>
+  <data name="New_f" xml:space="preserve">
+    <value>جديد: {0}</value>
+  </data>
+  <data name="SellerWarehouses" xml:space="preserve">
+    <value>مخازن البائع</value>
+  </data>
+  <data name="InvoicePrinter" xml:space="preserve">
+    <value>طابعة الفاتورة</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>الجديد</value>
+  </data>
+  <data name="LockTicket" xml:space="preserve">
+    <value>إقفال التذكرة</value>
+  </data>
+  <data name="WorkPeriodStartTime" xml:space="preserve">
+    <value>وقت فترة العمل: {0}</value>
+  </data>
+  <data name="RuleName" xml:space="preserve">
+    <value>اسم القاعدة</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value>ساعة</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>حالة </value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>حفظ</value>
+  </data>
+  <data name="CanCreateAccount" xml:space="preserve">
+    <value>يستطيع إنشاء حساب</value>
+  </data>
+  <data name="RateFromPreviousTemplate" xml:space="preserve">
+    <value>معدل من مبلغ القالب السابق</value>
+  </data>
+  <data name="SellAmount" xml:space="preserve">
+    <value>قيمة المباع</value>
+  </data>
+  <data name="Increase" xml:space="preserve">
+    <value>زيادة</value>
+  </data>
+  <data name="BatchCreteProducts" xml:space="preserve">
+    <value>انشاء منتجات - دفعة واحدة</value>
+  </data>
+  <data name="LinesGroupedByTag" xml:space="preserve">
+    <value>أسطر مجمعة حسب العلامة</value>
+  </data>
+  <data name="CostPrediction" xml:space="preserve">
+    <value>تقدير التكلفة</value>
+  </data>
+  <data name="PleaseEnterABriefExplanationOf" xml:space="preserve">
+    <value>الرجاء إدخال شرحاً موجزاً للأحداث التي قادت إلى هذا الاستثناء</value>
+  </data>
+  <data name="ReleaseLock" xml:space="preserve">
+    <value>إزالة القفل</value>
+  </data>
+  <data name="Sales" xml:space="preserve">
+    <value>المبيعات</value>
+  </data>
+  <data name="KitchenTemplateValue" xml:space="preserve">
+    <value>
+[LAYOUT]
+ &lt;T&gt;تذكرة
+&lt;L00&gt;الترايخ:{TICKET DATE}
+&lt;L00&gt;الوقت:{TIME}
+ &lt;L00&gt;رقم المكان:{LOCATION}
+&lt;L00&gt;رقم التذكرة:{TICKET NO}
+&lt;F&gt;-
+{ORDERS}
+[ORDERS]
+&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
+ {ORDER TAGS}
+[ORDERS:GIFT]
+&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
+{ORDER TAGS}
+[ORDERS:VOID]
+&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
+{ORDER TAGS}
+[ORDER TAGS]
+-- تنسيق علامات الطلبات
+&lt;L00&gt; * {ORDER TAG NAME}</value>
+  </data>
+  <data name="TicketPaidTotal" xml:space="preserve">
+    <value>مبلغ التذكرة المدفوع</value>
+  </data>
+  <data name="SaveErrorDuplicateItemName_f" xml:space="preserve">
+    <value>هناك بالفعل {0} بهذا الاسم.</value>
+  </data>
+  <data name="TicketTimeDisplay_f" xml:space="preserve">
+    <value>{0} ({1} دقيقة.)</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>نص</value>
+  </data>
+  <data name="Ten" xml:space="preserve">
+    <value>عشرة</value>
+  </data>
+  <data name="SalesIncome" xml:space="preserve">
+    <value>إيرادات المبيعات</value>
+  </data>
+  <data name="AutoStartMessageClient" xml:space="preserve">
+    <value>تشغيل تلقائي لبرنامج الرسائل</value>
+  </data>
+  <data name="MaxItems" xml:space="preserve">
+    <value>سقف العناصر</value>
+  </data>
+  <data name="Every3Months" xml:space="preserve">
+    <value>كل 3 أشهر</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>التالي</value>
+  </data>
+  <data name="Ending" xml:space="preserve">
+    <value>إنهاء</value>
+  </data>
+  <data name="Thirteen" xml:space="preserve">
+    <value>ثلاثة عشر</value>
+  </data>
+  <data name="MonWedFri" xml:space="preserve">
+    <value>الاثنين، الأربعاء، والجمعة</value>
+  </data>
+  <data name="StartOfDay" xml:space="preserve">
+    <value>بداية فترة العمل</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>تفاصيل</value>
+  </data>
+  <data name="ButtonHeight" xml:space="preserve">
+    <value>ارتفاع الزر</value>
+  </data>
+  <data name="Cash" xml:space="preserve">
+    <value>نقداً</value>
+  </data>
+  <data name="Sale" xml:space="preserve">
+    <value>البيع</value>
+  </data>
+  <data name="Purchase" xml:space="preserve">
+    <value>شراء</value>
+  </data>
+  <data name="SelectItemsFor_f" xml:space="preserve">
+    <value>حدد {0} لاستخدام مع {1} {2}</value>
+  </data>
+  <data name="TicketCreated" xml:space="preserve">
+    <value>التذاكر التي تم إنشاؤها</value>
+  </data>
+  <data name="PrintOrdersToKitchenPrinter" xml:space="preserve">
+    <value>طباعة الطلبات إلى طابعة المطبخ</value>
+  </data>
+  <data name="Noon" xml:space="preserve">
+    <value>ظهر</value>
+  </data>
+  <data name="Sixteen" xml:space="preserve">
+    <value>ستة عشر</value>
+  </data>
+  <data name="Every30Minutes" xml:space="preserve">
+    <value>كل 30 دقيقة</value>
+  </data>
+  <data name="AutomationCommand" xml:space="preserve">
+    <value>أمر التشغيل الآلي</value>
+  </data>
+  <data name="GroupCode" xml:space="preserve">
+    <value>رمز المجموعة</value>
+  </data>
+  <data name="Tickets" xml:space="preserve">
+    <value>تذاكر</value>
+  </data>
+  <data name="NextPage" xml:space="preserve">
+    <value>الصفحة التالية</value>
+  </data>
+  <data name="NavigationPermissions" xml:space="preserve">
+    <value>أذونات التنقل</value>
+  </data>
+  <data name="ResourceScreenItem" xml:space="preserve">
+    <value>عنصر شاشة الموارد</value>
+  </data>
+  <data name="BaseUnit" xml:space="preserve">
+    <value>الوحدة الاساسية</value>
+  </data>
+  <data name="CsvBuilder" xml:space="preserve">
+    <value>منشئ CSV</value>
+  </data>
+  <data name="OrderTagName" xml:space="preserve">
+    <value>اسم علامة الطلب</value>
+  </data>
+  <data name="WarehouseType" xml:space="preserve">
+    <value>نوع المستودع</value>
+  </data>
+  <data name="ExecuteActionsIf" xml:space="preserve">
+    <value>شروط</value>
+  </data>
+  <data name="Multiplier" xml:space="preserve">
+    <value>مضاعف</value>
+  </data>
+  <data name="DisplayAtPaymentScreen" xml:space="preserve">
+    <value>عرض في شاشة الدفع</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>إنذار</value>
+  </data>
+  <data name="Keyboard" xml:space="preserve">
+    <value>لوحة مفاتيح</value>
+  </data>
+  <data name="AutoSelectProductsQuestion" xml:space="preserve">
+    <value>اختيار تلقائي للمنتجات للأصناف الجديدة؟</value>
+  </data>
+  <data name="Fifty" xml:space="preserve">
+    <value>خمسين</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>تحديث</value>
+  </data>
+  <data name="Income" xml:space="preserve">
+    <value>الدخل</value>
+  </data>
+  <data name="SettingValue" xml:space="preserve">
+    <value>قيمة الإعداد</value>
+  </data>
+  <data name="ChangeSortOrderHint" xml:space="preserve">
+    <value>تغيير ترتيب بواسطة سحب العناصر</value>
+  </data>
+  <data name="UpdateResourceState" xml:space="preserve">
+    <value>تحديث حالة المورد</value>
+  </data>
+  <data name="CanMergeTickets" xml:space="preserve">
+    <value>يستطيع دمج التذاكر</value>
+  </data>
+  <data name="InventoryReport" xml:space="preserve">
+    <value>تقرير الجرد</value>
+  </data>
+  <data name="ExportSalesData" xml:space="preserve">
+    <value>تصدير بيانات المبيعات</value>
+  </data>
+  <data name="Yesterday" xml:space="preserve">
+    <value>الأمس</value>
+  </data>
+  <data name="APortionShouldSelected" xml:space="preserve">
+    <value>وينبغي تحديد جزء</value>
+  </data>
+  <data name="MergeTickets" xml:space="preserve">
+    <value>دمج تذاكر</value>
+  </data>
+  <data name="UntagOrder" xml:space="preserve">
+    <value>إلغاء تعليم الطلب</value>
+  </data>
+  <data name="EmptyDiscountRateFeedback" xml:space="preserve">
+    <value>لإضافة الخصومات، ادخل قيمة الخصم وانقر فوق الزر الخصم. لإزالة الخصم انقر فوق زر الخصم دون إدخال قيمة.</value>
+  </data>
+  <data name="Submitted" xml:space="preserve">
+    <value>مقدم</value>
+  </data>
+  <data name="Account_f" xml:space="preserve">
+    <value>حساب:  {0}</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>من:</value>
+  </data>
+  <data name="One" xml:space="preserve">
+    <value>واحد</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>إضافة</value>
+  </data>
+  <data name="Billion" xml:space="preserve">
+    <value>مليار</value>
+  </data>
+  <data name="TriggerName" xml:space="preserve">
+    <value>اسم المشغل</value>
+  </data>
+  <data name="ScreenItem" xml:space="preserve">
+    <value>عنصر الشاشة</value>
+  </data>
+  <data name="LineOrderNumber" xml:space="preserve">
+    <value>#Line: رقم الطلب</value>
+  </data>
+  <data name="UpdateOrderState" xml:space="preserve">
+    <value>تحديث حالة الطلب</value>
+  </data>
+  <data name="ViewMode" xml:space="preserve">
+    <value>وضع العرض</value>
+  </data>
+  <data name="TicketPrinter" xml:space="preserve">
+    <value>طابعة التذاكر</value>
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value>القيمة</value>
+  </data>
+  <data name="Locked" xml:space="preserve">
+    <value>مقفل</value>
+  </data>
+  <data name="AddProductsToCategoryHint_f" xml:space="preserve">
+    <value>اختيار المنتجات للصنف  {0}</value>
+  </data>
+  <data name="CantDelete_f" xml:space="preserve">
+    <value>لا يمكن حذف {0}</value>
+  </data>
+  <data name="AddOrder" xml:space="preserve">
+    <value>إضافة طلب</value>
+  </data>
+  <data name="Fifteen" xml:space="preserve">
+    <value>خمسة عشر</value>
+  </data>
+  <data name="PageCount" xml:space="preserve">
+    <value>عدد الصفحات</value>
+  </data>
+  <data name="Two" xml:space="preserve">
+    <value>اثنين</value>
+  </data>
+  <data name="TranactionsZeroQuantityError" xml:space="preserve">
+    <value>المعاملات يحتوي على العناصر الكمية صفر</value>
+  </data>
+  <data name="TagOrder" xml:space="preserve">
+    <value>تعليم الطلب</value>
+  </data>
+  <data name="IncomeTransactions" xml:space="preserve">
+    <value>عمليات دخل</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>تأكيد</value>
+  </data>
+  <data name="DisplayTicketList" xml:space="preserve">
+    <value>عرض قائمة التذاكر</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>تسجيل الدخول</value>
+  </data>
+  <data name="FastMenu" xml:space="preserve">
+    <value>القائمة السريعة</value>
+  </data>
+  <data name="Department" xml:space="preserve">
+    <value>قسم</value>
+  </data>
+  <data name="PastMonth" xml:space="preserve">
+    <value>الشهر الماضي</value>
+  </data>
+  <data name="LastPaymentTime" xml:space="preserve">
+    <value>آخر دفعة</value>
+  </data>
+  <data name="WhenTagSelected" xml:space="preserve">
+    <value>عند التعليم</value>
+  </data>
+  <data name="DetailedReport" xml:space="preserve">
+    <value>تقرير مفصل</value>
+  </data>
+  <data name="TransactionDocument" xml:space="preserve">
+    <value>مستند العملية</value>
+  </data>
+  <data name="DefaultOrderTag" xml:space="preserve">
+    <value>العلامة الطلب الافتراضي</value>
+  </data>
+  <data name="SambaPOSReporter" xml:space="preserve">
+    <value>مراسل SambaPOS </value>
+  </data>
+  <data name="AccountScreen" xml:space="preserve">
+    <value>شاشة حساب</value>
+  </data>
+  <data name="ExtraModifiers" xml:space="preserve">
+    <value>طلبات جانبية</value>
+  </data>
+  <data name="PreviousPage" xml:space="preserve">
+    <value>الصفحة السابقة</value>
+  </data>
+  <data name="Printer" xml:space="preserve">
+    <value>طابعة</value>
+  </data>
+  <data name="AccountsReceivable" xml:space="preserve">
+    <value>حسابات القبض</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>الوصف</value>
+  </data>
+  <data name="As_f" xml:space="preserve">
+    <value>كما هو من {0}</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>إلى:</value>
+  </data>
+  <data name="ResourceScreen" xml:space="preserve">
+    <value>شاشة المورد</value>
+  </data>
+  <data name="TransacitonUnitMultiplier" xml:space="preserve">
+    <value>مضاعف وحدة العملية</value>
+  </data>
+  <data name="Five" xml:space="preserve">
+    <value>خمسة</value>
+  </data>
+  <data name="DayOperations" xml:space="preserve">
+    <value>فترات العمل</value>
+  </data>
+  <data name="AddAndSave" xml:space="preserve">
+    <value>إضافة وحفظ</value>
   </data>
   <data name="UniqueTicketId" xml:space="preserve">
     <value>رقم تذكرة غير مكررة</value>
   </data>
-  <data name="Void" xml:space="preserve">
-    <value>إلغاء</value>
+  <data name="No" xml:space="preserve">
+    <value>لا</value>
   </data>
-  <data name="AutoSelect" xml:space="preserve">
-    <value>اختيار تلقائي</value>
+  <data name="All Tables" xml:space="preserve">
+    <value>كافة الجداول</value>
   </data>
-  <data name="EventName" xml:space="preserve">
-    <value>اسم الحدث</value>
+  <data name="DeleteErrorAccountTypeAssignedtoAccounts" xml:space="preserve">
+    <value>يتعذر حذف هذا القالب لانه معين على حسابات</value>
   </data>
-  <data name="MainMenu" xml:space="preserve">
-    <value>القائمة الرئيسية</value>
+  <data name="CustomFieldName" xml:space="preserve">
+    <value>اسم الحقل المخصص</value>
   </data>
-  <data name="Category" xml:space="preserve">
-    <value>مجموعة</value>
+  <data name="Every12Hours" xml:space="preserve">
+    <value>كل 12 ساعة</value>
+  </data>
+  <data name="InternalAccounts" xml:space="preserve">
+    <value>الحسابات الداخلية</value>
+  </data>
+  <data name="POSView" xml:space="preserve">
+    <value>عرض نقاط البيع</value>
+  </data>
+  <data name="CantCompleteOperationWhenThereIsZeroPricedProduct" xml:space="preserve">
+    <value>لا يمكن اتمام هذه العملية لعدم وجود سعر للطلبات.</value>
+  </data>
+  <data name="DeleteErrorLastUser" xml:space="preserve">
+    <value>لا تستطيع حذف حساب آخر مستخدم</value>
+  </data>
+  <data name="ReportPermissions" xml:space="preserve">
+    <value>أذونات التقارير</value>
+  </data>
+  <data name="WeightBarcodes" xml:space="preserve">
+    <value>وزن الباركود</value>
+  </data>
+  <data name="AccountMap" xml:space="preserve">
+    <value>خريطة حساب</value>
+  </data>
+  <data name="ClickLinksToExportData" xml:space="preserve">
+    <value>حدد نطاق التاريخ ثم حدث التقرير وانقر على الارتباطات ذات الصلة لتصدير البيانات.</value>
+  </data>
+  <data name="BatchCreate_f" xml:space="preserve">
+    <value>إنشاء الدفعية {0}</value>
+  </data>
+  <data name="TicketDate" xml:space="preserve">
+    <value>تاريخ التذكرة</value>
+  </data>
+  <data name="WhenTagNotSelected" xml:space="preserve">
+    <value>عند إلغاء التعليم</value>
+  </data>
+  <data name="ActionType" xml:space="preserve">
+    <value>نوع الإجراء</value>
+  </data>
+  <data name="WeightBarcodeQuantityLength" xml:space="preserve">
+    <value>طول كمية وزن الباركود</value>
+  </data>
+  <data name="AllLines" xml:space="preserve">
+    <value>كل الأسطر</value>
+  </data>
+  <data name="SaveReportToFile" xml:space="preserve">
+    <value>حفظ التقرير إلى ملف</value>
+  </data>
+  <data name="SambaPosWebsite" xml:space="preserve">
+    <value>الموقع الاليكتروني لـ SambaPOS</value>
+  </data>
+  <data name="LineCount" xml:space="preserve">
+    <value>عدد الاسطر</value>
+  </data>
+  <data name="RemoveLimit" xml:space="preserve">
+    <value>إزالة حد</value>
+  </data>
+  <data name="ResourceUpdated" xml:space="preserve">
+    <value>تم تحديث المورد</value>
+  </data>
+  <data name="AverageCost" xml:space="preserve">
+    <value>متوسط التكلفة</value>
+  </data>
+  <data name="UpdateTicketCalculation" xml:space="preserve">
+    <value>تحديث حساب التذكرة</value>
+  </data>
+  <data name="SettingName" xml:space="preserve">
+    <value>اسم الإعداد</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>صورة خلفية</value>
+  </data>
+  <data name="QuantitiesByItemGroup" xml:space="preserve">
+    <value>الكميات عن طريق مجموعة الأصناف</value>
+  </data>
+  <data name="TotalAmountDivTag_f" xml:space="preserve">
+    <value>مجموع مبلغ/{0}:</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>إزالة</value>
+  </data>
+  <data name="AllDiscountsRemoved" xml:space="preserve">
+    <value>تم إزالة كل التخفيضات بسبب أن مجموع قيمة التخفيض أكبر من قيمة التذكرة</value>
+  </data>
+  <data name="AlwaysExcludeTax" xml:space="preserve">
+    <value>دائماً استبعاد الضرائب</value>
+  </data>
+  <data name="PriceDefinitonName" xml:space="preserve">
+    <value>اسم تعريف السعر</value>
+  </data>
+  <data name="TipsTotal" xml:space="preserve">
+    <value>مجموع الإكراميات</value>
+  </data>
+  <data name="Default_f" xml:space="preserve">
+    <value>الافتراضي: {0}</value>
+  </data>
+  <data name="POSMenu" xml:space="preserve">
+    <value>قائمة نقاط البيع</value>
+  </data>
+  <data name="RateOrAmount" xml:space="preserve">
+    <value>معدل أو مبلغ</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>المعلمات</value>
+  </data>
+  <data name="Transaction" xml:space="preserve">
+    <value>عمليات</value>
+  </data>
+  <data name="UnlockTicket" xml:space="preserve">
+    <value>فتح تذكرة</value>
+  </data>
+  <data name="EveryOtherMinute" xml:space="preserve">
+    <value>كل دقيقة أخرى</value>
+  </data>
+  <data name="LastOrderTime" xml:space="preserve">
+    <value>آخر طلب</value>
+  </data>
+  <data name="DefaultProperties" xml:space="preserve">
+    <value>الخصائص الافتراضية</value>
+  </data>
+  <data name="BatchCreateInfo_f" xml:space="preserve">
+    <value>سوف نقوم بإنشاء {0} لكل سطر قمت بإدخاله هنا.</value>
+  </data>
+  <data name="No_f" xml:space="preserve">
+    <value>لا: {0}</value>
+  </data>
+  <data name="ItemSales" xml:space="preserve">
+    <value>مبيعات الأصناف</value>
   </data>
   <data name="WorkPeriodEndsMessage" xml:space="preserve">
     <value>انتهت فترة العمل.
 قم بإنشاء تقرير فترة العمل في قسم التقارير</value>
   </data>
-  <data name="Mappings" xml:space="preserve">
-    <value>تعيينات</value>
+  <data name="WorkPeriodStartDate_f" xml:space="preserve">
+    <value>تاريخ فترة العمل: {0}</value>
   </data>
-  <data name="Template" xml:space="preserve">
-    <value>قالب</value>
+  <data name="Rounding" xml:space="preserve">
+    <value>تقريب</value>
   </data>
-  <data name="Numerators" xml:space="preserve">
-    <value>منشئ الارقام</value>
-  </data>
-  <data name="TriggerName" xml:space="preserve">
-    <value>اسم المشغل</value>
-  </data>
-  <data name="AutoRefresh" xml:space="preserve">
-    <value>التحديث التلقائي</value>
-  </data>
-  <data name="Inventory" xml:space="preserve">
-    <value>مخزون</value>
-  </data>
-  <data name="Cash" xml:space="preserve">
-    <value>نقداً</value>
-  </data>
-  <data name="BaseUnit" xml:space="preserve">
-    <value>الوحدة الاساسية</value>
-  </data>
-  <data name="RateFromTaxIncludedTicketAmount" xml:space="preserve">
-    <value>معدل من مبلغ التاكرة شاملاً الضريبة</value>
-  </data>
-  <data name="Price" xml:space="preserve">
-    <value>سعر</value>
-  </data>
-  <data name="ColumnCount" xml:space="preserve">
-    <value>عدد الأعمدة</value>
-  </data>
-  <data name="Keyboard" xml:space="preserve">
-    <value>لوحة مفاتيح</value>
-  </data>
-  <data name="TaxTemplate" xml:space="preserve">
-    <value>قالب الضريبة</value>
-  </data>
-  <data name="MergeLines" xml:space="preserve">
-    <value>دمج الأسطر</value>
-  </data>
-  <data name="Hidden" xml:space="preserve">
-    <value>مخفي</value>
-  </data>
-  <data name="OpenTicketButtonDuration" xml:space="preserve">
-    <value>{0} دقيقة</value>
-  </data>
-  <data name="Confirmation" xml:space="preserve">
-    <value>تأكيد</value>
-  </data>
-  <data name="ShowMessage" xml:space="preserve">
-    <value>إظهار رسالة</value>
-  </data>
-  <data name="UpdateTicketTag" xml:space="preserve">
-    <value>تحديث علامة التذكرة</value>
-  </data>
-  <data name="CreateAccount" xml:space="preserve">
-    <value>إنشاء حساب</value>
-  </data>
-  <data name="EndOfDayRecords" xml:space="preserve">
-    <value>سجلات آخر اليوم</value>
-  </data>
-  <data name="CanMergeTickets" xml:space="preserve">
-    <value>يستطيع دمج التذاكر</value>
-  </data>
-  <data name="NoTransactionsFoundFor_f" xml:space="preserve">
-    <value>لا يوجد عمليات لـ {0}</value>
-  </data>
-  <data name="Numeric" xml:space="preserve">
-    <value>رقمية</value>
-  </data>
-  <data name="Department" xml:space="preserve">
-    <value>قسم</value>
-  </data>
-  <data name="Text" xml:space="preserve">
-    <value>نص</value>
-  </data>
-  <data name="Close" xml:space="preserve">
-    <value>إغلاق</value>
-  </data>
-  <data name="Yesterday" xml:space="preserve">
-    <value>الأمس</value>
-  </data>
-  <data name="DisplayAllValues" xml:space="preserve">
-    <value>عرض كل القيم</value>
-  </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>إلغاء</value>
-  </data>
-  <data name="FindTicket" xml:space="preserve">
-    <value>بحث عن تذكرة</value>
+  <data name="SqlHint" xml:space="preserve">
+    <value>للمزيد من المعلومات حول التعامل مع قواعد بيانات SQL اضغط هنا</value>
   </data>
   <data name="UserList" xml:space="preserve">
     <value>قائمة المستخدمين</value>
   </data>
-  <data name="Add_f" xml:space="preserve">
-    <value>إضافة  {0}</value>
+  <data name="WrapText" xml:space="preserve">
+    <value>إلتفاف النص</value>
   </data>
-  <data name="ResourceButton" xml:space="preserve">
-    <value>زر المورد</value>
+  <data name="IfNegativeDiscountValue_f" xml:space="preserve">
+    <value>&lt;J&gt;التقريب: | {0}</value>
   </data>
-  <data name="Change_f" xml:space="preserve">
-    <value>الصرف: {0}</value>
+  <data name="OpenTicketButtonDuration" xml:space="preserve">
+    <value>{0} دقيقة</value>
   </data>
-  <data name="TicketCommand" xml:space="preserve">
-    <value>أمر التذكرة</value>
+  <data name="AllTickets" xml:space="preserve">
+    <value>كل التذاكر</value>
   </data>
-  <data name="Message" xml:space="preserve">
-    <value>رسالة</value>
+  <data name="Terminals" xml:space="preserve">
+    <value>الأجهزة</value>
   </data>
-  <data name="WorkPeriodEnded" xml:space="preserve">
-    <value>تم إنهاء فترة العمل</value>
-  </data>
-  <data name="EndOfDayRecord" xml:space="preserve">
-    <value>سجل آخر اليوم</value>
-  </data>
-  <data name="VoidOrders" xml:space="preserve">
-    <value>إلغاء الطلبات</value>
-  </data>
-  <data name="ExpenseTransactions" xml:space="preserve">
-    <value>عمليات مصاريف</value>
-  </data>
-  <data name="ClientServerConnectionHelpUrlString" xml:space="preserve">
-    <value>http://www.sambapos.com/en/content/client-server-baglantisi-nasil-yapilir</value>
-  </data>
-  <data name="ProgramLanguage" xml:space="preserve">
-    <value>لغة البرنامج</value>
-  </data>
-  <data name="TagCantBeEmpty_f" xml:space="preserve">
-    <value>لا يمكن ترك {0} فارغ</value>
-  </data>
-  <data name="TicketWithBrackets" xml:space="preserve">
-    <value>[التذكرة]</value>
-  </data>
-  <data name="RateFromPreviousTemplate" xml:space="preserve">
-    <value>معدل من مبلغ القالب السابق</value>
-  </data>
-  <data name="UserLogin" xml:space="preserve">
-    <value>تسجيل دخول المستخدم</value>
-  </data>
-  <data name="FileName" xml:space="preserve">
-    <value>اسم الملف</value>
-  </data>
-  <data name="ReportPrinter" xml:space="preserve">
-    <value>طابعة التقرير</value>
-  </data>
-  <data name="Line" xml:space="preserve">
-    <value>سطر</value>
-  </data>
-  <data name="ResourceType" xml:space="preserve">
-    <value>نوع المورد</value>
-  </data>
-  <data name="LastOrderStatus" xml:space="preserve">
-    <value>حالة آخر طلب</value>
-  </data>
-  <data name="LineItemQuantity" xml:space="preserve">
-    <value>#Line: الكمية</value>
-  </data>
-  <data name="TicketNumber_f" xml:space="preserve">
-    <value>رقم التذكرة: {0}</value>
-  </data>
-  <data name="ButtonColor" xml:space="preserve">
-    <value>لون الزر</value>
-  </data>
-  <data name="TicketTipTotalAmount" xml:space="preserve">
-    <value>مبلغ مجموع إكرامية التذكرة</value>
-  </data>
-  <data name="FieldType" xml:space="preserve">
-    <value>نوع الحقل</value>
-  </data>
-  <data name="LastOrderTime" xml:space="preserve">
-    <value>آخر طلب</value>
-  </data>
-  <data name="SaveErrorThisPinCodeInUse" xml:space="preserve">
-    <value>هذا الرمز السري مستخدم من قبل مستخدم آخر</value>
-  </data>
-  <data name="InStock" xml:space="preserve">
-    <value>متوفرة</value>
-  </data>
-  <data name="GrandTotal" xml:space="preserve">
-    <value>المجموع الكلي</value>
-  </data>
-  <data name="NumeratorHeight" xml:space="preserve">
-    <value>ارتفاع لوحة الأرقام</value>
-  </data>
-  <data name="TransactionDocument" xml:space="preserve">
-    <value>مستند العملية</value>
-  </data>
-  <data name="Open" xml:space="preserve">
-    <value>مفتوحة</value>
-  </data>
-  <data name="DeleteItemConfirmation_f" xml:space="preserve">
-    <value>حذف  {0} [{1}] ؟</value>
-  </data>
-  <data name="GroupCode" xml:space="preserve">
-    <value>رمز المجموعة</value>
-  </data>
-  <data name="No_f" xml:space="preserve">
-    <value>لا: {0}</value>
-  </data>
-  <data name="CanMoveUnlockedTicketLines" xml:space="preserve">
-    <value>يستطيع تحريك أسطر التذاكر الغير مقفلة</value>
-  </data>
-  <data name="Quantity" xml:space="preserve">
-    <value>الكمية</value>
-  </data>
-  <data name="RuleAction" xml:space="preserve">
-    <value>إجراء</value>
-  </data>
-  <data name="Property" xml:space="preserve">
-    <value>خاصية</value>
-  </data>
-  <data name="StartingWorkPeriodCompleted" xml:space="preserve">
-    <value>تم بدء فترة العمل.</value>
-  </data>
-  <data name="TicketNumerator" xml:space="preserve">
-    <value>منشئ رقم التذكرة</value>
-  </data>
-  <data name="DeleteErrorLastUser" xml:space="preserve">
-    <value>لا تستطيع حذف حساب آخر مستخدم</value>
-  </data>
-  <data name="TemplateName" xml:space="preserve">
-    <value>اسم القالب</value>
-  </data>
-  <data name="RowCount" xml:space="preserve">
-    <value>عدد الصفوف</value>
-  </data>
-  <data name="CreditCard" xml:space="preserve">
-    <value>بطاقة ائتمان</value>
-  </data>
-  <data name="LineItemTotalWithoutGifts" xml:space="preserve">
-    <value>#Line:  المجموع (بدون الهدايا)</value>
-  </data>
-  <data name="Ticket" xml:space="preserve">
-    <value>تذكرة</value>
-  </data>
-  <data name="MenuName" xml:space="preserve">
-    <value>اسم القائمة</value>
-  </data>
-  <data name="SubTags" xml:space="preserve">
-    <value>علامات فرعية</value>
-  </data>
-  <data name="ChangeAmount_f" xml:space="preserve">
-    <value>الصرف:  {0}</value>
-  </data>
-  <data name="DayOperations" xml:space="preserve">
-    <value>فترات العمل</value>
-  </data>
-  <data name="NoAction" xml:space="preserve">
-    <value>لا إجراء</value>
-  </data>
-  <data name="Recipes" xml:space="preserve">
-    <value>وصفات</value>
-  </data>
-  <data name="TicketTagGroup" xml:space="preserve">
-    <value>مجموعة العلامة</value>
-  </data>
-  <data name="PrintMapping" xml:space="preserve">
-    <value>تعيين الطباعة</value>
-  </data>
-  <data name="Table" xml:space="preserve">
-    <value>طاولة</value>
-  </data>
-  <data name="DiscountPercentSign" xml:space="preserve">
-    <value>تخفيض %</value>
-  </data>
-  <data name="SingleSelection" xml:space="preserve">
-    <value>اختيار واحد</value>
-  </data>
-  <data name="PhoneNumber" xml:space="preserve">
-    <value>هاتف</value>
-  </data>
-  <data name="Add" xml:space="preserve">
-    <value>إضافة</value>
-  </data>
-  <data name="Total" xml:space="preserve">
-    <value>المجموع</value>
-  </data>
-  <data name="LineItemPrice" xml:space="preserve">
-    <value>#Line: السعر</value>
-  </data>
-  <data name="WorkPeriodStartTime" xml:space="preserve">
-    <value>وقت فترة العمل: {0}</value>
-  </data>
-  <data name="AccountType" xml:space="preserve">
-    <value>نوع الحساب</value>
-  </data>
-  <data name="AdminRole" xml:space="preserve">
-    <value>دور المشرف</value>
-  </data>
-  <data name="DisplayPopup" xml:space="preserve">
-    <value>عرض منبثق</value>
-  </data>
-  <data name="SlipReportPrinter" xml:space="preserve">
-    <value>طابعة التقرير المصغر</value>
-  </data>
-  <data name="PastTransactions" xml:space="preserve">
-    <value>العمليات السابقة</value>
-  </data>
-  <data name="Dashboard" xml:space="preserve">
-    <value>لوحة المعلومات</value>
-  </data>
-  <data name="Round" xml:space="preserve">
-    <value>تقريب</value>
-  </data>
-  <data name="Products" xml:space="preserve">
-    <value>منتجات</value>
-  </data>
-  <data name="Two" xml:space="preserve">
-    <value>اثنين</value>
-  </data>
-  <data name="LinesGroupedByBarcode" xml:space="preserve">
-    <value>تجميع الأسطر من خلال الباركود</value>
-  </data>
-  <data name="DocumentNo" xml:space="preserve">
-    <value>رقم المستند</value>
-  </data>
-  <data name="DepartmentType" xml:space="preserve">
-    <value>نوع القسم</value>
-  </data>
-  <data name="Users" xml:space="preserve">
-    <value>المستخدمون</value>
-  </data>
-  <data name="ScreenItem" xml:space="preserve">
-    <value>عنصر الشاشة</value>
-  </data>
-  <data name="Header" xml:space="preserve">
-    <value>عنوان</value>
-  </data>
-  <data name="ButtonHeight" xml:space="preserve">
-    <value>ارتفاع الزر</value>
-  </data>
-  <data name="MultipleSelection" xml:space="preserve">
-    <value>اختيار متعدد</value>
-  </data>
-  <data name="ResourceTypes" xml:space="preserve">
-    <value>أنواع المورد</value>
-  </data>
-  <data name="WorkPeriodStartDate_f" xml:space="preserve">
-    <value>تاريخ فترة العمل: {0}</value>
-  </data>
-  <data name="SambaPosWebsite" xml:space="preserve">
-    <value>الموقع الاليكتروني لـ SambaPOS</value>
-  </data>
-  <data name="Delete" xml:space="preserve">
-    <value>حذف</value>
-  </data>
-  <data name="TagValue" xml:space="preserve">
-    <value>قيمة العلامة</value>
-  </data>
-  <data name="Rule" xml:space="preserve">
-    <value>قاعدة</value>
-  </data>
-  <data name="CategoryName" xml:space="preserve">
-    <value>اسم المجموعة</value>
-  </data>
-  <data name="CurrentCost" xml:space="preserve">
-    <value>التكلفة الحالية</value>
-  </data>
-  <data name="PastMonth" xml:space="preserve">
-    <value>الشهر الماضي</value>
-  </data>
-  <data name="Total_f" xml:space="preserve">
-    <value>{0} المجموع</value>
-  </data>
-  <data name="TicketOpeningTime" xml:space="preserve">
-    <value>فتح تذكرة</value>
-  </data>
-  <data name="ClickLinksToExportData" xml:space="preserve">
-    <value>حدد نطاق التاريخ ثم حدث التقرير وانقر على الارتباطات ذات الصلة لتصدير البيانات.</value>
-  </data>
-  <data name="CanRemoveTicketTag" xml:space="preserve">
-    <value>يستطيع إلغاء علامة التذكرة</value>
-  </data>
-  <data name="Date" xml:space="preserve">
-    <value>تاريخ</value>
-  </data>
-  <data name="NextPage" xml:space="preserve">
-    <value>الصفحة التالية</value>
-  </data>
-  <data name="Back" xml:space="preserve">
-    <value>الرجوع</value>
-  </data>
-  <data name="Restaurant" xml:space="preserve">
-    <value>مطعم</value>
-  </data>
-  <data name="MessageServerName" xml:space="preserve">
-    <value>اسم خادم الرسائل</value>
-  </data>
-  <data name="UndefinedWithBrackets" xml:space="preserve">
-    <value>[غير معروف]</value>
-  </data>
-  <data name="Login" xml:space="preserve">
-    <value>تسجيل الدخول</value>
-  </data>
-  <data name="OrderTagGroup" xml:space="preserve">
-    <value>مجموعة علامة الطلب</value>
+  <data name="Selected" xml:space="preserve">
+    <value>مختارة</value>
   </data>
   <data name="Divide" xml:space="preserve">
     <value>تقسيم</value>
   </data>
-  <data name="DefaultTerminal" xml:space="preserve">
-    <value>الجهاز الافتراضي</value>
+  <data name="Target_f" xml:space="preserve">
+    <value>الهدف: {0}</value>
   </data>
-  <data name="AllLines" xml:space="preserve">
-    <value>كل الأسطر</value>
+  <data name="ErrorReportWithoutFeedback" xml:space="preserve">
+    <value>تقوم بإرسال تقرير عن الخطأ دون ملاحظاتك.
+الرجاء إعطاء بعض التفاصيل حول كيف حدث هذا.
+
+المتابعة بدون إضافة تفاصيل؟</value>
   </data>
-  <data name="GiftTotal" xml:space="preserve">
-    <value>مجموع الهدية</value>
+  <data name="SortCategoriesDialogHint_f" xml:space="preserve">
+    <value>اسحب أصناف قائمة {0} لتغيير الترتيب.</value>
   </data>
-  <data name="CanCreateAccount" xml:space="preserve">
-    <value>يستطيع إنشاء حساب</value>
+  <data name="InventoryConsumption" xml:space="preserve">
+    <value>استهلاك المخزون</value>
+  </data>
+  <data name="Weekday" xml:space="preserve">
+    <value>يوم الأسبوع</value>
+  </data>
+  <data name="PM" xml:space="preserve">
+    <value>مساءاً</value>
+  </data>
+  <data name="Totals" xml:space="preserve">
+    <value>المجاميع</value>
+  </data>
+  <data name="PrintErrorMessage" xml:space="preserve">
+    <value>هناك مشكلة أثناء الطباعة. تحقق من الطابعة وإعدادات قالب الطابعة.
+
+رسالة الخطأ:
+</value>
+  </data>
+  <data name="Six" xml:space="preserve">
+    <value>ستة</value>
+  </data>
+  <data name="OneHundred" xml:space="preserve">
+    <value>مائة</value>
+  </data>
+  <data name="Alphanumeric" xml:space="preserve">
+    <value>حرفية رقمية</value>
+  </data>
+  <data name="NumericTags" xml:space="preserve">
+    <value>علامات رقمية</value>
+  </data>
+  <data name="Management" xml:space="preserve">
+    <value>إدارة</value>
+  </data>
+  <data name="CustomFields" xml:space="preserve">
+    <value>حقول مخصصة</value>
+  </data>
+  <data name="AM" xml:space="preserve">
+    <value>صباحا.</value>
+  </data>
+  <data name="TopOfTheHour" xml:space="preserve">
+    <value>على رأس الساعة</value>
+  </data>
+  <data name="FirstAndFifteenth" xml:space="preserve">
+    <value>الأول والخامس عشر</value>
+  </data>
+  <data name="AccountTransactionDocument" xml:space="preserve">
+    <value>مستند عملية الحساب</value>
+  </data>
+  <data name="Departments" xml:space="preserve">
+    <value>أقسام</value>
+  </data>
+  <data name="ShareNameAndPortName" xml:space="preserve">
+    <value>اسم الطابعة للمشاركة/اسم المنفذ</value>
+  </data>
+  <data name="OrderStateUpdated" xml:space="preserve">
+    <value>تم تحديث حالة الطلب</value>
+  </data>
+  <data name="TicketOpened" xml:space="preserve">
+    <value>فتحت التذكرة</value>
+  </data>
+  <data name="Unit" xml:space="preserve">
+    <value>وحدة</value>
+  </data>
+  <data name="Balance" xml:space="preserve">
+    <value>الحساب</value>
+  </data>
+  <data name="Edit_f" xml:space="preserve">
+    <value>تعديل  {0}</value>
+  </data>
+  <data name="Restaurant" xml:space="preserve">
+    <value>مطعم</value>
+  </data>
+  <data name="Total_f" xml:space="preserve">
+    <value>{0} المجموع</value>
+  </data>
+  <data name="DemoPrinter" xml:space="preserve">
+    <value>طابعة تجريبية (المفكرة)</value>
+  </data>
+  <data name="ChoosePaymentsForTicketTemplate_f" xml:space="preserve">
+    <value>حدد "أنواع الدفع" لاستخدام في قالب {0} .</value>
+  </data>
+  <data name="FontSize" xml:space="preserve">
+    <value>حجم الخط</value>
+  </data>
+  <data name="ImagePath" xml:space="preserve">
+    <value>عنوان الصورة</value>
+  </data>
+  <data name="Selected_f" xml:space="preserve">
+    <value> {0} مختارة</value>
+  </data>
+  <data name="State" xml:space="preserve">
+    <value>الحالة</value>
+  </data>
+  <data name="ItemSalesReport" xml:space="preserve">
+    <value>تقرير مبيعات البند</value>
+  </data>
+  <data name="LocalWarehouse" xml:space="preserve">
+    <value>المستودع المحلي</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>تقارير</value>
+  </data>
+  <data name="Script_f" xml:space="preserve">
+    <value>{0} برنامج نصي</value>
+  </data>
+  <data name="AutoRefreshInterval" xml:space="preserve">
+    <value>للتحديث التلقائي للفترة</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>نعم</value>
+  </data>
+  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
+    <value>حذف التعيين المحدد؟</value>
+  </data>
+  <data name="PortionPrices" xml:space="preserve">
+    <value>أسعار الأجزاء</value>
+  </data>
+  <data name="Name_f" xml:space="preserve">
+    <value>الاسم: {0}</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>مخفي</value>
+  </data>
+  <data name="TicketTagSelected" xml:space="preserve">
+    <value>علامة التذكرة المختارة</value>
+  </data>
+  <data name="CurrencySymbol" xml:space="preserve">
+    <value>رمز العملة</value>
+  </data>
+  <data name="TagCantBeEmpty_f" xml:space="preserve">
+    <value>لا يمكن ترك {0} فارغ</value>
+  </data>
+  <data name="ExecutePowershellScript" xml:space="preserve">
+    <value>تنفيذ البرنامج النصي Powershell</value>
+  </data>
+  <data name="TicketNumber_f" xml:space="preserve">
+    <value>رقم التذكرة: {0}</value>
+  </data>
+  <data name="AccountTransactionType" xml:space="preserve">
+    <value>نوع عملية الحساب</value>
+  </data>
+  <data name="RowCount" xml:space="preserve">
+    <value>عدد الصفوف</value>
+  </data>
+  <data name="TicketPaidLastChangesNotSaved" xml:space="preserve">
+    <value>التذكرة مدفوعة. لم يتم حفظ التغييرات الأخيرة.</value>
+  </data>
+  <data name="Clone_f" xml:space="preserve">
+    <value>استنساخ {0}</value>
+  </data>
+  <data name="Order" xml:space="preserve">
+    <value>طلب</value>
+  </data>
+  <data name="AutoLogout" xml:space="preserve">
+    <value>تسجيل خروج تلقائي</value>
+  </data>
+  <data name="QuarterTil" xml:space="preserve">
+    <value>إلا ربع</value>
+  </data>
+  <data name="TransactionUnit" xml:space="preserve">
+    <value>وحدة العملية</value>
+  </data>
+  <data name="MinTime" xml:space="preserve">
+    <value>الوقت دقيقة</value>
+  </data>
+  <data name="Task" xml:space="preserve">
+    <value>المهمة</value>
+  </data>
+  <data name="CustomField" xml:space="preserve">
+    <value>حقل مخصص</value>
+  </data>
+  <data name="FilterType" xml:space="preserve">
+    <value>نوع عامل التصفية</value>
+  </data>
+  <data name="EveryOtherDay" xml:space="preserve">
+    <value>كل يوم آخر</value>
+  </data>
+  <data name="SortCategoryProducts" xml:space="preserve">
+    <value>ترتيب منتجات الصنف</value>
+  </data>
+  <data name="LinePriceTag" xml:space="preserve">
+    <value>#Line: علامة السعر</value>
+  </data>
+  <data name="MessageServerName" xml:space="preserve">
+    <value>اسم خادم الرسائل</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>نشط</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>اسم</value>
+  </data>
+  <data name="CalculateCost" xml:space="preserve">
+    <value>احسب التكلفة</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>الإجراءات</value>
+  </data>
+  <data name="NewProperty" xml:space="preserve">
+    <value>خاصية جديدة</value>
+  </data>
+  <data name="LineCharacterCount" xml:space="preserve">
+    <value>عدد الأحرف في السطر</value>
+  </data>
+  <data name="UpdateType" xml:space="preserve">
+    <value>نوع التحديث</value>
+  </data>
+  <data name="AddTagPriceToOrderPrice" xml:space="preserve">
+    <value>أضف سعر العلامة لسعر الطلب</value>
+  </data>
+  <data name="OnceAnHour" xml:space="preserve">
+    <value>مرة كل ساعة </value>
+  </data>
+  <data name="Common" xml:space="preserve">
+    <value>عام</value>
+  </data>
+  <data name="InventoryItem" xml:space="preserve">
+    <value>مادة مخزون</value>
+  </data>
+  <data name="AccountsLiability" xml:space="preserve">
+    <value>مسؤولية الحسابات</value>
+  </data>
+  <data name="DisplayPopup" xml:space="preserve">
+    <value>عرض منبثق</value>
+  </data>
+  <data name="DocumentNo" xml:space="preserve">
+    <value>رقم المستند</value>
+  </data>
+  <data name="State_f" xml:space="preserve">
+    <value>الحالة {0}</value>
+  </data>
+  <data name="Products" xml:space="preserve">
+    <value>منتجات</value>
+  </data>
+  <data name="Forty" xml:space="preserve">
+    <value>أربعين</value>
+  </data>
+  <data name="TicketNumerator" xml:space="preserve">
+    <value>منشئ رقم التذكرة</value>
+  </data>
+  <data name="Eighteen" xml:space="preserve">
+    <value>ثمانية عشر</value>
+  </data>
+  <data name="This_f" xml:space="preserve">
+    <value>هذا {0}</value>
+  </data>
+  <data name="OrderTagQuantity" xml:space="preserve">
+    <value>كمية علامة الطلب</value>
+  </data>
+  <data name="LastPaidOrders" xml:space="preserve">
+    <value>الطلبات المدفوعة الاخيرة</value>
+  </data>
+  <data name="FindTicket" xml:space="preserve">
+    <value>بحث عن تذكرة</value>
+  </data>
+  <data name="TicketTipTotalAmount" xml:space="preserve">
+    <value>مبلغ مجموع إكرامية التذكرة</value>
+  </data>
+  <data name="Orders" xml:space="preserve">
+    <value>طلبات</value>
+  </data>
+  <data name="Unpaid" xml:space="preserve">
+    <value>غير المدفوعة</value>
+  </data>
+  <data name="SubButtonHeight" xml:space="preserve">
+    <value>ارتفاع الزر الفرعي</value>
+  </data>
+  <data name="ThisMonth" xml:space="preserve">
+    <value>هذا الشهر</value>
+  </data>
+  <data name="MultipleSelection" xml:space="preserve">
+    <value>اختيار متعدد</value>
+  </data>
+  <data name="UpdateTicketTag" xml:space="preserve">
+    <value>تحديث علامة التذكرة</value>
+  </data>
+  <data name="DecreaseInventory" xml:space="preserve">
+    <value>انقاص المخزون</value>
+  </data>
+  <data name="TuesAndThurs" xml:space="preserve">
+    <value>الثلاثاء، الخميس</value>
+  </data>
+  <data name="Twelve" xml:space="preserve">
+    <value>اثنى عشر</value>
+  </data>
+  <data name="TicketTagGroup" xml:space="preserve">
+    <value>مجموعة العلامة</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>الكل</value>
+  </data>
+  <data name="CanNavigateCash" xml:space="preserve">
+    <value>يستطيع الدخول لشاشة النقد</value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>القائمة</value>
+  </data>
+  <data name="PrintJobList" xml:space="preserve">
+    <value>قائمة علمليات الطباعة</value>
+  </data>
+  <data name="FooterTemplate" xml:space="preserve">
+    <value>قالب تذييل الصفحة</value>
+  </data>
+  <data name="TagName" xml:space="preserve">
+    <value>اسم العلامة</value>
+  </data>
+  <data name="RuleAction" xml:space="preserve">
+    <value>إجراء</value>
+  </data>
+  <data name="Template" xml:space="preserve">
+    <value>قالب</value>
+  </data>
+  <data name="TicketTotal" xml:space="preserve">
+    <value>مجموع التذكرة</value>
+  </data>
+  <data name="QuarterPast" xml:space="preserve">
+    <value>الربع الماضي</value>
+  </data>
+  <data name="Manual" xml:space="preserve">
+    <value>يدوي</value>
+  </data>
+  <data name="TicketTime" xml:space="preserve">
+    <value>وقت التذكرة</value>
+  </data>
+  <data name="MessageServerPort" xml:space="preserve">
+    <value>منفذ خادم الرسائل</value>
+  </data>
+  <data name="UnhandledExceptionErrorMessage" xml:space="preserve">
+    <value>SambaPOS  واجه مشكلة غير متوقعة. تم تسجيل تفاصيل المشكلة في ملف trace.log</value>
+  </data>
+  <data name="CantSave" xml:space="preserve">
+    <value>لا يمكن الحفظ</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>المجموع</value>
+  </data>
+  <data name="SubMenuTags" xml:space="preserve">
+    <value>علامات القائمة الفرعية</value>
+  </data>
+  <data name="CalculationMethod" xml:space="preserve">
+    <value>طريقة الحساب</value>
+  </data>
+  <data name="PaymentProcessed" xml:space="preserve">
+    <value>تم معالجة الدفع</value>
+  </data>
+  <data name="Admin" xml:space="preserve">
+    <value>مشرف</value>
+  </data>
+  <data name="NoPurchaseTransactionInCurrentDateRange" xml:space="preserve">
+    <value>لا توجد عمليات شراء في نطاق التاريخ المحدد</value>
+  </data>
+  <data name="OnlyOpenTickets" xml:space="preserve">
+    <value>التذاكر المفتوحة فقط</value>
+  </data>
+  <data name="TicketPaidChangesNotSaved" xml:space="preserve">
+    <value>التذكرة مدفوعة. لم يتم حفظ التغييرات الأخيرة.</value>
+  </data>
+  <data name="TicketsMerged" xml:space="preserve">
+    <value>دمجت التذاكر</value>
+  </data>
+  <data name="UserLogout" xml:space="preserve">
+    <value>تسجيل خروج المستخدم</value>
+  </data>
+  <data name="CanDisplayReports" xml:space="preserve">
+    <value>يستطيع عرض التقارير</value>
+  </data>
+  <data name="TicketRemainingAmount" xml:space="preserve">
+    <value>المبلغ المتبقي من التذكرة</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>موافق</value>
+  </data>
+  <data name="FileName" xml:space="preserve">
+    <value>اسم الملف</value>
+  </data>
+  <data name="SaveErrorZeroOrNullInventoryLines" xml:space="preserve">
+    <value>لا يمكن الحفظ لأن هناك أسطر مع أصناف مخزون فارغة أو الكمية فارغة</value>
   </data>
   <data name="TicketPermissions" xml:space="preserve">
     <value>أذونات التذكرة</value>
   </data>
-  <data name="MergeTickets" xml:space="preserve">
-    <value>دمج تذاكر</value>
+  <data name="MenuItemGroup" xml:space="preserve">
+    <value>مجموعة المنتج</value>
   </data>
-  <data name="PrintContent" xml:space="preserve">
-    <value>طباعة المحتوى</value>
+  <data name="ChangeTotal" xml:space="preserve">
+    <value>إجمالي التغيير</value>
+  </data>
+  <data name="StopTimer" xml:space="preserve">
+    <value>إيقاف المؤقت</value>
+  </data>
+  <data name="Html" xml:space="preserve">
+    <value>HTML</value>
+  </data>
+  <data name="NewOrders" xml:space="preserve">
+    <value>طلبات جديدة</value>
+  </data>
+  <data name="SalesByItemGroup" xml:space="preserve">
+    <value>المبيعات عن طريق مجموعة الأصناف</value>
+  </data>
+  <data name="Source_f" xml:space="preserve">
+    <value>المصدر: {0}</value>
+  </data>
+  <data name="Select_f" xml:space="preserve">
+    <value>اختر  {0}</value>
+  </data>
+  <data name="PriceDurationType" xml:space="preserve">
+    <value>نوع مدة السعر</value>
+  </data>
+  <data name="Empty" xml:space="preserve">
+    <value>فارغ</value>
+  </data>
+  <data name="OrderTagTemplate" xml:space="preserve">
+    <value>قالب علامة الطلب</value>
+  </data>
+  <data name="ExpressionBuilder" xml:space="preserve">
+    <value>منشئ التعبير</value>
+  </data>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>لون الخلفية</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>مفتوحة</value>
+  </data>
+  <data name="NumeratorValue" xml:space="preserve">
+    <value>قيمة لوحة الأرقام</value>
+  </data>
+  <data name="Beginning" xml:space="preserve">
+    <value>بداية</value>
+  </data>
+  <data name="AccountTransaction" xml:space="preserve">
+    <value>عملية الحساب</value>
+  </data>
+  <data name="MonThruFri" xml:space="preserve">
+    <value>الاثنين - الجمعة</value>
+  </data>
+  <data name="LocalSettings" xml:space="preserve">
+    <value>إعدادات محلية</value>
+  </data>
+  <data name="ReportDoesNotContainsCashState" xml:space="preserve">
+    <value>لا يتضمن التقرير "مبالغ البداية"</value>
+  </data>
+  <data name="ChangeAmount_f" xml:space="preserve">
+    <value>الصرف:  {0}</value>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>لون</value>
+  </data>
+  <data name="NumeratorProperties" xml:space="preserve">
+    <value>خصائص لوحة الأرقام</value>
+  </data>
+  <data name="Every15Minutes" xml:space="preserve">
+    <value>كل 15 دقيقة</value>
+  </data>
+  <data name="DisplayPaymentScreen" xml:space="preserve">
+    <value>عرض  فيشاشة الدفع</value>
+  </data>
+  <data name="PluralCurrencySuffix" xml:space="preserve">
+    <value>ات</value>
+  </data>
+  <data name="CommonSettings" xml:space="preserve">
+    <value>إعدادات عامة</value>
+  </data>
+  <data name="TicketTotalChanged" xml:space="preserve">
+    <value>تم تغيير مجموع التذكرة </value>
+  </data>
+  <data name="OnceAWeek" xml:space="preserve">
+    <value>مرة في الأسبوع</value>
+  </data>
+  <data name="Excluded" xml:space="preserve">
+    <value>غير مشمولة</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>السابق</value>
+  </data>
+  <data name="WeightBarcodePefix" xml:space="preserve">
+    <value>بادئة وزن الباركود</value>
+  </data>
+  <data name="TicketResourceChanged" xml:space="preserve">
+    <value>تم تغيير مورد التذكرة</value>
+  </data>
+  <data name="MessageReceived" xml:space="preserve">
+    <value>تم تلقي رسالة</value>
+  </data>
+  <data name="CloseTicket_r" xml:space="preserve">
+    <value>إغلاق
+تذكرة</value>
+  </data>
+  <data name="TicketTemplate" xml:space="preserve">
+    <value>قالب التذكرة</value>
+  </data>
+  <data name="CreateAccount" xml:space="preserve">
+    <value>إنشاء حساب</value>
+  </data>
+  <data name="OnceAYear" xml:space="preserve">
+    <value>مرة في السنة</value>
+  </data>
+  <data name="BroadcastMessage" xml:space="preserve">
+    <value>بث رسالة</value>
+  </data>
+  <data name="AllCategories" xml:space="preserve">
+    <value>كل المجموعات</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>عامة</value>
+  </data>
+  <data name="SlipReportPrinter" xml:space="preserve">
+    <value>طابعة التقرير المصغر</value>
+  </data>
+  <data name="TimeRounding" xml:space="preserve">
+    <value>تقريب الوقت</value>
+  </data>
+  <data name="Paid" xml:space="preserve">
+    <value>مدفوعة</value>
+  </data>
+  <data name="ChangeAmountUpdated" xml:space="preserve">
+    <value>تحديث مقدار التغيير </value>
+  </data>
+  <data name="TicketClosing" xml:space="preserve">
+    <value>إغلاق التذكرة</value>
+  </data>
+  <data name="MappedAccounts" xml:space="preserve">
+    <value>الحسابات المعينة</value>
+  </data>
+  <data name="Cost" xml:space="preserve">
+    <value>تكلفة</value>
+  </data>
+  <data name="CategoryProducts" xml:space="preserve">
+    <value>منتجات المجموعة</value>
+  </data>
+  <data name="LinesGroupedByGroupCode" xml:space="preserve">
+    <value>تجميع الأسطر من خلال رمز المجموعة</value>
+  </data>
+  <data name="PriceDefinition" xml:space="preserve">
+    <value>تعريف السعر</value>
+  </data>
+  <data name="ShowMessage" xml:space="preserve">
+    <value>إظهار رسالة</value>
+  </data>
+  <data name="UserRoleName" xml:space="preserve">
+    <value>اسم الوظيفة</value>
+  </data>
+  <data name="Line" xml:space="preserve">
+    <value>سطر</value>
+  </data>
+  <data name="ClientServerConnectionHelpUrlString" xml:space="preserve">
+    <value>http://www.sambapos.com/en/content/client-server-baglantisi-nasil-yapilir</value>
+  </data>
+  <data name="Nine" xml:space="preserve">
+    <value>تسعة</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>رقم</value>
+  </data>
+  <data name="CanExecute" xml:space="preserve">
+    <value>ويمكن تنفيذ</value>
+  </data>
+  <data name="CustomCommand" xml:space="preserve">
+    <value>أمر مخصص</value>
+  </data>
+  <data name="Automation" xml:space="preserve">
+    <value>تلقائي</value>
+  </data>
+  <data name="Trigger" xml:space="preserve">
+    <value>الزناد</value>
+  </data>
+  <data name="AutoRounding" xml:space="preserve">
+    <value>تقريب تلقائي</value>
+  </data>
+  <data name="TotalWorkTimeHours_f" xml:space="preserve">
+    <value>إجمالي وقت العمل: {0:0} ساعة {1:0} دقيقة </value>
+  </data>
+  <data name="TaggingType" xml:space="preserve">
+    <value>نوع العلامة</value>
+  </data>
+  <data name="EventName" xml:space="preserve">
+    <value>اسم الحدث</value>
+  </data>
+  <data name="CharacterSet" xml:space="preserve">
+    <value>مجموعة الأحرف</value>
+  </data>
+  <data name="Recipes" xml:space="preserve">
+    <value>وصفات</value>
+  </data>
+  <data name="PrintBill" xml:space="preserve">
+    <value>طباعة فاتورة</value>
+  </data>
+  <data name="Portion" xml:space="preserve">
+    <value>جزء</value>
+  </data>
+  <data name="ProgramSettings" xml:space="preserve">
+    <value>إعدادات البرنامج</value>
+  </data>
+  <data name="InStock" xml:space="preserve">
+    <value>متوفرة</value>
+  </data>
+  <data name="MenuItemName" xml:space="preserve">
+    <value>اسم عنصر القائمة</value>
+  </data>
+  <data name="SearchString" xml:space="preserve">
+    <value>سلسلة البحث</value>
+  </data>
+  <data name="DisplayAllValues" xml:space="preserve">
+    <value>عرض كل القيم</value>
+  </data>
+  <data name="CashPayment" xml:space="preserve">
+    <value>الدفع نقدا</value>
+  </data>
+  <data name="OrderStateGroup" xml:space="preserve">
+    <value>مجموعة حالة الطلب</value>
+  </data>
+  <data name="Negative" xml:space="preserve">
+    <value>سالب</value>
+  </data>
+  <data name="TicketTipTotal" xml:space="preserve">
+    <value>مجموع الإكرامية</value>
+  </data>
+  <data name="ActionName" xml:space="preserve">
+    <value>اسم الإجراء</value>
+  </data>
+  <data name="WindowsPrinter" xml:space="preserve">
+    <value>طابعة Windows</value>
+  </data>
+  <data name="TicketNote" xml:space="preserve">
+    <value>ملاحظة تذكرة</value>
+  </data>
+  <data name="Week" xml:space="preserve">
+    <value>الأسبوع</value>
+  </data>
+  <data name="CheckDBVersion" xml:space="preserve">
+    <value>تحقق من إصدار قاعدة البيانات</value>
+  </data>
+  <data name="InventoryItemName" xml:space="preserve">
+    <value>اسم قطعة المخزون</value>
+  </data>
+  <data name="CashPermissions" xml:space="preserve">
+    <value>أذونات النقد</value>
+  </data>
+  <data name="AlphanumericButtons" xml:space="preserve">
+    <value>أزرار حرفية ورقمية</value>
+  </data>
+  <data name="CreditCardPayment" xml:space="preserve">
+    <value>الدفع بواسطة بطاقة الائتمان</value>
+  </data>
+  <data name="KitchenOrderTemplate" xml:space="preserve">
+    <value>قالب أوامر المطبخ</value>
+  </data>
+  <data name="Command" xml:space="preserve">
+    <value>الأمر</value>
+  </data>
+  <data name="Seventy" xml:space="preserve">
+    <value>سبعين</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>الافتراضي</value>
+  </data>
+  <data name="TaskType" xml:space="preserve">
+    <value>نوع المهمة</value>
+  </data>
+  <data name="Calling" xml:space="preserve">
+    <value>يتصل</value>
+  </data>
+  <data name="PriceTag" xml:space="preserve">
+    <value>علامة السعر</value>
+  </data>
+  <data name="EntityName" xml:space="preserve">
+    <value>اسم الكيان</value>
+  </data>
+  <data name="Included" xml:space="preserve">
+    <value>مشمولة</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>هاتف</value>
+  </data>
+  <data name="ResourceTypes" xml:space="preserve">
+    <value>أنواع المورد</value>
+  </data>
+  <data name="Customer" xml:space="preserve">
+    <value>زبون</value>
+  </data>
+  <data name="ToggleValues" xml:space="preserve">
+    <value>تبديل القيم</value>
+  </data>
+  <data name="DisplayState" xml:space="preserve">
+    <value>عرض الحالة</value>
+  </data>
+  <data name="Automatic" xml:space="preserve">
+    <value>تلقائي</value>
+  </data>
+  <data name="Transaction_f" xml:space="preserve">
+    <value>العملية: {0}</value>
+  </data>
+  <data name="SalesDivTicket" xml:space="preserve">
+    <value>مجموع المبيعات/تذكرة</value>
+  </data>
+  <data name="ProgramLanguage" xml:space="preserve">
+    <value>لغة البرنامج</value>
+  </data>
+  <data name="ResourceType" xml:space="preserve">
+    <value>نوع المورد</value>
+  </data>
+  <data name="SortType" xml:space="preserve">
+    <value>نوع الترتيب</value>
+  </data>
+  <data name="TransactionUnitError" xml:space="preserve">
+    <value>وحدة الحركة وينبغي أن لا يكون فارغاً</value>
+  </data>
+  <data name="PortionName" xml:space="preserve">
+    <value>اسم جزء</value>
+  </data>
+  <data name="RateFromTaxIncludedTicketAmount" xml:space="preserve">
+    <value>معدل من مبلغ التاكرة شاملاً الضريبة</value>
+  </data>
+  <data name="ExecutePrintJob" xml:space="preserve">
+    <value>تنفيذ مهمة طباعة</value>
+  </data>
+  <data name="CalculationType" xml:space="preserve">
+    <value>نوع الحساب</value>
+  </data>
+  <data name="Customers" xml:space="preserve">
+    <value>الزبائن</value>
+  </data>
+  <data name="TicketTotal_f" xml:space="preserve">
+    <value>المجموع: {0}</value>
+  </data>
+  <data name="CanReleaseTicketLock" xml:space="preserve">
+    <value>يستطيع إلغاء قفل التذكرة</value>
+  </data>
+  <data name="Expression" xml:space="preserve">
+    <value>التعبير</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>شهر</value>
+  </data>
+  <data name="InventoryPurchaseReport" xml:space="preserve">
+    <value>تقرير شراء المخزون</value>
+  </data>
+  <data name="TerminalView" xml:space="preserve">
+    <value>عرض الجهاز</value>
+  </data>
+  <data name="EveryOtherMonth" xml:space="preserve">
+    <value>كل شهر آخر</value>
+  </data>
+  <data name="StateController" xml:space="preserve">
+    <value>تحكم الحالة</value>
+  </data>
+  <data name="TagsShouldBeUniqueErrorMessage" xml:space="preserve">
+    <value>اسماء علامات التذاكر يجب أن تكون فريدة</value>
+  </data>
+  <data name="AutoRefresh" xml:space="preserve">
+    <value>التحديث التلقائي</value>
+  </data>
+  <data name="DayDate" xml:space="preserve">
+    <value>تاريخ اليوم</value>
+  </data>
+  <data name="AccountPermissions" xml:space="preserve">
+    <value>أذونات حساب</value>
+  </data>
+  <data name="TotalWorkTimeMinutes_f" xml:space="preserve">
+    <value>إجمالي وقت العمل: {0:0} دقيقة</value>
+  </data>
+  <data name="DisplaySettings" xml:space="preserve">
+    <value>عرض الإعدادات</value>
+  </data>
+  <data name="FieldType" xml:space="preserve">
+    <value>نوع الحقل</value>
+  </data>
+  <data name="OrderUntagged" xml:space="preserve">
+    <value>إلغي تعليم الطلب</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>رسالة</value>
+  </data>
+  <data name="ChargedAmount" xml:space="preserve">
+    <value>المطلوب</value>
+  </data>
+  <data name="PrinterType" xml:space="preserve">
+    <value>نوع الطابعة</value>
+  </data>
+  <data name="PastTransactions" xml:space="preserve">
+    <value>العمليات السابقة</value>
+  </data>
+  <data name="MaxSelectedItems" xml:space="preserve">
+    <value>أقصى العناصر المحددة</value>
+  </data>
+  <data name="MergeLines" xml:space="preserve">
+    <value>دمج الأسطر</value>
+  </data>
+  <data name="PaymentTotal" xml:space="preserve">
+    <value>مجموع المدفوع</value>
+  </data>
+  <data name="Delete_f" xml:space="preserve">
+    <value>حذف  {0}</value>
+  </data>
+  <data name="IncludeTax" xml:space="preserve">
+    <value>شاملاً الضرائب</value>
+  </data>
+  <data name="OpenClose_ab" xml:space="preserve">
+    <value>فتح-إغلاق</value>
+  </data>
+  <data name="Every6Months" xml:space="preserve">
+    <value>كل 6 أشهر</value>
+  </data>
+  <data name="Seven" xml:space="preserve">
+    <value>سبعة</value>
+  </data>
+  <data name="TicketSubTotal" xml:space="preserve">
+    <value>المجموع الفرعي التذاكر</value>
+  </data>
+  <data name="SellerWarehouse" xml:space="preserve">
+    <value>مستودع البائع</value>
+  </data>
+  <data name="GiftTotal" xml:space="preserve">
+    <value>مجموع الهدية</value>
+  </data>
+  <data name="EmptyNameError" xml:space="preserve">
+    <value>لا تدع اسم {0} فارغ</value>
+  </data>
+  <data name="ThereAreOpenTicketsWarning_f" xml:space="preserve">
+    <value>هناك {0} تذكرة مفتوحة.
+لا يمكن أن تنهي "فترة العمل" قبل إغلاقها</value>
+  </data>
+  <data name="HalfPast" xml:space="preserve">
+    <value>النصف الماضي </value>
+  </data>
+  <data name="SingleSelection" xml:space="preserve">
+    <value>اختيار واحد</value>
+  </data>
+  <data name="DecreaseAmount" xml:space="preserve">
+    <value>مبلغ النقص</value>
+  </data>
+  <data name="PinCode" xml:space="preserve">
+    <value>الرمز السري</value>
+  </data>
+  <data name="DiscountPercentSign" xml:space="preserve">
+    <value>تخفيض %</value>
+  </data>
+  <data name="WorkPeriodStarted" xml:space="preserve">
+    <value>تم بدء فترة العمل</value>
+  </data>
+  <data name="SelectPrintJobsForTerminalHint_f" xml:space="preserve">
+    <value>حدد مهام الطباعة التي تريد إضافتها للجهاز الطرفي: {0}</value>
+  </data>
+  <data name="RoundingTotal" xml:space="preserve">
+    <value>التقريب الإجمالي</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>الكمية</value>
+  </data>
+  <data name="FixedAmountFromTicketTotal" xml:space="preserve">
+    <value>مبلغ ثابت من مجموع التذكرة</value>
+  </data>
+  <data name="PortPrinter" xml:space="preserve">
+    <value>طابعة Port</value>
+  </data>
+  <data name="ReportPrinter" xml:space="preserve">
+    <value>طابعة التقرير</value>
+  </data>
+  <data name="PriceDefinitions" xml:space="preserve">
+    <value>تعريفات السعر</value>
+  </data>
+  <data name="SortCategoryProductsDialogHint_f" xml:space="preserve">
+    <value>اسحب منتجات صنف {0} لتغيير الترتيب.</value>
+  </data>
+  <data name="Void" xml:space="preserve">
+    <value>إلغاء</value>
+  </data>
+  <data name="Portions" xml:space="preserve">
+    <value>أجزاء</value>
+  </data>
+  <data name="SortOrder" xml:space="preserve">
+    <value>ترتيب الطلب</value>
+  </data>
+  <data name="CantDeletePastEndOfDayRecords" xml:space="preserve">
+    <value>لا يمكن حذف سجلات نهاية اليوم الماضية</value>
+  </data>
+  <data name="LastLinesByPrinterLineCount" xml:space="preserve">
+    <value>الاسطر الاخيرة بعدد اسطر الطابعة</value>
+  </data>
+  <data name="CanDisplayOldTickets" xml:space="preserve">
+    <value>يستطيع عرض التذاكر السابقة</value>
+  </data>
+  <data name="Twenty" xml:space="preserve">
+    <value>عشرين</value>
+  </data>
+  <data name="MoveTicketLine" xml:space="preserve">
+    <value>نقل</value>
+  </data>
+  <data name="Ninety" xml:space="preserve">
+    <value>تسعين</value>
+  </data>
+  <data name="PrinterName" xml:space="preserve">
+    <value>اسم الطابعة</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>قائمة</value>
+  </data>
+  <data name="DeleteItemConfirmation_f" xml:space="preserve">
+    <value>حذف  {0} [{1}] ؟</value>
+  </data>
+  <data name="CornerRadius" xml:space="preserve">
+    <value>قطر الزاوية</value>
+  </data>
+  <data name="TwiceAnHour" xml:space="preserve">
+    <value>مرتين في ساعة</value>
+  </data>
+  <data name="EveryHour" xml:space="preserve">
+    <value>كل ساعة</value>
+  </data>
+  <data name="Ticket" xml:space="preserve">
+    <value>تذكرة</value>
+  </data>
+  <data name="EveryDay" xml:space="preserve">
+    <value>كل يوم</value>
+  </data>
+  <data name="DisplayUnderTicket" xml:space="preserve">
+    <value>عرض تحت التذكرة</value>
+  </data>
+  <data name="ChangePaymentType" xml:space="preserve">
+    <value>تغيير نوع الدفع</value>
+  </data>
+  <data name="DepartmentName" xml:space="preserve">
+    <value>اسم القسم</value>
+  </data>
+  <data name="ForeignCurrency" xml:space="preserve">
+    <value>العملة الأجنبية</value>
+  </data>
+  <data name="RuleActions" xml:space="preserve">
+    <value>الإجراءات</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>إغلاق</value>
+  </data>
+  <data name="Four" xml:space="preserve">
+    <value>أربعة</value>
   </data>
   <data name="OrderNumber_f" xml:space="preserve">
     <value>رقم الطلب:  {0:0} - {1}</value>
   </data>
-  <data name="LineItemTotalAndQuantity" xml:space="preserve">
-    <value>#Line: المجموع × الكمية</value>
+  <data name="Every4Hours" xml:space="preserve">
+    <value>كل 4 ساعات</value>
+  </data>
+  <data name="ColumnCount" xml:space="preserve">
+    <value>عدد الأعمدة</value>
+  </data>
+  <data name="DisplayFormat" xml:space="preserve">
+    <value>تنسيق العرض</value>
+  </data>
+  <data name="ResourceScreens" xml:space="preserve">
+    <value>شاشات الموارد</value>
+  </data>
+  <data name="CreditLimit" xml:space="preserve">
+    <value>حد الائتمان</value>
+  </data>
+  <data name="StateDefinition" xml:space="preserve">
+    <value>تعريف الحالة</value>
+  </data>
+  <data name="DisplayUserPath" xml:space="preserve">
+    <value>عرض مسار المستخدم</value>
+  </data>
+  <data name="Seventeen" xml:space="preserve">
+    <value>سبعة عشر</value>
+  </data>
+  <data name="AdminRole" xml:space="preserve">
+    <value>دور المشرف</value>
+  </data>
+  <data name="Three" xml:space="preserve">
+    <value>ثلاثة</value>
+  </data>
+  <data name="SaveErrorThisPinCodeInUse" xml:space="preserve">
+    <value>هذا الرمز السري مستخدم من قبل مستخدم آخر</value>
+  </data>
+  <data name="CreditCard" xml:space="preserve">
+    <value>بطاقة ائتمان</value>
+  </data>
+  <data name="CashReport" xml:space="preserve">
+    <value>تقرير عن المعاملات النقدية</value>
+  </data>
+  <data name="ForChangingPriceTypeAPrice" xml:space="preserve">
+    <value>لتغيير السعر يجب إدخال الثمن من البسط أولاً</value>
+  </data>
+  <data name="PrintMapping" xml:space="preserve">
+    <value>تعيين الطباعة</value>
+  </data>
+  <data name="Mapping_f" xml:space="preserve">
+    <value>{0} التعيين</value>
+  </data>
+  <data name="Values" xml:space="preserve">
+    <value>قيم</value>
+  </data>
+  <data name="Thousand" xml:space="preserve">
+    <value>ألف</value>
+  </data>
+  <data name="MainMenu" xml:space="preserve">
+    <value>القائمة الرئيسية</value>
+  </data>
+  <data name="StateType" xml:space="preserve">
+    <value>نوع الحالة</value>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>العلامات</value>
+  </data>
+  <data name="SelectionRequired" xml:space="preserve">
+    <value>يرجى التحديد</value>
+  </data>
+  <data name="Cent" xml:space="preserve">
+    <value>سنت</value>
+  </data>
+  <data name="SambaNetwork" xml:space="preserve">
+    <value>شبكة Samba</value>
+  </data>
+  <data name="NumeratorType" xml:space="preserve">
+    <value>نوع لوحة الأرقام</value>
+  </data>
+  <data name="OverrideWindowsRegionalSettings" xml:space="preserve">
+    <value>تجاوز إعدادات Windows الإقليمية</value>
+  </data>
+  <data name="AddTag" xml:space="preserve">
+    <value>إضافة علامة</value>
+  </data>
+  <data name="Eight" xml:space="preserve">
+    <value>ثمانية</value>
+  </data>
+  <data name="Gift" xml:space="preserve">
+    <value>هدية</value>
+  </data>
+  <data name="Voucher" xml:space="preserve">
+    <value>قسيمة</value>
+  </data>
+  <data name="CurrentInventory" xml:space="preserve">
+    <value>المخزون الحالي</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>خروج</value>
+  </data>
+  <data name="TextWrittenTotalValue" xml:space="preserve">
+    <value>نص مكتوب القيمة الإجمالية</value>
+  </data>
+  <data name="TicketNumber" xml:space="preserve">
+    <value>رقم التذكرة</value>
+  </data>
+  <data name="EveryMinute" xml:space="preserve">
+    <value>كل دقيقة</value>
+  </data>
+  <data name="Every10Minutes" xml:space="preserve">
+    <value>كل 10 دقائق</value>
+  </data>
+  <data name="MenuCategories" xml:space="preserve">
+    <value>مجموعات القائمة</value>
+  </data>
+  <data name="TicketType" xml:space="preserve">
+    <value>نوع التذكرة</value>
+  </data>
+  <data name="SelectActions" xml:space="preserve">
+    <value>حدد الإجراءات</value>
+  </data>
+  <data name="DiscountPercentage" xml:space="preserve">
+    <value>النسبة المئوية للخصم</value>
+  </data>
+  <data name="Header" xml:space="preserve">
+    <value>عنوان</value>
+  </data>
+  <data name="Mappings" xml:space="preserve">
+    <value>تعيينات</value>
+  </data>
+  <data name="ExecuteScript" xml:space="preserve">
+    <value>تنفيذ البرنامج النصي</value>
+  </data>
+  <data name="TaxTotal" xml:space="preserve">
+    <value>مجموع الضريبة</value>
+  </data>
+  <data name="DepartmentPermissions" xml:space="preserve">
+    <value>أذونات القسم</value>
+  </data>
+  <data name="EditingFormat" xml:space="preserve">
+    <value>تنسيق التحرير</value>
   </data>
 </root>

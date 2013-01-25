@@ -664,6 +664,9 @@
   <data name="SendEmail" xml:space="preserve">
     <value>Invia email</value>
   </data>
+  <data name="PurchaseTransactionType" xml:space="preserve">
+    <value>Transazione di Acquisto</value>
+  </data>
   <data name="EveryWeekday" xml:space="preserve">
     <value>Ogni giorno della settimana</value>
   </data>
@@ -998,31 +1001,31 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   </data>
   <data name="TicketTemplateValue" xml:space="preserve">
     <value>[LAYOUT]
--- Layout Generale
+-- General layout
 &lt;T&gt;TICKET
-&lt;L00&gt;Data:{TICKET DATE}
-&lt;L00&gt;Ora:{TIME}
+&lt;L00&gt;Date:{TICKET DATE}
+&lt;L00&gt;Time:{TIME}
 {RESOURCES}
-&lt;L00&gt;Ticket N°:{TICKET NO}
+&lt;L00&gt;Ticket No:{TICKET NO}
 &lt;F&gt;-
 {ORDERS}
 &lt;F&gt;=
 &lt;EB&gt;
 &lt;J10&gt;{IF DISCOUNT}
-&lt;J10&gt;Totale Offerto:|{GIFT TOTAL}
-&lt;J10&gt;Totale:|{TICKET TOTAL}
+&lt;J10&gt;Total Gift:|{GIFT TOTAL}
+&lt;J10&gt;Total:|{TICKET TOTAL}
 {IF PAID}
 &lt;DB&gt;
 &lt;F&gt;=
-&lt;C10&gt;G R A Z I E ! ! !
+&lt;C10&gt;T H A N K    Y O U
 
 [ORDERS]
--- Default Formato Ordine
+-- Default format for orders
 &lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
 {ORDER TAGS}
 
 [ORDERS:GIFT]
--- Formato Ordine Offerto
+-- Format for gifted orders
 &lt;J00&gt;- {QUANTITY} {NAME}|**GIFT**
 {ORDER TAGS}
 
@@ -1034,11 +1037,11 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
 &lt;J00&gt;     * {ORDER TAG NAME} | {ORDER TAG PRICE}
 
 [RESOURCES:Table]
--- Formato Tavoli
-&lt;L00&gt;Tavolo: {RESOURCE NAME}
+-- Table resource format
+&lt;L00&gt;Table: {RESOURCE NAME}
 
 [RESOURCES:Customer]
--- Cliente Formato Risorsa
+-- Customer resource format
 &lt;J00&gt;Customer: {RESOURCE NAME} | {RESOURCE DATA:Phone}</value>
   </data>
   <data name="ChangePrice" xml:space="preserve">
@@ -2275,6 +2278,9 @@ Ticket</value>
   </data>
   <data name="General" xml:space="preserve">
     <value>Generale</value>
+  </data>
+  <data name="InventoryTransactionType" xml:space="preserve">
+    <value>Tipo Transazione Inventario</value>
   </data>
   <data name="SlipReportPrinter" xml:space="preserve">
     <value>Infilare stampante Rapporto</value>

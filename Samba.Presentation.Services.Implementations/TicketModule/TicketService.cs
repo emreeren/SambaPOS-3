@@ -65,7 +65,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                     currentResource.ResourceTypeId,
                     currentResource.ResourceId,
                     ResourceTypeName = resourceType.Name,
-                    OpenTicketCount = GetOpenTicketIds(currentResource.ResourceId).Count() - (ticket.Id > 0 ? 1 : 0)
+                    OpenTicketCount = GetOpenTicketCount(currentResource.ResourceId, ticket.Id)
                 });
             }
 
@@ -86,6 +86,13 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                         OrderCount = ticket.Orders.Count
                     });
             }
+        }
+
+        private int GetOpenTicketCount(int resourceId, int ticketId)
+        {
+            var ids = GetOpenTicketIds(resourceId).ToList();
+            if (ticketId > 0 && !ids.Contains(ticketId)) ids.Add(ticketId);
+            return ids.Count - (ticketId > 0 ? 1 : 0);
         }
 
         public void UpdateResource(Ticket ticket, Resource resource)

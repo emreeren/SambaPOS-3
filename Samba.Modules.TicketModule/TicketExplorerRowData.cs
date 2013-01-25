@@ -16,15 +16,8 @@ namespace Samba.Modules.TicketModule
         {
             _ticketService = ticketService;
             Model = model;
-            DisplayTicketCommand = new CaptionCommand<string>("Display", OnDisplayTicket);
-        }
 
-        private void OnDisplayTicket(string obj)
-        {
-            ExtensionMethods.PublishIdEvent(Model.Id, EventTopicNames.DisplayTicket);
         }
-
-        public ICaptionCommand DisplayTicketCommand { get; set; }
 
         public Ticket Model { get; set; }
         public int Id { get { return Model.Id; } }
@@ -51,7 +44,10 @@ namespace Samba.Modules.TicketModule
         {
             if (Details == null)
             {
-                Details = _ticketService.GetOrders(Model.Id).Select(x => string.Format("{0:#} {1} {2}", x.Quantity, x.Description, x.GetVisiblePrice()));
+                Details = _ticketService
+                    .GetOrders(Model.Id)
+                    .OrderBy(x => x.MenuItemName)
+                    .Select(x => string.Format("{0:#} {1} {2}", x.Quantity, x.Description, x.GetVisiblePrice()));
                 RaisePropertyChanged(() => Details);
             }
         }

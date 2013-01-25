@@ -23,6 +23,8 @@ namespace Samba.Modules.TicketModule
         private readonly IUserService _userService;
         private readonly ICacheService _cacheService;
 
+        public ICaptionCommand DisplayTicketCommand { get; set; }
+
         [ImportingConstructor]
         public TicketExplorerViewModel(ITicketService ticketService,
             IUserService userService, ICacheService cacheService)
@@ -40,6 +42,8 @@ namespace Samba.Modules.TicketModule
             PreviousWorkPeriod = new CaptionCommand<string>("<<", OnExecutePreviousWorkPeriod);
             NextWorkPeriod = new CaptionCommand<string>(">>", OnExecuteNextWorkPeriod);
             RefreshDatesCommand = new CaptionCommand<string>(Resources.Refresh, OnRefreshDates);
+
+            DisplayTicketCommand = new CaptionCommand<string>("Display", OnDisplayTicket);
         }
 
         private IList<ITicketExplorerFilter> _filters;
@@ -123,6 +127,13 @@ namespace Samba.Modules.TicketModule
 
         [Browsable(false)]
         public string TotalStr { get { return string.Format("{0}: {1:N}", Resources.Total, Total); } }
+
+        public Action TicketAction { get; set; }
+
+        private void OnDisplayTicket(string obj)
+        {
+            ExtensionMethods.PublishIdEvent(SelectedRow.Model.Id, EventTopicNames.DisplayTicket, TicketAction);
+        }
 
         public void Refresh()
         {

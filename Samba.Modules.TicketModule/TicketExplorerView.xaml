@@ -22,12 +22,12 @@
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
-                <DatePicker Grid.Column="0" Margin="5,0,0,0" SelectedDate="{Binding StartDate}" BorderThickness="1">
+                <DatePicker FontSize="16" Grid.Column="0" Margin="5,0,0,0" SelectedDate="{Binding StartDate}" BorderThickness="1">
                     <DatePicker.LayoutTransform>
                         <ScaleTransform ScaleY="2" ScaleX="2"/>
                     </DatePicker.LayoutTransform>
                 </DatePicker>
-                <DatePicker Grid.Column="1" Margin="5,0,0,0" SelectedDate="{Binding EndDate}" BorderThickness="1">
+                <DatePicker FontSize="16" Grid.Column="1" Margin="5,0,0,0" SelectedDate="{Binding EndDate}" BorderThickness="1">
                     <DatePicker.LayoutTransform>
                         <ScaleTransform ScaleY="2" ScaleX="2"/>
                     </DatePicker.LayoutTransform>
@@ -85,7 +85,7 @@
             </DataGrid.Resources>
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>
-                    <Grid Height="100" Background="LightGoldenrodYellow">
+                    <Grid Height="114" Background="LightGoldenrodYellow">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="9*"/>
                             <ColumnDefinition Width="*"/>
@@ -96,7 +96,9 @@
                             </ScrollViewer>
                         </Border>
                         <UniformGrid Rows="2" Grid.Column="1">
-                            <FlexButton:FlexButton Command="{Binding DisplayTicketCommand}" Content="{Binding DisplayTicketCommand.Caption}"/>
+                            <FlexButton:FlexButton 
+                                Command="{Binding DataContext.DisplayTicketCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" 
+                                Content="{Binding DataContext.DisplayTicketCommand.Caption,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"/>
                         </UniformGrid>
                     </Grid>
                 </DataTemplate>

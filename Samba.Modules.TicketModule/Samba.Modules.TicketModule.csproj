@@ -111,10 +111,6 @@
     </Compile>
     <Compile Include="CalculationTypeViewModel.cs" />
     <Compile Include="TicketModule.cs" />
-    <Compile Include="TicketModuleView.xaml.cs">
-      <DependentUpon>TicketModuleView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TicketModuleViewModel.cs" />
     <Compile Include="TicketTagGroupView.xaml.cs">
       <DependentUpon>TicketTagGroupView.xaml</DependentUpon>
     </Compile>
@@ -153,10 +149,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="PaymentTypeView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="TicketModuleView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
