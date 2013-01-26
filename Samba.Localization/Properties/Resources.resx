@@ -3059,4 +3059,7 @@ Error Message:
   <data name="Warehouses" xml:space="preserve">
     <value>Warehouses</value>
   </data>
+  <data name="Consumption">
+    <value xml:space="preserve">Consumption</value>
+  </data>
 </root>

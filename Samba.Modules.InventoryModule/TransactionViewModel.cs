@@ -88,9 +88,9 @@ namespace Samba.Modules.InventoryModule
 
         private void OnAddTransactionItem(string obj)
         {
-            var ti = new InventoryTransaction();
+            _transactionItems = null;
+            var ti = Model.Add(null, 0, 0, "", 1);
             var tiv = new TransactionItemViewModel(ti, Workspace, _inventoryService);
-            Model.TransactionItems.Add(ti);
             TransactionItems.Add(tiv);
             SelectedTransactionItem = tiv;
         }

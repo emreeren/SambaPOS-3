@@ -663,6 +663,9 @@
   <data name="SendEmail" xml:space="preserve">
     <value>إرسال البريد الإلكتروني</value>
   </data>
+  <data name="PurchaseTransactionType" xml:space="preserve">
+    <value>نوع عملية شراء</value>
+  </data>
   <data name="EveryWeekday" xml:space="preserve">
     <value>يومياً</value>
   </data>
@@ -2266,6 +2269,9 @@
   </data>
   <data name="General" xml:space="preserve">
     <value>عامة</value>
+  </data>
+  <data name="InventoryTransactionType" xml:space="preserve">
+    <value>نوع عملية المخزون</value>
   </data>
   <data name="SlipReportPrinter" xml:space="preserve">
     <value>طابعة التقرير المصغر</value>
