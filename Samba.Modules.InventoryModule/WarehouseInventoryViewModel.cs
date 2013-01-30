@@ -15,20 +15,23 @@ namespace Samba.Modules.InventoryModule
     {
         private readonly IInventoryService _inventoryService;
         private readonly ICacheService _cacheService;
+        private readonly IApplicationState _applicationState;
 
         public ICaptionCommand WarehouseButtonSelectedCommand { get; set; }
 
         [ImportingConstructor]
-        public WarehouseInventoryViewModel(IInventoryService inventoryService, ICacheService cacheService)
+        public WarehouseInventoryViewModel(IInventoryService inventoryService, ICacheService cacheService, IApplicationState applicationState)
         {
             _inventoryService = inventoryService;
             _cacheService = cacheService;
+            _applicationState = applicationState;
             WarehouseButtonSelectedCommand = new CaptionCommand<Warehouse>("", OnWarehouseSelected);
         }
 
         private void OnWarehouseSelected(Warehouse obj)
         {
             UpdateSelectedWarehouse(obj.Id);
+            WarehouseButtons.ToList().ForEach(x => x.Refresh());
         }
 
         public void Refresh(int warehouseId)
@@ -41,6 +44,7 @@ namespace Samba.Modules.InventoryModule
 
         private void UpdateSelectedWarehouse(int warehouseId)
         {
+            if (_applicationState.CurrentWorkPeriod == null) return;
             SelectedWarehouse = Warehouses.Single(x => x.Id == warehouseId);
             var pc = _inventoryService.GetCurrentPeriodicConsumption();
             SelectedWarehouseConsumption = pc.WarehouseConsumptions.Single(x => x.WarehouseId == SelectedWarehouse.Id);
@@ -49,6 +53,7 @@ namespace Samba.Modules.InventoryModule
             RaisePropertyChanged(() => PeriodicConsumptionItems);
             RaisePropertyChanged(() => CostItems);
             RaisePropertyChanged(() => SelectedWarehouse);
+            
         }
 
         private IEnumerable<Warehouse> _warehouses;
@@ -60,7 +65,7 @@ namespace Samba.Modules.InventoryModule
         private IEnumerable<WarehouseButton> _warehouseButtons;
         public IEnumerable<WarehouseButton> WarehouseButtons
         {
-            get { return _warehouseButtons ?? (_warehouseButtons = Warehouses.Select(x => new WarehouseButton(x))); }
+            get { return _warehouseButtons ?? (_warehouseButtons = Warehouses.Select(x => new WarehouseButton(x, this)).ToList()); }
         }
 
         public WarehouseConsumption SelectedWarehouseConsumption { get; set; }
@@ -96,14 +101,24 @@ namespace Samba.Modules.InventoryModule
         }
     }
 
-    public class WarehouseButton
+    public class WarehouseButton : ObservableObject
     {
+        private readonly WarehouseInventoryViewModel _baseViewModel;
+
         public Warehouse Model { get; set; }
-        public WarehouseButton(Warehouse model)
+        public WarehouseButton(Warehouse model, WarehouseInventoryViewModel baseViewModel)
         {
+            _baseViewModel = baseViewModel;
             Model = model;
         }
 
+        public string ButtonColor { get { return _baseViewModel.SelectedWarehouse == Model ? "Gray" : "Gainsboro"; } }
+
         public string Caption { get { return Model.Name; } }
+
+        public void Refresh()
+        {
+            RaisePropertyChanged(() => ButtonColor);
+        }
     }
 }

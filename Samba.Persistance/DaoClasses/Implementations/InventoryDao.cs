@@ -24,7 +24,7 @@ namespace Samba.Persistance.DaoClasses.Implementations
 
         public IEnumerable<InventoryTransaction> GetTransactionItems(DateTime workPeriodStartDate, int inventoryItemId, int warehouseId)
         {
-            //return Dao.Query<InventoryTransactionItem>(x => x.InventoryItem.Id == inventoryItemId && x.Date > workPeriodStartDate && (x.TargetWarehouseId == warehouseId || x.SourceWarehouseId == warehouseId));
+            //return Dao.Query<InventoryTransaction>(x => x.InventoryItem.Id == inventoryItemId && x.Date > workPeriodStartDate && (x.TargetWarehouseId == warehouseId || x.SourceWarehouseId == warehouseId), x => x.InventoryItem);
 
             return Dao.Query<InventoryTransactionDocument>(x =>
                                                    x.Date > workPeriodStartDate
@@ -37,7 +37,8 @@ namespace Samba.Persistance.DaoClasses.Implementations
 
         public IEnumerable<InventoryTransaction> GetTransactionItems(DateTime workPeriodStartDate, int warehouseId)
         {
-            //return Dao.Query<InventoryTransactionItem>(x => x.Date > workPeriodStartDate && (x.TargetWarehouseId == warehouseId || x.SourceWarehouseId == warehouseId));
+            //return Dao.Query<InventoryTransaction>(x => x.Date > workPeriodStartDate && (x.TargetWarehouseId == warehouseId || x.SourceWarehouseId == warehouseId), x => x.InventoryItem);
+
             return Dao.Query<InventoryTransactionDocument>(x =>
                                                    x.Date > workPeriodStartDate
                                                    && (x.TargetWarehouseId == warehouseId || x.SourceWarehouseId == warehouseId),

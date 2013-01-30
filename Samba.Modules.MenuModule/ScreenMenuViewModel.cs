@@ -84,7 +84,9 @@ namespace Samba.Modules.MenuModule
         }
 
         private IEnumerable<MenuItem> GetMenuItemsByGroupCode(string groupCode)
-        { return Workspace.All<MenuItem>(x => x.GroupCode == groupCode); }
+        {
+            return Workspace.All<MenuItem>(x => x.GroupCode == groupCode);
+        }
 
         private bool CanEditCategory(string value)
         {
