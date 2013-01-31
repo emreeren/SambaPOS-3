@@ -228,6 +228,10 @@
       <Project>{F7FB0F2D-DBD6-4C97-AC45-CE4DC5F2FBD6}</Project>
       <Name>Samba.Modules.ManagementModule</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.MarketModule\Samba.Modules.MarketModule.csproj">
+      <Project>{1a8e8264-af81-47c6-b9ad-c0e408fb58fa}</Project>
+      <Name>Samba.Modules.MarketModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samba.Modules.ModifierModule\Samba.Modules.ModifierModule.csproj">
       <Project>{51FCBCEF-D8B5-49D5-B18D-E6C7D5217D21}</Project>
       <Name>Samba.Modules.ModifierModule</Name>

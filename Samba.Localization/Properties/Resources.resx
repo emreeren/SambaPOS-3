@@ -3062,4 +3062,10 @@ Error Message:
   <data name="Consumption">
     <value xml:space="preserve">Consumption</value>
   </data>
+  <data name="Market" xml:space="preserve">
+    <value>Market</value>
+  </data>
+  <data name="SambaMarket" xml:space="preserve">
+    <value>Samba Market</value>
+  </data>
 </root>
