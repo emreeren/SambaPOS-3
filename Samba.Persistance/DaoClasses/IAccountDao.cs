@@ -14,7 +14,7 @@ namespace Samba.Persistance.DaoClasses
         IEnumerable<Account> GetBalancedAccountsByAccountTypeId(int accountTypeId);
         Dictionary<Account, BalanceValue> GetAccountBalances(IList<int> accountTypeIds, Expression<Func<AccountTransactionValue, bool>> filter);
         Dictionary<AccountType, BalanceValue> GetAccountTypeBalances(IList<int> accountTypeIds, Expression<Func<AccountTransactionValue, bool>> filter);
-        string GetResourceCustomDataByAccountId(int accountId);
+        string GetEntityCustomDataByAccountId(int accountId);
         void CreateAccountTransaction(AccountTransactionType transactionType, Account sourceAccount, Account targetAccount, decimal amount, decimal exchangeRate);
         void CreateTransactionDocument(Account selectedAccount, AccountTransactionDocumentType documentType, string description, decimal amount, decimal exchangeRate, IEnumerable<Account> accounts);
         Account GetAccountById(int accountId);

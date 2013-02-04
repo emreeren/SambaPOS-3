@@ -64,7 +64,7 @@ namespace Samba.Services.Implementations.AccountModule
 
         public string GetCustomData(Account account, string fieldName)
         {
-            var cd = _accountDao.GetResourceCustomDataByAccountId(account.Id);
+            var cd = _accountDao.GetEntityCustomDataByAccountId(account.Id);
             return string.IsNullOrEmpty(cd) ? "" : Entity.GetCustomData(cd, fieldName);
         }
 

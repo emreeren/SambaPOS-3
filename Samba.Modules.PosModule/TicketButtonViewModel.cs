@@ -32,7 +32,7 @@ namespace Samba.Modules.PosModule
         public string TicketNumber { get { return _openTicketData.TicketNumber; } }
         public decimal RemainingAmount { get { return _openTicketData.RemainingAmount; } }
         public string RemainingAmountLabel { get { return RemainingAmount.ToString(LocalSettings.DefaultCurrencyFormat); } }
-        public IEnumerable<string> ResourceNames { get { return _openTicketData.TicketResources.Where(x => x.EntityId != _baseEntityId).Select(x => x.EntityName); } }
+        public IEnumerable<string> ResourceNames { get { return _openTicketData.TicketEntities.Where(x => x.EntityId != _baseEntityId).Select(x => x.EntityName); } }
         public IEnumerable<TicketTagValue> TicketTags { get { return _openTicketData.TicketTagValues; } }
 
         public Action SelectionChanged { get; set; }

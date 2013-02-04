@@ -91,7 +91,7 @@ namespace Samba.Persistance.DaoClasses.Implementations
             }
         }
 
-        public string GetResourceCustomDataByAccountId(int accountId)
+        public string GetEntityCustomDataByAccountId(int accountId)
         {
             return Dao.Select<Entity, string>(x => x.CustomData, x => x.AccountId == accountId).SingleOrDefault();
         }

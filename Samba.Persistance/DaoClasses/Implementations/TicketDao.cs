@@ -64,7 +64,7 @@ namespace Samba.Persistance.DaoClasses.Implementations
                 TicketNumber = x.TicketNumber,
                 RemainingAmount = x.RemainingAmount,
                 Date = x.Date,
-                TicketResources = x.TicketEntities,
+                TicketEntities = x.TicketEntities,
                 TicketTags = x.TicketTags
             }, prediction, x => x.TicketEntities);
         }
@@ -152,9 +152,9 @@ namespace Samba.Persistance.DaoClasses.Implementations
 
                 if (current.TicketEntities.Count != loaded.TicketEntities.Count || !current.TicketEntities.All(x => loaded.TicketEntities.Any(y => x.EntityId == y.EntityId)))
                 {
-                    var resource = current.TicketEntities.FirstOrDefault(x => loaded.TicketEntities.All(y => y.EntityId != x.EntityId))
+                    var entity = current.TicketEntities.FirstOrDefault(x => loaded.TicketEntities.All(y => y.EntityId != x.EntityId))
                         ?? loaded.TicketEntities.First(x => current.TicketEntities.All(y => y.EntityId != x.EntityId));
-                    return ConcurrencyCheckResult.Break(string.Format(Resources.TicketMovedRetryLastOperation_f, resource.EntityName));
+                    return ConcurrencyCheckResult.Break(string.Format(Resources.TicketMovedRetryLastOperation_f, entity.EntityName));
                 }
 
                 if (current.IsClosed != loaded.IsClosed)

@@ -13,7 +13,7 @@ namespace Samba.Persistance
         public DateTime LastOrderDate { get; set; }
         public string TicketNumber { get; set; }
         public decimal RemainingAmount { get; set; }
-        public IEnumerable<TicketEntity> TicketResources { get; set; }
+        public IEnumerable<TicketEntity> TicketEntities { get; set; }
         public string TicketTags { get; set; }
 
         private List<TicketTagValue> _ticketTagValues;
