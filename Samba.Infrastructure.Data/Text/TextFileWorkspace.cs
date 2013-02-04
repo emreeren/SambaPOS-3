@@ -70,19 +70,19 @@ namespace Samba.Infrastructure.Data.Text
 
         public void Delete<T>(T item) where T : class
         {
-            var idf = item as IEntity;
+            var idf = item as IEntityClass;
             if (idf != null)
                 _storage.Delete<T>(idf.Id);
         }
 
 
 
-        public T Last<T>() where T : class,IValue
+        public T Last<T>() where T : class,IValueClass
         {
             return _storage.GetItems<T>().LastOrDefault();
         }
 
-        public T Last<T>(Expression<Func<T, bool>> expression) where T : class, IValue
+        public T Last<T>(Expression<Func<T, bool>> expression) where T : class, IValueClass
         {
             return _storage.GetItems<T>().AsQueryable().Where(expression).LastOrDefault();
         }
@@ -171,7 +171,7 @@ namespace Samba.Infrastructure.Data.Text
             //gerekmiyor...
         }
 
-        public void MarkUnchanged<T>(T item) where T : class, IEntity
+        public void MarkUnchanged<T>(T item) where T : class, IEntityClass
         {
             //gerekmiyor..
         }
@@ -203,7 +203,7 @@ namespace Samba.Infrastructure.Data.Text
             return _storage.GetItems<T>().Where(prediction.Compile()).Select(expression.Compile()).Distinct().Where(x => !string.IsNullOrEmpty(x)).ToList();
         }
 
-        public TResult Single<TSource, TResult>(int id, Expression<Func<TSource, TResult>> expression) where TSource : class, IEntity
+        public TResult Single<TSource, TResult>(int id, Expression<Func<TSource, TResult>> expression) where TSource : class, IEntityClass
         {
             return _storage.GetItems<TSource>().Where(x => x.Id == id).Select(expression.Compile()).SingleOrDefault();
         }
@@ -244,12 +244,12 @@ namespace Samba.Infrastructure.Data.Text
             return _storage.GetItems<T>().Sum(selector.Compile());
         }
 
-        public T Last<T>(Expression<Func<T, bool>> predictate, Expression<Func<T, object>>[] includes) where T : class,IEntity
+        public T Last<T>(Expression<Func<T, bool>> predictate, Expression<Func<T, object>>[] includes) where T : class,IEntityClass
         {
             return _storage.GetItems<T>().Last(predictate.Compile());
         }
 
-        public IEnumerable<T> Last<T>(int recordCount) where T : class,IEntity
+        public IEnumerable<T> Last<T>(int recordCount) where T : class,IEntityClass
         {
             var coll = _storage.GetItems<T>().AsQueryable();
             var count = coll.Count();

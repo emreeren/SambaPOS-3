@@ -37,9 +37,8 @@
                 <Button MinWidth="50" Grid.Column="3" Content="{Binding NextWorkPeriod.Caption}"
                      Command="{Binding NextWorkPeriod }" />
             </Grid>
-            <Button Grid.Column="1" MinWidth="50" Margin="5,0,0,0" Command="{Binding RefreshDatesCommand}">
-                <LocText ResourceIdentifierKey="Refresh"/>
-            </Button>
+            <Button Grid.Column="1" MinWidth="50" Margin="5,0,0,0" Command="{Binding RefreshDatesCommand}" Content="{LocText Refresh}"/>
+
         </Grid>
         <ItemsControl Grid.Row="1" ItemsSource="{Binding Filters}" Margin="5,3,0,3">
             <ItemsControl.ItemTemplate>

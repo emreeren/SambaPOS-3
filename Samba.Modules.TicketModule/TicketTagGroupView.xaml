@@ -19,38 +19,25 @@
                 <StackPanel Margin="0,0,0,3">
                     <Label Content="{LocText Name_f,FormatSegment1={LocText TicketTag},Suffix=':'}"/>
                     <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name,Mode=TwoWay}" />
-                    <CheckBox Margin="0,1" IsChecked="{Binding ForceValue}">
-                        <LocText ResourceIdentifierKey="SelectionRequired"/>
-                    </CheckBox>
-
+                    <CheckBox Margin="0,1" IsChecked="{Binding ForceValue}" Content="{LocText SelectionRequired}"/>
                     <CheckBox Margin="0,1" IsChecked="{Binding AskBeforeCreatingTicket}" Content="{LocText AskBeforeCreatingTicket}"/>
-                    <CheckBox Margin="0,1" IsChecked="{Binding FreeTagging}">
-                        <LocText ResourceIdentifierKey="FreeTagging"/>
-                    </CheckBox>
-                    <CheckBox Margin="0,1,0,5" IsChecked="{Binding SaveFreeTags}">
-                        <LocText ResourceIdentifierKey="SaveFreeTags"/>
-                    </CheckBox>
-                    <Label>
-                        <LocText ResourceIdentifierKey="TaggingType" Suffix=":"/>
-                    </Label>
-                    <ComboBox HorizontalAlignment="Left" Margin="0,1,0,5" MinWidth="150" SelectedItem="{Binding DataType}"
-                 ItemsSource="{Binding DataTypes}" />
+                    <CheckBox Margin="0,1" IsChecked="{Binding FreeTagging}" Content="{LocText FreeTagging}"/>
+                    <CheckBox Margin="0,1,0,5" IsChecked="{Binding SaveFreeTags}" Content="{LocText SaveFreeTags}"/>
+                    
+                    <Label Content="{LocText TaggingType,Suffix=':'}"/>
+                    
+                    <ComboBox HorizontalAlignment="Left" Margin="0,1,0,5" MinWidth="150" SelectedItem="{Binding DataType}" 
+                              ItemsSource="{Binding DataTypes}" />
                     <GroupBox Header="{LocText ButtonColor}" Padding="5"
-                 HorizontalAlignment="Left">
+                              HorizontalAlignment="Left">
                         <StackPanel>
-                            <Label>
-                                <LocText ResourceIdentifierKey="WhenTagSelected" Suffix=":"/>
-                            </Label>
+                            <Label Content="{LocText WhenTagSelected,Suffix=':'}"/>                            
                             <PropertyEditorLibrary:ColorPicker2 HorizontalAlignment="Left" MinWidth="150" SelectedColor="{Binding ButtonColorWhenTagSelected}" />
-                            <Label>
-                                <LocText ResourceIdentifierKey="WhenTagNotSelected" Suffix=":"/>
-                            </Label>
+                            <Label Content="{LocText WhenTagNotSelected,Suffix=':'}"/>
                             <PropertyEditorLibrary:ColorPicker2 HorizontalAlignment="Left" MinWidth="150" SelectedColor="{Binding ButtonColorWhenNoTagSelected}" />
                         </StackPanel>
                     </GroupBox>
                 </StackPanel>
-
-
             </TabItem>
             <TabItem Header="{LocText SubTags}">
                 <StackPanel Orientation="Horizontal">
@@ -91,9 +78,8 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <DockPanel Grid.Row="0">
-                        <Label>
-                            <LocText ResourceIdentifierKey="Mappings" Suffix=":"/>
-                        </Label>
+                        <Label Content="{LocText Mappings,Suffix=':'}"/>
+                        
                         <TextBlock Margin="2,5">
                             <Hyperlink Command="{Binding MapController.AddMapCommand}">
                                 <TextBlock Text="{Binding Path=MapController.AddMapCommand.Caption}" />

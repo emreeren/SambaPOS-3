@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using Samba.Domain.Models.Resources;
+using Samba.Domain.Models.Entities;
 
 namespace Samba.Presentation.Common
 {

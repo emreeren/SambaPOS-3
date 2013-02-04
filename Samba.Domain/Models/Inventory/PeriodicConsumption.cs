@@ -6,7 +6,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Inventory
 {
-    public class PeriodicConsumption : Entity, ICacheable
+    public class PeriodicConsumption : EntityClass, ICacheable
     {
         public int WorkPeriodId { get; set; }
         public DateTime StartDate { get; set; }

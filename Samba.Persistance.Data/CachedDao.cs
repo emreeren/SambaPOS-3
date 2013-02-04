@@ -103,7 +103,7 @@ namespace Samba.Persistance.Data
             }
         }
 
-        public static void SafeSave<T>(T entity) where T : class, IEntity
+        public static void SafeSave<T>(T entity) where T : class, IEntityClass
         {
             using (var w = WorkspaceFactory.Create())
             {
@@ -121,14 +121,14 @@ namespace Samba.Persistance.Data
             }
         }
 
-        public static void AddEntities<T>(T item, IWorkspace workspace, int parentId) where T : class, IEntity
+        public static void AddEntities<T>(T item, IWorkspace workspace, int parentId) where T : class, IEntityClass
         {
             if (item.Id > 0 && parentId == 0)
                 workspace.MarkUnchanged(item);
 
             var items = item.GetType().GetProperties()
-                 .Where(y => y.CanWrite && y.PropertyType.GetInterfaces().Contains(typeof(IEntity)))
-                 .Select(x => x.GetValue(item, null)).Cast<IEntity>().ToList();
+                 .Where(y => y.CanWrite && y.PropertyType.GetInterfaces().Contains(typeof(IEntityClass)))
+                 .Select(x => x.GetValue(item, null)).Cast<IEntityClass>().ToList();
 
             items.ForEach(x => AddEntities(x, workspace, item.Id));
 
@@ -137,9 +137,9 @@ namespace Samba.Persistance.Data
                     x =>
                     x.PropertyType.IsGenericType &&
                     x.PropertyType.GetGenericTypeDefinition().GetInterfaces().Contains(typeof(IEnumerable)) &&
-                    x.PropertyType.GetGenericArguments()[0].GetInterfaces().Contains(typeof(IEntity))).ToList();
+                    x.PropertyType.GetGenericArguments()[0].GetInterfaces().Contains(typeof(IEntityClass))).ToList();
 
-            var cis = collections.SelectMany(pi => (pi.GetValue(item, null) as IEnumerable).Cast<IEntity>()).ToList();
+            var cis = collections.SelectMany(pi => (pi.GetValue(item, null) as IEnumerable).Cast<IEntityClass>()).ToList();
 
             foreach (var i in cis)
             {

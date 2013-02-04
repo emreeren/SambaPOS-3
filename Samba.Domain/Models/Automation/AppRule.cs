@@ -4,7 +4,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Automation
 {
-    public class AppRule : Entity, IOrderable
+    public class AppRule : EntityClass, IOrderable
     {
         public string EventName { get; set; }
         public string EventConstraints { get; set; }

@@ -6,7 +6,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class OrderTagTemplate : Entity
+    public class OrderTagTemplate : EntityClass
     {
         
         private IList<OrderTagTemplateValue> _orderTagTemplateValues;

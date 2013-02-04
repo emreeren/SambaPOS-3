@@ -3,7 +3,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Settings
 {
-    public class Terminal : Entity
+    public class Terminal : EntityClass
     {
         public bool IsDefault { get; set; }
         public bool AutoLogout { get; set; }

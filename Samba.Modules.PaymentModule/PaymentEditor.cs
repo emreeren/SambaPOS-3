@@ -65,7 +65,7 @@ namespace Samba.Modules.PaymentModule
 
         public void UpdateTicketPayment(PaymentType paymentType, ChangePaymentType changeTemplate, decimal paymentDueAmount, decimal tenderedAmount)
         {
-            var paymentAccount = paymentType.Account ?? GetAccountForTransaction(paymentType, SelectedTicket.TicketResources);
+            var paymentAccount = paymentType.Account ?? GetAccountForTransaction(paymentType, SelectedTicket.TicketEntities);
 
             if (paymentDueAmount > SelectedTicket.GetRemainingAmount() && tenderedAmount > SelectedTicket.GetRemainingAmount())
             {
@@ -94,11 +94,11 @@ namespace Samba.Modules.PaymentModule
             }
         }
 
-        private Account GetAccountForTransaction(PaymentType paymentType, IEnumerable<TicketResource> ticketResources)
+        private Account GetAccountForTransaction(PaymentType paymentType, IEnumerable<TicketEntity> ticketResources)
         {
-            var rt = _cacheService.GetResourceTypes().Where(
+            var rt = _cacheService.GetEntityTypes().Where(
                 x => x.AccountTypeId == paymentType.AccountTransactionType.TargetAccountTypeId).Select(x => x.Id);
-            var tr = ticketResources.FirstOrDefault(x => rt.Contains(x.ResourceTypeId));
+            var tr = ticketResources.FirstOrDefault(x => rt.Contains(x.EntityTypeId));
             return tr != null ? _accountService.GetAccountById(tr.AccountId) : null;
         }
 

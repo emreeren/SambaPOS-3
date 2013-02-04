@@ -5,7 +5,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class ChangePaymentType : Entity, IOrderable
+    public class ChangePaymentType : EntityClass, IOrderable
     {
         public ChangePaymentType()
         {

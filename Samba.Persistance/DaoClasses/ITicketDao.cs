@@ -11,7 +11,7 @@ namespace Samba.Persistance.DaoClasses
         void Save(Ticket ticket);
         Ticket OpenTicket(int ticketId);
         int GetOpenTicketCount();
-        IEnumerable<int> GetOpenTicketIds(int resourceId);
+        IEnumerable<int> GetOpenTicketIds(int entityId);
         IEnumerable<OpenTicketData> GetOpenTickets(Expression<Func<Ticket, bool>> prediction);
         IEnumerable<Ticket> GetFilteredTickets(DateTime startDate, DateTime endDate, IList<ITicketExplorerFilter> filters);
         IEnumerable<Order> GetOrders(int ticketId);

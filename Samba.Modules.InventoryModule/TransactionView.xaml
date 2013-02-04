@@ -12,13 +12,9 @@
         <StackPanel Grid.Row="0">
             <TextBlock Margin="5,5,0,0" Text="{Binding DateStr}" />
             <TextBlock Margin="5,5,0,0" Text="{Binding TimeStr}" />
-            <Label>
-                <LocText ResourceIdentifierKey="DocumentNo" Suffix=":"/>
-            </Label>
+            <Label Content="{LocText DocumentNo,Suffix=':'}"/>            
             <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name,Mode=TwoWay}" />
-            <Label>
-                <LocText ResourceIdentifierKey="InventoryItems" Suffix=":" />
-            </Label>
+            <Label Content="{LocText InventoryItems,Suffix=':'}"/>            
         </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
             <DataGrid ItemsSource="{Binding TransactionItems}" SelectedItem="{Binding SelectedTransactionItem, Mode=TwoWay}"

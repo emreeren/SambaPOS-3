@@ -3,7 +3,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Automation
 {
-    public class AutomationCommand : Entity, IOrderable
+    public class AutomationCommand : EntityClass, IOrderable
     {
         public AutomationCommand()
         {

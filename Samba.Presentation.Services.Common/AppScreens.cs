@@ -7,7 +7,7 @@ namespace Samba.Presentation.Services.Common
         Navigation,
         TicketView,
         PaymentView,
-        ResourceView,
+        EntityView,
         AccountView,
         WorkPeriods,
         Management,

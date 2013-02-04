@@ -2,8 +2,8 @@
 using System.Linq;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Regions;
+using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Inventory;
-using Samba.Domain.Models.Resources;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
@@ -42,11 +42,11 @@ namespace Samba.Modules.InventoryModule
 
             SetNavigationCommand(Resources.Warehouses, Resources.Common, "Images/box.png", 40);
 
-            EventServiceFactory.EventService.GetEvent<GenericEvent<Resource>>().Subscribe(OnResourceEvent);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<Entity>>().Subscribe(OnResourceEvent);
             EventServiceFactory.EventService.GetEvent<GenericEvent<Warehouse>>().Subscribe(OnWarehouseEvent);
         }
 
-        private void OnResourceEvent(EventParameters<Resource> obj)
+        private void OnResourceEvent(EventParameters<Entity> obj)
         {
             if (obj.Topic == EventTopicNames.DisplayInventory)
             {

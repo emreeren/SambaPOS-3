@@ -5,7 +5,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Menus
 {
-    public class ScreenMenu : Entity
+    public class ScreenMenu : EntityClass
     {
         public ScreenMenu()
             : this("Menu")

@@ -1,21 +1,21 @@
 using System.Collections.Generic;
-using Samba.Domain.Models.Resources;
+using Samba.Domain.Models.Entities;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tasks
 {
-    public class TaskType : Entity
+    public class TaskType : EntityClass
     {
         public TaskType()
         {
-            _resourceTypes = new List<ResourceType>();
+            _entityTypes = new List<EntityType>();
         }
 
-        private IList<ResourceType> _resourceTypes;
-        public virtual IList<ResourceType> ResourceTypes
+        private IList<EntityType> _entityTypes;
+        public virtual IList<EntityType> EntityTypes
         {
-            get { return _resourceTypes; }
-            set { _resourceTypes = value; }
+            get { return _entityTypes; }
+            set { _entityTypes = value; }
         }
     }
 }

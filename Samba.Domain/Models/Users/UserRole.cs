@@ -3,7 +3,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Users
 {
-    public class UserRole : Entity
+    public class UserRole : EntityClass
     {
         public UserRole()
         {

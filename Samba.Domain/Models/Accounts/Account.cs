@@ -6,7 +6,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Accounts
 {
-    public class Account : Entity
+    public class Account : EntityClass
     {
         public int AccountTypeId { get; set; }
         public int ForeignCurrencyId { get; set; }

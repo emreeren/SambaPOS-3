@@ -114,6 +114,7 @@ Source: src\Samba.Modules.AutomationModule.dll; DestDir: {app}; Flags: ignorever
 Source: src\Samba.Modules.BasicReports.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.BasicReports.pdb; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.DepartmentModule.dll; DestDir: {app}; Flags: ignoreversion
+Source: src\Samba.Modules.EntityModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.InventoryModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.LoginModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.ManagementModule.dll; DestDir: {app}; Flags: ignoreversion
@@ -124,7 +125,6 @@ Source: src\Samba.Modules.NavigationModule.dll; DestDir: {app}; Flags: ignorever
 Source: src\Samba.Modules.PaymentModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.PosModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.PrinterModule.dll; DestDir: {app}; Flags: ignoreversion
-Source: src\Samba.Modules.ResourceModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.SettingsModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.TicketModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.UserModule.dll; DestDir: {app}; Flags: ignoreversion

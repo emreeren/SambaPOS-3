@@ -4,9 +4,9 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Automation;
+using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Inventory;
 using Samba.Domain.Models.Menus;
-using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tasks;
 using Samba.Domain.Models.Tickets;
@@ -21,14 +21,14 @@ namespace Samba.Services.Implementations
     {
         private readonly ICacheDao _dataService;
         private readonly IPrinterDao _printerDao;
-        private readonly ResourceCache _resourceCache;
+        private readonly EntityCache _entityCache;
 
         [ImportingConstructor]
         public CacheService(ICacheDao dataService, IPrinterDao printerDao)
         {
             _dataService = dataService;
             _printerDao = printerDao;
-            _resourceCache = new ResourceCache();
+            _entityCache = new EntityCache();
         }
 
         public Account GetAccountById(int accountId)
@@ -36,9 +36,9 @@ namespace Samba.Services.Implementations
             return Dao.SingleWithCache<Account>(x => x.Id == accountId);
         }
 
-        public Resource GetResourceById(int accountId)
+        public Entity GetEntityById(int accountId)
         {
-            return Dao.SingleWithCache<Resource>(x => x.Id == accountId);
+            return Dao.SingleWithCache<Entity>(x => x.Id == accountId);
         }
 
         private IEnumerable<MenuItem> _menuItems;
@@ -288,29 +288,29 @@ namespace Samba.Services.Implementations
             return result.FirstOrDefault();
         }
 
-        private IEnumerable<ResourceScreen> _resourceScreens;
-        public IEnumerable<ResourceScreen> ResourceScreens
+        private IEnumerable<EntityScreen> _entityScreens;
+        public IEnumerable<EntityScreen> EntityScreens
         {
-            get { return _resourceScreens ?? (_resourceScreens = _dataService.GetResourceScreens()); }
+            get { return _entityScreens ?? (_entityScreens = _dataService.GetEntityScreens()); }
         }
 
-        public IEnumerable<ResourceScreen> GetResourceScreens(int terminalId, int departmentId, int userRoleId)
+        public IEnumerable<EntityScreen> GetEntityScreens(int terminalId, int departmentId, int userRoleId)
         {
-            var maps = ResourceScreens.SelectMany(x => x.ResourceScreenMaps)
+            var maps = EntityScreens.SelectMany(x => x.EntityScreenMaps)
                 .Where(x => x.TerminalId == 0 || x.TerminalId == terminalId)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == departmentId)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == userRoleId);
-            return ResourceScreens.Where(x => maps.Any(y => y.ResourceScreenId == x.Id)).OrderBy(x => x.SortOrder);
+            return EntityScreens.Where(x => maps.Any(y => y.EntityScreenId == x.Id)).OrderBy(x => x.SortOrder);
         }
 
-        public IEnumerable<ResourceScreen> GetTicketResourceScreens(int ticketTypeId, int terminalId, int departmentId, int userRoleId)
+        public IEnumerable<EntityScreen> GetTicketEntityScreens(int ticketTypeId, int terminalId, int departmentId, int userRoleId)
         {
-            var maps = ResourceScreens.SelectMany(x => x.ResourceScreenMaps)
+            var maps = EntityScreens.SelectMany(x => x.EntityScreenMaps)
                 .Where(x => ticketTypeId == 0 || x.TicketTypeId == 0 || x.TicketTypeId == ticketTypeId)
                 .Where(x => x.TerminalId == 0 || x.TerminalId == terminalId)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == departmentId)
                 .Where(x => x.UserRoleId == 0 || x.UserRoleId == userRoleId);
-            return ResourceScreens.Where(x => x.ResourceTypeId > 0 && maps.Any(y => y.ResourceScreenId == x.Id)).OrderBy(x => x.SortOrder);
+            return EntityScreens.Where(x => x.EntityTypeId > 0 && maps.Any(y => y.EntityScreenId == x.Id)).OrderBy(x => x.SortOrder);
         }
 
         private IEnumerable<AccountScreen> _accountScreens;
@@ -462,25 +462,25 @@ namespace Samba.Services.Implementations
             return PrintJobs.SingleOrDefault(x => x.Name == name);
         }
 
-        private IEnumerable<ResourceType> _resourceTypes;
-        public IEnumerable<ResourceType> ResourceTypes
+        private IEnumerable<EntityType> _entityTypes;
+        public IEnumerable<EntityType> EntityTypes
         {
-            get { return _resourceTypes ?? (_resourceTypes = _dataService.GetResourceTypes()); }
+            get { return _entityTypes ?? (_entityTypes = _dataService.GetEntityTypes()); }
         }
 
-        public IEnumerable<ResourceType> GetResourceTypes()
+        public IEnumerable<EntityType> GetEntityTypes()
         {
-            return ResourceTypes;
+            return EntityTypes;
         }
 
-        public ResourceType GetResourceTypeById(int resourceTypeId)
+        public EntityType GetEntityTypeById(int entityTypeId)
         {
-            return ResourceTypes.Single(x => x.Id == resourceTypeId);
+            return EntityTypes.Single(x => x.Id == entityTypeId);
         }
 
-        public int GetResourceTypeIdByEntityName(string entityName)
+        public int GetEntityTypeIdByEntityName(string entityName)
         {
-            var rt = ResourceTypes.FirstOrDefault(x => x.EntityName == entityName);
+            var rt = EntityTypes.FirstOrDefault(x => x.EntityName == entityName);
             return rt != null ? rt.Id : 0;
         }
 
@@ -527,23 +527,23 @@ namespace Samba.Services.Implementations
             return States.Any(x => x.Name == state) ? States.Single(x => x.Name == state).Color : "Transparent";
         }
 
-        public IEnumerable<ResourceType> GetResourceTypesByTicketType(int ticketTypeId)
+        public IEnumerable<EntityType> GetEntityTypesByTicketType(int ticketTypeId)
         {
             return TicketTypes.Single(x => x.Id == ticketTypeId)
-                .ResourceTypeAssignments
+                .EntityTypeAssignments
                 .OrderBy(x => x.SortOrder)
-                .Select(x => GetResourceTypeById(x.ResourceTypeId));
+                .Select(x => GetEntityTypeById(x.EntityTypeId));
         }
 
-        public IEnumerable<Resource> GetResources(int resourceTypeId, string stateData)
+        public IEnumerable<Entity> GetEntities(int entityTypeId, string stateData)
         {
-            return _resourceCache.GetResources(resourceTypeId, stateData);
+            return _entityCache.GetEntities(entityTypeId, stateData);
         }
 
-        public Resource GetResourceByName(string resourceTypeName, string resourceName)
+        public Entity GetEntityByName(string entityTypeName, string entityName)
         {
-            var rt = ResourceTypes.Single(x => x.Name == resourceTypeName);
-            return _dataService.GetResourceByName(rt.Id, resourceName);
+            var rt = EntityTypes.Single(x => x.Name == entityTypeName);
+            return _dataService.GetEntityByName(rt.Id, entityName);
         }
 
         public void ResetTicketTagCache()
@@ -563,7 +563,7 @@ namespace Samba.Services.Implementations
             _printers = null;
             _printerTemplates = null;
             _states = null;
-            _resourceTypes = null;
+            _entityTypes = null;
             _printJobs = null;
             _accountTypes = null;
             _automationCommands = null;
@@ -573,7 +573,7 @@ namespace Samba.Services.Implementations
             _screenMenus = null;
             _foreignCurrencies = null;
             _accountScreens = null;
-            _resourceScreens = null;
+            _entityScreens = null;
             _accountTransactionTypes = null;
             _paymentTypes = null;
             _changePaymentTypes = null;
@@ -582,20 +582,20 @@ namespace Samba.Services.Implementations
             _orderTagGroups = null;
             _productTimers = null;
             _menuItems = null;
-            _resourceCache.Reset();
+            _entityCache.Reset();
         }
     }
 
-    internal class ResourceCache
+    internal class EntityCache
     {
-        private readonly IDictionary<int, IEnumerable<Resource>> _cache = new Dictionary<int, IEnumerable<Resource>>();
+        private readonly IDictionary<int, IEnumerable<Entity>> _cache = new Dictionary<int, IEnumerable<Entity>>();
 
-        public IEnumerable<Resource> GetResources(int resourceTypeId, string stateData)
+        public IEnumerable<Entity> GetEntities(int entityTypeId, string stateData)
         {
-            if (!_cache.ContainsKey(resourceTypeId))
+            if (!_cache.ContainsKey(entityTypeId))
             {
-                var resources = Dao.Query<Resource>(x => x.ResourceTypeId == resourceTypeId);
-                _cache.Add(resourceTypeId, resources);
+                var entities = Dao.Query<Entity>(x => x.EntityTypeId == entityTypeId);
+                _cache.Add(entityTypeId, entities);
             }
 
             var stateName = "";
@@ -615,16 +615,16 @@ namespace Samba.Services.Implementations
                 }
             }
 
-            if (string.IsNullOrEmpty(stateName)) return _cache[resourceTypeId];
+            if (string.IsNullOrEmpty(stateName)) return _cache[entityTypeId];
 
             using (var w = WorkspaceFactory.CreateReadOnly())
             {
-                var ids = w.Queryable<Resource>().Where(x => x.ResourceTypeId == resourceTypeId).Select(y => y.Id);
-                var resourceStates = w.Queryable<ResourceStateValue>().Where(x => ids.Contains(x.ResoruceId)).ToList();
+                var ids = w.Queryable<Entity>().Where(x => x.EntityTypeId == entityTypeId).Select(y => y.Id);
+                var entityStates = w.Queryable<EntityStateValue>().Where(x => ids.Contains(x.EntityId)).ToList();
                 return
-                    _cache[resourceTypeId].Where(
+                    _cache[entityTypeId].Where(
                         x =>
-                        resourceStates.Where(y => y.IsInState(stateName, state)).Select(y => y.ResoruceId).Contains(x.Id));
+                        entityStates.Where(y => y.IsInState(stateName, state)).Select(y => y.EntityId).Contains(x.Id));
             }
         }
 

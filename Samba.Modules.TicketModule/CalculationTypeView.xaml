@@ -28,12 +28,8 @@
             <Label HorizontalAlignment="Left" Content="Max Amount:" />
             <UIControls:FilteredTextBox HorizontalAlignment="Left" MinWidth="50" Type="Number"
                  Text="{Binding MaxAmount}" />
-            <CheckBox Margin="0,5,0,0" IsChecked="{Binding IncludeTax}">
-                <LocText ResourceIdentifierKey="IncludeTax"/>
-            </CheckBox>
-            <CheckBox IsChecked="{Binding DecreaseAmount}">
-                <LocText ResourceIdentifierKey="DecreaseAmount"/>
-            </CheckBox>
+            <CheckBox Margin="0,5,0,0" IsChecked="{Binding IncludeTax}" Content="{LocText IncludeTax}"/>            
+            <CheckBox IsChecked="{Binding DecreaseAmount}" Content="{LocText DecreaseAmount}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1">

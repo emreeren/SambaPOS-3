@@ -4,8 +4,8 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Threading;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Menus;
-using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
@@ -44,8 +44,8 @@ namespace Samba.Presentation.Common.Services
         public AppScreens ActiveAppScreen { get; private set; }
         public CurrentDepartmentData CurrentDepartment { get; private set; }
         public TicketType CurrentTicketType { get; set; }
-        public ResourceScreen SelectedResourceScreen { get; private set; }
-        public ResourceScreen ActiveResourceScreen { get; set; }
+        public EntityScreen SelectedEntityScreen { get; private set; }
+        public EntityScreen ActiveEntityScreen { get; set; }
 
         private bool _isLocked;
         public bool IsLocked
@@ -117,16 +117,16 @@ namespace Samba.Presentation.Common.Services
             if (arg1 != arg2) new AppScreenChangeData(arg1, arg2).PublishEvent(EventTopicNames.Changed);
         }
 
-        public ResourceScreen SetSelectedResourceScreen(ResourceScreen resourceScreen)
+        public EntityScreen SetSelectedEntityScreen(EntityScreen entityScreen)
         {
-            if (IsLocked && ActiveResourceScreen == null) ActiveResourceScreen = SelectedResourceScreen;
-            else if (!IsLocked && ActiveResourceScreen != null)
+            if (IsLocked && ActiveEntityScreen == null) ActiveEntityScreen = SelectedEntityScreen;
+            else if (!IsLocked && ActiveEntityScreen != null)
             {
-                resourceScreen = ActiveResourceScreen;
-                ActiveResourceScreen = null;
+                entityScreen = ActiveEntityScreen;
+                ActiveEntityScreen = null;
             }
-            SelectedResourceScreen = resourceScreen;
-            return resourceScreen;
+            SelectedEntityScreen = entityScreen;
+            return entityScreen;
         }
 
         public void SetApplicationLocked(bool isLocked)
@@ -261,16 +261,16 @@ namespace Samba.Presentation.Common.Services
                                                          CurrentLoggedInUser.UserRole.Id);
         }
 
-        public IEnumerable<ResourceScreen> GetResourceScreens()
+        public IEnumerable<EntityScreen> GetEntityScreens()
         {
-            return _cacheService.GetResourceScreens(CurrentTerminal.Id,
+            return _cacheService.GetEntityScreens(CurrentTerminal.Id,
                                                     CurrentDepartment.Id,
                                                     CurrentLoggedInUser.UserRole.Id);
         }
 
-        public IEnumerable<ResourceScreen> GetTicketResourceScreens()
+        public IEnumerable<EntityScreen> GetTicketEntityScreens()
         {
-            return _cacheService.GetTicketResourceScreens(CurrentTicketType != null ? CurrentTicketType.Id : 0,
+            return _cacheService.GetTicketEntityScreens(CurrentTicketType != null ? CurrentTicketType.Id : 0,
                                                        CurrentTerminal.Id,
                                                        CurrentDepartment.Id,
                                                        CurrentLoggedInUser.UserRole.Id);

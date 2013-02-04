@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using Samba.Domain.Models.Accounts;
-using Samba.Domain.Models.Resources;
+using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Persistance;
@@ -20,17 +20,17 @@ namespace Samba.Presentation.Services
         void AddChangePayment(Ticket ticket, ChangePaymentType paymentType, Account account, decimal amount);
         void PayTicket(Ticket ticket, PaymentType template);
         void UpdateTicketNumber(Ticket ticket, Numerator numerator);
-        void UpdateResource(Ticket ticket, Resource resource);
-        void UpdateResource(Ticket ticket, int resourceTypeId, int resourceId, string resourceName, int accountId, string resourceCustomData);
+        void UpdateEntity(Ticket ticket, Entity entity);
+        void UpdateEntity(Ticket ticket, int entityTypeId, int entityId, string entityName, int accountId, string entityCustomData);
         void RecalculateTicket(Ticket ticket);
         void UpdateTag(Ticket ticket, TicketTagGroup tagGroup, TicketTag ticketTag);
         int GetOpenTicketCount();
         IEnumerable<OpenTicketData> GetOpenTickets(Expression<Func<Ticket, bool>> prediction);
-        IEnumerable<OpenTicketData> GetOpenTickets(int resourceId);
-        IEnumerable<int> GetOpenTicketIds(int resourceId);
+        IEnumerable<OpenTicketData> GetOpenTickets(int entityId);
+        IEnumerable<int> GetOpenTicketIds(int entityId);
         IEnumerable<Ticket> GetFilteredTickets(DateTime startDate, DateTime endDate, IList<ITicketExplorerFilter> filters);
         IList<ITicketExplorerFilter> CreateTicketExplorerFilters();
-        void UpdateAccountOfOpenTickets(Resource resource);
+        void UpdateAccountOfOpenTickets(Entity entity);
         IEnumerable<Order> GetOrders(int id);
         void TagOrders(Ticket ticket, IEnumerable<Order> selectedOrders, OrderTagGroup orderTagGroup, OrderTag orderTag, string tagNote);
         void UntagOrders(Ticket ticket, IEnumerable<Order> selectedOrders, OrderTagGroup orderTagGroup, OrderTag orderTag);
@@ -43,6 +43,6 @@ namespace Samba.Presentation.Services
         void UpdateTicketState(Ticket ticket, string stateName,string currentState, string state, string stateValue, int quantity = 0);
         void ChangeOrdersAccountTransactionTypeId(Ticket ticket, IEnumerable<Order> selectedOrders, int accountTransactionTypeId);
         void AddAccountTransaction(Ticket ticket, Account sourceAccount, Account targetAccount, decimal amount, decimal exchangeRate);
-        bool CanMakeAccountTransaction(TicketResource ticketResource, AccountTransactionType accountTransactionType, decimal targetBalance);
+        bool CanMakeAccountTransaction(TicketEntity ticketEntity, AccountTransactionType accountTransactionType, decimal targetBalance);
     }
 }

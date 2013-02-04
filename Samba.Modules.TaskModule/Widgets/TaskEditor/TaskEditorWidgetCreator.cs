@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using Samba.Domain.Models.Resources;
+using Samba.Domain.Models.Entities;
 using Samba.Infrastructure.Helpers;
 using Samba.Presentation.Common;
 using Samba.Presentation.Services;

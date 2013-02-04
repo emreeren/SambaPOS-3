@@ -3,28 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Microsoft.Practices.Prism.Commands;
-using Samba.Domain.Models.Resources;
+using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Settings;
 using Samba.Persistance;
 using Samba.Presentation.Common;
 using Samba.Presentation.Services.Common;
-using Samba.Services.Common;
 
 namespace Samba.Modules.PosModule
 {
     public class TicketButtonViewModel : ObservableObject
     {
         private readonly OpenTicketData _openTicketData;
-        private readonly int _baseResourceId;
+        private readonly int _baseEntityId;
 
         public DelegateCommand<string> OpenTicketCommand { get; set; }
         public DelegateCommand<string> SelectTicketCommand { get; set; }
 
-        public TicketButtonViewModel(OpenTicketData openTicketData, Resource baseResource)
+        public TicketButtonViewModel(OpenTicketData openTicketData, Entity baseEntity)
         {
             _openTicketData = openTicketData;
-            _baseResourceId = baseResource != null ? baseResource.Id : 0;
+            _baseEntityId = baseEntity != null ? baseEntity.Id : 0;
             OpenTicketCommand = new DelegateCommand<string>(OnOpenTicketCommand);
             SelectTicketCommand = new DelegateCommand<string>(OnSelectTicket);
         }
@@ -33,7 +32,7 @@ namespace Samba.Modules.PosModule
         public string TicketNumber { get { return _openTicketData.TicketNumber; } }
         public decimal RemainingAmount { get { return _openTicketData.RemainingAmount; } }
         public string RemainingAmountLabel { get { return RemainingAmount.ToString(LocalSettings.DefaultCurrencyFormat); } }
-        public IEnumerable<string> ResourceNames { get { return _openTicketData.TicketResources.Where(x => x.ResourceId != _baseResourceId).Select(x => x.ResourceName); } }
+        public IEnumerable<string> ResourceNames { get { return _openTicketData.TicketResources.Where(x => x.EntityId != _baseEntityId).Select(x => x.EntityName); } }
         public IEnumerable<TicketTagValue> TicketTags { get { return _openTicketData.TicketTagValues; } }
 
         public Action SelectionChanged { get; set; }

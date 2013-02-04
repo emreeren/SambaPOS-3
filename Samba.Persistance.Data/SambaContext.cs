@@ -2,9 +2,9 @@
 using System.Data.Entity;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Automation;
+using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Inventory;
 using Samba.Domain.Models.Menus;
-using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tasks;
 using Samba.Domain.Models.Tickets;
@@ -41,7 +41,7 @@ namespace Samba.Persistance.Data
         public DbSet<WorkPeriod> WorkPeriods { get; set; }
         public DbSet<PaidItem> PaidItems { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
-        public DbSet<TicketResource> TicketResources { get; set; }
+        public DbSet<TicketEntity> TicketEntities { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderTag> OrderTags { get; set; }
         public DbSet<OrderTagGroup> OrderTagGroups { get; set; }
@@ -98,14 +98,14 @@ namespace Samba.Persistance.Data
         public DbSet<AccountTransactionDocumentTypeMap> AccountTransactionDocumentTypeMaps { get; set; }
         public DbSet<AccountTransactionDocument> AccountTransactionDocuments { get; set; }
         public DbSet<AccountTransactionDocumentType> AccountTransactionDocumentTypes { get; set; }
-        public DbSet<Resource> Resources { get; set; }
-        public DbSet<ResourceType> ResourceTypes { get; set; }
-        public DbSet<ResourceCustomField> ResourceCustomFields { get; set; }
-        public DbSet<ResourceScreenItem> ResourceScreenItems { get; set; }
-        public DbSet<ResourceScreen> ResourceScreens { get; set; }
+        public DbSet<Entity> Entities { get; set; }
+        public DbSet<EntityType> EntityTypes { get; set; }
+        public DbSet<EntityCustomField> EntityCustomFields { get; set; }
+        public DbSet<EntityScreenItem> EntityScreenItems { get; set; }
+        public DbSet<EntityScreen> EntityScreens { get; set; }
         public DbSet<Widget> Widgets { get; set; }
         public DbSet<State> States { get; set; }
-        public DbSet<ResourceStateValue> ResourceStateValues { get; set; }
+        public DbSet<EntityStateValue> EntityStateValues { get; set; }
         public DbSet<Script> Scripts { get; set; }
         public DbSet<TaskType> TaskTypes { get; set; }
         public DbSet<Task> Tasks { get; set; }
@@ -114,11 +114,11 @@ namespace Samba.Persistance.Data
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Script>().Property(x => x.Code).IsMaxLength();
-            modelBuilder.Entity<Resource>().Property(x => x.CustomData).IsMaxLength();
+            modelBuilder.Entity<Entity>().Property(x => x.CustomData).IsMaxLength();
             modelBuilder.Entity<Ticket>().Property(x => x.TicketTags).IsMaxLength();
             modelBuilder.Entity<Ticket>().Property(x => x.TicketStates).IsMaxLength();
             modelBuilder.Entity<PrinterTemplate>().Property(x => x.Template).IsMaxLength();
-            modelBuilder.Entity<TicketResource>().Property(x => x.ResourceCustomData).IsMaxLength();
+            modelBuilder.Entity<TicketEntity>().Property(x => x.EntityCustomData).IsMaxLength();
             modelBuilder.Entity<ActionContainer>().Property(x => x.ParameterValues).IsMaxLength();
             modelBuilder.Entity<AppAction>().Property(x => x.Parameter).IsMaxLength();
             modelBuilder.Entity<AppRule>().Property(x => x.EventConstraints).IsMaxLength();
@@ -144,7 +144,7 @@ namespace Samba.Persistance.Data
 
             modelBuilder.Entity<CalculationSelector>().HasMany(x => x.CalculationTypes).WithMany();
             modelBuilder.Entity<AccountTransactionDocumentType>().HasMany(x => x.TransactionTypes).WithMany();
-            modelBuilder.Entity<TaskType>().HasMany(x => x.ResourceTypes).WithMany();
+            modelBuilder.Entity<TaskType>().HasMany(x => x.EntityTypes).WithMany();
 
             modelBuilder.Entity<AccountTransaction>().Ignore(p => p.SourceTransactionValue);
             modelBuilder.Entity<AccountTransaction>().Ignore(p => p.TargetTransactionValue);

@@ -3,7 +3,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Menus
 {
-    public class MenuItemPrice : Value
+    public class MenuItemPrice : ValueClass
     {
         public int MenuItemPortionId { get; set; }
         [StringLength(10)]

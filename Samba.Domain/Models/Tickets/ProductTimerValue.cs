@@ -4,7 +4,7 @@ using Samba.Infrastructure.Settings;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class ProductTimerValue : Value
+    public class ProductTimerValue : ValueClass
     {
         public ProductTimerValue()
         {

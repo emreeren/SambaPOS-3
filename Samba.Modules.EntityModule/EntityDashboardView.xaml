@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="Samba.Modules.EntityModule.EntityDashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:UIControls="clr-namespace:Samba.Presentation.Controls.UIControls;assembly=Samba.Presentation.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Loaded="UserControl_Loaded">
+    <Border Name="brd" BorderThickness="1" BorderBrush="Transparent" Background="{Binding SelectedEntityScreen.BackgroundColor}">
+        <Viewbox Stretch="Uniform" >
+            <Grid HorizontalAlignment="Stretch">
+                <Image Source="{Binding SelectedEntityScreen.BackgroundImage, Converter={StaticResource NullValueConverter}}" HorizontalAlignment="Left"
+                                     VerticalAlignment="Top" Stretch="None">
+                </Image>
+                <UIControls:DiagramCanvas SnapsToDevicePixels="True" MinWidth="640" MinHeight="480" EditingMode="None" WidgetRemoved="DiagramCanvas_WidgetRemoved"
+                                     Source="{Binding Widgets}" Name="DiagramCanvas" Background="Transparent">
+                    <UIControls:DiagramCanvas.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Name="miDesignMode" Header="{LocText EditMode}" Click="MenuItem_Click" IsEnabled="{Binding CanDesignEntityScreenItems}" />
+                            <MenuItem Name="miAddWidget" Header="Add Widget" IsEnabled="{Binding IsDesignModeActive}"/>
+                        </ContextMenu>
+                    </UIControls:DiagramCanvas.ContextMenu>
+                </UIControls:DiagramCanvas>
+            </Grid>
+        </Viewbox>
+    </Border>
+</UserControl>

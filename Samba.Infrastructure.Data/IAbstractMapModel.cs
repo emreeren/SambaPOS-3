@@ -1,6 +1,6 @@
 namespace Samba.Infrastructure.Data
 {
-    public interface IAbstractMapModel : IValue
+    public interface IAbstractMapModel : IValueClass
     {
         int TerminalId { get; set; }
         int DepartmentId { get; set; }

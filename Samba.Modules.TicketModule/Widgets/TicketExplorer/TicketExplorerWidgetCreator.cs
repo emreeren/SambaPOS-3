@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using Samba.Domain.Models.Resources;
+using Samba.Domain.Models.Entities;
 using Samba.Presentation.Common;
 using Samba.Presentation.Services;
 using Samba.Services;

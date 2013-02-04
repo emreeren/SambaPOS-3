@@ -7,7 +7,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class ChangePayment:Value
+    public class ChangePayment:ValueClass
     {
         public ChangePayment()
         {

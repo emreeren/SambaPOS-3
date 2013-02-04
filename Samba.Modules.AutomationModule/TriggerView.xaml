@@ -12,48 +12,36 @@
                  Margin="5">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,5">
-                        <Label MinWidth="126">
-                            <LocText ResourceIdentifierKey="CommonSettings" Suffix=":"/>
-                        </Label>
+                        <Label MinWidth="126" Content="{LocText CommonSettings,Suffix=':'}"/>                        
                         <ComboBox MinWidth="150" ItemsSource="{Binding CommonCronSettings}" SelectedItem="{Binding SelectedCronSetting}"
                              DisplayMemberPath="SettingName" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,5">
-                        <Label MinWidth="70">
-                            <LocText ResourceIdentifierKey="Minute" Suffix=":"/>
-                        </Label>
+                        <Label MinWidth="70" Content="{LocText Minute,Suffix=':'}"/>                        
                         <TextBox Margin="5,0" Text="{Binding Minute}" MinWidth="50" />
                         <ComboBox MinWidth="150" ItemsSource="{Binding CommonMinuteCronSettings}" SelectedItem="{Binding SelectedMinuteCronSetting}"
                              DisplayMemberPath="SettingName" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,5">
-                        <Label MinWidth="70">
-                            <LocText ResourceIdentifierKey="Hour" Suffix=":"/>
-                        </Label>
+                        <Label MinWidth="70" Content="{LocText Hour,Suffix=':'}"/>                        
                         <TextBox Margin="5,0" Text="{Binding Hour}" MinWidth="50" />
                         <ComboBox MinWidth="150" ItemsSource="{Binding CommonHourCronSettings}" SelectedItem="{Binding SelectedHourCronSetting}"
                              DisplayMemberPath="SettingName" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,5">
-                        <Label MinWidth="70">
-                            <LocText ResourceIdentifierKey="Day" Suffix=":"/>
-                        </Label>
+                        <Label MinWidth="70" Content="{LocText Day,Suffix=':'}"/>                        
                         <TextBox Margin="5,0" Text="{Binding Day}" MinWidth="50" />
                         <ComboBox MinWidth="150" ItemsSource="{Binding CommonDayCronSettings}" SelectedItem="{Binding SelectedDayCronSetting}"
                              DisplayMemberPath="SettingName" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,5">
-                        <Label MinWidth="70">
-                            <LocText ResourceIdentifierKey="Month" Suffix=":"/>
-                        </Label>
+                        <Label MinWidth="70" Content="{LocText Month,Suffix=':'}"/>                        
                         <TextBox Margin="5,0" Text="{Binding Month}" MinWidth="50" />
                         <ComboBox MinWidth="150" ItemsSource="{Binding CommonMonthCronSettings}" SelectedItem="{Binding SelectedMonthCronSetting}"
                              DisplayMemberPath="SettingName" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,5">
-                        <Label MinWidth="70">
-                            <LocText ResourceIdentifierKey="Weekday" Suffix=":"/>
-                        </Label>
+                        <Label MinWidth="70" Content="{LocText Weekday,Suffix=':'}"/>                        
                         <TextBox Margin="5,0" Text="{Binding Weekday}" MinWidth="50" />
                         <ComboBox MinWidth="150" ItemsSource="{Binding CommonWeekdayCronSettings}" SelectedItem="{Binding SelectedWeekdayCronSetting}"
                              DisplayMemberPath="SettingName" />

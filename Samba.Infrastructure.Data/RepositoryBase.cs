@@ -2,7 +2,7 @@
 
 namespace Samba.Infrastructure.Data
 {
-    public class RepositoryBase<TModel> : IRepository<TModel> where TModel : class,IEntity
+    public class RepositoryBase<TModel> : IRepository<TModel> where TModel : class,IEntityClass
     {
         private readonly IWorkspace _workspace;
 

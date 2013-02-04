@@ -14,7 +14,7 @@ namespace Samba.Domain.Models.Settings
         LastPaidOrders
     }
 
-    public class PrintJob : Entity
+    public class PrintJob : EntityClass
     {
         public int WhatToPrint { get; set; }
         public bool UseForPaidTickets { get; set; }

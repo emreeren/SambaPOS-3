@@ -5,11 +5,11 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class TicketType : Entity
+    public class TicketType : EntityClass
     {
         public TicketType()
         {
-            _resourceTypeAssignments = new List<ResourceTypeAssignment>();
+            _entityTypeAssignments = new List<EntityTypeAssignment>();
         }
 
         public int ScreenMenuId { get; set; }
@@ -18,10 +18,10 @@ namespace Samba.Domain.Models.Tickets
         public virtual AccountTransactionType SaleTransactionType { get; set; }
         public bool TaxIncluded { get; set; }
 
-        private readonly IList<ResourceTypeAssignment> _resourceTypeAssignments;
-        public virtual IList<ResourceTypeAssignment> ResourceTypeAssignments
+        private readonly IList<EntityTypeAssignment> _entityTypeAssignments;
+        public virtual IList<EntityTypeAssignment> EntityTypeAssignments
         {
-            get { return _resourceTypeAssignments; }
+            get { return _entityTypeAssignments; }
         }
 
         private static TicketType _default;

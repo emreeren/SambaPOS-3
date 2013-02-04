@@ -14,7 +14,7 @@ namespace Samba.Infrastructure.Data.Serializer
             {
                 using (var deserializer = new XmlDeserializerHelper())
                 {
-                    var dictionary = new Dictionary<Type, Dictionary<int, IEntity>>();
+                    var dictionary = new Dictionary<Type, Dictionary<int, IEntityClass>>();
                     PropertyComparor.ExtractEntities(item, dictionary);
 
                     var xmlDocument = serializer.Serialize(item);

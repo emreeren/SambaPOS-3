@@ -8,7 +8,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Menus
 {
-    public class MenuItemPriceDefinition : Entity
+    public class MenuItemPriceDefinition : EntityClass
     {
         [StringLength(10)]
         public string PriceTag { get; set; }

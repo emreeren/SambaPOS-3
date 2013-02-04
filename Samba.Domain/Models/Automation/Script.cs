@@ -6,7 +6,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Automation
 {
-    public class Script : Entity
+    public class Script : EntityClass
     {
         public string HandlerName { get; set; }
         public string Code { get; set; }

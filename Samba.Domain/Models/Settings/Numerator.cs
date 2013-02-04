@@ -2,7 +2,7 @@
 
 namespace Samba.Domain.Models.Settings
 {
-    public class Numerator : Entity
+    public class Numerator : EntityClass
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays")]
         public byte[] LastUpdateTime { get; set; }

@@ -26,10 +26,7 @@
                         <Label HorizontalAlignment="Left" Content="{LocText EventName,Suffix=':'}" />
                         <ComboBox HorizontalAlignment="Left" MinWidth="150" ItemsSource="{Binding Events}"
                      DisplayMemberPath="EventName" SelectedValuePath="EventKey" SelectedValue="{Binding EventName}" />
-                        <GroupBox HorizontalAlignment="Left" Margin="0,3" Padding="1">
-                            <GroupBox.Header>
-                                <LocText ResourceIdentifierKey="ExecuteActionsIf" Suffix=":" />
-                            </GroupBox.Header>
+                        <GroupBox HorizontalAlignment="Left" Margin="0,3" Padding="1" Header="{LocText ExecuteActionsIf}">
                             <StackPanel>
                                 <Label Content="{LocText CustomConstraint,Suffix=':'}" MinWidth="150" />
                                 <TextBox MinWidth="150" Margin="2" Text="{Binding CustomConstraint}" />
@@ -99,9 +96,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <DockPanel Grid.Row="0">
-                        <Label>
-                            <LocText ResourceIdentifierKey="Mappings" Suffix=":"/>
-                        </Label>
+                        <Label Content="{LocText Mappings,Suffix=':'}"/>                        
                         <TextBlock Margin="2,5">
                             <Hyperlink Command="{Binding MapController.AddMapCommand}">
                                 <TextBlock Text="{Binding Path=MapController.AddMapCommand.Caption}" />

@@ -59,7 +59,7 @@
     <Compile Include="DaoClasses\Implementations\MenuDao.cs" />
     <Compile Include="DaoClasses\Implementations\PriceListDao.cs" />
     <Compile Include="DaoClasses\Implementations\PrinterDao.cs" />
-    <Compile Include="DaoClasses\Implementations\ResourceDao.cs" />
+    <Compile Include="DaoClasses\Implementations\EntityDao.cs" />
     <Compile Include="DaoClasses\Implementations\SettingDao.cs" />
     <Compile Include="DaoClasses\Implementations\TaskDao.cs" />
     <Compile Include="DaoClasses\Implementations\TicketDao.cs" />
@@ -68,7 +68,7 @@
     <Compile Include="DaoClasses\Implementations\WorkPeriodDao.cs" />
     <Compile Include="DaoClasses\IPriceListDao.cs" />
     <Compile Include="DaoClasses\IPrinterDao.cs" />
-    <Compile Include="DaoClasses\IResourceDao.cs" />
+    <Compile Include="DaoClasses\IEntityDao.cs" />
     <Compile Include="DaoClasses\ISettingDao.cs" />
     <Compile Include="DaoClasses\ITaskDao.cs" />
     <Compile Include="DaoClasses\ITicketDao.cs" />

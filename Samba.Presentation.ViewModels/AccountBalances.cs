@@ -38,15 +38,15 @@ namespace Samba.Presentation.ViewModels
         private void UpdateBalances()
         {
             Balances.Clear();
-            foreach (var ticketResource in SelectedTicket.TicketResources)
+            foreach (var ticketEntity in SelectedTicket.TicketEntities)
             {
-                if (ticketResource.AccountId > 0)
+                if (ticketEntity.AccountId > 0)
                 {
-                    var resourceType = _cacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
-                    if (_applicationState.GetPaymentScreenPaymentTypes().Any(x => x.AccountTransactionType.TargetAccountTypeId == resourceType.AccountTypeId))
+                    var entityType = _cacheService.GetEntityTypeById(ticketEntity.EntityTypeId);
+                    if (_applicationState.GetPaymentScreenPaymentTypes().Any(x => x.AccountTransactionType.TargetAccountTypeId == entityType.AccountTypeId))
                     {
-                        var balance = _accountService.GetAccountBalance(ticketResource.AccountId);
-                        Balances.Add(ticketResource.AccountId, balance);
+                        var balance = _accountService.GetAccountBalance(ticketEntity.AccountId);
+                        Balances.Add(ticketEntity.AccountId, balance);
                     }
                 }
             }

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Threading;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Menus;
-using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
@@ -30,8 +30,8 @@ namespace Samba.Presentation.Services
         User CurrentLoggedInUser { get; }
         CurrentDepartmentData CurrentDepartment { get; }
         TicketType CurrentTicketType { get; set; }
-        ResourceScreen SelectedResourceScreen { get; }
-        ResourceScreen ActiveResourceScreen { get; }
+        EntityScreen SelectedEntityScreen { get; }
+        EntityScreen ActiveEntityScreen { get; }
         WorkPeriod CurrentWorkPeriod { get; }
         WorkPeriod PreviousWorkPeriod { get; }
         bool IsCurrentWorkPeriodOpen { get; }
@@ -48,8 +48,8 @@ namespace Samba.Presentation.Services
         IEnumerable<TicketTagGroup> GetTicketTagGroups();
         IEnumerable<AutomationCommandData> GetAutomationCommands();
         IEnumerable<CalculationSelector> GetCalculationSelectors();
-        IEnumerable<ResourceScreen> GetResourceScreens();
-        IEnumerable<ResourceScreen> GetTicketResourceScreens();
+        IEnumerable<EntityScreen> GetEntityScreens();
+        IEnumerable<EntityScreen> GetTicketEntityScreens();
         IEnumerable<TaxTemplate> GetTaxTemplates(int menuItemId); 
 
         void ResetState();

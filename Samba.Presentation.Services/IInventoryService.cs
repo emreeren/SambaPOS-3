@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Samba.Domain.Models.Inventory;
-using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 
 namespace Samba.Presentation.Services

@@ -89,7 +89,7 @@ namespace Samba.Services.Implementations.ExpressionModule
             }
         }
 
-        public T EvalCommand<T>(string functionName, IEntity entity, object dataObject, T defaultValue = default(T))
+        public T EvalCommand<T>(string functionName, IEntityClass entity, object dataObject, T defaultValue = default(T))
         {
             var entityName = entity != null ? "_" + entity.Name : "";
             var script = GetScript(functionName, entityName);

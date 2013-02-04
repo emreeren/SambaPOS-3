@@ -8,7 +8,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class TicketTag : Entity, IStringCompareable
+    public class TicketTag : EntityClass, IStringCompareable
     {
         public int TicketTagGroupId { get; set; }
         public string Display { get { return !string.IsNullOrEmpty(Name) ? Name : "X"; } }

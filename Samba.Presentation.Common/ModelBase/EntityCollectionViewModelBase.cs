@@ -22,7 +22,7 @@ namespace Samba.Presentation.Common.ModelBase
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class EntityCollectionViewModelBase<TViewModel, TModel> : AbstractEntityCollectionViewModelBase, ICountable
         where TViewModel : EntityViewModelBase<TModel>
-        where TModel : class, IEntity, new()
+        where TModel : class, IEntityClass, new()
     {
         [ImportingConstructor]
         public EntityCollectionViewModelBase()

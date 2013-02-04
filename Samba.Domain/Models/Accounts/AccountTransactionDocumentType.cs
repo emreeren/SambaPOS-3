@@ -5,7 +5,7 @@ using System;
 
 namespace Samba.Domain.Models.Accounts
 {
-    public class AccountTransactionDocumentType : Entity, IOrderable
+    public class AccountTransactionDocumentType : EntityClass, IOrderable
     {
         public AccountTransactionDocumentType()
         {

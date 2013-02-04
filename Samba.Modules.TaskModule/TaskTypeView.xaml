@@ -15,29 +15,29 @@
             <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
 
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                <DataGrid MinWidth="170" ItemsSource="{Binding ResourceTypes}" SelectedItem="{Binding SelectedResourceType, Mode=TwoWay}"
+                <DataGrid MinWidth="170" ItemsSource="{Binding EntityTypes}" SelectedItem="{Binding SelectedEntityType, Mode=TwoWay}"
                                      HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
                                      AutoGenerateColumns="False" CanUserSortColumns="False" IsReadOnly="True" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="{LocText ResourceType}"
+                        <DataGridTextColumn Header="{LocText EntityType}"
                                              MinWidth="100" Binding="{Binding Name}" />
                     </DataGrid.Columns>
                     <DataGrid.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Command="{Binding AddResourceTypeCommand}" Header="{Binding AddResourceTypeCommand.Caption}" />
-                            <MenuItem Command="{Binding DeleteResourceTypeCommand}" Header="{Binding DeleteResourceTypeCommand.Caption}" />
+                            <MenuItem Command="{Binding AddEntityTypeCommand}" Header="{Binding AddEntityTypeCommand.Caption}" />
+                            <MenuItem Command="{Binding DeleteEntityTypeCommand}" Header="{Binding DeleteEntityTypeCommand.Caption}" />
                         </ContextMenu>
                     </DataGrid.ContextMenu>
                 </DataGrid>
                 <StackPanel Margin="10">
                     <TextBlock Margin="2,3">
-                                        <Hyperlink Command="{Binding AddResourceTypeCommand}">
-                                            <TextBlock Text="{Binding Path=AddResourceTypeCommand.Caption}" />
+                                        <Hyperlink Command="{Binding AddEntityTypeCommand}">
+                                            <TextBlock Text="{Binding Path=AddEntityTypeCommand.Caption}" />
                                         </Hyperlink>
                                     </TextBlock>
                     <TextBlock Margin="2,3">
-                                        <Hyperlink Command="{Binding DeleteResourceTypeCommand}">
-                                            <TextBlock Text="{Binding Path=DeleteResourceTypeCommand.Caption}" />
+                                        <Hyperlink Command="{Binding DeleteEntityTypeCommand}">
+                                            <TextBlock Text="{Binding Path=DeleteEntityTypeCommand.Caption}" />
                                         </Hyperlink>
                                     </TextBlock>
                 </StackPanel>

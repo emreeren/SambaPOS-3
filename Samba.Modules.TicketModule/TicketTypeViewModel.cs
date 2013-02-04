@@ -6,8 +6,8 @@ using System.Linq;
 using FluentValidation;
 using Omu.ValueInjecter;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Menus;
-using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
@@ -32,26 +32,26 @@ namespace Samba.Modules.TicketModule
         {
             _menuService = menuService;
             _cacheDao = cacheDao;
-            AddResourceTypeCommand = new CaptionCommand<string>(Resources.Add, OnAddResourceType);
+            AddEntityTypeCommand = new CaptionCommand<string>(Resources.Add, OnAddEntityType);
         }
 
-        public CaptionCommand<string> AddResourceTypeCommand { get; set; }
+        public CaptionCommand<string> AddEntityTypeCommand { get; set; }
         public int ScreenMenuId { get { return Model.ScreenMenuId; } set { Model.ScreenMenuId = value; } }
         public Numerator TicketNumerator { get { return Model.TicketNumerator; } set { Model.TicketNumerator = value; } }
         public Numerator OrderNumerator { get { return Model.OrderNumerator; } set { Model.OrderNumerator = value; } }
         public AccountTransactionType SaleTransactionType { get { return Model.SaleTransactionType; } set { Model.SaleTransactionType = value; } }
         public bool TaxIncluded { get { return Model.TaxIncluded; } set { Model.TaxIncluded = value; } }
 
-        private IEnumerable<ResourceType> _resourceTypes;
-        public IEnumerable<ResourceType> ResourceTypes
+        private IEnumerable<EntityType> _entityTypes;
+        public IEnumerable<EntityType> EntityTypes
         {
-            get { return _resourceTypes ?? (_resourceTypes = _cacheDao.GetResourceTypes()); }
+            get { return _entityTypes ?? (_entityTypes = _cacheDao.GetEntityTypes()); }
         }
 
-        private ObservableCollection<ResourceTypeAssignment> _resourceTypeAssignments;
-        public ObservableCollection<ResourceTypeAssignment> ResourceTypeAssignments
+        private ObservableCollection<EntityTypeAssignment> _entityTypeAssignments;
+        public ObservableCollection<EntityTypeAssignment> EntityTypeAssignments
         {
-            get { return _resourceTypeAssignments ?? (_resourceTypeAssignments = new ObservableCollection<ResourceTypeAssignment>(Model.ResourceTypeAssignments)); }
+            get { return _entityTypeAssignments ?? (_entityTypeAssignments = new ObservableCollection<EntityTypeAssignment>(Model.EntityTypeAssignments)); }
         }
 
         private IEnumerable<ScreenMenu> _screenMenus;
@@ -67,24 +67,24 @@ namespace Samba.Modules.TicketModule
         private IEnumerable<AccountTransactionType> _accountTransactionTypes;
         public IEnumerable<AccountTransactionType> AccountTransactionTypes { get { return _accountTransactionTypes ?? (_accountTransactionTypes = Workspace.All<AccountTransactionType>()); } }
 
-        private void OnAddResourceType(string obj)
+        private void OnAddEntityType(string obj)
         {
-            var selectedItems = Model.ResourceTypeAssignments;
-            var values = ResourceTypes.Where(x => selectedItems.All(y => y.ResourceTypeName != x.Name))
-                .Select(x => new ResourceTypeAssignment { ResourceTypeName = x.Name, ResourceTypeId = x.Id })
+            var selectedItems = Model.EntityTypeAssignments;
+            var values = EntityTypes.Where(x => selectedItems.All(y => y.EntityTypeName != x.Name))
+                .Select(x => new EntityTypeAssignment { EntityTypeName = x.Name, EntityTypeId = x.Id })
                 .ToList<IOrderable>();
             var selectedValues = InteractionService.UserIntraction.ChooseValuesFrom(
                 values,
                 selectedItems.ToList<IOrderable>(),
-                Resources.ResourceType.ToPlural(),
-                string.Format(Resources.SelectItemsFor_f, Resources.ResourceType.ToPlural(), Model.Name,
+                Resources.EntityType.ToPlural(),
+                string.Format(Resources.SelectItemsFor_f, Resources.EntityType.ToPlural(), Model.Name,
                               Resources.TicketType),
-                Resources.ResourceType,
-                Resources.ResourceType.ToPlural());
+                Resources.EntityType,
+                Resources.EntityType.ToPlural());
 
-            Model.InjectFrom<EntityInjection>(new { ResourceTypeAssignments = selectedValues.Cast<ResourceTypeAssignment>().ToList() });
-            _resourceTypeAssignments = null;
-            RaisePropertyChanged(() => ResourceTypeAssignments);
+            Model.InjectFrom<EntityInjection>(new { EntityTypeAssignments = selectedValues.Cast<EntityTypeAssignment>().ToList() });
+            _entityTypeAssignments = null;
+            RaisePropertyChanged(() => EntityTypeAssignments);
         }
 
         public override string GetModelTypeString()

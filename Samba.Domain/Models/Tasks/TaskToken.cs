@@ -2,7 +2,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tasks
 {
-    public class TaskToken : Value
+    public class TaskToken : ValueClass
     {
         public int TaskId { get; set; }
         public string Caption { get; set; }

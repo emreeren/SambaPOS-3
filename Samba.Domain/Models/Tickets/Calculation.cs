@@ -7,7 +7,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class Calculation : Value
+    public class Calculation : ValueClass
     {
         public string Name { get; set; }
         public int Order { get; set; }

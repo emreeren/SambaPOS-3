@@ -2,7 +2,7 @@
 
 namespace Samba.Domain.Models.Settings
 {
-    public class State : Entity
+    public class State : EntityClass
     {
         public string GroupName { get; set; }
         public int StateType { get; set; } // 0 = Resource State, 1 = Ticket State, 2 = Order State

@@ -11,28 +11,18 @@
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Margin="0,0,10,0">
-                    <Label>
-                        <LocText ResourceIdentifierKey="ProductName" Suffix=":"/>
-                    </Label>
+                    <Label Content="{LocText ProductName,Suffix=':'}"/>
                     <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name,Mode=TwoWay}" />
-                    <Label>
-                        <LocText ResourceIdentifierKey="Barcode" Suffix=":"/>
-                    </Label>
+                    <Label Content="{LocText Barcode,Suffix=':'}"/>
                     <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Barcode,Mode=TwoWay}" />
                 </StackPanel>
                 <StackPanel Grid.Column="1">
-                    <Label>
-                        <LocText ResourceIdentifierKey="GroupCode" Suffix=":"/>
-                    </Label>
+                    <Label Content="{LocText GroupCode,Suffix=':'}"/>
                     <ComboBox HorizontalAlignment="Left" MinWidth="150" Text="{Binding GroupCode,Mode=TwoWay}"
-                     ItemsSource="{Binding GroupCodes}" IsEditable="True">
-                    </ComboBox>
-                    <Label>
-                        <LocText ResourceIdentifierKey="Tag" Suffix=":"/>
-                    </Label>
+                              ItemsSource="{Binding GroupCodes}" IsEditable="True"/>
+                    <Label Content="{LocText Tag,Suffix=':'}"/>
                     <ComboBox HorizontalAlignment="Left" MinWidth="150" Text="{Binding Tag,Mode=TwoWay}"
-                     ItemsSource="{Binding Tags}" IsEditable="True">
-                    </ComboBox>
+                              ItemsSource="{Binding Tags}" IsEditable="True"/>
                 </StackPanel>
             </Grid>
 

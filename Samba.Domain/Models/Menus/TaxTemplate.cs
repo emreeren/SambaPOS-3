@@ -4,7 +4,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Menus
 {
-    public class TaxTemplate : Entity, IOrderable
+    public class TaxTemplate : EntityClass, IOrderable
     {
         public TaxTemplate()
         {

@@ -4,13 +4,9 @@
      d:DesignWidth="300">
     <Grid>
         <StackPanel>
-            <Label>
-                <LocText ResourceIdentifierKey="Name" Suffix=":" />
-            </Label>
+            <Label Content="{LocText Name,Suffix=':'}"/>
             <TextBox HorizontalAlignment="Left" Width="250" Text="{Binding Name}" />
-            <Label>
-                <LocText ResourceIdentifierKey="NumeratorFormat" Suffix=":"/>
-            </Label>
+            <Label Content="{LocText NumeratorFormat,Suffix=':'}"/>
             <TextBox HorizontalAlignment="Left" Width="100" Text="{Binding NumberFormat}" />
             <Button HorizontalAlignment="Left" Margin="0,10" MinWidth="70" Content="{Binding SaveCommand.Caption}"
                  Command="{Binding SaveCommand}" />

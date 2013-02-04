@@ -13,7 +13,7 @@ using Samba.Infrastructure.Settings;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class Ticket : Entity, ICacheable
+    public class Ticket : EntityClass, ICacheable
     {
         private bool _shouldLock;
 
@@ -37,7 +37,7 @@ namespace Samba.Domain.Models.Tickets
             _calculations = new List<Calculation>();
             _payments = new List<Payment>();
             _changePayments = new List<ChangePayment>();
-            _ticketResources = new List<TicketResource>();
+            _ticketEntities = new List<TicketEntity>();
         }
 
         private static Ticket _emptyTicket;
@@ -100,11 +100,11 @@ namespace Samba.Domain.Models.Tickets
 
         public virtual AccountTransactionDocument TransactionDocument { get; set; }
 
-        private IList<TicketResource> _ticketResources;
-        public virtual IList<TicketResource> TicketResources
+        private IList<TicketEntity> _ticketEntities;
+        public virtual IList<TicketEntity> TicketEntities
         {
-            get { return _ticketResources; }
-            set { _ticketResources = value; }
+            get { return _ticketEntities; }
+            set { _ticketEntities = value; }
         }
 
         private IList<Order> _orders;
@@ -615,22 +615,22 @@ namespace Samba.Domain.Models.Tickets
             return string.Join("\r", TicketTagValues.Where(x => !string.IsNullOrEmpty(x.TagValue)).Select(x => string.Format("{0}: {1}", x.TagName, x.TagValue)));
         }
 
-        public void UpdateResource(int resourceTypeId, int resourceId, string resourceName, int accountId, string resourceCustomData)
+        public void UpdateEntity(int entityTypeId, int entityId, string entityName, int accountId, string entityCustomData)
         {
-            var r = TicketResources.SingleOrDefault(x => x.ResourceTypeId == resourceTypeId);
-            if (r == null && resourceId > 0)
+            var r = TicketEntities.SingleOrDefault(x => x.EntityTypeId == entityTypeId);
+            if (r == null && entityId > 0)
             {
-                TicketResources.Add(new TicketResource { ResourceId = resourceId, ResourceName = resourceName, ResourceTypeId = resourceTypeId, AccountId = accountId, ResourceCustomData = resourceCustomData });
+                TicketEntities.Add(new TicketEntity { EntityId = entityId, EntityName = entityName, EntityTypeId = entityTypeId, AccountId = accountId, EntityCustomData = entityCustomData });
             }
-            else if (r != null && resourceId > 0)
+            else if (r != null && entityId > 0)
             {
                 r.AccountId = accountId;
-                r.ResourceId = resourceId;
-                r.ResourceName = resourceName;
-                r.ResourceTypeId = resourceTypeId;
+                r.EntityId = entityId;
+                r.EntityName = entityName;
+                r.EntityTypeId = entityTypeId;
             }
-            else if (r != null && resourceId == 0)
-                TicketResources.Remove(r);
+            else if (r != null && entityId == 0)
+                TicketEntities.Remove(r);
         }
 
         public void UpdateAccount(Account account, decimal exchangeRate)
@@ -742,7 +742,7 @@ namespace Samba.Domain.Models.Tickets
 
         public bool CanCloseTicket()
         {
-            return (GetRemainingAmount() == 0 || TicketResources.Count > 0 ||
+            return (GetRemainingAmount() == 0 || TicketEntities.Count > 0 ||
                  IsTagged || Orders.Count == 0);
         }
 
@@ -751,10 +751,10 @@ namespace Samba.Domain.Models.Tickets
             return Calculations.Where(x => string.IsNullOrEmpty(s) || x.Name == s).Sum(x => x.CalculationAmount);
         }
 
-        public string GetResourceName(int resourceTypeId)
+        public string GetEntityName(int entityTypeId)
         {
-            var tr = TicketResources.FirstOrDefault(x => x.ResourceTypeId == resourceTypeId);
-            if (tr != null) return tr.ResourceName;
+            var tr = TicketEntities.FirstOrDefault(x => x.EntityTypeId == entityTypeId);
+            if (tr != null) return tr.EntityName;
             return "";
         }
 

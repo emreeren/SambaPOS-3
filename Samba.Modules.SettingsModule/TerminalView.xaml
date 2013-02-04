@@ -8,19 +8,11 @@
     <ScrollViewer UIControls:KineticBehaviour.HandleKineticScrolling="True" VerticalScrollBarVisibility="Auto">
         <Grid>
             <StackPanel>
-                <Label>
-                    <LocText ResourceIdentifierKey="Name_f" FormatSegment1="{LocText Terminal}" Suffix=":"/>
-                </Label>
+                <Label Content="{LocText Name_f, FormatSegment1='{LocText Terminal}', Suffix=':'}"/>                
                 <TextBox HorizontalAlignment="Left" Width="250" Text="{Binding Name}" />
-                <CheckBox Margin="0,5" IsChecked="{Binding IsDefault, Mode=TwoWay}">
-                    <LocText ResourceIdentifierKey="DefaultTerminal"/>
-                </CheckBox>
-                <CheckBox Margin="0,5" IsChecked="{Binding AutoLogout, Mode=TwoWay}">
-                    <LocText ResourceIdentifierKey="AutoLogout"/>
-                </CheckBox>
-                <Label>
-                    <LocText ResourceIdentifierKey="ReportPrinter" Suffix=":"/>
-                </Label>
+                <CheckBox Margin="0,5" IsChecked="{Binding IsDefault, Mode=TwoWay}" Content="{LocText DefaultTerminal}"/>
+                <CheckBox Margin="0,5" IsChecked="{Binding AutoLogout, Mode=TwoWay}" Content="{LocText AutoLogout}"/>
+                <Label Content="{LocText ReportPrinter,Suffix=':'}"/>                
                 <ComboBox HorizontalAlignment="Left" MinWidth="200" IsEditable="True" SelectedItem="{Binding ReportPrinter}"
                              ItemsSource="{Binding Printers}" DisplayMemberPath="Name" />
                 <Button HorizontalAlignment="Left" Margin="0,10" MinWidth="70" Content="{Binding SaveCommand.Caption}"

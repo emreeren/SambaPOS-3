@@ -7,14 +7,10 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel>
         <UniformGrid Columns="2" Rows="2" Margin="5">
-            <Label FontSize="28">
-                <LocText ResourceIdentifierKey="Total" Suffix=':'/>
-            </Label>
+            <Label FontSize="28" Content="{LocText Total,Suffix=':'}"/>            
             <TextBox FontWeight="Bold" TextAlignment="Right" FontSize="30" Text="{Binding PaymentDueAmount, Mode=TwoWay}"
                      IsReadOnly="True" />
-            <Label FontSize="28">
-                <LocText ResourceIdentifierKey="ChargedAmount" Suffix=':'/>
-            </Label>
+            <Label FontSize="28" Content="{LocText ChargedAmount,Suffix=':'}"/>            
             <TextBox FontWeight="Bold" TextAlignment="Right" FontSize="30" Text="{Binding TenderedAmount, Mode=TwoWay}"
                      IsReadOnly="True" />
         </UniformGrid>

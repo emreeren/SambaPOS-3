@@ -31,9 +31,7 @@
             <CheckBox IsChecked="{Binding ExcludeTax}" Margin="0,5,0,2" Content="{LocText AlwaysExcludeTax}"/>
             <CheckBox IsChecked="{Binding UseForPaidTickets}" Margin="0,2,0,5" Content="{LocText UseAtOldTickets}"/>
             <StackPanel Orientation="Horizontal">
-                <Label>
-                    <LocText ResourceIdentifierKey="PrintMapping" Suffix=":" />
-                </Label>
+                <Label Content="{LocText PrintMapping,Suffix=':'}"/>                
                 <TextBlock Margin="2,5">
                     <Hyperlink Command="{Binding AddPrinterMapCommand}">
                         <TextBlock Text="{Binding Path=AddPrinterMapCommand.Caption}" />

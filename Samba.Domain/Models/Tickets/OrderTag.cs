@@ -3,7 +3,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class OrderTag : Value, IOrderable
+    public class OrderTag : ValueClass, IOrderable
     {
         public OrderTag()
         {

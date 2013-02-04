@@ -44,7 +44,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<Ticket>("{TICKET STATE:([^}]+)}", (x, d) => x.GetStateStr(d), "Ticket State");
             RegisterFunction<Ticket>("{SETTING:([^}]+)}", (x, d) => SettingService.ReadSetting(d).StringValue, Resources.SettingValue);
             RegisterFunction<Ticket>("{CALCULATION TOTAL:([^}]+)}", (x, d) => x.GetCalculationTotal(d).ToString("#,#0.00"), "Calculation Total", x => x.Calculations.Count > 0);
-            RegisterFunction<Ticket>("{RESOURCE NAME:([^}]+)}", (x, d) => x.GetResourceName(CacheService.GetResourceTypeIdByEntityName(d)), "Resource Name");
+            RegisterFunction<Ticket>("{ENTITY NAME:([^}]+)}", (x, d) => x.GetEntityName(CacheService.GetEntityTypeIdByEntityName(d)), "Entity Name");
             RegisterFunction<Ticket>("{ORDER STATE TOTAL:([^}]+)}", (x, d) => x.GetOrderStateTotal(d).ToString("#,#0.00"), "Order State Total");
             RegisterFunction<Ticket>("{SERVICE TOTAL}", (x, d) => x.GetPostTaxServicesTotal().ToString("#,#0.00"), "Service Total");
 
@@ -67,9 +67,9 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<OrderTagValue>(TagNames.OrderTagName, (x, d) => x.TagValue, Resources.OrderTagName, x => !string.IsNullOrEmpty(x.TagValue));
 
             //TICKET RESOURCES
-            RegisterFunction<TicketResource>("{RESOURCE NAME}", (x, d) => x.ResourceName, "Resource Name");
-            RegisterFunction<TicketResource>("{RESOURCE BALANCE}", (x, d) => AccountService.GetAccountBalance(x.AccountId).ToString("#,#0.00"), "Resource Account Balance", x => x.AccountId > 0);
-            RegisterFunction<TicketResource>("{RESOURCE DATA:([^}]+)}", (x, d) => x.GetCustomData(d), "Resource Data");
+            RegisterFunction<TicketEntity>("{ENTITY NAME}", (x, d) => x.EntityName, "Entity Name");
+            RegisterFunction<TicketEntity>("{ENTITY BALANCE}", (x, d) => AccountService.GetAccountBalance(x.AccountId).ToString("#,#0.00"), "Entity Account Balance", x => x.AccountId > 0);
+            RegisterFunction<TicketEntity>("{ENTITY DATA:([^}]+)}", (x, d) => x.GetCustomData(d), "Entity Data");
 
             //CALCULATIONS
             RegisterFunction<Calculation>("{CALCULATION NAME}", (x, d) => x.Name, "Calculation Name");

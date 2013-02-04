@@ -1,0 +1,111 @@
+﻿<UserControl x:Class="Samba.Modules.EntityModule.EntityEditorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ViewModels="clr-namespace:Samba.Presentation.ViewModels;assembly=Samba.Presentation.ViewModels" 
+             xmlns:FlexButton="clr-namespace:FlexButton;assembly=FlexButton"
+             xmlns:VirtualKeyboard="clr-namespace:Samba.Presentation.Controls.VirtualKeyboard;assembly=Samba.Presentation.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" FontSize="20" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <Style TargetType="Label">
+            <Setter Property="MinWidth" Value="150"/>
+            <Setter Property="Margin" Value="0,0,2,2"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="9*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <UniformGrid Grid.Row="0" Columns="2">
+            <Grid Margin="5,5,20,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Label Margin="0,0,2,2" MinWidth="100" Grid.Row="0" Grid.Column="0" Content="{LocText Name}" />
+                <TextBox Name="EntityNameEdit" Margin="0,0,2,2" Grid.Row="0" Grid.Column="1" Text="{Binding SelectedEntity.Name,UpdateSourceTrigger=PropertyChanged}" />
+                <ViewModels:EntityCustomDataEditor Focusable="False" Grid.Row="1" Grid.ColumnSpan="2" DataContext="{Binding CustomDataViewModel}"/>
+            </Grid>
+            <Grid Visibility="{Binding SelectedEntity.IsNotNew,Converter={StaticResource VisibilityConverter}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <UniformGrid Columns="2" Grid.Row="0">
+                    <TextBlock FontSize="16" FontWeight="Bold" Text="{LocText TotalSales}">
+                    </TextBlock>
+                    <TextBlock FontSize="16" Text="{Binding SelectedEntity.TotalTicketAmount,StringFormat='#,#0.00'}" />
+                    <TextBlock FontSize="16" FontWeight="Bold" Text="{LocText LastOrderDate}">
+                    </TextBlock>
+                    <TextBlock FontSize="16" Text="{Binding SelectedEntity.LastTicket.LastOrderDate,StringFormat='dd MMMM yyyy'}" />
+                    <TextBlock FontSize="16" FontWeight="Bold" Text="{LocText LastOrderStatus}">
+                    </TextBlock>
+                    <TextBlock FontSize="16" Text="{Binding SelectedEntity.LastTicketStateString}" />
+                    <TextBlock Margin="0,5,0,0" FontSize="16" FontWeight="Bold" Text="{LocText LastOrder}">
+                    </TextBlock>
+                </UniformGrid>
+                <ItemsControl Grid.Row="1" Margin="3" ItemsSource="{Binding SelectedEntity.LastTicketLines}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Padding="1" FontSize="16" Grid.Column="0" Text="{Binding Quantity,StringFormat='#.##'}"
+                                             Margin="3,0,6,0" />
+                                <TextBlock Padding="1" FontSize="16" Grid.Column="1" Text="{Binding Description}"
+                                             Margin="0" />
+                                <TextBlock Padding="1" FontSize="16" Grid.Column="2" Text="{Binding TotalPrice, StringFormat='#,#0.00'}"
+                                             Margin="0" HorizontalAlignment="Right" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <Grid Grid.Row="2" Margin="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock FontSize="16" FontWeight="Bold" Grid.Column="0" HorizontalAlignment="Stretch"
+                                 Text="{LocText Total}" />
+                    <TextBlock FontSize="16" FontWeight="Bold" Grid.Column="1" HorizontalAlignment="Right"
+                                 Text="{Binding SelectedEntity.TicketTotal,StringFormat='#,#0.00'}" />
+                </Grid>
+            </Grid>
+        </UniformGrid>
+        <Viewbox Grid.Row="1">
+            <VirtualKeyboard:KeyboardView/>
+        </Viewbox>
+
+        <Grid Grid.Column="1" Grid.RowSpan="2" Background="LightGray">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0">
+                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding SaveEntityCommand.Caption}"
+                         Command="{Binding SaveEntityCommand}" />
+                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding SelectEntityCommandCaption}"
+                         Command="{Binding SelectEntityCommand}" 
+                                       Visibility="{Binding IsEntitySelectorVisible,Converter={StaticResource VisibilityConverter}}"/>
+                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding CreateAccountCommand.Caption}"
+                         Command="{Binding CreateAccountCommand}" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+
+</UserControl>

@@ -61,10 +61,10 @@
     <Compile Include="MapControllerView.xaml.cs">
       <DependentUpon>MapControllerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ResourceCustomDataEditor.xaml.cs">
-      <DependentUpon>ResourceCustomDataEditor.xaml</DependentUpon>
+    <Compile Include="EntityCustomDataEditor.xaml.cs">
+      <DependentUpon>EntityCustomDataEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ResourceCustomDataViewModel.cs" />
+    <Compile Include="EntityCustomDataViewModel.cs" />
     <Compile Include="ResourceCustomFieldTemplateSelector.cs" />
     <Compile Include="CommandButtonViewModel.cs" />
     <Compile Include="PaymentButtonGroupViewModel.cs" />
@@ -136,7 +136,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ResourceCustomDataEditor.xaml">
+    <Page Include="EntityCustomDataEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

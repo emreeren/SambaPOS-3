@@ -6,7 +6,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Inventory
 {
-    public class Warehouse : Entity, IOrderable
+    public class Warehouse : EntityClass, IOrderable
     {
         public int WarehouseTypeId { get; set; }
         public int SortOrder { get; set; }

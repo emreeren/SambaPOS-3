@@ -4,7 +4,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class CalculationType : Entity, IOrderable
+    public class CalculationType : EntityClass, IOrderable
     {
         public int SortOrder { get; set; }
 

@@ -87,9 +87,9 @@
     <Compile Include="Models\Menus\ProductTimer.cs" />
     <Compile Include="Models\Menus\ProdcutTimerMap.cs" />
     <Compile Include="Models\Menus\TaxTemplateMap.cs" />
-    <Compile Include="Models\Resources\ResourceStateVal.cs" />
+    <Compile Include="Models\Entities\EntityStateVal.cs" />
     <Compile Include="Models\Tasks\Task.cs" />
-    <Compile Include="Models\Resources\ResourceScreenMap.cs" />
+    <Compile Include="Models\Entities\EntityScreenMap.cs" />
     <Compile Include="Models\Settings\ForeignCurrency.cs" />
     <Compile Include="Models\Tasks\TaskToken.cs" />
     <Compile Include="Models\Tasks\TaskType.cs" />
@@ -98,11 +98,11 @@
     <Compile Include="Models\Tickets\ChangePaymentTypeMap.cs" />
     <Compile Include="Models\Tickets\OrderStateValue.cs" />
     <Compile Include="Models\Tickets\ProductTimerValue.cs" />
-    <Compile Include="Models\Resources\Widget.cs" />
-    <Compile Include="Models\Resources\ResourceCustomField.cs" />
-    <Compile Include="Models\Resources\ResourceStateValue.cs" />
+    <Compile Include="Models\Entities\Widget.cs" />
+    <Compile Include="Models\Entities\EntityCustomField.cs" />
+    <Compile Include="Models\Entities\EntityStateValue.cs" />
     <Compile Include="Models\Settings\State.cs" />
-    <Compile Include="Models\Resources\ResourceType.cs" />
+    <Compile Include="Models\Entities\EntityType.cs" />
     <Compile Include="Models\Accounts\AccountTransaction.cs" />
     <Compile Include="Models\Accounts\AccountTransactionDocument.cs" />
     <Compile Include="Models\Accounts\AccountTransactionValue.cs" />
@@ -122,9 +122,9 @@
     <Compile Include="Models\Tickets\Payment.cs" />
     <Compile Include="Models\Tickets\PaymentType..cs" />
     <Compile Include="Models\Tickets\PaymentTypeMap.cs" />
-    <Compile Include="Models\Tickets\ResourceTypeAssignment.cs" />
+    <Compile Include="Models\Tickets\EntityTypeAssignment.cs" />
     <Compile Include="Models\Tickets\TaxValue.cs" />
-    <Compile Include="Models\Tickets\TicketResource.cs" />
+    <Compile Include="Models\Tickets\TicketEntity.cs" />
     <Compile Include="Models\Tickets\TicketStateValue.cs" />
     <Compile Include="Models\Tickets\TicketTagMap.cs" />
     <Compile Include="Models\Tickets\TicketTagValue.cs" />
@@ -144,7 +144,7 @@
     <Compile Include="Models\Tickets\TicketTag.cs" />
     <Compile Include="Models\Tickets\TicketTagGroup.cs" />
     <Compile Include="TransactionType.cs" />
-    <Compile Include="Models\Resources\Resource.cs" />
+    <Compile Include="Models\Entities\Entity.cs" />
     <Compile Include="Models\Tickets\Department.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -163,9 +163,9 @@
     <Compile Include="Models\Tickets\OrderTag.cs" />
     <Compile Include="Models\Tickets\OrderTagGroup.cs" />
     <Compile Include="Models\Menus\ScreenMenuItem.cs" />
-    <Compile Include="Models\Resources\ResourceScreenItem.cs" />
+    <Compile Include="Models\Entities\EntityScreenItem.cs" />
     <Compile Include="Models\Settings\Terminal.cs" />
-    <Compile Include="Models\Resources\ResourceScreen.cs" />
+    <Compile Include="Models\Entities\EntityScreen.cs" />
     <Compile Include="Models\Tickets\Ticket.cs">
       <SubType>Code</SubType>
     </Compile>

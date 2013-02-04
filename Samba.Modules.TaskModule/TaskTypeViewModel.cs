@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
-using Samba.Domain.Models.Resources;
+using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Tasks;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
@@ -20,47 +20,47 @@ namespace Samba.Modules.TaskModule
         [ImportingConstructor]
         public TaskTypeViewModel()
         {
-            AddResourceTypeCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.ResourceType), OnAddResourceType);
-            DeleteResourceTypeCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.ResourceType), OnDeleteResourceType, CanDeleteResourceType);
+            AddEntityTypeCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.EntityType), OnAddEntityType);
+            DeleteEntityTypeCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.EntityType), OnDeleteEntityType, CanDeleteEntityType);
         }
 
-        public ICaptionCommand AddResourceTypeCommand { get; set; }
-        public ICaptionCommand DeleteResourceTypeCommand { get; set; }
-        public ResourceType SelectedResourceType { get; set; }
+        public ICaptionCommand AddEntityTypeCommand { get; set; }
+        public ICaptionCommand DeleteEntityTypeCommand { get; set; }
+        public EntityType SelectedEntityType { get; set; }
 
-        private ObservableCollection<ResourceType> _resourceTypes;
-        public ObservableCollection<ResourceType> ResourceTypes
+        private ObservableCollection<EntityType> _entityTypes;
+        public ObservableCollection<EntityType> EntityTypes
         {
-            get { return _resourceTypes ?? (_resourceTypes = new ObservableCollection<ResourceType>(Model.ResourceTypes)); }
+            get { return _entityTypes ?? (_entityTypes = new ObservableCollection<EntityType>(Model.EntityTypes)); }
         }
 
-        private bool CanDeleteResourceType(string arg)
+        private bool CanDeleteEntityType(string arg)
         {
-            return SelectedResourceType != null;
+            return SelectedEntityType != null;
         }
 
-        private void OnDeleteResourceType(string obj)
+        private void OnDeleteEntityType(string obj)
         {
-            Model.ResourceTypes.Remove(SelectedResourceType);
-            ResourceTypes.Remove(SelectedResourceType);
+            Model.EntityTypes.Remove(SelectedEntityType);
+            EntityTypes.Remove(SelectedEntityType);
         }
 
-        private void OnAddResourceType(string obj)
+        private void OnAddEntityType(string obj)
         {
             var selectedValues =
-                 InteractionService.UserIntraction.ChooseValuesFrom(Workspace.All<ResourceType>().ToList<IOrderable>(),
-                 Model.ResourceTypes.ToList<IOrderable>(), Resources.ResourceType.ToPlural(),
-                 string.Format(Resources.SelectItemsFor_f, Resources.ResourceType.ToPlural(), Model.Name, Resources.TaskType),
-                 Resources.ResourceType, Resources.ResourceType.ToPlural());
+                 InteractionService.UserIntraction.ChooseValuesFrom(Workspace.All<EntityType>().ToList<IOrderable>(),
+                 Model.EntityTypes.ToList<IOrderable>(), Resources.EntityType.ToPlural(),
+                 string.Format(Resources.SelectItemsFor_f, Resources.EntityType.ToPlural(), Model.Name, Resources.TaskType),
+                 Resources.EntityType, Resources.EntityType.ToPlural());
 
-            foreach (ResourceType selectedValue in selectedValues)
+            foreach (EntityType selectedValue in selectedValues)
             {
-                if (!Model.ResourceTypes.Contains(selectedValue))
-                    Model.ResourceTypes.Add(selectedValue);
+                if (!Model.EntityTypes.Contains(selectedValue))
+                    Model.EntityTypes.Add(selectedValue);
             }
 
-            _resourceTypes = null;
-            RaisePropertyChanged(() => ResourceTypes);
+            _entityTypes = null;
+            RaisePropertyChanged(() => EntityTypes);
         }
 
         public override Type GetViewType()

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Samba.Infrastructure.Data
 {
-    public interface ICacheable : IEntity
+    public interface ICacheable : IEntityClass
     {
         DateTime LastUpdateTime { get; set; }
     }

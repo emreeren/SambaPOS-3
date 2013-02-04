@@ -33,9 +33,7 @@ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  Margin="5" Click="Button_Click">
                 <DockPanel>
                     <Image Source="Images/LanShutDown.icon.gif" Stretch="None"/>
-                    <Label>
-                        <LocText ResourceIdentifierKey="Exit"/>
-                    </Label>
+                    <Label Content="{LocText Exit}"/>                    
                 </DockPanel>
             </Button>
         </StackPanel>

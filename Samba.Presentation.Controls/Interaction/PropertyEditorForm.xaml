@@ -13,9 +13,7 @@
         <PropertyEditorLibrary:PropertyControl Margin="3" Grid.Row="0" Name="PropertyEditorControl"/>
 
         <StackPanel Name="SPanel" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Width="70" Margin="3" Click="Button_Click">
-                <LocText ResourceIdentifierKey="OK" />
-            </Button>
+            <Button Width="70" Margin="3" Click="Button_Click" Content="{LocText OK}"/>            
         </StackPanel>
     </Grid>
 </Window>

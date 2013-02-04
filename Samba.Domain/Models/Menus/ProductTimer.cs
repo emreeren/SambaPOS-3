@@ -6,7 +6,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Menus
 {
-    public class ProductTimer : Entity
+    public class ProductTimer : EntityClass
     {
         public int PriceType { get; set; }
         public decimal PriceDuration { get; set; }

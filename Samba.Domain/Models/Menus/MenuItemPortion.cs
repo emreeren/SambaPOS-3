@@ -5,7 +5,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Menus
 {
-    public class MenuItemPortion : Entity
+    public class MenuItemPortion : EntityClass
     {
         public int MenuItemId { get; set; }
         public int Multiplier { get; set; }

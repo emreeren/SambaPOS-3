@@ -68,7 +68,7 @@
     <Compile Include="InventoryModule\InventoryService.cs" />
     <Compile Include="MethodQueue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResourceModule\ResourceService.cs" />
+    <Compile Include="EntityModule\EntityService.cs" />
     <Compile Include="TaskModule\ITokenParser.cs" />
     <Compile Include="TaskModule\Parsers\DateTimeParser.cs" />
     <Compile Include="TaskModule\Parsers\ExpressionParser.cs" />

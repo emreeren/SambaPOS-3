@@ -8,7 +8,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Settings
 {
-    public class PrinterTemplate : Entity
+    public class PrinterTemplate : EntityClass
     {
         private string _template;
         public string Template

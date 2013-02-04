@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Automation;
+using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Inventory;
 using Samba.Domain.Models.Menus;
-using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
@@ -52,13 +52,13 @@ namespace Samba.Presentation.Services.Common
             _workspace.Add(customerAccountType);
             _workspace.CommitChanges();
 
-            var customerResourceType = new ResourceType { Name = Resources.Customers, EntityName = Resources.Customer, AccountTypeId = customerAccountType.Id };
-            customerResourceType.ResoruceCustomFields.Add(new ResourceCustomField { EditingFormat = "(###) ### ####", FieldType = 0, Name = Resources.Phone });
-            customerResourceType.AccountNameTemplate = "[Name]-[" + Resources.Phone + "]";
-            var tableResourceType = new ResourceType { Name = Resources.Tables, EntityName = Resources.Table };
+            var customerEntityType = new EntityType { Name = Resources.Customers, EntityName = Resources.Customer, AccountTypeId = customerAccountType.Id };
+            customerEntityType.EntityCustomFields.Add(new EntityCustomField { EditingFormat = "(###) ### ####", FieldType = 0, Name = Resources.Phone });
+            customerEntityType.AccountNameTemplate = "[Name]-[" + Resources.Phone + "]";
+            var tableEntityType = new EntityType { Name = Resources.Tables, EntityName = Resources.Table };
 
-            _workspace.Add(customerResourceType);
-            _workspace.Add(tableResourceType);
+            _workspace.Add(customerEntityType);
+            _workspace.Add(tableEntityType);
 
             _workspace.CommitChanges();
 
@@ -260,8 +260,8 @@ namespace Samba.Presentation.Services.Common
                                          ScreenMenuId = screen.Id,
                                      };
 
-            ticketType.ResourceTypeAssignments.Add(new ResourceTypeAssignment { ResourceTypeId = tableResourceType.Id, ResourceTypeName = tableResourceType.Name, SortOrder = 10 });
-            ticketType.ResourceTypeAssignments.Add(new ResourceTypeAssignment { ResourceTypeId = customerResourceType.Id, ResourceTypeName = customerResourceType.Name, SortOrder = 20 });
+            ticketType.EntityTypeAssignments.Add(new EntityTypeAssignment { EntityTypeId = tableEntityType.Id, EntityTypeName = tableEntityType.Name, SortOrder = 10 });
+            ticketType.EntityTypeAssignments.Add(new EntityTypeAssignment { EntityTypeId = customerEntityType.Id, EntityTypeName = customerEntityType.Name, SortOrder = 20 });
 
             var cashPayment = new PaymentType
             {
@@ -435,8 +435,8 @@ namespace Samba.Presentation.Services.Common
                                                   };
             _workspace.Add(updateOrderGiftStatusAction);
 
-            var updateResourceStateAction = new AppAction { ActionType = ActionNames.UpdateResourceState, Name = "Update Resource State", Parameter = Params().Add("ResourceStateName", "Status").Add("ResourceState", "[:Status]").ToString() };
-            _workspace.Add(updateResourceStateAction);
+            var updateEntityStateAction = new AppAction { ActionType = ActionNames.UpdateEntityState, Name = "Update Entity State", Parameter = Params().Add("EntityStateName", "Status").Add("EntityState", "[:Status]").ToString() };
+            _workspace.Add(updateEntityStateAction);
 
             var createTicketAction = new AppAction { ActionType = ActionNames.CreateTicket, Name = string.Format(Resources.Create_f, Resources.Ticket), Parameter = "" };
             _workspace.Add(createTicketAction);
@@ -501,19 +501,19 @@ namespace Samba.Presentation.Services.Common
             cancelVoidOrderRule.AddRuleMap();
             _workspace.Add(cancelVoidOrderRule);
 
-            var newOrderRule = new AppRule { Name = "Update New Order Resource Color", EventName = RuleEventNames.TicketStateUpdated, EventConstraints = "State;=;" + Resources.Unpaid };
-            newOrderRule.Actions.Add(new ActionContainer(updateResourceStateAction) { ParameterValues = "Status=" + Resources.NewOrders });
+            var newOrderRule = new AppRule { Name = "Update New Order Entity Color", EventName = RuleEventNames.TicketStateUpdated, EventConstraints = "State;=;" + Resources.Unpaid };
+            newOrderRule.Actions.Add(new ActionContainer(updateEntityStateAction) { ParameterValues = "Status=" + Resources.NewOrders });
             newOrderRule.AddRuleMap();
             _workspace.Add(newOrderRule);
 
-            var availableRule = new AppRule { Name = "Update Available Resource Color", EventName = RuleEventNames.ResourceUpdated, EventConstraints = "OpenTicketCount;=;0" };
-            var ac2 = new ActionContainer(updateResourceStateAction) { ParameterValues = string.Format("Status={0}", "Available") };
+            var availableRule = new AppRule { Name = "Update Available Entity Color", EventName = RuleEventNames.EntityUpdated, EventConstraints = "OpenTicketCount;=;0" };
+            var ac2 = new ActionContainer(updateEntityStateAction) { ParameterValues = string.Format("Status={0}", "Available") };
             availableRule.Actions.Add(ac2);
             availableRule.AddRuleMap();
             _workspace.Add(availableRule);
 
-            var movingRule = new AppRule { Name = "Update Moved Resource Color", EventName = "TicketResourceChanged", EventConstraints = "OrderCount;>;0" };
-            var ac3 = new ActionContainer(updateResourceStateAction) { ParameterValues = string.Format("Status={0}", Resources.NewOrders) };
+            var movingRule = new AppRule { Name = "Update Moved Entity Color", EventName = "TicketEntityChanged", EventConstraints = "OrderCount;>;0" };
+            var ac3 = new ActionContainer(updateEntityStateAction) { ParameterValues = string.Format("Status={0}", Resources.NewOrders) };
             movingRule.Actions.Add(ac3);
             movingRule.AddRuleMap();
             _workspace.Add(movingRule);
@@ -521,7 +521,7 @@ namespace Samba.Presentation.Services.Common
             var printBillRule = new AppRule { Name = string.Format(Resources.Rule_f, Resources.PrintBill), EventName = RuleEventNames.AutomationCommandExecuted, EventConstraints = "AutomationCommandName;=;" + Resources.PrintBill };
             printBillRule.Actions.Add(new ActionContainer(printBillAction));
             printBillRule.Actions.Add(new ActionContainer(lockTicketAction));
-            printBillRule.Actions.Add(new ActionContainer(updateResourceStateAction) { ParameterValues = string.Format("Status={0}", "Bill Requested") });
+            printBillRule.Actions.Add(new ActionContainer(updateEntityStateAction) { ParameterValues = string.Format("Status={0}", "Bill Requested") });
             printBillRule.Actions.Add(new ActionContainer(updateTicketStatusAction) { ParameterValues = string.Format("Status={0}", Resources.Locked) });
             printBillRule.Actions.Add(new ActionContainer(closeTicketAction));
             printBillRule.AddRuleMap();
@@ -539,22 +539,22 @@ namespace Samba.Presentation.Services.Common
             _workspace.Add(createTicketRule);
 
             var updateMergedTicket = new AppRule { Name = "Update Merged Tickets State", EventName = RuleEventNames.TicketsMerged };
-            updateMergedTicket.Actions.Add(new ActionContainer(updateResourceStateAction) { ParameterValues = string.Format("Status={0}", Resources.NewOrders) });
+            updateMergedTicket.Actions.Add(new ActionContainer(updateEntityStateAction) { ParameterValues = string.Format("Status={0}", Resources.NewOrders) });
             updateMergedTicket.AddRuleMap();
             _workspace.Add(updateMergedTicket);
 
             ImportMenus(screen);
-            ImportTableResources(tableResourceType, ticketType);
+            ImportTableResources(tableEntityType, ticketType);
 
-            var customerScreen = new ResourceScreen { Name = string.Format(Resources.Customer_f, Resources.Search), DisplayMode = 1, ResourceTypeId = customerResourceType.Id, TicketTypeId = ticketType.Id };
-            customerScreen.ResourceScreenMaps.Add(new ResourceScreenMap());
+            var customerScreen = new EntityScreen { Name = string.Format(Resources.Customer_f, Resources.Search), DisplayMode = 1, EntityTypeId = customerEntityType.Id, TicketTypeId = ticketType.Id };
+            customerScreen.EntityScreenMaps.Add(new EntityScreenMap());
             _workspace.Add(customerScreen);
 
-            var customerTicketScreen = new ResourceScreen { Name = Resources.CustomerTickets, DisplayMode = 0, ResourceTypeId = customerResourceType.Id, StateFilter = newOrderState.Name, ColumnCount = 6, RowCount = 6, TicketTypeId = ticketType.Id };
-            customerTicketScreen.ResourceScreenMaps.Add(new ResourceScreenMap());
+            var customerTicketScreen = new EntityScreen { Name = Resources.CustomerTickets, DisplayMode = 0, EntityTypeId = customerEntityType.Id, StateFilter = newOrderState.Name, ColumnCount = 6, RowCount = 6, TicketTypeId = ticketType.Id };
+            customerTicketScreen.EntityScreenMaps.Add(new EntityScreenMap());
             _workspace.Add(customerTicketScreen);
 
-            ImportItems(BatchCreateResources);
+            ImportItems(BatchCreateEntities);
             ImportItems(BatchCreateTransactionTypes);
             ImportItems(BatchCreateTransactionTypeDocuments);
 
@@ -574,7 +574,7 @@ namespace Samba.Presentation.Services.Common
             _workspace.CommitChanges();
         }
 
-        private void ImportTableResources(ResourceType tableTemplate, TicketType ticketType)
+        private void ImportTableResources(EntityType tableTemplate, TicketType ticketType)
         {
             var fileName = string.Format("{0}/Imports/table{1}.txt", LocalSettings.AppPath, "_" + LocalSettings.CurrentLanguage);
 
@@ -584,20 +584,20 @@ namespace Samba.Presentation.Services.Common
             if (!File.Exists(fileName)) return;
 
             var lines = File.ReadAllLines(fileName);
-            var items = BatchCreateResourcesWithTemplate(lines, _workspace, tableTemplate).ToList();
+            var items = BatchCreateEntitiesWithTemplate(lines, _workspace, tableTemplate).ToList();
             items.ForEach(_workspace.Add);
 
             _workspace.CommitChanges();
 
-            var screen = new ResourceScreen { Name = Resources.All_Tables, DisplayState = "Status", TicketTypeId = ticketType.Id, ColumnCount = 7, ResourceTypeId = tableTemplate.Id, FontSize = 50 };
-            screen.ResourceScreenMaps.Add(new ResourceScreenMap());
+            var screen = new EntityScreen { Name = Resources.All_Tables, DisplayState = "Status", TicketTypeId = ticketType.Id, ColumnCount = 7, EntityTypeId = tableTemplate.Id, FontSize = 50 };
+            screen.EntityScreenMaps.Add(new EntityScreenMap());
             _workspace.Add(screen);
 
             foreach (var resource in items)
             {
-                resource.ResourceTypeId = tableTemplate.Id;
-                screen.AddScreenItem(new ResourceScreenItem { Name = resource.Name, ResourceId = resource.Id });
-                var state = new ResourceStateValue { ResoruceId = resource.Id };
+                resource.EntityTypeId = tableTemplate.Id;
+                screen.AddScreenItem(new EntityScreenItem { Name = resource.Name, EntityId = resource.Id });
+                var state = new EntityStateValue { EntityId = resource.Id };
                 state.SetStateValue("Status", "Available");
                 _workspace.Add(state);
             }
@@ -629,22 +629,22 @@ namespace Samba.Presentation.Services.Common
             }
         }
 
-        public IEnumerable<Resource> BatchCreateResourcesWithTemplate(string[] values, IWorkspace workspace, ResourceType template)
+        public IEnumerable<Entity> BatchCreateEntitiesWithTemplate(string[] values, IWorkspace workspace, EntityType template)
         {
-            IList<Resource> result = new List<Resource>();
+            IList<Entity> result = new List<Entity>();
             if (values.Length > 0)
             {
-                foreach (var resource in from value in values
+                foreach (var entity in from value in values
                                          where !value.StartsWith("#")
-                                         let resourceName = value
-                                         let count = Dao.Count<Resource>(y => y.Name == resourceName.Trim())
+                                         let entityName = value
+                                         let count = Dao.Count<Entity>(y => y.Name == entityName.Trim())
                                          where count == 0
-                                         select new Resource { Name = value.Trim(), ResourceTypeId = template.Id }
+                                         select new Entity { Name = value.Trim(), EntityTypeId = template.Id }
                                              into resource
                                              where result.Count(x => x.Name.ToLower() == resource.Name.ToLower()) == 0
                                              select resource)
                 {
-                    result.Add(resource);
+                    result.Add(entity);
                 }
             }
             return result;
@@ -724,13 +724,13 @@ namespace Samba.Presentation.Services.Common
         }
 
 
-        public IEnumerable<Resource> BatchCreateResources(string[] values, IWorkspace workspace)
+        public IEnumerable<Entity> BatchCreateEntities(string[] values, IWorkspace workspace)
         {
-            IList<Resource> result = new List<Resource>();
+            IList<Entity> result = new List<Entity>();
             if (values.Length > 0)
             {
-                var templates = workspace.All<ResourceType>().ToList();
-                ResourceType currentTemplate = null;
+                var templates = workspace.All<EntityType>().ToList();
+                EntityType currentTemplate = null;
 
                 foreach (var item in values)
                 {
@@ -742,7 +742,7 @@ namespace Samba.Presentation.Services.Common
                         {
                             using (var w = WorkspaceFactory.Create())
                             {
-                                currentTemplate = new ResourceType { Name = templateName };
+                                currentTemplate = new EntityType { Name = templateName };
                                 w.Add(currentTemplate);
                                 w.CommitChanges();
                             }
@@ -751,9 +751,9 @@ namespace Samba.Presentation.Services.Common
                     else if (currentTemplate != null)
                     {
                         var accountName = item.ToLower().Trim();
-                        if (workspace.Single<Resource>(x => x.Name.ToLower() == accountName) == null)
+                        if (workspace.Single<Entity>(x => x.Name.ToLower() == accountName) == null)
                         {
-                            var account = new Resource { Name = item, ResourceTypeId = currentTemplate.Id };
+                            var account = new Entity { Name = item, EntityTypeId = currentTemplate.Id };
                             result.Add(account);
                         }
                     }

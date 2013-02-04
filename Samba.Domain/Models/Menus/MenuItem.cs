@@ -6,7 +6,7 @@ using Samba.Infrastructure.Settings;
 
 namespace Samba.Domain.Models.Menus
 {
-    public class MenuItem : Entity
+    public class MenuItem : EntityClass
     {
         public MenuItem()
             : this(string.Empty)

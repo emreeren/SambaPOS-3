@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using Samba.Domain.Models.Resources;
+using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Settings;
@@ -41,7 +41,7 @@ namespace Samba.Modules.PosModule
             get { return _tickets; }
         }
 
-        public IEntity SelectedEntity { get; set; }
+        public IEntityClass SelectedEntity { get; set; }
         public string ListName { get { return SelectedEntity != null ? SelectedEntity.Name : ""; } }
         public ICaptionCommand AddTicketCommand { get; set; }
         public ICaptionCommand MergeTicketsCommand { get; set; }
@@ -76,16 +76,16 @@ namespace Samba.Modules.PosModule
         private void OnAddTicket(string obj)
         {
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.CreateTicket, true);
-            var r = SelectedEntity as Resource;
-            new EntityOperationRequest<Resource>(r, null).PublishEvent(EventTopicNames.ResourceSelected, true);
+            var r = SelectedEntity as Entity;
+            new EntityOperationRequest<Entity>(r, null).PublishEvent(EventTopicNames.EntitySelected, true);
         }
 
-        public void UpdateListByResource(Resource resource)
+        public void UpdateListByEntity(Entity entity)
         {
-            if (resource != null)
+            if (entity != null)
             {
-                SelectedEntity = resource;
-                _tickets = _ticketService.GetOpenTickets(resource.Id).Select(x => new TicketButtonViewModel(x, resource)).ToList();
+                SelectedEntity = entity;
+                _tickets = _ticketService.GetOpenTickets(entity.Id).Select(x => new TicketButtonViewModel(x, entity)).ToList();
                 Refresh();
             }
         }

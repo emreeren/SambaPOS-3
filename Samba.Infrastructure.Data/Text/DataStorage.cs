@@ -70,7 +70,7 @@ namespace Samba.Infrastructure.Data.Text
         internal void Add(object o)
         {
             var list = GetDataList(o.GetType());
-            var idt = o as IValue;
+            var idt = o as IValueClass;
             if (idt != null)
             {
                 if (idt.Id == 0) idt.Id = CreateIdNumber(idt.GetType());
@@ -89,7 +89,7 @@ namespace Samba.Infrastructure.Data.Text
         {
             var list = GetDataList(o.GetType());
 
-            var idt = o as IEntity;
+            var idt = o as IEntityClass;
 
             if (idt != null)
             {

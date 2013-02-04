@@ -3,7 +3,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Settings
 {
-    public class Printer : Entity
+    public class Printer : EntityClass
     {
         public string ShareName { get; set; }
         public int PrinterType { get; set; }

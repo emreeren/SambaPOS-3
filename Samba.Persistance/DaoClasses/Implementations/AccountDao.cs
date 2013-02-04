@@ -4,7 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Linq.Expressions;
 using Samba.Domain.Models.Accounts;
-using Samba.Domain.Models.Resources;
+using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
@@ -93,7 +93,7 @@ namespace Samba.Persistance.DaoClasses.Implementations
 
         public string GetResourceCustomDataByAccountId(int accountId)
         {
-            return Dao.Select<Resource, string>(x => x.CustomData, x => x.AccountId == accountId).SingleOrDefault();
+            return Dao.Select<Entity, string>(x => x.CustomData, x => x.AccountId == accountId).SingleOrDefault();
         }
 
         public void CreateAccountTransaction(AccountTransactionType transactionType, Account sourceAccount, Account targetAccount, decimal amount, decimal exchangeRate)
@@ -175,8 +175,8 @@ namespace Samba.Persistance.DaoClasses.Implementations
         {
             if (Dao.Exists<PaymentType>(x => x.Account.Id == model.Id))
                 return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Account, Resources.PaymentType);
-            if (Dao.Exists<Resource>(x => x.AccountId == model.Id))
-                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Account, Resources.Resource);
+            if (Dao.Exists<Entity>(x => x.AccountId == model.Id))
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Account, Resources.Entity);
             if (Dao.Exists<AccountTransactionValue>(x => x.AccountId == model.Id))
                 return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Account, Resources.AccountTransaction);
             return "";

@@ -12,20 +12,15 @@
         <StackPanel Grid.Row="0">
             <Label Content="{LocText Name_f, FormatSegment1={LocText Recipe},Suffix=':'}"/>
             <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name,Mode=TwoWay}" />
-            <Label>
-                <LocText ResourceIdentifierKey="Product" Suffix=":"/>
-            </Label>
+            <Label Content="{LocText Product,Suffix=':'}"/>            
             <ComboBox HorizontalAlignment="Left" MinWidth="200" SelectedItem="{Binding SelectedMenuItemName}"
                  ItemsSource="{Binding MenuItemNames}" IsEditable="True" />
-            <Label>
-                <LocText ResourceIdentifierKey="Portion" Suffix=":"/>
-            </Label>
+            <Label Content="{LocText Portion,Suffix=':'}"/>            
             <ComboBox HorizontalAlignment="Left" MinWidth="150" SelectedItem="{Binding Portion,Mode=TwoWay}"
                  DisplayMemberPath="Name" ItemsSource="{Binding SelectedMenuItem.Portions}">
             </ComboBox>
-            <Label>
-                <LocText ResourceIdentifierKey="FixedCost" Suffix=":"/>
-            </Label>
+            <Label Content="{LocText FixedCost,Suffix=':'}"/>
+            
             <UIControls:FilteredTextBox Type="Number" HorizontalAlignment="Left" MinWidth="100" TextAlignment="Right"
                  Text="{Binding FixedCost,Mode=TwoWay,StringFormat='#,#0.00'}" />
         </StackPanel>

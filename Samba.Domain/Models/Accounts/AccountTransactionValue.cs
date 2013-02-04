@@ -4,7 +4,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Accounts
 {
-    public class AccountTransactionValue : Entity
+    public class AccountTransactionValue : EntityClass
     {
         public AccountTransactionValue()
         {

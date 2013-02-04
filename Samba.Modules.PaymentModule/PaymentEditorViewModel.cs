@@ -74,7 +74,7 @@ namespace Samba.Modules.PaymentModule
                 && !_paymentEditor.SelectedTicket.IsClosed
                 && _tenderedValueViewModel.GetTenderedValue() != 0
                 && _paymentEditor.GetRemainingAmount() != 0
-                && (arg.Account != null || _paymentEditor.SelectedTicket.TicketResources.Any(x =>
+                && (arg.Account != null || _paymentEditor.SelectedTicket.TicketEntities.Any(x =>
                     _ticketService.CanMakeAccountTransaction(x, arg.AccountTransactionType, _accountBalances.GetAccountBalance(x.AccountId) + _tenderedValueViewModel.GetTenderedValue())));
         }
 

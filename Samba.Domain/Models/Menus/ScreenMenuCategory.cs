@@ -6,7 +6,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Menus
 {
-    public class ScreenMenuCategory : Value, IOrderable
+    public class ScreenMenuCategory : ValueClass, IOrderable
     {
         public ScreenMenuCategory()
         {

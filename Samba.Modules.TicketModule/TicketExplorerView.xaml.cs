@@ -58,14 +58,14 @@ namespace Samba.Modules.TicketModule
             var d = DataContext as TicketExplorerViewModel;
             if (d == null) return;
 
-            var resourceTypes = d.ResourceTypes.Select(resourceType => new DataGridTextColumn
+            var entityTypes = d.EntityTypes.Select(entityType => new DataGridTextColumn
                 {
-                    Header = resourceType.EntityName,
-                    Binding = new Binding("[" + resourceType.Id + "]"),
+                    Header = entityType.EntityName,
+                    Binding = new Binding("[" + entityType.Id + "]"),
                     MinWidth = 60,
                 });
 
-            foreach (var dgtc in resourceTypes)
+            foreach (var dgtc in entityTypes)
             {
                 DataGrid.Columns.Insert(i + 1, dgtc);
                 i++;

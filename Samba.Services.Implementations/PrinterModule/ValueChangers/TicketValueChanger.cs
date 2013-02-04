@@ -7,7 +7,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 {
     public class TicketValueChanger : AbstractValueChanger<Ticket>
     {
-        private static readonly ResourceValueChanger ResourceValueChanger = new ResourceValueChanger();
+        private static readonly EntityValueChanger ResourceValueChanger = new EntityValueChanger();
         private static readonly PreCalculationValueChanger PreCalculationValueChanger = new PreCalculationValueChanger();
         private static readonly PostCalculationValueChanger PostCalculationValueChanger = new PostCalculationValueChanger();
         private static readonly PaymentValueChanger PaymentValueChanger = new PaymentValueChanger();
@@ -26,7 +26,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             result = PostCalculationValueChanger.Replace(template, result, model.Calculations.Where(x => x.IncludeTax));
             result = PaymentValueChanger.Replace(template, result, model.Payments);
             result = ChangePaymentValueChanger.Replace(template, result, model.ChangePayments);
-            result = ResourceValueChanger.Replace(template, result, model.TicketResources);
+            result = ResourceValueChanger.Replace(template, result, model.TicketEntities);
             result = TaxValueChanger.Replace(template, result, GetTaxValues(model));
             result = OrderValueChanger.Replace(template, result, model.Orders);
             return result;

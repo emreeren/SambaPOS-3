@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Inventory;
-using Samba.Domain.Models.Resources;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
 
@@ -27,71 +27,71 @@ namespace Samba.Modules.InventoryModule
 
         public AccountTransactionType AccountTransactionType { get { return Model.AccountTransactionType; } set { Model.AccountTransactionType = value; } }
 
-        private IEnumerable<ResourceType> _resourceTypes;
-        public IEnumerable<ResourceType> ResourceTypes
+        private IEnumerable<EntityType> _entityTypes;
+        public IEnumerable<EntityType> EntityTypes
         {
-            get { return _resourceTypes ?? (_resourceTypes = Workspace.All<ResourceType>()); }
+            get { return _entityTypes ?? (_entityTypes = Workspace.All<EntityType>()); }
         }
 
-        private ResourceType _sourceResourceType;
-        public ResourceType SourceResourceType
+        private EntityType _sourceEntityType;
+        public EntityType SourceEntityType
         {
             get
             {
-                return _sourceResourceType ??
-                       (_sourceResourceType = ResourceTypes.SingleOrDefault(x => x.Id == Model.SourceResourceTypeId));
+                return _sourceEntityType ??
+                       (_sourceEntityType = EntityTypes.SingleOrDefault(x => x.Id == Model.SourceEntityTypeId));
             }
             set
             {
-                Model.SourceResourceTypeId = value.Id;
-                _sourceResourceType = null;
-                _sourceResources = null;
-                RaisePropertyChanged(() => SourceResourceType);
-                RaisePropertyChanged(() => SourceResources);
+                Model.SourceEntityTypeId = value.Id;
+                _sourceEntityType = null;
+                _sourceEntities = null;
+                RaisePropertyChanged(() => SourceEntityType);
+                RaisePropertyChanged(() => SourceEntities);
             }
         }
 
-        private ResourceType _targetResourceType;
-        public ResourceType TargetResourceType
+        private EntityType _targetEntityType;
+        public EntityType TargetEntityType
         {
             get
             {
-                return _targetResourceType ??
-                       (_targetResourceType = ResourceTypes.SingleOrDefault(x => x.Id == Model.TargetResourceTypeId));
+                return _targetEntityType ??
+                       (_targetEntityType = EntityTypes.SingleOrDefault(x => x.Id == Model.TargetEntityTypeId));
             }
             set
             {
-                Model.TargetResourceTypeId = value.Id;
-                _targetResourceType = null;
-                _targetResources = null;
-                RaisePropertyChanged(() => TargetResourceType);
-                RaisePropertyChanged(() => TargetResources);
+                Model.TargetEntityTypeId = value.Id;
+                _targetEntityType = null;
+                _targetEntities = null;
+                RaisePropertyChanged(() => TargetEntityType);
+                RaisePropertyChanged(() => TargetEntities);
             }
         }
 
-        public int? DefaultSourceResourceId { get { return Model.DefaultSourceResourceId; } set { Model.DefaultSourceResourceId = value.GetValueOrDefault(0); } }
-        public int? DefaultTargetResourceId { get { return Model.DefaultTargetResourceId; } set { Model.DefaultTargetResourceId = value.GetValueOrDefault(0); } }
+        public int? DefaultSourceEntityId { get { return Model.DefaultSourceEntityId; } set { Model.DefaultSourceEntityId = value.GetValueOrDefault(0); } }
+        public int? DefaultTargetEntityId { get { return Model.DefaultTargetEntityId; } set { Model.DefaultTargetEntityId = value.GetValueOrDefault(0); } }
 
-        private IEnumerable<Resource> _sourceResources;
-        public IEnumerable<Resource> SourceResources
+        private IEnumerable<Entity> _sourceEntities;
+        public IEnumerable<Entity> SourceEntities
         {
-            get { return _sourceResources ?? (_sourceResources = GetSoruceResources()); }
+            get { return _sourceEntities ?? (_sourceEntities = GetSoruceEntities()); }
         }
 
-        private IEnumerable<Resource> _targetResources;
-        public IEnumerable<Resource> TargetResources
+        private IEnumerable<Entity> _targetEntities;
+        public IEnumerable<Entity> TargetEntities
         {
-            get { return _targetResources ?? (_targetResources = GetTargetResources()); }
+            get { return _targetEntities ?? (_targetEntities = GetTargetEntities()); }
         }
 
-        private IEnumerable<Resource> GetSoruceResources()
+        private IEnumerable<Entity> GetSoruceEntities()
         {
-            return SourceResourceType != null ? Workspace.All<Resource>(x => x.ResourceTypeId == SourceResourceType.Id).ToList() : null;
+            return SourceEntityType != null ? Workspace.All<Entity>(x => x.EntityTypeId == SourceEntityType.Id).ToList() : null;
         }
 
-        private IEnumerable<Resource> GetTargetResources()
+        private IEnumerable<Entity> GetTargetEntities()
         {
-            return TargetResourceType != null ? Workspace.All<Resource>(x => x.ResourceTypeId == TargetResourceType.Id).ToList() : null;
+            return TargetEntityType != null ? Workspace.All<Entity>(x => x.EntityTypeId == TargetEntityType.Id).ToList() : null;
         }
 
         public override Type GetViewType()

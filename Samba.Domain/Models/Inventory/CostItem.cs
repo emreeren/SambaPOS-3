@@ -2,7 +2,7 @@
 
 namespace Samba.Domain.Models.Inventory
 {
-    public class CostItem : Entity
+    public class CostItem : EntityClass
     {
         public int WarehouseConsumptionId { get; set; }
         public int PeriodicConsumptionId { get; set; }

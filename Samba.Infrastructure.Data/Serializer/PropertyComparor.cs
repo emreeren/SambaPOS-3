@@ -9,7 +9,7 @@ namespace Samba.Infrastructure.Data.Serializer
 {
     public static class PropertyComparor
     {
-        public static void ExtractEntities(object item, IDictionary<Type, Dictionary<int, IEntity>> types)
+        public static void ExtractEntities(object item, IDictionary<Type, Dictionary<int, IEntityClass>> types)
         {
             var itemName = item.GetType().Name;
             if (itemName.Contains("_")) itemName = itemName.Substring(0, itemName.IndexOf("_"));
@@ -17,9 +17,9 @@ namespace Samba.Infrastructure.Data.Serializer
             foreach (var property in properties)
             {
                 var value = property.GetValue(item, null);
-                if (value is IEntity && value.GetType().GetProperty(itemName + "Id") == null)
+                if (value is IEntityClass && value.GetType().GetProperty(itemName + "Id") == null)
                 {
-                    AddEntity(value as IEntity, types);
+                    AddEntity(value as IEntityClass, types);
                 }
                 else if (value is IList)
                 {
@@ -27,8 +27,8 @@ namespace Samba.Infrastructure.Data.Serializer
                     Debug.Assert(list != null);
                     foreach (var listItem in list)
                     {
-                        if (listItem is IEntity && listItem.GetType().GetProperty(itemName + "Id") == null)
-                            AddEntity(listItem as IEntity, types);
+                        if (listItem is IEntityClass && listItem.GetType().GetProperty(itemName + "Id") == null)
+                            AddEntity(listItem as IEntityClass, types);
                         else
                         {
                             ExtractEntities(listItem, types);
@@ -38,13 +38,13 @@ namespace Samba.Infrastructure.Data.Serializer
             }
         }
 
-        private static void AddEntity(IEntity entity, IDictionary<Type, Dictionary<int, IEntity>> types)
+        private static void AddEntity(IEntityClass entity, IDictionary<Type, Dictionary<int, IEntityClass>> types)
         {
             Debug.Assert(entity != null);
 
             if (!types.ContainsKey(entity.GetType()))
             {
-                types.Add(entity.GetType(), new Dictionary<int, IEntity>());
+                types.Add(entity.GetType(), new Dictionary<int, IEntityClass>());
             }
 
             if (!types[entity.GetType()].ContainsKey(entity.Id))

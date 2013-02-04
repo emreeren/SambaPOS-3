@@ -14,21 +14,13 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <StackPanel >
-            <Label>
-                <LocText ResourceIdentifierKey="Name" Suffix=":"/>
-            </Label>
+            <Label Content="{LocText Name,Suffix=':'}"/>            
             <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
-            <Label>
-                <LocText ResourceIdentifierKey="FilterType" Suffix=":"/>
-            </Label>
+            <Label Content="{LocText FilterType,Suffix=':'}"/>            
             <ComboBox ItemsSource="{Binding FilterTypes}" SelectedItem="{Binding FilterType}" HorizontalAlignment="Left" MinWidth="200"/>
-            <Label>
-                <LocText ResourceIdentifierKey="Rules" Suffix=":"/>
-            </Label>
+            <Label Content="{LocText Rules,Suffix=':'}"/>            
             <ComboBox ItemsSource="{Binding WorkingRules}" SelectedItem="{Binding WorkingRule}" HorizontalAlignment="Left" MinWidth="200"/>
-            <Label>
-                <LocText ResourceIdentifierKey="Tags" Suffix=":"/>
-            </Label>
+            <Label Content="{LocText Tags,Suffix=':'}"/>            
         </StackPanel>
         <UIControls:TokenizingControl Name="rtb" Grid.Row="1" TokenTemplate="{StaticResource NameTokenTemplate}" Text="{Binding Tags}"
                                           HorizontalAlignment="Left" MinWidth="150" MaxWidth="300" AcceptsReturn="False" VerticalScrollBarVisibility="Auto"/>

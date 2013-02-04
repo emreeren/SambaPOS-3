@@ -6,7 +6,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Settings
 {
-    public class ForeignCurrency : Entity
+    public class ForeignCurrency : EntityClass
     {
         public string CurrencySymbol { get; set; }
         public decimal ExchangeRate { get; set; }

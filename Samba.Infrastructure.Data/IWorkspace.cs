@@ -10,8 +10,8 @@ namespace Samba.Infrastructure.Data
         void Delete<T>(Expression<Func<T, bool>> expression) where T : class;
         void Delete<T>(T item) where T : class;
         T Single<T>(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes) where T : class;
-        T Last<T>() where T : class, IValue;
-        T Last<T>(Expression<Func<T, bool>> expression) where T : class, IValue;
+        T Last<T>() where T : class, IValueClass;
+        T Last<T>(Expression<Func<T, bool>> expression) where T : class, IValueClass;
         IEnumerable<T> All<T>(params Expression<Func<T, object>>[] includes) where T : class;
         IEnumerable<T> All<T>(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes) where T : class;
 
@@ -28,6 +28,6 @@ namespace Samba.Infrastructure.Data
 
         void Refresh(object item);
 
-        void MarkUnchanged<T>(T item) where T : class, IEntity;
+        void MarkUnchanged<T>(T item) where T : class, IEntityClass;
     }
 }

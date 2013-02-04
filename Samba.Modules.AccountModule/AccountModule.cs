@@ -103,7 +103,7 @@ namespace Samba.Modules.AccountModule
                         var accountTransactionType = _cacheService.GetAccountTransactionTypeByName(transactionName);
                         if (accountTransactionType != null)
                         {
-                            var ts = ticket.TicketResources.FirstOrDefault(x => _ticketService.CanMakeAccountTransaction(x, accountTransactionType, 0));
+                            var ts = ticket.TicketEntities.FirstOrDefault(x => _ticketService.CanMakeAccountTransaction(x, accountTransactionType, 0));
                             if (ts != null)
                             {
                                 var account = _cacheService.GetAccountById(ts.AccountId);

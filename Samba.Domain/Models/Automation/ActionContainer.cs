@@ -2,7 +2,7 @@
 
 namespace Samba.Domain.Models.Automation
 {
-    public class ActionContainer : Value, IOrderable
+    public class ActionContainer : ValueClass, IOrderable
     {
         public ActionContainer()
         {

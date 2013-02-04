@@ -4,7 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Collections.Generic;
 using System.Timers;
-using Samba.Domain.Models.Resources;
+using Samba.Domain.Models.Entities;
 using Samba.Localization.Properties;
 using Samba.Persistance;
 using Samba.Presentation.Common;
@@ -104,9 +104,9 @@ namespace Samba.Modules.TicketModule
         }
 
         [Browsable(false)]
-        public IEnumerable<ResourceType> ResourceTypes
+        public IEnumerable<EntityType> EntityTypes
         {
-            get { return _cacheService.GetResourceTypes(); }
+            get { return _cacheService.GetEntityTypes(); }
         }
 
         [Browsable(false)]

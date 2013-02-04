@@ -12,7 +12,7 @@ namespace Samba.Modules.SettingsModule
     {
         private readonly string[] _stateTypes = new[]
                                                     {
-                                                        string.Format(Resources.State_f, Resources.Resource),
+                                                        string.Format(Resources.State_f, Resources.Entity),
                                                         string.Format(Resources.State_f, Resources.Ticket),
                                                         string.Format(Resources.State_f, Resources.Order)
                                                     };

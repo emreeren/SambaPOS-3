@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using Samba.Domain.Models.Accounts;
-using Samba.Domain.Models.Resources;
+using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data.Serializer;
@@ -50,55 +50,55 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             return _cacheService.GetCurrencyById(account.ForeignCurrencyId).ExchangeRate;
         }
 
-        public void UpdateResource(Ticket ticket, int resourceTypeId, int resourceId, string resourceName, int accountId, string resourceCustomData)
+        public void UpdateEntity(Ticket ticket, int entityTypeId, int entityId, string entityName, int accountId, string entityCustomData)
         {
-            var currentResource = ticket.TicketResources.SingleOrDefault(x => x.ResourceTypeId == resourceTypeId);
-            var currentResourceId = currentResource != null ? currentResource.ResourceId : 0;
-            var newResourceName = resourceName;
-            var oldResourceName = currentResource != null ? currentResource.ResourceName : "";
+            var currentEntity = ticket.TicketEntities.SingleOrDefault(x => x.EntityTypeId == entityTypeId);
+            var currentEntityId = currentEntity != null ? currentEntity.EntityId : 0;
+            var newEntityName = entityName;
+            var oldEntityName = currentEntity != null ? currentEntity.EntityName : "";
 
-            if (currentResource != null && currentResource.ResourceId != resourceId)
+            if (currentEntity != null && currentEntity.EntityId != entityId)
             {
-                var resourceType = _cacheService.GetResourceTypeById(currentResource.ResourceTypeId);
-                _automationService.NotifyEvent(RuleEventNames.ResourceUpdated, new
+                var entityType = _cacheService.GetEntityTypeById(currentEntity.EntityTypeId);
+                _automationService.NotifyEvent(RuleEventNames.EntityUpdated, new
                 {
-                    currentResource.ResourceTypeId,
-                    currentResource.ResourceId,
-                    ResourceTypeName = resourceType.Name,
-                    OpenTicketCount = GetOpenTicketCount(currentResource.ResourceId, ticket.Id)
+                    EntityTypeId = currentEntity.EntityTypeId,
+                    EntityId = currentEntity.EntityId,
+                    EntityTypeName = entityType.Name,
+                    OpenTicketCount = GetOpenTicketCount(currentEntity.EntityId, ticket.Id)
                 });
             }
 
-            ticket.UpdateResource(resourceTypeId, resourceId, resourceName, accountId, resourceCustomData);
+            ticket.UpdateEntity(entityTypeId, entityId, entityName, accountId, entityCustomData);
 
-            if (currentResourceId != resourceId)
+            if (currentEntityId != entityId)
             {
-                var resourceType = _cacheService.GetResourceTypeById(resourceTypeId);
-                _automationService.NotifyEvent(RuleEventNames.TicketResourceChanged,
+                var entityType = _cacheService.GetEntityTypeById(entityTypeId);
+                _automationService.NotifyEvent(RuleEventNames.TicketEntityChanged,
                     new
                     {
                         Ticket = ticket,
-                        ResourceTypeId = resourceTypeId,
-                        ResourceId = resourceId,
-                        ResourceTypeName = resourceType.Name,
-                        OldResourceName = oldResourceName,
-                        NewResourceName = newResourceName,
+                        EntityTypeId = entityTypeId,
+                        EntityId = entityId,
+                        EntityTypeName = entityType.Name,
+                        OldEntityName = oldEntityName,
+                        NewEntityName = newEntityName,
                         OrderCount = ticket.Orders.Count
                     });
             }
         }
 
-        private int GetOpenTicketCount(int resourceId, int ticketId)
+        private int GetOpenTicketCount(int entityId, int ticketId)
         {
-            var ids = GetOpenTicketIds(resourceId).ToList();
+            var ids = GetOpenTicketIds(entityId).ToList();
             if (ticketId > 0 && !ids.Contains(ticketId)) ids.Add(ticketId);
             return ids.Count - (ticketId > 0 ? 1 : 0);
         }
 
-        public void UpdateResource(Ticket ticket, Resource resource)
+        public void UpdateEntity(Ticket ticket, Entity entity)
         {
-            if (resource == null) return;
-            UpdateResource(ticket, resource.ResourceTypeId, resource.Id, resource.Name, resource.AccountId, resource.CustomData);
+            if (entity == null) return;
+            UpdateEntity(ticket, entity.EntityTypeId, entity.Id, entity.Name, entity.AccountId, entity.CustomData);
         }
 
         public Ticket OpenTicket(int ticketId)
@@ -166,15 +166,15 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
             if (ticket.Id > 0)
             {
-                foreach (var ticketResource in ticket.TicketResources)
+                foreach (var ticketEntity in ticket.TicketEntities)
                 {
-                    var resourceType = _cacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
-                    _automationService.NotifyEvent(RuleEventNames.ResourceUpdated, new
+                    var entityType = _cacheService.GetEntityTypeById(ticketEntity.EntityTypeId);
+                    _automationService.NotifyEvent(RuleEventNames.EntityUpdated, new
                                                                                        {
-                                                                                           ticketResource.ResourceTypeId,
-                                                                                           ticketResource.ResourceId,
-                                                                                           ResourceTypeName = resourceType.Name,
-                                                                                           OpenTicketCount = GetOpenTicketIds(ticketResource.ResourceId).Count()
+                                                                                           EntityTypeId = ticketEntity.EntityTypeId,
+                                                                                           EntityId = ticketEntity.EntityId,
+                                                                                           EntityTypeName = entityType.Name,
+                                                                                           OpenTicketCount = GetOpenTicketIds(ticketEntity.EntityId).Count()
                                                                                        });
                 }
             }
@@ -229,14 +229,14 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             if (ticketList.Any(x => x.Calculations.Any()))
                 return new TicketCommitResult { ErrorMessage = string.Format("Can't merge tickets\r{0}", "contains calculations") };
 
-            var resourcesUnMatches = ticketList.SelectMany(x => x.TicketResources).GroupBy(x => x.ResourceTypeId).Any(x => x.Select(y => y.ResourceId).Distinct().Count() > 1);
-            if (resourcesUnMatches) return new TicketCommitResult { ErrorMessage = string.Format("Can't merge tickets\r{0}", "Resources doesn't match") };
+            var entitiesUnMatches = ticketList.SelectMany(x => x.TicketEntities).GroupBy(x => x.EntityTypeId).Any(x => x.Select(y => y.EntityId).Distinct().Count() > 1);
+            if (entitiesUnMatches) return new TicketCommitResult { ErrorMessage = string.Format("Can't merge tickets\r{0}", "Entities doesn't match") };
 
             var clonedOrders = ticketList.SelectMany(x => x.Orders).Select(ObjectCloner.Clone).ToList();
             var clonedPayments = ticketList.SelectMany(x => x.Payments).Select(ObjectCloner.Clone2).ToList();
             var clonedChangePayments = ticketList.SelectMany(x => x.ChangePayments).Select(ObjectCloner.Clone2).ToList();
             var clonedTags = ticketList.SelectMany(x => x.GetTicketTagValues()).Select(ObjectCloner.Clone).ToList();
-            var clonedResources = ticketList.SelectMany(x => x.TicketResources).Select(ObjectCloner.Clone).ToList();
+            var clonedEntites = ticketList.SelectMany(x => x.TicketEntities).Select(ObjectCloner.Clone).ToList();
 
             ticketList.ForEach(x => x.Orders.ToList().ForEach(x.RemoveOrder));
             ticketList.ForEach(x => x.Payments.ToList().ForEach(x.RemovePayment));
@@ -258,7 +258,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                 ticket.AddChangePayment(_cacheService.GetChangePaymentTypeById(cp.ChangePaymentTypeId), account, cp.Amount, GetExchangeRate(account), 0);
             }
 
-            clonedResources.ForEach(x => ticket.UpdateResource(x.ResourceTypeId, x.ResourceId, x.ResourceName, x.AccountId, x.ResourceCustomData));
+            clonedEntites.ForEach(x => ticket.UpdateEntity(x.EntityTypeId, x.EntityId, x.EntityName, x.AccountId, x.EntityCustomData));
             clonedTags.ForEach(x => ticket.SetTagValue(x.TagName, x.TagValue));
 
             RefreshAccountTransactions(ticket);
@@ -362,14 +362,14 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             return _ticketDao.GetOpenTicketCount();
         }
 
-        public IEnumerable<int> GetOpenTicketIds(int resourceId)
+        public IEnumerable<int> GetOpenTicketIds(int entityId)
         {
-            return _ticketDao.GetOpenTicketIds(resourceId);
+            return _ticketDao.GetOpenTicketIds(entityId);
         }
 
-        public IEnumerable<OpenTicketData> GetOpenTickets(int resourceId)
+        public IEnumerable<OpenTicketData> GetOpenTickets(int entityId)
         {
-            return GetOpenTickets(x => !x.IsClosed && x.TicketResources.Any(y => y.ResourceId == resourceId));
+            return GetOpenTickets(x => !x.IsClosed && x.TicketEntities.Any(y => y.EntityId == entityId));
         }
 
         public IEnumerable<OpenTicketData> GetOpenTickets(Expression<Func<Ticket, bool>> prediction)
@@ -394,15 +394,15 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             return new List<ITicketExplorerFilter> { item };
         }
 
-        public void UpdateAccountOfOpenTickets(Resource resource)
+        public void UpdateAccountOfOpenTickets(Entity entity)
         {
-            var openTicketDataList = GetOpenTickets(resource.Id).Select(x => x.Id);
+            var openTicketDataList = GetOpenTickets(entity.Id).Select(x => x.Id);
             using (var w = WorkspaceFactory.Create())
             {
-                var tickets = w.All<Ticket>(x => openTicketDataList.Contains(x.Id), x => x.TicketResources);
+                var tickets = w.All<Ticket>(x => openTicketDataList.Contains(x.Id), x => x.TicketEntities);
                 foreach (var ticket in tickets)
                 {
-                    ticket.TicketResources.Where(x => x.ResourceId == resource.Id).ToList().ForEach(x => x.AccountId = resource.AccountId);
+                    ticket.TicketEntities.Where(x => x.EntityId == entity.Id).ToList().ForEach(x => x.AccountId = entity.AccountId);
                 }
                 w.CommitChanges();
             }
@@ -553,21 +553,21 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             }
         }
 
-        public bool CanMakeAccountTransaction(TicketResource ticketResource, AccountTransactionType accountTransactionType, decimal targetBalance)
+        public bool CanMakeAccountTransaction(TicketEntity ticketEntity, AccountTransactionType accountTransactionType, decimal targetBalance)
         {
-            if (ticketResource.AccountId == 0) return false;
-            var resourceType = _cacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
+            if (ticketEntity.AccountId == 0) return false;
+            var entityType = _cacheService.GetEntityTypeById(ticketEntity.EntityTypeId);
             var typeId = accountTransactionType.TargetAccountTypeId;
             if (accountTransactionType.DefaultSourceAccountId == 0)
                 typeId = accountTransactionType.SourceAccountTypeId;
-            var result = resourceType.AccountTypeId == typeId;
+            var result = entityType.AccountTypeId == typeId;
             if (result)
             {
-                var accountType = _cacheService.GetAccountTypeById(resourceType.AccountTypeId);
+                var accountType = _cacheService.GetAccountTypeById(entityType.AccountTypeId);
                 if (accountType.WorkingRule != 0)
                 {
                     if (accountType.WorkingRule == 1 && targetBalance < 0) return false; //disallow credit
-                    if (accountType.WorkingRule == 2 && targetBalance > ticketResource.GetCustomDataAsDecimal(Resources.CreditLimit)) return false; //disallow debit
+                    if (accountType.WorkingRule == 2 && targetBalance > ticketEntity.GetCustomDataAsDecimal(Resources.CreditLimit)) return false; //disallow debit
                 }
             }
             return result;

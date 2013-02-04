@@ -16,15 +16,13 @@
             <Label Content="{LocText Warehouse,Suffix=':'}"/>
             <ComboBox HorizontalAlignment="Left" MinWidth="170" SelectedValue="{Binding WarehouseId}"
                                   ItemsSource="{Binding Warehouses}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
-            <Label>
-                <LocText ResourceIdentifierKey="PriceTag" Suffix=":"/>
-            </Label>
+            <Label Content="{LocText PriceTag,Suffix=':'}"/>
+            
             <ComboBox HorizontalAlignment="Left" MinWidth="150" IsEditable="True" 
                               ItemsSource="{Binding PriceTags}" Text="{Binding PriceTag}" />
 
-            <Label>
-                <LocText ResourceIdentifierKey="TicketCreationMethod" Suffix=":"/>
-            </Label>
+            <Label Content="{LocText TicketCreationMethod,Suffix=':'}"/>
+            
             <ComboBox HorizontalAlignment="Left" MinWidth="150" ItemsSource="{Binding TicketCreationMethods}" SelectedItem="{Binding TicketCreationMethod}" />
         </StackPanel>
         <StackPanel Grid.Row="1">

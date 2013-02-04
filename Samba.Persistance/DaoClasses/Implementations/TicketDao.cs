@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using Omu.ValueInjecter;
-using Samba.Domain.Models.Resources;
+using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
@@ -20,7 +20,7 @@ namespace Samba.Persistance.DaoClasses.Implementations
         [ImportingConstructor]
         public TicketDao()
         {
-            ValidatorRegistry.RegisterDeleteValidator<TicketType>(x => Dao.Exists<ResourceScreen>(y => y.TicketTypeId == x.Id), Resources.TicketType, Resources.ResourceScreen);
+            ValidatorRegistry.RegisterDeleteValidator<TicketType>(x => Dao.Exists<EntityScreen>(y => y.TicketTypeId == x.Id), Resources.TicketType, Resources.EntityScreen);
             ValidatorRegistry.RegisterConcurrencyValidator(new TicketConcurrencyValidator());
         }
 
@@ -39,7 +39,7 @@ namespace Samba.Persistance.DaoClasses.Implementations
             if (ticketId == 0) throw new ArgumentException("Ticket Id should be more than 0");
             return Dao.Load<Ticket>(ticketId,
                              x => x.Orders.Select(y => y.ProductTimerValue),
-                             x => x.TicketResources,
+                             x => x.TicketEntities,
                              x => x.Calculations,
                              x => x.Payments,
                              x => x.ChangePayments);
@@ -50,9 +50,9 @@ namespace Samba.Persistance.DaoClasses.Implementations
             return Dao.Count<Ticket>(x => !x.IsClosed);
         }
 
-        public IEnumerable<int> GetOpenTicketIds(int resourceId)
+        public IEnumerable<int> GetOpenTicketIds(int entityId)
         {
-            return Dao.Select<Ticket, int>(x => x.Id, x => !x.IsClosed && x.TicketResources.Any(y => y.ResourceId == resourceId));
+            return Dao.Select<Ticket, int>(x => x.Id, x => !x.IsClosed && x.TicketEntities.Any(y => y.EntityId == entityId));
         }
 
         public IEnumerable<OpenTicketData> GetOpenTickets(Expression<Func<Ticket, bool>> prediction)
@@ -64,9 +64,9 @@ namespace Samba.Persistance.DaoClasses.Implementations
                 TicketNumber = x.TicketNumber,
                 RemainingAmount = x.RemainingAmount,
                 Date = x.Date,
-                TicketResources = x.TicketResources,
+                TicketResources = x.TicketEntities,
                 TicketTags = x.TicketTags
-            }, prediction, x => x.TicketResources);
+            }, prediction, x => x.TicketEntities);
         }
 
         public void SaveFreeTicketTag(int ticketTagGroupId, string freeTag)
@@ -89,7 +89,7 @@ namespace Samba.Persistance.DaoClasses.Implementations
         public IEnumerable<Ticket> GetAllTickets()
         {
             return Dao.Query<Ticket>(x => x.Orders.Select(y => y.ProductTimerValue),
-                             x => x.TicketResources,
+                             x => x.TicketEntities,
                              x => x.Calculations,
                              x => x.Payments,
                              x => x.ChangePayments);
@@ -99,7 +99,7 @@ namespace Samba.Persistance.DaoClasses.Implementations
         {
             return Dao.Single<Ticket>(x => x.Id == id,
                              x => x.Orders.Select(y => y.ProductTimerValue),
-                             x => x.TicketResources,
+                             x => x.TicketEntities,
                              x => x.Calculations,
                              x => x.Payments,
                              x => x.ChangePayments);
@@ -110,7 +110,7 @@ namespace Samba.Persistance.DaoClasses.Implementations
             endDate = endDate.Date.AddDays(1).AddMinutes(-1);
             Expression<Func<Ticket, bool>> qFilter = x => x.Date >= startDate && x.Date < endDate;
             qFilter = filters.Aggregate(qFilter, (current, filter) => current.And(filter.GetExpression()));
-            return Dao.Query(qFilter, x => x.TicketResources);
+            return Dao.Query(qFilter, x => x.TicketEntities);
         }
 
         public IEnumerable<Order> GetOrders(int ticketId)
@@ -150,11 +150,11 @@ namespace Samba.Persistance.DaoClasses.Implementations
                     return ConcurrencyCheckResult.Break(string.Format(Resources.TicketMovedRetryLastOperation_f, loaded.AccountName));
                 }
 
-                if (current.TicketResources.Count != loaded.TicketResources.Count || !current.TicketResources.All(x => loaded.TicketResources.Any(y => x.ResourceId == y.ResourceId)))
+                if (current.TicketEntities.Count != loaded.TicketEntities.Count || !current.TicketEntities.All(x => loaded.TicketEntities.Any(y => x.EntityId == y.EntityId)))
                 {
-                    var resource = current.TicketResources.FirstOrDefault(x => loaded.TicketResources.All(y => y.ResourceId != x.ResourceId))
-                        ?? loaded.TicketResources.First(x => current.TicketResources.All(y => y.ResourceId != x.ResourceId));
-                    return ConcurrencyCheckResult.Break(string.Format(Resources.TicketMovedRetryLastOperation_f, resource.ResourceName));
+                    var resource = current.TicketEntities.FirstOrDefault(x => loaded.TicketEntities.All(y => y.EntityId != x.EntityId))
+                        ?? loaded.TicketEntities.First(x => current.TicketEntities.All(y => y.EntityId != x.EntityId));
+                    return ConcurrencyCheckResult.Break(string.Format(Resources.TicketMovedRetryLastOperation_f, resource.EntityName));
                 }
 
                 if (current.IsClosed != loaded.IsClosed)

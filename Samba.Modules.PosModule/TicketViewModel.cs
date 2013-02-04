@@ -5,8 +5,8 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Events;
+using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Menus;
-using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
@@ -49,21 +49,21 @@ namespace Samba.Modules.PosModule
         public ICaptionCommand RemoveTicketTagCommand { get; set; }
         public ICaptionCommand ChangePriceCommand { get; set; }
 
-        public DelegateCommand<ResourceType> SelectResourceCommand { get; set; }
+        public DelegateCommand<EntityType> SelectEntityCommand { get; set; }
         public DelegateCommand<CommandContainerButton> ExecuteAutomationCommnand { get; set; }
 
-        private ObservableCollection<ResourceButton> _resourceButtons;
-        public ObservableCollection<ResourceButton> ResourceButtons
+        private ObservableCollection<EntityButton> _entityButtons;
+        public ObservableCollection<EntityButton> EntityButtons
         {
             get
             {
-                if (_resourceButtons == null && SelectedDepartment != null && SelectedTicket != null && SelectedTicket.TicketTypeId > 0)
+                if (_entityButtons == null && SelectedDepartment != null && SelectedTicket != null && SelectedTicket.TicketTypeId > 0)
                 {
-                    _resourceButtons = new ObservableCollection<ResourceButton>(
-                        _cacheService.GetResourceTypesByTicketType(SelectedTicket.TicketTypeId)
-                        .Select(x => new ResourceButton(x, SelectedTicket)));
+                    _entityButtons = new ObservableCollection<EntityButton>(
+                        _cacheService.GetEntityTypesByTicketType(SelectedTicket.TicketTypeId)
+                        .Select(x => new EntityButton(x, SelectedTicket)));
                 }
-                return _resourceButtons;
+                return _entityButtons;
             }
         }
 
@@ -73,14 +73,14 @@ namespace Samba.Modules.PosModule
             get { return _selectedTicket; }
             set
             {
-                _resourceButtons = null;
+                _entityButtons = null;
                 _allAutomationCommands = null;
                 _selectedTicket = value ?? Ticket.Empty;
                 _totals.Model = _selectedTicket;
                 _ticketOrdersViewModel.SelectedTicket = _selectedTicket;
                 _ticketInfo.SelectedTicket = _selectedTicket;
                 _paymentButtonViewModel.SelectedTicket = _selectedTicket;
-                RaisePropertyChanged(() => ResourceButtons);
+                RaisePropertyChanged(() => EntityButtons);
                 RaisePropertyChanged(() => TicketAutomationCommands);
             }
         }
@@ -151,7 +151,7 @@ namespace Samba.Modules.PosModule
 
         [ImportingConstructor]
         public TicketViewModel(IApplicationState applicationState, IExpressionService expressionService,
-            ITicketService ticketService, IAccountService accountService, IResourceService locationService, IUserService userService,
+            ITicketService ticketService, IAccountService accountService, IEntityService locationService, IUserService userService,
             ICacheService cacheService, IAutomationService automationService, TicketOrdersViewModel ticketOrdersViewModel,
             TicketTotalsViewModel totals, TicketInfoViewModel ticketInfoViewModel, PaymentButtonViewModel paymentButtonViewModel)
         {
@@ -166,7 +166,7 @@ namespace Samba.Modules.PosModule
             _ticketInfo = ticketInfoViewModel;
             _paymentButtonViewModel = paymentButtonViewModel;
 
-            SelectResourceCommand = new DelegateCommand<ResourceType>(OnSelectResource, CanSelectResource);
+            SelectEntityCommand = new DelegateCommand<EntityType>(OnSelectEntity, CanSelectEntity);
             ExecuteAutomationCommnand = new DelegateCommand<CommandContainerButton>(OnExecuteAutomationCommand, CanExecuteAutomationCommand);
 
             IncQuantityCommand = new CaptionCommand<string>("+", OnIncQuantityCommand, CanIncQuantity);
@@ -224,8 +224,8 @@ namespace Samba.Modules.PosModule
 
         private void OnDepartmentChanged(EventParameters<Department> obj)
         {
-            _resourceButtons = null;
-            RaisePropertyChanged(() => ResourceButtons);
+            _entityButtons = null;
+            RaisePropertyChanged(() => EntityButtons);
         }
 
         private void ClearSelectedItems()
@@ -234,16 +234,16 @@ namespace Samba.Modules.PosModule
             RefreshSelectedItems();
         }
 
-        private bool CanSelectResource(ResourceType arg)
+        private bool CanSelectEntity(EntityType arg)
         {
-            return !SelectedTicket.IsLocked && SelectedTicket.CanSubmit && _applicationState.GetTicketResourceScreens().Any(x => x.ResourceTypeId == arg.Id);
+            return !SelectedTicket.IsLocked && SelectedTicket.CanSubmit && _applicationState.GetTicketEntityScreens().Any(x => x.EntityTypeId == arg.Id);
         }
 
-        private void OnSelectResource(ResourceType obj)
+        private void OnSelectEntity(EntityType obj)
         {
-            var ticketResource = SelectedTicket.TicketResources.SingleOrDefault(x => x.ResourceTypeId == obj.Id);
-            var selectedResource = ticketResource != null ? _cacheService.GetResourceById(ticketResource.ResourceId) : Resource.GetNullResource(obj.Id);
-            EntityOperationRequest<Resource>.Publish(selectedResource, EventTopicNames.SelectResource, EventTopicNames.ResourceSelected);
+            var ticketEntity = SelectedTicket.TicketEntities.SingleOrDefault(x => x.EntityTypeId == obj.Id);
+            var selectedEntity = ticketEntity != null ? _cacheService.GetEntityById(ticketEntity.EntityId) : Entity.GetNullEntity(obj.Id);
+            EntityOperationRequest<Entity>.Publish(selectedEntity, EventTopicNames.SelectEntity, EventTopicNames.EntitySelected);
         }
 
         private void OnPortionSelected(EventParameters<MenuItemPortion> obj)
@@ -289,7 +289,7 @@ namespace Samba.Modules.PosModule
 
         private void OnAccountSelectedFromPopup(EventParameters<PopupData> obj)
         {
-            if (obj.Value.EventMessage == EventTopicNames.SelectResource)
+            if (obj.Value.EventMessage == EventTopicNames.SelectEntity)
             {
                 //todo fix (caller id popupuna týklandýðýnda adisyon açan metod)
 

@@ -9,8 +9,6 @@
         <TextBlock Name="MessageText" Width="350" TextWrapping="Wrap" Grid.Row="0" Text="DENEME 123"
              FontSize="30" Margin="30" />
         <Button VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10" FontSize="30"
-             Padding="15" Grid.Row="1" Click="Button_Click">
-            <LocText ResourceIdentifierKey="OK"/>
-        </Button>
+             Padding="15" Grid.Row="1" Click="Button_Click" Content="{LocText OK}"/>        
     </Grid>
 </Window>

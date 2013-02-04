@@ -24,9 +24,7 @@
                     <TextBox Text="{Binding Name}" MinWidth="200" HorizontalAlignment="Left" />
                     <Label Content="{LocText ButtonHeader,Suffix=':'}" />
                     <TextBox Text="{Binding ButtonHeader}" MinWidth="200" HorizontalAlignment="Left" />
-                    <Label>
-                        <LocText ResourceIdentifierKey="Color" Suffix=":"/>
-                    </Label>
+                    <Label Content="{LocText Color,Suffix=':'}"/>                    
                     <Wpf:ColorPicker2 HorizontalAlignment="Left" MinWidth="150"
                          SelectedColor="{Binding Color}" />
                     <CheckBox Margin="0,5" IsChecked="{Binding ToggleValues}" Content="{LocText ToggleValues}"/>
@@ -42,9 +40,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <DockPanel Grid.Row="0">
-                        <Label>
-                            <LocText ResourceIdentifierKey="Mappings" Suffix=":"/>
-                        </Label>
+                        <Label Content="{LocText Mappings,Suffix=':'}"/>                        
                         <TextBlock Margin="2,5">
                             <Hyperlink Command="{Binding MapController.AddMapCommand}">
                                 <TextBlock Text="{Binding Path=MapController.AddMapCommand.Caption}" />

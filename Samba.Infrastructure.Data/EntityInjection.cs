@@ -15,7 +15,7 @@ namespace Samba.Infrastructure.Data
 
             var targetPropertyIdWritable = true;
 
-            if (propertyMatch && c.TargetProp.Name == "Id" && !(c.Target.Value is IEntity))
+            if (propertyMatch && c.TargetProp.Name == "Id" && !(c.Target.Value is IEntityClass))
                 targetPropertyIdWritable = false;
 
             return propertyMatch && sourceNotNull && targetPropertyIdWritable;
@@ -33,29 +33,29 @@ namespace Samba.Infrastructure.Data
                 {
                     var targetChildType = c.TargetProp.Type.GetGenericArguments()[0];
                     if (targetChildType.IsValueType || targetChildType == typeof(string)) return c.SourceProp.Value;
-                    if (targetChildType.GetInterfaces().Any(x => x == typeof(IValue)))
+                    if (targetChildType.GetInterfaces().Any(x => x == typeof(IValueClass)))
                     {
                         var deleteMethod = c.TargetProp.Value.GetType().GetMethod("Remove");
-                        var rmvItems = (c.TargetProp.Value as IEnumerable).Cast<IValue>()
-                            .Where(x => x.Id > 0 && !(c.SourceProp.Value as IEnumerable).Cast<IValue>().Any(y => y.Id == x.Id));
+                        var rmvItems = (c.TargetProp.Value as IEnumerable).Cast<IValueClass>()
+                            .Where(x => x.Id > 0 && !(c.SourceProp.Value as IEnumerable).Cast<IValueClass>().Any(y => y.Id == x.Id));
                         rmvItems.ToList().ForEach(x => deleteMethod.Invoke(c.TargetProp.Value, new[] { x }));
-                        rmvItems = (c.TargetProp.Value as IEnumerable).Cast<IValue>()
-                            .Where(x => !(c.SourceProp.Value as IEnumerable).Cast<IValue>().Contains(x));
+                        rmvItems = (c.TargetProp.Value as IEnumerable).Cast<IValueClass>()
+                            .Where(x => !(c.SourceProp.Value as IEnumerable).Cast<IValueClass>().Contains(x));
                         rmvItems.ToList().ForEach(x => deleteMethod.Invoke(c.TargetProp.Value, new[] { x }));
 
-                        var sourceCollection = (c.SourceProp.Value as IEnumerable).Cast<IValue>();
+                        var sourceCollection = (c.SourceProp.Value as IEnumerable).Cast<IValueClass>();
 
                         foreach (var s in sourceCollection)
                         {
                             var sv = s;
 
-                            var target = (c.TargetProp.Value as IEnumerable).Cast<IValue>().SingleOrDefault(z => z.Id == sv.Id && z.Id != 0);
+                            var target = (c.TargetProp.Value as IEnumerable).Cast<IValueClass>().SingleOrDefault(z => z.Id == sv.Id && z.Id != 0);
                             if (target != null) target.InjectFrom<EntityInjection>(sv);
-                            else if (!(c.TargetProp.Value as IEnumerable).Cast<IValue>().Contains(sv))
+                            else if (!(c.TargetProp.Value as IEnumerable).Cast<IValueClass>().Contains(sv))
                             {
-                                if (!(sv is IEntity))
+                                if (!(sv is IEntityClass))
                                 {
-                                    sv = Activator.CreateInstance(targetChildType) as IValue;
+                                    sv = Activator.CreateInstance(targetChildType) as IValueClass;
                                     Debug.Assert(sv != null);
                                     sv.InjectFrom<EntityInjection>(s);
                                     sv.Id = 0;

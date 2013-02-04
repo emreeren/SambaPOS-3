@@ -37,9 +37,8 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <DockPanel Grid.Row="0">
-                        <Label>
-                            <LocText ResourceIdentifierKey="Mappings" Suffix=":"/>
-                        </Label>
+                        <Label Content="{LocText Mappings,Suffix=':'}"/>
+                        
                         <TextBlock Margin="2,5">
                             <Hyperlink Command="{Binding MapController.AddMapCommand}">
                                 <TextBlock Text="{Binding Path=MapController.AddMapCommand.Caption}" />

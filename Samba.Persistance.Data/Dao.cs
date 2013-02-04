@@ -12,7 +12,7 @@ namespace Samba.Persistance.Data
     {
         private static readonly IDictionary<Type, ArrayList> Cache = new Dictionary<Type, ArrayList>();
 
-        private static void AddToCache<T>(T item) where T : class,IEntity
+        private static void AddToCache<T>(T item) where T : class,IEntityClass
         {
             if (item == null) return;
             if (!Cache.ContainsKey(typeof(T)))
@@ -37,7 +37,7 @@ namespace Samba.Persistance.Data
         }
 
 
-        public static TResult Single<TSource, TResult>(int id, Expression<Func<TSource, TResult>> expression) where TSource : class,IEntity
+        public static TResult Single<TSource, TResult>(int id, Expression<Func<TSource, TResult>> expression) where TSource : class,IEntityClass
         {
             using (var workspace = WorkspaceFactory.CreateReadOnly())
             {
@@ -55,7 +55,7 @@ namespace Samba.Persistance.Data
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public static T SingleWithCache<T>(Expression<Func<T, bool>> predictate) where T : class, IEntity
+        public static T SingleWithCache<T>(Expression<Func<T, bool>> predictate) where T : class, IEntityClass
         {
             var ci = GetFromCache(predictate);
             if (ci != null) return ci;
@@ -114,7 +114,7 @@ namespace Samba.Persistance.Data
             }
         }
 
-        public static IDictionary<int, T> BuildDictionary<T>() where T : class,IEntity
+        public static IDictionary<int, T> BuildDictionary<T>() where T : class,IEntityClass
         {
             IDictionary<int, T> result = new Dictionary<int, T>();
             using (var workspace = WorkspaceFactory.CreateReadOnly())
@@ -129,7 +129,7 @@ namespace Samba.Persistance.Data
             return result;
         }
 
-        public static bool Exists<T>() where T : class,IValue
+        public static bool Exists<T>() where T : class,IValueClass
         {
             using (var workspace = WorkspaceFactory.CreateReadOnly())
             {
@@ -137,7 +137,7 @@ namespace Samba.Persistance.Data
             }
         }
 
-        public static bool Exists<T>(Expression<Func<T, bool>> predictate) where T : class,IValue
+        public static bool Exists<T>(Expression<Func<T, bool>> predictate) where T : class,IValueClass
         {
             using (var workspace = WorkspaceFactory.CreateReadOnly())
             {
@@ -145,7 +145,7 @@ namespace Samba.Persistance.Data
             }
         }
 
-        public static bool Exists<T>(ISpecification<T> specification) where T : class,IValue
+        public static bool Exists<T>(ISpecification<T> specification) where T : class,IValueClass
         {
             return Exists(specification.SatisfiedBy());
         }
@@ -179,7 +179,7 @@ namespace Samba.Persistance.Data
             }
         }
 
-        public static T Last<T>(Expression<Func<T, bool>> predictate, params Expression<Func<T, object>>[] includes) where T : class ,IEntity
+        public static T Last<T>(Expression<Func<T, bool>> predictate, params Expression<Func<T, object>>[] includes) where T : class ,IEntityClass
         {
             using (var workspace = WorkspaceFactory.CreateReadOnly())
             {
@@ -187,7 +187,7 @@ namespace Samba.Persistance.Data
             }
         }
 
-        public static IEnumerable<T> Last<T>(int recordCount) where T : class,IEntity
+        public static IEnumerable<T> Last<T>(int recordCount) where T : class,IEntityClass
         {
             using (var workspace = WorkspaceFactory.CreateReadOnly())
             {

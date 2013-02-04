@@ -7,14 +7,14 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Inventory
 {
-    public class InventoryTransactionDocumentType : Entity, IOrderable
+    public class InventoryTransactionDocumentType : EntityClass, IOrderable
     {
         public virtual AccountTransactionType AccountTransactionType { get; set; }
         public virtual InventoryTransactionType InventoryTransactionType { get; set; }
-        public int SourceResourceTypeId { get; set; }
-        public int TargetResourceTypeId { get; set; }
-        public int DefaultSourceResourceId { get; set; }
-        public int DefaultTargetResourceId { get; set; }
+        public int SourceEntityTypeId { get; set; }
+        public int TargetEntityTypeId { get; set; }
+        public int DefaultSourceEntityId { get; set; }
+        public int DefaultTargetEntityId { get; set; }
         public int SortOrder { get; set; }
         public string UserString { get { return Name; } }
     }

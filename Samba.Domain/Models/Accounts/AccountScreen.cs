@@ -7,7 +7,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Accounts
 {
-    public class AccountScreen : Entity
+    public class AccountScreen : EntityClass
     {
         public AccountScreen()
         {

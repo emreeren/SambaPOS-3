@@ -3,7 +3,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Settings
 {
-    public class WorkPeriod : Entity
+    public class WorkPeriod : EntityClass
     {
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

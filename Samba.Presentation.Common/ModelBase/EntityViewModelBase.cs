@@ -8,7 +8,7 @@ using Samba.Presentation.Services.Common;
 
 namespace Samba.Presentation.Common.ModelBase
 {
-    public abstract class EntityViewModelBase<TModel> : VisibleViewModelBase where TModel : class, IEntity
+    public abstract class EntityViewModelBase<TModel> : VisibleViewModelBase where TModel : class, IEntityClass
     {
         private bool _modelSaved;
 
@@ -154,7 +154,7 @@ namespace Samba.Presentation.Common.ModelBase
         }
     }
 
-    public class EntityValidator<TModel> : AbstractValidator<TModel> where TModel : IEntity
+    public class EntityValidator<TModel> : AbstractValidator<TModel> where TModel : IEntityClass
     {
         public EntityValidator()
         {

@@ -43,7 +43,7 @@
                     <Setter Property="FontSize" Value="18"/>
                 </Style>
             </StackPanel.Resources>
-            <ItemsControl ItemsSource="{Binding ResourceButtons,NotifyOnTargetUpdated=True}"
+            <ItemsControl ItemsSource="{Binding EntityButtons,NotifyOnTargetUpdated=True}"
                          HorizontalAlignment="Stretch" Visibility="{Binding IsNothingSelected,Converter={StaticResource VisibilityConverter}}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -52,7 +52,7 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <FxButton:FlexButton Command="{Binding DataContext.SelectResourceCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
+                        <FxButton:FlexButton Command="{Binding DataContext.SelectEntityCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
                                      CommandParameter="{Binding Model}" Content="{Binding Name}"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

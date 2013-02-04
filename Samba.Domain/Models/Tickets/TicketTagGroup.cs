@@ -10,7 +10,7 @@ namespace Samba.Domain.Models.Tickets
         Price
     }
 
-    public class TicketTagGroup : Entity, IOrderable
+    public class TicketTagGroup : EntityClass, IOrderable
     {
         public int SortOrder { get; set; }
 

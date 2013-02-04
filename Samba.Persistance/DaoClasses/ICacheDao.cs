@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Automation;
+using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Inventory;
 using Samba.Domain.Models.Menus;
-using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tasks;
 using Samba.Domain.Models.Tickets;
@@ -13,12 +13,12 @@ namespace Samba.Persistance.DaoClasses
     public interface ICacheDao
     {
         void ResetCache();
-        IEnumerable<Resource> GetResources(int resourceTypeId);
+        IEnumerable<Entity> GetEntities(int entitiyTypeId);
         IEnumerable<MenuItem> GetMenuItems();
         IEnumerable<ProductTimer> GetProductTimers();
         IEnumerable<OrderTagGroup> GetOrderTagGroups();
         IEnumerable<AccountTransactionType> GetAccountTransactionTypes();
-        IEnumerable<ResourceType> GetResourceTypes();
+        IEnumerable<EntityType> GetEntityTypes();
         IEnumerable<AccountType> GetAccountTypes();
         IEnumerable<AccountTransactionDocumentType> GetAccountTransactionDocumentTypes();
         IEnumerable<State> GetStates();
@@ -30,12 +30,12 @@ namespace Samba.Persistance.DaoClasses
         IEnumerable<CalculationSelector> GetCalculationSelectors();
         IEnumerable<AccountScreen> GetAccountScreens();
         IEnumerable<ScreenMenu> GetScreenMenus();
-        IEnumerable<ResourceScreen> GetResourceScreens();
+        IEnumerable<EntityScreen> GetEntityScreens();
         IEnumerable<TicketType> GetTicketTypes();
         IEnumerable<TaskType> GetTaskTypes();
         IEnumerable<ForeignCurrency> GetForeignCurrencies();
         IEnumerable<Department> GetDepartments();
-        Resource GetResourceByName(int resourceTypeId, string resourceName);
+        Entity GetEntityByName(int entityTypeId, string entityName);
         IEnumerable<TaxTemplate> GetTaxTemplates();
         IEnumerable<Warehouse> GetWarehouses();
     }

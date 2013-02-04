@@ -2,22 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using Samba.Domain.Models.Accounts;
-using Samba.Domain.Models.Resources;
+using Samba.Domain.Models.Entities;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Inventory
 {
-    public class InventoryTransactionDocument : Entity
+    public class InventoryTransactionDocument : EntityClass
     {
         public DateTime Date { get; set; }
         public int InventoryTransactionDocumentTypeId { get; set; }
         public int SourceWarehouseId { get; set; }
         public int TargetWarehouseId { get; set; }
-        public virtual AccountTransactionType AccountTransactionType { get; set; }
         public int SourceAccountId { get; set; }
         public int TargetAccountId { get; set; }
-        public int SourceResourceId { get; set; }
-        public int TargetResourceId { get; set; }
+        public int SourceEntityId { get; set; }
+        public int TargetEntityId { get; set; }
+        public virtual AccountTransactionType AccountTransactionType { get; set; }
         public virtual AccountTransactionDocument TransactionDocument { get; set; }
 
         private readonly IList<InventoryTransaction> _transactionItems;
@@ -39,8 +39,8 @@ namespace Samba.Domain.Models.Inventory
                            InventoryTransactionDocumentTypeId = transactionType.Id,
                            SourceWarehouseId = transactionType.InventoryTransactionType.DefaultSourceWarehouseId,
                            TargetWarehouseId = transactionType.InventoryTransactionType.DefaultTargetWarehouseId,
-                           SourceResourceId = transactionType.DefaultSourceResourceId,
-                           TargetResourceId = transactionType.DefaultTargetResourceId,
+                           SourceEntityId = transactionType.DefaultSourceEntityId,
+                           TargetEntityId = transactionType.DefaultTargetEntityId,
                            AccountTransactionType = transactionType.AccountTransactionType
                        };
         }
@@ -73,18 +73,18 @@ namespace Samba.Domain.Models.Inventory
             TargetWarehouseId = warehouse.Id;
         }
 
-        public void SetSourceResource(Resource resource)
+        public void SetSourceEntity(Entity entity)
         {
-            SourceResourceId = resource.Id;
-            SourceWarehouseId = resource.WarehouseId;
-            SourceAccountId = resource.AccountId;
+            SourceEntityId = entity.Id;
+            SourceWarehouseId = entity.WarehouseId;
+            SourceAccountId = entity.AccountId;
         }
 
-        public void SetTargetResource(Resource resource)
+        public void SetTargetEntity(Entity entity)
         {
-            TargetResourceId = resource.Id;
-            TargetWarehouseId = resource.WarehouseId;
-            TargetAccountId = resource.AccountId;
+            TargetEntityId = entity.Id;
+            TargetWarehouseId = entity.WarehouseId;
+            TargetAccountId = entity.AccountId;
         }
 
         public decimal GetSum()

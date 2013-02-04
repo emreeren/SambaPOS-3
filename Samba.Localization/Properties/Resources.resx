@@ -2425,23 +2425,23 @@ Continue without adding details?</value>
   <data name="Change_f" xml:space="preserve">
     <value>Change {0}</value>
   </data>
-  <data name="Resource" xml:space="preserve">
-    <value>Resource</value>
+  <data name="Entity" xml:space="preserve">
+    <value>Entity</value>
   </data>
-  <data name="ResourceType" xml:space="preserve">
-    <value>Resource Type</value>
+  <data name="EntityType" xml:space="preserve">
+    <value>Entity Type</value>
   </data>
-  <data name="ResourceScreen" xml:space="preserve">
-    <value>Resource Screen</value>
+  <data name="EntityScreen" xml:space="preserve">
+    <value>Entity Screen</value>
   </data>
-  <data name="ResourceScreens" xml:space="preserve">
-    <value>Resource Screens</value>
+  <data name="EntityScreens" xml:space="preserve">
+    <value>Entity Screens</value>
   </data>
   <data name="ScreenItem" xml:space="preserve">
     <value>Screen Item</value>
   </data>
-  <data name="ResourceScreenItem" xml:space="preserve">
-    <value>Resource Screen Item</value>
+  <data name="EntityScreenItem" xml:space="preserve">
+    <value>Entity Screen Item</value>
   </data>
   <data name="State" xml:space="preserve">
     <value>State</value>
@@ -2449,11 +2449,11 @@ Continue without adding details?</value>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
-  <data name="Resourceses" xml:space="preserve">
-    <value>Resources</value>
+  <data name="Entities" xml:space="preserve">
+    <value>Entities</value>
   </data>
-  <data name="ResourceTypes" xml:space="preserve">
-    <value>Resource Types</value>
+  <data name="EntityTypes" xml:space="preserve">
+    <value>Entity Types</value>
   </data>
   <data name="SelectItemsFor_f" xml:space="preserve">
     <value>Select {0} for using with {1} {2}</value>
@@ -2542,8 +2542,8 @@ Continue without adding details?</value>
   <data name="Dashboard" xml:space="preserve">
     <value>Dashboard</value>
   </data>
-  <data name="ResourceButton" xml:space="preserve">
-    <value>Resource Button</value>
+  <data name="EntityButton" xml:space="preserve">
+    <value>Entity Button</value>
   </data>
   <data name="AutoRefresh" xml:space="preserve">
     <value>Auto Refresh</value>
@@ -2602,7 +2602,7 @@ Continue without adding details?</value>
 &lt;T&gt;TICKET
 &lt;L00&gt;Date:{TICKET DATE}
 &lt;L00&gt;Time:{TIME}
-{RESOURCES}
+{ENTITIES}
 &lt;L00&gt;Ticket No:{TICKET NO}
 &lt;F&gt;-
 {ORDERS}
@@ -2633,13 +2633,13 @@ Continue without adding details?</value>
 -- Format for order tags
 &lt;J00&gt;     * {ORDER TAG NAME} | {ORDER TAG PRICE}
 
-[RESOURCES:Table]
--- Table resource format
-&lt;L00&gt;Table: {RESOURCE NAME}
+[ENTITIES:Table]
+-- Table entity format
+&lt;L00&gt;Table: {ENTITY NAME}
 
-[RESOURCES:Customer]
--- Customer resource format
-&lt;J00&gt;Customer: {RESOURCE NAME} | {RESOURCE DATA:Phone}</value>
+[ENTITIES:Customer]
+-- Customer entity format
+&lt;J00&gt;Customer: {ENTITY NAME} | {ENTITY DATA:Phone}</value>
   </data>
 
 <data name="AddTagPriceToOrderPrice" xml:space="preserve">
@@ -2822,8 +2822,8 @@ Message:
   <data name="ExecutePrintJob">
     <value xml:space="preserve">Execute Print Job</value>
   </data>
-  <data name="UpdateResourceState">
-    <value xml:space="preserve">Update Resource State</value>
+  <data name="UpdateEntityState">
+    <value xml:space="preserve">Update Entity State</value>
   </data>
   <data name="DisplayTicket">
     <value xml:space="preserve">Display Ticket</value>
@@ -2846,8 +2846,8 @@ Message:
   <data name="PaymentProcessed">
     <value xml:space="preserve">Payment Processed</value>
   </data>
-  <data name="TicketResourceChanged">
-    <value xml:space="preserve">Ticket Resource Changed</value>
+  <data name="TicketEntityChanged">
+    <value xml:space="preserve">Ticket Entity Changed</value>
   </data>
   <data name="OrderTagged">
     <value xml:space="preserve">Order Tagged</value>
@@ -2855,8 +2855,8 @@ Message:
   <data name="OrderUntagged">
     <value xml:space="preserve">Order Untagged</value>
   </data>
-  <data name="ResourceUpdated">
-    <value xml:space="preserve">Resource Updated</value>
+  <data name="EntityUpdated">
+    <value xml:space="preserve">Entity Updated</value>
   </data>
   <data name="OrderAddedToTicket">
     <value xml:space="preserve">Order Added to Ticket</value>
@@ -2996,8 +2996,8 @@ Error Message:
   <data name="Orders">
     <value xml:space="preserve">Orders</value>
   </data>
-  <data name="ResourceStateUpdated">
-    <value xml:space="preserve">Resource State Updated</value>
+  <data name="EntityStateUpdated">
+    <value xml:space="preserve">Entity State Updated</value>
   </data>
   <data name="DisplayTicketList">
     <value xml:space="preserve">Display Ticket List</value>
@@ -3020,8 +3020,8 @@ Error Message:
   <data name="CreditLimit" xml:space="preserve">
     <value>Credit Limit</value>
   </data>
-  <data name="ChangeTicketResource">
-    <value xml:space="preserve">Change Ticket Resource</value>
+  <data name="ChangeTicketEntity">
+    <value xml:space="preserve">Change Ticket Entity</value>
   </data>
   <data name="Warehouse" xml:space="preserve">
     <value>Warehouse</value>

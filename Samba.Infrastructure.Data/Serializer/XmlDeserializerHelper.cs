@@ -26,7 +26,7 @@ namespace Samba.Infrastructure.Data.Serializer
         private Dictionary<string, Assembly> assemblyregister = new Dictionary<string, Assembly>(); // Predefined Assemblies
         private Dictionary<Type, TypeConverter> typeConverterCache = new Dictionary<Type, TypeConverter>(); // used TypeConverters
 
-        private Dictionary<Type, Dictionary<int, IEntity>> identifyibleCache = new Dictionary<Type, Dictionary<int, IEntity>>();
+        private Dictionary<Type, Dictionary<int, IEntityClass>> identifyibleCache = new Dictionary<Type, Dictionary<int, IEntityClass>>();
 
         private IXmlSerializationTag taglib = new XmlSerializationTag();
 
@@ -86,7 +86,7 @@ namespace Samba.Infrastructure.Data.Serializer
             return Deserialize(node);
         }
 
-        public object Deserialize(XmlDocument document, Dictionary<Type, Dictionary<int, IEntity>> cache)
+        public object Deserialize(XmlDocument document, Dictionary<Type, Dictionary<int, IEntityClass>> cache)
         {
             identifyibleCache = cache;
             XmlNode node = document.SelectSingleNode(taglib.OBJECT_TAG);
@@ -231,7 +231,7 @@ namespace Samba.Infrastructure.Data.Serializer
                 }
             }
 
-            var identifyible = parent as IEntity;
+            var identifyible = parent as IEntityClass;
             if (identifyible != null)
             {
                 var list = GetIdentifyibleTypeList(identifyible.GetType());
@@ -246,10 +246,10 @@ namespace Samba.Infrastructure.Data.Serializer
             return parent;
         }
 
-        private Dictionary<int, IEntity> GetIdentifyibleTypeList(Type type)
+        private Dictionary<int, IEntityClass> GetIdentifyibleTypeList(Type type)
         {
             if (!identifyibleCache.ContainsKey(type))
-                identifyibleCache.Add(type, new Dictionary<int, IEntity>());
+                identifyibleCache.Add(type, new Dictionary<int, IEntityClass>());
             return identifyibleCache[type];
         }
 

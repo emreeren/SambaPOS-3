@@ -6,7 +6,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Accounts
 {
-    public class AccountTransaction : Entity
+    public class AccountTransaction : EntityClass
     {
         public AccountTransaction()
         {

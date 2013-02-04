@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using Samba.Domain.Models.Resources;
+using Samba.Domain.Models.Entities;
 using Samba.Infrastructure;
 using Samba.Infrastructure.Helpers;
 using Samba.Presentation.Common;

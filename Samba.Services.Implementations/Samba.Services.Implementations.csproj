@@ -115,7 +115,7 @@
     <Compile Include="PrinterModule\ValueChangers\PaymentValueChanger.cs" />
     <Compile Include="PrinterModule\ValueChangers\PostCalculationValueChanger.cs" />
     <Compile Include="PrinterModule\ValueChangers\PreCalculationValueChanger.cs" />
-    <Compile Include="PrinterModule\ValueChangers\ResourceValueChanger.cs" />
+    <Compile Include="PrinterModule\ValueChangers\EntityValueChanger.cs" />
     <Compile Include="PrinterModule\ValueChangers\TagNames.cs" />
     <Compile Include="PrinterModule\ValueChangers\TaxValueChanger.cs" />
     <Compile Include="PrinterModule\ValueChangers\TicketFormatter.cs" />

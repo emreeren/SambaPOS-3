@@ -6,7 +6,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Accounts
 {
-    public class AccountTransactionDocumentAccountMap : Value
+    public class AccountTransactionDocumentAccountMap : ValueClass
     {
         public int AccountTransactionDocumentTypeId { get; set; }
         public int AccountId { get; set; }

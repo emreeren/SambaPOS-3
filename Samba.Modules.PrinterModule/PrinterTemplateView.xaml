@@ -15,13 +15,9 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Grid.Column="0">
-            <Label>
-                <LocText ResourceIdentifierKey="TemplateName" Suffix=":"/>
-            </Label>
+            <Label Content="{LocText TemplateName,Suffix=':'}"/>            
             <TextBox Text="{Binding Name}" MinWidth="200" HorizontalAlignment="Left" />
-            <CheckBox Margin="0,3,0,0" IsChecked="{Binding MergeLines}" HorizontalAlignment="Left">
-                <LocText ResourceIdentifierKey="MergeLines"/>
-            </CheckBox>
+            <CheckBox Margin="0,3,0,0" IsChecked="{Binding MergeLines}" HorizontalAlignment="Left" Content="{LocText MergeLines}"/>            
         </StackPanel>
 
         <Grid Grid.Row="1" Grid.Column="0">

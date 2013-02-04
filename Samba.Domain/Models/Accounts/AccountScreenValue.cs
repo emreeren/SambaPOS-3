@@ -2,7 +2,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Accounts
 {
-    public class AccountScreenValue : Value, IOrderable
+    public class AccountScreenValue : ValueClass, IOrderable
     {
         public int AccountTypeId { get; set; }
         public string AccountTypeName { get; set; }

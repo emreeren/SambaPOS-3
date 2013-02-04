@@ -4,7 +4,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class OrderTagGroup : Entity, IOrderable
+    public class OrderTagGroup : EntityClass, IOrderable
     {
         public int SortOrder { get; set; }
 

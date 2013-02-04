@@ -3,7 +3,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Inventory
 {
-    public class InventoryItem : Entity
+    public class InventoryItem : EntityClass
     {
         public string GroupCode { get; set; }
         public string BaseUnit { get; set; }

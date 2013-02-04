@@ -2,7 +2,7 @@
 using System.Linq;
 using Axcidv5callerid;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
-using Samba.Domain.Models.Resources;
+using Samba.Domain.Models.Entities;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common;
@@ -40,18 +40,18 @@ namespace Samba.Modules.CidMonitor
             pn = pn.TrimStart('9');
             pn = pn.TrimStart('0');
 
-            var c = Dao.Query<Resource>(x => x.SearchString == pn).ToList();
+            var c = Dao.Query<Entity>(x => x.SearchString == pn).ToList();
             if (!c.Any())
-                c = Dao.Query<Resource>(x => x.SearchString.Contains(pn)).ToList();
+                c = Dao.Query<Entity>(x => x.SearchString.Contains(pn)).ToList();
             if (c.Count() == 1)
             {
-                var resource = c.First();
-                InteractionService.UserIntraction.DisplayPopup(resource.Name, resource.Name + " " + Resources.Calling + ".\r" + resource.SearchString + "\r",
-                                                            resource.SearchString, EventTopicNames.SelectResource);
+                var entity = c.First();
+                InteractionService.UserIntraction.DisplayPopup(entity.Name, entity.Name + " " + Resources.Calling + ".\r" + entity.SearchString + "\r",
+                                                            entity.SearchString, EventTopicNames.SelectEntity);
             }
             else
                 InteractionService.UserIntraction.DisplayPopup(e.phoneNumber, e.phoneNumber + " " + Resources.Calling + "...",
-                                                               e.phoneNumber, EventTopicNames.SelectResource);
+                                                               e.phoneNumber, EventTopicNames.SelectEntity);
         }
     }
 }

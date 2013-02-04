@@ -28,12 +28,12 @@ namespace Samba.Infrastructure.Data.SQL
             // do nothing.
         }
 
-        public void MarkUnchanged2(IEntity item)
+        public void MarkUnchanged2(IEntityClass item)
         {
             _context.Entry(item).State = EntityState.Unchanged;
         }
 
-        public void MarkUnchanged<T>(T item) where T : class, IEntity
+        public void MarkUnchanged<T>(T item) where T : class, IEntityClass
         {
             var entity = _context.ChangeTracker.Entries<T>().SingleOrDefault(x => x.Entity.Id == item.Id);
             MarkUnchanged2(entity != null ? entity.Entity : item);
@@ -63,12 +63,12 @@ namespace Samba.Infrastructure.Data.SQL
             return result.SingleOrDefault();
         }
 
-        public T Last<T>() where T : class,IValue
+        public T Last<T>() where T : class,IValueClass
         {
             return _context.Set<T>().OrderByDescending(x => x.Id).Take(1).FirstOrDefault();
         }
 
-        public T Last<T>(Expression<Func<T, bool>> expression) where T : class, IValue
+        public T Last<T>(Expression<Func<T, bool>> expression) where T : class, IValueClass
         {
             return _context.Set<T>().Where(expression).OrderByDescending(x => x.Id).Take(1).FirstOrDefault();
         }
@@ -115,7 +115,7 @@ namespace Samba.Infrastructure.Data.SQL
 
         public void Update<T>(T item) where T : class
         {
-            var idf = item as IEntity;
+            var idf = item as IEntityClass;
             if (idf != null && idf.Id == 0)
                 Add(item);
         }

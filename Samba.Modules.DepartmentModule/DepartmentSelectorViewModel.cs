@@ -30,7 +30,7 @@ namespace Samba.Modules.DepartmentModule
 
         public void UpdateSelectedDepartment(int departmentId)
         {
-            _applicationStateSetter.SetSelectedResourceScreen(null);
+            _applicationStateSetter.SetSelectedEntityScreen(null);
             _applicationStateSetter.SetCurrentDepartment(departmentId);
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
             PermittedDepartments.ToList().ForEach(x => x.Refresh());

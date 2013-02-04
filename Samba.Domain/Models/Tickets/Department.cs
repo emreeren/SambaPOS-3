@@ -3,7 +3,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class Department : Entity, IOrderable
+    public class Department : EntityClass, IOrderable
     {
         public int SortOrder { get; set; }
         public string UserString { get { return Name; } }

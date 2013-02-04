@@ -7,7 +7,7 @@ using Samba.Infrastructure.Helpers;
 
 namespace Samba.Domain.Models.Automation
 {
-    public class AppAction : Entity, IOrderable
+    public class AppAction : EntityClass, IOrderable
     {
         public string ActionType { get; set; }
 

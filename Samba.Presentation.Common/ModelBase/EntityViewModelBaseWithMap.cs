@@ -7,7 +7,7 @@ using Samba.Infrastructure.Data;
 namespace Samba.Presentation.Common.ModelBase
 {
     public abstract class EntityViewModelBaseWithMap<TModel, TMapModel, TMapViewModel> : EntityViewModelBase<TModel>
-        where TModel : class, IEntity
+        where TModel : class, IEntityClass
         where TMapModel : class, IAbstractMapModel, new()
         where TMapViewModel : AbstractMapViewModel<TMapModel>, new()
     {

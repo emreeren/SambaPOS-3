@@ -6,7 +6,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Accounts
 {
-    public class AccountType : Entity, IOrderable
+    public class AccountType : EntityClass, IOrderable
     {
         public int DefaultFilterType { get; set; }
         public int WorkingRule { get; set; }  //0 -Permit Credit & Debit, 1- Disallow Debit, 2- Disallow Credit

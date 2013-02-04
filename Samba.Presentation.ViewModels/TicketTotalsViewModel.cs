@@ -107,11 +107,11 @@ namespace Samba.Presentation.ViewModels
                 var sb = new StringBuilder();
                 if (Model == null) return "";
                 if (Model.Id > 0) sb.AppendFormat("# {0} ", Model.TicketNumber);
-                foreach (var ticketResource in Model.TicketResources)
+                foreach (var ticketEntity in Model.TicketEntities)
                 {
-                    var rs = _cacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
-                    var resourceName = ticketResource.ResourceName;
-                    sb.AppendLine(string.Format("{0}: {1}", rs.EntityName, resourceName));
+                    var rs = _cacheService.GetEntityTypeById(ticketEntity.EntityTypeId);
+                    var entityName = ticketEntity.EntityName;
+                    sb.AppendLine(string.Format("{0}: {1}", rs.EntityName, entityName));
                 }
                 var selectedTicketTitle = sb.ToString().Trim(new[] { '\r', '\n' });
 
@@ -129,17 +129,17 @@ namespace Samba.Presentation.ViewModels
                 var sb = new StringBuilder();
                 if (Model == null) return "";
                 if (Model.Id > 0) sb.AppendFormat("# {0} ", Model.TicketNumber);
-                foreach (var ticketResource in Model.TicketResources)
+                foreach (var ticketEntity in Model.TicketEntities)
                 {
-                    var rs = _cacheService.GetResourceTypeById(ticketResource.ResourceTypeId);
-                    var resourceName = ticketResource.ResourceName;
-                    if (ticketResource.AccountId > 0)
+                    var rs = _cacheService.GetEntityTypeById(ticketEntity.EntityTypeId);
+                    var entityName = ticketEntity.EntityName;
+                    if (ticketEntity.AccountId > 0)
                     {
-                        var balance = _accountBalances.GetAccountBalance(ticketResource.AccountId);
+                        var balance = _accountBalances.GetAccountBalance(ticketEntity.AccountId);
                         if (balance != 0)
-                            resourceName = string.Format("{0} {1}", resourceName, balance.ToString(LocalSettings.DefaultCurrencyFormat));
+                            entityName = string.Format("{0} {1}", entityName, balance.ToString(LocalSettings.DefaultCurrencyFormat));
                     }
-                    sb.AppendLine(string.Format("{0}: {1}", rs.EntityName, resourceName));
+                    sb.AppendLine(string.Format("{0}: {1}", rs.EntityName, entityName));
                 }
                 var selectedTicketTitle = sb.ToString().Trim(new[] { '\r', '\n' });
 

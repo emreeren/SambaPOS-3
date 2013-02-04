@@ -5,7 +5,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Inventory
 {
-    public class Recipe : Entity
+    public class Recipe : EntityClass
     {
         public virtual MenuItemPortion Portion { get; set; }
         public decimal FixedCost { get; set; }

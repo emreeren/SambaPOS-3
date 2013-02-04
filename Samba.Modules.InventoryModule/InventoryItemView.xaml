@@ -5,31 +5,23 @@
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <StackPanel>
-            <Label>
-                <LocText ResourceIdentifierKey="InventoryItemName" Suffix=":"/>
-            </Label>
+            <Label Content="{LocText InventoryItemName,Suffix=':'}"/>
             <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name,Mode=TwoWay}" />
-            <Label>
-                <LocText ResourceIdentifierKey="GroupCode" Suffix=":"/>
-            </Label>
+            <Label Content="{LocText GroupCode,Suffix=':'}"/>
+
             <ComboBox HorizontalAlignment="Left" MinWidth="150" Text="{Binding GroupCode,Mode=TwoWay}"
                  ItemsSource="{Binding GroupCodes}" IsEditable="True">
             </ComboBox>
-            <Label>
-                <LocText ResourceIdentifierKey="BaseUnit" Suffix=":"/>
-            </Label>
+            <Label Content="{LocText BaseUnit,Suffix=':'}"/>
+
             <TextBox HorizontalAlignment="Left" MinWidth="100" Text="{Binding BaseUnit,Mode=TwoWay}" />
             <StackPanel Orientation="Horizontal">
                 <StackPanel>
-                    <Label>
-                        <LocText ResourceIdentifierKey="TransactionUnit" Suffix=":"/>
-                    </Label>
+                    <Label Content="{LocText TransactionUnit,Suffix=':'}"/>
                     <TextBox HorizontalAlignment="Left" MinWidth="100" Text="{Binding TransactionUnit,Mode=TwoWay}" />
                 </StackPanel>
                 <StackPanel Margin="10,0">
-                    <Label>
-                        <LocText ResourceIdentifierKey="TransacitonUnitMultiplier" Suffix=":"/>
-                    </Label>
+                    <Label Content="{LocText TransacitonUnitMultiplier,Suffix=':'}"/>
                     <UIControls:FilteredTextBox HorizontalAlignment="Left" Type="Number" MinWidth="50" Text="{Binding TransactionUnitMultiplier,Mode=TwoWay}" />
                 </StackPanel>
             </StackPanel>

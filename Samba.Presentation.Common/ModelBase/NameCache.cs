@@ -12,7 +12,7 @@ namespace Samba.Presentation.Common.ModelBase
         private static readonly Dictionary<Type, Dictionary<int, string>> Names =
             new Dictionary<Type, Dictionary<int, string>>();
 
-        public static string GetName<T>(int entityId) where T : class,IEntity
+        public static string GetName<T>(int entityId) where T : class,IEntityClass
         {
             if (!Names.ContainsKey(typeof(T)))
                 Names.Add(typeof(T), new Dictionary<int, string>());

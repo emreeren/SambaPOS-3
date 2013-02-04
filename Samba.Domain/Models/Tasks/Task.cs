@@ -4,7 +4,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tasks
 {
-    public class Task : Entity, ICacheable
+    public class Task : EntityClass, ICacheable
     {
         public Task()
         {

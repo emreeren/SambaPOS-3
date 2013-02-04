@@ -3,7 +3,7 @@
     public static class ActionNames
     {
         public const string CreateAccountTransaction = "CreateAccountTransaction";
-        public const string ChangeTicketResource = "ChangeTicketResource";
+        public const string ChangeTicketEntity = "ChangeTicketEntity";
         public const string DisplayTicketList = "DisplayTicketList";
         public const string UpdateTicketTag = "UpdateTicketTag";
         public const string TagOrder = "TagOrder";
@@ -16,7 +16,7 @@
         public const string UpdateProgramSetting = "UpdateProgramSetting";
         public const string UpdateTicketCalculation = "UpdateTicketService";
         public const string ExecutePrintJob = "ExecutePrintJob";
-        public const string UpdateResourceState = "UpdateResourceState";
+        public const string UpdateEntityState = "UpdateEntityState";
         public const string CloseActiveTicket = "CloseActiveTicket";
         public const string LockTicket = "LockTicket";
         public const string UnlockTicket = "UnlockTicket";
@@ -35,15 +35,15 @@
 
     public static class RuleEventNames
     {
-        public const string ResourceStateUpdated = "ResourceStateUpdated";
+        public const string EntityStateUpdated = "EntityStateUpdated";
         public const string ApplicationScreenChanged = "ApplicationScreenChanged";
         public const string TicketsMerged = "TicketsMerged";
         public const string PaymentProcessed = "PaymentProcessed";
-        public const string TicketResourceChanged = "TicketResourceChanged";
+        public const string TicketEntityChanged = "TicketEntityChanged";
         public const string TicketOpened = "TicketOpened";
         public const string TicketClosing = "TicketClosing";
         public const string AutomationCommandExecuted = "AutomationCommandExecuted";
-        public const string ResourceUpdated = "ResourceUpdated";
+        public const string EntityUpdated = "EntityUpdated";
         public const string ApplicationStarted = "ApplicationStarted";
         public const string ChangeAmountChanged = "ChangeAmountChanged";
         public const string OrderAdded = "OrderAdded";
@@ -74,9 +74,9 @@
         public const string ActivateTicketList = "Activate Ticket List";
         public const string UnlockTicketRequested = "Unlock Ticket Requested";
         public const string TargetAccountSelected = "Target Account Selected";
-        public const string SelectResource = "Select Resource";
-        public const string ResourceSelected = "Resource Selected";
-        public const string EditResourceDetails = "Edit Resource Details";
+        public const string SelectEntity = "Select Entity";
+        public const string EntitySelected = "Entity Selected";
+        public const string EditEntityDetails = "Edit Entity Details";
         public const string ApplicationLockStateChanged = "Application Lock State Changed";
         public const string DisplayTicket = "Display Ticket";
         public const string AccountTransactionDocumentSelected = "Account Transaction Document Selected";

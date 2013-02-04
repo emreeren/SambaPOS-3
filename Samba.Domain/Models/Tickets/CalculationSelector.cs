@@ -3,7 +3,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class CalculationSelector : Entity, IOrderable
+    public class CalculationSelector : EntityClass, IOrderable
     {
         public CalculationSelector()
         {

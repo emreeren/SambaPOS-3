@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using FluentValidation;
 using Samba.Domain.Models.Inventory;
-using Samba.Domain.Models.Resources;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
@@ -24,7 +23,7 @@ namespace Samba.Modules.DepartmentModule
             _cacheService = cacheService;
         }
 
-        private readonly IList<string> _ticketCreationMethods = new[] { string.Format(Resources.Select_f, Resources.Resource), string.Format(Resources.Create_f, Resources.Ticket) };
+        private readonly IList<string> _ticketCreationMethods = new[] { string.Format(Resources.Select_f, Resources.Entity), string.Format(Resources.Create_f, Resources.Ticket) };
         public IList<string> TicketCreationMethods { get { return _ticketCreationMethods; } }
         public string TicketCreationMethod { get { return _ticketCreationMethods[Model.TicketCreationMethod]; } set { Model.TicketCreationMethod = _ticketCreationMethods.IndexOf(value); } }
 

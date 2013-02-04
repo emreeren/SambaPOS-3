@@ -4,7 +4,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
-using Samba.Domain.Models.Resources;
+using Samba.Domain.Models.Entities;
 using Samba.Infrastructure.Helpers;
 using Samba.Localization;
 using Samba.Presentation.Common.Services;
@@ -143,8 +143,8 @@ namespace Samba.Presentation.Common
         {
             get
             {
-                return _applicationState.SelectedResourceScreen != null &&
-                       _applicationState.SelectedResourceScreen.Widgets.Contains(Model);
+                return _applicationState.SelectedEntityScreen != null &&
+                       _applicationState.SelectedEntityScreen.Widgets.Contains(Model);
             }
         }
 

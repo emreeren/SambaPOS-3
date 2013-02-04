@@ -3,7 +3,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Accounts
 {
-    public class AccountTransactionType : Entity, IOrderable
+    public class AccountTransactionType : EntityClass, IOrderable
     {
         private static AccountTransactionType _default;
         public static AccountTransactionType Default

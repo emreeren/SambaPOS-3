@@ -2,7 +2,7 @@
 
 namespace Samba.Persistance.Data
 {
-    public class NonDuplicateSaveValidator<T> : SpecificationValidator<T> where T : class, IEntity
+    public class NonDuplicateSaveValidator<T> : SpecificationValidator<T> where T : class, IEntityClass
     {
         private readonly string _errorMessage;
 

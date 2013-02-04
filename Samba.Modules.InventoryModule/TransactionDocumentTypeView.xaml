@@ -12,22 +12,22 @@
         <ComboBox HorizontalAlignment="Left" MinWidth="150" 
                       ItemsSource="{Binding InventoryTransactionTypes}" 
                       SelectedItem="{Binding InventoryTransactionType}" DisplayMemberPath="Name"/>
-        <Label Content="{LocText Source_f, FormatSegment1={LocText ResourceType}, Suffix=':'}"/>
+        <Label Content="{LocText Source_f, FormatSegment1={LocText EntityType}, Suffix=':'}"/>
         <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="150" 
-                      ItemsSource="{Binding ResourceTypes}" 
-                      SelectedItem="{Binding SourceResourceType}" DisplayMemberPath="Name"/>
-        <Label Content="{LocText Target_f, FormatSegment1={LocText ResourceType}, Suffix=':'}"/>
+                      ItemsSource="{Binding EntityTypes}" 
+                      SelectedItem="{Binding SourceEntityType}" DisplayMemberPath="Name"/>
+        <Label Content="{LocText Target_f, FormatSegment1={LocText EntityType}, Suffix=':'}"/>
         <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="150" 
-                      ItemsSource="{Binding ResourceTypes}" 
-                      SelectedItem="{Binding TargetResourceType}" DisplayMemberPath="Name"/>
-        <Label Content="{LocText Default_f, FormatSegment1={LocText Source_f, FormatSegment1=Resource}, Suffix=':'}"/>
+                      ItemsSource="{Binding EntityTypes}" 
+                      SelectedItem="{Binding TargetEntityType}" DisplayMemberPath="Name"/>
+        <Label Content="{LocText Default_f, FormatSegment1={LocText Source_f, FormatSegment1=Entity}, Suffix=':'}"/>
         <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="150" 
-                      ItemsSource="{Binding SourceResources}" 
-                      SelectedValue="{Binding DefaultSourceResourceId}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
-        <Label Content="{LocText Default_f, FormatSegment1={LocText Target_f, FormatSegment1=Resource}, Suffix=':'}"/>
+                      ItemsSource="{Binding SourceEntities}" 
+                      SelectedValue="{Binding DefaultSourceEntityId}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
+        <Label Content="{LocText Default_f, FormatSegment1={LocText Target_f, FormatSegment1=Entity}, Suffix=':'}"/>
         <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="150" 
-                      ItemsSource="{Binding TargetResources}" 
-                      SelectedValue="{Binding DefaultTargetResourceId}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
+                      ItemsSource="{Binding TargetEntities}" 
+                      SelectedValue="{Binding DefaultTargetEntityId}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
         <Label Content="{LocText AccountTransactionType, Suffix=':'}"/>
         <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="150" 
                       ItemsSource="{Binding AccountTransactionTypes}" 

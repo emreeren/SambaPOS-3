@@ -3,7 +3,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Inventory
 {
-    public class InventoryTransaction : Value
+    public class InventoryTransaction : ValueClass
     {
         public int InventoryTransactionDocumentId { get; set; }
         public int SourceWarehouseId { get; set; }

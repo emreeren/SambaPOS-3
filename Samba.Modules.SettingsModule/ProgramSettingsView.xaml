@@ -11,28 +11,19 @@
                 <StackPanel Margin="5">
                     <Label Content="{LocText AutoRounding, Suffix=':'}"/>
                     <UIControls:FilteredTextBox Type="Number" HorizontalAlignment="Left" Width="50" Text="{Binding AutoRoundDiscount}" />
-
                     <Label Content="{LocText PaymentScreenValues, Suffix=':'}"/>
                     <TextBox HorizontalAlignment="Left" MinWidth="150" Text="{Binding PaymentScreenValues}" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Header="{LocText WeightBarcodes}" HorizontalAlignment="Left" MinWidth="300">
                 <StackPanel Margin="5">
-                    <Label>
-                        <LocText ResourceIdentifierKey="WeightBarcodePefix" Suffix=":" />
-                    </Label>
+                    <Label Content="{LocText WeightBarcodePefix,Suffix=':'}"/>
                     <UIControls:FilteredTextBox Type="Digits" HorizontalAlignment="Left" Width="50" Text="{Binding WeightBarcodePrefix}" />
-                    <Label>
-                        <LocText ResourceIdentifierKey="WeightBarcodeItemIdLength" Suffix=":" />
-                    </Label>
+                    <Label Content="{LocText WeightBarcodeItemIdLength,Suffix=':'}"/>
                     <UIControls:FilteredTextBox Type="Digits" HorizontalAlignment="Left" Width="50" Text="{Binding WeightBarcodeItemLength}" />
-                    <Label>
-                        <LocText ResourceIdentifierKey="WeightBarcodeItemIdFormat" Suffix=":"/>
-                    </Label>
+                    <Label Content="{LocText WeightBarcodeItemIdFormat,Suffix=':'}"/>                    
                     <TextBox HorizontalAlignment="Left" Width="50" Text="{Binding WeightBarcodeItemFormat}" />
-                    <Label>
-                        <LocText ResourceIdentifierKey="WeightBarcodeQuantityLength" Suffix=":" />
-                    </Label>
+                    <Label Content="{LocText WeightBarcodeQuantityLength,Suffix=':'}"/>                    
                     <UIControls:FilteredTextBox Type="Digits" HorizontalAlignment="Left" Width="50" Text="{Binding WeightBarcodeQuantityLength}" />
                 </StackPanel>
             </GroupBox>

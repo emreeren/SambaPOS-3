@@ -8,7 +8,7 @@ using Samba.Infrastructure.Helpers;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class Order : Value
+    public class Order : ValueClass
     {
         public Order()
         {

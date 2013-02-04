@@ -2,7 +2,7 @@
 
 namespace Samba.Domain.Models.Users
 {
-    public class User : Entity
+    public class User : EntityClass
     {
         public User()
         {

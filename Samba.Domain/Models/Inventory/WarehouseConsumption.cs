@@ -4,7 +4,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Inventory
 {
-    public class WarehouseConsumption : Value
+    public class WarehouseConsumption : ValueClass
     {
         public int PeriodicConsumptionId { get; set; }
         public int WarehouseId { get; set; }

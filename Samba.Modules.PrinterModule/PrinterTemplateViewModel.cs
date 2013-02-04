@@ -5,7 +5,6 @@ using ICSharpCode.AvalonEdit.Document;
 using Samba.Domain.Models.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
-using Samba.Presentation.Services;
 using Samba.Services;
 
 namespace Samba.Modules.PrinterModule
@@ -47,7 +46,7 @@ namespace Samba.Modules.PrinterModule
             var result = new Dictionary<string, string>();
 
             result.Add("--Format Parts--", "");
-            result.Add("{RESOURCES}", "Resource List");
+            result.Add("{ENTITIES}", "Entity List");
             result.Add("{ORDERS}", "Order List");
             result.Add("{ORDER TAGS}", "Order Tag List");
             result.Add("{TAXES}", "Tax List");

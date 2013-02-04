@@ -6,7 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using Samba.Domain.Models.Accounts;
-using Samba.Domain.Models.Resources;
+using Samba.Domain.Models.Entities;
 using Samba.Localization.Properties;
 using Samba.Persistance;
 using Samba.Persistance.DaoClasses;
@@ -65,7 +65,7 @@ namespace Samba.Services.Implementations.AccountModule
         public string GetCustomData(Account account, string fieldName)
         {
             var cd = _accountDao.GetResourceCustomDataByAccountId(account.Id);
-            return string.IsNullOrEmpty(cd) ? "" : Resource.GetCustomData(cd, fieldName);
+            return string.IsNullOrEmpty(cd) ? "" : Entity.GetCustomData(cd, fieldName);
         }
 
         public string GetDescription(AccountTransactionDocumentType documentType, Account account)

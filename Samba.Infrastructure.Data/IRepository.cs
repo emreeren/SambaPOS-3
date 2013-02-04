@@ -2,7 +2,7 @@
 
 namespace Samba.Infrastructure.Data
 {
-    public interface IRepository<TModel> where TModel : IEntity
+    public interface IRepository<TModel> where TModel : IEntityClass
     {
         void Add(TModel item);
         void Delete(TModel item);

@@ -1259,11 +1259,11 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Change Ticket Resource.
+        ///   Looks up a localized string similar to Change Ticket Entity.
         /// </summary>
-        public static string ChangeTicketResource {
+        public static string ChangeTicketEntity {
             get {
-                return ResourceManager.GetString("ChangeTicketResource", resourceCulture);
+                return ResourceManager.GetString("ChangeTicketEntity", resourceCulture);
             }
         }
         
@@ -2439,11 +2439,101 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Entities.
+        /// </summary>
+        public static string Entities {
+            get {
+                return ResourceManager.GetString("Entities", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entity.
+        /// </summary>
+        public static string Entity {
+            get {
+                return ResourceManager.GetString("Entity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entity Button.
+        /// </summary>
+        public static string EntityButton {
+            get {
+                return ResourceManager.GetString("EntityButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Entity Name.
         /// </summary>
         public static string EntityName {
             get {
                 return ResourceManager.GetString("EntityName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entity Screen.
+        /// </summary>
+        public static string EntityScreen {
+            get {
+                return ResourceManager.GetString("EntityScreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entity Screen Item.
+        /// </summary>
+        public static string EntityScreenItem {
+            get {
+                return ResourceManager.GetString("EntityScreenItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entity Screens.
+        /// </summary>
+        public static string EntityScreens {
+            get {
+                return ResourceManager.GetString("EntityScreens", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entity State Updated.
+        /// </summary>
+        public static string EntityStateUpdated {
+            get {
+                return ResourceManager.GetString("EntityStateUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entity Type.
+        /// </summary>
+        public static string EntityType {
+            get {
+                return ResourceManager.GetString("EntityType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entity Types.
+        /// </summary>
+        public static string EntityTypes {
+            get {
+                return ResourceManager.GetString("EntityTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entity Updated.
+        /// </summary>
+        public static string EntityUpdated {
+            get {
+                return ResourceManager.GetString("EntityUpdated", resourceCulture);
             }
         }
         
@@ -5523,96 +5613,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Resource.
-        /// </summary>
-        public static string Resource {
-            get {
-                return ResourceManager.GetString("Resource", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Resource Button.
-        /// </summary>
-        public static string ResourceButton {
-            get {
-                return ResourceManager.GetString("ResourceButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Resource Screen.
-        /// </summary>
-        public static string ResourceScreen {
-            get {
-                return ResourceManager.GetString("ResourceScreen", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Resource Screen Item.
-        /// </summary>
-        public static string ResourceScreenItem {
-            get {
-                return ResourceManager.GetString("ResourceScreenItem", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Resource Screens.
-        /// </summary>
-        public static string ResourceScreens {
-            get {
-                return ResourceManager.GetString("ResourceScreens", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Resources.
-        /// </summary>
-        public static string Resourceses {
-            get {
-                return ResourceManager.GetString("Resourceses", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Resource State Updated.
-        /// </summary>
-        public static string ResourceStateUpdated {
-            get {
-                return ResourceManager.GetString("ResourceStateUpdated", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Resource Type.
-        /// </summary>
-        public static string ResourceType {
-            get {
-                return ResourceManager.GetString("ResourceType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Resource Types.
-        /// </summary>
-        public static string ResourceTypes {
-            get {
-                return ResourceManager.GetString("ResourceTypes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Resource Updated.
-        /// </summary>
-        public static string ResourceUpdated {
-            get {
-                return ResourceManager.GetString("ResourceUpdated", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Restaurant.
         /// </summary>
         public static string Restaurant {
@@ -6865,6 +6865,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ticket Entity Changed.
+        /// </summary>
+        public static string TicketEntityChanged {
+            get {
+                return ResourceManager.GetString("TicketEntityChanged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ticket moved to {0}. Your latest changes not saved..
         /// </summary>
         public static string TicketMovedRetryLastOperation_f {
@@ -6991,15 +7000,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ticket Resource Changed.
-        /// </summary>
-        public static string TicketResourceChanged {
-            get {
-                return ResourceManager.GetString("TicketResourceChanged", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Tickets.
         /// </summary>
         public static string Tickets {
@@ -7077,7 +7077,7 @@ namespace Samba.Localization.Properties {
         ///&lt;T&gt;TICKET
         ///&lt;L00&gt;Date:{TICKET DATE}
         ///&lt;L00&gt;Time:{TIME}
-        ///{RESOURCES}
+        ///{ENTITIES}
         ///&lt;L00&gt;Ticket No:{TICKET NO}
         ///&lt;F&gt;-
         ///{ORDERS}
@@ -7102,7 +7102,7 @@ namespace Samba.Localization.Properties {
         ///{ORDER TAGS}
         ///
         ///[ORDERS:VOID]
-        ///-- Nothing will print for void  [rest of string was truncated]&quot;;.
+        ///-- Nothing will print for void l [rest of string was truncated]&quot;;.
         /// </summary>
         public static string TicketTemplateValue {
             get {
@@ -7671,6 +7671,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Update Entity State.
+        /// </summary>
+        public static string UpdateEntityState {
+            get {
+                return ResourceManager.GetString("UpdateEntityState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Update Order.
         /// </summary>
         public static string UpdateOrder {
@@ -7703,15 +7712,6 @@ namespace Samba.Localization.Properties {
         public static string UpdateProgramSetting {
             get {
                 return ResourceManager.GetString("UpdateProgramSetting", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Update Resource State.
-        /// </summary>
-        public static string UpdateResourceState {
-            get {
-                return ResourceManager.GetString("UpdateResourceState", resourceCulture);
             }
         }
         

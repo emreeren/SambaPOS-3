@@ -33,8 +33,8 @@ namespace Samba.Modules.TicketModule
         {
             get
             {
-                var resource = Model.TicketResources.FirstOrDefault(x => x.ResourceTypeId == templateId);
-                return resource != null ? resource.ResourceName : "";
+                var resource = Model.TicketEntities.FirstOrDefault(x => x.EntityTypeId == templateId);
+                return resource != null ? resource.EntityName : "";
             }
         }
 

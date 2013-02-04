@@ -2,7 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Net;
 using System.Web.Http;
-using Samba.Domain.Models.Resources;
+using Samba.Domain.Models.Entities;
 using Samba.Persistance.DaoClasses;
 
 namespace Samba.ApiServer.Controllers
@@ -11,22 +11,22 @@ namespace Samba.ApiServer.Controllers
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class ResourcesController : ApiController
     {
-        private readonly IResourceDao _resourceDao;
+        private readonly IEntityDao _resourceDao;
         
         [ImportingConstructor]
-        public ResourcesController(IResourceDao resourceDao)
+        public ResourcesController(IEntityDao resourceDao)
         {
             _resourceDao = resourceDao;
         }
 
-        public IEnumerable<Resource> GetAllResources()
+        public IEnumerable<Entity> GetAllResources()
         {
-            return _resourceDao.GetResourcesByState("Available", 2);
+            return _resourceDao.GetEntitiesByState("Available", 2);
         }
 
-        public Resource GetResourceById(int id)
+        public Entity GetResourceById(int id)
         {
-            var product = _resourceDao.GetResourceById(id);
+            var product = _resourceDao.GetEntityById(id);
             if (product == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -34,9 +34,9 @@ namespace Samba.ApiServer.Controllers
             return product;
         }
 
-        public IEnumerable<Resource> GetResourcesByCategory(string category)
+        public IEnumerable<Entity> GetResourcesByCategory(string category)
         {
-            return _resourceDao.FindResources(null, category, "");
+            return _resourceDao.FindEntities(null, category, "");
         }
     }
 }

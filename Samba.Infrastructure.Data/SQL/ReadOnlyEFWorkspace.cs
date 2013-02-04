@@ -83,7 +83,7 @@ namespace Samba.Infrastructure.Data.SQL
             }
         }
 
-        public T Last<T>(Expression<Func<T, bool>> predictate, params Expression<Func<T, object>>[] includes) where T : class,IEntity
+        public T Last<T>(Expression<Func<T, bool>> predictate, params Expression<Func<T, object>>[] includes) where T : class,IEntityClass
         {
             return includes.Aggregate(_context.ReadOnly<T>(), (current, include) => current.Include(include))
                 .Where(predictate)
@@ -92,7 +92,7 @@ namespace Samba.Infrastructure.Data.SQL
                 .FirstOrDefault();
         }
 
-        public IEnumerable<T> Last<T>(int recordCount) where T : class,IEntity
+        public IEnumerable<T> Last<T>(int recordCount) where T : class,IEntityClass
         {
             return _context.ReadOnly<T>()
                 .OrderByDescending(x => x.Id)
@@ -100,7 +100,7 @@ namespace Samba.Infrastructure.Data.SQL
                 .ToList();
         }
 
-        public TResult Single<TSource, TResult>(int id, Expression<Func<TSource, TResult>> expression) where TSource : class ,IEntity
+        public TResult Single<TSource, TResult>(int id, Expression<Func<TSource, TResult>> expression) where TSource : class ,IEntityClass
         {
             return _context.ReadOnly<TSource>().Where(x => x.Id == id).Select(expression).SingleOrDefault();
         }

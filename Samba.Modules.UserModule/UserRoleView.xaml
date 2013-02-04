@@ -18,12 +18,10 @@
                 <Label Content="{LocText Department, Suffix=':'}" />
                 <ComboBox ItemsSource="{Binding Departments}" SelectedValue="{Binding DepartmentId}"
                      SelectedValuePath="Id" DisplayMemberPath="Name" Width="150" HorizontalAlignment="Left" />
-                <Label>
-                    <LocText ResourceIdentifierKey="Permissions" Suffix=":"/>
-                </Label>
-                <CheckBox IsChecked="{Binding IsAdmin, Mode=TwoWay}">
-                    <LocText ResourceIdentifierKey="Admin"/>
-                </CheckBox>
+                <Label Content="{LocText Permissions,Suffix=':'}"/>
+                
+                <CheckBox IsChecked="{Binding IsAdmin, Mode=TwoWay}" Content="{LocText Admin}"/>
+                
                 <Border BorderThickness="1" BorderBrush="Silver" MinWidth="250" HorizontalAlignment="Left">
                     <ItemsControl ItemsSource="{Binding Source={StaticResource viewSource}}">
                         <ItemsControl.GroupStyle>
