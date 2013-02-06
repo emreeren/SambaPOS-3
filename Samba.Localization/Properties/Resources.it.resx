@@ -123,6 +123,9 @@
   <data name="FixedAmount" xml:space="preserve">
     <value>Importo fisso</value>
   </data>
+  <data name="Entity" xml:space="preserve">
+    <value>Entità</value>
+  </data>
   <data name="ButtonHeader" xml:space="preserve">
     <value>Pulsante Intestazione</value>
   </data>
@@ -131,9 +134,6 @@
   </data>
   <data name="Print" xml:space="preserve">
     <value>Stampa</value>
-  </data>
-  <data name="Resource" xml:space="preserve">
-    <value>Risorsa</value>
   </data>
   <data name="TotalWorkTimeDays_f" xml:space="preserve">
     <value>Tempo di lavoro totale:
@@ -178,9 +178,6 @@
   <data name="AccountType" xml:space="preserve">
     <value>Tipo Account</value>
   </data>
-  <data name="ChangeTicketResource" xml:space="preserve">
-    <value>Modifica Risorsa Ticket</value>
-  </data>
   <data name="Script" xml:space="preserve">
     <value>Script</value>
   </data>
@@ -216,6 +213,9 @@
   </data>
   <data name="TotalIncome" xml:space="preserve">
     <value>Totale Entrate</value>
+  </data>
+  <data name="Entities" xml:space="preserve">
+    <value>Entità</value>
   </data>
   <data name="AccountDetails" xml:space="preserve">
     <value>Dettagli Account</value>
@@ -514,9 +514,6 @@
   <data name="OrderState" xml:space="preserve">
     <value>Stato Ordine</value>
   </data>
-  <data name="ResourceStateUpdated" xml:space="preserve">
-    <value>Stato Risorse Aggiornato</value>
-  </data>
   <data name="DeleteErrorAdminUser" xml:space="preserve">
     <value>Non è possibile eliminare l'utente admin.</value>
   </data>
@@ -597,6 +594,9 @@
   </data>
   <data name="Thirty" xml:space="preserve">
     <value>Trenta</value>
+  </data>
+  <data name="EntityScreenItem" xml:space="preserve">
+    <value>Entità Schermo Prodotti</value>
   </data>
   <data name="Incomes_f" xml:space="preserve">
     <value>{0} Redditi</value>
@@ -692,6 +692,9 @@ Attiverà dopo {1} giorni, {2} ore, {3} minuti</value>
   <data name="OnlyNewLines" xml:space="preserve">
     <value>Solo nuove linee</value>
   </data>
+  <data name="ChangeTicketEntity" xml:space="preserve">
+    <value>Modifica Entità Ticket</value>
+  </data>
   <data name="CanChangeReportFilter" xml:space="preserve">
     <value>Può Cambiare Data filtro del report</value>
   </data>
@@ -715,9 +718,6 @@ Attiverà dopo {1} giorni, {2} ore, {3} minuti</value>
   </data>
   <data name="OrderNumerator" xml:space="preserve">
     <value>Ordine Numeratore</value>
-  </data>
-  <data name="Resourceses" xml:space="preserve">
-    <value>Risorse</value>
   </data>
   <data name="IncreaseInventory" xml:space="preserve">
     <value>Incremente Inventario</value>
@@ -746,6 +746,9 @@ Attiverà dopo {1} giorni, {2} ore, {3} minuti</value>
   <data name="Tax" xml:space="preserve">
     <value>Tassa</value>
   </data>
+  <data name="EntityUpdated" xml:space="preserve">
+    <value>Entità Aggiornato</value>
+  </data>
   <data name="Customer_f" xml:space="preserve">
     <value>Cliente {0}</value>
   </data>
@@ -766,6 +769,9 @@ Attiverà dopo {1} giorni, {2} ore, {3} minuti</value>
   </data>
   <data name="TotalAmount_f" xml:space="preserve">
     <value>{0} Importo Totale:</value>
+  </data>
+  <data name="Warehouses" xml:space="preserve">
+    <value>Magazzini</value>
   </data>
   <data name="SaveFreeTags" xml:space="preserve">
     <value>Salva Tags gratuiti</value>
@@ -793,6 +799,9 @@ Attiverà dopo {1} giorni, {2} ore, {3} minuti</value>
   </data>
   <data name="OrderTagGroup" xml:space="preserve">
     <value>Ordine Tag Gruppo</value>
+  </data>
+  <data name="SambaMarket" xml:space="preserve">
+    <value>Samba Market</value>
   </data>
   <data name="DateRangeIsNotActiveWorkPeriod" xml:space="preserve">
     <value>Intervallo di date non è un periodo di lavoro attivo</value>
@@ -978,9 +987,6 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="InternetBrowser" xml:space="preserve">
     <value>Internet Browser</value>
   </data>
-  <data name="ResourceButton" xml:space="preserve">
-    <value>Bottone Risorse</value>
-  </data>
   <data name="MoveTaggedOrders" xml:space="preserve">
     <value>Spostare Ordini Taggati</value>
   </data>
@@ -1052,6 +1058,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   </data>
   <data name="StartAmount" xml:space="preserve">
     <value>Avviare Importi</value>
+  </data>
+  <data name="EntityTypes" xml:space="preserve">
+    <value>Tipi Entità</value>
   </data>
   <data name="TicketOpeningTime" xml:space="preserve">
     <value>Ticket di apertura</value>
@@ -1245,6 +1254,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="Sales" xml:space="preserve">
     <value>Vendite</value>
   </data>
+  <data name="EntityButton" xml:space="preserve">
+    <value>Pulsante Entità</value>
+  </data>
   <data name="KitchenTemplateValue" xml:space="preserve">
     <value>[LAYOUT]
 &lt;T&gt;TICKET
@@ -1356,14 +1368,14 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="Tickets" xml:space="preserve">
     <value>Tickets</value>
   </data>
+  <data name="EntityStateUpdated" xml:space="preserve">
+    <value>Stato Entità Aggiornato</value>
+  </data>
   <data name="NextPage" xml:space="preserve">
     <value>Pagina successiva</value>
   </data>
   <data name="NavigationPermissions" xml:space="preserve">
     <value>Permessi di navigazione</value>
-  </data>
-  <data name="ResourceScreenItem" xml:space="preserve">
-    <value>Risorsa Voce Schermo</value>
   </data>
   <data name="BaseUnit" xml:space="preserve">
     <value>Unità di Base</value>
@@ -1409,9 +1421,6 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   </data>
   <data name="ChangeSortOrderHint" xml:space="preserve">
     <value>Modificare Ordine Trascinando gli elementi</value>
-  </data>
-  <data name="UpdateResourceState" xml:space="preserve">
-    <value>Aggiorna Stato Risorse</value>
   </data>
   <data name="CanMergeTickets" xml:space="preserve">
     <value>Possibile unire Biglietti</value>
@@ -1566,9 +1575,6 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="To" xml:space="preserve">
     <value>Per:</value>
   </data>
-  <data name="ResourceScreen" xml:space="preserve">
-    <value>Schermo Risorse</value>
-  </data>
   <data name="TransacitonUnitMultiplier" xml:space="preserve">
     <value>Moltiplicatore di Unità</value>
   </data>
@@ -1653,9 +1659,6 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="RemoveLimit" xml:space="preserve">
     <value>Rimuovere Limite</value>
   </data>
-  <data name="ResourceUpdated" xml:space="preserve">
-    <value>Risorse Aggiornate</value>
-  </data>
   <data name="AverageCost" xml:space="preserve">
     <value>Costo medio</value>
   </data>
@@ -1704,8 +1707,8 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="Transaction" xml:space="preserve">
     <value>Transazione</value>
   </data>
-  <data name="UnlockTicket" xml:space="preserve">
-    <value>Sblocca Ticket</value>
+  <data name="EntityType" xml:space="preserve">
+    <value>Tipo Entità</value>
   </data>
   <data name="EveryOtherMinute" xml:space="preserve">
     <value>Ogni minuto</value>
@@ -1848,6 +1851,9 @@ Messaggio di errore:
   </data>
   <data name="Total_f" xml:space="preserve">
     <value>Totale: {0}</value>
+  </data>
+  <data name="EntityScreen" xml:space="preserve">
+    <value>Schermo Entità</value>
   </data>
   <data name="DemoPrinter" xml:space="preserve">
     <value>Stampante Demo (notepad)</value>
@@ -2038,6 +2044,9 @@ Messaggio di errore:
   <data name="Unpaid" xml:space="preserve">
     <value>Da Pagare</value>
   </data>
+  <data name="Market" xml:space="preserve">
+    <value>Market</value>
+  </data>
   <data name="SubButtonHeight" xml:space="preserve">
     <value>Altezza pulsante Sottomenu</value>
   </data>
@@ -2101,6 +2110,9 @@ Messaggio di errore:
   <data name="MessageServerPort" xml:space="preserve">
     <value>Server Message Porta</value>
   </data>
+  <data name="UpdateEntityState" xml:space="preserve">
+    <value>Aggiornamento Stato Entità</value>
+  </data>
   <data name="UnhandledExceptionErrorMessage" xml:space="preserve">
     <value>SambaPOS si è verificato un problema imprevisto. Informazioni dettagliate sui problemi registrati in file di trace.log</value>
   </data>
@@ -2119,6 +2131,9 @@ Messaggio di errore:
   <data name="PaymentProcessed" xml:space="preserve">
     <value>Processo di Pagamento</value>
   </data>
+  <data name="EntityScreens" xml:space="preserve">
+    <value>Schermi Entità</value>
+  </data>
   <data name="Admin" xml:space="preserve">
     <value>Admin</value>
   </data>
@@ -2126,13 +2141,10 @@ Messaggio di errore:
     <value>Non ci sono operazioni di acquisto in intervallo di date.</value>
   </data>
   <data name="OnlyOpenTickets" xml:space="preserve">
-    <value>Può solo aprite Ticket</value>
+    <value>Solo Ticket Aperti</value>
   </data>
   <data name="TicketPaidChangesNotSaved" xml:space="preserve">
     <value>Ticket pagato. Le ultime modifiche non salvate.</value>
-  </data>
-  <data name="TicketsMerged" xml:space="preserve">
-    <value>Ticket Unito</value>
   </data>
   <data name="UserLogout" xml:space="preserve">
     <value>Utente Logout</value>
@@ -2250,9 +2262,6 @@ Messaggio di errore:
   </data>
   <data name="WeightBarcodePefix" xml:space="preserve">
     <value>Peso Codici a Barre Prefisso</value>
-  </data>
-  <data name="TicketResourceChanged" xml:space="preserve">
-    <value>Risorse Ticket Cambiato</value>
   </data>
   <data name="MessageReceived" xml:space="preserve">
     <value>Messaggio ricevuto</value>
@@ -2450,9 +2459,6 @@ Ticket</value>
   <data name="PhoneNumber" xml:space="preserve">
     <value>Telefono</value>
   </data>
-  <data name="ResourceTypes" xml:space="preserve">
-    <value>Tipo Risorse</value>
-  </data>
   <data name="Customer" xml:space="preserve">
     <value>Cliente</value>
   </data>
@@ -2474,8 +2480,8 @@ Ticket</value>
   <data name="ProgramLanguage" xml:space="preserve">
     <value>Lingua Programma</value>
   </data>
-  <data name="ResourceType" xml:space="preserve">
-    <value>Tipo Risorsa</value>
+  <data name="TicketsMerged" xml:space="preserve">
+    <value>Ticket Unito</value>
   </data>
   <data name="SortType" xml:space="preserve">
     <value>Ordina Tipo</value>
@@ -2510,11 +2516,17 @@ Ticket</value>
   <data name="Month" xml:space="preserve">
     <value>Mese</value>
   </data>
+  <data name="TicketEntityChanged" xml:space="preserve">
+    <value>Entità Ticket Cambiato</value>
+  </data>
   <data name="InventoryPurchaseReport" xml:space="preserve">
     <value>Rapporto Aquisti</value>
   </data>
   <data name="TerminalView" xml:space="preserve">
     <value>Terminal Vista</value>
+  </data>
+  <data name="Consumption" xml:space="preserve">
+    <value>Consumo</value>
   </data>
   <data name="EveryOtherMonth" xml:space="preserve">
     <value>Ogni due mesi</value>
@@ -2574,7 +2586,7 @@ Ticket</value>
     <value>Tassa Inclusa</value>
   </data>
   <data name="OpenClose_ab" xml:space="preserve">
-    <value>Op-Cls</value>
+    <value>Apertura-Chiusura</value>
   </data>
   <data name="Every6Months" xml:space="preserve">
     <value>Ogni 6 mesi</value>
@@ -2584,6 +2596,9 @@ Ticket</value>
   </data>
   <data name="TicketSubTotal" xml:space="preserve">
     <value>Totale del biglietto Sub</value>
+  </data>
+  <data name="UnlockTicket" xml:space="preserve">
+    <value>Sblocca Ticket</value>
   </data>
   <data name="SellerWarehouse" xml:space="preserve">
     <value>Magazzino delle Vendite</value>
@@ -2723,9 +2738,6 @@ Non può finire il periodo di lavoro mentre ci sono Ticket aperti.</value>
   </data>
   <data name="DisplayFormat" xml:space="preserve">
     <value>Formato di Visualizzazione</value>
-  </data>
-  <data name="ResourceScreens" xml:space="preserve">
-    <value>Schermi Risorse</value>
   </data>
   <data name="CreditLimit" xml:space="preserve">
     <value>Limite di Credito</value>

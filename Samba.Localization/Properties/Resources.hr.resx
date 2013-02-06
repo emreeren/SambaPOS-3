@@ -132,9 +132,6 @@
   <data name="Print" xml:space="preserve">
     <value>Ispis</value>
   </data>
-  <data name="Resource" xml:space="preserve">
-    <value>Resurs</value>
-  </data>
   <data name="TotalWorkTimeDays_f" xml:space="preserve">
     <value>Total Work Time:
 {0:0} days {1:0} hours {2:0} minutes</value>
@@ -678,9 +675,6 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="OrderNumerator" xml:space="preserve">
     <value>Generator brojeva narudžbi</value>
   </data>
-  <data name="Resourceses" xml:space="preserve">
-    <value>Resources</value>
-  </data>
   <data name="IncreaseInventory" xml:space="preserve">
     <value>Povećaj zalihu</value>
   </data>
@@ -929,9 +923,6 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   </data>
   <data name="InternetBrowser" xml:space="preserve">
     <value>Internet preglednik</value>
-  </data>
-  <data name="ResourceButton" xml:space="preserve">
-    <value>Tipka resursa</value>
   </data>
   <data name="MoveTaggedOrders" xml:space="preserve">
     <value>Pomjeri označene narudžbe</value>
@@ -1302,9 +1293,6 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="NavigationPermissions" xml:space="preserve">
     <value>Navigacijska dopuštenja</value>
   </data>
-  <data name="ResourceScreenItem" xml:space="preserve">
-    <value>Resource Screen Item</value>
-  </data>
   <data name="BaseUnit" xml:space="preserve">
     <value>Base Unit</value>
   </data>
@@ -1346,9 +1334,6 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   </data>
   <data name="ChangeSortOrderHint" xml:space="preserve">
     <value>Promijenite redoslijed povlačenjem</value>
-  </data>
-  <data name="UpdateResourceState" xml:space="preserve">
-    <value>Update Resource State</value>
   </data>
   <data name="CanMergeTickets" xml:space="preserve">
     <value>Može spojiti kartice</value>
@@ -1488,9 +1473,6 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="To" xml:space="preserve">
     <value>To:</value>
   </data>
-  <data name="ResourceScreen" xml:space="preserve">
-    <value>Ekran resursa</value>
-  </data>
   <data name="TransacitonUnitMultiplier" xml:space="preserve">
     <value>Transaction Unit Multiplier</value>
   </data>
@@ -1577,9 +1559,6 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   </data>
   <data name="RemoveLimit" xml:space="preserve">
     <value>Izbriši ograničenje</value>
-  </data>
-  <data name="ResourceUpdated" xml:space="preserve">
-    <value>Resource Updated</value>
   </data>
   <data name="AverageCost" xml:space="preserve">
     <value>Prosječna Cijena</value>
@@ -2034,9 +2013,6 @@ Greška:
   <data name="TicketPaidChangesNotSaved" xml:space="preserve">
     <value>Kartica plaćena.Vaše zadnje promjene nisu spremljene.</value>
   </data>
-  <data name="TicketsMerged" xml:space="preserve">
-    <value>Kartice spojene</value>
-  </data>
   <data name="UserLogout" xml:space="preserve">
     <value>Odlogiraj korisnika</value>
   </data>
@@ -2147,9 +2123,6 @@ Greška:
   </data>
   <data name="WeightBarcodePefix" xml:space="preserve">
     <value>Weight Barcode Prefix</value>
-  </data>
-  <data name="TicketResourceChanged" xml:space="preserve">
-    <value>Resursi kartice promijenjeni</value>
   </data>
   <data name="MessageReceived" xml:space="preserve">
     <value>Primljena poruka</value>
@@ -2343,9 +2316,6 @@ Greška:
   <data name="PhoneNumber" xml:space="preserve">
     <value>Telefon</value>
   </data>
-  <data name="ResourceTypes" xml:space="preserve">
-    <value>Resource Types</value>
-  </data>
   <data name="Customer" xml:space="preserve">
     <value>Kupac</value>
   </data>
@@ -2364,8 +2334,8 @@ Greška:
   <data name="ProgramLanguage" xml:space="preserve">
     <value>Jezik programa</value>
   </data>
-  <data name="ResourceType" xml:space="preserve">
-    <value>Resource Type</value>
+  <data name="TicketsMerged" xml:space="preserve">
+    <value>Kartice spojene</value>
   </data>
   <data name="SortType" xml:space="preserve">
     <value>Tip slaganja</value>
@@ -2604,9 +2574,6 @@ Can't end Work Period while tickets open</value>
   </data>
   <data name="DisplayFormat" xml:space="preserve">
     <value>Format prikaza</value>
-  </data>
-  <data name="ResourceScreens" xml:space="preserve">
-    <value>Resource Screens</value>
   </data>
   <data name="DisplayUserPath" xml:space="preserve">
     <value>Prikaži putanju do korisnika</value>

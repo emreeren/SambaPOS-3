@@ -132,9 +132,6 @@
   <data name="Print" xml:space="preserve">
     <value>طباعة</value>
   </data>
-  <data name="Resource" xml:space="preserve">
-    <value>مورد</value>
-  </data>
   <data name="TotalWorkTimeDays_f" xml:space="preserve">
     <value>إجمالي وقت العمل: {0:0} يوم {1:0} ساعة {2:0} دقيقة</value>
   </data>
@@ -176,9 +173,6 @@
   </data>
   <data name="AccountType" xml:space="preserve">
     <value>نوع الحساب</value>
-  </data>
-  <data name="ChangeTicketResource" xml:space="preserve">
-    <value>تغيير مورد التذكرة</value>
   </data>
   <data name="Script" xml:space="preserve">
     <value>البرنامج النصي</value>
@@ -513,9 +507,6 @@
   <data name="OrderState" xml:space="preserve">
     <value>حالة الطلب</value>
   </data>
-  <data name="ResourceStateUpdated" xml:space="preserve">
-    <value>تم تحديث حالة المورد</value>
-  </data>
   <data name="DeleteErrorAdminUser" xml:space="preserve">
     <value>لا تستطيع حذف المستخدم الرئيسي</value>
   </data>
@@ -714,9 +705,6 @@
   <data name="OrderNumerator" xml:space="preserve">
     <value>منشئ رقم الطلب</value>
   </data>
-  <data name="Resourceses" xml:space="preserve">
-    <value>موارد</value>
-  </data>
   <data name="IncreaseInventory" xml:space="preserve">
     <value>زيادة المخزون</value>
   </data>
@@ -765,6 +753,9 @@
   <data name="TotalAmount_f" xml:space="preserve">
     <value> المبلغ الإجمالي: {0}</value>
   </data>
+  <data name="Warehouses" xml:space="preserve">
+    <value>مستودعات</value>
+  </data>
   <data name="SaveFreeTags" xml:space="preserve">
     <value>حفظ العلامات الحرة</value>
   </data>
@@ -791,6 +782,9 @@
   </data>
   <data name="OrderTagGroup" xml:space="preserve">
     <value>مجموعة علامة الطلب</value>
+  </data>
+  <data name="SambaMarket" xml:space="preserve">
+    <value>سوق Samba</value>
   </data>
   <data name="DateRangeIsNotActiveWorkPeriod" xml:space="preserve">
     <value>نطاق التاريخ ليس في فترة العمل النشطة</value>
@@ -975,9 +969,6 @@
   </data>
   <data name="InternetBrowser" xml:space="preserve">
     <value>متصفح الانترنت</value>
-  </data>
-  <data name="ResourceButton" xml:space="preserve">
-    <value>زر المورد</value>
   </data>
   <data name="MoveTaggedOrders" xml:space="preserve">
     <value>نقل الطلبات المعلمة</value>
@@ -1353,9 +1344,6 @@
   <data name="NavigationPermissions" xml:space="preserve">
     <value>أذونات التنقل</value>
   </data>
-  <data name="ResourceScreenItem" xml:space="preserve">
-    <value>عنصر شاشة الموارد</value>
-  </data>
   <data name="BaseUnit" xml:space="preserve">
     <value>الوحدة الاساسية</value>
   </data>
@@ -1400,9 +1388,6 @@
   </data>
   <data name="ChangeSortOrderHint" xml:space="preserve">
     <value>تغيير ترتيب بواسطة سحب العناصر</value>
-  </data>
-  <data name="UpdateResourceState" xml:space="preserve">
-    <value>تحديث حالة المورد</value>
   </data>
   <data name="CanMergeTickets" xml:space="preserve">
     <value>يستطيع دمج التذاكر</value>
@@ -1557,9 +1542,6 @@
   <data name="To" xml:space="preserve">
     <value>إلى:</value>
   </data>
-  <data name="ResourceScreen" xml:space="preserve">
-    <value>شاشة المورد</value>
-  </data>
   <data name="TransacitonUnitMultiplier" xml:space="preserve">
     <value>مضاعف وحدة العملية</value>
   </data>
@@ -1643,9 +1625,6 @@
   </data>
   <data name="RemoveLimit" xml:space="preserve">
     <value>إزالة حد</value>
-  </data>
-  <data name="ResourceUpdated" xml:space="preserve">
-    <value>تم تحديث المورد</value>
   </data>
   <data name="AverageCost" xml:space="preserve">
     <value>متوسط التكلفة</value>
@@ -2029,6 +2008,9 @@
   <data name="Unpaid" xml:space="preserve">
     <value>غير المدفوعة</value>
   </data>
+  <data name="Market" xml:space="preserve">
+    <value>سوق</value>
+  </data>
   <data name="SubButtonHeight" xml:space="preserve">
     <value>ارتفاع الزر الفرعي</value>
   </data>
@@ -2121,9 +2103,6 @@
   </data>
   <data name="TicketPaidChangesNotSaved" xml:space="preserve">
     <value>التذكرة مدفوعة. لم يتم حفظ التغييرات الأخيرة.</value>
-  </data>
-  <data name="TicketsMerged" xml:space="preserve">
-    <value>دمجت التذاكر</value>
   </data>
   <data name="UserLogout" xml:space="preserve">
     <value>تسجيل خروج المستخدم</value>
@@ -2241,9 +2220,6 @@
   </data>
   <data name="WeightBarcodePefix" xml:space="preserve">
     <value>بادئة وزن الباركود</value>
-  </data>
-  <data name="TicketResourceChanged" xml:space="preserve">
-    <value>تم تغيير مورد التذكرة</value>
   </data>
   <data name="MessageReceived" xml:space="preserve">
     <value>تم تلقي رسالة</value>
@@ -2441,9 +2417,6 @@
   <data name="PhoneNumber" xml:space="preserve">
     <value>هاتف</value>
   </data>
-  <data name="ResourceTypes" xml:space="preserve">
-    <value>أنواع المورد</value>
-  </data>
   <data name="Customer" xml:space="preserve">
     <value>زبون</value>
   </data>
@@ -2465,8 +2438,8 @@
   <data name="ProgramLanguage" xml:space="preserve">
     <value>لغة البرنامج</value>
   </data>
-  <data name="ResourceType" xml:space="preserve">
-    <value>نوع المورد</value>
+  <data name="TicketsMerged" xml:space="preserve">
+    <value>دمجت التذاكر</value>
   </data>
   <data name="SortType" xml:space="preserve">
     <value>نوع الترتيب</value>
@@ -2506,6 +2479,9 @@
   </data>
   <data name="TerminalView" xml:space="preserve">
     <value>عرض الجهاز</value>
+  </data>
+  <data name="Consumption" xml:space="preserve">
+    <value>استهلاك</value>
   </data>
   <data name="EveryOtherMonth" xml:space="preserve">
     <value>كل شهر آخر</value>
@@ -2714,9 +2690,6 @@
   </data>
   <data name="DisplayFormat" xml:space="preserve">
     <value>تنسيق العرض</value>
-  </data>
-  <data name="ResourceScreens" xml:space="preserve">
-    <value>شاشات الموارد</value>
   </data>
   <data name="CreditLimit" xml:space="preserve">
     <value>حد الائتمان</value>
