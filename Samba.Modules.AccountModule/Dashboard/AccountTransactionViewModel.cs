@@ -74,6 +74,7 @@ namespace Samba.Modules.AccountModule.Dashboard
                 RaisePropertyChanged(() => SourceAccount);
             }
         }
+
         public Account TargetAccount
         {
             get { return TargetAccounts.SingleOrDefault(x => x.Id == TargetAccountId); }

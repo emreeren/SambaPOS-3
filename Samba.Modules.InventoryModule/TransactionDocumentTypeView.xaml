@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d" d:DesignWidth="300">
     <StackPanel>
         <Label Content="{LocText Name,Suffix=':'}"/>
         <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
@@ -20,11 +19,11 @@
         <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="150" 
                       ItemsSource="{Binding EntityTypes}" 
                       SelectedItem="{Binding TargetEntityType}" DisplayMemberPath="Name"/>
-        <Label Content="{LocText Default_f, FormatSegment1={LocText Source_f, FormatSegment1=Entity}, Suffix=':'}"/>
+        <Label Content="{LocText Default_f, FormatSegment1={LocText Source_f, FormatSegment1={LocText Entity}}, Suffix=':'}"/>
         <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="150" 
                       ItemsSource="{Binding SourceEntities}" 
                       SelectedValue="{Binding DefaultSourceEntityId}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
-        <Label Content="{LocText Default_f, FormatSegment1={LocText Target_f, FormatSegment1=Entity}, Suffix=':'}"/>
+        <Label Content="{LocText Default_f, FormatSegment1={LocText Target_f, FormatSegment1={LocText Entity}}, Suffix=':'}"/>
         <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="150" 
                       ItemsSource="{Binding TargetEntities}" 
                       SelectedValue="{Binding DefaultTargetEntityId}" SelectedValuePath="Id" DisplayMemberPath="Name"/>

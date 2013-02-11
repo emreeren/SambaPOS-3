@@ -1,4 +1,3 @@
-using Samba.Domain.Models.Accounts;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Inventory
@@ -11,5 +10,14 @@ namespace Samba.Domain.Models.Inventory
         public int DefaultTargetWarehouseId { get; set; }
         public int SortOrder { get; set; }
         public string UserString { get { return Name; } }
+
+        private static InventoryTransactionType _default;
+        public static InventoryTransactionType Default
+        {
+            get
+            {
+                return _default ?? (_default = new InventoryTransactionType());
+            }
+        }
     }
 }

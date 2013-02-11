@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Samba.Infrastructure.Data;
-using System;
 
 namespace Samba.Domain.Models.Accounts
 {
@@ -58,13 +57,6 @@ namespace Samba.Domain.Models.Accounts
 
         public AccountTransactionDocument CreateDocument(Account account, string description, decimal amount, decimal exchangeRate, IList<Account> accounts)
         {
-            // <pex>
-            if (account == null)
-                throw new ArgumentNullException("account");
-            if (account.AccountTypeId != MasterAccountTypeId)
-                throw new ArgumentException("Account Type should match Master Account Type");
-            // </pex>
-
             var result = new AccountTransactionDocument { Name = Name };
             foreach (var accountTransactionType in TransactionTypes)
             {
@@ -77,15 +69,14 @@ namespace Samba.Domain.Models.Accounts
                     if (transaction.SourceAccountTypeId != MasterAccountTypeId &&
                         transaction.SourceTransactionValue.AccountId == 0)
                     {
-                        Account ac =
-                            accounts.FirstOrDefault(x => x.AccountTypeId == transaction.SourceAccountTypeId);
+                        var ac = accounts.FirstOrDefault(x => x.AccountTypeId == transaction.SourceAccountTypeId);
                         if (ac != null) transaction.SetSourceAccount(ac.AccountTypeId, ac.Id);
                     }
+
                     if (transaction.TargetAccountTypeId != MasterAccountTypeId &&
                         transaction.TargetTransactionValue.AccountId == 0)
                     {
-                        Account ac =
-                            accounts.FirstOrDefault(x => x.AccountTypeId == transaction.TargetAccountTypeId);
+                        var ac = accounts.FirstOrDefault(x => x.AccountTypeId == transaction.TargetAccountTypeId);
                         if (ac != null) transaction.SetTargetAccount(ac.AccountTypeId, ac.Id);
                     }
                 }

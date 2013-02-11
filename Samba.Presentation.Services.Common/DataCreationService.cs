@@ -310,14 +310,7 @@ namespace Samba.Presentation.Services.Common
                 WarehouseTypeId = warehouseType.Id
             };
 
-            var sellerWarehouse = new Warehouse
-            {
-                Name = Resources.SellerWarehouse,
-                WarehouseTypeId = warehouseType.Id
-            };
-
             _workspace.Add(localWarehouse);
-            _workspace.Add(sellerWarehouse);
             _workspace.CommitChanges();
 
             var department = new Department
@@ -331,8 +324,6 @@ namespace Samba.Presentation.Services.Common
             var transactionType = new InventoryTransactionType
                                       {
                                           Name = Resources.PurchaseTransactionType,
-                                          SourceWarehouseTypeId = warehouseType.Id,
-                                          DefaultSourceWarehouseId = sellerWarehouse.Id,
                                           TargetWarehouseTypeId = warehouseType.Id,
                                           DefaultTargetWarehouseId = localWarehouse.Id
                                       };

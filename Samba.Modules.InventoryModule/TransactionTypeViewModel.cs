@@ -29,7 +29,7 @@ namespace Samba.Modules.InventoryModule
             }
             set
             {
-                Model.SourceWarehouseTypeId = value.Id;
+                Model.SourceWarehouseTypeId = value != null ? value.Id : 0;
                 _sourceWarehouseType = null;
                 _sourceWarehouses = null;
                 RaisePropertyChanged(() => SourceWarehouseType);
@@ -47,7 +47,7 @@ namespace Samba.Modules.InventoryModule
             }
             set
             {
-                Model.TargetWarehouseTypeId = value.Id;
+                Model.TargetWarehouseTypeId = value != null ? value.Id : 0;
                 _targetWarehouseType = null;
                 _targetWarehouses = null;
                 RaisePropertyChanged(() => TargetWarehouseType);
@@ -100,10 +100,12 @@ namespace Samba.Modules.InventoryModule
     {
         public TransactionTypeValidator()
         {
-            RuleFor(x => x.SourceWarehouseTypeId).GreaterThan(0);
-            RuleFor(x => x.TargetWarehouseTypeId).GreaterThan(0);
-            RuleFor(x => x.DefaultSourceWarehouseId).NotEqual(x => x.DefaultTargetWarehouseId).When(
-                x => x.DefaultSourceWarehouseId > 0 && x.DefaultTargetWarehouseId > 0);
+            RuleFor(x => x.SourceWarehouseTypeId)
+                .GreaterThan(0)
+                .When(x => x.TargetWarehouseTypeId == 0);
+            RuleFor(x => x.DefaultSourceWarehouseId)
+                .NotEqual(x => x.DefaultTargetWarehouseId)
+                .When(x => x.DefaultSourceWarehouseId > 0 && x.DefaultTargetWarehouseId > 0);
         }
     }
 }

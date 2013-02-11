@@ -6,6 +6,7 @@ namespace Samba.Domain.Models.Inventory
     public class InventoryTransaction : ValueClass
     {
         public int InventoryTransactionDocumentId { get; set; }
+        public int InventoryTransactionTypeId { get; set; }
         public int SourceWarehouseId { get; set; }
         public int TargetWarehouseId { get; set; }
         public DateTime Date { get; set; }

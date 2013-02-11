@@ -82,16 +82,16 @@
       <DependentUpon>TransactionDocumentTypeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TransactionDocumentTypeViewModel.cs" />
-    <Compile Include="TransactionItemViewModel.cs" />
-    <Compile Include="TransactionListViewModel.cs" />
+    <Compile Include="TransactionViewModel.cs" />
+    <Compile Include="TransactionDocumentListViewModel.cs" />
     <Compile Include="TransactionTypeView.xaml.cs">
       <DependentUpon>TransactionTypeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TransactionTypeViewModel.cs" />
-    <Compile Include="TransactionView.xaml.cs">
-      <DependentUpon>TransactionView.xaml</DependentUpon>
+    <Compile Include="TransactionDocumentView.xaml.cs">
+      <DependentUpon>TransactionDocumentView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TransactionViewModel.cs" />
+    <Compile Include="TransactionDocumentViewModel.cs" />
     <Compile Include="WarehouseConsumptionViewModel.cs" />
     <Compile Include="WarehouseTypeView.xaml.cs">
       <DependentUpon>WarehouseTypeView.xaml</DependentUpon>
@@ -127,7 +127,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="TransactionView.xaml">
+    <Page Include="TransactionDocumentView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

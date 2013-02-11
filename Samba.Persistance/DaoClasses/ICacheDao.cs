@@ -38,5 +38,6 @@ namespace Samba.Persistance.DaoClasses
         Entity GetEntityByName(int entityTypeId, string entityName);
         IEnumerable<TaxTemplate> GetTaxTemplates();
         IEnumerable<Warehouse> GetWarehouses();
+        IEnumerable<InventoryTransactionType> GetInventoryTransactionTypes();
     }
 }

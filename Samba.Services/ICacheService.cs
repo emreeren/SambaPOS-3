@@ -71,5 +71,6 @@ namespace Samba.Services
         IEnumerable<PrinterTemplate> GetPrinterTemplates();
         IEnumerable<Printer> GetPrinters();
         IEnumerable<Warehouse> GetWarehouses();
+        IEnumerable<InventoryTransactionType> GetInventoryTransactionTypes();
     }
 }

@@ -158,5 +158,10 @@ namespace Samba.Persistance.DaoClasses.Implementations
         {
             return Dao.Query<Warehouse>();
         }
+
+        public IEnumerable<InventoryTransactionType> GetInventoryTransactionTypes()
+        {
+            return Dao.Query<InventoryTransactionType>();
+        }
     }
 }

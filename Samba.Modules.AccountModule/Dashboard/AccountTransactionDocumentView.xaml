@@ -19,7 +19,7 @@
         <DataGrid Grid.Row="1" ItemsSource="{Binding AccountTransactions}" AutoGenerateColumns="False" 
                   PreviewTextInput="DataGrid_PreviewTextInput" PreparingCellForEdit="DataGrid_PreparingCellForEdit">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Transaction">
+                <DataGridTemplateColumn Header="{LocText Transaction}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Margin="3" Text="{Binding AccountTransactionType.Name}" />
@@ -37,7 +37,7 @@
                     </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Header="Source">
+                <DataGridTemplateColumn Header="{LocText Source}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Margin="3" Text="{Binding SourceAccount.Name}" />
@@ -55,7 +55,7 @@
                     </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Header="Target">
+                <DataGridTemplateColumn Header="{LocText Target}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Margin="3" Text="{Binding TargetAccount.Name}" />

@@ -495,6 +495,17 @@ namespace Samba.Services.Implementations
             return Warehouses;
         }
 
+        private IEnumerable<InventoryTransactionType> _inventoryTransactionTypes;
+        public IEnumerable<InventoryTransactionType> InventoryTransactionTypes
+        {
+            get { return _inventoryTransactionTypes??(_inventoryTransactionTypes = _dataService.GetInventoryTransactionTypes()); }
+        }
+
+        public IEnumerable<InventoryTransactionType> GetInventoryTransactionTypes()
+        {
+            return InventoryTransactionTypes;
+        }
+
         private IEnumerable<Printer> _printers;
         public IEnumerable<Printer> Printers
         {
@@ -559,6 +570,7 @@ namespace Samba.Services.Implementations
         public void ResetCache()
         {
             _dataService.ResetCache();
+            _inventoryTransactionTypes = null;
             _warehouses = null;
             _printers = null;
             _printerTemplates = null;
