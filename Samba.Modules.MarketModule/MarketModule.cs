@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel.Composition;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Regions;
 using Samba.Localization.Properties;
@@ -26,7 +22,7 @@ namespace Samba.Modules.MarketModule
             _marketModuleView = marketModuleView;
             _marketModuleViewModel = marketModuleViewModel;
 
-            SetNavigationCommand(Resources.SambaMarket, Resources.Common, "Images/dcn.png", 60);
+            SetNavigationCommand(Resources.SambaMarket, Resources.Common, "Images/dcn.png", 50);
         }
 
         protected override void OnInitialization()

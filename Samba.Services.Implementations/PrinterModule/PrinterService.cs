@@ -32,16 +32,14 @@ namespace Samba.Services.Implementations.PrinterModule
             _ticketFormatter = new TicketFormatter(expressionService, settingService);
         }
 
-        private IEnumerable<Printer> _printers;
         public IEnumerable<Printer> Printers
         {
-            get { return _printers ?? (_printers = _cacheService.GetPrinters()); }
+            get { return _cacheService.GetPrinters(); }
         }
 
-        private IEnumerable<PrinterTemplate> _printerTemplates;
         protected IEnumerable<PrinterTemplate> PrinterTemplates
         {
-            get { return _printerTemplates ?? (_printerTemplates = _cacheService.GetPrinterTemplates()); }
+            get { return _cacheService.GetPrinterTemplates(); }
         }
 
         public Printer PrinterById(int id)
@@ -253,8 +251,6 @@ namespace Samba.Services.Implementations.PrinterModule
 
         public void ResetCache()
         {
-            _printers = null;
-            _printerTemplates = null;
             PrinterInfo.ResetCache();
         }
     }
