@@ -94,6 +94,12 @@ namespace Samba.Modules.BasicReports
             get { return _calculationTypes ?? (_calculationTypes = Dao.Query<CalculationType>()); }
         }
 
+        private static IEnumerable<TaxTemplate> _taxTemplates;
+        public static IEnumerable<TaxTemplate> TaxTemplates
+        {
+            get { return _taxTemplates ?? (_taxTemplates = Dao.Query<TaxTemplate>()); }
+        }
+
         private static IEnumerable<AccountTransactionValue> _accountTransactionValues;
         public static IEnumerable<AccountTransactionValue> AccountTransactionValues
         {
@@ -209,6 +215,7 @@ namespace Samba.Modules.BasicReports
             _workPeriods = null;
             _calculationTypes = null;
             _paymentTypes = null;
+            _taxTemplates = null;
         }
 
         private static WorkPeriod _thisMonthWorkPeriod;
