@@ -97,7 +97,7 @@ namespace Samba.Modules.BasicReports
         private static IEnumerable<TaxTemplate> _taxTemplates;
         public static IEnumerable<TaxTemplate> TaxTemplates
         {
-            get { return _taxTemplates ?? (_taxTemplates = Dao.Query<TaxTemplate>()); }
+            get { return _taxTemplates ?? (_taxTemplates = Dao.Query<TaxTemplate>(x => x.AccountTransactionType)); }
         }
 
         private static IEnumerable<AccountTransactionValue> _accountTransactionValues;

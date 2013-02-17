@@ -799,6 +799,9 @@ Mesaj:
   <data name="OrderTagGroup" xml:space="preserve">
     <value>Sipariş Etiketi Grubu</value>
   </data>
+  <data name="SambaMarket" xml:space="preserve">
+    <value>Samba Market</value>
+  </data>
   <data name="DateRangeIsNotActiveWorkPeriod" xml:space="preserve">
     <value>Tarih aralığı aktif çalışma dönemi değil.</value>
   </data>
@@ -1025,7 +1028,7 @@ Gizlemek için pin kodunu değiştirin</value>
 &lt;J00&gt;- {QUANTITY} {NAME}|**İKRAM**
 {ORDER TAGS}
 
-[ORDERS:İptal]
+[ORDERS:İade]
 -- Nothing will print for void lines
 
 [ORDER TAGS]
@@ -1264,7 +1267,7 @@ Gizlemek için pin kodunu değiştirin</value>
 &lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
 {ORDER TAGS}
 
-[ORDERS:İptal]
+[ORDERS:İade]
 &lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
 {ORDER TAGS}
 
@@ -1838,7 +1841,7 @@ Hata Mesajı:
     <value>Restoran</value>
   </data>
   <data name="Total_f" xml:space="preserve">
-    <value>Toplam: {0}</value>
+    <value>Toplam {0}</value>
   </data>
   <data name="EntityScreen" xml:space="preserve">
     <value>Varlık Ekranı</value>
@@ -2032,6 +2035,9 @@ Hata Mesajı:
   <data name="Unpaid" xml:space="preserve">
     <value>Ödenmedi</value>
   </data>
+  <data name="Market" xml:space="preserve">
+    <value>Market</value>
+  </data>
   <data name="SubButtonHeight" xml:space="preserve">
     <value>Alt Düğme Yüksekliği</value>
   </data>
@@ -2096,7 +2102,7 @@ Hata Mesajı:
     <value>Mesaj Sunucusu Portu</value>
   </data>
   <data name="UpdateEntityState" xml:space="preserve">
-    <value>Var</value>
+    <value>Varlık durumunu değiştir.</value>
   </data>
   <data name="UnhandledExceptionErrorMessage" xml:space="preserve">
     <value>Samba POS Beklenmeyen bir sorunla karşılaştı. Uygulama şu anda kapatılacak. Detaylı bilgi için log dosyasını inceleyiniz</value>

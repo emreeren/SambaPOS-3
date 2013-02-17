@@ -367,8 +367,11 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
                     {
                         foreach (var taxTemplate in ReportContext.TaxTemplates)
                         {
-                            var tax = ReportContext.Tickets.Sum(x => x.GetTaxTotal(taxTemplate.Id, x.GetPreTaxServicesTotal(), x.GetPlainSum()));
-                            report.AddRow(rpKey, taxTemplate.Name, tax.ToString(ReportContext.CurrencyFormat));
+                            if (taxTemplate.AccountTransactionType != null)
+                            {
+                                var tax = ReportContext.Tickets.Sum(x => x.GetTaxTotal(taxTemplate.AccountTransactionType.Id, x.GetPreTaxServicesTotal(), x.GetPlainSum()));
+                                report.AddRow(rpKey, taxTemplate.Name, tax.ToString(ReportContext.CurrencyFormat));
+                            }
                         }
                     }
 
