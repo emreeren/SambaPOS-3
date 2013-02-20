@@ -79,8 +79,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType(ActionNames.RefreshCache, Resources.RefreshCache);
             AutomationService.RegisterActionType(ActionNames.ExecutePrintJob, Resources.ExecutePrintJob, new { PrintJobName = "", OrderStateName = "", OrderState = "", OrderStateValue = "", OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterActionType(ActionNames.SendMessage, Resources.BroadcastMessage, new { Command = "" });
-            AutomationService.RegisterActionType(ActionNames.ExecutePowershellScript, Resources.ExecutePowershellScript, new { Script = "" });
-            AutomationService.RegisterActionType(ActionNames.ExecuteScript, Resources.ExecuteScript, new { ScriptName = "" });
+            //AutomationService.RegisterActionType(ActionNames.ExecutePowershellScript, Resources.ExecutePowershellScript, new { Script = "" });
         }
 
         private static void RegisterRules()
@@ -196,15 +195,6 @@ namespace Samba.Presentation.ViewModels
                                                                                        (x.Value.GetAsString(
                                                                                            "AccountTransactionType")));
                         }
-                    }
-                }
-
-                if (x.Value.Action.ActionType == ActionNames.ExecuteScript)
-                {
-                    var script = x.Value.GetAsString("ScriptName");
-                    if (!string.IsNullOrEmpty(script))
-                    {
-                        ExpressionService.EvalCommand(script, null, x.Value.DataObject, true);
                     }
                 }
 
