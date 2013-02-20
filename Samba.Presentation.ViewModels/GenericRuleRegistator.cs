@@ -496,17 +496,6 @@ namespace Samba.Presentation.ViewModels
                                 if (x.Value.Action.ActionType == ActionNames.UntagOrder)
                                     TicketService.UntagOrders(ticket, orders, orderTag, orderTagValue);
                             }
-
-                            //foreach (var order in orders)
-                            //{
-                            //    if (x.Value.Action.ActionType == ActionNames.RemoveOrderTag)
-                            //    {
-                            //        var tags = order.OrderTagValues.Where(y => y.OrderTagGroupId == orderTag.Id);
-                            //        tags.ToList().ForEach(y => order.OrderTagValues.Remove(y));
-                            //        continue;
-                            //    }
-                            //}
-
                         }
                     }
                 }
