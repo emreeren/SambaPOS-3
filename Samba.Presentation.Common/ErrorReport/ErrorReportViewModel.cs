@@ -53,7 +53,7 @@ namespace Samba.Presentation.Common.ErrorReport
             SaveReportToFile(tempFile);
             string queryString = string.Format("from={0}&emaila={1}&file={2}",
                 Uri.EscapeDataString("info@sambapos.com"),
-                Uri.EscapeDataString("SambaPOS Error Report"),
+                Uri.EscapeDataString("SambaPOS V3 Error Report"),
                 Uri.EscapeDataString(tempFile));
 
             var c = new WebClient();
