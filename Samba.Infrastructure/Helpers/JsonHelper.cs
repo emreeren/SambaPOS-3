@@ -24,7 +24,6 @@ namespace Samba.Infrastructure.Helpers
             var serializer = new DataContractJsonSerializer(typeof(T));
             var obj = (T)serializer.ReadObject(ms);
             ms.Close();
-            ms.Dispose();
             return obj;
         }
     }
