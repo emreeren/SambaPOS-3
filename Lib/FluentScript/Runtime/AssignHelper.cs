@@ -98,7 +98,7 @@ namespace ComLib.Lang.Runtime
                 if (memAccess.Property != null)
                 {
                     var prop = memAccess.Property;
-                    prop.SetValue(memAccess.Instance, val.GetValue(prop.PropertyType), null);
+                    prop.SetValue(memAccess.Instance, val.GetValue(prop.PropertyType), null); //fix
                 }
             }
         }

@@ -29,6 +29,7 @@ namespace ComLib.Lang.Core
         {            
             Variable variable = this[name] as Variable;
 
+            //fix
             if (variable != null && variable.Value is LObject)
             {
                 return (T)Convert.ChangeType(((LObject)variable.Value).GetValue(), typeof(T), null);

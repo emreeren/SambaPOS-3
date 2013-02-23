@@ -27,6 +27,7 @@ namespace ComLib.Lang.Types
             return null;
         }
 
+        //fix
         public object GetValue(Type type)
         {
             return Convert.ChangeType(GetValue(), type);

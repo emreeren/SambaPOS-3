@@ -39,7 +39,7 @@ namespace ComLib.Lang.Helpers
             var type = token.Type;
             var kind = token.Kind;
             if (type == TokenTypes.LiteralNumber)
-                return new LNumber(Convert.ToDouble(token.Value, CultureInfo.InvariantCulture));
+                return new LNumber(Convert.ToDouble(token.Value, CultureInfo.InvariantCulture)); //fix
 
             if (type == TokenTypes.LiteralString)
                 return new LString(Convert.ToString(token.Value));
@@ -129,7 +129,7 @@ namespace ComLib.Lang.Helpers
         /// <returns></returns>
         public static Token ToLiteralNumber(string text)
         {
-            var val = Convert.ToDouble(text, CultureInfo.InvariantCulture);
+            var val = Convert.ToDouble(text, CultureInfo.InvariantCulture); //fix
             return new Token(TokenKind.LiteralNumber, TokenTypes.LiteralNumber, text, val);
         }
 
