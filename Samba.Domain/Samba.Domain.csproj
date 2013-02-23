@@ -143,7 +143,6 @@
     <Compile Include="Models\Settings\Trigger.cs" />
     <Compile Include="Models\Tickets\TicketTag.cs" />
     <Compile Include="Models\Tickets\TicketTagGroup.cs" />
-    <Compile Include="TransactionType.cs" />
     <Compile Include="Models\Entities\Entity.cs" />
     <Compile Include="Models\Tickets\Department.cs">
       <SubType>Code</SubType>
