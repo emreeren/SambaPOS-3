@@ -16,13 +16,13 @@ namespace ComLib.Lang.Core
         /// <summary>
         /// Reference to the script.
         /// </summary>
-        public ScriptRef Ref;
+        public ScriptRef Ref { get; set; }
 
 
         /// <summary>
         /// The referencing token.
         /// </summary>
-        public TokenData Token;
+        public TokenData Token { get; set; }
 
         
         /// <summary>
@@ -121,7 +121,7 @@ namespace ComLib.Lang.Core
                     found = current as T;
                     break;
                 }
-                current = Parent.Parent;
+                current = current.Parent;
             }
             return found;
         }

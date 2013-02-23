@@ -11,7 +11,6 @@
     <AssemblyName>Fluentscript</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,41 +39,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AST\Expressions\BinaryExpr.cs" />
-    <Compile Include="AST\Expressions\BlockExpr.cs" />
-    <Compile Include="AST\Expressions\CompareExpr.cs" />
-    <Compile Include="AST\Expressions\ConditionalBlockExpr.cs" />
-    <Compile Include="AST\Expressions\ConditionExpr.cs" />
-    <Compile Include="AST\Expressions\ConstantExpr.cs" />
-    <Compile Include="AST\Expressions\MultiAssignExpr.cs" />
-    <Compile Include="AST\Expressions\DataTypeExpr.cs" />
-    <Compile Include="AST\Expressions\EmptyExpr.cs" />
-    <Compile Include="AST\Expressions\EvaluatableExpr.cs" />
-    <Compile Include="AST\Expressions\Expr.cs" />
-    <Compile Include="AST\Expressions\FunctionCallExpr.cs" />
-    <Compile Include="AST\Expressions\FunctionExpr.cs" />
-    <Compile Include="AST\Expressions\ILoop.cs" />
-    <Compile Include="AST\Expressions\IndexableExpr.cs" />
-    <Compile Include="AST\Expressions\IndexExpr.cs" />
-    <Compile Include="AST\Expressions\InterpolatedExpr.cs" />
-    <Compile Include="AST\Expressions\IParameterExpression.cs" />
-    <Compile Include="AST\Expressions\LiteralExpr.cs" />
-    <Compile Include="AST\Expressions\MemberAccessExpr.cs" />
-    <Compile Include="AST\Expressions\MemberExpr.cs" />
-    <Compile Include="AST\Expressions\NamedParameterExpr.cs" />
-    <Compile Include="AST\Expressions\NewExpr.cs" />
-    <Compile Include="AST\Expressions\ParameterExpr.cs" />
-    <Compile Include="AST\Expressions\UnaryExpr.cs" />
-    <Compile Include="AST\Expressions\ValueExpr.cs" />
-    <Compile Include="AST\Expressions\VariableExpr.cs" />
-    <Compile Include="AST\Expressions\AssignExpr.cs" />
+    <Compile Include="AST\Core\BlockExpr.cs" />
+    <Compile Include="AST\Core\ConditionalBlockExpr.cs" />
+    <Compile Include="AST\Core\EmptyExpr.cs" />
+    <Compile Include="AST\Core\EvaluatableExpr.cs" />
+    <Compile Include="AST\Core\Expr.cs" />
+    <Compile Include="AST\Core\IndexableExpr.cs" />
+    <Compile Include="AST\Core\MemberAccessExpr.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AST\Core\MemberExpr.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AST\Core\ValueExpr.cs" />
+    <Compile Include="AST\Exprs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AST\Interfaces\IAstVisitor.cs" />
+    <Compile Include="AST\Interfaces\IBlockExpr.cs" />
+    <Compile Include="AST\Interfaces\IExpr.cs" />
+    <Compile Include="AST\Interfaces\ILoop.cs" />
+    <Compile Include="AST\Interfaces\IParameterExpression.cs" />
+    <Compile Include="AST\ScriptRef.cs" />
+    <Compile Include="AST\Stmts.cs" />
     <Compile Include="AST\NodeTypes.cs" />
+    <Compile Include="AST\TokenDefs.cs" />
     <Compile Include="Helpers\ArgsFetcher.cs" />
-    <Compile Include="Helpers\AssignHelper.cs" />
     <Compile Include="Helpers\ConversionHelper.cs" />
+    <Compile Include="Helpers\SymbolHelper.cs" />
     <Compile Include="Helpers\TokenHelper.cs" />
     <Compile Include="Helpers\DocHelper.cs" />
-    <Compile Include="Helpers\EvalHelper.cs" />
     <Compile Include="Helpers\ExceptionHelper.cs" />
     <Compile Include="Helpers\FluentHelper.cs" />
     <Compile Include="Helpers\FunctionHelper.cs" />
@@ -84,6 +78,16 @@
     <Compile Include="Helpers\ParamHelper.cs" />
     <Compile Include="Helpers\TimeTypeHelper.cs" />
     <Compile Include="Helpers\TypeHelper.cs" />
+    <Compile Include="Parser\ExprParser.cs" />
+    <Compile Include="Parser\Exprs.cs" />
+    <Compile Include="Parser\MetaPlugins\CompilerPlugin.cs" />
+    <Compile Include="Parser\MetaPlugins\MetaPluginConstants.cs" />
+    <Compile Include="Parser\MetaPlugins\GrammarParser.cs" />
+    <Compile Include="Parser\MetaPlugins\MetaCompiler.cs" />
+    <Compile Include="Parser\MetaPlugins\MetaCompilerData.cs" />
+    <Compile Include="Parser\MetaPlugins\MetaPlugins.cs" />
+    <Compile Include="Parser\MetaPlugins\TokenGroup.cs" />
+    <Compile Include="Parser\MetaPlugins\TokenMatch.cs" />
     <Compile Include="Parser\Scanner.cs" />
     <Compile Include="Parser\Core\Callbacks.cs" />
     <Compile Include="Parser\Core\Context.cs" />
@@ -95,7 +99,6 @@
     <Compile Include="Parser\Integration\PhaseContext.cs" />
     <Compile Include="Parser\Integration\PhaseResult.cs" />
     <Compile Include="Parser\Integration\Plugins.cs" />
-    <Compile Include="Parser\Integration\RegisteredFunctions.cs" />
     <Compile Include="Parser\Integration\RegisteredTypes.cs" />
     <Compile Include="Parser\Integration\RegisteredWords.cs" />
     <Compile Include="Parser\Interpreter.cs" />
@@ -130,10 +133,8 @@
     <Compile Include="Plugins\Core\TokenReplacePlugin.cs" />
     <Compile Include="Plugins\Parser\AggregatePlugin.cs" />
     <Compile Include="Plugins\Parser\AliasPlugin.cs" />
-    <Compile Include="Plugins\Parser\AndOrPlugin.cs" />
-    <Compile Include="Plugins\Parser\BoolPlugin.cs" />
-    <Compile Include="Plugins\Parser\ComparePlugin.cs" />
     <Compile Include="Plugins\Parser\ConstCapsPlugin.cs" />
+    <Compile Include="Plugins\Parser\PluginPlugin.cs" />
     <Compile Include="Plugins\Parser\NamedIndexPlugin.cs" />
     <Compile Include="Plugins\Parser\DateNumberPlugin.cs" />
     <Compile Include="Plugins\Parser\DatePlugin.cs" />
@@ -164,13 +165,10 @@
     <Compile Include="Plugins\Parser\RepeatPlugin.cs" />
     <Compile Include="Plugins\Parser\RoundPlugin.cs" />
     <Compile Include="Plugins\Parser\RunPlugin.cs" />
-    <Compile Include="Plugins\Parser\SetPlugin.cs" />
     <Compile Include="Plugins\Parser\SortPlugin.cs" />
-    <Compile Include="Plugins\Parser\StepPlugin.cs" />
     <Compile Include="Plugins\Parser\StringLiteralPlugin.cs" />
     <Compile Include="Plugins\Parser\SuffixPlugin.cs" />
     <Compile Include="Plugins\Parser\SwapPlugin.cs" />
-    <Compile Include="Plugins\Parser\Time2Plugin.cs" />
     <Compile Include="Plugins\Parser\TimePlugin.cs" />
     <Compile Include="Plugins\Parser\TypeOfPlugin.cs" />
     <Compile Include="Plugins\Parser\TypeOperationsPlugin.cs" />
@@ -180,19 +178,17 @@
     <Compile Include="Plugins\Parser\VariablePathPlugin.cs" />
     <Compile Include="Plugins\Parser\VersionPlugin.cs" />
     <Compile Include="Plugins\Parser\WordsPlugin.cs" />
-    <Compile Include="Plugins\System\BreakPlugin.cs" />
-    <Compile Include="Plugins\System\ContinuePlugin.cs" />
-    <Compile Include="Plugins\System\ForPlugin.cs" />
-    <Compile Include="Plugins\System\FunctionPlugin.cs" />
-    <Compile Include="Plugins\System\IfPlugin.cs" />
-    <Compile Include="Plugins\System\NewPlugin.cs" />
-    <Compile Include="Plugins\System\ReturnPlugin.cs" />
-    <Compile Include="Plugins\System\ThrowPlugin.cs" />
-    <Compile Include="Plugins\System\TryCatchPlugin.cs" />
-    <Compile Include="Plugins\System\VarPlugin.cs" />
-    <Compile Include="Plugins\System\WhilePlugin.cs" />
+    <Compile Include="Plugins\PluginsSys.cs" />
+    <Compile Include="Plugins\System\VarPlugin.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\AssemblyVersion.cs" />
+    <Compile Include="Runtime\AssignHelper.cs" />
+    <Compile Include="Runtime\EvalHelper.cs" />
+    <Compile Include="Runtime\Execution.cs" />
+    <Compile Include="Runtime\ExecutionContext.cs" />
+    <Compile Include="Runtime\ExecutionSettings.cs" />
     <Compile Include="Templating\ITemplateEngine.cs" />
     <Compile Include="Templating\TemplateEngineDefault.cs" />
     <Compile Include="Templating\Templater.cs" />
@@ -203,25 +199,15 @@
     <Compile Include="Types\Javascript\LJSMapMethods.cs" />
     <Compile Include="Types\Javascript\LJSStringMethods.cs" />
     <Compile Include="Types\Javascript\LJSTimeMethods.cs" />
-    <Compile Include="Types\LArray.cs" />
-    <Compile Include="Types\LBaseType.cs" />
-    <Compile Include="Types\LBool.cs" />
-    <Compile Include="Types\LClass.cs" />
-    <Compile Include="Types\LDate.cs" />
-    <Compile Include="Types\LDayOfWeek.cs" />
     <Compile Include="Types\LError.cs" />
-    <Compile Include="Types\LFunction.cs" />
-    <Compile Include="Types\LMap.cs" />
-    <Compile Include="Types\LModule.cs" />
-    <Compile Include="Types\LNull.cs" />
-    <Compile Include="Types\LNumber.cs" />
     <Compile Include="Types\LObject.cs" />
-    <Compile Include="Types\LString.cs" />
-    <Compile Include="Types\LTime.cs" />
+    <Compile Include="Types\LObjects.cs" />
+    <Compile Include="Types\LType.cs" />
     <Compile Include="Types\LTypeMethods.cs" />
-    <Compile Include="Types\LTypes.cs" />
+    <Compile Include="Types\LTypes.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Types\LTypesLookup.cs" />
-    <Compile Include="Types\LUnit.cs" />
     <Compile Include="Types\LVersion.cs" />
     <Compile Include="Types\RegisteredMethods.cs" />
     <Compile Include="Types\Units.cs" />
@@ -232,7 +218,7 @@
     <Compile Include="_Core\Constants.cs" />
     <Compile Include="_Core\DotAccess.cs" />
     <Compile Include="_Core\FunctionLookupResult.cs" />
-    <Compile Include="_Core\IAstWalk.cs" />
+    <Compile Include="_Core\Grammar\FSGrammar.cs" />
     <Compile Include="_Core\IFunction.cs" />
     <Compile Include="_Core\IFunctionStore.cs" />
     <Compile Include="_Core\LangException.cs" />
@@ -243,20 +229,22 @@
     <Compile Include="_Core\Meta\Docs\Example.cs" />
     <Compile Include="_Core\Meta\Types\Arg.cs" />
     <Compile Include="_Core\Meta\Types\FunctionMeta.cs" />
-    <Compile Include="_Core\Operator.cs" />
+    <Compile Include="_Core\Operator.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="_Core\RunResult.cs" />
     <Compile Include="_Core\Scope.cs" />
     <Compile Include="_Core\ScriptError.cs" />
-    <Compile Include="_Core\ScriptRef.cs" />
     <Compile Include="_Core\Symbols.cs" />
     <Compile Include="_Core\TokenData.cs" />
     <Compile Include="_Core\Tokens.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>IF NOT "$(ConfigurationName)"=="Release" GOTO End
 
-copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)SambaSetup\src"
+copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)\SambaSetup\src"
 
 :End</PostBuildEvent>
   </PropertyGroup>

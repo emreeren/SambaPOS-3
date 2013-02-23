@@ -54,37 +54,11 @@ namespace ComLib.Lang.AST
 
 
         /// <summary>
-        /// Evaluate object[index]
+        /// Execute the statement.
         /// </summary>
-        /// <returns></returns>
-        public override object DoEvaluate()
+        public override object Visit(IAstVisitor visitor)
         {
-            var ndxVal = IndexExp.Evaluate();
-            this.ListObject = VariableExp.Evaluate();
-
-            // Check for empty objects.
-            ExceptionHelper.NotNull(this, this.ListObject, "indexing");
-            ExceptionHelper.NotNull(this, ndxVal, "indexing");
-
-            var lobj = (LObject)this.ListObject;
-
-            // CASE 1. Access 
-            //      e.g. Array: users[0] 
-            //      e.g. Map:   users['total']
-            if(!this.IsAssignment)
-            {
-                var result = EvalHelper.AccessIndex(this.Ctx.Methods, this, lobj, (LObject)ndxVal);
-                return result;
-            }
-
-            // CASE 2.  Assignment
-            //      e.g. Array: users[0]        = 'john'
-            //      e.g. Map:   users['total']  = 200
-            // NOTE: In this case of assignment, return back a MemberAccess object descripting what is assign
-            var indexAccess = new IndexAccess();
-            indexAccess.Instance = lobj;
-            indexAccess.MemberName = (LObject) ndxVal;
-            return indexAccess;
+            return visitor.VisitIndex(this);
         }
     }    
 }

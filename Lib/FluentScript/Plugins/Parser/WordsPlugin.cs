@@ -224,12 +224,13 @@ namespace ComLib.Lang.Plugins
         /// <returns></returns>
         public override Expr Parse()
         {
+            var startToken = _tokenIt.NextToken;
             if(_idCount > 0)
                 _tokenIt.Advance(_idCount);
 
             // Finally move past this plugin.
             _tokenIt.Advance();
-            return new ConstantExpr(new LString(_word));
+            return Exprs.Const(new LString(_word), startToken);
         }
     }
 }

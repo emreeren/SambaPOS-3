@@ -71,24 +71,4 @@ namespace ComLib.Lang.Plugins
             return expr;
         }
     }
-
-
-
-    /// <summary>
-    /// For loop Expression data
-    /// </summary>
-    public class BreakExpr : Expr
-    {
-        /// <summary>
-        /// Execute the statement.
-        /// </summary>
-        public override object DoEvaluate()
-        {
-            var loop = this.FindParent<ILoop>();
-            if (loop == null) throw new LangException("syntax error", "unable to break, loop not found", string.Empty, 0);
-
-            loop.Break();
-            return LObjects.Null;
-        }
-    }
 }

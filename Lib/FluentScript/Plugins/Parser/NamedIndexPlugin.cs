@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 // <lang:using>
 using ComLib.Lang.Core;
 using ComLib.Lang.AST;
-using ComLib.Lang.Helpers;
 using ComLib.Lang.Types;
 using ComLib.Lang.Parsing;
 // </lang:using>
@@ -102,9 +98,10 @@ namespace ComLib.Lang.Plugins
         /// <returns></returns>
         public override Expr Parse()
         {
+            var startToken = _tokenIt.NextToken;
             // 1. index number: it's 1 based so substract 1.
             var index = Convert.ToDouble(_tokenIt.NextToken.Token.Text) - 1;
-            var indexExpr = _parser.ToConstExpr(new LNumber(index), _tokenIt.NextToken);
+            var indexExpr = Exprs.Const(new LNumber(index), _tokenIt.NextToken);
             _tokenIt.Advance();
 
             // 2. "st" or "nd" or "rd" or "th"
@@ -112,10 +109,10 @@ namespace ComLib.Lang.Plugins
 
             // 3. identifier
             var ident = _tokenIt.NextToken.Token.Text + "s";
-            var identExpr = _parser.ToIdentExpr(ident, _tokenIt.NextToken);
+            var identExpr = Exprs.Ident(ident, _tokenIt.NextToken);
             _tokenIt.Advance();
 
-            return new IndexExpr(identExpr, indexExpr, false);
+            return Exprs.Index(identExpr, indexExpr, false, startToken);
         }
     }
 }

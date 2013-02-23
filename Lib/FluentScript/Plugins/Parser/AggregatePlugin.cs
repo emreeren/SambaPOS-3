@@ -160,20 +160,23 @@ namespace ComLib.Lang.Plugins
         /// Evaluate the aggregate expression.
         /// </summary>
         /// <returns></returns>
-        public override object Evaluate()
+        public override object DoEvaluate(IAstVisitor visitor)
         {
-            var dataSource = _source.Evaluate() as LObject;
+            var dataSource = _source.Evaluate(visitor) as LObject;
             ExceptionHelper.NotNull(this, dataSource, "aggregation(min/max)");
             
             List<object> items = null;
 
-            // Get the right type of list.
-            if (dataSource.Type == LTypes.Array)
-                items = dataSource.GetValue() as List<object>;
-            else
+            // Check 1: Could have supplied a single number e.g. sum(2) so just return 2
+            if (dataSource.Type == LTypes.Number)
+                return dataSource.Clone();
+
+            // Check 2: Expect array
+            if (dataSource.Type != LTypes.Array)
                 throw new NotSupportedException(_aggregateType + " not supported for list type of " + dataSource.GetType());
 
-            double val = 0;
+            items = dataSource.GetValue() as List<object>;
+            var val = 0.0;
             if (_aggregateType == "sum")
                 val = items.Sum(item => GetValue(item));
 

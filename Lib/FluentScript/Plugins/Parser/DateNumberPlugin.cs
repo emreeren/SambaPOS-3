@@ -6,6 +6,7 @@ using System.Text;
 // <lang:using>
 using ComLib.Lang.Core;
 using ComLib.Lang.AST;
+using ComLib.Lang.Helpers;
 using ComLib.Lang.Parsing;
 // </lang:using>
 
@@ -52,8 +53,8 @@ namespace ComLib.Lang.Plugins
         {            
             _endPos = -1;
             
-            string next = "";
-            int pos = _lexer.State.Pos;
+            var next = "";
+            var pos = _lexer.State.Pos;
 
             // Check position.
             if (pos > _lexer.LAST_POSITION)
@@ -85,8 +86,8 @@ namespace ComLib.Lang.Plugins
             // No need to try parse the text if next lenght is < 5
             if (next.Length < 5) return false;
 
-            DateTime result = DateTime.MinValue;
-            string combinedWord = current.Text + next;
+            var result = DateTime.MinValue;
+            var combinedWord = current.Text + next;
             if (DateTime.TryParse(combinedWord, out result))
             {
                 _endPos = pos - 1;
@@ -137,7 +138,7 @@ namespace ComLib.Lang.Plugins
             var dateText = lastToken.Token.Text + separator + textToken.Text;
             dateText = dateText.Replace("-", "/");
             dateText = dateText.Replace("\\", "/");
-            var dateToken = ComLib.Lang.Core.Tokens.ToLiteralDate(dateText);
+            var dateToken = TokenBuilder.ToLiteralDate(dateText);
             var t = new TokenData() { Token = dateToken, Line = line, LineCharPos = pos };
             _lexer.ParsedTokens.Add(t);
             return new Token[] { dateToken };

@@ -43,12 +43,9 @@ namespace ComLib.Lang.Helpers
             
             if (type == typeof(int))       
                 return new LNumber(Convert.ToDouble(val));
-            
+           
             if (type == typeof(double))
                 return new LNumber((double)val);
-
-            if (type == typeof(decimal))
-                return new LNumber(Convert.ToDouble(val));
             
             if (type == typeof(string))
                 return new LString((string)val);
@@ -76,7 +73,7 @@ namespace ComLib.Lang.Helpers
                     return new LMap((Dictionary<string, object>) val);
             }
             // object
-            return new LClass(val);
+            return LangTypeHelper.ConvertToLangClass(val);
         }
 
         
@@ -113,6 +110,44 @@ namespace ComLib.Lang.Helpers
             type.FullName = hostLangType.FullName;
             type.TypeVal = TypeConstants.LClass;
             return type;
+        }
+
+
+        /// <summary>
+        /// Converts to host language type to a fluentscript type.
+        /// </summary>
+        /// <param name="hostLangType"></param>
+        /// <returns></returns>
+        public static LObject ConvertToLangClass(object obj)
+        {
+            var type = obj.GetType();
+            var lclassType = new LClassType();
+            lclassType.Name = type.Name;
+            lclassType.FullName = type.FullName;
+            lclassType.DataType = type;
+            lclassType.TypeVal = TypeConstants.LClass;
+            var lclass = new LClass(obj);
+            lclass.Type = lclassType;            
+            return lclass;
+        }
+
+
+        /// <summary>
+        /// Converts to host language type to a fluentscript type.
+        /// </summary>
+        /// <param name="hostLangType"></param>
+        /// <returns></returns>
+        public static LObject ConvertToLangUnit(object obj)
+        {
+            var type = obj.GetType();
+            var lclassType = new LClassType();
+            lclassType.Name = type.Name;
+            lclassType.FullName = type.FullName;
+            lclassType.DataType = type;
+            lclassType.TypeVal = TypeConstants.Unit;
+            var lclass = new LClass(obj);
+            lclass.Type = lclassType;
+            return lclass;
         }
 
 
@@ -192,7 +227,15 @@ namespace ComLib.Lang.Helpers
             var targetType = dt.MakeGenericType(t.GetGenericArguments()[0]);
             var targetList = Activator.CreateInstance(targetType);
             var l = targetList as System.Collections.IList;
-            foreach (var item in source) l.Add(item);
+            foreach (var item in source)
+            {
+                var val = item;
+                if(item is LObject)
+                {
+                    val = ((LObject) item).GetValue();
+                }
+                l.Add(val);
+            }
             return targetList;
         }
 
@@ -271,7 +314,9 @@ namespace ComLib.Lang.Helpers
                         // Case 3: Non-matching types List<object> to IList<Person>
                         else if (gentype == typeof (List<>) || gentype == typeof (IList<>))
                         {
-                            args[ndx] = ConvertToTypedList((List<object>) sourceArg.GetValue(), param.ParameterType);
+                            //args[ndx] = ConvertToTypedList((List<object>) sourceArg.GetValue(), param.ParameterType);
+                            var convertedArr = ConvertToTypedList((List<object>)sourceArg.GetValue(), param.ParameterType);
+                            hostLangArgs.Add(convertedArr);
                         }
                     }
                 }
@@ -402,6 +447,44 @@ namespace ComLib.Lang.Helpers
                 items.SetValue(converted, ndx);
             }
             return items;
+        }
+
+
+        /// <summary>
+        /// Add 2 unites together.
+        /// </summary>
+        /// <param name="u1"></param>
+        /// <param name="u2"></param>
+        /// <returns></returns>
+        public static LUnit AddUnits(LUnit u1, LUnit u2)
+        {
+            // Validate
+            LangTypeHelper.ValidateUnits(u1, u2);
+
+            // Now convert the values to their base value.
+            double totalBase = u1.BaseValue + u2.BaseValue;
+            var unit = new LUnit(totalBase);
+            unit.BaseValue = totalBase;
+            unit.Group = u1.Group;
+            unit.SubGroup = u1.SubGroup;
+
+            // Set the value to the converted relative value 
+            // e.g. if u1.subgroup = feet and u2.subgroup == inches.
+            // then multiply result.basevalue by the conversion value.
+            // Now convert the units
+            return unit;
+        }
+
+
+        private static void ValidateUnits(LUnit u1, LUnit u2)
+        {
+            // Validate.
+            if (u1 == null || u2 == null)
+                throw new ArgumentException("Can not add units when 1 unit is empty");
+
+            // Check for matching groups e.g. length + length or weight + weight.
+            if (u1.Group != u2.Group)
+                throw new ArgumentException("Can not add units " + u1.Group + " to " + u2.Group);
         }
     }
 }

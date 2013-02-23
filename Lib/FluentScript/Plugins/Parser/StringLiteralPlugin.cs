@@ -93,10 +93,11 @@ namespace ComLib.Lang.Plugins
         /// <returns></returns>
         public override Expr Parse()
         {
+            var startToken = _tokenIt.NextToken;
             _tokenIt.Advance();
             var word = _tokenIt.NextToken.Token.Text;
             _tokenIt.Advance();
-            return new ConstantExpr(new LString(word));
+            return Exprs.Const(new LString(word), startToken);
         }
     }
 }

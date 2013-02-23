@@ -16,7 +16,7 @@ namespace ComLib.Lang.Parsing
     /// <summary>
     /// Class that visits each ast node in the trees.
     /// </summary>
-    public class AstVisitor
+    public class AstVisitor : IAstVisitor
     {
         /// <summary>
         /// Callback 
@@ -49,12 +49,13 @@ namespace ComLib.Lang.Parsing
         /// Visits each statement
         /// </summary>
         /// <param name="stmts"></param>
-        public void Visit(List<Expr> stmts)
+        public object Visit(List<Expr> stmts)
         {
             foreach (var stmt in stmts)
             {
-                Visit(stmt);
+                stmt.Visit(this);
             }
+            return null;
         }
 
 
@@ -62,43 +63,45 @@ namespace ComLib.Lang.Parsing
         /// Visit the statement
         /// </summary>
         /// <param name="exp"></param>
-        public void Visit( Expr exp)
+        public object VisitExpr( Expr exp)
         {
             if (exp.IsNodeType(NodeTypes.SysAssign))
-                VarSingle(exp as AssignExpr);
+                VisitAssign(exp as AssignExpr);
 
             if (exp.IsNodeType(NodeTypes.SysAssignMulti))
-                VarMulti(exp as MultiAssignExpr);
+                VisitAssignMulti(exp as AssignMultiExpr);
 
             else if (exp.IsNodeType(NodeTypes.SysFor))
-                For(exp as ForExpr);
+                VisitFor(exp as ForExpr);
 
             else if (exp.IsNodeType(NodeTypes.SysForEach))
-                ForEach(exp as ForEachExpr);
+                VisitForEach(exp as ForEachExpr);
 
             else if (exp.IsNodeType(NodeTypes.SysIf))
-                If(exp as IfExpr);
+                VisitIf(exp as IfExpr);
 
             else if (exp.IsNodeType(NodeTypes.SysTryCatch))
-                Try(exp as TryCatchExpr);
+                VisitTryCatch(exp as TryCatchExpr);
 
             else if (exp.IsNodeType(NodeTypes.SysWhile))
-                While(exp as WhileExpr);
+                VisitWhile(exp as WhileExpr);
 
             else if (exp.IsNodeType(NodeTypes.SysBinary))
-                Binary(exp as BinaryExpr);
+                VisitBinary(exp as BinaryExpr);
 
             else if (exp.IsNodeType(NodeTypes.SysCompare))
-                Compare(exp as CompareExpr);
+                VisitCompare(exp as CompareExpr);
 
             else if (exp.IsNodeType(NodeTypes.SysCondition))
-                Condition(exp as ConditionExpr);
+                VisitCondition(exp as ConditionExpr);
 
             else if (exp.IsNodeType(NodeTypes.SysFunctionDeclare))
-                FunctionDeclare(exp as FunctionDeclareExpr);
+                VisitFunctionDeclare(exp as FunctionDeclareExpr);
 
             else if (exp.IsNodeType(NodeTypes.SysFunctionCall))
-                FunctionCall(exp as FunctionCallExpr);
+                VisitFunctionCall(exp as FunctionCallExpr);
+
+            return null;
         }
 
 
@@ -106,13 +109,30 @@ namespace ComLib.Lang.Parsing
         /// Visits the var statement tree.
         /// </summary>
         /// <param name="assignExpr"></param>
-        public void VarMulti(MultiAssignExpr assignExpr)
+        public object VisitAssignMulti(AssignMultiExpr assignExpr)
         {
             _callBackOnNodeStart(assignExpr);
-            foreach (var decl in assignExpr._assignments)
+            foreach (var decl in assignExpr.Assignments)
             {
-                VarSingle(decl);
+                VisitAssign(decl);
             }
+            return null;
+        }
+
+
+        public object VisitArray(ArrayExpr expr)
+        {
+            return null;
+        }
+
+
+        public object VisitBlock(BlockExpr expr)
+        {            
+            foreach (var stmt in expr.Statements)
+            {
+                stmt.Visit(this);
+            }
+            return null;
         }
 
 
@@ -120,11 +140,35 @@ namespace ComLib.Lang.Parsing
         /// Visits the var statement tree.
         /// </summary>
         /// <param name="assignExpr"></param>
-        public void VarSingle(AssignExpr assignExpr)
+        public object VisitAssign(AssignExpr expr)
         {
-            _callBackOnNodeStart(assignExpr);
-            Visit(assignExpr.VarExp);
-            Visit(assignExpr.ValueExp);
+            _callBackOnNodeStart(expr);
+            expr.VarExp.Visit(this);
+            if (expr.ValueExp != null)
+                expr.ValueExp.Visit(this);
+            return null;
+        }
+
+
+        /// <summary>
+        /// Visits the var statement tree.
+        /// </summary>
+        /// <param name="assignExpr"></param>
+        public object VisitBreak(BreakExpr expr)
+        {
+            _callBackOnNodeStart(expr);
+            return null;
+        }
+
+
+        /// <summary>
+        /// Visits the var statement tree.
+        /// </summary>
+        /// <param name="assignExpr"></param>
+        public object VisitContinue(ContinueExpr expr)
+        {
+            _callBackOnNodeStart(expr);
+            return null;
         }
 
 
@@ -132,16 +176,17 @@ namespace ComLib.Lang.Parsing
         /// Visits the for statement tree.
         /// </summary>
         /// <param name="forExpr"></param>
-        public void For(ForExpr forExpr)
+        public object VisitFor(ForExpr expr)
         {
-            _callBackOnNodeStart(forExpr);
-            Visit(forExpr.Start);
-            Visit(forExpr.Condition);
-            Visit(forExpr.Increment);
-            foreach (var stmt in forExpr.Statements)
+            _callBackOnNodeStart(expr);
+            expr.Start.Visit(this);
+            expr.Condition.Visit(this);
+            expr.Increment.Visit(this);
+            foreach (var stmt in expr.Statements)
             {
-                Visit(stmt);
+                stmt.Visit(this);
             }
+            return null;
         }
 
 
@@ -149,14 +194,15 @@ namespace ComLib.Lang.Parsing
         /// Visits the for each statement tree.
         /// </summary>
         /// <param name="forExpr"></param>
-        public void ForEach(ForEachExpr forExpr)
+        public object VisitForEach(ForEachExpr expr)
         {
-            _callBackOnNodeStart(forExpr);
-            Visit(forExpr.Condition);
-            foreach (var stmt in forExpr.Statements)
+            _callBackOnNodeStart(expr);
+            expr.Condition.Visit(this);
+            foreach (var stmt in expr.Statements)
             {
-                Visit(stmt);
+                stmt.Visit(this);
             }
+            return null;
         }
 
 
@@ -164,15 +210,23 @@ namespace ComLib.Lang.Parsing
         /// Visits the if statement tree.
         /// </summary>
         /// <param name="ifExpr"></param>
-        public void If(IfExpr ifExpr)
+        public object VisitIf(IfExpr expr)
         {
-            _callBackOnNodeStart(ifExpr);
-            Visit(ifExpr.Condition);
-            foreach (var stmt in ifExpr.Statements)
+            _callBackOnNodeStart(expr);
+            expr.Condition.Visit(this);
+            foreach (var stmt in expr.Statements)
             {
-                Visit(stmt);
+                stmt.Visit(this);
             }
-            Visit(ifExpr.Else);
+            if (expr.Else != null)
+                expr.Else.Visit(this);
+            return null;
+        }
+
+
+        public object VisitLambda(LambdaExpr expr)
+        {
+            return null;
         }
 
 
@@ -180,14 +234,40 @@ namespace ComLib.Lang.Parsing
         /// Visits the try statement tree.
         /// </summary>
         /// <param name="tryExpr"></param>
-        public void Try(TryCatchExpr tryExpr)
+        public object VisitReturn(ReturnExpr expr)
         {
-            _callBackOnNodeStart(tryExpr);
-            foreach (var stmt in tryExpr.Statements)
+            _callBackOnNodeStart(expr);
+            return null;
+        }
+
+
+        /// <summary>
+        /// Visits the try statement tree.
+        /// </summary>
+        /// <param name="tryExpr"></param>
+        public object VisitThrow(ThrowExpr expr)
+        {
+            _callBackOnNodeStart(expr);
+            return null;
+        }
+
+
+        /// <summary>
+        /// Visits the try statement tree.
+        /// </summary>
+        /// <param name="tryExpr"></param>
+        public object VisitTryCatch(TryCatchExpr expr)
+        {
+            _callBackOnNodeStart(expr);
+            foreach (var stmt in expr.Statements)
             {
-                Visit(stmt);
+                stmt.Visit(this);
             }
-            Visit(tryExpr.Catch);
+            foreach (var stmt in expr.Catch.Statements)
+            {
+                stmt.Visit(this);
+            }
+            return null;
         }
 
 
@@ -195,14 +275,15 @@ namespace ComLib.Lang.Parsing
         /// Visits the while statement tree.
         /// </summary>
         /// <param name="whileExpr"></param>
-        public void While(WhileExpr whileExpr)
+        public object VisitWhile(WhileExpr expr)
         {
-            _callBackOnNodeStart(whileExpr);
-            Visit(whileExpr.Condition);
-            foreach (var stmt in whileExpr.Statements)
+            _callBackOnNodeStart(expr);
+            expr.Condition.Visit(this);
+            foreach (var stmt in expr.Statements)
             {
-                Visit(stmt);
+                stmt.Visit(this);
             }
+            return null;
         }
 
 
@@ -210,11 +291,12 @@ namespace ComLib.Lang.Parsing
         /// Visits the binary expression tree
         /// </summary>
         /// <param name="exp"></param>
-        public void Binary(BinaryExpr exp)
+        public object VisitBinary(BinaryExpr exp)
         {
             _callBackOnNodeStart(exp);
             _callBackOnNodeStart(exp.Left);
             _callBackOnNodeStart(exp.Right);
+            return null;
         }
 
 
@@ -222,11 +304,12 @@ namespace ComLib.Lang.Parsing
         /// Visits the compare expression tree
         /// </summary>
         /// <param name="exp"></param>
-        public void Compare(CompareExpr exp)
+        public object VisitCompare(CompareExpr exp)
         {
             _callBackOnNodeStart(exp);
             _callBackOnNodeStart(exp.Left);
             _callBackOnNodeStart(exp.Right);
+            return null;
         }
 
 
@@ -234,11 +317,22 @@ namespace ComLib.Lang.Parsing
         /// Visits the condition expression tree
         /// </summary>
         /// <param name="exp"></param>
-        public void Condition(ConditionExpr exp)
+        public object VisitCondition(ConditionExpr exp)
         {
             _callBackOnNodeStart(exp);
             _callBackOnNodeStart(exp.Left);
             _callBackOnNodeStart(exp.Right);
+            return null;
+        }
+
+
+        /// <summary>
+        /// Visits the condition expression tree
+        /// </summary>
+        /// <param name="exp"></param>
+        public object VisitConstant(ConstantExpr exp)
+        {
+            return null;
         }
 
 
@@ -246,15 +340,22 @@ namespace ComLib.Lang.Parsing
         /// Visits the function call expression tree
         /// </summary>
         /// <param name="exp"></param>
-        public void FunctionDeclare(FunctionDeclareExpr exp)
+        public object VisitFunctionDeclare(FunctionDeclareExpr exp)
         {
             _callBackOnNodeStart(exp);
             for(var ndx = 0; ndx < exp.Function.Statements.Count; ndx++)
             {
                 var stmt = exp.Function.Statements[ndx];
-                Visit(stmt);
+                stmt.Visit(this);
             }
             _callBackOnNodeEnd(exp);
+            return null;
+        }
+
+
+        public object VisitFunction(FunctionExpr expr)
+        {
+            return null;
         }
         
         
@@ -262,12 +363,117 @@ namespace ComLib.Lang.Parsing
         /// Visits the function call expression tree
         /// </summary>
         /// <param name="exp"></param>
-        public void FunctionCall(FunctionCallExpr exp)
+        public object VisitFunctionCall(FunctionCallExpr exp)
         {
             _callBackOnNodeStart(exp);
             foreach (var paramExp in exp.ParamListExpressions)
                 _callBackOnNodeStart(paramExp);
             _callBackOnNodeEnd(exp);
+            return null;
+        }
+
+
+        /// <summary>
+        /// Visits the function call expression tree
+        /// </summary>
+        /// <param name="exp"></param>
+        public object VisitIndex(IndexExpr exp)
+        {
+            _callBackOnNodeStart(exp);            
+            _callBackOnNodeStart(exp.VarExp);
+            _callBackOnNodeStart(exp.IndexExp);
+            return null;
+        }
+
+
+        /// <summary>
+        /// Visits the function call expression tree
+        /// </summary>
+        /// <param name="exp"></param>
+        public object VisitInterpolated(InterpolatedExpr exp)
+        {
+            return null;
+        }
+
+
+        /// <summary>
+        /// Visits the function call expression tree
+        /// </summary>
+        /// <param name="exp"></param>
+        public object VisitMap(MapExpr exp)
+        {
+            return null;
+        }
+
+
+        /// <summary>
+        /// Visits the function call expression tree
+        /// </summary>
+        /// <param name="exp"></param>
+        public object VisitMemberAccess(MemberAccessExpr exp)
+        {
+            return null;
+        }
+
+
+        /// <summary>
+        /// Visits the function call expression tree
+        /// </summary>
+        /// <param name="exp"></param>
+        public object VisitNamedParameter(NamedParameterExpr exp)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Visits the function call expression tree
+        /// </summary>
+        /// <param name="exp"></param>
+        public object VisitNew(NewExpr exp)
+        {
+            return null;
+        }
+
+
+        /// <summary>
+        /// Visits the function call expression tree
+        /// </summary>
+        /// <param name="exp"></param>
+        public object VisitParameter(ParameterExpr exp)
+        {
+            return null;
+        }
+
+
+        public object VisitUnary(UnaryExpr expr)
+        {
+            return null;
+        }
+
+
+        /// <summary>
+        /// Evaluate
+        /// </summary>
+        /// <returns></returns>
+        public object VisitNegate(NegateExpr expr)
+        {
+            return null;
+        }
+
+
+        public object VisitVariable(VariableExpr expr)
+        {
+            return null;
+        }
+
+
+        public void VisitBlockEnter(Expr expr)
+        {
+        }
+
+
+        public void VisitBlockExit(Expr expr)
+        {
         }
     }
 }

@@ -28,34 +28,6 @@ namespace ComLib.Lang.Plugins
 
 
         /// <summary>
-        /// The grammer for the function declaration
-        /// </summary>
-        public override string Grammer
-        {
-            get { return "var <id> ( '=' <expression> )? ( ',' <id> ( '=' <expression> )? )* <statementterminator>"; }
-        }
-
-
-        /// <summary>
-        /// Examples
-        /// </summary>
-        public override string[] Examples
-        {
-            get
-            {
-                return new string[]
-                {
-                    "var name;",
-                    "var name, age;",
-                    "var name = 'kishore', age = 33;",
-                    "var name = 'kishore', age = getage('kishore');",
-                    "var name = 'kishore', age;"
-                };
-            }
-        }
-
-
-        /// <summary>
         /// Whether or not this can handle the current token.
         /// </summary>
         /// <param name="current"></param>
@@ -77,7 +49,7 @@ namespace ComLib.Lang.Plugins
         public override Expr Parse()
         {
             bool expectVar = _tokenIt.NextToken.Token == Tokens.Var;
-            return ParseAssignment(expectVar, true);
+            return ParseAssignment(expectVar, true, null);
         }
 
 
@@ -99,8 +71,9 @@ namespace ComLib.Lang.Plugins
         /// 4. canVote = CanVote(age);
         /// </summary>
         /// <returns></returns>
-        public Expr ParseAssignment(bool expectVar, bool expectId = true, Expr varExp = null)
+        public Expr ParseAssignment(bool expectVar, bool expectId, Expr varExp)
         {
+            var initiatorToken = _tokenIt.NextToken;
             var declarations = new List<AssignExpr>();
             if (expectVar) _tokenIt.Expect(Tokens.Var);
             if (expectId)
@@ -113,7 +86,7 @@ namespace ComLib.Lang.Plugins
             if (_tokenIt.IsEndOfStmtOrBlock())
             {
                 AddAssignment(expectVar, varExp, null, declarations, _tokenIt.NextToken);
-                return new MultiAssignExpr(expectVar, declarations);
+                return Exprs.AssignMulti(expectVar, declarations, initiatorToken);
             }
 
             // Case 2: var name = <expression>
@@ -126,8 +99,8 @@ namespace ComLib.Lang.Plugins
             }
 
             AddAssignment(expectVar, varExp, valueExp, declarations, assignToken);
-            if (_tokenIt.IsEndOfStmtOrBlock())
-                return new MultiAssignExpr(expectVar, declarations);
+            if (_tokenIt.IsEndOfStmtOrBlock() || _tokenIt.NextToken.Token.Kind == TokenKind.Keyword)
+                return Exprs.AssignMulti(expectVar, declarations, initiatorToken);
 
             // Case 3: Multiple var a,b,c; or var a = 1, b = 2, c = 3;
             _tokenIt.Expect(Tokens.Comma);
@@ -151,7 +124,7 @@ namespace ComLib.Lang.Plugins
 
                 _tokenIt.Expect(Tokens.Comma);
             }
-            return new MultiAssignExpr(expectVar, declarations);
+            return Exprs.AssignMulti(expectVar, declarations, initiatorToken);
         }
 
 
@@ -159,13 +132,13 @@ namespace ComLib.Lang.Plugins
         {
             var nameToken = _tokenIt.NextToken;
             var name = _tokenIt.ExpectId();
-            return _parser.ToIdentExpr(name, nameToken) as VariableExpr;
+            return Exprs.Ident(name, nameToken) as VariableExpr;
         }
 
         
         private void AddAssignment(bool expectVar, Expr varExp, Expr valExp, List<AssignExpr> declarations, TokenData token)
         {
-            var a = (AssignExpr)_parser.ToAssignExpr(expectVar, varExp, valExp, token);
+            var a = (AssignExpr)Exprs.Assign(expectVar, varExp, valExp, token);
             declarations.Add(a);
         }
 
@@ -174,35 +147,9 @@ namespace ComLib.Lang.Plugins
         /// Called by the framework after the parse method is called
         /// </summary>
         /// <param name="node">The node returned by this implementations Parse method</param>
-        public void OnParseComplete(AstNode node)
+        public override void OnParseComplete(AstNode node)
         {
-            var stmt = node as MultiAssignExpr;
-            if (stmt._assignments == null || stmt._assignments.Count == 0)
-                return;
-            foreach (var assignment in stmt._assignments)
-            {
-                var exp = assignment.VarExp;
-                if (exp.IsNodeType(NodeTypes.SysVariable))
-                {
-                    var varExp = exp as VariableExpr;
-                    var valExp = assignment.ValueExp;
-                    var name = varExp.Name;
-                    bool registeredTypeVar = false;
-                    if(valExp != null && valExp.IsNodeType(NodeTypes.SysNew) )
-                    {
-                        var newExp = valExp as NewExpr;
-                        if (this.Ctx.Types.Contains(newExp.TypeName))
-                        {
-                            var type = this.Ctx.Types.Get(newExp.TypeName);
-                            var ltype = LangTypeHelper.ConvertToLangTypeClass(type);
-                            this.Ctx.Symbols.DefineVariable(name, ltype);
-                            registeredTypeVar = true;
-                        }
-                    }
-                    if(!registeredTypeVar)
-                        this.Ctx.Symbols.DefineVariable(name, LTypes.Object);
-                }
-            }
+            this.ExpParser.OnParseAssignComplete(node as Expr);
         }
     }
 }

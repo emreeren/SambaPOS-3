@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 
 // <lang:using>
 using ComLib.Lang.Core;
-using ComLib.Lang.AST;
 using ComLib.Lang.Helpers;
 using ComLib.Lang.Parsing;
 // </lang:using>
@@ -148,7 +144,7 @@ namespace ComLib.Lang.Plugins
             // 2. Get the file extension name.
             var lineTokenPart = _lexer.ReadWord();
             var finalText = pretext + lineTokenPart.Text;
-            var token = ComLib.Lang.Core.Tokens.ToLiteralString(finalText);
+            var token = TokenBuilder.ToLiteralString(finalText);
             var t = new TokenData() { Token = token, Line = line, LineCharPos = pos };
             _lexer.ParsedTokens.Add(t);
             return new Token[] { token };

@@ -96,7 +96,7 @@ namespace ComLib.Lang.Plugins
         public override Expr Parse()
         {
             // 1. Is it a function call?
-            var nameExp = _parser.ToIdentExpr(_result.Name, null);
+            var nameExp = Exprs.Ident(_result.Name, null);
             
             _tokenIt.Advance(_result.TokenCount);
             var exp = _parser.ParseFuncExpression(nameExp, null);

@@ -223,7 +223,7 @@ namespace ComLib.Lang.Plugins
         /// Evaluate
         /// </summary>
         /// <returns></returns>
-        public override object DoEvaluate()
+        public override object DoEvaluate(IAstVisitor visitor)
         {
             var val = "";
             // Case 1: $env.sys.systemroot

@@ -87,10 +87,10 @@ namespace ComLib.Lang.Plugins
         /// <returns></returns>
         public override Expr Parse()
         {
-            DateTime date = DateTime.MinValue;
-            string holidayName = null;
+            var date = DateTime.MinValue;
+            var holidayName = "";
             TokenData next = null;
-
+            var startToken = _tokenIt.NextToken;
             // Multi-word holiday.
             holidayName = _tokenIt.NextToken.Token.Text.ToLower();
             int count = 0;
@@ -128,7 +128,7 @@ namespace ComLib.Lang.Plugins
             }
             // Finally move past this plugin.
             _tokenIt.Advance();
-            return new ConstantExpr(new LDate(date));
+            return Exprs.Const(new LDate(date), startToken);
         }
     }
 }

@@ -110,8 +110,9 @@ namespace ComLib.Lang.Parsing
         {
             _context = context;
             _parseErrors = new List<LangException>();
-            _lexer = new Lexer(string.Empty);
-            _lexer.SetContext(_context);
+            _lexer = new Lexer();
+            _lexer.SetContext(_context); 
+            _lexer.Init("");
         }
 
 
@@ -205,6 +206,16 @@ namespace ComLib.Lang.Parsing
 
             // Now advance to next token to continue parsing.
             _tokenIt.Advance();
+        }
+
+
+        /// <summary>
+        /// Collects an unexpected token error and advances to next token.
+        /// </summary>
+        public void AddError(TokenData token, string error)
+        {
+            var ex = new LangException("Parse", error, this._scriptPath, token.Line, token.LineCharPos);
+            this._parseErrors.Add(ex);
         }
         #endregion
 
@@ -336,7 +347,7 @@ namespace ComLib.Lang.Parsing
                     continue;
 
                 if (!func.Meta.ArgumentsLookup.ContainsKey(arg.Name))
-                    _tokenIt.BuildSyntaxException("Doc argument name : '" + arg.Name + "' does not exist in function : " + func.Name);
+                    _tokenIt.BuildSyntaxException("Doc argument name : '" + arg.Name + "' does not exist in function : " + func.Meta.Name);
 
                 var funcArg = func.Meta.ArgumentsLookup[arg.Name];
                 funcArg.Alias = arg.Alias;

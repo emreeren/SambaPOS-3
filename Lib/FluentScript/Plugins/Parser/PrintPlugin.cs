@@ -120,10 +120,10 @@ namespace ComLib.Lang.Plugins
             if (lineToken.Kind == TokenKind.Multi)
                 lineExp = _parser.ParseInterpolatedExpression(lineToken);
             else
-                lineExp = new ConstantExpr(new LString((string)lineToken.Value));
+                lineExp = Exprs.Const(new LString((string)lineToken.Value), printToken);
 
-            var nameExp = _parser.ToIdentExpr(printToken.Token.Text, printToken);
-            var exp = (FunctionCallExpr)_parser.ToFunctionCallExpr(nameExp, null, printToken);
+            var nameExp = Exprs.Ident(printToken.Token.Text, printToken);
+            var exp = (FunctionCallExpr)Exprs.FunctionCall(nameExp, null, printToken);
             exp.ParamListExpressions.Add(lineExp);
             
             // Move past this plugin.

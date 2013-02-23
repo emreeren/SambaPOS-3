@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Collections;
-
+﻿
 
 namespace ComLib.Lang.AST
 {
     /// <summary>
     /// Variable expression data
     /// </summary>
-    public class NamedParamExpr : Expr
+    public class NamedParameterExpr : Expr
     {
         /// <summary>
         /// The name of the expression.
@@ -34,7 +28,7 @@ namespace ComLib.Lang.AST
         /// <summary>
         /// Initialize
         /// </summary>
-        public NamedParamExpr() : this(null, null)
+        public NamedParameterExpr() : this(null, null)
         {
             this.Nodetype = NodeTypes.SysNamedParameter;
         }
@@ -45,22 +39,11 @@ namespace ComLib.Lang.AST
         /// </summary>
         /// <param name="name">Variable name</param>
         /// <param name="value">The expression representing the value of the parameter.</param>
-        public NamedParamExpr(string name, Expr value)
+        public NamedParameterExpr(string name, Expr value)
         {
             this.Nodetype = NodeTypes.SysNamedParameter;
             this.Name = name;
             this.Value = value;
-        }
-
-
-        /// <summary>
-        /// Evaluate
-        /// </summary>
-        /// <returns></returns>
-        public override object DoEvaluate()
-        {
-            var result = this.Value == null ? null : this.Value.Evaluate();
-            return result;
         }
 
 
@@ -71,6 +54,15 @@ namespace ComLib.Lang.AST
         public override string ToQualifiedName()
         {
             return this.Name;
+        }
+
+
+        /// <summary>
+        /// Execute the statement.
+        /// </summary>
+        public override object Visit(IAstVisitor visitor)
+        {
+            return visitor.VisitNamedParameter(this);
         }
     }
 }

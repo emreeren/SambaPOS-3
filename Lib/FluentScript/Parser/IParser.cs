@@ -108,7 +108,7 @@ namespace ComLib.Lang.Parsing
         /// <summary>
         /// The tokens that are associated w/ this combinator.
         /// </summary>
-        string[] Tokens { get; }
+        string[] StartTokens { get; }
 
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace ComLib.Lang.Parsing
         /// <summary>
         /// The tokens that are associated w/ this combinator.
         /// </summary>
-        string[] Tokens { get; }
+        string[] StartTokens { get; }
 
 
         /// <summary>
@@ -185,6 +185,10 @@ namespace ComLib.Lang.Parsing
         /// <param name="tokenIt">The token iterator</param>
         void Init(Parser parser, TokenIterator tokenIt);
 
+        /// <summary>
+        /// Expression parser.
+        /// </summary>
+        ExprParser ExpParser { get; set; }
 
         /// <summary>
         /// The context of the interpreter.
@@ -220,6 +224,12 @@ namespace ComLib.Lang.Parsing
         /// Whether or not the plugin auto handles if start tokens match.
         /// </summary>
         bool IsAutoMatched { get; set; }
+
+
+        /// <summary>
+        /// Grammar for matching the plugin.
+        /// </summary>
+        string GrammarMatch { get; set; }
 
 
         /// <summary>

@@ -5,8 +5,10 @@ using System.Text;
 
 using ComLib.Lang.Core;
 using ComLib.Lang.AST;
-using ComLib.Lang.Parsing;
 using ComLib.Lang.Helpers;
+using ComLib.Lang.Parsing;
+using ComLib.Lang.Runtime;
+
 
 namespace ComLib.Lang.Phases
 {
@@ -43,11 +45,11 @@ namespace ComLib.Lang.Phases
 
             // 3. Execute the nodes and get the run-result which captures various data            
             var runResult = LangHelper.Execute(() =>
-            {                
-                foreach (var stmt in statements)
-                {
-                    stmt.Evaluate();
-                }
+            {
+                var execution = new Execution();
+                execution.Ctx = this.Ctx;
+                EvalHelper.Ctx = this.Ctx;
+                execution.VisitExprs(statements);
             });
 
             // 4. Simply wrap the run-result ( success, message, start/end times )

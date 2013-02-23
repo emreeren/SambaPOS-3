@@ -23,6 +23,7 @@ namespace ComLib.Lang.Plugins
         /// </summary>
         public FunctionDeclarePlugin()
         {
+            this.Precedence = 2;
             this.ConfigureAsSystemStatement(true, false, "function");
         }
 
@@ -100,7 +101,7 @@ namespace ComLib.Lang.Plugins
                 while (nextToken.Token == Tokens.Comma)
                 {
                     _tokenIt.Advance();
-                    string alias = _tokenIt.ExpectId(true, true);
+                    var alias = _tokenIt.ExpectId(true, true);
                     aliases.Add(alias);
                     nextToken = _tokenIt.NextToken;
                 }
@@ -177,58 +178,6 @@ namespace ComLib.Lang.Plugins
                     this.Ctx.Symbols.DefineAlias(alias, function.Name);
                 }
             }
-
-            // FEATURE-MOD-START-REMOVE-CODE
-            //this.Ctx.Functions.Register(function.Name, function);
-            //if (function.Meta.Aliases != null && function.Meta.Aliases.Count > 0)
-            //{
-            //    foreach (string alias in function.Meta.Aliases)
-            //    {
-            //        this.Ctx.Functions.Register(alias, function);
-            //    }
-            //}
-            // END-REMOVE-CODE
-        }
-    }
-
-
-
-    /// <summary>
-    /// Represents a function declaration
-    /// </summary>
-    public class FunctionDeclareExpr : BlockExpr
-    {
-        private FunctionExpr _function = new FunctionExpr();
-
-
-        /// <summary>
-        /// Initialize
-        /// </summary>
-        public FunctionDeclareExpr()
-        {
-            this.Nodetype = NodeTypes.SysFunctionDeclare;
-        }
-
-
-        /// <summary>
-        /// Function 
-        /// </summary>
-        public FunctionExpr Function
-        {
-            get { return _function; }
-        }
-
-
-        /// <summary>
-        /// String representation
-        /// </summary>
-        /// <param name="tab"></param>
-        /// <param name="incrementTab"></param>
-        /// <param name="includeNewLine"></param>
-        /// <returns></returns>
-        public override string AsString(string tab = "", bool incrementTab = false, bool includeNewLine = true)
-        {
-            return _function.AsString(tab, incrementTab, includeNewLine);
         }
     }
 }

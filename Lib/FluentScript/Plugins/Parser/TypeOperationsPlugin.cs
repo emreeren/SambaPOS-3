@@ -221,16 +221,16 @@ namespace ComLib.Lang.Plugins
         /// Evaluate the type check/conversion operation.
         /// </summary>
         /// <returns></returns>
-        public override object DoEvaluate()
+        public override object DoEvaluate(IAstVisitor visitor)
         {
             if (_isConversion)
-                return ConvertValue();
+                return ConvertValue(visitor);
             else if (_isConversionCheck)
             {
-                var result = TryConvertValue();
+                var result = TryConvertValue(visitor);
                 return result;
             }
-            return CheckExplicitType();
+            return CheckExplicitType(visitor);
         }
 
 
@@ -238,9 +238,9 @@ namespace ComLib.Lang.Plugins
         /// Used for function calls like "is_number(123)"
         /// </summary>
         /// <returns></returns>
-        private object CheckExplicitType()
+        private object CheckExplicitType(IAstVisitor visitor)
         {
-            var val = _exp.Evaluate();
+            var val = _exp.Evaluate(visitor);
             if (val == null || val == LObjects.Null)
                 return new LBool(false);
 
@@ -260,9 +260,9 @@ namespace ComLib.Lang.Plugins
         /// Used for function calls like "to_number( '123' )";
         /// </summary>
         /// <returns></returns>
-        private object TryConvertValue()
+        private object TryConvertValue(IAstVisitor visitor)
         {
-            var val = _exp.Evaluate();
+            var val = _exp.Evaluate(visitor);
             if (val == null)
                 return new LBool(false);
             var canConvert = false;
@@ -283,9 +283,9 @@ namespace ComLib.Lang.Plugins
         /// Used for function calls like "to_number( '123' )";
         /// </summary>
         /// <returns></returns>
-        private object ConvertValue()
+        private object ConvertValue(IAstVisitor visitor)
         {
-            var val = _exp.Evaluate();
+            var val = _exp.Evaluate(visitor);
             if (val == null)
                 return LObjects.Null;
             var result = DoConvertValue(_destinationType, val, true);

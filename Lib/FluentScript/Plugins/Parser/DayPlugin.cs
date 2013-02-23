@@ -107,6 +107,7 @@ namespace ComLib.Lang.Plugins
         /// <returns></returns>
         public override bool CanHandle(Token token)
         {
+            if (token.Kind != TokenKind.Ident) return false;
             string name = token.Text.ToLower();
             if (_days.ContainsKey(name)) return true;
             if (_dayAliases.ContainsKey(name)) return true;
@@ -122,22 +123,23 @@ namespace ComLib.Lang.Plugins
         /// <returns></returns>
         public override Expr Parse()
         {
+            var startToken = _tokenIt.NextToken;
             var name = _tokenIt.ExpectId().ToLower();
 
             // 1. Day of week : "monday" or "Monday" etc.
             if (_days.ContainsKey(name))
-                return new ConstantExpr(new LDayOfWeek(_days[name]));
+                return Exprs.Const(new LDayOfWeek(_days[name]), startToken);
 
             // 2. DateTime ( today, yesterday, tommorrow )
             var dateTime = _dayAliases[name]();
             if (_tokenIt.NextToken.Token.Text != "at")
-            {                
-                return new ConstantExpr(new LDate(dateTime));
+            {
+                return Exprs.Const(new LDate(dateTime), startToken);
             }
 
             var time = TimeExprPlugin.ParseTime(_parser, true, true);
             dateTime = new DateTime(dateTime.Year, dateTime.Month, (int)dateTime.Day, time.Hours, time.Minutes, time.Seconds);
-            return new ConstantExpr(new LDate(dateTime));
+            return Exprs.Const(new LDate(dateTime), startToken);
         }
     }
 }

@@ -165,7 +165,7 @@ namespace ComLib.Lang.Helpers
                         tokenIt.Advance();
                     
                     exp = parser.ParseExpression(endTokens, true, false, true, passNewLine, true);
-                    exp = parser.ToNamedParamExpr(paramName, exp, namedParamToken);
+                    exp = Exprs.NamedParam(paramName, exp, namedParamToken);
 
                     args.Add(exp);
                     totalNamedParams++;
@@ -226,11 +226,11 @@ namespace ComLib.Lang.Helpers
                 // Add all the parameter names and aliases to the map.
                 foreach (var pair in meta.ArgumentsLookup)
                 {
-                    var idToken = Tokens.ToIdentifier(pair.Value.Name);
+                    var idToken = TokenBuilder.ToIdentifier(pair.Value.Name);
                     endTokens[idToken] = true;
                     if (!string.IsNullOrEmpty(pair.Value.Alias))
                     {
-                        idToken = Tokens.ToIdentifier(pair.Value.Alias);
+                        idToken = TokenBuilder.ToIdentifier(pair.Value.Alias);
                         endTokens[idToken] = true;
                     }
                 }

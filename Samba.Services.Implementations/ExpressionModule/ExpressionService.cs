@@ -38,24 +38,22 @@ namespace Samba.Services.Implementations.ExpressionModule
             _interpreter.Context.Types.Register(typeof(OrderAccessor), null);
         }
 
-        private static object ToNumberFunction(FunctionCallExpr arg)
+        private static object ToNumberFunction(string s, string s1, FunctionCallExpr arg3)
         {
             double d;
-            double.TryParse(arg.ParamList[0].ToString(), NumberStyles.Any, CultureInfo.CurrentCulture, out d);
+            double.TryParse(s, NumberStyles.Any, CultureInfo.CurrentCulture, out d);
             return d;
         }
 
-        private static object FormatFunction(FunctionCallExpr arg)
+        private static object FormatFunction(string s, string s1, FunctionCallExpr arg3)
         {
-            var fmt = arg.ParamList.Count > 1
-                          ? arg.ParamList[1].ToString()
-                          : "#,#0.00";
-            return ((double)arg.ParamList[0]).ToString(fmt);
+            var fmt = !string.IsNullOrEmpty(s1) ? s1 : "#,#0.00";
+            return (Convert.ToDouble(s)).ToString(fmt);
         }
 
-        private object CallFunction(FunctionCallExpr arg)
+        private object CallFunction(string s, string s1, FunctionCallExpr arg3)
         {
-            return EvalCommand(arg.ParamList[0].ToString(), null, null, default(object));
+            return EvalCommand(s, null, null, default(object));
         }
 
         public string Eval(string expression)

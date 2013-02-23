@@ -88,6 +88,12 @@ namespace ComLib.Lang.Core
         /// Represents a module type.
         /// </summary>
         public const int Module = 13;
+
+
+        /// <summary>
+        /// Day of week type.
+        /// </summary>
+        public const int DayOfWeek = 14;
     }
 
 

@@ -196,7 +196,7 @@ namespace ComLib.Lang.Plugins
         /// Evaluate
         /// </summary>
         /// <returns></returns>
-        public override object DoEvaluate()
+        public override object DoEvaluate(IAstVisitor visitor)
         {
             // No validation needed at this poin. The plugin checks if it's a valid prop name.
             var result = _map[_propName]();

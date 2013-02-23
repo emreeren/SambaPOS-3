@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,8 +12,10 @@ using ComLib.Lang.Core;
 using ComLib.Lang.AST;
 using ComLib.Lang.Helpers;
 using ComLib.Lang.Parsing;
+using ComLib.Lang.Parsing.MetaPlugins;
 using ComLib.Lang.Types;
 using ComLib.Lang.Phases;
+using ComLib.Lang.Runtime;
 // </lang:using>
 
 namespace ComLib.Lang
@@ -40,6 +43,7 @@ namespace ComLib.Lang
         private RunResult _runResult;
         private PhaseContext _phaseCtx;
         private bool _pluginsInitialized;
+        private int _lastInitializationPluginCount = 0;
 
 
         /// <summary>
@@ -95,6 +99,63 @@ namespace ComLib.Lang
         {
             get { return _runResult; }
         }
+
+
+        /// <summary>
+        /// Registers all the plugins.
+        /// </summary>
+        public void RegisterAllPlugins()
+        {
+            this.Context.Plugins.RegisterAll();
+            this.RegisterMetaPlugins();
+        }
+
+
+        /// <summary>
+        /// Load all the meta plugins from the plugins folders.
+        /// </summary>
+        public void RegisterMetaPlugins()
+        {
+            if(!Directory.Exists(this.Settings.PluginsFolder))
+                throw new DirectoryNotFoundException("Directory for meta plugins : " + this.Settings.PluginsFolder + " does not exist");
+
+            var files = Directory.GetFiles(this.Settings.PluginsFolder);
+            foreach(var file in files)
+            {
+                this.RegisterMetaPlugin(file);
+            }
+        }
+
+
+        /// <summary>
+        /// Load the meta plugin with the file specified.
+        /// </summary>
+        /// <param name="file"></param>
+        public void RegisterMetaPlugin(string file)
+        {
+            var currentMetaPlugin = "";
+            try
+            {
+                var fileInfo = new FileInfo(file);
+                
+                // 1. store the current meta plugin being loaded ( in -case error loading we know which one )
+                currentMetaPlugin = fileInfo.Name;
+                
+                // 2. only load individual plugins with naming convention "plugin-<name>.js"
+                //    other plugin file such as "plugins.js" has all plugins.
+                var enableFilter = true;
+                if (!enableFilter || ( enableFilter && fileInfo.Name.Contains("-")))
+                {
+                    var script = File.ReadAllText(file);
+                    this.Execute(script);
+                }
+            }
+            catch (Exception ex)
+            {
+                var error = "Error loading meta plugin : " + currentMetaPlugin + " " + ex.Message;
+                throw new InvalidOperationException("Configuration Error: " + error);
+            }
+        }
         
 
         /// <summary>
@@ -102,7 +163,7 @@ namespace ComLib.Lang
         /// </summary>
         /// <param name="funcCallPattern">Pattern for the function e.g. "CreateUser", or "Blog.*"</param>
         /// <param name="callback">The callback to call</param>
-        public void SetFunctionCallback(string funcCallPattern, Func<FunctionCallExpr, object> callback)
+        public void SetFunctionCallback(string funcCallPattern, Func<string ,string, FunctionCallExpr, object> callback)
         {
             _parser.Context.ExternalFunctions.Register(funcCallPattern, callback);
         }
@@ -263,6 +324,13 @@ namespace ComLib.Lang
         public void Execute(string script, bool clearExistingCode, bool resetScript, params IPhase[] phases)
         {
             this.InitPlugins();
+            if(_parser != null)
+            {
+                var execution = new Execution();
+                execution.Ctx = _context;
+                EvalHelper.Ctx = _context;
+                _parser.OnDemandEvaluator = execution;
+            }
             var phaseExecutor = new PhaseExecutor();
 
             // 1. Create the execution phase
@@ -288,16 +356,7 @@ namespace ComLib.Lang
         /// <param name="args"></param>
         public object Call(string functionName, bool convertApplicableTypes, params object[] args)
         {
-            var argsList = args.ToList<object>();
-            if(convertApplicableTypes)
-                LangTypeHelper.ConvertToLangTypeValues(argsList);
-            var exists = _context.Symbols.IsFunc(functionName);
-            if (!exists)
-                return null;
-            var sym = _context.Symbols.GetSymbol(functionName) as SymbolFunction;
-            var expr = sym.FuncExpr as FunctionExpr;
-            var result = FunctionHelper.CallFunctionInScript(_context, expr, functionName, null, argsList, false);
-            return result;
+            return FunctionHelper.CallFunctionViaCSharp(this._context, functionName, convertApplicableTypes, args);
         }
 
 
@@ -383,14 +442,14 @@ namespace ComLib.Lang
         public void PrintTokens(string scriptFile, string toFile)
         {
             var tokens = ToTokens(scriptFile, true);
-            using (StreamWriter writer = new StreamWriter(toFile))
+            using (var writer = new StreamWriter(toFile))
             {
                 foreach (TokenData tokendata in tokens)
                 {
                     writer.WriteLine(tokendata.ToString());
                 }
                 writer.Flush();
-            };
+            }
         }
 
 
@@ -402,14 +461,14 @@ namespace ComLib.Lang
         public void PrintStatements(string scriptFile, string toFile)
         {
             var statements = ToStatements(scriptFile, true);
-            using (StreamWriter writer = new StreamWriter(toFile))
+            using (var writer = new StreamWriter(toFile))
             {
                 foreach (Expr stmt in statements)
                 {
                     writer.Write(stmt.AsString());
                 }
                 writer.Flush();
-            };
+            }
         }
 
 
@@ -419,11 +478,38 @@ namespace ComLib.Lang
         /// <param name="toFile"></param>
         public void PrintRunResult(string toFile)
         {
-            using (StreamWriter writer = new StreamWriter(toFile))
+            using (var writer = new StreamWriter(toFile))
             {
                 writer.Write(_runResult.ToString());
                 writer.Flush();
-            };
+            }
+        }
+
+
+        /// <summary>
+        /// Prints all the meta plugins loaded.
+        /// </summary>
+        public void PrintPlugins()
+        {
+            var printer = new Printer();
+            printer.WriteHeader("Meta plugins ");
+            printer.WriteKeyValue(true, "Folder: ", false, this.Settings.PluginsFolder);
+            printer.WriteLines(2);
+
+            this.Context.PluginsMeta.EachPlugin( plugin =>
+            {
+                printer.WriteKeyValue(true, "Name: " , true, plugin.Name);
+                printer.WriteKeyValue(true, "Desc: " , false, plugin.Desc);
+                printer.WriteKeyValue(true, "Docs: " , false, plugin.Doc);
+                printer.WriteKeyValue(true, "Type: ",  false, plugin.PluginType);
+                printer.WriteKeyValue(true, "Examples: ", false, string.Empty);
+                for(var ndx = 0; ndx < plugin.Examples.Length; ndx++)
+                {
+                    var count = (ndx + 1).ToString(CultureInfo.InvariantCulture);
+                    printer.WriteLine(count + ". " + plugin.Examples[ndx]);
+                }
+                printer.WriteLines(3);
+            });
         }
 
 
@@ -453,7 +539,7 @@ namespace ComLib.Lang
                 success = false;
                 if (ex is LangException)
                 {
-                    LangException lex = ex as LangException;
+                    var lex = ex as LangException;
                     const string langerror = "{0} : {1} at line : {2}, position: {3}";
                     message = string.Format(langerror, lex.Error.ErrorType, lex.Message, lex.Error.Line, lex.Error.Column);
                 }
@@ -471,28 +557,42 @@ namespace ComLib.Lang
 
         private void InitPlugins()
         {
-            if (_pluginsInitialized) return;
-
+            var totalPlugins = _context.Plugins.Total();
             var tokenIt = _parser.TokenIt;
             var lexer = _parser.Lexer;
 
-            // 2. Register default methods if not present.
-            Tokens.Default();
-            ErrorCodes.Init();
-            LTypesLookup.Init();
-            _context.Methods.RegisterIfNotPresent(LTypes.Array, new LJSArrayMethods());
-            _context.Methods.RegisterIfNotPresent(LTypes.Date, new LJSDateMethods());
-            _context.Methods.RegisterIfNotPresent(LTypes.String, new LJSStringMethods());
-            _context.Methods.RegisterIfNotPresent(LTypes.Time, new LJSTimeMethods());
-            _context.Methods.RegisterIfNotPresent(LTypes.Map, new LJSMapMethods());
+            if (!_pluginsInitialized)
+            {
+                // 2. Register default methods if not present.
+                Tokens.Default();
+                ErrorCodes.Init();
+                LTypesLookup.Init();
+                _context.Methods.RegisterIfNotPresent(LTypes.Array, new LJSArrayMethods());
+                _context.Methods.RegisterIfNotPresent(LTypes.Date, new LJSDateMethods());
+                _context.Methods.RegisterIfNotPresent(LTypes.String, new LJSStringMethods());
+                _context.Methods.RegisterIfNotPresent(LTypes.Time, new LJSTimeMethods());
+                _context.Methods.RegisterIfNotPresent(LTypes.Map, new LJSMapMethods());
+            }
 
-            // 3. Initialize the plugins.
-            _context.Plugins.RegisterAllSystem();
-            _context.Plugins.ForEach<IExprPlugin>(plugin => { plugin.Init(_parser, tokenIt); plugin.Ctx = _context; });
-            _context.Plugins.ForEach<ITokenPlugin>(plugin => { plugin.Init(_parser, tokenIt); });
-            _context.Plugins.ForEach<ILexPlugin>(plugin => { plugin.Init(lexer); });
-            _context.Plugins.ExecuteSetupPlugins(_context);
-            
+            if (!_pluginsInitialized || totalPlugins > _lastInitializationPluginCount)
+            {
+                // 3. Initialize the plugins.
+                var expParser = new ExprParser();
+                expParser._parser = _parser;
+                _context.Plugins.RegisterAllSystem();
+                _context.Plugins.ForEach<IExprPlugin>(plugin =>
+                                                          {
+                                                              plugin.Init(_parser, tokenIt);
+                                                              plugin.Ctx = _context;
+                                                              plugin.ExpParser = expParser;
+                                                          });
+
+                _context.Plugins.ForEach<ITokenPlugin>(plugin => { plugin.Init(_parser, tokenIt); });
+                _context.Plugins.ForEach<ILexPlugin>(plugin => { plugin.Init(lexer); });
+                _context.Plugins.ExecuteSetupPlugins(_context);
+
+                _lastInitializationPluginCount = _context.Plugins.Total();
+            }
             _pluginsInitialized = true;
         }
 
@@ -500,10 +600,99 @@ namespace ComLib.Lang
         private void InitSystemFunctions()
         {
             // Print and log functions.
-            _parser.Context.ExternalFunctions.Register("print",  (exp) => LogHelper.Print(_settings, exp, false));
-            _parser.Context.ExternalFunctions.Register("println", (exp) => LogHelper.Print(_settings, exp, true));
-            _parser.Context.ExternalFunctions.Register("log.*",  (exp) => LogHelper.Log(_settings, exp));
+            _parser.Context.ExternalFunctions.Register("print",  (objname, method, exp) => LogHelper.Print(_settings, exp, false));
+            _parser.Context.ExternalFunctions.Register("println", (objname, method, exp) => LogHelper.Print(_settings, exp, true));
+            _parser.Context.ExternalFunctions.Register("log.*", (objname, method, exp) => LogHelper.Log(_settings, exp));
+            _parser.Context.ExternalFunctions.Register("metacompiler.*", (objname, method, exp) => RunCompilerMethod(objname, method, _settings, exp));
+        }
+
+
+
+        private object RunCompilerMethod(string objectName, string method, LangSettings settings, FunctionCallExpr ex)
+        {
+            var metaCompiler = new MetaCompiler();
+            metaCompiler.Ctx = ex.Ctx;
+
+            if(method == "ToConstDate")
+            {
+            
+            }
+            else if(method == "ToConstTime")
+            {
+                
+            }
+            else if(method == "ToConstDateTimeToken")
+            {
+                var dateToken = ex.ParamList[0] as TokenData;
+                var timeToken = ex.ParamList[1] as TokenData;
+                return metaCompiler.ToConstDateTimeToken(dateToken, timeToken);
+            }
+            else if (method == "ToConstDay")
+            {
+                var token = ex.ParamList[0] as TokenData;
+                var day = Convert.ToInt32(ex.ParamList[1]);
+                return metaCompiler.ToConstDay(day, token);
+            }
+            return LObjects.Null;
         }
         #endregion
     }
+
+
+
+    class Printer
+    {
+        /// <summary>
+        /// Writes out a header text
+        /// </summary>
+        /// <param name="text"></param>
+        public void WriteHeader(string text)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(text.ToUpper());
+        }
+
+
+        /// <summary>
+        /// Writest the text supplied on 1 line.
+        /// </summary>
+        /// <param name="text"></param>
+        public void WriteLine(string text)
+        {
+            Console.WriteLine(text);
+        }
+
+
+        /// <summary>
+        /// Writes out a key/value line.
+        /// </summary>
+        /// <param name="highlightKey"></param>
+        /// <param name="key"></param>
+        /// <param name="val"></param>
+        public void WriteKeyValue(bool highlightKey, string key, bool highlightVal, string val)
+        {
+            if (highlightKey)
+                Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write(key);
+            Console.ResetColor();
+            if(highlightVal)
+                Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(val);
+            Console.ResetColor();
+        }
+
+
+        /// <summary>
+        /// Writes out lines
+        /// </summary>
+        /// <param name="count"></param>
+        public void WriteLines(int count)
+        {
+            for (int ndx = 0; ndx < count; ndx++)
+            {
+                Console.WriteLine();
+            }
+        }
+    }
+    
 }

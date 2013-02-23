@@ -123,7 +123,7 @@ namespace ComLib.Lang.Plugins
         /// Evaluate
         /// </summary>
         /// <returns></returns>
-        public override object Evaluate()
+        public override object DoEvaluate(IAstVisitor visitor)
         {
             // 1. Check for function ( currently does not support functions as first class types )
             if (_exp.IsNodeType(NodeTypes.SysVariable) || _exp.IsNodeType(NodeTypes.SysFunctionCall))
@@ -133,7 +133,7 @@ namespace ComLib.Lang.Plugins
                 if (exists)
                     return new LString("function:" + name);
             }
-            var obj = _exp.Evaluate();
+            var obj = _exp.Evaluate(visitor);
             ExceptionHelper.NotNull(this, obj, "typeof");
             var lobj = (LObject) obj;
             var typename = lobj.Type.Name;

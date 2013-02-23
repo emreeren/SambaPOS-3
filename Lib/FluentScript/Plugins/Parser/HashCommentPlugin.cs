@@ -6,6 +6,7 @@ using System.Text;
 // <lang:using>
 using ComLib.Lang.Core;
 using ComLib.Lang.AST;
+using ComLib.Lang.Helpers;
 using ComLib.Lang.Parsing;
 // </lang:using>
 
@@ -78,7 +79,7 @@ namespace ComLib.Lang.Plugins
             var pos = _lexer.State.LineCharPosition;
             //var n = _lexer.ReadChar();
             var token = _lexer.ReadLineRaw(false);
-            token = ComLib.Lang.Core.Tokens.ToComment(false, token.Text);
+            token = TokenBuilder.ToComment(false, token.Text);
             var t = new TokenData() { Token = token, Line = line, LineCharPos = pos };
             _lexer.ParsedTokens.Add(t);
             return new Token[] { token };

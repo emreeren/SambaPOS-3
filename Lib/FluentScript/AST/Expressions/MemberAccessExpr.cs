@@ -155,6 +155,7 @@ namespace ComLib.Lang.AST
     }
 
 
+    
     /// <summary>
     /// Member access expressions for "." property or "." method.
     /// </summary>
@@ -189,34 +190,12 @@ namespace ComLib.Lang.AST
 
 
         /// <summary>
-        /// Either external function or member name.
+        /// Execute the statement.
         /// </summary>
-        /// <returns></returns>
-        public override object DoEvaluate()
+        public override object Visit(IAstVisitor visitor)
         {
-            var memberAccess = MemberHelper.GetMemberAccess(this, this.Ctx, this.VariableExp, this.MemberName);
-            if (IsAssignment)
-                return memberAccess;
-
-            // NOTES:
-            // 1. If property on a built in type && not assignment then just return the value of the property
-            // 2. It's done here instead because there is no function/method call on a property.
-            if (memberAccess.IsPropertyAccessOnBuiltInType())
-            {
-                var result = FunctionHelper.CallMemberOnBasicType(this.Ctx, this, memberAccess, null, null);
-                return result;
-            }
-            if (memberAccess.IsPropertyAccessOnClass())
-            {
-                var result = FunctionHelper.CallMemberOnClass(this.Ctx, this, memberAccess, null, null);
-                return result;
-            }
-            if (memberAccess.IsModuleAccess())
-            {
-                var result = MemberHelper.ResolveSymbol(memberAccess.Scope, this.MemberName);
-                return result;
-            }
-            return memberAccess;
+            return visitor.VisitMemberAccess(this);
         }
-    }    
+    }
+//    */
 }

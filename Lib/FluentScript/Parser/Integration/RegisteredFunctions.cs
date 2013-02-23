@@ -106,7 +106,7 @@ namespace ComLib.Lang.Parsing
             var hasParams = paramListExpressions != null && paramListExpressions.Count > 0;
 
             // 1. Resolve parameters if necessary
-            if(resolveParams && function != null && ( function.HasArguments || hasParams ) )
+            if(resolveParams && function != null && ( function.Meta.HasArguments() || hasParams ) )
                 ParamHelper.ResolveParametersForScriptFunction(function.Meta, paramListExpressions, paramVals);
             function.ArgumentValues = paramVals;
             function.Evaluate();
