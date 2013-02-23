@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samba.Presentation", "Samba.Presentation\Samba.Presentation.csproj", "{B58CBF09-52EA-4466-B5D2-2664018E7561}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Presentation Layer", "1. Presentation Layer", "{EBD09D7D-66B5-4DA4-ABB3-3F511769CF7D}"
