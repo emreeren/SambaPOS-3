@@ -300,7 +300,7 @@ namespace Samba.Presentation.Services.Common
             _workspace.Add(accountPayment);
             _workspace.Add(ticketType);
 
-            var warehouseType = new WarehouseType { Name = "Warehouses" };
+            var warehouseType = new WarehouseType { Name = Resources.Warehouses };
             _workspace.Add(warehouseType);
             _workspace.CommitChanges();
 
@@ -454,6 +454,11 @@ namespace Samba.Presentation.Services.Common
             newOrderAddingRule.AddRuleMap();
             _workspace.Add(newOrderAddingRule);
 
+            var ticketMovedRule = new AppRule { Name = "Ticket Moved Rule", EventName = RuleEventNames.TicketMoved };
+            ticketMovedRule.Actions.Add(new ActionContainer(updateTicketStatusAction) { ParameterValues = string.Format("Status={0}", Resources.NewOrders) });
+            ticketMovedRule.AddRuleMap();
+            _workspace.Add(ticketMovedRule);
+
             var ticketClosingRule = new AppRule { Name = string.Format(Resources.Rule_f, Resources.TicketClosing), EventName = RuleEventNames.TicketClosing };
             ticketClosingRule.Actions.Add(new ActionContainer(printKitchenOrdersAction));
             ticketClosingRule.Actions.Add(new ActionContainer(updateTicketStatusAction) { ParameterValues = string.Format("Status={0}#Current Status={1}", Resources.Unpaid, Resources.NewOrders) });
@@ -531,6 +536,7 @@ namespace Samba.Presentation.Services.Common
 
             var updateMergedTicket = new AppRule { Name = "Update Merged Tickets State", EventName = RuleEventNames.TicketsMerged };
             updateMergedTicket.Actions.Add(new ActionContainer(updateEntityStateAction) { ParameterValues = string.Format("Status={0}", Resources.NewOrders) });
+            updateMergedTicket.Actions.Add(new ActionContainer(updateTicketStatusAction) { ParameterValues = string.Format("Status={0}", Resources.NewOrders) });
             updateMergedTicket.AddRuleMap();
             _workspace.Add(updateMergedTicket);
 

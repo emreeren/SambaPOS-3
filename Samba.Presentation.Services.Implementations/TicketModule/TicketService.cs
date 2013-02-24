@@ -269,6 +269,8 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
         public TicketCommitResult MoveOrders(Ticket ticket, Order[] selectedOrders, int targetTicketId)
         {
+            _automationService.NotifyEvent(RuleEventNames.TicketMoving, new { Ticket = ticket });
+
             var clonedOrders = selectedOrders.Select(ObjectCloner.Clone2).ToList();
             ticket.RemoveOrders(selectedOrders);
 
@@ -279,11 +281,14 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             {
                 clonedOrder.TicketId = 0;
                 ticket.Orders.Add(clonedOrder);
+                _automationService.NotifyEvent(RuleEventNames.OrderMoved, new { Ticket = ticket, Order = clonedOrder, clonedOrder.MenuItemName });
             }
 
             RefreshAccountTransactions(ticket);
-
             ticket.LastOrderDate = DateTime.Now;
+
+            _automationService.NotifyEvent(RuleEventNames.TicketMoved, new { Ticket = ticket });
+
             return CloseTicket(ticket);
         }
 

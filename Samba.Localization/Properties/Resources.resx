@@ -3074,4 +3074,13 @@ Error Message:
   <data name="Target">
     <value xml:space="preserve">Target</value>
   </data>
+  <data name="OrderMoved" xml:space="preserve">
+    <value>Order Moved</value>
+  </data>
+  <data name="TicketMoved" xml:space="preserve">
+    <value>Ticket Moved</value>
+  </data>
+  <data name="Ticket Moving" xml:space="preserve">
+    <value>Ticket Moving</value>
+  </data>
 </root>
