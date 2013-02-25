@@ -1,0 +1,2049 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AllDiscountsRemoved" xml:space="preserve">
+    <value>Semua diskon dihapus karena nilai total jumlah diskon lebih besar dari jumlah tiket.</value>
+  </data>
+  <data name="Purchase" xml:space="preserve">
+    <value>Beli</value>
+  </data>
+  <data name="CalculationMethod" xml:space="preserve">
+    <value>Metode Perhitungan</value>
+  </data>
+  <data name="TopOfTheHour" xml:space="preserve">
+    <value>Puncak jam</value>
+  </data>
+  <data name="KitchenPrinter" xml:space="preserve">
+    <value>Printer Dapur</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>Produk</value>
+  </data>
+  <data name="PinCode" xml:space="preserve">
+    <value>Kode PIN</value>
+  </data>
+  <data name="CsvBuilder" xml:space="preserve">
+    <value>CSV Builder</value>
+  </data>
+  <data name="RoleName" xml:space="preserve">
+    <value>Nama Peran</value>
+  </data>
+  <data name="OnceAnHour" xml:space="preserve">
+    <value>Setelah satu jam</value>
+  </data>
+  <data name="Rounding" xml:space="preserve">
+    <value>Pembulatan</value>
+  </data>
+  <data name="SatAndSun" xml:space="preserve">
+    <value>Sab dan Min</value>
+  </data>
+  <data name="ExtraModifiers" xml:space="preserve">
+    <value>Ubah Extra</value>
+  </data>
+  <data name="ItemSales" xml:space="preserve">
+    <value>Penjualan Barang</value>
+  </data>
+  <data name="ResetAccount" xml:space="preserve">
+    <value>Setel ulang Akun</value>
+  </data>
+  <data name="AutoStartMessageClient" xml:space="preserve">
+    <value>Auto Start Pesan Klien</value>
+  </data>
+  <data name="FooterTemplate" xml:space="preserve">
+    <value>Footer Template</value>
+  </data>
+  <data name="MonThruFri" xml:space="preserve">
+    <value>Sen Kam Jum</value>
+  </data>
+  <data name="TicketOpeningTime" xml:space="preserve">
+    <value>Pembukaan Tiket </value>
+  </data>
+  <data name="ThereAreOpenTicketsWarning_f" xml:space="preserve">
+    <value>Ada {0} tiket terbuka.
+Tidak dapat mengakhiri Periode Kerja sementara tiket masih ada yang terbuka</value>
+  </data>
+  <data name="SortCategoryProducts" xml:space="preserve">
+    <value>Urutkan Kategori Produk</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>Dari:</value>
+  </data>
+  <data name="ErrorInExpression" xml:space="preserve">
+    <value>Kesalahan dalam Ekspresi</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Setelan</value>
+  </data>
+  <data name="ButtonHeader" xml:space="preserve">
+    <value>Tombol header</value>
+  </data>
+  <data name="PastWeek" xml:space="preserve">
+    <value>Minggu Lalu</value>
+  </data>
+  <data name="MessageReceived" xml:space="preserve">
+    <value>Pesan Diterima</value>
+  </data>
+  <data name="LocalSettings" xml:space="preserve">
+    <value>Pengaturan Lokal</value>
+  </data>
+  <data name="InventoryItemName" xml:space="preserve">
+    <value>Persediaan Nama Item</value>
+  </data>
+  <data name="Costs" xml:space="preserve">
+    <value>Biaya</value>
+  </data>
+  <data name="EndWorkPeriod" xml:space="preserve">
+    <value>Stop Periode Kerja</value>
+  </data>
+  <data name="DataConnection" xml:space="preserve">
+    <value>Data Connection String</value>
+  </data>
+  <data name="WeightBarcodePefix" xml:space="preserve">
+    <value>Berat Barcode Awalan</value>
+  </data>
+  <data name="ProductProperties" xml:space="preserve">
+    <value>Properti Produk</value>
+  </data>
+  <data name="SalesDivTicket" xml:space="preserve">
+    <value>Total Penjualan / Tiket</value>
+  </data>
+  <data name="DepartmentName" xml:space="preserve">
+    <value>Nama Departemen</value>
+  </data>
+  <data name="AverageCost" xml:space="preserve">
+    <value>Rata-rata Biaya</value>
+  </data>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Warna Latar Belakang</value>
+  </data>
+  <data name="AddAndSave" xml:space="preserve">
+    <value>Tambah Dan Simpan</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>Untuk:</value>
+  </data>
+  <data name="Delete_f" xml:space="preserve">
+    <value>Hapus {0}</value>
+  </data>
+  <data name="MenuItemGroup" xml:space="preserve">
+    <value>Grup Produk</value>
+  </data>
+  <data name="PriceDefinition" xml:space="preserve">
+    <value>Definisi Harga</value>
+  </data>
+  <data name="TicketSubTotal" xml:space="preserve">
+    <value>Sub Total Tiket</value>
+  </data>
+  <data name="AdminPasswordHint" xml:space="preserve">
+    <value>Admin PIN: 1234
+Mengubah PIN akan menyembunyikan petunjuk ini</value>
+  </data>
+  <data name="Cost" xml:space="preserve">
+    <value>Biaya</value>
+  </data>
+  <data name="Liability" xml:space="preserve">
+    <value>Kewajiban</value>
+  </data>
+  <data name="Forty" xml:space="preserve">
+    <value>Empat puluh</value>
+  </data>
+  <data name="NewTag" xml:space="preserve">
+    <value>Tag Baru</value>
+  </data>
+  <data name="InventoryConsumption" xml:space="preserve">
+    <value>Persediaan Konsumsi</value>
+  </data>
+  <data name="StartClientNow" xml:space="preserve">
+    <value>Mulai Client Sekarang</value>
+  </data>
+  <data name="ActionName" xml:space="preserve">
+    <value>Nama Tindakan</value>
+  </data>
+  <data name="DetailedReport" xml:space="preserve">
+    <value>Laporan rinci</value>
+  </data>
+  <data name="Edit_f" xml:space="preserve">
+    <value>Edit {0}</value>
+  </data>
+  <data name="TotalAmountDivTag_f" xml:space="preserve">
+    <value>Total Jumlah / {0}:</value>
+  </data>
+  <data name="ExpressionBuilder" xml:space="preserve">
+    <value>Ekspresi Builder</value>
+  </data>
+  <data name="AutoRounding" xml:space="preserve">
+    <value>Pembulatan Otomatis</value>
+  </data>
+  <data name="AddProductsToCategoryHint_f" xml:space="preserve">
+    <value>Pilih Produk untuk kategori {0}</value>
+  </data>
+  <data name="MoveTicketLine" xml:space="preserve">
+    <value>Pindah</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Deskripsi</value>
+  </data>
+  <data name="OnceAMonth" xml:space="preserve">
+    <value>Sekali sebulan</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Kirim</value>
+  </data>
+  <data name="TicketTagSelected" xml:space="preserve">
+    <value>Pilih Tandai Tiket</value>
+  </data>
+  <data name="Eleven" xml:space="preserve">
+    <value>Sebelas</value>
+  </data>
+  <data name="SelectPrintJobsForTerminalHint_f" xml:space="preserve">
+    <value>Pilih pekerjaan pencetakan yang ingin Anda tambahkan {0} terminal</value>
+  </data>
+  <data name="Zero" xml:space="preserve">
+    <value>Nol</value>
+  </data>
+  <data name="TriggerTestResultMessage_f" xml:space="preserve">
+    <value>Terlihat Berikutnya: {0}
+Akan Terlihat setelah hari {1}, {2} jam, {3} menit</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Bersihkan</value>
+  </data>
+  <data name="Ninety" xml:space="preserve">
+    <value>Sembilan puluh</value>
+  </data>
+  <data name="QuarterTil" xml:space="preserve">
+    <value>Triwulan til</value>
+  </data>
+  <data name="StartWorkPeriodToEnablePos" xml:space="preserve">
+    <value>Mulai Bekerja saat Periode mengaktifkan POS</value>
+  </data>
+  <data name="Every12Hours" xml:space="preserve">
+    <value>Setiap 12 jam</value>
+  </data>
+  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
+    <value>Hapus Pemetaan Terpilih?</value>
+  </data>
+  <data name="UserRole" xml:space="preserve">
+    <value>Peran Pengguna</value>
+  </data>
+  <data name="ErrorReportWithoutFeedback" xml:space="preserve">
+    <value>Anda mengirim laporan kesalahan tanpa umpan balik.
+Diharapkan memberikan beberapa rincian tentang bagaimana hal ini terjadi.
+
+Lanjutkan tanpa menambahkan rincian?</value>
+  </data>
+  <data name="CanReleaseTicketLock" xml:space="preserve">
+    <value>Bisa Hapus Kunci Tiket</value>
+  </data>
+  <data name="Multiplier" xml:space="preserve">
+    <value>Pengganda</value>
+  </data>
+  <data name="PriceTag" xml:space="preserve">
+    <value>Tanda Harga</value>
+  </data>
+  <data name="CanChangeReportFilter" xml:space="preserve">
+    <value>Dapat Merubah Filter Tanggal Laporan</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>Nama Pengguna</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>Catatan</value>
+  </data>
+  <data name="Terminals" xml:space="preserve">
+    <value>Terminal</value>
+  </data>
+  <data name="TicketTotal_f" xml:space="preserve">
+    <value>Total {0}:</value>
+  </data>
+  <data name="LineCount" xml:space="preserve">
+    <value>Jumlah Line</value>
+  </data>
+  <data name="CanDisplayOldTickets" xml:space="preserve">
+    <value>Bisa Menampilkan Tiket lama</value>
+  </data>
+  <data name="AccountBalance" xml:space="preserve">
+    <value>Akun Saldo</value>
+  </data>
+  <data name="TerminalView" xml:space="preserve">
+    <value>Tampilan Terminal</value>
+  </data>
+  <data name="Receiveable" xml:space="preserve">
+    <value>Piutang</value>
+  </data>
+  <data name="OverrideWindowsRegionalSettings" xml:space="preserve">
+    <value>Mengikuti Lokal Pengaturan Windows Regional </value>
+  </data>
+  <data name="Eighteen" xml:space="preserve">
+    <value>Delapan belas</value>
+  </data>
+  <data name="CashStatus" xml:space="preserve">
+    <value>Status Tunai</value>
+  </data>
+  <data name="LineItemName" xml:space="preserve">
+    <value>#Line: Nama Item</value>
+  </data>
+  <data name="Common" xml:space="preserve">
+    <value>Umum</value>
+  </data>
+  <data name="RateOrAmount" xml:space="preserve">
+    <value>Tingkat atau Jumlah</value>
+  </data>
+  <data name="Sales" xml:space="preserve">
+    <value>Penjualan</value>
+  </data>
+  <data name="PredictedInventory" xml:space="preserve">
+    <value>Prediksi Inventaris</value>
+  </data>
+  <data name="FixedCost" xml:space="preserve">
+    <value>Biaya Tetap</value>
+  </data>
+  <data name="CallerIdDriverError" xml:space="preserve">
+    <value>Untuk dapat menampilkan Caller-ID Anda harus menginstal driver perangkat keras.</value>
+  </data>
+  <data name="Ten" xml:space="preserve">
+    <value>Sepuluh</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Pilih</value>
+  </data>
+  <data name="SalesIncome" xml:space="preserve">
+    <value>Pendapatan Sales</value>
+  </data>
+  <data name="EveryWeekday" xml:space="preserve">
+    <value>Setiap hari kerja</value>
+  </data>
+  <data name="DefaultProperties" xml:space="preserve">
+    <value>Properti Baku</value>
+  </data>
+  <data name="PropertyGroupName" xml:space="preserve">
+    <value>Nama Properti Grup</value>
+  </data>
+  <data name="NumeratorFormat" xml:space="preserve">
+    <value>Format Angka</value>
+  </data>
+  <data name="CanStartEndOfDay" xml:space="preserve">
+    <value>Dapat Dimulai Hari Akhir</value>
+  </data>
+  <data name="Two" xml:space="preserve">
+    <value>Dua</value>
+  </data>
+  <data name="SaveErrorMultipleDefaultTerminals" xml:space="preserve">
+    <value>Jangan membuat lebih dari satu terminal default</value>
+  </data>
+  <data name="LastOrder" xml:space="preserve">
+    <value>Pesanan Terakhir </value>
+  </data>
+  <data name="UpdateProgramSetting" xml:space="preserve">
+    <value>Perbarui Pengaturan Program</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Cari</value>
+  </data>
+  <data name="CanDisplayReports" xml:space="preserve">
+    <value>Bisa Menampilkan Laporan</value>
+  </data>
+  <data name="SelectionRequired" xml:space="preserve">
+    <value>Pilihan Wajib</value>
+  </data>
+  <data name="PrintBill" xml:space="preserve">
+    <value>Printer Bill</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="CashReport" xml:space="preserve">
+    <value>Laporan Transaksi Tunai</value>
+  </data>
+  <data name="TicketTimeDisplay_f" xml:space="preserve">
+    <value>{0} ({1} min.)</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Tidak</value>
+  </data>
+  <data name="InternalAccounts" xml:space="preserve">
+    <value>Pengguna Dalam</value>
+  </data>
+  <data name="TaxTotal" xml:space="preserve">
+    <value>Total Pajak</value>
+  </data>
+  <data name="GeneralInformation" xml:space="preserve">
+    <value>Informasi Umum</value>
+  </data>
+  <data name="LinesGroupedByGroupCode" xml:space="preserve">
+    <value>Garis Dikelompokkan berdasarkan Kode Grup</value>
+  </data>
+  <data name="AddModel_f" xml:space="preserve">
+    <value>Tambah Baru {0}</value>
+  </data>
+  <data name="DeleteErrorAdminUser" xml:space="preserve">
+    <value>Tidak dapat menghapus User Admin.</value>
+  </data>
+  <data name="Automatic" xml:space="preserve">
+    <value>Otomatis</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>Daftar</value>
+  </data>
+  <data name="LineItemTotal" xml:space="preserve">
+    <value>#Line: Total Item</value>
+  </data>
+  <data name="TicketCount" xml:space="preserve">
+    <value>Jumlah Tiket</value>
+  </data>
+  <data name="SortOrder" xml:space="preserve">
+    <value>Urutkan Pesanan</value>
+  </data>
+  <data name="InventoryItems" xml:space="preserve">
+    <value>Persediaan Produk</value>
+  </data>
+  <data name="BatchCreteProducts" xml:space="preserve">
+    <value>Serempakkan Pembuatan Produk</value>
+  </data>
+  <data name="PortionPrices" xml:space="preserve">
+    <value>Harga Porsi</value>
+  </data>
+  <data name="PrinterTemplate" xml:space="preserve">
+    <value>Printer Template</value>
+  </data>
+  <data name="UserSales" xml:space="preserve">
+    <value>Penjualan Pengguna</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Simpan</value>
+  </data>
+  <data name="PrintOrdersToKitchenPrinter" xml:space="preserve">
+    <value>Cetak Pesanan ke Printer Kitchen</value>
+  </data>
+  <data name="Sort_f" xml:space="preserve">
+    <value>Urutkan {0}</value>
+  </data>
+  <data name="TicketTipTotal" xml:space="preserve">
+    <value>Total Tips</value>
+  </data>
+  <data name="TipsTotal" xml:space="preserve">
+    <value>Total Tips</value>
+  </data>
+  <data name="Negative" xml:space="preserve">
+    <value>Negatif</value>
+  </data>
+  <data name="TicketOptions" xml:space="preserve">
+    <value>Pengaturan Tiket </value>
+  </data>
+  <data name="Eighty" xml:space="preserve">
+    <value>Delapan puluh</value>
+  </data>
+  <data name="InternetBrowser" xml:space="preserve">
+    <value>Peramban Internet</value>
+  </data>
+  <data name="Unit" xml:space="preserve">
+    <value>Satuan</value>
+  </data>
+  <data name="Terminal" xml:space="preserve">
+    <value>Terminal</value>
+  </data>
+  <data name="Printer" xml:space="preserve">
+    <value>Printer</value>
+  </data>
+  <data name="OnceAWeek" xml:space="preserve">
+    <value>Sekali seminggu</value>
+  </data>
+  <data name="As_f" xml:space="preserve">
+    <value>Pada {0}</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Ya</value>
+  </data>
+  <data name="Server" xml:space="preserve">
+    <value>Server</value>
+  </data>
+  <data name="Drawer" xml:space="preserve">
+    <value>Cash Drawer</value>
+  </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="WeightBarcodes" xml:space="preserve">
+    <value>Berat Barcode</value>
+  </data>
+  <data name="PageCount" xml:space="preserve">
+    <value>Total Halaman</value>
+  </data>
+  <data name="UnitPrice" xml:space="preserve">
+    <value>Harga Satuan</value>
+  </data>
+  <data name="TransactionUnit" xml:space="preserve">
+    <value>Transaksi Satuan</value>
+  </data>
+  <data name="Voucher" xml:space="preserve">
+    <value>Voucher</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Pengguna</value>
+  </data>
+  <data name="ReportName" xml:space="preserve">
+    <value>Nama Laporan</value>
+  </data>
+  <data name="PrinterName" xml:space="preserve">
+    <value>Nama Printer</value>
+  </data>
+  <data name="Clone_f" xml:space="preserve">
+    <value>Duplikat {0}</value>
+  </data>
+  <data name="LockTicket" xml:space="preserve">
+    <value>Kunci Tiket</value>
+  </data>
+  <data name="CategoryProducts" xml:space="preserve">
+    <value>Kategori Produk</value>
+  </data>
+  <data name="LinesGroupedByTag" xml:space="preserve">
+    <value>Group Lines berdasarkan Tanda</value>
+  </data>
+  <data name="AddTag" xml:space="preserve">
+    <value>Tambahkan Tanda</value>
+  </data>
+  <data name="RuleActions" xml:space="preserve">
+    <value>Tindakan</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Alamat</value>
+  </data>
+  <data name="LinePriceTag" xml:space="preserve">
+    <value># Line: Tanda Harga</value>
+  </data>
+  <data name="SubButtonHeight" xml:space="preserve">
+    <value>Sub Tombol Tinggi</value>
+  </data>
+  <data name="FastMenu" xml:space="preserve">
+    <value>Menu Cepat</value>
+  </data>
+  <data name="OnceADay" xml:space="preserve">
+    <value>Sekali sehari</value>
+  </data>
+  <data name="MenuCategories" xml:space="preserve">
+    <value>Kategori Menu</value>
+  </data>
+  <data name="Accounts" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="Customer" xml:space="preserve">
+    <value>Pelanggan</value>
+  </data>
+  <data name="UseAtOldTickets" xml:space="preserve">
+    <value>Hanya untuk Tiket Lama</value>
+  </data>
+  <data name="SaveErrorDuplicateItemName_f" xml:space="preserve">
+    <value>Nama ini telah digunakan yang lain {0}.</value>
+  </data>
+  <data name="AutoLogout" xml:space="preserve">
+    <value>Keluar Otomatis</value>
+  </data>
+  <data name="TicketCreated" xml:space="preserve">
+    <value>Tiket Dibuat</value>
+  </data>
+  <data name="Every6Months" xml:space="preserve">
+    <value>Setiap 6 bulan</value>
+  </data>
+  <data name="OnceAYear" xml:space="preserve">
+    <value>Sekali setahun</value>
+  </data>
+  <data name="Select_f" xml:space="preserve">
+    <value>Pilih {0}</value>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>Warna</value>
+  </data>
+  <data name="UpdatePriceTag" xml:space="preserve">
+    <value>Ubah Daftar Harga</value>
+  </data>
+  <data name="Departments" xml:space="preserve">
+    <value>Departemen</value>
+  </data>
+  <data name="DayTime" xml:space="preserve">
+    <value>Waktu</value>
+  </data>
+  <data name="ProductName" xml:space="preserve">
+    <value>Nama Produk</value>
+  </data>
+  <data name="TuesAndThurs" xml:space="preserve">
+    <value>Sel Kam</value>
+  </data>
+  <data name="POSMenu" xml:space="preserve">
+    <value>Menu POS</value>
+  </data>
+  <data name="AddTicketDiscount" xml:space="preserve">
+    <value>Tambah Diskon Tiket</value>
+  </data>
+  <data name="Every3Hours" xml:space="preserve">
+    <value>Setiap 3 jam</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Sebelumnya</value>
+  </data>
+  <data name="AllCategories" xml:space="preserve">
+    <value>Semua Kategori</value>
+  </data>
+  <data name="TotalExpense" xml:space="preserve">
+    <value>Total Beban</value>
+  </data>
+  <data name="ExportSalesData" xml:space="preserve">
+    <value>Ekspor data Penjualan</value>
+  </data>
+  <data name="MaxItems" xml:space="preserve">
+    <value>Max Item</value>
+  </data>
+  <data name="CantSave" xml:space="preserve">
+    <value>Tidak dapat Disimpan</value>
+  </data>
+  <data name="GroupTag" xml:space="preserve">
+    <value>Grup Tanda</value>
+  </data>
+  <data name="EveryHour" xml:space="preserve">
+    <value>Setiap jam</value>
+  </data>
+  <data name="MenuItem" xml:space="preserve">
+    <value>Produk</value>
+  </data>
+  <data name="ReportDoesNotContainsCashState" xml:space="preserve">
+    <value>Laporan tidak mengandung Jumlah Mulai</value>
+  </data>
+  <data name="Excluded" xml:space="preserve">
+    <value>Tidak Termasuk</value>
+  </data>
+  <data name="NumeratorProperties" xml:space="preserve">
+    <value>Properti Pembilang </value>
+  </data>
+  <data name="DemoPrinter" xml:space="preserve">
+    <value>Demo Printer (notepad)</value>
+  </data>
+  <data name="Paid" xml:space="preserve">
+    <value>Lunas</value>
+  </data>
+  <data name="TicketMovedRetryLastOperation_f" xml:space="preserve">
+    <value>Tiket pindah ke {0}. Perubahan  terbaru Anda tidak disimpan.</value>
+  </data>
+  <data name="SortCategoriesDialogHint_f" xml:space="preserve">
+    <value>Seret {0} kategori menu untuk mengubah urutan.</value>
+  </data>
+  <data name="Management" xml:space="preserve">
+    <value>Kelola</value>
+  </data>
+  <data name="TicketTag" xml:space="preserve">
+    <value>Tag Tiket</value>
+  </data>
+  <data name="MenuProperties" xml:space="preserve">
+    <value>Properti Menu</value>
+  </data>
+  <data name="ItemProperties" xml:space="preserve">
+    <value>Ekstra Items Propertis</value>
+  </data>
+  <data name="Angle" xml:space="preserve">
+    <value>Sudut</value>
+  </data>
+  <data name="WorkPeriodStarted" xml:space="preserve">
+    <value>Periode Kerja Dimulai</value>
+  </data>
+  <data name="OneHundred" xml:space="preserve">
+    <value>Seratus</value>
+  </data>
+  <data name="ImagePath" xml:space="preserve">
+    <value>Lokasi Gambar</value>
+  </data>
+  <data name="QuarterPast" xml:space="preserve">
+    <value>Kuartal terakhir</value>
+  </data>
+  <data name="Incomes" xml:space="preserve">
+    <value>Pendapatan</value>
+  </data>
+  <data name="RuleName" xml:space="preserve">
+    <value>Nama Aturan</value>
+  </data>
+  <data name="Thousand" xml:space="preserve">
+    <value>Ribu</value>
+  </data>
+  <data name="PrinterOptions" xml:space="preserve">
+    <value>Printer Settings</value>
+  </data>
+  <data name="OnlyNewLines" xml:space="preserve">
+    <value>Hanya Baris Baru</value>
+  </data>
+  <data name="CanNavigateCash" xml:space="preserve">
+    <value>Dapat Masuk ke Layar Kas</value>
+  </data>
+  <data name="CashContent" xml:space="preserve">
+    <value>Pembayaran Konten</value>
+  </data>
+  <data name="SettingValue" xml:space="preserve">
+    <value>Pengaturan Nilai</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Peringatan</value>
+  </data>
+  <data name="DeleteSelectedCategoryQuestion" xml:space="preserve">
+    <value>Hapus Kategori Terpilih?</value>
+  </data>
+  <data name="TwiceAnHour" xml:space="preserve">
+    <value>Dua kali satu jam</value>
+  </data>
+  <data name="OnlyOpenTickets" xml:space="preserve">
+    <value>Hanya Untuk Tiket Terbuka</value>
+  </data>
+  <data name="ExpressionValid" xml:space="preserve">
+    <value>Ekspresi Benar</value>
+  </data>
+  <data name="DontForgetEndingWorkPeriod" xml:space="preserve">
+    <value>JANGAN LUPA AKHIRI SETIAP PERIODE KERJA!</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Bulan</value>
+  </data>
+  <data name="Noon" xml:space="preserve">
+    <value>sore</value>
+  </data>
+  <data name="EditMode" xml:space="preserve">
+    <value>Mode Desain</value>
+  </data>
+  <data name="ChangePrice" xml:space="preserve">
+    <value>Ubah Harga</value>
+  </data>
+  <data name="ButtonHeight" xml:space="preserve">
+    <value>Tinggi Tombol</value>
+  </data>
+  <data name="TicketNote" xml:space="preserve">
+    <value>Catatan Tiket</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Keluar</value>
+  </data>
+  <data name="ExecuteActionsIf" xml:space="preserve">
+    <value>Kondisi</value>
+  </data>
+  <data name="AlphanumericButtons" xml:space="preserve">
+    <value>Tombol alfanumerik</value>
+  </data>
+  <data name="CurrentInventory" xml:space="preserve">
+    <value>Inventaris Terkini</value>
+  </data>
+  <data name="CostReport" xml:space="preserve">
+    <value>Laporan Biaya</value>
+  </data>
+  <data name="TotalSales" xml:space="preserve">
+    <value>Total Penjualan</value>
+  </data>
+  <data name="ReleaseLock" xml:space="preserve">
+    <value>Lepaskan Kunci</value>
+  </data>
+  <data name="BatchCreateProductsDialogHint" xml:space="preserve">
+    <value>Buat garis untuk setiap produk dengan [Nama Produk] [Harga] format. Mulai Nama Kategori dengan # char.</value>
+  </data>
+  <data name="TicketDate" xml:space="preserve">
+    <value>Tanggal Tiket</value>
+  </data>
+  <data name="CantDeletePastEndOfDayRecords" xml:space="preserve">
+    <value>Tidak dapat menghapus record terakhir hari ini</value>
+  </data>
+  <data name="Every3Months" xml:space="preserve">
+    <value>Setiap 3 bulan</value>
+  </data>
+  <data name="DiscountTotal" xml:space="preserve">
+    <value>Jumlah Diskon</value>
+  </data>
+  <data name="Thirty" xml:space="preserve">
+    <value>Tiga puluh</value>
+  </data>
+  <data name="EveryOtherMinute" xml:space="preserve">
+    <value>Setiap Menit lain</value>
+  </data>
+  <data name="Included" xml:space="preserve">
+    <value>Termasuk</value>
+  </data>
+  <data name="CornerRadius" xml:space="preserve">
+    <value>Pojok Radius</value>
+  </data>
+  <data name="AddCategoryHint" xml:space="preserve">
+    <value>Masukkan Kategori yang ingin Anda Tambahkan</value>
+  </data>
+  <data name="Today" xml:space="preserve">
+    <value>Hari ini</value>
+  </data>
+  <data name="Eight" xml:space="preserve">
+    <value>Delapan</value>
+  </data>
+  <data name="SettlePermissions" xml:space="preserve">
+    <value>Hak Akses Pembayaran </value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>Menu</value>
+  </data>
+  <data name="PrinterType" xml:space="preserve">
+    <value>Jenis Printer </value>
+  </data>
+  <data name="Html" xml:space="preserve">
+    <value>HTML</value>
+  </data>
+  <data name="KitchenOrderTemplate" xml:space="preserve">
+    <value>Template Pesanan Dapur</value>
+  </data>
+  <data name="FirstAndFifteenth" xml:space="preserve">
+    <value>1 dan 15</value>
+  </data>
+  <data name="MenuList" xml:space="preserve">
+    <value>Daftar Menu </value>
+  </data>
+  <data name="WeightBarcodeItemIdFormat" xml:space="preserve">
+    <value>Berat Barcode Barang Id Format</value>
+  </data>
+  <data name="InventoryReport" xml:space="preserve">
+    <value>Laporan Inventarisasi</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Parameter</value>
+  </data>
+  <data name="MenuItemName" xml:space="preserve">
+    <value>Nama Menu Item</value>
+  </data>
+  <data name="Sixteen" xml:space="preserve">
+    <value>Enam belas</value>
+  </data>
+  <data name="SelectPrintJob" xml:space="preserve">
+    <value>Pilih Print Job</value>
+  </data>
+  <data name="Numerator" xml:space="preserve">
+    <value>Pembilang</value>
+  </data>
+  <data name="CantCompleteOperationWhenThereIsZeroPricedProduct" xml:space="preserve">
+    <value>Tidak bisa menyelesaikan operasi ini jika harga pesanan masih nol.</value>
+  </data>
+  <data name="PortionName" xml:space="preserve">
+    <value>Nama Porsi</value>
+  </data>
+  <data name="Selected_f" xml:space="preserve">
+    <value>Terpilih {0}</value>
+  </data>
+  <data name="CloseTicket" xml:space="preserve">
+    <value>Tutup Tiket</value>
+  </data>
+  <data name="Permissions" xml:space="preserve">
+    <value>Hak Akses</value>
+  </data>
+  <data name="TicketPaidTotal" xml:space="preserve">
+    <value>Jumlah Tiket Dibayar</value>
+  </data>
+  <data name="Nineteen" xml:space="preserve">
+    <value>Sembilan belas</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Rincian</value>
+  </data>
+  <data name="ActionType" xml:space="preserve">
+    <value>Jenis Tindakan</value>
+  </data>
+  <data name="ItemSalesReport" xml:space="preserve">
+    <value>Laporan Barang Penjualan</value>
+  </data>
+  <data name="CheckDBVersion" xml:space="preserve">
+    <value>Periksa Versi Basisdata</value>
+  </data>
+  <data name="OneThousand" xml:space="preserve">
+    <value>Seribu</value>
+  </data>
+  <data name="POSView" xml:space="preserve">
+    <value>Tampilan POS</value>
+  </data>
+  <data name="DayDate" xml:space="preserve">
+    <value>Tanggal</value>
+  </data>
+  <data name="List_f" xml:space="preserve">
+    <value>{0} Daftar</value>
+  </data>
+  <data name="Rate" xml:space="preserve">
+    <value>Tingkat</value>
+  </data>
+  <data name="Properties" xml:space="preserve">
+    <value>Properti</value>
+  </data>
+  <data name="AllTickets" xml:space="preserve">
+    <value>Semua Tiket</value>
+  </data>
+  <data name="DisplayUserPath" xml:space="preserve">
+    <value>Tampilan Lokasi Pengguna</value>
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value>Cetak</value>
+  </data>
+  <data name="Gift" xml:space="preserve">
+    <value>Hadiah</value>
+  </data>
+  <data name="Expression" xml:space="preserve">
+    <value>Ekspresi</value>
+  </data>
+  <data name="TicketTime" xml:space="preserve">
+    <value>Waktu Tiket</value>
+  </data>
+  <data name="NewTicket" xml:space="preserve">
+    <value>Tiket Baru</value>
+  </data>
+  <data name="EnterPin" xml:space="preserve">
+    <value>ENTER PIN</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Tinggi</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Berikutnya</value>
+  </data>
+  <data name="SellAmount" xml:space="preserve">
+    <value>Jumlah Penjualan</value>
+  </data>
+  <data name="DepartmentPermissions" xml:space="preserve">
+    <value>Hak Akses Departemen</value>
+  </data>
+  <data name="TicketNumber" xml:space="preserve">
+    <value>TicketNumber</value>
+  </data>
+  <data name="CashPermissions" xml:space="preserve">
+    <value>Hak Akses Tunai</value>
+  </data>
+  <data name="AutoSelectProductsQuestion" xml:space="preserve">
+    <value>Otomatiskan memilih produk untuk kategori baru?</value>
+  </data>
+  <data name="LineOrderNumber" xml:space="preserve">
+    <value>#Line: Nomor Pesanan</value>
+  </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>Pesan Kesalahan</value>
+  </data>
+  <data name="TwiceADay" xml:space="preserve">
+    <value>Dua kali sehari</value>
+  </data>
+  <data name="SendEmail" xml:space="preserve">
+    <value>Kirim Email</value>
+  </data>
+  <data name="Portion" xml:space="preserve">
+    <value>Porsi</value>
+  </data>
+  <data name="ProductList" xml:space="preserve">
+    <value>Daftar Produk</value>
+  </data>
+  <data name="LineItemTotalWithoutGifts" xml:space="preserve">
+    <value>#Line: Total Item (Hadiah Dikecualikan)</value>
+  </data>
+  <data name="CalculateCost" xml:space="preserve">
+    <value>Hitung Biaya</value>
+  </data>
+  <data name="OrderNumerator" xml:space="preserve">
+    <value>Pesanan Pembilang</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>Pengguna</value>
+  </data>
+  <data name="Twelve" xml:space="preserve">
+    <value>Dua belas</value>
+  </data>
+  <data name="NewOrder" xml:space="preserve">
+    <value>Pesanan Baru</value>
+  </data>
+  <data name="FindProduct" xml:space="preserve">
+    <value>Cari Produk</value>
+  </data>
+  <data name="UserRoleList" xml:space="preserve">
+    <value>Daftar Aturan</value>
+  </data>
+  <data name="CostPrediction" xml:space="preserve">
+    <value>Prediksi Biaya</value>
+  </data>
+  <data name="ShareNameAndPortName" xml:space="preserve">
+    <value>Nama Printer Share  / Nama Port </value>
+  </data>
+  <data name="TicketTotalChanged" xml:space="preserve">
+    <value>Total Tiket Dirubah</value>
+  </data>
+  <data name="TextWrittenTotalValue" xml:space="preserve">
+    <value>Total nilai ditulis dalam text</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Latar Belakang Gambar</value>
+  </data>
+  <data name="NavigationPermissions" xml:space="preserve">
+    <value>Petunjuk Hak Akses</value>
+  </data>
+  <data name="TicketPaidLastChangesNotSaved" xml:space="preserve">
+    <value>Tiket telah dibayar. Perubahan  terbaru Anda tidak disimpan.</value>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>Akun</value>
+  </data>
+  <data name="Numeric" xml:space="preserve">
+    <value>Numeric</value>
+  </data>
+  <data name="Barcode" xml:space="preserve">
+    <value>Barcode</value>
+  </data>
+  <data name="SortCategories" xml:space="preserve">
+    <value>Urutkan Kategori</value>
+  </data>
+  <data name="Trigger" xml:space="preserve">
+    <value>Terlihat</value>
+  </data>
+  <data name="OptionalTicketTag" xml:space="preserve">
+    <value>Tag Tiket Opsional</value>
+  </data>
+  <data name="ReportPermissions" xml:space="preserve">
+    <value>Hak Akses laporan</value>
+  </data>
+  <data name="MainMenu" xml:space="preserve">
+    <value>Menu Utama</value>
+  </data>
+  <data name="InventoryItem" xml:space="preserve">
+    <value>Persediaan Barang</value>
+  </data>
+  <data name="PaymentTotal" xml:space="preserve">
+    <value>Total Pembayaran</value>
+  </data>
+  <data name="TransacitonUnitMultiplier" xml:space="preserve">
+    <value>Transaksi Satuan Pengali</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Jumlah</value>
+  </data>
+  <data name="ThisWeek" xml:space="preserve">
+    <value>Minggu Ini</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Tindakan</value>
+  </data>
+  <data name="Account_f" xml:space="preserve">
+    <value>Account: {0}</value>
+  </data>
+  <data name="AM" xml:space="preserve">
+    <value>pagi</value>
+  </data>
+  <data name="SaveReportToFile" xml:space="preserve">
+    <value>Simpan Laporan ke File</value>
+  </data>
+  <data name="Recipe" xml:space="preserve">
+    <value>Resep</value>
+  </data>
+  <data name="IfNegativeDiscountValue_f" xml:space="preserve">
+    <value>&lt;J&gt; Pembulatan: | {0}</value>
+  </data>
+  <data name="PriceDefinitions" xml:space="preserve">
+    <value>Definisi Harga</value>
+  </data>
+  <data name="EditModel_f" xml:space="preserve">
+    <value>Pengeditan {0} ({1})</value>
+  </data>
+  <data name="UserLogout" xml:space="preserve">
+    <value>Pengguna Keluar</value>
+  </data>
+  <data name="TotalWorkTimeMinutes_f" xml:space="preserve">
+    <value>Jumlah Waktu Kerja : {0:0} menit</value>
+  </data>
+  <data name="TriggerExecuted" xml:space="preserve">
+    <value>Menampilkan Eksekusi</value>
+  </data>
+  <data name="WeightBarcodeItemIdLength" xml:space="preserve">
+    <value>Berat Barcode Barang Id Panjang</value>
+  </data>
+  <data name="UpdateType" xml:space="preserve">
+    <value>Jenis Pembaharuan</value>
+  </data>
+  <data name="TagName" xml:space="preserve">
+    <value>Nama Tag </value>
+  </data>
+  <data name="EmptyNameError" xml:space="preserve">
+    <value>Jangan biarkan kosong nama {0}.</value>
+  </data>
+  <data name="Calling" xml:space="preserve">
+    <value>Panggilan</value>
+  </data>
+  <data name="Fourteen" xml:space="preserve">
+    <value>Empatbelas</value>
+  </data>
+  <data name="SettingName" xml:space="preserve">
+    <value>Nama Pengaturan</value>
+  </data>
+  <data name="RefreshCache" xml:space="preserve">
+    <value>Refresh Cache</value>
+  </data>
+  <data name="Seventeen" xml:space="preserve">
+    <value>Tujuh belas</value>
+  </data>
+  <data name="PropertyEditor" xml:space="preserve">
+    <value>Property Editor</value>
+  </data>
+  <data name="UiLanguage" xml:space="preserve">
+    <value>UI Bahasa</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Pilihan</value>
+  </data>
+  <data name="LastPaymentTime" xml:space="preserve">
+    <value>Pembayaran Terakhir</value>
+  </data>
+  <data name="CanMoveTicketLines" xml:space="preserve">
+    <value>Bisa Pindah Produk</value>
+  </data>
+  <data name="Every30Minutes" xml:space="preserve">
+    <value>Setiap 30 Menit</value>
+  </data>
+  <data name="AveragePrice_ab" xml:space="preserve">
+    <value>Harga Rata-rata</value>
+  </data>
+  <data name="WrapText" xml:space="preserve">
+    <value>Ratakan Teks</value>
+  </data>
+  <data name="Weekday" xml:space="preserve">
+    <value>Hari kerja</value>
+  </data>
+  <data name="MonWedFri" xml:space="preserve">
+    <value>Sen, Rab, Jum</value>
+  </data>
+  <data name="InventoryPurchaseReport" xml:space="preserve">
+    <value>Laporan Persediaan Pembelian</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Judul</value>
+  </data>
+  <data name="SqlHint" xml:space="preserve">
+    <value>Klik di sini untuk informasi tentang Basisdata SQL</value>
+  </data>
+  <data name="AlphanumericButtonValues" xml:space="preserve">
+    <value>Nilai Tombol Alfanumerik</value>
+  </data>
+  <data name="LineCharacterCount" xml:space="preserve">
+    <value>Jumlah Baris Karakter</value>
+  </data>
+  <data name="Cash" xml:space="preserve">
+    <value>Tunai</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>Laporan</value>
+  </data>
+  <data name="Every15Minutes" xml:space="preserve">
+    <value>Setiap 15 Menit</value>
+  </data>
+  <data name="APortionShouldSelected" xml:space="preserve">
+    <value>Sebagian Porsi harus dipilih</value>
+  </data>
+  <data name="PriceDefinitonName" xml:space="preserve">
+    <value>Nama Harga Definiton </value>
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value>Jumlah</value>
+  </data>
+  <data name="CommonSettings" xml:space="preserve">
+    <value>Pengaturan umum</value>
+  </data>
+  <data name="PrintJobList" xml:space="preserve">
+    <value>Cetak Daftar Pekerjaan</value>
+  </data>
+  <data name="Manual" xml:space="preserve">
+    <value>Pedoman</value>
+  </data>
+  <data name="Income" xml:space="preserve">
+    <value>Penghasilan</value>
+  </data>
+  <data name="TwelveAmMidnight" xml:space="preserve">
+    <value>00:00 tengah malam</value>
+  </data>
+  <data name="SambaNetwork" xml:space="preserve">
+    <value>Samba Jaringan</value>
+  </data>
+  <data name="SelectActions" xml:space="preserve">
+    <value>Pilih Aksi</value>
+  </data>
+  <data name="ThereIsAnotherRecipeFor_f" xml:space="preserve">
+    <value>Ada lagi resep untuk {0}</value>
+  </data>
+  <data name="CIDSettings" xml:space="preserve">
+    <value>CID Pengaturan</value>
+  </data>
+  <data name="Tables" xml:space="preserve">
+    <value>Meja</value>
+  </data>
+  <data name="ChargedAmount" xml:space="preserve">
+    <value>Beban</value>
+  </data>
+  <data name="RateFromTicketAmount" xml:space="preserve">
+    <value>Tingkat dari jumlah tiket</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Kategori</value>
+  </data>
+  <data name="Portions" xml:space="preserve">
+    <value>Porsi</value>
+  </data>
+  <data name="TicketTemplate" xml:space="preserve">
+    <value>Template Tiket</value>
+  </data>
+  <data name="Fifteen" xml:space="preserve">
+    <value>Lima belas</value>
+  </data>
+  <data name="TicketPaidChangesNotSaved" xml:space="preserve">
+    <value>Tiket Telah Dibayar. Perubahan terbaru  Anda tidak disimpan.</value>
+  </data>
+  <data name="EveryOtherHour" xml:space="preserve">
+    <value>Setiap jam lainnya</value>
+  </data>
+  <data name="EndOfDayRecords" xml:space="preserve">
+    <value>Hari Terakhir Records</value>
+  </data>
+  <data name="RoundingTotal" xml:space="preserve">
+    <value>Total Pembulatan</value>
+  </data>
+  <data name="PropertyGroup" xml:space="preserve">
+    <value> Grup Properti</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>Informasi</value>
+  </data>
+  <data name="StartWorkPeriod" xml:space="preserve">
+    <value>Mulai Periode Kerja</value>
+  </data>
+  <data name="DiscountPercentage" xml:space="preserve">
+    <value>Presentasi Diskon</value>
+  </data>
+  <data name="StartOfDay" xml:space="preserve">
+    <value>Awal Periode Kerja</value>
+  </data>
+  <data name="WhenTagNotSelected" xml:space="preserve">
+    <value>Ketika Tidak di-tag</value>
+  </data>
+  <data name="CanOpenDashboard" xml:space="preserve">
+    <value>Bisa Buka Dasbor</value>
+  </data>
+  <data name="Fifty" xml:space="preserve">
+    <value>Lima puluh</value>
+  </data>
+  <data name="Balance" xml:space="preserve">
+    <value>Saldo</value>
+  </data>
+  <data name="DisplayAppPath" xml:space="preserve">
+    <value>Tampilan Lokasi App</value>
+  </data>
+  <data name="Hundred" xml:space="preserve">
+    <value>Ratus</value>
+  </data>
+  <data name="PortPrinter" xml:space="preserve">
+    <value>Port Printer</value>
+  </data>
+  <data name="EveryMonth" xml:space="preserve">
+    <value>Setiap bulan</value>
+  </data>
+  <data name="EmptyDiscountRateFeedback" xml:space="preserve">
+    <value>Untuk menambah diskon, ketik angka dan klik tombol diskon. Untuk menghapus diskon klik tombol diskon tanpa mengetik nilai.</value>
+  </data>
+  <data name="LastOrderDate" xml:space="preserve">
+    <value>Urutan Pesanan Tanggal Terakhir </value>
+  </data>
+  <data name="SortType" xml:space="preserve">
+    <value>Urutkan Jenis</value>
+  </data>
+  <data name="Empty" xml:space="preserve">
+    <value>Kosong</value>
+  </data>
+  <data name="Rules" xml:space="preserve">
+    <value>Aturan</value>
+  </data>
+  <data name="Six" xml:space="preserve">
+    <value>Enam</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Tindakan</value>
+  </data>
+  <data name="CanUpdateExtraModifiers" xml:space="preserve">
+    <value>Bisa Perbarui Ekstra Modifier</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>Semua</value>
+  </data>
+  <data name="NewProperty" xml:space="preserve">
+    <value>Properti Baru</value>
+  </data>
+  <data name="CloseTicket_r" xml:space="preserve">
+    <value>Tutup
+Tiket</value>
+  </data>
+  <data name="Selected" xml:space="preserve">
+    <value>Pilih</value>
+  </data>
+  <data name="UnhandledExceptionErrorMessage" xml:space="preserve">
+    <value>SambaPOS mengalami masalah tak terduga. Untuk rincian masuk silakan lihat di file trace.log</value>
+  </data>
+  <data name="Table" xml:space="preserve">
+    <value>Meja</value>
+  </data>
+  <data name="ThereAreNoCostTransactionsInThisPeriod" xml:space="preserve">
+    <value>Tidak ada transaksi penjualan di periode kerja ini.</value>
+  </data>
+  <data name="MessageServerPort" xml:space="preserve">
+    <value>Pesan Server Port</value>
+  </data>
+  <data name="PreviousPage" xml:space="preserve">
+    <value>Halaman Sebelumnya</value>
+  </data>
+  <data name="ThisMonth" xml:space="preserve">
+    <value>Bulan ini</value>
+  </data>
+  <data name="CategoryProperties" xml:space="preserve">
+    <value>Properti Kategori</value>
+  </data>
+  <data name="LineItemPriceCents" xml:space="preserve">
+    <value>#Line: Harga Item Dalam Sen</value>
+  </data>
+  <data name="PrintJob" xml:space="preserve">
+    <value>Print Job</value>
+  </data>
+  <data name="InventoryGroup" xml:space="preserve">
+    <value>Persediaan Grup</value>
+  </data>
+  <data name="ProgramSettings" xml:space="preserve">
+    <value>Pengaturan Program </value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Segarkan</value>
+  </data>
+  <data name="NumeratorValue" xml:space="preserve">
+    <value>Nilai Pembilang </value>
+  </data>
+  <data name="SambaPOSReporter" xml:space="preserve">
+    <value>SambaPOS Pemberitahuan</value>
+  </data>
+  <data name="IncomeTransactions" xml:space="preserve">
+    <value>Pendapatan Transaksi</value>
+  </data>
+  <data name="TicketRemainingAmount" xml:space="preserve">
+    <value>Jumlah Sisa Tiket </value>
+  </data>
+  <data name="DeleteErrorShouldHaveAtLeastOneTerminal" xml:space="preserve">
+    <value>Tidak dapat menghapus karena harus ada setidaknya satu terminal.</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Tag</value>
+  </data>
+  <data name="Incomes_f" xml:space="preserve">
+    <value>{0} Pendapatan</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Perbaharui</value>
+  </data>
+  <data name="QuantitiesByItemGroup" xml:space="preserve">
+    <value>Jumlah Menurut Group Barang</value>
+  </data>
+  <data name="BroadcastMessage" xml:space="preserve">
+    <value> Pesan Broadcast</value>
+  </data>
+  <data name="CanOpenNavigation" xml:space="preserve">
+    <value>Dapat Masuk ke Layar Navigasi</value>
+  </data>
+  <data name="UniqueTicketId" xml:space="preserve">
+    <value>ID Unik Tiket </value>
+  </data>
+  <data name="Void" xml:space="preserve">
+    <value>Batal</value>
+  </data>
+  <data name="AutoSelect" xml:space="preserve">
+    <value>Pilih Otomatis</value>
+  </data>
+  <data name="EventName" xml:space="preserve">
+    <value>Nama Acara</value>
+  </data>
+  <data name="NumeratorType" xml:space="preserve">
+    <value>Jenis Pembilang </value>
+  </data>
+  <data name="EveryOtherMonth" xml:space="preserve">
+    <value>Setiap bulan lain</value>
+  </data>
+  <data name="Move" xml:space="preserve">
+    <value>Pindah</value>
+  </data>
+  <data name="Five" xml:space="preserve">
+    <value>Lima</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Kategori</value>
+  </data>
+  <data name="StartAmount" xml:space="preserve">
+    <value>Jumlah Mulai</value>
+  </data>
+  <data name="Increase" xml:space="preserve">
+    <value>Meningkatkan</value>
+  </data>
+  <data name="WorkPeriodEndsMessage" xml:space="preserve">
+    <value>Bekerja Periode Akhir.
+Kunjungi bagian Laporan dan membuat Laporan Kerja Periode</value>
+  </data>
+  <data name="Template" xml:space="preserve">
+    <value>Template</value>
+  </data>
+  <data name="NumericTags" xml:space="preserve">
+    <value>Tag Numerik</value>
+  </data>
+  <data name="Numerators" xml:space="preserve">
+    <value>Pembilang</value>
+  </data>
+  <data name="ClearFilter" xml:space="preserve">
+    <value>Hapus Filter</value>
+  </data>
+  <data name="TriggerName" xml:space="preserve">
+    <value>Nama Trigger</value>
+  </data>
+  <data name="Inventory" xml:space="preserve">
+    <value>Persediaan</value>
+  </data>
+  <data name="EveryOtherDay" xml:space="preserve">
+    <value>Setiap hari lain</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value>Jam</value>
+  </data>
+  <data name="BaseUnit" xml:space="preserve">
+    <value>Basis Satuan</value>
+  </data>
+  <data name="TotalIncome" xml:space="preserve">
+    <value>Total Pendapatan</value>
+  </data>
+  <data name="One" xml:space="preserve">
+    <value>Satu</value>
+  </data>
+  <data name="BatchPriceList" xml:space="preserve">
+    <value>Editor Daftar Harga</value>
+  </data>
+  <data name="WhenTagSelected" xml:space="preserve">
+    <value>Ketika di-Tag</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Harga</value>
+  </data>
+  <data name="ColumnCount" xml:space="preserve">
+    <value>Jumlah Kolom</value>
+  </data>
+  <data name="TicketChangedRetryLastOperation" xml:space="preserve">
+    <value>Tiket berubah. Perubahan  terbaru  Anda tidak disimpan.</value>
+  </data>
+  <data name="Keyboard" xml:space="preserve">
+    <value>Keyboard</value>
+  </data>
+  <data name="Four" xml:space="preserve">
+    <value>Empat</value>
+  </data>
+  <data name="WeightBarcodeQuantityLength" xml:space="preserve">
+    <value>Berat Barcode Jumlah Panjang</value>
+  </data>
+  <data name="MergeLines" xml:space="preserve">
+    <value>Gabungkan Garis</value>
+  </data>
+  <data name="ApplicationStarted" xml:space="preserve">
+    <value>Aplikasi Dimulai</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Tersembunyi</value>
+  </data>
+  <data name="OpenTicketButtonDuration" xml:space="preserve">
+    <value>{0} menit</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Konfirmasi</value>
+  </data>
+  <data name="Expenses" xml:space="preserve">
+    <value>Beban</value>
+  </data>
+  <data name="ShowMessage" xml:space="preserve">
+    <value>Tampilkan Pesan</value>
+  </data>
+  <data name="UpdateTicketTag" xml:space="preserve">
+    <value>Perbarui Tanda Tiket</value>
+  </data>
+  <data name="PaymentType" xml:space="preserve">
+    <value>Jenis Pembayaran</value>
+  </data>
+  <data name="Decrease" xml:space="preserve">
+    <value>Mengurangi</value>
+  </data>
+  <data name="CanMergeTickets" xml:space="preserve">
+    <value>Bisa Gabung Tiket</value>
+  </data>
+  <data name="NoTransactionsFoundFor_f" xml:space="preserve">
+    <value>Tidak ada transaksi selama {0}</value>
+  </data>
+  <data name="Every10Minutes" xml:space="preserve">
+    <value>Setiap 10 Menit</value>
+  </data>
+  <data name="Department" xml:space="preserve">
+    <value>Departemen</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>Teks</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Tutup</value>
+  </data>
+  <data name="Yesterday" xml:space="preserve">
+    <value>Kemarin</value>
+  </data>
+  <data name="DisplayAllValues" xml:space="preserve">
+    <value>Tampilkan Semua Nilai</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Batal</value>
+  </data>
+  <data name="CharacterSet" xml:space="preserve">
+    <value>Character Set</value>
+  </data>
+  <data name="FindTicket" xml:space="preserve">
+    <value>Cari Tiket</value>
+  </data>
+  <data name="UserList" xml:space="preserve">
+    <value>Daftar Pengguna</value>
+  </data>
+  <data name="Add_f" xml:space="preserve">
+    <value>Tambah {0}</value>
+  </data>
+  <data name="ForChangingPriceTypeAPrice" xml:space="preserve">
+    <value>Untuk mengubah harga pertama ketik Harga dari pembilang</value>
+  </data>
+  <data name="ExecutePrintJob" xml:space="preserve">
+    <value>Jalankan Printer Job</value>
+  </data>
+  <data name="Every6Hours" xml:space="preserve">
+    <value>Setiap 6 jam</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Pesan</value>
+  </data>
+  <data name="WorkPeriodEnded" xml:space="preserve">
+    <value>Periode Kerja Berakhir</value>
+  </data>
+  <data name="PleaseEnterABriefExplanationOf" xml:space="preserve">
+    <value>Masukkan penjelasan singkat tentang kejadian yang menyebabkan pengecualian ini</value>
+  </data>
+  <data name="EndOfDayRecord" xml:space="preserve">
+    <value>Hari Terakhir Record</value>
+  </data>
+  <data name="Seventy" xml:space="preserve">
+    <value>Tujuh puluh</value>
+  </data>
+  <data name="ExpenseTransactions" xml:space="preserve">
+    <value>Beban Transaksi</value>
+  </data>
+  <data name="ProgramLanguage" xml:space="preserve">
+    <value>Bahasa Program</value>
+  </data>
+  <data name="TagCantBeEmpty_f" xml:space="preserve">
+    <value>Jangan meninggalkan {0} kosong</value>
+  </data>
+  <data name="TicketWithBrackets" xml:space="preserve">
+    <value>[Tiket]</value>
+  </data>
+  <data name="RateFromPreviousTemplate" xml:space="preserve">
+    <value>Tingkat dari jumlah template yang sebelumnya</value>
+  </data>
+  <data name="UserLogin" xml:space="preserve">
+    <value>Pengguna Masuk</value>
+  </data>
+  <data name="FileName" xml:space="preserve">
+    <value>Nama File</value>
+  </data>
+  <data name="Customers" xml:space="preserve">
+    <value>Pelanggan</value>
+  </data>
+  <data name="ReportPrinter" xml:space="preserve">
+    <value>Laporan Printer</value>
+  </data>
+  <data name="Sixty" xml:space="preserve">
+    <value>Enam puluh</value>
+  </data>
+  <data name="Line" xml:space="preserve">
+    <value>Baris</value>
+  </data>
+  <data name="Nine" xml:space="preserve">
+    <value>Sembilan</value>
+  </data>
+  <data name="LastOrderStatus" xml:space="preserve">
+    <value>Status Pesanan Terakhir </value>
+  </data>
+  <data name="LineItemQuantity" xml:space="preserve">
+    <value>#Line: Kuantitas Item</value>
+  </data>
+  <data name="TicketNumber_f" xml:space="preserve">
+    <value>Nomor Tiket: {0}</value>
+  </data>
+  <data name="ButtonColor" xml:space="preserve">
+    <value>Tombol Warna</value>
+  </data>
+  <data name="PluralCurrencySuffix" xml:space="preserve">
+    <value>Rp.</value>
+  </data>
+  <data name="TicketTipTotalAmount" xml:space="preserve">
+    <value>Total Jumlah Tiket Tip</value>
+  </data>
+  <data name="Totals" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="LastOrderTime" xml:space="preserve">
+    <value>Pesanan Terakhir</value>
+  </data>
+  <data name="SaveErrorThisPinCodeInUse" xml:space="preserve">
+    <value>Kode Pin ini digunakan oleh Pengguna lain.</value>
+  </data>
+  <data name="InStock" xml:space="preserve">
+    <value>Tersedia</value>
+  </data>
+  <data name="Every4Hours" xml:space="preserve">
+    <value>Setiap 4 jam</value>
+  </data>
+  <data name="TicketTotal" xml:space="preserve">
+    <value>Jumlah Tiket</value>
+  </data>
+  <data name="GrandTotal" xml:space="preserve">
+    <value>Grand Total</value>
+  </data>
+  <data name="WorkPeriodReport" xml:space="preserve">
+    <value>Laporan Periode Kerja</value>
+  </data>
+  <data name="NumeratorHeight" xml:space="preserve">
+    <value>Pembilang Tinggi</value>
+  </data>
+  <data name="TransactionDocument" xml:space="preserve">
+    <value>Dokumen Transaksi </value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Buka</value>
+  </data>
+  <data name="DeleteItemConfirmation_f" xml:space="preserve">
+    <value>Hapus {0} [{1}]?</value>
+  </data>
+  <data name="EveryMinute" xml:space="preserve">
+    <value>Setiap menit</value>
+  </data>
+  <data name="GroupCode" xml:space="preserve">
+    <value>Kode Grup</value>
+  </data>
+  <data name="CanMoveUnlockedTicketLines" xml:space="preserve">
+    <value>Bisa Pindah Baris Tiket yang Tidak Dikunci</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Kuantitas</value>
+  </data>
+  <data name="FreeTagging" xml:space="preserve">
+    <value>Bebas Tag</value>
+  </data>
+  <data name="RuleAction" xml:space="preserve">
+    <value>Tindakan</value>
+  </data>
+  <data name="Property" xml:space="preserve">
+    <value>Properti</value>
+  </data>
+  <data name="StartingWorkPeriodCompleted" xml:space="preserve">
+    <value>Periode Kerja Dimulai.</value>
+  </data>
+  <data name="TicketNumerator" xml:space="preserve">
+    <value>Tiket Pembilang</value>
+  </data>
+  <data name="DeleteErrorLastUser" xml:space="preserve">
+    <value>Tidak dapat menghapus User Account Terakhir</value>
+  </data>
+  <data name="TemplateName" xml:space="preserve">
+    <value>Nama Template</value>
+  </data>
+  <data name="CanChangeDepartment" xml:space="preserve">
+    <value>Dapat Mengubah Departemen</value>
+  </data>
+  <data name="CreditCard" xml:space="preserve">
+    <value>Kartu Kredit</value>
+  </data>
+  <data name="Day" xml:space="preserve">
+    <value>Hari</value>
+  </data>
+  <data name="FixedAmount" xml:space="preserve">
+    <value>Jumlah Tetap</value>
+  </data>
+  <data name="Ticket" xml:space="preserve">
+    <value>Tiket</value>
+  </data>
+  <data name="MenuName" xml:space="preserve">
+    <value>Nama Menu</value>
+  </data>
+  <data name="SubTags" xml:space="preserve">
+    <value>Sub Tag</value>
+  </data>
+  <data name="ChangeAmountUpdated" xml:space="preserve">
+    <value>Perubahan Jumlah Diperbarui</value>
+  </data>
+  <data name="ChangeAmount_f" xml:space="preserve">
+    <value>Ubah tempo: {0}</value>
+  </data>
+  <data name="SortCategoryProductsDialogHint_f" xml:space="preserve">
+    <value>Seret {0} kategori produk untuk mengubah urutan.</value>
+  </data>
+  <data name="AccountsReceivable" xml:space="preserve">
+    <value>Pendapatan Pengguna</value>
+  </data>
+  <data name="DayOperations" xml:space="preserve">
+    <value>Periode Kerja</value>
+  </data>
+  <data name="NoAction" xml:space="preserve">
+    <value>Tidak Ada Tindakan</value>
+  </data>
+  <data name="Recipes" xml:space="preserve">
+    <value>Resep</value>
+  </data>
+  <data name="DateRangeIsNotActiveWorkPeriod" xml:space="preserve">
+    <value>Rentang tanggal tidak dalam masa kerja aktif</value>
+  </data>
+  <data name="TicketTagGroup" xml:space="preserve">
+    <value>Grup Tag</value>
+  </data>
+  <data name="PrintMapping" xml:space="preserve">
+    <value>Cetak Pemetaan</value>
+  </data>
+  <data name="LastLinesByPrinterLineCount" xml:space="preserve">
+    <value>Baru Garis oleh Count Line Printer</value>
+  </data>
+  <data name="DiscountPercentSign" xml:space="preserve">
+    <value>% Diskon</value>
+  </data>
+  <data name="SaveFreeTags" xml:space="preserve">
+    <value>Simpan Tanda Gratis</value>
+  </data>
+  <data name="PM" xml:space="preserve">
+    <value>malam</value>
+  </data>
+  <data name="SingleSelection" xml:space="preserve">
+    <value>Pilihan Tunggal</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>Telepon</value>
+  </data>
+  <data name="Cent" xml:space="preserve">
+    <value>Rupiah</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Tambah</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="LineItemPrice" xml:space="preserve">
+    <value>#Line: Harga Item</value>
+  </data>
+  <data name="WorkPeriodStartTime" xml:space="preserve">
+    <value>Waktu Periode Kerja: {0}</value>
+  </data>
+  <data name="Twenty" xml:space="preserve">
+    <value>Dua puluh</value>
+  </data>
+  <data name="Command" xml:space="preserve">
+    <value>Perintah</value>
+  </data>
+  <data name="Million" xml:space="preserve">
+    <value>Juta</value>
+  </data>
+  <data name="EveryDay" xml:space="preserve">
+    <value>Setiap hari</value>
+  </data>
+  <data name="DisplayPopup" xml:space="preserve">
+    <value>Menampilkan Popup</value>
+  </data>
+  <data name="SlipReportPrinter" xml:space="preserve">
+    <value>Slip Printer Laporan</value>
+  </data>
+  <data name="CashTransactions" xml:space="preserve">
+    <value>Transaksi Tunai</value>
+  </data>
+  <data name="Minute" xml:space="preserve">
+    <value>Menit</value>
+  </data>
+  <data name="DiscountsTotal" xml:space="preserve">
+    <value>Total Diskon</value>
+  </data>
+  <data name="OpenClose_ab" xml:space="preserve">
+    <value>Op-Cls</value>
+  </data>
+  <data name="Round" xml:space="preserve">
+    <value>Round</value>
+  </data>
+  <data name="Seven" xml:space="preserve">
+    <value>Tujuh</value>
+  </data>
+  <data name="TicketPrinter" xml:space="preserve">
+    <value>Printer Tiket </value>
+  </data>
+  <data name="NoPurchaseTransactionInCurrentDateRange" xml:space="preserve">
+    <value>Tidak ada transaksi penjualan di rentang tanggal yang dimaskud</value>
+  </data>
+  <data name="SalesByItemGroup" xml:space="preserve">
+    <value>Penjualan Menurut Group Barang</value>
+  </data>
+  <data name="Products" xml:space="preserve">
+    <value>Produk</value>
+  </data>
+  <data name="TotalWorkTimeHours_f" xml:space="preserve">
+    <value>Total Waktu Kerja : {0:0} jam {1:00} menit</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Lebar</value>
+  </data>
+  <data name="LinesGroupedByBarcode" xml:space="preserve">
+    <value>Garis Dikelompokkan Berdasarkan Barcode</value>
+  </data>
+  <data name="DocumentNo" xml:space="preserve">
+    <value>No Dokumen</value>
+  </data>
+  <data name="DepartmentType" xml:space="preserve">
+    <value>Jenis Departemen</value>
+  </data>
+  <data name="GetPayment" xml:space="preserve">
+    <value>Bayar</value>
+  </data>
+  <data name="InvoicePrinter" xml:space="preserve">
+    <value>Printer Faktur</value>
+  </data>
+  <data name="HalfPast" xml:space="preserve">
+    <value>Setengah masa lalu</value>
+  </data>
+  <data name="Header" xml:space="preserve">
+    <value>Header</value>
+  </data>
+  <data name="NumericTagsShouldBeNumbersErrorMessage" xml:space="preserve">
+    <value>Ketika "Tag Numerik" dipilih semua tag harus berisi nilai numerik.</value>
+  </data>
+  <data name="AccountsLiability" xml:space="preserve">
+    <value>Kewajiban Pengguna</value>
+  </data>
+  <data name="MultipleSelection" xml:space="preserve">
+    <value>Multi Pilihan</value>
+  </data>
+  <data name="WorkPeriodStartDate_f" xml:space="preserve">
+    <value>Tanggal Periode Kerja: {0}</value>
+  </data>
+  <data name="SambaPosWebsite" xml:space="preserve">
+    <value>Situs web SambaPOS</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Hapus</value>
+  </data>
+  <data name="TagValue" xml:space="preserve">
+    <value>Nilai Tanda</value>
+  </data>
+  <data name="Dollar" xml:space="preserve">
+    <value>Rupiah</value>
+  </data>
+  <data name="Rule" xml:space="preserve">
+    <value>Aturan</value>
+  </data>
+  <data name="CategoryName" xml:space="preserve">
+    <value>Nama Kategori </value>
+  </data>
+  <data name="CurrentCost" xml:space="preserve">
+    <value>Biaya Sekarang</value>
+  </data>
+  <data name="Three" xml:space="preserve">
+    <value>Tiga</value>
+  </data>
+  <data name="Every5Minutes" xml:space="preserve">
+    <value>Setiap 5 menit</value>
+  </data>
+  <data name="PastMonth" xml:space="preserve">
+    <value>Bulan Lalu</value>
+  </data>
+  <data name="Total_f" xml:space="preserve">
+    <value>Total: {0}</value>
+  </data>
+  <data name="Tickets" xml:space="preserve">
+    <value>Tiket</value>
+  </data>
+  <data name="CanRemoveTicketTag" xml:space="preserve">
+    <value>Bisa Hapus Tag Tiket</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Tanggal</value>
+  </data>
+  <data name="NextPage" xml:space="preserve">
+    <value>Halaman Berikutnya</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Kembali</value>
+  </data>
+  <data name="Restaurant" xml:space="preserve">
+    <value>Restoran</value>
+  </data>
+  <data name="Thirteen" xml:space="preserve">
+    <value>Tiga belas</value>
+  </data>
+  <data name="MessageServerName" xml:space="preserve">
+    <value>Pesan Name Server</value>
+  </data>
+  <data name="TotalWorkTimeDays_f" xml:space="preserve">
+    <value>Jumlah total Waktu Kerja :
+{0:0} hari {1:00} jam {2:00} menit</value>
+  </data>
+  <data name="TotalAmount_f" xml:space="preserve">
+    <value>{0} Total Jumlah :</value>
+  </data>
+  <data name="UndefinedWithBrackets" xml:space="preserve">
+    <value>[Tidak Diketahui]</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="UserRoleName" xml:space="preserve">
+    <value>Nama Aturan</value>
+  </data>
+  <data name="Divide" xml:space="preserve">
+    <value>Bagi</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Salin</value>
+  </data>
+  <data name="DefaultTerminal" xml:space="preserve">
+    <value>Default Terminal</value>
+  </data>
+  <data name="AllLines" xml:space="preserve">
+    <value>Semua Baris</value>
+  </data>
+  <data name="GiftTotal" xml:space="preserve">
+    <value>Total Hadiah</value>
+  </data>
+  <data name="Billion" xml:space="preserve">
+    <value>Milyar</value>
+  </data>
+  <data name="ClickLinksToExportData" xml:space="preserve">
+    <value>Pilih rentang tanggal,refresh laporan dan klik link terkait untuk mengekspor data.</value>
+  </data>
+  <data name="ThereIsAnotherPriceDefinition_f" xml:space="preserve">
+    <value>Terdapat Definisi Harga dengan {0} tanda</value>
+  </data>
+  <data name="TicketPermissions" xml:space="preserve">
+    <value>Hak Akses Tiket</value>
+  </data>
+  <data name="SaveErrorZeroOrNullInventoryLines" xml:space="preserve">
+    <value>Tidak dapat menyimpan karena ada jumlah persediaan yang kosong atau nol</value>
+  </data>
+  <data name="PrintContent" xml:space="preserve">
+    <value>Cetak Konten</value>
+  </data>
+  <data name="OrderNumber_f" xml:space="preserve">
+    <value>No.Pesanan: {0:0} - {1}</value>
+  </data>
+  <data name="LineItemTotalAndQuantity" xml:space="preserve">
+    <value>#Line:  Total Item x Kuantitas</value>
+  </data>
+</root>

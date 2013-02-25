@@ -118,892 +118,892 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccountBalance" xml:space="preserve">
-    <value>Bilancio Account</value>
+    <value>Számlaegyenleg</value>
   </data>
   <data name="FixedAmount" xml:space="preserve">
-    <value>Importo fisso</value>
+    <value>Fix összeg</value>
   </data>
   <data name="Entity" xml:space="preserve">
-    <value>Entità</value>
+    <value>Egység</value>
   </data>
   <data name="ButtonHeader" xml:space="preserve">
-    <value>Pulsante Intestazione</value>
+    <value>Gomb Fejléc</value>
   </data>
   <data name="DisplayTicket" xml:space="preserve">
-    <value>Visualizza Ticket</value>
+    <value>Jegy megjelenítése</value>
   </data>
   <data name="Print" xml:space="preserve">
-    <value>Stampa</value>
+    <value>Nyomtat</value>
   </data>
   <data name="TotalWorkTimeDays_f" xml:space="preserve">
-    <value>Tempo di lavoro totale:
-{0:0} giorni {1:0} ore {2:0} minuti</value>
+    <value>Teljes munkaidő:
+{0:0} nap {1:0} óra {2:0} perc</value>
   </data>
   <data name="Settle" xml:space="preserve">
-    <value>Saldare</value>
+    <value>Kifizet</value>
   </data>
   <data name="BeforeWorkPeriodEnds" xml:space="preserve">
-    <value>Prima della Fine Periodo di Lavoro</value>
+    <value>Műszakzárást megelőzően</value>
   </data>
   <data name="Add_f" xml:space="preserve">
-    <value>Aggiungi {0}</value>
+    <value>Hozzáadás {0}</value>
   </data>
   <data name="Category" xml:space="preserve">
-    <value>Categoria</value>
+    <value>Kategória</value>
   </data>
   <data name="Discount" xml:space="preserve">
-    <value>Sconto</value>
+    <value>Kedvezmény</value>
   </data>
   <data name="Currency" xml:space="preserve">
-    <value>Valuta</value>
+    <value>Pénznem</value>
   </data>
   <data name="ButtonColor" xml:space="preserve">
-    <value>Colore Pulsante</value>
+    <value>Gomb színe</value>
   </data>
   <data name="Custom" xml:space="preserve">
-    <value>Comune</value>
+    <value>Egyedi</value>
   </data>
   <data name="EveryMonth" xml:space="preserve">
-    <value>Ogni mese</value>
+    <value>Minden hónapban</value>
   </data>
   <data name="TagValue" xml:space="preserve">
-    <value>Tag Valore</value>
+    <value>Címke érték</value>
   </data>
   <data name="Round" xml:space="preserve">
-    <value>Arrotondare</value>
+    <value>KÖR</value>
   </data>
   <data name="PropertyEditor" xml:space="preserve">
-    <value>Proprietà Editor</value>
+    <value>Tulajdonság-szerkesztő</value>
   </data>
   <data name="AccountType" xml:space="preserve">
-    <value>Tipo Account</value>
+    <value>Fiók típusa</value>
   </data>
   <data name="Script" xml:space="preserve">
     <value>Script</value>
   </data>
   <data name="DocumentType" xml:space="preserve">
-    <value>Tipo di Documento</value>
+    <value>Dokumentum fajtája</value>
   </data>
   <data name="CashStatus" xml:space="preserve">
-    <value>Stato Pagamento</value>
+    <value>Készpénz Státusz</value>
   </data>
   <data name="Inventory" xml:space="preserve">
-    <value>Inventario</value>
+    <value>Készlet</value>
   </data>
   <data name="LineItemTotalAndQuantity" xml:space="preserve">
-    <value># Linea: Articolo Quantità x Totale</value>
+    <value># sor: Elem összesen x Mennyiség</value>
   </data>
   <data name="StartWorkPeriod" xml:space="preserve">
-    <value>Inizio periodo di lavoro</value>
+    <value>Műszak kezdete</value>
   </data>
   <data name="Fourteen" xml:space="preserve">
-    <value>Quattordici</value>
+    <value>Tizennégy</value>
   </data>
   <data name="UserRoleList" xml:space="preserve">
-    <value>Lista Ruolo</value>
+    <value>Szerepkör-lista</value>
   </data>
   <data name="ClearFilter" xml:space="preserve">
-    <value>Eliminare filtro</value>
+    <value>Szűrő törlése</value>
   </data>
   <data name="UpdatePriceTag" xml:space="preserve">
-    <value>Cambia Listino Prezzi</value>
+    <value>Árlista módosítása</value>
   </data>
   <data name="Warehouse" xml:space="preserve">
-    <value>Magazzino</value>
+    <value>Raktár</value>
   </data>
   <data name="TotalIncome" xml:space="preserve">
-    <value>Totale Entrate</value>
+    <value>Összes bevétel</value>
   </data>
   <data name="Entities" xml:space="preserve">
-    <value>Entità</value>
+    <value>Egységek</value>
   </data>
   <data name="AccountDetails" xml:space="preserve">
-    <value>Dettagli Account</value>
+    <value>Fiók részletei</value>
   </data>
   <data name="Select" xml:space="preserve">
-    <value>Seleziona</value>
+    <value>Választ</value>
   </data>
   <data name="CIDSettings" xml:space="preserve">
-    <value>Impostazioni CID</value>
+    <value>CID Beállítások</value>
   </data>
   <data name="WorkPeriodReport" xml:space="preserve">
-    <value>Rapporto Periodo di Lavoro</value>
+    <value>Műszak-jelentés</value>
   </data>
   <data name="AddCategoryHint" xml:space="preserve">
-    <value>Inserisci categorie che si desidera aggiungere</value>
+    <value>Adja meg a felvenni kívánt Kategóriákat</value>
   </data>
   <data name="Information" xml:space="preserve">
-    <value>Informazioni</value>
+    <value>Információ</value>
   </data>
   <data name="StartWorkPeriodToEnablePos" xml:space="preserve">
-    <value>Inizio lavori per consentire Periodo POS</value>
+    <value>Kezdjen műszakot, hogy érvényesítde a POS-t!</value>
   </data>
   <data name="Rules" xml:space="preserve">
-    <value>Regole</value>
+    <value>Szabályok</value>
   </data>
   <data name="TicketWithBrackets" xml:space="preserve">
-    <value>[Ticket]</value>
+    <value>[Jegy]</value>
   </data>
   <data name="Numerator" xml:space="preserve">
-    <value>Numeratore</value>
+    <value>Számláló</value>
   </data>
   <data name="EditModel_f" xml:space="preserve">
-    <value>Modifica {0} ({1})</value>
+    <value>Szerkeszt {0} ({1})</value>
   </data>
   <data name="Every6Hours" xml:space="preserve">
-    <value>Ogni 6 ore</value>
+    <value>6 óránként</value>
   </data>
   <data name="TriggerExecuted" xml:space="preserve">
-    <value>Esegui Attivo</value>
+    <value>Trigger Végrehajtva</value>
   </data>
   <data name="MinSelectedItems" xml:space="preserve">
-    <value>Minimo Prodotti Selezionati</value>
+    <value>kiválasztott elemek minimális száma</value>
   </data>
   <data name="MenuProperties" xml:space="preserve">
-    <value>Proprietà Menu</value>
+    <value>Étlap tulajdonságai</value>
   </data>
   <data name="CustomConstraint" xml:space="preserve">
-    <value>Vincolo Personalizzato</value>
+    <value>Egyéni korlát</value>
   </data>
   <data name="Dollar" xml:space="preserve">
-    <value>Euro</value>
+    <value>Dollár</value>
   </data>
   <data name="BatchPriceList" xml:space="preserve">
-    <value>Editor Prezzo</value>
+    <value>Árlista szerkesztő</value>
   </data>
   <data name="Numerators" xml:space="preserve">
-    <value>Numeratore</value>
+    <value>Számlálók</value>
   </data>
   <data name="Account" xml:space="preserve">
-    <value>Account</value>
+    <value>Fiók</value>
   </data>
   <data name="Liability" xml:space="preserve">
-    <value>Debito</value>
+    <value>Szállítók (kötelezettségek)</value>
   </data>
   <data name="UpdateTicketState" xml:space="preserve">
-    <value>AggiornaStato Ticket</value>
+    <value>Jegy állapotának frissítése</value>
   </data>
   <data name="Nineteen" xml:space="preserve">
-    <value>Diciannove</value>
+    <value>Tizenkilenc</value>
   </data>
   <data name="List_f" xml:space="preserve">
     <value>{0} Lista</value>
   </data>
   <data name="Copy" xml:space="preserve">
-    <value>Copia</value>
+    <value>Másol</value>
   </data>
   <data name="TaxIncluded" xml:space="preserve">
-    <value>Tassa inclusa</value>
+    <value>Adóval együtt</value>
   </data>
   <data name="EveryOtherHour" xml:space="preserve">
-    <value>Ogni ora gli altri</value>
+    <value>2 óránként</value>
   </data>
   <data name="DiscountsTotal" xml:space="preserve">
-    <value>Sconti</value>
+    <value>Összes kedvezmény</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Cerca</value>
+    <value>Keresés</value>
   </data>
   <data name="AveragePrice_ab" xml:space="preserve">
-    <value>Avg.Prezzo</value>
+    <value>Átlag ár</value>
   </data>
   <data name="EnterPin" xml:space="preserve">
-    <value>INSERISCI PIN</value>
+    <value>Írja be a PIN-t</value>
   </data>
   <data name="ExpenseTransactions" xml:space="preserve">
-    <value>Operazioni di Spesa</value>
+    <value>Kiadási tranzakciók</value>
   </data>
   <data name="PurchaseTransaction" xml:space="preserve">
-    <value>Transazione d' acquisto</value>
+    <value>Vásárlási tranzakció</value>
   </data>
   <data name="AutoSelect" xml:space="preserve">
-    <value>Selezione automatica</value>
+    <value>Autómatikus kiválasztás</value>
   </data>
   <data name="TemplateName" xml:space="preserve">
-    <value>Nome Modello</value>
+    <value>Sablon neve</value>
   </data>
   <data name="PropertyGroupName" xml:space="preserve">
-    <value>Nome Proprietà Gruppo</value>
+    <value>Tulajdonság csoportnév</value>
   </data>
   <data name="AddModel_f" xml:space="preserve">
-    <value>Aggiungi Nuovo {0}</value>
+    <value>Hozzáadás {0}</value>
   </data>
   <data name="Users" xml:space="preserve">
-    <value>Utenti</value>
+    <value>Felhasználók</value>
   </data>
   <data name="GetPayment" xml:space="preserve">
-    <value>Saldare</value>
+    <value>Kiegyenlít</value>
   </data>
   <data name="Height" xml:space="preserve">
-    <value>Altezza</value>
+    <value>Magasság</value>
   </data>
   <data name="Payment_f" xml:space="preserve">
-    <value>{0} Pagamento</value>
+    <value>{0} Fizetés</value>
   </data>
   <data name="StateFilter" xml:space="preserve">
-    <value>Stato Filtri</value>
+    <value>Állapot szűrő</value>
   </data>
   <data name="SubTotal" xml:space="preserve">
-    <value>Subtotale</value>
+    <value>Részösszeg</value>
   </data>
   <data name="CanUpdateExtraModifiers" xml:space="preserve">
-    <value>Impossibile aggiornare Modificatori Extra</value>
+    <value>Frissíheti az extra-módosítókat</value>
   </data>
   <data name="GeneralInformation" xml:space="preserve">
-    <value>Informazioni generali</value>
+    <value>Általános információk</value>
   </data>
   <data name="ReportName" xml:space="preserve">
-    <value>Nome rapporto</value>
+    <value>Jelentés neve</value>
   </data>
   <data name="Every3Hours" xml:space="preserve">
-    <value>Ogni 3 ore</value>
+    <value>3 óránként</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>Titolo</value>
+    <value>Cím</value>
   </data>
   <data name="CashContent" xml:space="preserve">
-    <value>Cassa Contenuto</value>
+    <value>Készpénz-tartalom</value>
   </data>
   <data name="Selection_f" xml:space="preserve">
-    <value>{0} Selezione</value>
+    <value>{0} kiválasztás</value>
   </data>
   <data name="KitchenPrinter" xml:space="preserve">
-    <value>Stampante Cucina</value>
+    <value>Konyhai nyomtató</value>
   </data>
   <data name="ErrorInExpression" xml:space="preserve">
-    <value>Errore nell'espressione</value>
+    <value>Hibás kifejezés</value>
   </data>
   <data name="NewOrder" xml:space="preserve">
-    <value>Nuovo Ordine</value>
+    <value>Új rendelés</value>
   </data>
   <data name="PriceDuration" xml:space="preserve">
-    <value>Prezzo Durata</value>
+    <value>Ár időtartama</value>
   </data>
   <data name="Multiple" xml:space="preserve">
-    <value>Multiplo</value>
+    <value>Szorzás</value>
   </data>
   <data name="LineItemPriceCents" xml:space="preserve">
-    <value># Linea: Articolo Prezzo  Centesimi</value>
+    <value># sor: Elem ára centben</value>
   </data>
   <data name="UserLogin" xml:space="preserve">
-    <value>Login Utente</value>
+    <value>Felhasználói bejelentkezés</value>
   </data>
   <data name="Recipe" xml:space="preserve">
-    <value>Ricetta</value>
+    <value>Recept</value>
   </data>
   <data name="CurrentCost" xml:space="preserve">
-    <value>Prezzo Corrente</value>
+    <value>Jelenlegi költség</value>
   </data>
   <data name="VoidOrders" xml:space="preserve">
-    <value>Cancella Ordini</value>
+    <value>Rendelés sztornózása</value>
   </data>
   <data name="AccountNameTemplate" xml:space="preserve">
-    <value>Nome Modello Account</value>
+    <value>Fiók Név Sablon</value>
   </data>
   <data name="TotalsGroupedByTaxTemplate" xml:space="preserve">
-    <value>Totali Raggruppati per Modello Fiscale</value>
+    <value>Adósablononkénti összesítő sorok</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Annullare</value>
+    <value>Mégse</value>
   </data>
   <data name="ApplicationScreenChanged" xml:space="preserve">
-    <value>Applica Cambiamenti Schermo</value>
+    <value>Program Képernyő megváltozott</value>
   </data>
   <data name="Property" xml:space="preserve">
-    <value>Propietà</value>
+    <value>Tulajdonság</value>
   </data>
   <data name="PaymentScreenValues" xml:space="preserve">
-    <value>Valori Schermo Pagamento</value>
+    <value>Fizetési képernyő értékek</value>
   </data>
   <data name="DataConnection" xml:space="preserve">
-    <value>Connessione dati String</value>
+    <value>Adatkapcsolat Karakterlánc</value>
   </data>
   <data name="DisplayOpenTickets" xml:space="preserve">
-    <value>Visualizza Ticket Aperti</value>
+    <value>Nyitott jegyek megjelenítése</value>
   </data>
   <data name="CustomerTickets" xml:space="preserve">
-    <value>Ticket Cliente</value>
+    <value>Vevő jegyek</value>
   </data>
   <data name="ProductTimer" xml:space="preserve">
-    <value>Prodotti a Tempo</value>
+    <value>Termék időzítő</value>
   </data>
   <data name="MenuName" xml:space="preserve">
-    <value>Nome Menu</value>
+    <value>Étlap neve</value>
   </data>
   <data name="LineItemName" xml:space="preserve">
-    <value># Linea: Nome articolo</value>
+    <value># sor: Elem neve</value>
   </data>
   <data name="LastOrder" xml:space="preserve">
-    <value>Ultimo Ordine</value>
+    <value>Utolsó rendelés</value>
   </data>
   <data name="RefreshCache" xml:space="preserve">
-    <value>Aggiorna Cache</value>
+    <value>Gyorsítótár frissítése</value>
   </data>
   <data name="TotalsGroupedByCalculationType" xml:space="preserve">
-    <value>Totali raggruppati per tipo di Calcolo</value>
+    <value>Számítás módja szerinti összesítő sorok</value>
   </data>
   <data name="Cancel_f" xml:space="preserve">
-    <value>Annullare: {0}</value>
+    <value>Mégsem {0}</value>
   </data>
   <data name="NumeratorFormat" xml:space="preserve">
-    <value>Formato Numero</value>
+    <value>Számformátum</value>
   </data>
   <data name="OnceAMonth" xml:space="preserve">
-    <value>Una volta al mese</value>
+    <value>Havonta egyszer</value>
   </data>
   <data name="UnitPrice" xml:space="preserve">
-    <value>Prezzo unitario</value>
+    <value>Egységár</value>
   </data>
   <data name="UiLanguage" xml:space="preserve">
-    <value>UI Lingua</value>
+    <value>UI nyelv</value>
   </data>
   <data name="Action" xml:space="preserve">
-    <value>Azione</value>
+    <value>Művelet</value>
   </data>
   <data name="ErrorLogMessage" xml:space="preserve">
-    <value>C'è un problema. 
- 
- Messaggio:
+    <value>Van egy probléma.
+
+Üzenet:
 </value>
   </data>
   <data name="OrderLine" xml:space="preserve">
-    <value>Riga Ordine</value>
+    <value>Rendelési sor</value>
   </data>
   <data name="Barcode" xml:space="preserve">
-    <value>Codice a Barre</value>
+    <value>Vonalkód</value>
   </data>
   <data name="DeleteSelectedCategoryQuestion" xml:space="preserve">
-    <value>Eliminare categoria selezionata?</value>
+    <value>Töröljük a kiválasztott kategóriát?</value>
   </data>
   <data name="EndOfDayRecords" xml:space="preserve">
-    <value>Giorno di fine Registrazione</value>
+    <value>Napi zárások</value>
   </data>
   <data name="UserName" xml:space="preserve">
-    <value>Nome Utente</value>
+    <value>Felhasználónév</value>
   </data>
   <data name="Accounts" xml:space="preserve">
-    <value>Account</value>
+    <value>Számlák</value>
   </data>
   <data name="WorkPeriod" xml:space="preserve">
-    <value>Periodo di Lavoro</value>
+    <value>Műszak</value>
   </data>
   <data name="Payment" xml:space="preserve">
-    <value>Pagamento</value>
+    <value>Fizetés</value>
   </data>
   <data name="Price" xml:space="preserve">
-    <value>Prezzo</value>
+    <value>Ár</value>
   </data>
   <data name="LineItemTotal" xml:space="preserve">
-    <value># Linea: Totale Articolo</value>
+    <value># sor: Elem összesen</value>
   </data>
   <data name="MenuList" xml:space="preserve">
-    <value>Lista Menu</value>
+    <value>Étlap lista</value>
   </data>
   <data name="ProductList" xml:space="preserve">
-    <value>Elenco Prodotti</value>
+    <value>Termék lista</value>
   </data>
   <data name="AlphanumericButtonValues" xml:space="preserve">
-    <value>Valori tasto alfanumerico</value>
+    <value>Alfanumerikus gomb értékek</value>
   </data>
   <data name="DescriptionTemplate" xml:space="preserve">
-    <value>Modello Descrizione</value>
+    <value>Leírás sablon</value>
   </data>
   <data name="TotalSales" xml:space="preserve">
-    <value>Totale Vendite</value>
+    <value>Összes eladás</value>
   </data>
   <data name="OrderState" xml:space="preserve">
-    <value>Stato Ordine</value>
+    <value>Rendelés állapota</value>
   </data>
   <data name="DeleteErrorAdminUser" xml:space="preserve">
-    <value>Non è possibile eliminare l'utente admin.</value>
+    <value>Admin felhasználó nem törölhető</value>
   </data>
   <data name="UseAtOldTickets" xml:space="preserve">
-    <value>Solo per i Ticket vecchi</value>
+    <value>Csak a régi jegyekre</value>
   </data>
   <data name="ResetAccount" xml:space="preserve">
-    <value>Reset Account</value>
+    <value>Fiók alapállapotba állítása</value>
   </data>
   <data name="OrderTag" xml:space="preserve">
-    <value>Tag Ordine</value>
+    <value>Rendelés Címke</value>
   </data>
   <data name="RoleName" xml:space="preserve">
-    <value>Nome Ruolo</value>
+    <value>Szerep neve</value>
   </data>
   <data name="ThereAreNoCostTransactionsInThisPeriod" xml:space="preserve">
-    <value>Non ci sono operazioni di costo in questo periodo di lavoro.</value>
+    <value>Nincsenek költség-tranzakciók ebben a műszakban.</value>
   </data>
   <data name="MenuItem" xml:space="preserve">
-    <value>Prodotto</value>
+    <value>Termék</value>
   </data>
   <data name="ThereIsAnotherRecipeFor_f" xml:space="preserve">
-    <value>C'è un'altra ricetta per {0}</value>
+    <value>Van egy másik recept erre: {0}</value>
   </data>
   <data name="OneThousand" xml:space="preserve">
-    <value>Mille</value>
+    <value>egyezer</value>
   </data>
   <data name="PrinterTemplate" xml:space="preserve">
-    <value>Modello Stampante</value>
+    <value>Nyomtató sablon</value>
   </data>
   <data name="InventoryItems" xml:space="preserve">
-    <value>Articoli di Magazzino</value>
+    <value>Leltártételek</value>
   </data>
   <data name="Single" xml:space="preserve">
-    <value>Singolo</value>
+    <value>Egyetlen</value>
   </data>
   <data name="CalculationSelector" xml:space="preserve">
-    <value>Selettore di Calcolo</value>
+    <value>Számítás választó</value>
   </data>
   <data name="PredictedInventory" xml:space="preserve">
-    <value>Inventario Analisi</value>
+    <value>Készlet előrejelzés</value>
   </data>
   <data name="EndWorkPeriod" xml:space="preserve">
-    <value>Fine periodo di lavoro</value>
+    <value>Műszak vége</value>
   </data>
   <data name="ProductProperties" xml:space="preserve">
-    <value>Caratteristiche del prodotto</value>
+    <value>Termék tulajdonságok</value>
   </data>
   <data name="TransactionType" xml:space="preserve">
-    <value>Tipo Transazione</value>
+    <value>Tranzakció típusa</value>
   </data>
   <data name="Time" xml:space="preserve">
-    <value>Tempo</value>
+    <value>Idő</value>
   </data>
   <data name="Move" xml:space="preserve">
-    <value>Spostare</value>
+    <value>Áthelyez</value>
   </data>
   <data name="Create_f" xml:space="preserve">
-    <value>Creare {0}</value>
+    <value>{0} létrehozása</value>
   </data>
   <data name="Rate" xml:space="preserve">
-    <value>Tasso</value>
+    <value>Ráta</value>
   </data>
   <data name="Debit" xml:space="preserve">
-    <value>Debito</value>
+    <value>Betét</value>
   </data>
   <data name="FindProduct" xml:space="preserve">
-    <value>Cerca un prodotto</value>
+    <value>Termék keresése</value>
   </data>
   <data name="Every5Minutes" xml:space="preserve">
-    <value>Ogni 5 minuti</value>
+    <value>Minden 5 perc</value>
   </data>
   <data name="Rule" xml:space="preserve">
-    <value>Regola</value>
+    <value>Szabály</value>
   </data>
   <data name="LastOrderStatus" xml:space="preserve">
-    <value>Ultimo Ordine Stato</value>
+    <value>Utolsó rendelés státusza</value>
   </data>
   <data name="Thirty" xml:space="preserve">
-    <value>Trenta</value>
+    <value>Harminc</value>
   </data>
   <data name="EntityScreenItem" xml:space="preserve">
-    <value>Entità Schermo Prodotti</value>
+    <value>Egység képernyő elem</value>
   </data>
   <data name="Incomes_f" xml:space="preserve">
-    <value>{0} Redditi</value>
+    <value>{0} bevétel</value>
   </data>
   <data name="TicketCreationMethod" xml:space="preserve">
-    <value>Metodi di Creazione Ticket</value>
+    <value>Jegy létrehozási módszer</value>
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>Tag</value>
+    <value>Címke</value>
   </data>
   <data name="OrderTagPrice" xml:space="preserve">
-    <value># OrderTag: Order Tag Prezzo</value>
+    <value>Rendelési Címke ára</value>
   </data>
   <data name="Date" xml:space="preserve">
-    <value>Data</value>
+    <value>Dátum</value>
   </data>
   <data name="Tables" xml:space="preserve">
-    <value>Tavolo</value>
+    <value>Asztalok</value>
   </data>
   <data name="CustomerAccount" xml:space="preserve">
-    <value>Account Cliente</value>
+    <value>Vásárlói fiók</value>
   </data>
   <data name="TicketStateUpdated" xml:space="preserve">
-    <value>Stato Ticket Aggiornato</value>
+    <value>Jegy Állapot Frissítve</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value>Cancellare</value>
+    <value>Töröl</value>
   </data>
   <data name="Sort_f" xml:space="preserve">
-    <value>Ordina {0}</value>
+    <value>Rendezés {0}</value>
   </data>
   <data name="NoAction" xml:space="preserve">
-    <value>Nessuna azione</value>
+    <value>Nincs művelet</value>
   </data>
   <data name="PropertyGroup" xml:space="preserve">
-    <value>Gruppo proprietà</value>
+    <value>Tulajdonság csoport</value>
   </data>
   <data name="ErrorMessage" xml:space="preserve">
-    <value>Messaggio di errore</value>
+    <value>Hibaüzenet</value>
   </data>
   <data name="OrderAddedToTicket" xml:space="preserve">
-    <value>Ordine Aggiunto al Ticket</value>
+    <value>Rendelés hozzáadva a Jegyhez</value>
   </data>
   <data name="TwelveAmMidnight" xml:space="preserve">
-    <value>00:00 a mezzanotte</value>
+    <value>délben és éjfélkor</value>
   </data>
   <data name="GeneralPrintErrorMessage" xml:space="preserve">
-    <value>C'è un problema durante la stampa: La Mappa della Stampa è Nullo</value>
+    <value>A nyomtatás közben probléma merült fel: a Nyomtatási térkép nulla</value>
   </data>
   <data name="NewTicket" xml:space="preserve">
-    <value>Nuovo Ticket</value>
+    <value>Új jegy</value>
   </data>
   <data name="UserSales" xml:space="preserve">
-    <value>Utente vendite</value>
+    <value>Felhasználó forgalma</value>
   </data>
   <data name="Dashboard" xml:space="preserve">
-    <value>Dashboard</value>
+    <value>Műszerfal, Nyitóképernyő</value>
   </data>
   <data name="ExpressionValid" xml:space="preserve">
-    <value>Espressione valida</value>
+    <value>Kifejezés érvényes</value>
   </data>
   <data name="WeightBarcodeItemIdLength" xml:space="preserve">
-    <value>Peso Codici a Barre Articolo Lunghezza Id</value>
+    <value>Súly-vonalkód azonosító hossza</value>
   </data>
   <data name="SendEmail" xml:space="preserve">
-    <value>Invia email</value>
+    <value>E-mail küldése</value>
   </data>
   <data name="PurchaseTransactionType" xml:space="preserve">
-    <value>Transazione di Acquisto</value>
+    <value>Vásárlási tranzakció típusa</value>
   </data>
   <data name="EveryWeekday" xml:space="preserve">
-    <value>Ogni giorno della settimana</value>
+    <value>Minden hétköznap</value>
   </data>
   <data name="RateFromTicketAmount" xml:space="preserve">
-    <value>Tasso di valore del Ticket</value>
+    <value>százalék a jegy értékéből</value>
   </data>
   <data name="OrderTagged" xml:space="preserve">
-    <value>Ordine Taggato</value>
+    <value>Rendelés Címkézve</value>
   </data>
   <data name="DayTime" xml:space="preserve">
-    <value>Ora del giorno</value>
+    <value>Nap ideje</value>
   </data>
   <data name="TriggerTestResultMessage_f" xml:space="preserve">
-    <value>Prossimo Attivo: {0}
-Attiverà dopo {1} giorni, {2} ore, {3} minuti</value>
+    <value>Következő Trigger: {0}
+Indul: {1} nap {2} óra {3} perc múlva.</value>
   </data>
   <data name="WeightBarcodeItemIdFormat" xml:space="preserve">
-    <value>Peso Codice a Barre elemento di formato Id</value>
+    <value>Súly vonalkód elem azonosító formátum</value>
   </data>
   <data name="Angle" xml:space="preserve">
-    <value>Angolo</value>
+    <value>Szög</value>
   </data>
   <data name="OnlyNewLines" xml:space="preserve">
-    <value>Solo nuove linee</value>
+    <value>Csak az új vonalak</value>
   </data>
   <data name="ChangeTicketEntity" xml:space="preserve">
-    <value>Modifica Entità Ticket</value>
+    <value>Jegy egység változtatása</value>
   </data>
   <data name="CanChangeReportFilter" xml:space="preserve">
-    <value>Può Cambiare Data filtro del report</value>
+    <value>Módosíthetja a rendelések dátumszűrőjét</value>
   </data>
   <data name="User" xml:space="preserve">
-    <value>Utente</value>
+    <value>Felhasználó</value>
   </data>
   <data name="Eleven" xml:space="preserve">
-    <value>Undici</value>
+    <value>Tizenegy</value>
   </data>
   <data name="CanOpenDashboard" xml:space="preserve">
-    <value>Impossibile aprire Dashboard</value>
+    <value>Főképernyőt megnyithatja</value>
   </data>
   <data name="LastOrderDate" xml:space="preserve">
-    <value>Ultima Data Ordine</value>
+    <value>Utolsó rendelés ideje</value>
   </data>
   <data name="Credit" xml:space="preserve">
-    <value>Credito</value>
+    <value>Hitel</value>
   </data>
   <data name="Back" xml:space="preserve">
-    <value>Indietro</value>
+    <value>Vissza</value>
   </data>
   <data name="OrderNumerator" xml:space="preserve">
-    <value>Ordine Numeratore</value>
+    <value>Rendelési számláló</value>
   </data>
   <data name="IncreaseInventory" xml:space="preserve">
-    <value>Incremente Inventario</value>
+    <value>Árukészlet növelése</value>
   </data>
   <data name="CategoryName" xml:space="preserve">
-    <value>Nome della Categoria</value>
+    <value>Kategória név</value>
   </data>
   <data name="SatAndSun" xml:space="preserve">
-    <value>Sab e dom</value>
+    <value>Szombaton és vasárnap</value>
   </data>
   <data name="LinesGroupedByBarcode" xml:space="preserve">
-    <value>Linee raggruppate per codici a barre</value>
+    <value>Sorok csoportosítása a vonalkód alapján</value>
   </data>
   <data name="ThisWeek" xml:space="preserve">
-    <value>Questa settimana</value>
+    <value>Ezen a héten</value>
   </data>
   <data name="PrintContent" xml:space="preserve">
-    <value>Stampa Contenuto</value>
+    <value>Tartalom nyomtatása</value>
   </data>
   <data name="TicketCommand" xml:space="preserve">
-    <value>Comando Ticket</value>
+    <value>Jegy Művelet</value>
   </data>
   <data name="PastWeek" xml:space="preserve">
-    <value>Settimana Passata</value>
+    <value>Múlt hét</value>
   </data>
   <data name="Tax" xml:space="preserve">
-    <value>Tassa</value>
+    <value>Adó</value>
   </data>
   <data name="EntityUpdated" xml:space="preserve">
-    <value>Entità Aggiornato</value>
+    <value>Egység frissítéve</value>
   </data>
   <data name="Customer_f" xml:space="preserve">
-    <value>Cliente {0}</value>
+    <value>Vevő {0}</value>
   </data>
   <data name="Table" xml:space="preserve">
-    <value>Tavolo</value>
+    <value>Asztal</value>
   </data>
   <data name="SelectPrintJob" xml:space="preserve">
-    <value>Selezionare processo di stampa</value>
+    <value>Nyomtatási munka választása</value>
   </data>
   <data name="CallerIdDriverError" xml:space="preserve">
-    <value>Per poter visualizzare ID-Chiamante è necessario installare driver hardware.</value>
+    <value>Ahhoz, hogy képes legyen megjeleníteni a Caller-ID-t telepítenie kell a hardver driverét.</value>
   </data>
   <data name="CanOpenNavigation" xml:space="preserve">
-    <value>Può accedere alla schermata di navigazione</value>
+    <value>Beléphet a navigációs képernyőre</value>
   </data>
   <data name="Required" xml:space="preserve">
-    <value>Obbligatorio</value>
+    <value>Kötelező</value>
   </data>
   <data name="TotalAmount_f" xml:space="preserve">
-    <value>{0} Importo Totale:</value>
+    <value>{0} Teljes összeg:</value>
   </data>
   <data name="Warehouses" xml:space="preserve">
-    <value>Magazzini</value>
+    <value>Raktárak</value>
   </data>
   <data name="SaveFreeTags" xml:space="preserve">
-    <value>Salva Tags gratuiti</value>
+    <value>Ingyen címkék mentése</value>
   </data>
   <data name="OrderTagGroups" xml:space="preserve">
-    <value>Gruppi Ordine Tag</value>
+    <value>Rendelés Címke Csoportok</value>
   </data>
   <data name="Address" xml:space="preserve">
-    <value>Indirizzo</value>
+    <value>Cím</value>
   </data>
   <data name="CanRemoveTicketTag" xml:space="preserve">
-    <value>Può rimuovere Ticket Tag</value>
+    <value>Jegy-címkét eltávolíthat</value>
   </data>
   <data name="CashTransactions" xml:space="preserve">
-    <value>Operazioni in contanti</value>
+    <value>Készpénzes tranzakciók</value>
   </data>
   <data name="RoundTicketTotal" xml:space="preserve">
-    <value>Arrotonda Totale Ticket</value>
+    <value>Jegy végösszegének kerekítése</value>
   </data>
   <data name="DeleteErrorShouldHaveAtLeastOneTerminal" xml:space="preserve">
-    <value>Impossibile eliminare perché ci dovrebbe essere almeno un terminale.</value>
+    <value>Nem lehet törölni, mert legalább egy Terminálnak lennie kell!</value>
   </data>
   <data name="UpdateProgramSetting" xml:space="preserve">
-    <value>Aggiornare l'impostazione del programma</value>
+    <value>Program beállításainak frissítése</value>
   </data>
   <data name="OrderTagGroup" xml:space="preserve">
-    <value>Ordine Tag Gruppo</value>
+    <value>Rendelés Címke Csoport</value>
   </data>
   <data name="SambaMarket" xml:space="preserve">
-    <value>Samba Market</value>
+    <value>Samba piac</value>
   </data>
   <data name="DateRangeIsNotActiveWorkPeriod" xml:space="preserve">
-    <value>Intervallo di date non è un periodo di lavoro attivo</value>
+    <value>Dátum tartomány nincs az aktív műszakban</value>
   </data>
   <data name="TransactionMultiplierError" xml:space="preserve">
-    <value>Moltiplicatore operazione non dovrebbe essere zero</value>
+    <value>A tranzakció szorzó nem lehet nulla</value>
   </data>
   <data name="Costs" xml:space="preserve">
-    <value>Costi</value>
+    <value>Költségek</value>
   </data>
   <data name="Expenses" xml:space="preserve">
-    <value>Spese</value>
+    <value>Kiadások</value>
   </data>
   <data name="CanStartEndOfDay" xml:space="preserve">
-    <value>Impossibile avviare Fine giornata</value>
+    <value>Napi zárás kezdhető</value>
   </data>
   <data name="PaymentType" xml:space="preserve">
-    <value>Tipo di Pagamento</value>
+    <value>Kifizetés típusa</value>
   </data>
   <data name="Settings" xml:space="preserve">
-    <value>Impostazioni</value>
+    <value>Beállítások</value>
   </data>
   <data name="AdminPasswordHint" xml:space="preserve">
     <value>Admin PIN: 1234
-Modificando il codice PIN si nasconderà questo suggerimento</value>
+A PIN megváltoztatása elrejti ezt a tippet</value>
   </data>
   <data name="OnceADay" xml:space="preserve">
-    <value>Una volta al giorno</value>
+    <value>Naponta egyszer</value>
   </data>
   <data name="EditMode" xml:space="preserve">
-    <value>Modalità di progettazione</value>
+    <value>Tervező mód</value>
   </data>
   <data name="DiscountTotal" xml:space="preserve">
-    <value>Sconto Totale</value>
+    <value>Kedvezmény összesen</value>
   </data>
   <data name="Today" xml:space="preserve">
-    <value>Oggi</value>
+    <value>Ma</value>
   </data>
   <data name="BalancedAccounts" xml:space="preserve">
-    <value>Bilancia Account</value>
+    <value>Kiegyenlített fiókok</value>
   </data>
   <data name="FreeTagging" xml:space="preserve">
-    <value>Tagging gratuito</value>
+    <value>Szabad taggelés</value>
   </data>
   <data name="CostReport" xml:space="preserve">
-    <value>Costo Rapporto</value>
+    <value>Költség-jelentés</value>
   </data>
   <data name="TicketTag" xml:space="preserve">
-    <value>Ticket Tag</value>
+    <value>Jegy Címke</value>
   </data>
   <data name="Handler" xml:space="preserve">
-    <value>Handler</value>
+    <value>Kezelő</value>
   </data>
   <data name="CanMoveTicketLines" xml:space="preserve">
-    <value>Elementi possono essere spostati</value>
+    <value>Elemeket mozgathat</value>
   </data>
   <data name="FixedCost" xml:space="preserve">
-    <value>Costo Fisso</value>
+    <value>Fix költség</value>
   </data>
   <data name="CategoryProperties" xml:space="preserve">
-    <value>Proprietà Categoria</value>
+    <value>Kategória tulajdonságai</value>
   </data>
   <data name="LineItemPrice" xml:space="preserve">
-    <value># Linea: Articolo Prezzo</value>
+    <value># sor: Elem ár</value>
   </data>
   <data name="StartingWorkPeriodCompleted" xml:space="preserve">
-    <value>Periodo inizio dei lavori.</value>
+    <value>Műszak elkezdődött</value>
   </data>
   <data name="CommandType" xml:space="preserve">
-    <value>Tipo Comando</value>
+    <value>Művelet Típus</value>
   </data>
   <data name="Rule_f" xml:space="preserve">
-    <value>{0} Ruolo</value>
+    <value> {0} Szabály</value>
   </data>
   <data name="PrinterOptions" xml:space="preserve">
-    <value>Impostazioni stampante</value>
+    <value>Nyomtató beállítások</value>
   </data>
   <data name="Incomes" xml:space="preserve">
-    <value>Redditi</value>
+    <value>Bevételek</value>
   </data>
   <data name="CalculatePrice" xml:space="preserve">
-    <value>Calcola Prezzo</value>
+    <value>Ár számítása</value>
   </data>
   <data name="DepartmentType" xml:space="preserve">
-    <value>Tipo Azienda</value>
+    <value>Részleg típus</value>
   </data>
   <data name="ApplicationStarted" xml:space="preserve">
-    <value>Applicazione Avviata</value>
+    <value>Alkalmazás elindítva</value>
   </data>
   <data name="CloseTicket" xml:space="preserve">
-    <value>Criudi Conto</value>
+    <value>Jegy bezárása</value>
   </data>
   <data name="Categories" xml:space="preserve">
-    <value>Categorie</value>
+    <value>Kategóriák</value>
   </data>
   <data name="SettlePermissions" xml:space="preserve">
-    <value>Permessi di pagamento</value>
+    <value>Fizetési engedélyek</value>
   </data>
   <data name="Receivables" xml:space="preserve">
-    <value>Credito</value>
+    <value>Követelések</value>
   </data>
   <data name="Zero" xml:space="preserve">
-    <value>Zero</value>
+    <value>Nulla</value>
   </data>
   <data name="Server" xml:space="preserve">
-    <value>Server</value>
+    <value>Szerver</value>
   </data>
   <data name="Numeric" xml:space="preserve">
-    <value>Numerico</value>
+    <value>Numerikus</value>
   </data>
   <data name="SubTags" xml:space="preserve">
-    <value>Tags Sottocategoria</value>
+    <value>Al-címkék</value>
   </data>
   <data name="GroupTag" xml:space="preserve">
-    <value>Tag Gruppi</value>
+    <value>Csoport címke</value>
   </data>
   <data name="TicketOptions" xml:space="preserve">
-    <value>Ticket Impostazioni</value>
+    <value>Jegy beállítás</value>
   </data>
   <data name="AskBeforeCreatingTicket" xml:space="preserve">
-    <value>Chiedi prima di creare il Ticket</value>
+    <value>Megerősítés kérése a jegy létrehozása előtt</value>
   </data>
   <data name="ProductName" xml:space="preserve">
-    <value>Nome Prodotto</value>
+    <value>Terméknév</value>
   </data>
   <data name="DontForgetEndingWorkPeriod" xml:space="preserve">
-    <value>NON DIMENTICARE FINE PERIODO DI LAVORO!</value>
+    <value>NE FELEJTSE EL LEZÁRNI A MŰSZAKOT</value>
   </data>
   <data name="Note" xml:space="preserve">
-    <value>Nota</value>
+    <value>Megjegyzés</value>
   </data>
   <data name="GeneralSettings" xml:space="preserve">
-    <value>Impostazioni Generali</value>
+    <value>Általános beállítások</value>
   </data>
   <data name="Clear" xml:space="preserve">
-    <value>Cancella</value>
+    <value>Töröl</value>
   </data>
   <data name="DisplayAppPath" xml:space="preserve">
-    <value>Visualizzare il percorso App</value>
+    <value>Program elérési út megjelenítése</value>
   </data>
   <data name="NewTag" xml:space="preserve">
-    <value>New Tag</value>
+    <value>Új Címke</value>
   </data>
   <data name="Product" xml:space="preserve">
-    <value>Prodotto</value>
+    <value>Termék</value>
   </data>
   <data name="DeleteSelectedItems" xml:space="preserve">
-    <value>Elimina Elementi Selezionati</value>
+    <value>A kijelölt elemek törlése</value>
   </data>
   <data name="NumericTagsShouldBeNumbersErrorMessage" xml:space="preserve">
-    <value>Quando "Tagging Numerico" è selezionato tutti i tag devono contenere valori numerici.</value>
+    <value>Ha a "Numerikus Címkézés"-t választotta, valamennyi kiválasztott Címkének kell tartalmaznia számértéket</value>
   </data>
   <data name="Phone" xml:space="preserve">
-    <value>Telefono</value>
+    <value>Telefon</value>
   </data>
   <data name="Permissions" xml:space="preserve">
-    <value>Autorizzazioni</value>
+    <value>Engedélyek</value>
   </data>
   <data name="Accounts_f" xml:space="preserve">
-    <value>{0} Accounts</value>
+    <value>{0} fiókok</value>
   </data>
   <data name="BatchCreateProductsDialogHint" xml:space="preserve">
-    <value>Creare una riga per ogni prodotto con [Nome Prodotto] [Prezzo] formato. Iniziare i nomi delle categorie con # cancelletto.</value>
+    <value>Hozzon létre egy sort minden egyes terméknek a [Termék név] [Ár] formátumban. A kategória neveket kezdje a # karakterrel.</value>
   </data>
   <data name="Properties" xml:space="preserve">
-    <value>Proprietà</value>
+    <value>Tulajdonságok</value>
   </data>
   <data name="TwiceADay" xml:space="preserve">
-    <value>Due volte al giorno</value>
+    <value>Kétszer egy nap</value>
   </data>
   <data name="DefaultTerminal" xml:space="preserve">
-    <value>Predefinito Terminale</value>
+    <value>Alapértelmezett Terminál</value>
   </data>
   <data name="InventoryGroup" xml:space="preserve">
-    <value>Gruppo Magazzino</value>
+    <value>Készlet-csoport</value>
   </data>
   <data name="Drawer" xml:space="preserve">
-    <value>Cassa</value>
+    <value>Pénztárgép</value>
   </data>
   <data name="Send" xml:space="preserve">
-    <value>Inviare</value>
+    <value>Küld</value>
   </data>
   <data name="InternetBrowser" xml:space="preserve">
-    <value>Internet Browser</value>
+    <value>Internet böngésző</value>
   </data>
   <data name="MoveTaggedOrders" xml:space="preserve">
-    <value>Spostare Ordini Taggati</value>
+    <value>Címkézett Rendelések mozgatása</value>
   </data>
   <data name="Sixty" xml:space="preserve">
-    <value>Sessanta</value>
+    <value>Hatvan</value>
   </data>
   <data name="NoTransactionsFoundFor_f" xml:space="preserve">
-    <value>Non ci sono transazioni per {0}</value>
+    <value>Nincs tranzakció ehhez: {0}</value>
   </data>
   <data name="CanChangeDepartment" xml:space="preserve">
-    <value>Può cambiare Dipartimento</value>
+    <value>Részleget változtathat</value>
   </data>
   <data name="EndOfDayRecord" xml:space="preserve">
-    <value>Fine del Giorno di Registrazione</value>
+    <value>Napi zárás</value>
   </data>
   <data name="SortCategories" xml:space="preserve">
-    <value>Ordinare le categorie</value>
+    <value>Kategóriák rendezése</value>
   </data>
   <data name="TicketTemplateValue" xml:space="preserve">
     <value>[LAYOUT]
@@ -1011,7 +1011,7 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
 &lt;T&gt;TICKET
 &lt;L00&gt;Date:{TICKET DATE}
 &lt;L00&gt;Time:{TIME}
-{RESOURCES}
+{ENTITIES}
 &lt;L00&gt;Ticket No:{TICKET NO}
 &lt;F&gt;-
 {ORDERS}
@@ -1042,228 +1042,228 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
 -- Format for order tags
 &lt;J00&gt;     * {ORDER TAG NAME} | {ORDER TAG PRICE}
 
-[RESOURCES:Table]
--- Table resource format
-&lt;L00&gt;Table: {RESOURCE NAME}
+[ENTITIES:Table]
+-- Table entity format
+&lt;L00&gt;Table: {ENTITY NAME}
 
-[RESOURCES:Customer]
--- Customer resource format
-&lt;J00&gt;Customer: {RESOURCE NAME} | {RESOURCE DATA:Phone}</value>
+[ENTITIES:Customer]
+-- Customer entity format
+&lt;J00&gt;Customer: {ENTITY NAME} | {ENTITY DATA:Phone}</value>
   </data>
   <data name="ChangePrice" xml:space="preserve">
-    <value>Variazione del prezzo</value>
+    <value>Ár módosítása</value>
   </data>
   <data name="UpdateOrder" xml:space="preserve">
-    <value>Aggiorna Ordine</value>
+    <value>Rendelés frissítése</value>
   </data>
   <data name="StartAmount" xml:space="preserve">
-    <value>Avviare Importi</value>
+    <value>Nyitó-összeg</value>
   </data>
   <data name="EntityTypes" xml:space="preserve">
-    <value>Tipi Entità</value>
+    <value>Egység típusok</value>
   </data>
   <data name="TicketOpeningTime" xml:space="preserve">
-    <value>Ticket di apertura</value>
+    <value>Jegy megnyitása</value>
   </data>
   <data name="Width" xml:space="preserve">
-    <value>Larghezza</value>
+    <value>Szélesség</value>
   </data>
   <data name="TaxTemplate" xml:space="preserve">
-    <value>Modello Tassa</value>
+    <value>Adó sablon</value>
   </data>
   <data name="Million" xml:space="preserve">
-    <value>Milione</value>
+    <value>Millió</value>
   </data>
   <data name="Eighty" xml:space="preserve">
-    <value>Ottanta</value>
+    <value>Nyolcvan</value>
   </data>
   <data name="ItemProperties" xml:space="preserve">
-    <value>Proprietà degli elementi aggiuntivi</value>
+    <value>Extra elem-tulajdonságok</value>
   </data>
   <data name="Change_f" xml:space="preserve">
-    <value>Modifica {0}</value>
+    <value>{0} váltás</value>
   </data>
   <data name="GrandTotal" xml:space="preserve">
-    <value>Totale Generale</value>
+    <value>Mindösszesen</value>
   </data>
   <data name="TransactionsEmptyError" xml:space="preserve">
-    <value>Le operazioni non deve essere vuoto</value>
+    <value>A tranzakciók nem lehetnek üresek</value>
   </data>
   <data name="TotalExpense" xml:space="preserve">
-    <value>Totale Spese</value>
+    <value>Összes kiadás</value>
   </data>
   <data name="Update" xml:space="preserve">
-    <value>Aggiornare</value>
+    <value>Frissít</value>
   </data>
   <data name="UnlocksOrder" xml:space="preserve">
-    <value>Sblocca Ordine</value>
+    <value>Rendelés feloldáas</value>
   </data>
   <data name="AddTicketDiscount" xml:space="preserve">
-    <value>Aggiungi Ticket Sconto</value>
+    <value>Kedvezmény hozzáadása a jegyhez</value>
   </data>
   <data name="SaveErrorMultipleDefaultTerminals" xml:space="preserve">
-    <value>Non creare più di un terminale di default</value>
+    <value>Csak egy alapértelmezett terminált lehet beállítani.</value>
   </data>
   <data name="WorkPeriodEnded" xml:space="preserve">
-    <value>Periodo fine Lavoro</value>
+    <value>Műszak befejeződött</value>
   </data>
   <data name="UndefinedWithBrackets" xml:space="preserve">
-    <value>[NonDefinito]</value>
+    <value>[Meghatározatlan]</value>
   </data>
   <data name="LineItemTotalWithoutGifts" xml:space="preserve">
-    <value># Linea: Totale Prodotti (Offerto escluso)</value>
+    <value># sor: Elem Összesen (Ajándék nélkül)</value>
   </data>
   <data name="LocalWarehouses" xml:space="preserve">
-    <value>Magazzini Locali</value>
+    <value>Helyi raktárak</value>
   </data>
   <data name="DeleteErrorUsedBy_f" xml:space="preserve">
-    <value>Impossibile eliminare perché questa {0} è utilizzato da un {1}</value>
+    <value>{0} nem törölhető, mert egy {1} használja</value>
   </data>
   <data name="Decrease" xml:space="preserve">
-    <value>Diminuire</value>
+    <value>Csökkent</value>
   </data>
   <data name="LineItemQuantity" xml:space="preserve">
-    <value># Linea: Articolo Quantità</value>
+    <value># sor: Elem Mennyiség</value>
   </data>
   <data name="ExchangeRate" xml:space="preserve">
-    <value>Tasso di Cambio</value>
+    <value>Árfolyam</value>
   </data>
   <data name="Duration" xml:space="preserve">
-    <value>Durata</value>
+    <value>Időtartam</value>
   </data>
   <data name="Minute" xml:space="preserve">
-    <value>Minuto</value>
+    <value>Perc</value>
   </data>
   <data name="OptionalTicketTag" xml:space="preserve">
-    <value>Ticket Tag opzionale</value>
+    <value>Választható Jegy Címke</value>
   </data>
   <data name="TicketCount" xml:space="preserve">
-    <value>Ticket Conto</value>
+    <value>Jegy-számláló</value>
   </data>
   <data name="DefaultAmount" xml:space="preserve">
-    <value>Importo Predefinito</value>
+    <value>Alapértelmezett mennyiség</value>
   </data>
   <data name="StartClientNow" xml:space="preserve">
-    <value>Avviare Client Ora</value>
+    <value>Kliens indítása most</value>
   </data>
   <data name="RemoveOrderTag" xml:space="preserve">
-    <value>Rimuovi OrderTag</value>
+    <value>RendelésCímke eltávolítása</value>
   </data>
   <data name="Day" xml:space="preserve">
-    <value>Giorno</value>
+    <value>Nap</value>
   </data>
   <data name="TicketMovedRetryLastOperation_f" xml:space="preserve">
-    <value>Ticket si trasferì a {0}. Le ultime modifiche non salvate.</value>
+    <value>Jegy áthelyezve ide: {0}. A legutóbbi módosítások mentése sikertelen.</value>
   </data>
   <data name="AutomationCommandExecuted" xml:space="preserve">
-    <value>Comando Automazione Eseguito</value>
+    <value>Automatizálás parancs végrehajtva</value>
   </data>
   <data name="CanMoveUnlockedTicketLines" xml:space="preserve">
-    <value>Può Muovere linee di ticket Bloccate</value>
+    <value>Nem lezárt jegy-sorokat mozgathat</value>
   </data>
   <data name="PaymentScreenSettings" xml:space="preserve">
-    <value>Impostazioni Schermo Pagamento</value>
+    <value>Fizetési képernyő-beállítások</value>
   </data>
   <data name="Hundred" xml:space="preserve">
-    <value>Cento</value>
+    <value>Száz</value>
   </data>
   <data name="ThereIsAnotherPriceDefinition_f" xml:space="preserve">
-    <value>C'è un'altra Definizione dei prezzi con {0} tag</value>
+    <value>Már van egy másik ár meghatározás a {0} címkével</value>
   </data>
   <data name="PrintJob" xml:space="preserve">
-    <value>Lavoro di Stampa</value>
+    <value>Nyomtatási munka</value>
   </data>
   <data name="Terminal" xml:space="preserve">
-    <value>Terminale</value>
+    <value>Terminál</value>
   </data>
   <data name="MaxQuantity" xml:space="preserve">
-    <value>Quantità Massima</value>
+    <value>Maximális mennyiség</value>
   </data>
   <data name="Filter" xml:space="preserve">
-    <value>Filtro</value>
+    <value>Szűrő</value>
   </data>
   <data name="TicketChangedRetryLastOperation" xml:space="preserve">
-    <value>Ticket cambiato. Le ultime modifiche non salvate.</value>
+    <value>Jegy megváltozott. A legutóbbi módosítások mentése sikertelen.</value>
   </data>
   <data name="UserRole" xml:space="preserve">
-    <value>Utente Ruolo</value>
+    <value>Felhasználói szerepkör</value>
   </data>
   <data name="NumeratorHeight" xml:space="preserve">
-    <value>Numero Altezza</value>
+    <value>Számláló magassága</value>
   </data>
   <data name="Receiveable" xml:space="preserve">
-    <value>Ricevibile</value>
+    <value>Vevők (követelések)</value>
   </data>
   <data name="New_f" xml:space="preserve">
-    <value>Nuovo {0}</value>
+    <value>Új {0}</value>
   </data>
   <data name="SellerWarehouses" xml:space="preserve">
-    <value>Magazzini delle Vendite</value>
+    <value>Eladói raktárak</value>
   </data>
   <data name="InvoicePrinter" xml:space="preserve">
-    <value>Stampante Fattura</value>
+    <value>Számla Printer</value>
   </data>
   <data name="New" xml:space="preserve">
-    <value>Nuovo</value>
+    <value>Új</value>
   </data>
   <data name="LockTicket" xml:space="preserve">
-    <value>Bloccare Ticket</value>
+    <value>Jegy zárolása</value>
   </data>
   <data name="WorkPeriodStartTime" xml:space="preserve">
-    <value>Ora periodo di lavoro: {0}</value>
+    <value>Műszak ideje: {0}</value>
   </data>
   <data name="RuleName" xml:space="preserve">
-    <value>Nome regola</value>
+    <value>Szabály neve</value>
   </data>
   <data name="Hour" xml:space="preserve">
-    <value>Ora</value>
+    <value>Óra</value>
   </data>
   <data name="Status" xml:space="preserve">
-    <value>Stato</value>
+    <value>Állapot</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Salva</value>
+    <value>Ment</value>
   </data>
   <data name="CanCreateAccount" xml:space="preserve">
-    <value>Può Creare Account</value>
+    <value>Fiókot hozhat létre</value>
   </data>
   <data name="RateFromPreviousTemplate" xml:space="preserve">
-    <value>Tariffa a partire da quantità modello precedente</value>
+    <value>Százalék egy korábbi sablon összegéből</value>
   </data>
   <data name="SellAmount" xml:space="preserve">
-    <value>Importo Vendita</value>
+    <value>Eladott összeg</value>
   </data>
   <data name="Increase" xml:space="preserve">
-    <value>Aumentare</value>
+    <value>Növel</value>
   </data>
   <data name="BatchCreteProducts" xml:space="preserve">
-    <value>Prodotti creati in batch</value>
+    <value>Tömeges termék létrehozás</value>
   </data>
   <data name="LinesGroupedByTag" xml:space="preserve">
-    <value>Linee raggruppati per tag</value>
+    <value>Sorok csoportosítása címkék szerint</value>
   </data>
   <data name="CostPrediction" xml:space="preserve">
-    <value>Analisi Prezzo</value>
+    <value>Költség Előrejelzés</value>
   </data>
   <data name="PleaseEnterABriefExplanationOf" xml:space="preserve">
-    <value>Si prega di inserire una breve spiegazione degli eventi che portano a questa eccezione</value>
+    <value>Kérjük, adjon meg egy rövid magyarázatot az események vezető e kivétel</value>
   </data>
   <data name="ReleaseLock" xml:space="preserve">
-    <value>Rilasciare il blocco</value>
+    <value>Zár feloldása</value>
   </data>
   <data name="Sales" xml:space="preserve">
-    <value>Vendite</value>
+    <value>Eladás</value>
   </data>
   <data name="EntityButton" xml:space="preserve">
-    <value>Pulsante Entità</value>
+    <value>Egység gomb</value>
   </data>
   <data name="KitchenTemplateValue" xml:space="preserve">
     <value>[LAYOUT]
-&lt;T&gt;TICKET
-&lt;L00&gt;Data:{TICKET DATE}
-&lt;L00&gt;Ora:{TIME}
-&lt;L00&gt;Locazione:{LOCATION}
-&lt;L00&gt;Ticket N°:{TICKET NO}
+&lt;T&gt;JEGY
+&lt;L00&gt;Dáum:{TICKET DATE}
+&lt;L00&gt;Idő:{TIME}
+&lt;L00&gt;Helyszín száma:{LOCATION}
+&lt;L00&gt;Jegy száma:{TICKET NO}
 &lt;F&gt;-
 {ORDERS}
 
@@ -1285,1590 +1285,1589 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
 </value>
   </data>
   <data name="TicketPaidTotal" xml:space="preserve">
-    <value>Ticket Importo versato</value>
+    <value>Fizetett Jegyek mennyisége</value>
   </data>
   <data name="SaveErrorDuplicateItemName_f" xml:space="preserve">
-    <value>Esiste già un {0} con quel nome.</value>
+    <value>Ez a név felhasználható egy másik {0}.</value>
   </data>
   <data name="TicketTimeDisplay_f" xml:space="preserve">
-    <value>{0} ({1} min.)</value>
+    <value>{0} ({1} perc.)</value>
   </data>
   <data name="Text" xml:space="preserve">
-    <value>Testo</value>
+    <value>Szöveg</value>
   </data>
   <data name="Ten" xml:space="preserve">
-    <value>Dieci</value>
+    <value>Tíz</value>
   </data>
   <data name="SalesIncome" xml:space="preserve">
-    <value>Proventi delle Vendite</value>
+    <value>Árbevétel</value>
   </data>
   <data name="AutoStartMessageClient" xml:space="preserve">
-    <value>Auto Start cliente di messaggeria</value>
+    <value>Üzenet-kliens autómatikus indítása</value>
   </data>
   <data name="MaxItems" xml:space="preserve">
-    <value>Articoli Massimo</value>
+    <value>Maximum tételek</value>
   </data>
   <data name="Every3Months" xml:space="preserve">
-    <value>Ogni 3 mesi</value>
+    <value>3 havonta</value>
   </data>
   <data name="Next" xml:space="preserve">
-    <value>Prossimo</value>
+    <value>Következő</value>
   </data>
   <data name="Ending" xml:space="preserve">
-    <value>Fine</value>
+    <value>Befejezés</value>
   </data>
   <data name="Thirteen" xml:space="preserve">
-    <value>Tredici</value>
+    <value>Tizenhárom</value>
   </data>
   <data name="MonWedFri" xml:space="preserve">
-    <value>Lun, Mer, Ven</value>
+    <value>H, Sze, P</value>
   </data>
   <data name="StartOfDay" xml:space="preserve">
-    <value>Inizio del Periodo di Lavoro</value>
+    <value>Műszak kezdés</value>
   </data>
   <data name="Details" xml:space="preserve">
-    <value>Dettagli</value>
+    <value>Részletek</value>
   </data>
   <data name="ButtonHeight" xml:space="preserve">
-    <value>Altezza Pulsante</value>
+    <value>Gomb magasság</value>
   </data>
   <data name="Cash" xml:space="preserve">
-    <value>Contanti</value>
+    <value>Készpénz</value>
   </data>
   <data name="Sale" xml:space="preserve">
-    <value>Vendita</value>
+    <value>Eladás</value>
   </data>
   <data name="Purchase" xml:space="preserve">
-    <value>Acquisto</value>
+    <value>Vásárlás</value>
   </data>
   <data name="SelectItemsFor_f" xml:space="preserve">
-    <value>Selezionare {0} per l'utilizzo con {1} {2}</value>
+    <value>{0} kiválasztása az {1}{2}-vel való használathoz</value>
   </data>
   <data name="TicketCreated" xml:space="preserve">
-    <value>Ticket Creato</value>
+    <value>Jegy létrehozva</value>
   </data>
   <data name="PrintOrdersToKitchenPrinter" xml:space="preserve">
-    <value>Ordini di stampa alla stampante Cucina</value>
+    <value>Rendelések nyomtatása a konyhai nyomtatóra</value>
   </data>
   <data name="Noon" xml:space="preserve">
-    <value>mezzogiorno</value>
+    <value>délben</value>
   </data>
   <data name="Sixteen" xml:space="preserve">
-    <value>Sedici</value>
+    <value>Tizenhat</value>
   </data>
   <data name="Every30Minutes" xml:space="preserve">
-    <value>Ogni 30 minuti</value>
+    <value>30 percenként</value>
   </data>
   <data name="AutomationCommand" xml:space="preserve">
-    <value>Comando Automazione</value>
+    <value>Automatizálási Művelet</value>
   </data>
   <data name="GroupCode" xml:space="preserve">
-    <value>Codice di Gruppo</value>
+    <value>Csoport kód</value>
   </data>
   <data name="Tickets" xml:space="preserve">
-    <value>Tickets</value>
+    <value>Jegyek</value>
   </data>
   <data name="EntityStateUpdated" xml:space="preserve">
-    <value>Stato Entità Aggiornato</value>
+    <value>Egység állapota frissítve</value>
   </data>
   <data name="NextPage" xml:space="preserve">
-    <value>Pagina successiva</value>
+    <value>Következő oldal</value>
   </data>
   <data name="NavigationPermissions" xml:space="preserve">
-    <value>Permessi di navigazione</value>
+    <value>Navigációs engedélyek</value>
   </data>
   <data name="BaseUnit" xml:space="preserve">
-    <value>Unità di Base</value>
+    <value>Alapegység</value>
   </data>
   <data name="CsvBuilder" xml:space="preserve">
-    <value>CSV Formato</value>
+    <value>CSV Builder</value>
   </data>
   <data name="OrderTagName" xml:space="preserve">
-    <value># OrderTag: Order Tag Nome</value>
+    <value>Rendelési Címke Neve</value>
   </data>
   <data name="WarehouseType" xml:space="preserve">
-    <value>Tipo di Magazzino</value>
+    <value>Raktártípus</value>
   </data>
   <data name="ExecuteActionsIf" xml:space="preserve">
-    <value>Condizioni</value>
+    <value>Feltételek</value>
   </data>
   <data name="Multiplier" xml:space="preserve">
-    <value>Moltiplicatore</value>
+    <value>Szorzó</value>
   </data>
   <data name="DisplayAtPaymentScreen" xml:space="preserve">
-    <value>Visualizzare a Schermo Pagamento</value>
+    <value>Megjelenítés a fizetés képernyőn</value>
   </data>
   <data name="Warning" xml:space="preserve">
-    <value>Attenzione</value>
+    <value>Figyelmeztetés</value>
   </data>
   <data name="Keyboard" xml:space="preserve">
-    <value>Tastiera</value>
+    <value>Billentyűzet</value>
   </data>
   <data name="AutoSelectProductsQuestion" xml:space="preserve">
-    <value>Auto selezionare i prodotti di nuove categorie?</value>
+    <value>Autómatikusan válassza ki a Termékeket az új kategóriákhoz?</value>
   </data>
   <data name="Fifty" xml:space="preserve">
-    <value>Cinquanta</value>
+    <value>Ötven</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value>Aggiornare</value>
+    <value>Frissít</value>
   </data>
   <data name="Income" xml:space="preserve">
-    <value>Reddito</value>
+    <value>Bevétel</value>
   </data>
   <data name="SettingValue" xml:space="preserve">
-    <value>Impostazione Valore</value>
+    <value>Beállítási értéke</value>
   </data>
   <data name="ChangeSortOrderHint" xml:space="preserve">
-    <value>Modificare Ordine Trascinando gli elementi</value>
+    <value>Elemek húzásával a rendezési sorrend módosítása</value>
   </data>
   <data name="CanMergeTickets" xml:space="preserve">
-    <value>Possibile unire Biglietti</value>
+    <value>Jegyeket egyesíthet</value>
   </data>
   <data name="InventoryReport" xml:space="preserve">
-    <value>Rapporto Magazzino</value>
+    <value>Készletjelentés</value>
   </data>
   <data name="ExportSalesData" xml:space="preserve">
-    <value>Esportazione dei dati di vendita</value>
+    <value>Exportértékesítési adatok</value>
   </data>
   <data name="Yesterday" xml:space="preserve">
-    <value>Ieri</value>
+    <value>Tegnap</value>
   </data>
   <data name="APortionShouldSelected" xml:space="preserve">
-    <value>Bisogna selezionare una porzione</value>
+    <value>Egy adagot szükséges kiválasztani</value>
   </data>
   <data name="MergeTickets" xml:space="preserve">
-    <value>Unisci Tickets</value>
+    <value>Jegyek összevonása</value>
   </data>
   <data name="UntagOrder" xml:space="preserve">
-    <value>Uutag Ordine</value>
+    <value>Címke eltávolítás a Rendelésről</value>
   </data>
   <data name="EmptyDiscountRateFeedback" xml:space="preserve">
-    <value>Per aggiungere sconti, digitare un tasso di sconto e fare clic sul pulsante. Per rimuovere clic sul pulsante Sconto senza dover digitare un valore.</value>
+    <value>Kedvezmény hozzáadáshoz írja be a kívánt kedvezményt, majd nyomja meg a kedvezmény gombot. Kedvezmény törléséhez nyomja meg a kedvezmény gombot anélkül, hogy bármit beírna.</value>
   </data>
   <data name="Submitted" xml:space="preserve">
-    <value>Inserita</value>
+    <value>Benyújtott</value>
   </data>
   <data name="Account_f" xml:space="preserve">
-    <value>Account: {0}</value>
+    <value>Számla: {0}</value>
   </data>
   <data name="From" xml:space="preserve">
-    <value>Da:</value>
+    <value>Feladó:</value>
   </data>
   <data name="One" xml:space="preserve">
-    <value>Uno</value>
+    <value>Egy</value>
   </data>
   <data name="Add" xml:space="preserve">
-    <value>Aggiungere</value>
+    <value>Hozzáad</value>
   </data>
   <data name="Billion" xml:space="preserve">
-    <value>Miliardo</value>
+    <value>Milliárd</value>
   </data>
   <data name="TriggerName" xml:space="preserve">
-    <value>Nome del trigger</value>
+    <value>Trigger neve</value>
   </data>
   <data name="ScreenItem" xml:space="preserve">
-    <value>Voce Schermo</value>
+    <value>Kijelző Elem</value>
   </data>
   <data name="LineOrderNumber" xml:space="preserve">
-    <value># Linea: Numero Ordine</value>
+    <value># sor: Rendelési szám</value>
   </data>
   <data name="UpdateOrderState" xml:space="preserve">
-    <value>Aggiornamento Stato Ordine</value>
+    <value>Rendelés állapotának frissítése</value>
   </data>
   <data name="ViewMode" xml:space="preserve">
-    <value>Modalità di Visualizzazione</value>
+    <value>Megtekintési mód</value>
   </data>
   <data name="TicketPrinter" xml:space="preserve">
-    <value>Stampante Ticket</value>
+    <value>Jegy nyomtató</value>
   </data>
   <data name="Amount" xml:space="preserve">
-    <value>Quantità</value>
+    <value>Összeg</value>
   </data>
   <data name="Locked" xml:space="preserve">
-    <value>Bloccato</value>
+    <value>Zárolt</value>
   </data>
   <data name="AddProductsToCategoryHint_f" xml:space="preserve">
-    <value>Selezionare prodotti per {0} categoria</value>
+    <value>Válasszon Termékeket a(z) {0} kategóriához</value>
   </data>
   <data name="CantDelete_f" xml:space="preserve">
-    <value>Impossibile Eliminare {0}</value>
+    <value>{0} nem törölhető</value>
   </data>
   <data name="Source" xml:space="preserve">
-    <value>Sorgente</value>
+    <value>Forrás</value>
   </data>
   <data name="AddOrder" xml:space="preserve">
-    <value>Aggiungi Ordine</value>
+    <value>Rendelés hozzáadása</value>
   </data>
   <data name="Fifteen" xml:space="preserve">
-    <value>Quindici</value>
+    <value>Tizenöt</value>
   </data>
   <data name="PageCount" xml:space="preserve">
-    <value>Contatore Pagine</value>
+    <value>Oldal számláló</value>
   </data>
   <data name="Two" xml:space="preserve">
-    <value>Due</value>
+    <value>Két</value>
   </data>
   <data name="TranactionsZeroQuantityError" xml:space="preserve">
-    <value>Operazioni contiene zero elementi quantità</value>
+    <value>Tranzakció nulla értékű elemeket tartalmaz</value>
   </data>
   <data name="TagOrder" xml:space="preserve">
-    <value>Tag Ordine</value>
+    <value>Címke sorrend</value>
   </data>
   <data name="IncomeTransactions" xml:space="preserve">
-    <value>Reddito transazioni</value>
+    <value>Bevételi tranzakciók</value>
   </data>
   <data name="Confirmation" xml:space="preserve">
-    <value>Conferma</value>
+    <value>Megerősítés</value>
   </data>
   <data name="DisplayTicketList" xml:space="preserve">
-    <value>Elenco Visualizzazione Ticket</value>
+    <value>Jegy lista megjelenítése</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>Accesso</value>
+    <value>Bejelentkezés</value>
   </data>
   <data name="FastMenu" xml:space="preserve">
-    <value>Menu Veloce</value>
+    <value>Gyors étlap</value>
   </data>
   <data name="Department" xml:space="preserve">
-    <value>Reparto</value>
+    <value>Részleg</value>
   </data>
   <data name="PastMonth" xml:space="preserve">
-    <value>Mese Scorso</value>
+    <value>Múlt hónapban</value>
   </data>
   <data name="LastPaymentTime" xml:space="preserve">
-    <value>Ultimo pagamento</value>
+    <value>Utolsó fizetés</value>
   </data>
   <data name="WhenTagSelected" xml:space="preserve">
-    <value>Quando Selezionato</value>
+    <value>Mikor Címkézett</value>
   </data>
   <data name="DetailedReport" xml:space="preserve">
-    <value>Report dettagliato</value>
+    <value>Részletes jelentés</value>
   </data>
   <data name="TransactionDocument" xml:space="preserve">
-    <value>Documenti Operazione</value>
+    <value>Tranzakciós dokumentum</value>
   </data>
   <data name="DefaultOrderTag" xml:space="preserve">
-    <value>Order Tag Predefinito</value>
+    <value>Alapértelmezett Rendelési Címke</value>
   </data>
   <data name="SambaPOSReporter" xml:space="preserve">
     <value>SambaPOS Reporter</value>
   </data>
   <data name="AccountScreen" xml:space="preserve">
-    <value>Schermo Account</value>
+    <value>Fiók képernyő</value>
   </data>
   <data name="ExtraModifiers" xml:space="preserve">
-    <value>Modificatori Extra</value>
+    <value>Extra módosítók</value>
   </data>
   <data name="PreviousPage" xml:space="preserve">
-    <value>Pagina precedente</value>
+    <value>Előző oldal</value>
   </data>
   <data name="Printer" xml:space="preserve">
-    <value>Stampante</value>
+    <value>Nyomtató</value>
   </data>
   <data name="AccountsReceivable" xml:space="preserve">
-    <value>Credito verso clienti</value>
+    <value>Vevők</value>
   </data>
   <data name="Description" xml:space="preserve">
-    <value>Descrizione</value>
+    <value>Leírás</value>
   </data>
   <data name="As_f" xml:space="preserve">
-    <value>Come di {0}</value>
+    <value>Mint {0}</value>
   </data>
   <data name="To" xml:space="preserve">
-    <value>Per:</value>
+    <value>Címzett:</value>
   </data>
   <data name="TransacitonUnitMultiplier" xml:space="preserve">
-    <value>Moltiplicatore di Unità</value>
+    <value>Csomagolási egység szorzó</value>
   </data>
   <data name="Five" xml:space="preserve">
-    <value>Cinque</value>
+    <value>Öt</value>
   </data>
   <data name="DayOperations" xml:space="preserve">
-    <value>Periodo di Lavoro</value>
+    <value>Műszakok</value>
   </data>
   <data name="AddAndSave" xml:space="preserve">
-    <value>Aggiungere e Salvare</value>
+    <value>Hozzáadás és mentés</value>
   </data>
   <data name="UniqueTicketId" xml:space="preserve">
-    <value>Ticket ID univoco</value>
+    <value>Egyedi Jegy Azonosító</value>
   </data>
   <data name="No" xml:space="preserve">
-    <value>No</value>
+    <value>Nem</value>
   </data>
   <data name="All Tables" xml:space="preserve">
-    <value>Tutti i Tavoli</value>
+    <value>Minden asztal</value>
   </data>
   <data name="DeleteErrorAccountTypeAssignedtoAccounts" xml:space="preserve">
-    <value>Impossibile eliminare, perché questo modello è assegnato agli account</value>
+    <value>Nem lehet törölni, mert a sablon egy fiókhoz van rendelve</value>
   </data>
   <data name="CustomFieldName" xml:space="preserve">
-    <value>Nome Campo Personalizzato</value>
+    <value>Egyedi Mezőnév</value>
   </data>
   <data name="Every12Hours" xml:space="preserve">
-    <value>Ogni 12 ore</value>
+    <value>12 óránként</value>
   </data>
   <data name="InternalAccounts" xml:space="preserve">
-    <value>Contabilità interna</value>
+    <value>Belső fiókok</value>
   </data>
   <data name="POSView" xml:space="preserve">
-    <value>POS Vista </value>
+    <value>POS nézet</value>
   </data>
   <data name="CantCompleteOperationWhenThereIsZeroPricedProduct" xml:space="preserve">
-    <value>Impossibile completare questa operazione a zero, mentre ci sono ordini.</value>
+    <value>Nem lehet befejezni ezt a műveletet a nulla áron megrendelés létezik.</value>
   </data>
   <data name="DeleteErrorLastUser" xml:space="preserve">
-    <value>Impossibile eliminare account Ultimo utente</value>
+    <value>Az utolsó felhasználói fiók nem törölhető</value>
   </data>
   <data name="ReportPermissions" xml:space="preserve">
-    <value>Segnalazione di autorizzazioni</value>
+    <value>Jelentés Engedélyek</value>
   </data>
   <data name="WeightBarcodes" xml:space="preserve">
-    <value>Peso codici a barre</value>
+    <value>Súly-bonalkódok</value>
   </data>
   <data name="AccountMap" xml:space="preserve">
-    <value>Mappa Conto</value>
+    <value>Fiók térkép</value>
   </data>
   <data name="ClickLinksToExportData" xml:space="preserve">
-    <value>Seleziona il Periodo, aggiornare report e fare clic sul link in materia di esportazione dei dati.</value>
+    <value>Válasszon dátumtartományt, frissítési jelentést, és kattintson a linkre az adatok exportálásához.</value>
   </data>
   <data name="BatchCreate_f" xml:space="preserve">
-    <value>Crea in Gruppo {0}</value>
+    <value>{0} tömeges létrehozása</value>
   </data>
   <data name="TicketDate" xml:space="preserve">
-    <value>Data Ticket</value>
+    <value>Jegy-dátum</value>
   </data>
   <data name="WhenTagNotSelected" xml:space="preserve">
-    <value>Quando senza tag</value>
+    <value>Mikor Címkézetlen</value>
   </data>
   <data name="ActionType" xml:space="preserve">
-    <value>Tipo di azione</value>
+    <value>Művelet típusa</value>
   </data>
   <data name="WeightBarcodeQuantityLength" xml:space="preserve">
-    <value>Peso Codici a Barre Lunghezza Quantità</value>
+    <value>Súly-vonalkód mennyiség hossza</value>
   </data>
   <data name="AllLines" xml:space="preserve">
-    <value>Tutte le linee</value>
+    <value>Minden sor</value>
   </data>
   <data name="SaveReportToFile" xml:space="preserve">
-    <value>Salva Report su file</value>
+    <value>Jelentés mentése fájlba</value>
   </data>
   <data name="SambaPosWebsite" xml:space="preserve">
-    <value>SambaPOS Sito</value>
+    <value>SambaPOS honlap</value>
   </data>
   <data name="LineCount" xml:space="preserve">
-    <value>Contatore linee</value>
+    <value>Sor számláló</value>
   </data>
   <data name="RemoveLimit" xml:space="preserve">
-    <value>Rimuovere Limite</value>
+    <value>Limit eltávolítása</value>
   </data>
   <data name="AverageCost" xml:space="preserve">
-    <value>Costo medio</value>
+    <value>Átlagköltség</value>
   </data>
   <data name="UpdateTicketCalculation" xml:space="preserve">
-    <value>Aggiorna Calcolo Ticket</value>
+    <value>Jegy újraszámítása</value>
   </data>
   <data name="SettingName" xml:space="preserve">
-    <value>Impostazione Nome</value>
+    <value>Beállítás neve</value>
   </data>
   <data name="BackgroundImage" xml:space="preserve">
-    <value>Immagine di sfondo</value>
+    <value>Háttérkép</value>
   </data>
   <data name="QuantitiesByItemGroup" xml:space="preserve">
-    <value>Quantitativi di Gruppo Voce</value>
+    <value>Mennyiség elemcsoportonként</value>
   </data>
   <data name="TotalAmountDivTag_f" xml:space="preserve">
-    <value>Importo Totale / {0}:</value>
+    <value>Teljes összeg / {0}:</value>
   </data>
   <data name="Remove" xml:space="preserve">
-    <value>Rimuovere</value>
+    <value>Eltávolít</value>
   </data>
   <data name="AllDiscountsRemoved" xml:space="preserve">
-    <value>Tutti gli sconti rimossi perché calcolato importo dello sconto totale è maggiore di valore del Ticket.</value>
+    <value>Minden kedvezmények távolítva, mert kiszámított teljes kedvezmény összege magasabb, mint a jegy összege.</value>
   </data>
   <data name="AlwaysExcludeTax" xml:space="preserve">
-    <value>Include Sempre Tassa</value>
+    <value>Mindig adók nélkül számolj</value>
   </data>
   <data name="PriceDefinitonName" xml:space="preserve">
-    <value>Prezzo Definizione Nome</value>
+    <value>Ár meghatározás neve</value>
   </data>
   <data name="TipsTotal" xml:space="preserve">
-    <value>Suggerimenti Totale</value>
+    <value>Összes borravaló</value>
   </data>
   <data name="Default_f" xml:space="preserve">
-    <value>Predefinito {0}</value>
+    <value>Alapértelmezett {0}</value>
   </data>
   <data name="POSMenu" xml:space="preserve">
-    <value>POS Menu</value>
+    <value>POS Menü</value>
   </data>
   <data name="RateOrAmount" xml:space="preserve">
-    <value>Tempi o alla quantità</value>
+    <value>százalék vagy összeg</value>
   </data>
   <data name="Parameters" xml:space="preserve">
-    <value>Parametri</value>
+    <value>Paraméterek</value>
   </data>
   <data name="Transaction" xml:space="preserve">
-    <value>Transazione</value>
+    <value>Tranzakció</value>
   </data>
   <data name="EntityType" xml:space="preserve">
-    <value>Tipo Entità</value>
+    <value>Egység típusa</value>
   </data>
   <data name="EveryOtherMinute" xml:space="preserve">
-    <value>Ogni minuto</value>
+    <value>Minden második percben</value>
   </data>
   <data name="LastOrderTime" xml:space="preserve">
-    <value>Ultimo ordine</value>
+    <value>Utolsó rendelés</value>
   </data>
   <data name="DefaultProperties" xml:space="preserve">
-    <value>Proprietà Predefinite</value>
+    <value>Alapértelmezett tulajdonságok</value>
   </data>
   <data name="BatchCreateInfo_f" xml:space="preserve">
-    <value>Creeremo {0} per ogni riga che hai inserito qui.</value>
+    <value>Minden beírt sor egy {0}-t fog létrehozni</value>
   </data>
   <data name="No_f" xml:space="preserve">
-    <value>No {0}</value>
+    <value>Nem {0}</value>
   </data>
   <data name="ItemSales" xml:space="preserve">
-    <value>Voce di vendita</value>
+    <value>Elem-forgalma</value>
   </data>
   <data name="WorkPeriodEndsMessage" xml:space="preserve">
-    <value>Periodo di lavoro termina.
-Visita la sezione di report e creare report periodo di lavoro</value>
+    <value>Munkaidő vége.
+A Jelentések részben tud műszak-jelentéseket készíteni.</value>
   </data>
   <data name="WorkPeriodStartDate_f" xml:space="preserve">
-    <value>Data periodo di lavoro: {0}</value>
+    <value>Műszak napja: {0}</value>
   </data>
   <data name="Rounding" xml:space="preserve">
-    <value>Arrotondamento</value>
+    <value>Kerekítés</value>
   </data>
   <data name="SqlHint" xml:space="preserve">
-    <value>Clicca qui per informazioni su come lavorare con il database SQL</value>
+    <value>Ide kattintva informálódhat az SQL adatbázissal történő munkához</value>
   </data>
   <data name="UserList" xml:space="preserve">
-    <value>Lista Utenti</value>
+    <value>Felhasználó-lista</value>
   </data>
   <data name="WrapText" xml:space="preserve">
-    <value>Testo a Capo</value>
+    <value>Wrap Text</value>
   </data>
   <data name="IfNegativeDiscountValue_f" xml:space="preserve">
-    <value>&lt;J&gt;Arrotondamento:|{0}</value>
+    <value>Kerekítés: | {0}</value>
   </data>
   <data name="OpenTicketButtonDuration" xml:space="preserve">
-    <value>{0} min</value>
+    <value>{0} perc</value>
   </data>
   <data name="AllTickets" xml:space="preserve">
-    <value>Tutti i biglietti</value>
+    <value>Minden jegy</value>
   </data>
   <data name="Terminals" xml:space="preserve">
-    <value>Terminale</value>
+    <value>Terminálok</value>
   </data>
   <data name="Selected" xml:space="preserve">
-    <value>Selezionato</value>
+    <value>Kiválasztott</value>
   </data>
   <data name="Divide" xml:space="preserve">
-    <value>Dividere</value>
+    <value>Megoszt</value>
   </data>
   <data name="Target_f" xml:space="preserve">
-    <value>Destinazione: {0}</value>
+    <value>Cél {0}</value>
   </data>
   <data name="ErrorReportWithoutFeedback" xml:space="preserve">
-    <value>Si invia segnalazione di errore senza il tuo feedback.
-Si prega di fornire alcuni dettagli su come sia successo.
+    <value>Ön leírás nélküli hibajelentést kíván küldeni.
+Kérjük, adjon meg néhány részletet arról, hogyan történt az esemény.
 
-Continua senza aggiungere dettagli?</value>
+Fojtassuk részletek hozzáadása nélkül?</value>
   </data>
   <data name="SortCategoriesDialogHint_f" xml:space="preserve">
-    <value>Trascinare {0} Categorie di menu per cambiare l'ordine.</value>
+    <value>Rendezéshez a(z) {0} étlap kategóriáir húzd a megfelelő helyre.</value>
   </data>
   <data name="InventoryConsumption" xml:space="preserve">
-    <value>Inventario Consumo</value>
+    <value>Készlet fogyasztás</value>
   </data>
   <data name="Weekday" xml:space="preserve">
-    <value>Giorno feriale</value>
+    <value>Hétköznap</value>
   </data>
   <data name="PM" xml:space="preserve">
-    <value>p.m.</value>
+    <value>délután</value>
   </data>
   <data name="Totals" xml:space="preserve">
-    <value>Totali</value>
+    <value>Összesítés</value>
   </data>
   <data name="PrintErrorMessage" xml:space="preserve">
-    <value>C'è un problema durante la stampa. Controllare le impostazioni del modello di stampante e della stampante.
+    <value>A nyomtatás közben probléma adódott. Ellenőrizze a nyomtatót és a nyomtató sablon beállításait.
 
-Messaggio di errore:
+Hibaüzenet:
 </value>
   </data>
   <data name="Six" xml:space="preserve">
-    <value>Sei</value>
+    <value>Hat</value>
   </data>
   <data name="OneHundred" xml:space="preserve">
-    <value>Cento</value>
+    <value>egyszáz</value>
   </data>
   <data name="Alphanumeric" xml:space="preserve">
-    <value>Alfanumerico</value>
+    <value>Alfanumerikus</value>
   </data>
   <data name="NumericTags" xml:space="preserve">
-    <value>Tags numerici</value>
+    <value>Numerikus Címkék</value>
   </data>
   <data name="Management" xml:space="preserve">
-    <value>Impostazioni</value>
+    <value>Kezel</value>
   </data>
   <data name="CustomFields" xml:space="preserve">
-    <value>Campi Personalizzati</value>
+    <value>Egyedi Mezők</value>
   </data>
   <data name="AM" xml:space="preserve">
-    <value>a.m.</value>
+    <value>délelőtt</value>
   </data>
   <data name="TopOfTheHour" xml:space="preserve">
-    <value>Il meglio delle ore</value>
+    <value>Egész órakkor</value>
   </data>
   <data name="FirstAndFifteenth" xml:space="preserve">
-    <value>1 e 15</value>
+    <value>1. és 15.</value>
   </data>
   <data name="AccountTransactionDocument" xml:space="preserve">
-    <value>Transizione Account Documento</value>
+    <value>Fiók tranzakciós dokumentum</value>
   </data>
   <data name="Departments" xml:space="preserve">
-    <value>Reparto</value>
+    <value>Részlegek</value>
   </data>
   <data name="ShareNameAndPortName" xml:space="preserve">
-    <value>Nome Stampante Condivisa / Nome Porta</value>
+    <value>Nyomtató megosztási neve / port neve</value>
   </data>
   <data name="OrderStateUpdated" xml:space="preserve">
-    <value>Stato Ordine Aggiornato</value>
+    <value>Rendelési állapot frissítve</value>
   </data>
   <data name="TicketOpened" xml:space="preserve">
-    <value>Ticket Aperto</value>
+    <value>Nyitott jegy</value>
   </data>
   <data name="Unit" xml:space="preserve">
-    <value>Unità</value>
+    <value>Egység</value>
   </data>
   <data name="Balance" xml:space="preserve">
-    <value>Saldo</value>
+    <value>Egyenleg</value>
   </data>
   <data name="Edit_f" xml:space="preserve">
-    <value>Modifica {0}</value>
+    <value>Szerkesztés {0}</value>
   </data>
   <data name="Restaurant" xml:space="preserve">
-    <value>Ristorante</value>
+    <value>Étterem</value>
   </data>
   <data name="Total_f" xml:space="preserve">
-    <value>Totale: {0}</value>
+    <value>Összesen: {0}</value>
   </data>
   <data name="EntityScreen" xml:space="preserve">
-    <value>Schermo Entità</value>
+    <value>Egység képernyő</value>
   </data>
   <data name="DemoPrinter" xml:space="preserve">
-    <value>Stampante Demo (notepad)</value>
+    <value>Demo nyomtató (jegyzettömb)</value>
   </data>
   <data name="ChoosePaymentsForTicketTemplate_f" xml:space="preserve">
-    <value>Selezionare Modalità di Pagamento per l'utilizzo in {0} modello.</value>
+    <value>Válassz Fizetési Módokat a {0} sablonben történő használathoz.</value>
   </data>
   <data name="FontSize" xml:space="preserve">
-    <value>Dimensione Carattere</value>
+    <value>Betűméret</value>
   </data>
   <data name="ImagePath" xml:space="preserve">
-    <value>Percorso Immagine</value>
+    <value>Kép útvonal</value>
   </data>
   <data name="Selected_f" xml:space="preserve">
-    <value>Selezionato {0}</value>
+    <value>Kiválasztott {0}</value>
   </data>
   <data name="State" xml:space="preserve">
-    <value>Stato</value>
+    <value>Állapot</value>
   </data>
   <data name="ItemSalesReport" xml:space="preserve">
-    <value>Rapporto di vendita Articolo</value>
+    <value>Elem-forgalmi jelentés</value>
   </data>
   <data name="LocalWarehouse" xml:space="preserve">
-    <value>Magazzino Locale</value>
+    <value>Helyi raktár</value>
   </data>
   <data name="Reports" xml:space="preserve">
-    <value>Rapporti</value>
+    <value>Jelentések</value>
   </data>
   <data name="Script_f" xml:space="preserve">
     <value>{0} Script</value>
   </data>
   <data name="AutoRefreshInterval" xml:space="preserve">
-    <value>Intervallo Auto Aggiornamento</value>
+    <value>Automatikus frissítési időköz</value>
   </data>
   <data name="Yes" xml:space="preserve">
-    <value>Sì</value>
+    <value>Igen</value>
   </data>
   <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
-    <value>Eliminare Mapping selezionato?</value>
+    <value>Kiválasztott Mapping törlése?</value>
   </data>
   <data name="PortionPrices" xml:space="preserve">
-    <value>Prezzo porzioni</value>
+    <value>Adag árak</value>
   </data>
   <data name="Name_f" xml:space="preserve">
-    <value>{0} Nome</value>
+    <value>{0} Név</value>
   </data>
   <data name="Hidden" xml:space="preserve">
-    <value>Nascosto</value>
+    <value>Rejtett</value>
   </data>
   <data name="TicketTagSelected" xml:space="preserve">
-    <value>Ticket Tag selezionato</value>
+    <value>Jegy címke kiválasztva</value>
   </data>
   <data name="CurrencySymbol" xml:space="preserve">
-    <value>Simbolo Valuta</value>
+    <value>Pénznemszimbólum</value>
   </data>
   <data name="TagCantBeEmpty_f" xml:space="preserve">
-    <value>Non è possibile lasciare vuota {0}</value>
+    <value>{0} nem maradhat üresen</value>
   </data>
   <data name="ExecutePowershellScript" xml:space="preserve">
-    <value>Esegui Powershell Script</value>
+    <value>Futtatni a Powershell parancsfájlt</value>
   </data>
   <data name="TicketNumber_f" xml:space="preserve">
-    <value>Conto Numero: {0}</value>
+    <value>Jegy száma: {0}</value>
   </data>
   <data name="AccountTransactionType" xml:space="preserve">
-    <value>Modello Account Transizione</value>
+    <value>Fiók tranzakció típus</value>
   </data>
   <data name="RowCount" xml:space="preserve">
-    <value>Conteggio Righe</value>
+    <value>Sor számláló</value>
   </data>
   <data name="TicketPaidLastChangesNotSaved" xml:space="preserve">
-    <value>Ticket pagato. Le ultime modifiche non salvate.</value>
+    <value>Jegy fizetve. A legutóbbi módosítások mentése sikertelen.</value>
   </data>
   <data name="Clone_f" xml:space="preserve">
-    <value>Copia {0}</value>
+    <value>Másolás {0}</value>
   </data>
   <data name="Order" xml:space="preserve">
-    <value>Ordine</value>
+    <value>Rendelés</value>
   </data>
   <data name="AutoLogout" xml:space="preserve">
-    <value>Auto Logout</value>
+    <value>Autómatikus kiléptetés</value>
   </data>
   <data name="QuarterTil" xml:space="preserve">
-    <value>Quarti</value>
+    <value>Háromnegyedkor</value>
   </data>
   <data name="TransactionUnit" xml:space="preserve">
-    <value>Unità Operazione</value>
+    <value>Csomagolási egység</value>
   </data>
   <data name="MinTime" xml:space="preserve">
-    <value>Minimo Tempo</value>
+    <value>Min idő</value>
   </data>
   <data name="Task" xml:space="preserve">
-    <value>Task</value>
+    <value>Feladat</value>
   </data>
   <data name="CustomField" xml:space="preserve">
-    <value>Campo Personalizzato</value>
+    <value>Egyedi Mező</value>
   </data>
   <data name="FilterType" xml:space="preserve">
-    <value>Tipo Filtro</value>
+    <value>Szőrő típusa</value>
   </data>
   <data name="EveryOtherDay" xml:space="preserve">
-    <value>Ogni altro giorno</value>
+    <value>Minden második nap</value>
   </data>
   <data name="SortCategoryProducts" xml:space="preserve">
-    <value>Ordina Categoria Prodotti</value>
+    <value>Kategória termékeinek rendezése</value>
   </data>
   <data name="LinePriceTag" xml:space="preserve">
-    <value># Linea: Prezzo Tag</value>
+    <value># Sor: Ár címke</value>
   </data>
   <data name="MessageServerName" xml:space="preserve">
-    <value>Server Message Nome</value>
+    <value>Üzenet-szerver neve</value>
   </data>
   <data name="Active" xml:space="preserve">
-    <value>Attivo</value>
+    <value>Aktív</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Nome</value>
+    <value>Név</value>
   </data>
   <data name="CalculateCost" xml:space="preserve">
-    <value>Calcolare il Prezzo</value>
+    <value>Költség számítás</value>
   </data>
   <data name="Actions" xml:space="preserve">
-    <value>Azioni</value>
+    <value>Műveletek</value>
   </data>
   <data name="NewProperty" xml:space="preserve">
-    <value>Nuova proprietà</value>
+    <value>Új tulajdonság</value>
   </data>
   <data name="LineCharacterCount" xml:space="preserve">
-    <value>Linea Caratteri</value>
+    <value>Sor karakter számláló</value>
   </data>
   <data name="UpdateType" xml:space="preserve">
-    <value>Tipo di aggiornamento</value>
+    <value>Frissítés típusa</value>
   </data>
   <data name="AddTagPriceToOrderPrice" xml:space="preserve">
-    <value>Aggiungere al Prezzo Prodotto il Prezzo Tag</value>
+    <value>Címke árának hozzáadása a rendelés árához</value>
   </data>
   <data name="OnceAnHour" xml:space="preserve">
-    <value>Dopo un'ora</value>
+    <value>Óránként egyszer</value>
   </data>
   <data name="Common" xml:space="preserve">
-    <value>Comune</value>
+    <value>Közös</value>
   </data>
   <data name="InventoryItem" xml:space="preserve">
-    <value>Inventario Prodotto</value>
+    <value>Készletelem</value>
   </data>
   <data name="AccountsLiability" xml:space="preserve">
-    <value>Conti Responsabilità</value>
+    <value>Szállítók</value>
   </data>
   <data name="DisplayPopup" xml:space="preserve">
-    <value>Mostra Popup</value>
+    <value>Display Popup</value>
   </data>
   <data name="DocumentNo" xml:space="preserve">
-    <value>Documento N</value>
+    <value>Dokumentum száma</value>
   </data>
   <data name="State_f" xml:space="preserve">
-    <value>{0} Stato</value>
+    <value> {0} állapot</value>
   </data>
   <data name="Products" xml:space="preserve">
-    <value>Prodotti</value>
+    <value>Termékek</value>
   </data>
   <data name="Forty" xml:space="preserve">
-    <value>Quaranta</value>
+    <value>Negyven</value>
   </data>
   <data name="TicketNumerator" xml:space="preserve">
-    <value>Ticket Numeratore</value>
+    <value>Jegy számláló</value>
   </data>
   <data name="Eighteen" xml:space="preserve">
-    <value>Diciotto</value>
+    <value>Tizennyolc</value>
   </data>
   <data name="This_f" xml:space="preserve">
-    <value>Questo {0}</value>
+    <value>Ez a {0}</value>
   </data>
   <data name="OrderTagQuantity" xml:space="preserve">
-    <value>#OrderTag: Order Tag Quantità</value>
+    <value>Rendelési Címke mennyisége</value>
   </data>
   <data name="LastPaidOrders" xml:space="preserve">
-    <value>Ultimi Ordini Pagati</value>
+    <value>Utoljára kifizetett rendelések</value>
   </data>
   <data name="FindTicket" xml:space="preserve">
-    <value>Trova Ticket</value>
+    <value>Jegy keresése</value>
   </data>
   <data name="TicketTipTotalAmount" xml:space="preserve">
-    <value>Totale biglietti importo punta</value>
+    <value>Összes jegy borravaló összege</value>
   </data>
   <data name="Orders" xml:space="preserve">
-    <value>Ordini</value>
+    <value>Rendelések</value>
   </data>
   <data name="Unpaid" xml:space="preserve">
-    <value>Da Pagare</value>
+    <value>Kifizetetlen</value>
   </data>
   <data name="Market" xml:space="preserve">
-    <value>Market</value>
+    <value>Piac</value>
   </data>
   <data name="SubButtonHeight" xml:space="preserve">
-    <value>Altezza pulsante Sottomenu</value>
+    <value>Rész gomb magasság</value>
   </data>
   <data name="ThisMonth" xml:space="preserve">
-    <value>Questo Mese</value>
+    <value>Ebben a hónapban</value>
   </data>
   <data name="MultipleSelection" xml:space="preserve">
-    <value>Selezione Multipla</value>
+    <value>Többszörös választás</value>
   </data>
   <data name="UpdateTicketTag" xml:space="preserve">
-    <value>Aggiornamento Ticket Tag</value>
+    <value>Jegy címke frissítése</value>
   </data>
   <data name="DecreaseInventory" xml:space="preserve">
-    <value>Decrementa Inventario</value>
+    <value>Árukészlet csökkentése</value>
   </data>
   <data name="TuesAndThurs" xml:space="preserve">
-    <value>Martedì, giovedì</value>
+    <value>K, Cs.</value>
   </data>
   <data name="Twelve" xml:space="preserve">
-    <value>Dodici</value>
+    <value>Tizenkettő</value>
   </data>
   <data name="TicketTagGroup" xml:space="preserve">
-    <value>Tag Gruppi</value>
+    <value>Címke csoport</value>
   </data>
   <data name="All" xml:space="preserve">
-    <value>Tutto</value>
+    <value>Mind</value>
   </data>
   <data name="CanNavigateCash" xml:space="preserve">
-    <value>Può accedere alla schermata Contanti</value>
+    <value>Beléphet a készpénz képernyőre</value>
   </data>
   <data name="Menu" xml:space="preserve">
-    <value>Menu</value>
+    <value>Étlap</value>
   </data>
   <data name="PrintJobList" xml:space="preserve">
-    <value>Lista lavori di stampa</value>
+    <value>Nyomtatási munkalista</value>
   </data>
   <data name="FooterTemplate" xml:space="preserve">
-    <value>Sagoma piè di pagina</value>
+    <value>Lábléc sablon</value>
   </data>
   <data name="TagName" xml:space="preserve">
-    <value>Nome tag</value>
+    <value>Címke néve</value>
   </data>
   <data name="RuleAction" xml:space="preserve">
-    <value>Azione</value>
+    <value>Művelet</value>
   </data>
   <data name="Template" xml:space="preserve">
-    <value>Modello</value>
+    <value>Sablon</value>
   </data>
   <data name="TicketTotal" xml:space="preserve">
-    <value>Totale del Ticket</value>
+    <value>Jegy összesen</value>
   </data>
   <data name="QuarterPast" xml:space="preserve">
-    <value>Quarto</value>
+    <value>Negyedkor</value>
   </data>
   <data name="Manual" xml:space="preserve">
-    <value>Manuale</value>
+    <value>Manuális</value>
   </data>
   <data name="TicketTime" xml:space="preserve">
-    <value>Ora ticket</value>
+    <value>Jegy-idő</value>
   </data>
   <data name="MessageServerPort" xml:space="preserve">
-    <value>Server Message Porta</value>
+    <value>Üzenet-szerver port</value>
   </data>
   <data name="UpdateEntityState" xml:space="preserve">
-    <value>Aggiornamento Stato Entità</value>
+    <value>Egység állapotának frissítése</value>
   </data>
   <data name="UnhandledExceptionErrorMessage" xml:space="preserve">
-    <value>SambaPOS si è verificato un problema imprevisto. Informazioni dettagliate sui problemi registrati in file di trace.log</value>
+    <value>SambaPOS váraltan problémába ütközött. Részletek a trace.log fájlban.</value>
   </data>
   <data name="CantSave" xml:space="preserve">
-    <value>Impossibile Salvare</value>
+    <value>Nem lehet menteni</value>
   </data>
   <data name="Total" xml:space="preserve">
-    <value>Totale</value>
+    <value>Összesen</value>
   </data>
   <data name="SubMenuTags" xml:space="preserve">
-    <value>Sotto Menù Tags</value>
+    <value>AlMenü Címke</value>
   </data>
   <data name="CalculationMethod" xml:space="preserve">
-    <value>Metodo di calcolo</value>
+    <value>Számítási módszer</value>
   </data>
   <data name="PaymentProcessed" xml:space="preserve">
-    <value>Processo di Pagamento</value>
+    <value>Végrehajtott fizetések</value>
   </data>
   <data name="EntityScreens" xml:space="preserve">
-    <value>Schermi Entità</value>
+    <value>Egység képernyők</value>
   </data>
   <data name="Admin" xml:space="preserve">
     <value>Admin</value>
   </data>
   <data name="NoPurchaseTransactionInCurrentDateRange" xml:space="preserve">
-    <value>Non ci sono operazioni di acquisto in intervallo di date.</value>
+    <value>Nincsenek vásárlási tranzakciók dátumtartományban.</value>
   </data>
   <data name="OnlyOpenTickets" xml:space="preserve">
-    <value>Solo Ticket Aperti</value>
+    <value>Csak nyitott jegyek</value>
   </data>
   <data name="TicketPaidChangesNotSaved" xml:space="preserve">
-    <value>Ticket pagato. Le ultime modifiche non salvate.</value>
+    <value>Jegy fizetve. A legutóbbi módosítások mentése sikertelen.</value>
   </data>
   <data name="UserLogout" xml:space="preserve">
-    <value>Utente Logout</value>
+    <value>Felhasználó Kilépés</value>
   </data>
   <data name="CanDisplayReports" xml:space="preserve">
-    <value>È possibile visualizzare i report</value>
+    <value>Megjelenítheti a rendeléseket</value>
   </data>
   <data name="TicketRemainingAmount" xml:space="preserve">
-    <value>Ticket importo residuo</value>
+    <value>Fennmaradó Jegyek mennyisége</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
   </data>
   <data name="FileName" xml:space="preserve">
-    <value>Nome del file</value>
+    <value>File neve</value>
   </data>
   <data name="SaveErrorZeroOrNullInventoryLines" xml:space="preserve">
-    <value>Impossibile salvare perché ci sono linee con gli articoli di magazzino vuoti o quantità zero</value>
+    <value>Nem lehet menteni, mert vannak olyan sorok, melyek nem tartalmaznak készlet-tételt vagy nulla mennyiséget tartalmaznak.</value>
   </data>
   <data name="TicketPermissions" xml:space="preserve">
-    <value>Ticket Autorizzazioni</value>
+    <value>Jegy engedélyek</value>
   </data>
   <data name="MenuItemGroup" xml:space="preserve">
-    <value>Gruppo di prodotti</value>
+    <value>Termék csoport</value>
   </data>
   <data name="ChangeTotal" xml:space="preserve">
-    <value>Variazione Totale</value>
+    <value>Végösszeg módosítása</value>
   </data>
   <data name="StopTimer" xml:space="preserve">
-    <value>Stop Tempo</value>
+    <value>Időzítő megállítása</value>
   </data>
   <data name="Html" xml:space="preserve">
     <value>HTML</value>
   </data>
   <data name="NewOrders" xml:space="preserve">
-    <value>Nuovi Ordini</value>
+    <value>Új rendelések</value>
   </data>
   <data name="SalesByItemGroup" xml:space="preserve">
-    <value>Vendite per Gruppo</value>
+    <value>Forgalom elemcsoportonként</value>
   </data>
   <data name="Source_f" xml:space="preserve">
-    <value>Fonte: {0}</value>
+    <value>Forrás {0}</value>
   </data>
   <data name="Select_f" xml:space="preserve">
-    <value>Seleziona {0}</value>
+    <value>{0} kiválasztása</value>
   </data>
   <data name="PriceDurationType" xml:space="preserve">
-    <value>Tipo Durata Prezzo</value>
+    <value>Ár időtartamtípus</value>
   </data>
   <data name="Empty" xml:space="preserve">
-    <value>Vuoto</value>
+    <value>Üres</value>
   </data>
   <data name="OrderTagTemplate" xml:space="preserve">
-    <value>Ordine Tag Modello</value>
+    <value>Rendelés Címke Sablon</value>
   </data>
   <data name="ExpressionBuilder" xml:space="preserve">
-    <value>Generatore di espressioni</value>
+    <value>Kifejezésszerkesztő</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
-    <value>Colore di sfondo</value>
+    <value>Háttérszín</value>
   </data>
   <data name="Open" xml:space="preserve">
-    <value>Aperto</value>
+    <value>Nyitott</value>
   </data>
   <data name="NumeratorValue" xml:space="preserve">
-    <value>Numeratore Valore</value>
+    <value>Számláló érték</value>
   </data>
   <data name="Beginning" xml:space="preserve">
-    <value>Inizio</value>
+    <value>Kezdet</value>
   </data>
   <data name="AccountTransaction" xml:space="preserve">
-    <value>Operazione Account</value>
+    <value>Fiók tranzakció</value>
   </data>
   <data name="MonThruFri" xml:space="preserve">
-    <value>Lun, Mar, Ven</value>
+    <value>Hétfőtől péntekig</value>
   </data>
   <data name="LocalSettings" xml:space="preserve">
-    <value>Impostazioni locali</value>
+    <value>Helyi beállítások</value>
   </data>
   <data name="ReportDoesNotContainsCashState" xml:space="preserve">
-    <value>Rapporto non contiene quantità di avvio</value>
+    <value>Jelentés nem tartalmaz kezdő-összeget</value>
   </data>
   <data name="ChangeAmount_f" xml:space="preserve">
-    <value>Variazione: {0}</value>
+    <value>Visszajáró: {0}</value>
   </data>
   <data name="Color" xml:space="preserve">
-    <value>Colore</value>
+    <value>Szín</value>
   </data>
   <data name="NumeratorProperties" xml:space="preserve">
-    <value>Numeratore Proprietà</value>
+    <value>Számláló tulajdonságai</value>
   </data>
   <data name="Every15Minutes" xml:space="preserve">
-    <value>Ogni 15 minuti</value>
+    <value>15 percenként</value>
   </data>
   <data name="DisplayPaymentScreen" xml:space="preserve">
-    <value>Visualizza sullo Schermo Pagamento</value>
+    <value>Fizetési képernyő megjelenítése</value>
   </data>
   <data name="PluralCurrencySuffix" xml:space="preserve">
-    <value>e</value>
+    <value>s</value>
   </data>
   <data name="CommonSettings" xml:space="preserve">
-    <value>Impostazioni comuni</value>
+    <value>Általános beállítások</value>
   </data>
   <data name="TicketTotalChanged" xml:space="preserve">
-    <value>Totale del biglietto Cambiato</value>
+    <value>Jegy összesen megváltozott</value>
   </data>
   <data name="OnceAWeek" xml:space="preserve">
-    <value>Una volta alla settimana</value>
+    <value>Hetente egyszer</value>
   </data>
   <data name="Excluded" xml:space="preserve">
-    <value>Escluso</value>
+    <value>Kizárva</value>
   </data>
   <data name="Previous" xml:space="preserve">
-    <value>Precedente</value>
+    <value>Előző</value>
   </data>
   <data name="WeightBarcodePefix" xml:space="preserve">
-    <value>Peso Codici a Barre Prefisso</value>
+    <value>Súly-vonalkód előtag</value>
   </data>
   <data name="MessageReceived" xml:space="preserve">
-    <value>Messaggio ricevuto</value>
+    <value>Üzenet érkezett</value>
   </data>
   <data name="CloseTicket_r" xml:space="preserve">
-    <value>Chiudere
-Ticket</value>
+    <value>Jegy lezárása</value>
   </data>
   <data name="TicketTemplate" xml:space="preserve">
-    <value>Ticket Sagoma</value>
+    <value>Jegy sablon</value>
   </data>
   <data name="CreateAccount" xml:space="preserve">
-    <value>Creare Account</value>
+    <value>Fiók létrehozása</value>
   </data>
   <data name="OnceAYear" xml:space="preserve">
-    <value>Una volta all'anno</value>
+    <value>Egyszer egy évben</value>
   </data>
   <data name="BroadcastMessage" xml:space="preserve">
-    <value>Trasmetti Messaggio</value>
+    <value>Üzenet kiküldése</value>
   </data>
   <data name="AllCategories" xml:space="preserve">
-    <value>Tutte le categorie</value>
+    <value>Minden kategória</value>
   </data>
   <data name="General" xml:space="preserve">
-    <value>Generale</value>
+    <value>Általános</value>
   </data>
   <data name="InventoryTransactionType" xml:space="preserve">
-    <value>Tipo Transazione Inventario</value>
+    <value>Készlet tranzakció típusa</value>
   </data>
   <data name="SlipReportPrinter" xml:space="preserve">
-    <value>Infilare stampante Rapporto</value>
+    <value>Slip-Blokk-nyomtató</value>
   </data>
   <data name="TimeRounding" xml:space="preserve">
-    <value>Arrotondamento Tempo</value>
+    <value>Idő kerekítés</value>
   </data>
   <data name="Paid" xml:space="preserve">
-    <value>Pagato</value>
+    <value>Fizetett</value>
   </data>
   <data name="ChangeAmountUpdated" xml:space="preserve">
-    <value>Cambia importo aggiornato</value>
+    <value>Váltópénz összege frissítve</value>
   </data>
   <data name="TicketClosing" xml:space="preserve">
-    <value>Ticket Chiuso</value>
+    <value>Jegy zárás</value>
   </data>
   <data name="MappedAccounts" xml:space="preserve">
-    <value>Mappatura Account</value>
+    <value>Feltérképezett fiókok</value>
   </data>
   <data name="Cost" xml:space="preserve">
-    <value>Prezzo</value>
+    <value>Költség</value>
   </data>
   <data name="CategoryProducts" xml:space="preserve">
-    <value>Categoria Prodotti</value>
+    <value>Kategória termékei</value>
   </data>
   <data name="LinesGroupedByGroupCode" xml:space="preserve">
-    <value>Linee raggruppati in base al codice Gruppo</value>
+    <value>Sorok csoportosítása a Csoport-kód alapján</value>
   </data>
   <data name="PriceDefinition" xml:space="preserve">
-    <value>Definizione Prezzo</value>
+    <value>Ár meghatározás</value>
   </data>
   <data name="ShowMessage" xml:space="preserve">
-    <value>Mostra messaggio</value>
+    <value>Üzenet megjelenítése</value>
   </data>
   <data name="UserRoleName" xml:space="preserve">
-    <value>Nome Ruolo</value>
+    <value>Szerep neve</value>
   </data>
   <data name="Line" xml:space="preserve">
-    <value>Linea</value>
+    <value>Sor</value>
   </data>
   <data name="ClientServerConnectionHelpUrlString" xml:space="preserve">
     <value>http://www.sambapos.com/en/content/client-server-baglantisi-nasil-yapilir</value>
   </data>
   <data name="Nine" xml:space="preserve">
-    <value>Nove</value>
+    <value>Kilenc</value>
   </data>
   <data name="Number" xml:space="preserve">
-    <value>Numero</value>
+    <value>Szám</value>
   </data>
   <data name="CanExecute" xml:space="preserve">
-    <value>Può Eseguire</value>
+    <value>Futtathat</value>
   </data>
   <data name="CustomCommand" xml:space="preserve">
-    <value>Comando Personalizzato</value>
+    <value>Egyedi Művelet</value>
   </data>
   <data name="Automation" xml:space="preserve">
-    <value>Automazione</value>
+    <value>Automatizálás</value>
   </data>
   <data name="Trigger" xml:space="preserve">
-    <value>Attivo</value>
+    <value>Trigger</value>
   </data>
   <data name="AutoRounding" xml:space="preserve">
-    <value>Auto Arrotondamento</value>
+    <value>Autómatikus kerekítés</value>
   </data>
   <data name="TotalWorkTimeHours_f" xml:space="preserve">
-    <value>Tempo totale di : {0:0} ore {1:0} minuti</value>
+    <value>Teljes munkaidő: {0:0} óra {1:0} perc</value>
   </data>
   <data name="TaggingType" xml:space="preserve">
-    <value>Tipo Tagging</value>
+    <value>Címkézés típusa</value>
   </data>
   <data name="EventName" xml:space="preserve">
-    <value>Nome evento</value>
+    <value>Esemény neve</value>
   </data>
   <data name="CharacterSet" xml:space="preserve">
-    <value>Set di caratteri</value>
+    <value>Karakter beállítás</value>
   </data>
   <data name="Recipes" xml:space="preserve">
-    <value>Ricette</value>
+    <value>Receptek</value>
   </data>
   <data name="PrintBill" xml:space="preserve">
-    <value>Stampa Conto</value>
+    <value>Blokk nyomtatása</value>
   </data>
   <data name="Portion" xml:space="preserve">
-    <value>Porzione </value>
+    <value>Adag</value>
   </data>
   <data name="ProgramSettings" xml:space="preserve">
-    <value>Impostazioni del programma</value>
+    <value>Program beállítások</value>
   </data>
   <data name="InStock" xml:space="preserve">
-    <value>In Magazzino</value>
+    <value>Készleten</value>
   </data>
   <data name="MenuItemName" xml:space="preserve">
-    <value>Voce di Menu Nome</value>
+    <value>Étlap elem neve</value>
   </data>
   <data name="SearchString" xml:space="preserve">
-    <value>Cerca Stringa</value>
+    <value>Szöveg keresése</value>
   </data>
   <data name="DisplayAllValues" xml:space="preserve">
-    <value>Visualizzare tutti i valori</value>
+    <value>Minden érték megjelenítése</value>
   </data>
   <data name="CashPayment" xml:space="preserve">
-    <value>Pagamento in Contanti</value>
+    <value>Készpénzfizetés</value>
   </data>
   <data name="OrderStateGroup" xml:space="preserve">
-    <value>Stato Ordine Gruppo</value>
+    <value>Rendelés állapotcsoport</value>
   </data>
   <data name="Negative" xml:space="preserve">
-    <value>Negativo</value>
+    <value>Negatív</value>
   </data>
   <data name="TicketTipTotal" xml:space="preserve">
-    <value>Suggerimento totale</value>
+    <value>Összes borravaló</value>
   </data>
   <data name="ActionName" xml:space="preserve">
-    <value>Nome azione</value>
+    <value>Művelet neve</value>
   </data>
   <data name="WindowsPrinter" xml:space="preserve">
-    <value>Stampante Windows</value>
+    <value>A Windows-nyomtató</value>
   </data>
   <data name="TicketNote" xml:space="preserve">
-    <value>Ticket Note</value>
+    <value>Jegy megjegyzés</value>
   </data>
   <data name="Week" xml:space="preserve">
-    <value>Settimana</value>
+    <value>Hét</value>
   </data>
   <data name="CheckDBVersion" xml:space="preserve">
-    <value>Controllare la versione del database</value>
+    <value>Adatbázis-verzió ellenőrzése</value>
   </data>
   <data name="InventoryItemName" xml:space="preserve">
-    <value>Inventario Nome articolo</value>
+    <value>Készlet-elem neve</value>
   </data>
   <data name="CashPermissions" xml:space="preserve">
-    <value>Autorizzazioni di cassa</value>
+    <value>Készpénz jogosultságok</value>
   </data>
   <data name="AlphanumericButtons" xml:space="preserve">
-    <value>Tasti alfanumerici</value>
+    <value>Alfanumerikus gombok</value>
   </data>
   <data name="CreditCardPayment" xml:space="preserve">
-    <value>Pagamento con Carta di Credito</value>
+    <value>Bankkártyás fizetés</value>
   </data>
   <data name="KitchenOrderTemplate" xml:space="preserve">
-    <value>Modello Ordini Cucina</value>
+    <value>Konyhai rendelés sablon</value>
   </data>
   <data name="Command" xml:space="preserve">
-    <value>Comando</value>
+    <value>Parancs</value>
   </data>
   <data name="Seventy" xml:space="preserve">
-    <value>Settanta</value>
+    <value>Hetven</value>
   </data>
   <data name="Default" xml:space="preserve">
-    <value>Predefinito</value>
+    <value>Alapérttelmezett</value>
   </data>
   <data name="TaskType" xml:space="preserve">
-    <value>Tipo di Task</value>
+    <value>Tevékenység típusa</value>
   </data>
   <data name="Calling" xml:space="preserve">
-    <value>Chiamata</value>
+    <value>Hívás</value>
   </data>
   <data name="PriceTag" xml:space="preserve">
-    <value>Cartellino del prezzo</value>
+    <value>Ár címke</value>
   </data>
   <data name="EntityName" xml:space="preserve">
-    <value>Nome Entità</value>
+    <value>Egység Neve</value>
   </data>
   <data name="Included" xml:space="preserve">
-    <value>Incluso</value>
+    <value>Beleértve</value>
   </data>
   <data name="PhoneNumber" xml:space="preserve">
-    <value>Telefono</value>
+    <value>Telefon</value>
   </data>
   <data name="Customer" xml:space="preserve">
-    <value>Cliente</value>
+    <value>Vásárló</value>
   </data>
   <data name="ToggleValues" xml:space="preserve">
-    <value>Valori di Commutazione</value>
+    <value>Érték rögzítése</value>
   </data>
   <data name="DisplayState" xml:space="preserve">
-    <value>Stato Visualizzazione</value>
+    <value>Állapot megjelenítése</value>
   </data>
   <data name="Automatic" xml:space="preserve">
-    <value>Automatico</value>
+    <value>Automatikus</value>
   </data>
   <data name="Transaction_f" xml:space="preserve">
-    <value>{0} Transazione</value>
+    <value>{0} Tranzakció</value>
   </data>
   <data name="SalesDivTicket" xml:space="preserve">
-    <value>Vendite Total / Ticket</value>
+    <value>Összes eladás/Jegy</value>
   </data>
   <data name="ProgramLanguage" xml:space="preserve">
-    <value>Lingua Programma</value>
+    <value>Program nyelv</value>
   </data>
   <data name="TicketsMerged" xml:space="preserve">
-    <value>Ticket Unito</value>
+    <value>Egyesített jegyek</value>
   </data>
   <data name="SortType" xml:space="preserve">
-    <value>Ordina Tipo</value>
+    <value>Rendezés típusa</value>
   </data>
   <data name="TransactionUnitError" xml:space="preserve">
-    <value>Operazioni contiene zero elementi quantità</value>
+    <value>A Tranzakció mértékegysége nem lehet 0</value>
   </data>
   <data name="PortionName" xml:space="preserve">
-    <value>Parte del nome</value>
+    <value>Adag neve</value>
   </data>
   <data name="RateFromTaxIncludedTicketAmount" xml:space="preserve">
-    <value>Tariffa a partire da Tasse incluse valore del Ticket</value>
+    <value>A Jegy bruttó összegének arányában</value>
   </data>
   <data name="ExecutePrintJob" xml:space="preserve">
-    <value>Esegui lavoro di stampa</value>
+    <value>Nyomtatási feladat végrehajtása</value>
   </data>
   <data name="CalculationType" xml:space="preserve">
-    <value>Tipo Calcolo</value>
+    <value>Számítás módja</value>
   </data>
   <data name="Customers" xml:space="preserve">
-    <value>Clienti</value>
+    <value>Vásárlók</value>
   </data>
   <data name="TicketTotal_f" xml:space="preserve">
-    <value>Totale {0}:</value>
+    <value>Összesen {0}:</value>
   </data>
   <data name="CanReleaseTicketLock" xml:space="preserve">
-    <value>Può Rimuovere blocco Ticket</value>
+    <value>Jegy-zárást feloldhat</value>
   </data>
   <data name="Expression" xml:space="preserve">
-    <value>Espressione</value>
+    <value>Kifejezés</value>
   </data>
   <data name="Month" xml:space="preserve">
-    <value>Mese</value>
+    <value>Hónap</value>
   </data>
   <data name="TicketEntityChanged" xml:space="preserve">
-    <value>Entità Ticket Cambiato</value>
+    <value>Jegy Egység megváltozott</value>
   </data>
   <data name="InventoryPurchaseReport" xml:space="preserve">
-    <value>Rapporto Aquisti</value>
+    <value>Készlet vásárlási jelentés</value>
   </data>
   <data name="TerminalView" xml:space="preserve">
-    <value>Terminal Vista</value>
+    <value>Terminal nézet</value>
   </data>
   <data name="Consumption" xml:space="preserve">
-    <value>Consumo</value>
+    <value>Fogyasztás</value>
   </data>
   <data name="EveryOtherMonth" xml:space="preserve">
-    <value>Ogni due mesi</value>
+    <value>Minden második hónapban</value>
   </data>
   <data name="StateController" xml:space="preserve">
-    <value>Controllo di Stato</value>
+    <value>Állapot vezérlő</value>
   </data>
   <data name="TagsShouldBeUniqueErrorMessage" xml:space="preserve">
-    <value>I Nomi dei Tag biglietti Devono essere Univoci</value>
+    <value>Jegy címkék nevének egyedinek kell lennie</value>
   </data>
   <data name="AutoRefresh" xml:space="preserve">
-    <value>Auto Aggiornamento</value>
+    <value>Automatikus frissítés</value>
   </data>
   <data name="DayDate" xml:space="preserve">
-    <value>Data del giorno</value>
+    <value>Nap dátuma</value>
   </data>
   <data name="AccountPermissions" xml:space="preserve">
-    <value>Permessi Account</value>
+    <value>Fiók jogosultságok</value>
   </data>
   <data name="TotalWorkTimeMinutes_f" xml:space="preserve">
-    <value>Lavoro Tempo totale: {0:0} minuti</value>
+    <value>Teljes Munkaidő: {0:0} perc</value>
   </data>
   <data name="DisplaySettings" xml:space="preserve">
-    <value>Impostazione Visualizzazione</value>
+    <value>Beállítások megjelenítése</value>
   </data>
   <data name="FieldType" xml:space="preserve">
-    <value>Tipo di Campo</value>
+    <value>Mező Típusa</value>
   </data>
   <data name="OrderUntagged" xml:space="preserve">
-    <value>Ordine non Taggato</value>
+    <value>Rendelés Cimkétlenítve</value>
   </data>
   <data name="Message" xml:space="preserve">
-    <value>Messaggio</value>
+    <value>Üzenet</value>
   </data>
   <data name="ChargedAmount" xml:space="preserve">
-    <value>Carico</value>
+    <value>Felszámított</value>
   </data>
   <data name="PrinterType" xml:space="preserve">
-    <value>Tipo di Stampante</value>
+    <value>Nyomtató típusa</value>
   </data>
   <data name="PastTransactions" xml:space="preserve">
-    <value>Operazioni Precedenti</value>
+    <value>Korábbi tranzakciók</value>
   </data>
   <data name="MaxSelectedItems" xml:space="preserve">
-    <value>Massimo articoli Selezionati</value>
+    <value>Maximum kiválasztott elemek</value>
   </data>
   <data name="MergeLines" xml:space="preserve">
-    <value>Unisci Linee</value>
+    <value>Sorok egyesítés</value>
   </data>
   <data name="PaymentTotal" xml:space="preserve">
-    <value>Il pagamento Totale</value>
+    <value>Fizetési összesen</value>
   </data>
   <data name="Delete_f" xml:space="preserve">
-    <value>Elimina {0}</value>
+    <value>Törlés {0}</value>
   </data>
   <data name="IncludeTax" xml:space="preserve">
-    <value>Tassa Inclusa</value>
+    <value>Adóval</value>
   </data>
   <data name="OpenClose_ab" xml:space="preserve">
-    <value>Apertura-Chiusura</value>
+    <value>Op-Cls</value>
   </data>
   <data name="Every6Months" xml:space="preserve">
-    <value>Ogni 6 mesi</value>
+    <value>6 havonta</value>
   </data>
   <data name="Seven" xml:space="preserve">
-    <value>Sette</value>
+    <value>Hét</value>
   </data>
   <data name="TicketSubTotal" xml:space="preserve">
-    <value>Totale del biglietto Sub</value>
+    <value>Jegy részösszeg</value>
   </data>
   <data name="UnlockTicket" xml:space="preserve">
-    <value>Sblocca Ticket</value>
+    <value>Jegy feloldása</value>
   </data>
   <data name="SellerWarehouse" xml:space="preserve">
-    <value>Magazzino delle Vendite</value>
+    <value>Eladói raktár</value>
   </data>
   <data name="GiftTotal" xml:space="preserve">
-    <value>Offerto totale</value>
+    <value>Ajándék összesen</value>
   </data>
   <data name="EmptyNameError" xml:space="preserve">
-    <value>Non lasciare {0} nome vuoto.</value>
+    <value>A {0} névet ne hagyja üressen.</value>
   </data>
   <data name="ThereAreOpenTicketsWarning_f" xml:space="preserve">
-    <value>Ci sono {0} Ticket Aperti.
-Non può finire il periodo di lavoro mentre ci sono Ticket aperti.</value>
+    <value>Jelenleg van {0} nyitott jegy.
+Amíg nyitott jegy van, a műszak nem lehet műszakot zárni!</value>
   </data>
   <data name="HalfPast" xml:space="preserve">
-    <value>E mezza</value>
+    <value>Félkor</value>
   </data>
   <data name="SingleSelection" xml:space="preserve">
-    <value>Singola Selezione</value>
+    <value>Egyszeres választás</value>
   </data>
   <data name="DecreaseAmount" xml:space="preserve">
-    <value>Decrementa Importo</value>
+    <value>Mennyiség csökkentése</value>
   </data>
   <data name="PinCode" xml:space="preserve">
-    <value>Codice Pin</value>
+    <value>Pin kód</value>
   </data>
   <data name="DiscountPercentSign" xml:space="preserve">
-    <value>Sconto%</value>
+    <value>Kedvezmény%</value>
   </data>
   <data name="WorkPeriodStarted" xml:space="preserve">
-    <value>Periodo inizio Lavoro</value>
+    <value>Műszak elkezdődött</value>
   </data>
   <data name="SelectPrintJobsForTerminalHint_f" xml:space="preserve">
-    <value>Selezionare i lavori di stampa che si desidera aggiungere {0} terminale</value>
+    <value>Válassza ki azokat a nyomtatási feladatokat, melyeket a(z) {0} terminálhoz hozzá kíván adni.</value>
   </data>
   <data name="RoundingTotal" xml:space="preserve">
-    <value>Arrotondare Totale</value>
+    <value>Végösszeg kerekítése</value>
   </data>
   <data name="Quantity" xml:space="preserve">
-    <value>Quantità</value>
+    <value>Mennyiség</value>
   </data>
   <data name="FixedAmountFromTicketTotal" xml:space="preserve">
-    <value>Importo fisso dal totale Ticket</value>
+    <value>Fix összeg a Jegy végösszegből</value>
   </data>
   <data name="PortPrinter" xml:space="preserve">
-    <value>Porta stampante</value>
+    <value>Port Nyomtató</value>
   </data>
   <data name="ReportPrinter" xml:space="preserve">
-    <value>Report Printer</value>
+    <value>Jelentés nyomtató</value>
   </data>
   <data name="PriceDefinitions" xml:space="preserve">
-    <value>Definizioni Prezzo</value>
+    <value>Ár meghatározások</value>
   </data>
   <data name="SortCategoryProductsDialogHint_f" xml:space="preserve">
-    <value>Trascinare {0} categoria Prodotti per cambiare l'ordine.</value>
+    <value>Rendezéshez a(z) {0} kategória termékeit húzd a megfelelő helyre.</value>
   </data>
   <data name="Void" xml:space="preserve">
-    <value>Annullare</value>
+    <value>Sztornó</value>
   </data>
   <data name="Portions" xml:space="preserve">
-    <value>Porzioni</value>
+    <value>Adagok</value>
   </data>
   <data name="SortOrder" xml:space="preserve">
-    <value>Ordine</value>
+    <value>Sort Order</value>
   </data>
   <data name="CantDeletePastEndOfDayRecords" xml:space="preserve">
-    <value>Impossibile eliminare oltre la fine delle registrazioni al giorno</value>
+    <value>A múltbéli zárás adatok nem törölhetőek</value>
   </data>
   <data name="LastLinesByPrinterLineCount" xml:space="preserve">
-    <value>Nuove linee di Conto Stampante</value>
+    <value>Új sorok a Nyomtatandó sorok száma alapján</value>
   </data>
   <data name="CanDisplayOldTickets" xml:space="preserve">
-    <value>In grado di visualizzare biglietti Vecchio</value>
+    <value>Régi jegyeket megjeleníthet</value>
   </data>
   <data name="Twenty" xml:space="preserve">
-    <value>Venti</value>
+    <value>Húsz(on)</value>
   </data>
   <data name="MoveTicketLine" xml:space="preserve">
-    <value>Spostare</value>
+    <value>Áthelyezés</value>
   </data>
   <data name="Ninety" xml:space="preserve">
-    <value>Novanta</value>
+    <value>Kilencven</value>
   </data>
   <data name="PrinterName" xml:space="preserve">
-    <value>Nome Stampante</value>
+    <value>Nyomtató neve</value>
   </data>
   <data name="List" xml:space="preserve">
     <value>Lista</value>
   </data>
   <data name="DeleteItemConfirmation_f" xml:space="preserve">
-    <value>Elimina {0} [{1}]?</value>
+    <value>Törlés {0} [{1}]?</value>
   </data>
   <data name="CornerRadius" xml:space="preserve">
-    <value>Raggio Angolo</value>
+    <value>Corner Radius</value>
   </data>
   <data name="TwiceAnHour" xml:space="preserve">
-    <value>Ogni mezzora</value>
+    <value>Kétszer egy órában</value>
   </data>
   <data name="EveryHour" xml:space="preserve">
-    <value>Ogni ora</value>
+    <value>Minden órában</value>
   </data>
   <data name="Ticket" xml:space="preserve">
-    <value>Conto</value>
+    <value>Jegy</value>
   </data>
   <data name="EveryDay" xml:space="preserve">
-    <value>Ogni giorno</value>
+    <value>Minden nap</value>
   </data>
   <data name="DisplayUnderTicket" xml:space="preserve">
-    <value>Visualizza sotto Ticket</value>
+    <value>Megjelenítés a jegy alatt</value>
   </data>
   <data name="ChangePaymentType" xml:space="preserve">
-    <value>Cambia tipo di Pagamento</value>
+    <value>Kifizetés típusának módosítása</value>
   </data>
   <data name="DepartmentName" xml:space="preserve">
-    <value>Nome del reparto</value>
+    <value>Részleg neve</value>
   </data>
   <data name="ForeignCurrency" xml:space="preserve">
-    <value>Valuta Estera</value>
+    <value>Külföldi pénznem</value>
   </data>
   <data name="RuleActions" xml:space="preserve">
-    <value>Azioni</value>
+    <value>Műveletek</value>
   </data>
   <data name="Close" xml:space="preserve">
-    <value>Chiudi</value>
+    <value>Bezár</value>
   </data>
   <data name="Four" xml:space="preserve">
-    <value>Quattro</value>
+    <value>Négy</value>
   </data>
   <data name="OrderNumber_f" xml:space="preserve">
-    <value>Ord.No: {0:0} - {1}</value>
+    <value>Rend.Sz.: {00:00} - {1}</value>
   </data>
   <data name="Every4Hours" xml:space="preserve">
-    <value>Ogni 4 ore</value>
+    <value>4 óránként</value>
   </data>
   <data name="Target" xml:space="preserve">
-    <value>Destinazione</value>
+    <value>Cél</value>
   </data>
   <data name="ColumnCount" xml:space="preserve">
-    <value>Numero Colonne</value>
+    <value>Oszlop szám</value>
   </data>
   <data name="DisplayFormat" xml:space="preserve">
-    <value>Formato di Visualizzazione</value>
+    <value>Megjelenítési Formátum</value>
   </data>
   <data name="CreditLimit" xml:space="preserve">
-    <value>Limite di Credito</value>
+    <value>Hitelkeret</value>
   </data>
   <data name="StateDefinition" xml:space="preserve">
-    <value>Definizione di Stato</value>
+    <value>Állapot meghatározása</value>
   </data>
   <data name="DisplayUserPath" xml:space="preserve">
-    <value>Visualizza percorso dell'utente</value>
+    <value>Felhasználó elérési út megjelenítése</value>
   </data>
   <data name="Seventeen" xml:space="preserve">
-    <value>Diciassette</value>
+    <value>Tizenhét</value>
   </data>
   <data name="AdminRole" xml:space="preserve">
-    <value>Ruolo Amministratore</value>
+    <value>Admin szerep</value>
   </data>
   <data name="Three" xml:space="preserve">
-    <value>Tre</value>
+    <value>Három</value>
   </data>
   <data name="SaveErrorThisPinCodeInUse" xml:space="preserve">
-    <value>Il presente Codice Pin è utilizzato da un altro account utente.</value>
+    <value>Ez a PIN-kód már egy másik Felhasználói Fiókban használatban van</value>
   </data>
   <data name="CreditCard" xml:space="preserve">
-    <value>Carta</value>
+    <value>Hitelkártya</value>
   </data>
   <data name="CashReport" xml:space="preserve">
-    <value>Transazioni in contanti Segnalata</value>
+    <value>Készpénzes tranzakció-jelentés</value>
   </data>
   <data name="ForChangingPriceTypeAPrice" xml:space="preserve">
-    <value>Per cambiare primo prezzo digitare un prezzo da numeratore</value>
+    <value>Az ár megváltoztatásához előbb írjon be árat!</value>
   </data>
   <data name="PrintMapping" xml:space="preserve">
-    <value>Stampa Mapping</value>
+    <value>Mapping nyomtatása</value>
   </data>
   <data name="Mapping_f" xml:space="preserve">
-    <value>{0} Mappatura</value>
+    <value>{0} Feltérképezése</value>
   </data>
   <data name="Values" xml:space="preserve">
-    <value>Valori</value>
+    <value>Értékek</value>
   </data>
   <data name="Thousand" xml:space="preserve">
-    <value>Bilione</value>
+    <value>Ezer</value>
   </data>
   <data name="MainMenu" xml:space="preserve">
-    <value>Menu</value>
+    <value>Főmenü</value>
   </data>
   <data name="StateType" xml:space="preserve">
-    <value>Tipo Stato</value>
+    <value>Állapot típus</value>
   </data>
   <data name="Tags" xml:space="preserve">
-    <value>Tags</value>
+    <value>Címkék</value>
   </data>
   <data name="SelectionRequired" xml:space="preserve">
-    <value>Selezione richiesta</value>
+    <value>Kötelező kiválasztani valamit</value>
   </data>
   <data name="Cent" xml:space="preserve">
-    <value>Centesimi</value>
+    <value>Cent</value>
   </data>
   <data name="SambaNetwork" xml:space="preserve">
-    <value>Samba Rete</value>
+    <value>Samba hálózat</value>
   </data>
   <data name="NumeratorType" xml:space="preserve">
-    <value>Tipo Numeratore</value>
+    <value>Számláló típus</value>
   </data>
   <data name="OverrideWindowsRegionalSettings" xml:space="preserve">
-    <value>Ignora impostazioni internazionali di Windows</value>
+    <value>A Windows területei beállításainek figyelmen kívül hagyása</value>
   </data>
   <data name="AddTag" xml:space="preserve">
-    <value>Aggiungi Tag</value>
+    <value>Címke hozzáadása</value>
   </data>
   <data name="Eight" xml:space="preserve">
-    <value>Otto</value>
+    <value>Nyolc</value>
   </data>
   <data name="Gift" xml:space="preserve">
-    <value>Offerto</value>
+    <value>Ajándék</value>
   </data>
   <data name="Voucher" xml:space="preserve">
-    <value>Assegno</value>
+    <value>Utalvány</value>
   </data>
   <data name="CurrentInventory" xml:space="preserve">
-    <value>Inventario Corrente</value>
+    <value>Jelenlegi készlet</value>
   </data>
   <data name="Exit" xml:space="preserve">
-    <value>Esci</value>
+    <value>Kilépés</value>
   </data>
   <data name="TextWrittenTotalValue" xml:space="preserve">
-    <value>Testo scritto valore totale</value>
+    <value>Végösszeg betűvel</value>
   </data>
   <data name="TicketNumber" xml:space="preserve">
-    <value>TicketNumber</value>
+    <value>JegySzám</value>
   </data>
   <data name="EveryMinute" xml:space="preserve">
-    <value>Ogni minuto</value>
+    <value>Minden perc</value>
   </data>
   <data name="Every10Minutes" xml:space="preserve">
-    <value>Ogni 10 minuti</value>
+    <value>10 percenként</value>
   </data>
   <data name="MenuCategories" xml:space="preserve">
-    <value>Menu Categorie</value>
+    <value>Étlap kategóriák</value>
   </data>
   <data name="TicketType" xml:space="preserve">
-    <value>Tipo Ticket</value>
+    <value>Jegy fajta</value>
   </data>
   <data name="SelectActions" xml:space="preserve">
-    <value>Selezionare Azioni</value>
+    <value>Válasszon műveleteket</value>
   </data>
   <data name="DiscountPercentage" xml:space="preserve">
-    <value>Percentuale di sconto</value>
+    <value>Kedvezmény mértéke (%)</value>
   </data>
   <data name="Header" xml:space="preserve">
-    <value>Intestazione</value>
+    <value>Fejléc</value>
   </data>
   <data name="Mappings" xml:space="preserve">
-    <value>Mappatura</value>
+    <value>Hozzárendelések</value>
   </data>
   <data name="ExecuteScript" xml:space="preserve">
-    <value>Eseguire Script</value>
+    <value>Script futtatása</value>
   </data>
   <data name="TaxTotal" xml:space="preserve">
-    <value>Totale IVA</value>
+    <value>Adó összesen</value>
   </data>
   <data name="DepartmentPermissions" xml:space="preserve">
-    <value>Autorizzazioni Dipartimento</value>
+    <value>Részleg engedélyek</value>
   </data>
   <data name="EditingFormat" xml:space="preserve">
-    <value>Modifica Formato</value>
+    <value>Szerkesztési Formátum</value>
   </data>
 </root>

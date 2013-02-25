@@ -152,7 +152,9 @@ html
         public static int DbVersion { get { return 1; } }
         public static string AppVersion { get { return "3.01 BETA"; } }
         public static string AppName { get { return "SambaPOS3"; } }
-        public static IList<string> SupportedLanguages { get { return new[] { "en", "tr", "it", "pt-BR", "hr", "ar" }; } }
+
+        private static IList<string> _supportedLanguages;
+        public static IList<string> SupportedLanguages { get { return _supportedLanguages ?? (_supportedLanguages = new[] { "en", "tr", "it", "pt-BR", "hr", "ar", "hu", "es", "id" }); } }
 
         public static long CurrentDbVersion { get; set; }
 

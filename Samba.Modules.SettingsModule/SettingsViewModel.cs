@@ -12,7 +12,7 @@ using Samba.Services;
 
 namespace Samba.Modules.SettingsModule
 {
-    [Export,PartCreationPolicy(CreationPolicy.NonShared)]
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class SettingsViewModel : VisibleViewModelBase
     {
         private readonly ISettingService _settingService;
@@ -120,7 +120,7 @@ namespace Samba.Modules.SettingsModule
             set
             {
                 LocalSettings.OverrideWindowsRegionalSettings = value;
-                RaisePropertyChanged(()=>OverrideWindowsRegionalSettings);
+                RaisePropertyChanged(() => OverrideWindowsRegionalSettings);
             }
         }
 
@@ -136,7 +136,7 @@ namespace Samba.Modules.SettingsModule
             get
             {
                 return _supportedLanguages ?? (_supportedLanguages =
-                    LocalSettings.SupportedLanguages.Select(CultureInfo.GetCultureInfo).ToList());
+                    LocalSettings.SupportedLanguages.Select(CultureInfo.GetCultureInfo).ToList().OrderBy(x => x.NativeName));
             }
         }
 
