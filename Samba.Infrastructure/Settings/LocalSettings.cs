@@ -149,8 +149,8 @@ html
         public static string DefaultQuantityFormat { get; set; }
         public static string CurrencySymbol { get { return CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol; } }
 
-        public static int DbVersion { get { return 1; } }
-        public static string AppVersion { get { return "3.01 BETA"; } }
+        public static int DbVersion { get { return 2; } }
+        public static string AppVersion { get { return "3.02 BETA"; } }
         public static string AppName { get { return "SambaPOS3"; } }
 
         private static IList<string> _supportedLanguages;

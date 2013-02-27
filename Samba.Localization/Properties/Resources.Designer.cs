@@ -6928,6 +6928,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ticket Moved Rule.
+        /// </summary>
+        public static string TicketMovedRule {
+            get {
+                return ResourceManager.GetString("TicketMovedRule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ticket Note.
         /// </summary>
         public static string TicketNote {
@@ -7725,6 +7734,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Update Merged Tickets State.
+        /// </summary>
+        public static string UpdateMergedTicketsState {
+            get {
+                return ResourceManager.GetString("UpdateMergedTicketsState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Update Order.
         /// </summary>
         public static string UpdateOrder {
@@ -7775,6 +7793,15 @@ namespace Samba.Localization.Properties {
         public static string UpdateTicketState {
             get {
                 return ResourceManager.GetString("UpdateTicketState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update Ticket Status.
+        /// </summary>
+        public static string UpdateTicketStatus {
+            get {
+                return ResourceManager.GetString("UpdateTicketStatus", resourceCulture);
             }
         }
         

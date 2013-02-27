@@ -410,7 +410,7 @@ namespace Samba.Presentation.Services.Common
                                                 ToString()
                                         };
             _workspace.Add(updateOrderAction);
-            var updateTicketStatusAction = new AppAction { ActionType = ActionNames.UpdateTicketState, Name = "Update Ticket Status", Parameter = Params().Add("StateName", Resources.Status).Add("State", "[:Status]").Add("CurrentState", "[:Current Status]").ToString() };
+            var updateTicketStatusAction = new AppAction { ActionType = ActionNames.UpdateTicketState, Name = Resources.UpdateTicketStatus, Parameter = Params().Add("StateName", Resources.Status).Add("State", "[:Status]").Add("CurrentState", "[:Current Status]").ToString() };
             _workspace.Add(updateTicketStatusAction);
             var updateOrderStatusAction = new AppAction { ActionType = ActionNames.UpdateOrderState, Name = "Update Order Status", Parameter = Params().Add("StateName", Resources.Status).Add("State", "[:Status]").Add("CurrentState", "[:Current Status]").ToString() };
             _workspace.Add(updateOrderStatusAction);
@@ -454,7 +454,7 @@ namespace Samba.Presentation.Services.Common
             newOrderAddingRule.AddRuleMap();
             _workspace.Add(newOrderAddingRule);
 
-            var ticketMovedRule = new AppRule { Name = "Ticket Moved Rule", EventName = RuleEventNames.TicketMoved };
+            var ticketMovedRule = new AppRule { Name = Resources.TicketMovedRule, EventName = RuleEventNames.TicketMoved };
             ticketMovedRule.Actions.Add(new ActionContainer(updateTicketStatusAction) { ParameterValues = string.Format("Status={0}", Resources.NewOrders) });
             ticketMovedRule.AddRuleMap();
             _workspace.Add(ticketMovedRule);
@@ -534,7 +534,7 @@ namespace Samba.Presentation.Services.Common
             createTicketRule.AddRuleMap();
             _workspace.Add(createTicketRule);
 
-            var updateMergedTicket = new AppRule { Name = "Update Merged Tickets State", EventName = RuleEventNames.TicketsMerged };
+            var updateMergedTicket = new AppRule { Name = Resources.UpdateMergedTicketsState, EventName = RuleEventNames.TicketsMerged };
             updateMergedTicket.Actions.Add(new ActionContainer(updateEntityStateAction) { ParameterValues = string.Format("Status={0}", Resources.NewOrders) });
             updateMergedTicket.Actions.Add(new ActionContainer(updateTicketStatusAction) { ParameterValues = string.Format("Status={0}", Resources.NewOrders) });
             updateMergedTicket.AddRuleMap();
@@ -632,14 +632,14 @@ namespace Samba.Presentation.Services.Common
             if (values.Length > 0)
             {
                 foreach (var entity in from value in values
-                                         where !value.StartsWith("#")
-                                         let entityName = value
-                                         let count = Dao.Count<Entity>(y => y.Name == entityName.Trim())
-                                         where count == 0
-                                         select new Entity { Name = value.Trim(), EntityTypeId = template.Id }
-                                             into resource
-                                             where result.Count(x => x.Name.ToLower() == resource.Name.ToLower()) == 0
-                                             select resource)
+                                       where !value.StartsWith("#")
+                                       let entityName = value
+                                       let count = Dao.Count<Entity>(y => y.Name == entityName.Trim())
+                                       where count == 0
+                                       select new Entity { Name = value.Trim(), EntityTypeId = template.Id }
+                                           into resource
+                                           where result.Count(x => x.Name.ToLower() == resource.Name.ToLower()) == 0
+                                           select resource)
                 {
                     result.Add(entity);
                 }

@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Samba.Presentation\bin\Release\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="FluentMigrator">
       <HintPath>..\Lib\FluentMigrator.dll</HintPath>
     </Reference>
@@ -44,13 +48,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Migration_002.cs" />
     <Compile Include="Migration_001.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">
+      <Project>{2386F6A0-91B2-4D1A-8DBC-92109924AFFE}</Project>
+      <Name>Samba.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Infrastructure.Data\Samba.Infrastructure.Data.csproj">
+      <Project>{2D64F506-D566-4CA5-A19C-BCB5F9A2E7F4}</Project>
+      <Name>Samba.Infrastructure.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samba.Infrastructure\Samba.Infrastructure.csproj">
       <Project>{B184E8F8-A507-4C3D-B580-184E3776A95C}</Project>
       <Name>Samba.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Localization\Samba.Localization.csproj">
+      <Project>{406B96A6-C886-4149-AD88-A2402EDB2B90}</Project>
+      <Name>Samba.Localization</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

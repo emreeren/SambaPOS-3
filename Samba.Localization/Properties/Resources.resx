@@ -3083,4 +3083,13 @@ Error Message:
   <data name="Ticket Moving" xml:space="preserve">
     <value>Ticket Moving</value>
   </data>
+  <data name="TicketMovedRule" xml:space="preserve">
+    <value>Ticket Moved Rule</value>
+  </data>
+  <data name="UpdateTicketStatus" xml:space="preserve">
+    <value>Update Ticket Status</value>
+  </data>
+  <data name="UpdateMergedTicketsState" xml:space="preserve">
+    <value>Update Merged Tickets State</value>
+  </data>
 </root>

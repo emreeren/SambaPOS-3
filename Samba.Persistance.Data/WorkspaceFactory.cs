@@ -144,19 +144,19 @@ namespace Samba.Persistance.Data
 
             var db = context.Database.Connection.ConnectionString.Contains(".sdf") ? "sqlserverce" : "sqlserver";
 
-            using (IAnnouncer announcer = new TextWriterAnnouncer(Console.Out))
-            {
-                IRunnerContext migrationContext =
-                    new RunnerContext(announcer)
-                    {
-                        Connection = context.Database.Connection.ConnectionString,
-                        Database = db,
-                        Target = LocalSettings.AppPath + "\\Samba.Persistance.DbMigration.dll"
-                    };
+            IAnnouncer announcer = new TextWriterAnnouncer(Console.Out);
 
-                var executor = new TaskExecutor(migrationContext);
-                executor.Execute();
-            }
+            IRunnerContext migrationContext =
+                new RunnerContext(announcer)
+                {
+                    ApplicationContext = context,
+                    Connection = context.Database.Connection.ConnectionString,
+                    Database = db,
+                    Target = LocalSettings.AppPath + "\\Samba.Persistance.DbMigration.dll"
+                };
+
+            new TaskExecutor(migrationContext).Execute();
+
             File.Delete(LocalSettings.UserPath + "\\migrate.txt");
         }
     }
