@@ -123,6 +123,9 @@
   <data name="FixedAmount" xml:space="preserve">
     <value>Cantidad fija</value>
   </data>
+  <data name="Entity" xml:space="preserve">
+    <value>Entidad</value>
+  </data>
   <data name="ButtonHeader" xml:space="preserve">
     <value>Cabecera de Botón</value>
   </data>
@@ -211,6 +214,9 @@
   <data name="TotalIncome" xml:space="preserve">
     <value>Total de Ingresos</value>
   </data>
+  <data name="Entities" xml:space="preserve">
+    <value>Entidades</value>
+  </data>
   <data name="AccountDetails" xml:space="preserve">
     <value>Detalles Cuenta</value>
   </data>
@@ -260,7 +266,7 @@
     <value>Restriccion Personal</value>
   </data>
   <data name="Dollar" xml:space="preserve">
-    <value>Peso</value>
+    <value>Dólar</value>
   </data>
   <data name="BatchPriceList" xml:space="preserve">
     <value>Editor de Precios </value>
@@ -308,7 +314,7 @@
     <value>Detalle de Gastos</value>
   </data>
   <data name="PurchaseTransaction" xml:space="preserve">
-    <value>Transaccion Compra</value>
+    <value>Transaccion de Compra</value>
   </data>
   <data name="AutoSelect" xml:space="preserve">
     <value>Selección automática</value>
@@ -589,6 +595,9 @@
   <data name="Thirty" xml:space="preserve">
     <value>Treinta</value>
   </data>
+  <data name="EntityScreenItem" xml:space="preserve">
+    <value>Item de Pantalla de Entidad</value>
+  </data>
   <data name="Incomes_f" xml:space="preserve">
     <value>{0} ingresos</value>
   </data>
@@ -683,6 +692,9 @@ Se activará después de {1} días {2} horas, {3} minutos</value>
   <data name="OnlyNewLines" xml:space="preserve">
     <value>Sólo las nuevas líneas</value>
   </data>
+  <data name="ChangeTicketEntity" xml:space="preserve">
+    <value>Cambiar  Ticket de Entidad</value>
+  </data>
   <data name="CanChangeReportFilter" xml:space="preserve">
     <value>Puede cambiar el filtro del informe Fecha</value>
   </data>
@@ -734,6 +746,9 @@ Se activará después de {1} días {2} horas, {3} minutos</value>
   <data name="Tax" xml:space="preserve">
     <value>Impuesto</value>
   </data>
+  <data name="EntityUpdated" xml:space="preserve">
+    <value>Entidad Actualizada</value>
+  </data>
   <data name="Customer_f" xml:space="preserve">
     <value>Cliente {0}</value>
   </data>
@@ -747,7 +762,7 @@ Se activará después de {1} días {2} horas, {3} minutos</value>
     <value>Para ser capaz de mostrar el identificador de llamadas se debe instalar el controlador de hardware.</value>
   </data>
   <data name="CanOpenNavigation" xml:space="preserve">
-    <value>Entrar a la pantalla de navegación</value>
+    <value>Puede entrar a la pantalla de navegación</value>
   </data>
   <data name="Required" xml:space="preserve">
     <value>Requerido</value>
@@ -785,8 +800,11 @@ Se activará después de {1} días {2} horas, {3} minutos</value>
   <data name="OrderTagGroup" xml:space="preserve">
     <value>Grupo Etiquetas Pedido </value>
   </data>
+  <data name="SambaMarket" xml:space="preserve">
+    <value>Mercado Samba</value>
+  </data>
   <data name="DateRangeIsNotActiveWorkPeriod" xml:space="preserve">
-    <value>Rango de fechas no se encuentra en período de trabajo activo</value>
+    <value>El rango de fechas no es un período de trabajo activo</value>
   </data>
   <data name="TransactionMultiplierError" xml:space="preserve">
     <value>Multiplicador de Operacion no debe ser cero</value>
@@ -832,7 +850,7 @@ Al cambio de PIN, se oculta este mensaje</value>
     <value>Reportes de los costos</value>
   </data>
   <data name="TicketTag" xml:space="preserve">
-    <value>Tag de recibo</value>
+    <value>Etiqueta de recibo</value>
   </data>
   <data name="Handler" xml:space="preserve">
     <value>Manejador</value>
@@ -895,7 +913,7 @@ Al cambio de PIN, se oculta este mensaje</value>
     <value>Numérico</value>
   </data>
   <data name="SubTags" xml:space="preserve">
-    <value>Sub Tag</value>
+    <value>Sub Etiquetas</value>
   </data>
   <data name="GroupTag" xml:space="preserve">
     <value>Etiqueta Grupo</value>
@@ -934,7 +952,7 @@ Al cambio de PIN, se oculta este mensaje</value>
     <value>Borrar Elementos Seleccionados</value>
   </data>
   <data name="NumericTagsShouldBeNumbersErrorMessage" xml:space="preserve">
-    <value>Cuando "Etiquetado numérico" selecciona todas las etiquetas que deben contener valores numéricos.</value>
+    <value>Cuando "Etiquetado numérico" está seleccionado, todas las etiquetas deben contener valores numéricos.</value>
   </data>
   <data name="Phone" xml:space="preserve">
     <value>Telefono</value>
@@ -946,7 +964,7 @@ Al cambio de PIN, se oculta este mensaje</value>
     <value>{0} Cuentas</value>
   </data>
   <data name="BatchCreateProductsDialogHint" xml:space="preserve">
-    <value>Crear una línea para cada producto con [Nombre del producto] [Precio] formato. Para la categoría, colocar el carácter # al inicio del nombre.</value>
+    <value>Crear una línea para cada producto con el formato [Nombre del producto] [Precio] . Comenzar los Nombres de Categoría con # </value>
   </data>
   <data name="Properties" xml:space="preserve">
     <value>Propiedades</value>
@@ -985,7 +1003,7 @@ Al cambio de PIN, se oculta este mensaje</value>
     <value>Registro de cierre de caja</value>
   </data>
   <data name="SortCategories" xml:space="preserve">
-    <value>Ordena las categorías</value>
+    <value>Ordenar las categorías</value>
   </data>
   <data name="TicketTemplateValue" xml:space="preserve">
     <value>[LAYOUT]
@@ -1040,6 +1058,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   </data>
   <data name="StartAmount" xml:space="preserve">
     <value>Inicio cantidades</value>
+  </data>
+  <data name="EntityTypes" xml:space="preserve">
+    <value>Tipos de Entidades</value>
   </data>
   <data name="TicketOpeningTime" xml:space="preserve">
     <value>Ticket de apertura</value>
@@ -1233,6 +1254,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   <data name="Sales" xml:space="preserve">
     <value>Ventas</value>
   </data>
+  <data name="EntityButton" xml:space="preserve">
+    <value>Botón de Entidad</value>
+  </data>
   <data name="KitchenTemplateValue" xml:space="preserve">
     <value>[LAYOUT]
  &lt;T&gt;TICKET
@@ -1344,6 +1368,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   <data name="Tickets" xml:space="preserve">
     <value>Recibos</value>
   </data>
+  <data name="EntityStateUpdated" xml:space="preserve">
+    <value>Estado de Entidad Actualizado</value>
+  </data>
   <data name="NextPage" xml:space="preserve">
     <value>Página siguiente</value>
   </data>
@@ -1417,7 +1444,7 @@ Al cambio de PIN, se oculta este mensaje</value>
     <value>Desetiquetar Pedido</value>
   </data>
   <data name="EmptyDiscountRateFeedback" xml:space="preserve">
-    <value>Para agregar descuentos, escriba un porcentaje y pulse el botón. Para quitar haga clic en el botón de descuento sin escribir un valor.</value>
+    <value>Para agregar descuentos, escriba un porcentaje y pulse el botón de descuento. Para quitar descuentos haga clic en el botón de descuento sin escribir un valor.</value>
   </data>
   <data name="Submitted" xml:space="preserve">
     <value>Enviado</value>
@@ -1466,6 +1493,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   </data>
   <data name="CantDelete_f" xml:space="preserve">
     <value>No se puede Borrar {0}</value>
+  </data>
+  <data name="Source" xml:space="preserve">
+    <value>Orígen</value>
   </data>
   <data name="AddOrder" xml:space="preserve">
     <value>Añadir Pedido</value>
@@ -1585,7 +1615,7 @@ Al cambio de PIN, se oculta este mensaje</value>
     <value>Vista punto de venta</value>
   </data>
   <data name="CantCompleteOperationWhenThereIsZeroPricedProduct" xml:space="preserve">
-    <value>No se puede completar esta operación, mientras que las órdenes de un precio cero existe.</value>
+    <value>No se puede completar esta operación, mientras existan órdenes con precio cero.</value>
   </data>
   <data name="DeleteErrorLastUser" xml:space="preserve">
     <value>No se puede eliminar última cuenta de usuario</value>
@@ -1680,8 +1710,8 @@ Al cambio de PIN, se oculta este mensaje</value>
   <data name="Transaction" xml:space="preserve">
     <value>Transaccion</value>
   </data>
-  <data name="UnlockTicket" xml:space="preserve">
-    <value>Desbloquear Ticket </value>
+  <data name="EntityType" xml:space="preserve">
+    <value>Tipo de Entidad</value>
   </data>
   <data name="EveryOtherMinute" xml:space="preserve">
     <value>Cada minuto</value>
@@ -1742,7 +1772,7 @@ Visita la sección de informes y crear informes de trabajo por períodos</value>
     <value>Objetivo {0}</value>
   </data>
   <data name="ErrorReportWithoutFeedback" xml:space="preserve">
-    <value>Va a enviar un informe de errores, con su información .
+    <value>Va a enviar un informe de errores, sin información .
 Por favor proporcione más detalles acerca de lo ocurrido.
 
 Seguir sin añadir más detalles?</value>
@@ -1824,6 +1854,9 @@ Seguir sin añadir más detalles?</value>
   </data>
   <data name="Total_f" xml:space="preserve">
     <value>Total: {0}</value>
+  </data>
+  <data name="EntityScreen" xml:space="preserve">
+    <value>Pantalla de Entidad</value>
   </data>
   <data name="DemoPrinter" xml:space="preserve">
     <value>Impresora de Demo (el bloc de notas)</value>
@@ -1928,7 +1961,7 @@ Seguir sin añadir más detalles?</value>
     <value>Día por medio</value>
   </data>
   <data name="SortCategoryProducts" xml:space="preserve">
-    <value>Ordena Categorías de Productos</value>
+    <value>Ordenar Categorías de Productos</value>
   </data>
   <data name="LinePriceTag" xml:space="preserve">
     <value>La línea #: Etiqueta de precio</value>
@@ -2014,6 +2047,9 @@ Seguir sin añadir más detalles?</value>
   <data name="Unpaid" xml:space="preserve">
     <value>Pendiente Pago</value>
   </data>
+  <data name="Market" xml:space="preserve">
+    <value>Mercado</value>
+  </data>
   <data name="SubButtonHeight" xml:space="preserve">
     <value>Altura del botón secundario</value>
   </data>
@@ -2054,7 +2090,7 @@ Seguir sin añadir más detalles?</value>
     <value>Plantilla de pie de página</value>
   </data>
   <data name="TagName" xml:space="preserve">
-    <value>Nombre de Tag</value>
+    <value>Nombre de Etiqueta</value>
   </data>
   <data name="RuleAction" xml:space="preserve">
     <value>Acción</value>
@@ -2077,8 +2113,11 @@ Seguir sin añadir más detalles?</value>
   <data name="MessageServerPort" xml:space="preserve">
     <value>Mensaje del puerto del servidor</value>
   </data>
+  <data name="UpdateEntityState" xml:space="preserve">
+    <value>Actualizar Estado de Entidad</value>
+  </data>
   <data name="UnhandledExceptionErrorMessage" xml:space="preserve">
-    <value>SambaPOS encontró un problema inesperado. Detalles del problema registrado en el archivo trace.log</value>
+    <value>SambaPOS encontró un problema inesperado. Los detalles del problema se han registrado en el archivo trace.log</value>
   </data>
   <data name="CantSave" xml:space="preserve">
     <value>No se puede guardar</value>
@@ -2095,11 +2134,14 @@ Seguir sin añadir más detalles?</value>
   <data name="PaymentProcessed" xml:space="preserve">
     <value>Proceso de Pago</value>
   </data>
+  <data name="EntityScreens" xml:space="preserve">
+    <value>Pantallas de Entidad</value>
+  </data>
   <data name="Admin" xml:space="preserve">
     <value>Administrador</value>
   </data>
   <data name="NoPurchaseTransactionInCurrentDateRange" xml:space="preserve">
-    <value>No hay transacciones de compra en el intervalo de fechas.</value>
+    <value>No hay transacciones de compra en el rango de fechas.</value>
   </data>
   <data name="OnlyOpenTickets" xml:space="preserve">
     <value>Abrir recibos solamente</value>
@@ -2171,7 +2213,7 @@ Seguir sin añadir más detalles?</value>
     <value>Abierto</value>
   </data>
   <data name="NumeratorValue" xml:space="preserve">
-    <value>Valor de Numerador</value>
+    <value>Valor del Teclado Numérico</value>
   </data>
   <data name="Beginning" xml:space="preserve">
     <value>Empezando</value>
@@ -2195,7 +2237,7 @@ Seguir sin añadir más detalles?</value>
     <value>Color</value>
   </data>
   <data name="NumeratorProperties" xml:space="preserve">
-    <value>Propiedades de numerador</value>
+    <value>Propiedades del Teclado Numérico</value>
   </data>
   <data name="Every15Minutes" xml:space="preserve">
     <value>Cada 15 Minutos</value>
@@ -2439,7 +2481,7 @@ Recibos</value>
     <value>Total Ventas / Recibos</value>
   </data>
   <data name="ProgramLanguage" xml:space="preserve">
-    <value>Programa de Idiomas</value>
+    <value>Idioma del Programa</value>
   </data>
   <data name="TicketsMerged" xml:space="preserve">
     <value>Tickets Unidos</value>
@@ -2476,6 +2518,9 @@ Recibos</value>
   </data>
   <data name="Month" xml:space="preserve">
     <value>Mes</value>
+  </data>
+  <data name="TicketEntityChanged" xml:space="preserve">
+    <value>Ticket de Entidad Cambiado</value>
   </data>
   <data name="InventoryPurchaseReport" xml:space="preserve">
     <value>Reporte de Inventario de compra</value>
@@ -2555,6 +2600,9 @@ Recibos</value>
   <data name="TicketSubTotal" xml:space="preserve">
     <value>Sub Total Recibo</value>
   </data>
+  <data name="UnlockTicket" xml:space="preserve">
+    <value>Desbloquear Ticket </value>
+  </data>
   <data name="SellerWarehouse" xml:space="preserve">
     <value>Almacen Proveedor</value>
   </data>
@@ -2565,7 +2613,7 @@ Recibos</value>
     <value>No dejar {0} nombre vacío.</value>
   </data>
   <data name="ThereAreOpenTicketsWarning_f" xml:space="preserve">
-    <value>Hay {0} entradas abiertas.
+    <value>Hay {0} recibos abiertos.
 No puede terminar Periodo de trabajo mientras haya recibos abiertos</value>
   </data>
   <data name="HalfPast" xml:space="preserve">
@@ -2608,7 +2656,7 @@ No puede terminar Periodo de trabajo mientras haya recibos abiertos</value>
     <value>Definiciones de precios</value>
   </data>
   <data name="SortCategoryProductsDialogHint_f" xml:space="preserve">
-    <value>Arrastre {0} categoría de producto para cambiar el orden.</value>
+    <value>Arrastre {0} categoría de productos para cambiar el orden.</value>
   </data>
   <data name="Void" xml:space="preserve">
     <value>Vacío</value>
@@ -2688,6 +2736,9 @@ No puede terminar Periodo de trabajo mientras haya recibos abiertos</value>
   <data name="Every4Hours" xml:space="preserve">
     <value>Cada 4 horas</value>
   </data>
+  <data name="Target" xml:space="preserve">
+    <value>Destino</value>
+  </data>
   <data name="ColumnCount" xml:space="preserve">
     <value>Conteo de Columnas</value>
   </data>
@@ -2722,7 +2773,7 @@ No puede terminar Periodo de trabajo mientras haya recibos abiertos</value>
     <value>Informe de transacciones en efectivo</value>
   </data>
   <data name="ForChangingPriceTypeAPrice" xml:space="preserve">
-    <value>Para cambiar el tipo de primer precio un precio de numerador</value>
+    <value>Para cambiar el precio primero escriba un precio</value>
   </data>
   <data name="PrintMapping" xml:space="preserve">
     <value>Imprimir mapeo</value>
@@ -2734,7 +2785,7 @@ No puede terminar Periodo de trabajo mientras haya recibos abiertos</value>
     <value>Valores</value>
   </data>
   <data name="Thousand" xml:space="preserve">
-    <value>Papelera</value>
+    <value>Mil</value>
   </data>
   <data name="MainMenu" xml:space="preserve">
     <value>Menú Principal</value>
@@ -2755,7 +2806,7 @@ No puede terminar Periodo de trabajo mientras haya recibos abiertos</value>
     <value>Samba Red</value>
   </data>
   <data name="NumeratorType" xml:space="preserve">
-    <value>Numerador</value>
+    <value>Tipo de Teclado Numérico</value>
   </data>
   <data name="OverrideWindowsRegionalSettings" xml:space="preserve">
     <value>Anular la configuración regional de Windows</value>
@@ -2803,7 +2854,7 @@ No puede terminar Periodo de trabajo mientras haya recibos abiertos</value>
     <value>Porcentaje de descuento</value>
   </data>
   <data name="Header" xml:space="preserve">
-    <value>Encabezamiento</value>
+    <value>Encabezado</value>
   </data>
   <data name="Mappings" xml:space="preserve">
     <value>Asignaciones</value>
