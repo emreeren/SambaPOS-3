@@ -68,6 +68,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Expression\OrderAccessor.cs" />
+    <Compile Include="Expression\TicketAccessor.cs" />
+    <Compile Include="Expression\ExpressionEngine.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Models\Accounts\Account.cs" />
     <Compile Include="Models\Accounts\AccountScreen.cs" />
@@ -180,6 +183,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lib\FluentScript\FluentScript.csproj">
+      <Project>{0CDFA1B2-F3A3-45E1-919B-9D1BCA26984B}</Project>
+      <Name>FluentScript</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lib\Stateless\Stateless.csproj">
       <Project>{FFFDB2DE-6D0E-4C1E-B14D-B64057EEAF6D}</Project>
       <Name>Stateless</Name>

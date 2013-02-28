@@ -3092,4 +3092,7 @@ Error Message:
   <data name="UpdateMergedTicketsState" xml:space="preserve">
     <value>Update Merged Tickets State</value>
   </data>
+  <data name="UsePlainSum" xml:space="preserve">
+    <value>Use Plain Sum</value>
+  </data>
 </root>

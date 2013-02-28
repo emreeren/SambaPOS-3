@@ -46,7 +46,7 @@ namespace Samba.Modules.AutomationModule
                 var script = obj.Value.GetAsString("ScriptName");
                 if (!string.IsNullOrEmpty(script))
                 {
-                    _expressionService.EvalCommand(script, null, obj.Value.DataObject, true);
+                    _expressionService.EvalCommand(script, "", obj.Value.DataObject, true);
                 }
             }
         }

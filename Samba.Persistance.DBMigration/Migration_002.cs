@@ -32,6 +32,9 @@ namespace Samba.Persistance.DBMigration
                 }
                 dc.SaveChanges();
             }
+
+            Create.Column("UsePlainSum").OnTable("Calculations").AsBoolean().WithDefaultValue(false);
+            Create.Column("UsePlainSum").OnTable("CalculationTypes").AsBoolean().WithDefaultValue(false);
         }
 
         public override void Down()

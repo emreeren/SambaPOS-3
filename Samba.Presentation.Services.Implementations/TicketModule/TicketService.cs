@@ -25,6 +25,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
         private readonly ITicketDao _ticketDao;
         private readonly IApplicationState _applicationState;
         private readonly IAutomationService _automationService;
+        private readonly IExpressionService _expressionService;
         private readonly IUserService _userService;
         private readonly ISettingService _settingService;
         private readonly IAccountService _accountService;
@@ -32,10 +33,11 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
         [ImportingConstructor]
         public TicketService(ITicketDao ticketDao, IDepartmentService departmentService, IApplicationState applicationState,
-            IAutomationService automationService, IUserService userService, ISettingService settingService,
+            IAutomationService automationService, IUserService userService, ISettingService settingService, IExpressionService expressionService,
             IAccountService accountService, ICacheService cacheService)
         {
             _ticketDao = ticketDao;
+            _expressionService = expressionService;
             _applicationState = applicationState;
             _automationService = automationService;
             _userService = userService;
@@ -117,7 +119,12 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
         private Ticket CreateTicket()
         {
             var account = _cacheService.GetAccountById(_applicationState.CurrentTicketType.SaleTransactionType.DefaultTargetAccountId);
-            var result = Ticket.Create(_applicationState.CurrentDepartment.Model, _applicationState.CurrentTicketType, account, GetExchangeRate(account), _applicationState.GetCalculationSelectors().Where(x => string.IsNullOrEmpty(x.ButtonHeader)).SelectMany(y => y.CalculationTypes));
+            var result = Ticket.Create(
+                _applicationState.CurrentDepartment.Model,
+                _applicationState.CurrentTicketType,
+                account,
+                GetExchangeRate(account),
+                _applicationState.GetCalculationSelectors().Where(x => string.IsNullOrEmpty(x.ButtonHeader)).SelectMany(y => y.CalculationTypes));
             _automationService.NotifyEvent(RuleEventNames.TicketCreated, new { Ticket = result });
             return result;
         }
@@ -295,6 +302,8 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
         public void RecalculateTicket(Ticket ticket)
         {
             var total = ticket.TotalAmount;
+            ticket.Calculations.Where(x => x.CalculationType == 5).ToList().ForEach(
+                x => x.Amount = _expressionService.EvalCommand(FunctionNames.DoCalculation, "_" + x.Name, new { Ticket = ticket }, 0m));
             ticket.Recalculate();
             if (total != ticket.TotalAmount)
             {

@@ -7833,6 +7833,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Use Plain Sum.
+        /// </summary>
+        public static string UsePlainSum {
+            get {
+                return ResourceManager.GetString("UsePlainSum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User.
         /// </summary>
         public static string User {
