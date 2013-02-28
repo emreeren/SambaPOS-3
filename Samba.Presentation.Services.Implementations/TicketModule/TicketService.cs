@@ -303,7 +303,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
         {
             var total = ticket.TotalAmount;
             ticket.Calculations.Where(x => x.CalculationType == 5).ToList().ForEach(
-                x => x.Amount = _expressionService.EvalCommand(FunctionNames.DoCalculation, "_" + x.Name, new { Ticket = ticket }, 0m));
+                x => x.Amount = _expressionService.EvalCommand(FunctionNames.Calculation, "_" + x.Name, new { Ticket = ticket }, 0m));
             ticket.Recalculate();
             if (total != ticket.TotalAmount)
             {
@@ -324,7 +324,6 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
         {
             var sv = ticket.GetStateValue(stateName);
             if (!string.IsNullOrEmpty(currentState) && sv.State != currentState) return;
-
             if (sv != null && sv.StateName == stateName && sv.StateValue == stateValue && sv.Quantity == quantity && sv.State == state) return;
 
             ticket.SetStateValue(stateName, state, stateValue, quantity);

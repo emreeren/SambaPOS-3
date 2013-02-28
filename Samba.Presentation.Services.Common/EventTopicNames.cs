@@ -135,6 +135,6 @@
     {
         public const string CanExecuteAction = "CanExecuteAction";
         public const string CanExecuteAutomationCommand = "CanExecuteAutomationCommand";
-        public const string DoCalculation = "DoCalculation";
+        public const string Calculation = "Calculation";
     }
 }
