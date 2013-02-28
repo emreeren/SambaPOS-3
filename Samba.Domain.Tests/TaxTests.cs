@@ -163,7 +163,7 @@ namespace Samba.Domain.Tests
             Assert.AreEqual(10, order.GetVisibleValue());
             Assert.AreEqual(10, order.GetTotal());
             Assert.AreEqual(12.5, ticket.GetSum());
-            Assert.AreEqual(12.5, ticket.TransactionDocument.AccountTransactions.Where(x => x.TargetAccountTypeId == 3).Sum(x => x.Amount));
+            Assert.AreEqual(12.5, ticket.TransactionDocument.AccountTransactions.Where(x => x.TargetAccountTypeId == 3).Sum(x => x.Amount) - ticket.TransactionDocument.AccountTransactions.Where(x => x.SourceAccountTypeId == 3).Sum(x => x.Amount));
         }
 
         [Test]
@@ -269,7 +269,7 @@ namespace Samba.Domain.Tests
             Assert.AreEqual(expLcTax * orderQuantiy, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == 2).Amount);
             Assert.AreEqual(expStTax * orderQuantiy, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == 3).Amount);
             Assert.AreEqual(0, ticket.TransactionDocument.AccountTransactions.Sum(x => x.AccountTransactionValues.Sum(y => y.Debit - y.Credit)));
-            Assert.AreEqual(9, ticket.TransactionDocument.AccountTransactions.Where(x => x.TargetAccountTypeId == 3).Sum(x => x.Amount));
+            Assert.AreEqual(9, ticket.TransactionDocument.AccountTransactions.Where(x => x.TargetAccountTypeId == 3).Sum(x => x.Amount) - ticket.TransactionDocument.AccountTransactions.Where(x => x.SourceAccountTypeId == 3).Sum(x => x.Amount));
         }
 
         [Test]
@@ -283,7 +283,7 @@ namespace Samba.Domain.Tests
             Assert.AreEqual(10, order.GetVisibleValue());
             Assert.AreEqual(10, order.GetTotal());
             Assert.AreEqual(11.25, ticket.GetSum());
-            Assert.AreEqual(11.25, ticket.TransactionDocument.AccountTransactions.Where(x => x.TargetAccountTypeId == 3).Sum(x => x.Amount));
+            Assert.AreEqual(11.25, ticket.TransactionDocument.AccountTransactions.Where(x => x.TargetAccountTypeId == 3).Sum(x => x.Amount) - ticket.TransactionDocument.AccountTransactions.Where(x => x.SourceAccountTypeId == 3).Sum(x => x.Amount));
         }
 
         [Test]
@@ -298,7 +298,7 @@ namespace Samba.Domain.Tests
             Assert.AreEqual(10, order1.GetVisibleValue());
             Assert.AreEqual(10, order2.GetTotal());
             Assert.AreEqual(22.50, ticket.GetSum());
-            Assert.AreEqual(22.50, ticket.TransactionDocument.AccountTransactions.Where(x => x.TargetAccountTypeId == 3).Sum(x => x.Amount));
+            Assert.AreEqual(22.50, ticket.TransactionDocument.AccountTransactions.Where(x => x.TargetAccountTypeId == 3).Sum(x => x.Amount) - ticket.TransactionDocument.AccountTransactions.Where(x => x.SourceAccountTypeId == 3).Sum(x => x.Amount));
         }
     }
 }

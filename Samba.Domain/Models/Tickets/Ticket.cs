@@ -265,12 +265,18 @@ namespace Samba.Domain.Models.Tickets
 
         public decimal GetTaxExcludedSum(Order order)
         {
+
+            //var plainSum = order.GetTotal();
+            //var services = CalculateServices(Calculations.Where(x => !x.IncludeTax), plainSum);
+            //var tax = TaxIncluded ? 0 - order.GetTotalTaxAmount(TaxIncluded, plainSum, services) : 0;
+            //plainSum = plainSum + services + tax;
+            //services = CalculateServices(Calculations.Where(x => x.IncludeTax), plainSum);
+            //return (plainSum + services);
+
             var plainSum = order.GetTotal();
             var services = CalculateServices(Calculations.Where(x => !x.IncludeTax), plainSum);
             var tax = TaxIncluded ? 0 - order.GetTotalTaxAmount(TaxIncluded, plainSum, services) : 0;
-            plainSum = plainSum + services + tax;
-            services = CalculateServices(Calculations.Where(x => x.IncludeTax), plainSum);
-            return (plainSum + services);
+            return (plainSum + tax);
         }
 
         public decimal GetPreTaxServicesTotal()
@@ -382,7 +388,7 @@ namespace Samba.Domain.Models.Tickets
         public void UpdateCalculationTransaction(Calculation calculation, decimal amount)
         {
             TransactionDocument.UpdateSingletonTransactionAmount(calculation.AccountTransactionTypeId, calculation.Name, amount, ExchangeRate);
-            if (amount == 0 && TransactionDocument.AccountTransactions.Any(x => x.AccountTransactionTypeId == calculation.AccountTransactionTypeId))
+            if (amount == 0 && calculation.Amount==0 && TransactionDocument.AccountTransactions.Any(x => x.AccountTransactionTypeId == calculation.AccountTransactionTypeId))
             {
                 TransactionDocument.AccountTransactions.Remove(
                     TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == calculation.AccountTransactionTypeId));

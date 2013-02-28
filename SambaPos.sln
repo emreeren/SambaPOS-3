@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2010
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samba.Presentation", "Samba.Presentation\Samba.Presentation.csproj", "{B58CBF09-52EA-4466-B5D2-2664018E7561}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Presentation Layer", "1. Presentation Layer", "{EBD09D7D-66B5-4DA4-ABB3-3F511769CF7D}"
@@ -707,5 +707,8 @@ Global
 		{C59A1FB9-413A-4528-B4C1-BB0CEEF30366} = {F8D8FF40-0732-465C-9488-058D539287D9}
 		{FC6B9AFB-7633-4250-BDFF-A9251B64B909} = {CC7D76E9-5152-4EF7-9ED7-4184CE0922A6}
 		{A33232E8-7368-4BB6-8C7D-EE4059E05DCB} = {6F22402C-E0C7-4486-B985-9CC52CC3D187}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal
