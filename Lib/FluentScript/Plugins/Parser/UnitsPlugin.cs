@@ -8,6 +8,7 @@ using ComLib.Lang.Core;
 using ComLib.Lang.AST;
 using ComLib.Lang.Parsing;
 using ComLib.Lang.Types;
+using ComLib.Lang.Helpers;
 // </lang:using>
 
 namespace ComLib.Lang.Plugins
@@ -111,7 +112,8 @@ namespace ComLib.Lang.Plugins
 
             var lval = ((LNumber)lobj).Value;
             var result = ctx.Units.ConvertToUnits(lval, t.Token.Text);
-            var finalExp = new ConstantExpr(new LClass(result));
+            var lclass = LangTypeHelper.ConvertToLangUnit(result);
+            var finalExp = Exprs.Const(lclass, t);
             
             // Move past the plugin.
             _tokenIt.Advance();

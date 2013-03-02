@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 // <lang:using>
 using ComLib.Lang.Core;
 using ComLib.Lang.AST;
 using ComLib.Lang.Types;
-using ComLib.Lang.Parsing;
-using ComLib.Lang.Helpers;
 // </lang:using>
 
 namespace ComLib.Lang.Plugins
@@ -106,7 +102,19 @@ namespace ComLib.Lang.Plugins
         /// <param name="meta"></param>
         public ExecExpr(FunctionMetaData meta)
         {
-            Init(meta);
+            this.Init(meta);
+        }
+
+
+        /// <summary>
+        /// Initailizes with function metadata.
+        /// </summary>
+        /// <param name="meta"></param>
+        public void Init(FunctionMetaData meta)
+        {
+            this.Meta = meta;
+            ParamList = new List<object>();
+            ParamListExpressions = new List<Expr>();
         }
 
 
@@ -114,13 +122,14 @@ namespace ComLib.Lang.Plugins
         /// Evaluate
         /// </summary>
         /// <returns></returns>
-        public override object DoEvaluate()
+        public override object DoEvaluate(IAstVisitor visitor)
         {
             var exePath = "";
             var workingDir = "";
             var failOnError = false;
             LArray args = null;
             var exitcode = -1;
+            /*
             try
             {
                 this.ResolveParams();
@@ -163,6 +172,7 @@ namespace ComLib.Lang.Plugins
                     throw new LangFailException(error, this.Ref.ScriptName, this.Ref.Line);
                 }
             }
+            */
             return new LNumber(Convert.ToDouble(exitcode));
         }
     }

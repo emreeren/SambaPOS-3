@@ -30,6 +30,7 @@
                  Text="{Binding MaxAmount}" />
             <CheckBox Margin="0,5,0,0" IsChecked="{Binding IncludeTax}" Content="{LocText IncludeTax}"/>            
             <CheckBox IsChecked="{Binding DecreaseAmount}" Content="{LocText DecreaseAmount}"/>
+            <CheckBox IsChecked="{Binding UsePlainSum}" Content="{LocText UsePlainSum}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1">

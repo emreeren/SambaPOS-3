@@ -25,7 +25,7 @@ namespace ComLib.Lang.Helpers
         {
             var commentTokens = new List<Token>();
             foreach (var comment in comments)
-                commentTokens.Add(Tokens.ToComment(false, comment));
+                commentTokens.Add(TokenBuilder.ToComment(false, comment));
 
             return ParseDocTags(commentTokens);
         }

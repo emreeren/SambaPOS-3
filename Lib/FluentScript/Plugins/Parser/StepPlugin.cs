@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 // <lang:using>
-using ComLib.Lang.Core;
-using ComLib.Lang.AST;
-using ComLib.Lang.Parsing;
 // </lang:using>
 
 namespace ComLib.Lang.Plugins

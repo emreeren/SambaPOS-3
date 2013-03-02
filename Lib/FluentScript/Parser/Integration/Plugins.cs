@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 
 // <lang:using>
@@ -65,7 +64,8 @@ namespace ComLib.Lang.Parsing
             // System plugins ( basic features - loops, if etc )
             _sysMap["Break"]           =  new BreakPlugin();
             _sysMap["Continue"]        =  new ContinuePlugin();
-            _sysMap["For"]             =  new ForLoopPlugin();
+            _sysMap["For"]             =  new ForPlugin();
+            _sysMap["Lambda"]          =  new LambdaPlugin();
             _sysMap["FuncDeclare"]     =  new FunctionDeclarePlugin();
             _sysMap["If"]              =  new IfPlugin();
             _sysMap["New"]             =  new NewPlugin();
@@ -75,19 +75,20 @@ namespace ComLib.Lang.Parsing
             _sysMap["TypeOf"]          =  new TypeOfPlugin();
             _sysMap["While"]           =  new WhilePlugin();
             _sysMap["Var"]             =  new VarPlugin();
+            _sysMap["Plugin"]          =  new PluginPlugin();
 
             // Custom plugins - extended functionality.
             _extMap["Aggregate"]       =  new AggregatePlugin();
             _extMap["Alias"]           =  new AliasPlugin();
-            _extMap["AndOr"]		   =  new AndOrPlugin();
-            _extMap["Bool"]      	   =  new BoolPlugin();
-            _extMap["Compare"]		   =  new ComparePlugin();
+            //_extMap["AndOr"]		   =  new AndOrPlugin();
+            //_extMap["Bool"]      	   =  new BoolPlugin();
+            //_extMap["Compare"]		   =  new ComparePlugin();
             _extMap["ConstCaps"]       =  new ConstCapsPlugin(); 
             _extMap["Date"]      	   =  new DatePlugin();
             _extMap["DateNumber"]      =  new DateNumberPlugin();
-            _extMap["DateTimeCombiner"] = new DateTimeCombinerPlugin();
+            //_extMap["DateTimeCombiner"] = new DateTimeCombinerPlugin();
             _extMap["Day"]      	   =  new DayPlugin();
-            _extMap["Def"]      	   =  new DefPlugin();
+            //_extMap["Def"]      	   =  new DefPlugin();
             _extMap["Enable"]      	   =  new EnablePlugin();
             _extMap["Email"]      	   =  new EmailPlugin();
             _extMap["Fail"]            =  new FailPlugin();
@@ -103,17 +104,19 @@ namespace ComLib.Lang.Parsing
             _extMap["Marker"]      	   =  new MarkerPlugin();
             _extMap["MarkerLex"]       =  new MarkerLexPlugin();
             _extMap["Money"]      	   =  new MoneyPlugin();
+            _extMap["Module"]          =  new ModulePlugin();
             _extMap["NamedIndex"]      =  new NamedIndexPlugin();
             _extMap["Percent"]         =  new PercentPlugin();
+            _extMap["Plugin"]          =  new PluginPlugin();            
             _extMap["Print"]      	   =  new PrintPlugin();
             _extMap["PrintExpression"] =  new PrintExpressionPlugin();
             _extMap["Records"]         =  new RecordsPlugin();
             _extMap["Repeat"]          =  new RepeatPlugin();
             _extMap["Round"]      	   =  new RoundPlugin();
             _extMap["Run"]      	   =  new RunPlugin();
-            _extMap["Set"]      	   =  new SetPlugin();
+            //_extMap["Set"]      	   =  new SetPlugin();
             _extMap["Sort"]      	   =  new SortPlugin();
-            _extMap["Step"]            =  new StepPlugin();
+            //_extMap["Step"]            =  new StepPlugin();
             _extMap["StringLiteral"]   =  new StringLiteralPlugin();
             _extMap["Suffix"]      	   =  new SuffixPlugin();
             _extMap["Swap"]      	   =  new SwapPlugin();
@@ -126,6 +129,13 @@ namespace ComLib.Lang.Parsing
             _extMap["Words"]           =  new WordsPlugin();
             _extMap["WordsInterpret"]  =  new WordsInterpretPlugin();
             //SerializePluginMetadata();
+        }
+
+
+        public int Total()
+        {
+            var total = this.TotalExpressions + this.TotalLexical + this.TotalStmts;
+            return total;
         }
 
 
@@ -200,7 +210,7 @@ namespace ComLib.Lang.Parsing
         /// </summary>
         public IExprPlugin LastMatchedExtStmtPlugin { get { return _lastMatchedExtStmt; } }
 
-
+        
         /// <summary>
         /// Register all plugins within the commonlibrary
         /// </summary>
@@ -355,7 +365,7 @@ namespace ComLib.Lang.Parsing
         /// <param name="sort">Whether or not to sort the plugin by precedence after adding it to the system.</param>
         public void RegisterTokenPlugin(ITokenPlugin plugin, bool sort)
         {
-            RegisterPlugin(_tokPlugins, plugin, plugin.Tokens, sort);
+            RegisterPlugin(_tokPlugins, plugin, plugin.StartTokens, sort);
             _hasTokenPlugins = true;
         }
 
@@ -367,7 +377,7 @@ namespace ComLib.Lang.Parsing
         /// <param name="sort">Whether or not to sort the plugin by precedence after adding it to the system.</param>
         public void RegisterLexPlugin(ILexPlugin plugin, bool sort)
         {
-            RegisterPlugin(_lexPlugins, plugin, plugin.Tokens, sort);
+            RegisterPlugin(_lexPlugins, plugin, plugin.StartTokens, sort);
         }
 
 
@@ -739,7 +749,8 @@ namespace ComLib.Lang.Parsing
             if (name == null)
                 return null;
 
-            if (map.ContainsKey(name))
+            if ( (token.Kind == TokenKind.Ident || token.Kind == TokenKind.Keyword || token.Kind == TokenKind.Symbol ) 
+                && map.ContainsKey(name))
             {
                 plugins = map[name];
             }
@@ -847,7 +858,7 @@ namespace ComLib.Lang.Parsing
                 }
                 else if (pair.Value is SetupPlugin)
                 {
-                    var tokens = ((ILexPlugin)pair.Value).Tokens;
+                    var tokens = ((ILexPlugin)pair.Value).StartTokens;
                     info += pair.Value.GetType().Name + " - ";
                     foreach (var token in tokens)
                     {
@@ -865,49 +876,44 @@ namespace ComLib.Lang.Parsing
         private string ExprMetaData(IExprPlugin plugin, int id)
         {
             var name = plugin.GetType().Name.Replace("Plugin", "");
-            var meta = "<plugin id=\"" + id + "\" name=\"" + name + "\">"
-                     + Environment.NewLine + "\t<name>" + name + "</name>"
-                     + Environment.NewLine + "\t<desc>" + name + "</desc>"
-                     + Environment.NewLine + "\t<type>{0}</type>"
-                     + Environment.NewLine + "\t<isSystemLevel>{1}</isSystemLevel>"
-                     + Environment.NewLine + "\t<statement>{2}</statement>"
-                     + Environment.NewLine + "\t<autoHandleTokens>{3}</autoHandleTokens>"
-                     + Environment.NewLine + "\t<endOfStatementRequired>{4}</endOfStatementRequired>"
-                     + Environment.NewLine + "\t<precedence>{5}</precedence>"
-                     + Environment.NewLine + "\t<grammer><![CDATA[{6}]]></grammer>"
-                     + Environment.NewLine + "\t<starttokens>{7}</starttokens>"
-                     + Environment.NewLine + "\t<examples>{8}</examples>"
-                     + Environment.NewLine
-                     + "</plugin>" + Environment.NewLine;
+            var filepath = @"C:\Dev\Kishore\Apps\FluentScript\fluentscript_latest2\build\plugin_template.js";
+            var content = System.IO.File.ReadAllText(filepath);
+            var replacements = new Dictionary<string, string>();
+            replacements["name"] = name;
+            replacements["desc"] = "";
+            replacements["type"] = "expr";
+            replacements["precedence"] = plugin.Precedence.ToString();
+            replacements["isStatement"] = plugin.IsStatement.ToString().ToLower();
+            replacements["isEndOfStatementRequired"] = plugin.IsEndOfStatementRequired.ToString().ToLower();
+            replacements["isSystemLevel"] = plugin.IsSystemLevel.ToString().ToLower();
+            replacements["isAssignmentSupported"] = plugin.IsAssignmentSupported.ToString().ToLower();
+
             var tokens = "";
-            for (var ndx = 0; ndx < plugin.StartTokens.Length; ndx++)
+            for(var ndx = 0; ndx < plugin.StartTokens.Count(); ndx++)
             {
-                tokens += plugin.StartTokens[ndx];
-                if (ndx != plugin.StartTokens.Length - 1)
+                if (ndx != 0)
                     tokens += ", ";
+
+                tokens += "'" + plugin.StartTokens[ndx] + "'";
             }
 
             var examples = "";
-            if (plugin.Examples != null)
-            {
-                for (var ndx = 0; ndx < plugin.Examples.Length; ndx++)
+            if(plugin.Examples != null)
+                for (var ndx = 0; ndx < plugin.Examples.Count(); ndx++)
                 {
-                    var example = plugin.Examples[ndx];
-                    examples += Environment.NewLine + "\t\t<example><![CDATA[" + example + "]]></example>";
-                    if (ndx == plugin.Examples.Length - 1)
-                        examples += Environment.NewLine + "\t";
-                }
-            }
+                    if (ndx != 0)
+                        examples += ", ";
 
-            return string.Format(meta, "expression", 
-                    plugin.IsSystemLevel.ToString().ToLower(),
-                    plugin.IsStatement.ToString().ToLower(),
-                    plugin.IsAutoMatched.ToString().ToLower(),
-                    plugin.IsEndOfStatementRequired.ToString().ToLower(),
-                    plugin.Precedence,
-                    plugin.Grammer,
-                    tokens,
-                    examples);
+                    examples += "'" + plugin.Examples[ndx] + "'";
+                }
+            replacements["starttokens"] = tokens;
+            replacements["examples"] = examples;
+
+            foreach(var pair in replacements)
+            {
+                content = content.Replace("${" + pair.Key + "}", pair.Value);
+            }
+            return content;
         }
     }
 }

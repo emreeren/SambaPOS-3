@@ -6,6 +6,7 @@ using System.Text;
 // <lang:using>
 using ComLib.Lang.Core;
 using ComLib.Lang.AST;
+using ComLib.Lang.Helpers;
 using ComLib.Lang.Parsing;
 using ComLib.Lang.Types;
 // </lang:using>
@@ -84,13 +85,13 @@ namespace ComLib.Lang.Plugins
             this.Precedence = 50;
 
             _terminatorForTo = new Dictionary<Token, bool>();
-            _terminatorForTo[Tokens.ToIdentifier("to")] = true;
+            _terminatorForTo[TokenBuilder.ToIdentifier("to")] = true;
             _terminatorForTo[Tokens.Semicolon] = true;
             _terminatorForTo[Tokens.NewLine] = true;
             _terminatorForTo[Tokens.LeftBrace] = true;
 
             _terminatorForBy = new Dictionary<Token, bool>();
-            _terminatorForBy[Tokens.ToIdentifier("by")] = true;
+            _terminatorForBy[TokenBuilder.ToIdentifier("by")] = true;
             _terminatorForBy[Tokens.Semicolon] = true;
             _terminatorForBy[Tokens.NewLine] = true;
             _terminatorForBy[Tokens.LeftBrace] = true;
@@ -155,7 +156,7 @@ namespace ComLib.Lang.Plugins
             if (_tokenIt.NextToken.Token.Text == "to")
             {
                 var result = ParseTo();
-                startVal = _parser.ToConstExpr(new LNumber(1.0), startToken);
+                startVal = Exprs.Const(new LNumber(1.0), startToken);
                 op = result.Item1;
                 endVal = result.Item2;
                 incVal = result.Item3;
@@ -165,7 +166,7 @@ namespace ComLib.Lang.Plugins
             {
                 var num = _tokenIt.ExpectNumber();
                 var result = ParseTo();
-                startVal = _parser.ToConstExpr(new LNumber(num), startToken);
+                startVal = Exprs.Const(new LNumber(num), startToken);
                 op = result.Item1;
                 endVal = result.Item2;
                 incVal = result.Item3;
@@ -174,7 +175,7 @@ namespace ComLib.Lang.Plugins
             else if (_tokenIt.NextToken.Token.Kind == TokenKind.Ident)
             {
                 var variableName = _tokenIt.ExpectId();
-                varnameExpr = _parser.ToIdentExpr(variableName, _tokenIt.LastToken);
+                varnameExpr = Exprs.Ident(variableName, _tokenIt.LastToken);
                 if (_tokenIt.NextToken.Token.Type == TokenTypes.Assignment)
                 {
                     _tokenIt.Advance();
@@ -184,7 +185,7 @@ namespace ComLib.Lang.Plugins
                 }
                 else
                 {
-                    startVal = _parser.ToConstExpr(new LNumber(0), startToken);
+                    startVal = Exprs.Const(new LNumber(0), startToken);
                 }
                 var result = ParseTo();
                 op = result.Item1;
@@ -194,15 +195,15 @@ namespace ComLib.Lang.Plugins
             // auto-create variable name.
             if (varnameExpr == null)
             {
-                varnameExpr = _parser.ToIdentExpr("it", _tokenIt.LastToken);
+                varnameExpr = Exprs.Ident("it", _tokenIt.LastToken);
             }            
 
             // Now setup the stmts
-            var start     = _parser.ToAssignExpr(true, varnameExpr, startVal, varToken);
-            var condition = _parser.ToCompareExpr(varnameExpr, op, endVal, varToken);            
-            var incExp    = _parser.ToUnaryExpr(varnameExpr.ToQualifiedName(), incVal, 0, Operator.PlusEqual, incToken);
-            var incStmt   = _parser.ToAssignExpr(false, varnameExpr, incExp, assignToken);
-            var loopStmt  = _parser.ToForExpr(start, condition, incStmt, loopToken);
+            var start     = Exprs.Assign(true, varnameExpr, startVal, varToken);
+            var condition = Exprs.Compare(varnameExpr, op, endVal, varToken);            
+            var incExp    = Exprs.Unary(varnameExpr.ToQualifiedName(), incVal, 0, Operator.PlusEqual, incToken);
+            var incStmt   = Exprs.Assign(false, varnameExpr, incExp, assignToken);
+            var loopStmt  = Exprs.For(start, condition, incStmt, loopToken);
             ParseBlock(loopStmt as BlockExpr);            
             return loopStmt;
         }
@@ -240,7 +241,7 @@ namespace ComLib.Lang.Plugins
             }
             else
             {
-                incVal = _parser.ToConstExpr(new LNumber(1), _tokenIt.NextToken);
+                incVal = Exprs.Const(new LNumber(1), _tokenIt.NextToken);
             }
             return new Tuple<Operator, Expr, Expr>(op, end, incVal);
         }

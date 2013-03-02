@@ -302,7 +302,7 @@ namespace ComLib.Lang.Plugins
         /// Creates new instance of the type.
         /// </summary>
         /// <returns></returns>
-        public override object DoEvaluate()
+        public override object DoEvaluate(IAstVisitor visitor)
         {
             var settings = Ctx.Plugins.GetSettings<LogSettings>("comlib.log");
             if (settings == null)
@@ -312,7 +312,7 @@ namespace ComLib.Lang.Plugins
             }
 
             // 1. Resolve the parameters.
-            ParamHelper.ResolveNonNamedParameters(ParamListExpressions, ParamList);
+            ParamHelper.ResolveNonNamedParameters(ParamListExpressions, ParamList, visitor);
             
             if (Mode == "log")
             {

@@ -15,6 +15,8 @@ namespace ComLib.Lang.Parsing
     /// </summary>
     public class ExprPlugin : ExprPluginBase, IExprPlugin
     {
+        protected ExprParser _exprParser;
+
         /// <summary>
         /// Parses the expression.
         /// </summary>
@@ -33,6 +35,12 @@ namespace ComLib.Lang.Parsing
         public virtual Expr Parse(object context)
         {
             return null;
+        }
+
+
+        public virtual void OnParseComplete(AstNode node)
+        {
+            
         }
     }
 }

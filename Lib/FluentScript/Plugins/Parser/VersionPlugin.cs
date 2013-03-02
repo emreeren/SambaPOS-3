@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 // <lang:using>
 using ComLib.Lang.Core;
 using ComLib.Lang.AST;
+using ComLib.Lang.Helpers;
 using ComLib.Lang.Parsing;
 // </lang:using>
 
@@ -124,7 +125,7 @@ namespace ComLib.Lang.Plugins
             _lexer.Scanner.ReadChar();
             var token = _lexer.ReadNumber();
             var finalText = takeoverToken.Token.Text + "." + token.Text;
-            var lineToken = ComLib.Lang.Core.Tokens.ToLiteralVersion(finalText);
+            var lineToken = TokenBuilder.ToLiteralVersion(finalText);
             var t = new TokenData() { Token = lineToken, Line = line, LineCharPos = pos };
             _lexer.ParsedTokens.Add(t);
             return new Token[] { lineToken };

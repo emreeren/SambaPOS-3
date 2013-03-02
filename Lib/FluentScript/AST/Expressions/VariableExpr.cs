@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Collections;
-
-
+﻿
 namespace ComLib.Lang.AST
 {
     /// <summary>
@@ -34,33 +27,21 @@ namespace ComLib.Lang.AST
 
 
         /// <summary>
-        /// Evaluate
-        /// </summary>
-        /// <returns></returns>
-        public override object DoEvaluate()
-        {
-            // Case 1: memory variable has highest precendence
-            if (this.Ctx.Memory.Contains(this.Name))
-            {
-                this.Value = this.Ctx.Memory.Get<object>(this.Name);
-                return this.Value;
-            }
-            // Case 2: check function now.
-            if (this.SymScope.IsFunction(this.Name))
-            {
-                
-            }
-            throw this.BuildRunTimeException("variable : " + this.Name + " does not exist");
-        }
-
-
-        /// <summary>
         /// Returns the fully qualified name of this node.
         /// </summary>
         /// <returns></returns>
         public override string ToQualifiedName()
         {
             return this.Name;
+        }
+
+
+        /// <summary>
+        /// Execute the statement.
+        /// </summary>
+        public override object Visit(IAstVisitor visitor)
+        {
+            return visitor.VisitVariable(this);
         }
     }
 }

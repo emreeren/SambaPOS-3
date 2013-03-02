@@ -174,6 +174,11 @@ Source: src\it\Samba.Localization.resources.dll; DestDir: {app}\it\; Flags: igno
 Source: src\pt-BR\Samba.Localization.resources.dll; DestDir: {app}\pt-BR\; Flags: ignoreversion
 Source: src\hr\Samba.Localization.resources.dll; DestDir: {app}\hr\; Flags: ignoreversion
 Source: src\ar\Samba.Localization.resources.dll; DestDir: {app}\ar\; Flags: ignoreversion
+Source: src\hu\Samba.Localization.resources.dll; DestDir: {app}\hu\; Flags: ignoreversion
+Source: src\es\Samba.Localization.resources.dll; DestDir: {app}\es\; Flags: ignoreversion
+Source: src\id\Samba.Localization.resources.dll; DestDir: {app}\id\; Flags: ignoreversion
+Source: src\el\Samba.Localization.resources.dll; DestDir: {app}\el\; Flags: ignoreversion
+Source: src\zh-CN\Samba.Localization.resources.dll; DestDir: {app}\zh-CN\; Flags: ignoreversion
 
 [Components]
 Name: pos; Description: Samba POS; Types: full compact custom; Flags: fixed
@@ -274,4 +279,9 @@ Name: {app}\it
 Name: {app}\pt-BR
 Name: {app}\hr
 Name: {app}\ar
+Name: {app}\hu
+Name: {app}\es
+Name: {app}\id
+Name: {app}\el
+Name: {app}\zh-CN
 Name: {commonappdata}\Ozgu Tech\SambaPOS3

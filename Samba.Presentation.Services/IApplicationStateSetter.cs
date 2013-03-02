@@ -14,7 +14,6 @@ namespace Samba.Presentation.Services
         EntityScreen SetSelectedEntityScreen(EntityScreen entityScreen);
         void SetApplicationLocked(bool isLocked);
         void SetNumberpadValue(string value);
-        void SetLastPaidItems(IEnumerable<PaidItem> paidItems);
         void SetCurrentTicketType(TicketType ticketType);
         void ResetWorkPeriods();
     }

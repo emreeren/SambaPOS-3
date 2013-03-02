@@ -32,8 +32,9 @@ namespace Samba.Domain.Models.Tickets
         public decimal GetCustomDataAsDecimal(string fieldName)
         {
             decimal result;
-            decimal.TryParse(GetCustomData(fieldName), out result);
-            return result;
+            if (decimal.TryParse(GetCustomData(fieldName), out result))
+                return result;
+            return 0;
         }
     }
 }

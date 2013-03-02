@@ -149,10 +149,12 @@ html
         public static string DefaultQuantityFormat { get; set; }
         public static string CurrencySymbol { get { return CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol; } }
 
-        public static int DbVersion { get { return 1; } }
-        public static string AppVersion { get { return "3.01 BETA"; } }
+        public static int DbVersion { get { return 2; } }
+        public static string AppVersion { get { return "3.02 BETA"; } }
         public static string AppName { get { return "SambaPOS3"; } }
-        public static IList<string> SupportedLanguages { get { return new[] { "en", "tr", "it", "pt-BR", "hr", "ar" }; } }
+
+        private static IList<string> _supportedLanguages;
+        public static IList<string> SupportedLanguages { get { return _supportedLanguages ?? (_supportedLanguages = new[] { "en", "tr", "it", "pt-BR", "hr", "ar", "hu", "es", "id", "el", "zh-CN" }); } }
 
         public static long CurrentDbVersion { get; set; }
 

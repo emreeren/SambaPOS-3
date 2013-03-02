@@ -81,7 +81,7 @@ namespace ComLib.Lang.Parsing
         /// <summary>
         /// The tokens that are associated w/ this combinator.
         /// </summary>
-        public virtual string[] Tokens
+        public virtual string[] StartTokens
         {
             get { return _tokens; }
         }

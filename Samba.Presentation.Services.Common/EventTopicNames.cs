@@ -47,6 +47,9 @@
         public const string ApplicationStarted = "ApplicationStarted";
         public const string ChangeAmountChanged = "ChangeAmountChanged";
         public const string OrderAdded = "OrderAdded";
+        public const string OrderMoved = "OrderMoved";
+        public const string TicketMoving = "TicketMoving";
+        public const string TicketMoved = "TicketMoved";
         public const string TriggerExecuted = "TriggerExecuted";
         public const string TicketTotalChanged = "TicketTotalChanged";
         public const string TicketTagSelected = "TicketTagSelected";
@@ -132,5 +135,6 @@
     {
         public const string CanExecuteAction = "CanExecuteAction";
         public const string CanExecuteAutomationCommand = "CanExecuteAutomationCommand";
+        public const string Calculation = "Calculation";
     }
 }

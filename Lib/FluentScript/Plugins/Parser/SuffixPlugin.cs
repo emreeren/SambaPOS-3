@@ -45,7 +45,6 @@ namespace ComLib.Lang.Plugins
         public SuffixPlugin()
         {
             this.StartTokens = new string[] { "$Suffix" };
-            this.IsStatement = true;
         }
 
 
@@ -103,13 +102,14 @@ namespace ComLib.Lang.Plugins
             _parser.SetupContext(constExp, c);
 
             // Get the function symbol.
-            var fce = new FunctionCallExpr();
-            fce.NameExp = _parser.ToIdentExpr(t.Token.Text, t);
-            fce.ParamListExpressions.Add(constExp);
+            var paramListExpressions = new List<Expr>();
+            paramListExpressions.Add(constExp);
+            var nameExp = Exprs.Ident(t.Token.Text, t);
+            var expr = Exprs.FunctionCall(nameExp, paramListExpressions, t);
 
             // Move the postfix token.
             _tokenIt.Advance();
-            return fce;
+            return expr;
         }
     }
 }

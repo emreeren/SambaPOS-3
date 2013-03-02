@@ -67,6 +67,7 @@ namespace Samba.Infrastructure.ExceptionReporter
 		}
 	}
 
+    [Serializable]
 	internal class ExceptionReportGeneratorException : Exception
 	{
 		public ExceptionReportGeneratorException(string message) : base(message)

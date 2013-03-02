@@ -88,9 +88,10 @@ namespace ComLib.Lang.Plugins
         public override Expr Parse()
         {
             // $<number>
+            var startToken = _tokenIt.NextToken;
             _tokenIt.Advance();
             var val = _tokenIt.ExpectNumber();
-            return new ConstantExpr(new LNumber(val));
+            return Exprs.Const(new LNumber(val), startToken);
         }
     }
 }

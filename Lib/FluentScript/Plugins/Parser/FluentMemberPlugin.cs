@@ -175,7 +175,7 @@ namespace ComLib.Lang.Plugins
             // This is a smarter check and will prevent fluent plugin from taking over
             // expressions like "day is Monday" where is = "==" and Monday is a replacement.
             if (_parser.Context.Plugins.ContainsExp(next.Token.Text)) return false;
-            if (_parser.Context.Plugins.ContainsTok(next.Token, 1)) return false;
+            if (_parser.Context.PluginsMeta.ContainsTok(next.Token, 1)) return false;
             if (_parser.Context.Symbols.IsFunc(current.Text)) return false;
 
             // Now check consequitive items ( 2 at most )
@@ -347,8 +347,8 @@ namespace ComLib.Lang.Plugins
             if (!match)
                 return new Tuple<bool, Expr>(false, null);
 
-            var varExp = _parser.ToIdentExpr(rootVar, null);
-            var memExp = _parser.ToMemberAccessExpr(varExp, memberName, false, null);
+            var varExp = Exprs.Ident(rootVar, null);
+            var memExp = Exprs.MemberAccess(varExp, memberName, false, null);
             return new Tuple<bool, Expr>(memberName != null, memExp);
         }
 

@@ -1494,6 +1494,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="CantDelete_f" xml:space="preserve">
     <value>Impossibile Eliminare {0}</value>
   </data>
+  <data name="Source" xml:space="preserve">
+    <value>Sorgente</value>
+  </data>
   <data name="AddOrder" xml:space="preserve">
     <value>Aggiungi Ordine</value>
   </data>
@@ -2732,6 +2735,9 @@ Non può finire il periodo di lavoro mentre ci sono Ticket aperti.</value>
   </data>
   <data name="Every4Hours" xml:space="preserve">
     <value>Ogni 4 ore</value>
+  </data>
+  <data name="Target" xml:space="preserve">
+    <value>Destinazione</value>
   </data>
   <data name="ColumnCount" xml:space="preserve">
     <value>Numero Colonne</value>

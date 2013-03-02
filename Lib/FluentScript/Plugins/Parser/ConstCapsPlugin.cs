@@ -148,13 +148,18 @@ namespace ComLib.Lang.Plugins
         /// Called by the framework after the parse method is called
         /// </summary>
         /// <param name="node">The node returned by this implementations Parse method</param>
-        public void OnParseComplete(AstNode node)
+        public override void OnParseComplete(AstNode node)
         {
-            var constStmt = node as ConstStmt;
+            var constStmt = node as ConstStmt;            
             foreach (var pair in constStmt.Assignments)
             {
-                var constVal = pair.Value.Evaluate() as LObject;
-                _parser.Context.Symbols.DefineConstant(pair.Key, constVal.Type, constVal);
+                var exp = pair.Value;
+                if (exp.IsNodeType(NodeTypes.SysConstant))
+                {
+                    var constExp = pair.Value as ConstantExpr;
+                    var constVal = constExp.Value as LObject;
+                    _parser.Context.Symbols.DefineConstant(pair.Key, constVal.Type, constVal);
+                }
             }
         }
 
@@ -214,11 +219,11 @@ namespace ComLib.Lang.Plugins
         /// <summary>
         /// Execute by storing the constant value in memory.
         /// </summary>
-        public override object  Evaluate()
+        public override object DoEvaluate(IAstVisitor visitor)
         {
             foreach (var pair in Assignments)
             {                
-                object val = pair.Value.Evaluate();
+                object val = pair.Value.Evaluate(visitor);
                 this.Ctx.Memory.SetValue(pair.Key, val);
             }
             return LObjects.Null;

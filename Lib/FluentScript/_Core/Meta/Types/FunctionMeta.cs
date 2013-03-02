@@ -158,6 +158,12 @@ namespace ComLib.Lang.Core
         }
 
 
+        public bool HasArguments()
+        {
+            return this.TotalArgs > 0;
+        }
+
+
         /// <summary>
         /// Getst the total required arguments.
         /// </summary>

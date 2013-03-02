@@ -25,7 +25,7 @@ namespace ComLib.Lang.Plugins
         /// <summary>
         /// The maximum number of tokens that can be looked ahead for potential replacements.
         /// </summary>
-        protected int _maxLookAhead = 4;
+        protected int _maxLookAhead = 5;
 
         
         /// <summary>
@@ -54,6 +54,8 @@ namespace ComLib.Lang.Plugins
         /// </summary>
         public TokenReplacePlugin()
         {
+            _replaceMap = new Dictionary<string, string>();
+            _replaceMapSingleWord = new Dictionary<string, string>();
         }
 
 
@@ -64,45 +66,49 @@ namespace ComLib.Lang.Plugins
         /// <param name="maxTokenLookAhead">The maximum tokens to look ahead for to seach for matching phrases.</param>
         public void Init(string[,] replacements, int maxTokenLookAhead)
         {
-            _maxLookAhead = maxTokenLookAhead;
             _replacements = replacements;
-            _replaceMap = new Dictionary<string, string>();
-            _replaceMapSingleWord = new Dictionary<string, string>();
-            for(int ndx = 0; ndx < replacements.GetLength(0); ndx++)
+            _maxLookAhead = maxTokenLookAhead;
+            for (int ndx = 0; ndx < replacements.GetLength(0); ndx++)
             {
-                string tokenToReplace = (string)replacements.GetValue(ndx, 0);
-                string replaceVal = (string)replacements.GetValue(ndx, 1);
-                bool hasSpace = tokenToReplace.Contains(" ");
-                bool mapHasToken = _replaceMap.ContainsKey(tokenToReplace);
+                var tokenToReplace = (string) replacements.GetValue(ndx, 0);
+                var replaceVal = (string) replacements.GetValue(ndx, 1);
+                this.SetupReplacement(tokenToReplace, replaceVal);
+            }
+        }
+
+
+        public void SetupReplacement(string tokenToReplace, string replaceVal)
+        {
+            var hasSpace = tokenToReplace.Contains(" ");
+            var mapHasToken = _replaceMap.ContainsKey(tokenToReplace);
                 
-                // Single word replacements "before" = "<"
-                if (!hasSpace)
+            // Single word replacements "before" = "<"
+            if (!hasSpace)
+            {
+                _replaceMapSingleWord[tokenToReplace] = replaceVal;
+                return;
+            }
+
+            // Multi-word replacements. "less than" = "<" "less than equal to" = "<="
+            string[] tokens = tokenToReplace.Split(' ');
+            string multiTokenWord = tokens[0];
+            _replaceMap[multiTokenWord] = Partial_Replacement;
+
+            for(int ndx2 = 1; ndx2 < tokens.Length; ndx2++)
+            {
+                multiTokenWord += " " + tokens[ndx2];
+                bool isLastToken = ndx2 == tokens.Length - 1;
+
+                // 1. "less than" with "<"
+                // 2. "less than equal" "<="
+                bool replacementExists = _replaceMap.ContainsKey(multiTokenWord);
+                if (!replacementExists && !isLastToken)
                 {
-                    _replaceMapSingleWord[tokenToReplace] = replaceVal;
-                    continue;
+                    _replaceMap[multiTokenWord] = Partial_Replacement;
+                    _replaceMap[multiTokenWord + "END"] = replaceVal;
                 }
-
-                // Multi-word replacements. "less than" = "<" "less than equal to" = "<="
-                string[] tokens = tokenToReplace.Split(' ');
-                string multiTokenWord = tokens[0];
-                _replaceMap[multiTokenWord] = Partial_Replacement;
-
-                for(int ndx2 = 1; ndx2 < tokens.Length; ndx2++)
-                {
-                    multiTokenWord += " " + tokens[ndx2];
-                    bool isLastToken = ndx2 == tokens.Length - 1;
-
-                    // 1. "less than" with "<"
-                    // 2. "less than equal" "<="
-                    bool replacementExists = _replaceMap.ContainsKey(multiTokenWord);
-                    if (!replacementExists && !isLastToken)
-                    {
-                        _replaceMap[multiTokenWord] = Partial_Replacement;
-                        _replaceMap[multiTokenWord + "END"] = replaceVal;
-                    }
-                    if ( isLastToken)
-                        _replaceMap[multiTokenWord] = replaceVal;
-                }
+                if ( isLastToken)
+                    _replaceMap[multiTokenWord] = replaceVal;
             }
         }
 
@@ -215,7 +221,7 @@ namespace ComLib.Lang.Plugins
                     _tokenIt.Advance(advanceCount);
 
                 if (_matchedAdvanceCount > 1)
-                    _tokenIt.Advance(_matchedAdvanceCount - 1);                
+                    _tokenIt.Advance(_matchedAdvanceCount - 1);
             }
             var token = ComLib.Lang.Core.Tokens.AllTokens[_replacementToken];
             return token;

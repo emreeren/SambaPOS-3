@@ -104,11 +104,11 @@ namespace ComLib.Lang.Plugins
         /// <summary>
         /// Execute
         /// </summary>
-        public override object DoEvaluate()
+        public override object DoEvaluate(IAstVisitor visitor)
         {
             object message = null;
             if (Exp != null)
-                message = Exp.Evaluate();
+                message = Exp.Evaluate(visitor);
 
             var text = (message == null || message == LObjects.Null)
                      ? ""

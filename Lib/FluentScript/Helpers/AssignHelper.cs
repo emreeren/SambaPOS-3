@@ -71,6 +71,16 @@ namespace ComLib.Lang.Helpers
             {
                 var result = valExp.Evaluate();
                 
+                // Check for type: e.g. LFunction ? when using Lambda?
+                if (result != null && result != LObjects.Null)
+                {
+                    var lobj = result as LObject;
+                    if (lobj != null && lobj.Type.TypeVal == TypeConstants.Function)
+                    {
+                        // 1. Define the function in global symbol scope
+                        SymbolHelper.ResetSymbolAsFunction(varExp.SymScope, varname, lobj);
+                    }
+                }
                 // CHECK_LIMIT:
                 ctx.Limits.CheckStringLength(node, result);
                 ctx.Memory.SetValue(varname, result, isDeclaration);

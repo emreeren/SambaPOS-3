@@ -35,6 +35,12 @@ namespace ComLib.Lang.Core
 
 
         /// <summary>
+        /// The folder where the javascript based plugins are located.
+        /// </summary>
+        public string PluginsFolder;
+
+
+        /// <summary>
         /// The starting char that signifies an interpolated string #{...}
         /// </summary>
         public char InterpolatedStartChar = '#';

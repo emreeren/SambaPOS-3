@@ -88,7 +88,9 @@ namespace ComLib.Lang.Plugins
             var symbol = new SymbolModule();
             symbol.Name = name;
             symbol.Category = SymbolCategory.CustomScope;
-            symbol.DataType = new LModuleType(name, name);
+            symbol.DataType = new LModuleType();
+            symbol.DataType.Name = name;
+            symbol.DataType.FullName = name;
             symbol.Scope = new SymbolsNested(name);
             symbol.ParentScope = this.Ctx.Symbols.Current;
 

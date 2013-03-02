@@ -125,7 +125,7 @@ namespace ComLib.Lang.Plugins
             if (next.Token != Tokens.LeftParenthesis && next.Token != Tokens.Dot)
             {
                 var funcExp = new FunctionCallExpr();
-                funcExp.NameExp = _parser.ToIdentExpr(name, null);
+                funcExp.NameExp = Exprs.Ident(name, null);
                 _parser.State.FunctionCall++;
                 
                 //Ctx.Limits.CheckParserFuncCallNested(_tokenIt.NextToken, _parser.State.FunctionCall);

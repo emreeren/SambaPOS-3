@@ -6,7 +6,7 @@ namespace Samba.Infrastructure.ExceptionReporter
 {
     public static class Logger
     {
-        private const string LockObj = "LOCK!";
+        private static readonly Object LockObj = new Object();
 
         public static void Log(string message)
         {

@@ -79,32 +79,4 @@ namespace ComLib.Lang.Plugins
             return stmt;
         }
     }
-
-
-
-    /// <summary>
-    /// For loop Expression data
-    /// </summary>
-    public class ReturnExpr : Expr
-    {
-        /// <summary>
-        /// Return value.
-        /// </summary>
-        public Expr Exp;
-
-
-        /// <summary>
-        /// Execute the statement.
-        /// </summary>
-        public override object  DoEvaluate()
-        {
-            var parent = this.FindParent<FunctionExpr>();
-            if (parent == null) throw new LangException("syntax error", "unable to return, parent not found", string.Empty, 0);
-
-            object result = this.Exp == null ? LObjects.Null : Exp.Evaluate();
-            bool hasReturnVal = Exp != null;
-            parent.Return(result, hasReturnVal);
-            return LObjects.Null;
-        }
-    }
 }

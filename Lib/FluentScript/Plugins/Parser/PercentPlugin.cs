@@ -36,7 +36,6 @@ namespace ComLib.Lang.Plugins
         public PercentPlugin()
         {
             this.StartTokens = new string[] { "$Suffix" };
-            this.IsStatement = true;
         }
 
 
@@ -76,7 +75,7 @@ namespace ComLib.Lang.Plugins
         public override bool CanHandle(Token current)
         {
             var t = _tokenIt.Peek(1, false);
-            if (t.Token != Tokens.Modulo) return false;
+            if (t.Token != Tokens.Percent) return false;
 
             // Now check that the token after % is not a number or a ident.
             // e.g. The following would indicate doing a modulo operation
@@ -100,6 +99,7 @@ namespace ComLib.Lang.Plugins
         /// <returns></returns>
         public override Expr Parse(object context)
         {
+            var startToken = _tokenIt.NextToken;
             var constExp = context as ConstantExpr;
             var ctx = _parser.Context;
 
@@ -114,7 +114,7 @@ namespace ComLib.Lang.Plugins
 
             var val = ((LNumber)numberVal).Value;
             val = val / 100;
-            var finalExp = new ConstantExpr(new LNumber(val));
+            var finalExp = Exprs.Const(new LNumber(val), startToken);
             return finalExp;
         }
     }

@@ -118,10 +118,11 @@ namespace ComLib.Lang.Core
         /// <param name="meta"></param>
         public SymbolFunction(FunctionMetaData meta)
         {
-            Name = meta.Name;
-            Meta = meta;
-            Category = SymbolCategory.Func;
-            DataType = new LFunctionType(meta.Name);
+            this.Name = meta.Name;
+            this.Meta = meta;
+            this.Category = SymbolCategory.Func;
+            this.DataType = new LFunctionType();
+            this.DataType.Name = meta.Name;
         }
 
 
@@ -189,6 +190,13 @@ namespace ComLib.Lang.Core
         Symbol GetSymbol(string name);
 
 
+        /// <summary>
+        /// Gets a list of all the symbol names.
+        /// </summary>
+        /// <returns></returns>
+        List<string> GetSymbolNames();
+        
+        
         /// <summary>
         /// Generic version of getsymbol method
         /// </summary>
@@ -301,6 +309,16 @@ namespace ComLib.Lang.Core
         public virtual IDictionary<string, Symbol> Symbols
         {
             get { return _symbols; }
+        }
+
+
+        /// <summary>
+        /// Gets a list of all the symbol names.
+        /// </summary>
+        /// <returns></returns>
+        public virtual List<string> GetSymbolNames()
+        {
+            return _symbols.Keys.ToList();
         }
 
 
@@ -613,6 +631,16 @@ namespace ComLib.Lang.Core
         public Symbol GetSymbol(string name)
         {
             return _current.GetSymbol(name);
+        }
+
+
+        /// <summary>
+        /// Gets a list of all the symbol names.
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetSymbolNames()
+        {
+            return _current.GetSymbolNames();
         }
 
 

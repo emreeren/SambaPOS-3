@@ -114,8 +114,9 @@ namespace ComLib.Lang.Plugins
         /// <returns></returns>
         public override Expr Parse()
         {
+            var startToken = _tokenIt.NextToken;
             var time = ParseTime(this, false, false);
-            return new ConstantExpr(new LTime(time));
+            return Exprs.Const(new LTime(time), startToken);
         }
 
     
@@ -377,7 +378,7 @@ namespace ComLib.Lang.Plugins
             var separator = _lexer.State.CurrentChar;
             var textToken = _lexer.ReadToPosition(_endPos);
             var timeText = lastToken.Token.Text + separator + textToken.Text;
-            var timeToken = new Token(TokenKind.LiteralTime, TokenTypes.LiteralTime, timeText, _time);
+            var timeToken = TokenBuilder.ToLiteralTime(timeText, _time);
 
             var t = new TokenData() { Token = timeToken, Line = line, LineCharPos = pos };
             _lexer.ParsedTokens.Add(t);

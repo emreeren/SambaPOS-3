@@ -21,7 +21,7 @@ namespace ComLib.Lang.Helpers
         /// <param name="varExp"></param>
         /// <param name="memberName"></param>
         /// <returns></returns>
-        public static MemberAccess GetMemberAccess(AstNode node, Context ctx, Expr varExp, string memberName)
+        public static MemberAccess GetMemberAccess(AstNode node, Context ctx, Expr varExp, string memberName, IAstVisitor visitor)
         {
             var isVariableExp = varExp.IsNodeType(NodeTypes.SysVariable);
             var variableName = isVariableExp ? ((VariableExpr) varExp).Name : string.Empty;
@@ -50,7 +50,7 @@ namespace ComLib.Lang.Helpers
             }
 
             // CASE 4: Nested member.
-            var res = varExp.Evaluate();
+            var res = varExp.Visit(visitor);
             if (res is MemberAccess )
             {
                 return res as MemberAccess;
@@ -183,6 +183,9 @@ namespace ComLib.Lang.Helpers
             // 2. Method
             else if (matchingMember.MemberType == MemberTypes.Method)
                 member.Method = type.GetMethod(matchingMember.Name);
+
+            else if (matchingMember.MemberType == MemberTypes.Field)
+                member.Field = type.GetField(matchingMember.Name);
 
             return member;
         }

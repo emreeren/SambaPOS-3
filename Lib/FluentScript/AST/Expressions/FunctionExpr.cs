@@ -4,6 +4,7 @@ using System.Collections.Generic;
 // <lang:using>
 using ComLib.Lang.Core;
 using ComLib.Lang.Docs;
+using ComLib.Lang.Helpers;
 using ComLib.Lang.Types;
 // </lang:using>
 
@@ -14,7 +15,7 @@ namespace ComLib.Lang.AST
     /// </summary>
     public class FunctionExpr : BlockExpr
     {
-        private bool _continueRunning;
+        public bool ContinueRunning;
         private object _result = null;
         private bool _hasReturnValue;
         private FunctionMetaData _meta;
@@ -74,11 +75,10 @@ namespace ComLib.Lang.AST
         public long ExecutionCount { get; set; }
 
 
-        private long _errorCount;
         /// <summary>
         /// Total number of times exceptions occurred in this function
         /// </summary>
-        public long ErrorCount { get { return _errorCount; } }
+        public long ErrorCount { get; set; }
 
         
         /// <summary>
@@ -101,37 +101,13 @@ namespace ComLib.Lang.AST
         /// <summary>
         /// Whether or not this function has a return value.
         /// </summary>
-        public bool HasReturnValue { get { return _hasReturnValue; } }
+        public bool HasReturnValue { get; set; }
 
 
         /// <summary>
         /// The return value;
         /// </summary>
-        public object ReturnValue { get { return _result; } }
-
-                
-        /// <summary>
-        /// Evaluate the function
-        /// </summary>
-        /// <returns></returns>
-        public override object DoEvaluate()
-        {
-            InitializeCall();
-            try
-            {
-                foreach (var statement in _statements)
-                {
-                    statement.Evaluate();
-                    if (!_continueRunning) break;
-                }
-            }
-            catch (Exception ex)
-            {
-                _errorCount++;
-                throw ex;
-            }
-            return LObjects.Null;
-        }
+        public object ReturnValue { get; set; }
 
 
         /// <summary>
@@ -141,62 +117,16 @@ namespace ComLib.Lang.AST
         {
             _result = val;
             _hasReturnValue = hasReturnValue;
-            _continueRunning = false;
+            ContinueRunning = false;
         }
 
 
-        private void PushParametersInScope()
+        /// <summary>
+        /// Execute the statement.
+        /// </summary>
+        public override object Visit(IAstVisitor visitor)
         {
-            if (this.ArgumentValues == null || this.ArgumentValues.Count == 0) return;
-            if (this.Meta.Arguments == null || this.Meta.Arguments.Count == 0) return;
-            //if (this.ArgumentValues.Count > this.Meta.Arguments.Count)
-            //    throw new ArgumentException("Invalid function call, more arguments passed than arguments in function: line " + Caller.Ref.Line + ", pos: " + Caller.Ref.CharPos);
-
-            // Check if there is an parameter named "arguments"
-            var hasParameterNamedArguments = false;
-            if (this.Meta.Arguments != null && this.Meta.Arguments.Count > 0)
-                if (this.Meta.ArgumentsLookup.ContainsKey("arguments"))
-                    hasParameterNamedArguments = true;
-                        
-            // Add function arguments to scope.
-            for (int ndx = 0; ndx < this.Meta.Arguments.Count; ndx++)
-            {
-                var val = this.ArgumentValues[ndx] as LObject;
-                if(val.Type.IsPrimitiveType())
-                {
-                    var copied = val.Clone();
-                    this.ArgumentValues[ndx] = copied;
-                }
-                this.Ctx.Memory.SetValue(this.Meta.Arguments[ndx].Name, this.ArgumentValues[ndx]);
-            }
-
-            // Finally add the arguments.
-            // NOTE: Any extra arguments will be part of the implicit "arguments" array.
-            if(!hasParameterNamedArguments)
-            {
-                var argArray = new LArray(this.ArgumentValues);
-                this.Ctx.Memory.SetValue("arguments", argArray);
-            }
-        }
-
-
-        private void InitializeCall()
-        {
-            // Keep track of total times this function was executed.
-            // Keep tract of total times this function caused an error
-            if (ExecutionCount == long.MaxValue)
-                ExecutionCount = 0;
-            else
-                ExecutionCount++;
-
-            if (_errorCount == long.MaxValue)
-                _errorCount = 0;
-
-            _continueRunning = true;
-            _result = null;
-            _hasReturnValue = false;
-
-            PushParametersInScope();
+            return visitor.VisitFunction(this);
         }
     }
 }

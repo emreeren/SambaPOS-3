@@ -153,7 +153,7 @@ namespace ComLib.Lang.Plugins
             // wildcard part 1: name
             // wildcard part 2: role
             // full wildcard: "name role"
-
+            var partsToken = _tokenIt.NextToken;
             // 1. Capture all the remaining parts of the wild card.
             while (_tokenIt.NextToken.Token.Kind == TokenKind.Ident)
             {
@@ -168,7 +168,7 @@ namespace ComLib.Lang.Plugins
 
                 // c. Create a constant expr from the wildcard
                 // as it will be part of an array of strings passed to function
-                var partExp = _parser.ToConstExpr(new LString(part), _tokenIt.NextToken);
+                var partExp = Exprs.Const(new LString(part), _tokenIt.NextToken);
                 parts.Add(partExp);
 
                 // d. Move to the next token for another possible wildcard.
@@ -180,8 +180,10 @@ namespace ComLib.Lang.Plugins
             }
 
             var exp = new FunctionCallExpr();
+            exp.ParamListExpressions = new List<Expr>();
+            exp.ParamList = new List<object>();
             remainderOfFuncName = remainderOfFuncName.Trim();
-            var fullWildCard = _parser.ToConstExpr(new LString(string.Empty), fnameToken) as ConstantExpr;
+            var fullWildCard = Exprs.Const(new LString(string.Empty), fnameToken) as ConstantExpr;
 
             // 2. Create a constant expr representing the full wildcard              
             if(!string.IsNullOrEmpty(remainderOfFuncName))
@@ -203,16 +205,15 @@ namespace ComLib.Lang.Plugins
                 _tokenIt.Advance();
                 _parser.ParseParameters(exp, false, false, true);
             }
-            exp.NameExp = _parser.ToIdentExpr(_result.Name, fnameToken);
-            
+            exp.NameExp = Exprs.Ident(_result.Name, fnameToken);
             // Have to restructure the arguments.
             // 1. const expr     , fullwildcard,   "name role"
             // 2. list<constexpr>, wildcard parts, ["name", "role"]
             // 3. list<expr>,      args,           "kishore", "admin"
             var args = new List<Expr>();
             args.Add(fullWildCard);
-            args.Add(new DataTypeExpr(parts));
-            args.Add(new DataTypeExpr(exp.ParamListExpressions));
+            args.Add(Exprs.Array(parts, partsToken));
+            args.Add(Exprs.Array(exp.ParamListExpressions, fnameToken));
 
             // Finally reset the parameters expr on the function call.
             exp.ParamListExpressions = args;

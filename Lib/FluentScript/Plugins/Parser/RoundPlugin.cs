@@ -154,9 +154,9 @@ namespace ComLib.Lang.Plugins
         /// Evaluate
         /// </summary>
         /// <returns></returns>
-        public override object DoEvaluate()
+        public override object DoEvaluate(IAstVisitor visitor)
         {
-            var result = _exp.Evaluate();
+            var result = _exp.Evaluate(visitor);
             ExceptionHelper.NotNullType(this, result, "rounding", LTypes.Number);
 
             var val = ((LNumber) result).Value;

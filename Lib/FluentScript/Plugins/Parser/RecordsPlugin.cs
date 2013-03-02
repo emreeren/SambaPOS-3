@@ -126,6 +126,7 @@ namespace ComLib.Lang.Plugins
 				'fluent' , 	 100	 , 'codehelix'
 			];
             */
+            var startToken = _tokenIt.NextToken;
             // 1. Move past "["
             _tokenIt.Advance(1, true);
 
@@ -208,11 +209,11 @@ namespace ComLib.Lang.Plugins
             List<Expr> array = new List<Expr>();
             foreach (var rec in records)
             {
-                var item = new DataTypeExpr(rec);
+                var item = Exprs.Map(rec, startToken);
                 array.Add(item);
             }
 
-            var arrayExp = new DataTypeExpr(array);
+            var arrayExp = Exprs.Array(array, startToken);
             return arrayExp;
         }
     }

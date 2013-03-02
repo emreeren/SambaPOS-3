@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 
 using ComLib.Lang.Types;
+using ComLib.Lang.Helpers;
+
 
 namespace ComLib.Lang.AST
 {
@@ -48,28 +50,15 @@ namespace ComLib.Lang.AST
         }
 
 
-        /// <summary>
-        /// Evaluates the expression by appending all the sub-expressions.
-        /// </summary>
-        /// <returns></returns>
-        public override object DoEvaluate()
-        {
-            if (_expressions == null || _expressions.Count == 0)
-                return string.Empty;
+        public List<Expr> Expressions { get { return _expressions; } }
 
-            string total = "";
-            foreach (var exp in _expressions)
-            {
-                if (exp != null)
-                {
-                    var val = exp.Evaluate();
-                    var text = "";
-                    var lobj = (LObject)val;
-                    text = lobj.GetValue().ToString();
-                    total += text;
-                }
-            }
-            return new LString(total);
+
+        /// <summary>
+        /// Execute the statement.
+        /// </summary>
+        public override object Visit(IAstVisitor visitor)
+        {
+            return visitor.VisitInterpolated(this);
         }
     }
 }

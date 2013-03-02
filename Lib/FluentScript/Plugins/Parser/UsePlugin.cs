@@ -157,7 +157,7 @@ namespace ComLib.Lang.Plugins
         /// <summary>
         /// Executes the using.
         /// </summary>
-        public override object DoEvaluate()
+        public override object DoEvaluate(IAstVisitor visitor)
         {
             var source = Source;
 

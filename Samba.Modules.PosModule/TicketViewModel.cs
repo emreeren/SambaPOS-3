@@ -63,6 +63,12 @@ namespace Samba.Modules.PosModule
                         _cacheService.GetEntityTypesByTicketType(SelectedTicket.TicketTypeId)
                         .Select(x => new EntityButton(x, SelectedTicket)));
                 }
+                else if (_entityButtons == null && _applicationState.CurrentTicketType != null && _applicationState.CurrentTicketType.Id > 0)
+                {
+                    _entityButtons = new ObservableCollection<EntityButton>(
+                       _cacheService.GetEntityTypesByTicketType(_applicationState.CurrentTicketType.Id)
+                       .Select(x => new EntityButton(x, SelectedTicket)));
+                }
                 return _entityButtons;
             }
         }
