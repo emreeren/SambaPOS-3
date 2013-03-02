@@ -143,10 +143,14 @@ namespace ComLib.Lang.Plugins
         /// <returns></returns>
         public override bool CanHandle(Token token)
         {
-            if (token.Kind == TokenKind.LiteralDate) return true;
+            var n1 = _tokenIt.Peek();
+            var isLiteralDate = token.Kind == TokenKind.LiteralDate;
+
+            if ( isLiteralDate && n1.Token.Text != "at")
+                return false;
 
             // 1. 1st token is definitely month name in long or short form. "oct" or "october".
-            string monthNameOrAbbr = token.Text.ToLower();
+            var monthNameOrAbbr = token.Text.ToLower();
             return _months.ContainsKey(monthNameOrAbbr); 
         }
 
@@ -167,8 +171,9 @@ namespace ComLib.Lang.Plugins
         /// <returns></returns>
         public override Expr Parse()
         {
+            var startToken = _tokenIt.NextToken;
             var date = ParseDate(this);
-            var exp = new ConstantExpr(new LDate(date));
+            var exp = Exprs.Const(new LDate(date), startToken);
             return exp;
         }
 

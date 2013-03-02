@@ -168,7 +168,7 @@ namespace ComLib.Lang.Parsing
             { Tokens.Minus, true },
             { Tokens.Multiply, true },
             { Tokens.Divide, true },
-            { Tokens.Modulo, true },
+            { Tokens.Percent, true },
             { Tokens.LeftParenthesis, true},
             { Tokens.RightParenthesis, true},
             { Tokens.LessThan, true},

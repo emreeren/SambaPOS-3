@@ -38,7 +38,4 @@ namespace Samba.ApiServer
             }
         }
     }
-
-
-
 }

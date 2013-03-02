@@ -28,7 +28,7 @@ namespace ComLib.Lang.Helpers
 
             foreach (var paramExpr in paramListExpressions)
                 if (paramExpr.IsNodeType(NodeTypes.SysNamedParameter))
-                    if (((NamedParamExpr)paramExpr).Name == paramName)
+                    if (((NamedParameterExpr)paramExpr).Name == paramName)
                         return true;
             return false;
         }
@@ -37,7 +37,7 @@ namespace ComLib.Lang.Helpers
         /// <summary>
         /// Resolve all the non-named parameter expressions and puts the values into the param list supplied.
         /// </summary>
-        public static void ResolveNonNamedParameters(List<Expr> paramListExpressions, List<object> paramList)
+        public static void ResolveNonNamedParameters(List<Expr> paramListExpressions, List<object> paramList, IAstVisitor visitor)
         {
             if (paramListExpressions == null || paramListExpressions.Count == 0)
                 return;
@@ -45,7 +45,7 @@ namespace ComLib.Lang.Helpers
             paramList.Clear();
             foreach (var exp in paramListExpressions)
             {
-                object val = exp.Evaluate();
+                object val = exp.Evaluate(visitor);
                 paramList.Add(val);
             }
         }
@@ -54,7 +54,7 @@ namespace ComLib.Lang.Helpers
         /// <summary>
         /// Resolve the parameters in the function call.
         /// </summary>
-        public static void ResolveParametersToHostLangValues(List<Expr> paramListExpressions, List<object> paramList)
+        public static void ResolveParametersToHostLangValues(List<Expr> paramListExpressions, List<object> paramList, IAstVisitor visitor)
         {
             if (paramListExpressions == null || paramListExpressions.Count == 0)
                 return;
@@ -62,7 +62,7 @@ namespace ComLib.Lang.Helpers
             paramList.Clear();
             foreach (var exp in paramListExpressions)
             {
-                var val = exp.Evaluate();
+                var val = exp.Evaluate(visitor);
                 if(val is LObject)
                 {
                     var converted = ((LObject)val).GetValue();
@@ -81,7 +81,8 @@ namespace ComLib.Lang.Helpers
         /// <param name="paramListExpressions"></param>
         /// <param name="paramList"></param>
         /// <param name="indexLookup"></param>
-        public static void ResolveParameters(int totalParams, List<Expr> paramListExpressions, List<object> paramList, Func<NamedParamExpr, int> indexLookup, Func<NamedParamExpr, bool> containsLookup )
+        public static void ResolveParameters(int totalParams, List<Expr> paramListExpressions, List<object> paramList, Func<NamedParameterExpr, int> indexLookup, 
+            Func<NamedParameterExpr, bool> containsLookup, IAstVisitor visitor)
         {
             if (paramListExpressions == null || paramListExpressions.Count == 0)
                 return;
@@ -92,7 +93,7 @@ namespace ComLib.Lang.Helpers
             // 2. If no named parameters, simply eval parameters and return.
             if (!hasNamedParams)
             {
-                ResolveNonNamedParameters(paramListExpressions, paramList);
+                ResolveNonNamedParameters(paramListExpressions, paramList, visitor);
                 return;
             }
             
@@ -114,8 +115,8 @@ namespace ComLib.Lang.Helpers
                 // 4. Named arg? Evaluate and put its value into the appropriate index of the args list.           
                 if (exp.IsNodeType(NodeTypes.SysNamedParameter))
                 {
-                    var namedParam = exp as NamedParamExpr;
-                    object val = namedParam.Evaluate();
+                    var namedParam = exp as NamedParameterExpr;
+                    object val = namedParam.Visit(visitor);
                     var contains = containsLookup(namedParam);
                     if (!contains)
                         throw ExceptionHelper.BuildRunTimeException(namedParam, "Named parameter : " + namedParam.Name + " does not exist");
@@ -127,7 +128,7 @@ namespace ComLib.Lang.Helpers
                 {
                     // 5. Expect the position of non-named args should be valid.
                     // TODO: Semantic analysis is required here once Lint check feature is added.
-                    object val = exp.Evaluate();
+                    object val = exp.Visit(visitor);
                     paramList[ndx] = val;
                 }
             }
@@ -137,19 +138,19 @@ namespace ComLib.Lang.Helpers
         /// <summary>
         /// Resolve the parameters in the function call.
         /// </summary>
-        public static void ResolveParametersForScriptFunction(FunctionMetaData meta, List<Expr> paramListExpressions, List<object> paramList)
+        public static void ResolveParametersForScriptFunction(FunctionMetaData meta, List<Expr> paramListExpressions, List<object> paramList, IAstVisitor visitor)
         {
             int totalParams = meta.Arguments == null ? 0 : meta.Arguments.Count;
             ResolveParameters(totalParams, paramListExpressions, paramList,
                 namedParam => meta.ArgumentsLookup[namedParam.Name].Index,
-                namedParam => meta.ArgumentsLookup.ContainsKey(namedParam.Name));
+                namedParam => meta.ArgumentsLookup.ContainsKey(namedParam.Name), visitor);
         }
 
 
         /// <summary>
         /// Resolve the parameters in the function call.
         /// </summary>
-        public static void ResolveParametersForMethodCall(MethodInfo method, List<Expr> paramListExpressions, List<object> paramList)
+        public static void ResolveParametersForMethodCall(MethodInfo method, List<Expr> paramListExpressions, List<object> paramList, IAstVisitor visitor)
         {
             var parameters = method.GetParameters();
             if (parameters == null || parameters.Length == 0) return;
@@ -160,7 +161,7 @@ namespace ComLib.Lang.Helpers
             // 2. Resolve all the parameters to fluentscript values. LObject, LString etc.
             ResolveParameters(parameters.Length, paramListExpressions, paramList,
                 namedParam => map[namedParam.Name].Position,
-                namedParam => map.ContainsKey(namedParam.Name));
+                namedParam => map.ContainsKey(namedParam.Name), visitor);
         }
 
 

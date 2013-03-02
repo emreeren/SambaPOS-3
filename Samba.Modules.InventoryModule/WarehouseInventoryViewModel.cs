@@ -53,7 +53,7 @@ namespace Samba.Modules.InventoryModule
             RaisePropertyChanged(() => PeriodicConsumptionItems);
             RaisePropertyChanged(() => CostItems);
             RaisePropertyChanged(() => SelectedWarehouse);
-            
+
         }
 
         private IEnumerable<Warehouse> _warehouses;
@@ -112,7 +112,7 @@ namespace Samba.Modules.InventoryModule
             Model = model;
         }
 
-        public string ButtonColor { get { return _baseViewModel.SelectedWarehouse == Model ? "Gray" : "Gainsboro"; } }
+        public string ButtonColor { get { return _baseViewModel.WarehouseButtons.Count() > 1 && _baseViewModel.SelectedWarehouse == Model ? "Gray" : "Gainsboro"; } }
 
         public string Caption { get { return Model.Name; } }
 

@@ -55,13 +55,13 @@ namespace ComLib.Lang.Helpers
         /// </summary>
         /// <param name="statements"></param>
         /// <param name="parent"></param>
-        public static void Evaluate(List<Expr> statements, AstNode parent)
+        public static void Evaluate(List<Expr> statements, AstNode parent, IAstVisitor visitor)
         {
             if (statements != null && statements.Count > 0)
             {
                 foreach (var stmt in statements)
                 {
-                    stmt.Evaluate();
+                    stmt.Evaluate(visitor);
                 }
             }
         }
@@ -103,11 +103,11 @@ namespace ComLib.Lang.Helpers
                 Expr exp = null;
 
                 if (Operators.IsMath(op))
-                    exp = new BinaryExpr(left, op, right);
+                    exp = Exprs.Binary(left, op, right, tdata);
                 else if (Operators.IsConditional(op))
-                    exp = new ConditionExpr(left, op, right);
+                    exp = Exprs.Condition(left, op, right, tdata);
                 else if (Operators.IsCompare(op))
-                    exp = new CompareExpr(left, op, right);
+                    exp = Exprs.Compare(left, op, right, tdata);
 
                 parser.SetupContext(exp, tdata);
                 stack.RemoveRange(index - 2, 2);
@@ -138,6 +138,7 @@ namespace ComLib.Lang.Helpers
             }
             catch (Exception ex)
             {
+                
                 success = false;
                 if (ex is LangException)
                 {

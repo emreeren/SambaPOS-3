@@ -45,37 +45,11 @@ namespace ComLib.Lang.AST
 
 
         /// <summary>
-        /// Creates new instance of the type.
+        /// Execute the statement.
         /// </summary>
-        /// <returns></returns>
-        public override object DoEvaluate()
+        public override object Visit(IAstVisitor visitor)
         {
-            object[] constructorArgs = null;
-            if (ParamListExpressions != null && ParamListExpressions.Count > 0)
-            {
-                ParamList = new List<object>();
-                ParamHelper.ResolveNonNamedParameters(ParamListExpressions, ParamList);
-                constructorArgs = ParamList.ToArray();
-            }
-
-            // CASE 1: Built in basic system types ( string, date, time, etc )
-            if(LTypesLookup.IsBasicTypeShortName(this.TypeName))
-            {
-                // TODO: Move this check to Semacts later
-                var langType = LTypesLookup.GetLType(this.TypeName);
-                var methods = this.Ctx.Methods.Get(langType);
-                var canCreate = methods.CanCreateFromArgs(constructorArgs);
-                if (!canCreate)
-                    throw BuildRunTimeException("Can not create " + this.TypeName + " from parameters");
-
-                // Allow built in type methods to create it.
-                var result = methods.CreateFromArgs(constructorArgs);
-                return result;
-            }
-            // CASE 2: Custom types e.g. custom classes.
-            var hostLangArgs = LangTypeHelper.ConvertToArrayOfHostLangValues(constructorArgs);
-            var instance = Ctx.Types.Create(this.TypeName, hostLangArgs);
-            return new LClass(instance);
+            return visitor.VisitNew(this);
         }
     }
 }

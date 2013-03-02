@@ -67,14 +67,14 @@ namespace ComLib.Lang.Plugins
         {
             // Validate
             _tokenIt.Expect(Tokens.New);
-            string typeName = _tokenIt.ExpectId();
+            var typeName = _tokenIt.ExpectId();
             
             // Keep parsing to capture full name.
             // e.g new App.Core.User()
             while (_tokenIt.NextToken.Token == Tokens.Dot)
             {
                 _tokenIt.Advance();
-                string name = _tokenIt.ExpectId();
+                var name = _tokenIt.ExpectId();
                 typeName += "." + name;
                 if (_tokenIt.IsEndOfStmtOrBlock())
                     break;

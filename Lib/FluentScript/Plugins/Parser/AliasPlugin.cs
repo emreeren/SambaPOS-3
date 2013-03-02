@@ -6,6 +6,8 @@ using System.Text;
 // <lang:using>
 using ComLib.Lang.Core;
 using ComLib.Lang.AST;
+using ComLib.Lang.Helpers;
+using ComLib.Lang.Parsing.MetaPlugins;
 using ComLib.Lang.Types;
 using ComLib.Lang.Parsing;
 // </lang:using>
@@ -87,7 +89,7 @@ namespace ComLib.Lang.Plugins
             if (Tokens.AllTokens.ContainsKey(actualName))
                 actual = Tokens.AllTokens[actualName];
             else
-                actual = Tokens.ToIdentifier(actualName);
+                actual = TokenBuilder.ToIdentifier(actualName);
             
             var stmt = new AliasStmt() { Alias = aliasName, Actual = actual };
             return stmt;
@@ -98,12 +100,18 @@ namespace ComLib.Lang.Plugins
         /// After parsing is complete, register the alias.
         /// </summary>
         /// <param name="node"></param>
-        public void OnParseComplete(AstNode node)
+        public override void OnParseComplete(AstNode node)
         {
             var stmt = node as AliasStmt;
-            var plugin = new AliasTokenPlugin(stmt.Alias, stmt.Actual);
-            plugin.Init(_parser, _tokenIt);
-            Ctx.Plugins.RegisterTokenPlugin(plugin, true);
+            //var plugin = new AliasTokenPlugin(stmt.Alias, stmt.Actual);
+            //plugin.Init(_parser, _tokenIt);
+            var plugin = new CompilerPlugin();
+            plugin.PluginType = "token";
+            plugin.TokenReplacements = new List<string[]>();
+            plugin.TokenReplacements.Add(new string[] { stmt.Alias, stmt.Actual.Text });
+            plugin.Precedence = 1;
+
+            Ctx.PluginsMeta.Register(plugin);
         }
     }
 
@@ -138,7 +146,7 @@ namespace ComLib.Lang.Plugins
         /// <summary>
         /// Executes the statement.
         /// </summary>
-        public override object DoEvaluate()
+        public override object DoEvaluate(IAstVisitor visitor)
         {
             return LObjects.Null;
             // This is executed during parse phase.

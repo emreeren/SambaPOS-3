@@ -1,20 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 
-// <lang:using>
-using ComLib.Lang.AST;
-using ComLib.Lang.Types;
-using ComLib.Lang.Helpers;
-// </lang:using>
-
-namespace ComLib.Lang.Plugins
+namespace ComLib.Lang.AST
 {
     /// <summary>
     /// Variable expression data
     /// </summary>
     public class AssignExpr : Expr
     {
-        private bool _isDeclaration;
+        public bool IsDeclaration;
         
         
         /// <summary>
@@ -38,19 +31,18 @@ namespace ComLib.Lang.Plugins
         public AssignExpr(bool isDeclaration, Expr varExp, Expr valueExp)
         {
             this.Nodetype = NodeTypes.SysAssign;            
-            this._isDeclaration = isDeclaration;
+            this.IsDeclaration = isDeclaration;
             this.VarExp = varExp;
             this.ValueExp = valueExp;
         }
-        
+
 
         /// <summary>
-        /// Evaluate
+        /// Execute the statement.
         /// </summary>
-        /// <returns></returns>
-        public override object DoEvaluate()
+        public override object Visit(IAstVisitor visitor)
         {
-            return AssignHelper.AssignValue(this, this.VarExp, this.ValueExp, this._isDeclaration);
+            return visitor.VisitAssign(this);
         }
     }
 }

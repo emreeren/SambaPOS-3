@@ -193,9 +193,9 @@ namespace ComLib.Lang.Plugins
         {
             if (string.IsNullOrEmpty(text))
                 text = token.Token.Text;
-            
-            var start = isConstant  ? new ConstantExpr(new LString(text)) as Expr
-                                    : new VariableExpr(text) as Expr;
+
+            var start = isConstant ? Exprs.Const(new LString(text), _tokenIt.NextToken) as Expr
+                                    : Exprs.Ident(text, _tokenIt.NextToken) as Expr;
             _parser.SetupContext(start, token);
             pathExps.Add(start);
         }
@@ -233,7 +233,7 @@ namespace ComLib.Lang.Plugins
             // Case 1: Simple addition of @home and "\build\script.xml" as in "@home\build\script.xml"
             if (pathExps.Count == 2)
             {
-                return _parser.ToBinaryExpr(pathExps[0], Operator.Add, pathExps[1], pathExps[0].Token);
+                return Exprs.Binary(pathExps[0], Operator.Add, pathExps[1], pathExps[0].Token);
             }
             // Case 2: Add up all the expressions.
             // Start with the last 2 and keep adding backwards.
@@ -245,12 +245,12 @@ namespace ComLib.Lang.Plugins
             var lastIndex = pathExps.Count - 1;
             var left =  pathExps[lastIndex - 1];
             var right = pathExps[lastIndex];
-            var exp = _parser.ToBinaryExpr(left, Operator.Add, right, left.Token);
+            var exp = Exprs.Binary(left, Operator.Add, right, left.Token);
             
             for (var ndx = lastIndex - 2; ndx >= 0; ndx--)
             {
                 left = pathExps[ndx];
-                exp = _parser.ToBinaryExpr(left, Operator.Add, exp, left.Token);
+                exp = Exprs.Binary(left, Operator.Add, exp, left.Token);
             }
             return exp;
         }

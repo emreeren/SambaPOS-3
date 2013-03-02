@@ -39,6 +39,12 @@ namespace ComLib.Lang.Parsing
         }
 
 
+        /// <summary>
+        /// Used to visit evaluate nodes immediately ( currently used for meta compiler plugins ).
+        /// </summary>
+        public IAstVisitor OnDemandEvaluator { get; set; }
+
+
         #region Public API
         /// <summary>
         /// Initializes the parser with the script and setups various components.
@@ -50,11 +56,15 @@ namespace ComLib.Lang.Parsing
             // 1. Initalize data members
             base.Init(script, memory);
 
-            // 3. Convert script to sequence of tokens.
+            // 2. Convert script to sequence of tokens.
             Tokenize();
+            SetupTokenIteratorReferences(this._tokenIt);
 
-            // 4. Move to first token
+            // 3. Move to first token
             _tokenIt.Advance();
+
+            // 4. Setup expr builder
+            Exprs.Setup(_tokenIt, _context, _scriptPath);
         }
 
 
@@ -69,7 +79,7 @@ namespace ComLib.Lang.Parsing
 
             while (true)
             {
-                if (_tokenIt.NextToken.Token == Tokens.EndToken )
+                if (_tokenIt.NextToken.Token == Tokens.EndToken)
                     break;
 
                 if (_tokenIt.NextToken.Token != Tokens.NewLine)
@@ -105,7 +115,7 @@ namespace ComLib.Lang.Parsing
             var nexttoken = _tokenIt.NextToken.Token;
 
             _context.Limits.CheckParserStatementNested(_tokenIt.NextToken, _state.StatementNested);
-            var hasTokenReplacePlugins = _context.Plugins.HasTokenBasedPlugins;
+            var hasTokenReplacePlugins = _context.PluginsMeta.TotalTokens() > 0;
 
             TokenData last = stmtToken;
             // The loop is here for new lines and comments.
@@ -115,9 +125,9 @@ namespace ComLib.Lang.Parsing
                     break;
 
                 // Token replacements                
-                if (hasTokenReplacePlugins && (nexttoken.Kind == TokenKind.Ident) && _context.Plugins.CanHandleTok(nexttoken, true))
+                if (hasTokenReplacePlugins && (nexttoken.Kind == TokenKind.Ident) && _context.PluginsMeta.CanHandleTok(nexttoken, true))
                 {
-                    var plugin = _context.Plugins.LastMatchedTokenPlugin;
+                    var plugin = _context.PluginsMeta.LastMatchedTokenPlugin;
                     nexttoken = plugin.Parse();
                     _tokenIt.NextToken.Token = nexttoken;
                 }
@@ -196,9 +206,11 @@ namespace ComLib.Lang.Parsing
         public Expr ParseExpression(IDictionary<Token, bool> endTokens, bool handleMathOperator = true, bool handleSingleExpression = false, bool enablePlugins = true, bool passNewLine = true, bool enableIdentTokenTextAsEndToken = false)
         {
             Expr exp = null, lastExp = null;
-            bool hasPlugins = _context.Plugins.TotalExpressions > 0;
+            var hasPlugins = _context.Plugins.TotalExpressions > 0;
+            var hasMetaPlugins = _context.PluginsMeta.TotalExprs() > 0;
+
             bool hasLiteralBasedPlugins = _context.Plugins.HasLiteralTokenPlugins;
-            bool hasTokenReplacePlugins = _context.Plugins.HasTokenBasedPlugins;
+            bool hasTokenReplacePlugins = _context.PluginsMeta.TotalTokens() > 0;
             bool expEndsInParenthesis = false;
             IDictionary<string, bool> identEndTokens = null;
 
@@ -243,10 +255,9 @@ namespace ComLib.Lang.Parsing
                 var okToCheckPlugins = !IsExplicitIdentQualifierExpression(token);
 
                 // Token replacements                
-                if (okToCheckPlugins && enablePlugins && hasTokenReplacePlugins && _context.Plugins.CanHandleTok(token, true))
+                if (okToCheckPlugins && enablePlugins && hasTokenReplacePlugins && _context.PluginsMeta.CanHandleTok(token, true))
                 {
-                    var plugin = _context.Plugins.LastMatchedTokenPlugin;                    
-                    token = plugin.Parse();
+                    token = _context.PluginsMeta.ParseTokens();
                     tokenData = _tokenIt.NextToken;
                     _tokenIt.NextToken.Token = token;
                 }
@@ -256,13 +267,26 @@ namespace ComLib.Lang.Parsing
                 if (enableIdentTokenTextAsEndToken && next.Token.Kind == TokenKind.Ident && identEndTokens.ContainsKey(next.Token.Text))
                     okToCheckPlugins = false;
 
-                
+                // META-PLUGINS-START
+                // 1. TEMP: Handle metaplugins first.
+                //if(okToCheckPlugins && enablePlugins && hasMetaPlugins && _context.PluginsMeta.CanHandleExp(token))
+                //{
+                //    var visitor = this.OnDemandEvaluator;
+                //    exp = _context.PluginsMeta.Parse(visitor);
+                //    _state.ExpressionCount++;
+                //}
+                // META-PLUGINS-END
                 // 1. Check for combinators.
                 if (okToCheckPlugins && enablePlugins && hasPlugins && _context.Plugins.CanHandleExp(token))
                 {
                     var combinator = _context.Plugins.LastMatchedExpressionPlugin;
                     exp = combinator.Parse();
                     _state.ExpressionCount++;
+                }
+                // CASE: Lambda
+                else if ( token == Tokens.Function )
+                {
+                    //exp = ParseLambda();
                 }
                 // CASE: array access on an indexable expression
                 // description: this involves an index access on an expression that was initially not an identifier
@@ -294,8 +318,8 @@ namespace ComLib.Lang.Parsing
                 else if (token.IsLiteralAny())
                 {
                     exp = token == Tokens.Null
-                        ? new ConstantExpr(LObjects.Null)
-                        : new ConstantExpr(TokenHelper.ConvertToLangLiteral(token));
+                        ? Exprs.Const(LObjects.Null, tokenData)
+                        : Exprs.Const(TokenHelper.ConvertToLangLiteral(token), tokenData);
                     _state.ExpressionCount++;
                     var expPosix = ParsePostfix(exp, enablePlugins, hasTokenReplacePlugins);
 
@@ -304,6 +328,22 @@ namespace ComLib.Lang.Parsing
                         _tokenIt.Advance();
                     else
                         exp = expPosix;
+                }
+                else if (exp == null && token.Type == TokenTypes.Minus)
+                {
+                    _tokenIt.Advance();
+                    var current = _tokenIt.NextToken;
+                    if (current.Token.Kind == TokenKind.LiteralNumber)
+                    {
+                        exp = Exprs.Const(TokenHelper.ConvertToLangNegativeNumber(current.Token), current);
+                        _tokenIt.Advance();
+                    }
+                    else
+                    {
+                        exp = ParseExpression(endTokens, handleMathOperator, handleSingleExpression, enablePlugins,
+                                              passNewLine, enableIdentTokenTextAsEndToken);
+                        exp = Exprs.Negate(exp, current);
+                    }
                 }
                 // CASE: Identifier 
                 // description: This will get any identifier based expression
@@ -335,7 +375,7 @@ namespace ComLib.Lang.Parsing
                     var op = Operators.ToOp(token.Text);
                     _tokenIt.Advance();
                     var right = ParseExpression(endTokens);
-                    exp = this.ToUnaryExpr(string.Empty, right, 0, op, tokenData);
+                    exp = Exprs.Unary(string.Empty, right, 0, op, tokenData);
                 }
                 // Exp 6. Symbol ( * / + - < <= > >= == != && || )
                 // Also... symbol should not be a right parenthesis. ")"
@@ -384,6 +424,7 @@ namespace ComLib.Lang.Parsing
         public Expr ParseInterpolatedExpression(Token t)
         {
             var iexp = new InterpolatedExpr();
+            iexp.Expressions = new List<Expr>();
 
             // Convert each token in the interpolated string, need to convert it into
             // it's own expression.
@@ -397,8 +438,8 @@ namespace ComLib.Lang.Parsing
                 if (token.IsLiteralAny())
                 {
                     exp = token == Tokens.Null
-                        ? new ConstantExpr(LObjects.Null)
-                        : new ConstantExpr(TokenHelper.ConvertToLangLiteral(token));
+                        ? Exprs.Const(LObjects.Null, tokenData)
+                        : Exprs.Const(TokenHelper.ConvertToLangLiteral(token), tokenData);
                     this.SetupContext(exp, tokenData);
                     _state.ExpressionCount++;
                 }
@@ -413,14 +454,18 @@ namespace ComLib.Lang.Parsing
 
                     // a. Temporarily set the token iterator for the parser to the one for the interpolation.
                     _tokenIt = tokenIterator;
+                    SetupTokenIteratorReferences(this._tokenIt);
+                    Exprs.Setup(_tokenIt, _context, _scriptPath);
 
                     // b. Now parse only the tokens supplied.
                     exp = ParseExpression(null);
 
                     // c. Reset the token iterator to the global one for the entire script.
                     _tokenIt = exisiting;
+                    SetupTokenIteratorReferences(this._tokenIt);
+                    Exprs.Setup(_tokenIt, _context, _scriptPath);
                 }
-                iexp.Add(exp);
+                iexp.Expressions.Add(exp);
             }
             _tokenIt.Advance();
             return iexp;
@@ -432,7 +477,7 @@ namespace ComLib.Lang.Parsing
         /// </summary>
         /// <param name="block"></param>
         /// <returns></returns>
-        public BlockExpr ParseBlock(BlockExpr block)
+        public IBlockExpr ParseBlock(IBlockExpr block)
         {
             // { statemnt1; statement2; }
             bool isMultiLine = false;
@@ -448,7 +493,7 @@ namespace ComLib.Lang.Parsing
             if (!isMultiLine)
             {
                 var stmt = ParseStatement();
-                stmt.Parent = block;
+                stmt.Parent = block as AstNode;
                 block.Statements.Add(stmt);
                 return block;
             }
@@ -473,7 +518,7 @@ namespace ComLib.Lang.Parsing
                 var stmt = ParseStatement();
                 if (stmt != null)
                 {
-                    stmt.Parent = block;
+                    stmt.Parent = block as AstNode;
                     block.Statements.Add(stmt);
                 }
             }
@@ -501,27 +546,26 @@ namespace ComLib.Lang.Parsing
             var idToken = _tokenIt.LastToken;
             var opToken = _tokenIt.NextToken;
             var op = Operators.ToOp(_tokenIt.NextToken.Token.Text);
-            AssignExpr stmt = null;
+            Expr stmt = null;
             _tokenIt.Advance();
 
             // 1. Create variable expression from the name
-            var nameExpr = this.ToIdentExpr(name, idToken);
+            var nameExpr = Exprs.Ident(name, idToken);
                 
             // ++ -- 
             if (_tokenIt.IsEndOfStmtOrBlock())
             {                
-                var unaryVal = this.ToUnaryExpr(name, null, 1.0, op, opToken);
-                stmt = new AssignExpr(false, nameExpr, unaryVal);
+                var unaryVal = Exprs.Unary(name, null, 1.0, op, opToken);
+                stmt = Exprs.Assign(false, nameExpr, unaryVal, idToken);
                 _tokenIt.ExpectEndOfStmt();
             }
             else // += -= *= -=
             {
                 var endTokens = useSemicolonAsTerminator ? Terminators.ExpStatementEnd : Terminators.ExpParenthesisEnd;
                 var incExpr = ParseExpression(endTokens);
-                var unaryVal = this.ToUnaryExpr(name, incExpr, -1, op, opToken);
-                stmt = new AssignExpr(false, nameExpr, unaryVal);
+                var unaryVal = Exprs.Unary(name, incExpr, -1, op, opToken);
+                stmt = Exprs.Assign(false, nameExpr, unaryVal, idToken);
             }
-            this.SetupContext(stmt, idToken);
             return stmt;
         }
 
@@ -697,6 +741,7 @@ namespace ComLib.Lang.Parsing
             _state.PrecedenceParseStackCount++;
 
             Expr finalExp = null;
+            var isLastNodeExpr = true;
             var token = _tokenIt.NextToken.Token;
             var tokenData = _tokenIt.NextToken;
             var ops = new List<TokenData>();
@@ -705,7 +750,7 @@ namespace ComLib.Lang.Parsing
             var lastPrecendence = 0; 
             var leftParenCount = 0;
             var continueParsing = true;
-            var hasTokenReplacePlugins = _context.Plugins.HasTokenBasedPlugins;
+            var hasTokenReplacePlugins = _context.PluginsMeta.TotalTokens() > 0;
             Expr lastExpression = null;
             var current = token;
 
@@ -717,19 +762,22 @@ namespace ComLib.Lang.Parsing
                 if (IsEndOfExpressionPrecedence(token, leftParenCount, continueParsing, lastExpression))
                     break;
 
-                bool isOp = Operators.IsOp(token.Text);
-                // Expression.
-                if( !isOp || token == Tokens.LogicalNot )
+                var isOp = Operators.IsOp(token.Text);
+                var isNegation = isOp && ( !isLastNodeExpr && token.Type == TokenTypes.Minus );
+                // Case 1: Not an operator or logical not "!"
+                if( !isOp || token == Tokens.LogicalNot || isNegation)
                 {
                     // Must be followed by an expression.
                     var exp = ParseExpression(endTokens, false, true);
                     lastExpression = exp;
                     stack.Add(exp);
+                    isLastNodeExpr = true;
                     continueParsing = false;
                 } 
                 // Operator ( * / + - ( ) > >= < <= == != && || 
                 else if(isOp)
                 {
+                    isLastNodeExpr = false;
                     continueParsing = token != Tokens.RightParenthesis;
                     // Get precedence of the current operator token.
                     int precendence = Operators.Precedence(token.Text);
@@ -829,9 +877,9 @@ namespace ComLib.Lang.Parsing
                 ITokenPlugin tokenPlugin = null;
  
                 // Token replacements                
-                if (current != Tokens.EndToken && enableTokenPlugins && hasTokenReplacePlugins && _context.Plugins.CanHandleTok(current, false))
+                if (current != Tokens.EndToken && enableTokenPlugins && hasTokenReplacePlugins && _context.PluginsMeta.CanHandleTok(current, true))
                 {
-                    tokenPlugin = _context.Plugins.LastMatchedTokenPlugin;
+                    tokenPlugin = _context.PluginsMeta.LastMatchedTokenPlugin;
                     current = tokenPlugin.Peek();
                     replaceToken = true;
                 }
@@ -862,10 +910,9 @@ namespace ComLib.Lang.Parsing
 
             finalExp = LangHelper.ProcessShuntingYardList(_context, this, stack);
 
-            bool endsInParenthesis = false;
             _state.PrecedenceParseStackCount--;
 
-            return new Tuple<bool, Expr>(endsInParenthesis, finalExp);
+            return new Tuple<bool, Expr>(false, finalExp);
         }
 
 
@@ -875,6 +922,7 @@ namespace ComLib.Lang.Parsing
             var token = _tokenIt.NextToken.Token;
             if (token == Tokens.EndToken) return true;
             if (endTokens == null) return false;
+            if (lastExp != null && lastExp.Nodetype == NodeTypes.SysLambda) return true;
             bool isend = endTokens.ContainsKey(token);
 
             // Check if identTokens supplied.
@@ -912,6 +960,8 @@ namespace ComLib.Lang.Parsing
         /// <returns></returns>
         private Expr ParseArray()
         {
+            var startToken = _tokenIt.NextToken;
+
             // Validate.
             Expect(Tokens.LeftBracket);
 
@@ -940,7 +990,7 @@ namespace ComLib.Lang.Parsing
                     _tokenIt.Advance();
             }
             Expect(Tokens.RightBracket);
-            return new DataTypeExpr(items);
+            return Exprs.Array(items, startToken);
         }
 
 
@@ -950,6 +1000,7 @@ namespace ComLib.Lang.Parsing
         /// <returns></returns>
         private Expr ParseMap()
         {
+            var startToken = _tokenIt.NextToken;
             // Validate
             Expect(Tokens.LeftBrace);
             var items = new List<Tuple<string, Expr>>();
@@ -962,14 +1013,20 @@ namespace ComLib.Lang.Parsing
 
                 var token = _tokenIt.NextToken.Token;
                 if (token == Tokens.NewLine || token == Tokens.WhiteSpace)
+                {
                     _tokenIt.Advance();
+                }
+
+                // Stop when } is hit
+                if (IsEndOfStatementOrEndOfScript(Tokens.RightBrace))
+                    break;
 
                 token = _tokenIt.NextToken.Token;
 
                 // Check for error: Format must be <key> : <value>
                 // Example 1: "Name" : "kishore" 
                 // Example 2: Name   : "kishore"
-                string key = string.Empty;
+                var key = string.Empty;
                 if (!(token.IsLiteralAny() || token.Kind == TokenKind.Ident))
                 {
                     throw _tokenIt.BuildSyntaxExpectedException("Text based key for map");
@@ -988,7 +1045,7 @@ namespace ComLib.Lang.Parsing
                     _tokenIt.Advance();
             }
             Expect(Tokens.RightBrace);
-            return new DataTypeExpr(items);
+            return Exprs.Map(items, startToken);
         }
 
 
@@ -1004,7 +1061,7 @@ namespace ComLib.Lang.Parsing
         public Expr ParseFuncExpression(Expr nameExp, List<string> members)
         {
             // Validate
-            var funcExp = (FunctionCallExpr)this.ToFunctionCallExpr(nameExp, null, nameExp.Token);
+            var funcExp = (FunctionCallExpr)Exprs.FunctionCall(nameExp, null, nameExp.Token);
             _state.FunctionCall++;
             _context.Limits.CheckParserFuncCallNested(_tokenIt.NextToken, _state.FunctionCall);
 
@@ -1091,7 +1148,7 @@ namespace ComLib.Lang.Parsing
             if (existing == null)
             {
                 currentName = string.IsNullOrEmpty(name) ? _tokenIt.NextToken.Token.Text : name;
-                exp = this.ToIdentExpr(currentName, _tokenIt.NextToken);
+                exp = Exprs.Ident(currentName, _tokenIt.NextToken);
             }
             if(!isCurrentTokenAMember)
                 _tokenIt.Advance();   
@@ -1135,6 +1192,7 @@ namespace ComLib.Lang.Parsing
                 // Case 3: "[" - indexing
                 else if (token == Tokens.LeftBracket)
                 {
+                    var istart = _tokenIt.LastToken;
                     _tokenIt.Advance();
                     _state.IndexExp++;
 
@@ -1146,13 +1204,14 @@ namespace ComLib.Lang.Parsing
                     // Note: if = sign then property access should return a property info.
                     // otherwise get the value of the property.
                     bool isAssignment = _tokenIt.NextToken.Token == Tokens.Assignment;
-                    exp = new IndexExpr(exp, index, isAssignment);
+                    exp = Exprs.Index(exp, index, isAssignment, istart);
                 }
             
                 // Case 4: "." - member access
                 else if (_tokenIt.NextToken.Token == Tokens.Dot)
                 {
                     _tokenIt.Advance();
+                    var mstart = _tokenIt.NextToken;
                     var member = _tokenIt.ExpectId();
 
                     // Keep list of each member name.
@@ -1161,7 +1220,7 @@ namespace ComLib.Lang.Parsing
                     // Note: if = sign then property access should return a property info.
                     // otherwise get the value of the property.
                     bool isAssignment = _tokenIt.NextToken.Token == Tokens.Assignment;
-                    exp = new MemberAccessExpr(exp, member, isAssignment);
+                    exp = Exprs.MemberAccess(exp, member, isAssignment, mstart);
                 }
                 this.SetupContext(exp, tokenData);
                 memberAccess++;
@@ -1346,170 +1405,6 @@ namespace ComLib.Lang.Parsing
         }
 
 
-        #region Expression Builders
-        /// <summary>
-        /// Creates a variable expression with symbol scope, context, script refernce set.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public Expr ToIdentExpr(string name, TokenData token)
-        {
-            var exp = new VariableExpr(name);
-            this.SetupContext(exp, token);
-            return exp;
-        }
-
-
-        /// <summary>
-        /// Creates a variable expression with symbol scope, context, script refernce set.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public Expr ToConstExpr(LObject obj, TokenData token)
-        {
-            var exp = new ConstantExpr(obj);
-            this.SetupContext(exp, token);
-            return exp;
-        }
-
-
-        /// <summary>
-        /// Creates a unary expression with symbol scope, context, script refernce set.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        public Expr ToUnaryExpr(string name, Expr incExpr, double incValue, Operator op, TokenData token)
-        {
-            var exp = new UnaryExpr();
-            exp.Name = name;
-            exp.Op = op;
-            exp.Increment = incValue;
-            exp.Expression = incExpr;
-            this.SetupContext(exp, token);
-            return exp;
-        }
-
-
-        /// <summary>
-        /// Creates a unary expression with symbol scope, context, script refernce set.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        public Expr ToAssignExpr(bool declare, Expr left, Expr right, TokenData token)
-        {
-            var exp = new AssignExpr(declare, left, right);
-            this.SetupContext(exp, token);
-            return exp;
-        }
-
-
-        /// <summary>
-        /// Creates a unary expression with symbol scope, context, script refernce set.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        public Expr ToForExpr(Expr start, Expr condition, Expr increment, TokenData token)
-        {
-            var exp = new ForExpr(start, condition, increment);
-            this.SetupContext(exp, token);
-            return exp;
-        }
-
-
-        /// <summary>
-        /// Creates a unary expression with symbol scope, context, script refernce set.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        public Expr ToCompareExpr(Expr left, Operator op, Expr right, TokenData token)
-        {
-            var exp = new CompareExpr(left, op, right);
-            this.SetupContext(exp, token);
-            return exp;
-        }
-
-
-        /// <summary>
-        /// Creates a unary expression with symbol scope, context, script refernce set.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        public Expr ToBinaryExpr(Expr left, Operator op, Expr right, TokenData token)
-        {
-            var exp = new BinaryExpr(left, op, right);
-            this.SetupContext(exp, token);
-            return exp;
-        }
-
-
-        /// <summary>
-        /// Creates a unary expression with symbol scope, context, script refernce set.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        public Expr ToConditionExpr(Expr left, Operator op, Expr right, TokenData token)
-        {
-            var exp = new ConditionExpr(left, op, right);
-            this.SetupContext(exp, token);
-            return exp;
-        }
-
-
-        /// <summary>
-        /// Creates a unary expression with symbol scope, context, script refernce set.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        public Expr ToNamedParamExpr(string paramName, Expr val, TokenData token)
-        {
-            var exp = new NamedParamExpr(paramName, val);
-            this.SetupContext(exp, token);
-            return exp;
-        }
-
-
-        /// <summary>
-        /// Creates a function call expression.
-        /// </summary>
-        /// <param name="nameExpr"></param>
-        /// <param name="parameters"></param>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        public Expr ToFunctionCallExpr(Expr nameExpr, List<Expr> parameters, TokenData token)
-        {
-            var funcExp = new FunctionCallExpr();
-            funcExp.NameExp = nameExpr;
-            funcExp.ParamMap = new Dictionary<string, object>();
-            this.SetupContext(funcExp, token);
-            return funcExp;
-        }
-
-
-        /// <summary>
-        /// Creates a function call expression.
-        /// </summary>
-        /// <param name="nameExpr"></param>
-        /// <param name="parameters"></param>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        public Expr ToMemberAccessExpr(Expr nameExpr, string memberName, bool isAssignment, TokenData token)
-        {
-            var exp = new MemberAccessExpr();
-            exp.IsAssignment = isAssignment;
-            exp.VariableExp = nameExpr;
-            exp.MemberName = memberName;
-            this.SetupContext(exp, token);
-            return exp;
-        }
-
-
         /// <summary>
         /// Sets up the context, symbol scope and script source reference for the expression supplied.
         /// </summary>
@@ -1521,10 +1416,16 @@ namespace ComLib.Lang.Parsing
 
             var reftoken = token == null ? _tokenIt.NextToken : token;
             expr.Ctx = this._context;
-            expr.SymScope = this._context.Symbols.Current;
-            expr.Token = reftoken;
-            expr.Ref = new ScriptRef(this.ScriptName, reftoken.Line, reftoken.LineCharPos);
+            if(expr.SymScope == null) expr.SymScope = this._context.Symbols.Current;
+            if(expr.Token == null )   expr.Token = reftoken;
+            if(expr.Ref == null   )   expr.Ref = new ScriptRef(this.ScriptName, reftoken.Line, reftoken.LineCharPos);
         }
-        #endregion
+
+
+        protected void SetupTokenIteratorReferences(TokenIterator tokenIt)
+        {
+            _context.PluginsMeta.TokenIt = tokenIt;
+            _context.PluginsMeta.Symbols = _context.Symbols;
+        }
     }
 }

@@ -5,6 +5,8 @@ using System.Text;
 
 // <lang:using>
 using ComLib.Lang.Core;
+using ComLib.Lang.Helpers;
+
 // </lang:using>
 
 
@@ -88,6 +90,15 @@ namespace ComLib.Lang.Parsing
             { '|', true}             
         };
         #endregion
+
+
+        /// <summary>
+        /// Initialize
+        /// </summary>
+        /// <param name="text">The text to parse</param>
+        public Lexer()
+        {
+        }
 
 
         /// <summary>
@@ -277,9 +288,9 @@ namespace ComLib.Lang.Parsing
                         var replaceVal = _replacements[token.Token.Text];
 
                         // Replaces system token?
-                        if (Tokens.AllTokens.ContainsKey(replaceVal))
+                        if (Tokens.ContainsKey(replaceVal))
                         {
-                            Token t = Tokens.AllTokens[replaceVal];
+                            var t = Tokens.GetToken(replaceVal);
                             token.Token = t;
                         }
                         else
@@ -350,7 +361,7 @@ namespace ComLib.Lang.Parsing
                 var result = _scanner.ScanToNewLine(false, true);
                 //tokenLengthCalcMode = TokenLengthCalcMode.String;
                 tokenLength = (_scanner.State.Pos - pos) + 1;
-                _lastToken = Tokens.ToComment(false, result.Text);
+                _lastToken = TokenBuilder.ToComment(false, result.Text);
             }
             // Multi-line
             else if (c == '/' && n == '*')
@@ -359,7 +370,7 @@ namespace ComLib.Lang.Parsing
                 var result = _scanner.ScanUntilChars(false, '*', '/', false, true);
                 //tokenLengthCalcMode = TokenLengthCalcMode.MultilineComment;
                 tokenLength = _scanner.State.LineCharPosition;
-                _lastToken = Tokens.ToComment(true, result.Text);
+                _lastToken = TokenBuilder.ToComment(true, result.Text);
             }
             else if (c == '|' && n != '|')
             {
@@ -529,7 +540,7 @@ namespace ComLib.Lang.Parsing
             if (Tokens.IsKeyword(result.Text))
                 return Tokens.Lookup(result.Text);
 
-            return Tokens.ToIdentifier(result.Text);
+            return TokenBuilder.ToIdentifier(result.Text);
         }
 
 
@@ -540,7 +551,7 @@ namespace ComLib.Lang.Parsing
         public Token ReadUri()
         {
             var result = _scanner.ScanUri(false, true);
-            return Tokens.ToLiteralString(result.Text);
+            return TokenBuilder.ToLiteralString(result.Text);
         }
 
 
@@ -553,7 +564,7 @@ namespace ComLib.Lang.Parsing
         public Token ReadCustomWord(char extra1, char extra2)
         {
             var result = _scanner.ScanWordUntilChars(false, true, extra1, extra2);
-            return Tokens.ToLiteralString(result.Text);
+            return TokenBuilder.ToLiteralString(result.Text);
         }
 
 
@@ -564,7 +575,7 @@ namespace ComLib.Lang.Parsing
         public Token ReadNumber()
         {
             var result = _scanner.ScanNumber(false, true);
-            return Tokens.ToLiteralNumber(result.Text);
+            return TokenBuilder.ToLiteralNumber(result.Text);
         }
 
 
@@ -595,7 +606,7 @@ namespace ComLib.Lang.Parsing
                 if(!result.Success)
                     throw new LangException("Syntax Error", "Unterminated string", string.Empty, _scanner.State.Line, _scanner.State.LineCharPosition);
 
-                return Tokens.ToLiteralString(result.Text);
+                return TokenBuilder.ToLiteralString(result.Text);
             }
             return this.ReadInterpolatedString(quote, false, true, true);
         }
@@ -609,7 +620,7 @@ namespace ComLib.Lang.Parsing
         public Token ReadToPosition(int pos)
         {
             var result = _scanner.ScanToPosition(true, pos, true);
-            return Tokens.ToLiteralString(result.Text);
+            return TokenBuilder.ToLiteralString(result.Text);
         }
 
 
@@ -630,7 +641,7 @@ namespace ComLib.Lang.Parsing
         public Token ReadLineRaw(bool includeNewLine)
         {
             var result = _scanner.ScanToNewLine(false, true);
-            var token = Tokens.ToLiteralString(result.Text);
+            var token = TokenBuilder.ToLiteralString(result.Text);
             return token;
         }        
 
@@ -690,14 +701,14 @@ namespace ComLib.Lang.Parsing
                     if (buffer.Length > 0)
                     {
                         string text = buffer.ToString();
-                        token = Tokens.ToLiteralString(text);
+                        token = TokenBuilder.ToLiteralString(text);
                         var t = new TokenData() { Token = token, LineCharPos = 0, Line = _scanner.State.Line };
                         allTokens.Add(t);
                         buffer.Clear();
                     }
                     _scanner.MoveChars(1);
                     var tokens = ReadInterpolatedTokens();
-                    token = Tokens.ToInterpolated(string.Empty, tokens);
+                    token = TokenBuilder.ToInterpolated(string.Empty, tokens);
                     var iTokenData = new TokenData() { Token = token, LineCharPos = interpolatedStringStartPos, Line = interpolatedStringLinePos };
                     allTokens.Add(iTokenData);
                 }
@@ -730,15 +741,15 @@ namespace ComLib.Lang.Parsing
             if (interpolationCount == 0)
             {
                 var text = buffer.ToString();
-                return Tokens.ToLiteralString(text);
+                return TokenBuilder.ToLiteralString(text);
             }
             if (buffer.Length > 0)
             {
                 var text = buffer.ToString();
-                token = Tokens.ToLiteralString(text);
+                token = TokenBuilder.ToLiteralString(text);
                 allTokens.Add(new TokenData() { Token = token, LineCharPos = 0, Line = _scanner.State.Line });
             }
-            return Tokens.ToInterpolated(string.Empty, allTokens);
+            return TokenBuilder.ToInterpolated(string.Empty, allTokens);
         }
         #endregion
 

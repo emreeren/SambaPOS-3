@@ -72,42 +72,4 @@ namespace ComLib.Lang.Plugins
             return new ThrowExpr() { Exp = exp };
         }
     }
-
-
-
-    /// <summary>
-    /// For loop Expression data
-    /// </summary>
-    public class ThrowExpr : Expr
-    {
-        /// <summary>
-        /// Create new instance
-        /// </summary>
-        public ThrowExpr()
-        {
-        }
-
-
-        /// <summary>
-        /// Name for the error in the catch clause.
-        /// </summary>
-        public Expr Exp;
-
-
-        /// <summary>
-        /// Execute
-        /// </summary>
-        public override object DoEvaluate()
-        {
-            var message = "";
-            if (Exp != null)
-            {
-                var result = Exp.Evaluate() as LObject;
-                if (result != LObjects.Null)
-                    message = result.GetValue().ToString();
-            }
-
-            throw new LangException("TypeError", message, this.Ref.ScriptName, this.Ref.Line);
-        }
-    }
 }

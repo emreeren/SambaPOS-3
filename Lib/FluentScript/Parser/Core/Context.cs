@@ -5,6 +5,7 @@ using System.Text;
 
 // <lang:using>
 using ComLib.Lang.Core;
+using ComLib.Lang.Parsing.MetaPlugins;
 using ComLib.Lang.Types;
 // </lang:using>
 
@@ -22,9 +23,9 @@ namespace ComLib.Lang.Parsing
         {
             Types = new RegisteredTypes();
             ExternalFunctions = new ExternalFunctions();
-            //Functions = new RegisteredFunctions();
             Words = new RegisteredWords();
             Plugins = new RegisteredPlugins();
+            PluginsMeta = new MetaPluginContainer();
             Symbols = new Symbols();
             Memory = new Memory();
             Limits = new Limits(this);
@@ -48,6 +49,12 @@ namespace ComLib.Lang.Parsing
         /// All the combinators that extend parsing.
         /// </summary>
         public RegisteredPlugins Plugins;
+
+
+        /// <summary>
+        /// All the combinators that extend parsing.
+        /// </summary>
+        public MetaPluginContainer PluginsMeta;
 
 
         /// <summary>

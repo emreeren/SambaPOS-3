@@ -166,6 +166,12 @@ namespace ComLib.Lang.Parsing
 
 
         /// <summary>
+        /// Grammar for matching the plugin.
+        /// </summary>
+        public string GrammarMatch { get; set; }
+
+
+        /// <summary>
         /// The tokens that are associated w/ this combinator.
         /// </summary>
         public string[] StartTokens
@@ -211,6 +217,9 @@ namespace ComLib.Lang.Parsing
         {
             return IsAutoMatched;
         }
+
+
+        public ExprParser ExpParser { get; set; }
 
 
         #region Token methods

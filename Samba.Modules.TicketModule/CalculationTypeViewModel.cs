@@ -22,7 +22,8 @@ namespace Samba.Modules.TicketModule
                     Resources.RateFromPreviousTemplate, 
                     Resources.FixedAmount,
                     Resources.FixedAmountFromTicketTotal,
-                    Resources.RoundTicketTotal
+                    Resources.RoundTicketTotal,
+                    Resources.Custom
                 });
             }
         }
@@ -34,6 +35,7 @@ namespace Samba.Modules.TicketModule
         public decimal MaxAmount { get { return Model.MaxAmount; } set { Model.MaxAmount = value; } }
         public bool IncludeTax { get { return Model.IncludeTax; } set { Model.IncludeTax = value; } }
         public bool DecreaseAmount { get { return Model.DecreaseAmount; } set { Model.DecreaseAmount = value; } }
+        public bool UsePlainSum { get { return Model.UsePlainSum; } set { Model.UsePlainSum = value; } }
 
         private IEnumerable<AccountTransactionType> _accountTransactionTypes;
         public IEnumerable<AccountTransactionType> AccountTransactionTypes { get { return _accountTransactionTypes ?? (_accountTransactionTypes = Workspace.All<AccountTransactionType>()); } }

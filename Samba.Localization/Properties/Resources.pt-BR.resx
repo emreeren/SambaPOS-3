@@ -117,230 +117,1416 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AllDiscountsRemoved" xml:space="preserve">
-    <value>Todos os descontos são removidos devido valor do desconto total calculado é maior do que a quantidade de bilhetes.</value>
+  <data name="AccountBalance" xml:space="preserve">
+    <value>Saldo em Conta</value>
   </data>
-  <data name="Purchase" xml:space="preserve">
-    <value>Compras</value>
+  <data name="FixedAmount" xml:space="preserve">
+    <value>Quantia fixa</value>
   </data>
-  <data name="CalculationMethod" xml:space="preserve">
-    <value>Método de Cálculo</value>
-  </data>
-  <data name="TopOfTheHour" xml:space="preserve">
-    <value>Início da hora</value>
-  </data>
-  <data name="KitchenPrinter" xml:space="preserve">
-    <value>Impressora da cozinha</value>
-  </data>
-  <data name="Product" xml:space="preserve">
-    <value>Produto</value>
-  </data>
-  <data name="PinCode" xml:space="preserve">
-    <value>Pin</value>
-  </data>
-  <data name="CsvBuilder" xml:space="preserve">
-    <value>CSV construtor</value>
-  </data>
-  <data name="RoleName" xml:space="preserve">
-    <value>Nome da Função</value>
-  </data>
-  <data name="OnceAnHour" xml:space="preserve">
-    <value>Uma vez por hora</value>
-  </data>
-  <data name="Rounding" xml:space="preserve">
-    <value>Arredondamento</value>
-  </data>
-  <data name="Increase" xml:space="preserve">
-    <value>Aumentar</value>
-  </data>
-  <data name="ExtraModifiers" xml:space="preserve">
-    <value>Modificadores-extra</value>
-  </data>
-  <data name="ItemSales" xml:space="preserve">
-    <value>Vendas de itens</value>
-  </data>
-  <data name="Three" xml:space="preserve">
-    <value>Três</value>
-  </data>
-  <data name="AutoStartMessageClient" xml:space="preserve">
-    <value>Auto início da mensagem do cliente</value>
-  </data>
-  <data name="FooterTemplate" xml:space="preserve">
-    <value>Modelo de rodapé</value>
-  </data>
-  <data name="MonThruFri" xml:space="preserve">
-    <value>Seg sex através</value>
-  </data>
-  <data name="MenuList" xml:space="preserve">
-    <value>Lista do menu</value>
-  </data>
-  <data name="ThereAreOpenTicketsWarning_f" xml:space="preserve">
-    <value>Existem {0} tickets em aberto.
-Não é possível acabar com período de trabalho, porque tem tickets abertos </value>
-  </data>
-  <data name="SortCategoryProducts" xml:space="preserve">
-    <value>Classificar categoria dos produtos</value>
-  </data>
-  <data name="From" xml:space="preserve">
-    <value>De:</value>
-  </data>
-  <data name="ErrorInExpression" xml:space="preserve">
-    <value>Erro na Expressão</value>
-  </data>
-  <data name="Settings" xml:space="preserve">
-    <value>Configurações</value>
+  <data name="Entity" xml:space="preserve">
+    <value>Entidade</value>
   </data>
   <data name="ButtonHeader" xml:space="preserve">
     <value>Cabeçalho do botão</value>
   </data>
-  <data name="PastWeek" xml:space="preserve">
-    <value>Semana passada</value>
+  <data name="DisplayTicket" xml:space="preserve">
+    <value>Mostrar Ticket</value>
   </data>
-  <data name="MessageReceived" xml:space="preserve">
-    <value>Mensagem Recebida</value>
+  <data name="Print" xml:space="preserve">
+    <value>Imprimir</value>
   </data>
-  <data name="LocalSettings" xml:space="preserve">
-    <value>Configurações locais</value>
+  <data name="TotalWorkTimeDays_f" xml:space="preserve">
+    <value>Tempo de trabalho Total:
+{0:0} dias {01:00} horas {2:0} minutos </value>
   </data>
-  <data name="InventoryItemName" xml:space="preserve">
-    <value>Nome do item do estoque</value>
+  <data name="Add_f" xml:space="preserve">
+    <value>Adicione {0}</value>
   </data>
-  <data name="Costs" xml:space="preserve">
-    <value>Custos</value>
+  <data name="Category" xml:space="preserve">
+    <value>Categoria</value>
   </data>
-  <data name="EndWorkPeriod" xml:space="preserve">
-    <value>Fim do Período de Trabalho</value>
+  <data name="Discount" xml:space="preserve">
+    <value>Desconto</value>
   </data>
-  <data name="DataConnection" xml:space="preserve">
-    <value>String de data conexão</value>
+  <data name="Currency" xml:space="preserve">
+    <value>Moeda</value>
   </data>
-  <data name="WeightBarcodePefix" xml:space="preserve">
-    <value>Prefixo Barcode Peso</value>
+  <data name="ButtonColor" xml:space="preserve">
+    <value>Cor do botão</value>
   </data>
-  <data name="ProductProperties" xml:space="preserve">
-    <value>Propriedades do produto</value>
+  <data name="Custom" xml:space="preserve">
+    <value>Personalizado</value>
   </data>
-  <data name="SalesDivTicket" xml:space="preserve">
-    <value>Total de Vendas / Ticket</value>
+  <data name="EveryMonth" xml:space="preserve">
+    <value>Todos os meses</value>
   </data>
-  <data name="DepartmentName" xml:space="preserve">
-    <value>Nome do departamento</value>
+  <data name="TagValue" xml:space="preserve">
+    <value>Valor do Tag</value>
   </data>
-  <data name="AverageCost" xml:space="preserve">
-    <value>Custo Médio</value>
+  <data name="Round" xml:space="preserve">
+    <value>Arredondar</value>
   </data>
-  <data name="BackgroundColor" xml:space="preserve">
-    <value>Cor de Fundo</value>
+  <data name="PropertyEditor" xml:space="preserve">
+    <value>Editor de propriedades</value>
   </data>
-  <data name="AddAndSave" xml:space="preserve">
-    <value>Adicionar e guardar</value>
+  <data name="AccountType" xml:space="preserve">
+    <value>Tipo de Conta</value>
   </data>
-  <data name="To" xml:space="preserve">
-    <value>Para:</value>
+  <data name="CashStatus" xml:space="preserve">
+    <value>Status da Caixa</value>
   </data>
-  <data name="Delete_f" xml:space="preserve">
-    <value>Excluir {0}</value>
+  <data name="Inventory" xml:space="preserve">
+    <value>Inventário</value>
   </data>
-  <data name="MenuItemGroup" xml:space="preserve">
-    <value>Grupo de produtos</value>
+  <data name="LineItemTotalAndQuantity" xml:space="preserve">
+    <value># Linha: Item total x quantidade</value>
   </data>
-  <data name="PriceDefinition" xml:space="preserve">
-    <value>Definição de preço</value>
+  <data name="StartWorkPeriod" xml:space="preserve">
+    <value>Início do período de trabalho</value>
   </data>
-  <data name="TicketSubTotal" xml:space="preserve">
-    <value>Total da sub Bilheteira</value>
+  <data name="Fourteen" xml:space="preserve">
+    <value>Catorze</value>
   </data>
-  <data name="AdminPasswordHint" xml:space="preserve">
-    <value>PIN Admin: 1234
-Alterar PIN vai esconder essa dica </value>
+  <data name="UserRoleList" xml:space="preserve">
+    <value>Lista de função</value>
   </data>
-  <data name="Cost" xml:space="preserve">
-    <value>Custo</value>
+  <data name="ClearFilter" xml:space="preserve">
+    <value>Limpar filtro</value>
+  </data>
+  <data name="UpdatePriceTag" xml:space="preserve">
+    <value>Alterar Lista de Preços</value>
+  </data>
+  <data name="Warehouse" xml:space="preserve">
+    <value>Armazém</value>
+  </data>
+  <data name="TotalIncome" xml:space="preserve">
+    <value>Renda Total</value>
+  </data>
+  <data name="Entities" xml:space="preserve">
+    <value>Entidades</value>
+  </data>
+  <data name="AccountDetails" xml:space="preserve">
+    <value>Detalhe da Conta</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Selecionar</value>
+  </data>
+  <data name="CIDSettings" xml:space="preserve">
+    <value>Configurações CID</value>
+  </data>
+  <data name="WorkPeriodReport" xml:space="preserve">
+    <value>Relatório do período do trabalho</value>
+  </data>
+  <data name="AddCategoryHint" xml:space="preserve">
+    <value>Digite categorias que você deseja adicionar</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>Informações</value>
+  </data>
+  <data name="StartWorkPeriodToEnablePos" xml:space="preserve">
+    <value>Iniciar Período de trabalho para permitir POS</value>
+  </data>
+  <data name="Rules" xml:space="preserve">
+    <value>Regras</value>
+  </data>
+  <data name="TicketWithBrackets" xml:space="preserve">
+    <value>[Ticket]</value>
+  </data>
+  <data name="Numerator" xml:space="preserve">
+    <value>Numerador</value>
+  </data>
+  <data name="EditModel_f" xml:space="preserve">
+    <value>Edição {0} ({1})</value>
+  </data>
+  <data name="Every6Hours" xml:space="preserve">
+    <value>A cada 6 horas</value>
+  </data>
+  <data name="TriggerExecuted" xml:space="preserve">
+    <value>Disparador executado</value>
+  </data>
+  <data name="MenuProperties" xml:space="preserve">
+    <value>Propriedades do Menu</value>
+  </data>
+  <data name="Dollar" xml:space="preserve">
+    <value>Dólar</value>
+  </data>
+  <data name="BatchPriceList" xml:space="preserve">
+    <value>Editor de Lista de Preços</value>
+  </data>
+  <data name="Numerators" xml:space="preserve">
+    <value>Numeradores</value>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>Conta</value>
   </data>
   <data name="Liability" xml:space="preserve">
     <value>Responsabilidade</value>
   </data>
-  <data name="Forty" xml:space="preserve">
-    <value>Quarenta</value>
+  <data name="UpdateTicketState" xml:space="preserve">
+    <value>Atualizar Status do Ticket</value>
   </data>
-  <data name="NewTag" xml:space="preserve">
-    <value>Nova Tag</value>
+  <data name="Nineteen" xml:space="preserve">
+    <value>Dezenove</value>
   </data>
-  <data name="InventoryConsumption" xml:space="preserve">
-    <value>Consumo de Inventário</value>
+  <data name="List_f" xml:space="preserve">
+    <value>{0} Lista</value>
   </data>
-  <data name="StartClientNow" xml:space="preserve">
-    <value>Iniciar Cliente Agora</value>
+  <data name="Copy" xml:space="preserve">
+    <value>Copiar</value>
   </data>
-  <data name="ActionName" xml:space="preserve">
-    <value>Nome da Ação</value>
+  <data name="TaxIncluded" xml:space="preserve">
+    <value>Imposto Incluido</value>
   </data>
-  <data name="DetailedReport" xml:space="preserve">
-    <value>Relatório detalhado</value>
+  <data name="EveryOtherHour" xml:space="preserve">
+    <value>Cada duas horas</value>
   </data>
-  <data name="Edit_f" xml:space="preserve">
-    <value>Editar {0}</value>
+  <data name="DiscountsTotal" xml:space="preserve">
+    <value>Total de descontos</value>
   </data>
-  <data name="TotalAmountDivTag_f" xml:space="preserve">
-    <value>Valor Total / {0}:</value>
+  <data name="Search" xml:space="preserve">
+    <value>Pesquisar</value>
   </data>
-  <data name="ExpressionBuilder" xml:space="preserve">
-    <value>Construtor de expressões</value>
+  <data name="AveragePrice_ab" xml:space="preserve">
+    <value>PreçoMed</value>
   </data>
-  <data name="AutoRounding" xml:space="preserve">
-    <value>Auto-Arredondamento</value>
+  <data name="EnterPin" xml:space="preserve">
+    <value>DIGITE PIN</value>
   </data>
-  <data name="AddProductsToCategoryHint_f" xml:space="preserve">
-    <value>Selecione Produtos para {0} categoria</value>
+  <data name="ExpenseTransactions" xml:space="preserve">
+    <value>Transações despesas</value>
   </data>
-  <data name="MoveTicketLine" xml:space="preserve">
-    <value>Mover</value>
+  <data name="PurchaseTransaction" xml:space="preserve">
+    <value>Transação de Compra</value>
   </data>
-  <data name="Description" xml:space="preserve">
-    <value>Descrição</value>
+  <data name="AutoSelect" xml:space="preserve">
+    <value>Auto-selecione</value>
+  </data>
+  <data name="TemplateName" xml:space="preserve">
+    <value>Nome do Modelo</value>
+  </data>
+  <data name="PropertyGroupName" xml:space="preserve">
+    <value>Nome do Grupo de Propriedade</value>
+  </data>
+  <data name="AddModel_f" xml:space="preserve">
+    <value>Adicionando um Novo {0}</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Usuários</value>
+  </data>
+  <data name="GetPayment" xml:space="preserve">
+    <value>Obter Pagamento</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Altura</value>
+  </data>
+  <data name="StateFilter" xml:space="preserve">
+    <value>Filtrar Status</value>
+  </data>
+  <data name="SubTotal" xml:space="preserve">
+    <value>Sub Total</value>
+  </data>
+  <data name="CanUpdateExtraModifiers" xml:space="preserve">
+    <value>Pode atualizar modificadores extra</value>
+  </data>
+  <data name="GeneralInformation" xml:space="preserve">
+    <value>Informações gerais</value>
+  </data>
+  <data name="ReportName" xml:space="preserve">
+    <value>Nome do relatório</value>
+  </data>
+  <data name="Every3Hours" xml:space="preserve">
+    <value>A cada 3 horas</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Título</value>
+  </data>
+  <data name="CashContent" xml:space="preserve">
+    <value>Conteúdo Dinheiro</value>
+  </data>
+  <data name="KitchenPrinter" xml:space="preserve">
+    <value>Impressora da cozinha</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Configurações</value>
+  </data>
+  <data name="NewOrder" xml:space="preserve">
+    <value>Nova Ordem</value>
+  </data>
+  <data name="Multiple" xml:space="preserve">
+    <value>Múltiplo</value>
+  </data>
+  <data name="LineItemPriceCents" xml:space="preserve">
+    <value># Linha: Preço do Item em centavos</value>
+  </data>
+  <data name="UserLogin" xml:space="preserve">
+    <value>Login de Usuário</value>
+  </data>
+  <data name="Recipe" xml:space="preserve">
+    <value>Receita</value>
+  </data>
+  <data name="CurrentCost" xml:space="preserve">
+    <value>Custo atual</value>
+  </data>
+  <data name="VoidOrders" xml:space="preserve">
+    <value>Anular Ordens</value>
+  </data>
+  <data name="AccountNameTemplate" xml:space="preserve">
+    <value>Modelo de Nome de Conta</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="Property" xml:space="preserve">
+    <value>Propriedade</value>
+  </data>
+  <data name="PaymentScreenValues" xml:space="preserve">
+    <value>Valores da Tela de Pagamento</value>
+  </data>
+  <data name="DataConnection" xml:space="preserve">
+    <value>String de data conexão</value>
+  </data>
+  <data name="DisplayOpenTickets" xml:space="preserve">
+    <value>Mostrar Tickets Abertos</value>
+  </data>
+  <data name="CustomerTickets" xml:space="preserve">
+    <value>Tickets do Cliente</value>
+  </data>
+  <data name="MenuName" xml:space="preserve">
+    <value>Nome do Menu</value>
+  </data>
+  <data name="LineItemName" xml:space="preserve">
+    <value># Linha: Nome do item</value>
+  </data>
+  <data name="LastOrder" xml:space="preserve">
+    <value>Última ordem</value>
+  </data>
+  <data name="RefreshCache" xml:space="preserve">
+    <value>Atualizar Cache</value>
+  </data>
+  <data name="Cancel_f" xml:space="preserve">
+    <value>Cancelar {0}</value>
+  </data>
+  <data name="NumeratorFormat" xml:space="preserve">
+    <value>Formato de número</value>
   </data>
   <data name="OnceAMonth" xml:space="preserve">
     <value>Uma vez por mês</value>
   </data>
-  <data name="Send" xml:space="preserve">
-    <value>Enviar</value>
+  <data name="UnitPrice" xml:space="preserve">
+    <value>Preço unitário</value>
   </data>
-  <data name="TicketTagSelected" xml:space="preserve">
-    <value>Tag Ticket Selecionado</value>
+  <data name="UiLanguage" xml:space="preserve">
+    <value>Língua do programa</value>
   </data>
-  <data name="Eleven" xml:space="preserve">
-    <value>Onze</value>
+  <data name="Action" xml:space="preserve">
+    <value>Ação</value>
   </data>
-  <data name="SelectPrintJobsForTerminalHint_f" xml:space="preserve">
-    <value>Selecione trabalhos de impressão que você deseja adicionar {0} terminais</value>
+  <data name="OrderLine" xml:space="preserve">
+    <value>Linha da Ordem</value>
   </data>
-  <data name="Zero" xml:space="preserve">
-    <value>Zero</value>
+  <data name="Barcode" xml:space="preserve">
+    <value>Código de barras</value>
+  </data>
+  <data name="DeleteSelectedCategoryQuestion" xml:space="preserve">
+    <value>Excluir a Categoria?</value>
+  </data>
+  <data name="EndOfDayRecords" xml:space="preserve">
+    <value>Relatórios do fim do dia </value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>Nome de usuário</value>
+  </data>
+  <data name="Accounts" xml:space="preserve">
+    <value>Contas</value>
+  </data>
+  <data name="WorkPeriod" xml:space="preserve">
+    <value>Período de Trabalho</value>
+  </data>
+  <data name="Payment" xml:space="preserve">
+    <value>Pagamento</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Preço</value>
+  </data>
+  <data name="LineItemTotal" xml:space="preserve">
+    <value># Linha: Item total</value>
+  </data>
+  <data name="MenuList" xml:space="preserve">
+    <value>Lista do menu</value>
+  </data>
+  <data name="ProductList" xml:space="preserve">
+    <value>Lista de Produtos</value>
+  </data>
+  <data name="AlphanumericButtonValues" xml:space="preserve">
+    <value>Botões de valores alfanumérico</value>
+  </data>
+  <data name="DescriptionTemplate" xml:space="preserve">
+    <value>Modelo de Descrição</value>
+  </data>
+  <data name="TotalSales" xml:space="preserve">
+    <value>Total de vendas</value>
+  </data>
+  <data name="OrderState" xml:space="preserve">
+    <value>Status da Ordem</value>
+  </data>
+  <data name="DeleteErrorAdminUser" xml:space="preserve">
+    <value>Não é possível excluir usuário admin.</value>
+  </data>
+  <data name="UseAtOldTickets" xml:space="preserve">
+    <value>Somente para ticketes antigos</value>
+  </data>
+  <data name="ResetAccount" xml:space="preserve">
+    <value>Limpar Conta</value>
+  </data>
+  <data name="RoleName" xml:space="preserve">
+    <value>Nome da Função</value>
+  </data>
+  <data name="ThereAreNoCostTransactionsInThisPeriod" xml:space="preserve">
+    <value>Não há transações dos custos neste período de trabalho.</value>
+  </data>
+  <data name="MenuItem" xml:space="preserve">
+    <value>Produto</value>
+  </data>
+  <data name="ThereIsAnotherRecipeFor_f" xml:space="preserve">
+    <value>Não há outra receita para {0}</value>
+  </data>
+  <data name="OneThousand" xml:space="preserve">
+    <value>Mil</value>
+  </data>
+  <data name="PrinterTemplate" xml:space="preserve">
+    <value>Modelo da Impressora</value>
+  </data>
+  <data name="InventoryItems" xml:space="preserve">
+    <value>Itens de inventário</value>
+  </data>
+  <data name="Single" xml:space="preserve">
+    <value>Individual</value>
+  </data>
+  <data name="PredictedInventory" xml:space="preserve">
+    <value>Previsão de Inventário</value>
+  </data>
+  <data name="EndWorkPeriod" xml:space="preserve">
+    <value>Fim do Período de Trabalho</value>
+  </data>
+  <data name="ProductProperties" xml:space="preserve">
+    <value>Propriedades do produto</value>
+  </data>
+  <data name="TransactionType" xml:space="preserve">
+    <value>Tipo de Transação</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Hora</value>
+  </data>
+  <data name="Move" xml:space="preserve">
+    <value>Mover</value>
+  </data>
+  <data name="Create_f" xml:space="preserve">
+    <value>Criar {0}</value>
+  </data>
+  <data name="Rate" xml:space="preserve">
+    <value>Taxa</value>
+  </data>
+  <data name="Debit" xml:space="preserve">
+    <value>Débito</value>
+  </data>
+  <data name="FindProduct" xml:space="preserve">
+    <value>Procurar produto</value>
+  </data>
+  <data name="Every5Minutes" xml:space="preserve">
+    <value>A cada 5 minutos</value>
+  </data>
+  <data name="Rule" xml:space="preserve">
+    <value>Regra</value>
+  </data>
+  <data name="LastOrderStatus" xml:space="preserve">
+    <value>Estado da última ordem</value>
+  </data>
+  <data name="Thirty" xml:space="preserve">
+    <value>Trinta</value>
+  </data>
+  <data name="EntityScreenItem" xml:space="preserve">
+    <value>Item da Tela da Entidade</value>
+  </data>
+  <data name="Incomes_f" xml:space="preserve">
+    <value>{0} Rendimentos</value>
+  </data>
+  <data name="TicketCreationMethod" xml:space="preserve">
+    <value>Método de Criação de Ticket</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Tag</value>
+  </data>
+  <data name="EmptyDiscountRateFeedback" xml:space="preserve">
+    <value>Para adicionar descontos, digite uma taxa de desconto e clique no botão. Para remover desconto botão desconto clique sem digitar um valor.</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="Tables" xml:space="preserve">
+    <value>Mesas</value>
+  </data>
+  <data name="TicketStateUpdated" xml:space="preserve">
+    <value>Status do Ticket Atualizado</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Excluir</value>
+  </data>
+  <data name="Sort_f" xml:space="preserve">
+    <value>Ordenar {0}</value>
+  </data>
+  <data name="NoAction" xml:space="preserve">
+    <value>Nenhuma Ação</value>
+  </data>
+  <data name="PropertyGroup" xml:space="preserve">
+    <value>Grupo da propriedade</value>
+  </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>Mensagem de erro</value>
+  </data>
+  <data name="OrderAddedToTicket" xml:space="preserve">
+    <value>Ordem Adicionada ao Ticket</value>
+  </data>
+  <data name="TwelveAmMidnight" xml:space="preserve">
+    <value>Meia-noite 12 hs</value>
+  </data>
+  <data name="NewTicket" xml:space="preserve">
+    <value>Novo Ticket</value>
+  </data>
+  <data name="UserSales" xml:space="preserve">
+    <value>Vendas do usuário</value>
+  </data>
+  <data name="ExpressionValid" xml:space="preserve">
+    <value>Expressão válida</value>
+  </data>
+  <data name="WeightBarcodeItemIdLength" xml:space="preserve">
+    <value>Peso Barcode Comprimento Item Id</value>
+  </data>
+  <data name="SendEmail" xml:space="preserve">
+    <value>Enviar e-mail</value>
+  </data>
+  <data name="PurchaseTransactionType" xml:space="preserve">
+    <value>Tipo de Transação de Compra</value>
+  </data>
+  <data name="EveryWeekday" xml:space="preserve">
+    <value>Cada dia da semana</value>
+  </data>
+  <data name="RateFromTicketAmount" xml:space="preserve">
+    <value>Taxa de quantidade de bilhetes</value>
+  </data>
+  <data name="DayTime" xml:space="preserve">
+    <value>Hora do Dia</value>
   </data>
   <data name="TriggerTestResultMessage_f" xml:space="preserve">
     <value>desencadear seguinte: {0}
 Irá disparar após {1} dias, {2} horas, {3} minutos </value>
   </data>
+  <data name="WeightBarcodeItemIdFormat" xml:space="preserve">
+    <value>Peso Barcode Formato Item Id</value>
+  </data>
+  <data name="Angle" xml:space="preserve">
+    <value>Ângulo</value>
+  </data>
+  <data name="OnlyNewLines" xml:space="preserve">
+    <value>Apenas linhas novas</value>
+  </data>
+  <data name="ChangeTicketEntity" xml:space="preserve">
+    <value>Mudar a Entidade do Ticket</value>
+  </data>
+  <data name="CanChangeReportFilter" xml:space="preserve">
+    <value>Pode mudar filtro da data do relatório</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>Usuário</value>
+  </data>
+  <data name="Eleven" xml:space="preserve">
+    <value>Onze</value>
+  </data>
+  <data name="CanOpenDashboard" xml:space="preserve">
+    <value>Pode Abrir o Dashboard</value>
+  </data>
+  <data name="LastOrderDate" xml:space="preserve">
+    <value>Data da última ordem</value>
+  </data>
+  <data name="Credit" xml:space="preserve">
+    <value>Crédito</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Voltar</value>
+  </data>
+  <data name="OrderNumerator" xml:space="preserve">
+    <value>Numerador do Ordem</value>
+  </data>
+  <data name="IncreaseInventory" xml:space="preserve">
+    <value>Aumentar no Inventário</value>
+  </data>
+  <data name="CategoryName" xml:space="preserve">
+    <value>Nome da Categoria</value>
+  </data>
+  <data name="SatAndSun" xml:space="preserve">
+    <value>Sáb e dom.</value>
+  </data>
+  <data name="LinesGroupedByBarcode" xml:space="preserve">
+    <value>Linhas agrupadas por código de barras</value>
+  </data>
+  <data name="ThisWeek" xml:space="preserve">
+    <value>Esta semana</value>
+  </data>
+  <data name="PrintContent" xml:space="preserve">
+    <value>Conteúdo da impressão</value>
+  </data>
+  <data name="PastWeek" xml:space="preserve">
+    <value>Semana passada</value>
+  </data>
+  <data name="Tax" xml:space="preserve">
+    <value>Imposto</value>
+  </data>
+  <data name="EntityUpdated" xml:space="preserve">
+    <value>Entidade Atualizada</value>
+  </data>
+  <data name="Customer_f" xml:space="preserve">
+    <value>Cliente {0}</value>
+  </data>
+  <data name="Table" xml:space="preserve">
+    <value>Mesa</value>
+  </data>
+  <data name="SelectPrintJob" xml:space="preserve">
+    <value>Selecione trabalho de impressão</value>
+  </data>
+  <data name="CallerIdDriverError" xml:space="preserve">
+    <value>Para ser capaz de exibir o Caller ID, você deve instalar o driver de hardware.</value>
+  </data>
+  <data name="CanOpenNavigation" xml:space="preserve">
+    <value>Pode entrar na tela de navegação</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>Necessário</value>
+  </data>
+  <data name="TotalAmount_f" xml:space="preserve">
+    <value>{0} Valor Total:</value>
+  </data>
+  <data name="Warehouses" xml:space="preserve">
+    <value>Armazém</value>
+  </data>
+  <data name="SaveFreeTags" xml:space="preserve">
+    <value>Save Tags grátis</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Endereço</value>
+  </data>
+  <data name="CanRemoveTicketTag" xml:space="preserve">
+    <value>Pode remover Tag Ticket</value>
+  </data>
+  <data name="CashTransactions" xml:space="preserve">
+    <value>Transações da caixa</value>
+  </data>
+  <data name="RoundTicketTotal" xml:space="preserve">
+    <value>Arredondar Total do Ticket</value>
+  </data>
+  <data name="DeleteErrorShouldHaveAtLeastOneTerminal" xml:space="preserve">
+    <value>Não é possível excluir porque deve ser de pelo menos um terminal.</value>
+  </data>
+  <data name="UpdateProgramSetting" xml:space="preserve">
+    <value>Atualize ajuste do programa</value>
+  </data>
+  <data name="DateRangeIsNotActiveWorkPeriod" xml:space="preserve">
+    <value>Intervalo de data não está em período de trabalho ativo</value>
+  </data>
+  <data name="Costs" xml:space="preserve">
+    <value>Custos</value>
+  </data>
+  <data name="Expenses" xml:space="preserve">
+    <value>Despesas</value>
+  </data>
+  <data name="CanStartEndOfDay" xml:space="preserve">
+    <value>Pode início fim do dia</value>
+  </data>
+  <data name="PaymentType" xml:space="preserve">
+    <value>Tipo de Pagamento</value>
+  </data>
+  <data name="LineCount" xml:space="preserve">
+    <value>Contagem de Linha</value>
+  </data>
+  <data name="AdminPasswordHint" xml:space="preserve">
+    <value>PIN Admin: 1234
+Alterar PIN vai esconder essa dica </value>
+  </data>
+  <data name="OnceADay" xml:space="preserve">
+    <value>Uma vez por dia</value>
+  </data>
+  <data name="EditMode" xml:space="preserve">
+    <value>Modo de Design</value>
+  </data>
+  <data name="DiscountTotal" xml:space="preserve">
+    <value>Total de desconto</value>
+  </data>
+  <data name="Today" xml:space="preserve">
+    <value>Hoje</value>
+  </data>
+  <data name="FreeTagging" xml:space="preserve">
+    <value>Tagg livre</value>
+  </data>
+  <data name="Customers" xml:space="preserve">
+    <value>Clientes</value>
+  </data>
+  <data name="TicketTag" xml:space="preserve">
+    <value>Ticket Tags</value>
+  </data>
+  <data name="CanMoveTicketLines" xml:space="preserve">
+    <value>Pode mover itens</value>
+  </data>
+  <data name="FixedCost" xml:space="preserve">
+    <value>Custo Fixo</value>
+  </data>
+  <data name="CategoryProperties" xml:space="preserve">
+    <value>Propriedades da Categoria</value>
+  </data>
+  <data name="LineItemPrice" xml:space="preserve">
+    <value># Linha: Preço do item</value>
+  </data>
+  <data name="StartingWorkPeriodCompleted" xml:space="preserve">
+    <value>Período trabalho iniciado.</value>
+  </data>
+  <data name="CommandType" xml:space="preserve">
+    <value>Tipo de Comando</value>
+  </data>
+  <data name="PrinterOptions" xml:space="preserve">
+    <value>Configurações da impressora</value>
+  </data>
+  <data name="Incomes" xml:space="preserve">
+    <value>Rendimentos</value>
+  </data>
+  <data name="CalculatePrice" xml:space="preserve">
+    <value>Calcular Preço</value>
+  </data>
+  <data name="DepartmentType" xml:space="preserve">
+    <value>Tipo de departamento</value>
+  </data>
+  <data name="ApplicationStarted" xml:space="preserve">
+    <value>Aplicação Iniciado</value>
+  </data>
+  <data name="CloseTicket" xml:space="preserve">
+    <value>Fechar Ticket </value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Categorias</value>
+  </data>
+  <data name="SettlePermissions" xml:space="preserve">
+    <value>Permissões de pagamento</value>
+  </data>
+  <data name="Receivables" xml:space="preserve">
+    <value>Permitido receber</value>
+  </data>
+  <data name="Zero" xml:space="preserve">
+    <value>Zero</value>
+  </data>
+  <data name="Server" xml:space="preserve">
+    <value>Servidor</value>
+  </data>
+  <data name="Numeric" xml:space="preserve">
+    <value>Numérico</value>
+  </data>
+  <data name="SubTags" xml:space="preserve">
+    <value>Sub Tags</value>
+  </data>
+  <data name="GroupTag" xml:space="preserve">
+    <value>grupo Tag</value>
+  </data>
+  <data name="TicketOptions" xml:space="preserve">
+    <value>Configurações do ticket</value>
+  </data>
+  <data name="AskBeforeCreatingTicket" xml:space="preserve">
+    <value>Perguntar Antes de Criar o Ticket</value>
+  </data>
+  <data name="ProductName" xml:space="preserve">
+    <value>Nome do produto</value>
+  </data>
+  <data name="DontForgetEndingWorkPeriod" xml:space="preserve">
+    <value>NÃO SE ESQUEÇA O FECHAR DO PERÍODO DE TRABALHO!</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>Nota</value>
+  </data>
   <data name="Clear" xml:space="preserve">
     <value>Limpar</value>
   </data>
-  <data name="Ninety" xml:space="preserve">
-    <value>Noventa</value>
+  <data name="DisplayAppPath" xml:space="preserve">
+    <value>Mostrar Caminho App</value>
+  </data>
+  <data name="NewTag" xml:space="preserve">
+    <value>Nova Tag</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>Produto</value>
+  </data>
+  <data name="DeleteSelectedItems" xml:space="preserve">
+    <value>Apagar Item Selecionado</value>
+  </data>
+  <data name="NumericTagsShouldBeNumbersErrorMessage" xml:space="preserve">
+    <value>Quando "Tagging numérico" selecionado todas as tages devem conter valores numéricos.</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Telefone</value>
+  </data>
+  <data name="Permissions" xml:space="preserve">
+    <value>Permissões</value>
+  </data>
+  <data name="BatchCreateProductsDialogHint" xml:space="preserve">
+    <value>Crie uma linha para cada produto com o formato do [Nome do produto] [Preço]. Início o nome do produto com o símbolo # .</value>
+  </data>
+  <data name="Properties" xml:space="preserve">
+    <value>Propriedades</value>
+  </data>
+  <data name="TwiceADay" xml:space="preserve">
+    <value>Duas vezes por dia</value>
+  </data>
+  <data name="DefaultTerminal" xml:space="preserve">
+    <value>Terminal padrão</value>
+  </data>
+  <data name="InventoryGroup" xml:space="preserve">
+    <value>Grupo de Inventário</value>
+  </data>
+  <data name="Drawer" xml:space="preserve">
+    <value>Caixa</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Enviar</value>
+  </data>
+  <data name="InternetBrowser" xml:space="preserve">
+    <value>Navegador de Internet</value>
+  </data>
+  <data name="Sixty" xml:space="preserve">
+    <value>Sessenta</value>
+  </data>
+  <data name="NoTransactionsFoundFor_f" xml:space="preserve">
+    <value>Não há transações para {0}</value>
+  </data>
+  <data name="CanChangeDepartment" xml:space="preserve">
+    <value>Pode Mudar Departamento</value>
+  </data>
+  <data name="EndOfDayRecord" xml:space="preserve">
+    <value>Relatório do fim do dia </value>
+  </data>
+  <data name="SortCategories" xml:space="preserve">
+    <value>Organizar categorias</value>
+  </data>
+  <data name="ChangePrice" xml:space="preserve">
+    <value>Alterar preço</value>
+  </data>
+  <data name="UpdateOrder" xml:space="preserve">
+    <value>Atualizar Ordem</value>
+  </data>
+  <data name="StartAmount" xml:space="preserve">
+    <value>Valores do início</value>
+  </data>
+  <data name="EntityTypes" xml:space="preserve">
+    <value>Tipo da Entidade</value>
+  </data>
+  <data name="TicketOpeningTime" xml:space="preserve">
+    <value>Abertura de ticket</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Largura</value>
+  </data>
+  <data name="TaxTemplate" xml:space="preserve">
+    <value>Modelo de Imposto</value>
+  </data>
+  <data name="Million" xml:space="preserve">
+    <value>Milhão</value>
+  </data>
+  <data name="Eighty" xml:space="preserve">
+    <value>Oitenta</value>
+  </data>
+  <data name="ItemProperties" xml:space="preserve">
+    <value>Propriedades do item extra</value>
+  </data>
+  <data name="Change_f" xml:space="preserve">
+    <value>Mudar {0}</value>
+  </data>
+  <data name="GrandTotal" xml:space="preserve">
+    <value>Total geral</value>
+  </data>
+  <data name="ErrorInExpression" xml:space="preserve">
+    <value>Erro na Expressão</value>
+  </data>
+  <data name="TotalExpense" xml:space="preserve">
+    <value>Despesa Total</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Atualizar</value>
+  </data>
+  <data name="UnlocksOrder" xml:space="preserve">
+    <value>Desbloquear Ordem</value>
+  </data>
+  <data name="AddTicketDiscount" xml:space="preserve">
+    <value>Adicionar Desconto de Bilheteira</value>
+  </data>
+  <data name="SaveErrorMultipleDefaultTerminals" xml:space="preserve">
+    <value>Não crie mais de um terminal padrão</value>
+  </data>
+  <data name="WorkPeriodEnded" xml:space="preserve">
+    <value>Período de trabalho encerrado</value>
+  </data>
+  <data name="UndefinedWithBrackets" xml:space="preserve">
+    <value>[Indefinido]</value>
+  </data>
+  <data name="LineItemTotalWithoutGifts" xml:space="preserve">
+    <value># Linha: Total Item (Presentes Excluídos)</value>
+  </data>
+  <data name="LocalWarehouses" xml:space="preserve">
+    <value>Armazém Local</value>
+  </data>
+  <data name="DeleteErrorUsedBy_f" xml:space="preserve">
+    <value>Proibido apagar porque esse {0} é usado pelo {1}</value>
+  </data>
+  <data name="Decrease" xml:space="preserve">
+    <value>Diminuir</value>
+  </data>
+  <data name="LineItemQuantity" xml:space="preserve">
+    <value># Linha: Quantidade de itens</value>
+  </data>
+  <data name="ExchangeRate" xml:space="preserve">
+    <value>Taxa de Conversão</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>Duração</value>
+  </data>
+  <data name="Minute" xml:space="preserve">
+    <value>Minuto</value>
+  </data>
+  <data name="OptionalTicketTag" xml:space="preserve">
+    <value>Tag Ticket Opcional</value>
+  </data>
+  <data name="TicketCount" xml:space="preserve">
+    <value>Contagem do ticket</value>
+  </data>
+  <data name="DefaultAmount" xml:space="preserve">
+    <value>Quantidade Padrão</value>
+  </data>
+  <data name="StartClientNow" xml:space="preserve">
+    <value>Iniciar Cliente Agora</value>
+  </data>
+  <data name="Day" xml:space="preserve">
+    <value>Dia</value>
+  </data>
+  <data name="TicketMovedRetryLastOperation_f" xml:space="preserve">
+    <value>Ticket mudou-se para {0}. Suas últimas alterações não salvas.</value>
+  </data>
+  <data name="CanMoveUnlockedTicketLines" xml:space="preserve">
+    <value>Pode mover linhas de ticket desbloqueado</value>
+  </data>
+  <data name="PaymentScreenSettings" xml:space="preserve">
+    <value>Configurações da Tela de Pagamento</value>
+  </data>
+  <data name="Hundred" xml:space="preserve">
+    <value>Cem</value>
+  </data>
+  <data name="ThereIsAnotherPriceDefinition_f" xml:space="preserve">
+    <value>Há outra definição de preços com {0} tag</value>
+  </data>
+  <data name="PrintJob" xml:space="preserve">
+    <value>Trabalho de impressão</value>
+  </data>
+  <data name="Terminal" xml:space="preserve">
+    <value>Terminal</value>
+  </data>
+  <data name="MaxQuantity" xml:space="preserve">
+    <value>Máx. Quantidade</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filtro</value>
+  </data>
+  <data name="TicketChangedRetryLastOperation" xml:space="preserve">
+    <value>Bilhete alterado. Suas últimas alterações não salvas.</value>
+  </data>
+  <data name="UserRole" xml:space="preserve">
+    <value>Função do usuário</value>
+  </data>
+  <data name="NumeratorHeight" xml:space="preserve">
+    <value>Altura do numerador</value>
+  </data>
+  <data name="Receiveable" xml:space="preserve">
+    <value>Permitido receber</value>
+  </data>
+  <data name="New_f" xml:space="preserve">
+    <value>Novo {0}</value>
+  </data>
+  <data name="SellerWarehouses" xml:space="preserve">
+    <value>Armazém do Vendedor</value>
+  </data>
+  <data name="InvoicePrinter" xml:space="preserve">
+    <value>Impressora da fatura</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>Novo</value>
+  </data>
+  <data name="LockTicket" xml:space="preserve">
+    <value>Bloqueio do ticket</value>
+  </data>
+  <data name="WorkPeriodStartTime" xml:space="preserve">
+    <value>Horário do período de trabalho: {0}</value>
+  </data>
+  <data name="RuleName" xml:space="preserve">
+    <value>Nome da Regra</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value>Hora</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Salvar</value>
+  </data>
+  <data name="RateFromPreviousTemplate" xml:space="preserve">
+    <value>Taxa de quantidade modelo anterior</value>
+  </data>
+  <data name="SellAmount" xml:space="preserve">
+    <value>Quantidade vendida</value>
+  </data>
+  <data name="Increase" xml:space="preserve">
+    <value>Aumentar</value>
+  </data>
+  <data name="LinesGroupedByTag" xml:space="preserve">
+    <value>Linhas agrupadas por Tag</value>
+  </data>
+  <data name="CostPrediction" xml:space="preserve">
+    <value>Previsão de custo</value>
+  </data>
+  <data name="PleaseEnterABriefExplanationOf" xml:space="preserve">
+    <value>Por favor, digite uma breve explicação de eventos que levaram a essa exceção</value>
+  </data>
+  <data name="ReleaseLock" xml:space="preserve">
+    <value>Desbloqueio</value>
+  </data>
+  <data name="Sales" xml:space="preserve">
+    <value>Vendas</value>
+  </data>
+  <data name="EntityButton" xml:space="preserve">
+    <value>Botão da Entidade</value>
+  </data>
+  <data name="TicketPaidTotal" xml:space="preserve">
+    <value>Valor recebido do Ticket</value>
+  </data>
+  <data name="TicketTimeDisplay_f" xml:space="preserve">
+    <value>{0} ({1} min.)</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>Texto</value>
+  </data>
+  <data name="Ten" xml:space="preserve">
+    <value>Dez</value>
+  </data>
+  <data name="SalesIncome" xml:space="preserve">
+    <value>Renda de vendas</value>
+  </data>
+  <data name="AutoStartMessageClient" xml:space="preserve">
+    <value>Auto início da mensagem do cliente</value>
+  </data>
+  <data name="MaxItems" xml:space="preserve">
+    <value>Itens Max.</value>
+  </data>
+  <data name="Every3Months" xml:space="preserve">
+    <value>A cada 3 meses</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Próximo</value>
+  </data>
+  <data name="Thirteen" xml:space="preserve">
+    <value>Treze</value>
+  </data>
+  <data name="MonWedFri" xml:space="preserve">
+    <value>Seg, Qua, Sex</value>
+  </data>
+  <data name="StartOfDay" xml:space="preserve">
+    <value>Início do período de trabalho</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Detalhes</value>
+  </data>
+  <data name="ButtonHeight" xml:space="preserve">
+    <value>Altura do botão</value>
+  </data>
+  <data name="Cash" xml:space="preserve">
+    <value>Dinheiro</value>
+  </data>
+  <data name="Sale" xml:space="preserve">
+    <value>Venda</value>
+  </data>
+  <data name="Purchase" xml:space="preserve">
+    <value>Compras</value>
+  </data>
+  <data name="TicketCreated" xml:space="preserve">
+    <value>Ticket Criado</value>
+  </data>
+  <data name="PrintOrdersToKitchenPrinter" xml:space="preserve">
+    <value>Imprimir ordens na impressora da cozinha</value>
+  </data>
+  <data name="Noon" xml:space="preserve">
+    <value>Meio-dia</value>
+  </data>
+  <data name="Sixteen" xml:space="preserve">
+    <value>Dezesseis</value>
+  </data>
+  <data name="Every30Minutes" xml:space="preserve">
+    <value>Cada 30 Minutos</value>
+  </data>
+  <data name="AutomationCommand" xml:space="preserve">
+    <value>Comando Automatizado</value>
+  </data>
+  <data name="GroupCode" xml:space="preserve">
+    <value>Código do Grupo</value>
+  </data>
+  <data name="Tickets" xml:space="preserve">
+    <value>Tickets</value>
+  </data>
+  <data name="EntityStateUpdated" xml:space="preserve">
+    <value>Status da Entidade Atualizado</value>
+  </data>
+  <data name="NextPage" xml:space="preserve">
+    <value>Próxima Página</value>
+  </data>
+  <data name="NavigationPermissions" xml:space="preserve">
+    <value>Permissões da navegação</value>
+  </data>
+  <data name="BaseUnit" xml:space="preserve">
+    <value>Unidade de Base</value>
+  </data>
+  <data name="CsvBuilder" xml:space="preserve">
+    <value>CSV construtor</value>
+  </data>
+  <data name="WarehouseType" xml:space="preserve">
+    <value>Tipo do Armazém</value>
+  </data>
+  <data name="ExecuteActionsIf" xml:space="preserve">
+    <value>Condições</value>
   </data>
   <data name="QuarterTil" xml:space="preserve">
     <value>Trimestre até</value>
   </data>
-  <data name="StartWorkPeriodToEnablePos" xml:space="preserve">
-    <value>Iniciar Período de trabalho para permitir POS</value>
+  <data name="DisplayAtPaymentScreen" xml:space="preserve">
+    <value>Mostrar na Tela de Pagamento</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Aviso</value>
+  </data>
+  <data name="Keyboard" xml:space="preserve">
+    <value>Teclado</value>
+  </data>
+  <data name="AutoSelectProductsQuestion" xml:space="preserve">
+    <value>Auto selecionar os produtos para novas categorias?</value>
+  </data>
+  <data name="Fifty" xml:space="preserve">
+    <value>Cinqüenta</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Recarregar</value>
+  </data>
+  <data name="Income" xml:space="preserve">
+    <value>Renda</value>
+  </data>
+  <data name="SettingValue" xml:space="preserve">
+    <value>Configuração Valor</value>
+  </data>
+  <data name="CanMergeTickets" xml:space="preserve">
+    <value>Pode mesclar tickets</value>
+  </data>
+  <data name="InventoryReport" xml:space="preserve">
+    <value>Relatório de Inventário</value>
+  </data>
+  <data name="ExportSalesData" xml:space="preserve">
+    <value>Exportar dados de vendas</value>
+  </data>
+  <data name="Yesterday" xml:space="preserve">
+    <value>Ontem</value>
+  </data>
+  <data name="APortionShouldSelected" xml:space="preserve">
+    <value>Uma porção deve selecionado</value>
+  </data>
+  <data name="Account_f" xml:space="preserve">
+    <value>Conta: {0}</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>De:</value>
+  </data>
+  <data name="One" xml:space="preserve">
+    <value>Um</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Adicionar</value>
+  </data>
+  <data name="Billion" xml:space="preserve">
+    <value>Mil milhões</value>
+  </data>
+  <data name="TriggerName" xml:space="preserve">
+    <value>Nome gatilho</value>
+  </data>
+  <data name="LineOrderNumber" xml:space="preserve">
+    <value># Linha: Número de Ordem</value>
+  </data>
+  <data name="UpdateOrderState" xml:space="preserve">
+    <value>Atualizar Status da Ordem</value>
+  </data>
+  <data name="TicketPrinter" xml:space="preserve">
+    <value> Ticket da Impressora</value>
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value>Quantidade</value>
+  </data>
+  <data name="Locked" xml:space="preserve">
+    <value>Bloqueado</value>
+  </data>
+  <data name="AddProductsToCategoryHint_f" xml:space="preserve">
+    <value>Selecione Produtos para {0} categoria</value>
+  </data>
+  <data name="Source" xml:space="preserve">
+    <value>Fonte</value>
+  </data>
+  <data name="AddOrder" xml:space="preserve">
+    <value>Adicionar Ordem</value>
+  </data>
+  <data name="Fifteen" xml:space="preserve">
+    <value>Quinze</value>
+  </data>
+  <data name="PageCount" xml:space="preserve">
+    <value>Contagem de páginas</value>
+  </data>
+  <data name="Two" xml:space="preserve">
+    <value>Dois</value>
+  </data>
+  <data name="IncomeTransactions" xml:space="preserve">
+    <value>Transações de Renda</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Confirmação</value>
+  </data>
+  <data name="DisplayTicketList" xml:space="preserve">
+    <value>Tela da Lista de Ticket</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="FastMenu" xml:space="preserve">
+    <value>Menu rápido</value>
+  </data>
+  <data name="Department" xml:space="preserve">
+    <value>Departamento</value>
+  </data>
+  <data name="PastMonth" xml:space="preserve">
+    <value>Mês passado</value>
+  </data>
+  <data name="LastPaymentTime" xml:space="preserve">
+    <value>Último pagamento</value>
+  </data>
+  <data name="WhenTagSelected" xml:space="preserve">
+    <value>Quando Tagged</value>
+  </data>
+  <data name="DetailedReport" xml:space="preserve">
+    <value>Relatório detalhado</value>
+  </data>
+  <data name="TransactionDocument" xml:space="preserve">
+    <value>Documento de Transação</value>
+  </data>
+  <data name="BatchCreteProducts" xml:space="preserve">
+    <value>Criar lote de produtos</value>
+  </data>
+  <data name="SambaPOSReporter" xml:space="preserve">
+    <value>Repórter SambaPOS</value>
+  </data>
+  <data name="ExtraModifiers" xml:space="preserve">
+    <value>Modificadores-extra</value>
+  </data>
+  <data name="PreviousPage" xml:space="preserve">
+    <value>Página Anterior</value>
+  </data>
+  <data name="Printer" xml:space="preserve">
+    <value>Impressora</value>
+  </data>
+  <data name="AccountsReceivable" xml:space="preserve">
+    <value>Recebimentos das contas</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Descrição</value>
+  </data>
+  <data name="As_f" xml:space="preserve">
+    <value>A partir de {0}</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>Para:</value>
+  </data>
+  <data name="TransacitonUnitMultiplier" xml:space="preserve">
+    <value>Multiplicador de unidade de transação</value>
+  </data>
+  <data name="Five" xml:space="preserve">
+    <value>Cinco</value>
+  </data>
+  <data name="DayOperations" xml:space="preserve">
+    <value>Períodos do trabalho</value>
+  </data>
+  <data name="AddAndSave" xml:space="preserve">
+    <value>Adicionar e guardar</value>
+  </data>
+  <data name="UniqueTicketId" xml:space="preserve">
+    <value>Id Ticket único</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Não</value>
+  </data>
+  <data name="All Tables" xml:space="preserve">
+    <value>Todas Tabelas</value>
+  </data>
+  <data name="DeleteErrorAccountTypeAssignedtoAccounts" xml:space="preserve">
+    <value>Proibido apagar porque esse modelo está associado a contas</value>
+  </data>
+  <data name="CustomFieldName" xml:space="preserve">
+    <value>Nome do Campo Customizado</value>
   </data>
   <data name="Every12Hours" xml:space="preserve">
     <value>A cada 12 horas</value>
   </data>
-  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
-    <value>Excluir mapeamento selecionado?</value>
+  <data name="InternalAccounts" xml:space="preserve">
+    <value>Contas internas</value>
   </data>
-  <data name="UserRole" xml:space="preserve">
-    <value>Função do usuário</value>
+  <data name="POSView" xml:space="preserve">
+    <value>POS Ver</value>
+  </data>
+  <data name="CantCompleteOperationWhenThereIsZeroPricedProduct" xml:space="preserve">
+    <value>Não é possível concluir esta operação enquanto a zero do valor de preço existe.</value>
+  </data>
+  <data name="DeleteErrorLastUser" xml:space="preserve">
+    <value>Não é possível excluir última conta de usuário</value>
+  </data>
+  <data name="ReportPermissions" xml:space="preserve">
+    <value>Permissões dos relatórios</value>
+  </data>
+  <data name="WeightBarcodes" xml:space="preserve">
+    <value>Os códigos de barras de peso</value>
+  </data>
+  <data name="ClickLinksToExportData" xml:space="preserve">
+    <value>Selecione intervalo de datas, atualiza o relatório e clique no link relacionado para exportar dados.</value>
+  </data>
+  <data name="TicketDate" xml:space="preserve">
+    <value>Data do ticket</value>
+  </data>
+  <data name="WhenTagNotSelected" xml:space="preserve">
+    <value>Quando Untagged</value>
+  </data>
+  <data name="ActionType" xml:space="preserve">
+    <value>Tipo de Ação</value>
+  </data>
+  <data name="WeightBarcodeQuantityLength" xml:space="preserve">
+    <value>Comprimento Peso Quantidade de código de barras</value>
+  </data>
+  <data name="AllLines" xml:space="preserve">
+    <value>Todas as linhas</value>
+  </data>
+  <data name="SaveReportToFile" xml:space="preserve">
+    <value>Salvar Relatório para Arquivo</value>
+  </data>
+  <data name="SambaPosWebsite" xml:space="preserve">
+    <value>Site SambaPOS</value>
+  </data>
+  <data name="RemoveLimit" xml:space="preserve">
+    <value>Remover Limite</value>
+  </data>
+  <data name="AverageCost" xml:space="preserve">
+    <value>Custo Médio</value>
+  </data>
+  <data name="UpdateTicketCalculation" xml:space="preserve">
+    <value>Atualizar Cálculo do Ticket</value>
+  </data>
+  <data name="SettingName" xml:space="preserve">
+    <value>Definir Nome</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Imagem de Fundo</value>
+  </data>
+  <data name="QuantitiesByItemGroup" xml:space="preserve">
+    <value>Quantidades por Grupo de itens</value>
+  </data>
+  <data name="TotalAmountDivTag_f" xml:space="preserve">
+    <value>Valor Total / {0}:</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Remover</value>
+  </data>
+  <data name="AllDiscountsRemoved" xml:space="preserve">
+    <value>Todos os descontos são removidos devido valor do desconto total calculado é maior do que a quantidade de bilhetes.</value>
+  </data>
+  <data name="AlwaysExcludeTax" xml:space="preserve">
+    <value>Sempre Excluir Imposto</value>
+  </data>
+  <data name="PriceDefinitonName" xml:space="preserve">
+    <value>Nome Definiton Preço</value>
+  </data>
+  <data name="TipsTotal" xml:space="preserve">
+    <value>Total de percentagem</value>
+  </data>
+  <data name="POSMenu" xml:space="preserve">
+    <value>POS menu</value>
+  </data>
+  <data name="RateOrAmount" xml:space="preserve">
+    <value>Taxa ou Valor</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Parâmetros</value>
+  </data>
+  <data name="Transaction" xml:space="preserve">
+    <value>Transação</value>
+  </data>
+  <data name="EntityType" xml:space="preserve">
+    <value>Tipo da Entidade</value>
+  </data>
+  <data name="EveryOtherMinute" xml:space="preserve">
+    <value>A cada 2 minutos</value>
+  </data>
+  <data name="LastOrderTime" xml:space="preserve">
+    <value>Última Ordem</value>
+  </data>
+  <data name="DefaultProperties" xml:space="preserve">
+    <value>Propriedades Padrão</value>
+  </data>
+  <data name="ItemSales" xml:space="preserve">
+    <value>Vendas de itens</value>
+  </data>
+  <data name="WorkPeriodEndsMessage" xml:space="preserve">
+    <value>Período do trabalho está terminando.
+Visite a seção Relatórios e crie relatório do período de trabalho </value>
+  </data>
+  <data name="WorkPeriodStartDate_f" xml:space="preserve">
+    <value>Data de período de trabalho: {0}</value>
+  </data>
+  <data name="Rounding" xml:space="preserve">
+    <value>Arredondamento</value>
+  </data>
+  <data name="SqlHint" xml:space="preserve">
+    <value>Clique aqui para informações sobre como trabalhar com bancos de dados SQL</value>
+  </data>
+  <data name="UserList" xml:space="preserve">
+    <value>Lista de usuários</value>
+  </data>
+  <data name="WrapText" xml:space="preserve">
+    <value>Quebrar texto automaticamente</value>
+  </data>
+  <data name="IfNegativeDiscountValue_f" xml:space="preserve">
+    <value>&lt;J&gt; Arredondamento: | {0}</value>
+  </data>
+  <data name="OpenTicketButtonDuration" xml:space="preserve">
+    <value>{0} min</value>
+  </data>
+  <data name="AllTickets" xml:space="preserve">
+    <value>Todos os tickets</value>
+  </data>
+  <data name="Terminals" xml:space="preserve">
+    <value>Terminais</value>
+  </data>
+  <data name="Selected" xml:space="preserve">
+    <value>Selecionado</value>
+  </data>
+  <data name="Divide" xml:space="preserve">
+    <value>Dividir</value>
+  </data>
+  <data name="Target_f" xml:space="preserve">
+    <value>Alvo {0}</value>
   </data>
   <data name="ErrorReportWithoutFeedback" xml:space="preserve">
     <value>Você está enviando relatório de erro sem o seu feedback.
@@ -348,1315 +1534,489 @@ Por favor, dar alguns detalhes sobre como isso aconteceu.
 Comando
 Continuar sem acrescentar detalhes? </value>
   </data>
-  <data name="CanReleaseTicketLock" xml:space="preserve">
-    <value>Pode remover bloqueio do ticket</value>
-  </data>
-  <data name="Multiplier" xml:space="preserve">
-    <value>Multiplicador</value>
-  </data>
-  <data name="PriceTag" xml:space="preserve">
-    <value>Price Tag</value>
-  </data>
-  <data name="CanChangeReportFilter" xml:space="preserve">
-    <value>Pode mudar filtro da data do relatório</value>
-  </data>
-  <data name="UserName" xml:space="preserve">
-    <value>Nome de usuário</value>
-  </data>
-  <data name="Note" xml:space="preserve">
-    <value>Nota</value>
-  </data>
-  <data name="Terminals" xml:space="preserve">
-    <value>Terminais</value>
-  </data>
-  <data name="TicketTotal_f" xml:space="preserve">
-    <value>Total {0}:</value>
-  </data>
-  <data name="LineCount" xml:space="preserve">
-    <value>Contagem de Linha</value>
-  </data>
-  <data name="CanDisplayOldTickets" xml:space="preserve">
-    <value>Pode ver os tickets antigos</value>
-  </data>
-  <data name="AccountBalance" xml:space="preserve">
-    <value>Saldo em Conta</value>
-  </data>
-  <data name="TerminalView" xml:space="preserve">
-    <value>Terminal Ver</value>
-  </data>
-  <data name="Receiveable" xml:space="preserve">
-    <value>Permitido receber</value>
-  </data>
-  <data name="OverrideWindowsRegionalSettings" xml:space="preserve">
-    <value>Substituir configurações regionais do Windows</value>
-  </data>
-  <data name="Eighteen" xml:space="preserve">
-    <value>Dezoito</value>
-  </data>
-  <data name="CashStatus" xml:space="preserve">
-    <value>Status da Caixa</value>
-  </data>
-  <data name="LineItemName" xml:space="preserve">
-    <value># Linha: Nome do item</value>
-  </data>
-  <data name="Common" xml:space="preserve">
-    <value>Comum</value>
-  </data>
-  <data name="RateOrAmount" xml:space="preserve">
-    <value>Taxa ou Valor</value>
-  </data>
-  <data name="Sales" xml:space="preserve">
-    <value>Vendas</value>
-  </data>
-  <data name="PredictedInventory" xml:space="preserve">
-    <value>Previsão de Inventário</value>
-  </data>
-  <data name="FixedCost" xml:space="preserve">
-    <value>Custo Fixo</value>
-  </data>
-  <data name="CallerIdDriverError" xml:space="preserve">
-    <value>Para ser capaz de exibir o Caller ID, você deve instalar o driver de hardware.</value>
-  </data>
-  <data name="Ten" xml:space="preserve">
-    <value>Dez</value>
-  </data>
-  <data name="Select" xml:space="preserve">
-    <value>Selecionar</value>
-  </data>
-  <data name="SalesIncome" xml:space="preserve">
-    <value>Renda de vendas</value>
-  </data>
-  <data name="EveryWeekday" xml:space="preserve">
-    <value>Cada dia da semana</value>
-  </data>
-  <data name="AllTickets" xml:space="preserve">
-    <value>Todos os tickets</value>
-  </data>
-  <data name="PropertyGroupName" xml:space="preserve">
-    <value>Nome do Grupo de Propriedade</value>
-  </data>
-  <data name="NumeratorFormat" xml:space="preserve">
-    <value>Formato de número</value>
-  </data>
-  <data name="CanStartEndOfDay" xml:space="preserve">
-    <value>Pode início fim do dia</value>
-  </data>
-  <data name="Two" xml:space="preserve">
-    <value>Dois</value>
-  </data>
-  <data name="SaveErrorMultipleDefaultTerminals" xml:space="preserve">
-    <value>Não crie mais de um terminal padrão</value>
-  </data>
-  <data name="LastOrder" xml:space="preserve">
-    <value>Última ordem</value>
-  </data>
-  <data name="UpdateProgramSetting" xml:space="preserve">
-    <value>Atualize ajuste do programa</value>
-  </data>
-  <data name="Search" xml:space="preserve">
-    <value>Pesquisar</value>
-  </data>
-  <data name="CanDisplayReports" xml:space="preserve">
-    <value>Pode exibir relatórios</value>
-  </data>
-  <data name="SelectionRequired" xml:space="preserve">
-    <value>Seleção Obrigatória</value>
-  </data>
-  <data name="PrintBill" xml:space="preserve">
-    <value>Impressão da conta</value>
-  </data>
-  <data name="OK" xml:space="preserve">
-    <value>OK</value>
-  </data>
-  <data name="CashReport" xml:space="preserve">
-    <value>Relatório de Caixa</value>
-  </data>
-  <data name="TicketTimeDisplay_f" xml:space="preserve">
-    <value>{0} ({1} min.)</value>
-  </data>
-  <data name="No" xml:space="preserve">
-    <value>Não</value>
-  </data>
-  <data name="InternalAccounts" xml:space="preserve">
-    <value>Contas internas</value>
-  </data>
-  <data name="TaxTotal" xml:space="preserve">
-    <value>Total de Imposto</value>
-  </data>
-  <data name="GeneralInformation" xml:space="preserve">
-    <value>Informações gerais</value>
-  </data>
-  <data name="LinesGroupedByGroupCode" xml:space="preserve">
-    <value>Linhas agrupadas por código de grupo</value>
-  </data>
-  <data name="AddModel_f" xml:space="preserve">
-    <value>Adicionando um Novo {0}</value>
-  </data>
-  <data name="DeleteErrorAdminUser" xml:space="preserve">
-    <value>Não é possível excluir usuário admin.</value>
-  </data>
-  <data name="Automatic" xml:space="preserve">
-    <value>Automático</value>
-  </data>
-  <data name="List" xml:space="preserve">
-    <value>Lista</value>
-  </data>
-  <data name="LineItemTotal" xml:space="preserve">
-    <value># Linha: Item total</value>
-  </data>
-  <data name="TicketCount" xml:space="preserve">
-    <value>Contagem do ticket</value>
-  </data>
-  <data name="SortOrder" xml:space="preserve">
-    <value>Ordenar</value>
-  </data>
-  <data name="InventoryItems" xml:space="preserve">
-    <value>Itens de inventário</value>
-  </data>
-  <data name="BatchCreteProducts" xml:space="preserve">
-    <value>Criar lote de produtos</value>
-  </data>
-  <data name="PortionPrices" xml:space="preserve">
-    <value>Preços das porções</value>
-  </data>
-  <data name="PrinterTemplate" xml:space="preserve">
-    <value>Modelo da Impressora</value>
-  </data>
-  <data name="UserSales" xml:space="preserve">
-    <value>Vendas do usuário</value>
-  </data>
-  <data name="Save" xml:space="preserve">
-    <value>Salvar</value>
-  </data>
-  <data name="PrintOrdersToKitchenPrinter" xml:space="preserve">
-    <value>Imprimir ordens na impressora da cozinha</value>
-  </data>
-  <data name="Sort_f" xml:space="preserve">
-    <value>Ordenar {0}</value>
-  </data>
-  <data name="TicketTipTotal" xml:space="preserve">
-    <value>Total de percentagem</value>
-  </data>
-  <data name="TipsTotal" xml:space="preserve">
-    <value>Total de percentagem</value>
-  </data>
-  <data name="Negative" xml:space="preserve">
-    <value>Negativo</value>
-  </data>
-  <data name="TicketOptions" xml:space="preserve">
-    <value>Configurações do ticket</value>
-  </data>
-  <data name="Eighty" xml:space="preserve">
-    <value>Oitenta</value>
-  </data>
-  <data name="InternetBrowser" xml:space="preserve">
-    <value>Navegador de Internet</value>
-  </data>
-  <data name="Unit" xml:space="preserve">
-    <value>Unidade</value>
-  </data>
-  <data name="Terminal" xml:space="preserve">
-    <value>Terminal</value>
-  </data>
-  <data name="Printer" xml:space="preserve">
-    <value>Impressora</value>
-  </data>
-  <data name="OnceAWeek" xml:space="preserve">
-    <value>Uma vez por semana</value>
-  </data>
-  <data name="As_f" xml:space="preserve">
-    <value>A partir de {0}</value>
-  </data>
-  <data name="Yes" xml:space="preserve">
-    <value>Sim</value>
-  </data>
-  <data name="Server" xml:space="preserve">
-    <value>Servidor</value>
-  </data>
-  <data name="Drawer" xml:space="preserve">
-    <value>Caixa</value>
-  </data>
-  <data name="Admin" xml:space="preserve">
-    <value>Administrador</value>
-  </data>
-  <data name="WeightBarcodes" xml:space="preserve">
-    <value>Os códigos de barras de peso</value>
-  </data>
-  <data name="PageCount" xml:space="preserve">
-    <value>Contagem de páginas</value>
-  </data>
-  <data name="UnitPrice" xml:space="preserve">
-    <value>Preço unitário</value>
-  </data>
-  <data name="TransactionUnit" xml:space="preserve">
-    <value>Unidade de transação</value>
-  </data>
-  <data name="Voucher" xml:space="preserve">
-    <value>Cheque</value>
-  </data>
-  <data name="Users" xml:space="preserve">
-    <value>Usuários</value>
-  </data>
-  <data name="ReportName" xml:space="preserve">
-    <value>Nome do relatório</value>
-  </data>
-  <data name="PrinterName" xml:space="preserve">
-    <value>Nome da impressora</value>
-  </data>
-  <data name="Clone_f" xml:space="preserve">
-    <value>Clone {0}</value>
-  </data>
-  <data name="LockTicket" xml:space="preserve">
-    <value>Bloqueio do ticket</value>
-  </data>
-  <data name="CategoryProducts" xml:space="preserve">
-    <value>Categoria dos Produtos</value>
-  </data>
-  <data name="LinesGroupedByTag" xml:space="preserve">
-    <value>Linhas agrupadas por Tag</value>
-  </data>
-  <data name="AddTag" xml:space="preserve">
-    <value>Adicionar Tag</value>
-  </data>
-  <data name="RuleActions" xml:space="preserve">
-    <value>Ações</value>
-  </data>
-  <data name="Address" xml:space="preserve">
-    <value>Endereço</value>
-  </data>
-  <data name="LinePriceTag" xml:space="preserve">
-    <value># Linha: Price Tag</value>
-  </data>
-  <data name="SubButtonHeight" xml:space="preserve">
-    <value>Altura Botão Sub</value>
-  </data>
-  <data name="FastMenu" xml:space="preserve">
-    <value>Menu rápido</value>
-  </data>
-  <data name="OnceADay" xml:space="preserve">
-    <value>Uma vez por dia</value>
-  </data>
-  <data name="MenuCategories" xml:space="preserve">
-    <value>Categorias do Menu</value>
-  </data>
-  <data name="Accounts" xml:space="preserve">
-    <value>Contas</value>
-  </data>
-  <data name="Customer" xml:space="preserve">
-    <value>Cliente</value>
-  </data>
-  <data name="UseAtOldTickets" xml:space="preserve">
-    <value>Somente para ticketes antigos</value>
-  </data>
-  <data name="AutoLogout" xml:space="preserve">
-    <value>Auto Logout</value>
-  </data>
-  <data name="Every6Months" xml:space="preserve">
-    <value>A cada 6 meses</value>
-  </data>
-  <data name="OnceAYear" xml:space="preserve">
-    <value>Uma vez por ano</value>
-  </data>
-  <data name="Color" xml:space="preserve">
-    <value>Cor</value>
-  </data>
-  <data name="UpdatePriceTag" xml:space="preserve">
-    <value>Alterar Lista de Preços</value>
-  </data>
-  <data name="Departments" xml:space="preserve">
-    <value>Departamentos</value>
-  </data>
-  <data name="DayTime" xml:space="preserve">
-    <value>Hora do Dia</value>
-  </data>
-  <data name="ProductName" xml:space="preserve">
-    <value>Nome do produto</value>
-  </data>
-  <data name="TuesAndThurs" xml:space="preserve">
-    <value>Ter qui</value>
-  </data>
-  <data name="POSMenu" xml:space="preserve">
-    <value>POS menu</value>
-  </data>
-  <data name="AddTicketDiscount" xml:space="preserve">
-    <value>Adicionar Desconto de Bilheteira</value>
-  </data>
-  <data name="Every3Hours" xml:space="preserve">
-    <value>A cada 3 horas</value>
-  </data>
-  <data name="Previous" xml:space="preserve">
-    <value>Anterior</value>
-  </data>
-  <data name="AllCategories" xml:space="preserve">
-    <value>Todas as Categorias</value>
-  </data>
-  <data name="TotalExpense" xml:space="preserve">
-    <value>Despesa Total</value>
-  </data>
-  <data name="ExportSalesData" xml:space="preserve">
-    <value>Exportar dados de vendas</value>
-  </data>
-  <data name="MaxItems" xml:space="preserve">
-    <value>Itens Max.</value>
-  </data>
-  <data name="CantSave" xml:space="preserve">
-    <value>Não é possível salvar</value>
-  </data>
-  <data name="GroupTag" xml:space="preserve">
-    <value>grupo Tag</value>
-  </data>
-  <data name="EveryHour" xml:space="preserve">
-    <value>Todas as horas</value>
-  </data>
-  <data name="MenuItem" xml:space="preserve">
-    <value>Produto</value>
-  </data>
-  <data name="ReportDoesNotContainsCashState" xml:space="preserve">
-    <value>Relatório não contém valor do início</value>
-  </data>
-  <data name="Excluded" xml:space="preserve">
-    <value>Excluídos</value>
-  </data>
-  <data name="NumeratorProperties" xml:space="preserve">
-    <value>Propriedades do numerador</value>
-  </data>
-  <data name="DemoPrinter" xml:space="preserve">
-    <value>Demo Printer (notepad)</value>
-  </data>
-  <data name="Paid" xml:space="preserve">
-    <value>Pago</value>
-  </data>
-  <data name="TicketMovedRetryLastOperation_f" xml:space="preserve">
-    <value>Ticket mudou-se para {0}. Suas últimas alterações não salvas.</value>
-  </data>
   <data name="SortCategoriesDialogHint_f" xml:space="preserve">
     <value>Arraste {0} Categorias do menu para mudar a ordem.</value>
   </data>
-  <data name="Management" xml:space="preserve">
-    <value>Gerir</value>
-  </data>
-  <data name="TicketTag" xml:space="preserve">
-    <value>Ticket Tags</value>
-  </data>
-  <data name="MenuProperties" xml:space="preserve">
-    <value>Propriedades do Menu</value>
-  </data>
-  <data name="ItemProperties" xml:space="preserve">
-    <value>Propriedades do item extra</value>
-  </data>
-  <data name="Angle" xml:space="preserve">
-    <value>Ângulo</value>
-  </data>
-  <data name="DefaultProperties" xml:space="preserve">
-    <value>Propriedades Padrão</value>
-  </data>
-  <data name="OneHundred" xml:space="preserve">
-    <value>Cem</value>
-  </data>
-  <data name="ImagePath" xml:space="preserve">
-    <value>Caminho da Imagem</value>
-  </data>
-  <data name="QuarterPast" xml:space="preserve">
-    <value>Passado trimestre</value>
-  </data>
-  <data name="Incomes" xml:space="preserve">
-    <value>Rendimentos</value>
-  </data>
-  <data name="RuleName" xml:space="preserve">
-    <value>Nome da Regra</value>
-  </data>
-  <data name="Thousand" xml:space="preserve">
-    <value>Caixa</value>
-  </data>
-  <data name="PrinterOptions" xml:space="preserve">
-    <value>Configurações da impressora</value>
-  </data>
-  <data name="OnlyNewLines" xml:space="preserve">
-    <value>Apenas linhas novas</value>
-  </data>
-  <data name="CanNavigateCash" xml:space="preserve">
-    <value>Pode entrar na tela de pagamentos</value>
-  </data>
-  <data name="CashContent" xml:space="preserve">
-    <value>Conteúdo Dinheiro</value>
-  </data>
-  <data name="WorkPeriodStarted" xml:space="preserve">
-    <value>Período do trabalho iniciado</value>
-  </data>
-  <data name="Warning" xml:space="preserve">
-    <value>Aviso</value>
-  </data>
-  <data name="DeleteSelectedCategoryQuestion" xml:space="preserve">
-    <value>Excluir a Categoria?</value>
-  </data>
-  <data name="TwiceAnHour" xml:space="preserve">
-    <value>Duas vezes por hora</value>
-  </data>
-  <data name="SettingValue" xml:space="preserve">
-    <value>Configuração Valor</value>
-  </data>
-  <data name="OnlyOpenTickets" xml:space="preserve">
-    <value>Somente os tickets abertos</value>
-  </data>
-  <data name="ExpressionValid" xml:space="preserve">
-    <value>Expressão válida</value>
-  </data>
-  <data name="DontForgetEndingWorkPeriod" xml:space="preserve">
-    <value>NÃO SE ESQUEÇA O FECHAR DO PERÍODO DE TRABALHO!</value>
-  </data>
-  <data name="Month" xml:space="preserve">
-    <value>Mês</value>
-  </data>
-  <data name="Noon" xml:space="preserve">
-    <value>Meio-dia</value>
-  </data>
-  <data name="EditMode" xml:space="preserve">
-    <value>Modo de Design</value>
-  </data>
-  <data name="ChangePrice" xml:space="preserve">
-    <value>Alterar preço</value>
-  </data>
-  <data name="ButtonHeight" xml:space="preserve">
-    <value>Altura do botão</value>
-  </data>
-  <data name="TicketNote" xml:space="preserve">
-    <value>Nota do ticket</value>
-  </data>
-  <data name="Exit" xml:space="preserve">
-    <value>Sair</value>
-  </data>
-  <data name="ExecuteActionsIf" xml:space="preserve">
-    <value>Condições</value>
-  </data>
-  <data name="AlphanumericButtons" xml:space="preserve">
-    <value>Botões alfanuméricos</value>
-  </data>
-  <data name="CurrentInventory" xml:space="preserve">
-    <value>Inventário atual</value>
-  </data>
-  <data name="CostReport" xml:space="preserve">
-    <value>Relatório de custo</value>
-  </data>
-  <data name="TotalSales" xml:space="preserve">
-    <value>Total de vendas</value>
-  </data>
-  <data name="ReleaseLock" xml:space="preserve">
-    <value>Desbloqueio</value>
-  </data>
-  <data name="BatchCreateProductsDialogHint" xml:space="preserve">
-    <value>Crie uma linha para cada produto com o formato do [Nome do produto] [Preço]. Início o nome do produto com o símbolo # .</value>
-  </data>
-  <data name="TicketDate" xml:space="preserve">
-    <value>Data do ticket</value>
-  </data>
-  <data name="CantDeletePastEndOfDayRecords" xml:space="preserve">
-    <value>Não é possível excluir os relatórios  finais do dia</value>
-  </data>
-  <data name="Every3Months" xml:space="preserve">
-    <value>A cada 3 meses</value>
-  </data>
-  <data name="DiscountTotal" xml:space="preserve">
-    <value>Total de desconto</value>
-  </data>
-  <data name="Thirty" xml:space="preserve">
-    <value>Trinta</value>
-  </data>
-  <data name="EveryOtherMinute" xml:space="preserve">
-    <value>A cada 2 minutos</value>
-  </data>
-  <data name="Included" xml:space="preserve">
-    <value>Incluído</value>
-  </data>
-  <data name="CornerRadius" xml:space="preserve">
-    <value>Raio de Canto</value>
-  </data>
-  <data name="AddCategoryHint" xml:space="preserve">
-    <value>Digite categorias que você deseja adicionar</value>
-  </data>
-  <data name="Today" xml:space="preserve">
-    <value>Hoje</value>
-  </data>
-  <data name="Eight" xml:space="preserve">
-    <value>Oito</value>
-  </data>
-  <data name="SettlePermissions" xml:space="preserve">
-    <value>Permissões de pagamento</value>
-  </data>
-  <data name="Menu" xml:space="preserve">
-    <value>Menu</value>
-  </data>
-  <data name="PrinterType" xml:space="preserve">
-    <value>Tipo da impressora</value>
-  </data>
-  <data name="Html" xml:space="preserve">
-    <value>HTML</value>
-  </data>
-  <data name="KitchenOrderTemplate" xml:space="preserve">
-    <value>Modelo de ordem da cozinha</value>
-  </data>
-  <data name="FirstAndFifteenth" xml:space="preserve">
-    <value>1º e 15º</value>
-  </data>
-  <data name="SatAndSun" xml:space="preserve">
-    <value>Sáb e dom.</value>
-  </data>
-  <data name="WeightBarcodeItemIdFormat" xml:space="preserve">
-    <value>Peso Barcode Formato Item Id</value>
-  </data>
-  <data name="InventoryReport" xml:space="preserve">
-    <value>Relatório de Inventário</value>
-  </data>
-  <data name="Parameters" xml:space="preserve">
-    <value>Parâmetros</value>
-  </data>
-  <data name="MenuItemName" xml:space="preserve">
-    <value>Nome do item de menu</value>
-  </data>
-  <data name="Sixteen" xml:space="preserve">
-    <value>Dezesseis</value>
-  </data>
-  <data name="SelectPrintJob" xml:space="preserve">
-    <value>Selecione trabalho de impressão</value>
-  </data>
-  <data name="Numerator" xml:space="preserve">
-    <value>Numerador</value>
-  </data>
-  <data name="CantCompleteOperationWhenThereIsZeroPricedProduct" xml:space="preserve">
-    <value>Não é possível concluir esta operação enquanto a zero do valor de preço existe.</value>
-  </data>
-  <data name="PortionName" xml:space="preserve">
-    <value>Nome Parcela</value>
-  </data>
-  <data name="Selected_f" xml:space="preserve">
-    <value>Selecionado {0}</value>
-  </data>
-  <data name="CloseTicket" xml:space="preserve">
-    <value>Fechar Ticket </value>
-  </data>
-  <data name="Permissions" xml:space="preserve">
-    <value>Permissões</value>
-  </data>
-  <data name="TicketPaidTotal" xml:space="preserve">
-    <value>Valor recebido do Ticket</value>
-  </data>
-  <data name="Nineteen" xml:space="preserve">
-    <value>Dezenove</value>
-  </data>
-  <data name="Details" xml:space="preserve">
-    <value>Detalhes</value>
-  </data>
-  <data name="ActionType" xml:space="preserve">
-    <value>Tipo de Ação</value>
-  </data>
-  <data name="ItemSalesReport" xml:space="preserve">
-    <value>Relatório das vendas do item</value>
-  </data>
-  <data name="CheckDBVersion" xml:space="preserve">
-    <value>Verifique a versão de banco de dados</value>
-  </data>
-  <data name="OneThousand" xml:space="preserve">
-    <value>Mil</value>
-  </data>
-  <data name="POSView" xml:space="preserve">
-    <value>POS Ver</value>
-  </data>
-  <data name="DayDate" xml:space="preserve">
-    <value>Data do dia</value>
-  </data>
-  <data name="List_f" xml:space="preserve">
-    <value>{0} Lista</value>
-  </data>
-  <data name="Rate" xml:space="preserve">
-    <value>Taxa</value>
-  </data>
-  <data name="Properties" xml:space="preserve">
-    <value>Propriedades</value>
-  </data>
-  <data name="DisplayUserPath" xml:space="preserve">
-    <value>Mostrar caminho do usuário</value>
-  </data>
-  <data name="Print" xml:space="preserve">
-    <value>Imprimir</value>
-  </data>
-  <data name="Gift" xml:space="preserve">
-    <value>Presente</value>
-  </data>
-  <data name="Expression" xml:space="preserve">
-    <value>Expressão</value>
-  </data>
-  <data name="TicketTime" xml:space="preserve">
-    <value>Horário do ticket</value>
-  </data>
-  <data name="NewTicket" xml:space="preserve">
-    <value>Novo Ticket</value>
-  </data>
-  <data name="EnterPin" xml:space="preserve">
-    <value>DIGITE PIN</value>
-  </data>
-  <data name="Height" xml:space="preserve">
-    <value>Altura</value>
-  </data>
-  <data name="Next" xml:space="preserve">
-    <value>Próximo</value>
-  </data>
-  <data name="SellAmount" xml:space="preserve">
-    <value>Quantidade vendida</value>
-  </data>
-  <data name="DepartmentPermissions" xml:space="preserve">
-    <value>Permissões do departamento</value>
-  </data>
-  <data name="TicketNumber" xml:space="preserve">
-    <value>Número do ticket</value>
-  </data>
-  <data name="CashPermissions" xml:space="preserve">
-    <value>Permissões de Caixa</value>
-  </data>
-  <data name="AutoSelectProductsQuestion" xml:space="preserve">
-    <value>Auto selecionar os produtos para novas categorias?</value>
-  </data>
-  <data name="LineOrderNumber" xml:space="preserve">
-    <value># Linha: Número de Ordem</value>
-  </data>
-  <data name="ErrorMessage" xml:space="preserve">
-    <value>Mensagem de erro</value>
-  </data>
-  <data name="TwiceADay" xml:space="preserve">
-    <value>Duas vezes por dia</value>
-  </data>
-  <data name="SendEmail" xml:space="preserve">
-    <value>Enviar e-mail</value>
-  </data>
-  <data name="Portion" xml:space="preserve">
-    <value>Parte</value>
-  </data>
-  <data name="ProductList" xml:space="preserve">
-    <value>Lista de Produtos</value>
-  </data>
-  <data name="LineItemTotalWithoutGifts" xml:space="preserve">
-    <value># Linha: Total Item (Presentes Excluídos)</value>
-  </data>
-  <data name="CalculateCost" xml:space="preserve">
-    <value>Calcular Custo</value>
-  </data>
-  <data name="OrderNumerator" xml:space="preserve">
-    <value>Numerador do Ordem</value>
-  </data>
-  <data name="User" xml:space="preserve">
-    <value>Usuário</value>
-  </data>
-  <data name="Twelve" xml:space="preserve">
-    <value>Doze</value>
-  </data>
-  <data name="NewOrder" xml:space="preserve">
-    <value>Nova Ordem</value>
-  </data>
-  <data name="FindProduct" xml:space="preserve">
-    <value>Procurar produto</value>
-  </data>
-  <data name="UserRoleList" xml:space="preserve">
-    <value>Lista de função</value>
-  </data>
-  <data name="CostPrediction" xml:space="preserve">
-    <value>Previsão de custo</value>
-  </data>
-  <data name="ShareNameAndPortName" xml:space="preserve">
-    <value>Nome da impressora compartilhada / nome da porta</value>
-  </data>
-  <data name="TicketTotalChanged" xml:space="preserve">
-    <value>Total do ticket Mudou</value>
-  </data>
-  <data name="TextWrittenTotalValue" xml:space="preserve">
-    <value>Texto escrito valor total</value>
-  </data>
-  <data name="BackgroundImage" xml:space="preserve">
-    <value>Imagem de Fundo</value>
-  </data>
-  <data name="NavigationPermissions" xml:space="preserve">
-    <value>Permissões da navegação</value>
-  </data>
-  <data name="TicketPaidLastChangesNotSaved" xml:space="preserve">
-    <value>Bilhete pago. Suas últimas alterações não salvas.</value>
-  </data>
-  <data name="Account" xml:space="preserve">
-    <value>Conta</value>
-  </data>
-  <data name="Numeric" xml:space="preserve">
-    <value>Numérico</value>
-  </data>
-  <data name="Barcode" xml:space="preserve">
-    <value>Código de barras</value>
-  </data>
-  <data name="SortCategories" xml:space="preserve">
-    <value>Organizar categorias</value>
-  </data>
-  <data name="Trigger" xml:space="preserve">
-    <value>Desencadear</value>
-  </data>
-  <data name="OptionalTicketTag" xml:space="preserve">
-    <value>Tag Ticket Opcional</value>
-  </data>
-  <data name="ReportPermissions" xml:space="preserve">
-    <value>Permissões dos relatórios</value>
-  </data>
-  <data name="MainMenu" xml:space="preserve">
-    <value>Menu Principal</value>
-  </data>
-  <data name="InventoryItem" xml:space="preserve">
-    <value>Item de inventário</value>
-  </data>
-  <data name="PaymentTotal" xml:space="preserve">
-    <value>Total de pagamento</value>
-  </data>
-  <data name="TransacitonUnitMultiplier" xml:space="preserve">
-    <value>Multiplicador de unidade de transação</value>
-  </data>
-  <data name="Number" xml:space="preserve">
-    <value>Número</value>
-  </data>
-  <data name="ThisWeek" xml:space="preserve">
-    <value>Esta semana</value>
-  </data>
-  <data name="Action" xml:space="preserve">
-    <value>Ação</value>
-  </data>
-  <data name="Account_f" xml:space="preserve">
-    <value>Conta: {0}</value>
-  </data>
-  <data name="AM" xml:space="preserve">
-    <value>Da manhã</value>
-  </data>
-  <data name="SaveReportToFile" xml:space="preserve">
-    <value>Salvar Relatório para Arquivo</value>
-  </data>
-  <data name="Recipe" xml:space="preserve">
-    <value>Receita</value>
-  </data>
-  <data name="IfNegativeDiscountValue_f" xml:space="preserve">
-    <value>&lt;J&gt; Arredondamento: | {0}</value>
-  </data>
-  <data name="PriceDefinitions" xml:space="preserve">
-    <value>Definições de preços</value>
-  </data>
-  <data name="EditModel_f" xml:space="preserve">
-    <value>Edição {0} ({1})</value>
-  </data>
-  <data name="UserLogout" xml:space="preserve">
-    <value>Usuário Sair</value>
-  </data>
-  <data name="TotalWorkTimeMinutes_f" xml:space="preserve">
-    <value>Tempo de trabalho Total: {0:0} minutos</value>
-  </data>
-  <data name="TriggerExecuted" xml:space="preserve">
-    <value>Disparador executado</value>
-  </data>
-  <data name="WeightBarcodeItemIdLength" xml:space="preserve">
-    <value>Peso Barcode Comprimento Item Id</value>
-  </data>
-  <data name="UpdateType" xml:space="preserve">
-    <value>Atualize Tipo</value>
-  </data>
-  <data name="TagName" xml:space="preserve">
-    <value>Nome da Tag</value>
-  </data>
-  <data name="EmptyNameError" xml:space="preserve">
-    <value>Não deixe {0} nome vazio.</value>
-  </data>
-  <data name="Calling" xml:space="preserve">
-    <value>Chamada</value>
-  </data>
-  <data name="Fourteen" xml:space="preserve">
-    <value>Catorze</value>
-  </data>
-  <data name="SettingName" xml:space="preserve">
-    <value>Definir Nome</value>
-  </data>
-  <data name="RefreshCache" xml:space="preserve">
-    <value>Atualizar Cache</value>
-  </data>
-  <data name="Seventeen" xml:space="preserve">
-    <value>Dezessete</value>
-  </data>
-  <data name="PropertyEditor" xml:space="preserve">
-    <value>Editor de propriedades</value>
-  </data>
-  <data name="UiLanguage" xml:space="preserve">
-    <value>Língua do programa</value>
-  </data>
-  <data name="Custom" xml:space="preserve">
-    <value>Personalizado</value>
-  </data>
-  <data name="LastPaymentTime" xml:space="preserve">
-    <value>Último pagamento</value>
-  </data>
-  <data name="CanMoveTicketLines" xml:space="preserve">
-    <value>Pode mover itens</value>
-  </data>
-  <data name="Every30Minutes" xml:space="preserve">
-    <value>Cada 30 Minutos</value>
-  </data>
-  <data name="AveragePrice_ab" xml:space="preserve">
-    <value>PreçoMed</value>
-  </data>
-  <data name="WrapText" xml:space="preserve">
-    <value>Quebrar texto automaticamente</value>
+  <data name="InventoryConsumption" xml:space="preserve">
+    <value>Consumo de Inventário</value>
   </data>
   <data name="Weekday" xml:space="preserve">
     <value>Dia da semana</value>
   </data>
-  <data name="MonWedFri" xml:space="preserve">
-    <value>Seg, Qua, Sex</value>
+  <data name="PM" xml:space="preserve">
+    <value>Da tarde</value>
   </data>
-  <data name="InventoryPurchaseReport" xml:space="preserve">
-    <value>Relatório de Compra de Inventário</value>
+  <data name="Totals" xml:space="preserve">
+    <value>Totais</value>
   </data>
-  <data name="Title" xml:space="preserve">
-    <value>Título</value>
-  </data>
-  <data name="SqlHint" xml:space="preserve">
-    <value>Clique aqui para informações sobre como trabalhar com bancos de dados SQL</value>
-  </data>
-  <data name="AlphanumericButtonValues" xml:space="preserve">
-    <value>Botões de valores alfanumérico</value>
-  </data>
-  <data name="LineCharacterCount" xml:space="preserve">
-    <value>Contagem de Caracteres da Linha</value>
-  </data>
-  <data name="Cash" xml:space="preserve">
-    <value>Dinheiro</value>
-  </data>
-  <data name="Reports" xml:space="preserve">
-    <value>Relatórios</value>
-  </data>
-  <data name="Every15Minutes" xml:space="preserve">
-    <value>A cada 15 minutos</value>
-  </data>
-  <data name="APortionShouldSelected" xml:space="preserve">
-    <value>Uma porção deve selecionado</value>
-  </data>
-  <data name="PriceDefinitonName" xml:space="preserve">
-    <value>Nome Definiton Preço</value>
-  </data>
-  <data name="Amount" xml:space="preserve">
-    <value>Quantidade</value>
-  </data>
-  <data name="CommonSettings" xml:space="preserve">
-    <value>Configurações comuns</value>
-  </data>
-  <data name="PrintJobList" xml:space="preserve">
-    <value>Lista dos trabalhos da impressora</value>
-  </data>
-  <data name="Manual" xml:space="preserve">
-    <value>Manual</value>
-  </data>
-  <data name="Income" xml:space="preserve">
-    <value>Renda</value>
-  </data>
-  <data name="TwelveAmMidnight" xml:space="preserve">
-    <value>Meia-noite 12 hs</value>
-  </data>
-  <data name="SambaNetwork" xml:space="preserve">
-    <value>Rede de Samba</value>
-  </data>
-  <data name="SelectActions" xml:space="preserve">
-    <value>Selecione Ações</value>
-  </data>
-  <data name="ThereIsAnotherRecipeFor_f" xml:space="preserve">
-    <value>Não há outra receita para {0}</value>
-  </data>
-  <data name="CIDSettings" xml:space="preserve">
-    <value>Configurações CID</value>
-  </data>
-  <data name="Tables" xml:space="preserve">
-    <value>Mesas</value>
-  </data>
-  <data name="ChargedAmount" xml:space="preserve">
-    <value>Cobrado</value>
-  </data>
-  <data name="RateFromTicketAmount" xml:space="preserve">
-    <value>Taxa de quantidade de bilhetes</value>
-  </data>
-  <data name="Categories" xml:space="preserve">
-    <value>Categorias</value>
-  </data>
-  <data name="Portions" xml:space="preserve">
-    <value>Porções</value>
-  </data>
-  <data name="TicketTemplate" xml:space="preserve">
-    <value>Modelo de ticket</value>
-  </data>
-  <data name="Fifteen" xml:space="preserve">
-    <value>Quinze</value>
-  </data>
-  <data name="TicketPaidChangesNotSaved" xml:space="preserve">
-    <value>Bilhete pago. Suas últimas alterações não salvas.</value>
-  </data>
-  <data name="EveryOtherHour" xml:space="preserve">
-    <value>Cada duas horas</value>
-  </data>
-  <data name="EndOfDayRecords" xml:space="preserve">
-    <value>Relatórios do fim do dia </value>
-  </data>
-  <data name="RoundingTotal" xml:space="preserve">
-    <value>Total de arredondamento</value>
-  </data>
-  <data name="PropertyGroup" xml:space="preserve">
-    <value>Grupo da propriedade</value>
-  </data>
-  <data name="Information" xml:space="preserve">
-    <value>Informações</value>
-  </data>
-  <data name="StartWorkPeriod" xml:space="preserve">
-    <value>Início do período de trabalho</value>
-  </data>
-  <data name="DiscountPercentage" xml:space="preserve">
-    <value>Percentual de desconto</value>
-  </data>
-  <data name="StartOfDay" xml:space="preserve">
-    <value>Início do período de trabalho</value>
-  </data>
-  <data name="WhenTagNotSelected" xml:space="preserve">
-    <value>Quando Untagged</value>
-  </data>
-  <data name="CanOpenDashboard" xml:space="preserve">
-    <value>Pode Abrir o Dashboard</value>
-  </data>
-  <data name="Fifty" xml:space="preserve">
-    <value>Cinqüenta</value>
-  </data>
-  <data name="Balance" xml:space="preserve">
-    <value>Saldo</value>
-  </data>
-  <data name="DisplayAppPath" xml:space="preserve">
-    <value>Mostrar Caminho App</value>
-  </data>
-  <data name="Hundred" xml:space="preserve">
-    <value>Cem</value>
-  </data>
-  <data name="PortPrinter" xml:space="preserve">
-    <value>Porta de impressora</value>
-  </data>
-  <data name="EveryMonth" xml:space="preserve">
-    <value>Todos os meses</value>
-  </data>
-  <data name="EmptyDiscountRateFeedback" xml:space="preserve">
-    <value>Para adicionar descontos, digite uma taxa de desconto e clique no botão. Para remover desconto botão desconto clique sem digitar um valor.</value>
-  </data>
-  <data name="LastOrderDate" xml:space="preserve">
-    <value>Data da última ordem</value>
-  </data>
-  <data name="SortType" xml:space="preserve">
-    <value>Tipo de classificação</value>
-  </data>
-  <data name="Empty" xml:space="preserve">
-    <value>Vazio</value>
-  </data>
-  <data name="Rules" xml:space="preserve">
-    <value>Regras</value>
+  <data name="LocalWarehouse" xml:space="preserve">
+    <value>Armazém Local</value>
   </data>
   <data name="Six" xml:space="preserve">
     <value>Seis</value>
   </data>
+  <data name="OneHundred" xml:space="preserve">
+    <value>Cem</value>
+  </data>
+  <data name="NumericTags" xml:space="preserve">
+    <value>Tags numérico</value>
+  </data>
+  <data name="Management" xml:space="preserve">
+    <value>Gerir</value>
+  </data>
+  <data name="CustomFields" xml:space="preserve">
+    <value>Campos Customizados</value>
+  </data>
+  <data name="AM" xml:space="preserve">
+    <value>Da manhã</value>
+  </data>
+  <data name="TopOfTheHour" xml:space="preserve">
+    <value>Início da hora</value>
+  </data>
+  <data name="FirstAndFifteenth" xml:space="preserve">
+    <value>1º e 15º</value>
+  </data>
+  <data name="Departments" xml:space="preserve">
+    <value>Departamentos</value>
+  </data>
+  <data name="ShareNameAndPortName" xml:space="preserve">
+    <value>Nome da impressora compartilhada / nome da porta</value>
+  </data>
+  <data name="OrderStateUpdated" xml:space="preserve">
+    <value>Status da Ordem Atualizado</value>
+  </data>
+  <data name="TicketOpened" xml:space="preserve">
+    <value>Ticket Aberto</value>
+  </data>
+  <data name="Unit" xml:space="preserve">
+    <value>Unidade</value>
+  </data>
+  <data name="Balance" xml:space="preserve">
+    <value>Saldo</value>
+  </data>
+  <data name="Edit_f" xml:space="preserve">
+    <value>Editar {0}</value>
+  </data>
+  <data name="Restaurant" xml:space="preserve">
+    <value>Restaurante</value>
+  </data>
+  <data name="Total_f" xml:space="preserve">
+    <value>Total: {0}</value>
+  </data>
+  <data name="EntityScreen" xml:space="preserve">
+    <value>Tela da Entidade</value>
+  </data>
+  <data name="DemoPrinter" xml:space="preserve">
+    <value>Demo Printer (notepad)</value>
+  </data>
+  <data name="Multiplier" xml:space="preserve">
+    <value>Multiplicador</value>
+  </data>
+  <data name="FontSize" xml:space="preserve">
+    <value>Tamanho da Fonte</value>
+  </data>
+  <data name="ImagePath" xml:space="preserve">
+    <value>Caminho da Imagem</value>
+  </data>
+  <data name="Selected_f" xml:space="preserve">
+    <value>Selecionado {0}</value>
+  </data>
+  <data name="State" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="ItemSalesReport" xml:space="preserve">
+    <value>Relatório das vendas do item</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>Relatórios</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Sim</value>
+  </data>
+  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
+    <value>Excluir mapeamento selecionado?</value>
+  </data>
+  <data name="PortionPrices" xml:space="preserve">
+    <value>Preços das porções</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Escondido</value>
+  </data>
+  <data name="LastLinesByPrinterLineCount" xml:space="preserve">
+    <value>Novas Linhas de contas de impressão</value>
+  </data>
+  <data name="CurrencySymbol" xml:space="preserve">
+    <value>Símbolo da Moeda</value>
+  </data>
+  <data name="TagCantBeEmpty_f" xml:space="preserve">
+    <value>Não pode deixar {0} vazio</value>
+  </data>
+  <data name="TicketNumber_f" xml:space="preserve">
+    <value>Número de Ticket: {0}</value>
+  </data>
+  <data name="AccountTransactionType" xml:space="preserve">
+    <value>Tipo de Transação da Conta</value>
+  </data>
+  <data name="TicketPaidLastChangesNotSaved" xml:space="preserve">
+    <value>Bilhete pago. Suas últimas alterações não salvas.</value>
+  </data>
+  <data name="Clone_f" xml:space="preserve">
+    <value>Clone {0}</value>
+  </data>
+  <data name="Order" xml:space="preserve">
+    <value>Ordem</value>
+  </data>
+  <data name="AutoLogout" xml:space="preserve">
+    <value>Auto Logout</value>
+  </data>
+  <data name="SaveErrorDuplicateItemName_f" xml:space="preserve">
+    <value>Já existe um {0} com esse nome.</value>
+  </data>
+  <data name="TransactionUnit" xml:space="preserve">
+    <value>Unidade de transação</value>
+  </data>
+  <data name="Task" xml:space="preserve">
+    <value>Tarefa</value>
+  </data>
+  <data name="CustomField" xml:space="preserve">
+    <value>Campo Customizado</value>
+  </data>
+  <data name="FilterType" xml:space="preserve">
+    <value>Tipo do Filtro</value>
+  </data>
+  <data name="EveryOtherDay" xml:space="preserve">
+    <value>A cada dois dias</value>
+  </data>
+  <data name="SortCategoryProducts" xml:space="preserve">
+    <value>Classificar categoria dos produtos</value>
+  </data>
+  <data name="LinePriceTag" xml:space="preserve">
+    <value># Linha: Price Tag</value>
+  </data>
+  <data name="MessageServerName" xml:space="preserve">
+    <value>Nome do Message server</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>Ativar</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nome</value>
+  </data>
+  <data name="CalculateCost" xml:space="preserve">
+    <value>Calcular Custo</value>
+  </data>
   <data name="Actions" xml:space="preserve">
     <value>Ações</value>
   </data>
-  <data name="CanUpdateExtraModifiers" xml:space="preserve">
-    <value>Pode atualizar modificadores extra</value>
+  <data name="NewProperty" xml:space="preserve">
+    <value>Nova propriedade</value>
+  </data>
+  <data name="LineCharacterCount" xml:space="preserve">
+    <value>Contagem de Caracteres da Linha</value>
+  </data>
+  <data name="UpdateType" xml:space="preserve">
+    <value>Atualize Tipo</value>
+  </data>
+  <data name="OnceAnHour" xml:space="preserve">
+    <value>Uma vez por hora</value>
+  </data>
+  <data name="Common" xml:space="preserve">
+    <value>Comum</value>
+  </data>
+  <data name="InventoryItem" xml:space="preserve">
+    <value>Item de inventário</value>
+  </data>
+  <data name="AccountsLiability" xml:space="preserve">
+    <value>Responsabilidade das contas</value>
+  </data>
+  <data name="DisplayPopup" xml:space="preserve">
+    <value>Mostrar Popup</value>
+  </data>
+  <data name="DocumentNo" xml:space="preserve">
+    <value>Documento n º</value>
+  </data>
+  <data name="State_f" xml:space="preserve">
+    <value>{0} Status</value>
+  </data>
+  <data name="Products" xml:space="preserve">
+    <value>Produtos</value>
+  </data>
+  <data name="Forty" xml:space="preserve">
+    <value>Quarenta</value>
+  </data>
+  <data name="TicketNumerator" xml:space="preserve">
+    <value>Numerador de Ticket</value>
+  </data>
+  <data name="Eighteen" xml:space="preserve">
+    <value>Dezoito</value>
+  </data>
+  <data name="This_f" xml:space="preserve">
+    <value>Este {0}</value>
+  </data>
+  <data name="ForeignCurrency" xml:space="preserve">
+    <value>Moeda Extrangeira</value>
+  </data>
+  <data name="LastPaidOrders" xml:space="preserve">
+    <value>Últimas Ordens Pagas</value>
+  </data>
+  <data name="FindTicket" xml:space="preserve">
+    <value>Procurar ticket</value>
+  </data>
+  <data name="TicketTipTotalAmount" xml:space="preserve">
+    <value>Quantidade total de ponta bilhete</value>
+  </data>
+  <data name="Orders" xml:space="preserve">
+    <value>Ordens</value>
+  </data>
+  <data name="Unpaid" xml:space="preserve">
+    <value>Falta Pagamento</value>
+  </data>
+  <data name="SubButtonHeight" xml:space="preserve">
+    <value>Altura Botão Sub</value>
+  </data>
+  <data name="ThisMonth" xml:space="preserve">
+    <value>Este mês</value>
+  </data>
+  <data name="MultipleSelection" xml:space="preserve">
+    <value>Seleção múltipla</value>
+  </data>
+  <data name="UpdateTicketTag" xml:space="preserve">
+    <value>Atualize Tag Bilheteira</value>
+  </data>
+  <data name="DecreaseInventory" xml:space="preserve">
+    <value>Diminuir do Inventário</value>
+  </data>
+  <data name="TuesAndThurs" xml:space="preserve">
+    <value>Ter qui</value>
+  </data>
+  <data name="Twelve" xml:space="preserve">
+    <value>Doze</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>Todos</value>
   </data>
-  <data name="NewProperty" xml:space="preserve">
-    <value>Nova propriedade</value>
+  <data name="CanNavigateCash" xml:space="preserve">
+    <value>Pode entrar na tela de pagamentos</value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>Menu</value>
+  </data>
+  <data name="PrintJobList" xml:space="preserve">
+    <value>Lista dos trabalhos da impressora</value>
+  </data>
+  <data name="FooterTemplate" xml:space="preserve">
+    <value>Modelo de rodapé</value>
+  </data>
+  <data name="TagName" xml:space="preserve">
+    <value>Nome da Tag</value>
+  </data>
+  <data name="RuleAction" xml:space="preserve">
+    <value>Ação</value>
+  </data>
+  <data name="Template" xml:space="preserve">
+    <value>Modelo</value>
+  </data>
+  <data name="TicketTotal" xml:space="preserve">
+    <value>Total do ticket</value>
+  </data>
+  <data name="QuarterPast" xml:space="preserve">
+    <value>Passado trimestre</value>
+  </data>
+  <data name="Manual" xml:space="preserve">
+    <value>Manual</value>
+  </data>
+  <data name="TicketTime" xml:space="preserve">
+    <value>Horário do ticket</value>
+  </data>
+  <data name="MessageServerPort" xml:space="preserve">
+    <value>Porto do Message server</value>
+  </data>
+  <data name="UpdateEntityState" xml:space="preserve">
+    <value>Atualizar Status da Entidade</value>
+  </data>
+  <data name="UnhandledExceptionErrorMessage" xml:space="preserve">
+    <value>SambaPOS encontrou um problema inesperado. Detalhes do problema registrados para rastro.log arquivo</value>
+  </data>
+  <data name="CantSave" xml:space="preserve">
+    <value>Não é possível salvar</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="CalculationMethod" xml:space="preserve">
+    <value>Método de Cálculo</value>
+  </data>
+  <data name="PaymentProcessed" xml:space="preserve">
+    <value>Pagamento Processado</value>
+  </data>
+  <data name="EntityScreens" xml:space="preserve">
+    <value>Telas das Entidades</value>
+  </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Administrador</value>
+  </data>
+  <data name="NoPurchaseTransactionInCurrentDateRange" xml:space="preserve">
+    <value>Não há transações de compra no intervalo de datas.</value>
+  </data>
+  <data name="OnlyOpenTickets" xml:space="preserve">
+    <value>Somente os tickets abertos</value>
+  </data>
+  <data name="TicketPaidChangesNotSaved" xml:space="preserve">
+    <value>Bilhete pago. Suas últimas alterações não salvas.</value>
+  </data>
+  <data name="UserLogout" xml:space="preserve">
+    <value>Usuário Sair</value>
+  </data>
+  <data name="CanDisplayReports" xml:space="preserve">
+    <value>Pode exibir relatórios</value>
+  </data>
+  <data name="TicketRemainingAmount" xml:space="preserve">
+    <value>Valor do Ticket Restante</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="FileName" xml:space="preserve">
+    <value>Nome do arquivo</value>
+  </data>
+  <data name="SaveErrorZeroOrNullInventoryLines" xml:space="preserve">
+    <value>Não é possível salvar porque há linhas com itens de estoque vazias ou quantidade zero</value>
+  </data>
+  <data name="TicketPermissions" xml:space="preserve">
+    <value>Permissões de ticket</value>
+  </data>
+  <data name="MenuItemGroup" xml:space="preserve">
+    <value>Grupo de produtos</value>
+  </data>
+  <data name="ChangeTotal" xml:space="preserve">
+    <value>Corrigir Total</value>
+  </data>
+  <data name="Html" xml:space="preserve">
+    <value>HTML</value>
+  </data>
+  <data name="NewOrders" xml:space="preserve">
+    <value>Novas Ordens</value>
+  </data>
+  <data name="SalesByItemGroup" xml:space="preserve">
+    <value>Vendas por Grupo de itens</value>
+  </data>
+  <data name="Source_f" xml:space="preserve">
+    <value>Fonte {0}</value>
+  </data>
+  <data name="Select_f" xml:space="preserve">
+    <value>Selecionar {0}</value>
+  </data>
+  <data name="Empty" xml:space="preserve">
+    <value>Vazio</value>
+  </data>
+  <data name="TicketTagSelected" xml:space="preserve">
+    <value>Tag Ticket Selecionado</value>
+  </data>
+  <data name="ExpressionBuilder" xml:space="preserve">
+    <value>Construtor de expressões</value>
+  </data>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Cor de Fundo</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Aberto</value>
+  </data>
+  <data name="NumeratorValue" xml:space="preserve">
+    <value>Valor do numerador</value>
+  </data>
+  <data name="AccountTransaction" xml:space="preserve">
+    <value>Transação de Conta</value>
+  </data>
+  <data name="MonThruFri" xml:space="preserve">
+    <value>Seg sex através</value>
+  </data>
+  <data name="LocalSettings" xml:space="preserve">
+    <value>Configurações locais</value>
+  </data>
+  <data name="ReportDoesNotContainsCashState" xml:space="preserve">
+    <value>Relatório não contém valor do início</value>
+  </data>
+  <data name="ChangeAmount_f" xml:space="preserve">
+    <value>Troco: {0}</value>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>Cor</value>
+  </data>
+  <data name="NumeratorProperties" xml:space="preserve">
+    <value>Propriedades do numerador</value>
+  </data>
+  <data name="Every15Minutes" xml:space="preserve">
+    <value>A cada 15 minutos</value>
+  </data>
+  <data name="PluralCurrencySuffix" xml:space="preserve">
+    <value>s</value>
+  </data>
+  <data name="CommonSettings" xml:space="preserve">
+    <value>Configurações comuns</value>
+  </data>
+  <data name="TicketTotalChanged" xml:space="preserve">
+    <value>Total do ticket Mudou</value>
+  </data>
+  <data name="OnceAWeek" xml:space="preserve">
+    <value>Uma vez por semana</value>
+  </data>
+  <data name="Excluded" xml:space="preserve">
+    <value>Excluídos</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Anterior</value>
+  </data>
+  <data name="WeightBarcodePefix" xml:space="preserve">
+    <value>Prefixo Barcode Peso</value>
+  </data>
+  <data name="MessageReceived" xml:space="preserve">
+    <value>Mensagem Recebida</value>
   </data>
   <data name="CloseTicket_r" xml:space="preserve">
     <value>Fechar
 Ticket </value>
   </data>
-  <data name="Selected" xml:space="preserve">
-    <value>Selecionado</value>
+  <data name="TicketTemplate" xml:space="preserve">
+    <value>Modelo de ticket</value>
   </data>
-  <data name="UnhandledExceptionErrorMessage" xml:space="preserve">
-    <value>SambaPOS encontrou um problema inesperado. Detalhes do problema registrados para rastro.log arquivo</value>
-  </data>
-  <data name="Table" xml:space="preserve">
-    <value>Mesa</value>
-  </data>
-  <data name="ThereAreNoCostTransactionsInThisPeriod" xml:space="preserve">
-    <value>Não há transações dos custos neste período de trabalho.</value>
-  </data>
-  <data name="MessageServerPort" xml:space="preserve">
-    <value>Porto do Message server</value>
-  </data>
-  <data name="PreviousPage" xml:space="preserve">
-    <value>Página Anterior</value>
-  </data>
-  <data name="ThisMonth" xml:space="preserve">
-    <value>Este mês</value>
-  </data>
-  <data name="CategoryProperties" xml:space="preserve">
-    <value>Propriedades da Categoria</value>
-  </data>
-  <data name="LineItemPriceCents" xml:space="preserve">
-    <value># Linha: Preço do Item em centavos</value>
-  </data>
-  <data name="PrintJob" xml:space="preserve">
-    <value>Trabalho de impressão</value>
-  </data>
-  <data name="InventoryGroup" xml:space="preserve">
-    <value>Grupo de Inventário</value>
-  </data>
-  <data name="ProgramSettings" xml:space="preserve">
-    <value>Configurações do programa</value>
-  </data>
-  <data name="Refresh" xml:space="preserve">
-    <value>Recarregar</value>
-  </data>
-  <data name="NumeratorValue" xml:space="preserve">
-    <value>Valor do numerador</value>
-  </data>
-  <data name="SambaPOSReporter" xml:space="preserve">
-    <value>Repórter SambaPOS</value>
-  </data>
-  <data name="IncomeTransactions" xml:space="preserve">
-    <value>Transações de Renda</value>
-  </data>
-  <data name="TicketRemainingAmount" xml:space="preserve">
-    <value>Valor do Ticket Restante</value>
-  </data>
-  <data name="DeleteErrorShouldHaveAtLeastOneTerminal" xml:space="preserve">
-    <value>Não é possível excluir porque deve ser de pelo menos um terminal.</value>
-  </data>
-  <data name="Tag" xml:space="preserve">
-    <value>Tag</value>
-  </data>
-  <data name="Incomes_f" xml:space="preserve">
-    <value>{0} Rendimentos</value>
-  </data>
-  <data name="Update" xml:space="preserve">
-    <value>Atualizar</value>
-  </data>
-  <data name="QuantitiesByItemGroup" xml:space="preserve">
-    <value>Quantidades por Grupo de itens</value>
+  <data name="OnceAYear" xml:space="preserve">
+    <value>Uma vez por ano</value>
   </data>
   <data name="BroadcastMessage" xml:space="preserve">
     <value>Mensagem de Broadcast</value>
   </data>
-  <data name="CanOpenNavigation" xml:space="preserve">
-    <value>Pode entrar na tela de navegação</value>
+  <data name="AllCategories" xml:space="preserve">
+    <value>Todas as Categorias</value>
   </data>
-  <data name="UniqueTicketId" xml:space="preserve">
-    <value>Id Ticket único</value>
+  <data name="InventoryTransactionType" xml:space="preserve">
+    <value>Tipo de Transação de Inventário</value>
   </data>
-  <data name="Void" xml:space="preserve">
-    <value>Anular</value>
+  <data name="SlipReportPrinter" xml:space="preserve">
+    <value>Relatório do deslizamento da impressora</value>
   </data>
-  <data name="AutoSelect" xml:space="preserve">
-    <value>Auto-selecione</value>
+  <data name="Paid" xml:space="preserve">
+    <value>Pago</value>
   </data>
-  <data name="EventName" xml:space="preserve">
-    <value>Nome do Evento</value>
+  <data name="ChangeAmountUpdated" xml:space="preserve">
+    <value>Montante de Variação Atualizado</value>
   </data>
-  <data name="NumeratorType" xml:space="preserve">
-    <value>Tipo do numerador</value>
+  <data name="Cost" xml:space="preserve">
+    <value>Custo</value>
   </data>
-  <data name="EveryOtherMonth" xml:space="preserve">
-    <value>A cada 2 meses</value>
+  <data name="CategoryProducts" xml:space="preserve">
+    <value>Categoria dos Produtos</value>
   </data>
-  <data name="Move" xml:space="preserve">
-    <value>Mover</value>
+  <data name="LinesGroupedByGroupCode" xml:space="preserve">
+    <value>Linhas agrupadas por código de grupo</value>
   </data>
-  <data name="Five" xml:space="preserve">
-    <value>Cinco</value>
-  </data>
-  <data name="Category" xml:space="preserve">
-    <value>Categoria</value>
-  </data>
-  <data name="StartAmount" xml:space="preserve">
-    <value>Valores do início</value>
-  </data>
-  <data name="WorkPeriodEndsMessage" xml:space="preserve">
-    <value>Período do trabalho está terminando.
-Visite a seção Relatórios e crie relatório do período de trabalho </value>
-  </data>
-  <data name="Template" xml:space="preserve">
-    <value>Modelo</value>
-  </data>
-  <data name="NumericTags" xml:space="preserve">
-    <value>Tags numérico</value>
-  </data>
-  <data name="Numerators" xml:space="preserve">
-    <value>Numeradores</value>
-  </data>
-  <data name="ClearFilter" xml:space="preserve">
-    <value>Limpar filtro</value>
-  </data>
-  <data name="TriggerName" xml:space="preserve">
-    <value>Nome gatilho</value>
-  </data>
-  <data name="Inventory" xml:space="preserve">
-    <value>Inventário</value>
-  </data>
-  <data name="EveryOtherDay" xml:space="preserve">
-    <value>A cada dois dias</value>
-  </data>
-  <data name="Hour" xml:space="preserve">
-    <value>Hora</value>
-  </data>
-  <data name="BaseUnit" xml:space="preserve">
-    <value>Unidade de Base</value>
-  </data>
-  <data name="TotalIncome" xml:space="preserve">
-    <value>Renda Total</value>
-  </data>
-  <data name="One" xml:space="preserve">
-    <value>Um</value>
-  </data>
-  <data name="BatchPriceList" xml:space="preserve">
-    <value>Editor de Lista de Preços</value>
-  </data>
-  <data name="WhenTagSelected" xml:space="preserve">
-    <value>Quando Tagged</value>
-  </data>
-  <data name="Price" xml:space="preserve">
-    <value>Preço</value>
-  </data>
-  <data name="ColumnCount" xml:space="preserve">
-    <value>Contagem de coluna</value>
-  </data>
-  <data name="TicketChangedRetryLastOperation" xml:space="preserve">
-    <value>Bilhete alterado. Suas últimas alterações não salvas.</value>
-  </data>
-  <data name="Keyboard" xml:space="preserve">
-    <value>Teclado</value>
-  </data>
-  <data name="Four" xml:space="preserve">
-    <value>Quatro</value>
-  </data>
-  <data name="WeightBarcodeQuantityLength" xml:space="preserve">
-    <value>Comprimento Peso Quantidade de código de barras</value>
-  </data>
-  <data name="MergeLines" xml:space="preserve">
-    <value>Mesclar Linhas</value>
-  </data>
-  <data name="ApplicationStarted" xml:space="preserve">
-    <value>Aplicação Iniciado</value>
-  </data>
-  <data name="Hidden" xml:space="preserve">
-    <value>Escondido</value>
-  </data>
-  <data name="OpenTicketButtonDuration" xml:space="preserve">
-    <value>{0} min</value>
-  </data>
-  <data name="Confirmation" xml:space="preserve">
-    <value>Confirmação</value>
-  </data>
-  <data name="Expenses" xml:space="preserve">
-    <value>Despesas</value>
+  <data name="PriceDefinition" xml:space="preserve">
+    <value>Definição de preço</value>
   </data>
   <data name="ShowMessage" xml:space="preserve">
     <value>Mostrar mensagem</value>
   </data>
-  <data name="UpdateTicketTag" xml:space="preserve">
-    <value>Atualize Tag Bilheteira</value>
-  </data>
-  <data name="PaymentType" xml:space="preserve">
-    <value>Tipo de Pagamento</value>
-  </data>
-  <data name="Decrease" xml:space="preserve">
-    <value>Diminuir</value>
-  </data>
-  <data name="CanMergeTickets" xml:space="preserve">
-    <value>Pode mesclar tickets</value>
-  </data>
-  <data name="NoTransactionsFoundFor_f" xml:space="preserve">
-    <value>Não há transações para {0}</value>
-  </data>
-  <data name="Every10Minutes" xml:space="preserve">
-    <value>A cada 10 minutos</value>
-  </data>
-  <data name="Department" xml:space="preserve">
-    <value>Departamento</value>
-  </data>
-  <data name="Text" xml:space="preserve">
-    <value>Texto</value>
-  </data>
-  <data name="Close" xml:space="preserve">
-    <value>Fechar</value>
-  </data>
-  <data name="Yesterday" xml:space="preserve">
-    <value>Ontem</value>
-  </data>
-  <data name="DisplayAllValues" xml:space="preserve">
-    <value>Exibir todos os valores</value>
-  </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Cancelar</value>
-  </data>
-  <data name="CharacterSet" xml:space="preserve">
-    <value>Conjunto de Caracteres</value>
-  </data>
-  <data name="FindTicket" xml:space="preserve">
-    <value>Procurar ticket</value>
-  </data>
-  <data name="UserList" xml:space="preserve">
-    <value>Lista de usuários</value>
-  </data>
-  <data name="Add_f" xml:space="preserve">
-    <value>Adicione {0}</value>
-  </data>
-  <data name="ForChangingPriceTypeAPrice" xml:space="preserve">
-    <value>Para alterar preço primeiro digite um preço de numerador</value>
-  </data>
-  <data name="ExecutePrintJob" xml:space="preserve">
-    <value>Executar trabalho de impressão</value>
-  </data>
-  <data name="Every6Hours" xml:space="preserve">
-    <value>A cada 6 horas</value>
-  </data>
-  <data name="Message" xml:space="preserve">
-    <value>Mensagem</value>
-  </data>
-  <data name="WorkPeriodEnded" xml:space="preserve">
-    <value>Período de trabalho encerrado</value>
-  </data>
-  <data name="PleaseEnterABriefExplanationOf" xml:space="preserve">
-    <value>Por favor, digite uma breve explicação de eventos que levaram a essa exceção</value>
-  </data>
-  <data name="EndOfDayRecord" xml:space="preserve">
-    <value>Relatório do fim do dia </value>
-  </data>
-  <data name="Seventy" xml:space="preserve">
-    <value>Setenta</value>
-  </data>
-  <data name="ExpenseTransactions" xml:space="preserve">
-    <value>Transações despesas</value>
-  </data>
-  <data name="ProgramLanguage" xml:space="preserve">
-    <value>Idioma do programa</value>
-  </data>
-  <data name="TagCantBeEmpty_f" xml:space="preserve">
-    <value>Não pode deixar {0} vazio</value>
-  </data>
-  <data name="TicketWithBrackets" xml:space="preserve">
-    <value>[Ticket]</value>
-  </data>
-  <data name="RateFromPreviousTemplate" xml:space="preserve">
-    <value>Taxa de quantidade modelo anterior</value>
-  </data>
-  <data name="UserLogin" xml:space="preserve">
-    <value>Login de Usuário</value>
-  </data>
-  <data name="FileName" xml:space="preserve">
-    <value>Nome do arquivo</value>
-  </data>
-  <data name="Customers" xml:space="preserve">
-    <value>Clientes</value>
-  </data>
-  <data name="ReportPrinter" xml:space="preserve">
-    <value>Relatório da impressora</value>
-  </data>
-  <data name="Sixty" xml:space="preserve">
-    <value>Sessenta</value>
+  <data name="UserRoleName" xml:space="preserve">
+    <value>Nome da função</value>
   </data>
   <data name="Line" xml:space="preserve">
     <value>Linha</value>
@@ -1664,371 +2024,479 @@ Visite a seção Relatórios e crie relatório do período de trabalho </value>
   <data name="Nine" xml:space="preserve">
     <value>Nove</value>
   </data>
-  <data name="LastOrderStatus" xml:space="preserve">
-    <value>Estado da última ordem</value>
+  <data name="Number" xml:space="preserve">
+    <value>Número</value>
   </data>
-  <data name="LineItemQuantity" xml:space="preserve">
-    <value># Linha: Quantidade de itens</value>
+  <data name="Automation" xml:space="preserve">
+    <value>Automação</value>
   </data>
-  <data name="TicketNumber_f" xml:space="preserve">
-    <value>Número de Ticket: {0}</value>
+  <data name="Trigger" xml:space="preserve">
+    <value>Desencadear</value>
   </data>
-  <data name="ButtonColor" xml:space="preserve">
-    <value>Cor do botão</value>
-  </data>
-  <data name="PluralCurrencySuffix" xml:space="preserve">
-    <value>s</value>
-  </data>
-  <data name="TicketTipTotalAmount" xml:space="preserve">
-    <value>Quantidade total de ponta bilhete</value>
-  </data>
-  <data name="Totals" xml:space="preserve">
-    <value>Totais</value>
-  </data>
-  <data name="LastOrderTime" xml:space="preserve">
-    <value>Última Ordem</value>
-  </data>
-  <data name="SaveErrorThisPinCodeInUse" xml:space="preserve">
-    <value>Este PIN é usado por outra conta do usuário.</value>
-  </data>
-  <data name="InStock" xml:space="preserve">
-    <value>Em estoque</value>
-  </data>
-  <data name="Every4Hours" xml:space="preserve">
-    <value>A cada 4 horas</value>
-  </data>
-  <data name="TicketTotal" xml:space="preserve">
-    <value>Total do ticket</value>
-  </data>
-  <data name="GrandTotal" xml:space="preserve">
-    <value>Total geral</value>
-  </data>
-  <data name="WorkPeriodReport" xml:space="preserve">
-    <value>Relatório do período do trabalho</value>
-  </data>
-  <data name="NumeratorHeight" xml:space="preserve">
-    <value>Altura do numerador</value>
-  </data>
-  <data name="TransactionDocument" xml:space="preserve">
-    <value>Documento de Transação</value>
-  </data>
-  <data name="Open" xml:space="preserve">
-    <value>Aberto</value>
-  </data>
-  <data name="DeleteItemConfirmation_f" xml:space="preserve">
-    <value>Excluir {0} [{1}]?</value>
-  </data>
-  <data name="EveryMinute" xml:space="preserve">
-    <value>A cada minuto</value>
-  </data>
-  <data name="GroupCode" xml:space="preserve">
-    <value>Código do Grupo</value>
-  </data>
-  <data name="CanMoveUnlockedTicketLines" xml:space="preserve">
-    <value>Pode mover linhas de ticket desbloqueado</value>
-  </data>
-  <data name="Quantity" xml:space="preserve">
-    <value>Quantidade</value>
-  </data>
-  <data name="FreeTagging" xml:space="preserve">
-    <value>Tagg livre</value>
-  </data>
-  <data name="RuleAction" xml:space="preserve">
-    <value>Ação</value>
-  </data>
-  <data name="Property" xml:space="preserve">
-    <value>Propriedade</value>
-  </data>
-  <data name="StartingWorkPeriodCompleted" xml:space="preserve">
-    <value>Período trabalho iniciado.</value>
-  </data>
-  <data name="TicketNumerator" xml:space="preserve">
-    <value>Numerador de Ticket</value>
-  </data>
-  <data name="DeleteErrorLastUser" xml:space="preserve">
-    <value>Não é possível excluir última conta de usuário</value>
-  </data>
-  <data name="TemplateName" xml:space="preserve">
-    <value>Nome do Modelo</value>
-  </data>
-  <data name="CanChangeDepartment" xml:space="preserve">
-    <value>Pode Mudar Departamento</value>
-  </data>
-  <data name="CreditCard" xml:space="preserve">
-    <value>Cartão</value>
-  </data>
-  <data name="Day" xml:space="preserve">
-    <value>Dia</value>
-  </data>
-  <data name="FixedAmount" xml:space="preserve">
-    <value>Quantia fixa</value>
-  </data>
-  <data name="Ticket" xml:space="preserve">
-    <value>Ticket</value>
-  </data>
-  <data name="MenuName" xml:space="preserve">
-    <value>Nome do Menu</value>
-  </data>
-  <data name="SubTags" xml:space="preserve">
-    <value>Sub Tags</value>
-  </data>
-  <data name="ChangeAmountUpdated" xml:space="preserve">
-    <value>Montante de Variação Atualizado</value>
-  </data>
-  <data name="ChangeAmount_f" xml:space="preserve">
-    <value>Troco: {0}</value>
-  </data>
-  <data name="SortCategoryProductsDialogHint_f" xml:space="preserve">
-    <value>Arraste {0} categoria dos produtos para mudar a ordem.</value>
-  </data>
-  <data name="AccountsReceivable" xml:space="preserve">
-    <value>Recebimentos das contas</value>
-  </data>
-  <data name="DayOperations" xml:space="preserve">
-    <value>Períodos do trabalho</value>
-  </data>
-  <data name="NoAction" xml:space="preserve">
-    <value>Nenhuma Ação</value>
-  </data>
-  <data name="Recipes" xml:space="preserve">
-    <value>Receitas</value>
-  </data>
-  <data name="DateRangeIsNotActiveWorkPeriod" xml:space="preserve">
-    <value>Intervalo de data não está em período de trabalho ativo</value>
-  </data>
-  <data name="HalfPast" xml:space="preserve">
-    <value>Meia</value>
-  </data>
-  <data name="PrintMapping" xml:space="preserve">
-    <value>Print Mapping</value>
-  </data>
-  <data name="LastLinesByPrinterLineCount" xml:space="preserve">
-    <value>Novas Linhas de contas de impressão</value>
-  </data>
-  <data name="DiscountPercentSign" xml:space="preserve">
-    <value>Desconto %</value>
-  </data>
-  <data name="SaveFreeTags" xml:space="preserve">
-    <value>Save Tags grátis</value>
-  </data>
-  <data name="PM" xml:space="preserve">
-    <value>Da tarde</value>
-  </data>
-  <data name="SingleSelection" xml:space="preserve">
-    <value>Seleção Simples</value>
-  </data>
-  <data name="PhoneNumber" xml:space="preserve">
-    <value>Telefone</value>
-  </data>
-  <data name="Cent" xml:space="preserve">
-    <value>Centavo</value>
-  </data>
-  <data name="Add" xml:space="preserve">
-    <value>Adicionar</value>
-  </data>
-  <data name="Total" xml:space="preserve">
-    <value>Total</value>
-  </data>
-  <data name="LineItemPrice" xml:space="preserve">
-    <value># Linha: Preço do item</value>
-  </data>
-  <data name="WorkPeriodStartTime" xml:space="preserve">
-    <value>Horário do período de trabalho: {0}</value>
-  </data>
-  <data name="Twenty" xml:space="preserve">
-    <value>Vinte</value>
-  </data>
-  <data name="Command" xml:space="preserve">
-    <value>Comando</value>
-  </data>
-  <data name="Million" xml:space="preserve">
-    <value>Milhão</value>
-  </data>
-  <data name="EveryDay" xml:space="preserve">
-    <value>Todos os dias</value>
-  </data>
-  <data name="DisplayPopup" xml:space="preserve">
-    <value>Mostrar Popup</value>
-  </data>
-  <data name="SlipReportPrinter" xml:space="preserve">
-    <value>Relatório do deslizamento da impressora</value>
-  </data>
-  <data name="CashTransactions" xml:space="preserve">
-    <value>Transações da caixa</value>
-  </data>
-  <data name="Minute" xml:space="preserve">
-    <value>Minuto</value>
-  </data>
-  <data name="DiscountsTotal" xml:space="preserve">
-    <value>Total de descontos</value>
-  </data>
-  <data name="OpenClose_ab" xml:space="preserve">
-    <value>Op-Cls</value>
-  </data>
-  <data name="Round" xml:space="preserve">
-    <value>Arredondar</value>
-  </data>
-  <data name="Seven" xml:space="preserve">
-    <value>Sete</value>
-  </data>
-  <data name="TicketPrinter" xml:space="preserve">
-    <value> Ticket da Impressora</value>
-  </data>
-  <data name="NoPurchaseTransactionInCurrentDateRange" xml:space="preserve">
-    <value>Não há transações de compra no intervalo de datas.</value>
-  </data>
-  <data name="SalesByItemGroup" xml:space="preserve">
-    <value>Vendas por Grupo de itens</value>
-  </data>
-  <data name="Products" xml:space="preserve">
-    <value>Produtos</value>
+  <data name="AutoRounding" xml:space="preserve">
+    <value>Auto-Arredondamento</value>
   </data>
   <data name="TotalWorkTimeHours_f" xml:space="preserve">
     <value>Tempo total de trabalho: {0:0} {01:00 horas} minutos</value>
   </data>
-  <data name="Width" xml:space="preserve">
-    <value>Largura</value>
+  <data name="CostReport" xml:space="preserve">
+    <value>Relatório de custo</value>
   </data>
-  <data name="LinesGroupedByBarcode" xml:space="preserve">
-    <value>Linhas agrupadas por código de barras</value>
+  <data name="EventName" xml:space="preserve">
+    <value>Nome do Evento</value>
   </data>
-  <data name="DocumentNo" xml:space="preserve">
-    <value>Documento n º</value>
+  <data name="CharacterSet" xml:space="preserve">
+    <value>Conjunto de Caracteres</value>
   </data>
-  <data name="DepartmentType" xml:space="preserve">
-    <value>Tipo de departamento</value>
+  <data name="Recipes" xml:space="preserve">
+    <value>Receitas</value>
   </data>
-  <data name="GetPayment" xml:space="preserve">
-    <value>Obter Pagamento </value>
+  <data name="PrintBill" xml:space="preserve">
+    <value>Impressão da conta</value>
   </data>
-  <data name="InvoicePrinter" xml:space="preserve">
-    <value>Impressora da fatura</value>
+  <data name="Portion" xml:space="preserve">
+    <value>Parte</value>
   </data>
-  <data name="ThereIsAnotherPriceDefinition_f" xml:space="preserve">
-    <value>Há outra definição de preços com {0} tag</value>
+  <data name="ProgramSettings" xml:space="preserve">
+    <value>Configurações do programa</value>
   </data>
-  <data name="Header" xml:space="preserve">
-    <value>Cabeçalho</value>
+  <data name="InStock" xml:space="preserve">
+    <value>Em estoque</value>
   </data>
-  <data name="NumericTagsShouldBeNumbersErrorMessage" xml:space="preserve">
-    <value>Quando "Tagging numérico" selecionado todas as tages devem conter valores numéricos.</value>
+  <data name="MenuItemName" xml:space="preserve">
+    <value>Nome do item de menu</value>
   </data>
-  <data name="AccountsLiability" xml:space="preserve">
-    <value>Responsabilidade das contas</value>
+  <data name="SearchString" xml:space="preserve">
+    <value>Procurar Texto</value>
   </data>
-  <data name="MultipleSelection" xml:space="preserve">
-    <value>Seleção múltipla</value>
+  <data name="DisplayAllValues" xml:space="preserve">
+    <value>Exibir todos os valores</value>
   </data>
-  <data name="WorkPeriodStartDate_f" xml:space="preserve">
-    <value>Data de período de trabalho: {0}</value>
+  <data name="CashPayment" xml:space="preserve">
+    <value>Pagamento em Dinheiro</value>
   </data>
-  <data name="SambaPosWebsite" xml:space="preserve">
-    <value>Site SambaPOS</value>
+  <data name="OrderStateGroup" xml:space="preserve">
+    <value>Grupo de Status da Ordem</value>
   </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Excluir</value>
+  <data name="Negative" xml:space="preserve">
+    <value>Negativo</value>
   </data>
-  <data name="TagValue" xml:space="preserve">
-    <value>Valor do Tag</value>
+  <data name="TicketTipTotal" xml:space="preserve">
+    <value>Total de percentagem</value>
   </data>
-  <data name="Dollar" xml:space="preserve">
-    <value>Dólar</value>
+  <data name="ActionName" xml:space="preserve">
+    <value>Nome da Ação</value>
   </data>
-  <data name="Rule" xml:space="preserve">
-    <value>Regra</value>
+  <data name="WindowsPrinter" xml:space="preserve">
+    <value>Impressora do Windows</value>
   </data>
-  <data name="CategoryName" xml:space="preserve">
-    <value>Nome da Categoria</value>
+  <data name="TicketNote" xml:space="preserve">
+    <value>Nota do ticket</value>
   </data>
-  <data name="CurrentCost" xml:space="preserve">
-    <value>Custo atual</value>
+  <data name="Week" xml:space="preserve">
+    <value>Semana</value>
   </data>
-  <data name="Every5Minutes" xml:space="preserve">
-    <value>A cada 5 minutos</value>
+  <data name="CheckDBVersion" xml:space="preserve">
+    <value>Verifique a versão de banco de dados</value>
   </data>
-  <data name="PastMonth" xml:space="preserve">
-    <value>Mês passado</value>
+  <data name="InventoryItemName" xml:space="preserve">
+    <value>Nome do item do estoque</value>
   </data>
-  <data name="Total_f" xml:space="preserve">
-    <value>Total: {0}</value>
+  <data name="CashPermissions" xml:space="preserve">
+    <value>Permissões de Caixa</value>
   </data>
-  <data name="TicketOpeningTime" xml:space="preserve">
-    <value>Abertura de ticket</value>
+  <data name="AlphanumericButtons" xml:space="preserve">
+    <value>Botões alfanuméricos</value>
   </data>
-  <data name="Tickets" xml:space="preserve">
-    <value>Tickets</value>
+  <data name="CreditCardPayment" xml:space="preserve">
+    <value>Pagamento do Cartão de Crédito</value>
   </data>
-  <data name="CanRemoveTicketTag" xml:space="preserve">
-    <value>Pode remover Tag Ticket</value>
+  <data name="KitchenOrderTemplate" xml:space="preserve">
+    <value>Modelo de ordem da cozinha</value>
   </data>
-  <data name="Date" xml:space="preserve">
-    <value>Data</value>
+  <data name="Command" xml:space="preserve">
+    <value>Comando</value>
   </data>
-  <data name="NextPage" xml:space="preserve">
-    <value>Próxima Página</value>
+  <data name="Seventy" xml:space="preserve">
+    <value>Setenta</value>
   </data>
-  <data name="Back" xml:space="preserve">
-    <value>Voltar</value>
+  <data name="Default" xml:space="preserve">
+    <value>Padrão</value>
   </data>
-  <data name="Restaurant" xml:space="preserve">
-    <value>Restaurante</value>
+  <data name="TaskType" xml:space="preserve">
+    <value>Tipo de Tarefa</value>
   </data>
-  <data name="Thirteen" xml:space="preserve">
-    <value>Treze</value>
+  <data name="Calling" xml:space="preserve">
+    <value>Chamada</value>
   </data>
-  <data name="MessageServerName" xml:space="preserve">
-    <value>Nome do Message server</value>
+  <data name="PriceTag" xml:space="preserve">
+    <value>Price Tag</value>
   </data>
-  <data name="TotalWorkTimeDays_f" xml:space="preserve">
-    <value>Tempo de trabalho Total:
-{0:0} dias {01:00} horas {2:0} minutos </value>
+  <data name="EntityName" xml:space="preserve">
+    <value>Nome da Entidade</value>
   </data>
-  <data name="TotalAmount_f" xml:space="preserve">
-    <value>{0} Valor Total:</value>
+  <data name="Included" xml:space="preserve">
+    <value>Incluído</value>
   </data>
-  <data name="UndefinedWithBrackets" xml:space="preserve">
-    <value>[Indefinido]</value>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>Telefone</value>
   </data>
-  <data name="Login" xml:space="preserve">
-    <value>Login</value>
+  <data name="Customer" xml:space="preserve">
+    <value>Cliente</value>
   </data>
-  <data name="UserRoleName" xml:space="preserve">
-    <value>Nome da função</value>
+  <data name="DisplayState" xml:space="preserve">
+    <value>Tela de Status</value>
   </data>
-  <data name="Divide" xml:space="preserve">
-    <value>Dividir</value>
+  <data name="Automatic" xml:space="preserve">
+    <value>Automático</value>
   </data>
-  <data name="Copy" xml:space="preserve">
-    <value>Copiar</value>
+  <data name="SalesDivTicket" xml:space="preserve">
+    <value>Total de Vendas / Ticket</value>
   </data>
-  <data name="DefaultTerminal" xml:space="preserve">
-    <value>Terminal padrão</value>
+  <data name="ProgramLanguage" xml:space="preserve">
+    <value>Idioma do programa</value>
   </data>
-  <data name="AllLines" xml:space="preserve">
-    <value>Todas as linhas</value>
+  <data name="SortType" xml:space="preserve">
+    <value>Tipo de classificação</value>
+  </data>
+  <data name="Settle" xml:space="preserve">
+    <value>Obter Pagamento</value>
+  </data>
+  <data name="PortionName" xml:space="preserve">
+    <value>Nome Parcela</value>
+  </data>
+  <data name="ExecutePrintJob" xml:space="preserve">
+    <value>Executar trabalho de impressão</value>
+  </data>
+  <data name="CalculationType" xml:space="preserve">
+    <value>Tipo de Cálculo</value>
+  </data>
+  <data name="TicketTotal_f" xml:space="preserve">
+    <value>Total {0}:</value>
+  </data>
+  <data name="CanReleaseTicketLock" xml:space="preserve">
+    <value>Pode remover bloqueio do ticket</value>
+  </data>
+  <data name="Expression" xml:space="preserve">
+    <value>Expressão</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Mês</value>
+  </data>
+  <data name="TicketEntityChanged" xml:space="preserve">
+    <value>Entidade do Ticket Alterada</value>
+  </data>
+  <data name="InventoryPurchaseReport" xml:space="preserve">
+    <value>Relatório de Compra de Inventário</value>
+  </data>
+  <data name="TerminalView" xml:space="preserve">
+    <value>Terminal Ver</value>
+  </data>
+  <data name="Consumption" xml:space="preserve">
+    <value>Consumo</value>
+  </data>
+  <data name="EveryOtherMonth" xml:space="preserve">
+    <value>A cada 2 meses</value>
+  </data>
+  <data name="StateController" xml:space="preserve">
+    <value>Controlador do Status</value>
+  </data>
+  <data name="DayDate" xml:space="preserve">
+    <value>Data do dia</value>
+  </data>
+  <data name="AccountPermissions" xml:space="preserve">
+    <value>Permissões da Conta</value>
+  </data>
+  <data name="TotalWorkTimeMinutes_f" xml:space="preserve">
+    <value>Tempo de trabalho Total: {0:0} minutos</value>
+  </data>
+  <data name="FieldType" xml:space="preserve">
+    <value>Campo Tipo</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Mensagem</value>
+  </data>
+  <data name="ChargedAmount" xml:space="preserve">
+    <value>Cobrado</value>
+  </data>
+  <data name="PrinterType" xml:space="preserve">
+    <value>Tipo da impressora</value>
+  </data>
+  <data name="PastTransactions" xml:space="preserve">
+    <value>Transações Passadas</value>
+  </data>
+  <data name="MergeLines" xml:space="preserve">
+    <value>Mesclar Linhas</value>
+  </data>
+  <data name="PaymentTotal" xml:space="preserve">
+    <value>Total de pagamento</value>
+  </data>
+  <data name="Delete_f" xml:space="preserve">
+    <value>Excluir {0}</value>
+  </data>
+  <data name="IncludeTax" xml:space="preserve">
+    <value>Incluir Imposto</value>
+  </data>
+  <data name="OpenClose_ab" xml:space="preserve">
+    <value>Op-Cls</value>
+  </data>
+  <data name="Every6Months" xml:space="preserve">
+    <value>A cada 6 meses</value>
+  </data>
+  <data name="Seven" xml:space="preserve">
+    <value>Sete</value>
+  </data>
+  <data name="TicketSubTotal" xml:space="preserve">
+    <value>Total da sub Bilheteira</value>
+  </data>
+  <data name="UnlockTicket" xml:space="preserve">
+    <value>Debloquear Ticket</value>
+  </data>
+  <data name="SellerWarehouse" xml:space="preserve">
+    <value>Armazém do Vendedor</value>
   </data>
   <data name="GiftTotal" xml:space="preserve">
     <value>Presente total</value>
   </data>
-  <data name="Billion" xml:space="preserve">
-    <value>Mil milhões</value>
+  <data name="EmptyNameError" xml:space="preserve">
+    <value>Não deixe {0} nome vazio.</value>
   </data>
-  <data name="ClickLinksToExportData" xml:space="preserve">
-    <value>Selecione intervalo de datas, atualiza o relatório e clique no link relacionado para exportar dados.</value>
+  <data name="ThereAreOpenTicketsWarning_f" xml:space="preserve">
+    <value>Existem {0} tickets em aberto.
+Não é possível acabar com período de trabalho, porque tem tickets abertos </value>
   </data>
-  <data name="TicketPermissions" xml:space="preserve">
-    <value>Permissões de ticket</value>
+  <data name="HalfPast" xml:space="preserve">
+    <value>Meia</value>
   </data>
-  <data name="SaveErrorZeroOrNullInventoryLines" xml:space="preserve">
-    <value>Não é possível salvar porque há linhas com itens de estoque vazias ou quantidade zero</value>
+  <data name="SingleSelection" xml:space="preserve">
+    <value>Seleção Simples</value>
   </data>
-  <data name="PrintContent" xml:space="preserve">
-    <value>Conteúdo da impressão</value>
+  <data name="PinCode" xml:space="preserve">
+    <value>Pin</value>
+  </data>
+  <data name="DiscountPercentSign" xml:space="preserve">
+    <value>Desconto %</value>
+  </data>
+  <data name="WorkPeriodStarted" xml:space="preserve">
+    <value>Período do trabalho iniciado</value>
+  </data>
+  <data name="SelectPrintJobsForTerminalHint_f" xml:space="preserve">
+    <value>Selecione trabalhos de impressão que você deseja adicionar {0} terminais</value>
+  </data>
+  <data name="RoundingTotal" xml:space="preserve">
+    <value>Total de arredondamento</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Quantidade</value>
+  </data>
+  <data name="PortPrinter" xml:space="preserve">
+    <value>Porta de impressora</value>
+  </data>
+  <data name="ReportPrinter" xml:space="preserve">
+    <value>Relatório da impressora</value>
+  </data>
+  <data name="PriceDefinitions" xml:space="preserve">
+    <value>Definições de preços</value>
+  </data>
+  <data name="SortCategoryProductsDialogHint_f" xml:space="preserve">
+    <value>Arraste {0} categoria dos produtos para mudar a ordem.</value>
+  </data>
+  <data name="Void" xml:space="preserve">
+    <value>Anular</value>
+  </data>
+  <data name="Portions" xml:space="preserve">
+    <value>Porções</value>
+  </data>
+  <data name="SortOrder" xml:space="preserve">
+    <value>Ordenar</value>
+  </data>
+  <data name="CantDeletePastEndOfDayRecords" xml:space="preserve">
+    <value>Não é possível excluir os relatórios  finais do dia</value>
+  </data>
+  <data name="CanDisplayOldTickets" xml:space="preserve">
+    <value>Pode ver os tickets antigos</value>
+  </data>
+  <data name="Twenty" xml:space="preserve">
+    <value>Vinte</value>
+  </data>
+  <data name="MoveTicketLine" xml:space="preserve">
+    <value>Mover</value>
+  </data>
+  <data name="Ninety" xml:space="preserve">
+    <value>Noventa</value>
+  </data>
+  <data name="PrinterName" xml:space="preserve">
+    <value>Nome da impressora</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>Lista</value>
+  </data>
+  <data name="DeleteItemConfirmation_f" xml:space="preserve">
+    <value>Excluir {0} [{1}]?</value>
+  </data>
+  <data name="CornerRadius" xml:space="preserve">
+    <value>Raio de Canto</value>
+  </data>
+  <data name="TwiceAnHour" xml:space="preserve">
+    <value>Duas vezes por hora</value>
+  </data>
+  <data name="EveryHour" xml:space="preserve">
+    <value>Todas as horas</value>
+  </data>
+  <data name="Ticket" xml:space="preserve">
+    <value>Ticket</value>
+  </data>
+  <data name="EveryDay" xml:space="preserve">
+    <value>Todos os dias</value>
+  </data>
+  <data name="DisplayUnderTicket" xml:space="preserve">
+    <value>Mostrar no Ticket</value>
+  </data>
+  <data name="ChangePaymentType" xml:space="preserve">
+    <value>Mudar Tipo de Pagamento</value>
+  </data>
+  <data name="DepartmentName" xml:space="preserve">
+    <value>Nome do departamento</value>
+  </data>
+  <data name="RuleActions" xml:space="preserve">
+    <value>Ações</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Fechar</value>
+  </data>
+  <data name="Four" xml:space="preserve">
+    <value>Quatro</value>
   </data>
   <data name="OrderNumber_f" xml:space="preserve">
     <value>Ord.No: {0:0} - {1}</value>
   </data>
-  <data name="LineItemTotalAndQuantity" xml:space="preserve">
-    <value># Linha: Item total x quantidade</value>
+  <data name="Every4Hours" xml:space="preserve">
+    <value>A cada 4 horas</value>
+  </data>
+  <data name="Target" xml:space="preserve">
+    <value>Alvo</value>
+  </data>
+  <data name="ColumnCount" xml:space="preserve">
+    <value>Contagem de coluna</value>
+  </data>
+  <data name="DisplayFormat" xml:space="preserve">
+    <value>Mostrar Formato</value>
+  </data>
+  <data name="CreditLimit" xml:space="preserve">
+    <value>Limite de Crédito</value>
+  </data>
+  <data name="StateDefinition" xml:space="preserve">
+    <value>Definição do Status</value>
+  </data>
+  <data name="DisplayUserPath" xml:space="preserve">
+    <value>Mostrar caminho do usuário</value>
+  </data>
+  <data name="Seventeen" xml:space="preserve">
+    <value>Dezessete</value>
+  </data>
+  <data name="AdminRole" xml:space="preserve">
+    <value>Regra do Administrador</value>
+  </data>
+  <data name="Three" xml:space="preserve">
+    <value>Três</value>
+  </data>
+  <data name="SaveErrorThisPinCodeInUse" xml:space="preserve">
+    <value>Este PIN é usado por outra conta do usuário.</value>
+  </data>
+  <data name="CreditCard" xml:space="preserve">
+    <value>Cartão de Crédito</value>
+  </data>
+  <data name="CashReport" xml:space="preserve">
+    <value>Relatório de Caixa</value>
+  </data>
+  <data name="ForChangingPriceTypeAPrice" xml:space="preserve">
+    <value>Para alterar preço primeiro digite um preço de numerador</value>
+  </data>
+  <data name="PrintMapping" xml:space="preserve">
+    <value>Print Mapping</value>
+  </data>
+  <data name="Values" xml:space="preserve">
+    <value>Valores</value>
+  </data>
+  <data name="Thousand" xml:space="preserve">
+    <value>Caixa</value>
+  </data>
+  <data name="MainMenu" xml:space="preserve">
+    <value>Menu Principal</value>
+  </data>
+  <data name="StateType" xml:space="preserve">
+    <value>Tipo do Status</value>
+  </data>
+  <data name="SelectionRequired" xml:space="preserve">
+    <value>Seleção Obrigatória</value>
+  </data>
+  <data name="Cent" xml:space="preserve">
+    <value>Centavo</value>
+  </data>
+  <data name="SambaNetwork" xml:space="preserve">
+    <value>Rede de Samba</value>
+  </data>
+  <data name="NumeratorType" xml:space="preserve">
+    <value>Tipo do numerador</value>
+  </data>
+  <data name="OverrideWindowsRegionalSettings" xml:space="preserve">
+    <value>Substituir configurações regionais do Windows</value>
+  </data>
+  <data name="AddTag" xml:space="preserve">
+    <value>Adicionar Tag</value>
+  </data>
+  <data name="Eight" xml:space="preserve">
+    <value>Oito</value>
+  </data>
+  <data name="Gift" xml:space="preserve">
+    <value>Presente</value>
+  </data>
+  <data name="Voucher" xml:space="preserve">
+    <value>Cheque</value>
+  </data>
+  <data name="CurrentInventory" xml:space="preserve">
+    <value>Inventário atual</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Sair</value>
+  </data>
+  <data name="TextWrittenTotalValue" xml:space="preserve">
+    <value>Texto escrito valor total</value>
+  </data>
+  <data name="TicketNumber" xml:space="preserve">
+    <value>Número do ticket</value>
+  </data>
+  <data name="EveryMinute" xml:space="preserve">
+    <value>A cada minuto</value>
+  </data>
+  <data name="Every10Minutes" xml:space="preserve">
+    <value>A cada 10 minutos</value>
+  </data>
+  <data name="MenuCategories" xml:space="preserve">
+    <value>Categorias do Menu</value>
+  </data>
+  <data name="TicketType" xml:space="preserve">
+    <value>Tipo de ticket</value>
+  </data>
+  <data name="SelectActions" xml:space="preserve">
+    <value>Selecione Ações</value>
+  </data>
+  <data name="DiscountPercentage" xml:space="preserve">
+    <value>Percentual de desconto</value>
+  </data>
+  <data name="Header" xml:space="preserve">
+    <value>Cabeçalho</value>
+  </data>
+  <data name="CreateAccount" xml:space="preserve">
+    <value>Criar Conta</value>
+  </data>
+  <data name="TaxTotal" xml:space="preserve">
+    <value>Total de Imposto</value>
+  </data>
+  <data name="DepartmentPermissions" xml:space="preserve">
+    <value>Permissões do departamento</value>
+  </data>
+  <data name="EditingFormat" xml:space="preserve">
+    <value>Editando Formato</value>
   </data>
 </root>

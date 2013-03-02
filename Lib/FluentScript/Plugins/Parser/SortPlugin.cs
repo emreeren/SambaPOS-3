@@ -52,8 +52,8 @@ namespace ComLib.Lang.Plugins
         static SortPlugin()
         {
             _terminators = new Dictionary<Token, bool>();
-            _terminators[Tokens.ToIdentifier("asc")] = true;
-            _terminators[Tokens.ToIdentifier("desc")] = true;
+            _terminators[TokenBuilder.ToIdentifier("asc")] = true;
+            _terminators[TokenBuilder.ToIdentifier("desc")] = true;
         }
 
 
@@ -133,7 +133,7 @@ namespace ComLib.Lang.Plugins
                     _variableName = ((MemberAccessExpr)_source).MemberName;
                     _variableName = _variableName.Substring(0, _variableName.Length - 1);
                 }
-                else if (_source.IsNodeType(NodeTypes.SysDataType))
+                else if (_source.IsNodeType(NodeTypes.SysArray))
                 {
                     _variableName = "temps";
                 }
@@ -214,9 +214,9 @@ namespace ComLib.Lang.Plugins
         /// Evaluate the linq expression.
         /// </summary>
         /// <returns></returns>
-        public override object DoEvaluate()
+        public override object DoEvaluate(IAstVisitor visitor)
         {
-            var obj = _source.Evaluate();
+            var obj = _source.Evaluate(visitor);
             ExceptionHelper.NotNullType(this, obj, "sort", LTypes.Array);
 
             var array = obj as LArray;
@@ -263,10 +263,10 @@ namespace ComLib.Lang.Plugins
 
                 // Now do the actual comparison of values
                 Ctx.Memory.SetValue(_varName, x);
-                object a = _filter.Evaluate();
+                object a = _filter.Evaluate(visitor);
 
                 Ctx.Memory.SetValue(_varName, y);
-                object b = _filter.Evaluate();
+                object b = _filter.Evaluate(visitor);
 
                 int result = 0;
                 if (_isAsc)

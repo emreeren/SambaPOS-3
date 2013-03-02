@@ -18,6 +18,7 @@ namespace Samba.Domain.Models.Tickets
         public decimal MaxAmount { get; set; }
         public bool IncludeTax { get; set; }
         public bool DecreaseAmount { get; set; }
+        public bool UsePlainSum { get; set; }
         public virtual AccountTransactionType AccountTransactionType { get; set; }
     }
 }

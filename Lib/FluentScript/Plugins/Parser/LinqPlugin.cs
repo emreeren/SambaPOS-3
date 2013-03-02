@@ -6,6 +6,7 @@ using System.Text;
 // <lang:using>
 using ComLib.Lang.Core;
 using ComLib.Lang.AST;
+using ComLib.Lang.Helpers;
 using ComLib.Lang.Types;
 using ComLib.Lang.Parsing;
 // </lang:using>
@@ -47,7 +48,7 @@ namespace ComLib.Lang.Plugins
         static LinqPlugin()
         {
             _terminators = new Dictionary<Token, bool>();
-            _terminators[Tokens.ToIdentifier("order")] = true;
+            _terminators[TokenBuilder.ToIdentifier("order")] = true;
             _terminators[Tokens.Semicolon] = true;
             _terminators[Tokens.NewLine] = true;
             _terminators[Tokens.Comma] = true;
@@ -233,9 +234,9 @@ namespace ComLib.Lang.Plugins
         /// Evaluate the linq expression.
         /// </summary>
         /// <returns></returns>
-        public override object DoEvaluate()
+        public override object DoEvaluate(IAstVisitor visitor)
         {
-            var array = _source.Evaluate() as LObject;
+            var array = _source.Evaluate(visitor) as LObject;
             var items = array.GetValue() as List<object>;
             var results = new List<object>();
 
@@ -243,7 +244,7 @@ namespace ComLib.Lang.Plugins
             {
                 var val = items[ndx];
                 this.Ctx.Memory.SetValue(_varName, val);
-                var isMatch = _filter.EvaluateAs<bool>();
+                var isMatch = _filter.EvaluateAs<bool>(visitor);
                 if (isMatch)
                 {
                     results.Add(val);

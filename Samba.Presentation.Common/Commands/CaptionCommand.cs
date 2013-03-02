@@ -19,7 +19,7 @@ namespace Samba.Presentation.Common.Commands
         }
 
         public string Caption { get; set; }
-        
+
         public new event EventHandler CanExecuteChanged
         {
             add { CommandManager.RequerySuggested += value; }

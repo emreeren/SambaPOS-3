@@ -329,7 +329,7 @@ namespace ComLib.Lang.Parsing
             {
                 if(argExpr.IsNodeType(NodeTypes.SysNamedParameter))
                 {
-                    var argName = ((NamedParamExpr) argExpr).Name;
+                    var argName = ((NamedParameterExpr) argExpr).Name;
                     if (!func.Meta.ArgumentsLookup.ContainsKey(argName))
                         AddErrorCode(ErrorCodes.Func1002, exp, argName);
                 }
@@ -350,7 +350,7 @@ namespace ComLib.Lang.Parsing
             // 1. Check # params to Date 
             if (string.Compare(typeName, "Date", StringComparison.InvariantCultureIgnoreCase) == 0)
             {
-                if (!LDateType.CanCreateFrom(exp.ParamListExpressions.Count))
+                if (!DateTimeTypeHelper.CanCreateDateFrom(exp.ParamListExpressions.Count))
                     return AddError("Unexpected number of inputs when creating date", exp);
             }
             // 2. Check # params to Time

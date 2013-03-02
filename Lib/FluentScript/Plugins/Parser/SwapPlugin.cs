@@ -109,7 +109,7 @@ namespace ComLib.Lang.Plugins
         /// Evaluate
         /// </summary>
         /// <returns></returns>
-        public override object Evaluate()
+        public override object DoEvaluate(IAstVisitor visitor)
         {
             // var a = 1;
             // var b = 2;

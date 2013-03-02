@@ -19,7 +19,7 @@ namespace ComLib.Lang.Parsing
     /// </summary>
     public class ExternalFunctions : IFunctionLookup
     {
-        private Dictionary<string, Func<FunctionCallExpr, object>> _customCallbacks;
+        private Dictionary<string, Func<string, string, FunctionCallExpr, object>> _customCallbacks;
         private Dictionary<string, string> _lcaseToFormaNameMap;
 
 
@@ -28,7 +28,7 @@ namespace ComLib.Lang.Parsing
         /// </summary>
         public ExternalFunctions()
         {
-            _customCallbacks = new Dictionary<string, Func<FunctionCallExpr, object>>();
+            _customCallbacks = new Dictionary<string, Func<string, string, FunctionCallExpr, object>>();
             _lcaseToFormaNameMap = new Dictionary<string, string>();
         }
 
@@ -38,7 +38,7 @@ namespace ComLib.Lang.Parsing
         /// </summary>
         /// <param name="pattern"></param>
         /// <param name="callback">The custom callback</param>
-        public void Register(string pattern, Func<FunctionCallExpr, object> callback)
+        public void Register(string pattern, Func<string, string, FunctionCallExpr, object> callback)
         {
             _customCallbacks[pattern] = callback;
             _lcaseToFormaNameMap[pattern.ToLower()] = pattern;
@@ -76,7 +76,7 @@ namespace ComLib.Lang.Parsing
         /// </summary>
         /// <param name="name">Name of the function</param>
         /// <returns></returns>
-        public Func<FunctionCallExpr, object> GetByName(string name)
+        public Func<string, string, FunctionCallExpr, object> GetByName(string name)
         {
             // Contains callback for full function name ? e.g. CreateUser
             if (_customCallbacks.ContainsKey(name))
@@ -87,7 +87,7 @@ namespace ComLib.Lang.Parsing
             // e.g. Blog.Create, Blog.Delete etc.
             if (name.Contains("."))
             {
-                string prefix = name.Substring(0, name.IndexOf("."));
+                var prefix = name.Substring(0, name.IndexOf("."));
                 if (_customCallbacks.ContainsKey(prefix + ".*"))
                     return _customCallbacks[prefix + ".*"];
             }
@@ -101,13 +101,33 @@ namespace ComLib.Lang.Parsing
         /// <param name="name">Name of the function</param>
         /// <param name="exp"></param>
         /// <returns></returns>
-        public object Call(string name, FunctionCallExpr exp)
+        public object Call(string name, FunctionCallExpr exp, IAstVisitor visitor)
         {
-            var callback = GetByName(name);
+            var objectName = name;
+            var method = string.Empty;
+            Func<string, string, FunctionCallExpr, object> callback = null;
+
+            // Contains callback for full function name ? e.g. CreateUser
+            if (_customCallbacks.ContainsKey(name))
+                callback = _customCallbacks[name];
+
+            // Contains callback that handles multiple methods on a "object".
+            // e.g. Blog.Create, Blog.Delete etc.
+            if (name.Contains("."))
+            {
+                var ndxDot = name.IndexOf(".");
+                objectName = name.Substring(0, ndxDot);
+                method = name.Substring(ndxDot + 1);
+                if (_customCallbacks.ContainsKey(objectName + ".*"))
+                    callback = _customCallbacks[objectName + ".*"];
+            }
+
+            if (callback == null)
+                return LObjects.Null;
             
             // 1. Resolve parameter froms expressions into Lang values.
-            ParamHelper.ResolveParametersToHostLangValues(exp.ParamListExpressions, exp.ParamList);
-            object result = callback(exp);
+            ParamHelper.ResolveParametersToHostLangValues(exp.ParamListExpressions, exp.ParamList, visitor);
+            object result = callback(objectName, method, exp);
             return result;
         }
     }

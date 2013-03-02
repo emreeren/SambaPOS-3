@@ -25,21 +25,11 @@ namespace ComLib.Lang.AST
 
 
         /// <summary>
-        /// Evaluate value.
+        /// Execute the statement.
         /// </summary>
-        /// <returns></returns>
-        public override object DoEvaluate()
+        public override object Visit(IAstVisitor visitor)
         {
-            // 1. Null
-            if (this.Value == LObjects.Null)
-                return this.Value;
-
-            if (this.Value is LObject)
-                return this.Value;
-
-            // 2. Actual value.
-            var ltype = LangTypeHelper.ConvertToLangValue(this.Value);
-            return ltype;
+            return visitor.VisitConstant(this);
         }
     }
 }

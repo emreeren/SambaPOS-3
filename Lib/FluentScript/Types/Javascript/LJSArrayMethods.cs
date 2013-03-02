@@ -234,10 +234,30 @@ namespace ComLib.Lang.Types
 
             // Add
             var list = target.GetValue() as IList;
+            if (list == null)
+                return 0;
+
             foreach (object elem in elements)
             {
-                var langType = LangTypeHelper.ConvertToLangValue(elem);
-                list.Add(langType);
+                if(list.GetType().IsGenericType)
+                {
+                    var gt = list.GetType().GetGenericArguments()[0];
+                    if(gt != null && gt.FullName.StartsWith("ComLib.Lang"))
+                    {
+                        var langVal = LangTypeHelper.ConvertToLangValue(elem);
+                        list.Add(langVal);
+                    }
+                    else
+                    {
+                        list.Add(elem);
+                    }
+                }
+                else
+                {
+                    var langType = LangTypeHelper.ConvertToLangValue(elem);
+                    list.Add(langType);
+                }
+                
             }
 
             return list.Count;

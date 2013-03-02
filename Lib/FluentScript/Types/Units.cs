@@ -297,7 +297,11 @@ namespace ComLib.Lang.Types
             // 1. Convert from source to base
             // e.g. 5 feet to 60 inches.
             double sourceBaseUnits = value * sourceUnits.ConversionValue;
-            return new LUnit() { Group = group, SubGroup = unitsName, BaseValue = sourceBaseUnits, Value = value };
+            var unit = new LUnit(value);
+            unit.Group = group;
+            unit.SubGroup = unitsName;
+            unit.BaseValue = sourceBaseUnits;
+            return unit;
         }
 
 

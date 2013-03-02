@@ -1,0 +1,2071 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AllDiscountsRemoved" xml:space="preserve">
+    <value>删除所有折扣，因为折扣总额大于票据总额。</value>
+  </data>
+  <data name="Purchase" xml:space="preserve">
+    <value>采购</value>
+  </data>
+  <data name="AccountType" xml:space="preserve">
+    <value>账户类型</value>
+  </data>
+  <data name="KitchenPrinter" xml:space="preserve">
+    <value>厨房打印机</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>产品</value>
+  </data>
+  <data name="Selected" xml:space="preserve">
+    <value>已选</value>
+  </data>
+  <data name="CsvBuilder" xml:space="preserve">
+    <value>CSV生成器</value>
+  </data>
+  <data name="RoleName" xml:space="preserve">
+    <value>
+劫色名称</value>
+  </data>
+  <data name="OnceAnHour" xml:space="preserve">
+    <value>一小时一次</value>
+  </data>
+  <data name="Rounding" xml:space="preserve">
+    <value>取整</value>
+  </data>
+  <data name="CanExecute" xml:space="preserve">
+    <value>能执行</value>
+  </data>
+  <data name="ExtraModifiers" xml:space="preserve">
+    <value>附加修改器</value>
+  </data>
+  <data name="ItemSales" xml:space="preserve">
+    <value>项目销售</value>
+  </data>
+  <data name="ResetAccount" xml:space="preserve">
+    <value>重置账户</value>
+  </data>
+  <data name="AutoStartMessageClient" xml:space="preserve">
+    <value>自动启动消息客户端</value>
+  </data>
+  <data name="FooterTemplate" xml:space="preserve">
+    <value>页脚模板</value>
+  </data>
+  <data name="MonThruFri" xml:space="preserve">
+    <value>周一至周五</value>
+  </data>
+  <data name="MenuList" xml:space="preserve">
+    <value>菜单列表</value>
+  </data>
+  <data name="ThereAreOpenTicketsWarning_f" xml:space="preserve">
+    <value>有{0}张打开的票据。
+还有打开的票据时，无法关闭工作期间。</value>
+  </data>
+  <data name="SortCategoryProducts" xml:space="preserve">
+    <value>类别产品排序</value>
+  </data>
+  <data name="GeneralPrintErrorMessage" xml:space="preserve">
+    <value>打印时出现一个问题：打印映射为空</value>
+  </data>
+  <data name="ErrorInExpression" xml:space="preserve">
+    <value>表达式有错误</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="ButtonHeader" xml:space="preserve">
+    <value>按钮标题</value>
+  </data>
+  <data name="PastWeek" xml:space="preserve">
+    <value>上周</value>
+  </data>
+  <data name="MessageReceived" xml:space="preserve">
+    <value>收到消息</value>
+  </data>
+  <data name="LocalSettings" xml:space="preserve">
+    <value>本地设置</value>
+  </data>
+  <data name="InventoryItemName" xml:space="preserve">
+    <value>库存物料名称</value>
+  </data>
+  <data name="Costs" xml:space="preserve">
+    <value>成本</value>
+  </data>
+  <data name="EndWorkPeriod" xml:space="preserve">
+    <value>结束工作期间</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>地址</value>
+  </data>
+  <data name="ProductProperties" xml:space="preserve">
+    <value>产品属性</value>
+  </data>
+  <data name="SalesDivTicket" xml:space="preserve">
+    <value>销售总计/票据</value>
+  </data>
+  <data name="DepartmentName" xml:space="preserve">
+    <value>部门名称</value>
+  </data>
+  <data name="AverageCost" xml:space="preserve">
+    <value>平均成本</value>
+  </data>
+  <data name="FieldType" xml:space="preserve">
+    <value>字段类型</value>
+  </data>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>背景颜色</value>
+  </data>
+  <data name="AddAndSave" xml:space="preserve">
+    <value>增加并保存</value>
+  </data>
+  <data name="Delete_f" xml:space="preserve">
+    <value>删除{0}</value>
+  </data>
+  <data name="MenuItemGroup" xml:space="preserve">
+    <value>产品组</value>
+  </data>
+  <data name="PriceDefinition" xml:space="preserve">
+    <value>价格定义</value>
+  </data>
+  <data name="AdminPasswordHint" xml:space="preserve">
+    <value>管理员PIN: 1234
+修改PIN后将会隐藏此提示</value>
+  </data>
+  <data name="Cost" xml:space="preserve">
+    <value>成本</value>
+  </data>
+  <data name="OnlyOpenTickets" xml:space="preserve">
+    <value>仅打开票据</value>
+  </data>
+  <data name="Forty" xml:space="preserve">
+    <value>四十</value>
+  </data>
+  <data name="NewTag" xml:space="preserve">
+    <value>新标签</value>
+  </data>
+  <data name="StartClientNow" xml:space="preserve">
+    <value>现在启动客户端</value>
+  </data>
+  <data name="Edit_f" xml:space="preserve">
+    <value>编辑{0}</value>
+  </data>
+  <data name="TotalAmountDivTag_f" xml:space="preserve">
+    <value>总数/{0}:</value>
+  </data>
+  <data name="ExpressionBuilder" xml:space="preserve">
+    <value>表达式生成器</value>
+  </data>
+  <data name="AutoRounding" xml:space="preserve">
+    <value>自动取整</value>
+  </data>
+  <data name="AddProductsToCategoryHint_f" xml:space="preserve">
+    <value>为类别{0}选择产品</value>
+  </data>
+  <data name="MoveTicketLine" xml:space="preserve">
+    <value>移动</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>描述</value>
+  </data>
+  <data name="OnceAMonth" xml:space="preserve">
+    <value>一月一次</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>发送</value>
+  </data>
+  <data name="TicketTagSelected" xml:space="preserve">
+    <value>票据标签选中</value>
+  </data>
+  <data name="Eleven" xml:space="preserve">
+    <value>十一</value>
+  </data>
+  <data name="TranactionsZeroQuantityError" xml:space="preserve">
+    <value>交易包含了零数量的项目</value>
+  </data>
+  <data name="SelectPrintJobsForTerminalHint_f" xml:space="preserve">
+    <value>选择要加到{0}终端的打印作业</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>默认</value>
+  </data>
+  <data name="Zero" xml:space="preserve">
+    <value>零</value>
+  </data>
+  <data name="TriggerTestResultMessage_f" xml:space="preserve">
+    <value>下一个触发器:{0}
+将每隔{1}天，{2}小时，{3}分钟触发一次</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>清除</value>
+  </data>
+  <data name="Ninety" xml:space="preserve">
+    <value>九十</value>
+  </data>
+  <data name="StartWorkPeriodToEnablePos" xml:space="preserve">
+    <value>开始一个工作期间才能使用POS</value>
+  </data>
+  <data name="Every12Hours" xml:space="preserve">
+    <value>每隔12小时</value>
+  </data>
+  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
+    <value>删除所选映射</value>
+  </data>
+  <data name="UserRole" xml:space="preserve">
+    <value>用户角色</value>
+  </data>
+  <data name="CanReleaseTicketLock" xml:space="preserve">
+    <value>能删除票据锁</value>
+  </data>
+  <data name="Multiplier" xml:space="preserve">
+    <value>换算率</value>
+  </data>
+  <data name="PriceTag" xml:space="preserve">
+    <value>价格标签</value>
+  </data>
+  <data name="CanChangeReportFilter" xml:space="preserve">
+    <value>能修改报表日期过滤器</value>
+  </data>
+  <data name="WeightBarcodePefix" xml:space="preserve">
+    <value>重量条码前缀</value>
+  </data>
+  <data name="SubButtonHeight" xml:space="preserve">
+    <value>子按钮高度</value>
+  </data>
+  <data name="Terminals" xml:space="preserve">
+    <value>终端</value>
+  </data>
+  <data name="TicketTotal_f" xml:space="preserve">
+    <value>总数{0}:</value>
+  </data>
+  <data name="RuleName" xml:space="preserve">
+    <value>规则名称</value>
+  </data>
+  <data name="AlwaysExcludeTax" xml:space="preserve">
+    <value>总是不含税</value>
+  </data>
+  <data name="CanDisplayOldTickets" xml:space="preserve">
+    <value>能查看以前票据</value>
+  </data>
+  <data name="AccountBalance" xml:space="preserve">
+    <value>账户结余</value>
+  </data>
+  <data name="TerminalView" xml:space="preserve">
+    <value>终端视图</value>
+  </data>
+  <data name="Receiveable" xml:space="preserve">
+    <value>应收</value>
+  </data>
+  <data name="OverrideWindowsRegionalSettings" xml:space="preserve">
+    <value>覆盖Windows区域设置</value>
+  </data>
+  <data name="Eighteen" xml:space="preserve">
+    <value>十八</value>
+  </data>
+  <data name="CashStatus" xml:space="preserve">
+    <value>现金状态</value>
+  </data>
+  <data name="Account_f" xml:space="preserve">
+    <value>账户：{0}</value>
+  </data>
+  <data name="Common" xml:space="preserve">
+    <value>普通</value>
+  </data>
+  <data name="Sales" xml:space="preserve">
+    <value>销售</value>
+  </data>
+  <data name="PredictedInventory" xml:space="preserve">
+    <value>库存预测</value>
+  </data>
+  <data name="FixedCost" xml:space="preserve">
+    <value>固定费用</value>
+  </data>
+  <data name="CustomFields" xml:space="preserve">
+    <value>自定义字段</value>
+  </data>
+  <data name="CallerIdDriverError" xml:space="preserve">
+    <value>要显示来电号码必须安装硬件驱动。</value>
+  </data>
+  <data name="Ten" xml:space="preserve">
+    <value>十</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>选择</value>
+  </data>
+  <data name="SalesIncome" xml:space="preserve">
+    <value>销售收入</value>
+  </data>
+  <data name="EveryWeekday" xml:space="preserve">
+    <value>每个工作日</value>
+  </data>
+  <data name="DefaultProperties" xml:space="preserve">
+    <value>默认属性</value>
+  </data>
+  <data name="PropertyGroupName" xml:space="preserve">
+    <value>属性组名称</value>
+  </data>
+  <data name="NumeratorFormat" xml:space="preserve">
+    <value>数字格式</value>
+  </data>
+  <data name="One" xml:space="preserve">
+    <value>一</value>
+  </data>
+  <data name="Two" xml:space="preserve">
+    <value>二</value>
+  </data>
+  <data name="SaveErrorMultipleDefaultTerminals" xml:space="preserve">
+    <value>不能创建多个默认终端</value>
+  </data>
+  <data name="LastOrder" xml:space="preserve">
+    <value>最后订单</value>
+  </data>
+  <data name="UpdateProgramSetting" xml:space="preserve">
+    <value>更新程序设置</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>搜索</value>
+  </data>
+  <data name="CanDisplayReports" xml:space="preserve">
+    <value>能查看报表</value>
+  </data>
+  <data name="SelectionRequired" xml:space="preserve">
+    <value>必选</value>
+  </data>
+  <data name="PrintBill" xml:space="preserve">
+    <value>打印账单</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="CashReport" xml:space="preserve">
+    <value>现金交易报表</value>
+  </data>
+  <data name="Included" xml:space="preserve">
+    <value>包含</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>否</value>
+  </data>
+  <data name="InternalAccounts" xml:space="preserve">
+    <value>内部账户</value>
+  </data>
+  <data name="GeneralInformation" xml:space="preserve">
+    <value>一般资料</value>
+  </data>
+  <data name="LinesGroupedByGroupCode" xml:space="preserve">
+    <value>用组代码分组的行</value>
+  </data>
+  <data name="AddModel_f" xml:space="preserve">
+    <value>新增 {0} </value>
+  </data>
+  <data name="ForeignCurrency" xml:space="preserve">
+    <value>外币</value>
+  </data>
+  <data name="Automatic" xml:space="preserve">
+    <value>自动化</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>列表</value>
+  </data>
+  <data name="TicketPermissions" xml:space="preserve">
+    <value>票据权限</value>
+  </data>
+  <data name="TicketCount" xml:space="preserve">
+    <value>票据数量</value>
+  </data>
+  <data name="SortOrder" xml:space="preserve">
+    <value>排列顺序</value>
+  </data>
+  <data name="InventoryItems" xml:space="preserve">
+    <value>库存项目</value>
+  </data>
+  <data name="BatchCreteProducts" xml:space="preserve">
+    <value>批量创建产品</value>
+  </data>
+  <data name="PortionPrices" xml:space="preserve">
+    <value>份量价格</value>
+  </data>
+  <data name="PrinterTemplate" xml:space="preserve">
+    <value>打印模板</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>电话</value>
+  </data>
+  <data name="UserSales" xml:space="preserve">
+    <value>用户销售</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="PrintOrdersToKitchenPrinter" xml:space="preserve">
+    <value>打印订单到厨房打印机</value>
+  </data>
+  <data name="Sort_f" xml:space="preserve">
+    <value>排序{0}</value>
+  </data>
+  <data name="Negative" xml:space="preserve">
+    <value>负</value>
+  </data>
+  <data name="TicketOptions" xml:space="preserve">
+    <value>票据设置</value>
+  </data>
+  <data name="Eighty" xml:space="preserve">
+    <value>八十</value>
+  </data>
+  <data name="InternetBrowser" xml:space="preserve">
+    <value>浏览器</value>
+  </data>
+  <data name="Unit" xml:space="preserve">
+    <value>单位</value>
+  </data>
+  <data name="Terminal" xml:space="preserve">
+    <value>终端</value>
+  </data>
+  <data name="Printer" xml:space="preserve">
+    <value>打印机</value>
+  </data>
+  <data name="OnceAWeek" xml:space="preserve">
+    <value>一周一次</value>
+  </data>
+  <data name="Million" xml:space="preserve">
+    <value>百万</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>是</value>
+  </data>
+  <data name="Server" xml:space="preserve">
+    <value>服务器</value>
+  </data>
+  <data name="Drawer" xml:space="preserve">
+    <value>钱箱</value>
+  </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="WeightBarcodes" xml:space="preserve">
+    <value>重量条码</value>
+  </data>
+  <data name="PageCount" xml:space="preserve">
+    <value>页次</value>
+  </data>
+  <data name="UnitPrice" xml:space="preserve">
+    <value>单价</value>
+  </data>
+  <data name="AccountNameTemplate" xml:space="preserve">
+    <value>账户名称模板</value>
+  </data>
+  <data name="Voucher" xml:space="preserve">
+    <value>凭证</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>参数</value>
+  </data>
+  <data name="ReportName" xml:space="preserve">
+    <value>报表名称</value>
+  </data>
+  <data name="PrinterName" xml:space="preserve">
+    <value>打印机名称</value>
+  </data>
+  <data name="Clone_f" xml:space="preserve">
+    <value>复制{0}</value>
+  </data>
+  <data name="LockTicket" xml:space="preserve">
+    <value>锁定票据</value>
+  </data>
+  <data name="CategoryProducts" xml:space="preserve">
+    <value>类别产品</value>
+  </data>
+  <data name="LinesGroupedByTag" xml:space="preserve">
+    <value>用标签分组行</value>
+  </data>
+  <data name="AddTag" xml:space="preserve">
+    <value>添加标签</value>
+  </data>
+  <data name="RuleActions" xml:space="preserve">
+    <value>动作</value>
+  </data>
+  <data name="TwiceADay" xml:space="preserve">
+    <value>一天两次</value>
+  </data>
+  <data name="FilterType" xml:space="preserve">
+    <value>过滤器类型</value>
+  </data>
+  <data name="OneThousand" xml:space="preserve">
+    <value>一千</value>
+  </data>
+  <data name="Sixteen" xml:space="preserve">
+    <value>十六</value>
+  </data>
+  <data name="OnceADay" xml:space="preserve">
+    <value>一天一次</value>
+  </data>
+  <data name="MenuCategories" xml:space="preserve">
+    <value>菜单类别</value>
+  </data>
+  <data name="Accounts" xml:space="preserve">
+    <value>账户</value>
+  </data>
+  <data name="Customer" xml:space="preserve">
+    <value>客户</value>
+  </data>
+  <data name="ChangeSortOrderHint" xml:space="preserve">
+    <value>拖动项目以改变顺序</value>
+  </data>
+  <data name="UseAtOldTickets" xml:space="preserve">
+    <value>仅适用于旧票据</value>
+  </data>
+  <data name="AutoLogout" xml:space="preserve">
+    <value>自动登出</value>
+  </data>
+  <data name="Every6Months" xml:space="preserve">
+    <value>每隔6个月</value>
+  </data>
+  <data name="TransactionMultiplierError" xml:space="preserve">
+    <value>交易换算率不能为零</value>
+  </data>
+  <data name="OnceAYear" xml:space="preserve">
+    <value>一年一次</value>
+  </data>
+  <data name="Select_f" xml:space="preserve">
+    <value>选择{0}</value>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>颜色</value>
+  </data>
+  <data name="CustomerTickets" xml:space="preserve">
+    <value>客户票据</value>
+  </data>
+  <data name="UpdatePriceTag" xml:space="preserve">
+    <value>修改价格列表</value>
+  </data>
+  <data name="Departments" xml:space="preserve">
+    <value>部门</value>
+  </data>
+  <data name="ChoosePaymentsForTicketTemplate_f" xml:space="preserve">
+    <value>为模板{0}选择付款类型</value>
+  </data>
+  <data name="ProductName" xml:space="preserve">
+    <value>产品名称</value>
+  </data>
+  <data name="TuesAndThurs" xml:space="preserve">
+    <value>周二，周四</value>
+  </data>
+  <data name="POSMenu" xml:space="preserve">
+    <value>POS菜单</value>
+  </data>
+  <data name="DeleteErrorUsedBy_f" xml:space="preserve">
+    <value>无法删除，由于{0}已被{1}使用</value>
+  </data>
+  <data name="AddTicketDiscount" xml:space="preserve">
+    <value>添加票据折扣</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>前一个</value>
+  </data>
+  <data name="AllCategories" xml:space="preserve">
+    <value>全部类别</value>
+  </data>
+  <data name="TotalExpense" xml:space="preserve">
+    <value>总支出</value>
+  </data>
+  <data name="ExportSalesData" xml:space="preserve">
+    <value>导出销售数据</value>
+  </data>
+  <data name="CantSave" xml:space="preserve">
+    <value>无法保存</value>
+  </data>
+  <data name="OrderState" xml:space="preserve">
+    <value>订单状态</value>
+  </data>
+  <data name="EveryHour" xml:space="preserve">
+    <value>每小时</value>
+  </data>
+  <data name="CustomField" xml:space="preserve">
+    <value>自定义字段</value>
+  </data>
+  <data name="MenuItem" xml:space="preserve">
+    <value>产品</value>
+  </data>
+  <data name="ReportDoesNotContainsCashState" xml:space="preserve">
+    <value>报表不包含起始金额</value>
+  </data>
+  <data name="All Tables" xml:space="preserve">
+    <value>所有餐桌</value>
+  </data>
+  <data name="Excluded" xml:space="preserve">
+    <value>不包含</value>
+  </data>
+  <data name="NumeratorProperties" xml:space="preserve">
+    <value>数字键盘属性</value>
+  </data>
+  <data name="DemoPrinter" xml:space="preserve">
+    <value>演示打印机（notepad）</value>
+  </data>
+  <data name="Paid" xml:space="preserve">
+    <value>付款</value>
+  </data>
+  <data name="SearchString" xml:space="preserve">
+    <value>搜索字符串</value>
+  </data>
+  <data name="TicketMovedRetryLastOperation_f" xml:space="preserve">
+    <value>票据已移至{0}。您最后的修改未保存。</value>
+  </data>
+  <data name="SortCategoriesDialogHint_f" xml:space="preserve">
+    <value>拖动{0}菜单类别进行改变顺序</value>
+  </data>
+  <data name="Management" xml:space="preserve">
+    <value>管理</value>
+  </data>
+  <data name="TicketTag" xml:space="preserve">
+    <value>票据标签</value>
+  </data>
+  <data name="MenuProperties" xml:space="preserve">
+    <value>菜单属性</value>
+  </data>
+  <data name="ItemProperties" xml:space="preserve">
+    <value>项目附加属性</value>
+  </data>
+  <data name="Angle" xml:space="preserve">
+    <value>角度</value>
+  </data>
+  <data name="WorkPeriodStarted" xml:space="preserve">
+    <value>工作期间开始</value>
+  </data>
+  <data name="OneHundred" xml:space="preserve">
+    <value>一百</value>
+  </data>
+  <data name="ImagePath" xml:space="preserve">
+    <value>图像路径</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>复制</value>
+  </data>
+  <data name="Incomes" xml:space="preserve">
+    <value>收入</value>
+  </data>
+  <data name="GetPayment" xml:space="preserve">
+    <value>结账</value>
+  </data>
+  <data name="Thousand" xml:space="preserve">
+    <value>千</value>
+  </data>
+  <data name="PrinterOptions" xml:space="preserve">
+    <value>打印机设置</value>
+  </data>
+  <data name="OnlyNewLines" xml:space="preserve">
+    <value>仅适用于新行</value>
+  </data>
+  <data name="CanNavigateCash" xml:space="preserve">
+    <value>能进入收银界面</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>激活</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>笔记</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>警告</value>
+  </data>
+  <data name="DefaultOrderTag" xml:space="preserve">
+    <value>默认订单标签</value>
+  </data>
+  <data name="SubMenuTags" xml:space="preserve">
+    <value>子菜单标签</value>
+  </data>
+  <data name="DeleteSelectedCategoryQuestion" xml:space="preserve">
+    <value>删除所选类别</value>
+  </data>
+  <data name="TwiceAnHour" xml:space="preserve">
+    <value>一小时两次</value>
+  </data>
+  <data name="CalculationMethod" xml:space="preserve">
+    <value>计算方法</value>
+  </data>
+  <data name="ExpressionValid" xml:space="preserve">
+    <value>有效的表达式</value>
+  </data>
+  <data name="DontForgetEndingWorkPeriod" xml:space="preserve">
+    <value>请勿忘记结束工作期间！</value>
+  </data>
+  <data name="OrderTagGroup" xml:space="preserve">
+    <value>订单标签组</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>月</value>
+  </data>
+  <data name="Tax" xml:space="preserve">
+    <value>税收</value>
+  </data>
+  <data name="EditMode" xml:space="preserve">
+    <value>设计模式</value>
+  </data>
+  <data name="ChangePrice" xml:space="preserve">
+    <value>更改价格</value>
+  </data>
+  <data name="ButtonHeight" xml:space="preserve">
+    <value>按钮高度</value>
+  </data>
+  <data name="TicketNote" xml:space="preserve">
+    <value>票据笔记</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="ExecuteActionsIf" xml:space="preserve">
+    <value>条件</value>
+  </data>
+  <data name="CurrentInventory" xml:space="preserve">
+    <value>当前库存</value>
+  </data>
+  <data name="MaxSelectedItems" xml:space="preserve">
+    <value>最多选择项目</value>
+  </data>
+  <data name="CostReport" xml:space="preserve">
+    <value>成本报表</value>
+  </data>
+  <data name="TotalSales" xml:space="preserve">
+    <value>总销售</value>
+  </data>
+  <data name="ReleaseLock" xml:space="preserve">
+    <value>释放锁定</value>
+  </data>
+  <data name="BatchCreateProductsDialogHint" xml:space="preserve">
+    <value>每个产品一行，格式：[产品名称][价格]。类别名称以字符#开头</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>常规</value>
+  </data>
+  <data name="UserRoleName" xml:space="preserve">
+    <value>角色名称</value>
+  </data>
+  <data name="CantDeletePastEndOfDayRecords" xml:space="preserve">
+    <value>无法删除以前的清机记录</value>
+  </data>
+  <data name="Every3Months" xml:space="preserve">
+    <value>每隔3个月</value>
+  </data>
+  <data name="DiscountTotal" xml:space="preserve">
+    <value>折扣总计</value>
+  </data>
+  <data name="OrderStateGroup" xml:space="preserve">
+    <value>订单状态组</value>
+  </data>
+  <data name="Thirty" xml:space="preserve">
+    <value>三十</value>
+  </data>
+  <data name="ErrorLogMessage" xml:space="preserve">
+    <value>出现了一个问题。
+
+消息:
+</value>
+  </data>
+  <data name="EveryOtherMinute" xml:space="preserve">
+    <value>每隔一分钟</value>
+  </data>
+  <data name="TransactionsEmptyError" xml:space="preserve">
+    <value>交易不应为空</value>
+  </data>
+  <data name="AddCategoryHint" xml:space="preserve">
+    <value>输入您要加入的类别</value>
+  </data>
+  <data name="Today" xml:space="preserve">
+    <value>今天</value>
+  </data>
+  <data name="Eight" xml:space="preserve">
+    <value>八</value>
+  </data>
+  <data name="SettlePermissions" xml:space="preserve">
+    <value>付款权限</value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>菜单</value>
+  </data>
+  <data name="PrinterType" xml:space="preserve">
+    <value>打印机类型</value>
+  </data>
+  <data name="Html" xml:space="preserve">
+    <value>HTML</value>
+  </data>
+  <data name="Sixty" xml:space="preserve">
+    <value>六十</value>
+  </data>
+  <data name="FirstAndFifteenth" xml:space="preserve">
+    <value>1号跟15号</value>
+  </data>
+  <data name="SatAndSun" xml:space="preserve">
+    <value>周六周日</value>
+  </data>
+  <data name="Numeric" xml:space="preserve">
+    <value>数字</value>
+  </data>
+  <data name="InventoryReport" xml:space="preserve">
+    <value>库存报表</value>
+  </data>
+  <data name="AccountPermissions" xml:space="preserve">
+    <value>账户权限</value>
+  </data>
+  <data name="MenuItemName" xml:space="preserve">
+    <value>菜单项目名称</value>
+  </data>
+  <data name="Increase" xml:space="preserve">
+    <value>上升</value>
+  </data>
+  <data name="SelectPrintJob" xml:space="preserve">
+    <value>选择打印作业</value>
+  </data>
+  <data name="OrderTag" xml:space="preserve">
+    <value>订单标签</value>
+  </data>
+  <data name="TicketTotal" xml:space="preserve">
+    <value>票据总数</value>
+  </data>
+  <data name="CantCompleteOperationWhenThereIsZeroPricedProduct" xml:space="preserve">
+    <value>由于存在零价格订单，无法完成此操作。</value>
+  </data>
+  <data name="PortionName" xml:space="preserve">
+    <value>份量名称</value>
+  </data>
+  <data name="Selected_f" xml:space="preserve">
+    <value>已选{0}</value>
+  </data>
+  <data name="CloseTicket" xml:space="preserve">
+    <value>关闭票据</value>
+  </data>
+  <data name="Permissions" xml:space="preserve">
+    <value>权限</value>
+  </data>
+  <data name="TicketPaidTotal" xml:space="preserve">
+    <value>已付金额</value>
+  </data>
+  <data name="Nineteen" xml:space="preserve">
+    <value>十九</value>
+  </data>
+  <data name="CanCreateAccount" xml:space="preserve">
+    <value>能创建账户</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>详细</value>
+  </data>
+  <data name="GeneralSettings" xml:space="preserve">
+    <value>常规设置</value>
+  </data>
+  <data name="AddTagPriceToOrderPrice" xml:space="preserve">
+    <value>将标签价格加入订单价格</value>
+  </data>
+  <data name="ActionType" xml:space="preserve">
+    <value>动作类型</value>
+  </data>
+  <data name="ItemSalesReport" xml:space="preserve">
+    <value>项目销售报表</value>
+  </data>
+  <data name="CheckDBVersion" xml:space="preserve">
+    <value>检查数据库版本</value>
+  </data>
+  <data name="POSView" xml:space="preserve">
+    <value>POS视图</value>
+  </data>
+  <data name="List_f" xml:space="preserve">
+    <value>{0}列表</value>
+  </data>
+  <data name="Rate" xml:space="preserve">
+    <value>率</value>
+  </data>
+  <data name="Properties" xml:space="preserve">
+    <value>属性</value>
+  </data>
+  <data name="DisplayUserPath" xml:space="preserve">
+    <value>显示用户路径</value>
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value>打印</value>
+  </data>
+  <data name="Gift" xml:space="preserve">
+    <value>赠送</value>
+  </data>
+  <data name="NumeratorType" xml:space="preserve">
+    <value>数字键盘类型</value>
+  </data>
+  <data name="TicketTime" xml:space="preserve">
+    <value>票据时间</value>
+  </data>
+  <data name="NewTicket" xml:space="preserve">
+    <value>新开票据</value>
+  </data>
+  <data name="EnterPin" xml:space="preserve">
+    <value>输入PIN</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>高度</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>下一个</value>
+  </data>
+  <data name="SellAmount" xml:space="preserve">
+    <value>销售金额</value>
+  </data>
+  <data name="DepartmentPermissions" xml:space="preserve">
+    <value>部门权限</value>
+  </data>
+  <data name="TicketNumber" xml:space="preserve">
+    <value>票据号码</value>
+  </data>
+  <data name="AutoSelectProductsQuestion" xml:space="preserve">
+    <value>新建类别自动选择产品？</value>
+  </data>
+  <data name="Add_f" xml:space="preserve">
+    <value>加 {0}</value>
+  </data>
+  <data name="PinCode" xml:space="preserve">
+    <value>Pin Code</value>
+  </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>错误信息</value>
+  </data>
+  <data name="SendEmail" xml:space="preserve">
+    <value>发送Email</value>
+  </data>
+  <data name="Portion" xml:space="preserve">
+    <value>份量</value>
+  </data>
+  <data name="ProductList" xml:space="preserve">
+    <value>产品列表</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>长度</value>
+  </data>
+  <data name="CalculateCost" xml:space="preserve">
+    <value>计算成本</value>
+  </data>
+  <data name="OrderNumerator" xml:space="preserve">
+    <value>订单数字生成器</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>用户</value>
+  </data>
+  <data name="Twelve" xml:space="preserve">
+    <value>十二</value>
+  </data>
+  <data name="NewOrder" xml:space="preserve">
+    <value>新订单</value>
+  </data>
+  <data name="FindProduct" xml:space="preserve">
+    <value>查找产品</value>
+  </data>
+  <data name="UserRoleList" xml:space="preserve">
+    <value>角色列表</value>
+  </data>
+  <data name="CostPrediction" xml:space="preserve">
+    <value>成本预测</value>
+  </data>
+  <data name="ShareNameAndPortName" xml:space="preserve">
+    <value>打印机共享名称/端口名称</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>背景图像</value>
+  </data>
+  <data name="NavigationPermissions" xml:space="preserve">
+    <value>导航权限</value>
+  </data>
+  <data name="TicketPaidLastChangesNotSaved" xml:space="preserve">
+    <value>票据已付款。您最后的修改未保存。</value>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>账户</value>
+  </data>
+  <data name="Barcode" xml:space="preserve">
+    <value>条码</value>
+  </data>
+  <data name="SortCategories" xml:space="preserve">
+    <value>类别排序</value>
+  </data>
+  <data name="Trigger" xml:space="preserve">
+    <value>触发器</value>
+  </data>
+  <data name="OptionalTicketTag" xml:space="preserve">
+    <value>可选票据标签</value>
+  </data>
+  <data name="ReportPermissions" xml:space="preserve">
+    <value>报表权限</value>
+  </data>
+  <data name="ViewMode" xml:space="preserve">
+    <value>查看模式</value>
+  </data>
+  <data name="WindowsPrinter" xml:space="preserve">
+    <value>Windows打印机</value>
+  </data>
+  <data name="Three" xml:space="preserve">
+    <value>三</value>
+  </data>
+  <data name="InventoryItem" xml:space="preserve">
+    <value>库存项目</value>
+  </data>
+  <data name="PaymentTotal" xml:space="preserve">
+    <value>支付总计</value>
+  </data>
+  <data name="TransacitonUnitMultiplier" xml:space="preserve">
+    <value>交易单位换算率</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>数字</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>动作</value>
+  </data>
+  <data name="AM" xml:space="preserve">
+    <value>上午</value>
+  </data>
+  <data name="SaveReportToFile" xml:space="preserve">
+    <value>保存报表到文件</value>
+  </data>
+  <data name="Recipe" xml:space="preserve">
+    <value>食谱</value>
+  </data>
+  <data name="PriceDefinitions" xml:space="preserve">
+    <value>价格定义</value>
+  </data>
+  <data name="EditModel_f" xml:space="preserve">
+    <value>编辑 {0} ({1})</value>
+  </data>
+  <data name="UserLogout" xml:space="preserve">
+    <value>用户登出</value>
+  </data>
+  <data name="TotalWorkTimeMinutes_f" xml:space="preserve">
+    <value>总工作时间:{0:0}分钟</value>
+  </data>
+  <data name="TicketDate" xml:space="preserve">
+    <value>票据日期</value>
+  </data>
+  <data name="TagName" xml:space="preserve">
+    <value>标签名称</value>
+  </data>
+  <data name="EmptyNameError" xml:space="preserve">
+    <value> {0} 名称不能留空。</value>
+  </data>
+  <data name="TransactionUnit" xml:space="preserve">
+    <value>交易单位</value>
+  </data>
+  <data name="Fourteen" xml:space="preserve">
+    <value>十四</value>
+  </data>
+  <data name="RefreshCache" xml:space="preserve">
+    <value>刷新缓存</value>
+  </data>
+  <data name="Seventeen" xml:space="preserve">
+    <value>十七</value>
+  </data>
+  <data name="PropertyEditor" xml:space="preserve">
+    <value>属性编辑器</value>
+  </data>
+  <data name="UiLanguage" xml:space="preserve">
+    <value>界面语言</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>个性化</value>
+  </data>
+  <data name="LastPaymentTime" xml:space="preserve">
+    <value>最后支付</value>
+  </data>
+  <data name="DeleteErrorAccountTypeAssignedtoAccounts" xml:space="preserve">
+    <value>无法删除，此模板已被账户使用</value>
+  </data>
+  <data name="CanMoveTicketLines" xml:space="preserve">
+    <value>能移动项目</value>
+  </data>
+  <data name="Every30Minutes" xml:space="preserve">
+    <value>每隔30分钟</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>必须</value>
+  </data>
+  <data name="AveragePrice_ab" xml:space="preserve">
+    <value>平均价格</value>
+  </data>
+  <data name="WrapText" xml:space="preserve">
+    <value>自动换行</value>
+  </data>
+  <data name="Weekday" xml:space="preserve">
+    <value>工作日</value>
+  </data>
+  <data name="Settle" xml:space="preserve">
+    <value>结账</value>
+  </data>
+  <data name="MonWedFri" xml:space="preserve">
+    <value>周一，周三，周五</value>
+  </data>
+  <data name="InventoryPurchaseReport" xml:space="preserve">
+    <value>库存购买报表</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>标题</value>
+  </data>
+  <data name="SqlHint" xml:space="preserve">
+    <value>点击这里了解与SQL数据库相关信息</value>
+  </data>
+  <data name="TicketPrinter" xml:space="preserve">
+    <value>票据打印机</value>
+  </data>
+  <data name="LineCharacterCount" xml:space="preserve">
+    <value>行字符数</value>
+  </data>
+  <data name="DeleteErrorAdminUser" xml:space="preserve">
+    <value>无法删除管理员。</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>报表</value>
+  </data>
+  <data name="Every15Minutes" xml:space="preserve">
+    <value>每隔15分钟</value>
+  </data>
+  <data name="APortionShouldSelected" xml:space="preserve">
+    <value>必须选择一个份量</value>
+  </data>
+  <data name="PriceDefinitonName" xml:space="preserve">
+    <value>价格定义的名称</value>
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value>金额</value>
+  </data>
+  <data name="CommonSettings" xml:space="preserve">
+    <value>普通设置</value>
+  </data>
+  <data name="PrintJobList" xml:space="preserve">
+    <value>打印作业列表</value>
+  </data>
+  <data name="Manual" xml:space="preserve">
+    <value>手册</value>
+  </data>
+  <data name="Income" xml:space="preserve">
+    <value>收入</value>
+  </data>
+  <data name="TwelveAmMidnight" xml:space="preserve">
+    <value>午夜12点</value>
+  </data>
+  <data name="SambaNetwork" xml:space="preserve">
+    <value>Samba Network</value>
+  </data>
+  <data name="SelectActions" xml:space="preserve">
+    <value>选择动作</value>
+  </data>
+  <data name="CIDSettings" xml:space="preserve">
+    <value>CID设置</value>
+  </data>
+  <data name="Tables" xml:space="preserve">
+    <value>餐桌</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>类别</value>
+  </data>
+  <data name="Portions" xml:space="preserve">
+    <value>份量</value>
+  </data>
+  <data name="TicketTemplate" xml:space="preserve">
+    <value>票据模板</value>
+  </data>
+  <data name="Fifteen" xml:space="preserve">
+    <value>十五</value>
+  </data>
+  <data name="TicketPaidChangesNotSaved" xml:space="preserve">
+    <value>票据已经付款。您最后的修改未保存。</value>
+  </data>
+  <data name="EveryOtherHour" xml:space="preserve">
+    <value>每隔一小时</value>
+  </data>
+  <data name="TicketType" xml:space="preserve">
+    <value>票据类型</value>
+  </data>
+  <data name="Discount" xml:space="preserve">
+    <value>打折</value>
+  </data>
+  <data name="RoundingTotal" xml:space="preserve">
+    <value>取整总计</value>
+  </data>
+  <data name="PropertyGroup" xml:space="preserve">
+    <value>属性组</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>信息</value>
+  </data>
+  <data name="StartWorkPeriod" xml:space="preserve">
+    <value>开始工作期间</value>
+  </data>
+  <data name="DiscountPercentage" xml:space="preserve">
+    <value>折扣百分比</value>
+  </data>
+  <data name="StartOfDay" xml:space="preserve">
+    <value>工作期间之期初</value>
+  </data>
+  <data name="WhenTagNotSelected" xml:space="preserve">
+    <value>无标签时</value>
+  </data>
+  <data name="ThisWeek" xml:space="preserve">
+    <value>本周</value>
+  </data>
+  <data name="Fifty" xml:space="preserve">
+    <value>五十</value>
+  </data>
+  <data name="Balance" xml:space="preserve">
+    <value>结余</value>
+  </data>
+  <data name="RemoveLimit" xml:space="preserve">
+    <value>移除限制</value>
+  </data>
+  <data name="DisplayAppPath" xml:space="preserve">
+    <value>显示程序路径</value>
+  </data>
+  <data name="PortPrinter" xml:space="preserve">
+    <value>端口打印机</value>
+  </data>
+  <data name="EveryMonth" xml:space="preserve">
+    <value>每个月</value>
+  </data>
+  <data name="CantDelete_f" xml:space="preserve">
+    <value>无法删除{0}</value>
+  </data>
+  <data name="MergeTickets" xml:space="preserve">
+    <value>合并票据</value>
+  </data>
+  <data name="EmptyDiscountRateFeedback" xml:space="preserve">
+    <value>添加折扣请输入百分比并按折扣按钮。删除折扣请直接按折扣按钮（不输入任何值）。</value>
+  </data>
+  <data name="LastOrderDate" xml:space="preserve">
+    <value>最后订单日期</value>
+  </data>
+  <data name="SortType" xml:space="preserve">
+    <value>排序类型</value>
+  </data>
+  <data name="Empty" xml:space="preserve">
+    <value>空</value>
+  </data>
+  <data name="Rules" xml:space="preserve">
+    <value>规则</value>
+  </data>
+  <data name="DisplaySettings" xml:space="preserve">
+    <value>显示设置</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>动作</value>
+  </data>
+  <data name="CanUpdateExtraModifiers" xml:space="preserve">
+    <value>能更新附加修改器</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>全部</value>
+  </data>
+  <data name="NewProperty" xml:space="preserve">
+    <value>新属性</value>
+  </data>
+  <data name="Locked" xml:space="preserve">
+    <value>锁定</value>
+  </data>
+  <data name="CloseTicket_r" xml:space="preserve">
+    <value>关闭
+票据</value>
+  </data>
+  <data name="CornerRadius" xml:space="preserve">
+    <value>圆角半径</value>
+  </data>
+  <data name="ThereAreNoCostTransactionsInThisPeriod" xml:space="preserve">
+    <value>在此工作期间无成本交易。</value>
+  </data>
+  <data name="MessageServerPort" xml:space="preserve">
+    <value>消息服务器端口</value>
+  </data>
+  <data name="PreviousPage" xml:space="preserve">
+    <value>上一页</value>
+  </data>
+  <data name="ThisMonth" xml:space="preserve">
+    <value>本月</value>
+  </data>
+  <data name="CategoryProperties" xml:space="preserve">
+    <value>类别属性</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>过滤器</value>
+  </data>
+  <data name="RateOrAmount" xml:space="preserve">
+    <value>比率或金额</value>
+  </data>
+  <data name="PrintJob" xml:space="preserve">
+    <value>打印作业</value>
+  </data>
+  <data name="Hundred" xml:space="preserve">
+    <value>百</value>
+  </data>
+  <data name="ProgramSettings" xml:space="preserve">
+    <value>程序设置</value>
+  </data>
+  <data name="PrintErrorMessage" xml:space="preserve">
+    <value>打印时出现一个问题。检查打印机设置和模板设置。
+
+错误信息:
+</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>刷新</value>
+  </data>
+  <data name="NumeratorValue" xml:space="preserve">
+    <value>数字键盘的值</value>
+  </data>
+  <data name="Rule_f" xml:space="preserve">
+    <value>{0}规则</value>
+  </data>
+  <data name="IncomeTransactions" xml:space="preserve">
+    <value>收入交易</value>
+  </data>
+  <data name="TicketRemainingAmount" xml:space="preserve">
+    <value>未付金额</value>
+  </data>
+  <data name="DeleteErrorShouldHaveAtLeastOneTerminal" xml:space="preserve">
+    <value>无法删除，至少要有一个终端。</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>标签</value>
+  </data>
+  <data name="Incomes_f" xml:space="preserve">
+    <value>{0}收入</value>
+  </data>
+  <data name="DisplayAtPaymentScreen" xml:space="preserve">
+    <value>在付款界面显示</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="QuantitiesByItemGroup" xml:space="preserve">
+    <value>项目组的数量</value>
+  </data>
+  <data name="BroadcastMessage" xml:space="preserve">
+    <value>广播消息</value>
+  </data>
+  <data name="CanOpenNavigation" xml:space="preserve">
+    <value>能进入导航界面</value>
+  </data>
+  <data name="UniqueTicketId" xml:space="preserve">
+    <value>唯一的票据ID</value>
+  </data>
+  <data name="Void" xml:space="preserve">
+    <value>无效</value>
+  </data>
+  <data name="Thirteen" xml:space="preserve">
+    <value>十三</value>
+  </data>
+  <data name="AutoSelect" xml:space="preserve">
+    <value>自动选择</value>
+  </data>
+  <data name="EventName" xml:space="preserve">
+    <value>事件名称</value>
+  </data>
+  <data name="MainMenu" xml:space="preserve">
+    <value>主菜单</value>
+  </data>
+  <data name="EveryOtherMonth" xml:space="preserve">
+    <value>每隔一个月</value>
+  </data>
+  <data name="Move" xml:space="preserve">
+    <value>移动</value>
+  </data>
+  <data name="Five" xml:space="preserve">
+    <value>五</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>类别</value>
+  </data>
+  <data name="StartAmount" xml:space="preserve">
+    <value>起始金额</value>
+  </data>
+  <data name="MaxQuantity" xml:space="preserve">
+    <value>最大数量</value>
+  </data>
+  <data name="WorkPeriodEndsMessage" xml:space="preserve">
+    <value>工作期间关闭。
+查看报表模块，建立工作期间报表。</value>
+  </data>
+  <data name="Mappings" xml:space="preserve">
+    <value>映射</value>
+  </data>
+  <data name="Template" xml:space="preserve">
+    <value>模板</value>
+  </data>
+  <data name="NumericTags" xml:space="preserve">
+    <value>数字标签</value>
+  </data>
+  <data name="Numerators" xml:space="preserve">
+    <value>数字生成器</value>
+  </data>
+  <data name="ClearFilter" xml:space="preserve">
+    <value>清除过滤器</value>
+  </data>
+  <data name="TriggerName" xml:space="preserve">
+    <value>触发器名称</value>
+  </data>
+  <data name="AutoRefresh" xml:space="preserve">
+    <value>自动刷新</value>
+  </data>
+  <data name="Inventory" xml:space="preserve">
+    <value>库存</value>
+  </data>
+  <data name="Cash" xml:space="preserve">
+    <value>现金</value>
+  </data>
+  <data name="EveryOtherDay" xml:space="preserve">
+    <value>每隔一天</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value>小时</value>
+  </data>
+  <data name="BaseUnit" xml:space="preserve">
+    <value>基本单位</value>
+  </data>
+  <data name="TotalIncome" xml:space="preserve">
+    <value>总收入</value>
+  </data>
+  <data name="Customer_f" xml:space="preserve">
+    <value>客户{0}</value>
+  </data>
+  <data name="BatchCreate_f" xml:space="preserve">
+    <value>批量创建{0}</value>
+  </data>
+  <data name="BatchPriceList" xml:space="preserve">
+    <value>价格列表编辑器</value>
+  </data>
+  <data name="WhenTagSelected" xml:space="preserve">
+    <value>有标签时</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>价格</value>
+  </data>
+  <data name="ColumnCount" xml:space="preserve">
+    <value>列数</value>
+  </data>
+  <data name="TicketChangedRetryLastOperation" xml:space="preserve">
+    <value>票据已被改动。您最后的修改未保存。</value>
+  </data>
+  <data name="Keyboard" xml:space="preserve">
+    <value>键盘</value>
+  </data>
+  <data name="Four" xml:space="preserve">
+    <value>四</value>
+  </data>
+  <data name="WeightBarcodeQuantityLength" xml:space="preserve">
+    <value>重量条码数量长度</value>
+  </data>
+  <data name="TaxTemplate" xml:space="preserve">
+    <value>税收模板</value>
+  </data>
+  <data name="MergeLines" xml:space="preserve">
+    <value>合并行</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>隐藏</value>
+  </data>
+  <data name="OpenTicketButtonDuration" xml:space="preserve">
+    <value>{0}分钟</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>确认</value>
+  </data>
+  <data name="Expenses" xml:space="preserve">
+    <value>支出</value>
+  </data>
+  <data name="ShowMessage" xml:space="preserve">
+    <value>显示消息</value>
+  </data>
+  <data name="DateRangeIsNotActiveWorkPeriod" xml:space="preserve">
+    <value>日期未在当前工作期间内</value>
+  </data>
+  <data name="UpdateTicketTag" xml:space="preserve">
+    <value>更新票据标签</value>
+  </data>
+  <data name="Decrease" xml:space="preserve">
+    <value>下降</value>
+  </data>
+  <data name="EndOfDayRecords" xml:space="preserve">
+    <value>清机记录</value>
+  </data>
+  <data name="AddOrder" xml:space="preserve">
+    <value>添加订单</value>
+  </data>
+  <data name="CanMergeTickets" xml:space="preserve">
+    <value>能合并票据</value>
+  </data>
+  <data name="Every10Minutes" xml:space="preserve">
+    <value>每隔10分钟</value>
+  </data>
+  <data name="Department" xml:space="preserve">
+    <value>部门</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>文本</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="Yesterday" xml:space="preserve">
+    <value>昨天</value>
+  </data>
+  <data name="DisplayAllValues" xml:space="preserve">
+    <value>显示所有值</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="CharacterSet" xml:space="preserve">
+    <value>字集</value>
+  </data>
+  <data name="FindTicket" xml:space="preserve">
+    <value>查找票据</value>
+  </data>
+  <data name="UserList" xml:space="preserve">
+    <value>用户列表</value>
+  </data>
+  <data name="KitchenOrderTemplate" xml:space="preserve">
+    <value>厨房订单模板</value>
+  </data>
+  <data name="ForChangingPriceTypeAPrice" xml:space="preserve">
+    <value>要更改价格请先在数字键盘输入价格</value>
+  </data>
+  <data name="ExecutePrintJob" xml:space="preserve">
+    <value>执行打印作业</value>
+  </data>
+  <data name="Every6Hours" xml:space="preserve">
+    <value>每隔6小时</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>消息</value>
+  </data>
+  <data name="WorkPeriodEnded" xml:space="preserve">
+    <value>工作期间结束</value>
+  </data>
+  <data name="WorkPeriodReport" xml:space="preserve">
+    <value>工作期间报表</value>
+  </data>
+  <data name="Seventy" xml:space="preserve">
+    <value>七十</value>
+  </data>
+  <data name="ExpenseTransactions" xml:space="preserve">
+    <value>支出交易</value>
+  </data>
+  <data name="AllTickets" xml:space="preserve">
+    <value>全部票据</value>
+  </data>
+  <data name="TagCantBeEmpty_f" xml:space="preserve">
+    <value>{0}不能留空</value>
+  </data>
+  <data name="TicketWithBrackets" xml:space="preserve">
+    <value>[票据]</value>
+  </data>
+  <data name="ThereIsAnotherRecipeFor_f" xml:space="preserve">
+    <value>{0}已存在另一个食谱</value>
+  </data>
+  <data name="UserLogin" xml:space="preserve">
+    <value>用户登录</value>
+  </data>
+  <data name="FileName" xml:space="preserve">
+    <value>文件名称</value>
+  </data>
+  <data name="Customers" xml:space="preserve">
+    <value>客户</value>
+  </data>
+  <data name="ReportPrinter" xml:space="preserve">
+    <value>报表打印机</value>
+  </data>
+  <data name="MinSelectedItems" xml:space="preserve">
+    <value>最少选择项目</value>
+  </data>
+  <data name="Line" xml:space="preserve">
+    <value>行</value>
+  </data>
+  <data name="Nine" xml:space="preserve">
+    <value>九</value>
+  </data>
+  <data name="CreateAccount" xml:space="preserve">
+    <value>创建账户</value>
+  </data>
+  <data name="LastOrderStatus" xml:space="preserve">
+    <value>最后订单状态</value>
+  </data>
+  <data name="Every3Hours" xml:space="preserve">
+    <value>每隔3小时</value>
+  </data>
+  <data name="TicketNumber_f" xml:space="preserve">
+    <value>票据号码: {0}</value>
+  </data>
+  <data name="ButtonColor" xml:space="preserve">
+    <value>按钮颜色</value>
+  </data>
+  <data name="Day" xml:space="preserve">
+    <value>天</value>
+  </data>
+  <data name="CurrencySymbol" xml:space="preserve">
+    <value>货币符号</value>
+  </data>
+  <data name="Totals" xml:space="preserve">
+    <value>总数</value>
+  </data>
+  <data name="LastOrderTime" xml:space="preserve">
+    <value>最后订单</value>
+  </data>
+  <data name="SaveErrorThisPinCodeInUse" xml:space="preserve">
+    <value>此Pin Code已被使用。</value>
+  </data>
+  <data name="InStock" xml:space="preserve">
+    <value>库存</value>
+  </data>
+  <data name="Every4Hours" xml:space="preserve">
+    <value>每隔4小时</value>
+  </data>
+  <data name="GrandTotal" xml:space="preserve">
+    <value>总计</value>
+  </data>
+  <data name="CustomFieldName" xml:space="preserve">
+    <value>自定义字段名称</value>
+  </data>
+  <data name="NumeratorHeight" xml:space="preserve">
+    <value>数字键盘高度</value>
+  </data>
+  <data name="TransactionDocument" xml:space="preserve">
+    <value>交易单据</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>打开</value>
+  </data>
+  <data name="DeleteItemConfirmation_f" xml:space="preserve">
+    <value>删除{0} [{1}] ?</value>
+  </data>
+  <data name="EveryMinute" xml:space="preserve">
+    <value>每分钟</value>
+  </data>
+  <data name="AutoRefreshInterval" xml:space="preserve">
+    <value>自动刷新间隔</value>
+  </data>
+  <data name="CanMoveUnlockedTicketLines" xml:space="preserve">
+    <value>能移动未锁定的票据行</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>移除</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>数量</value>
+  </data>
+  <data name="FreeTagging" xml:space="preserve">
+    <value>自由标签</value>
+  </data>
+  <data name="RuleAction" xml:space="preserve">
+    <value>动作</value>
+  </data>
+  <data name="Property" xml:space="preserve">
+    <value>属性</value>
+  </data>
+  <data name="StartingWorkPeriodCompleted" xml:space="preserve">
+    <value>工作期间开始.</value>
+  </data>
+  <data name="DisplayUnderTicket" xml:space="preserve">
+    <value>在票据下方显示</value>
+  </data>
+  <data name="TicketNumerator" xml:space="preserve">
+    <value>票据数字生成器</value>
+  </data>
+  <data name="TagsShouldBeUniqueErrorMessage" xml:space="preserve">
+    <value>票据标签名称必须唯一</value>
+  </data>
+  <data name="DeleteErrorLastUser" xml:space="preserve">
+    <value>不能删除最后一个用户账户</value>
+  </data>
+  <data name="TemplateName" xml:space="preserve">
+    <value>模板名称</value>
+  </data>
+  <data name="CanChangeDepartment" xml:space="preserve">
+    <value>可以更改部门</value>
+  </data>
+  <data name="RowCount" xml:space="preserve">
+    <value>行计数</value>
+  </data>
+  <data name="CreditCard" xml:space="preserve">
+    <value>信用卡</value>
+  </data>
+  <data name="Expression" xml:space="preserve">
+    <value>表达式</value>
+  </data>
+  <data name="FixedAmount" xml:space="preserve">
+    <value>固定金额</value>
+  </data>
+  <data name="Ticket" xml:space="preserve">
+    <value>票据</value>
+  </data>
+  <data name="MenuName" xml:space="preserve">
+    <value>菜单名称</value>
+  </data>
+  <data name="SubTags" xml:space="preserve">
+    <value>子标签</value>
+  </data>
+  <data name="ChangeAmount_f" xml:space="preserve">
+    <value>找赎:{0}</value>
+  </data>
+  <data name="SortCategoryProductsDialogHint_f" xml:space="preserve">
+    <value>拖动{0}类别产品进行改变顺序</value>
+  </data>
+  <data name="DayOperations" xml:space="preserve">
+    <value>工作期间</value>
+  </data>
+  <data name="NoAction" xml:space="preserve">
+    <value>无动作</value>
+  </data>
+  <data name="Recipes" xml:space="preserve">
+    <value>食谱</value>
+  </data>
+  <data name="ProgramLanguage" xml:space="preserve">
+    <value>程序语言</value>
+  </data>
+  <data name="TicketTagGroup" xml:space="preserve">
+    <value>标签组</value>
+  </data>
+  <data name="PrintMapping" xml:space="preserve">
+    <value>打印映射</value>
+  </data>
+  <data name="Table" xml:space="preserve">
+    <value>餐桌</value>
+  </data>
+  <data name="FontSize" xml:space="preserve">
+    <value>字体大小</value>
+  </data>
+  <data name="DiscountPercentSign" xml:space="preserve">
+    <value>打折%</value>
+  </data>
+  <data name="PM" xml:space="preserve">
+    <value>下午</value>
+  </data>
+  <data name="SingleSelection" xml:space="preserve">
+    <value>单选</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>电话</value>
+  </data>
+  <data name="Cent" xml:space="preserve">
+    <value>分</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>增加</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>小计</value>
+  </data>
+  <data name="WorkPeriodStartTime" xml:space="preserve">
+    <value>工作期间的时间:{0}</value>
+  </data>
+  <data name="Twenty" xml:space="preserve">
+    <value>二十</value>
+  </data>
+  <data name="AdminRole" xml:space="preserve">
+    <value>管理员角色</value>
+  </data>
+  <data name="EveryDay" xml:space="preserve">
+    <value>每天</value>
+  </data>
+  <data name="DisplayPopup" xml:space="preserve">
+    <value>弹出提示</value>
+  </data>
+  <data name="Currency" xml:space="preserve">
+    <value>货币</value>
+  </data>
+  <data name="PastTransactions" xml:space="preserve">
+    <value>以往交易</value>
+  </data>
+  <data name="CashTransactions" xml:space="preserve">
+    <value>现金交易</value>
+  </data>
+  <data name="Minute" xml:space="preserve">
+    <value>分钟</value>
+  </data>
+  <data name="DiscountsTotal" xml:space="preserve">
+    <value>折扣总计</value>
+  </data>
+  <data name="ExchangeRate" xml:space="preserve">
+    <value>汇率</value>
+  </data>
+  <data name="Round" xml:space="preserve">
+    <value>取整</value>
+  </data>
+  <data name="Seven" xml:space="preserve">
+    <value>七</value>
+  </data>
+  <data name="NoPurchaseTransactionInCurrentDateRange" xml:space="preserve">
+    <value>日期内无购买交易。</value>
+  </data>
+  <data name="SalesByItemGroup" xml:space="preserve">
+    <value>项目组的销售</value>
+  </data>
+  <data name="Products" xml:space="preserve">
+    <value>产品</value>
+  </data>
+  <data name="TotalWorkTimeHours_f" xml:space="preserve">
+    <value>总工作时间:{0:0}小时{1:0}分钟</value>
+  </data>
+  <data name="LinesGroupedByBarcode" xml:space="preserve">
+    <value>用条码分组的行</value>
+  </data>
+  <data name="OrderTagTemplate" xml:space="preserve">
+    <value>订单标签模板</value>
+  </data>
+  <data name="DocumentNo" xml:space="preserve">
+    <value>交易编号</value>
+  </data>
+  <data name="DepartmentType" xml:space="preserve">
+    <value>部门类型</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>用户</value>
+  </data>
+  <data name="InvoicePrinter" xml:space="preserve">
+    <value>发票打印机</value>
+  </data>
+  <data name="ThereIsAnotherPriceDefinition_f" xml:space="preserve">
+    <value>标签{0}已有另一个价格定义</value>
+  </data>
+  <data name="OrderTagGroups" xml:space="preserve">
+    <value>订单标签组</value>
+  </data>
+  <data name="Header" xml:space="preserve">
+    <value>头部</value>
+  </data>
+  <data name="NumericTagsShouldBeNumbersErrorMessage" xml:space="preserve">
+    <value>当选中“数字标签”时，所有的标签内容必须为数字</value>
+  </data>
+  <data name="MultipleSelection" xml:space="preserve">
+    <value>多选</value>
+  </data>
+  <data name="WorkPeriod" xml:space="preserve">
+    <value>工作期间</value>
+  </data>
+  <data name="WorkPeriodStartDate_f" xml:space="preserve">
+    <value>工作期间的日期:{0}</value>
+  </data>
+  <data name="SambaPosWebsite" xml:space="preserve">
+    <value>SambaPOS网站</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="TagValue" xml:space="preserve">
+    <value>标签值</value>
+  </data>
+  <data name="Dollar" xml:space="preserve">
+    <value>美元</value>
+  </data>
+  <data name="Rule" xml:space="preserve">
+    <value>规则</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="CategoryName" xml:space="preserve">
+    <value>类别名称</value>
+  </data>
+  <data name="CurrentCost" xml:space="preserve">
+    <value>当前成本</value>
+  </data>
+  <data name="Every5Minutes" xml:space="preserve">
+    <value>每5分钟</value>
+  </data>
+  <data name="PastMonth" xml:space="preserve">
+    <value>上个月</value>
+  </data>
+  <data name="Total_f" xml:space="preserve">
+    <value>总数{0}</value>
+  </data>
+  <data name="TicketOpeningTime" xml:space="preserve">
+    <value>票据打开</value>
+  </data>
+  <data name="Tickets" xml:space="preserve">
+    <value>票据</value>
+  </data>
+  <data name="CanRemoveTicketTag" xml:space="preserve">
+    <value>能删除票据标签</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>日期</value>
+  </data>
+  <data name="NextPage" xml:space="preserve">
+    <value>下一页</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>返回</value>
+  </data>
+  <data name="Restaurant" xml:space="preserve">
+    <value>餐厅</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>用户名</value>
+  </data>
+  <data name="MessageServerName" xml:space="preserve">
+    <value>消息服务器名</value>
+  </data>
+  <data name="TotalWorkTimeDays_f" xml:space="preserve">
+    <value>总工作时间:
+{0:0}天{1:0}小时{2:0}分钟</value>
+  </data>
+  <data name="TotalAmount_f" xml:space="preserve">
+    <value>{0}总计:</value>
+  </data>
+  <data name="UndefinedWithBrackets" xml:space="preserve">
+    <value>[未定义]</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>登录</value>
+  </data>
+  <data name="WeightBarcodeItemIdLength" xml:space="preserve">
+    <value>重量条码项目ID的长度</value>
+  </data>
+  <data name="SaveErrorDuplicateItemName_f" xml:space="preserve">
+    <value>已存在此名称的{0}。</value>
+  </data>
+  <data name="DefaultTerminal" xml:space="preserve">
+    <value>默认终端</value>
+  </data>
+  <data name="AllLines" xml:space="preserve">
+    <value>所有行</value>
+  </data>
+  <data name="GiftTotal" xml:space="preserve">
+    <value>赠送总计</value>
+  </data>
+  <data name="TransactionUnitError" xml:space="preserve">
+    <value>交易单位不应为空</value>
+  </data>
+  <data name="Billion" xml:space="preserve">
+    <value>十亿</value>
+  </data>
+  <data name="ClickLinksToExportData" xml:space="preserve">
+    <value>选择日期范围，刷新报表，点击相关链接进行导出数据。</value>
+  </data>
+  <data name="Six" xml:space="preserve">
+    <value>六</value>
+  </data>
+  <data name="Cancel_f" xml:space="preserve">
+    <value>取消{0}</value>
+  </data>
+  <data name="SaveErrorZeroOrNullInventoryLines" xml:space="preserve">
+    <value>无法保存，存在库存项目为空或数量为零的行</value>
+  </data>
+  <data name="PrintContent" xml:space="preserve">
+    <value>打印内容</value>
+  </data>
+  <data name="NoTransactionsFoundFor_f" xml:space="preserve">
+    <value>无{0}相关交易</value>
+  </data>
+  <data name="DeleteSelectedItems" xml:space="preserve">
+    <value>删除所选项目</value>
+  </data>
+</root>

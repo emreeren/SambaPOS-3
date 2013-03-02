@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -267,10 +266,8 @@ namespace Samba.Domain.Models.Tickets
         {
             var plainSum = order.GetTotal();
             var services = CalculateServices(Calculations.Where(x => !x.IncludeTax), plainSum);
-            var tax = TaxIncluded ? 0 - order.GetTotalTaxAmount(TaxIncluded, plainSum, services) : 0;
-            plainSum = plainSum + services + tax;
-            services = CalculateServices(Calculations.Where(x => x.IncludeTax), plainSum);
-            return (plainSum + services);
+            var tax = TaxIncluded ? order.GetTotalTaxAmount(TaxIncluded, plainSum, services) : 0;
+            return plainSum - tax;
         }
 
         public decimal GetPreTaxServicesTotal()
@@ -300,47 +297,19 @@ namespace Samba.Domain.Models.Tickets
 
             foreach (var calculation in calculations.OrderBy(x => x.Order))
             {
-                if (calculation.CalculationType == 0)
-                {
-                    calculation.CalculationAmount = calculation.Amount > 0 ? (sum * calculation.Amount) / 100 : 0;
-                }
-                else if (calculation.CalculationType == 1)
-                {
-                    calculation.CalculationAmount = calculation.Amount > 0 ? (currentSum * calculation.Amount) / 100 : 0;
-                }
-                else if (calculation.CalculationType == 3)
-                {
-                    if (calculation.Amount == currentSum) calculation.Amount = 0;
-                    else if (calculation.DecreaseAmount && calculation.Amount > currentSum)
-                        calculation.Amount = 0;
-                    else if (!calculation.DecreaseAmount && calculation.Amount < currentSum)
-                        calculation.Amount = 0;
-                    else
-                        calculation.CalculationAmount = calculation.Amount - currentSum;
-                }
-                else if (calculation.CalculationType == 4)
-                {
-                    if (calculation.Amount > 0)
-                        calculation.CalculationAmount = (decimal.Round(currentSum / calculation.Amount, MidpointRounding.AwayFromZero) * calculation.Amount) - currentSum;
-                    else // eğer yuvarlama eksi olarak verildiyse hep aşağı yuvarlar
-                        calculation.CalculationAmount = (Math.Truncate(currentSum / calculation.Amount) * calculation.Amount) - currentSum;
-                    if (calculation.DecreaseAmount && calculation.CalculationAmount > 0) calculation.CalculationAmount = 0;
-                    if (!calculation.DecreaseAmount && calculation.CalculationAmount < 0) calculation.CalculationAmount = 0;
-                }
-                else calculation.CalculationAmount = calculation.Amount;
+                var sumValue = calculation.UsePlainSum ? Orders.Sum(x => x.GetVisibleValue()) : sum;
 
-                calculation.CalculationAmount = Decimal.Round(calculation.CalculationAmount, LocalSettings.Decimals);
-                if (calculation.DecreaseAmount && calculation.CalculationAmount > 0) calculation.CalculationAmount = 0 - calculation.CalculationAmount;
+                calculation.Update(sumValue, currentSum, LocalSettings.Decimals);
 
                 totalAmount += calculation.CalculationAmount;
                 currentSum += calculation.CalculationAmount;
 
-                if (calculation.Amount == 0)
+                if (calculation.Amount == 0 && calculation.CalculationType != 5)
                 {
                     Calculations.Remove(calculation);
                 }
 
-                UpdateCalculationTransaction(calculation, Math.Abs(calculation.CalculationAmount));
+                calculation.UpdateCalculationTransaction(TransactionDocument, Math.Abs(calculation.CalculationAmount), ExchangeRate);
             }
 
             return decimal.Round(totalAmount, LocalSettings.Decimals);
@@ -348,11 +317,11 @@ namespace Samba.Domain.Models.Tickets
 
         public void AddCalculation(CalculationType calculationType, decimal amount)
         {
-            var t = Calculations.SingleOrDefault(x => x.CalculationTypeId == calculationType.Id) ??
+            var calculation = Calculations.SingleOrDefault(x => x.CalculationTypeId == calculationType.Id) ??
                     Calculations.SingleOrDefault(x => x.AccountTransactionTypeId == calculationType.AccountTransactionType.Id);
-            if (t == null)
+            if (calculation == null)
             {
-                t = new Calculation
+                calculation = new Calculation
                         {
                             Amount = amount,
                             Name = calculationType.Name,
@@ -360,32 +329,23 @@ namespace Samba.Domain.Models.Tickets
                             CalculationTypeId = calculationType.Id,
                             IncludeTax = calculationType.IncludeTax,
                             DecreaseAmount = calculationType.DecreaseAmount,
+                            UsePlainSum = calculationType.UsePlainSum,
                             Order = calculationType.SortOrder,
                             AccountTransactionTypeId = calculationType.AccountTransactionType.Id
                         };
-                Calculations.Add(t);
-                TransactionDocument.AddSingletonTransaction(t.AccountTransactionTypeId, calculationType.AccountTransactionType, AccountTypeId, AccountId);
+                Calculations.Add(calculation);
+                TransactionDocument.AddSingletonTransaction(calculation.AccountTransactionTypeId, calculationType.AccountTransactionType, AccountTypeId, AccountId);
             }
-            else if (t.Amount == amount)
+            else if (calculation.Amount == amount)
             {
                 amount = 0;
             }
-            else t.Amount = amount;
-            t.Name = calculationType.Name;
-            if (amount == 0)
+            else calculation.Amount = amount;
+            calculation.Name = calculationType.Name;
+            if (amount == 0 && calculation.CalculationType != 5)
             {
-                Calculations.Remove(t);
-                UpdateCalculationTransaction(t, 0);
-            }
-        }
-
-        public void UpdateCalculationTransaction(Calculation calculation, decimal amount)
-        {
-            TransactionDocument.UpdateSingletonTransactionAmount(calculation.AccountTransactionTypeId, calculation.Name, amount, ExchangeRate);
-            if (amount == 0 && TransactionDocument.AccountTransactions.Any(x => x.AccountTransactionTypeId == calculation.AccountTransactionTypeId))
-            {
-                TransactionDocument.AccountTransactions.Remove(
-                    TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == calculation.AccountTransactionTypeId));
+                Calculations.Remove(calculation);
+                calculation.UpdateCalculationTransaction(TransactionDocument, 0, ExchangeRate);
             }
         }
 
