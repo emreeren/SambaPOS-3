@@ -30,7 +30,6 @@ namespace Samba.Persistance.DaoClasses.Implementations
         {
             ValidatorRegistry.RegisterDeleteValidator(new EntityDeleteValidator());
             ValidatorRegistry.RegisterDeleteValidator<EntityType>(x => Dao.Exists<Entity>(y => y.EntityTypeId == x.Id), Resources.EntityType, Resources.Entity);
-            ValidatorRegistry.RegisterDeleteValidator<EntityScreenItem>(x => Dao.Exists<EntityScreen>(y => y.ScreenItems.Any(z => z.EntityId == x.Id)), Resources.EntityScreenItem, Resources.EntityScreen);
             ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<Entity>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.Entity)));
             ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<EntityType>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.EntityType)));
             ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<EntityScreenItem>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.EntityScreenItem)));
