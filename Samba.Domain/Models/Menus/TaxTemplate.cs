@@ -16,10 +16,11 @@ namespace Samba.Domain.Models.Menus
         public decimal Rate { get; set; }
         public virtual AccountTransactionType AccountTransactionType { get; set; }
 
-        private readonly IList<TaxTemplateMap> _taxTemplateMaps;
+        private IList<TaxTemplateMap> _taxTemplateMaps;
         public virtual IList<TaxTemplateMap> TaxTemplateMaps
         {
             get { return _taxTemplateMaps; }
+            set { _taxTemplateMaps = value; }
         }
     }
 }

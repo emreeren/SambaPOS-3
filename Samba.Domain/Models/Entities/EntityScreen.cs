@@ -20,22 +20,25 @@ namespace Samba.Domain.Models.Entities
         public string DisplayState { get; set; }
         public string StateFilter { get; set; }
 
-        private readonly IList<EntityScreenMap> _entityScreenMaps;
+        private IList<EntityScreenMap> _entityScreenMaps;
         public virtual IList<EntityScreenMap> EntityScreenMaps
         {
             get { return _entityScreenMaps; }
+            set { _entityScreenMaps = value; }
         }
 
-        private readonly IList<EntityScreenItem> _screenItems;
+        private IList<EntityScreenItem> _screenItems;
         public virtual IList<EntityScreenItem> ScreenItems
         {
             get { return _screenItems; }
+            set { _screenItems = value; }
         }
 
-        private readonly IList<Widget> _widgets;
+        private IList<Widget> _widgets;
         public virtual IList<Widget> Widgets
         {
             get { return _widgets; }
+            set { _widgets = value; }
         }
 
         public string UserString

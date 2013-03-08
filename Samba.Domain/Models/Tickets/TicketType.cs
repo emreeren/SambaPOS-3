@@ -18,10 +18,11 @@ namespace Samba.Domain.Models.Tickets
         public virtual AccountTransactionType SaleTransactionType { get; set; }
         public bool TaxIncluded { get; set; }
 
-        private readonly IList<EntityTypeAssignment> _entityTypeAssignments;
+        private IList<EntityTypeAssignment> _entityTypeAssignments;
         public virtual IList<EntityTypeAssignment> EntityTypeAssignments
         {
             get { return _entityTypeAssignments; }
+            set { _entityTypeAssignments = value; }
         }
 
         private static TicketType _default;

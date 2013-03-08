@@ -15,10 +15,11 @@ namespace Samba.Domain.Models.Accounts
 
         public DateTime Date { get; set; }
 
-        private readonly IList<AccountTransaction> _accountTransactions;
+        private IList<AccountTransaction> _accountTransactions;
         public virtual IList<AccountTransaction> AccountTransactions
         {
             get { return _accountTransactions; }
+            set { _accountTransactions = value; }
         }
 
         public AccountTransaction AddNewTransaction(AccountTransactionType template, int accountTypeId, int accountId)

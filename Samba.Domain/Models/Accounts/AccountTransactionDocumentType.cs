@@ -24,16 +24,18 @@ namespace Samba.Domain.Models.Accounts
 
         public int MasterAccountTypeId { get; set; }
 
-        private readonly IList<AccountTransactionType> _transactionTypes;
+        private IList<AccountTransactionType> _transactionTypes;
         public virtual IList<AccountTransactionType> TransactionTypes
         {
             get { return _transactionTypes; }
+            set { _transactionTypes = value; }
         }
 
-        private readonly IList<AccountTransactionDocumentTypeMap> _accountTransactionDocumentTypeMaps;
+        private IList<AccountTransactionDocumentTypeMap> _accountTransactionDocumentTypeMaps;
         public virtual IList<AccountTransactionDocumentTypeMap> AccountTransactionDocumentTypeMaps
         {
             get { return _accountTransactionDocumentTypeMaps; }
+            set { _accountTransactionDocumentTypeMaps = value; }
         }
 
         private IList<AccountTransactionDocumentAccountMap> _accountTransactionDocumentAccountMaps;

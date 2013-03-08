@@ -20,10 +20,11 @@ namespace Samba.Domain.Models.Settings
         public bool UseForPaidTickets { get; set; }
         public bool ExcludeTax { get; set; }
 
-        private readonly IList<PrinterMap> _printerMaps;
+        private IList<PrinterMap> _printerMaps;
         public virtual IList<PrinterMap> PrinterMaps
         {
             get { return _printerMaps; }
+            set { _printerMaps = value; }
         }
         
         public PrintJob()

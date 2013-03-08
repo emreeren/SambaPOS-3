@@ -22,16 +22,18 @@ namespace Samba.Domain.Models.Tickets
         public bool SaveFreeTags { get; set; }
         public string GroupTag { get; set; }
 
-        private readonly IList<OrderTag> _orderTags;
+        private IList<OrderTag> _orderTags;
         public virtual IList<OrderTag> OrderTags
         {
             get { return _orderTags; }
+            set { _orderTags = value; }
         }
 
-        private readonly IList<OrderTagMap> _orderTagMaps;
+        private  IList<OrderTagMap> _orderTagMaps;
         public virtual IList<OrderTagMap> OrderTagMaps
         {
             get { return _orderTagMaps; }
+            set { _orderTagMaps = value; }
         }
 
         public OrderTagGroup()

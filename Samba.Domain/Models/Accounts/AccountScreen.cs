@@ -16,10 +16,11 @@ namespace Samba.Domain.Models.Accounts
 
         public int Filter { get; set; }
 
-        private readonly List<AccountScreenValue> _accountScreenValues;
+        private IList<AccountScreenValue> _accountScreenValues;
         public virtual IList<AccountScreenValue> AccountScreenValues
         {
             get { return _accountScreenValues; }
+            set { _accountScreenValues = value; }
         }
 
     }

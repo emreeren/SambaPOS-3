@@ -16,14 +16,15 @@ namespace Samba.Domain.Models.Automation
         public bool ToggleValues { get; set; }
         public int SortOrder { get; set; }
 
-        private readonly IList<AutomationCommandMap> _automationCommandMaps;
+        private IList<AutomationCommandMap> _automationCommandMaps;
         public virtual IList<AutomationCommandMap> AutomationCommandMaps
         {
             get { return _automationCommandMaps; }
+            set { _automationCommandMaps = value; }
         }
 
         public string UserString { get { return Name; } }
-        
+
         public AutomationCommandMap AddAutomationCommandMap()
         {
             var map = new AutomationCommandMap();

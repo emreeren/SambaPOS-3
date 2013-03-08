@@ -59,10 +59,11 @@ namespace Samba.Domain.Models.Accounts
         public bool IsReversed { get; set; }
         public bool Reversable { get; set; }
 
-        private readonly IList<AccountTransactionValue> _accountTransactionValues;
+        private IList<AccountTransactionValue> _accountTransactionValues;
         public virtual IList<AccountTransactionValue> AccountTransactionValues
         {
             get { return _accountTransactionValues; }
+            set { _accountTransactionValues = value; }
         }
 
         public AccountTransactionValue SourceTransactionValue

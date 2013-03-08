@@ -13,10 +13,11 @@ namespace Samba.Domain.Models.Inventory
         public DateTime EndDate { get; set; }
         public DateTime LastUpdateTime { get; set; }
 
-        private readonly IList<WarehouseConsumption> _warehouseConsumptions;
+        private IList<WarehouseConsumption> _warehouseConsumptions;
         public virtual IList<WarehouseConsumption> WarehouseConsumptions
         {
             get { return _warehouseConsumptions; }
+            set { _warehouseConsumptions = value; }
         }
 
         public PeriodicConsumption()
