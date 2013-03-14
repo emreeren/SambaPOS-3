@@ -136,7 +136,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterParameterSoruce("EntityStateName", () => Dao.Distinct<State>(x => x.GroupName, x => x.StateType == 0));
             AutomationService.RegisterParameterSoruce("TicketStateName", () => Dao.Distinct<State>(x => x.GroupName, x => x.StateType == 1));
             AutomationService.RegisterParameterSoruce("OrderStateName", () => Dao.Distinct<State>(x => x.GroupName, x => x.StateType == 2));
-            AutomationService.RegisterParameterSoruce("EntityTypeName", () => Dao.Distinct<EntityType>(x => x.EntityName));
+            AutomationService.RegisterParameterSoruce("EntityTypeName", () => Dao.Distinct<EntityType>(x => x.Name));
             AutomationService.RegisterParameterSoruce("AutomationCommandName", () => Dao.Distinct<AutomationCommand>(x => x.Name));
             AutomationService.RegisterParameterSoruce("PrintJobName", () => Dao.Distinct<PrintJob>(x => x.Name));
             AutomationService.RegisterParameterSoruce("PaymentTypeName", () => Dao.Distinct<PaymentType>(x => x.Name));

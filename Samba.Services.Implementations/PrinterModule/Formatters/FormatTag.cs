@@ -12,7 +12,7 @@ namespace Samba.Services.Implementations.PrinterModule.Formatters
 
         public FormatTag(string data)
         {
-            var tagEnd = data.IndexOf(">");
+            var tagEnd = data.IndexOf(">", System.StringComparison.Ordinal);
             Tag = tagEnd > 0 ? data.Substring(0, tagEnd + 1) : "";
             TagName = Tag.Trim(new[] { '<', '>' }).ToLower();
             if (Tag.Length > 4 && char.IsNumber(data[Tag.Length - 3]) && char.IsNumber(data[Tag.Length - 2]))

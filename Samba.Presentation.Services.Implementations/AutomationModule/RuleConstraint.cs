@@ -76,7 +76,11 @@ namespace Samba.Presentation.Services.Implementations.AutomationModule
                     return false;
             }
             return false;
+        }
 
+        public bool IsValueDifferent(object parameterValue)
+        {
+            return !ValueEquals(parameterValue);
         }
 
         public bool ValueEquals(object parameterValue)

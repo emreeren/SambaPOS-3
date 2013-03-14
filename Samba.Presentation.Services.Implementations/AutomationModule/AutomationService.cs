@@ -175,7 +175,7 @@ namespace Samba.Presentation.Services.Implementations.AutomationModule
                 {
                     var property = dataObject.GetType().GetProperty(parameterName);
                     var parameterValue = property.GetValue(dataObject, null) ?? "";
-                    if (!condition.ValueEquals(parameterValue)) return false;
+                    if (condition.IsValueDifferent(parameterValue)) return false;
                 }
             }
 
