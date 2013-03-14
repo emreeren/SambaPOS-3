@@ -297,7 +297,7 @@ namespace Samba.Domain.Models.Tickets
 
             foreach (var calculation in calculations.OrderBy(x => x.Order))
             {
-                var sumValue = calculation.UsePlainSum ? Orders.Sum(x => x.GetVisibleValue()) : sum;
+                var sumValue = calculation.UsePlainSum ? Orders.Where(x => x.DecreaseInventory || x.IncreaseInventory).Sum(x => x.GetVisibleValue()) : sum;
 
                 calculation.Update(sumValue, currentSum, LocalSettings.Decimals);
 
