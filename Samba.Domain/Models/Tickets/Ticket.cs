@@ -90,8 +90,25 @@ namespace Samba.Domain.Models.Tickets
         public int AccountTypeId { get; set; }
         public string AccountName { get; set; }
 
-        public string TicketTags { get; set; }
-        public string TicketStates { get; set; }
+        public string TicketTags
+        {
+            get { return _ticketTags; }
+            set
+            {
+                _ticketTags = value;
+                _ticketTagValues = null;
+            }
+        }
+
+        public string TicketStates
+        {
+            get { return _ticketStates; }
+            set
+            {
+                _ticketStates = value;
+                _ticketStateValues = null;
+            }
+        }
 
         public decimal ExchangeRate { get; set; }
 
@@ -142,13 +159,16 @@ namespace Samba.Domain.Models.Tickets
         }
 
         private IList<TicketTagValue> _ticketTagValues;
-        internal IList<TicketTagValue> TicketTagValues
+        private IList<TicketTagValue> TicketTagValues
         {
             get { return _ticketTagValues ?? (_ticketTagValues = JsonHelper.Deserialize<List<TicketTagValue>>(TicketTags)); }
         }
 
         private IList<TicketStateValue> _ticketStateValues;
-        internal IList<TicketStateValue> TicketStateValues
+        private string _ticketTags;
+        private string _ticketStates;
+
+        private IList<TicketStateValue> TicketStateValues
         {
             get { return _ticketStateValues ?? (_ticketStateValues = JsonHelper.Deserialize<List<TicketStateValue>>(TicketStates)); }
         }
@@ -156,6 +176,11 @@ namespace Samba.Domain.Models.Tickets
         public IList<TicketTagValue> GetTicketTagValues()
         {
             return TicketTagValues;
+        }
+
+        public IEnumerable<TicketStateValue> GetTicketStateValues()
+        {
+            return TicketStateValues;
         }
 
         public Order AddOrder(AccountTransactionType template, Department department, string userName, MenuItem menuItem, IList<TaxTemplate> taxTemplates, MenuItemPortion portion, string priceTag, ProductTimer timer)
@@ -755,10 +780,6 @@ namespace Samba.Domain.Models.Tickets
             return sv != null ? sv.State : "";
         }
 
-        public IEnumerable<TicketStateValue> GetTicketStateValues()
-        {
-            return TicketStateValues;
-        }
 
 
     }
