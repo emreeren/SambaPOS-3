@@ -247,7 +247,7 @@ namespace Samba.Infrastructure.Data.Text
 
         public T Last<T>(Expression<Func<T, bool>> predictate, Expression<Func<T, object>>[] includes) where T : class,IEntityClass
         {
-            return _storage.GetItems<T>().Last(predictate.Compile());
+            return _storage.GetItems<T>().LastOrDefault(predictate.Compile());
         }
 
         public IEnumerable<T> Last<T>(int recordCount) where T : class,IEntityClass

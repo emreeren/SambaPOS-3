@@ -19,8 +19,9 @@ namespace Samba.Domain.Models.Tickets
         {
             if (string.IsNullOrEmpty(EntityCustomData)) return "";
             var pattern = string.Format("\"Name\":\"{0}\",\"Value\":\"([^\"]+)\"", fieldName);
+            
             return Regex.IsMatch(EntityCustomData, pattern)
-                ? Regex.Match(EntityCustomData, pattern).Groups[1].Value : "";
+                ? Regex.Unescape(Regex.Match(EntityCustomData, pattern).Groups[1].Value) : "";
         }
 
         public string GetCustomDataFormat(string fieldName, string format)

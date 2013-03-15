@@ -23,6 +23,10 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
             while (currentData.Contains(t))
                 currentData = Helper.FormatDataIf(Condition == null || Condition.Invoke(model), currentData, t, () => Func.Invoke(model, tagValue));
+
+            if (Tag.Contains(":") && Regex.IsMatch(currentData, Tag))
+                currentData = GetResult(model, currentData, template);
+
             return currentData;
         }
     }
