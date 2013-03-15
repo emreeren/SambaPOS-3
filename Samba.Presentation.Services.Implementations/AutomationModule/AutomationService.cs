@@ -57,6 +57,7 @@ namespace Samba.Presentation.Services.Implementations.AutomationModule
                     var action = Actions.Single(x => x.Id == container.AppActionId);
                     var clonedAction = ObjectCloner.Clone(action);
                     var containerParameterValues = container.ParameterValues ?? "";
+                    _settingService.ClearSettingCache();
                     clonedAction.Parameter = _settingService.ReplaceSettingValues(clonedAction.Parameter);
                     containerParameterValues = _settingService.ReplaceSettingValues(containerParameterValues);
                     containerParameterValues = ReplaceParameterValues(containerParameterValues, dataObject);

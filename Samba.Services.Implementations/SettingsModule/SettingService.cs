@@ -131,6 +131,12 @@ namespace Samba.Services.Implementations.SettingsModule
             _calculationTypes = null;
             _terminals = null;
             _globalSettings.ResetCache();
+            _settingReplacer.ClearCache();
+        }
+
+        public void ClearSettingCache()
+        {
+            _settingReplacer.ClearCache();
         }
     }
 }

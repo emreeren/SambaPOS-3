@@ -3095,4 +3095,7 @@ Error Message:
   <data name="UsePlainSum" xml:space="preserve">
     <value>Use Plain Sum</value>
   </data>
+  <data name="Toggle" xml:space="preserve">
+    <value>Toggle</value>
+  </data>
 </root>

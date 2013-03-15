@@ -142,6 +142,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterParameterSoruce("PaymentTypeName", () => Dao.Distinct<PaymentType>(x => x.Name));
             AutomationService.RegisterParameterSoruce("AccountTransactionTypeName", () => Dao.Distinct<AccountTransactionType>(x => x.Name));
             AutomationService.RegisterParameterSoruce("AccountTransactionDocumentName", () => Dao.Distinct<AccountTransactionDocumentType>(x => x.Name));
+            AutomationService.RegisterParameterSoruce("UpdateType", () => new[] { Resources.Update, Resources.Increase, Resources.Decrease, Resources.Toggle });
         }
 
         private static void ResetCache()
@@ -334,7 +335,7 @@ namespace Samba.Presentation.ViewModels
                             else
                                 setting.IntegerValue = setting.IntegerValue - settingValue;
                         }
-                        else if (updateType == "Toggle")
+                        else if (updateType == Resources.Toggle)
                         {
                             var settingValue = x.Value.GetAsString("SettingValue");
                             var parts = settingValue.Split(',');

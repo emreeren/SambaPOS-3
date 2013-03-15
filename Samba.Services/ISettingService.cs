@@ -26,5 +26,6 @@ namespace Samba.Services
         int GetNextNumber(int numeratorId);
         string GetNextString(int numeratorId);
         void ResetCache();
+        void ClearSettingCache();
     }
 }
