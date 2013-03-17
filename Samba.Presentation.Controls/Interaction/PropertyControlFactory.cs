@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using System.Windows.Media;
 using PropertyTools.Wpf;
 using Samba.Presentation.Common.ModelBase;
-using ColumnDefinition = System.Windows.Controls.ColumnDefinition;
 
 namespace Samba.Presentation.Controls.Interaction
 {
@@ -17,22 +12,42 @@ namespace Samba.Presentation.Controls.Interaction
     {
         public override FrameworkElement CreateControl(PropertyItem pi, PropertyControlFactoryOptions options)
         {
-            // Check if the property is of type Range
             if (pi.Is(typeof(IValueWithSource)))
             {
-                // Create a control to edit the Range
-                return this.CreateComboBox(pi, options);
+                return CreateComboBox(pi, options);
             }
-
             return base.CreateControl(pi, options);
         }
 
         protected virtual FrameworkElement CreateComboBox(PropertyItem pi, PropertyControlFactoryOptions options)
         {
-            var cbox = new ComboBox() { IsEditable = true };
+            var cbox = new ComboBox { IsEditable = true };
             cbox.SetBinding(Selector.SelectedItemProperty, new Binding(pi.Descriptor.Name + ".Text"));
             cbox.SetBinding(ItemsControl.ItemsSourceProperty, new Binding(pi.Descriptor.Name + ".Values"));
             return cbox;
+        }
+    }
+
+    public class CustomItemsGridControlFactory : ItemsGridControlFactory
+    {
+        public override FrameworkElement CreateEditControl(PropertyDefinition d, int index)
+        {
+            if (d.PropertyName.Contains("Path"))
+            {
+                return CreateFilePicker(d, index);
+            }
+            return base.CreateEditControl(d, index);
+        }
+
+        private FrameworkElement CreateFilePicker(PropertyDefinition property, int index)
+        {
+            var c = new FilePicker
+            {
+                Filter = "Image Files (*.jpg, *.png)|*.jpg;*.png",
+                UseOpenDialog = true,
+            };
+            c.SetBinding(FilePicker.FilePathProperty, property.CreateBinding(index));
+            return c;
         }
     }
 }
