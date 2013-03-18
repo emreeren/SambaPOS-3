@@ -508,7 +508,7 @@ namespace Samba.Domain.Models.Tickets
             _shouldLock = false;
         }
 
-        public static Ticket Create(Department department, TicketType ticketType, Account account, decimal exchangeRate, IEnumerable<CalculationType> calculationTypes)
+        public static Ticket Create(Department department, TicketType ticketType, decimal exchangeRate, IEnumerable<CalculationType> calculationTypes)
         {
             var ticket = new Ticket
                 {
@@ -518,7 +518,7 @@ namespace Samba.Domain.Models.Tickets
                     TransactionDocument = new AccountTransactionDocument(),
                     ExchangeRate = exchangeRate
                 };
-            //ticket.UpdateAccount(account, exchangeRate);
+
             if (calculationTypes != null)
             {
                 foreach (var calculationType in calculationTypes.OrderBy(x => x.SortOrder))
