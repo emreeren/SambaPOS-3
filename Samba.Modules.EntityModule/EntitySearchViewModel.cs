@@ -9,6 +9,7 @@ using System.Timers;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Microsoft.Practices.Prism.Commands;
+using Samba.Domain.Models;
 using Samba.Domain.Models.Entities;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
@@ -179,7 +180,7 @@ namespace Samba.Modules.EntityModule
 
         private void OnDisplayAccount(string obj)
         {
-            CommonEventPublisher.PublishEntityOperation(new AccountData { AccountId = SelectedEntity.Model.AccountId }, EventTopicNames.DisplayAccountTransactions, EventTopicNames.SelectEntity);
+            CommonEventPublisher.PublishEntityOperation(new AccountData(SelectedEntity.Model.AccountId), EventTopicNames.DisplayAccountTransactions, EventTopicNames.SelectEntity);
         }
 
         private bool CanDisplayAccount(string arg)

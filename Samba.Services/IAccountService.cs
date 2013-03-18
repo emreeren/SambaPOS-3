@@ -6,11 +6,6 @@ using Samba.Persistance;
 
 namespace Samba.Services
 {
-    public class AccountData
-    {
-        public int AccountId { get; set; }
-    }
-
     public interface IAccountService
     {
         decimal GetAccountBalance(int accountId);

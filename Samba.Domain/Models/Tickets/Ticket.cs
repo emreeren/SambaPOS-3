@@ -183,6 +183,11 @@ namespace Samba.Domain.Models.Tickets
             return TicketStateValues;
         }
 
+        public IEnumerable<AccountData> GetTicketAccounts()
+        {
+            return TicketEntities.Select(x => new AccountData(x.AccountTypeId, x.AccountId));
+        }
+
         public Order AddOrder(AccountTransactionType template, Department department, string userName, MenuItem menuItem, IList<TaxTemplate> taxTemplates, MenuItemPortion portion, string priceTag, ProductTimer timer)
         {
             UnLock();

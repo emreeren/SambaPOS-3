@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Regions;
+using Samba.Domain.Models;
 using Samba.Domain.Models.Entities;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
@@ -8,7 +9,6 @@ using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Controls.Interaction;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
-using Samba.Services;
 
 namespace Samba.Modules.EntityModule
 {
