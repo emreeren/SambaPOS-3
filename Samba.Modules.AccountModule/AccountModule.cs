@@ -107,6 +107,7 @@ namespace Samba.Modules.AccountModule
                             var ts = ticket.TicketEntities.FirstOrDefault(x => _ticketService.CanMakeAccountTransaction(x, accountTransactionType, 0));
                             if (ts != null)
                             {
+                                //todo test
                                 var account = _cacheService.GetAccountById(ts.AccountId);
                                 ticket.TransactionDocument.AddNewTransaction(accountTransactionType, ticket.GetTicketAccounts(), amount, 1);
                             }

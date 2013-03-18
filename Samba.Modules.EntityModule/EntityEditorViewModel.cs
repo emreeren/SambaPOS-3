@@ -103,7 +103,7 @@ namespace Samba.Modules.EntityModule
                 var entityType = _cacheService.GetEntityTypeById(obj.Value.SelectedEntity.EntityTypeId);
                 SelectedEntity = new EntitySearchResultViewModel(obj.Value.SelectedEntity, entityType);
                 CustomDataViewModel = new EntityCustomDataViewModel(obj.Value.SelectedEntity, entityType);
-                SelectedEntity.UpdateDetailedInfo();
+                //SelectedEntity.UpdateDetailedInfo();
                 RaisePropertyChanged(() => CustomDataViewModel);
                 RaisePropertyChanged(() => IsEntitySelectorVisible);
             }

@@ -44,16 +44,16 @@ namespace Samba.Modules.EntityModule
             return string.Format("({0}) {1} {2}", phoneNumber.Substring(0, 3), phoneNumber.Substring(3, 3), phoneNumber.Substring(6));
         }
 
-        public void UpdateDetailedInfo()
-        {
-            LastTicket = Dao.Last<Ticket>(x => x.AccountId == Model.Id, x => x.Orders);
-            TotalTicketAmount = Dao.Sum<Ticket>(x => x.TotalAmount, x => x.AccountId == Model.Id);
-            RaisePropertyChanged(() => LastTicket);
-            RaisePropertyChanged(() => TotalTicketAmount);
-            RaisePropertyChanged(() => LastTicketLines);
-            RaisePropertyChanged(() => TicketTotal);
-            RaisePropertyChanged(() => LastTicketStateString);
-        }
+        //public void UpdateDetailedInfo()
+        //{
+        //    LastTicket = Dao.Last<Ticket>(x => x.AccountId == Model.Id, x => x.Orders);
+        //    TotalTicketAmount = Dao.Sum<Ticket>(x => x.TotalAmount, x => x.AccountId == Model.Id);
+        //    RaisePropertyChanged(() => LastTicket);
+        //    RaisePropertyChanged(() => TotalTicketAmount);
+        //    RaisePropertyChanged(() => LastTicketLines);
+        //    RaisePropertyChanged(() => TicketTotal);
+        //    RaisePropertyChanged(() => LastTicketStateString);
+        //}
 
         public IEnumerable<Order> LastTicketLines { get { return LastTicket != null ? LastTicket.Orders.Where(x => x.CalculatePrice) : null; } }
         public decimal TicketTotal { get { return LastTicket != null ? LastTicket.GetSum() : 0; } }

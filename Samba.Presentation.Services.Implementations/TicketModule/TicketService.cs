@@ -591,7 +591,6 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             return result;
         }
 
-
         public Order AddOrder(Ticket ticket, int menuItemId, decimal quantity, string portionName, OrderTagTemplate template)
         {
             if (ticket.IsLocked && !_userService.IsUserPermittedFor(PermissionNames.AddItemsToLockedTickets)) return null;

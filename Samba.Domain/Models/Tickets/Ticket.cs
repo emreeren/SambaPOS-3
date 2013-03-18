@@ -86,10 +86,6 @@ namespace Samba.Domain.Models.Tickets
         public int TicketTypeId { get; set; }
         public string Note { get; set; }
 
-        public int AccountId { get; set; }
-        public int AccountTypeId { get; set; }
-        public string AccountName { get; set; }
-
         public string TicketTags
         {
             get { return _ticketTags; }
@@ -515,15 +511,14 @@ namespace Samba.Domain.Models.Tickets
         public static Ticket Create(Department department, TicketType ticketType, Account account, decimal exchangeRate, IEnumerable<CalculationType> calculationTypes)
         {
             var ticket = new Ticket
-                             {
-                                 TicketTypeId = ticketType.Id,
-                                 DepartmentId = department.Id,
-                                 AccountTypeId = ticketType.SaleTransactionType.TargetAccountTypeId,
-                                 TaxIncluded = ticketType.TaxIncluded,
-                                 TransactionDocument = new AccountTransactionDocument()
-                             };
-
-            ticket.UpdateAccount(account, exchangeRate);
+                {
+                    TicketTypeId = ticketType.Id,
+                    DepartmentId = department.Id,
+                    TaxIncluded = ticketType.TaxIncluded,
+                    TransactionDocument = new AccountTransactionDocument(),
+                    ExchangeRate = exchangeRate
+                };
+            //ticket.UpdateAccount(account, exchangeRate);
             if (calculationTypes != null)
             {
                 foreach (var calculationType in calculationTypes.OrderBy(x => x.SortOrder))
@@ -632,18 +627,15 @@ namespace Samba.Domain.Models.Tickets
                 TicketEntities.Remove(r);
         }
 
-        public void UpdateAccount(Account account, decimal exchangeRate)
-        {
-            if (account == null) return;
-            foreach (var transaction in TransactionDocument.AccountTransactions)
-            {
-                transaction.UpdateAccounts(GetTicketAccounts());
-            }
-            AccountId = account.Id;
-            AccountTypeId = account.AccountTypeId;
-            AccountName = account.Name;
-            ExchangeRate = exchangeRate;
-        }
+        //public void UpdateAccount(Account account, decimal exchangeRate)
+        //{
+        //    if (account == null) return;
+        //    foreach (var transaction in TransactionDocument.AccountTransactions)
+        //    {
+        //        transaction.UpdateAccounts(GetTicketAccounts());
+        //    }
+        //    ExchangeRate = exchangeRate;
+        //}
 
         public IList<int> GetTaxIds()
         {

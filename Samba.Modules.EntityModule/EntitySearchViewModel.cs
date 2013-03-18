@@ -314,10 +314,10 @@ namespace Samba.Modules.EntityModule
                                    FoundEntities.Clear();
                                    FoundEntities.AddRange(result.Select(x => new EntitySearchResultViewModel(x, SelectedEntityType)));
 
-                                   if (SelectedEntity != null && SearchString == SelectedEntity.PhoneNumber)
-                                   {
-                                       SelectedEntity.UpdateDetailedInfo();
-                                   }
+                                   //if (SelectedEntity != null && SearchString == SelectedEntity.PhoneNumber)
+                                   //{
+                                   //    SelectedEntity.UpdateDetailedInfo();
+                                   //}
 
                                    RaisePropertyChanged(() => SelectedEntity);
                                    CommandManager.InvalidateRequerySuggested();
