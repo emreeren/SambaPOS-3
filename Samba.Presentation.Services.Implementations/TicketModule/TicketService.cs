@@ -52,7 +52,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             return _cacheService.GetCurrencyById(account.ForeignCurrencyId).ExchangeRate;
         }
 
-        public void UpdateEntity(Ticket ticket, int entityTypeId, int entityId, string entityName, int accountId, string entityCustomData)
+        public void UpdateEntity(Ticket ticket, int entityTypeId, int entityId, string entityName, int accountTypeId, int accountId, string entityCustomData)
         {
             var currentEntity = ticket.TicketEntities.SingleOrDefault(x => x.EntityTypeId == entityTypeId);
             var currentEntityId = currentEntity != null ? currentEntity.EntityId : 0;
@@ -71,7 +71,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                 });
             }
 
-            ticket.UpdateEntity(entityTypeId, entityId, entityName, accountId, entityCustomData);
+            ticket.UpdateEntity(entityTypeId, entityId, entityName, accountTypeId, accountId, entityCustomData);
 
             if (currentEntityId != entityId)
             {
@@ -100,7 +100,8 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
         public void UpdateEntity(Ticket ticket, Entity entity)
         {
             if (entity == null) return;
-            UpdateEntity(ticket, entity.EntityTypeId, entity.Id, entity.Name, entity.AccountId, entity.CustomData);
+            var entityType = _cacheService.GetEntityTypeById(entity.EntityTypeId);
+            UpdateEntity(ticket, entityType.Id, entity.Id, entity.Name, entityType.AccountTypeId, entity.AccountId, entity.CustomData);
         }
 
         public Ticket OpenTicket(int ticketId)
@@ -265,7 +266,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                 ticket.AddChangePayment(_cacheService.GetChangePaymentTypeById(cp.ChangePaymentTypeId), account, cp.Amount, GetExchangeRate(account), 0);
             }
 
-            clonedEntites.ForEach(x => ticket.UpdateEntity(x.EntityTypeId, x.EntityId, x.EntityName, x.AccountId, x.EntityCustomData));
+            clonedEntites.ForEach(x => ticket.UpdateEntity(x.EntityTypeId, x.EntityId, x.EntityName, x.AccountTypeId, x.AccountId, x.EntityCustomData));
             clonedTags.ForEach(x => ticket.SetTagValue(x.TagName, x.TagValue));
 
             RefreshAccountTransactions(ticket);
@@ -415,7 +416,12 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                 var tickets = w.All<Ticket>(x => openTicketDataList.Contains(x.Id), x => x.TicketEntities);
                 foreach (var ticket in tickets)
                 {
-                    ticket.TicketEntities.Where(x => x.EntityId == entity.Id).ToList().ForEach(x => x.AccountId = entity.AccountId);
+                    ticket.TicketEntities.Where(x => x.EntityId == entity.Id).ToList().ForEach(x =>
+                        {
+                            var entityType = _cacheService.GetEntityTypeById(x.EntityTypeId);
+                            x.AccountTypeId = entityType.AccountTypeId;
+                            x.AccountId = entity.AccountId;
+                        });
                 }
                 w.CommitChanges();
             }

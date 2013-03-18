@@ -12,6 +12,7 @@ namespace Samba.Domain.Models.Tickets
         public int EntityTypeId { get; set; }
         public int EntityId { get; set; }
         public int AccountId { get; set; }
+        public int AccountTypeId { get; set; }
         public string EntityName { get; set; }
         public string EntityCustomData { get; set; }
 

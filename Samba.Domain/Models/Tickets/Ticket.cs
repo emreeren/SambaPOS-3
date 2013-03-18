@@ -600,16 +600,25 @@ namespace Samba.Domain.Models.Tickets
             return string.Join("\r", TicketTagValues.Where(x => !string.IsNullOrEmpty(x.TagValue)).Select(x => string.Format("{0}: {1}", x.TagName, x.TagValue)));
         }
 
-        public void UpdateEntity(int entityTypeId, int entityId, string entityName, int accountId, string entityCustomData)
+        public void UpdateEntity(int entityTypeId, int entityId, string entityName, int accountTypeId, int accountId, string entityCustomData)
         {
             var r = TicketEntities.SingleOrDefault(x => x.EntityTypeId == entityTypeId);
             if (r == null && entityId > 0)
             {
-                TicketEntities.Add(new TicketEntity { EntityId = entityId, EntityName = entityName, EntityTypeId = entityTypeId, AccountId = accountId, EntityCustomData = entityCustomData });
+                TicketEntities.Add(new TicketEntity
+                {
+                    EntityId = entityId,
+                    EntityName = entityName,
+                    EntityTypeId = entityTypeId,
+                    AccountTypeId = accountTypeId,
+                    AccountId = accountId,
+                    EntityCustomData = entityCustomData
+                });
             }
             else if (r != null && entityId > 0)
             {
                 r.AccountId = accountId;
+                r.AccountTypeId = accountTypeId;
                 r.EntityId = entityId;
                 r.EntityName = entityName;
                 r.EntityTypeId = entityTypeId;

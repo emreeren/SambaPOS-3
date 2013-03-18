@@ -21,7 +21,7 @@ namespace Samba.Presentation.Services
         void PayTicket(Ticket ticket, PaymentType template);
         void UpdateTicketNumber(Ticket ticket, Numerator numerator);
         void UpdateEntity(Ticket ticket, Entity entity);
-        void UpdateEntity(Ticket ticket, int entityTypeId, int entityId, string entityName, int accountId, string entityCustomData);
+        void UpdateEntity(Ticket ticket, int entityTypeId, int entityId, string entityName, int accountTypeId, int accountId, string entityCustomData);
         void RecalculateTicket(Ticket ticket);
         void UpdateTag(Ticket ticket, TicketTagGroup tagGroup, TicketTag ticketTag);
         int GetOpenTicketCount();
@@ -40,7 +40,7 @@ namespace Samba.Presentation.Services
         bool CanCloseTicket(Ticket ticket);
         void RefreshAccountTransactions(Ticket ticket);
         void UpdateOrderStates(Ticket ticket, IList<Order> orders, string stateName, string currentState, int groupOrder, string state, int stateOrder, string stateValue);
-        void UpdateTicketState(Ticket ticket, string stateName,string currentState, string state, string stateValue, int quantity = 0);
+        void UpdateTicketState(Ticket ticket, string stateName, string currentState, string state, string stateValue, int quantity = 0);
         void ChangeOrdersAccountTransactionTypeId(Ticket ticket, IEnumerable<Order> selectedOrders, int accountTransactionTypeId);
         void AddAccountTransaction(Ticket ticket, Account sourceAccount, Account targetAccount, decimal amount, decimal exchangeRate);
         bool CanMakeAccountTransaction(TicketEntity ticketEntity, AccountTransactionType accountTransactionType, decimal targetBalance);

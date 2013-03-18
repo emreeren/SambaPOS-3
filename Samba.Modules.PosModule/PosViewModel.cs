@@ -60,7 +60,7 @@ namespace Samba.Modules.PosModule
         public PosViewModel(IRegionManager regionManager, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
             ITicketService ticketService, IUserService userService, ICacheService cacheService, TicketListViewModel ticketListViewModel,
             TicketTagListViewModel ticketTagListViewModel, MenuItemSelectorViewModel menuItemSelectorViewModel, MenuItemSelectorView menuItemSelectorView,
-            TicketViewModel ticketViewModel, TicketOrdersViewModel ticketOrdersViewModel,TicketEntityListViewModel ticketEntityListViewModel)
+            TicketViewModel ticketViewModel, TicketOrdersViewModel ticketOrdersViewModel, TicketEntityListViewModel ticketEntityListViewModel)
         {
             _ticketService = ticketService;
             _userService = userService;
@@ -211,7 +211,7 @@ namespace Samba.Modules.PosModule
             OpenTicket(0);
             foreach (var ticketEntity in tr)
             {
-                _ticketService.UpdateEntity(SelectedTicket, ticketEntity.EntityTypeId, ticketEntity.EntityId, ticketEntity.EntityName, ticketEntity.AccountId, ticketEntity.EntityCustomData);
+                _ticketService.UpdateEntity(SelectedTicket, ticketEntity.EntityTypeId, ticketEntity.EntityId, ticketEntity.EntityName, ticketEntity.AccountTypeId, ticketEntity.AccountId, ticketEntity.EntityCustomData);
             }
         }
 
@@ -267,7 +267,7 @@ namespace Samba.Modules.PosModule
         private void DisplaySingleTicket()
         {
             _applicationStateSetter.SetCurrentApplicationScreen(AppScreens.TicketView);
-            if (SelectedTicket != null && SelectedTicket.Orders.Count == 0 && _cacheService.GetTicketTypeById(SelectedTicket.TicketTypeId).EntityTypeAssignments.Any(x => x.AskBeforeCreatingTicket && !SelectedTicket.TicketEntities.Any(y => y.EntityTypeId == x.EntityTypeId)))
+            if (SelectedTicket != null && SelectedTicket.Orders.Count == 0 && _cacheService.GetTicketTypeById(SelectedTicket.TicketTypeId).EntityTypeAssignments.Any(x => x.AskBeforeCreatingTicket && SelectedTicket.TicketEntities.All(y => y.EntityTypeId != x.EntityTypeId)))
             {
                 _ticketEntityListViewModel.Update(SelectedTicket);
                 DisplayTicketEntityList();
