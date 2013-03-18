@@ -110,7 +110,6 @@ namespace Samba.Modules.TicketModule
             RuleFor(x => x.TicketNumerator).NotNull();
             RuleFor(x => x.OrderNumerator).NotNull();
             RuleFor(x => x.SaleTransactionType).NotNull();
-            RuleFor(x => x.SaleTransactionType.DefaultSourceAccountId).GreaterThan(0).When(x => x.SaleTransactionType != null);
             RuleFor(x => x.TicketNumerator).NotEqual(x => x.OrderNumerator).When(x => x.TicketNumerator != null);
         }
     }

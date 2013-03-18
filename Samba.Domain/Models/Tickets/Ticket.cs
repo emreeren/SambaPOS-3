@@ -627,16 +627,6 @@ namespace Samba.Domain.Models.Tickets
                 TicketEntities.Remove(r);
         }
 
-        //public void UpdateAccount(Account account, decimal exchangeRate)
-        //{
-        //    if (account == null) return;
-        //    foreach (var transaction in TransactionDocument.AccountTransactions)
-        //    {
-        //        transaction.UpdateAccounts(GetTicketAccounts());
-        //    }
-        //    ExchangeRate = exchangeRate;
-        //}
-
         public IList<int> GetTaxIds()
         {
             return Orders.SelectMany(x => x.TaxValues)
