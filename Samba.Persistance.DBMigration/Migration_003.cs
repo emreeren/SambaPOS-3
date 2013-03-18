@@ -12,7 +12,7 @@ namespace Samba.Persistance.DBMigration
     {
         public override void Up()
         {
-         
+            Create.Column("AccountTypeId").OnTable("TicketEntities").AsInt32().WithDefaultValue(0);
         }
 
         public override void Down()

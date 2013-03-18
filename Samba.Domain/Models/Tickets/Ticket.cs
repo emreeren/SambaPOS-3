@@ -196,7 +196,7 @@ namespace Samba.Domain.Models.Tickets
             order.AccountTransactionTypeId = template.Id;
             order.WarehouseId = department.WarehouseId;
             order.DepartmentId = department.Id;
-            TransactionDocument.AddSingletonTransaction(template.Id, template, AccountTypeId, AccountId);
+            TransactionDocument.AddSingletonTransaction(template.Id, template, GetTicketAccounts());
 
             if (taxTemplates != null)
             {
@@ -204,7 +204,7 @@ namespace Samba.Domain.Models.Tickets
                 {
                     TransactionDocument.AddSingletonTransaction(taxTemplate.AccountTransactionType.Id,
                                                taxTemplate.AccountTransactionType,
-                                               AccountTypeId, AccountId);
+                                               GetTicketAccounts());
                 }
             }
 
@@ -215,7 +215,7 @@ namespace Samba.Domain.Models.Tickets
 
         public void AddPayment(PaymentType paymentType, Account account, decimal amount, decimal exchangeRate, int userId)
         {
-            var transaction = TransactionDocument.AddNewTransaction(paymentType.AccountTransactionType, AccountTypeId, AccountId, account, amount, exchangeRate);
+            var transaction = TransactionDocument.AddNewTransaction(paymentType.AccountTransactionType, GetTicketAccounts(), amount, exchangeRate);
             var payment = new Payment { AccountTransaction = transaction, Amount = amount, Name = account.Name, PaymentTypeId = paymentType.Id };
             Payments.Add(payment);
             LastPaymentDate = DateTime.Now;
@@ -228,7 +228,7 @@ namespace Samba.Domain.Models.Tickets
 
         public void AddChangePayment(ChangePaymentType changePaymentType, Account account, decimal amount, decimal exchangeRate, int userId)
         {
-            var transaction = TransactionDocument.AddNewTransaction(changePaymentType.AccountTransactionType, AccountTypeId, AccountId, account, amount, exchangeRate);
+            var transaction = TransactionDocument.AddNewTransaction(changePaymentType.AccountTransactionType, GetTicketAccounts(), amount, exchangeRate);
             var payment = new ChangePayment { AccountTransaction = transaction, Amount = amount, Name = account.Name, ChangePaymentTypeId = changePaymentType.Id };
             ChangePayments.Add(payment);
         }
@@ -364,7 +364,7 @@ namespace Samba.Domain.Models.Tickets
                             AccountTransactionTypeId = calculationType.AccountTransactionType.Id
                         };
                 Calculations.Add(calculation);
-                TransactionDocument.AddSingletonTransaction(calculation.AccountTransactionTypeId, calculationType.AccountTransactionType, AccountTypeId, AccountId);
+                TransactionDocument.AddSingletonTransaction(calculation.AccountTransactionTypeId, calculationType.AccountTransactionType, GetTicketAccounts());
             }
             else if (calculation.Amount == amount)
             {
@@ -637,7 +637,7 @@ namespace Samba.Domain.Models.Tickets
             if (account == null) return;
             foreach (var transaction in TransactionDocument.AccountTransactions)
             {
-                transaction.UpdateAccounts(AccountTypeId, account.Id);
+                transaction.UpdateAccounts(GetTicketAccounts());
             }
             AccountId = account.Id;
             AccountTypeId = account.AccountTypeId;
@@ -663,7 +663,7 @@ namespace Samba.Domain.Models.Tickets
                     var o = orders;
                     var transaction = TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == o.Key);
                     var amount = o.Sum(x => GetTaxExcludedSum(x));
-                    transaction.UpdateAccounts(AccountTypeId, AccountId);
+                    transaction.UpdateAccounts(GetTicketAccounts());
                     transaction.UpdateAmount(amount, ExchangeRate);
                 }
 
@@ -675,7 +675,7 @@ namespace Samba.Domain.Models.Tickets
                     foreach (var taxId in taxIds)
                     {
                         var transaction = TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == taxId);
-                        transaction.UpdateAccounts(AccountTypeId, AccountId);
+                        transaction.UpdateAccounts(GetTicketAccounts());
                         transaction.UpdateAmount(GetTaxTotal(taxId, preTaxServices, plainSum), ExchangeRate);
                     }
                 }

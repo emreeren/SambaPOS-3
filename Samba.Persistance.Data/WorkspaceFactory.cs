@@ -58,8 +58,7 @@ namespace Samba.Persistance.Data
                 if (cs.ToLower(CultureInfo.InvariantCulture).Contains("user id") &&
                     !cs.ToLower().Contains("persist security info"))
                     cs += " Persist Security Info=True;";
-                Database.DefaultConnectionFactory =
-                    new SqlConnectionFactory(cs);
+                Database.DefaultConnectionFactory = new SqlConnectionFactory(cs);
             }
         }
 

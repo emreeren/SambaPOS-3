@@ -521,15 +521,14 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                                      where ticket.TransactionDocument.AccountTransactions.All(x => x.AccountTransactionTypeId != order.Key)
                                      select _cacheService.GetAccountTransactionTypeById(order.Key))
             {
-                var transaction = ticket.TransactionDocument.AddNewTransaction(template, ticket.AccountTypeId, ticket.AccountId);
+                var transaction = ticket.TransactionDocument.AddNewTransaction(template, ticket.GetTicketAccounts());
                 transaction.Reversable = false;
             }
 
             foreach (var taxTransactionTemplate in ticket.GetTaxIds().Select(x => _cacheService.GetAccountTransactionTypeById(x)))
             {
                 ticket.TransactionDocument.AddSingletonTransaction(taxTransactionTemplate.Id,
-                       taxTransactionTemplate,
-                       ticket.AccountTypeId, ticket.AccountId);
+                       taxTransactionTemplate, ticket.GetTicketAccounts());
             }
         }
 
@@ -568,7 +567,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             var transactionType = _cacheService.FindAccountTransactionType(sourceAccount.AccountTypeId, targetAccount.AccountTypeId, sourceAccount.Id, targetAccount.Id);
             if (transactionType != null)
             {
-                ticket.TransactionDocument.AddNewTransaction(transactionType, sourceAccount.AccountTypeId, sourceAccount.Id, targetAccount, amount, exchangeRate);
+                ticket.TransactionDocument.AddNewTransaction(transactionType, ticket.GetTicketAccounts(), amount, exchangeRate);
             }
         }
 

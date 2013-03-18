@@ -22,27 +22,27 @@ namespace Samba.Domain.Models.Accounts
             set { _accountTransactions = value; }
         }
 
-        public AccountTransaction AddNewTransaction(AccountTransactionType template, int accountTypeId, int accountId)
+        public AccountTransaction AddNewTransaction(AccountTransactionType template, IEnumerable<AccountData> accountDataList)
         {
-            var transaction = AccountTransaction.Create(template, accountTypeId, accountId);
+            var transaction = AccountTransaction.Create(template, accountDataList);
             AccountTransactions.Add(transaction);
             return transaction;
         }
 
-        public AccountTransaction AddNewTransaction(AccountTransactionType template, int accountTypeId, int accountId, Account account, decimal amount, decimal exchangeRate)
+        public AccountTransaction AddNewTransaction(AccountTransactionType template, IEnumerable<AccountData> accountDataList, decimal amount, decimal exchangeRate)
         {
-            var transaction = AccountTransaction.Create(template, accountTypeId, accountId);
-            transaction.UpdateAccounts(account.AccountTypeId, account.Id);
+            var transaction = AccountTransaction.Create(template, accountDataList);
+            //transaction.UpdateAccounts(account.AccountTypeId, account.Id);
             transaction.UpdateAmount(amount, exchangeRate);
             AccountTransactions.Add(transaction);
             return transaction;
         }
 
-        public void AddSingletonTransaction(int transactionTypeId, AccountTransactionType template, int accountTypeId, int accountId)
+        public void AddSingletonTransaction(int transactionTypeId, AccountTransactionType template, IEnumerable<AccountData> accountDataList)
         {
             if (AccountTransactions.SingleOrDefault(x => x.AccountTransactionTypeId == transactionTypeId) == null)
             {
-                AddNewTransaction(template, accountTypeId, accountId);
+                AddNewTransaction(template, accountDataList);
             }
         }
 

@@ -108,9 +108,7 @@ namespace Samba.Modules.AccountModule
                             if (ts != null)
                             {
                                 var account = _cacheService.GetAccountById(ts.AccountId);
-                                ticket.TransactionDocument.AddNewTransaction(accountTransactionType,
-                                                                             ticket.AccountTypeId, ticket.AccountId,
-                                                                             account, amount, 1);
+                                ticket.TransactionDocument.AddNewTransaction(accountTransactionType, ticket.GetTicketAccounts(), amount, 1);
                             }
                         }
                     }
