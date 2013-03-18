@@ -24,12 +24,5 @@ namespace Samba.Domain.Models.Automation
         }
 
         public string UserString { get { return Name; } }
-
-        public AutomationCommandMap AddAutomationCommandMap()
-        {
-            var map = new AutomationCommandMap();
-            _automationCommandMaps.Add(map);
-            return map;
-        }
     }
 }

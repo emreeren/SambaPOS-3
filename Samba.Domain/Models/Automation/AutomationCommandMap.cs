@@ -10,5 +10,13 @@ namespace Samba.Domain.Models.Automation
         public bool DisplayOnOrders { get; set; }
         public string EnabledStates { get; set; }
         public string VisibleStates { get; set; }
+
+        public override void Initialize()
+        {
+            DisplayOnTicket = true;
+            EnabledStates = "*";
+            VisibleStates = "*";
+            base.Initialize();
+        }
     }
 }
