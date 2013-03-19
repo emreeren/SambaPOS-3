@@ -31,6 +31,7 @@
         public const string ExecuteScript = "ExecuteScript";
         public const string UpdateTicketState = "UpdateTicketState";
         public const string UpdateOrderState = "UpdateOrderState";
+        public const string SetActiveTicketType = "SetActiveTicketType";
     }
 
     public static class RuleEventNames
@@ -64,6 +65,7 @@
         public const string TicketStateUpdated = "TicketStateUpdated";
         public const string TicketCreated = "TicketCreated";
         public const string OrderStateUpdated = "OrderStateUpdated";
+        public const string EntitySelected = "EntitySelected";
     }
 
     public static class EventTopicNames

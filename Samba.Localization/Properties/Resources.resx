@@ -3098,4 +3098,10 @@ Error Message:
   <data name="Toggle" xml:space="preserve">
     <value>Toggle</value>
   </data>
+  <data name="SetActiveTicketType" xml:space="preserve">
+    <value>Set Active Ticket Type</value>
+  </data>
+  <data name="EntitySelected" xml:space="preserve">
+    <value>Entity Selected</value>
+  </data>
 </root>

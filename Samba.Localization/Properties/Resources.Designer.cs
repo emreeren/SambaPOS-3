@@ -2502,6 +2502,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Entity Selected.
+        /// </summary>
+        public static string EntitySelected {
+            get {
+                return ResourceManager.GetString("EntitySelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Entity State Updated.
         /// </summary>
         public static string EntityStateUpdated {
@@ -6077,6 +6086,15 @@ namespace Samba.Localization.Properties {
         public static string Server {
             get {
                 return ResourceManager.GetString("Server", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set Active Ticket Type.
+        /// </summary>
+        public static string SetActiveTicketType {
+            get {
+                return ResourceManager.GetString("SetActiveTicketType", resourceCulture);
             }
         }
         

@@ -28,6 +28,7 @@ namespace Samba.Presentation.ViewModels
         private static readonly IDepartmentService DepartmentService = ServiceLocator.Current.GetInstance<IDepartmentService>();
         private static readonly ITicketService TicketService = ServiceLocator.Current.GetInstance<ITicketService>();
         private static readonly IApplicationState ApplicationState = ServiceLocator.Current.GetInstance<IApplicationState>();
+        private static readonly IApplicationStateSetter ApplicationStateSetter = ServiceLocator.Current.GetInstance<IApplicationStateSetter>();
         private static readonly IUserService UserService = ServiceLocator.Current.GetInstance<IUserService>();
         private static readonly ITriggerService TriggerService = ServiceLocator.Current.GetInstance<ITriggerService>();
         private static readonly IPrinterService PrinterService = ServiceLocator.Current.GetInstance<IPrinterService>();
@@ -56,6 +57,7 @@ namespace Samba.Presentation.ViewModels
         {
             AutomationService.RegisterActionType(ActionNames.SendEmail, Resources.SendEmail, new { SMTPServer = "", SMTPUser = "", SMTPPassword = "", SMTPPort = 0, ToEMailAddress = "", Subject = "", CCEmailAddresses = "", FromEMailAddress = "", EMailMessage = "", FileName = "", DeleteFile = false, BypassSslErrors = false });
             AutomationService.RegisterActionType(ActionNames.AddOrder, Resources.AddOrder, new { MenuItemName = "", PortionName = "", Quantity = 0, Tag = "" });
+            AutomationService.RegisterActionType(ActionNames.SetActiveTicketType, Resources.SetActiveTicketType, new { TicketTypeName = "" });
             AutomationService.RegisterActionType(ActionNames.TagOrder, Resources.TagOrder, new { OrderTagName = "", OldOrderTagValue = "", OrderTagValue = "", OrderTagNote = "" });
             AutomationService.RegisterActionType(ActionNames.UntagOrder, Resources.UntagOrder, new { OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterActionType(ActionNames.RemoveOrderTag, Resources.RemoveOrderTag, new { OrderTagName = "" });
@@ -109,6 +111,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterEvent(RuleEventNames.OrderTagged, Resources.OrderTagged, new { OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterEvent(RuleEventNames.OrderUntagged, Resources.OrderUntagged, new { OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterEvent(RuleEventNames.OrderStateUpdated, Resources.OrderStateUpdated, new { StateName = "", State = "", StateValue = "" });
+            AutomationService.RegisterEvent(RuleEventNames.EntitySelected, Resources.EntitySelected, new { EntityTypeName = "", EntityName = "", EntityCustomData = "", IsTicketSelected = false });
             AutomationService.RegisterEvent(RuleEventNames.EntityUpdated, Resources.EntityUpdated, new { EntityTypeName = "", OpenTicketCount = 0 });
             AutomationService.RegisterEvent(RuleEventNames.EntityStateUpdated, Resources.EntityStateUpdated, new { EntityTypeName = "", StateName = "", State = "" });
             AutomationService.RegisterEvent(RuleEventNames.MessageReceived, Resources.MessageReceived, new { Command = "" });
@@ -143,6 +146,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterParameterSoruce("AccountTransactionTypeName", () => Dao.Distinct<AccountTransactionType>(x => x.Name));
             AutomationService.RegisterParameterSoruce("AccountTransactionDocumentName", () => Dao.Distinct<AccountTransactionDocumentType>(x => x.Name));
             AutomationService.RegisterParameterSoruce("UpdateType", () => new[] { Resources.Update, Resources.Increase, Resources.Decrease, Resources.Toggle });
+            AutomationService.RegisterParameterSoruce("TicketTypeName", () => Dao.Distinct<TicketType>(x => x.Name));
         }
 
         private static void ResetCache()
@@ -157,6 +161,24 @@ namespace Samba.Presentation.ViewModels
         {
             EventServiceFactory.EventService.GetEvent<GenericEvent<IActionData>>().Subscribe(x =>
             {
+                if (x.Value.Action.ActionType == ActionNames.SetActiveTicketType)
+                {
+                    var ticketTypeName = x.Value.GetAsString("TicketTypeName");
+                    var ticketType = CacheService.GetTicketTypes().SingleOrDefault(y => y.Name == ticketTypeName);
+                    if (ticketType != null)
+                    {
+                        ApplicationStateSetter.SetCurrentTicketType(ticketType);
+                    }
+                    else if (ApplicationState.SelectedEntityScreen != null && ApplicationState.SelectedEntityScreen.TicketTypeId != 0)
+                    {
+                        ApplicationStateSetter.SetCurrentTicketType(CacheService.GetTicketTypeById(ApplicationState.SelectedEntityScreen.TicketTypeId));
+                    }
+                    else
+                    {
+                        ApplicationStateSetter.SetCurrentTicketType(CacheService.GetTicketTypeById(ApplicationState.CurrentDepartment.TicketTypeId));
+                    }
+                }
+
                 if (x.Value.Action.ActionType == ActionNames.ChangeTicketEntity)
                 {
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
