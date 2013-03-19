@@ -1209,6 +1209,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="LockTicket" xml:space="preserve">
     <value>Bloccare Ticket</value>
   </data>
+  <data name="OrderMoved" xml:space="preserve">
+    <value>Stato Ordine</value>
+  </data>
   <data name="WorkPeriodStartTime" xml:space="preserve">
     <value>Ora periodo di lavoro: {0}</value>
   </data>
@@ -1223,6 +1226,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Salva</value>
+  </data>
+  <data name="TicketMovedRule" xml:space="preserve">
+    <value>Regola Spostamento Ticket</value>
   </data>
   <data name="CanCreateAccount" xml:space="preserve">
     <value>Può Creare Account</value>
@@ -1464,6 +1470,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="Billion" xml:space="preserve">
     <value>Miliardo</value>
   </data>
+  <data name="UsePlainSum" xml:space="preserve">
+    <value>Usa Somma Comune</value>
+  </data>
   <data name="TriggerName" xml:space="preserve">
     <value>Nome del trigger</value>
   </data>
@@ -1502,6 +1511,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   </data>
   <data name="Fifteen" xml:space="preserve">
     <value>Quindici</value>
+  </data>
+  <data name="UpdateTicketStatus" xml:space="preserve">
+    <value>Aggiornare lo Stato del Ticket</value>
   </data>
   <data name="PageCount" xml:space="preserve">
     <value>Contatore Pagine</value>
@@ -1634,6 +1646,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   </data>
   <data name="BatchCreate_f" xml:space="preserve">
     <value>Crea in Gruppo {0}</value>
+  </data>
+  <data name="Ticket Moving" xml:space="preserve">
+    <value>Ticket Spostato</value>
   </data>
   <data name="TicketDate" xml:space="preserve">
     <value>Data Ticket</value>
@@ -2007,6 +2022,9 @@ Messaggio di errore:
   </data>
   <data name="DisplayPopup" xml:space="preserve">
     <value>Mostra Popup</value>
+  </data>
+  <data name="TicketMoved" xml:space="preserve">
+    <value>Ticket Spostato</value>
   </data>
   <data name="DocumentNo" xml:space="preserve">
     <value>Documento N</value>
@@ -2389,6 +2407,9 @@ Ticket</value>
   </data>
   <data name="SearchString" xml:space="preserve">
     <value>Cerca Stringa</value>
+  </data>
+  <data name="UpdateMergedTicketsState" xml:space="preserve">
+    <value>Aggiorna Stato Unione Ticket</value>
   </data>
   <data name="DisplayAllValues" xml:space="preserve">
     <value>Visualizzare tutti i valori</value>

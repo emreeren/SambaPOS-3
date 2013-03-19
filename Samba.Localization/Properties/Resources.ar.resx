@@ -123,6 +123,9 @@
   <data name="FixedAmount" xml:space="preserve">
     <value>مبلغ ثابت</value>
   </data>
+  <data name="Entity" xml:space="preserve">
+    <value>الكيان</value>
+  </data>
   <data name="ButtonHeader" xml:space="preserve">
     <value>عنوان الزر</value>
   </data>
@@ -209,6 +212,9 @@
   </data>
   <data name="TotalIncome" xml:space="preserve">
     <value>مجموع الإيرادات</value>
+  </data>
+  <data name="Entities" xml:space="preserve">
+    <value>الكيانات</value>
   </data>
   <data name="AccountDetails" xml:space="preserve">
     <value>تفاصيل الحساب</value>
@@ -588,6 +594,9 @@
   <data name="Thirty" xml:space="preserve">
     <value>ثلاثين</value>
   </data>
+  <data name="EntityScreenItem" xml:space="preserve">
+    <value>عنصر شاشة الكيان</value>
+  </data>
   <data name="Incomes_f" xml:space="preserve">
     <value>الدخل: {0}</value>
   </data>
@@ -681,6 +690,9 @@
   <data name="OnlyNewLines" xml:space="preserve">
     <value>الأسطر الجديدة فقط</value>
   </data>
+  <data name="ChangeTicketEntity" xml:space="preserve">
+    <value>تغيير كيان التذكرة </value>
+  </data>
   <data name="CanChangeReportFilter" xml:space="preserve">
     <value>يستطيع تغيير تاريخ التقرير</value>
   </data>
@@ -731,6 +743,9 @@
   </data>
   <data name="Tax" xml:space="preserve">
     <value>الضرائب</value>
+  </data>
+  <data name="EntityUpdated" xml:space="preserve">
+    <value>تم تحديث الكيان</value>
   </data>
   <data name="Customer_f" xml:space="preserve">
     <value>العميل: {0}</value>
@@ -1039,6 +1054,9 @@
   <data name="StartAmount" xml:space="preserve">
     <value>مبالغ البداية</value>
   </data>
+  <data name="EntityTypes" xml:space="preserve">
+    <value>انواع الكيان</value>
+  </data>
   <data name="TicketOpeningTime" xml:space="preserve">
     <value>فتح تذكرة</value>
   </data>
@@ -1186,6 +1204,9 @@
   <data name="LockTicket" xml:space="preserve">
     <value>إقفال التذكرة</value>
   </data>
+  <data name="OrderMoved" xml:space="preserve">
+    <value>تم نقل الطلب</value>
+  </data>
   <data name="WorkPeriodStartTime" xml:space="preserve">
     <value>وقت فترة العمل: {0}</value>
   </data>
@@ -1200,6 +1221,9 @@
   </data>
   <data name="Save" xml:space="preserve">
     <value>حفظ</value>
+  </data>
+  <data name="TicketMovedRule" xml:space="preserve">
+    <value>قانون نقل التذكرة</value>
   </data>
   <data name="CanCreateAccount" xml:space="preserve">
     <value>يستطيع إنشاء حساب</value>
@@ -1230,6 +1254,9 @@
   </data>
   <data name="Sales" xml:space="preserve">
     <value>المبيعات</value>
+  </data>
+  <data name="EntityButton" xml:space="preserve">
+    <value>رز الكيان</value>
   </data>
   <data name="KitchenTemplateValue" xml:space="preserve">
     <value>
@@ -1338,6 +1365,9 @@
   <data name="Tickets" xml:space="preserve">
     <value>تذاكر</value>
   </data>
+  <data name="EntityStateUpdated" xml:space="preserve">
+    <value>تم تحديث حالة الكيان</value>
+  </data>
   <data name="NextPage" xml:space="preserve">
     <value>الصفحة التالية</value>
   </data>
@@ -1431,6 +1461,9 @@
   <data name="Billion" xml:space="preserve">
     <value>مليار</value>
   </data>
+  <data name="UsePlainSum" xml:space="preserve">
+    <value>استخدم الجمع المبسط</value>
+  </data>
   <data name="TriggerName" xml:space="preserve">
     <value>اسم المشغل</value>
   </data>
@@ -1461,11 +1494,17 @@
   <data name="CantDelete_f" xml:space="preserve">
     <value>لا يمكن حذف {0}</value>
   </data>
+  <data name="Source" xml:space="preserve">
+    <value>المصدر</value>
+  </data>
   <data name="AddOrder" xml:space="preserve">
     <value>إضافة طلب</value>
   </data>
   <data name="Fifteen" xml:space="preserve">
     <value>خمسة عشر</value>
+  </data>
+  <data name="UpdateTicketStatus" xml:space="preserve">
+    <value>تحديث حالة التذكرة</value>
   </data>
   <data name="PageCount" xml:space="preserve">
     <value>عدد الصفحات</value>
@@ -1599,6 +1638,9 @@
   <data name="BatchCreate_f" xml:space="preserve">
     <value>إنشاء الدفعية {0}</value>
   </data>
+  <data name="Ticket Moving" xml:space="preserve">
+    <value>جاري نقل التذكرة</value>
+  </data>
   <data name="TicketDate" xml:space="preserve">
     <value>تاريخ التذكرة</value>
   </data>
@@ -1674,8 +1716,8 @@
   <data name="Transaction" xml:space="preserve">
     <value>عمليات</value>
   </data>
-  <data name="UnlockTicket" xml:space="preserve">
-    <value>فتح تذكرة</value>
+  <data name="EntityType" xml:space="preserve">
+    <value>نوع الكيان</value>
   </data>
   <data name="EveryOtherMinute" xml:space="preserve">
     <value>كل دقيقة أخرى</value>
@@ -1818,6 +1860,9 @@
   </data>
   <data name="Total_f" xml:space="preserve">
     <value>{0} المجموع</value>
+  </data>
+  <data name="EntityScreen" xml:space="preserve">
+    <value>شاشة الكيان</value>
   </data>
   <data name="DemoPrinter" xml:space="preserve">
     <value>طابعة تجريبية (المفكرة)</value>
@@ -1969,6 +2014,9 @@
   <data name="DisplayPopup" xml:space="preserve">
     <value>عرض منبثق</value>
   </data>
+  <data name="TicketMoved" xml:space="preserve">
+    <value>تم نقل التذكرة</value>
+  </data>
   <data name="DocumentNo" xml:space="preserve">
     <value>رقم المستند</value>
   </data>
@@ -2074,6 +2122,9 @@
   <data name="MessageServerPort" xml:space="preserve">
     <value>منفذ خادم الرسائل</value>
   </data>
+  <data name="UpdateEntityState" xml:space="preserve">
+    <value>تحديث حالة الكيان</value>
+  </data>
   <data name="UnhandledExceptionErrorMessage" xml:space="preserve">
     <value>SambaPOS  واجه مشكلة غير متوقعة. تم تسجيل تفاصيل المشكلة في ملف trace.log</value>
   </data>
@@ -2091,6 +2142,9 @@
   </data>
   <data name="PaymentProcessed" xml:space="preserve">
     <value>تم معالجة الدفع</value>
+  </data>
+  <data name="EntityScreens" xml:space="preserve">
+    <value>شاشات الكيان</value>
   </data>
   <data name="Admin" xml:space="preserve">
     <value>مشرف</value>
@@ -2345,6 +2399,9 @@
   <data name="SearchString" xml:space="preserve">
     <value>سلسلة البحث</value>
   </data>
+  <data name="UpdateMergedTicketsState" xml:space="preserve">
+    <value>تحديث حالة التذاكر المدمجة</value>
+  </data>
   <data name="DisplayAllValues" xml:space="preserve">
     <value>عرض كل القيم</value>
   </data>
@@ -2474,6 +2531,9 @@
   <data name="Month" xml:space="preserve">
     <value>شهر</value>
   </data>
+  <data name="TicketEntityChanged" xml:space="preserve">
+    <value>تغير كيان التذكرة</value>
+  </data>
   <data name="InventoryPurchaseReport" xml:space="preserve">
     <value>تقرير شراء المخزون</value>
   </data>
@@ -2551,6 +2611,9 @@
   </data>
   <data name="TicketSubTotal" xml:space="preserve">
     <value>المجموع الفرعي التذاكر</value>
+  </data>
+  <data name="UnlockTicket" xml:space="preserve">
+    <value>فتح تذكرة</value>
   </data>
   <data name="SellerWarehouse" xml:space="preserve">
     <value>مستودع البائع</value>
@@ -2684,6 +2747,9 @@
   </data>
   <data name="Every4Hours" xml:space="preserve">
     <value>كل 4 ساعات</value>
+  </data>
+  <data name="Target" xml:space="preserve">
+    <value>الهدف</value>
   </data>
   <data name="ColumnCount" xml:space="preserve">
     <value>عدد الأعمدة</value>
