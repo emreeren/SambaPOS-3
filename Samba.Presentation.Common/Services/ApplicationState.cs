@@ -31,7 +31,7 @@ namespace Samba.Presentation.Common.Services
 
         [ImportingConstructor]
         public ApplicationState(IDepartmentService departmentService, ISettingService settingService,
-            ICacheService cacheService,IExpressionService expressionService)
+            ICacheService cacheService, IExpressionService expressionService)
         {
             _screenState = new StateMachine<AppScreens, AppScreens>(() => ActiveAppScreen, state => ActiveAppScreen = state);
             _screenState.OnUnhandledTrigger(HandleTrigger);
@@ -101,6 +101,7 @@ namespace Samba.Presentation.Common.Services
             {
                 CurrentDepartment = new CurrentDepartmentData { Model = department };
                 CurrentDepartment.Model.PublishEvent(EventTopicNames.SelectedDepartmentChanged);
+                SetCurrentTicketType(_cacheService.GetTicketTypeById(CurrentDepartment.TicketTypeId));
             }
         }
 
@@ -145,7 +146,11 @@ namespace Samba.Presentation.Common.Services
 
         public void SetCurrentTicketType(TicketType ticketType)
         {
-            CurrentTicketType = ticketType ?? TicketType.Default;
+            if (ticketType != CurrentTicketType)
+            {
+                CurrentTicketType = ticketType ?? TicketType.Default;
+                CurrentTicketType.PublishEvent(EventTopicNames.TicketTypeChanged);
+            }
         }
 
         public string NumberPadValue

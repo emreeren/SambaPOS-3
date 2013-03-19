@@ -84,16 +84,14 @@ namespace Samba.Modules.PosModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Entity>>>().Subscribe(OnEntitySelectedForTicket);
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketTagGroup>>().Subscribe(OnTicketTagSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketStateData>>().Subscribe(OnTicketStateSelected);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<Department>>().Subscribe(OnDepartmentChanged);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<TicketType>>().Subscribe(OnTicketTypeChanged);
         }
 
-        private void OnDepartmentChanged(EventParameters<Department> obj)
+        private void OnTicketTypeChanged(EventParameters<TicketType> obj)
         {
-            if (obj.Topic == EventTopicNames.SelectedDepartmentChanged)
+            if (obj.Topic == EventTopicNames.TicketTypeChanged && obj.Value != null)
             {
-                var ticketType = _cacheService.GetTicketTypeById(obj.Value.TicketTypeId);
-                if (ticketType != null)
-                    _menuItemSelectorViewModel.UpdateCurrentScreenMenu(ticketType.ScreenMenuId);
+                _menuItemSelectorViewModel.UpdateCurrentScreenMenu(obj.Value.ScreenMenuId);
             }
         }
 

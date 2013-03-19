@@ -150,6 +150,7 @@ namespace Samba.Presentation.ViewModels
             TriggerService.UpdateCronObjects();
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ResetCache, true);
             ApplicationState.CurrentDepartment.PublishEvent(EventTopicNames.SelectedDepartmentChanged);
+            ApplicationState.CurrentTicketType.PublishEvent(EventTopicNames.TicketTypeChanged);
         }
 
         private static void HandleEvents()
