@@ -639,7 +639,7 @@ namespace Samba.Domain.Models.Tickets
         {
             if (Orders.Count > 0)
             {
-                var orderGroup = Orders.Where(x => x.CalculatePrice).GroupBy(x => x.AccountTransactionTypeId);
+                var orderGroup = Orders.GroupBy(x => x.AccountTransactionTypeId);
                 foreach (var orders in orderGroup)
                 {
                     var o = orders;
