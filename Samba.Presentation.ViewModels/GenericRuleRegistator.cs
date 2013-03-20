@@ -93,7 +93,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterEvent(RuleEventNames.WorkPeriodStarts, Resources.WorkPeriodStarted);
             AutomationService.RegisterEvent(RuleEventNames.BeforeWorkPeriodEnds, Resources.BeforeWorkPeriodEnds);
             AutomationService.RegisterEvent(RuleEventNames.WorkPeriodEnds, Resources.WorkPeriodEnded);
-            AutomationService.RegisterEvent(RuleEventNames.TicketCreated, Resources.TicketCreated);
+            AutomationService.RegisterEvent(RuleEventNames.TicketCreated, Resources.TicketCreated, new { TicketTypeName = "" });
             AutomationService.RegisterEvent(RuleEventNames.TicketMoving, Resources.Ticket_Moving);
             AutomationService.RegisterEvent(RuleEventNames.TicketMoved, Resources.TicketMoved);
             AutomationService.RegisterEvent(RuleEventNames.TicketOpened, Resources.TicketOpened, new { OrderCount = 0 });

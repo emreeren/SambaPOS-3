@@ -125,7 +125,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                 _applicationState.CurrentTicketType,
                 GetExchangeRate(account),
                 _applicationState.GetCalculationSelectors().Where(x => string.IsNullOrEmpty(x.ButtonHeader)).SelectMany(y => y.CalculationTypes));
-            _automationService.NotifyEvent(RuleEventNames.TicketCreated, new { Ticket = result });
+            _automationService.NotifyEvent(RuleEventNames.TicketCreated, new { Ticket = result, TicketTypeName = _applicationState.CurrentTicketType.Name });
             return result;
         }
 
