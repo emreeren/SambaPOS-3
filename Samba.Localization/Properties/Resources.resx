@@ -3104,4 +3104,7 @@ Error Message:
   <data name="EntitySelected" xml:space="preserve">
     <value>Entity Selected</value>
   </data>
+  <data name="AskTicketType" xml:space="preserve">
+    <value>Ask Ticket Type</value>
+  </data>
 </root>

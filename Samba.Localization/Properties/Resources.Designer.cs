@@ -539,6 +539,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ask Ticket Type.
+        /// </summary>
+        public static string AskTicketType {
+            get {
+                return ResourceManager.GetString("AskTicketType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Auto Logout.
         /// </summary>
         public static string AutoLogout {
