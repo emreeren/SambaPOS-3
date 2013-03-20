@@ -4,7 +4,6 @@ using System.Linq;
 using Samba.Domain.Models.Settings;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
-using Samba.Presentation.Services;
 using Samba.Presentation.ViewModels;
 using Samba.Services;
 
@@ -33,7 +32,31 @@ namespace Samba.Modules.PaymentModule
             _tenderedValueViewModel = tenderedValueViewModel;
             _tenderedValueViewModel.PaymentDueChanged += TenderedValueViewModelPaymentDueChanged;
             _foreignCurrencySelectedCommand = new CaptionCommand<ForeignCurrency>("", OnForeignCurrencySelected);
-            ForeignCurrencyButtons = new ObservableCollection<CommandButtonViewModel<ForeignCurrency>>(_cacheService.GetForeignCurrencies().Select(x => new CommandButtonViewModel<ForeignCurrency> { Caption = x.CurrencySymbol, Command = _foreignCurrencySelectedCommand, Parameter = x }));
+            ForeignCurrencyButtons = new ObservableCollection<CommandButtonViewModel<ForeignCurrency>>();
+        }
+
+        private void RefreshForeignCurrencyButtons()
+        {
+            ForeignCurrencyButtons.Clear();
+
+            if (_cacheService.GetForeignCurrencies().Count() == 1 &&
+                _cacheService.GetForeignCurrencies().First().ExchangeRate == 1)
+            {
+                ForeignCurrency = _cacheService.GetForeignCurrencies().First();
+            }
+            else
+            {
+                ForeignCurrencyButtons.AddRange(
+                    _cacheService.GetForeignCurrencies()
+                                 .Select(
+                                     x =>
+                                     new CommandButtonViewModel<ForeignCurrency>
+                                         {
+                                             Caption = x.CurrencySymbol,
+                                             Command = _foreignCurrencySelectedCommand,
+                                             Parameter = x
+                                         }));
+            }
         }
 
         void TenderedValueViewModelPaymentDueChanged(object sender, System.EventArgs e)
@@ -47,7 +70,7 @@ namespace Samba.Modules.PaymentModule
         public ForeignCurrency ForeignCurrency
         {
             get { return _foreignCurrency; }
-            set
+            private set
             {
                 if (_foreignCurrency != value)
                 {
@@ -75,15 +98,12 @@ namespace Samba.Modules.PaymentModule
         {
             _paymentButtonsViewModel.Update(ForeignCurrency);
 
-            if (ForeignCurrencyButtons.Count() == 1 && ForeignCurrencyButtons.First().Parameter.ExchangeRate == 1)
-            {
-                ForeignCurrency = ForeignCurrencyButtons.First().Parameter;
-                ForeignCurrencyButtons.Clear();
-            }
             foreach (var commandButtonViewModel in ForeignCurrencyButtons)
             {
+                var format = commandButtonViewModel.Parameter.CurrencySymbol;
+                if (!format.Contains("{0")) format = format + " {0:N2}";
                 var pm = _tenderedValueViewModel.GetPaymentDueValue() / commandButtonViewModel.Parameter.ExchangeRate;
-                commandButtonViewModel.Caption = string.Format(commandButtonViewModel.Parameter.CurrencySymbol, pm);
+                commandButtonViewModel.Caption = string.Format(format, pm);
             }
             RaisePropertyChanged(() => ForeignCurrencyButtons);
         }
@@ -98,6 +118,12 @@ namespace Samba.Modules.PaymentModule
         {
             ForeignCurrency = obj;
             _paymentButtonsViewModel.Update(ForeignCurrency);
+        }
+
+        public void Prepare()
+        {
+            ForeignCurrency = null;
+            RefreshForeignCurrencyButtons();
         }
     }
 }

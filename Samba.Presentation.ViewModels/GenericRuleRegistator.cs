@@ -56,6 +56,7 @@ namespace Samba.Presentation.ViewModels
         {
             AutomationService.RegisterActionType(ActionNames.SendEmail, Resources.SendEmail, new { SMTPServer = "", SMTPUser = "", SMTPPassword = "", SMTPPort = 0, ToEMailAddress = "", Subject = "", CCEmailAddresses = "", FromEMailAddress = "", EMailMessage = "", FileName = "", DeleteFile = false, BypassSslErrors = false });
             AutomationService.RegisterActionType(ActionNames.AddOrder, Resources.AddOrder, new { MenuItemName = "", PortionName = "", Quantity = 0, Tag = "" });
+            AutomationService.RegisterActionType(ActionNames.SetActiveTicketType, Resources.SetActiveTicketType, new { TicketTypeName = "" });
             AutomationService.RegisterActionType(ActionNames.TagOrder, Resources.TagOrder, new { OrderTagName = "", OldOrderTagValue = "", OrderTagValue = "", OrderTagNote = "" });
             AutomationService.RegisterActionType(ActionNames.UntagOrder, Resources.UntagOrder, new { OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterActionType(ActionNames.RemoveOrderTag, Resources.RemoveOrderTag, new { OrderTagName = "" });
@@ -92,7 +93,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterEvent(RuleEventNames.WorkPeriodStarts, Resources.WorkPeriodStarted);
             AutomationService.RegisterEvent(RuleEventNames.BeforeWorkPeriodEnds, Resources.BeforeWorkPeriodEnds);
             AutomationService.RegisterEvent(RuleEventNames.WorkPeriodEnds, Resources.WorkPeriodEnded);
-            AutomationService.RegisterEvent(RuleEventNames.TicketCreated, Resources.TicketCreated);
+            AutomationService.RegisterEvent(RuleEventNames.TicketCreated, Resources.TicketCreated, new { TicketTypeName = "" });
             AutomationService.RegisterEvent(RuleEventNames.TicketMoving, Resources.Ticket_Moving);
             AutomationService.RegisterEvent(RuleEventNames.TicketMoved, Resources.TicketMoved);
             AutomationService.RegisterEvent(RuleEventNames.TicketOpened, Resources.TicketOpened, new { OrderCount = 0 });
@@ -109,6 +110,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterEvent(RuleEventNames.OrderTagged, Resources.OrderTagged, new { OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterEvent(RuleEventNames.OrderUntagged, Resources.OrderUntagged, new { OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterEvent(RuleEventNames.OrderStateUpdated, Resources.OrderStateUpdated, new { StateName = "", State = "", StateValue = "" });
+            AutomationService.RegisterEvent(RuleEventNames.EntitySelected, Resources.EntitySelected, new { EntityTypeName = "", EntityName = "", EntityCustomData = "", IsTicketSelected = false });
             AutomationService.RegisterEvent(RuleEventNames.EntityUpdated, Resources.EntityUpdated, new { EntityTypeName = "", OpenTicketCount = 0 });
             AutomationService.RegisterEvent(RuleEventNames.EntityStateUpdated, Resources.EntityStateUpdated, new { EntityTypeName = "", StateName = "", State = "" });
             AutomationService.RegisterEvent(RuleEventNames.MessageReceived, Resources.MessageReceived, new { Command = "" });
@@ -136,12 +138,14 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterParameterSoruce("EntityStateName", () => Dao.Distinct<State>(x => x.GroupName, x => x.StateType == 0));
             AutomationService.RegisterParameterSoruce("TicketStateName", () => Dao.Distinct<State>(x => x.GroupName, x => x.StateType == 1));
             AutomationService.RegisterParameterSoruce("OrderStateName", () => Dao.Distinct<State>(x => x.GroupName, x => x.StateType == 2));
-            AutomationService.RegisterParameterSoruce("EntityTypeName", () => Dao.Distinct<EntityType>(x => x.EntityName));
+            AutomationService.RegisterParameterSoruce("EntityTypeName", () => Dao.Distinct<EntityType>(x => x.Name));
             AutomationService.RegisterParameterSoruce("AutomationCommandName", () => Dao.Distinct<AutomationCommand>(x => x.Name));
             AutomationService.RegisterParameterSoruce("PrintJobName", () => Dao.Distinct<PrintJob>(x => x.Name));
             AutomationService.RegisterParameterSoruce("PaymentTypeName", () => Dao.Distinct<PaymentType>(x => x.Name));
             AutomationService.RegisterParameterSoruce("AccountTransactionTypeName", () => Dao.Distinct<AccountTransactionType>(x => x.Name));
             AutomationService.RegisterParameterSoruce("AccountTransactionDocumentName", () => Dao.Distinct<AccountTransactionDocumentType>(x => x.Name));
+            AutomationService.RegisterParameterSoruce("UpdateType", () => new[] { Resources.Update, Resources.Increase, Resources.Decrease, Resources.Toggle });
+            AutomationService.RegisterParameterSoruce("TicketTypeName", () => Dao.Distinct<TicketType>(x => x.Name));
         }
 
         private static void ResetCache()
@@ -149,12 +153,31 @@ namespace Samba.Presentation.ViewModels
             TriggerService.UpdateCronObjects();
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ResetCache, true);
             ApplicationState.CurrentDepartment.PublishEvent(EventTopicNames.SelectedDepartmentChanged);
+            ApplicationState.CurrentTicketType.PublishEvent(EventTopicNames.TicketTypeChanged);
         }
 
         private static void HandleEvents()
         {
             EventServiceFactory.EventService.GetEvent<GenericEvent<IActionData>>().Subscribe(x =>
             {
+                if (x.Value.Action.ActionType == ActionNames.SetActiveTicketType)
+                {
+                    var ticketTypeName = x.Value.GetAsString("TicketTypeName");
+                    var ticketType = CacheService.GetTicketTypes().SingleOrDefault(y => y.Name == ticketTypeName);
+                    if (ticketType != null)
+                    {
+                        ApplicationState.TempTicketType = ticketType;
+                    }
+                    else if (ApplicationState.SelectedEntityScreen != null && ApplicationState.SelectedEntityScreen.TicketTypeId != 0)
+                    {
+                        ApplicationState.TempTicketType = CacheService.GetTicketTypeById(ApplicationState.SelectedEntityScreen.TicketTypeId);
+                    }
+                    else
+                    {
+                        ApplicationState.TempTicketType = CacheService.GetTicketTypeById(ApplicationState.CurrentDepartment.TicketTypeId);
+                    }
+                }
+
                 if (x.Value.Action.ActionType == ActionNames.ChangeTicketEntity)
                 {
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
@@ -334,7 +357,7 @@ namespace Samba.Presentation.ViewModels
                             else
                                 setting.IntegerValue = setting.IntegerValue - settingValue;
                         }
-                        else if (updateType == "Toggle")
+                        else if (updateType == Resources.Toggle)
                         {
                             var settingValue = x.Value.GetAsString("SettingValue");
                             var parts = settingValue.Split(',');

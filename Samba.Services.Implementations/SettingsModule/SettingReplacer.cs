@@ -31,5 +31,10 @@ namespace Samba.Services.Implementations.SettingsModule
             }
             return result;
         }
+
+        public void ClearCache()
+        {
+            _replaceCache.Clear();
+        }
     }
 }

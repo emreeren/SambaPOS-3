@@ -15,16 +15,18 @@ namespace Samba.Domain.Models.Inventory
             _costItems = new List<CostItem>();
         }
 
-        private readonly IList<PeriodicConsumptionItem> _periodicConsumptionItems;
+        private IList<PeriodicConsumptionItem> _periodicConsumptionItems;
         public virtual IList<PeriodicConsumptionItem> PeriodicConsumptionItems
         {
             get { return _periodicConsumptionItems; }
+            set { _periodicConsumptionItems = value; }
         }
 
-        private readonly IList<CostItem> _costItems;
+        private IList<CostItem> _costItems;
         public virtual IList<CostItem> CostItems
         {
             get { return _costItems; }
+            set { _costItems = value; }
         }
 
         private void UpdateConsumption(RecipeItem recipeItem, decimal saleTotal)

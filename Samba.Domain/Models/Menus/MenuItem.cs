@@ -24,10 +24,11 @@ namespace Samba.Domain.Models.Menus
         public string Barcode { get; set; }
         public string Tag { get; set; }
 
-        private readonly IList<MenuItemPortion> _portions;
+        private IList<MenuItemPortion> _portions;
         public virtual IList<MenuItemPortion> Portions
         {
             get { return _portions; }
+            set { _portions = value; }
         }
 
         private static MenuItem _all;

@@ -19,10 +19,11 @@ namespace Samba.Domain.Models.Users
         public bool IsAdmin { get; set; }
         public int DepartmentId { get; set; }
 
-        private readonly IList<Permission> _permissions;
+        private IList<Permission> _permissions;
         public virtual IList<Permission> Permissions
         {
             get { return _permissions; }
+            set { _permissions = value; }
         }
 
         public string UserString

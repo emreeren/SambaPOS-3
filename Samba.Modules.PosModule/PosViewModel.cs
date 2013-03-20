@@ -26,6 +26,7 @@ namespace Samba.Modules.PosModule
         private readonly ITicketService _ticketService;
         private readonly IUserService _userService;
         private readonly ICacheService _cacheService;
+        private readonly IAutomationService _automationService;
         private readonly IApplicationState _applicationState;
         private readonly IApplicationStateSetter _applicationStateSetter;
         private readonly IRegionManager _regionManager;
@@ -33,6 +34,7 @@ namespace Samba.Modules.PosModule
         private readonly TicketListViewModel _ticketListViewModel;
         private readonly TicketTagListViewModel _ticketTagListViewModel;
         private readonly TicketEntityListViewModel _ticketEntityListViewModel;
+        private readonly TicketTypeListViewModel _ticketTypeListViewModel;
         private readonly MenuItemSelectorView _menuItemSelectorView;
         private readonly TicketViewModel _ticketViewModel;
         private readonly TicketOrdersViewModel _ticketOrdersViewModel;
@@ -58,13 +60,15 @@ namespace Samba.Modules.PosModule
 
         [ImportingConstructor]
         public PosViewModel(IRegionManager regionManager, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
-            ITicketService ticketService, IUserService userService, ICacheService cacheService, TicketListViewModel ticketListViewModel,
-            TicketTagListViewModel ticketTagListViewModel, MenuItemSelectorViewModel menuItemSelectorViewModel, MenuItemSelectorView menuItemSelectorView,
-            TicketViewModel ticketViewModel, TicketOrdersViewModel ticketOrdersViewModel,TicketEntityListViewModel ticketEntityListViewModel)
+            ITicketService ticketService, IUserService userService, ICacheService cacheService, IAutomationService automationService,
+            TicketListViewModel ticketListViewModel, TicketTagListViewModel ticketTagListViewModel, MenuItemSelectorViewModel menuItemSelectorViewModel,
+            MenuItemSelectorView menuItemSelectorView, TicketViewModel ticketViewModel, TicketOrdersViewModel ticketOrdersViewModel,
+            TicketEntityListViewModel ticketEntityListViewModel, TicketTypeListViewModel ticketTypeListViewModel)
         {
             _ticketService = ticketService;
             _userService = userService;
             _cacheService = cacheService;
+            _automationService = automationService;
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
             _regionManager = regionManager;
@@ -75,6 +79,7 @@ namespace Samba.Modules.PosModule
             _ticketListViewModel = ticketListViewModel;
             _ticketTagListViewModel = ticketTagListViewModel;
             _ticketEntityListViewModel = ticketEntityListViewModel;
+            _ticketTypeListViewModel = ticketTypeListViewModel;
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<Ticket>>().Subscribe(OnTicketEventReceived);
             EventServiceFactory.EventService.GetEvent<GenericEvent<SelectedOrdersData>>().Subscribe(OnSelectedOrdersChanged);
@@ -84,16 +89,20 @@ namespace Samba.Modules.PosModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Entity>>>().Subscribe(OnEntitySelectedForTicket);
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketTagGroup>>().Subscribe(OnTicketTagSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketStateData>>().Subscribe(OnTicketStateSelected);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<Department>>().Subscribe(OnDepartmentChanged);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<TicketType>>().Subscribe(OnTicketTypeChanged);
         }
 
-        private void OnDepartmentChanged(EventParameters<Department> obj)
+        private void OnTicketTypeChanged(EventParameters<TicketType> obj)
         {
-            if (obj.Topic == EventTopicNames.SelectedDepartmentChanged)
+            if (obj.Topic == EventTopicNames.TicketTypeChanged && obj.Value != null)
             {
-                var ticketType = _cacheService.GetTicketTypeById(obj.Value.TicketTypeId);
-                if (ticketType != null)
-                    _menuItemSelectorViewModel.UpdateCurrentScreenMenu(ticketType.ScreenMenuId);
+                _menuItemSelectorViewModel.UpdateCurrentScreenMenu(obj.Value.ScreenMenuId);
+            }
+
+            if (obj.Topic == EventTopicNames.TicketTypeSelected && obj.Value != null)
+            {
+                _applicationState.TempTicketType = obj.Value;
+                new EntityOperationRequest<Entity>(_lastSelectedEntity, null).PublishEvent(EventTopicNames.EntitySelected, true);
             }
         }
 
@@ -136,13 +145,15 @@ namespace Samba.Modules.PosModule
         {
             if (eventParameters.Topic == EventTopicNames.EntitySelected)
             {
+                FireEntitySelectedRule(eventParameters.Value.SelectedEntity);
+
                 if (SelectedTicket != null)
                 {
                     _ticketService.UpdateEntity(SelectedTicket, eventParameters.Value.SelectedEntity);
                     if (_applicationState.SelectedEntityScreen != null
                         && SelectedTicket.Orders.Count > 0 && eventParameters.Value.SelectedEntity.Id > 0
-                        && _applicationState.ActiveEntityScreen != null
-                        && eventParameters.Value.SelectedEntity.EntityTypeId == _applicationState.ActiveEntityScreen.EntityTypeId)
+                        && _applicationState.TempEntityScreen != null
+                        && eventParameters.Value.SelectedEntity.EntityTypeId == _applicationState.TempEntityScreen.EntityTypeId)
                         CloseTicket();
                     else DisplaySingleTicket();
                 }
@@ -151,6 +162,22 @@ namespace Samba.Modules.PosModule
                     var openTickets = _ticketService.GetOpenTicketIds(eventParameters.Value.SelectedEntity.Id).ToList();
                     if (!openTickets.Any())
                     {
+                        if (_applicationState.SelectedEntityScreen != null &&
+                            _applicationState.SelectedEntityScreen.AskTicketType &&
+                            _cacheService.GetTicketTypes().Count() > 1 &&
+                            _applicationState.TempTicketType == null)
+                        {
+                            _lastSelectedEntity = eventParameters.Value.SelectedEntity;
+                            DisplayTicketTypeList();
+                            return;
+                        }
+
+                        if (_applicationState.TempTicketType != null)
+                        {
+                            _applicationStateSetter.SetCurrentTicketType(_applicationState.TempTicketType);
+                            _applicationState.TempTicketType = null;
+                        }
+
                         OpenTicket(0);
                         _ticketService.UpdateEntity(SelectedTicket, eventParameters.Value.SelectedEntity);
                     }
@@ -166,6 +193,25 @@ namespace Samba.Modules.PosModule
                         OpenTicket(openTickets.ElementAt(0));
                     }
                     EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
+                }
+            }
+        }
+
+        private void FireEntitySelectedRule(Entity entity)
+        {
+            if (entity != null && entity != Entity.Null)
+            {
+                var entityType = _cacheService.GetEntityTypeById(entity.EntityTypeId);
+                if (entityType != null)
+                {
+                    _automationService.NotifyEvent(RuleEventNames.EntitySelected, new
+                        {
+                            Ticket = SelectedTicket,
+                            EntityTypeName = entityType.Name,
+                            EntityName = entity.Name,
+                            EntityCustomData = entity.CustomData,
+                            IsTicketSelected = SelectedTicket != null
+                        });
                 }
             }
         }
@@ -211,7 +257,7 @@ namespace Samba.Modules.PosModule
             OpenTicket(0);
             foreach (var ticketEntity in tr)
             {
-                _ticketService.UpdateEntity(SelectedTicket, ticketEntity.EntityTypeId, ticketEntity.EntityId, ticketEntity.EntityName, ticketEntity.AccountId, ticketEntity.EntityCustomData);
+                _ticketService.UpdateEntity(SelectedTicket, ticketEntity.EntityTypeId, ticketEntity.EntityId, ticketEntity.EntityName, ticketEntity.AccountTypeId, ticketEntity.AccountId, ticketEntity.EntityCustomData);
             }
         }
 
@@ -267,7 +313,7 @@ namespace Samba.Modules.PosModule
         private void DisplaySingleTicket()
         {
             _applicationStateSetter.SetCurrentApplicationScreen(AppScreens.TicketView);
-            if (SelectedTicket != null && SelectedTicket.Orders.Count == 0 && _cacheService.GetTicketTypeById(SelectedTicket.TicketTypeId).EntityTypeAssignments.Any(x => x.AskBeforeCreatingTicket && !SelectedTicket.TicketEntities.Any(y => y.EntityTypeId == x.EntityTypeId)))
+            if (SelectedTicket != null && SelectedTicket.Orders.Count == 0 && _cacheService.GetTicketTypeById(SelectedTicket.TicketTypeId).EntityTypeAssignments.Any(x => x.AskBeforeCreatingTicket && SelectedTicket.TicketEntities.All(y => y.EntityTypeId != x.EntityTypeId)))
             {
                 _ticketEntityListViewModel.Update(SelectedTicket);
                 DisplayTicketEntityList();
@@ -283,6 +329,14 @@ namespace Samba.Modules.PosModule
             _regionManager.RequestNavigate(RegionNames.PosMainRegion, new Uri("TicketView", UriKind.Relative));
             _ticketViewModel.RefreshSelectedItems();
             _ticketViewModel.RefreshVisuals();
+        }
+
+        private void DisplayTicketTypeList()
+        {
+            _ticketTypeListViewModel.Update();
+            _applicationStateSetter.SetCurrentApplicationScreen(AppScreens.TicketView);
+            _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
+            _regionManager.RequestNavigate(RegionNames.PosMainRegion, new Uri("TicketTypeListView", UriKind.Relative));
         }
 
         private void DisplayTicketList()

@@ -8,7 +8,9 @@ namespace Samba.Services.Implementations.PrinterModule
         public TagData(string data, string tag)
         {
             data = ReplaceInBracketValues(data, "\r\n", "<newline>", '[', ']');
-            data = data.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Where(x => x.Contains(tag)).FirstOrDefault();
+            data = data
+                .Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
+                .FirstOrDefault(x => x.Contains(tag));
 
             Tag = tag;
             DataString = tag;

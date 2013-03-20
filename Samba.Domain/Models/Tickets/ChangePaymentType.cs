@@ -17,10 +17,11 @@ namespace Samba.Domain.Models.Tickets
         public virtual AccountTransactionType AccountTransactionType { get; set; }
         public virtual Account Account { get; set; }
         
-        private readonly IList<ChangePaymentTypeMap> _changePaymentTypeMaps;
+        private IList<ChangePaymentTypeMap> _changePaymentTypeMaps;
         public virtual IList<ChangePaymentTypeMap> ChangePaymentTypeMaps
         {
             get { return _changePaymentTypeMaps; }
+            set { _changePaymentTypeMaps = value; }
         }
 
         public ChangePaymentTypeMap AddPChangeaymentTemplateMap()

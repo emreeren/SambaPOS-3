@@ -92,7 +92,7 @@ namespace Samba.Modules.DepartmentModule
                 if (obj.Value.UserRole.DepartmentId > 0)
                 {
                     _applicationStateSetter.SetCurrentDepartment(obj.Value.UserRole.DepartmentId);
-                    _applicationStateSetter.SetCurrentTicketType(_cacheService.GetTicketTypeById(_applicationState.CurrentDepartment.TicketTypeId));
+                    //_applicationStateSetter.SetCurrentTicketType(_cacheService.GetTicketTypeById(_applicationState.CurrentDepartment.TicketTypeId));
                 }
             }
         }

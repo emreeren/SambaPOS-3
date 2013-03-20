@@ -130,7 +130,7 @@
     <value>Gomb Fejléc</value>
   </data>
   <data name="DisplayTicket" xml:space="preserve">
-    <value>Jegy megjelenítése</value>
+    <value>Blokk megjelenítése</value>
   </data>
   <data name="Print" xml:space="preserve">
     <value>Nyomtat</value>
@@ -146,7 +146,7 @@
     <value>Műszakzárást megelőzően</value>
   </data>
   <data name="Add_f" xml:space="preserve">
-    <value>Hozzáadás {0}</value>
+    <value>{0} hozzáadása</value>
   </data>
   <data name="Category" xml:space="preserve">
     <value>Kategória</value>
@@ -176,7 +176,7 @@
     <value>Tulajdonság-szerkesztő</value>
   </data>
   <data name="AccountType" xml:space="preserve">
-    <value>Fiók típusa</value>
+    <value>Számla típusa</value>
   </data>
   <data name="Script" xml:space="preserve">
     <value>Script</value>
@@ -218,7 +218,7 @@
     <value>Egységek</value>
   </data>
   <data name="AccountDetails" xml:space="preserve">
-    <value>Fiók részletei</value>
+    <value>Számla részletei</value>
   </data>
   <data name="Select" xml:space="preserve">
     <value>Választ</value>
@@ -242,13 +242,13 @@
     <value>Szabályok</value>
   </data>
   <data name="TicketWithBrackets" xml:space="preserve">
-    <value>[Jegy]</value>
+    <value>[Blokk]</value>
   </data>
   <data name="Numerator" xml:space="preserve">
     <value>Számláló</value>
   </data>
   <data name="EditModel_f" xml:space="preserve">
-    <value>Szerkeszt {0} ({1})</value>
+    <value>Módosítsam a {0}-t ({1})</value>
   </data>
   <data name="Every6Hours" xml:space="preserve">
     <value>6 óránként</value>
@@ -275,19 +275,19 @@
     <value>Számlálók</value>
   </data>
   <data name="Account" xml:space="preserve">
-    <value>Fiók</value>
+    <value>Számla</value>
   </data>
   <data name="Liability" xml:space="preserve">
     <value>Szállítók (kötelezettségek)</value>
   </data>
   <data name="UpdateTicketState" xml:space="preserve">
-    <value>Jegy állapotának frissítése</value>
+    <value>Blokk állapotának frissítése</value>
   </data>
   <data name="Nineteen" xml:space="preserve">
     <value>Tizenkilenc</value>
   </data>
   <data name="List_f" xml:space="preserve">
-    <value>{0} Lista</value>
+    <value>{0} lista</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>Másol</value>
@@ -308,7 +308,7 @@
     <value>Átlag ár</value>
   </data>
   <data name="EnterPin" xml:space="preserve">
-    <value>Írja be a PIN-t</value>
+    <value>Írd be a PIN-t!</value>
   </data>
   <data name="ExpenseTransactions" xml:space="preserve">
     <value>Kiadási tranzakciók</value>
@@ -317,7 +317,7 @@
     <value>Vásárlási tranzakció</value>
   </data>
   <data name="AutoSelect" xml:space="preserve">
-    <value>Autómatikus kiválasztás</value>
+    <value>Auto-kiválasztás</value>
   </data>
   <data name="TemplateName" xml:space="preserve">
     <value>Sablon neve</value>
@@ -326,7 +326,7 @@
     <value>Tulajdonság csoportnév</value>
   </data>
   <data name="AddModel_f" xml:space="preserve">
-    <value>Hozzáadás {0}</value>
+    <value>Új {0} hozzáadása</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value>Felhasználók</value>
@@ -398,7 +398,7 @@
     <value>Rendelés sztornózása</value>
   </data>
   <data name="AccountNameTemplate" xml:space="preserve">
-    <value>Fiók Név Sablon</value>
+    <value>Számlanév-sablon</value>
   </data>
   <data name="TotalsGroupedByTaxTemplate" xml:space="preserve">
     <value>Adósablononkénti összesítő sorok</value>
@@ -415,14 +415,14 @@
   <data name="PaymentScreenValues" xml:space="preserve">
     <value>Fizetési képernyő értékek</value>
   </data>
-  <data name="DataConnection" xml:space="preserve">
-    <value>Adatkapcsolat Karakterlánc</value>
+  <data name="StopTimer" xml:space="preserve">
+    <value>Időzítő megállítása</value>
   </data>
   <data name="DisplayOpenTickets" xml:space="preserve">
-    <value>Nyitott jegyek megjelenítése</value>
+    <value>Nyitott Blokkok megjelenítése</value>
   </data>
   <data name="CustomerTickets" xml:space="preserve">
-    <value>Vevő jegyek</value>
+    <value>Vevői Blokkok</value>
   </data>
   <data name="ProductTimer" xml:space="preserve">
     <value>Termék időzítő</value>
@@ -518,10 +518,10 @@
     <value>Admin felhasználó nem törölhető</value>
   </data>
   <data name="UseAtOldTickets" xml:space="preserve">
-    <value>Csak a régi jegyekre</value>
+    <value>Csak a régi Blokkokra</value>
   </data>
   <data name="ResetAccount" xml:space="preserve">
-    <value>Fiók alapállapotba állítása</value>
+    <value>Számla alapállapotba állítása</value>
   </data>
   <data name="OrderTag" xml:space="preserve">
     <value>Rendelés Címke</value>
@@ -602,7 +602,7 @@
     <value>{0} bevétel</value>
   </data>
   <data name="TicketCreationMethod" xml:space="preserve">
-    <value>Jegy létrehozási módszer</value>
+    <value>Blokk létrehozási módszer</value>
   </data>
   <data name="Tag" xml:space="preserve">
     <value>Címke</value>
@@ -617,16 +617,16 @@
     <value>Asztalok</value>
   </data>
   <data name="CustomerAccount" xml:space="preserve">
-    <value>Vásárlói fiók</value>
+    <value>Vásárlói számlák</value>
   </data>
   <data name="TicketStateUpdated" xml:space="preserve">
-    <value>Jegy Állapot Frissítve</value>
+    <value>Blokk éllapota frissítve</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Töröl</value>
   </data>
   <data name="Sort_f" xml:space="preserve">
-    <value>Rendezés {0}</value>
+    <value>{0} rendezése</value>
   </data>
   <data name="NoAction" xml:space="preserve">
     <value>Nincs művelet</value>
@@ -647,7 +647,7 @@
     <value>A nyomtatás közben probléma merült fel: a Nyomtatási térkép nulla</value>
   </data>
   <data name="NewTicket" xml:space="preserve">
-    <value>Új jegy</value>
+    <value>Új blokk</value>
   </data>
   <data name="UserSales" xml:space="preserve">
     <value>Felhasználó forgalma</value>
@@ -671,7 +671,7 @@
     <value>Minden hétköznap</value>
   </data>
   <data name="RateFromTicketAmount" xml:space="preserve">
-    <value>százalék a jegy értékéből</value>
+    <value>Blokk értékének arányában</value>
   </data>
   <data name="OrderTagged" xml:space="preserve">
     <value>Rendelés Címkézve</value>
@@ -693,7 +693,7 @@ Indul: {1} nap {2} óra {3} perc múlva.</value>
     <value>Csak az új vonalak</value>
   </data>
   <data name="ChangeTicketEntity" xml:space="preserve">
-    <value>Jegy egység változtatása</value>
+    <value>Blokk-egység változtatása</value>
   </data>
   <data name="CanChangeReportFilter" xml:space="preserve">
     <value>Módosíthetja a rendelések dátumszűrőjét</value>
@@ -738,7 +738,7 @@ Indul: {1} nap {2} óra {3} perc múlva.</value>
     <value>Tartalom nyomtatása</value>
   </data>
   <data name="TicketCommand" xml:space="preserve">
-    <value>Jegy Művelet</value>
+    <value>Blokk művelet</value>
   </data>
   <data name="PastWeek" xml:space="preserve">
     <value>Múlt hét</value>
@@ -783,13 +783,13 @@ Indul: {1} nap {2} óra {3} perc múlva.</value>
     <value>Cím</value>
   </data>
   <data name="CanRemoveTicketTag" xml:space="preserve">
-    <value>Jegy-címkét eltávolíthat</value>
+    <value>Blokk-címkét eltávolíthat</value>
   </data>
   <data name="CashTransactions" xml:space="preserve">
     <value>Készpénzes tranzakciók</value>
   </data>
   <data name="RoundTicketTotal" xml:space="preserve">
-    <value>Jegy végösszegének kerekítése</value>
+    <value>Blokk végösszegének kerekítése</value>
   </data>
   <data name="DeleteErrorShouldHaveAtLeastOneTerminal" xml:space="preserve">
     <value>Nem lehet törölni, mert legalább egy Terminálnak lennie kell!</value>
@@ -826,7 +826,7 @@ Indul: {1} nap {2} óra {3} perc múlva.</value>
   </data>
   <data name="AdminPasswordHint" xml:space="preserve">
     <value>Admin PIN: 1234
-A PIN megváltoztatása elrejti ezt a tippet</value>
+A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   </data>
   <data name="OnceADay" xml:space="preserve">
     <value>Naponta egyszer</value>
@@ -841,7 +841,7 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
     <value>Ma</value>
   </data>
   <data name="BalancedAccounts" xml:space="preserve">
-    <value>Kiegyenlített fiókok</value>
+    <value>Kiegyenlített számlák</value>
   </data>
   <data name="FreeTagging" xml:space="preserve">
     <value>Szabad taggelés</value>
@@ -850,7 +850,7 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
     <value>Költség-jelentés</value>
   </data>
   <data name="TicketTag" xml:space="preserve">
-    <value>Jegy Címke</value>
+    <value>Blokk Címke</value>
   </data>
   <data name="Handler" xml:space="preserve">
     <value>Kezelő</value>
@@ -892,7 +892,7 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
     <value>Alkalmazás elindítva</value>
   </data>
   <data name="CloseTicket" xml:space="preserve">
-    <value>Jegy bezárása</value>
+    <value>Blokk lezárása</value>
   </data>
   <data name="Categories" xml:space="preserve">
     <value>Kategóriák</value>
@@ -919,10 +919,10 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
     <value>Csoport címke</value>
   </data>
   <data name="TicketOptions" xml:space="preserve">
-    <value>Jegy beállítás</value>
+    <value>Blokk beállítások</value>
   </data>
   <data name="AskBeforeCreatingTicket" xml:space="preserve">
-    <value>Megerősítés kérése a jegy létrehozása előtt</value>
+    <value>Megerősítés kérése a Blokk létrehozása előtt</value>
   </data>
   <data name="ProductName" xml:space="preserve">
     <value>Terméknév</value>
@@ -940,7 +940,7 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
     <value>Töröl</value>
   </data>
   <data name="DisplayAppPath" xml:space="preserve">
-    <value>Program elérési út megjelenítése</value>
+    <value>Program elérési útjának megjelenítése</value>
   </data>
   <data name="NewTag" xml:space="preserve">
     <value>Új Címke</value>
@@ -961,7 +961,7 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
     <value>Engedélyek</value>
   </data>
   <data name="Accounts_f" xml:space="preserve">
-    <value>{0} fiókok</value>
+    <value>{0} számlák</value>
   </data>
   <data name="BatchCreateProductsDialogHint" xml:space="preserve">
     <value>Hozzon létre egy sort minden egyes terméknek a [Termék név] [Ár] formátumban. A kategória neveket kezdje a # karakterrel.</value>
@@ -1008,22 +1008,22 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
   <data name="TicketTemplateValue" xml:space="preserve">
     <value>[LAYOUT]
 -- General layout
-&lt;T&gt;TICKET
-&lt;L00&gt;Date:{TICKET DATE}
-&lt;L00&gt;Time:{TIME}
+&lt;T&gt;BLOKK
+&lt;L00&gt;Dátum:{TICKET DATE}
+&lt;L00&gt;Idő:{TIME}
 {ENTITIES}
-&lt;L00&gt;Ticket No:{TICKET NO}
+&lt;L00&gt;Blokk szám:{TICKET NO}
 &lt;F&gt;-
 {ORDERS}
 &lt;F&gt;=
 &lt;EB&gt;
 &lt;J10&gt;{IF DISCOUNT}
-&lt;J10&gt;Total Gift:|{GIFT TOTAL}
-&lt;J10&gt;Total:|{TICKET TOTAL}
+&lt;J10&gt;Kedvezmény:|{GIFT TOTAL}
+&lt;J10&gt;Összesen:|{TICKET TOTAL}
 {IF PAID}
 &lt;DB&gt;
 &lt;F&gt;=
-&lt;C10&gt;T H A N K    Y O U
+&lt;C10&gt;K Ö S Z Ö N J Ü K !
 
 [ORDERS]
 -- Default format for orders
@@ -1063,7 +1063,7 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
     <value>Egység típusok</value>
   </data>
   <data name="TicketOpeningTime" xml:space="preserve">
-    <value>Jegy megnyitása</value>
+    <value>Blokk megnyitása</value>
   </data>
   <data name="Width" xml:space="preserve">
     <value>Szélesség</value>
@@ -1099,7 +1099,7 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
     <value>Rendelés feloldáas</value>
   </data>
   <data name="AddTicketDiscount" xml:space="preserve">
-    <value>Kedvezmény hozzáadása a jegyhez</value>
+    <value>Kedvezmény hozzáadása a Blokkhoz</value>
   </data>
   <data name="SaveErrorMultipleDefaultTerminals" xml:space="preserve">
     <value>Csak egy alapértelmezett terminált lehet beállítani.</value>
@@ -1135,10 +1135,10 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
     <value>Perc</value>
   </data>
   <data name="OptionalTicketTag" xml:space="preserve">
-    <value>Választható Jegy Címke</value>
+    <value>Választható Blokk Címke</value>
   </data>
   <data name="TicketCount" xml:space="preserve">
-    <value>Jegy-számláló</value>
+    <value>Blokk-számláló</value>
   </data>
   <data name="DefaultAmount" xml:space="preserve">
     <value>Alapértelmezett mennyiség</value>
@@ -1153,13 +1153,13 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
     <value>Nap</value>
   </data>
   <data name="TicketMovedRetryLastOperation_f" xml:space="preserve">
-    <value>Jegy áthelyezve ide: {0}. A legutóbbi módosítások mentése sikertelen.</value>
+    <value>Blokk áthelyezve ide: {0}. A legutóbbi módosítások mentése sikertelen.</value>
   </data>
   <data name="AutomationCommandExecuted" xml:space="preserve">
     <value>Automatizálás parancs végrehajtva</value>
   </data>
   <data name="CanMoveUnlockedTicketLines" xml:space="preserve">
-    <value>Nem lezárt jegy-sorokat mozgathat</value>
+    <value>Nem lezárt Blokk-tételeket mozgathat</value>
   </data>
   <data name="PaymentScreenSettings" xml:space="preserve">
     <value>Fizetési képernyő-beállítások</value>
@@ -1183,7 +1183,7 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
     <value>Szűrő</value>
   </data>
   <data name="TicketChangedRetryLastOperation" xml:space="preserve">
-    <value>Jegy megváltozott. A legutóbbi módosítások mentése sikertelen.</value>
+    <value>Blokk módosítva. A legutóbbi módosítások mentése sikertelen.</value>
   </data>
   <data name="UserRole" xml:space="preserve">
     <value>Felhasználói szerepkör</value>
@@ -1207,7 +1207,10 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
     <value>Új</value>
   </data>
   <data name="LockTicket" xml:space="preserve">
-    <value>Jegy zárolása</value>
+    <value>Blokk zárolása</value>
+  </data>
+  <data name="OrderMoved" xml:space="preserve">
+    <value>Rendelés áthelyezve</value>
   </data>
   <data name="WorkPeriodStartTime" xml:space="preserve">
     <value>Műszak ideje: {0}</value>
@@ -1224,8 +1227,11 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
   <data name="Save" xml:space="preserve">
     <value>Ment</value>
   </data>
+  <data name="TicketMovedRule" xml:space="preserve">
+    <value>Blokk áthelyezési szabály</value>
+  </data>
   <data name="CanCreateAccount" xml:space="preserve">
-    <value>Fiókot hozhat létre</value>
+    <value>Számlát hozhat létre</value>
   </data>
   <data name="RateFromPreviousTemplate" xml:space="preserve">
     <value>Százalék egy korábbi sablon összegéből</value>
@@ -1259,11 +1265,11 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
   </data>
   <data name="KitchenTemplateValue" xml:space="preserve">
     <value>[LAYOUT]
-&lt;T&gt;JEGY
+&lt;T&gt;Blokk
 &lt;L00&gt;Dáum:{TICKET DATE}
 &lt;L00&gt;Idő:{TIME}
 &lt;L00&gt;Helyszín száma:{LOCATION}
-&lt;L00&gt;Jegy száma:{TICKET NO}
+&lt;L00&gt;Blokk száma:{TICKET NO}
 &lt;F&gt;-
 {ORDERS}
 
@@ -1285,7 +1291,7 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
 </value>
   </data>
   <data name="TicketPaidTotal" xml:space="preserve">
-    <value>Fizetett Jegyek mennyisége</value>
+    <value>Fizetett Blok-összeg</value>
   </data>
   <data name="SaveErrorDuplicateItemName_f" xml:space="preserve">
     <value>Ez a név felhasználható egy másik {0}.</value>
@@ -1303,7 +1309,7 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
     <value>Árbevétel</value>
   </data>
   <data name="AutoStartMessageClient" xml:space="preserve">
-    <value>Üzenet-kliens autómatikus indítása</value>
+    <value>Kliens automatikus indítása</value>
   </data>
   <data name="MaxItems" xml:space="preserve">
     <value>Maximum tételek</value>
@@ -1345,7 +1351,7 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
     <value>{0} kiválasztása az {1}{2}-vel való használathoz</value>
   </data>
   <data name="TicketCreated" xml:space="preserve">
-    <value>Jegy létrehozva</value>
+    <value>Blokk létrehozva</value>
   </data>
   <data name="PrintOrdersToKitchenPrinter" xml:space="preserve">
     <value>Rendelések nyomtatása a konyhai nyomtatóra</value>
@@ -1366,7 +1372,7 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
     <value>Csoport kód</value>
   </data>
   <data name="Tickets" xml:space="preserve">
-    <value>Jegyek</value>
+    <value>Blokkok</value>
   </data>
   <data name="EntityStateUpdated" xml:space="preserve">
     <value>Egység állapota frissítve</value>
@@ -1405,7 +1411,7 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
     <value>Billentyűzet</value>
   </data>
   <data name="AutoSelectProductsQuestion" xml:space="preserve">
-    <value>Autómatikusan válassza ki a Termékeket az új kategóriákhoz?</value>
+    <value>Automatikusan válassza ki a Termékeket az új kategóriákhoz?</value>
   </data>
   <data name="Fifty" xml:space="preserve">
     <value>Ötven</value>
@@ -1423,7 +1429,7 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
     <value>Elemek húzásával a rendezési sorrend módosítása</value>
   </data>
   <data name="CanMergeTickets" xml:space="preserve">
-    <value>Jegyeket egyesíthet</value>
+    <value>Blokkakat egyesíthet</value>
   </data>
   <data name="InventoryReport" xml:space="preserve">
     <value>Készletjelentés</value>
@@ -1438,7 +1444,7 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
     <value>Egy adagot szükséges kiválasztani</value>
   </data>
   <data name="MergeTickets" xml:space="preserve">
-    <value>Jegyek összevonása</value>
+    <value>Blokkok összevonása</value>
   </data>
   <data name="UntagOrder" xml:space="preserve">
     <value>Címke eltávolítás a Rendelésről</value>
@@ -1464,6 +1470,9 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
   <data name="Billion" xml:space="preserve">
     <value>Milliárd</value>
   </data>
+  <data name="UsePlainSum" xml:space="preserve">
+    <value>Egyszerű összegzés alkalmazása</value>
+  </data>
   <data name="TriggerName" xml:space="preserve">
     <value>Trigger neve</value>
   </data>
@@ -1480,7 +1489,7 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
     <value>Megtekintési mód</value>
   </data>
   <data name="TicketPrinter" xml:space="preserve">
-    <value>Jegy nyomtató</value>
+    <value>Blokk nyomtató</value>
   </data>
   <data name="Amount" xml:space="preserve">
     <value>Összeg</value>
@@ -1503,6 +1512,9 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
   <data name="Fifteen" xml:space="preserve">
     <value>Tizenöt</value>
   </data>
+  <data name="UpdateTicketStatus" xml:space="preserve">
+    <value>Blokk állapotának frissítése</value>
+  </data>
   <data name="PageCount" xml:space="preserve">
     <value>Oldal számláló</value>
   </data>
@@ -1522,10 +1534,10 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
     <value>Megerősítés</value>
   </data>
   <data name="DisplayTicketList" xml:space="preserve">
-    <value>Jegy lista megjelenítése</value>
+    <value>Blokk lista megjelenítése</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>Bejelentkezés</value>
+    <value>Belép</value>
   </data>
   <data name="FastMenu" xml:space="preserve">
     <value>Gyors étlap</value>
@@ -1555,7 +1567,7 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
     <value>SambaPOS Reporter</value>
   </data>
   <data name="AccountScreen" xml:space="preserve">
-    <value>Fiók képernyő</value>
+    <value>Számla képernyő</value>
   </data>
   <data name="ExtraModifiers" xml:space="preserve">
     <value>Extra módosítók</value>
@@ -1591,7 +1603,7 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
     <value>Hozzáadás és mentés</value>
   </data>
   <data name="UniqueTicketId" xml:space="preserve">
-    <value>Egyedi Jegy Azonosító</value>
+    <value>Egyedi Blokk Azonosító</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>Nem</value>
@@ -1600,7 +1612,7 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
     <value>Minden asztal</value>
   </data>
   <data name="DeleteErrorAccountTypeAssignedtoAccounts" xml:space="preserve">
-    <value>Nem lehet törölni, mert a sablon egy fiókhoz van rendelve</value>
+    <value>Nem lehet törölni, mert a sablon egy számlához van rendelve</value>
   </data>
   <data name="CustomFieldName" xml:space="preserve">
     <value>Egyedi Mezőnév</value>
@@ -1609,7 +1621,7 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
     <value>12 óránként</value>
   </data>
   <data name="InternalAccounts" xml:space="preserve">
-    <value>Belső fiókok</value>
+    <value>Belső számlák</value>
   </data>
   <data name="POSView" xml:space="preserve">
     <value>POS nézet</value>
@@ -1618,7 +1630,7 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
     <value>Nem lehet befejezni ezt a műveletet a nulla áron megrendelés létezik.</value>
   </data>
   <data name="DeleteErrorLastUser" xml:space="preserve">
-    <value>Az utolsó felhasználói fiók nem törölhető</value>
+    <value>Az utolsó felhasználói fiük nem törölhető</value>
   </data>
   <data name="ReportPermissions" xml:space="preserve">
     <value>Jelentés Engedélyek</value>
@@ -1627,7 +1639,7 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
     <value>Súly-bonalkódok</value>
   </data>
   <data name="AccountMap" xml:space="preserve">
-    <value>Fiók térkép</value>
+    <value>Számla-térkép</value>
   </data>
   <data name="ClickLinksToExportData" xml:space="preserve">
     <value>Válasszon dátumtartományt, frissítési jelentést, és kattintson a linkre az adatok exportálásához.</value>
@@ -1635,8 +1647,11 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
   <data name="BatchCreate_f" xml:space="preserve">
     <value>{0} tömeges létrehozása</value>
   </data>
+  <data name="Ticket Moving" xml:space="preserve">
+    <value>Blokk áthelyezés</value>
+  </data>
   <data name="TicketDate" xml:space="preserve">
-    <value>Jegy-dátum</value>
+    <value>Blokk-dátum</value>
   </data>
   <data name="WhenTagNotSelected" xml:space="preserve">
     <value>Mikor Címkézetlen</value>
@@ -1666,7 +1681,7 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
     <value>Átlagköltség</value>
   </data>
   <data name="UpdateTicketCalculation" xml:space="preserve">
-    <value>Jegy újraszámítása</value>
+    <value>Blokk újraszámítása</value>
   </data>
   <data name="SettingName" xml:space="preserve">
     <value>Beállítás neve</value>
@@ -1684,7 +1699,7 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
     <value>Eltávolít</value>
   </data>
   <data name="AllDiscountsRemoved" xml:space="preserve">
-    <value>Minden kedvezmények távolítva, mert kiszámított teljes kedvezmény összege magasabb, mint a jegy összege.</value>
+    <value>Minden kedvezmény eltávolítva, mert kiszámított teljes kedvezmény összege magasabb, mint a blokk összege.</value>
   </data>
   <data name="AlwaysExcludeTax" xml:space="preserve">
     <value>Mindig adók nélkül számolj</value>
@@ -1702,7 +1717,7 @@ A PIN megváltoztatása elrejti ezt a tippet</value>
     <value>POS Menü</value>
   </data>
   <data name="RateOrAmount" xml:space="preserve">
-    <value>százalék vagy összeg</value>
+    <value>Százalék vagy összeg</value>
   </data>
   <data name="Parameters" xml:space="preserve">
     <value>Paraméterek</value>
@@ -1757,7 +1772,7 @@ A Jelentések részben tud műszak-jelentéseket készíteni.</value>
     <value>{0} perc</value>
   </data>
   <data name="AllTickets" xml:space="preserve">
-    <value>Minden jegy</value>
+    <value>Minden blokk</value>
   </data>
   <data name="Terminals" xml:space="preserve">
     <value>Terminálok</value>
@@ -1811,7 +1826,7 @@ Hibaüzenet:
     <value>Numerikus Címkék</value>
   </data>
   <data name="Management" xml:space="preserve">
-    <value>Kezel</value>
+    <value>Beállítások</value>
   </data>
   <data name="CustomFields" xml:space="preserve">
     <value>Egyedi Mezők</value>
@@ -1826,7 +1841,7 @@ Hibaüzenet:
     <value>1. és 15.</value>
   </data>
   <data name="AccountTransactionDocument" xml:space="preserve">
-    <value>Fiók tranzakciós dokumentum</value>
+    <value>Számla tranzakciós dokumentum</value>
   </data>
   <data name="Departments" xml:space="preserve">
     <value>Részlegek</value>
@@ -1838,7 +1853,7 @@ Hibaüzenet:
     <value>Rendelési állapot frissítve</value>
   </data>
   <data name="TicketOpened" xml:space="preserve">
-    <value>Nyitott jegy</value>
+    <value>Blokk megynyitva</value>
   </data>
   <data name="Unit" xml:space="preserve">
     <value>Egység</value>
@@ -1847,7 +1862,7 @@ Hibaüzenet:
     <value>Egyenleg</value>
   </data>
   <data name="Edit_f" xml:space="preserve">
-    <value>Szerkesztés {0}</value>
+    <value>{0} szerkesztése</value>
   </data>
   <data name="Restaurant" xml:space="preserve">
     <value>Étterem</value>
@@ -1907,7 +1922,7 @@ Hibaüzenet:
     <value>Rejtett</value>
   </data>
   <data name="TicketTagSelected" xml:space="preserve">
-    <value>Jegy címke kiválasztva</value>
+    <value>Blokk címke kiválasztva</value>
   </data>
   <data name="CurrencySymbol" xml:space="preserve">
     <value>Pénznemszimbólum</value>
@@ -1919,16 +1934,16 @@ Hibaüzenet:
     <value>Futtatni a Powershell parancsfájlt</value>
   </data>
   <data name="TicketNumber_f" xml:space="preserve">
-    <value>Jegy száma: {0}</value>
+    <value>Blokk száma: {0}</value>
   </data>
   <data name="AccountTransactionType" xml:space="preserve">
-    <value>Fiók tranzakció típus</value>
+    <value>Számla tranzakció-típus</value>
   </data>
   <data name="RowCount" xml:space="preserve">
     <value>Sor számláló</value>
   </data>
   <data name="TicketPaidLastChangesNotSaved" xml:space="preserve">
-    <value>Jegy fizetve. A legutóbbi módosítások mentése sikertelen.</value>
+    <value>Blokk fizetve. A legutóbbi módosítások mentése sikertelen.</value>
   </data>
   <data name="Clone_f" xml:space="preserve">
     <value>Másolás {0}</value>
@@ -1937,7 +1952,7 @@ Hibaüzenet:
     <value>Rendelés</value>
   </data>
   <data name="AutoLogout" xml:space="preserve">
-    <value>Autómatikus kiléptetés</value>
+    <value>Automatikus kiléptetés</value>
   </data>
   <data name="QuarterTil" xml:space="preserve">
     <value>Háromnegyedkor</value>
@@ -1967,7 +1982,7 @@ Hibaüzenet:
     <value># Sor: Ár címke</value>
   </data>
   <data name="MessageServerName" xml:space="preserve">
-    <value>Üzenet-szerver neve</value>
+    <value>Szerver neve</value>
   </data>
   <data name="Active" xml:space="preserve">
     <value>Aktív</value>
@@ -2008,6 +2023,9 @@ Hibaüzenet:
   <data name="DisplayPopup" xml:space="preserve">
     <value>Display Popup</value>
   </data>
+  <data name="TicketMoved" xml:space="preserve">
+    <value>Blokk áthelyezve</value>
+  </data>
   <data name="DocumentNo" xml:space="preserve">
     <value>Dokumentum száma</value>
   </data>
@@ -2021,7 +2039,7 @@ Hibaüzenet:
     <value>Negyven</value>
   </data>
   <data name="TicketNumerator" xml:space="preserve">
-    <value>Jegy számláló</value>
+    <value>Blokk számláló</value>
   </data>
   <data name="Eighteen" xml:space="preserve">
     <value>Tizennyolc</value>
@@ -2036,10 +2054,10 @@ Hibaüzenet:
     <value>Utoljára kifizetett rendelések</value>
   </data>
   <data name="FindTicket" xml:space="preserve">
-    <value>Jegy keresése</value>
+    <value>Blokk keresése</value>
   </data>
   <data name="TicketTipTotalAmount" xml:space="preserve">
-    <value>Összes jegy borravaló összege</value>
+    <value>Blokk borravaló összesítés</value>
   </data>
   <data name="Orders" xml:space="preserve">
     <value>Rendelések</value>
@@ -2060,7 +2078,7 @@ Hibaüzenet:
     <value>Többszörös választás</value>
   </data>
   <data name="UpdateTicketTag" xml:space="preserve">
-    <value>Jegy címke frissítése</value>
+    <value>Blokk-címke frissítése</value>
   </data>
   <data name="DecreaseInventory" xml:space="preserve">
     <value>Árukészlet csökkentése</value>
@@ -2099,7 +2117,7 @@ Hibaüzenet:
     <value>Sablon</value>
   </data>
   <data name="TicketTotal" xml:space="preserve">
-    <value>Jegy összesen</value>
+    <value>Blokk összesen</value>
   </data>
   <data name="QuarterPast" xml:space="preserve">
     <value>Negyedkor</value>
@@ -2108,10 +2126,10 @@ Hibaüzenet:
     <value>Manuális</value>
   </data>
   <data name="TicketTime" xml:space="preserve">
-    <value>Jegy-idő</value>
+    <value>Blokk-idő</value>
   </data>
   <data name="MessageServerPort" xml:space="preserve">
-    <value>Üzenet-szerver port</value>
+    <value>Szerver port</value>
   </data>
   <data name="UpdateEntityState" xml:space="preserve">
     <value>Egység állapotának frissítése</value>
@@ -2144,10 +2162,10 @@ Hibaüzenet:
     <value>Nincsenek vásárlási tranzakciók dátumtartományban.</value>
   </data>
   <data name="OnlyOpenTickets" xml:space="preserve">
-    <value>Csak nyitott jegyek</value>
+    <value>Csak nyitott blokk</value>
   </data>
   <data name="TicketPaidChangesNotSaved" xml:space="preserve">
-    <value>Jegy fizetve. A legutóbbi módosítások mentése sikertelen.</value>
+    <value>Blokk fizetve. A legutóbbi módosítások mentése sikertelen.</value>
   </data>
   <data name="UserLogout" xml:space="preserve">
     <value>Felhasználó Kilépés</value>
@@ -2156,7 +2174,7 @@ Hibaüzenet:
     <value>Megjelenítheti a rendeléseket</value>
   </data>
   <data name="TicketRemainingAmount" xml:space="preserve">
-    <value>Fennmaradó Jegyek mennyisége</value>
+    <value>Fennmaradó Blokk-összeg</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
@@ -2168,16 +2186,13 @@ Hibaüzenet:
     <value>Nem lehet menteni, mert vannak olyan sorok, melyek nem tartalmaznak készlet-tételt vagy nulla mennyiséget tartalmaznak.</value>
   </data>
   <data name="TicketPermissions" xml:space="preserve">
-    <value>Jegy engedélyek</value>
+    <value>Blokk engedélyek</value>
   </data>
   <data name="MenuItemGroup" xml:space="preserve">
     <value>Termék csoport</value>
   </data>
   <data name="ChangeTotal" xml:space="preserve">
     <value>Végösszeg módosítása</value>
-  </data>
-  <data name="StopTimer" xml:space="preserve">
-    <value>Időzítő megállítása</value>
   </data>
   <data name="Html" xml:space="preserve">
     <value>HTML</value>
@@ -2219,7 +2234,7 @@ Hibaüzenet:
     <value>Kezdet</value>
   </data>
   <data name="AccountTransaction" xml:space="preserve">
-    <value>Fiók tranzakció</value>
+    <value>Számla tranzakció</value>
   </data>
   <data name="MonThruFri" xml:space="preserve">
     <value>Hétfőtől péntekig</value>
@@ -2252,7 +2267,7 @@ Hibaüzenet:
     <value>Általános beállítások</value>
   </data>
   <data name="TicketTotalChanged" xml:space="preserve">
-    <value>Jegy összesen megváltozott</value>
+    <value>Blokk végösszeg megváltozott</value>
   </data>
   <data name="OnceAWeek" xml:space="preserve">
     <value>Hetente egyszer</value>
@@ -2270,10 +2285,10 @@ Hibaüzenet:
     <value>Üzenet érkezett</value>
   </data>
   <data name="CloseTicket_r" xml:space="preserve">
-    <value>Jegy lezárása</value>
+    <value>Blokk lezárása</value>
   </data>
   <data name="TicketTemplate" xml:space="preserve">
-    <value>Jegy sablon</value>
+    <value>Blokk sablon</value>
   </data>
   <data name="CreateAccount" xml:space="preserve">
     <value>Fiók létrehozása</value>
@@ -2306,10 +2321,10 @@ Hibaüzenet:
     <value>Váltópénz összege frissítve</value>
   </data>
   <data name="TicketClosing" xml:space="preserve">
-    <value>Jegy zárás</value>
+    <value>Blokk zárás</value>
   </data>
   <data name="MappedAccounts" xml:space="preserve">
-    <value>Feltérképezett fiókok</value>
+    <value>Feltérképezett számlák</value>
   </data>
   <data name="Cost" xml:space="preserve">
     <value>Költség</value>
@@ -2354,7 +2369,7 @@ Hibaüzenet:
     <value>Trigger</value>
   </data>
   <data name="AutoRounding" xml:space="preserve">
-    <value>Autómatikus kerekítés</value>
+    <value>Auto-kerekítés</value>
   </data>
   <data name="TotalWorkTimeHours_f" xml:space="preserve">
     <value>Teljes munkaidő: {0:0} óra {1:0} perc</value>
@@ -2389,6 +2404,9 @@ Hibaüzenet:
   <data name="SearchString" xml:space="preserve">
     <value>Szöveg keresése</value>
   </data>
+  <data name="UpdateMergedTicketsState" xml:space="preserve">
+    <value>Egyesített blokkok állapotának frissítése</value>
+  </data>
   <data name="DisplayAllValues" xml:space="preserve">
     <value>Minden érték megjelenítése</value>
   </data>
@@ -2411,7 +2429,7 @@ Hibaüzenet:
     <value>A Windows-nyomtató</value>
   </data>
   <data name="TicketNote" xml:space="preserve">
-    <value>Jegy megjegyzés</value>
+    <value>Blokk megjegyzés</value>
   </data>
   <data name="Week" xml:space="preserve">
     <value>Hét</value>
@@ -2477,13 +2495,13 @@ Hibaüzenet:
     <value>{0} Tranzakció</value>
   </data>
   <data name="SalesDivTicket" xml:space="preserve">
-    <value>Összes eladás/Jegy</value>
+    <value>Összes eladás/Blokk</value>
   </data>
   <data name="ProgramLanguage" xml:space="preserve">
     <value>Program nyelv</value>
   </data>
   <data name="TicketsMerged" xml:space="preserve">
-    <value>Egyesített jegyek</value>
+    <value>Blokkok egyesítve</value>
   </data>
   <data name="SortType" xml:space="preserve">
     <value>Rendezés típusa</value>
@@ -2495,7 +2513,7 @@ Hibaüzenet:
     <value>Adag neve</value>
   </data>
   <data name="RateFromTaxIncludedTicketAmount" xml:space="preserve">
-    <value>A Jegy bruttó összegének arányában</value>
+    <value>A Blokk bruttó összegének arányában</value>
   </data>
   <data name="ExecutePrintJob" xml:space="preserve">
     <value>Nyomtatási feladat végrehajtása</value>
@@ -2510,7 +2528,7 @@ Hibaüzenet:
     <value>Összesen {0}:</value>
   </data>
   <data name="CanReleaseTicketLock" xml:space="preserve">
-    <value>Jegy-zárást feloldhat</value>
+    <value>Blokk-zárást feloldhat</value>
   </data>
   <data name="Expression" xml:space="preserve">
     <value>Kifejezés</value>
@@ -2519,7 +2537,7 @@ Hibaüzenet:
     <value>Hónap</value>
   </data>
   <data name="TicketEntityChanged" xml:space="preserve">
-    <value>Jegy Egység megváltozott</value>
+    <value>Blokk Egység megváltoztatva</value>
   </data>
   <data name="InventoryPurchaseReport" xml:space="preserve">
     <value>Készlet vásárlási jelentés</value>
@@ -2582,10 +2600,10 @@ Hibaüzenet:
     <value>Fizetési összesen</value>
   </data>
   <data name="Delete_f" xml:space="preserve">
-    <value>Törlés {0}</value>
+    <value>{0} törlése</value>
   </data>
   <data name="IncludeTax" xml:space="preserve">
-    <value>Adóval</value>
+    <value>Az adókat is beleértve</value>
   </data>
   <data name="OpenClose_ab" xml:space="preserve">
     <value>Op-Cls</value>
@@ -2597,10 +2615,10 @@ Hibaüzenet:
     <value>Hét</value>
   </data>
   <data name="TicketSubTotal" xml:space="preserve">
-    <value>Jegy részösszeg</value>
+    <value>Blokk részösszeg</value>
   </data>
   <data name="UnlockTicket" xml:space="preserve">
-    <value>Jegy feloldása</value>
+    <value>Blokk feloldása</value>
   </data>
   <data name="SellerWarehouse" xml:space="preserve">
     <value>Eladói raktár</value>
@@ -2612,8 +2630,8 @@ Hibaüzenet:
     <value>A {0} névet ne hagyja üressen.</value>
   </data>
   <data name="ThereAreOpenTicketsWarning_f" xml:space="preserve">
-    <value>Jelenleg van {0} nyitott jegy.
-Amíg nyitott jegy van, a műszak nem lehet műszakot zárni!</value>
+    <value>Jelenleg van {0} nyitott blokk.
+Amíg nyitott blokk van, nem lehet műszakot zárni!</value>
   </data>
   <data name="HalfPast" xml:space="preserve">
     <value>Félkor</value>
@@ -2622,7 +2640,7 @@ Amíg nyitott jegy van, a műszak nem lehet műszakot zárni!</value>
     <value>Egyszeres választás</value>
   </data>
   <data name="DecreaseAmount" xml:space="preserve">
-    <value>Mennyiség csökkentése</value>
+    <value>Érték csökkentése</value>
   </data>
   <data name="PinCode" xml:space="preserve">
     <value>Pin kód</value>
@@ -2643,7 +2661,7 @@ Amíg nyitott jegy van, a műszak nem lehet műszakot zárni!</value>
     <value>Mennyiség</value>
   </data>
   <data name="FixedAmountFromTicketTotal" xml:space="preserve">
-    <value>Fix összeg a Jegy végösszegből</value>
+    <value>Fix összeg a Blokk végösszegből</value>
   </data>
   <data name="PortPrinter" xml:space="preserve">
     <value>Port Nyomtató</value>
@@ -2673,7 +2691,7 @@ Amíg nyitott jegy van, a műszak nem lehet műszakot zárni!</value>
     <value>Új sorok a Nyomtatandó sorok száma alapján</value>
   </data>
   <data name="CanDisplayOldTickets" xml:space="preserve">
-    <value>Régi jegyeket megjeleníthet</value>
+    <value>Régi Blokkokat megjeleníthet</value>
   </data>
   <data name="Twenty" xml:space="preserve">
     <value>Húsz(on)</value>
@@ -2691,7 +2709,7 @@ Amíg nyitott jegy van, a műszak nem lehet műszakot zárni!</value>
     <value>Lista</value>
   </data>
   <data name="DeleteItemConfirmation_f" xml:space="preserve">
-    <value>Törlés {0} [{1}]?</value>
+    <value>Töröljem a {0}-t [{1}]?</value>
   </data>
   <data name="CornerRadius" xml:space="preserve">
     <value>Corner Radius</value>
@@ -2703,13 +2721,13 @@ Amíg nyitott jegy van, a műszak nem lehet műszakot zárni!</value>
     <value>Minden órában</value>
   </data>
   <data name="Ticket" xml:space="preserve">
-    <value>Jegy</value>
+    <value>Blokk</value>
   </data>
   <data name="EveryDay" xml:space="preserve">
     <value>Minden nap</value>
   </data>
   <data name="DisplayUnderTicket" xml:space="preserve">
-    <value>Megjelenítés a jegy alatt</value>
+    <value>Megjelenítés a Blokk alatt</value>
   </data>
   <data name="ChangePaymentType" xml:space="preserve">
     <value>Kifizetés típusának módosítása</value>
@@ -2718,7 +2736,7 @@ Amíg nyitott jegy van, a műszak nem lehet műszakot zárni!</value>
     <value>Részleg neve</value>
   </data>
   <data name="ForeignCurrency" xml:space="preserve">
-    <value>Külföldi pénznem</value>
+    <value>Pénznem</value>
   </data>
   <data name="RuleActions" xml:space="preserve">
     <value>Műveletek</value>
@@ -2751,7 +2769,7 @@ Amíg nyitott jegy van, a műszak nem lehet műszakot zárni!</value>
     <value>Állapot meghatározása</value>
   </data>
   <data name="DisplayUserPath" xml:space="preserve">
-    <value>Felhasználó elérési út megjelenítése</value>
+    <value>Felhasználó elérési útjának megjelenítése</value>
   </data>
   <data name="Seventeen" xml:space="preserve">
     <value>Tizenhét</value>
@@ -2832,7 +2850,7 @@ Amíg nyitott jegy van, a műszak nem lehet műszakot zárni!</value>
     <value>Végösszeg betűvel</value>
   </data>
   <data name="TicketNumber" xml:space="preserve">
-    <value>JegySzám</value>
+    <value>BlokkSzám</value>
   </data>
   <data name="EveryMinute" xml:space="preserve">
     <value>Minden perc</value>
@@ -2844,7 +2862,7 @@ Amíg nyitott jegy van, a műszak nem lehet műszakot zárni!</value>
     <value>Étlap kategóriák</value>
   </data>
   <data name="TicketType" xml:space="preserve">
-    <value>Jegy fajta</value>
+    <value>Blokk-típus</value>
   </data>
   <data name="SelectActions" xml:space="preserve">
     <value>Válasszon műveleteket</value>

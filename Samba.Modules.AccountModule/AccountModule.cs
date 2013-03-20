@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Regions;
+using Samba.Domain.Models;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
@@ -106,10 +107,9 @@ namespace Samba.Modules.AccountModule
                             var ts = ticket.TicketEntities.FirstOrDefault(x => _ticketService.CanMakeAccountTransaction(x, accountTransactionType, 0));
                             if (ts != null)
                             {
+                                //todo test
                                 var account = _cacheService.GetAccountById(ts.AccountId);
-                                ticket.TransactionDocument.AddNewTransaction(accountTransactionType,
-                                                                             ticket.AccountTypeId, ticket.AccountId,
-                                                                             account, amount, 1);
+                                ticket.TransactionDocument.AddNewTransaction(accountTransactionType, ticket.GetTicketAccounts(), amount, 1);
                             }
                         }
                     }

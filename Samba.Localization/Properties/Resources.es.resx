@@ -1209,6 +1209,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   <data name="LockTicket" xml:space="preserve">
     <value>Bloquear recibo</value>
   </data>
+  <data name="OrderMoved" xml:space="preserve">
+    <value>Pedido Movido</value>
+  </data>
   <data name="WorkPeriodStartTime" xml:space="preserve">
     <value>Tiempo del período de trabajo: {0}</value>
   </data>
@@ -1223,6 +1226,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Guardar</value>
+  </data>
+  <data name="TicketMovedRule" xml:space="preserve">
+    <value>Regla Ticket Movido</value>
   </data>
   <data name="CanCreateAccount" xml:space="preserve">
     <value>No puede crear Cuenta</value>
@@ -1464,6 +1470,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   <data name="Billion" xml:space="preserve">
     <value>Mil millones</value>
   </data>
+  <data name="UsePlainSum" xml:space="preserve">
+    <value>Usar Suma Simple</value>
+  </data>
   <data name="TriggerName" xml:space="preserve">
     <value>Nombre del Iniciador</value>
   </data>
@@ -1502,6 +1511,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   </data>
   <data name="Fifteen" xml:space="preserve">
     <value>Quince</value>
+  </data>
+  <data name="UpdateTicketStatus" xml:space="preserve">
+    <value>Actualizar Estado Ticket</value>
   </data>
   <data name="PageCount" xml:space="preserve">
     <value>Número de páginas</value>
@@ -1634,6 +1646,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   </data>
   <data name="BatchCreate_f" xml:space="preserve">
     <value>Crear Lote {0}</value>
+  </data>
+  <data name="Ticket Moving" xml:space="preserve">
+    <value>Moviendo Ticket</value>
   </data>
   <data name="TicketDate" xml:space="preserve">
     <value>Fecha de Recibo</value>
@@ -2007,6 +2022,9 @@ Seguir sin añadir más detalles?</value>
   </data>
   <data name="DisplayPopup" xml:space="preserve">
     <value>Mostrar pop-ups</value>
+  </data>
+  <data name="TicketMoved" xml:space="preserve">
+    <value>Ticket Movido</value>
   </data>
   <data name="DocumentNo" xml:space="preserve">
     <value>Documento Nº</value>
@@ -2389,6 +2407,9 @@ Recibos</value>
   </data>
   <data name="SearchString" xml:space="preserve">
     <value>Cadena Busqueda</value>
+  </data>
+  <data name="UpdateMergedTicketsState" xml:space="preserve">
+    <value>Actualizar Estado Union Ticket </value>
   </data>
   <data name="DisplayAllValues" xml:space="preserve">
     <value>Mostrar todos los valores</value>

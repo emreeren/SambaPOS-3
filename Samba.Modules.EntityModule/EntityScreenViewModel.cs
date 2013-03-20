@@ -37,6 +37,7 @@ namespace Samba.Modules.EntityModule
         public int? EntityTypeId { get { return Model.EntityTypeId; } set { Model.EntityTypeId = value.GetValueOrDefault(0); } }
         public string StateFilter { get { return Model.StateFilter; } set { Model.StateFilter = value; } }
         public string DisplayState { get { return Model.DisplayState; } set { Model.DisplayState = value; } }
+        public bool AskTicketType { get { return Model.AskTicketType; } set { Model.AskTicketType = value; } }
 
         private IEnumerable<TicketType> _ticketTypes;
         public IEnumerable<TicketType> TicketTypes

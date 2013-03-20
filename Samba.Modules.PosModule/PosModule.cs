@@ -15,6 +15,7 @@ namespace Samba.Modules.PosModule
         private readonly PosView _posView;
         private readonly MenuItemSelectorView _menuItemSelectorView;
         private readonly TicketEntityListView _ticketEntityListView;
+        private readonly TicketTypeListView _ticketTypeListView;
         private readonly IRegionManager _regionManager;
         private readonly IApplicationState _applicationState;
         private readonly TicketView _ticketView;
@@ -24,7 +25,7 @@ namespace Samba.Modules.PosModule
         [ImportingConstructor]
         public PosModule(IRegionManager regionManager, IApplicationState applicationState,
             PosView posView, TicketView ticketView, TicketListView ticketListView, TicketTagListView ticketTagListView,
-            MenuItemSelectorView menuItemSelectorView,TicketEntityListView ticketEntityListView)
+            MenuItemSelectorView menuItemSelectorView, TicketEntityListView ticketEntityListView, TicketTypeListView ticketTypeListView)
             : base(regionManager, AppScreens.TicketView)
         {
             SetNavigationCommand("POS", Resources.Common, "Images/Network.png", 10);
@@ -32,6 +33,7 @@ namespace Samba.Modules.PosModule
             _posView = posView;
             _menuItemSelectorView = menuItemSelectorView;
             _ticketEntityListView = ticketEntityListView;
+            _ticketTypeListView = ticketTypeListView;
             _regionManager = regionManager;
             _applicationState = applicationState;
             _ticketView = ticketView;
@@ -52,11 +54,12 @@ namespace Samba.Modules.PosModule
             _regionManager.Regions[RegionNames.PosMainRegion].Add(_ticketListView, "TicketListView");
             _regionManager.Regions[RegionNames.PosMainRegion].Add(_ticketTagListView, "TicketTagListView");
             _regionManager.Regions[RegionNames.PosMainRegion].Add(_ticketEntityListView, "TicketEntityListView");
+            _regionManager.Regions[RegionNames.PosMainRegion].Add(_ticketTypeListView, "TicketTypeListView");
             _regionManager.Regions[RegionNames.PosSubRegion].Add(_menuItemSelectorView, "MenuItemSelectorView");
             _regionManager.RegisterViewWithRegion(RegionNames.TicketOrdersRegion, typeof(TicketOrdersView));
             _regionManager.RegisterViewWithRegion(RegionNames.TicketInfoRegion, typeof(TicketInfoView));
-            _regionManager.RegisterViewWithRegion(RegionNames.TicketPaymentRegion, typeof (PaymentButtonView));
-            _regionManager.RegisterViewWithRegion(RegionNames.TicketTotalsRegion, typeof (TicketTotalsView));
+            _regionManager.RegisterViewWithRegion(RegionNames.TicketPaymentRegion, typeof(PaymentButtonView));
+            _regionManager.RegisterViewWithRegion(RegionNames.TicketTotalsRegion, typeof(TicketTotalsView));
         }
 
         protected override bool CanNavigate(string arg)

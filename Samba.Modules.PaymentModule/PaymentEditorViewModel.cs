@@ -163,7 +163,7 @@ namespace Samba.Modules.PaymentModule
 
         public void Prepare(Ticket selectedTicket)
         {
-            _foreignCurrencyButtonsViewModel.ForeignCurrency = null;
+            _foreignCurrencyButtonsViewModel.Prepare();
             _paymentTotals.Model = selectedTicket;
             _paymentEditor.SelectedTicket = selectedTicket;
             _orderSelectorViewModel.UpdateTicket(selectedTicket);

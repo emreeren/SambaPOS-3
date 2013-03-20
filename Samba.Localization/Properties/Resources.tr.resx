@@ -654,6 +654,9 @@ Mesaj:
   <data name="UserSales" xml:space="preserve">
     <value>Kullanıcı Bazlı Satışlar</value>
   </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Kontrol Paneli</value>
+  </data>
   <data name="ExpressionValid" xml:space="preserve">
     <value>Deyim Geçerli</value>
   </data>
@@ -850,6 +853,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="TicketTag" xml:space="preserve">
     <value>Adisyon Etiketi</value>
+  </data>
+  <data name="Handler" xml:space="preserve">
+    <value>Denetimci</value>
   </data>
   <data name="CanMoveTicketLines" xml:space="preserve">
     <value>Adisyon satırlarını taşıyabilir</value>
@@ -1202,6 +1208,9 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="LockTicket" xml:space="preserve">
     <value>Adisyonu Kilitle</value>
   </data>
+  <data name="OrderMoved" xml:space="preserve">
+    <value>Sipariş Taşındı</value>
+  </data>
   <data name="WorkPeriodStartTime" xml:space="preserve">
     <value>Gün başlama saati: {0}</value>
   </data>
@@ -1216,6 +1225,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Kaydet</value>
+  </data>
+  <data name="TicketMovedRule" xml:space="preserve">
+    <value>Belge Taşındı Kuralı</value>
   </data>
   <data name="CanCreateAccount" xml:space="preserve">
     <value>Hesap Açabilir</value>
@@ -1455,6 +1467,9 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="Billion" xml:space="preserve">
     <value>Milyar</value>
   </data>
+  <data name="UsePlainSum" xml:space="preserve">
+    <value>Sade Toplamı Kullan</value>
+  </data>
   <data name="TriggerName" xml:space="preserve">
     <value>Tetikleyici Adı</value>
   </data>
@@ -1485,11 +1500,17 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="CantDelete_f" xml:space="preserve">
     <value>{0} Silinemiyor</value>
   </data>
+  <data name="Source" xml:space="preserve">
+    <value>Kaynak</value>
+  </data>
   <data name="AddOrder" xml:space="preserve">
     <value>Adisyona sipariş ekle</value>
   </data>
   <data name="Fifteen" xml:space="preserve">
     <value>Onbeş</value>
+  </data>
+  <data name="UpdateTicketStatus" xml:space="preserve">
+    <value>Belge Durumunu Değiştir</value>
   </data>
   <data name="PageCount" xml:space="preserve">
     <value>Sayfa Sayısı</value>
@@ -1622,6 +1643,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="BatchCreate_f" xml:space="preserve">
     <value>Toplu {0} oluştur</value>
+  </data>
+  <data name="Ticket Moving" xml:space="preserve">
+    <value>Belge Taşınıyor</value>
   </data>
   <data name="TicketDate" xml:space="preserve">
     <value>Adisyon Tarihi</value>
@@ -1995,6 +2019,9 @@ Hata Mesajı:
   </data>
   <data name="DisplayPopup" xml:space="preserve">
     <value>Popup Görüntüle</value>
+  </data>
+  <data name="TicketMoved" xml:space="preserve">
+    <value>Belge Taşındı</value>
   </data>
   <data name="DocumentNo" xml:space="preserve">
     <value>Belge No</value>
@@ -2375,6 +2402,9 @@ Kapat</value>
   <data name="SearchString" xml:space="preserve">
     <value>Arama Terimi</value>
   </data>
+  <data name="UpdateMergedTicketsState" xml:space="preserve">
+    <value>Birleşmiş Belgelerin Durumunu Değiştir</value>
+  </data>
   <data name="DisplayAllValues" xml:space="preserve">
     <value>Tümünü Göster</value>
   </data>
@@ -2720,6 +2750,9 @@ Açık adisyon varken gün sonu yapılamaz.</value>
   </data>
   <data name="Every4Hours" xml:space="preserve">
     <value>4 saatte bir</value>
+  </data>
+  <data name="Target" xml:space="preserve">
+    <value>Hedef</value>
   </data>
   <data name="ColumnCount" xml:space="preserve">
     <value>Sütun Sayısı</value>

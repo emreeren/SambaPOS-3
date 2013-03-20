@@ -16,7 +16,7 @@
 
         private static string RemoveTag(string line)
         {
-            return line.Substring(line.IndexOf(">") + 1);
+            return line.Substring(line.IndexOf(">", System.StringComparison.Ordinal) + 1);
         }
 
         protected AbstractLineFormatter(string documentLine, int maxWidth)

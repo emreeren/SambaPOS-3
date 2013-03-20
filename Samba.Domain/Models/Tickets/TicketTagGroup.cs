@@ -22,16 +22,18 @@ namespace Samba.Domain.Models.Tickets
         public bool AskBeforeCreatingTicket { get; set; }
         public int DataType { get; set; }
 
-        private readonly IList<TicketTag> _ticketTags;
+        private IList<TicketTag> _ticketTags;
         public virtual IList<TicketTag> TicketTags
         {
             get { return _ticketTags; }
+            set { _ticketTags = value; }
         }
 
-        private readonly IList<TicketTagMap> _ticketTagMaps;
+        private IList<TicketTagMap> _ticketTagMaps;
         public virtual IList<TicketTagMap> TicketTagMaps
         {
             get { return _ticketTagMaps; }
+            set { _ticketTagMaps = value; }
         }
 
         public bool IsNumeric { get { return IsDecimal || IsInteger; } }

@@ -26,8 +26,8 @@ tr.sample_data=Örnek Veri
 tr.handheld_terminal_app=El terminali uygulamasý
 tr.ce_install_sp3_required=Compact SQL 4.0 çalýþtýrmak için Service Pack 3 gerektiðinden kurulum listesinden kaldýrýldý. Program TXT dosya veritabaný üzerinden çalýþacak.
 
-#define Version "3.02 "
-#define FileVersion "302"
+#define Version "3.03 "
+#define FileVersion "303"
 
 [Setup]
 AppName=SambaPOS
@@ -37,12 +37,12 @@ CreateAppDir=true
 OutputDir=bin
 OutputBaseFilename=SambaSetup{#FileVersion}_Beta
 SourceDir=.
-AppCopyright=Copyright © Özgü Teknoloji 2011
+AppCopyright=Copyright © Açýk Yazýlým Platformu 2013
 AppVerName=Samba POS {#Version}
 
 DefaultGroupName=SambaPOS3
 AllowNoIcons=true
-AppPublisher=Özgü Teknoloji
+AppPublisher=Açýk Yazýlým
 AppVersion={#Version}
 UninstallDisplayIcon={app}\Samba.Presentation.exe
 UninstallDisplayName=SambaPOS3
@@ -50,8 +50,8 @@ UsePreviousGroup=true
 UsePreviousAppDir=true
 DefaultDirName={pf}\SambaPOS3
 VersionInfoVersion={#Version}
-VersionInfoCompany=Özgü Teknoloji
-VersionInfoCopyright=Copyright © Ozgu 2010
+VersionInfoCompany=Açýk Yazýlým
+VersionInfoCopyright=Copyright © AYP 2010
 ShowUndisplayableLanguages=false
 LanguageDetectionMethod=locale
 InternalCompressLevel=fast

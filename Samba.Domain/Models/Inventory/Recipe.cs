@@ -9,10 +9,12 @@ namespace Samba.Domain.Models.Inventory
     {
         public virtual MenuItemPortion Portion { get; set; }
         public decimal FixedCost { get; set; }
-        private readonly IList<RecipeItem> _recipeItems;
+
+        private IList<RecipeItem> _recipeItems;
         public virtual IList<RecipeItem> RecipeItems
         {
             get { return _recipeItems; }
+            set { _recipeItems = value; }
         }
 
         public Recipe()
