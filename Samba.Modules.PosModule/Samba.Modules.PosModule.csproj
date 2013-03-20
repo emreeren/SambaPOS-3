@@ -53,6 +53,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandContainerButton.cs" />
+    <Compile Include="TicketTypeListView.xaml.cs">
+      <DependentUpon>TicketTypeListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TicketTypeListViewModel.cs" />
     <Compile Include="TicketEntityListView.xaml.cs">
       <DependentUpon>TicketEntityListView.xaml</DependentUpon>
     </Compile>
@@ -155,6 +159,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="TicketTypeListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="TicketEntityListView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

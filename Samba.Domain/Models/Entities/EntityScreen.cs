@@ -19,6 +19,7 @@ namespace Samba.Domain.Models.Entities
         public int ButtonHeight { get; set; }
         public string DisplayState { get; set; }
         public string StateFilter { get; set; }
+        public bool AskTicketType { get; set; }
 
         private IList<EntityScreenMap> _entityScreenMaps;
         public virtual IList<EntityScreenMap> EntityScreenMaps
@@ -67,6 +68,7 @@ namespace Samba.Domain.Models.Entities
                 return itemCount;
             }
         }
+
 
         public void AddScreenItem(EntityScreenItem choosenValue)
         {

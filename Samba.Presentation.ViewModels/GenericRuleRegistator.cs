@@ -28,7 +28,6 @@ namespace Samba.Presentation.ViewModels
         private static readonly IDepartmentService DepartmentService = ServiceLocator.Current.GetInstance<IDepartmentService>();
         private static readonly ITicketService TicketService = ServiceLocator.Current.GetInstance<ITicketService>();
         private static readonly IApplicationState ApplicationState = ServiceLocator.Current.GetInstance<IApplicationState>();
-        private static readonly IApplicationStateSetter ApplicationStateSetter = ServiceLocator.Current.GetInstance<IApplicationStateSetter>();
         private static readonly IUserService UserService = ServiceLocator.Current.GetInstance<IUserService>();
         private static readonly ITriggerService TriggerService = ServiceLocator.Current.GetInstance<ITriggerService>();
         private static readonly IPrinterService PrinterService = ServiceLocator.Current.GetInstance<IPrinterService>();
@@ -167,15 +166,15 @@ namespace Samba.Presentation.ViewModels
                     var ticketType = CacheService.GetTicketTypes().SingleOrDefault(y => y.Name == ticketTypeName);
                     if (ticketType != null)
                     {
-                        ApplicationStateSetter.SetCurrentTicketType(ticketType);
+                        ApplicationState.TempTicketType = ticketType;
                     }
                     else if (ApplicationState.SelectedEntityScreen != null && ApplicationState.SelectedEntityScreen.TicketTypeId != 0)
                     {
-                        ApplicationStateSetter.SetCurrentTicketType(CacheService.GetTicketTypeById(ApplicationState.SelectedEntityScreen.TicketTypeId));
+                        ApplicationState.TempTicketType = CacheService.GetTicketTypeById(ApplicationState.SelectedEntityScreen.TicketTypeId);
                     }
                     else
                     {
-                        ApplicationStateSetter.SetCurrentTicketType(CacheService.GetTicketTypeById(ApplicationState.CurrentDepartment.TicketTypeId));
+                        ApplicationState.TempTicketType = CacheService.GetTicketTypeById(ApplicationState.CurrentDepartment.TicketTypeId);
                     }
                 }
 

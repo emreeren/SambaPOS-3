@@ -30,8 +30,9 @@ namespace Samba.Presentation.Services
         User CurrentLoggedInUser { get; }
         CurrentDepartmentData CurrentDepartment { get; }
         TicketType CurrentTicketType { get; set; }
+        TicketType TempTicketType { get; set; }
         EntityScreen SelectedEntityScreen { get; }
-        EntityScreen ActiveEntityScreen { get; }
+        EntityScreen TempEntityScreen { get; }
         WorkPeriod CurrentWorkPeriod { get; }
         WorkPeriod PreviousWorkPeriod { get; }
         bool IsCurrentWorkPeriodOpen { get; }

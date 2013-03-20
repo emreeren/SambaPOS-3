@@ -35,7 +35,7 @@
                 <RowDefinition Height="60*" />
                 <RowDefinition Height="40*" Name="NumeratorRow" />
             </Grid.RowDefinitions>
-            <ScrollViewer Grid.RowSpan="3" Grid.Column="0" Margin="7,0,7,1" UIControls:KineticBehaviour.HandleKineticScrolling="True"
+            <ScrollViewer Grid.RowSpan="3" Grid.Column="0" Margin="0,0,7,1" UIControls:KineticBehaviour.HandleKineticScrolling="True"
                  VerticalScrollBarVisibility="Auto">
                 <ItemsControl ItemsSource="{Binding Categories,NotifyOnTargetUpdated=True}" TargetUpdated="ItemsControl_TargetUpdated">
                     <ItemsControl.ItemsPanel>
@@ -46,7 +46,7 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <FxButton:FlexButton FontSize="{Binding FontSize}" Content="{Binding Caption}" Focusable="False" Command="{Binding ButtonCommand}"
-                                 CommandParameter="{Binding Category}" Height="{Binding MButtonHeight}" Margin="0,1,0,1"
+                                 CommandParameter="{Binding Category}" Height="{Binding MButtonHeight}" Margin="7,1,0,1"
                                  ButtonImage="{Binding ImagePath}" ButtonColor="{Binding MButtonColor}" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

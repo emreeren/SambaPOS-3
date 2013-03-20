@@ -131,6 +131,7 @@
         public const string SelectAutomationCommandValue = "SelectAutomationCommandValue";
         public const string DisplayInventory = "DisplayInventory";
         public const string TicketTypeChanged = "TicketTypeChanged";
+        public const string TicketTypeSelected = "TicketTypeSelected";
     }
 
     public static class FunctionNames

@@ -26,6 +26,7 @@
                         <Label Content="{LocText TicketType,Suffix=':'}"/>
                         <ComboBox HorizontalAlignment="Left" MinWidth="170" SelectedValue="{Binding TicketTypeId}"
                                   ItemsSource="{Binding TicketTypes}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
+                        <CheckBox Content="Ask Ticket Type" IsChecked="{Binding AskTicketType}" Margin="0,5"/>
                         <Label Content="{LocText ViewMode,Suffix=':'}"/>
                         <ComboBox HorizontalAlignment="Left" MinWidth="150" SelectedItem="{Binding DisplayMode}"
                                 ItemsSource="{Binding DisplayModes}" />
@@ -91,7 +92,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <DockPanel Grid.Row="0">
-                        <Label Content="{LocText Mappings,Suffix=':'}"/>                        
+                        <Label Content="{LocText Mappings,Suffix=':'}"/>
                         <TextBlock Margin="2,5">
                             <Hyperlink Command="{Binding MapController.AddMapCommand}">
                                 <TextBlock Text="{Binding Path=MapController.AddMapCommand.Caption}" />

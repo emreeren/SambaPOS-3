@@ -5,7 +5,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class TicketType : EntityClass
+    public class TicketType : EntityClass, IOrderable
     {
         public TicketType()
         {
@@ -17,6 +17,8 @@ namespace Samba.Domain.Models.Tickets
         public virtual Numerator OrderNumerator { get; set; }
         public virtual AccountTransactionType SaleTransactionType { get; set; }
         public bool TaxIncluded { get; set; }
+        public int SortOrder { get; set; }
+        public string UserString { get { return Name; } }
 
         private IList<EntityTypeAssignment> _entityTypeAssignments;
         public virtual IList<EntityTypeAssignment> EntityTypeAssignments

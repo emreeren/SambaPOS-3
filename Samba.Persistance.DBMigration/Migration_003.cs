@@ -13,6 +13,8 @@ namespace Samba.Persistance.DBMigration
         public override void Up()
         {
             Create.Column("AccountTypeId").OnTable("TicketEntities").AsInt32().WithDefaultValue(0);
+            Create.Column("AskTicketType").OnTable("EntityScreens").AsBoolean().WithDefaultValue(false);
+            Create.Column("SortOrder").OnTable("TicketTypes").AsInt32().WithDefaultValue(0);
             Delete.Column("AccountId").FromTable("Tickets");
             Delete.Column("AccountName").FromTable("Tickets");
             Delete.Column("AccountTypeId").FromTable("Tickets");
