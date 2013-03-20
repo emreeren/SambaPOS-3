@@ -43,9 +43,38 @@ namespace Samba.Domain.Models.Tickets
         public string PriceTag { get; set; }
         public string Tag { get; set; }
 
-        public string Taxes { get; set; }
-        public string OrderTags { get; set; }
-        public string OrderStates { get; set; }
+        private string _taxes;
+        public string Taxes
+        {
+            get { return _taxes; }
+            set
+            {
+                _taxes = value;
+                _taxValues = null;
+            }
+        }
+
+        private string _orderTags;
+        public string OrderTags
+        {
+            get { return _orderTags; }
+            set
+            {
+                _orderTags = value;
+                _orderTagValues = null;
+            }
+        }
+
+        private string _orderStates;
+        public string OrderStates
+        {
+            get { return _orderStates; }
+            set
+            {
+                _orderStates = value;
+                _orderStateValues = null;
+            }
+        }
 
         private decimal _selectedQuantity;
         public decimal SelectedQuantity
@@ -337,7 +366,7 @@ namespace Samba.Domain.Models.Tickets
         }
 
         public decimal GetTotalTaxAmount(bool taxIncluded, decimal plainSum, decimal preTaxServices)
-        {            
+        {
             var result = CalculatePrice ? TaxValues.Sum(x => x.GetTaxAmount(taxIncluded, GetPrice(), TaxValues.Sum(y => y.TaxRate), plainSum, preTaxServices)) * Quantity : 0;
             return decimal.Round(result, 2, MidpointRounding.AwayFromZero);
         }
