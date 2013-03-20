@@ -143,7 +143,8 @@ namespace Samba.Modules.MenuModule
             if (MessageBox.Show(Resources.DeleteSelectedCategoryQuestion, Resources.Confirmation, MessageBoxButton.YesNo) == MessageBoxResult.Yes
                 && SelectedCategory != null)
             {
-                Workspace.Delete(SelectedCategory.Model);
+                if (SelectedCategory.Model.Id > 0)
+                    Workspace.Delete(SelectedCategory.Model);
                 Model.Categories.Remove(SelectedCategory.Model);
                 Categories.Remove(SelectedCategory);
             }

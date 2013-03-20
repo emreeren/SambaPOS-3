@@ -145,10 +145,10 @@ namespace Samba.Persistance.DaoClasses.Implementations
         {
             if (current.Id > 0)
             {
-                if (current.AccountName != loaded.AccountName)
-                {
-                    return ConcurrencyCheckResult.Break(string.Format(Resources.TicketMovedRetryLastOperation_f, loaded.AccountName));
-                }
+                //if (current.AccountName != loaded.AccountName)
+                //{
+                //    return ConcurrencyCheckResult.Break(string.Format(Resources.TicketMovedRetryLastOperation_f, loaded.AccountName));
+                //}
 
                 if (current.TicketEntities.Count != loaded.TicketEntities.Count || !current.TicketEntities.All(x => loaded.TicketEntities.Any(y => x.EntityId == y.EntityId)))
                 {

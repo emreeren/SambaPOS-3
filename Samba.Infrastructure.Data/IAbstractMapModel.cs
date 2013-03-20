@@ -6,5 +6,7 @@ namespace Samba.Infrastructure.Data
         int DepartmentId { get; set; }
         int UserRoleId { get; set; }
         int TicketTypeId { get; set; }
+
+        void Initialize();
     }
 }

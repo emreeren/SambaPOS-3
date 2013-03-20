@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using Samba.Domain.Models;
 using Samba.Domain.Models.Accounts;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
-using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Services;
 
@@ -44,8 +44,8 @@ namespace Samba.Modules.AccountModule
         private IEnumerable<AccountSelectViewModel> GetAccountSelectors()
         {
             var map = DocumentType.AccountTransactionDocumentAccountMaps.FirstOrDefault(x => x.AccountId == SelectedAccount.Id);
-            return map != null 
-                ? DocumentType.GetNeededAccountTypes().Select(x => new AccountSelectViewModel(_accountService, _cacheService.GetAccountTypeById(x), map.MappedAccountId, map.MappedAccountName)) 
+            return map != null
+                ? DocumentType.GetNeededAccountTypes().Select(x => new AccountSelectViewModel(_accountService, _cacheService.GetAccountTypeById(x), map.MappedAccountId, map.MappedAccountName))
                 : DocumentType.GetNeededAccountTypes().Select(x => new AccountSelectViewModel(_accountService, _cacheService.GetAccountTypeById(x)));
         }
 
@@ -77,14 +77,14 @@ namespace Samba.Modules.AccountModule
 
         private void OnCancel(string obj)
         {
-            CommonEventPublisher.PublishEntityOperation(new AccountData { AccountId = SelectedAccount.Id }, EventTopicNames.DisplayAccountTransactions);
+            CommonEventPublisher.PublishEntityOperation(new AccountData(SelectedAccount), EventTopicNames.DisplayAccountTransactions);
         }
 
         private void OnSave(string obj)
         {
             if (AccountSelectors.Any(x => x.SelectedAccountId == 0)) return;
             _accountService.CreateTransactionDocument(SelectedAccount, DocumentType, Description, Amount, AccountSelectors.Select(x => new Account { Id = x.SelectedAccountId, AccountTypeId = x.AccountType.Id }));
-            CommonEventPublisher.PublishEntityOperation(new AccountData { AccountId = SelectedAccount.Id }, EventTopicNames.DisplayAccountTransactions);
+            CommonEventPublisher.PublishEntityOperation(new AccountData(SelectedAccount), EventTopicNames.DisplayAccountTransactions);
         }
     }
 }

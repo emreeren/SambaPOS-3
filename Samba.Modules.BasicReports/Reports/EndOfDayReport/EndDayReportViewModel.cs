@@ -35,10 +35,10 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 
             //---------------
 
-            CreateDepartmentInfo(report, ReportContext.Tickets.Where(x => x.TotalAmount >= 0), Resources.Sales);
+            CreateTicketTypeInfo(report, ReportContext.Tickets.Where(x => x.TotalAmount >= 0), Resources.Sales);
             var refundTickets = ReportContext.Tickets.Where(x => x.TotalAmount < 0).ToList();
             if (refundTickets.Any())
-                CreateDepartmentInfo(report, refundTickets, "Returns");
+                CreateTicketTypeInfo(report, refundTickets, "Returns");
             //---------------
 
             var incomeCalculator = ReportContext.GetIncomeCalculator();
@@ -71,10 +71,10 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
             //---------------
 
             var ticketGropus = ReportContext.Tickets
-                .GroupBy(x => new { x.DepartmentId })
-                .Select(x => new DepartmentInfo
+                .GroupBy(x => new { x.TicketTypeId })
+                .Select(x => new TicketTypeInfo
                 {
-                    DepartmentId = x.Key.DepartmentId,
+                    TicketTypeId = x.Key.TicketTypeId,
                     TicketCount = x.Count(),
                     Amount = x.Sum(y => y.GetSum()),
                     Tax = x.Sum(y => y.CalculateTax(y.GetPlainSum(), y.GetPreTaxServicesTotal())),
@@ -95,9 +95,9 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 
             if (ticketGropus.Count() > 1)
             {
-                foreach (var departmentInfo in ticketGropus)
+                foreach (var TicketTypeInfo in ticketGropus)
                 {
-                    report.AddRow("Bilgi", departmentInfo.DepartmentName, departmentInfo.TicketCount.ToString());
+                    report.AddRow("Bilgi", TicketTypeInfo.TicketTypeName, TicketTypeInfo.TicketCount.ToString());
                 }
             }
 
@@ -146,36 +146,36 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 
             if (ticketGropus.Count() > 1)
             {
-                foreach (var departmentInfo in ticketGropus)
+                foreach (var ticketTypeInfo in ticketGropus)
                 {
-                    var dinfo = departmentInfo;
+                    var dinfo = ticketTypeInfo;
 
                     var groups = ReportContext.Tickets
-                        .Where(x => x.DepartmentId == dinfo.DepartmentId)
+                        .Where(x => x.TicketTypeId == dinfo.TicketTypeId)
                         .SelectMany(x => x.Payments)
                         .GroupBy(x => new { x.Name })
                         .Select(x => new TenderedAmount { PaymentName = x.Key.Name, Amount = x.Sum(y => y.Amount) });
 
-                    var departmentAmountCalculator = new AmountCalculator(groups);
+                    var ticketTypeAmountCalculator = new AmountCalculator(groups);
 
-                    report.AddColumnLength(departmentInfo.DepartmentName + Resources.Incomes, "40*", "Auto", "35*");
-                    report.AddColumTextAlignment(departmentInfo.DepartmentName + Resources.Incomes, TextAlignment.Left, TextAlignment.Right, TextAlignment.Right);
-                    report.AddTable(departmentInfo.DepartmentName + Resources.Incomes, string.Format(Resources.Incomes_f, departmentInfo.DepartmentName), "", "");
+                    report.AddColumnLength(ticketTypeInfo.TicketTypeName + Resources.Incomes, "40*", "Auto", "35*");
+                    report.AddColumTextAlignment(ticketTypeInfo.TicketTypeName + Resources.Incomes, TextAlignment.Left, TextAlignment.Right, TextAlignment.Right);
+                    report.AddTable(ticketTypeInfo.TicketTypeName + Resources.Incomes, string.Format(Resources.Incomes_f, ticketTypeInfo.TicketTypeName), "", "");
 
-                    foreach (var paymentName in departmentAmountCalculator.PaymentNames)
+                    foreach (var paymentName in ticketTypeAmountCalculator.PaymentNames)
                     {
-                        report.AddRow(departmentInfo.DepartmentName + Resources.Incomes, paymentName, departmentAmountCalculator.GetPercent(paymentName), departmentAmountCalculator.GetAmount(paymentName).ToString(ReportContext.CurrencyFormat));
+                        report.AddRow(ticketTypeInfo.TicketTypeName + Resources.Incomes, paymentName, ticketTypeAmountCalculator.GetPercent(paymentName), ticketTypeAmountCalculator.GetAmount(paymentName).ToString(ReportContext.CurrencyFormat));
                     }
 
-                    report.AddRow(departmentInfo.DepartmentName + Resources.Incomes, Resources.TotalIncome, "", departmentInfo.Amount.ToString(ReportContext.CurrencyFormat));
+                    report.AddRow(ticketTypeInfo.TicketTypeName + Resources.Incomes, Resources.TotalIncome, "", ticketTypeInfo.Amount.ToString(ReportContext.CurrencyFormat));
 
                     var ddiscounts = ReportContext.Tickets
-                        .Where(x => x.DepartmentId == dinfo.DepartmentId)
+                        .Where(x => x.TicketTypeId == dinfo.TicketTypeId)
                         .Sum(x => x.GetPreTaxServicesTotal());
 
                     ddiscounts = Math.Abs(ddiscounts);
 
-                    report.AddRow(departmentInfo.DepartmentName + Resources.Incomes, Resources.DiscountsTotal, "", ddiscounts.ToString(ReportContext.CurrencyFormat));
+                    report.AddRow(ticketTypeInfo.TicketTypeName + Resources.Incomes, Resources.DiscountsTotal, "", ddiscounts.ToString(ReportContext.CurrencyFormat));
                 }
             }
 
@@ -313,17 +313,17 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
             return report.Document;
         }
 
-        private static void CreateDepartmentInfo(SimpleReport report, IEnumerable<Ticket> tickets, string header)
+        private static void CreateTicketTypeInfo(SimpleReport report, IEnumerable<Ticket> tickets, string header)
         {
-            var rpKey = "Departman" + header;
+            var rpKey = "TicketType" + header;
             report.AddColumTextAlignment(rpKey, TextAlignment.Left, TextAlignment.Right);
             report.AddTable(rpKey, header, "");
 
             var ticketGropus = tickets
-                .GroupBy(x => new { x.DepartmentId })
-                .Select(x => new DepartmentInfo
+                .GroupBy(x => new { x.TicketTypeId })
+                .Select(x => new TicketTypeInfo
                                  {
-                                     DepartmentId = x.Key.DepartmentId,
+                                     TicketTypeId = x.Key.TicketTypeId,
                                      TicketCount = x.Count(),
                                      Amount = x.Sum(y => y.GetSum()) - x.Sum(y => y.CalculateTax(y.GetPlainSum(), y.GetPreTaxServicesTotal())) - x.Sum(y => y.GetPostTaxServicesTotal()),
                                      Tax = x.Sum(y => y.CalculateTax(y.GetPlainSum(), y.GetPreTaxServicesTotal())),
@@ -332,10 +332,10 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 
             if (ticketGropus.Count() > 1)
             {
-                foreach (var departmentInfo in ticketGropus)
+                foreach (var ticketTypeInfo in ticketGropus)
                 {
-                    report.AddRow(rpKey, departmentInfo.DepartmentName,
-                                  departmentInfo.Amount.ToString(ReportContext.CurrencyFormat));
+                    report.AddRow(rpKey, ticketTypeInfo.TicketTypeName,
+                                  ticketTypeInfo.Amount.ToString(ReportContext.CurrencyFormat));
                 }
             }
 

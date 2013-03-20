@@ -72,6 +72,7 @@
     <Compile Include="Expression\TicketAccessor.cs" />
     <Compile Include="Expression\ExpressionEngine.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Models\AccountData.cs" />
     <Compile Include="Models\Accounts\Account.cs" />
     <Compile Include="Models\Accounts\AccountScreen.cs" />
     <Compile Include="Models\Accounts\AccountScreenValue.cs" />

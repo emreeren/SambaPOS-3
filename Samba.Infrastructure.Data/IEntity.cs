@@ -29,5 +29,10 @@ namespace Samba.Infrastructure.Data
         public int DepartmentId { get; set; }
         public int UserRoleId { get; set; }
         public int TicketTypeId { get; set; }
+        
+        public virtual void Initialize()
+        {
+            // Override for default values;
+        }
     }
 }

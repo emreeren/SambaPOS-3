@@ -9,8 +9,7 @@
         public override string GetFormattedLine()
         {
             var result = Tag.Tag + Line;
-            if (!string.IsNullOrWhiteSpace(result)) return result;
-            return "";
+            return !string.IsNullOrWhiteSpace(result) ? result : "";
         }
     }
 }

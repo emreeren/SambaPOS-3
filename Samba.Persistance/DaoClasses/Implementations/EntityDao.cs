@@ -10,15 +10,26 @@ using Samba.Persistance.Data;
 
 namespace Samba.Persistance.DaoClasses.Implementations
 {
+    class EntityDeleteValidator : SpecificationValidator<Entity>
+    {
+        public override string GetErrorMessage(Entity model)
+        {
+            if (Dao.Exists<EntityScreenItem>(y => y.EntityId == model.Id))
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Entity, Resources.EntityScreen);
+            if (Dao.Exists<TicketEntity>(y => y.EntityId == model.Id))
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Entity, Resources.Ticket);
+            return "";
+        }
+    }
+
     [Export(typeof(IEntityDao))]
     class EntityDao : IEntityDao
     {
         [ImportingConstructor]
         public EntityDao()
         {
-            ValidatorRegistry.RegisterDeleteValidator<Entity>(x => Dao.Exists<TicketEntity>(y => y.EntityId == x.Id), Resources.Entity, Resources.Ticket);
+            ValidatorRegistry.RegisterDeleteValidator(new EntityDeleteValidator());
             ValidatorRegistry.RegisterDeleteValidator<EntityType>(x => Dao.Exists<Entity>(y => y.EntityTypeId == x.Id), Resources.EntityType, Resources.Entity);
-            ValidatorRegistry.RegisterDeleteValidator<EntityScreenItem>(x => Dao.Exists<EntityScreen>(y => y.ScreenItems.Any(z => z.Id == x.Id)), Resources.EntityScreenItem, Resources.EntityScreen);
             ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<Entity>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.Entity)));
             ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<EntityType>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.EntityType)));
             ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<EntityScreenItem>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.EntityScreenItem)));

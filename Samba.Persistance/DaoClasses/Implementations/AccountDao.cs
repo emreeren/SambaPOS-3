@@ -96,17 +96,6 @@ namespace Samba.Persistance.DaoClasses.Implementations
             return Dao.Select<Entity, string>(x => x.CustomData, x => x.AccountId == accountId).SingleOrDefault();
         }
 
-        public void CreateAccountTransaction(AccountTransactionType transactionType, Account sourceAccount, Account targetAccount, decimal amount, decimal exchangeRate)
-        {
-            using (var w = WorkspaceFactory.Create())
-            {
-                var doc = new AccountTransactionDocument();
-                w.Add(doc);
-                doc.AddNewTransaction(transactionType, sourceAccount.AccountTypeId, sourceAccount.Id, targetAccount, amount, exchangeRate);
-                w.CommitChanges();
-            }
-        }
-
         public void CreateTransactionDocument(Account selectedAccount, AccountTransactionDocumentType documentType, string description, decimal amount, decimal exchangeRate, IEnumerable<Account> accounts)
         {
             using (var w = WorkspaceFactory.Create())

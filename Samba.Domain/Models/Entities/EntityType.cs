@@ -15,10 +15,11 @@ namespace Samba.Domain.Models.Entities
         public int WarehouseTypeId { get; set; }
         public string AccountNameTemplate { get; set; }
 
-        private readonly IList<EntityCustomField> _entityCustomFields;
+        private IList<EntityCustomField> _entityCustomFields;
         public virtual IList<EntityCustomField> EntityCustomFields
         {
             get { return _entityCustomFields; }
+            set { _entityCustomFields = value; }
         }
 
         public EntityType()

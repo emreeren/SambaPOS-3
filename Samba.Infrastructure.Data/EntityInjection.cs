@@ -72,7 +72,16 @@ namespace Samba.Infrastructure.Data
             }
 
             if (c.TargetProp.Value == null)
-                c.TargetProp.Value = Activator.CreateInstance(c.TargetProp.Type);
+            {
+                try
+                {
+                    c.TargetProp.Value = Activator.CreateInstance(c.TargetProp.Type);
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
 
             return c.TargetProp.Value.InjectFrom<EntityInjection>(c.SourceProp.Value);
         }

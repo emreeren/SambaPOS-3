@@ -59,10 +59,11 @@ namespace Samba.Domain.Models.Accounts
         public bool IsReversed { get; set; }
         public bool Reversable { get; set; }
 
-        private readonly IList<AccountTransactionValue> _accountTransactionValues;
+        private IList<AccountTransactionValue> _accountTransactionValues;
         public virtual IList<AccountTransactionValue> AccountTransactionValues
         {
             get { return _accountTransactionValues; }
+            set { _accountTransactionValues = value; }
         }
 
         public AccountTransactionValue SourceTransactionValue
@@ -127,10 +128,10 @@ namespace Samba.Domain.Models.Accounts
             return result;
         }
 
-        public static AccountTransaction Create(AccountTransactionType template, int accountTypeId, int accountId)
+        public static AccountTransaction Create(AccountTransactionType template, IEnumerable<AccountData> accountDataList)
         {
             var result = Create(template);
-            result.UpdateAccounts(accountTypeId, accountId);
+            result.UpdateAccounts(accountDataList);
             return result;
         }
 
@@ -146,12 +147,20 @@ namespace Samba.Domain.Models.Accounts
             TargetTransactionValue.AccountId = accountId;
         }
 
-        public void UpdateAccounts(int accountTypeId, int accountId)
+        public void UpdateAccount(int accountTypeId, int accountId)
         {
             if (SourceAccountTypeId == accountTypeId)
                 SourceTransactionValue.AccountId = accountId;
             else if (TargetAccountTypeId == accountTypeId)
                 TargetTransactionValue.AccountId = accountId;
+        }
+
+        public void UpdateAccounts(IEnumerable<AccountData> accountDataList)
+        {
+            foreach (var ad in accountDataList)
+            {
+                UpdateAccount(ad.AccountTypeId, ad.AccountId);
+            }
         }
 
         public void Reverse()

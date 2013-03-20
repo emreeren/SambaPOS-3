@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Windows;
+using Samba.Domain.Models;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Settings;
@@ -169,7 +170,7 @@ namespace Samba.Modules.AccountModule
         {
             AccountDetails.Clear();
             if (_currentOperationRequest != null)
-                _currentOperationRequest.Publish(new AccountData { AccountId = SelectedAccount.Id });
+                _currentOperationRequest.Publish(new AccountData(SelectedAccount));
         }
 
         private void OnDisplayTicket(string obj)
@@ -186,7 +187,7 @@ namespace Samba.Modules.AccountModule
 
                     ExtensionMethods.PublishIdEvent(ticket.Id,
                         EventTopicNames.DisplayTicket,
-                        () => CommonEventPublisher.PublishEntityOperation(new AccountData { AccountId = SelectedAccount.Id }, EventTopicNames.DisplayAccountTransactions, expectedEvent));
+                        () => CommonEventPublisher.PublishEntityOperation(new AccountData(SelectedAccount), EventTopicNames.DisplayAccountTransactions, expectedEvent));
                 }
             }
         }

@@ -22,7 +22,6 @@ namespace Samba.Modules.BasicReports
 {
     public static class ReportContext
     {
-        public static IDepartmentService DepartmentService { get; set; }
         public static IWorkPeriodService WorkPeriodService { get; set; }
         public static IInventoryService InventoryService { get; set; }
         public static IPrinterService PrinterService { get; set; }
@@ -61,8 +60,8 @@ namespace Samba.Modules.BasicReports
         private static IEnumerable<Ticket> _tickets;
         public static IEnumerable<Ticket> Tickets { get { return _tickets ?? (_tickets = GetTickets()); } }
 
-        private static IEnumerable<Department> _departments;
-        public static IEnumerable<Department> Departments { get { return _departments ?? (_departments = GetDepartments()); } }
+        private static IEnumerable<TicketType> _ticketTypes;
+        public static IEnumerable<TicketType> TicketTypes { get { return _ticketTypes ?? (_ticketTypes = GetTicketTypes()); } }
 
         private static IEnumerable<MenuItem> _menutItems;
         public static IEnumerable<MenuItem> MenuItems { get { return _menutItems ?? (_menutItems = GetMenuItems()); } }
@@ -170,9 +169,9 @@ namespace Samba.Modules.BasicReports
             return Dao.Query<MenuItem>();
         }
 
-        private static IEnumerable<Department> GetDepartments()
+        private static IEnumerable<TicketType> GetTicketTypes()
         {
-            return Dao.Query<Department>();
+            return Dao.Query<TicketType>();
         }
 
         private static IEnumerable<Ticket> GetTickets()
@@ -326,12 +325,6 @@ namespace Samba.Modules.BasicReports
         public static string GetUserName(int userId)
         {
             return UserService.ContainsUser(userId) ? UserService.GetUserName(userId) : Resources.UndefinedWithBrackets;
-        }
-
-        internal static string GetDepartmentName(int departmentId)
-        {
-            var d = DepartmentService.GetDepartment(departmentId);
-            return d != null ? d.Name : Resources.UndefinedWithBrackets;
         }
 
         internal static AmountCalculator GetIncomeCalculator()

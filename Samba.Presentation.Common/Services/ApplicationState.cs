@@ -31,7 +31,7 @@ namespace Samba.Presentation.Common.Services
 
         [ImportingConstructor]
         public ApplicationState(IDepartmentService departmentService, ISettingService settingService,
-            ICacheService cacheService,IExpressionService expressionService)
+            ICacheService cacheService, IExpressionService expressionService)
         {
             _screenState = new StateMachine<AppScreens, AppScreens>(() => ActiveAppScreen, state => ActiveAppScreen = state);
             _screenState.OnUnhandledTrigger(HandleTrigger);
@@ -47,8 +47,9 @@ namespace Samba.Presentation.Common.Services
         public AppScreens ActiveAppScreen { get; private set; }
         public CurrentDepartmentData CurrentDepartment { get; private set; }
         public TicketType CurrentTicketType { get; set; }
+        public TicketType TempTicketType { get; set; }
         public EntityScreen SelectedEntityScreen { get; private set; }
-        public EntityScreen ActiveEntityScreen { get; set; }
+        public EntityScreen TempEntityScreen { get; set; }
 
         private bool _isLocked;
         public bool IsLocked
@@ -101,6 +102,7 @@ namespace Samba.Presentation.Common.Services
             {
                 CurrentDepartment = new CurrentDepartmentData { Model = department };
                 CurrentDepartment.Model.PublishEvent(EventTopicNames.SelectedDepartmentChanged);
+                SetCurrentTicketType(_cacheService.GetTicketTypeById(CurrentDepartment.TicketTypeId));
             }
         }
 
@@ -122,11 +124,11 @@ namespace Samba.Presentation.Common.Services
 
         public EntityScreen SetSelectedEntityScreen(EntityScreen entityScreen)
         {
-            if (IsLocked && ActiveEntityScreen == null) ActiveEntityScreen = SelectedEntityScreen;
-            else if (!IsLocked && ActiveEntityScreen != null)
+            if (IsLocked && TempEntityScreen == null) TempEntityScreen = SelectedEntityScreen;
+            else if (!IsLocked && TempEntityScreen != null)
             {
-                entityScreen = ActiveEntityScreen;
-                ActiveEntityScreen = null;
+                entityScreen = TempEntityScreen;
+                TempEntityScreen = null;
             }
             SelectedEntityScreen = entityScreen;
             return entityScreen;
@@ -145,7 +147,11 @@ namespace Samba.Presentation.Common.Services
 
         public void SetCurrentTicketType(TicketType ticketType)
         {
-            CurrentTicketType = ticketType ?? TicketType.Default;
+            if (ticketType != CurrentTicketType)
+            {
+                CurrentTicketType = ticketType ?? TicketType.Default;
+                CurrentTicketType.PublishEvent(EventTopicNames.TicketTypeChanged);
+            }
         }
 
         public string NumberPadValue

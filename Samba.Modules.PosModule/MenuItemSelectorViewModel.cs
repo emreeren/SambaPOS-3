@@ -29,9 +29,7 @@ namespace Samba.Modules.PosModule
         public DelegateCommand<ScreenMenuCategory> CategoryCommand { get; set; }
         public DelegateCommand<ScreenMenuItem> MenuItemCommand { get; set; }
         public DelegateCommand<string> TypeValueCommand { get; set; }
-        public DelegateCommand<string> FindLocationCommand { get; set; }
         public DelegateCommand<string> FindMenuItemCommand { get; set; }
-        public DelegateCommand<string> FindTicketCommand { get; set; }
         public ICaptionCommand IncPageNumberCommand { get; set; }
         public ICaptionCommand DecPageNumberCommand { get; set; }
         public ICaptionCommand SubCategoryCommand { get; set; }
@@ -69,26 +67,22 @@ namespace Samba.Modules.PosModule
 
         private readonly IApplicationState _applicationState;
         private readonly IApplicationStateSetter _applicationStateSetter;
-        private readonly IMenuService _menuService;
         private readonly ISettingService _settingService;
         private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public MenuItemSelectorViewModel(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter, IMenuService menuService,
+        public MenuItemSelectorViewModel(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
             ISettingService settingService, ICacheService cacheService)
         {
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
-            _menuService = menuService;
             _settingService = settingService;
             _cacheService = cacheService;
 
             CategoryCommand = new DelegateCommand<ScreenMenuCategory>(OnCategoryCommandExecute);
             MenuItemCommand = new DelegateCommand<ScreenMenuItem>(OnMenuItemCommandExecute);
             TypeValueCommand = new DelegateCommand<string>(OnTypeValueExecute);
-            FindLocationCommand = new DelegateCommand<string>(OnFindLocationExecute, CanFindLocation);
             FindMenuItemCommand = new DelegateCommand<string>(OnFindMenuItemCommand);
-            FindTicketCommand = new DelegateCommand<string>(OnFindTicketExecute, CanFindTicket);
             IncPageNumberCommand = new CaptionCommand<string>(Localization.Properties.Resources.NextPage + " >>", OnIncPageNumber, CanIncPageNumber);
             DecPageNumberCommand = new CaptionCommand<string>("<< " + Localization.Properties.Resources.PreviousPage, OnDecPageNumber, CanDecPageNumber);
             SubCategoryCommand = new CaptionCommand<ScreenSubCategoryButton>(".", OnSubCategoryCommand);
@@ -147,31 +141,6 @@ namespace Samba.Modules.PosModule
             UpdateMenuButtons(SelectedCategory);
         }
 
-        private void OnFindTicketExecute(string obj)
-        {
-            //if (string.IsNullOrEmpty(NumeratorValue))
-            //{
-            //    _applicationState.CurrentWorkPeriod.PublishEvent(EventTopicNames.DisplayTicketExplorer);
-            //}
-            //else
-            //{
-            //    //var ticket = _ticketService.OpenTicketByTicketNumber(NumeratorValue);
-            //    //if (ticket != null)
-            //    //{
-            //    //    if (!_userService.IsUserPermittedFor(PermissionNames.DisplayOldTickets) && _applicationState.CurrentTicket.Date < _applicationState.CurrentWorkPeriod.StartDate)
-            //    //        _ticketService.CloseTicket(ticket);
-            //    //    else
-            //    //        EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
-            //    //}
-            //    NumeratorValue = "";
-            //}
-        }
-
-        private bool CanFindTicket(string arg)
-        {
-            return !_applicationState.IsLocked;
-        }
-
         private void OnFindMenuItemCommand(string obj)
         {
             var insertedData = NumeratorValue;
@@ -221,23 +190,6 @@ namespace Samba.Modules.PosModule
                 }
                 catch (Exception) { }
             }
-        }
-
-        private bool CanFindLocation(string arg)
-        {
-            //return _applicationState.CurrentTicket == null;
-            return false;
-        }
-
-        private void OnFindLocationExecute(string obj)
-        {
-            //if (_applicationState.CurrentTicket == null)
-            //{
-            //    _ticketService.OpenTicketByLocationName(NumeratorValue);
-            //    if (_applicationState.CurrentTicket != null)
-            //        EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
-            //}
-            NumeratorValue = "";
         }
 
         private void OnMenuItemCommandExecute(ScreenMenuItem screenMenuItem)

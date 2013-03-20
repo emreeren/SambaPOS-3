@@ -19,10 +19,11 @@ namespace Samba.Domain.Models.Menus
             _categories = new List<ScreenMenuCategory>();
         }
 
-        private readonly IList<ScreenMenuCategory> _categories;
+        private IList<ScreenMenuCategory> _categories;
         public virtual IList<ScreenMenuCategory> Categories
         {
             get { return _categories; }
+            set { _categories = value; }
         }
 
         public ScreenMenuCategory AddCategory(string categoryName)

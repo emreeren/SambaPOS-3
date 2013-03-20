@@ -475,7 +475,7 @@ namespace Samba.Services.Implementations
 
         public EntityType GetEntityTypeById(int entityTypeId)
         {
-            return EntityTypes.Single(x => x.Id == entityTypeId);
+            return EntityTypes.SingleOrDefault(x => x.Id == entityTypeId);
         }
 
         public int GetEntityTypeIdByEntityName(string entityName)

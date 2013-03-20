@@ -2,18 +2,18 @@
 
 namespace Samba.Modules.BasicReports.Reports
 {
-    internal class DepartmentInfo
+    internal class TicketTypeInfo
     {
-        public int DepartmentId { get; set; }
+        public int TicketTypeId { get; set; }
         public decimal Amount { get; set; }
         public decimal Tax { get; set; }
         public decimal Services { get; set; }
         public int TicketCount { get; set; }
-        public string DepartmentName
+        public string TicketTypeName
         {
             get
             {
-                var d = ReportContext.Departments.SingleOrDefault(x => x.Id == DepartmentId);
+                var d = ReportContext.TicketTypes.SingleOrDefault(x => x.Id == TicketTypeId);
                 return d != null ? d.Name : Localization.Properties.Resources.UndefinedWithBrackets;
             }
         }

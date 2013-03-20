@@ -10,16 +10,18 @@ namespace Samba.Domain.Models.Automation
         public string EventConstraints { get; set; }
         public string CustomConstraint { get; set; }
 
-        private readonly IList<ActionContainer> _actions;
+        private IList<ActionContainer> _actions;
         public virtual IList<ActionContainer> Actions
         {
             get { return _actions; }
+            set { _actions = value; }
         }
 
-        private readonly IList<AppRuleMap> _appRuleMaps;
+        private IList<AppRuleMap> _appRuleMaps;
         public virtual IList<AppRuleMap> AppRuleMaps
         {
             get { return _appRuleMaps; }
+            set { _appRuleMaps = value; }
         }
 
         public AppRule()

@@ -10,10 +10,11 @@ namespace Samba.Domain.Models.Menus
         public int MenuItemId { get; set; }
         public int Multiplier { get; set; }
 
-        private readonly IList<MenuItemPrice> _prices;
+        private IList<MenuItemPrice> _prices;
         public virtual IList<MenuItemPrice> Prices
         {
             get { return _prices; }
+            set { _prices = value; }
         }
 
         public MenuItemPortion()

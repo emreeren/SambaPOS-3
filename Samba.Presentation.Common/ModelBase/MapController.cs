@@ -50,6 +50,7 @@ namespace Samba.Presentation.Common.ModelBase
         private void OnAddMap(string obj)
         {
             var map = new TModel();
+            map.Initialize();
             _itemsSource.Add(map);
             Maps.Add(CreateNewViewModel(map));
         }

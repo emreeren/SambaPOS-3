@@ -32,16 +32,6 @@ namespace Samba.Services.Implementations.AccountModule
             _accountDao.CreateTransactionDocument(selectedAccount, documentType, description, amount, exchangeRate, accounts);
         }
 
-        public void CreateAccountTransaction(Account sourceAccount, Account targetAccount, decimal amount, decimal exchangeRate)
-        {
-            var transactionType = _cacheService.FindAccountTransactionType(sourceAccount.AccountTypeId, targetAccount.AccountTypeId,
-                sourceAccount.Id, targetAccount.Id);
-            if (transactionType != null)
-            {
-                _accountDao.CreateAccountTransaction(transactionType, sourceAccount, targetAccount, amount, exchangeRate);
-            }
-        }
-
         public decimal GetAccountBalance(int accountId)
         {
             return _accountDao.GetAccountBalance(accountId);

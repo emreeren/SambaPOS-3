@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Windows;
 using Microsoft.Practices.Prism.Events;
+using Samba.Domain.Models;
 using Samba.Domain.Models.Accounts;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
@@ -57,7 +58,7 @@ namespace Samba.Modules.AccountModule
         private AccountScreen _selectedAccountScreen;
 
         [ImportingConstructor]
-        public AccountSelectorViewModel(IAccountService accountService, ICacheService cacheService, IApplicationState applicationState, 
+        public AccountSelectorViewModel(IAccountService accountService, ICacheService cacheService, IApplicationState applicationState,
             IPrinterService printerService)
         {
             _accounts = new ObservableCollection<AccountRowData>();
@@ -161,7 +162,7 @@ namespace Samba.Modules.AccountModule
 
         private void OnShowAccountDetails(object obj)
         {
-            CommonEventPublisher.PublishEntityOperation(new AccountData { AccountId = SelectedAccount.AccountId }, EventTopicNames.DisplayAccountTransactions, EventTopicNames.ActivateAccountSelector);
+            CommonEventPublisher.PublishEntityOperation(new AccountData(SelectedAccount.AccountId), EventTopicNames.DisplayAccountTransactions, EventTopicNames.ActivateAccountSelector);
         }
 
         public void Refresh()

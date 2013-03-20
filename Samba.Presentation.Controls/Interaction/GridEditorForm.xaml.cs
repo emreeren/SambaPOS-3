@@ -16,6 +16,7 @@ namespace Samba.Presentation.Controls.Interaction
         public GridEditorForm()
         {
             InitializeComponent();
+            MainGrid.ControlFactory = new CustomItemsGridControlFactory();
         }
 
         public void SetList(IList items)
