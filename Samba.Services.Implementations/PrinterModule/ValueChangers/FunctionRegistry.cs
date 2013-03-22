@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.Practices.ServiceLocation;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
+using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 
 namespace Samba.Services.Implementations.PrinterModule.ValueChangers
@@ -32,63 +33,63 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<Ticket>(TagNames.UserName, (x, d) => x.Orders.Last().CreatingUserName, Resources.UserName);
             RegisterFunction<Ticket>(TagNames.Department, (x, d) => GetDepartmentName(x.DepartmentId), Resources.Department);
             RegisterFunction<Ticket>(TagNames.Note, (x, d) => x.Note, Resources.TicketNote);
-            RegisterFunction<Ticket>(TagNames.PlainTotal, (x, d) => x.GetPlainSum().ToString("#,#0.00"), Resources.TicketSubTotal, x => x.GetSum() != x.GetPlainSum());
-            RegisterFunction<Ticket>(TagNames.DiscountTotal, (x, d) => x.GetPreTaxServicesTotal().ToString("#,#0.00"), Resources.DiscountTotal);
-            RegisterFunction<Ticket>(TagNames.TaxTotal, (x, d) => x.CalculateTax(x.GetPlainSum(), x.GetPreTaxServicesTotal()).ToString("#,#0.00"), Resources.TaxTotal);
-            RegisterFunction<Ticket>(TagNames.TicketTotal, (x, d) => x.GetSum().ToString("#,#0.00"), Resources.TicketTotal);
-            RegisterFunction<Ticket>(TagNames.PaymentTotal, (x, d) => x.GetPaymentAmount().ToString("#,#0.00"), Resources.PaymentTotal);
-            RegisterFunction<Ticket>(TagNames.Balance, (x, d) => x.GetRemainingAmount().ToString("#,#0.00"), Resources.Balance, x => x.GetRemainingAmount() != x.GetSum());
+            RegisterFunction<Ticket>(TagNames.PlainTotal, (x, d) => x.GetPlainSum().ToString(LocalSettings.CurrencyFormat), Resources.TicketSubTotal, x => x.GetSum() != x.GetPlainSum());
+            RegisterFunction<Ticket>(TagNames.DiscountTotal, (x, d) => x.GetPreTaxServicesTotal().ToString(LocalSettings.CurrencyFormat), Resources.DiscountTotal);
+            RegisterFunction<Ticket>(TagNames.TaxTotal, (x, d) => x.CalculateTax(x.GetPlainSum(), x.GetPreTaxServicesTotal()).ToString(LocalSettings.CurrencyFormat), Resources.TaxTotal);
+            RegisterFunction<Ticket>(TagNames.TicketTotal, (x, d) => x.GetSum().ToString(LocalSettings.CurrencyFormat), Resources.TicketTotal);
+            RegisterFunction<Ticket>(TagNames.PaymentTotal, (x, d) => x.GetPaymentAmount().ToString(LocalSettings.CurrencyFormat), Resources.PaymentTotal);
+            RegisterFunction<Ticket>(TagNames.Balance, (x, d) => x.GetRemainingAmount().ToString(LocalSettings.CurrencyFormat), Resources.Balance, x => x.GetRemainingAmount() != x.GetSum());
             RegisterFunction<Ticket>(TagNames.TotalText, (x, d) => HumanFriendlyInteger.CurrencyToWritten(x.GetSum()), Resources.TextWrittenTotalValue);
             RegisterFunction<Ticket>(TagNames.Totaltext, (x, d) => HumanFriendlyInteger.CurrencyToWritten(x.GetSum(), true), Resources.TextWrittenTotalValue);
             RegisterFunction<Ticket>("{TICKET TAG:([^}]+)}", (x, d) => x.GetTagValue(d), Resources.TicketTag);
             RegisterFunction<Ticket>("{TICKET STATE:([^}]+)}", (x, d) => x.GetStateStr(d), "Ticket State");
             RegisterFunction<Ticket>("{SETTING:([^}]+)}", (x, d) => SettingService.ReadSetting(d).StringValue, Resources.SettingValue);
-            RegisterFunction<Ticket>("{CALCULATION TOTAL:([^}]+)}", (x, d) => x.GetCalculationTotal(d).ToString("#,#0.00"), "Calculation Total", x => x.Calculations.Count > 0);
+            RegisterFunction<Ticket>("{CALCULATION TOTAL:([^}]+)}", (x, d) => x.GetCalculationTotal(d).ToString(LocalSettings.CurrencyFormat), "Calculation Total", x => x.Calculations.Count > 0);
             RegisterFunction<Ticket>("{ENTITY NAME:([^}]+)}", (x, d) => x.GetEntityName(CacheService.GetEntityTypeIdByEntityName(d)), "Entity Name");
-            RegisterFunction<Ticket>("{ORDER STATE TOTAL:([^}]+)}", (x, d) => x.GetOrderStateTotal(d).ToString("#,#0.00"), "Order State Total");
-            RegisterFunction<Ticket>("{SERVICE TOTAL}", (x, d) => x.GetPostTaxServicesTotal().ToString("#,#0.00"), "Service Total");
+            RegisterFunction<Ticket>("{ORDER STATE TOTAL:([^}]+)}", (x, d) => x.GetOrderStateTotal(d).ToString(LocalSettings.CurrencyFormat), "Order State Total");
+            RegisterFunction<Ticket>("{SERVICE TOTAL}", (x, d) => x.GetPostTaxServicesTotal().ToString(LocalSettings.CurrencyFormat), "Service Total");
 
             //ORDERS
-            RegisterFunction<Order>(TagNames.Quantity, (x, d) => x.Quantity.ToString("#,#0.##"), Resources.LineItemQuantity);
+            RegisterFunction<Order>(TagNames.Quantity, (x, d) => x.Quantity.ToString(LocalSettings.QuantityFormat), Resources.LineItemQuantity);
             RegisterFunction<Order>(TagNames.Name, (x, d) => x.MenuItemName + x.GetPortionDesc(), Resources.LineItemName);
-            RegisterFunction<Order>(TagNames.Price, (x, d) => x.Price.ToString("#,#0.00"), Resources.LineItemPrice);
-            RegisterFunction<Order>(TagNames.Total, (x, d) => x.GetPrice().ToString("#,#0.00"), Resources.LineItemTotal);
-            RegisterFunction<Order>(TagNames.TotalAmount, (x, d) => x.GetValue().ToString("#,#0.00"), Resources.LineItemTotalAndQuantity);
-            RegisterFunction<Order>(TagNames.Cents, (x, d) => (x.Price * 100).ToString("#,##"), Resources.LineItemPriceCents);
-            RegisterFunction<Order>(TagNames.LineAmount, (x, d) => x.GetTotal().ToString("#,#0.00"), Resources.LineItemTotalWithoutGifts);
+            RegisterFunction<Order>(TagNames.Price, (x, d) => x.Price.ToString(LocalSettings.CurrencyFormat), Resources.LineItemPrice);
+            RegisterFunction<Order>(TagNames.Total, (x, d) => x.GetPrice().ToString(LocalSettings.CurrencyFormat), Resources.LineItemTotal);
+            RegisterFunction<Order>(TagNames.TotalAmount, (x, d) => x.GetValue().ToString(LocalSettings.CurrencyFormat), Resources.LineItemTotalAndQuantity);
+            RegisterFunction<Order>(TagNames.Cents, (x, d) => (x.Price * 100).ToString(LocalSettings.QuantityFormat), Resources.LineItemPriceCents);
+            RegisterFunction<Order>(TagNames.LineAmount, (x, d) => x.GetTotal().ToString(LocalSettings.CurrencyFormat), Resources.LineItemTotalWithoutGifts);
             RegisterFunction<Order>(TagNames.OrderNo, (x, d) => x.OrderNumber.ToString(), Resources.LineOrderNumber);
             RegisterFunction<Order>(TagNames.PriceTag, (x, d) => x.PriceTag, Resources.LinePriceTag);
             RegisterFunction<Order>("{ORDER TAG:([^}]+)}", (x, d) => x.GetOrderTagValue(d).TagValue, "Order Tag Value");
             RegisterFunction<Order>("{ORDER STATE:([^}]+)}", (x, d) => x.GetStateValue(d).StateValue, "Order State Value");
 
             //ORDER TAG VALUES
-            RegisterFunction<OrderTagValue>(TagNames.OrderTagPrice, (x, d) => x.AddTagPriceToOrderPrice ? "" : x.Price.ToString("#,#0.00"), Resources.OrderTagPrice, x => x.Price != 0);
-            RegisterFunction<OrderTagValue>(TagNames.OrderTagQuantity, (x, d) => x.Quantity.ToString("#.##"), Resources.OrderTagQuantity);
+            RegisterFunction<OrderTagValue>(TagNames.OrderTagPrice, (x, d) => x.AddTagPriceToOrderPrice ? "" : x.Price.ToString(LocalSettings.CurrencyFormat), Resources.OrderTagPrice, x => x.Price != 0);
+            RegisterFunction<OrderTagValue>(TagNames.OrderTagQuantity, (x, d) => x.Quantity.ToString(LocalSettings.QuantityFormat), Resources.OrderTagQuantity);
             RegisterFunction<OrderTagValue>(TagNames.OrderTagName, (x, d) => x.TagValue, Resources.OrderTagName, x => !string.IsNullOrEmpty(x.TagValue));
 
             //TICKET RESOURCES
             RegisterFunction<TicketEntity>("{ENTITY NAME}", (x, d) => x.EntityName, "Entity Name");
-            RegisterFunction<TicketEntity>("{ENTITY BALANCE}", (x, d) => AccountService.GetAccountBalance(x.AccountId).ToString("#,#0.00"), "Entity Account Balance", x => x.AccountId > 0);
+            RegisterFunction<TicketEntity>("{ENTITY BALANCE}", (x, d) => AccountService.GetAccountBalance(x.AccountId).ToString(LocalSettings.CurrencyFormat), "Entity Account Balance", x => x.AccountId > 0);
             RegisterFunction<TicketEntity>("{ENTITY DATA:([^}]+)}", (x, d) => x.GetCustomData(d), "Entity Data");
 
             //CALCULATIONS
             RegisterFunction<Calculation>("{CALCULATION NAME}", (x, d) => x.Name, "Calculation Name");
-            RegisterFunction<Calculation>("{CALCULATION AMOUNT}", (x, d) => x.Amount.ToString("#,#0.##"), "Caluculation Amount");
-            RegisterFunction<Calculation>("{CALCULATION TOTAL}", (x, d) => x.CalculationAmount.ToString("#,#0.00"), "Calculation Total", x => x.CalculationAmount != 0);
+            RegisterFunction<Calculation>("{CALCULATION AMOUNT}", (x, d) => x.Amount.ToString(LocalSettings.QuantityFormat), "Caluculation Amount");
+            RegisterFunction<Calculation>("{CALCULATION TOTAL}", (x, d) => x.CalculationAmount.ToString(LocalSettings.CurrencyFormat), "Calculation Total", x => x.CalculationAmount != 0);
 
             //PAYMENTS
-            RegisterFunction<Payment>("{PAYMENT AMOUNT}", (x, d) => x.Amount.ToString("#,#0.00"), "Payment Amount", x => x.Amount > 0);
+            RegisterFunction<Payment>("{PAYMENT AMOUNT}", (x, d) => x.Amount.ToString(LocalSettings.CurrencyFormat), "Payment Amount", x => x.Amount > 0);
             RegisterFunction<Payment>("{PAYMENT NAME}", (x, d) => x.Name, "Payment Name");
 
             //CHANGE PAYMENTS
-            RegisterFunction<ChangePayment>("{CHANGE PAYMENT AMOUNT}", (x, d) => x.Amount.ToString("#,#0.00"), "Change Payment Amount", x => x.Amount > 0);
+            RegisterFunction<ChangePayment>("{CHANGE PAYMENT AMOUNT}", (x, d) => x.Amount.ToString(LocalSettings.CurrencyFormat), "Change Payment Amount", x => x.Amount > 0);
             RegisterFunction<ChangePayment>("{CHANGE PAYMENT NAME}", (x, d) => x.Name, "Change Payment Name");
 
             //TAXES
-            RegisterFunction<TaxValue>("{TAX AMOUNT}", (x, d) => x.TaxAmount.ToString("#,#0.00"), "Tax Amount", x => x.TaxAmount > 0);
-            RegisterFunction<TaxValue>("{TAX RATE}", (x, d) => x.Amount.ToString("#,#0.##"), "Tax Rate", x => x.Amount > 0);
-            RegisterFunction<TaxValue>("{TAXABLE AMOUNT}", (x, d) => x.OrderAmount.ToString("#,#0.00"), "Taxable Amount", x => x.OrderAmount > 0);
-            RegisterFunction<TaxValue>("{TOTAL TAXABLE AMOUNT}", (x, d) => x.TotalAmount.ToString("#,#0.00"), "Total Taxable Amount", x => x.TotalAmount > 0);
+            RegisterFunction<TaxValue>("{TAX AMOUNT}", (x, d) => x.TaxAmount.ToString(LocalSettings.CurrencyFormat), "Tax Amount", x => x.TaxAmount > 0);
+            RegisterFunction<TaxValue>("{TAX RATE}", (x, d) => x.Amount.ToString(LocalSettings.QuantityFormat), "Tax Rate", x => x.Amount > 0);
+            RegisterFunction<TaxValue>("{TAXABLE AMOUNT}", (x, d) => x.OrderAmount.ToString(LocalSettings.CurrencyFormat), "Taxable Amount", x => x.OrderAmount > 0);
+            RegisterFunction<TaxValue>("{TOTAL TAXABLE AMOUNT}", (x, d) => x.TotalAmount.ToString(LocalSettings.CurrencyFormat), "Total Taxable Amount", x => x.TotalAmount > 0);
             RegisterFunction<TaxValue>("{TAX NAME}", (x, d) => x.Name, "Tax Template Name");
         }
 

@@ -145,8 +145,10 @@ html
 
         public static string SettingsFileName { get { return File.Exists(UserSettingsFileName) ? UserSettingsFileName : CommonSettingsFileName; } }
 
-        public static string DefaultCurrencyFormat { get; set; }
-        public static string DefaultQuantityFormat { get; set; }
+        public static string CurrencyFormat { get; set; }
+        public static string QuantityFormat { get; set; }
+        public static string ReportCurrencyFormat { get; set; }
+        public static string ReportQuantityFormat { get; set; }
         public static string CurrencySymbol { get { return CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol; } }
 
         public static int DbVersion { get { return 3; } }

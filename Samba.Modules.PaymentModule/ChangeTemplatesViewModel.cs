@@ -59,7 +59,7 @@ namespace Samba.Modules.PaymentModule
                 }
             }
 
-            return returningAmount.ToString(LocalSettings.DefaultCurrencyFormat);
+            return returningAmount.ToString(LocalSettings.ReportCurrencyFormat);
         }
     }
 }

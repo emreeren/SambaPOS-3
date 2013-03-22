@@ -47,13 +47,13 @@ namespace Samba.Modules.PaymentModule
                     ReturningAmount = string.Format(Resources.ChangeAmount_f,
                             currency != null
                                 ? string.Format(currency.CurrencySymbol, returningAmount / currency.ExchangeRate)
-                                : returningAmount.ToString(LocalSettings.DefaultCurrencyFormat));
+                                : returningAmount.ToString(LocalSettings.ReportCurrencyFormat));
                 }
             }
 
             if (string.IsNullOrEmpty(ReturningAmount))
                 ReturningAmount = string.Format(Resources.ChangeAmount_f,
-                    (returningAmount / _paymentEditor.ExchangeRate).ToString(LocalSettings.DefaultCurrencyFormat));
+                    (returningAmount / _paymentEditor.ExchangeRate).ToString(LocalSettings.ReportCurrencyFormat));
 
             if (returningAmount != 0)
             {

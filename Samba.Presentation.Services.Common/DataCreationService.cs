@@ -912,8 +912,10 @@ namespace Samba.Presentation.Services.Common
 
         private static void CreateDefaultCurrenciesIfNeeded()
         {
-            LocalSettings.DefaultCurrencyFormat = "#,0.00;(#,0.00);-";
-            LocalSettings.DefaultQuantityFormat = "#.##;-#.##;-";
+            LocalSettings.ReportCurrencyFormat = "#,0.00;(#,0.00);-";
+            LocalSettings.ReportQuantityFormat = "#.##;-#.##;-";
+            LocalSettings.CurrencyFormat = "#,#0.00";
+            LocalSettings.QuantityFormat = "#,##.##";
         }
 
         private ParameterBuilder Params()

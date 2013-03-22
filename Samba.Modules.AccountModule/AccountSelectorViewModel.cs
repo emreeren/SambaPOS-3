@@ -38,7 +38,7 @@ namespace Samba.Modules.AccountModule
             {
                 return !string.IsNullOrEmpty(ExchangeStr)
                     ? ExchangeStr
-                    : Balance.ToString(LocalSettings.DefaultCurrencyFormat);
+                    : Balance.ToString(LocalSettings.ReportCurrencyFormat);
             }
         }
         public string ExchangeStr { get { return Exchange != Balance ? string.Format(CurrencyFormat, Exchange) : ""; } }

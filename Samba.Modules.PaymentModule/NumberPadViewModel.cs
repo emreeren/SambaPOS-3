@@ -114,7 +114,7 @@ namespace Samba.Modules.PaymentModule
             ResetValues();
             _orderSelectorViewModel.ClearSelection();
             var paymentDue = _paymentEditor.GetRemainingAmount() / _paymentEditor.ExchangeRate;
-            _tenderedValueViewModel.PaymentDueAmount = paymentDue.ToString(LocalSettings.DefaultCurrencyFormat);
+            _tenderedValueViewModel.PaymentDueAmount = paymentDue.ToString(LocalSettings.ReportCurrencyFormat);
             _tenderedValueViewModel.TenderedAmount = _tenderedValueViewModel.PaymentDueAmount;
             _foreignCurrencyButtonsViewModel.UpdateCurrencyButtons();
             ResetAmount = true;
@@ -141,7 +141,7 @@ namespace Samba.Modules.PaymentModule
             {
                 var amount = remainingTicketAmount / value;
                 if (amount > remainingTicketAmount) amount = remainingTicketAmount;
-                _tenderedValueViewModel.TenderedAmount = amount.ToString(LocalSettings.DefaultCurrencyFormat);
+                _tenderedValueViewModel.TenderedAmount = amount.ToString(LocalSettings.ReportCurrencyFormat);
             }
             else
             {
@@ -150,7 +150,7 @@ namespace Samba.Modules.PaymentModule
                 {
                     var amount = remainingTicketAmount / value;
                     if (amount > remainingTicketAmount) amount = remainingTicketAmount;
-                    _tenderedValueViewModel.TenderedAmount = (amount).ToString(LocalSettings.DefaultCurrencyFormat);
+                    _tenderedValueViewModel.TenderedAmount = (amount).ToString(LocalSettings.ReportCurrencyFormat);
                 }
             }
             OnTypedValueChanged();
@@ -180,7 +180,7 @@ namespace Samba.Modules.PaymentModule
                 tenderedValue = 0m;
             }
             tenderedValue += value;
-            _tenderedValueViewModel.TenderedAmount = tenderedValue.ToString(LocalSettings.DefaultCurrencyFormat);
+            _tenderedValueViewModel.TenderedAmount = tenderedValue.ToString(LocalSettings.ReportCurrencyFormat);
             OnTypedValueChanged();
         }
 

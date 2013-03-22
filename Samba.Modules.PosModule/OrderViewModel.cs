@@ -112,7 +112,7 @@ namespace Samba.Modules.PosModule
             get { return Price * Quantity; }
         }
 
-        public string TotalPriceStr { get { return TotalPrice.ToString(LocalSettings.DefaultCurrencyFormat); } }
+        public string TotalPriceStr { get { return TotalPrice.ToString(LocalSettings.ReportCurrencyFormat); } }
 
         public bool Selected
         {

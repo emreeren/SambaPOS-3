@@ -135,7 +135,7 @@ namespace Samba.Modules.PaymentModule
             if (changeTemplate == null) tenderedAmount -= returningAmount;
             _orderSelectorViewModel.UpdateSelectedTicketPaidItems();
             _paymentEditor.UpdateTicketPayment(paymentType, changeTemplate, paymentDueAmount, tenderedAmount);
-            _numberPadViewModel.LastTenderedAmount = (tenderedAmount / _paymentEditor.ExchangeRate).ToString(LocalSettings.DefaultCurrencyFormat);
+            _numberPadViewModel.LastTenderedAmount = (tenderedAmount / _paymentEditor.ExchangeRate).ToString(LocalSettings.ReportCurrencyFormat);
             _tenderedValueViewModel.UpdatePaymentAmount(_paymentEditor.GetRemainingAmount());
 
             if (returningAmount == 0 && _paymentEditor.GetRemainingAmount() == 0)

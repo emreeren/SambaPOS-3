@@ -31,7 +31,7 @@ namespace Samba.Presentation.ViewModels
         {
             get
             {
-                return (Model.CalculationAmount).ToString(LocalSettings.DefaultCurrencyFormat);
+                return (Model.CalculationAmount).ToString(LocalSettings.ReportCurrencyFormat);
             }
         }
 

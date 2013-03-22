@@ -92,13 +92,13 @@ namespace Samba.Presentation.ViewModels
         public bool IsPlainTotalVisible { get { return PostServicesList.Any() || PreServicesList.Any() || IsTicketTaxTotalVisible; } }
         public bool IsTicketSubTotalVisible { get { return PostServicesList.Any() && PreServicesList.Any(); } }
 
-        public string TicketPlainTotalLabel { get { return TicketPlainTotalValue.ToString(LocalSettings.DefaultCurrencyFormat); } }
-        public string TicketTotalLabel { get { return TicketTotalValue.ToString(LocalSettings.DefaultCurrencyFormat); } }
-        public string TicketTaxLabel { get { return TicketTaxValue.ToString(LocalSettings.DefaultCurrencyFormat); } }
-        public string TicketSubTotalLabel { get { return TicketSubTotalValue.ToString(LocalSettings.DefaultCurrencyFormat); } }
-        public string TicketPaymentLabel { get { return TicketPaymentValue.ToString(LocalSettings.DefaultCurrencyFormat); } }
-        public string TicketChangePaymentLabel { get { return TicketChangePaymentValue.ToString(LocalSettings.DefaultCurrencyFormat); } }
-        public string TicketRemainingLabel { get { return TicketRemainingValue.ToString(LocalSettings.DefaultCurrencyFormat); } }
+        public string TicketPlainTotalLabel { get { return TicketPlainTotalValue.ToString(LocalSettings.ReportCurrencyFormat); } }
+        public string TicketTotalLabel { get { return TicketTotalValue.ToString(LocalSettings.ReportCurrencyFormat); } }
+        public string TicketTaxLabel { get { return TicketTaxValue.ToString(LocalSettings.ReportCurrencyFormat); } }
+        public string TicketSubTotalLabel { get { return TicketSubTotalValue.ToString(LocalSettings.ReportCurrencyFormat); } }
+        public string TicketPaymentLabel { get { return TicketPaymentValue.ToString(LocalSettings.ReportCurrencyFormat); } }
+        public string TicketChangePaymentLabel { get { return TicketChangePaymentValue.ToString(LocalSettings.ReportCurrencyFormat); } }
+        public string TicketRemainingLabel { get { return TicketRemainingValue.ToString(LocalSettings.ReportCurrencyFormat); } }
 
         public string Title
         {
@@ -137,7 +137,7 @@ namespace Samba.Presentation.ViewModels
                     {
                         var balance = _accountBalances.GetAccountBalance(ticketEntity.AccountId);
                         if (balance != 0)
-                            entityName = string.Format("{0} {1}", entityName, balance.ToString(LocalSettings.DefaultCurrencyFormat));
+                            entityName = string.Format("{0} {1}", entityName, balance.ToString(LocalSettings.ReportCurrencyFormat));
                     }
                     sb.AppendLine(string.Format("{0}: {1}", rs.EntityName, entityName));
                 }

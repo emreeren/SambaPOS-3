@@ -30,8 +30,8 @@ namespace Samba.Modules.AccountModule
         public decimal Credit { get { return _account.ForeignCurrencyId > 0 && Model.Exchange < 0 ? Math.Abs(Model.Exchange) : Model.Credit; } }
         public decimal Balance { get; set; }
 
-        public string DebitStr { get { return Debit.ToString(LocalSettings.DefaultCurrencyFormat); } }
-        public string CreditStr { get { return Credit.ToString(LocalSettings.DefaultCurrencyFormat); } }
-        public string BalanceStr { get { return Balance.ToString(LocalSettings.DefaultCurrencyFormat); } }
+        public string DebitStr { get { return Debit.ToString(LocalSettings.ReportCurrencyFormat); } }
+        public string CreditStr { get { return Credit.ToString(LocalSettings.ReportCurrencyFormat); } }
+        public string BalanceStr { get { return Balance.ToString(LocalSettings.ReportCurrencyFormat); } }
     }
 }

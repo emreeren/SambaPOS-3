@@ -47,7 +47,7 @@ namespace Samba.Modules.PosModule
         public ICaptionCommand MergeTicketsCommand { get; set; }
         public ICaptionCommand CloseCommand { get; set; }
 
-        public string TotalRemainingAmountLabel { get { return _tickets != null ? Tickets.Sum(x => x.RemainingAmount).ToString(LocalSettings.DefaultCurrencyFormat) : ""; } }
+        public string TotalRemainingAmountLabel { get { return _tickets != null ? Tickets.Sum(x => x.RemainingAmount).ToString(LocalSettings.ReportCurrencyFormat) : ""; } }
         public int RowCount { get { return _tickets.Count() > 8 ? _tickets.Count() : 8; } }
         public int SelectedItemsCount { get { return _tickets.Count(x => x.IsSelected); } }
 

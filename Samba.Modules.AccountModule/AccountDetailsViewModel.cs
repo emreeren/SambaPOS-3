@@ -84,7 +84,7 @@ namespace Samba.Modules.AccountModule
             }
         }
 
-        public string TotalBalance { get { return AccountDetails.Sum(x => x.Debit - x.Credit).ToString(LocalSettings.DefaultCurrencyFormat); } }
+        public string TotalBalance { get { return AccountDetails.Sum(x => x.Debit - x.Credit).ToString(LocalSettings.ReportCurrencyFormat); } }
 
         public ICaptionCommand CloseAccountScreenCommand { get; set; }
         public ICaptionCommand DisplayTicketCommand { get; set; }
