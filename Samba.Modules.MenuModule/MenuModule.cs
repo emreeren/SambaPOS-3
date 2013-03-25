@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.Composition;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
-using Microsoft.Practices.Prism.Regions;
 using Samba.Domain.Models.Menus;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
