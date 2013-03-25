@@ -73,7 +73,7 @@ namespace Samba.Modules.InventoryModule
         public override void OnShown()
         {
             base.OnShown();
-            if (WarehouseConsumptions.Any())
+            if (SelectedWarehouseConsumption == null && WarehouseConsumptions.Any())
                 SelectedWarehouseConsumption = WarehouseConsumptions.First();
         }
 
