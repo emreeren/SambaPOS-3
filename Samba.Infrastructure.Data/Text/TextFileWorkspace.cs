@@ -115,14 +115,6 @@ namespace Samba.Infrastructure.Data.Text
             _storage.Add(item);
         }
 
-        public void Add<T>(IEnumerable<T> items) where T : class
-        {
-            foreach (var item in items)
-            {
-                _storage.Add(item);
-            }
-        }
-
         public void Update<T>(T item) where T : class
         {
             _storage.Update(item);

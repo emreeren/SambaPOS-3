@@ -102,12 +102,6 @@ namespace Samba.Infrastructure.Data.SQL
             _context.Set<T>().Add(item);
         }
 
-        public void Add<T>(IEnumerable<T> items) where T : class
-        {
-            foreach (var item in items)
-                Add(item);
-        }
-
         public void Update<T>(T item) where T : class
         {
             var idf = item as IEntityClass;

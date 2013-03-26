@@ -15,7 +15,7 @@ namespace Samba.Modules.InventoryModule
         private readonly IInventoryService _inventoryService;
 
         [ImportingConstructor]
-        public PeriodicConsumptionListViewModel(IApplicationState applicationState,IInventoryService inventoryService)
+        public PeriodicConsumptionListViewModel(IApplicationState applicationState, IInventoryService inventoryService)
         {
             _applicationState = applicationState;
             _inventoryService = inventoryService;
@@ -39,6 +39,14 @@ namespace Samba.Modules.InventoryModule
                 || !_applicationState.IsCurrentWorkPeriodOpen)
                 return Resources.CantDeletePastEndOfDayRecords;
             return base.CanDeleteItem(model);
+        }
+
+        protected override System.Collections.Generic.IEnumerable<PeriodicConsumption> SelectItems()
+        {
+            var filter = (Filter ?? "").ToLower();
+            return !string.IsNullOrEmpty(filter)
+                ? Workspace.All<PeriodicConsumption>(x => x.Name.ToLower().Contains(filter)).OrderByDescending(x => x.EndDate).Take(Limit)
+                : Workspace.All<PeriodicConsumption>().OrderByDescending(x => x.EndDate).Take(Limit);
         }
     }
 }
