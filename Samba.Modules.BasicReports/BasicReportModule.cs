@@ -41,6 +41,7 @@ namespace Samba.Modules.BasicReports
             PermissionRegistry.RegisterPermission(PermissionNames.ChangeReportDate, PermissionCategories.Report, Resources.CanChangeReportFilter);
 
             automationService.RegisterActionType("SaveReportToFile", Resources.SaveReportToFile, new { ReportName = "", FileName = "" });
+            automationService.RegisterActionType(ActionNames.PrintReport, Resources.PrintReport, new { ReportName = "" });
             automationService.RegisterParameterSoruce("ReportName", () => ReportContext.Reports.Select(x => x.Header));
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<IActionData>>().Subscribe(x =>
@@ -51,12 +52,27 @@ namespace Samba.Modules.BasicReports
                     var fileName = x.Value.GetAsString("FileName");
                     if (!string.IsNullOrEmpty(reportName))
                     {
-                        var report = ReportContext.Reports.Where(y => y.Header == reportName).FirstOrDefault();
+                        var report = ReportContext.Reports.FirstOrDefault(y => y.Header == reportName);
                         if (report != null)
                         {
                             ReportContext.CurrentWorkPeriod = ReportContext.ApplicationState.CurrentWorkPeriod;
                             var document = report.GetReportDocument();
                             ReportViewModelBase.SaveAsXps(fileName, document);
+                        }
+                    }
+                }
+
+                if (x.Value.Action.ActionType == ActionNames.PrintReport)
+                {
+                    var reportName = x.Value.GetAsString("ReportName");
+                    if (!string.IsNullOrEmpty(reportName))
+                    {
+                        var report = ReportContext.Reports.FirstOrDefault(y => y.Header == reportName);
+                        if (report != null)
+                        {
+                            ReportContext.CurrentWorkPeriod = ReportContext.ApplicationState.CurrentWorkPeriod;
+                            var document = report.GetReportDocument();
+                            ReportContext.PrinterService.PrintReport(document, ReportContext.ApplicationState.CurrentTerminal.ReportPrinter);
                         }
                     }
                 }

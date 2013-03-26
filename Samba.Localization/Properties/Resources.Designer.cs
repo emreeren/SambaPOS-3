@@ -5262,6 +5262,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Print Report.
+        /// </summary>
+        public static string PrintReport {
+            get {
+                return ResourceManager.GetString("PrintReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Product.
         /// </summary>
         public static string Product {
