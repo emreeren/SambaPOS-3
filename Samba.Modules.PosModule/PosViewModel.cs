@@ -90,6 +90,16 @@ namespace Samba.Modules.PosModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketTagGroup>>().Subscribe(OnTicketTagSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketStateData>>().Subscribe(OnTicketStateSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketType>>().Subscribe(OnTicketTypeChanged);
+
+            EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(
+            x =>
+            {
+                if (x.Topic == EventTopicNames.ResetCache && _applicationState.CurrentTicketType != null)
+                {
+                    _menuItemSelectorViewModel.Reset();
+                    _menuItemSelectorViewModel.UpdateCurrentScreenMenu(_applicationState.CurrentTicketType.ScreenMenuId);
+                }
+            });
         }
 
         private void OnTicketTypeChanged(EventParameters<TicketType> obj)

@@ -352,11 +352,16 @@ namespace Samba.Modules.PosModule
                 return result;
             }
 
+            Reset();
+
+            return Categories;
+        }
+
+        public void Reset()
+        {
             if (MenuItems != null) MenuItems.Clear();
             if (Categories != null) Categories.Clear();
             _currentScreenMenu = null;
-
-            return Categories;
         }
 
         private void OnTypeValueExecute(string obj)
