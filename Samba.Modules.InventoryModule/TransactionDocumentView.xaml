@@ -11,13 +11,13 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
             <TextBlock Margin="5,5,0,0" Text="{Binding DateTimeStr}" />
-            
-            <Label Content="{LocText DocumentNo,Suffix=':'}"/>            
+
+            <Label Content="{LocText DocumentNo,Suffix=':'}"/>
             <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name,Mode=TwoWay}" />
-            <Label Content="{LocText InventoryItems,Suffix=':'}"/>            
+            <Label Content="{LocText InventoryItems,Suffix=':'}"/>
         </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
-            <DataGrid ItemsSource="{Binding TransactionItems}" SelectedItem="{Binding SelectedTransactionItem, Mode=TwoWay}"
+            <UIControls:EnhancedDataGrid Name="InventoryTransactionGrid" ItemsSource="{Binding TransactionItems}" SelectedItem="{Binding SelectedTransactionItem, Mode=TwoWay}"
                      HorizontalAlignment="Left" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
                      AutoGenerateColumns="False" CanUserSortColumns="False" CanUserDeleteRows="False" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}"
                      PreviewKeyDown="DataGrid_PreviewKeyDown" PreviewTextInput="DataGrid_PreviewTextInput"
@@ -159,7 +159,7 @@
                         <MenuItem Command="{Binding DeleteTransactionItemCommand}" Header="{Binding DeleteTransactionItemCommand.Caption}" />
                     </ContextMenu>
                 </DataGrid.ContextMenu>
-            </DataGrid>
+            </UIControls:EnhancedDataGrid>
             <StackPanel Margin="10">
                 <TextBlock Margin="2,3">
                         <Hyperlink Command="{Binding AddTransactionItemCommand}">

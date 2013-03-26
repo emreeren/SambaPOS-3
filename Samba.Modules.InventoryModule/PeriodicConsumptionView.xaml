@@ -20,7 +20,7 @@
                 <DataTemplate>
                     <TabControl SelectionChanged="TabControl_SelectionChanged">
                         <TabItem Header="{LocText InventoryItems}">
-                            <DataGrid ItemsSource="{Binding PeriodicConsumptionItems}"
+                            <uiControls:EnhancedDataGrid Name="PeriodicConsumptionGrid" ItemsSource="{Binding PeriodicConsumptionItems}"
                                  HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
                                  AutoGenerateColumns="False" CanUserSortColumns="False" CanUserDeleteRows="False" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}"
                                  PreviewKeyDown="DataGrid_PreviewKeyDown" PreviewTextInput="DataGrid_PreviewTextInput"
@@ -113,10 +113,10 @@
                                         </DataGridTemplateColumn.CellEditingTemplate>
                                     </DataGridTemplateColumn>
                                 </DataGrid.Columns>
-                            </DataGrid>
+                            </uiControls:EnhancedDataGrid>
                         </TabItem>
                         <TabItem Header="{LocText Costs}">
-                            <DataGrid ItemsSource="{Binding CostItems}" HorizontalAlignment="Stretch" GridLinesVisibility="None"
+                            <uiControls:EnhancedDataGrid Name="PeriodicCostGrid" ItemsSource="{Binding CostItems}" HorizontalAlignment="Stretch" GridLinesVisibility="None"
                      RowHeaderWidth="0" Margin="0,3" AutoGenerateColumns="False" CanUserSortColumns="False"
                      CanUserDeleteRows="False" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
                                 <DataGrid.Resources>
@@ -175,7 +175,7 @@
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
                                 </DataGrid.Columns>
-                            </DataGrid>
+                            </uiControls:EnhancedDataGrid>
                         </TabItem>
                     </TabControl>
                 </DataTemplate>

@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:flexButton="clr-namespace:FlexButton;assembly=FlexButton" mc:Ignorable="d" 
+             xmlns:flexButton="clr-namespace:FlexButton;assembly=FlexButton"
+             xmlns:uiControls="clr-namespace:Samba.Presentation.Controls.UIControls;assembly=Samba.Presentation.Controls"
+             mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600" FontSize="20">
     <Grid>
         <Grid.RowDefinitions>
@@ -26,12 +28,12 @@
         </ItemsControl>
         <TabControl Margin="3" Grid.Row="1" SelectionChanged="TabControl_SelectionChanged">
             <TabItem Header="{LocText InventoryItems}">
-                <DataGrid ItemsSource="{Binding PeriodicConsumptionItems}"
+                <uiControls:EnhancedDataGrid ItemsSource="{Binding PeriodicConsumptionItems}" Name="WarehouseInventoryGrid"
                                  HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="5"
                                  AutoGenerateColumns="False" CanUserSortColumns="False" CanUserDeleteRows="False" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}"
                                  PreviewKeyDown="DataGrid_PreviewKeyDown" PreviewTextInput="DataGrid_PreviewTextInput"
                                  PreparingCellForEdit="DataGrid_PreparingCellForEdit">
-                    <DataGrid.Resources>
+                    <uiControls:EnhancedDataGrid.Resources>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="HorizontalContentAlignment" Value="Center">
                             </Setter>
@@ -44,8 +46,8 @@
                                 </Setter.Value>
                             </Setter>
                         </Style>
-                    </DataGrid.Resources>
-                    <DataGrid.Columns>
+                    </uiControls:EnhancedDataGrid.Resources>
+                    <uiControls:EnhancedDataGrid.Columns>
                         <DataGridTemplateColumn Width="2*" Header="{LocText Name}"
                              IsReadOnly="True" MinWidth="100" CellStyle="{StaticResource LeftAlignedGridCell}">
                             <DataGridTemplateColumn.CellTemplate>
@@ -102,11 +104,11 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
+                    </uiControls:EnhancedDataGrid.Columns>
+                </uiControls:EnhancedDataGrid>
             </TabItem>
             <TabItem Header="{LocText Costs}">
-                <DataGrid ItemsSource="{Binding CostItems}" HorizontalAlignment="Stretch" GridLinesVisibility="None"
+                <uiControls:EnhancedDataGrid Name="WarehouseCostGrid" ItemsSource="{Binding CostItems}" HorizontalAlignment="Stretch" GridLinesVisibility="None"
                      RowHeaderWidth="0" Margin="5" AutoGenerateColumns="False" CanUserSortColumns="False"
                      CanUserDeleteRows="False" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
                     <DataGrid.Resources>
@@ -157,7 +159,7 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
-                </DataGrid>
+                </uiControls:EnhancedDataGrid>
             </TabItem>
         </TabControl>
     </Grid>
