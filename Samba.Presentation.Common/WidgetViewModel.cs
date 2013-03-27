@@ -155,7 +155,7 @@ namespace Samba.Presentation.Common
             set { Model.AutoRefresh = value; RaisePropertyChanged(() => AutoRefresh); }
         }
 
-         [LocalizedDisplayName(ResourceStrings.AutoRefreshInterval)]
+        [LocalizedDisplayName(ResourceStrings.AutoRefreshInterval)]
         public int AutoRefreshInterval
         {
             get { return Model.AutoRefreshInterval; }

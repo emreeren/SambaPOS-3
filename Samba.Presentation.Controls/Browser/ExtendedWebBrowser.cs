@@ -105,18 +105,90 @@ namespace Samba.Presentation.Controls.Browser
         /// </summary>
         public event EventHandler<BrowserExtendedNavigatingEventArgs> StartNewWindow;
 
+        public void InvokeStartNewWindow(BrowserExtendedNavigatingEventArgs e)
+        {
+            EventHandler<BrowserExtendedNavigatingEventArgs> handler = StartNewWindow;
+            if (handler != null) handler(this, e);
+        }
+
+        public event EventHandler<BrowserExtendedNavigatingEventArgs> StartNewTab;
+
+        public void InvokeStartNewTab(BrowserExtendedNavigatingEventArgs e)
+        {
+            EventHandler<BrowserExtendedNavigatingEventArgs> handler = StartNewTab;
+            if (handler != null) handler(this, e);
+        }
+
+        public event EventHandler<SizeChangedEventArgs> WindowSetWidth;
+
+        public void InvokeWindowSetWidth(int e)
+        {
+            EventHandler<SizeChangedEventArgs> handler = WindowSetWidth;
+            if (handler != null) handler(this, new SizeChangedEventArgs(e));
+        }
+
+        public event EventHandler<SizeChangedEventArgs> WindowSetHeight;
+
+        public void InvokeWindowSetHeight(int e)
+        {
+            EventHandler<SizeChangedEventArgs> handler = WindowSetHeight;
+            if (handler != null) handler(this, new SizeChangedEventArgs(e));
+        }
+
+        public event EventHandler<SizeChangedEventArgs> WindowsSetTop;
+
+        public void InvokeWindowsSetTop(int e)
+        {
+            EventHandler<SizeChangedEventArgs> handler = WindowsSetTop;
+            if (handler != null) handler(this, new SizeChangedEventArgs(e));
+        }
+
+        public event EventHandler<SizeChangedEventArgs> WindowSetLeft;
+
+        public void InvokeWindowSetLeft(int e)
+        {
+            EventHandler<SizeChangedEventArgs> handler = WindowSetLeft;
+            if (handler != null) handler(this, new SizeChangedEventArgs(e));
+        }
+
+
         /// <summary>
         /// Raises the <see cref="StartNewWindow"/> event
         /// </summary>
         /// <exception cref="ArgumentNullException">Thrown when BrowserExtendedNavigatingEventArgs is null</exception>
-        protected void OnStartNewWindow(BrowserExtendedNavigatingEventArgs e)
+        protected void OnStartNewWindow(BrowserExtendedNavigatingEventArgs e, NativeMethods.NWMF flags)
         {
             if (e == null)
                 throw new ArgumentNullException("e");
 
-            if (this.StartNewWindow != null)
-                this.StartNewWindow(this, e);
+            if ((flags & NativeMethods.NWMF.NWMF_SUGGESTWINDOW) == NativeMethods.NWMF.NWMF_SUGGESTWINDOW)
+            {
+                InvokeStartNewWindow(e);
+            }
+            else
+            {
+                InvokeStartNewTab(e);
+            }
+        }
 
+        private void OnWindowSetTop(int top)
+        {
+            InvokeWindowsSetTop(top);
+        }
+
+        private void OnWindowSetLeft(int left)
+        {
+            InvokeWindowsSetTop(left);
+        }
+
+        private void OnWindowSetWidth(int width)
+        {
+            InvokeWindowSetWidth(width);
+        }
+
+        private void OnWindowSetHeight(int height)
+        {
+            InvokeWindowSetHeight(height);
         }
 
         /// <summary>
@@ -179,17 +251,18 @@ namespace Samba.Presentation.Controls.Browser
             //The NewWindow2 event, used on Windows XP SP1 and below
             public void NewWindow2(ref object pDisp, ref bool cancel)
             {
-                BrowserExtendedNavigatingEventArgs args = new BrowserExtendedNavigatingEventArgs(pDisp, null, null);
-                _Browser.OnStartNewWindow(args);
-                cancel = args.Cancel;
-                pDisp = args.AutomationObject;
+                //BrowserExtendedNavigatingEventArgs args = new BrowserExtendedNavigatingEventArgs(pDisp, null, null);
+                //_Browser.OnStartNewWindow(args, 0);
+                //cancel = args.Cancel;
+                //pDisp = args.AutomationObject;
+
             }
 
             // NewWindow3 event, used on Windows XP SP2 and higher
             public void NewWindow3(ref object ppDisp, ref bool Cancel, uint dwFlags, string bstrUrlContext, string bstrUrl)
             {
                 BrowserExtendedNavigatingEventArgs args = new BrowserExtendedNavigatingEventArgs(ppDisp, new Uri(bstrUrl), null);
-                _Browser.OnStartNewWindow(args);
+                _Browser.OnStartNewWindow(args, (NativeMethods.NWMF)dwFlags);
                 Cancel = args.Cancel;
                 ppDisp = args.AutomationObject;
             }
@@ -273,18 +346,22 @@ namespace Samba.Presentation.Controls.Browser
 
             public void WindowSetLeft(int left)
             {
+                _Browser.OnWindowSetLeft(left);
             }
 
             public void WindowSetTop(int top)
             {
+                _Browser.OnWindowSetTop(top);
             }
 
             public void WindowSetWidth(int width)
             {
+                _Browser.OnWindowSetWidth(width);
             }
 
             public void WindowSetHeight(int height)
             {
+                _Browser.OnWindowSetHeight(height);
             }
 
             public void SetSecureLockIcon(int secureLockIcon)
@@ -604,6 +681,7 @@ namespace Samba.Presentation.Controls.Browser
 
 
         #endregion
+
     }
 
 

@@ -1,7 +1,6 @@
 using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using Samba.Domain.Models.Entities;
 using Samba.Infrastructure.Helpers;
@@ -54,6 +53,7 @@ namespace Samba.Modules.SettingsModule.Widgets.HtmlViewer
             var yBinding = new Binding("Y") { Source = htmlViewer, Mode = BindingMode.TwoWay };
             var transformBinding = new Binding("RenderTransform") { Source = htmlViewer, Mode = BindingMode.OneWay };
             var urlBinding = new Binding("Url") { Source = htmlViewer, Mode = BindingMode.TwoWay };
+            var toolbarVisibleBinding = new Binding("Settings.IsToolbarVisible") {Source = htmlViewer, Mode = BindingMode.TwoWay};
 
             ret.SetBinding(InkCanvas.LeftProperty, xBinding);
             ret.SetBinding(InkCanvas.TopProperty, yBinding);
@@ -61,6 +61,7 @@ namespace Samba.Modules.SettingsModule.Widgets.HtmlViewer
             ret.SetBinding(FrameworkElement.WidthProperty, widthBinding);
             ret.SetBinding(UIElement.RenderTransformProperty, transformBinding);
             ret.SetBinding(BrowserControl.ActiveUrlProperty, urlBinding);
+            ret.SetBinding(BrowserControl.IsToolbarVisibleProperty, toolbarVisibleBinding);
 
             return ret;
         }

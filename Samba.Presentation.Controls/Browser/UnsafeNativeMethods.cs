@@ -2109,7 +2109,7 @@ namespace Samba.Presentation.Controls.Browser
 
         [ComVisible(true), ComImport()]
         [TypeLibType((short)4160)] //TypeLibTypeFlags.FDispatchable
-        [InterfaceTypeAttribute(ComInterfaceType.InterfaceIsIDispatch)]
+        [InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
         [Guid("3050f240-98b5-11cf-bb82-00aa00bdce0b")]
         public interface IHTMLImgElement
         {

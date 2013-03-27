@@ -5,6 +5,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms.Integration;
 using System.Windows.Input;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+using ToolBar = System.Windows.Controls.ToolBar;
 
 namespace Samba.Presentation.Controls.Browser
 {
@@ -27,8 +29,58 @@ namespace Samba.Presentation.Controls.Browser
             }
         }
 
+        private bool _isToolbarVisible;
+        public bool IsToolbarVisible
+        {
+            get { return _isToolbarVisible; }
+            set
+            {
+                _isToolbarVisible = value;
+                UpdateToolbars(this, value);
+            }
+        }
+
+        public static readonly DependencyProperty IsToolbarVisibleProperty =
+            DependencyProperty.RegisterAttached("IsToolbarVisible", typeof(bool), typeof(BrowserControl),
+                                                new UIPropertyMetadata(false, ToolbarVisiblePropertyChanged));
+
+        public static bool GetIsToolbarVisible(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(IsToolbarVisibleProperty);
+        }
+
+        public static void SetIsToolbarVisible(DependencyObject obj, bool value)
+        {
+            obj.SetValue(IsToolbarVisibleProperty, value);
+        }
+
+        private static void ToolbarVisiblePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var browser = d as BrowserControl;
+            if (browser != null)
+            {
+                browser.IsToolbarVisible = (bool)e.NewValue;
+            }
+        }
+
+        private static void UpdateToolbars(BrowserControl browser, bool isVisible)
+        {
+            if (isVisible)
+            {
+                browser.MainToolbar.Visibility = Visibility.Visible;
+                browser.tbMain.ItemContainerStyle = new Style(typeof(TabItem));
+                browser.tbMain.Items.Cast<TabItem>().ToList().ForEach(x => x.Visibility = Visibility.Visible);
+            }
+            else
+            {
+                browser.MainToolbar.Visibility = Visibility.Collapsed;
+                browser.tbMain.ItemContainerStyle = new Style(typeof(TabItem));
+                browser.tbMain.Items.Cast<TabItem>().ToList().ForEach(x => x.Visibility = Visibility.Collapsed);
+            }
+        }
+
         public static readonly DependencyProperty ActiveUrlProperty =
-            DependencyProperty.RegisterAttached("ActiveUrl", typeof(string), typeof(BrowserControl), new UIPropertyMetadata(null, ActiveUrlPropertyChanged));
+             DependencyProperty.RegisterAttached("ActiveUrl", typeof(string), typeof(BrowserControl), new UIPropertyMetadata(null, ActiveUrlPropertyChanged));
 
         public static string GetActiveUrl(DependencyObject obj)
         {
@@ -42,11 +94,12 @@ namespace Samba.Presentation.Controls.Browser
 
         public static void ActiveUrlPropertyChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
-            BrowserControl browser = o as BrowserControl;
+            var browser = o as BrowserControl;
             if (browser != null)
             {
-                string uri = e.NewValue as string;
-                browser.ActiveUrl = uri;
+                var uri = e.NewValue as string;
+                if (!string.IsNullOrEmpty(uri))
+                    browser.ActiveUrl = uri;
             }
         }
 
@@ -88,6 +141,7 @@ namespace Samba.Presentation.Controls.Browser
 
             _browserTabs.Add(t, b);
             _tabQueue.Add(t);
+
             return t;
         }
 
@@ -95,38 +149,77 @@ namespace Samba.Presentation.Controls.Browser
         {
             browser.DocumentTitleChanged += browser_DocumentTitleChanged;
             browser.StartNewWindow += browser_StartNewWindow;
+            browser.StartNewTab += browser_StartNewTab;
+            browser.Quit += browser_Quit;
         }
 
         private void UnWrapBrowserEvents(ExtendedWebBrowser browser)
         {
             browser.DocumentTitleChanged -= browser_DocumentTitleChanged;
             browser.StartNewWindow -= browser_StartNewWindow;
+            browser.StartNewTab -= browser_StartNewTab;
+            browser.Quit -= browser_Quit;
+        }
+
+        void browser_Quit(object sender, EventArgs e)
+        {
+            //var tab = GetBrowserTab(sender);
+            //CloseTab(tab);
         }
 
         void browser_StartNewWindow(object sender, BrowserExtendedNavigatingEventArgs e)
         {
-            e.Cancel = true;
-            CreateNewBrowserTab();
-            Navigate(e.Url.ToString());
+            var index = tbMain.SelectedIndex;
+            var tab = CreateNewBrowserTab();
+            var page = new BrowserPage();
+            e.AutomationObject = _browserTabs[tab].ActiveXInstance;
+            tbMain.SelectedIndex = index;
+            tbMain.Items.Remove(tab);
+            page.Closing += page_Closing;
+            page.AssignTab(tab, _browserTabs[tab]);
+
+            //page.Show();
+            //e.Cancel = true;
+            //_browserTabs[tab].Navigate(e.Url);
+            //Navigate(e.Url.ToString());
+        }
+
+        void page_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            CloseTab(((BrowserPage)sender).TabMain.Items[0] as TabItem);
+        }
+
+        void browser_StartNewTab(object sender, BrowserExtendedNavigatingEventArgs e)
+        {
+            var tab = CreateNewBrowserTab();
+            e.AutomationObject = _browserTabs[tab].ActiveXInstance;
+            tbMain.ItemContainerStyle = new Style(typeof(TabItem));
+            tbMain.Items.Cast<TabItem>().ToList().ForEach(x => x.Visibility = Visibility.Visible);
         }
 
         void browser_DocumentTitleChanged(object sender, EventArgs e)
         {
-            var wb = sender as ExtendedWebBrowser;
-            if (wb != null)
+            try
             {
-                string title = wb.DocumentTitle;
-                if (string.IsNullOrEmpty(title))
+                var wb = sender as ExtendedWebBrowser;
+                if (wb != null)
                 {
-                    title = "(Yeni Sayfa)";
+                    string title = wb.DocumentTitle;
+                    if (string.IsNullOrEmpty(title))
+                    {
+                        title = "(Yeni Sayfa)";
+                    }
+                    if (title.Length > 20)
+                    {
+                        title = title.Substring(0, 20) + "...";
+                    }
+                    GetBrowserTab(sender).Header = title;
+                    edAddress.Text = wb.Url.ToString();
+                    edAddress.SelectAll();
                 }
-                if (title.Length > 20)
-                {
-                    title = title.Substring(0, 20) + "...";
-                }
-                GetBrowserTab(sender).Header = title;
-                edAddress.Text = wb.Url.ToString();
-                edAddress.SelectAll();
+            }
+            catch (Exception)
+            {
             }
         }
 
@@ -135,6 +228,7 @@ namespace Samba.Presentation.Controls.Browser
             TabItem t = CreateNewBrowserTab();
             _browserTabs[t].Navigate(new Uri("about:blank"));
             ControlShown();
+            UpdateToolbars(this, IsToolbarVisible || _browserTabs.Count > 1);
         }
 
         private void CloseTab(TabItem tabPage)
@@ -157,7 +251,9 @@ namespace Samba.Presentation.Controls.Browser
         {
             if (tbMain.Items.Count == 0)
             {
-                return CreateNewBrowserTab();
+                var result = CreateNewBrowserTab();
+                UpdateToolbars(this, IsToolbarVisible);
+                return result;
             }
             return tbMain.SelectedItem as TabItem;
         }
@@ -169,16 +265,16 @@ namespace Samba.Presentation.Controls.Browser
 
         private bool HasActiveBrowser()
         {
-            return tbMain.Items.Count > 0 
-                && tbMain.SelectedItem != null
+            return tbMain.Items.Count > 0
+                && tbMain.SelectedItem is TabItem
                 && _browserTabs.ContainsKey(tbMain.SelectedItem as TabItem)
                 && _browserTabs[tbMain.SelectedItem as TabItem].Url != null;
         }
 
         public void Navigate(string urlString)
         {
-            TabItem t = GetActiveTab();
-            if (urlString.ToLower() != "about:blank" && !urlString.StartsWith(Uri.UriSchemeHttp + Uri.SchemeDelimiter))
+            var t = GetActiveTab();
+            if (urlString.ToLower() != "about:blank" && !urlString.StartsWith(Uri.UriSchemeHttp + Uri.SchemeDelimiter) && !urlString.StartsWith(Uri.UriSchemeHttps + Uri.SchemeDelimiter))
                 if (urlString.Contains(" ") || !urlString.Contains("."))
                     urlString = "http://www.google.com/search?q=" + urlString;
                 else
@@ -253,6 +349,14 @@ namespace Samba.Presentation.Controls.Browser
                 resizingItem.Width = (toolStrip.ActualWidth - w) - 50;
             else
                 resizingItem.Width = 50;
+        }
+
+        public void RefreshPage()
+        {
+            if (HasActiveBrowser())
+            {
+                GetActiveBrowser().Refresh();
+            }
         }
     }
 }

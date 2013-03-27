@@ -97,7 +97,7 @@ namespace Samba.Modules.EntityModule
             Widgets.ToList().ForEach(x => x.SaveSettings());
             Widgets.ToList().ForEach(x => x.DesignMode = false);
             _entityService.SaveEntityScreenItems();
-            Widgets.Where(x => x.AutoRefresh).ToList().ForEach(x => x.Refresh());
+            Widgets.ToList().ForEach(x => x.Refresh());
             RaisePropertyChanged(() => Widgets);
         }
     }

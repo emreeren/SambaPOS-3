@@ -29,17 +29,9 @@ namespace Samba.Presentation.Controls.Browser
         }
 
         /// <summary>
-        /// The flags when opening a new window
-        /// </summary>
-
-        private object _pDisp;
-        /// <summary>
         /// The pointer to ppDisp
         /// </summary>
-        public object AutomationObject
-        {
-            get { return this._pDisp; }
-        }
+        public object AutomationObject { get; set; }
 
         /// <summary>
         /// Creates a new instance of WebBrowserExtendedNavigatingEventArgs
@@ -53,7 +45,17 @@ namespace Samba.Presentation.Controls.Browser
         {
             _Url = url;
             _Frame = frame;
-            this._pDisp = automation;
+            this.AutomationObject = automation;
+        }
+    }
+
+    public class SizeChangedEventArgs : EventArgs
+    {
+        public int Size { get; set; }
+
+        public SizeChangedEventArgs(int size)
+        {
+            Size = size;
         }
     }
 }

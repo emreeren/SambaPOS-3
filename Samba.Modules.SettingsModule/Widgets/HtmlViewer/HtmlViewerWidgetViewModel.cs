@@ -12,7 +12,17 @@ namespace Samba.Modules.SettingsModule.Widgets.HtmlViewer
         [Browsable(false)]
         public HtmlViewerWidgetSettings Settings { get { return SettingsObject as HtmlViewerWidgetSettings; } }
 
-        public string Url { get; set; }
+        private string _url;
+        [Browsable(false)]
+        public string Url
+        {
+            get { return _url; }
+            set
+            {
+                _url = value;
+                RaisePropertyChanged(() => Url);
+            }
+        }
 
         public HtmlViewerWidgetViewModel(Widget model, IApplicationState applicationState)
             : base(model, applicationState)
@@ -27,6 +37,7 @@ namespace Samba.Modules.SettingsModule.Widgets.HtmlViewer
 
         public override void Refresh()
         {
+            Url = "about:blank";
             Url = Settings.Url;
         }
     }

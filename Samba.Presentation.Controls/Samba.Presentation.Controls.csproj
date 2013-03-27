@@ -64,6 +64,9 @@
       <DependentUpon>BrowserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Browser\BrowserExtendedNavigatingEventArgs.cs" />
+    <Compile Include="Browser\BrowserPage.xaml.cs">
+      <DependentUpon>BrowserPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Browser\ExtendedWebBrowser.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -141,6 +144,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Browser\BrowserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Browser\BrowserPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

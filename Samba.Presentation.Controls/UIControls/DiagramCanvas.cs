@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using Samba.Presentation.Common;
@@ -10,7 +11,6 @@ namespace Samba.Presentation.Controls.UIControls
 {
     public class DiagramCanvas : InkCanvas
     {
-        //Just a simple INotifyCollectionChanged collection
         public ObservableCollection<IDiagram> Source
         {
             get { return (ObservableCollection<IDiagram>)GetValue(SourceProperty); }
@@ -24,43 +24,34 @@ namespace Samba.Presentation.Controls.UIControls
             new FrameworkPropertyMetadata(new ObservableCollection<IDiagram>(),
             new PropertyChangedCallback(SourceChanged)));
 
-        //called when a new value is set (through binding for example)
         protected static void SourceChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            //gets the instance that changed the "local" value
             var instance = sender as DiagramCanvas;
-            //the new collection that will be set
+            Debug.Assert(instance != null);
+
             var newCollection = args.NewValue as ObservableCollection<IDiagram>;
-            //the previous collection that was set
             var oldCollection = args.OldValue as ObservableCollection<IDiagram>;
 
             if (oldCollection != null)
             {
-                //removes the CollectionChangedEventHandler from the old collection
                 oldCollection.CollectionChanged -= instance.collection_CollectionChanged;
             }
 
-            //clears all the previous children in the collection
             instance.Children.Clear();
 
             if (newCollection != null)
             {
-                //adds all the children of the new collection
                 foreach (var item in newCollection)
                 {
                     AddControl(item, instance);
                 }
-
-                //adds a new CollectionChangedEventHandler to the new collection
                 newCollection.CollectionChanged += instance.collection_CollectionChanged;
             }
         }
 
-        //append when an Item in the collection is changed
         protected void collection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.NewItems == null) return;
-            //adds the new items in the children collection
             foreach (IDiagram item in e.NewItems)
             {
                 AddControl(item);
@@ -80,6 +71,7 @@ namespace Samba.Presentation.Controls.UIControls
         {
             var result = WidgetCreatorRegistry.CreateWidgetControl(buttonHolder, ButtonContextMenu);
             if (result != null) parentControl.Children.Add(result);
+            buttonHolder.Refresh();
         }
 
         protected void AddControl(IDiagram buttonHolder)
