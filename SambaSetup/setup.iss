@@ -263,3 +263,7 @@ Name: {app}\id
 Name: {app}\el
 Name: {app}\zh-CN
 Name: {commonappdata}\Ozgu Tech\SambaPOS3
+
+[Registry]
+Root: HKLM; Subkey: SOFTWARE\Microsoft\Internet Explorer\MAIN\FeatureControl\FEATURE_BROWSER_EMULATION; ValueType: dword; ValueName: samba.presentation.exe; ValueData: 10000
+

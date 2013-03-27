@@ -81,6 +81,9 @@
       <DependentUpon>TerminalView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TerminalViewModel.cs" />
+    <Compile Include="Widgets\HtmlViewer\HtmlViewerWidgetCreator.cs" />
+    <Compile Include="Widgets\HtmlViewer\HtmlViewerWidgetSettings.cs" />
+    <Compile Include="Widgets\HtmlViewer\HtmlViewerWidgetViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">
