@@ -113,6 +113,7 @@ namespace Samba.Presentation.Common.Services
 
         public void SetCurrentApplicationScreen(AppScreens appScreen)
         {
+            InteractionService.ClearMouseClickQueue();
             _screenState.Fire(appScreen);
         }
 
