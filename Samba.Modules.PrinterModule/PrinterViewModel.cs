@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
+using System.Text;
 using FluentValidation;
 using Samba.Domain.Models.Settings;
 using Samba.Localization.Properties;
+using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Services;
 using Samba.Services;
@@ -28,11 +31,23 @@ namespace Samba.Modules.PrinterModule
         public PrinterViewModel(IPrinterService printerService)
         {
             _printerService = printerService;
+            EditProcessorSettingsCommand = new CaptionCommand<string>(Resources.Settings, OnEditProcessorSettings);
         }
+
+        public ICaptionCommand EditProcessorSettingsCommand { get; set; }
 
         public IList<string> PrinterTypes { get { return new[] { Resources.TicketPrinter, Resources.Text, Resources.Html, Resources.PortPrinter, Resources.DemoPrinter, Resources.WindowsPrinter }; } }
 
-        public string ShareName { get { return Model.ShareName; } set { Model.ShareName = value; } }
+        public string ShareName
+        {
+            get { return Model.ShareName; }
+            set
+            {
+                Model.ShareName = value;
+                RaisePropertyChanged(() => IsProcessorSelected);
+            }
+        }
+
         public string PrinterType
         {
             get { return PrinterTypes[Model.PrinterType]; }
@@ -52,6 +67,8 @@ namespace Samba.Modules.PrinterModule
             set { _description = value; RaisePropertyChanged(() => Description); }
         }
 
+        public bool IsProcessorSelected { get { return _printerService.GetPrinterProcessor(ShareName) != null; } }
+
         private IEnumerable<string> _printerNames;
         private string _description;
 
@@ -62,7 +79,16 @@ namespace Samba.Modules.PrinterModule
 
         private IEnumerable<string> GetPrinterNames()
         {
-            return _printerService.GetPrinterNames();
+            var result = new List<string>();
+            result.AddRange(_printerService.GetPrinterNames());
+            result.AddRange(_printerService.GetProcessorNames());
+            return result;
+        }
+
+        private void OnEditProcessorSettings(string obj)
+        {
+            var processor = _printerService.GetPrinterProcessor(ShareName);
+            if (processor != null) processor.EditSettings();
         }
 
         public override Type GetViewType()

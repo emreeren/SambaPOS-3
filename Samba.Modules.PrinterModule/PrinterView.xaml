@@ -7,23 +7,30 @@
              mc:Ignorable="d">
     <Grid>
         <StackPanel>
-            <Label Content="{LocText PrinterName,Suffix=':'}"/>            
+            <Label Content="{LocText PrinterName,Suffix=':'}"/>
             <TextBox HorizontalAlignment="Left" Width="250" Text="{Binding Name}" />
-            <Label Content="{LocText ShareNameAndPortName,Suffix=':'}"/>            
+            <StackPanel Orientation="Horizontal">
+                <Label Content="{LocText ShareNameAndPortName,Suffix=':'}"/>
+                <TextBlock Margin="2,5" Visibility="{Binding IsProcessorSelected,Converter={StaticResource VisibilityConverter}}">
+                    <Hyperlink Command="{Binding EditProcessorSettingsCommand}">
+                        <TextBlock Text="{Binding Path=EditProcessorSettingsCommand.Caption}" />
+                    </Hyperlink>
+                </TextBlock>
+            </StackPanel>
             <ComboBox HorizontalAlignment="Left" MinWidth="250" IsEditable="True" ItemsSource="{Binding PrinterNames}"
                  Text="{Binding ShareName}" />
-            <Label Content="{LocText PrinterType,Suffix=':'}"/>            
+            <Label Content="{LocText PrinterType,Suffix=':'}"/>
             <ComboBox HorizontalAlignment="Left" MinWidth="150" ItemsSource="{Binding PrinterTypes}"
                  SelectedItem="{Binding PrinterType}" />
 
             <Label Content="{LocText CharacterSet,Suffix=':'}"/>
-            
+
             <UIControls:FilteredTextBox Type="Digits" HorizontalAlignment="Left" MinWidth="100" Text="{Binding CodePage}" />
             <Label Content="{LocText LineCount,Suffix=':'}"/>
-            
+
             <UIControls:FilteredTextBox Type="Digits" HorizontalAlignment="Left" MinWidth="100" Text="{Binding PageHeight}" />
             <Label Content="{LocText LineCharacterCount,Suffix=':'}"/>
-            
+
             <UIControls:FilteredTextBox Type="Digits" HorizontalAlignment="Left" MinWidth="100" Text="{Binding CharsPerLine}" />
             <Button HorizontalAlignment="Left" Margin="0,10" MinWidth="70" Content="{Binding SaveCommand.Caption}"
                  Command="{Binding SaveCommand}" />
